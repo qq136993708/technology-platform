@@ -273,8 +273,8 @@ function renderTable()
 	        ,loading: false
 	        ,method:'get'
 	        ,cols: [[
-	            {field:'name', width:'50%', title: '名称',edit:'text'},
-	            {field:'extend01',  title:'科研支出(万元)',  style:'cursor: pointer;',align: 'left', width: '54%', templet: '<div>{{ layui.laytpl.milliFormat(d.extend01,2) }}</div>'}
+	            {field:'name',  title: '名称',edit:'text'},
+	            {field:'extend01',  title:'科研支出(万元)',  style:'cursor: pointer;',align: 'left',  templet: '<div>{{ layui.laytpl.milliFormat(d.extend01,2) }}</div>'}
 	            //{field:'extend02',  title:'结转课题(万元)',  style:'cursor: pointer;',align: 'left', width: '35%', templet: '<div>{{ layui.laytpl.milliFormat(d.extend02,2) }}</div>'}
 	            
 	        ]]
@@ -301,7 +301,7 @@ function renderTable_UNIT()
 	        id: tableId02
 	        ,elem: '#'+tableId02
 	        ,url:'/home_pay/getPayByUnitCricle?month='+month+"&companyCode="+companyCode
-	        ,cellMinWidth: 200
+	        //,cellMinWidth: 200
 	        ,idField:'id'//必須字段
 	        ,treeId:'id'//树形id字段名称
 	        ,treeUpId:'pId'//树形父id字段名称
@@ -314,8 +314,8 @@ function renderTable_UNIT()
 	        ,loading: false
 	        ,method:'get'
 	        ,cols: [[
-	            {field:'name', width:'50%', title: '企业单位',edit:'text'},
-	            {field:'extend01',  title:'金额(万元)',  style:'cursor: pointer;',align: 'left', width: '50%', templet: '<div>{{ layui.laytpl.milliFormat(d.extend01,2) }}</div>'}
+	            {field:'name',  title: '企业单位',edit:'text'},
+	            {field:'extend01',  title:'金额(万元)',  style:'cursor: pointer;',align: 'left',  templet: '<div>{{ layui.laytpl.milliFormat(d.extend01,2) }}</div>'}
 	            
 	        ]]
 	        ,isPage:false
