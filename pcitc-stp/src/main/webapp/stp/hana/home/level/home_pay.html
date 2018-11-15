@@ -260,13 +260,13 @@ function renderTable()
 	        id:tableId
 	        ,elem: '#'+tableId
 	        ,url:'/home_pay/getPayByCountCricle?month='+month+"&companyCode="+companyCode
-	        ,cellMinWidth: 200
+	       // ,cellMinWidth: 200
 	        ,idField:'id'//必須字段
 	        ,treeId:'id'//树形id字段名称
 	        ,treeUpId:'pId'//树形父id字段名称
 	        ,treeShowName:'name'//以树形式显示的字段
 	       // ,heightRemove:[".dHead",10]//不计算的高度,表格设定的是固定高度，此项不生效
-	        ,height:'280'
+	        ,height:280
 	        ,isFilter:false
 	        ,iconOpen:false//是否显示图标【默认显示】
 	        ,isOpenDefault:true//节点默认是展开还是折叠【默认展开】
@@ -274,7 +274,7 @@ function renderTable()
 	        ,method:'get'
 	        ,cols: [[
 	            {field:'name', width:'50%', title: '名称',edit:'text'},
-	            {field:'extend01',  title:'科研支出(万元)',  style:'cursor: pointer;',align: 'left', width: '50%', templet: '<div>{{ layui.laytpl.milliFormat(d.extend01,2) }}</div>'}
+	            {field:'extend01',  title:'科研支出(万元)',  style:'cursor: pointer;',align: 'left', width: '54%', templet: '<div>{{ layui.laytpl.milliFormat(d.extend01,2) }}</div>'}
 	            //{field:'extend02',  title:'结转课题(万元)',  style:'cursor: pointer;',align: 'left', width: '35%', templet: '<div>{{ layui.laytpl.milliFormat(d.extend02,2) }}</div>'}
 	            
 	        ]]

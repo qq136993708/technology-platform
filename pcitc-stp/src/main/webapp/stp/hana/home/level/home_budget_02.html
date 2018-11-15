@@ -46,7 +46,7 @@
             <div class="layui-col-xs4">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        <span class="layui-time"></span>科研预算分析
+                        <span class="layui-time"></span>合同签订分析
                     </div>
                     <div class="layui-row-main">
                         <div class="main-chart" id="chart1" style="height:280px;width: 100%;"></div>
@@ -56,7 +56,7 @@
             <div class="layui-col-xs4">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        <span class="layui-time"></span>科研预算占比分析
+                        <span class="layui-time"></span>合同签订占比分析
                     </div>
                     <div class="layui-row-main">
                         <div class="main-chart" id="chart2" style="height:280px;width: 100%;"></div>
@@ -66,7 +66,7 @@
             <div class="layui-col-xs4">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        科研预算占比分析
+                        合同签订占比分析
                     </div>
                     <div class="layui-row-main">
                         <table id="processdef-table" class="layui-hide" lay-filter="processdef-table"></table>
@@ -78,7 +78,7 @@
             <div class="layui-col-xs8">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        <span class="layui-time"></span>科研预算按单位分析
+                        <span class="layui-time"></span>合同签订按单位分析
                     </div>
                     <div class="layui-row-main">
                         <div class="main-chart" id="chart4" style="height:280px;width: 100%;"></div>
@@ -88,7 +88,7 @@
             <div class="layui-col-xs4">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        科研预算占比分析
+                        合同签订占比分析
                     </div>
                     <div class="layui-row-main">
                         <table id="processdef_table_02" class="layui-hide" lay-filter="processdef_table_02"></table>
@@ -100,7 +100,7 @@
             <div class="layui-col-md12">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        <span class="layui-time"></span>直属研究院科研预算分析
+                        <span class="layui-time"></span>直属研究院合同签订分析
                     </div>
                     <div class="layui-row-main">
                         <div class="main-chart" id="chart7" style="height:280px;width: 100%;"></div>
@@ -143,7 +143,7 @@ layui.config({
     renderTable();
     renderTable_UNIT();
     $("#knowledge_table").click(function () {
-        parent.layui.index.openTabsPage("/home/project-list", "科研预算详情");
+        parent.layui.index.openTabsPage("/home/project-list", "合同签订详情");
     });
 
 });
@@ -182,7 +182,7 @@ function initEchart()
    echart1.on('click', function (params){
 		var xName=params.name;
 		var legentName=params.seriesName;
-		parent.layui.index.openTabsPage("/home/project-list?define1="+xName+"&project_scope="+legentName, "科研预算详情");
+		parent.layui.index.openTabsPage("/home/project-list?define1="+xName+"&project_scope="+legentName, "合同签订详情");
           
     });
 
@@ -192,13 +192,13 @@ function initEchart()
 	echart2.on('click', function (params){
 		var xName=params.name;
 		var legentName=params.seriesName;
-		parent.layui.index.openTabsPage("/home/project-list?define1="+xName, "科研预算详情");
+		parent.layui.index.openTabsPage("/home/project-list?define1="+xName, "合同签订详情");
           
     });
 
 	/*
 	var chart3_url="/home_budget_02/getBudgetByCountCricle?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
-	load_taiyang_02(chart3_url,"chart3","科研预算占比分析",ndstr); */
+	load_taiyang_02(chart3_url,"chart3","合同签订占比分析",ndstr); */
 
 
 	var chart4_url="/home_budget_02/getBudgetByUnitBar?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
@@ -206,17 +206,17 @@ function initEchart()
     echart3.on('click', function (params){
 		var xName=params.name;
 		var legentName=params.seriesName;
-		parent.layui.index.openTabsPage("/home/project-list?type_flag="+xName+"&project_scope="+legentName, "科研预算详情");
+		parent.layui.index.openTabsPage("/home/project-list?type_flag="+xName+"&project_scope="+legentName, "合同签订详情");
           
     });
 
 
 	/* var chart5_url="/home_budget_02/getBudgetByUnitPie?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
-	loadPie(chart5_url,"chart5","科研预算占比分析",ndstr);  */
+	loadPie(chart5_url,"chart5","合同签订占比分析",ndstr);  */
 
 
 	/* var chart6_url="/home_budget_02/getBudgetByUnitCricle?month="+month+"&v_date="+v_date+"&companyCode="+YJY_CODE_ALL;
-	load_taiyang_02(chart6_url,"chart6","科研预算占比分析",ndstr); */
+	load_taiyang_02(chart6_url,"chart6","合同签订占比分析",ndstr); */
 
 
 	var chart7_url="/home_budget_02/getBudgetByDistributeBar?month="+month+"&v_date="+v_date+"&companyCode="+YJY_CODE_ALL;
@@ -224,7 +224,7 @@ function initEchart()
    echart7.on('click', function (params){
 		var xName=params.name;
 		var legentName=params.seriesName;
-		parent.layui.index.openTabsPage("/home/project-list?define2="+xName+"&project_scope="+legentName, "科研预算详情");
+		parent.layui.index.openTabsPage("/home/project-list?define2="+xName+"&project_scope="+legentName, "合同签订详情");
           
     });
 
