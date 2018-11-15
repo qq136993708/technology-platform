@@ -62,14 +62,10 @@ public class IntlProjectNoticeProviderClient
         //必须设置。流程中，需要的第二个节点的指派人；除starter外，所有待办人变量都指定为auditor(处长审批)
         //处长审批 ZSH_JTZSZYC_GJHZC_CZ
         List<SysUser> users = systemRemoteClient.selectUsersByPostCode("ZSH_JTZSZYC_GJHZC_CZ");
-        List<String> userIds = new ArrayList<String>();
-        for(SysUser user:users) {
-        	userIds.add(user.getUserId());
-        }
-        System.out.println("start userIds ... "+JSON.toJSONString(userIds));
+        System.out.println("start userIds ... "+JSON.toJSONString(users));
         variables.put("auditor", workflowVo.getAuthenticatedUserId());
-        if(userIds != null && userIds.size()>0) {
-        	variables.put("auditor", userIds.get(0));
+        if(users != null && users.size()>0) {
+        	variables.put("auditor", users.get(0).getUserId());
         }
         
         //必须设置，统一流程待办任务中需要的业务详情
