@@ -65,6 +65,7 @@ public class HanaUtil {
 	
 	public static final String YJY_CODE_ALL = "1020,1040,1041,1060,1061,1080,1100,1101,1120,1123,1124,1127,1130,4360,1016,1019,101G,101I,1018,4270,101H,101F,101A,4370,8280";
 	
+	public static final String YJY_CODE_NOT_YINGKE = "1120,1123,1124,1127,1130,4360,1020,1060,1061,1040,1041,1080,1100,1101";
 	
 	
 
@@ -1132,7 +1133,7 @@ public class HanaUtil {
 				String name=entity.getProject_scope();
 				Integer value=(Integer)entity.getZsl();
 				String id=(String)entity.getId();
-				String name02=(String)entity.getZylb();
+				String name02=(String)entity.getDefine2();
 				
 				
 				if(name.equals(title))
@@ -1469,6 +1470,7 @@ public class HanaUtil {
 				String name=entity.getG0XMXZ();
 				String K0BNXKJE=entity.getK0BNXKJE();
 				String K0BNXJJE=entity.getK0BNXJJE();
+				String K0BNYSJHJE=entity.getK0BNYSJHJE();
 				String id=entity.getId();
 				String name02=entity.getG0XMDL();
 				
@@ -1478,8 +1480,9 @@ public class HanaUtil {
 					TreeNode2 node02=new TreeNode2();
 					node02.setpId(node.getId());
 					node02.setName(name02);
-					node02.setExtend01(String.format("%.2f", Double.valueOf(K0BNXKJE)));
-					node02.setExtend02(String.format("%.2f", Double.valueOf(K0BNXJJE)));
+					node02.setExtend01(String.format("%.2f", Double.valueOf(K0BNYSJHJE)));
+					//node02.setExtend01(String.format("%.2f", Double.valueOf(K0BNXKJE)));
+					//node02.setExtend02(String.format("%.2f", Double.valueOf(K0BNXJJE)));
 					node02.setId(""+id);
 					resut.add(node02);
 					/*if(K0BNXKJE!=null && !K0BNXKJE.equals(""))
@@ -1507,15 +1510,15 @@ public class HanaUtil {
 					}*/
 					
 					
-					count=add(count,Double.valueOf(K0BNXKJE));
-					count2=add(count2,Double.valueOf(K0BNXJJE));
+					count=add(count,Double.valueOf(K0BNYSJHJE));
+					//count2=add(count2,Double.valueOf(K0BNXJJE));
 					
 					
 				}
 			}
 			node.setName(title);
 			node.setExtend01(String.format("%.2f", Double.valueOf(count)));
-			node.setExtend02(String.format("%.2f", Double.valueOf(count2)));
+			//node.setExtend02(String.format("%.2f", Double.valueOf(count2)));
 			resut.add(node);
 			
 		}

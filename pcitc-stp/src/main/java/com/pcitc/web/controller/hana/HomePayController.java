@@ -77,7 +77,7 @@ public class HomePayController {
 					    request.setAttribute("unitCode", unitCode);
 					    
 					    
-					    
+					    request.setAttribute("YJY_CODE_NOT_YINGKE", HanaUtil.YJY_CODE_NOT_YINGKE);
 					    
 					    
 					    request.setAttribute("YJY_CODE_ALL", HanaUtil.YJY_CODE_ALL);
@@ -167,18 +167,15 @@ public class HomePayController {
 			         		barLine.setxAxisDataList(xAxisDataList);
 			         	
 							List<String> legendDataList = new ArrayList<String>();
-							legendDataList.add("总计");
 							legendDataList.add("新开课题");
 							legendDataList.add("结转课题");
 							barLine.setxAxisDataList(xAxisDataList);
 							barLine.setLegendDataList(legendDataList);
 							// X轴数据
 							List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
-							ChartBarLineSeries s1 = HanaUtil.getChartBarLineSeries_budget_count_bar(list, "K0BNYSJHJE");
 							ChartBarLineSeries s2 = HanaUtil.getChartBarLineSeries_budget_count_bar(list, "K0BNXKJE");
 							ChartBarLineSeries s3 = HanaUtil.getChartBarLineSeries_budget_count_bar(list, "K0BNXJJE");
 							
-							seriesList.add(s1);
 							seriesList.add(s2);
 							seriesList.add(s3);
 							barLine.setSeriesList(seriesList);
@@ -544,7 +541,7 @@ public class HomePayController {
 						         		barLine.setxAxisDataList(xAxisDataList);
 						         	
 										List<String> legendDataList = new ArrayList<String>();
-										legendDataList.add("总计");
+										//legendDataList.add("总计");
 										legendDataList.add("费用性");
 										legendDataList.add("资本性");
 										
@@ -553,11 +550,11 @@ public class HomePayController {
 										barLine.setLegendDataList(legendDataList);
 										// X轴数据
 										List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
-										ChartBarLineSeries s1 = HanaUtil.getChartBarLineSeries_PAY02_bar(list, "K0BNYSJHJE");
+										//ChartBarLineSeries s1 = HanaUtil.getChartBarLineSeries_PAY02_bar(list, "K0BNYSJHJE");
 										ChartBarLineSeries s2 = HanaUtil.getChartBarLineSeries_PAY02_bar(list, "K0BNFYJE");
 										ChartBarLineSeries s3 = HanaUtil.getChartBarLineSeries_PAY02_bar(list, "K0BNZBJE");
 										
-										seriesList.add(s1);
+										//seriesList.add(s1);
 										seriesList.add(s2);
 										seriesList.add(s3);
 										barLine.setSeriesList(seriesList);

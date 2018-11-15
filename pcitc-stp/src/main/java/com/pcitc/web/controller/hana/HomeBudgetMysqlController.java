@@ -432,7 +432,7 @@ public class HomeBudgetMysqlController {
 						         		barLine.setxAxisDataList(xAxisDataList);
 						         	
 										List<String> legendDataList = new ArrayList<String>();
-										legendDataList.add("总计");
+										//legendDataList.add("总计");
 										legendDataList.add("费用性");
 										legendDataList.add("资本性");
 										
@@ -441,11 +441,11 @@ public class HomeBudgetMysqlController {
 										barLine.setLegendDataList(legendDataList);
 										// X轴数据
 										List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
-										ChartBarLineSeries s1 = HanaUtil.getChartBarLineSeries_budget_unit_mysql_bar_03(list, "zje");
+										//ChartBarLineSeries s1 = HanaUtil.getChartBarLineSeries_budget_unit_mysql_bar_03(list, "zje");
 										ChartBarLineSeries s2 = HanaUtil.getChartBarLineSeries_budget_unit_mysql_bar_03(list, "fyxje");
 										ChartBarLineSeries s3 = HanaUtil.getChartBarLineSeries_budget_unit_mysql_bar_03(list, "zbxje");
 										
-										seriesList.add(s1);
+										//seriesList.add(s1);
 										seriesList.add(s2);
 										seriesList.add(s3);
 										barLine.setSeriesList(seriesList);

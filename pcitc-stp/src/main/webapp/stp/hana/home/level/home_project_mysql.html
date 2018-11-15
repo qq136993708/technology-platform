@@ -304,7 +304,7 @@ function renderTable()
 	        id:tableId
 	        ,elem: '#'+tableId
 	        ,url:'/home_project_02/getProjectByCountCricle?month='+month+"&companyCode="+companyCode
-	        ,cellMinWidth: 200
+	       // ,cellMinWidth: 200
 	        ,idField:'id'//必須字段
 	        ,treeId:'id'//树形id字段名称
 	        ,treeUpId:'pId'//树形父id字段名称
@@ -317,8 +317,8 @@ function renderTable()
 	        ,loading: false
 	        ,method:'get'
 	        ,cols: [[
-	            {field:'name', width:'50%', title: '名称',edit:'text'},
-	            {field:'extend01',  title:'数量',  style:'cursor: pointer;',align: 'left', width: '50%'}
+	            {field:'name',title: '名称',edit:'text'},
+	            {field:'extend01',  title:'数量',  style:'cursor: pointer;',align: 'left'}
 	            
 	        ]]
 	        ,isPage:false
@@ -344,7 +344,7 @@ function renderTable_UNIT()
 	        id: tableId02
 	        ,elem: '#'+tableId02
 	        ,url:'/home_project_02/getProjectByUnitCricle?month='+month+"&companyCode="+companyCode
-	        ,cellMinWidth: 200
+	      //  ,cellMinWidth: 200
 	        ,idField:'id'//必須字段
 	        ,treeId:'id'//树形id字段名称
 	        ,treeUpId:'pId'//树形父id字段名称
@@ -357,8 +357,8 @@ function renderTable_UNIT()
 	        ,loading: false
 	        ,method:'get'
 	        ,cols: [[
-	            {field:'name', width:'50%', title: '名称',edit:'text'},
-	            {field:'extend01',  title:'数量',  style:'cursor: pointer;',align: 'left', width: '50%'}
+	            {field:'name', title: '名称',edit:'text'},
+	            {field:'extend01',  title:'数量',  style:'cursor: pointer;',align: 'left'}
 	            
 	        ]]
 	        ,isPage:false

@@ -57,7 +57,7 @@
                     <div class="layui-main-box">
                         <span class="layui-box-icon bg-2"></span>
                         <div class="layui-box-content">
-                            <span class="layui-box-text">年度预算</span>
+                            <span class="layui-box-text">合同签订</span>
                             <span class="layui-box-number" id="k0BNYSJHJE">
                             <img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
                             </span>
@@ -393,7 +393,7 @@
                 parent.layui.index.openTabsPage("/home_device_02/home_device", "科研装备（新开续建）");//oil_field.html
             });
             $(".layui-top .layui-col-md15").eq(2).click(function () {
-                parent.layui.index.openTabsPage("/home_budget_02/home_budget", "年度预算（万元）");
+                parent.layui.index.openTabsPage("/home_budget_02/home_budget", "合同签订（万元）");
             });
             
             $(".layui-top .layui-col-md15").eq(3).click(function () {
@@ -554,7 +554,7 @@
         	
         }
         
-        //年度预算 经费支出
+        //合同签订 经费支出
         function getndys_xfzc(month)
         {
         	
@@ -811,8 +811,8 @@
         	var month=$('#month').val();
         	if(month!=null && month!='')
        		{
-        		getKyxm(month);//科研项目、科研装备、年度预算
-            	getndys_xfzc(month);//年度预算 经费支出
+        		getKyxm(month);//科研项目、科研装备、合同签订
+            	getndys_xfzc(month);//合同签订 经费支出
             	chartv(month);//年度科研项目总览
             	newProjectRate();//新开项目
             	newProjectLastRate();//新项目和去年比
