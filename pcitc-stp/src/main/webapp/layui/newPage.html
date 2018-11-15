@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>带返回的新页面</title>
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()">
+    <script src="/layuiadmin/layui/layui.js"></script>
+</head>
+<body>
+    <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_back btnMyBgImg" id="backBtn">返回</button>
+<script>
+    layui.use(['jquery'], function () {
+        var $ = layui.$;
+        $("#backBtn").click(function () {
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
+        });
+    })
+</script>
+</body>
+</html>

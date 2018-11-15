@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	<link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
+	<link rel="stylesheet" type="text/css" href="/layuiadmin/ztree/css/metroStyle/metroStyle.css">
+	<link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
+	
+	<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+	<script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
+	<script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.core.js"></script>
+	<script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.excheck.min.js"></script>
+	<script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.all.js"></script>
+    <script type="text/javascript" src="/layuiadmin/modules/selectTree.js"></script>
+    <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+	
+	<style>
+	.tree-content {
+	  position: absolute;
+	  z-index: 998;
+	  background: #ffffff;
+	  max-height: 400px;
+	  width: 100%;
+	  border: 1px solid #ccc;
+	  overflow-y: scroll;
+	}
+	.layui-select-title input{display:inline-block}
+	.searchBox .layui-input{
+		width: 18%;
+	  min-width: 160px;
+	  display: inline-block !important;
+	  font-size: 12px !important;
+	  height: 24px !important;
+	  line-height: 24px !important;
+	  font-weight: normal !important;
+	  padding-left: 6px !important;
+	  padding-right: 6px !important;
+	  border-radius: 2px !important;
+	  vertical-align: middle;
+	  color: #555;
+	  background-color: #fff;
+	  background-image: none;
+	  border: 1px solid #ccc;
+	  padding-top:0px;
+	}
+	</style>
+	<script type="text/javascript">
+	var table,selectRowData,renderfunc;
+	
+    layui.use(['jquery','table','laypage'], function(){
+    	var $ = layui.jquery, element = layui.element, layer = layui.layer,table = layui.table;
+    	var noticeType={};
+    	var param = JSON.parse(window.localStorage.getItem("param"));
+    	//加载岗位类型字典
+		ajaxPost("/dictionary/list/GJXMGL_TZLX", null, function (data) {
+			$.each(data,function(i,dt){
+				noticeType[data[i].code] = data[i].name;
+	    	});
+	    });
+    	function renderTable(where){
+    		var lodingMsg = layer.msg('数据加载中....');
+    		
+	        table.render({
+	            elem: '#noticeTable',
+	            url: '/project/notice-list',
+	            limit : param.selfRownum,
+	            method:"POST",
+	            where: where,
+	        	id: 'noticeTable',
+	        	height: commonDislodgeTable(),
+	            page: {
+	                groups: 5
+	                ,limits : [ param.selfRownum, 15, 30, 45, 60 ]
+	                ,layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+	                ,first: '首页' //不显示首页
+	                ,last: '尾页' //不显示尾页
+	                ,theme: '#0F9EE0'
+	            },
+	            cols: [[
+	            	 {type:'checkbox'}
+	            	,{title:'序号',type:'numbers'}
+	                ,{field:'noticeTitle',title:'通知标题',width: '30%',style:'cursor: pointer;'}
+	                ,{field:'noticeType',title:'通知类别',width: '15%',style:'cursor: pointer;',align:"center"}
+	                ,{field:'createTime',title:'创建时间',width: '20%',style:'cursor: pointer;',align:"center"}
+	                ,{field:'updateTime',title:'更新时间',width: '20%',style:'cursor: pointer;',align:"center"}
+	                ,{field:'noticeStatus',title:'状态',style:'cursor: pointer;',align:"center"}
+	               
+	            ]],
+	            done: function (res, curr, count) {
+	            	layer.close(lodingMsg);
+	                // 点击行联动选择框--单选
+	                $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+	                	var index=parseInt($(this).index()+1);
+	                    $('tr').removeClass('layui-table-click');
+	                    $(this).addClass('layui-table-click');
+	                    $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+	                    $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+	                    selectRowData=res.data[index-1];
+	                }); 
+	                $.each(res.data,function(i,dt){
+		            	//显示字典数据
+		            	var ns = res.data[i].noticeStatus==1?"已发送":"未发送";
+		            	$("tr[data-index='"+i+"'] td[data-field='noticeStatus'] div").html(ns);
+		            	$("tr[data-index='"+i+"'] td[data-field='noticeType'] div").html(noticeType[res.data[i].noticeType]);
+		            });
+	            }
+	        });
+	        renderfunc = function removeHeaderCheckbox(){
+	        	$(".layui-table-header table thead th input").remove();  //移除表头的复选框,去掉全选
+	        }
+	        renderfunc();
+		}
+    	renderTable();
+
+        //监听表格双击事件
+        table.on('rowDouble(niticeEvent)', function(obj){
+        	var temUrl = '/intl_project/notice_view?noticeId='+obj.data.noticeId;
+        	openFullWin("详情",temUrl);
+        });
+        // 触发不同的按钮事件
+        var $ = layui.$, active = {
+            searchEvent: function() { //点击查询按钮
+                renderTable({param: {"noticeTitle":$("#noticeTitle").val()}});
+            },resetEvent: function() { 
+            	//点击重置按钮
+                $("#noticeTitle").val("");
+                renderTable({param: {"noticeTitle":$("#noticeTitle").val()}});
+            },addEvent: function(){ 
+            	//点击新增按钮
+            	var temUrl = '/intl_project/notice_edit';
+            	openFullWin("新增",temUrl);
+            },editEvent: function(){  
+            	//点击编辑按钮
+            	if(!selectRowData){
+            		layer.msg('请点击选择一行数据!');
+            		return;
+            	}
+            	var temUrl = '/intl_project/notice_edit?noticeId='+selectRowData.noticeId;
+            	openFullWin("编辑",temUrl);
+            },detailEvent:function(){
+            	//点击编辑按钮
+            	if(!selectRowData){
+            		layer.msg('请点击选择一行数据!');
+            		return;
+            	}
+            	var temUrl = '/intl_project/notice_view?noticeId='+selectRowData.noticeId;
+            	openFullWin("详情",temUrl);
+            },sentEvent:function(){
+            	if(!selectRowData){
+            		layer.msg('请点击选择一行数据!');
+            		return;
+            	}
+            	layer.confirm('确定要发送吗？',{title:"发送确认"},function(index){
+					layer.close(index);
+					ajaxPost("/project/apply-sendnotice", {noticeId: selectRowData.noticeId}, function (data) {
+	                     if (data.success) {
+	                    	 layer.msg('通知已发送!');
+	                     } else {
+	                    	 layer.msg('操作异常，请重试!');
+	                     }
+	                });
+            	});
+            },submitEvent:function(){
+            	if(!selectRowData){
+            		layer.msg('请点击选择一行数据!');
+            		return;
+            	}
+            	layer.confirm('确定要提交审核吗？',{title:"提交确认"},function(index){
+					layer.close(index);
+					ajaxPost("/project/notice-start-workflow", {noticeId: selectRowData.noticeId,functionId:param.id}, function (data) {
+	                     if (data.success) {
+	                    	 layer.msg('审核已提交!');
+	                     } else {
+	                    	 layer.msg('操作异常，请重试!');
+	                     }
+	                });
+            	});
+            	
+            },closeEvent:function(){
+            	if(!selectRowData){
+            		layer.msg('请点击选择一行数据!');
+            		return;
+            	} 
+            	layer.confirm('确定要删除吗？',{title:"删除确认"},function(index){
+					layer.close(index);
+	            	ajaxPost("/project/close-notice", {noticeId: selectRowData.noticeId}, function (data) {
+	                     if (data.success) {
+	                    	 renderTable({param: {"noticeTitle":$("#noticeTitle").val()}});
+	                     } else {
+	                    	 layer.msg('操作异常，请重试!');
+	                     }
+	                });
+            	});
+            },deleteEvent: function(){  //点击删除按钮
+            	if(!selectRowData){
+            		layer.msg('请选择要删除的数据!');
+            		return;
+            	}
+				layer.confirm('确定要删除吗？',{title:"删除确认"},function(index){
+					layer.close(index);
+	            	ajaxPost("/project/del-notice", {noticeId:electRowData.noticeId}, function (data) {
+	                     if (data.success) {
+	                    	 renderTable({param: {"noticeTitle":$("#noticeTitle").val()}});
+	                     } else {
+	                    	 layer.msg('操作异常，请重试!');
+	                     }
+	                });
+            	});
+            }
+        };
+        //区别按钮属性
+        $('.layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+    });
+</script>
+
+</head>
+<body>
+<div class="searchBox">
+    <label class="dateInput">
+        <span>通知标题</span>
+        <input type="text" name="noticeTitle" id="noticeTitle" placeholder="请输入通知标题" autocomplete="off" class="form-control">
+    </label>
+    <div class="btnGroup">
+        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>
+        <button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg" data-type="resetEvent">重置</button>
+    </div>
+</div>
+<div class="tableBox">
+    <div class="tableToolBox">
+        <div class="whiteLine"></div>
+        <div  class="tableBtns">
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg" data-type="addEvent">新增</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg" data-type="editEvent">编辑</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_details btnMyBgImg" data-type="detailEvent">查看</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_save2 btnMyBgImg" data-type="submitEvent">提交</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_deploy btnMyBgImg" data-type="sentEvent">下发</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="closeEvent">删除</button>
+            <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="deleteEvent">删除</button> -->
+        </div>
+    </div>
+    <table id="noticeTable" class="layui-hide" style="width: 100%"  lay-filter="niticeEvent"></table>
+</div>
+</body>
+</html>

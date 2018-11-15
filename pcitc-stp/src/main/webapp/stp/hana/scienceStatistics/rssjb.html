@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+     <link rel="stylesheet" href="/common/css/echart-common.css">
+</head>
+<body>
+
+	<div class="content-body container">
+		<div style="text-align: center; font-weight: bold; margin: 10px;">2016年度中国石化人事统计数据</div>
+	<table class="layui-table">
+			<thead>
+				<tr>
+					<td rowspan="2"></td>
+					<td rowspan="2">指标名称</td>
+					<td rowspan="2">计量单位</td>
+					<td>人数</td>
+					<td>人数</td>
+				</tr>
+				<tr>
+					<td>（股份）</td>
+					<td>（集团）</td>
+				</tr>
+				</thead>
+				<tbody>
+				<tr>
+					<td>1</td>
+					<td>企业年末从业人员</td>
+					<td>人</td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>企业职工总数</td>
+					<td>人</td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>企业内获得职业资格证书的高级技工（取得国家级高级技工职业资格证书）</td>
+					<td>人</td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>技师（国家级技师职业资格证书）</td>
+					<td>人</td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>高级技师（国家级高级技师职业资格证书）</td>
+					<td>人</td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>2</td>
+					<td>科技活动人员数合计：</td>
+					<td>人</td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>其中：博士人数</td>
+					<td>人</td>
+					<td></td>
+					<td>-</td>
+				</tr>
+				<tr>
+					<td>3</td>
+					<td>研究与试验发展(R&amp;D)人员</td>
+					<td>人</td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>博士</td>
+					<td>人</td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>硕士</td>
+					<td>人</td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>学士</td>
+					<td>人</td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>正高级职称</td>
+					<td>人</td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>副高级职称</td>
+					<td>人</td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>中级职称</td>
+					<td>人</td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>初级职称</td>
+					<td>人</td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>
+						高级专家人数（全职在技术中心工作，获得国家、省、部和计划单列市等政府部门认定的有突出贡献的专家或享受国家、省、部和计划单列市专项津贴的专家人数）</td>
+					<td>人</td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>从事研发工作的外部专家人数（来技术中心从事研究、技术开发工作的具有较高科技开发能力的海内外专家累计人月）</td>
+					<td>人月</td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>4</td>
+					<td>企业办境内研发机构情况（直属研究院和炼化工程设计单位）</td>
+					<td>-</td>
+					<td>-</td>
+					<td>-</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>机构数</td>
+					<td>个</td>
+					<td></td>
+					<td>-</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>机构人员合计：</td>
+					<td>人</td>
+					<td></td>
+					<td>-</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>其中：博士毕业</td>
+					<td>人</td>
+					<td></td>
+					<td>-</td>
+				</tr>
+			</tbody>
+		</table>
+
+	</div>
+
+	<!--表格数据操作js-->
+<script src="/common/js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+<script src="/common/js/layer-v3.1.1/layer.js"></script>
+<script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
+<script type="text/javascript" src="/plugins/echarts/walden.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_chart.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
+<script>
+
+
+var table,selectRowData;
+layui.config({
+    base: '/layuiadmin/module/modules/' //静态资源所在路径
+}).use(['jquery','form', 'laydate','table','laypage','layer'], function(){
+	  admin = layui.admin
+	  ,$ = layui.jquery
+      ,table = layui.table
+      ,layer = layui.layer
+      ,laydate = layui.laydate
+      ,form = layui.form
+      ,laypage = layui.laypage;
+	  form.render(null, 'component-form-group');
+            laydate.render({
+               elem: '#month'
+               ,format: 'yyyyMM'
+            });
+      //初始化表格
+      renderTable();
+});
+
+var allCode="${allCode?default('')}";
+var allCode_text="全部院所";
+
+
+</script>
+</body>
+</html>

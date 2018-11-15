@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="format-detection" content="telephone=no">
+  <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+  <!--[if lt IE 9]>
+  <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+  <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+  <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css">
+  <link rel="stylesheet" type="text/css" href="/layuiadmin/ztree/css/metroStyle/metroStyle.css">
+  <link rel="stylesheet" href="/layuiadmin/style/common.css">
+</head>
+<body>
+<div class="layer-box">
+	<form id="planForm" class="layui-form" action="" lay-filter="component-form-group layui-container"></form>
+		<div class="formBox">
+			<div class="tableToolBox">
+				<div class="tableBtns">
+					<div class="tableTitle">基本信息<span class="red">（标*号为必填项）</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	<div class="box-body">
+	<form class="layui-form" name="form1" id="form1" action="" method="POST" lay-filter="component-form-group layui-container">
+		<input type="hidden"  name="equipmentId"     id="equipmentId" value="${equipmentId}">
+		<input type="hidden"  name="functionId"      id="functionId"  value=""   >
+		<input type="hidden"  name="userIds"         id="userIds"     value=""   >
+		<input type="hidden"  name="auditStatus"     id="auditStatus" value="0"  >
+		<input type="hidden"  name="type"            id="type"        value="${sreEquipment.type}"  >
+  
+      <!-- 行有两个的情况 -->
+      <div class="layui-row">
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label for="" class="layui-form-label">装备名称<span class="must-fill">*</span></label>
+            <div class="layui-input-block">
+              <input class="layui-input" name="name" id="name" value="${sreEquipment.name}"  lay-verify="name" placeholder="请输入装备名称" autocomplete="off" type="text">
+            </div>
+          </div>
+        </div>
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label for="" class="layui-form-label">关键词</label>
+            <div class="layui-input-block">
+              <input class="layui-input" name="keyWord" id="keyWord" value="${sreEquipment.keyWord}"  autocomplete="off" type="text">
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="layui-row">
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label for="" class="layui-form-label">装备分类<span class="must-fill">*</span></label>
+            <div class="layui-input-block">
+               <input class="layui-input" name="typeName" id="typeName" value="${sreEquipment.typeName}" onclick="chooseType()" readonly="readonly" lay-verify="required"  autocomplete="off" type="text">
+            </div>
+          </div>
+        </div>
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label for="" class="layui-form-label">年份</label>
+            <div class="layui-input-block">
+		          <div class="layui-input-inline" style="float:left">
+		            <input type="text" class="layui-input" id="beginYear" value="${sreEquipment.beginYear}"  style="width:80px;float:left" placeholder="开始年份">
+		             <div class="layui-form-mid" style="width:8px;float:left"> - </div>
+		            <input type="text" class="layui-input" id="endYear"  value="${sreEquipment.endYear}"  style="width:80px;float:left" placeholder="结束年份">
+		          </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+       <div class="layui-row">
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label for="" class="layui-form-label">计划金额(万元)<span class="must-fill">*</span></label>
+            <div class="layui-input-block">
+              <input class="layui-input" name="planMoney" id="planMoney" value="${sreEquipment.planMoney}"  onkeyup="clearNoNum(this)" lay-verify="required"  autocomplete="off" type="text">
+            </div>
+          </div>
+        </div>
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label for="" class="layui-form-label">申请数量</label>
+            <div class="layui-input-block">
+               <input class="layui-input" name="applyAcount" id="applyAcount" value="${sreEquipment.applyAcount}"   lay-verify="required"  autocomplete="off" type="text">
+            </div>
+          </div>
+        </div>
+      </div>
+      
+       <div class="layui-row">
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label for="" class="layui-form-label">规格型号<span class="must-fill">*</span></label>
+            <div class="layui-input-block">
+              <input class="layui-input" name="typeModel" id="typeModel" value="${sreEquipment.typeModel}"   lay-verify="required"  autocomplete="off" type="text">
+            </div>
+          </div>
+        </div>
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label for="" class="layui-form-label">立项报告（附件）<span class="must-fill">*</span></label>
+            <div class="layui-input-block">
+                <input class="layui-input readOnlyBox" readonly="readonly" name="attachmentDoc" id="attachmentDoc" value="${sreEquipment.attachmentDoc}"   lay-verify="required"  autocomplete="off" type="text">
+                <a style="float:left" class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" onclick="upload_File()">上传</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      
+       <!-- 文本域 -->
+      <div class="layui-form-item layui-form-text" >
+        <label class="layui-form-label">主要功能</label>
+        <div class="layui-input-block">
+          <textarea placeholder="请输入内容" name="notes" id="notes" lay-verify="required"   class="layui-textarea">${sreEquipment.notes}</textarea>
+        </div>
+      </div>
+      
+      <!-- 文本域 -->
+      <div class="layui-form-item layui-form-text" >
+        <label class="layui-form-label">特殊说明</label>
+        <div class="layui-input-block">
+          <textarea placeholder="请输入内容" name="specialNotes" id="specialNotes" lay-verify="required"   class="layui-textarea">${sreEquipment.specialNotes}</textarea>
+        </div>
+      </div>
+	  	<div class="form-bottom">
+	  		<div class="form-bottom-btns">
+	    		<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="" lay-filter="save">保存</button>
+	    		<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="" lay-filter="component-form-submit">提交</button>
+          		<button type="button"class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" id="closeBtn">关闭</button>
+	  		</div>
+		</div>
+	</form>
+  </div>
+</div>
+<script src="/common/js/jquery-1.11.3.min.js"></script>
+<script src="/layuiadmin/layui/layui.js"></script>
+<script>
+var v_date=(new Date()).getTime();
+var param=JSON.parse(window.localStorage.getItem("param"));
+var functionId=param.id;
+$('#functionId').val(functionId);
+var roleCodes = "";
+var unitCodes = "";
+var postCodes = "";
+
+
+
+
+layui.config({
+    base: 'layuicommon/module/modules/' //静态资源所在路径
+}).extend({
+    index: 'layui/tableDemo' //主入口模块
+}).use(['form', 'laydate','table','layer'], function(){
+	  var admin = layui.admin
+      ,element = layui.element
+      ,layer = layui.layer
+      ,laydate = layui.laydate
+      ,form = layui.form;
+	  form.render(null, 'component-form-group');
+	  laydate.render({
+	      elem: '#LAY-component-form-group-date'
+	  });
+	  
+	  //初始赋值 component-form-group 当前form的lay-filter
+      form.val("component-form-group", {
+          "username": "" // "name": "value"
+          ,"sex": "女"
+      })
+      /* 自定义验证规则  title 要验证的input的 lay-verify=""*/
+      form.verify({
+    	  name: function(value)
+    	  {
+              if(value.length < 5)
+              {
+                  return '装备名称至少得5个字符啊';
+              }
+          },
+          planMoney: [/(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/,'计划金额格试不正确'] 
+         /*  ,pass: [/(.+){6,12}$/, '密码必须6到12位']
+          ,content: function(value){
+              layedit.sync(editIndex);
+          } */
+      });
+      
+      
+      
+    //开始日期
+      var insStart = laydate.render({
+          elem: '#beginYear'
+          ,min: 0,type: 'year'
+          ,done: function(value, date){
+              //更新结束日期的最小日期
+              insEnd.config.min = lay.extend({}, date, {
+                  month: date.month - 1
+              });
+              //自动弹出结束日期的选择器
+              insEnd.config.elem[0].focus();
+          }
+      });
+
+      //结束日期
+      var insEnd = laydate.render({
+          elem: '#endYear'
+          ,min: 0,type: 'year'
+          ,done: function(value, date){
+              //更新开始日期的最大日期
+              insStart.config.max = lay.extend({}, date, {
+                  month: date.month - 1
+              });
+          }
+      });
+      
+     
+      /* 监听提交 */
+      form.on('submit(sub)', function(data){
+          
+    	  var url="/sre-equipment/save?v_date="+v_date;
+          var backurl="/sre-equipment/to-list?v_date="+v_date;
+          ajaxOpt(url,"form1","POST",backurl,"保存成功","保存失败");
+          return false;
+      }); 
+      //关闭事件
+      $("#closeBtn").click(function () {
+          var index = parent.layer.getFrameIndex(window.name);
+          parent.layer.close(index);
+      })
+      //流程
+      form.on('submit(flow)', function(data){
+    	  $.ajax({
+	           type : 'POST',
+	           url : "/workflow/start/audit-type",
+	           contentType: "application/json;charset=UTF-8",
+	           data : JSON.stringify(data.field),
+	           //json中有functionId（projectId、departmentId等）用来区别processDefine的属性
+	           success : function(data) {
+	        	   if (data.code == 'role') {
+	            		// 按角色选择，获取下一步审批人信息,选择完审批人后，调用：handleTask(userIds)方法
+	            		// roleCodes，参数名必须一致，方便公共弹出页面调用
+	            		roleCodes = data.data;  // 弹出页面的隐藏的查询条件
+	            		var temUrl="/task/deal/users/ini";
+	                    layer.open({
+	                        title:'选择审批人',
+	                        skin: 'layui-layer-lan',
+	                        shadeClose: true,
+	                        type: 2,
+	                        fixed: false,
+	                        //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+	                        maxmin: true,
+	                        //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+	                        area: ['800px', '550px'],
+	                        content:  temUrl
+	                    });
+	            	} else if (data.code == 'unit' || data.code == 'post') {
+	            		// 按部门/岗位选择，获取下一步审批人信息,选择完审批人后，调用：handleTask(userIds)方法
+	            		// unitCodes、postCodes，参数名必须一致，方便公共弹出页面调用
+	            		if (data.code == 'unit') {
+	            			unitCodes = data.data;  // 弹出页面的隐藏的查询条件
+	            		} else {
+	            			postCodes = data.data;  // 弹出页面的隐藏的查询条件
+	            		}
+	            		
+	            		var temUrl="/task/deal/user/unit/ini";
+	                    layer.open({
+	                        title:'选择审批人',
+	                        skin: 'layui-layer-lan',
+	                        shadeClose: true,
+	                        type: 2,
+	                        fixed: false,
+	                        //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+	                        maxmin: true,
+	                        //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+	                        area: ['800px', '550px'],
+	                        content:  temUrl
+	                    });
+	            	} else if (data.code == 'int') {
+	            		layer.msg('启动参数不足');
+	            	} else if (data.code == 'con') {
+	            		layer.msg('请给此功能菜单配置流程');
+	            	} else if (data.code == 'exist') {
+	            		layer.msg('工作流部署异常，请联系管理员');
+	            	} else {
+	            		// 直接处理此任务
+	            		handleTask('');
+	            	}
+	           },
+	           error : function(msg) {//请求失败处理函数  
+              }
+	       });
+    	  
+          return false;
+      });
+      
+      
+      
+      
+});
+
+function chooseType()
+{
+	
+	var v_date = (new Date()).getTime();
+	var temUrl="/sre-equipment/to-chooseType?v_date="+v_date;
+    layer.open({
+        title:'选择资产分类',
+        skin: 'layui-layer-lan',
+        shadeClose: true,
+        type: 2,
+        fixed: false,
+        maxmin: true,
+        area: ['500px', '400px'],
+        content:  temUrl
+    });
+}
+
+
+
+
+function ajaxOpt(url,formName,type,backurl,successMsg,failMsg)
+{
+	 $.ajax({
+  	     type:type,
+  	     url: url,
+  	     dataType:"json",
+  	     data:$("#"+formName).serialize(),
+  	     async: false, 
+  	     cache: false,
+  	     contentType: "application/x-www-form-urlencoded; charset=utf-8",
+         success:function(data,status)
+         {    
+    	  
+	          if(data.success==true ||data.success=='true')
+	          {
+
+	        	  
+	        	          layer.alert(
+	        			  successMsg, 
+	                      {icon: 1,closeBtn: 0 },
+	                      function () 
+	                      {
+	                    	  var index = parent.layer.getFrameIndex(window.name); 
+	                          parent.layer.close(index); 
+	                    	  parent.location.href=backurl;
+	                      });
+	        	  
+	          } else
+	          {
+	        	 layer.alert(failMsg);
+	          }
+	     
+		   },
+		   error:function()
+		   {
+		    	layer.alert("网络访问错误");
+		   }
+    
+  });
+}
+
+    //处理任务（启动流程）的方法，方法名固定，为了通用选择审批人员的弹出页面调用
+	function handleTask(userIds) 
+	{
+		$('#userIds').val(userIds);
+		$('#auditStatus').val(1);
+		//alert("userIds="+userIds+" functionId="+functionId+" auditStatus="+auditStatus);
+		var url="/sre-equipment/save?v_date="+v_date;
+        var backurl="/sre-equipment/to-list?v_date="+v_date;
+        ajaxOpt(url,"form1","POST",backurl,"保存成功","保存失败");
+    }
+	
+	
+	function upload_File()
+	{
+		//接收文件值的实体属性
+		var file_ids = "attachmentDoc";
+		//新增、修改用edit, 显示用detail
+		var file_edit_detail = "edit";
+		//系统功能中文件配置的KEY
+		var file_opt_flag = "6ac70322815c44baa7a70cb16ddcb593";
+		//文件KEY--隐藏琙
+		var file_ids_value=$("#attachmentDoc").val();
+		//调用公共方法
+		uploadFile(file_ids,file_edit_detail,file_opt_flag,file_ids_value);
+	}
+    
+    
+	function uploadFile(file_ids,file_edit_detail,file_opt_flag,file_ids_value)
+	{ 
+		
+		var v_date=(new Date()).getTime();
+        var temUrl="/sre-equipment/uploadFile?file_edit_detail="+file_edit_detail+"&file_ids="+file_ids+"&file_opt_flag="+file_opt_flag+"&v_date="+v_date+"&file_ids_value="+file_ids_value;
+        layer.open({
+            title:'附件',
+            skin: 'layui-layer-lan',
+            shadeClose: true,
+            type: 2,
+            fixed: false,
+            //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+            maxmin: false,
+            //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+            area: ['700px', '400px'],
+            content:  temUrl
+        });
+    }
+    
+    
+function clearNoNum(obj){ 
+    obj.value = obj.value.replace(/[^\d.]/g,"");  //清除“数字”和“.”以外的字符  
+    obj.value = obj.value.replace(/\.{2,}/g,"."); //只保留第一个. 清除多余的  
+    obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$","."); 
+    obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3');//只能输入两个小数  
+    if(obj.value.indexOf(".")< 0 && obj.value !=""){//以上已经过滤，此处控制的是如果没有小数点，首位不能为类似于 01、02的金额 
+        obj.value= parseFloat(obj.value); 
+    } 
+}
+</script>
+</body>
+</html>

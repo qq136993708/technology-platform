@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>左树右表</title>
+
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/css/layui.css">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/ztree/css/metroStyle/metroStyle.css">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/css/common.css">
+
+    <script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="/layuiadmin/layui.js"></script>
+    <script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.core.js"></script>
+    <script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.excheck.min.js"></script>
+    <!--<script type="text/javascript" src="/layuiadmin/layui/lay/modules/selectTree.js"></script>-->
+    <style>
+        .side-tree {
+            position: fixed;
+            height: 440px;
+            width: 200px !important;
+            left: 0;
+            bottom: 60px !important;
+            border-right: 1px solid #eee;
+            background: #ffffff;
+            color: #000000;
+            overflow: auto;
+        }
+
+        .treeBox .layui-side-scroll {
+            position: relative;
+            width: 200px;
+            height: 100%;
+            overflow-x: auto;
+        }
+
+    </style>
+</head>
+<body>
+<div class="treeBox">
+    <div class="layui-side side-tree">
+        <div class="layui-side-scroll">
+            <!-- 左侧子菜单 -->
+            <ul id="treeDemo" class="ztree"></ul>
+        </div>
+    </div>
+</div>
+<!--按钮组-->
+<div id="toolbarDemo" style="display: none;">
+    <button class="layui-btn layui-btn-sm"><i class="layui-icon">&#xe654;</i>新增</button>
+    <button class="layui-btn layui-btn-sm"><i class="layui-icon">&#xe642;</i>编辑</button>
+    <button class="layui-btn layui-btn-sm"><i class="layui-icon">&#xe640;</i>删除</button>
+</div>
+<div class="layui-body">
+    <table id="demo" lay-filter="test"></table>
+</div>
+
+
+<!--<div class="layui-footer" style="text-align: center">-->
+<!--© layui.com - 底部固定区域-->
+<!--</div>-->
+</div>
+<!--树js-->
+<script type="text/javascript">
+    var setting = {
+        view: {
+            selectedMulti: false
+        },
+        async: {
+            enable: true,
+            type: "get",
+            url: "/sysfilekind/sysfilekind/tree-data-children",
+            autoParam: ["id", "name=n", "level=lv"],
+            otherParam: {"token": "eyJhbGciOiJIUzUxMiJ9.eyJ1c2VyTmFtZSI6IjEyMzQ1NiIsInJvbGVMaXN0IjpbXSwiZXhwIjoxNTM2MjMyMzM3LCJ1c2VySWQiOiIxMjMifQ.wYmBUq7gvshHPdm6dKQrKzC2LiFRr3HBZn5fKfZl5s9CxnD92fN-JYAgZb1niQvyXwhKGjmj7EcoAZLGQlfLOA"},
+            dataFilter: null
+        },
+        callback: {
+            beforeClick: beforeClick,
+            beforeAsync: beforeAsync,
+            onAsyncError: onAsyncError,
+            onAsyncSuccess: onAsyncSuccess,
+            onClick: onClickMenu
+        }
+    };
+
+    function onClickMenu(treeId, parentNode, childNodes) {
+        console.log(treeId);
+        console.log(parentNode);
+        console.log(childNodes);
+    }
+
+    function filter(treeId, parentNode, childNodes) {
+        if (!childNodes) return null;
+        for (var i = 0, l = childNodes.length; i < l; i++) {
+            childNodes[i].name = childNodes[i].name.replace(/\.n/g, '.');
+        }
+        return childNodes;
+    }
+
+    function beforeClick(treeId, treeNode) {
+        // if (!treeNode.isParent) {
+        //     alert("请选择父节点");
+        //     return false;
+        // } else {
+        //     return true;
+        // }
+        return true;
+    }
+
+    var log, className = "dark";
+
+    function beforeAsync(treeId, treeNode) {
+        className = (className === "dark" ? "" : "dark");
+        showLog("[ " + getTime() + " beforeAsync ]&nbsp;&nbsp;&nbsp;&nbsp;" + ((!!treeNode && !!treeNode.name) ? treeNode.name : "root"));
+        return true;
+    }
+
+    function onAsyncError(event, treeId, treeNode, XMLHttpRequest, textStatus, errorThrown) {
+        showLog("[ " + getTime() + " onAsyncError ]&nbsp;&nbsp;&nbsp;&nbsp;" + ((!!treeNode && !!treeNode.name) ? treeNode.name : "root"));
+    }
+
+    function onAsyncSuccess(event, treeId, treeNode, msg) {
+        showLog("[ " + getTime() + " onAsyncSuccess ]&nbsp;&nbsp;&nbsp;&nbsp;" + ((!!treeNode && !!treeNode.name) ? treeNode.name : "root"));
+    }
+
+    function showLog(str) {
+        if (!log) log = $("#log");
+        log.append("<li class='" + className + "'>" + str + "</li>");
+        if (log.children("li").length > 8) {
+            log.get(0).removeChild(log.children("li")[0]);
+        }
+    }
+
+    function getTime() {
+        var now = new Date(),
+            h = now.getHours(),
+            m = now.getMinutes(),
+            s = now.getSeconds(),
+            ms = now.getMilliseconds();
+        return (h + ":" + m + ":" + s + " " + ms);
+    }
+
+    function refreshNode(e) {
+        var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
+            type = e.data.type,
+            silent = e.data.silent,
+            nodes = zTree.getSelectedNodes();
+        if (nodes.length == 0) {
+            alert("请先选择一个父节点");
+        }
+        for (var i = 0, l = nodes.length; i < l; i++) {
+            zTree.reAsyncChildNodes(nodes[i], type, silent);
+            if (!silent) zTree.selectNode(nodes[i]);
+        }
+    }
+
+    $(document).ready(function () {
+        $.fn.zTree.init($("#treeDemo"), setting);
+        $("#refreshNode").bind("click", {type: "refresh", silent: false}, refreshNode);
+        $("#refreshNodeSilent").bind("click", {type: "refresh", silent: true}, refreshNode);
+        $("#addNode").bind("click", {type: "add", silent: false}, refreshNode);
+        $("#addNodeSilent").bind("click", {type: "add", silent: true}, refreshNode);
+    });
+
+</script>
+
+<!--表格js-->
+<script>
+    layui.use('table', function () {
+        var table = layui.table;
+        var aoData = new Array();
+        //渲染
+        var token = "eyJhbGciOiJIUzUxMiJ9.eyJ1c2VyTmFtZSI6IjEyMzQ1NiIsInJvbGVMaXN0IjpbXSwiZXhwIjoxNTM2MjMyMzM3LCJ1c2VySWQiOiIxMjMifQ.wYmBUq7gvshHPdm6dKQrKzC2LiFRr3HBZn5fKfZl5s9CxnD92fN-JYAgZb1niQvyXwhKGjmj7EcoAZLGQlfLOA";
+        table.render({
+            elem: '#demo'
+            , headers: {'Content-Type': 'application/json', token: token}
+            , height: 440
+            , url: '/sysfilekind/getTableDataLayui'
+            // ,where: {token: token}
+            , even: true //开启隔行背景
+            // , request: {
+            //     aoData:aoData
+            // }
+            // , response: {
+            //     statusName: 'status' //数据状态的字段名称，默认：code
+            //     , statusCode: 200 //成功的状态码，默认：0
+            //     // , msgName: 'msg' //状态信息的字段名称，默认：msg
+            //     , countName: 'iTotalRecords' //数据总数的字段名称，默认：count
+            //     , dataName: 'aaData' //数据列表的字段名称，默认：data
+            // }
+            , method: 'post'
+            , limit: 10
+            , cols: [[
+                {field: 'id', title: '序号', width: 90, fixed: 'left', unresize: true, sort: true}
+                , {field: 'fileName', title: '文件名称', width: 120}
+            ]]
+        });
+
+        //监听表格行点击
+        table.on('tr', function (obj) {
+            console.log(obj)
+        });
+
+        //监听表格复选框选择
+        table.on('checkbox(test)', function (obj) {
+            console.log(obj)
+        });
+
+        //监听表格单选框选择
+        table.on('radio(test2)', function (obj) {
+            console.log(obj)
+        });
+
+        //监听单元格编辑
+        table.on('edit(test2)', function (obj) {
+            var value = obj.value //得到修改后的值
+                , data = obj.data //得到所在行所有键值
+                , field = obj.field; //得到字段
+
+        });
+
+        //监听工具条
+        table.on('tool(demo)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'del') {
+                layer.confirm('真的删除行么', function (index) {
+                    obj.del();
+                    layer.close(index);
+                });
+            } else if (obj.event === 'edit') {
+                layer.prompt({
+                    formType: 2
+                    , value: data.username
+                }, function (value, index) {
+                    obj.update({
+                        username: value
+                    });
+                    layer.close(index);
+                });
+            }
+        });
+
+        //监听排序
+        table.on('sort(demo)', function (obj) {
+            console.log(this, obj.field, obj.type)
+
+            //return;
+            //服务端排序
+            table.reload('demo', {
+                initSort: obj
+                //,page: {curr: 1} //重新从第一页开始
+                , where: { //重新请求服务端
+                    key: obj.field //排序字段
+                    , order: obj.type //排序方式
+                }
+            });
+        });
+
+        var $ = layui.jquery, active = {
+            getCheckData: function () {
+                var checkStatus = table.checkStatus('demo')
+                    , data = checkStatus.data;
+                layer.alert(JSON.stringify(data));
+            }
+            , getCheckLength: function () {
+                var checkStatus = table.checkStatus('demo')
+                    , data = checkStatus.data;
+                layer.msg('选中了：' + data.length + ' 个');
+            }
+            , isAll: function () {
+                var checkStatus = table.checkStatus('demo');
+                layer.msg(checkStatus.isAll ? '全选' : '未全选')
+            }
+            , parseTable: function () {
+                table.init('parse-table-demo', {
+                    limit: 3
+                });
+            }
+            , add: function () {
+                table.addRow('demo')
+            }
+            , delete: function () {
+                layer.confirm('确认删除吗？', function (index) {
+                    table.deleteRow('demo')
+                    layer.close(index);
+                });
+            }
+        };
+        $('i').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+        $('.layui-btn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+    });
+</script>
+</body>
+</html>

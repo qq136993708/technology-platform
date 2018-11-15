@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <link rel="stylesheet" href="/common/css/echart-common.css">
+</head>
+<body>  
+<div class="searchBox">
+    <!--查询条件-->
+        <label class="dateInput">
+            <span>月份</span>
+            <input type="text" name="month" placeholder="请选择月份" title="月份" value="${month}"  autocomplete="off" class="form-control" id="month">
+        </label>
+       <div class="layui-input-inline">
+         <select name="companyCode" id="companyCode" >
+              <#list companyCodeList as vo>
+              	 <#if vo.g0GSJC == '全部'>
+              	 	<option value="${vo.g0GSDM}"  selected="selected">${vo.g0GSJC}</option>
+              	 </#if>
+                 <#if vo.g0GSJC != '全部'>
+              	 	<option value="${vo.g0GSDM}">${vo.g0GSJC}</option>
+              	 </#if>
+               </#list>
+            </select>
+       </div>
+       <form class="layui-form layui-form1">
+            <div class="layui-input-inline">
+                <#list projectCodeList as vo>
+                   <input type="checkbox" name="like[write]" lay-skin="primary" title="${vo.g0XMGLLX}" checked="">
+                </#list>
+            </div>
+        </form>
+
+       
+       
+    <!--按钮组-->
+    <div class="btnGroup">
+        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()" data-type="searchEvent">查询</button>
+    </div>
+    <span class="unitBox">单位：万元</span>
+</div>
+
+<!--echarts-->
+<div class="content-body container">
+
+     <div class="one-chart-box">
+         <div class="layui-row echarts">
+             <div id="main1" style="width: 100%;height: 400px;"></div>
+         </div>
+     </div>
+     
+     <div class="three-charts-box">
+            <div class="layui-row">
+                <div class="layui-col-xs4 layui-col-sm4 layui-col-md4 echarts">
+                    <div id="main2" style="width: 100%;height: 400px;"></div>
+                </div>
+                <div class="layui-col-xs4 layui-col-sm4 layui-col-md4 echarts">
+                    <div id="main3" style="width: 100%;height: 400px;"></div>
+                </div>
+                <div class="layui-col-xs4 layui-col-sm4 layui-col-md4 echarts">
+                    <div id="main4" style="width: 100%;height: 400px;"></div>
+                </div>
+            </div>
+     </div> 
+     
+       <!--图表二比一布局-->
+        <div class="layui-row two-one-box">
+            <div class="layui-col-xs8 layui-col-sm8 layui-col-md8 twoBox echarts">
+                <div id="main6" style="width: 100%;height: 400px;"></div>
+            </div>
+            <div class="layui-col-xs4 layui-col-sm4 layui-col-md4 oneBox echarts">
+                <div id="main5" style="width: 100%;height: 400px;"></div>
+            </div>
+        </div>
+
+     
+  </div>     
+     
+
+
+
+<!--表格数据操作js-->
+<script src="/common/js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+<script src="/common/js/layer-v3.1.1/layer.js"></script>
+<script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
+<script type="text/javascript" src="/plugins/echarts/walden.js"></script>	
+<script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
+
+<script type="text/javascript">
+
+
+layui.config({
+    base: '/layuiadmin/module/modules/' 
+}).use(['jquery','form', 'laydate','table','laypage'], function(){
+	  $ = layui.jquery
+      ,table = layui.table
+      ,form = layui.form
+      ,laydate = layui.laydate
+	  form.render(null, 'component-form-group');
+            laydate.render({
+               elem: '#month'
+               ,format: 'yyyyMM'
+            });
+});
+
+
+function init()
+{
+		var allCode="${allCode?default('')}";
+		var allCode_text="全部院所";
+		var v_date=(new Date()).getTime();
+		var month=$('#month').val();
+		var companyCode=$('#companyCode').val();
+		var monthstr=getNowFormatDate($('#month').val());
+		var checkText=$("#companyCode").find("option:selected").text();
+		if(checkText=='全部')
+		{
+			checkText="全部院所";
+		}
+		
+
+		var seriesData_1= [
+	        {
+	            name:'2018',
+	            type:'bar',
+	            color: ['#37A2DA'],
+	            data:[22, 44, 74, 24,22]
+	        },
+	        {
+	            name:'2017',
+	            type:'bar',
+	            color: ['#67E0E3'],
+	            data:[22, 44, 74, 24]
+	        },
+	        
+	        {
+	            name:'同比',
+	            type:'line',
+	            itemStyle : {  /*设置折线颜色*/
+                    normal : {
+                        color:'#c4cddc'
+                    }
+                },
+	            data:[1.2, 9.3, 32.2, 1.2,1.2]
+	        }
+	        
+	        
+	    ];
+  
+		  var yAxis= [
+		        {
+  		            type: 'value',
+  		            name: '金额（万元）',
+  		            min: 0,
+  		            max: 250,
+  		            axisLabel: {
+  		                formatter: '{value}'
+  		            }
+  		        },
+  		        {
+  		            type: 'value',
+  		            name: '同比',
+  		            min: 0,
+  		            max: 100,
+  		            axisLabel: {
+  		                formatter: '{value} %'
+  		            }
+  		        }
+  		    ];
+		var legends_1=['2018','2017','同比'];
+		var xAxisData_1= ['计划立项','预算批复','合同执行','成果鉴定','科技奖励'];
+		load_mutl_bar_tt("main1","项目闭环执行数量分析",legends_1,xAxisData_1,yAxis,seriesData_1,monthstr);
+		
+		
+		var seriesData_3=  [
+	        {
+	            name:'预算批复',
+	            type:'bar',
+	            color: ['#37A2DA'],
+	            data:[252, 44, 74]
+	        },
+	        {
+	            name:'合同执行',
+	            type:'bar',
+	            color: ['#67E0E3'],
+	            data:[222, 24, 74]
+	        },
+	        {
+	            name:'执行%',
+	            type:'bar',
+	            data:[212, 224, 214]
+	        }
+	    ];
+		  var yAxis3= [
+		        {
+		            type: 'value',
+		            name: '金额（万元）',
+		            min: 0,
+		            max: 450,
+		            axisLabel: {
+		                formatter: '{value}'
+		            }
+		        }
+		    ];
+		var legends_3=['预算批复','合同执行','执行%'];
+		var xAxisData_3= ['国家项目','总部项目','企业项目'];
+		load_mutl_bar_tt("main3","合同金额执行率按资金来源分析",legends_3,xAxisData_3,yAxis3,seriesData_3,monthstr);
+		
+		
+		
+		
+		
+		var seriesData_4=   [
+	        {
+	            name:'预算批复',
+	            type:'bar',
+	            color: ['#37A2DA'],
+	            data:[252, 44, 74, 72]
+	        },
+	        {
+	            name:'合同执行',
+	            type:'bar',
+	            color: ['#67E0E3'],
+	            data:[222, 24, 74, 12]
+	        },
+	        {
+	            name:'执行%',
+	            type:'bar',
+	            data:[212, 224, 214, 78]
+	        }
+	    ];
+		  var yAxis4= [
+		        {
+		            type: 'value',
+		            name: '金额（万元）',
+		            min: 0,
+		            max: 450,
+		            axisLabel: {
+		                formatter: '{value}'
+		            }
+		        }
+		    ];
+		var legends_4=['预算批复','合同执行','执行%'];
+		var xAxisData_4= ['A','B1','B2','C'];
+		load_mutl_bar_tt("main4","合同金额执行率按管理级别分析",legends_4,xAxisData_4,yAxis4,seriesData_4,monthstr);
+		
+		
+		
+		
+
+		var legend_names_5=['石勘院','物探院','工程院','石科院','抚研院','北化院','上海院','安工院'];
+		var series_values_5=[
+			{value:135, name:'石勘院'},
+            {value:210, name:'物探院'},
+            {value:134, name:'工程院'},
+            {value:134, name:'石科院'},
+            {value:134, name:'抚研院'},
+            {value:134, name:'北化院'},
+            {value:134, name:'上海院'},
+            {value:134, name:'安工院'}
+		];
+		loadPie_tt('main5','合同金额执行率按研究院占比分析',legend_names_5,series_values_5,monthstr); 
+		
+		
+		
+		
+		var seriesData_6=  [
+	        {
+	            name:'预算批复',
+	            type:'bar',
+	            color: ['#37A2DA'],
+	            data:[22, 44, 74, 24,22, 44, 74, 24]
+	        },
+	        {
+	            name:'合同执行',
+	            type:'bar',
+	            color: ['#67E0E3'],
+	            data:[22, 44, 74, 24,22, 44, 74, 24]
+	        },
+	        
+	        {
+	            name:'实际执行%',
+	            type:'line',
+	            itemStyle : {  
+                    normal : {
+                        color:'#c4cddc'
+                    }
+                },
+	            data:[1.2, 9.3, 32.2, 1.2,1.2, 2.3, 32.2, 8.2]
+	        }
+	        
+	        
+	    ];
+		  var yAxis6=[
+		        {
+  		            type: 'value',
+  		            name: '金额（万元）',
+  		            min: 0,
+  		            max: 250,
+  		            axisLabel: {
+  		                formatter: '{value}'
+  		            }
+  		        },
+  		        {
+  		            type: 'value',
+  		            name: '比率',
+  		            min: 0,
+  		            max: 100,
+  		            axisLabel: {
+  		                formatter: '{value} %'
+  		            }
+  		        }
+  		    ];
+		var legends_6=['预算批复','合同执行','实际执行%'];
+		var xAxisData_6= ['石勘院','物探院','工程院','石科院','抚研院','北化院','上海院','安工院'];
+		load_mutl_bar_tt("main6","合同金额执行率按研究院分布情况分析",legends_6,xAxisData_6,yAxis6,seriesData_6,monthstr);
+		main2(monthstr);
+		
+}		
+		
+init();       
+        
+        
+        
+       
+        
+        
+        
+function main2(subtext)
+{
+        
+        
+        
+        var myChart2 = echarts.init(document.getElementById('main2'));
+        var option2 = {
+        		
+        		 title: {
+                     text: '合同金额执行率分析',
+                     x:'center',
+                     y: '10px',
+         	         textStyle: {
+         	            fontSize: 15,
+         	            fontWeight: 'normal',
+         	            color: '#000000'       
+         	        },
+         	        subtextStyle: {
+         	            color: '#7B7B7B'        
+         	        },
+         	        subtext:''
+                 },
+        	    tooltip : {
+        	        formatter: "{a} <br/>{b} : {c}%"
+        	    },
+        	    toolbox: {
+        	        feature: {
+        	            restore: {},
+        	            saveAsImage: {}
+        	        }
+        	    },
+        	    series: [
+        	        {
+        	            name: '业务指标',
+        	            type: 'gauge',
+        	            detail: {formatter:'{value}%'},
+        	            data: [{value: 50, name: '完成率'}]
+        	        }
+        	    ]
+        	};
+
+        	setInterval(function () {
+        	    option.series[0].data[0].value = (Math.random() * 100).toFixed(2) - 0;
+        	    myChart.setOption(option, true);
+        	},2000);
+        	option2.title.subtext=subtext;
+        myChart2.setOption(option2);
+        
+}        
+        function search_Event()
+        {
+      	 init();
+        }
+    </script>
+</body>
+</html>

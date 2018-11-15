@@ -1,0 +1,63 @@
+h3{font-size: 18px;/*font-weight: bold;*/color: #000000;height: 30px;line-height: 30px;margin-bottom: 10px;}
+.layui-row-main{/*border-radius: 5px;box-shadow: 0 0 3px #dadcde;border:1px solid #dadcde;*/background-color: white;padding: 10px;
+    height: auto;overflow: hidden;margin-bottom: 10px;}
+.selectInput input{min-width: 20% !important;border: 1px solid #e5e5e5;font-size: 12px;margin: 0;}
+.separate{display: inline-block;margin: 0;}
+.selectInput{margin-bottom: 10px;display: inline-block;}
+.layui-row-se{width: 43% !important;}
+.layui-row-text{text-align: right;font-size: 14px;color: #000000;width: 57% !important;}
+.layui-row-text span{display: inline-block;margin-right: 10px;height: 30px;line-height: 30px;}
+.layui-row-text span:last-child{margin: 0;}
+/*.layui-row-text span small{color: #de111a;font-size: 14px;}
+.layui-row-text span:first-child small.green{color: #28a745;font-size: 14px;}*/
+.layui-laydate .layui-this{background-color: #00a3b5 !important;}
+.layui-row-main>p{text-align: center;font-size: 16px;color: #242424;height: 60px;line-height: 60px;}
+.layui-row-main .layui-table-cell{font-size: 16px;}
+.layui-row-text img{margin: -3px 4px 0;}
+.layui-card:last-child{margin: 0;}
+.layui-card-header{background-color: white;font-weight: bold;}
+/*油田处*/
+.callout{border-radius: 6px; background-color: white;height: 40px;line-height: 40px;/*padding: 0 5px;*/
+    /*width: 99.59%;*/box-shadow: 0 0 3px #dadcde;border: 1px solid #dadcde;border-left: 0;margin-bottom: 5px;}
+.callout p{border-left: 3px solid #17a2b8;border-radius: 3px;text-indent: .6em;height: 38px;}
+.callout .callout-red{color: #ff1615;}
+.layui-main-oil{padding: 15px;border-radius:6px;border: 1px solid #dadcde;box-shadow: 0 0 3px #dadcde;background-color: white;}
+.layui-main-oil .layui-card{box-shadow: none;}
+.layui-main-oil .layui-col-md15{border: 0;box-shadow: none;color: white;}
+.layui-main-oil .layui-col-md15:nth-child(1){background-color: #49ae8d;}
+.layui-main-oil .layui-col-md15:nth-child(2){background-color: #ddb53e;}
+.layui-main-oil .layui-col-md15:nth-child(3){background-color: #02c1ad;}
+.layui-main-oil .layui-col-md15:nth-child(4){background-color: #17a2b8;}
+.layui-main-oil .layui-col-md15:nth-child(5){background-color: #3aa753;}
+.layui-main-oil .layui-col-md15:nth-child(6){background-color: #ffc107;}
+.layui-main-oil .layui-col-md15:nth-child(7){background-color: #dc3545;}
+.layui-main-oil .layui-col-md15:nth-child(8){background-color: #4cabce;}
+.layui-main-oil .layui-main-box .layui-box-icon{border: none;box-shadow: none;}
+.layui-main-oil .layui-main-box .layui-box-content span:first-child{color: white;}
+.layui-main-oil .layui-main-box .layui-box-icon{width: 50px;height: 50px;}
+.layui-main-oil .layui-main-box .bg-1{background: url("/layuiadmin/layui/images/icon-oil1.png") no-repeat}
+.layui-main-oil .layui-main-box .bg-2{background: url("/layuiadmin/layui/images/icon-oil2.png") no-repeat}
+.layui-main-oil .layui-main-box .bg-3{background: url("/layuiadmin/layui/images/icon-oil3.png") no-repeat}
+.layui-main-oil .layui-main-box .bg-4{background: url("/layuiadmin/layui/images/icon-oil4.png") no-repeat}
+.layui-main-oil .layui-main-box .bg-5{background: url("/layuiadmin/layui/images/icon-oil5.png") no-repeat}
+.layui-main-oil .layui-main-box .bg-6{background: url("/layuiadmin/layui/images/icon-oil6.png") no-repeat}
+.layui-main-oil .layui-main-box .bg-7{background: url("/layuiadmin/layui/images/icon-oil7.png") no-repeat}
+.layui-main-oil .layui-main-box .bg-8{background: url("/layuiadmin/layui/images/icon-oil8.png") no-repeat}
+.layui-main-oil .layui-col-md12 {margin-bottom: 10px;}
+.layui-main-oil .layui-main-oil4{width: 40%;}
+.layui-main-oil .layui-main-oil6{width: 60%;padding-right: 0;}
+.layui-main-oil .layui-main-oil6 .layui-col-md5:last-child{padding-right: 0;}
+.form-control{min-width: 50%;}
+.dateInput .form-control{min-width: auto;}
+.form-input{min-width: 27%;}
+.dateInputNew{width: 12%;}
+.inputNew{width: 18%;}
+.dateInputNew input{min-width: 30% !important;}
+.searchBox{margin: 0;}
+.layui-main-oil .dateInput select{font-size: 14px;height: 24px;line-height: 24px;
+    padding:0 6px;border-radius: 2px;vertical-align: middle;color: #555;background-color: #fff;
+    border: 1px solid #ccc;margin-right: 8px;}
+@media screen and (min-width: 992px) {
+    .layui-row-text span{font-size: 12px;}
+    .layui-col-md5 {width: 50%;}
+}

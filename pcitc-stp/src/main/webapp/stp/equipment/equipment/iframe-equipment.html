@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	<#include "/common/public/publicImportIndex.html"/>
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="content-body">
+			<div class="content-table">
+				<div class="ct-table">
+					<table id="userTable" class="table table-bordered table-striped dataTable no-footer" style="width:100%;" role="grid">
+						<thead>
+							<tr role="row" id="0">
+								<th >科研装备名称</th>
+								<th >流程状态</th> 
+								<th >操作</th>
+							</tr>
+						</thead>
+						<#if list?exists>
+						<#list list as vo>
+						   <tr role="row" id="${vo.id}" auditStatus="${vo.auditStatus}">
+								<td ><a onclick="view('${vo.id}')">${vo.name}</a></td>
+								<td>
+								    <#if vo.auditStatus=='0' >  
+									     <span class="label label-warning">草稿</span>
+									<#elseif vo.auditStatus=='1' >  
+									     <span class="label label-danger">审批中</span>
+									<#elseif vo.auditStatus=='2'>  
+									     <span class="label label-success">已办结</span>
+									<#else>  
+									     <span class="label label-info">已办结</span>
+									</#if>  
+								</td>
+								<td ><a onclick="del('${vo.id}')">删除</a></td>
+						   </tr>
+						</#list>	
+						</#if>
+					</table>
+					<#if page.totalRecords gt 0 >
+					<div class="row">
+						<div class="col-sm-5">
+						   <div class="dataTables_info" id="example2_info" role="status" aria-live="polite">共 ${page.totalRecords} 条，当前第${page.pageNo}/${page.totalPages}页，每页${page.pageSize}条</div>
+						</div>
+						<div class="col-sm-7">
+							<div class="dataTables_paginate paging_full_numbers" id="example2_paginate">
+								<ul class="pagination">
+								    <#if page.pageNo gt 1 >
+									   <li class="paginate_button previous" id="example2_previous"><a href="javascript:void(0)" aria-controls="example2" data-dt-idx="1" tabindex="0" onclick="toPage(${page.pageNo-1})">上页</a></li>
+								    </#if>
+								    <#list page.listbegin..page.listend as i>    
+									   <li class="paginate_button <#if i==page.pageNo>active</#if>"><a href="javascript:void(0)" aria-controls="example${i}" data-dt-idx="${i}" tabindex="0" onclick="toPage('${i}')">${i}</a></li>
+									</#list>	
+									<#if page.pageNo lt page.totalPages >
+									  <li class="paginate_button next" id="example2_next"><a href="javascript:void(0)" aria-controls="example2" data-dt-idx="4" tabindex="0" onclick="toPage(${page.pageNo+1})">下页</a></li>
+								    </#if>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</#if>
+					
+			  </div>
+			</div>
+		</div>
+		
+		
+		</body>
+</html>

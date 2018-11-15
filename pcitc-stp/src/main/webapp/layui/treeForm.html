@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>左树右表</title>
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/ztree/css/metroStyle/metroStyle.css">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+    <script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.all.js"></script>
+
+</head>
+<body>
+<div class="treeFrom-container">
+    <div class="treeBox">
+        <div class="treeTitle">
+            <div class="title-box">
+                标题栏
+            </div>
+        </div>
+        <div class="layui-side-scroll">
+            <!-- 左侧子菜单 -->
+            <ul id="funTree" class="ztree"></ul>
+        </div>
+    </div>
+
+    <div class="treeFormBox">
+        <form id="unit-form" name="unit-form" action="" lay-filter="unit-form" class="form-horizontal layui-form">
+            <div class="treeTitle">
+                <div class="title-box">
+                    组织机构
+                    <span>
+					    <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_save">保存</button>
+				    </span>
+                </div>
+            </div>
+            <div class="tree-form-paddingBox">
+                <!--行有两个的情况-->
+                <div class="layui-row">
+                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                        <div class="layui-form-item">
+                            <label for="" class="layui-form-label">机构全称</label>
+                            <div class="layui-input-block">
+                                <input type="text" id="unitName" name="unitName" lay-filter="unitName"  autocomplete="off" class="layui-input" readonly="readonly" style="background: #eee">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--行有两个的情况-->
+                <div class="layui-row">
+                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                        <div class="layui-form-item">
+                            <label for="" class="layui-form-label">机构编码</label>
+                            <div class="layui-input-block">
+                                <input type="text" id="unitCode" name="unitCode" lay-filter="unitCode" autocomplete="off" class="layui-input" readonly="readonly" style="background: #eee">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--行有两个的情况-->
+                <div class="layui-row">
+                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                        <div class="layui-form-item">
+                            <label for="" class="layui-form-label">联系电话</label>
+                            <div class="layui-input-block">
+                                <input type="text" id="unitPhone" name="unitPhone" lay-filter="unitPhone" autocomplete="off" class="layui-input" readonly="readonly" style="background: #eee">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--行有两个的情况-->
+                <div class="layui-row">
+                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                        <div class="layui-form-item">
+                            <label for="" class="layui-form-label">机构负责人</label>
+                            <div class="layui-input-block">
+                                <input type="text" id="unitManager" name="unitManager" lay-filter="unitManager" autocomplete="off" class="layui-input" readonly="readonly" style="background: #eee">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--行有两个的情况-->
+                <div class="layui-row">
+                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                        <div class="layui-form-item">
+                            <label for="" class="layui-form-label">地址</label>
+                            <div class="layui-input-block">
+                                <input type="text" id="unitAddress" name="unitAddress" lay-filter="unitAddress" autocomplete="off" class="layui-input" readonly="readonly" style="background: #eee">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">备注<span class="must-fill"></span></label>
+                    <div class="layui-row">
+                        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                            <div class="layui-input-block">
+                                <textarea id="unitComment" name="unitComment" lay-filter="unitComment" class="layui-textarea" readonly="readonly" style="background: #eee;height: 60px;"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!--树js-->
+<script type="text/javascript">
+	var zNodes;
+	var treeId,treeName;
+    layui.use('jquery', function(){
+        window.commonDislodgeFormBox = function(){
+            var _window = $(window).height();
+            var _top = $('.layui-header').outerHeight(true) ? $('.layui-header').outerHeight(true) : 0;
+            var _pagetabs = $('.layadmin-pagetabs').outerHeight(true) ? $('.layadmin-pagetabs').outerHeight(true) : 0;
+            var _search = $('.searchBox').outerHeight(true) ? $('.searchBox').outerHeight(true) : 0;
+            var _tool = $('.tableToolBox').outerHeight(true) ? $('.tableToolBox').outerHeight(true) : 0;
+            var _layuiTab = $('.layui-tab-title').outerHeight(true) ? $('.layui-tab-title').outerHeight(true)+20 : 0;
+            var _bottom = $('.layui-footer').outerHeight(true) ? $('.layui-footer').outerHeight(true) : 0;
+            var formBoxHeight = _window - _top - _pagetabs - _search - _tool - _layuiTab - _bottom - 20;
+            return formBoxHeight < 134 ? 134 : formBoxHeight;
+        }
+    })
+    $('.treeFormBox').css('height',commonDislodgeFormBox())
+    $('.treeBox').css('height',commonDislodgeFormBox()+2)
+
+	$(function() {
+		$.ajax({
+			url: "/function/getCommonFunctionTree",//这个就是请求地址对应sAjaxSource
+            type : 'get',
+            headers: {
+            	'Content-Type' : 'application/json',
+            	'access-token':'eyJhbGciOiJIUzUxMiJ9.eyJ1c2VyTmFtZSI6IjEyMzQ1NiIsInJvbGVMaXN0IjpbXSwiZXhwIjoxNTM2MjMyMzM3LCJ1c2VySWQiOiIxMjMifQ.wYmBUq7gvshHPdm6dKQrKzC2LiFRr3HBZn5fKfZl5s9CxnD92fN-JYAgZb1niQvyXwhKGjmj7EcoAZLGQlfLOA'
+            },
+            dataType : 'json',
+            async : false,
+            success : function(data){
+            	zNodes = data;
+            },
+            error : function(msg) {
+            	alert(msg);
+            }
+        });
+	});
+
+    var setting = {
+        data: {
+            simpleData: {
+                enable: true
+            }
+        }
+    };
+
+    $(document).ready(function () {
+        $.fn.zTree.init($("#funTree"), setting, zNodes);
+        /* $("#refreshNode").bind("click", {type: "refresh", silent: false}, refreshNode);
+        $("#refreshNodeSilent").bind("click", {type: "refresh", silent: true}, refreshNode);
+        $("#addNode").bind("click", {type: "add", silent: false}, refreshNode);
+        $("#addNodeSilent").bind("click", {type: "add", silent: true}, refreshNode); */
+    });
+
+</script>
+
+</body>
+</html>

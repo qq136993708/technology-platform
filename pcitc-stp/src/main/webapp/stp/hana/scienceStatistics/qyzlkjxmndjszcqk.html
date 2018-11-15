@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+     <link rel="stylesheet" href="/common/css/echart-common.css">
+</head>
+<body>
+
+	<div class="content-body container">
+	<div style="text-align:center;font-weight:bold;margin:10px;">企业自立科技项目年度决算支出情况</div>
+		 <table class="layui-table">
+			
+			<thead>
+				<tr>
+					<td>序号</td>
+					<td>项目名称*</td>
+					<td>合同或任务书编号</td>
+					<td>2017预算投入 （万元）</td>
+					<td>2017年决算支出 （万元）</td>
+					<td>所属业务 板块**</td>
+				</tr>
+				</thead>
+				<tbody>
+				
+				<tr>
+					<td>1</td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>2</td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>3</td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>4</td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>……</td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td colspan="3">合计</td>
+					<td>0</td>
+					<td>0</td>
+					<td></td>
+				</tr>
+			</tbody>
+		</table>
+		
+		<div>
+							
+"本表合计数需与征集表所填相应数据一致。<br>
+注*：仅限下达给本企业的资金计划项目，不含总部现金拨款项目。<br>
+注**：仅限股份公司分（子）公司填写。从油田、炼油、化工和销售中选填。<br>
+注***：统计到企业（局）级、分（子）公司级项目。"		<br>
+		</div>
+	</div>
+
+	<!--表格数据操作js-->
+<script src="/common/js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+<script src="/common/js/layer-v3.1.1/layer.js"></script>
+<script>
+
+
+var table,selectRowData;
+layui.config({
+    base: '/layuiadmin/module/modules/' //静态资源所在路径
+}).use(['jquery','form', 'laydate','table','laypage','layer'], function(){
+	  admin = layui.admin
+	  ,$ = layui.jquery
+      ,table = layui.table
+      ,layer = layui.layer
+      ,laydate = layui.laydate
+      ,form = layui.form
+      ,laypage = layui.laypage;
+	  form.render(null, 'component-form-group');
+            laydate.render({
+               elem: '#month'
+               ,format: 'yyyyMM'
+            });
+      //初始化表格
+      renderTable();
+});
+
+var allCode="${allCode?default('')}";
+var allCode_text="全部院所";
+
+
+</script>
+</body>
+</html>

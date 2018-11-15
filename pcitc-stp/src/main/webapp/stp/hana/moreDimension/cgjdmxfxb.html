@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <link rel="stylesheet" href="/common/css/echart-common.css">
+</head>
+<body>
+
+	<div style="text-align: center; font-weight: bold; margin: 10px;">${month}成果鉴定明细分析表</div>
+	<table class="layui-table">
+		
+		<thead>
+			<tr>
+				<td>成果名称</td>
+				<td>研究开始时间</td>
+				<td>研究终止时间</td>
+				<td>成果类型</td>
+				<td>成果种类</td>
+				<td>专业类别</td>
+				<td>成果密级</td>
+				<td>应用情况</td>
+				<td>许可情况</td>
+				<td>许可单位</td>
+				<td>许可时间</td>
+				<td>许可费</td>
+				<td>主持鉴定单位</td>
+				<td>专题主管人单位</td>
+				<td>专题主管人姓名</td>
+				<td>申请鉴定单位</td>
+				<td>申报单位类型</td>
+				<td>鉴定形式</td>
+				<td>课题/任务编号</td>
+				<td>课题/任务名称</td>
+				<td>合同编号</td>
+				<td>任务来源</td>
+				<td>资金来源</td>
+				<td>资金来源性质</td>
+				<td>应用单位名称</td>
+				<td>应用规模</td>
+				<td>应用时间</td>
+				<td>销售产品名称</td>
+				<td>吨位</td>
+				<td>新增产值</td>
+				<td>新增利润</td>
+				<td>节支</td>
+				<td>创汇</td>
+				<td>新增原油气</td>
+				<td>新增可采储量</td>
+			</tr>
+			</thead>
+			<tbody>
+			<tr>
+				<td>成果1</td>
+				<td>2.0150101E7</td>
+				<td>2.0181231E7</td>
+				<td>工业化</td>
+				<td>新方法</td>
+				<td>石油勘探</td>
+				<td>A公开</td>
+				<td>A技术已应用</td>
+				<td>中石化内部许可</td>
+				<td>1.0</td>
+				<td>2.0160101E7</td>
+				<td>100万</td>
+				<td>科技部</td>
+				<td>胜利油田处</td>
+				<td>张三</td>
+				<td>胜利油田分公司</td>
+				<td>集团</td>
+				<td>会议</td>
+				<td>WBS1111</td>
+				<td>WBS1111</td>
+				<td></td>
+				<td>国拨课题</td>
+				<td>拨款</td>
+				<td>国家</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+		</tbody>
+	</table>
+
+	<!--表格数据操作js-->
+<script src="/common/js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+<script src="/common/js/layer-v3.1.1/layer.js"></script>
+<script type="text/javascript">
+layui.config({
+    base: '/layuiadmin/module/modules/' 
+}).use(['jquery','form', 'laydate','table','laypage'], function(){
+	  $ = layui.jquery
+      ,table = layui.table
+      ,form = layui.form
+      ,laydate = layui.laydate
+	  form.render(null, 'component-form-group');
+       laydate.render({
+          elem: '#month'
+          ,format: 'yyyyMM'
+       });
+});
+
+</script>
+</body>
+</html>

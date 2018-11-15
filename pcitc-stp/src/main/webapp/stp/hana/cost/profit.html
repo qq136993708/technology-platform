@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	<link rel="stylesheet" type="text/css" href="../../../layuiadmin/layui/css/layui.css">
+ 	<script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
+ 	<script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
+    <script type="text/javascript" src="/plugins/echarts/walden.js"></script>
+ 	<script type="text/javascript" src="../../../layuiadmin/layui/layui.js"></script>
+</head>
+<body>
+<div class="layui-fluid">
+<div class="layui-card">
+			   <div id="main1" style="float:left;width:32%;height:400px;border:1px solid #ccc;margin:5px;padding:10px;"></div>
+			   <div id="main2" style="float:left;width:32%;height:400px;border:1px solid #ccc;margin:5px;padding:10px;"></div>
+			   <div id="main3" style="float:left;width:32%;height:400px;border:1px solid #ccc;margin:5px;padding:10px;"></div>
+			   <div style="clear:both"></div>
+			   <div style="text-align:center;font-weight:bold;margin:10px;">xxxx明细表</div>
+			   <table class="table" style="min-width:1200px;" >
+			     <tr>
+			      <td width="100px;">项目名称</td>
+			      <td width="100px;">项目成本</td>
+			      <td width="100px;">项目收入</td>
+			      <td width="100px;">项目利润</td>
+			     </tr>
+			     <tr>
+			       <td width="100px;">500</td>
+			       <td width="100px;">500</td>
+			       <td width="100px;">500</td>
+			       <td width="100px;">300</td>
+			     </tr>
+			   </table>
+			</div>
+		</div>
+<script type="text/javascript">
+        
+        var myChart1 = echarts.init(document.getElementById('main1'));
+        var option1 = {
+        	    title : {
+        	        text: '石科院利润分析',
+        	        x:'center'
+        	    },
+        	    tooltip : {
+        	        trigger: 'item',
+        	        formatter: "{a} <br/>{b} : {c} ({d}%)"
+        	    },
+        	    legend: {
+        	    	type: 'scroll',
+        	        bottom: 10,
+        	        data:['本年本期利润','往年同期利润']
+        	    },
+        	    series : [
+        	        {
+        	            name: '访问来源',
+        	            type: 'pie',
+        	            radius: ['20%', '50%'],
+        	            avoidLabelOverlap: false,
+        	            data:[
+        	                {value:135, name:'本年本期利润'},
+        	                {value:210, name:'往年同期利润'}
+        	                
+        	            ],
+        	            itemStyle: {
+        	            	normal:{ 
+    	                        label:{ 
+    	                            show: true, 
+    	                            formatter: '{b} \n {c} ({d}%)' 
+    	                        }, 
+    	                        labelLine :{show:true} 
+    	                 },
+        	                emphasis: {
+        	                    shadowBlur: 10,
+        	                    shadowOffsetX: 0,
+        	                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+        	                }
+        	            }
+        	        }
+        	    ]
+        	};
+        myChart1.setOption(option1);
+        
+        
+        
+        
+        var myChart2 = echarts.init(document.getElementById('main2'));
+        var option2 = {
+        	    title : {
+        	        text: '大连院利润分析',
+        	        x:'center'
+        	    },
+        	    tooltip : {
+        	        trigger: 'item',
+        	        formatter: "{a} <br/>{b} : {c} ({d}%)"
+        	    },
+        	    legend: {
+        	    	type: 'scroll',
+        	        bottom: 10,
+        	        data:['本年本期利润','往年同期利润']
+        	    },
+        	    series : [
+        	        {
+        	            name: '访问来源',
+        	            type: 'pie',
+        	            radius: ['20%', '50%'],
+        	            avoidLabelOverlap: false,
+        	            data:[
+        	            	{value:135, name:'本年本期利润'},
+        	                {value:210, name:'往年同期利润'}
+        	                
+        	            ],
+        	            itemStyle: {
+        	            	normal:{ 
+    	                        label:{ 
+    	                            show: true, 
+    	                            formatter: '{b} \n {c} ({d}%)' 
+    	                        }, 
+    	                        labelLine :{show:true} 
+    	                 },
+        	                emphasis: {
+        	                    shadowBlur: 10,
+        	                    shadowOffsetX: 0,
+        	                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+        	                }
+        	            }
+        	        }
+        	    ]
+        	};
+        myChart2.setOption(option2);
+        
+        
+        
+        var myChart3 = echarts.init(document.getElementById('main3'));
+        var option3 = {
+        	    title : {
+        	        text: '石科院利润分析',
+        	        x:'center'
+        	    },
+        	    tooltip : {
+        	        trigger: 'item',
+        	        formatter: "{a} <br/>{b} : {c} ({d}%)"
+        	    },
+        	    legend: {
+        	    	type: 'scroll',
+        	        bottom: 10,
+        	        data:['本年累计利润','往年累计利润']
+        	    },
+        	    series : [
+        	        {
+        	            name: '访问来源',
+        	            type: 'pie',
+        	            radius: ['20%', '50%'],
+        	            avoidLabelOverlap: false,
+        	            data:[
+        	            	{value:135, name:'本年累计利润'},
+        	                {value:210, name:'往年累计利润'}
+        	                
+        	            ],
+        	            itemStyle: {
+        	            	normal:{ 
+    	                        label:{ 
+    	                            show: true, 
+    	                            formatter: '{b} \n {c} ({d}%)' 
+    	                        }, 
+    	                        labelLine :{show:true} 
+    	                 },
+        	                emphasis: {
+        	                    shadowBlur: 10,
+        	                    shadowOffsetX: 0,
+        	                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+        	                }
+        	            }
+        	        }
+        	    ]
+        	};
+        myChart3.setOption(option3);
+        
+           
+         
+           
+    </script>
+</body>
+</html>

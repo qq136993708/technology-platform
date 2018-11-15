@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>表格表单验证</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <script src="/layuiadmin/layui/layui.js"></script>
+
+</head>
+<body >
+<!-- <form action ="跳转页面" method ="get"|"post" name ="表单名称" target ="打开方式" enctype="multipart/form-data" > -->
+<!-- onsubmit()函数在返回值为true时提交表单。 -->
+<div class="form_tableAdd_container">
+<div class="tableBox">
+    <form action="" method="post" class="layui-form" id="formContainer">
+        <div class="tableToolBox">
+            <div class="tableTitle">
+                企业其他证书
+            </div>
+            <div class="tableBtns">
+                <a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg" id="addBtn2" lay-submit lay-filter='formSub' >新建其他证书
+                </a>
+                <a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg" lay-submit lay-filter='sendData'>获取表格数据</a>
+                <span class="pullBtn active"></span>
+            </div>
+        </div>
+        <div style="display: block;" class="panel">
+            <table id="table2" class="layui-table" lay-filter="tableData">
+                <thead>
+                    <!--<th style="width: 4%;"><input name="layTableCheckbox" type="checkbox" lay-filter="layTableAllChoose" lay-skin="primary"></th>-->
+                    <th>序号</th>
+                    <th>资质类别</th>
+                    <th>资质编号证书</th>
+                    <th>资质名称</th>
+                    <th>发证日期</th>
+                    <th>证书有效期</th>
+                    <th>发证机关</th>
+                    <th>证书附件</th>
+                    <th>操作</th>
+                </thead>
+
+                <tbody id="tableContent2">
+                    <tr>
+                        <td>1</td>
+                        <td>
+                            <select name="comType[]" class="inputVal">
+                                <option value="01" select="">建筑企业资质</option>
+                                <option value="02" select="">化工企业资质</option>
+                                <option value="03" select="">交通企业资质</option>
+                            </select>
+                        </td>
+                        <td>
+                            <input name="numBook[]" type="text" placeholder="手动填写" class="inputVal" lay-verify="required">
+                        </td>
+                        <td>
+                            <input name="comName[]" type="text" placeholder="手动填写" class="inputVal">
+                        </td>
+                        <td><input name="issuerDate[]" type="text" class="layui-input datetime inputVal" placeholder="yyyy-MM-dd"></td>
+                        <td><input name="periodOfVal[]" type="text" class="layui-input datetime inputVal" placeholder="yyyy-MM-dd"></td>
+                        <td>
+                            <input name="issuer[]" type="text" placeholder="手动填写" class="inputVal">
+                        </td>
+                        <td><p class="file-name" title="xxxxxxzhekfjksj证书.pdf">xxxxxxzhekfjksj证书.pdf <p class="file-delete"></p></p></td>
+                        <td>
+                            <a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" onclick="delEvent(this)">删除</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </form>
+</div>
+</div>
+<script>
+    var $;
+    layui.use(['jquery', 'form', 'laydate', 'table',  'element'], function () {
+        $ = layui.jquery;
+        var form = layui.form, laydate = layui.laydate;
+
+        // 多个时间日期控件的使用
+        function timeAdd(){
+            lay('.datetime').each(function() {
+                laydate.render({
+                    elem : this,
+                    trigger : 'click'
+                });
+            });
+        }
+        // 表单时间控件初始化
+        timeAdd();
+        // 定义表格数据存放容器
+        var formData = [];
+        // 获取行数
+        function getTrCount(){
+            tNum = $('#tableContent2 > tr').length + 1;
+            tKey = $('#tableContent2 > tr').length;
+        }
+
+        // 新增一行
+        function addTr(){
+            getTrCount()
+            tableHtml2 = "<tr>\n" +
+                "                <td>"+ tNum  +"</td>\n" +
+                "                <td>\n" +
+                "                <select name='comType[]' id=\"\" class=\"inputVal\">\n" +
+                "                <option value=\"01\">建筑企业资质</option>\n" +
+                "                <option value=\"02\">化工企业资质</option>\n" +
+                "                <option value=\"03\">交通企业资质</option>\n" +
+                "                </select>\n" +
+                "                </td>\n" +
+                "                <td>\n" +
+                "                <input type=\"text\" name='numBook[]' placeholder=\"手动填写\" class=\"inputVal\" lay-verify=\"required\">\n" +
+                "                </td>\n" +
+                "                <td>\n" +
+                "                <input type=\"text\" name='comName[]' placeholder=\"手动填写\" class=\"inputVal\">\n" +
+                "                </td>\n" +
+                "                <td><input type=\"text\" name='issuerDate[]' class=\"layui-input datetime inputVal\"  placeholder=\"yyyy-MM-dd\"></td>\n" +
+                "                <td><input type=\"text\" name='periodOfVal[]' class=\"layui-input datetime inputVal\"   placeholder=\"yyyy-MM-dd\"></td>\n" +
+                "                <td>\n" +
+                "                <input type=\"text\" name='issuer[]' placeholder=\"手动填写\" class=\"inputVal\">\n" +
+                "                </td>\n" +
+                "                <td><p class=\"file-name add-file\">添加附件</p></td>\n" +
+                "            <td>\n" +
+                "            <a class=\"layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg\" onclick=\"delEvent(this)\">删除</a>\n" +
+                "                </td>\n" +
+                "                </tr>";
+
+            $('#tableContent2').append(tableHtml2)
+            form.render(); //刷新整个表单
+            timeAdd(); //调用layDate
+        }
+        // 新增一行并进行校验
+        form.on('submit(formSub)', function(data){
+            // formData.push(data.field)
+            addTr();
+            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        });
+        // 设置开关防止数据重复
+        var flag = 0;
+        // 监听数据的汇总提交
+        form.on('submit(sendData)',function(data){
+            var formData = $('#formContainer').serialize();
+            console.log(formData)
+            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+        });
+
+        // 展开-折叠
+        $(document).ready(function(){
+            $('.pullBtn').on('click',function() {
+                $(this).parent().parent().parent().find('.panel').slideToggle("normal");
+                $(this).toggleClass("active"); return false;
+            })
+        });
+    })
+    // 删除一行
+    function delEvent(a){
+        $(a).parent().parent().remove();
+    }
+</script>
+</body>
+</html>

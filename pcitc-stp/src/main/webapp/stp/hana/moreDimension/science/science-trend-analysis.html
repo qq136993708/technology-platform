@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/adminStp.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/mainStp.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/second.css" media="all">
+</head>
+<body >
+<div class="layui-fluid">
+    <div class="layui-main-oil">
+        <div class="searchBox">
+            <!--查询条件-->
+            <label class="dateInput">
+                <span>月份</span>
+                <input type="text" name="month" placeholder="请选择月份" title="月份" value="${month}" autocomplete="off" class="form-control" id="month">
+            </label>
+            <div class="layui-input-inline">
+                <select name="companyCode" id="companyCode" >
+                    <#list companyCodeList as vo>
+                        <#if vo.g0GSJC == '全部'>
+                            <option value="${vo.g0GSDM}"  selected="selected">${vo.g0GSJC}</option>
+                        </#if>
+                        <#if vo.g0GSJC != '全部'>
+                            <option value="${vo.g0GSDM}">${vo.g0GSJC}</option>
+                        </#if>
+                    </#list>
+                </select>
+            </div>
+            <form class="layui-form" style="display: inline;padding-left: 5px;">
+                <div class="layui-input-inline">
+                    <#list projectCodeList as vo>
+                        <input type="checkbox" name="like[write]" lay-skin="primary" title="${vo.g0XMGLLX}" checked="">
+                    </#list>
+                </div>
+            </form>
+            <!--按钮组-->
+            <div class="btnGroup">
+                <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()" data-type="searchEvent">查询</button>
+            </div>
+            <span class="unitBox">单位：万元</span>
+        </div>
+        <div class="layui-row layui-col-space10">
+            <div class="layui-col-sm8">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        <span class="layui-time"></span>科技奖励奖项数量年趋势分析
+                    </div>
+                    <div class="layui-row-main">
+                        <div class="main-chart" id="main1" style="height:280px;width: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-sm4">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        <span class="layui-time"></span>科技奖励奖项数量按奖项种类占比分析
+                    </div>
+                    <div class="layui-row-main">
+                        <div class="main-chart" id="main2" style="height:280px;width: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-row layui-col-space10">
+            <div class="layui-col-sm4">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        <span class="layui-time"></span>科技奖励奖项数量按学科分类分布分析
+                    </div>
+                    <div class="layui-row-main">
+                        <div class="main-chart" id="main3" style="height:280px;width: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-sm4">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        <span class="layui-time"></span>科技奖励奖项数量按任务来源分布分析
+                    </div>
+                    <div class="layui-row-main">
+                        <div class="main-chart" id="main4" style="height:280px;width: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-sm4">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        <span class="layui-time"></span>科技奖励奖项数量按获奖等级分布分析
+                    </div>
+                    <div class="layui-row-main">
+                        <div class="main-chart" id="main5" style="height:280px;width: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-row layui-col-space10">
+            <div class="layui-col-sm8">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        <span class="layui-time"></span>科技奖励奖项数量按研究院分布分析
+                    </div>
+                    <div class="layui-row-main">
+                        <div class="main-chart" id="main6" style="height:280px;width: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-sm4">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        <span class="layui-time"></span>科技奖励奖项数量按研究院占比分析
+                    </div>
+                    <div class="layui-row-main">
+                        <div class="main-chart" id="main7" style="height:280px;width: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--<div class="searchBox">
+    &lt;!&ndash;查询条件&ndash;&gt;
+        <label class="dateInput">
+            <span>月份</span>
+            <input type="text" name="month" placeholder="请选择月份" title="月份" value="${month}" autocomplete="off" class="form-control" id="month">
+        </label>
+       <div class="layui-input-inline">
+         <select name="companyCode" id="companyCode" >
+              <#list companyCodeList as vo>
+              	 <#if vo.g0GSJC == '全部'>
+              	 	<option value="${vo.g0GSDM}"  selected="selected">${vo.g0GSJC}</option>
+              	 </#if>
+                 <#if vo.g0GSJC != '全部'>
+              	 	<option value="${vo.g0GSDM}">${vo.g0GSJC}</option>
+              	 </#if>
+               </#list>
+            </select>
+       </div>
+       <form class="layui-form layui-form1">
+            <div class="layui-input-inline">
+                <#list projectCodeList as vo>
+                   <input type="checkbox" name="like[write]" lay-skin="primary" title="${vo.g0XMGLLX}" checked="">
+                </#list>
+            </div>
+        </form>
+
+    &lt;!&ndash;按钮组&ndash;&gt;
+    <div class="btnGroup">
+        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()" data-type="searchEvent">查询</button>
+    </div>
+    <span class="unitBox">单位：万元</span>
+</div>
+
+
+&lt;!&ndash;echarts&ndash;&gt;
+<div class="content-body container">
+       &lt;!&ndash;图表二比一布局&ndash;&gt;
+        <div class="layui-row two-one-box">
+            <div class="layui-col-xs8 layui-col-sm8 layui-col-md8 twoBox echarts">
+                <div id="main1" style="width: 100%;height: 400px;"></div>
+            </div>
+            <div class="layui-col-xs4 layui-col-sm4 layui-col-md4 oneBox echarts">
+                <div id="main2" style="width: 100%;height: 400px;"></div>
+            </div>
+        </div>
+        
+        
+        
+         &lt;!&ndash;图表三等分布局&ndash;&gt;
+        <div class="three-charts-box" style="margin-top:10px">
+            <div class="layui-row">
+                <div class="layui-col-xs4 layui-col-sm4 layui-col-md4 echarts">
+                    <div id="main3" style="width: 100%;height: 400px;"></div>
+                </div>
+                <div class="layui-col-xs4 layui-col-sm4 layui-col-md4 echarts">
+                    <div id="main4" style="width: 100%;height: 400px;"></div>
+                </div>
+                <div class="layui-col-xs4 layui-col-sm4 layui-col-md4 echarts">
+                    <div id="main5" style="width: 100%;height: 400px;"></div>
+                </div>
+            </div>
+        </div> 
+        
+        
+        
+         &lt;!&ndash;图表二比一布局&ndash;&gt;
+        <div class="layui-row two-one-box">
+            <div class="layui-col-xs8 layui-col-sm8 layui-col-md8 twoBox echarts">
+                <div id="main6" style="width: 100%;height: 400px;"></div>
+            </div>
+            <div class="layui-col-xs4 layui-col-sm4 layui-col-md4 oneBox echarts">
+                <div id="main7" style="width: 100%;height: 400px;"></div>
+            </div>
+        </div>
+        
+</div>        -->
+<!--echarts end-->      
+
+<!--表格数据操作js-->
+<script src="/common/js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+<script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
+<script type="text/javascript" src="/plugins/echarts/walden.js"></script>	
+<script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
+<script type="text/javascript">
+layui.config({
+    base: '/layuiadmin/module/modules/' 
+}).use(['jquery','form', 'laydate','table','layer'], function(){
+	  $ = layui.jquery
+      ,table = layui.table
+      ,form = layui.form
+      ,layer = layui.layer
+      ,laydate = layui.laydate
+	  form.render(null, 'component-form-group');
+      var monthValY=$("#month").val().substring(4,0);
+      var monthValM=$("#month").val().substring(4);
+      $(".layui-time").html(monthValY+"年"+monthValM+"月");
+            laydate.render({
+               elem: '#month'
+               ,format: 'yyyyMM'
+            });
+});
+
+
+
+
+
+
+function init()
+{
+	
+		var allCode="${allCode?default('')}";
+		var allCode_text="全部院所";
+		var v_date=(new Date()).getTime();
+		var month=$('#month').val();
+		var companyCode=$('#companyCode').val();
+		var monthstr=getNowFormatDate($('#month').val());
+		var checkText=$("#companyCode").find("option:selected").text();
+        var monthValY=$("#month").val().substring(4,0);
+        var monthValM=$("#month").val().substring(4);
+        $(".layui-time").html(monthValY+"年"+monthValM+"月");
+		if(checkText=='全部')
+		{
+			checkText="全部院所";
+		}
+		
+		var seriesData_1=[
+	        {
+	            name:'2014',
+	            type:'bar',
+	            color: ['#37A2DA'],
+	            data:[22, 44, 74]
+	        },
+	        {
+	            name:'2015',
+	            type:'bar',
+	            color: ['#67E0E3'],
+	            data:[22, 24, 74]
+	        },
+	        {
+	            name:'2016',
+	            type:'bar',
+	            data:[22, 224, 214]
+	        }
+	        ,
+	        {
+	            name:'2017',
+	            type:'bar',
+	            data:[22, 224, 214]
+	        }
+	        ,
+	        {
+	            name:'2018',
+	            type:'bar',
+	            data:[22, 224, 214]
+	        }
+	    ];
+  
+		  var yAxis=[
+		        {
+		            type: 'value',
+		            name: '金额（万元）',
+		            min: 0,
+		            max: 850,
+		            interval: 200,
+		            axisLabel: {
+		                formatter: '{value}'
+		            }
+		        }
+		    ];
+		var legends_1=['2014','2015','2016','2017','2018'];
+		var xAxisData_1= ['科技进步奖','技术发明奖','前瞻研究奖'];
+		load_mutl_bar_tt("main1","",legends_1,xAxisData_1,yAxis,seriesData_1,"");
+		
+		
+
+		var legend_names_2=['科技进步奖','技术发明奖','前瞻研究奖'];
+		var series_values_2=[
+			 {value:135, name:'科技进步奖'},
+             {value:210, name:'技术发明奖'},
+             {value:210, name:'前瞻研究奖'}
+		];
+		loadPie_tt('main2','',legend_names_2,series_values_2,"");
+		
+		
+		
+		
+		
+		var seriesData_3=[
+	        {
+	            name:'石油勘探',
+	            type:'bar',
+	            color: ['#37A2DA'],
+	            data:[252, 44, 14]
+	        },
+	        {
+	            name:'天然气勘探',
+	            type:'bar',
+	            color: ['#67E0E3'],
+	            data:[222, 24, 74]
+	        },
+	        {
+	            name:'炼油技术',
+	            type:'bar',
+	            data:[212, 224, 264]
+	        },
+	        {
+	            name:'化工技术',
+	            type:'bar',
+	            data:[292, 224, 264]
+	        },
+	        {
+	            name:'公用技术',
+	            type:'bar',
+	            data:[812, 124, 264]
+	        }
+	    ];
+  
+		  var yAxis3=[
+		        {
+		            type: 'value',
+		            name: '金额（万元）',
+		            min: 0,
+		            max: 850,
+		            interval: 200,
+		            axisLabel: {
+		                formatter: '{value}'
+		            }
+		        }
+		    ];
+		var legends_3=['石油勘探','天然气勘探','炼油技术','化工技术','公用技术'];
+		var xAxisData_3= ['科技进步奖','技术发明奖','前瞻研究奖'];
+		load_mutl_bar_tt("main3","",legends_3,xAxisData_3,yAxis3,seriesData_3,"");
+		
+		
+		
+		
+		
+		
+		var seriesData_4= [
+   	        {
+   	            name:'国家项目',
+   	            type:'bar',
+   	            color: ['#37A2DA'],
+   	            data:[252, 44, 74]
+   	        },
+   	        {
+   	            name:'总部项目',
+   	            type:'bar',
+   	            color: ['#67E0E3'],
+   	            data:[232, 24, 74]
+   	        },
+   	        {
+   	            name:'企业项目',
+   	            type:'bar',
+   	            data:[512, 724, 914]
+   	        }
+   	    ];
+  
+		  var yAxis4=[
+		        {
+		            type: 'value',
+		            name: '金额（万元）',
+		            min: 0,
+		            max: 850,
+		            interval: 200,
+		            axisLabel: {
+		                formatter: '{value}'
+		            }
+		        }
+		    ];
+		var legends_4=['国家项目','总部项目','企业项目'];
+		var xAxisData_4= ['科技进步奖','技术发明奖','前瞻研究奖'];
+		load_mutl_bar_tt("main4","",legends_4,xAxisData_4,yAxis4,seriesData_4,"");
+		
+		
+		
+		
+		
+		
+		
+		
+		
+
+		var seriesData_5=  [
+  	        {
+  	            name:'特等奖',
+  	            type:'bar',
+  	            color: ['#37A2DA'],
+  	            data:[82, 434, 74]
+  	        },
+  	        {
+  	            name:'一等奖',
+  	            type:'bar',
+  	            color: ['#67E0E3'],
+  	            data:[22, 44, 64]
+  	        },
+  	        {
+  	            name:'二等奖',
+  	            type:'bar',
+  	            data:[82, 414, 24]
+  	        },
+  	        {
+  	            name:'三等奖',
+  	            type:'bar',
+  	            data:[32, 414, 14]
+  	        }
+  	    ];
+  
+		  var yAxis5=[
+		        {
+		            type: 'value',
+		            name: '金额（万元）',
+		            min: 0,
+		            max: 850,
+		            interval: 200,
+		            axisLabel: {
+		                formatter: '{value}'
+		            }
+		        }
+		    ];
+		var legends_5=['特等奖','一等奖','二等奖','三等奖'];
+		var xAxisData_5= ['科技进步奖','技术发明奖','前瞻研究奖'];
+		load_mutl_bar_tt("main5","",legends_5,xAxisData_5,yAxis5,seriesData_5,"");
+		
+		
+		var seriesData_6= [
+ 	        {
+ 	            name:'科技进步奖',
+ 	            type:'bar',
+ 	            color: ['#37A2DA'],
+ 	            data:[22, 214, 214,22, 244, 214,22, 224]
+ 	        },
+ 	        {
+ 	            name:'技术发明奖',
+ 	            type:'bar',
+ 	            color: ['#67E0E3'],
+ 	           data:[92, 224, 214,212, 224, 214,22, 824]
+ 	        },
+ 	        {
+ 	            name:'前瞻研究奖',
+ 	            type:'bar',
+ 	            data:[72, 204, 214,232, 224, 214,282, 224]
+ 	        }
+ 	       
+ 	    ];
+  
+		  var yAxis6=[
+		        {
+		            type: 'value',
+		            name: '金额（万元）',
+		            min: 0,
+		            max: 850,
+		            interval: 200,
+		            axisLabel: {
+		                formatter: '{value}'
+		            }
+		        }
+		    ];
+		var legends_6=['科技进步奖','技术发明奖','前瞻研究奖'];
+		var xAxisData_6= ['石勘院','物探院','工程院','石科院','抚研院','北化院','上海院','安工院'];
+		load_mutl_bar_tt("main6","",legends_6,xAxisData_6,yAxis6,seriesData_6,"");
+		
+		
+		var legend_names_7=['石勘院','物探院','工程院','石科院','抚研院','北化院','上海院','安工院'];
+		var series_values_7=[
+			 {value:135, name:'石勘院'},
+             {value:210, name:'物探院'},
+             {value:710, name:'工程院'},
+             {value:210, name:'石科院'},
+             {value:510, name:'抚研院'},
+             {value:240, name:'北化院'},
+             {value:910, name:'上海院'},
+             {value:110, name:'安工院'}
+		];
+		loadPie_tt('main7','',legend_names_7,series_values_7,"");
+		
+			
+}		
+		
+init();     
+function search_Event()
+{
+	 init(); 
+}       
+                    
+                 
+                 
+                 
+                 
+                 
+                
+           
+    </script>
+</body>
+</html>

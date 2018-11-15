@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <script src="/layuiadmin/layui/layui.js"></script>
+</head>
+
+<body>
+<div class="searchBox">
+    <!--查询条件-->
+    <label class="dateInput">
+        <span>查询编码</span>
+        <input type="text" name="configCode" placeholder="请输入配置编码" title="配置编码" autocomplete="off" class="form-control" id="configCode">
+    </label>
+    <!--按钮组-->
+    <div class="btnGroup">
+        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>
+        <button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg" data-type="resetEvent">重置</button>
+    </div>
+</div>
+
+<div class="tableBox">
+	<div class="tableToolBox">
+        <div class="whiteLine"></div>
+        <div  class="tableBtns">
+        	<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add" data-type="addEvent">新增</button>
+        	<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit" data-type="editEvent">编辑</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_delete" data-type="deleteEvent">删除</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" data-type="historyEvent" >历史记录</ button>
+        </div>
+    </div>
+    <table id="showTable" class="layui-hide" lay-filter="tableData"></table>
+</div>
+<script>
+	var table,active,showMessage,selectRowData,configId;
+	
+    layui.use(['jquery','table','laypage','laytpl'], function(){
+    	var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate;
+    	table = layui.table;
+    	
+        function renderTable(){
+        	var configCode=$('#configCode').val();
+        	var lodingMsg = layer.msg('数据加载中....');
+            //渲染
+            table.render({
+                elem: '#showTable',
+                url: '/sys_config/list',	
+                method:"POST",
+                where: {"configCode" : configCode},
+                limit: 15,
+                id: 'showTable',
+                height: commonDislodgeTable(), 
+                page: {
+                    groups: 5,
+                    limits: [15,30,45,60],
+                    layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
+                    first: '首页', //不显示首页
+                    last: '尾页', //不显示尾页
+                    theme: '#0F9EE0'
+                },
+                cols: [[
+    				{type:'checkbox', event: 'changeEvents'},
+                    {title:'序号', type:'numbers'},
+                    {field:'configName',      title:'配置名称',   width: '17%', style:'cursor: pointer;'},
+                    {field:'configCode',        title:'配置编码',    width: '17%', style:'cursor: pointer;'},
+                    {field:'configValue',       title:'数值', width: '17%', style:'cursor: pointer;'},
+                    {field:'remarks',        title:'配置描述',  style:'cursor: pointer;'}
+                ]],
+                done: function (res, curr, count) {
+                	// 关闭等待刷新
+                	layer.close(lodingMsg);
+                	
+                 	// 点击行联动选择框--单选
+                    $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+                        var index=parseInt($(this).index()+1);
+                        $('tr').removeClass('layui-table-click');
+                        $(this).addClass('layui-table-click');
+                        $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                        $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                        selectRowData=res.data[index-1];
+                    })
+                }
+            });
+          	//若使用单选框 需要移除表头的复选框
+            $(".layui-table-header table thead th input").remove();
+            selectRowData = '';
+        }
+
+        renderTable();
+        
+        // 触发不同的按钮事件
+        var $ = layui.$; 
+        active = {
+            searchEvent: function() { //点击查询按钮
+            	selectRowData='';
+            	renderTable();
+            },
+            resetEvent: function() { //点击重置按钮
+            	$('#configCode').val("");
+            	active.searchEvent();
+            },
+            addEvent: function(){ //点击新增按钮
+            	var temUrl="/sysconfig/add";
+                layer.open({
+                    title:'新增',
+                    skin: 'layui-layer-lan',
+                    shadeClose: true,
+                    type: 2,
+                    fixed: false,
+                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                    maxmin: true,
+                    //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                    area: ['800px', '450px'],
+                    content:  temUrl
+                });
+            },
+            editEvent: function() {  //点击编辑按钮
+            	if(selectRowData.configId){
+            		configId = selectRowData.configId;
+            		layer.open({
+	                    title:'修改配置',
+	                    skin: 'layui-layer-lan',
+	                    shadeClose: true,
+	                    type: 2,
+	                    fixed: false,
+	                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+	                    maxmin: true,
+	                    //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+	                    area: ['800px', '450px'],
+	                    content: '/sysconfig/edit?configId='+configId,
+	                });
+	            } else {
+	            	layer.msg('请选择一条数据');
+	            	return;
+	            }
+            },
+            deleteEvent: function(){  //点击删除按钮
+            	layer.confirm('确定要删除吗？', function(){
+            		var data = table.checkStatus('showTable').data;
+                	//layer.msg(JSON.stringify(data[0].id));
+                	configId = selectRowData.configId;
+                	var jsonstr = {"configId" : configId};
+                	var checkData = '';
+                	checkData = selectRowData;
+                	if(checkData){
+                		$.ajax({
+                			type : "DELETE",
+                            contentType : "application/json",
+                            dataType : "json",
+                            data : JSON.stringify(jsonstr),
+                            url : "/sysConfig/delete",
+                            error : function(data) {
+                            	layer.msg('操作失败!');
+                            },
+                            success : function(data) {
+                            	layer.msg('操作成功!');
+                            	active.searchEvent();
+                            }
+            	        });
+                	} else {
+                		layer.msg('请选择一条数据');
+    	            	return;
+                	}
+                });
+            },
+            alertEvent: function(){  // 弹出页面刷新此页面
+            	layer.msg(showMessage);
+            	active.searchEvent();
+            },
+             historyEvent: function(){ //点击历史记录按钮，查询所有已经作废的记录
+            	var temUrl="/sysConfig/history";
+                layer.open({
+                    title:'历史记录',
+                    skin: 'layui-layer-lan',
+                    shadeClose: true,
+                    type: 2,
+                    fixed: false,
+                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                    maxmin: true,
+                    //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                    area: ['800px', '450px'],
+                    content:  temUrl
+                });
+            } 
+        };
+
+        table.on('tool(tableData)', function(obj){
+            selectRowData = obj.data;
+        });
+        
+        //监听排序
+        table.on('sort(showTable)', function(obj){
+            console.log(this, obj.field, obj.type)
+            //return;
+            //服务端排序
+            table.reload('showTable', {
+                initSort: obj,
+                page: {curr: 1}, //重新从第一页开始
+                where: { //重新请求服务端
+                    key: obj.field, //排序字段
+                    order: obj.type //排序方式
+                }
+            });
+        });
+        //区别按钮属性
+        $('.layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+        
+    });
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+     <link rel="stylesheet" href="/common/css/echart-common.css">
+</head>
+<body>
+
+	<div class="content-body container">
+		<div style="text-align: center; font-weight: bold; margin: 10px;">企业2017年度科技项目支出决算与2018年度科技项目投入预算征集表</div>
+		<table class="layui-table">
+			
+			<thead>
+				<tr>
+					<td rowspan="3">企业直属研发 机构名称</td>
+					<td colspan="3" rowspan="2">职工总数*</td>
+					<td rowspan="3">2015年全口径支出 （万元）</td>
+					<td colspan="4"></td>
+					<td rowspan="3">2015年ERP 系统中归集的科技支出 （万元）</td>
+					<td colspan="3"></td>
+				</tr>
+				</thead>
+				
+				<tbody>
+				<tr>
+					<td rowspan="2">人工成本** (万元)</td>
+					<td rowspan="2">折旧费用 *** （万元）</td>
+					<td rowspan="2">科技项目直接费用**** （万元）</td>
+					<td rowspan="2">其他费用 （万元）</td>
+					<td colspan="3">其中归集的科技间接费用*****</td>
+				</tr>
+				<tr>
+					<td>2015年</td>
+					<td>2016年</td>
+					<td>2017年</td>
+					<td>人工费 (万元)</td>
+				</tr>
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr></tr>
+				<tr></tr>
+				<tr></tr>
+				<tr></tr>
+				<tr></tr>
+				<tr></tr>
+				<tr></tr>
+				<tr></tr>
+				<tr></tr>
+				<tr></tr>
+				<tr></tr>
+				<tr></tr>
+				<tr></tr>
+				<tr></tr>
+				<tr></tr>
+				<tr></tr>
+				<tr></tr>
+			</tbody>
+		</table>
+		
+		<div>
+		注*：指研发机构在册正式职工。炼化企业研发机构不包括所合并的质检中心人员。<br>	
+注**：包括外聘研发人员的劳务费。<br>	
+注***：指研发机构发生的全部折旧费用。<br>	
+注****：包括研发机构承担的国家、中国石化及其他省部级、中国石化分（子）公司级项目直接费用支出。表中该数值应等于当年ERP系统中归集的科技支出总额与归集的科技间接费用之差。<br>	
+注*****：指ERP系统中归集到科技支出的人工、折旧等间接费用。
+		</div>
+	</div>
+
+	<!--表格数据操作js-->
+<script src="/common/js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+<script src="/common/js/layer-v3.1.1/layer.js"></script>
+<script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
+<script type="text/javascript" src="/plugins/echarts/walden.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_chart.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
+<script>
+
+
+var table,selectRowData;
+layui.config({
+    base: '/layuiadmin/module/modules/' //静态资源所在路径
+}).use(['jquery','form', 'laydate','table','laypage','layer'], function(){
+	  admin = layui.admin
+	  ,$ = layui.jquery
+      ,table = layui.table
+      ,layer = layui.layer
+      ,laydate = layui.laydate
+      ,form = layui.form
+      ,laypage = layui.laypage;
+	  form.render(null, 'component-form-group');
+            laydate.render({
+               elem: '#month'
+               ,format: 'yyyyMM'
+            });
+      //初始化表格
+      renderTable();
+});
+
+var allCode="${allCode?default('')}";
+var allCode_text="全部院所";
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pcitc.mapper.system.SysDictionaryMapper" >
+  <resultMap id="BaseResultMap" type="com.pcitc.base.system.SysDictionary" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="parent_id" property="parentId" jdbcType="VARCHAR" />
+    <result column="parent_code" property="parentCode" jdbcType="VARCHAR" />
+    <result column="isparent" property="isparent" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="isdelete" property="isdelete" jdbcType="INTEGER" />
+    <result column="level_code" property="levelCode" jdbcType="INTEGER" />
+    <result column="is_leaf" property="isLeaf" jdbcType="INTEGER" />
+    <result column="num_value" property="numValue" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.pcitc.base.system.SysDictionary" extends="BaseResultMap" >
+    <result column="remark" property="remark" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    <if test="fields == null" >
+      id, name, code, parent_id, parent_code, isparent, create_time, update_time, isdelete,level_code,is_leaf,num_value
+    </if>
+    <if test="fields != null" >
+      ${fields}
+    </if>
+  </sql>
+  <sql id="Blob_Column_List" >
+    remark
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    id,name,code,parent_id,parent_code,isparent,create_time,update_time,isdelete,remark
+    ,is_leaf,num_value,
+    <include refid="Blob_Column_List" />
+    from sys_dictionary
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sys_dictionary
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  
+  <insert id="insertSelective" parameterType="com.pcitc.base.system.SysDictionary" >
+    insert into sys_dictionary
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="parentId != null" >
+        parent_id,
+      </if>
+      <if test="parentCode != null" >
+        parent_code,
+      </if>
+      <if test="isparent != null" >
+        isparent,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="isdelete != null" >
+        isdelete,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="levelCode!= null" >
+        level_code,
+      </if>
+      <if test="isLeaf!= null" >
+        is_leaf,
+      </if>
+       <if test="numValue!= null" >
+        num_value,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null" >
+        #{parentId,jdbcType=VARCHAR},
+      </if>
+      <if test="parentCode != null" >
+        #{parentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="isparent != null" >
+        #{isparent,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isdelete != null" >
+        #{isdelete,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="levelCode != null" >
+        #{levelCode,jdbcType=INTEGER},
+      </if>
+      <if test="isLeaf != null" >
+        #{isLeaf,jdbcType=INTEGER},
+      </if>
+      <if test="numValue != null" >
+        #{numValue,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.system.SysDictionary" >
+    update sys_dictionary
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <!-- <if test="parentId != null" >
+        parent_id = #{parentId,jdbcType=VARCHAR},
+      </if> -->
+      <if test="parentCode != null" >
+        parent_code = #{parentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="isparent != null" >
+        isparent = #{isparent,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isdelete != null" >
+        isdelete = #{isdelete,jdbcType=INTEGER},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="levelCode != null" >
+       level_code = #{levelCode,jdbcType=INTEGER},
+      </if>
+       <if test="isLeaf != null" >
+       is_leaf = #{isLeaf,jdbcType=INTEGER},
+      </if>
+       <if test="numValue != null" >
+       num_value= #{numValue,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+ 
+   
+  <!-- 获取树 一级 -->
+  <select id="selectTreeNodeOneLevel" resultType="com.pcitc.base.common.TreeNode">
+	  select id,parent_id as parentId ,name as text 
+	  from sys_dictionary 
+	  where parent_id = 'ROOT'
+  </select>
+  
+  <!-- 根据父节点id 查询下面所有子节点 -->
+  <select id="selectChildNodeByParentId" resultType="com.pcitc.base.common.TreeNode">
+	  select id,parent_id as parentId ,name as text 
+	  from sys_dictionary 
+	  where parent_id = #{parentId}
+  </select>
+  
+  
+    <!-- 根据层级条件 显示树 -->
+  <select id="selectTreeNodeByLevelGiveUp" resultType="com.pcitc.base.common.TreeNode">
+	  select id,parent_id as parentId ,name as text ,level_code as levelCode,is_leaf as isLeaf,isparent,code
+	  from sys_dictionary 
+	  where is_leaf = 0
+	  <if test="levelCode != null and levelCode !=''.toString">
+	   and level_code &lt;= #{levelCode}
+	  </if>
+  </select>
+  <!-- 树只显示10级 -->
+   <select id="selectTreeNodeByLevel" resultType="com.pcitc.base.common.TreeNode">
+	  select id,parent_id as pId ,name ,level_code as levelCode,is_leaf as isLeaf,isparent,code
+	  from sys_dictionary 
+	  where is_leaf = 0
+	  and level_code &lt;= 10
+	  order by create_time
+  </select>
+  
+  <!-- 根据parentId查询子节点列表 -->
+  <select id="selectDictionaryList" resultMap="BaseResultMap">
+  	  select id,parent_id as parentId ,name,level_code,code,create_time, update_time,is_leaf,remark,num_value
+	  from sys_dictionary where (1=1)
+	  <if test="parentId != null and parentId !=''.toString">
+	   and parent_id = #{parentId}
+	  </if>
+	  <if test="name != null and name !=''.toString">
+	  and name like '%${name}%'
+	  </if>
+	  order by create_time
+	  <!-- <if test="iSortCol!=null and iSortCol!=''.toString()">
+    	order by ${iSortCol} ${sSortDir_0}
+   	  </if> -->
+  </select>
+  
+  <!-- 根据id初始化详情 -->
+  <select id="getDictionaryById" resultType="com.pcitc.base.system.SysDictionary">
+      select id,parent_id as parentId,name,level_code as levelCode,code,remark,isparent,is_leaf as isLeaf,parent_code as parentCode,num_value as numValue
+      from sys_dictionary
+      where id = #{id}
+  </select>
+  <select id="getDictionaryByCode" resultType="com.pcitc.base.system.SysDictionary">
+      select id,parent_id as parentId,name,level_code as levelCode,code,remark,isparent,is_leaf as isLeaf,parent_code as parentCode,num_value as numValue
+      from sys_dictionary
+      where code = #{code}
+  </select>
+  
+  
+  <!-- 修改父节点的isparent属性 -->
+  <update id="updateNodeIsParent" parameterType="java.lang.String">
+   update sys_dictionary
+   set isparent = 1
+   where id = #{parentId}
+  </update>
+  
+  
+   <!-- 根据ParentCode查询子节点列表 -->
+  <select id="selectDictionaryListByParentCode" resultType="com.pcitc.base.system.SysDictionary">
+  	  select id,parent_id as parentId ,name,level_code,code,create_time, update_time,is_leaf,remark,num_value as numValue,isparent
+	  from sys_dictionary 
+	  <if test="parentCode != null and parentCode !=''.toString">
+	  where parent_code = #{parentCode}
+	  </if>
+	  <if test="name != null and name !=''.toString">
+	  and name like '%${name}%'
+	  </if>
+	  order by create_time
+	 <!--  <if test="iSortCol!=null and iSortCol!=''.toString()">
+    	order by ${iSortCol} ${sSortDir_0}
+   	  </if> -->
+  </select>
+  
+   <!-- 查询该节点下子节点数量 -->
+  <select id="getCountByParentId" resultType="java.lang.Integer">
+     select count(id) from sys_dictionary where parent_id = #{parentId}
+  </select>
+  
+   <!-- 查询同一级下是否有相同名字的菜单 -->
+  <select id="selectSameName" resultType="java.lang.Integer">
+  	select count(id) from sys_dictionary where 
+  	parent_id = #{parentId}  and name = #{name}
+  	<if test="id != null and id!=''.toString()">
+   	and id != #{id}
+   	</if>
+  </select>
+</mapper>

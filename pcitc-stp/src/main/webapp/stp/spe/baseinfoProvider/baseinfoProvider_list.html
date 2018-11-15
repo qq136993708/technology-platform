@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <script src="/layuiadmin/layui/layui.js"></script>
+</head>
+<body>
+	<!--查询条件-->
+	<div class="searchBox">
+	    <!--查询条件-->
+	    <label class="dateInput">
+	        <span>名称</span>
+	        <input type="text" name="name" placeholder="请输入姓名"
+	               title="姓名" autocomplete="off"
+	               class="form-control" id="name">
+	    </label>
+	    <!--按钮组-->
+	    <div class="btnGroup">
+	        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询
+	        </button>
+	        <button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg"
+	                data-type="resetEvent">重置
+	        </button>
+	    </div>
+	</div>
+	
+	<div class="tableBox">
+	    <div class="tableToolBox">
+	        <div class="whiteLine"></div>
+	        <div class="tableBtns">
+	            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add" data-type="addEvent">新增</button>
+	            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit" data-type="editEvent" >编辑</button>
+	            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_delete" data-type="deleteEvent" >删除</button>
+	            <!-- <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit" data-type="updateEvent" >变更</button> -->
+	            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_details btnMyBgImg" data-type="detailEvent" >详情</button>
+	            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_export" data-type="exportEvent" >导出</button>
+	        </div>
+	    </div>
+		<table id="baseinfoMaintainTable" class="layui-hide" lay-filter="demoEvent"></table>
+	</div>
+	<!-- ./wrapper -->
+
+	<!-- page script -->
+	<script>
+	layui.use(['jquery','table','laypage','laytpl'], function(){
+        var table = layui.table,
+        $ = layui.jquery,
+        laytpl = layui.laytpl,
+        laypage = layui.laypage;
+        
+     	//获取当前行数据  设置全局变量
+        var selectRowData = '';
+        var name = $('#name').val();
+        table.render({
+        	id:'baseinfoMaintain', //唯一即可
+            elem: '#baseinfoMaintainTable',
+            url: '/spe-baseinfoMaintain/list',
+            limit: 15,
+            height: 'full-118',
+            method: 'POST',
+            where: {name : name},
+            page: {
+            	count: 500, //数据总数，从服务端得到
+                groups: 5,
+                limits: [15,30,45,60],
+                layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
+                first: '首页', //不显示首页
+                last: '尾页', //不显示尾页
+                theme: '#0F9EE0'
+            },
+            cols: [[
+            	{type:'checkbox', event: 'changeEvents'},
+                {title:'序号',   type:'numbers'},
+                {title:'审批状态',field:'auditStatus',  width: '8%' , style:'cursor: pointer;' , templet:  '<div>{{ layui.laytpl.state(d.auditStatus) }}</div>'},
+                {title:'姓名',   field:'name',         width: '22%', style:'cursor: pointer;'},
+                {title:'年龄',   field:'age',          width: '15%', style:'cursor: pointer;'},
+                {title:'籍贯',   field:'nativePlace',  width: '10%', style:'cursor: pointer;'},
+                {title:'学历',   field:'education',    width: '40%', style:'cursor: pointer;'}
+            ]],
+            done: function (res, curr, count) {
+                // 点击行联动选择框--单选
+                $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+		        	var index=parseInt($(this).index()+1);
+		            $('tr').removeClass('layui-table-click');
+		            $(this).addClass('layui-table-click');
+		            $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked");
+		            $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+		            selectRowData=res.data[index-1];
+		        })
+            }
+        });
+        
+        //若使用单选框 需要移除表头的复选框
+		$(".layui-table-header table thead th input").remove();
+	
+        function doSearch(){
+        	var name = $('#name');
+            table.reload('baseinfoMaintain', {
+                where: {
+                	name: name.val()
+                }
+            });
+         	//若使用单选框 需要移除表头的复选框
+    		$(".layui-table-header table thead th input").remove();
+    		selectRowData = '';
+        }
+        
+		// 触发不同的按钮事件
+        var $ = layui.$, active = {
+            searchEvent: function() { //点击查询按钮
+            	doSearch();
+            },
+            resetEvent: function() { //点击重置按钮
+            	$('#name').val('');
+            	doSearch();
+            },
+            addEvent: function(){ //点击新增按钮
+                layer.open({
+                    title:'新建基本信息维护',
+                    skin: 'layui-layer-lan',
+                    shadeClose: true,
+                    type: 2,
+                    fixed: false,
+                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                    maxmin: false,
+                    //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                    area: ['100%', '100%'],
+                    content:  '/spe-baseinfoMaintain/toEdit'
+                });
+            },
+            editEvent: function(){  //点击编辑按钮
+            	var id;
+            	if(selectRowData.baseId){
+            		id = selectRowData.baseId;
+	            	layer.open({
+	                    title:'修改基本信息维护',
+	                    skin: 'layui-layer-lan',
+	                    shadeClose: true,
+	                    type: 2,
+	                    fixed: false,
+	                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+	                    maxmin: false,
+	                    //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+	                    area: ['100%', '100%'],
+	                    content: '/spe-baseinfoMaintain/toEdit?id='+id
+	                });
+	            } else {
+	            	layer.msg('请选择一条数据');
+	            	return;
+	            }
+            },
+            deployEvent: function(){  //点击部署按钮
+                console.log('点击了部署按钮')
+            },
+            exportEvent: function(){  //点击导出按钮
+                console.log('点击了导出按钮')
+                layer.alert(JSON.stringify(selectRowData));
+                /* var checkStatus = table.checkStatus('qlfcComApply')
+                    ,data = checkStatus.data;
+                layer.alert(JSON.stringify(data)); */
+            },
+            importEvent: function(){  //点击导出按钮
+                console.log('点击了导入按钮')
+            },
+            detailEvent: function(){  //点击详情按钮
+            	var id;
+            	if(selectRowData.baseId){
+            		id = selectRowData.baseId;
+	            	layer.open({
+	                    title:'查看基础信息维护',
+	                    skin: 'layui-layer-lan',
+	                    shadeClose: true,
+	                    type: 2,
+	                    fixed: false,
+	                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+	                    maxmin: false,
+	                    //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+	                    area: ['100%', '100%'],
+	                    content: '/spe-baseinfoMaintain/view/'+id
+	                });
+	            } else {
+	            	layer.msg('请选择一条数据');
+	            	return;
+	            }
+            },
+            deleteEvent: function(){  //点击删除按钮
+            	var id;
+	            /* var checkStatus = table.checkStatus('qlfcComApply')
+	                ,data = checkStatus.data;
+	            var ids;
+	            if(data.length > 0){
+	            	ids = new Array();
+		            $.each(data,function(n,o){
+		            	ids.push(o.qlfcComApplyId);
+	            	})
+	            } else {
+	            	layer.msg('请选择要删除的数据');
+	            	return;
+	            }
+	            id = ids.join(","); */
+            	if(selectRowData.baseId){
+	            	id = selectRowData.baseId;
+	            } else {
+	            	layer.msg('请选择要删除的数据');
+	            	return;
+	            }
+	            layer.confirm('确认要删除吗？',{icon:2, btn:['确定','取消']}, function(index){
+            		layer.close(index);
+            		$.ajax({
+        				type : 'post',
+        				dataType : 'text',
+        		        data : {"id" : id},
+        		        url : '/spe-baseinfoMaintain/delete?i='+Math.random(),
+        		        success : function(data) {
+        		        	if(data==200){
+        		        		layer.msg('删除成功！');
+        		        	}
+        		        	active['searchEvent'].call(this);//刷新table;
+        		        },
+        		        error : function(e) {
+        		            alert("删除失败！");
+        		        }
+        	        });
+            	});
+            },
+            getCheckData: function(){ //获取选中数据
+                var checkStatus = table.checkStatus('baseinfoMaintain'),
+                data = checkStatus.data;
+                layer.alert(JSON.stringify(data));
+            },
+            getCheckLength: function(){ //获取选中数目
+                var checkStatus = table.checkStatus('baseinfoMaintain'),
+                data = checkStatus.data;
+                layer.msg('选中了：'+ data.length + ' 个');
+            },
+            isAll: function(){ //验证是否全选
+                var checkStatus = table.checkStatus('baseinfoMaintain');
+                layer.msg(checkStatus.isAll ? '全选': '未全选')
+            }
+        };
+	 
+      	//监听排序
+        table.on('sort(test1)', function(obj){
+            console.log(this, obj.field, obj.type)
+            //return;
+            //服务端排序
+            table.reload('test1', {
+                initSort: obj,
+                //page: {curr: 1}, //重新从第一页开始
+                where: { //重新请求服务端
+                    key: obj.field, //排序字段
+                    order: obj.type //排序方式
+                }
+            });
+        });
+        //区别按钮属性
+        $('.layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+        //保持最新分页页数，避免删除操作之后页面数据不能及时更新而出现问题
+        function flushPage(page){
+            var pageNum;
+            $.get("getPageNum",function(data){
+                pageNum=data;
+            });
+            $.get("getContent?page="+page,function(data){
+                //渲染数据
+            });
+            layui.use(['laypage', 'layer'], function(){
+                var laypage = layui.laypage,
+                    layer = layui.layer;
+                laypage({
+                    cont:'page',//容器。值可以传入元素id或原生DOM或jquery对象
+                    pages:pageNum,//把新的页数写入
+                    jump:function(obj) {//点击页数按钮触发的函数
+                        var curr = obj.curr;//得到点击的页数
+                        flushPage(curr);
+                    }
+                });
+            });
+        }
+    });
+	</script>
+</body>
+</html>

@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+<link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()" media="all">
+<script src="/layuiadmin/layui/layui.js"></script>
+</head>
+
+<body>
+	<div class="searchBox">
+		<!--查询条件-->
+		<label class="dateInput">
+			<span>被委托人</span>
+			<input type="text" name="attorneyName" placeholder="请输入被委托人" title="被委托人" autocomplete="off" class="form-control" id="attorneyName">
+		</label>
+		<!--按钮组-->
+		<div class="btnGroup">
+			<button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>
+			<button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg" data-type="resetEvent">重置</button>
+		</div>
+	</div>
+
+	<div class="tableBox">
+		<div class="tableToolBox">
+			<div class="whiteLine"></div>
+			<div class="tableBtns">
+				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add" data-type="addEvent">新增</button>
+				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_delete" data-type="deleteEvent">删除</button>
+				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" data-type="historyEvent">历史记录</ button>
+			</div>
+		</div>
+		<table id="showTable" class="layui-hide" lay-filter="tableData"></table>
+	</div>
+	<script>
+		var table, active, showMessage, selectRowData;
+
+		layui.use([ 'jquery', 'table', 'laypage', 'laytpl' ], function() {
+			var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate;
+			table = layui.table;
+
+			function renderTable() {
+				var attorneyName = $('#attorneyName').val();
+
+				var param = JSON.parse(window.localStorage.getItem("param"));
+				if (param.functionbuttons.indexOf("add") < 0 && param.functionbuttons.indexOf("ALL") < 0) {
+					$('.btn_add').css("display", "none");
+				}
+				if (param.functionbuttons.indexOf("delete") < 0 && param.functionbuttons.indexOf("ALL") < 0) {
+					$('.btn_delete').css("display", "none");
+				}
+				var lodingMsg = layer.msg('数据加载中....');
+				//渲染
+				table.render({
+					elem : '#showTable',
+					url : '/delegate/list',
+					method : "POST",
+					where : {
+						param : {
+							"attorneyName" : attorneyName,
+							"functionCode" : param.code
+						}
+					},
+					limit : param.selfRownum,
+					id : 'showTable',
+					height : commonDislodgeTable(),
+					page : {
+						groups : 5,
+						limits : [ param.selfRownum, 15, 30, 45, 60 ],
+						layout : [ 'count', 'limit', 'prev', 'page', 'next', 'skip' ], //自定义分页布局
+						first : '首页', //不显示首页
+						last : '尾页', //不显示尾页
+						theme : '#0F9EE0'
+					},
+					cols : [ [ {
+						type : 'checkbox',
+						event : 'changeEvents',
+						width : 55
+					}, {
+						title : '序号',
+						type : 'numbers',
+						width : 55
+					}, {
+						field : 'status',
+						title : '状态',
+						style : 'cursor: pointer;',
+						width : 55,
+						align : 'center'
+					}, {
+						field : 'assigneeName',
+						title : '委托人',
+						width : '15%',
+						style : 'cursor: pointer;'
+					}, {
+						field : 'attorneyName',
+						title : '被委托人',
+						width : '15%',
+						style : 'cursor: pointer;'
+					}, {
+						field : 'startDate',
+						title : '开始时间',
+						width : '10%',
+						style : 'cursor: pointer;',
+						align : 'center'
+					}, {
+						field : 'endDate',
+						title : '结束时间',
+						width : '10%',
+						style : 'cursor: pointer;',
+						align : 'center'
+					}, {
+						field : 'createDate',
+						title : '创建时间',
+						width : '13%',
+						style : 'cursor: pointer;',
+						templet : '<div>{{ layui.laytpl.toDateString(d.endDate) }}</div>',
+						align : 'center'
+					}, {
+						field : 'moduleCode',
+						title : '委托模块',
+						width : '10%',
+						style : 'cursor: pointer;'
+					}, {
+						field : 'remarks',
+						title : '备注',
+						style : 'cursor: pointer;'
+					} ] ],
+					done : function(res, curr, count) {
+						// 关闭等待刷新
+						layer.close(lodingMsg);
+
+						$(document).on("click", ".layui-table-body table.layui-table tbody tr", function() {
+							var index = $(this).attr('data-index');
+							var tableBox = $(this).parents('.layui-table-box');
+							//存在固定列
+							if (tableBox.find(".layui-table-fixed.layui-table-fixed-l").length > 0) {
+								tableDiv = tableBox.find(".layui-table-fixed.layui-table-fixed-l");
+							} else {
+								tableDiv = tableBox.find(".layui-table-body.layui-table-main");
+							}
+							var checkCell = tableDiv.find("tr[data-index=" + index + "]").find("td div.laytable-cell-checkbox div.layui-form-checkbox I");
+							if (checkCell.length > 0) {
+								checkCell.click();
+							}
+						});
+						$(document).on("click", "td div.laytable-cell-checkbox div.layui-form-checkbox", function(e) {
+							e.stopPropagation();
+						});
+
+						$("[data-field='status']").children().each(function() {
+							if ($(this).text() == '1') {
+								$(this).text("生效");
+								// 对单元格背景色控制
+								$(this).css('color', '#0F9EE0');
+
+								// 对单元格背景色控制
+								//$(this).css('background','#eee');
+
+								// 对整行背景色控制
+								//$(this).parent().parent().parent().css('background','#eee');
+
+							} else if ($(this).text() == '0') {
+								$(this).text("已作废");
+
+								$(this).css('color', 'red');
+							}
+						});
+					}
+				});
+			}
+
+			renderTable();
+
+			// 触发不同的按钮事件
+			var $ = layui.$;
+			active = {
+				searchEvent : function() { //点击查询按钮
+					selectRowData = '';
+					renderTable();
+				},
+				resetEvent : function() { //点击重置按钮
+					$('#attorneyName').val("");
+					active.searchEvent();
+				},
+				addEvent : function() { //点击新增按钮
+					var temUrl = "/delegate/ini-add";
+					layer.open({
+						title : '新增',
+						skin : 'layui-layer-lan',
+						shadeClose : true,
+						type : 2,
+						fixed : false,
+						//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+						maxmin : true,
+						//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+						area : [ '800px', '450px' ],
+						content : temUrl
+					});
+				},
+				deleteEvent : function() { //点击删除按钮
+					layer.confirm('确定要删除吗？', function() {
+						var data = table.checkStatus('showTable').data;
+						//layer.msg(JSON.stringify(data[0].id));
+						var delegateIds = "";
+						for (var i = 0; i < data.length; i++) {
+							delegateIds = delegateIds + data[i].delegateId + ","
+						}
+						var jsonstr = {
+							"delegateId" : delegateIds
+						};
+						if (data.length == 0) {
+							layer.msg('请点击选择要删除的数据!');
+						} else {
+							$.ajax({
+								type : "DELETE",
+								contentType : "application/json",
+								dataType : "json",
+								data : JSON.stringify(jsonstr),
+								url : "/delegates",
+								error : function(data) {
+									layer.msg('操作失败!');
+								},
+								success : function(data) {
+									layer.msg('操作成功!');
+									renderTable();
+								}
+							});
+						}
+					});
+				},
+				alertEvent : function() { // 弹出页面刷新此页面
+					layer.msg(showMessage);
+					active.searchEvent();
+				},
+				historyEvent : function() { //点击历史记录按钮，查询所有已经作废的记录
+					var temUrl = "/delegate/history/ini";
+					layer.open({
+						title : '历史记录',
+						skin : 'layui-layer-lan',
+						shadeClose : true,
+						type : 2,
+						fixed : false,
+						//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+						maxmin : true,
+						//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+						area : [ '800px', '450px' ],
+						content : temUrl
+					});
+				}
+			};
+
+			table.on('tool(tableData)', function(obj) {
+				selectRowData = obj.data;
+			});
+
+			//监听排序
+			table.on('sort(showTable)', function(obj) {
+				console.log(this, obj.field, obj.type)
+				//return;
+				//服务端排序
+				table.reload('showTable', {
+					initSort : obj,
+					page : {
+						curr : 1
+					}, //重新从第一页开始
+					where : { //重新请求服务端
+						key : obj.field, //排序字段
+						order : obj.type
+					//排序方式
+					}
+				});
+			});
+			//区别按钮属性
+			$('.layui-btn').on('click', function() {
+				var type = $(this).data('type');
+				active[type] ? active[type].call(this) : '';
+			});
+
+		});
+	</script>
+
+</body>
+</html>

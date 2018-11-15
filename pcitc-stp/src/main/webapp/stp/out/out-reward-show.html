@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>编辑配置</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black"> 
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="format-detection" content="telephone=no">
+  
+  <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+  <link rel="stylesheet" href="/layuiadmin/style/common.css">
+  <link rel="stylesheet" type="text/css" href="/layuiadmin/ztree/css/metroStyle/metroStyle.css">
+  
+  <script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
+  <script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.all.js"></script>
+  <script type="text/javascript" src="/layuiadmin/modules/selectTree.js"></script>
+  <script src="/layuiadmin/layui/layui.js"></script>
+    
+</head>
+<body>
+<div class="formBox">
+  <form class="layui-form" id="reward-form" lay-filter="component-form-group layui-container">
+  <input type="hidden" id="dataId" name="dataId"/>
+  <div class="box-body">
+    
+    <div class="layui-row">
+      <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+        <div class="layui-form-item">
+          <label class="layui-form-label">年度<span class="must-fill"></span></label>
+          <div class="layui-input-block">
+	          <input class="layui-input readOnlyBox" id="nd"  lay-verify="text" name="nd" type="text" autocomplete="off" disabled>
+	          <input id="dataId" name="dataId" type="hidden">
+	      </div>
+        </div>
+      </div>
+      <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+        <div class="layui-form-item">
+          <label class="layui-form-label">合同号<span class="must-fill"></span></label>
+          <div class="layui-input-block">
+	          <input class="layui-input readOnlyBox" id="hth"  lay-verify="text" name="hth" type="text" autocomplete="off" disabled>
+	      </div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="layui-row">
+      <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+        <div class="layui-form-item">
+          <label class="layui-form-label">项目编号</label>
+          <div class="layui-input-block">
+	          <input class="layui-input readOnlyBox" id="xmbh"  lay-verify="text" name="xmbh" type="text" autocomplete="off" disabled>
+	      </div>
+        </div>
+      </div>
+      <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+        <div class="layui-form-item">
+          <label class="layui-form-label">项目名称</label>
+          <div class="layui-input-block">
+	          <input class="layui-input readOnlyBox" id="xmmc"  lay-verify="text" name="xmmc" type="text" autocomplete="off" disabled>
+	      </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="layui-row">
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label class="layui-form-label">上报单位<span class="must-fill"></span></label>
+            <div class="layui-input-block">
+              <input class="layui-input readOnlyBox" id="sbdw" name="sbdw" lay-verify="required" type="text" autocomplete="off" disabled>
+            </div>
+          </div>
+        </div>
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label class="layui-form-label">sbjz<span class="must-fill"></span></label>
+            <div class="layui-input-block">
+              <input class="layui-input readOnlyBox" id="sbjz" name="sbjz" lay-verify="required" type="text" autocomplete="off" disabled>
+            </div>
+          </div>
+        </div>
+    </div>
+    
+    <div class="layui-row">
+      <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+        <div class="layui-form-item">
+          <label class="layui-form-label">xkfl</label>
+          <div class="layui-input-block">
+	          <input class="layui-input readOnlyBox" id="xkfl"  lay-verify="text" name="xkfl" type="text" autocomplete="off" disabled>
+	      </div>
+        </div>
+      </div>
+      <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+        <div class="layui-form-item">
+          <label class="layui-form-label">上报等级<span class="must-fill"></span></label>
+          <div class="layui-input-block">
+	          <input class="layui-input readOnlyBox" id="sbdj"  lay-verify="text" name="sbdj" type="text" autocomplete="off" disabled>
+	      </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="layui-row">
+      <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+        <div class="layui-form-item">
+          <label class="layui-form-label">上报日期<span class="must-fill"></span></label>
+          <div class="layui-input-block">
+	          <input class="layui-input readOnlyBox" id="sbrq"  lay-verify="text" name="sbrq" type="text" autocomplete="off" disabled>
+	      </div>
+        </div>
+      </div>
+      <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+        <div class="layui-form-item">
+          <label class="layui-form-label">rwly<span class="must-fill"></span></label>
+          <div class="layui-input-block">
+	          <input class="layui-input readOnlyBox" id="rwly"  lay-verify="text" name="rwly" type="text" autocomplete="off" disabled>
+	      </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="layui-row">
+      <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+        <div class="layui-form-item">
+          <label class="layui-form-label">jddw<span class="must-fill"></span></label>
+          <div class="layui-input-block">
+	          <input class="layui-input readOnlyBox" id="jddw"  lay-verify="text" name="jddw" type="text" autocomplete="off" disabled>
+	      </div>
+        </div>
+      </div>
+      <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+        <div class="layui-form-item">
+          <label class="layui-form-label">合同号<span class="must-fill"></span></label>
+          <div class="layui-input-block">
+	          <input class="layui-input readOnlyBox" id="hth"  lay-verify="text" name="hth" type="text" autocomplete="off" disabled>
+	      </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="layui-row">
+      <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+        <div class="layui-form-item">
+          <label class="layui-form-label">开始时间<span class="must-fill"></span></label>
+          <div class="layui-input-block">
+	          <input class="layui-input readOnlyBox" id="kssj"  lay-verify="text" name="kssj" type="text" autocomplete="off" disabled>
+	      </div>
+        </div>
+      </div>
+      <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+        <div class="layui-form-item">
+          <label class="layui-form-label">结束时间<span class="must-fill"></span></label>
+          <div class="layui-input-block">
+	          <input class="layui-input readOnlyBox" id="jssj"  lay-verify="text" name="jssj" type="text" autocomplete="off" disabled>
+	      </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="layui-row">
+      <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+        <div class="layui-form-item">
+          <label class="layui-form-label">上报状态<span class="must-fill"></span></label>
+          <div class="layui-input-block">
+	          <input class="layui-input readOnlyBox" id="sbzt"  lay-verify="text" name="sbzt" type="text" autocomplete="off" disabled>
+	      </div>
+        </div>
+      </div>
+      <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+        <div class="layui-form-item">
+          <label class="layui-form-label">评审等级<span class="must-fill"></span></label>
+          <div class="layui-input-block">
+	          <input class="layui-input readOnlyBox" id="psdj"  lay-verify="text" name="psdj" type="text" autocomplete="off" disabled>
+	      </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+  <div class="form-bottom">
+    <div class="form-bottom-btns">
+      <button type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white"  id="closeBtn">取消</button>
+    </div>
+  </div>
+  </form>
+</div>
+
+<script>
+    layui.config({
+        base: '../../../../' //静态资源所在路径
+    }).use([ 'jquery','form', 'laydate','table','layer','element'], function(){
+        var $ = layui.jquery,
+            admin = layui.admin,
+            element = layui.element,
+            layer = layui.layer,
+            laydate = layui.laydate,
+            form = layui.form;
+        
+        $("#closeBtn").click(function () {
+        	var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
+            return false;
+        })
+        
+        var dataId = "${dataId?default(0)}";
+        if (dataId) {
+            $.ajax({
+                type : 'post',
+                dataType : 'json',
+                async : false,
+                data : {
+                    "dataId" : dataId 
+                },
+                url : '/out/getOutRewardShow/' + dataId,
+                success : function(data) {
+                    $("input[name=xmbh]").val(data.xmbh);
+                    $("input[name=nd]").val(data.nd);
+                    $("input[name=xmmc]").val(data.xmmc);
+                    $("input[name=sbdw]").val(data.sbdw);
+                    $("input[name=sbjz]").val(data.sbjz);
+                    $("input[name=xkfl]").val(data.xkfl);
+                    $("input[name=sbdj]").val(data.sbdj);
+                    $("input[name=sbrq]").val(data.sbrq);
+                    $("input[name=rwly]").val(data.rwly);
+                    $("input[name=jddw]").val(data.jddw);
+                    $("input[name=hth]").val(data.hth);
+                    $("input[name=kssj]").val(data.kssj);
+                    $("input[name=jssj]").val(data.jssj);
+                    $("input[name=sbzt]").val(data.sbzt);
+                    $("input[name=psdj]").val(data.psdj);
+                },
+                error : function(e) {
+                    alertError("出错了！", e);
+                }
+            });
+        }
+    });
+    
+</script>
+</body>
+</html>

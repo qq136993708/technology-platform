@@ -1,0 +1,145 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+<link rel="stylesheet" href="/layuiadmin/style/common.css">
+<script src="/layuiadmin/layui/layui.js"></script>
+
+<script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    <title>图表树</title>
+</head>
+<body>
+
+<div id="container" style="width: 120%; height: 1200px;"></div>
+<script>
+
+
+    var table, active;
+
+
+    layui.use([ 'jquery', 'table', 'laydate', 'laypage', 'laytpl', 'echarts'], function() {
+        table = layui.table, $ = layui.jquery, laydate = layui.laydate, laypage = layui.laypage, echarts = layui.echarts;
+        $('.chartsTreeBox').css('height',commonDislodgeTable())
+        // 触发不同的按钮事件
+        var $ = layui.$;
+        //1.准备树的数据
+        var treeData, myChart, levelCount;
+        /**2.数据处理成层级关系的数据***/
+        function transData(a, idStr, pidStr, childrenStr) {
+            var r = [], hash = {}, id = idStr, pid = pidStr, children = childrenStr, i = 0, j = 0, len = a.length;
+            for (; i < len; i++) {
+                hash[a[i][id]] = a[i];
+            }
+            for (; j < len; j++) {
+                var aVal = a[j], hashVP = hash[aVal[pid]];
+                if (hashVP) {
+                    !hashVP[children] && (hashVP[children] = []);
+                    hashVP[children].push(aVal);
+                } else {
+                    r.push(aVal);
+                }
+            }
+            return r;
+        }
+        /** *3. 画树 */
+        function drawTree(treeData) {
+            myChart = echarts.init(document.getElementById("container"));
+            //div元素节点的对象
+            myChart.setOption({
+                tooltip : {
+                    trigger : 'item',
+                    triggerOn : 'mousemove'
+                },
+                series : [ {
+                    type : 'tree',
+                    name : 'TREE_ECHARTS',
+                    data : treeData,
+                    top : '2%',
+                    left : '10%',
+                    bottom : '2%',
+                    right : '20%',
+                    symbolSize : 7,
+                    label : {
+                        normal : {
+                            position : 'left',
+                            verticalAlign : 'middle',
+                            align : 'right'
+                        }
+                    },
+                    leaves : {
+                        label : {
+                            position : 'right',
+                            verticalAlign : 'middle',
+                            align : 'left'
+                        }
+                    },
+                    expandAndCollapse : true,
+                    initialTreeDepth : levelCount
+                    //展示层级数,默认是2
+                } ]
+            });
+            //4.树绑定事件
+            myChart.on('click', function(params) {
+                var name = params.data.name;
+                //点击的节点的name
+                var value = params.data.id;
+                //点击的节点的value
+                //调用点击事件
+                clickNode(name, value);
+            });
+        }
+        //节点的点击事件
+        function clickNode(name, value) {
+            // alert(name + '--的值：' + value);
+        }
+
+        $.ajax({
+            type : "post",
+            contentType : "application/json",
+            dataType : "json",
+            url : "/tech-family/type/chart/data",
+            error : function(data) {
+            },
+            success : function(retData) {
+                levelCount = 2;
+                //2.处理数据
+                treeData = transData(retData, 'id', 'pId', 'children');
+                //3.展示数据
+                drawTree(treeData);
+            }
+        });
+        active = {
+            searchEvent : function() { //点击查询按钮
+                var typeName = $('#typeName').val();
+                var jsonstr = {"typeName":typeName};
+                $.ajax({
+                    type : "post",
+                    contentType : "application/json",
+                    dataType : "json",
+                    data : JSON.stringify(jsonstr),
+                    url : "/tech-family/type/chart/data/cond",
+                    error : function(data) {
+                    },
+                    success : function(retData) {
+                        treeData = null;
+                        myChart.clear();
+                        levelCount = 5;
+                        //2.处理数据
+                        treeData = transData(retData, 'id', 'pId', 'children');
+                        //3.展示数据
+                        drawTree(treeData);
+                    }
+                });
+            }
+        };
+
+        //区别按钮属性
+        $('.layui-btn').on('click', function() {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+    });
+</script>
+</body>
+</html>

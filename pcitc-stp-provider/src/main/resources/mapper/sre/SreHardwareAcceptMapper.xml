@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pcitc.mapper.equipment.SreHardwareAcceptMapper" >
+  <resultMap id="BaseResultMap" type="com.pcitc.base.stp.equipment.SreHardwareAccept" >
+    <id column="hardware_id" property="hardwareId" jdbcType="VARCHAR" />
+    <result column="hardware_code" property="hardwareCode" jdbcType="VARCHAR" />
+    <result column="equipment_use" property="equipmentUse" jdbcType="VARCHAR" />
+    <result column="packing_details" property="packingDetails" jdbcType="VARCHAR" />
+    <result column="install_place" property="installPlace" jdbcType="VARCHAR" />
+    <result column="accept_time" property="acceptTime" jdbcType="TIMESTAMP" />
+    <result column="accept_status" property="acceptStatus" jdbcType="VARCHAR" />
+    <result column="out_factory_no" property="outFactoryNo" jdbcType="VARCHAR" />
+    <result column="origin_place" property="originPlace" jdbcType="VARCHAR" />
+    <result column="fact_accept_number" property="factAcceptNumber" jdbcType="INTEGER" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="create_user_id" property="createUserId" jdbcType="VARCHAR" />
+    <result column="update_user_id" property="updateUserId" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="equipment_id" property="equipmentId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    hardware_id, hardware_code, equipment_use, packing_details, install_place, accept_time, 
+    accept_status, out_factory_no, origin_place, fact_accept_number, create_date, create_user_id, 
+    update_user_id, update_date, status, remarks, equipment_id
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.pcitc.base.stp.equipment.SreHardwareAcceptExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from sre_hardware_accept
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sre_hardware_accept
+    where hardware_id = #{hardwareId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sre_hardware_accept
+    where hardware_id = #{hardwareId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.pcitc.base.stp.equipment.SreHardwareAcceptExample" >
+    delete from sre_hardware_accept
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.pcitc.base.stp.equipment.SreHardwareAccept" >
+    insert into sre_hardware_accept (hardware_id, hardware_code, equipment_use, 
+      packing_details, install_place, accept_time, 
+      accept_status, out_factory_no, origin_place, 
+      fact_accept_number, create_date, create_user_id, 
+      update_user_id, update_date, status, 
+      remarks, equipment_id)
+    values (#{hardwareId,jdbcType=VARCHAR}, #{hardwareCode,jdbcType=VARCHAR}, #{equipmentUse,jdbcType=VARCHAR}, 
+      #{packingDetails,jdbcType=VARCHAR}, #{installPlace,jdbcType=VARCHAR}, #{acceptTime,jdbcType=TIMESTAMP}, 
+      #{acceptStatus,jdbcType=VARCHAR}, #{outFactoryNo,jdbcType=VARCHAR}, #{originPlace,jdbcType=VARCHAR}, 
+      #{factAcceptNumber,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=VARCHAR}, 
+      #{updateUserId,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}, 
+      #{remarks,jdbcType=VARCHAR}, #{equipmentId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pcitc.base.stp.equipment.SreHardwareAccept" >
+    insert into sre_hardware_accept
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="hardwareId != null" >
+        hardware_id,
+      </if>
+      <if test="hardwareCode != null" >
+        hardware_code,
+      </if>
+      <if test="equipmentUse != null" >
+        equipment_use,
+      </if>
+      <if test="packingDetails != null" >
+        packing_details,
+      </if>
+      <if test="installPlace != null" >
+        install_place,
+      </if>
+      <if test="acceptTime != null" >
+        accept_time,
+      </if>
+      <if test="acceptStatus != null" >
+        accept_status,
+      </if>
+      <if test="outFactoryNo != null" >
+        out_factory_no,
+      </if>
+      <if test="originPlace != null" >
+        origin_place,
+      </if>
+      <if test="factAcceptNumber != null" >
+        fact_accept_number,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="equipmentId != null" >
+        equipment_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="hardwareId != null" >
+        #{hardwareId,jdbcType=VARCHAR},
+      </if>
+      <if test="hardwareCode != null" >
+        #{hardwareCode,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentUse != null" >
+        #{equipmentUse,jdbcType=VARCHAR},
+      </if>
+      <if test="packingDetails != null" >
+        #{packingDetails,jdbcType=VARCHAR},
+      </if>
+      <if test="installPlace != null" >
+        #{installPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="acceptTime != null" >
+        #{acceptTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="acceptStatus != null" >
+        #{acceptStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="outFactoryNo != null" >
+        #{outFactoryNo,jdbcType=VARCHAR},
+      </if>
+      <if test="originPlace != null" >
+        #{originPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="factAcceptNumber != null" >
+        #{factAcceptNumber,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUserId != null" >
+        #{updateUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentId != null" >
+        #{equipmentId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.pcitc.base.stp.equipment.SreHardwareAcceptExample" resultType="java.lang.Integer" >
+    select count(*) from sre_hardware_accept
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update sre_hardware_accept
+    <set >
+      <if test="record.hardwareId != null" >
+        hardware_id = #{record.hardwareId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hardwareCode != null" >
+        hardware_code = #{record.hardwareCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.equipmentUse != null" >
+        equipment_use = #{record.equipmentUse,jdbcType=VARCHAR},
+      </if>
+      <if test="record.packingDetails != null" >
+        packing_details = #{record.packingDetails,jdbcType=VARCHAR},
+      </if>
+      <if test="record.installPlace != null" >
+        install_place = #{record.installPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="record.acceptTime != null" >
+        accept_time = #{record.acceptTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.acceptStatus != null" >
+        accept_status = #{record.acceptStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.outFactoryNo != null" >
+        out_factory_no = #{record.outFactoryNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.originPlace != null" >
+        origin_place = #{record.originPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="record.factAcceptNumber != null" >
+        fact_accept_number = #{record.factAcceptNumber,jdbcType=INTEGER},
+      </if>
+      <if test="record.createDate != null" >
+        create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createUserId != null" >
+        create_user_id = #{record.createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateUserId != null" >
+        update_user_id = #{record.updateUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateDate != null" >
+        update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remarks != null" >
+        remarks = #{record.remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="record.equipmentId != null" >
+        equipment_id = #{record.equipmentId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update sre_hardware_accept
+    set hardware_id = #{record.hardwareId,jdbcType=VARCHAR},
+      hardware_code = #{record.hardwareCode,jdbcType=VARCHAR},
+      equipment_use = #{record.equipmentUse,jdbcType=VARCHAR},
+      packing_details = #{record.packingDetails,jdbcType=VARCHAR},
+      install_place = #{record.installPlace,jdbcType=VARCHAR},
+      accept_time = #{record.acceptTime,jdbcType=TIMESTAMP},
+      accept_status = #{record.acceptStatus,jdbcType=VARCHAR},
+      out_factory_no = #{record.outFactoryNo,jdbcType=VARCHAR},
+      origin_place = #{record.originPlace,jdbcType=VARCHAR},
+      fact_accept_number = #{record.factAcceptNumber,jdbcType=INTEGER},
+      create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      create_user_id = #{record.createUserId,jdbcType=VARCHAR},
+      update_user_id = #{record.updateUserId,jdbcType=VARCHAR},
+      update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+      status = #{record.status,jdbcType=VARCHAR},
+      remarks = #{record.remarks,jdbcType=VARCHAR},
+      equipment_id = #{record.equipmentId,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.stp.equipment.SreHardwareAccept" >
+    update sre_hardware_accept
+    <set >
+      <if test="hardwareCode != null" >
+        hardware_code = #{hardwareCode,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentUse != null" >
+        equipment_use = #{equipmentUse,jdbcType=VARCHAR},
+      </if>
+      <if test="packingDetails != null" >
+        packing_details = #{packingDetails,jdbcType=VARCHAR},
+      </if>
+      <if test="installPlace != null" >
+        install_place = #{installPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="acceptTime != null" >
+        accept_time = #{acceptTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="acceptStatus != null" >
+        accept_status = #{acceptStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="outFactoryNo != null" >
+        out_factory_no = #{outFactoryNo,jdbcType=VARCHAR},
+      </if>
+      <if test="originPlace != null" >
+        origin_place = #{originPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="factAcceptNumber != null" >
+        fact_accept_number = #{factAcceptNumber,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id = #{updateUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentId != null" >
+        equipment_id = #{equipmentId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where hardware_id = #{hardwareId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.equipment.SreHardwareAccept" >
+    update sre_hardware_accept
+    set hardware_code = #{hardwareCode,jdbcType=VARCHAR},
+      equipment_use = #{equipmentUse,jdbcType=VARCHAR},
+      packing_details = #{packingDetails,jdbcType=VARCHAR},
+      install_place = #{installPlace,jdbcType=VARCHAR},
+      accept_time = #{acceptTime,jdbcType=TIMESTAMP},
+      accept_status = #{acceptStatus,jdbcType=VARCHAR},
+      out_factory_no = #{outFactoryNo,jdbcType=VARCHAR},
+      origin_place = #{originPlace,jdbcType=VARCHAR},
+      fact_accept_number = #{factAcceptNumber,jdbcType=INTEGER},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=VARCHAR},
+      update_user_id = #{updateUserId,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=VARCHAR},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      equipment_id = #{equipmentId,jdbcType=VARCHAR}
+    where hardware_id = #{hardwareId,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,77 @@
+/**
+
+ @Name：layuiAdmin 登入注册页
+ @Author：贤心
+ @Site：http://www.layui.com/admin/
+ @License：GPL-2
+ 
+ */
+ 
+html,body,#LAY_app{height:100%;}
+.layui-layout-body{overflow: auto;}
+body{background: white;}
+#LAY-user-login,
+.layadmin-user-display-show{display: block !important;} 
+.layadmin-user-login{}
+.user-login{position: absolute; right: 0; top: 100px;  box-sizing: border-box;width: 312px;
+  background: #fff;
+}
+.layadmin-user-login-main{width: 375px; margin: 0 auto; box-sizing: border-box;}
+.user-login-box{ width: 1000px;position: relative;margin: 0 auto;height: 100%;}
+.layadmin-user-login-box{padding: 20px 20px 0;}
+.layadmin-user-login-header{width: 1000px;margin: 0 auto;padding:16px 0;height: 8%;
+  background: url("/layuiadmin/layui/images/login-logo.png") left 16px no-repeat;}
+.engineering-header{background: url("/layuiadmin/layui/images/engineering-login-logo.png") left 16px no-repeat;}
+.layadmin-user-login-header h2{margin-bottom: 10px; font-weight: 300; font-size: 30px; color: #000;}
+.layadmin-user-login-header p{font-weight: 300; color: #999;}
+.layadmin-user-login-body{ background: url("/layuiadmin/layui/images/login-bj.png") no-repeat center top #144d99;height: 69%;}
+.engineering-body{background: url("/layuiadmin/layui/images/engineering-login-bj.png") no-repeat center top #1852a8;}
+.layadmin-user-login-body .layui-form-item{position: relative;padding-bottom: 10px;}
+.layadmin-user-login-icon{position: absolute; left: 1px; top: 1px; width: 38px; line-height: 36px;
+  text-align: center; color: #d2d2d2;border-right: 1px solid #e6e4e4;background: #f7f7f7;}
+.layadmin-user-login-body .layui-form-item .layui-input{padding-left: 46px;}
+.layadmin-user-login-codeimg{max-height: 38px; width: 100%; cursor: pointer; box-sizing: border-box;}
+.user-login-message{position: absolute;bottom: -10px;font-size: 12px;text-indent: 20px;color: #e70819;
+  background: url("/layuiadmin/layui/images/login-close.png") no-repeat center left;}
+.layui-btn{background: #3095dd;}
+.user-login-shadow{position: absolute;right: 0;bottom: -29px;background: url("/layuiadmin/layui/images/login-shadow.png") no-repeat;
+  width: 312px;height: 28px;}
+.user-login-shadow img{}
+.layadmin-user-login-other{position: relative; font-size: 0; line-height: 38px; padding-top: 20px;}
+.layadmin-user-login-other>*{display: inline-block; vertical-align: middle; margin-right: 10px; font-size: 14px;}
+.layadmin-user-login-other .layui-icon{position: relative; top: 2px; font-size: 26px;}
+.layadmin-user-login-other a:hover{opacity: 0.8;}
+
+.layadmin-user-jump-change{float: right;}
+
+.layadmin-user-login-footer{width: 1000px;margin: 10px auto 0;color: #666666;font-size: 12px;line-height: 22px;}
+.layadmin-user-login-footer .red{color: #e70819;}
+.layadmin-user-login-footer span{padding: 0 5px;}
+.layadmin-user-login-footer a{padding: 0 5px; color: rgba(0,0,0,.5);}
+.layadmin-user-login-footer a:hover{color: rgba(0,0,0,1);}
+
+/* 有背景图时 */
+.layadmin-user-login-main[bgimg]{background-color: #fff; box-shadow: 0 0 5px rgba(0,0,0,0.05);}
+
+/* 主题背景 */
+.ladmin-user-login-theme{position: fixed; bottom: 0; left: 0; width: 100%; text-align: center;}
+.ladmin-user-login-theme ul{display: inline-block; padding: 5px; background-color: #fff;}
+.ladmin-user-login-theme ul li{display: inline-block; vertical-align: top; width: 64px; height: 43px; cursor: pointer; transition: all .3s; -webkit-transition: all .3s; background-color: #f2f2f2;}
+.ladmin-user-login-theme ul li:hover{opacity: 0.9}
+
+@media screen and (max-width: 800px) {
+  .layadmin-user-login-header,.user-login-box,.layadmin-user-login-footer{width: 700px;}
+  
+
+}
+
+@media screen and (min-height: 900px) and (max-height: 1920px) {
+  .layadmin-user-login-header{height: 13%;background: url("/layuiadmin/layui/images/login-logo.png") left 70% no-repeat;}
+  .engineering-header {
+    background: url(/layuiadmin/layui/images/engineering-login-logo.png) left center no-repeat;
+}
+  .user-login{top:180px !important;}
+  .layadmin-user-login-body{ height: 60%;background-size: 80%;}
+  .layadmin-user-login-footer{font-size: 18px;line-height: 32px;}
+}
+

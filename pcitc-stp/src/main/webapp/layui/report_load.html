@@ -1,0 +1,137 @@
+<script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
+
+<div class="layui-row searchBox">
+    <div class="layui-col-xs3">
+        <!--查询条件-->
+        <div class="grid-demo grid-demo-bg1">
+            <div class="layui-form-item" style="width: auto;">
+                <!--<label class="layui-form-label">查询条件</label>-->
+                <div class="layui-input-block">
+                    <input type="hidden" name="modelName"  title="查询条件" autocomplete="off" class="layui-input" id="modelName">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-col-xs5">
+        <!--按钮组-->
+        <div class="btnGroup">
+            <button class="layui-btn layui-btn-sm bgColor-blue" id="search"><i class="layui-icon">&#xe615;</i>查询</button>
+            <!--<button class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg btn_reset">重置</button>-->
+        </div>
+    </div>
+</div>
+
+<div id="toolbarDemo" style="display: none;">
+    单位:万元
+    <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_export" >导出</button>
+</div>
+<div class="tableBox" style="overflow-y: scroll;">
+    <table id="testReload" class="layui-hide" lay-filter="demoEvent" lay-even></table>
+
+</div>
+<!--表格js-->
+<script type="text/javascript" src="../layuiadmin/layui/layui.js"></script>
+<script>
+    layui.use(['jquery','table'], function(){
+        var table = layui.table;
+        var $ = layui.jquery;
+        var token = "eyJhbGciOiJIUzUxMiJ9.eyJ1c2VyTmFtZSI6IjEyMzQ1NiIsInJvbGVMaXN0IjpbXSwiZXhwIjoxNTM2MjMyMzM3LCJ1c2VySWQiOiIxMjMifQ.wYmBUq7gvshHPdm6dKQrKzC2LiFRr3HBZn5fKfZl5s9CxnD92fN-JYAgZb1niQvyXwhKGjmj7EcoAZLGQlfLOA";
+        //渲染
+        table.render({
+            id: 'model'
+            ,elem: '#testReload'
+            // , headers: { token: token}
+            ,limit: 10
+            ,height: 'full-200'
+            , method: 'POST'
+            ,where:{
+                token: token,
+                "column":strcolumns
+                ,"columnko":strcolumnsko
+                ,"strall":strall
+                ,"group":strgroup
+                ,"where":strwhere
+                ,"date":"201706",
+                "gsdm":gsdm
+
+            }
+            , url: '/report/getTableReport'
+            ,toolbar: '#toolbarDemo'
+            ,page: {
+                count: 500 //数据总数，从服务端得到
+                ,groups: 5
+                ,layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+                ,first: '首页' //不显示首页
+                ,last: '尾页' //不显示尾页
+                ,theme: '#0F9EE0'
+            }
+            ,cols: [arrayColumns]
+        });
+
+
+
+        //监听单元格事件
+        table.on('tool(demoEvent)', function(obj){
+            var data = obj.data;
+        });
+
+        var $ = layui.jquery, active = {
+            getCheckData: function(){
+                var checkStatus = table.checkStatus('testReload')
+                    ,data = checkStatus.data;
+                layer.alert(JSON.stringify(data));
+            },
+            getCheckLength: function(){
+                var checkStatus = table.checkStatus('testReload')
+                    ,data = checkStatus.data;
+                layer.msg('选中了：'+ data.length + ' 个');
+            },
+            isAll: function(){
+                var checkStatus = table.checkStatus('testReload');
+                layer.msg(checkStatus.isAll ? '全选': '未全选')
+            },
+            parseTable: function(){
+                table.init('parse-table-demo', {
+                    limit: 3
+                });
+            },
+            add: function(){
+                table.addRow('testReload')
+            },
+            delete: function(){
+                layer.confirm('确认删除吗？', function(index){
+                    table.deleteRow('testReload')
+                    layer.close(index);
+                });
+            }
+            ,
+            reload: function(){
+                getCheck();
+                table.reload('model', {
+                    where: {
+                        token: token,
+                        "column":strcolumns
+                        ,"columnko":strcolumnsko
+                        ,"strall":strall
+                        ,"group":strgroup
+                        ,"where":strwhere
+                        ,"date":"201706",
+                        "gsdm":gsdm
+                    }
+                });
+            }
+        };
+        $('i').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+        $('.layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+    });
+</script>
+<script src="http://www.jq22.com/jquery/jquery-migrate-1.2.1.min.js"></script>
+<script type="text/javascript" src="/examples/js/tab.js"></script>
+</body>
+</html>

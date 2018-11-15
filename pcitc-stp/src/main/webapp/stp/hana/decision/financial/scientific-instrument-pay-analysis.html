@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <link rel="stylesheet" href="/common/css/echart-common.css">
+</head>
+<body >  
+<div class="searchBox">
+    <!--查询条件-->
+        <label class="dateInput">
+            <span>月份</span>
+            <input type="text" name="month" placeholder="请选择月份" title="月份" value="${month}" autocomplete="off" class="form-control" id="month">
+        </label>
+       <div class="layui-input-inline">
+         <select name="companyCode" id="companyCode" >
+              <#list companyCodeList as vo>
+              	 <#if vo.g0GSJC == '全部'>
+              	 	<option value="${vo.g0GSDM}"  selected="selected">${vo.g0GSJC}</option>
+              	 </#if>
+                 <#if vo.g0GSJC != '全部'>
+              	 	<option value="${vo.g0GSDM}">${vo.g0GSJC}</option>
+              	 </#if>
+               </#list>
+            </select>
+       </div>
+
+       
+       
+    <!--按钮组-->
+    <div class="btnGroup">
+        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()" data-type="searchEvent">查询</button>
+    </div>
+    <span class="unitBox">单位：万元</span>
+</div>
+
+
+
+<div class="tableBtns" style="margin:20px;float:right">
+	<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details"  onclick="detail()" >支出详情</button>
+</div>
+
+
+<!--echarts-->
+<div class="content-body container" style="clear:both">
+
+        <div class="one-chart-box">
+         <div class="layui-row echarts">
+             <div id="main1" style="width: 100%;height: 400px;"></div>
+         </div>
+        </div>
+     
+     
+        <!--图表二比一布局-->
+        <div class="layui-row two-one-box">
+            <div class="layui-col-xs8 layui-col-sm8 layui-col-md8 twoBox echarts">
+                <div id="main2" style="width: 100%;height: 400px;"></div>
+            </div>
+            <div class="layui-col-xs4 layui-col-sm4 layui-col-md4 oneBox echarts">
+                <div id="main3" style="width: 100%;height: 400px;"></div>
+            </div>
+        </div>
+        
+         <form class="layui-form layui-form1" style="margin-top:10px">
+            <div class="layui-input-inline" id="boxv" >
+            </div>
+        </form>
+        
+        <!--图表二比一布局-->
+        <div class="layui-row two-one-box">
+            <div class="layui-col-xs8 layui-col-sm8 layui-col-md8 twoBox echarts">
+                <div id="main4" style="width: 100%;height: 400px;"></div>
+            </div>
+            <div class="layui-col-xs4 layui-col-sm4 layui-col-md4 oneBox echarts">
+                <div id="main5" style="width: 100%;height: 400px;"></div>
+            </div>
+        </div>
+     
+</div>    
+     
+     
+     
+
+
+<!--表格数据操作js-->
+<script src="/common/js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+<script src="/common/js/layer-v3.1.1/layer.js"></script>
+<script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
+<script type="text/javascript" src="/plugins/echarts/walden.js"></script>	
+<script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
+<script type="text/javascript">
+var form;
+var foreachIn="";
+layui.config({
+    base: '/layuiadmin/module/modules/' 
+}).use(['jquery','form', 'laydate','table','laypage'], function(){
+	  $ = layui.jquery
+      ,table = layui.table
+      ,form = layui.form
+      ,laydate = layui.laydate
+	  form.render(null, 'component-form-group');
+            laydate.render({
+               elem: '#month'
+               ,format: 'yyyyMM'
+            });
+            
+            form.on('checkbox(checks)', function(data){
+          	  
+          	  load_other();
+             	});  
+});
+
+var allCode="${allCode?default('')}";
+var allCode_text="全部院所";
+
+
+function barLineAjax_t(url,  echartsobj, options) 
+{
+	
+   var legends=[];     //指标
+   var xAxisData=[];   //X轴名称
+   var seriesData=[];  //X轴数据
+   $.ajax({
+	     type:"GET",
+	     url: url,
+	     dataType:"json",
+	     timeout : 11000,
+	     cache: false,
+	     contentType: "application/x-www-form-urlencoded; charset=utf-8",
+         success:function(data,status)
+         {    
+	          if(data.success==true ||data.success=='true')
+	          {
+	        		       echartsobj.hideLoading();
+	        	           var legendDataList=data.data.legendDataList;
+	        	           //挨个取出类别并填入类别数组
+	        	           for(var i=0;i<legendDataList.length;i++)
+	        	           {
+	        	               legends.push(legendDataList[i]);
+	        	           }
+	        	           var xAxisDataList=data.data.xAxisDataList;
+	        	           $("#boxv").empty();
+	        	           for(var i=0;i<xAxisDataList.length;i++)
+	        	           {
+
+	        	           	xAxisData.push(xAxisDataList[i]);
+	        	           	//alert(xAxisDataList[i]);
+	        	           	
+	        	        	var checkBox=document.createElement("input");
+	        	           	checkBox.setAttribute("type","checkbox");
+	        	           	checkBox.setAttribute("id","checkbox_"+i);
+	        	           	checkBox.setAttribute("name","foreachIn_checkbox");
+	        	           	checkBox.setAttribute("lay-skin","primary");
+	        	           	checkBox.setAttribute("title",xAxisDataList[i]);
+	        	        	checkBox.setAttribute("value",xAxisDataList[i]);
+	        	           	checkBox.setAttribute("checked","");
+	        	        	checkBox.setAttribute("lay-filter","checks");
+	        	           	$("#boxv").append(checkBox)
+	        	           		form.render();
+	        	           	
+	        	           }
+	        	           var seriesList=data.data.seriesList;
+	        	           for(var i=0;i<seriesList.length;i++)
+	        	           {
+	        	           	seriesData.push({
+	        	           		   type: seriesList[i].type,
+	        	                   name: seriesList[i].name,
+	        	                   data: seriesList[i].data
+	        	               });
+	        	           }
+	        	           //加载数据图表
+	        	           echartsobj.setOption({
+	        	               legend: {
+	        	                   data: legends
+	        	               },
+	        	               xAxis: [
+	        	                   {
+	        	                       type: 'category',
+	        	                       data: xAxisData
+	        	                   }
+	        	               ],
+	        	               series: seriesData
+	        	           });
+	        	           console.log(options);
+	        	       
+	          } else
+	          {
+	        	 layer.alert(failMsg);
+	          }
+		   },
+		   error:function()
+		   {
+		    	layer.alert("网络访问错误");
+		   },
+		   complete: function (XMLHttpRequest, status) {
+	            if(status == 'timeout')
+	            {
+	            	 layer.msg('超时');
+	            }
+	            load_other();
+	            
+	        }
+		  
+  });
+   
+} 
+function load_mutl_bar_t(url,id,title,subtext)
+{
+	var echartsobj = echarts.init(document.getElementById(id));
+	mutl_bar.title.text=title;
+	mutl_bar.title.subtext=subtext;
+	echartsobj.setOption(mutl_bar);
+	echartsobj.showLoading();
+	barLineAjax_t(url,echartsobj, mutl_bar);
+}
+function init()
+{
+		
+		var v_date=(new Date()).getTime();
+		var month=$('#month').val();
+		var companyCode=$('#companyCode').val();
+		var monthstr=getNowFormatDate($('#month').val());
+		var checkText=$("#companyCode").find("option:selected").text();
+		if(checkText=='全部')
+		{
+			checkText="全部院所";
+		}
+		
+		var url_main1="/financial-decision/scientific_device_pay_trand?companyCode="+companyCode+"&month="+month+"&v_date="+v_date;
+		load_mutl_bar_t(url_main1,"main1","科研仪器设备支出年度趋势分析",monthstr);
+		
+		
+		var url_main2="/financial-decision/scientific_device_pay_by_type?companyCode="+companyCode+"&month="+month+"&v_date="+v_date+"&type=1";
+		load_bar_line(url_main2,"main2","科研仪器支出按资产类别同比分析",monthstr);
+		
+	
+	
+		var url_main3="/financial-decision/scientific_device_pay_by_type?companyCode="+companyCode+"&month="+month+"&v_date="+v_date+"&type=2";
+		loadPie(url_main3,"main3","科研仪器支出按资产类型占比分析",monthstr);
+		
+		
+		
+		
+}	
+
+function load_other()
+{
+	
+	var id_array=new Array();  
+    $("input[name='foreachIn_checkbox']:checked").each(function(i){//把所有被选中的复选框的值存入数组
+      var tt =$(this).val();
+      id_array.push(tt);
+    });
+    var lengthv=id_array.length;
+    if(lengthv>0)
+    {
+	   	foreachIn=id_array.join(',');
+	   	
+	   	
+	   	var v_date=(new Date()).getTime();
+		var month=$('#month').val();
+		var companyCode=$('#companyCode').val();
+		var monthstr=getNowFormatDate($('#month').val());
+		
+		var url_main4="/financial-decision/scientific_device_pay_by_department?companyCode="+allCode+"&month="+month+"&v_date="+v_date+"&type=1&foreachIn="+foreachIn;
+		load_bar_line(url_main4,"main4","科研仪器支出按研究院同比分析",monthstr);
+		
+	
+		var url_main5="/financial-decision/scientific_device_pay_by_department?companyCode="+allCode+"&month="+month+"&v_date="+v_date+"&type=2&foreachIn="+foreachIn;
+		loadPie(url_main5,"main5","科研仪器支出按研究院占比分析",monthstr);
+    }else
+    {
+   	   alert("至少一个复选框");
+    }
+	
+}
+
+init();
+
+function search_Event()
+{
+	init();
+}
+      
+
+function detail()
+{
+	location.href="/financial-decision/scientific-instrument-pay-analysis-detail";
+}       
+           
+           
+    </script>
+</body>
+</html>

@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>echarts图表</title>
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <script src="/layuiadmin/layui/layui.js"></script>
+</head>
+<style>
+    body{background: #f2f2f2;}
+    .content .searchBox {background: none;height: 36px;}
+    .echarts{ width:100%; height: 300px; box-sizing: border-box; box-shadow: 0 0 1px #ccc, 0 1px 3px #666;border-radius: .25rem;background: #fff;}
+    .one-chart-box,.two-charts-box,.two-one-box, .one-two-box, .three-charts-box{ margin-bottom: 8px;}
+    .three-charts-box .echarts{height: 300px;width: 33%; margin-right: 0.5%; box-sizing: border-box;}
+    .two-charts-box .echarts{width: 49.7%; margin-right: 0.6%;}
+    .two-charts-box .echarts:last-child{margin-right: 0;}
+    .two-one-box .twoBox{width: 66.5%;  margin-right: 0.5%;}
+    .two-one-box .oneBox{width: 33%; margin-right: 0;}
+    .one-two-box .oneBox{width: 33%; margin-right: 0.5%;}
+    .one-two-box .twoBox{width: 66.5%; margin-right: 0;}
+    .three-charts-box .echarts:last-child{margin-right: 0;}
+</style>
+<body style="padding: 10px;">
+<section class="content">
+    <!--echarts-->
+    <div class="content-body container">
+        <!--图表二等分布局-->
+        <div class="layui-row two-charts-box">
+            <div class="layui-col-xs6 layui-col-sm6 layui-col-md6 echarts">
+                <!--<p>研究院实际经费投入占比分析</p>-->
+                <div id="main2" style="width: 100%;height: 300px;"></div>
+            </div>
+            <div class="layui-col-xs6 layui-col-sm6 layui-col-md6 echarts">
+                <!--<p>研究院经费投入项目类别占比分析</p>-->
+                <div style="width: 100%;height: 300px;position: relative; overflow: hidden;">
+                    <div id="main3" style="width: 100%;height: 300px;"></div>
+                </div>
+            </div>
+        </div>
+        <!--图表一份部分-->
+        <div class="one-chart-box">
+            <div class="layui-row echarts">
+                <!--<p>科研经费预算投入年度趋势分析</p>-->
+                <div id="main1" style="width: 100%;height: 300px;"></div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    layui.config({
+        base: '/layuiadmin/lib/extend/' //静态资源所在路径
+    }).extend({
+        echarts: 'echarts' //主入口模块
+    }).use([ 'jquery','form', 'laydate','table','layer','element','echarts'], function() {
+        var $ = layui.jquery
+            , laydate = layui.laydate
+            , form = layui.form
+            , table = layui.table
+            , echarts = layui.echarts;
+
+        // 基于准备好的dom，初始化echarts图表
+        var myChart1 = echarts.init(document.getElementById('main1')),
+            myChart2 = echarts.init(document.getElementById('main2')),
+            myChart3 = echarts.init(document.getElementById('main3'));
+
+        var option1 = {
+            title : {
+                text: '2018国际合作项目立项数量对比',
+                textStyle: {
+                    color: '#000000',
+                    fontStyle: 'normal',
+                    fontWeight: 800,
+                    fontFamily: 'sans-serif',
+                    fontSize: 18,
+                    textBorderColor: 'transparent',
+                    textBorderWidth: 0
+                },
+                x: 'center'
+            },
+            tooltip : {
+                trigger: 'axis'
+            },
+            legend: {
+                data:['研究类项目数量','建工类项目数量','建设类项目数量'],
+                top : 30
+            },
+            toolbox: {
+                show : true,
+                feature : {
+                    mark : {show: true},
+                    dataView : {show: true, readOnly: false},
+                    magicType : {show: true, type: ['line', 'bar']},
+                    restore : {show: true},
+                    saveAsImage : {show: true}
+                }
+            },
+            calculable : true,
+            xAxis : [
+                {
+                    type : 'category',
+                    data : ['勘探院','物探院','工程院','石科院','大连院','北化院','上海院','安工院']
+                }
+            ],
+            yAxis : [
+                {
+                    type : 'value'
+                }
+            ],
+            series : [
+                {
+                    name:'研究类项目数量',
+                    type:'bar',
+                    data:[22, 46, 30, 68, 52, 63, 80, 60],
+                    color : '#FF7644'
+                },
+                {
+                    name:'建工类项目数量',
+                    type:'bar',
+                    data:[32, 46, 30, 42, 52, 62, 80, 66],
+                    color : '#4C96EE'
+                },
+                {
+                    name:'建设类项目数量',
+                    type:'bar',
+                    data:[18, 42, 50, 48, 56, 76, 86, 69],
+                    color : '#00DA65'
+                }
+            ]
+        };
+        var option2 = {
+            title : {
+                text: '2018国际合作项目立项金额对比',
+                textStyle: {
+                    color: '#000000',
+                    fontStyle: 'normal',
+                    fontWeight: 800,
+                    fontFamily: 'sans-serif',
+                    fontSize: 18,
+                    textBorderColor: 'transparent',
+                    textBorderWidth: 0,
+                },
+                x:'center'
+            },
+            tooltip : {
+                trigger: 'item',
+                formatter: "{a} <br/>{b} : {c} ({d}%)"
+            },
+            toolbox: {
+                show : true,
+                feature : {
+                    // mark : {show: true},
+                    dataView : {show: true, readOnly: false},
+                    magicType : {
+                        show: true,
+                        type: ['pie', 'funnel'],
+                        option: {
+                            funnel: {
+                                x: '25%',
+                                width: '50%',
+                                funnelAlign: 'left',
+                                max: 1548
+                            }
+                        }
+                    },
+                    restore : {show: true}
+                }
+            },
+            calculable : true,
+            series : [
+                {
+                    name:'访问来源',
+                    type:'pie',
+                    minAngle: 5,           　　 //最小的扇区角度（0 ~ 360），用于防止某个值过小导致扇区太小影响交互
+                    avoidLabelOverlap: true,   //是否启用防止标签重叠策略
+                    radius : '55%',
+                    center: ['50%', '60%'],
+                    data:[
+                        {value:10, name:'勘探院(10%)'},
+                        {value:12, name:'物探院(12%)'},
+                        {value:18, name:'工程院(18%)'},
+                        {value:15, name:'石科院(15%)'},
+                        {value:15, name:'大连院(15%)'},
+                        {value:10, name:'北化院(10%)'},
+                        {value:10, name:'上海院(10%)'},
+                        {value:10, name:'安工院(10%)'}
+                    ],
+                    itemStyle:{
+                        normal: {
+                            borderColor: '#fff',
+                            borderWidth: 1,
+                            label: {
+                                show: true,
+                                position: 'outer'
+                            },
+                            labelLine: {
+                                show: true,
+                                length: 20,
+                                lineStyle: {
+                                    // color: 各异,
+                                    width: 1,
+                                    type: 'solid'
+                                }
+                            }
+                        }
+                    }
+                }
+            ],
+            color:['#FF7644','#4C96EE','#00DA65','#F287DB','#88D9FD']
+        };
+
+        var option3 = {
+            title : {
+                text: '2018国际合作立项项目汇总表',
+                textStyle: {
+                    color: '#000000',
+                    fontStyle: 'normal',
+                    fontWeight: 800,
+                    fontFamily: 'sans-serif',
+                    fontSize: 18,
+                    textBorderColor: 'transparent',
+                    textBorderWidth: 0
+                },
+                x:'center'
+            },
+            tooltip : {
+                trigger: 'item',
+                formatter: "{a} <br/>{b} : {c} ({d}%)"
+            },
+            toolbox: {
+                show : true,
+                feature : {
+                    // mark : {show: true},
+                    dataView : {show: true, readOnly: false},
+                    magicType : {
+                        show: true,
+                        type: ['pie', 'funnel'],
+                        option: {
+                            funnel: {
+                                x: '25%',
+                                width: '50%',
+                                funnelAlign: 'left',
+                                max: 1548
+                            }
+                        }
+                    },
+                    restore : {show: true}
+                }
+            },
+            calculable : true,
+            series : [
+                {
+                    name:'访问来源',
+                    type:'pie',
+                    minAngle: 5,           　　 //最小的扇区角度（0 ~ 360），用于防止某个值过小导致扇区太小影响交互
+                    avoidLabelOverlap: true,   //是否启用防止标签重叠策略
+                    radius : '55%',
+                    center: ['50%', '60%'],
+                    data:[
+                        {value:10, name:'勘探院(10%)'},
+                        {value:12, name:'物探院(12%)'},
+                        {value:18, name:'工程院(18%)'},
+                        {value:15, name:'石科院(15%)'},
+                        {value:15, name:'大连院(15%)'},
+                        {value:10, name:'北化院(10%)'},
+                        {value:10, name:'上海院(10%)'},
+                        {value:10, name:'安工院(10%)'}
+                    ],
+                    itemStyle:{
+                        normal: {
+                            // color: 各异,
+                            borderColor: '#fff',
+                            borderWidth: 1,
+                            label: {
+                                show: true,
+                                position: 'outer'
+                            },
+                            labelLine: {
+                                show: true,
+                                length: 20,
+                                lineStyle: {
+                                    // color: 各异,
+                                    width: 1,
+                                    type: 'solid'
+                                }
+                            }
+                        }
+                    }
+                }
+            ],
+            color:['#FF7644','#4C96EE','#00DA65','#F287DB','#88D9FD']
+        };
+        // 为echarts对象加载数据
+        myChart1.setOption(option1);
+        myChart2.setOption(option2);
+        myChart3.setOption(option3);
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>左树右表</title>
+	<link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
+	<link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
+	<link rel="stylesheet" type="text/css" href="/layuiadmin/ztree/css/metroStyle/metroStyle.css">
+
+	<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+	<script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
+	<script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.core.js"></script>
+	<script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.excheck.min.js"></script>
+	<script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+</head>
+<style>
+    .rowForm{height: 226px;border-top:1px solid #e6e6e6;padding-right: 30px;}
+    .layui-textarea{min-height:28px;}
+    .treeBox{height: 100%;top: 0;}
+    .layui-input, .layui-select{height: 28px;}
+    .layui-input-block{min-height: 28px;}
+</style>
+<body>
+<div class="treeTableContainer">
+	<div class="treeBox">
+		<div class="title-box title-btns">
+			组织机构
+			<span>
+				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg thirdBtn" data-type="addUnitEvent">新增</button>
+				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg" data-type="editUnitEvent">编辑</button>
+				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="deleteUnitEvent">删除</button>
+			</span>
+		</div>
+
+		<div class="layui-side-scroll">
+			<!-- 左侧子菜单 -->
+			<ul id="unitTree" class="ztree"></ul>
+		</div>
+	</div>
+    <div class="treeTableBox" style="margin-top: 10px;">
+   		<div class="tableToolBox"></div>
+    	<form id="unit-form" name="unit-form" action="" lay-filter="unit-form" class="form-horizontal layui-form">
+    	<div class="rowForm">
+	       <!--  <div class="layui-row">
+	            <div class="layui-col-xs5 layui-col-sm5 layui-col-md5">
+	                <div class="layui-form-item">
+	                    <label for="" class="layui-form-label">机构名称<span class="must-fill"></span></label>
+	                    <div class="layui-input-block">
+	                    	<input type="text" readonly="readonly" class="layui-input readOnlyBox" id="unitName" name="unitName" lay-filter="unitName" autocomplete="off">
+	                    </div>
+	                </div>
+	                <div class="layui-form-item">
+	                    <label for="" class="layui-form-label">机构简称<span class="must-fill"></span></label>
+	                    <div class="layui-input-block">
+	                        <input type="text" readonly="readonly" class="layui-input readOnlyBox" id="unitAbbr" name="unitAbbr" lay-filter="unitAbbr" autocomplete="off">
+	                    </div>
+	                </div>
+	                <div class="layui-form-item">
+	                    <label for="" class="layui-form-label">机构编码<span class="must-fill"></span></label>
+	                    <div class="layui-input-block">
+	                    	<input type="text" readonly="readonly" class="layui-input readOnlyBox" name="unitCode" lay-filter="unitCode" autocomplete="off">
+	                    </div>
+	                </div>
+	            </div>
+	            <div class="layui-col-xs5 layui-col-sm5 layui-col-md5">
+	                <div class="layui-form-item">
+	                    <label for="" class="layui-form-label">机构类型<span class="must-fill"></span></label>
+	                    <div class="layui-input-block">
+	                    	<input id="unitKind" readonly="readonly" class="layui-input readOnlyBox" name="unitKind" lay-filter="unitKind" autocomplete="off">
+	                    </div>
+	                </div>
+	                <div class="layui-form-item">
+	                    <label for="" class="layui-form-label">备注<span class="must-fill"></span></label>
+	                    <div class="layui-input-block">
+	                   		<textarea name="unitComment" lay-filter="unitComment" readonly="readonly" autocomplete="off" class="layui-textarea readOnlyBox"></textarea>
+	                    </div>
+	                </div>
+	            </div>
+	        </div> -->
+	        
+	        
+	      	<!--行有两个的情况-->
+		    <div class="layui-row">
+		      <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+		        <div class="layui-form-item">
+		          <label for="" class="layui-form-label">机构全称</label>
+		          <div class="layui-input-block">
+		          	<input type="text" id="unitName" name="unitName" lay-filter="unitName"  autocomplete="off" class="layui-input" readonly="readonly" style="background: #eee">
+		          </div>
+		        </div>
+		      </div>
+		      <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+		        <div class="layui-form-item">
+		          <label for="" class="layui-form-label">机构简称</label>
+		          <div class="layui-input-block">
+		          	<input type="text" id="unitAbbr" name="unitAbbr" lay-filter="unitAbbr"  autocomplete="off" class="layui-input" readonly="readonly" style="background: #eee">
+		          </div>
+		        </div>
+		      </div>
+		    </div>
+	      	<!--行有两个的情况-->
+		    <div class="layui-row">
+		      <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+		        <div class="layui-form-item">
+		          <label for="" class="layui-form-label">机构编码</label>
+		          <div class="layui-input-block">
+		          	<input type="text" id="unitCode" name="unitCode" lay-filter="unitCode" autocomplete="off" class="layui-input" readonly="readonly" style="background: #eee">
+		          </div>
+		        </div>
+		      </div>
+		      <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+		        <div class="layui-form-item">
+		          <label for="" class="layui-form-label">账户</label>
+		          <div class="layui-input-block">
+		          	<input type="text" id="unitAccount" name="unitAccount" lay-filter="unitAccount" autocomplete="off" class="layui-input" readonly="readonly" style="background: #eee">
+		          </div>
+		        </div>
+		      </div>
+		    </div>
+		    <!--行有两个的情况-->
+		    <div class="layui-row">
+		      <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+		        <div class="layui-form-item">
+		          <label for="" class="layui-form-label">联系电话</label>
+		          <div class="layui-input-block">
+		          	<input type="text" id="unitPhone" name="unitPhone" lay-filter="unitPhone" autocomplete="off" class="layui-input" readonly="readonly" style="background: #eee">
+		          </div>
+		        </div>
+		      </div>
+		      <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+		        <div class="layui-form-item">
+		          <label for="" class="layui-form-label">传真号码</label>
+		          <div class="layui-input-block">
+		          	<input type="text" id="unitFax" name="unitFax" lay-filter="unitFax" autocomplete="off" class="layui-input" readonly="readonly" style="background: #eee">
+		          </div>
+		        </div>
+		      </div>
+		    </div>
+		    <!--行有两个的情况-->
+		    <div class="layui-row">
+		      <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+		        <div class="layui-form-item">
+		          <label for="" class="layui-form-label">机构负责人</label>
+		          <div class="layui-input-block">
+		          	<input type="text" id="unitManager" name="unitManager" lay-filter="unitManager" autocomplete="off" class="layui-input" readonly="readonly" style="background: #eee">
+		          </div>
+		        </div>
+		      </div>
+		      <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+		        <div class="layui-form-item">
+		          <label for="" class="layui-form-label">机构类型</label>
+		          <div class="layui-input-block">
+		            <input type="text" id="unitKind" name="unitKind" lay-filter="unitKind" autocomplete="off" class="layui-input" readonly="readonly" style="background: #eee">
+		          </div>
+		        </div>
+		      </div>
+		    </div>
+		    <!--行有两个的情况-->
+		    <div class="layui-row">
+		      <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+		        <div class="layui-form-item">
+		          <label for="" class="layui-form-label">地址</label>
+		          <div class="layui-input-block">
+		          	<input type="text" id="unitAddress" name="unitAddress" lay-filter="unitAddress" autocomplete="off" class="layui-input" readonly="readonly" style="background: #eee">
+		          </div>
+		        </div>
+		      </div>
+		      <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+		        <div class="layui-form-item">
+		          <label for="" class="layui-form-label">ERP控制者</label>
+		          <div class="layui-input-block">
+		            <input type="text" id="unitControl" name="unitControl" lay-filter="unitControl" autocomplete="off" class="layui-input" readonly="readonly" style="background: #eee">
+		          </div>
+		        </div>
+		      </div>
+		    </div>
+	<!--       	<div class="layui-form-item layui-form-text">
+		        <label class="layui-form-label">排序<span class="must-fill"></span></label>
+		        <div class="layui-input-block">
+		         	<input type="text" id="unitOrder" name="unitOrder" lay-verify="number" placeholder="排序序号（请输入数字 顺序从小到大）" autocomplete="off" class="layui-input">
+		        </div>
+	      	</div> 
+
+	      	<div class="layui-form-item">
+		        <label for="" class="layui-form-label">机构类型<span class="must-fill">*</span></label>
+		        <div class="layui-input-block">
+		          <div class="layui-col-xs4 layui-col-sm4 layui-col-md4">
+		            <select name="unitKind" id="unitKind" lay-verify="required" lay-filter="unitKind">
+		            	<option value="">请选择</option>
+		            </select>
+		          </div>
+		        </div>
+		     </div>
+		     
+		     -->
+			<div class="layui-form-item">
+		        <label class="layui-form-label">备注<span class="must-fill"></span></label>
+	            <div class="layui-input-block">
+	              <textarea id="unitComment" name="unitComment" lay-filter="unitComment" class="layui-textarea" readonly="readonly" style="background: #eee;height: 28px;"></textarea>
+	            </div>
+	      	</div>
+	    </div>
+	</form>    
+    	<div class="tableToolBox">
+	        <div  class="tableBtns">
+	         	<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg "data-type="addPostEvent">新增</button>
+            	<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg " data-type="editPostEvent">编辑</button>
+            	<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="deletePostEvent" >删除</button>
+	        </div>
+    	</div>
+    	<table id="postTable" class="layui-hide" lay-filter="tableEvent"></table>
+	 </div>
+</div>
+<script type="text/javascript">
+	var unitId,zTreeObj,table,form,unitType={},postType={},selectRowData;
+	var setting = 
+	{
+		//check: { enable: true, chkStyle: "radio", radioType: "level" },//单选按钮
+	    data: {simpleData: {enable: true}},
+	    callback: {onClick: onClickMenu}
+	};
+	function onClickMenu(event,treeId,treeNode,clickFlag) {
+		unitId = treeNode.id;
+		//刷新表格
+		table.reload('postTable', {
+	        where: {param: {"unitId":unitId}}
+	    }); 
+		$(".layui-table-header table thead th input").remove();  //移除表头的复选框,去掉全选
+		//刷新机构数据
+		loadUnitInfo(unitId);
+	}
+	//从新加载树
+	function loadUnitTree(unitId)
+	{
+		ajaxPost("/unit/ztree-unit-list", null, function (dt) {
+			zTreeObj = $.fn.zTree.init($("#unitTree"), setting, dt);
+			zTreeObj.expandAll(true);
+	    });
+		//如果指定某个节点，则选中出发选中事件
+		if(unitId)
+		{
+			var node = zTreeObj.getNodeByParam("id",unitId);
+			if(node){
+				//参数 1是否单独选中（追加选中true，单独选中false） 2滚动到可视区域（是false，否true）
+				zTreeObj.selectNode(node,false,true);
+			}
+			loadUnitInfo(unitId);
+		}
+	}
+	//从新加载数据
+	function loadUnitInfo(unitId)
+	{
+		ajaxPost("/unit/get-unit/" + unitId, null, function (data) {
+			form.val("unit-form",data);
+			//处理机构类型
+			$("#unitKind").val(unitType[data.unitKind]);
+		})
+	}
+	//reload后删除表头
+	function reloadTable(table,where){
+		layui.table.reload(table,{where: where});
+		$(".layui-table-header table thead th input").remove();
+	}
+	//初始化树型结构
+	$(document).ready(function () {
+		//初始机构类型
+		ajaxPost("/dictionary/list/ROOT_XTGL_JGLX", null, function (data) {
+			$.each(data,function(i,dt){
+				unitType[data[i].code] = data[i].name;
+	    	});
+	    });
+		//加载岗位类型字典
+		ajaxPost("/dictionary/list/ROOT_XTGL_GWLX", null, function (data) {
+			$.each(data,function(i,dt){
+				postType[data[i].code] = data[i].name;
+	    	});
+	    });
+		//加载机构树
+		loadUnitTree();
+	});
+    layui.use(['jquery','form','laydate','table', 'layer', 'element'], function(){
+    	var $ = layui.jquery, element = layui.element, layer = layui.layer;
+    	table = layui.table;
+    	form = layui.form;
+    	form.render();
+		function renderTable()
+		{
+			var lodingMsg = layer.msg('数据加载中....');
+			var param = JSON.parse(window.localStorage.getItem("param"));
+	        table.render({
+	            elem: '#postTable',
+	            url: '/post/get-post-by-unit',
+	            method:"POST",
+	            where: {param: {"unitId":"00"}},
+	            limit : param.selfRownum,
+	            id: 'postTable',
+				height: "full-330",
+	            page: {
+	                groups: 5,
+	                limits : [ param.selfRownum, 15, 30, 45, 60 ],
+	                layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
+	                first: '首页', //不显示首页
+	                last: '尾页', //不显示尾页
+	                theme: '#0F9EE0'
+	            },
+	            cols: [[
+					{type:'checkbox'},
+	                {title:'序号',type:'numbers'},
+	                {field:'postName',title:'岗位名称',style:'cursor:pointer;'},
+	                {field:'postCode',title:'岗位编码',style:'cursor:pointer;'},
+	                {field:'postKind',title:'岗位类型',style:'cursor:pointer;'},
+	                {field:'postComment',title:'岗位描述',style:'cursor:pointer;'}
+	            ]],
+	            done: function (res, curr, count) {
+	            	layer.close(lodingMsg);
+	                // 点击行联动选择框--单选
+	            	$('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+	                	var index=parseInt($(this).index()+1);
+	                    $('tr').removeClass('layui-table-click');
+	                    $(this).addClass('layui-table-click');
+	                    $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+	                    $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+	                    selectRowData=res.data[index-1];
+		            }); 
+	            	$.each(res.data,function(i,dt){
+		            	//显示字典数据
+		            	$("tr[data-index='"+i+"'] td[data-field='postKind'] div").html(postType[res.data[i].postKind]);
+		            });
+	            }
+	        });
+	        $(".layui-table-header table thead th input").remove();  //移除表头的复选框,去掉全选
+		}
+		
+		renderTable();
+     	// 触发不同的按钮事件
+        var $ = layui.$, active = {
+        	addPostEvent: function(){ //点击新增按钮
+        		var nodes = zTreeObj.getSelectedNodes();
+        		if(nodes.length==0)
+        		{
+        			layer.msg('请选择机构');
+        			return;
+        		}
+            	var temUrl="/post/edit-post?unitId="+nodes[0].id;
+            	openBaseWin("新增岗位",temUrl);
+            },
+            editPostEvent: function(){ //点击编辑按钮
+                if (!selectRowData) {
+            		layer.msg('请点击选择一行数据');
+            		return;
+            	}
+            	var temUrl="/post/edit-post?unitId="+unitId+"&postId="+selectRowData.postId;
+            	openBaseWin("编辑岗位",temUrl);
+                
+            },
+            deletePostEvent:function(){
+                if (!selectRowData) {
+            		layer.msg('请点击选择一行数据');
+            		return;
+            	}
+                layer.confirm('确定要删除吗?',{btn: ['确认', '取消'],title:"删除确认"},function(index){
+            		layer.close(index);
+	            	ajaxPost('/post/del-post?postId='+selectRowData.postId, null, function (data) {
+	            		 if (data.success) {
+	                     	layui.table.reload('postTable',{where: {param: {"unitId":unitId}}});
+	                     }
+	                });
+            	});
+
+            },
+            addUnitEvent:function()
+            {
+            	var nodes = zTreeObj.getSelectedNodes();
+        		if(nodes.length==0)
+        		{
+        			layer.msg('请选择机构');
+        			return;
+        		}
+            	var temUrl="/unit/edit_unit?parentUnitId="+nodes[0].id;
+            	openBaseWin("新增下级机构",temUrl);
+            },
+            editUnitEvent:function(){
+            	var nodes = zTreeObj.getSelectedNodes();
+            	if(nodes.length==0)
+        		{
+        			layer.msg('请选择机构');
+        			return;
+        		}
+            	var temUrl="/unit/edit_unit?unitId="+nodes[0].id;
+            	openBaseWin("编辑机构",temUrl);
+            },
+            deleteUnitEvent:function(){
+            	var nodes = zTreeObj.getSelectedNodes();
+            	if(nodes.length==0)
+        		{
+        			layer.msg('请选择机构');
+        			return;
+        		}
+            	layer.confirm('确定要删除吗？',{btn: ['确认', '取消'],title:"删除确认"},function(index){
+            		layer.close(index);
+            		ajaxPost("/unit/del-unit/" + nodes[0].id, null, function (data) {
+            			if(data.success)
+            			{
+                			//清空表格和数据
+                			$('#unit-form').find("input,textarea").val("");
+                			table.reload('postTable',{where: {param: {"unitId":nodes[0].id}}});
+                			loadUnitTree();
+            			}else{
+            				layer.alert('该机构有下级机构，请先删除下级机构！', function(index){
+            					  layer.close(index);
+            				});     
+            			}
+                    });
+            	});
+            }
+        };
+        //区别按钮属性
+        $('.layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+    });
+</script>
+
+</body>
+</html>

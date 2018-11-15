@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>科研项目</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="Shortcut Icon" href="/layuiadmin/layui/images/favicon.ico" />
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/adminStp.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/second.css" media="all">
+    <script src="/layuiadmin/layui/layui.js"></script>
+</head>
+<body>
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space10">
+            <!--<h3>科研项目总览</h3>-->
+            <div class="layui-col-md5">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        2018年度科研项目总览
+                    </div>
+                    <div class="layui-row-main">
+                        <div class="layui-col-md5 layui-row-se">
+                            <!-- <label class="selectInput">
+                                <span>期间</span>
+                                <input type="text" class="form-control" id="workTimeStart" placeholder="开始日期" readOnly>
+                                <div class="separate">-</div>
+                                <input type="text" class="form-control" id="workTimeEnd" placeholder="结束日期" readOnly>
+                                <div class="btnGroup">
+                                    <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询
+                                    </button>
+                                </div>
+                            </label> -->
+                            
+                             <label class="dateInput">
+            <span>月份</span>
+            <input type="text" name="month" placeholder="请选择月份"  value="${month}" title="月份" autocomplete="off" class="form-control" id="month">
+        </label>
+        
+        
+        
+        
+    
+    <!--按钮组-->
+    <div class="btnGroup">
+        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>
+    </div>
+    
+    
+                        </div>
+                        <div class="layui-col-md5 layui-row-text">
+                            <span>
+                                 投资总额：<!--<img src="/layuiadmin/layui/images/up.png"/>-->
+                                <small>XXX</small>
+                                <!--<img src="/layuiadmin/layui/images/down.png"/>
+                                <small class="green">5%</small>-->
+                            </span>
+                            <span>
+                                当年新增:
+                                <small>XXX</small>
+                            </span>
+                            <span>
+                                当前支出：
+                                <small>XXX</small>
+                            </span>
+                        </div>
+                        <div class="main-chart layui-col-md12" id="chartOne">
+                            <div style="height:230px;width: 100%;"><i class="layui-icon layui-icon-loading1 layadmin-loading"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md5">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        2018年度科研项目总览
+                    </div>
+                    <div class="layui-row-main">
+                        <div class="layui-col-md5">
+                        </div>
+                        <div class="layui-col-md5"></div>
+                        <div class="main-chart" id="chartTwo">
+                            <div style="height:266px;width: 100%;"><i class="layui-icon layui-icon-loading1 layadmin-loading"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-row layui-col-space10">
+            <!--<h3>科研项目总览</h3>-->
+            <div class="layui-col-md5">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        2018年度科研项目总览
+                    </div>
+                    <div class="layui-row-main">
+                        <div class="main-chart" id="chartThee" style="height:350px;width: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md5">
+
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        2018年度科研项目总览
+                    </div>
+                    <div class="layui-row-main" style="height: 350px;">
+                        <!--<p>专业处报表</p>-->
+                        <table width="100%" lay-filter="demo">
+                            <thead>
+                            <tr>
+                                <th lay-data="{field:'username'}">专业处</th>
+                                <th lay-data="{field:'username1'}">项目总数</th>
+                                <th lay-data="{field:'username2'}">新开项目</th>
+                                <th lay-data="{field:'username3'}">续建项目</th>
+                                <th lay-data="{field:'username4'}">应结未结项目</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>油田处</td>
+                                <td>23</td>
+                                <td>3</td>
+                                <td>3</td>
+                                <td>3</td>
+                            </tr>
+                            <tr>
+                                <td>炼油处</td>
+                                <td>2</td>
+                                <td>2</td>
+                                <td>2</td>
+                                <td>2</td>
+                            </tr>
+                            <tr>
+                                <td>化工处</td>
+                                <td>23</td>
+                                <td>3</td>
+                                <td>3</td>
+                                <td>3</td>
+                            </tr>
+                            <tr>
+                                <td>合成材料处</td>
+                                <td>21</td>
+                                <td>2</td>
+                                <td>2</td>
+                                <td>2</td>
+                            </tr>
+                            <tr>
+                                <td>装备储运处</td>
+                                <td>31</td>
+                                <td>2</td>
+                                <td>2</td>
+                                <td>2</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+     <script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="/plugins/echarts/walden.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
+    <script>
+        layui.config({
+            base: '/layuiadmin/' //静态资源所在路径
+        }).extend({
+            index: 'lib/index' //主入口模块
+        }).use(['index','jquery','table','carousel','layer', 'echarts','laydate'], function(){
+            var $=layui.jquery,table=layui.table,carousel = layui.carousel,laydate=layui.laydate
+                ,echarts = layui.echarts,layer = layui.layer;
+            table.init('demo', {
+                //height: 315 //设置高度
+                limit: 10 //注意：请务必确保 limit 参数（默认：10）是与你服务端限定的数据条数一致
+                //支持所有基础参数
+            });
+            var echnormline = [], normline = [{
+                    legend: {data:['投资总额','新开投资','续建投资']},
+                    calculable : true,
+                    grid:{
+                        x:40,
+                        y:50,
+                        x2:20,
+                        y2:60,
+                        borderWidth:1
+                    },
+                    tooltip: {
+                        formatter: '{b}\n{c}'
+                    },
+                    xAxis : [{type : 'category', axisLine:{lineStyle:{color:"#000"}},boundaryGap : false, data : ['勘探院','物探院','工程院','石科院','大连院','北化院','上海院','安工院']}],
+                    yAxis : [{type : 'value',axisLine:{lineStyle:{color:"#000",}}}],
+                    series : [
+                        {
+                            name:'投资总额',
+                            type:'line',symbolSize: 8,
+                            stack: '总量',
+                            itemStyle: {normal: {color: "#7bd9a5",areaStyle: {type: 'default',color:"#7bd9a5",opacity:"1"},
+                                    lineStyle: {
+                                        color: "#7bd9a5"
+                                    }}},data:[456, 12, 167, 134, 2343, 230, 789,90]
+                        },
+                        {
+                            name:'新开投资',
+                            type:'line',symbolSize: 8,
+                            stack: '总量',
+                            itemStyle: {normal: {color: "#97b552",areaStyle: {type: 'default',color:"#97b552",opacity:"1"},
+                                    lineStyle: {
+                                        color: "#97b552"
+                                    }}},
+                            data:[150, 678, 201, 154, 190, 330, 410,67]
+                        },
+                        {
+                            name:'续建投资',
+                            type:'line',symbolSize: 8,
+                            stack: '总量',
+                            itemStyle: {normal: {color: "#4692ea",areaStyle: {type: 'default',color:"#4692ea",opacity:"1"},
+                                    lineStyle: {
+                                        color: "#4692ea"
+                                    }}},
+                            data:[320, 332, 301, 676, 390, 330, 320,565]
+                        } ]
+                }],
+                elemnormline = $('#chartOne').children('div'),
+                rendernormline = function(index){
+                    echnormline[index] = echarts.init(elemnormline[index], layui.echartsTheme);
+                    echnormline[index].setOption(normline[index]);
+                    window.onresize = echnormline[index].resize;
+                };
+            if(!elemnormline[0]) return;
+            rendernormline(0);
+            var insStart = laydate.render({
+                elem: '#workTimeStart',type: 'year'
+                ,done: function(value, date){
+                    //更新结束日期的最小日期
+                    insEnd.config.min = lay.extend({}, date, {month: date.month - 1});
+                    insEnd.config.elem[0].focus();
+                }
+            });
+            //结束日期
+            var insEnd = laydate.render({elem: '#workTimeEnd',type: 'year',done: function(value, date){}});
+            /*第二个*/
+            var app={};
+            app.config = { align: 'top', verticalAlign: 'top', position: 'insideTop',
+                distance: 10,
+                onChange: function () {
+                    var labelOption = {
+                        normal: {rotate: app.config.rotate, align: app.config.align,
+                            verticalAlign: app.config.verticalAlign, position: app.config.position,
+                            distance: app.config.distance}
+                    };
+                }
+            };
+            var labelOption = {
+                normal: {show: true, position: app.config.position, distance: app.config.distance,
+                    align: app.config.align, verticalAlign: app.config.verticalAlign,
+                    rotate: app.config.rotate, formatter: '{c}  {name|{a}}', fontSize: 14,
+                    rich: {name: {textBorderColor: '#fff'}}
+                }
+            };
+            var echnormline = [], normline = [{
+                    color: ['#7c93bd', '#b7abd9', '#90c18e', '#b59797'],
+                    tooltip: {trigger: 'axis', axisPointer: {type: 'shadow'}},
+                    grid:{
+                        x:40,
+                        y:30,
+                        x2:10,
+                        y2:20,
+                        borderWidth:1
+                    },
+                    legend: {data:['新开项目数','续建项目数','新开项目投资','续建项目投资']},
+                    calculable: true,
+                    xAxis: [{type: 'category',axisLine:{lineStyle:{color:"#000",}}, axisTick: {show: false}, data: ['A', 'B1', 'B2', 'C']}],
+                    yAxis: [{type: 'value',axisLine:{lineStyle:{color:"#000"}}}],
+                    series: [
+                        {name: '新开项目数', type: 'bar',barWidth:"15%", barGap: "30%", label: labelOption, data: [320, 332, 301, 334]},
+                        {name: '续建项目数', type: 'bar', barWidth:"15%",barGap: "30%",label: labelOption, data: [150, 232, 201, 154]},
+                        {name: '新开项目投资', type: 'bar',barWidth:"15%",barGap: "30%", label: labelOption, data: [98, 77, 101, 99]},
+                        {name: '续建项目投资', type: 'bar',barWidth:"15%",barGap: "30%", label: labelOption, data: [220, 182, 191, 234]}
+                    ]
+                }],
+                elemnormline = $('#chartTwo').children('div'),
+                rendernormline = function(index){
+                    echnormline[index] = echarts.init(elemnormline[index], layui.echartsTheme);
+                    echnormline[index].setOption(normline[index]);
+                    window.onresize = echnormline[index].resize;
+                };
+            if(!elemnormline[0]) return;
+            rendernormline(0);
+            /**/
+            var myChart1 = echarts.init(document.getElementById('chartThee'));
+            var option = {
+                series: {
+                    type: 'sunburst',
+                    radius: [0, '100%'],
+                    levels: [{}, {}, {}, {}, {
+
+                        label: {
+                            position: 'outside',
+                            padding: 3,
+                            silent: false
+                        },
+                        itemStyle: {
+                            borderWidth: 3
+                        }
+                    }],
+                    data: [{
+                        name: '新开',
+                        itemStyle: {
+                            color: '#00a7ff'
+                        },
+                        children: [{
+                            name: 'A类',
+                            itemStyle: {
+                                color: '#6dd1ad'
+                            },
+                            value: 16,
+                            children: [{
+                                name: '国家项目',
+                                value: 4,
+                                itemStyle: {
+                                    color: '#49ae8e'
+                                }
+                            },  {
+                                name: '部委项目',
+                                value: 5,
+                                itemStyle: {
+                                    color: '#49ae8e'
+                                }
+                            },  {
+                                name: '集团重大',
+                                value: 2,
+                                itemStyle: {
+                                    color: '#49ae8e'
+                                }
+                            },  {
+                                name: '“十条龙”',
+                                value: 5,
+                                itemStyle: {
+                                    color: '#49ae8e'
+                                }
+                            }]
+                        }, {
+                            name: 'B1类',
+                            value: 30,
+                            itemStyle: {
+                                color: '#108dcf'
+                            },
+                            children: [{
+                                name: '长周期研发',
+                                value: 3,
+                                itemStyle: {
+                                    color: '#4dabcf'
+                                }
+                            }, {
+                                name: '基础研究',
+                                value: 3,
+                                itemStyle: {
+                                    color: '#4dabcf'
+                                }
+                            },{
+                                name: '重大项目',
+                                value: 8,
+                                itemStyle: {
+                                    color: '#4dabcf'
+                                }
+                            },{
+                                name: '关键项目',
+                                value: 6,
+                                itemStyle: {
+                                    color: '#4dabcf'
+                                }
+                            },{
+                                name: '共性技术',
+                                value: 5,
+                                itemStyle: {
+                                    color: '#4dabcf'
+                                }
+                            },{
+                                name: '工业试验',
+                                value: 5,
+                                itemStyle: {
+                                    color: '#4dabcf'
+                                }
+                            }]
+                        },{
+                            name: 'B2类',
+                            itemStyle: {
+                                color: '#017ebe'
+                            },children: [{
+                                name: '短期生产应用',
+                                value: 3,
+                                itemStyle: {
+                                    color: '#1280b1'
+                                }
+                            }, {
+                                name: '生产相关',
+                                value: 3,
+                                itemStyle: {
+                                    color: '#1280b1'
+                                }
+                            },{
+                                name: '生产急需',
+                                value: 8,
+                                itemStyle: {
+                                    color: '#1280b1'
+                                }
+                            }]
+
+                        },{
+                            name: 'C类',
+                            itemStyle: {
+                                color: '#94c3dd'
+                            },children: [{
+                                name: '技术推广',
+                                value: 3,
+                                itemStyle: {
+                                    color: '#76a5bf'
+                                }
+                            }, {
+                                name: '技术革新',
+                                value: 3,
+                                itemStyle: {
+                                    color: '#76a5bf'
+                                }
+                            },{
+                                name: '技术攻关',
+                                value: 8,
+                                itemStyle: {
+                                    color: '#76a5bf'
+                                }
+                            },{
+                                name: '生产技术服务',
+                                value: 6,
+                                itemStyle: {
+                                    color: '#76a5bf'
+                                }
+                            },{
+                                name: '产品技术服务',
+                                value: 5,
+                                itemStyle: {
+                                    color: '#76a5bf'
+                                }
+                            }]
+
+                        }]
+                    },
+                        {
+                            name: '续建',
+                            itemStyle: {
+                                color: '#dd4800'
+                            },
+                            children:
+                                [
+                                    {
+                                        name: 'A类',itemStyle: {
+                                            color: '#fd7819'
+                                        },
+                                        children:
+                                            [
+                                                {
+                                                    name: '国家项目',
+                                                    value: 9,itemStyle: {
+                                                        color: '#e7580a'
+                                                    }
+                                                }
+                                                ,
+                                                {
+                                                    name: '部委项目',
+                                                    value: 13,itemStyle: {
+                                                        color: '#e7580a'
+                                                    }
+                                                }
+                                                ,
+                                                {
+                                                    name: '集团重大',
+                                                    value: 22,itemStyle: {
+                                                        color: '#e7580a'
+                                                    }
+                                                }
+                                                ,
+                                                {
+                                                    name: '“十条龙”',
+                                                    value: 19,itemStyle: {
+                                                        color: '#e7580a'
+                                                    }
+                                                }
+                                            ]
+                                    },{
+                                    name: 'B1类',itemStyle: {
+                                        color: '#ef9773'
+                                    },
+                                    children:
+                                        [
+                                            {
+                                                name: '长周期研发',
+                                                value: 3,itemStyle: {
+                                                    color: '#db6a40'
+                                                }
+                                            }
+                                            ,
+                                            {
+                                                name: '基础研究',
+                                                value: 4,itemStyle: {
+                                                    color: '#db6a40'
+                                                }
+                                            }
+                                            ,
+                                            {
+                                                name: '重大项目',
+                                                value: 4,itemStyle: {
+                                                    color: '#db6a40'
+                                                }
+                                            }
+                                            ,
+                                            {
+                                                name: '关键项目',
+                                                value: 4,itemStyle: {
+                                                    color: '#db6a40'
+                                                }
+                                            },
+                                            {
+                                                name: '共性技术',
+                                                value: 4,itemStyle: {
+                                                    color: '#db6a40'
+                                                }
+                                            },
+                                            {
+                                                name: '工业试验',
+                                                value: 4,itemStyle: {
+                                                    color: '#db6a40'
+                                                }
+                                            }
+                                        ]
+                                },{
+                                    name: 'B2类',
+                                    value:20,itemStyle: {
+                                        color: '#d07c58'
+                                    },children:
+                                        [
+                                            {
+                                                name: '短期生产应用',
+                                                value: 6,itemStyle: {
+                                                    color: '#c87553'
+                                                }
+                                            }
+                                            ,
+                                            {
+                                                name: '生产相关',
+                                                value: 9,itemStyle: {
+                                                    color: '#c87553'
+                                                }
+                                            }
+                                            ,
+                                            {
+                                                name: '生产急需',
+                                                value: 5,itemStyle: {
+                                                    color: '#c87553'
+                                                }
+                                            }
+                                        ]
+                                },{
+                                    name: 'C类',
+                                    value:20,itemStyle: {
+                                        color: '#b56242'
+                                    },children:
+                                        [
+                                            {
+                                                name: '技术推广',
+                                                value: 4,itemStyle: {
+                                                    color: '#a15033'
+                                                }
+                                            }
+                                            ,
+                                            {
+                                                name: '技术革新',
+                                                value: 4,itemStyle: {
+                                                    color: '#a15033'
+                                                }
+                                            }
+                                            ,
+                                            {
+                                                name: '技术攻关',
+                                                value: 4,itemStyle: {
+                                                    color: '#a15033'
+                                                }
+                                            },
+                                            {
+                                                name: '生产技术服务',
+                                                value: 4,itemStyle: {
+                                                    color: '#a15033'
+                                                }
+                                            }
+                                            ,
+                                            {
+                                                name: '产品技术服务',
+                                                value: 4,itemStyle: {
+                                                    color: '#a15033'
+                                                }
+                                            }
+                                        ]
+                                }
+                                ]
+                        }]
+                }
+            };
+            myChart1.setOption(option);
+        });
+    </script>
+</body>
+</html>

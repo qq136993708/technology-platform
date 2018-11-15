@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pcitc.mapper.IntlProject.IntlProjectAcceptMapper">
+  <resultMap id="BaseResultMap" type="com.pcitc.base.stp.IntlProject.IntlProjectAccept">
+    <id column="accept_id" jdbcType="VARCHAR" property="acceptId" />
+    <result column="project_id" jdbcType="VARCHAR" property="projectId" />
+    <result column="project_name" jdbcType="VARCHAR" property="projectName" />
+    <result column="accept_no" jdbcType="VARCHAR" property="acceptNo" />
+    <result column="accept_date" jdbcType="VARCHAR" property="acceptDate" />
+    <result column="accept_people" jdbcType="VARCHAR" property="acceptPeople" />
+    <result column="accept_remark" jdbcType="VARCHAR" property="acceptRemark" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+    <result column="update_time" jdbcType="VARCHAR" property="updateTime" />
+    <result column="accept_content" jdbcType="VARCHAR" property="acceptContent" />
+    <result column="append_files" jdbcType="VARCHAR" property="appendFiles" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    accept_id, project_id, project_name, accept_no, accept_date, accept_people, accept_remark, 
+    status, create_time, update_time, accept_content, append_files
+  </sql>
+  <select id="selectByExample" parameterType="com.pcitc.base.stp.IntlProject.IntlProjectAcceptExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from intl_project_accept
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from intl_project_accept
+    where accept_id = #{acceptId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from intl_project_accept
+    where accept_id = #{acceptId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.pcitc.base.stp.IntlProject.IntlProjectAcceptExample">
+    delete from intl_project_accept
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.pcitc.base.stp.IntlProject.IntlProjectAccept">
+    insert into intl_project_accept (accept_id, project_id, project_name, 
+      accept_no, accept_date, accept_people, 
+      accept_remark, status, create_time, 
+      update_time, accept_content, append_files
+      )
+    values (#{acceptId,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR}, #{projectName,jdbcType=VARCHAR}, 
+      #{acceptNo,jdbcType=VARCHAR}, #{acceptDate,jdbcType=VARCHAR}, #{acceptPeople,jdbcType=VARCHAR}, 
+      #{acceptRemark,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{createTime,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=VARCHAR}, #{acceptContent,jdbcType=VARCHAR}, #{appendFiles,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.pcitc.base.stp.IntlProject.IntlProjectAccept">
+    insert into intl_project_accept
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="acceptId != null">
+        accept_id,
+      </if>
+      <if test="projectId != null">
+        project_id,
+      </if>
+      <if test="projectName != null">
+        project_name,
+      </if>
+      <if test="acceptNo != null">
+        accept_no,
+      </if>
+      <if test="acceptDate != null">
+        accept_date,
+      </if>
+      <if test="acceptPeople != null">
+        accept_people,
+      </if>
+      <if test="acceptRemark != null">
+        accept_remark,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="acceptContent != null">
+        accept_content,
+      </if>
+      <if test="appendFiles != null">
+        append_files,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="acceptId != null">
+        #{acceptId,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null">
+        #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="projectName != null">
+        #{projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="acceptNo != null">
+        #{acceptNo,jdbcType=VARCHAR},
+      </if>
+      <if test="acceptDate != null">
+        #{acceptDate,jdbcType=VARCHAR},
+      </if>
+      <if test="acceptPeople != null">
+        #{acceptPeople,jdbcType=VARCHAR},
+      </if>
+      <if test="acceptRemark != null">
+        #{acceptRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="acceptContent != null">
+        #{acceptContent,jdbcType=VARCHAR},
+      </if>
+      <if test="appendFiles != null">
+        #{appendFiles,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.pcitc.base.stp.IntlProject.IntlProjectAcceptExample" resultType="java.lang.Long">
+    select count(*) from intl_project_accept
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update intl_project_accept
+    <set>
+      <if test="record.acceptId != null">
+        accept_id = #{record.acceptId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectId != null">
+        project_id = #{record.projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectName != null">
+        project_name = #{record.projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.acceptNo != null">
+        accept_no = #{record.acceptNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.acceptDate != null">
+        accept_date = #{record.acceptDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.acceptPeople != null">
+        accept_people = #{record.acceptPeople,jdbcType=VARCHAR},
+      </if>
+      <if test="record.acceptRemark != null">
+        accept_remark = #{record.acceptRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.acceptContent != null">
+        accept_content = #{record.acceptContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.appendFiles != null">
+        append_files = #{record.appendFiles,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update intl_project_accept
+    set accept_id = #{record.acceptId,jdbcType=VARCHAR},
+      project_id = #{record.projectId,jdbcType=VARCHAR},
+      project_name = #{record.projectName,jdbcType=VARCHAR},
+      accept_no = #{record.acceptNo,jdbcType=VARCHAR},
+      accept_date = #{record.acceptDate,jdbcType=VARCHAR},
+      accept_people = #{record.acceptPeople,jdbcType=VARCHAR},
+      accept_remark = #{record.acceptRemark,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=VARCHAR},
+      update_time = #{record.updateTime,jdbcType=VARCHAR},
+      accept_content = #{record.acceptContent,jdbcType=VARCHAR},
+      append_files = #{record.appendFiles,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.stp.IntlProject.IntlProjectAccept">
+    update intl_project_accept
+    <set>
+      <if test="projectId != null">
+        project_id = #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="projectName != null">
+        project_name = #{projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="acceptNo != null">
+        accept_no = #{acceptNo,jdbcType=VARCHAR},
+      </if>
+      <if test="acceptDate != null">
+        accept_date = #{acceptDate,jdbcType=VARCHAR},
+      </if>
+      <if test="acceptPeople != null">
+        accept_people = #{acceptPeople,jdbcType=VARCHAR},
+      </if>
+      <if test="acceptRemark != null">
+        accept_remark = #{acceptRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="acceptContent != null">
+        accept_content = #{acceptContent,jdbcType=VARCHAR},
+      </if>
+      <if test="appendFiles != null">
+        append_files = #{appendFiles,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where accept_id = #{acceptId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.IntlProject.IntlProjectAccept">
+    update intl_project_accept
+    set project_id = #{projectId,jdbcType=VARCHAR},
+      project_name = #{projectName,jdbcType=VARCHAR},
+      accept_no = #{acceptNo,jdbcType=VARCHAR},
+      accept_date = #{acceptDate,jdbcType=VARCHAR},
+      accept_people = #{acceptPeople,jdbcType=VARCHAR},
+      accept_remark = #{acceptRemark,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=VARCHAR},
+      accept_content = #{acceptContent,jdbcType=VARCHAR},
+      append_files = #{appendFiles,jdbcType=VARCHAR}
+    where accept_id = #{acceptId,jdbcType=VARCHAR}
+  </update>
+</mapper>

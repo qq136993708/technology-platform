@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<link rel="import" href="/pplus/public/publicImport.html">
+
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+
+	<!-- Content Wrapper. Contains page content -->
+	<!-- Content Header (Page header) -->
+	<section class="content-header">
+		<h1>
+			Bootstrap treeview <small>advanced tree</small>
+		</h1>
+		<ol class="breadcrumb">
+			<li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+			<li><a href="#">Tree</a></li>
+			<li class="active">treeview</li>
+		</ol>
+		<div >
+			<!--<button onclick="initLevelTree('2')">显示2层</button>-->
+			<!--<button onclick="initLevelTree('3')">显示3层</button>-->
+			<!--<button onclick="initLevelTree('4')">显示4层</button>-->
+		</div>
+		
+	</section>
+
+	<!-- Main content -->
+<!-- 	<section class="content" >
+		 <div id="tree" style= "height :500px; with:80px "   > </div>
+	</section> -->
+	
+	<section class="a">
+	   <section class="b" >
+			 <div id="tree"   > </div>
+		</section>
+	 	<section class="c"  >
+			 <div id="table"  >
+	 			<table id="dicTable" class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<th>菜单名称</th>
+							<th>菜单url</th>
+							<th>菜单编码</th>
+						</tr>
+					</thead>
+				</table>
+			  </div>
+		</section>
+	</section>
+
+	<style type="text/css">
+	.a{ clear:both; width:1200px; height:600px; margin:0px auto; border:1px solid #960;}
+	.b{ height:0px; width:300px; background:#fff; float:left;}
+	.c{ height:600px; width:900px; background:#fff; float:right;}
+	</style>
+	
+	<!-- 模态窗口 -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	                <h4 class="modal-title" id="myModalLabel">数据字典信息</h4>
+	            </div>
+	            <div class="modal-body"> 
+	            	<form action="" id="dicForm">
+		           		<input type="text" placeholder="名称" name="name" value=""/>
+		                <input type="text" placeholder="编码" name="code" value=""/>
+		                <input type="text" placeholder="可有几级子节点（数字）"/>
+		                <input type="hidden" name="parentId"  value=""/>
+		                <input type="hidden" placeholder="层级" name="levelCode" value=""/>
+	                </form>
+	                </div>
+	            <div class="modal-footer">
+	                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+	                <button type="button" class="btn btn-primary" onclick="saveDictionary();">保存</button>
+	            </div>
+	        </div><!-- /.modal-content -->
+	    </div><!-- /.modal-dialog -->
+	</div>
+
+	<div class="control-sidebar-bg"></div>
+	<!-- ./wrapper -->
+
+	<!-- page script -->
+	<script>
+		$(function() {
+			
+		
+			/*initTree();    
+			 $('#tree').on('nodeExpanded ',function(event, data) {
+				alert("展开了")
+			});
+			$('#tree').on('nodeCollapsed ',function(event, data) {
+				alert("折叠了" + data.id)
+				id = data.id;
+				deleteDictionary();
+			});
+			$('#tree').on('nodeChecked ',function(event, data) {
+				alert("nodeChecked")
+			});
+			$('#tree').on('nodeUnchecked  ',function(event, data) {
+				alert("nodeUnchecked了")
+			});
+			$('#tree').on('nodeSelected',function(event, data) {
+				alert("选中了" + data.id+","+data.levelCode);
+				$("input[name=parentId]").val(data.id);
+				$("input[name=levelCode]").val(data.levelCode);
+				$('#myModal').modal({
+				        keyboard: true,
+				}) ;
+				//saveDictionary(data);
+				
+			});  
+			$('#tree').on('nodeUnselected ',function(event, data) {
+				alert("取消选中了")
+			}); */
+			
+			initLevelTree('0');
+			
+		});
+		var Id;
+		var parentId;            
+		var treenodes ;
+		var levelCode;
+		var levelTreeNodes;
+		
+		
+		function saveDictionary(){
+			var parentId = $('input[name=parentId]').val();
+			var name = $('input[name=name]').val();
+//			var levelCode = $('input[name=levelCode]').val();
+			$.ajax({
+				type : 'post',
+				dataType : 'text',
+	            data : { "parentId":parentId,"name":name},
+//	            data : { "parentId":parentId,"name":name,"levelCode":levelCode},
+	            url : '/menu/upd-menu?i='+Math.random(),
+	            success : function(data) {
+	            	if(data==200){
+	            		alert("保存成功");
+	            	}
+	            	//initTree();
+	            	initLevelTree();
+	            	
+	            },
+	            error : function(e) {
+	                alert("出错了");
+	                console.log(e);
+	            }
+            }); 
+		}
+		
+		
+		function deleteDictionary(){
+			$.ajax({
+				type : 'post',
+				dataType : 'text',
+	            data : { "id":id},
+	            url : '/dictionary/deleteDictionary?i='+Math.random(),
+	            success : function(data) {
+	            	if(data==200){
+	            		alert("删除成功");
+	            	}
+	            	//initTree();
+	            	initLevelTree();
+	            },
+	            error : function(e) {
+	                alert("出错了");
+	                console.log(e);
+	            }
+            }); 
+		}
+		 
+		
+		
+		
+		
+		
+		function getTreeByLevel(levelCode) {
+			//alert(levelCode)
+			//获取后台数据（封装好的树实体Json数组）
+			$.ajax({
+	            type : 'post',
+	            dataType : 'json',
+	            data :  {"levelCode" : levelCode },
+//                contentType: "application/x-www-form-urlencoded; ",
+	            url : '/menu/tree-datas',
+	            success : function(data) {
+	            	showTree(data);
+	            },
+	            error : function(e) {
+	                alert("出错了");
+	                console.log(e);
+	            }
+            });
+		   
+		} 
+		
+		function initLevelTree(levelCode){
+			getTreeByLevel(levelCode);
+		
+		}
+		
+		function showTree(levelTreeNodes){
+			$('#tree').treeview({
+				/* icon:"glyphicon glyphicon-stop",
+            	selectedIcon:"glyphicon glyphicon-stop", */
+            	color:"#000000",
+            	backColor:"#FFFFFF",
+//            	levels : 10 ,
+				selectable:true,
+				showCheckbox : true,
+				showBorder : false,
+				state: {
+            	    checked:true,
+            	    disabled:false,
+            	    expanded:true,
+            	    selected:false
+            	}, 
+            	
+				data: levelTreeNodes,
+				onNodeSelected:function(event,data){
+//					alert("选中"+data.id+","+data.levelCode);
+					parentId = data.id;
+					$("input[name=parentId]").val(data.id);
+//					$("input[name=levelCode]").val(data.levelCode);
+                    console.log("开始初始化initTable");
+					initTable(parentId);
+					$('#myModal').modal({
+					        keyboard: true,
+					}) ;
+					//saveDictionary(data);
+				},
+				onNodeChecked:function(event,data){
+					nodeChecked(event, data);
+				},
+				onNodeUnchecked :function(event,data){
+					nodeUnchecked(event,data);
+				}
+				
+			});
+            console.log($("#tree").html());
+		}
+		
+		
+		
+		
+
+		/* function initTree(){
+		getTree();
+		$('#tree').treeview({
+			icon:"glyphicon glyphicon-stop",
+        	selectedIcon:"glyphicon glyphicon-stop",
+        	color:"#000000",
+        	backColor:"#FFFFFF",
+        	levels : 5 ,
+			selectable:true,
+			showCheckbox : true,
+			showBorder : false,
+			state: {
+        	    checked:true,
+        	    disabled:false,
+        	    expanded:true,
+        	    selected:false
+        	},
+			data: treenodes,
+			
+		});     
+
+	} */
+
+		/* function getTree() {
+			//获取后台数据（封装好的树实体Json数组）
+			$.ajax({
+	            type : 'get',
+	            dataType : 'json',
+	            async: false,
+	            url : '/dictionary/getTreeOneLevel?i='+Math.random(),
+	            success : function(data) {
+	            	treenodes = data;
+	            	//$.parseJSON(data);
+	            	console.log(data);
+	            	
+	            },
+	            error : function(e) {
+	                alert("出错了");
+	                console.log(e);
+	            }
+            });
+		   
+		}  */
+		
+		
+		
+	</script>
+	
+	<script type="text/javascript">
+	//以下两个方法  根据具体需求 进行 注释和放开
+	var nodeCheckedSilent = false;  
+	function nodeChecked (event, node){  
+	    if(nodeCheckedSilent){  
+	        return;  
+	    }  
+	    nodeCheckedSilent = true;  
+	    checkAllParent(node);  
+	    checkAllSon(node);  
+	    nodeCheckedSilent = false;  
+	}  
+	  
+	var nodeUncheckedSilent = false;  
+	function nodeUnchecked  (event, node){  
+	    if(nodeUncheckedSilent)  
+	        return;  
+	    nodeUncheckedSilent = true;  
+	    uncheckAllParent(node);  
+	    uncheckAllSon(node);  
+	    nodeUncheckedSilent = false;  
+	}  
+	
+	
+	  
+	//选中全部父节点  
+	function checkAllParent(node){  
+	    $('#tree').treeview('checkNode',node.nodeId,{silent:true});  
+	    var parentNode = $('#tree').treeview('getParent',node.nodeId);  
+	    if(!("nodeId" in parentNode)){  
+	        return;  
+	    }else{  
+	        checkAllParent(parentNode);  
+	    }  
+	}  
+	//取消全部父节点  
+	function uncheckAllParent(node){  
+	    $('#tree').treeview('uncheckNode',node.nodeId,{silent:true});  
+	    var siblings = $('#tree').treeview('getSiblings', node.nodeId);  
+	    var parentNode = $('#tree').treeview('getParent',node.nodeId);  
+	    if(!("nodeId" in parentNode)) {  
+	        return;  
+	    }  
+	    var isAllUnchecked = true;  //是否全部没选中  
+	    for(var i in siblings){  
+	        if(siblings[i].state.checked){  
+	            isAllUnchecked=false;  
+	            break;  
+	        }  
+	    }  
+	    if(isAllUnchecked){  
+	        uncheckAllParent(parentNode);  
+	    }  
+	  
+	}  
+	  
+	//级联选中所有子节点  
+	function checkAllSon(node){  
+	    $('#tree').treeview('checkNode',node.nodeId,{silent:true});  
+	    if(node.nodes!=null&&node.nodes.length>0){  
+	        for(var i in node.nodes){  
+	            checkAllSon(node.nodes[i]);  
+	        }  
+	    }  
+	}  
+	//级联取消所有子节点  
+	function uncheckAllSon(node){  
+	    $('#tree').treeview('uncheckNode',node.nodeId,{silent:true});  
+	    if(node.nodes!=null&&node.nodes.length>0){  
+	        for(var i in node.nodes){  
+	            uncheckAllSon(node.nodes[i]);  
+	        }  
+	    }  
+	}  
+	
+	
+	</script>
+	
+	
+	<script type="text/javascript">
+	function initTable(parentId){
+		var dicTable = $('#dicTable').dataTable({
+							"bPaginate" : true,//分页工具条显示
+							//"sPaginationType" : "full_numbers",//分页工具条样式
+							"bStateSave" : true, //是否打开客户端状态记录功能,此功能在ajax刷新纪录的时候不会将个性化设定回复为初始化状态  
+							"bScrollCollapse" : true, //当显示的数据不足以支撑表格的默认的高度
+							"bLengthChange" : true, //每页显示的记录数
+							"bFilter" : false, //搜索栏
+							"bSort" : true, //是否支持排序功能
+							"bInfo" : true, //显示表格信息
+							"bAutoWidth" : true, //自适应宽度
+							"bJQueryUI" : false,//是否开启主题
+							"bDestroy" : true,
+							"bProcessing" : true, //开启读取服务器数据时显示正在加载中……特别是大数据量的时候，开启此功能比较好
+							"bServerSide" : true,//服务器处理分页，默认是false，需要服务器处理，必须true
+							//"sAjaxDataProp" : "aData",//是服务器分页的标志，必须有 
+							"sAjaxSource" : "/dictionary/getChildNodeForTable",//通过ajax实现分页的url路径。
+							"fnServerData": retrieveData, // 获取数据的处理函数
+							//初始化要显示的列
+							"aoColumns" : [
+							               {"mData" : "name"},
+//										   {"mData" : "levelCode"},
+										   {"mData" : "code"} ],
+							"oLanguage" : {//语言设置
+								"sProcessing" : "处理中...",
+								"sLengthMenu" : "显示 _MENU_ 项结果",
+								"sZeroRecords" : "没有匹配结果",
+								"sInfo" : "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+								"sInfoEmpty" : "显示第 0 至 0 项结果，共 0 项",
+								"sInfoFiltered" : "(由 _MAX_ 项结果过滤)",
+								"sInfoPostFix" : "",
+								"sSearch" : "搜索:",
+								"sUrl" : "",
+								"sEmptyTable" : "表中数据为空",
+								"sLoadingRecords" : "载入中...",
+								"sInfoThousands" : ",",
+								"oPaginate" : {
+									"sFirst" : "首页",
+									"sPrevious" : "上页",
+									"sNext" : "下页",
+									"sLast" : "末页"
+								},
+								"oAria" : {
+									"sSortAscending" : ": 以升序排列此列",
+									"sSortDescending" : ": 以降序排列此列"
+								}
+							}
+						});
+	}
+	function retrieveData(sSource,aoData, aoData) {
+        console.log(sSource);
+        console.log(aoData);
+        console.log(aoData);
+//		alert(parentId);
+		//将用户名称加入参数数组
+		aoData.push( { "name": "parentId", "value": parentId } );
+        $.ajax({
+            url : sSource,//这个就是请求地址对应sAjaxSource
+            data : JSON.stringify(aoData),//这个是把datatable的一些基本数据传给后台,比如起始位置,每页显示的行数
+            type : 'post',
+            contentType : 'application/json',
+            dataType : 'json',
+            async : false,
+            success : fnCallback,
+            error : function(msg) {
+            }
+        });
+    }
+	
+	</script>
+	<script type="text/javascript">
+	/* var treeData = null;
+	function getTree() {
+		//获取后台数据（封装好的树实体Json数组）
+		$.ajax({
+            type : 'get',
+            dataType : 'json',
+            async: false,
+            url : '/dictionary/getTreeOneLevel?i='+Math.random(),
+            success : function(data) {
+            	treeData = data;
+            	//$.parseJSON(data);
+            	console.log(data);
+            	
+            },
+            error : function(e) {
+                alert("出错了");
+                console.log(e);
+            }
+        });
+	   
+	}
+	
+	function getChildNode(node) {
+		//获取后台数据（封装好的树实体Json数组）
+		$.ajax({
+            type : 'post',
+            dataType : 'json',
+            async: false,
+            data : {"parentId":node.id},
+            url : '/dictionary/getChildNode?i='+Math.random(),
+            success : function(data) {
+            	treeData = data;
+            	//$.parseJSON(data);
+            	console.log(data);
+            	node.nodes=data;
+            	$("#tree").treeview("addNode", [node.id, { node: data}]); 
+            	$('#tree').treeview('expandAll', { levels: 2, silent: true } );
+            	
+            },
+            error : function(e) {
+                alert("出错了");
+                console.log(e);
+            }
+        });
+	   
+	}
+	
+	$(function(){
+		dictCtrl.initTree();
+	});
+	var dictCtrl = {
+			initTree: function (selectNodeId) {
+	            var self = this;
+	            
+	            /* ajaxPost("/dictionary/getTreeOneLevel", null, function (data) {
+	                treeData = data;
+	            }); */
+	            /* getTree();
+	            $("#tree").treeview({
+	                data: treeData,
+	                showBorder: true,
+	                expandIcon: "glyphicon glyphicon-stop",
+	                collapseIcon: "glyphicon glyphicon-unchecked",
+	                levels: 1,
+	                onNodeSelected: function (event, data) {
+	                	//alert("选中")
+	                	console.log(data);
+	                    self.fillOrgForm(data);
+	                }
+	            }); */
+	            /* if (treeData.length == 0)
+	                return; */
+	            //默认选中第一个节点
+	           /*  selectNodeId = selectNodeId || 0;
+	            $("#tree").data('treeview').selectNode(selectNodeId);
+	            $("#tree").data('treeview').expandNode(selectNodeId);
+	            $("#tree").data('treeview').revealNode(selectNodeId); */
+	       /* },
+	      	//填充form
+	        /* fillOrgForm: function (node) {
+	        	alert(node.id)
+	            var self = this;
+	            /*  this.form.clearForm();
+	            ajaxPost("/dictionary/getChildById/" + node.id, null, function (data) {
+	               //  self.form.initFormData(data);
+	            }) */
+	       /*      getChildNode(node);
+	        },
+	}*/ 
+	 
+	
+	</script>
+</body>
+</html>

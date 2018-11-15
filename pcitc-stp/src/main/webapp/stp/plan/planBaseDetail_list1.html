@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <!--<meta http-equiv="X-UA-Compatible" content="IE=edge">-->
+    <!--<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">-->
+
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
+    <script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+    <script type="text/javascript" src="/common/js/base.js"></script>
+</head>
+<body>
+
+<div class="searchBox">
+    <!--查询条件-->
+    <label class="dateInput">
+    </label>
+    <!--按钮组-->
+    <div class="btnGroup">
+        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询
+        </button>
+        <button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg"
+                data-type="resetEvent">重置
+        </button>
+    </div>
+</div>
+<div class="tableToolBox">
+    <div class="whiteLine"></div>
+    <div class="tableBtns">
+        <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"
+                data-type="addEvent">新增
+        </button>
+        <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"
+                data-type="editEvent">编辑
+        </button>
+        <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"
+                data-type="deleteEvent">删除
+        </button>
+    </div>
+</div>
+<table id="planBaseDetailTableId" class="layui-hide" lay-filter="tableEvent"></table>
+
+<script>
+    var selectRowData;
+    layui.use(['jquery', 'form', 'laydate', 'table', 'layer', 'element'], function () {
+        var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer,
+            laydate = layui.laydate;
+        table = layui.table;
+
+        function loadtable() {
+            table.render({
+                elem: '#planBaseDetailTableId',
+                url: '/planBaseDetail/getTableData',
+                method: "POST",
+                where: {param: {}},
+                limit: 15,
+                id: 'planBaseDetailTableId',
+                height: commonDislodgeTable(),
+                page: {
+                    count: 500, //数据总数，从服务端得到
+                    groups: 5,
+                    limits: [15, 30, 45, 60],
+                    layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
+                    first: '首页', //不显示首页
+                    last: '尾页', //不显示尾页
+                    theme: '#0F9EE0'
+                },
+
+                cols: [[
+                    {type: 'checkbox', event: 'changeEvents'},
+                    {title: '序号', type: 'numbers'},
+                    {
+                        field: "dataCode",
+                        title: "数据编码", event: 'setActive', style: 'cursor: pointer;'
+                    },
+                    {
+                        field: "sysFlag",
+                        title: "系统标识", event: 'setActive', style: 'cursor: pointer;'
+                    },
+                    {
+                        field: "dataOrder",
+                        title: "数据排序", event: 'setActive', style: 'cursor: pointer;'
+                    },
+                    {
+                        field: "status",
+                        title: "数据状态", event: 'setActive', style: 'cursor: pointer;'
+                    },
+                    {
+                        field: "delFlag",
+                        title: "是否删除", event: 'setActive', style: 'cursor: pointer;'
+                    },
+                    {
+                        field: "createDate",
+                        title: "创建日期", event: 'setActive', style: 'cursor: pointer;'
+                    },
+                    {
+                        field: "createUser",
+                        title: "创建用户", event: 'setActive', style: 'cursor: pointer;'
+                    },
+                    {
+                        field: "createUserName",
+                        title: "创建用户名称", event: 'setActive', style: 'cursor: pointer;'
+                    },
+                    {
+                        field: "updateDate",
+                        title: "修改日期", event: 'setActive', style: 'cursor: pointer;'
+                    },
+                    {
+                        field: "updateUser",
+                        title: "修改用户", event: 'setActive', style: 'cursor: pointer;'
+                    },
+                    {
+                        field: "updateUserName",
+                        title: "修改用户名称", event: 'setActive', style: 'cursor: pointer;'
+                    },
+                    {
+                        field: "projectCode",
+                        title: "项目编码", event: 'setActive', style: 'cursor: pointer;'
+                    },
+                    {
+                        field: "projectId",
+                        title: "所属项目", event: 'setActive', style: 'cursor: pointer;'
+                    },
+                    {
+                        field: "projectName",
+                        title: "项目名称", event: 'setActive', style: 'cursor: pointer;'
+                    },
+                    {
+                        field: "auditSts",
+                        title: "审批状态", event: 'setActive', style: 'cursor: pointer;'
+                    },
+                    {
+                        field: "unitCode",
+                        title: "单位编码", event: 'setActive', style: 'cursor: pointer;'
+                    },
+                    {
+                        field: "unitName",
+                        title: "单位名称", event: 'setActive', style: 'cursor: pointer;'
+                    },
+                    {
+                        field: "unitId",
+                        title: "单位ID", event: 'setActive', style: 'cursor: pointer;'
+                    },
+                    {
+                        field: "enginName",
+                        title: "工程名称", event: 'setActive', style: 'cursor: pointer;'
+                    },
+                    {
+                        field: "enginCode",
+                        title: "工程编码", event: 'setActive', style: 'cursor: pointer;'
+                    },
+                    {
+                        field: "enginId",
+                        title: "工程ID", event: 'setActive', style: 'cursor: pointer;'
+                    },
+                    {
+                        field: "remarks",
+                        title: "描述", event: 'setActive', style: 'cursor: pointer;'
+                    },
+                    {
+                        field: "workflowState",
+                        title: "工作流状态", event: 'setActive', style: 'cursor: pointer;'
+                    },
+                    {
+                        field: "wbsName",
+                        title: "WBS名称", event: 'setActive', style: 'cursor: pointer;'
+                    },
+                    {
+                        field: "wbsCode",
+                        title: "WBS编码", event: 'setActive', style: 'cursor: pointer;'
+                    },
+                    {
+                        field: "wbsId",
+                        title: "", event: 'setActive', style: 'cursor: pointer;'
+                    },
+                    {
+                        field: "compactName",
+                        title: "合同名称", event: 'setActive', style: 'cursor: pointer;'
+                    },
+                    {
+                        field: "compactCode",
+                        title: "合同编码", event: 'setActive', style: 'cursor: pointer;'
+                    },
+                    {
+                        field: "redactUnitName",
+                        title: "编制单位名称", event: 'setActive', style: 'cursor: pointer;'
+                    },
+                    {
+                        field: "redactUnitCode",
+                        title: "编制单位编码", event: 'setActive', style: 'cursor: pointer;'
+                    },
+                    {
+                        field: "redactUnitId",
+                        title: "编制单位ID", event: 'setActive', style: 'cursor: pointer;'
+                    },
+                    {
+                        field: "redactDate",
+                        title: "编制日期", event: 'setActive', style: 'cursor: pointer;'
+                    },
+                    {
+                        field: "workOrderName",
+                        title: "工单名称", event: 'setActive', style: 'cursor: pointer;'
+                    },
+                    {
+                        field: "workOrderId",
+                        title: "工程ID", event: 'setActive', style: 'cursor: pointer;'
+                    },
+                    {
+                        field: "workOrderCode",
+                        title: "工单编码", event: 'setActive', style: 'cursor: pointer;'
+                    },
+                    {
+                        field: "workOrderStartDatatime",
+                        title: "工单实际开始时间", event: 'setActive', style: 'cursor: pointer;'
+                    },
+                    {
+                        field: "workOrderEndDatatime",
+                        title: "工单实际结束时间", event: 'setActive', style: 'cursor: pointer;'
+                    },
+                    {
+                        field: "workOrderPlanStartDatatime",
+                        title: "工单计划开始时间", event: 'setActive', style: 'cursor: pointer;'
+                    },
+                    {
+                        field: "workOrderPlanEndDatatime",
+                        title: "工单计划结束时间", event: 'setActive', style: 'cursor: pointer;'
+                    },
+                    {
+                        field: "matterType",
+                        title: "事项类型", event: 'setActive', style: 'cursor: pointer;'
+                    },
+                    {
+                        field: "matterStatus",
+                        title: "工单状态", event: 'setActive', style: 'cursor: pointer;'
+                    },
+                    {
+                        field: "matterDataId",
+                        title: "事项关联ID", event: 'setActive', style: 'cursor: pointer;'
+                    },
+                    {
+                        field: "matterDataOrder",
+                        title: "处理顺序", event: 'setActive', style: 'cursor: pointer;'
+                    },
+                ]],
+                done: function (res, curr, count) {
+                    $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
+                        var index = parseInt($(this).index() + 1);
+                        $(this).parent().find('tr').removeClass('layui-table-click');
+                        $(this).addClass('layui-table-click');
+                        $(this).parent().children('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                        $(this).children("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                        selectRowData = res.data[index - 1];
+                    });
+                }
+            });
+            //移除表头的复选框,去掉全选
+            $(".layui-table-header table thead th input").remove();
+        }
+
+        // $(document).on("click", ".layui-table-body table.layui-table tbody tr", function () {
+        //     var index = $(this).attr('data-index');
+        //     var tableBox = $(this).parents('.layui-table-box');
+        //     //存在固定列
+        //     if (tableBox.find(".layui-table-fixed.layui-table-fixed-l").length > 0) {
+        //         tableDiv = tableBox.find(".layui-table-fixed.layui-table-fixed-l");
+        //     } else {
+        //         tableDiv = tableBox.find(".layui-table-body.layui-table-main");
+        //     }
+        //     var checkCell = tableDiv.find("tr[data-index=" + index + "]").find("td div.laytable-cell-checkbox div.layui-form-checkbox I");
+        //     if (checkCell.length > 0) {
+        //         checkCell.click();
+        //     }
+        // });
+        // $(document).on("click", "td div.laytable-cell-checkbox div.layui-form-checkbox", function (e) {
+        //     e.stopPropagation();
+        // });
+
+        loadtable();
+        // 触发不同的按钮事件
+        var $ = layui.$, active = {
+            searchEvent: function () { //点击查询按钮
+                table.reload('planBaseDetailTableId', {
+                    where: {
+                        param:
+                            {}
+                    }
+                })
+            },
+            resetEvent: function () { //点击查询按钮
+                table.reload('planBaseDetailTableId', {
+                    where: {
+                        param: {}
+                    }
+                });
+            }, getChecked: function () {//多选
+                var ids = "";
+                var selectedData = active.getCheckData();
+                return selectedData;
+            }, getCheckData: function () { //获取选中数据
+                var checkStatus = table.checkStatus('planBaseDetailTableId')
+                    , data = checkStatus.data;
+                return data;
+            }
+            , getCheckLength: function () { //获取选中数目
+                var checkStatus = table.checkStatus('planBaseDetailTableId')
+                    , data = checkStatus.data;
+                layer.msg('选中了：' + data.length + ' 个');
+            }
+            , isAll: function () { //验证是否全选
+                var checkStatus = table.checkStatus('planBaseDetailTableId');
+                layer.msg(checkStatus.isAll ? '全选' : '未全选')
+            },
+            addEvent: function () { //点击新增按钮
+                openBaseWin("新增", "/planBaseDetail/edit");
+            },
+            editEvent: function () { //点击编辑按钮
+                if (typeof (selectRowData) == "undefined") {
+                    layer.msg("请选择一条数据");
+                    return;
+                } else {
+                    openBaseWin("编辑", "/planBaseDetail/edit?id=" + selectRowData.id);
+                }
+            }
+            ,
+            deleteEvent: function () { //点击删除按钮
+                if (typeof (selectRowData) == "undefined") {
+                    layer.msg("请选择一条数据");
+                    return;
+                }
+                layer.confirm('确定要删除吗?', {btn: ['确认', '取消'], title: "删除确认"}, function (index) {
+                    layer.close(index);
+                    ajaxPost("/planBaseDetail/del-real", {"id": selectRowData.id}, function (data) {
+                        layer.msg("文件删除成功");
+                        loadtable();
+                    });
+                });
+            }
+        };
+        $('.layui-btn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+    });
+</script>
+</body>
+
+</html>

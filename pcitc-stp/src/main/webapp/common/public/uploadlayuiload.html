@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>文件上传</title>
+
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
+
+    <style>
+        .layui-upload-img {
+            width: 92px;
+            height: 92px;
+            margin: 0 10px 10px 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="layui-upload">
+    <div class="layui-tab">
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <div class="tableToolBox">
+                    <div class="tableBtns">
+                        <button type="button" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_save" id="testList">选择文件</button><input class="layui-upload-file" type="file" accept="undefined" name="file" multiple="">
+                        <button type="button" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_save" id="testListAction">开始上传</button>
+                        <button type="button" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_save layui-btn-disabled" style="display: none;" id="testListActionDisabled">开始上传</button>
+
+                    </div>
+                </div>
+                <div class="layui-upload-list">
+                    <table class="layui-table" id="uploadTable">
+                        <thead>
+                        <th  style="display: none;"><input type="checkbox" class="fileTableCheck_head" onclick="pcitcFile.checkedAll();"></th>
+                        <th  style="display: none;">序号</th>
+                        <th>文件名</th>
+                        <th>大小</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                        </thead>
+                        <tbody id="demoList"></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="layui-tab-item">
+                <div class="tableToolBox">
+                    <div class="tableBtns">
+                        <button type="button" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_save" id="test-upload-testList">选择文件</button><input class="layui-upload-file" type="file" accept="undefined" name="file" multiple="">
+                        <button type="button" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_save" id="test-upload-testListAction">开始上传</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--<a href="" target="_" id="download"></a>-->
+<!--<iframe name="download" >-->
+    <!--<script>-->
+        <!--function dc(){-->
+            <!--window.open("/sysfile/download/234124");-->
+        <!--}-->
+    <!--</script>-->
+<!--</iframe>-->
+<script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
+<script>
+    //页面定义
+    //编辑;修改
+    // var file_edit_detail = "edit";
+    //文件上传配置
+    // var file_opt_flag = "1638bb9aecf_48ca8867";
+    //自定义表单字段
+    // var file_ids = "fileIds";
+    // var file_accept = "images";
+    // var file_acceptMime = "image/*";
+    // var file_table_id = "demoList";
+    // var file_ext = "zip|rar|7z";
+
+</script>
+<script>
+    var pcitc = pcitc || {};
+    pcitc.fileUpload = pcitc.fileUpload || {};
+    var pcitcFile = pcitc.fileUpload = {
+        fileObj:{},
+        filedflag: "",
+        url:"/sysfile/uploadMultipleFileLayui",
+        fileIds: "fileIds",
+        file_edit_detail: file_edit_detail,
+        ext: "",//允许上传的文件后缀。一般结合 accept 参数类设定。假设 accept 为 file 类型时，那么你设置 exts: 'zip|rar|7z' 即代表只允许上传压缩格式的文件。如果 accept 未设定，那么限制的就是图片的文件格式
+        accept: "file",//指定允许上传时校验的文件类型，可选值有：images（图片）、file（所有文件）、video（视频）、audio（音频）
+        acceptMime: "*",//规定打开文件选择框时，筛选出的文件类型，值为用逗号隔开的 MIME 类型列表。如：acceptMime: 'image/*'（只显示图片文件）acceptMime: 'image/jpg, image/png'（只显示 jpg 和 png 文件）
+        auto: false,
+        field: "file",
+        size: "10240",
+        file_table_id:"demoList",
+        multiple: "true",
+        number: "10",
+        drag: false,
+        complete:"",
+        ajaxFile: function (url, data, callback) {
+            var result = null;
+            jQuery.ajax({
+                type: 'post',
+                async: false,
+                url: url,
+                data: data,
+                dataType: 'json',
+                success: function (data, status) {
+                    result = data;
+                    if (callback) {
+                        callback.call(this, data, status);
+                    }
+                },
+                error: function (err, err1, err2) {
+                    console.log("ajaxPost发生异常，请仔细检查请求url是否正确");
+                }
+            });
+            return result;
+        },
+        ajaxFileGet: function (url, data, callback) {
+            var result = null;
+            jQuery.ajax({
+                type: 'get',
+                async: false,
+                url: url,
+                data: data,
+                dataType: 'json',
+                success: function (data, status) {
+                    result = data;
+                    if (callback) {
+                        callback.call(this, data, status);
+                    }
+                },
+                error: function (err, err1, err2) {
+                    console.log("ajaxPost发生异常，请仔细检查请求url是否正确");
+                }
+            });
+            return result;
+        }
+        , deleteFile: function (fileid, index) {
+            this.ajaxFile("/sysfile/delete", {"id": fileid}, "");
+            // $("#upload-" + index).remove();
+            $("#" + fileid).parent().parent().remove();
+            // var ids = $("#"+pcitcFile.fileIds).val();
+            // ids = ids.replace(fileid + ",", "");
+            // ids = ids.replace(fileid, "");
+            // console.log("ids:" + ids);
+            // // delete this.files[index]; //删除文件队列已经上传成功的文件
+            // $("#"+pcitcFile.fileIds).val(ids);
+            pcitcFile.tableSort();
+            pcitcFile.setHeadCheck();
+            //删除对象
+            delete pcitcFile.fileObj[fileid];
+        }
+        , getFileResult: function (fileIds) {
+            var ret = null;
+            this.ajaxFile("/sysfile/getFilesLayuiByFormId", {fileIds: fileIds}, function (result) {
+                ret = result;
+                for (var i = 0; i < result.list.length; i++) {
+                    var file = result.list[i];
+                    pcitcFile.fileObj[file.id] = file;
+                }
+            });
+            return ret;
+        }, downloadFilesAll: function () {
+            var ids = "";
+            $(".fileTableCheck").each(function (index, obj) {
+                if(obj.checked==true){
+                    ids = (ids==""?$(obj).val():(ids+"|"+$(obj).val()));
+                }
+            });
+            // downloadFile("/sysfile/download/"+ids);
+            $("#download").attr("href","/sysfile/download/"+ids);
+            document.getElementById("download").click();
+            }, deleteFileAll: function () {
+            $(".fileTableCheck").each(function (index, obj) {
+                if(obj.checked==true){
+                    pcitcFile.deleteFile($(obj).val(),($(obj).parent().parent().attr("id").split("-")[1])*1);
+                }
+            });
+        }, getFileConfig: function (fileFlag) {
+            var ret = null;
+            this.ajaxFile("/sysfileconfig/getFileConfig", {filedflag: fileFlag}, function (result) {
+                pcitcFile.number = result.fileCount;
+                pcitcFile.size = result.fileSize;
+                pcitcFile.ext = result.fileType;
+            });
+        },checkedAll:function () {
+            if($(".fileTableCheck_head").prop("checked")==false){
+                $(".fileTableCheck").each(function (index, obj) {
+                    obj.checked = false;
+                });
+            }else {
+                $(".fileTableCheck").each(function (index, obj) {
+                    obj.checked = true;
+                });
+            }
+        },tableSort:function () {
+            document.getElementById("tab1");
+            $("#uploadTable tr").each(function (index, obj) {
+                if(index>0){
+                    $(obj).children().eq(1).html(index);
+                }
+            });
+        },setHeadCheck:function () {
+            $(".fileTableCheck_head").prop("checked",false);
+        },validCallBack:function(functionName){
+            try {
+                if(typeof functionName==="function"){fileuplaodlayui
+                    return true;
+                }else { //不是函数
+                    return false;
+                }
+            } catch(e) {}
+        },downloadFile:function(urlFile) {
+            //定义一个form表单,通过form表单来发送请求
+            var form=$("<form>");
+            //设置表单状态为不显示
+            // form.attr("style","display:none");
+            //method属性设置请求类型为get
+            form.attr("method","get");
+
+            //例如:htpp://127.0.0.1/test?id=123
+            form.attr("action","http://localhost:8080/sysfile/download/"+urlFile);
+            //将表单放置在页面(body)中
+            $("body").append(form);
+            //表单提交
+            form.submit();
+        }, IEVersion: function ()//判断是否是IE浏览器，包括Edge浏览器
+        {
+            var userAgent = navigator.userAgent;
+            //微信内置浏览器
+            if(userAgent.match(/MicroMessenger/i) == 'MicroMessenger') {
+                return "MicroMessenger";
+            }
+            //QQ内置浏览器
+            else if(userAgent.match(/QQ/i) == 'QQ') {
+                return "QQ";
+            }
+            //Chrome
+            else if(userAgent.match(/Chrome/i) == 'Chrome') {
+                return "Chrome";
+            }
+            //Opera
+            else if(userAgent.match(/Opera/i) == 'Opera') {
+                return "Opera";
+            }
+            //Firefox
+            else if(userAgent.match(/Firefox/i) == 'Firefox') {
+                return "Firefox";
+            }
+            //Safari
+            else if(userAgent.match(/Safari/i) == 'Safari') {
+                return "Safari";
+            }
+            //IE
+            else if(!!window.ActiveXObject || "ActiveXObject" in window) {
+                return "IE";
+            }
+            else {
+                return "未定义:"+userAgent;
+            }
+        },reloadTable:function () {
+            var fileList = pcitcFile.getFileResult(pcitcFile.fileIds);
+            // var fileList = pcitcFile.getFileResult($("#"+pcitcFile.fileIds).val());
+            for (var i = 0; i < fileList.list.length; i++) {
+                var file = fileList.list[i];
+                var tr = $(['<tr id="upload-' + i + '">'
+                    , '<td style="display: none;"><input type="checkbox" class=\'fileTableCheck\' value=\'' + file.id + '\' ></td>'
+                    , '<td  style="display: none;">' + (i+1) + '</td>'
+                    , '<td>' + file.fileName + '</td>'
+                    , '<td>' + (file.fileSize / 1014).toFixed(1) + 'kb</td>'
+                    , '<td><span style="color: #5FB878;">上传成功</span></td>'
+                    , '<td>'
+                    , '' + ((pcitcFile.file_edit_detail == "detail") ? "" : ('<a class=\'layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg demo-delete\' href=\"javascript:pcitcFile.deleteFile(\'' + file.id + '\',\'' + i + '\');" id=\"' + file.id + '\">删除</a>'))
+                    // , '<a class=\'layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_import btnMyBgImg demo-delete\' href=\"javascript:pcitcFile.downloadFile(\'' + file.id + '\');">下载</a>'
+                    , '<a class=\'layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_import btnMyBgImg demo-delete\' target="_top" href=\"/sysfile/download/' + file.id + '">下载</a>'
+                    , '</td>'
+                    , '</tr>'].join(''));
+                $('#'+pcitcFile.file_table_id).append(tr);
+            }
+        }
+    }
+</script>
+<script>
+
+    //操作类型判断
+    if (pcitcFile.file_edit_detail == "") {
+        pcitcFile.file_edit_detail = "detail";
+    }
+    if(pcitcFile.file_edit_detail=="detail"){
+        $("#testList").hide();
+        $("#testListAction").hide();
+    }
+    /***配置*/
+    if (typeof (file_opt_flag) != "undefined") {
+        pcitcFile.filedflag = file_opt_flag;
+    }else {
+        pcitcFile.filedflag=JSON.parse(window.localStorage.getItem("param")).code;
+    }
+    /***默认*/
+    if (typeof (file_accept) != "undefined") {
+        pcitcFile.accept = file_accept;
+    }
+    /***默认*/
+    if (typeof (file_acceptMime) != "undefined") {
+        pcitcFile.acceptMime = file_acceptMime;
+    }
+    /***默认*/
+    if (typeof (file_ext) != "undefined") {
+        pcitcFile.ext = file_ext;
+    }
+    /***默认*/
+    if (document.getElementById(file_ids)) {
+        pcitcFile.fileIds = document.getElementById(file_ids).value;
+    } else {
+        pcitcFile.fileIds = file_ids;
+    }
+    /***默认*/
+    if (typeof (file_table_id) != "undefined") {
+        pcitcFile.file_table_id = file_table_id;
+    }
+    if(pcitcFile.IEVersion()=="IE"){
+        pcitcFile.url="/sysfile/uploadMultipleFileLayuiIE";
+    }
+    //获取文件列表
+    pcitcFile.reloadTable();
+    //获取文件配置
+    pcitcFile.getFileConfig(pcitcFile.filedflag);
+    //设置非选中
+    pcitcFile.setHeadCheck();
+</script>
+<!--<script src="/layuiadmin/layui/layui.js"></script>-->
+<script>
+    layui.use(['element','upload'], function () {
+        var $ = layui.jquery,
+            element = layui.element,
+            upload = layui.upload;
+        //演示多文件列表
+        var demoListView = $('#'+pcitcFile.file_table_id);
+        var uploadListIns = upload.render({
+            elem: '#testList'
+            , url: pcitcFile.url
+            , accept: pcitcFile.accept
+            ,field:pcitcFile.field
+            , acceptMime: pcitcFile.acceptMime
+            , data: {
+                filedflag: pcitcFile.filedflag
+                ,flag:"0"
+                ,formId:pcitcFile.fileIds
+                // ,formId:$("#"+pcitcFile.fileIds).val()
+            }
+            ,dataType:"json"
+            , multiple: pcitcFile.multiple
+            , exts: pcitcFile.ext
+            , number: pcitcFile.number
+            , auto: pcitcFile.auto
+            , bindAction: '#testListAction'
+            ,before: function(obj){ //obj参数包含的信息，跟 choose回调完全一致。
+                if (pcitcFile.complete!=""){
+                    $("#testListAction").toggle();
+                    $("#testListActionDisabled").toggle();
+                }
+            }
+            , choose: function (obj) {
+                if ($("#uploadTable tr").length > pcitcFile.number) {
+                    layer.msg("上传文件数量不能超过:" + pcitcFile.number + "个", {
+                        icon: 2
+                        , shift: 6
+                    });
+                    return false;
+                }
+                var files = this.files = obj.pushFile(); //将每次选择的文件追加到文件队列
+                //读取本地文件
+                obj.preview(function (index, file, result) {
+                    var tr = $(['<tr id="upload-' + index + '">'
+                        , '<td style="display: none;"><input type="checkbox" class=\'fileTableCheck\' value=\'' + ($(".fileTableCheck").length * 1 + 1) + '\'></td>'
+                        , '<td style="display: none;">' + ($(".fileTableCheck").length*1+1) + '</td>'
+                        , '<td>' + file.name + '</td>'
+                        , '<td>' + (file.size / 1014).toFixed(1) + 'kb</td>'
+                        , '<td>等待上传</td>'
+                        , '<td>'
+                        , '<button class="layui-btn layui-btn-mini demo-reload btnMyBgImg layui-btn-blue layui-hide">重传</button>'
+                        , '<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg demo-delete">删除</button>'
+                        , '</td>'
+                        , '</tr>'].join(''));
+
+                    //单个重传
+                    tr.find('.demo-reload').on('click', function () {
+                        obj.upload(index, file);
+                    });
+
+                    //删除
+                    tr.find('.demo-delete').on('click', function () {
+                        delete files[index]; //删除对应的文件
+                        tr.remove();
+                        uploadListIns.config.elem.next()[0].value = ''; //清空 input file 值，以免删除后出现同名文件不可选
+                        pcitcFile.tableSort();
+                    });
+                    demoListView.append(tr);
+                });
+                pcitcFile.complete="1";
+            }
+            , done: function (res, index, upload) {
+                if (res.error == null) { //上传成功
+                    var tr = demoListView.find('tr#upload-' + index)
+                        , tds = tr.children();
+                    tr.attr("id","upload-"+(tds.eq(1).html()*1-1));
+                    tds.eq(0).html('<input type="checkbox" class=\'fileTableCheck\' value=\'' + res.list[0].id + '\'>');
+                    tds.eq(4).html('<span style="color: #5FB878;">上传成功</span>');
+                    tds.eq(5).html("<a class='layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg demo-delete' href=\"javascript:pcitcFile.deleteFile('" + res.list[0].id + "','" + ($("#uploadTable tr").length-2) + "');\" id=\"" + res.list[0].id + "\">删除</a>" + '<a class=\'layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_import btnMyBgImg demo-delete\'  target="_top"  href=\"/sysfile/download/' + res.list[0].id + '\">下载</a>');
+                    //清空操作
+                    delete this.files[index]; //删除文件队列已经上传成功的文件
+                    // var ids = $("#"+pcitcFile.fileIds).val();
+                    // ids = (ids == "" ? "" : (ids + ",")) + res.list[0].id;
+                    // $("#"+pcitcFile.fileIds).val(ids);
+                    pcitcFile.fileObj[res.list[0].id]=res.list[0];
+                    return;
+                } else {
+                    this.error(index, upload);
+                }
+            }
+            , allDone: function (obj) {
+
+                pcitcFile.complete="";
+                $("#testListAction").toggle();
+                $("#testListActionDisabled").toggle();
+                pcitcFile.setHeadCheck();
+                if (pcitcFile.IEVersion() == "IE") {
+                    var param = JSON.parse(window.localStorage.getItem("param"));
+                    var functionId = param.id;
+                    var iframeId = param.code;
+                    if (parent.$(".layui-layer-content").length > 0) {
+                        $('#'+pcitcFile.file_table_id).html("");
+                        pcitcFile.reloadTable();
+                    }else {
+                        parent.document.getElementById(iframeId).src = parent.document.getElementById(iframeId).src;
+                    }
+                }
+            }
+            , error: function (index, upload) {
+                pcitcFile.complete="";
+                console.log("----------error---------");
+                var tr = demoListView.find('tr#upload-' + index)
+                    , tds = tr.children();
+                tds.eq(2).html('<span style="color: #FF5722;">上传失败</span>');
+                tds.eq(3).find('.demo-reload').removeClass('layui-hide'); //显示重传
+            }
+        });
+    });
+</script>
+</body>
+</html>

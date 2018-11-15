@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pcitc.mapper.IntlProject.IntlProjectResultMapper">
+  <resultMap id="BaseResultMap" type="com.pcitc.base.stp.IntlProject.IntlProjectResult">
+    <result column="result_id" jdbcType="VARCHAR" property="resultId" />
+    <result column="project_id" jdbcType="VARCHAR" property="projectId" />
+    <result column="result_title" jdbcType="VARCHAR" property="resultTitle" />
+    <result column="result_code" jdbcType="VARCHAR" property="resultCode" />
+    <result column="result_content" jdbcType="VARCHAR" property="resultContent" />
+    <result column="get_date" jdbcType="VARCHAR" property="getDate" />
+    <result column="result_type" jdbcType="VARCHAR" property="resultType" />
+    <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+    <result column="update_time" jdbcType="VARCHAR" property="updateTime" />
+    <result column="del_flag" jdbcType="INTEGER" property="delFlag" />
+    <result column="data_version" jdbcType="VARCHAR" property="dataVersion" />
+    <result column="data_uuid" jdbcType="VARCHAR" property="dataUuid" />
+    <result column="unit_id" jdbcType="VARCHAR" property="unitId" />
+    <result column="result_author" jdbcType="VARCHAR" property="resultAuthor" />
+    <result column="author_phone" jdbcType="VARCHAR" property="authorPhone" />
+    <result column="append_files" jdbcType="VARCHAR" property="appendFiles" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    result_id, project_id, result_title, result_code, result_content, get_date, result_type, 
+    create_time, update_time, del_flag, data_version, data_uuid, unit_id, result_author, 
+    author_phone, append_files
+  </sql>
+  <select id="selectByExample" parameterType="com.pcitc.base.stp.IntlProject.IntlProjectResultExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from intl_project_result
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.pcitc.base.stp.IntlProject.IntlProjectResultExample">
+    delete from intl_project_result
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.pcitc.base.stp.IntlProject.IntlProjectResult">
+    insert into intl_project_result (result_id, project_id, result_title, 
+      result_code, result_content, get_date, 
+      result_type, create_time, update_time, 
+      del_flag, data_version, data_uuid, 
+      unit_id, result_author, author_phone, 
+      append_files)
+    values (#{resultId,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR}, #{resultTitle,jdbcType=VARCHAR}, 
+      #{resultCode,jdbcType=VARCHAR}, #{resultContent,jdbcType=VARCHAR}, #{getDate,jdbcType=VARCHAR}, 
+      #{resultType,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR}, #{updateTime,jdbcType=VARCHAR}, 
+      #{delFlag,jdbcType=INTEGER}, #{dataVersion,jdbcType=VARCHAR}, #{dataUuid,jdbcType=VARCHAR}, 
+      #{unitId,jdbcType=VARCHAR}, #{resultAuthor,jdbcType=VARCHAR}, #{authorPhone,jdbcType=VARCHAR}, 
+      #{appendFiles,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pcitc.base.stp.IntlProject.IntlProjectResult">
+    insert into intl_project_result
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="resultId != null">
+        result_id,
+      </if>
+      <if test="projectId != null">
+        project_id,
+      </if>
+      <if test="resultTitle != null">
+        result_title,
+      </if>
+      <if test="resultCode != null">
+        result_code,
+      </if>
+      <if test="resultContent != null">
+        result_content,
+      </if>
+      <if test="getDate != null">
+        get_date,
+      </if>
+      <if test="resultType != null">
+        result_type,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
+      <if test="dataVersion != null">
+        data_version,
+      </if>
+      <if test="dataUuid != null">
+        data_uuid,
+      </if>
+      <if test="unitId != null">
+        unit_id,
+      </if>
+      <if test="resultAuthor != null">
+        result_author,
+      </if>
+      <if test="authorPhone != null">
+        author_phone,
+      </if>
+      <if test="appendFiles != null">
+        append_files,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="resultId != null">
+        #{resultId,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null">
+        #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="resultTitle != null">
+        #{resultTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="resultCode != null">
+        #{resultCode,jdbcType=VARCHAR},
+      </if>
+      <if test="resultContent != null">
+        #{resultContent,jdbcType=VARCHAR},
+      </if>
+      <if test="getDate != null">
+        #{getDate,jdbcType=VARCHAR},
+      </if>
+      <if test="resultType != null">
+        #{resultType,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=INTEGER},
+      </if>
+      <if test="dataVersion != null">
+        #{dataVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="dataUuid != null">
+        #{dataUuid,jdbcType=VARCHAR},
+      </if>
+      <if test="unitId != null">
+        #{unitId,jdbcType=VARCHAR},
+      </if>
+      <if test="resultAuthor != null">
+        #{resultAuthor,jdbcType=VARCHAR},
+      </if>
+      <if test="authorPhone != null">
+        #{authorPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="appendFiles != null">
+        #{appendFiles,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.pcitc.base.stp.IntlProject.IntlProjectResultExample" resultType="java.lang.Long">
+    select count(*) from intl_project_result
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update intl_project_result
+    <set>
+      <if test="record.resultId != null">
+        result_id = #{record.resultId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectId != null">
+        project_id = #{record.projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.resultTitle != null">
+        result_title = #{record.resultTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.resultCode != null">
+        result_code = #{record.resultCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.resultContent != null">
+        result_content = #{record.resultContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.getDate != null">
+        get_date = #{record.getDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.resultType != null">
+        result_type = #{record.resultType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.delFlag != null">
+        del_flag = #{record.delFlag,jdbcType=INTEGER},
+      </if>
+      <if test="record.dataVersion != null">
+        data_version = #{record.dataVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dataUuid != null">
+        data_uuid = #{record.dataUuid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unitId != null">
+        unit_id = #{record.unitId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.resultAuthor != null">
+        result_author = #{record.resultAuthor,jdbcType=VARCHAR},
+      </if>
+      <if test="record.authorPhone != null">
+        author_phone = #{record.authorPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.appendFiles != null">
+        append_files = #{record.appendFiles,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update intl_project_result
+    set result_id = #{record.resultId,jdbcType=VARCHAR},
+      project_id = #{record.projectId,jdbcType=VARCHAR},
+      result_title = #{record.resultTitle,jdbcType=VARCHAR},
+      result_code = #{record.resultCode,jdbcType=VARCHAR},
+      result_content = #{record.resultContent,jdbcType=VARCHAR},
+      get_date = #{record.getDate,jdbcType=VARCHAR},
+      result_type = #{record.resultType,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=VARCHAR},
+      update_time = #{record.updateTime,jdbcType=VARCHAR},
+      del_flag = #{record.delFlag,jdbcType=INTEGER},
+      data_version = #{record.dataVersion,jdbcType=VARCHAR},
+      data_uuid = #{record.dataUuid,jdbcType=VARCHAR},
+      unit_id = #{record.unitId,jdbcType=VARCHAR},
+      result_author = #{record.resultAuthor,jdbcType=VARCHAR},
+      author_phone = #{record.authorPhone,jdbcType=VARCHAR},
+      append_files = #{record.appendFiles,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

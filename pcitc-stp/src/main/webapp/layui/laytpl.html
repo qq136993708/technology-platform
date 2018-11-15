@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>layTpl</title>
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <script src="/layuiadmin/layui/layui.js"></script>
+</head>
+<body>
+
+<script id="demo" type="text/html">
+    <h3>{{ d.title }}</h3>
+    <ul>
+        {{#  layui.each(d.list, function(index, item){ }}
+        <li>
+            <span>{{ item.modname }}</span>
+            <span>{{ item.alias }}：</span>
+            <span>{{ item.site || '' }}</span>
+        </li>
+        {{#  }); }}
+        {{#  if(d.list.length === 0){ }}
+        无数据
+        {{#  } }}
+    </ul>
+</script>
+<script>
+    function milliFormat(s){ //添加千位符
+        if(/[^0-9\.]/.test(s)) return "invalid value";
+        s=s.replace(/^(\d*)$/,"$1.");
+        s=(s+"00").replace(/(\d*\.\d\d)\d*/,"$1");
+        s=s.replace(".",",");
+        var re=/(\d)(\d{3},)/;
+        while(re.test(s)){
+            s=s.replace(re,"$1,$2");
+        }
+        s=s.replace(/,(\d\d)$/,".$1");
+        return s.replace(/^\./,"0.")
+    }
+</script>
+
+<div id="view"></div>
+<script>
+    layui.use(['jquery','laytpl'], function () {
+        var laytpl = layui.laytpl;
+
+        var data = { //数据
+            "title":"Layui常用模块"
+            ,"list":[{"modname":"弹层","alias":"layer","site":"layer.layui.com"},{"modname":"表单","alias":"form"}]
+        }
+        var getTpl = demo.innerHTML
+            ,view = document.getElementById('view');
+        laytpl(getTpl).render(data, function(html){
+            view.innerHTML = html;
+        });
+    })
+
+</script>
+
+</body>
+</html>

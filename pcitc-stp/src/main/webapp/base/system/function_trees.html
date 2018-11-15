@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <!--<meta http-equiv="X-UA-Compatible" content="IE=edge">-->
+    <!--<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">-->
+
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/ztree/css/metroStyle/metroStyle.css">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
+    <script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.core.js"></script>
+    <script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.excheck.min.js"></script>
+    <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+    <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+</head>
+<body>
+
+<div class="treeFrom-container">
+    <div class="treeBox">
+	    <div class="treeTitle">
+	        <div class="title-box">
+	            <span>功能菜单</span>
+	        </div>
+	 	</div>       
+        <div class="layui-side-scroll">
+            <!-- 左侧子菜单 -->
+            <ul id="funTree" class="ztree"></ul>
+        </div>
+    </div>
+	<div class="treeFormBox">
+		<form id="functiongroup-form" name="functiongroup-form" lay-filter="functiongroup-form" class="form-horizontal layui-form">
+	   	<div class="treeTitle">
+	   		<div class="title-box">
+                            组织机构
+                <span>
+                   	<!-- 
+                   	 <button type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" id="closeBtn">取消</button>
+                   	 -->
+	    			<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="" lay-filter="submitBtn">保存</button>
+    			</span>
+	        </div>
+	    </div>
+	    
+	    <div class="tree-form-paddingBox">
+          	<input type="hidden" name="menuId" id="menuId"/> <input type="hidden" name="menuId" id="menuId"/>
+           	<div class="layui-row">
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                 <div class="layui-form-item">
+                     <label class="layui-form-label">页面标识<span class="must-fill">*</span></label>
+                     <div class="layui-input-block">
+                         <input type="text" id="id" name="id" readonly="readonly" placeholder="页面标识" autocomplete="off" class="layui-input"  style="background: #eee">
+                     </div>
+                 </div>
+             </div>
+            </div>
+            <div class="layui-row">
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                 <div class="layui-form-item">
+
+                     <label class="layui-form-label">文件数量<span class="must-fill">*</span></label>
+                     <div class="layui-input-block">
+                         <input type="text" id="fileCount" name="fileCount" lay-verify="number" placeholder="文件数量" autocomplete="off" class="layui-input" readonly="readonly" style="background: #eee">
+                     </div>
+                 </div>
+                </div>
+               </div>
+               <div class="layui-row">
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                 <div class="layui-form-item layui-form-text">
+                     <label class="layui-form-label">保存位置<span class="must-fill">*</span></label>
+                     <div class="layui-input-block">
+                         <textarea placeholder="请输入文件保存位置" lay-verify="required" id="position" name="position" class="layui-textarea" readonly="readonly" style="background: #eee"></textarea>
+                     </div>
+                 </div>
+               	 </div>
+                </div>
+             <div class="layui-row">
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                 <div class="layui-form-item layui-form-text">
+                     <label class="layui-form-label">文件类型<span class="must-fill">*</span></label>
+                     <div class="layui-input-block">
+                         <textarea placeholder="png|jpg|rmvb|mp4|rar" lay-verify="required" id="fileType" name="fileType" class="layui-textarea" readonly="readonly" style="background: #eee"></textarea>
+                     </div>
+                 </div>
+                </div>
+             </div>
+             <div class="layui-row">
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                 <div class="layui-form-item layui-form-text">
+                     <label class="layui-form-label">单个文件大小限制(KB)<span class="must-fill">*</span></label>
+                     <div class="layui-input-block">
+                         <textarea placeholder="10240" id="fileSize" lay-verify="number" name="fileSize" class="layui-textarea" readonly="readonly" style="background: #eee"></textarea>
+                     </div>
+                 </div>
+                </div>
+          </div>
+           
+       	</div>
+       </form>
+	 </div>
+</div>
+<script>
+    var parentId = "";
+    layui.use('jquery', function(){
+        window.commonDislodgeFormBox = function(){
+            var _window = $(window).height();
+            var _top = $('.layui-header').outerHeight(true) ? $('.layui-header').outerHeight(true) : 0;
+            var _pagetabs = $('.layadmin-pagetabs').outerHeight(true) ? $('.layadmin-pagetabs').outerHeight(true) : 0;
+            var _search = $('.searchBox').outerHeight(true) ? $('.searchBox').outerHeight(true) : 0;
+            var _tool = $('.tableToolBox').outerHeight(true) ? $('.tableToolBox').outerHeight(true) : 0;
+            var _layuiTab = $('.layui-tab-title').outerHeight(true) ? $('.layui-tab-title').outerHeight(true)+20 : 0;
+            var _bottom = $('.layui-footer').outerHeight(true) ? $('.layui-footer').outerHeight(true) : 0;
+            var formBoxHeight = _window - _top - _pagetabs - _search - _tool - _layuiTab - _bottom - 20;
+            return formBoxHeight < 134 ? 134 : formBoxHeight;
+        }
+    })
+    $('.treeFormBox').css('height',commonDislodgeFormBox())
+    $('.treeBox').css('height',commonDislodgeFormBox()+2)
+
+    function initTree() {
+        var zNodes;
+        $.ajax({
+            url: "/function/getCommonFunctionTree",//这个就是请求地址对应sAjaxSource
+            type: 'get',
+            dataType: 'json',
+            async: false,
+            success: function (data) {
+                zNodes = data;
+            },
+            error: function (msg) {
+            }
+        });
+        var setting = {
+            data: {
+                simpleData: {
+                    enable: true
+                }
+            },
+            callback: {
+                onClick: onClickMenu
+            }
+        };
+
+        $.fn.zTree.init($("#funTree"), setting, zNodes);
+
+    }
+
+    initTree();
+    function onClickMenu(event, treeId, treeNode, clickFlag) {
+        parentId = treeNode.id;
+        // if(treeNode.isParent==true){
+        //
+        // }else
+            {
+            $(".box-body").show();
+            layui.use(['jquery', 'form', 'laydate', 'table', 'layer', 'element'], function () {
+                var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate, form = layui.form;
+                form.render(null, 'functiongroup-form');
+                if (parentId != "") {
+                    ajaxPost("/sysfileconfig/get/" + parentId, null, function (data) {
+                        form.val("functiongroup-form", data);
+                        $("input").attr("style",false);
+                        $("textarea").attr("style",false);
+                        $("textarea").attr("readonly",false);
+                        $("#fileCount").attr("readonly",false);
+                    });
+                }
+                /* 监听提交 */
+                form.on('submit(submitBtn)', function (data) {
+                    ajaxPost("/sysfileconfig/update", data.field, function (dt, status) {
+                        layer.msg("保存成功");
+                    });
+                    return false;
+                });
+            });
+        }
+    }
+</script>
+<script>
+
+</script>
+</body>
+</html>

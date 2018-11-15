@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pcitc.mapper.system.SysFunctionPropertyMapper">
+  <resultMap id="BaseResultMap" type="com.pcitc.base.system.SysFunctionProperty">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="function_id" jdbcType="VARCHAR" property="functionId" />
+    <result column="function_code" jdbcType="VARCHAR" property="functionCode" />
+    <result column="pro_name" jdbcType="VARCHAR" property="proName" />
+    <result column="pro_code" jdbcType="VARCHAR" property="proCode" />
+    <result column="is_available" jdbcType="INTEGER" property="isAvailable" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, function_id, function_code, pro_name, pro_code, is_available
+  </sql>
+  <select id="selectByExample" parameterType="com.pcitc.base.system.SysFunctionPropertyExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from sys_function_property
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_function_property
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from sys_function_property
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.pcitc.base.system.SysFunctionPropertyExample">
+    delete from sys_function_property
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.pcitc.base.system.SysFunctionProperty">
+    insert into sys_function_property (id, function_id, function_code, 
+      pro_name, pro_code, is_available
+      )
+    values (#{id,jdbcType=VARCHAR}, #{functionId,jdbcType=VARCHAR}, #{functionCode,jdbcType=VARCHAR}, 
+      #{proName,jdbcType=VARCHAR}, #{proCode,jdbcType=VARCHAR}, #{isAvailable,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.pcitc.base.system.SysFunctionProperty">
+    insert into sys_function_property
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="functionId != null">
+        function_id,
+      </if>
+      <if test="functionCode != null">
+        function_code,
+      </if>
+      <if test="proName != null">
+        pro_name,
+      </if>
+      <if test="proCode != null">
+        pro_code,
+      </if>
+      <if test="isAvailable != null">
+        is_available,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="functionId != null">
+        #{functionId,jdbcType=VARCHAR},
+      </if>
+      <if test="functionCode != null">
+        #{functionCode,jdbcType=VARCHAR},
+      </if>
+      <if test="proName != null">
+        #{proName,jdbcType=VARCHAR},
+      </if>
+      <if test="proCode != null">
+        #{proCode,jdbcType=VARCHAR},
+      </if>
+      <if test="isAvailable != null">
+        #{isAvailable,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.pcitc.base.system.SysFunctionPropertyExample" resultType="java.lang.Long">
+    select count(*) from sys_function_property
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update sys_function_property
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.functionId != null">
+        function_id = #{record.functionId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.functionCode != null">
+        function_code = #{record.functionCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.proName != null">
+        pro_name = #{record.proName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.proCode != null">
+        pro_code = #{record.proCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isAvailable != null">
+        is_available = #{record.isAvailable,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update sys_function_property
+    set id = #{record.id,jdbcType=VARCHAR},
+      function_id = #{record.functionId,jdbcType=VARCHAR},
+      function_code = #{record.functionCode,jdbcType=VARCHAR},
+      pro_name = #{record.proName,jdbcType=VARCHAR},
+      pro_code = #{record.proCode,jdbcType=VARCHAR},
+      is_available = #{record.isAvailable,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.system.SysFunctionProperty">
+    update sys_function_property
+    <set>
+      <if test="functionId != null">
+        function_id = #{functionId,jdbcType=VARCHAR},
+      </if>
+      <if test="functionCode != null">
+        function_code = #{functionCode,jdbcType=VARCHAR},
+      </if>
+      <if test="proName != null">
+        pro_name = #{proName,jdbcType=VARCHAR},
+      </if>
+      <if test="proCode != null">
+        pro_code = #{proCode,jdbcType=VARCHAR},
+      </if>
+      <if test="isAvailable != null">
+        is_available = #{isAvailable,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.system.SysFunctionProperty">
+    update sys_function_property
+    set function_id = #{functionId,jdbcType=VARCHAR},
+      function_code = #{functionCode,jdbcType=VARCHAR},
+      pro_name = #{proName,jdbcType=VARCHAR},
+      pro_code = #{proCode,jdbcType=VARCHAR},
+      is_available = #{isAvailable,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

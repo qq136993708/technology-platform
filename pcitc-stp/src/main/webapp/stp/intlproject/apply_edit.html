@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>新增/编辑</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
+<link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
+<style>
+    .formOperate i{font-size: 18px;cursor: pointer;height: 32px;line-height: 32px;}
+    .formOperate i:hover{color: #0f9ee0;}
+</style>
+<script type="text/javascript" src="/plugins/ckeditor/ckeditor.js"></script>
+<script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+<script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+
+<script type="text/javascript">
+var file_ids = "appendFiles";
+	//detail:详情，edit：编辑
+	file_edit_detail = "edit";
+	//统管理-附件管理-附件配置：页面标识
+	file_opt_flag = "4c20bd28057543839c0db8754f417c6a";
+$(document).ready(function() {
+	layui.use([ 'jquery', 'form', 'laydate', 'table', 'layer', 'element',"publicMethods" ],
+			function() {
+				var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate;
+				var form = layui.form;
+				var applyId = "${applyId?default(0)}";
+				var publicMethods=layui.publicMethods;
+				//var editor;
+				var year=new Date().getFullYear();
+				var div_index = 0;
+				//加载字典
+				var dicMap = ['GJXM_XMXZ','GJXMGL_XMJB','GJXM_JSXZ','GJXM_XMFL','ROOT_UNIVERSAL_GJHBBZ'];
+				publicMethods.ajaxPost("/dictionary/map/getMapListDictionarys",{"parentCodes":JSON.stringify(dicMap)}, function (data) {
+					$.each(data,function(key,val){
+						$.each(val,function(i,dt){
+							$("#"+key).append('<option value="'+dt.code+'">'+dt.name+'</option>');
+						});
+					});
+			   	});
+				//日期
+				laydate.render({elem: '#startDate',type: 'date',value: new Date()});
+	    		laydate.render({elem: '#endDate',type: 'date',value: new Date()});
+			 	if(applyId != 0)
+		        {
+			 		$("#applyId").val(applyId);
+			 		publicMethods.ajaxPost('/project/get-apply', {"applyId":applyId}, function (data, status) {
+		        		form.val("apply-form",data);
+		        		//editor = CKEDITOR.replace("applyContent");
+		        		//处理费用
+		        		if(data.plantMoneyItems == null || data.plantMoneyItems=="" || data.plantMoneyItems=="undefined")
+						{
+							div_index += 1;
+					 		$('.layui-row:last').after(createBuildYearItem(div_index));
+						}else{
+							$.each(JSON.parse(data.plantMoneyItems),function(key,val){     
+								div_index += 1;
+						 		$('.layui-row:last').after(createBuildYearItem(div_index));
+						 		$("#build_year_"+div_index).val(key);       
+						 		$("#build_year_money_"+div_index).val(val);
+							}); 
+						} 
+		            });
+		        }else{
+		    		$("#appendFiles").val("${appendFiles}");
+		    		//editor = CKEDITOR.replace("applyContent");
+		    		//创建编码
+		    		publicMethods.ajaxPost('/project/project-code', null, function (data, status) {
+		    			if (data.success) {
+		    				$("#applyCode").val(data.message);
+		    			}
+		    		});
+		    		//动态创建一行
+		    		div_index += 1;
+		    		console.log(createBuildYearItem(div_index));
+		    		$('.layui-row:last').after(createBuildYearItem(div_index));
+		    	}
+			 	form.render();
+			 	//添加到form.render()之后
+			 	$("#file_div").load('/common/public/uploadlayuiload.html');
+				/* 自定义验证规则  title 要验证的input的 lay-verify=""*/
+				form.verify({
+				});
+				/* 监听提交 */
+				form.on('submit(submitBtn)', function(data) {
+					//data.field.applyContent = editor.getData();
+					//计算金额
+					var moneyItems = {};
+					$('select[name="build_year"]').each(function(i){
+						var dt_index = $(this).parents('.layui-row').attr("data-index");
+						moneyItems[$("#build_year_"+dt_index).val()]=$("#build_year_money_"+dt_index).val();
+					});
+					data.field.plantMoneyItems = JSON.stringify(moneyItems);;
+                    ajaxPost('/project/apply-saveorupdate', data.field, function (data, status) {
+                        if (data.success) {
+                        	parent.layui.table.reload('applyTable',null);
+                        	parent.renderfunc();//隐藏全选按钮
+                        	var index = parent.layer.getFrameIndex(window.name);
+					       	parent.layer.close(index);
+                        }else{
+                        	parent.layer.alert(data.message, {
+								title : '信息'
+							});
+							return;
+                        }
+                    });
+					return false;
+				});
+				
+				function createBuildYearItem(div_index)
+				{
+					return "<div class=\"layui-row\" data-index=\""+div_index+"\">\n" +
+                	"			 <div class=\"layui-col-xs6 layui-col-sm6 layui-col-md6\">"+	
+                    "                <div class=\"layui-col-xs6 layui-col-sm6 layui-col-md6\">\n" +
+                    "                    <div class=\"layui-form-item\">\n" +
+                    "                        <label for=\"\" class=\"layui-form-label\">指定年度预算<span class=\"must-fill\">*</span></label>\n" +
+                    "                        <div class=\"layui-input-block\">\n" +
+                    "                                <select name=\"build_year\" id=\"build_year_"+div_index+"\" lay-verify=\"required\"  lay-filter=\"test\">\n" +
+                    "                                    <option value=\"\">--预算年度--</option>\n" +
+                    "                                    <option value=\"2018\">2018</option>\n" +
+                    "                                    <option value=\"2019\">2019</option>\n" +
+                    "                                    <option value=\"2020\">2020</option>\n" +
+                    "                                    <option value=\"2021\">2021</option>\n" +
+                    "                                    <option value=\"2022\">2022</option>\n" +
+                    "                                    <option value=\"2023\">2023</option>\n" +
+                    "                                    <option value=\"2014\">2024</option>\n" +
+                    "                                    <option value=\"2025\">2025</option>\n" +
+                    "                                    <option value=\"2026\">2026</option>\n" +
+                    "                                    <option value=\"2027\">2027</option>\n" +
+                    "                                    <option value=\"2028\">2028</option>\n" +
+                    "                                    <option value=\"2029\">2029</option>\n" +
+                    "                                    <option value=\"2030\">2030</option>\n" +
+                    "                                </select>\n" +
+                    "                        </div>\n" +
+                    "                    </div>\n" +
+                    "                </div>\n" +
+                    "                <div class=\"layui-col-xs6 layui-col-sm6 layui-col-md6\">\n" +
+                    "                    <div class=\"layui-form-item\">\n" +
+                    "                            <div class=\"layui-col-xs9 layui-col-sm9 layui-col-md9\">\n" +
+                    "                            	<input class=\"layui-input\" id=\"build_year_money_"+div_index+"\" lay-verify=\"required|number\" placeholder=\"请输入预算金额（万元）\" autocomplete=\"off\" type=\"text\">\n" +
+                    "                            </div>\n" +
+                    "                            <div class=\"layui-col-xs2 layui-col-sm2 layui-col-md2 layui-col-lg-offset1\">\n" +
+                    "                                <div class=\"formOperate\">\n" +
+                    "                                    <i class=\"layui-icon formadd\" data-method=\"addInput\">&#xe61f;</i>\n" +
+                    "                                    <i class=\"layui-icon formdel\" data-method=\"delInput\">&#xe640;</i>\n" +
+                    "                                </div>\n" +
+                    "                            </div>\n" +
+                    "                    </div>\n" +
+                    "                </div>\n" +
+                    "               </div>\n" +
+                    "            </div>";
+				}
+		        var active = {
+		            addInput: function (othis) {
+		            	div_index += 1;
+		                othis.parents('.layui-row').after(createBuildYearItem(div_index));
+		                form.render();
+		            },
+		            delInput: function (othis) {
+		                othis.parents('.layui-row').remove();
+		                form.render();
+		            }
+		        };
+		        $('#apply-form').on('click','.formadd', function () {
+		            var othis = $(this), method = othis.data('method');
+		            active[method].call(this, othis);
+		        });
+		        //动态删除元素
+		        $('#apply-form').on('click','.formdel', function () {
+		        	if($('select[name="build_year"]').length==1)
+		        	{
+		        		layer.alert("最少保留一年的预算数据！" , {title: '信息'});
+		        	}else{
+		        		var othis = $(this), method = othis.data('method');
+				        active[method].call(this, othis);
+		        	}
+		        });
+				
+		});
+		$("#cancel").click(function () {
+		    var index = parent.layer.getFrameIndex(window.name);
+		    parent.layer.close(index);
+		})
+});
+</script>
+</head>
+<body>
+<div class="formBox">
+	<form id="apply-form" name="apply-form" lay-filter="apply-form" class="form-horizontal layui-form">
+	<input type="hidden" name="applyId" id="applyId">
+	<div class="box-body">
+		<input type="hidden" name="plantMoneyItems" id="plantMoneyItems">
+		<input type="hidden" name="appendFiles" id="appendFiles">
+		<div class="layui-row">
+			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+				<div class="layui-form-item">
+					<label for="" class="layui-form-label">申报项目名称<span class="must-fill">*</span></label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input" lay-verify="required" id="applyName" name="applyName" placeholder="申报项目名称">
+					</div>
+				</div>
+			</div>
+			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+				<div class="layui-form-item"  id="password" >
+					<label for="" class="layui-form-label">申报编码<span class="must-fill">*</span></label>
+					<div class="layui-input-block">
+					 	<input type="text" class="layui-input readOnlyBox" readonly="readonly" lay-verify="required" id="applyCode" name="applyCode" placeholder="申报编码">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="layui-row">
+			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+				 <div class="layui-form-item">
+			          <label class="layui-form-label">项目分类<span class="must-fill">*</span></label>
+			          <div class="layui-input-block">
+			          	  <select name="dcProjectCategory" id="GJXM_XMFL" lay-verify="required"  lay-filter="userKind">
+		                	<option value="">请选择</option>
+		             	  </select>
+			          </div>
+		        </div>
+			</div>
+			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+				 <div class="layui-form-item">
+			          <label class="layui-form-label">项目性质<span class="must-fill">*</span></label>
+			          <div class="layui-input-block">
+			          	  <select name="dcProjectNature" id="GJXM_XMXZ" lay-verify="required"  lay-filter="userKind">
+		                	<option value="">请选择</option>
+		             	  </select>
+			          </div>
+		        </div>
+			</div>
+		</div>
+		<div class="layui-row">
+			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+				<div class="layui-form-item">
+					<label for="" class="layui-form-label">计划开始日期<span class="must-fill">*</span></label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input" lay-verify="required" id="startDate" name="startDate" placeholder="计划开始日期">
+					</div>
+				</div>
+			</div>
+			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+				<div class="layui-form-item">
+					<label for="" class="layui-form-label">计划结束日期<span class="must-fill">*</span></label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input" id="endDate" lay-verify="required" name="endDate" placeholder="计划结束日期">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="layui-row">
+			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+				<div class="layui-form-item">
+					<label for="" class="layui-form-label">中方合作单位<span class="must-fill">*</span></label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input" lay-verify="required" id="outerCompanyName" name="outerCompanyName" placeholder="请输入合作方单位名">
+					</div>
+				</div>
+			</div>
+			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+				<div class="layui-form-item">
+					<label for="" class="layui-form-label">负责人电话</label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input" id="outerContactsPhone" name="outerContactsPhone"  placeholder="请输入合作方单位联系电话">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="layui-row">
+			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+				<div class="layui-form-item">
+					<label for="" class="layui-form-label">研究院负责人<span class="must-fill">*</span></label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input" lay-verify="required" id="managerName" name="managerName" placeholder="请输入负责人名字">
+					</div>
+				</div>
+			</div>
+			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+				<div class="layui-form-item">
+					<label for="" class="layui-form-label">负责人电话</label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input" id="managerPhone" name="managerPhone"  placeholder="请输入联系电话">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="layui-row">
+			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+				<div class="layui-form-item">
+					<label for="" class="layui-form-label">人民币金额(万元)<span class="must-fill">*</span></label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input" lay-verify="required" id="moneyRmb" name="moneyRmb" placeholder="请输入人民币金额(万元)">
+					</div>
+				</div>
+			</div>
+			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+				<div class="layui-form-item">
+					<label for="" class="layui-form-label">申报年度<span class="must-fill">*</span></label>
+					<div class="layui-input-block">
+							<select name="reportYear" id="reportYear" lay-verify="required"  lay-filter="test">
+                                <option value="">--请选择申报年度--</option>
+                                <option value="2018年度">2018年度</option>
+                                <option value="2019年度">2019年度</option>
+                                <option value="2020年度">2020年度</option>
+                                <option value="2021年度">2021年度</option>
+                                <option value="2022年度">2022年度</option>
+                                <option value="2023年度">2023年度</option>
+                            </select>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+		<div class="layui-row">
+			 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">                
+			 	<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">外币金额(万元)<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <select name="moneyType" id="ROOT_UNIVERSAL_GJHBBZ" lay-verify="required"  lay-filter="test">
+                                <option value="">--请选择币种--</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                            <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+                            	<input class="layui-input" name="plantMoney" id="plantMoney" lay-verify="required|number" placeholder="请输入金额（万元）" autocomplete="off" type="text">
+                            </div>
+                    </div>
+                </div>
+            </div>
+			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+				<div class="layui-form-item">
+			        <label class="layui-form-label">是否含税</label>
+			        <div class="layui-input-block">
+			          <input type="radio" lay-filter="radioEvent" name="moneyContainTax" value="1" title="是" checked>
+			          <input type="radio" lay-filter="radioEvent" name="moneyContainTax" value="0" title="否">
+			        </div>
+		      	</div>
+			</div>
+		</div>
+		
+		<div class="layui-form-item">
+	      	 <label class="layui-form-label">内容描述</label>
+	         <div class="layui-input-block">
+	         	   <textarea class="layui-textarea" id="applyContent" name="applyContent" placeholder=""></textarea>
+	         </div>
+       </div>
+       <div class="layui-form-item">
+	      	 <label class="layui-form-label">附件</label>
+	         <div id="file_div" class="layui-input-block"></div>
+       </div>
+	</div>
+	<div class="form-bottom">
+      <div class="form-bottom-btns">
+      	<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="" lay-filter="submitBtn">保存</button>
+      	<!-- <button type="reset" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white">重置</button> -->
+      	<button type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white"  id="cancel">取消</button>
+      </div>
+    </div>
+</form>
+</div>
+</body>
+</html>

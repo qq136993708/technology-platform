@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <script src="/layuiadmin/layui/layui.js"></script>
+    <style>
+        /*左侧表单宽度大于右侧时 设置twoListleft的width为59.2 twoListRight的宽为39.2*/
+        .twoListleft{width: 47%; float: left;}
+        .twoListRight{width: 47%;float: right;}
+    </style>
+</head>
+<body>
+<div class="formBox">
+    <div class="twoListleft">
+        <div class="searchBox">
+            <!--查询条件-->
+            <label class="dateInput">
+                <span>模型名称</span>
+                <input type="text" name="modelName" placeholder="请输入模型名称"
+                       title="模型名称" autocomplete="off"
+                       class="form-control" id="modelName1">
+            </label>
+            <!--按钮组-->
+            <div class="btnGroup">
+                <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询
+                </button>
+                <button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg" data-type="resetEvent">重置
+                </button>
+            </div>
+        </div>
+        <div class="tableBox">
+            <table id="testOne" class="layui-hide" lay-filter="tableDataOn"></table>
+        </div>
+    </div>
+    <div class="twoListRight">
+        <div class="searchBox">
+            <!--查询条件-->
+            <label class="dateInput">
+                <span>模型名称</span>
+                <input type="text" name="modelName" placeholder="请输入模型名称"
+                       title="模型名称" autocomplete="off"
+                       class="form-control" id="modelName1">
+            </label>
+            <!--按钮组-->
+            <div class="btnGroup">
+                <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询
+                </button>
+                <button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg"
+                        data-type="resetEvent">重置
+                </button>
+            </div>
+        </div>
+        <div class="tableBox">
+            <table id="testTwo" class="layui-hide" lay-filter="tableDataTwo"></table>
+        </div>
+    </div>
+    <div class="move-btn move-right"></div>
+    <div class="move-btn move-left"></div>
+    <div class="move-btn delete"></div>
+</div>
+<div class="form-bottom">
+    <div class="form-bottom-btns">
+        <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="" lay-filter="component-form-demo1">提交</button>
+        <button type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white"  id="cancel">取消</button>
+    </div>
+</div>
+<!--<script id="dateTpl" type="text/html"> {{formatTime(d.createTime)}} </script>
+<script type="text/javascript">
+    // 时间格式化
+    function formatTime(d) {
+        if (d) {
+            var date = new Date();
+            date.setTime(d);
+            var y = date.getFullYear();
+            var m = date.getMonth() + 1;
+            m = m < 10 ? ('0' + m) : m;
+            var day = date.getDate();
+            day = day < 10 ? ("0" + day) : day;
+            var h = date.getHours();
+            h = h < 10 ? ("0" + h) : h;
+            var M = date.getMinutes();
+            M = M < 10 ? ("0" + M) : M;
+            var str = y + "-" + m + "-" + day + " " + h + ":" + M;
+            return str;
+        } else {
+            return '';
+        }
+    }
+</script>-->
+<!--表格数据操作js-->
+<script>
+    // layui获取token  parent.$("#token").val()
+    layui.use(['jquery', 'table', 'laypage'], function () {
+        var table = layui.table,
+            $ = layui.jquery;
+
+        //获取当前行数据  设置全局变量
+        var selectRowData = '';
+
+        //渲染第一个表格
+        table.render({
+            elem: '#testOne' //表格容器
+            , url: '../layuiadmin/json/table/demo1.json' //请求的url地址
+            , limit: 10 //每页默认显示的数量
+            , id: 'idTest'
+            , height: 'full-108'
+            , page: {
+                count: 500 //数据总数，从服务端得到
+                , groups: 5
+                , limits: [15, 30, 45, 60]
+                , layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+                , first: '首页' //不显示首页
+                , last: '尾页' //不显示尾页
+                , theme: '#0F9EE0'
+            }
+            //,loading: false //请求数据时，是否显示loading
+            /*
+            * 常用的cols里面的属性说明：
+            * checkbox —— 复选框
+            * fixed    —— 固定列(值为true就会固定列)
+            * field    —— 字段(用于绑定后端传过来的json字段)
+            * title    —— 显示标题的文字
+            * width    —— 列宽
+            * sort     —— 是否排序
+            * edit     —— 是否可以编辑
+            * toolbar  —— 工具栏(内嵌，可以选择需要用到的操作按钮)
+            * style    —— 鼠标移上的形状
+            * */
+            , cols: [[
+                {type: 'checkbox', event: 'changeEvents'}
+                , {field: 'id', title: '序号', style: 'cursor: pointer;', width: 68, unresize: true, sort: true}
+                , {field: 'username', title: '模型ID', style: 'cursor: pointer;'}
+                , {field: 'email', title: '模型名称', style: 'cursor: pointer;'}
+            ]]
+            , done: function (res, curr, count) {
+                //单击行勾选checkbox事件——多选情况
+                $(document).on("click", ".layui-table-body table.layui-table tbody tr", function () {
+                    var index = $(this).attr('data-index');
+                    var tableBox = $(this).parents('.layui-table-box');
+                    //存在固定列
+                    if (tableBox.find(".layui-table-fixed.layui-table-fixed-l").length > 0) {
+                        tableDiv = tableBox.find(".layui-table-fixed.layui-table-fixed-l");
+                    } else {
+                        tableDiv = tableBox.find(".layui-table-body.layui-table-main");
+                    }
+                    var checkCell = tableDiv.find("tr[data-index=" + index + "]").find("td div.laytable-cell-checkbox div.layui-form-checkbox I");
+                    if (checkCell.length > 0) {
+                        checkCell.click();
+                    }
+                });
+                $(document).on("click", "td div.laytable-cell-checkbox div.layui-form-checkbox", function (e) {
+                    e.stopPropagation();
+                });
+                //单击行勾选checkbox事件——多选情况end
+            }
+        });
+        //渲染第二个表格
+        table.render({
+            elem: '#testTwo' //表格容器
+            , url: '../layuiadmin/json/table/demo1.json' //请求的url地址
+            , limit: 10 //每页默认显示的数量
+            , id: 'idTest'
+            , height: 'full-108'
+            //,loading: false //请求数据时，是否显示loading
+            /*
+            * 常用的cols里面的属性说明：
+            * checkbox —— 复选框
+            * fixed    —— 固定列(值为true就会固定列)
+            * field    —— 字段(用于绑定后端传过来的json字段)
+            * title    —— 显示标题的文字
+            * width    —— 列宽
+            * sort     —— 是否排序
+            * edit     —— 是否可以编辑
+            * toolbar  —— 工具栏(内嵌，可以选择需要用到的操作按钮)
+            * style    —— 鼠标移上的形状
+            * */
+            , cols: [[
+                {field: 'id', title: '序号', style: 'cursor: pointer;', width: 68, unresize: true, sort: true}
+                ,{field: 'username', title: '模型ID', style: 'cursor: pointer;'}
+                ,{field: 'email', title: '模型名称', style: 'cursor: pointer;'}
+            ]]
+        });
+
+        // 触发不同的按钮事件
+        var $ = layui.$, active = {
+            searchEvent: function () { //点击查询按钮
+                console.log("点击了查询按钮")
+            }
+            , resetEvent: function () { //点击重置按钮
+                console.log("点击了重置按钮")
+            }
+            , addEvent: function () { //点击新增按钮
+                console.log('点击了新增按钮')
+                layer.open({
+                    title: '新增'
+                    , skin: 'layui-layer-lan'
+                    , shadeClose: true
+                    , type: 2
+                    , fixed: false
+                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                    , maxmin: false
+                    //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                    , area: ['100%', '100%']
+                    , content: '/layui/form.html'
+                });
+            }
+            , editEvent: function () {  //点击编辑按钮
+                console.log('点击了编辑按钮')
+                // 多选情况下
+                /*var checkStatus = table.checkStatus('idTest')
+                    ,data = checkStatus.data;
+                layer.alert(JSON.stringify(data));*/
+                //单选情况下
+                // layer.alert(JSON.stringify(selectRowData));
+            }
+            , deployEvent: function () {  //点击部署按钮
+                console.log('点击了部署按钮')
+                // 多选情况下
+                /*var checkStatus = table.checkStatus('idTest')
+                    ,data = checkStatus.data;
+                layer.alert(JSON.stringify(data));*/
+                //单选情况下
+                // layer.alert(JSON.stringify(selectRowData));
+            }
+            , exportEvent: function () {  //点击导出按钮
+                console.log('点击了导出按钮')
+                // 多选情况下
+                /*var checkStatus = table.checkStatus('idTest')
+                    ,data = checkStatus.data;
+                layer.alert(JSON.stringify(data));*/
+                //单选情况下
+                // layer.alert(JSON.stringify(selectRowData));
+            }
+            , importEvent: function () {  //点击导入按钮
+                console.log('点击了导入按钮')
+            }
+            , detailEvent: function () {  //点击详情按钮
+                console.log('点击了详情按钮')
+                // 多选情况下
+                /*var checkStatus = table.checkStatus('idTest')
+                    ,data = checkStatus.data;
+                layer.alert(JSON.stringify(data));*/
+                //单选情况下
+                // layer.alert(JSON.stringify(selectRowData));
+            }
+            , deleteEvent: function () {  //点击删除按钮
+                console.log('点击了删除按钮')
+                // 多选情况下
+                /*var checkStatus = table.checkStatus('idTest')
+                    ,data = checkStatus.data;
+                layer.alert(JSON.stringify(data));*/
+                //单选情况下
+                // layer.alert(JSON.stringify(selectRowData));
+            }
+            , getCheckData: function () { //获取选中数据
+                var checkStatus = table.checkStatus('idTest')
+                    , data = checkStatus.data;
+                layer.alert(JSON.stringify(data));
+            }
+            , getCheckLength: function () { //获取选中数目
+                var checkStatus = table.checkStatus('idTest')
+                    , data = checkStatus.data;
+                layer.msg('选中了：' + data.length + ' 个');
+            }
+            , isAll: function () { //验证是否全选
+                var checkStatus = table.checkStatus('idTest');
+                layer.msg(checkStatus.isAll ? '全选' : '未全选')
+            }
+        };
+
+        //区别按钮属性
+        $('.layui-btn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+        /*点击取消按钮*/
+        $("#cancel").click(function () {
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
+        })
+
+    });
+
+</script>
+
+</body>
+</html>

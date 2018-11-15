@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+     <link rel="stylesheet" href="/common/css/echart-common.css">
+</head>
+<body>
+<div style="text-align: center; font-weight: bold; margin: 10px;">企业创新活动及组织情况</div>
+<div class="searchBox">
+    <!--查询条件-->
+        <label class="dateInput">
+            <span>月份</span>
+            <input type="text" name="month" placeholder="请选择月份" title="月份" value="${month}"  autocomplete="off" class="form-control" id="month">
+        </label>
+       <div class="layui-input-inline">
+         <select name="companyCode" id="companyCode" >
+              <#list companyCodeList as vo>
+              	 <#if vo.g0GSJC == '全部'>
+              	 	<option value="${vo.g0GSDM}"  selected="selected">${vo.g0GSJC}</option>
+              	 </#if>
+                 <#if vo.g0GSJC != '全部'>
+              	 	<option value="${vo.g0GSDM}">${vo.g0GSJC}</option>
+              	 </#if>
+               </#list>
+            </select>
+       </div>
+    <!--按钮组-->
+    <div class="btnGroup">
+        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()" data-type="searchEvent">查询</button>
+    </div>
+    <span class="unitBox">单位：元</span>
+</div>
+
+	<div class="content-body container">
+		
+		<table class="layui-table">
+		    <thead>
+				
+					<tr>
+						<td>项 目</td>
+						<td>行次</td>
+						<td>本年数</td>
+						<td>上年数</td>
+						<td>项 目</td>
+						<td>行次</td>
+						<td>本年数</td>
+						<td>上年数</td>
+						<td>其他</td>
+					</tr>
+			</thead>		
+					
+					<tbody>
+					<tr>
+						<td>一、在当年成本费用中列支的企业研究开发费用支出</td>
+						<td>1</td>
+						<td>0</td>
+						<td>0</td>
+						<td>七、本年科技资金来源及支出情况：</td>
+						<td>21</td>
+						<td>——</td>
+						<td>——</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>1.科研人员人工支出</td>
+						<td>2</td>
+						<td>0</td>
+						<td>0</td>
+						<td>（一）本年科技资金来源合计</td>
+						<td>22</td>
+						<td>0</td>
+						<td>0</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>2.科研资产维护费用支出</td>
+						<td>3</td>
+						<td>0</td>
+						<td>0</td>
+						<td>1、政府拨款</td>
+						<td>23</td>
+						<td>0</td>
+						<td>0</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>3.购买无形资产摊销</td>
+						<td>4</td>
+						<td>0</td>
+						<td>0</td>
+						<td>2、企业自筹</td>
+						<td>24</td>
+						<td>0</td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>4.科研固定资产折旧费</td>
+						<td>5</td>
+						<td>0</td>
+						<td>0</td>
+						<td>3、其他</td>
+						<td>25</td>
+						<td>0</td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>5.科研学术会议费用</td>
+						<td>6</td>
+						<td>0</td>
+						<td>0</td>
+						<td>（二）本年科技支出合计</td>
+						<td>26</td>
+						<td>0</td>
+						<td>0</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>6.中试材料费</td>
+						<td>7</td>
+						<td>0</td>
+						<td>0</td>
+						<td>1、研究开发费用合计</td>
+						<td>27</td>
+						<td>0</td>
+						<td>0</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>7.其他研究开发费用支出</td>
+						<td>8</td>
+						<td>0</td>
+						<td>0</td>
+						<td>其中：研发人员人工支出</td>
+						<td>28</td>
+						<td>0</td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>二、确认为无形资产的开发支出</td>
+						<td>9</td>
+						<td>0</td>
+						<td>0</td>
+						<td>研究开发性固定资产</td>
+						<td>29</td>
+						<td>0</td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>其中：企业自筹资金支出</td>
+						<td>10</td>
+						<td>0</td>
+						<td>0</td>
+						<td>其他研究开发支出</td>
+						<td>30</td>
+						<td>0</td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>三、取得的科技收入：</td>
+						<td>11</td>
+						<td>0</td>
+						<td>0</td>
+						<td>2、购买新技术、科研设备等支出</td>
+						<td>31</td>
+						<td>0</td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>（一）科技创新收入</td>
+						<td>12</td>
+						<td>0</td>
+						<td>0</td>
+						<td>3、其他科技支出</td>
+						<td>32</td>
+						<td>0</td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>其中：四技收入</td>
+						<td>13</td>
+						<td>0</td>
+						<td>0</td>
+						<td>八、拥有的自主知识产权专利数量（件）</td>
+						<td>33</td>
+						<td>0</td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>财政补贴收入</td>
+						<td>14</td>
+						<td>0</td>
+						<td>0</td>
+						<td>其中：本年度新增专利数量（件）</td>
+						<td>34</td>
+						<td>0</td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>（二）新产品销售收入</td>
+						<td>15</td>
+						<td>0</td>
+						<td>0</td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>（三）其他收入</td>
+						<td>16</td>
+						<td>0</td>
+						<td>0</td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>四、年末科技人员人数（人）</td>
+						<td>17</td>
+						<td>0</td>
+						<td>0</td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>其中：研发人员人数（人）</td>
+						<td>18</td>
+						<td>0</td>
+						<td>0</td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>五、加计扣除研究开发费用</td>
+						<td>19</td>
+						<td>0</td>
+						<td>0</td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td>六、 品牌建设支出</td>
+						<td>20</td>
+						<td>0</td>
+						<td>0</td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+				</tbody>
+			</table>
+	</div>
+
+	<!--表格数据操作js-->
+<script src="/common/js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+<script src="/common/js/layer-v3.1.1/layer.js"></script>
+<script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
+<script type="text/javascript" src="/plugins/echarts/walden.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_chart.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
+<script>
+
+
+var table,selectRowData;
+layui.config({
+    base: '/layuiadmin/module/modules/' //静态资源所在路径
+}).use(['jquery','form', 'laydate','table','laypage','layer'], function(){
+	  admin = layui.admin
+	  ,$ = layui.jquery
+      ,table = layui.table
+      ,layer = layui.layer
+      ,laydate = layui.laydate
+      ,form = layui.form
+      ,laypage = layui.laypage;
+	  form.render(null, 'component-form-group');
+            laydate.render({
+               elem: '#month'
+               ,format: 'yyyyMM'
+            });
+      //初始化表格
+      renderTable();
+});
+
+var allCode="${allCode?default('')}";
+var allCode_text="全部院所";
+
+
+</script>
+</body>
+</html>

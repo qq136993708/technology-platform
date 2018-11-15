@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pcitc.mapper.equipment.SreTechMeetingMapper" >
+  <resultMap id="BaseResultMap" type="com.pcitc.base.stp.equipment.SreTechMeeting" >
+    <id column="meeting_id" property="meetingId" jdbcType="VARCHAR" />
+    <result column="meeting_code" property="meetingCode" jdbcType="VARCHAR" />
+    <result column="meeting_date" property="meetingDate" jdbcType="TIMESTAMP" />
+    <result column="meeting_place" property="meetingPlace" jdbcType="VARCHAR" />
+    <result column="meeting_emcee" property="meetingEmcee" jdbcType="VARCHAR" />
+    <result column="meeting_content" property="meetingContent" jdbcType="VARCHAR" />
+    <result column="meeting_doc" property="meetingDoc" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="create_user_id" property="createUserId" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="update_user_id" property="updateUserId" jdbcType="VARCHAR" />
+    <result column="project_id" property="projectId" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    meeting_id, meeting_code, meeting_date, meeting_place, meeting_emcee, meeting_content, 
+    meeting_doc, create_date, create_user_id, update_date, update_user_id, project_id, 
+    status, remarks
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.pcitc.base.stp.equipment.SreTechMeetingExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from sre_tech_meeting
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sre_tech_meeting
+    where meeting_id = #{meetingId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sre_tech_meeting
+    where meeting_id = #{meetingId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.pcitc.base.stp.equipment.SreTechMeetingExample" >
+    delete from sre_tech_meeting
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.pcitc.base.stp.equipment.SreTechMeeting" >
+    insert into sre_tech_meeting (meeting_id, meeting_code, meeting_date, 
+      meeting_place, meeting_emcee, meeting_content, 
+      meeting_doc, create_date, create_user_id, 
+      update_date, update_user_id, project_id, 
+      status, remarks)
+    values (#{meetingId,jdbcType=VARCHAR}, #{meetingCode,jdbcType=VARCHAR}, #{meetingDate,jdbcType=TIMESTAMP}, 
+      #{meetingPlace,jdbcType=VARCHAR}, #{meetingEmcee,jdbcType=VARCHAR}, #{meetingContent,jdbcType=VARCHAR}, 
+      #{meetingDoc,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=VARCHAR}, 
+      #{updateDate,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR}, 
+      #{status,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pcitc.base.stp.equipment.SreTechMeeting" >
+    insert into sre_tech_meeting
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="meetingId != null" >
+        meeting_id,
+      </if>
+      <if test="meetingCode != null" >
+        meeting_code,
+      </if>
+      <if test="meetingDate != null" >
+        meeting_date,
+      </if>
+      <if test="meetingPlace != null" >
+        meeting_place,
+      </if>
+      <if test="meetingEmcee != null" >
+        meeting_emcee,
+      </if>
+      <if test="meetingContent != null" >
+        meeting_content,
+      </if>
+      <if test="meetingDoc != null" >
+        meeting_doc,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id,
+      </if>
+      <if test="projectId != null" >
+        project_id,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="meetingId != null" >
+        #{meetingId,jdbcType=VARCHAR},
+      </if>
+      <if test="meetingCode != null" >
+        #{meetingCode,jdbcType=VARCHAR},
+      </if>
+      <if test="meetingDate != null" >
+        #{meetingDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="meetingPlace != null" >
+        #{meetingPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="meetingEmcee != null" >
+        #{meetingEmcee,jdbcType=VARCHAR},
+      </if>
+      <if test="meetingContent != null" >
+        #{meetingContent,jdbcType=VARCHAR},
+      </if>
+      <if test="meetingDoc != null" >
+        #{meetingDoc,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        #{updateUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null" >
+        #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.pcitc.base.stp.equipment.SreTechMeetingExample" resultType="java.lang.Integer" >
+    select count(*) from sre_tech_meeting
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update sre_tech_meeting
+    <set >
+      <if test="record.meetingId != null" >
+        meeting_id = #{record.meetingId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.meetingCode != null" >
+        meeting_code = #{record.meetingCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.meetingDate != null" >
+        meeting_date = #{record.meetingDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.meetingPlace != null" >
+        meeting_place = #{record.meetingPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="record.meetingEmcee != null" >
+        meeting_emcee = #{record.meetingEmcee,jdbcType=VARCHAR},
+      </if>
+      <if test="record.meetingContent != null" >
+        meeting_content = #{record.meetingContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.meetingDoc != null" >
+        meeting_doc = #{record.meetingDoc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDate != null" >
+        create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createUserId != null" >
+        create_user_id = #{record.createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateDate != null" >
+        update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateUserId != null" >
+        update_user_id = #{record.updateUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectId != null" >
+        project_id = #{record.projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remarks != null" >
+        remarks = #{record.remarks,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update sre_tech_meeting
+    set meeting_id = #{record.meetingId,jdbcType=VARCHAR},
+      meeting_code = #{record.meetingCode,jdbcType=VARCHAR},
+      meeting_date = #{record.meetingDate,jdbcType=TIMESTAMP},
+      meeting_place = #{record.meetingPlace,jdbcType=VARCHAR},
+      meeting_emcee = #{record.meetingEmcee,jdbcType=VARCHAR},
+      meeting_content = #{record.meetingContent,jdbcType=VARCHAR},
+      meeting_doc = #{record.meetingDoc,jdbcType=VARCHAR},
+      create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      create_user_id = #{record.createUserId,jdbcType=VARCHAR},
+      update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+      update_user_id = #{record.updateUserId,jdbcType=VARCHAR},
+      project_id = #{record.projectId,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=VARCHAR},
+      remarks = #{record.remarks,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.stp.equipment.SreTechMeeting" >
+    update sre_tech_meeting
+    <set >
+      <if test="meetingCode != null" >
+        meeting_code = #{meetingCode,jdbcType=VARCHAR},
+      </if>
+      <if test="meetingDate != null" >
+        meeting_date = #{meetingDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="meetingPlace != null" >
+        meeting_place = #{meetingPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="meetingEmcee != null" >
+        meeting_emcee = #{meetingEmcee,jdbcType=VARCHAR},
+      </if>
+      <if test="meetingContent != null" >
+        meeting_content = #{meetingContent,jdbcType=VARCHAR},
+      </if>
+      <if test="meetingDoc != null" >
+        meeting_doc = #{meetingDoc,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id = #{updateUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null" >
+        project_id = #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where meeting_id = #{meetingId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.equipment.SreTechMeeting" >
+    update sre_tech_meeting
+    set meeting_code = #{meetingCode,jdbcType=VARCHAR},
+      meeting_date = #{meetingDate,jdbcType=TIMESTAMP},
+      meeting_place = #{meetingPlace,jdbcType=VARCHAR},
+      meeting_emcee = #{meetingEmcee,jdbcType=VARCHAR},
+      meeting_content = #{meetingContent,jdbcType=VARCHAR},
+      meeting_doc = #{meetingDoc,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=VARCHAR},
+      project_id = #{projectId,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      remarks = #{remarks,jdbcType=VARCHAR}
+    where meeting_id = #{meetingId,jdbcType=VARCHAR}
+  </update>
+</mapper>

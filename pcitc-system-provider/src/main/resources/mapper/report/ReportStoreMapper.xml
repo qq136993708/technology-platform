@@ -1,0 +1,803 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pcitc.mapper.report.ReportStoreMapper">
+
+    <resultMap id="BaseResultMap" type="com.pcitc.base.system.ReportStore">
+
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="model_id" jdbcType="VARCHAR" property="modelId"/>
+        <result column="model_config_id" jdbcType="VARCHAR" property="modelConfigId"/>
+        <result column="tj" jdbcType="VARCHAR" property="tj"/>
+        <result column="zb" jdbcType="VARCHAR" property="zb"/>
+        <result column="rq" jdbcType="VARCHAR" property="rq"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="user_id" jdbcType="VARCHAR" property="userId"/>
+        <result column="cxtj" jdbcType="VARCHAR" property="cxtj"/>
+        <result column="bak1" jdbcType="VARCHAR" property="bak1"/>
+        <result column="bak2" jdbcType="VARCHAR" property="bak2"/>
+        <result column="bak3" jdbcType="VARCHAR" property="bak3"/>
+        <result column="bak4" jdbcType="VARCHAR" property="bak4"/>
+        <result column="bak5" jdbcType="VARCHAR" property="bak5"/>
+        <result column="bak6" jdbcType="VARCHAR" property="bak6"/>
+        <result column="create_user" jdbcType="VARCHAR" property="createUser"/>
+        <result column="create_user_id" jdbcType="VARCHAR" property="createUserId"/>
+        <result column="create_date" jdbcType="VARCHAR" property="createDate"/>
+        <result column="status" jdbcType="VARCHAR" property="status"/>
+        <result column="update_date" jdbcType="VARCHAR" property="updateDate"/>
+        <result column="update_user" jdbcType="VARCHAR" property="updateUser"/>
+        <result column="remarks" jdbcType="VARCHAR" property="remarks"/>
+        <result column="audit_status" jdbcType="VARCHAR" property="auditStatus"/>
+        <result column="json" jdbcType="VARCHAR" property="json"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        id,
+        model_id,
+        model_config_id,
+        tj,
+        zb,
+        rq,
+        user_name,
+        user_id,
+        cxtj,
+        bak1,
+        bak2,
+        bak3,
+        bak4,
+        bak5,
+        bak6,
+        create_user,
+        create_user_id,
+        create_date,
+        status,
+        update_date,
+        update_user,
+        remarks,
+        audit_status,
+        json
+</sql>
+
+    <select id="selectByExample" parameterType="com.pcitc.base.system.ReportStoreExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from report_store
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        <if test="limit != null">
+            <if test="offset != null">
+                limit ${offset}, ${limit}
+            </if>
+            <if test="offset == null">
+                limit ${limit}
+            </if>
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from report_store
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from report_store
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+    <delete id="deleteByExample" parameterType="com.pcitc.base.system.ReportStoreExample">
+        delete from report_store
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.pcitc.base.system.ReportStore">
+        insert into report_store (
+            id,
+            model_id,
+            model_config_id,
+            tj,
+            zb,
+            rq,
+            user_name,
+            user_id,
+            cxtj,
+            bak1,
+            bak2,
+            bak3,
+            bak4,
+            bak5,
+            bak6,
+            create_user,
+            create_user_id,
+            create_date,
+            status,
+            update_date,
+            update_user,
+            remarks,
+            audit_status,
+            json
+        )
+        values (
+
+    #{id,jdbcType=VARCHAR},
+    #{modelId,jdbcType=VARCHAR},
+    #{modelConfigId,jdbcType=VARCHAR},
+    #{tj,jdbcType=VARCHAR},
+    #{zb,jdbcType=VARCHAR},
+    #{rq,jdbcType=VARCHAR},
+    #{userName,jdbcType=VARCHAR},
+    #{userId,jdbcType=VARCHAR},
+    #{cxtj,jdbcType=VARCHAR},
+    #{bak1,jdbcType=VARCHAR},
+    #{bak2,jdbcType=VARCHAR},
+    #{bak3,jdbcType=VARCHAR},
+    #{bak4,jdbcType=VARCHAR},
+    #{bak5,jdbcType=VARCHAR},
+    #{bak6,jdbcType=VARCHAR},
+    #{createUser,jdbcType=VARCHAR},
+    #{createUserId,jdbcType=VARCHAR},
+    #{createDate,jdbcType=VARCHAR},
+    #{status,jdbcType=VARCHAR},
+    #{updateDate,jdbcType=VARCHAR},
+    #{updateUser,jdbcType=VARCHAR},
+    #{remarks,jdbcType=VARCHAR},
+    #{auditStatus,jdbcType=VARCHAR},
+    #{json,jdbcType=VARCHAR}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.pcitc.base.system.ReportStore">
+        insert into report_store
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+
+            <if test="id != null">
+                id,
+            </if>
+            <if test="modelId != null">
+                model_id,
+            </if>
+            <if test="modelConfigId != null">
+                model_config_id,
+            </if>
+            <if test="tj != null">
+                tj,
+            </if>
+            <if test="zb != null">
+                zb,
+            </if>
+            <if test="rq != null">
+                rq,
+            </if>
+            <if test="userName != null">
+                user_name,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="cxtj != null">
+                cxtj,
+            </if>
+            <if test="bak1 != null">
+                bak1,
+            </if>
+            <if test="bak2 != null">
+                bak2,
+            </if>
+            <if test="bak3 != null">
+                bak3,
+            </if>
+            <if test="bak4 != null">
+                bak4,
+            </if>
+            <if test="bak5 != null">
+                bak5,
+            </if>
+            <if test="bak6 != null">
+                bak6,
+            </if>
+            <if test="createUser != null">
+                create_user,
+            </if>
+            <if test="createUserId != null">
+                create_user_id,
+            </if>
+            <if test="createDate != null">
+                create_date,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="updateDate != null">
+                update_date,
+            </if>
+            <if test="updateUser != null">
+                update_user,
+            </if>
+            <if test="remarks != null">
+                remarks,
+            </if>
+            <if test="auditStatus != null">
+                audit_status,
+            </if>
+            <if test="json != null">
+                json
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+
+
+            <if test="id != null">
+                #{id ,jdbcType=VARCHAR},
+            </if>
+            <if test="modelId != null">
+                #{modelId ,jdbcType=VARCHAR},
+            </if>
+            <if test="modelConfigId != null">
+                #{modelConfigId ,jdbcType=VARCHAR},
+            </if>
+            <if test="tj != null">
+                #{tj ,jdbcType=VARCHAR},
+            </if>
+            <if test="zb != null">
+                #{zb ,jdbcType=VARCHAR},
+            </if>
+            <if test="rq != null">
+                #{rq ,jdbcType=VARCHAR},
+            </if>
+            <if test="userName != null">
+                #{userName ,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null">
+                #{userId ,jdbcType=VARCHAR},
+            </if>
+            <if test="cxtj != null">
+                #{cxtj ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak1 != null">
+                #{bak1 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak2 != null">
+                #{bak2 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak3 != null">
+                #{bak3 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak4 != null">
+                #{bak4 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak5 != null">
+                #{bak5 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak6 != null">
+                #{bak6 ,jdbcType=VARCHAR},
+            </if>
+            <if test="createUser != null">
+                #{createUser ,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserId != null">
+                #{createUserId ,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                #{createDate ,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status ,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null">
+                #{updateDate ,jdbcType=VARCHAR},
+            </if>
+            <if test="updateUser != null">
+                #{updateUser ,jdbcType=VARCHAR},
+            </if>
+            <if test="remarks != null">
+                #{remarks ,jdbcType=VARCHAR},
+            </if>
+            <if test="auditStatus != null">
+                #{auditStatus ,jdbcType=VARCHAR},
+            </if>
+            <if test="json != null">
+                #{json ,jdbcType=VARCHAR}
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.pcitc.base.system.ReportStoreExample" resultType="java.lang.Long">
+        select count(*) from report_store
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update report_store
+        <set>
+
+            <if test="record.id != null">
+                id=#{record.id,jdbcType=VARCHAR},
+            </if>
+            <if test="record.modelId != null">
+                model_id=#{record.modelId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.modelConfigId != null">
+                model_config_id=#{record.modelConfigId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.tj != null">
+                tj=#{record.tj,jdbcType=VARCHAR},
+            </if>
+            <if test="record.zb != null">
+                zb=#{record.zb,jdbcType=VARCHAR},
+            </if>
+            <if test="record.rq != null">
+                rq=#{record.rq,jdbcType=VARCHAR},
+            </if>
+            <if test="record.userName != null">
+                user_name=#{record.userName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.userId != null">
+                user_id=#{record.userId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.cxtj != null">
+                cxtj=#{record.cxtj,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bak1 != null">
+                bak1=#{record.bak1,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bak2 != null">
+                bak2=#{record.bak2,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bak3 != null">
+                bak3=#{record.bak3,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bak4 != null">
+                bak4=#{record.bak4,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bak5 != null">
+                bak5=#{record.bak5,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bak6 != null">
+                bak6=#{record.bak6,jdbcType=VARCHAR},
+            </if>
+            <if test="record.createUser != null">
+                create_user=#{record.createUser,jdbcType=VARCHAR},
+            </if>
+            <if test="record.createUserId != null">
+                create_user_id=#{record.createUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.createDate != null">
+                create_date=#{record.createDate,jdbcType=VARCHAR},
+            </if>
+            <if test="record.status != null">
+                status=#{record.status,jdbcType=VARCHAR},
+            </if>
+            <if test="record.updateDate != null">
+                update_date=#{record.updateDate,jdbcType=VARCHAR},
+            </if>
+            <if test="record.updateUser != null">
+                update_user=#{record.updateUser,jdbcType=VARCHAR},
+            </if>
+            <if test="record.remarks != null">
+                remarks=#{record.remarks,jdbcType=VARCHAR},
+            </if>
+            <if test="record.auditStatus != null">
+                audit_status=#{record.auditStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="record.json != null">
+                json=#{record.json,jdbcType=VARCHAR}
+            </if>
+
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update report_store
+        set
+        id=#{record.id,jdbcType=VARCHAR},
+        model_id=#{record.modelId,jdbcType=VARCHAR},
+        model_config_id=#{record.modelConfigId,jdbcType=VARCHAR},
+        tj=#{record.tj,jdbcType=VARCHAR},
+        zb=#{record.zb,jdbcType=VARCHAR},
+        rq=#{record.rq,jdbcType=VARCHAR},
+        user_name=#{record.userName,jdbcType=VARCHAR},
+        user_id=#{record.userId,jdbcType=VARCHAR},
+        cxtj=#{record.cxtj,jdbcType=VARCHAR},
+        bak1=#{record.bak1,jdbcType=VARCHAR},
+        bak2=#{record.bak2,jdbcType=VARCHAR},
+        bak3=#{record.bak3,jdbcType=VARCHAR},
+        bak4=#{record.bak4,jdbcType=VARCHAR},
+        bak5=#{record.bak5,jdbcType=VARCHAR},
+        bak6=#{record.bak6,jdbcType=VARCHAR},
+        create_user=#{record.createUser,jdbcType=VARCHAR},
+        create_user_id=#{record.createUserId,jdbcType=VARCHAR},
+        create_date=#{record.createDate,jdbcType=VARCHAR},
+        status=#{record.status,jdbcType=VARCHAR},
+        update_date=#{record.updateDate,jdbcType=VARCHAR},
+        update_user=#{record.updateUser,jdbcType=VARCHAR},
+        remarks=#{record.remarks,jdbcType=VARCHAR},
+        audit_status=#{record.auditStatus,jdbcType=VARCHAR},
+        json=#{record.json,jdbcType=VARCHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.system.ReportStore">
+        update report_store
+        <set>
+
+            <if test="modelId != null">
+                model_id=#{modelId ,jdbcType=VARCHAR},
+            </if>
+            <if test="modelConfigId != null">
+                model_config_id=#{modelConfigId ,jdbcType=VARCHAR},
+            </if>
+            <if test="tj != null">
+                tj=#{tj ,jdbcType=VARCHAR},
+            </if>
+            <if test="zb != null">
+                zb=#{zb ,jdbcType=VARCHAR},
+            </if>
+            <if test="rq != null">
+                rq=#{rq ,jdbcType=VARCHAR},
+            </if>
+            <if test="userName != null">
+                user_name=#{userName ,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null">
+                user_id=#{userId ,jdbcType=VARCHAR},
+            </if>
+            <if test="cxtj != null">
+                cxtj=#{cxtj ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak1 != null">
+                bak1=#{bak1 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak2 != null">
+                bak2=#{bak2 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak3 != null">
+                bak3=#{bak3 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak4 != null">
+                bak4=#{bak4 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak5 != null">
+                bak5=#{bak5 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak6 != null">
+                bak6=#{bak6 ,jdbcType=VARCHAR},
+            </if>
+            <if test="createUser != null">
+                create_user=#{createUser ,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserId != null">
+                create_user_id=#{createUserId ,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                create_date=#{createDate ,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status=#{status ,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null">
+                update_date=#{updateDate ,jdbcType=VARCHAR},
+            </if>
+            <if test="updateUser != null">
+                update_user=#{updateUser ,jdbcType=VARCHAR},
+            </if>
+            <if test="remarks != null">
+                remarks=#{remarks ,jdbcType=VARCHAR},
+            </if>
+            <if test="auditStatus != null">
+                audit_status=#{auditStatus ,jdbcType=VARCHAR},
+            </if>
+            <if test="json != null">
+                json=#{json ,jdbcType=VARCHAR}
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.pcitc.base.system.ReportStore">
+        update report_store
+        set
+            model_id=#{modelId,jdbcType=VARCHAR},
+            model_config_id=#{modelConfigId,jdbcType=VARCHAR},
+            tj=#{tj,jdbcType=VARCHAR},
+            zb=#{zb,jdbcType=VARCHAR},
+            rq=#{rq,jdbcType=VARCHAR},
+            user_name=#{userName,jdbcType=VARCHAR},
+            user_id=#{userId,jdbcType=VARCHAR},
+            cxtj=#{cxtj,jdbcType=VARCHAR},
+            bak1=#{bak1,jdbcType=VARCHAR},
+            bak2=#{bak2,jdbcType=VARCHAR},
+            bak3=#{bak3,jdbcType=VARCHAR},
+            bak4=#{bak4,jdbcType=VARCHAR},
+            bak5=#{bak5,jdbcType=VARCHAR},
+            bak6=#{bak6,jdbcType=VARCHAR},
+            create_user=#{createUser,jdbcType=VARCHAR},
+            create_user_id=#{createUserId,jdbcType=VARCHAR},
+            create_date=#{createDate,jdbcType=VARCHAR},
+            status=#{status,jdbcType=VARCHAR},
+            update_date=#{updateDate,jdbcType=VARCHAR},
+            update_user=#{updateUser,jdbcType=VARCHAR},
+            remarks=#{remarks,jdbcType=VARCHAR},
+            audit_status=#{auditStatus,jdbcType=VARCHAR},
+            json=#{json,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <!-- 分页查询 -->
+    <select id="findSysFileKindByPage" parameterType="com.pcitc.base.system.ReportStore" resultMap="BaseResultMap">
+
+        select
+        id,
+        model_id,
+        model_config_id,
+        tj,
+        zb,
+        rq,
+        user_name,
+        user_id,
+        cxtj,
+        bak1,
+        bak2,
+        bak3,
+        bak4,
+        bak5,
+        bak6,
+        create_user,
+        create_user_id,
+        create_date,
+        status,
+        update_date,
+        update_user,
+        remarks,
+        audit_status,
+        json
+        from report_store
+        where 1=1
+        <if test="id!=null and id!=''.toString()">
+            and id like '%${id}%'
+        </if>
+        <if test="modelId!=null and modelId!=''.toString()">
+            and model_id like '%${modelId}%'
+        </if>
+        <if test="modelConfigId!=null and modelConfigId!=''.toString()">
+            and model_config_id like '%${modelConfigId}%'
+        </if>
+        <if test="tj!=null and tj!=''.toString()">
+            and tj like '%${tj}%'
+        </if>
+        <if test="zb!=null and zb!=''.toString()">
+            and zb like '%${zb}%'
+        </if>
+        <if test="rq!=null and rq!=''.toString()">
+            and rq like '%${rq}%'
+        </if>
+        <if test="userName!=null and userName!=''.toString()">
+            and user_name like '%${userName}%'
+        </if>
+        <if test="userId!=null and userId!=''.toString()">
+            and user_id like '%${userId}%'
+        </if>
+        <if test="cxtj!=null and cxtj!=''.toString()">
+            and cxtj like '%${cxtj}%'
+        </if>
+        <if test="bak1!=null and bak1!=''.toString()">
+            and bak1 like '%${bak1}%'
+        </if>
+        <if test="bak2!=null and bak2!=''.toString()">
+            and bak2 like '%${bak2}%'
+        </if>
+        <if test="bak3!=null and bak3!=''.toString()">
+            and bak3 like '%${bak3}%'
+        </if>
+        <if test="bak4!=null and bak4!=''.toString()">
+            and bak4 like '%${bak4}%'
+        </if>
+        <if test="bak5!=null and bak5!=''.toString()">
+            and bak5 like '%${bak5}%'
+        </if>
+        <if test="bak6!=null and bak6!=''.toString()">
+            and bak6 like '%${bak6}%'
+        </if>
+        <if test="createUser!=null and createUser!=''.toString()">
+            and create_user like '%${createUser}%'
+        </if>
+        <if test="createUserId!=null and createUserId!=''.toString()">
+            and create_user_id like '%${createUserId}%'
+        </if>
+        <if test="createDate!=null and createDate!=''.toString()">
+            and create_date like '%${createDate}%'
+        </if>
+        <if test="status!=null and status!=''.toString()">
+            and status like '%${status}%'
+        </if>
+        <if test="updateDate!=null and updateDate!=''.toString()">
+            and update_date like '%${updateDate}%'
+        </if>
+        <if test="updateUser!=null and updateUser!=''.toString()">
+            and update_user like '%${updateUser}%'
+        </if>
+        <if test="remarks!=null and remarks!=''.toString()">
+            and remarks like '%${remarks}%'
+        </if>
+        <if test="auditStatus!=null and auditStatus!=''.toString()">
+            and audit_status like '%${auditStatus}%'
+        </if>
+        <if test="json!=null and json!=''.toString()">
+            and json like '%${json}%'
+        </if>
+
+        <if test="iSortCol!=null and iSortCol!=''.toString()">
+            order by ${iSortCol} ${sSortDir_0}
+        </if>
+    </select>
+    <!-- 查询列表 -->
+    <select id="findReportStoreList" parameterType="com.pcitc.base.system.ReportStore" resultMap="BaseResultMap">
+        select
+        id,
+        model_id,
+        model_config_id,
+        tj,
+        zb,
+        rq,
+        user_name,
+        user_id,
+        cxtj,
+        bak1,
+        bak2,
+        bak3,
+        bak4,
+        bak5,
+        bak6,
+        create_user,
+        create_user_id,
+        create_date,
+        status,
+        update_date,
+        update_user,
+        remarks,
+        audit_status,
+        json
+        from report_store
+        where 1=1
+        <if test="id!=null">
+            and id = #{id,jdbcType=VARCHAR}
+        </if>
+        <if test="modelId!=null">
+            and model_id = #{modelId,jdbcType=VARCHAR}
+        </if>
+        <if test="modelConfigId!=null">
+            and model_config_id = #{modelConfigId,jdbcType=VARCHAR}
+        </if>
+        <if test="tj!=null">
+            and tj = #{tj,jdbcType=VARCHAR}
+        </if>
+        <if test="zb!=null">
+            and zb = #{zb,jdbcType=VARCHAR}
+        </if>
+        <if test="rq!=null">
+            and rq = #{rq,jdbcType=VARCHAR}
+        </if>
+        <if test="userName!=null">
+            and user_name = #{userName,jdbcType=VARCHAR}
+        </if>
+        <if test="userId!=null">
+            and user_id = #{userId,jdbcType=VARCHAR}
+        </if>
+        <if test="cxtj!=null">
+            and cxtj = #{cxtj,jdbcType=VARCHAR}
+        </if>
+        <if test="bak1!=null">
+            and bak1 = #{bak1,jdbcType=VARCHAR}
+        </if>
+        <if test="bak2!=null">
+            and bak2 = #{bak2,jdbcType=VARCHAR}
+        </if>
+        <if test="bak3!=null">
+            and bak3 = #{bak3,jdbcType=VARCHAR}
+        </if>
+        <if test="bak4!=null">
+            and bak4 = #{bak4,jdbcType=VARCHAR}
+        </if>
+        <if test="bak5!=null">
+            and bak5 = #{bak5,jdbcType=VARCHAR}
+        </if>
+        <if test="bak6!=null">
+            and bak6 = #{bak6,jdbcType=VARCHAR}
+        </if>
+        <if test="createUser!=null">
+            and create_user = #{createUser,jdbcType=VARCHAR}
+        </if>
+        <if test="createUserId!=null">
+            and create_user_id = #{createUserId,jdbcType=VARCHAR}
+        </if>
+        <if test="createDate!=null">
+            and create_date = #{createDate,jdbcType=VARCHAR}
+        </if>
+        <if test="status!=null">
+            and status = #{status,jdbcType=VARCHAR}
+        </if>
+        <if test="updateDate!=null">
+            and update_date = #{updateDate,jdbcType=VARCHAR}
+        </if>
+        <if test="updateUser!=null">
+            and update_user = #{updateUser,jdbcType=VARCHAR}
+        </if>
+        <if test="remarks!=null">
+            and remarks = #{remarks,jdbcType=VARCHAR}
+        </if>
+        <if test="auditStatus!=null">
+            and audit_status = #{auditStatus,jdbcType=VARCHAR}
+        </if>
+        <if test="json!=null">
+            and json = #{json,jdbcType=VARCHAR}
+        </if>
+
+        <if test="iSortCol!=null and iSortCol!=''.toString()">
+            order by ${iSortCol} ${sSortDir_0}
+        </if>
+    </select>
+</mapper>

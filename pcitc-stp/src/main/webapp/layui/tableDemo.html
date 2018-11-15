@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()">
+    <script src="/layuiadmin/layui/layui.js"></script>
+</head>
+<body>
+<div class="searchBox">
+    <!--查询条件-->
+    <label class="dateInput">
+
+        <span>模型名称</span>
+        <input type="text" name="modelName" placeholder="请输入模型名称"
+               title="模型名称" autocomplete="off"
+               class="form-control" id="modelName1">
+    </label>
+    <label class="selectInput">
+        <span>城市</span>
+        <select name="city" lay-verify="" lay-filter="test">
+            <option value="">请选择一个城市</option>
+            <option value="010">北京</option>
+            <option value="021">上海</option>
+            <option value="0571">杭州</option>
+        </select>
+    </label>
+
+    <!--日期范围-->
+    <label class="dateInput">
+        <span>日期范围</span>
+        <input type="text" class="form-control" id="test-laydate-range-date" placeholder="请选择一个日期范围">
+    </label>
+
+    <!--按钮组-->
+    <div class="btnGroup">
+        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询
+        </button>
+        <button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg"
+                data-type="resetEvent">重置
+        </button>
+    </div>
+</div>
+
+<div class="tableBox">
+    <div class="tableToolBox">
+        <div class="tableBtns">
+            <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"
+                    data-type="all">
+                <span class="btn-state btn-all"></span>全部
+            </button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"
+                    data-type="draft">
+                <span class="btn-state btn-yellow"></span>草稿
+            </button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"
+                    data-type="approval">
+                <span class="btn-state btn-green"></span>审批中
+            </button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"
+                    data-type="approved">
+                <span class="btn-state btn-blue"></span>已审批
+            </button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"
+                    data-type="approved">
+                <span class="btn-state btnYellow"></span>已审批
+            </button>
+            <!--按钮分割-->
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_look btnMyBgImg"
+                    data-type="lookEvent">查看
+            </button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_reset2 btnMyBgImg"
+                data-type="codeReset">密码重置
+            </button>
+            <img src="/layuiadmin/layui/images/icon-cut.png" alt="">
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_save2 btnMyBgImg"
+                data-type="saveEvent">保存
+            </button>
+            <img src="/layuiadmin/layui/images/icon-cut.png" alt="">
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_print btnMyBgImg"
+                    data-type="printEvent">打印
+            </button>
+            <img src="/layuiadmin/layui/images/icon-cut.png" alt="">
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg"
+                    data-type="addEvent">新增
+            </button>
+            <img src="/layuiadmin/layui/images/icon-cut.png" alt="">
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg"
+                    data-type="editEvent">编辑
+            </button>
+            <img src="/layuiadmin/layui/images/icon-cut.png" alt="">
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_deploy btnMyBgImg"
+                    data-type="deployEvent">部署
+            </button>
+            <img src="/layuiadmin/layui/images/icon-cut.png" alt="">
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_export btnMyBgImg"
+                    data-type="exportEvent">导出
+            </button>
+            <img src="/layuiadmin/layui/images/icon-cut.png" alt="">
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_import btnMyBgImg"
+                    data-type="importEvent">导入
+            </button>
+            <img src="/layuiadmin/layui/images/icon-cut.png" alt="">
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_details btnMyBgImg"
+                    data-type="detailEvent">详情
+            </button>
+            <img src="/layuiadmin/layui/images/icon-cut.png" alt="">
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"
+                    data-type="deleteEvent">删除
+            </button>
+        </div>
+    </div>
+
+    <table id="test" class="layui-hide" lay-filter="tableData"></table>
+</div>
+
+<!--表格数据操作js-->
+<script>
+    /*
+        1、时间戳转换 use引入laytpl 并定义util=layui.laytpl
+        2、table渲染 cols里有时间添加 templet:  '<div>{{ layui.laytpl.toDateString(d.createTime) }}</div>'
+           toDateString(d.createTime)   d.createTime里的createTime与field的一致
+    */
+    layui.use(['jquery', 'form', 'laydate', 'table', 'laypage','laytpl','publicMethods'], function () {
+        // var timer = null;
+        // var lodingMsg = layer.msg('数据加载中....')
+        var table = layui.table,
+            util = layui.laytpl,
+            form = layui.form,
+            laydate = layui.laydate,
+            $ = layui.jquery,
+            laytpl = layui.laytpl,
+            publicMethods = layui.publicMethods;
+
+        //获取当前行数据  设置全局变量
+        var selectRowData = '';
+        /*获取参数  id:param.id   code:param.code   functionbuttons:param.functionbuttons*/
+        var param=JSON.parse(window.localStorage.getItem("param"));
+
+        // ** 搜索框宽度随着内容自适应 加到公用js中
+        $(function(){
+            //propertychange监听input里面的字符变化,属性改变事件
+            $('.form-control').bind('input propertychange', function() {
+                var $this = $(this);
+                console.log($this);
+                var text_length = $this.val().length;//获取当前文本框的长度
+                var current_width = parseInt(text_length) *12;//该16是改变前的宽度除以当前字符串的长度,算出每个字符的长度
+                console.log(current_width);
+                $this.css("width",current_width+"px");
+            });
+        })
+        //** 搜索框宽度随着内容自适应End
+        function renderTable(){
+            //渲染
+            var cols=[
+                {type: 'checkbox', event: 'changeEvents',width: 55}
+                , {field: 'id', title: '序号',type:'numbers', style: 'cursor: pointer;',width: 55}
+                , {field: 'state', title: '状态', style: 'cursor: pointer;',width: 58, templet:  '<div>{{ layui.laytpl.auditStatus(d.state) }}</div>'}
+                , {field: 'username', title: '模型ID', style: 'cursor: pointer;'}
+                , {field: 'email', title: '模型名称', style: 'cursor: pointer;'}
+                , {field: 'sex', title: '模型Key', style: 'cursor: pointer;'}
+                , {field: 'city', title: '模型类别', style: 'cursor: pointer;'}
+                , {field: 'sign', title: '模型版本号', width: '30%', style: 'cursor: pointer;'}
+                , {field: 'createTime', title: '金额', style: 'cursor: pointer;', templet: '<div>{{ layui.laytpl.milliFormat(d.createTime,2) }}</div>'}
+                , {field: 'ip', title: '部署ID', style: 'cursor: pointer;', event: 'setActive', align:'right'}
+            ];
+            /*第一个参数对应的是table.render下的elem，
+            第二个参数对应的是table.render下id，
+            第三个参数对应的是相应的接口，
+            第四个参数对应的是否开启打印功能，
+            第五个参数对应的是table.render下的cols,
+            最后一个对应的是table.render的回调函数*/
+            publicMethods.tableRender("test","idTest","/layuiadmin/json/table/demo1.json",false,cols,function(res, curr, count){
+                $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+                    var index=parseInt($(this).index()+1);
+                    $('tr').removeClass('layui-table-click');
+                    $(this).addClass('layui-table-click');
+                    $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                    $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                });
+            });
+           /* table.render({
+                elem: '#test' //表格容器
+                , url: '/layuiadmin/json/table/demo1.json' //请求的url地址
+                , limit: param.selfRownum //每页默认显示的数量
+                , id: 'idTest'
+                , height: commonDislodgeTable()
+                , page: {
+                    count: 500 //数据总数，从服务端得到
+                    , groups: 5
+                    , limits: [param.selfRownum, 30, 45, 60]
+                    , layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+                    , first: '首页' //不显示首页
+                    , last: '尾页' //不显示尾页
+                    , theme: '#0F9EE0'
+                }
+                /!*列显示隐藏、打印、导出功能*!/
+                ,toolbar:{
+                    toolbar:"#test"
+                }
+                /!*以数组的形式显示列、打印、导出三个中的那些功能
+                  filter列显示隐藏、exports导出、print打印*!/
+                ,defaultToolbar:['filter','exports','print']
+                //,loading: false //请求数据时，是否显示loading
+                /!*
+                * 常用的cols里面的属性说明：
+                * checkbox —— 复选框
+                * radio    —— 单选
+                * fixed    —— 固定列(值为true就会固定列)
+                * field    —— 字段(用于绑定后端传过来的json字段)
+                * title    —— 显示标题的文字
+                * width    —— 列宽
+                * sort     —— 是否排序
+                * edit     —— 是否可以编辑
+                * toolbar  —— 工具栏(内嵌，可以选择需要用到的操作按钮)
+                * style    —— 鼠标移上的形状
+                * *!/
+                , cols: [[
+                    {type: 'checkbox', event: 'changeEvents'}
+                    , {field: 'id', title: '序号',type:'numbers', style: 'cursor: pointer;'}
+                    , {field: 'state', title: '状态', style: 'cursor: pointer;',width: 58, templet:  '<div>{{ layui.laytpl.auditStatus(d.state) }}</div>'}
+                    , {field: 'username', title: '模型ID', style: 'cursor: pointer;'}
+                    , {field: 'email', title: '模型名称', style: 'cursor: pointer;'}
+                    , {field: 'sex', title: '模型Key', style: 'cursor: pointer;'}
+                    , {field: 'city', title: '模型类别', style: 'cursor: pointer;'}
+                    , {field: 'sign', title: '模型版本号', width: '30%', style: 'cursor: pointer;'}
+                    , {field: 'createTime', title: '金额', style: 'cursor: pointer;', templet: '<div>{{ layui.laytpl.milliFormat(d.createTime,2) }}</div>'}
+                    , {field: 'ip', title: '部署ID', style: 'cursor: pointer;', event: 'setActive', align:'right'}
+                ]]
+                , done: function (res, curr, count) {
+                    //layer.close(lodingMsg)
+                    $('.fontColor-red').parent().parent().parent().css('background','#f2f2f2');
+                    // 数据表格回显
+                    //要勾选的数据id
+                    /!*var checkData = [{
+                            "id": "1",
+                            "username": "室主任1",
+                            "email": "xianxin@layui.com",
+                            "sex": "男",
+                            "city": "浙江杭州",
+                            "sign": "点击此处，显示更多。当内容超出时，点击单元格会自动显示更多内容。点击此处，显示更多。当内容超出时，点击单元格会自动显示更多内容。点击此处，显示更多。当内容超出时，点击单元格会自动显示更多内容。",
+                            "experience": "7",
+                            "ip": "192.168.0.8",
+                            "logins": 0,
+                            "joinTime": "2016-10-14",
+                            "createTime": 1283942123423
+                        },
+                        {
+                            "id": "2",
+                            "username": "室主任2",
+                            "email": "xianxin@layui.com",
+                            "sex": "男",
+                            "city": "浙江杭州",
+                            "sign": "君不见，黄河之水天上来，奔流到海不复回。 ",
+                            "experience": "9",
+                            "ip": "192.168.0.8",
+                            "logins": "106",
+                            "joinTime": "2016-10-14",
+                            "createTime": 1283942123423
+                        },
+                        {
+                            "id": "3",
+                            "username": "正职领导A",
+                            "email": "xianxin@layui.com",
+                            "sex": "男",
+                            "city": "浙江杭州",
+                            "sign": "人生恰似一场修行",
+                            "experience": "8",
+                            "ip": "192.168.0.8",
+                            "logins": "106",
+                            "joinTime": "2016-10-14",
+                            "createTime": 1283942123423
+                        }]
+                    var ids = eval(checkData);*!/
+                    //循环所有数据，找出对应关系，设置checkbox选中状态
+                    /!*for(var i=0;i< res.data.length;i++){
+                        for (var j = 0; j < ids.length; j++) {
+                            //数据id和要勾选的id相同时checkbox选中
+                            if(res.data[i].id == ids[j].id)
+                            {
+                                //这里才是真正的有效勾选
+                                res.data[i]["LAY_CHECKED"]='true';
+                                //找到对应数据改变勾选样式，呈现出选中效果
+                                var index= res.data[i]['LAY_TABLE_INDEX'];
+                                $('.layui-table tr[data-index=' + index + '] input[type="checkbox"]').prop('checked', true);
+                                $('.layui-table tr[data-index=' + index + '] input[type="checkbox"]').next().addClass('layui-form-checked');
+                            }
+                        }
+                    }*!/
+                    //设置全选checkbox的选中状态，只有改变LAY_CHECKED的值， table.checkStatus才能抓取到选中的状态
+                    /!*var checkStatus = table.checkStatus('my-table');
+                    if(checkStatus.isAll){
+                        $(' .layui-table-header th[data-field="0"] input[type="checkbox"]').prop('checked', true);
+                        $('.layui-table-header th[data-field="0"] input[type="checkbox"]').next().addClass('layui-form-checked');
+                    }*!/
+                    // 数据表格回显end
+
+                    // 点击行联动选择框--单选
+                    $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+                        var index=parseInt($(this).index()+1);
+                        $('tr').removeClass('layui-table-click');
+                        $(this).addClass('layui-table-click');
+                        $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked");
+                        $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                        //禁用单选框
+                        //$('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").attr("disabled", 'disabled').removeAttr("checked").addClass('disabledCheckbox');
+                        selectRowData=res.data[index-1];
+                    })
+                    /!*$('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+                        var index=parseInt($(this).index()+1);
+                        $('tr').removeClass('layui-table-click');
+                        $(this).addClass('layui-table-click');
+                        $('tr').find("td").find(".layui-unselect").removeClass("layui-form-radioed")
+                        $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-radioed");
+                        selectRowData=res.data[index-1];
+                    })*!/
+                    //单击行勾选checkbox事件——多选情况
+                    /!*$(document).on("click", ".layui-table-body table.layui-table tbody tr", function () {
+                        var index = $(this).attr('data-index');
+                        var tableBox = $(this).parents('.layui-table-box');
+                        //存在固定列
+                        if (tableBox.find(".layui-table-fixed.layui-table-fixed-l").length > 0) {
+                            tableDiv = tableBox.find(".layui-table-fixed.layui-table-fixed-l");
+                        } else {
+                            tableDiv = tableBox.find(".layui-table-body.layui-table-main");
+                        }
+                        var checkCell = tableDiv.find("tr[data-index=" + index + "]").find("td div.laytable-cell-checkbox div.layui-form-checkbox I");
+                        if (checkCell.length > 0) {
+                            checkCell.click();
+                        }
+                    });
+                    $(document).on("click", "td div.laytable-cell-checkbox div.layui-form-checkbox", function (e) {
+                        e.stopPropagation();
+                    });*!/
+                    //单击行勾选checkbox事件——多选情况end
+                }
+            });*/
+        }
+        /*if(timer){
+            clearTimeout(timer)
+        }
+        timer = setTimeout(function(){
+            renderTable();
+        },2000)*/
+        renderTable();
+        // console.log(timer - 1)
+        //单选框 需要移除表头的复选框
+        $(".layui-table-header table thead th input").remove()
+        //单选框end
+
+        //监听行单击事件
+        table.on('row(tableData)', function(obj){
+            console.log(obj.tr) //得到当前行元素对象
+            console.log(obj.data) //得到当前行数据
+            //obj.del(); //删除当前行
+            //obj.update(fields) //修改当前行数据
+            selectRowData=obj.data;
+        });
+        //监听行双击事件
+        table.on('rowDouble(tableData)', function(obj){
+            console.log(obj.tr) //得到当前行元素对象
+            console.log(obj.data) //得到当前行数据
+            //obj.del(); //删除当前行
+            obj.update(fields) //修改当前行数据
+        });
+
+
+        // 点击按钮时激活
+        $('.tableBtns').children('button').on('click',function (){
+            $(this).addClass('active');
+            $(this).siblings().removeClass('active');
+        })
+        // 点击按钮时激活End
+
+        //日期范围
+        laydate.render({
+            elem: '#test-laydate-range-date'
+            ,range: true
+            ,theme: '#0F9EE0'
+        });
+
+        //区别按钮属性
+        $('.layui-btn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+        // 触发不同的按钮事件
+        var $ = layui.$, active = {
+            searchEvent: function () { //点击查询按钮
+                console.log("点击了查询按钮")
+                renderTable()
+            }
+            , resetEvent: function () { //点击重置按钮
+                console.log("点击了重置按钮")
+            }
+            , lookEvent: function () { //点击查看按钮
+                layer.open({
+                    title: '<span>首页&nbsp;&gt;&nbsp;操作&nbsp;&gt;&nbsp;</span><span class=\'lastTitle\'>查看</span>'
+                    , skin: 'layui-layer-lan'
+                    , shadeClose: true
+                    , type: 2
+                    , fixed: false
+                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                    , maxmin: false
+                    //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                    , area: ['100%', '100%']
+                    , content: '/layui/buttons.html'
+                });
+            }
+            , codeReset: function() { //点击密码重置按钮
+                layer.open({
+                    title: '<span>首页&nbsp;&gt;&nbsp;操作&nbsp;&gt;&nbsp;</span><span class=\'lastTitle\'>密码重置</span>'
+                    , skin: 'layui-layer-lan'
+                    , shadeClose: true
+                    , type: 2
+                    , fixed: false
+                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                    , maxmin: false
+                    //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                    , area: ['100%', '100%']
+                    , content: '/layui/form_tableAdd.html'
+                });
+            }
+            , saveEvent: function() {
+                layer.open({
+                    title: '<span>首页&nbsp;&gt;&nbsp;操作&nbsp;&gt;&nbsp;</span><span class=\'lastTitle\'>保存</span>'
+                    , skin: 'layui-layer-white'
+                    , shadeClose: true
+                    , type: 2
+                    , anim: 5
+                    , fixed: false
+                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                    , maxmin: false
+                    , resize: false
+                    //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                    , area: ['100%', '100%']
+                    , content: '/layui/newPage.html'
+                });
+            }
+            , printEvent :function() {
+                layer.open({
+                    title: '<span>首页&nbsp;&gt;&nbsp;操作&nbsp;&gt;&nbsp;</span><span class=\'lastTitle\'>打印</span>'
+                    , skin: 'layui-layer-lan'
+                    , shadeClose: true
+                    , type: 2
+                    , fixed: false
+                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                    , maxmin: true
+                    //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                    , area: ['90%', '80%']
+                    , content: '/layui/notice_board.html'
+                });
+            }
+            , addEvent: function () { //点击新增按钮
+                console.log('点击了新增按钮')
+                layer.open({
+                    title: '<span>首页&nbsp;&gt;&nbsp;操作&nbsp;&gt;&nbsp;</span><span class=\'lastTitle\'>新增</span>'
+                    , skin: 'layui-layer-lan'
+                    , shadeClose: true
+                    , type: 2
+                    , fixed: false
+                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                    , maxmin: false
+                    //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                    , area: ['60%', '50%']
+                    , moveOut: true
+                    , content: '/layui/form.html'
+                    , btn: ['确定','取消']
+                });
+            }
+            , editEvent: function () {  //点击编辑按钮
+                console.log('点击了编辑按钮')
+                // 多选情况下
+                var checkData = '';
+                /*heckData = table.checkStatus('idTest').data;
+                layer.alert(JSON.stringify(data));*/
+                //单选情况下
+                checkData = selectRowData;
+                console.log(checkData)
+                // layer.alert(JSON.stringify(selectRowData));
+                if(checkData){
+                    if(checkData.state == "1"){
+                        layer.msg('审核通过，无需编辑')
+                        return false;
+                    }else{
+                        layer.open({
+                            title: "<span>首页&nbsp;&gt;&nbsp;操作&nbsp;&gt;&nbsp;</span><span class='lastTitle'>编辑</span>"
+                            , skin: 'layui-layer-lan'
+                            , shadeClose: true
+                            , type: 2
+                            , fixed: false
+                            //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                            , maxmin: false
+                            //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                            , area: ['100%', '100%']
+                            , content: '/layui/formEdit.html'
+                            , btn: ['保存','取消']
+                            , success: function (layero, index) {
+                                // 获取子页面的iframe
+                                var iframe = window['layui-layer-iframe' + index];
+                                // 向子页面的全局函数child传参
+                                iframe.child(checkData.id);
+                            }
+                        });
+                    }
+                }else{
+                    layer.msg('请先选择行')
+                }
+            }
+            , deployEvent: function () {  //点击部署按钮
+                console.log('点击了部署按钮')
+                // 多选情况下
+                /*var checkStatus = table.checkStatus('idTest')
+                    ,data = checkStatus.data;
+                layer.alert(JSON.stringify(data));*/
+                //单选情况下
+                // layer.alert(JSON.stringify(selectRowData));
+                layer.open({
+                    title: "<span>首页&nbsp;&gt;&nbsp;操作&nbsp;&gt;&nbsp;</span><span class='lastTitle'>部署</span>" //面包屑导航
+                    , skin: 'layui-layer-lan'
+                    , shadeClose: true
+                    , type: 2
+                    , fixed: false
+                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                    , maxmin: true
+                    //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                    , area: ['90%', '90%']
+                    , content: '/layui/formTable.html'
+                    , success: function (layero, index) {
+
+                    }
+                });
+            }
+            , exportEvent: function () {  //点击导出按钮
+                console.log('点击了导出按钮')
+                // 多选情况下
+                /*var checkStatus = table.checkStatus('idTest')
+                    ,data = checkStatus.data;
+                layer.alert(JSON.stringify(data));*/
+                //单选情况下
+                // layer.alert(JSON.stringify(selectRowData));
+                layer.open({
+                    title: "<span>首页&nbsp;&gt;&nbsp;操作&nbsp;&gt;&nbsp;</span><span class='lastTitle'>导出</span>" //面包屑导航
+                    , skin: 'layui-layer-lan'
+                    , shadeClose: true
+                    , type: 2
+                    , fixed: false
+                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                    , maxmin: true
+                    //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                    , area: ['90%', '80%']
+                    , content: '/layui/layer_treeTable.html'
+                    , success: function (layero, index) {
+
+                    }
+                });
+            }
+            , importEvent: function () {  //点击导入按钮
+                console.log('点击了导入按钮')
+                layer.open({
+                    title: "<span>首页&nbsp;&gt;&nbsp;操作&nbsp;&gt;&nbsp;</span><span class='lastTitle'>导入</span>"
+                    , skin: 'layui-layer-lan'
+                    , shadeClose: true
+                    , type: 2
+                    , fixed: false
+                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                    , maxmin: true
+                    //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                    , area: ['90%', '80%']
+                    , content: '/layui/layer_twoTables.html'
+                    , success: function (layero, index) {
+
+                    }
+                });
+            }
+            , detailEvent: function () {  //点击详情按钮
+                console.log('点击了详情按钮')
+                // 多选情况下
+                /*var checkStatus = table.checkStatus('idTest')
+                    ,data = checkStatus.data;
+                layer.alert(JSON.stringify(data));*/
+                //单选情况下
+                // layer.alert(JSON.stringify(selectRowData));
+                layer.open({
+                    title: "<span>首页</span> -&gt; <span>操作</span> -&gt;<span class='lastTitle'>详情</span>"
+                    , skin: 'layui-layer-lan'
+                    , shadeClose: true
+                    , type: 2
+                    , fixed: false
+                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                    , maxmin: true
+                    //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                    , area: ['90%', '80%']
+                    , content: '/layui/form_photo.html'
+                    , success: function (layero, index) {
+
+                    }
+                });
+            }
+            , deleteEvent: function () {  //点击删除按钮
+                console.log('点击了删除按钮')
+                // 多选情况下
+                // var checkStatus = table.checkStatus('idTest')
+                //     ,data = checkStatus.data;
+                // layer.alert(JSON.stringify(data));
+                //单选情况下
+                layer.alert(JSON.stringify(selectRowData));
+            }
+            , getCheckData: function () { //获取选中数据
+                var checkStatus = table.checkStatus('idTest')
+                    , data = checkStatus.data;
+                layer.alert(JSON.stringify(data));
+            }
+            , getCheckLength: function () { //获取选中数目
+                var checkStatus = table.checkStatus('idTest')
+                    , data = checkStatus.data;
+                layer.msg('选中了：' + data.length + ' 个');
+            }
+            , isAll: function () { //验证是否全选
+                var checkStatus = table.checkStatus('idTest');
+                layer.msg(checkStatus.isAll ? '全选' : '未全选')
+            }
+        };
+    });
+
+</script>
+
+</body>
+</html>

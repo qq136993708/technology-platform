@@ -1,0 +1,163 @@
+<#include "/common/public/publicImportIndex.html"/>
+<form id="dataForm" name="dataForm" class="form-horizontal bv-form" novalidate="novalidate">
+	<input type="hidden" id="id" name="id" />
+	<input type="hidden" id="parentId" name="parentId"/>
+	<input type="hidden" id="parentCode" name="parentCode"/>
+	<input type="hidden" name="levelCode" value=""/>
+	<div class="box-body">
+		<div class="col-md-12">
+			<div class="form-group" id="currentDiv">
+				<label for="moduleHeight" class="col-sm-3 control-label">当前节点:</label>
+				<div class="col-sm-8">
+					<div id="parentName"></div> 
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="moduleName" class="col-sm-3 control-label">字典名称:</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" id="name" name="name" placeholder="字典名称" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="moduleCode" class="col-sm-3 control-label">字典编码:</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control"  id="code" name="code" placeholder="不填可自动生成" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="moduleWidth" class="col-sm-3 control-label">描述:</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" id="remark" name="remark" placeholder="描述" />
+				</div>
+			</div>
+			
+		</div>
+	</div>
+	<div class="box-footer text-right">
+		<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+		<button type="button" id="btn-save" class="btn btn-primary" >保存</button>
+	</div>
+</form>
+
+<script>
+
+	$(function() {
+		var id = "${id}";
+		$("input[name='parentId']").val("${parentId}");
+		$("input[name='parentCode']").val("${parentCode}");
+		$("input[name='levelCode']").val("${levelCode}");
+		$("#parentName").html("${parentName}");
+		//alert("${parentName}");
+		if(id){
+			fillData(id);
+			$("#currentDiv").hide();
+		}
+		// 保存操作;
+		$("#btn-save").click(function() {//非submit按钮点击后进行验证，如果是submit则无需此句直接验证
+			formValidator();
+			$("#dataForm").bootstrapValidator('validate');//提交验证
+			if ($("#dataForm").data('bootstrapValidator').isValid()) {//获取验证结果，如果成功，执行下面代码
+				saveDictionary();//验证成功后的操作
+			}
+		});
+	});
+	
+	function formValidator() {
+		$("#dataForm").bootstrapValidator({
+			live : 'disabled',//验证时机，enabled是内容有变化就验证（默认），disabled和submitted是提交再验证
+			excluded : [ ':disabled', ':hidden', ':not(:visible)' ],//排除无需验证的控件，比如被禁用的或者被隐藏的
+			//submitButtons : '#btn-save',//指定提交按钮，如果验证失败则变成disabled，但我没试成功，反而加了这句话非submit按钮也会提交到action指定页面
+			//message : '通用的验证失败消息',//好像从来没出现过
+			feedbackIcons : {//根据验证结果显示的各种图标
+				valid : 'glyphicon glyphicon-ok',
+				invalid : 'glyphicon glyphicon-remove',
+				validating : 'glyphicon glyphicon-refresh'
+			},
+			fields : {
+				name : {
+					validators : {
+						notEmpty : {
+							message : '字典名称不能为空'
+						}
+					}
+				},
+			/* 	code : {
+					validators : {
+						notEmpty : {
+							message : '字典编码不能为空'
+						}
+					}
+				}, */
+			}
+		});
+	} 
+
+	function saveDictionary() {
+		$.ajax({
+			type : 'post',
+			dataType : 'text',
+           // data : {"id":id, "code":code,"parentId":parentId,"name":name,"levelCode":levelCode,"remark":remark},
+            data : $("#dataForm").serialize(),
+            url : '/dictionary/saveDictionary?i='+Math.random(),
+            success : function(data) {
+            	if(data==200){
+            		modals.info("保存成功");
+            		var modalId="";
+            		if($(".modal").css("display")=="block"){
+       		         	modalId=$(".modal").attr("id")
+            		}
+            		parent.$('#'+modalId).remove()
+            		
+            		/* $("#"+index.pageOnlyId)[0].contentWindow.updaTable();
+            		//刷新tree
+            		$("#"+index.pageOnlyId)[0].contentWindow.initLevelTree(); */
+            	}else{
+            		modals.info("保存失败");
+            	}
+
+        		
+            },
+            error : function(e) {
+            	modals.info("出错了");
+                console.log(e);
+            }
+           }); 
+	}
+
+	function fillData(id) {
+		$("#dataForm")[0].reset();		
+		//if(!isBlank(id)){
+	        $.ajax({
+				type : 'post',
+				dataType : 'json',
+				async : false,
+				data :{"id":id},
+				url : basePath + 'dictionary/getDictionary?i='+Math.random(),
+				success : function(data) {
+					console.log(data)
+					//alert(data.id)
+					$("input[name=id]").val(data.id);
+					$("input[name=name]").val(data.name);
+					$("input[name=code]").val(data.code);
+					$("input[name=remark]").val(data.remark);
+					$("#parentName").val(data.parentCode);
+					$("#parentCode").val(data.parentCode);
+					/* $("input[name=isparent][value=" + data.isparent + "]").prop("checked", "checked");
+					$("input[name=isLeaf][value=" + data.isLeaf + "]").prop("checked", "checked"); */
+				},
+				error : function(e) {
+					modals.info("出错了！",e);
+				}
+			});
+	/* 	}else{
+			modals.info("请选择要修改的树节点");
+		} */
+     	
+	}
+
+	$(".close,button[data-btn-type='cancel']").click(function () {
+        parent.$('#news').remove();
+        parent.$(".modal-backdrop").remove();
+    })
+	
+</script>

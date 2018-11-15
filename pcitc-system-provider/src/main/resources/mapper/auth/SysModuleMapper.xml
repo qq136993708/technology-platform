@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pcitc.mapper.system.SysModuleMapper">
+  <resultMap id="BaseResultMap" type="com.pcitc.base.system.SysModule">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="module_name" jdbcType="VARCHAR" property="moduleName" />
+    <result column="module_code" jdbcType="VARCHAR" property="moduleCode" />
+    <result column="module_width" jdbcType="VARCHAR" property="moduleWidth" />
+    <result column="module_height" jdbcType="VARCHAR" property="moduleHeight" />
+    <result column="module_color" jdbcType="VARCHAR" property="moduleColor" />
+    <result column="module_image" jdbcType="VARCHAR" property="moduleImage" />
+    <result column="module_sort" jdbcType="VARCHAR" property="moduleSort" />
+    <result column="is_variable" jdbcType="INTEGER" property="isVariable" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, module_name, module_code, module_width, module_height, module_color, module_image, 
+    module_sort, is_variable
+  </sql>
+  <select id="selectByExample" parameterType="com.pcitc.base.system.SysModuleExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from sys_module
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_module
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from sys_module
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.pcitc.base.system.SysModuleExample">
+    delete from sys_module
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.pcitc.base.system.SysModule">
+    insert into sys_module (id, module_name, module_code, 
+      module_width, module_height, module_color, 
+      module_image, module_sort, is_variable
+      )
+    values (#{id,jdbcType=VARCHAR}, #{moduleName,jdbcType=VARCHAR}, #{moduleCode,jdbcType=VARCHAR}, 
+      #{moduleWidth,jdbcType=VARCHAR}, #{moduleHeight,jdbcType=VARCHAR}, #{moduleColor,jdbcType=VARCHAR}, 
+      #{moduleImage,jdbcType=VARCHAR}, #{moduleSort,jdbcType=VARCHAR}, #{isVariable,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.pcitc.base.system.SysModule">
+    insert into sys_module
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="moduleName != null">
+        module_name,
+      </if>
+      <if test="moduleCode != null">
+        module_code,
+      </if>
+      <if test="moduleWidth != null">
+        module_width,
+      </if>
+      <if test="moduleHeight != null">
+        module_height,
+      </if>
+      <if test="moduleColor != null">
+        module_color,
+      </if>
+      <if test="moduleImage != null">
+        module_image,
+      </if>
+      <if test="moduleSort != null">
+        module_sort,
+      </if>
+      <if test="isVariable != null">
+        is_variable,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="moduleName != null">
+        #{moduleName,jdbcType=VARCHAR},
+      </if>
+      <if test="moduleCode != null">
+        #{moduleCode,jdbcType=VARCHAR},
+      </if>
+      <if test="moduleWidth != null">
+        #{moduleWidth,jdbcType=VARCHAR},
+      </if>
+      <if test="moduleHeight != null">
+        #{moduleHeight,jdbcType=VARCHAR},
+      </if>
+      <if test="moduleColor != null">
+        #{moduleColor,jdbcType=VARCHAR},
+      </if>
+      <if test="moduleImage != null">
+        #{moduleImage,jdbcType=VARCHAR},
+      </if>
+      <if test="moduleSort != null">
+        #{moduleSort,jdbcType=VARCHAR},
+      </if>
+      <if test="isVariable != null">
+        #{isVariable,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.pcitc.base.system.SysModuleExample" resultType="java.lang.Long">
+    select count(*) from sys_module
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update sys_module
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.moduleName != null">
+        module_name = #{record.moduleName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.moduleCode != null">
+        module_code = #{record.moduleCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.moduleWidth != null">
+        module_width = #{record.moduleWidth,jdbcType=VARCHAR},
+      </if>
+      <if test="record.moduleHeight != null">
+        module_height = #{record.moduleHeight,jdbcType=VARCHAR},
+      </if>
+      <if test="record.moduleColor != null">
+        module_color = #{record.moduleColor,jdbcType=VARCHAR},
+      </if>
+      <if test="record.moduleImage != null">
+        module_image = #{record.moduleImage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.moduleSort != null">
+        module_sort = #{record.moduleSort,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isVariable != null">
+        is_variable = #{record.isVariable,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update sys_module
+    set id = #{record.id,jdbcType=VARCHAR},
+      module_name = #{record.moduleName,jdbcType=VARCHAR},
+      module_code = #{record.moduleCode,jdbcType=VARCHAR},
+      module_width = #{record.moduleWidth,jdbcType=VARCHAR},
+      module_height = #{record.moduleHeight,jdbcType=VARCHAR},
+      module_color = #{record.moduleColor,jdbcType=VARCHAR},
+      module_image = #{record.moduleImage,jdbcType=VARCHAR},
+      module_sort = #{record.moduleSort,jdbcType=VARCHAR},
+      is_variable = #{record.isVariable,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.system.SysModule">
+    update sys_module
+    <set>
+      <if test="moduleName != null">
+        module_name = #{moduleName,jdbcType=VARCHAR},
+      </if>
+      <if test="moduleCode != null">
+        module_code = #{moduleCode,jdbcType=VARCHAR},
+      </if>
+      <if test="moduleWidth != null">
+        module_width = #{moduleWidth,jdbcType=VARCHAR},
+      </if>
+      <if test="moduleHeight != null">
+        module_height = #{moduleHeight,jdbcType=VARCHAR},
+      </if>
+      <if test="moduleColor != null">
+        module_color = #{moduleColor,jdbcType=VARCHAR},
+      </if>
+      <if test="moduleImage != null">
+        module_image = #{moduleImage,jdbcType=VARCHAR},
+      </if>
+      <if test="moduleSort != null">
+        module_sort = #{moduleSort,jdbcType=VARCHAR},
+      </if>
+      <if test="isVariable != null">
+        is_variable = #{isVariable,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.system.SysModule">
+    update sys_module
+    set module_name = #{moduleName,jdbcType=VARCHAR},
+      module_code = #{moduleCode,jdbcType=VARCHAR},
+      module_width = #{moduleWidth,jdbcType=VARCHAR},
+      module_height = #{moduleHeight,jdbcType=VARCHAR},
+      module_color = #{moduleColor,jdbcType=VARCHAR},
+      module_image = #{moduleImage,jdbcType=VARCHAR},
+      module_sort = #{moduleSort,jdbcType=VARCHAR},
+      is_variable = #{isVariable,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

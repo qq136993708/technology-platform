@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>科技管理平台</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,minimum-scale=1.0,user-scalable=0" />
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/mobile/css/mobile.css">
+</head>
+<body>
+<header>
+    <div class="m_return">
+        <a href="http://toworkbench.app.sinopec.com"><img src="/mobile/images/icon-return.png"/> </a>
+        <h4>科技管理平台</h4>
+    </div>
+    <div class="m_banner"></div>
+</header>
+<main class="main">
+    <div class="main-card">
+        <div class="main-card-header">待办任务</div>
+        <div class="main-card-body">
+            <ul class="main-card-body-ul">
+                <li class="layui-col-xs4">
+                    <span class="agency-icon layui-icon-agency_01"></span>
+                    <span>待办任务</span>
+                    <span class="span-number span-red"><a id="numberNotice" lay-href="/task/pending/list/ini" lay-text="待办任务">(63)</a></span>
+                </li>
+                <li class="layui-col-xs4">
+                    <span class="agency-icon layui-icon-agency_02"></span>
+                    <span>已办任务</span>
+                    <span class="span-number" id="doneTaskCount"><a lay-href="/task/done-task/list/ini" lay-text="已办任务">(10)</a></span>
+                </li>
+                <li class="layui-col-xs4">
+                    <span class="agency-icon layui-icon-agency_03"></span>
+                    <span>业务预警</span>
+                    <span class="span-number span-red">(17)</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="main-card">
+        <div class="main-card-header">辅助决策中心</div>
+        <div class="main-card-body">
+            <ul class="main-card-body-ul main-card-body-decision">
+                <li class="layui-col-xs4">
+                    <span class="icon-decision icon-decision_01"></span>
+                    <span>财务决策</span>
+                </li>
+                <li class="layui-col-xs4">
+                    <span class="icon-decision icon-decision_02"></span>
+                    <span>全成本决策</span>
+                </li>
+                <li class="layui-col-xs4">
+                    <span class="icon-decision icon-decision_03"></span>
+                    <span>项目经费决策</span>
+                </li>
+                <li class="layui-col-xs4">
+                    <span class="icon-decision icon-decision_04"></span>
+                    <span id="projectDecision">项目决策</span>
+                </li>
+                <li class="layui-col-xs4">
+                    <span class="icon-decision icon-decision_05"></span>
+                    <span>多维分析</span>
+                </li>
+                <li class="layui-col-xs4">
+                    <span class="icon-decision icon-decision_06"></span>
+                    <span>科技统计</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</main>
+<script src="/layuiadmin/layui/layui.js"></script>
+<script>
+    (function(doc, win) {
+        var docEl = doc.documentElement,
+            resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+            recalc = function() {
+                var clientWidth = docEl.clientWidth;
+                if (!clientWidth) return;
+                docEl.style.fontSize =  (clientWidth / 10.8) + 'px';
+            };
+        if (!doc.addEventListener) return;
+        win.addEventListener(resizeEvt, recalc, false);
+        doc.addEventListener('DOMContentLoaded', recalc, false);
+    })(document, window);
+    layui.use(['jquery','layer'], function(){
+        var $=layui.jquery,layer=layui.layer;
+
+        $("#projectDecision").click(function () {
+           var  projectDecisionHtml="<ul class='layer-ul'>" +
+               "<li><a href='/mobile/projectdecision/research-funds-trend.html'>科技资金现金流趋势分析</a></li>" +
+               "<li><a href='/mobile/projectdecision/research-funds-proportion.html'>科技资金现金流占比分析</a></li>" +
+               "<li><a href='javascript:;'>科研经费综合分析</a></li>" +
+               "<li><a href='javascript:;'>科研项目综合分析</a></li>" +
+               "<li><a href='javascript:;'>重大科研项目分析</a></li>" +
+               "<li><a href='javascript:;'>十条龙项目分析</a></li>" +
+               "<li><a href='javascript:;'>项目调整决策分析</a></li>" +
+               "<li><a href='javascript:;'>项目支出综合分析</a></li>" +
+               "</ul>";
+           layer.open({
+               title: '项目决策',
+               skin: 'layui-layer-lan',
+               shadeClose: true,
+               type: 1,
+               fixed: false,
+               //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+               maxmin: false,
+               //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+               area: ['9rem', '10rem'],
+               content: projectDecisionHtml
+           })
+        });
+    });
+</script>
+</body>
+</html>

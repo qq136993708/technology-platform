@@ -1,0 +1,632 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pcitc.mapper.system.SysUserMapper">
+	<resultMap id="BaseResultMap" type="com.pcitc.base.system.SysUser">
+		<id column="user_id" property="userId" jdbcType="VARCHAR" />
+		<result column="user_name" property="userName" jdbcType="VARCHAR" />
+		<result column="user_password" property="userPassword"
+			jdbcType="VARCHAR" />
+		<result column="user_disp" property="userDisp" jdbcType="VARCHAR" />
+		<result column="user_kind" property="userKind" jdbcType="VARCHAR" />
+		<result column="user_flag" property="userFlag" jdbcType="VARCHAR" />
+		<result column="user_unit" property="userUnit" jdbcType="VARCHAR" />
+		<result column="user_post" property="userPost" jdbcType="VARCHAR" />
+		<result column="user_role" property="userRole" jdbcType="VARCHAR" />
+		<result column="user_order" property="userOrder" jdbcType="INTEGER" />
+		<result column="user_mail" property="userMail" jdbcType="VARCHAR" />
+		<result column="user_mobile" property="userMobile" jdbcType="VARCHAR" />
+		<result column="user_phone" property="userPhone" jdbcType="VARCHAR" />
+		<result column="user_sign" property="userSign" jdbcType="VARCHAR" />
+		<result column="user_create_time" property="userCreateTime"
+			jdbcType="VARCHAR" />
+		<result column="user_level" property="userLevel" jdbcType="INTEGER" />
+		<result column="user_delflag" property="userDelflag" jdbcType="INTEGER" />
+		<result column="user_relation" property="userRelation"
+			jdbcType="VARCHAR" />
+		<result column="user_extend" property="userExtend" jdbcType="VARCHAR" />
+		<result column="user_comment" property="userComment" jdbcType="VARCHAR" />
+		<result column="is_domain" property="isDomain" jdbcType="INTEGER" />
+		<result column="login_error_number" property="loginErrorNumber"
+			jdbcType="INTEGER" />
+		<result column="login_check_code" property="loginCheckCode"
+			jdbcType="VARCHAR" />
+		<result column="user_config1" property="userConfig1" jdbcType="VARCHAR" />
+		<result column="user_config2" property="userConfig2" jdbcType="VARCHAR" />
+		<result column="user_config3" property="userConfig3" jdbcType="VARCHAR" />
+		<result column="user_config4" property="userConfig4" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		user_id, user_name, user_password, user_disp, user_kind, user_flag, user_unit,
+		user_post,
+		user_role, user_order, user_mail, user_mobile, user_phone, user_sign,
+		user_create_time,
+		user_level, user_delflag, user_relation, user_extend, user_comment, is_domain,
+		login_error_number,
+		login_check_code, user_config1, user_config2, user_config3, user_config4
+	</sql>
+	<select id="selectByExample" resultMap="BaseResultMap"
+		parameterType="com.pcitc.base.system.SysUserExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		'true' as QUERYID,
+		<include refid="Base_Column_List" />
+		from sys_user
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from sys_user
+		where user_id = #{userId,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from sys_user
+		where user_id = #{userId,jdbcType=VARCHAR}
+	</delete>
+	<delete id="deleteByExample" parameterType="com.pcitc.base.system.SysUserExample">
+		delete from sys_user
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="com.pcitc.base.system.SysUser">
+		insert into sys_user (user_id, user_name, user_password,
+		user_disp, user_kind, user_flag,
+		user_unit, user_post, user_role,
+		user_order, user_mail, user_mobile,
+		user_phone, user_sign, user_create_time,
+		user_level, user_delflag, user_relation,
+		user_extend, user_comment, is_domain,
+		login_error_number, login_check_code, user_config1,
+		user_config2, user_config3, user_config4
+		)
+		values (#{userId,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR},
+		#{userPassword,jdbcType=VARCHAR},
+		#{userDisp,jdbcType=VARCHAR}, #{userKind,jdbcType=VARCHAR}, #{userFlag,jdbcType=VARCHAR},
+		#{userUnit,jdbcType=VARCHAR}, #{userPost,jdbcType=VARCHAR},
+		#{userRole,jdbcType=VARCHAR},
+		#{userOrder,jdbcType=INTEGER}, #{userMail,jdbcType=VARCHAR}, #{userMobile,jdbcType=VARCHAR},
+		#{userPhone,jdbcType=VARCHAR}, #{userSign,jdbcType=VARCHAR},
+		#{userCreateTime,jdbcType=VARCHAR},
+		#{userLevel,jdbcType=INTEGER}, #{userDelflag,jdbcType=INTEGER}, #{userRelation,jdbcType=VARCHAR},
+		#{userExtend,jdbcType=VARCHAR}, #{userComment,jdbcType=VARCHAR},
+		#{isDomain,jdbcType=INTEGER},
+		#{loginErrorNumber,jdbcType=INTEGER}, #{loginCheckCode,jdbcType=VARCHAR}, #{userConfig1,jdbcType=VARCHAR},
+		#{userConfig2,jdbcType=VARCHAR}, #{userConfig3,jdbcType=VARCHAR},
+		#{userConfig4,jdbcType=VARCHAR}
+		)
+	</insert>
+	<insert id="insertSelective" parameterType="com.pcitc.base.system.SysUser">
+		insert into sys_user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="userId != null">
+				user_id,
+			</if>
+			<if test="userName != null">
+				user_name,
+			</if>
+			<if test="userPassword != null">
+				user_password,
+			</if>
+			<if test="userDisp != null">
+				user_disp,
+			</if>
+			<if test="userKind != null">
+				user_kind,
+			</if>
+			<if test="userFlag != null">
+				user_flag,
+			</if>
+			<if test="userUnit != null">
+				user_unit,
+			</if>
+			<if test="userPost != null">
+				user_post,
+			</if>
+			<if test="userRole != null">
+				user_role,
+			</if>
+			<if test="userOrder != null">
+				user_order,
+			</if>
+			<if test="userMail != null">
+				user_mail,
+			</if>
+			<if test="userMobile != null">
+				user_mobile,
+			</if>
+			<if test="userPhone != null">
+				user_phone,
+			</if>
+			<if test="userSign != null">
+				user_sign,
+			</if>
+			<if test="userCreateTime != null">
+				user_create_time,
+			</if>
+			<if test="userLevel != null">
+				user_level,
+			</if>
+			<if test="userDelflag != null">
+				user_delflag,
+			</if>
+			<if test="userRelation != null">
+				user_relation,
+			</if>
+			<if test="userExtend != null">
+				user_extend,
+			</if>
+			<if test="userComment != null">
+				user_comment,
+			</if>
+			<if test="isDomain != null">
+				is_domain,
+			</if>
+			<if test="loginErrorNumber != null">
+				login_error_number,
+			</if>
+			<if test="loginCheckCode != null">
+				login_check_code,
+			</if>
+			<if test="userConfig1 != null">
+				user_config1,
+			</if>
+			<if test="userConfig2 != null">
+				user_config2,
+			</if>
+			<if test="userConfig3 != null">
+				user_config3,
+			</if>
+			<if test="userConfig4 != null">
+				user_config4,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="userId != null">
+				#{userId,jdbcType=VARCHAR},
+			</if>
+			<if test="userName != null">
+				#{userName,jdbcType=VARCHAR},
+			</if>
+			<if test="userPassword != null">
+				#{userPassword,jdbcType=VARCHAR},
+			</if>
+			<if test="userDisp != null">
+				#{userDisp,jdbcType=VARCHAR},
+			</if>
+			<if test="userKind != null">
+				#{userKind,jdbcType=VARCHAR},
+			</if>
+			<if test="userFlag != null">
+				#{userFlag,jdbcType=VARCHAR},
+			</if>
+			<if test="userUnit != null">
+				#{userUnit,jdbcType=VARCHAR},
+			</if>
+			<if test="userPost != null">
+				#{userPost,jdbcType=VARCHAR},
+			</if>
+			<if test="userRole != null">
+				#{userRole,jdbcType=VARCHAR},
+			</if>
+			<if test="userOrder != null">
+				#{userOrder,jdbcType=INTEGER},
+			</if>
+			<if test="userMail != null">
+				#{userMail,jdbcType=VARCHAR},
+			</if>
+			<if test="userMobile != null">
+				#{userMobile,jdbcType=VARCHAR},
+			</if>
+			<if test="userPhone != null">
+				#{userPhone,jdbcType=VARCHAR},
+			</if>
+			<if test="userSign != null">
+				#{userSign,jdbcType=VARCHAR},
+			</if>
+			<if test="userCreateTime != null">
+				#{userCreateTime,jdbcType=VARCHAR},
+			</if>
+			<if test="userLevel != null">
+				#{userLevel,jdbcType=INTEGER},
+			</if>
+			<if test="userDelflag != null">
+				#{userDelflag,jdbcType=INTEGER},
+			</if>
+			<if test="userRelation != null">
+				#{userRelation,jdbcType=VARCHAR},
+			</if>
+			<if test="userExtend != null">
+				#{userExtend,jdbcType=VARCHAR},
+			</if>
+			<if test="userComment != null">
+				#{userComment,jdbcType=VARCHAR},
+			</if>
+			<if test="isDomain != null">
+				#{isDomain,jdbcType=INTEGER},
+			</if>
+			<if test="loginErrorNumber != null">
+				#{loginErrorNumber,jdbcType=INTEGER},
+			</if>
+			<if test="loginCheckCode != null">
+				#{loginCheckCode,jdbcType=VARCHAR},
+			</if>
+			<if test="userConfig1 != null">
+				#{userConfig1,jdbcType=VARCHAR},
+			</if>
+			<if test="userConfig2 != null">
+				#{userConfig2,jdbcType=VARCHAR},
+			</if>
+			<if test="userConfig3 != null">
+				#{userConfig3,jdbcType=VARCHAR},
+			</if>
+			<if test="userConfig4 != null">
+				#{userConfig4,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="com.pcitc.base.system.SysUserExample"
+		resultType="java.lang.Integer">
+		select count(*) from sys_user
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update sys_user
+		<set>
+			<if test="record.userId != null">
+				user_id = #{record.userId,jdbcType=VARCHAR},
+			</if>
+			<if test="record.userName != null">
+				user_name = #{record.userName,jdbcType=VARCHAR},
+			</if>
+			<if test="record.userPassword != null">
+				user_password = #{record.userPassword,jdbcType=VARCHAR},
+			</if>
+			<if test="record.userDisp != null">
+				user_disp = #{record.userDisp,jdbcType=VARCHAR},
+			</if>
+			<if test="record.userKind != null">
+				user_kind = #{record.userKind,jdbcType=VARCHAR},
+			</if>
+			<if test="record.userFlag != null">
+				user_flag = #{record.userFlag,jdbcType=VARCHAR},
+			</if>
+			<if test="record.userUnit != null">
+				user_unit = #{record.userUnit,jdbcType=VARCHAR},
+			</if>
+			<if test="record.userPost != null">
+				user_post = #{record.userPost,jdbcType=VARCHAR},
+			</if>
+			<if test="record.userRole != null">
+				user_role = #{record.userRole,jdbcType=VARCHAR},
+			</if>
+			<if test="record.userOrder != null">
+				user_order = #{record.userOrder,jdbcType=INTEGER},
+			</if>
+			<if test="record.userMail != null">
+				user_mail = #{record.userMail,jdbcType=VARCHAR},
+			</if>
+			<if test="record.userMobile != null">
+				user_mobile = #{record.userMobile,jdbcType=VARCHAR},
+			</if>
+			<if test="record.userPhone != null">
+				user_phone = #{record.userPhone,jdbcType=VARCHAR},
+			</if>
+			<if test="record.userSign != null">
+				user_sign = #{record.userSign,jdbcType=VARCHAR},
+			</if>
+			<if test="record.userCreateTime != null">
+				user_create_time = #{record.userCreateTime,jdbcType=VARCHAR},
+			</if>
+			<if test="record.userLevel != null">
+				user_level = #{record.userLevel,jdbcType=INTEGER},
+			</if>
+			<if test="record.userDelflag != null">
+				user_delflag = #{record.userDelflag,jdbcType=INTEGER},
+			</if>
+			<if test="record.userRelation != null">
+				user_relation = #{record.userRelation,jdbcType=VARCHAR},
+			</if>
+			<if test="record.userExtend != null">
+				user_extend = #{record.userExtend,jdbcType=VARCHAR},
+			</if>
+			<if test="record.userComment != null">
+				user_comment = #{record.userComment,jdbcType=VARCHAR},
+			</if>
+			<if test="record.isDomain != null">
+				is_domain = #{record.isDomain,jdbcType=INTEGER},
+			</if>
+			<if test="record.loginErrorNumber != null">
+				login_error_number = #{record.loginErrorNumber,jdbcType=INTEGER},
+			</if>
+			<if test="record.loginCheckCode != null">
+				login_check_code = #{record.loginCheckCode,jdbcType=VARCHAR},
+			</if>
+			<if test="record.userConfig1 != null">
+				user_config1 = #{record.userConfig1,jdbcType=VARCHAR},
+			</if>
+			<if test="record.userConfig2 != null">
+				user_config2 = #{record.userConfig2,jdbcType=VARCHAR},
+			</if>
+			<if test="record.userConfig3 != null">
+				user_config3 = #{record.userConfig3,jdbcType=VARCHAR},
+			</if>
+			<if test="record.userConfig4 != null">
+				user_config4 = #{record.userConfig4,jdbcType=VARCHAR},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update sys_user
+		set user_id = #{record.userId,jdbcType=VARCHAR},
+		user_name = #{record.userName,jdbcType=VARCHAR},
+		user_password = #{record.userPassword,jdbcType=VARCHAR},
+		user_disp = #{record.userDisp,jdbcType=VARCHAR},
+		user_kind = #{record.userKind,jdbcType=VARCHAR},
+		user_flag = #{record.userFlag,jdbcType=VARCHAR},
+		user_unit = #{record.userUnit,jdbcType=VARCHAR},
+		user_post = #{record.userPost,jdbcType=VARCHAR},
+		user_role = #{record.userRole,jdbcType=VARCHAR},
+		user_order = #{record.userOrder,jdbcType=INTEGER},
+		user_mail = #{record.userMail,jdbcType=VARCHAR},
+		user_mobile = #{record.userMobile,jdbcType=VARCHAR},
+		user_phone = #{record.userPhone,jdbcType=VARCHAR},
+		user_sign = #{record.userSign,jdbcType=VARCHAR},
+		user_create_time = #{record.userCreateTime,jdbcType=VARCHAR},
+		user_level = #{record.userLevel,jdbcType=INTEGER},
+		user_delflag = #{record.userDelflag,jdbcType=INTEGER},
+		user_relation = #{record.userRelation,jdbcType=VARCHAR},
+		user_extend = #{record.userExtend,jdbcType=VARCHAR},
+		user_comment = #{record.userComment,jdbcType=VARCHAR},
+		is_domain = #{record.isDomain,jdbcType=INTEGER},
+		login_error_number = #{record.loginErrorNumber,jdbcType=INTEGER},
+		login_check_code = #{record.loginCheckCode,jdbcType=VARCHAR},
+		user_config1 = #{record.userConfig1,jdbcType=VARCHAR},
+		user_config2 = #{record.userConfig2,jdbcType=VARCHAR},
+		user_config3 = #{record.userConfig3,jdbcType=VARCHAR},
+		user_config4 = #{record.userConfig4,jdbcType=VARCHAR}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.system.SysUser">
+		update sys_user
+		<set>
+			<if test="userName != null">
+				user_name = #{userName,jdbcType=VARCHAR},
+			</if>
+			<if test="userPassword != null">
+				user_password = #{userPassword,jdbcType=VARCHAR},
+			</if>
+			<if test="userDisp != null">
+				user_disp = #{userDisp,jdbcType=VARCHAR},
+			</if>
+			<if test="userKind != null">
+				user_kind = #{userKind,jdbcType=VARCHAR},
+			</if>
+			<if test="userFlag != null">
+				user_flag = #{userFlag,jdbcType=VARCHAR},
+			</if>
+			<if test="userUnit != null">
+				user_unit = #{userUnit,jdbcType=VARCHAR},
+			</if>
+			<if test="userPost != null">
+				user_post = #{userPost,jdbcType=VARCHAR},
+			</if>
+			<if test="userRole != null">
+				user_role = #{userRole,jdbcType=VARCHAR},
+			</if>
+			<if test="userOrder != null">
+				user_order = #{userOrder,jdbcType=INTEGER},
+			</if>
+			<if test="userMail != null">
+				user_mail = #{userMail,jdbcType=VARCHAR},
+			</if>
+			<if test="userMobile != null">
+				user_mobile = #{userMobile,jdbcType=VARCHAR},
+			</if>
+			<if test="userPhone != null">
+				user_phone = #{userPhone,jdbcType=VARCHAR},
+			</if>
+			<if test="userSign != null">
+				user_sign = #{userSign,jdbcType=VARCHAR},
+			</if>
+			<if test="userCreateTime != null">
+				user_create_time = #{userCreateTime,jdbcType=VARCHAR},
+			</if>
+			<if test="userLevel != null">
+				user_level = #{userLevel,jdbcType=INTEGER},
+			</if>
+			<if test="userDelflag != null">
+				user_delflag = #{userDelflag,jdbcType=INTEGER},
+			</if>
+			<if test="userRelation != null">
+				user_relation = #{userRelation,jdbcType=VARCHAR},
+			</if>
+			<if test="userExtend != null">
+				user_extend = #{userExtend,jdbcType=VARCHAR},
+			</if>
+			<if test="userComment != null">
+				user_comment = #{userComment,jdbcType=VARCHAR},
+			</if>
+			<if test="isDomain != null">
+				is_domain = #{isDomain,jdbcType=INTEGER},
+			</if>
+			<if test="loginErrorNumber != null">
+				login_error_number = #{loginErrorNumber,jdbcType=INTEGER},
+			</if>
+			<if test="loginCheckCode != null">
+				login_check_code = #{loginCheckCode,jdbcType=VARCHAR},
+			</if>
+			<if test="userConfig1 != null">
+				user_config1 = #{userConfig1,jdbcType=VARCHAR},
+			</if>
+			<if test="userConfig2 != null">
+				user_config2 = #{userConfig2,jdbcType=VARCHAR},
+			</if>
+			<if test="userConfig3 != null">
+				user_config3 = #{userConfig3,jdbcType=VARCHAR},
+			</if>
+			<if test="userConfig4 != null">
+				user_config4 = #{userConfig4,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where user_id = #{userId,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.pcitc.base.system.SysUser">
+		update sys_user
+		set user_name = #{userName,jdbcType=VARCHAR},
+		user_password = #{userPassword,jdbcType=VARCHAR},
+		user_disp = #{userDisp,jdbcType=VARCHAR},
+		user_kind = #{userKind,jdbcType=VARCHAR},
+		user_flag = #{userFlag,jdbcType=VARCHAR},
+		user_unit = #{userUnit,jdbcType=VARCHAR},
+		user_post = #{userPost,jdbcType=VARCHAR},
+		user_role = #{userRole,jdbcType=VARCHAR},
+		user_order = #{userOrder,jdbcType=INTEGER},
+		user_mail = #{userMail,jdbcType=VARCHAR},
+		user_mobile = #{userMobile,jdbcType=VARCHAR},
+		user_phone = #{userPhone,jdbcType=VARCHAR},
+		user_sign = #{userSign,jdbcType=VARCHAR},
+		user_create_time = #{userCreateTime,jdbcType=VARCHAR},
+		user_level = #{userLevel,jdbcType=INTEGER},
+		user_delflag = #{userDelflag,jdbcType=INTEGER},
+		user_relation = #{userRelation,jdbcType=VARCHAR},
+		user_extend = #{userExtend,jdbcType=VARCHAR},
+		user_comment = #{userComment,jdbcType=VARCHAR},
+		is_domain = #{isDomain,jdbcType=INTEGER},
+		login_error_number = #{loginErrorNumber,jdbcType=INTEGER},
+		login_check_code = #{loginCheckCode,jdbcType=VARCHAR},
+		user_config1 = #{userConfig1,jdbcType=VARCHAR},
+		user_config2 = #{userConfig2,jdbcType=VARCHAR},
+		user_config3 = #{userConfig3,jdbcType=VARCHAR},
+		user_config4 = #{userConfig4,jdbcType=VARCHAR}
+		where user_id = #{userId,jdbcType=VARCHAR}
+	</update>
+
+	<select id="findUserByRoleCodes" resultMap="BaseResultMap"
+		parameterType="java.util.Map">
+		select sys_user.*,GROUP_CONCAT(sys_unit.unit_name) as unit_name
+		from sys_user,sys_role,sys_user_role,sys_unit,sys_user_unit
+		where
+		sys_user_role.role_id = sys_role.role_id and
+		sys_user_role.user_id = sys_user.user_id and sys_role.role_delflag = '0' and
+		sys_user.user_id = sys_user_unit.user_id and
+		sys_unit.unit_id = sys_user_unit.unit_id and
+		sys_role.role_flag in
+		<foreach collection="roleCodes" item="roleCode" index="index"
+			open="(" close=")" separator=",">
+			#{roleCode}
+		</foreach>
+		<if test="userDisp != null and userDisp != ''">
+			AND sys_user.user_disp LIKE '%${userDisp}%'
+		</if>
+		group by sys_user.user_id
+		order by sys_user.user_id
+	</select>
+
+	<select id="findUserByGroupIdFromACT" resultType="java.lang.String"
+		parameterType="java.lang.String">
+		select USER_ID_
+		from act_id_membership
+		where
+		GROUP_ID_ = #{groupId,jdbcType=VARCHAR}
+	</select>
+
+	<select id="selectUserDetail" resultMap="BaseResultMap"
+		parameterType="java.util.Map">
+		select sys_user.*,GROUP_CONCAT(sys_unit.unit_name) as
+		unitName,GROUP_CONCAT(sys_unit.unit_code) as unitCode,
+		GROUP_CONCAT(sys_unit.unit_id) as unitId
+		from sys_user,sys_unit,sys_user_unit
+		where
+		sys_user.user_id = sys_user_unit.user_id and
+		sys_unit.unit_id = sys_user_unit.unit_id
+		<if test="userName != null and userName != ''">
+			AND sys_user.user_name = '${userName}'
+		</if>
+		<if test="userPassword != null and userPassword != ''">
+			AND sys_user.user_password = '${userPassword}'
+		</if>
+		<if test="userId != null and userId != ''">
+			AND sys_user.user_id = '${userId}'
+		</if>
+		group by sys_user.user_id
+	</select>
+</mapper>

@@ -1,0 +1,24 @@
+package com.pcitc.config;
+
+import javax.sql.DataSource;
+
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import com.alibaba.druid.pool.DruidDataSource;
+
+/**
+ * @author zhf
+ * 2017-11-16 初始配置时加载进druid
+ */
+@Configuration
+public class DruidDataSourceConfiguration {
+	@Bean
+	@ConfigurationProperties(prefix = "spring.datasource")
+	public DataSource druidDataSource(){
+		System.out.println("start up druid config !!!");
+		DataSource druidDataSource = new DruidDataSource();
+		return druidDataSource;
+	}
+}

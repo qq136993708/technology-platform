@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/ztree/css/metroStyle/metroStyle.css">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
+    <script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.core.js"></script>
+    <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+    <script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.all.js"></script>
+
+</head>
+<body>
+ <ul id="funTree" class="ztree" ></ul>
+ 
+  <div class="row" >
+           <div class="col-sm-12" style="text-align:center">
+             <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" onclick="save()" >确定</button>
+           </div>
+     </div>
+</div>
+<script>
+	
+	var zNodes;
+	var treeId;
+	var treeName;
+	var setting = {
+	        data: {
+	            simpleData: {
+	                enable: true
+	            }
+	        },
+	        callback: {
+	            onClick: onClickMenu
+	        } 
+	};
+	
+	//
+	function save()
+	{
+        parent.document.getElementById("type").value=treeId;
+        parent.document.getElementById("typeName").value=treeName;
+        if(treeId==null || treeId=='')
+       	{
+        	alert("失败"+msg);
+        	return;
+       	}
+        var index = parent.layer.getFrameIndex(window.name); 
+        parent.layer.close(index);  
+	}
+	
+	
+	function initTree()
+	{
+		
+		var v_date = (new Date()).getTime();
+		$.ajax({
+			url: "/sre-equipment/chooseType?v_date="+v_date,
+            type : 'get',
+            headers: {
+            	'Content-Type' : 'application/json'
+            },
+            dataType : 'json',
+            async : false,
+            timeout : 9000,
+            success : function(data){
+            	zNodes = data;
+            	// var legendDataList=JSON.stringify(data);
+            	$.fn.zTree.init($("#funTree"), setting, zNodes);
+            	//alert("成功"+data[0].name);
+            },
+            error : function(msg) {
+            	alert("失败"+msg);
+            }
+        });
+		
+	}
+	
+	
+    $(document).ready(function () {
+    	initTree();
+    });
+    
+    
+   
+
+    function onClickMenu(event,treeId,treeNode,clickFlag) {
+    	treeId = treeNode.id;
+    	treeName = treeNode.name;
+    	
+    	console.log(treeNode)
+    }
+    /* 
+    function refreshNode(e) {
+        var zTree = $.fn.zTree.getZTreeObj("funTree"),
+            type = e.data.type,
+            silent = e.data.silent,
+            nodes = zTree.getSelectedNodes();
+        if (nodes.length == 0) {
+            alert("请先选择一个父节点");
+        }
+        for (var i = 0, l = nodes.length; i < l; i++) {
+            zTree.reAsyncChildNodes(nodes[i], type, silent);
+            if (!silent) zTree.selectNode(nodes[i]);
+        }
+    }
+ */
+    function refreshTree(){
+    	$.fn.zTree.getZTreeObj("funTree").refresh();
+    }
+
+    function refreshNode() {
+		var zTree = $.fn.zTree.getZTreeObj("funTree"),
+		type = "refresh",
+		silent = false,
+		/*获取 zTree 当前被选中的节点数据集合*/
+		nodes = zTree.getSelectedNodes();
+		console.log("nodes"+nodes)
+		/*强行异步加载父节点的子节点。[setting.async.enable = true 时有效]*/
+		zTree.reAsyncChildNodes(nodes[0], type, silent);
+	}
+
+
+      
+	    
+        
+</script>
+</body>
+</html>

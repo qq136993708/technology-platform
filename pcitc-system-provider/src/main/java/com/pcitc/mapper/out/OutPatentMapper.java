@@ -1,0 +1,73 @@
+package com.pcitc.mapper.out;
+
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Param;
+
+import com.pcitc.base.stp.out.OutPatent;
+import com.pcitc.base.stp.out.OutPatentExample;
+
+public interface OutPatentMapper {
+    int countByExample(OutPatentExample example);
+
+    int deleteByExample(OutPatentExample example);
+
+    int deleteByPrimaryKey(String dataId);
+
+    int insert(OutPatent record);
+
+    int insertSelective(OutPatent record);
+
+    List<OutPatent> selectByExample(OutPatentExample example);
+
+    OutPatent selectByPrimaryKey(String dataId);
+
+    int updateByExampleSelective(@Param("record") OutPatent record, @Param("example") OutPatentExample example);
+
+    int updateByExample(@Param("record") OutPatent record, @Param("example") OutPatentExample example);
+
+    int updateByPrimaryKeySelective(OutPatent record);
+
+    int updateByPrimaryKey(OutPatent record);
+    
+    public void insertOutPatentBatch(List<OutPatent> list);
+    
+    public String getMaxImportDate();
+    
+    /**
+     * @param nd
+     * @return
+     * 得到某个年度专利申请/授权数量按专利类型分组
+     */
+    public List getWXLXInfo(String nd);
+    
+    /**
+     * @param nd
+     * @return
+     * 得到某个年度各专利类型在各个研究院的分布
+     */
+    public List getTypeInfoByUnit(String nd);
+    
+    /**
+     * @param nd
+     * @return
+     * 得到某个年度各专利类型在各个研究院、分公司、集团、外部单位、研发中心的分布
+     */
+    public List getApplyAgreeCountBySix(String nd);
+    
+    /**
+     * @param nd
+     * @return
+     * 得到某个年度专利申请/授权数量按专利类型 详情页面
+     */
+    public List getWXLXDetailsInfo(Map hashmap);
+    
+    /**
+     * @param nd
+     * @return
+     * 得到某个年度各专利类型在各个研究院的分布 详情页面
+     */
+    public List getTypeInfoByUnitDetails(Map hashmap);
+    
+}

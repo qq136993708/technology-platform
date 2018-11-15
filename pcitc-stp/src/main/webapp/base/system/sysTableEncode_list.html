@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>编码管理</title>
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/ztree/css/metroStyle/metroStyle.css">
+
+    <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+    <script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.core.js"></script>
+    <script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.excheck.min.js"></script>
+</head>
+<body>
+<div class="treeTableContainer">
+    <div class="treeBox">
+        <div class="title-box">
+            <span>功能节点菜单</span>
+        </div>
+        <div class="layui-side-scroll">
+            <!-- 左侧子菜单 -->
+            <ul id="funTree" class="ztree"></ul>
+        </div>
+    </div>
+    <div class="treeTableBox">
+        <div class="searchBox">
+            <!--查询条件-->
+            <label class="dateInput">
+                <span>编码名称</span>
+                <input type="text" name="tableEncodeName" placeholder="请输入编码名称"
+                       title="编码名称" autocomplete="off"
+                       class="form-control" id="tableEncodeName">
+            </label>
+            <!--按钮组-->
+            <div class="btnGroup">
+                <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询
+                </button>
+                <button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg"
+                        data-type="resetEvent">重置
+                </button>
+            </div>
+        </div>
+        <div class="tableToolBox">
+            <div class="whiteLine"></div>
+            <div  class="tableBtns">
+                <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg " data-type="addEvent">新增</button>
+                <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_deploy" data-type="validEvent" >启用/禁用</button>
+                <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="deleteEvent" >删除</button>
+            </div>
+        </div>
+        <table id="tableEncodeTable" class="layui-hide" lay-filter="tableEvent"></table>
+    </div>
+</div>
+<script type="text/javascript">
+	var zNodes;
+	var treeId;
+	var treeName;
+	var temFunctionId;
+	var temFunctionName;
+	
+	$(function() {
+		$.ajax({
+			url: "/function/getCommonFunctionTree",
+            type : 'get',
+            headers: {
+            	'Content-Type' : 'application/json'
+            },
+            dataType : 'json',
+            async : false,
+            success : function(data){
+            	zNodes = data;
+            },
+            error : function(msg) {
+            	alert(msg);
+            }
+        });
+	});
+    var setting = {
+        data: {
+            simpleData: {
+                enable: true
+            }
+        },
+        callback: {
+            onClick: onClickMenu
+        }
+    };
+
+    function onClickMenu(event,treeId,treeNode,clickFlag) {
+    	treeId = treeNode.id;
+    	treeName = treeNode.name;
+    	temFunctionId = treeNode.id;
+    	temFunctionName = treeNode.name;
+    	table.reload('tableList', {
+            where: {
+            	param: {functionId:treeId}
+            }
+        });
+    }
+
+    function refreshNode(e) {
+        var zTree = $.fn.zTree.getZTreeObj("funTree"),
+            type = e.data.type,
+            silent = e.data.silent,
+            nodes = zTree.getSelectedNodes();
+        if (nodes.length == 0) {
+            alert("请先选择一个父节点");
+        }
+        for (var i = 0, l = nodes.length; i < l; i++) {
+            zTree.reAsyncChildNodes(nodes[i], type, silent);
+            if (!silent) zTree.selectNode(nodes[i]);
+        }
+    }
+
+    $(document).ready(function () {
+        $.fn.zTree.init($("#funTree"), setting, zNodes);
+    });
+
+
+<!--表格js-->
+	var table
+	var selectRowData;
+    layui.use('table', function () {
+        var topBottomSumHeight=window.localStorage.getItem("topBottomSumHeight");
+    	table = layui.table;
+    	var $ = layui.jquery;
+        //渲染
+        table.render({
+            elem: '#tableEncodeTable',
+            url: '/tableEncode/getTableData',
+            method:"POST",
+            where: {param: {functionId:treeId}},
+            limit: 15,
+            id: 'tableList',
+            height: commonDislodgeTable(),
+			page: {
+                groups: 5,
+                limits: [15,30,45,60],
+                layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
+                first: '首页', //不显示首页
+                last: '尾页', //不显示尾页
+                theme: '#0F9EE0'
+            },
+            cols: [[
+            	{type:'checkbox',event: 'changeEvents'},
+                {title:'序号', type:'numbers'},
+                {field:'tableEncodeName',   title:'编码名称',  style:'cursor: pointer;',sort: true},
+                {field:'tableEncodeDemo',      title:'编码样式', style:'cursor: pointer;',sort: true},
+                {field:'tableEncodeFullValue',   title:'编码当前值',  style:'cursor: pointer;',sort: true},
+                {field:'tableEncodeAnnotation',      title:'编码KEY', style:'cursor: pointer;',sort: true},
+                {field:'tableEncodeValid',   title:'编码状态',  style:'cursor: pointer;',templet: function(d){
+                	if(d.status == 0){
+                		return "启用";
+                	} else {
+                		return "停用";
+                	}
+            	},sort: true}
+            ]],
+            done: function (res, curr, count) {
+                // 点击行联动选择框--单选
+                $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+                	var index=parseInt($(this).index()+1);
+                    $('tr').removeClass('layui-table-click');
+                    $(this).addClass('layui-table-click');
+                    $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                    $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                    selectRowData=res.data[index-1];
+                });
+            }
+        });
+        table.on('tool(tableData)', function(obj){
+            selectRowData = obj.data;
+            console.log(selectRowData)
+        });
+        var $ = layui.$, active = {
+                searchEvent: function() {
+                    var tableEncodeName = $('#tableEncodeName');
+                    table.reload('tableList', {
+                        where: {
+                        	tableEncodeName: tableEncodeName.val(),functionId:temFunctionId
+                        }
+                    });
+                },
+                addEvent: function(){
+            		if(!isBlank(temFunctionId)){
+            			layer.open({
+    	                    title:'新增',
+    	                    skin: 'layui-layer-lan',
+    	                    shadeClose: true,
+    	                    type: 2,
+    	                    fixed: false,
+    	                    maxmin: false,
+    	                    area: ['900px', '460px'],
+    	                    content:  '/tableEncode/addTableEncode?functionId='+temFunctionId
+    	                });
+	           		}else{
+	           			layer.msg("请选择树节点");
+	           		}
+                },
+                deleteEvent: function(){
+                	if (typeof(selectRowData.dataId) == "undefined"){
+               			layer.msg('请点击选择一行数据');
+	               	} else{
+	               		layer.confirm('确定要删除此数据吗', function(){
+	               			$.ajax({
+            					type : 'post',
+            					dataType : 'text',
+            		            url : '/tableEncode/deleteTableEncode?id='+selectRowData.dataId,
+            		            success : function(data) {
+            		            	if(data==200){
+            		            		layer.msg("删除成功");
+            		            		active.searchEvent();
+            		            	}
+            		            },
+            		            error : function(e) {
+            		            	layer.msg("出错了");
+            		                console.log(e);
+            		            }
+            	            });
+	               		});
+	               	}
+                },
+                resetEvent: function() {
+                	$('#tableEncodeName').val("");
+                },
+                validEvent: function() {
+                	if (typeof(selectRowData.dataId) == "undefined"){
+               			layer.msg('请点击选择一行数据');
+	               	} else{
+	               		layer.confirm('确定要变更此数据状态吗', function(){
+	               			$.ajax({
+	        					type : 'post',
+	        					dataType : 'text',
+	        		            url : '/tableEncode/modifyTableEncode?id='+selectRowData.dataId,
+	        		            success : function(data) {
+	        		            	if(data==200){
+	        		            		layer.msg("变更状态成功");
+	        		            		active.searchEvent();
+	        		            	}
+	        		            },
+	        		            error : function(e) {
+	        		            	layer.msg("出错了");
+	        		                console.log(e);
+	        		            }
+	        	            });
+	               		});
+	               	}
+                }
+        };
+
+        table.on('sort(tableEncodeTable)', function(obj){
+            console.log(this, obj.field, obj.type)
+            //服务端排序
+            table.reload('tableList', {
+                initSort: obj,
+                page: {curr: 1}, //重新从第一页开始
+                where: { //重新请求服务端
+                    key: obj.field, //排序字段
+                    order: obj.type //排序方式
+                }
+            });
+        });
+        //区别按钮属性
+        $('.layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+    });
+	function isBlank(str) {
+	    if (str == null || typeof str == "undefined" || str == "" || trim(str) == "") {
+	        return true;
+	    }
+	    return false;
+	}
+	function trim(str) {
+	    if (str == null || typeof str == "undefined") {
+	        return "";
+	    }
+	    return str.toString().replace(/(^\s+)|(\s+$)/g, "");
+	}
+	function addTableEncode(){
+		alert("/tableEncode/addTableEncode?functionId="+temFunctionId);
+		 modals.openWin({
+	              	winId:"tableEncodeModal",
+	              	title:'新增编码',
+	              	width:'900px',
+	              	url: "/tableEncode/addTableEncode?functionId="+temFunctionId,
+	          });  
+	}
+</script>
+</body>
+</html>

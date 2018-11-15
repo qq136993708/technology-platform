@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <link rel="stylesheet" href="/common/css/echart-common.css">
+</head>
+<body>
+
+<div style="text-align: center; font-weight: bold; margin: 10px;">${month}专利申请授权情况明细分析表</div>
+<table class="layui-table">
+		<thead>
+			<tr>
+				<td>专利编码</td>
+				<td>专利描述</td>
+				<td>专利类型</td>
+				<td>专业领域</td>
+				<td>权利归属</td>
+				<td>权利状态</td>
+				<td>案件进程</td>
+				<td>实施状态</td>
+				<td>专利权是否有效</td>
+				<td>课题编码</td>
+				<td>课题名称</td>
+				<td>合同号</td>
+				<td>申请提交日期</td>
+				<td>申请日</td>
+				<td>申请号</td>
+				<td>公开日</td>
+				<td>公开号</td>
+				<td>实审日</td>
+				<td>复审日</td>
+				<td>授权公告日</td>
+				<td>授权公告号</td>
+				<td>国际分类号</td>
+				<td>第一申请人</td>
+				<td>承担费用比例</td>
+				<td>共同申请人</td>
+				<td>第一发明单位</td>
+				<td>发明单位</td>
+				<td></td>
+				<td>发明人单位</td>
+				<td>发明人姓名</td>
+				<td>拟专利保护客体</td>
+				<td>应用规模</td>
+				<td>应用许可</td>
+				<td>关键字</td>
+				<td>摘要</td>
+			</tr>
+			</thead>
+			
+			
+			<tbody>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td colspan="2"></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+		</tbody>
+	</table>
+
+	<!--表格数据操作js-->
+<script src="/common/js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+<script src="/common/js/layer-v3.1.1/layer.js"></script>
+<script type="text/javascript">
+layui.config({
+    base: '/layuiadmin/module/modules/' 
+}).use(['jquery','form', 'laydate','table','laypage'], function(){
+	  $ = layui.jquery
+      ,table = layui.table
+      ,form = layui.form
+      ,laydate = layui.laydate
+	  form.render(null, 'component-form-group');
+       laydate.render({
+          elem: '#month'
+          ,format: 'yyyyMM'
+       });
+});
+
+</script>
+</body>
+</html>

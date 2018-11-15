@@ -1,0 +1,550 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pcitc.mapper.out.OutRewardMapper" >
+  <resultMap id="BaseResultMap" type="com.pcitc.base.stp.out.OutReward" >
+    <id column="data_id" property="dataId" jdbcType="VARCHAR" />
+    <result column="xmid" property="xmid" jdbcType="VARCHAR" />
+    <result column="xmbh" property="xmbh" jdbcType="VARCHAR" />
+    <result column="nd" property="nd" jdbcType="VARCHAR" />
+    <result column="xmmc" property="xmmc" jdbcType="VARCHAR" />
+    <result column="sbdw" property="sbdw" jdbcType="VARCHAR" />
+    <result column="sbjz" property="sbjz" jdbcType="VARCHAR" />
+    <result column="xkfl" property="xkfl" jdbcType="VARCHAR" />
+    <result column="sbdj" property="sbdj" jdbcType="VARCHAR" />
+    <result column="sbrq" property="sbrq" jdbcType="VARCHAR" />
+    <result column="rwly" property="rwly" jdbcType="VARCHAR" />
+    <result column="jddw" property="jddw" jdbcType="VARCHAR" />
+    <result column="hth" property="hth" jdbcType="VARCHAR" />
+    <result column="kssj" property="kssj" jdbcType="VARCHAR" />
+    <result column="jssj" property="jssj" jdbcType="VARCHAR" />
+    <result column="sbzt" property="sbzt" jdbcType="VARCHAR" />
+    <result column="psdj" property="psdj" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="create_user_id" property="createUserId" jdbcType="VARCHAR" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="define1" property="define1" jdbcType="VARCHAR" />
+    <result column="define2" property="define2" jdbcType="VARCHAR" />
+    <result column="define3" property="define3" jdbcType="VARCHAR" />
+    <result column="define4" property="define4" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    data_id, xmid, xmbh, nd, xmmc, sbdw, sbjz, xkfl, sbdj, sbrq, rwly, jddw, hth, kssj, 
+    jssj, sbzt, psdj, create_date, create_user_id, remarks, status, define1, define2, 
+    define3, define4
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.pcitc.base.stp.out.OutRewardExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from out_reward
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from out_reward
+    where data_id = #{dataId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from out_reward
+    where data_id = #{dataId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.pcitc.base.stp.out.OutRewardExample" >
+    delete from out_reward
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.pcitc.base.stp.out.OutReward" >
+    insert into out_reward (data_id, xmid, xmbh, 
+      nd, xmmc, sbdw, sbjz, 
+      xkfl, sbdj, sbrq, rwly, 
+      jddw, hth, kssj, jssj, 
+      sbzt, psdj, create_date, 
+      create_user_id, remarks, status, 
+      define1, define2, define3, 
+      define4)
+    values (#{dataId,jdbcType=VARCHAR}, #{xmid,jdbcType=VARCHAR}, #{xmbh,jdbcType=VARCHAR}, 
+      #{nd,jdbcType=VARCHAR}, #{xmmc,jdbcType=VARCHAR}, #{sbdw,jdbcType=VARCHAR}, #{sbjz,jdbcType=VARCHAR}, 
+      #{xkfl,jdbcType=VARCHAR}, #{sbdj,jdbcType=VARCHAR}, #{sbrq,jdbcType=VARCHAR}, #{rwly,jdbcType=VARCHAR}, 
+      #{jddw,jdbcType=VARCHAR}, #{hth,jdbcType=VARCHAR}, #{kssj,jdbcType=VARCHAR}, #{jssj,jdbcType=VARCHAR}, 
+      #{sbzt,jdbcType=VARCHAR}, #{psdj,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{createUserId,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{define1,jdbcType=VARCHAR}, #{define2,jdbcType=VARCHAR}, #{define3,jdbcType=VARCHAR}, 
+      #{define4,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pcitc.base.stp.out.OutReward" >
+    insert into out_reward
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="dataId != null" >
+        data_id,
+      </if>
+      <if test="xmid != null" >
+        xmid,
+      </if>
+      <if test="xmbh != null" >
+        xmbh,
+      </if>
+      <if test="nd != null" >
+        nd,
+      </if>
+      <if test="xmmc != null" >
+        xmmc,
+      </if>
+      <if test="sbdw != null" >
+        sbdw,
+      </if>
+      <if test="sbjz != null" >
+        sbjz,
+      </if>
+      <if test="xkfl != null" >
+        xkfl,
+      </if>
+      <if test="sbdj != null" >
+        sbdj,
+      </if>
+      <if test="sbrq != null" >
+        sbrq,
+      </if>
+      <if test="rwly != null" >
+        rwly,
+      </if>
+      <if test="jddw != null" >
+        jddw,
+      </if>
+      <if test="hth != null" >
+        hth,
+      </if>
+      <if test="kssj != null" >
+        kssj,
+      </if>
+      <if test="jssj != null" >
+        jssj,
+      </if>
+      <if test="sbzt != null" >
+        sbzt,
+      </if>
+      <if test="psdj != null" >
+        psdj,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="define1 != null" >
+        define1,
+      </if>
+      <if test="define2 != null" >
+        define2,
+      </if>
+      <if test="define3 != null" >
+        define3,
+      </if>
+      <if test="define4 != null" >
+        define4,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="dataId != null" >
+        #{dataId,jdbcType=VARCHAR},
+      </if>
+      <if test="xmid != null" >
+        #{xmid,jdbcType=VARCHAR},
+      </if>
+      <if test="xmbh != null" >
+        #{xmbh,jdbcType=VARCHAR},
+      </if>
+      <if test="nd != null" >
+        #{nd,jdbcType=VARCHAR},
+      </if>
+      <if test="xmmc != null" >
+        #{xmmc,jdbcType=VARCHAR},
+      </if>
+      <if test="sbdw != null" >
+        #{sbdw,jdbcType=VARCHAR},
+      </if>
+      <if test="sbjz != null" >
+        #{sbjz,jdbcType=VARCHAR},
+      </if>
+      <if test="xkfl != null" >
+        #{xkfl,jdbcType=VARCHAR},
+      </if>
+      <if test="sbdj != null" >
+        #{sbdj,jdbcType=VARCHAR},
+      </if>
+      <if test="sbrq != null" >
+        #{sbrq,jdbcType=VARCHAR},
+      </if>
+      <if test="rwly != null" >
+        #{rwly,jdbcType=VARCHAR},
+      </if>
+      <if test="jddw != null" >
+        #{jddw,jdbcType=VARCHAR},
+      </if>
+      <if test="hth != null" >
+        #{hth,jdbcType=VARCHAR},
+      </if>
+      <if test="kssj != null" >
+        #{kssj,jdbcType=VARCHAR},
+      </if>
+      <if test="jssj != null" >
+        #{jssj,jdbcType=VARCHAR},
+      </if>
+      <if test="sbzt != null" >
+        #{sbzt,jdbcType=VARCHAR},
+      </if>
+      <if test="psdj != null" >
+        #{psdj,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="define1 != null" >
+        #{define1,jdbcType=VARCHAR},
+      </if>
+      <if test="define2 != null" >
+        #{define2,jdbcType=VARCHAR},
+      </if>
+      <if test="define3 != null" >
+        #{define3,jdbcType=VARCHAR},
+      </if>
+      <if test="define4 != null" >
+        #{define4,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.pcitc.base.stp.out.OutRewardExample" resultType="java.lang.Integer" >
+    select count(*) from out_reward
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update out_reward
+    <set >
+      <if test="record.dataId != null" >
+        data_id = #{record.dataId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.xmid != null" >
+        xmid = #{record.xmid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.xmbh != null" >
+        xmbh = #{record.xmbh,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nd != null" >
+        nd = #{record.nd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.xmmc != null" >
+        xmmc = #{record.xmmc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sbdw != null" >
+        sbdw = #{record.sbdw,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sbjz != null" >
+        sbjz = #{record.sbjz,jdbcType=VARCHAR},
+      </if>
+      <if test="record.xkfl != null" >
+        xkfl = #{record.xkfl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sbdj != null" >
+        sbdj = #{record.sbdj,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sbrq != null" >
+        sbrq = #{record.sbrq,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rwly != null" >
+        rwly = #{record.rwly,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jddw != null" >
+        jddw = #{record.jddw,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hth != null" >
+        hth = #{record.hth,jdbcType=VARCHAR},
+      </if>
+      <if test="record.kssj != null" >
+        kssj = #{record.kssj,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jssj != null" >
+        jssj = #{record.jssj,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sbzt != null" >
+        sbzt = #{record.sbzt,jdbcType=VARCHAR},
+      </if>
+      <if test="record.psdj != null" >
+        psdj = #{record.psdj,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDate != null" >
+        create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createUserId != null" >
+        create_user_id = #{record.createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remarks != null" >
+        remarks = #{record.remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.define1 != null" >
+        define1 = #{record.define1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.define2 != null" >
+        define2 = #{record.define2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.define3 != null" >
+        define3 = #{record.define3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.define4 != null" >
+        define4 = #{record.define4,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update out_reward
+    set data_id = #{record.dataId,jdbcType=VARCHAR},
+      xmid = #{record.xmid,jdbcType=VARCHAR},
+      xmbh = #{record.xmbh,jdbcType=VARCHAR},
+      nd = #{record.nd,jdbcType=VARCHAR},
+      xmmc = #{record.xmmc,jdbcType=VARCHAR},
+      sbdw = #{record.sbdw,jdbcType=VARCHAR},
+      sbjz = #{record.sbjz,jdbcType=VARCHAR},
+      xkfl = #{record.xkfl,jdbcType=VARCHAR},
+      sbdj = #{record.sbdj,jdbcType=VARCHAR},
+      sbrq = #{record.sbrq,jdbcType=VARCHAR},
+      rwly = #{record.rwly,jdbcType=VARCHAR},
+      jddw = #{record.jddw,jdbcType=VARCHAR},
+      hth = #{record.hth,jdbcType=VARCHAR},
+      kssj = #{record.kssj,jdbcType=VARCHAR},
+      jssj = #{record.jssj,jdbcType=VARCHAR},
+      sbzt = #{record.sbzt,jdbcType=VARCHAR},
+      psdj = #{record.psdj,jdbcType=VARCHAR},
+      create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      create_user_id = #{record.createUserId,jdbcType=VARCHAR},
+      remarks = #{record.remarks,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=VARCHAR},
+      define1 = #{record.define1,jdbcType=VARCHAR},
+      define2 = #{record.define2,jdbcType=VARCHAR},
+      define3 = #{record.define3,jdbcType=VARCHAR},
+      define4 = #{record.define4,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.stp.out.OutReward" >
+    update out_reward
+    <set >
+      <if test="xmid != null" >
+        xmid = #{xmid,jdbcType=VARCHAR},
+      </if>
+      <if test="xmbh != null" >
+        xmbh = #{xmbh,jdbcType=VARCHAR},
+      </if>
+      <if test="nd != null" >
+        nd = #{nd,jdbcType=VARCHAR},
+      </if>
+      <if test="xmmc != null" >
+        xmmc = #{xmmc,jdbcType=VARCHAR},
+      </if>
+      <if test="sbdw != null" >
+        sbdw = #{sbdw,jdbcType=VARCHAR},
+      </if>
+      <if test="sbjz != null" >
+        sbjz = #{sbjz,jdbcType=VARCHAR},
+      </if>
+      <if test="xkfl != null" >
+        xkfl = #{xkfl,jdbcType=VARCHAR},
+      </if>
+      <if test="sbdj != null" >
+        sbdj = #{sbdj,jdbcType=VARCHAR},
+      </if>
+      <if test="sbrq != null" >
+        sbrq = #{sbrq,jdbcType=VARCHAR},
+      </if>
+      <if test="rwly != null" >
+        rwly = #{rwly,jdbcType=VARCHAR},
+      </if>
+      <if test="jddw != null" >
+        jddw = #{jddw,jdbcType=VARCHAR},
+      </if>
+      <if test="hth != null" >
+        hth = #{hth,jdbcType=VARCHAR},
+      </if>
+      <if test="kssj != null" >
+        kssj = #{kssj,jdbcType=VARCHAR},
+      </if>
+      <if test="jssj != null" >
+        jssj = #{jssj,jdbcType=VARCHAR},
+      </if>
+      <if test="sbzt != null" >
+        sbzt = #{sbzt,jdbcType=VARCHAR},
+      </if>
+      <if test="psdj != null" >
+        psdj = #{psdj,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="define1 != null" >
+        define1 = #{define1,jdbcType=VARCHAR},
+      </if>
+      <if test="define2 != null" >
+        define2 = #{define2,jdbcType=VARCHAR},
+      </if>
+      <if test="define3 != null" >
+        define3 = #{define3,jdbcType=VARCHAR},
+      </if>
+      <if test="define4 != null" >
+        define4 = #{define4,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where data_id = #{dataId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.out.OutReward" >
+    update out_reward
+    set xmid = #{xmid,jdbcType=VARCHAR},
+      xmbh = #{xmbh,jdbcType=VARCHAR},
+      nd = #{nd,jdbcType=VARCHAR},
+      xmmc = #{xmmc,jdbcType=VARCHAR},
+      sbdw = #{sbdw,jdbcType=VARCHAR},
+      sbjz = #{sbjz,jdbcType=VARCHAR},
+      xkfl = #{xkfl,jdbcType=VARCHAR},
+      sbdj = #{sbdj,jdbcType=VARCHAR},
+      sbrq = #{sbrq,jdbcType=VARCHAR},
+      rwly = #{rwly,jdbcType=VARCHAR},
+      jddw = #{jddw,jdbcType=VARCHAR},
+      hth = #{hth,jdbcType=VARCHAR},
+      kssj = #{kssj,jdbcType=VARCHAR},
+      jssj = #{jssj,jdbcType=VARCHAR},
+      sbzt = #{sbzt,jdbcType=VARCHAR},
+      psdj = #{psdj,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=VARCHAR},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      define1 = #{define1,jdbcType=VARCHAR},
+      define2 = #{define2,jdbcType=VARCHAR},
+      define3 = #{define3,jdbcType=VARCHAR},
+      define4 = #{define4,jdbcType=VARCHAR}
+    where data_id = #{dataId,jdbcType=VARCHAR}
+  </update>
+  
+  <insert id="insertOutRewardBatch" parameterType="java.util.List">
+		insert into out_reward (data_id, xmid, xmbh, 
+						      nd, xmmc, sbdw, sbjz, 
+						      xkfl, sbdj, sbrq, rwly, 
+						      jddw, hth, kssj, jssj, 
+						      sbzt, psdj, create_date, 
+						      create_user_id, remarks, status, 
+						      define1, define2, define3, 
+						      define4)
+		values
+		<foreach collection="list" item="patent" index="index"
+			separator=",">
+			(#{patent.dataId,jdbcType=VARCHAR}, #{patent.xmid,jdbcType=VARCHAR}, #{patent.xmbh,jdbcType=VARCHAR}, 
+      		#{patent.nd,jdbcType=VARCHAR}, #{patent.xmmc,jdbcType=VARCHAR}, #{patent.sbdw,jdbcType=VARCHAR}, 
+      		#{patent.sbjz,jdbcType=VARCHAR}, #{patent.xkfl,jdbcType=VARCHAR}, #{patent.sbdj,jdbcType=VARCHAR}, 
+      		#{patent.sbrq,jdbcType=VARCHAR}, #{patent.rwly,jdbcType=VARCHAR}, #{patent.jddw,jdbcType=VARCHAR}, 
+      		#{patent.hth,jdbcType=VARCHAR}, #{patent.kssj,jdbcType=VARCHAR}, #{patent.jssj,jdbcType=VARCHAR}, 
+      		#{patent.sbzt,jdbcType=VARCHAR}, #{patent.psdj,jdbcType=VARCHAR}, #{patent.createDate,jdbcType=TIMESTAMP}, 
+      		#{patent.createUserId,jdbcType=VARCHAR}, #{patent.remarks,jdbcType=VARCHAR}, #{patent.status,jdbcType=VARCHAR}, 
+      		#{patent.define1,jdbcType=VARCHAR}, #{patent.define2,jdbcType=VARCHAR}, #{patent.define3,jdbcType=VARCHAR}, 
+      		#{patent.define4,jdbcType=VARCHAR})
+		</foreach>
+	</insert>
+</mapper>

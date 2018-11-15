@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pcitc.mapper.system.SysRestfulapiMapper">
+  <resultMap id="BaseResultMap" type="com.pcitc.base.system.SysRestfulapi">
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="create_date" jdbcType="VARCHAR" property="createDate" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="update_date" jdbcType="VARCHAR" property="updateDate" />
+    <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
+    <result column="remarks" jdbcType="VARCHAR" property="remarks" />
+    <result column="restfulapi_id" jdbcType="VARCHAR" property="restfulapiId" />
+    <result column="restfulapi_code" jdbcType="VARCHAR" property="restfulapiCode" />
+    <result column="audit_status" jdbcType="VARCHAR" property="auditStatus" />
+    <result column="restfulapi_user" jdbcType="VARCHAR" property="restfulapiUser" />
+    <result column="restfulapi_address" jdbcType="VARCHAR" property="restfulapiAddress" />
+    <result column="restfulapi_port" jdbcType="VARCHAR" property="restfulapiPort" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    create_user, create_date, status, update_date, update_user, remarks, restfulapi_id, 
+    restfulapi_code, audit_status, restfulapi_user, restfulapi_address, restfulapi_port
+  </sql>
+  <select id="selectByExample" parameterType="com.pcitc.base.system.SysRestfulapiExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sys_restfulapi
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_restfulapi
+    where restfulapi_id = #{restfulapiId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from sys_restfulapi
+    where restfulapi_id = #{restfulapiId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.pcitc.base.system.SysRestfulapiExample">
+    delete from sys_restfulapi
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.pcitc.base.system.SysRestfulapi">
+    insert into sys_restfulapi (create_user, create_date, status, 
+      update_date, update_user, remarks, 
+      restfulapi_id, restfulapi_code, audit_status, 
+      restfulapi_user, restfulapi_address, restfulapi_port
+      )
+    values (#{createUser,jdbcType=VARCHAR}, #{createDate,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{updateDate,jdbcType=VARCHAR}, #{updateUser,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, 
+      #{restfulapiId,jdbcType=VARCHAR}, #{restfulapiCode,jdbcType=VARCHAR}, #{auditStatus,jdbcType=VARCHAR}, 
+      #{restfulapiUser,jdbcType=VARCHAR}, #{restfulapiAddress,jdbcType=VARCHAR}, #{restfulapiPort,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.pcitc.base.system.SysRestfulapi">
+    insert into sys_restfulapi
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="createUser != null">
+        create_user,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="updateDate != null">
+        update_date,
+      </if>
+      <if test="updateUser != null">
+        update_user,
+      </if>
+      <if test="remarks != null">
+        remarks,
+      </if>
+      <if test="restfulapiId != null">
+        restfulapi_id,
+      </if>
+      <if test="restfulapiCode != null">
+        restfulapi_code,
+      </if>
+      <if test="auditStatus != null">
+        audit_status,
+      </if>
+      <if test="restfulapiUser != null">
+        restfulapi_user,
+      </if>
+      <if test="restfulapiAddress != null">
+        restfulapi_address,
+      </if>
+      <if test="restfulapiPort != null">
+        restfulapi_port,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUser != null">
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null">
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="restfulapiId != null">
+        #{restfulapiId,jdbcType=VARCHAR},
+      </if>
+      <if test="restfulapiCode != null">
+        #{restfulapiCode,jdbcType=VARCHAR},
+      </if>
+      <if test="auditStatus != null">
+        #{auditStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="restfulapiUser != null">
+        #{restfulapiUser,jdbcType=VARCHAR},
+      </if>
+      <if test="restfulapiAddress != null">
+        #{restfulapiAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="restfulapiPort != null">
+        #{restfulapiPort,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.pcitc.base.system.SysRestfulapiExample" resultType="java.lang.Long">
+    select count(*) from sys_restfulapi
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update sys_restfulapi
+    <set>
+      <if test="record.createUser != null">
+        create_user = #{record.createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDate != null">
+        create_date = #{record.createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateDate != null">
+        update_date = #{record.updateDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateUser != null">
+        update_user = #{record.updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remarks != null">
+        remarks = #{record.remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="record.restfulapiId != null">
+        restfulapi_id = #{record.restfulapiId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.restfulapiCode != null">
+        restfulapi_code = #{record.restfulapiCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.auditStatus != null">
+        audit_status = #{record.auditStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.restfulapiUser != null">
+        restfulapi_user = #{record.restfulapiUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.restfulapiAddress != null">
+        restfulapi_address = #{record.restfulapiAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.restfulapiPort != null">
+        restfulapi_port = #{record.restfulapiPort,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update sys_restfulapi
+    set create_user = #{record.createUser,jdbcType=VARCHAR},
+      create_date = #{record.createDate,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=VARCHAR},
+      update_date = #{record.updateDate,jdbcType=VARCHAR},
+      update_user = #{record.updateUser,jdbcType=VARCHAR},
+      remarks = #{record.remarks,jdbcType=VARCHAR},
+      restfulapi_id = #{record.restfulapiId,jdbcType=VARCHAR},
+      restfulapi_code = #{record.restfulapiCode,jdbcType=VARCHAR},
+      audit_status = #{record.auditStatus,jdbcType=VARCHAR},
+      restfulapi_user = #{record.restfulapiUser,jdbcType=VARCHAR},
+      restfulapi_address = #{record.restfulapiAddress,jdbcType=VARCHAR},
+      restfulapi_port = #{record.restfulapiPort,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.system.SysRestfulapi">
+    update sys_restfulapi
+    set 
+      create_user = #{createUser,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=VARCHAR},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      restfulapi_code= #{restfulapiCode,jdbcType=VARCHAR},
+      restfulapi_user= #{restfulapiUser,jdbcType=VARCHAR},
+      restfulapi_address= #{restfulapiAddress,jdbcType=VARCHAR},
+      restfulapi_port= #{restfulapiPort,jdbcType=VARCHAR},
+      remarks = #{remarks,jdbcType=VARCHAR}
+    where restfulapi_id = #{restfulapiId,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	<title>国际科技合作项目管理</title>
+	<link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
+	<link rel="stylesheet" type="text/css" href="/layuiadmin/ztree/css/metroStyle/metroStyle.css">
+	<link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
+	
+	<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+	<script type="text/javascript">
+		layui.use(['jquery','form','laydate','table', 'layer', 'element','publicMethods'], function(){
+	    	var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate,
+	            form = layui.form,publicMethods=layui.publicMethods,table = layui.table,selectRowData;
+	    		function renderTable(where){
+	    			var lodingMsg = layer.msg('数据加载中....');
+	    			var param = JSON.parse(window.localStorage.getItem("param"));
+	    			table.render({
+			            elem: '#infoTable',
+			            url: '/project/info-list',
+			            limit : param.selfRownum,
+			            method:"POST",
+			            where: where,
+			        	id: 'infoTable',
+			            height: commonDislodgeTable(),
+			            page: {
+			                groups: 5
+			                ,limits : [ param.selfRownum, 15, 30, 45, 60 ]
+			                ,layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+			                ,first: '首页' //不显示首页
+			                ,last: '尾页' //不显示尾页
+			                ,theme: '#0F9EE0'
+				        },
+			            cols: [[
+			            	 {type:'checkbox'}
+			            	,{title:'序号', type:'numbers'}
+			                ,{field:'projectName',   title:'立项名称',    width: '13%',  style:'cursor: pointer;'}
+			                ,{field:'projectCode',title:'立项编码',	width: '10%',   style:'cursor: pointer;'}
+			                ,{field:'applyId',title:'项目名称',	width: '13%',   style:'cursor: pointer;'}
+			                ,{field:'moneyRmb',title:'总投资(万元)',	width: '10%',   style:'cursor: pointer;',align:"right"}
+			                ,{field:'flowAgreementReview',title:'协议审查',   style:'cursor: pointer;',align:"left"}
+			                ,{field:'flowTechnologyReview',  title:'专业技术审查',style:'cursor: pointer;',align:"left"}
+			                ,{field:'flowKnowledgeReview',  title:'知识产权审查',style:'cursor: pointer;',align:"left"}
+			                ,{field:'flowComprehensiveReview',  title:'综合审查',style:'cursor: pointer;',align:"left"}
+			            
+			            ]],
+			            done: function (res, curr, count) {
+			            	layer.close(lodingMsg);
+			                // 点击行联动选择框--单选
+			                $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+			                	var index=parseInt($(this).index()+1);
+			                    $('tr').removeClass('layui-table-click');
+			                    $(this).addClass('layui-table-click');
+			                    $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+			                    $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+			                    selectRowData=res.data[index-1];
+			                }); 
+			                $.each(res.data,function(i,dt){
+				            	//显示字典数据
+				            	$("tr[data-index='"+i+"'] td[data-field='flowAgreementReview'] div").html(res.data[i].flowAgreementReviewStatus==0?"待审查":"已通过&nbsp;&nbsp;"+(res.data[i].flowAgreementReview==null?"":res.data[i].flowAgreementReview));
+				            	$("tr[data-index='"+i+"'] td[data-field='flowTechnologyReview'] div").html(res.data[i].flowTechnologyReviewStatus==0?"待审查":"已通过&nbsp;&nbsp;"+(res.data[i].flowTechnologyReview==null?"":res.data[i].flowTechnologyReview));
+				            	$("tr[data-index='"+i+"'] td[data-field='flowKnowledgeReview'] div").html(res.data[i].flowKnowledgeReviewStatus==0?"待审查":"已通过&nbsp;&nbsp;"+(res.data[i].flowKnowledgeReview==null?"":res.data[i].flowKnowledgeReview));
+				            	$("tr[data-index='"+i+"'] td[data-field='flowComprehensiveReview'] div").html(res.data[i].flowComprehensiveReviewStatus==0?"待审查":"已通过&nbsp;&nbsp;"+(res.data[i].flowComprehensiveReview==null?"":res.data[i].flowComprehensiveReview));
+				        
+				            	publicMethods.ajaxPost('/project/get-apply', {"applyId":res.data[i].applyId}, function (data, status) {
+				            		$("tr[data-index='"+i+"'] td[data-field='applyId'] div").html(data.applyName);
+				            		$("tr[data-index='"+i+"'] td[data-field='moneyRmb'] div").html(data.moneyRmb);
+				            		
+					            });
+				            });
+			            }
+			        });
+	    			renderfunc = function removeHeaderCheckbox(){
+		    	    	$(".layui-table-header table thead th input").remove();  //移除表头的复选框,去掉全选
+		    	    }
+	    			renderfunc();
+	    		}
+	    		renderTable();
+	    		
+	    		table.on('rowDouble(infoEvent)', function(obj){
+	    			var temUrl = '/intl_project/info_view?projectId='+obj.data.projectId;
+	            	publicMethods.openBaseWinFull("详情",temUrl);
+	            });
+				$(".layui-table-header table thead th input").remove();  //移除表头的复选框,去掉全选
+		     	// 触发不同的按钮事件
+		        var $ = layui.$, active = {
+		            searchEvent: function() { //点击查询按钮
+		            	renderTable({param: {"infoName":$("#infoName").val()}});
+		            	//table.reload("infoTable",{where:{param: {"infoName":$("#infoName").val()}}});
+		            },resetEvent: function() { 
+		            	//点击重置按钮
+		                $("#infoName").val("");
+		                renderTable({param: {"infoName":$("#infoName").val()}});
+		            },addEvent: function(){ 
+		            	//点击新增按钮
+		            	var temUrl = '/intl_project/info_edit';
+		            	publicMethods.openBaseWinFull("新增",temUrl);
+		            },editEvent: function(){  
+		            	//点击编辑按钮
+		            	if(!selectRowData){
+		            		layer.msg('请点击选择一行数据!');
+		            		return;
+		            	}
+		            	var temUrl = '/intl_project/info_edit?projectId='+selectRowData.projectId;
+		            	publicMethods.openBaseWinFull("编辑",temUrl);
+		            },exportEvent:function(){
+		            	if(!selectRowData){
+		            		layer.msg('请点击选择一行数据!');
+		            		return;
+		            	}
+		            	window.open("/intl_project/report_download/info/"+selectRowData.projectId);
+		            },detailEvent:function(){
+		            	if(!selectRowData){
+		            		layer.msg('请点击选择一行数据!');
+		            		return;
+		            	}
+		            	var temUrl = '/intl_project/info_view?projectId='+selectRowData.projectId;
+		            	publicMethods.openBaseWinFull("详情",temUrl);
+		            },commitEvent:function(){
+		            	if(!selectRowData){
+		            		layer.msg('请点击选择一行数据!');
+		            		return;
+		            	}
+		            	layer.confirm('提交后将不可再编辑，确定要提交吗？',{title:"提交确认"},function(index){
+							layer.close(index);
+							publicMethods.ajaxPost("/project/start-workflow?applyId=" + selectRowData.applyId, null, function (data) {
+		          	           if (data.success) {
+		          	        	 renderTable({param: {"applyName":$("#applyName").val()}});
+		          	           } else {
+		          	        	 layer.msg('操作异常，请重试!');
+		          	           }
+		          	       });
+		          	   });
+		            },closeEvent:function(){
+		            	if(!selectRowData){
+		            		layer.msg('请点击选择一行数据!');
+		            		return;
+		            	} 
+		            	layer.confirm('确定要删除吗？',{title:"删除确认"},function(index){
+							layer.close(index);
+							publicMethods.ajaxPost("/project/close-project", {projectId:selectRowData.projectId}, function (data) {
+			                     if (data.success) {
+			                    	 table.reload("infoTable",{where:{param: {"infoName":$("#infoName").val()}}});
+			                     } else {
+			                    	 layer.msg('操作异常，请重试!');
+			                     }
+			                });
+		            	});
+		            },deleteEvent: function(){  //点击删除按钮
+		            	//var dt = table.checkStatus('userTable').data;
+		            	if(!selectRowData){
+		            		layer.msg('请选择要删除的数据!');
+		            		return;
+		            	}
+						layer.confirm('确定要删除吗？',{title:"删除确认"},function(index){
+							layer.close(index);
+							publicMethods.ajaxPost("/project/del-project", {projectId:selectRowData.projectId}, function (data) {
+			                     if (data.success) {
+			                    	 table.reload("infoTable",{param: {"infoName":$("#infoName").val()}});
+			                     } else {
+			                    	 layer.msg('操作异常，请重试!');
+			                     }
+			                });
+		            	});
+		            }
+		        };
+		        //区别按钮属性
+		        $('.layui-btn').on('click', function(){
+		            var type = $(this).data('type');
+		            active[type] ? active[type].call(this) : '';
+		        });
+		        
+		        
+			});
+</script>
+</head>
+<body>
+<div class="searchBox">
+    <label class="dateInput">
+        <span>项目名称</span>
+        <input type="text" name="infoName" id="infoName" placeholder="请输入立项项目名称"  autocomplete="off" class="form-control">
+    </label>
+    <div class="btnGroup">
+        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>
+        <button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg" data-type="resetEvent">重置</button>
+    </div>
+</div>
+<div class="tableBox">
+    <div class="tableToolBox">
+        <div class="whiteLine"></div>
+        <div  class="tableBtns">
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg" data-type="addEvent">新增</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg" data-type="editEvent">编辑</button>
+         	<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_details btnMyBgImg" data-type="detailEvent">查看</button>
+         	<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_export btnMyBgImg" data-type="exportEvent">下载</button>
+         	<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_deploy btnMyBgImg" data-type="commitEvent">提交</button>
+         	<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="closeEvent">删除</button>
+         	<!-- <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="deleteEvent">删除</button> -->
+        </div>
+    </div>
+    <table id="infoTable" class="layui-hide"  lay-filter="infoEvent"></table>
+</div>
+<body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <meta charset="utf-8">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="format-detection" content="telephone=no">
+  <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css">
+  <link rel="stylesheet" href="/layuiadmin/style/common.css">
+  <script src="/common/js/jquery-1.11.3.min.js"></script>
+  <script src="/layuiadmin/layui/layui.js"></script>
+</head>
+<body>
+<div class="formBox">
+    <form id="upload-form" name="upload-form" method="post" lay-filter="upload-form" class="form-horizontal layui-form">
+     <input type="hidden"  name="file_edit_detail"     id="file_edit_detail" value="${file_edit_detail}" >
+     <input type="hidden"  name="file_opt_flag"        id="file_opt_flag"    value="${file_opt_flag}">
+     <input type="hidden"  name="file_ids"             id="file_ids"         value="${file_ids}">
+     <input type="hidden"  name="file_ids_value"       id="file_ids_value"   value="${file_ids_value}">
+     
+     
+     
+	     <div class="tableBox">
+			<div class="tableToolBox">
+	                <div class="layui-form-item">
+	                   <input type="hidden" name="${file_ids}" id="${file_ids}" value="">
+	                <div id="file_upload">
+	                </div>
+	            </div>
+	        </div>
+	     </div>
+        <div class="form-bottom">
+            <div class="form-bottom-btns">
+                <a class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue"  onclick="save_file()">保存</a>
+                <a type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white"  onclick="cancle_file()">取消</a>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+var file_ids =       $("#file_ids").val();
+file_edit_detail =   $("#file_edit_detail").val();
+file_opt_flag =      $("#file_opt_flag").val();
+
+var file_ids_value=$("#file_ids_value").val();
+if(file_ids_value!=null && file_ids_value!='')
+{
+	$("#"+file_ids).val(file_ids_value);
+}
+	
+//alert("file_ids="+file_ids+" file_edit_detail="+file_edit_detail+" file_opt_flag="+file_opt_flag);
+$("#file_upload").load('/common/public/uploadlayuiload.html');
+function save_file()
+{
+	var file_value=$("#"+file_ids).val();
+	if(file_value==null || file_value=='')
+	{
+		parent.window.document.getElementById(""+file_ids).value="";
+	}else
+	{
+		parent.window.document.getElementById(""+file_ids).value=file_value;
+		
+	}
+	var index = parent.layer.getFrameIndex(window.name);
+	parent.layer.close(index);
+}
+function cancle_file()
+{
+	var index = parent.layer.getFrameIndex(window.name);
+	parent.layer.close(index);
+
+}
+
+</script>
+</body>
+</html>

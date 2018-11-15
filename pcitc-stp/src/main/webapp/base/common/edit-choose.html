@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>科技管理平台</title>
+    <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+    <!-- <#include "/common/public/publicDetails.html"/> -->
+    <link rel="stylesheet" href="/plugins/fonts/font-awesome-4.4.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="/plugins/bootstrap-treeview/bootstrap-treeview.css">
+<link rel="stylesheet" href="/plugins/bootstrap-validator/css/bootstrap-validator.css">
+<link rel="stylesheet" href="/plugins/datatables/dataTables.bootstrap.css">
+<link rel="stylesheet" href="/plugins/datatables/jquery.dataTables.min.css">
+<link rel="stylesheet" href="/plugins/datatables/jquery.dataTables_themeroller.css">
+<link rel="stylesheet" href="/plugins/datatables/select.bootstrap.min.css">
+<link rel="stylesheet" href="/plugins/jvectormap/jquery-jvectormap-1.2.2.css">
+<link rel="stylesheet" href="/plugins/iCheck/all.css">
+<link rel="stylesheet" href="/plugins/ionicons/ionicons.min.css">
+<link rel="stylesheet" href="/plugins/datepicker/datepicker3.css">
+<link rel="stylesheet" href="/plugins/select2/select2.min.css">
+<link rel="stylesheet" href="/dist/css/AdminLTE.min-new.css">
+<link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="/common/css/base.css">
+<link rel="stylesheet" href="/common/css/global.css">
+<link rel="stylesheet" href="/common/css/index.css">
+<link rel="stylesheet" href="/common/css/from.css">
+<link rel="stylesheet" href="/common/css/decision.css">
+<script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/plugins/datepicker/bootstrap-datepicker.js"></script>
+<script type="text/javascript" src="/plugins/datepicker/locales/bootstrap-datepicker.zh-CN.js"></script>
+<script type="text/javascript" src="/plugins/daterangepicker/daterangepicker.js"></script>
+<script type="text/javascript" src="/plugins/daterangepicker/moment.js"></script>
+<script type="text/javascript" src="/plugins/datatables/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="/plugins/datatables/dataTables.bootstrap.min.js"></script>
+<script type="text/javascript" src="/plugins/bootstrap-treeview/bootstrap-treeview.js"></script>
+<script type="text/javascript" src="/plugins/bootstrap-validator/js/bootstrap-validator.js"></script>
+<script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
+<script type="text/javascript" src="/plugins/echarts/walden.js"></script>
+<script type="text/javascript" src="/plugins/fastclick/fastclick.js"></script>
+<script type="text/javascript" src="/plugins/iCheck/icheck.min.js"></script>
+<script type="text/javascript" src="/plugins/select2/select2.min.js"></script>
+<script type="text/javascript" src="/plugins/avatar/swfobject.js"></script>
+<script type="text/javascript" src="/plugins/avatar/fullAvatarEditor.js"></script>
+<script type="text/javascript" src="/dist/js/jquery.validationEngine.js"></script>
+    <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+<script type="text/javascript" src="/common/js/base-form.js"></script>
+<script type="text/javascript" src="/common/js/base-datasource.js"></script>
+<script type="text/javascript" src="/common/js/base-org.js"></script>
+<script type="text/javascript" src="/common/js/base-modal.js"></script>
+<script type="text/javascript" src="/plugins/slimScroll/jquery.slimscroll.js"></script>
+<script type="text/javascript" src="/common/js/dataTables.js"></script>
+<script type="text/javascript" src="/common/js/details.js"></script>
+<script type="text/javascript" src="/bootstrap/bootstrap-validator/js/bootstrapValidator.js"></script>
+	<style>
+	.box-body .choose{ background: #4ec870;border: 1px solid #4ec870;width: 58px;}
+.box-body .choose:hover{background: #6cd68a;border: 1px solid #6cd68a;}
+.box-body .choose:active{background: #42b663; border: #42b663;}
+.box-body .row-right .choose{margin: 10px auto; display: block;}.box-body .choose{ background: #4ec870;border: 1px solid #4ec870;width: 58px;}
+.box-body .choose:hover{background: #6cd68a;border: 1px solid #6cd68a;}
+.box-body .choose:active{background: #42b663; border: #42b663;}
+.box-body .row-right .choose{margin: 10px auto; display: block;}
+	</style>
+</head>
+<form id="user-form" name="user-form" class="form-horizontal bv-form" novalidate="novalidate">
+    <div class="box-body">
+        <div class="row-left">
+            <!--行只有一个的情况，改变input的宽度可改变col-sm-(n)-->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="name" class="col-sm-3 control-label bb-title">姓名</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" id="name" name="name" placeholder="姓名" data-bv-field="name" type="text">
+                            <span class="must-fill">*</span>
+                            <i style="display: none;" class="form-control-feedback" data-bv-icon-for="name"></i>
+                            <small style="display: none;" data-bv-validator="notEmpty" data-bv-validator-for="name" class="help-block">请输入姓名</small></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="name" class="col-sm-3 control-label bb-title">姓名</label>
+                        <div class="col-sm-6">
+                            <input class="form-control" id="name" name="name" placeholder="姓名" data-bv-field="name" type="text">
+                            <span class="must-fill">*</span>
+                            <i style="display: none;" class="form-control-feedback" data-bv-icon-for="name"></i>
+                            <small style="display: none;" data-bv-validator="notEmpty" data-bv-validator-for="name" class="help-block">请输入姓名</small></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="name" class="col-sm-3 control-label bb-title">姓名</label>
+                        <div class="col-sm-6">
+                            <input class="form-control" id="name" name="name" placeholder="姓名" data-bv-field="name" type="text">
+                            <i style="display: none;" class="form-control-feedback" data-bv-icon-for="name"></i>
+                            <small style="display: none;" data-bv-validator="notEmpty" data-bv-validator-for="name" class="help-block">请输入姓名</small>
+                        </div>
+                        <button type="button" id="choose" class="btn btn-primary col-sm-2 choose" data-btn-type="choose">选择</button>
+                    </div>
+                </div>
+            </div>
+            <!--行有两个的情况-->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="name" class="col-sm-3 control-label bb-title">姓名</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" id="name" name="name" placeholder="姓名" data-bv-field="name" type="text">
+                            <span class="must-fill">*</span>
+                            <i style="display: none;" class="form-control-feedback" data-bv-icon-for="name"></i>
+                            <small style="display: none;" data-bv-validator="notEmpty" data-bv-validator-for="name" class="help-block">请输入姓名</small></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="birthday" class="col-sm-3 control-label bb-title">出生日期</label>
+                        <div class="col-sm-8">
+                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                            <input class="form-control" data-flag="datepicker" data-format="yyyy-mm-dd"
+                                   name="birthday" id="birthday" placeholder="出生日期" data-bv-field="birthday"
+                                   type="text">
+                            <i style="display: none;" class="form-control-feedback" data-bv-icon-for="birthday"></i>
+                            <small style="display: none;" data-bv-validator="notEmpty" data-bv-validator-for="birthday" class="help-block">请输入出生日期</small><small style="display: none;" data-bv-validator="date" data-bv-validator-for="birthday" class="help-block">请输入有效日期</small></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="telphone" class="col-sm-3 control-label bb-title">座机</label>
+
+                        <div class="col-sm-8">
+                            <input class="form-control" id="telphone" name="telphone" placeholder="座机" type="text">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email" class="col-sm-3 control-label bb-title">Email</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" id="email" name="email" placeholder="Email" data-bv-field="email" type="text"><i style="display: none;" class="form-control-feedback" data-bv-icon-for="email"></i>
+                            <small style="display: none;" data-bv-validator="notEmpty" data-bv-validator-for="email" class="help-block">请输入邮件</small><small style="display: none;" data-bv-validator="emailAddress" data-bv-validator-for="email" class="help-block">非法的邮件格式</small></div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">性别</label>
+                        <div class="col-sm-8 cmRadio">
+                            <label class="col-sm-12">
+                                <input id="ra1" type="radio" value="0" name="gender" checked="true"/>
+                                <label name="gender" class="checked radio" for="ra1">男男男</label>
+                                <input id="ra2" type="radio" value="1" name="gender" />
+                                <label name="gender" for="ra2" class="radio">女女</label>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="col-sm-3 control-label">复选框</label>
+                        <div class="col-sm-8">
+                            <label class="checkbox"><input type="checkbox"><i>✓</i>复选框</label>
+                            <label class="checkbox"><input type="checkbox"><i>✓</i>复选框</label>
+                            <label class="checkbox"><input type="checkbox"><i>✓</i>复选框</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="col-sm-3 control-label">文本域</label>
+                        <div class="col-sm-8">
+                            <textarea name="" id="" cols="40" rows="5"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--文本域-->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="" class="col-sm-3 control-label bb-title">文本域</label>
+                        <div class="col-sm-9 bb-content">
+                            <!--cols是修改列，rows是修改行-->
+                            <textarea name="" id="" cols="113" rows="5"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="" class="col-sm-3 control-label bb-title">文本域</label>
+                        <div class="col-sm-6 bb-content">
+                            <!--cols是修改列，rows是修改行-->
+                            <textarea name="" id="" cols="40" rows="5"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="name" class="col-sm-3 control-label bb-title">请选择请选择请选</label>
+                        <div class="col-sm-8">
+                            <select class="countrypicker-new cb-select" data-live-search="true" data-flag="false">
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>1</option>
+                                <option>2</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row-right hide">
+            <button type="button" id="close" class="btn btn-primary choose" data-btn-type="close">选择</button>
+            <div id="tree1" style="height :500px"> </div>
+        </div>
+    </div>
+    <!-- /.box-body -->
+    <div class="box-footer text-right">
+        <!--以下两种方式提交验证,根据所需选择-->
+        <button type="button" class="btn btn-default" data-btn-type="cancel" data-dismiss="modal">取消</button>
+        <button type="submit" class="btn btn-primary" data-btn-type="save">提交</button>
+    </div>
+    <!-- /.box-footer -->
+    <input value="" type="hidden">
+</form>
+<!--在添加另一个页面的html-->
+<div id="ifrID"></div>
+</html>
+<script type="text/javascript">
+    $(function(){
+        /*$("#ifrID").load(basePath+"/modal/user/edit-.html");*/
+        var beginTimeTake;
+        $('.countrypicker-new').select2({
+            language: 'zh-CN',
+            width: '100%',
+            placeholder: '请选择',
+        });
+
+        $('#birthday').datepicker({
+            language: 'zh-CN',
+            autoclose: true,
+            todayHighlight: true
+        });
+        $("#choose").on("click",function(){
+            $(".row-left").addClass("col-sm-9");
+            $(".row-right").addClass("col-sm-3").removeClass("hide");
+            $(".box-body .bb-title").css("width","100px");
+        });
+        $("#close").on("click",function(){
+            $(".row-left").removeClass("col-sm-9");
+            $(".row-right").removeClass("col-sm-3").addClass("hide");
+            $(".box-body .bb-title").css("width","130px");
+        });
+    });
+    
+    
+    $(function() {
+		initLevelTree();
+	});
+	function initLevelTree() {
+		var token = getCookie("token");
+		//alert(levelCode)
+		//获取后台数据（封装好的树实体Json数组）
+		$.ajax({
+         type : 'post',
+         dataType : 'json',
+         headers: {
+         	'access-token' : token
+         },
+         url : '/unit/getUnitTree?i='+Math.random(),
+         success : function(data) {
+         	levelTreeNodes = data;
+         	//$.parseJSON(data);
+         	//showTree(levelTreeNodes);
+         	showTree1(levelTreeNodes);
+         	
+         },
+         error : function(e) {
+        	 modals.info("出错了");
+             console.log(e);
+         }
+     });
+	   
+	} 
+	
+	var oneUnit;
+	function showTree(levelTreeNodes){
+		$('#tree').treeview({
+			icon:"glyphicon glyphicon-home",
+        	selectedIcon:"glyphicon glyphicon-home",
+        	color:"#000000",
+        	backColor:"#FFFFFF",
+			selectedColor:"#3cb45d",
+			selectedBackColor:"#edfef4",
+        	levels : 10 ,
+			selectable:true,
+			showCheckbox :false,
+			showBorder : false,
+			state: {
+        	    checked:true,
+        	    disabled:false,
+        	    expanded:true,
+        	    selected:false
+        	},
+			data: levelTreeNodes,
+			onNodeSelected:function(event,data){
+				alert("回传id："+data.id+",name:"+data.text+",code:"+data.code);
+				oneUnit = 
+				{
+					"id" : data.id,
+					"name":data.text,
+					"code":data.code	
+				};
+				console.log(oneUnit);
+			}
+		});    
+	}
+	var ids = new Array();
+	var names = new Array();
+	var codes = new Array();
+	
+	var units = new Array();
+	
+	function showTree1(levelTreeNodes){
+		$('#tree1').treeview({
+			icon:"glyphicon glyphicon-home",
+        	selectedIcon:"glyphicon glyphicon-home",
+        	color:"#000000",
+        	backColor:"#FFFFFF",
+			selectedColor:"#3cb45d",
+			selectedBackColor:"#edfef4",
+        	levels : 10 ,
+			selectable:true,
+			showCheckbox :true,
+			showBorder : false,
+			state: {
+        	    checked:true,
+        	    disabled:false,
+        	    expanded:true,
+        	    selected:false
+        	},
+			data: levelTreeNodes,
+			onNodeSelected:function(event,data){
+				//alert("回传id："+data.id+",name:"+data.text+",code:"+data.code);
+				
+			},
+			onNodeChecked:function(event,data){
+				//alert("回传id："+data.id+",name:"+data.text+",code:"+data.code);
+				ids.push(data.id);
+				names.push(data.text);
+				codes.push(data.code);
+				//alert(ids);
+				
+				units.push(
+				{
+					"id" : data.id,
+					"name":data.text,
+					"code":data.code
+				}
+				);
+				console.log(units);
+				
+			},
+			onNodeUnchecked :function(event,data){
+				//alert("回传id："+data.id+",name:"+data.text+",code:"+data.code);
+				var index = $.inArray(data.id, ids); 
+				if(index >= 0){
+					ids.splice($.inArray(data.id,ids),1); 
+					names.splice($.inArray(data.text,names),1); 
+					codes.splice($.inArray(data.code,codes),1); 
+				}
+				//alert(ids);
+				
+				var unit =
+				{
+						"id" : data.id,
+						"name":data.text,
+						"code":data.code	
+				};
+				console.log(unit);
+				$.each(units,function (i,item) {
+					//console.log(item.id.indexOf(unit.id));
+		            if(item.id.indexOf(unit.id)!=-1){
+		            	units.splice($.inArray(item, units),1);
+		            } 
+		        });
+				
+				console.log(units);
+			}
+			
+		});    
+	}
+	
+</script>
+
+
+<script type="text/javascript">
+modals.openWin=function(config){
+	var winId=config.winId||_win_config.winId;
+	this.closeWin(winId);
+	/*if($("#"+winId).length>0){
+		this.showWin(winId);
+		return false;
+	}*/
+    config=$.extend({},_win_config,config);
+	this._create_modal(config);
+    if(!config.url&&!config.loadContent){
+        this.error('未配置url');
+    }
+	$("#"+winId).modal({remote:config.url,backdrop:config.backdrop||_win_config.backdrop,keyboard:config.keyboard||_win_config.keyboard});
+    if(config.loadContent){
+
+    }
+
+	this.showWin(config.winId||_win_config.winId); 
+	//attach show event
+	 $("#"+winId).on('shown.bs.modal',function(){
+		/*if(config.top=="auto"){
+    		var height=$(window).height()>$(this).find(".modal-dialog").eq(0).height()?($(window).height()-$(this).find(".modal-dialog").eq(0).height())/2:0;
+			$(this).find(".modal-dialog").eq(0).css("margin-top",height); 
+		}*/
+		$(this).find(".modal-title").html(config.title);
+		if(config.showFunc)
+    		   config.showFunc.call(this); 
+	});        
+	//attach hidden event
+	$("#"+winId).on("hidden.bs.modal", function() {
+	   modals.closeWin(winId);  
+	   if(config.hideFunc)
+		   config.hideFunc.call(this);
+        modals.fixwyhtml5();
+   	   $(this).removeData("bs.modal");
+
+   	});
+}  
+</script>

@@ -1,0 +1,203 @@
+<div class="modal-body" style="height:600px;">
+    <div class="row">
+        <div class="col-md-5">
+            <div class="box box-primary" style="height: 577px;overflow-y:auto">
+                <div class="box-body box-profile">
+                    <div id="tree"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+           <div class="content-body">
+                <div class="box-header with-border" style="padding:0px;" id="searchDiv_ff">
+                    <h5 id='funcName' style='font-size:14px' class='pull-left'>【配置数据权限】</h5>
+                    <input name="roleId" id="rId" type="hidden" value=""/>
+                </div>
+                <div class="box-body">
+                    <table id="ff_table" class="table table-bordered table-striped table-hover">
+                    </table>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <div class="row">
+     <div class="col-md-12">
+     	<div class="box-footer text-center">
+            <button class="btn btn-primary" data-btn-type="save"><i class="fa fa-save">&nbsp;保存</i></button>
+            <button class="btn btn-default" data-btn-type="cancel" data-dismiss="modal"><i class="fa fa-remove">
+                &nbsp;关闭</i></button>
+        </div>
+     </div>
+    </div>
+</div>
+<script>
+    var ffTable;
+    var roleId = "${roleId}";
+    $(function () {
+        initTree(0);
+        $("button[data-btn-type]").click(function () {
+            var action_ff = $(this).attr('data-btn-type');
+            switch (action_ff) {
+               case "save":
+                    var nodes = $("#tree").data("treeview").getChecked();
+                    var functionIds = [];
+                    for (var i = 0; i < nodes.length; i++) {
+                    	functionIds.push(nodes[i].id);
+                    }
+                    //批量保存选中节点
+                    ajaxPost(basePath + "function/saveFunctionRoleRel", {
+                        "roleId": roleId,
+                        "functionIds": JSON.stringify(functionIds)
+                    }, function (data, status) {
+                        modals.hideWin("roleFuncWin");
+                    });
+                    break;
+                default:
+                    break;
+            }
+        });
+    });
+
+    function initTree(selectNodeId) {
+        var treeData = null;
+        ajaxPost(basePath +"function/complete-tree", null, function (data) {
+            treeData = data;
+        });
+        showTree(treeData);
+        //默认选中对应的角色
+        checkNodes();
+
+    }
+
+    function checkChildren(node,checked){
+        if(node.nodes&&node.nodes.length>0){
+            for(var i=0;i<node.nodes.length;i++) {
+                if(checked)
+                    $('#tree').treeview('checkNode', [node.nodes[i].nodeId, {silent: true}]);
+                else
+                    $('#tree').treeview('uncheckNode', [node.nodes[i].nodeId, {silent: true}]);
+                 checkChildren(node.nodes[i],checked);
+            }
+        }
+    }
+
+    function checkParent(node,checked){
+        var pnode = $('#tree').data('treeview').getParent(node.nodeId);
+        if (pnode) {
+            if(checked) {
+                $('#tree').treeview('checkNode', [pnode.nodeId, {silent: true}]);
+                checkParent(pnode,checked);
+            }
+            else{
+                //查看兄弟节点状态
+                var brothers=  $('#tree').data('treeview').getSiblings(node.nodeId);
+                var flag=true;
+                if(brothers&&brothers.length>0){
+                    for(var i=0;i<brothers.length;i++){
+                        if(brothers[i].state.checked){
+                            flag=false;
+                        }
+                    }
+                }
+                if(flag){
+                    $('#tree').treeview('uncheckNode', [pnode.nodeId, {silent: true}]);
+                    checkParent(pnode,checked);
+                }
+            }
+
+        }
+    }
+
+    function checkNodes() {
+        ajaxPost(basePath + "function/get-function-by-role?roleId=" + roleId, null, function (data) {
+            if (data && data.length > 0) {
+                for (var i = 0; i < data.length; i++) {
+                    var nodes=$("#tree").data('treeview').findNodes(data[i].id, 'g', 'id');
+                    $("#tree").data('treeview').checkNode(nodes[0], {silent: true});
+                }
+            }
+        })
+    }
+
+    function disableButtons() {
+        $("button[data-btn-type='add_ff']").attr("disabled", true);
+        $("button[data-btn-type='update_ff']").attr("disabled", true);
+        $("button[data-btn-type='delete_ff']").attr("disabled", true);
+    }
+
+    function enableButtons() {
+        $("button[data-btn-type='add_ff']").attr("disabled", false);
+        $("button[data-btn-type='update_ff']").attr("disabled", false);
+        $("button[data-btn-type='delete_ff']").attr("disabled", false);
+    }
+
+    function setCheckedNodeMsg(data) {
+        enableButtons();
+        $("#fId").val(data.id);
+        //ffTable.reloadData();
+        $("#funcName").remove();
+        $("#searchDiv_ff").prepend("<h5 id='funcName' style='font-size:14px' class='pull-left'>【" + data.text + "】</h5>");
+    }
+    function showTree(treeNodes){
+		var slimSHeight=$(document).height()-(48+53);
+		$("#tree").slimScroll({
+			//width:"174px",
+			height: slimSHeight,
+			size: '7px',
+			position: 'right',
+			color: '#ccc',
+			alwaysVisible: true,
+			distance: '0',
+			start: "top",
+			railVisible: true,
+			railColor: '#f1f1f1',
+			railOpacity: 0,
+			wheelStep: 7,
+			allowPageScroll: false,
+			disableFadeOut: true
+		});
+		$('#tree').treeview({
+			icon:"glyphicon glyphicon-home",
+        	selectedIcon:"glyphicon glyphicon-home",
+        	color:"#000000",
+        	backColor:"#FFFFFF",
+			selectedColor:"#3cb45d",
+			selectedBackColor:"#edfef4",
+        	levels : 10 ,
+			selectable:true,
+			showCheckbox : true,
+			showBorder : false,
+			state: {
+        	    checked:true,
+        	    disabled:false,
+        	    expanded:true,
+        	    selected:false
+        	},
+			data: treeNodes,
+			onNodeSelected:function(event,data){
+				//alert("选中"+data.id+","+data.levelCode);
+				console.log(data)
+				/* parentId = data.id;
+				nodeId = data.id;
+				$("input[name=parentId]").val(data.id);
+				$("input[name=levelCode]").val(data.levelCode); */
+			},
+			onNodeChecked:function(event,data){
+				 //选中所有子节点
+                checkChildren(data,true);
+                setCheckedNodeMsg(data);
+                //点击同时选中
+                $("#tree").data('treeview').selectNode(data.nodeId, {silent: true});
+                //父节点选中
+                checkParent(data,true);
+			},
+			onNodeUnchecked :function(event,data){
+				disableButtons();
+	            checkChildren(data,false);
+	            checkParent(data,false);
+			}
+			
+		});    
+	}
+</script>

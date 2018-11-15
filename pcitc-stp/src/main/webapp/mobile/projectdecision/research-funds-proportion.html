@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>科技资金现金流分析</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,minimum-scale=1.0,user-scalable=0" />
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <link rel="stylesheet" href="/mobile/css/mobile.css">
+</head>
+<body>
+<header>
+    <div class="m_return">
+        <a href="javascript:;"><img src="/mobile/images/icon-return.png"/> </a>
+        <h4>科技资金现金流占比分析</h4>
+    </div>
+</header>
+<main>
+    <div class="main-search searchBox">
+        <!--查询条件-->
+        <div class="layui-input-inline">
+            <input type="text" class="layui-input" id="month" placeholder="yyyyMM">
+        </div>
+        <div class="layui-input-inline">
+            <select name="companyCode" id="companyCode">
+                <option value="1020">石科院</option>
+                <option value="1020,1040,1041,1060,1061,1080,1100,1101,1120,1123,1124,1127,1130,4360" selected="selected">全部</option>
+                <option value="1040,1041">北化院</option>
+                <option value="1060,1061">抚顺院</option>
+                <option value="1080">上海院</option>
+                <option value="1100,1101">安工院</option>
+                <option value="1120,1123,1124,1127">石勘院</option>
+                <option value="1130">物探院</option>
+                <option value="4360">工程院</option>
+            </select>
+        </div>
+        <!--按钮组-->
+        <div class="btnGroup">
+            <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()" data-type="searchEvent">查询</button>
+        </div>
+    </div>
+    <div class="main-card">
+        <div class="main-card-header">月期末现金流量占比分析</div>
+        <div class="main-card-body">
+            <div class="main-chart" id="chartFour">
+                <div style="width: 10.4rem;height: 10rem;"><i class="layui-icon layui-icon-loading1 layadmin-loading"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="main-card">
+        <div class="main-card-header">现金流量表</div>
+        <div class="main-card-body">
+            <table id="processdef-table" class="layui-hide" lay-filter="tableData"></table>
+        </div>
+    </div>
+</main>
+<script src="/layuiadmin/layui/layui.js"></script>
+<script>
+    (function(doc, win) {
+        var docEl = doc.documentElement,
+            resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+            recalc = function() {
+                var clientWidth = docEl.clientWidth;
+                if (!clientWidth) return;
+                docEl.style.fontSize =  (clientWidth / 10.8) + 'px';
+            };
+        if (!doc.addEventListener) return;
+        win.addEventListener(resizeEvt, recalc, false);
+        doc.addEventListener('DOMContentLoaded', recalc, false);
+    })(document, window);
+    layui.config({
+        base: '/layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index','jquery','table','carousel','layer', 'echarts','laydate'], function(){
+        var $=layui.jquery,table=layui.table,carousel = layui.carousel,laydate=layui.laydate
+            ,echarts = layui.echarts,layer = layui.layer;
+        /*返回*/
+        $(".m_return a").click(function () {
+            history.go(-1);
+        });
+        /*日期设置*/
+        laydate.render({
+            elem: '#month'
+            ,type: 'month'
+            ,format: 'yyyyMM'
+        });
+        /*月期末现金流量占比分析*/
+        var echnormbar = [], normbar = [{
+            title : {subtext: '2017年09月', x:'center'},
+            legend: {
+                type: 'scroll',
+                y:"bottom",
+                data: [
+                    {name:'上海院',icon: 'rect'},
+                    {name:'北化院',icon: 'rect'},
+                    {name:'安工院',icon: 'rect'},
+                    {name:'工程院',icon: 'rect'},
+                    {name:'抚顺院',icon: 'rect'},
+                    {name:'物探院',icon: 'rect'},
+                    {name:'石勘院',icon: 'rect'},
+                    {name:'石科院',icon: 'rect'}
+                ]
+            },
+            series : [
+                {
+                    type: 'pie',
+                    radius : '55%',
+                    center: ['50%', '60%'],
+                    data:[
+                        {value:17721.78, name:'上海院'},
+                        {value:10731.45, name:'北化院'},
+                        {value:-24564.82, name:'安工院'},
+                        {value:-20230.49, name:'工程院'},
+                        {value:-31512, name:'抚顺院'},
+                        {value:68226.23, name:'物探院'},
+                        {value:1368.33, name:'石勘院'},
+                        {value:40131.85, name:'石科院'}
+                    ],
+                    itemStyle: {
+                        emphasis: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }
+            ]
+        }
+        ]
+            ,elemNormbar = $('#chartFour').children('div')
+            ,renderNormbar = function(index){
+            echnormbar[index] = echarts.init(elemNormbar[index], layui.echartsTheme);
+            echnormbar[index].setOption(normbar[index]);
+            window.onresize = echnormbar[index].resize;
+        };
+        if(!elemNormbar[0]) return;
+        renderNormbar(0);
+        /*现金流量表 */
+        table.render({
+            elem: '#processdef-table',
+            title:'ddd',
+            url: '/financial-decision/cash-flow-02',
+            method:"GET",
+            where: {month:  $("#month").val(), companyCode: $("#companyCode").val()},
+            limit: 150,
+            height: '1220',
+            cols: [[
+                {field:'g0XMHC',    title:'行次',       style:'cursor: pointer;',align: 'center'},
+                {field:'g0XMMS',    title:'项目名称',    style:'cursor: pointer;',align: 'left', width: '35%'},
+                {field:'k0BQLJJE',  title:'本期累计余额',  style:'cursor: pointer;',align: 'center', width: '20%'},
+                {field:'k0TBLJJE',  title:'同期累计余额',  style:'cursor: pointer;',align: 'center', width: '20%'},
+                {field:'k0TQLJJE',  title:'同期金额',    style:'cursor: pointer;',align: 'center'}
+            ]], done: function (res, curr, count) {
+                layer.closeAll('loading');
+            }
+        });
+    });
+</script>
+</body>
+</html>

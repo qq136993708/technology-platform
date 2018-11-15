@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/admin.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <script src="/layuiadmin/layui/layui.js"></script>
+</head>
+<body style="background: white;">
+<div class="visualizationSearchBox">
+    <!--选项卡-->
+    <div class="layui-card layui-col-md12">
+
+        <div class="layui-card-body">
+            <div class="layui-tab layui-tab-brief" lay-filter="component-tabs-hash">
+                <ul class="layui-tab-title visualization-title layui-col-xs2">
+                    <li class="layui-this">科研项目全流程</li>
+                    <li>编号001项目全流程</li>
+                    <li>编号002项目全流程</li>
+                    <li>编号003项目全流程</li>
+                    <li>编号004项目全流程</li>
+                    <li>更多项目全流程配置</li>
+                </ul>
+                <div class="layui-tab-content visualization-content layui-col-xs10">
+                    <div class="layui-tab-item layui-show visualization-content-item">
+                        <iframe src="/pageflow/pagegojsIndex.html" id="visualization" style="height: 225px;"></iframe>
+                    </div>
+                    <div class="layui-tab-item  visualization-content-item">
+
+                    </div>
+                    <div class="layui-tab-item">
+
+                    </div>
+                    <div class="layui-tab-item">
+
+                    </div>
+                    <div class="layui-tab-item">
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="tableBox">
+    <div class="tableToolBox">
+        <span class="title-show">详情</span>
+    </div>
+    <table id="test" class="layui-hide" lay-filter="tableData"></table>
+</div>
+
+<!--表格数据操作js-->
+<script>
+    layui.use(['jquery', 'form', 'laydate', 'table', 'laypage','laytpl','element'], function () {
+        var table = layui.table,
+            util = layui.laytpl,
+            form = layui.form,
+            laydate = layui.laydate,
+            $ = layui.jquery;
+        /*设置选项卡右侧高度*/
+        $(".visualization-content .layui-tab-item").css("height",$(".visualization-title").height());
+        //** 搜索框宽度随着内容自适应End
+        function renderTable(){
+            //渲染
+            table.render({
+                elem: '#test' //表格容器
+                , url: '/layuiadmin/json/table/demoSci.json' //请求的url地址
+                , id: 'idTest'
+                , height: commonDislodgeTable()
+                , cols: [[
+                    {field: 'id', title: '序号',type:'numbers', style: 'cursor: pointer;'}
+                    , {field: 'state', title: '状态', style: 'cursor: pointer;',width: 54, templet:  '<div>{{ layui.laytpl.auditStatus(d.state) }}</div>'}
+                    , {field: 'username', title: '院所', style: 'cursor: pointer;'}
+                    , {field: 'city', title: '总金额（亿）', width: '8%', style: 'cursor: pointer;'}
+                    , {field: 'sign', title: '主要内容', width: '35%', style: 'cursor: pointer;'}
+                    , {field: 'sex', title: '提交人', width: '6%', style: 'cursor: pointer;'}
+                    , {field: 'iphone', title: '电话', style: 'cursor: pointer;'}
+                    , {field: 'email', title: '邮箱', style: 'cursor: pointer;'}
+                    , {field: 'createTime', title: '提交时间', style: 'cursor: pointer;'}
+                ]]
+                , done: function (res, curr, count) {
+                    // 点击行联动选择框--单选
+                    $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+                        var index=parseInt($(this).index()+1);
+                        $('tr').removeClass('layui-table-click');
+                        $(this).addClass('layui-table-click');
+                        $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                        $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                        selectRowData=res.data[index-1];
+                    })
+                }
+            });
+        }
+        
+      	//** 搜索框宽度随着内容自适应End
+        function renderTable1(){
+            //渲染
+        	table.render({
+                elem: '#test' //表格容器
+                , url: '/layuiadmin/json/table/demoSciDetail.json' //请求的url地址
+                , id: 'idTest'
+                , height: commonDislodgeTable()
+                , cols: [[
+                    {field: 'id', title: '序号',type:'numbers', style: 'cursor: pointer;'}
+                    , {field: 'state', title: '状态', style: 'cursor: pointer;',width: 54, templet:  '<div>{{ layui.laytpl.auditStatus(d.state) }}</div>'}
+                    , {field: 'username', title: '项目名称', style: 'cursor: pointer;'}
+                    , {field: 'city', title: '总金额（亿）', width: '12%', style: 'cursor: pointer;'}
+                    , {field: 'sign', title: '主要内容', width: '35%', style: 'cursor: pointer;'}
+                    , {field: 'sex', title: '审批人', width: '6%', style: 'cursor: pointer;'}
+                    , {field: 'createTime', title: '审批时间', style: 'cursor: pointer;'}
+                ]]
+                , done: function (res, curr, count) {
+                    // 点击行联动选择框--单选
+                    $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+                        var index=parseInt($(this).index()+1);
+                        $('tr').removeClass('layui-table-click');
+                        $(this).addClass('layui-table-click');
+                        $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                        $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                        selectRowData=res.data[index-1];
+                    })
+                }
+            });
+        }
+      	
+        /* $("#visualization").load(function(){
+            $("#visualization")[0].contentWindow.myDiagram2.addDiagramListener("ObjectSingleClicked", function(e) {
+                if (typeof(e.subject.text) != "undefined" && e.subject.text!='') {
+                    if (e.subject.text=='总部下达指南') {
+                    } else if (e.subject.text=='各院提交指南') {
+                    }
+                }
+            });
+        }); */
+
+        $("#visualization")[0].contentWindow.myDiagram.addDiagramListener("ObjectSingleClicked", function(e) {
+        	if (typeof(e.subject.text) != "undefined" && e.subject.text!='') {
+                if (e.subject.text=='总部下达指南') {
+                	renderTable1();
+                } else if (e.subject.text=='各院提交指南') {
+                }
+            }
+        });
+        /*动态添加*/
+        $(".visualization-title li").click(function () {
+            if($(this).index()==1){
+                $(".visualization-content .layui-tab-item").eq(1).html("");
+                $(".visualization-content .layui-tab-item").eq(1).append('<iframe src="/pageflow/pagegojsProject001.html" id="intSec" style="width: 1200px; height: 225px;"></iframe>')
+                renderTable1();
+                /*$("#intSec").load(function(){
+                    $("#intSec")[0].contentWindow.myDiagram2.addDiagramListener("ObjectSingleClicked", function(e) {
+                        console.log(e)
+                        if (typeof(e.subject.text) != "undefined" && e.subject.text!='') {
+                            if (e.subject.text=='项目申报') {
+                                parent.layui.index.openTabsPage("/intl_project/apply_list?a=1", "项目申报");
+                            } else if (e.subject.text=='编制计划') {
+                                parent.layui.index.openTabsPage("/intl_project/plant_list", "编制计划");
+                            } else if (e.subject.text=='科技部审批') {
+                                parent.layui.index.openTabsPage("/sre-project-basic/to-audit-list", "科技部审批");
+                            } else if (e.subject.text=='审批通过') {
+                                parent.layui.index.openTabsPage("/task/done-task/list/ini?a=1", "审批通过");
+                            } else if (e.subject.text=='审批拒绝') {
+                                parent.layui.index.openTabsPage("/task/done-task/list/ini?a=2", "审批拒绝");
+                            } else if (e.subject.text=='立项') {
+                                parent.layui.index.openTabsPage("/intl_project/info_list", "立项");
+                            } else if (e.subject.text=='新项目签约') {
+                                parent.layui.index.openTabsPage("/intl_project/contract_list?a=1", "新项目签约");
+                            } else if (e.subject.text=='续约项目') {
+                                parent.layui.index.openTabsPage("/intl_project/contract_list?a=2", "续约项目");
+                            } else if (e.subject.text=='项目成果') {
+                                parent.layui.index.openTabsPage("/intl_project/result_list", "项目成果");
+                            } else if (e.subject.text=='项目纪要') {
+                                parent.layui.index.openTabsPage("/intl_project/remark_list", "项目纪要");
+                            } else if (e.subject.text=='项目验收') {
+                                parent.layui.index.openTabsPage("/intl_project/accept_list?status=0", "项目验收");
+                            }
+                        }
+                    });
+                });*/
+            }else if($(this).index()==2){
+                $(".visualization-content .layui-tab-item").eq(2).html("");
+                $(".visualization-content .layui-tab-item").eq(2).append('<iframe src="/pageflow/pagegojsProject002.html" id="intSec" style="width: 1200px; height: 225px;"></iframe>')
+            	renderTable1();
+            }else if($(this).index()==3){
+                $(".visualization-content .layui-tab-item").eq(3).html("");
+                $(".visualization-content .layui-tab-item").eq(3).append('<iframe src="/pageflow/pagegojsProject003.html" id="intSec" style="width: 1200px; height: 225px;"></iframe>')
+            }else if($(this).index()==4){
+                $(".visualization-content .layui-tab-item").eq(4).html("");
+                $(".visualization-content .layui-tab-item").eq(4).append('<iframe src="/pageflow/pagegojsProject004.html" id="intSec" style="width: 1200px; height: 225px;"></iframe>')
+            }else if($(this).index()==5){
+                layer.open({
+                    title: '更多项目配置'
+                    , skin: 'layui-layer-lan'
+                    , shadeClose: true
+                    , type: 2
+                    , fixed: false
+                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                    , maxmin: true
+                    //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                    , area: ['900px', '450px']
+                    , content: '/layui/visualizationConfig.html'
+                });
+            }
+        });
+        $(".visualizationSearchBox a").click(function () {
+            if($(this).find("span").length>0){
+                $(this).find("span").remove();
+            }else {
+                $(this).append("<span class='paiNumber'>√</span>")
+            }
+        })
+        renderTable();
+        //单选框 需要移除表头的复选框
+        $(".layui-table-header table thead th input").remove()
+        //单选框end
+      	//监听行双击事件
+        table.on('rowDouble(tableData)', function(obj){
+            var temUrl= "/task/process/990001";
+            layer.open({
+                title:'详情',
+                skin: 'layui-layer-lan',
+                shadeClose: true,
+                type: 2,
+                fixed: false,
+                //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                maxmin: true,
+                //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                area: ['800px', '450px'],
+                content:  temUrl
+            });
+        });
+
+    });
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+
+    <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+    <script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
+</head>
+<body>
+<div class="formBox">
+    <form id="functiongroup-form" name="functiongroup-form" lay-filter="functiongroup-form" class="form-horizontal layui-form">
+        <input type="hidden" name="groupId">
+        <div class="box-body">
+            <div class="layui-form-item">
+                <input type="hidden" name="fileIds" id="fileIds" value="">
+                <div id="file_upload">
+                </div>
+            </div>
+
+            <div class="form-bottom">
+                <div class="form-bottom-btns">
+                    <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="" lay-filter="submitBtn">保存</button>
+                    <button type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" id="closeBtn">取消</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+	// 菜单id、保存路径、刷新方法
+    var file_opt_flag = "164d56d2439_8faf97df";
+
+    $("#file_upload").load('/common/public/uploadlayuiload.html');
+    layui.use(['jquery', 'form', 'laydate', 'table', 'layer', 'element'],
+        function () {
+            var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate, form = layui.form;
+            form.render(null, 'functiongroup-form');
+            
+            /* 监听提交 */
+            form.on('submit(submitBtn)', function (data) {
+                $.ajax({
+    	            url : '/sysfilekind/savesysFileKindUpload',//这个就是请求地址对应sAjaxSource
+    	            type : 'post',
+    	            dataType : 'json',
+    	            headers: {
+    	            	'Content-Type' : 'application/json',
+    	            },
+    	            error : function() {//请求失败处理函数  
+    	            	layer.msg('操作失败！');
+    	            	
+                    },
+                    success : function(data) { //请求成功后处理函数。
+    	            	layer.msg('操作成功！');
+    	            	// 调用原有表格的刷新
+                        var index = parent.layer.getFrameIndex(window.name);
+                        parent.layer.close(index);
+    	            	// active.searchEvent();
+                    }
+    	        });
+                return false;
+            });
+            
+            $("#closeBtn").click(function () {
+                var index = parent.layer.getFrameIndex(window.name);
+                parent.layer.close(index);
+            })
+        });
+</script>
+
+</body>
+</html>

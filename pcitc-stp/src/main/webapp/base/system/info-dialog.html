@@ -1,0 +1,39 @@
+<style>
+    .content-info .ci-title{ width: 100%; text-align: center; font-size: 20px; font-weight: bold; text-align: center;}
+    .content-info .ci-field{ color: #C3C3C3;font-size: 14px;height: 32px;line-height: 32px;text-align: center;border-bottom: 1px solid #e8e8e8;}
+</style>
+<section id="content-info" class="content-info">
+    <div class="ci-title" id="ci-title">${info.title}</div>
+    <div class="ci-field">
+        <!--<span class="ci-field-source">信息来源：<span id="ci-field-source">中国石化报</span></span>-->
+        <span class="ci-field-date" id="ci-field">
+	        发布时间:<#if info.date??>
+	        	${info.date}
+			<#else>
+				未发布
+			</#if>
+        </span>
+    </div>
+    <div class="ci-content" id="ci-content">
+        ${info.content}
+    </div>
+</section>
+<script>
+    // $(function () {
+    //     var mainHeaderHeight=$(".main-header").outerHeight();
+    //     $("#content-info").slimScroll({
+    //         height: parseInt($("body").height())-parseInt(mainHeaderHeight),
+    //         size: '7px',
+    //         color: '#333',
+    //         alwaysVisible: true,
+    //         distance: '0',
+    //         start: "top",
+    //         railVisible: true,
+    //         railColor: '#f1f1f1',
+    //         railOpacity: 0,
+    //         wheelStep: 7,
+    //         allowPageScroll: false,
+    //         disableFadeOut: true
+    //     });
+    // })
+</script>

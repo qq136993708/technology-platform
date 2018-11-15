@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>表单模块 - layui</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="format-detection" content="telephone=no">
+  <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+  <link rel="stylesheet" href="/layuiadmin/style/common.css">
+  <style>
+    #layui-laydate5 .layui-laydate-header{background: #00a3b4 !important;}
+  </style>
+</head>
+<body>
+<div class="formBox">
+  <form class="layui-form" action="" lay-filter="component-form-group layui-container">
+    <div class="box-body">
+      <div class="layui-form-item">
+      <label class="layui-form-label">只读框1<span class="must-fill">*</span></label>
+      <div class="layui-input-block">
+        <input type="text" name="user" readonly="readonly" autocomplete="off" class="layui-input readOnlyBox" value="只读框的值"></input>
+      </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">只读框2<span class="must-fill">*</span></label>
+        <div class="layui-input-block">
+          <div class="layui-col-xs8 layui-col-sm8 layui-col-md8">
+            <input type="text" name="user" readonly="readonly" autocomplete="off" class="layui-input readOnlyBox" value="只读框的值"></input>
+          </div>
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">数字<span class="must-fill">*</span></label>
+        <div class="layui-input-block">
+          <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+            <input class="layui-input" name="title" lay-verify="title" placeholder="请输入数字" autocomplete="off" type="text" id="formSlideryInput">
+            <div id="formSlider"></div>
+          </div>
+        </div>
+      </div>
+      <div class="layui-row">
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label for="" class="layui-form-label">标题1<span class="must-fill">*</span></label>
+            <div class="layui-input-block">
+              <input class="layui-input searchInput" name="title" lay-verify="title" placeholder="请输入标题" autocomplete="off" type="text">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">标题2<span class="must-fill">*</span></label>
+        <div class="layui-input-block">
+          <div class="layui-col-xs4 layui-col-sm4 layui-col-md4">
+            <input class="layui-input" name="title" lay-verify="title" placeholder="请输入标题" autocomplete="off" type="text">
+          </div>
+        </div>
+      </div>
+
+      <!--复选框-->
+      <div class="layui-form-item">
+        <label class="layui-form-label">复选框</label>
+        <div class="layui-input-block">
+          <input type="checkbox" name="like[write]" lay-skin="primary" title="写作" checked="">
+          <input type="checkbox" name="like[read]" lay-skin="primary" title="阅读">
+          <input type="checkbox" name="like[game]" lay-skin="primary" title="游戏" disabled="">
+        </div>
+      </div>
+      <!--开关-->
+      <div class="layui-form-item">
+        <label class="layui-form-label">开关关</label>
+        <div class="layui-input-block">
+          <input type="checkbox" lay-skin="switch">
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">开关开</label>
+        <div class="layui-input-block">
+          <input type="checkbox" checked lay-skin="switch">
+        </div>
+      </div>
+      <!--单选-->
+      <div class="layui-form-item">
+        <label class="layui-form-label">单选框</label>
+        <div class="layui-input-block">
+          <input type="radio" lay-filter="radioEvent" name="sex" value="0" title="男">
+          <input type="radio" lay-filter="radioEvent" name="sex" value="1" title="女" checked>
+        </div>
+      </div>
+      <!--文本域-->
+      <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">请填写描述1</label>
+        <div class="layui-input-block">
+          <textarea placeholder="请输入内容" class="layui-textarea"></textarea>
+        </div>
+      </div>
+      <!--文本域  单行中版-->
+      <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">请填写描述2</label>
+        <div class="layui-input-block">
+          <div class="layui-col-xs8 layui-col-sm8 layui-col-md8">
+            <textarea placeholder="请输入内容" class="layui-textarea"></textarea>
+          </div>
+        </div>
+      </div>
+      <!--文本域  单行短版-->
+      <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">请填写描述3</label>
+        <div class="layui-input-block">
+          <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+            <textarea placeholder="请输入内容" class="layui-textarea"></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">请填写描述4</label>
+        <div class="layui-input-block">
+          <div class="layui-col-xs4 layui-col-sm4 layui-col-md4">
+            <textarea placeholder="请输入内容" class="layui-textarea"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!--下拉列表 单行-->
+      <div class="layui-form-item">
+        <label for="" class="layui-form-label">城市1(单选)</label>
+        <div class="layui-input-block">
+          <select name="city" class="readOnlyBox" disabled="disabled" lay-verify=""  lay-filter="test">
+            <option value="">请选择一个城市</option>
+            <option value="010">北京</option>
+            <option value="021">上海</option>
+            <option value="0571">杭州</option>
+          </select>
+        </div>
+      </div>
+      <!--下拉列表 单行中版-->
+      <div class="layui-form-item">
+        <label for="" class="layui-form-label">城市2(单选)</label>
+        <div class="layui-input-block">
+          <div class="layui-col-xs8 layui-col-sm8 layui-col-md8">
+            <select name="city" lay-verify=""  lay-filter="test">
+              <option value="">请选择一个城市</option>
+              <option value="010">北京</option>
+              <option value="021">上海</option>
+              <option value="0571">杭州</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <!--下拉列表 单行短版-->
+      <div class="layui-form-item">
+        <label for="" class="layui-form-label">城市3(单选)</label>
+        <div class="layui-input-block">
+          <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+            <select name="city" lay-verify=""  lay-filter="test">
+              <option value="">请选择一个城市</option>
+              <option value="010">北京</option>
+              <option value="021">上海</option>
+              <option value="0571">杭州</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label for="" class="layui-form-label">城市4(单选)</label>
+        <div class="layui-input-block">
+          <div class="layui-col-xs4 layui-col-sm4 layui-col-md4">
+            <select name="city" lay-verify=""  lay-filter="test">
+              <option value="">请选择一个城市</option>
+              <option value="010">北京</option>
+              <option value="021">上海</option>
+              <option value="0571">杭州</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!--带搜索框的下拉列表-->
+      <div class="layui-form-item">
+        <label for="" class="layui-form-label">下拉1(搜索)</label>
+        <div class="layui-input-block">
+          <select name="city" lay-verify="" lay-search>
+            <option value="010">layer</option>
+            <option value="021">form</option>
+            <option value="0571" selected>layim</option>
+            <option value="0572" selected>admin</option>
+            <option value="0573" selected>UI</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="layui-form-item">
+        <label for="" class="layui-form-label">下拉2(搜索)</label>
+        <div class="layui-input-block">
+          <div class="layui-col-xs8 layui-col-sm8 layui-col-md8">
+            <select name="city" lay-verify="" lay-search>
+              <option value="010">layer</option>
+              <option value="021">form</option>
+              <option value="0571" selected>layim</option>
+              <option value="0572" selected>admin</option>
+              <option value="0573" selected>UI</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="layui-form-item">
+        <label for="" class="layui-form-label">下拉3(搜索)</label>
+        <div class="layui-input-block">
+          <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+            <select name="city" lay-verify="" lay-search>
+              <option value="010">layer</option>
+              <option value="021">form</option>
+              <option value="0571" selected>layim</option>
+              <option value="0572" selected>admin</option>
+              <option value="0573" selected>UI</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="layui-form-item">
+        <label for="" class="layui-form-label">下拉4(搜索)</label>
+        <div class="layui-input-block">
+          <div class="layui-col-xs4 layui-col-sm4 layui-col-md4">
+            <select name="city" lay-verify="" lay-search>
+              <option value="010">layer</option>
+              <option value="021">form</option>
+              <option value="0571" selected>layim</option>
+              <option value="0572" selected>admin</option>
+              <option value="0573" selected>UI</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!--日期范围-->
+      <div class="layui-form-item">
+        <label for="" class="layui-form-label">日期范围</label>
+        <div class="layui-input-block">
+          <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+            <input type="text" class="layui-input" id="test-laydate-range-date" placeholder="yyyy-MM-dd - yyyy-MM-dd">
+          </div>
+        </div>
+      </div>
+
+      <div class="layui-form-item">
+        <label for="" class="layui-form-label">请选择日期1</label>
+        <div class="layui-input-block">
+          <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+            <input type="text" class="layui-input" id="test-laydate-format-date1" placeholder="dd/MM/yyyy">
+          </div>
+        </div>
+      </div>
+
+      <div class="layui-form-item">
+        <label for="" class="layui-form-label">请选择日期2</label>
+        <div class="layui-input-block">
+          <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+            <input type="text" class="layui-input" id="test-laydate-format-date2" placeholder="dd/MM/yyyy">
+          </div>
+        </div>
+      </div>
+
+      <div class="layui-form-item">
+        <label for="" class="layui-form-label">日期选择(禁用)</label>
+        <div class="layui-input-block">
+          <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+            <input type="text" class="layui-input readOnlyBox" id="test-laydate-type-datetime" readonly="readonly">
+          </div>
+        </div>
+      </div>
+
+      <!--日期和时间选择-->
+      <div class="layui-form-item">
+        <label for="" class="layui-form-label">开始结束时间</label>
+        <div class="layui-input-block">
+          <div class="layui-input-inline">
+            <input type="text" class="layui-input" id="test-laydate-start" placeholder="开始日期">
+          </div>
+          <div class="layui-form-mid">
+            -
+          </div>
+          <div class="layui-input-inline">
+            <input type="text" class="layui-input" id="test-laydate-end" placeholder="结束日期">
+          </div>
+        </div>
+      </div>
+
+      <!--以下是行有两个的情况-->
+      <!--行有两个的情况 长版文本框-->
+      <div class="layui-row">
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label for="" class="layui-form-label">标题4<span class="must-fill">*</span></label>
+            <div class="layui-input-block">
+              <input class="layui-input searchInput" name="title" lay-verify="title" placeholder="请输入标题" autocomplete="off" type="text">
+            </div>
+          </div>
+        </div>
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label for="" class="layui-form-label">标题5<span class="must-fill">*</span></label>
+            <div class="layui-input-block">
+              <input type="text" name="date" id="LAY-component-form-group-date" lay-verify="date" placeholder="请输入标题" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--行有两个的情况 中版文本框-->
+      <div class="layui-row">
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item layui-row">
+            <label for="" class="layui-form-label">标题6<span class="must-fill">*</span></label>
+            <div class="layui-input-block">
+              <div class="layui-col-xs8 layui-col-sm8 layui-col-md8">
+                <input class="layui-input" name="title" lay-verify="title" placeholder="请输入标题" autocomplete="off" type="text">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item  layui-row">
+            <label for="" class="layui-form-label">标题7<span class="must-fill">*</span></label>
+            <div class="layui-input-block">
+              <div class="layui-col-xs8 layui-col-sm8 layui-col-md8">
+                <input type="text" name="date" lay-verify="date" placeholder="请输入标题" autocomplete="off" class="layui-input">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--行有两个的情况 短版文本框-->
+      <div class="layui-row">
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item layui-row">
+            <label for="" class="layui-form-label">标题8<span class="must-fill">*</span></label>
+            <div class="layui-input-block">
+              <div class="layui-col-xs5 layui-col-sm5 layui-col-md5">
+                <div class="input-search">
+                  <input class="layui-input searchInput" name="title" lay-verify="title" placeholder="请输入标题" autocomplete="off" type="text">
+                  <div class="layui-icon-box"><i class="layui-icon">&#xe615;</i></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item  layui-row">
+            <label for="" class="layui-form-label">标题9<span class="must-fill">*</span></label>
+            <div class="layui-input-block">
+              <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                <input type="text" name="date" id="" lay-verify="date" placeholder="请输入标题" autocomplete="off" class="layui-input">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="layui-row">
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+          <!--复选框-->
+          <div class="layui-form-item">
+            <label class="layui-form-label">复选框</label>
+            <div class="layui-input-block">
+              <input type="checkbox" name="like[write]" lay-skin="primary" title="写作" checked="">
+              <input type="checkbox" name="like[read]" lay-skin="primary" title="阅读">
+              <input type="checkbox" name="like[game]" lay-skin="primary" title="游戏" disabled="">
+            </div>
+          </div>
+        </div>
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+          <!--开关-->
+          <div class="layui-form-item">
+            <label class="layui-form-label">开关</label>
+            <div class="layui-input-block">
+              <input type="checkbox" lay-skin="switch">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="layui-row">
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+          <label for="telphone" class="layui-form-label">座机</label>
+          <div class="layui-input-block">
+            <input class="layui-input" id="telphone" name="telphone" placeholder="座机" type="text">
+          </div>
+        </div>
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+          <!--开关-->
+          <div class="layui-form-item">
+            <label class="layui-form-label">Email</label>
+            <div class="layui-input-block">
+              <input class="layui-input" id="email" name="email" placeholder="Email" data-bv-field="email" lay-verify="email" type="text">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="layui-row">
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+          <!--下拉树 可以用树装结构也可以不用 可单选/多选-->
+          <div class="layui-form-item">
+            <label class="layui-form-label">城市(多选)</label>
+            <div class="layui-input-block" style="position: relative;">
+                <div id="selectTree" class="layui-form-select select-tree"></div>
+              <!--<select id="selectTree" name="city" lay-verify=""  lay-filter="test" class=""></select>-->
+            </div>
+          </div>
+        </div>
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+          <!--文本域-->
+          <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">请填写描述</label>
+            <div class="layui-input-block">
+              <textarea placeholder="请输入内容" class="layui-textarea"></textarea>
+              <textarea name="ckEditor" class="ckeditor" id="content"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="layui-row">
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+          <!--单选-->
+          <div class="layui-form-item">
+            <label for="" class="layui-form-label layui-layout">搜索框</label>
+            <div class="layui-input-block">
+              <select name="city" lay-verify="" lay-search>
+                <option value="010">layer</option>
+                <option value="021">form</option>
+                <option value="0571" selected>layim</option>
+                <option value="0572" selected>admin</option>
+                <option value="0573" selected>UI</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+          <!--下拉列表-->
+          <div class="layui-form-item">
+            <label for="" class="layui-form-label">城市下拉</label>
+            <div class="layui-input-block">
+              <select name="city" lay-verify=""  lay-filter="test">
+                <option value="">请选择一个城市</option>
+                <option value="010">北京</option>
+                <option value="021">上海</option>
+                <option value="0571">杭州</option>
+                <option value="010">北京</option>
+                <option value="021">上海</option>
+                <option value="0571">杭州</option>
+                <option value="010">北京</option>
+                <option value="021">上海</option>
+                <option value="0571">杭州</option>
+                <option value="010">北京</option>
+                <option value="021">上海</option>
+                <option value="0571">杭州</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<!--<div class="form-bottom">
+  <div class="form-bottom-btns">
+    <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="" lay-filter="component-form-demo1">保存</button>
+    <button id="reset1" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white">重置</button>
+    <button type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white"  id="cancel">取消</button>
+  </div>
+</div>-->
+
+<script src="/layuiadmin/layui/layui.js"></script>
+<script>
+    layui.config({
+        base: '/layuiadmin/lib/extend/ckeditor/' //静态资源所在路径
+    }).extend({
+        ckeditor: 'ckeditor' //主入口模块
+    }).use([ 'jquery','form', 'laydate','slider','table','layer','element','ckeditor','selectTree'], function(){
+        var $ = layui.jquery
+            ,admin = layui.admin
+            ,element = layui.element
+            ,layer = layui.layer
+            ,laydate = layui.laydate
+            ,selectTree=layui.selectTree
+            ,form = layui.form
+            ,slider = layui.slider;
+
+        /* 自定义验证规则  title 要验证的input的 lay-verify=""*/
+        form.verify({
+            title: function(value){
+                if(value.length < 5){
+                    return '标题至少得5个字符啊';
+                }
+            }
+            ,pass: [/(.+){6,12}$/, '密码必须6到12位']
+            ,content: function(value){
+                layedit.sync(editIndex);
+            }
+        });
+		$("#reset1").click(function(){
+			layer.open({
+                title: '新增'
+                , skin: 'layui-layer-lan'
+                , shadeClose: true
+                , type: 2
+                , fixed: false
+                //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                , maxmin: true
+                //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                , area: ['900px', '450px']
+                , content: '/layui/form.html'
+            });
+		})
+        // 默认渲染当前时间\日期
+        //传入符合format格式的字符给初始值
+        laydate.render({
+            elem: '#test-laydate-format-date1'
+            ,value: '2018-08-18' //必须遵循format参数设定的格式
+            ,position: 'fixed'
+        });
+
+        //传入Date对象给初始值
+        laydate.render({
+            elem: '#test-laydate-type-datetime'
+            ,type: 'datetime'  //没有type默认为日期
+            ,value: new Date()
+            ,trigger: 'none'
+        });
+
+        //开始日期
+        var insStart = laydate.render({
+            elem: '#test-laydate-start'
+            ,min: 0
+            ,done: function(value, date){
+                //更新结束日期的最小日期
+                insEnd.config.min = lay.extend({}, date, {
+                    month: date.month - 1
+                });
+
+                //自动弹出结束日期的选择器
+                insEnd.config.elem[0].focus();
+            }
+        });
+
+        //结束日期
+        var insEnd = laydate.render({
+            elem: '#test-laydate-end'
+            ,min: 0
+            ,done: function(value, date){
+                //更新开始日期的最大日期
+                insStart.config.max = lay.extend({}, date, {
+                    month: date.month - 1
+                });
+            }
+        });
+        //日期范围
+        laydate.render({
+            elem: '#test-laydate-range-date'
+            ,range: true
+            ,theme: '#0F9EE0'
+        });
+
+        //请选择日期1
+        laydate.render({
+            elem: '#test-laydate-format-date1'
+            ,format: 'yyyy年MM月dd日'
+        });
+        //请选择日期2
+        laydate.render({
+            elem: '#test-laydate-format-date2'
+            ,format: 'dd/MM/yyyy'
+        });
+        //日期时间选择器
+        laydate.render({
+            elem: '#test-laydate-type-datetime'
+            ,type: 'datetime'
+        });
+
+        // 初始化表单设置单选按钮的默认值
+        var res = {"res":0};
+        $('[name=sex]').each(function(i,item){
+            if($(item).val()==res.sex){
+                $(item).prop('checked',true);
+                layui.use('form',function(){
+                    var form = layui.form();
+                    form.render();
+                });
+            }
+        });
+        var val = $('[name=sex]:checked').val();
+        // 单选监听
+        form.on('radio(radioEvent)', function (data) {
+            alert(data.value);//判断单选框的选中值
+        });
+
+        /* 监听指定开关 */
+        form.on('switch(component-form-switchTest)', function(data){
+            layer.msg('开关checked：'+ (this.checked ? 'true' : 'false'), {
+                offset: '6px'
+            });
+            layer.tips('温馨提示：请注意开关状态的文字可以随意定义，而不仅仅是ON|OFF', data.othis)
+        });
+
+        /*监听select框*/
+        var categoryName = '';
+        form.on('select(test)', function(data){
+            // 获取到选中的内容
+            categoryName = data.elem[data.elem.selectedIndex].text;
+            form.render('select', 'test'); //更新 lay-filter="test" 所在容器内的全部 select 状态
+            alert(categoryName)
+        });
+
+        //下拉框背景致灰
+        $("select[class=readOnlyBox]").parent().find('input').addClass('readOnlyBox');
+
+
+        //滑块渲染
+        var ins = slider.render({
+            elem: '#formSlider'  //绑定元素
+            ,theme: '#00a3b4'    //对应科技平台的主题颜色
+            ,min: 0
+            ,max: 200
+            ,tips: false
+            ,step: 1 //步长
+            ,change: function(value){
+                $('#formSlideryInput').val(value)//动态获取滑块数值
+            }
+            ,setTips: function(value){ //自定义提示文本
+                return value + '%';
+            }
+        });
+
+        //监听文本框变化动态给滑块赋值
+        $('#formSlideryInput').change(function(){
+            var nums = $('#formSlideryInput').val();
+            ins.setValue(nums); //动态给滑块赋值
+        })
+
+        $('.layui-layer-btn0').removeAttr('onclick');//去掉a标签中的onclick事件
+
+        /* 监听提交 */
+        form.on('submit(component-form-demo1)', function(data){
+            //JSON.stringify(data.field)  提交信息json格式
+            parent.layer.alert(JSON.stringify(data.field), {
+                title: '最终的提交信息'
+            })
+            //一定要在最底下加return false -- 2018.07.08
+            return false;
+        });
+
+        /*点击取消按钮*/
+        $("#cancel").click(function () {
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
+        });
+
+        /*下拉树数据格式 —— 将返回的数据赋给 zNodes */
+        var zNodes = [
+            {id: 1, pId: 0, name: "北京",type:'bigCity'},
+            {id: 2, pId: 0, name: "天津",type:'bigCity'},
+            {id: 3, pId: 0, name: "上海",type:'bigCity'},
+            {id: 6, pId: 0, name: "重庆",type:'bigCity'},
+            {id: 4, pId: 0, name: "河北省"},
+            {id: 41, pId: 4, name: "石家庄"},
+            {id: 42, pId: 4, name: "保定"},
+            {id: 43, pId: 4, name: "邯郸"},
+            {id: 44, pId: 4, name: "承德"},
+            {id: 5, pId: 0, name: "广东省"},
+            {id: 51, pId: 5, name: "广州"},
+            {id: 52, pId: 5, name: "深圳"},
+            {id: 53, pId: 5, name: "东莞"},
+            {id: 54, pId: 5, name: "佛山"},
+            {id: 6, pId: 0, name: "福建省"},
+            {id: 61, pId: 6, name: "福州"},
+            {id: 62, pId: 6, name: "厦门"},
+            {id: 63, pId: 6, name: "泉州"},
+            {id: 64, pId: 6, name: "三明"}
+        ];
+        zNodes.forEach(function(obj){
+            if(obj.type == "bigCity"){
+                obj.icon = "/layuiadmin/layui/images/operation_03.png";
+            }
+        })
+        // console.log(zNodes)
+
+        // 下拉树初始化
+        $(document).ready(function () {
+            /*
+             * initSelectTree参数：
+             * 参数1：div的id，
+             * 参数2：isMultiple 是否多选(true或false),
+             * 参数3：是否显示连接线(true或false),
+             * 参数4：是否显示图标(true或false),
+             *
+            */
+            selectTree.initSelectTree("selectTree", true, true, true, false,zNodes);
+            selectTree.initHideMenu();
+        })
+        //下拉树end
+
+        //ckeditor 只读
+        CKEDITOR.instances['content'].setReadOnly("readonly","readonly");
+    });
+
+
+</script>
+</body>
+</html>

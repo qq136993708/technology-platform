@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <link rel="stylesheet" href="/common/css/echart-common.css">
+</head>
+<style>
+    td{padding:2px}
+</style>
+<body>  
+<div class="searchBox">
+    <!--查询条件-->
+        <label class="dateInput">
+            <span>月份</span>
+            <input type="text" name="month" placeholder="请选择月份" title="月份" value="${month}"  autocomplete="off" class="form-control" id="month">
+        </label>
+       <div class="layui-input-inline">
+         <select name="companyCode" id="companyCode" >
+              <#list companyCodeList as vo>
+              	 <#if vo.g0GSJC == '全部'>
+              	 	<option value="${vo.g0GSDM}"  selected="selected">${vo.g0GSJC}</option>
+              	 </#if>
+                 <#if vo.g0GSJC != '全部'>
+              	 	<option value="${vo.g0GSDM}">${vo.g0GSJC}</option>
+              	 </#if>
+               </#list>
+            </select>
+       </div>
+       <form class="layui-form layui-form1">
+            <div class="layui-input-inline">
+                <#list projectCodeList as vo>
+                   <input type="checkbox" name="like[write]" lay-skin="primary" title="${vo.g0XMGLLX}" checked="">
+                </#list>
+            </div>
+        </form>
+
+    <!--按钮组-->
+    <div class="btnGroup">
+        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()" data-type="searchEvent">查询</button>
+    </div>
+    <span class="unitBox">单位：万元</span>
+</div>
+
+
+<!--echarts-->
+<div class="content-body container">
+       <!--图表二比一布局-->
+        <div class="layui-row two-one-box">
+            <div class="layui-col-xs8 layui-col-sm8 layui-col-md8 twoBox echarts">
+                <div id="main1" style="width: 100%;height: 400px;"></div>
+            </div>
+            <div class="layui-col-xs4 layui-col-sm4 layui-col-md4 oneBox echarts">
+                <div id="main2" style="width: 100%;height: 400px;"></div>
+            </div>
+        </div>
+        
+         <!--图表三等分布局-->
+        <div class="three-charts-box" style="margin-top:10px">
+            <div class="layui-row">
+                <div class="layui-col-xs4 layui-col-sm4 layui-col-md4 echarts">
+                    <div id="main3" style="width: 100%;height: 400px;"></div>
+                </div>
+                <div class="layui-col-xs4 layui-col-sm4 layui-col-md4 echarts">
+                    <div id="main4" style="width: 100%;height: 400px;"></div>
+                </div>
+                <div class="layui-col-xs4 layui-col-sm4 layui-col-md4 echarts">
+                    <div id="main5" style="width: 100%;height: 400px;"></div>
+                </div>
+            </div>
+        </div> 
+     
+     
+     
+      <div class="one-chart-box" >
+         <div class="layui-row echarts" style="height: 650px;">
+             <div id="main6" class="layui-col-xs8" style="height: 650px"></div>
+             <div id="main7" class="layui-col-xs4 layui-col-sm4" style="height: 650px">
+                <table class="layui-table"  style="margin-top:60px;">
+					     <tr>
+					      <td align="left" style="font-weight:bold;padding-right:6px;">项目编码：</td><td >P1</td>
+					     </tr>
+					     <tr>
+					      <td align="left" style="font-weight:bold;padding-right:6px;">项目描述：</td><td >P1 XXXXX	</td>
+					     </tr>
+					     <tr>
+					      <td align="left" style="font-weight:bold;padding-right:6px;">开始日期：</td><td >20150101</td>
+					     </tr>
+					     <tr>
+					      <td align="left" style="font-weight:bold;padding-right:6px;">结束日期：</td><td >20150101</td>
+					     </tr>
+					     <tr>
+					      <td align="left" style="font-weight:bold;padding-right:6px;">鉴定结论：	</td><td >国际先进	</td>
+					     </tr>
+					     <tr>
+					      <td align="left" style="font-weight:bold;padding-right:6px;">成果名称：</td><td >XXXX</td>
+					     </tr>
+					     <tr>
+					      <td align="left" style="font-weight:bold;padding-right:6px;">成果类型：</td><td >化工业</td>
+					     </tr>
+					     <tr>
+					      <td align="left" style="font-weight:bold;padding-right:6px;">专业类别：</td><td >新方法</td>
+					     </tr>
+					     <tr>
+					      <td align="left" style="font-weight:bold;padding-right:6px;">成果密级：</td><td >石油勘探</td>
+					     </tr>
+					     <tr>
+					      <td align="left" style="font-weight:bold;padding-right:6px;">应用情况：	</td><td >技术已应用</td>
+					     </tr>
+					     <tr>
+					      <td align="left" style="font-weight:bold;padding-right:6px;">许可情况：</td><td >中石化内部许可</td>
+					     </tr>
+					     <tr>
+					      <td align="left" style="font-weight:bold;padding-right:6px;">许可单位：</td><td >1</td>
+					     </tr>
+					     <tr>
+					      <td align="left" style="font-weight:bold;padding-right:6px;">许可时间：</td><td >20160101</td>
+					     </tr>
+					     <tr>
+					      <td align="left" style="font-weight:bold;padding-right:6px;">许可费：</td><td >100万</td>
+					     </tr>
+					     
+					      <tr>
+					      <td align="left" style="font-weight:bold;padding-right:6px;">主持鉴定单位：</td><td >科技部	</td>
+					     </tr>
+					      <tr>
+					      <td align="left" style="font-weight:bold;padding-right:6px;">专题主管人单位：</td><td >胜利油田处	</td>
+					     </tr>
+					      <tr>
+					      <td align="left" style="font-weight:bold;padding-right:6px;">专题主管人姓名：</td><td >张三</td>
+					     </tr>
+					      <tr>
+					      <td align="left" style="font-weight:bold;padding-right:6px;">申请鉴定单位：</td><td >胜利油田分公司</td>
+					     </tr>
+					     
+				  </table>
+             </div>
+         </div>
+     </div>
+     
+     
+
+</div>
+<!--echarts end-->
+
+<!--表格数据操作js-->
+<script src="/common/js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+<script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
+<script type="text/javascript" src="/plugins/echarts/walden.js"></script>	
+<script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
+<script type="text/javascript">
+var layer;
+layui.config({
+    base: '/layuiadmin/module/modules/' 
+}).use(['jquery','form', 'laydate','table','layer'], function(){
+	  $ = layui.jquery
+      ,table = layui.table
+      ,form = layui.form
+      ,layer = layui.layer
+      ,laydate = layui.laydate
+	  form.render(null, 'component-form-group');
+            laydate.render({
+               elem: '#month'
+               ,format: 'yyyyMM'
+            });
+});
+
+function init()
+{
+	
+		var allCode="${allCode?default('')}";
+		var allCode_text="全部院所";
+		var v_date=(new Date()).getTime();
+		var month=$('#month').val();
+		var companyCode=$('#companyCode').val();
+		var monthstr=getNowFormatDate($('#month').val());
+		var checkText=$("#companyCode").find("option:selected").text();
+		if(checkText=='全部')
+		{
+			checkText="全部院所";
+		}
+		 var seriesData_1=[
+		        {
+  		            name:'2014',
+  		            type:'bar',
+  		            color: ['#37A2DA'],
+  		            data:[272, 44, 734, 734]
+  		        },
+  		        {
+  		            name:'2015',
+  		            type:'bar',
+  		            color: ['#67E0E3'],
+  		             data:[232, 414, 74, 734]
+  		        },
+  		        {
+  		            name:'2016',
+  		            type:'bar',
+  		          data:[22, 444, 74, 734]
+  		        },
+  		        {
+  		            name:'2017',
+  		            type:'bar',
+  		            data:[232, 424, 74, 734]
+  		        },
+  		        {
+  		            name:'2018',
+  		            type:'bar',
+  		            data:[252, 424, 514, 134]
+  		        }
+  		        
+  		    ];
+		  
+		  var yAxis=[
+		        {
+		            type: 'value',
+		            name: '金额（万元）',
+		            min: 0,
+		            max: 850,
+		            interval: 200,
+		            axisLabel: {
+		                formatter: '{value}'
+		            }
+		        }
+		    ];
+   var legends_1=['2014','2015','2016','2017','2018'];
+   var xAxisData_1= ["国家项目","重大项目","十条龙项目","其他项目"];
+   load_mutl_bar_tt("main1","成果鉴定项目数量年趋势分析",legends_1,xAxisData_1,yAxis,seriesData_1,monthstr);
+		
+		
+	var legend_names_2=['国家项目','重大项目','十条龙项目','其他项目'];
+	var series_values_2=[
+		{value:135, name:'国家项目'},
+        {value:210, name:'重大项目'},
+        {value:210, name:'十条龙项目'},
+        {value:134, name:'其他项目'}
+	];
+	loadPie_tt('main2','成果鉴定项目数量按项目类型占比分析',legend_names_2,series_values_2,monthstr);
+	
+	var legend_names_3=['国家投入','中石化配套','石化总部','企业自筹'];
+	var series_values_3=[
+		 {value:135, name:'国家投入'},
+         {value:210, name:'中石化配套'},
+         {value:210, name:'石化总部'},
+         {value:134, name:'企业自筹'}
+	];
+	loadPie_tt('main3','成果鉴定项目数量按资金来源占比分析',legend_names_3,series_values_3,monthstr);
+	
+	
+	
+	var legend_names_4=['国家项目','总部项目','企业项目'];
+	var series_values_4=[
+		{value:185, name:'国家项目'},
+        {value:220, name:'总部项目'},
+        {value:210, name:'企业项目'}
+	];
+	loadPie_tt('main4','成果鉴定项目数量按项目类型占比分析',legend_names_4,series_values_4,monthstr);
+	
+	
+	
+	var legend_names_5=['A','B1','B2','C'];
+	var series_values_5=[
+		{value:135, name:'A'},
+        {value:290, name:'B1'},
+        {value:210, name:'B2'},
+        {value:240, name:'C'}
+	];
+	loadPie_tt('main5','成果鉴定项目数量按管理级别占比分析',legend_names_5,series_values_5,monthstr);
+	load_dot(monthstr) ;
+	
+}	
+        
+init();      
+        
+        
+        
+        
+        
+        
+       
+        
+        
+        
+        
+        
+       function load_dot(subtext) 
+       {
+        
+        
+    var myChart6 = echarts.init(document.getElementById('main6'));
+        var data = [
+            [[28604,77,17096869,'P1','国际领先'],[31163,77.4,27662440,'P15','国际领先'],[1516,68,1154605773,'P30','国际领先'],[13670,74.7,10582082,'P45','国际领先'],[28599,75,4986705,'P25','国际领先'],[29476,77.1,56943299,'P75','国际领先'],[31476,75.4,78958237,'P48','国际领先'],[28666,78.1,254830,'P28','国际领先'],[1777,57.7,870601776,'P38','国际领先'],[29550,79.1,122249285,'P65','国际领先'],[2076,67.9,20194354,'P7','国际领先'],[12087,72,42972254,'P50','国际领先'],[24021,75.4,3397534,'P51','国际领先'],[43296,76.8,4240375,'P52','国际领先'],[10088,70.8,38195258,'P53','国际领先'],[19349,69.6,147568552,'P54','国际领先'],[10670,67.3,53994605,'P55','国际领先'],[26424,75.7,57110117,'P56','国际领先'],[37062,75.4,252847810,'P57','国际领先']],
+            [[44056,11.8,23968973,'P1','国际先进'],[43294,21.7,35939927,'P15','国际先进'],[93334,76.9,1376048943,'P30','国际先进'],[21291,28.5,11389562,'P45','国际先进'],[98923,80.8,5503457,'P25','国际先进'],[37599,81.9,64395345,'P75','国际先进'],[84053,11.1,80688545,'P48','国际先进'],[12182,82.8,329425,'P28','国际先进'],[5903,33.8,1310050527,'P38','国际先进'],[36162,83.5,126573481,'P65','国际先进'],[1390,71.4,25155317,'P7','国际先进'],[34644,80.7,50293439,'P50','国际先进'],[34186,80.6,4528526,'P51','国际先进'],[64304,81.6,5210967,'P52','国际先进'],[24787,77.3,38611794,'P53','国际先进'],[23038,73.13,143456918,'P54','国际先进'],[19360,76.5,78665830,'P55','国际先进'],[38225,81.4,64715810,'P56','国际先进'],[53354,79.1,321773631,'P57','国际先进']],
+            [[41056,11.8,23961973,'P1','国内领先'],[42294,41.7,35039927,'P15','国内领先'],[23034,71.9,1376048943,'P30','国内领先'],[21091,72.5,11389562,'P45','国内领先'],[32923,20.8,5203457,'P25','国内领先'],[32599,41.9,64365345,'P75','国内领先'],[40053,41.1,80088545,'P48','国内领先'],[42112,58.8,329125,'P28','国内领先'],[5913,68.8,1311055527,'P38','国内领先'],[36062,80.5,126503481,'P65','国内领先'],[1300,51.4,25150317,'P7','国内领先'],[34044,50.7,50203439,'P50','国内领先'],[34106,80.6,4520526,'P51','国内领先'],[60304,41.6,5210067,'P52','国内领先'],[27787,74.3,38611694,'P53','国内领先'],[27038,93.13,143236918,'P54','国内领先'],[19560,66.5,78660830,'P55','国内领先'],[31225,41.4,64715810,'P56','国内领先'],[50354,70.1,320773631,'P57','国内领先']],
+            [[31056,21.8,63961973,'P1','国内先进'],[70294,91.7,30039927,'P15','国内先进'],[20034,71.9,8376048943,'P30','国内先进'],[41091,62.5,51389562,'P45','国内先进'],[92923,53.8,5243457,'P25','国内先进'],[38599,91.9,64395345,'P75','国内先进'],[40253,61.1,80388545,'P48','国内先进'],[62112,68.8,329125,'P28','国内先进'],[8913,88.8,8311055527,'P38','国内先进'],[76062,70.5,726503481,'P65','国内先进'],[5300,61.4,65150317,'P7','国内先进'],[84044,80.7,80203439,'P50','国内先进'],[84106,80.6,4820526,'P51','国内先进'],[10304,91.6,9210067,'P52','国内先进'],[87787,24.3,48611694,'P53','国内先进'],[67038,63.13,743236918,'P54','国内先进'],[49560,56.5,48660830,'P55','国内先进'],[81225,51.4,24715810,'P56','国内先进'],[56354,10.1,324773631,'P57','国内先进']]
+            
+            ];
+
+      var  option6 = {
+            title: {
+                text: '鉴定成果、项目周期与资金投入热点分布图',
+                x:'center',
+                y: '10px',
+    	        textStyle: {
+    	            fontSize: 15,
+    	            fontWeight: 'normal',
+    	            color: '#000000'       
+    	        },
+    	        subtextStyle: {
+    	            color: '#7B7B7B'        
+    	        },
+    	        subtext:''
+            },
+            legend: {
+            	 bottom: 10,
+                data: ['国际领先', '国际先进', '国内领先', '国内先进']
+            },
+            xAxis: {
+                splitLine: {
+                    lineStyle: {
+                        type: 'dashed'
+                    }
+                },
+                type : 'value',
+                name: '资金投入'
+            },
+            yAxis: {
+                splitLine: {
+                    lineStyle: {
+                        type: 'dashed'
+                    }
+                },
+                scale: true,
+                type : 'value',
+                name: '项目周期'
+               
+            },
+            series: [{
+                name: '国际领先',
+                data: data[0],
+                type: 'scatter',
+                /* symbolSize: function (data) {
+                    return Math.sqrt(data[2]) / 5e2;
+                }, */
+                symbolSize: 20,
+                label: {
+                    emphasis: {
+                        show: true,
+                        formatter: function (param) {
+                            return param.data[3];
+                        },
+                        position: 'top'
+                    }
+                },
+                itemStyle: {
+                    normal: {
+                        shadowBlur: 10,
+                        shadowColor: 'rgba(120, 36, 50, 0.5)',
+                        shadowOffsetY: 5,
+                        color: new echarts.graphic.RadialGradient(0.4, 0.3, 1, [{
+                            offset: 0,
+                            color: 'rgb(251, 108, 123)'
+                        }, {
+                            offset: 1,
+                            color: 'rgb(104, 46, 72)'
+                        }])
+                    }
+                }
+            }, {
+                name: '国际先进',
+                data: data[1],
+                type: 'scatter',
+               /*  symbolSize: function (data) {
+                    return Math.sqrt(data[2]) / 5e2;
+                }, */
+                symbolSize: 20,
+                label: {
+                    emphasis: {
+                        show: true,
+                        formatter: function (param) {
+                            return param.data[3];
+                        },
+                        position: 'top'
+                    }
+                },
+                itemStyle: {
+                    normal: {
+                        shadowBlur: 10,
+                        shadowColor: 'rgba(25, 100, 150, 0.5)',
+                        shadowOffsetY: 5,
+                        color: new echarts.graphic.RadialGradient(0.4, 0.3, 1, [{
+                            offset: 0,
+                            color: 'rgb(129, 267, 238)'
+                        }, {
+                            offset: 1,
+                            color: 'rgb(25, 133, 207)'
+                        }])
+                    }
+                }
+                
+            },
+            {
+                name: '国内领先',
+                data: data[2],
+                type: 'scatter',
+                /* symbolSize: function (data) {
+                    return Math.sqrt(data[2]) / 5e2;
+                }, */
+                symbolSize: 20,
+                label: {
+                    emphasis: {
+                        show: true,
+                        formatter: function (param) {
+                            return param.data[3];
+                        },
+                        position: 'top'
+                    }
+                },
+                itemStyle: {
+                    normal: {
+                        shadowBlur: 10,
+                        shadowColor: 'rgba(120, 36, 50, 0.5)',
+                        shadowOffsetY: 5,
+                        color: new echarts.graphic.RadialGradient(0.4, 0.3, 1, [{
+                            offset: 0,
+                            color: 'rgb(251, 218, 223)'
+                        }, {
+                            offset: 1,
+                            color: 'rgb(204, 56, 72)'
+                        }])
+                    }
+                }
+            },
+            {
+                name: '国内先进',
+                data: data[3],
+                type: 'scatter',
+                /* symbolSize: function (data) {
+                    return Math.sqrt(data[3]) / 5e2;
+                }, */
+                symbolSize: 20,
+                label: {
+                    emphasis: {
+                        show: true,
+                        formatter: function (param) {
+                            return param.data[3];
+                        },
+                        position: 'top'
+                    }
+                },
+                itemStyle: {
+                    normal: {
+                        shadowBlur: 10,
+                        shadowColor: 'rgba(120, 36, 50, 0.5)',
+                        shadowOffsetY: 5,
+                        color: new echarts.graphic.RadialGradient(0.4, 0.3, 1, [{
+                            offset: 0,
+                            color: 'rgb(251, 118, 123)'
+                        }, {
+                            offset: 1,
+                            color: 'rgb(204, 46, 72)'
+                        }])
+                    }
+                }
+            }
+            ]
+        };
+      option6.title.subtext=subtext;
+      myChart6.setOption(option6);
+      myChart6.on('click', function (params) {
+
+    	  console.log(params);
+    	  alert(params.value);
+            
+     });   
+      }
+       
+       
+       
+       
+      function search_Event()
+      {
+    	  init(); 
+      }
+    </script>
+</body>
+</html>

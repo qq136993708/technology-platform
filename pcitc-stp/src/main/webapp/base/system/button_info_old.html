@@ -1,0 +1,196 @@
+
+<form id="dataForm" name="dataForm" class="form-horizontal bv-form"
+	novalidate="novalidate">
+	<input type="hidden" id="id" name="id"/>
+	<input type="hidden" id="functionId" name="functionId"/>
+	<div class="box-body">
+		<div class="col-md-12">
+			<div class="form-group">
+				<label class="col-sm-3 control-label">按钮名称:</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" id="name"
+						name="name" placeholder="" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">英文名称:</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" id="englishName"
+						name="englishName" placeholder="" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">按钮编码:</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" id="code"
+						name="code" placeholder="不填可自动生成" disabled="disabled"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">作用域:</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" id="area"
+						name="area" placeholder="" />
+				</div>
+			</div>
+
+			<div class="form-group">
+				<div class="form-group cmRadio">
+				<label class="col-sm-3 control-label">状态:</label> 
+				<label class="col-sm-8"> 
+				<input id="ra1" type="radio" value="1" name="status" />
+				<label class="radio"  for="ra1">启用</label> 
+				<input id="ra2" type="radio" value="0" name="status" /> 
+				<label class="radio"  for="ra2">禁用</label>
+				</label>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">描述:</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" id="remark"
+						name="remark" placeholder="" />
+				</div>
+			</div>
+			 
+		</div>
+	</div>
+	<div class="box-footer text-right">
+		<button type="button" class="btn btn-default" data-dismiss="modal" data-btn-type="cancel">关闭</button>
+		<button type="button" id="button-save" class="btn btn-primary">保存</button>
+	</div>
+	
+	</form>
+</body>
+<script>
+$(function() {
+	var id = "${id}";
+	var functionId = "${functionId}";
+	$("#functionId").val(functionId);
+	console.log("id:"+id);
+	console.log("functionId:"+functionId);
+	if(id){
+		fillData(id);
+	}
+	// 保存操作
+	$("#button-save").click(function() {//非submit按钮点击后进行验证，如果是submit则无需此句直接验证
+	    console.log("111")
+		formValidator();
+		$("#dataForm").bootstrapValidator('validate');//提交验证
+		if ($("#dataForm").data('bootstrapValidator').isValid()) {//获取验证结果，如果成功，执行下面代码
+			saveButton();//验证成功后的操作
+		}
+	});
+});
+function formValidator() {
+	$("#dataForm").bootstrapValidator({
+		live : 'disabled',//验证时机，enabled是内容有变化就验证（默认），disabled和submitted是提交再验证
+		excluded : [ ':disabled', ':hidden', ':not(:visible)' ],//排除无需验证的控件，比如被禁用的或者被隐藏的
+		//submitButtons : '#btn-save',//指定提交按钮，如果验证失败则变成disabled，但我没试成功，反而加了这句话非submit按钮也会提交到action指定页面
+		//message : '通用的验证失败消息',//好像从来没出现过
+		feedbackIcons : {//根据验证结果显示的各种图标
+			valid : 'glyphicon glyphicon-ok',
+			invalid : 'glyphicon glyphicon-remove',
+			validating : 'glyphicon glyphicon-refresh'
+		},
+		fields : {
+			name : {
+				validators : {
+					notEmpty : {
+						message : '名称不能为空'
+					}
+				}
+			},
+			code : {
+				validators : {
+					notEmpty : {
+						message : '编码不能为空'
+					}
+				}
+			},
+			area : {
+				validators : {
+					notEmpty : {
+						message : '作用域不能为空'
+					}
+				}
+			},
+		}
+	});
+}
+
+function saveButton(){
+	console.log($("#dataForm").serialize());
+	$.ajax({
+		type : 'post',
+		dataType : 'text',
+        //data : { "id":id,"name":name,"url":url,"code":code,"weight":weight,"status":status}, 
+        data : $("#dataForm").serialize(),
+        url : '/function/saveButton?i='+Math.random(),
+        success : function(data) {
+        	if(data==200){
+        		modals.info("保存成功");
+        		//刷新dataTable;
+        		/*$('#functionModal').modal("hide") ;*/
+                var modalId="";
+				if($(".modal").css("display")=="block"){
+                    modalId=$(".modal").attr("id")
+				}
+                parent.$('#'+modalId).remove()
+                //$("#"+index.pageOnlyId).contents().find('#functionTable').dataTable()._fnAjaxUpdate();
+                $("#"+index.pageOnlyId)[0].contentWindow.updaTable();
+        	}	            	
+        },
+        error : function(e) {
+        	modals.info("出错了");
+            console.log(e);
+        }
+    }); 
+}
+
+
+function fillData(id) {
+	$("#dataForm")[0].reset();
+	 $.ajax({
+			type : 'post',
+			dataType : 'json',
+			data :{"id":id},
+			url : basePath + 'function/getButton?i='+Math.random(),
+			success : function(data) {
+				console.log(data)
+				//alert(data.id)
+				$("input[name='id']").val(data.id);
+				$("input[name='name']").val(data.name);
+				$("input[name='area']").val(data.area);
+				$("input[name='code']").val(data.code);
+				$("input[name='remark']").val(data.remark);
+				$("input[name='englishName']").val(data.englishName);
+				$("input[name=status][value=" + data.status + "]").prop("checked", "checked");
+				$("input[name='functionId']").val(data.functionId);
+			},
+			error : function(e) {
+				modals.info("出错了！",e);
+			}
+		});
+}
+
+ $('.countrypicker').select2({
+     language: 'zh-CN',
+     width: '60%',
+     placeholder: '请选择',
+ });
+ 
+ $('#select').change(function () {
+    var text = $(this).find(':selected').text();
+    var id = $(this).find(':selected').attr('value');
+    console.log(text+"   "+id)
+});
+ 
+ $('button[data-btn-type="cancel"]').click(function () { 
+	 var modalId="";            
+	 if($(".modal").css("display")=="block"){     
+          modalId=$(".modal").attr("id")    
+      	 }       
+	 parent.$('#'+modalId).remove();
+}); 
+</script>

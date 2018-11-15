@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+	<link rel="stylesheet" href="/layuiadmin/style/adminStp.css" media="all">
+	<link rel="stylesheet" href="/layuiadmin/style/mainStp.css" media="all">
+	<link rel="stylesheet" href="/layuiadmin/style/common.css" media="all">
+	<link rel="stylesheet" href="/layuiadmin/style/second.css" media="all">
+</head>
+<body >
+<div class="layui-fluid">
+	<div class="layui-main-oil">
+		<div class="searchBox">
+			<input type="hidden" name="days" value="${days}"  id="days">
+			<!--查询条件-->
+			<label class="dateInput">
+				<span>月份</span>
+				<input type="text" name="month" placeholder="请选择月份" title="月份" value="${month}" autocomplete="off" class="form-control" id="month">
+			</label>
+			<div class="layui-input-inline">
+				<select name="companyCode" id="companyCode" >
+					<#list companyCodeList as vo>
+					<#if vo.g0GSJC == '全部'>
+					<option value="${vo.g0GSDM}"  selected="selected">${vo.g0GSJC}</option>
+				</#if>
+				<#if vo.g0GSJC != '全部'>
+				<option value="${vo.g0GSDM}">${vo.g0GSJC}</option>
+			</#if>
+		</#list>
+		</select>
+	</div>
+	<!--按钮组-->
+	<div class="btnGroup">
+		<button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()" data-type="searchEvent">查询</button>
+	</div>
+	<span class="unitBox" style="padding-right: 8px;">单位：万元</span>
+</div>
+<div class="layui-row layui-col-space10">
+	<div class="layui-col-sm12">
+		<div class="layui-card">
+			<div class="layui-card-header">
+				<span class="layui-time"></span>科研资金净现金余额30日统计表
+			</div>
+			<div class="layui-row-main">
+				<div class="main-chart" id="main1" style="height:280px;width: 100%;"></div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="layui-row layui-col-space10">
+	<div class="layui-col-sm12">
+		<div class="layui-card">
+			<div class="layui-card-header">
+				科研资金七日净现金余额统计表
+			</div>
+			<div class="layui-row-main">
+				<div class="main-chart">
+					<table class="layui-table">
+						<thead>
+						<tr>
+							<td>单位</td>
+							<td>2018/9/23</td>
+							<td>2018/9/24</td>
+							<td>2018/9/25</td>
+							<td>2018/9/26</td>
+							<td>2018/9/27</td>
+							<td>2018/9/28</td>
+							<td>2018/9/29</td>
+							<td>2018/9/23</td>
+						</tr>
+						</thead>
+						<tbody>
+						<tr>
+							<td>石勘院</td>
+							<td>440</td>
+							<td>310</td>
+							<td>380</td>
+							<td>390</td>
+							<td>570</td>
+							<td>530</td>
+							<td>540</td>
+							<td>390</td>
+						</tr>
+						<tr>
+							<td>物探院</td>
+							<td>330</td>
+							<td>560</td>
+							<td>480</td>
+							<td>550</td>
+							<td>490</td>
+							<td>390</td>
+							<td>520</td>
+							<td>570</td>
+						</tr>
+						<tr>
+							<td>工程院</td>
+							<td>410</td>
+							<td>520</td>
+							<td>550</td>
+							<td>430</td>
+							<td>300</td>
+							<td>370</td>
+							<td>380</td>
+							<td>520</td>
+						</tr>
+						<tr>
+							<td>石科院</td>
+							<td>440</td>
+							<td>430</td>
+							<td>460</td>
+							<td>330</td>
+							<td>530</td>
+							<td>600</td>
+							<td>550</td>
+							<td>470</td>
+						</tr>
+						<tr>
+							<td>抚研院</td>
+							<td>600</td>
+							<td>520</td>
+							<td>330</td>
+							<td>450</td>
+							<td>390</td>
+							<td>500</td>
+							<td>310</td>
+							<td>450</td>
+						</tr>
+						<tr>
+							<td>北化院</td>
+							<td>380</td>
+							<td>500</td>
+							<td>510</td>
+							<td>520</td>
+							<td>560</td>
+							<td>410</td>
+							<td>480</td>
+							<td>590</td>
+						</tr>
+						<tr>
+							<td>上海院</td>
+							<td>340</td>
+							<td>500</td>
+							<td>430</td>
+							<td>580</td>
+							<td>460</td>
+							<td>500</td>
+							<td>480</td>
+							<td>440</td>
+						</tr>
+						<tr>
+							<td>安工院</td>
+							<td>590</td>
+							<td>430</td>
+							<td>340</td>
+							<td>500</td>
+							<td>550</td>
+							<td>500</td>
+							<td>580</td>
+							<td>430</td>
+						</tr>
+						<tr>
+							<td>总计：</td>
+							<td>3530</td>
+							<td>3770</td>
+							<td>3480</td>
+							<td>3750</td>
+							<td>3850</td>
+							<td>3800</td>
+							<td>3840</td>
+							<td>3860</td>
+						</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+</div>
+<!--<div class="searchBox">
+<input type="hidden" name="days" value="${days}"  id="days">
+    &lt;!&ndash;查询条件&ndash;&gt;
+        <label class="dateInput">
+            <span>月份</span>
+            <input type="text" name="month" placeholder="请选择月份" title="月份" value="${month}" autocomplete="off" class="form-control" id="month">
+        </label>
+       <div class="layui-input-inline">
+         <select name="companyCode" id="companyCode" >
+              <#list companyCodeList as vo>
+              	 <#if vo.g0GSJC == '全部'>
+              	 	<option value="${vo.g0GSDM}"  selected="selected">${vo.g0GSJC}</option>
+              	 </#if>
+                 <#if vo.g0GSJC != '全部'>
+              	 	<option value="${vo.g0GSDM}">${vo.g0GSJC}</option>
+              	 </#if>
+               </#list>
+            </select>
+       </div>
+
+    &lt;!&ndash;按钮组&ndash;&gt;
+    <div class="btnGroup">
+        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()" data-type="searchEvent">查询</button>
+    </div>
+    <span class="unitBox">单位：万元</span>
+</div>-->
+<!--echarts-->
+<!--<div class="content-body container">
+ <div class="one-chart-box" style="margin-top:10px">
+           <div class="layui-row echarts">
+             <div id="main1" style="width: 100%;height: 400px;"></div>
+           </div>
+         </div>
+		<div>
+		<div style="text-align: center; font-weight: bold; margin: 10px;">科研资金七日净现金余额统计表</div>
+			<table class="layui-table">
+				 <thead>
+					<tr>
+						<td>单位</td>
+						<td>2018/9/23</td>
+						<td>2018/9/24</td>
+						<td>2018/9/25</td>
+						<td>2018/9/26</td>
+						<td>2018/9/27</td>
+						<td>2018/9/28</td>
+						<td>2018/9/29</td>
+						<td>2018/9/23</td>
+					</tr>
+					</thead>
+					<tbody>
+					<tr>
+						<td>石勘院</td>
+						<td>440</td>
+						<td>310</td>
+						<td>380</td>
+						<td>390</td>
+						<td>570</td>
+						<td>530</td>
+						<td>540</td>
+						<td>390</td>
+					</tr>
+					<tr>
+						<td>物探院</td>
+						<td>330</td>
+						<td>560</td>
+						<td>480</td>
+						<td>550</td>
+						<td>490</td>
+						<td>390</td>
+						<td>520</td>
+						<td>570</td>
+					</tr>
+					<tr>
+						<td>工程院</td>
+						<td>410</td>
+						<td>520</td>
+						<td>550</td>
+						<td>430</td>
+						<td>300</td>
+						<td>370</td>
+						<td>380</td>
+						<td>520</td>
+					</tr>
+					<tr>
+						<td>石科院</td>
+						<td>440</td>
+						<td>430</td>
+						<td>460</td>
+						<td>330</td>
+						<td>530</td>
+						<td>600</td>
+						<td>550</td>
+						<td>470</td>
+					</tr>
+					<tr>
+						<td>抚研院</td>
+						<td>600</td>
+						<td>520</td>
+						<td>330</td>
+						<td>450</td>
+						<td>390</td>
+						<td>500</td>
+						<td>310</td>
+						<td>450</td>
+					</tr>
+					<tr>
+						<td>北化院</td>
+						<td>380</td>
+						<td>500</td>
+						<td>510</td>
+						<td>520</td>
+						<td>560</td>
+						<td>410</td>
+						<td>480</td>
+						<td>590</td>
+					</tr>
+					<tr>
+						<td>上海院</td>
+						<td>340</td>
+						<td>500</td>
+						<td>430</td>
+						<td>580</td>
+						<td>460</td>
+						<td>500</td>
+						<td>480</td>
+						<td>440</td>
+					</tr>
+					<tr>
+						<td>安工院</td>
+						<td>590</td>
+						<td>430</td>
+						<td>340</td>
+						<td>500</td>
+						<td>550</td>
+						<td>500</td>
+						<td>580</td>
+						<td>430</td>
+					</tr>
+					<tr>
+						<td>总计：</td>
+						<td>3530</td>
+						<td>3770</td>
+						<td>3480</td>
+						<td>3750</td>
+						<td>3850</td>
+						<td>3800</td>
+						<td>3840</td>
+						<td>3860</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+
+	</div>   -->
+
+
+
+<!--表格数据操作js-->
+<script src="/common/js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+<script src="/common/js/layer-v3.1.1/layer.js"></script>
+<script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
+<script type="text/javascript" src="/plugins/echarts/walden.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
+<script type="text/javascript">
+
+    layui.config({
+        base: '/layuiadmin/module/modules/'
+    }).use(['jquery','form', 'laydate','table','laypage'], function(){
+        var $ = layui.jquery,table = layui.table,form = layui.form,laydate = layui.laydate;
+        var monthValY=$("#month").val().substring(4,0);
+        var monthValM=$("#month").val().substring(4);
+        $(".layui-time").html(monthValY+"年"+monthValM+"月");
+        form.render(null, 'component-form-group');
+        laydate.render({
+            elem: '#month'
+            ,format: 'yyyyMM'
+        });
+    });
+
+
+    function init()
+    {
+
+        var allCode="${allCode?default('')}";
+        var allCode_text="全部院所";
+        var v_date=(new Date()).getTime();
+        var month=$('#month').val();
+        var companyCode=$('#companyCode').val();
+        var monthstr=getNowFormatDate($('#month').val());
+        var checkText=$("#companyCode").find("option:selected").text();
+        var monthValY=$("#month").val().substring(4,0);
+        var monthValM=$("#month").val().substring(4);
+        $(".layui-time").html(monthValY+"年"+monthValM+"月");
+        if(checkText=='全部')
+        {
+            checkText="全部院所";
+        }
+
+        var seriesData=['20000','22000','20300','50000','60000','20000','22000','20300','50000','60000','20000','22000','20300','50000','60000','20000','22000','20300','50000','60000','20000','22000','20300','50000','60000','20000','22000','20300','50000','60000'];
+        var xAxisData_1=	["20180801","20180802","20180803","20180804","20180805","20180806","20180807","20180808","20180809","20180810","20180811","20180812","20180813","20180814","20180815","20180816","20180817","20180818","20180819","20180820","20180821","20180822","20180823","20180824","20180825","20180826","20180827","20180828","20180829","20180830"];
+        load_single_line_tt("main1","",xAxisData_1,seriesData,'')
+
+
+
+
+
+
+
+
+
+    }
+
+
+    init();
+
+
+
+
+
+
+
+    function search_Event()
+    {
+        init();
+    }
+
+
+</script>
+</body>
+</html>

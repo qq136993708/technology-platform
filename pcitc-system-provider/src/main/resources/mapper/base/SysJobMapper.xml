@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pcitc.mapper.system.SysJobMapper" >
+  <resultMap id="BaseResultMap" type="com.pcitc.base.system.SysJob" >
+    <id column="data_id" property="dataId" jdbcType="VARCHAR" />
+    <result column="sys_flag" property="sysFlag" jdbcType="VARCHAR" />
+    <result column="data_order" property="dataOrder" jdbcType="INTEGER" />
+    <result column="del_flag" property="delFlag" jdbcType="INTEGER" />
+    <result column="create_date" property="createDate" jdbcType="VARCHAR" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="create_user_disp" property="createUserDisp" jdbcType="VARCHAR" />
+    <result column="modify_date" property="modifyDate" jdbcType="VARCHAR" />
+    <result column="modify_user" property="modifyUser" jdbcType="VARCHAR" />
+    <result column="modify_user_disp" property="modifyUserDisp" jdbcType="VARCHAR" />
+    <result column="job_kind" property="jobKind" jdbcType="VARCHAR" />
+    <result column="job_group" property="jobGroup" jdbcType="VARCHAR" />
+    <result column="job_name" property="jobName" jdbcType="VARCHAR" />
+    <result column="job_class" property="jobClass" jdbcType="VARCHAR" />
+    <result column="interval_unit" property="intervalUnit" jdbcType="VARCHAR" />
+    <result column="time_interval" property="timeInterval" jdbcType="VARCHAR" />
+    <result column="cron_expression" property="cronExpression" jdbcType="VARCHAR" />
+    <result column="start_time" property="startTime" jdbcType="VARCHAR" />
+    <result column="end_time" property="endTime" jdbcType="VARCHAR" />
+    <result column="job_content" property="jobContent" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    data_id, sys_flag, data_order, del_flag, create_date, create_user, create_user_disp, 
+    modify_date, modify_user, modify_user_disp, job_kind, job_group, job_name, job_class, 
+    interval_unit, time_interval, cron_expression, start_time, end_time, job_content
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_job
+    where data_id = #{dataId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByCondition" resultMap="BaseResultMap" parameterType="java.util.HashMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    from sys_job
+    <where>
+      <if test="jobName != null">
+        and JOB_NAME like '%${jobName}%'
+      </if>
+    </where>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sys_job
+    where data_id = #{dataId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.pcitc.base.system.SysJob" >
+    insert into sys_job (data_id, sys_flag, data_order, 
+      del_flag, create_date, create_user, 
+      create_user_disp, modify_date, modify_user, 
+      modify_user_disp, job_kind, job_group, 
+      job_name, job_class, interval_unit, 
+      time_interval, cron_expression, start_time, 
+      end_time, job_content)
+    values (#{dataId,jdbcType=VARCHAR}, #{sysFlag,jdbcType=VARCHAR}, #{dataOrder,jdbcType=INTEGER}, 
+      #{delFlag,jdbcType=INTEGER}, #{createDate,jdbcType=VARCHAR}, #{createUser,jdbcType=VARCHAR}, 
+      #{createUserDisp,jdbcType=VARCHAR}, #{modifyDate,jdbcType=VARCHAR}, #{modifyUser,jdbcType=VARCHAR}, 
+      #{modifyUserDisp,jdbcType=VARCHAR}, #{jobKind,jdbcType=VARCHAR}, #{jobGroup,jdbcType=VARCHAR}, 
+      #{jobName,jdbcType=VARCHAR}, #{jobClass,jdbcType=VARCHAR}, #{intervalUnit,jdbcType=VARCHAR}, 
+      #{timeInterval,jdbcType=VARCHAR}, #{cronExpression,jdbcType=VARCHAR}, #{startTime,jdbcType=VARCHAR}, 
+      #{endTime,jdbcType=VARCHAR}, #{jobContent,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pcitc.base.system.SysJob" >
+    insert into sys_job
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="dataId != null" >
+        data_id,
+      </if>
+      <if test="sysFlag != null" >
+        sys_flag,
+      </if>
+      <if test="dataOrder != null" >
+        data_order,
+      </if>
+      <if test="delFlag != null" >
+        del_flag,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="createUser != null" >
+        create_user,
+      </if>
+      <if test="createUserDisp != null" >
+        create_user_disp,
+      </if>
+      <if test="modifyDate != null" >
+        modify_date,
+      </if>
+      <if test="modifyUser != null" >
+        modify_user,
+      </if>
+      <if test="modifyUserDisp != null" >
+        modify_user_disp,
+      </if>
+      <if test="jobKind != null" >
+        job_kind,
+      </if>
+      <if test="jobGroup != null" >
+        job_group,
+      </if>
+      <if test="jobName != null" >
+        job_name,
+      </if>
+      <if test="jobClass != null" >
+        job_class,
+      </if>
+      <if test="intervalUnit != null" >
+        interval_unit,
+      </if>
+      <if test="timeInterval != null" >
+        time_interval,
+      </if>
+      <if test="cronExpression != null" >
+        cron_expression,
+      </if>
+      <if test="startTime != null" >
+        start_time,
+      </if>
+      <if test="endTime != null" >
+        end_time,
+      </if>
+      <if test="jobContent != null" >
+        job_content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="dataId != null" >
+        #{dataId,jdbcType=VARCHAR},
+      </if>
+      <if test="sysFlag != null" >
+        #{sysFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="dataOrder != null" >
+        #{dataOrder,jdbcType=INTEGER},
+      </if>
+      <if test="delFlag != null" >
+        #{delFlag,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserDisp != null" >
+        #{createUserDisp,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyDate != null" >
+        #{modifyDate,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyUser != null" >
+        #{modifyUser,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyUserDisp != null" >
+        #{modifyUserDisp,jdbcType=VARCHAR},
+      </if>
+      <if test="jobKind != null" >
+        #{jobKind,jdbcType=VARCHAR},
+      </if>
+      <if test="jobGroup != null" >
+        #{jobGroup,jdbcType=VARCHAR},
+      </if>
+      <if test="jobName != null" >
+        #{jobName,jdbcType=VARCHAR},
+      </if>
+      <if test="jobClass != null" >
+        #{jobClass,jdbcType=VARCHAR},
+      </if>
+      <if test="intervalUnit != null" >
+        #{intervalUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="timeInterval != null" >
+        #{timeInterval,jdbcType=VARCHAR},
+      </if>
+      <if test="cronExpression != null" >
+        #{cronExpression,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=VARCHAR},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=VARCHAR},
+      </if>
+      <if test="jobContent != null" >
+        #{jobContent,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.system.SysJob" >
+    update sys_job
+    <set >
+      <if test="sysFlag != null" >
+        sys_flag = #{sysFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="dataOrder != null" >
+        data_order = #{dataOrder,jdbcType=INTEGER},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserDisp != null" >
+        create_user_disp = #{createUserDisp,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyDate != null" >
+        modify_date = #{modifyDate,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyUser != null" >
+        modify_user = #{modifyUser,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyUserDisp != null" >
+        modify_user_disp = #{modifyUserDisp,jdbcType=VARCHAR},
+      </if>
+      <if test="jobKind != null" >
+        job_kind = #{jobKind,jdbcType=VARCHAR},
+      </if>
+      <if test="jobGroup != null" >
+        job_group = #{jobGroup,jdbcType=VARCHAR},
+      </if>
+      <if test="jobName != null" >
+        job_name = #{jobName,jdbcType=VARCHAR},
+      </if>
+      <if test="jobClass != null" >
+        job_class = #{jobClass,jdbcType=VARCHAR},
+      </if>
+      <if test="intervalUnit != null" >
+        interval_unit = #{intervalUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="timeInterval != null" >
+        time_interval = #{timeInterval,jdbcType=VARCHAR},
+      </if>
+      <if test="cronExpression != null" >
+        cron_expression = #{cronExpression,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        start_time = #{startTime,jdbcType=VARCHAR},
+      </if>
+      <if test="endTime != null" >
+        end_time = #{endTime,jdbcType=VARCHAR},
+      </if>
+      <if test="jobContent != null" >
+        job_content = #{jobContent,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where data_id = #{dataId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.system.SysJob" >
+    update sys_job
+    set sys_flag = #{sysFlag,jdbcType=VARCHAR},
+      data_order = #{dataOrder,jdbcType=INTEGER},
+      del_flag = #{delFlag,jdbcType=INTEGER},
+      create_date = #{createDate,jdbcType=VARCHAR},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      create_user_disp = #{createUserDisp,jdbcType=VARCHAR},
+      modify_date = #{modifyDate,jdbcType=VARCHAR},
+      modify_user = #{modifyUser,jdbcType=VARCHAR},
+      modify_user_disp = #{modifyUserDisp,jdbcType=VARCHAR},
+      job_kind = #{jobKind,jdbcType=VARCHAR},
+      job_group = #{jobGroup,jdbcType=VARCHAR},
+      job_name = #{jobName,jdbcType=VARCHAR},
+      job_class = #{jobClass,jdbcType=VARCHAR},
+      interval_unit = #{intervalUnit,jdbcType=VARCHAR},
+      time_interval = #{timeInterval,jdbcType=VARCHAR},
+      cron_expression = #{cronExpression,jdbcType=VARCHAR},
+      start_time = #{startTime,jdbcType=VARCHAR},
+      end_time = #{endTime,jdbcType=VARCHAR},
+      job_content = #{jobContent,jdbcType=VARCHAR}
+    where data_id = #{dataId,jdbcType=VARCHAR}
+  </update>
+</mapper>

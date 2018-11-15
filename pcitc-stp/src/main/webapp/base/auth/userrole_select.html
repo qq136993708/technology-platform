@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	<link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/ztree/css/metroStyle/metroStyle.css">
+    
+    <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+    <script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.core.js"></script>
+    <script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.excheck.min.js"></script>
+    <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+    <style>
+        /*左侧表单宽度大于右侧时 设置twoListleft的width为59.2 twoListRight的宽为39.2*/
+        .twoListleft{width: 47%; float: left;}
+        .twoListRight{width: 47%;float: right;}
+    </style>
+</head>
+<body>
+<div class="formBox">
+    <div class="twoListleft">
+        <div class="searchBox">
+            <!--查询条件-->
+            <label class="dateInput">
+                <span>姓名</span>
+                <input type="text" id="leftName" name="leftName" placeholder="请输入用户名称" title="用户名称" autocomplete="off" class="form-control" id="modelName1">
+            </label>
+            <!--按钮组-->
+            <div class="btnGroup">
+                <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchLeftEvent">查询</button>
+                <button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg" data-type="leftResetEvent">重置</button>
+            </div>
+        </div>
+        <div class="tableBox">
+        	<table id="user_notinrole_table" class="layui-hide" lay-filter="roleNotInEvent"></table>
+        </div>
+    </div>
+    <div class="twoListRight">
+        <div class="searchBox">
+            <!--查询条件-->
+            <label class="dateInput">
+                <span>姓名</span>
+                <input type="text" id="rightName" name="rightName" placeholder="请输入用户名称" title="用户名称" autocomplete="off" class="form-control" id="modelName1">
+            </label>
+            <!--按钮组-->
+            <div class="btnGroup">
+                <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchRightEvent">查询</button>
+                <button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg" data-type="rightResetEvent">重置</button>
+            </div>
+        </div>
+        <div class="tableBox">
+        	<table id="user_inrole_table" class="layui-hide" lay-filter="roleInEvent"></table>
+        </div>
+    </div>
+    <div class="move-btn move-right" data-type="addEvent"></div>
+    <div class="move-btn move-left" data-type="delEvent"></div>
+    <!-- <div class="move-btn delete" ></div> -->
+</div>
+<div class="form-bottom">
+   <div class="form-bottom-btns">
+   	<button type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" data-type="closeEvent">关闭</button>
+   </div>
+ </div>
+</body>
+<script type="text/javascript">
+var roleId="${roleId?default(0)}";
+$(document).on("click", ".layui-table-body .layui-table tbody tr", function () {
+ 	var checkCell = $(this).parent().find("tr[data-index=" + $(this).attr('data-index') + "]").find("td div.laytable-cell-checkbox div.layui-form-checkbox");
+    if (checkCell.length > 0) {
+        checkCell.click();
+    }
+});
+$(document).on("click", "td div.laytable-cell-checkbox div.layui-form-checkbox", function (e) {
+	 e.stopPropagation();
+});
+layui.use(['jquery', 'table', 'laypage'], function () {
+    var table = layui.table,$ = layui.jquery;
+    function rendRoleTable()
+    {
+    	var param = JSON.parse(window.localStorage.getItem("param"));
+	    //渲染第一个表格
+	    table.render({
+	        elem: '#user_notinrole_table' //表格容器
+	        , url: '/user/user-not-role' //请求的url地址
+	        , where:{param: {"roleId":roleId,"userName":$("#leftName").val()}}
+	        , limit : param.selfRownum //每页默认显示的数量
+	        , id: 'userNotInRoleTable'
+	        , height: 'full-118'
+	        , method:"POST"
+	        , loading:true
+	        , page: {
+	            groups: 5
+	            , limits : [ param.selfRownum, 15, 30, 45, 60 ]
+	            , layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+	            , first: '首页' //不显示首页
+	            , last: '尾页' //不显示尾页
+	            , theme: '#0F9EE0'
+	        }
+	        , cols: [[
+	            	{type: 'checkbox', event: 'roleNotInEvent'}
+	            	, {title:'序号', type:'numbers'}
+	 	            , {field: 'userDisp', title: '真实姓名', style: 'cursor: pointer;'}
+	 	            , {field: 'userKindDisp', title: '用户类别', style: 'cursor: pointer;'}
+	 	            , {field: 'userUnitDisp', title: '所在机构', style: 'cursor: pointer;'}
+	 	           
+	        ]]
+	    });
+	    $(".layui-table-header table thead th input").remove();  //移除表头的复选框,去掉全选
+    }
+    function rendUserTable(){
+    	var param = JSON.parse(window.localStorage.getItem("param"));
+	    table.render({
+	        elem: '#user_inrole_table' //表格容器
+	        , url: '/user/user-in-role' //请求的url地址
+	        , where:{param: {"roleId":roleId,"userName":$("#rightName").val()}}
+	        , limit : param.selfRownum //每页默认显示的数量
+	        , id: 'userInRoleTable'
+	        , method:"POST"
+	        , height: 'full-118'
+	        , loading: true
+	        , page: {
+	            groups: 5
+	            , limits : [ param.selfRownum, 15, 30, 45, 60 ]
+	            , layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+	            , first: '首页' //不显示首页
+	            , last: '尾页' //不显示尾页
+	            , theme: '#0F9EE0'
+	        }
+	        , cols: [[
+	        	{type: 'checkbox', event: 'roleInEvent'}
+	        	, {title:'序号', type:'numbers'}
+	        	, {field: 'userDisp', title: '真实姓名', style: 'cursor: pointer;'}
+ 	            , {field: 'userKindDisp', title: '用户类别', style: 'cursor: pointer;'}
+ 	            , {field: 'userUnitDisp', title: '所在机构', style: 'cursor: pointer;'}
+	
+	        ]]
+	    });
+	    $(".layui-table-header table thead th input").remove();  //移除表头的复选框,去掉全选
+    }
+    rendRoleTable();
+    rendUserTable();
+    
+    var $ = layui.$, active = 
+    {	
+    	searchLeftEvent: function() { 
+        	console.log("点击了查询按钮");
+        	table.reload("userNotInRoleTable",{where:{param: {"userName":$("#leftName").val()}}});
+    	},
+    	searchRightEvent:function(){
+    		console.log("点击了查询按钮");
+    		table.reload("userInRoleTable",{where:{param: {"userName":$("#rightName").val()}}});
+    	},
+    	closeEvent:function(){
+    		var index = parent.layer.getFrameIndex(window.name);
+    	    parent.layer.close(index);
+    	 	parent.layui.table.reload('userListTable',{where:{param: {"roleId":roleId}}});
+    	},
+    	addEvent:function(){//赋予用户角色
+    		var checkStatus = table.checkStatus('userNotInRoleTable');
+            var data = checkStatus.data;
+            if (data.length <= 0) {
+        		layer.msg('请点击选择数据');
+        		return;
+        	}
+            var userIds= [];
+            $.each(data,function(i,dt){                	
+            	userIds.push(data[i].userId);
+            });
+            //console.log(JSON.stringify(urlist));   
+            ajaxPost("/role/user-role-add",{"roleId":roleId,"userIds":JSON.stringify(userIds)},function(data){
+            	if(data.success){ 
+            		rendRoleTable();
+            	    rendUserTable();
+            	}
+            });
+        },
+        delEvent:function(){ //从角色中移除用户
+        	var checkStatus = table.checkStatus('userInRoleTable');
+            var data = checkStatus.data;
+            console.log(checkStatus);
+            if (data.length <= 0) {
+        		layer.msg('请点击选择数据');
+        		return;
+        	}
+        	var userIds=[];
+			$.each(data,function(i,dt){
+				userIds.push(data[i].userId);
+			})
+			ajaxPost("/role/user-role-del",{"roleId":roleId,"userIds":JSON.stringify(userIds)},function(data){
+				if(data.success){
+					rendRoleTable();
+            	    rendUserTable();
+				}
+			})
+        },
+        leftResetEvent:function(){
+        	$("#leftName").val("");
+        	rendRoleTable();
+        },
+        rightResetEvent:function(){
+        	$("#rightName").val("");
+        	rendUserTable();
+        }
+     };
+     //区别按钮属性
+     $('.move-btn,.layui-btn').on('click', function () {
+         var type = $(this).data('type');
+         active[type] ? active[type].call(this) : '';
+     });
+ });
+ 
+
+ </script>
+</html>

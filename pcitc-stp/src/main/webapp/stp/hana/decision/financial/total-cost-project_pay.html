@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <link rel="stylesheet" href="/common/css/echart-common.css">
+</head>
+<body>    
+<div class="searchBox">
+    <!--查询条件-->
+        <label class="dateInput">
+            <span>月份</span>
+            <input type="text" name="month" value="${month}"  placeholder="请选择月份" title="月份" autocomplete="off" class="form-control" id="month">
+        </label>
+       <div class="layui-input-inline">
+         <select name="companyCode" id="companyCode" >
+              <#list companyCodeList as vo>
+              	 <#if vo.g0GSJC == '全部'>
+              	 	<option value="${vo.g0GSDM}"  selected="selected">${vo.g0GSJC}</option>
+              	 </#if>
+                 <#if vo.g0GSJC != '全部'>
+              	 	<option value="${vo.g0GSDM}">${vo.g0GSJC}</option>
+              	 </#if>
+               </#list>
+            </select>
+       </div>
+       
+        <form class="layui-form layui-form1">
+            <div class="layui-input-inline">
+                <#list projectCodeList as vo>
+                   <input type="checkbox" name="like[write]" lay-skin="primary" title="${vo.g0XMGLLX}" checked="">
+                </#list>
+            </div>
+        </form>
+        
+    <!--按钮组-->
+    <div class="btnGroup">
+        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()" data-type="searchEvent">查询</button>
+    </div>
+    <span class="unitBox">单位：万元</span>
+</div>
+
+<!--echarts-->
+<div class="content-body container">
+     <div class="one-chart-box">
+         <div class="layui-row echarts">
+             <!--<p>科研经费预算投入年度趋势分析</p>-->
+             <div id="all-analysis_01" style="width: 100%;height: 400px;"></div>
+         </div>
+     </div>
+     
+     
+     
+     <form class="layui-form layui-form1" style="margin-top:10px">
+            <div class="layui-input-inline" id="boxv" >
+            </div>
+        </form>
+        
+    <div class="three-charts-box" style="margin-top:10px">
+            <div class="layui-row">
+                <div class="layui-col-xs4 layui-col-sm4 layui-col-md4 echarts">
+                    <div id="chart_02" style="width: 100%;height: 400px;"></div>
+                </div>
+                <div class="layui-col-xs4 layui-col-sm4 layui-col-md4 echarts">
+                    <div id="chart_03" style="width: 100%;height: 400px;"></div>
+                </div>
+                <div class="layui-col-xs4 layui-col-sm4 layui-col-md4 echarts">
+                    <div id="chart_04" style="width: 100%;height: 400px;"></div>
+                </div>
+            </div>
+     </div>  
+     
+      <!--图表二等分布局-->
+        <div class="layui-row two-charts-box">
+            <div class="layui-col-xs6 layui-col-sm6 layui-col-md6 echarts">
+                <div id="chart_05" style="width: 100%;height: 400px;"></div>
+            </div>
+            <div class="layui-col-xs6 layui-col-sm6 layui-col-md6 echarts">
+                <div id="chart_06" style="width: 100%;height: 400px;"></div>
+            </div>
+        </div>
+     
+     <!--图表二等分布局-->
+        <div class="layui-row two-charts-box">
+            <div class="layui-col-xs6 layui-col-sm6 layui-col-md6 echarts">
+                <div id="chart_07" style="width: 100%;height: 400px;"></div>
+            </div>
+            <div class="layui-col-xs6 layui-col-sm6 layui-col-md6 echarts">
+                <div id="chart_08" style="width: 100%;height: 400px;"></div>
+            </div>
+        </div>
+     
+        
+</div>  
+<!--echarts end-->      
+
+<!--表格数据操作js-->
+<script src="/common/js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+<script src="/common/js/layer-v3.1.1/layer.js"></script>
+<script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
+<script type="text/javascript" src="/plugins/echarts/walden.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_chart.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
+<script>
+var now = new Date();
+now.setFullYear(now.getFullYear()-1);
+layui.config({
+    base: '/layuiadmin/module/modules/' 
+}).use(['jquery','form', 'laydate','table','laypage'], function(){
+	  $ = layui.jquery
+      ,table = layui.table
+      ,form = layui.form
+      ,laydate = layui.laydate,
+      form.render(null, 'component-form-group');
+      laydate.render({
+         elem: '#month'
+         ,format: 'yyyyMM'
+      });
+	  
+});
+var allCode="${allCode?default('')}";
+var allCode_text="全部院所";
+
+
+function barLine_zhengfu_Ajax(url,  echartsobj, options) 
+{
+	
+   var legends=[];     //指标
+   var yAxisData=[];   //X轴名称
+   var seriesData=[];  //X轴数据
+   $.ajax({
+	     type:"GET",
+	     url: url,
+	     dataType:"json",
+	     timeout : 10000,
+	     cache: false,
+	     contentType: "application/x-www-form-urlencoded; charset=utf-8",
+         success:function(data,status)
+         {    
+	          if(data.success==true ||data.success=='true')
+	          {
+	        		       echartsobj.hideLoading();
+	        	           var legendDataList=data.data.legendDataList;
+	        	           //挨个取出类别并填入类别数组
+	        	           for(var i=0;i<legendDataList.length;i++)
+	        	           {
+	        	               legends.push(legendDataList[i]);
+	        	           }
+	        	           var yAxisDataList=data.data.yAxisDataList;
+	        	           for(var i=0;i<yAxisDataList.length;i++)
+	        	           {
+
+	        	           	yAxisData.push(yAxisDataList[i]);
+	        	           	
+	        	           	
+	        	           	var checkBox=document.createElement("input");
+	        	           	checkBox.setAttribute("type","checkbox");
+	        	           	checkBox.setAttribute("id",i);
+	        	        	checkBox.setAttribute("name","chec_kbox");
+	        	           	checkBox.setAttribute("lay-skin","primary");
+	        	           	checkBox.setAttribute("title",yAxisDataList[i]);
+	        	           	checkBox.setAttribute("checked","");
+	        	           	$("#boxv").append(checkBox)
+	        	           }
+	        	           var seriesList=data.data.seriesList;
+	        	           for(var i=0;i<seriesList.length;i++)
+	        	           {
+	        	           	seriesData.push({
+	        	           		   type: seriesList[i].type,
+	        	                   name: seriesList[i].name,
+	        	                   data: seriesList[i].data
+	        	               });
+	        	           }
+	        	           //加载数据图表
+	        	           echartsobj.setOption({
+	        	               legend: {
+	        	                   data: legends
+	        	               },
+	        	               yAxis: [
+	        	                   {
+	        	                       type: 'category',
+	        	                       data: yAxisData
+	        	                   }
+	        	               ],
+	        	               series: seriesData
+	        	           });
+	        	           console.log(options);
+	        	       
+	          } else
+	          {
+	        	 layer.alert(failMsg);
+	          }
+		   },
+		   error:function()
+		   {
+		    	layer.alert("网络访问错误");
+		   },
+		   complete: function (XMLHttpRequest, status) {
+	            if(status == 'timeout'){
+	            	 layer.msg('超时');
+	            }
+	        }
+		  
+  });
+   
+} 
+
+function initEchart()
+{
+	
+	var v_date=(new Date()).getTime();
+	var month=$('#month').val();
+	var companyCode=$('#companyCode').val();
+	var monthstr=getNowFormatDate($('#month').val());
+	var checkText=$("#companyCode").find("option:selected").text();
+	if(checkText=='全部')
+	{
+		checkText="全部院所";
+	}
+	
+	
+	var url_01="/financial-decision/total-cost-project-01?companyCode="+companyCode+"&month="+month+"&v_date="+v_date;
+	load_bar_zhengfu(url_01,"all-analysis_01","科研经费支出按课题类型全成本分析",monthstr);
+    //	
+	var url_chart_02="/financial-decision/total-cost-project_pay-01?companyCode="+companyCode+"&month="+month+"&v_date="+v_date+"&type=G0XMGLLX";
+	load_bar_line(url_chart_02,"chart_02","科研经费支出按按项目类型分析",monthstr);
+	//
+	var url_chart_03="/financial-decision/total-cost-project_pay-01?companyCode="+companyCode+"&month="+month+"&v_date="+v_date+"&type=G0XMGLLY";
+	load_bar_line(url_chart_03,"chart_03","科研经费支出按资金来源分析",monthstr);
+	//
+	var url_chart_04="/financial-decision/total-cost-project_pay-01?companyCode="+companyCode+"&month="+month+"&v_date="+v_date+"&type=G0XMGLJB";
+	load_bar_line(url_chart_04,"chart_04","科研经费支出按管理级别分析",monthstr);
+	//
+	var url_chart_05="/financial-decision/total-cost-project-02?companyCode="+companyCode+"&month="+month+"&v_date="+v_date+"&type=1";
+	load_bar_line(url_chart_05,"chart_05","科研经费支出按费用类型分析",monthstr);
+	//
+	var url_chart_06="/financial-decision/total-cost-project-02?companyCode="+companyCode+"&month="+month+"&v_date="+v_date+"&type=2";
+	loadPie(url_chart_06,"chart_06","科研经费支出按费用类型占比分析",monthstr);
+	
+	//
+	var yAxis= [
+        {
+            type: 'value',
+            name: '金额（万元）',
+            min: 'dataMin',
+            max:'dataMax',
+            position: 'left',
+            axisLabel: {
+                formatter: '{value}'
+            }
+        },
+        {
+        	    type: 'value',
+                name: '百分比',
+                min: 0,
+                max:100,
+                position: 'right',
+                axisLabel: {
+                    formatter: '{value} %'
+                }
+        }
+    ];
+	
+	var url="/financial-decision/total-cost-project-03?month="+month+"&v_date="+v_date;
+	load_mony_line(url,"chart_07","科研经费人均支出按研究院分布情况分析",monthstr,yAxis);
+	
+	//
+	var url_chart_08="/financial-decision/total-cost-project-02?companyCode="+allCode+"&month="+month+"&v_date="+v_date+"&type=3";
+	loadPie(url_chart_08,"chart_08","科研经费支出按研究院占比分析",monthstr);
+	
+}
+
+
+
+
+//初始化图形
+initEchart();
+
+
+
+//查询
+function search_Event()
+{
+	initEchart();
+}
+
+</script>
+</body>
+</html>

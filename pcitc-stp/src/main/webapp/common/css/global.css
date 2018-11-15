@@ -1,0 +1,46 @@
+﻿@charset "utf-8";
+/* CSS Document */
+/*清除浏览器默认样式*/
+html{height: 100%;overflow: hidden;}
+*{box-sizing: border-box;}
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,
+fieldset,input,textarea,p,blockquote,th,td { margin:0;  padding:0; font-family: "arial-black","微软雅黑","黑体"; }
+table { border-collapse:collapse;  border-spacing:0;  }
+fieldset,img {border:0; /*有些浏览器默认这些标签有边框，所以要清除默认边框*/  display:block; vertical-align: middle; }
+address,caption,cite,code,dfn,em,strong,th,var
+{font-style:normal;  font-weight:normal; /*清除标签默认文本样式和加粗*/  }
+ol,ul { list-style:none; /*清除列表默认样式*/  }
+caption,th {  text-align:left; /*清除标签默认文本居中对齐*/  }
+h1,h2,h3,h4,h5,h6 {  font-size:100%;  font-weight:normal; /*清除标题标签的默认样式*/  }
+label{font-weight: 100;}
+.form-control{font-size: 12px;}
+a,a:hover,a:active{ text-decoration:none;/*大部分页面中的链接没有下划线*/  }
+.clearfix:after{ height:0;  content:" ";  display:block;  overflow:hidden;  clear:both;  }
+.clearfix{zoom:1;/*IE低版本浏览器不支持after伪类所以要加这一句*/  }
+.clear{ clear: both;}
+/*清除button样式*/
+button{border: none;background: none;cursor: pointer}
+
+
+/*清楚表格样式*/
+.table-bordered>tbody>tr>td, .table-bordered>tbody>tr>th, .table-bordered>tfoot>tr>td,
+.table-bordered>tfoot>tr>th, .table-bordered>thead>tr>td, .table-bordered>thead>tr>th{
+    border-left: none;
+}
+
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th,
+.table>thead>tr>td, .table>thead>tr>th{
+    border-top: none;
+}
+table.dataTable.no-footer{
+    border-bottom: none;
+}
+table.dataTable thead .sorting:after,table.dataTable thead .sorting_desc:after,
+table.dataTable thead .sorting_asc:after{ content: "";}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button{
+    padding: 0;
+    margin: 0;
+}
+div.dataTables_filter input{ font-size: 12px;height: 30px;}
+div.dataTables_filter{ text-align: left;}

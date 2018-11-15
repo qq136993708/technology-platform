@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <#include "/common/public/publicImportIndex.html"/>
+</head>
+<style>
+    .box-body label .radio{ background: url("/common/images/radio.png") no-repeat 10px; display: inline-block;
+        padding:0;position: relative;left: -28px;width: 55px;text-align: right;line-height: 25px;}
+</style>
+<body class="hold-transition skin-blue sidebar-mini" style="background:#fff">
+<section class="content">
+    <div class="row">
+        <!-- /.col -->
+        <!--<div class="col-md-3">-->
+            <!--<div id="tree" style="height :500px"> </div>-->
+        <!--</div>-->
+        <div class="col-md-8">
+            <!-- Profile Image -->
+            <div class="box box-primary">
+                <!--查询条件-->
+                <div class="content-searcXh">
+                    <div class="dataTables_filter" id="searchDiv">
+                        <label>
+                            <span>关键词</span>
+                            <input type="search" placeholder="关键词" title="关键词"
+                                   name="bak4" class="form-control" id="bak4"/>
+                        </label>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-primary search" data-btn-type="search" id="search_btn">查询</button>
+                            <button type="button" class="btn btn-default reset" data-btn-type="reset" id="reset_btn">重置</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-body">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default download" data-btn-type="download">下载</button>
+                </div>
+
+                <div class="content-table">
+                    <div class="ct-table">
+                        <table id="dataTablePublic" class="table table-bordered table-striped dataTable no-footer" style="width:100%;" role="grid">
+                            <thead>
+                            <tr role="row">
+                                <th width="10px"><span><input type="checkbox" class="checkall"/></span></th>
+                                <th width="30px">序号</th>
+                                <th>文件名称</th>
+                                <th>发布人</th>
+                                <th>创建时间</th>
+                                <th>文件大小(KB)</th>
+                                <th>详情</th>
+                            </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--<div class="box-footer text-center">-->
+        <!--<button class="btn btn-primary" data-btn-type="save"><i class="fa fa-save">&nbsp;保存</i></button>-->
+        <!--<button class="btn btn-default" data-btn-type="cancel" data-dismiss="modal"><i class="fa fa-remove">-->
+        <!--&nbsp;关闭</i></button>-->
+        <!--</div>-->
+        <!-- /.box-body -->
+    </div>
+    <!-- /.box -->
+    <a href="" target="_self" id="download"></a>
+    </div>
+    </div>
+</section>
+<script>
+    function getTableContents(){
+        var ids = "";
+        var nTrs = dataTablePublic.fnGetNodes();//fnGegetTableContentstNodes获取表格所有行，nTrs[i]表示第i行tr对象
+        for(var i = 0; i < nTrs.length; i++){
+            if($(nTrs[i]).hasClass('selected')){
+                if(ids==""){
+                    ids =dataTablePublic.fnGetData(nTrs[i]).id;
+                }else{
+                    ids = ids+"|"+dataTablePublic.fnGetData(nTrs[i]).id;
+                }
+            }
+        }
+        return ids;
+    }
+    function retrieveData(sSource, aoData, fnCallback) {
+        // aoData.push({"name": "fileKind", "value": parentId});
+        aoData.push({"name": "bak4", "value": $("#bak4").val()});
+        ajaxPostHeader(sSource, JSON.stringify(aoData), fnCallback, "");
+    }
+    //全部选中
+    $('.checkall').on('click', function () {
+        if (this.checked) {
+            // }
+            $(".ct-table>div table tr").addClass("selected");
+            $(this).attr('checked','checked');
+            $('.checkchild').each(function () {
+                this.checked = true;
+            });
+        } else {
+            $(this).removeAttr('checked')
+            $(".ct-table>div table tr").removeClass("selected");
+            $('.checkchild').each(function () {
+                this.checked = false;
+            });
+        }
+    });
+    function downloadFile(ids) {
+        $("#download").attr("href","/sysfile/download/"+ids);
+        document.getElementById("download").click();
+    }
+    function deleteFile(rowId){
+        console.log(getTableContents());
+        modals.confirm("是否要删除该文件？", function () {
+            ajaxPost("/sysfile/delete", {"id":getTableContents()}, function (data) {
+                parent.$("#modal-tips-div").remove();
+                parent.$(".modal-backdrop").remove();
+                modals.info("删除成功");
+                $("#dataTablePublic").dataTablePublic()._fnAjaxUpdate();
+            });
+        });
+    }
+
+    var rowId="";//选中列id
+    var ids = "";
+    var dataTablePublic ="";
+    function initTable() {
+        dataTablePublic = $('#dataTablePublic').dataTable({
+            "bPaginate": true,//分页工具条显示
+            //"sPaginationType" : "full_numbers",//分页工具条样式
+            "bStateSave": true, //是否打开客户端状态记录功能,此功能在ajax刷新纪录的时候不会将个性化设定回复为初始化状态
+            "bScrollCollapse": true, //当显示的数据不足以支撑表格的默认的高度
+            "bLengthChange": true, //每页显示的记录数
+            "aLengthMenu": [[10, 30, 45, 60, -1], [10, 30, 45, 60, "All"]],//每页显示15条数据
+            "iDisplayLength": 10,
+            "bFilter": false, //搜索栏
+            "bSort": true, //是否支持排序功能
+            "bInfo": true, //显示表格信息
+            "bAutoWidth": true, //自适应宽度
+            "bJQueryUI": false,//是否开启主题
+            "bDestroy": true,
+            "bProcessing": true, //开启读取服务器数据时显示正在加载中……特别是大数据量的时候，开启此功能比较好
+            "bServerSide": true,//服务器处理分页，默认是false，需要服务器处理，必须true
+            //"sAjaxDataProp" : "aData",//是服务器分页的标志，必须有
+            "sAjaxSource": "/sysfile/getTableDataEs",//通过ajax实现分页的url路径。
+            "fnServerData": retrieveData, // 获取数据的处理函数
+            //初始化要显示的列
+
+            "aoColumns": [
+                {
+                    "mData": "id"
+                },
+                {"mData": null},
+                {"mData": "fileName"},
+                {"mData": "filePublish"},
+                {"mData": "createDateTime"},
+                {"mData": "fileSize"},
+                {"mData": "bak4"}
+            ],
+            "fnDrawCallback": function () {
+                this.api().column(1).nodes().each(function (cell, i) {
+                    cell.innerHTML = i + 1;
+                });
+            },
+            "fnRowCallback": function (nRow, aData, iDisplayIndex) {
+                console.log($("td:first", nRow))
+                $("td:first", nRow).html("<input type='checkbox' name='permission' class='checkchild'/>");//设置序号位于第一列，并顺次加一
+                return nRow;
+            },
+            columnDefs:[{
+                'targets' : [0],    //除第六，第七两列外，都默认不排序
+                'orderable' : false
+            }],
+            "oLanguage": {//语言设置
+                "sProcessing": "处理中...",
+                "sLengthMenu": "显示 _MENU_ 项结果",
+                "sZeroRecords": "没有匹配结果",
+                "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+                "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
+                "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+                "sInfoPostFix": "",
+                "sSearch": "搜索:",
+                "sUrl": "",
+                "sEmptyTable": "表中数据为空",
+                "sLoadingRecords": "载入中...",
+                "sInfoThousands": ",",
+                "oPaginate": {
+                    "sFirst": "首页",
+                    "sPrevious": "上页",
+                    "sNext": "下页",
+                    "sLast": "末页"
+                },
+                "oAria": {
+                    "sSortAscending": ": 以升序排列此列",
+                    "sSortDescending": ": 以降序排列此列"
+                }
+            },
+            "dom": 'rt<"#pBottom"><"pTop"lp><"top"i>',
+            "fnInitComplete":function(){
+                //给每个td添加hover显示完整数据
+                $(".ct-table>div table td").each(function () {
+                    $(this).attr("title", $(this).text());
+                    $(this).css("cursor", 'pointer');
+                });
+                //分页在默认行数的底部
+                var selectVal=$(".ct-table>div select").val();
+                var tableThTdHeight=$(".ct-table>div table tr").height();
+                var tableTrTdHeight=$(".ct-table>div table tbody tr").height();
+                var ctHeight=(tableTrTdHeight*(parseInt(selectVal)))+tableThTdHeight+$(".pTop").height();
+                $(".ct-table>div").css("height",ctHeight);
+            },
+            "createdRow": function ( row, data, index ) {
+                $('td', row).css("height","16px");
+                $('td', row).click(function(){
+                    // $(".ct-table>div table tr").removeClass("selected");
+                    // $('td', row).parent().addClass("selected");
+                    if($(row).find("input").is(':checked')==true){
+                        $(row).find("input").prop("checked", false);
+                        $('td', row).parent().removeClass("selected");
+                    }else {
+                        $(row).find("input").prop("checked", true);
+                        $('td', row).parent().addClass("selected");
+                    }
+                    //显示详情
+                    /*$(".modelTableDetails").removeClass("hide");
+                     var htmlobj=$.ajax({url:"/pplus/workflow/process-show.html",async:false});
+                     $(".mtd-content").html(htmlobj.responseText);*/
+
+                })
+                var selectVal=$(".ct-table>div select").val();
+                var tableThTdHeight=$(".ct-table>div table tr").height();
+                var tableTrTdHeight=$(".ct-table>div table tbody tr").height();
+                var ctHeight=(tableTrTdHeight*(parseInt(selectVal)))+tableThTdHeight+$(".pTop").height();
+                $(".ct-table>div").css("height",ctHeight);
+            }
+        });
+    }
+console.log("cookie"+getCookie("token"));
+    //button event
+    $('button[data-btn-type]').click(function () {
+        var action = $(this).attr('data-btn-type');
+        switch (action) {
+            case 'reset':
+                $("#bak4").val('');
+                initTable();
+                break;
+            case 'search':
+                initTable();
+                break;
+            case 'download':
+                rowId = getTableContents();
+                if (!rowId) {
+                    modals.info('请选择要下载的数据');
+                    return false;
+                }
+                downloadFile(rowId);
+                break;
+            case 'delete':
+                rowId = getTableContents();
+                if (!rowId) {
+                    modals.info('请选择要删除的数据');
+                    return false;
+                }
+                deleteFile(rowId);
+                break;
+            case 'add':
+                modals.openWin({
+                    winId: new Date().getTime(),
+                    title: '新增',
+                    width: '900px',
+                    url: "/sysfilekind/edit?opt=edit&parentId="+parentId,
+                });
+                break;
+            case 'delete':
+                rowId = getTableContents();
+                console.log("rowId:"+rowId);
+                if (!rowId) {
+                    modals.info('请选择要删除的行');
+                    return false;
+                } else {
+                    modals.confirm("是否要删除该行数据？", function () {
+                        ajaxPostHeader("/sysfilekind/sysfilekind/del?sysFileKindId="+rowId, {"sysFileKindId":rowId}, function (data) {
+                            parent.$("#modal-tips-div").remove()
+                            parent.$(".modal-backdrop").remove()
+                            modals.info("删除成功");
+                            $("#dataTablePublic").dataTablePublic()._fnAjaxUpdate();
+                        });
+                    });
+                }
+                break;
+        }
+    });
+    function updaTable() {
+       $('#dataTablePublic').dataTablePublic()._fnAjaxUpdate();
+    }
+</script>
+
+<script type="text/javascript">
+    /**初始化树 -start*/
+    var levelTreeNodes;//树data
+    var nodeId;//当前选中节点id
+    var parentId;//当前选中节点id
+    $(function() {
+        // initLevelTree('0');
+        // initTable();
+    });
+    function initLevelTree(levelCode) {
+        var token = getCookie("token");
+        //获取后台数据（封装好的树实体Json数组）
+        var treeData = null;
+        ajaxPost("/sysfilekind/sysfilekind/tree-data", null, function(data) {
+            treeData = data;
+            levelTreeNodes = data;
+            showTree(levelTreeNodes);
+        });
+    }
+    function showTree(levelTreeNodes){
+        $('#tree').treeview({
+            icon:"glyphicon glyphicon-home",
+            selectedIcon:"glyphicon glyphicon-home",
+            color:"#000000",
+            backColor:"#FFFFFF",
+            selectedColor:"#3cb45d",
+            selectedBackColor:"#edfef4",
+            levels : 10 ,
+            selectable:true,
+            showCheckbox : false,
+            showBorder : false,
+            state: {
+                checked:true,
+                disabled:false,
+                expanded:true,
+                selected:false
+            },
+            data: levelTreeNodes,
+            onNodeSelected:function(event,data){
+                parentId = data.id;
+                nodeId = data.id;
+                //点击新增后给父编码赋值
+                // $("#dataTablePublic tbody tr").removeClass('selected');
+                initTable();
+            },
+            onNodeChecked:function(event,data){
+                nodeChecked(event, data);
+            },
+            onNodeUnchecked :function(event,data){
+                nodeUnchecked(event,data);
+            }
+
+        });
+    }
+    /**初始化树--end*/
+
+</script>
+</body>
+</html>

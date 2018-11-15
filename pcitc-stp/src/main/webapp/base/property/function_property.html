@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>菜单权限配置</title>
+	<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+	<link rel="stylesheet" href="/layuiadmin/style/common.css">
+	<link rel="stylesheet" type="text/css" href="/layuiadmin/ztree/css/metroStyle/metroStyle.css">
+	<script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
+	<script src="/layuiadmin/layui/layui.js"></script>
+	<script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.core.js"></script>
+	<script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.excheck.min.js"></script>
+</head>
+<body>
+<div class="treeTableContainer">
+	<div class="treeBox">
+		<div class="title-box">
+			<span>功能节点菜单</span>
+		</div>
+		<div class="layui-side-scroll">
+			<!-- 左侧子菜单 -->
+			<ul id="funTree" class="ztree"></ul>
+		</div>
+	</div>
+	<div class="treeTableBox">
+		<div class="tableToolBox">
+			<input id='funcId' name="funcId" type="hidden" />
+			<input id='funcCode' name="funcCode" type="hidden" />
+			<div class="whiteLine"></div>
+			<div class="tableBtns">
+				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add" data-type="addEvent">新增</button>
+				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit" data-type="editEvent">编辑</button>
+				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_delete" data-type="deleteEvent" >删除</button>
+			</div>
+		</div>
+		<table id="funTable" class="layui-hide" lay-filter="tableEvent"></table>
+	</div>
+</div>
+<script>
+	var zNodes;
+	var treeId;
+	var treeName;
+	var temFunctionId;
+	var temFunctionName;
+	var temFunctionCode;
+	var temFunUrl='';
+	var table,functionId,functionCode;
+	layui.use(['jquery','table'], function(){
+		table = layui.table,
+			$ = layui.jquery;
+		functionId = $('#funcId').val();
+		functionCode = $('#funcCode').val();
+        //获取当前行数据  设置全局变量
+        var selectRowData = '';
+        var setting = {
+            data: {
+                simpleData: {
+                    enable: true
+                }
+            },
+            callback: {
+                onClick: onClickMenu
+            }
+        };
+
+        function onClickMenu(event,treeId,treeNode,clickFlag) {
+            treeId = treeNode.id;
+            treeName = treeNode.name;
+            temFunctionId = treeNode.id;
+            temFunctionName = treeNode.name;
+            temFunctionCode = treeNode.code;
+            temFunUrl = treeNode.treeUrl;
+
+            $('#funcId').val(treeId);
+            $('#funcCode').val(treeNode.code);
+
+            table.reload('funTable', {
+                where: {
+                    functionId: treeId
+                    ,functionCode: treeNode.code
+                }
+            });
+            //若使用单选框 需要移除表头的复选框
+            $(".layui-table-header table thead th input").remove();
+        }
+
+		//渲染
+		function renderTable(){
+            table.render({
+                elem: '#funTable',
+                url: '/functionProperty/getFunctionPropertyList',
+                method:"POST",
+                where: {functionId: functionId, functionCode: functionCode},
+                limit: 15,
+                id: 'funTable',
+                height: commonDislodgeTable(),
+                page: {
+                    groups: 5,
+                    limits: [15,30,45,60],
+                    layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
+                    first: '首页', //不显示首页
+                    last: '尾页', //不显示尾页
+                    theme: '#0F9EE0'
+                },
+                cols: [[
+                    {type:'checkbox', event: 'changeEvents'},
+                    {title:'序号', type:'numbers'},
+                    {field:'proName',   title:'配置名称', width: '20%',  style:'cursor: pointer;'},
+                    {field:'proCode',      title:'配置编码', style:'cursor: pointer;'},
+                    {field:'isAvailable', title:'是否可用' ,event: 'setActive',style:'cursor: pointer;'
+                        ,templet: function(d){
+                            if(d.isAvailable == 1){
+                                return "是";
+                            } else {
+                                return "否";
+                            }
+                        }
+                    }
+                ]]
+                ,done: function (res, curr, count) {
+                    // 点击行联动选择框--单选
+                    $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+                        var index=parseInt($(this).index()+1);
+                        $('tr').removeClass('layui-table-click');
+                        $(this).addClass('layui-table-click');
+                        $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                        $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                        selectRowData=res.data[index-1];
+                    })
+                }
+            });
+            //若使用单选框 需要移除表头的复选框
+            $(".layui-table-header table thead th input").remove();
+        }
+
+		// 触发不同的按钮事件
+		var $ = layui.$, active = {
+			addEvent: function(){ //点击新增按钮
+				if (typeof(temFunctionId) == "undefined") {
+					layer.msg("请先选择功能菜单");
+				} else if (typeof(temFunUrl) == "undefined" || temFunUrl=='' || temFunUrl=='#') {
+					layer.msg("请选择功能菜单进行配置");
+				} else {
+					var temUrl="/functionProperty/function_property_info?funcId=" + temFunctionId +"&funcCode=" + temFunctionCode;
+					layer.open({
+						title:'新增配置项',
+						skin: 'layui-layer-lan',
+						shadeClose: true,
+						type: 2,
+						fixed: false,
+						//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+						maxmin: true,
+						//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+						area: ['50%', '50%'],
+						content:  temUrl
+					});
+				}
+			},
+			editEvent: function(){  //点击编辑按钮
+			var id;
+			if(selectRowData.id){
+				id = selectRowData.id;
+				var funcId = $("#funcId").val();
+				var funcCode = $("#funcCode").val();
+				layer.open({
+					title:'编辑配置项'
+					,skin: 'layui-layer-lan'
+					,shadeClose: true
+					,type: 2
+					,fixed: false
+					//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+					,maxmin: true
+					//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+					,area: ['50%', '50%']
+					,content: "/functionProperty/function_property_info?id=" + id + "&funcId=" + funcId +"&funcCode=" + funcCode,
+					});
+				} else {
+					layer.msg('请选择一条数据');
+					return;
+				}
+			},
+			deleteEvent: function(){ //点击删除按钮
+				if (!selectRowData.id) {
+					layer.msg('请选择一条数据');
+					return false;
+				}
+				layer.confirm('确认要删除吗？',{icon:3,btn:['确定','取消']},function(index){
+					layer.close(index);
+					$.ajax({
+						type : 'post',
+						dataType : 'text',
+						data : {"id" : selectRowData.id},
+						url : '/functionProperty/deleteData',
+						success : function(data) {
+							if(data==200){
+								layer.msg('删除成功');
+							}
+							active['searchEvent'].call(this);//刷新table;
+						},
+						error : function(e) {
+							alert("出错了");
+						}
+					});
+				});
+			},
+			searchEvent: function() { //点击查询按钮
+				var functionName = $('#functionName').val();
+				table.reload('funTable', {
+					where: {functionId: temFunctionId, functionName: functionName}
+				});
+                selectRowData = '';
+                //若使用单选框 需要移除表头的复选框
+                $(".layui-table-header table thead th input").remove();
+			},
+			resetEvent: function() { //点击重置按钮
+				$('#functionName').val("");
+				active.searchEvent();
+			},
+
+		};
+
+		//区别按钮属性
+		$('.layui-btn').on('click', function(){
+			var type = $(this).data('type');
+			active[type] ? active[type].call(this) : '';
+		});
+
+        $(function() {
+            $.ajax({
+                url: "/function/getCommonFunctionTree",//这个就是请求地址对应sAjaxSource
+                type : 'get',
+                headers: {
+                    'Content-Type' : 'application/json',
+                },
+                dataType : 'json',
+                async : false,
+                success : function(data){
+                    zNodes = data;
+                },
+                error : function(msg) {
+                    layer.msg(msg);
+                }
+            });
+            //初始化树菜单
+            $.fn.zTree.init($("#funTree"), setting, zNodes);
+            renderTable();
+        });
+	});
+</script>
+</body>
+</html>

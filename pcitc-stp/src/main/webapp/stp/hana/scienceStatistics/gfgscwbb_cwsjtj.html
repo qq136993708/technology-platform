@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+     <link rel="stylesheet" href="/common/css/echart-common.css">
+</head>
+<body>
+
+	<div class="content-body container">
+	<div style="text-align:center;font-weight:bold;margin:10px;">2016年度股份公司财务数据统计</div>
+		<table class="layui-table">
+		<thead>
+			
+				<tr>
+					<td ></td>
+					<td>指标名称</td>
+					<td >计量单位</td>
+					<td >金额</td>
+				</tr>
+				</thead>
+				<tbody>
+				<tr>
+					<td>1</td>
+					<td>2016年企业资产总额：</td>
+					<td>万元</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>2016年企业净资产总额：</td>
+					<td>万元</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>2</td>
+					<td>2016年企业主营业务收入：</td>
+					<td>万元</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>其中，主营业务收入1（营销及分销事业部）：</td>
+					<td>万元</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>主营业务收入2（油田事业部）：</td>
+					<td>万元</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>主营业务收入3(炼油事业部)：</td>
+					<td>万元</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>主营业务收入4(化工事业部)：</td>
+					<td>万元</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>2.1</td>
+					<td>2016年度产品销售收入：</td>
+					<td>万元</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>其中, 出口:</td>
+					<td>万元</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>新产品销售收入：</td>
+					<td>万元</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>3</td>
+					<td>2016年度实现利润总额：</td>
+					<td>万元</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>4</td>
+					<td>2016年度产品销售利润总额:</td>
+					<td>万元</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>2016年上缴税费总额：</td>
+					<td>万元</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>5</td>
+					<td>2016年企业科技活动经费支出总额：</td>
+					<td>万元</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>其中,研究与试验发展(R&amp;D)经费支出:</td>
+					<td>万元</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>6.1</td>
+					<td>2016年企业内部开展科技活动经费支出合计:</td>
+					<td>万元</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>内部支出合计按用途分组</td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>人员人工费（包含各种补贴）:</td>
+					<td>万元</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>原材料费:</td>
+					<td>万元</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>折旧费用与长期费用摊销</td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>无形资产摊销</td>
+					<td>万元</td>
+					<td></td>
+				</tr>
+			</tbody>
+		</table>
+		<div>注：“/”表示不用填写</div>
+	</div>
+
+	<!--表格数据操作js-->
+<script src="/common/js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+<script src="/common/js/layer-v3.1.1/layer.js"></script>
+<script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
+<script type="text/javascript" src="/plugins/echarts/walden.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_chart.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
+<script>
+
+
+var table,selectRowData;
+layui.config({
+    base: '/layuiadmin/module/modules/' //静态资源所在路径
+}).use(['jquery','form', 'laydate','table','laypage','layer'], function(){
+	  admin = layui.admin
+	  ,$ = layui.jquery
+      ,table = layui.table
+      ,layer = layui.layer
+      ,laydate = layui.laydate
+      ,form = layui.form
+      ,laypage = layui.laypage;
+	  form.render(null, 'component-form-group');
+            laydate.render({
+               elem: '#month'
+               ,format: 'yyyyMM'
+            });
+      //初始化表格
+      renderTable();
+});
+
+var allCode="${allCode?default('')}";
+var allCode_text="全部院所";
+
+
+</script>
+</body>
+</html>

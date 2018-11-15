@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="format-detection" content="telephone=no">
+  <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+  <!--[if lt IE 9]>
+  <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+  <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+  <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css">
+  <link rel="stylesheet" type="text/css" href="/layuiadmin/ztree/css/metroStyle/metroStyle.css">
+  <link rel="stylesheet" href="/layuiadmin/style/common.css">
+</head>
+<body>
+  <div class="formBox">
+  <div class="box-body">
+      <form class="layui-form" name="form1" id="form1" action="" method="POST" lay-filter="component-form-group layui-container">
+         <input type="hidden" name="meetingId" id="meetingId" value="${sreTechMeeting.meetingId}">
+         <div class="layui-form-item">
+	        <label class="layui-form-label">会议时间<span class="must-fill">*</span></label>
+	        <div class="layui-input-block">
+	         <input class="layui-input" name="meetingDate" id="meetingDate"  readonly="readonly" value="${(sreTechMeeting.meetingDate?string('yyyy-MM-dd HH:mm:ss'))!}" lay-verify="datetime" lay-verify="required"  autocomplete="off" type="text">
+	        </div>
+	      </div>
+         <div class="layui-form-item">
+	        <label class="layui-form-label">会议地点<span class="must-fill">*</span></label>
+	        <div class="layui-input-block">
+	         <input class="layui-input"  id="meetingPlace" name="meetingPlace" lay-verify="required" value="${sreTechMeeting.meetingPlace}"  type="text">
+           </div>
+	     </div>
+         <div class="layui-form-item">
+	        <label class="layui-form-label">主持人<span class="must-fill">*</span></label>
+	        <div class="layui-input-block">
+	        <input class="layui-input" id="meetingEmcee" name="meetingEmcee" lay-verify="required"   value="${sreTechMeeting.meetingEmcee}"  type="text">
+          </div>
+	     </div>
+         <div class="layui-form-item">
+	        <label class="layui-form-label">备注</label>
+	        <div class="layui-input-block">
+	        <input class="layui-input" id="remarks" name="remarks" lay-verify="required"   value="${sreTechMeeting.remarks}"  type="text">
+          </div>
+	     </div>
+        <div class="layui-form-item">
+	        <label class="layui-form-label">会议内容<span class="must-fill">*</span></label>
+	        <div class="layui-input-block">
+	        <input class="layui-input" id="meetingContent" name="meetingContent" lay-verify="required"   value="${sreTechMeeting.meetingContent}"  type="text">
+          </div>
+	     </div>
+     <!--行结束-->
+     <div class="row" style="margin-top:30px;">
+           <div class="col-sm-12" style="text-align:center">
+             <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="" lay-filter="sub">保存</button>
+           </div>
+     </div>
+  </form>
+  </div>
+  </div>  
+   
+<script src="/common/js/jquery-1.11.3.min.js"></script>
+<script src="/layuiadmin/layui/layui.js"></script>
+<script type="text/javascript" >
+var v_date=(new Date()).getTime();
+var meetingId="${meetingId?default('')}";
+layui.config({
+    base: 'layuicommon/module/modules/' //静态资源所在路径
+}).extend({
+    index: 'layui/tableDemo' //主入口模块
+}).use(['form', 'laydate','table','layer'], function(){
+	  var admin = layui.admin
+      ,element = layui.element
+      ,layer = layui.layer
+      ,laydate = layui.laydate
+      ,form = layui.form;
+	  form.render(null, 'component-form-group');
+	  laydate.render({
+	      elem: '#LAY-component-form-group-date'
+	  });
+	  
+	  //日期时间选择器
+      laydate.render({
+          elem: '#meetingDate'
+          ,type: 'datetime'
+      });
+      /* 自定义验证规则  title 要验证的input的 lay-verify=""*/
+      form.verify({
+    	  meetingPlace: function(value)
+    	  {
+              if(value.length < 5)
+              {
+                  return '地点至少得5个字符啊';
+              }
+          } 
+      });
+	  
+      /* 监听提交 */
+      form.on('submit(sub)', function(data){
+          //JSON.stringify(data.field)  提交信息json格式
+          /*parent.layer.alert(JSON.stringify(data.field), {
+              title: '最终的提交信息'
+          })*/
+          var url='/sre-meeting/save?v_date='+v_date+"&meetingId="+meetingId;
+          var backurl="/sre-meeting/to-list?v_date="+v_date;
+          ajaxOpt(url,"form1","POST",backurl,"保存成功","保存失败");
+          return false;
+      });
+});
+
+
+function ajaxOpt(url,formName,type,backurl,successMsg,failMsg)
+{
+	 $.ajax({
+  	     type:type,
+  	     url: url,
+  	     dataType:"json",
+  	     data:$("#"+formName).serialize(),
+  	     async: false, 
+  	     cache: false,
+  	    contentType: "application/x-www-form-urlencoded; charset=utf-8",
+         success:function(data,status)
+         {    
+    	  
+	          if(data.success==true ||data.success=='true')
+	          {
+
+	        	  
+       	             layer.alert(
+       			     successMsg, 
+                     {icon: 1,closeBtn: 0 },
+                     function () 
+                     {
+                   	     var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+                         parent.layer.close(index);  // 关闭layer
+                   	     parent.location.href=backurl;
+                     });
+	        	  
+	          } else
+	          {
+	        	 layer.alert(failMsg);
+	          }
+	     
+		   },
+		   error:function()
+		   {
+		    	layer.alert("网络访问错误");
+		   }
+    
+  });
+}
+
+function clearNoNum(obj){ 
+    obj.value = obj.value.replace(/[^\d.]/g,"");  //清除“数字”和“.”以外的字符  
+    obj.value = obj.value.replace(/\.{2,}/g,"."); //只保留第一个. 清除多余的  
+    obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$","."); 
+    obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3');//只能输入两个小数  
+    if(obj.value.indexOf(".")< 0 && obj.value !=""){//以上已经过滤，此处控制的是如果没有小数点，首位不能为类似于 01、02的金额 
+        obj.value= parseFloat(obj.value); 
+    } 
+}
+	
+</script>
+</body>
+</html>

@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pcitc.mapper.equipment.SreBusinessTalkMapper" >
+  <resultMap id="BaseResultMap" type="com.pcitc.base.stp.equipment.SreBusinessTalk" >
+    <id column="talk_id" property="talkId" jdbcType="VARCHAR" />
+    <result column="talk_code" property="talkCode" jdbcType="VARCHAR" />
+    <result column="purchase_plan_id" property="purchasePlanId" jdbcType="VARCHAR" />
+    <result column="supply_id" property="supplyId" jdbcType="BIGINT" />
+    <result column="supply_price" property="supplyPrice" jdbcType="DECIMAL" />
+    <result column="supply_quote" property="supplyQuote" jdbcType="DECIMAL" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="create_user_id" property="createUserId" jdbcType="VARCHAR" />
+    <result column="update_user_id" property="updateUserId" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    talk_id, talk_code, purchase_plan_id, supply_id, supply_price, supply_quote, create_date, 
+    create_user_id, update_user_id, update_time, status, remarks
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.pcitc.base.stp.equipment.SreBusinessTalkExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from sre_business_talk
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sre_business_talk
+    where talk_id = #{talkId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sre_business_talk
+    where talk_id = #{talkId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.pcitc.base.stp.equipment.SreBusinessTalkExample" >
+    delete from sre_business_talk
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.pcitc.base.stp.equipment.SreBusinessTalk" >
+    insert into sre_business_talk (talk_id, talk_code, purchase_plan_id, 
+      supply_id, supply_price, supply_quote, 
+      create_date, create_user_id, update_user_id, 
+      update_time, status, remarks
+      )
+    values (#{talkId,jdbcType=VARCHAR}, #{talkCode,jdbcType=VARCHAR}, #{purchasePlanId,jdbcType=VARCHAR}, 
+      #{supplyId,jdbcType=BIGINT}, #{supplyPrice,jdbcType=DECIMAL}, #{supplyQuote,jdbcType=DECIMAL}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=VARCHAR}, #{updateUserId,jdbcType=VARCHAR}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.pcitc.base.stp.equipment.SreBusinessTalk" >
+    insert into sre_business_talk
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="talkId != null" >
+        talk_id,
+      </if>
+      <if test="talkCode != null" >
+        talk_code,
+      </if>
+      <if test="purchasePlanId != null" >
+        purchase_plan_id,
+      </if>
+      <if test="supplyId != null" >
+        supply_id,
+      </if>
+      <if test="supplyPrice != null" >
+        supply_price,
+      </if>
+      <if test="supplyQuote != null" >
+        supply_quote,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="talkId != null" >
+        #{talkId,jdbcType=VARCHAR},
+      </if>
+      <if test="talkCode != null" >
+        #{talkCode,jdbcType=VARCHAR},
+      </if>
+      <if test="purchasePlanId != null" >
+        #{purchasePlanId,jdbcType=VARCHAR},
+      </if>
+      <if test="supplyId != null" >
+        #{supplyId,jdbcType=BIGINT},
+      </if>
+      <if test="supplyPrice != null" >
+        #{supplyPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="supplyQuote != null" >
+        #{supplyQuote,jdbcType=DECIMAL},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUserId != null" >
+        #{updateUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.pcitc.base.stp.equipment.SreBusinessTalkExample" resultType="java.lang.Integer" >
+    select count(*) from sre_business_talk
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update sre_business_talk
+    <set >
+      <if test="record.talkId != null" >
+        talk_id = #{record.talkId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.talkCode != null" >
+        talk_code = #{record.talkCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.purchasePlanId != null" >
+        purchase_plan_id = #{record.purchasePlanId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.supplyId != null" >
+        supply_id = #{record.supplyId,jdbcType=BIGINT},
+      </if>
+      <if test="record.supplyPrice != null" >
+        supply_price = #{record.supplyPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.supplyQuote != null" >
+        supply_quote = #{record.supplyQuote,jdbcType=DECIMAL},
+      </if>
+      <if test="record.createDate != null" >
+        create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createUserId != null" >
+        create_user_id = #{record.createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateUserId != null" >
+        update_user_id = #{record.updateUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null" >
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remarks != null" >
+        remarks = #{record.remarks,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update sre_business_talk
+    set talk_id = #{record.talkId,jdbcType=VARCHAR},
+      talk_code = #{record.talkCode,jdbcType=VARCHAR},
+      purchase_plan_id = #{record.purchasePlanId,jdbcType=VARCHAR},
+      supply_id = #{record.supplyId,jdbcType=BIGINT},
+      supply_price = #{record.supplyPrice,jdbcType=DECIMAL},
+      supply_quote = #{record.supplyQuote,jdbcType=DECIMAL},
+      create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      create_user_id = #{record.createUserId,jdbcType=VARCHAR},
+      update_user_id = #{record.updateUserId,jdbcType=VARCHAR},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      status = #{record.status,jdbcType=VARCHAR},
+      remarks = #{record.remarks,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.stp.equipment.SreBusinessTalk" >
+    update sre_business_talk
+    <set >
+      <if test="talkCode != null" >
+        talk_code = #{talkCode,jdbcType=VARCHAR},
+      </if>
+      <if test="purchasePlanId != null" >
+        purchase_plan_id = #{purchasePlanId,jdbcType=VARCHAR},
+      </if>
+      <if test="supplyId != null" >
+        supply_id = #{supplyId,jdbcType=BIGINT},
+      </if>
+      <if test="supplyPrice != null" >
+        supply_price = #{supplyPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="supplyQuote != null" >
+        supply_quote = #{supplyQuote,jdbcType=DECIMAL},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id = #{updateUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where talk_id = #{talkId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.equipment.SreBusinessTalk" >
+    update sre_business_talk
+    set talk_code = #{talkCode,jdbcType=VARCHAR},
+      purchase_plan_id = #{purchasePlanId,jdbcType=VARCHAR},
+      supply_id = #{supplyId,jdbcType=BIGINT},
+      supply_price = #{supplyPrice,jdbcType=DECIMAL},
+      supply_quote = #{supplyQuote,jdbcType=DECIMAL},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=VARCHAR},
+      update_user_id = #{updateUserId,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=VARCHAR},
+      remarks = #{remarks,jdbcType=VARCHAR}
+    where talk_id = #{talkId,jdbcType=VARCHAR}
+  </update>
+</mapper>

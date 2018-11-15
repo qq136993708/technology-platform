@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+     <link rel="stylesheet" href="/common/css/echart-common.css">
+</head>
+<body>
+
+	<div class="content-body container">
+	<div style="text-align:center;font-weight:bold;margin:10px;">中央企业科技情况调查信息上报表</div>
+	（模板）						
+	<span style="font-weight:bold">二、企业经营活动情况</span>	<br/>						
+	2.1* 企业资产总额是□□□□□□□□万元	<br/>						
+	企业净资产是□□□□□□□□万元				<br/>			
+	2.3* 本年度企业增加值是□□□□□□□□万元		<br/>					
+	其中：劳动者报酬□□□□□□□□万元			<br/>				
+	      固定资产折旧□□□□□□□□万元				<br/>			
+	      生产税净额□□□□□□□□万元						
+	      营业盈余□□□□□□□□万元					<br/>		
+	2.4 本年度企业营业总收入是□□□□□□□□万元						<br/>	
+	如果企业是跨行业经营，即在问题1.2中选择“是”，那么请按照不同行业划分相应的主营业务收入：	<br/>						
+	主营业务收入1 是□□□□□□□□万元  （填炼油事业部、营销及分销事业部抵消后主营业务收入之和）	<br/>						
+	主营业务收入2 是□□□□□□□□万元（填化工事业部抵消后的主营业务收入）				<br/>			
+	主营业务收入3 是□□□□□□□□万元（填油田勘探开发事业部抵消后的主营业务收入）		<br/>					
+	2.5* 本年度企业实现利润总额是□□□□□□□□万元					<br/>		
+	2.6* 本年度企业实际上缴税费总额是□□□□□□□□万元			<br/>				
+							
+							
+	<span style="font-weight:bold">填报说明2：	</span>		<br/>				
+	2.1 请根据企业本年度资产负债表中的“资产总计”填写。	<br/>						
+	2.3 增加值指企业生产过程创造的新价值和固定资产的转移价值。增加值=劳动者报酬+固定资产折旧+生产税净额+营业盈余。		<br/>					
+	（1）劳动者报酬：指劳动者因从事生产活动所获得的全部报酬。包括：工资、奖金、津贴、福利、保险、实物收入和其他收入，这里包括单位为职工支付的各种福利保险费等。劳动者报酬=职工工资+职工福利费+劳动、待业保险费+其他个人收入；						
+	（2）固定资产折旧：指一定时期内为弥补固定资产损耗，按照核定的固定资产折旧率提取的固定资产折旧，或按国民经济核算统一规定的折旧率虚拟计算的固定资产折旧；		<br/>					
+	（3）生产税净额：指企业向政府交纳的生产税与政府支付给常住单位的生产补贴相抵后的差额。它包括增值税、营业税、资源税、城市维护建设税、消费税、出口关税、进口关税、房产税、车船使用税、土地使用税、印花税、固定资产投资方向调节税、土地增值税、耕地占用税等及一些规费，如：教育费附加、排污费、养路费和绿化费等。补贴收入在生产税净额中是作为减项处理的，如国家按规定补给企业的政策性亏损补贴、价格补贴和出口退税。	<br/>						
+	<span style="font-weight:bold">生产税净额	</span>=生产税-生产补贴						<br/>	
+	生产税=销售（营业、经营、结算）税金及附加+管理费用中税金及地方附加+其他业务支出中税金+应交增值税；				<br/>			
+	（4）营业盈余：指总产出扣除中间投入、劳动者报酬、生产税净额和固定资产折旧后的差额。营业盈余=营业利润+生产补贴+工会经费的40%。		<br/>					
+	2.5 根据损益表中“利润总额”项的本年累计数填列。		<br/>					
+	2.6 指企业实际上缴的各项税金、特种基金和附加费等。						
+	
+	</div>
+
+	<!--表格数据操作js-->
+<script src="/common/js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+<script src="/common/js/layer-v3.1.1/layer.js"></script>
+<script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
+<script type="text/javascript" src="/plugins/echarts/walden.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_chart.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
+<script>
+
+
+var table,selectRowData;
+layui.config({
+    base: '/layuiadmin/module/modules/' //静态资源所在路径
+}).use(['jquery','form', 'laydate','table','laypage','layer'], function(){
+	  admin = layui.admin
+	  ,$ = layui.jquery
+      ,table = layui.table
+      ,layer = layui.layer
+      ,laydate = layui.laydate
+      ,form = layui.form
+      ,laypage = layui.laypage;
+	  form.render(null, 'component-form-group');
+            laydate.render({
+               elem: '#month'
+               ,format: 'yyyyMM'
+            });
+      //初始化表格
+      renderTable();
+});
+
+var allCode="${allCode?default('')}";
+var allCode_text="全部院所";
+
+
+</script>
+</body>
+</html>

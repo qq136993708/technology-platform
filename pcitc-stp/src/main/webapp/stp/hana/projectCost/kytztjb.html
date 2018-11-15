@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+     <link rel="stylesheet" href="/common/css/echart-common.css">
+</head>
+<body>
+
+<div class="searchBox">
+    <!--查询条件-->
+        <label class="dateInput">
+            <span>月份</span>
+            <input type="text" name="month" placeholder="请选择月份" title="月份" value="${month}" autocomplete="off" class="form-control" id="month">
+        </label>
+       <div class="layui-input-inline">
+         <select name="companyCode" id="companyCode" >
+              <#list companyCodeList as vo>
+              	 <#if vo.g0GSJC == '全部'>
+              	 	<option value="${vo.g0GSDM}"  selected="selected">${vo.g0GSJC}</option>
+              	 </#if>
+                 <#if vo.g0GSJC != '全部'>
+              	 	<option value="${vo.g0GSDM}">${vo.g0GSJC}</option>
+              	 </#if>
+               </#list>
+            </select>
+       </div>
+       
+    <!--按钮组-->
+    <div class="btnGroup">
+        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()" data-type="searchEvent">查询</button>
+    </div>
+    <span class="unitBox">单位：万元</span>
+</div>
+
+	<div class="content-body container">
+		<div style="text-align: center; font-weight: bold; margin: 10px;">投资项目支出按直属研究院分析</div>
+		<table class="layui-table">
+			<tbody>
+				<tr>
+					<td>直属研究院</td>
+					<td>计划总投资</td>
+					<td>累计下达投资额</td>
+					<td>累计支出额</td>
+					<td>预付余额</td>
+					<td>累计投资完成额</td>
+					<td>项目资金计划结余</td>
+					<td>本年投资计划</td>
+					<td>本年累计支出</td>
+					<td>本年预付款</td>
+					<td>本年投资完成额</td>
+					<td>本年资金计划结余</td>
+				</tr>
+				<tr>
+					<td>总计</td>
+					<td>75600</td>
+					<td>62009</td>
+					<td>51069</td>
+					<td>19922</td>
+					<td>20853</td>
+					<td>3677</td>
+					<td>44861</td>
+					<td>33577</td>
+					<td>25127</td>
+					<td>18228</td>
+					<td>11283</td>
+				</tr>
+				<tr>
+					<td>石勘院</td>
+					<td>6000</td>
+					<td>4680</td>
+					<td>3931</td>
+					<td>1758</td>
+					<td>1655</td>
+					<td>413</td>
+					<td>3060</td>
+					<td>2172</td>
+					<td>1499</td>
+					<td>1139</td>
+					<td>887</td>
+				</tr>
+				<tr>
+					<td>物探院</td>
+					<td>13700</td>
+					<td>11919</td>
+					<td>9892</td>
+					<td>3426</td>
+					<td>3388</td>
+					<td>418</td>
+					<td>6850</td>
+					<td>5548</td>
+					<td>4272</td>
+					<td>2691</td>
+					<td>1301</td>
+				</tr>
+				<tr>
+					<td>工程院</td>
+					<td>5900</td>
+					<td>4248</td>
+					<td>3483</td>
+					<td>2102</td>
+					<td>2126</td>
+					<td>289</td>
+					<td>4130</td>
+					<td>3634</td>
+					<td>2798</td>
+					<td>1679</td>
+					<td>495</td>
+				</tr>
+				<tr>
+					<td>石科院</td>
+					<td>4200</td>
+					<td>3780</td>
+					<td>2986</td>
+					<td>1043</td>
+					<td>886</td>
+					<td>327</td>
+					<td>2352</td>
+					<td>1905</td>
+					<td>1314</td>
+					<td>1077</td>
+					<td>446</td>
+				</tr>
+				<tr>
+					<td>抚研院</td>
+					<td>13400</td>
+					<td>11524</td>
+					<td>9564</td>
+					<td>2722</td>
+					<td>3413</td>
+					<td>421</td>
+					<td>6298</td>
+					<td>5668</td>
+					<td>3400</td>
+					<td>3060</td>
+					<td>629</td>
+				</tr>
+				<tr>
+					<td>北化院</td>
+					<td>14600</td>
+					<td>12848</td>
+					<td>10406</td>
+					<td>3522</td>
+					<td>3689</td>
+					<td>503</td>
+					<td>11680</td>
+					<td>8292</td>
+					<td>6800</td>
+					<td>5236</td>
+					<td>3387</td>
+				</tr>
+				<tr>
+					<td>上海院</td>
+					<td>8500</td>
+					<td>6035</td>
+					<td>4526</td>
+					<td>3139</td>
+					<td>3457</td>
+					<td>516</td>
+					<td>6120</td>
+					<td>3733</td>
+					<td>3285</td>
+					<td>2201</td>
+					<td>2386</td>
+				</tr>
+				<tr>
+					<td>安工院</td>
+					<td>9300</td>
+					<td>6975</td>
+					<td>6277</td>
+					<td>2206</td>
+					<td>2236</td>
+					<td>785</td>
+					<td>4371</td>
+					<td>2622</td>
+					<td>1757</td>
+					<td>1142</td>
+					<td>1748</td>
+				</tr>
+				<tr></tr>
+			</tbody>
+		</table>
+
+
+
+		<div style="text-align: center; font-weight: bold; margin: 10px;">投资项目支出按专业类别分析</div>
+		<table class="layui-table">
+		<tbody><tr><td>专业类别</td><td>计划总投资</td><td>累计下达投资额</td><td>累计支出额</td><td>预付余额</td><td>累计投资完成额</td><td>项目资金计划结余</td><td>本年投资计划</td><td>本年累计支出</td><td>本年预付款</td><td>本年投资完成额</td><td>本年资金计划结余</td></tr><tr><td>总计</td><td>86900</td><td>69646</td><td>56863</td><td>24046</td><td>24877</td><td>5158</td><td>49197</td><td>38744</td><td>26890</td><td>20504</td><td>10452</td></tr><tr><td>油田处</td><td>10000</td><td>7500</td><td>6675</td><td>2826</td><td>2892</td><td>432</td><td>7700</td><td>6391</td><td>4026</td><td>3019</td><td>1309</td></tr><tr><td>炼油处</td><td>7100</td><td>5751</td><td>4600</td><td>1874</td><td>1749</td><td>749</td><td>3479</td><td>3131</td><td>2191</td><td>1863</td><td>347</td></tr><tr><td>化工处</td><td>10300</td><td>9270</td><td>6489</td><td>2667</td><td>3125</td><td>685</td><td>5047</td><td>4239</td><td>2882</td><td>1845</td><td>807</td></tr><tr><td>合成材料处</td><td>5600</td><td>4872</td><td>4141</td><td>1225</td><td>1210</td><td>247</td><td>2352</td><td>1999</td><td>1279</td><td>806</td><td>352</td></tr><tr><td>装备储运处</td><td>9500</td><td>7600</td><td>6688</td><td>2474</td><td>2530</td><td>281</td><td>4370</td><td>3889</td><td>2916</td><td>2596</td><td>480</td></tr><tr><td>国际合作处</td><td>8700</td><td>6090</td><td>5298</td><td>2449</td><td>3061</td><td>340</td><td>5742</td><td>3961</td><td>2773</td><td>1774</td><td>1780</td></tr><tr><td>三剂管理处</td><td>12600</td><td>9576</td><td>7756</td><td>3923</td><td>3826</td><td>1017</td><td>5166</td><td>3461</td><td>2907</td><td>2471</td><td>1704</td></tr><tr><td>知识产权处</td><td>7900</td><td>6715</td><td>5707</td><td>1731</td><td>1951</td><td>241</td><td>5925</td><td>4562</td><td>2737</td><td>2326</td><td>1362</td></tr><tr><td>技术监督处</td><td>6800</td><td>4964</td><td>4318</td><td>2208</td><td>1960</td><td>521</td><td>3536</td><td>2404</td><td>2164</td><td>1363</td><td>1131</td></tr></tbody></table>
+
+		<div style="text-align: center; font-weight: bold; margin: 10px;">投资项目支出多维分析</div>
+		<table class="layui-table">
+	    <tbody><tr><td>板块</td><td>课题类型</td><td>项目编号</td><td>项目名称</td><td>计划总投资</td><td>累计下达投资额</td><td>累计支出额</td><td>预付余额</td><td>累计投资完成额</td><td>项目资金计划结余</td><td>本年投资计划</td><td>本年累计支出</td><td>本年预付款</td><td>本年投资完成额</td><td>本年资金计划结余</td></tr><tr><td rowspan="10">科研板块</td><td rowspan="3">国拨课题资本性支出</td><td>KSAE110002</td><td>某液压油研制</td><td>8800</td><td>7744</td><td>6040</td><td>1931</td><td>2207</td><td>551</td><td>5808</td><td>3833</td><td>3066</td><td>1901</td><td>1974</td></tr><tr><td>KSAE110003</td><td>某润滑脂的研制</td><td>14300</td><td>10725</td><td>9223</td><td>4568</td><td>3655</td><td>1421</td><td>9724</td><td>7973</td><td>5900</td><td>3835</td><td>1750</td></tr><tr><td>KSAE110004</td><td>某润滑油的研制</td><td>11400</td><td>8550</td><td>7438</td><td>3288</td><td>3446</td><td>514</td><td>4560</td><td>2872</td><td>2240</td><td>1456</td><td>1687</td></tr><tr><td rowspan="3">科研装备资本性支出</td><td>KSAE150003</td><td>炼油技术研发实验装置及配套仪器</td><td>5700</td><td>4845</td><td>4021</td><td>1410</td><td>1225</td><td>453</td><td>4446</td><td>3956</td><td>2967</td><td>2403</td><td>489</td></tr><tr><td>KSAE150004</td><td>油品性能测试及台架评定设备</td><td>7600</td><td>6156</td><td>5417</td><td>1811</td><td>1833</td><td>349</td><td>4788</td><td>3830</td><td>3026</td><td>2420</td><td>957</td></tr><tr><td>KSAE150005</td><td>多尺度计算化学反应工程平台建设</td><td>11100</td><td>8769</td><td>7190</td><td>2892</td><td>3010</td><td>899</td><td>6882</td><td>5161</td><td>3303</td><td>2411</td><td>1720</td></tr><tr><td rowspan="2">科研配套建设</td><td>KSAE110001</td><td>石科院设施完善改造项目搬迁费(一期)</td><td>14900</td><td>13410</td><td>9923</td><td>3782</td><td>3583</td><td>1393</td><td>7152</td><td>4863</td><td>3744</td><td>3295</td><td>2288</td></tr><tr><td>KSAE140005</td><td>石科院4050润滑油装置扩能改造</td><td>14500</td><td>11455</td><td>8591</td><td>4313</td><td>4963</td><td>945</td><td>5945</td><td>4577</td><td>3067</td><td>1932</td><td>1367</td></tr><tr><td rowspan="2">一般措施</td><td>KPAE180001</td><td>兴普设备零购2018</td><td>13600</td><td>9792</td><td>7833</td><td>4613</td><td>4670</td><td>1095</td><td>6664</td><td>5531</td><td>4535</td><td>2812</td><td>1132</td></tr><tr><td>KSAE160001</td><td>科研设备零购2016</td><td>11300</td><td>8023</td><td>7140</td><td>3452</td><td>3036</td><td>1123</td><td>8927</td><td>8034</td><td>5784</td><td>4801</td><td>892</td></tr></tbody></table>
+	</div>
+	<!--表格数据操作js-->
+<script src="/common/js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+<script src="/common/js/layer-v3.1.1/layer.js"></script>
+<script>
+
+
+var table,selectRowData;
+layui.config({
+    base: '/layuiadmin/module/modules/' //静态资源所在路径
+}).use(['jquery','form', 'laydate','table','laypage','layer'], function(){
+	  admin = layui.admin
+	  ,$ = layui.jquery
+      ,table = layui.table
+      ,layer = layui.layer
+      ,laydate = layui.laydate
+      ,form = layui.form
+      ,laypage = layui.laypage;
+	  form.render(null, 'component-form-group');
+            laydate.render({
+               elem: '#month'
+               ,format: 'yyyyMM'
+            });
+});
+
+var allCode="${allCode?default('')}";
+var allCode_text="全部院所";
+
+
+</script>
+</body>
+</html>

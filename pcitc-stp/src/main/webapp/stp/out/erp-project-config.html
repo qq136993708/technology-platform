@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+<link rel="stylesheet" href="/layuiadmin/style/common.css">
+<script src="/layuiadmin/layui/layui.js"></script>
+</head>
+
+<body>
+	<div class="searchBox">
+		<!--查询条件-->
+		<label class="dateInput">
+			<span>项目编码</span>
+			<input type="text" id="G0PROJCODE" name="G0PROJCODE" placeholder="请输入项目编码" title="项目编码" class="form-control">
+		</label>
+		<label class="dateInput">
+			<span>项目名称</span>
+			<input type="text" id="G0PROJTXT" name="G0PROJTXT" placeholder="请输入项目名称" title="项目名称" class="form-control">
+		</label>
+		<!--按钮组-->
+		<div class="btnGroup">
+			<button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>
+			<button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg" data-type="resetEvent">重置</button>
+		</div>
+	</div>
+
+	<div class="tableBox">
+		<div class="tableToolBox">
+			<div class="whiteLine"></div>
+			<div class="tableBtns">
+				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit" data-type="handleEvent">匹配</button>
+			</div>
+		</div>
+		<table id="showTable" class="layui-hide" lay-filter="tableData"></table>
+	</div>
+
+
+	<!--表格数据操作js-->
+	<script>
+		var TEMG0PROJCODES;
+		var table, active, selectRowData = '';
+		var temDataId = "${dataId?default(0)}";
+		
+		// 当前页所有
+		var TEMG0PROJCODES = "";
+		
+		layui.use([ 'jquery', 'table', 'laydate', 'laypage', 'laytpl' ], function() {
+			table = layui.table, $ = layui.jquery, laydate = layui.laydate, laypage = layui.laypage;
+
+			function renderTable() {
+				var G0PROJCODE = $('#G0PROJCODE').val();
+				var G0PROJTXT = $('#G0PROJTXT').val();
+				var param = JSON.parse(window.localStorage.getItem("param"));
+				var lodingMsg = layer.msg('数据加载中....');
+				//渲染
+				table.render({
+					elem : '#showTable',
+					url : '/out/erp-project-list',
+					method : "POST",
+					where : {
+						param : {
+							"G0PROJCODE" : G0PROJCODE,
+							"G0PROJTXT" : G0PROJTXT,
+							"functionCode" : param.code
+						}
+					},
+					limit : 10,
+					id : 'showTable',
+					height : commonDislodgeTable(),
+					page : {
+						groups : 5,
+						limits : [ 15, 30, 45, 60 ],
+						layout : [ 'count', 'limit', 'prev', 'page', 'next', 'skip' ], //自定义分页布局
+						first : '首页', //不显示首页
+						last : '尾页', //不显示尾页
+						theme : '#0F9EE0'
+					},
+					cols : [ [ {
+						type : 'checkbox',
+						event : 'changeEvents'
+					}, {
+						title : '序号',
+						type : 'numbers'
+					}, {
+						field : 'G0GSDM',
+						title : '公司代码',
+						width : '10%',
+						style : 'cursor: pointer;'
+					}, {
+						field : 'G0GSJC',
+						title : '公司简称',
+						width : '10%',
+						style : 'cursor: pointer;'
+					}, {
+						field : 'G0PROJCODE',
+						title : '项目编码',
+						width : '15%',
+						style : 'cursor: pointer;'
+					}, {
+						field : 'G0PROJTXT',
+						title : '项目名称',
+						style : 'cursor: pointer;',
+					} ] ],
+					done : function(res, curr, count) {
+						// 关闭等待刷新
+						layer.close(lodingMsg);
+						TEMG0PROJCODES = "";
+						for(var i=0;i< res.data.length;i++){
+							if (parent.epc.indexOf(res.data[i].G0PROJCODE)>-1) {
+								res.data[i]["LAY_CHECKED"]='true';
+	                            //找到对应数据改变勾选样式，呈现出选中效果
+	                            var index= res.data[i]['LAY_TABLE_INDEX'];
+	                            $('.layui-table tr[data-index=' + index + '] input[type="checkbox"]').prop('checked', true);
+	                            $('.layui-table tr[data-index=' + index + '] input[type="checkbox"]').next().addClass('layui-form-checked');
+							}
+							
+							if (i == res.data.length - 1) {
+								TEMG0PROJCODES = TEMG0PROJCODES + res.data[i].G0PROJCODE;
+							} else {
+								TEMG0PROJCODES = TEMG0PROJCODES + res.data[i].G0PROJCODE + ",";
+							}
+	                    }
+					}
+				});
+			}
+			renderTable();
+			$(document).on("click", ".layui-table-body table.layui-table tbody tr", function() {
+				var index = $(this).attr('data-index');
+				var tableBox = $(this).parents('.layui-table-box');
+				//存在固定列
+				if (tableBox.find(".layui-table-fixed.layui-table-fixed-l").length > 0) {
+					tableDiv = tableBox.find(".layui-table-fixed.layui-table-fixed-l");
+				} else {
+					tableDiv = tableBox.find(".layui-table-body.layui-table-main");
+				}
+				var checkCell = tableDiv.find("tr[data-index=" + index + "]").find("td div.laytable-cell-checkbox div.layui-form-checkbox I");
+				if (checkCell.length > 0) {
+					checkCell.click();
+				}
+			});
+			$(document).on("click", "td div.laytable-cell-checkbox div.layui-form-checkbox", function(e) {
+				e.stopPropagation();
+			});
+
+			// 触发不同的按钮事件
+			var $ = layui.$;
+			active = {
+				searchEvent : function() { //点击查询按钮
+					selectRowData = '';
+					renderTable();
+				},
+				resetEvent : function() { //点击重置按钮
+					$('#G0PROJCODE').val("");
+					$('#G0PROJTXT').val("");
+					$('.tableBtns').children('button').removeClass('active');
+					active.searchEvent();
+				},
+				handleEvent : function() { //点击关联匹配按钮
+					var data = table.checkStatus('showTable').data;
+					//layer.msg(JSON.stringify(data[0].id));
+					var G0PROJCODES = "";
+					var G0PROJTXTS = "";
+					// 当前页选中的
+					for (var i = 0; i < data.length; i++) {
+						if (i == data.length - 1) {
+							G0PROJCODES = G0PROJCODES + data[i].G0PROJCODE;
+							G0PROJTXTS = G0PROJTXTS + data[i].G0PROJTXT
+						} else {
+							G0PROJCODES = G0PROJCODES + data[i].G0PROJCODE + ","
+							G0PROJTXTS = G0PROJTXTS + data[i].G0PROJTXT + ","
+						}
+					}
+					var jsonstr = {
+						"data_id" : temDataId,
+						"G0PROJCODES" : G0PROJCODES,
+						"G0PROJTXTS" : G0PROJTXTS,
+						"TEMG0PROJCODES" : TEMG0PROJCODES
+					};
+					$.ajax({
+						type : "POST",
+						contentType : "application/json;charset=utf-8",
+						dataType : "json",
+						data : JSON.stringify(jsonstr),
+						url : "/out/config-erp",
+						error : function(data) {
+							layer.msg('操作失败!');
+						},
+						success : function(data) {
+							layer.msg('操作成功!');
+							parent.active.refresh();
+						}
+					});
+					
+				},
+			};
+
+			table.on('tool(tableData)', function(obj) {
+				selectRowData = obj.data;
+				console.log(selectRowData)
+			});
+
+			//监听排序
+			table.on('sort(showTable)', function(obj) {
+				console.log(this, obj.field, obj.type)
+				//return;
+				//服务端排序
+				table.reload('showTable', {
+					initSort : obj,
+					page : {
+						curr : 1
+					}, //重新从第一页开始
+					where : { //重新请求服务端
+						key : obj.field, //排序字段
+						order : obj.type
+					//排序方式
+					}
+				});
+			});
+
+			//区别按钮属性
+			$('.layui-btn').on('click', function() {
+				var type = $(this).data('type');
+				active[type] ? active[type].call(this) : '';
+			});
+
+		});
+	</script>
+
+</body>
+</html>

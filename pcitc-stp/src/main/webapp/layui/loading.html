@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>页面加载中</title>
+    <style>
+        .loadingBox{width: 100px;height: 100px;}
+        .loadingBox img{width: 100%;height: auto;}
+    </style>
+</head>
+<body>
+<div id="loadingBox" class="loadingBox">
+    <img src="/layuiadmin/layui/images/loadingImg04.gif" alt="数据加载中">
+</div>
+<script>
+    function loadingEffect() {
+        var loading = $('#loadingBox');
+        loading.hide();
+        $(document).ajaxStart(function () {
+            loading.show();
+        }).ajaxStop(function () {
+            loading.hide();
+        });
+    }
+    loadingEffect();
+</script>
+</body>
+</html>

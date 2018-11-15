@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <link rel="stylesheet" href="/common/css/echart-common.css">
+</head>
+<body >  
+<div class="searchBox">
+<input type="hidden" name="days" value="${days}"  id="days">
+    <!--查询条件-->
+        <label class="dateInput">
+            <span>月份</span>
+            <input type="text" name="month" placeholder="请选择月份" title="月份" value="${month}" autocomplete="off" class="form-control" id="month">
+        </label>
+       <div class="layui-input-inline">
+         <select name="companyCode" id="companyCode" >
+              <#list companyCodeList as vo>
+              	 <#if vo.g0GSJC == '全部'>
+              	 	<option value="${vo.g0GSDM}"  selected="selected">${vo.g0GSJC}</option>
+              	 </#if>
+                 <#if vo.g0GSJC != '全部'>
+              	 	<option value="${vo.g0GSDM}">${vo.g0GSJC}</option>
+              	 </#if>
+               </#list>
+            </select>
+       </div>
+       
+    <!--按钮组-->
+    <div class="btnGroup">
+        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()" data-type="searchEvent">查询</button>
+    </div>
+    <span class="unitBox">单位：万元</span>
+</div>
+<!--echarts-->
+<div class="content-body container">
+         <div class="one-chart-box" style="margin-top:10px">
+           <div class="layui-row echarts">
+             <div id="main1" style="width: 100%;height: 400px;"></div>
+           </div>
+         </div>
+         
+            
+       <!--图表二比一布局-->
+        <div class="layui-row two-one-box">
+			<div class="layui-col-xs8 layui-col-sm8 layui-col-md8 twoBox echarts"
+				style="height: auto">
+				<div style="text-align: center; margin: 10px;">现金流量表</div>
+				<table class="layui-table">
+					<tbody>
+						<tr>
+							<td>项 目</td>
+							<td>行次</td>
+							<td>本年累计数</td>
+							<td>上年同期数</td>
+							<td>同比</td>
+						</tr>
+						<tr>
+							<td>一、营业总收入</td>
+							<td>1.0</td>
+							<td>33000</td>
+							<td>22440</td>
+							<td>10560</td>
+						</tr>
+						<tr>
+							<td>其中：营业收入</td>
+							<td>2.0</td>
+							<td>570</td>
+							<td>513</td>
+							<td>57</td>
+						</tr>
+						<tr>
+							<td>其中：主营业务收入</td>
+							<td>3.0</td>
+							<td>580</td>
+							<td>469</td>
+							<td>110</td>
+						</tr>
+						<tr>
+							<td>其他业务收入</td>
+							<td>4.0</td>
+							<td>730</td>
+							<td>401</td>
+							<td>328</td>
+						</tr>
+						<tr>
+							<td>二、营业总成本</td>
+							<td>5.0</td>
+							<td>840</td>
+							<td>697</td>
+							<td>142</td>
+						</tr>
+						<tr>
+							<td>其中：营业成本</td>
+							<td>6.0</td>
+							<td>330</td>
+							<td>254</td>
+							<td>75</td>
+						</tr>
+						<tr>
+							<td>其中：主营业务成本</td>
+							<td>7.0</td>
+							<td>550</td>
+							<td>264</td>
+							<td>286</td>
+						</tr>
+						<tr>
+							<td>其他业务成本</td>
+							<td>8.0</td>
+							<td>500</td>
+							<td>290</td>
+							<td>210</td>
+						</tr>
+						<tr>
+							<td>税金及附加</td>
+							<td>9.0</td>
+							<td>400</td>
+							<td>340</td>
+							<td>60</td>
+						</tr>
+						<tr>
+							<td>其中：主营业务税金及附加</td>
+							<td>10.0</td>
+							<td>850</td>
+							<td>348</td>
+							<td>501</td>
+						</tr>
+						<tr>
+							<td>销售费用</td>
+							<td>11.0</td>
+							<td>530</td>
+							<td>365</td>
+							<td>164</td>
+						</tr>
+						<tr>
+							<td>管理费用</td>
+							<td>12.0</td>
+							<td>630</td>
+							<td>302</td>
+							<td>327</td>
+						</tr>
+						<tr>
+							<td>其中： 研究与开发费</td>
+							<td>13.0</td>
+							<td>630</td>
+							<td>409</td>
+							<td>220</td>
+						</tr>
+						<tr>
+							<td>勘探费用</td>
+							<td>14.0</td>
+							<td>650</td>
+							<td>357</td>
+							<td>292</td>
+						</tr>
+						<tr>
+							<td>财务费用</td>
+							<td>15.0</td>
+							<td>720</td>
+							<td>684</td>
+							<td>36</td>
+						</tr>
+						<tr>
+							<td>其中：利息支出</td>
+							<td>16.0</td>
+							<td>530</td>
+							<td>323</td>
+							<td>206</td>
+						</tr>
+						<tr>
+							<td>利息收入</td>
+							<td>17.0</td>
+							<td>300</td>
+							<td>285</td>
+							<td>15</td>
+						</tr>
+						<tr>
+							<td>汇兑净损失（净收益以“-”号填列）</td>
+							<td>18.0</td>
+							<td>610</td>
+							<td>488</td>
+							<td>122</td>
+						</tr>
+						<tr>
+							<td>资产减值损失</td>
+							<td>19.0</td>
+							<td>570</td>
+							<td>296</td>
+							<td>273</td>
+						</tr>
+						<tr>
+							<td>加：公允价值变动收益（损失以“－”号填列）</td>
+							<td>20.0</td>
+							<td>590</td>
+							<td>430</td>
+							<td>159</td>
+						</tr>
+						<tr>
+							<td>投资收益（损失以“－”号填列）</td>
+							<td>21.0</td>
+							<td>850</td>
+							<td>433</td>
+							<td>416</td>
+						</tr>
+						<tr>
+							<td>其中：对联营企业和合营企业的投资收益</td>
+							<td>22.0</td>
+							<td>650</td>
+							<td>559</td>
+							<td>91</td>
+						</tr>
+						<tr>
+							<td>△汇兑收益（损失以“-”号填列）</td>
+							<td>23.0</td>
+							<td>630</td>
+							<td>497</td>
+							<td>132</td>
+						</tr>
+						<tr>
+							<td>资产处置收益（损失以“-”号填列）</td>
+							<td>24.0</td>
+							<td>450</td>
+							<td>184</td>
+							<td>265</td>
+						</tr>
+						<tr>
+							<td>其他收益</td>
+							<td>25.0</td>
+							<td>430</td>
+							<td>322</td>
+							<td>107</td>
+						</tr>
+						<tr>
+							<td>三、营业利润（亏损以“－”号填列）</td>
+							<td>26.0</td>
+							<td>350</td>
+							<td>171</td>
+							<td>178</td>
+						</tr>
+						<tr>
+							<td>加：营业外收入</td>
+							<td>27.0</td>
+							<td>670</td>
+							<td>321</td>
+							<td>348</td>
+						</tr>
+						<tr>
+							<td>其中：政府补助利得</td>
+							<td>28.0</td>
+							<td>690</td>
+							<td>558</td>
+							<td>131</td>
+						</tr>
+						<tr>
+							<td>债务重组利得</td>
+							<td>29.0</td>
+							<td>610</td>
+							<td>292</td>
+							<td>317</td>
+						</tr>
+						<tr>
+							<td>减：营业外支出</td>
+							<td>30.0</td>
+							<td>520</td>
+							<td>260</td>
+							<td>260</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="layui-col-xs4 layui-col-sm4 layui-col-md4 oneBox " style="height:auto">
+                <div id="main3" class="echarts" style="width: 100%;height: 400px;"></div>
+                <div id="main4" class="echarts" style="width: 100%;height: 400px;margin-top:10px;"></div>
+                <div id="main5" class="echarts" style="width: 100%;height: 400px;margin-top:10px;"></div>
+            </div>
+        </div>
+
+
+	</div>     
+     
+     
+
+<!--表格数据操作js-->
+<script src="/common/js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+<script src="/common/js/layer-v3.1.1/layer.js"></script>
+<script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
+<script type="text/javascript" src="/plugins/echarts/walden.js"></script>	
+<script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
+<script type="text/javascript">
+
+layui.config({
+    base: '/layuiadmin/module/modules/' 
+}).use(['jquery','form', 'laydate','table','laypage'], function(){
+	  $ = layui.jquery
+      ,table = layui.table
+      ,form = layui.form
+      ,laydate = layui.laydate
+	  form.render(null, 'component-form-group');
+            laydate.render({
+               elem: '#month'
+               ,format: 'yyyyMM'
+            });
+});
+
+
+function init()
+{
+	
+		var allCode="${allCode?default('')}";
+		var allCode_text="全部院所";
+		var v_date=(new Date()).getTime();
+		var month=$('#month').val();
+		var companyCode=$('#companyCode').val();
+		var monthstr=getNowFormatDate($('#month').val());
+		var checkText=$("#companyCode").find("option:selected").text();
+		if(checkText=='全部')
+		{
+			checkText="全部院所";
+		}
+		
+		
+		var seriesData_1= [
+	        {
+	            name:'同期',
+	            type:'bar',
+	            color: ['#37A2DA'],
+	            data:[22, 44, 74, 24,22,22,22, 414, 74, 24,22,212]
+	        },
+	        {
+	            name:'本期',
+	            type:'bar',
+	            color: ['#67E0E3'],
+	            data:[22, 44, 14, 24,422,62,72, 414, 74, 24,22,212]
+	        },
+	        
+	        {
+	            name:'同比',
+	            type:'line',
+	            itemStyle : {  /*设置折线颜色*/
+                    normal : {
+                        color:'#c4cddc'
+                    }
+                },
+	            data:[12, 93, 32, 12,12,12, 93, 32, 1.2,1.2,82,1.2]
+	        }
+	        
+	        
+	    ];
+  
+		  var yAxis= [
+		        {
+  		            type: 'value',
+  		            name: '金额（万元）',
+  		            min: 0,
+  		            axisLabel: {
+  		                formatter: '{value}'
+  		            }
+  		        },
+  		        {
+  		            type: 'value',
+  		            name: '同比',
+  		            min: 0,
+  		            max: 100,
+  		            axisLabel: {
+  		                formatter: '{value} %'
+  		            }
+  		        }
+  		    ];
+		var legends_1=['同期','本期','同比'];
+		var xAxisData_1= ['201801','201802','201803','201804','201805','201806','201807','201808','201809','201810','201811','201812'];
+		load_mutl_bar_tt("main1","净利润趋势分析",legends_1,xAxisData_1,yAxis,seriesData_1,monthstr);
+		
+
+		
+		var legend_names_3=['石勘院','物探院','工程院','石科院','抚研院','北化院','上海院','安工院'];
+		var series_values_3=[
+			 {value:135, name:'石勘院'},
+             {value:210, name:'物探院'},
+             {value:134, name:'工程院'},
+             {value:134, name:'石科院'},
+             {value:134, name:'抚研院'},
+             {value:134, name:'北化院'},
+             {value:134, name:'上海院'},
+             {value:134, name:'安工院'}
+		];
+		loadPie_tt('main3','营业总收入总额按研究院占比分析',legend_names_3,series_values_3,monthstr);
+		
+		
+		
+		
+		var legend_names_4=['石勘院','物探院','工程院','石科院','抚研院','北化院','上海院','安工院'];
+		var series_values_4=[
+			 {value:135, name:'石勘院'},
+             {value:210, name:'物探院'},
+             {value:134, name:'工程院'},
+             {value:134, name:'石科院'},
+             {value:134, name:'抚研院'},
+             {value:134, name:'北化院'},
+             {value:134, name:'上海院'},
+             {value:134, name:'安工院'}
+		];
+		loadPie_tt('main4','营业总成本总额按研究院占比分析',legend_names_4,series_values_4,monthstr);
+		
+		var legend_names_5=['石勘院','物探院','工程院','石科院','抚研院','北化院','上海院','安工院'];
+		var series_values_5=[
+			 {value:135, name:'石勘院'},
+             {value:210, name:'物探院'},
+             {value:134, name:'工程院'},
+             {value:134, name:'石科院'},
+             {value:134, name:'抚研院'},
+             {value:134, name:'北化院'},
+             {value:134, name:'上海院'},
+             {value:134, name:'安工院'}
+		];
+		loadPie_tt('main5','利润总额按研究院占比分析',legend_names_5,series_values_5,monthstr);
+		
+		
+		
+		
+	
+}
+
+
+init();
+        
+
+        
+        
+        
+        
+        
+        function search_Event()
+        {
+        	init();
+        }
+            
+           
+    </script>
+</body>
+</html>

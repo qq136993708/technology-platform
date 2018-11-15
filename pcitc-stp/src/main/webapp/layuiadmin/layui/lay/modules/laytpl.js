@@ -1,0 +1,193 @@
+/** layui-v2.3.0 MIT License By https://www.layui.com */ ;
+layui.define(['jquery'],function (e) {
+    "use strict";
+    var $=layui.jquery;
+    var r = {
+            open: "{{",
+            close: "}}"
+        },
+        c = {
+            exp: function (e) {
+                return new RegExp(e, "g")
+            }, query: function (e, c, t) {
+                var o = ["#([\\s\\S])+?", "([^{#}])*?"][e || 0];
+                return n((c || "") + r.open + o + r.close + (t || ""))
+            }, escape: function (e) {
+                return String(e || "").replace(/&(?!#?[a-zA-Z0-9]+;)/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/'/g, "&#39;").replace(/"/g, "&quot;")
+            }, error: function (e, r) {
+                var c = "Laytpl Error：";
+                return "object" == typeof console && console.error(c + e + "\n" + (r || "")), c + e
+            }
+        },
+        n = c.exp,
+        t = function (e) {
+            this.tpl = e
+        };
+    t.pt = t.prototype, window.errors = 0, t.pt.parse = function (e, t) {
+        var o = this,
+            p = e,
+            a = n("^" + r.open + "#", ""),
+            l = n(r.close + "$", "");
+        e = e.replace(/\s+|\r|\t|\n/g, " ").replace(n(r.open + "#"), r.open + "# ").replace(n(r.close + "}"), "} " + r.close).replace(/\\/g, "\\\\").replace(n(r.open + "!(.+?)!" + r.close), function (e) {
+            return e = e.replace(n("^" + r.open + "!"), "").replace(n("!" + r.close), "").replace(n(r.open + "|" + r.close), function (e) {
+                return e.replace(/(.)/g, "\\$1")
+            })
+        }).replace(/(?="|')/g, "\\").replace(c.query(), function (e) {
+            return e = e.replace(a, "").replace(l, ""), '";' + e.replace(/\\/g, "") + ';view+="'
+        }).replace(c.query(1), function (e) {
+            var c = '"+(';
+            return e.replace(/\s/g, "") === r.open + r.close ? "" : (e = e.replace(n(r.open + "|" + r.close), ""), /^=/.test(e) && (e = e.replace(/^=/, ""), c = '"+_escape_('), c + e.replace(/\\/g, "") + ')+"')
+        }), e = '"use strict";var view = "' + e + '";return view;';
+        try {
+            return o.cache = e = new Function("d, _escape_", e), e(t, c.escape)
+        } catch (u) {
+            return delete o.cache, c.error(u, p)
+        }
+    }, t.pt.render = function (e, r) {
+        var n, t = this;
+        return e ? (n = t.cache ? t.cache(e, c.escape) : t.parse(t.tpl, e), r ? void r(n) : n) : c.error("no data")
+    };
+    var o = function (e) {
+        return "string" != typeof e ? c.error("Template not found") : new t(e)
+    };
+    o.config = function (e) {
+        e = e || {};
+        for (var c in e) r[c] = e[c]
+    }, o.v = "1.2.0", e("laytpl", o)
+    o.toDateString = function(d, format){
+
+        var date = new Date(d || new Date())
+            ,ymd = [
+            this.digit(date.getFullYear(), 4)
+            ,this.digit(date.getMonth() + 1)
+            ,this.digit(date.getDate())
+        ]
+            ,hms = [
+            this.digit(date.getHours())
+            ,this.digit(date.getMinutes())
+            ,this.digit(date.getSeconds())
+        ];
+
+        format = format || 'yyyy-MM-dd HH:mm:ss';
+
+        return format.replace(/yyyy/g, ymd[0])
+            .replace(/MM/g, ymd[1])
+            .replace(/dd/g, ymd[2])
+            .replace(/HH/g, hms[0])
+            .replace(/mm/g, hms[1])
+            .replace(/ss/g, hms[2]);
+    };
+
+    //数字前置补零
+    o.digit = function(num, length, end){
+        var str = '';
+        num = String(num);
+        length = length || 2;
+        for(var i = num.length; i < length; i++){
+            str += '0';
+        }
+        return num < Math.pow(10, length) ? str + (num|0) : num;
+    };
+    o.state = function(d){
+        var stateData;
+        if(d==0){
+            stateData="<span class='fontColor-red'>未审批</span>"
+        }else if(d==1){
+            stateData="<span class='fontColor-blue'>审批通过</span>"
+        }else if(d==2){
+            stateData="审批中"
+        }else if(d==3){
+            stateData="未通过"
+        }
+        return stateData;
+    };
+    o.auditStatus = function(d){
+        var stateData;
+        if(d==0){
+            stateData="<span class='fontStateColor fontStateColor-yellow'></span>"
+        }else if(d==1){
+            stateData="<span class='fontStateColor fontStateColor-green'></span>"
+        }else if(d==2){
+            stateData="<span class='fontStateColor fontStateColor-blue'></span>"
+        }
+        return stateData;
+    };
+    o.auditStatus1 = function(d){
+    	var stateData;
+    	if(d==0){
+    		stateData="<span class='fontStateColor fontStateColorYellow'></span>"
+    	}else if(d==1){
+    		stateData="<span class='fontStateColor fontStateColor-green'></span>"
+    	}else if(d==2){
+    		stateData="<span class='fontStateColor fontStateColor-blue'></span>"
+    	}else if(d==3){
+    		stateData="<span class='fontStateColor fontStateColor-yellow'></span>"
+    	}
+    	return stateData;
+    };
+    o.grantStatus = function(d){
+        var stateData;
+        if(d=='已保存'){
+            stateData="<span class='fontStateColor fontStateColor-yellow'></span>"
+        }else if(d=='已下发'){
+            stateData="<span class='fontStateColor fontStateColor-green'></span>"
+        }
+        return stateData;
+    };
+    o.tableRowspan = function(d){
+       var htmlData='';
+       if(d.indexOf(",")!=-1){
+           var dArr=d.split(',');
+           $.each(dArr,function(i,dt){
+               htmlData+="<p class='tableRowspanP'>"+dArr[i]+"</p>"
+               //console.log(dArr[i])
+           });
+       }else {
+           htmlData="<p class='tableRowspanP'>"+d+"</p>";
+       }
+       return htmlData;
+    };
+    o.attToPic = function(d){
+        var htmlImg='';
+        var value = d.attachment;
+        var dataId = d.dataId;
+        if(value>0){
+            htmlImg= "<img src='/layuiadmin/layui/images/icon_20.png' style='cursor:pointer' class='onClickImg' id='"+d.dataId+"'/>";
+        }else{
+            htmlImg="";
+        }
+        return htmlImg;
+    };
+    o.milliFormat = function (number, decimals, dec_point, thousands_sep,roundtag) {
+        /*
+        * 参数说明：
+        * number：要格式化的数字
+        * decimals：保留几位小数
+        * dec_point：小数点符号
+        * thousands_sep：千分位符号
+        * roundtag:舍入参数，默认 "ceil" 向上取,"floor"向下取,"round" 四舍五入
+        * */
+        number = (number + '').replace(/[^0-9+-Ee.]/g, '');
+        roundtag = roundtag || "ceil"; //"ceil","floor","round"
+        var n = !isFinite(+number) ? 0 : +number,
+            prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+            sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
+            dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
+            s = '',
+            toFixedFix = function (n, prec) {
+                var k = Math.pow(10, prec);
+                console.log();
+                return '' + parseFloat(Math[roundtag](parseFloat((n * k).toFixed(prec*2))).toFixed(prec*2)) / k;
+            };
+        s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
+        var re = /(-?\d+)(\d{3})/;
+        while (re.test(s[0])) {
+            s[0] = s[0].replace(re, "$1" + sep + "$2");
+        }
+        if ((s[1] || '').length < prec) {
+            s[1] = s[1] || '';
+            s[1] += new Array(prec - s[1].length + 1).join('0');
+        }
+        return s.join(dec);
+    }
+});
