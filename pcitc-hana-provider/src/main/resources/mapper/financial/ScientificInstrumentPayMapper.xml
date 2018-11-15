@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pcitc.mapper.financial.ScientificInstrumentPayMapper">
+	
+	
+	 <!-- 科研基建支出分析-5年支出趋势 H1AS_KY_CB_1005_01--> 
+     <resultMap id="scientificInstrumentPayResultMap" type="com.pcitc.base.hana.report.ScientificInstrumentPay" >
+       <result column="G0CALY"       property="g0CALY"    jdbcType="VARCHAR" />
+       <result column="G0GSDM"       property="g0GSDM"    jdbcType="VARCHAR" />
+       <result column="G0GSJC"       property="g0GSJC"    jdbcType="VARCHAR" />
+       <result column="G0FLAG"       property="g0FLAG"    jdbcType="VARCHAR" />
+       <result column="G0ZCMS"       property="g0ZCMS"    jdbcType="VARCHAR" />
+       <result column="K0BNZCJE"     property="k0BNZCJE"  jdbcType="VARCHAR" />
+       <result column="K0SNZCJE"     property="k0SNZCJE"  jdbcType="VARCHAR" />
+       <result column="K0TBZCJE"     property="k0TBZCJE"  jdbcType="VARCHAR" />
+       <result column="K0TBZCBL"     property="k0TBZCBL"  jdbcType="VARCHAR" />
+       <result column="K0TQBL"       property="k0TQBL"      jdbcType="VARCHAR" />
+     </resultMap>
+     
+	 <select id="getScientificInstrumentPayReport" resultMap="scientificInstrumentPayResultMap" parameterType="java.util.Map" >
+        SELECT
+			 "G0ZCMS",
+			 G0CALY,
+			 round(sum("K0BNZCJE")/10000,2) AS "K0BNZCJE"
+		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_CB_1005_01"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+			 '${month}'),
+			 'PLACEHOLDER' = ('$$PR_GSDM$$',
+			 '${companyCode}')) 
+		GROUP BY 
+			 "G0ZCMS",
+			  G0CALY
+	 </select>
+	 
+	 
+	 <!-- 支出按资产类别同比分析 H1AS_KY_CB_1005_02--> 
+	 <select id="getScientificInstrumentPayByG0ZCMSReport" resultMap="scientificInstrumentPayResultMap" parameterType="java.util.Map" >
+        SELECT
+			 "G0ZCMS",
+			 round( sum("K0BNZCJE")/10000,2)  AS "K0BNZCJE",
+		     round( sum("K0SNZCJE")/10000,2)  AS "K0SNZCJE",
+			 sum("K0TBZCJE") AS "K0TBZCJE",
+			 sum("K0TBZCBL") AS "K0TBZCBL" ,
+			 case when sum("K0SNZCJE")=0 then 0
+			 else 
+				 round((sum("K0BNZCJE")-sum("K0SNZCJE"))/sum("K0SNZCJE")*100,2)
+			 end AS "K0TQBL" 
+			
+		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_CB_1005_02"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+			 '${month}'),
+			 'PLACEHOLDER' = ('$$PR_GSDM$$',
+			 '${companyCode}')) 
+		GROUP BY 
+			 "G0ZCMS"
+	 </select>
+	 
+	 
+	 
+	 
+	  <sql id="selectCondition01">
+	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
+	     <if test="g0ZCMS != null   and g0ZCMS !='' ">   AND G0ZCMS  in      ${g0ZCMS}</if>
+	 </trim>
+	</sql>
+	
+	 
+	 <!-- 按研究院分析  H1AS_KY_CB_1005_02--> 
+	 <select id="getScientificInstrumentPayByG0GSJCReport" resultMap="scientificInstrumentPayResultMap" parameterType="java.util.Map" >
+        SELECT
+			 "G0GSJC",
+			 round( sum("K0BNZCJE")/10000,2)  AS "K0BNZCJE",
+		     round( sum("K0SNZCJE")/10000,2)  AS "K0SNZCJE",
+			 sum("K0TBZCJE") AS "K0TBZCJE",
+			 sum("K0TBZCBL") AS "K0TBZCBL" ,
+			 case when sum("K0SNZCJE")=0 then 0
+			 else 
+				 round((sum("K0BNZCJE")-sum("K0SNZCJE"))/sum("K0SNZCJE")*100,2)
+			 end AS "K0TQBL" 
+			
+		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_CB_1005_02"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+			 '${month}'),
+			 'PLACEHOLDER' = ('$$PR_GSDM$$',
+			 '${companyCode}')) 
+			 
+			 <include refid="selectCondition01"/>
+			 
+			
+		GROUP BY 
+			 "G0GSJC"
+	 </select>
+	 
+	 
+	  
+	 <!-- 科研基建支出情况明细表  H1AS_KY_CB_1006_01--> 
+     <resultMap id="totalScientificInstrumentPayDetailResultMap" type="com.pcitc.base.hana.report.ScientificInstrumentPayDetail" >
+       <result column="G0CALP"            property="g0CALP"     jdbcType="VARCHAR" />
+       <result column="G0GSJC"            property="g0GSJC"     jdbcType="VARCHAR" />
+       <result column="G0ZCMS"            property="g0ZCMS"     jdbcType="VARCHAR" />
+       <result column="G0TXT50"           property="g0TXT50"    jdbcType="VARCHAR" />
+       <result column="G0PRCTR"           property="g0PRCTR"    jdbcType="VARCHAR" />
+       <result column="G0KOSTL"           property="g0KOSTL"    jdbcType="VARCHAR" />
+       <result column="G0NDJAR"           property="g0NDJAR"     jdbcType="VARCHAR" />
+       <result column="G0NCGZYZJE"        property="g0NCGZYZJE"     jdbcType="VARCHAR" />
+       <result column="G0LJZCZJJE"        property="g0LJZCZJJE"     jdbcType="VARCHAR" />
+       <result column="G0LJTSZJJE"        property="g0LJTSZJJE"     jdbcType="VARCHAR" />
+       <result column="G0LJJHWZJJE"       property="g0LJJHWZJJE"    jdbcType="VARCHAR" />
+       <result column="G0LJZJZJJE"         property="g0LJZJZJJE"    jdbcType="VARCHAR" />
+       <result column="G0LJTJZJJE"         property="g0LJTJZJJE"    jdbcType="VARCHAR" />
+       <result column="G0LJCGZJJE"         property="g0LJCGZJJE"    jdbcType="VARCHAR" />
+       <result column="G0LJGZYZJE"         property="g0LJGZYZJE"    jdbcType="VARCHAR" />
+       <result column="G0LJDJZJJE"         property="g0LJDJZJJE"    jdbcType="VARCHAR" />
+       <result column="G0BNZCZJJE"         property="g0BNZCZJJE"    jdbcType="VARCHAR" />
+       <result column="G0BNTSZJJE"         property="g0BNTSZJJE"    jdbcType="VARCHAR" />
+       <result column="G0BNJHWZJJE"        property="g0BNJHWZJJE"   jdbcType="VARCHAR" />
+       <result column="G0BNZJZJJE"         property="g0BNZJZJJE"    jdbcType="VARCHAR" />
+        <result column="BNTQ"              property="bNTQ"    jdbcType="VARCHAR" />
+        
+       
+     </resultMap>
+     
+	  		
+     <sql id="selectCondition02">
+	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
+	     <if test="g0TXT50 != null  and g0TXT50 !=''  ">     AND G0TXT50 like '%${g0TXT50}%'</if>
+	     <if test="g0ZCMS != null   and g0ZCMS !=''  ">      AND G0ZCMS  like '%${g0ZCMS}%'</if>
+	     <if test="sqlStr != null   and sqlStr !='' ">       ${sqlStr}</if>
+	 </trim>
+	</sql>
+	
+	
+	 <select id="getList" resultMap="totalScientificInstrumentPayDetailResultMap" parameterType="java.util.Map" >
+	 
+	 
+	 
+	 SELECT
+	   ROW_NUMBER() OVER() AS ROW_ID, 
+	 "G0CALP",
+	 "G0GSDM",
+	 "G0GSJC",
+	 "G0FLAG",
+	 "G0ZCMS",
+	 "G0ANLN1",
+	 "G0TXT50",
+	 "G0NDJAR",
+	 "G0PRCTR",
+	 "G0KOSTL",
+	 "G0ZZDXZC",
+	 "G0ZDXZCT",
+	 "G0WAERS",
+	  -( sum("G0BNZCZJJE")+ sum("G0BNTSZJJE")+ sum("G0BNJHWZJJE") + sum("G0BNZJZJJE") +sum("G0BNTJZJJE")+ sum("G0BNCGZJJE")) BNTQ,
+	 sum("G0NCGZYZJE") AS "G0NCGZYZJE",
+	 sum("G0LJZCZJJE") AS "G0LJZCZJJE",
+	 sum("G0LJTSZJJE") AS "G0LJTSZJJE",
+	 sum("G0LJJHWZJJE") AS "G0LJJHWZJJE",
+	 sum("G0LJZJZJJE") AS "G0LJZJZJJE",
+	 sum("G0LJTJZJJE") AS "G0LJTJZJJE",
+	 sum("G0LJCGZJJE") AS "G0LJCGZJJE",
+	 sum("G0LJGZYZJE") AS "G0LJGZYZJE",
+	 sum("G0LJDJZJJE") AS "G0LJDJZJJE",
+	 sum("G0BNZCZJJE") AS "G0BNZCZJJE",
+	 sum("G0BNTSZJJE") AS "G0BNTSZJJE",
+	 sum("G0BNJHWZJJE") AS "G0BNJHWZJJE",
+	 sum("G0BNZJZJJE") AS "G0BNZJZJJE",
+	 sum("G0BNTJZJJE") AS "G0BNTJZJJE",
+	 sum("G0BNCGZJJE") AS "G0BNCGZJJE",
+	 sum("G0BNGZYZJE") AS "G0BNGZYZJE" 
+FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_CB_1006_01"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+	 '${month}'),
+	 'PLACEHOLDER' = ('$$PR_GSDM$$',
+	 '${companyCode}')) 
+	  <include refid="selectCondition02"/>
+GROUP BY "G0CALP",
+	 "G0GSDM",
+	 "G0GSJC",
+	 "G0FLAG",
+	 "G0ZCMS",
+	 "G0ANLN1",
+	 "G0TXT50",
+	 "G0NDJAR",
+	 "G0PRCTR",
+	 "G0KOSTL",
+	 "G0ZZDXZC",
+	 "G0ZDXZCT",
+	 "G0WAERS"
+	 <if test="pageSize != null and pageSize !=''">  limit ${pageSize} offset  ${start} </if>   
+	 </select>
+	 
+    <select id="getCount" resultType="java.lang.Integer" parameterType="java.util.Map"> 
+        SELECT
+		      count(*)
+		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_CB_1006_01"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+			 '${month}'),
+			 'PLACEHOLDER' = ('$$PR_GSDM$$',
+			 '${companyCode}'))  
+     </select>
+	 
+	 
+	 
+
+</mapper>

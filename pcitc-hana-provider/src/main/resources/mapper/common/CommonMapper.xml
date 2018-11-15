@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pcitc.mapper.common.CommonMapper">
+
+
+    <resultMap id="H1AMKYZH100006BaseResultMap" type="com.pcitc.base.hana.report.H1AMKYZH100006" >
+       <result column="G0LOGSYS" property="g0LOGSYS" jdbcType="VARCHAR" />
+       <result column="G0YEARXM" property="g0YEARXM" jdbcType="VARCHAR" />
+       <result column="G0GSDM" property="g0GSDM" jdbcType="VARCHAR" />
+       <result column="G0GSJC" property="g0GSJC" jdbcType="VARCHAR" />
+       <result column="G0PROJCODE" property="g0PROJCODE" jdbcType="VARCHAR" />
+       <result column="G0PROJTXT" property="g0PROJTXT" jdbcType="VARCHAR" />
+       <result column="G0PROJCTXT" property="g0PROJCTXT" jdbcType="VARCHAR" />
+       <result column="G0WBSCODE" property="g0WBSCODE" jdbcType="VARCHAR" />
+       <result column="G0WBSTXT"   property="g0WBSTXT" jdbcType="VARCHAR" />
+       <result column="G0WBSCTXT" property="g0WBSCTXT" jdbcType="VARCHAR" />
+       <result column="G0XMGLLX"   property="g0XMGLLX" jdbcType="VARCHAR" />
+       <result column="G0XMGLLY" property="g0XMGLLY" jdbcType="VARCHAR" />
+       <result column="G0XMGLJB" property="g0XMGLJB" jdbcType="VARCHAR" />
+       <result column="G0XMLX" property="g0XMLX" jdbcType="VARCHAR" />
+       <result column="G0XMLXMS" property="g0XMLXMS" jdbcType="VARCHAR" />
+       <result column="G0XMZT" property="g0XMZT" jdbcType="VARCHAR" />
+       <result column="G0XMZTMS" property="g0XMZTMS" jdbcType="VARCHAR" />
+       <result column="G0STUFE" property="g0STUFE" jdbcType="VARCHAR" />
+       <result column="G0PLFAZ" property="g0PLFAZ" jdbcType="VARCHAR" />
+       <result column="G0PLSEZ" property="g0PLSEZ" jdbcType="VARCHAR" />
+       <result column="G0UPWBSCODE" property="g0UPWBSCODE" jdbcType="VARCHAR" />
+       <result column="G0DOWNWBSCODE" property="g0DOWNWBSCODE" jdbcType="VARCHAR" />
+       <result column="G0FLAG" property="g0FLAG" jdbcType="VARCHAR" />
+       <result column="G0XMDL" property="g0XMDL" jdbcType="VARCHAR" />
+       <result column="G0HFBZ" property="g0HFBZ" jdbcType="VARCHAR" />
+       <result column="G0XMXZ" property="g0XMXZ" jdbcType="VARCHAR" />
+       <result column="G0XMJD" property="g0XMJD" jdbcType="VARCHAR" />
+       <result column="G0XMBK" property="g0XMBK" jdbcType="VARCHAR" />
+     </resultMap>
+     
+     
+
+
+     <!-- 报表名称:项目主数据-科研公司代码   报表编码: H1AM_KY_ZH_1000_01-->
+     <resultMap id="companyCodeResultMap" type="com.pcitc.base.hana.report.CompanyCode" >
+       <result column="G0GSDM" property="g0GSDM" jdbcType="VARCHAR" />
+       <result column="G0GSJC" property="g0GSJC" jdbcType="VARCHAR" />
+       <result column="G0DMJC" property="g0DMJC" jdbcType="VARCHAR" />
+     </resultMap>
+	 <select id="getCompanyCode" resultMap="companyCodeResultMap">
+	 SELECT
+		 "G0GSDM",
+		 "G0GSJC",
+		 "G0DMJC",
+		 sum("COUNTER") AS "COUNTER" 
+	 FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_ZH_1000_01" 
+	 GROUP BY "G0GSDM",
+		 "G0GSJC",
+		 "G0DMJC"
+	 </select>
+	 
+	 
+	 <!-- 报表名称:科研公司代码  项目编码: H1AM_KY_ZH_1000_02-->
+     <resultMap id="porjectCodeResultMap" type="com.pcitc.base.hana.report.ProjectCode" >
+       <result column="G0GSDM" property="g0GSDM" jdbcType="VARCHAR" />
+       <result column="G0GSJC" property="g0GSJC" jdbcType="VARCHAR" />
+       <result column="G0PROJCODE" property="g0PROJCODE" jdbcType="VARCHAR" />
+       <result column="G0PROJTXT" property="g0PROJTXT" jdbcType="VARCHAR" />
+       <result column="G0PROJCTXT" property="g0PROJCTXT" jdbcType="VARCHAR" />
+       <result column="G0XMGLLX" property="g0XMGLLX" jdbcType="VARCHAR" />
+       <result column="G0XMGLLY" property="g0XMGLLY" jdbcType="VARCHAR" />
+       <result column="G0XMGLJB" property="g0XMGLJB" jdbcType="VARCHAR" />
+       <result column="G0XMLX"   property="g0XMLX" jdbcType="VARCHAR" />
+       <result column="G0XMLXMS" property="g0XMLXMS" jdbcType="VARCHAR" />
+       <result column="G0XMZT"   property="g0XMZT" jdbcType="VARCHAR" />
+       <result column="G0XMZTMS" property="g0XMZTMS" jdbcType="VARCHAR" />
+     </resultMap>
+	 <select id="getPorjectCode" resultMap="porjectCodeResultMap">
+        SELECT
+			 distinct
+			 "G0XMGLLX"	 
+		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_ZH_1000_02"
+	 </select>
+	 
+	  <!-- 项目类型: H1AM_KY_ZH_1000_02-->
+	  <select id="getDicG0XMGLLXList" resultMap="porjectCodeResultMap" parameterType="com.pcitc.base.hana.report.ProjectCode">
+	    SELECT
+		      distinct
+			  "G0XMGLLX"
+		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_ZH_1000_02" 
+	 </select>
+	 
+	 <!-- 项目来源: H1AM_KY_ZH_1000_02-->
+	  <select id="getDicG0XMGLLYList" resultMap="porjectCodeResultMap" parameterType="com.pcitc.base.hana.report.ProjectCode">
+	    SELECT
+		     distinct
+			 "G0XMGLLY"
+		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_ZH_1000_02"
+	 </select>
+	 
+	  <!-- 项目级别: H1AM_KY_ZH_1000_02-->
+	  <select id="getDicG0XMGLJB_List" resultMap="porjectCodeResultMap" parameterType="com.pcitc.base.hana.report.ProjectCode">
+	    SELECT
+		     distinct
+			 "G0XMGLJB"
+		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_ZH_1000_02"
+	 </select>
+	 
+	 
+	 
+	 <!--  报表名称:资产类别    H1AM_KY_ZH_1000_04-->
+     <resultMap id="dicAssetTypeResultMap" type="com.pcitc.base.hana.report.DicAssetType" >
+       <result column="G0ZZDXZC" property="g0ZZDXZC"    jdbcType="VARCHAR" />
+       <result column="G0ZDXZCT" property="g0ZDXZCT"  jdbcType="VARCHAR" />
+       <result column="G0ZSJZC"  property="g0ZSJZC"   jdbcType="VARCHAR" />
+     </resultMap>
+	 <select id="getDicAssetTypeList" resultMap="dicAssetTypeResultMap">
+	    SELECT  G0ZZDXZC,
+			 "G0ZDXZCT",
+			 G0ZSJZC
+		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_ZH_1000_04" 
+	 </select>
+	 
+	 	 
+	 <!-- 报表名称:供应商: H1AM_KY_ZH_1000_05-->
+     <resultMap id="dicSupplyerResultMap" type="com.pcitc.base.hana.report.DicSupplyer" >
+       <result column="G0LAND1"  property="g0LAND1" jdbcType="VARCHAR" />
+       <result column="G0MCOD3"  property="g0MCOD3" jdbcType="VARCHAR" />
+       <result column="G0LIFNR"  property="g0LIFNR" jdbcType="VARCHAR" />
+       <result column="G0NAME1"  property="g0NAME1" jdbcType="VARCHAR" />
+       <result column="G0GSDM"   property="g0GSDM"  jdbcType="VARCHAR" />
+     </resultMap>
+     
+      <sql id="selectConditionDicSupplyer">
+	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
+	     <if test="G0NAME1 != null   and G0NAME1  !='' ">         AND t.G0NAME1 like  CONCAT('%',#{g0NAME1},'%')</if>
+	     <if test="G0MCOD3 != null   and G0MCOD3  !='' ">         AND t.G0MCOD3 like  CONCAT('%',#{g0MCOD3},'%')</if>
+	     <if test="G0GSDM != null    and G0GSDM   !='' ">         AND t.G0GSDM = #{g0GSDM}</if>
+	 </trim>
+	</sql>
+	<select id="getDicSupplyerList" resultMap="dicSupplyerResultMap" parameterType="com.pcitc.base.hana.report.DicSupplyer">
+	     SELECT
+		 distinct
+			 "G0LAND1",
+			 "G0MCOD3",
+			 "G0SORTL",
+			 "G0LIFNR",
+			 "G0NAME1",
+			 "G0KTOKK",
+			 "G0GSDM"
+		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_ZH_1000_05" 
+		<include refid="selectConditionDicSupplyer" /> 
+	 </select>
+	 
+	 
+	 
+	 <resultMap id="sporjectCodeResultMap" type="com.pcitc.base.hana.report.ProjectCode" >
+	   <!-- 项目类型 -->
+       <result column="G0XMGLLX" property="g0XMGLLX" jdbcType="VARCHAR" />
+       <!-- 项目来源 -->
+       <result column="G0XMGLLY" property="g0XMGLLY" jdbcType="VARCHAR" />
+       <!-- 项目类别 -->
+       <result column="G0XMLX"   property="g0XMLX"   jdbcType="VARCHAR" />
+       <!--管理级别 -->
+       <result column="G0XMGLJB" property="g0XMGLJB" jdbcType="VARCHAR" />
+     </resultMap>
+	 <select id="getCodeH1AM_KY_ZH_1000_06" resultMap="porjectCodeResultMap" parameterType="java.util.Map">
+       SELECT
+		     distinct
+		     "${type}"
+		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_ZH_1000_06"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+              '${month}'))
+	 </select>
+	 
+	 
+	  <select id="getCodeDicBase" resultMap="H1AMKYZH100006BaseResultMap" >
+        SELECT
+		distinct "G0XMGLLX", "G0XMGLLY", "G0XMLX", "G0XMGLJB"
+		FROM "H"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY::H1AM_KY_ZH_0000_01.H1AM_KY_ZH_1000_02" 
+		WHERE "G0STUFE" = 1
+	 </select>
+	 
+	 
+	 <select id="selectErpProjectListByPage" resultType="java.util.Map"
+		parameterType="java.util.Map">
+		SELECT
+		"G0YEARXM",
+		"G0GSDM",
+		"G0GSJC",
+		"G0PROJCODE",
+		"G0PROJTXT",
+		"G0PROJCTXT",
+		"G0WBSCODE",
+		"G0WBSTXT",
+		"G0WBSCTXT",
+		"G0XMLX",
+		"G0XMLXMS",
+		"G0XMZT",
+		"G0XMZTMS",
+		"G0STUFE"
+		FROM
+		"H"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY::H1AM_KY_ZH_0000_01.H1AM_KY_ZH_1000_02"
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="G0PROJCODE != null  and G0PROJCODE !=''  "> AND G0PROJCODE like '%${G0PROJCODE}%'</if>
+			<if test="G0PROJTXT != null   and G0PROJTXT !=''  "> AND G0PROJTXT like '%${G0PROJTXT}%'</if>
+			<if test="G0GSDM != null   and G0GSDM !='' "> AND G0GSDM like '%${G0GSDM}%'</if>
+			<if test="G0CON != null   and G0CON !='' "> AND G0STUFE = 1 </if>
+		</trim>
+		<if test="page != null and page !=''"> limit ${limit} offset ${page} </if>
+	</select>
+
+	<select id="selectErpProjectListCount" resultType="java.lang.Integer"
+		parameterType="java.util.Map">
+		SELECT count(*)
+		FROM
+		"H"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY::H1AM_KY_ZH_0000_01.H1AM_KY_ZH_1000_02"
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="G0PROJCODE != null  and G0PROJCODE !=''  "> AND G0PROJCODE like '%${G0PROJCODE}%'</if>
+			<if test="G0PROJTXT != null   and G0PROJTXT !=''  "> AND G0PROJTXT like '%${G0PROJTXT}%'</if>
+			<if test="G0GSDM != null   and G0GSDM !='' "> AND G0GSDM like '%${G0GSDM}%'</if>
+			<if test="G0CON != null   and G0CON !='' "> AND G0STUFE = 1 </if>
+		</trim>
+	</select>
+	 
+	 
+
+</mapper>

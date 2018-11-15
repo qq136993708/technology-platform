@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pcitc.mapper.financial.BrandConstructionPayMapper">
+	
+	
+	<!-- 品牌建设--> 
+	
+     <resultMap id="brandConstructionPayResultMap" type="com.pcitc.base.hana.report.BrandConstructionPay" >
+       <result column="G0CALY"       property="g0CALY"    jdbcType="VARCHAR" />
+       <result column="G0GSDM"       property="g0GSDM"    jdbcType="VARCHAR" />
+       <result column="G0GSJC"       property="g0GSJC"    jdbcType="VARCHAR" />
+       <result column="G0FLAG"       property="g0FLAG"    jdbcType="VARCHAR" />
+       <result column="G0ZCMS"       property="g0ZCMS"    jdbcType="VARCHAR" />
+       <result column="K0BNJE"     property="k0BNJE"  jdbcType="VARCHAR" />
+       <result column="K0SNJE"     property="k0SNJE"  jdbcType="VARCHAR" />
+       <result column="K0TBJE"     property="k0TBJE"  jdbcType="VARCHAR" />
+       <result column="K0TBBL"     property="k0TBBL"  jdbcType="VARCHAR" />
+       <result column="K0TQBL"       property="k0TQBL"      jdbcType="VARCHAR" />
+	   <result column="G0CALP"       property="g0CALP"      jdbcType="VARCHAR" />
+	   <result column="G0CBZX"       property="g0CBZX"      jdbcType="VARCHAR" />
+	   <result column="G0LRZX"       property="g0LRZX"      jdbcType="VARCHAR" />
+	   <result column="G0ZBKJKM"     property="g0ZBKJKM"      jdbcType="VARCHAR" />
+	   <result column="A0CDOCNO"    property="a0CDOCNO"      jdbcType="VARCHAR" />
+	   <result column="K0BYPZJE"     property="k0BYPZJE"      jdbcType="VARCHAR" />
+	   <result column="K0BNPZJE"     property="k0BNPZJE"      jdbcType="VARCHAR" />
+	   <result column="K0TNPZJE"     property="k0TNPZJE"      jdbcType="VARCHAR" />
+     </resultMap>
+     
+      <!-- 支出分析-5年支出趋势 H1AS_KY_CB_1007_01--> 
+	 <select id="getBrandConstructionPayReport" resultMap="brandConstructionPayResultMap" parameterType="java.util.Map" >
+       SELECT
+			 "G0CALY",
+			 "G0ZCMS",
+			 round(sum("K0BNJE")/10000,2) AS "K0BNJE"
+	    FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_CB_1007_01"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+			 '${month}'),
+			 'PLACEHOLDER' = ('$$PR_GSDM$$',
+			 '${companyCode}')) 
+		GROUP BY 
+			 "G0ZCMS","G0CALY"
+	 </select>
+	 
+	 
+	 <!-- 按资产类别 H1AS_KY_CB_1007_02 --> 
+	 <select id="getBrandConstructionPayByG0ZCMSReport" resultMap="brandConstructionPayResultMap" parameterType="java.util.Map" >
+        SELECT
+			 "G0ZCMS",
+			 round( sum("K0BNJE")/10000,2)  AS "K0BNJE",
+			 round( sum("K0SNJE")/10000,2)  AS "K0SNJE",
+			 sum("K0TBJE") AS "K0TBJE",
+			 sum("K0TBBL") AS "K0TBBL" ,
+			 case when sum("K0SNJE")=0 then 0
+			 else 
+				 round((sum("K0BNJE")-sum("K0SNJE"))/sum("K0SNJE")*100,2)
+			 end AS "K0TQBL" 
+		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_CB_1007_02"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+			 '${month}'),
+			 'PLACEHOLDER' = ('$$PR_GSDM$$',
+			 '${companyCode}')) 
+		GROUP BY
+			 "G0ZCMS"
+	 </select>
+	 
+	 
+	  <sql id="selectCondition01">
+	    <trim prefix="WHERE" prefixOverrides="AND|OR"> 
+	        <if test="g0ZCMS != null   and g0ZCMS !='' ">   AND G0ZCMS  in      ${g0ZCMS}</if>
+	     </trim>
+	  </sql>
+   	
+	 
+	 <!-- 按研究院分析  H1AS_KY_CB_1007_02--> 
+	 <select id="getBrandConstructionPayByG0GSJCReport" resultMap="brandConstructionPayResultMap" parameterType="java.util.Map" >
+        
+        SELECT
+			 "G0GSJC",
+			 round( sum("K0BNJE")/10000,2)  AS "K0BNJE",
+			 round( sum("K0SNJE")/10000,2)  AS "K0SNJE",
+			 sum("K0TBJE") AS "K0TBJE",
+			 sum("K0TBBL") AS "K0TBBL" ,
+			 case when sum("K0SNJE")=0 then 0
+			 else 
+				 round((sum("K0BNJE")-sum("K0SNJE"))/sum("K0SNJE")*100,2)
+			 end AS "K0TQBL" 
+		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_CB_1007_02"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+			 '${month}'),
+			 'PLACEHOLDER' = ('$$PR_GSDM$$',
+			 '${companyCode}'))  
+			 <include refid="selectCondition01"/>
+		GROUP BY
+			 "G0GSJC"
+        
+	 </select>
+	 
+     <sql id="selectCondition02">
+	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
+	     <if test="g0PZTTWB != null  and g0PZTTWB !=''  ">     AND G0PZTTWB like '%${g0PZTTWB}%'</if>
+	     <if test="g0ZCMS != null   and g0ZCMS !=''  ">      AND G0ZCMS  like '%${g0ZCMS}%'</if>
+	     <if test="sqlStr != null   and sqlStr !='' ">       ${sqlStr}</if>
+	 </trim>
+	</sql>
+	
+	<!-- 明细  H1AS_KY_CB_1008_01--> 
+	 <select id="getList" resultMap="brandConstructionPayResultMap" parameterType="java.util.Map" >
+	   SELECT
+			 ROW_NUMBER() OVER() AS ROW_ID, 
+			 "G0CALP",
+			 "G0GSDM",
+			 "G0GSJC",
+			 "G0CBZX",
+			 "G0LRZX",
+			 "G0ZBKJKM",
+			 "0AC_DOC_NO" AS "A0CDOCNO",
+			 "0ITEM_NUM",
+			 "G0PZTTWB",
+			 "G0GZRQ",
+			 "0LOC_CURRCY",
+			 sum("K0BYPZJE") AS "K0BYPZJE",
+			 sum("K0BNPZJE") AS "K0BNPZJE",
+			 sum("K0TNPZJE") AS "K0TNPZJE" 
+		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_CB_1008_01"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+			 '${month}'),
+			 'PLACEHOLDER' = ('$$PR_GSDM$$',
+			 '${companyCode}')) 
+			 <include refid="selectCondition02"/>
+		GROUP BY "G0CALP",
+			 "G0GSDM",
+			 "G0GSJC",
+			 "G0CBZX",
+			 "G0LRZX",
+			 "G0ZBKJKM",
+			 "0AC_DOC_NO",
+			 "0ITEM_NUM",
+			 "G0PZTTWB",
+			 "G0GZRQ",
+			 "0LOC_CURRCY"
+	 <if test="pageSize != null and pageSize !=''">  limit ${pageSize} offset  ${start} </if>   
+	 </select>
+	 
+    <select id="getCount" resultType="java.lang.Integer" parameterType="java.util.Map"> 
+        SELECT
+		      count(*)
+		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_CB_1008_01"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+			 '${month}'),
+			 'PLACEHOLDER' = ('$$PR_GSDM$$',
+			 '${companyCode}'))  
+     </select>
+	 
+	 
+	 
+
+</mapper>

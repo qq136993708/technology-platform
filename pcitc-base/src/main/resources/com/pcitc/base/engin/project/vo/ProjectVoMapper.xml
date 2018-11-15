@@ -1,0 +1,806 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pcitc.base.engin.project.vo.ProjectVoMapper">
+  <resultMap id="BaseResultMap" type="com.pcitc.base.engin.project.vo.ProjectVo">
+    <id column="data_id" jdbcType="VARCHAR" property="dataId" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="create_date" jdbcType="VARCHAR" property="createDate" />
+    <result column="update_user" jdbcType="VARCHAR" property="updateUser" />
+    <result column="update_date" jdbcType="VARCHAR" property="updateDate" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="audit_status" jdbcType="VARCHAR" property="auditStatus" />
+    <result column="company_code" jdbcType="VARCHAR" property="companyCode" />
+    <result column="project_id" jdbcType="VARCHAR" property="projectId" />
+    <result column="form_code" jdbcType="VARCHAR" property="formCode" />
+    <result column="project_name" jdbcType="VARCHAR" property="projectName" />
+    <result column="project_code" jdbcType="VARCHAR" property="projectCode" />
+    <result column="project_scale" jdbcType="VARCHAR" property="projectScale" />
+    <result column="investment_estimation" jdbcType="VARCHAR" property="investmentEstimation" />
+    <result column="project_structure" jdbcType="VARCHAR" property="projectStructure" />
+    <result column="project_structure_id" jdbcType="VARCHAR" property="projectStructureId" />
+    <result column="build_unit_name" jdbcType="VARCHAR" property="buildUnitName" />
+    <result column="build_unit_id" jdbcType="VARCHAR" property="buildUnitId" />
+    <result column="project_type" jdbcType="VARCHAR" property="projectType" />
+    <result column="project_properties" jdbcType="VARCHAR" property="projectProperties" />
+    <result column="build_properties" jdbcType="VARCHAR" property="buildProperties" />
+    <result column="build_limit" jdbcType="VARCHAR" property="buildLimit" />
+    <result column="plan_start_date_time" jdbcType="VARCHAR" property="planStartDateTime" />
+    <result column="plan_end_date_time" jdbcType="VARCHAR" property="planEndDateTime" />
+    <result column="must_start_date_time" jdbcType="VARCHAR" property="mustStartDateTime" />
+    <result column="must_end_date_time" jdbcType="VARCHAR" property="mustEndDateTime" />
+    <result column="plan_center_date_time" jdbcType="VARCHAR" property="planCenterDateTime" />
+    <result column="job_prefix" jdbcType="VARCHAR" property="jobPrefix" />
+    <result column="job_suffix" jdbcType="VARCHAR" property="jobSuffix" />
+    <result column="increment" jdbcType="VARCHAR" property="increment" />
+    <result column="project_status" jdbcType="VARCHAR" property="projectStatus" />
+    <result column="project_genre" jdbcType="VARCHAR" property="projectGenre" />
+    <result column="build_content" jdbcType="VARCHAR" property="buildContent" />
+    <result column="project_condition" jdbcType="VARCHAR" property="projectCondition" />
+    <result column="project_condition_date" jdbcType="VARCHAR" property="projectConditionDate" />
+    <result column="pspid" jdbcType="VARCHAR" property="pspid" />
+    <result column="pspnr" jdbcType="VARCHAR" property="pspnr" />
+    <result column="objnr" jdbcType="VARCHAR" property="objnr" />
+    <result column="post1" jdbcType="VARCHAR" property="post1" />
+    <result column="verna" jdbcType="VARCHAR" property="verna" />
+    <result column="vbukr" jdbcType="VARCHAR" property="vbukr" />
+    <result column="werks" jdbcType="VARCHAR" property="werks" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    data_id, create_user, create_date, update_user, update_date, status, audit_status, 
+    company_code, project_id, form_code, project_name, project_code, project_scale, investment_estimation, 
+    project_structure, project_structure_id, build_unit_name, build_unit_id, project_type, 
+    project_properties, build_properties, build_limit, plan_start_date_time, plan_end_date_time, 
+    must_start_date_time, must_end_date_time, plan_center_date_time, job_prefix, job_suffix, 
+    increment, project_status, project_genre, build_content, project_condition, project_condition_date, 
+    pspid, pspnr, objnr, post1, verna, vbukr, werks
+  </sql>
+  <select id="selectByExample" parameterType="com.pcitc.base.engin.project.vo.ProjectVoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from epms_project
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from epms_project
+    where data_id = #{dataId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from epms_project
+    where data_id = #{dataId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.pcitc.base.engin.project.vo.ProjectVoExample">
+    delete from epms_project
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.pcitc.base.engin.project.vo.ProjectVo">
+    insert into epms_project (data_id, create_user, create_date, 
+      update_user, update_date, status, 
+      audit_status, company_code, project_id, 
+      form_code, project_name, project_code, 
+      project_scale, investment_estimation, project_structure, 
+      project_structure_id, build_unit_name, build_unit_id, 
+      project_type, project_properties, build_properties, 
+      build_limit, plan_start_date_time, plan_end_date_time, 
+      must_start_date_time, must_end_date_time, plan_center_date_time, 
+      job_prefix, job_suffix, increment, 
+      project_status, project_genre, build_content, 
+      project_condition, project_condition_date, 
+      pspid, pspnr, objnr, 
+      post1, verna, vbukr, 
+      werks)
+    values (#{dataId,jdbcType=VARCHAR}, #{createUser,jdbcType=VARCHAR}, #{createDate,jdbcType=VARCHAR}, 
+      #{updateUser,jdbcType=VARCHAR}, #{updateDate,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{auditStatus,jdbcType=VARCHAR}, #{companyCode,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR}, 
+      #{formCode,jdbcType=VARCHAR}, #{projectName,jdbcType=VARCHAR}, #{projectCode,jdbcType=VARCHAR}, 
+      #{projectScale,jdbcType=VARCHAR}, #{investmentEstimation,jdbcType=VARCHAR}, #{projectStructure,jdbcType=VARCHAR}, 
+      #{projectStructureId,jdbcType=VARCHAR}, #{buildUnitName,jdbcType=VARCHAR}, #{buildUnitId,jdbcType=VARCHAR}, 
+      #{projectType,jdbcType=VARCHAR}, #{projectProperties,jdbcType=VARCHAR}, #{buildProperties,jdbcType=VARCHAR}, 
+      #{buildLimit,jdbcType=VARCHAR}, #{planStartDateTime,jdbcType=VARCHAR}, #{planEndDateTime,jdbcType=VARCHAR}, 
+      #{mustStartDateTime,jdbcType=VARCHAR}, #{mustEndDateTime,jdbcType=VARCHAR}, #{planCenterDateTime,jdbcType=VARCHAR}, 
+      #{jobPrefix,jdbcType=VARCHAR}, #{jobSuffix,jdbcType=VARCHAR}, #{increment,jdbcType=VARCHAR}, 
+      #{projectStatus,jdbcType=VARCHAR}, #{projectGenre,jdbcType=VARCHAR}, #{buildContent,jdbcType=VARCHAR}, 
+      #{projectCondition,jdbcType=VARCHAR}, #{projectConditionDate,jdbcType=VARCHAR}, 
+      #{pspid,jdbcType=VARCHAR}, #{pspnr,jdbcType=VARCHAR}, #{objnr,jdbcType=VARCHAR}, 
+      #{post1,jdbcType=VARCHAR}, #{verna,jdbcType=VARCHAR}, #{vbukr,jdbcType=VARCHAR}, 
+      #{werks,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pcitc.base.engin.project.vo.ProjectVo">
+    insert into epms_project
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="dataId != null">
+        data_id,
+      </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="updateUser != null">
+        update_user,
+      </if>
+      <if test="updateDate != null">
+        update_date,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="auditStatus != null">
+        audit_status,
+      </if>
+      <if test="companyCode != null">
+        company_code,
+      </if>
+      <if test="projectId != null">
+        project_id,
+      </if>
+      <if test="formCode != null">
+        form_code,
+      </if>
+      <if test="projectName != null">
+        project_name,
+      </if>
+      <if test="projectCode != null">
+        project_code,
+      </if>
+      <if test="projectScale != null">
+        project_scale,
+      </if>
+      <if test="investmentEstimation != null">
+        investment_estimation,
+      </if>
+      <if test="projectStructure != null">
+        project_structure,
+      </if>
+      <if test="projectStructureId != null">
+        project_structure_id,
+      </if>
+      <if test="buildUnitName != null">
+        build_unit_name,
+      </if>
+      <if test="buildUnitId != null">
+        build_unit_id,
+      </if>
+      <if test="projectType != null">
+        project_type,
+      </if>
+      <if test="projectProperties != null">
+        project_properties,
+      </if>
+      <if test="buildProperties != null">
+        build_properties,
+      </if>
+      <if test="buildLimit != null">
+        build_limit,
+      </if>
+      <if test="planStartDateTime != null">
+        plan_start_date_time,
+      </if>
+      <if test="planEndDateTime != null">
+        plan_end_date_time,
+      </if>
+      <if test="mustStartDateTime != null">
+        must_start_date_time,
+      </if>
+      <if test="mustEndDateTime != null">
+        must_end_date_time,
+      </if>
+      <if test="planCenterDateTime != null">
+        plan_center_date_time,
+      </if>
+      <if test="jobPrefix != null">
+        job_prefix,
+      </if>
+      <if test="jobSuffix != null">
+        job_suffix,
+      </if>
+      <if test="increment != null">
+        increment,
+      </if>
+      <if test="projectStatus != null">
+        project_status,
+      </if>
+      <if test="projectGenre != null">
+        project_genre,
+      </if>
+      <if test="buildContent != null">
+        build_content,
+      </if>
+      <if test="projectCondition != null">
+        project_condition,
+      </if>
+      <if test="projectConditionDate != null">
+        project_condition_date,
+      </if>
+      <if test="pspid != null">
+        pspid,
+      </if>
+      <if test="pspnr != null">
+        pspnr,
+      </if>
+      <if test="objnr != null">
+        objnr,
+      </if>
+      <if test="post1 != null">
+        post1,
+      </if>
+      <if test="verna != null">
+        verna,
+      </if>
+      <if test="vbukr != null">
+        vbukr,
+      </if>
+      <if test="werks != null">
+        werks,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="dataId != null">
+        #{dataId,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUser != null">
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null">
+        #{updateDate,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="auditStatus != null">
+        #{auditStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="companyCode != null">
+        #{companyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null">
+        #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="formCode != null">
+        #{formCode,jdbcType=VARCHAR},
+      </if>
+      <if test="projectName != null">
+        #{projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="projectCode != null">
+        #{projectCode,jdbcType=VARCHAR},
+      </if>
+      <if test="projectScale != null">
+        #{projectScale,jdbcType=VARCHAR},
+      </if>
+      <if test="investmentEstimation != null">
+        #{investmentEstimation,jdbcType=VARCHAR},
+      </if>
+      <if test="projectStructure != null">
+        #{projectStructure,jdbcType=VARCHAR},
+      </if>
+      <if test="projectStructureId != null">
+        #{projectStructureId,jdbcType=VARCHAR},
+      </if>
+      <if test="buildUnitName != null">
+        #{buildUnitName,jdbcType=VARCHAR},
+      </if>
+      <if test="buildUnitId != null">
+        #{buildUnitId,jdbcType=VARCHAR},
+      </if>
+      <if test="projectType != null">
+        #{projectType,jdbcType=VARCHAR},
+      </if>
+      <if test="projectProperties != null">
+        #{projectProperties,jdbcType=VARCHAR},
+      </if>
+      <if test="buildProperties != null">
+        #{buildProperties,jdbcType=VARCHAR},
+      </if>
+      <if test="buildLimit != null">
+        #{buildLimit,jdbcType=VARCHAR},
+      </if>
+      <if test="planStartDateTime != null">
+        #{planStartDateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="planEndDateTime != null">
+        #{planEndDateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="mustStartDateTime != null">
+        #{mustStartDateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="mustEndDateTime != null">
+        #{mustEndDateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="planCenterDateTime != null">
+        #{planCenterDateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="jobPrefix != null">
+        #{jobPrefix,jdbcType=VARCHAR},
+      </if>
+      <if test="jobSuffix != null">
+        #{jobSuffix,jdbcType=VARCHAR},
+      </if>
+      <if test="increment != null">
+        #{increment,jdbcType=VARCHAR},
+      </if>
+      <if test="projectStatus != null">
+        #{projectStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="projectGenre != null">
+        #{projectGenre,jdbcType=VARCHAR},
+      </if>
+      <if test="buildContent != null">
+        #{buildContent,jdbcType=VARCHAR},
+      </if>
+      <if test="projectCondition != null">
+        #{projectCondition,jdbcType=VARCHAR},
+      </if>
+      <if test="projectConditionDate != null">
+        #{projectConditionDate,jdbcType=VARCHAR},
+      </if>
+      <if test="pspid != null">
+        #{pspid,jdbcType=VARCHAR},
+      </if>
+      <if test="pspnr != null">
+        #{pspnr,jdbcType=VARCHAR},
+      </if>
+      <if test="objnr != null">
+        #{objnr,jdbcType=VARCHAR},
+      </if>
+      <if test="post1 != null">
+        #{post1,jdbcType=VARCHAR},
+      </if>
+      <if test="verna != null">
+        #{verna,jdbcType=VARCHAR},
+      </if>
+      <if test="vbukr != null">
+        #{vbukr,jdbcType=VARCHAR},
+      </if>
+      <if test="werks != null">
+        #{werks,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.pcitc.base.engin.project.vo.ProjectVoExample" resultType="java.lang.Long">
+    select count(*) from epms_project
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update epms_project
+    <set>
+      <if test="record.dataId != null">
+        data_id = #{record.dataId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createUser != null">
+        create_user = #{record.createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDate != null">
+        create_date = #{record.createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateUser != null">
+        update_user = #{record.updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateDate != null">
+        update_date = #{record.updateDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.auditStatus != null">
+        audit_status = #{record.auditStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyCode != null">
+        company_code = #{record.companyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectId != null">
+        project_id = #{record.projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.formCode != null">
+        form_code = #{record.formCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectName != null">
+        project_name = #{record.projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectCode != null">
+        project_code = #{record.projectCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectScale != null">
+        project_scale = #{record.projectScale,jdbcType=VARCHAR},
+      </if>
+      <if test="record.investmentEstimation != null">
+        investment_estimation = #{record.investmentEstimation,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectStructure != null">
+        project_structure = #{record.projectStructure,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectStructureId != null">
+        project_structure_id = #{record.projectStructureId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.buildUnitName != null">
+        build_unit_name = #{record.buildUnitName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.buildUnitId != null">
+        build_unit_id = #{record.buildUnitId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectType != null">
+        project_type = #{record.projectType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectProperties != null">
+        project_properties = #{record.projectProperties,jdbcType=VARCHAR},
+      </if>
+      <if test="record.buildProperties != null">
+        build_properties = #{record.buildProperties,jdbcType=VARCHAR},
+      </if>
+      <if test="record.buildLimit != null">
+        build_limit = #{record.buildLimit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.planStartDateTime != null">
+        plan_start_date_time = #{record.planStartDateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.planEndDateTime != null">
+        plan_end_date_time = #{record.planEndDateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mustStartDateTime != null">
+        must_start_date_time = #{record.mustStartDateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mustEndDateTime != null">
+        must_end_date_time = #{record.mustEndDateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.planCenterDateTime != null">
+        plan_center_date_time = #{record.planCenterDateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jobPrefix != null">
+        job_prefix = #{record.jobPrefix,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jobSuffix != null">
+        job_suffix = #{record.jobSuffix,jdbcType=VARCHAR},
+      </if>
+      <if test="record.increment != null">
+        increment = #{record.increment,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectStatus != null">
+        project_status = #{record.projectStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectGenre != null">
+        project_genre = #{record.projectGenre,jdbcType=VARCHAR},
+      </if>
+      <if test="record.buildContent != null">
+        build_content = #{record.buildContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectCondition != null">
+        project_condition = #{record.projectCondition,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectConditionDate != null">
+        project_condition_date = #{record.projectConditionDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pspid != null">
+        pspid = #{record.pspid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pspnr != null">
+        pspnr = #{record.pspnr,jdbcType=VARCHAR},
+      </if>
+      <if test="record.objnr != null">
+        objnr = #{record.objnr,jdbcType=VARCHAR},
+      </if>
+      <if test="record.post1 != null">
+        post1 = #{record.post1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.verna != null">
+        verna = #{record.verna,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vbukr != null">
+        vbukr = #{record.vbukr,jdbcType=VARCHAR},
+      </if>
+      <if test="record.werks != null">
+        werks = #{record.werks,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update epms_project
+    set data_id = #{record.dataId,jdbcType=VARCHAR},
+      create_user = #{record.createUser,jdbcType=VARCHAR},
+      create_date = #{record.createDate,jdbcType=VARCHAR},
+      update_user = #{record.updateUser,jdbcType=VARCHAR},
+      update_date = #{record.updateDate,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=VARCHAR},
+      audit_status = #{record.auditStatus,jdbcType=VARCHAR},
+      company_code = #{record.companyCode,jdbcType=VARCHAR},
+      project_id = #{record.projectId,jdbcType=VARCHAR},
+      form_code = #{record.formCode,jdbcType=VARCHAR},
+      project_name = #{record.projectName,jdbcType=VARCHAR},
+      project_code = #{record.projectCode,jdbcType=VARCHAR},
+      project_scale = #{record.projectScale,jdbcType=VARCHAR},
+      investment_estimation = #{record.investmentEstimation,jdbcType=VARCHAR},
+      project_structure = #{record.projectStructure,jdbcType=VARCHAR},
+      project_structure_id = #{record.projectStructureId,jdbcType=VARCHAR},
+      build_unit_name = #{record.buildUnitName,jdbcType=VARCHAR},
+      build_unit_id = #{record.buildUnitId,jdbcType=VARCHAR},
+      project_type = #{record.projectType,jdbcType=VARCHAR},
+      project_properties = #{record.projectProperties,jdbcType=VARCHAR},
+      build_properties = #{record.buildProperties,jdbcType=VARCHAR},
+      build_limit = #{record.buildLimit,jdbcType=VARCHAR},
+      plan_start_date_time = #{record.planStartDateTime,jdbcType=VARCHAR},
+      plan_end_date_time = #{record.planEndDateTime,jdbcType=VARCHAR},
+      must_start_date_time = #{record.mustStartDateTime,jdbcType=VARCHAR},
+      must_end_date_time = #{record.mustEndDateTime,jdbcType=VARCHAR},
+      plan_center_date_time = #{record.planCenterDateTime,jdbcType=VARCHAR},
+      job_prefix = #{record.jobPrefix,jdbcType=VARCHAR},
+      job_suffix = #{record.jobSuffix,jdbcType=VARCHAR},
+      increment = #{record.increment,jdbcType=VARCHAR},
+      project_status = #{record.projectStatus,jdbcType=VARCHAR},
+      project_genre = #{record.projectGenre,jdbcType=VARCHAR},
+      build_content = #{record.buildContent,jdbcType=VARCHAR},
+      project_condition = #{record.projectCondition,jdbcType=VARCHAR},
+      project_condition_date = #{record.projectConditionDate,jdbcType=VARCHAR},
+      pspid = #{record.pspid,jdbcType=VARCHAR},
+      pspnr = #{record.pspnr,jdbcType=VARCHAR},
+      objnr = #{record.objnr,jdbcType=VARCHAR},
+      post1 = #{record.post1,jdbcType=VARCHAR},
+      verna = #{record.verna,jdbcType=VARCHAR},
+      vbukr = #{record.vbukr,jdbcType=VARCHAR},
+      werks = #{record.werks,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.engin.project.vo.ProjectVo">
+    update epms_project
+    <set>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUser != null">
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null">
+        update_date = #{updateDate,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="auditStatus != null">
+        audit_status = #{auditStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="companyCode != null">
+        company_code = #{companyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null">
+        project_id = #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="formCode != null">
+        form_code = #{formCode,jdbcType=VARCHAR},
+      </if>
+      <if test="projectName != null">
+        project_name = #{projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="projectCode != null">
+        project_code = #{projectCode,jdbcType=VARCHAR},
+      </if>
+      <if test="projectScale != null">
+        project_scale = #{projectScale,jdbcType=VARCHAR},
+      </if>
+      <if test="investmentEstimation != null">
+        investment_estimation = #{investmentEstimation,jdbcType=VARCHAR},
+      </if>
+      <if test="projectStructure != null">
+        project_structure = #{projectStructure,jdbcType=VARCHAR},
+      </if>
+      <if test="projectStructureId != null">
+        project_structure_id = #{projectStructureId,jdbcType=VARCHAR},
+      </if>
+      <if test="buildUnitName != null">
+        build_unit_name = #{buildUnitName,jdbcType=VARCHAR},
+      </if>
+      <if test="buildUnitId != null">
+        build_unit_id = #{buildUnitId,jdbcType=VARCHAR},
+      </if>
+      <if test="projectType != null">
+        project_type = #{projectType,jdbcType=VARCHAR},
+      </if>
+      <if test="projectProperties != null">
+        project_properties = #{projectProperties,jdbcType=VARCHAR},
+      </if>
+      <if test="buildProperties != null">
+        build_properties = #{buildProperties,jdbcType=VARCHAR},
+      </if>
+      <if test="buildLimit != null">
+        build_limit = #{buildLimit,jdbcType=VARCHAR},
+      </if>
+      <if test="planStartDateTime != null">
+        plan_start_date_time = #{planStartDateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="planEndDateTime != null">
+        plan_end_date_time = #{planEndDateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="mustStartDateTime != null">
+        must_start_date_time = #{mustStartDateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="mustEndDateTime != null">
+        must_end_date_time = #{mustEndDateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="planCenterDateTime != null">
+        plan_center_date_time = #{planCenterDateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="jobPrefix != null">
+        job_prefix = #{jobPrefix,jdbcType=VARCHAR},
+      </if>
+      <if test="jobSuffix != null">
+        job_suffix = #{jobSuffix,jdbcType=VARCHAR},
+      </if>
+      <if test="increment != null">
+        increment = #{increment,jdbcType=VARCHAR},
+      </if>
+      <if test="projectStatus != null">
+        project_status = #{projectStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="projectGenre != null">
+        project_genre = #{projectGenre,jdbcType=VARCHAR},
+      </if>
+      <if test="buildContent != null">
+        build_content = #{buildContent,jdbcType=VARCHAR},
+      </if>
+      <if test="projectCondition != null">
+        project_condition = #{projectCondition,jdbcType=VARCHAR},
+      </if>
+      <if test="projectConditionDate != null">
+        project_condition_date = #{projectConditionDate,jdbcType=VARCHAR},
+      </if>
+      <if test="pspid != null">
+        pspid = #{pspid,jdbcType=VARCHAR},
+      </if>
+      <if test="pspnr != null">
+        pspnr = #{pspnr,jdbcType=VARCHAR},
+      </if>
+      <if test="objnr != null">
+        objnr = #{objnr,jdbcType=VARCHAR},
+      </if>
+      <if test="post1 != null">
+        post1 = #{post1,jdbcType=VARCHAR},
+      </if>
+      <if test="verna != null">
+        verna = #{verna,jdbcType=VARCHAR},
+      </if>
+      <if test="vbukr != null">
+        vbukr = #{vbukr,jdbcType=VARCHAR},
+      </if>
+      <if test="werks != null">
+        werks = #{werks,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where data_id = #{dataId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.engin.project.vo.ProjectVo">
+    update epms_project
+    set create_user = #{createUser,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=VARCHAR},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      audit_status = #{auditStatus,jdbcType=VARCHAR},
+      company_code = #{companyCode,jdbcType=VARCHAR},
+      project_id = #{projectId,jdbcType=VARCHAR},
+      form_code = #{formCode,jdbcType=VARCHAR},
+      project_name = #{projectName,jdbcType=VARCHAR},
+      project_code = #{projectCode,jdbcType=VARCHAR},
+      project_scale = #{projectScale,jdbcType=VARCHAR},
+      investment_estimation = #{investmentEstimation,jdbcType=VARCHAR},
+      project_structure = #{projectStructure,jdbcType=VARCHAR},
+      project_structure_id = #{projectStructureId,jdbcType=VARCHAR},
+      build_unit_name = #{buildUnitName,jdbcType=VARCHAR},
+      build_unit_id = #{buildUnitId,jdbcType=VARCHAR},
+      project_type = #{projectType,jdbcType=VARCHAR},
+      project_properties = #{projectProperties,jdbcType=VARCHAR},
+      build_properties = #{buildProperties,jdbcType=VARCHAR},
+      build_limit = #{buildLimit,jdbcType=VARCHAR},
+      plan_start_date_time = #{planStartDateTime,jdbcType=VARCHAR},
+      plan_end_date_time = #{planEndDateTime,jdbcType=VARCHAR},
+      must_start_date_time = #{mustStartDateTime,jdbcType=VARCHAR},
+      must_end_date_time = #{mustEndDateTime,jdbcType=VARCHAR},
+      plan_center_date_time = #{planCenterDateTime,jdbcType=VARCHAR},
+      job_prefix = #{jobPrefix,jdbcType=VARCHAR},
+      job_suffix = #{jobSuffix,jdbcType=VARCHAR},
+      increment = #{increment,jdbcType=VARCHAR},
+      project_status = #{projectStatus,jdbcType=VARCHAR},
+      project_genre = #{projectGenre,jdbcType=VARCHAR},
+      build_content = #{buildContent,jdbcType=VARCHAR},
+      project_condition = #{projectCondition,jdbcType=VARCHAR},
+      project_condition_date = #{projectConditionDate,jdbcType=VARCHAR},
+      pspid = #{pspid,jdbcType=VARCHAR},
+      pspnr = #{pspnr,jdbcType=VARCHAR},
+      objnr = #{objnr,jdbcType=VARCHAR},
+      post1 = #{post1,jdbcType=VARCHAR},
+      verna = #{verna,jdbcType=VARCHAR},
+      vbukr = #{vbukr,jdbcType=VARCHAR},
+      werks = #{werks,jdbcType=VARCHAR}
+    where data_id = #{dataId,jdbcType=VARCHAR}
+  </update>
+</mapper>

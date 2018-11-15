@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pcitc.mapper.other.DecisionMapper">
+
+	 
+	 <!--  报表名称: 科技资金现金流分析 报表编码: H1AM_KY_ZH_1003_01--> 
+     <resultMap id="scientificBalanceReportResultMap" type="com.pcitc.base.hana.report.ScientificCashFlow01" >
+       <result column="G0XMBM" property="g0XMBM" jdbcType="VARCHAR" />
+       <result column="G0XMMS" property="g0XMMS" jdbcType="VARCHAR" />
+       <result column="G0GSDM" property="g0GSDM" jdbcType="VARCHAR" />
+       <result column="G0GSJC" property="g0GSJC" jdbcType="VARCHAR" />
+       <result column="G0CWNY" property="g0CWNY" jdbcType="VARCHAR" />
+       <result column="K0XJYE" property="k0XJYE" jdbcType="VARCHAR" />
+     </resultMap>
+	 <select id="getScientificCashFlow01Report" resultMap="scientificBalanceReportResultMap" parameterType="java.util.Map" >
+        SELECT
+			 "G0CWNY",
+			round( sum("K0XJYE")/10000,2) AS "K0XJYE"  
+		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_ZH_1003_01"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+			 '${month}'),
+			 'PLACEHOLDER' = ('$$PR_GSDM$$',
+			 '${companyCode}')) 
+		GROUP BY 
+		     "G0CWNY"
+	 </select>
+	 
+	 
+	 <!--  报表名称: 科技资金现金流分析 报表编码: H1AM_KY_ZH_1003_02--> 
+     <resultMap id="scientificCashFlow02ReportResultMap" type="com.pcitc.base.hana.report.ScientificCashFlow02" >
+       <result column="G0XMBM" property="g0XMBM" jdbcType="VARCHAR" />
+       <result column="G0XMMS" property="g0XMMS" jdbcType="VARCHAR" />
+       <result column="G0GSDM" property="g0GSDM" jdbcType="VARCHAR" />
+       <result column="G0GSJC" property="g0GSJC" jdbcType="VARCHAR" />
+       <result column="G0XMHC" property="g0XMHC" jdbcType="VARCHAR" />
+       <result column="K0BQLJJE"   property="k0BQLJJE"     jdbcType="VARCHAR" />
+       <result column="K0TQLJJE"   property="k0TQLJJE"     jdbcType="VARCHAR" />
+       <result column="K0TBLJJE"   property="k0TBLJJE"     jdbcType="VARCHAR" />
+       <result column="K0TBBFB"    property="k0TBBFB"      jdbcType="VARCHAR" />
+       <result column="G0XMCJBM1"  property="g0XMCJBM1"    jdbcType="VARCHAR" />
+       <result column="G0XMCJBM2"  property="g0XMCJBM2"    jdbcType="VARCHAR" />
+       
+       <result column="id"     property="id"      jdbcType="VARCHAR" />
+       <result column="pId"    property="pId"     jdbcType="VARCHAR" />
+       <result column="name"   property="name"    jdbcType="VARCHAR" />
+       
+    
+    
+       
+     </resultMap>
+	 <select id="getScientificCashFlow02Report" resultMap="scientificCashFlow02ReportResultMap" parameterType="java.util.Map" >
+        
+       <!--  SELECT
+			 "G0XMBM" ,
+			 "G0XMMS" ,
+			
+			 "G0XMHC" ,
+			 round( IFNULL(sum("K0BQLJJE"),0)/10000,2) AS "K0BQLJJE",
+			 round( IFNULL(sum("K0TQLJJE"),0)/10000,2) AS "K0TQLJJE",
+			  round( IFNULL(sum("K0BQLJJE"),0)/10000,2)
+			 -round( IFNULL(sum("K0TQLJJE"),0)/10000,2) AS "K0TBLJJE",
+			  case when round( IFNULL(sum("K0TQLJJE"),0)/10000,2)=0 then 0
+			            else 
+					    ROUND((round( IFNULL(sum("K0BQLJJE"),0)/10000,2)
+			            -round( IFNULL(sum("K0TQLJJE"),0)/10000,2))
+			            /round( IFNULL(sum("K0TQLJJE"),0)/10000,2),4)
+			 end                                     AS "K0BNZJSYBL"                                	 
+		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_ZH_1003_02"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+			 '201709'),
+			 'PLACEHOLDER' = ('$$PR_GSDM$$',
+			 '1020,1040,1041,1060,1061,1080,1100,1101,1120,1123,1124,1127,1130,4360')) 
+		GROUP BY "G0XMBM",
+			 "G0XMMS",
+			 "G0XMHC" 
+			 order by "G0XMBM" --> 
+        
+        
+        
+        
+         SELECT
+             "G0XMCJBM1",
+	         "G0XMCJBM2" AS "pId",
+			 "G0XMBM" AS "id" ,
+			 "G0XMMS" AS "name",
+			 "G0XMHC" ,
+			 round( sum("K0BQLJJE")/10000,2) AS "K0BQLJJE",
+			 round( sum("K0TQLJJE")/10000,2) AS "K0TQLJJE",
+			 round( sum("K0TBLJJE")/10000,2) AS "K0TBLJJE"
+			<!-- , round( sum("K0TBBFB"),2) AS "K0TBBFB"  -->
+		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_ZH_1003_02"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+			 '${month}'),
+			 'PLACEHOLDER' = ('$$PR_GSDM$$',
+			 '${companyCode}')) 
+		GROUP BY 
+		     "G0XMCJBM1",
+	         "G0XMCJBM2",
+		     "G0XMBM",
+			 "G0XMMS",
+			 "G0XMHC" 
+			 order by "G0XMBM" 
+       
+	 </select>
+	 
+	 <!--  报表名称: 科技资金现金流分析 报表编码: H1AM_KY_ZH_1003_03--> 
+     <resultMap id="scientificCashFlow03ReportResultMap" type="com.pcitc.base.hana.report.ScientificCashFlow03" >
+       <result column="G0XMBM" property="g0XMBM" jdbcType="VARCHAR" />
+       <result column="G0XMMS" property="g0XMMS" jdbcType="VARCHAR" />
+       <result column="G0GSDM" property="g0GSDM" jdbcType="VARCHAR" />
+       <result column="G0GSJC" property="g0GSJC" jdbcType="VARCHAR" />
+       <result column="G0XMHC" property="g0XMHC" jdbcType="VARCHAR" />
+       <result column="K0BQLJJE" property="k0BQLJJE" jdbcType="VARCHAR" />
+       <result column="K0TQLJJE" property="k0TQLJJE" jdbcType="VARCHAR" />
+       <result column="K0TBLJJE" property="k0TBLJJE" jdbcType="VARCHAR" />
+       <result column="K0TBBFB"  property="k0TBBFB"  jdbcType="VARCHAR" />
+     </resultMap>
+	 <select id="getScientificCashFlow03Report" resultMap="scientificCashFlow03ReportResultMap" parameterType="string" >
+       
+       SELECT
+			 "G0GSJC",
+			 round( sum("K0BQLJJE")/10000,2)   AS "K0BQLJJE"
+		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_ZH_1003_03"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+			 '${month}')) 
+			 where G0XMBM='${type}' and K0BQLJJE!=0
+		GROUP BY  
+		      "G0GSJC"
+	 </select>
+	 
+	 
+	 
+	 
+	 <!--  报表名称: 科研经费综合分析 科研经费预算投入年度趋势分析    报表编码: H1AM_KY_ZH_1001_01--> 
+     <resultMap id="fundsComprehensiveAnalysis_01_ReportResultMap" type="com.pcitc.base.hana.report.FundsComprehensiveAnalysis01" >
+       <result column="G0YEARXM"    property="g0YEARXM"   jdbcType="VARCHAR" />
+       <result column="G0GSDM"      property="g0GSDM"     jdbcType="VARCHAR" />
+       <result column="G0GSJC"      property="g0GSJC"     jdbcType="VARCHAR" />
+       <result column="G0PROJCODE"  property="g0PROJCODE" jdbcType="VARCHAR" />
+       <result column="G0PROJTXT"   property="g0PROJTXT"  jdbcType="VARCHAR" />
+       <result column="G0PROJCTXT"  property="g0PROJCTXT" jdbcType="VARCHAR" />
+       <result column="K0BNYSJE"    property="k0BNYSJE"   jdbcType="VARCHAR" />
+       <result column="K0BNSJJE"    property="k0BNSJJE"   jdbcType="VARCHAR" />
+       <result column="K0BNZCBL"    property="k0BNZCBL"   jdbcType="VARCHAR" />
+       <result column="G0XMGLLX"    property="g0XMGLLX"   jdbcType="VARCHAR" />
+       <result column="G0XMLX"      property="g0XMLX"     jdbcType="VARCHAR" />
+     </resultMap>
+	 <select id="getFundsComprehensiveAnalysis01Report" resultMap="fundsComprehensiveAnalysis_01_ReportResultMap" parameterType="string" >
+		SELECT
+			 "G0XMGLLX",
+			 "G0YEARXM",
+			 round (sum("K0BNSJJE")/10000,2) AS "K0BNSJJE"
+		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_ZH_1001_01"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+			 '${month}'),
+			 'PLACEHOLDER' = ('$$PR_GSDM$$',
+			 '${companyCode}')) 
+		GROUP BY "G0YEARXM",
+			 "G0XMGLLX"
+	    order by 
+			 "G0XMGLLX",
+			 "G0YEARXM"
+	 
+	 </select>
+	 
+	 <!--  报表名称: 科研经费综合分析    报表编码: H1AM_KY_ZH_1001_02--> 
+     <resultMap id="fundsComprehensiveAnalysis_02_ReportResultMap" type="com.pcitc.base.hana.report.FundsComprehensiveAnalysis02" >
+       <result column="G0YEARXM"    property="g0YEARXM"   jdbcType="VARCHAR" />
+       <result column="G0GSDM"      property="g0GSDM"     jdbcType="VARCHAR" />
+       <result column="G0GSJC"      property="g0GSJC"     jdbcType="VARCHAR" />
+       <result column="G0PROJCODE"  property="g0PROJCODE" jdbcType="VARCHAR" />
+       <result column="G0PROJTXT"   property="g0PROJTXT"  jdbcType="VARCHAR" />
+       <result column="G0PROJCTXT"  property="g0PROJCTXT" jdbcType="VARCHAR" />
+       <result column="K0BNYSJE"    property="k0BNYSJE"   jdbcType="VARCHAR" />
+       <result column="K0BNSJJE"    property="k0BNSJJE"   jdbcType="VARCHAR" />
+       <result column="K0BNZCBL"    property="k0BNZCBL"   jdbcType="VARCHAR" />
+       <result column="G0XMGLLX"    property="g0XMGLLX"   jdbcType="VARCHAR" />
+       <result column="G0XMLX"      property="g0XMLX"     jdbcType="VARCHAR" />
+       <result column="G0XMGLLY"      property="g0XMGLLY"     jdbcType="VARCHAR" />
+       <result column="G0XMGLJB"      property="g0XMGLJB"     jdbcType="VARCHAR" />
+       
+       
+    
+    
+     </resultMap>
+     <!-- ==============================3个预算，3个投入==============================================    --> 
+	 <select id="getFundsComprehensiveAnalysis02Report_for_project" resultMap="fundsComprehensiveAnalysis_02_ReportResultMap" parameterType="string" >
+		SELECT
+			 "G0XMGLLX",
+			 round (sum("K0BNYSJE")/10000,2) AS "K0BNYSJE",
+			 round (sum("K0BNSJJE")/10000,2) AS "K0BNSJJE"
+		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_ZH_1001_02"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+			 '${month}'),
+			 'PLACEHOLDER' = ('$$PR_GSDM$$',
+			 '${companyCode}')) 
+		GROUP BY 
+		      "G0XMGLLX"
+	  </select>
+	  <select id="getFundsComprehensiveAnalysis02Report_for_source" resultMap="fundsComprehensiveAnalysis_02_ReportResultMap" parameterType="string" >
+		SELECT
+			 "G0XMGLLY",
+			 round (sum("K0BNYSJE")/10000,2) AS "K0BNYSJE",
+			 round (sum("K0BNSJJE")/10000,2) AS "K0BNSJJE"
+		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_ZH_1001_02"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+			 '${month}'),
+			 'PLACEHOLDER' = ('$$PR_GSDM$$',
+			 '${companyCode}')) 
+		GROUP BY 
+		      "G0XMGLLY"
+	 </select>
+     <select id="getFundsComprehensiveAnalysis02Report_for_manage" resultMap="fundsComprehensiveAnalysis_02_ReportResultMap" parameterType="string" >
+		SELECT
+			 "G0XMGLJB",
+			 round (sum("K0BNYSJE")/10000,2) AS "K0BNYSJE",
+			 round (sum("K0BNSJJE")/10000,2) AS "K0BNSJJE"
+		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_ZH_1001_02"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+			 '${month}'),
+			 'PLACEHOLDER' = ('$$PR_GSDM$$',
+			 '${companyCode}')) 
+		GROUP BY 
+		      "G0XMGLJB"
+	 </select>
+	 
+	 <!--  报表名称: 科研经费综合分析    报表编码: H1AM_KY_ZH_1001_03--> 
+     <resultMap id="fundsComprehensiveAnalysis_03_ReportResultMap" type="com.pcitc.base.hana.report.FundsComprehensiveAnalysis03" >
+       <result column="G0GSJC"      property="g0GSJC"     jdbcType="VARCHAR" />
+       <result column="G0PROJCODE"  property="g0PROJCODE" jdbcType="VARCHAR" />
+       <result column="G0PROJTXT"   property="g0PROJTXT"  jdbcType="VARCHAR" />
+       <result column="G0PROJCTXT"  property="g0PROJCTXT" jdbcType="VARCHAR" />
+       <result column="K0BNYSJE"    property="k0BNYSJE"   jdbcType="VARCHAR" />
+       <result column="K0BNSJJE"    property="k0BNSJJE"   jdbcType="VARCHAR" />
+       <result column="K0BNZCBL"    property="k0BNZCBL"   jdbcType="VARCHAR" />
+       <result column="G0XMGLLX"    property="g0XMGLLX"   jdbcType="VARCHAR" />
+       <result column="G0XMLX"      property="g0XMLX"     jdbcType="VARCHAR" />
+       <result column="K0TQYSJE"      property="k0TQYSJE"     jdbcType="VARCHAR" />
+       <result column="K0TQSJJE"      property="k0TQSJJE"     jdbcType="VARCHAR" />
+       <result column="K0TQZCBL"      property="k0TQZCBL"     jdbcType="VARCHAR" />
+     </resultMap>
+	 <select id="getFundsComprehensiveAnalysis03Report" resultMap="fundsComprehensiveAnalysis_03_ReportResultMap" parameterType="string" >
+		SELECT
+			 "G0GSJC",
+			 round (sum("K0BNYSJE")/10000,2) AS "K0BNYSJE",
+			 round (sum("K0BNSJJE")/10000,2) AS "K0BNSJJE",
+			 sum("K0BNZCBL")*100 AS "K0BNZCBL",
+			 sum("K0TQZCBL")*100 AS "K0TQZCBL" 
+		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_ZH_1001_03"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+			 '${month}'),
+			 'PLACEHOLDER' = ('$$PR_GSDM$$',
+			 '${companyCode}')) 
+		GROUP BY 
+	         "G0GSJC"
+	 </select>
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+
+</mapper>

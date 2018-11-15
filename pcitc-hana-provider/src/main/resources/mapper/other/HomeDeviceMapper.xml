@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pcitc.mapper.other.HomeDeviceMapper">
+	
+	
+	 <!-- H1AM_KY_SY_1001_01--> 
+     <resultMap id="H1AMKYSY100109_ResultMap" type="com.pcitc.base.hana.report.H1AMKYSY100109" >
+       <result column="G0GSDM"         property="g0GSDM"          jdbcType="VARCHAR" />
+       <result column="G0GSJC"         property="g0GSJC"          jdbcType="VARCHAR" />
+       <result column="G0PROJCODE"     property="g0PROJCODE"      jdbcType="VARCHAR" />
+       <result column="G0YEARXM"       property="g0YEARXM"        jdbcType="VARCHAR" />
+       <result column="G0PROJTXT"      property="g0PROJTXT"       jdbcType="VARCHAR" />
+       <result column="G0XMGLLX"       property="g0XMGLLX"        jdbcType="VARCHAR" />
+       <result column="G0XMGLLY"       property="g0XMGLLY"        jdbcType="VARCHAR" />
+       <result column="G0XMGLJB"       property="g0XMGLJB"        jdbcType="VARCHAR" />
+       <result column="G0XMLX"         property="g0XMLX"          jdbcType="VARCHAR" />
+       <result column="G0XMZT"         property="g0XMZT"          jdbcType="VARCHAR" />
+       <result column="G0XMZTMS"       property="g0XMZTMS"        jdbcType="VARCHAR" />
+       <result column="K0BNXMWJSL"     property="k0BNXMWJSL"          jdbcType="VARCHAR" />
+       <result column="K0BNXMYQSL"     property="k0BNXMYQSL"          jdbcType="VARCHAR" />
+       <result column="K0BNXMZCSL"     property="k0BNXMZCSL"          jdbcType="VARCHAR" />
+       <result column="K0BNXMWGSL"     property="k0BNXMWGSL"          jdbcType="VARCHAR" />
+       <result column="K0BNXMXJYKSL"   property="k0BNXMXJYKSL"        jdbcType="VARCHAR" />
+       <result column="K0BNXMXJSLSL"   property="k0BNXMXJSLSL"        jdbcType="VARCHAR" />
+       <result column="K0BNXMXJZDSL"   property="k0BNXMXJZDSL"        jdbcType="VARCHAR" />
+       <result column="K0BNXMXJGJSL"   property="k0BNXMXJGJSL"        jdbcType="VARCHAR" />
+       <result column="K0BNXMXJSL"     property="k0BNXMXJSL"          jdbcType="VARCHAR" />
+       <result column="K0BNXMXKSL"     property="k0BNXMXKSL"          jdbcType="VARCHAR" />
+       <result column="K0BNXMZXSL"     property="k0BNXMZXSL"          jdbcType="VARCHAR" />
+        <result column="K0SNJTBL"       property="k0SNJTBL"            jdbcType="VARCHAR" />
+        <result column="K0XMXJGJBL"     property="k0XMXJGJBL"          jdbcType="VARCHAR" />
+        <result column="K0XMXJZDBL"     property="k0XMXJZDBL"          jdbcType="VARCHAR" />
+        <result column="K0XMXJSLBL"     property="k0XMXJSLBL"          jdbcType="VARCHAR" />
+        <result column="K0XMXJYKBL"     property="k0XMXJYKBL"          jdbcType="VARCHAR" />
+        <result column="K0XMZXSL"     property="k0XMZXSL"          jdbcType="VARCHAR" />
+        <result column="XKXJ"     property="xKXJ"          jdbcType="VARCHAR" />
+        <result column="K0BNXMXKSLK0BNXMXJSL"     property="k0BNXMXKSLK0BNXMXJSL"          jdbcType="VARCHAR" />
+        <result column="G0GSSP"     property="g0GSSP"          jdbcType="VARCHAR" />
+        <result column="G0SBFL"     property="g0SBFL"          jdbcType="VARCHAR" />
+        
+        
+        
+     </resultMap>
+     
+     
+     
+     <!--  按项目数量 -->
+     <select id="getDeviceByCountBar" resultMap="H1AMKYSY100109_ResultMap" parameterType="java.util.Map" >
+	   
+      <!--   SELECT
+	              '总计 '                       AS "G0XMGLLX",              
+		 	 	    round( sum("K0BNXMXKSL"),0) AS "K0BNXMXKSL",
+					round( sum("K0BNXMXJSL"),0) AS "K0BNXMXJSL"
+			
+		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_SY_1001_04"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+			 '${month}'),
+			 'PLACEHOLDER' = ('$$PR_GSDM$$',
+			 '${companyCode}')) 
+			 where "G0XMXZ" like '%新开项目%' or "G0XMXZ" like '%续建项目%' 	
+ 	   UNION ALL  -->
+               SELECT
+	              "G0XMGLLX",              
+		 	 	    round( sum("K0BNXMXKSL"),0) AS "K0BNXMXKSL",
+					round( sum("K0BNXMXJSL"),0) AS "K0BNXMXJSL"
+			
+		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_SY_1001_04"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+			 '${month}'),
+			 'PLACEHOLDER' = ('$$PR_GSDM$$',
+			 '${companyCode}')) 
+			 where "G0XMXZ" like '%新开项目%' or "G0XMXZ" like '%续建项目%' 
+		GROUP BY 
+			 	"G0XMGLLX"
+	  </select>
+	  
+	   <select id="getDeviceByCountPie" resultMap="H1AMKYSY100109_ResultMap" parameterType="java.util.Map" >
+	     SELECT
+	           "G0XMGLLX",              
+		 	    round( sum("K0BNXMXKSL"),0)+round( sum("K0BNXMXJSL"),0) AS "K0BNXMXKSLK0BNXMXJSL"
+		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_SY_1001_04"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+			 '${month}'),
+			 'PLACEHOLDER' = ('$$PR_GSDM$$',
+			 '${companyCode}')) 
+			 where "G0XMXZ" like '%新开项目%' or "G0XMXZ" like '%续建项目%' 
+		GROUP BY 
+		        "G0XMGLLX"
+	   </select>
+	  
+	 <select id="getDeviceByCountCricle" resultMap="H1AMKYSY100109_ResultMap" parameterType="java.util.Map" >
+	 
+	    SELECT
+	    
+	     ROW_NUMBER() OVER() AS id, 
+                 "G0XMXZ",
+	             "G0XMGLLX",              
+		 	 	 round( sum("K0BNXMXKSL"),0)+round( sum("K0BNXMXJSL"),0) AS "XKXJ"
+		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_SY_1001_04"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+			 '${month}'),
+			 'PLACEHOLDER' = ('$$PR_GSDM$$',
+			 '${companyCode}')) 
+			 where "G0XMXZ" like '%新开项目%' or "G0XMXZ" like '%续建项目%' 
+		GROUP BY 
+			 	  "G0XMXZ",
+	              "G0XMGLLX"
+	 </select>
+	 
+	 <!--  按单位 -->
+	  <select id="getDeviceByUnitBar" resultMap="H1AMKYSY100109_ResultMap" parameterType="java.util.Map" >
+	    SELECT 
+			   A."G0GSSP",
+			  IFNULL(sum(B."K0BNXMXKSL"),0) AS "K0BNXMXKSL",
+			  IFNULL(sum(B."K0BNXMXJSL"),0) AS "K0BNXMXJSL"
+			   FROM 
+			   (
+			          select 
+			          distinct
+			          "G0GSSP",
+			          CASE WHEN "G0GSSP" LIKE '直属研究院' THEN 1
+			               WHEN "G0GSSP" LIKE '分子公司' THEN 2
+			               WHEN "G0GSSP" LIKE '集团单位' THEN 3
+			               WHEN "G0GSSP" LIKE '外部单位' THEN 4 
+			               WHEN "G0GSSP" LIKE '盈科' THEN 5
+			               WHEN "G0GSSP" LIKE '休斯顿研发中心' THEN 6
+			               WHEN "G0GSSP" LIKE '中东研发中心' THEN 7
+			               WHEN "G0GSSP" LIKE '集团公司合计' THEN 8
+			               WHEN "G0GSSP" LIKE '资产公司合计' THEN 9              
+			          END        AS  "G0GSOR"
+			         from "H"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY::H1AM_KY_ZH_0000_01.H1AM_KY_ZH_1000_03"
+			         where   "G0MXMC" = 'H1AM_KY_ZH_1000_03' 
+			    ) AS A 
+			    LEFT JOIN 
+			    (
+			      SELECT  
+					     "G0GSSP",
+					     sum("K0BNXMXKSL") AS "K0BNXMXKSL",
+					     sum("K0BNXMXJSL") AS "K0BNXMXJSL"
+					    
+					FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_SY_1001_04"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+					     '${month}'),
+					     'PLACEHOLDER' = ('$$PR_GSDM$$',
+					     '${companyCode}')) 
+					     WHERE "G0XMXZ" LIKE '%新开%' or "G0XMXZ" LIKE '%续建%'
+					GROUP BY 
+					     "G0GSSP"
+			
+			    )   AS B 
+			    ON A."G0GSSP" = B."G0GSSP"
+			    GROUP BY A."G0GSSP",A."G0GSOR"
+			    ORDER BY "G0GSOR"     
+	  </select>
+	  
+	  <select id="getDeviceByUnitPie" resultMap="H1AMKYSY100109_ResultMap" parameterType="java.util.Map" >
+	   SELECT  
+		     "G0GSSP",
+		     sum("K0XMZXSL") AS "K0XMZXSL"
+		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_SY_1001_04"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+		     '${month}'),
+		     'PLACEHOLDER' = ('$$PR_GSDM$$',
+		     '${companyCode}')) 
+		     WHERE "G0XMXZ" LIKE '%新开%' or "G0XMXZ" LIKE '%续建%'
+		GROUP BY 
+		     "G0GSSP"
+	  </select>
+	  
+	  <select id="getDeviceByUnitCricle" resultMap="H1AMKYSY100109_ResultMap" parameterType="java.util.Map" >
+	    SELECT  
+	     ROW_NUMBER() OVER() AS id, 
+		     "G0XMXZ",
+		     "G0GSJC",     
+		     sum("K0XMZXSL") AS "K0XMZXSL"
+		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_SY_1001_04"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+		     '${month}'),
+		     'PLACEHOLDER' = ('$$PR_GSDM$$',
+		     '${companyCode}')) 
+		     WHERE "G0XMXZ" LIKE '%新开%' or "G0XMXZ" LIKE '%续建%'
+		GROUP BY 
+		     "G0GSJC",
+		     "G0XMXZ"
+	  </select> 
+	  
+	  
+	  <!--  按分布 -->
+	 <select id="getDeviceByDistributeBar" resultMap="H1AMKYSY100109_ResultMap" parameterType="java.util.Map" >
+	   SELECT  
+		     "G0GSJC",     
+		     sum("K0BNXMXKSL") AS "K0BNXMXKSL",
+		     sum("K0BNXMXJSL") AS "K0BNXMXJSL",
+		     sum("K0BNXMWGSL") AS "K0BNXMWGSL",
+		     sum("K0BNXMYQSL") AS "K0BNXMYQSL",
+		     sum("K0BNXMWJSL") AS "K0BNXMWJSL"   
+		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_SY_1001_04"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+		     '${month}'),
+		     'PLACEHOLDER' = ('$$PR_GSDM$$',
+		     '${companyCode}')) 
+		  
+		GROUP BY  "G0GSJC", "G0GSOR"
+		order by "G0GSOR"
+	   
+	  </select>
+	  
+	  
+	  
+	  
+	  
+	  <sql id="selectCondition02">
+	     <trim prefix="WHERE" prefixOverrides="AND|OR"> 
+	          ("G0XMXZ" like '%新开项目%' or "G0XMXZ" like '%续建项目%')
+	     <if test="g0PROJTXT != null  and g0PROJTXT !='' ">            AND G0PROJTXT like '%${g0PROJTXT}%'</if>
+	     <if test="g0GSDM != null   and g0GSDM !=''  ">                AND G0GSDM  = '${g0GSDM}'</if>
+	     <if test="sqlStr != null   and sqlStr !='' ">                 ${sqlStr}</if>
+	     <if test="g0XMGLLX != null   and g0XMGLLX !=''  ">            AND G0XMGLLX  = '${g0XMGLLX}'</if>
+	     <if test="g0XMGLLY != null   and g0XMGLLY !=''  ">            AND G0XMGLLY  = '${g0XMGLLY}'</if>
+	     <if test="g0XMGLJB != null   and g0XMGLJB !=''  ">            AND G0XMGLJB  = '${g0XMGLJB}'</if>
+	     <if test="g0XMLXMS != null   and g0XMLXMS !=''  ">            AND G0XMLXMS  = '${g0XMLXMS}'</if>
+	     <if test="g0XMZTMS != null   and g0XMZTMS !=''  ">            AND G0XMZTMS  = '${g0XMZTMS}'</if> 
+	   </trim>
+	</sql>
+	  
+	 <select id="getTableList" resultMap="H1AMKYSY100109_ResultMap" parameterType="java.util.Map" >
+			 
+			 SELECT
+				 "G0CALD",
+				 "G0GSDM",
+				 "G0GSJC",
+				 "G0FLAG",
+				 "G0PROJCODE",
+				 "G0PROJTXT",
+				 "G0XMGLLX",
+				 "G0XMGLLY",
+				 "G0XMGLJB",
+				 "G0XMLX",
+				 "G0XMLXMS",
+				 "G0XMZT",
+				 "G0XMZTMS",
+				 "G0XMXZ",
+				 "G0XMDL",
+				 "G0XMJD",
+				 "G0GSSP",
+				 round(sum("K0BNYSJHJE"),0) AS "K0BNYSJHJE",
+				 round(sum("K0BNGLFPHJECB"),0) AS "K0BNGLFPHJECB",
+				 round(sum("K0BNYSL"),0) AS "K0BNYSL",
+				 round(sum("K0BNYSJY"),0) AS "K0BNYSJY",
+				 round(sum("K0LJYSL"),0) AS "K0LJYSL",
+				 round(sum("K0ZTYSJE"),0) AS "K0ZTYSJE",
+				 round(sum("K0LJYSJY") ,0)AS "K0LJYSJY"
+			FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_SY_1001_04"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+				 '${month}'),
+				 'PLACEHOLDER' = ('$$PR_GSDM$$',
+				 '${companyCode}')) 
+			 <include refid="selectCondition02"/>
+			GROUP BY "G0CALD",
+				 "G0GSDM",
+				 "G0GSJC",
+				 "G0FLAG",
+				 "G0PROJCODE",
+				 "G0PROJTXT",
+				 "G0XMGLLX",
+				 "G0XMGLLY",
+				 "G0XMGLJB",
+				 "G0XMLX",
+				 "G0XMLXMS",
+				 "G0XMZT",
+				 "G0XMZTMS",
+				 "G0XMXZ",
+				 "G0XMDL",
+				 "G0GSSP",
+				 "G0XMJD" 
+	    <if test="pageSize != null and pageSize !=''">  limit ${pageSize} offset  ${start} </if>   
+	 </select>
+	 
+    <select id="getTableCount" resultType="java.lang.Integer" parameterType="java.util.Map"> 
+        SELECT
+		   count(*)
+		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_SY_1001_04"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+			 '${month}'),
+			 'PLACEHOLDER' = ('$$PR_GSDM$$',
+			 '${companyCode}')) 
+			
+			 <include refid="selectCondition02"/>
+     </select>
+     
+     
+     
+     
+     
+     
+     
+	 
+     
+     
+</mapper>
