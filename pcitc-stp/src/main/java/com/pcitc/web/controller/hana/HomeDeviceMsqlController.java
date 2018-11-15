@@ -315,7 +315,7 @@ public class HomeDeviceMsqlController {
 						if (statusCode == 200) 
 						{
                             JSONArray jSONArray = responseEntity.getBody();
-							System.out.println(">>>>>>>>>>>>>>>getProjectByCountCricle jSONArray" + jSONArray.toString());
+							System.out.println(">>>>>>>>>>>>>>>getDeviceByCountCricle jSONArray" + jSONArray.toString());
 							List<ProjectForMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), ProjectForMysql.class);
 							List<String>  lista=HanaUtil.getduplicatexAxisByList(list,"project_scope");
 							List<TreeNode2>  chartCircleList=	HanaUtil.getChildChartCircleuNITForproject02type(lista,list);

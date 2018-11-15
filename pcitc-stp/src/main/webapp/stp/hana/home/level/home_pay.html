@@ -15,6 +15,10 @@
     <div class="layui-main-oil">
         <div class="searchBox">
             <input type="hidden" name="YJY_CODE_ALL"  value="${YJY_CODE_ALL}"   id="YJY_CODE_ALL">
+            <input type="hidden" name="YJY_CODE_NOT_YINGKE"  value="${YJY_CODE_NOT_YINGKE}"   id="YJY_CODE_NOT_YINGKE">
+            
+            
+            
             <label class="dateInput">
                 <span>月份</span>
                 <input type="text" name="month" placeholder="请选择月份" title="月份" value="${month}"  autocomplete="off" class="form-control" id="month">
@@ -152,12 +156,13 @@ layui.config({
 
 function initEchart()
 {
-	 var companyCode=$("#companyCode").val();
+	var companyCode=$("#companyCode").val();
 	var v_date=(new Date()).getTime();
 	var month=$('#month').val();
 	var ndstr=getNowFormatDate($('#month').val());
 	
 	var YJY_CODE_ALL=$('#YJY_CODE_ALL').val();
+	var YJY_CODE_NOT_YINGKE=$('#YJY_CODE_NOT_YINGKE').val();
     var monthValY=$("#month").val().substring(4,0);
     var monthValM=$("#month").val().substring(4);
     $(".layui-time").html(monthValY+"年"+monthValM+"月");
@@ -170,6 +175,8 @@ function initEchart()
             position: 'left',
             axisLabel: {
                 formatter: '{value}'
+                
+                	
             }
         }
     ];
@@ -219,7 +226,7 @@ function initEchart()
 	load_taiyang_02(chart6_url,"chart6","科研支出占比分析",ndstr); */
 	
 	
-	var chart7_url="/home_pay/getPayByDistributeBar?month="+month+"&v_date="+v_date+"&companyCode="+YJY_CODE_ALL;
+	var chart7_url="/home_pay/getPayByDistributeBar?month="+month+"&v_date="+v_date+"&companyCode="+YJY_CODE_NOT_YINGKE;
 	var echart7=load_mutl_bar_02(chart7_url,"chart7","","",yAxis);
 	echart7.on('click', function (params) {
 		var xName=params.name;
@@ -266,9 +273,9 @@ function renderTable()
 	        ,loading: false
 	        ,method:'get'
 	        ,cols: [[
-	            {field:'name', width:'30%', title: '名称',edit:'text'},
-	            {field:'extend01',  title:'新开(万元)',  style:'cursor: pointer;',align: 'left', width: '35%', templet: '<div>{{ layui.laytpl.milliFormat(d.extend01,2) }}</div>'},
-	            {field:'extend02',  title:'续建(万元)',  style:'cursor: pointer;',align: 'left', width: '35%', templet: '<div>{{ layui.laytpl.milliFormat(d.extend02,2) }}</div>'}
+	            {field:'name', width:'50%', title: '名称',edit:'text'},
+	            {field:'extend01',  title:'科研支出(万元)',  style:'cursor: pointer;',align: 'left', width: '50%', templet: '<div>{{ layui.laytpl.milliFormat(d.extend01,2) }}</div>'}
+	            //{field:'extend02',  title:'结转课题(万元)',  style:'cursor: pointer;',align: 'left', width: '35%', templet: '<div>{{ layui.laytpl.milliFormat(d.extend02,2) }}</div>'}
 	            
 	        ]]
 	        ,isPage:false
@@ -307,7 +314,7 @@ function renderTable_UNIT()
 	        ,loading: false
 	        ,method:'get'
 	        ,cols: [[
-	            {field:'name', width:'50%', title: '院所',edit:'text'},
+	            {field:'name', width:'50%', title: '企业单位',edit:'text'},
 	            {field:'extend01',  title:'金额(万元)',  style:'cursor: pointer;',align: 'left', width: '50%', templet: '<div>{{ layui.laytpl.milliFormat(d.extend01,2) }}</div>'}
 	            
 	        ]]
