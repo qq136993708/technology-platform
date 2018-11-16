@@ -76,7 +76,7 @@ public class PlanController extends BaseController {
     @ResponseBody
     public Object getTableData(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request) throws IOException {
         // Map<String, Object> map = param.getParam();
-        param.getParam().put("createUser",sysUserInfo.getUserId());
+        param.getParam().put("createUser", sysUserInfo.getUserId());
 //        param.getParam().put("workOrderAllotUserName",sysUserInfo.getUserId());
 //        param.getParam().put("delFlag","");
         HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
@@ -132,12 +132,13 @@ public class PlanController extends BaseController {
         jsStr.put("workOrderCode", code);
         jsStr.put("unitName", sysUserInfo.getUnitName());
         PlanBase bsv = JSONObject.toJavaObject(jsStr, PlanBase.class);
+        bsv.setDelFlag("0");
         List<PlanBaseDetail> matterList = new ArrayList<PlanBaseDetail>();
         List<PlanBase> baseList = new ArrayList<PlanBase>();
         if (jsStr.containsKey("matterList")) {
             JSONArray array = jsStr.getJSONArray("matterList");
             for (int i = 0; i < array.size(); i++) {
-            //取值赋给PlanBase
+                //取值赋给PlanBase
                 JSONObject detail = array.getJSONObject(i);
                 PlanBase planBase = new PlanBase();
                 planBase.setWorkOrderName(detail.get("workOrderName").toString());
@@ -149,7 +150,7 @@ public class PlanController extends BaseController {
                 planBase.setWorkOrderAllotUserName(detail.get("workOrderAllotUserName").toString());//当前节点处理人
                 planBase.setWorkOrderStatus("0");
                 Object objJsrId = detail.get("jsId");
-                if(objJsrId!=null&&!"".equals(objJsrId)){//
+                if (objJsrId != null && !"".equals(objJsrId)) {//
                     planBase.setJsId(objJsrId.toString());//指派给他人
                     //指派给他人,新增一条数据
                     PlanBase planBaseZp = new PlanBase();
@@ -157,7 +158,7 @@ public class PlanController extends BaseController {
                     planBaseZp.setWorkOrderName(planBase.getRemarks());
                     planBaseZp.setParentId(planBase.getDataId());
                     planBaseZp.setDelFlag("0");
-                    planBaseZp.setDataId("".equals(detail.get("dataId"))?UUID.randomUUID().toString().replace("-", ""):detail.get("dataId").toString());
+                    planBaseZp.setDataId("".equals(detail.get("dataId")) ? UUID.randomUUID().toString().replace("-", "") : detail.get("dataId").toString());
                     planBaseZp.setWorkOrderAllotUserName(objJsrId.toString());//当前节点处理人
                     planBaseZp.setWorkOrderStatus("0");
                     baseList.add(planBaseZp);
@@ -226,6 +227,8 @@ public class PlanController extends BaseController {
      */
     @RequestMapping(value = "/goEditBotWorkOrder")
     public String goEditBotWorkOrder(HttpServletRequest request) {
+        request.setAttribute("userName", sysUserInfo.getUserDisp());
+        request.setAttribute("unitName", sysUserInfo.getUnitName());
         request.setAttribute("dataId", request.getParameter("dataId"));
         return "stp/plan/botWorkOrderEdit";
     }
@@ -270,10 +273,10 @@ public class PlanController extends BaseController {
         wjbvo.setUpdateDate(DateUtil.dateToStr(new Date(), DateUtil.FMT_SS));
         wjbvo.setUpdateUser(sysUserInfo.getUserId());
         wjbvo.setUpdateUserName(sysUserInfo.getUserDisp());
+        wjbvo.setDelFlag("0");
         HttpEntity<PlanBase> entity = new HttpEntity<PlanBase>(wjbvo, this.httpHeaders);
         ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(EDIT_BOT_WORK_ORDER, HttpMethod.POST, entity, Integer.class);
         int result = responseEntity.getBody();
-
 
 
         List<PlanBase> baseList = new ArrayList<PlanBase>();
@@ -282,18 +285,15 @@ public class PlanController extends BaseController {
             for (int i = 0; i < array.size(); i++) {
                 //取值赋给PlanBase
                 JSONObject detail = array.getJSONObject(i);
-                PlanBase planBase =(PlanBase) JSONObject.toJavaObject((JSON) array.get(i), PlanBase.class);
-//                planBase.setWorkOrderName(detail.get("workOrderName").toString());
+                PlanBase planBase = JSONObject.toJavaObject((JSON) JSON.toJSON(detail), PlanBase.class);
+                System.out.println("planBase = " + planBase);
                 planBase.setParentId(wjbvo.getDataId());
-                planBase.setDataId("".equals(detail.get("dataId"))?UUID.randomUUID().toString().replace("-", ""):detail.get("dataId").toString());
-//                planBase.setDataId(UUID.randomUUID().toString().replace("-", ""));
-//                planBase.setWorkOrderAllotUserName(detail.get("workOrderAllotUserName").toString());//当前节点处理人
-//                planBase.setWorkOrderAllotUserId(detail.get("workOrderAllotUserId").toString());//当前节点处理人
+                planBase.setDataId("".equals(detail.get("dataId")) ? UUID.randomUUID().toString().replace("-", "") : detail.get("dataId").toString());
                 planBase.setWorkOrderStatus("0");
                 planBase.setDelFlag("0");
                 planBase.setBl("");
                 Object objJsrId = detail.get("jsId");
-                if(objJsrId!=null&&!"".equals(objJsrId)){//
+                if (objJsrId != null && !"".equals(objJsrId)) {//
                     planBase.setJsId(objJsrId.toString());//指派给他人
                     //指派给他人,新增一条数据
                     PlanBase planBaseZp = new PlanBase();
@@ -428,22 +428,39 @@ public class PlanController extends BaseController {
         jsStr.put("status", "0");
         //jsStr.put("workOrderCode", code);
         jsStr.put("unitName", sysUserInfo.getUnitName());
-        //PlanBase bsv = JSONObject.toJavaObject(jsStr, PlanBase.class);
+
+        PlanBase bsv = JSONObject.toJavaObject(jsStr, PlanBase.class);
+
+
         List<PlanBaseDetail> matterList = new ArrayList<PlanBaseDetail>();
         if (jsStr.containsKey("matterList")) {
             JSONArray array = jsStr.getJSONArray("matterList");
             for (int i = 0; i < array.size(); i++) {
-                PlanBaseDetail matterVo = JSONObject.toJavaObject(jsStr, PlanBaseDetail.class);
+                PlanBaseDetail matterVo = JSONObject.toJavaObject(array.getJSONObject(i), PlanBaseDetail.class);
                 matterVo.setWorkOrderId(jsStr.getString("dataId"));
                 matterVo.setDataOrder(i + "");
-                matterVo.setWorkOrderName(jsStr.getString("workOrderName"));
-                matterVo.setRemarks(array.getJSONObject(i).getString("matter"));
+//                matterVo.setWorkOrderName(jsStr.getString("workOrderName"));
+//                matterVo.setRemarks(array.getJSONObject(i).getString("matter"));
                 matterVo.setMatterType("1");
+                matterVo.setStatus("0");
                 matterVo.setDataId(UUID.randomUUID().toString().replace("-", ""));
                 matterVo.setWorkOrderEndDatatime(array.getJSONObject(i).getString("workOrderEndDatatime"));
                 matterList.add(matterVo);
             }
         }
+        //保存主表信息
+        String dataId = jsStr.getString("dataId");
+        ResponseEntity<PlanBase> resultEntity = this.restTemplate.exchange(VIEW_BOT_WORK_ORDER + dataId, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), PlanBase.class);
+        PlanBase wjbvo = resultEntity.getBody();
+        wjbvo = (PlanBase) JSONObject.toJavaObject(jsStr, PlanBase.class);
+        wjbvo.setUpdateDate(DateUtil.dateToStr(new Date(), DateUtil.FMT_SS));
+        wjbvo.setUpdateUser(sysUserInfo.getUserId());
+        wjbvo.setUpdateUserName(sysUserInfo.getUserDisp());
+        wjbvo.setDelFlag("0");
+        HttpEntity<PlanBase> entity = new HttpEntity<PlanBase>(wjbvo, this.httpHeaders);
+        ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(EDIT_BOT_WORK_ORDER, HttpMethod.POST, entity, Integer.class);
+
+        //保存从表新
         HttpEntity<List<PlanBaseDetail>> entityList = new HttpEntity<List<PlanBaseDetail>>(matterList, this.httpHeaders);
         ResponseEntity<Integer> responseEntityList = this.restTemplate.exchange(SAVE_MY_BOT_WORK_ORDER_MATTER_BATCH, HttpMethod.POST, entityList, Integer.class);
         int result = responseEntityList.getBody();
