@@ -30,6 +30,7 @@ import com.pcitc.base.stp.IntlProject.IntlProjectApply;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.IdUtil;
 import com.pcitc.base.util.MyBeanUtils;
+import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.DataTableParameter;
 
@@ -139,9 +140,17 @@ public class IntlProjectApplyController extends BaseController {
 	}
 
 	@RequestMapping(value = "/project/apply-start-workflow")
-	public Object startProjectApplyWorkflow(@RequestParam(value = "applyId", required = true) String applyId, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public Object startProjectApplyWorkflow(@RequestParam(value = "applyId", required = true) String applyId,
+			@RequestParam(value = "functionId", required = true) String functionId, 
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		System.out.println("开始审批！！！！" + applyId);
-		Integer plant = this.restTemplate.exchange(PROJECT_APPLY_WORKFLOW_URL + applyId, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class).getBody();
+		WorkflowVo vo = new WorkflowVo();
+		vo.setAuditUserIds(this.getUserProfile().getUserId());
+		vo.setFunctionId(functionId);
+		System.out.println("functionId .... "+functionId);
+		vo.setAuthenticatedUserId(this.getUserProfile().getUserId());
+		HttpEntity<WorkflowVo> entity = new HttpEntity<WorkflowVo>(vo, this.httpHeaders);
+		Integer plant = this.restTemplate.exchange(PROJECT_APPLY_WORKFLOW_URL + applyId, HttpMethod.POST, entity, Integer.class).getBody();
 		System.out.println("开始审批返回状态：" + plant);
 		if (plant == 0) {
 			return new Result(false);
