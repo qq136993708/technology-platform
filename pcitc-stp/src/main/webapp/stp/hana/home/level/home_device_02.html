@@ -42,6 +42,36 @@
                 >详情</button>
             </div>
         </div>
+        
+        
+        
+          <div class="layui-row layui-col-space10">
+            <div class="layui-col-xs8">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        <span class="layui-time"></span>科研装备数量分析
+                    </div>
+                    <div class="layui-row-main">
+                        <div class="main-chart" id="chart1" style="height:280px;width: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-xs4">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                     科研装备占比分析
+                    </div>
+                    <div class="layui-row-main">
+                        <table id="processdef-table" class="layui-hide" lay-filter="processdef-table"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        <!-- 
+        
         <div class="layui-row layui-col-space10">
             <div class="layui-col-xs4">
                 <div class="layui-card">
@@ -73,7 +103,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
         <div class="layui-row layui-col-space10">
             <div class="layui-col-xs8">
                 <div class="layui-card">
@@ -96,18 +126,7 @@
                 </div>
             </div>
         </div>
-        <div class="layui-row layui-col-space10">
-            <div class="layui-col-md12">
-                <div class="layui-card">
-                    <div class="layui-card-header">
-                        <span class="layui-time"></span>直属研究院科研装备数量分布情况分析
-                    </div>
-                    <div class="layui-row-main">
-                        <div class="main-chart" id="chart7" style="height:280px;width: 100%;"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        
     </div>
 </div>
 <script src="/common/js/jquery-1.11.3.min.js"></script>
@@ -176,10 +195,16 @@ function initEchart()
     ];
 	
 	
-	
+	var chart7_url="/home_device_02/getDeviceByDistributeBar?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
+	var echart7=load_mutl_bar_02(chart7_url,"chart1","","",yAxis);
+	echart7.on('click', function (params){
+		var xName=params.name;
+		var legentName=params.seriesName;
+		parent.layui.index.openTabsPage("/home/project-list?define2="+xName+"&project_scope="+legentName, "科研装备明细");
+    });
 	
 
-	var chart1_url="/home_device_02/getDeviceByCountBar?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
+	/* var chart1_url="/home_device_02/getDeviceByCountBar?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
 	var echart1=load_mutl_bar_02(chart1_url,"chart1","","",yAxis)
 	echart1.on('click', function (params){
 		var xName=params.name;
@@ -201,7 +226,7 @@ function initEchart()
 		
 		
           
-    });
+    }); */
 	
 	/* 
 	var chart3_url="/home_device_02/getDeviceByCountCricle?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
@@ -209,8 +234,6 @@ function initEchart()
 	
 	
 	var chart4_url="/home_device_02/getDeviceByUnitBar?month="+month+"&v_date="+v_date+"&companyCode="+companyCode; 
-	
-	
 	var echart4=load_mutl_bar_02(chart4_url,"chart4","","",yAxis);
 	echart4.on('click', function (params){
 		var xName=params.name;
@@ -229,13 +252,7 @@ function initEchart()
 	load_taiyang_02(chart6_url,"chart6","科研装备占比分析",ndstr); */
 	
 	
-	var chart7_url="/home_device_02/getDeviceByDistributeBar?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
-	var echart7=load_mutl_bar_02(chart7_url,"chart7","","",yAxis);
-	echart7.on('click', function (params){
-		var xName=params.name;
-		var legentName=params.seriesName;
-		parent.layui.index.openTabsPage("/home/project-list?define2="+xName+"&project_scope="+legentName, "科研装备明细");
-    });
+	
 	
 }
 
@@ -261,7 +278,7 @@ function renderTable()
 	        id:tableId
 	        ,elem: '#'+tableId
 	        ,url:'/home_device_02/getDeviceByCountCricle?month='+month+"&companyCode="+companyCode
-	        ,cellMinWidth: 200
+	       // ,cellMinWidth: 200
 	        ,idField:'id'//必須字段
 	        ,treeId:'id'//树形id字段名称
 	        ,treeUpId:'pId'//树形父id字段名称
@@ -274,8 +291,8 @@ function renderTable()
 	        ,loading: false
 	        ,method:'get'
 	        ,cols: [[
-	            {field:'name', width:'50%', title: '名称',edit:'text'},
-	            {field:'extend01',  title:'数量',  style:'cursor: pointer;',align: 'left', width: '50%'}
+	            {field:'name',  title: '名称',edit:'text'},
+	            {field:'extend01',  title:'数量',  style:'cursor: pointer;',align: 'left'}
 	            
 	        ]]
 	        ,isPage:false
@@ -301,7 +318,7 @@ function renderTable_UNIT()
 	        id: tableId02
 	        ,elem: '#'+tableId02
 	        ,url:'/home_device_02/getDeviceByUnitCricle?month='+month+"&companyCode="+companyCode
-	        ,cellMinWidth: 200
+	       // ,cellMinWidth: 200
 	        ,idField:'id'//必須字段
 	        ,treeId:'id'//树形id字段名称
 	        ,treeUpId:'pId'//树形父id字段名称
@@ -314,8 +331,8 @@ function renderTable_UNIT()
 	        ,loading: false
 	        ,method:'get'
 	        ,cols: [[
-	            {field:'name', width:'50%', title: '名称',edit:'text'},
-	            {field:'extend01',  title:'数量',  style:'cursor: pointer;',align: 'left', width: '50%'}
+	            {field:'name', title: '名称',edit:'text'},
+	            {field:'extend01',  title:'数量',  style:'cursor: pointer;',align: 'left'}
 	            
 	        ]]
 	        ,isPage:false

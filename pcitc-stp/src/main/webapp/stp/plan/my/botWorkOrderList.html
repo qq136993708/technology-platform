@@ -46,7 +46,7 @@
             </button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg" data-type="doEvent" >任务处理</button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg" data-type="editEvent">任务下发</button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_details btnMyBgImg" data-type="detailEvent">任务查看</button>
+            <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_details btnMyBgImg" data-type="detailEvent">任务查看</button>-->
         </div>
     </div>
 
@@ -160,7 +160,8 @@
                     // if(selectRowData.workOrderStatus == '0'){
                     id = selectRowData.dataId;
                     layer.open({
-                        title:param.name+'-编辑',
+                        title:"任务下发",
+                        // title:param.name,
                         skin: 'layui-layer-lan',
                         shadeClose: false,
                         type: 2,
@@ -183,10 +184,10 @@
             doEvent: function(){  //点击编辑按钮
             	var id;
             	if(selectRowData != undefined){
-            		if(selectRowData.workOrderStatus == '1'){
+            		// if(selectRowData.workOrderStatus == '1'){
             			id = selectRowData.dataId;
                 		layer.open({
-    	                    title:param.name+'-编辑',
+    	                    title:"任务处理",
     	                    skin: 'layui-layer-lan',
     	                    shadeClose: false,
     	                    type: 2,
@@ -197,10 +198,10 @@
     	                    area: ['70%','90%'],
     	                    content: '/plan/my/goEditBotWorkOrder?dataId='+id
     	                });
-            		}else{
-            			layer.msg('只可操作未完成的数据');
-            			return;
-            		}
+            		// }else{
+            		// 	layer.msg('只可操作未完成的数据');
+            		// 	return;
+            		// }
 	            } else {
 	            	layer.msg('请选择一条数据');
 	            	return;
