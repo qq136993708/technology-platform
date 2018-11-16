@@ -21,6 +21,7 @@ import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.DelFlagEnum;
 import com.pcitc.base.stp.IntlProject.IntlProjectInfo;
 import com.pcitc.base.util.IdUtil;
+import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.web.common.BaseController;
 
 @RestController
@@ -31,7 +32,10 @@ public class IntlProjectInfoController extends BaseController {
 	private static final String PROJECT_INFO_ADDORUPD = "http://pcitc-zuul/stp-proxy/stp-provider/project/addorupd-project";
 	private static final String PROJECT_INFO_CLOSE_URL = "http://pcitc-zuul/stp-proxy/stp-provider/project/close-project/";
 	private static final String PROJECT_INFO_DEL = "http://pcitc-zuul/stp-proxy/stp-provider/project/del-project/";
-
+	private static final String PROJECT_INFO_WORKFLOW_URL = "http://pcitc-zuul/stp-proxy/stp-provider/project/start-info-activity/";
+	
+	
+	
 	@RequestMapping(value = "/project/info-list", method = RequestMethod.POST)
 	public Object getTableData(@ModelAttribute("param") LayuiTableParam param) throws IOException {
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
@@ -77,6 +81,25 @@ public class IntlProjectInfoController extends BaseController {
 	public Object closeProjectInfo(@RequestParam(value = "projectId", required = true) String projectId) throws Exception {
 		ResponseEntity<Integer> status = this.restTemplate.exchange(PROJECT_INFO_CLOSE_URL + projectId, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class);
 		if (status.getBody() == 0) {
+			return new Result(false);
+		} else {
+			return new Result(true);
+		}
+	}
+	@RequestMapping(value = "/project/project-start-workflow")
+	public Object startProjectApplyWorkflow(@RequestParam(value = "projectId", required = true) String projectId,
+			@RequestParam(value = "functionId", required = true) String functionId, 
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		System.out.println("开始审批！！！！" + projectId);
+		WorkflowVo vo = new WorkflowVo();
+		vo.setAuditUserIds(this.getUserProfile().getUserId());
+		vo.setFunctionId(functionId);
+		System.out.println("functionId .... "+functionId);
+		vo.setAuthenticatedUserId(this.getUserProfile().getUserId());
+		HttpEntity<WorkflowVo> entity = new HttpEntity<WorkflowVo>(vo, this.httpHeaders);
+		Integer plant = this.restTemplate.exchange(PROJECT_INFO_WORKFLOW_URL + projectId, HttpMethod.POST, entity, Integer.class).getBody();
+		System.out.println("审批返回状态：" + plant);
+		if (plant == 0) {
 			return new Result(false);
 		} else {
 			return new Result(true);
