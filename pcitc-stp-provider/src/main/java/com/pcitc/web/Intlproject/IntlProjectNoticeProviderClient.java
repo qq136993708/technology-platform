@@ -1,7 +1,5 @@
 package com.pcitc.web.Intlproject;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -54,7 +52,7 @@ public class IntlProjectNoticeProviderClient
 		//workflowVo.setAuthenticatedUserId("111");
 		workflowVo.setProcessDefineId(WORKFLOW_DEFINE_ID); 
 		workflowVo.setBusinessId(noticeId);
-		workflowVo.setProcessInstanceName("工作流审批："+notice.getNoticeTitle());
+		workflowVo.setProcessInstanceName("通知审批："+notice.getNoticeTitle());
 		Map<String, Object> variables = new HashMap<String, Object>();  
 		//starter为必填项。流程图的第一个节点待办人变量必须为starter
         variables.put("starter", workflowVo.getAuthenticatedUserId());
