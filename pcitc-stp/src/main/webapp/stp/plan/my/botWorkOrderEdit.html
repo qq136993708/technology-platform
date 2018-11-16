@@ -25,9 +25,9 @@
 				<div class="layui-row">
 					<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 	          			<div class="layui-form-item">
-	            			<label class="layui-form-label">工单标题:<span class="must-fill">*</span></label>
+	            			<label class="layui-form-label">标题:<span class="must-fill">*</span></label>
 	           				<div class="layui-input-block">
-	              				<input readonly="readonly" class="layui-input readOnlyBox" name="workOrderName" id="workOrderName" lay-verify="title" placeholder="请输入工单标题" autocomplete="off" type="text">
+	              				<input readonly="readonly" class="layui-input readOnlyBox" name="workOrderName" id="workOrderName" lay-verify="title" placeholder="请输入标题" autocomplete="off" type="text">
 	            			</div>
          					</div>
        				</div>
@@ -43,7 +43,7 @@
 				<div class="layui-row">
 					<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 	          			<div class="layui-form-item">
-	            			<label class="layui-form-label">工单类型:<span class="must-fill">*</span></label>
+	            			<label class="layui-form-label">类型:<span class="must-fill">*</span></label>
 	           				<div class="layui-input-block">
 	           					<input class="layui-input readOnlyBox" type="text" id="workOrderType" name="workOrderType" readonly="readonly">
 	            			</div>
@@ -59,7 +59,7 @@
 					</div>
 					<!-- <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 	          			<div class="layui-form-item">
-	            			<label class="layui-form-label">工单状态:<span class="must-fill">*</span></label>
+	            			<label class="layui-form-label">状态:<span class="must-fill">*</span></label>
 	           				<div class="layui-input-block">
 	           					<input class="layui-input readOnlyBox" type="text" id="workOrderStatus" name="workOrderStatus" readonly="readonly">
 	            			</div>
@@ -197,6 +197,8 @@ layui.config({
         });
         var jsonData = data.field;
         jsonData.matterList = sthTrArr;
+        console.log("------saveMyBotWorkOrderMatterFeedBack-----");
+        console.log(jsonData.matterList);
     	$.ajax({
 			type : 'post',
 			dataType : 'json',

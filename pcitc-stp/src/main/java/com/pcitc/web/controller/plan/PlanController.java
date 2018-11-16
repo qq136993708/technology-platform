@@ -282,13 +282,13 @@ public class PlanController extends BaseController {
             for (int i = 0; i < array.size(); i++) {
                 //取值赋给PlanBase
                 JSONObject detail = array.getJSONObject(i);
-                PlanBase planBase = new PlanBase();
-                planBase.setWorkOrderName(detail.get("workOrderName").toString());
+                PlanBase planBase =(PlanBase) JSONObject.toJavaObject((JSON) array.get(i), PlanBase.class);
+//                planBase.setWorkOrderName(detail.get("workOrderName").toString());
                 planBase.setParentId(wjbvo.getDataId());
                 planBase.setDataId("".equals(detail.get("dataId"))?UUID.randomUUID().toString().replace("-", ""):detail.get("dataId").toString());
 //                planBase.setDataId(UUID.randomUUID().toString().replace("-", ""));
-                planBase.setWorkOrderAllotUserName(detail.get("workOrderAllotUserName").toString());//当前节点处理人
-                planBase.setWorkOrderAllotUserId(detail.get("workOrderAllotUserId").toString());//当前节点处理人
+//                planBase.setWorkOrderAllotUserName(detail.get("workOrderAllotUserName").toString());//当前节点处理人
+//                planBase.setWorkOrderAllotUserId(detail.get("workOrderAllotUserId").toString());//当前节点处理人
                 planBase.setWorkOrderStatus("0");
                 planBase.setDelFlag("0");
                 planBase.setBl("");
