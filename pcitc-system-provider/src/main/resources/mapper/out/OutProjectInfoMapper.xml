@@ -1372,7 +1372,7 @@
 	</select>
 	
 	
-	<!-- 经费预算建议--集团公司总部科技经费预算（建议稿） -->
+	<!-- 经费预算建议集团公司总部科技经费预算（建议稿） -->
 	<select id="getGroupCompanyStpMoneyForBudgetProposals" resultType="java.util.Map"
 		parameterType="java.lang.String">
 		select fzdw,xmlbmc,round(sum(case when nd = '2017' then jf else 0 end)/10000,2) as qnje,
