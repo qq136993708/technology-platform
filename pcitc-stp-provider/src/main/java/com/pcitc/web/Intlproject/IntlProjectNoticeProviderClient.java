@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
@@ -36,7 +37,7 @@ public class IntlProjectNoticeProviderClient
 	@Autowired
 	IntlProjectNoticeService intlProjectService;
 	
-	private final static String WORKFLOW_DEFINE_ID = "gjhz_notice_sent:2:1100004";
+	private final static String WORKFLOW_DEFINE_ID = "intl_notice:3:1117555";
 	
 	@Autowired
 	private MailSentService mailSentService;
@@ -70,10 +71,10 @@ public class IntlProjectNoticeProviderClient
         variables.put("auditDetailsPath", "/intl_project/notice_view?noticeId="+noticeId);
        
         //流程完全审批通过时，调用的方法
-        variables.put("auditAgreeMethod", "http://pcitc-zuul/stp-proxy/stp-provider/intl_project/notice_view?noticeId="+noticeId);
+        variables.put("auditAgreeMethod", "http://pcitc-zuul/stp-proxy/stp-provider/project/callback-workflow-notice?noticeId="+noticeId+"&workflow_status=1");
         
         //流程驳回时，调用的方法（可能驳回到第一步，也可能驳回到第1+n步
-        variables.put("auditRejectMethod", "http://pcitc-zuul/stp-proxy/stp-provider/intl_project/notice_view?noticeId="+noticeId);
+        variables.put("auditRejectMethod", "http://pcitc-zuul/stp-proxy/stp-provider/project/callback-workflow-notice?noticeId="+noticeId+"&workflow_status=0");
         
         workflowVo.setVariables(variables);
 		String rs = systemRemoteClient.startWorkflowByProcessDefinitionId(workflowVo);
@@ -84,7 +85,15 @@ public class IntlProjectNoticeProviderClient
 			return 0;
 		}
 	}
-	
+	@ApiOperation(value="审批流程回调通知",notes="审批结果回调通知")
+	@RequestMapping(value = "/stp-provider/project/callback-workflow-notice")
+	public Object callBackProjectNoticeWorkflow(@RequestParam(value = "noticeId", required = true) String noticeId,
+			@RequestParam(value = "workflow_status", required = true) Integer workflow_status) throws Exception 
+	{
+		System.out.println("noticeId ------------------ "+noticeId);
+		System.out.println("workflow_status ------------------ "+workflow_status);
+		return null;
+	}
 	@ApiOperation(value="分页检索通知",notes="检索通知列表数据，返回数据列表。")
 	@RequestMapping(value = "/stp-provider/project/notice-list")
 	public Object getProjectNoticeList(@RequestBody LayuiTableParam param) throws Exception 
@@ -124,6 +133,7 @@ public class IntlProjectNoticeProviderClient
 		}
 		return 0;
 	}
+	@ApiOperation(value="项目申报通知删除",notes="删除通知信息（物理删除）。")
 	@RequestMapping(value = "/stp-provider/project/del-notice/{noticeId}", method = RequestMethod.POST)
 	public Integer delPlantReal(@PathVariable("noticeId") String noticeId) 
 	{
