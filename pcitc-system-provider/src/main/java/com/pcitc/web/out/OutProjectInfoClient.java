@@ -1384,4 +1384,15 @@ public class OutProjectInfoClient {
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
 		return json;
 	}
+	
+	@ApiOperation(value = "经费预算建议--集团公司总部科技经费预算（建议稿）", notes = "参数年度")
+	@RequestMapping(value = "/out-project-provider/budget-proposals/group-company/stp-money")
+	public JSONArray getGroupCompanyStpMoneyForBudgetProposals(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page getGroupCompanyStpMoneyForBudgetProposals===========================" + map);
+		
+		List temList = outProjectService.getGroupCompanyStpMoneyForBudgetProposals("2018");
+		
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		return json;
+	}
 }
