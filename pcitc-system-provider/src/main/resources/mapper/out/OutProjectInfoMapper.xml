@@ -1370,4 +1370,18 @@
 		where project_type != '1' and (project_scope = '新开课题' or project_scope = '结转课题') and type_flag is not null
 	    group by define1,type_flag
 	</select>
+	
+	
+	<!-- 经费预算建议 集团公司总部科技经费预算（建议稿） -->
+	<select id="getGroupCompanyStpMoneyForBudgetProposals" resultType="java.util.Map"
+		parameterType="java.lang.String">
+		select fzdw,xmlbmc,round(sum(case when nd = '2017' then jf else 0 end)/10000,2) as qnje,
+			round(sum(case when nd = '2018' then jf else 0 end)/10000,2) as jnje,
+			round(sum(case when nd = '2018' and xmlbmc='科研' then jf else 0 end)/10000,2) as jnkyje,
+			round(sum(case when nd = '2018' and xmlbmc='重点实验室专项' then jf else 0 end)/10000,2) as jnsysje
+		from out_project_info
+		where 
+			project_type != '1' and fzdw is not null and jf is not null
+		group BY fzdw,xmlbmc
+	</select>
 </mapper>

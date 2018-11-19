@@ -8,13 +8,14 @@
     <link rel="stylesheet" href="/layuiadmin/style/common.css">
     <script src="/layuiadmin/layui/layui.js"></script>
     <style>
+        body{padding-left:20px;}
         div{margin-bottom: 10px;}
     </style>
 </head>
 
 <body>
 <div>
-    <h3>各种按钮样式</h3>
+    <h3>操作类按钮</h3>
 </div>
 
 <div>
@@ -85,12 +86,12 @@
             data-type="deleteEvent">赋角色
     </button>
 
-    <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_execute btnMyBgImg"
-            data-type="deleteEvent">执行
+    <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_verify btnMyBgImg"
+            data-type="deleteEvent">验证
     </button>
 
     <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_verify btnMyBgImg"
-            data-type="deleteEvent">验证
+            data-type="deleteEvent">授权
     </button>
 
     <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_submit btnMyBgImg"
@@ -128,6 +129,9 @@
     <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_pause btnMyBgImg"
             data-type="deleteEvent">暂停
     </button>
+    <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_execute btnMyBgImg"
+            data-type="deleteEvent">执行
+    </button>
 </div>
 
 <div>
@@ -145,6 +149,50 @@
 <div>
     <button class="layui-btn layui-btn-sm btn-decision">办公费</button>
     <button class="layui-btn layui-btn-sm btn-decision active">办公费</button>
+</div>
+<div>
+    <h3>状态类按钮</h3>
+</div>
+<div class="stateBox">
+    <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg" data-type="all">
+        <span class="btn-state btn-all"></span>全部
+    </button>
+    <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg" data-type="draft">
+        <span class="btn-state btn-yellow"></span>草稿
+    </button>
+    <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg" data-type="approval">
+        <span class="btn-state btn-green"></span>审批中
+    </button>
+    <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg" data-type="approved">
+        <span class="btn-state btn-blue"></span>已审批
+    </button>
+    <br>
+</div>
+<div class="stateBox">
+    <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg" data-type="all">
+        <span class="btn-state btn-two"></span>全部
+    </button>
+    <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg" data-type="draft">
+        <span class="btn-state btn-yellow"></span>草稿
+    </button>
+    <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg" data-type="approved">
+        <span class="btn-state btn-blue"></span>已审批
+    </button>
+    <br>
+</div>
+<div class="stateBox">
+    <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg" data-type="all">
+        <span class="btn-state btn-level"></span>层数
+    </button>
+    <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg" data-type="all">
+        <span class="btn-state btn-level"></span>一层
+    </button>
+    <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg" data-type="all">
+        <span class="btn-state btn-level"></span>二层
+    </button>
+    <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg" data-type="all">
+        <span class="btn-state btn-level"></span>三层
+    </button>
 </div>
 </body>
 </html>
