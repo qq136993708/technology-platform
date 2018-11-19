@@ -180,6 +180,29 @@ public class ActivitiModelerProviderClient implements ModelDataJsonConstants {
 			throw new ActivitiException("Error saving model", e);
 		}
 	}
+	
+	@ApiOperation(value = "产生model资源，直接传到前台byte，", notes = "和generateResource方法有别")
+	@RequestMapping(value = "/modeler-provider/resource/byte", method = RequestMethod.POST)
+	public byte[] generateResourceByByte(@RequestBody WorkflowVo workflowVo) {
+		try {
+			Model modelData = repositoryService.getModel(workflowVo.getModelId());
+			if (workflowVo.getDataType().equals("xml")) {
+				
+				BpmnJsonConverter jsonConverter = new BpmnJsonConverter();
+				JsonNode editorNode = objectMapper.readTree(repositoryService.getModelEditorSource(modelData.getId()));
+				BpmnModel bpmnModel = jsonConverter.convertToBpmnModel(editorNode);
+				BpmnXMLConverter xmlConverter = new BpmnXMLConverter();
+				byte[] bpmnBytes = xmlConverter.convertToXML(bpmnModel);
+
+				return bpmnBytes;
+			} else {
+				byte[] pngBytes = repositoryService.getModelEditorSourceExtra(workflowVo.getModelId());
+				return pngBytes;
+			}
+		} catch (Exception e) {
+			return null;
+		}
+	}
 
 	@ApiOperation(value = "产生model资源，图形化准备", notes = "activiti系统接口")
 	@RequestMapping(value = "/modeler-provider/resource", method = RequestMethod.POST)
@@ -215,9 +238,10 @@ public class ActivitiModelerProviderClient implements ModelDataJsonConstants {
 				if (file.exists()) {
 					file.delete();
 				}
+				
 				ByteArrayInputStream in = new ByteArrayInputStream(pngBytes);
 				FileUtil.copyInputStreamToFile(in, file);
-
+				System.out.println("33=============="+file.getAbsolutePath());
 				String realName = fileName.replaceAll("\\\\", "/");
 				System.out.println("4=============="+realName);
 				return realName;
