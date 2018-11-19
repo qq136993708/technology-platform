@@ -190,4 +190,11 @@ public interface OutProjectService {
      */
 	public List getProjectMoneyByIniAndTypeForTree(String nd);
 	
+	/**
+     * @param nd
+     * @return
+     * 经费预算建议--集团公司总部科技经费预算（建议稿）
+     */
+    public List getGroupCompanyStpMoneyForBudgetProposals(String nd);
+	
 }
