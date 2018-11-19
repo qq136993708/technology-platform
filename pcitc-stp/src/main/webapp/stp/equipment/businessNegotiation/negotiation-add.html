@@ -18,7 +18,16 @@
   <link rel="stylesheet" href="/layuiadmin/style/common.css">
 </head>
 <body>
-  <div class="formBox">
+<div class="layer-box">
+	<form id="planForm" class="layui-form" action="" lay-filter="component-form-group layui-container"></form>
+		<div class="formBox">
+			<div class="tableToolBox">
+				<div class="tableBtns">
+					<div class="tableTitle">基本信息<span class="red">（标*号为必填项）</span>
+					</div>
+				</div>
+			</div>
+		</div>
   <div class="box-body">
       <form class="layui-form" name="form1" id="form1" action="" method="POST" lay-filter="component-form-group layui-container">
       <input type="hidden" name="talkId" id="talkId" value="${talkId}">
@@ -55,11 +64,12 @@
      
      
     <!--行结束-->
-     <div class="row" style="margin-top:30px;">
-           <div class="col-sm-12" style="text-align:center">
-             <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="" lay-filter="sub">保存</button>
-           </div>
-     </div>
+    <div class="form-bottom">
+  		<div class="form-bottom-btns">
+    		<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="" lay-filter="sub">保存</button>
+       		<button type="button"class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" id="closeBtn">关闭</button>
+  		</div>
+	</div>
    </form>
    </div>
    </div>
@@ -105,7 +115,11 @@ layui.config({
           } */
       });
 	  
-	  
+      //关闭事件
+      $("#closeBtn").click(function () {
+          var index = parent.layer.getFrameIndex(window.name);
+          parent.layer.close(index);
+      })
       /* 监听提交 */
       form.on('submit(sub)', function(data){
           //JSON.stringify(data.field)  提交信息json格式

@@ -18,7 +18,16 @@
   <link rel="stylesheet" href="/layuiadmin/style/common.css">
 </head>
 <body>
-  <div class="formBox">
+<div class="layer-box">
+	<form id="planForm" class="layui-form" action="" lay-filter="component-form-group layui-container"></form>
+		<div class="formBox">
+			<div class="tableToolBox">
+				<div class="tableBtns">
+					<div class="tableTitle">基本信息<span class="red">（标*号为必填项）</span>
+					</div>
+				</div>
+			</div>
+		</div>
   <div class="box-body">
       <form class="layui-form" name="form1" id="form1" action="" method="POST" lay-filter="component-form-group layui-container">
          <input type="hidden" name="contractId" id="contractId" value="${sreContract.contractId}">
@@ -41,13 +50,11 @@
 	          <div class="layui-form-item">
 	            <label for="" class="layui-form-label">支付类型<span class="must-fill">*</span></label>
 	            <div class="layui-input-block">
-	            
 	             <select name="paymentType"  id="paymentType" lay-verify=""  lay-filter="test">
 		              <option value="">---请选择支付类型---</option>
 		              <option value="1">一次性支付</option>
 		              <option value="2">多次支付</option>
 		            </select>
-		            
 	          </div>
 	          </div>
 	        </div>
@@ -72,7 +79,6 @@
 	        </div>
 	      </div>
 	      
-	      
 	      <div class="layui-row">
 	        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 	          <div class="layui-form-item">
@@ -91,8 +97,6 @@
 	          </div>
 	        </div>
 	      </div>
-	      
-	      
 	      
 	      <div class="layui-row">
 	        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
@@ -113,21 +117,16 @@
 	        </div>
 	      </div>
 	      
-	      
-	      
-	      
-	      
-	      
-	      
     <!--行结束-->
-     <div class="row" style="margin-top:30px;">
-           <div class="col-sm-12" style="text-align:center">
-             <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="" lay-filter="sub">保存</button>
-           </div>
-     </div>
-   </form>
-   </div>
-   </div>
+    <div class="form-bottom">
+  		<div class="form-bottom-btns">
+    		<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="" lay-filter="sub">保存</button>
+       		<button type="button"class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" id="closeBtn">关闭</button>
+  		</div>
+	</div>
+  </form>
+ </div>
+</div>
    
 <script src="/common/js/jquery-1.11.3.min.js"></script>
 <script src="/layuiadmin/layui/layui.js"></script>
@@ -170,8 +169,6 @@ layui.config({
           } */
       });
 	  
-	  
-	  
       //开始日期
       var insStart = laydate.render({
           elem: '#contractStartTime'
@@ -199,19 +196,21 @@ layui.config({
           }
       });
 
-      
-      
-      
       //日期时间选择器
       laydate.render({
           elem: '#deliveryTime'
           ,type: 'date'
       });
-    //日期时间选择器
+      //日期时间选择器
       laydate.render({
           elem: '#acceptTime'
           ,type: 'date'
       });
+      //关闭事件
+      $("#closeBtn").click(function () {
+          var index = parent.layer.getFrameIndex(window.name);
+          parent.layer.close(index);
+      })
       /* 监听提交 */
       form.on('submit(sub)', function(data){
           //JSON.stringify(data.field)  提交信息json格式
