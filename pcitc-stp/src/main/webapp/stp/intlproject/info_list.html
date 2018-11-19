@@ -11,12 +11,13 @@
 	
 	<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
 	<script type="text/javascript">
+		var param;
 		layui.use(['jquery','form','laydate','table', 'layer', 'element','publicMethods'], function(){
 	    	var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate,
 	            form = layui.form,publicMethods=layui.publicMethods,table = layui.table,selectRowData;
 	    		function renderTable(where){
 	    			var lodingMsg = layer.msg('数据加载中....');
-	    			var param = JSON.parse(window.localStorage.getItem("param"));
+	    			param = JSON.parse(window.localStorage.getItem("param"));
 	    			table.render({
 			            elem: '#infoTable',
 			            url: '/project/info-list',
@@ -125,7 +126,7 @@
 		            	}
 		            	layer.confirm('提交后将不可再编辑，确定要提交吗？',{title:"提交确认"},function(index){
 							layer.close(index);
-							publicMethods.ajaxPost("/project/project-start-workflow", {projectId:selectRowData.applyId,functionId:param.id}, function (data) {
+							publicMethods.ajaxPost("/project/project-start-workflow", {projectId:selectRowData.projectId,functionId:param.id}, function (data) {
 		          	           if (data.success) {
 		          	        	 renderTable({param: {"applyName":$("#applyName").val()}});
 		          	           } else {
