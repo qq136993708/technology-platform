@@ -154,7 +154,7 @@
             	}
             	layer.confirm('确定要发送吗？',{title:"发送确认"},function(index){
 					layer.close(index);
-					ajaxPost("/project/apply-sendnotice", {noticeId: selectRowData.noticeId}, function (data) {
+					ajaxPost("/project/apply-sendnotice", {noticeId: selectRowData.noticeId,functionId:param.id}, function (data) {
 	                     if (data.success) {
 	                    	 layer.msg('通知已发送!');
 	                     } else {

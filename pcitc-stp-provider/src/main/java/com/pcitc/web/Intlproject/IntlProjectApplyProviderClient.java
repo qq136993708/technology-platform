@@ -1,6 +1,7 @@
 package com.pcitc.web.Intlproject;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +22,7 @@ import com.pcitc.base.common.DataTableParam;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.stp.IntlProject.IntlProjectApply;
+import com.pcitc.base.system.SysUser;
 import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.common.MailBean;
 import com.pcitc.service.intlproject.IntlProjectApplyService;
@@ -95,30 +97,36 @@ public class IntlProjectApplyProviderClient
 	}
 	@ApiOperation(value="启动项目申报审批",notes="启动项目申报信息审批流程。")
 	@RequestMapping(value = "/stp-provider/project/start-apply-activity/{applyId}", method = RequestMethod.POST)
-	public Integer satrtApplyActivity(@PathVariable("applyId") String applyId) 
+	public Integer satrtApplyActivity(@PathVariable("applyId") String applyId,@RequestBody WorkflowVo workflowVo) 
 	{
 		System.out.println("startwork  apply  ...."+applyId);
+		IntlProjectApply apply = projectApplyService.findProjectApply(applyId);
 		
-		WorkflowVo workflowVo = new WorkflowVo();
-		workflowVo.setAuthenticatedUserId("111");
+		
 		workflowVo.setProcessDefineId(WORKFLOW_DEFINE_ID); 
 		workflowVo.setBusinessId(applyId);
-		workflowVo.setProcessInstanceName("业务任务名称（全流程不变）："+WORKFLOW_DEFINE_ID);
+		workflowVo.setProcessInstanceName("申报审批："+apply.getApplyName());
 		Map<String, Object> variables = new HashMap<String, Object>();  
 		//starter为必填项。流程图的第一个节点待办人变量必须为starter
         variables.put("starter", workflowVo.getAuthenticatedUserId());
         
-        //必须设置。流程中，需要的第二个节点的指派人；除starter外，所有待办人变量都指定为auditor
+        //必须设置。流程中，需要的第二个节点的指派人；除starter外，所有待办人变量都指定为auditor(处长审批)
+        //处长审批 ZSH_JTZSZYC_GJHZC_CZ
+        List<SysUser> users = systemRemoteClient.selectUsersByPostCode("ZSH_JTZSZYC_GJHZC_CZ");
+        System.out.println("start userIds ... "+JSON.toJSONString(users));
         variables.put("auditor", workflowVo.getAuthenticatedUserId());
+        if(users != null && users.size()>0) {
+        	variables.put("auditor", users.get(0).getUserId());
+        }
         
         //必须设置，统一流程待办任务中需要的业务详情
-        variables.put("auditDetailsPath", "/project/apply_content_view");
+        variables.put("auditDetailsPath", "/intl_project/apply_view?applyId="+applyId);
        
         //流程完全审批通过时，调用的方法
-        variables.put("auditAgreeMethod", "http://pcitc-zuul/stp-proxy/stp-provider/project/apply-workflow-agree/"+applyId);
+        variables.put("auditAgreeMethod", "http://pcitc-zuul/stp-proxy/stp-provider/intl_project/notice_view?noticeId="+applyId);
         
         //流程驳回时，调用的方法（可能驳回到第一步，也可能驳回到第1+n步
-        variables.put("auditRejectMethod", "http://pcitc-zuul/stp-proxy/stp-provider/project/apply-workflow-reject/"+applyId);
+        variables.put("auditRejectMethod", "http://pcitc-zuul/stp-proxy/stp-provider/intl_project/notice_view?noticeId="+applyId);
         
         workflowVo.setVariables(variables);
 		String rs = systemRemoteClient.startWorkflowByProcessDefinitionId(workflowVo);

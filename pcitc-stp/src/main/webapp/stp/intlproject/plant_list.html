@@ -47,12 +47,13 @@
 	}
 	</style>
 	<script type="text/javascript">
-	var table,selectRowData,renderfunc;
+	var table,selectRowData,renderfunc,param;
 	var unitMap = {};
     layui.use(['jquery', 'form', 'laydate', 'table', 'layer', 'element',"publicMethods" ], function(){
     	var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate;
 		var publicMethods=layui.publicMethods;
     	table = layui.table;
+    	param = JSON.parse(window.localStorage.getItem("param"));
     	//加载科研院所字典
     	publicMethods.ajaxPost("/dictionary/list/ROOT_XTGL_ZSYJY", null, function (data) {
 			$.each(data,function(i,dt){
@@ -61,7 +62,6 @@
 	    });
     	function renderTable(where){
     		var lodingMsg = layer.msg('数据加载中....');
-    		var param = JSON.parse(window.localStorage.getItem("param"));
 	        table.render({
 	            elem: '#plantTable',
 	            url: '/project/plant-list',
@@ -164,7 +164,7 @@
             },commitEvent:function(){
             	layer.confirm('提交后将不可再编辑，确定要提交吗？',{title:"提交确认"},function(index){
 					layer.close(index);
-          		   	ajaxPost("/project/start-workflow?plantId=" + selectRowData.plantId, null, function (data) {
+          		   	ajaxPost("/project/plant-start-workflow", {noticeId: selectRowData.plantId,functionId:param.id}, function (data) {
           	           if (data.success) {
           	        	 renderTable({param: {"plantName":$("#plantName").val()}});
           	           } else {

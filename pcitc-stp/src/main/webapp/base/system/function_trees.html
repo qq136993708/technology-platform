@@ -31,19 +31,19 @@
 	<div class="treeFormBox">
 		<form id="functiongroup-form" name="functiongroup-form" lay-filter="functiongroup-form" class="form-horizontal layui-form">
 	   	<div class="treeTitle">
-	   		<div class="title-box">
-                            组织机构
+	   		<div class="title-box title-btns">
+                            附件配置
                 <span>
                    	<!-- 
                    	 <button type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" id="closeBtn">取消</button>
                    	 -->
-	    			<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="" lay-filter="submitBtn">保存</button>
+	    			<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_save" lay-submit="" lay-filter="submitBtn">保存</button>
     			</span>
 	        </div>
 	    </div>
 	    
 	    <div class="tree-form-paddingBox">
-          	<input type="hidden" name="menuId" id="menuId"/> <input type="hidden" name="menuId" id="menuId"/>
+          	<input type="hidden" name="menuId" id="menuId"/>
            	<div class="layui-row">
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                  <div class="layui-form-item">
@@ -60,7 +60,7 @@
 
                      <label class="layui-form-label">文件数量<span class="must-fill">*</span></label>
                      <div class="layui-input-block">
-                         <input type="text" id="fileCount" name="fileCount" lay-verify="number" placeholder="文件数量" autocomplete="off" class="layui-input" readonly="readonly" style="background: #eee">
+                         <input type="text" id="fileCount" name="fileCount" lay-verify="number" placeholder="文件数量" autocomplete="off" class="layui-input"  style="background: #eee">
                      </div>
                  </div>
                 </div>
@@ -70,7 +70,7 @@
                  <div class="layui-form-item layui-form-text">
                      <label class="layui-form-label">保存位置<span class="must-fill">*</span></label>
                      <div class="layui-input-block">
-                         <textarea placeholder="请输入文件保存位置" lay-verify="required" id="position" name="position" class="layui-textarea" readonly="readonly" style="background: #eee"></textarea>
+                         <textarea placeholder="请输入文件保存位置" lay-verify="required" id="position" name="position" class="layui-input" style="background: #eee"></textarea>
                      </div>
                  </div>
                	 </div>
@@ -80,7 +80,7 @@
                  <div class="layui-form-item layui-form-text">
                      <label class="layui-form-label">文件类型<span class="must-fill">*</span></label>
                      <div class="layui-input-block">
-                         <textarea placeholder="png|jpg|rmvb|mp4|rar" lay-verify="required" id="fileType" name="fileType" class="layui-textarea" readonly="readonly" style="background: #eee"></textarea>
+                         <textarea placeholder="png|jpg|rmvb|mp4|rar" lay-verify="required" id="fileType" name="fileType" class="layui-textarea" style="background: #eee"></textarea>
                      </div>
                  </div>
                 </div>
@@ -88,14 +88,36 @@
              <div class="layui-row">
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                  <div class="layui-form-item layui-form-text">
-                     <label class="layui-form-label">单个文件大小限制(KB)<span class="must-fill">*</span></label>
+                     <label class="layui-form-label">单个文件大小(KB)<span class="must-fill">*</span></label>
                      <div class="layui-input-block">
-                         <textarea placeholder="10240" id="fileSize" lay-verify="number" name="fileSize" class="layui-textarea" readonly="readonly" style="background: #eee"></textarea>
+                         <input type="text" id="fileSize" name="fileSize" lay-verify="number" placeholder="文件数量" autocomplete="off" class="layui-input"  style="background: #eee">
                      </div>
                  </div>
                 </div>
           </div>
-           
+            <div class="layui-row">
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item layui-form-text">
+                        <label class="layui-form-label">图片缩放类型<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="radio" lay-filter="radioEvent" name="imgType" value="0" title="指定大小等比例缩放(宽:高)">
+                            <input type="radio" lay-filter="radioEvent" name="imgType" value="1" title="按照比例进行缩放(0.5f)" checked>
+                            <!--<input type="radio" lay-filter="radioEvent" name="fileTheme" value="2" title="不按照比例，指定大小进行缩放(宽:高)">-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-row">
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item layui-form-text">
+                        <label class="layui-form-label">缩放详情<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="imgDesc" name="imgDesc"  placeholder="" autocomplete="off" class="layui-input"  style="background: #eee">
+                        </div>
+                    </div>
+                </div>
+            </div>
        	</div>
        </form>
 	 </div>
