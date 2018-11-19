@@ -9,28 +9,27 @@
 .treeTableBox .searchBox {margin-top: 0;}
 .formBox .searchBox{margin-top: 0;}
 .searchBox .selectInput{position: relative; margin-right: 140px;}
-.searchBox .selectInput span{font-size: 14px;}
+.searchBox .selectInput span{font-size: 12px;}
 .searchBox .selectInput select option:first-child{font-size: 12px;}
 .searchBox .selectInput select{position: absolute; top: -2px;border-radius: 3px;border-color: #cccccc;height: 26px; margin-right: 8px;
     padding: 2px; color: #666; font-size: 12px;min-width: 130px;}
 /*表格*/
 .layui-table, .layui-table-view{margin: 0;}
 .layui-table-cell{height:32px;line-height: 32px;padding: 0 4px;}
-.layui-table thead tr th .layui-table-cell{text-align: center;font-weight: bold;font-size: 14px;}
-.layui-table-body .layui-table .layui-table-cell{font-size: 14px;}
+.layui-table thead tr th .layui-table-cell{text-align: center;}
 .tableToolBox {background: #EBF5FA;height: 34px;line-height: 27px;text-align: right;border: 1px solid #e6e6e6;border-bottom: 0px;}
 .layui-table-page{background: #ffffff;}
 .layui-table-view .layui-table td, .layui-table-view .layui-table th{padding: 0;}
 .btnGroup{display: inline-block}
 .layui-table td, .layui-table th{ font-size: 12px;}
-.searchBox .dateInput span{font-weight: normal;margin-right: 4px; color:#000000;font-size: 14px;}
-.form-control{ width: 8%; min-width: 130px; display: inline-block !important;font-size: 14px !important;height: 24px !important;font-weight: normal !important;
+.searchBox .dateInput span{font-weight: normal;margin-right: 4px; color:#000000;font-size: 12px;}
+.form-control{ width: 8%; min-width: 130px; display: inline-block !important;font-size: 12px !important;height: 24px !important;font-weight: normal !important;
     line-height: 24px !important;padding-left: 6px !important;padding-right: 6px !important;border-radius: 2px !important;vertical-align:middle;color: #555;
     background-color: #fff;background-image: none;border: 1px solid #ccc;margin-right: 8px;}
 .searchBox .label {display: inline-block;max-width: 100%;margin-bottom: 5px;font-weight: 700;}
 .tableBtns{border-top: 1px solid #fff;padding-right: 10px;padding-top: 1px;}
-.layui-laypage a:hover {color: #00a3b4;}
-.layui-form-checkbox[lay-skin=primary] i:hover{border-color: #00a3b4;}
+.layui-laypage a:hover {color: #0F9EE0;}
+.layui-form-checkbox[lay-skin=primary] i:hover{border-color: #0F9EE0;}
 .tableBox{ margin: 0 10px;}
 .my-table-sort { display: inline-block; margin-left: 4px;}
 .my-table-sort-asc {width:0;height:0;cursor: pointer;margin-top: -14px;border-left:6px solid transparent;border-right:6px solid transparent;border-bottom:6px solid #b2b2b2;}
@@ -60,6 +59,7 @@
 /*左表右树*/
 .leftTable{margin-right: 276px;margin-left: 10px;}
 .left-side-tree,.right-side-tree{width:100%;height: 100%;padding-top: 34px;box-sizing: border-box;}
+.right-side-tree-box .title-box button{float:right;margin-right: 2px;}
 /*两边树中间表*/
 .twoTree-tableBox{margin: 10px 276px 0;}
 .right-side-tree-box{position:absolute;right:10px;top:0;width: 260px;height: 100%;box-sizing: border-box;border: 1px solid #E6E6E6;}
@@ -69,105 +69,106 @@
 
 /*按钮*/
 .layui-btn+.layui-btn {margin-left: 6px;}
-.btn_search {background: #00a3b4 url(/layuiadmin/layui/images/icon_04.png) no-repeat;}
+.btn_search {background: #0F9EE0 url(/layuiadmin/layui/images/icon_04.png) no-repeat;}
 .btn_look {background: url(/layuiadmin/layui/images/operation_72.png) no-repeat;}
-.btn_look:hover{ background: #00a3b4 url(/layuiadmin/layui/images/operation_38.png) no-repeat;}
-.btn_look.active{ background: #00a3b4 url(/layuiadmin/layui/images/operation_38.png) no-repeat;}
+.btn_look:hover{ background: #0F9EE0 url(/layuiadmin/layui/images/operation_38.png) no-repeat;}
+.btn_look.active{ background: #0F9EE0 url(/layuiadmin/layui/images/operation_38.png) no-repeat;}
 .btn_reset{background: #F3F3F3 url(/layuiadmin/layui/images/icon-17.png) no-repeat;}
 .btn_reset:hover{color: #8E8E8E; background: #F2F2F2 url(/layuiadmin/layui/images/icon-17.png) no-repeat;}
 .btn_reset2{background: url(/layuiadmin/layui/images/operation_110.png) no-repeat;}
-.btn_reset2:hover{background: #00a3b4 url(/layuiadmin/layui/images/operation_109.png) no-repeat;}
-.btn_reset2.active{background: #00a3b4 url(/layuiadmin/layui/images/operation_109.png) no-repeat;}
+.btn_reset2:hover{background: #0F9EE0 url(/layuiadmin/layui/images/operation_109.png) no-repeat;}
+.btn_reset2.active{background: #0F9EE0 url(/layuiadmin/layui/images/operation_109.png) no-repeat;}
 .btn_save {height: 25px;line-height: 25px;background: none;margin-top: 4px;}
-.btn_save:hover {background: #00a3b4;margin-top: 4px;}
+.btn_save:hover {background: #0F9EE0;margin-top: 4px;}
 .btn_save2 {background: url(/layuiadmin/layui/images/operation_45.png) no-repeat;background-size: 16px auto;}
-.btn_save2:hover{background: #00a3b4 url(/layuiadmin/layui/images/operation_41.png) no-repeat;background-size: 16px auto;}
-.btn_save2.active{background: #00a3b4 url(/layuiadmin/layui/images/operation_41.png) no-repeat;background-size: 16px auto;}
+.btn_save2:hover{background: #0F9EE0 url(/layuiadmin/layui/images/operation_41.png) no-repeat;background-size: 16px auto;}
+.btn_save2.active{background: #0F9EE0 url(/layuiadmin/layui/images/operation_41.png) no-repeat;background-size: 16px auto;}
 .btn_print {background: url(/layuiadmin/layui/images/operation_106.png) no-repeat;}
-.btn_print:hover{background: #00a3b4 url(/layuiadmin/layui/images/operation_104.png) no-repeat;}
-.btn_print.active{background: #00a3b4 url(/layuiadmin/layui/images/operation_104.png) no-repeat;}
+.btn_print:hover{background: #0F9EE0 url(/layuiadmin/layui/images/operation_104.png) no-repeat;}
+.btn_print.active{background: #0F9EE0 url(/layuiadmin/layui/images/operation_104.png) no-repeat;}
 .btn_add {background: url(/layuiadmin/layui/images/operation_78.png) no-repeat;}
-.btn_add:hover{background: #00a3b4 url(/layuiadmin/layui/images/operation_95.png) no-repeat;}
-.btn_add.active{background: #00a3b4 url(/layuiadmin/layui/images/operation_95.png) no-repeat;}
+.btn_add:hover{background: #0F9EE0 url(/layuiadmin/layui/images/operation_95.png) no-repeat;}
+.btn_add.active{background: #0F9EE0 url(/layuiadmin/layui/images/operation_95.png) no-repeat;}
 .btn_transfer {background: url(/layuiadmin/layui/images/operation_96.png) no-repeat;}
-.btn_transfer:hover{background: #00a3b4 url(/layuiadmin/layui/images/operation_62.png) no-repeat;}
-.btn_transfer.active{background: #00a3b4 url(/layuiadmin/layui/images/operation_62.png) no-repeat;}
+.btn_transfer:hover{background: #0F9EE0 url(/layuiadmin/layui/images/operation_62.png) no-repeat;}
+.btn_transfer.active{background: #0F9EE0 url(/layuiadmin/layui/images/operation_62.png) no-repeat;}
 .btn_edit{background: url(/layuiadmin/layui/images/operation_75.png) no-repeat;}
-.btn_edit:hover {background: #00a3b4 url(/layuiadmin/layui/images/operation_90.png) no-repeat; }
-.btn_edit.active{background: #00a3b4 url(/layuiadmin/layui/images/operation_90.png) no-repeat;}
-.btn_deploy {background: url(/layuiadmin/layui/images/operation_39.png) no-repeat;}
-.btn_deploy:hover {background: #00a3b4 url(/layuiadmin/layui/images/operation_60.png) no-repeat; }
-.btn_deploy.active{background: #00a3b4 url(/layuiadmin/layui/images/operation_60.png) no-repeat;}
+.btn_edit:hover {background: #0F9EE0 url(/layuiadmin/layui/images/operation_90.png) no-repeat; }
+.btn_edit.active{background: #0F9EE0 url(/layuiadmin/layui/images/operation_90.png) no-repeat;}
+.btn_deploy {background: url(/layuiadmin/layui/images/operation_19.png) no-repeat;}
+.btn_deploy:hover {background: #0F9EE0 url(/layuiadmin/layui/images/operation_60.png) no-repeat; }
+.btn_deploy.active{background: #0F9EE0 url(/layuiadmin/layui/images/operation_60.png) no-repeat;}
 .btn_export {background: url(/layuiadmin/layui/images/operation_34.png) no-repeat;}
-.btn_export:hover {background: #00a3b4 url(/layuiadmin/layui/images/operation_22.png) no-repeat;}
-.btn_export.active{background: #00a3b4 url(/layuiadmin/layui/images/operation_22.png) no-repeat;}
+.btn_export:hover {background: #0F9EE0 url(/layuiadmin/layui/images/operation_22.png) no-repeat;}
+.btn_export.active{background: #0F9EE0 url(/layuiadmin/layui/images/operation_22.png) no-repeat;}
 .btn_import {background: url(/layuiadmin/layui/images/operation_79.png) no-repeat;}
-.btn_import:hover {background: #00a3b4 url(/layuiadmin/layui/images/operation_23.png) no-repeat;}
-.btn_import.active{background: #00a3b4 url(/layuiadmin/layui/images/operation_23.png) no-repeat;}
+.btn_import:hover {background: #0F9EE0 url(/layuiadmin/layui/images/operation_23.png) no-repeat;}
+.btn_import.active{background: #0F9EE0 url(/layuiadmin/layui/images/operation_23.png) no-repeat;}
 .btn_details {background: url(/layuiadmin/layui/images/operation_03.png) no-repeat;}
-.btn_details:hover {background: #00a3b4 url(/layuiadmin/layui/images/operation_02.png) no-repeat;}
-.btn_details.active{background: #00a3b4 url(/layuiadmin/layui/images/operation_02.png) no-repeat;}
+.btn_details:hover {background: #0F9EE0 url(/layuiadmin/layui/images/operation_02.png) no-repeat;}
+.btn_details.active{background: #0F9EE0 url(/layuiadmin/layui/images/operation_02.png) no-repeat;}
 .btn_delete {background: url(/layuiadmin/layui/images/operation_76.png) no-repeat;}
-.btn_delete:hover {background: #00a3b4 url(/layuiadmin/layui/images/operation_91.png) no-repeat; }
-.btn_delete.active{background: #00a3b4 url(/layuiadmin/layui/images/operation_91.png) no-repeat;}
+.btn_delete:hover {background: #0F9EE0 url(/layuiadmin/layui/images/operation_91.png) no-repeat; background-position: 8px;background-size: 12px auto;margin-top: 1px;}
+.btn_delete.active{background: #0F9EE0 url(/layuiadmin/layui/images/operation_91.png) no-repeat; background-position: 8px;background-size: 12px auto;margin-top: 1px;}
 .btn_delete2 {background: url(/layuiadmin/layui/images/operation_71.png) no-repeat;}
-.btn_delete2:hover {background: #00a3b4 url(/layuiadmin/layui/images/operation_70.png) no-repeat; }
-.btn_delete2.active{background: #00a3b4 url(/layuiadmin/layui/images/operation_70.png) no-repeat;}
+.btn_delete2:hover {background: #0F9EE0 url(/layuiadmin/layui/images/operation_70.png) no-repeat; }
+.btn_delete2.active{background: #0F9EE0 url(/layuiadmin/layui/images/operation_70.png) no-repeat;}
 .btn_issue {background: url(/layuiadmin/layui/images/icon_05.png) no-repeat;}
-.btn_issue:hover {background: #00a3b4 url(/layuiadmin/layui/images/icon_13.png) no-repeat;}
-.btn_issue.active {background: #00a3b4 url(/layuiadmin/layui/images/icon_13.png) no-repeat;}
+.btn_issue:hover {background: #0F9EE0 url(/layuiadmin/layui/images/icon_13.png) no-repeat;}
+.btn_issue.active {background: #0F9EE0 url(/layuiadmin/layui/images/icon_13.png) no-repeat;}
 .btn_assignRole{background: url(/layuiadmin/layui/images/icon_25.png) no-repeat;}
-.btn_assignRole:hover{background: #00a3b4 url(/layuiadmin/layui/images/icon_31.png) no-repeat;}
-.btn_assignRole.active{background: #00a3b4 url(/layuiadmin/layui/images/icon_31.png) no-repeat;}
+.btn_assignRole:hover{background: #0F9EE0 url(/layuiadmin/layui/images/icon_31.png) no-repeat;}
+.btn_assignRole.active{background: #0F9EE0 url(/layuiadmin/layui/images/icon_31.png) no-repeat;}
 .btn_execute {background: url(/layuiadmin/layui/images/icon_45.png) no-repeat;}
-.btn_execute:hover {background: #00a3b4 url(/layuiadmin/layui/images/icon_50.png) no-repeat;}
-.btn_execute:active {background: #00a3b4 url(/layuiadmin/layui/images/icon_50.png) no-repeat;}
+.btn_execute:hover {background: #0F9EE0 url(/layuiadmin/layui/images/icon_50.png) no-repeat;}
+.btn_execute:active {background: #0F9EE0 url(/layuiadmin/layui/images/icon_50.png) no-repeat;}
+.btn_grant {background: url(/layuiadmin/layui/images/icon_45.png) no-repeat;}
+.btn_grant:hover {background: #0F9EE0 url(/layuiadmin/layui/images/btn_grant_w.png) no-repeat;}
+.btn_grant:active {background: #0F9EE0 url(/layuiadmin/layui/images/btn_grant_w.png) no-repeat;}
 .btn_verify {background: url(/layuiadmin/layui/images/icon_68.png) no-repeat;}
-.btn_verify:hover {background: #00a3b4 url(/layuiadmin/layui/images/icon_58.png) no-repeat;}
-.btn_verify.active {background: #00a3b4 url(/layuiadmin/layui/images/icon_58.png) no-repeat;}
+.btn_verify:hover {background: #0F9EE0 url(/layuiadmin/layui/images/icon_58.png) no-repeat;}
+.btn_verify.active {background: #0F9EE0 url(/layuiadmin/layui/images/icon_58.png) no-repeat;}
 .btn_submit {background: url(/layuiadmin/layui/images/operation_74.png) no-repeat;}
-.btn_submit:hover {background: #00a3b4 url(/layuiadmin/layui/images/operation_93.png) no-repeat;}
-.btn_submit.active {background: #00a3b4 url(/layuiadmin/layui/images/operation_93.png) no-repeat;}
-.btn_maintain {background: url(/layuiadmin/layui/images/icon_24.png) no-repeat;}
-.btn_maintain:hover {background: #00a3b4 url(/layuiadmin/layui/images/icon_19.png) no-repeat;}
-.btn_maintain.active {background: #00a3b4 url(/layuiadmin/layui/images/icon_19.png) no-repeat;}
+.btn_submit:hover {background: #0F9EE0 url(/layuiadmin/layui/images/operation_93.png) no-repeat;}
+.btn_submit.active {background: #0F9EE0 url(/layuiadmin/layui/images/operation_93.png) no-repeat;}
+.btn_maintain {background: url(/layuiadmin/layui/images/icon_27.png) no-repeat;}
+.btn_maintain:hover {background: #0F9EE0 url(/layuiadmin/layui/images/icon_19.png) no-repeat;}
+.btn_maintain.active {background: #0F9EE0 url(/layuiadmin/layui/images/icon_19.png) no-repeat;}
 .btn_history {background: url(/layuiadmin/layui/images/icon_36.png) no-repeat;}
-.btn_history:hover {background: #00a3b4 url(/layuiadmin/layui/images/icon_42.png) no-repeat;}
-.btn_history.active {background: #00a3b4 url(/layuiadmin/layui/images/icon_42.png) no-repeat;}
+.btn_history:hover {background: #0F9EE0 url(/layuiadmin/layui/images/icon_42.png) no-repeat;}
+.btn_history.active {background: #0F9EE0 url(/layuiadmin/layui/images/icon_42.png) no-repeat;}
 .btn_forbidden {background: #FBFBFB url(/layuiadmin/layui/images/icon_30.png) no-repeat;border: 1px solid #e6e6e6;}
 .btn_activate {background: url(/layuiadmin/layui/images/icon_26.png) no-repeat;}
-.btn_activate:hover {background: #00a3b4 url(/layuiadmin/layui/images/icon_17.png) no-repeat;}
-.btn_activate.active {background: #00a3b4 url(/layuiadmin/layui/images/icon_17.png) no-repeat;}
+.btn_activate:hover {background: #0F9EE0 url(/layuiadmin/layui/images/icon_17.png) no-repeat;}
+.btn_activate.active {background: #0F9EE0 url(/layuiadmin/layui/images/icon_17.png) no-repeat;}
 .btn_hangUp {background: url(/layuiadmin/layui/images/icon_29.png) no-repeat;}
-.btn_hangUp:hover {background: #00a3b4 url(/layuiadmin/layui/images/icon_34.png) no-repeat;}
-.btn_hangUp.active {background: #00a3b4 url(/layuiadmin/layui/images/icon_34.png) no-repeat;}
+.btn_hangUp:hover {background: #0F9EE0 url(/layuiadmin/layui/images/icon_34.png) no-repeat;}
+.btn_hangUp.active {background: #0F9EE0 url(/layuiadmin/layui/images/icon_34.png) no-repeat;}
 .btn_enabled {background: url(/layuiadmin/layui/images/icon_46.png) no-repeat;}
-.btn_enabled:hover {background: #00a3b4 url(/layuiadmin/layui/images/icon_52.png) no-repeat;}
-.btn_enabled.active {background: #00a3b4 url(/layuiadmin/layui/images/icon_52.png) no-repeat;}
+.btn_enabled:hover {background: #0F9EE0 url(/layuiadmin/layui/images/icon_52.png) no-repeat;}
+.btn_enabled.active {background: #0F9EE0 url(/layuiadmin/layui/images/icon_52.png) no-repeat;}
 .btn_pause {background: url(/layuiadmin/layui/images/icon_74.png) no-repeat;}
-.btn_pause:hover {background: #00a3b4 url(/layuiadmin/layui/images/icon_64.png) no-repeat;}
-.btn_pause.active {background: #00a3b4 url(/layuiadmin/layui/images/icon_64.png) no-repeat;}
+.btn_pause:hover {background: #0F9EE0 url(/layuiadmin/layui/images/icon_64.png) no-repeat;}
+.btn_pause.active {background: #0F9EE0 url(/layuiadmin/layui/images/icon_64.png) no-repeat;}
 .btn_back {background: url(/layuiadmin/layui/images/icon_back_01.png) no-repeat;}
-.btn_back:hover {background: #00a3b4 url(/layuiadmin/layui/images/icon_back_02.png) no-repeat;}
-.btn_back.active {background: #00a3b4 url(/layuiadmin/layui/images/icon_back_02.png) no-repeat;}
+.btn_back:hover {background: #0F9EE0 url(/layuiadmin/layui/images/icon_back_02.png) no-repeat;}
+.btn_back.active {background: #0F9EE0 url(/layuiadmin/layui/images/icon_back_02.png) no-repeat;}
 .btn_copy {background: url(/layuiadmin/layui/images/icon_copy_01.png) no-repeat;}
-.btn_copy:hover {background: #00a3b4 url(/layuiadmin/layui/images/icon_copy_02.png) no-repeat;}
-.btn_copy.active {background: #00a3b4 url(/layuiadmin/layui/images/icon_copy_02.png) no-repeat;}
+.btn_copy:hover {background: #0F9EE0 url(/layuiadmin/layui/images/icon_copy_02.png) no-repeat;}
+.btn_copy.active {background: #0F9EE0 url(/layuiadmin/layui/images/icon_copy_02.png) no-repeat;}
 .btn_exeState {background: url(/layuiadmin/layui/images/icon_set_01.png) no-repeat;}
-.btn_exeState:hover {background: #00a3b4 url(/layuiadmin/layui/images/icon_set_02.png) no-repeat;}
-.btn_exeState.active {background: #00a3b4 url(/layuiadmin/layui/images/icon_set_02.png) no-repeat;}
-.btnMyBgImg {box-sizing: border-box;height: 25px;line-height: 25px;font-size: 12px;
-    padding: 0 6px 0 28px; background-position: 8px;margin-top: 1px;}
-.btnMyBgImg:hover {background-position: 8px;margin-top: 1px;}
-.btnMyBgImg.active{color: #ffffff;background-position: 8px;margin-top: 1px;}
-
+.btn_exeState:hover {background: #0F9EE0 url(/layuiadmin/layui/images/icon_set_02.png) no-repeat;}
+.btn_exeState.active {background: #0F9EE0 url(/layuiadmin/layui/images/icon_set_02.png) no-repeat;}
+.btnMyBgImg {box-sizing: border-box;height: 25px;line-height: 25px;font-size: 12px;padding: 0 6px 0 22px; background-position: 8px;background-size: 12px auto;margin-top: 1px;}
+.btnMyBgImg:hover {background-position: 8px;background-size: 12px auto;margin-top: 1px;}
+.btnMyBgImg.active{color: #ffffff;background-position: 8px;background-size: 12px auto;margin-top: 1px;}
 
 .treeFormBox .tableToolBox button:last-child{margin-right: 8px;}
 
 .layui-icon{margin-left: 0px;}
 .layui-btn-mini{padding: 0 15px;}
 .layui-table td, .layui-table th{padding: 6px 15px;}
-.layui-btn-blue{background-color:#00a3b4;}
+.layui-btn-blue{background-color:#0F9EE0;}
 .layui-btn-white{background-color: #fefefe;}
 .layui-btn-white:hover{color: #8E8E8E;background-color: #F2F2F2;}
 
@@ -178,11 +179,8 @@
 .formBox .twoListleft{width: 46% !important;margin-top: 0;}
 .formBox .twoListRight{width: 46% !important;margin-top: 0;}
 .formBoxTab ul{margin-bottom: 10px;}
-.formBoxTab .layui-tab-brief>.layui-tab-title .layui-this{color:#00a3b4;}
-.layui-tab-brief>.layui-tab-title .layui-this {
-    color: #009688;
-}
-.layui-tab-brief>.layui-tab-more li.layui-this:after, .layui-tab-brief>.layui-tab-title .layui-this:after{border-bottom: 2px solid #00a3b4}
+.formBoxTab .layui-tab-brief>.layui-tab-title .layui-this{color:#0f9ee0;}
+.layui-tab-brief>.layui-tab-more li.layui-this:after, .layui-tab-brief>.layui-tab-title .layui-this:after{border-bottom: 2px solid #0f9ee0}
 .formBoxTab .layui-tab-title{height: 40px;}
 /*form.css*/
 .formBox{margin: 0 10px;padding-top: 10px;background: none;}
@@ -207,7 +205,7 @@
 .col-md-6{width: 50%;float: left;}
 .layui-form-radio{font-weight: normal;margin-top: 0;}
 .layui-form-radio *,.layui-form-checkbox span{font-size: 12px;}
-.layui-form-radio>i:hover, .layui-form-radioed>i{color: #00a3b4;}
+.layui-form-radio>i:hover, .layui-form-radioed>i{color: #0F9EE0;}
 .must-fill{position: absolute;right: -8px;top: 10%;color: red;}
 .row{margin: 0;}
 .layui-layer-setwin .layui-layer-min cite{background-color: white !important;}
@@ -225,15 +223,15 @@ textarea{ padding: 6px 10px; display: block;color: #555;background-color: #fff;b
 .treeTableForm .control-label{ text-align: right;font-weight: normal;}
 .treeTableForm .form-control{ width: 100% !important;border-radius: 4px !important;}
 .rowForm{padding-top: 10px;margin-top: 0; border: 1px solid #e6e6e6;border-top: none;height: 152px;overflow-y: auto;}
-.layui-form-select dl dd.layui-this {background-color: #00a3b4;color: #fff;}
-.layui-form-checked[lay-skin=primary] i {border-color: #00a3b4;background-color: #00a3b4;}
+.layui-form-select dl dd.layui-this {background-color: #0F9EE0;color: #fff;}
+.layui-form-checked[lay-skin=primary] i {border-color: #0F9EE0;background-color: #0F9EE0;}
 .layui-form-checked[lay-skin=primary] i :hover {border-color: #fff;background-color: #fff;}
-.layui-layer-lan .layui-layer-title {background: #00a3b4 !important;}
+.layui-layer-lan .layui-layer-title {background: #0F9EE0 !important;}
 .readOnlyBox{background: #F3F3F3 !important; box-shadow: inset 0 1px 1px rgba(0,0,0,.075);transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;}
 .readOnlyBox :focus{border-color: #e6e6e6;}
-.layui-form-onswitch {border-color: #00a3b4;background-color: #00a3b4;}
+.layui-form-onswitch {border-color: #0F9EE0;background-color: #0F9EE0;}
 .layui-form-checked span, .layui-form-checked:hover span {background: none;}
-.layui-form-checked i, .layui-form-checked:hover i {color: #00a3b4;}
+.layui-form-checked i, .layui-form-checked:hover i {color: #0F9EE0;}
 .layui-form-mid {float: left;display: block;padding: 6px 0!important; margin-right: 10px;}
 .layui-input-block {margin-left: 125px;min-height: 36px;}
 .formBoxHeader{border: 1px solid #cccccc; padding-top: 10px;margin-bottom: 10px;}
@@ -244,9 +242,9 @@ textarea{ padding: 6px 10px; display: block;color: #555;background-color: #fff;b
 .formBox .treeTableBox{margin-top: 0;}
 .formBox .tree-content{position: absolute; z-index: 998; background: #ffffff; max-height: 200px;width: 100%;border: 1px solid #ccc;overflow-y: scroll;}
 .formBox .tableBox{padding-top: 0;border-top: 1px solid #fff;margin: 0}
-.layui-laydate-header i:hover, .layui-laydate-header span:hover {color: #00a3b4 !important;}
-.layui-laydate-footer span:hover {color: #00a3b4 !important;}
-.layui-laydate .layui-this{background-color: #00a3b4 !important;}
+.layui-laydate-header i:hover, .layui-laydate-header span:hover {color: #0F9EE0 !important;}
+.layui-laydate-footer span:hover {color: #0F9EE0 !important;}
+.layui-laydate .layui-this{background-color: #0F9EE0 !important;}
 .button .ico_docu{width: 18px; height: 18px;background-size: 100% auto;}
 .input-search{position: relative;}
 .input-search input{position: absolute;left:0;top:0;}
@@ -281,7 +279,7 @@ textarea{ padding: 6px 10px; display: block;color: #555;background-color: #fff;b
 .move-btn.move-left:hover {background: url(/layuiadmin/layui/images/move_10.png) no-repeat;}
 .move-btn.delete {margin-top: -20px;background: url(/layuiadmin/layui/images/move_08.png) no-repeat; background-size: 100% auto;}
 .move-btn.delete:hover {background: url(/layuiadmin/layui/images/move_14.png) no-repeat;}
-.layui-layer-btn .layui-layer-btn0 {border-color: #00a3b4 !important;background-color: #00a3b4 !important;color: #fff !important;}
+.layui-layer-btn .layui-layer-btn0 {border-color: #1E9FFF !important;background-color: #1E9FFF !important;color: #fff !important;}
 .layui-layer-lan .layui-layer-btn .layui-layer-btn1 { background: none !important;}
 .layui-layer-lan .layui-layer-btn .layui-layer-btn1:hover {color: #8E8E8E;background-color: #F2F2F2;}
 .layui-layer-min { display: none !important; }
@@ -328,38 +326,39 @@ textarea{ padding: 6px 10px; display: block;color: #555;background-color: #fff;b
 .layadmin-tabs-select.layui-nav .layui-nav-child dd.layui-this,.layadmin-tabs-select.layui-nav .layui-nav-child dd.layui-this a{background-color: #f2f2f2!important;color: #333}
 /*color.css*/
 .fontColor-red{color: red;}
-.bgColor-blue{background: #00a3b4;}
-.fontColor-blue{color: #00a3b4;}
+.bgColor-blue{background: #0F9EE0;}
+.fontColor-blue{color: #0F9EE0;}
 .laytable-cell-1-id{text-align: center;}
 .fontStateColor{display: block;margin:10px auto;width: 16px;height: 16px;text-align: center;}
 .fontStateColor-blue{background: url("/layuiadmin/layui/images/Red_Ball.png") no-repeat;}
 .fontStateColor-green{background: url("/layuiadmin/layui/images/Blue_Ball.png") no-repeat;}
 .fontStateColor-yellow{background: url("/layuiadmin/layui/images/Green_Ball.png") no-repeat;}
-.borderColor-blue{border: 1px solid #47cadc;border-radius: 2px;}
+.borderColor-blue{border: 1px solid #0F9EE2;border-radius: 2px;}
 .bgColor-default{background: #F3F3F3;}
 .fontColor-default{color: #8E8E8E;}
 .bgColor-default:hover{backgroud: #eeeeee; color: #8E8E8E;}
 .bgColor-white{background: #ffffff;}
 .fontColor-white{color: #ffffff;}
 .border-default{border: 1px solid #dddddd;border-radius: 2px;}
-/*.borderColor-blue:hover{color: #ffffff;background: #00a3b4;}*/
-.layui-laypage .layui-laypage-curr .layui-laypage-em{background: #00a3b4 !important;}
+/*.borderColor-blue:hover{color: #ffffff;background: #0F9EE0;}*/
+.layui-laypage .layui-laypage-curr .layui-laypage-em{background: #0F9EE0;}
 /*state按钮*/
 .borderStateColor-blue{border: 1px solid #e0ebf1;border-radius: 2px;background: none;
     float:left;padding: 0 6px 0 6px;margin-left: 10px;}
-.borderStateColor-blue:hover{border: 1px solid #00a3b4;color: #00a3b4;}
-.borderStateColor-blue.active{border: 1px solid #00a3b4;color: #00a3b4;}
+.borderStateColor-blue:hover{border: 1px solid #0f9ee0;color: #0F9EE0;}
+.borderStateColor-blue.active{border: 1px solid #0f9ee0;color: #0F9EE0;}
 .btn-state{width: 16px; height: 16px;display:block;float:left;margin-right: 6px;margin-top: 3px;}
 .btn-all{background: url("/layuiadmin/layui/images/All_Ball.png")  no-repeat;}
+.btn-two{background: url("/layuiadmin/layui/images/Two_Ball.png")  no-repeat;}
+.btn-level{background: url("/layuiadmin/layui/images/icon_level.png") -2px 2px no-repeat;margin-right: 0px;}
 .btn-yellow{background: url("/layuiadmin/layui/images/Green_Ball.png")  no-repeat;}
 .btn-green{background: url("/layuiadmin/layui/images/Blue_Ball.png")  no-repeat;}
 .btn-blue{background: url("/layuiadmin/layui/images/Red_Ball.png")   no-repeat;}
-.btnYellow,.fontStateColorYellow{background: url("/layuiadmin/layui/images/Yellow_Ball.png")   no-repeat;}
 /*决策中心按钮*/
-.btn-decision{background: none;border: 1px solid #47cadc;border-radius: 5px;
-    line-height:28px;color: #47cadc}
-.btn-decision:hover{background: #47cadc;}
-.btn-decision.active{background: #47cadc;color: white;}
+.btn-decision{background: none;border: 1px solid #0F9EE2;border-radius: 5px;
+    line-height:28px;color: #0F9EE2}
+.btn-decision:hover{background: #0F9EE2;}
+.btn-decision.active{background: #0F9EE2;color: white;}
 /** 滚动条 **/
 ::-webkit-scrollbar{width: 8px; height: 8px;}
 ::-webkit-scrollbar-button:vertical{display: none;}
@@ -379,18 +378,19 @@ textarea{ padding: 6px 10px; display: block;color: #555;background-color: #fff;b
 
 /*表单 - 表格操作*/
 .treeFrom-container{ padding-top: 10px;}
-.form_tableAdd_container .box-body { padding-top: 10px; margin-bottom: 0px; border: 1px solid #e6e6e6;}
+.form_tableAdd_container .box-body ,.hseForm .box-body{ padding-top: 10px; margin-bottom: 0px; border: 1px solid #e6e6e6;}
 .form_tableAdd_container .formBox { margin-bottom: 10px; }
 .form_tableAdd_container .tableBox { margin-bottom: 10px;}
+.form_tableAdd_container .tableBox .layui-form-item{ margin-bottom: 40px;}
 .form_tableAdd_container .pullBtn { display: inline-block; width: 14px; height: 14px; cursor: pointer;
     background: url("/layuiadmin/layui/images/icon-lower-arrow.png") no-repeat 4px 8px;}
 .form_tableAdd_container .pullBtn.active{ background: url('/layuiadmin/layui/images/icon-lower-arrow.png') no-repeat;
     -moz-transform:rotate(180deg);-webkit-transform:rotate(180deg);transform:rotate(180deg);filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=2);}
 .form_tableAdd_container .tableBox select { width: 98%;height: 26px;border: 1px solid #ccc;}
 .form_tableAdd_container .tableBox input { width: 98%; height: 26px; border: 1px solid #ccc; border-radius: 2px;padding-left: 4px;}
-.form_tableAdd_container .tableBox input[type="checkbox"] { width: 16px; height: 16px; border: 1px solid #00a3b4; border-radius: 2px;padding-left: 4px;}
+.form_tableAdd_container .tableBox input[type="checkbox"] { width: 16px; height: 16px; border: 1px solid #0F9EE0; border-radius: 2px;padding-left: 4px;}
 .form_tableAdd_container .datetime{ background: url('/layuiadmin/layui/images/calendar.png') no-repeat 98% 4px;}
-.form_tableAdd_container .file-name { float:left;color: #00a3b4; width: 60%; padding-left: 16px;
+.form_tableAdd_container .file-name { float:left;color: #0F9EE0; width: 60%; padding-left: 16px;
     background: url('/layuiadmin/layui/images/accessory.png') no-repeat 0px 8px; cursor: pointer;}
 .form_tableAdd_container .add-file { color: #ccc;}
 .form_tableAdd_container .file-delete { float: right; width: 20px; height: 20px; margin-left: 6px;background: url('/layuiadmin/layui/images/del2.png') no-repeat;}
@@ -401,7 +401,7 @@ textarea{ padding: 6px 10px; display: block;color: #555;background-color: #fff;b
 .tableBox table tr td,.formBoxBody table tr td{border: 1px solid #e6e6e6;height: 34px;line-height: 34px;}
 /*treegrid*/
 .treeGridBox .layui-btn-group { margin-left: 5px;}
-.treeGridBox .layui-btn-group .layui-btn:first-child{ border-left: 1px solid #47cadc;}
+.treeGridBox .layui-btn-group .layui-btn:first-child{ border-left: 1px solid #0F9EE2;}
 
 /*仅有树的弹框*/
 .onlyTree_container .treeBox{ width: 100%; border: 0; left: 0;  padding-top: 0; padding-bottom: 36px;}
@@ -446,5 +446,39 @@ textarea{ padding: 6px 10px; display: block;color: #555;background-color: #fff;b
 
 /*加载中*/
 .loadingImg{width: 56px;height: auto;}
-/*树字体*/
-.ztree li span{font-size: 14px;}
+
+/*搜索图标*/
+.formSearch{    position: absolute;right: 1px;top: 1px;width: 20px;height: 13px;
+    padding: 7px 10px 12px;background: #f7f7f7;border-left: 1px solid #D2D2D2;cursor: pointer;}
+.notDele{background-color: #f2f2f2;}
+
+/*hse报告页面*/
+.hse{    height: auto;overflow: hidden;}
+.hse button{width: 68px;height: 28px;line-height: 28px;border: 1px solid #00b2ff;color: white;
+    background:url("/layuiadmin/layui/images/icon-print.png") 10px 7px no-repeat #00b2ff;
+    text-indent: 1.5em;cursor: pointer;float: right;margin: 10px}
+.hse h4{font-size: 22px; color: #1d2f16;margin: 40px 0;text-align: center;font-weight: bold;
+    font-family: 黑体;}
+.hse>p{color: #000;font-size: 14px;padding:0 0 28px 60px;}
+.hse-report{margin:0 80px; background: url("/layuiadmin/layui/images/icon-title.png") no-repeat;}
+.hse-report-name{font-size: 16px;color: #000;text-indent: 34px;padding-left: 50px;
+    border-left: 2px solid #08b4ff;margin-left: 23px;line-height: 26px;}
+.hse-report-text{display: inline;}
+.hse-report-content{border-left: 2px solid #08b4ff;height: auto;
+    overflow: hidden;margin-left: 23px;padding-top: 10px;}
+.hse-rc-content{height: auto;width: 49%;}
+.hse-rc-content>span{font-size: 14px;color: #000;display: inline-block;margin-bottom: 10px;}
+.hse-rc-content p{color: #777;margin-top: 10px;}
+.hse-rc-content p b{color: #000;font-weight: normal;}
+.hse-report-content .hse-rc-content:last-child{float: right;}
+.hse-rc-content-img{height: 280px;border: 1px solid #dedede;}
+.hse-report-content .layui-row{margin-bottom: 20px;padding-left: 50px;}
+.hse-details{border-bottom: 1px solid #e6e6e6;margin-bottom: 10px;display: flex;}
+.hse-details p:first-child{padding-left: 50px;}
+.hse-details p{width: 30%;float: left;}
+.hse-details p>span{display: block;line-height: 24px;color: #777777;}
+.hse-details p>span span{color: #000000;}
+
+
+
+
