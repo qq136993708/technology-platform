@@ -63,6 +63,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.pcitc.base.common.LayuiTableData;
@@ -603,23 +604,23 @@ public class TaskProviderClient {
 		// 完成本次任务
 		taskService.complete(workflowVo.getTaskId(), globalVar);
 		JSONObject retJson = new JSONObject();
-
+		//System.out.println("=========globalVar========="+JSON.toJSONString(globalVar));
 		if (globalVar.get("agree") != null && globalVar.get("agree").toString().equals("0")) {
-			// System.out.println("=========审批不同意======="+globalVar.get("agree").toString());
+			//System.out.println("=========审批不同意======="+globalVar.get("agree").toString());
 			// 把agree属性，在全局变量中删除
 			// 审批驳回
 			retJson.put("result", "2");
 			retJson.put("auditRejectMethod", globalVar.get("auditRejectMethod").toString());
 			return retJson;
 		} else {
-			// System.out.println("=========审批同意=======----------");
+			//System.out.println("=========审批同意=======----------");
 			ProcessInstance pi = runtimeService.createProcessInstanceQuery().processInstanceId(task.getProcessInstanceId()).singleResult();
+			retJson.put("result", "0");
 			if (pi == null) {
 				// 流程结束
 				retJson.put("result", "1");
 				retJson.put("auditAgreeMethod", globalVar.get("auditAgreeMethod").toString());
 			}
-			retJson.put("result", "0");
 			return retJson;
 		}
 	}
