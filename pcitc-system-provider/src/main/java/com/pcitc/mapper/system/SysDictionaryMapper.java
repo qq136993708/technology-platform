@@ -96,4 +96,11 @@ public interface SysDictionaryMapper {
 	 * @return
 	 */
 	int selectSameName(@Param("parentId") String parentId,@Param("name") String name, @Param("id") String id);
+	
+	/**
+	 * 批量删除数据字典
+	 * @param dataIds
+	 * @return
+	 */
+	int batchDelete(@Param("dataIds") List<String> dataIds);
 }

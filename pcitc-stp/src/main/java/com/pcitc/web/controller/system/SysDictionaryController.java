@@ -34,25 +34,27 @@ import com.pcitc.web.common.OperationFilter;
 @Controller
 public class SysDictionaryController extends BaseController {
 
-	private static final String TREE_ONE_LEVEL_URL = "http://pcitc-zuul/system-proxy/dictionary-provider/getTreeOneLevel";
-	private static final String CHILD_NODE = "http://pcitc-zuul/system-proxy/dictionary-provider/getChildNode/";
-	private static final String SAVE_TREENODE = "http://pcitc-zuul/system-proxy/dictionary-provider/saveDictionary";
-	private static final String DELETE_TREENODE = "http://pcitc-zuul/system-proxy/dictionary-provider/deleteDictionary/";
+	private static final String TREE_ONE_LEVEL_URL = "http://pplus-zuul/system-proxy/dictionary-provider/getTreeOneLevel";
+	private static final String CHILD_NODE = "http://pplus-zuul/system-proxy/dictionary-provider/getChildNode/";
+	private static final String SAVE_TREENODE = "http://pplus-zuul/system-proxy/dictionary-provider/saveDictionary";
+	private static final String DELETE_TREENODE = "http://pplus-zuul/system-proxy/dictionary-provider/deleteDictionary/";
 
-	private static final String LEVEL_NODE = "http://pcitc-zuul/system-proxy/dictionary-provider/getTreeByLevel";
+	private static final String LEVEL_NODE = "http://pplus-zuul/system-proxy/dictionary-provider/getTreeByLevel";
 
-	private static final String CHILD_NODE_TABLE = "http://pcitc-zuul/system-proxy/dictionary-provider/getChildNodeForTable";
+	private static final String CHILD_NODE_TABLE = "http://pplus-zuul/system-proxy/dictionary-provider/getChildNodeForTable";
 
-	private static final String GET_DICTIONARY = "http://pcitc-zuul/system-proxy/dictionary-provider/getDictionary/";
+	private static final String GET_DICTIONARY = "http://pplus-zuul/system-proxy/dictionary-provider/getDictionary/";
 
-	private static final String DICTIONARY_LIST = "http://pcitc-zuul/system-proxy/dictionary-provider/dictionary/";
+	private static final String DICTIONARY_LIST = "http://pplus-zuul/system-proxy/dictionary-provider/dictionary/";
 
-	private static final String CREATE_CODE = "http://pcitc-zuul/system-proxy/dictionary-provider/create-code";
+	private static final String CREATE_CODE = "http://pplus-zuul/system-proxy/dictionary-provider/create-code";
 
-	private static final String DICTIONARY_CODE = "http://pcitc-zuul/system-proxy/dictionary-provider/dictionary/";
-	private static final String DICTIONARY_MAP_LIST = "http://pcitc-zuul/system-proxy/dictionary-provider/dictionary/get-map-dicionarys";
-	private static final String DICTIONARY_DESC = "http://pcitc-zuul/system-proxy/dictionary-provider/getDictionaryByCode/";
+	private static final String DICTIONARY_CODE = "http://pplus-zuul/system-proxy/dictionary-provider/dictionary/";
+	private static final String DICTIONARY_MAP_LIST = "http://pplus-zuul/system-proxy/dictionary-provider/dictionary/get-map-dicionarys";
+	private static final String DICTIONARY_DESC = "http://pplus-zuul/system-proxy/dictionary-provider/getDictionaryByCode/";
 
+	
+	private static final String BATCH_DELETE = "http://pplus-zuul/system-proxy/dictionary-provider/batch-delete/";
 	/**
 	 * 一级节点
 	 * 
@@ -259,5 +261,22 @@ public class SysDictionaryController extends BaseController {
 
 		return obj;
 	}
+	
+	/**
+	 * 删除数据字典
+	 * 
+	 * @param request
+	 * @return
+	 */
+	@OperationFilter(modelName = "数据字典", actionName = "删除数据字典")
+	@RequestMapping(value = "/dictionary/batch-delete")
+	@ResponseBody
+	public int BatchDeleteDictionary(HttpServletRequest request) {
+		String ids = request.getParameter("ids");
+		ResponseEntity<Integer> responseEntity = restTemplate.exchange(BATCH_DELETE + ids, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), Integer.class);
+		int result = responseEntity.getBody();
+		return result;
+	}
+
 
 }

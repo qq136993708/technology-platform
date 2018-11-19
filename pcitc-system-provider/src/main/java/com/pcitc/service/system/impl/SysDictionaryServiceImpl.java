@@ -181,6 +181,20 @@ public class SysDictionaryServiceImpl implements SysDictionaryService{
 		return dictionaryDao.getDictionaryByCode(code);
 	}
 
+	@Override
+	public int batchDelete(List<String> dataIds) throws Exception {
+		int result = 500;
+		if(dataIds != null && dataIds.size() == 1){
+			int count = dictionaryDao.getCountByParentId(dataIds.get(0));
+			if(count >0 ){
+				return 101;
+			}
+		}
+		dictionaryDao.batchDelete(dataIds);
+		result = 200;
+		return result;
+	}
+
 	
 
 	

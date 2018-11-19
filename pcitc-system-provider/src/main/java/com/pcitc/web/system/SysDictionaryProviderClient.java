@@ -1,5 +1,6 @@
 package com.pcitc.web.system;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -204,5 +205,23 @@ public class SysDictionaryProviderClient {
 	public Map<String,List<SysDictionary>> getDictionaryMaps(@RequestBody List<String> parentCodes){
 		
 		return dictionaryService.getMapDictionaryList(parentCodes);
+	}
+	
+	/**
+	 * 删除数据字典
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping(value = "/dictionary-provider/batch-delete/{ids}", method = RequestMethod.POST)
+	public int batchDelete(@PathVariable(value = "ids", required = true) String ids){
+		int result = 500;
+    	String[] dataIdArr = ids.split("-");
+    	List<String> dataIdList = Arrays.asList(dataIdArr);
+		try {
+			result = dictionaryService.batchDelete(dataIdList);
+		} catch (Exception e) {
+			logger.error("[数据字典-删除数据字典失败：]", e);
+		}
+		return result;
 	}
 }
