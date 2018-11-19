@@ -157,12 +157,8 @@
             	}
             	layer.confirm('确定要发送吗？',{title:"发送确认"},function(index){
 					layer.close(index);
-					ajaxPost("/project/apply-sendnotice", {noticeId: selectRowData.noticeId,functionId:param.id}, function (data) {
-	                     if (data.success) {
-	                    	 layer.msg('通知已发送!');
-	                     } else {
-	                    	 layer.msg('操作异常，请重试!');
-	                     }
+					ajaxPost("/project/sent-notice", {noticeId: selectRowData.noticeId}, function (data) {
+						layer.msg(data.message);
 	                });
             	});
             },submitEvent:function(){
@@ -170,7 +166,7 @@
             		layer.msg('请点击选择一行数据!');
             		return;
             	}
-            	layer.confirm('确定要提交审核吗？',{title:"提交确认"},function(index){
+            	layer.confirm('确定要提交审批吗？',{title:"提交确认"},function(index){
 					layer.close(index);
 					ajaxPost("/project/notice-start-workflow", {noticeId: selectRowData.noticeId,functionId:param.id}, function (data) {
 	                     if (data.success) {
