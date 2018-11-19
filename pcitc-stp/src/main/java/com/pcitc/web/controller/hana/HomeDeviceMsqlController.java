@@ -58,9 +58,6 @@ public class HomeDeviceMsqlController {
 	private static final String getDeviceTable = "http://pcitc-zuul/hana-proxy/hana/home/getDeviceTable";
 	
 	
-
-	
-	
 	@Autowired
 	private HttpHeaders httpHeaders;
 	
