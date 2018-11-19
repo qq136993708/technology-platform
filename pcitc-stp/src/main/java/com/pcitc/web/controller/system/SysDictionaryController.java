@@ -34,27 +34,27 @@ import com.pcitc.web.common.OperationFilter;
 @Controller
 public class SysDictionaryController extends BaseController {
 
-	private static final String TREE_ONE_LEVEL_URL = "http://pplus-zuul/system-proxy/dictionary-provider/getTreeOneLevel";
-	private static final String CHILD_NODE = "http://pplus-zuul/system-proxy/dictionary-provider/getChildNode/";
-	private static final String SAVE_TREENODE = "http://pplus-zuul/system-proxy/dictionary-provider/saveDictionary";
-	private static final String DELETE_TREENODE = "http://pplus-zuul/system-proxy/dictionary-provider/deleteDictionary/";
+	private static final String TREE_ONE_LEVEL_URL = "http://pcitc-zuul/system-proxy/dictionary-provider/getTreeOneLevel";
+	private static final String CHILD_NODE = "http://pcitc-zuul/system-proxy/dictionary-provider/getChildNode/";
+	private static final String SAVE_TREENODE = "http://pcitc-zuul/system-proxy/dictionary-provider/saveDictionary";
+	private static final String DELETE_TREENODE = "http://pcitc-zuul/system-proxy/dictionary-provider/deleteDictionary/";
 
-	private static final String LEVEL_NODE = "http://pplus-zuul/system-proxy/dictionary-provider/getTreeByLevel";
+	private static final String LEVEL_NODE = "http://pcitc-zuul/system-proxy/dictionary-provider/getTreeByLevel";
 
-	private static final String CHILD_NODE_TABLE = "http://pplus-zuul/system-proxy/dictionary-provider/getChildNodeForTable";
+	private static final String CHILD_NODE_TABLE = "http://pcitc-zuul/system-proxy/dictionary-provider/getChildNodeForTable";
 
-	private static final String GET_DICTIONARY = "http://pplus-zuul/system-proxy/dictionary-provider/getDictionary/";
+	private static final String GET_DICTIONARY = "http://pcitc-zuul/system-proxy/dictionary-provider/getDictionary/";
 
-	private static final String DICTIONARY_LIST = "http://pplus-zuul/system-proxy/dictionary-provider/dictionary/";
+	private static final String DICTIONARY_LIST = "http://pcitc-zuul/system-proxy/dictionary-provider/dictionary/";
 
-	private static final String CREATE_CODE = "http://pplus-zuul/system-proxy/dictionary-provider/create-code";
+	private static final String CREATE_CODE = "http://pcitc-zuul/system-proxy/dictionary-provider/create-code";
 
-	private static final String DICTIONARY_CODE = "http://pplus-zuul/system-proxy/dictionary-provider/dictionary/";
-	private static final String DICTIONARY_MAP_LIST = "http://pplus-zuul/system-proxy/dictionary-provider/dictionary/get-map-dicionarys";
-	private static final String DICTIONARY_DESC = "http://pplus-zuul/system-proxy/dictionary-provider/getDictionaryByCode/";
+	private static final String DICTIONARY_CODE = "http://pcitc-zuul/system-proxy/dictionary-provider/dictionary/";
+	private static final String DICTIONARY_MAP_LIST = "http://pcitc-zuul/system-proxy/dictionary-provider/dictionary/get-map-dicionarys";
+	private static final String DICTIONARY_DESC = "http://pcitc-zuul/system-proxy/dictionary-provider/getDictionaryByCode/";
 
 	
-	private static final String BATCH_DELETE = "http://pplus-zuul/system-proxy/dictionary-provider/batch-delete/";
+	private static final String BATCH_DELETE = "http://pcitc-zuul/system-proxy/dictionary-provider/batch-delete/";
 	/**
 	 * 一级节点
 	 * 
