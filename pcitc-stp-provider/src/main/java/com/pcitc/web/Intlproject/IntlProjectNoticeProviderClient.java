@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.DelFlagEnum;
 import com.pcitc.base.stp.IntlProject.IntlProjectNotice;
 import com.pcitc.base.system.SysUser;
@@ -23,6 +24,7 @@ import com.pcitc.base.util.IdUtil;
 import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.common.MailBean;
+import com.pcitc.common.WorkFlowStatusEnum;
 import com.pcitc.service.intlproject.IntlProjectNoticeService;
 import com.pcitc.service.msg.MailSentService;
 import com.pcitc.web.feign.SystemRemoteClient;
@@ -50,6 +52,7 @@ public class IntlProjectNoticeProviderClient
 	public Integer startNoticeWorkFlow(@PathVariable("noticeId") String noticeId,@RequestBody WorkflowVo workflowVo) 
 	{
 		IntlProjectNotice notice = intlProjectService.findById(noticeId);
+		
 		//workflowVo.setAuthenticatedUserId("111");
 		workflowVo.setProcessDefineId(WORKFLOW_DEFINE_ID); 
 		workflowVo.setBusinessId(noticeId);
@@ -71,27 +74,32 @@ public class IntlProjectNoticeProviderClient
         variables.put("auditDetailsPath", "/intl_project/notice_view?noticeId="+noticeId);
        
         //流程完全审批通过时，调用的方法
-        variables.put("auditAgreeMethod", "http://pcitc-zuul/stp-proxy/stp-provider/project/callback-workflow-notice?noticeId="+noticeId+"&workflow_status=1");
+        variables.put("auditAgreeMethod", "http://pcitc-zuul/stp-proxy/stp-provider/project/callback-workflow-notice?noticeId="+noticeId+"&workflow_status="+WorkFlowStatusEnum.STATUS_PASS.getCode());
         
         //流程驳回时，调用的方法（可能驳回到第一步，也可能驳回到第1+n步
-        variables.put("auditRejectMethod", "http://pcitc-zuul/stp-proxy/stp-provider/project/callback-workflow-notice?noticeId="+noticeId+"&workflow_status=0");
+        variables.put("auditRejectMethod", "http://pcitc-zuul/stp-proxy/stp-provider/project/callback-workflow-notice?noticeId="+noticeId+"&workflow_status="+WorkFlowStatusEnum.STATUS_RETURN.getCode());
         
         workflowVo.setVariables(variables);
 		String rs = systemRemoteClient.startWorkflowByProcessDefinitionId(workflowVo);
 		System.out.println("startwork  apply  rs...."+rs);
-		if("true".equals(rs)){
-			return 1;
-		}else{
-			return 0;
+		if("true".equals(rs)) {
+			notice.setFlowStatus(WorkFlowStatusEnum.STATUS_RUNNING.getCode());
+			intlProjectService.updProjectNotice(notice);
 		}
+		return "true".equals(rs)?1:0;
 	}
 	@ApiOperation(value="审批流程回调通知",notes="审批结果回调通知")
 	@RequestMapping(value = "/stp-provider/project/callback-workflow-notice")
 	public Object callBackProjectNoticeWorkflow(@RequestParam(value = "noticeId", required = true) String noticeId,
 			@RequestParam(value = "workflow_status", required = true) Integer workflow_status) throws Exception 
 	{
-		System.out.println("noticeId ------------------ "+noticeId);
-		System.out.println("workflow_status ------------------ "+workflow_status);
+		if(noticeId != null) {
+			IntlProjectNotice notice = intlProjectService.findById(noticeId);
+			if(notice != null) {
+				notice.setFlowStatus(workflow_status);
+				intlProjectService.updProjectNotice(notice);
+			}
+		}
 		return null;
 	}
 	@ApiOperation(value="分页检索通知",notes="检索通知列表数据，返回数据列表。")
@@ -115,10 +123,12 @@ public class IntlProjectNoticeProviderClient
 		if(oldNotice != null) {
 			MyBeanUtils.copyPropertiesIgnoreNull(notice, oldNotice);
 			oldNotice.setUpdateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
+			oldNotice.setFlowStatus(WorkFlowStatusEnum.STATUS_WAITING.getCode());
 			return this.intlProjectService.updProjectNotice(oldNotice);
 		}else {
 			notice.setNoticeId(IdUtil.createIdByTime());
 			notice.setCreateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
+			notice.setFlowStatus(WorkFlowStatusEnum.STATUS_WAITING.getCode());
 			return this.intlProjectService.saveProjectNotice(notice);
 		}
 	}
@@ -141,12 +151,22 @@ public class IntlProjectNoticeProviderClient
 	}
 	
 	@ApiOperation(value="项目申报邮件通知",notes="检索项目申报列表数据，邮件通知相关方。")
-	@RequestMapping(value = "/stp-provider/project/apply-sendnotice/{noticeId}", method = RequestMethod.POST)
+	@RequestMapping(value = "/stp-provider/project/sent-notice/{noticeId}", method = RequestMethod.POST)
 	public Object sendApplyInfoToMail(@PathVariable("noticeId") String noticeId) 
 	{
 		IntlProjectNotice notice = intlProjectService.findById(noticeId);
-		Integer rs = mailSentService.sentMail(new MailBean("376221835@qq.com","测试邮件通知",notice.getNoticeContent()));
-		rs += mailSentService.sentAppendFileMail(new MailBean("376221835@qq.com","测试邮件通知",notice.getNoticeContent()));
-		return rs;
+		if(!WorkFlowStatusEnum.STATUS_PASS.getCode().equals(notice.getFlowStatus())) 
+		{
+			return new Result(false,"审批未通过，不能发送");
+		}else {
+			Integer rs = mailSentService.sentMail(new MailBean("376221835@qq.com","测试邮件通知",notice.getNoticeContent()));
+			rs += mailSentService.sentAppendFileMail(new MailBean("376221835@qq.com","测试邮件通知",notice.getNoticeContent()));
+			
+			notice.setNoticeStatus("1");
+			notice.setNoticeSentTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
+			intlProjectService.updProjectNotice(notice);
+			
+			return new Result(true,"通知已下发!");
+		}
 	}
 }

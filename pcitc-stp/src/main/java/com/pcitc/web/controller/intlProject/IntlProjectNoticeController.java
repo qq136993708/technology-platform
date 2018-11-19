@@ -41,11 +41,9 @@ public class IntlProjectNoticeController extends BaseController {
 			@RequestParam(value = "functionId", required = true) String functionId,
 			HttpServletRequest request, HttpServletResponse response) throws Exception 
 	{
-		System.out.println("开始审批！！！！");
 		WorkflowVo vo = new WorkflowVo();
 		vo.setAuditUserIds(this.getUserProfile().getUserId());
 		vo.setFunctionId(functionId);
-		System.out.println("functionId .... "+functionId);
 		vo.setAuthenticatedUserId(this.getUserProfile().getUserId());
 		HttpEntity<WorkflowVo> entity = new HttpEntity<WorkflowVo>(vo, this.httpHeaders);
 		Integer plant = this.restTemplate.exchange(PROJECT_NOTICE_WORKFLOW_URL + noticeId, HttpMethod.POST, entity, Integer.class).getBody();
@@ -107,10 +105,6 @@ public class IntlProjectNoticeController extends BaseController {
 	@RequestMapping(value = "/project/sent-notice")
 	public Object sentProjectNotice(@RequestParam(value = "noticeId", required = true) String noticeId) throws Exception {
 		ResponseEntity<Integer> status = this.restTemplate.exchange(PROJECT_NOTICE_SENT + noticeId, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class);
-		if (status.getBody() == 0) {
-			return new Result(false);
-		} else {
-			return new Result(true);
-		}
+		return status.getBody();
 	}
 }
