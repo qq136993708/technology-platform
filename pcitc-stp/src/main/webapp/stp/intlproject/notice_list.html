@@ -81,10 +81,11 @@
 	            cols: [[
 	            	 {type:'checkbox'}
 	            	,{title:'序号',type:'numbers'}
-	                ,{field:'noticeTitle',title:'通知标题',width: '30%',style:'cursor: pointer;'}
-	                ,{field:'noticeType',title:'通知类别',width: '15%',style:'cursor: pointer;',align:"center"}
-	                ,{field:'createTime',title:'创建时间',width: '20%',style:'cursor: pointer;',align:"center"}
-	                ,{field:'updateTime',title:'更新时间',width: '20%',style:'cursor: pointer;',align:"center"}
+	                ,{field:'noticeTitle',title:'通知标题',width: '25%',style:'cursor: pointer;'}
+	                ,{field:'noticeType',title:'通知类别',width: '10%',style:'cursor: pointer;',align:"center"}
+	                ,{field:'createTime',title:'创建时间',width: '15%',style:'cursor: pointer;',align:"center"}
+	                ,{field:'updateTime',title:'更新时间',width: '15%',style:'cursor: pointer;',align:"center"}
+	                ,{field:'flowStatus',title:'审批状态',width: '10%',style:'cursor: pointer;',align:"center"}
 	                ,{field:'noticeStatus',title:'状态',style:'cursor: pointer;',align:"center"}
 	               
 	            ]],
@@ -98,13 +99,15 @@
 	                    $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
 	                    $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
 	                    selectRowData=res.data[index-1];
-	                }); 
+	                });
+	                //显示字典数据
+	                var flowStatus = {"0":"待审批","1":"审批中","2":"审批通过","-1":"审批驳回"};
 	                $.each(res.data,function(i,dt){
-		            	//显示字典数据
 		            	var ns = res.data[i].noticeStatus==1?"已发送":"未发送";
 		            	$("tr[data-index='"+i+"'] td[data-field='noticeStatus'] div").html(ns);
 		            	$("tr[data-index='"+i+"'] td[data-field='noticeType'] div").html(noticeType[res.data[i].noticeType]);
-		            });
+		            	$("tr[data-index='"+i+"'] td[data-field='flowStatus'] div").html(flowStatus[res.data[i].flowStatus]);
+	                });
 	            }
 	        });
 	        renderfunc = function removeHeaderCheckbox(){
@@ -154,12 +157,8 @@
             	}
             	layer.confirm('确定要发送吗？',{title:"发送确认"},function(index){
 					layer.close(index);
-					ajaxPost("/project/apply-sendnotice", {noticeId: selectRowData.noticeId,functionId:param.id}, function (data) {
-	                     if (data.success) {
-	                    	 layer.msg('通知已发送!');
-	                     } else {
-	                    	 layer.msg('操作异常，请重试!');
-	                     }
+					ajaxPost("/project/sent-notice", {noticeId: selectRowData.noticeId}, function (data) {
+						layer.msg(data.message);
 	                });
             	});
             },submitEvent:function(){
@@ -167,7 +166,7 @@
             		layer.msg('请点击选择一行数据!');
             		return;
             	}
-            	layer.confirm('确定要提交审核吗？',{title:"提交确认"},function(index){
+            	layer.confirm('确定要提交审批吗？',{title:"提交确认"},function(index){
 					layer.close(index);
 					ajaxPost("/project/notice-start-workflow", {noticeId: selectRowData.noticeId,functionId:param.id}, function (data) {
 	                     if (data.success) {
