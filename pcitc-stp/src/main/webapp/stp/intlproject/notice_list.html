@@ -157,9 +157,7 @@
             	}
             	layer.confirm('确定要发送吗？',{title:"发送确认"},function(index){
 					layer.close(index);
-					console.log(selectRowData.noticeId);
 					ajaxPost("/intl_project/sent-notice", {noticeId:selectRowData.noticeId}, function (data) {
-						console.log(data);
 						layer.msg(data.message);
 	                });
             	});
@@ -173,6 +171,7 @@
 					ajaxPost("/project/notice-start-workflow", {noticeId: selectRowData.noticeId,functionId:param.id}, function (data) {
 	                     if (data.success) {
 	                    	 layer.msg('审核已提交!');
+	                    	 renderTable({param: {"noticeTitle":$("#noticeTitle").val()}});
 	                     } else {
 	                    	 layer.msg('操作异常，请重试!');
 	                     }
