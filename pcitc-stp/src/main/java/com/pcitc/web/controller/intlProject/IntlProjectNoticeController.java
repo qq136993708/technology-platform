@@ -102,7 +102,7 @@ public class IntlProjectNoticeController extends BaseController {
 		}
 	}
 
-	@RequestMapping(value = "/project/sent-notice")
+	@RequestMapping(value = "/intl_project/sent-notice")
 	public Object sentProjectNotice(@RequestParam(value = "noticeId", required = true) String noticeId) throws Exception {
 		ResponseEntity<Integer> status = this.restTemplate.exchange(PROJECT_NOTICE_SENT + noticeId, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class);
 		return status.getBody();

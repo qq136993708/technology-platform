@@ -157,7 +157,8 @@
             	}
             	layer.confirm('确定要发送吗？',{title:"发送确认"},function(index){
 					layer.close(index);
-					ajaxPost("/project/sent-notice", {noticeId: selectRowData.noticeId}, function (data) {
+					ajaxPost("/intl_project/sent-notice", {noticeId: selectRowData.noticeId}, function (data) {
+						console.log(data);
 						layer.msg(data.message);
 	                });
             	});
