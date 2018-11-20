@@ -208,7 +208,7 @@ public class SysFileServiceImpl implements SysFileService {
         String strBak8 = sysFile==null?"":sysFile.getBak8();
         if(strBak8!=null&&!"".equals(strBak8)){
             String[] strings = strBak8.split(",");
-            if("°".equals(strings[0])){
+            if(strBak8.indexOf("°")>-1){
                 sysFile.setBak8(GetLocation.dssConvertlonglat(strings[0]) + "," + GetLocation.dssConvertlonglat(strings[1]));
             }
         }
@@ -840,8 +840,9 @@ public class SysFileServiceImpl implements SysFileService {
             String strLongLat = fileList.get(i).getBak8();
             if (strLongLat != null) {
                 String[] strings = strLongLat.split(",");
-//                fileList.get(i).setBak7(GetLocation.getLocationPosition(strings[0],strings[1]));
-                fileList.get(i).setBak8(GetLocation.dssConvertlonglat(strings[0]) + "," + GetLocation.dssConvertlonglat(strings[1]));
+                if(strLongLat.indexOf("°")>-1){
+                    fileList.get(i).setBak8(GetLocation.dssConvertlonglat(strings[0]) + "," + GetLocation.dssConvertlonglat(strings[1]));
+                }
             } else {
                 fileList.get(i).setBak8("");
             }

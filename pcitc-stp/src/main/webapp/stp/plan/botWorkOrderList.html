@@ -62,59 +62,96 @@
         layer = layui.layer,
         publicMethods = layui.publicMethods,
         laypage = layui.laypage;
+		var cols = [
+            {type:'checkbox',event: 'changeEvents',width: 55},
+            {title:'序号', type:'numbers',width: 55},
+            {field:'workOrderStatus', title:'状态', event: 'setActive',align:'center',style:'cursor: pointer;', templet:  '<div>{{ layui.laytpl.auditStatus(d.workOrderStatus) }}</div>', width:55},
+            {field:'attachment', title:'附件', event: 'setActive',align:'center',style:'cursor: pointer;', width:55,
+                templet:  '<div>{{ layui.laytpl.attToPic(d) }}</div>' },
+            {field:'workOrderCode', title:'工单编码' ,event: 'setActive',style:'cursor: pointer;',align:'center',sort: true,width: '25%'},
+            {field:'workOrderName', title:'名称' ,event: 'setActive',style:'cursor: pointer;',sort: true,width: '25%'},
+            {field:'workOrderType', title:'类型' ,event: 'setActive',style:'cursor: pointer;',sort: true,width: '10%'},
+            {field:'createDate', title:'创建时间' ,event: 'setActive',style:'cursor: pointer;',align:'center',sort: true,width: '18%'},
+            {field:'workOrderAllotUserName', title:'处理人' ,event: 'setActive',style:'cursor: pointer;',sort: true}
+        ];
+        // elem,id,url,toolbar,cols,done
+        function donefun(res, curr, count){
+            $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+                var index=parseInt($(this).index()+1);
+                $('tr').removeClass('layui-table-click');
+                $(this).addClass('layui-table-click');
+                $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                selectRowData=res.data[index-1];
+            });
+            $(document).off("click").on("click",".onClickImg",function () {
+                var dataId=$(this).attr("id");
+                //附件文件配置ID
+                publicMethods.viewAtt(dataId,param.id);
+            });
+            var param={
+                data:res.data,//数据
+                element:".layui-table-body table",// 当前的表格元素
+                column:6,//列数 从0开始
+                field:"workOrderType",//当前数据的字段
+                url:"/pageCommon/dic/ROOT_SGGL_GDGL_GDLX"//接口
+            };
+            publicMethods.dataDictionary(param);
+        }
 		function renderTable(){
-	    	 table.render({
-	         	id:'tableList', //唯一即可
-	             elem: '#tableListElem',
-	             height:commonDislodgeTable(),
-	             method:"POST",
-	             where: {param: {workOrderName: $("#workOrderName").val(),"workOrderStatus":workOrderStatus}},
-	             url: '/plan/getTableData',
-	             limit: param.selfRownum,
-	             page: {
-	                 groups: 5,
-	                 limits: [param.selfRownum,30,45,60],
-	                 layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
-	                 first: '首页', //不显示首页
-	                 last: '尾页', //不显示尾页
-	                 theme: '#0F9EE0'
-	             },
-	             cols: [[
-	             	{type:'checkbox',event: 'changeEvents',width: 55},
-	             	{title:'序号', type:'numbers',width: 55},
-	                {field:'workOrderStatus', title:'状态', event: 'setActive',align:'center',style:'cursor: pointer;', templet:  '<div>{{ layui.laytpl.auditStatus(d.workOrderStatus) }}</div>', width:55},
-	                {field:'attachment', title:'附件', event: 'setActive',align:'center',style:'cursor: pointer;', width:55,
-                        templet:  '<div>{{ layui.laytpl.attToPic(d) }}</div>' },
-	                // {field:'workOrderCode', title:'工单编码' ,event: 'setActive',style:'cursor: pointer;',align:'center',sort: true,width: '25%'},
-	                {field:'workOrderName', title:'名称' ,event: 'setActive',style:'cursor: pointer;',sort: true,width: '25%'},
-	                {field:'workOrderType', title:'类型' ,event: 'setActive',style:'cursor: pointer;',sort: true,width: '10%'},
-	                {field:'createDate', title:'创建时间' ,event: 'setActive',style:'cursor: pointer;',align:'center',sort: true,width: '18%'},
-	                {field:'workOrderAllotUserName', title:'处理人' ,event: 'setActive',style:'cursor: pointer;',sort: true}
-	             ]],
-	             done: function (res, curr, count) {
-	            	 $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
- 	                	var index=parseInt($(this).index()+1);
- 	                    $('tr').removeClass('layui-table-click');
- 	                    $(this).addClass('layui-table-click');
- 	                   $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
- 	                    $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
- 	                    selectRowData=res.data[index-1];
- 	                });
-	            	$(document).off("click").on("click",".onClickImg",function () {
-	                   var dataId=$(this).attr("id");
-	                   //附件文件配置ID
-	                   publicMethods.viewAtt(dataId,param.id);
-	                });
-	            	var param={
-	         	        data:res.data,//数据
-                        element:".layui-table-body table",// 当前的表格元素
-                        column:6,//列数 从0开始
-                        field:"workOrderType",//当前数据的字段
-                        url:"/pageCommon/dic/ROOT_SGGL_GDGL_GDLX"//接口
-                     };
-                     publicMethods.dataDictionary(param);
-	             }
-	         });
+            publicMethods.tableRender('tableListElem','tableList','/plan/getTableData',false,cols,'donefun');
+             // table.render({
+	         // 	id:'tableList', //唯一即可
+	         //     elem: '#tableListElem',
+	         //     height:commonDislodgeTable(),
+	         //     method:"POST",
+	         //     where: {param: {workOrderName: $("#workOrderName").val(),"workOrderStatus":workOrderStatus}},
+	         //     url: '/plan/getTableData',
+	         //     limit: param.selfRownum,
+	         //     page: {
+	         //         groups: 5,
+	         //         limits: [param.selfRownum,30,45,60],
+	         //         layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
+	         //         first: '首页', //不显示首页
+	         //         last: '尾页', //不显示尾页
+	         //         theme: '#0F9EE0'
+	         //     },
+	         //     cols: [[
+	         //     	{type:'checkbox',event: 'changeEvents',width: 55},
+	         //     	{title:'序号', type:'numbers',width: 55},
+	         //        {field:'workOrderStatus', title:'状态', event: 'setActive',align:'center',style:'cursor: pointer;', templet:  '<div>{{ layui.laytpl.auditStatus(d.workOrderStatus) }}</div>', width:55},
+	         //        {field:'attachment', title:'附件', event: 'setActive',align:'center',style:'cursor: pointer;', width:55,
+              //           templet:  '<div>{{ layui.laytpl.attToPic(d) }}</div>' },
+	         //        {field:'workOrderCode', title:'工单编码' ,event: 'setActive',style:'cursor: pointer;',align:'center',sort: true,width: '25%'},
+	         //        {field:'workOrderName', title:'名称' ,event: 'setActive',style:'cursor: pointer;',sort: true,width: '25%'},
+	         //        {field:'workOrderType', title:'类型' ,event: 'setActive',style:'cursor: pointer;',sort: true,width: '10%'},
+	         //        {field:'createDate', title:'创建时间' ,event: 'setActive',style:'cursor: pointer;',align:'center',sort: true,width: '18%'},
+	         //        {field:'workOrderAllotUserName', title:'处理人' ,event: 'setActive',style:'cursor: pointer;',sort: true}
+	         //     ]],
+	         //     done: function (res, curr, count) {
+	         //    	 $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+ 	        //         	var index=parseInt($(this).index()+1);
+ 	        //             $('tr').removeClass('layui-table-click');
+ 	        //             $(this).addClass('layui-table-click');
+ 	        //            $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+ 	        //             $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+ 	        //             selectRowData=res.data[index-1];
+ 	        //         });
+	         //    	$(document).off("click").on("click",".onClickImg",function () {
+	         //           var dataId=$(this).attr("id");
+	         //           //附件文件配置ID
+	         //           publicMethods.viewAtt(dataId,param.id);
+	         //        });
+	         //    	var param={
+	         // 	        data:res.data,//数据
+              //           element:".layui-table-body table",// 当前的表格元素
+              //           column:6,//列数 从0开始
+              //           field:"workOrderType",//当前数据的字段
+              //           url:"/pageCommon/dic/ROOT_SGGL_GDGL_GDLX"//接口
+              //        };
+              //        publicMethods.dataDictionary(param);
+	         //     }
+	         // });
 	    }
     	renderTable();
     	window.renderTable = renderTable;
@@ -199,20 +236,20 @@
             	var dataId;
             	if(selectRowData != undefined){
             		dataId = selectRowData.dataId;
-            		if(selectRowData.workOrderStatus == '2'){
-            			layer.open({
-    	                    title:param.name+'-查看',
-    	                    skin: 'layui-layer-lan',
-    	                    shadeClose: false,
-    	                    type: 2,
-    	                    fixed: false,
-    	                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-    	                    maxmin: true,
-    	                    //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-    	                    area: ['70%','90%'],
-    	                    content: '/plan/my/goViewBotWorkOrder?dataId='+dataId
-    	                });
-            		}else{
+            		// if(selectRowData.workOrderStatus == '2'){
+            		// 	layer.open({
+    	             //        title:param.name+'-查看',
+    	             //        skin: 'layui-layer-lan',
+    	             //        shadeClose: false,
+    	             //        type: 2,
+    	             //        fixed: false,
+    	             //        //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+    	             //        maxmin: true,
+    	             //        //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+    	             //        area: ['70%','90%'],
+    	             //        content: '/plan/my/goViewBotWorkOrder?dataId='+dataId
+    	             //    });
+            		// }else{
                 		layer.open({
     	                    title:param.name+'-查看',
     	                    skin: 'layui-layer-lan',
@@ -225,7 +262,7 @@
     	                    area: ['70%','90%'],
     	                    content: '/plan/goViewBotWorkOrder?dataId='+dataId
     	                });
-            		}
+            		// }
 	            } else {
 	            	layer.msg('请选择一条数据');
 	            	return;
@@ -234,7 +271,7 @@
            	deleteEvent: function(){ //点击删除按钮
            		var id;
            		if(selectRowData != undefined){
-            		if(selectRowData.workOrderStatus == '0'){
+            		// if(selectRowData.workOrderStatus == '0'){
             			id = selectRowData.dataId;
             			layer.confirm('确认要删除选中的条数据吗？',{icon:3,btn:['确定','取消']},function(index){
 	                        layer.close(index);
@@ -258,10 +295,10 @@
 	                            }
 	                        });
 	                    });
-            		}else{
-            			layer.msg('当前记录已经提交,不能进行删除操作！');
-            			return;
-            		}
+            		// }else{
+            		// 	layer.msg('当前记录已经提交,不能进行删除操作！');
+            		// 	return;
+            		// }
 	            } else {
 	            	layer.msg('请选择一条数据');
 	            	return;
@@ -285,33 +322,45 @@
         //监听行双击事件
         table.on('rowDouble(tableData)', function(obj){
             var dataId =  obj.data.dataId;
-            if(obj.data.workOrderStatus == '2'){
-    			layer.open({
-                    title:param.name+'-查看',
-                    skin: 'layui-layer-lan',
-                    shadeClose: false,
-                    type: 2,
-                    fixed: false,
-                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                    maxmin: true,
-                    //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                    area: ['70%','90%'],
-                    content: '/plan/my/goViewBotWorkOrder?dataId='+dataId
-                });
-    		}else{
-        		layer.open({
-                    title:param.name+'-查看',
-                    skin: 'layui-layer-lan',
-                    shadeClose: false,
-                    type: 2,
-                    fixed: false,
-                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                    maxmin: true,
-                    //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                    area: ['70%','90%'],
-                    content: '/plan/goViewBotWorkOrder?dataId='+dataId
-                });
-    		}
+            layer.open({
+                title:param.name+'-查看',
+                skin: 'layui-layer-lan',
+                shadeClose: false,
+                type: 2,
+                fixed: false,
+                //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                maxmin: true,
+                //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                area: ['70%','90%'],
+                content: '/plan/goViewBotWorkOrder?dataId='+dataId
+            });
+            // if(obj.data.workOrderStatus == '2'){
+    		// 	layer.open({
+             //        title:param.name+'-查看',
+             //        skin: 'layui-layer-lan',
+             //        shadeClose: false,
+             //        type: 2,
+             //        fixed: false,
+             //        //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+             //        maxmin: true,
+             //        //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+             //        area: ['70%','90%'],
+             //        content: '/plan/my/goViewBotWorkOrder?dataId='+dataId
+             //    });
+    		// }else{
+        		// layer.open({
+             //        title:param.name+'-查看',
+             //        skin: 'layui-layer-lan',
+             //        shadeClose: false,
+             //        type: 2,
+             //        fixed: false,
+             //        //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+             //        maxmin: true,
+             //        //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+             //        area: ['70%','90%'],
+             //        content: '/plan/goViewBotWorkOrder?dataId='+dataId
+             //    });
+    		// }
         });
         table.on('sort(tableData)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
             table.reload('tableList', { //testTable是表格容器id
