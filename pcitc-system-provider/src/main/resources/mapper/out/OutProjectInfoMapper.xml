@@ -1474,7 +1474,9 @@
 	<!-- 预算分配,经费预算分析,股份公司总部科技经费预算（建议稿） -->
 	<select id="getStockCompanyMoneyTable" resultType="java.util.Map"
 		parameterType="java.lang.String">
-		SELECT * FROM (
+		SELECT case when lbName = '10' then '直属研究院' when lbName = '20' then '分子公司' when lbName = '30' then '集团单位' when lbName = '40' then '外部单位' else lbName end,
+			   realIndex,indexName,fyxje,zbxje,zje
+		FROM (
 			select
 			    round(sum(case when define1 = '费用性' then jf else 0 end)/10000,2) as fyxje,
 			    round(sum(case when define1 = '资本性' then jf else 0 end)/10000,2) as zbxje,

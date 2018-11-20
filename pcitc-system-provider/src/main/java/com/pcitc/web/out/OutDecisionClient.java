@@ -22,20 +22,20 @@ import com.pcitc.service.out.OutDecisionService;
 public class OutDecisionClient {
 
 	@Autowired
-	private OutDecisionService outDecisionService;
-	
-	private final static Logger logger = LoggerFactory.getLogger(OutDecisionClient.class);
+	private OutDecisionService	outDecisionService;
+
+	private final static Logger	logger	= LoggerFactory.getLogger(OutDecisionClient.class);
 
 	@ApiOperation(value = "预算分配,经费预算分析,股份公司总部科技经费预算（建议稿）", notes = "参数年度")
 	@RequestMapping(value = "/out-decision-provider/ysfp/jfysfx/stock-company-money")
 	public JSONArray getStockCompanyMoneyTable(@RequestBody HashMap<String, String> map) throws Exception {
-		logger.info("==================page getStockCompanyMoneyTable===========================" + map);
-		
+		logger.info("==================page getStockCompanyMoneyTable==========================="+map);
+
 		List temList = outDecisionService.getStockCompanyMoneyTable("2018");
-		
+
 		System.out.println("===="+JSON.toJSONString(temList));
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
 		return json;
 	}
-	
+
 }
