@@ -30,9 +30,16 @@ public class BudgetMysql {
 	 private String type_flag;
 	 private String id;
 	 
+	 private String lbName;
 	 
 	 
 	 
+	public String getLbName() {
+		return lbName;
+	}
+	public void setLbName(String lbName) {
+		this.lbName = lbName;
+	}
 	public String getId() {
 		return id;
 	}

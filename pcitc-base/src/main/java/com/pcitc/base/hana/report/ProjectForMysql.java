@@ -37,8 +37,17 @@ public class ProjectForMysql {
 	  private String zycmc;
 	  
 	  
+	  private Object xmsl;
 	  
 	  
+	  
+	  
+	public Object getXmsl() {
+		return xmsl;
+	}
+	public void setXmsl(Object xmsl) {
+		this.xmsl = xmsl;
+	}
 	public String getZycmc() {
 		return zycmc;
 	}
