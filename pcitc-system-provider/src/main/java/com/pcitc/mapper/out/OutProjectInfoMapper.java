@@ -228,4 +228,11 @@ public interface OutProjectInfoMapper {
      * 领导二级页面，8个院新开、续建情况,每一行是一个院
      */
 	public List getProjectTypeCountByUnitLD(String nd);
+	
+	/**
+     * @param nd
+     * @return
+     * 预算分配,经费预算分析,股份公司总部科技经费预算（建议稿）
+     */
+	public List getStockCompanyMoneyTable(String nd);
 }
