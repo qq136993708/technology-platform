@@ -149,4 +149,14 @@
 		group by `STATUS`
 	</select>
 	
+	<!-- 知识产权分析,专利申报情况明细分析表 -->
+	<select id="selectPatentDetailInfoByCond" resultType="java.util.Map" parameterType="java.util.Map">
+		select 
+			 ZLH as zlbm,ZHY as zlms,case when SQBZ = '1' then '国内' else '国外' end as gngw,
+			 GBDM as zlszg,YXQH as yxq, FMR as dysqr, SHENQR as dyfmdw
+		from out_patent
+		where
+		SHOUQR like '2018-05%' AND `STATUS` IS NOT NULL
+	</select>
+	
 </mapper>

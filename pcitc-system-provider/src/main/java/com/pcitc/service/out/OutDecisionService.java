@@ -3,6 +3,9 @@ package com.pcitc.service.out;
 import java.util.List;
 import java.util.Map;
 
+import com.pcitc.base.common.LayuiTableData;
+import com.pcitc.base.common.LayuiTableParam;
+
 public interface OutDecisionService {
 
 	/**
@@ -44,6 +47,14 @@ public interface OutDecisionService {
      * 知识产权分析,各类型专利的数量，8大研究院
      */
 	public List getPatentCountByInstitute(Map map);
+	
+	/**
+     * @return
+     * 知识产权分析,专利申报情况明细分析表
+     */
+	public LayuiTableData selectPatentDetailInfoByCond(LayuiTableParam param);
+	
+	
 	
 	
 }

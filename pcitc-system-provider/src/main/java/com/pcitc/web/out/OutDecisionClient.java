@@ -12,10 +12,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import com.pcitc.base.common.LayuiTableData;
+import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.service.out.OutDecisionService;
 
 @Api(value = "OUT-DECISION-API", description = "辅助决策相关的接口")
@@ -141,6 +144,13 @@ public class OutDecisionClient {
 		System.out.println("===="+JSON.toJSONString(temList));
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
 		return json;
+	}
+	
+	@ApiOperation(value = "知识产权分析,专利申报情况明细分析表", notes = "分页显示项目数据")
+	@RequestMapping(value = "/out-provider/project-list", method = RequestMethod.POST)
+	public LayuiTableData selectPatentDetailInfoByCond(@RequestBody LayuiTableParam param) throws Exception {
+		logger.info("==================page selectPatentDetailInfoByCond===========================" + param);
+		return outDecisionService.selectPatentDetailInfoByCond(param);
 	}
 
 }

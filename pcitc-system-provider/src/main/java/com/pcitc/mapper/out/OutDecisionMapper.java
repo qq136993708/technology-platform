@@ -44,5 +44,14 @@ public interface OutDecisionMapper {
      */
 	public List getPatentCountByInstitute(Map map);
 	
+	/**
+     * @return
+     * 知识产权分析,专利申报情况明细分析表
+     */
+	public List selectPatentDetailInfoByCond(Map map);
+	
+	
+	
+	
 	
 }
