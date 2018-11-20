@@ -1478,9 +1478,9 @@
 			   realIndex,indexName,fyxje,zbxje,zje
 		FROM (
 			select
-			    round(sum(case when define1 = '费用性' then jf else 0 end)/10000,2) as fyxje,
-			    round(sum(case when define1 = '资本性' then jf else 0 end)/10000,2) as zbxje,
-			    round(sum(jf)/10000,2) as zje,
+			    round(sum(case when define1 = '费用性' then jf else 0 end), 2) as fyxje,
+			    round(sum(case when define1 = '资本性' then jf else 0 end), 2) as zbxje,
+			    round(sum(jf), 2) as zje,
 		    	SUBSTR(define2 FROM 4) lbName,SUBSTR(define2,1,3) realIndex, NULL as indexName
 			from out_project_info
 			where project_type != '1' and (project_scope = '新开课题' or project_scope = '结转课题') and define2 is not null
@@ -1488,9 +1488,9 @@
 		    
 			union ALL
 			select
-			    round(sum(case when define1 = '费用性' then jf else 0 end)/10000,2) as fyxje,
-			    round(sum(case when define1 = '资本性' then jf else 0 end)/10000,2) as zbxje,
-			    round(sum(jf)/10000,2) as zje,
+			    round(sum(case when define1 = '费用性' then jf else 0 end), 2) as fyxje,
+			    round(sum(case when define1 = '资本性' then jf else 0 end), 2) as zbxje,
+			    round(sum(jf), 2) as zje,
 		    	SUBSTR(define2,1,2) lbName,SUBSTR(define2,1,2) realIndex,SUBSTR(define2,1,1) indexName
 			from out_project_info
 			where project_type != '1' and (project_scope = '新开课题' or project_scope = '结转课题') and define2 is not null
@@ -1502,14 +1502,18 @@
 	<select id="getDepartmentBudgetMoneyTable" resultType="java.util.Map"
 		parameterType="java.lang.String">
 		select
-			sum(case when fwdx = '股份' and project_scope = '新开课题' then jf else 0 end) as gfxkje,
-      		sum(case when fwdx = '股份' and project_scope = '结转课题' then jf else 0 end) as gfjzje,
-			sum(case when fwdx = '股份' then jf else 0 end) as gfzje,
-			sum(case when fwdx = '资产' and project_scope = '新开课题' then jf else 0 end) as zcxkje,
-      		sum(case when fwdx = '资产' and project_scope = '结转课题' then jf else 0 end) as zcjzje,
-			sum(case when fwdx = '资产' then jf else 0 end) as zczje,
-			sum(case when fwdx = '集团' and project_scope = '新开课题' then jf else 0 end) as jtxkje,
-      		sum(case when fwdx = '集团' and project_scope = '结转课题' then jf else 0 end) as jtjzje,
+			round(sum(case when project_scope = '新开课题' then jf else 0 end),2) as zxqje,
+      		round(sum(case when project_scope = '结转课题' then jf else 0 end),2) as zlhtje,
+			round(sum(jf),2) as zysje,
+			round(sum(case when fwdx = '股份' and project_scope = '新开课题' then jf else 0 end),2) as gfxkje,
+      		round(sum(case when fwdx = '股份' and project_scope = '结转课题' then jf else 0 end),2) as gfjzje,
+			round(sum(case when fwdx = '股份' then jf else 0 end),2) as gfzje,
+			round(sum(case when fwdx = '资产' and project_scope = '新开课题' then jf else 0 end),2) as zcxkje,
+      		round(sum(case when fwdx = '资产' and project_scope = '结转课题' then jf else 0 end),2) as zcjzje,
+			round(sum(case when fwdx = '资产' then jf else 0 end),2) as zczje,
+			round(sum(case when fwdx = '集团' and project_scope = '新开课题' then jf else 0 end),2) as jtxkje,
+      		round(sum(case when fwdx = '集团' and project_scope = '结转课题' then jf else 0 end),2) as jtjzje,
+			round(sum(case when fwdx = '集团' then jf else 0 end),2) as jtzje,
 			sum(case when fwdx = '集团' then jf else 0 end) as jtzje,
       		define4 as cbName
 		from out_project_info
