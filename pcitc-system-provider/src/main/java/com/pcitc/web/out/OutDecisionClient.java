@@ -37,5 +37,17 @@ public class OutDecisionClient {
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
 		return json;
 	}
+	
+	@ApiOperation(value = "预算分配,经费预算分析,各处、部门科技经费预算总表", notes = "参数年度")
+	@RequestMapping(value = "/out-decision-provider/ysfp/jfysfx/department-budget")
+	public JSONArray getDepartmentBudgetMoneyTable(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page getDepartmentBudgetMoneyTable==========================="+map);
+
+		List temList = outDecisionService.getDepartmentBudgetMoneyTable("2018");
+
+		System.out.println("===="+JSON.toJSONString(temList));
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		return json;
+	}
 
 }

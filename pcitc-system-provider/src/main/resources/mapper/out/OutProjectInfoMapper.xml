@@ -1498,4 +1498,24 @@
 	    ) as tableA ORDER BY realIndex
 	</select>
 	
+	<!-- 预算分配,经费预算分析,各处、部门科技经费预算总表 -->
+	<select id="getDepartmentBudgetMoneyTable" resultType="java.util.Map"
+		parameterType="java.lang.String">
+		select
+			sum(case when fwdx = '股份' and project_scope = '新开课题' then jf else 0 end) as gfxkje,
+      		sum(case when fwdx = '股份' and project_scope = '结转课题' then jf else 0 end) as gfjzje,
+			sum(case when fwdx = '股份' then jf else 0 end) as gfzje,
+			sum(case when fwdx = '资产' and project_scope = '新开课题' then jf else 0 end) as zcxkje,
+      		sum(case when fwdx = '资产' and project_scope = '结转课题' then jf else 0 end) as zcjzje,
+			sum(case when fwdx = '资产' then jf else 0 end) as zczje,
+			sum(case when fwdx = '集团' and project_scope = '新开课题' then jf else 0 end) as jtxkje,
+      		sum(case when fwdx = '集团' and project_scope = '结转课题' then jf else 0 end) as jtjzje,
+			sum(case when fwdx = '集团' then jf else 0 end) as jtzje,
+      		define4 as cbName
+		from out_project_info
+		where (project_type = '0' or project_type = '2') and 
+			  (project_scope = '新开课题' or project_scope = '结转课题') and define4 is not null
+    	group by define4
+	</select>
+	
 </mapper>
