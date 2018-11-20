@@ -29,10 +29,10 @@
                 <div class="layui-row">
                     <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                         <div class="layui-form-item">
-                            <label class="layui-form-label">工单标题:<span class="must-fill">*</span></label>
+                            <label class="layui-form-label">标题:<span class="must-fill">*</span></label>
                             <div class="layui-input-block">
                                 <input class="layui-input" name="workOrderName" id="workOrderName" lay-verify="title"
-                                       placeholder="请输入工单标题" autocomplete="off" type="text">
+                                       placeholder="请输入标题" autocomplete="off" type="text">
                             </div>
                         </div>
                     </div>
@@ -50,7 +50,7 @@
                 <div class="layui-row">
                     <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                         <div class="layui-form-item">
-                            <label class="layui-form-label">工单类型:<span class="must-fill">*</span></label>
+                            <label class="layui-form-label">类型:<span class="must-fill">*</span></label>
                             <div class="layui-input-block">
                                 <select id="workOrderType" name="workOrderType" lay-filter="select_filter"
                                         lay-search></select>
@@ -79,7 +79,7 @@
                     </div>
                     <!-- <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                           <div class="layui-form-item">
-                            <label class="layui-form-label">工单状态:<span class="must-fill">*</span></label>
+                            <label class="layui-form-label">状态:<span class="must-fill">*</span></label>
                                <div class="layui-input-block">
                                    <select id="workOrderStatus" name="workOrderStatus" lay-filter="select_filter" lay-search></select>
                             </div>
@@ -175,8 +175,8 @@
             form.render(null, 'component-form-group');
 
         function setWelder(selectData) {
-            $('#workOrderAllotUserId').val(selectData.dataId);
-            $('#workOrderAllotUserName').val(selectData.welderName);
+            $('#workOrderAllotUserId').val(selectData.userId);
+            $('#workOrderAllotUserName').val(selectData.userDisp);
         }
 
         window.setWelder = setWelder;
@@ -295,7 +295,7 @@
                 maxmin: true,
                 //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
                 area: ['90%', '90%'],
-                content: '/engin/quality/weld/selectWelder.html'
+                content: '/plan/pageSelectUser'
             });
         })
         form.on('submit(component-form-submit)', function (data) {
@@ -362,6 +362,7 @@
             url: '/plan/viewBotWorkOrder?dataId=' + dataId,
             success: function (data) {
                 dataJson = JSON.parse(JSON.stringify(data));
+                console.log(dataJson);
                 enhance.filling(dataJson);
                 selectData = data;
                 //$("#jobContent").val(data.jobContent);

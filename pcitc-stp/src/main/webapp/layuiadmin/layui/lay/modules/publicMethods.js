@@ -372,6 +372,7 @@ layui.define(['jquery','form','table'],
                         , url:url //请求的url地址
                         , limit: param.selfRownum //每页默认显示的数量
                         , id: id
+                        ,method:"POST"
                         , height: commonDislodgeTable()
                         , page: {
                             count: 500 //数据总数，从服务端得到
@@ -395,6 +396,7 @@ layui.define(['jquery','form','table'],
                         , url:url //请求的url地址
                         , limit: param.selfRownum //每页默认显示的数量
                         , id: id
+                        ,method:"POST"
                         , height: commonDislodgeTable()
                         , page: {
                             count: 500 //数据总数，从服务端得到

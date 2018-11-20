@@ -65,14 +65,16 @@
                     </div>
 
                     <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-                        <div class="layui-form-item">
-                            <label for="" class="layui-form-label">完成比例<span class="must-fill">*</span></label>
-                            <div class="layui-input-block">
-                                <input class="layui-input" name="bl" id="bl"
-                                       placeholder="完成比例" autocomplete="off" type="text">
-                            </div>
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">完成比例<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input class="layui-input" name="bl" id="bl"
+                                   placeholder="完成比例" autocomplete="off" type="text">
                         </div>
                     </div>
+                </div>
+
+
                     <!-- <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                           <div class="layui-form-item">
                             <label class="layui-form-label">状态:<span class="must-fill">*</span></label>
@@ -195,6 +197,18 @@
             },
             error: function (e) {
                 alertError("出错了！", e);
+            }
+        });
+        $.ajax({
+            url: '/pageCommon/dic/ROOT_SGGL_GDGL_GDLX',
+            dataType: 'json',
+            type: 'post',
+            success: function (data) {
+                $.each(data, function (index, item) {
+                    console.log(data);
+                    $('#workOrderType').append(new Option(item.name, item.code));//往下拉菜单里添加元素
+                })
+                form.render();
             }
         });
         // var workOrderTypeParam={
@@ -377,7 +391,7 @@
                     $(tr).eq(index).find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
                     selectRowData = res.data[index - 1];
                 });
-                publicMethods.timeAdd();
+                // publicMethods.timeAdd();
             }
         });
         $(".layui-table-header table thead th input").remove();
