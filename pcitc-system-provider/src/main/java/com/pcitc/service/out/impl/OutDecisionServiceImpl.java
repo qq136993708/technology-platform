@@ -9,8 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.pcitc.mapper.out.OutProjectErpMapper;
-import com.pcitc.mapper.out.OutProjectInfoMapper;
+import com.pcitc.mapper.out.OutDecisionMapper;
 import com.pcitc.service.out.OutDecisionService;
 
 @Service("outDecisionService")
@@ -18,9 +17,18 @@ import com.pcitc.service.out.OutDecisionService;
 public class OutDecisionServiceImpl implements OutDecisionService {
 
 	@Autowired
-	private OutProjectInfoMapper outProjectInfoMapper;
+	private OutDecisionMapper outDecisionMapper;
 
 	private final static Logger logger = LoggerFactory.getLogger(OutDecisionServiceImpl.class);
+	
+	/**
+     * @param nd
+     * @return
+     * 经费预算建议--集团公司总部科技经费预算（建议稿）
+     */
+    public List getGroupCompanyStpMoneyForBudgetProposals(String nd) {
+    	return outDecisionMapper.getGroupCompanyStpMoneyForBudgetProposals(nd);
+    }
     
     /**
      * @param nd
@@ -28,7 +36,7 @@ public class OutDecisionServiceImpl implements OutDecisionService {
      * 预算分配,经费预算分析,股份公司总部科技经费预算（建议稿）
      */
 	public List getStockCompanyMoneyTable(String nd) {
-		return outProjectInfoMapper.getStockCompanyMoneyTable(nd);
+		return outDecisionMapper.getStockCompanyMoneyTable(nd);
 	}
 	
 	
@@ -38,6 +46,6 @@ public class OutDecisionServiceImpl implements OutDecisionService {
      * 预算分配,经费预算分析,各处、部门科技经费预算总表
      */
 	public List getDepartmentBudgetMoneyTable(String nd) {
-		return outProjectInfoMapper.getDepartmentBudgetMoneyTable(nd);
+		return outDecisionMapper.getDepartmentBudgetMoneyTable(nd);
 	}
 }
