@@ -130,5 +130,17 @@ public class OutDecisionClient {
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
 		return json;
 	}
+	
+	@ApiOperation(value = "知识产权分析,各类型专利的数量，8大研究院", notes = "参数年度")
+	@RequestMapping(value = "/out-decision-provider/zscq/patent-count/institute")
+	public JSONArray getPatentCountByInstitute(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page getPatentCountByInstitute==========================="+map);
+
+		List temList = outDecisionService.getPatentCountByInstitute(null);
+		
+		System.out.println("===="+JSON.toJSONString(temList));
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		return json;
+	}
 
 }

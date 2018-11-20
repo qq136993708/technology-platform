@@ -67,5 +67,13 @@ public class OutDecisionServiceImpl implements OutDecisionService {
 		return outDecisionMapper.getPatentCountByPatentType(map);
 	}
 	
+	/**
+     * @return
+     * 知识产权分析,各类型专利的数量，8大研究院
+     */
+	public List getPatentCountByInstitute(Map map) {
+		return outDecisionMapper.getPatentCountByInstitute(map);
+	}
+	
 	
 }

@@ -39,5 +39,11 @@ public interface OutDecisionService {
      */
 	public List getPatentCountByPatentType(Map map);
 	
+	/**
+     * @return
+     * 知识产权分析,各类型专利的数量，8大研究院
+     */
+	public List getPatentCountByInstitute(Map map);
+	
 	
 }
