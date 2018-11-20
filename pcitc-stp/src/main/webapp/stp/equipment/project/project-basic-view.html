@@ -44,7 +44,7 @@
           <div class="layui-form-item">
             <label for="" class="layui-form-label">项目名称</label>
             <div class="layui-input-block">
-              <input class="layui-input readOnlyBox" name="name" id="name" value="${sreProjectBasic.name}"  lay-verify="name"  autocomplete="off" type="text">
+              <input class="layui-input readOnlyBox" name="name" id="name" value="${sreProjectBasic.name}"  lay-verify="name"  autocomplete="off" type="text" readonly="readonly">
             </div>
           </div>
         </div>
@@ -52,7 +52,7 @@
           <div class="layui-form-item">
             <label for="" class="layui-form-label">关键词</label>
             <div class="layui-input-block">
-              <input class="layui-input readOnlyBox" name="keyWord" id="keyWord" value="${sreProjectBasic.keyWord}"  autocomplete="off" type="text">
+              <input class="layui-input readOnlyBox" name="keyWord" id="keyWord" value="${sreProjectBasic.keyWord}"  autocomplete="off" type="text" readonly="readonly">
             </div>
           </div>
         </div>
@@ -63,7 +63,7 @@
           <div class="layui-form-item">
             <label for="" class="layui-form-label">项目属性</label>
             <div class="layui-input-block">
-              <input class="layui-input readOnlyBox" name="projectType" id="projectType" value="${sreProjectBasic.projectType}"  lay-verify="required"  autocomplete="off" type="text">
+              <input class="layui-input readOnlyBox" name="projectType" id="projectType" value="${sreProjectBasic.projectType}"  lay-verify="required"  autocomplete="off" type="text" readonly="readonly">
             </div>
           </div>
         </div>
@@ -72,9 +72,9 @@
             <label for="" class="layui-form-label">建设年限</label>
             <div class="layui-input-block">
                   <div class="layui-input-inline" style="float:left">
-		            <input type="text" class="layui-input readOnlyBox" name="beginYear" id="beginYear" value="${sreProjectBasic.beginYear}" style="width:80px;float:left" placeholder="开始年份">
+		            <input type="text" class="layui-input readOnlyBox" name="beginYear" id="beginYear" value="${sreProjectBasic.beginYear}" style="width:80px;float:left" placeholder="开始年份" readonly="readonly">
 		             <div class="layui-form-mid" style="width:8px;float:left"> - </div>
-		            <input type="text" class="layui-input readOnlyBox" id="endYear" name="endYear"   value="${sreProjectBasic.endYear}" style="width:80px;float:left" placeholder="结束年份">
+		            <input type="text" class="layui-input readOnlyBox" id="endYear" name="endYear"   value="${sreProjectBasic.endYear}" style="width:80px;float:left" placeholder="结束年份" readonly="readonly">
 		          </div>
             </div>
           </div>
@@ -86,7 +86,7 @@
           <div class="layui-form-item">
             <label for="" class="layui-form-label">项目长</label>
             <div class="layui-input-block">
-              <input class="layui-input readOnlyBox" name="projectLeader" id="projectLeader" value="${sreProjectBasic.projectLeader}"  lay-verify="required" placeholder="请输入装备名称" autocomplete="off" type="text">
+              <input class="layui-input readOnlyBox" name="projectLeader" id="projectLeader" value="${sreProjectBasic.projectLeader}"  lay-verify="required" placeholder="请输入装备名称" autocomplete="off" type="text" readonly="readonly">
             </div>
           </div>
         </div>
@@ -94,12 +94,11 @@
           <div class="layui-form-item">
             <label for="" class="layui-form-label">院级上报金额</label>
             <div class="layui-input-block">
-              <input class="layui-input readOnlyBox" name="applyMoney" id="applyMoney" value="${sreProjectBasic.applyMoney}"  autocomplete="off" type="text">
+              <input class="layui-input readOnlyBox" name="applyMoney" id="applyMoney" value="${sreProjectBasic.applyMoney}"  autocomplete="off" type="text" readonly="readonly">
             </div>
           </div>
         </div>
       </div>
-      
       
       <div class="layui-row">
         <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
@@ -120,12 +119,18 @@
         </div>
       </div>
       
+      <div class="form-bottom">
+  		<div class="form-bottom-btns">
+       		<button type="button"class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" id="closeBtn">关闭</button>
+  		</div>
+	  </div>
+      
       <div <#if sreProjectBasic.status == '0'>style="display:none"</#if>>
       <!--文本域-->
       <div class="layui-form-item layui-form-text" >
         <label class="layui-form-label">目的和主要任务</label>
         <div class="layui-input-block">
-          <textarea placeholder="请输入目的和主要任务" name="taskMainTaskContent" id="taskMainTaskContent" lay-verify="required"   class="layui-textarea">${sreProjectBasic.taskMainTaskContent}</textarea>
+          <textarea placeholder="请输入目的和主要任务" name="taskMainTaskContent" id="taskMainTaskContent" lay-verify="required"   class="layui-textarea readOnlyBox" readonly="readonly">${sreProjectBasic.taskMainTaskContent}</textarea>
         </div>
       </div>
       
@@ -133,7 +138,7 @@
       <div class="layui-form-item layui-form-text" >
         <label class="layui-form-label">项目内容</label>
         <div class="layui-input-block">
-          <textarea placeholder="请输入项目内容" name="taskContent" id="taskContent" lay-verify="required"   class="layui-textarea">${sreProjectBasic.taskContent}</textarea>
+          <textarea placeholder="请输入项目内容" name="taskContent" id="taskContent" lay-verify="required"   class="layui-textarea readOnlyBox" readonly="readonly">${sreProjectBasic.taskContent}</textarea>
         </div>
       </div>
       
@@ -143,7 +148,7 @@
           <div class="layui-form-item">
             <label for="" class="layui-form-label">计划进度和考核目标</label>
             <div class="layui-input-block">
-              <input class="layui-input readOnlyBox" name="taskAssessmentContent" id="taskAssessmentContent" value="${sreProjectBasic.taskAssessmentContent}"  lay-verify="taskAssessmentContent"  autocomplete="off" type="text">
+              <input class="layui-input readOnlyBox" name="taskAssessmentContent" id="taskAssessmentContent" value="${sreProjectBasic.taskAssessmentContent}"  lay-verify="taskAssessmentContent"  autocomplete="off" type="text" readonly="readonly">
             </div>
           </div>
         </div>
@@ -151,7 +156,7 @@
           <div class="layui-form-item">
             <label for="" class="layui-form-label">应提交验收的内容</label>
             <div class="layui-input-block">
-              <input class="layui-input readOnlyBox" name="taskCheckContents" id="taskCheckContents" value="${sreProjectBasic.taskCheckContents}"  autocomplete="off" type="text">
+              <input class="layui-input readOnlyBox" name="taskCheckContents" id="taskCheckContents" value="${sreProjectBasic.taskCheckContents}"  autocomplete="off" type="text" readonly="readonly">
             </div>
           </div>
         </div>
@@ -165,18 +170,13 @@
             </div>
       </div>
       
-      
-      
-      
-      
       <!--文本域-->
       <div class="layui-form-item layui-form-text" >
         <label class="layui-form-label">验收内容名称</label>
         <div class="layui-input-block">
-          <textarea placeholder="请输入:项目总结报告；设计图纸、设计总结报告；使用（操作）手册；质量评定、使用考核情况报告；安全、消防验收证明；环境保护验收证明；职业防护验收证明；财务决算报告；审计报告" name="checkContents" id="projectContent" lay-verify="required"   class="layui-textarea">${sreProjectBasic.projectContent}</textarea>
+          <textarea placeholder="请输入:项目总结报告；设计图纸、设计总结报告；使用（操作）手册；质量评定、使用考核情况报告；安全、消防验收证明；环境保护验收证明；职业防护验收证明；财务决算报告；审计报告" name="checkContents" id="projectContent" lay-verify="required"   class="layui-textarea readOnlyBox" readonly="readonly">${sreProjectBasic.projectContent}</textarea>
         </div>
       </div>
-      
       
       <!--文本域-->
       <div class="layui-row">
@@ -184,7 +184,7 @@
           <div class="layui-form-item">
             <label for="" class="layui-form-label">验收人</label>
             <div class="layui-input-block">
-               <input class="layui-input readOnlyBox" name="checkUser" id="checkUser" value="${sreProjectBasic.checkUser}"  lay-verify="required" placeholder="请输入验收人" autocomplete="off" type="text">
+               <input class="layui-input readOnlyBox" name="checkUser" id="checkUser" value="${sreProjectBasic.checkUser}"  lay-verify="required" placeholder="请输入验收人" autocomplete="off" type="text" readonly="readonly">
             </div>
           </div>
         </div>
@@ -196,8 +196,12 @@
             </div>
           </div>
         </div>
+        <div class="form-bottom">
+	  		<div class="form-bottom-btns">
+	       		<button type="button"class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" id="closeBtn1">关闭</button>
+	  		</div>
+	    </div>
       </div>
-      
       </div>
 </form>
 </div>
@@ -226,184 +230,18 @@ layui.config({
 	      elem: '#LAY-component-form-group-date'
 	  });
 	  
-      /* 自定义验证规则  title 要验证的input的 lay-verify=""*/
-      form.verify({
-    	  name: function(value)
-    	  {
-              if(value.length < 5)
-              {
-                  return '装备名称至少得5个字符啊';
-              }
-          },
-          planMoney: [/(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/,'计划金额格试不正确'] 
-         /*  ,pass: [/(.+){6,12}$/, '密码必须6到12位']
-          ,content: function(value){
-              layedit.sync(editIndex);
-          } */
-      });
-      if(equipmentIds!=null && equipmentIds!='')
-      {
-      	renderTable(equipmentIds);
-      } 
+      //关闭事件
+      $("#closeBtn").click(function () {
+          var index = parent.layer.getFrameIndex(window.name);
+          parent.layer.close(index);
+      })
       
-    //开始日期
-      var insStart = laydate.render({
-          elem: '#beginYear'
-          ,min: 0,type: 'year'
-          ,done: function(value, date){
-              //更新结束日期的最小日期
-              insEnd.config.min = lay.extend({}, date, {
-                  month: date.month - 1
-              });
-              //自动弹出结束日期的选择器
-              insEnd.config.elem[0].focus();
-          }
-      });
-
-      //结束日期
-      var insEnd = laydate.render({
-          elem: '#endYear'
-          ,min: 0,type: 'year'
-          ,done: function(value, date){
-              //更新开始日期的最大日期
-              insStart.config.max = lay.extend({}, date, {
-                  month: date.month - 1
-              });
-          }
-      });
-      $('.layui-btn').on('click', function () {
-          var type = $(this).data('type');
-          active[type] ? active[type].call(this) : '';
-      });
-      var $ = layui.$, active = {
-    		  
-              addEvent: function() { //点击查询按钮
-                 
-              }
-      }
-      
+      //关闭事件
+      $("#closeBtn1").click(function () {
+          var index = parent.layer.getFrameIndex(window.name);
+          parent.layer.close(index);
+      })
 });
-
-
-
-function ajaxOpt(url,formName,type,backurl,successMsg,failMsg)
-{
-	$("#equipmentIds").val($("#equipmentIds").val());
-	 $.ajax({
-  	     type:type,
-  	     url: url,
-  	     dataType:"json",
-  	     data:$("#"+formName).serialize(),
-  	     async: false, 
-  	     cache: false,
-  	     contentType: "application/x-www-form-urlencoded; charset=utf-8",
-         success:function(data,status)
-         {    
-    	  
-	          if(data.success==true ||data.success=='true')
-	          {
-
-	        	  
-	        	          layer.alert(
-	        			  successMsg, 
-	                      {icon: 1,closeBtn: 0 },
-	                      function () 
-	                      {
-	                    	  var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
-	                          parent.layer.close(index);  // 关闭layer
-	                    	  parent.location.href=backurl;
-	                      });
-	        	  
-	          } else
-	          {
-	        	 layer.alert(failMsg);
-	          }
-	     
-		   },
-		   error:function()
-		   {
-		    	layer.alert("网络访问错误");
-		   }
-    
-  });
-}
-
-
-
-
-var t;
-function renderTable(id)
-{ 
-   //渲染
-   table.render({
-       elem: '#eqiu_table',
-       url: '/sre-equipment/list',
-       method:"POST",
-       where: {param: {"equipmentIds":id,"name":""}},
-       limit: 15,
-       height: commonDislodgeTable(),
-       id: 'eqiu_table',
-       cols: [[
-       	{type:'checkbox',event: 'changeEvents',width: '3%'},
-       	{title:'序号', type:'numbers', width: '4%'},
-           {field:'equipmentCode', title:'编号',        style:'cursor: pointer;',align: 'center'},
-           {field:'name',        title:'装备名称',     style:'cursor: pointer;',align: 'center'},
-           {field:'auditStatus', title:'流程状态',     style:'cursor: pointer;',align: 'center',templet: '#buttonTpl'},
-           {field:'meetingId',   title:'技术交流',     style:'cursor: pointer;',align: 'center'},
-           {field:'createDate',  title:'时间',        style:'cursor: pointer;',align: 'center',templet: '#dateTpl'}
-       ]],
-       done: function (res, curr, count) {
-           // 点击行联动选择框--单选
-           $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
-           	var index=parseInt($(this).index()+1);
-               $('tr').removeClass('layui-table-click');
-               $(this).addClass('layui-table-click');
-               $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
-               $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
-               selectRowData=res.data[index-1];
-           });
-       }
-   });
-}
-
-
-
-function upload_File(name) {
-	
-    var param = {};
-    if(document.getElementById(name)){
-        param.file_id_name = name;
-        param.file_ids_value = $("#" + param.file_id_name).val();
-    }else {
-        param.file_ids_value = name;
-    }
-    param.callback = "call_fun";//回调函数名称
-    param.file_opt_flag = "4d79552ec98849f6b32da1af921df81e";//文件配置ID
-    param.file_edit_detail = "detail";//新增、修改用edit, 显示用detail
-    var temUrl = "/sysFilePage/uploadFile?param=" + encodeURIComponent(JSON.stringify(param));
-    openBaseWin("文件上传", temUrl);
-}
-
-
-
-
-function call_fun(data, param)
-{
-    //param:返回上面拼装的参数json字符串，data：json文件数组
-    console.log("-------------call_fun___________");
-    console.log(data);
-    console.log(param);
-    for (var key in data) 
-    {
-        //console.log(key);
-        // var obj_file = data[key];
-        //console.log("文件名称："+obj_file.fileName+"  文件大小："+obj_file.fileSize+"  文件路径:"+obj_file.filePath);
-    }
-}
-
-function showdialog() {
-    openBaseWin("选择", "/sysfileshare/dialog_user_list");
-}
 
 </script>
 </body>

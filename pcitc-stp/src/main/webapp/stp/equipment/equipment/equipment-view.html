@@ -27,9 +27,9 @@
       <div class="layui-row">
         <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
           <div class="layui-form-item">
-            <label for="" class="layui-form-label">装备名称<span class="must-fill">*</span></label>
+            <label for="" class="layui-form-label">装备名称<span class="must-fill"></span></label>
             <div class="layui-input-block">
-              <input class="layui-input readOnlyBox" name="name" id="name" value="${sreEquipment.name}"  lay-verify="name" placeholder="请输入装备名称" autocomplete="off" type="text">
+              <input class="layui-input readOnlyBox" name="name" id="name" value="${sreEquipment.name}"  lay-verify="name" placeholder="请输入装备名称" autocomplete="off" type="text" readonly="readonly">
             </div>
           </div>
         </div>
@@ -37,7 +37,7 @@
           <div class="layui-form-item">
             <label for="" class="layui-form-label">关键词</label>
             <div class="layui-input-block">
-              <input class="layui-input readOnlyBox" name="keyWord" id="keyWord" value="${sreEquipment.keyWord}"  autocomplete="off" type="text">
+              <input class="layui-input readOnlyBox" name="keyWord" id="keyWord" value="${sreEquipment.keyWord}"  autocomplete="off" type="text" readonly="readonly">
             </div>
           </div>
         </div>
@@ -47,13 +47,14 @@
       <div class="layui-row">
         <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
           <div class="layui-form-item">
-            <label for="" class="layui-form-label">装备分类<span class="must-fill">*</span></label>
+            <label for="" class="layui-form-label" >装备分类<span class="must-fill"></span></label>
             <div class="layui-input-block">
-		            <select name="type"  id="type" lay-verify=""  lay-filter="test">
+            	<input class="layui-input readOnlyBox" name="keyWord" id="keyWord" value="${sreEquipment.type}"  autocomplete="off" type="text" readonly="readonly">
+		            <!-- <select name="type"  id="type" lay-verify=""  lay-filter="test">
 		              <option value="">---请选择---</option>
 		              <option value="1">软件</option>
 		              <option value="2">硬件</option>
-		            </select>
+		            </select> -->
             </div>
           </div>
         </div>
@@ -62,9 +63,9 @@
             <label for="" class="layui-form-label">年份</label>
             <div class="layui-input-block">
 		          <div class="layui-input-inline" style="float:left">
-		            <input type="text" class="layui-input readOnlyBox" id="beginYear" value="${sreEquipment.beginYear}"  style="width:80px;float:left" placeholder="开始年份">
+		            <input type="text" class="layui-input readOnlyBox" id="beginYear" value="${sreEquipment.beginYear}"  style="width:80px;float:left" placeholder="开始年份" readonly="readonly">
 		             <div class="layui-form-mid" style="width:8px;float:left"> - </div>
-		            <input type="text" class="layui-input readOnlyBox" id="endYear"  value="${sreEquipment.endYear}"  style="width:80px;float:left" placeholder="结束年份">
+		            <input type="text" class="layui-input readOnlyBox" id="endYear"  value="${sreEquipment.endYear}"  style="width:80px;float:left" placeholder="结束年份" readonly="readonly">
 		          </div>
             </div>
           </div>
@@ -75,9 +76,9 @@
        <div class="layui-row">
         <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
           <div class="layui-form-item">
-            <label for="" class="layui-form-label">计划金额(万元)<span class="must-fill">*</span></label>
+            <label for="" class="layui-form-label">计划金额(万元)<span class="must-fill"></span></label>
             <div class="layui-input-block">
-              <input class="layui-input readOnlyBox" name="planMoney" id="planMoney" value="${sreEquipment.planMoney}"  onkeyup="clearNoNum(this)" readonly="readonly"  autocomplete="off" type="text">
+              <input class="layui-input readOnlyBox" name="planMoney" id="planMoney" value="${sreEquipment.planMoney}"  onkeyup="clearNoNum(this)" readonly="readonly"  autocomplete="off" type="text" readonly="readonly">
             </div>
           </div>
         </div>
@@ -85,7 +86,7 @@
           <div class="layui-form-item">
             <label for="" class="layui-form-label">申请数量</label>
             <div class="layui-input-block">
-               <input class="layui-input readOnlyBox" name="applyAcount" id="applyAcount" value="${sreEquipment.applyAcount}"   readonly="readonly"  autocomplete="off" type="text">
+               <input class="layui-input readOnlyBox" name="applyAcount" id="applyAcount" value="${sreEquipment.applyAcount}"   readonly="readonly"  autocomplete="off" type="text" readonly="readonly">
             </div>
           </div>
         </div>
@@ -95,7 +96,7 @@
        <div class="layui-row">
         <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
           <div class="layui-form-item">
-            <label for="" class="layui-form-label">规格型号<span class="must-fill">*</span></label>
+            <label for="" class="layui-form-label">规格型号<span class="must-fill"></span></label>
             <div class="layui-input-block">
               <input class="layui-input readOnlyBox" name="typeModel" id="typeModel" value="${sreEquipment.typeModel}"   readonly="readonly"  autocomplete="off" type="text">
             </div>
@@ -103,15 +104,14 @@
         </div>
         <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
           <div class="layui-form-item">
-            <label for="" class="layui-form-label">立项报告（附件）<span class="must-fill">*</span></label>
+            <label for="" class="layui-form-label">立项报告（附件）<span class="must-fill"></span></label>
             <div class="layui-input-block">
                 <input class="layui-input readOnlyBox" readonly="readonly" name="attachmentDoc" id="attachmentDoc" value="${sreEquipment.attachmentDoc}"   readonly="readonly"  autocomplete="off" type="text">
-                <a style="float:left" class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" onclick="uploadFile()">上传</a>
+                <!-- <a style="float:left" class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" onclick="uploadFile()">上传</a> -->
             </div>
           </div>
         </div>
       </div>
-      
       
        <!--文本域-->
       <div class="layui-form-item layui-form-text" >
@@ -129,6 +129,11 @@
         </div>
       </div>
       
+      <div class="form-bottom">
+  		<div class="form-bottom-btns">
+       		<button type="button"class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" id="closeBtn">关闭</button>
+  		</div>
+	  </div>
 </form>
 </div>
 </div>
@@ -150,11 +155,13 @@ layui.config({
 	  laydate.render({
 	      elem: '#LAY-component-form-group-date'
 	  });
-	  
-      
-     
 });
 
+//关闭事件
+$("#closeBtn").click(function () {
+    var index = parent.layer.getFrameIndex(window.name);
+    parent.layer.close(index);
+})
 
 function ajaxOpt(url,formName,type,backurl,successMsg,failMsg)
 {
@@ -168,30 +175,25 @@ function ajaxOpt(url,formName,type,backurl,successMsg,failMsg)
   	     contentType: "application/x-www-form-urlencoded; charset=utf-8",
          success:function(data,status)
          {    
-    	  
 	          if(data.success==true ||data.success=='true')
 	          {
-
-	        	  
-	        	          layer.alert(
-	        			  successMsg, 
-	                      {icon: 1,closeBtn: 0 },
-	                      function () 
-	                      {
-	                    	  var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
-	                          parent.layer.close(index);  // 关闭layer
-	                    	  parent.location.href=backurl;
-	                      });
-	        	  
+       	          layer.alert(
+       			  successMsg, 
+                     {icon: 1,closeBtn: 0 },
+                     function () 
+                     {
+                   	  var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+                         parent.layer.close(index);  // 关闭layer
+                   	  parent.location.href=backurl;
+                     });
 	          } else
 	          {
-	        	 layer.alert(failMsg);
+        	   layer.alert(failMsg);
 	          }
-	     
 		   },
 		   error:function()
 		   {
-		    	layer.alert("网络访问错误");
+	    	layer.alert("网络访问错误");
 		   }
     
   });
