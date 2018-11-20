@@ -4,276 +4,58 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+	<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/common.css">
-     <link rel="stylesheet" href="/common/css/echart-common.css">
+    <script src="/layuiadmin/layui/layui.js"></script>
 </head>
 <body>
-	<div class="content-body container">
-		<div style="text-align: center; font-weight: bold; margin: 10px;">2018年各处、部门科技经费预算总表</div>
-		<table class="layui-table">
-				<thead>
-					<tr>
-						<td rowspan="4">序号</td>
-						<td rowspan="4">处别</td>
-						<td colspan="3">经费预算总计</td>
-						<td colspan="3">（1）集团预算合计</td>
-						<td colspan="3">（2）资产预算合计</td>
-					</tr>
-					<tr>
-						<td rowspan="3">预算</td>
-						<td rowspan="3">老合同</td>
-						<td rowspan="3">新签</td>
-						<td rowspan="3">预算</td>
-						<td rowspan="3">老合同</td>
-						<td rowspan="3">新签</td>
-						<td rowspan="3">预算</td>
-						<td rowspan="3">老合同</td>
-						<td rowspan="3">新签</td>
-					</tr>
-					</thead>
-					
-					
-					<tbody>
-					<tr>
-						<td>1</td>
-						<td>油田处</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>2</td>
-						<td>炼油处</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>3</td>
-						<td>化工处</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>4</td>
-						<td>材料处</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>5</td>
-						<td>装储处</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>6</td>
-						<td>计划处</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>7</td>
-						<td>技术监督处</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>8</td>
-						<td>三剂处</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>9</td>
-						<td>知识产权处</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>10</td>
-						<td>物装部</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>11</td>
-						<td>信息部</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>12</td>
-						<td>工程部</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>13</td>
-						<td>炼油部（军工）</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>14</td>
-						<td>炼油部（B2、C类）</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>15</td>
-						<td>化工部（B2、C类）</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>16</td>
-						<td>专项</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>17</td>
-						<td>机动</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td></td>
-						<td>合计</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr></tr>
-				</tbody>
-			</table>
-		</table>
-		<div style="margin: 20px">
+<div class="searchBox">
+    <!--查询条件-->
+    
+    <label class="dateInput">
+            <span>年份</span>
+            <input type="text" name="year" placeholder="请选择年份" title="年份" value="${year}"  autocomplete="off" class="form-control" id="year">
+        </label>
+        
+        
+        
+       
+       
+    <!--按钮组-->
+    <div class="btnGroup">
+        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg"  onclick="renderTable()">查询</button>
+    </div>
+    
+</div>
+<div style="margin:10px;font-weight:bold;text-align:center">各处、部门科技经费预算总表</div>
+
+<table id="myTable" class="layui-table" lay-data="{url:'/ba/cbmkjjfyszb_data',height:'auto'}">
+  <thead>
+    <tr>
+      <th lay-data="{checkbox:true, width:55}" rowspan="2"></th>
+      <th lay-data="{type:'numbers', width:55}" rowspan="2">序号</th>
+      <th lay-data="{field:'cbName', width:'18%'}" rowspan="2">类别</th>
+      <th lay-data="{align:'center'}" colspan="3">集团预算</th>
+      <th lay-data="{align:'center'}" colspan="3">资产预算</th>
+      <th lay-data="{align:'center'}" colspan="3">股份预算</th>
+    </tr>
+    <tr>
+      <th lay-data="{field:'jtxkje', width:'8%'}">集团新开课题（万元）</th>
+      <th lay-data="{field:'jtjzje', width:'8%'}">集团结转课题（万元）</th>
+      <th lay-data="{field:'jtzje', width:'8%'}">集团合计（万元）</th>
+      
+      <th lay-data="{field:'zcxkje', width:'8%'}">资产新开课题（万元）</th>
+      <th lay-data="{field:'zcjzje', width:'8%'}">资产结转课题（万元）</th>
+      <th lay-data="{field:'zczje', width:'8%'}">资产合计（万元）</th>
+      
+       <th lay-data="{field:'gfxkje', width:'8%'}">股份新开课题（万元）</th>
+      <th lay-data="{field:'gfjzje', width:'8%'}">股份结转课题（万元）</th>
+      <th lay-data="{field:'gfzje', width:'8%'}">股份合计（万元）</th>
+      
+    </tr>
+  </thead>
+</table>
+<div style="margin: 20px">
 		1.本表集团预算中“油服”指石油工程公司；<br/>
 “其他”指新星石油、南化研究院、胜利石油管理局等；<br/>
 “计划”指按集团财务通知，只下达计划不拨付经费，涉及到单位有国勘、经济研究院及炼化工程公司。<br/>
@@ -282,45 +64,65 @@
 3.本表中经费全部指费用性经费。
 		
 		</div>
-	</div>
 
-	<!--表格数据操作js-->
+
+<script id="dateTpl" type="text/html"> {{formatTime(d.createDate)}} </script>
+<script type="text/javascript">
+    // 时间格式化
+    function formatTime(d) {
+        if (d) {
+            var date = new Date();
+            date.setTime(d);
+            var y = date.getFullYear();
+            var m = date.getMonth() + 1;
+            m = m < 10 ? ('0' + m) : m;
+            var day = date.getDate();
+            day = day < 10 ? ("0" + day) : day;
+            var h = date.getHours();
+            h = h < 10 ? ("0" + h) : h;
+            var M = date.getMinutes();
+            M = M < 10 ? ("0" + M) : M;
+            var str = y + "-" + m + "-" + day + " " + h + ":" + M;
+            return str;
+        } else {
+            return '';
+        }
+    }
+</script>
+
+<!--表格数据操作js-->
 <script src="/common/js/jquery-1.11.3.min.js"></script>
-<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
-<script src="/common/js/layer-v3.1.1/layer.js"></script>
-<script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
-<script type="text/javascript" src="/plugins/echarts/walden.js"></script>
-<script type="text/javascript" src="/stp/hana/common/stp_common_chart.js"></script>
-<script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
-<script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
-<script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
 <script>
-
-
 var table,selectRowData;
+var fzdw=$('#fzdw').val();
+
+
+
+
 layui.config({
     base: '/layuiadmin/module/modules/' //静态资源所在路径
-}).use(['jquery','form', 'laydate','table','laypage','layer'], function(){
-	  admin = layui.admin
-	  ,$ = layui.jquery
+}).use(['jquery','form', 'laydate','table','laypage'], function(){
+	  $ = layui.jquery
       ,table = layui.table
-      ,layer = layui.layer
-      ,laydate = layui.laydate
       ,form = layui.form
-      ,laypage = layui.laypage;
+      ,laydate = layui.laydate,
 	  form.render(null, 'component-form-group');
             laydate.render({
-               elem: '#month'
-               ,format: 'yyyyMM'
+               elem: '#year'
+               ,format: 'yyyy'
+               
             });
-      //初始化表格
-      renderTable();
-});
-
-var allCode="${allCode?default('')}";
-var allCode_text="全部院所";
-
+         
+        
+        
+    });
+    var datas = $('#myTable').attr('lay-data');
+    console.log(datas)
+    
+   
+   
 
 </script>
+
 </body>
 </html>

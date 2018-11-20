@@ -29,7 +29,7 @@
 </div>
 
 
-<table class="layui-table" lay-data="{url:'/ba/gfgszbkjjfysjyg_data',height:'auto'}">
+<table id="myTable" class="layui-table" lay-data="{url:'/ba/gfgszbkjjfysjyg_data',height:'auto'}">
   <thead>
     <tr>
       <th lay-data="{checkbox:true, width:55}" rowspan="2"></th>
@@ -97,8 +97,8 @@ layui.config({
         
         
     });
-    
-    
+    var datas = $('#myTable').attr('lay-data');
+    console.log(datas)
     
    
    
