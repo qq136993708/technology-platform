@@ -1711,4 +1711,81 @@ public class OutProjectInfoClient {
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
 		return json;
 	}
+	
+	@ApiOperation(value = "领导二级页面，8个院新开、续建情况,每一行是一个院", notes = "参数年度")
+	@RequestMapping(value = "/out-project-provider/ld/project-info/unit")
+	public JSONArray getProjectTypeCountByUnitLD(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page getProjectTypeCountByUnitLD===========================" + map);
+		
+		List temList = outProjectService.getProjectTypeCountByUnitLD("2018");
+		
+		if (!JSON.toJSONString(temList).contains("勘探院")) {
+			HashMap<String, Object> temMap = new HashMap<String, Object>();
+			temMap.put("xksl", 0);
+			temMap.put("xjsl", 0);
+			temMap.put("zsl", 0);
+			temMap.put("define2", "勘探院");
+			temList.add(temMap);
+		}
+		if (!JSON.toJSONString(temList).contains("物探院")) {
+			HashMap<String, Object> temMap = new HashMap<String, Object>();
+			temMap.put("xksl", 0);
+			temMap.put("xjsl", 0);
+			temMap.put("zsl", 0);
+			temMap.put("define2", "物探院");
+			temList.add(temMap);
+		}
+		if (!JSON.toJSONString(temList).contains("工程院")) {
+			HashMap<String, Object> temMap = new HashMap<String, Object>();
+			temMap.put("xksl", 0);
+			temMap.put("xjsl", 0);
+			temMap.put("zsl", 0);
+			temMap.put("define2", "工程院");
+			temList.add(temMap);
+		}
+		if (!JSON.toJSONString(temList).contains("石科院")) {
+			HashMap<String, Object> temMap = new HashMap<String, Object>();
+			temMap.put("xksl", 0);
+			temMap.put("xjsl", 0);
+			temMap.put("zsl", 0);
+			temMap.put("define2", "石科院");
+			temList.add(temMap);
+		}
+		if (!JSON.toJSONString(temList).contains("大连院")) {
+			HashMap<String, Object> temMap = new HashMap<String, Object>();
+			temMap.put("xksl", 0);
+			temMap.put("xjsl", 0);
+			temMap.put("zsl", 0);
+			temMap.put("define2", "大连院");
+			temList.add(temMap);
+		}
+		if (!JSON.toJSONString(temList).contains("北化院")) {
+			HashMap<String, Object> temMap = new HashMap<String, Object>();
+			temMap.put("xksl", 0);
+			temMap.put("xjsl", 0);
+			temMap.put("zsl", 0);
+			temMap.put("define2", "北化院");
+			temList.add(temMap);
+		}
+		if (!JSON.toJSONString(temList).contains("上海院")) {
+			HashMap<String, Object> temMap = new HashMap<String, Object>();
+			temMap.put("xksl", 0);
+			temMap.put("xjsl", 0);
+			temMap.put("zsl", 0);
+			temMap.put("define2", "上海院");
+			temList.add(temMap);
+		}
+		if (!JSON.toJSONString(temList).contains("安工院")) {
+			HashMap<String, Object> temMap = new HashMap<String, Object>();
+			temMap.put("xksl", 0);
+			temMap.put("xjsl", 0);
+			temMap.put("zsl", 0);
+			temMap.put("define2", "安工院");
+			temList.add(temMap);
+		}
+		System.out.println("===="+JSON.toJSONString(temList));
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		return json;
+	}
+	
 }

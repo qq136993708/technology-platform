@@ -146,9 +146,9 @@ public class DemoController {
 			client.addHeaders(headerMap);
 
 			Map<String, String> paramMap = new HashMap<String, String>();
-			paramMap.put("sqlName", "SelectAllProject");
+			paramMap.put("sqlName", "GetDWXXB");
 			JsonObject jo = new JsonObject();
-			jo.addProperty("ND", "2018");
+			//jo.addProperty("ND", "2018");
 			System.out.println(jo.toString());
 			paramMap.put("conditions", jo.toString());
 			// 添加多个参数

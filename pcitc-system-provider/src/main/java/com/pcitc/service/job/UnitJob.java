@@ -27,7 +27,7 @@ public class UnitJob implements Job, Serializable {
 	public void execute(JobExecutionContext job) throws JobExecutionException {
 
 		OutUnitService outUnitService = SpringContextUtil.getApplicationContext().getBean(OutUnitService.class);
-		System.out.println("==========" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "---定时任务--组织机构接口---开始=============");
+		/*System.out.println("==========" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "---定时任务--组织机构接口---开始=============");
 		String sqlName = "SHYK_ZSHKJXMGL_DWXXB";
 		JsonObject jo = new JsonObject();
 		jo.addProperty("DWBM", "%%");
@@ -56,6 +56,50 @@ public class UnitJob implements Job, Serializable {
 					oa.setDefine1(sjbm);
 					oa.setParentCode(sjbm);
 					
+					oa.setCreateDate(new Date());
+					insertData.add(oa);
+				}
+				if (insertData != null && insertData.size() > 0) {
+					outUnitService.insertUnitData(insertData);
+				}
+				
+				System.out.println("======" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "组织机构数据--保存到本地数据库-结束=========");
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}*/
+		
+		// 奖励系统的组织机构数据
+		System.out.println("==========" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "---定时任务--组织机构接口---开始=============");
+		String sqlName = "GetDWXXB";
+		JsonObject jo = new JsonObject();
+		// 参数
+		String conditions = jo.toString();
+		String str = null;
+		try {
+			// 远程获取数据 -----
+			str = DataServiceUtil.getDataService(DataServiceUtil.GET_URL, sqlName, conditions);
+			if (str != null) {
+				JSONArray jSONArray = JSONArray.parseArray(str);
+				List<OutUnit> insertData = new ArrayList<OutUnit>();
+				for (int i = 0; i < jSONArray.size(); i++) {
+					JSONObject object = (JSONObject) jSONArray.get(i);
+					OutUnit oa = new OutUnit();
+					oa.setDataId(UUID.randomUUID().toString().replaceAll("-", ""));
+					String dwbm = object.getString("DWBM");
+					String dwjc = object.getString("DWJC");
+					String dwqc = object.getString("DWQC");
+					String sjbm = object.getString("SJBM");
+					String dwxz = object.getString("DWXZ");
+					String dwjb = object.getString("DWJB");
+					
+					oa.setUnitCode(dwbm);
+					oa.setUnitName(dwqc);
+					oa.setUnitAli(dwjc);
+					oa.setParentCode(sjbm);
+					oa.setUnitType(dwxz);
+					oa.setUnitLevel(dwjb);
 					oa.setCreateDate(new Date());
 					insertData.add(oa);
 				}

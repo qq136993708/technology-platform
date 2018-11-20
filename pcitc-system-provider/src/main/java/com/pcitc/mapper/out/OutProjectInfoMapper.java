@@ -221,4 +221,11 @@ public interface OutProjectInfoMapper {
      * 领导二级页面，8个院及国家级项目等性质的新开、续建、完结情况 
      */
     public List getProjectTypeCountByTypeLD(String nd);
+    
+    /**
+     * @param nd
+     * @return
+     * 领导二级页面，8个院新开、续建情况,每一行是一个院
+     */
+	public List getProjectTypeCountByUnitLD(String nd);
 }

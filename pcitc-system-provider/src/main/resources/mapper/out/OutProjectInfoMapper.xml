@@ -1459,4 +1459,17 @@
 	    group by project_scope
 	</select>
 	
+	<!-- 领导二级页面，8个院新开、续建情况,每一行是一个院 -->
+	<select id="getProjectTypeCountByUnitLD" resultType="java.util.Map"
+		parameterType="java.lang.String">
+		select
+		    sum(case when project_scope = '新开课题' then 1 else 0 end) as xksl,
+		    sum(case when project_scope = '结转课题' then 1 else 0 end) as xjsl,
+		    count(*) as zsl,
+	    	SUBSTR(define2 FROM 2) define2
+		from out_project_info
+		where project_type != '1' and (project_scope = '新开课题' or project_scope = '结转课题') and define2 is not null
+	    group by define2
+	</select>
+	
 </mapper>

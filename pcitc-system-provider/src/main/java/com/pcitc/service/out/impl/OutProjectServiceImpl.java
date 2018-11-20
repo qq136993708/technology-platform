@@ -400,4 +400,13 @@ public class OutProjectServiceImpl implements OutProjectService {
     public List getProjectTypeCountByTypeLD(String nd) {
     	return outProjectInfoMapper.getProjectTypeCountByTypeLD(nd);
     }
+    
+    /**
+     * @param nd
+     * @return
+     * 领导二级页面，8个院新开、续建情况,每一行是一个院
+     */
+	public List getProjectTypeCountByUnitLD(String nd) {
+		return outProjectInfoMapper.getProjectTypeCountByUnitLD(nd);
+	}
 }
