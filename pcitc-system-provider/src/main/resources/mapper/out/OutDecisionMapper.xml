@@ -142,7 +142,7 @@
 	<!-- 知识产权分析,各类型专利的数量，8大研究院 -->
 	<select id="getPatentCountByInstitute" resultType="java.util.Map" parameterType="java.util.Map">
 		select 
-			 `STATUS` as unitName, COUNT(*) sl
+			 SUBSTR(`STATUS` FROM 4) as unitName, COUNT(*) sl
 		from out_patent
 		where
 		SHOUQR like '2018%' AND `STATUS` IS NOT NULL
