@@ -129,4 +129,14 @@
 		group by GBDM
 	</select>
 	
+	<!-- 知识产权分析,各类型专利的数量，发明公布，发明授权，实用新型等 -->
+	<select id="getPatentCountByPatentType" resultType="java.util.Map" parameterType="java.util.Map">
+		select 
+			 WXLX as typeName,COUNT(*) sl
+		from out_patent
+		where
+		SHOUQR like '2018%'
+		group by WXLX
+	</select>
+	
 </mapper>

@@ -90,5 +90,45 @@ public class OutDecisionClient {
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
 		return json;
 	}
+	
+	@ApiOperation(value = "知识产权分析,各类型专利的数量，发明公布，发明授权，实用新型等", notes = "参数年度")
+	@RequestMapping(value = "/out-decision-provider/zscq/patent-count/patent-type")
+	public JSONArray getPatentCountByPatentType(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page getPatentCountByPatentType==========================="+map);
+
+		List temList = outDecisionService.getPatentCountByPatentType(null);
+		
+		if (!JSON.toJSONString(temList).contains("发明专利")) {
+			HashMap<String, Object> temMap = new HashMap<String, Object>();
+			temMap.put("sl", 0);
+			temMap.put("typeName", "发明专利");
+			temList.add(temMap);
+		}
+		
+		if (!JSON.toJSONString(temList).contains("实用新型")) {
+			HashMap<String, Object> temMap = new HashMap<String, Object>();
+			temMap.put("sl", 0);
+			temMap.put("typeName", "实用新型");
+			temList.add(temMap);
+		}
+		
+		if (!JSON.toJSONString(temList).contains("外观专利")) {
+			HashMap<String, Object> temMap = new HashMap<String, Object>();
+			temMap.put("sl", 0);
+			temMap.put("typeName", "外观专利");
+			temList.add(temMap);
+		}
+		
+		if (!JSON.toJSONString(temList).contains("涉外专利")) {
+			HashMap<String, Object> temMap = new HashMap<String, Object>();
+			temMap.put("sl", 0);
+			temMap.put("typeName", "涉外专利");
+			temList.add(temMap);
+		}
+
+		System.out.println("===="+JSON.toJSONString(temList));
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		return json;
+	}
 
 }

@@ -33,5 +33,11 @@ public interface OutDecisionService {
      */
 	public List getPatentCountByCountryType(Map map);
 	
+	/**
+     * @return
+     * 知识产权分析,各类型专利的数量，发明公布，发明授权，实用新型等
+     */
+	public List getPatentCountByPatentType(Map map);
+	
 	
 }
