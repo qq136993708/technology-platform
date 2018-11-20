@@ -95,4 +95,12 @@ public interface SysDictionaryService {
 	 * Title: getMapDictionaryList
 	 */
 	public Map<String,List<SysDictionary>> getMapDictionaryList(List<String> parentCodes);
+	
+	
+	/**
+	 * 批量删除数据字典
+	 * @param dataIds
+	 * @return
+	 */
+	int batchDelete(List<String> dataIdList) throws Exception;
 }

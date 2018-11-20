@@ -1,6 +1,7 @@
 package com.pcitc.web.activiti.module;
 
 import java.io.ByteArrayInputStream;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
@@ -44,7 +45,7 @@ public class ActivitiModelPlatController extends BaseController {
 
 	private static final String MODEL_LIST = "http://pcitc-zuul/system-proxy/activity-provider/model/list";
 
-	private static final String RESOURCE_DATA = "http://pcitc-zuul/system-proxy/modeler-provider/resource";
+	private static final String RESOURCE_DATA = "http://pcitc-zuul/system-proxy/modeler-provider/resource/byte";
 	private static final String MODEL_DEPLOY_URL = "http://pcitc-zuul/system-proxy/modeler-provider/model/deploy";
 	private static final String MODEL_DELETE_URL = "http://pcitc-zuul/system-proxy/modeler-provider/model/delete";
 	private static final String MODEL_EXPORT_URL = "http://pcitc-zuul/system-proxy/modeler-provider/model/export";
@@ -83,16 +84,32 @@ public class ActivitiModelPlatController extends BaseController {
 	@RequestMapping(value = "/activiti-model/show/{modelId}")
 	public String showResoure(@PathVariable("modelId") String modelId, HttpServletRequest request) {
 		
+		return "/pplus/workflow/model-show";
+	}
+	
+	@RequestMapping(value = "/activiti-model/image/{modelId}", method = RequestMethod.GET)
+	@ResponseBody
+	public String showFlowImage(@PathVariable("modelId") String modelId, HttpServletRequest request, HttpServletResponse response) {
+		
 		WorkflowVo workflowVo = new WorkflowVo();
 		workflowVo.setModelId(modelId);
 		workflowVo.setDataType("image");
-		ResponseEntity<String> fileName = this.restTemplate.exchange(RESOURCE_DATA, HttpMethod.POST, new HttpEntity<WorkflowVo>(workflowVo, this.httpHeaders), String.class);
-		System.out.println("generateResource=====" + fileName.getBody());
-		
-		request.setAttribute("image", fileName.getBody());
-		System.out.println("1====" + modelId);
-		System.out.println("2====" + fileName.getBody());
-		return "/pplus/workflow/model-show";
+		ResponseEntity<byte[]> fileStream = this.restTemplate.exchange(RESOURCE_DATA, HttpMethod.POST, new HttpEntity<WorkflowVo>(workflowVo, this.httpHeaders), byte[].class);
+		byte[] image = fileStream.getBody();
+		OutputStream os = null;
+		try {
+			os = response.getOutputStream();
+			os.write(image);
+			os.flush();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		try {
+			os.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "ok";
 	}
 
 	/**

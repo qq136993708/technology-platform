@@ -53,6 +53,8 @@ public class SysDictionaryController extends BaseController {
 	private static final String DICTIONARY_MAP_LIST = "http://pcitc-zuul/system-proxy/dictionary-provider/dictionary/get-map-dicionarys";
 	private static final String DICTIONARY_DESC = "http://pcitc-zuul/system-proxy/dictionary-provider/getDictionaryByCode/";
 
+	
+	private static final String BATCH_DELETE = "http://pcitc-zuul/system-proxy/dictionary-provider/batch-delete/";
 	/**
 	 * 一级节点
 	 * 
@@ -259,5 +261,22 @@ public class SysDictionaryController extends BaseController {
 
 		return obj;
 	}
+	
+	/**
+	 * 删除数据字典
+	 * 
+	 * @param request
+	 * @return
+	 */
+	@OperationFilter(modelName = "数据字典", actionName = "删除数据字典")
+	@RequestMapping(value = "/dictionary/batch-delete")
+	@ResponseBody
+	public int BatchDeleteDictionary(HttpServletRequest request) {
+		String ids = request.getParameter("ids");
+		ResponseEntity<Integer> responseEntity = restTemplate.exchange(BATCH_DELETE + ids, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), Integer.class);
+		int result = responseEntity.getBody();
+		return result;
+	}
+
 
 }

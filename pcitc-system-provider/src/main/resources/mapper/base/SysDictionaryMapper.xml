@@ -270,4 +270,14 @@
    	and id != #{id}
    	</if>
   </select>
+  
+  
+    <!-- 批量删除 -->
+	<delete id="batchDelete" parameterType="java.util.ArrayList">
+		delete from sys_dictionary where id in
+		<foreach collection="dataIds" item="item" index="index" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+
 </mapper>
