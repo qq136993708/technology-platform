@@ -1384,4 +1384,79 @@
 			project_type != '1' and fzdw is not null and jf is not null
 		group BY fzdw,xmlbmc
 	</select>
+	
+	<!-- 领导页的各类型的项目数量 -->
+	<select id="getProjectTypeCountForLD" resultType="java.util.Map"
+		parameterType="java.lang.String">
+		select sum(case when project_property = '重点项目' then 1 else 0 end) zdxmsl,
+				sum(case when project_property = '国家项目' then 1 else 0 end) gjxmsl,
+				sum(case when project_property = '重大专项' then 1 else 0 end) zdzxsl,
+				sum(case when project_property = '十条龙项目' then 1 else 0 end) stlxmsl
+		FROM out_project_info
+		where 
+			project_type != '1' and (project_scope = '新开课题' or project_scope = '结转课题')
+	</select>
+	
+	<!-- 领导页,科研项目数量按单位分析 -->
+	<select id="getProjectTypeCountForTreeLD" resultType="java.util.Map"
+		parameterType="java.lang.String">
+		select
+		    count(*) as zsl,UUID() as id,
+	    	SUBSTR(type_flag FROM 2) type_flag,project_scope
+		from out_project_info
+		where project_type != '1' and (project_scope = '新开课题' or project_scope = '结转课题') and type_flag is not null and xmlbbm !='KYZB'
+	    group by type_flag,project_scope
+	</select>
+	
+	<!-- 领导二级页面，直属研究院、分子公司等9个单位，各单位的新开、续建、完结情况 -->
+	<select id="getProjectTypeInfoByUnitLD" resultType="java.util.Map"
+		parameterType="java.lang.String">
+		select
+			sum(case project_scope when '新开课题' then 1 else 0 end) as xksl,
+			sum(case project_scope when '结转课题' then 1 else 0 end) as xjsl,
+			SUBSTR(type_flag FROM 2) type_flag
+		from out_project_info
+		where type_flag is not null
+			  and project_type != '1' and (project_scope = '新开课题' or project_scope = '结转课题')
+		group BY type_flag
+	</select>
+	
+	<!-- 领导二级页面，各个处室的新开、续建、完结情况 -->
+	<select id="getProjectCountByProjectTypeLD" resultType="java.util.Map"
+		parameterType="java.lang.String">
+		select
+			sum(case when project_scope = '新开课题' then 1 else 0 end) as xksl,
+        	sum(case when project_scope = '结转课题' then 1 else 0 end) as xjsl,
+        	count(*) as zsl,define4 as zycmc
+		from out_project_info
+		where (project_type = '0' or project_type = '2') and 
+			  (project_scope = '新开课题' or project_scope = '结转课题') and 
+			  define4 is not null
+    	group by define4
+	</select>
+	
+	<!-- 领导二级页面，8个院及国家级项目等性质的新开、续建、完结情况 -->
+	<select id="getProjectTypeCountByTypeLD" resultType="java.util.Map"
+		parameterType="java.lang.String">
+		select
+		sum(case when project_property = '国家项目' then 1 else 0 end) as gjxmsl,
+	    sum(case when project_property = '重大专项' then 1 else 0 end) as zdzxxmsl,
+	    sum(case when project_property = '重点项目' then 1 else 0 end) as zdxmsl,
+	    sum(case when project_property = '其他项目' then 1 else 0 end) as qtsl,
+	    sum(case when project_property = '十条龙' then 1 else 0 end) as stlxmsl,
+	    sum(case when define2 = '1勘探院' then 1 else 0 end) as ktysl,
+	    sum(case when define2 = '2物探院' then 1 else 0 end) as wtysl,
+	    sum(case when define2 = '3工程院' then 1 else 0 end) as gcysl,
+	    sum(case when define2 = '4石科院' then 1 else 0 end) as skysl,
+	    sum(case when define2 = '5大连院' then 1 else 0 end) as dlysl,
+	    sum(case when define2 = '6北化院' then 1 else 0 end) as bhysl,
+	    sum(case when define2 = '7上海院' then 1 else 0 end) as shysl,
+	    sum(case when define2 = '8安工院' then 1 else 0 end) as agysl,
+	    
+	    count(*) as zsl,project_scope
+			from out_project_info
+			where project_type != '1' and (project_scope = '新开课题' or project_scope = '结转课题')
+	    group by project_scope
+	</select>
+	
 </mapper>

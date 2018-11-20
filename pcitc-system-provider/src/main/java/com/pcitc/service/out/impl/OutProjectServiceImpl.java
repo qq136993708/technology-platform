@@ -355,4 +355,49 @@ public class OutProjectServiceImpl implements OutProjectService {
     public List getGroupCompanyStpMoneyForBudgetProposals(String nd) {
     	return outProjectInfoMapper.getGroupCompanyStpMoneyForBudgetProposals(nd);
     }
+    
+    /**
+     * @param nd
+     * @return
+     * 领导页的各类型项目的数量
+     */
+    public List getProjectTypeCountForLD(String nd) {
+    	return outProjectInfoMapper.getProjectTypeCountForLD(nd);
+    }
+    
+    /**
+     * @param nd
+     * @return
+     * 领导二级页面，科研项目数量按单位分析--树结构
+     */
+	public List getProjectTypeCountForTreeLD(String nd) {
+		return outProjectInfoMapper.getProjectTypeCountForTreeLD(nd);
+	}
+	
+	/**
+     * @param nd
+     * @return
+     * 领导二级页面，直属研究院、分子公司等9个单位，各单位的新开、续建、完结情况
+     */
+    public List getProjectTypeInfoByUnitLD(String nd) {
+    	return outProjectInfoMapper.getProjectTypeInfoByUnitLD(nd);
+    }
+    
+    /**
+     * @param nd
+     * @return
+     * 领导二级页面，各个处室的新开、续建、完结情况
+     */
+    public List getProjectCountByProjectTypeLD(String nd) {
+    	return outProjectInfoMapper.getProjectCountByProjectTypeLD(nd);
+    }
+    
+    /**
+     * @param nd
+     * @return
+     * 领导二级页面，8个院及国家级项目等性质的新开、续建、完结情况 
+     */
+    public List getProjectTypeCountByTypeLD(String nd) {
+    	return outProjectInfoMapper.getProjectTypeCountByTypeLD(nd);
+    }
 }

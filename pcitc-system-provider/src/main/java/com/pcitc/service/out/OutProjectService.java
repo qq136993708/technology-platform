@@ -196,5 +196,40 @@ public interface OutProjectService {
      * 经费预算建议--集团公司总部科技经费预算（建议稿）
      */
     public List getGroupCompanyStpMoneyForBudgetProposals(String nd);
+    
+    /**
+     * @param nd
+     * @return
+     * 领导页的各类型项目的数量
+     */
+    public List getProjectTypeCountForLD(String nd);
+    
+    /**
+     * @param nd
+     * @return
+     * 领导二级页面,科研项目数量按单位分析--树结构
+     */
+	public List getProjectTypeCountForTreeLD(String nd);
+	
+	/**
+     * @param nd
+     * @return
+     * 领导二级页面，直属研究院、分子公司等9个单位，各单位的新开、续建、完结情况
+     */
+    public List getProjectTypeInfoByUnitLD(String nd);
+    
+    /**
+     * @param nd
+     * @return
+     * 领导二级页面，各个处室的新开、续建、完结情况
+     */
+    public List getProjectCountByProjectTypeLD(String nd);
+    
+    /**
+     * @param nd
+     * @return
+     * 领导二级页面，8个院及国家级项目等性质的新开、续建、完结情况 
+     */
+    public List getProjectTypeCountByTypeLD(String nd);
 	
 }
