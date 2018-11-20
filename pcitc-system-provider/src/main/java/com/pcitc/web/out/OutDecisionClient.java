@@ -147,7 +147,7 @@ public class OutDecisionClient {
 	}
 	
 	@ApiOperation(value = "知识产权分析,专利申报情况明细分析表", notes = "分页显示项目数据")
-	@RequestMapping(value = "/out-provider/project-list", method = RequestMethod.POST)
+	@RequestMapping(value = "/out-decision-provider/zscq/patent-detail/page", method = RequestMethod.POST)
 	public LayuiTableData selectPatentDetailInfoByCond(@RequestBody LayuiTableParam param) throws Exception {
 		logger.info("==================page selectPatentDetailInfoByCond===========================" + param);
 		return outDecisionService.selectPatentDetailInfoByCond(param);
