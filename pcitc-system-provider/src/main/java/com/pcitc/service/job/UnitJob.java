@@ -100,6 +100,7 @@ public class UnitJob implements Job, Serializable {
 					oa.setParentCode(sjbm);
 					oa.setUnitType(dwxz);
 					oa.setUnitLevel(dwjb);
+					oa.setDefine1("奖励系统");
 					oa.setCreateDate(new Date());
 					insertData.add(oa);
 				}

@@ -1203,14 +1203,14 @@
 	    sum(case when project_property = '重大专项' then 1 else 0 end) as zdzxxmsl,
 	    sum(case when project_property = '重点项目' then 1 else 0 end) as zdxmsl,
 	    sum(case when project_property = '其他项目' then 1 else 0 end) as qtsl,
-	    sum(case when define2 = '1勘探院' then 1 else 0 end) as ktysl,
-	    sum(case when define2 = '2物探院' then 1 else 0 end) as wtysl,
-	    sum(case when define2 = '3工程院' then 1 else 0 end) as gcysl,
-	    sum(case when define2 = '4石科院' then 1 else 0 end) as skysl,
-	    sum(case when define2 = '5大连院' then 1 else 0 end) as dlysl,
-	    sum(case when define2 = '6北化院' then 1 else 0 end) as bhysl,
-	    sum(case when define2 = '7上海院' then 1 else 0 end) as shysl,
-	    sum(case when define2 = '8安工院' then 1 else 0 end) as agysl,
+	    sum(case when define2 = '101勘探院' then 1 else 0 end) as ktysl,
+	    sum(case when define2 = '102物探院' then 1 else 0 end) as wtysl,
+	    sum(case when define2 = '103工程院' then 1 else 0 end) as gcysl,
+	    sum(case when define2 = '104石科院' then 1 else 0 end) as skysl,
+	    sum(case when define2 = '105大连院' then 1 else 0 end) as dlysl,
+	    sum(case when define2 = '106北化院' then 1 else 0 end) as bhysl,
+	    sum(case when define2 = '107上海院' then 1 else 0 end) as shysl,
+	    sum(case when define2 = '108安工院' then 1 else 0 end) as agysl,
 	    
 	    count(*) as zsl,project_scope
 			from out_project_info
@@ -1224,7 +1224,7 @@
 		    sum(case when project_scope = '新开课题' then 1 else 0 end) as xksl,
 		    sum(case when project_scope = '结转课题' then 1 else 0 end) as xjsl,
 		    count(*) as zsl,
-	    	SUBSTR(define2 FROM 2) define2
+	    	SUBSTR(define2 FROM 4) define2
 		from out_project_info
 		where project_type != '1' and (project_scope = '新开课题' or project_scope = '结转课题') and define2 is not null and xmlbbm !='KYZB'
 	    group by define2
@@ -1236,7 +1236,7 @@
 		    sum(case when project_scope = '新开课题' then 1 else 0 end) as xksl,
 		    sum(case when project_scope = '结转课题' then 1 else 0 end) as xjsl,
 		    count(*) as zsl,
-	    	SUBSTR(define2 FROM 2) define2
+	    	SUBSTR(define2 FROM 4) define2
 		from out_project_info
 		where project_type != '1' and (project_scope = '新开课题' or project_scope = '结转课题') and define2 is not null and xmlbbm ='KYZB'
 	    group by define2
@@ -1260,14 +1260,14 @@
 		    sum(case when project_property = '重大专项' then 1 else 0 end) as zdzxxmsl,
 		    sum(case when project_property = '重点项目' then 1 else 0 end) as zdxmsl,
 		    sum(case when project_property = '其他项目' then 1 else 0 end) as qtsl,
-		    sum(case when define2 = '1勘探院' then 1 else 0 end) as ktysl,
-		    sum(case when define2 = '2物探院' then 1 else 0 end) as wtysl,
-		    sum(case when define2 = '3工程院' then 1 else 0 end) as gcysl,
-		    sum(case when define2 = '4石科院' then 1 else 0 end) as skysl,
-		    sum(case when define2 = '5大连院' then 1 else 0 end) as dlysl,
-		    sum(case when define2 = '6北化院' then 1 else 0 end) as bhysl,
-		    sum(case when define2 = '7上海院' then 1 else 0 end) as shysl,
-		    sum(case when define2 = '8安工院' then 1 else 0 end) as agysl,
+		    sum(case when define2 = '101勘探院' then 1 else 0 end) as ktysl,
+		    sum(case when define2 = '102物探院' then 1 else 0 end) as wtysl,
+		    sum(case when define2 = '103工程院' then 1 else 0 end) as gcysl,
+		    sum(case when define2 = '104石科院' then 1 else 0 end) as skysl,
+		    sum(case when define2 = '105大连院' then 1 else 0 end) as dlysl,
+		    sum(case when define2 = '106北化院' then 1 else 0 end) as bhysl,
+		    sum(case when define2 = '107上海院' then 1 else 0 end) as shysl,
+		    sum(case when define2 = '108安工院' then 1 else 0 end) as agysl,
 		    count(*) as zsl,project_scope
 		from out_project_info
 		where project_type != '1' and (project_scope = '新开课题' or project_scope = '结转课题') and xmlbbm = 'KYZB'
@@ -1304,7 +1304,7 @@
 			round(sum(case when define1 = '费用性' then jf else 0 end)/10000,2) as fyxje,
 	    	round(sum(case when define1 = '资本性' then jf else 0 end)/10000,2) as zbxje,
 	    	round(sum(jf)/10000,2) as zje,
-	    	SUBSTR(define2 FROM 2) define2
+	    	SUBSTR(define2 FROM 4) define2
 		from out_project_info
 		where project_type != '1' and (project_scope = '新开课题' or project_scope = '结转课题') and define2 is not null
 	    group by define2
@@ -1344,7 +1344,7 @@
 	<select id="getZBProjectCountByTypeForTree" resultType="java.util.Map"
 		parameterType="java.lang.String">
 		select
-		    count(*) as zsl,UUID() as id,project_scope,SUBSTR(define2 FROM 2) define2
+		    count(*) as zsl,UUID() as id,project_scope,SUBSTR(define2 FROM 4) define2
 		from out_project_info
 		where 
 			project_type != '1' and (project_scope = '新开课题' or project_scope = '结转课题') and xmlbbm ='KYZB' and define2 is not null
@@ -1443,14 +1443,14 @@
 	    sum(case when project_property = '重点项目' then 1 else 0 end) as zdxmsl,
 	    sum(case when project_property = '其他项目' then 1 else 0 end) as qtsl,
 	    sum(case when project_property = '十条龙' then 1 else 0 end) as stlxmsl,
-	    sum(case when define2 = '1勘探院' then 1 else 0 end) as ktysl,
-	    sum(case when define2 = '2物探院' then 1 else 0 end) as wtysl,
-	    sum(case when define2 = '3工程院' then 1 else 0 end) as gcysl,
-	    sum(case when define2 = '4石科院' then 1 else 0 end) as skysl,
-	    sum(case when define2 = '5大连院' then 1 else 0 end) as dlysl,
-	    sum(case when define2 = '6北化院' then 1 else 0 end) as bhysl,
-	    sum(case when define2 = '7上海院' then 1 else 0 end) as shysl,
-	    sum(case when define2 = '8安工院' then 1 else 0 end) as agysl,
+	    sum(case when define2 = '101勘探院' then 1 else 0 end) as ktysl,
+	    sum(case when define2 = '102物探院' then 1 else 0 end) as wtysl,
+	    sum(case when define2 = '103工程院' then 1 else 0 end) as gcysl,
+	    sum(case when define2 = '104石科院' then 1 else 0 end) as skysl,
+	    sum(case when define2 = '105大连院' then 1 else 0 end) as dlysl,
+	    sum(case when define2 = '106北化院' then 1 else 0 end) as bhysl,
+	    sum(case when define2 = '107上海院' then 1 else 0 end) as shysl,
+	    sum(case when define2 = '108安工院' then 1 else 0 end) as agysl,
 	    
 	    count(*) as zsl,project_scope
 			from out_project_info
@@ -1465,7 +1465,7 @@
 		    sum(case when project_scope = '新开课题' then 1 else 0 end) as xksl,
 		    sum(case when project_scope = '结转课题' then 1 else 0 end) as xjsl,
 		    count(*) as zsl,
-	    	SUBSTR(define2 FROM 2) define2
+	    	SUBSTR(define2 FROM 4) define2
 		from out_project_info
 		where project_type != '1' and (project_scope = '新开课题' or project_scope = '结转课题') and define2 is not null
 	    group by define2
