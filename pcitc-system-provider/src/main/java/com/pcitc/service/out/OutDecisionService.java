@@ -1,6 +1,7 @@
 package com.pcitc.service.out;
 
 import java.util.List;
+import java.util.Map;
 
 public interface OutDecisionService {
 
@@ -25,7 +26,12 @@ public interface OutDecisionService {
      */
 	public List getDepartmentBudgetMoneyTable(String nd);
 	
-	
+	/**
+     * @param nd
+     * @return
+     * 知识产权分析,国际、国内专利数量统计
+     */
+	public List getPatentCountByCountryType(Map map);
 	
 	
 }

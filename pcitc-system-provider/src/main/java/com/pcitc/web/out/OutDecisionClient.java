@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiOperation;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,6 +56,35 @@ public class OutDecisionClient {
 		logger.info("==================page getDepartmentBudgetMoneyTable==========================="+map);
 
 		List temList = outDecisionService.getDepartmentBudgetMoneyTable("2018");
+
+		System.out.println("===="+JSON.toJSONString(temList));
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		return json;
+	}
+	
+	@ApiOperation(value = "知识产权分析,国际、国内专利数量统计", notes = "参数年度")
+	@RequestMapping(value = "/out-decision-provider/zscq/patent-count/country-type")
+	public JSONArray getPatentCountByCountryType(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page getPatentCountByCountryType==========================="+map);
+
+		List temList = outDecisionService.getPatentCountByCountryType(null);
+		
+		int totalsl1 = 0;
+		int totalsl2 = 0;
+		int totalsl3 = 0;
+		for (int i = 0; i < temList.size(); i++) {
+			Map temMap = (HashMap) temList.get(i);
+			totalsl1 = totalsl1 + Integer.parseInt(temMap.get("sl1").toString());
+			totalsl2 = totalsl2 + Integer.parseInt(temMap.get("sl2").toString());
+			totalsl3 = totalsl3 + Integer.parseInt(temMap.get("sl3").toString());
+		}
+		
+		HashMap<String, Object> temMap = new HashMap<String, Object>();
+		temMap.put("sl1", totalsl1);
+		temMap.put("sl2", totalsl2);
+		temMap.put("sl3", totalsl3);
+		temMap.put("patentName", "专利总数");
+		temList.add(temMap);
 
 		System.out.println("===="+JSON.toJSONString(temList));
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));

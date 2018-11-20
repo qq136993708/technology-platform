@@ -59,8 +59,7 @@
   </resultMap>
 	
 	<!-- 经费预算建议 集团公司总部科技经费预算（建议稿） -->
-	<select id="getGroupCompanyStpMoneyForBudgetProposals" resultType="java.util.Map"
-		parameterType="java.lang.String">
+	<select id="getGroupCompanyStpMoneyForBudgetProposals" resultType="java.util.Map" parameterType="java.lang.String">
 		select fzdw,xmlbmc,round(sum(case when nd = '2017' then jf else 0 end)/10000,2) as qnje,
 			round(sum(case when nd = '2018' then jf else 0 end)/10000,2) as jnje,
 			round(sum(case when nd = '2018' and xmlbmc='科研' then jf else 0 end)/10000,2) as jnkyje,
@@ -72,8 +71,7 @@
 	</select>
 	
 	<!-- 预算分配,经费预算分析,股份公司总部科技经费预算（建议稿） -->
-	<select id="getStockCompanyMoneyTable" resultType="java.util.Map"
-		parameterType="java.lang.String">
+	<select id="getStockCompanyMoneyTable" resultType="java.util.Map" parameterType="java.lang.String">
 		SELECT case when lbName = '10' then '直属研究院' when lbName = '20' then '分子公司' when lbName = '30' then '集团单位' when lbName = '40' then '外部单位' else lbName end,
 			   realIndex,indexName,fyxje,zbxje,zje
 		FROM (
@@ -99,8 +97,7 @@
 	</select>
 	
 	<!-- 预算分配,经费预算分析,各处、部门科技经费预算总表 -->
-	<select id="getDepartmentBudgetMoneyTable" resultType="java.util.Map"
-		parameterType="java.lang.String">
+	<select id="getDepartmentBudgetMoneyTable" resultType="java.util.Map" parameterType="java.lang.String">
 		select
 			round(sum(case when project_scope = '新开课题' then jf else 0 end),2) as zxqje,
       		round(sum(case when project_scope = '结转课题' then jf else 0 end),2) as zlhtje,
@@ -120,6 +117,16 @@
 		where (project_type = '0' or project_type = '2') and 
 			  (project_scope = '新开课题' or project_scope = '结转课题') and define4 is not null
     	group by define4
+	</select>
+	
+	<!-- 知识产权分析,国际、国内专利数量统计 -->
+	<select id="getPatentCountByCountryType" resultType="java.util.Map" parameterType="java.util.Map">
+		select sum(case when SHOUQR like '2018%' then 1 else 0 end) sl1,
+			   sum(case when SHOUQR like '2017%' then 1 else 0 end) sl2,
+			   sum(case when SHOUQR like '2016%' then 1 else 0 end) sl3,
+			   case when GBDM = 'CN' then '国内专利' else '国外专利' end  as patentName
+		from out_patent
+		group by GBDM
 	</select>
 	
 </mapper>

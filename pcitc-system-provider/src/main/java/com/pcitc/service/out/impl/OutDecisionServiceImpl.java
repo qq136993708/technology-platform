@@ -1,6 +1,7 @@
 package com.pcitc.service.out.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,4 +49,17 @@ public class OutDecisionServiceImpl implements OutDecisionService {
 	public List getDepartmentBudgetMoneyTable(String nd) {
 		return outDecisionMapper.getDepartmentBudgetMoneyTable(nd);
 	}
+	
+	/**
+     * @param nd
+     * @return
+     * 知识产权分析,国际、国内专利数量统计
+     */
+	public List getPatentCountByCountryType(Map map) {
+		return outDecisionMapper.getPatentCountByCountryType(map);
+	}
+	
+	
+	
+	
 }
