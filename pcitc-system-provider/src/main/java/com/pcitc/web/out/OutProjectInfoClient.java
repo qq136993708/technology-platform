@@ -1403,6 +1403,13 @@ public class OutProjectInfoClient {
 		
 		List temList = outProjectService.getProjectTypeCountForLD("2018");
 		
+		if (!JSON.toJSONString(temList).contains("十条龙")) {
+			HashMap<String, Object> temMap1 = new HashMap<String, Object>();
+			temMap1.put("xmsl", 0);
+			temMap1.put("project_property", "十条龙项目");
+			temList.add(temMap1);
+		}
+		
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
 		return json;
 	}

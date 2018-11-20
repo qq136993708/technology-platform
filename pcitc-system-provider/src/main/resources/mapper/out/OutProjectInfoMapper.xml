@@ -1388,13 +1388,12 @@
 	<!-- 领导页的各类型的项目数量 -->
 	<select id="getProjectTypeCountForLD" resultType="java.util.Map"
 		parameterType="java.lang.String">
-		select sum(case when project_property = '重点项目' then 1 else 0 end) zdxmsl,
-				sum(case when project_property = '国家项目' then 1 else 0 end) gjxmsl,
-				sum(case when project_property = '重大专项' then 1 else 0 end) zdzxsl,
-				sum(case when project_property = '十条龙项目' then 1 else 0 end) stlxmsl
+		select project_property,count(*) as xmsl
 		FROM out_project_info
 		where 
-			project_type != '1' and (project_scope = '新开课题' or project_scope = '结转课题')
+			project_type != '1' and (project_scope = '新开课题' or project_scope = '结转课题') and 
+			(project_property = '重点项目' or project_property = '国家项目' or project_property = '重大专项' or project_property = '十条龙项目')
+		group by project_property
 	</select>
 	
 	<!-- 领导页,科研项目数量按单位分析 -->
