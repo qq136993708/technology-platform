@@ -179,14 +179,6 @@ public interface OutProjectInfoMapper {
      */
     public List getZBProjectTypeInfoByUnit(String nd);
     
-    
-    /**
-     * @param nd
-     * @return
-     * 经费预算建议--集团公司总部科技经费预算（建议稿）
-     */
-    public List getGroupCompanyStpMoneyForBudgetProposals(String nd);
-    
     /**
      * @param nd
      * @return
@@ -229,10 +221,5 @@ public interface OutProjectInfoMapper {
      */
 	public List getProjectTypeCountByUnitLD(String nd);
 	
-	/**
-     * @param nd
-     * @return
-     * 预算分配,经费预算分析,股份公司总部科技经费预算（建议稿）
-     */
-	public List getStockCompanyMoneyTable(String nd);
+	
 }

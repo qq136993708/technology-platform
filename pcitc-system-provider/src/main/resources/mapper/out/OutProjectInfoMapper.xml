@@ -1301,9 +1301,9 @@
 	<select id="getProjectMoneyByYJY" resultType="java.util.Map"
 		parameterType="java.lang.String">
 		select
-			round(sum(case when define1 = '费用性' then jf else 0 end)/10000,2) as fyxje,
-	    	round(sum(case when define1 = '资本性' then jf else 0 end)/10000,2) as zbxje,
-	    	round(sum(jf)/10000,2) as zje,
+			round(sum(case when define1 = '费用性' then jf else 0 end),2) as fyxje,
+	    	round(sum(case when define1 = '资本性' then jf else 0 end),2) as zbxje,
+	    	round(sum(jf),2) as zje,
 	    	SUBSTR(define2 FROM 4) define2
 		from out_project_info
 		where project_type != '1' and (project_scope = '新开课题' or project_scope = '结转课题') and define2 is not null
@@ -1371,19 +1371,6 @@
 	    group by define1,type_flag
 	</select>
 	
-	
-	<!-- 经费预算建议 集团公司总部科技经费预算（建议稿） -->
-	<select id="getGroupCompanyStpMoneyForBudgetProposals" resultType="java.util.Map"
-		parameterType="java.lang.String">
-		select fzdw,xmlbmc,round(sum(case when nd = '2017' then jf else 0 end)/10000,2) as qnje,
-			round(sum(case when nd = '2018' then jf else 0 end)/10000,2) as jnje,
-			round(sum(case when nd = '2018' and xmlbmc='科研' then jf else 0 end)/10000,2) as jnkyje,
-			round(sum(case when nd = '2018' and xmlbmc='重点实验室专项' then jf else 0 end)/10000,2) as jnsysje
-		from out_project_info
-		where 
-			project_type != '1' and fzdw is not null and jf is not null
-		group BY fzdw,xmlbmc
-	</select>
 	
 	<!-- 领导页的各类型的项目数量 -->
 	<select id="getProjectTypeCountForLD" resultType="java.util.Map"
@@ -1471,29 +1458,5 @@
 	    group by define2
 	</select>
 	
-	<!-- 预算分配,经费预算分析,股份公司总部科技经费预算（建议稿） -->
-	<select id="getStockCompanyMoneyTable" resultType="java.util.Map"
-		parameterType="java.lang.String">
-		SELECT * FROM (
-			select
-			    round(sum(case when define1 = '费用性' then jf else 0 end)/10000,2) as fyxje,
-			    round(sum(case when define1 = '资本性' then jf else 0 end)/10000,2) as zbxje,
-			    round(sum(jf)/10000,2) as zje,
-		    	SUBSTR(define2 FROM 4) lbName,SUBSTR(define2,1,3) realIndex, NULL as indexName
-			from out_project_info
-			where project_type != '1' and (project_scope = '新开课题' or project_scope = '结转课题') and define2 is not null
-		    group by define2
-		    
-			union ALL
-			select
-			    round(sum(case when define1 = '费用性' then jf else 0 end)/10000,2) as fyxje,
-			    round(sum(case when define1 = '资本性' then jf else 0 end)/10000,2) as zbxje,
-			    round(sum(jf)/10000,2) as zje,
-		    	SUBSTR(define2,1,2) lbName,SUBSTR(define2,1,2) realIndex,SUBSTR(define2,1,1) indexName
-			from out_project_info
-			where project_type != '1' and (project_scope = '新开课题' or project_scope = '结转课题') and define2 is not null
-		    group by SUBSTR(define2,1,2),SUBSTR(define2,1,1)
-	    ) as tableA ORDER BY realIndex
-	</select>
 	
 </mapper>

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pcitc.mapper.out.OutDecisionMapper" >
+  <resultMap id="BaseResultMap" type="com.pcitc.base.stp.out.OutProjectInfo" >
+    <id column="data_id" property="dataId" jdbcType="VARCHAR" />
+    <result column="nd" property="nd" jdbcType="VARCHAR" />
+    <result column="xmid" property="xmid" jdbcType="VARCHAR" />
+    <result column="hth" property="hth" jdbcType="VARCHAR" />
+    <result column="xmmc" property="xmmc" jdbcType="VARCHAR" />
+    <result column="xmjb" property="xmjb" jdbcType="VARCHAR" />
+    <result column="jf" property="jf" jdbcType="VARCHAR" />
+    <result column="fwdxbm" property="fwdxbm" jdbcType="VARCHAR" />
+    <result column="fwdx" property="fwdx" jdbcType="VARCHAR" />
+    <result column="zylbbm" property="zylbbm" jdbcType="VARCHAR" />
+    <result column="zylb" property="zylb" jdbcType="VARCHAR" />
+    <result column="fzdwbm" property="fzdwbm" jdbcType="VARCHAR" />
+    <result column="fzdw" property="fzdw" jdbcType="VARCHAR" />
+    <result column="jtfzdwbm" property="jtfzdwbm" jdbcType="VARCHAR" />
+    <result column="jtfzdw" property="jtfzdw" jdbcType="VARCHAR" />
+    <result column="fzrxm" property="fzrxm" jdbcType="VARCHAR" />
+    <result column="jssxxm" property="jssxxm" jdbcType="VARCHAR" />
+    <result column="yjsj" property="yjsj" jdbcType="VARCHAR" />
+    <result column="zyly" property="zyly" jdbcType="VARCHAR" />
+    <result column="zysx" property="zysx" jdbcType="VARCHAR" />
+    <result column="sjid" property="sjid" jdbcType="VARCHAR" />
+    <result column="lxbj" property="lxbj" jdbcType="VARCHAR" />
+    <result column="yjnr" property="yjnr" jdbcType="VARCHAR" />
+    <result column="jdap" property="jdap" jdbcType="VARCHAR" />
+    <result column="yjmb" property="yjmb" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="create_person" property="createPerson" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="project_id" property="projectId" jdbcType="VARCHAR" />
+    <result column="parent_project_id" property="parentProjectId" jdbcType="VARCHAR" />
+    <result column="project_type" property="projectType" jdbcType="VARCHAR" />
+    <result column="erp_project_code" property="erpProjectCode" jdbcType="VARCHAR" />
+    <result column="erp_project_name" property="erpProjectName" jdbcType="VARCHAR" />
+    <result column="project_scope" property="projectScope" jdbcType="VARCHAR" />
+    <result column="project_level" property="projectLevel" jdbcType="VARCHAR" />
+    <result column="project_property" property="projectProperty" jdbcType="VARCHAR" />
+    <result column="project_abc" property="projectAbc" jdbcType="VARCHAR" />
+    <result column="project_source" property="projectSource" jdbcType="VARCHAR" />
+    <result column="yjsjks" property="yjsjks" jdbcType="VARCHAR" />
+    <result column="yjsjjs" property="yjsjjs" jdbcType="VARCHAR" />
+    <result column="xmlbbm" property="xmlbbm" jdbcType="VARCHAR" />
+    <result column="xmlbmc" property="xmlbmc" jdbcType="VARCHAR" />
+    <result column="gsbmmc" property="gsbmmc" jdbcType="VARCHAR" />
+    <result column="gsbmbm" property="gsbmbm" jdbcType="VARCHAR" />
+    <result column="zycmc" property="zycmc" jdbcType="VARCHAR" />
+    <result column="zycbm" property="zycbm" jdbcType="VARCHAR" />
+    <result column="type_flag" property="typeFlag" jdbcType="VARCHAR" />
+    <result column="define1" property="define1" jdbcType="VARCHAR" />
+    <result column="define2" property="define2" jdbcType="VARCHAR" />
+    <result column="define3" property="define3" jdbcType="VARCHAR" />
+    <result column="define4" property="define4" jdbcType="VARCHAR" />
+    <result column="define5" property="define5" jdbcType="VARCHAR" />
+    <result column="define6" property="define6" jdbcType="VARCHAR" />
+  </resultMap>
+	
+	<!-- 经费预算建议 集团公司总部科技经费预算（建议稿） -->
+	<select id="getGroupCompanyStpMoneyForBudgetProposals" resultType="java.util.Map"
+		parameterType="java.lang.String">
+		select fzdw,xmlbmc,round(sum(case when nd = '2017' then jf else 0 end)/10000,2) as qnje,
+			round(sum(case when nd = '2018' then jf else 0 end)/10000,2) as jnje,
+			round(sum(case when nd = '2018' and xmlbmc='科研' then jf else 0 end)/10000,2) as jnkyje,
+			round(sum(case when nd = '2018' and xmlbmc='重点实验室专项' then jf else 0 end)/10000,2) as jnsysje
+		from out_project_info
+		where 
+			project_type != '1' and fzdw is not null and jf is not null
+		group BY fzdw,xmlbmc
+	</select>
+	
+	<!-- 预算分配,经费预算分析,股份公司总部科技经费预算（建议稿） -->
+	<select id="getStockCompanyMoneyTable" resultType="java.util.Map"
+		parameterType="java.lang.String">
+		SELECT case when lbName = '10' then '直属研究院' when lbName = '20' then '分子公司' when lbName = '30' then '集团单位' when lbName = '40' then '外部单位' else lbName end,
+			   realIndex,indexName,fyxje,zbxje,zje
+		FROM (
+			select
+			    round(sum(case when define1 = '费用性' then jf else 0 end), 2) as fyxje,
+			    round(sum(case when define1 = '资本性' then jf else 0 end), 2) as zbxje,
+			    round(sum(jf), 2) as zje,
+		    	SUBSTR(define2 FROM 4) lbName,SUBSTR(define2,1,3) realIndex, NULL as indexName
+			from out_project_info
+			where project_type != '1' and (project_scope = '新开课题' or project_scope = '结转课题') and define2 is not null
+		    group by define2
+		    
+			union ALL
+			select
+			    round(sum(case when define1 = '费用性' then jf else 0 end), 2) as fyxje,
+			    round(sum(case when define1 = '资本性' then jf else 0 end), 2) as zbxje,
+			    round(sum(jf), 2) as zje,
+		    	SUBSTR(define2,1,2) lbName,SUBSTR(define2,1,2) realIndex,SUBSTR(define2,1,1) indexName
+			from out_project_info
+			where project_type != '1' and (project_scope = '新开课题' or project_scope = '结转课题') and define2 is not null
+		    group by SUBSTR(define2,1,2),SUBSTR(define2,1,1)
+	    ) as tableA ORDER BY realIndex
+	</select>
+	
+	<!-- 预算分配,经费预算分析,各处、部门科技经费预算总表 -->
+	<select id="getDepartmentBudgetMoneyTable" resultType="java.util.Map"
+		parameterType="java.lang.String">
+		select
+			round(sum(case when project_scope = '新开课题' then jf else 0 end),2) as zxqje,
+      		round(sum(case when project_scope = '结转课题' then jf else 0 end),2) as zlhtje,
+			round(sum(jf),2) as zysje,
+			round(sum(case when fwdx = '股份' and project_scope = '新开课题' then jf else 0 end),2) as gfxkje,
+      		round(sum(case when fwdx = '股份' and project_scope = '结转课题' then jf else 0 end),2) as gfjzje,
+			round(sum(case when fwdx = '股份' then jf else 0 end),2) as gfzje,
+			round(sum(case when fwdx = '资产' and project_scope = '新开课题' then jf else 0 end),2) as zcxkje,
+      		round(sum(case when fwdx = '资产' and project_scope = '结转课题' then jf else 0 end),2) as zcjzje,
+			round(sum(case when fwdx = '资产' then jf else 0 end),2) as zczje,
+			round(sum(case when fwdx = '集团' and project_scope = '新开课题' then jf else 0 end),2) as jtxkje,
+      		round(sum(case when fwdx = '集团' and project_scope = '结转课题' then jf else 0 end),2) as jtjzje,
+			round(sum(case when fwdx = '集团' then jf else 0 end),2) as jtzje,
+			sum(case when fwdx = '集团' then jf else 0 end) as jtzje,
+      		define4 as cbName
+		from out_project_info
+		where (project_type = '0' or project_type = '2') and 
+			  (project_scope = '新开课题' or project_scope = '结转课题') and define4 is not null
+    	group by define4
+	</select>
+	
+</mapper>
