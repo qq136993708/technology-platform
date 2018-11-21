@@ -96,13 +96,8 @@ layui.use(['jquery','table','laypage','layer','laytpl'], function(){
                      ,area: ['70%', '90%']
                      ,content: "/sre-accept/software/add"
                  });
-
-            
-            
             }
             ,editEvent: function(){  //点击编辑按钮
-            	
-
             	if (typeof(selectRowData.softwareId) == "undefined") {
             		layer.msg('请点击选择一行数据');
             	} else {

@@ -52,6 +52,11 @@
 	        <input class="layui-input readOnlyBox" id="meetingContent" name="meetingContent"    value="${sreTechMeeting.meetingContent}"  type="text">
           </div>
 	     </div>
+	     <div class="form-bottom">
+	  	  	<div class="form-bottom-btns">
+	      		<button type="button"class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" id="closeBtn">关闭</button>
+	  	  	</div>
+		  </div>
   </form>
   </div>
   </div>  
@@ -74,58 +79,11 @@ layui.config({
 	  form.render(null, 'component-form-group');
 });
 
-
-function ajaxOpt(url,formName,type,backurl,successMsg,failMsg)
-{
-	 $.ajax({
-  	     type:type,
-  	     url: url,
-  	     dataType:"json",
-  	     data:$("#"+formName).serialize(),
-  	     async: false, 
-  	     cache: false,
-  	     contentType: "application/x-www-form-urlencoded; charset=utf-8",
-         success:function(data,status)
-         {    
-    	  
-	          if(data.success==true ||data.success=='true')
-	          {
-
-	        	  
-	        	          layer.alert(
-	        			  successMsg, 
-	                      {icon: 1,closeBtn: 0 },
-	                      function () 
-	                      {
-	                    	  var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
-	                          parent.layer.close(index);  // 关闭layer
-	                    	  parent.location.href=backurl;
-	                      });
-	        	  
-	          } else
-	          {
-	        	 layer.alert(failMsg);
-	          }
-	     
-		   },
-		   error:function()
-		   {
-		    	layer.alert("网络访问错误");
-		   }
-    
-  });
-}
-
-function clearNoNum(obj){ 
-    obj.value = obj.value.replace(/[^\d.]/g,"");  //清除“数字”和“.”以外的字符  
-    obj.value = obj.value.replace(/\.{2,}/g,"."); //只保留第一个. 清除多余的  
-    obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$","."); 
-    obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3');//只能输入两个小数  
-    if(obj.value.indexOf(".")< 0 && obj.value !=""){//以上已经过滤，此处控制的是如果没有小数点，首位不能为类似于 01、02的金额 
-        obj.value= parseFloat(obj.value); 
-    } 
-}
-	
+//关闭事件
+$("#closeBtn").click(function () {
+    var index = parent.layer.getFrameIndex(window.name);
+    parent.layer.close(index);
+})
 </script>
 </body>
 </html>

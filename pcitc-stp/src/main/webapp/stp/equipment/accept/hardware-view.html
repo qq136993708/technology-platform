@@ -20,7 +20,7 @@
 <body>
   <div class="formBox">
   <div class="box-body">
-    装备名称：${sreEquipment.name}
+    <!-- 装备名称：${sreEquipment.name} -->
       <form class="layui-form" name="form1" id="form1" action="" method="POST" lay-filter="component-form-group layui-container">
            <input type="hidden" name="hardwareId" id="hardwareId" value="${hardwareId}">
            <input type="hidden" name="equipmentId" id="equipmentId" value="${equipmentId}">
@@ -43,8 +43,6 @@
 	          </div>
 	        </div>
 	      </div>
-	      
-	      
 	      
 	      <!-- 二行-->
 	      <div class="layui-row">
@@ -84,8 +82,6 @@
 	          </div>
 	        </div>
 	      </div>
-      
-           
            
             <div class="layui-row">
 	        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
@@ -99,11 +95,12 @@
 	        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 	        </div>
 	      </div>
-           
-           
-           
-           
-           
+
+		  <div class="form-bottom">
+	  		<div class="form-bottom-btns">
+	       		<button type="button"class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" id="closeBtn">关闭</button>
+	  		</div>
+		  </div>           
 </form>
 </div>
 </div>
@@ -127,82 +124,12 @@ layui.config({
 	      elem: '#LAY-component-form-group-date'
 	  });
 	  
-	  //初始赋值 component-form-group 当前form的lay-filter
-      /* form.val("component-form-group", {
-          "username": "" // "name": "value"
-          ,"sex": "女"
-      }) */
-      /* 自定义验证规则  title 要验证的input的 lay-verify=""*/
-      form.verify({
-    	  equipmentUse: function(value)
-    	  {
-              if(value.length < 5)
-              {
-                  return '产品用途至少得5个字符啊';
-              }
-          }
-          //planMoney: [/(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/,'计划金额格试不正确'] 
-         /*  ,pass: [/(.+){6,12}$/, '密码必须6到12位']
-          ,content: function(value){
-              layedit.sync(editIndex);
-          } */
-      });
+	  //关闭事件
+	  $("#closeBtn").click(function () {
+	      var index = parent.layer.getFrameIndex(window.name);
+	      parent.layer.close(index);
+	  })
 });
-
-
-function ajaxOpt(url,formName,type,backurl,successMsg,failMsg)
-{
-	 $.ajax({
-  	     type:type,
-  	     url: url,
-  	     dataType:"json",
-  	     data:$("#"+formName).serialize(),
-  	     async: false, 
-  	     cache: false,
-  	     contentType: "application/x-www-form-urlencoded; charset=utf-8",
-         success:function(data,status)
-         {    
-    	  
-	          if(data.success==true ||data.success=='true')
-	          {
-
-	        	  
-	        	          layer.alert(
-	        			  successMsg, 
-	                      {icon: 1,closeBtn: 0 },
-	                      function () 
-	                      {
-	                    	  var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
-	                          parent.layer.close(index);  // 关闭layer
-	                    	  parent.location.href=backurl;
-	                      });
-	        	  
-	          } else
-	          {
-	        	 layer.alert(failMsg);
-	          }
-	     
-		   },
-		   error:function()
-		   {
-		    	layer.alert("网络访问错误");
-		   }
-    
-  });
-}
-
-
-function clearNoNum(obj){ 
-    obj.value = obj.value.replace(/[^\d.]/g,"");  //清除“数字”和“.”以外的字符  
-    obj.value = obj.value.replace(/\.{2,}/g,"."); //只保留第一个. 清除多余的  
-    obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$","."); 
-    obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3');//只能输入两个小数  
-    if(obj.value.indexOf(".")< 0 && obj.value !=""){//以上已经过滤，此处控制的是如果没有小数点，首位不能为类似于 01、02的金额 
-        obj.value= parseFloat(obj.value); 
-    } 
-}
-	
-	
 </script>
 </body>
 </html>
