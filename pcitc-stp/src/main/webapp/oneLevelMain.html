@@ -71,7 +71,7 @@
                     </div>
                     <div class="layui-row-textBottom">
                         <div class="layui-text-icon layui-textBottom-one">
-                            <p style="margin: 29px 0;">直属研究院<br/>概况</p>
+                            <p>直属研究院<br/>概况</p>
                         </div>
                         <div class="layui-text-icon layui-textBottom-two">
                             <p>重点实验室</p>
@@ -154,10 +154,10 @@
         var windowHeight=0;
         if ($(window).height()>=626) {
             windowHeight=366;
-        }else if($(window).height()>940){
-            windowHeight=398;
-        }else if($(window).height()>965){
-            windowHeight=400;
+        }else if($(window).height()>=759){
+            windowHeight=382;
+        }else if($(window).height()>=965){
+            windowHeight=384;
         }
         carousel.render({
             elem: '#test-carousel-img'
