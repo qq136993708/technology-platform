@@ -399,6 +399,12 @@
                     $(tr).eq(index).find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
                     selectRowData = res.data[index - 1];
                 });
+                lay('.datetime').each(function() {
+                    laydate.render({
+                        elem : this,
+                        trigger : 'click'
+                    });
+                });
                 // publicMethods.timeAdd();
             }
         });
@@ -446,6 +452,7 @@
                 layer.msg('不能删除已提交的数据!');
             }
         });
+
         $("#submitMatter").click(function () {
             $("#matterFeedBackTalbeDiv .layui-table-body table tbody tr").each(function () {
                 var tdC = $(this).find("td").eq(0).find(".layui-unselect");

@@ -2,9 +2,9 @@
  * Created on 2018年8月14日11点05分
  * 方法
  */
-layui.define(['jquery','form','table'],
+layui.define(['jquery','form','table','laydate'],
     function(exports) {
-        var $ = layui.jquery,form=layui.form,table=layui.table;
+        var $ = layui.jquery,form=layui.form,table=layui.table,laydate=layui.laydate;
         var param=JSON.parse(window.localStorage.getItem("param"));
         var publicMet={
             //递归删除空属性防止把null变成空值
@@ -343,6 +343,8 @@ layui.define(['jquery','form','table'],
                             });
                             certTypeStr += "</select>";
                             $(tbody).find("tr:last td").eq(columnNum).html(certTypeStr)
+                        }else if(columnElement=="laydate"){
+                            $(tbody).find("tr:last td").eq(columnNum).html("<div class='layui-table-cell'><input type='text' class='layui-input datetime inputVal' placeholder='请选择日期' style='width:92%'></div>");
                         }
                     }
                 }
@@ -352,8 +354,17 @@ layui.define(['jquery','form','table'],
                     $(this).find("td").find(".layui-unselect").addClass("layui-form-checked");
                     $(this).addClass("layui-table-click");
                 });
+                publicMet.timeAdd();
                 form.render();
 
+            },
+            timeAdd:function(){
+                lay('.datetime').each(function() {
+                    laydate.render({
+                        elem : this,
+                        trigger : 'click'
+                    });
+                });
             },
             batchDele:function (id) {
                 if($("#"+id+" .layui-table-body table tr").find(".layui-form-checked").length==0){
