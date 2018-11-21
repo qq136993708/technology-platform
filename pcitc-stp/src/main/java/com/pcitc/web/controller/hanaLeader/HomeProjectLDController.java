@@ -215,18 +215,18 @@ public class HomeProjectLDController {
 							for (int i = 0; i < list.size(); i++) {
 								ProjectForMysql f2 = list.get(i);
 								String name = f2.getProject_property();
-//								Integer value = (Integer)f2.getXmsl();
+								Integer value = (Integer)f2.getXmsl();
 								
 								
 								legendDataList.add(name);
 								
-//								if(value!=null )
-//								{
-//									dataList.add(new ChartPieDataValue(value, name));
-//								}else
-//								{
-//									dataList.add(new ChartPieDataValue(0, name));
-//								}
+								if(value!=null )
+								{
+									dataList.add(new ChartPieDataValue(value, name));
+								}else
+								{
+									dataList.add(new ChartPieDataValue(0, name));
+								}
 								
 								
 							}
