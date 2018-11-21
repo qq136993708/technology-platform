@@ -158,7 +158,9 @@ public class SysFileController extends BaseController {
 					tempFileName = tempFileName.substring(tempFileName.lastIndexOf("\\") + 1, tempFileName.length());
 				}
 				String uuid = IdUtil.createIdByTime();
-				sysFileFeignClient.uploadFileSaveLayui(file, request, response, tempFileName, request.getParameter("filedflag"), sysUserInfo.getUserId(), uuid, request.getParameter("formId"), request.getParameter("flag"));
+				JSONObject jsonObject = new JSONObject();
+				jsonObject.put("flag",request.getParameter("flag"));
+				sysFileFeignClient.uploadFileSaveLayui(file, request, response, tempFileName, request.getParameter("filedflag"), sysUserInfo.getUserId(), uuid, request.getParameter("formId"), jsonObject.toJSONString());
 				SysFile sysFile = this.restTemplate.exchange(GET + uuid, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), SysFile.class).getBody();
 				fileList.add(sysFile);
 			}
@@ -185,7 +187,9 @@ public class SysFileController extends BaseController {
 					tempFileName = tempFileName.substring(tempFileName.lastIndexOf("\\") + 1, tempFileName.length());
 				}
 				String uuid = IdUtil.createIdByTime();
-				sysFileFeignClient.uploadFileSaveLayui(file, request, response, tempFileName, request.getParameter("filedflag"), sysUserInfo.getUserId(), uuid, request.getParameter("formId"), request.getParameter("flag"));
+				JSONObject jsonObject = new JSONObject();
+				jsonObject.put("flag",request.getParameter("flag"));
+				sysFileFeignClient.uploadFileSaveLayui(file, request, response, tempFileName, request.getParameter("filedflag"), sysUserInfo.getUserId(), uuid, request.getParameter("formId"), jsonObject.toJSONString());
 				SysFile sysFile = this.restTemplate.exchange(GET + uuid, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), SysFile.class).getBody();
 				fileList.add(sysFile);
 			}
