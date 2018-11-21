@@ -1313,7 +1313,7 @@
 			sum(case LEFT(SQRI,4) when #{nd,jdbcType=VARCHAR} then 1 else 0 end) asapplyCount,
 			WXLX
 		from out_patent
-		WHERE LENGTH(STATUS) &lt; 10 and flztyj = '有效' and flztej = '授权'
+		WHERE STATUS is not null and flztyj = '有效' and flztej = '授权'
 		GROUP BY WXLX
 	</select>
 
@@ -1322,7 +1322,7 @@
 		select
 		*
 		from out_patent
-		WHERE LENGTH(STATUS) &lt; 10 and flztyj = '有效' and flztej = '授权'
+		WHERE STATUS is not null and flztyj = '有效' and flztej = '授权'
 		<if test="agree != null  and agree != '' ">
 			and LEFT(FLZTGGRQ,4) = #{nd,jdbcType=VARCHAR}
 		</if>
@@ -1340,9 +1340,9 @@
 			sum(case LEFT(WXLX,12) when '发明授权' then 1 else 0 end) as fmsqsl,
 			sum(case LEFT(WXLX,12) when '外观设计' then 1 else 0 end) as wgsjsl,
 			sum(case LEFT(WXLX,12) when '实用新型' then 1 else 0 end) as syxxsl,
-			STATUS as lx
+			SUBSTR(STATUS,4) as lx
 		from out_patent
-		WHERE LENGTH(STATUS) &lt; 10 and
+		WHERE STATUS is not null and
 			  LEFT(FLZTGGRQ,4) = #{nd,jdbcType=VARCHAR} and flztyj = '有效' and flztej = '授权'
 		GROUP BY STATUS
 	</select>
@@ -1350,7 +1350,7 @@
 	<select id="getTypeInfoByUnitDetails" resultType="java.util.Map" parameterType="java.util.Map">
 		select * from out_patent
 		WHERE
-			LENGTH(STATUS) &lt; 10 and
+			STATUS is not null and
 			LEFT(FLZTGGRQ,4) = #{nd,jdbcType=VARCHAR} and 
 			flztyj = '有效' and flztej = '授权'
 			<if test="wxlx != null and wxlx != ''">
