@@ -56,21 +56,21 @@
                 </div>
                 <div class="layui-right layui-row-text">
                     <div class="layui-row-textTop">
-                        <div class="layui-text-icon layui-textTop-one">
+                        <div class="layui-text-icon layui-textTop-one" id="porject" style="cursor:pointer">
                             <p>集团重点项目及十条龙科技攻关 </p>
                             <span id="textTopOne">50</span><span class="layui-text-span">个</span>
                         </div>
-                        <div class="layui-text-icon layui-textTop-two">
+                        <div class="layui-text-icon layui-textTop-two" id="home_budget" style="cursor:pointer">
                             <p>科研投入</p>
                             <span id="textTopTwo"></span><span class="layui-text-span">个</span>
                         </div>
-                        <div class="layui-text-icon layui-textTop-three">
+                        <div class="layui-text-icon layui-textTop-three" id="home_budget_0" style="cursor:pointer">
                             <p>科研投入</p>
                             <span id="textTopThree"></span><span class="layui-text-span">个</span>
                         </div>
                     </div>
                     <div class="layui-row-textBottom">
-                        <div class="layui-text-icon layui-textBottom-one">
+                        <div class="layui-text-icon layui-textBottom-one" id="mainLeader" style="cursor:pointer">
                             <p style="margin: 29px 0;">直属研究院<br/>概况</p>
                         </div>
                         <div class="layui-text-icon layui-textBottom-two">
@@ -165,6 +165,25 @@
             ,height: windowHeight+'px'
             ,interval: 5000
         });
+        
+        
+        $("#mainLeader").on("click",function () {
+        	 window.location.href="/instituteIndex.html?url="+"/home_ld/direct_depart"
+
+        	
+        });
+        
+        $("#home_budget").on("click",function () {
+        	 window.location.href="/instituteIndex.html?url="+"/home_budget_ld/home_budget"
+        	
+        });
+        
+        $("#porject").on("click",function () {
+        	alert("d");
+        	window.location.href="/instituteIndex.html?url="+"/home_project_direct/home_project_direct"
+        	
+        });
+        
     });
 </script>
 </body>

@@ -57,6 +57,16 @@ public class HomeLDController {
 	private RestTemplate restTemplate;
 	
 	
+	@RequestMapping( value = "/mainLeader")
+	public String mainLeader(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		return "stp/hana/home/mainLeader";
+	}
+	
+	
+	@RequestMapping( value = "/direct_depart")
+	public String direct_depart(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		return "stp/hana/home/direct_depart";
+	}
 
 	//年度预算 经费支出
 	@RequestMapping(method = RequestMethod.GET, value = "/getndys_xfzc")
