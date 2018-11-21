@@ -571,6 +571,23 @@ public class HanaUtil {
 
 		return list;
 	}
+	
+	
+	public static List<String> getBeforeYearList(String yearMonth,int count) {
+		List<String> list = new ArrayList();
+		Date date = DateUtil.strToDate(yearMonth, DateUtil.FMT_YYYY);
+		//list.add(DateUtil.dateToStr(date, DateUtil.FMT_YYYY));
+		for(int i=0;i<count;i++)
+		{
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(date);
+			calendar.add(Calendar.YEAR, -i);// 当前时间减去一年，即一年前的时间
+			Date before1 = calendar.getTime();
+			list.add(DateUtil.dateToStr(before1, DateUtil.FMT_YYYY));
+		}
+		return list;
+	}
+	
 
 	/**
 	 * 去重 科研经费预算投入年度趋势分析
@@ -3296,6 +3313,52 @@ public class HanaUtil {
 		
 		
 		
+		return chartBarLineSeries;
+	}
+	
+	
+	public static ChartBarLineSeries getChartBarLineSeries_knowledet_bar_year(List<Knowledge> list, String name,List<String> yearList) {
+
+		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
+		if (name.equals("sl1")) 
+		{
+			chartBarLineSeries.setName(yearList.get(0));
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		if (name.equals("sl2")) 
+		{
+			chartBarLineSeries.setName(yearList.get(1));
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		if (name.equals("sl3")) 
+		{
+			chartBarLineSeries.setName(yearList.get(2));
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		List<Object> dataList = new ArrayList<Object>();
+		if (list != null && list.size() > 0) 
+		{
+			for (int i = 0; i < list.size(); i++) 
+			{
+				Knowledge knowledge = list.get(i);
+				Integer f01 = knowledge.getSl1();
+				Integer f02 = knowledge.getSl2();
+				Integer f03 = knowledge.getSl3();
+				if (name.equals("sl1")) 
+				{
+					dataList.add(f01);
+				}
+				if (name.equals("sl1")) 
+				{
+					dataList.add(f02);
+				}
+				if (name.equals("sl3")) 
+				{
+					dataList.add(f03);
+				}
+			    chartBarLineSeries.setData(dataList);
+		     }
+		}
 		return chartBarLineSeries;
 	}
 	

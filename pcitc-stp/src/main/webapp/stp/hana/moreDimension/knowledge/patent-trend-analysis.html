@@ -128,97 +128,6 @@
         </div>
     </div>
 </div>
-<!--<div class="searchBox">
-    &lt;!&ndash;查询条件&ndash;&gt;
-        <label class="dateInput">
-            <span>月份</span>
-            <input type="text" name="month" placeholder="请选择月份" title="月份" value="${month}" autocomplete="off" class="form-control" id="month">
-        </label>
-       <div class="layui-input-inline">
-         <select name="companyCode" id="companyCode" >
-              <#list companyCodeList as vo>
-              	 <#if vo.g0GSJC == '全部'>
-              	 	<option value="${vo.g0GSDM}"  selected="selected">${vo.g0GSJC}</option>
-              	 </#if>
-                 <#if vo.g0GSJC != '全部'>
-              	 	<option value="${vo.g0GSDM}">${vo.g0GSJC}</option>
-              	 </#if>
-               </#list>
-            </select>
-       </div>
-       
-    &lt;!&ndash;按钮组&ndash;&gt;
-    <div class="btnGroup">
-        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()" data-type="searchEvent">查询</button>
-    </div>
-    <span class="unitBox">单位：万元</span>
-</div>-->
-
-<!--echarts-->
-<!--<div class="content-body container">
-
-         &lt;!&ndash;图表二等分布局&ndash;&gt;
-        <div class="layui-row two-charts-box">
-            <div class="layui-col-xs6 layui-col-sm6 layui-col-md6 echarts">
-                <div id="main1" style="width: 100%;height: 400px;"></div>
-            </div>
-            <div class="layui-col-xs6 layui-col-sm6 layui-col-md6 echarts">
-                <div id="main2" style="width: 100%;height: 400px;">
-                <div style="text-align:center;margin:10px;">科研项目经费情况明细</div>
-                        <table class="layui-table">
-                            <thead>
-					     <tr>
-					      <td>排名</td>
-					      <td>企业名称</td>
-					      <td>授权量</td>
-					      <td>申请量</td>
-					     </tr>
-					        </thead>
-					      <tr>
-					       <td>1</td>
-					       <td>国家电网公司</td>
-					       <td>3622</td>
-					       <td>300</td>
-					       </tr>
-					       <tr><td>2</td> <td>华为技术有限公司</td><td >3622</td><td >300</td></tr>
-					       <tr><td>3</td> <td>华为技术有限公司</td><td >3622</td><td >300</td></tr>
-					       <tr><td>4</td> <td>中国石油化工股份有限公司</td><td >3622</td><td >300</td></tr>
-					       <tr><td>5</td> <td>京东方科技集团股份有限公司</td><td >3622</td><td >300</td></tr>
-					       <tr><td>6</td> <td>中兴通讯股份有限公司</td><td >3622</td><td >300</td></tr>
-					       <tr><td>7</td> <td>联想（北京）有限公司</td><td >3622</td><td >300</td></tr>
-					     </table>
-                </div>
-            </div>
-        </div>
-        
-        &lt;!&ndash;图表二等分布局&ndash;&gt;
-        <div class="layui-row two-charts-box">
-            <div class="layui-col-xs6 layui-col-sm6 layui-col-md6 echarts">
-                <div id="main3" style="width: 100%;height: 400px;"></div>
-            </div>
-            <div class="layui-col-xs6 layui-col-sm6 layui-col-md6 echarts">
-                <div id="main4" style="width: 100%;height: 400px;"></div>
-            </div>
-        </div>
-        
-        
-         <div class="one-chart-box" style="margin-top:10px">
-           <div class="layui-row echarts">
-             <div id="main5" style="width: 100%;height: 400px;"></div>
-           </div>
-         </div>
-        
-        
-         <div class="one-chart-box">
-           <div class="layui-row echarts">
-             <div id="main6" style="width: 100%;height: 400px;"></div>
-          </div>
-         </div>
-
-     
-</div>  -->
-     
-     
 
 <!--表格数据操作js-->
 <script src="/common/js/jquery-1.11.3.min.js"></script>
@@ -271,7 +180,7 @@ function init()
 		
 		
 		
-	    var seriesData_1=[
+	    /* var seriesData_1=[
 		        {
   		            name:'2014',
   		            type:'bar',
@@ -304,9 +213,58 @@ function init()
         var legends_1=['2014','2015','2016','2017','2018'];
         var xAxisData_1= ["专利总数","国内专利","国外专利"];
         load_mutl_bar_tt("main1","",legends_1,xAxisData_1,'',seriesData_1,"");
-      
+       */
 		
-		
+        
+        
+        var yAxis= [
+            {
+                type: 'value',
+                name: '金额(万元)',
+                min: 0,
+                max:'dataMax',
+                position: 'left',
+                axisLabel: {
+                    formatter: '{value}'
+                }
+            }
+        ];
+
+
+
+
+       var chart1_url="/more-dimension/patent_trend_analysis_01?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
+       var echart1=load_mutl_bar_2(chart1_url,"chart1","","",yAxis);
+       echart1.on('click', function (params){
+    		var xName=params.name;
+    		var legentName=params.seriesName;
+    		parent.layui.index.openTabsPage("/home/project-list?define1="+xName+"&project_scope="+legentName, "合同签订详情");
+              
+        });
+       
+       
+       
+       
+       var chart2_url="/more-dimension/patent_trend_analysis_02?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
+   	var echart2= loadPie(chart2_url,"main3","",'');
+   	echart2.on('click', function (params){
+   		var xName=params.name;
+   		var legentName=params.seriesName;
+   		parent.layui.index.openTabsPage("/home/project-list?define1="+xName, "合同签订详情");
+             
+       });
+
+    
+    var chart4_url="/more-dimension/patent_trend_analysis_institute?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
+	var echart4= loadPie(chart4_url,"main4","",'');
+	echart4.on('click', function (params){
+		var xName=params.name;
+		var legentName=params.seriesName;
+		parent.layui.index.openTabsPage("/home/project-list?define1="+xName, "合同签订详情");
+          
+    });
+       
+		/* 
 		var legend_names_3=['发明专利','实用新行','外观专利','涉外专利'];
 		var series_values_3=[
 			{value:135, name:'发明专利'},
@@ -331,7 +289,7 @@ function init()
              {value:134, name:'上海院'},
              {value:134, name:'安工院'}
 		];
-		loadPie_tt('main4','',legend_names_4,series_values_4,"");
+		loadPie_tt('main4','',legend_names_4,series_values_4,""); */
 		
 		
 		

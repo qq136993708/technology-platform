@@ -22,9 +22,6 @@
 
 <input type="hidden" name="month" value="${month}"   id="month">
 <input type="hidden" name="companyCode" value="${companyCode}"   id="companyCode">
-
-
-
     <div class="layui-fluid">
         <div class="layui-row layui-col-space10">
             <div class="layui-col-md12 layui-top">
@@ -545,7 +542,6 @@
  					$("#kyxm").html(data.projectCount+"<small>(个)</small>");
  					$("#K0BNGLFPHJECB_t").html(data.kyzbCount+"<small>(个)</small>");
  					if (data.jfTotal > 100) {
- 					
  						$("#k0BNYSJHJE").html((data.jfTotal/10000).toFixed(2)+"<small>(亿)</small>");
  					} else {
  						$("#k0BNYSJHJE").html(data.jfTotal+"<small>(万元)</small>");
