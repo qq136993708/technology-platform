@@ -1277,9 +1277,9 @@
 	<select id="getProjectMoneyByProjectType" resultType="java.util.Map"
 		parameterType="java.lang.String">
 		select
-			round(sum(case when project_scope = '新开课题' then jf else 0 end)/10000,2) as xkje,
-	        round(sum(case when project_scope = '结转课题' then jf else 0 end)/10000,2) as xjje,
-	        round(sum(jf)/10000,2) as zje,
+			round(sum(case when project_scope = '新开课题' then jf else 0 end)/10000,4) as xkje,
+	        round(sum(case when project_scope = '结转课题' then jf else 0 end)/10000,4) as xjje,
+	        round(sum(jf)/10000,4) as zje,
 	        define1
 		from out_project_info
 		where project_type != '1'
@@ -1289,9 +1289,9 @@
 	<select id="getProjectMoneyByUnit" resultType="java.util.Map"
 		parameterType="java.lang.String">
 		select
-			round(sum(case when define1 = '费用性' then jf else 0 end)/10000,2) as fyxje,
-	    	round(sum(case when define1 = '资本性' then jf else 0 end)/10000,2) as zbxje,
-	    	round(sum(jf)/10000,2) as zje,
+			round(sum(case when define1 = '费用性' then jf else 0 end)/10000,4) as fyxje,
+	    	round(sum(case when define1 = '资本性' then jf else 0 end)/10000,4) as zbxje,
+	    	round(sum(jf)/10000,4) as zje,
 	    	SUBSTR(type_flag FROM 2) type_flag
 		from out_project_info
 		where project_type != '1' and (project_scope = '新开课题' or project_scope = '结转课题') and type_flag is not null
@@ -1301,9 +1301,9 @@
 	<select id="getProjectMoneyByYJY" resultType="java.util.Map"
 		parameterType="java.lang.String">
 		select
-			round(sum(case when define1 = '费用性' then jf else 0 end),2) as fyxje,
-	    	round(sum(case when define1 = '资本性' then jf else 0 end),2) as zbxje,
-	    	round(sum(jf),2) as zje,
+			round(sum(case when define1 = '费用性' then jf else 0 end),4) as fyxje,
+	    	round(sum(case when define1 = '资本性' then jf else 0 end),4) as zbxje,
+	    	round(sum(jf),4) as zje,
 	    	SUBSTR(define2 FROM 4) define2
 		from out_project_info
 		where project_type != '1' and (project_scope = '新开课题' or project_scope = '结转课题') and define2 is not null
@@ -1355,7 +1355,7 @@
 	<select id="getProjectMoneyForTree" resultType="java.util.Map"
 		parameterType="java.lang.String">
 		select
-		    round(sum(jf)/10000,2) as zje,UUID() as id,define1,project_scope
+		    round(sum(jf)/10000,4) as zje,UUID() as id,define1,project_scope
 		from out_project_info
 		where project_type != '1' and (project_scope = '新开课题' or project_scope = '结转课题')
 	    group by define1,project_scope
@@ -1364,7 +1364,7 @@
 	<select id="getProjectMoneyByIniAndTypeForTree" resultType="java.util.Map"
 		parameterType="java.lang.String">
 		select
-		    round(sum(jf)/10000,2) as zje,UUID() as id,
+		    round(sum(jf)/10000,4) as zje,UUID() as id,
 	    	define1,SUBSTR(type_flag FROM 2) type_flag
 		from out_project_info
 		where project_type != '1' and (project_scope = '新开课题' or project_scope = '结转课题') and type_flag is not null
