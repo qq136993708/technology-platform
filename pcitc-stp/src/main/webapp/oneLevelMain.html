@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="Shortcut Icon" href="/layuiadmin/layui/images/favicon.ico" />
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/adminStp.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/oneLevel.css" media="all">
+    <link rel="stylesheet" href="/common/css/echart-common.css">
+    <script src="/layuiadmin/layui/layui.js"></script>
+</head>
+<body>
+<div class="layui-fluid layui-level-admin">
+    <div style="background: white;">
+        <div class="layui-header"><img src="/layuiadmin/layui/images/login-stp.png"/></div>
+    </div>
+    <div class="layui-main">
+        <div class="layui-level-main">
+            <div class="layui-level-menu layui-row">
+                <div class="layui-col-md9">
+                    <ul>
+                        <li class="layui-this"><a href="javascript:;">首页</a></li>
+                        <li><a href="javascript:;">科研课题</a></li>
+                        <li><a href="javascript:;">科研投入</a></li>
+                        <li><a href="javascript:;">科技成果</a></li>
+                        <li><a href="javascript:;">知识产权</a></li>
+                        <li><a href="javascript:;">技术族</a></li>
+                        <li><a href="javascript:;">标准化</a></li>
+                        <li><a href="javascript:;">专家库</a></li>
+                    </ul>
+                </div>
+                <div class="layui-col-md3 layui-search">
+                    <input type="text" placeholder="请输入关键字">
+                    <button class="btn"></button>
+                </div>
+            </div>
+            <div class="layui-row">
+                <div class="layui-left layui-row-pic">
+                    <div class="layui-carousel" id="test-carousel-img">
+                        <div carousel-item="">
+                            <div>
+                                <img src="/layuiadmin/layui/images/pic.png"/>
+                                <p>图片一</p>
+                            </div>
+                            <div>
+                                <img src="/layuiadmin/layui/images/textTopOne.png"/>
+                                <p>图片二</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="layui-right layui-row-text">
+                    <div class="layui-row-textTop">
+                        <div class="layui-text-icon layui-textTop-one">
+                            <p>集团重点项目及十条龙科技攻关 </p>
+                            <span id="textTopOne">50</span><span class="layui-text-span">个</span>
+                        </div>
+                        <div class="layui-text-icon layui-textTop-two">
+                            <p>科研投入</p>
+                            <span id="textTopTwo"></span><span class="layui-text-span">个</span>
+                        </div>
+                        <div class="layui-text-icon layui-textTop-three">
+                            <p>科研投入</p>
+                            <span id="textTopThree"></span><span class="layui-text-span">个</span>
+                        </div>
+                    </div>
+                    <div class="layui-row-textBottom">
+                        <div class="layui-text-icon layui-textBottom-one">
+                            <p style="margin: 29px 0;">直属研究院<br/>概况</p>
+                        </div>
+                        <div class="layui-text-icon layui-textBottom-two">
+                            <p>重点实验室</p>
+                            <span id="textBottomTwo">50</span><span class="layui-text-span">个</span>
+                        </div>
+                        <div class="layui-text-icon layui-textBottom-three">
+                            <p>知识产权</p>
+                            <span id="textBottomThree"></span><span class="layui-text-span">个</span>
+                        </div>
+                        <div class="layui-text-icon layui-textBottom-four">
+                            <p>中国石化标准化</p>
+                            <span id="textBottomFour"></span><span class="layui-text-span">个</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-row" style="margin-top: 20px;">
+                <div class="layui-left layui-news">
+                    <p>科技要闻<span><a href="javascript:;">更多></a></span></p>
+                    <ul>
+                        <li><a href="javascript:void(0);">武汉石化开发监控模块强化安全生产管控</a>
+                            <span>2018-11-12 </span></li>
+                        <li><a href="javascript:void(0);">武汉石化开发监控模块强化安全生产管控</a>
+                            <span>2018-11-12 </span></li>
+                        <li><a href="javascript:void(0);">武汉石化开发监控模块强化安全生产管控</a>
+                            <span>2018-11-12 </span></li>
+                        <li><a href="javascript:void(0);">武汉石化开发监控模块强化安全生产管控</a>
+                            <span>2018-11-12 </span></li>
+                        <li><a href="javascript:void(0);">武汉石化开发监控模块强化安全生产管控</a>
+                            <span>2018-11-12 </span></li>
+                        <li><a href="javascript:void(0);">武汉石化开发监控模块强化安全生产管控</a>
+                            <span>2018-11-12 </span></li>
+                    </ul>
+                </div>
+                <div class="layui-right layui-agency">
+                    <div class="layui-agency-left">
+                        <p>待办督办</p>
+                        <ul>
+                            <li>
+                                <img src="/layuiadmin/layui/images/agencyOne.png" alt="">
+                                <span class="layui-agency-left-span">待办事项</span><br/>
+                                <span>（<span id="agencyOne"></span>）</span>
+                            </li>
+                            <li>
+                                <img src="/layuiadmin/layui/images/agencyTwo.png" alt="">
+                                <span class="layui-agency-left-span">已办事项</span><br/>
+                                <span>（<span id="agencyTwo"></span>）</span>
+                            </li>
+                            <li>
+                                <img src="/layuiadmin/layui/images/agencyThree.png" alt="">
+                                <span class="layui-agency-left-span">已结事项</span><br/>
+                                <span>（<span id="agencyThree"></span>）</span>
+                            </li>
+                            <li>
+                                <img src="/layuiadmin/layui/images/agencyFour.png" alt="">
+                                <span class="layui-agency-left-span">任务督办</span><br/>
+                                <span>（<span id="agencyFour"></span>）</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="layui-agency-right">
+                        <div class="layui-party">
+                            <p>党建信息</p>
+                        </div>
+                        <div class="layui-add">
+                            <img src="/layuiadmin/layui/images/icon-puls.png"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use([ 'carousel', 'form'], function(){
+        var carousel = layui.carousel
+            ,form = layui.form;
+        //图片轮播
+        carousel.render({
+            elem: '#test-carousel-img'
+            ,width: '100%'
+            ,height: '366px'
+            ,interval: 5000
+        });
+    });
+</script>
+</body>
+</html>

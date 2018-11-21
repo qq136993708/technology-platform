@@ -1,6 +1,10 @@
 package com.pcitc.service.out;
 
 import java.util.List;
+import java.util.Map;
+
+import com.pcitc.base.common.LayuiTableData;
+import com.pcitc.base.common.LayuiTableParam;
 
 public interface OutDecisionService {
 
@@ -24,6 +28,31 @@ public interface OutDecisionService {
      * 预算分配,经费预算分析,各处、部门科技经费预算总表
      */
 	public List getDepartmentBudgetMoneyTable(String nd);
+	
+	/**
+     * @param nd
+     * @return
+     * 知识产权分析,国际、国内专利数量统计
+     */
+	public List getPatentCountByCountryType(Map map);
+	
+	/**
+     * @return
+     * 知识产权分析,各类型专利的数量，发明公布，发明授权，实用新型等
+     */
+	public List getPatentCountByPatentType(Map map);
+	
+	/**
+     * @return
+     * 知识产权分析,各类型专利的数量，8大研究院
+     */
+	public List getPatentCountByInstitute(Map map);
+	
+	/**
+     * @return
+     * 知识产权分析,专利申报情况明细分析表
+     */
+	public LayuiTableData selectPatentDetailInfoByCond(LayuiTableParam param);
 	
 	
 	

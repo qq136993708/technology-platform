@@ -1107,18 +1107,18 @@
 		group by out_project_info.data_id
 	</select>
 
-	<select id="getOutProjectInfoCount" resultType="java.util.Map"
-		parameterType="java.lang.String">
+	<!-- 首页计算科研装备项目数、非装备项目数、新开项目总金额、新开和结转项目总金额 -->
+	<select id="getOutProjectInfoCount" resultType="java.util.Map" parameterType="java.lang.String">
 		select 
         	round(sum(case nd when '2018' then jf else 0 end),2) as jfTotal, 
+        	round(sum(jf)/10000,2) as zje, 
         	sum(case xmlbbm when 'KYZB' then 1 else 0 end) as kyzbCount, 
 			sum(case xmlbbm when 'KYZB' then 0 else 1 end) as projectCount
 		from out_project_info
 		where (project_type = '0' or project_type = '2') and (project_scope = '新开课题' or project_scope = '结转课题')
 	</select>
 
-	<select id="getOutProjectScopeInfo" resultType="java.util.Map"
-		parameterType="java.lang.String">
+	<select id="getOutProjectScopeInfo" resultType="java.util.Map" parameterType="java.lang.String">
 		select
 			sum(case nd when '2017' then 1 else 0 end) as newProject,
 			count(*) as totalProject,fzdw
@@ -1277,21 +1277,21 @@
 	<select id="getProjectMoneyByProjectType" resultType="java.util.Map"
 		parameterType="java.lang.String">
 		select
-			round(sum(case when project_scope = '新开课题' then jf else 0 end)/10000,2) as xkje,
-	        round(sum(case when project_scope = '结转课题' then jf else 0 end)/10000,2) as xjje,
-	        round(sum(jf)/10000,2) as zje,
+			round(sum(case when project_scope = '新开课题' then jf else 0 end)/10000,4) as xkje,
+	        round(sum(case when project_scope = '结转课题' then jf else 0 end)/10000,4) as xjje,
+	        round(sum(jf)/10000,4) as zje,
 	        define1
 		from out_project_info
-		where project_type != '1'
+		where (project_type = '0' or project_type = '2') and (project_scope = '新开课题' or project_scope = '结转课题')
 	    group by define1
 	</select>
 	
 	<select id="getProjectMoneyByUnit" resultType="java.util.Map"
 		parameterType="java.lang.String">
 		select
-			round(sum(case when define1 = '费用性' then jf else 0 end)/10000,2) as fyxje,
-	    	round(sum(case when define1 = '资本性' then jf else 0 end)/10000,2) as zbxje,
-	    	round(sum(jf)/10000,2) as zje,
+			round(sum(case when define1 = '费用性' then jf else 0 end)/10000,4) as fyxje,
+	    	round(sum(case when define1 = '资本性' then jf else 0 end)/10000,4) as zbxje,
+	    	round(sum(jf)/10000,4) as zje,
 	    	SUBSTR(type_flag FROM 2) type_flag
 		from out_project_info
 		where project_type != '1' and (project_scope = '新开课题' or project_scope = '结转课题') and type_flag is not null
@@ -1301,9 +1301,9 @@
 	<select id="getProjectMoneyByYJY" resultType="java.util.Map"
 		parameterType="java.lang.String">
 		select
-			round(sum(case when define1 = '费用性' then jf else 0 end),2) as fyxje,
-	    	round(sum(case when define1 = '资本性' then jf else 0 end),2) as zbxje,
-	    	round(sum(jf),2) as zje,
+			round(sum(case when define1 = '费用性' then jf else 0 end),4) as fyxje,
+	    	round(sum(case when define1 = '资本性' then jf else 0 end),4) as zbxje,
+	    	round(sum(jf),4) as zje,
 	    	SUBSTR(define2 FROM 4) define2
 		from out_project_info
 		where project_type != '1' and (project_scope = '新开课题' or project_scope = '结转课题') and define2 is not null
@@ -1352,19 +1352,17 @@
 	    
 	</select>
 	
-	<select id="getProjectMoneyForTree" resultType="java.util.Map"
-		parameterType="java.lang.String">
+	<select id="getProjectMoneyForTree" resultType="java.util.Map" parameterType="java.lang.String">
 		select
-		    round(sum(jf)/10000,2) as zje,UUID() as id,define1,project_scope
+		    round(sum(jf)/10000,4) as zje,UUID() as id,define1,project_scope
 		from out_project_info
 		where project_type != '1' and (project_scope = '新开课题' or project_scope = '结转课题')
 	    group by define1,project_scope
 	</select>
 	
-	<select id="getProjectMoneyByIniAndTypeForTree" resultType="java.util.Map"
-		parameterType="java.lang.String">
+	<select id="getProjectMoneyByIniAndTypeForTree" resultType="java.util.Map" parameterType="java.lang.String">
 		select
-		    round(sum(jf)/10000,2) as zje,UUID() as id,
+		    round(sum(jf)/10000,4) as zje,UUID() as id,
 	    	define1,SUBSTR(type_flag FROM 2) type_flag
 		from out_project_info
 		where project_type != '1' and (project_scope = '新开课题' or project_scope = '结转课题') and type_flag is not null
@@ -1373,8 +1371,7 @@
 	
 	
 	<!-- 领导页的各类型的项目数量 -->
-	<select id="getProjectTypeCountForLD" resultType="java.util.Map"
-		parameterType="java.lang.String">
+	<select id="getProjectTypeCountForLD" resultType="java.util.Map" parameterType="java.lang.String">
 		select project_property,count(*) as xmsl
 		FROM out_project_info
 		where 
@@ -1384,8 +1381,7 @@
 	</select>
 	
 	<!-- 领导页,科研项目数量按单位分析 -->
-	<select id="getProjectTypeCountForTreeLD" resultType="java.util.Map"
-		parameterType="java.lang.String">
+	<select id="getProjectTypeCountForTreeLD" resultType="java.util.Map" parameterType="java.lang.String">
 		select
 		    count(*) as zsl,UUID() as id,
 	    	SUBSTR(type_flag FROM 2) type_flag,project_scope
