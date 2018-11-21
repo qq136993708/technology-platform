@@ -285,6 +285,9 @@ public class PlanController extends BaseController {
                 planBase.setWorkOrderStatus("0");
                 planBase.setRedactUnitName(bsv.getRedactUnitName());
                 planBase.setWorkOrderType(bsv.getWorkOrderType());
+                planBase.setCreateUser(sysUserInfo.getUserId());
+                planBase.setCreateUserName(sysUserInfo.getUserName());
+                planBase.setCreateDate(DateUtil.dateToStr(new Date(), DateUtil.FMT_SS));
                 //                Object objJsrId = detail.get("jsId");
 //                if (objJsrId != null && !"".equals(objJsrId)) {//
 //                    planBase.setJsId(objJsrId.toString());//指派给他人
@@ -430,20 +433,20 @@ public class PlanController extends BaseController {
                 planBase.setBl("");
                 planBase.setWorkOrderType(wjbvo.getWorkOrderType());
                 planBase.setRedactUnitName(wjbvo.getRedactUnitName());
-                Object objJsrId = detail.get("jsId");
-                if (objJsrId != null && !"".equals(objJsrId)) {//
-                    planBase.setJsId(objJsrId.toString());//指派给他人
-                    //指派给他人,新增一条数据
-                    PlanBase planBaseZp = new PlanBase();
-                    planBaseZp.setWorkOrderName(planBase.getRemarks());
-                    planBaseZp.setParentId(planBase.getDataId());
-                    planBaseZp.setBl("");
-                    planBaseZp.setDataId(UUID.randomUUID().toString().replace("-", ""));
-                    planBaseZp.setWorkOrderAllotUserName(objJsrId.toString());//当前节点处理人
-                    planBaseZp.setWorkOrderStatus("0");
-                    planBaseZp.setDelFlag("0");
-                    baseList.add(planBaseZp);
-                }
+//                Object objJsrId = detail.get("jsId");
+//                if (objJsrId != null && !"".equals(objJsrId)) {//
+//                    planBase.setJsId(objJsrId.toString());//指派给他人
+//                    //指派给他人,新增一条数据
+//                    PlanBase planBaseZp = new PlanBase();
+//                    planBaseZp.setWorkOrderName(planBase.getRemarks());
+//                    planBaseZp.setParentId(planBase.getDataId());
+//                    planBaseZp.setBl("");
+//                    planBaseZp.setDataId(UUID.randomUUID().toString().replace("-", ""));
+//                    planBaseZp.setWorkOrderAllotUserName(objJsrId.toString());//当前节点处理人
+//                    planBaseZp.setWorkOrderStatus("0");
+//                    planBaseZp.setDelFlag("0");
+//                    baseList.add(planBaseZp);
+//                }
                 baseList.add(planBase);
             }
         }
@@ -510,6 +513,9 @@ public class PlanController extends BaseController {
         wjbvoOld.setWorkOrderType(wjbvo.getWorkOrderType());
         wjbvoOld.setDataId(newDataId);
         wjbvoOld.setJsId(wjbvo.getDataId());
+        wjbvoOld.setCreateUser(sysUserInfo.getUserId());
+        wjbvoOld.setCreateUserName(sysUserInfo.getUserName());
+        wjbvoOld.setCreateDate(DateUtil.dateToStr(new Date(), DateUtil.FMT_SS));
         HttpEntity<PlanBase> entityNew = new HttpEntity<PlanBase>(wjbvoOld, this.httpHeaders);
         ResponseEntity<Integer> responseEntityNew = this.restTemplate.exchange(SAVE_BOT_WORK_ORDER, HttpMethod.POST, entityNew, Integer.class);
 
@@ -685,6 +691,11 @@ public class PlanController extends BaseController {
                 matterVo.setStatus("0");
                 matterVo.setDataId(UUID.randomUUID().toString().replace("-", ""));
 //                matterVo.setWorkOrderEndDatatime(array.getJSONObject(i).getString("workOrderEndDatatime"));
+
+                matterVo.setCreateUser(sysUserInfo.getUserId());
+                matterVo.setCreateUserName(sysUserInfo.getUserName());
+                matterVo.setCreateDate(DateUtil.dateToStr(new Date(), DateUtil.FMT_SS));
+
                 matterList.add(matterVo);
             }
         }

@@ -1,11 +1,12 @@
 package com.pcitc.mapper.out;
 
+import com.pcitc.base.stp.out.OutAppraisal;
+import com.pcitc.base.stp.out.OutAppraisalExample;
+
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
-
-import com.pcitc.base.stp.out.OutAppraisal;
-import com.pcitc.base.stp.out.OutAppraisalExample;
 
 public interface OutAppraisalMapper {
     int countByExample(OutAppraisalExample example);
@@ -32,7 +33,7 @@ public interface OutAppraisalMapper {
     
     public void insertOutAppraisalBatch(List<OutAppraisal> list);
     
-    public int getOutAppraisalCount(String nd);
+    public int getOutAppraisalCount(HashMap<String, String> map);
     
     /**
      * @param nd
@@ -68,4 +69,6 @@ public interface OutAppraisalMapper {
      * 得到某个年度专利申请/授权数量按专利类型分组
      */
     public List getResultInfoByEight(String nd);
+    
+    
 }

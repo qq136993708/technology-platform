@@ -1,5 +1,6 @@
 package com.pcitc.service.out;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.pcitc.base.common.LayuiTableData;
@@ -12,7 +13,7 @@ public interface OutAppraisalService {
 	
 	public LayuiTableData getOutAppraisalPage(LayuiTableParam param);
 	
-	public int getOutAppraisalCount(String nd, String userId);
+	public int getOutAppraisalCount(HashMap<String, String> map);
 	
 	OutAppraisal getOutAppraisalShowById(String dataId) throws Exception;
 	

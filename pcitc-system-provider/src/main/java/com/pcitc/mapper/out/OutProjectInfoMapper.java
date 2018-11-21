@@ -42,7 +42,7 @@ public interface OutProjectInfoMapper {
      * @return
      * 首页科研项目数、装备项目数、总金额（预算）
      */
-	public HashMap<String, String> getOutProjectInfoCount(String nd);
+	public HashMap<String, String> getOutProjectInfoCount(HashMap<String, String> map);
 
 	public List getOutProjectScopeInfo(String nd);
 	

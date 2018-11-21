@@ -1,5 +1,6 @@
 package com.pcitc.service.out.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -69,14 +70,18 @@ public class OutPatentServiceImpl implements OutPatentService {
 	/**
 	 * 查询年份的专利数量
 	 */
-	public int getOutPatentCount(String nd, String userId) {
+	public int getOutPatentCount(HashMap<String, String> map) {
 
 		OutPatentExample example = new OutPatentExample();
 		OutPatentExample.Criteria criteria = example.createCriteria();
-		criteria.andRemarksLike("%" + nd + "%");
+		criteria.andRemarksLike("%" + map.get("nd") + "%");
 		criteria.andFlztyjEqualTo("有效");
 		criteria.andFlztejEqualTo("授权");
-
+		
+		// 只查询研究院的
+		if (map.get("define2") != null && !map.get("define2").equals("")) {
+			criteria.andStatusIsNotNull();
+		}
 		return outPatentMapper.countByExample(example);
 	}
 

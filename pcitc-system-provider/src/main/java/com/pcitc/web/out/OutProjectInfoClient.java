@@ -127,7 +127,7 @@ public class OutProjectInfoClient {
 		}
 		System.out.println("2jsonStr======" + nd);
 		
-		HashMap<String, String> temMap = outProjectService.getOutProjectInfoCount(nd);
+		HashMap<String, String> temMap = outProjectService.getOutProjectInfoCount(map);
 		if (temMap != null) {
 			retJson.put("jfTotal", temMap.get("jfTotal"));
 			retJson.put("kyzbCount", temMap.get("kyzbCount"));

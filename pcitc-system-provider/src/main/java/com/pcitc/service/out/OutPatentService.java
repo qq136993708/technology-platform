@@ -1,5 +1,6 @@
 package com.pcitc.service.out;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.pcitc.base.common.LayuiTableData;
@@ -18,7 +19,7 @@ public interface OutPatentService {
 	 */
 	public String getMaxImportDate();
 	
-	public int getOutPatentCount(String nd, String userId);
+	public int getOutPatentCount(HashMap<String, String> map);
 	
 	public List getWXLXInfo(String nd);
 	
