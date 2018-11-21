@@ -1107,7 +1107,7 @@ public class HanaUtil {
 	}
 	
 	public static double add(double v1, double v2) {
-        BigDecimal b1=new BigDecimal(Double.toString(v1));
+       BigDecimal b1=new BigDecimal(Double.toString(v1));
        BigDecimal b2 = new BigDecimal(Double.toString(v2));
        return b1.add(b2).doubleValue();
    }
@@ -1430,7 +1430,7 @@ public class HanaUtil {
 					TreeNode2 node02=new TreeNode2();
 					node02.setpId(node.getId());
 					node02.setName(name02);
-					node02.setExtend01(String.format("%.2f", Double.valueOf(K0BNXKJE)));
+					node02.setExtend01(String.format("%.4f", Double.valueOf(K0BNXKJE)));
 					node02.setId(""+id);
 					resut.add(node02);
 					
@@ -1440,7 +1440,7 @@ public class HanaUtil {
 				}
 			}
 			node.setName(title);
-			node.setExtend01(String.format("%.2f", Double.valueOf(count)));
+			node.setExtend01(String.format("%.4f", Double.valueOf(count)));
 			resut.add(node);
 			
 		}

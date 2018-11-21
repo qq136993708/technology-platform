@@ -23,7 +23,7 @@
        
     <!--按钮组-->
     <div class="btnGroup">
-        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg"  onclick="renderTable()">查询</button>
+        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg"  onclick="serarch()">查询</button>
     </div>
     
 </div>
@@ -115,9 +115,19 @@ layui.config({
          
         
         
-    });
-    var datas = $('#myTable').attr('lay-data');
-    console.log(datas)
+});
+
+function serarch()
+{
+	table.reload('myTable', {
+		  url: '/ba/cbmkjjfyszb_data'
+		  ,where: {} 
+		  
+		});
+
+	
+}
+serarch(); 
     
    
    

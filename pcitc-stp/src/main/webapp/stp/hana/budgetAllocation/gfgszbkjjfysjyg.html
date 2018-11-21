@@ -23,13 +23,13 @@
        
     <!--按钮组-->
     <div class="btnGroup">
-        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg"  onclick="renderTable()">查询</button>
+        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg"  onclick="serarch()">查询</button>
     </div>
     
 </div>
 
 
-<table id="myTable" class="layui-table" lay-data="{url:'/ba/gfgszbkjjfysjyg_data',height:'auto'}">
+<table id="myTable" class="layui-table" lay-data="">
   <thead>
     <tr>
       <th lay-data="{checkbox:true, width:55}" rowspan="2"></th>
@@ -97,8 +97,18 @@ layui.config({
         
         
     });
-    var datas = $('#myTable').attr('lay-data');
-    console.log(datas)
+
+function serarch()
+{
+	table.reload('myTable', {
+		  url: '/ba/gfgszbkjjfysjyg_data'
+		  ,where: {} 
+		  
+		});
+
+	
+}
+serarch(); 
     
    
    
