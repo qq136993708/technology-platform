@@ -126,6 +126,8 @@
 			   sum(case when SHOUQR like '2016%' then 1 else 0 end) sl3,
 			   case when GBDM = 'CN' then '国内专利' else '国外专利' end  as patentName
 		from out_patent
+		where
+			flztyj = '有效' and flztej = '授权'
 		group by GBDM
 	</select>
 	
@@ -135,7 +137,7 @@
 			 WXLX as typeName,COUNT(*) sl
 		from out_patent
 		where
-		SHOUQR like '2018%'
+		SHOUQR like '2018%' and flztyj = '有效' and flztej = '授权'
 		group by WXLX
 	</select>
 	
@@ -145,7 +147,7 @@
 			 SUBSTR(`STATUS` FROM 4) as unitName, COUNT(*) sl
 		from out_patent
 		where
-		SHOUQR like '2018%' AND `STATUS` IS NOT NULL
+		SHOUQR like '2018%' AND `STATUS` IS NOT NULL and flztyj = '有效' and flztej = '授权'
 		group by `STATUS`
 	</select>
 	
@@ -156,7 +158,7 @@
 			 GBDM as zlszg,YXQH as yxq, FMR as dysqr, SHENQR as dyfmdw
 		from out_patent
 		where
-		SHOUQR like '2018-05%' AND `STATUS` IS NOT NULL
+		SHOUQR like '2018-05%' AND `STATUS` IS NOT NULL and flztyj = '有效' and flztej = '授权'
 	</select>
 	
 </mapper>

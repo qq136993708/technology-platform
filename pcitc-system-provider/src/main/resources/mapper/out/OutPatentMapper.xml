@@ -1307,21 +1307,14 @@
 		from out_patent
 	</select>
 
-	<select id="getWXLXInfo" resultType="java.util.Map"
-		parameterType="java.lang.String">
+	<select id="getWXLXInfo" resultType="java.util.Map" parameterType="java.lang.String">
 		select
-		sum(case LEFT(FLZTGGRQ,4) when
-		#{nd,jdbcType=VARCHAR} then 1 else
-		0 end) as agreeCount,
-		sum(case
-		LEFT(SQRI,4) when #{nd,jdbcType=VARCHAR} then 1 else 0
-		end) as
-		applyCount,
-		WXLX
+			sum(case LEFT(FLZTGGRQ,4) when #{nd,jdbcType=VARCHAR} then 1 else 0 end) as agreeCount,
+			sum(case LEFT(SQRI,4) when #{nd,jdbcType=VARCHAR} then 1 else 0 end) asapplyCount,
+			WXLX
 		from out_patent
-		WHERE LENGTH(STATUS) &lt; 10
-		GROUP
-		BY WXLX
+		WHERE LENGTH(STATUS) &lt; 10 and flztyj = '有效' and flztej = '授权'
+		GROUP BY WXLX
 	</select>
 
 	<select id="getWXLXDetailsInfo" resultType="java.util.Map"
@@ -1329,14 +1322,12 @@
 		select
 		*
 		from out_patent
-		WHERE LENGTH(STATUS) &lt; 10
+		WHERE LENGTH(STATUS) &lt; 10 and flztyj = '有效' and flztej = '授权'
 		<if test="agree != null  and agree != '' ">
-			and
-			LEFT(FLZTGGRQ,4) = #{nd,jdbcType=VARCHAR}
+			and LEFT(FLZTGGRQ,4) = #{nd,jdbcType=VARCHAR}
 		</if>
 		<if test="apply != null and apply != '' ">
-			and
-			LEFT(SQRI,4) = #{nd,jdbcType=VARCHAR}
+			and LEFT(SQRI,4) = #{nd,jdbcType=VARCHAR}
 		</if>
 		<if test="wxlx != null  and wxlx != '' ">
 			and WXLX = #{wxlx,jdbcType=VARCHAR}
@@ -1344,99 +1335,75 @@
 		
 	</select>
 
-	<select id="getTypeInfoByUnit" resultType="java.util.Map"
-		parameterType="java.lang.String">
+	<select id="getTypeInfoByUnit" resultType="java.util.Map" parameterType="java.lang.String">
 		select
-		sum(case LEFT(WXLX,12) when '发明授权' then 1 else 0
-		end) as fmsqsl,
-		sum(case LEFT(WXLX,12) when '外观设计' then 1 else 0 end)
-		as wgsjsl,
-		sum(case LEFT(WXLX,12) when '实用新型' then 1 else 0 end) as
-		syxxsl,
-		STATUS as lx
+			sum(case LEFT(WXLX,12) when '发明授权' then 1 else 0 end) as fmsqsl,
+			sum(case LEFT(WXLX,12) when '外观设计' then 1 else 0 end) as wgsjsl,
+			sum(case LEFT(WXLX,12) when '实用新型' then 1 else 0 end) as syxxsl,
+			STATUS as lx
 		from out_patent
 		WHERE LENGTH(STATUS) &lt; 10 and
-		LEFT(FLZTGGRQ,4) = #{nd,jdbcType=VARCHAR}
+			  LEFT(FLZTGGRQ,4) = #{nd,jdbcType=VARCHAR} and flztyj = '有效' and flztej = '授权'
 		GROUP BY STATUS
-		order by CREATE_USER_ID
 	</select>
 
-	<select id="getTypeInfoByUnitDetails" resultType="java.util.Map"
-		parameterType="java.util.Map">
+	<select id="getTypeInfoByUnitDetails" resultType="java.util.Map" parameterType="java.util.Map">
 		select * from out_patent
 		WHERE
-		LENGTH(STATUS) &lt; 10 and
-		LEFT(FLZTGGRQ,4) = #{nd,jdbcType=VARCHAR}
-		<if test="wxlx != null and wxlx != ''">
-			and WXLX = #{wxlx,jdbcType=VARCHAR}
-		</if>
-		<if test="yjy != null and yjy != '' ">
-			and STATUS = #{yjy,jdbcType=VARCHAR}
-		</if>
-		<if test="yjy == null">
-			and STATUS is not null
-		</if>
+			LENGTH(STATUS) &lt; 10 and
+			LEFT(FLZTGGRQ,4) = #{nd,jdbcType=VARCHAR} and 
+			flztyj = '有效' and flztej = '授权'
+			<if test="wxlx != null and wxlx != ''">
+				and WXLX = #{wxlx,jdbcType=VARCHAR}
+			</if>
+			<if test="yjy != null and yjy != '' ">
+				and STATUS = #{yjy,jdbcType=VARCHAR}
+			</if>
+			<if test="yjy == null">
+				and STATUS is not null
+			</if>
 		
 	</select>
 
-	<select id="getApplyAgreeCountBySix" resultType="java.util.Map"
-		parameterType="java.lang.String">
+	<select id="getApplyAgreeCountBySix" resultType="java.util.Map" parameterType="java.lang.String">
 		select
-		sum(case LEFT(FLZTGGRQ,4) when
-		#{nd,jdbcType=VARCHAR} then 1 else 0 end) as
-		agreeCount,
-		sum(case
-		LEFT(SQRI,4) when #{nd,jdbcType=VARCHAR} then 1 else 0 end) as
-		applyCount,
-		'研发中心' as unitType
+			sum(case LEFT(FLZTGGRQ,4) when #{nd,jdbcType=VARCHAR} then 1 else 0 end) as agreeCount,
+			sum(case LEFT(SQRI,4) when #{nd,jdbcType=VARCHAR} then 1 else 0 end) as applyCount,
+			'研发中心' as unitType
 		from out_patent
-		WHERE SHENQR like '%中心%'
+		WHERE SHENQR like '%中心%' and flztyj = '有效' and flztej = '授权'
+		
 		union all
 		select
-		sum(case LEFT(FLZTGGRQ,4) when #{nd,jdbcType=VARCHAR}
-		then 1 else 0 end) as
-		agreeCount,
-		sum(case LEFT(SQRI,4) when
-		#{nd,jdbcType=VARCHAR} then 1 else 0 end) as
-		applyCount,
-		'集团单位' as
-		unitType
+			sum(case LEFT(FLZTGGRQ,4) when #{nd,jdbcType=VARCHAR} then 1 else 0 end) as agreeCount,
+			sum(case LEFT(SQRI,4) when #{nd,jdbcType=VARCHAR} then 1 else 0 end) as applyCount,
+			'集团单位' as unitType
 		from out_patent
-		WHERE SHENQR like '%集团%'
+		WHERE SHENQR like '%集团%' and flztyj = '有效' and flztej = '授权'
+		
 		union all
 		select
-		sum(case LEFT(FLZTGGRQ,4) when #{nd,jdbcType=VARCHAR} then 1 else 0
-		end) as
-		agreeCount,
-		sum(case LEFT(SQRI,4) when #{nd,jdbcType=VARCHAR}
-		then 1 else 0 end) as
-		applyCount,
-		'直属研究院' as unitType
+			sum(case LEFT(FLZTGGRQ,4) when #{nd,jdbcType=VARCHAR} then 1 else 0 end) as agreeCount,
+			sum(case LEFT(SQRI,4) when #{nd,jdbcType=VARCHAR} then 1 else 0 end) as applyCount,
+			'直属研究院' as unitType
 		from out_patent
-		WHERE SHENQR like '%研究院%'
+		WHERE SHENQR like '%研究院%' and flztyj = '有效' and flztej = '授权'
+		
 		union all
 		select
-		sum(case LEFT(FLZTGGRQ,4) when
-		#{nd,jdbcType=VARCHAR} then 1 else 0 end) as
-		agreeCount,
-		sum(case
-		LEFT(SQRI,4) when #{nd,jdbcType=VARCHAR} then 1 else 0 end) as
-		applyCount,
-		'股份分公司' as unitType
+			sum(case LEFT(FLZTGGRQ,4) when #{nd,jdbcType=VARCHAR} then 1 else 0 end) as agreeCount,
+			sum(case LEFT(SQRI,4) when #{nd,jdbcType=VARCHAR} then 1 else 0 end) as applyCount,
+			'股份分公司' as unitType
 		from out_patent
-		WHERE SHENQR like '%分公司%'
+		WHERE SHENQR like '%分公司%' and flztyj = '有效' and flztej = '授权'
+		
 		union all
 		select
-		sum(case LEFT(FLZTGGRQ,4) when #{nd,jdbcType=VARCHAR}
-		then 1 else 0 end) as
-		agreeCount,
-		sum(case LEFT(SQRI,4) when
-		#{nd,jdbcType=VARCHAR} then 1 else 0 end) as
-		applyCount,
-		'外部单位' as
-		unitType
+			sum(case LEFT(FLZTGGRQ,4) when #{nd,jdbcType=VARCHAR} then 1 else 0 end) as agreeCount,
+			sum(case LEFT(SQRI,4) when #{nd,jdbcType=VARCHAR} then 1 else 0 end) as applyCount,
+			'外部单位' as unitType
 		from out_patent
-		WHERE SHENQR like '%大学%'
+		WHERE SHENQR like '%大学%' and flztyj = '有效' and flztej = '授权'
 	</select>
 
 
