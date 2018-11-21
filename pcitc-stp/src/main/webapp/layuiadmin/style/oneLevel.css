@@ -58,15 +58,24 @@ position: absolute;top: 1px;right: -1px;}
 .layui-agency-left{float: left;width: 63.3%;background-color: #0094d3;}
 .layui-agency-left ul {height: auto;overflow: hidden;padding: 64px 0;}
 .layui-agency-left ul li{width: 25%;float: left;text-align: center;color: white;}
-.layui-agency-left ul li img,.layui-agency-left-span{display: inline-block;line-height: 36px;}
+.layui-agency-left ul li img{display: block;margin: 0 auto;}
+.layui-agency-left-span{display: inline-block;line-height: 36px;}
 .layui-agency-right{float: right;width: 33.7%;}
 .layui-party{background:url("/layuiadmin/layui/images/icon-party.png") center center no-repeat #f10033;height: 148px;}
 .layui-add{margin-top: 20px;background-color: #345e80;padding: 14px 0;text-align: center;}
 /*1366*/
+@media screen and (max-height: 965px) {
+    .layui-row-pic{height: 400px;}
+}
+@media screen and (max-height: 946px) {
+    .layui-level-main{width: 88%;}
+    .layui-row-pic{height: 398px;}
+}
 @media screen and (max-width: 1366px) {
     .layui-header{width: 85%;;}
     .layui-level-main{width: 85%;}
     .layui-level-menu ul li a{font-size: 16px; padding: 10px;}
     .layui-text-icon p{font-size: 20px;}
     .layui-news p{font-size: 18px;}
+    .layui-row-pic{height: 366px;}
 }
