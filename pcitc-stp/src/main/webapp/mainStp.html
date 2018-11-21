@@ -393,7 +393,7 @@
                 parent.layui.index.openTabsPage("/home_device_02/home_device", "科研装备（新开续建）");//oil_field.html
             });
             $(".layui-top .layui-col-md15").eq(2).click(function () {
-                parent.layui.index.openTabsPage("/home_budget_02/home_budget", "合同签订（万元）");
+                parent.layui.index.openTabsPage("/home_budget_02/home_budget", "合同签订（亿元）");
             });
             
             $(".layui-top .layui-col-md15").eq(3).click(function () {
@@ -545,6 +545,7 @@
  					$("#kyxm").html(data.projectCount+"<small>(个)</small>");
  					$("#K0BNGLFPHJECB_t").html(data.kyzbCount+"<small>(个)</small>");
  					if (data.jfTotal > 100) {
+ 					
  						$("#k0BNYSJHJE").html((data.jfTotal/10000).toFixed(2)+"<small>(亿)</small>");
  					} else {
  						$("#k0BNYSJHJE").html(data.jfTotal+"<small>(万元)</small>");
