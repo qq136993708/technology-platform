@@ -208,6 +208,13 @@ public class PlanController extends BaseController {
         return "stp/plan/botWorkOrderAdd";
     }
 
+    @RequestMapping(value = "/goTablePlanDetailList")
+    public String goTablePlanDetailList(HttpServletRequest request) {
+        Object dataId = request.getParameter("dataId");
+        request.setAttribute("dataId", dataId);
+        return "stp/plan/my/table_plan_detail_list";
+    }
+
     @RequestMapping(value = "/goAddBotWorkOrderZp")
     public String goAddBotWorkOrderZp(HttpServletRequest request) {
         Object dataId = request.getParameter("dataId");
@@ -257,9 +264,9 @@ public class PlanController extends BaseController {
         jsStr.put("createUser", sysUserInfo.getUserId());
         jsStr.put("createUserName", sysUserInfo.getUserDisp());
         jsStr.put("dataOrder", new Date().getTime() + "");
-        jsStr.put("updateDate", DateUtil.dateToStr(new Date(), DateUtil.FMT_SS));
-        jsStr.put("updateUser", sysUserInfo.getUserId());
-        jsStr.put("updateUserName", sysUserInfo.getUserDisp());
+//        jsStr.put("updateDate", DateUtil.dateToStr(new Date(), DateUtil.FMT_SS));
+//        jsStr.put("updateUser", sysUserInfo.getUserId());
+//        jsStr.put("updateUserName", sysUserInfo.getUserDisp());
         jsStr.put("workOrderStatus", "0");
         jsStr.put("status", "0");
         jsStr.put("workOrderCode", code);
@@ -285,8 +292,8 @@ public class PlanController extends BaseController {
                 planBase.setWorkOrderStatus("0");
                 planBase.setRedactUnitName(bsv.getRedactUnitName());
                 planBase.setWorkOrderType(bsv.getWorkOrderType());
-                planBase.setCreateUser(sysUserInfo.getUserId());
-                planBase.setCreateUserName(sysUserInfo.getUserName());
+//                planBase.setCreateUser(sysUserInfo.getUserId());
+//                planBase.setCreateUserName(sysUserInfo.getUserName());
                 planBase.setCreateDate(DateUtil.dateToStr(new Date(), DateUtil.FMT_SS));
                 //                Object objJsrId = detail.get("jsId");
 //                if (objJsrId != null && !"".equals(objJsrId)) {//

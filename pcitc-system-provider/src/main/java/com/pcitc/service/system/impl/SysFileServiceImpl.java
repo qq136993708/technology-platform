@@ -521,14 +521,14 @@ public class SysFileServiceImpl implements SysFileService {
         SysFileConfig sysFileConfig = sysFileConfigService.selectByPrimaryKey(filepathconfig);
         strSavePath = sysFileConfig.getPosition();
         JSONObject jsonObject = JSONObject.parseObject(flag);
-        String strCjsj = jsonObject.getString("lastModifiedDate");
-        String mobile_longlat = jsonObject.getString("bak10");//经纬度
-        String mobile_address = jsonObject.getString("bak9");//地址
-        if (strCjsj != null && !"".equals(strCjsj)) {
-            strCjsj = DateUtil.dateAddHour(strCjsj,DateUtil.FMT_SS,8);
-        } else {
-            strCjsj = "";
-        }
+//        String strCjsj = jsonObject.getString("lastModifiedDate");
+//        String mobile_longlat = jsonObject.getString("bak10");//经纬度
+//        String mobile_address = jsonObject.getString("bak9");//地址
+//        if (strCjsj != null && !"".equals(strCjsj)) {
+//            strCjsj = DateUtil.dateAddHour(strCjsj,DateUtil.FMT_SS,8);
+//        } else {
+//            strCjsj = "";
+//        }
         flag = jsonObject.getString("flag");
         //缓存当前的文件
         List<SysFile> fileList = new ArrayList<>();
@@ -601,44 +601,44 @@ public class SysFileServiceImpl implements SysFileService {
                         sysFile.setFileSize(file.getSize() + "");
                         sysFile.setFilePath(uploaderPath + strSavePath + File.separator + savedName);
                         sysFile.setFileSuffix(strSuffix);
-                        sysFile.setFlag((flag == null || "".equals(flag)) ? "" : flag.toString());
-                        sysFile.setDataid((formId == null || "".equals(formId)) ? "" : formId.toString());
+                        sysFile.setFlag((flag == null || "".equals(flag)) ? "" : flag);
+                        sysFile.setDataid((formId == null || "".equals(formId)) ? "" : formId);
                         sysFile.setBak5(strSavePath + File.separator + savedName);
 
                         //获取文件经纬度,创建时间
                         strSuffix = strSuffix.toLowerCase();
-                        sysFile.setBak6(strCjsj);//文件实际创建时间
-                        if ("jpg".equals(strSuffix) || "jpeg".equals(strSuffix)) {
-                            String[] strings = FileUtil.getFileLatAndLong(sysFile.getFilePath(), new String[]{"GPS Longitude", "GPS Latitude", "Date/Time"});
-                            if (strings[0] != null && !"".equals(strings[0])) {
-                                sysFile.setBak8(strings[0] + "," + strings[1]);//文件经纬度
-                                sysFile.setBak7(GetLocation.getLocationPosition(strings[0], strings[1]));//地址
-                            }
-                            if (strings[2] != null && !"".equals(strings[2])) {
-                                sysFile.setBak6(strings[2].substring(0, strings[2].indexOf(" ")).replace(":", "-") + strings[2].substring(strings[2].indexOf(" "), strings[2].length()));//手机端获取日期
-                            }
-                            sysFile.setBak8((mobile_longlat==null||"".equals(mobile_longlat))?sysFile.getBak8():mobile_longlat);
-                            sysFile.setBak7((mobile_address==null||"".equals(mobile_address))?sysFile.getBak7():mobile_address);
-                        }
-                        sysFile.setBak7(mobile_address);
-                        if ("jpg".equals(strSuffix) || "jpeg".equals(strSuffix)|| "png".equals(strSuffix)|| "bmp".equals(strSuffix)) {
-                            //保存路径
-                            sysFile.setPartImgPath(uploaderPath + strSavePath + File.separator + "img_"+savedName);
-                            //压缩
-                            String strImgType = sysFileConfig.getImgType();
-                            String strImgDesc = sysFileConfig.getImgDesc();
-                            if("0".equals(strImgType)){
-                                String[] strImgTypeArray = strImgDesc.split(":");
-                                ImageUtils.getImgSize(Integer.parseInt(strImgTypeArray[0]),Integer.parseInt(strImgTypeArray[1]),uploaderPath + strSavePath + File.separator + savedName,uploaderPath + strSavePath + File.separator + "img_"+savedName);
-                            }else if("1".equals(strImgType)){
-                                ImageUtils.getImgScale(Double.parseDouble(strImgDesc),uploaderPath + strSavePath + File.separator + savedName,uploaderPath + strSavePath + File.separator + "img_"+savedName);
-                            }else if("2".equals(strImgType)){
-                                String[] strImgTypeArray = strImgDesc.split(":");
-                                ImageUtils.getImgSizeNoScale(Integer.parseInt(strImgTypeArray[0]),Integer.parseInt(strImgTypeArray[1]),uploaderPath + strSavePath + File.separator + savedName,uploaderPath + strSavePath + File.separator + "img_"+savedName);
-                            }else {
-                                ImageUtils.getImgScale(0.5f,uploaderPath + strSavePath + File.separator + savedName,uploaderPath + strSavePath + File.separator + "img_"+savedName);
-                            }
-                        }
+//                        sysFile.setBak6(strCjsj);//文件实际创建时间
+//                        if ("jpg".equals(strSuffix) || "jpeg".equals(strSuffix)) {
+//                            String[] strings = FileUtil.getFileLatAndLong(sysFile.getFilePath(), new String[]{"GPS Longitude", "GPS Latitude", "Date/Time"});
+//                            if (strings[0] != null && !"".equals(strings[0])) {
+//                                sysFile.setBak8(strings[0] + "," + strings[1]);//文件经纬度
+//                                sysFile.setBak7(GetLocation.getLocationPosition(strings[0], strings[1]));//地址
+//                            }
+//                            if (strings[2] != null && !"".equals(strings[2])) {
+//                                sysFile.setBak6(strings[2].substring(0, strings[2].indexOf(" ")).replace(":", "-") + strings[2].substring(strings[2].indexOf(" "), strings[2].length()));//手机端获取日期
+//                            }
+//                            sysFile.setBak8((mobile_longlat==null||"".equals(mobile_longlat))?sysFile.getBak8():mobile_longlat);
+//                            sysFile.setBak7((mobile_address==null||"".equals(mobile_address))?sysFile.getBak7():mobile_address);
+//                        }
+//                        sysFile.setBak7(mobile_address);
+//                        if ("jpg".equals(strSuffix) || "jpeg".equals(strSuffix)|| "png".equals(strSuffix)|| "bmp".equals(strSuffix)) {
+//                            //保存路径
+//                            sysFile.setPartImgPath(uploaderPath + strSavePath + File.separator + "img_"+savedName);
+//                            //压缩
+//                            String strImgType = sysFileConfig.getImgType();
+//                            String strImgDesc = sysFileConfig.getImgDesc();
+//                            if("0".equals(strImgType)){
+//                                String[] strImgTypeArray = strImgDesc.split(":");
+//                                ImageUtils.getImgSize(Integer.parseInt(strImgTypeArray[0]),Integer.parseInt(strImgTypeArray[1]),uploaderPath + strSavePath + File.separator + savedName,uploaderPath + strSavePath + File.separator + "img_"+savedName);
+//                            }else if("1".equals(strImgType)){
+//                                ImageUtils.getImgScale(Double.parseDouble(strImgDesc),uploaderPath + strSavePath + File.separator + savedName,uploaderPath + strSavePath + File.separator + "img_"+savedName);
+//                            }else if("2".equals(strImgType)){
+//                                String[] strImgTypeArray = strImgDesc.split(":");
+//                                ImageUtils.getImgSizeNoScale(Integer.parseInt(strImgTypeArray[0]),Integer.parseInt(strImgTypeArray[1]),uploaderPath + strSavePath + File.separator + savedName,uploaderPath + strSavePath + File.separator + "img_"+savedName);
+//                            }else {
+//                                ImageUtils.getImgScale(0.5f,uploaderPath + strSavePath + File.separator + savedName,uploaderPath + strSavePath + File.separator + "img_"+savedName);
+//                            }
+//                        }
                         insert(sysFile);
                     }
                     if ("DOCX".equals(strFileSuffix) || "DOC".equals(strFileSuffix) || "TXT".equals(strFileSuffix) || "XLS".equals(strFileSuffix) || "XLSX".equals(strFileSuffix) || "PDF".equals(strFileSuffix)) {
