@@ -62,7 +62,6 @@
 	        </div>
 	      </div>
 	      
-	      
 	      <div class="layui-row">
 	        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 	          <div class="layui-form-item">
@@ -82,8 +81,6 @@
 	        </div>
 	      </div>
 	      
-	      
-	      
 	      <div class="layui-row">
 	        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 	          <div class="layui-form-item">
@@ -97,10 +94,11 @@
 	        </div>
 	      </div>
 	      
-	      
-	      
-	      
-	      
+	      <div class="form-bottom">
+	  	  	<div class="form-bottom-btns">
+	      		<button type="button"class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" id="closeBtn">关闭</button>
+	  	  	</div>
+		  </div>
    </form>
    </div>
    </div>
@@ -124,13 +122,13 @@ layui.config({
 	  laydate.render({
 	      elem: '#LAY-component-form-group-date'
 	  });
-	  
-      
-      
 });
 
-
-	
+//关闭事件
+$("#closeBtn").click(function () {
+    var index = parent.layer.getFrameIndex(window.name);
+    parent.layer.close(index);
+})
 </script>
 </body>
 </html>

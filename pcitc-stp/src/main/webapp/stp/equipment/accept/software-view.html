@@ -123,6 +123,11 @@
         </div>
       </div>
       
+      <div class="form-bottom">
+  		<div class="form-bottom-btns">
+       		<button type="button"class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" id="closeBtn">关闭</button>
+  		</div>
+	  </div>
 </form>
 </div>
 </div>
@@ -147,27 +152,11 @@ layui.config({
 	      elem: '#LAY-component-form-group-date'
 	  });
 	  
-	  //初始赋值 component-form-group 当前form的lay-filter
-      /* form.val("component-form-group", {
-          "username": "" // "name": "value"
-          ,"sex": "女"
-      }) */
-      /* 自定义验证规则  title 要验证的input的 lay-verify=""*/
-      form.verify({
-    	  installPlace: function(value)
-    	  {
-              if(value.length < 5)
-              {
-                  return '安装地点至少得5个字符啊';
-              }
-          }
-          //planMoney: [/(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/,'计划金额格试不正确'] 
-         /*  ,pass: [/(.+){6,12}$/, '密码必须6到12位']
-          ,content: function(value){
-              layedit.sync(editIndex);
-          } */
-      });
-      
+	  //关闭事件
+	  $("#closeBtn").click(function () {
+	      var index = parent.layer.getFrameIndex(window.name);
+	      parent.layer.close(index);
+	  })
 });
 
 

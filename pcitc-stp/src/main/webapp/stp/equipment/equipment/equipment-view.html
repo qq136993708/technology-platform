@@ -130,9 +130,9 @@
       </div>
       
       <div class="form-bottom">
-  		<div class="form-bottom-btns">
-       		<button type="button"class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" id="closeBtn">关闭</button>
-  		</div>
+  	  	<div class="form-bottom-btns">
+      		<button type="button"class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" id="closeBtn">关闭</button>
+  	  	</div>
 	  </div>
 </form>
 </div>
@@ -162,44 +162,6 @@ $("#closeBtn").click(function () {
     var index = parent.layer.getFrameIndex(window.name);
     parent.layer.close(index);
 })
-
-function ajaxOpt(url,formName,type,backurl,successMsg,failMsg)
-{
-	 $.ajax({
-  	     type:type,
-  	     url: url,
-  	     dataType:"json",
-  	     data:$("#"+formName).serialize(),
-  	     async: false, 
-  	     cache: false,
-  	     contentType: "application/x-www-form-urlencoded; charset=utf-8",
-         success:function(data,status)
-         {    
-	          if(data.success==true ||data.success=='true')
-	          {
-       	          layer.alert(
-       			  successMsg, 
-                     {icon: 1,closeBtn: 0 },
-                     function () 
-                     {
-                   	  var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
-                         parent.layer.close(index);  // 关闭layer
-                   	  parent.location.href=backurl;
-                     });
-	          } else
-	          {
-        	   layer.alert(failMsg);
-	          }
-		   },
-		   error:function()
-		   {
-	    	layer.alert("网络访问错误");
-		   }
-    
-  });
-}
-
-
 </script>
 </body>
 </html>
