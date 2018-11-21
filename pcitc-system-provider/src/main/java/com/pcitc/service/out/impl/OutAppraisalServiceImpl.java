@@ -1,5 +1,6 @@
 package com.pcitc.service.out.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -76,9 +77,9 @@ public class OutAppraisalServiceImpl implements OutAppraisalService {
 	 * com.pcitc.service.out.OutAppraisalService#getOutAppraisalCount(java.lang
 	 * .String, java.lang.String)
 	 */
-	public int getOutAppraisalCount(String nd, String userId) {
+	public int getOutAppraisalCount(HashMap<String, String> map) {
 
-		return outAppraisalMapper.getOutAppraisalCount(nd);
+		return outAppraisalMapper.getOutAppraisalCount(map);
 	}
 
 	@Override

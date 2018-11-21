@@ -49,7 +49,7 @@ public class OutPatentProviderClient {
 			retJson.put("patentCount", "0");
 		}
 		System.out.println("2jsonStr======" + nd);
-		int count = outPatentService.getOutPatentCount(nd, null);
+		int count = outPatentService.getOutPatentCount(map);
 		System.out.println("3jsonStr======" + count);
 		retJson.put("patentCount", count);
 		return retJson;

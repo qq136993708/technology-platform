@@ -157,8 +157,8 @@ public class OutProjectServiceImpl implements OutProjectService {
      * @return
      * 首页科研项目数、装备项目数、总金额（预算）
      */
-	public HashMap<String, String> getOutProjectInfoCount(String nd) {
-		return outProjectInfoMapper.getOutProjectInfoCount(nd);
+	public HashMap<String, String> getOutProjectInfoCount(HashMap<String, String> map) {
+		return outProjectInfoMapper.getOutProjectInfoCount(map);
 	}
 
 	public int deleteProjectErpBatch(Map map) {

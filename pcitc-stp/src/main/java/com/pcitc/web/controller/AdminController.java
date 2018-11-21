@@ -57,11 +57,11 @@ public class AdminController extends BaseController {
 	private static final String DONE_TASK_COUNT = "http://pcitc-zuul/system-proxy/task-provider/done-task-count";
 	// 待办任务数
 	private static final String PENDING_TASK_COUNT = "http://pcitc-zuul/system-proxy/task-provider/pending-task-count";
-	// 专利数量
+	// 专利数量（研究院）
 	private static final String PATENT_COUNT = "http://pcitc-zuul/system-proxy/out-patent-provider/patent-count";
-	// 科技奖励数量
+	// 科技奖励数量（研究院）
 	private static final String APPRAISAL_COUNT = "http://pcitc-zuul/system-proxy/out-provider/appraisal-count";
-	// 项目数量
+	// 科研项目数量、科研装备项目数量、新开项目金额、新开和结转的总金额（研究院）
 	private static final String PROJECT_COUNT = "http://pcitc-zuul/system-proxy/out-provider/project-count";
 	// 新开的国家项目、重点项目、重大项目、其他项目的统计
 	private static final String NEW_PROJECT_COUNT = "http://pcitc-zuul/system-proxy/out-project-provider/type/new";

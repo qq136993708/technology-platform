@@ -51,7 +51,7 @@ public class OutAppraisalInfoClient {
 			retJson.put("appraisalCount", "0");
 		}
 		System.out.println("2jsonStr======" + nd);
-		int count = outAppraisalService.getOutAppraisalCount(nd, null);
+		int count = outAppraisalService.getOutAppraisalCount(map);
 		System.out.println("3jsonStr======" + count);
 		retJson.put("appraisalCount", count);
 		return retJson;

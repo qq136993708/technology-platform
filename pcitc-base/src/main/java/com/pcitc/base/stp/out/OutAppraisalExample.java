@@ -7,27 +7,17 @@ import java.util.List;
 public class OutAppraisalExample {
     protected String orderByClause;
 
-    protected String groupByClause;
-    
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
-    
-	public OutAppraisalExample() {
+
+    public OutAppraisalExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
     public void setOrderByClause(String orderByClause) {
         this.orderByClause = orderByClause;
     }
-    
-    public String getGroupByClause() {
-		return groupByClause;
-	}
-
-	public void setGroupByClause(String groupByClause) {
-		this.groupByClause = groupByClause;
-	}
 
     public String getOrderByClause() {
         return orderByClause;
@@ -71,7 +61,6 @@ public class OutAppraisalExample {
     public void clear() {
         oredCriteria.clear();
         orderByClause = null;
-        groupByClause = null;
         distinct = false;
     }
 
@@ -1703,6 +1692,426 @@ public class OutAppraisalExample {
 
         public Criteria andRwlyNotBetween(String value1, String value2) {
             addCriterion("rwly not between", value1, value2, "rwly");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine1IsNull() {
+            addCriterion("define1 is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine1IsNotNull() {
+            addCriterion("define1 is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine1EqualTo(String value) {
+            addCriterion("define1 =", value, "define1");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine1NotEqualTo(String value) {
+            addCriterion("define1 <>", value, "define1");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine1GreaterThan(String value) {
+            addCriterion("define1 >", value, "define1");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine1GreaterThanOrEqualTo(String value) {
+            addCriterion("define1 >=", value, "define1");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine1LessThan(String value) {
+            addCriterion("define1 <", value, "define1");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine1LessThanOrEqualTo(String value) {
+            addCriterion("define1 <=", value, "define1");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine1Like(String value) {
+            addCriterion("define1 like", value, "define1");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine1NotLike(String value) {
+            addCriterion("define1 not like", value, "define1");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine1In(List<String> values) {
+            addCriterion("define1 in", values, "define1");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine1NotIn(List<String> values) {
+            addCriterion("define1 not in", values, "define1");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine1Between(String value1, String value2) {
+            addCriterion("define1 between", value1, value2, "define1");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine1NotBetween(String value1, String value2) {
+            addCriterion("define1 not between", value1, value2, "define1");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine2IsNull() {
+            addCriterion("define2 is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine2IsNotNull() {
+            addCriterion("define2 is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine2EqualTo(String value) {
+            addCriterion("define2 =", value, "define2");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine2NotEqualTo(String value) {
+            addCriterion("define2 <>", value, "define2");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine2GreaterThan(String value) {
+            addCriterion("define2 >", value, "define2");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine2GreaterThanOrEqualTo(String value) {
+            addCriterion("define2 >=", value, "define2");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine2LessThan(String value) {
+            addCriterion("define2 <", value, "define2");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine2LessThanOrEqualTo(String value) {
+            addCriterion("define2 <=", value, "define2");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine2Like(String value) {
+            addCriterion("define2 like", value, "define2");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine2NotLike(String value) {
+            addCriterion("define2 not like", value, "define2");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine2In(List<String> values) {
+            addCriterion("define2 in", values, "define2");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine2NotIn(List<String> values) {
+            addCriterion("define2 not in", values, "define2");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine2Between(String value1, String value2) {
+            addCriterion("define2 between", value1, value2, "define2");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine2NotBetween(String value1, String value2) {
+            addCriterion("define2 not between", value1, value2, "define2");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine3IsNull() {
+            addCriterion("define3 is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine3IsNotNull() {
+            addCriterion("define3 is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine3EqualTo(String value) {
+            addCriterion("define3 =", value, "define3");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine3NotEqualTo(String value) {
+            addCriterion("define3 <>", value, "define3");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine3GreaterThan(String value) {
+            addCriterion("define3 >", value, "define3");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine3GreaterThanOrEqualTo(String value) {
+            addCriterion("define3 >=", value, "define3");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine3LessThan(String value) {
+            addCriterion("define3 <", value, "define3");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine3LessThanOrEqualTo(String value) {
+            addCriterion("define3 <=", value, "define3");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine3Like(String value) {
+            addCriterion("define3 like", value, "define3");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine3NotLike(String value) {
+            addCriterion("define3 not like", value, "define3");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine3In(List<String> values) {
+            addCriterion("define3 in", values, "define3");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine3NotIn(List<String> values) {
+            addCriterion("define3 not in", values, "define3");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine3Between(String value1, String value2) {
+            addCriterion("define3 between", value1, value2, "define3");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine3NotBetween(String value1, String value2) {
+            addCriterion("define3 not between", value1, value2, "define3");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine4IsNull() {
+            addCriterion("define4 is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine4IsNotNull() {
+            addCriterion("define4 is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine4EqualTo(String value) {
+            addCriterion("define4 =", value, "define4");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine4NotEqualTo(String value) {
+            addCriterion("define4 <>", value, "define4");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine4GreaterThan(String value) {
+            addCriterion("define4 >", value, "define4");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine4GreaterThanOrEqualTo(String value) {
+            addCriterion("define4 >=", value, "define4");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine4LessThan(String value) {
+            addCriterion("define4 <", value, "define4");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine4LessThanOrEqualTo(String value) {
+            addCriterion("define4 <=", value, "define4");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine4Like(String value) {
+            addCriterion("define4 like", value, "define4");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine4NotLike(String value) {
+            addCriterion("define4 not like", value, "define4");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine4In(List<String> values) {
+            addCriterion("define4 in", values, "define4");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine4NotIn(List<String> values) {
+            addCriterion("define4 not in", values, "define4");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine4Between(String value1, String value2) {
+            addCriterion("define4 between", value1, value2, "define4");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine4NotBetween(String value1, String value2) {
+            addCriterion("define4 not between", value1, value2, "define4");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine5IsNull() {
+            addCriterion("define5 is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine5IsNotNull() {
+            addCriterion("define5 is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine5EqualTo(String value) {
+            addCriterion("define5 =", value, "define5");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine5NotEqualTo(String value) {
+            addCriterion("define5 <>", value, "define5");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine5GreaterThan(String value) {
+            addCriterion("define5 >", value, "define5");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine5GreaterThanOrEqualTo(String value) {
+            addCriterion("define5 >=", value, "define5");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine5LessThan(String value) {
+            addCriterion("define5 <", value, "define5");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine5LessThanOrEqualTo(String value) {
+            addCriterion("define5 <=", value, "define5");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine5Like(String value) {
+            addCriterion("define5 like", value, "define5");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine5NotLike(String value) {
+            addCriterion("define5 not like", value, "define5");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine5In(List<String> values) {
+            addCriterion("define5 in", values, "define5");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine5NotIn(List<String> values) {
+            addCriterion("define5 not in", values, "define5");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine5Between(String value1, String value2) {
+            addCriterion("define5 between", value1, value2, "define5");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine5NotBetween(String value1, String value2) {
+            addCriterion("define5 not between", value1, value2, "define5");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine6IsNull() {
+            addCriterion("define6 is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine6IsNotNull() {
+            addCriterion("define6 is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine6EqualTo(String value) {
+            addCriterion("define6 =", value, "define6");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine6NotEqualTo(String value) {
+            addCriterion("define6 <>", value, "define6");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine6GreaterThan(String value) {
+            addCriterion("define6 >", value, "define6");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine6GreaterThanOrEqualTo(String value) {
+            addCriterion("define6 >=", value, "define6");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine6LessThan(String value) {
+            addCriterion("define6 <", value, "define6");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine6LessThanOrEqualTo(String value) {
+            addCriterion("define6 <=", value, "define6");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine6Like(String value) {
+            addCriterion("define6 like", value, "define6");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine6NotLike(String value) {
+            addCriterion("define6 not like", value, "define6");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine6In(List<String> values) {
+            addCriterion("define6 in", values, "define6");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine6NotIn(List<String> values) {
+            addCriterion("define6 not in", values, "define6");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine6Between(String value1, String value2) {
+            addCriterion("define6 between", value1, value2, "define6");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine6NotBetween(String value1, String value2) {
+            addCriterion("define6 not between", value1, value2, "define6");
             return (Criteria) this;
         }
     }
