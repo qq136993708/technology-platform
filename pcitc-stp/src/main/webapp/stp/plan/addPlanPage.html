@@ -145,6 +145,10 @@
         </div>
     </form>
 </div>
+<script type="text/html" id="showDetail">
+    <a class="layui-btn layui-btn-xs" lay-event="showDetail">查看反馈</a>
+</script>
+
 <script>
 
     var param = JSON.parse(window.localStorage.getItem("param"));
@@ -399,6 +403,8 @@
                 },
                 {field: 'bl', title: '比例', event: 'setActive', style: 'cursor: pointer;', edit: true},
                 {field: 'jsId', title: '接收人', event: 'setActive', style: 'cursor: pointer;', edit: true}
+                ,{fixed: 'right', title:'查看', toolbar: '#showDetail', width:150}
+
             ]],
             done: function (res, curr, count) {
                 $(".layui-table").css("width","100%");
@@ -421,6 +427,24 @@
             };
             console.log(trParam);
             publicMethods.addTableTr(trParam);
+        });
+        //监听行工具事件
+        table.on('tool(tableData)', function(obj){
+            var data = obj.data;
+            if(obj.event === 'showDetail'){
+                layer.open({
+                    title:"任务反馈",
+                    skin: 'layui-layer-lan',
+                    shadeClose: false,
+                    type: 2,
+                    fixed: false,
+                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                    maxmin: true,
+                    //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                    area: ['70%','90%'],
+                    content: '/plan/my/viewPlanDetail?dataId='+data.dataId
+                });
+            }
         });
         //动态移除事项
         $("#deleteMatter").click(function () {
