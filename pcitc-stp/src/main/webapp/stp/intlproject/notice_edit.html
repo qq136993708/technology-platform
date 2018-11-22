@@ -55,6 +55,12 @@ $(document).ready(function() {
 			 	$("#file_div").load('/common/public/uploadlayuiload.html');
 				/* 自定义验证规则  title 要验证的input的 lay-verify=""*/
 				form.verify({
+					noticeContent:function(value,item){
+						if(editor.getData()=='' || editor.getData()==null || editor.getData() == "undefined")
+						{
+							return "请输入通知内容!";
+						}
+					}
 				});
 				/* 监听提交 */
 				form.on('submit(submitBtn)', function(data) {
@@ -113,7 +119,7 @@ $(document).ready(function() {
 		<div class="layui-form-item">
 	      	 <label class="layui-form-label">通知内容<span class="must-fill">*</span></label>
 	         <div class="layui-input-block">
-	         	   <textarea class="layui-textarea" lay-verify="required" id="noticeContent" name="noticeContent" placeholder="请输入通知内容"></textarea>
+	         	   <textarea class="layui-textarea" lay-verify="noticeContent" id="noticeContent" name="noticeContent" placeholder="请输入通知内容"></textarea>
 	         </div>
        </div>
        <div class="layui-form-item">
