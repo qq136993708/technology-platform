@@ -224,7 +224,7 @@ public class HomeKnowledgeLDController {
 				result.setMessage("参数为空");
 			}
 			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-			System.out.println(">>>>>>>>>>>>>>getKnowledgeTypeList " + resultObj.toString());
+			System.out.println(">>>>>>>>>>>>>>getKnowledgeTypeList type= "+type+" : " + resultObj.toString());
 			return resultObj.toString();
 		}
 		

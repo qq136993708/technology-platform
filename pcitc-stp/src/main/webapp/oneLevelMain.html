@@ -58,17 +58,24 @@
                     <div class="layui-row-textTop">
                         <div class="layui-text-icon layui-textTop-one"  id="porject" style="cursor:pointer">
                             <p>集团重点项目及十条龙科技攻关 </p>
-                            <span id="textTopOne">50</span><span class="layui-text-span">个</span>
+                           <!--  <span id="textTopOne">50</span><span class="layui-text-span">个</span> -->
+                           <span class="layui-box-number" id="kyxm">
+                                <img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+                            </span>
+                            
                             <img src="/layuiadmin/layui/images/level-close.png" class="dele" alt="">
                         </div>
                         <div class="layui-text-icon layui-textTop-two"  id="home_budget" style="cursor:pointer">
                             <p>科研投入</p>
-                            <span id="textTopTwo"></span><span class="layui-text-span">个</span>
+                            <span id="textTopTwo">0</span><span class="layui-text-span">个</span>
                             <img src="/layuiadmin/layui/images/level-close.png" class="dele" alt="">
                         </div>
                         <div class="layui-text-icon layui-textTop-three"  id="achievements" style="cursor:pointer">
-                            <p>科研投入</p>
-                            <span id="textTopThree"></span><span class="layui-text-span">个</span>
+                            <p>科技成果</p>
+                           <!--  <span id="textTopThree"></span><span class="layui-text-span">个</span> -->
+                           <span class="layui-box-number" id="appraisalId">
+                             <img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+                            </span>
                             <img src="/layuiadmin/layui/images/level-close.png" class="dele" alt="">
                         </div>
                     </div>
@@ -79,17 +86,20 @@
                         </div>
                         <div class="layui-text-icon layui-textBottom-two">
                             <p>重点实验室</p>
-                            <span id="textBottomTwo">50</span><span class="layui-text-span">个</span>
+                            <span id="textBottomTwo">0</span><span class="layui-text-span">个</span>
                             <img src="/layuiadmin/layui/images/level-close.png" class="dele" alt="">
                         </div>
                         <div class="layui-text-icon layui-textBottom-three"  id="knowledge_right" style="cursor:pointer">
                             <p>知识产权</p>
-                            <span id="textBottomThree"></span><span class="layui-text-span">个</span>
+                             <span class="layui-box-number" id="patentId">
+                               <img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+                            </span>
+                            <!-- <span id="textBottomThree"></span><span class="layui-text-span">个</span> -->
                             <img src="/layuiadmin/layui/images/level-close.png" class="dele" alt="">
                         </div>
                         <div class="layui-text-icon layui-textBottom-four">
                             <p>中国石化标准化</p>
-                            <span id="textBottomFour"></span><span class="layui-text-span">个</span>
+                            <span id="textBottomFour">0</span><span class="layui-text-span">个</span>
                             <img src="/layuiadmin/layui/images/level-close.png" class="dele" alt="">
                         </div>
                     </div>
@@ -158,6 +168,7 @@
         </div>
     </div>
 </div>
+<script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
 <script>
     layui.use([ 'carousel', 'form','jquery'], function(){
         var carousel = layui.carousel,$=layui.jquery
@@ -183,6 +194,7 @@
             ,height: windowHeight+'px'
             ,interval: 5000
         });
+        
         
         //直属研究院
         $("#mainLeader").on("click",function () {
@@ -214,6 +226,82 @@
         
         
     });
+    
+    
+    
+    //科研项目
+    function getKyxm()
+    {
+    	$.ajax({
+				type : 'POST',
+				url : "/admin/project-count",
+				dataType : 'json',
+				headers : {
+					'Content-Type' : 'application/json'
+				},
+				timeout : 3000, 
+				error : function(XMLHttpRequest, status) {
+					$("#kyxm").html("<small style='font-size:14px'>--(个)</small>");
+				},
+				success : function(data) { 
+					$("#kyxm").html(data.projectCount+"<small style='font-size:14px'>(个)</small>");
+				}
+			});
+    	
+    }
+    //专利
+    function patentCount()
+    {
+    	$.ajax({
+			type : 'POST',
+			url : "/admin/patent-count",
+			dataType : 'json',
+			headers : {
+				'Content-Type' : 'application/json'
+			},
+			timeout : 3000, 
+			error : function(XMLHttpRequest, status) {
+				$("#patentId").html("--<small style='font-size:14px'>(个)</small>");
+			},
+			success : function(data) { 
+				var patentCount = data.patentCount;
+				$("#patentId").html(patentCount+"<small style='font-size:14px'>(个)</small>"); 
+			}
+		});
+    	
+    }
+    
+  //成果
+    function appraisalCount()
+    {
+    	$.ajax({
+			type : 'POST',
+			url : "/admin/appraisal-count",
+			dataType : 'json',
+			headers : {
+				'Content-Type' : 'application/json'
+			},
+			timeout : 3000, 
+			error : function(XMLHttpRequest, status) {
+				$("#appraisalId").html("--<small style='font-size:14px'>(个)</small>");
+			},
+			success : function(data) {
+				var appraisalCount = data.appraisalCount;
+				$("#appraisalId").html(appraisalCount+"<small  style='font-size:14px'>(个)</small>"); 
+			}
+		});
+    	
+    }
+  
+    
+    function init()
+    {
+    	appraisalCount();
+    	patentCount();
+    	getKyxm();
+    	
+    }
+    init();
 </script>
 </body>
 </html>
