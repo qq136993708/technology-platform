@@ -1461,5 +1461,36 @@
 	    group by define2
 	</select>
 	
+	<!-- 领导二级页面，预算数据，8个院费用性和资本性的柱状图 -->
+	<select id="getInstituteMoneyWithYS" resultType="java.util.Map" parameterType="java.util.HashMap">
+		SELECT show_ali as unitName,zbx_money as zbxje,fyx_money as fyxje 
+		FROM out_tem_money_total
+		WHERE 
+			is_yjy = '研究院'
+		ORDER BY show_order
+	</select>
+	
+	<!-- 领导二级页面，预算数据，直属研究院、分子公司等9个维度的费用统计,树形结构 -->
+	<select id="getCompanyMoneyTreeWithYS" resultType="java.util.Map" parameterType="java.util.HashMap">
+		SELECT show_ali as unitName,fyx_money as showJE,UUID() as id,'费用性' as typeName
+		FROM out_tem_money_total
+		WHERE 
+			money_level = '2' and fyx_money !=''
+		
+		union all 
+		SELECT show_ali as unitName,zbx_money as showJE,UUID() as id,'资本性' as typeName
+		FROM out_tem_money_total
+		WHERE 
+			money_level = '2' and zbx_money !=''
+	</select>
+	
+	<!-- 领导二级页面，预算数据，直属研究院、分子公司等9个维度的费用统计 -->
+	<select id="getCompanyMoneyWithYS" resultType="java.util.Map" parameterType="java.util.HashMap">
+		SELECT show_ali as unitName,zbx_money as zbxje,fyx_money as fyxje 
+		FROM out_tem_money_total
+		WHERE 
+			money_level = '2'
+	</select>
+	
 	
 </mapper>

@@ -232,4 +232,20 @@ public interface OutProjectService {
      */
 	public List getProjectTypeCountByUnitLD(String nd);
 	
+	/**
+     * @return
+     * 领导二级页面，预算数据，8个院费用性和资本性的柱状图
+     */
+	public List getInstituteMoneyWithYS(HashMap<String, String> map);
+	
+	/**
+     * 领导二级页面，预算数据，直属研究院、分子公司等9个维度的费用统计,树形结构
+     */
+	public List getCompanyMoneyTreeWithYS(HashMap<String, String> map);
+	
+	/**
+     * 领导二级页面，预算数据，直属研究院、分子公司等9个维度的费用统计 
+     */
+	public List getCompanyMoneyWithYS(HashMap<String, String> map);
+	
 }

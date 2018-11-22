@@ -1786,4 +1786,36 @@ public class OutProjectInfoClient {
 		return json;
 	}
 	
+	@ApiOperation(value = "领导二级页面，预算数据，8个院费用性和资本性的柱状图", notes = "参数年度")
+	@RequestMapping(value = "/out-project-provider/ys/institute-money")
+	public JSONArray getInstituteMoneyWithYS(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page getInstituteMoneyWithYS===========================" + map);
+		
+		List temList = outProjectService.getInstituteMoneyWithYS(map);
+		
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		return json;
+	}
+	
+	@ApiOperation(value = "领导二级页面，预算数据，直属研究院、分子公司等9个维度的费用统计,树形结构", notes = "参数年度")
+	@RequestMapping(value = "/out-project-provider/ys/tree/company-money")
+	public JSONArray getCompanyMoneyTreeWithYS(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page getCompanyMoneyTreeWithYS===========================" + map);
+		
+		List temList = outProjectService.getCompanyMoneyTreeWithYS(map);
+		
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		return json;
+	}
+	
+	@ApiOperation(value = "领导二级页面，预算数据，直属研究院、分子公司等9个维度的费用统计", notes = "参数年度")
+	@RequestMapping(value = "/out-project-provider/ys/company-money")
+	public JSONArray getCompanyMoneyWithYS(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page getCompanyMoneyWithYS===========================" + map);
+		
+		List temList = outProjectService.getCompanyMoneyWithYS(map);
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		return json;
+	}
+	
 }
