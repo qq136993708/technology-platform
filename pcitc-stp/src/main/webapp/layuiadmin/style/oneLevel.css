@@ -24,7 +24,9 @@ position: absolute;top: 1px;right: -1px;}
 .layui-row-pic p{    position: absolute;color: #fff;bottom: 0px;width: 100%;font-size: 16px;
     text-align: center;height: 50px;line-height: 50px;background-color: rgba(0,0,0,.6);}
 .layui-carousel-ind ul{position: absolute;right: 0;bottom: 20px;background: none;}
-.layui-text-icon{padding: 31px 0;text-align: center;color: white;}
+.layui-text-icon{padding: 31px 0;text-align: center;color: white;position: relative;}
+.layui-text-icon img,.layui-cooperation img{position: absolute;top: 0;right: 0;opacity: 0;}
+.layui-text-icon:hover img,.layui-cooperation:hover img{opacity: 1;}
 .layui-text-icon span{font-size: 48px;font-family: "黑体"}
 .layui-text-icon span.layui-text-span{font-size: 18px;}
 .layui-text-icon p{margin-bottom: 30px;font-size: 26px;}
@@ -56,14 +58,22 @@ position: absolute;top: 1px;right: -1px;}
 .layui-news ul li a{width: 73%;display: inline-block;overflow: hidden;color: white;
     text-overflow: ellipsis;white-space: nowrap;font-size: 16px;}
 .layui-news ul li span{color:#a8ffd5;font-size:16px;position: relative;right:-30px;top: -10px;}
-.layui-agency-left{float: left;width: 63.3%;background-color: #0094d3;}
+.layui-agency-left{float: left;width: 63.3%;background-color: #0094d3;height: 276px;}
 .layui-agency-left ul {height: auto;overflow: hidden;padding: 64px 0;}
 .layui-agency-left ul li{width: 25%;float: left;text-align: center;color: white;}
 .layui-agency-left ul li img{display: block;margin: 0 auto;}
 .layui-agency-left-span{display: inline-block;line-height: 36px;}
 .layui-agency-right{float: right;width: 33.7%;}
-.layui-party{background:url("/layuiadmin/layui/images/icon-party.png") center center no-repeat #f10033;height: 148px;}
-.layui-add{margin-top: 20px;background-color: #345e80;padding: 14px 0;text-align: center;}
+.layui-party{height: 148px; text-align: center;
+    background:url("/layuiadmin/layui/images/icon-party.png") center center no-repeat #f10033;}
+.layui-party p{line-height: 148px;}
+.layui-add{margin-top: 20px;background-color: #345e80;padding: 14px 0;text-align: center;width: 268px;}
+.layui-cooperation{margin-top: 20px;text-align: center;padding:25px 0;height: 59px;position: relative;
+    background:url("/layuiadmin/layui/images/icon-cooperation.png") center center no-repeat #0094d3;}
+.layui-cooperation p{width: 50%;
+    margin: 0 auto;
+    height: 30px;
+    line-height: 30px;}
 /*1366*/
 @media screen and (max-height: 965px) {
     .layui-row-pic{height: 400px;}
