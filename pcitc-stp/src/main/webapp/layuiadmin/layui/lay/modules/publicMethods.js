@@ -317,30 +317,46 @@ layui.define(['jquery','form','table','laydate'],
                             }else {
                                 $(tbody).find("tr:last td").eq(columnNum).html("<p class='file-name add-file' style='width: 100%;margin-left: 15px;' onclick='"+columnEventN+"'>"+columnName+"<input type='hidden' value='"+columnValue+"'></p>")
                             }
-
+                        }if(columnElement=="input"){
+                            if(columnHide==true){
+                                $(tbody).find("tr:last td").eq(columnNum).addClass("layui-hide").html("<p class='file-name add-file' style='width: 100%;margin-left: 15px;'><input type='hidden' value=''></p>")
+                            }
                         }else if(columnElement=="select"){
                             var certTypeStr;
-                            $.ajax({
-                                type : 'post',
-                                dataType : 'json',
-                                data : {parentCode :columnCode},
-                                url :columnUrl,
-                                async : false,
-                                success : function(data) {
-                                    // console.log(data)
-                                    certTypeStr = "<select>";
-                                    $.each(data, function(index) {
-                                        if(index == 0){
-                                            certTypeStr += "<option value='"+data[index].name+"' selected>"+data[index].name+"</option>";
-                                        } else {
-                                            certTypeStr += "<option value='"+data[index].name+"'>"+data[index].name+"</option>";
-                                        }
-                                    });
-                                },
-                                error : function() {
-                                    layer.msg("出错了");
-                                }
-                            });
+                            if(columnValue.length>0){
+                                var columnValueArr=columnValue.split(",")
+                                console.log(columnValueArr)
+                                certTypeStr = "<select>";
+                                $.each(columnValueArr, function(index) {
+                                    if(index == 0){
+                                        certTypeStr += "<option value='"+columnValueArr[index]+"' selected>"+columnValueArr[index]+"</option>";
+                                    } else {
+                                        certTypeStr += "<option value='"+columnValueArr[index]+"'>"+columnValueArr[index]+"</option>";
+                                    }
+                                });
+                            }else {
+                                $.ajax({
+                                    type : 'post',
+                                    dataType : 'json',
+                                    data : {parentCode :columnCode},
+                                    url :columnUrl,
+                                    async : false,
+                                    success : function(data) {
+                                        // console.log(data)
+                                        certTypeStr = "<select>";
+                                        $.each(data, function(index) {
+                                            if(index == 0){
+                                                certTypeStr += "<option value='"+data[index].name+"' selected>"+data[index].name+"</option>";
+                                            } else {
+                                                certTypeStr += "<option value='"+data[index].name+"'>"+data[index].name+"</option>";
+                                            }
+                                        });
+                                    },
+                                    error : function() {
+                                        layer.msg("出错了");
+                                    }
+                                });
+                            }
                             certTypeStr += "</select>";
                             $(tbody).find("tr:last td").eq(columnNum).html(certTypeStr)
                         }else if(columnElement=="laydate"){
@@ -355,6 +371,7 @@ layui.define(['jquery','form','table','laydate'],
                     $(this).addClass("layui-table-click");
                 });
                 publicMet.timeAdd();
+                $(".layui-none").remove();
                 form.render();
 
             },

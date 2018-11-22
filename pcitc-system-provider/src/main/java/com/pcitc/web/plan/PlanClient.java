@@ -173,6 +173,23 @@ public class PlanClient {
 	}
 
 	/**
+	 * 转发PlanBase主任务
+	 * @param list
+	 * @return
+	 */
+	@ApiOperation(value = "转发子任务修改", notes = "转发子任务修改")
+	@RequestMapping(value = "/savePlanBaseBatchZf", method = RequestMethod.POST)
+	public int savePlanBaseBatchZf(@RequestBody List<PlanBase> list){
+		int result = 500;
+		try {
+			result = planBaseService.savePlanBaseBatchZf(list);
+		} catch (Exception e) {
+			logger.error("[任务管理-保存工单事项失败]", e);
+		}
+		return result;
+	}
+
+	/**
 	 * 查看工单事项列表
 	 * @param param
 	 * @return
