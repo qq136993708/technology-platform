@@ -422,4 +422,18 @@ public class OutProjectServiceImpl implements OutProjectService {
 	public List getCompanyMoneyWithYS(HashMap<String, String> map) {
 		return outProjectInfoMapper.getCompanyMoneyWithYS(map);
 	}
+	
+	/**
+     * 领导二级页面，预算数据，17处室的费用统计， 树形结构 
+     */
+	public List getOfficeMoneyTreeWithYS(HashMap<String, String> map) {
+		return outProjectInfoMapper.getOfficeMoneyTreeWithYS(map);
+	}
+	
+	/**
+     * 领导二级页面，预算数据，17处室的费用统计
+     */
+	public List getOfficeMoneyWithYS(HashMap<String, String> map) {
+		return outProjectInfoMapper.getOfficeMoneyWithYS(map);
+	}
 }

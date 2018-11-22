@@ -1492,5 +1492,24 @@
 			money_level = '2'
 	</select>
 	
+	<!-- 领导二级页面，预算数据，17处室的费用统计 -->
+	<select id="getOfficeMoneyWithYS" resultType="java.util.Map" parameterType="java.util.HashMap">
+		SELECT unit_name as unitName,sum(xk_money) as xkje,sum(jz_money) as jzje
+		FROM out_tem_money
+		group by unit_name
+	</select>
+	
+	<!-- 领导二级页面，预算数据，17处室的费用统计， 树形结构 -->
+	<select id="getOfficeMoneyTreeWithYS" resultType="java.util.Map" parameterType="java.util.HashMap">
+		SELECT unit_name as unitName,sum(xk_money) as showJE,'新开课题' as typeName, UUID() as id
+		FROM out_tem_money
+		group by unit_name
+		
+		union all 
+		SELECT unit_name as unitName,sum(jz_money) as showJE,'结转课题' as typeName, UUID() as id
+		FROM out_tem_money
+		group by unit_name
+	</select>
+	
 	
 </mapper>
