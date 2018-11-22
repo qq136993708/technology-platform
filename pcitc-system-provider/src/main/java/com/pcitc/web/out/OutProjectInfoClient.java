@@ -323,18 +323,20 @@ public class OutProjectInfoClient {
 	public JSONObject getProjectTotalInfoByNew(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getProjectTotalInfoByNew===========================" + map);
 		JSONObject retJson = new JSONObject();
-		HashMap<String, String> temMap = outProjectService.getProjectTotalInfoByNew(null);
+		HashMap<String, String> temMap = outProjectService.getProjectTotalInfoByNew(map);
 		if (temMap != null) {
 			retJson.put("gjxmsl", temMap.get("gjxmsl"));
 			retJson.put("zdzzsl", temMap.get("zdzzsl"));
 			retJson.put("zdxmsl", temMap.get("zdxmsl"));
 			retJson.put("qtsl", temMap.get("qtsl"));
+			retJson.put("ldzsl", temMap.get("ldzsl"));
 			retJson.put("zsl", temMap.get("zsl"));
 		} else {
 			retJson.put("gjxmsl", 0);
 			retJson.put("zdzzsl", 0);
 			retJson.put("zdxmsl", 0);
 			retJson.put("qtsl", 0);
+			retJson.put("ldzsl", 0);
 			retJson.put("zsl", 0);
 		}
 		

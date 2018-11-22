@@ -1112,6 +1112,7 @@
 		select 
         	round(sum(case nd when '2018' then jf else 0 end),2) as jfTotal, 
         	round(sum(jf)/10000,2) as zje, 
+        	sum(case when project_property ='其他项目' then 0 else 1 end) as ldzsl,
         	sum(case xmlbbm when 'KYZB' then 1 else 0 end) as kyzbCount, 
 			sum(case xmlbbm when 'KYZB' then 0 else 1 end) as projectCount
 		from out_project_info
@@ -1156,9 +1157,9 @@
 			  and project_type != '1' and xmlbbm = 'KYZB'
 		group BY type_flag
 	</select>
-
-	<select id="getProjectTotalInfoByNew" resultType="java.util.Map"
-		parameterType="java.lang.String">
+	
+	<!-- 首页、领导首页，查询新开的国家项目、重点项目、重大项目、其他项目、总计的统计 -->
+	<select id="getProjectTotalInfoByNew" resultType="java.util.Map" parameterType="java.util.HashMap">
 		select
 			sum(case when project_property ='国家项目' and project_scope = '新开课题' then 1 else 0 end) as gjxmsl,
 			sum(case when project_property ='重大专项' and project_scope = '新开课题' then 1 else 0 end) as zdzzsl,
@@ -1166,7 +1167,10 @@
 			sum(case when project_property ='其他项目' and project_scope = '新开课题' then 1 else 0 end) as qtsl,
 			count(*) as zsl
 		from out_project_info
-		where project_type != '1' and (project_scope = '新开课题' or project_scope = '结转课题');
+		where project_type != '1' and (project_scope = '新开课题' or project_scope = '结转课题') 
+		<if test="define2 != null and define2 != ''">
+			and define2 is not null
+		</if>
 	</select>
 
 	<select id="getProjectTotalCountYearAndLastYear" resultType="java.util.Map"
