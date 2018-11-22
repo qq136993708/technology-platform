@@ -7,6 +7,7 @@ import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.plan.PlanBase;
 import com.pcitc.base.plan.PlanBaseDetail;
 import com.pcitc.base.plan.PlanBaseExample;
+import com.pcitc.base.util.DateUtil;
 import com.pcitc.mapper.plan.PlanBaseDetailMapper;
 import com.pcitc.mapper.plan.PlanBaseMapper;
 import com.pcitc.service.plan.PlanService;
@@ -15,9 +16,8 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class PlanServiceImpl implements PlanService {
@@ -175,22 +175,78 @@ public class PlanServiceImpl implements PlanService {
     }
 
     @Override
+    public int savePlanBaseBatchZf(List<PlanBase> list) {
+        int result = 200;
+        try {
+            //更新当前所有子节点信息
+            int leng = list.size();
+            for (int i = 0; i < leng; i++) {
+                PlanBase pb = list.get(i);
+                PlanBase planBase = planBaseMapper.selectByPrimaryKey(pb.getDataId());
+                if(planBase==null){
+                    planBaseMapper.insert(pb);
+                }else {
+                    planBase.setParentId(pb.getParentId());
+                    planBase.setWorkOrderStatus(pb.getWorkOrderStatus());
+                    planBase.setDelFlag(pb.getDelFlag());
+                    planBase.setBl(pb.getBl());
+                    planBase.setWorkOrderType(pb.getWorkOrderType());
+                    planBase.setRedactUnitName(pb.getRedactUnitName());
+                    planBaseMapper.updateByPrimaryKey(planBase);
+                }
+            }
+        } catch (Exception e) {
+            result = 500;
+        }
+        return result;
+    }
+
+    @Override
     public int savePlanBaseBatch(List<PlanBase> list) {
         int result = 200;
         try {
+//            this.savePlanBaseBatchZf(list);
             int leng = list.size();
-            //删除当前父节点下的所有子节点
-            if(list.size()>0){
-                PlanBaseExample planBaseExample = new PlanBaseExample();
-                planBaseExample.createCriteria().andParentIdEqualTo(list.get(0).getParentId());
-                planBaseMapper.deleteByExample(planBaseExample);
+            PlanBaseExample planBaseExample = new PlanBaseExample();
+            planBaseExample.createCriteria().andParentIdEqualTo(list.get(0).getParentId());
+            List<PlanBase> planBases = planBaseMapper.selectByExample(planBaseExample);
+
+            for (int i = 0; i < planBases.size(); i++) {
+                String strDataId = planBases.get(i).getDataId();
+                List<PlanBase> listIn = list.stream().filter(a -> a.getDataId().equals(strDataId)).collect(Collectors.toList());
+                if(listIn!=null&&listIn.size()>0){
+                    //包含 更新
+                    PlanBase planBase = planBases.get(i);
+                    int index = list.indexOf(listIn.get(0));
+                    planBase.setParentId(listIn.get(0).getParentId());
+                    planBase.setWorkOrderStatus(listIn.get(0).getWorkOrderStatus());
+                    planBase.setDelFlag(listIn.get(0).getDelFlag());
+                    planBase.setBl(listIn.get(0).getBl());
+                    planBase.setWorkOrderType(listIn.get(0).getWorkOrderType());
+                    planBase.setRedactUnitName(listIn.get(0).getRedactUnitName());
+                    planBaseMapper.updateByPrimaryKey(planBase);
+                    list.remove(index);
+                }else {
+                    //删除
+                    planBaseMapper.deleteByPrimaryKey(strDataId);
+                }
             }
-            //add
-            for (int i = 0; i < leng; i++) {
-                System.out.println("dataId = " + list.get(i).getDataId());
-//                planBaseMapper.deleteByPrimaryKey(list.get(i).getDataId());
+            for (int i = 0; i < list.size(); i++) {
                 planBaseMapper.insert(list.get(i));
             }
+
+
+
+
+//            planBaseMapper.deleteByExample(planBaseExample);
+//            //add
+//            for (int i = 0; i < leng; i++) {
+//
+//
+//                System.out.println("dataId = " + list.get(i).getDataId());
+//                //判断是否有数据
+//                planBaseMapper.insert(list.get(i));
+//            }
         } catch (Exception e) {
             result = 500;
         }
@@ -357,7 +413,7 @@ public class PlanServiceImpl implements PlanService {
         }
         // 2、执行查询
 //		List<PlanBase> list = planBaseMapper.queryMyBotWorkOrderListByPage(vo);
-
+        example.setOrderByClause("create_date desc");
         List<PlanBase> list = planBaseMapper.selectByExample(example);
 
         PageInfo<PlanBase> pageInfo = new PageInfo<PlanBase>(list);
