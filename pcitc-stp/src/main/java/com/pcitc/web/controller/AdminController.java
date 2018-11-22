@@ -625,6 +625,7 @@ public class AdminController extends BaseController {
 		System.out.println("1====/admin/project/type/new");
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("nd", "2017");
+		map.put("define2", "1");
 		HttpEntity<HashMap<String, String>> entity = new HttpEntity<HashMap<String, String>>(map, this.httpHeaders);
 
 		ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(NEW_PROJECT_COUNT, HttpMethod.POST, entity, JSONObject.class);
