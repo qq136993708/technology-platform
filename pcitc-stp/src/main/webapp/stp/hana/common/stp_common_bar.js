@@ -220,6 +220,79 @@ var mutl_bar = {
     };
 
 
+
+
+
+
+
+
+var mutl_bar_stack = {
+        title: {
+            text: '',
+            x:'center',
+            y: '10px',
+            textStyle: {
+	            fontSize: 15,
+	            fontWeight: 'normal',
+	            color: '#000000'       
+	        },
+	        subtextStyle: {
+	            color: '#7B7B7B'        
+	        },
+	        subtext:''
+        },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+                crossStyle: {
+                    color: '#999'
+                }
+            }
+        },
+        grid: {
+        	  x: 40,
+              y: 60,
+              x2: 30,
+              y2: 40
+	    },
+	    color:['#6592b2', '#FF8849','#3FBB49','#e8a791','#b5c26a','#d59981'],
+        legend: {
+            type: 'scroll',
+            top: 0,
+            data:[]
+        },
+        xAxis: [
+            {
+                type: 'category',
+                data: [],
+                axisLabel:{
+                    interval:0,//0：全部显示，1：间隔为1显示对应类目，2：依次类推，（简单试一下就明白了，这样说是不是有点抽象）
+                    rotate:30,//倾斜显示，-：顺时针旋转，+或不写：逆时针旋转
+                   }
+
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                name: '金额（万元）',
+                min: 'dataMin',
+                max:'dataMax',
+                axisLabel: {
+                    formatter: '{value}'
+                }
+            }
+        ],
+        series: [
+
+        ]
+    };
+
+
+
+
+
 //柱图 
 function load_mutl_bar(url,id,title,subtext)
 {
@@ -297,6 +370,45 @@ function load_mutl_bar_2(url,id,title,subtext,yAxis)
     return echartsobj;
     
 }
+
+
+
+
+function load_mutl_bar_stack(url,id,title,subtext,yAxis)
+{
+    var echartsobj = echarts.init(document.getElementById(id));
+
+    if(title!=null && title!='')
+    {
+
+    	mutl_bar_stack.title.text=title;
+    }
+    if(subtext!=null && subtext!='')
+    {
+
+    	mutl_bar_stack.title.subtext=subtext;
+    }
+
+    mutl_bar_stack.grid={
+        left: '0%',
+        right: '0.5%',
+        bottom: '0',
+        containLabel: true
+    }
+
+    if(yAxis!=null && yAxis!='')
+    {
+    	mutl_bar_stack.yAxis=yAxis;
+    }
+    echartsobj.setOption(mutl_bar_stack);
+    echartsobj.showLoading();
+    barLineAjax_Stack(url,echartsobj, mutl_bar_stack);
+    
+    return echartsobj;
+    
+}
+
+
 function load_mutl_bar_tt(id,title,legends,xAxisData,yAxis,seriesData,subtext)
 {
 	var echartsobj = echarts.init(document.getElementById(id));
@@ -528,6 +640,99 @@ function barLineAjax(url,  echartsobj, options)
 
 
 
+function barLineAjax_Stack(url,  echartsobj, options) 
+{
+	
+   var legends=[];     //指标
+   var xAxisData=[];   //X轴名称
+   var seriesData=[];  //X轴数据
+   $.ajax({
+	     type:"GET",
+	     url: url,
+	     dataType:"json",
+	     timeout : 11000,
+	     cache: false,
+	     contentType: "application/x-www-form-urlencoded; charset=utf-8",
+         success:function(data,status)
+         {    
+	          if(data.success==true ||data.success=='true')
+	          {
+	        		       echartsobj.hideLoading();
+	        	           var legendDataList=data.data.legendDataList;
+	        	           //挨个取出类别并填入类别数组
+	        	           for(var i=0;i<legendDataList.length;i++)
+	        	           {
+	        	               legends.push(legendDataList[i]);
+	        	           }
+	        	           var xAxisDataList=data.data.xAxisDataList;
+	        	           for(var i=0;i<xAxisDataList.length;i++)
+	        	           {
+
+	        	           	xAxisData.push(xAxisDataList[i]);
+	        	           }
+	        	           var seriesList=data.data.seriesList;
+	        	           for(var i=0;i<seriesList.length;i++)
+	        	           {
+	        	        	   
+	                            
+	        	           	seriesData.push({
+	        	           		   type: seriesList[i].type,
+	        	                   name: seriesList[i].name,
+	        	                   data: seriesList[i].data,
+	        	                   stack:seriesList[i].stack,
+	        	                   itemStyle:seriesList[i].itemStyle,
+	        	                   barWidth:20
+	        	                   ,yAxisIndex: seriesList[i].yAxisIndex
+	        	                   /*//系列中的数据标注内容    
+	                               ,markPoint: {    
+	                                   data: [    
+	                                       {type: 'max', name: '最大值'},    
+	                                       {type: 'min', name: '最小值'}    
+	                                   ]    
+	                               },    
+	                               //系列中的数据标线内容    
+	                               markLine: {    
+	                                   data: [    
+	                                       {type: 'average', name: '平均值'}    
+	                                   ]    
+	                               }    */
+	                               
+	                               
+	        	               });
+	        	           }
+	        	           //加载数据图表
+	        	           echartsobj.setOption({
+	        	               legend: {
+	        	                   data: legends
+	        	               },
+	        	               xAxis: [
+	        	                   {
+	        	                       type: 'category',
+	        	                       data: xAxisData
+	        	                   }
+	        	               ],
+	        	               series: seriesData
+	        	           });
+	        	           console.log(options);
+	        	       
+	          } else
+	          {
+	        	 layer.alert(failMsg);
+	          }
+		   },
+		   error:function()
+		   {
+		    	layer.alert("网络访问错误");
+		   },
+		   complete: function (XMLHttpRequest, status) {
+	            if(status == 'timeout'){
+	            	 layer.msg('超时');
+	            }
+	        }
+		  
+  });
+   
+} 
 
 
 

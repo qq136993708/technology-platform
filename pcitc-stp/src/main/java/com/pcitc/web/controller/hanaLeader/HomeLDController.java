@@ -65,6 +65,15 @@ public class HomeLDController {
 	
 	@RequestMapping( value = "/direct_depart")
 	public String direct_depart(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
+	    HanaUtil.setSearchParaForUser(userInfo,restTemplate,httpHeaders,request);
+	    String unitCode=userInfo.getUnitCode();
+	    request.setAttribute("unitCode", unitCode);
+	    String year= HanaUtil.getCurrrentYear();
+	    request.setAttribute("year", year);
+	    
+	    
+	    request.setAttribute("companyCode", HanaUtil.YJY_CODE_NOT_YINGKE);
 		return "stp/hana/home/direct_depart";
 	}
 

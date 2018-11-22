@@ -2535,10 +2535,28 @@ public class HanaUtil {
 
 
 				if (name.equals("agreeCount")) {
-					dataList.add(Double.valueOf(Agree).intValue());
+					
+					if (Agree==null || Agree.equals(""))
+					{
+						dataList.add(0);
+					}else
+					{
+						dataList.add(Double.valueOf(Agree).intValue());
+					}
+					
+					
 				}
 				if (name.equals("applyCount")) {
-					dataList.add(Double.valueOf(Apply).intValue());
+					
+					if (Apply==null || Apply.equals(""))
+					{
+						dataList.add(0);
+					}else
+					{
+						dataList.add(Double.valueOf(Apply).intValue());
+					}
+					
+					
 				}
 				
 
@@ -2549,6 +2567,54 @@ public class HanaUtil {
 	}
 	
 	
+	
+	
+	public static ChartBarLineSeries getKNOWLDGELevel2ChartBarLineSeries_stack(List<Knowledge> list, String name) {
+
+		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
+		if (name.equals("fmsqsl")) {
+			chartBarLineSeries.setName("发明专利");
+			chartBarLineSeries.setStack("数量");
+			chartBarLineSeries.setItemStyle("{normal:{color:'#DF7010'}}");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		if (name.equals("wgsjsl")) {
+			chartBarLineSeries.setName("外观设计");
+			chartBarLineSeries.setStack("数量");
+			chartBarLineSeries.setItemStyle("{normal:{color:'#FF8849'}}");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		if (name.equals("syxxsl")) {
+			chartBarLineSeries.setName("实用新型");
+			chartBarLineSeries.setStack("数量");
+			
+			chartBarLineSeries.setItemStyle("{normal:{color:'#3FBB49'}}");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+
+		List<Object> dataList = new ArrayList<Object>();
+		if (list != null && list.size() > 0) {
+			for (int i = 0; i < list.size(); i++) {
+				Knowledge f03 = list.get(i);
+				String fmsqsl = f03.getFmsqsl();
+				String wgsjsl = f03.getWgsjsl();
+
+				String syxxsl = f03.getSyxxsl();
+				if (name.equals("fmsqsl")) {
+					dataList.add(Double.valueOf(fmsqsl).intValue());
+				}
+				if (name.equals("wgsjsl")) {
+					dataList.add(Double.valueOf(wgsjsl).intValue());
+				}
+				if (name.equals("syxxsl")) {
+					dataList.add(Double.valueOf(syxxsl).intValue());
+				}
+
+			}
+			chartBarLineSeries.setData(dataList);
+		}
+		return chartBarLineSeries;
+	}
 	
 	public static ChartBarLineSeries getKNOWLDGELevel2ChartBarLineSeries02(List<Knowledge> list, String name) {
 

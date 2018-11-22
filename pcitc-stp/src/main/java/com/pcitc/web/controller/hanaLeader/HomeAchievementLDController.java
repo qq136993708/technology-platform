@@ -77,7 +77,7 @@ public class HomeAchievementLDController {
 			    
 			    String year= HanaUtil.getCurrrentYear();
 			    request.setAttribute("year", year);
-		        return "stp/hana/home/level/direct_depart/award_level2";
+		        return "stp/hana/home/direct_depart/award_level2";
 		  }
 		
 		
@@ -96,7 +96,7 @@ public class HomeAchievementLDController {
 			    
 			    String year= HanaUtil.getCurrrentYear();
 			    request.setAttribute("year", year);
-		        return "stp/hana/home/level/direct_depart/award_table";
+		        return "stp/hana/home/direct_depart/award_table";
 		  }
 		
 		
