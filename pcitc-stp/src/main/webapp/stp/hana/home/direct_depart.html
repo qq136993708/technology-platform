@@ -22,8 +22,10 @@
 
 <input type="hidden" name="month" value="${month}"   id="month">
 <input type="hidden" name="companyCode" value="${companyCode}"   id="companyCode">
+
+
     <div class="layui-fluid">
-        <div class="layui-row layui-col-space10">
+        <div class="layui-row layui-col-space15">
             <div class="layui-col-md12 layui-top">
                 <div class="layui-col-md15">
                     <div class="layui-main-box">
@@ -120,84 +122,57 @@
                     </div>
                 </div>
             </div>
-            <div class="layui-col-md12 project">
-                <div class="layui-card" style="margin: 0;">
+            <div class="layui-col-md6">
+                <div class="layui-card">
                     <div class="layui-card-header">
-                        年度科研项目总览
+                        2018年直属研究院科研课题数量分布情况分析
                         <div class="layui-tool">
                             <button type="button" class="btn btn-tool collapse"></button>
                             <button type="button" class="btn btn-tool remove"></button>
                         </div>
                     </div>
                     <div class="layui-card-body btn-function">
-                        <div class="layui-col-md9">
-                            <div class="main-chart" >
-                                <div style="height:270px;margin-left:1px" id="chartOne">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="layui-col-md3">
-                            <h4>新开项目占比</h4>
-                            <div class="project-1">
-                                <div>
-                                    <span style="text-align: left;">新开国家项目</span>
-                                    <span style="float: right;display: inline-block;" id="aa">-/-</span>
-                                </div>
-                                <div class="layui-progress">
-                                    <div class="layui-progress-bar layui-bg-red" id="aaa" lay-percent="0" ></div>
-                                </div>
-                            </div>
-                            <div class="project-1">
-                                <div>
-                                    <span style="text-align: left;">新开重大专项</span>
-                                    <span style="float: right;display: inline-block;" id="bb">-/-</span>
-                                </div>
-                                <div class="layui-progress">
-                                    <div class="layui-progress-bar layui-bg-red-2" id="bbb" lay-percent="0" ></div>
-                                </div>
-                            </div>
-                            <div class="project-1">
-                                <div>
-                                    <span style="text-align: left;">新开重点项目</span>
-                                    <span style="float: right;display: inline-block;" id="cc">-/-</span>
-                                </div>
-                                <div class="layui-progress">
-                                    <div class="layui-progress-bar layui-bg-red-3" id="ccc" lay-percent="0" ></div>
-                                </div>
-                            </div>
-                            <div class="project-1">
-                                <div>
-                                    <span style="text-align: left;">其他项目</span>
-                                    <span style="float: right;display: inline-block;" id="dd">-/-</span>
-                                </div>
-                                <div class="layui-progress">
-                                    <div class="layui-progress-bar layui-bg-red-4" id="ddd" lay-percent="0" ></div>
-                                </div>
-                            </div>
+                        <div  style="height:310px;width: 100%;" id="bar1"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md6">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        2018年直属研究院合同签订分析
+                        <div class="layui-tool">
+                            <button type="button" class="btn btn-tool collapse"></button>
+                            <button type="button" class="btn btn-tool remove"></button>
                         </div>
                     </div>
-                    <div style="clear:both" ></div>
-                    <div class="layui-card-body btn-function layui-card-ul">
+                    <div class="layui-card-body btn-function">
+                        <div  style="height:310px;width: 100%;" id="bar2"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md12 project">
+                <div class="layui-card" style="margin: 0;">
+                    <div class="layui-card-body btn-function layui-card-ul" style="background: white;">
                         <div class="layui-tab-item">
                             <ul>
                                 <li class="layui-col-xs3">
-                                    <span class="span-text span-text-5"  id="k0SNJTBL"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span>
+                                    <span style="color:#54b6e9" class="span-text span-text-5"  id="k0SNJTBL"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span>
                                     <span>新开国家项目比上年增长</span>
                                 </li>
                                 <li class="layui-col-xs3">
-                                    <span class="span-text span-text-1" id="k0XMXJGJBL"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span>
+                                    <span style="color:#dc3545" class="span-text span-text-1" id="k0XMXJGJBL"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span>
                                     <span>新开重大专项比上年增长</span>
                                 </li>
                                 <li class="layui-col-xs3">
-                                    <span class="span-text span-text-2" id="k0XMXJZDBL"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span>
+                                    <span style="color:#28a745" class="span-text span-text-2" id="k0XMXJZDBL"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span>
                                     <span>新开重点项目比上年增长</span>
                                 </li>
                                 <li class="layui-col-xs3">
-                                    <span class="span-text span-text-3" id="k0XMXJSLBL"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span>
+                                    <span style="color:#9799ec" class="span-text span-text-3" id="k0XMXJSLBL"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span>
                                     <span>炼油事业部项目比上年增长</span>
                                 </li>
                                 <li class="layui-col-xs3">
-                                    <span class="span-text span-text-4" id="k0XMXJYKBL"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span>
+                                    <span style="color:#f28117" class="span-text span-text-4" id="k0XMXJYKBL"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span>
                                     <span>化工事业部项目比上年增长</span>
                                 </li>
                             </ul>
@@ -205,130 +180,38 @@
                     </div>
                 </div>
             </div>
-            <div class="layui-col-md8">
+            <div class="layui-col-md6">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        技术热点
+                        2018年科研装备数量分析
                         <div class="layui-tool">
                             <button type="button" class="btn btn-tool collapse"></button>
                             <button type="button" class="btn btn-tool remove"></button>
                         </div>
                     </div>
-                    <div class="layui-card-body btn-function" style="padding: 0;border-radius: 0 0 6px 6px;">
-                        <div style="float: left;width: 82%;" class="layui-wifi-left" id="container">
-                        </div>
-                        <div style="float: right;width: 18%;" class="layui-wifi-right">
-                            <div class="layui-box layui-wifi">
-                                <div class="layui-main-box box-bg">
-                                    <span class="layui-box-icon bg-1"></span>
-                                    <div class="layui-box-content">
-                                        <span class="layui-box-text">累计投资</span>
-                                        <span class="layui-box-number">
-                                12345
-                                <small>(亿)</small>
-                            </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="layui-box layui-wifi">
-                                <div class="layui-main-box box-bg">
-                                    <span class="layui-box-icon bg-2"></span>
-                                    <div class="layui-box-content">
-                                        <span class="layui-box-text">科研人员</span>
-                                        <span class="layui-box-number">
-                                45
-                                <small>(人)</small>
-                            </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="layui-box layui-wifi">
-                                <div class="layui-main-box box-bg">
-                                    <span class="layui-box-icon bg-3"></span>
-                                    <div class="layui-box-content">
-                                        <span class="layui-box-text">成果数量</span>
-                                        <span class="layui-box-number">
-                                45
-                                <small>(个)</small>
-                            </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="layui-box layui-wifi">
-                                <div class="layui-main-box box-bg">
-                                    <span class="layui-box-icon bg-4"></span>
-                                    <div class="layui-box-content">
-                                        <span class="layui-box-text">专利数量</span>
-                                        <span class="layui-box-number">
-                                123
-                                <small>(个)</small>
-                            </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="layui-card-body btn-function">
+                        <div  style="height:310px;width: 100%;" id="bar3"></div>
                     </div>
                 </div>
             </div>
-            <div class="layui-col-md4">
-                <div class="layui-box">
-                    <div class="layui-main-box box-bg-1">
-                        <span class="layui-box-icon bg-1"></span>
-                        <div class="layui-box-content">
-                            <span class="layui-box-text"  onclick="g0SBSL1()" style="cursor:pointer">大型分析仪器(原值>30万)&nbsp;?</span>
-                            <span class="layui-box-number" style="cursor:pointer" id="g0SBSL1">
-                                <img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
-                                <small>(套)</small>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-box">
-                    <div class="layui-main-box box-bg-2">
-                        <span class="layui-box-icon bg-2"></span>
-                        <div class="layui-box-content">
-                            <span class="layui-box-text" onclick="g0SBSL2()" style="cursor:pointer">中型实验装置&nbsp;?</span>
-                            <span class="layui-box-number" style="cursor:pointer" id="g0SBSL2">
-                                <img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
-                                <small>(台)</small>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="layui-box">
-                    <div class="layui-main-box box-bg-4">
-                        <span class="layui-box-icon bg-4"></span>
-                        <div class="layui-box-content">
-                            <span class="layui-box-text" onclick="g0SBSL4()" style="cursor:pointer">单台值大于500万/工业侧线实验装置&nbsp;?</span>
-                            <span class="layui-box-number" style="cursor:pointer" id="g0SBSL4">
-                                <img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
-                                <small>(台)</small>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                
-                
-                <div class="layui-box">
-                    <div class="layui-main-box box-bg-3">
-                        <span class="layui-box-icon bg-3"></span>
-                        <div class="layui-box-content">
-                            <span class="layui-box-text" onclick="g0SBSL3()" style="cursor:pointer">专业软件（外购）&nbsp;?</span>
-                            <span class="layui-box-number" style="cursor:pointer" id="g0SBSL3">
-                              <img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
-                                <small>(套)</small>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                
-                
-            </div>
-             <div class="layui-col-md8">
+            <div class="layui-col-md6">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        专利及项目
+                        2018年直属研究院科研设备数量分析
+                        <div class="layui-tool">
+                            <button type="button" class="btn btn-tool collapse"></button>
+                            <button type="button" class="btn btn-tool remove"></button>
+                        </div>
+                    </div>
+                    <div class="layui-card-body btn-function">
+                        <div  style="height:310px;width: 100%;" id="bar4"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md8">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        专利分布
                         <div class="layui-tool">
                             <button type="button" class="btn btn-tool collapse"></button>
                             <button type="button" class="btn btn-tool remove"></button>
@@ -336,7 +219,7 @@
                     </div>
                     <div class="layui-card-body btn-function">
                         <div class="layui-tab-item">
-                            <div id="mapChart" style="height:480px;width: 99%;" ></div>
+                            <div id="mapChart" style="height:360px;width: 99%;" ></div>
 
                         </div>
                     </div>
@@ -346,19 +229,16 @@
             <div class="layui-col-md4">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        项目数量/专利分布
+                        专利数量
                         <div class="layui-tool">
                             <button type="button" class="btn btn-tool collapse"></button>
                             <button type="button" class="btn btn-tool remove"></button>
                         </div>
                     </div>
                     <div class="layui-card-body btn-function">
-                        <div  style="height:223px;width: 100%; border-bottom: 1px solid #ccc;margin-bottom: 9px;" id="barOne"></div>
-                        <h3 style="text-align: center;font-weight: bold;color:#000;">中国石化全球专利分布</h3>
-                        <div  style="height:223px;width: 100%;" id="radialOne"></div>
+                        <div  style="height:360px;width: 100%;" id="barOne"></div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -374,23 +254,19 @@
     <script>
     var codec=$("#companyCode").val();
     var element;
-        layui.config({
-            base: '/layuiadmin/' //静态资源所在路径
-        }).extend({
-            index: 'lib/index' //主入口模块
-        }).use(['index','jquery','table','carousel','layer', 'echarts','laydate','element'], function(){
+        layui.use(['jquery','table','carousel','layer', 'echarts','laydate','element'], function(){
             var $=layui.jquery,table=layui.table,carousel = layui.carousel,laydate=layui.laydate
                 ,echarts = layui.echarts,layer = layui.layer;
             element = layui.element;
             /*新开页面*/
-            $(".layui-top .layui-col-md15").eq(0).click(function () {
+           /* $(".layui-top .layui-col-md15").eq(0).click(function () {
                 parent.layui.index.openTabsPage("/home_project_02/home_project", "科研项目（新开续建）");
             });
             $(".layui-top .layui-col-md15").eq(1).click(function () {
                 parent.layui.index.openTabsPage("/home_device_02/home_device", "科研装备（新开续建）");//oil_field.html
             });
             $(".layui-top .layui-col-md15").eq(2).click(function () {
-                parent.layui.index.openTabsPage("/home_budget_02/home_budget", "合同签订（亿元）");
+                parent.layui.index.openTabsPage("/home_budget_02/home_budget", "合同签订（万元）");
             });
             
             $(".layui-top .layui-col-md15").eq(3).click(function () {
@@ -409,7 +285,7 @@
             
             $(".layui-top .layui-col-md15").eq(6).click(function () {
                 parent.layui.index.openTabsPage("/intl_project/report/report_intl_project_main", "国际合作");
-            });
+            });*/
             
             
             var md4Height=$(".layui-col-md4").height()-2;
@@ -542,7 +418,6 @@
  					$("#kyxm").html(data.projectCount+"<small>(个)</small>");
  					$("#K0BNGLFPHJECB_t").html(data.kyzbCount+"<small>(个)</small>");
  					if (data.jfTotal > 100) {
- 					
  						$("#k0BNYSJHJE").html((data.jfTotal/10000).toFixed(2)+"<small>(亿)</small>");
  					} else {
  						$("#k0BNYSJHJE").html(data.jfTotal+"<small>(万元)</small>");

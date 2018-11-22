@@ -74,9 +74,9 @@ public interface OutProjectService {
     /**
      * @param nd
      * @return
-     * 首页查询新开的国家项目、重点项目、重大项目、其他项目的统计
+     * 首页、领导首页，查询新开的国家项目、重点项目、重大项目、其他项目、总计的统计
      */
-    public HashMap<String, String> getProjectTotalInfoByNew(String nd);
+    public HashMap<String, String> getProjectTotalInfoByNew(HashMap<String, String> map);
     
     /**
      * @param nd

@@ -301,7 +301,7 @@ public class AdminController extends BaseController {
 
 			String cFlag = request.getParameter("cFlag");
 			if (userDetails.getUserLevel() != null && userDetails.getUserLevel() == 1 && cFlag == null) {
-				return "/leaderIndex";
+				return "/oneLevelMain";//leaderIndex
 			} else {
 				return "/index";
 			}
@@ -354,7 +354,7 @@ public class AdminController extends BaseController {
 
 			String cFlag = request.getParameter("cFlag");
 			if (userDetails.getUserLevel() != null && userDetails.getUserLevel() == 1 && cFlag == null) {
-				return "/leaderIndex";
+				return "/oneLevelMain";//leaderIndex
 			} else {
 				return "/index";
 			}
@@ -625,6 +625,7 @@ public class AdminController extends BaseController {
 		System.out.println("1====/admin/project/type/new");
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("nd", "2017");
+		map.put("define2", "1");
 		HttpEntity<HashMap<String, String>> entity = new HttpEntity<HashMap<String, String>>(map, this.httpHeaders);
 
 		ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(NEW_PROJECT_COUNT, HttpMethod.POST, entity, JSONObject.class);
