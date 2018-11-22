@@ -18,9 +18,10 @@
         .anchorBL{display:none}
     </style>
 </head>
-<body onload="init()" >
+<body >
 
 <input type="hidden" name="month" value="${month}"   id="month">
+<input type="hidden" name="year" value="${year}"   id="year">
 <input type="hidden" name="companyCode" value="${companyCode}"   id="companyCode">
 
 
@@ -125,7 +126,7 @@
             <div class="layui-col-md6">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        2018年直属研究院科研课题数量分布情况分析
+                        ${year}年直属研究院科研课题数量分布情况分析
                         <div class="layui-tool">
                             <button type="button" class="btn btn-tool collapse"></button>
                             <button type="button" class="btn btn-tool remove"></button>
@@ -139,7 +140,7 @@
             <div class="layui-col-md6">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        2018年直属研究院合同签订分析
+                        ${year}年直属研究院合同签订分析
                         <div class="layui-tool">
                             <button type="button" class="btn btn-tool collapse"></button>
                             <button type="button" class="btn btn-tool remove"></button>
@@ -183,7 +184,7 @@
             <div class="layui-col-md6">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        2018年科研装备数量分析
+                        ${year}年科研装备数量分析
                         <div class="layui-tool">
                             <button type="button" class="btn btn-tool collapse"></button>
                             <button type="button" class="btn btn-tool remove"></button>
@@ -197,7 +198,7 @@
             <div class="layui-col-md6">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        2018年直属研究院科研设备数量分析
+                        ${year}年直属研究院科研设备数量分析
                         <div class="layui-tool">
                             <button type="button" class="btn btn-tool collapse"></button>
                             <button type="button" class="btn btn-tool remove"></button>
@@ -245,6 +246,7 @@
     
     
 <script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
+<script src="/common/js/layer-v3.1.1/layer.js"></script>
 <script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
 <script src="http://api.map.baidu.com/api?v=2.0&ak=5f87eee0dd15f3241bc4b5b8d222e430"></script>
 <script type="text/javascript" src="/layuiadmin/modules/bmap.js"></script>
@@ -254,9 +256,9 @@
     <script>
     var codec=$("#companyCode").val();
     var element;
-        layui.use(['jquery','table','carousel','layer', 'echarts','laydate','element'], function(){
+        layui.use(['jquery','table','carousel','layer','laydate','element'], function(){
             var $=layui.jquery,table=layui.table,carousel = layui.carousel,laydate=layui.laydate
-                ,echarts = layui.echarts,layer = layui.layer;
+                ,layer = layui.layer;
             element = layui.element;
             /*新开页面*/
            /* $(".layui-top .layui-col-md15").eq(0).click(function () {
@@ -324,75 +326,6 @@
             
             
             
-            
-            
-            var myChart = echarts.init(document.getElementById("container"));
-            title = '笛卡尔坐标系上的热力图';
-
-            var hours = [' ', ' ', ' ', ' ', ' ', ' ', ' ',
-                ' ', ' ', ' ',' ',' ',
-                ' ', ' ', ' ', ' ', ' ', ' ',
-                ' ', ' '];
-            var days = [' ', ' ', ' ',
-                ' ', ' ', ' ', ' '];
-
-            var data = [[0,0,5],[0,1,1],[0,2,0],[0,3,0],[0,4,0],[1,19,8],[0,6,0],[0,7,0],[0,8,0],[0,9,0],[0,10,0],[0,11,2],[0,12,4],[0,13,1],[0,14,1],[0,15,3],[0,16,4],[0,17,6],[0,18,4],[0,19,4],[0,16,3],[0,19,3],[0,18,2],[0,17,5],[1,0,7],[1,1,0],[1,2,0],[1,3,0],[1,4,0],[1,5,0],[1,6,0],[1,7,0],[1,8,0],[1,9,0],[1,10,5],[1,11,2],[1,12,2],[1,13,6],[1,14,9],[1,15,11],[1,16,6],[1,17,7],[1,18,8],[1,19,12],[1,18,5],[1,17,5],[1,13,7],[1,18,2],[2,0,1],[2,1,1],[2,2,0],[2,3,0],[2,4,0],[2,5,0],[2,6,0],[2,7,0],[2,8,0],[2,9,0],[2,10,3],[2,11,2],[2,12,1],[2,13,9],[2,14,8],[2,15,10],[2,16,6],[2,17,5],[2,18,5],[2,19,5],[2,17,7],[2,18,4],[2,17,2],[2,13,4],[3,0,7],[3,1,3],[3,2,0],[3,3,0],[3,4,0],[3,5,0],[3,6,0],[3,7,0],[3,8,1],[3,9,0],[3,10,5],[3,11,4],[3,12,7],[3,13,14],[3,14,13],[3,15,12],[3,16,9],[3,17,5],[3,18,5],[3,19,10],[3,17,6],[3,18,4],[3,17,4],[3,13,1],[4,0,1],[4,1,3],[4,2,0],[4,3,0],[4,4,0],[4,5,1],[4,6,0],[4,7,0],[4,8,0],[4,9,2],[4,10,4],[4,11,4],[4,12,2],[4,13,4],[4,14,4],[4,15,14],[4,16,12],[4,17,1],[4,18,8],[4,19,5],[4,17,3],[4,18,7],[4,17,3],[4,13,0],[5,0,2],[5,1,1],[5,2,0],[5,3,3],[5,4,0],[5,5,0],[5,6,0],[5,7,0],[5,8,2],[5,9,0],[5,10,4],[5,11,1],[5,12,5],[5,13,10],[5,14,5],[5,15,7],[5,16,11],[5,17,6],[5,18,0],[5,19,5],[5,16,3],[5,18,4],[5,17,2],[5,17,0],[6,0,1],[6,1,0],[6,2,0],[6,3,0],[6,4,0],[6,5,0],[6,6,0],[6,7,0],[6,8,0],[6,9,0],[6,10,1],[6,11,0],[6,12,2],[6,13,1],[6,14,3],[6,15,4],[6,16,0],[6,17,0],[6,18,0],[6,19,0],[6,9,1],[6,8,2],[6,14,2],[6,15,6]];
-
-            data = data.map(function (item) {
-                return [item[1], item[0], item[2] || '-'];
-            });
-
-            option = {
-                tooltip: {
-                    position: 'top'
-                },
-                animation: false,
-                grid: {
-                    height: '100%',
-                    width: '100%',
-                    x: '0%',
-                    y: '0%'
-                },
-                xAxis: {
-                    type: 'category',
-                    data: hours,
-                    splitArea: {
-                        show: true
-                    }
-                },
-                yAxis: {
-                    type: 'category',
-                    data: days,
-                    splitArea: {
-                        show: true
-                    }
-                },
-                visualMap: {
-                    min: 0,
-                    max: 14,
-                    calculable: false,
-                    orient: 'horizontal',
-                    left: 'center',
-                    bottom: '-9999999%'
-                },
-                series: [{
-                    name: 'Punch Card',
-                    type: 'heatmap',
-                    data: data,
-                    label: {
-                        normal: {
-                            show: true
-                        }
-                    },
-                    itemStyle: {
-                        emphasis: {
-                            shadowBlur: 10,
-                            shadowColor: 'rgba(0, 0.8, 0.8, 0.8)'
-                        }
-                    }
-                }]
-            }
-            myChart.setOption(option);
         });
 
        
@@ -403,7 +336,7 @@
         {
         	$.ajax({
  				type : 'POST',
- 				url : "/admin/project-count",
+ 				url : "/admin/project-count?define2=1",
  				dataType : 'json',
  				headers : {
  					'Content-Type' : 'application/json'
@@ -569,36 +502,7 @@
          	
          }
         
-        //年度科研项目总览
-        function chartv(month)
-        {
-        	var v_date=(new Date()).getTime();
-	        var yAxis=  [
-	            {
-	                type: 'value',
-	                name: '数量',
-	                min: 0,
-	                max:'dataMax',
-	                axisLabel: {
-	                    formatter: '{value}'
-	                }
-	            }
-	        ];
-	        
-	        
-	        var chart4_url="/home_project_02/getProjectByUnitBar?month="+month+"&v_date="+v_date+"&companyCode="+companyCode; 
-	    	var echart4=load_mutl_bar_02(chart4_url,"chartOne","","",yAxis);
-	    	echart4.on('click', function (params){
-	    		var xName=params.name;
-	    		var legentName=params.seriesName;
-	    		parent.layui.index.openTabsPage("/home/project-list?type_flag="+xName+"&project_scope="+legentName, "科研项目明细");
-	        });
-	    	
-	    	
-	    	
-	    	/* var url_main4='/admin/project/type/unit/list';
-	    	load_mutl_bar_02(url_main4,"chartOne","","",yAxis);   */
-        }
+       
         
          //sdf
          function GET_getDzzk(month)
@@ -638,7 +542,7 @@
          {
          	$.ajax({
  				type : 'POST',
- 				url : "/admin/patent-count",
+ 				url : "/admin/patent-count?define2=1",
  				dataType : 'json',
  				headers : {
  					'Content-Type' : 'application/json'
@@ -660,7 +564,7 @@
          {
          	$.ajax({
  				type : 'POST',
- 				url : "/admin/appraisal-count",
+ 				url : "/admin/appraisal-count?define2=1",
  				dataType : 'json',
  				headers : {
  					'Content-Type' : 'application/json'
@@ -678,25 +582,7 @@
          }
         
         
-        function init()
-        {
-        	
-        	var month=$('#month').val();
-        	if(month!=null && month!='')
-       		{
-        		getKyxm(month);//科研项目、科研装备、合同签订
-            	getndys_xfzc(month);//合同签订 经费支出
-            	chartv(month);//年度科研项目总览
-            	newProjectRate();//新开项目
-            	newProjectLastRate();//新项目和去年比
-            	GET_getDzzk(month);
-            	
-            	patentCount();//专利
-            	appraisalCount();//成果
-       		}
-        	
-        	
-        }
+        
         
         function g0SBSL3()
         {
@@ -757,6 +643,105 @@
         	
         	
         }
+        
+        
+        function init()
+        {
+        	
+        	var month=$('#month').val();
+        	 var companyCode=$("#companyCode").val();
+        	 var year=$("#year").val();
+        	var v_date=(new Date()).getTime();
+        	if(month!=null && month!='')
+       		{
+        		getKyxm(month);//科研项目、科研装备、合同签订
+            	getndys_xfzc(month);//合同签订 经费支出
+            	newProjectRate();//新开项目
+            	newProjectLastRate();//新项目和去年比
+            	GET_getDzzk(month);
+            	patentCount();//专利
+            	appraisalCount();//成果
+            	
+            	
+            	
+            	
+            	var yAxis= [
+                    {
+                        type: 'value',
+                        name: '数量',
+                        min: 0,
+                        max:'dataMax',
+                        position: 'left',
+                        axisLabel: {
+                            formatter: '{value}'
+                        }
+                    }
+                ];
+            	
+            	var yAxis2= [
+                    {
+                        type: 'value',
+                        name: '金额（亿元）',
+                        min: 0,
+                        max:'dataMax',
+                        position: 'left',
+                        axisLabel: {
+                            formatter: '{value}'
+                        }
+                    }
+                ];
+            	
+            	//直属研究院科研课题数量分布情况分析--项目
+            	var chart1_url="/home_project_ld/getProjectByDistributeBar?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
+            	var echart1=load_mutl_bar_02(chart1_url,"bar1","","",yAxis);
+            	echart1.on('click', function (params){
+            		var xName=params.name;
+            		var legentName=params.seriesName;
+            		parent.layui.index.openTabsPage("/home/project-list?define2="+xName+"&project_scope="+legentName, "科研项目明细");
+                });
+            	
+              //直属研究院合同签订分析
+           	   var chart2_url="/home_budget_ld/getBudgetByDistributeBar?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
+           	   var echart2= load_mutl_bar_2(chart2_url,"bar2","","",yAxis2);
+           	   echart2.on('click', function (params){
+           			var xName=params.name;
+           			var legentName=params.seriesName;
+           			parent.layui.index.openTabsPage("/home/project-list?define2="+xName+"&project_scope="+legentName, "合同签订详情");
+           	    });
+            	   
+           	   
+           	//直属研究科研装备数量分析
+           	var chart3_url="/home_device_ld/getDeviceByDistributeBar?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
+        	var echart3=load_mutl_bar_02(chart3_url,"bar3","","",yAxis);
+        	echart3.on('click', function (params){
+        		var xName=params.name;
+        		var legentName=params.seriesName;
+        		parent.layui.index.openTabsPage("/home/project-list?define2="+xName+"&project_scope="+legentName, "科研装备明细");
+            });
+        	
+        	
+        	
+        	
+
+        	var chart7_url="/home_knowledge_ld/getKnowledgeUnitList_stack?nd="+year+"&v_date="+v_date;
+        	var echart7=load_mutl_bar_stack(chart7_url,"barOne","","",yAxis);
+        	echart7.on('click', function (params) {
+        		var xName=params.name;
+        		var legentName=params.seriesName;
+        		parent.layui.index.openTabsPage("/home_knowledge_ld/knowledge_table?project_property="+xName, "知识产权明细");
+                  
+            });
+        	
+            	   
+            	
+       		}
+        	
+        	
+        }
+        
+        init();
+        
+        
         
      </script>
      <script>
@@ -1330,82 +1315,9 @@
                 ]
             };
             mapChart.setOption(optionTwo);
-            var barChart = echarts.init(document.getElementById('barOne'));
-            var barOption= {
-                title:{text:'项目数量', left:'center',top:'top'},
-                xAxis: {
-                    axisLabel:{
-                        interval:0,
-                        rotate:45,//倾斜度 -90 至 90 默认为0
-                        margin:2,
-                        /*textStyle:{
-                            fontWeight:"bolder",
-                            color:"#000000"
-                        }*/
-                    },
-                    type: 'category',
-                    data: ['油田企业', '炼化企业', '销售企业', '石油工程', '炼化工程', '科研单位', '专业公司']
-                },
-                yAxis: {
-                    type: 'value'
-                },
-                series: [{
-                    itemStyle : {
-                        normal : {
-                            label: {
-                                show: true,
-                                position: 'top',
-                                textStyle: {
-                                    color: '#000'
-                                }
-                            }
-                        },
-                    },
-                    barWidth:"35%",
-                    data: [120, 200, 150, 80, 70, 110, 130],
-                    type: 'bar'
-                }]
-
-            };
-            barChart.setOption(barOption);
-            var radialChart = echarts.init(document.getElementById('radialOne'));
-            var radialOption={
-                angleAxis: {
-                    type: 'category',
-                    data: ['北美', '南美', '亚洲', '欧洲', '大洋洲', '非洲'],
-                    z: 10
-                },
-                radiusAxis: {
-                },
-                polar: {
-                },
-                series: [{
-                    type: 'bar',
-                    data: [1, 2, 3, 4, 3, 5, 1],
-                    coordinateSystem: 'polar',
-                    name: '发明授权',
-                    stack: 'a'
-                }, {
-                    type: 'bar',
-                    data: [2, 4, 6, 1, 3, 2, 1],
-                    coordinateSystem: 'polar',
-                    name: '实用新型',
-                    stack: 'a'
-                }, {
-                    type: 'bar',
-                    data: [1, 2, 3, 4, 1, 2, 5],
-                    coordinateSystem: 'polar',
-                    name: '外观设计',
-                    stack: 'a'
-                }],
-                legend: {
-                    show: true,
-                    data: ['发明授权', '实用新型', '外观设计'],
-                    y:'bottom'
-                }
-
-            };
-            radialChart.setOption(radialOption);
+           
+            
+          
     })
 </script>
 </body>

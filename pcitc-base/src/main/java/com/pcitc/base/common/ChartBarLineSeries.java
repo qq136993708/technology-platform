@@ -23,8 +23,17 @@ public class ChartBarLineSeries
 	private String  color;
 	private boolean smooth;
 	
+	private Object  itemStyle;
 	
 	
+	
+	
+	public Object getItemStyle() {
+		return itemStyle;
+	}
+	public void setItemStyle(Object itemStyle) {
+		this.itemStyle = itemStyle;
+	}
 	public boolean isSmooth() {
 		return smooth;
 	}

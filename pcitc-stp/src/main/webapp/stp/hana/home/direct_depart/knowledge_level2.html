@@ -139,7 +139,8 @@ layui.config({
         });
         $(".layui-time").html($("#year").val());
         $("#knowledge_table").click(function () {
-            parent.layui.index.openTabsPage("/home_knowledge/knowledge_table", "知识产权明细");
+        	window.open("/reportNew/reportPageStp?name=167305d0060_d4723a52");
+           // parent.layui.index.openTabsPage("/home_knowledge_ld/knowledge_table", "知识产权明细");
         });
         
         
@@ -164,73 +165,80 @@ function initEchart()
         }
     ];
     $(".layui-time").html($("#year").val());
-	var chart1_url="/home_knowledge/getKnowledgeTypeList?type=1&nd="+nd+"&v_date="+v_date;
+	var chart1_url="/home_knowledge_ld/getKnowledgeTypeList?type=1&nd="+nd+"&v_date="+v_date;
 	var echart1=load_mutl_bar_02(chart1_url,"chart1","","",yAxis);
 	echart1.on('click', function (params) {
 		var xName=params.name;
 		var legentName=params.seriesName;
-		parent.layui.index.openTabsPage("/home_knowledge/knowledge_table?project_property="+xName, "知识产权明细");
+		window.open("/reportNew/reportPageStp?name=167305d0060_d4723a52");
+		//parent.layui.index.openTabsPage("/home_knowledge_ld/knowledge_table?project_property="+xName, "知识产权明细");
           
     });
 	
-	var chart2_url="/home_knowledge/getKnowledgeTypeList?nd="+nd+"&v_date="+v_date+"&type=2";
+	var chart2_url="/home_knowledge_ld/getKnowledgeTypeList?nd="+nd+"&v_date="+v_date+"&type=2";
 	var echart2=loadPie(chart2_url,"chart2","","");
 	echart2.on('click', function (params) {
 		var xName=params.name;
 		var legentName=params.seriesName;
-		parent.layui.index.openTabsPage("/home_knowledge/knowledge_table?project_property="+xName, "知识产权明细");
+		window.open("/reportNew/reportPageStp?name=167305d0060_d4723a52");
+		//parent.layui.index.openTabsPage("/home_knowledge_ld/knowledge_table?project_property="+xName, "知识产权明细");
           
     });
 	
-	var chart3_url="/home_knowledge/getKnowledgeTypeList?nd="+nd+"&v_date="+v_date+"&type=3";
+	var chart3_url="/home_knowledge_ld/getKnowledgeTypeList?nd="+nd+"&v_date="+v_date+"&type=3";
 	var echart3=loadPie(chart3_url,"chart3","","");
 	echart3.on('click', function (params) {
 		var xName=params.name;
 		var legentName=params.seriesName;
-		parent.layui.index.openTabsPage("/home_knowledge/knowledge_table?project_property="+xName, "知识产权明细");
+		window.open("/reportNew/reportPageStp?name=167305d0060_d4723a52");
+		//parent.layui.index.openTabsPage("/home_knowledge_ld/knowledge_table?project_property="+xName, "知识产权明细");
           
     });
 	
 	
-	var chart4_url="/home_knowledge/getUnitTypeList?type=1&nd="+nd+"&v_date="+v_date; 
+	var chart4_url="/home_knowledge_ld/getUnitTypeList?type=1&nd="+nd+"&v_date="+v_date; 
 	var echart4=load_mutl_bar_02(chart4_url,"chart4","","",yAxis);
 	echart4.on('click', function (params) {
 		var xName=params.name;
 		var legentName=params.seriesName;
-		parent.layui.index.openTabsPage("/home_knowledge/knowledge_table?project_property="+xName, "知识产权明细");
+		window.open("/reportNew/reportPageStp?name=167305d0060_d4723a52");
+		//parent.layui.index.openTabsPage("/home_knowledge_ld/knowledge_table?project_property="+xName, "知识产权明细");
           
     });
 	
 	
 	
-	var chart5_url="/home_knowledge/getUnitTypeList?type=2&nd="+nd+"&v_date="+v_date;
+	var chart5_url="/home_knowledge_ld/getUnitTypeList?type=2&nd="+nd+"&v_date="+v_date;
 	var echart5=loadPie(chart5_url,"chart5","","");
 	echart5.on('click', function (params) {
 		var xName=params.name;
 		var legentName=params.seriesName;
-		parent.layui.index.openTabsPage("/home_knowledge/knowledge_table?project_property="+xName, "知识产权明细");
+		window.open("/reportNew/reportPageStp?name=167305d0060_d4723a52");
+		//parent.layui.index.openTabsPage("/home_knowledge_ld/knowledge_table?project_property="+xName, "知识产权明细");
           
     });
 	
 	
 	
-	var chart6_url="/home_knowledge/getUnitTypeList?type=3&nd="+nd+"&v_date="+v_date;
+	var chart6_url="/home_knowledge_ld/getUnitTypeList?type=3&nd="+nd+"&v_date="+v_date;
 	var echart6=loadPie(chart6_url,"chart6","","");
 	echart6.on('click', function (params) {
 		var xName=params.name;
 		var legentName=params.seriesName;
-		parent.layui.index.openTabsPage("/home_knowledge/knowledge_table?project_property="+xName, "知识产权明细");
+		window.open("/reportNew/reportPageStp?name=167305d0060_d4723a52");
+		//parent.layui.index.openTabsPage("/home_knowledge_ld/knowledge_table?project_property="+xName, "知识产权明细");
           
     });
 	
 	
 	
-	var chart7_url="/home_knowledge/getKnowledgeUnitList?nd="+nd+"&v_date="+v_date;
+	var chart7_url="/home_knowledge_ld/getKnowledgeUnitList?nd="+nd+"&v_date="+v_date;
 	var echart7=load_mutl_bar_02(chart7_url,"chart7","","",yAxis);
 	echart7.on('click', function (params) {
 		var xName=params.name;
 		var legentName=params.seriesName;
-		parent.layui.index.openTabsPage("/home_knowledge/knowledge_table?project_property="+xName, "知识产权明细");
+		window.open("/reportNew/reportPageStp?name=167305d0060_d4723a52");
+		//parent.layui.index.openTabsPage("/home_knowledge_ld/knowledge_table?project_property="+xName, "知识产权明细");
           
     });
 	

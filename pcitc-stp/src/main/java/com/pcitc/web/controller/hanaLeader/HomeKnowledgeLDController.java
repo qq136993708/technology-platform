@@ -76,7 +76,7 @@ public class HomeKnowledgeLDController {
 			    
 			    String year= HanaUtil.getCurrrentYear();
 			    request.setAttribute("year", year);
-		        return "stp/hana/home/level/direct_depart/knowledge_level2";
+		        return "stp/hana/home/direct_depart/knowledge_level2";
 		  }
 		
 		
@@ -107,7 +107,7 @@ public class HomeKnowledgeLDController {
 			    
 			    String year= HanaUtil.getCurrrentYear();
 			    request.setAttribute("year", year);
-		        return "stp/hana/home/level/direct_depart/knowledge_table";
+		        return "stp/hana/home/direct_depart/knowledge_table";
 		  }
 		
 		
@@ -224,7 +224,7 @@ public class HomeKnowledgeLDController {
 				result.setMessage("参数为空");
 			}
 			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-			System.out.println(">>>>>>>>>>>>>>getKnowledgeTypeList " + resultObj.toString());
+			System.out.println(">>>>>>>>>>>>>>getKnowledgeTypeList type= "+type+" : " + resultObj.toString());
 			return resultObj.toString();
 		}
 		
@@ -386,6 +386,67 @@ public class HomeKnowledgeLDController {
 			return resultObj.toString();
 		}
 	
+	
+		
+		
+		
+		@RequestMapping(method = RequestMethod.GET, value = "/getKnowledgeUnitList_stack")
+		@ResponseBody
+		public String getKnowledgeUnitList_stack(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+			Result result = new Result();
+			String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+			String type = CommonUtil.getParameter(request, "type", "");
+			Map<String, Object> paramsMap = new HashMap<String, Object>();
+			paramsMap.put("nd", nd);
+			paramsMap.put("type", type);
+			JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+			HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+			if (!nd.equals(""))
+			{
+				ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(getKnowledgeUnitList, HttpMethod.POST, entity, JSONArray.class);
+				int statusCode = responseEntity.getStatusCodeValue();
+				if (statusCode == 200) 
+				{
+					
+						JSONArray jSONArray = responseEntity.getBody();
+						System.out.println(">>>>>>>>>>>>>>getKnowledgeUnitList jSONArray-> " + jSONArray.toString());
+						List<Knowledge> list = JSONObject.parseArray(jSONArray.toJSONString(), Knowledge.class);
+						
+						ChartBarLineResultData barLine=new ChartBarLineResultData();
+						List<String>  xAxisDataList=HanaUtil.getduplicatexAxisByList(list,"lx");
+		         		barLine.setxAxisDataList(xAxisDataList);
+		         	
+						List<String> legendDataList = new ArrayList<String>();
+						legendDataList.add("发明专利");
+						legendDataList.add("外观设计");
+						legendDataList.add("实用新型");
+						barLine.setLegendDataList(legendDataList);
+						// X轴数据
+						List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
+						ChartBarLineSeries s1 = HanaUtil.getKNOWLDGELevel2ChartBarLineSeries_stack(list, "fmsqsl");
+						seriesList.add(s1);
+						ChartBarLineSeries s2 = HanaUtil.getKNOWLDGELevel2ChartBarLineSeries_stack(list, "wgsjsl");
+						seriesList.add(s2);
+						ChartBarLineSeries s3 = HanaUtil.getKNOWLDGELevel2ChartBarLineSeries_stack(list, "syxxsl");
+						seriesList.add(s3);
+						
+						barLine.setSeriesList(seriesList);
+		         		result.setSuccess(true);
+						result.setData(barLine);
+					
+					
+				}
+				
+			} else
+			{
+				result.setSuccess(false);
+				result.setMessage("参数为空");
+			}
+			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
+			System.out.println(">>>>>>>>>>>>>>>getKnowledgeUnitList " + resultObj.toString());
+			return resultObj.toString();
+		}
 	
 	
 	
