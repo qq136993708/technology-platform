@@ -518,7 +518,7 @@ font-size: 14px;color: #212529;text-indent: 0;
 .layui-card .layui-tab-brief .layui-tab-title{height: 42px; border-bottom-color: #f6f6f6;}
 .layui-card .layui-tab-brief .layui-tab-title li{margin: 0 20px 0 0; padding: 0; line-height: 42px;}
 .layui-card .layui-tab-brief .layui-tab-title li.layui-this{color: #333;}
-.layui-card .decision .layui-tab-title li.layui-this:after{border-bottom: 2px solid #0f9ee0;}
+.layui-card .decision .layui-tab-title li.layui-this:after{border-bottom: 2px solid #17a2b8;}
 .layui-card .layui-tab-brief .layui-tab-title .layui-this:after{height: 43px;}
 .layui-card .layui-tab-brief .layui-tab-content{padding: 15px;}
 .layui-card .decision .layui-tab-content{padding: 0;margin-top: 6px;}
@@ -773,7 +773,7 @@ font-size: 14px;color: #212529;text-indent: 0;
 .layui-icon-agency_05{background: url("/layuiadmin/layui/images/agency_05.png") no-repeat;}
 /*切换*/
 .layui-tab-brief>.layui-tab-more li.layui-this:after, .layui-tab-brief>.layui-tab-title .layui-this:after{
-    border-bottom: 2px solid #0f9ee0;
+    border-bottom: 2px solid #17a2b8;
 }
 /*决策中心*/
 .decision-content ul{height: auto;overflow: hidden;}
@@ -799,7 +799,7 @@ font-size: 14px;color: #212529;text-indent: 0;
 .formBoxConfig .box-body{padding: 0;}
 .formBoxConfig .layui-col-md2{width: 18%;float: left;}
 .formBoxConfig .btn-function{padding: 0;}
-.visualizationSearchBox .layui-card .layui-tab-brief .layui-tab-title li:last-child{background: #0f9ee0; color: white;}
+.visualizationSearchBox .layui-card .layui-tab-brief .layui-tab-title li:last-child{background: #17a2b8; color: white;}
 .visualizationSearchBox .layui-card{border: none;border-radius: 0;}
 .visualizationSearchBox .layui-card-body{padding: 0;margin-top: 10px;}
 /*mail*/
