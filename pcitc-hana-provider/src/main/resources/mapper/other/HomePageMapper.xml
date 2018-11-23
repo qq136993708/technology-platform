@@ -401,6 +401,60 @@
 	  
 	  
 	  
+	   <!-- 大型分析仪器  中型实验装置 -->
+	  <select id="getDzzk_bar" resultMap="H1AM_KY_SY_1001_17ResultMap" parameterType="java.util.Map" >
+	    
+		  select 
+		     "G0GSJC",
+		     round( sum("G0SBSL1"),0) AS "G0SBSL1" ,
+		     round( sum("G0SBSL2"), 0) AS "G0SBSL2" ,
+		     round( sum("G0SBSL3"),0) AS "G0SBSL3" ,
+		     round( sum("G0SBSL4"),0) AS "G0SBSL4" 
+		  FROM (
+		    SELECT
+		       "G0GSJC",
+		       "G0GSOR",
+		    case when G0SBFL1='X'
+		         then round( sum("G0SBSL"),0)
+		    end AS "G0SBSL1" ,
+		    case when G0SBFL2='X'
+		         then  round( sum("G0SBSL"), 0) 
+		    end AS "G0SBSL2" ,
+		    case  when G0SBFL3='X'  
+		          then round( sum("G0SBSL"),0) 
+		    end AS "G0SBSL3" ,
+		    case when G0SBFL4='X' 
+		         then round( sum("G0SBSL"),0) 
+		    end AS "G0SBSL4" 
+		    FROM ( 
+		       SELECT
+		       "G0GSJC",
+		       "G0GSOR",
+		       G0SBFL1,
+		       G0SBFL2,
+		       G0SBFL3,
+		       G0SBFL4,
+		       sum("G0SBSL") AS "G0SBSL"
+		    FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_SY_1001_17"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+		     '${month}'),
+		     'PLACEHOLDER' = ('$$PR_GSDM$$',
+		     '${companyCode}')) 
+		    where G0SBFL1='X'  or G0SBFL2='X' or G0SBFL3='X' or G0SBFL4='X'
+		    group by 
+		       "G0GSJC",
+		       "G0GSOR",
+		       G0SBFL1,
+		       G0SBFL2,
+		       G0SBFL3,
+		       G0SBFL4
+		   ) 
+		   group by "G0GSJC","G0GSOR",G0SBFL1,G0SBFL2, G0SBFL3,G0SBFL4
+		   order by "G0GSOR"
+		   ) 
+		   group by "G0GSJC","G0GSOR"
+           order by "G0GSOR"
+	  </select>
+	  
 	  <sql id="selectCondition04">
 	     <trim prefix="WHERE" prefixOverrides="AND|OR"> 
 	     <if test="g0SBFL != null   and g0SBFL !=''  ">                AND G0SBFL  = '${g0SBFL}'</if>

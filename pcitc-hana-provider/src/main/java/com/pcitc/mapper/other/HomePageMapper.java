@@ -25,6 +25,11 @@ public interface HomePageMapper
      
      public  List<H1AMKYSY100117> getDzzk(Map map);
      
+     public  List<H1AMKYSY100117> getDzzk_bar(Map map);
+     
+     
+     
+     
      //二级页面
      public List<H1AMKYSY100109> getNdkyxmzl(Map map);
      
