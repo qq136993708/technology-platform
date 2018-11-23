@@ -148,6 +148,11 @@ public class ReportViewNewController extends BaseController {
             request.setAttribute("storeId",strStoreId==null?"":strStoreId);
             request.setAttribute("strUrl",config.getBak2());
             System.out.println(config.getBak2());
+
+            //url param
+            String jsonparam = request.getParameter("jsonparam");
+            request.setAttribute("jsonparam",(jsonparam==null||"".equals(jsonparam))?"":JSON.toJSONString(jsonparam));
+
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -7,15 +7,19 @@ import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.plan.PlanBase;
 import com.pcitc.base.plan.PlanBaseDetail;
 import com.pcitc.base.plan.PlanBaseExample;
+import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.mapper.plan.PlanBaseDetailMapper;
 import com.pcitc.mapper.plan.PlanBaseMapper;
 import com.pcitc.service.plan.PlanService;
+import com.pcitc.service.system.UserService;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.lang.reflect.Array;
+import java.lang.reflect.Proxy;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -28,7 +32,10 @@ public class PlanServiceImpl implements PlanService {
 
     @Resource
     private PlanBaseDetailMapper planBaseDetailMapper;
-//	private planBaseDetailMapper planBaseDetailMapper;
+
+    @Autowired
+    private UserService userService;
+
 
     @Override
     public PlanBase findBotWorkOrderById(String dataId) {
@@ -40,6 +47,8 @@ public class PlanServiceImpl implements PlanService {
     public int saveBotWorkOrder(PlanBase vo) {
         int result = 200;
         try {
+            SysUser sysUser = userService.selectUserByUserId(vo.getWorkOrderAllotUserId());
+            vo.setWorkOrderAllotUserName(sysUser==null?"":sysUser.getUserName());
             planBaseMapper.insert(vo);
         } catch (Exception e) {
             result = 500;
@@ -184,6 +193,8 @@ public class PlanServiceImpl implements PlanService {
                 PlanBase pb = list.get(i);
                 PlanBase planBase = planBaseMapper.selectByPrimaryKey(pb.getDataId());
                 if(planBase==null){
+                    SysUser sysUser = userService.selectUserByUserId(pb.getWorkOrderAllotUserId());
+                    pb.setWorkOrderAllotUserName(sysUser==null?"":sysUser.getUserName());
                     planBaseMapper.insert(pb);
                 }else {
                     planBase.setParentId(pb.getParentId());
@@ -232,6 +243,8 @@ public class PlanServiceImpl implements PlanService {
                 }
             }
             for (int i = 0; i < list.size(); i++) {
+                SysUser sysUser = userService.selectUserByUserId(list.get(i).getWorkOrderAllotUserId());
+                list.get(i).setWorkOrderAllotUserName(sysUser==null?"":sysUser.getUserName());
                 planBaseMapper.insert(list.get(i));
             }
 

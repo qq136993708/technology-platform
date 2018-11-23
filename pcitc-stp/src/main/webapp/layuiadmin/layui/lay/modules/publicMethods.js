@@ -276,7 +276,7 @@ layui.define(['jquery','form','table','laydate'],
                 var num =  $(tbody).find("tr").length + 1;
                 var tableHtml = "<tr data-index='"+(num-1)+"'></tr>";
                 var tableTdHtml='';
-                var column=[],element=[],columnEvent=[], name=[],value=[],url=[],parentCode=[],hide=[];
+                var column=[],element=[],columnEvent=[], name=[],value=[],url=[],parentCode=[],hide=[],valueId=[];
                 $(tbody).append(tableHtml);
                 /*判断是否有特殊的td*/
                 if(trParam.specialElement.length>0){
@@ -288,7 +288,8 @@ layui.define(['jquery','form','table','laydate'],
                         value.push(dt.value);
                         url.push(dt.url);
                         parentCode.push(dt.parentCode);
-                        hide.push(dt.hide)
+                        hide.push(dt.hide);
+                        valueId.push(dt.valueId)
                     });
                 }
                 for(var i=0;i<number;i++){
@@ -311,6 +312,7 @@ layui.define(['jquery','form','table','laydate'],
                         var columnUrl=url[columnIndex];
                         var columnCode=parentCode[columnIndex];
                         var columnHide=hide[columnIndex];
+                        var columnValueId=valueId[columnIndex];
                         if(columnElement=="file"){
                             if(columnHide==true){
                                 $(tbody).find("tr:last td").eq(columnNum).addClass("layui-hide").html("<p class='file-name add-file' style='width: 100%;margin-left: 15px;' onclick='"+columnEventN+"'>"+columnName+"<input type='hidden' value='"+columnValue+"'></p>")
@@ -324,14 +326,15 @@ layui.define(['jquery','form','table','laydate'],
                         }else if(columnElement=="select"){
                             var certTypeStr;
                             if(columnValue.length>0){
-                                var columnValueArr=columnValue.split(",")
+                                var columnValueArr=columnValue.split(",");
+                                var columnValueIdArr=columnValueId.split(",");
                                 console.log(columnValueArr)
                                 certTypeStr = "<select>";
                                 $.each(columnValueArr, function(index) {
                                     if(index == 0){
-                                        certTypeStr += "<option value='"+columnValueArr[index]+"' selected>"+columnValueArr[index]+"</option>";
+                                        certTypeStr += "<option value='"+columnValueIdArr[index]+"' selected>"+columnValueArr[index]+"</option>";
                                     } else {
-                                        certTypeStr += "<option value='"+columnValueArr[index]+"'>"+columnValueArr[index]+"</option>";
+                                        certTypeStr += "<option value='"+columnValueIdArr[index]+"'>"+columnValueArr[index]+"</option>";
                                     }
                                 });
                             }else {
@@ -361,6 +364,8 @@ layui.define(['jquery','form','table','laydate'],
                             $(tbody).find("tr:last td").eq(columnNum).html(certTypeStr)
                         }else if(columnElement=="laydate"){
                             $(tbody).find("tr:last td").eq(columnNum).html("<div class='layui-table-cell'><input type='text' class='layui-input datetime inputVal' placeholder='请选择日期' style='width:92%'></div>");
+                        }else  if(columnElement=="a"){
+                            $(tbody).find("tr:last td").eq(columnNum).html(columnValue)
                         }
                     }
                 }
