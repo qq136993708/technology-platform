@@ -151,7 +151,7 @@ public class ReportViewNewController extends BaseController {
 
             //url param
             String jsonparam = request.getParameter("jsonparam");
-            request.setAttribute("jsonparam",(jsonparam==null||"".equals(jsonparam))?"":JSON.toJSONString(jsonparam));
+            request.setAttribute("jsonparam",(jsonparam==null||"".equals(jsonparam))?"":JSON.toJSONString(jsonparam.toUpperCase()));
 
         } catch (Exception e) {
             e.printStackTrace();
