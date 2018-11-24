@@ -1412,6 +1412,7 @@
 			sum(case when LEFT(SQRI,4)='2017' then 1 else 0 end) as sqsl,
 			sum(case when LEFT(SHOUQR,4)='2017' then 1 else 0 end) as shouqsl,
 			sum(case when LEFT(SHOUQR,4)='2017' and WXLX = '发明授权' then 1 else 0 end) as fmsqsl,
+			sum(case when LEFT(SHOUQR,4)='2014' and WXLX = '发明授权' then 1 else 0 end) as fmshouqsl,
 			SUBSTR(STATUS,4) as lx
 		from out_patent
 		WHERE 

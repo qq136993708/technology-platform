@@ -226,4 +226,15 @@ public interface OutProjectInfoMapper {
      * 领导二级页面，直属研究院，8个院预算金额和实际金额的统计
      */
 	public List getProjectMoneyByInstituteForLD(HashMap<String, String> map);
+	
+	/**
+     * 领导二级页面，重大项目和十条龙项目详情
+     */
+	public List getZDSTLProjectInfo(HashMap<String, String> map);
+	
+	/**
+     * 领导二级页面，重大项目和十条龙项目, 8个院中重大、十条龙项目的情况, 每一行是一个院
+     */
+	public List getZDSTLProjectCountByInstitute(HashMap<String, String> map);
+	
 }
