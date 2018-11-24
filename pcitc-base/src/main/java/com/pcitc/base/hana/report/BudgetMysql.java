@@ -26,14 +26,62 @@ public class BudgetMysql {
 	 private Object zbje;
 	 private String define2;
 	 private Object fyje;
-	 
 	 private String type_flag;
 	 private String id;
-	 
 	 private String lbName;
+	 private String unitName;
+	 private Object prezbxje;
+	 private Object prefyxje;
+	 private Object actzbxje;
+	 private Object actfyxje;
+	 private Object fyxrate;
+	 private Object zbxrate;
 	 
 	 
 	 
+	 
+	public String getUnitName() {
+		return unitName;
+	}
+	public void setUnitName(String unitName) {
+		this.unitName = unitName;
+	}
+	public Object getPrezbxje() {
+		return prezbxje;
+	}
+	public void setPrezbxje(Object prezbxje) {
+		this.prezbxje = prezbxje;
+	}
+	public Object getPrefyxje() {
+		return prefyxje;
+	}
+	public void setPrefyxje(Object prefyxje) {
+		this.prefyxje = prefyxje;
+	}
+	public Object getActzbxje() {
+		return actzbxje;
+	}
+	public void setActzbxje(Object actzbxje) {
+		this.actzbxje = actzbxje;
+	}
+	public Object getActfyxje() {
+		return actfyxje;
+	}
+	public void setActfyxje(Object actfyxje) {
+		this.actfyxje = actfyxje;
+	}
+	public Object getFyxrate() {
+		return fyxrate;
+	}
+	public void setFyxrate(Object fyxrate) {
+		this.fyxrate = fyxrate;
+	}
+	public Object getZbxrate() {
+		return zbxrate;
+	}
+	public void setZbxrate(Object zbxrate) {
+		this.zbxrate = zbxrate;
+	}
 	public String getLbName() {
 		return lbName;
 	}

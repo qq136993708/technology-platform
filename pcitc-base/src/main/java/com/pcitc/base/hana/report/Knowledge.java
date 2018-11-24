@@ -25,7 +25,37 @@ public class Knowledge {
 	private  String unitName;
 	
 	
+	private  Integer sqsl;
+	private  Integer shouqsl;
+	private String fmshouqsl;
 	
+	
+	
+	
+
+	public String getFmshouqsl() {
+		return fmshouqsl;
+	}
+
+	public void setFmshouqsl(String fmshouqsl) {
+		this.fmshouqsl = fmshouqsl;
+	}
+
+	public Integer getSqsl() {
+		return sqsl;
+	}
+
+	public void setSqsl(Integer sqsl) {
+		this.sqsl = sqsl;
+	}
+
+	public Integer getShouqsl() {
+		return shouqsl;
+	}
+
+	public void setShouqsl(Integer shouqsl) {
+		this.shouqsl = shouqsl;
+	}
 
 	public Integer getSl1() {
 		return sl1;
