@@ -46,9 +46,9 @@ import com.pcitc.web.utils.HanaUtil;
 @RequestMapping(value = "/home_ld")
 public class HomeLDController {
 	
-	private static final String GET_XFZC =      "http://pcitc-zuul/hana-proxy/hana/home_ld/getndys_xfzc";
-	private static final String GET_getDzzk = "http://pcitc-zuul/hana-proxy/hana/home_ld/getDzzk";
-	private static final String getZhuanziTableList = "http://pcitc-zuul/hana-proxy/hana/home_ld/getZhuanziTableList";
+	private static final String GET_XFZC =      "http://pcitc-zuul/hana-proxy/hana/home/getndys_xfzc";
+	private static final String GET_getDzzk = "http://pcitc-zuul/hana-proxy/hana/home/getDzzk";
+	private static final String getZhuanziTableList = "http://pcitc-zuul/hana-proxy/hana/home/getZhuanziTableList";
 	
 	@Autowired
 	private HttpHeaders httpHeaders;

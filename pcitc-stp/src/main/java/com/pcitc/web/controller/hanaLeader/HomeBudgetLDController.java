@@ -51,10 +51,10 @@ public class HomeBudgetLDController {
 	private static final String getBudgetByCountPie =      "http://pcitc-zuul/system-proxy/out-project-provider/project-money/project-type";
 	private static final String getBudgetByCountCricle =   "http://pcitc-zuul/system-proxy/out-project-provider/project-money/scope/type";
 	private static final String getBudgetByUnitBar =       "http://pcitc-zuul/system-proxy/out-project-provider/project-money/unit-type";
-	private static final String getBudgetByUnitPie =       "http://pcitc-zuul/hana-proxy/hana/home_ld/getBudgetByUnitPie";
+	private static final String getBudgetByUnitPie =       "http://pcitc-zuul/hana-proxy/hana/home/getBudgetByUnitPie";
 	private static final String getBudgetByUnitCricle =    "http://pcitc-zuul/system-proxy/out-project-provider/project-money/scope/institute";
 	private static final String getBudgetByDistributeBar = "http://pcitc-zuul/system-proxy/out-project-provider/project-money/institute";
-	private static final String getBudgetTable = "http://pcitc-zuul/hana-proxy/hana/home_ld/getBudgetTable";
+	private static final String getBudgetTable = "http://pcitc-zuul/hana-proxy/hana/home/getBudgetTable";
 	
 
 	@Autowired

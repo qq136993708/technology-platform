@@ -52,10 +52,10 @@ public class HomeDeviceLDController {
 	private static final String getDeviceByCountPie =      "http://pcitc-zuul/system-proxy/out-project-provider/project-count/zb/project-type";
 	private static final String getDeviceByCountCricle =   "http://pcitc-zuul/system-proxy/out-project-provider/project-count/zb/type/tree";
 	private static final String getDeviceByUnitBar =       "http://pcitc-zuul/system-proxy/out-project-provider/type/zb/unit/list";
-	private static final String getDeviceByUnitPie =       "http://pcitc-zuul/hana-proxy/hana/home_ld/getDeviceByUnitPie";
+	private static final String getDeviceByUnitPie =       "http://pcitc-zuul/hana-proxy/hana/home/getDeviceByUnitPie";
 	private static final String getDeviceByUnitCricle =    "http://pcitc-zuul/system-proxy/out-project-provider/project-count/zb/unit/tree";
 	private static final String getDeviceByDistributeBar = "http://pcitc-zuul/system-proxy/out-project-provider/project-info/zb/unit";
-	private static final String getDeviceTable = "http://pcitc-zuul/hana-proxy/hana/home_ld/getDeviceTable";
+	private static final String getDeviceTable = "http://pcitc-zuul/hana-proxy/hana/home/getDeviceTable";
 	
 	
 	@Autowired

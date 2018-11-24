@@ -49,7 +49,7 @@ public class HomeProjectDirectController {
 	private static final String getProjectByCountCricle =   "http://pcitc-zuul/system-proxy/out-project-provider/ld/project-count/type/tree";
 	private static final String getProjectByUnitCricle =    "http://pcitc-zuul/system-proxy/out-project-provider/ld/project-count/unit/tree";
 	private static final String getProjectByDistributeBar = "http://pcitc-zuul/system-proxy/out-project-provider/ld/project-info/unit";
-	private static final String getProjectTable = "http://pcitc-zuul/hana-proxy/hana/home_ld/getProjectTable";
+	private static final String getProjectTable = "http://pcitc-zuul/hana-proxy/hana/home/getProjectTable";
 	private static final String getProjectByUnitBar =       "http://pcitc-zuul/system-proxy/out-project-provider/ld/type/unit/list";
 
 	
