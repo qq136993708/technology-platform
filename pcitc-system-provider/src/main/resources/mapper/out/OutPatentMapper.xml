@@ -1406,7 +1406,18 @@
 		WHERE SHENQR like '%大学%' and flztyj = '有效' and flztej = '授权'
 	</select>
 
-
+	<!-- 领导二级页面，直属研究院，8个院专利申请、授权、发明专利数量 -->
+	<select id="getPatentTypeCountByInstituteForLD" resultType="java.util.Map" parameterType="java.lang.String">
+		select
+			sum(case when LEFT(SQRI,4)='2017' then 1 else 0 end) as sqsl,
+			sum(case when LEFT(SHOUQR,4)='2017' then 1 else 0 end) as shouqsl,
+			sum(case when LEFT(SHOUQR,4)='2017' and WXLX = '发明授权' then 1 else 0 end) as fmsqsl,
+			SUBSTR(STATUS,4) as lx
+		from out_patent
+		WHERE 
+			STATUS is not null and FLZTYJ = '有效'
+		GROUP BY SUBSTR(STATUS,4)
+	</select>
 
 
 </mapper>

@@ -222,5 +222,8 @@ public interface OutProjectInfoMapper {
      */
 	public List getOfficeMoneyWithYS(HashMap<String, String> map);
 	
-	
+	/**
+     * 领导二级页面，直属研究院，8个院预算金额和实际金额的统计
+     */
+	public List getProjectMoneyByInstituteForLD(HashMap<String, String> map);
 }
