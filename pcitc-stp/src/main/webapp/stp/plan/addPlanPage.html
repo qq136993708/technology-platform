@@ -1,93 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-	<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
-	<link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()" media="all">
-	<script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="/layuiadmin/ztree/css/metroStyle/metroStyle.css">
-	<script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.all.js"></script>
-	<script type="text/javascript" src="/layuiadmin/modules/selectTree.js?v=9"></script>
-	<script src="/layuiadmin/layui/layui.js"></script>
-	<script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()" media="all">
+    <script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/ztree/css/metroStyle/metroStyle.css">
+    <script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.all.js"></script>
+    <script type="text/javascript" src="/layuiadmin/modules/selectTree.js?v=9"></script>
+    <script src="/layuiadmin/layui/layui.js"></script>
+    <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
 </head>
 <body>
 <div class="form_tableAdd_container">
-	<form id="workOrderForm" action="" lay-filter="functiongroup-form" class="form-horizontal layui-form">
-		<div class="formBox">
-			<div class="tableToolBox">
-				<div class="tableBtns">
-					<div class="tableTitle">基本信息<span class="red">（标*号为必填项）</span>
-					</div>
-				</div>
-			</div>
-			<div class="box-body">
-				<input type="hidden" id="dataId" name="dataId" value="${dataId}"/>
-				<input type="hidden" id="workOrderAllotUserId" name="workOrderAllotUserId"/>
-				<div class="layui-row">
-					<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-						<div class="layui-form-item">
-							<label class="layui-form-label">标题:<span class="must-fill">*</span></label>
-							<div class="layui-input-block">
-								<input class="layui-input readOnlyBox" name="workOrderName" id="workOrderName" lay-verify="title" readonly="readonly"
-									   placeholder="请输入标题" autocomplete="off" type="text">
-							</div>
-						</div>
-					</div>
-					<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-						<div class="layui-form-item">
-							<label for="" class="layui-form-label">创建单位<span class="must-fill">*</span></label>
-							<div class="layui-input-block">
-								<input readonly="readonly" class="layui-input readOnlyBox" name="redactUnitName"
-									   id="redactUnitName" lay-verify="required" value="${unitName}" autocomplete="off"
-									   type="text">
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="layui-row">
-					<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-						<div class="layui-form-item">
-							<label class="layui-form-label">类型:<span class="must-fill">*</span></label>
-							<div class="layui-input-block">
-								<select id="workOrderType" name="workOrderType" lay-filter="select_filter" disabled="disabled"
-										lay-search></select>
-							</div>
-						</div>
-					</div>
-					<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-						<div class="layui-form-item">
-							<label for="" class="layui-form-label">处理人<span class="must-fill">*</span></label>
-							<div class="layui-input-block">
-								<input class="layui-input readOnlyBox" name="workOrderAllotUserName" id="workOrderAllotUserName"
-									   placeholder="请选择处理人" readOnly="true" autocomplete="off" type="text">
-								<!--<input class="layui-input" name="workOrderAllotUserName" id="workOrderAllotUserName" lay-verify="title" placeholder="请选择处理人" readOnly="true" autocomplete="off" type="text">-->
-							</div>
-						</div>
-					</div>
+    <form id="workOrderForm" action="" lay-filter="functiongroup-form" class="form-horizontal layui-form">
+        <div class="formBox">
+            <div class="tableToolBox">
+                <div class="tableBtns">
+                    <div class="tableTitle">基本信息<span class="red">（标*号为必填项）</span>
+                    </div>
+                </div>
+            </div>
+            <div class="box-body">
+                <input type="hidden" id="dataId" name="dataId" value="${dataId}"/>
+                <input type="hidden" id="workOrderAllotUserId" name="workOrderAllotUserId"/>
+                <div class="layui-row">
+                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">标题:<span class="must-fill">*</span></label>
+                            <div class="layui-input-block">
+                                <input class="layui-input" name="workOrderName" id="workOrderName" lay-verify="title"
+                                       placeholder="请输入标题" autocomplete="off" type="text">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                        <div class="layui-form-item">
+                            <label for="" class="layui-form-label">创建单位<span class="must-fill">*</span></label>
+                            <div class="layui-input-block">
+                                <input readonly="readonly" class="layui-input readOnlyBox" name="redactUnitName"
+                                       id="redactUnitName" lay-verify="required" value="${unitName}" autocomplete="off"
+                                       type="text">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-row">
+                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">类型:<span class="must-fill">*</span></label>
+                            <div class="layui-input-block">
+                                <select id="workOrderType" name="workOrderType" lay-filter="select_filter"
+                                        lay-search></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                        <div class="layui-form-item">
+                            <label for="" class="layui-form-label">处理人<span class="must-fill">*</span></label>
+                            <div class="layui-input-block">
+                                <input class="layui-input" name="workOrderAllotUserName" id="workOrderAllotUserName"
+                                       placeholder="请选择处理人" readOnly="true" autocomplete="off" type="text">
+                                <!--<input class="layui-input" name="workOrderAllotUserName" id="workOrderAllotUserName" lay-verify="title" placeholder="请选择处理人" readOnly="true" autocomplete="off" type="text">-->
+                            </div>
+                        </div>
+                    </div>
 
-					<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-						<div class="layui-form-item">
-							<label for="" class="layui-form-label">完成比例<span class="must-fill">*</span></label>
-							<div class="layui-input-block">
-								<input class="layui-input readOnlyBox" name="bl" id="bl"
-									   placeholder="完成比例" autocomplete="off" type="text">
-							</div>
-						</div>
-					</div>
-
-					<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-						<div class="layui-form-item">
-							<label for="" class="layui-form-label">转发<span class="must-fill">*</span></label>
-							<div class="layui-input-block">
-								<input class="layui-input readOnlyBox" name="bak3" id="bak3"
-									   placeholder="" autocomplete="off" type="text">
-							</div>
-						</div>
-					</div>
-					<!-- <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                        <div class="layui-form-item">
+                            <label for="" class="layui-form-label">完成比例<span class="must-fill">*</span></label>
+                            <div class="layui-input-block">
+                                <input class="layui-input" name="bl" id="bl"
+                                       placeholder="完成比例" autocomplete="off" type="text">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                           <div class="layui-form-item">
                             <label class="layui-form-label">状态:<span class="must-fill">*</span></label>
                                <div class="layui-input-block">
@@ -95,11 +85,11 @@
                             </div>
                          </div>
                        </div> -->
-				</div>
-				<!-- <div class="layui-row">
+                </div>
+                <!-- <div class="layui-row">
 
                 </div> -->
-				<!-- <div class="layui-row">
+                <!-- <div class="layui-row">
                     <div class="layui-form-item">
                         <label class="layui-form-label">描述</label>
                         <div class="layui-input-block">
@@ -109,59 +99,63 @@
                         </div>
                     </div>
                 </div> -->
-			</div>
-		</div>
-		<div class="tableBox">
-			<div class="tableToolBox">
-				<div class="tableTitle">事项列表<span class="red">（请输入至少一项）</span>
-				</div>
-				<!--<div class="tableBtns">-->
-					<!--<a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg"-->
-					   <!--data-type="addMatter" id="addMatter">新建-->
-					<!--</a>-->
-					<!--<a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"-->
-					   <!--data-type="deleteMatter" id="deleteMatter">删除-->
-					<!--</a>-->
-					<!--<span class="pullBtn active"></span>-->
-				<!--</div>-->
-			</div>
-			<div style="display: block;" class="panel" id="matterTableDiv">
-				<table id="matterTalbe" class="layui-table" lay-filter="tableData">
-				</table>
-			</div>
-		</div>
-		<div class="tableBox">
-			<div class="tableToolBox">
-				<div class="layui-form-item">
-					<input type="hidden" name="attachId" id="attachId" value="${dataId}">
-					<div id="file_upload">
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="form-bottom">
-			<div class="form-bottom-btns">
-				<!--<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue"-->
-						<!--lay-submit="" lay-filter="save">保存-->
-				<!--</button>-->
-				<!--<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue"-->
-						<!--lay-submit="" lay-filter="component-form-submit">下发-->
-				<!--</button>-->
-				<button type="button"
-						class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white"
-						id="closeBtn">关闭
-				</button>
-			</div>
-		</div>
-	</form>
+            </div>
+        </div>
+        <div class="tableBox">
+            <div class="tableToolBox">
+                <div class="tableTitle">事项列表<span class="red">（请输入至少一项）</span>
+                </div>
+                <div class="tableBtns">
+                    <a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg"
+                       data-type="addMatter" id="addMatter">新建
+                    </a>
+                    <a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"
+                       data-type="deleteMatter" id="deleteMatter">删除
+                    </a>
+                    <span class="pullBtn active"></span>
+                </div>
+            </div>
+            <div style="display: block;" class="panel" id="matterTableDiv">
+                <table id="matterTalbe" class="layui-table" lay-filter="tableData">
+                </table>
+            </div>
+        </div>
+        <div class="tableBox">
+            <div class="tableToolBox">
+                <div class="layui-form-item">
+                    <input type="hidden" name="attachId" id="attachId" value="${dataId}">
+                    <div id="file_upload">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-bottom">
+            <div class="form-bottom-btns">
+                <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue"
+                        lay-submit="" lay-filter="save">保存
+                </button>
+                <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue"
+                        lay-submit="" lay-filter="component-form-submit">下发
+                </button>
+                <button type="button"
+                        class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white"
+                        id="closeBtn">关闭
+                </button>
+            </div>
+        </div>
+    </form>
 </div>
+<script type="text/html" id="showDetail">
+    <a class="layui-btn layui-btn-xs" lay-event="showDetail">查看反馈</a>
+</script>
+
 <script>
 
     var param = JSON.parse(window.localStorage.getItem("param"));
     var file_opt_flag = param.id;
     var i = 1;
     var file_ids = "dataId";
-    var file_edit_detail = "detail";
+    var file_edit_detail = "edit";
     var selectData = "";
     var $;
     var publicMethods;
@@ -183,7 +177,6 @@
         });
         publicMethods = layui.publicMethods,
             form.render(null, 'component-form-group');
-
         function setWelder(selectData) {
             $('#workOrderAllotUserId').val(selectData.userId);
             $('#workOrderAllotUserName').val(selectData.userDisp);
@@ -191,7 +184,7 @@
 
         window.setWelder = setWelder;
         var dataStatus = 0;
-
+        console.log($('#workOrderAllotUserId').val)
         //显示文件上传部分
         $("#file_upload").load('/common/public/uploadlayuiload.html');
         form.verify({
@@ -294,20 +287,20 @@
             });
             return false;
         });
-        // $('#workOrderAllotUserName').click(function () {
-        //     layer.open({
-        //         title: "<span>选择处理人</span>",
-        //         skin: 'layui-layer-lan',
-        //         shadeClose: true,
-        //         type: 2,
-        //         fixed: false,
-        //         //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-        //         maxmin: true,
-        //         //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-        //         area: ['90%', '90%'],
-        //         content: '/plan/pageSelectUser'
-        //     });
-        // })
+        $('#workOrderAllotUserName').click(function () {
+            layer.open({
+                title: "<span>选择处理人</span>",
+                skin: 'layui-layer-lan',
+                shadeClose: true,
+                type: 2,
+                fixed: false,
+                //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                maxmin: true,
+                //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                area: ['90%', '90%'],
+                content: '/plan/pageSelectUser'
+            });
+        })
         form.on('submit(component-form-submit)', function (data) {
             var sthTrArr = [];
             JSON.stringify(data.field);
@@ -392,27 +385,31 @@
             cols: [[
                 {type: 'checkbox'},
                 {title: '序号', type: 'numbers'},
-                {field: 'dataId', title: '主键',  style: 'cursor: pointer;'},
-                {field: 'workOrderName', title: '事项内容',  style: 'cursor: pointer;'},
+                {field: 'dataId', title: '主键', event: 'setActive', style: 'cursor: pointer;', edit: true},
+                {field: 'workOrderName', title: '事项内容', event: 'setActive', style: 'cursor: pointer;', edit: true},
                 {
                     field: 'workOrderAllotUserName',
                     title: '处理人',
-
+                    event: 'setActive',
                     style: 'cursor: pointer;',
                     edit: true
                 },
                 {
                     field: 'workOrderAllotUserId',
                     title: '处理人ID',
-
+                    event: 'setActive',
                     style: 'cursor: pointer;',
                     edit: true
                 },
-                {field: 'bl', title: '比例',  style: 'cursor: pointer;'},
-                {field: 'jsId', title: '接收人',  style: 'cursor: pointer;'}
+                {field: 'bl', title: '比例', event: 'setActive', style: 'cursor: pointer;', edit: true},
+                {field: 'jsId', title: '接收人', event: 'setActive', style: 'cursor: pointer;', edit: true}
+                ,{fixed: 'right', title:'查看', toolbar: '#showDetail', width:150}
+
             ]],
             done: function (res, curr, count) {
-
+                $(".layui-table").css("width","100%");
+                $("[data-field='dataId']").hide();
+                $("[data-field='jsId']").hide();
             }
 
         });
@@ -421,10 +418,33 @@
             var trParam = {
                 "id": "matterTableDiv",
                 "number": 8,
-                "specialElement": []
+                "specialElement": [
+                    {hide:true,"column":2,"element":"input"},
+                    {"column":4,"element":"select","value":$("#workOrderAllotUserName").val()},
+                    {"column":5,"element":"input","value":$("#workOrderAllotUserId").val()},
+                    {hide:true,"column":7,"element":"input"}
+                ]
             };
             console.log(trParam);
             publicMethods.addTableTr(trParam);
+        });
+        //监听行工具事件
+        table.on('tool(tableData)', function(obj){
+            var data = obj.data;
+            if(obj.event === 'showDetail'){
+                layer.open({
+                    title:"任务反馈",
+                    skin: 'layui-layer-lan',
+                    shadeClose: false,
+                    type: 2,
+                    fixed: false,
+                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                    maxmin: true,
+                    //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                    area: ['70%','90%'],
+                    content: '/plan/my/viewPlanDetail?dataId='+data.dataId
+                });
+            }
         });
         //动态移除事项
         $("#deleteMatter").click(function () {

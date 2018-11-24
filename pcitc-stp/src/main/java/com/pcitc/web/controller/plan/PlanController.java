@@ -49,6 +49,8 @@ public class PlanController extends BaseController {
 
     //批量保存任务
     private static final String SAVE_PLAN_BASE_BATCH = "http://pcitc-zuul/system-proxy/PlanClient-provider/savePlanBaseBatch";
+    //转发修改子节点
+    private static final String SAVE_PLAN_BASE_BATCHZF = "http://pcitc-zuul/system-proxy/PlanClient-provider/savePlanBaseBatchZf";
     // 查看工单事项集合
     private static final String VIEW_BOT_WORK_ORDER_MATTER_LIST = "http://pcitc-zuul/system-proxy/PlanClient-provider/queryBotWorkOrderMatterList";
 
@@ -165,11 +167,11 @@ public class PlanController extends BaseController {
     /**
      * 跳转至列表页
      */
-    @RequestMapping(method = RequestMethod.GET, value = "/goBotWorkOrderListPage")
-    private String goBotWorkOrderListPage(HttpServletRequest request) {
+    @RequestMapping(method = RequestMethod.GET, value = "/pagePlanList")
+    private String pagePlanList(HttpServletRequest request) {
         basePath = request.getContextPath();
         request.setAttribute("basePath", basePath);
-        return "stp/plan/botWorkOrderList";
+        return "stp/plan/listPlanPage";
     }
 
     /**
@@ -193,8 +195,8 @@ public class PlanController extends BaseController {
     /**
      * 新建工单管理
      */
-    @RequestMapping(value = "/goAddBotWorkOrder")
-    public String goAddBotWorkOrder(HttpServletRequest request) {
+    @RequestMapping(value = "/addPlanPage")
+    public String pageAddPlan(HttpServletRequest request) {
         Object dataId = request.getParameter("dataId");
         String flag = "edit";
         if (dataId == null || "".equals(dataId)) {
@@ -205,7 +207,25 @@ public class PlanController extends BaseController {
         request.setAttribute("dataId", dataId);
         request.setAttribute("userName", sysUserInfo.getUserDisp());
         request.setAttribute("unitName", sysUserInfo.getUnitName());
-        return "stp/plan/botWorkOrderAdd";
+        return "stp/plan/addPlanPage";
+    }
+
+    /**
+     * 新建工单管理
+     */
+    @RequestMapping(value = "/PageEditPlanBase")
+    public String goEditPlanBasePage(HttpServletRequest request) {
+        Object dataId = request.getParameter("dataId");
+        String flag = "edit";
+        if (dataId == null || "".equals(dataId)) {
+            dataId = UUID.randomUUID().toString().replace("-", "");
+            flag = "add";
+        }
+        request.setAttribute("flag", flag);
+        request.setAttribute("dataId", dataId);
+        request.setAttribute("userName", sysUserInfo.getUserDisp());
+        request.setAttribute("unitName", sysUserInfo.getUnitName());
+        return "stp/plan/pageEditPlanBase";
     }
 
     @RequestMapping(value = "/goTablePlanDetailList")
@@ -230,7 +250,7 @@ public class PlanController extends BaseController {
         return "stp/plan/botWorkOrderAddZp";
     }
 
-    @RequestMapping(value = "/goAddBotWorkOrderZf")
+    @RequestMapping(value = "/toPageZfPlan")
     public String goAddBotWorkOrderZf(HttpServletRequest request) {
         Object dataId = request.getParameter("dataId");
         String flag = "edit";
@@ -242,7 +262,7 @@ public class PlanController extends BaseController {
         request.setAttribute("dataId", dataId);
         request.setAttribute("userName", sysUserInfo.getUserDisp());
         request.setAttribute("unitName", sysUserInfo.getUnitName());
-        return "stp/plan/botWorkOrderAddZf";
+        return "stp/plan/zf_plan_edit_page";
     }
 
     /**
@@ -359,9 +379,9 @@ public class PlanController extends BaseController {
      * @param request
      * @return
      */
-    @RequestMapping(value = "/deleteBotWorkOrder")
+    @RequestMapping(value = "/deletePlan")
     @ResponseBody
-    public int deleteBotWorkOrder(HttpServletRequest request) {
+    public int deletePlan(HttpServletRequest request) {
         String id = request.getParameter("ids");
         ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(DELETE_BOT_WORK_ORDER + id, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), Integer.class);
         int result = responseEntity.getBody();
@@ -371,21 +391,21 @@ public class PlanController extends BaseController {
     /**
      * 跳转至修改工单管理页面
      */
-    @RequestMapping(value = "/goEditBotWorkOrder")
+    @RequestMapping(value = "/pagePlanDo")
     public String goEditBotWorkOrder(HttpServletRequest request) {
         request.setAttribute("userName", sysUserInfo.getUserDisp());
         request.setAttribute("unitName", sysUserInfo.getUnitName());
         request.setAttribute("dataId", request.getParameter("dataId"));
-        return "stp/plan/botWorkOrderEdit";
+        return "stp/plan/do_plan_edit_page";
     }
 
     /**
      * 跳转至查看工单管理页面
      */
-    @RequestMapping(value = "/goViewBotWorkOrder")
-    public String goViewBotWorkOrder(HttpServletRequest request) {
+    @RequestMapping(value = "/viewPlanPage")
+    public String viewPlanPage(HttpServletRequest request) {
         request.setAttribute("dataId", request.getParameter("dataId"));
-        return "stp/plan/botWorkOrderView";
+        return "stp/plan/viewPlanPage";
     }
 
     /**
@@ -440,6 +460,7 @@ public class PlanController extends BaseController {
                 planBase.setBl("");
                 planBase.setWorkOrderType(wjbvo.getWorkOrderType());
                 planBase.setRedactUnitName(wjbvo.getRedactUnitName());
+                planBase.setCreateDate(DateUtil.dateToStr(new Date(),DateUtil.FMT_SS));
 //                Object objJsrId = detail.get("jsId");
 //                if (objJsrId != null && !"".equals(objJsrId)) {//
 //                    planBase.setJsId(objJsrId.toString());//指派给他人
@@ -504,6 +525,7 @@ public class PlanController extends BaseController {
         wjbvo.setWorkOrderName("(已转发)"+workOrderName);
         wjbvo.setBak5("0");//0:转发
         wjbvo.setZpName(newDataId);
+        wjbvo.setWorkOrderStatus("2");//转发状态设为2,完成
         HttpEntity<PlanBase> entity = new HttpEntity<PlanBase>(wjbvo, this.httpHeaders);
         ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(EDIT_BOT_WORK_ORDER, HttpMethod.POST, entity, Integer.class);
         int result = responseEntity.getBody();
@@ -520,49 +542,35 @@ public class PlanController extends BaseController {
         wjbvoOld.setWorkOrderType(wjbvo.getWorkOrderType());
         wjbvoOld.setDataId(newDataId);
         wjbvoOld.setJsId(wjbvo.getDataId());
-        wjbvoOld.setCreateUser(sysUserInfo.getUserId());
-        wjbvoOld.setCreateUserName(sysUserInfo.getUserName());
+//        wjbvoOld.setCreateUser(sysUserInfo.getUserId());
+//        wjbvoOld.setCreateUserName(sysUserInfo.getUserName());
         wjbvoOld.setCreateDate(DateUtil.dateToStr(new Date(), DateUtil.FMT_SS));
         HttpEntity<PlanBase> entityNew = new HttpEntity<PlanBase>(wjbvoOld, this.httpHeaders);
         ResponseEntity<Integer> responseEntityNew = this.restTemplate.exchange(SAVE_BOT_WORK_ORDER, HttpMethod.POST, entityNew, Integer.class);
-
 
 
         List<PlanBase> baseList = new ArrayList<PlanBase>();
         if (jsStr.containsKey("matterList")) {
             JSONArray array = jsStr.getJSONArray("matterList");
             for (int i = 0; i < array.size(); i++) {
+                //转发
+                //子项:改为修改
                 //取值赋给PlanBase
                 JSONObject detail = array.getJSONObject(i);
                 PlanBase planBase = JSONObject.toJavaObject((JSON) JSON.toJSON(detail), PlanBase.class);
-                System.out.println("planBase = " + planBase);
-                planBase.setParentId(wjbvo.getDataId());
+                planBase.setParentId(newDataId);
                 planBase.setDataId("".equals(detail.get("dataId")) ? UUID.randomUUID().toString().replace("-", "") : detail.get("dataId").toString());
                 planBase.setWorkOrderStatus("1");
                 planBase.setDelFlag("0");
                 planBase.setBl("");
                 planBase.setWorkOrderType(wjbvo.getWorkOrderType());
                 planBase.setRedactUnitName(wjbvo.getRedactUnitName());
-                Object objJsrId = detail.get("jsId");
-//                if (objJsrId != null && !"".equals(objJsrId)) {//
-//                    planBase.setJsId(objJsrId.toString());//指派给他人
-//                    //指派给他人,新增一条数据
-//                    PlanBase planBaseZp = new PlanBase();
-//                    planBaseZp.setWorkOrderName(planBase.getRemarks());
-//                    planBaseZp.setParentId(planBase.getDataId());
-//                    planBaseZp.setBl("");
-//                    planBaseZp.setDataId(UUID.randomUUID().toString().replace("-", ""));
-//                    planBaseZp.setWorkOrderAllotUserName(objJsrId.toString());//当前节点处理人
-//                    planBaseZp.setWorkOrderStatus("0");
-//                    planBaseZp.setDelFlag("0");
-//                    baseList.add(planBaseZp);
-//                }
+                planBase.setCreateDate(DateUtil.dateToStr(new Date(), DateUtil.FMT_SS));
                 baseList.add(planBase);
             }
         }
-
         HttpEntity<List<PlanBase>> entityList = new HttpEntity<List<PlanBase>>(baseList, this.httpHeaders);
-        ResponseEntity<Integer> responseEntityList = this.restTemplate.exchange(SAVE_PLAN_BASE_BATCH, HttpMethod.POST, entityList, Integer.class);
+        ResponseEntity<Integer> responseEntityList = this.restTemplate.exchange(SAVE_PLAN_BASE_BATCHZF, HttpMethod.POST, entityList, Integer.class);
 
         try {
             CommonUtil.updateFileFlag(restTemplate, httpHeaders, wjbvo.getDataId());
@@ -604,7 +612,7 @@ public class PlanController extends BaseController {
     private String goMyBotWorkOrderListPage(HttpServletRequest request) {
         basePath = request.getContextPath();
         request.setAttribute("basePath", basePath);
-        return "stp/plan/my/botWorkOrderList";
+        return "stp/plan/my/listMyPlan";
     }
 
     /**
@@ -630,19 +638,19 @@ public class PlanController extends BaseController {
     /**
      * 跳转至完成我的工单管理页面
      */
-    @RequestMapping(value = "/my/goEditBotWorkOrder")
+    @RequestMapping(value = "/my/goEditPlanDetail")
     public String goMyEditBotWorkOrder(HttpServletRequest request) {
         request.setAttribute("dataId", request.getParameter("dataId"));
-        return "stp/plan/my/botWorkOrderEdit";
+        return "stp/plan/my/do_plan_edit_page";
     }
 
     /**
      * 跳转至查看我的工单管理页面
      */
-    @RequestMapping(value = "/my/goViewBotWorkOrder")
+    @RequestMapping(value = "/my/viewPlanDetail")
     public String goMyViewBotWorkOrder(HttpServletRequest request) {
         request.setAttribute("dataId", request.getParameter("dataId"));
-        return "stp/plan/my/botWorkOrderView";
+        return "stp/plan/my/viewPlanDetail";
     }
 
     /**
@@ -671,8 +679,8 @@ public class PlanController extends BaseController {
         //jsStr.put("dataCode", code);
         jsStr.put("auditSts", "0");
         jsStr.put("createDate", DateUtil.dateToStr(new Date(), DateUtil.FMT_SS));
-        jsStr.put("createUser", sysUserInfo.getUserId());
-        jsStr.put("createUserName", sysUserInfo.getUserDisp());
+//        jsStr.put("createUser", sysUserInfo.getUserId());
+//        jsStr.put("createUserName", sysUserInfo.getUserDisp());
         jsStr.put("dataOrder", new Date().getTime() + "");
         jsStr.put("updateDate", DateUtil.dateToStr(new Date(), DateUtil.FMT_SS));
         jsStr.put("updateUser", sysUserInfo.getUserId());

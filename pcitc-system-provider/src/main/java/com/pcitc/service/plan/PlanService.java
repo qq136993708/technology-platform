@@ -31,6 +31,8 @@ public interface PlanService {
 
 	int savePlanBaseBatch(List<PlanBase> list);
 
+	int savePlanBaseBatchZf(List<PlanBase> list);
+
 	int deleteBotWorkOrderMatter(String id);
 
 	int editBotWorkOrderMatter(PlanBaseDetail vo);

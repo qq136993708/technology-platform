@@ -26,14 +26,13 @@
             <div class="box-body">
                 <input type="hidden" id="dataId" name="dataId" value="${dataId}"/>
                 <input type="hidden" id="workOrderAllotUserId" name="workOrderAllotUserId"/>
-                <input type="hidden" id="bak2" name="bak2"/>
                 <div class="layui-row">
                     <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                         <div class="layui-form-item">
-                            <label class="layui-form-label">工单标题:<span class="must-fill">*</span></label>
+                            <label class="layui-form-label">标题:<span class="must-fill">*</span></label>
                             <div class="layui-input-block">
                                 <input class="layui-input" name="workOrderName" id="workOrderName" lay-verify="title"
-                                       placeholder="请输入工单标题" autocomplete="off" type="text">
+                                       placeholder="请输入标题" autocomplete="off" type="text">
                             </div>
                         </div>
                     </div>
@@ -51,7 +50,7 @@
                 <div class="layui-row">
                     <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                         <div class="layui-form-item">
-                            <label class="layui-form-label">工单类型:<span class="must-fill">*</span></label>
+                            <label class="layui-form-label">类型:<span class="must-fill">*</span></label>
                             <div class="layui-input-block">
                                 <select id="workOrderType" name="workOrderType" lay-filter="select_filter"
                                         lay-search></select>
@@ -78,18 +77,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-                        <div class="layui-form-item">
-                            <label for="" class="layui-form-label">转发<span class="must-fill">*</span></label>
-                            <div class="layui-input-block">
-                                <input class="layui-input" name="bak3" id="bak3"
-                                       placeholder="转发给他人" autocomplete="off" type="text">
-                            </div>
-                        </div>
-                    </div>
                     <!-- <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                           <div class="layui-form-item">
-                            <label class="layui-form-label">工单状态:<span class="must-fill">*</span></label>
+                            <label class="layui-form-label">状态:<span class="must-fill">*</span></label>
                                <div class="layui-input-block">
                                    <select id="workOrderStatus" name="workOrderStatus" lay-filter="select_filter" lay-search></select>
                             </div>
@@ -116,12 +106,12 @@
                 <div class="tableTitle">事项列表<span class="red">（请输入至少一项）</span>
                 </div>
                 <div class="tableBtns">
-                    <!--<a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg"-->
-                       <!--data-type="addMatter" id="addMatter">新建-->
-                    <!--</a>-->
-                    <!--<a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"-->
-                       <!--data-type="deleteMatter" id="deleteMatter">删除-->
-                    <!--</a>-->
+                    <a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg"
+                       data-type="addMatter" id="addMatter">新建
+                    </a>
+                    <a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"
+                       data-type="deleteMatter" id="deleteMatter">删除
+                    </a>
                     <span class="pullBtn active"></span>
                 </div>
             </div>
@@ -144,9 +134,9 @@
                 <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue"
                         lay-submit="" lay-filter="save">保存
                 </button>
-                <!--<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue"-->
-                        <!--lay-submit="" lay-filter="component-form-submit">下发-->
-                <!--</button>-->
+                <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue"
+                        lay-submit="" lay-filter="component-form-submit">下发
+                </button>
                 <button type="button"
                         class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white"
                         id="closeBtn">关闭
@@ -155,6 +145,9 @@
         </div>
     </form>
 </div>
+<script type="text/html" id="showDetail">
+    <a class="layui-btn layui-btn-xs" lay-event="showDetail">查看反馈</a>
+</script>
 <script>
 
     var param = JSON.parse(window.localStorage.getItem("param"));
@@ -185,8 +178,8 @@
             form.render(null, 'component-form-group');
 
         function setWelder(selectData) {
-            $('#bak2').val(selectData.userId);
-            $('#bak3').val(selectData.userDisp);
+            $('#workOrderAllotUserId').val(selectData.userId);
+            $('#workOrderAllotUserName').val(selectData.userDisp);
         }
 
         window.setWelder = setWelder;
@@ -238,7 +231,7 @@
         /* 监听保存 */
         var url = '/plan/saveBotWorkOrder';
         if ('${flag}' == "edit") {
-            url = "/plan/editBotWorkOrderZf";
+            url = "/plan/editBotWorkOrder";
             dataStatus = 1;
         }
         form.on('submit(save)', function (data) {
@@ -280,7 +273,7 @@
                 success: function (data) {
                     if (data == 200) {
                         var index = parent.layer.getFrameIndex(window.name);
-                        url = '/plan/editBotWorkOrderZf';
+                        url = '/plan/editBotWorkOrder';
                         dataStatus = 1;
 
                         parent.layer.msg("保存成功");
@@ -294,9 +287,9 @@
             });
             return false;
         });
-        $('#bak3').click(function () {
+        $('#workOrderAllotUserName').click(function () {
             layer.open({
-                title: "<span>选择接收人</span>",
+                title: "<span>选择处理人</span>",
                 skin: 'layui-layer-lan',
                 shadeClose: true,
                 type: 2,
@@ -372,6 +365,7 @@
             url: '/plan/viewBotWorkOrder?dataId=' + dataId,
             success: function (data) {
                 dataJson = JSON.parse(JSON.stringify(data));
+                console.log(dataJson);
                 enhance.filling(dataJson);
                 selectData = data;
                 //$("#jobContent").val(data.jobContent);
@@ -409,12 +403,33 @@
                 },
                 {field: 'bl', title: '比例', event: 'setActive', style: 'cursor: pointer;', edit: true},
                 {field: 'jsId', title: '接收人', event: 'setActive', style: 'cursor: pointer;', edit: true}
+                ,{fixed: 'right', title:'查看', toolbar: '#showDetail', width:150}
             ]],
             done: function (res, curr, count) {
 
             }
 
         });
+
+        //监听行工具事件
+        table.on('tool(tableData)', function(obj){
+            var data = obj.data;
+            if(obj.event === 'showDetail'){
+                layer.open({
+                    title:"任务反馈",
+                    skin: 'layui-layer-lan',
+                    shadeClose: false,
+                    type: 2,
+                    fixed: false,
+                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                    maxmin: true,
+                    //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                    area: ['90%','90%'],
+                    content: '/plan/my/goViewBotWorkOrder?dataId='+data.dataId
+                });
+            }
+        });
+
         //动态添加事项
         $('#addMatter').click(function () {
             var trParam = {

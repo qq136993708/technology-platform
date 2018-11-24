@@ -337,17 +337,17 @@
             cols: [[
                 {type: 'checkbox'},
                 {title: '序号', type: 'numbers'},
-                {field: 'dataId', title: '主键', event: 'setActive', style: 'cursor: pointer;', edit: true},
-                {field: 'workOrderName', title: '事项内容', event: 'setActive', style: 'cursor: pointer;', edit: true},
+                {field: 'dataId', title: '主键', event: 'setActive', style: 'cursor: pointer;'},
+                {field: 'workOrderName', title: '事项内容',  style: 'cursor: pointer;'},
                 {
                     field: 'workOrderAllotUserName',
                     title: '处理人',
-                    event: 'setActive',
-                    style: 'cursor: pointer;',
-                    edit: true
+                    // event: 'setActive',
+                    // style: 'cursor: pointer;',
+                    // edit: true
                 },
-                {field: 'bl', title: '比例', event: 'setActive', style: 'cursor: pointer;', edit: true},
-                {field: 'jsId', title: '接收人', event: 'setActive', style: 'cursor: pointer;', edit: true}
+                {field: 'bl', title: '比例', event: 'setActive', style: 'cursor: pointer;'},
+                {field: 'jsId', title: '接收人', event: 'setActive', style: 'cursor: pointer;'}
             ]]
         });
         table.render({
@@ -381,7 +381,9 @@
                 {field: 'dataId', title: 'id'}
             ]],
             done: function (res, curr, count) {
-                $("th[data-key=2-0-4],td[data-key=2-0-4]").hide();
+                $(".layui-table").css("width","100%");
+                $("[data-field='dataId']").hide();
+                $("[data-field='jsId']").hide();
                 $('#matterFeedBackTalbeDiv .layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
                     var tr = $('#matterFeedBackTalbeDiv .layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr");
                     var index = parseInt($(this).index());
