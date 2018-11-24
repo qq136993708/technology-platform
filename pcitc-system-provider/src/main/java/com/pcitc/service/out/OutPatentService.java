@@ -2,6 +2,7 @@ package com.pcitc.service.out;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
@@ -45,5 +46,11 @@ public interface OutPatentService {
      * 得到某个年度各专利类型在各个研究院的分布 详情页面
      */
     public LayuiTableData getTypeInfoByUnitDetails(LayuiTableParam param);
+    
+    /**
+     * @return
+     * 领导二级页面，直属研究院，8个院专利申请、授权、发明专利数量
+     */
+    public List getPatentTypeCountByInstituteForLD(Map hashmap);
 	
 }

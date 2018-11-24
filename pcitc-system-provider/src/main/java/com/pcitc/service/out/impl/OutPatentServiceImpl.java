@@ -152,4 +152,12 @@ public class OutPatentServiceImpl implements OutPatentService {
 
 		return data;
 	}
+	
+	/**
+     * @return
+     * 领导二级页面，直属研究院，8个院专利申请、授权、发明专利数量
+     */
+    public List getPatentTypeCountByInstituteForLD(Map hashmap) {
+    	return outPatentMapper.getPatentTypeCountByInstituteForLD(hashmap);
+    }
 }
