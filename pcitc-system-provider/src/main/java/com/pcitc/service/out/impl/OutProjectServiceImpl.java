@@ -443,4 +443,18 @@ public class OutProjectServiceImpl implements OutProjectService {
 	public List getProjectMoneyByInstituteForLD(HashMap<String, String> map) {
 		return outProjectInfoMapper.getProjectMoneyByInstituteForLD(map);
 	}
+	
+	/**
+     * 领导二级页面，重大项目和十条龙项目详情
+     */
+	public List getZDSTLProjectInfo(HashMap<String, String> map) {
+		return outProjectInfoMapper.getZDSTLProjectInfo(map);
+	}
+	
+	/**
+     * 领导二级页面，重大项目和十条龙项目, 8个院中重大、十条龙项目的情况, 每一行是一个院
+     */
+	public List getZDSTLProjectCountByInstitute(HashMap<String, String> map) {
+		return outProjectInfoMapper.getZDSTLProjectCountByInstitute(map);
+	}
 }

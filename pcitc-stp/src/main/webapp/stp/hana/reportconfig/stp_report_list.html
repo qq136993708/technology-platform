@@ -327,14 +327,15 @@
                 <div class="layui-tab-item layui-show" style="margin-top: 30px">
                     <label class="dateInput">
                         <span style="position: absolute;">名称:</span>
-                        <input type="text" name="storeName" id="storeName" placeholder="请输入名称" title="名称" autocomplete="off"
+                        <input type="text" name="storeName" id="storeName" placeholder="请输入名称" title="名称"
+                               autocomplete="off"
                                class="form-control equal" value="" lay-verify="required"/>
                     </label>
                 </div>
             </div>
             <div class="form-bottom">
                 <div class="form-bottom-btns">
-                    <a class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue component-form-demo" >确定</a>
+                    <a class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue component-form-demo">确定</a>
                 </div>
             </div>
         </div>
@@ -374,7 +375,10 @@
     pcitcReport.initGsdm(JSON.parse('${gsdmcode}'), JSON.parse('${gsdmname}'));
     //TO DO 初始化参数
     // {Go_xx,K0_xx,}
+    // var jsonparam = 'G0_HTH,G0_XMMC';//
     var jsonparam = '${jsonparam}';
+    console.log("-----------------");
+    console.log(jsonparam);
 </script>
 
 <script>
@@ -399,6 +403,9 @@
         pcitcReport.getStoreModel('1');
         console.log(pcitcReport.column);
         // pcitcReport.calTableWidth();
+
+
+
         treeGridCom.render({
             elem: '#treeTable'
             , id: "treeTable"
@@ -486,8 +493,8 @@
         active = {
             reload: function () {
                 pcitcReport.flag = true;
-                if(pcitcReport.getCheck()==false){
-                    return ;
+                if (pcitcReport.getCheck() == false) {
+                    return;
                 }
                 pcitcReport.storeToValue('1');//收藏赋值
                 // pcitcReport.calTableWidth();
@@ -595,7 +602,29 @@
             }
         };
 
-        $("#Collection").on('click',function () {
+        //add start
+        if (jsonparam!="") {
+            // var jsonParamArr = jsonparam.split(",");
+            $(".nowtips ul.wd_show_obj_array li").each(function () {
+                var valueG0 = $(this).find("a").attr("value");
+                if (valueG0 == undefined) {
+
+                } else if (jsonparam.indexOf(valueG0) >= 0) {
+                    $(this).find("a").click()
+                }
+            });
+            $(".hotspot-target ul.wd_show_obj_array li").each(function () {
+                var valueK0 = $(this).find("a").attr("value");
+                if (valueK0 == undefined) {
+
+                } else if (jsonparam.indexOf(valueK0) >= 0) {
+                    $(this).find("a").click()
+                }
+            });
+            active.reload();
+        }
+        //add end
+        $("#Collection").on('click', function () {
             var layerCollection = $(".layerCollection").html();
             layer.open({
                 title: "收藏",
@@ -775,7 +804,7 @@
 
             }
         });
-        var $ = layui.jquery, active = {};
+        var $ = layui.jquery; active = {};
         form.render('select', 'xData')
         $('i').on('click', function () {
             var type = $(this).data('type');
@@ -885,7 +914,7 @@
             var data = obj.data;
         });
 
-        var $ = layui.jquery, active = {
+        var $ = layui.jquery; active = {
             reloadPic: function () {
                 changePic();
                 // pcitcReport.arrayColumns_pic = pcitcReport.arrayColumns_pic.slice(0, 0);
@@ -933,6 +962,9 @@
             }
         };
     });
+</script>
+<script>
+
 </script>
 <script>
     //加载图形
