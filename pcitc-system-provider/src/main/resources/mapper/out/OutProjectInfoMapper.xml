@@ -1529,12 +1529,13 @@
 					
 				union ALL
 				SELECT SUBSTR(define2 FROM 4) as unitName,ROUND(sum(case when define1 = '资本性' then jf else 0 end),2) as zbxje,
-					    ROUND(sum(case when define1 = '费用性' then jf else 0 end),2) as fyxje,'actMoney' as showFlag,NULL
+					    ROUND(sum(case when define1 = '费用性' then jf else 0 end),2) as fyxje,'actMoney' as showFlag,SUBSTR(define2,3,1) as show_order
 				FROM out_project_info
 				WHERE
 					define2 is not NULL and nd = '2018'
 				group by define2) as tableA
-			GROUP BY unitName
+			GROUP BY unitName, show_order
+			ORDER BY show_order
 	</select>
 	
 	
