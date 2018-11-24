@@ -193,6 +193,42 @@
                     </div>
                 </div>
             </div>
+            
+            
+            
+            
+            
+            
+            
+              <div class="layui-col-md6">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        ${year}年直属研究院发明专利申请
+                        <div class="layui-tool">
+                            <button type="button" class="btn btn-tool collapse"></button>
+                            <button type="button" class="btn btn-tool remove"></button>
+                        </div>
+                    </div>
+                    <div class="layui-card-body btn-function">
+                        <div  style="height:310px;width: 100%;" id="bar02"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md6">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        ${year}年直属研究院发明专利授权
+                        <div class="layui-tool">
+                            <button type="button" class="btn btn-tool collapse"></button>
+                            <button type="button" class="btn btn-tool remove"></button>
+                        </div>
+                    </div>
+                    <div class="layui-card-body btn-function">
+                        <div  style="height:310px;width: 100%;" id="bar03"></div>
+                    </div>
+                </div>
+            </div>
+            
         
         
             
@@ -206,7 +242,8 @@
 <script type="text/javascript" src="/layuiadmin/modules/bmap.js"></script>
 <script type="text/javascript" src="/plugins/echarts/walden.js"></script>
 <script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
-<script type="text/javascript" src="/stp/hana/common/stp_common_bar.js?aa=aa"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
     <script>
     var codec=$("#companyCode").val();
     var element;
@@ -390,16 +427,15 @@
  			});
          	
          }
-        
-        
-        
+         
+         
         
         function init()
         {
         	
         	var month=$('#month').val();
-        	 var companyCode=$("#companyCode").val();
-        	 var year=$("#year").val();
+        	var companyCode=$("#companyCode").val();
+        	var year=$("#year").val();
         	var v_date=(new Date()).getTime();
         	if(month!=null && month!='')
        		{
@@ -435,6 +471,23 @@
                     }
                 ];
             	
+            	var yAxis3= [
+                    {
+                        type: 'value',
+                        name: '百分比',
+                        min: 0,
+                        max:'dataMax',
+                        position: 'left',
+                        axisLabel: {
+                        	formatter: '{value} %'
+                        }
+                    }
+                ];
+            	
+            	
+            	 
+            	 
+            	
             	//直属研究院科研课题数量分布情况分析--项目
             	var chart1_url="/home_project_ld/getProjectByDistributeBar?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
             	var data=load_mutl_bar_03(chart1_url,"bar1","","",yAxis);
@@ -443,20 +496,12 @@
             	var jzCount=getDataCountForName(data,'结转课题');
    	            var allCount=xkCount+jzCount;
    	            
-            	/* echart1.on('click', function (params){
-            		var xName=params.name;
-            		var legentName=params.seriesName;
-            		parent.layui.index.openTabsPage("/home/project-list?define2="+xName+"&project_scope="+legentName, "科研项目明细");
-                }); */
+            	
             	
               //直属研究院合同签订分析
-           	   var chart2_url="/home_budget_ld/getBudgetByDistributeBar?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
-           	   var echart2= load_mutl_bar_2(chart2_url,"bar2","","",yAxis2);
-           	   echart2.on('click', function (params){
-           			var xName=params.name;
-           			var legentName=params.seriesName;
-           			parent.layui.index.openTabsPage("/home/project-list?define2="+xName+"&project_scope="+legentName, "合同签订详情");
-           	    });
+           	   var chart2_url="/home_budget_ld/getMoney_rate?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
+           	   var echart2= load_mony_line_02(chart2_url,"bar2","","",yAxis3);
+           	   
             	   
            	   
            	//直属研究科研装备数量分析
@@ -482,20 +527,19 @@
         	
 
         	var chart7_url="/home_knowledge_ld/getKnowledgeUnitList_stack?nd="+year+"&v_date="+v_date;
-        	var echart7=load_mutl_bar_stack(chart7_url,"barOne","","",yAxis);
-        	echart7.on('click', function (params) {
-        		var xName=params.name;
-        		var legentName=params.seriesName;
-        		parent.layui.index.openTabsPage("/home_knowledge_ld/knowledge_table?project_property="+xName, "知识产权明细");
-            });
+        	var echart7=load_mutl_bar_stack_02(chart7_url,"barOne","","",yAxis);
+        	
+        	
+        	var url_8="/home_knowledge_ld/getKnowledgePie?month="+month+"&v_date="+v_date+"&type=1&companyCode="+companyCode;
+        	loadPie(url_8,"bar02","","");
+        	
+        	var url_9="/home_knowledge_ld/getKnowledgePie?month="+month+"&v_date="+v_date+"&type=2&companyCode="+companyCode;
+        	loadPie(url_9,"bar03","","");
+        	
+        	
             	
        		}
-        	
-        	
         }
-        
-        
-        
         
         
         function getDataCountForName(data,strName)
@@ -518,12 +562,8 @@
 	            	}
 	            } 
 	            return xkCount;
-        	
         }
-        
         init();
-        
      </script>
-     
 </body>
 </html>

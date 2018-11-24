@@ -1,5 +1,7 @@
 package com.pcitc.web.controller.hanaLeader;
 
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -30,6 +32,7 @@ import com.pcitc.base.common.ChartPieResultData;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
+import com.pcitc.base.hana.report.BudgetMysql;
 import com.pcitc.base.hana.report.Knowledge;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CommonUtil;
@@ -41,12 +44,20 @@ import com.pcitc.web.utils.HanaUtil;
 @RequestMapping(value = "/home_knowledge_ld")
 public class HomeKnowledgeLDController {
 	
-			
 	//知识产权
 		private static final String getKnowledgeTypeList = "http://pcitc-zuul/system-proxy/out-patent-provider/type/apply-agree-list";
-		private static final String getKnowledgeUnitList = "http://pcitc-zuul/system-proxy/out-patent-provider/institute/type-list";
+		private static final String getKnowledgeUnitList = "http://pcitc-zuul/system-proxy/out-patent-provider/ld/institute/type-count";
 		private static final String getUnitTypeList = "http://pcitc-zuul/system-proxy/out-patent-provider/unit-type/apply-agree-list";
 		private static final String getKnowledgeTable = "http://pcitc-zuul/system-proxy/out-patent-provider/type/unit/details";
+		
+		private static final String getKnowledgePie = "http://pcitc-zuul/system-proxy/out-patent-provider/ld/institute/type-count";
+		
+		
+		
+		
+		
+		
+		
 		
 	@Autowired
 	private HttpHeaders httpHeaders;
@@ -356,18 +367,15 @@ public class HomeKnowledgeLDController {
 		         		barLine.setxAxisDataList(xAxisDataList);
 		         	
 						List<String> legendDataList = new ArrayList<String>();
-						legendDataList.add("发明专利");
-						legendDataList.add("外观设计");
-						legendDataList.add("实用新型");
+						legendDataList.add("申请总数");
+						legendDataList.add("授权总数");
 						barLine.setLegendDataList(legendDataList);
 						// X轴数据
 						List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
-						ChartBarLineSeries s1 = HanaUtil.getKNOWLDGELevel2ChartBarLineSeries02(list, "fmsqsl");
+						ChartBarLineSeries s1 = HanaUtil.getKNOWLDGELevel2ChartBarLineSeries03(list, "sqsl");
 						seriesList.add(s1);
-						ChartBarLineSeries s2 = HanaUtil.getKNOWLDGELevel2ChartBarLineSeries02(list, "wgsjsl");
+						ChartBarLineSeries s2 = HanaUtil.getKNOWLDGELevel2ChartBarLineSeries03(list, "shouqsl");
 						seriesList.add(s2);
-						ChartBarLineSeries s3 = HanaUtil.getKNOWLDGELevel2ChartBarLineSeries02(list, "syxxsl");
-						seriesList.add(s3);
 						
 						barLine.setSeriesList(seriesList);
 		         		result.setSuccess(true);
@@ -410,26 +418,23 @@ public class HomeKnowledgeLDController {
 				{
 					
 						JSONArray jSONArray = responseEntity.getBody();
-						System.out.println(">>>>>>>>>>>>>>getKnowledgeUnitList jSONArray-> " + jSONArray.toString());
+						System.out.println(">>>>>>>>>>>>>>getKnowledgeUnitList_stack jSONArray-> " + jSONArray.toString());
 						List<Knowledge> list = JSONObject.parseArray(jSONArray.toJSONString(), Knowledge.class);
 						
 						ChartBarLineResultData barLine=new ChartBarLineResultData();
 						List<String>  xAxisDataList=HanaUtil.getduplicatexAxisByList(list,"lx");
 		         		barLine.setxAxisDataList(xAxisDataList);
 		         	
-						List<String> legendDataList = new ArrayList<String>();
-						legendDataList.add("发明专利");
-						legendDataList.add("外观设计");
-						legendDataList.add("实用新型");
+		         		List<String> legendDataList = new ArrayList<String>();
+						legendDataList.add("申请总数");
+						legendDataList.add("授权总数");
 						barLine.setLegendDataList(legendDataList);
 						// X轴数据
 						List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
-						ChartBarLineSeries s1 = HanaUtil.getKNOWLDGELevel2ChartBarLineSeries_stack(list, "fmsqsl");
+						ChartBarLineSeries s1 = HanaUtil.getKNOWLDGELevel2ChartBarLineSeries03(list, "sqsl");
 						seriesList.add(s1);
-						ChartBarLineSeries s2 = HanaUtil.getKNOWLDGELevel2ChartBarLineSeries_stack(list, "wgsjsl");
+						ChartBarLineSeries s2 = HanaUtil.getKNOWLDGELevel2ChartBarLineSeries03(list, "shouqsl");
 						seriesList.add(s2);
-						ChartBarLineSeries s3 = HanaUtil.getKNOWLDGELevel2ChartBarLineSeries_stack(list, "syxxsl");
-						seriesList.add(s3);
 						
 						barLine.setSeriesList(seriesList);
 		         		result.setSuccess(true);
@@ -444,7 +449,7 @@ public class HomeKnowledgeLDController {
 				result.setMessage("参数为空");
 			}
 			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-			System.out.println(">>>>>>>>>>>>>>>getKnowledgeUnitList " + resultObj.toString());
+			System.out.println(">>>>>>>>>>>>>>>getKnowledgeUnitList_stack " + resultObj.toString());
 			return resultObj.toString();
 		}
 	
@@ -452,7 +457,62 @@ public class HomeKnowledgeLDController {
 	
 	
 	
-	
+		@RequestMapping(method = RequestMethod.GET, value = "/getKnowledgePie")
+		@ResponseBody
+		public String getKnowledgePie(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+			Result result = new Result();
+			String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+			String companyCode = CommonUtil.getParameter(request, "companyCode", "");
+			String type = CommonUtil.getParameter(request, "type", "1");
+			Map<String, Object> paramsMap = new HashMap<String, Object>();
+			paramsMap.put("month", month);
+			paramsMap.put("companyCode", companyCode);
+			JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+			HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+			if (!companyCode.equals(""))
+			{
+				ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(getKnowledgePie, HttpMethod.POST, entity, JSONArray.class);
+				int statusCode = responseEntity.getStatusCodeValue();
+				if (statusCode == 200) 
+				{
+					JSONArray jSONArray = responseEntity.getBody();
+					System.out.println(">>>>>>>>>>>>>>getKnowledgePie jSONArray-> " + jSONArray.toString());
+					List<Knowledge> list = JSONObject.parseArray(jSONArray.toJSONString(), Knowledge.class);
+					ChartPieResultData pie = new ChartPieResultData();
+					List<ChartPieDataValue> dataList = new ArrayList<ChartPieDataValue>();
+					List<String> legendDataList = new ArrayList<String>();
+					for (int i = 0; i < list.size(); i++) {
+						Knowledge f2 = list.get(i);
+						String name = f2.getLx();
+						String value ="";
+						if(type.equals("2"))
+						{
+							value =f2.getFmshouqsl();
+						}
+						if(type.equals("1"))
+						{                
+							value =f2.getFmsqsl();
+						}
+						legendDataList.add(name);
+						dataList.add(new ChartPieDataValue(value, name));
+					}
+					pie.setDataList(dataList);
+					pie.setLegendDataList(legendDataList);
+	         		result.setSuccess(true);
+					result.setData(pie);
+				}
+				
+			} else
+			{
+				result.setSuccess(false);
+				result.setMessage("参数为空");
+			}
+			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
+			System.out.println(">>>>>>>>>>>>>>>getKnowledgePie " + resultObj.toString());
+			return resultObj.toString();
+		}
+		
 				
 	  
 	  

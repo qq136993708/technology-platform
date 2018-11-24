@@ -2688,13 +2688,36 @@ public class HanaUtil {
 
 				String syxxsl = f03.getSyxxsl();
 				if (name.equals("fmsqsl")) {
-					dataList.add(Double.valueOf(fmsqsl).intValue());
+					
+					if(fmsqsl!=null && !fmsqsl.equals(""))
+					{
+						dataList.add(Double.valueOf(fmsqsl).intValue());
+					}else
+					{
+						dataList.add(0);
+					}
+					
+					
 				}
 				if (name.equals("wgsjsl")) {
-					dataList.add(Double.valueOf(wgsjsl).intValue());
+					if(wgsjsl!=null && !wgsjsl.equals(""))
+					{
+						dataList.add(Double.valueOf(wgsjsl).intValue());
+					}else
+					{
+						dataList.add(0);
+					}
+					
 				}
 				if (name.equals("syxxsl")) {
-					dataList.add(Double.valueOf(syxxsl).intValue());
+					if(syxxsl!=null && !syxxsl.equals(""))
+					{
+						dataList.add(Double.valueOf(syxxsl).intValue());
+					}else
+					{
+						dataList.add(0);
+					}
+					
 				}
 
 			}
@@ -2702,6 +2725,44 @@ public class HanaUtil {
 		}
 		return chartBarLineSeries;
 	}
+	
+	
+	
+	
+	public static ChartBarLineSeries getKNOWLDGELevel2ChartBarLineSeries03(List<Knowledge> list, String name) {
+
+		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
+		if (name.equals("sqsl")) {
+			chartBarLineSeries.setName("申请总数");
+			chartBarLineSeries.setStack("数量");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		if (name.equals("shouqsl")) {
+			chartBarLineSeries.setName("授权总数");
+			chartBarLineSeries.setStack("数量");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+
+		List<Object> dataList = new ArrayList<Object>();
+		if (list != null && list.size() > 0) {
+			for (int i = 0; i < list.size(); i++) {
+				Knowledge f03 = list.get(i);
+				Integer sqsl = f03.getSqsl();
+				Integer shouqsl = f03.getShouqsl();
+
+				if (name.equals("sqsl")) {
+					dataList.add(Double.valueOf(sqsl).intValue());
+				}
+				if (name.equals("shouqsl")) {
+					dataList.add(Double.valueOf(shouqsl).intValue());
+				}
+
+			}
+			chartBarLineSeries.setData(dataList);
+		}
+		return chartBarLineSeries;
+	}
+	
 	
 	public static ChartBarLineSeries getKNOWLDGELevel2ChartBarLineSeries02(List<Knowledge> list, String name) {
 
@@ -3188,6 +3249,52 @@ public class HanaUtil {
 		
 		return chartBarLineSeries;
 	}
+	
+	
+	
+	
+	public static ChartBarLineSeries getChartBarLineSeries_budget_unit_meony(List<BudgetMysql> list, String name) {
+
+		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
+		if (name.equals("zbxrate")) {
+			chartBarLineSeries.setName("资本性");
+			
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_LINE);
+		}
+		
+		if (name.equals("fyxrate")) {
+			chartBarLineSeries.setName("费用性");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_LINE);
+		}
+		
+		List<Object> dataList = new ArrayList<Object>();
+		if (list != null && list.size() > 0) 
+		{
+			for (int i = 0; i < list.size(); i++) 
+			{
+				BudgetMysql f03 = list.get(i);
+				String zbxrate =((BigDecimal)f03.getZbxrate()).toString();
+				String fyxrate =((BigDecimal)f03.getFyxrate()).toString();
+				
+				
+				if (name.equals("zbxrate")) {
+					
+					dataList.add(String.format("%.2f", Double.valueOf(zbxrate)));
+					
+				}
+				if (name.equals("fyxrate")) {
+					
+					dataList.add(String.format("%.2f", Double.valueOf(fyxrate)));
+					
+				}
+				
+			chartBarLineSeries.setData(dataList);
+		}
+		}
+		
+		return chartBarLineSeries;
+	}
+	
 	
 	
 	public static ChartBarLineSeries getChartBarLineSeries_budget_unit_mysql_bar_03(List<BudgetMysql> list, String name) {

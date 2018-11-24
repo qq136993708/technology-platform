@@ -53,8 +53,12 @@ public class HomeBudgetLDController {
 	private static final String getBudgetByUnitBar =       "http://pcitc-zuul/system-proxy/out-project-provider/project-money/unit-type";
 	private static final String getBudgetByUnitPie =       "http://pcitc-zuul/hana-proxy/hana/home/getBudgetByUnitPie";
 	private static final String getBudgetByUnitCricle =    "http://pcitc-zuul/system-proxy/out-project-provider/project-money/scope/institute";
-	private static final String getBudgetByDistributeBar = "http://pcitc-zuul/system-proxy/out-project-provider/project-money/institute";
 	private static final String getBudgetTable = "http://pcitc-zuul/hana-proxy/hana/home/getBudgetTable";
+	
+	private static final String getMoney_rate = "http://pcitc-zuul/system-proxy/out-project-provider/ld/money-rate/institute";
+
+	
+	
 	
 
 	@Autowired
@@ -398,21 +402,20 @@ public class HomeBudgetLDController {
 							
 							
 				
-				
-				
-				
-				
-				
-				
-				
-							@RequestMapping(method = RequestMethod.GET, value = "/getBudgetByDistributeBar")
+					
+							
+							
+							
+							
+							@RequestMapping(method = RequestMethod.GET, value = "/getMoney_rate")
 							@ResponseBody
-							public String getBudgetByDistributeBar(HttpServletRequest request, HttpServletResponse response) throws Exception {
+							public String money_rate(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 								Result result = new Result();
 								ChartBarLineResultData barLine=new ChartBarLineResultData();
 								String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
 								String companyCode = CommonUtil.getParameter(request, "companyCode", "");
+								String type = CommonUtil.getParameter(request, "type", "");
 								Map<String, Object> paramsMap = new HashMap<String, Object>();
 								paramsMap.put("month", month);
 								paramsMap.put("companyCode", companyCode);
@@ -420,19 +423,18 @@ public class HomeBudgetLDController {
 								HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 								if (!companyCode.equals(""))
 								{
-									ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(getBudgetByDistributeBar, HttpMethod.POST, entity, JSONArray.class);
+									ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(getMoney_rate, HttpMethod.POST, entity, JSONArray.class);
 									int statusCode = responseEntity.getStatusCodeValue();
 									if (statusCode == 200) 
 									{
 										JSONArray jSONArray = responseEntity.getBody();
-										System.out.println(">>>>>>>>>>>>>>getBudgetByDistributeBar jSONArray-> " + jSONArray.toString());
+										System.out.println(">>>>>>>>>>>>>>money_rate jSONArray-> " + jSONArray.toString());
 										
 										List<BudgetMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), BudgetMysql.class);
-										List<String>  xAxisDataList=HanaUtil.getduplicatexAxisByList(list,"define2");
+										List<String>  xAxisDataList=HanaUtil.getduplicatexAxisByList(list,"unitName");
 						         		barLine.setxAxisDataList(xAxisDataList);
 						         	
 										List<String> legendDataList = new ArrayList<String>();
-										//legendDataList.add("总计");
 										legendDataList.add("费用性");
 										legendDataList.add("资本性");
 										
@@ -441,11 +443,9 @@ public class HomeBudgetLDController {
 										barLine.setLegendDataList(legendDataList);
 										// X轴数据
 										List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
-										//ChartBarLineSeries s1 = HanaUtil.getChartBarLineSeries_budget_unit_mysql_bar_03(list, "zje");
-										ChartBarLineSeries s2 = HanaUtil.getChartBarLineSeries_budget_unit_mysql_bar_03(list, "fyxje");
-										ChartBarLineSeries s3 = HanaUtil.getChartBarLineSeries_budget_unit_mysql_bar_03(list, "zbxje");
+										ChartBarLineSeries s2 = HanaUtil.getChartBarLineSeries_budget_unit_meony(list, "fyxrate");
+										ChartBarLineSeries s3 = HanaUtil.getChartBarLineSeries_budget_unit_meony(list, "zbxrate");
 										
-										//seriesList.add(s1);
 										seriesList.add(s2);
 										seriesList.add(s3);
 										barLine.setSeriesList(seriesList);
@@ -459,12 +459,10 @@ public class HomeBudgetLDController {
 									result.setMessage("参数为空");
 								}
 								JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-								System.out.println(">>>>>>>>>>>>>>getBudgetByDistributeBar " + resultObj.toString());
+								System.out.println(">>>>>>>>>>>>>>money_rate " + resultObj.toString());
 								return resultObj.toString();
 							}
-				
-				
-					
+							
 				
 				
 	  
