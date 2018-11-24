@@ -46,14 +46,14 @@ import com.pcitc.web.utils.HanaUtil;
 @RequestMapping(value = "/home_pay_ld")
 public class HomePayLDController {
 	
-	private static final String getPayByCountBar =      "http://pcitc-zuul/hana-proxy/hana/home_ld/getPayByCountBar";
-	private static final String getPayByCountPie =      "http://pcitc-zuul/hana-proxy/hana/home_ld/getPayByCountPie";
-	private static final String getPayByCountCricle =   "http://pcitc-zuul/hana-proxy/hana/home_ld/getPayByCountCricle";
-	private static final String getPayByUnitBar =       "http://pcitc-zuul/hana-proxy/hana/home_ld/getPayByUnitBar";
-	private static final String getPayByUnitPie =       "http://pcitc-zuul/hana-proxy/hana/home_ld/getPayByUnitPie";
-	private static final String getPayByUnitCricle =    "http://pcitc-zuul/hana-proxy/hana/home_ld/getPayByUnitCricle";
-	private static final String getPayByDistributeBar = "http://pcitc-zuul/hana-proxy/hana/home_ld/getPayByDistributeBar";
-	private static final String getPayTable = "http://pcitc-zuul/hana-proxy/hana/home_ld/getJFZCLevel3TAble";
+	private static final String getPayByCountBar =      "http://pcitc-zuul/hana-proxy/hana/home/getPayByCountBar";
+	private static final String getPayByCountPie =      "http://pcitc-zuul/hana-proxy/hana/home/getPayByCountPie";
+	private static final String getPayByCountCricle =   "http://pcitc-zuul/hana-proxy/hana/home/getPayByCountCricle";
+	private static final String getPayByUnitBar =       "http://pcitc-zuul/hana-proxy/hana/home/getPayByUnitBar";
+	private static final String getPayByUnitPie =       "http://pcitc-zuul/hana-proxy/hana/home/getPayByUnitPie";
+	private static final String getPayByUnitCricle =    "http://pcitc-zuul/hana-proxy/hana/home/getPayByUnitCricle";
+	private static final String getPayByDistributeBar = "http://pcitc-zuul/hana-proxy/hana/home/getPayByDistributeBar";
+	private static final String getPayTable = "http://pcitc-zuul/hana-proxy/hana/home/getJFZCLevel3TAble";
 	
 	
 

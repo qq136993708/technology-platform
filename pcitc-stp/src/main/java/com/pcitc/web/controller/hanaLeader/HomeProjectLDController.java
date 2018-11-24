@@ -49,7 +49,7 @@ public class HomeProjectLDController {
 	private static final String getProjectByCountCricle =   "http://pcitc-zuul/system-proxy/out-project-provider/ld/project-count/type/tree";
 	private static final String getProjectByUnitCricle =    "http://pcitc-zuul/system-proxy/out-project-provider/ld/project-count/unit/tree";
 	private static final String getProjectByDistributeBar = "http://pcitc-zuul/system-proxy/out-project-provider/ld/project-info/unit";
-	private static final String getProjectTable = "http://pcitc-zuul/hana-proxy/hana/home_ld/getProjectTable";
+	private static final String getProjectTable = "http://pcitc-zuul/hana-proxy/hana/home/getProjectTable";
 	private static final String getProjectByUnitBar =       "http://pcitc-zuul/system-proxy/out-project-provider/ld/type/unit/list";
 
 	
@@ -442,7 +442,6 @@ public class HomeProjectLDController {
 										ChartBarLineSeries s2 = HanaUtil.getProjectForMysqlChartBarLineSeries(list, "xjsl");
 										seriesList.add(s1);
 										seriesList.add(s2);
-										
 										barLine.setSeriesList(seriesList);
 						         		result.setSuccess(true);
 										result.setData(barLine);
