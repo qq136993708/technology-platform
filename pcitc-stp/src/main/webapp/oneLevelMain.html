@@ -81,7 +81,7 @@
                     </div>
                     <div class="layui-row-textBottom">
                         <div class="layui-text-icon layui-textBottom-one" id="mainLeader" style="cursor:pointer">
-                            <p>直属研究院<br/>概况</p>
+                            <p>直属研究院概况</p>
                             <img src="/layuiadmin/layui/images/level-close.png" class="dele" alt="">
                         </div>
                         <div class="layui-text-icon layui-textBottom-two">
@@ -174,24 +174,15 @@
         var carousel = layui.carousel,$=layui.jquery
             ,form = layui.form;
         //图片轮播
-        console.log($(window).height())
         
          $(".dele").click(function () {
             $(this).parents(".layui-text-icon").remove();
         });
         
-        var windowHeight=0;
-        if ($(window).height()>=626) {
-            windowHeight=366;
-        }else if($(window).height()>=759){
-            windowHeight=382;
-        }else if($(window).height()>=965){
-            windowHeight=384;
-        }
         carousel.render({
             elem: '#test-carousel-img'
             ,width: '100%'
-            ,height: windowHeight+'px'
+            ,height: '280px'
             ,interval: 5000
         });
         

@@ -93,6 +93,18 @@ public class HomeServiceImpl implements IHomeService{
     	return one;
     }
     
+    
+    public List<H1AMKYSY100117>  getDzzk_bar(Map map)throws Exception
+    {
+    	List<H1AMKYSY100117> one = homePageMapper.getDzzk_bar(map);
+    	return one;
+    }
+    
+    
+    
+    
+    
+    
     public List<H1AMKYSY100109> getH1AMKYSY100109Report(Map map)throws Exception
     {
     	List<H1AMKYSY100109> list = homePageMapper.getH1AMKYSY100109Report(map);

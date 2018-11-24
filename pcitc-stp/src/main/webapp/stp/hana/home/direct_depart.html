@@ -720,6 +720,17 @@
             });
         	
         	
+         	//直属研究院科研设备数量分析
+           	var chart4_url="/home/GET_getDzzk_bar?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
+        	var echart4=load_mutl_bar_stack(chart4_url,"bar4","","",yAxis);
+        	echart4.on('click', function (params){
+        		var xName=params.name;
+        		var legentName=params.seriesName;
+        		parent.layui.index.openTabsPage("/home/project-list?define2="+xName+"&project_scope="+legentName, "科研装备明细");
+            });
+        	
+        	
+        	
         	
         	
 

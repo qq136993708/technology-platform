@@ -37,6 +37,7 @@ import com.pcitc.base.hana.report.FundsComprehensiveAnalysis01;
 import com.pcitc.base.hana.report.FundsComprehensiveAnalysis03;
 import com.pcitc.base.hana.report.H1AMKYSY100104;
 import com.pcitc.base.hana.report.H1AMKYSY100109;
+import com.pcitc.base.hana.report.H1AMKYSY100117;
 import com.pcitc.base.hana.report.H1AMKYZH100006;
 import com.pcitc.base.hana.report.HanaConstant;
 import com.pcitc.base.hana.report.InvisibleCapitalDevelop;
@@ -2275,6 +2276,92 @@ public class HanaUtil {
 				}
 				if (name.equals("K0TQBL")) {
 					dataList.add(K0TQBL);
+				}
+
+			}
+			chartBarLineSeries.setData(dataList);
+		}
+		return chartBarLineSeries;
+	}
+	
+	
+	
+	
+	public static ChartBarLineSeries getChartBarLineSeries_GET_getDzzk_bar(List<H1AMKYSY100117> list, String name) {
+		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
+		if (name.equals("g0SBSL1")) {
+			chartBarLineSeries.setName("大型分析仪器");
+			chartBarLineSeries.setStack("数量");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		if (name.equals("g0SBSL2")) {
+			chartBarLineSeries.setName("中型实验装置");
+			chartBarLineSeries.setStack("数量");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		if (name.equals("g0SBSL3")) {
+			chartBarLineSeries.setName("单台值大于500万");
+			chartBarLineSeries.setStack("数量");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		if (name.equals("g0SBSL4")) {
+			chartBarLineSeries.setName("专业软件（外购）");
+			chartBarLineSeries.setStack("数量");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		
+
+		List<Object> dataList = new ArrayList<Object>();
+		if (list != null && list.size() > 0) {
+			for (int i = 0; i < list.size(); i++) {
+				H1AMKYSY100117 f03 = list.get(i);
+				String G0SBSL1 = f03.getG0SBSL1();
+				String G0SBSL2 = f03.getG0SBSL2();
+				String G0SBSL3 = f03.getG0SBSL3();
+				String G0SBSL4 = f03.getG0SBSL4();
+
+				if (name.equals("g0SBSL1")) {
+					
+					if (G0SBSL1==null || G0SBSL1.equals(""))
+					{
+						dataList.add(0);
+					}else
+					{
+						dataList.add(Double.valueOf(G0SBSL1).intValue());
+					}
+				}
+				if (name.equals("g0SBSL2")) {
+					if (G0SBSL2==null || G0SBSL2.equals(""))
+					{
+						dataList.add(0);
+					}else
+					{
+						dataList.add(Double.valueOf(G0SBSL2).intValue());
+					}
+					
+				}
+				if (name.equals("g0SBSL3")) {
+					
+					if (G0SBSL3==null || G0SBSL3.equals(""))
+					{
+						dataList.add(0);
+					}else
+					{
+						dataList.add(Double.valueOf(G0SBSL3).intValue());
+					}
+					
+				}
+				if (name.equals("g0SBSL4")) {
+					
+					if (G0SBSL4==null || G0SBSL4.equals(""))
+					{
+						dataList.add(0);
+					}else
+					{
+						dataList.add(Double.valueOf(G0SBSL4).intValue());
+					}
+					
+					
 				}
 
 			}

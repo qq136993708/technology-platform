@@ -80,7 +80,8 @@ position: absolute;top: 1px;right: -1px;}
 }
 @media screen and (max-height: 946px) {
     .layui-level-main{width: 88%;}
-    .layui-row-pic{height: 398px;}
+    .layui-row-pic{height: 383px;}
+    .layui-textBottom-one p{margin:15px 0;}
 }
 @media screen and (max-width: 1366px) {
     .layui-header{width: 85%;;}
