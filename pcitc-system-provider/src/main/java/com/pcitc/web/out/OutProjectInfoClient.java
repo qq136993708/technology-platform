@@ -1839,4 +1839,14 @@ public class OutProjectInfoClient {
 		return json;
 	}
 	
+	@ApiOperation(value = "领导二级页面，直属研究院，8个院预算金额和实际金额的统计", notes = "参数年度、研究院等")
+	@RequestMapping(value = "/out-project-provider/ld/money-rate/institute")
+	public JSONArray getProjectMoneyByInstituteForLD(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page getProjectMoneyByInstituteForLD===========================" + map);
+		
+		List temList = outProjectService.getProjectMoneyByInstituteForLD(map);
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		return json;
+	}
+	
 }

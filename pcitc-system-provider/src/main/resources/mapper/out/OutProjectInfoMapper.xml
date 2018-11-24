@@ -1501,14 +1501,40 @@
 	
 	<!-- 领导二级页面，预算数据，17处室的费用统计， 树形结构 -->
 	<select id="getOfficeMoneyTreeWithYS" resultType="java.util.Map" parameterType="java.util.HashMap">
-		SELECT unit_name as unitName,sum(xk_money) as showJE,'新开课题' as typeName, UUID() as id
-		FROM out_tem_money
-		group by unit_name
-		
-		union all 
-		SELECT unit_name as unitName,sum(jz_money) as showJE,'结转课题' as typeName, UUID() as id
-		FROM out_tem_money
-		group by unit_name
+			SELECT unit_name as unitName,sum(xk_money) as showJE,'新开课题' as typeName, UUID() as id
+			FROM out_tem_money
+			group by unit_name
+			
+			union all 
+			SELECT unit_name as unitName,sum(jz_money) as showJE,'结转课题' as typeName, UUID() as id
+			FROM out_tem_money
+			group by unit_name
+	</select>
+	
+	<!-- 领导二级页面，直属研究院，8个院预算金额和实际金额的统计 -->
+	<select id="getProjectMoneyByInstituteForLD" resultType="java.util.Map" parameterType="java.util.HashMap">
+			select 
+				sum(case when showFlag = 'preMoney' then zbxje else 0 end) as prezbxje,
+				sum(case when showFlag = 'preMoney' then fyxje else 0 end) as prefyxje,
+				sum(case when showFlag = 'actMoney' then zbxje else 0 end) as actzbxje,
+				sum(case when showFlag = 'actMoney' then fyxje else 0 end) as actfyxje,
+				round(sum(case when showFlag = 'actMoney' then fyxje else 0 end)/sum(case when showFlag = 'preMoney' then fyxje else 0 end) * 100, 2) as fyxrate,
+				round(sum(case when showFlag = 'actMoney' then zbxje else 0 end)/sum(case when showFlag = 'preMoney' then zbxje else 0 end) * 100, 2) as zbxrate,
+				unitName
+			from (	
+				SELECT show_ali as unitName,zbx_money as zbxje,fyx_money as fyxje,'preMoney' as showFlag,show_order
+				FROM out_tem_money_total
+				WHERE
+					is_yjy = '研究院'
+					
+				union ALL
+				SELECT SUBSTR(define2 FROM 4) as unitName,ROUND(sum(case when define1 = '资本性' then jf else 0 end),2) as zbxje,
+					    ROUND(sum(case when define1 = '费用性' then jf else 0 end),2) as fyxje,'actMoney' as showFlag,NULL
+				FROM out_project_info
+				WHERE
+					define2 is not NULL and nd = '2018'
+				group by define2) as tableA
+			GROUP BY unitName
 	</select>
 	
 	

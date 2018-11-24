@@ -1416,7 +1416,7 @@
 		from out_patent
 		WHERE 
 			STATUS is not null and FLZTYJ = '有效'
-		GROUP BY STATUS
+		GROUP BY SUBSTR(STATUS,4)
 	</select>
 
 
