@@ -66,10 +66,10 @@ body{background-color: #f2f2f2;}
 .layui-col-sm12-tab {background-color: #fff; margin-top: 10px;padding: 10px;}
 .layui-tab-title{height: 40px;}
 .layui-tab-title{margin-bottom: 16px;}
-.layui-tab-brief>.layui-tab-title .layui-this{color: #0F9EE0 }
-.layui-tab-brief>.layui-tab-more li.layui-this:after, .layui-tab-brief>.layui-tab-title .layui-this:after{ border-bottom:2px solid #0F9EE0}
+.layui-tab-brief>.layui-tab-title .layui-this{color: 17a2b8 }
+.layui-tab-brief>.layui-tab-more li.layui-this:after, .layui-tab-brief>.layui-tab-title .layui-this:after{ border-bottom:2px solid 17a2b8}
 .layuiadmin-right{float: right; border: none;}
-.layuiadmin-right a{border: none; color:#0F9EE0;text-indent: 1em;}
+.layuiadmin-right a{border: none; color:17a2b8;text-indent: 1em;}
 .layui-btn-group .layui-btn-primary:first-child{border: none;margin-left: 16px;}
 
 .layuiadmin-right ul li:nth-child(1) a{background: url("/layuiadmin/layui/images/icon_c.png ") no-repeat 8px 4px;}
@@ -108,7 +108,7 @@ body{background-color: #f2f2f2;}
 .layui-card-header .layui-nav-child dd a:hover{background: none;}
 .plus-tag div{height: auto;overflow: hidden}
 .hotspot-mr,.hotspot-target-mr{height: 40px !important;overflow-y:scroll !important;width: 92%;margin: 0 auto;}
-.tagbtn a.hotspot-mr-a,.tagbtn a.hotspot-target-a{ border: none;color: #0F9EE0 !important; text-indent: 3em;background: none;font-weight: bold;}
+.tagbtn a.hotspot-mr-a,.tagbtn a.hotspot-target-a{ border: none;color: 17a2b8 !important; text-indent: 3em;background: none;font-weight: bold;}
 .layui-nav .layui-this:after, .layui-nav-bar, .layui-nav-tree .layui-nav-itemed:after{background: none;}
 .layui-nav .layui-nav-child dd.layui-this a, .layui-nav-child dd.layui-this{background: none;color: #000;}
 
@@ -117,8 +117,8 @@ body{background-color: #f2f2f2;}
 .layui-table-cell{overflow: visible;}
 .layui-table-header{overflow: visible;}
 .layui-table-box, .layui-table-view{ overflow: visible;}
-select[xm-select][xm-select-type='2'] + div dl dd.xm-select-this:not(.layui-disabled) i{  background-color: #0F9EE0;
-	border-color: #0F9EE0;color: #FFF;}
+select[xm-select][xm-select-type='2'] + div dl dd.xm-select-this:not(.layui-disabled) i{  background-color: 17a2b8;
+	border-color: 17a2b8;color: #FFF;}
 select[xm-select] + div .layui-select-title > div.xm-select > span:not(.xm-select-empty){padding: 0 5px;}
 select[xm-select] + div .layui-select-title > div.xm-select{min-height:20px;}
 select[xm-select] + div .layui-select-title > div.xm-select > span.xm-select-empty{height: 20px;line-height: 20px;}
@@ -131,7 +131,7 @@ table tr td{font-family:"Times New Roman",微软雅黑;}
 .layer-style  .dateInputSelect input{display: inline-block !important;}
 .layer-style  .dateInputSelect {width: 88%;margin: 0 auto;display: block;}
 .xm-select-parent .xm-form-selected dl{top:34px !important;}
-.layui-select-new{display: inline-block;width:360px; }
+.layui-select-new{display: inline-block;width:330px; }
 .layui-span{display: inline-block; height: 34px;line-height: 34px;text-indent: .3em;float: none !important;}
 .xm-select-parent .xm-select{min-height:34px !important;
 	padding: 6px 12px !important;box-shadow: inset 0 1px 1px rgba(0,0,0,.075);}
