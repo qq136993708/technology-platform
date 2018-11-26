@@ -7,8 +7,6 @@ public class ProjectForMysql {
 	  private Object zsl;
 	  private Object xjsl;
 	  private Object xksl;
-	  
-	  
 	  private Object gjxmsl;
 	  private Object qtsl;
 	  private String project_scope;
@@ -16,30 +14,17 @@ public class ProjectForMysql {
 	  private Object gcysl;
 	  private Object zdxmsl;
 	  private Object ktysl;
-	  
 	  private Object shysl;
 	  private Object bhysl;
 	  private Object skysl;
 	  private Object dlysl;
 	  private Object define2;
-	  
-	  
 	  private Object type_flag;
 	  private Object wjsl;
-	  
-	  
 	  private Object id;
-			
-	  
-	  
 	  private String zylb;
-	  
 	  private String zycmc;
-	  
-	  
 	  private Object xmsl;
-	  
-	  
 	  private Object nd;
 	  private Object hth;
 	  private Object xmmc;
@@ -49,10 +34,22 @@ public class ProjectForMysql {
 	  private Object xmlbmc;
 	  private Object define1;
 	  private Object fwdx;
+	  private Object stlsl;
+	  private Object zdzxsl;
 	  
 	  
-	  
-	  
+	public Object getStlsl() {
+		return stlsl;
+	}
+	public void setStlsl(Object stlsl) {
+		this.stlsl = stlsl;
+	}
+	public Object getZdzxsl() {
+		return zdzxsl;
+	}
+	public void setZdzxsl(Object zdzxsl) {
+		this.zdzxsl = zdzxsl;
+	}
 	public Object getNd() {
 		return nd;
 	}

@@ -2922,6 +2922,60 @@ public class HanaUtil {
 	
 	
 	
+	public static ChartBarLineSeries getTenDragonChartBarLineSeries(List<ProjectForMysql> list, String name) {
+
+		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
+		if (name.equals("stlsl")) {
+			chartBarLineSeries.setName("十条龙项目");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		if (name.equals("zdzxsl")) {
+			chartBarLineSeries.setName("重大项目");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		
+
+		List<Object> dataList = new ArrayList<Object>();
+		if (list != null && list.size() > 0) {
+			for (int i = 0; i < list.size(); i++) {
+				ProjectForMysql f03 = list.get(i);
+				Integer stlsl = (Integer)f03.getXksl();
+				Integer zdzxsl =  (Integer)f03.getZdzxsl();
+				
+					if (name.equals("stlsl")) {
+						
+						if(stlsl!=null)
+						{
+							dataList.add(stlsl);
+						}else
+						{
+							dataList.add(0);
+						}
+						
+						
+					}
+					if (name.equals("zdzxsl")) {
+						
+						if(zdzxsl!=null)
+						{
+							dataList.add(zdzxsl);
+						}else
+						{
+							dataList.add(0);
+						}
+						
+						
+						
+					}
+					
+				}
+
+				
+
+			chartBarLineSeries.setData(dataList);
+		}
+		return chartBarLineSeries;
+	}
 	
 
 	public static ChartBarLineSeries getProjectCountForMysqlChartBarLineSeries(List<ProjectForMysql> list, String name) {
