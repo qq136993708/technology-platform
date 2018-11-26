@@ -34,6 +34,7 @@ import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.PageResult;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.TreeNode2;
+import com.pcitc.base.hana.report.BudgetMysql;
 import com.pcitc.base.hana.report.H1AMKYSY100109;
 import com.pcitc.base.hana.report.ProjectCode;
 import com.pcitc.base.system.SysUser;
@@ -54,6 +55,13 @@ public class HomePayLDController {
 	private static final String getPayByUnitCricle =    "http://pcitc-zuul/hana-proxy/hana/home/getPayByUnitCricle";
 	private static final String getPayByDistributeBar = "http://pcitc-zuul/hana-proxy/hana/home/getPayByDistributeBar";
 	private static final String getPayTable = "http://pcitc-zuul/hana-proxy/hana/home/getJFZCLevel3TAble";
+	
+	
+	private static final String getZdstlTable = "http://pcitc-zuul/system-proxy/out-project-provider/ld/project-info/zdstl";
+
+	
+	
+	
 	
 	
 
@@ -85,7 +93,7 @@ public class HomePayLDController {
 				  }
 				
 			
-				 @RequestMapping(method = RequestMethod.GET, value = "/home_pay_table")
+				  @RequestMapping(method = RequestMethod.GET, value = "/home_pay_table")
 				  public String kyzb_table(HttpServletRequest request) throws Exception
 				  {
 					    
@@ -578,7 +586,49 @@ public class HomePayLDController {
 				
 
 				
-				
+				/**====================================十条龙====================================*/
+							
+							
+							
+							//重在集团
+							@RequestMapping(method = RequestMethod.GET, value = "/getZdstlTable")
+							@ResponseBody
+							public String getZdstlTable(HttpServletRequest request, HttpServletResponse response) throws Exception {
+								PageResult pageResult = new PageResult();
+								String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+								String companyCode = CommonUtil.getParameter(request, "companyCode", "");
+								String type = CommonUtil.getParameter(request, "type", "重点专项");
+								Map<String, Object> paramsMap = new HashMap<String, Object>();
+								paramsMap.put("month", month);
+								paramsMap.put("type", type);
+								paramsMap.put("companyCode", companyCode);
+								JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+								HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+								
+									ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(getZdstlTable, HttpMethod.POST, entity, JSONArray.class);
+									int statusCode = responseEntity.getStatusCodeValue();
+									if (statusCode == 200) 
+									{
+										JSONArray jSONArray = responseEntity.getBody();
+										
+										System.out.println(">>>>>>>>>>>>getZdstlTable jSONArray>>> " + jSONArray.toString());
+										List<BudgetMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), BudgetMysql.class);
+										List<String>  lista=HanaUtil.getduplicatexAxisByList(list,"project_scope");
+										List<TreeNode2>  chartCircleList=	HanaUtil.getChildChartCircleForBudgetCountMysql(lista,list);
+										pageResult.setData(chartCircleList);
+										pageResult.setCode(0);
+										pageResult.setCount(Long.valueOf(chartCircleList.size()));
+										pageResult.setLimit(1000);
+										pageResult.setPage(1l);
+									}
+									
+								
+								JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
+								System.out.println(">>>>>>>>>>>>>>>getZdstlTable " + resultObj.toString());
+								return resultObj.toString();
+							}
+							
+							
 				
 				
 	  
