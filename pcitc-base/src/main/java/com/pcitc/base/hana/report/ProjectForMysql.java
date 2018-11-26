@@ -7,8 +7,6 @@ public class ProjectForMysql {
 	  private Object zsl;
 	  private Object xjsl;
 	  private Object xksl;
-	  
-	  
 	  private Object gjxmsl;
 	  private Object qtsl;
 	  private String project_scope;
@@ -16,32 +14,96 @@ public class ProjectForMysql {
 	  private Object gcysl;
 	  private Object zdxmsl;
 	  private Object ktysl;
-	  
 	  private Object shysl;
 	  private Object bhysl;
 	  private Object skysl;
 	  private Object dlysl;
 	  private Object define2;
-	  
-	  
 	  private Object type_flag;
 	  private Object wjsl;
-	  
-	  
 	  private Object id;
-			
-	  
-	  
 	  private String zylb;
-	  
 	  private String zycmc;
-	  
-	  
 	  private Object xmsl;
+	  private Object nd;
+	  private Object hth;
+	  private Object xmmc;
+	  private Object jf;
+	  private Object fzdw;
+	  private Object fzrxm;
+	  private Object xmlbmc;
+	  private Object define1;
+	  private Object fwdx;
+	  private Object stlsl;
+	  private Object zdzxsl;
 	  
 	  
-	  
-	  
+	public Object getStlsl() {
+		return stlsl;
+	}
+	public void setStlsl(Object stlsl) {
+		this.stlsl = stlsl;
+	}
+	public Object getZdzxsl() {
+		return zdzxsl;
+	}
+	public void setZdzxsl(Object zdzxsl) {
+		this.zdzxsl = zdzxsl;
+	}
+	public Object getNd() {
+		return nd;
+	}
+	public void setNd(Object nd) {
+		this.nd = nd;
+	}
+	public Object getHth() {
+		return hth;
+	}
+	public void setHth(Object hth) {
+		this.hth = hth;
+	}
+	public Object getXmmc() {
+		return xmmc;
+	}
+	public void setXmmc(Object xmmc) {
+		this.xmmc = xmmc;
+	}
+	public Object getJf() {
+		return jf;
+	}
+	public void setJf(Object jf) {
+		this.jf = jf;
+	}
+	public Object getFzdw() {
+		return fzdw;
+	}
+	public void setFzdw(Object fzdw) {
+		this.fzdw = fzdw;
+	}
+	public Object getFzrxm() {
+		return fzrxm;
+	}
+	public void setFzrxm(Object fzrxm) {
+		this.fzrxm = fzrxm;
+	}
+	public Object getXmlbmc() {
+		return xmlbmc;
+	}
+	public void setXmlbmc(Object xmlbmc) {
+		this.xmlbmc = xmlbmc;
+	}
+	public Object getDefine1() {
+		return define1;
+	}
+	public void setDefine1(Object define1) {
+		this.define1 = define1;
+	}
+	public Object getFwdx() {
+		return fwdx;
+	}
+	public void setFwdx(Object fwdx) {
+		this.fwdx = fwdx;
+	}
 	public Object getXmsl() {
 		return xmsl;
 	}

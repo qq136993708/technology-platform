@@ -34,6 +34,7 @@ import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.PageResult;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.TreeNode2;
+import com.pcitc.base.hana.report.BudgetMysql;
 import com.pcitc.base.hana.report.H1AMKYSY100109;
 import com.pcitc.base.hana.report.ProjectCode;
 import com.pcitc.base.system.SysUser;
@@ -54,6 +55,11 @@ public class HomePayLDController {
 	private static final String getPayByUnitCricle =    "http://pcitc-zuul/hana-proxy/hana/home/getPayByUnitCricle";
 	private static final String getPayByDistributeBar = "http://pcitc-zuul/hana-proxy/hana/home/getPayByDistributeBar";
 	private static final String getPayTable = "http://pcitc-zuul/hana-proxy/hana/home/getJFZCLevel3TAble";
+	
+	
+
+	
+	
 	
 	
 
@@ -85,7 +91,7 @@ public class HomePayLDController {
 				  }
 				
 			
-				 @RequestMapping(method = RequestMethod.GET, value = "/home_pay_table")
+				  @RequestMapping(method = RequestMethod.GET, value = "/home_pay_table")
 				  public String kyzb_table(HttpServletRequest request) throws Exception
 				  {
 					    
@@ -574,11 +580,6 @@ public class HomePayLDController {
 				
 				
 					
-				
-				
-
-				
-				
 				
 				
 	  
