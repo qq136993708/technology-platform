@@ -43,14 +43,12 @@
 								流程定义
 								<span class="must-fill">*</span>
 							</label>
-							<input id="prodefName" name="prodefName" type="hidden">
 							<div class="layui-input-block">
-								<select id="prodefId" name="prodefId" lay-verify="prodefId" lay-filter="prodefId" lay-search>
-									<option value="" selected></option>
-									<#if processDefList?exists> <#list processDefList as pd>
-									<option value="${pd.id}">${pd.name?default("")}---${pd.id}</option>
-									</#list> </#if>
-								</select>
+								<input id="prodefId" name="prodefId" type="hidden">
+								<input class="layui-input readOnlyBox" id="prodefName" name="prodefName" lay-verify="required" readonly placeholder="请选择工作流" autocomplete="off" type="text">
+								<div class="formSearch">
+									<img id="prodefIdPng" src="/layuiadmin/layui/images/form_search.png">
+								</div>
 							</div>
 						</div>
 					</div>
@@ -210,6 +208,32 @@
 				}
 			});
 		});
+
+		$('#prodefIdPng').click(function() {
+			layer.open({
+				title : "<span>选择工作流</span>",
+				skin : 'layui-layer-lan',
+				shadeClose : true,
+				type : 2,
+				fixed : false,
+				//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+				maxmin : true,
+				//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+				area : [ '90%', '90%' ],
+				content : '/workflow/function-config/ini-workflow-define'
+			});
+		});
+
+		//回显工作流
+		window.setWorkflow = function(data) {
+			console.info(data);
+			$('#prodefId').val(data.id);
+			if (typeof (data.name) == "undefined") {
+				$('#prodefName').val(' ');
+			} else {
+				$('#prodefName').val(data.name);
+			}
+		}
 
 		// 下拉树初始化
 		$(document).ready(function() {

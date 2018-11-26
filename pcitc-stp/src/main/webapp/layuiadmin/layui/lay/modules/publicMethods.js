@@ -276,7 +276,7 @@ layui.define(['jquery','form','table','laydate'],
                 var num =  $(tbody).find("tr").length + 1;
                 var tableHtml = "<tr data-index='"+(num-1)+"'></tr>";
                 var tableTdHtml='';
-                var column=[],element=[],columnEvent=[], name=[],value=[],url=[],parentCode=[],hide=[],valueId=[];
+                var column=[],element=[],columnEvent=[], name=[],value=[],url=[],parentCode=[],hide=[],valueId=[],disabled=[];
                 $(tbody).append(tableHtml);
                 /*判断是否有特殊的td*/
                 if(trParam.specialElement.length>0){
@@ -289,7 +289,8 @@ layui.define(['jquery','form','table','laydate'],
                         url.push(dt.url);
                         parentCode.push(dt.parentCode);
                         hide.push(dt.hide);
-                        valueId.push(dt.valueId)
+                        valueId.push(dt.valueId);
+                        disabled.push(dt.disabled)
                     });
                 }
                 for(var i=0;i<number;i++){
@@ -313,15 +314,21 @@ layui.define(['jquery','form','table','laydate'],
                         var columnCode=parentCode[columnIndex];
                         var columnHide=hide[columnIndex];
                         var columnValueId=valueId[columnIndex];
+                        var columnDisabled=disabled[columnIndex];
                         if(columnElement=="file"){
                             if(columnHide==true){
                                 $(tbody).find("tr:last td").eq(columnNum).addClass("layui-hide").html("<p class='file-name add-file' style='width: 100%;margin-left: 15px;' onclick='"+columnEventN+"'>"+columnName+"<input type='hidden' value='"+columnValue+"'></p>")
                             }else {
                                 $(tbody).find("tr:last td").eq(columnNum).html("<p class='file-name add-file' style='width: 100%;margin-left: 15px;' onclick='"+columnEventN+"'>"+columnName+"<input type='hidden' value='"+columnValue+"'></p>")
                             }
-                        }if(columnElement=="input"){
+                        }else if(columnElement=="input"){
                             if(columnHide==true){
                                 $(tbody).find("tr:last td").eq(columnNum).addClass("layui-hide").html("<p class='file-name add-file' style='width: 100%;margin-left: 15px;'><input type='hidden' value=''></p>")
+                            }else if(columnDisabled==true){
+                                if(columnValue==undefined){
+                                    columnValue=""
+                                }
+                                $(tbody).find("tr:last td").eq(columnNum).html("<input type='text'  disabled='disabled' value='"+columnValue+"'>")
                             }
                         }else if(columnElement=="select"){
                             var certTypeStr;
@@ -337,28 +344,8 @@ layui.define(['jquery','form','table','laydate'],
                                         certTypeStr += "<option value='"+columnValueIdArr[index]+"'>"+columnValueArr[index]+"</option>";
                                     }
                                 });
-                            }else {
-                                $.ajax({
-                                    type : 'post',
-                                    dataType : 'json',
-                                    data : {parentCode :columnCode},
-                                    url :columnUrl,
-                                    async : false,
-                                    success : function(data) {
-                                        // console.log(data)
-                                        certTypeStr = "<select>";
-                                        $.each(data, function(index) {
-                                            if(index == 0){
-                                                certTypeStr += "<option value='"+data[index].name+"' selected>"+data[index].name+"</option>";
-                                            } else {
-                                                certTypeStr += "<option value='"+data[index].name+"'>"+data[index].name+"</option>";
-                                            }
-                                        });
-                                    },
-                                    error : function() {
-                                        layer.msg("出错了");
-                                    }
-                                });
+                            }else  {
+                                certTypeStr = "<select>";
                             }
                             certTypeStr += "</select>";
                             $(tbody).find("tr:last td").eq(columnNum).html(certTypeStr)

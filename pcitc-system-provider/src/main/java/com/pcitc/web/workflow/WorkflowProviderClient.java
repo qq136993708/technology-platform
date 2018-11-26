@@ -8,7 +8,6 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.xml.stream.XMLInputFactory;
@@ -44,6 +43,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.pcitc.base.common.LayuiTableData;
+import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.system.SysFile;
 import com.pcitc.base.system.SysFileExample;
 import com.pcitc.base.util.StrUtil;
@@ -390,11 +390,23 @@ public class WorkflowProviderClient {
 	}
 
 	@RequestMapping(value = "/workflow-provider/process/defines/list", method = RequestMethod.POST)
-	public Object selectProcessDefList(@RequestBody HashMap<String, String> map) {
+	public Object selectProcessDefList(@RequestBody LayuiTableParam param) {
 		System.out.println("1---------------------selectProcessDefList");
+		
+		int limit = 15;
+		int page = 1;
 		// 只查询已经激活的工作流定义
 		ProcessDefinitionQuery query = repositoryService.createProcessDefinitionQuery().active();
-		List<ProcessDefinition> processDefList = query.orderByProcessDefinitionId().desc().list();
+		if (param.getLimit() != null && !StrUtil.isBlankOrNull(param.getLimit().toString())) {
+			limit = Integer.parseInt(param.getLimit().toString());
+		}
+		if (param.getPage() != null && !StrUtil.isBlankOrNull(param.getPage().toString())) {
+			page = Integer.parseInt(param.getPage().toString());
+		}
+		if (param.getParam().get("processDefineName") != null && !StrUtil.isBlankOrNull(param.getParam().get("processDefineName").toString())) {
+			query = query.processDefinitionNameLike("%" + param.getParam().get("processDefineName").toString() + "%");
+		}
+		List<ProcessDefinition> processDefList = query.orderByProcessDefinitionId().desc().listPage(limit * (page - 1), limit);
 		
 		List<ProcessDefVo> retList = new ArrayList<ProcessDefVo>();
 		for (ProcessDefinition processDefinition : processDefList) {
@@ -403,10 +415,10 @@ public class WorkflowProviderClient {
 			BeanUtils.copyProperties(entity, vo);
 			retList.add(vo);
 		}
-		
+		long count = query.count();
 		LayuiTableData data = new LayuiTableData();
 		data.setData(retList);
-		data.setCount(10);
+		data.setCount((int) count);
 		System.out.println("2---------------------selectProcessDefList");
 		return data;
 	}
