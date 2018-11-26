@@ -17,7 +17,7 @@ var option_bar_single = {
 	        subtext:''
 	    },
 	    grid: {
-	    	  x: 40,
+	    	    x: 40,
 	            y: 30,
 	            x2: 30,
 	            y2: 60
