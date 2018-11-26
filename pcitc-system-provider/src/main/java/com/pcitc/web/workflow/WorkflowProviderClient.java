@@ -50,9 +50,9 @@ import com.pcitc.base.util.StrUtil;
 import com.pcitc.base.workflow.ProcessDefVo;
 import com.pcitc.base.workflow.SysFunctionProdef;
 import com.pcitc.base.workflow.WorkflowVo;
-import com.pcitc.common.StringUtils;
 import com.pcitc.service.system.SysFileService;
 import com.pcitc.service.workflow.WorkflowInstanceService;
+import com.pcitc.utils.StringUtils;
 
 @Api(value = "Workflow-API", description = "工作流相关的接口")
 @RestController

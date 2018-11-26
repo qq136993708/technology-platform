@@ -1,13 +1,26 @@
 package com.pcitc.service.system;
 
-import com.pcitc.common.StringUtils;
-import org.quartz.*;
+import java.util.Date;
+import java.util.List;
+
+import org.quartz.CalendarIntervalScheduleBuilder;
+import org.quartz.CronScheduleBuilder;
+import org.quartz.DateBuilder;
+import org.quartz.Job;
+import org.quartz.JobBuilder;
+import org.quartz.JobDetail;
+import org.quartz.JobKey;
+import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
+import org.quartz.SchedulerFactory;
+import org.quartz.Trigger;
+import org.quartz.TriggerBuilder;
+import org.quartz.TriggerKey;
 import org.quartz.impl.StdSchedulerFactory;
 import org.quartz.impl.triggers.CalendarIntervalTriggerImpl;
 import org.quartz.impl.triggers.CronTriggerImpl;
 
-import java.util.Date;
-import java.util.List;
+import com.pcitc.utils.StringUtils;
 
 public class TimedTaskManager {
     private TimedTaskManager() {

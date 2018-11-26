@@ -1,4 +1,4 @@
-package com.pcitc.common;
+package com.pcitc.utils;
 
 import java.util.List;
 import java.util.regex.Matcher;

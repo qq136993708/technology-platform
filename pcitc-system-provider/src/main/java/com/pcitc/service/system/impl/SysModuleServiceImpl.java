@@ -13,9 +13,9 @@ import com.pcitc.base.system.SysModule;
 import com.pcitc.base.system.SysModuleExample;
 import com.pcitc.base.system.SysModuleExample.Criteria;
 import com.pcitc.base.system.SysModuleVo;
-import com.pcitc.common.StringUtils;
 import com.pcitc.mapper.system.SysModuleMapper;
 import com.pcitc.service.system.SysModuleService;
+import com.pcitc.utils.StringUtils;
 
 @Service("sysModuleService")
 public class SysModuleServiceImpl implements SysModuleService {

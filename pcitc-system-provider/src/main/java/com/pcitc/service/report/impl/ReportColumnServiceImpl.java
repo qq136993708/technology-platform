@@ -1,6 +1,17 @@
 package com.pcitc.service.report.impl;
 
 
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Param;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
@@ -14,19 +25,9 @@ import com.pcitc.base.report.ReportColumn;
 import com.pcitc.base.report.ReportColumnExample;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.IdUtil;
-import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.mapper.report.ReportColumnMapper;
 import com.pcitc.service.report.ReportColumnService;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import com.pcitc.utils.StringUtils;
 
 
 /**
@@ -170,26 +171,26 @@ public class ReportColumnServiceImpl implements ReportColumnService {
     public LayuiTableData findReportColumnByPage(LayuiTableParam param) {
         ReportColumnExample example = new ReportColumnExample();
         ReportColumnExample.Criteria c = example.createCriteria();
-        if (param.getParam().get("reportConfigId") != null && !com.pcitc.common.StringUtils.isBlank(param.getParam().get("reportConfigId") + "")) {
+        if (param.getParam().get("reportConfigId") != null && !StringUtils.isBlank(param.getParam().get("reportConfigId") + "")) {
             c.andReportConfigIdLike("%" + param.getParam().get("reportConfigId") + "%");
         }
-        if (param.getParam().get("field") != null && !com.pcitc.common.StringUtils.isBlank(param.getParam().get("field") + "")) {
+        if (param.getParam().get("field") != null && !StringUtils.isBlank(param.getParam().get("field") + "")) {
             c.andFieldLike("%" + param.getParam().get("field") + "%");
         }
 
-        if (param.getParam().get("stype") != null && !com.pcitc.common.StringUtils.isBlank(param.getParam().get("stype") + "")) {
+        if (param.getParam().get("stype") != null && !StringUtils.isBlank(param.getParam().get("stype") + "")) {
             c.andStypeEqualTo(param.getParam().get("stype").toString());
         }
-        if (param.getParam().get("sfShow") != null && !com.pcitc.common.StringUtils.isBlank(param.getParam().get("sfShow") + "")) {
+        if (param.getParam().get("sfShow") != null && !StringUtils.isBlank(param.getParam().get("sfShow") + "")) {
             c.andSfShowEqualTo(param.getParam().get("sfShow").toString());
         }
-        if (param.getParam().get("sfShowlist") != null && !com.pcitc.common.StringUtils.isBlank(param.getParam().get("sfShowlist") + "")) {
+        if (param.getParam().get("sfShowlist") != null && !StringUtils.isBlank(param.getParam().get("sfShowlist") + "")) {
             c.andSfShowlistEqualTo(param.getParam().get("sfShowlist").toString());
         }
         if ("1".equals(param.getParam().get("bak2"))) {
             c.andBak2NotEqualTo("");
         }
-        if (param.getParam().get("sfX") != null && !com.pcitc.common.StringUtils.isBlank(param.getParam().get("sfX") + "")) {
+        if (param.getParam().get("sfX") != null && !StringUtils.isBlank(param.getParam().get("sfX") + "")) {
             c.andSfXEqualTo(param.getParam().get("sfX").toString());
         }
 //        c.andStatusEqualTo("1");
