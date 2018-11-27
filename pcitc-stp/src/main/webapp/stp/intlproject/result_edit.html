@@ -36,7 +36,7 @@ $(document).ready(function() {
 				//加载项目
 	    		publicMethods.ajaxPost("/project/apply-list-all",null, function (data) {
 					$.each(data,function(i,val){
-						$("#projectId").append('<option value="'+data[i].applyId+'">'+data[i].applyTitle+'</option>');
+						$("#projectId").append('<option value="'+data[i].applyId+'">'+data[i].applyName+'</option>');
 					});
 			   	});
 				//字典

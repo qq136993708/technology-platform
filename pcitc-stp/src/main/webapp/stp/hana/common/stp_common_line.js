@@ -212,6 +212,81 @@ var mony_line_option = {
 	};
 
 
+
+
+var mony_line_option_02 = {
+	    title: {
+	        text: '',
+	        x: 'center',
+	        y: '10px',
+	        textStyle: {
+	            fontSize: 15,
+	            fontWeight: 'normal',
+	            color: '#000000'       
+	        },
+	        subtextStyle: {
+	            color: '#7B7B7B'        
+	        },
+	        subtext:''
+	    },
+	    tooltip: {
+	        trigger: 'axis'
+	    },
+	    /*toolbox: {
+            feature: {
+                magicType: {show: true, type: ['line', 'bar']},
+                saveAsImage: {show: true}
+            }
+        },*/
+        grid: {
+            x: 60,
+            y: 60,
+            x2: 60,
+            y2: 60
+	    },
+	    color:['#6592b2', '#54b6e9','#70b1aa','#e8a791','#b5c26a','#d59981'],
+	    
+	    legend: {
+            type: 'scroll',
+            bottom: 1,
+            data:[]
+        },
+        
+
+	    xAxis: {
+	        type: 'category',
+	        boundaryGap: false,
+	        data: []
+	    },
+	    yAxis: [
+	        {
+	            type: 'value',
+	            name: '金额（万元）',
+	            min: 'dataMin',
+                max:'dataMax',
+                position: 'left',
+                axisLabel: {
+                    formatter: '{value}'
+                }
+	        },
+	        {
+	        	    type: 'value',
+	                name: '百分比',
+	                min: 0,
+	                max:100,
+	                position: 'right',
+	                axisLabel: {
+	                    formatter: '{value} %'
+	                }
+	        }
+	    ],
+	    series: [
+	        
+	    ]
+	};
+
+
+
 function get_mony_line_option_ajax(url,echartsobj, options) 
 {
 	
@@ -314,6 +389,20 @@ function load_mony_line(url,id,title,subtext,yAxis)
 	return echartsobj;
 }
 
+
+
+
+function load_mony_line_02(url,id,title,subtext,yAxis)
+{
+	var echartsobj = echarts.init(document.getElementById(id));
+	mony_line_option_02.title.text=title;
+	mony_line_option_02.title.subtext=subtext;
+	mony_line_option_02.yAxis=yAxis;
+	echartsobj.setOption(mony_line_option_02);
+	echartsobj.showLoading();
+	get_mony_line_option_ajax(url,echartsobj, mony_line_option_02);
+	return echartsobj;
+}
 
 
 

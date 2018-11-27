@@ -24,6 +24,7 @@ import com.pcitc.mapper.doc.SysFileKindMapper;
 import com.pcitc.service.doc.SysFileKindService;
 import com.pcitc.service.doc.SysFileShareService;
 import com.pcitc.service.system.SysFileService;
+import com.pcitc.utils.StringUtils;
 
 
 /**
@@ -162,7 +163,7 @@ public class SysFileKindServiceImpl implements SysFileKindService {
         SysFileKindExample example = new SysFileKindExample();
         SysFileKindExample.Criteria c = example.createCriteria();
         c.andStatusEqualTo("1");
-        if(param.getParam().get("fileKind") !=null && !com.pcitc.common.StringUtils.isBlank(param.getParam().get("fileKind")+""))
+        if(param.getParam().get("fileKind") !=null && !StringUtils.isBlank(param.getParam().get("fileKind")+""))
         {
             c.andIdEqualTo(param.getParam().get("fileKind").toString());
 //            SysFileKindExample.Criteria criteria2 = example.or();

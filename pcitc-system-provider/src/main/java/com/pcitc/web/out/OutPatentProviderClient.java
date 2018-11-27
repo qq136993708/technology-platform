@@ -101,4 +101,15 @@ public class OutPatentProviderClient {
 		LayuiTableData tem = outPatentService.getTypeInfoByUnitDetails(param);
 		return tem;
 	}
+	
+	@ApiOperation(value = "领导二级页面，直属研究院，8个院专利申请、授权、发明专利数量", notes = "参数是年度、研究院等")
+	@RequestMapping(value = "/out-patent-provider/ld/institute/type-count", method = RequestMethod.POST)
+	public JSONArray getPatentTypeCountByInstituteForLD(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page getPatentTypeCountByInstituteForLD===========================" + map);
+		
+		String nd = map.get("nd");
+		List temList = outPatentService.getPatentTypeCountByInstituteForLD(map);
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		return json;
+	}
 }

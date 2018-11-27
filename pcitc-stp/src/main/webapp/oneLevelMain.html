@@ -15,29 +15,19 @@
 </head>
 <body>
 <div class="layui-fluid layui-level-admin">
-    <div style="background: white;">
-        <div class="layui-header"><img src="/layuiadmin/layui/images/login-stp.png"/></div>
+    <div style="background: #002a53;">
+        <div class="layui-header">
+            <img src="/layuiadmin/layui/images/login-stp.png"/>
+            <div class="layui-search">
+                <input type="text" placeholder="请输入关键字">
+                <button class="btn"></button>
+            </div>
+        </div>
+
     </div>
     <div class="layui-main">
         <div class="layui-level-main">
-            <div class="layui-level-menu layui-row">
-                <div class="layui-col-md9">
-                    <ul>
-                        <li class="layui-this"><a href="javascript:;">首页</a></li>
-                        <li><a href="javascript:;">科研课题</a></li>
-                        <li><a href="javascript:;">科研投入</a></li>
-                        <li><a href="javascript:;">科技成果</a></li>
-                        <li><a href="javascript:;">知识产权</a></li>
-                        <li><a href="javascript:;">技术族</a></li>
-                        <li><a href="javascript:;">标准化</a></li>
-                        <li><a href="javascript:;">专家库</a></li>
-                    </ul>
-                </div>
-                <div class="layui-col-md3 layui-search">
-                    <input type="text" placeholder="请输入关键字">
-                    <button class="btn"></button>
-                </div>
-            </div>
+
             <div class="layui-row">
                 <div class="layui-left layui-row-pic">
                     <div class="layui-carousel" id="test-carousel-img">
@@ -55,54 +45,58 @@
 
                 </div>
                 <div class="layui-right layui-row-text">
-                    <div class="layui-row-textTop">
-                        <div class="layui-text-icon layui-textTop-one"  id="porject" style="cursor:pointer">
-                            <p>集团重点项目及十条龙科技攻关 </p>
-                           <!--  <span id="textTopOne">50</span><span class="layui-text-span">个</span> -->
-                           <span class="layui-box-number" id="kyxm">
-                                <img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
-                            </span>
-                            
-                            <img src="/layuiadmin/layui/images/level-close.png" class="dele" alt="">
-                        </div>
-                        <div class="layui-text-icon layui-textTop-two"  id="home_budget" style="cursor:pointer">
+                    <div class="layui-row-textBottom layui-row">
+
+                        <div class="layui-col-md3 layui-text-icon layui-textTop-two"  id="home_budget" style="cursor:pointer">
                             <p>科研投入</p>
                             <span id="textTopTwo">0</span><span class="layui-text-span">个</span>
                             <img src="/layuiadmin/layui/images/level-close.png" class="dele" alt="">
                         </div>
-                        <div class="layui-text-icon layui-textTop-three"  id="achievements" style="cursor:pointer">
-                            <p>科技成果</p>
-                           <!--  <span id="textTopThree"></span><span class="layui-text-span">个</span> -->
-                           <span class="layui-box-number" id="appraisalId">
+                        <div class="layui-col-md3 layui-text-icon layui-textTop-three"  id="achievements" style="cursor:pointer">
+                            <p>科技装备</p>
+                            <!--  <span id="textTopThree"></span><span class="layui-text-span">个</span> -->
+                            <span class="layui-box-number" id="appraisalId">
                              <img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
                             </span>
                             <img src="/layuiadmin/layui/images/level-close.png" class="dele" alt="">
                         </div>
-                    </div>
-                    <div class="layui-row-textBottom">
-                        <div class="layui-text-icon layui-textBottom-one" id="mainLeader" style="cursor:pointer">
-                            <p>直属研究院<br/>概况</p>
+
+                        <div class="layui-col-md3 layui-text-icon layui-textBottom-four">
+                            <p>科研人才</p>
+                            <!--<span id="textBottomFour">0</span><span class="layui-text-span">个</span>-->
                             <img src="/layuiadmin/layui/images/level-close.png" class="dele" alt="">
                         </div>
-                        <div class="layui-text-icon layui-textBottom-two">
+
+                        <div class="layui-col-md3 layui-text-icon layui-textBottom-two">
                             <p>重点实验室</p>
                             <span id="textBottomTwo">0</span><span class="layui-text-span">个</span>
                             <img src="/layuiadmin/layui/images/level-close.png" class="dele" alt="">
                         </div>
-                        <div class="layui-text-icon layui-textBottom-three"  id="knowledge_right" style="cursor:pointer">
+                    </div>
+                    <div class="layui-row-textTop layui-row">
+                        <div class="layui-col-md6 layui-text-icon layui-textTop-one"  id="porject">
+                            <p>集团重点项目及十条龙科技攻关 </p>
+                            <!--  <span id="textTopOne">50</span><span class="layui-text-span">个</span> -->
+                            <span class="layui-box-number" id="kyxm">
+                                <img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+                            </span>
+
+                            <img src="/layuiadmin/layui/images/level-close.png" class="dele" alt="">
+                        </div>
+                        <div class="layui-col-md3 layui-text-icon layui-textBottom-one" id="mainLeader">
+                            <p>直属研究院<br/>概况</p>
+                            <img src="/layuiadmin/layui/images/level-close.png" class="dele" alt="">
+                        </div>
+                        <div class="layui-col-md3 layui-text-icon layui-textBottom-three"  id="knowledge_right">
                             <p>知识产权</p>
-                             <span class="layui-box-number" id="patentId">
+                            <span class="layui-box-number" id="patentId">
                                <img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
                             </span>
                             <!-- <span id="textBottomThree"></span><span class="layui-text-span">个</span> -->
                             <img src="/layuiadmin/layui/images/level-close.png" class="dele" alt="">
                         </div>
-                        <div class="layui-text-icon layui-textBottom-four">
-                            <p>中国石化标准化</p>
-                            <span id="textBottomFour">0</span><span class="layui-text-span">个</span>
-                            <img src="/layuiadmin/layui/images/level-close.png" class="dele" alt="">
-                        </div>
                     </div>
+
                 </div>
             </div>
             <div class="layui-row" style="margin-top: 20px;">
@@ -123,46 +117,54 @@
                             <span>2018-11-12 </span></li>
                     </ul>
                 </div>
-                <div class="layui-right layui-agency">
-                    <div class="layui-agency-left">
+                <div class="layui-right layui-agency layui-row">
+                    <div class="layui-agency-left layui-col-md6">
                         <p>待办督办</p>
                         <ul>
                             <li>
                                 <img src="/layuiadmin/layui/images/agencyOne.png" alt="">
-                                <span class="layui-agency-left-span">待办事项</span><br/>
-                                <span>（<span id="agencyOne"></span>）</span>
+                                <span class="layui-agency-left-span">待办事项</span>
+                                <span class="layui-agency-span" id="agencyOne">1</span>
                             </li>
                             <li>
                                 <img src="/layuiadmin/layui/images/agencyTwo.png" alt="">
-                                <span class="layui-agency-left-span">已办事项</span><br/>
-                                <span>（<span id="agencyTwo"></span>）</span>
+                                <span class="layui-agency-left-span">已办事项</span>
+                                <span class="layui-agency-span" id="agencyTwo">1</span>
                             </li>
                             <li>
                                 <img src="/layuiadmin/layui/images/agencyThree.png" alt="">
-                                <span class="layui-agency-left-span">已结事项</span><br/>
-                                <span>（<span id="agencyThree"></span>）</span>
+                                <span class="layui-agency-left-span">已结事项</span>
+                                <span class="layui-agency-span" id="agencyThree">12</span>
                             </li>
                             <li>
                                 <img src="/layuiadmin/layui/images/agencyFour.png" alt="">
-                                <span class="layui-agency-left-span">任务督办</span><br/>
-                                <span>（<span id="agencyFour"></span>）</span>
+                                <span class="layui-agency-left-span">任务督办</span>
+                                <span class="layui-agency-span" id="agencyFour">1</span>
                             </li>
                         </ul>
                     </div>
-                    <div class="layui-agency-right">
-                        <div class="layui-party">
-                            <p>党建信息</p>
+                    <div class="layui-agency-right layui-col-md6">
+                        <div class="layui-col-md6 layui-agency-party">
+                            <div class="layui-text-icon layui-party-four">
+                                <p>中国石化标准化</p>
+                                <span id="textBottomFour">0</span><span class="layui-text-span">个</span>
+                                <img src="/layuiadmin/layui/images/level-close.png" class="dele" alt="">
+                            </div>
+                            <div class="layui-party">
+                                <p>领导讲话</p>
+                            </div>
                         </div>
-                        <div class="layui-cooperation layui-text-icon">
-                            <p>国际合作年度报告</p>
-                            <img src="/layuiadmin/layui/images/level-close.png" class="dele" alt="">
+                        <div class="layui-col-md6">
+                            <div class="layui-cooperation layui-text-icon">
+                                <p>国际合作年度报告</p>
+                                <img src="/layuiadmin/layui/images/level-close.png" class="dele" alt="">
+                            </div>
+                            <div class="layui-add">
+                                <img src="/layuiadmin/layui/images/icon-puls.png"/>
+                            </div>
                         </div>
+
                     </div>
-                </div>
-            </div>
-            <div class="layui-row">
-                <div class="layui-add">
-                    <img src="/layuiadmin/layui/images/icon-puls.png"/>
                 </div>
             </div>
         </div>
@@ -174,24 +176,15 @@
         var carousel = layui.carousel,$=layui.jquery
             ,form = layui.form;
         //图片轮播
-        console.log($(window).height())
         
          $(".dele").click(function () {
             $(this).parents(".layui-text-icon").remove();
         });
         
-        var windowHeight=0;
-        if ($(window).height()>=626) {
-            windowHeight=366;
-        }else if($(window).height()>=759){
-            windowHeight=382;
-        }else if($(window).height()>=965){
-            windowHeight=384;
-        }
         carousel.render({
             elem: '#test-carousel-img'
             ,width: '100%'
-            ,height: windowHeight+'px'
+            ,height: '368px'
             ,interval: 5000
         });
         
@@ -208,7 +201,7 @@
         //十条龙-项目
         $("#porject").on("click",function () {
         	
-        	window.location.href="/instituteIndex.html?url="+"/home_project_direct/home_project_direct"
+        	window.location.href="/instituteIndex.html?url="+"/ten_dragon/ten_dragon"
         	
         });
         //科技成果

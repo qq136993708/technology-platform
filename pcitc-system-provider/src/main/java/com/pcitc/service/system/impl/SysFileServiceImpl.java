@@ -21,8 +21,6 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.pcitc.base.common.*;
-import com.pcitc.utils.ImageUtils;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -40,6 +38,12 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.pcitc.base.common.FileResult;
+import com.pcitc.base.common.GetLocation;
+import com.pcitc.base.common.LayuiTableData;
+import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.common.TreeNode;
+import com.pcitc.base.common.UploadType;
 import com.pcitc.base.common.enums.DataOperationStatusEnum;
 import com.pcitc.base.doc.SysFileShare;
 import com.pcitc.base.doc.SysFileShareExample;
@@ -53,7 +57,6 @@ import com.pcitc.base.util.FileUtil;
 import com.pcitc.base.util.GetTextFromFile;
 import com.pcitc.base.util.JsonUtil;
 import com.pcitc.base.util.StrUtil;
-import com.pcitc.common.StringUtils;
 import com.pcitc.es.builder.BooleanCondtionBuilder;
 import com.pcitc.es.clientmanager.ClientFactoryBuilder;
 import com.pcitc.es.clientmanager.IndexHelperBuilder;
@@ -65,6 +68,7 @@ import com.pcitc.service.doc.SysFileShareService;
 import com.pcitc.service.system.SysFileConfigService;
 import com.pcitc.service.system.SysFileService;
 import com.pcitc.service.system.SysFunctionService;
+import com.pcitc.utils.StringUtils;
 
 //import com.pcitc.service.system.SysSerialService;
 

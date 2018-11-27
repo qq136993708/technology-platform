@@ -64,10 +64,15 @@ public interface OutPatentMapper {
     public List getWXLXDetailsInfo(Map hashmap);
     
     /**
-     * @param nd
      * @return
      * 得到某个年度各专利类型在各个研究院的分布 详情页面
      */
     public List getTypeInfoByUnitDetails(Map hashmap);
+    
+    /**
+     * @return
+     * 领导二级页面，直属研究院，8个院专利申请、授权、发明专利数量
+     */
+    public List getPatentTypeCountByInstituteForLD(Map hashmap);
     
 }

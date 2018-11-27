@@ -41,8 +41,8 @@ import com.pcitc.web.common.JwtTokenUtil;
 import com.pcitc.web.utils.HanaUtil;
 
 @Controller
-@RequestMapping(value = "/home_project_direct")
-public class HomeProjectDirectController {
+@RequestMapping(value = "/home_project_ld")
+public class HomeProjectLDController {
 	
 	private static final String getProjectByCountBar =      "http://pcitc-zuul/system-proxy/out-project-provider/ld/project-count/project-type";
 	private static final String getProjectByCountPie =      "http://pcitc-zuul/system-proxy/out-project-provider/ld/project-type-count";
@@ -62,7 +62,7 @@ public class HomeProjectDirectController {
 				
 				/**=====================================科研项目二级页面===============================*/
 				
-				@RequestMapping(method = RequestMethod.GET, value = "/home_project_direct")
+				@RequestMapping(method = RequestMethod.GET, value = "/home_project_ld")
 				  public String kyzb_level2(HttpServletRequest request) throws Exception
 				  {
 					    
@@ -73,7 +73,7 @@ public class HomeProjectDirectController {
 					    request.setAttribute("unitCode", unitCode);
 					    String year= HanaUtil.getCurrrentYear();
 					    request.setAttribute("year", year);
-				        return "stp/hana/home/direct_depart/home_project_direct";
+				        return "stp/hana/home/level/direct_depart/home_project_ld";
 				  }
 				
 			
@@ -102,7 +102,7 @@ public class HomeProjectDirectController {
 					    request.setAttribute("G0XMLX_LIST", G0XMLX_LIST);
 					    request.setAttribute("G0XMZT_LIST", G0XMZT_LIST);
 					    
-				        return "stp/hana/home/direct_depart/home_project_table_mysql";
+				        return "stp/hana/home/level/direct_depart/home_project_table_mysql";
 				  }
 				
 				
@@ -442,7 +442,6 @@ public class HomeProjectDirectController {
 										ChartBarLineSeries s2 = HanaUtil.getProjectForMysqlChartBarLineSeries(list, "xjsl");
 										seriesList.add(s1);
 										seriesList.add(s2);
-										
 										barLine.setSeriesList(seriesList);
 						         		result.setSuccess(true);
 										result.setData(barLine);

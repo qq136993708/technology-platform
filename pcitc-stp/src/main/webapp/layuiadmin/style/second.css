@@ -46,7 +46,9 @@ h3{font-size: 18px;/*font-weight: bold;*/color: #000000;height: 30px;line-height
 .layui-main-oil .layui-col-md12 {margin-bottom: 10px;}
 .layui-main-oil .layui-main-oil4{width: 40%;}
 .layui-main-oil .layui-main-oil6{width: 60%;padding-right: 0;}
+.layui-main-oil6{padding-right: 0;}
 .layui-main-oil .layui-main-oil6 .layui-col-md5:last-child{padding-right: 0;}
+.layui-main-oil6 .layui-col-md5:last-child{padding-right: 0;}
 .form-control{min-width: 50%;}
 .dateInput .form-control{min-width: auto;}
 .form-input{min-width: 27%;}

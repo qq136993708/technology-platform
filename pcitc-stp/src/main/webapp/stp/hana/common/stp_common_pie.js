@@ -142,6 +142,141 @@ function loadPie_tt(id,title,legend_names,series_values,subtext)
     });
 }
 
+
+/**=============================================返回DATA============================*/
+
+
+var optionpie_02 = {
+	    title: {
+	        text: '',
+	        x: 'center',
+	        y: '10px',
+	        textStyle: {
+	            fontSize: 15,
+	            fontWeight: 'normal',
+	            color: '#000000'       
+	        },
+	        subtextStyle: {
+	            color: '#7B7B7B'        
+	        },
+	        subtext:''
+	    },
+	    color:['#87d359', '#70b1aa','#f3cc42','#e79579','#349bd1','#7e7fa5','#9799ec','#c3c784','#f4964a'],
+	    tooltip: {
+	        trigger: 'item',
+	        formatter: "{a} <br/>{b} : {c}  ({d}%)"
+	    },
+	    legend: {
+	        type: 'scroll',
+	        bottom: 1,
+	        data: []
+	    },
+	    grid: {
+    	    x: 80,
+            y: 80,
+            x2: 80,
+            y2: 80
+    },
+	    series: [
+	        {
+	            name: '访问来源',
+	            type: 'pie',
+	            radius: ['30%', '60%'],
+	            center: ['53%','58%'],
+	            avoidLabelOverlap: false,
+	            data: [],
+	            itemStyle: {
+	                normal: {
+	                    label: {
+	                        show: true,
+	                        formatter: '{b} \n {c} \n({d}%)'
+	                    },
+	                    labelLine: {show: true}
+	                },
+	                emphasis: {
+	                    shadowBlur: 10,
+	                    shadowOffsetX: 0,
+	                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+	                }
+	            }
+	        }
+	    ]
+	};
+	function pieAjax_02(url, echartsobj, options) 
+	{
+		 var allCount=0;
+		 var names=[];  
+	     var values=[];  
+	     $.ajax({
+		     type:"get",
+		     url: url,
+		     dataType:"json",
+		     timeout : 11000,
+		     async:false, 
+		     cache: false,
+		     contentType: "application/x-www-form-urlencoded; charset=utf-8",
+		      success:function(data,status)
+		      {    
+			          if(data.success==true ||data.success=='true')
+			          {
+			        		    echartsobj.hideLoading();
+			        	        var chartList=data.data.dataList;
+			                    for(var i=0;i<chartList.length;i++)
+			                    {
+			                        names.push(chartList[i].name);
+			                    }
+			                    for(var i=0;i<chartList.length;i++)
+			                    {
+			                    	allCount=allCount+parseInt(chartList[i].value);
+			                    	values.push({
+			                            value: chartList[i].value,
+			                            name: chartList[i].name
+			                        });
+			                    }
+			                    //加载数据图表
+			                    echartsobj.setOption({
+			                        legend: {
+			                            data: names
+			                        },
+			                        series: [{
+			                            data: values
+			                        }]
+			                    });
+			        	        
+			          } 
+				   },
+				   error:function()
+				   {
+					   layer.msg('图表加载失败');
+				   },
+				   complete: function (XMLHttpRequest, status) {
+			            if(status == 'timeout'){
+			            	 layer.msg('超时');
+			            }
+			        }
+		    });
+	     
+	     return allCount;
+	        
+	        
+	}
+
+
+
+
+	//饼图
+	function loadPie_02(url,id,title,subtext)
+	{
+		var echartsobj = echarts.init(document.getElementById(id));
+		optionpie_02.title.text=title;
+		optionpie_02.title.subtext=subtext;
+		echartsobj.setOption(optionpie_02);
+		echartsobj.showLoading();
+		var allCount=pieAjax_02(url,echartsobj,optionpie_02);
+		return allCount;
+	}
+
+	
 /**
  * ======================================饼形图 end==============================================
  */

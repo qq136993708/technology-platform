@@ -1,6 +1,16 @@
 package com.pcitc.service.report.impl;
 
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
@@ -17,15 +27,7 @@ import com.pcitc.base.util.TreeNodeUtil;
 import com.pcitc.mapper.report.ReportConfigMapper;
 import com.pcitc.service.report.ReportColumnService;
 import com.pcitc.service.report.ReportConfigService;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import com.pcitc.utils.StringUtils;
 
 
 /**
@@ -179,7 +181,7 @@ public class ReportConfigServiceImpl implements ReportConfigService {
     public LayuiTableData findReportConfigByPage(LayuiTableParam param) {
         ReportConfigExample example = new ReportConfigExample();
         ReportConfigExample.Criteria c = example.createCriteria();
-        if (param.getParam().get("name") != null && !com.pcitc.common.StringUtils.isBlank(param.getParam().get("name") + "")) {
+        if (param.getParam().get("name") != null && !StringUtils.isBlank(param.getParam().get("name") + "")) {
             System.out.println("param.getParam().get(\"name\").toString() = " + param.getParam().get("name").toString());
             c.andNameLike("%" + param.getParam().get("name").toString() + "%");
         }

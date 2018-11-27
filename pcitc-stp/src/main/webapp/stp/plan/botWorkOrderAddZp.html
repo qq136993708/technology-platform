@@ -388,8 +388,8 @@
             method: "POST",
             where: {param: {"workOrderId": dataId}},
             cols: [[
-                {type: 'checkbox'},
-                {title: '序号', type: 'numbers'},
+                {type: 'checkbox',width:55},
+                {title: '序号', type: 'numbers',width:55},
                 {field: 'dataId', title: '主键', event: 'setActive', style: 'cursor: pointer;', edit: true},
                 {field: 'workOrderName', title: '事项内容', event: 'setActive', style: 'cursor: pointer;', edit: true},
                 {
@@ -399,13 +399,13 @@
                     style: 'cursor: pointer;',
                     edit: true
                 },
-                {
+                /*{
                     field: 'workOrderAllotUserId',
                     title: '处理人ID',
                     event: 'setActive',
                     style: 'cursor: pointer;',
                     edit: true
-                },
+                },*/
                 {field: 'bl', title: '比例', event: 'setActive', style: 'cursor: pointer;', edit: true},
                 {field: 'jsId', title: '接收人', event: 'setActive', style: 'cursor: pointer;', edit: true}
             ]],
@@ -421,12 +421,12 @@
         $('#addMatter').click(function () {
             var trParam = {
                 "id": "matterTableDiv",
-                "number": 8,
+                "number": 7,
                 "specialElement": [
                     {hide:true,"column":2,"element":"input"},
-                    {"column":4,"element":"select","value":$("#workOrderAllotUserName").val()},
-                    {hide:true,"column":5,"element":"input","value":$("#workOrderAllotUserId").val()},
-                    {hide:true,"column":7,"element":"input"}
+                    {"column":4,"element":"select","value":$("#workOrderAllotUserName").val(),"valueId":$("#workOrderAllotUserId").val()},
+                    {hide:true,"column":6,"element":"input"},
+                    {"column":5,"element":"input","disabled":true,"value":$(".bl").val()},
                 ]
             };
             console.log(trParam);

@@ -17,15 +17,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
+import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.workflow.SysFunctionProdef;
@@ -36,18 +39,18 @@ import com.pcitc.web.common.OperationFilter;
 @Controller
 public class WorkflowController extends BaseController {
 
-	private static final String GET_FUNCTION_COMPLETE_TREE = "http://pcitc-zuul/system-proxy/function-provider/function/complete-function-tree";
+	private static final String GET_FUNCTION_COMPLETE_TREE = "http://pplus-zuul/system-proxy/function-provider/function/complete-function-tree";
 
-	private static final String FUNCTION_PROCESS_DEFINE_PAGE = "http://pcitc-zuul/system-proxy/workflow-provider/function/process-list";
-	private static final String FUNCTION_PROCESS_DEFINE_ADD = "http://pcitc-zuul/system-proxy/workflow-provider/function/add-config";
+	private static final String FUNCTION_PROCESS_DEFINE_PAGE = "http://pplus-zuul/system-proxy/workflow-provider/function/process-list";
+	private static final String FUNCTION_PROCESS_DEFINE_ADD = "http://pplus-zuul/system-proxy/workflow-provider/function/add-config";
 
-	private static final String FUNCTION_CONFIG_DEL = "http://pcitc-zuul/system-proxy/workflow-provider/function/configures";
+	private static final String FUNCTION_CONFIG_DEL = "http://pplus-zuul/system-proxy/workflow-provider/function/configures";
 
-	private final static String PROCESS_DEF_LIST = "http://pcitc-zuul/system-proxy/workflow-provider/process/defines/list";
+	private final static String PROCESS_DEF_LIST = "http://pplus-zuul/system-proxy/workflow-provider/process/defines/list";
 
-	private static final String START_WORKFLOW_URL = "http://pcitc-zuul/system-proxy/workflow-provider/workflow/start";
+	private static final String START_WORKFLOW_URL = "http://pplus-zuul/system-proxy/workflow-provider/workflow/start";
 
-	private static final String AUDIT_FLAG_URL = "http://pcitc-zuul/system-proxy/task-provider/workflow/start/audit-type";
+	private static final String AUDIT_FLAG_URL = "http://pplus-zuul/system-proxy/task-provider/workflow/start/audit-type";
 
 	/**
 	 * 判断是否需要选择审批人,判断流程图的第一个审批节点的类型（通过id来区分）
@@ -125,10 +128,10 @@ public class WorkflowController extends BaseController {
 		variables.put("auditDetailsPath", "/task/test/details/" + businessId);
 
 		// 流程完全审批通过时，调用的方法
-		variables.put("auditAgreeMethod", "http://pcitc-zuul/system-proxy/workflow-provider/task/agree/" + businessId);
+		variables.put("auditAgreeMethod", "http://pplus-zuul/system-proxy/workflow-provider/task/agree/" + businessId);
 
 		// 流程驳回时，调用的方法（可能驳回到第一步，也可能驳回到第1+n步
-		variables.put("auditRejectMethod", "http://pcitc-zuul/system-proxy/workflow-provider/task/reject/" + businessId);
+		variables.put("auditRejectMethod", "http://pplus-zuul/system-proxy/workflow-provider/task/reject/" + businessId);
 
 		// 对流程中出现的多个判断条件，比如money>100等，需要把事先把money条件输入
 		variables.put("money", 50); // 环节1需要用到
@@ -266,16 +269,31 @@ public class WorkflowController extends BaseController {
 		System.out.println("1========/workflow/function/add=========" + functionId);
 		request.setAttribute("userInfo", sysUserInfo);
 		
-		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("userId", sysUserInfo.getUserId());
-		HttpEntity<HashMap<String, String>> entity = new HttpEntity<HashMap<String, String>>(map, this.httpHeaders);
-		System.out.println("1========/workflow/process/define/list=========" + httpHeaders.getContentType().toString());
-		// 只查询已经激活的工作流定义
+		return "/pplus/workflow/prodef-add";
+	}
+	
+	/**
+	 * 跳转到选择工作流定义页面
+	 */
+	@RequestMapping(value = "/workflow/function-config/ini-workflow-define")
+	public String iniProcessForConfig(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		return "/pplus/workflow/workflow-define-list";
+	}
+	
+	/**
+	 * 选择生效的工作流定义
+	 * @param param
+	 * @return
+	 */
+	@RequestMapping(value = "/workflow/function-config/workflow-define-list", method = RequestMethod.POST)
+	@ResponseBody
+	public Object getWorkflowDefineListForTable(@ModelAttribute("param") LayuiTableParam param) {
+		System.out.println("====--------/workflow/function-config/workflow-define-list");
+		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(PROCESS_DEF_LIST, HttpMethod.POST, entity, LayuiTableData.class);
 		LayuiTableData retJson = responseEntity.getBody();
-		request.setAttribute("processDefList", retJson.getData());
-
-		return "/pplus/workflow/prodef-add";
+		return JSON.toJSON(retJson).toString();
 	}
 
 

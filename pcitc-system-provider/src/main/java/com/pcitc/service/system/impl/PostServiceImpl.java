@@ -33,7 +33,6 @@ import com.pcitc.base.system.SysUserPostExample;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.HanyuPinyinHelper;
 import com.pcitc.base.util.IdUtil;
-import com.pcitc.common.StringUtils;
 import com.pcitc.mapper.system.SysFunctionMapper;
 import com.pcitc.mapper.system.SysPostFunctionMapper;
 import com.pcitc.mapper.system.SysPostMapper;
@@ -42,6 +41,7 @@ import com.pcitc.mapper.system.SysUserMapper;
 import com.pcitc.mapper.system.SysUserPostMapper;
 import com.pcitc.service.system.PostService;
 import com.pcitc.service.system.UnitService;
+import com.pcitc.utils.StringUtils;
 
 @Service("postService")
 @Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = Exception.class)

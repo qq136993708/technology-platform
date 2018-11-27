@@ -1839,4 +1839,34 @@ public class OutProjectInfoClient {
 		return json;
 	}
 	
+	@ApiOperation(value = "领导二级页面，直属研究院，8个院预算金额和实际金额的统计", notes = "参数年度、研究院等")
+	@RequestMapping(value = "/out-project-provider/ld/money-rate/institute")
+	public JSONArray getProjectMoneyByInstituteForLD(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page getProjectMoneyByInstituteForLD===========================" + map);
+		
+		List temList = outProjectService.getProjectMoneyByInstituteForLD(map);
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		return json;
+	}
+	
+	@ApiOperation(value = "领导二级页面，重大项目和十条龙项目详情", notes = "参数年度、研究院等")
+	@RequestMapping(value = "/out-project-provider/ld/project-info/zdstl")
+	public JSONArray getZDSTLProjectInfo(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page getZDSTLProjectInfo===========================" + map);
+		
+		List temList = outProjectService.getZDSTLProjectInfo(map);
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		return json;
+	}
+	
+	@ApiOperation(value = "领导二级页面，重大项目和十条龙项目, 8个院中重大、十条龙项目的情况, 每一行是一个院", notes = "参数年度、研究院等")
+	@RequestMapping(value = "/out-project-provider/ld/zdstl/count")
+	public JSONArray getZDSTLProjectCountByInstitute(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page getZDSTLProjectCountByInstitute===========================" + map);
+		
+		List temList = outProjectService.getZDSTLProjectCountByInstitute(map);
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		return json;
+	}
+	
 }

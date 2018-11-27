@@ -170,6 +170,28 @@ public class HomeProviderClient {
     
     
     
+    @ApiOperation(value = "大型分析仪器、中型实验装置、专业软件（外购）、勘探前沿装备", notes = "大型分析仪器、中型实验装置、专业软件（外购）、勘探前沿装备")
+   	@RequestMapping(value = "/getDzzk_bar", method = RequestMethod.POST)
+   	public JSONArray getDzzk_bar(@ApiParam(value="月份:month如201812,公司代码:companyCode",required=true)@RequestBody String paramsJson) throws Exception 
+    {
+   		
+   		System.out.println(" paramsJson=" + paramsJson);
+   		JSONObject jo = JSONObject.parseObject(paramsJson);
+   		String month = jo.getString("month");
+   		String companyCode = jo.getString("companyCode");
+   		Map map = new HashMap();
+   		map.put("month", month);
+   		map.put("companyCode", companyCode);
+   		List<H1AMKYSY100117> list = homeService.getDzzk_bar(map);
+   		
+   		JSONArray json = JSON.parseArray(JSON.toJSONString(list));
+   		System.out.println(">>>>>>>>>>>>>>>>>getDzzk_bar " + json.toString());
+   		return json;
+   	}
+    
+    
+    
+    
 
     
     @ApiOperation(value = "下钻页-年度科研项目总览", notes = "下钻页-年度科研项目总览")
