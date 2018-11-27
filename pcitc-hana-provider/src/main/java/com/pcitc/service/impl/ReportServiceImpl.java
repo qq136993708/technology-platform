@@ -120,6 +120,9 @@ public class ReportServiceImpl implements ReportService {
         for (int i = 0; i < list.size(); i++) {
             Map<String, Object> map1 = list.get(i);
             Map<String, String> map2 = new LinkedHashMap<>();
+            if(map1==null){
+                continue;
+            }
             for (Map.Entry<String, Object> entry : map1.entrySet()) {
                 String str = entry.getValue() + "";
 //                if (isNumeric(str)){
