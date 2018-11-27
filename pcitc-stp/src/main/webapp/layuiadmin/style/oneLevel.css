@@ -84,6 +84,8 @@ html{background: #013660;}
 .layui-agency-party{margin-right: 20px;}
 .layui-party-four{height: 128px;
     background:url("/layuiadmin/layui/images/icon-achievements.png") center center no-repeat #159617;}
+.layui-left .layui-party-four{
+    background:url("/layuiadmin/layui/images/textBottomFour.png") center center no-repeat #a544af;}
 /*1366*/
 @media screen and (max-height: 946px) {
     .layui-level-main{width: 88%;}
