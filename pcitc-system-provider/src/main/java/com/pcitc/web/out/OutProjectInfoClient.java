@@ -813,6 +813,11 @@ public class OutProjectInfoClient {
 			HashMap<String, Object> temMap = new HashMap<String, Object>();
 			temMap.put("fyxje", 0d);
 			temMap.put("zbxje", 0d);
+			temMap.put("zje", 0d);
+			temMap.put("prefyxje", 0d);
+			temMap.put("prezbxje", 0d);
+			temMap.put("prezje", 0d);
+			temMap.put("moneyRate", 0d);
 			temMap.put("type_flag", "直属研究院");
 			temList.add(temMap);
 		}
@@ -820,6 +825,11 @@ public class OutProjectInfoClient {
 			HashMap<String, Object> temMap = new HashMap<String, Object>();
 			temMap.put("fyxje", 0d);
 			temMap.put("zbxje", 0d);
+			temMap.put("zje", 0d);
+			temMap.put("prefyxje", 0d);
+			temMap.put("prezbxje", 0d);
+			temMap.put("prezje", 0d);
+			temMap.put("moneyRate", 0d);
 			temMap.put("type_flag", "分子公司");
 			temList.add(temMap);
 		}
@@ -827,6 +837,11 @@ public class OutProjectInfoClient {
 			HashMap<String, Object> temMap = new HashMap<String, Object>();
 			temMap.put("fyxje", 0d);
 			temMap.put("zbxje", 0d);
+			temMap.put("zje", 0d);
+			temMap.put("prefyxje", 0d);
+			temMap.put("prezbxje", 0d);
+			temMap.put("prezje", 0d);
+			temMap.put("moneyRate", 0d);
 			temMap.put("type_flag", "集团单位");
 			temList.add(temMap);
 		}
@@ -834,6 +849,11 @@ public class OutProjectInfoClient {
 			HashMap<String, Object> temMap = new HashMap<String, Object>();
 			temMap.put("fyxje", 0d);
 			temMap.put("zbxje", 0d);
+			temMap.put("zje", 0d);
+			temMap.put("prefyxje", 0d);
+			temMap.put("prezbxje", 0d);
+			temMap.put("prezje", 0d);
+			temMap.put("moneyRate", 0d);
 			temMap.put("type_flag", "外部单位");
 			temList.add(temMap);
 		}
@@ -841,6 +861,11 @@ public class OutProjectInfoClient {
 			HashMap<String, Object> temMap = new HashMap<String, Object>();
 			temMap.put("fyxje", 0d);
 			temMap.put("zbxje", 0d);
+			temMap.put("zje", 0d);
+			temMap.put("prefyxje", 0d);
+			temMap.put("prezbxje", 0d);
+			temMap.put("prezje", 0d);
+			temMap.put("moneyRate", 0d);
 			temMap.put("type_flag", "盈科");
 			temList.add(temMap);
 		}
@@ -848,6 +873,11 @@ public class OutProjectInfoClient {
 			HashMap<String, Object> temMap = new HashMap<String, Object>();
 			temMap.put("fyxje", 0d);
 			temMap.put("zbxje", 0d);
+			temMap.put("zje", 0d);
+			temMap.put("prefyxje", 0d);
+			temMap.put("prezbxje", 0d);
+			temMap.put("prezje", 0d);
+			temMap.put("moneyRate", 0d);
 			temMap.put("type_flag", "休斯顿研发中心");
 			temList.add(temMap);
 		}
@@ -855,6 +885,11 @@ public class OutProjectInfoClient {
 			HashMap<String, Object> temMap = new HashMap<String, Object>();
 			temMap.put("fyxje", 0d);
 			temMap.put("zbxje", 0d);
+			temMap.put("zje", 0d);
+			temMap.put("prefyxje", 0d);
+			temMap.put("prezbxje", 0d);
+			temMap.put("prezje", 0d);
+			temMap.put("moneyRate", 0d);
 			temMap.put("type_flag", "中东研发中心");
 			temList.add(temMap);
 		}
@@ -862,6 +897,11 @@ public class OutProjectInfoClient {
 			HashMap<String, Object> temMap = new HashMap<String, Object>();
 			temMap.put("fyxje", 0d);
 			temMap.put("zbxje", 0d);
+			temMap.put("zje", 0d);
+			temMap.put("prefyxje", 0d);
+			temMap.put("prezbxje", 0d);
+			temMap.put("prezje", 0d);
+			temMap.put("moneyRate", 0d);
 			temMap.put("type_flag", "集团公司");
 			temList.add(temMap);
 		}
@@ -869,6 +909,11 @@ public class OutProjectInfoClient {
 			HashMap<String, Object> temMap = new HashMap<String, Object>();
 			temMap.put("fyxje", 0d);
 			temMap.put("zbxje", 0d);
+			temMap.put("zje", 0d);
+			temMap.put("prefyxje", 0d);
+			temMap.put("prezbxje", 0d);
+			temMap.put("prezje", 0d);
+			temMap.put("moneyRate", 0d);
 			temMap.put("type_flag", "资产公司");
 			temList.add(temMap);
 		}

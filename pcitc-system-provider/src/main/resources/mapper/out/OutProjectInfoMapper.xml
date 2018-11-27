@@ -1293,16 +1293,33 @@
 	    group by define1
 	</select>
 	
-	<select id="getProjectMoneyByUnit" resultType="java.util.Map"
-		parameterType="java.lang.String">
-		select
-			round(sum(case when define1 = '费用性' then jf else 0 end)/10000,4) as fyxje,
-	    	round(sum(case when define1 = '资本性' then jf else 0 end)/10000,4) as zbxje,
-	    	round(sum(jf)/10000,4) as zje,
-	    	SUBSTR(type_flag FROM 2) type_flag
-		from out_project_info
-		where project_type != '1' and (project_scope = '新开课题' or project_scope = '结转课题') and type_flag is not null
-	    group by type_flag
+	<select id="getProjectMoneyByUnit" resultType="java.util.Map" parameterType="java.lang.String">
+		select type_flag,showId,round(sum(case when showFlag = 'act' then fyxje else 0 end),4) as fyxje, 
+				round(sum(case when showFlag = 'act' then zbxje else 0 end),4) as zbxje, 
+				round(sum(case when showFlag = 'act' then zje else 0 end),4) as zje,
+				round(sum(case when showFlag = 'pre' then fyxje else 0 end),4) as prefyxje, 
+				round(sum(case when showFlag = 'pre' then zbxje else 0 end),4) as prezbxje,
+				round(sum(case when showFlag = 'pre' then zje else 0 end),4) as prezje,
+				round(sum(case when showFlag = 'act' then zje else 0 end)/sum(case when showFlag = 'pre' then zje else 0 end),4) as moneyRate
+		from (		
+			select (@j := @j + 1) AS showId,tableA.* from (
+				select	
+					round(sum(case when define1 = '费用性' then jf else 0 end),4) as fyxje,
+			    	round(sum(case when define1 = '资本性' then jf else 0 end),4) as zbxje,
+			    	round(sum(jf),4) as zje,
+			    	SUBSTR(type_flag FROM 2) type_flag,'act' as showFlag
+				from out_project_info
+				where project_type != '1' and project_scope = '新开课题' and type_flag is not null
+			  	group by type_flag) as tableA,(SELECT @j := 0) AS it
+		
+				UNION ALL
+				select (@i := @i + 1) AS showId,fyx_money,zbx_money,fyx_money+zbx_money as zje,show_ali,'pre' as showFlag
+				from out_tem_money_total,(SELECT @i := 0) AS it
+				where 
+					money_level = '2'
+			) as tableB
+		GROUP BY type_flag,showId
+		ORDER BY showId
 	</select>
 	
 	<select id="getProjectMoneyByYJY" resultType="java.util.Map"
