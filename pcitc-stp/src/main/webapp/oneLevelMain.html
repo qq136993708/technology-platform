@@ -191,29 +191,32 @@
         
         //直属研究院
         $("#mainLeader").on("click",function () {
-        	 window.location.href="/instituteIndex.html?url="+"/home_ld/direct_depart"
+        	
+        			 
+        	 window.open("/instituteIndex?url="+"/home_ld/direct_depart","_target");
+        	 
         });
        //科研投入(合同签订)
         $("#home_budget").on("click",function () {
-        	 window.location.href="/instituteIndex.html?url="+"/home_budget_ld/home_budget"
+        	
+        	window.open("/instituteIndex?url="+"/investment/investment","_target");
         	
         });
         //十条龙-项目
         $("#porject").on("click",function () {
-        	
-        	window.location.href="/instituteIndex.html?url="+"/ten_dragon/ten_dragon"
+        			
+        	window.open("/instituteIndex?url="+"/ten_dragon/ten_dragon","_target");
         	
         });
         //科技成果
         $("#achievements").on("click",function () {
         	
-        	window.location.href="/instituteIndex.html?url="+"/home_achievement_ld/award_level2"
-        	
+        	window.open("/instituteIndex?url="+"/home_achievement_ld/award_level2","_target");
         });
         //知识产权
         $("#knowledge_right").on("click",function () {
         	
-        	window.location.href="/instituteIndex.html?url="+"/home_knowledge_ld/knowledge_level2"
+        	window.open("/instituteIndex?url="+"/home_knowledge_ld/knowledge_level2","_target");
         	
         });
         

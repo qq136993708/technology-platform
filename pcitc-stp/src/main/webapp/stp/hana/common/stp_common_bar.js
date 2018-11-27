@@ -881,7 +881,6 @@ function barLineAjax(url,  echartsobj, options)
 	     url: url,
 	     dataType:"json",
 	     timeout : 11000,
-	     async:false, 
 	     cache: false,
 	     contentType: "application/x-www-form-urlencoded; charset=utf-8",
          success:function(data,status)

@@ -210,7 +210,7 @@ function initEchart()
     ];
 	
 
-	var chart1_url="/home_project_02/getProjectByCountBar?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
+	var chart1_url="/investment/get_investment_unit_type?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
 	var echart=load_mutl_bar_02(chart1_url,"chart1","","",yAxis);
 	echart.on('click', function (params) {
 		//params.name：X轴的值 
@@ -223,7 +223,6 @@ function initEchart()
 		var legentName=params.seriesName;
 		
 		window.open("/reportNew/reportPageStp?name=167305d0060_d4723a52");
-		
           
     });
 	

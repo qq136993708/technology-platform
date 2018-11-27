@@ -305,10 +305,15 @@
 
 	<script src="/layuiadmin/layui/layui.js"></script>
 	<script>
-		layui.use([ 'jquery' ], function() {
+		layui.config({
+			base : '../layuiadmin/' //静态资源所在路径
+		}).extend({
+			index : 'lib/index' //主入口模块
+		}).use(['index' ,'jquery' ], function() {
 			var $ = layui.jquery;
 			var windowHref=window.location.href.split("=");
             document.getElementById("mainIframe").src=windowHref[1];
+            
 			/*导航宽度*/
 			var layuiHeaderWidth = parseInt($(".layui-header").width());
 			var layuiHeaderUlActualWidth = 0, DValue = 0, ulLiNumber = 0;
@@ -505,6 +510,13 @@
                 });
             },function (){
                 $(this).find("img").addClass("layui-hide");
+            });
+            $(".layui-side-scroll .layui-nav a").on("click",function(){
+            	if($(this).attr("lay-href")!=undefined){
+            		$(".layadmin-tabsbody-item").eq(0).siblings().remove()
+            		document.getElementById("mainIframe").src=$(this).attr("lay-href");
+                	console.log($(this).attr("lay-href"))
+            	}
             });
 			// 菜单收藏
 			$("#collectFunction").on("click", function() {
