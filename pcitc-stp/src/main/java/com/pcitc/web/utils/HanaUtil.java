@@ -2940,7 +2940,7 @@ public class HanaUtil {
 			chartBarLineSeries.setName("资本性实际下达");
 			chartBarLineSeries.setStack("总量");
 			chartBarLineSeries.setAreaStyle(new Object());
-			chartBarLineSeries.setColor("#4a94eb");
+			chartBarLineSeries.setColor("#43bb7c");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_LINE);
 			chartBarLineSeries.setSmooth(true);
 		}

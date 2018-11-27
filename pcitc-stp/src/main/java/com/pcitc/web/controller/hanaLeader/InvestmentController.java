@@ -55,6 +55,9 @@ public class InvestmentController {
 		    request.setAttribute("unitCode", unitCode);
 		    request.setAttribute("YJY_CODE_NOT_YINGKE", HanaUtil.YJY_CODE_NOT_YINGKE);
 		    request.setAttribute("YJY_CODE_ALL", HanaUtil.YJY_CODE_ALL);
+		    
+		    String year= HanaUtil.getCurrrentYear();
+		    request.setAttribute("year", year);
 	        return "stp/hana/home/direct_depart/investment";
 	        
 	  }
