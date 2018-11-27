@@ -168,9 +168,9 @@
                         return;
                     }
                     var objSelected={};
-                    objSelected.userId = selectRowData.userId;
-                    objSelected.userDisp = selectRowData.userDisp;
-                    parent.setWelder(objSelected);
+                    // objSelected.userId = selectRowData.userId;
+                    // objSelected.userDisp = selectRowData.userDisp;
+                    parent.setWelder(selectRowData);
                     var index = parent.layer.getFrameIndex(window.name);
                     parent.layer.close(index);
                 },

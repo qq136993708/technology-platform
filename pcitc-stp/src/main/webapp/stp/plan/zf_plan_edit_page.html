@@ -30,10 +30,10 @@
                 <div class="layui-row">
                     <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                         <div class="layui-form-item">
-                            <label class="layui-form-label">工单标题:<span class="must-fill">*</span></label>
+                            <label class="layui-form-label">标题:<span class="must-fill">*</span></label>
                             <div class="layui-input-block">
                                 <input class="layui-input" name="workOrderName" id="workOrderName" lay-verify="title"
-                                       placeholder="请输入工单标题" autocomplete="off" type="text">
+                                       placeholder="请输入标题" autocomplete="off" type="text">
                             </div>
                         </div>
                     </div>
@@ -51,7 +51,7 @@
                 <div class="layui-row">
                     <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                         <div class="layui-form-item">
-                            <label class="layui-form-label">工单类型:<span class="must-fill">*</span></label>
+                            <label class="layui-form-label">类型:<span class="must-fill">*</span></label>
                             <div class="layui-input-block">
                                 <select id="workOrderType" name="workOrderType" lay-filter="select_filter"
                                         lay-search></select>
@@ -89,7 +89,7 @@
                     </div>
                     <!-- <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                           <div class="layui-form-item">
-                            <label class="layui-form-label">工单状态:<span class="must-fill">*</span></label>
+                            <label class="layui-form-label">状态:<span class="must-fill">*</span></label>
                                <div class="layui-input-block">
                                    <select id="workOrderStatus" name="workOrderStatus" lay-filter="select_filter" lay-search></select>
                             </div>
@@ -397,18 +397,17 @@
                     field: 'workOrderAllotUserName',
                     title: '处理人',
                     event: 'setActive',
-                    style: 'cursor: pointer;',
-                    edit: true
+                    style: 'cursor: pointer;'
                 },
-                {
-                    field: 'workOrderAllotUserId',
-                    title: '处理人ID',
-                    event: 'setActive',
-                    style: 'cursor: pointer;',
-                    edit: true
-                },
-                {field: 'bl', title: '比例', event: 'setActive', style: 'cursor: pointer;', edit: true},
-                {field: 'jsId', title: '接收人', event: 'setActive', style: 'cursor: pointer;', edit: true}
+                // {
+                //     field: 'workOrderAllotUserId',
+                //     title: '处理人ID',
+                //     event: 'setActive',
+                //     style: 'cursor: pointer;',
+                //     edit: true
+                // },
+                {field: 'bl', title: '比例', event: 'setActive', style: 'cursor: pointer;'},
+                {field: 'jsId', title: '接收人', event: 'setActive', style: 'cursor: pointer;'}
             ]],
             done: function (res, curr, count) {
                 $(".layui-table").css("width","100%");
@@ -421,7 +420,7 @@
         $('#addMatter').click(function () {
             var trParam = {
                 "id": "matterTableDiv",
-                "number": 8,
+                "number": 7,
                 "specialElement": []
             };
             console.log(trParam);
