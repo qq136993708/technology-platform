@@ -207,9 +207,25 @@ public class PlanController extends BaseController {
         request.setAttribute("dataId", dataId);
         request.setAttribute("userName", sysUserInfo.getUserDisp());
         request.setAttribute("unitName", sysUserInfo.getUnitName());
+        request.setAttribute("bak6", sysUserInfo.getUserId());
+        request.setAttribute("bak4", sysUserInfo.getUserDisp());
         return "stp/plan/addPlanPage";
     }
 
+    @RequestMapping(value = "/editPlanPage")
+    public String editPlanPage(HttpServletRequest request) {
+        Object dataId = request.getParameter("dataId");
+        String flag = "edit";
+        if (dataId == null || "".equals(dataId)) {
+            dataId = UUID.randomUUID().toString().replace("-", "");
+            flag = "add";
+        }
+        request.setAttribute("flag", flag);
+        request.setAttribute("dataId", dataId);
+        request.setAttribute("userName", sysUserInfo.getUserDisp());
+        request.setAttribute("unitName", sysUserInfo.getUnitName());
+        return "stp/plan/editPlanPage";
+    }
     /**
      * 新建工单管理
      */
@@ -307,7 +323,9 @@ public class PlanController extends BaseController {
                 planBase.setParentId(bsv.getDataId());
                 planBase.setDelFlag("0");
                 planBase.setBl("");
-                planBase.setDataId(UUID.randomUUID().toString().replace("-", ""));
+                System.out.println("dataId = " + "".equals(detail.get("dataId")));
+                planBase.setDataId("".equals(detail.get("dataId")) ? UUID.randomUUID().toString().replace("-", "") : detail.get("dataId").toString());
+//                planBase.setDataId(UUID.randomUUID().toString().replace("-", ""));
                 planBase.setWorkOrderAllotUserName(detail.get("workOrderAllotUserName").toString());//当前节点处理人
                 planBase.setWorkOrderStatus("0");
                 planBase.setRedactUnitName(bsv.getRedactUnitName());
@@ -452,8 +470,8 @@ public class PlanController extends BaseController {
                 //取值赋给PlanBase
                 JSONObject detail = array.getJSONObject(i);
                 PlanBase planBase = JSONObject.toJavaObject((JSON) JSON.toJSON(detail), PlanBase.class);
-                System.out.println("planBase = " + planBase);
                 planBase.setParentId(wjbvo.getDataId());
+                System.out.println("dataId = " + "".equals(detail.get("dataId")));
                 planBase.setDataId("".equals(detail.get("dataId")) ? UUID.randomUUID().toString().replace("-", "") : detail.get("dataId").toString());
                 planBase.setWorkOrderStatus("1");
                 planBase.setDelFlag("0");
@@ -753,10 +771,10 @@ public class PlanController extends BaseController {
         String param = request.getParameter("param");
         JSONObject jsStr = (JSONObject) JSON.parseObject(param);
         String dataId = jsStr.getString("dataId");
-        if (result == 200) {
+//        if (result == 200) {
             ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(SUBMIT_MY_BOT_WORK_ORDER + dataId, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), Integer.class);
             result = responseEntity.getBody();
-        }
+//        }
         return result;
     }
 

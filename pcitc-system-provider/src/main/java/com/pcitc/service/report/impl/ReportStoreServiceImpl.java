@@ -1,6 +1,16 @@
 package com.pcitc.service.report.impl;
 
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
@@ -15,15 +25,7 @@ import com.pcitc.base.util.TreeNodeUtil;
 import com.pcitc.mapper.report.ReportStoreMapper;
 import com.pcitc.service.report.ReportConfigService;
 import com.pcitc.service.report.ReportStoreService;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import com.pcitc.utils.StringUtils;
 
 
 /**
@@ -170,16 +172,16 @@ public class ReportStoreServiceImpl implements ReportStoreService {
     public LayuiTableData findReportStoreByPage(LayuiTableParam param) {
         ReportStoreExample example = new ReportStoreExample();
         ReportStoreExample.Criteria c = example.createCriteria();
-        if (param.getParam().get("modelId") != null && !com.pcitc.common.StringUtils.isBlank(param.getParam().get("modelId") + "")) {
+        if (param.getParam().get("modelId") != null && !StringUtils.isBlank(param.getParam().get("modelId") + "")) {
             c.andModelIdLike("%" + param.getParam().get("modelId") + "%");
         }
-        if (param.getParam().get("modelConfigId") != null && !com.pcitc.common.StringUtils.isBlank(param.getParam().get("modelConfigId") + "")) {
+        if (param.getParam().get("modelConfigId") != null && !StringUtils.isBlank(param.getParam().get("modelConfigId") + "")) {
             c.andModelConfigIdLike("%" + param.getParam().get("modelConfigId") + "%");
         }
-        if (param.getParam().get("userName") != null && !com.pcitc.common.StringUtils.isBlank(param.getParam().get("userName") + "")) {
+        if (param.getParam().get("userName") != null && !StringUtils.isBlank(param.getParam().get("userName") + "")) {
             c.andUserNameLike("%" + param.getParam().get("userName") + "%");
         }
-        if (param.getParam().get("userId") != null && !com.pcitc.common.StringUtils.isBlank(param.getParam().get("userId") + "")) {
+        if (param.getParam().get("userId") != null && !StringUtils.isBlank(param.getParam().get("userId") + "")) {
             c.andUserIdEqualTo(param.getParam().get("userId").toString());
         }
 //        c.andStatusEqualTo("1");

@@ -21,9 +21,9 @@ import com.pcitc.base.system.SysFunctionGroupExample;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.IdUtil;
 import com.pcitc.base.util.MyBeanUtils;
-import com.pcitc.common.StringUtils;
 import com.pcitc.mapper.system.SysFunctionGroupMapper;
 import com.pcitc.service.system.SysFunctionGroupService;
+import com.pcitc.utils.StringUtils;
 
 @Service("sysFunctionGroupService")
 public class SysFunctionGroupServiceImpl implements SysFunctionGroupService {

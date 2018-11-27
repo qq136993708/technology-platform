@@ -269,12 +269,13 @@
                 data: {'param': JSON.stringify(jsonData)},
                 url: '/plan/saveMyBotWorkOrderMatterFeedBack',
                 success: function (data) {
-                    if (data == 200) {
-                        var index = parent.layer.getFrameIndex(window.name);
+                    // if (data == 200) {
                         dataStatus = 2;
+                        var index = parent.layer.getFrameIndex(window.name);
+                        parent.layer.close(index);
                         parent.layer.msg("保存成功");
                         parent.layui.table.reload('tableList', {});
-                    }
+                    // }
                 },
                 error: function (e) {
                     modals.info("出错了");
@@ -308,12 +309,12 @@
                 data: {'param': JSON.stringify(jsonData)},
                 url: '/plan/submitMyBotWorkOrder?workOrderStatus=2',
                 success: function (data) {
-                    if (data == 200) {
+                    // if (data == 200) {
                         var index = parent.layer.getFrameIndex(window.name);
                         parent.layer.close(index);
                         parent.layer.msg("提交成功");
                         parent.layui.table.reload('tableList', {});
-                    }
+                    // }
                 },
                 error: function (e) {
                     modals.info("出错了");

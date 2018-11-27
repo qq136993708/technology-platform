@@ -127,7 +127,7 @@ public class UserServiceImpl implements UserService {
 	public LayuiTableData selectUserByPage(LayuiTableParam param) {
 		SysUserExample example = new SysUserExample();
 		SysUserExample.Criteria c = example.createCriteria();
-		if (param.getParam().get("userName") != null && !com.pcitc.common.StringUtils.isBlank(param.getParam().get("userName") + "")) {
+		if (param.getParam().get("userName") != null && !StringUtils.isBlank(param.getParam().get("userName") + "")) {
 			c.andUserNameLike("%" + param.getParam().get("userName") + "%");
 		}
 		example.setOrderByClause("user_create_time desc");
