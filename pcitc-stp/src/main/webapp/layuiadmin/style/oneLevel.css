@@ -42,12 +42,14 @@ html{background: #013660;}
 .layui-textBottom-one{margin-right: 20px;
     background:url("/layuiadmin/layui/images/textBottomOne.png") center center no-repeat #61a0a8;}
 .layui-textBottom-one p{    width: 80%;margin: 52px auto;}
-.layui-textBottom-two{
+.layui-textBottom-two{height: 128px;
     background:url("/layuiadmin/layui/images/textBottomTwo.png") center center no-repeat #ca163c;}
 .layui-textBottom-three{
-    background:url("/layuiadmin/layui/images/textBottomThree.png") center center no-repeat #4b54a3;}
+    background:url("/layuiadmin/layui/images/textBottomThree.png") center center no-repeat #f36c00;}
 .layui-textBottom-four{margin-right: 20px;
     background:url("/layuiadmin/layui/images/icon-personnel.png") center center no-repeat #8d49e0;}
+.layui-contract{
+    background:url("/layuiadmin/layui/images/icon-contract.png") center center no-repeat #4b54a3;}
 .layui-textBottom-four p{line-height: 173px;
     margin: 0;}
 .layui-news{background-color: #2db674;}
@@ -74,14 +76,16 @@ html{background: #013660;}
 .layui-party{height: 128px; text-align: center;margin-top: 20px;
     background:url("/layuiadmin/layui/images/icon-party.png") center center no-repeat #f10033;}
 .layui-party p{line-height: 148px;}
-.layui-add{margin-top: 20px;background-color: #345e80;padding: 25px 0 24px;text-align: center;
+.layui-add{background-color: #345e80;padding: 25px 0 24px;text-align: center;
     height: 79px;}
-.layui-cooperation{text-align: center;height: 58px;position: relative;padding: 35px 0;
+.layui-cooperation{margin-top:20px;text-align: center;height: 58px;position: relative;padding: 35px 0;
     background:url("/layuiadmin/layui/images/icon-cooperation.png") center center no-repeat #0094d3;}
 .layui-cooperation p{width: 50%;margin: 0 auto;height: 30px;line-height: 30px;}
 .layui-agency-party{margin-right: 20px;}
 .layui-party-four{height: 128px;
-    background:url("/layuiadmin/layui/images/textBottomFour.png") center center no-repeat #a544ae;}
+    background:url("/layuiadmin/layui/images/icon-achievements.png") center center no-repeat #159617;}
+.layui-left .layui-party-four{
+    background:url("/layuiadmin/layui/images/textBottomFour.png") center center no-repeat #a544af;}
 /*1366*/
 @media screen and (max-height: 946px) {
     .layui-level-main{width: 88%;}
@@ -91,8 +95,10 @@ html{background: #013660;}
     .layui-level-main{width: 85%;}
     .layui-level-menu ul li a{font-size: 16px; padding: 10px;}
     .layui-text-icon p{font-size: 20px;}
+    .layui-textBottom-three p{margin: 41px 0 15px;}
     .layui-news p{font-size: 18px;}
     .layui-party-four p{    font-size: 14px;line-height: 68px;}
-    .layui-text-icon span {font-size: 40px;}
+    .layui-text-icon span {font-size: 40px;line-height: 70px;}
     .layui-cooperation p{font-size: 17px;}
+    .layui-textBottom-two p{font-size: 17px;line-height: 76px;}
 }
