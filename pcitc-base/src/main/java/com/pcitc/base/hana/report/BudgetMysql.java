@@ -39,7 +39,45 @@ public class BudgetMysql {
 	 
 	 
 	 
+	 private Object prezje;
+	 private Object ztzwcl;
+	 private Object fyxtzwcl;
+	 private Object zbxtzwcl;
 	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+		
+	 
+	public Object getPrezje() {
+		return prezje;
+	}
+	public void setPrezje(Object prezje) {
+		this.prezje = prezje;
+	}
+	public Object getZtzwcl() {
+		return ztzwcl;
+	}
+	public void setZtzwcl(Object ztzwcl) {
+		this.ztzwcl = ztzwcl;
+	}
+	public Object getFyxtzwcl() {
+		return fyxtzwcl;
+	}
+	public void setFyxtzwcl(Object fyxtzwcl) {
+		this.fyxtzwcl = fyxtzwcl;
+	}
+	public Object getZbxtzwcl() {
+		return zbxtzwcl;
+	}
+	public void setZbxtzwcl(Object zbxtzwcl) {
+		this.zbxtzwcl = zbxtzwcl;
+	}
 	public String getUnitName() {
 		return unitName;
 	}
