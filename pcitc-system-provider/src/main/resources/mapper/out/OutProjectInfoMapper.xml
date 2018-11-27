@@ -1300,7 +1300,7 @@
 				round(sum(case when showFlag = 'pre' then fyxje else 0 end),4) as prefyxje, 
 				round(sum(case when showFlag = 'pre' then zbxje else 0 end),4) as prezbxje,
 				round(sum(case when showFlag = 'pre' then zje else 0 end),4) as prezje,
-				round(sum(case when showFlag = 'act' then zje else 0 end)/sum(case when showFlag = 'pre' then zje else 0 end),4) as moneyRate
+				round(sum(case when showFlag = 'act' then zje else 0 end)/sum(case when showFlag = 'pre' then zje else 0 end),4) as tzwcl
 		from (		
 			select (@j := @j + 1) AS showId,tableA.* from (
 				select	
@@ -1309,7 +1309,7 @@
 			    	round(sum(jf),4) as zje,
 			    	SUBSTR(type_flag FROM 2) type_flag,'act' as showFlag
 				from out_project_info
-				where project_type != '1' and project_scope = '新开课题' and type_flag is not null
+				where project_type != '1' and (project_scope = '新开课题' or project_scope = '结转课题' ) and type_flag is not null
 			  	group by type_flag) as tableA,(SELECT @j := 0) AS it
 		
 				UNION ALL
