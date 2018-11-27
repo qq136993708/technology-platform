@@ -348,7 +348,7 @@ layui.define(['jquery','form','table','laydate'],
                                 certTypeStr = "<select>";
                             }
                             certTypeStr += "</select>";
-                            $(tbody).find("tr:last td").eq(columnNum).html(certTypeStr)
+                            $(tbody).find("tr:last td").addClass("tdSelect").eq(columnNum).html(certTypeStr)
                         }else if(columnElement=="laydate"){
                             $(tbody).find("tr:last td").eq(columnNum).html("<div class='layui-table-cell'><input type='text' class='layui-input datetime inputVal' placeholder='请选择日期' style='width:92%'></div>");
                         }else  if(columnElement=="a"){

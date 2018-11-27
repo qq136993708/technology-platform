@@ -236,35 +236,35 @@
         }
         form.on('submit(save)', function (data) {
             var sthTrArr = [];
-            JSON.stringify(data.field);
+            // JSON.stringify(data.field);
             var dataCode = 0;
-            var matterLength = $("#matterTableDiv table tbody tr");
+            var matterLength = $("#matterTableDiv .layui-table-main  table tbody tr");
             $(matterLength).each(function () {
                 var sthTrObj = {};
                 if ($(this).find("td").eq(3).find("input").length > 0) {
                     sthTrObj.dataId = $(this).find("td").eq(2).find("input").val();
                     sthTrObj.workOrderName = $(this).find("td").eq(3).find("input").val();
-                    sthTrObj.workOrderAllotUserName = $(this).find("td").eq(4).find("input").val();
-                    sthTrObj.workOrderAllotUserId = $(this).find("td").eq(5).find("input").val();
+                    sthTrObj.workOrderAllotUserName = $(".tdSelect dl dd.layui-this").html();
+                    sthTrObj.workOrderAllotUserId =$(".tdSelect dl dd.layui-this").attr("lay-value");
                     sthTrObj.bl = $(this).find("td").eq(6).find("input").val();
                     sthTrObj.jsId = $(this).find("td").eq(7).find("input").val();
                     sthTrObj.dataCode = (dataCode++);
                 } else {
                     sthTrObj.dataId = $(this).find("td").eq(2).text();
                     sthTrObj.workOrderName = $(this).find("td").eq(3).text();
-                    sthTrObj.workOrderAllotUserName = $(this).find("td").eq(4).text();
-                    sthTrObj.workOrderAllotUserId = $(this).find("td").eq(5).text();
+                    sthTrObj.workOrderAllotUserName = $(".tdSelect dl dd.layui-this").html();
+                    sthTrObj.workOrderAllotUserId =$(".tdSelect dl dd.layui-this").attr("lay-value");
                     sthTrObj.bl = $(this).find("td").eq(6).text();
                     sthTrObj.jsId = $(this).find("td").eq(7).text();
                     sthTrObj.dataCode = (dataCode++);
                 }
                 sthTrArr.push(sthTrObj)
+                console.log(sthTrArr);
             });
             var jsonData = data.field;
-            console.log(jsonData);
             jsonData.matterList = sthTrArr;
             console.log("------jsonData-------");
-            console.log(jsonData);
+            console.log(jsonData.matterList);
             $.ajax({
                 type: 'post',
                 dataType: 'json',
@@ -275,7 +275,8 @@
                         var index = parent.layer.getFrameIndex(window.name);
                         url = '/plan/editBotWorkOrder';
                         dataStatus = 1;
-
+                        var index = parent.layer.getFrameIndex(window.name);
+                        parent.layer.close(index);
                         parent.layer.msg("保存成功");
                         parent.layui.table.reload('tableList', {});
                     }
@@ -305,22 +306,22 @@
             var sthTrArr = [];
             JSON.stringify(data.field);
             var dataCode = 0;
-            var matterLength = $("#matterTableDiv table tbody tr");
+            var matterLength = $("#matterTableDiv  .layui-table-main table tbody tr");
             $(matterLength).each(function () {
                 var sthTrObj = {};
                 if ($(this).find("td").eq(3).find("input").length > 0) {
                     sthTrObj.dataId = $(this).find("td").eq(2).find("input").val();
                     sthTrObj.workOrderName = $(this).find("td").eq(3).find("input").val();
-                    sthTrObj.workOrderAllotUserName = $(this).find("td").eq(4).find("input").val();
-                    sthTrObj.workOrderAllotUserId = $(this).find("td").eq(5).find("input").val();
+                    sthTrObj.workOrderAllotUserName = $(".tdSelect dl dd.layui-this").html();
+                    sthTrObj.workOrderAllotUserId =$(".tdSelect dl dd.layui-this").attr("lay-value");
                     sthTrObj.bl = $(this).find("td").eq(6).find("input").val();
                     sthTrObj.jsId = $(this).find("td").eq(7).find("input").val();
                     sthTrObj.dataCode = (dataCode++);
                 } else {
                     sthTrObj.dataId = $(this).find("td").eq(2).text();
                     sthTrObj.workOrderName = $(this).find("td").eq(3).text();
-                    sthTrObj.workOrderAllotUserName = $(this).find("td").eq(4).text();
-                    sthTrObj.workOrderAllotUserId = $(this).find("td").eq(5).text();
+                    sthTrObj.workOrderAllotUserName = $(".tdSelect dl dd.layui-this").html();
+                    sthTrObj.workOrderAllotUserId =$(".tdSelect dl dd.layui-this").attr("lay-value");
                     sthTrObj.bl = $(this).find("td").eq(6).text();
                     sthTrObj.jsId = $(this).find("td").eq(7).text();
                     sthTrObj.dataCode = (dataCode++);
@@ -423,8 +424,8 @@
                     {hide:true,"column":2,"element":"input"},
                     {"column":4,"element":"select","value":$("#workOrderAllotUserName").val(),"valueId":$("#workOrderAllotUserId").val()},
                     {hide:true,"column":6,"element":"input"},
-                    {"column":5,"element":"input","disabled":true,"value":$(".bl").val()},
-                    {"column":7,"element":"a","value":'<a style="margin-left: 10px;" class="layui-btn layui-btn-xs" lay-event="showDetail">查看反馈</a>'}
+                    {"column":5,"element":"input","disabled":true,"value":$(".bl").val()}
+                    ,{"column":7,"element":"a","value":'<a style="margin-left: 10px;" class="layui-btn layui-btn-xs" lay-event="showDetail">查看反馈</a>'}
                 ]
             };
             console.log(trParam);
