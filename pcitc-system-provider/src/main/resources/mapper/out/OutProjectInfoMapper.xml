@@ -1300,9 +1300,9 @@
 				round(sum(case when showFlag = 'pre' then fyxje else 0 end),4) as prefyxje, 
 				round(sum(case when showFlag = 'pre' then zbxje else 0 end),4) as prezbxje,
 				round(sum(case when showFlag = 'pre' then zje else 0 end),4) as prezje,
-				round(sum(case when showFlag = 'act' then zje else 0 end)/sum(case when showFlag = 'pre' then zje else 0 end),4) as ztzwcl,
-				round(sum(case when showFlag = 'act' then fyxje else 0 end)/sum(case when showFlag = 'pre' then fyxje else 0 end),4) as fyxtzwcl,
-				round(sum(case when showFlag = 'act' then zbxje else 0 end)/sum(case when showFlag = 'pre' then zbxje else 0 end),4) as zbxtzwcl
+				round(sum(case when showFlag = 'act' then zje else 0 end)/sum(case when showFlag = 'pre' then zje else 0 end)* 100, 2) as ztzwcl,
+				round(sum(case when showFlag = 'act' then fyxje else 0 end)/sum(case when showFlag = 'pre' then fyxje else 0 end)* 100, 2) as fyxtzwcl,
+				round(sum(case when showFlag = 'act' then zbxje else 0 end)/sum(case when showFlag = 'pre' then zbxje else 0 end)* 100, 2) as zbxtzwcl
 		from (		
 				select	
 					round(sum(case when define1 = '费用性' then jf else 0 end),4) as fyxje,

@@ -198,7 +198,7 @@ public class AdminController extends BaseController {
 
 		String cFlag = request.getParameter("cFlag");
 		if (rsUser.getUserLevel() != null && rsUser.getUserLevel() == 1 && cFlag == null) {
-			return "/leaderIndex";
+			return "/oneLevelMain";
 		} else {
 			return "/index";
 		}
