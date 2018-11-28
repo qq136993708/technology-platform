@@ -2920,6 +2920,95 @@ public class HanaUtil {
 		return chartBarLineSeries;
 	}
 	
+     public static ChartBarLineSeries getinvestmentBarLineSeries(List<BudgetMysql> list, String name) {
+
+		
+    	 
+    	
+			
+		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
+		if (name.equals("zje")) {
+			chartBarLineSeries.setName("实际下达");
+			chartBarLineSeries.setStack("数量");
+			chartBarLineSeries.setItemStyle("{normal:{color:'#FF8849'}}");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		if (name.equals("prezje")) {
+			chartBarLineSeries.setName("年度预算");
+			chartBarLineSeries.setStack("数量");
+			chartBarLineSeries.setItemStyle("{normal:{color:'#FF8849'}}");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		if (name.equals("wxd")) {
+			chartBarLineSeries.setName("未下达");
+            chartBarLineSeries.setStack("数量");
+			chartBarLineSeries.setItemStyle("{normal:{color:'#3FBB49'}}");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		if (name.equals("ztzwcl")) {
+			chartBarLineSeries.setName("投资完成率");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_LINE);
+		}
+
+		List<Object> dataList = new ArrayList<Object>();
+		if (list != null && list.size() > 0) 
+		{
+			for (int i = 0; i < list.size(); i++) 
+			{
+				BudgetMysql f03 = list.get(i);
+				String wxd =((BigDecimal)f03.getWxd()).toString();
+				String prezje =((BigDecimal)f03.getPrezje()).toString();
+				String zje =((BigDecimal)f03.getZje()).toString();
+				String ztzwcl =(String)f03.getZtzwcl();
+				
+					if (name.equals("wxd"))
+					{
+						
+						if(wxd!=null)
+						{
+							dataList.add(String.format("%.2f", Double.valueOf(wxd)));
+							
+						}else
+						{
+							dataList.add(0);
+						}
+						
+					}
+					if (name.equals("prezje")) 
+					{
+						
+						if(prezje!=null)
+						{
+							dataList.add(String.format("%.2f", Double.valueOf(prezje)));
+						}else
+						{
+							dataList.add(0);
+						}
+					}
+					
+					
+                   if (name.equals("zje")) 
+                   {
+						
+						if(zje!=null)
+						{
+							dataList.add(String.format("%.2f", Double.valueOf(zje)));
+						}else
+						{
+							dataList.add(0);
+						}
+					}
+               	
+                   if (name.equals("ztzwcl")) 
+                   {
+                	   dataList.add(ztzwcl);
+				   }
+				}
+
+			chartBarLineSeries.setData(dataList);
+		}
+		return chartBarLineSeries;
+	}
 	
 	
 	
