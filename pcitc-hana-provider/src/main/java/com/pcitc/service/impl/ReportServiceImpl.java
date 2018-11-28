@@ -12,6 +12,7 @@ import com.pcitc.mapper.other.ReportMapper;
 import com.pcitc.mysqlMapper.mysql.ReportMysqlMapper;
 import com.pcitc.service.ReportService;
 import io.swagger.models.auth.In;
+import org.apache.commons.collections.MapUtils;
 import org.apache.poi.ss.formula.functions.T;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
+import java.text.Collator;
 import java.text.DecimalFormat;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -76,8 +78,6 @@ public class ReportServiceImpl implements ReportService {
 
     public List getReportListNew(Map<String, Object> map) {
 //        if("164f98a6b8c_c4effcc1".equals(map.get("name"))){
-
-        String strWhere = (map.get("where") == null ? "" : map.get("where").toString());
         String date = (map.get("date") == null ? "" : map.get("date").toString());
         date = date.replace("-", "");
         date = date.replace(" ", "");
@@ -644,7 +644,8 @@ public class ReportServiceImpl implements ReportService {
             //改值
             objXfieldValue = vo.get(xField);
             if(objXfieldValue == null || "".equals(objXfieldValue)){
-                continue;
+//                continue;
+                objXfieldValue = "-";
             }
             objVal = ("?".equals(objXfieldValue)) ? "-" : objXfieldValue.toString();
             objVal = objVal.replace("(", "（");
@@ -705,7 +706,17 @@ public class ReportServiceImpl implements ReportService {
                     Map<String, Object> map = (Map<String, Object>) mapList.get(i);
                     map.put("id", UUID.randomUUID().toString());
                     map.put("pid", strNewId);
-                    vos.set(Integer.parseInt(map.get("index").toString()), map);
+//                    System.out.println(len+"传入list-len"+vos.size()+" 索引 = " + map.get("index").toString());
+                    //TO DO
+                    int ind = Integer.parseInt(map.get("index").toString());
+////                    System.out.println(vos.get(1668));
+//                    int size = vos.size();
+//                    if(ind!=size){
+                        vos.set(ind, map);
+//                    }else {
+//                        vos.set(ind-1,map);
+//                    }
+
                 }
             }
 
@@ -779,7 +790,8 @@ public class ReportServiceImpl implements ReportService {
         setGroupByCountStp(strPid, arrayField, "0", list, arraycolumnko, mapList, map_count, UUID.randomUUID().toString());
         mapList.add(map_count);
         Collections.reverse(mapList);
-
+        System.out.println("mapList-------------");
+        System.out.println(mapList);
         long end = System.currentTimeMillis();
         System.out.println("getReportTreeNewStp:执行时间: " + (end - start));
         return mapList;
@@ -912,7 +924,16 @@ public class ReportServiceImpl implements ReportService {
             map.put("limit", pageSize);
             map.put("offset", (pageNum - 1) * (pageSize <= 0 ? 15 : pageSize));
             int count = 0;
-            List<Map<String, Object>> listPage = new ArrayList<>();
+            //add 计算map where start
+            Object strWhere = map.get("where");
+            if(strWhere != null&&!"".equals(strWhere.toString().trim())){
+//                System.out.println("strWhere = " + strWhere);
+                strWhere = strWhere.toString().replace(",","' and ");
+                strWhere = strWhere.toString().replace("=","='");
+                strWhere = strWhere.toString().replace("\"","");
+                map.put("where"," and "+strWhere.toString()+"'");
+            }
+            //add map where end
             List<Map<String, Object>> list = this.getReportListStp(map);
             if("1".equals(map.get("modelFlag"))){
                 count = Integer.parseInt(reportMysqlMapper.getReportListStpMysqlCount(map));
@@ -923,6 +944,7 @@ public class ReportServiceImpl implements ReportService {
             data.setCount(count);
         }
         long end_getReportList = System.currentTimeMillis();
+        //getReportListStp
         System.out.println("调用hana用时(getReportListStp): " + (end_getReportList - start_getReportList));
         return data;
     }
@@ -946,10 +968,32 @@ public class ReportServiceImpl implements ReportService {
 
         //合计list
         List<Map<String, Object>> listHeJi = getHeJiList(list, map,count);
+//        Set<Map<String, Object>> set = new TreeSet<>();
         Set<Map<String, Object>> set = new HashSet<>();
+        System.out.println(" = ======================");
+        System.out.println(listHeJi);
+        System.out.println(mapList);
+        //添加汇总排序
+//        sortList(list,map);
         set.addAll(listHeJi);
         set.addAll(mapList);
         return Arrays.asList(set.toArray());
+    }
+
+    public void sortList(List<Map<String,Object>> list,Map<String,Object> map){
+//        List<Map<String, Object>> collect = list.stream().sorted(Comparator.comparing(Test::comparingByName)
+//                .thenComparing(Comparator.comparing(Test::comparingByAge).reversed()))
+//                .collect(Collectors.toList());
+String string = map.get("column").toString().split(",")[0];
+        Collections.sort(list, new Comparator<Map<String, Object>>() {
+
+            public int compare(Map<String, Object> o1, Map<String, Object> o2) {
+                String name1=MapUtils.getString(o1, string);
+                String name2=MapUtils.getString(o2, string);
+                Collator instance = Collator.getInstance(Locale.CHINA);
+                return instance.compare(name1, name2);
+            }
+        });
     }
 
     public List<Map<String, Object>> getHeJiList(List<Map<String, Object>> list, Map<String, Object> map,String count) {
