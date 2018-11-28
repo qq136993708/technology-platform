@@ -789,9 +789,6 @@ public class ReportServiceImpl implements ReportService {
 
         setGroupByCountStp(strPid, arrayField, "0", list, arraycolumnko, mapList, map_count, UUID.randomUUID().toString());
         mapList.add(map_count);
-        Collections.reverse(mapList);
-        System.out.println("mapList-------------");
-        System.out.println(mapList);
         long end = System.currentTimeMillis();
         System.out.println("getReportTreeNewStp:执行时间: " + (end - start));
         return mapList;
