@@ -49,10 +49,14 @@ public class IntlProjectNoticeProviderClient
 	
 	@ApiOperation(value="通知审批流程",notes="发起通知内容审批")
 	@RequestMapping(value = "/stp-provider/project/start-notice-activity/{noticeId}", method = RequestMethod.POST)
-	public Integer startNoticeWorkFlow(@PathVariable("noticeId") String noticeId,@RequestBody WorkflowVo workflowVo) 
+	public Result startNoticeWorkFlow(@PathVariable("noticeId") String noticeId,@RequestBody WorkflowVo workflowVo) 
 	{
 		IntlProjectNotice notice = intlProjectService.findById(noticeId);
-		
+		//如果审批已发起则不能再次发起
+		if(!WorkFlowStatusEnum.STATUS_WAITING.getCode().equals(notice.getFlowStatus())) 
+		{
+			return new Result(false,"已发起审批不可重复发起！");
+		}
 		//workflowVo.setAuthenticatedUserId("111");
 		workflowVo.setProcessDefineId(WORKFLOW_DEFINE_ID); 
 		workflowVo.setBusinessId(noticeId);
@@ -82,11 +86,14 @@ public class IntlProjectNoticeProviderClient
         workflowVo.setVariables(variables);
 		String rs = systemRemoteClient.startWorkflowByProcessDefinitionId(workflowVo);
 		System.out.println("startwork  apply  rs...."+rs);
-		if("true".equals(rs)) {
+		if("true".equals(rs)) 
+		{
 			notice.setFlowStatus(WorkFlowStatusEnum.STATUS_RUNNING.getCode());
 			intlProjectService.updProjectNotice(notice);
+			return new Result(true,"操作成功!");
+		}else {
+			return new Result(false,rs);
 		}
-		return "true".equals(rs)?1:0;
 	}
 	@ApiOperation(value="审批流程回调通知",notes="审批结果回调通知")
 	@RequestMapping(value = "/stp-provider/project/callback-workflow-notice")

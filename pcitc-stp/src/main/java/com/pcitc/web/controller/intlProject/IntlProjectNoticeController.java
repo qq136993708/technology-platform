@@ -46,12 +46,8 @@ public class IntlProjectNoticeController extends BaseController {
 		vo.setFunctionId(functionId);
 		vo.setAuthenticatedUserId(this.getUserProfile().getUserId());
 		HttpEntity<WorkflowVo> entity = new HttpEntity<WorkflowVo>(vo, this.httpHeaders);
-		Integer plant = this.restTemplate.exchange(PROJECT_NOTICE_WORKFLOW_URL + noticeId, HttpMethod.POST, entity, Integer.class).getBody();
-		if (plant == 0) {
-			return new Result(false);
-		} else {
-			return new Result(true);
-		}
+		Result rs = this.restTemplate.exchange(PROJECT_NOTICE_WORKFLOW_URL + noticeId, HttpMethod.POST, entity, Result.class).getBody();
+		return rs;
 	}
 	
 	@RequestMapping(value = "/project/notice-list", method = RequestMethod.POST)
