@@ -479,7 +479,11 @@ var option_dt = {
 	        {
 	            type : 'category',
 	            boundaryGap : false,
-	            data : []
+	            data : [],
+	            axisLabel:{
+                    interval:0,//0：全部显示，1：间隔为1显示对应类目，2：依次类推，（简单试一下就明白了，这样说是不是有点抽象）
+                    rotate:30,//倾斜显示，-：顺时针旋转，+或不写：逆时针旋转
+                   }
 	        }
 	    ],
 	    yAxis : [

@@ -99,11 +99,12 @@
 							      <th lay-data="{field:'fyxje', width:'15%'}">实际下达（万元）</th>
 							      <th lay-data="{field:'fyxtzwcl', width:'15%'}">投资完成率</th>
 							      
-							       <th lay-data="{field:'prezbxje', width:'15%'}">年度预算（万元）</th>
+							      <th lay-data="{field:'prezbxje', width:'15%'}">年度预算（万元）</th>
 							      <th lay-data="{field:'zbxje', width:'15%'}">实际下达（万元）</th>
 							      <th lay-data="{field:'zbxtzwcl', width:'15%'}">投资完成率</th>
 							      
 							    </tr>
+							   
 							  </thead>
 							</table>
 
@@ -125,6 +126,14 @@
                         <span class="layui-time"></span>直属研究院科研项目数量分布情况分析
                     </div>
                     <div class="layui-row-main">
+                    
+                       <div class="text-total">
+                            <span>年度预算总计:<span class="text-total-blue"     id="ndys_count"><img class="loadingImg" style="" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>实际下达总计:<span class="text-total-blue"     id="sjxd_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>未下达总计:<span class="text-total-blue"       id="bar1_jz_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>投资完成率:<span class="text-total-blue"       id="bar1_jz_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                        </div>
+                        
                         <div class="main-chart" id="chart7" style="height:280px;width: 100%;"></div>
                     </div>
                 </div>
@@ -141,7 +150,7 @@
 <script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
 <script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
 <script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
-
+<script type="text/javascript" src="/stp/hana/home/direct_depart/investment.js"></script>
 <script type="text/javascript">
 
 var tableOne=null,tableTwo=null,selectRowData;
@@ -162,7 +171,7 @@ layui.config({
        elem: '#year'
        ,format: 'yyyy'
     });
-    renderTable();
+   
     $("#knowledge_table").click(function () {
     	window.open("/reportNew/reportPageStp?name=167305d0060_d4723a52");
        // parent.layui.index.openTabsPage("/home/project-list?define1=费用性", "科研项目明细"); 
@@ -210,13 +219,12 @@ function initEchart()
 	
 	
 	
-	var chart7_url="/home_project_02/getProjectByDistributeBar?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
-	var echart7=load_mutl_bar_02(chart7_url,"chart7","","",yAxis);
+	var chart7_url="/investment/get_investment_unit_type_bar?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
+	var echart7=load_mutl_bar_investment(chart7_url,"chart7","","",yAxis);
 	echart7.on('click', function (params){
 		var xName=params.name;
 		var legentName=params.seriesName;
 		window.open("/reportNew/reportPageStp?name=167305d0060_d4723a52");
-		//parent.layui.index.openTabsPage("/home/project-list?define2="+xName+"&project_scope="+legentName, "科研项目明细");
     });
 	
 }
@@ -230,9 +238,14 @@ function search_Event()
 }
 
 
-
-
-
+function myTable()
+{
+	table.reload('myTable', {
+		  url: '/investment/get_investment_unit_type_table'
+		  ,where: {} 
+		  
+		});
+}
 
         
 </script>

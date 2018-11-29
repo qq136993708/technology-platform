@@ -44,7 +44,7 @@ public class BudgetMysql {
 	 private Object fyxtzwcl;
 	 private Object zbxtzwcl;
 	 
-	 
+	 private Object wxd;
 	 
 	 
 	 
@@ -54,6 +54,12 @@ public class BudgetMysql {
 	 
 		
 	 
+	public Object getWxd() {
+		return wxd;
+	}
+	public void setWxd(Object wxd) {
+		this.wxd = wxd;
+	}
 	public Object getPrezje() {
 		return prezje;
 	}
