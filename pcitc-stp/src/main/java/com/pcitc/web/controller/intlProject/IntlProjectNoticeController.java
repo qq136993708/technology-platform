@@ -67,12 +67,8 @@ public class IntlProjectNoticeController extends BaseController {
 	public Object saveNoticeInfo(@ModelAttribute(value = "notice") IntlProjectNotice notice, HttpServletRequest request) throws IOException {
 		notice.setDelFlag(DelFlagEnum.STATUS_NORMAL.getCode());
 		notice.setCreater(sysUserInfo.getUserId());
-		ResponseEntity<Integer> status = this.restTemplate.exchange(PROJECT_NOTICE_ADDORUPD, HttpMethod.POST, new HttpEntity<IntlProjectNotice>(notice, this.httpHeaders), Integer.class);
-		if (status.getBody() == 0) {
-			return new Result(false);
-		} else {
-			return new Result(true);
-		}
+		ResponseEntity<Result> status = this.restTemplate.exchange(PROJECT_NOTICE_ADDORUPD, HttpMethod.POST, new HttpEntity<IntlProjectNotice>(notice, this.httpHeaders), Result.class);
+		return status.getBody();
 	}
 
 	@RequestMapping(value = "/project/get-notice")
