@@ -1296,15 +1296,15 @@
 	<select id="getProjectMoneyByUnit" resultType="java.util.Map" parameterType="java.lang.String">
 		
 		                 
-                SELECT 
-                type_flag,
-                TRUNCATE(fyxje,2)  AS fyxje,
-                TRUNCATE( zbxje,2) AS zbxje, 
-		TRUNCATE(zje,2) AS zje,
-		TRUNCATE(prefyxje,2) AS prefyxje,
-		TRUNCATE(prezbxje,2) AS prezbxje,
-		TRUNCATE(prezje,2) AS prezje,
-        TRUNCATE ((prezje-zje),2)AS wxd,
+      SELECT 
+        type_flag,
+        TRUNCATE(zje/10000,2) AS zje,
+        TRUNCATE(fyxje/10000,2)  AS fyxje,
+        TRUNCATE( zbxje/10000,2) AS zbxje, 
+		TRUNCATE(prezje/10000,2) AS prezje,
+		TRUNCATE(prefyxje/10000,2) AS prefyxje,
+		TRUNCATE(prezbxje/10000,2) AS prezbxje,
+		TRUNCATE((prezje-zje)/10000,2)AS wxd,
 		CASE  WHEN TRUNCATE( zje/ prezje ,2)      IS NULL OR  TRUNCATE( zje/ prezje ,2)=0 THEN '0'      ELSE TRUNCATE( (zje/ prezje)*100 ,2) END AS ztzwcl ,
 		CASE  WHEN TRUNCATE( fyxje/prefyxje ,2)   IS NULL OR  TRUNCATE( fyxje/prefyxje ,2)=0 THEN '0'   ELSE TRUNCATE( fyxje/prefyxje*100 ,2) END AS fyxtzwcl ,
 		CASE  WHEN TRUNCATE( zbxje / prezbxje ,2) IS NULL OR  TRUNCATE( zbxje / prezbxje ,2)=0 THEN '0' ELSE TRUNCATE( zbxje / prezbxje*100 ,2) END AS zbxtzwcl,
