@@ -2,7 +2,7 @@ html{background: #013660;}
 .layui-fluid{padding: 0;}
 .layui-header{height: 100px;width: 76%;margin: 0 auto;}
 .layui-main{height: auto;overflow: hidden;width: 100%;}
-.layui-level-main{width: 76%;margin: 0 auto;padding: 15px 0;}
+.layui-level-main{width: 76%;margin: 0 auto;padding: 15px 0;height: auto;overflow: hidden;}
 /*导航*/
 .layui-level-menu{padding-bottom: 17px;}
 .layui-level-menu ul li{ float: left;padding-right: 18px;}
@@ -20,17 +20,17 @@ html{background: #013660;}
 .layui-left{width: 44%;float: left;}
 .layui-right{float: right;width: 54%;}
 /*图片*/
-.layui-row-pic{height: 368px;}
+.layui-row-pic{height: 277px;}
 .layui-row-pic img{width: 100%;height: 100%;}
 .layui-row-pic p{    position: absolute;color: #fff;bottom: 0;width: 100%;font-size: 16px;
     text-align: center;height: 50px;line-height: 50px;background-color: rgba(0,0,0,.6);}
 .layui-carousel-ind ul{position: absolute;right: 0;bottom: 20px;background: none;}
-.layui-text-icon{height:173px;text-align: center;color: white;position: relative;cursor: pointer;}
-.layui-text-icon img,.layui-cooperation img{position: absolute;top: 0;right: 0;opacity: 0;}
+.layui-text-icon{height:128px;text-align: center;color: white;position: relative;cursor: pointer;}
+.layui-text-icon>img,.layui-cooperation>img{position: absolute;top: 0;right: 0;opacity: 0;}
 .layui-text-icon:hover img,.layui-cooperation:hover img{opacity: 1;}
 .layui-text-icon span{font-size: 48px;font-family: "黑体"}
 .layui-text-icon span.layui-text-span{font-size: 18px;}
-.layui-text-icon p{ margin: 35px 0 15px;font-size: 26px;}
+.layui-text-icon p{ height:50px;line-height:80px;margin-bottom:10px;font-size: 26px;}
 .layui-row-textTop{height: auto;overflow: hidden;display: flex;margin-top: 20px;}
 .layui-textTop-one{margin-right: 20px;width: 53%;
     background:url("/layuiadmin/layui/images/textTopOne.png") center center no-repeat #00a4e5;}
@@ -39,9 +39,9 @@ html{background: #013660;}
 .layui-textTop-three{margin-right: 20px;
     background:url("/layuiadmin/layui/images/textTopThree.png") center center no-repeat #488c34;}
 .layui-row-textBottom{height: auto;overflow:hidden;display: flex;}
-.layui-textBottom-one{margin-right: 20px;
+.layui-textBottom-one{margin-right: 20px;padding: 35px 0;
     background:url("/layuiadmin/layui/images/textBottomOne.png") center center no-repeat #61a0a8;}
-.layui-textBottom-one p{    width: 80%;margin: 52px auto;}
+.layui-textBottom-one p{    width: 78%;    margin: 0 auto;height: 30px;line-height: 30px;}
 .layui-textBottom-two{height: 128px;
     background:url("/layuiadmin/layui/images/textBottomTwo.png") center center no-repeat #ca163c;}
 .layui-textBottom-three{
@@ -50,12 +50,12 @@ html{background: #013660;}
     background:url("/layuiadmin/layui/images/icon-personnel.png") center center no-repeat #8d49e0;}
 .layui-contract{
     background:url("/layuiadmin/layui/images/icon-contract.png") center center no-repeat #4b54a3;}
-.layui-textBottom-four p{line-height: 173px;
-    margin: 0;}
+.layui-textBottom-four p{line-height: 128px;margin: 0;}
 .layui-news{background-color: #2db674;}
 .layui-agency{display: flex;}
 .layui-news p,.layui-agency-left p,.layui-agency-right p{color: white;height: 50px;line-height: 50px;font-size: 22px;
     margin: 0 20px;}
+.layui-agency-right p{line-height: 80px;margin-bottom: 10px;}
 .layui-news p span{font-size: 16px;float: right;}
 .layui-news p span a{color:#9ff6cc;}
 .layui-news ul{height: auto;overflow: hidden;margin: 0 20px; padding-bottom: 10px;}
@@ -75,7 +75,7 @@ html{background: #013660;}
 .layui-agency-right{display: flex;}
 .layui-party{height: 128px; text-align: center;margin-top: 20px;
     background:url("/layuiadmin/layui/images/icon-party.png") center center no-repeat #f10033;}
-.layui-party p{line-height: 148px;}
+.layui-party p{line-height: 128px;}
 .layui-add{background-color: #345e80;padding: 25px 0 24px;text-align: center;
     height: 79px;}
 .layui-cooperation{margin-top:20px;text-align: center;height: 58px;position: relative;padding: 35px 0;
@@ -87,18 +87,34 @@ html{background: #013660;}
 .layui-left .layui-party-four{
     background:url("/layuiadmin/layui/images/textBottomFour.png") center center no-repeat #a544af;}
 /*1366*/
+/*
 @media screen and (max-height: 946px) {
     .layui-level-main{width: 88%;}
+}
+*/
+@media screen and (max-width: 1600px) {
+    .layui-text-icon p{font-size: 22px;}
+    .layui-textBottom-two p,.layui-textTop-one p{font-size:21px; }
+    .layui-cooperation p,.layui-left .layui-agency-right p{font-size: 18px;}
+}
+@media screen and (max-width: 1536px) {
+    .layui-level-main{width: 88%;}
+    .layui-textTop-one p{font-size: 23px;}
+    .layui-cooperation p,.layui-left .layui-party-four p{font-size: 20px;}
+}
+@media screen and (max-width: 1440px) {
+    .layui-text-icon p{font-size: 22px;}
+    .layui-textBottom-two p,.layui-textTop-one p{font-size:21px; }
+    .layui-cooperation p,.layui-left .layui-agency-right p{font-size: 18px;}
 }
 @media screen and (max-width: 1366px) {
     .layui-header{width: 85%;;}
     .layui-level-main{width: 85%;}
     .layui-level-menu ul li a{font-size: 16px; padding: 10px;}
     .layui-text-icon p{font-size: 20px;}
-    .layui-textBottom-three p{margin: 41px 0 15px;}
     .layui-news p{font-size: 18px;}
-    .layui-party-four p{    font-size: 14px;line-height: 68px;}
     .layui-text-icon span {font-size: 40px;line-height: 70px;}
     .layui-cooperation p{font-size: 17px;}
     .layui-textBottom-two p{font-size: 17px;line-height: 76px;}
+    .layui-left .layui-party-four p{font-size: 16px;  line-height: 80px ;}
 }
