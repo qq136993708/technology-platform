@@ -18,7 +18,7 @@ var mutl_bar_investment = {
         tooltip: {
             trigger: 'axis',
             axisPointer: {
-                type: 'cross',
+                type: 'shadow',
                 crossStyle: {
                     color: '#999'
                 }
@@ -37,7 +37,7 @@ var mutl_bar_investment = {
 	    
         legend: {
             type: 'scroll',
-            bottom: 1,
+            bottom: 0,
             data:[]
         },
         xAxis: [
@@ -46,7 +46,7 @@ var mutl_bar_investment = {
                 data: [],
                 axisLabel:{
                     interval:0,//0：全部显示，1：间隔为1显示对应类目，2：依次类推，（简单试一下就明白了，这样说是不是有点抽象）
-                    rotate:30,//倾斜显示，-：顺时针旋转，+或不写：逆时针旋转
+                    //rotate:30,//倾斜显示，-：顺时针旋转，+或不写：逆时针旋转
                    }
 
             }
@@ -119,6 +119,7 @@ function barLineAjax_investment(url,  echartsobj, options)
 		        	                   name: seriesList[i].name,
 		        	                   data: seriesList[i].data,
 		        	                   stack:seriesList[i].stack,
+                                       itemStyle : { normal: {label : {show: true,color:"#000"}}},
 		        	                   barWidth:20
 		        	                   ,yAxisIndex: seriesList[i].yAxisIndex
 		        	                 });
@@ -180,9 +181,10 @@ function load_mutl_bar_investment(url,id,title,subtext,yAxis)
     }
 
     mutl_bar_investment.grid={
+        top:"10%",
         left: '0%',
         right: '0.5%',
-        bottom: '0',
+        bottom: '10%',
         containLabel: true
     }
 

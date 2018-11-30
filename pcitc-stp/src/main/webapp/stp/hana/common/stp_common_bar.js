@@ -416,7 +416,7 @@ function load_mutl_bar_03(url,id,title,subtext,yAxis)
 		mutl_bar_bottom.title.subtext=subtext;
 	}
     mutl_bar_bottom.grid={
-	    top:"2.5%",
+	    top:"10.5%",
         left: '0%',
         right: '3%',
         bottom: '10%',
@@ -444,7 +444,7 @@ function load_mutl_bar_three(url,id,title,subtext,yAxis)
         mutl_bar_bottom.title.subtext=subtext;
     }
     mutl_bar_bottom.grid={
-        top:"2.5%",
+        top:"10.5%",
         left: '0%',
         right: '3%',
         bottom: '10%',
@@ -643,13 +643,14 @@ var mutl_bar_stack_02 = {
         tooltip: {
             trigger: 'axis',
             axisPointer: {
-                type: 'cross',
+                type: 'shadow',
                 crossStyle: {
                     color: '#999'
                 }
             }
         },
         grid: {
+            top:"11%",
             left: '0%',
             right: '2%',
             bottom: '10%',
