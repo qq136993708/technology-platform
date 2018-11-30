@@ -30,7 +30,7 @@ public class PatentJob implements Job, Serializable {
 
 		String sqlName = "SelectByDate";
 		JsonObject jo = new JsonObject();
-		String startDate = outPatentService.getMaxImportDate();
+		String startDate = outPatentService.getMaxImportDate("国内专利");
 		if (startDate == null || startDate.equals("")) {
 			startDate = "2001-01-17";
 		}
@@ -123,7 +123,7 @@ public class PatentJob implements Job, Serializable {
 					op.setFmdhhxfa(object.getString("FMDHHXFA"));
 					op.setYt(object.getString("YT"));
 
-					op.setRemarks(realEndDate);
+					op.setRemarks("国内专利");
 					op.setCreateDate(new Date());
 
 					insertData.add(op);
