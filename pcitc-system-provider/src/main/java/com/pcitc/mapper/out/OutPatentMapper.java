@@ -33,7 +33,7 @@ public interface OutPatentMapper {
     
     public void insertOutPatentBatch(List<OutPatent> list);
     
-    public String getMaxImportDate();
+    public String getMaxImportDate(String remarks);
     
     /**
      * @param nd

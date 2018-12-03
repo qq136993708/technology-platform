@@ -181,8 +181,8 @@ var optionpie_02 = {
 	        {
 	            name: '访问来源',
 	            type: 'pie',
-	            radius: ['30%', '60%'],
-	            center: ['53%','58%'],
+	            radius: ['30%', '50%'],
+	            center: ['50%','40%'],
 	            avoidLabelOverlap: false,
 	            data: [],
 	            itemStyle: {

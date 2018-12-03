@@ -1293,16 +1293,126 @@
 	    group by define1
 	</select>
 	
-	<select id="getProjectMoneyByUnit" resultType="java.util.Map"
-		parameterType="java.lang.String">
-		select
-			round(sum(case when define1 = '费用性' then jf else 0 end)/10000,4) as fyxje,
-	    	round(sum(case when define1 = '资本性' then jf else 0 end)/10000,4) as zbxje,
-	    	round(sum(jf)/10000,4) as zje,
-	    	SUBSTR(type_flag FROM 2) type_flag
-		from out_project_info
-		where project_type != '1' and (project_scope = '新开课题' or project_scope = '结转课题') and type_flag is not null
-	    group by type_flag
+	<select id="getProjectMoneyByUnit" resultType="java.util.Map" parameterType="java.lang.String">
+		
+		                 
+      SELECT 
+        type_flag,
+        TRUNCATE(zje/10000,2) AS zje,
+        TRUNCATE(fyxje/10000,2)  AS fyxje,
+        TRUNCATE( zbxje/10000,2) AS zbxje, 
+		TRUNCATE(prezje/10000,2) AS prezje,
+		TRUNCATE(prefyxje/10000,2) AS prefyxje,
+		TRUNCATE(prezbxje/10000,2) AS prezbxje,
+		TRUNCATE((prezje-zje)/10000,2)AS wxd,
+		CASE  WHEN TRUNCATE( zje/ prezje ,2)      IS NULL OR  TRUNCATE( zje/ prezje ,2)=0 THEN '0'      ELSE TRUNCATE( (zje/ prezje)*100 ,2) END AS ztzwcl ,
+		CASE  WHEN TRUNCATE( fyxje/prefyxje ,2)   IS NULL OR  TRUNCATE( fyxje/prefyxje ,2)=0 THEN '0'   ELSE TRUNCATE( fyxje/prefyxje*100 ,2) END AS fyxtzwcl ,
+		CASE  WHEN TRUNCATE( zbxje / prezbxje ,2) IS NULL OR  TRUNCATE( zbxje / prezbxje ,2)=0 THEN '0' ELSE TRUNCATE( zbxje / prezbxje*100 ,2) END AS zbxtzwcl,
+		CASE  WHEN type_flag LIKE '总计' THEN 1
+		      WHEN type_flag LIKE '直属研究院' THEN 2
+		      WHEN type_flag LIKE '分子公司' THEN 3
+		      WHEN type_flag LIKE '集团单位' THEN 4
+		      WHEN type_flag LIKE '外部单位' THEN 5
+		      WHEN type_flag LIKE '盈科' THEN 6
+		      WHEN type_flag LIKE '休斯顿研发中心' THEN 7
+		      WHEN type_flag LIKE '中东研发中心' THEN 8
+		      WHEN type_flag LIKE '集团公司' THEN 9
+		       WHEN type_flag LIKE '资产公司' THEN 10
+		END AS orders 
+               FROM (  
+                         SELECT 
+                         SUBSTR(temName FROM 2) type_flag,ROUND(SUM(CASE WHEN showFlag = 'act' THEN fyxje ELSE 0 END),4) AS fyxje, 
+				ROUND(SUM(CASE WHEN showFlag = 'act' THEN zbxje ELSE 0 END),4) AS zbxje, 
+				ROUND(SUM(CASE WHEN showFlag = 'act' THEN zje ELSE 0 END),4) AS zje,
+				ROUND(SUM(CASE WHEN showFlag = 'pre' THEN fyxje ELSE 0 END),4) AS prefyxje, 
+				ROUND(SUM(CASE WHEN showFlag = 'pre' THEN zbxje ELSE 0 END),4) AS prezbxje,
+				ROUND(SUM(CASE WHEN showFlag = 'pre' THEN zje ELSE 0 END),4) AS prezje
+				
+				
+		FROM (		
+				SELECT	
+					ROUND(SUM(CASE WHEN define1 = '费用性' THEN jf ELSE 0 END),4) AS fyxje,
+			    	ROUND(SUM(CASE WHEN define1 = '资本性' THEN jf ELSE 0 END),4) AS zbxje,
+			    	ROUND(SUM(jf),4) AS zje,
+			    	type_flag,'act' AS showFlag,
+						type_flag AS temName
+				FROM out_project_info
+				WHERE project_type != '1' AND project_scope = '新开课题' AND type_flag IS NOT NULL
+			  	GROUP BY type_flag
+				UNION ALL
+				
+				SELECT fyx_money,zbx_money,fyx_money+zbx_money AS zje,show_ali,'pre' AS showFlag,
+				CASE WHEN show_ali = '直属研究院' THEN '1直属研究院'
+	       		 	WHEN show_ali = '分子公司' THEN '2分子公司'
+					WHEN show_ali = '集团单位' THEN '3集团单位'
+					WHEN show_ali = '外部单位' THEN '4外部单位'
+					WHEN show_ali = '盈科' THEN '9盈科'
+					WHEN show_ali = '休斯顿研发中心' THEN '5休斯顿研发中心'
+					WHEN show_ali = '中东研发中心' THEN '6中东研发中心'
+					WHEN show_ali = '集团公司' THEN '7集团公司'
+					WHEN show_ali = '资产公司' THEN '8资产公司' ELSE show_ali END AS temName
+				FROM out_tem_money_total
+				WHERE 
+					money_level = '2'
+			) AS tableB
+		GROUP BY temName
+		
+		UNION ALL 
+		SELECT 
+		type_flag,
+		SUM(fyxje) AS fyxje,
+                SUM( zbxje) AS zbxje, 
+		SUM(zje )AS zje,
+		SUM(prefyxje) AS prefyxje,
+		SUM(prezbxje) AS prezbxje,
+		SUM(prezje) AS prezje
+				
+		
+		 FROM 
+		(
+                  SELECT '总计' type_flag,
+                  ROUND(SUM(CASE WHEN showFlag = 'act' THEN fyxje ELSE 0 END),4) AS fyxje, 
+				ROUND(SUM(CASE WHEN showFlag = 'act' THEN zbxje ELSE 0 END),4) AS zbxje, 
+				ROUND(SUM(CASE WHEN showFlag = 'act' THEN zje ELSE 0 END),4) AS zje,
+				ROUND(SUM(CASE WHEN showFlag = 'pre' THEN fyxje ELSE 0 END),4) AS prefyxje, 
+				ROUND(SUM(CASE WHEN showFlag = 'pre' THEN zbxje ELSE 0 END),4) AS prezbxje,
+				ROUND(SUM(CASE WHEN showFlag = 'pre' THEN zje ELSE 0 END),4) AS prezje,
+				ROUND(SUM(CASE WHEN showFlag = 'act' THEN zje ELSE 0 END)/SUM(CASE WHEN showFlag = 'pre' THEN zje ELSE 0 END),4) AS ztzwcl,
+				ROUND(SUM(CASE WHEN showFlag = 'act' THEN fyxje ELSE 0 END)/SUM(CASE WHEN showFlag = 'pre' THEN fyxje ELSE 0 END),4) AS fyxtzwcl,
+				ROUND(SUM(CASE WHEN showFlag = 'act' THEN zbxje ELSE 0 END)/SUM(CASE WHEN showFlag = 'pre' THEN zbxje ELSE 0 END),4) AS zbxtzwcl
+		FROM (		
+				SELECT	
+					ROUND(SUM(CASE WHEN define1 = '费用性' THEN jf ELSE 0 END),4) AS fyxje,
+			    	ROUND(SUM(CASE WHEN define1 = '资本性' THEN jf ELSE 0 END),4) AS zbxje,
+			    	ROUND(SUM(jf),4) AS zje,
+			    	type_flag,'act' AS showFlag,
+						type_flag AS temName
+				FROM out_project_info
+				WHERE project_type != '1' AND project_scope = '新开课题' AND type_flag IS NOT NULL
+			  	GROUP BY type_flag
+				UNION ALL
+				
+				SELECT fyx_money,zbx_money,fyx_money+zbx_money AS zje,show_ali,'pre' AS showFlag,
+				CASE WHEN show_ali = '直属研究院' THEN '1直属研究院'
+	       		 	WHEN show_ali = '分子公司' THEN '2分子公司'
+					WHEN show_ali = '集团单位' THEN '3集团单位'
+					WHEN show_ali = '外部单位' THEN '4外部单位'
+					WHEN show_ali = '盈科' THEN '9盈科'
+					WHEN show_ali = '休斯顿研发中心' THEN '5休斯顿研发中心'
+					WHEN show_ali = '中东研发中心' THEN '6中东研发中心'
+					WHEN show_ali = '集团公司' THEN '7集团公司'
+					WHEN show_ali = '资产公司' THEN '8资产公司' ELSE show_ali END AS temName
+				FROM out_tem_money_total
+				WHERE 
+					money_level = '2'
+			) AS tableB GROUP BY temName
+			)asda 
+				
+		
+		
+		)abc ORDER BY orders
+		
+		
 	</select>
 	
 	<select id="getProjectMoneyByYJY" resultType="java.util.Map"
@@ -1516,20 +1626,25 @@
 			select 
 				sum(case when showFlag = 'preMoney' then zbxje else 0 end) as prezbxje,
 				sum(case when showFlag = 'preMoney' then fyxje else 0 end) as prefyxje,
+				sum(case when showFlag = 'preMoney' then zje else 0 end) as prezje,
 				sum(case when showFlag = 'actMoney' then zbxje else 0 end) as actzbxje,
 				sum(case when showFlag = 'actMoney' then fyxje else 0 end) as actfyxje,
+				sum(case when showFlag = 'actMoney' then zje else 0 end) as actzje,
 				round(sum(case when showFlag = 'actMoney' then fyxje else 0 end)/sum(case when showFlag = 'preMoney' then fyxje else 0 end) * 100, 2) as fyxrate,
 				round(sum(case when showFlag = 'actMoney' then zbxje else 0 end)/sum(case when showFlag = 'preMoney' then zbxje else 0 end) * 100, 2) as zbxrate,
+				round(sum(case when showFlag = 'actMoney' then zje else 0 end)/sum(case when showFlag = 'preMoney' then zje else 0 end) * 100, 2) as zrate,
 				unitName
 			from (	
-				SELECT show_ali as unitName,zbx_money as zbxje,fyx_money as fyxje,'preMoney' as showFlag,show_order
+				SELECT show_ali as unitName,zbx_money as zbxje,fyx_money as fyxje,zbx_money+fyx_money as zje,'preMoney' as showFlag,show_order
 				FROM out_tem_money_total
 				WHERE
 					is_yjy = '研究院'
 					
 				union ALL
 				SELECT SUBSTR(define2 FROM 4) as unitName,ROUND(sum(case when define1 = '资本性' then jf else 0 end),2) as zbxje,
-					    ROUND(sum(case when define1 = '费用性' then jf else 0 end),2) as fyxje,'actMoney' as showFlag,SUBSTR(define2,3,1) as show_order
+					    ROUND(sum(case when define1 = '费用性' then jf else 0 end),2) as fyxje,
+							ROUND(sum(jf),2) as zje,
+							'actMoney' as showFlag,SUBSTR(define2,3,1) as show_order
 				FROM out_project_info
 				WHERE
 					define2 is not NULL and nd = '2018'

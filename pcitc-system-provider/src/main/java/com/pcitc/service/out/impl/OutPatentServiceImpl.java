@@ -90,8 +90,8 @@ public class OutPatentServiceImpl implements OutPatentService {
 	 * 
 	 * @return
 	 */
-	public String getMaxImportDate() {
-		return outPatentMapper.getMaxImportDate();
+	public String getMaxImportDate(String remarks) {
+		return outPatentMapper.getMaxImportDate(remarks);
 	}
 
 	public List getWXLXInfo(String nd) {

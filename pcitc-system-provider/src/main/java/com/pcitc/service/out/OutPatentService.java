@@ -18,7 +18,7 @@ public interface OutPatentService {
 	 * 查询最大的导入日期，从这个日期开始导入
 	 * @return
 	 */
-	public String getMaxImportDate();
+	public String getMaxImportDate(String remarks);
 	
 	public int getOutPatentCount(HashMap<String, String> map);
 	

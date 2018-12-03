@@ -1300,11 +1300,10 @@
 		</foreach>
 	</insert>
 
-	<select id="getMaxImportDate" resultType="java.lang.String">
+	<select id="getMaxImportDate" resultType="java.lang.String" parameterType="java.lang.String">
 		select
-		max(remarks)
-		maxDate
-		from out_patent
+		max(GKR) maxDate
+		from out_patent where remarks = #{remarks,jdbcType=VARCHAR}
 	</select>
 
 	<select id="getWXLXInfo" resultType="java.util.Map" parameterType="java.lang.String">
