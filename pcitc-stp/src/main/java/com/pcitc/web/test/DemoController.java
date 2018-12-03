@@ -148,8 +148,8 @@ public class DemoController {
 			Map<String, String> paramMap = new HashMap<String, String>();
 			paramMap.put("sqlName", "swzlsql");
 			JsonObject jo = new JsonObject();
-			jo.addProperty("ksrq", "2014-01-01");
-			jo.addProperty("jsrq", "2014-11-01");
+			jo.addProperty("ksrq", "2008-03-21");
+			jo.addProperty("jzrq", "2008-03-21");
 			System.out.println(jo.toString());
 			paramMap.put("conditions", jo.toString());
 			// 添加多个参数

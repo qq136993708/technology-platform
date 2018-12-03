@@ -21,18 +21,20 @@ import com.pcitc.service.out.OutPatentService;
 import com.pcitc.utils.DataServiceUtil;
 
 //专利系统
-public class PatentJob implements Job, Serializable {
+public class InternationalPatentJob implements Job, Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public void execute(JobExecutionContext job) throws JobExecutionException {
 
 		OutPatentService outPatentService = SpringContextUtil.getApplicationContext().getBean(OutPatentService.class);
 
-		String sqlName = "SelectByDate";
+		String sqlName = "swzlsql";
 		JsonObject jo = new JsonObject();
-		String startDate = outPatentService.getMaxImportDate("国内专利");
+		String startDate = outPatentService.getMaxImportDate("国际专利");
 		if (startDate == null || startDate.equals("")) {
-			startDate = "2001-01-17";
+			startDate = "1999-01-01";
+		} else {
+			startDate = startDate.substring(0, 10);
 		}
 
 		Date temStartDate = DateUtil.strToDate(startDate, DateUtil.FMT_DD);
@@ -41,12 +43,17 @@ public class PatentJob implements Job, Serializable {
 
 		rightNow.add(Calendar.DAY_OF_YEAR, 1);// 日期加1天
 		Date temDate1 = rightNow.getTime();
+		
+		rightNow.add(Calendar.DAY_OF_YEAR, 365);// 日期加3天
+		
+		Date temDate2 = rightNow.getTime();
 
 		String realStartDate = DateUtil.dateToStr(temDate1, DateUtil.FMT_DD);
-		String realEndDate = DateUtil.dateToStr(new Date(), DateUtil.FMT_DD);
+		String realEndDate = DateUtil.dateToStr(temDate2, DateUtil.FMT_DD);
 		jo.addProperty("ksrq", realStartDate);
 		jo.addProperty("jzrq", realEndDate);
-		System.out.println("==========开始导入---定时任务--专利项目接口---结束日期=============" + realEndDate);
+		System.out.println("==========开始导入---定时任务--国际专利项目接口---开始日期=============" + realStartDate);
+		System.out.println("==========开始导入---定时任务--国际专利项目接口---结束日期=============" + realEndDate);
 		// 参数
 		String conditions = jo.toString();
 		String str = null;
@@ -73,6 +80,7 @@ public class PatentJob implements Job, Serializable {
 					op.setWxlx(object.getString("WXLX"));
 					op.setShenqr(object.getString("SHENQR"));
 					op.setFmr(object.getString("FMR"));
+					System.out.println("==========开始导入---定时任务--国际专利项目接口---结束日期=============" + object.getString("FMR"));
 					op.setSqrdz(object.getString("SQRDZ"));
 					op.setDlr(object.getString("DLR"));
 
@@ -123,7 +131,7 @@ public class PatentJob implements Job, Serializable {
 					op.setFmdhhxfa(object.getString("FMDHHXFA"));
 					op.setYt(object.getString("YT"));
 
-					op.setRemarks("国内专利");
+					op.setRemarks("国际专利");
 					op.setCreateDate(new Date());
 
 					insertData.add(op);
