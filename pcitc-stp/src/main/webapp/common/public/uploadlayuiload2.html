@@ -330,7 +330,7 @@
             , auto: pcitcFile2.auto
             , bindAction: '#testListAction2'
             ,before: function(obj){ //obj参数包含的信息，跟 choose回调完全一致。
-                if (pcitcFile.complete!=""){
+                if (pcitcFile2.complete!=""){
                     $("#testListAction").toggle();
                     $("#testListActionDisabled").toggle();
                 }
@@ -373,7 +373,7 @@
 
                     demoListView.append(tr);
                 });
-                pcitcFile.complete="1";
+                pcitcFile2.complete="1";
             }
             , done: function (res, index, upload) {
                 if (res.error == null) { //上传成功
@@ -395,7 +395,7 @@
                 }
             }
             , allDone: function (obj) {
-                pcitcFile.complete="1";
+                pcitcFile2.complete="1";
                 $("#testListAction").toggle();
                 $("#testListActionDisabled").toggle();
 
@@ -413,7 +413,7 @@
                 }
             }
             , error: function (index, upload) {
-                pcitcFile.complete="1";
+                pcitcFile2.complete="1";
                 console.log("----------error---------");
                 var tr = demoListView.find('tr#upload2-' + index)
                     , tds = tr.children();
