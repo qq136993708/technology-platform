@@ -38,7 +38,7 @@ public interface OutPatentMapper {
 
     int updateByPrimaryKey(OutPatent record);
     
- public void insertOutPatentBatch(List<OutPatent> list);
+ public void insertOutPatentBatch(List<OutPatentWithBLOBs> list);
     
     public String getMaxImportDate(String remarks);
     
