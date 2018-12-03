@@ -62,9 +62,10 @@
                     <div class="layui-card-body btn-function">
                     
                     <div class="text-total">
-                            <span>总计:<span class="text-total-blue"    id="bar1_all_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>新开课题:<span class="text-total-blue" id="bar1_xk_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>结转课题:<span class="text-total-blue" id="bar1_jz_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>年度预算总计:<span class="text-total-blue"    id="bar1_all_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>费用性实际下达:<span class="text-total-blue" id="bar1_xk_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>资本性实际下达:<span class="text-total-blue" id="bar1_jz_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>投资完成率:<span class="text-total-blue" id="bar1_tz_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                         </div>
                         <div  style="height:270px;width: 100%;" id="chart1"></div>
                     </div>
@@ -91,17 +92,17 @@
 							      <th lay-data="{align:'center'}" colspan="3">资本性</th>
 							    </tr>
 							    <tr>
-							      <th lay-data="{field:'prezje', width:'15%'}">年度预算（万元）</th>
-							      <th lay-data="{field:'zje', width:'15%'}">实际下达（万元）</th>
-							      <th lay-data="{field:'ztzwcl', width:'15%'}">投资完成率</th>
+							      <th lay-data="{field:'prezje', width:'20%'}">年度预算（亿元）</th>
+							      <th lay-data="{field:'zje', width:'20%'}">实际下达（亿元）</th>
+							      <th lay-data="{field:'ztzwcl', width:'20%'}">投资完成率（%）</th>
 							      
-							      <th lay-data="{field:'prefyxje', width:'15%'}">年度预算（万元）</th>
-							      <th lay-data="{field:'fyxje', width:'15%'}">实际下达（万元）</th>
-							      <th lay-data="{field:'fyxtzwcl', width:'15%'}">投资完成率</th>
+							      <th lay-data="{field:'prefyxje', width:'20%'}">年度预算（亿元）</th>
+							      <th lay-data="{field:'fyxje', width:'20%'}">实际下达（亿元）</th>
+							      <th lay-data="{field:'fyxtzwcl', width:'20%'}">投资完成率（%）</th>
 							      
-							      <th lay-data="{field:'prezbxje', width:'15%'}">年度预算（万元）</th>
-							      <th lay-data="{field:'zbxje', width:'15%'}">实际下达（万元）</th>
-							      <th lay-data="{field:'zbxtzwcl', width:'15%'}">投资完成率</th>
+							      <th lay-data="{field:'prezbxje', width:'20%'}">年度预算（亿元）</th>
+							      <th lay-data="{field:'zbxje', width:'20%'}">实际下达（亿元）</th>
+							      <th lay-data="{field:'zbxtzwcl', width:'20%'}">投资完成率（%）</th>
 							      
 							    </tr>
 							   
@@ -123,15 +124,15 @@
             <div class="layui-col-md12">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        <span class="layui-time"></span>直属研究院科研项目数量分布情况分析
+                        <span class="layui-time"></span>直属研究院科研投资完成率
                     </div>
                     <div class="layui-row-main">
                     
                        <div class="text-total">
-                            <span>年度预算总计:<span class="text-total-blue"     id="ndys_count"><img class="loadingImg" style="" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>实际下达总计:<span class="text-total-blue"     id="sjxd_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>未下达总计:<span class="text-total-blue"       id="bar1_jz_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>投资完成率:<span class="text-total-blue"       id="bar1_jz_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>年度预算总计:<span class="text-total-blue"     id="prezje_count"><img class="loadingImg" style="" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>实际下达总计:<span class="text-total-blue"     id="zje_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>未下达总计:<span class="text-total-blue"       id="wxd_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>投资完成率:<span class="text-total-blue"       id="ztzwcl_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                         </div>
                         
                         <div class="main-chart" id="chart7" style="height:280px;width: 100%;"></div>
@@ -190,7 +191,7 @@ function initEchart()
 	 var yAxis= [
         {
             type: 'value',
-            name: '数量',
+            name: '亿元',
             min: 0,
             max:'dataMax',
             position: 'left',
@@ -202,7 +203,7 @@ function initEchart()
 	
 
 	var chart1_url="/investment/get_investment_unit_type?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
-	var echart=load_mony_line_dt(chart1_url,"chart1","","",yAxis);
+	var echart=load_mony_line_dt_investment(chart1_url,"chart1","","",yAxis);
 	echart.on('click', function (params) {
 		//params.name：X轴的值 
 		//params.data：Y轴的值 
@@ -220,7 +221,7 @@ function initEchart()
 	
 	
 	var chart7_url="/investment/get_investment_unit_type_bar?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
-	var echart7=load_mutl_bar_investment(chart7_url,"chart7","","",yAxis);
+	var echart7=load_mutl_bar_investment(chart7_url,"chart7","","","");
 	echart7.on('click', function (params){
 		var xName=params.name;
 		var legentName=params.seriesName;

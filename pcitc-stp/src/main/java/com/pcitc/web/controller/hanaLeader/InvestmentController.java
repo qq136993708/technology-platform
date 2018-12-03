@@ -85,7 +85,26 @@ public class InvestmentController {
 				JSONArray jSONArray = responseEntity.getBody();
 				System.out.println(">>>>>>>>>>>>>>get_investment_unit_type jSONArray-> " + jSONArray.toString());
 				List<BudgetMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), BudgetMysql.class);
-				List<String>  xAxisDataList=HanaUtil.getduplicatexAxisByList(list,"type_flag");
+				List<BudgetMysql> list_more=new ArrayList<BudgetMysql>();
+				
+				BudgetMysql budgetMysql=new BudgetMysql();
+				for(int i=0;i<list.size();i++)
+				{
+					BudgetMysql bm=list.get(i);
+					if(bm.getType_flag().equals("总计"))
+					{
+						budgetMysql=bm;
+					}else
+					{
+						list_more.add(bm);
+					}
+				}
+				
+				
+				
+				
+				
+				List<String>  xAxisDataList=HanaUtil.getduplicatexAxisByList(list_more,"type_flag");
          		barLine.setxAxisDataList(xAxisDataList);
          	
 				List<String> legendDataList = new ArrayList<String>();
@@ -95,13 +114,22 @@ public class InvestmentController {
 				barLine.setLegendDataList(legendDataList);
 				// X轴数据
 				List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
-				ChartBarLineSeries s1 = HanaUtil.getinvestmentChartBarLineSeries(list, "fyxje");
-				ChartBarLineSeries s2 = HanaUtil.getinvestmentChartBarLineSeries(list, "zbxje");
+				ChartBarLineSeries s1 = HanaUtil.getinvestmentChartBarLineSeries(list_more, "fyxje");
+				ChartBarLineSeries s2 = HanaUtil.getinvestmentChartBarLineSeries(list_more, "zbxje");
 				seriesList.add(s1);
 				seriesList.add(s2);
 				barLine.setSeriesList(seriesList);
          		result.setSuccess(true);
-				result.setData(barLine);
+         		
+         		
+         		
+         		
+         		Map map=new HashMap();
+         		map.put("budgetMysql", budgetMysql);
+         		map.put("barLine", barLine);
+         		
+         		
+				result.setData(map);
 			}
 			
 		} else
@@ -185,13 +213,14 @@ public class InvestmentController {
 							System.out.println(">>>>>>>>>>>>>>get_investment_unit_type_bar jSONArray-> " + jSONArray.toString());
 							List<BudgetMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), BudgetMysql.class);
 							List<BudgetMysql> list_more=new ArrayList<BudgetMysql>();
-							List<BudgetMysql> one_list=new ArrayList<BudgetMysql>();
+							
+							BudgetMysql budgetMysql=new BudgetMysql();
 							for(int i=0;i<list.size();i++)
 							{
 								BudgetMysql bm=list.get(i);
 								if(bm.getType_flag().equals("总计"))
 								{
-									one_list.add(bm);
+									budgetMysql=bm;
 								}else
 								{
 									list_more.add(bm);
@@ -219,7 +248,7 @@ public class InvestmentController {
 			         		result.setSuccess(true);
 			         		
 			         		Map map=new HashMap();
-			         		map.put("one_list", one_list);
+			         		map.put("budgetMysql", budgetMysql);
 			         		map.put("barLine", barLine);
 							result.setData(map);
 						}
