@@ -28,7 +28,7 @@
                 </div>
             </div>
             <div class="layui-form-item">
-                <input type="text" name="fileIds" id="fileIds" value="">
+                <input type="text" name="fileIds" id="fileIds" value="${bak2}">
                 <div id="file_upload">
                 </div>
             </div>
@@ -89,7 +89,19 @@
             });
             /* 监听提交 */
             form.on('submit(submitBtn)',function (data) {
-                console.log(data.field);
+                //fileIds重新赋值:fileids
+                var strTempFileIds = "";
+                console.log(pcitcFile2.fileIds);
+                var fileList = pcitcFile2.getFileResult(pcitcFile2.fileIds);
+                for (var i = 0; i < fileList.list.length; i++) {
+                    var file = fileList.list[i];
+                    console.log(file);
+                    strTempFileIds=(strTempFileIds==""?file.id:(strTempFileIds+","+file.id));
+                }
+                console.log("文件ids");
+                console.log(strTempFileIds);
+                data.field.bak2 = $("#fileIds").val();
+                data.field.fileIds = strTempFileIds;
                 ajaxPost("/sysfilekind/savesysFileKindUpload", data.field, function (dt, status) {
                     layer.msg("操作成功");
                     parent.reloadtable('sysFileId', null);

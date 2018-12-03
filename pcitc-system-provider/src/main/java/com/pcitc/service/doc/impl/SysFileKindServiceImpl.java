@@ -4,6 +4,7 @@ package com.pcitc.service.doc.impl;
 import java.io.Serializable;
 import java.util.List;
 
+import com.pcitc.base.system.SysFileExample;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
