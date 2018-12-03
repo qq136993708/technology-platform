@@ -275,7 +275,6 @@ public class SysFileKindServiceImpl implements SysFileKindService {
             sysFile.setFileKind(sysFileKind.getParentId());
             sysFile.setBak2(sysFileKind.getCreatePersonName());
             sysFileService.updateByPrimaryKey(sysFile);
-
         }
         return result;
     }
