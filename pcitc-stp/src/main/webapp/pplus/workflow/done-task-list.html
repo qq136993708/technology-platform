@@ -28,11 +28,20 @@
 		<div class="tableToolBox">
 			<div class="whiteLine"></div>
 			<div class="tableBtns">
+				<button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg" data-type="allEvent">
+					<span class="btn-state btn-two-state"></span>全部
+				</button>
+				<button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg" data-type="threeEvent">
+					<span class="btn-state btn-yellow"></span>三天内
+				</button>
+				<button id="weekData" class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue active btnMyBgImg" data-type="weekEvent">
+					<span class="btn-state btn-blue"></span>一周内
+				</button>
+				<button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg" data-type="monthEvent">
+					<span class="btn-state btn-blue"></span>一个月内
+				</button>
+				
 				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" data-type="detailEvent">查看</button>
-				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" data-type="allEvent">全部</button>
-				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" data-type="threeEvent">三天内</button>
-				<button id="weekData" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg active btn_details" data-type="weekEvent">一周内</button>
-				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" data-type="monthEvent">一月内</button>
 			</div>
 		</div>
 		<table id="doneTable" class="layui-hide" lay-filter="tableData"></table>

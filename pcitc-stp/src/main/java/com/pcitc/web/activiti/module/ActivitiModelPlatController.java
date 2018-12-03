@@ -60,9 +60,6 @@ public class ActivitiModelPlatController extends BaseController {
 	public Object getModelList(@ModelAttribute("param") LayuiTableParam param) {
 		// 获取当前登录人信息
 		param.getParam().put("userId", sysUserInfo.getUserId());
-		System.out.println("1====getModelList---" + sysUserInfo.getUnitName());
-		System.out.println("2====getModelList---" + sysUserInfo.getUnitCode());
-		System.out.println("3====getModelList---" + sysUserInfo.getUserName());
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(MODEL_LIST, HttpMethod.POST, entity, LayuiTableData.class);
 		LayuiTableData retJson = responseEntity.getBody();
