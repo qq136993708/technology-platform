@@ -60,6 +60,7 @@ public class TaskController extends BaseController {
 	// 获取下一步审批人
 	private static final String DEAL_USER_URL = "http://pcitc-zuul/system-proxy/task-provider/task/deal/user";
 
+	// 获取任务详情信息
 	private static final String INI_DEAL_TASK = "http://pcitc-zuul/system-proxy/task-provider/deal/task/info";
 
 	private static final String TASK_PROCESS_INFO = "http://pcitc-zuul/system-proxy/task-provider/task/process/info";

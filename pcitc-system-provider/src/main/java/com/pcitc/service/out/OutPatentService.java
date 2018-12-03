@@ -6,11 +6,11 @@ import java.util.Map;
 
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
-import com.pcitc.base.stp.out.OutPatent;
+import com.pcitc.base.stp.out.OutPatentWithBLOBs;
 
 public interface OutPatentService {
 
-	public int insertPatentData(List<OutPatent> list);
+	public int insertPatentData(List<OutPatentWithBLOBs> list);
 	
 	public LayuiTableData getOutPatentPage(LayuiTableParam param);
 	
