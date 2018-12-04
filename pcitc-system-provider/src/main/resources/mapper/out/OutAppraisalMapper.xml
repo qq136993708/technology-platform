@@ -885,15 +885,6 @@
 		group by cglx
 	</select>
 	
-	<!--  领导二级页面，各种类型的成果情况 -->
-	<select id="getAppraisalInfoByCglx" resultType="java.util.Map" parameterType="java.util.HashMap">
-		select count(*) as sl, cglx 
-		from out_appraisal
-		where 
-			cglx is not NULL and nd='2018'
-		group by cglx
-	</select>
-	
 	<!--  领导二级页面，各种专业的成果情况 -->
 	<select id="getAppraisalInfoByZy" resultType="java.util.Map" parameterType="java.util.HashMap">
 		select count(*) as sl, zy 
