@@ -1878,4 +1878,15 @@ public class OutProjectInfoClient {
 		return json;
 	}
 	
+	@ApiOperation(value = "领导二级页面，各类型技术的新开、结转情况 ", notes = "参数年度")
+	@RequestMapping(value = "/out-project-provider/tech/type/project-info")
+	public JSONArray getProjectInfoByTecTypeWithOldNew(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page getProjectInfoByTecTypeWithOldNew===========================" + map);
+		
+		List temList = outProjectService.getProjectInfoByTecTypeWithOldNew(map);
+		
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		return json;
+	}
+	
 }

@@ -1694,6 +1694,17 @@
 		group by project_property
 	</select>
 	
+	<!--  领导二级页面，各类型技术的新开、结转情况 -->
+	<select id="getProjectInfoByTecTypeWithOldNew" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select SUBSTR(define5 FROM 4) define5,count(*) as zsl,
+			   sum(case when project_scope = '新开课题' then 1 else 0 end) as xksl,
+		       sum(case when project_scope = '结转课题' then 1 else 0 end) as xjsl
+		from out_project_info
+		WHERE
+			define5 is not null and nd='2017'
+		group by define5
+	</select>
+	
 	
 	
 	

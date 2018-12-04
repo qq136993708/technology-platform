@@ -457,4 +457,18 @@ public class OutProjectServiceImpl implements OutProjectService {
 	public List getZDSTLProjectCountByInstitute(HashMap<String, String> map) {
 		return outProjectInfoMapper.getZDSTLProjectCountByInstitute(map);
 	}
+	
+	/**
+     * 领导二级页面，重点项目、国家项目、重大专项、十条龙、其他项目的新开、结转情况
+     */
+    public List getProjectNewOldInfoByType(HashMap<String, String> map) {
+    	return outProjectInfoMapper.getProjectNewOldInfoByType(map);
+    }
+    
+    /**
+     * 领导二级页面，各类型技术的新开、结转情况 
+     */
+	public List getProjectInfoByTecTypeWithOldNew(HashMap<String, String> map) {
+		return outProjectInfoMapper.getProjectInfoByTecTypeWithOldNew(map);
+	}
 }
