@@ -1542,7 +1542,7 @@
 			sum(case when LEFT(SQRI,4) = '2015' then 1 else 0 end) as applyCount,
 			SUBSTR(STATUS,4) as lx
 		from out_patent
-		WHERE STATUS is not null and flztyj = '有效' 
+		WHERE STATUS is not null and flztyj = '有效' and (WXLX = '发明公布' or WXLX = '发明授权')
 		GROUP BY STATUS
 	</select>
 </mapper>
