@@ -164,9 +164,9 @@ public class OutPatentServiceImpl implements OutPatentService {
     
     /**
      * @return
-     * 领导二级页面，直属研究院，8个院发明专利的申请和授权，2018数据申请数有问题，暂时用2015年
+     * 领导二级页面，直属研究院，8个院发明专利、实用新型的申请和授权，2018数据申请数有问题，暂时用2015年
      */
-    public List getFMZLInfoByInstitute(Map hashmap) {
-    	return outPatentMapper.getFMZLInfoByInstitute(hashmap);
+    public List getPatentInfoByLXForInstitute(Map hashmap) {
+    	return outPatentMapper.getPatentInfoByLXForInstitute(hashmap);
     }
 }

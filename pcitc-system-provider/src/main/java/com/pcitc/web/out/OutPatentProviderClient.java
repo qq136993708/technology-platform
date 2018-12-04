@@ -113,12 +113,12 @@ public class OutPatentProviderClient {
 		return json;
 	}
 	
-	@ApiOperation(value = "领导二级页面，直属研究院，8个院发明专利的申请和授权", notes = "参数是年度、研究院等")
-	@RequestMapping(value = "/out-patent-provider/institute/fmzl/apply-agree", method = RequestMethod.POST)
-	public JSONArray getFMZLInfoByInstitute(@RequestBody HashMap<String, String> map) throws Exception {
-		logger.info("==================page getFMZLInfoByInstitute===========================" + map);
+	@ApiOperation(value = "领导二级页面，直属研究院，8个院发明专利、实用新型的申请和授权", notes = "参数是年度、研究院等")
+	@RequestMapping(value = "/out-patent-provider/institute/lx/apply-agree", method = RequestMethod.POST)
+	public JSONArray getPatentInfoByLXForInstitute(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page getPatentInfoByLXForInstitute===========================" + map);
 		
-		List temList = outPatentService.getFMZLInfoByInstitute(map);
+		List temList = outPatentService.getPatentInfoByLXForInstitute(map);
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
 		return json;
 	}
