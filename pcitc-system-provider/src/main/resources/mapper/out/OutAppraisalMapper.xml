@@ -863,4 +863,43 @@
 		</if>
 
 	</select>
+	
+	<!--  领导二级页面，各个研究院的成果情况 -->
+	<select id="getAppraisalInfoByInstitute" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select count(*) as sl, 
+			sum(case when cglx = 'A.工业化' then 1 else 0 end) as gyhsl,
+			sum(case when cglx = 'B.工业试验' then 1 else 0 end) as gysysl,
+			SUBSTR(define1 FROM 4) define1 
+		from out_appraisal
+		where 
+			define1 is not NULL and nd='2017'
+		group by define1
+	</select>
+	
+	<!--  领导二级页面，各种类型的成果情况 -->
+	<select id="getAppraisalInfoByCglx" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select count(*) as sl, cglx 
+		from out_appraisal
+		where 
+			cglx is not NULL and nd='2018'
+		group by cglx
+	</select>
+	
+	<!--  领导二级页面，各种类型的成果情况 -->
+	<select id="getAppraisalInfoByCglx" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select count(*) as sl, cglx 
+		from out_appraisal
+		where 
+			cglx is not NULL and nd='2018'
+		group by cglx
+	</select>
+	
+	<!--  领导二级页面，各种专业的成果情况 -->
+	<select id="getAppraisalInfoByZy" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select count(*) as sl, zy 
+		from out_appraisal
+		where 
+			zy is not NULL and nd='2018'
+		group by zy
+	</select>
 </mapper>

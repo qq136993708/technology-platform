@@ -813,6 +813,13 @@ public class OutProjectInfoClient {
 			HashMap<String, Object> temMap = new HashMap<String, Object>();
 			temMap.put("fyxje", 0d);
 			temMap.put("zbxje", 0d);
+			temMap.put("zje", 0d);
+			temMap.put("prefyxje", 0d);
+			temMap.put("prezbxje", 0d);
+			temMap.put("prezje", 0d);
+			temMap.put("ztzwcl", 0d);
+			temMap.put("fyxtzwcl", 0d);
+			temMap.put("zbxtzwcl", 0d);
 			temMap.put("type_flag", "直属研究院");
 			temList.add(temMap);
 		}
@@ -820,6 +827,13 @@ public class OutProjectInfoClient {
 			HashMap<String, Object> temMap = new HashMap<String, Object>();
 			temMap.put("fyxje", 0d);
 			temMap.put("zbxje", 0d);
+			temMap.put("zje", 0d);
+			temMap.put("prefyxje", 0d);
+			temMap.put("prezbxje", 0d);
+			temMap.put("prezje", 0d);
+			temMap.put("ztzwcl", 0d);
+			temMap.put("fyxtzwcl", 0d);
+			temMap.put("zbxtzwcl", 0d);
 			temMap.put("type_flag", "分子公司");
 			temList.add(temMap);
 		}
@@ -827,6 +841,13 @@ public class OutProjectInfoClient {
 			HashMap<String, Object> temMap = new HashMap<String, Object>();
 			temMap.put("fyxje", 0d);
 			temMap.put("zbxje", 0d);
+			temMap.put("zje", 0d);
+			temMap.put("prefyxje", 0d);
+			temMap.put("prezbxje", 0d);
+			temMap.put("prezje", 0d);
+			temMap.put("ztzwcl", 0d);
+			temMap.put("fyxtzwcl", 0d);
+			temMap.put("zbxtzwcl", 0d);
 			temMap.put("type_flag", "集团单位");
 			temList.add(temMap);
 		}
@@ -834,6 +855,13 @@ public class OutProjectInfoClient {
 			HashMap<String, Object> temMap = new HashMap<String, Object>();
 			temMap.put("fyxje", 0d);
 			temMap.put("zbxje", 0d);
+			temMap.put("zje", 0d);
+			temMap.put("prefyxje", 0d);
+			temMap.put("prezbxje", 0d);
+			temMap.put("prezje", 0d);
+			temMap.put("ztzwcl", 0d);
+			temMap.put("fyxtzwcl", 0d);
+			temMap.put("zbxtzwcl", 0d);
 			temMap.put("type_flag", "外部单位");
 			temList.add(temMap);
 		}
@@ -841,6 +869,13 @@ public class OutProjectInfoClient {
 			HashMap<String, Object> temMap = new HashMap<String, Object>();
 			temMap.put("fyxje", 0d);
 			temMap.put("zbxje", 0d);
+			temMap.put("zje", 0d);
+			temMap.put("prefyxje", 0d);
+			temMap.put("prezbxje", 0d);
+			temMap.put("prezje", 0d);
+			temMap.put("ztzwcl", 0d);
+			temMap.put("fyxtzwcl", 0d);
+			temMap.put("zbxtzwcl", 0d);
 			temMap.put("type_flag", "盈科");
 			temList.add(temMap);
 		}
@@ -848,6 +883,13 @@ public class OutProjectInfoClient {
 			HashMap<String, Object> temMap = new HashMap<String, Object>();
 			temMap.put("fyxje", 0d);
 			temMap.put("zbxje", 0d);
+			temMap.put("zje", 0d);
+			temMap.put("prefyxje", 0d);
+			temMap.put("prezbxje", 0d);
+			temMap.put("prezje", 0d);
+			temMap.put("ztzwcl", 0d);
+			temMap.put("fyxtzwcl", 0d);
+			temMap.put("zbxtzwcl", 0d);
 			temMap.put("type_flag", "休斯顿研发中心");
 			temList.add(temMap);
 		}
@@ -855,6 +897,13 @@ public class OutProjectInfoClient {
 			HashMap<String, Object> temMap = new HashMap<String, Object>();
 			temMap.put("fyxje", 0d);
 			temMap.put("zbxje", 0d);
+			temMap.put("zje", 0d);
+			temMap.put("prefyxje", 0d);
+			temMap.put("prezbxje", 0d);
+			temMap.put("prezje", 0d);
+			temMap.put("ztzwcl", 0d);
+			temMap.put("fyxtzwcl", 0d);
+			temMap.put("zbxtzwcl", 0d);
 			temMap.put("type_flag", "中东研发中心");
 			temList.add(temMap);
 		}
@@ -862,6 +911,13 @@ public class OutProjectInfoClient {
 			HashMap<String, Object> temMap = new HashMap<String, Object>();
 			temMap.put("fyxje", 0d);
 			temMap.put("zbxje", 0d);
+			temMap.put("zje", 0d);
+			temMap.put("prefyxje", 0d);
+			temMap.put("prezbxje", 0d);
+			temMap.put("prezje", 0d);
+			temMap.put("ztzwcl", 0d);
+			temMap.put("fyxtzwcl", 0d);
+			temMap.put("zbxtzwcl", 0d);
 			temMap.put("type_flag", "集团公司");
 			temList.add(temMap);
 		}
@@ -869,6 +925,13 @@ public class OutProjectInfoClient {
 			HashMap<String, Object> temMap = new HashMap<String, Object>();
 			temMap.put("fyxje", 0d);
 			temMap.put("zbxje", 0d);
+			temMap.put("zje", 0d);
+			temMap.put("prefyxje", 0d);
+			temMap.put("prezbxje", 0d);
+			temMap.put("prezje", 0d);
+			temMap.put("ztzwcl", 0d);
+			temMap.put("fyxtzwcl", 0d);
+			temMap.put("zbxtzwcl", 0d);
 			temMap.put("type_flag", "资产公司");
 			temList.add(temMap);
 		}
@@ -1717,71 +1780,6 @@ public class OutProjectInfoClient {
 		
 		List temList = outProjectService.getProjectTypeCountByUnitLD("2018");
 		
-		if (!JSON.toJSONString(temList).contains("勘探院")) {
-			HashMap<String, Object> temMap = new HashMap<String, Object>();
-			temMap.put("xksl", 0);
-			temMap.put("xjsl", 0);
-			temMap.put("zsl", 0);
-			temMap.put("define2", "勘探院");
-			temList.add(temMap);
-		}
-		if (!JSON.toJSONString(temList).contains("物探院")) {
-			HashMap<String, Object> temMap = new HashMap<String, Object>();
-			temMap.put("xksl", 0);
-			temMap.put("xjsl", 0);
-			temMap.put("zsl", 0);
-			temMap.put("define2", "物探院");
-			temList.add(temMap);
-		}
-		if (!JSON.toJSONString(temList).contains("工程院")) {
-			HashMap<String, Object> temMap = new HashMap<String, Object>();
-			temMap.put("xksl", 0);
-			temMap.put("xjsl", 0);
-			temMap.put("zsl", 0);
-			temMap.put("define2", "工程院");
-			temList.add(temMap);
-		}
-		if (!JSON.toJSONString(temList).contains("石科院")) {
-			HashMap<String, Object> temMap = new HashMap<String, Object>();
-			temMap.put("xksl", 0);
-			temMap.put("xjsl", 0);
-			temMap.put("zsl", 0);
-			temMap.put("define2", "石科院");
-			temList.add(temMap);
-		}
-		if (!JSON.toJSONString(temList).contains("大连院")) {
-			HashMap<String, Object> temMap = new HashMap<String, Object>();
-			temMap.put("xksl", 0);
-			temMap.put("xjsl", 0);
-			temMap.put("zsl", 0);
-			temMap.put("define2", "大连院");
-			temList.add(temMap);
-		}
-		if (!JSON.toJSONString(temList).contains("北化院")) {
-			HashMap<String, Object> temMap = new HashMap<String, Object>();
-			temMap.put("xksl", 0);
-			temMap.put("xjsl", 0);
-			temMap.put("zsl", 0);
-			temMap.put("define2", "北化院");
-			temList.add(temMap);
-		}
-		if (!JSON.toJSONString(temList).contains("上海院")) {
-			HashMap<String, Object> temMap = new HashMap<String, Object>();
-			temMap.put("xksl", 0);
-			temMap.put("xjsl", 0);
-			temMap.put("zsl", 0);
-			temMap.put("define2", "上海院");
-			temList.add(temMap);
-		}
-		if (!JSON.toJSONString(temList).contains("安工院")) {
-			HashMap<String, Object> temMap = new HashMap<String, Object>();
-			temMap.put("xksl", 0);
-			temMap.put("xjsl", 0);
-			temMap.put("zsl", 0);
-			temMap.put("define2", "安工院");
-			temList.add(temMap);
-		}
-		System.out.println("===="+JSON.toJSONString(temList));
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
 		return json;
 	}
@@ -1865,6 +1863,28 @@ public class OutProjectInfoClient {
 		logger.info("==================page getZDSTLProjectCountByInstitute===========================" + map);
 		
 		List temList = outProjectService.getZDSTLProjectCountByInstitute(map);
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		return json;
+	}
+	
+	@ApiOperation(value = "领导二级页面，重点项目、国家项目、重大专项、十条龙、其他项目的新开、结转情况", notes = "参数年度")
+	@RequestMapping(value = "/out-project-provider/project-info/new-old/lx")
+	public JSONArray getProjectNewOldInfoByType(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page getProjectNewOldInfoByType===========================" + map);
+		
+		List temList = outProjectService.getProjectNewOldInfoByType(map);
+		
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		return json;
+	}
+	
+	@ApiOperation(value = "领导二级页面，各类型技术的新开、结转情况 ", notes = "参数年度")
+	@RequestMapping(value = "/out-project-provider/tech/type/project-info")
+	public JSONArray getProjectInfoByTecTypeWithOldNew(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page getProjectInfoByTecTypeWithOldNew===========================" + map);
+		
+		List temList = outProjectService.getProjectInfoByTecTypeWithOldNew(map);
+		
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
 		return json;
 	}

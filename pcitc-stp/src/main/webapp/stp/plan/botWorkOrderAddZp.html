@@ -30,10 +30,10 @@
                 <div class="layui-row">
                     <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                         <div class="layui-form-item">
-                            <label class="layui-form-label">工单标题:<span class="must-fill">*</span></label>
+                            <label class="layui-form-label">标题:<span class="must-fill">*</span></label>
                             <div class="layui-input-block">
                                 <input class="layui-input" name="workOrderName" id="workOrderName" lay-verify="title"
-                                       placeholder="请输入工单标题" autocomplete="off" type="text">
+                                       placeholder="请输入标题" autocomplete="off" type="text">
                             </div>
                         </div>
                     </div>
@@ -51,7 +51,7 @@
                 <div class="layui-row">
                     <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                         <div class="layui-form-item">
-                            <label class="layui-form-label">工单类型:<span class="must-fill">*</span></label>
+                            <label class="layui-form-label">类型:<span class="must-fill">*</span></label>
                             <div class="layui-input-block">
                                 <select id="workOrderType" name="workOrderType" lay-filter="select_filter"
                                         lay-search></select>
@@ -78,18 +78,39 @@
                             </div>
                         </div>
                     </div>
-                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6" style="display: none">
+
+                    <!--添加下发人员选择start-->
+                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                         <div class="layui-form-item">
-                            <label for="" class="layui-form-label">转发<span class="must-fill">*</span></label>
+                            <label for="" class="layui-form-label">下发人员<span class="must-fill">*</span></label>
                             <div class="layui-input-block">
-                                <input class="layui-input" name="bak3" id="bak3"
-                                       placeholder="转发给他人" autocomplete="off" type="text">
+                                <input class="layui-input" name="bak4" id="bak4" readonly
+                                       placeholder="" autocomplete="off" type="text">
                             </div>
                         </div>
                     </div>
+                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6" style="display: none">
+                        <div class="layui-form-item">
+                            <label for="" class="layui-form-label">下发人员ID<span class="must-fill">*</span></label>
+                            <div class="layui-input-block">
+                                <input class="layui-input" name="bak6" id="bak6" readonly
+                                       placeholder="" autocomplete="off" type="text">
+                            </div>
+                        </div>
+                    </div>
+                    <!--添加下发人员选择end-->
+                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6" style="display: none">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">转发<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input class="layui-input" name="bak3" id="bak3"
+                                   placeholder="转发给他人" autocomplete="off" type="text">
+                        </div>
+                    </div>
+                </div>
                     <!-- <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                           <div class="layui-form-item">
-                            <label class="layui-form-label">工单状态:<span class="must-fill">*</span></label>
+                            <label class="layui-form-label">状态:<span class="must-fill">*</span></label>
                                <div class="layui-input-block">
                                    <select id="workOrderStatus" name="workOrderStatus" lay-filter="select_filter" lay-search></select>
                             </div>
@@ -156,6 +177,22 @@
     </form>
 </div>
 <script>
+    //人员选择弹出
+    $('#bak4').click(function () {
+        layer.open({
+            title: "<span>选择处理人</span>",
+            skin: 'layui-layer-lan',
+            shadeClose: true,
+            type: 2,
+            fixed: false,
+            //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+            maxmin: true,
+            //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+            area: ['90%', '90%'],
+            content: '/plan/pageSelectUser'
+        });
+    });
+
 
     var param = JSON.parse(window.localStorage.getItem("param"));
     var file_opt_flag = param.id;
@@ -190,6 +227,12 @@
         }
         window.setWelder = setWelder;
         var dataStatus = 0;
+
+        //人员选择回调
+        function setWelder(selectData) {
+            $('#bak6').val(selectData.userId);
+            $('#bak4').val(selectData.userDisp);
+        }
 
         //显示文件上传部分
         $("#file_upload").load('/common/public/uploadlayuiload.html');
@@ -250,16 +293,16 @@
                 if ($(this).find("td").eq(3).find("input").length > 0) {
                     sthTrObj.dataId = $(this).find("td").eq(2).find("input").val();
                     sthTrObj.workOrderName = $(this).find("td").eq(3).find("input").val();
-                    sthTrObj.workOrderAllotUserName = $(this).find("td").eq(4).find("input").val();
-                    sthTrObj.workOrderAllotUserId = $(this).find("td").eq(5).find("input").val();
+                    sthTrObj.workOrderAllotUserName = $(".tdSelect dl dd.layui-this").html();
+                    sthTrObj.workOrderAllotUserId =$(".tdSelect dl dd.layui-this").attr("lay-value");
                     sthTrObj.bl = $(this).find("td").eq(6).find("input").val();
                     sthTrObj.jsId = $(this).find("td").eq(7).find("input").val();
                     sthTrObj.dataCode = (dataCode++);
                 } else {
                     sthTrObj.dataId = $(this).find("td").eq(2).text();
                     sthTrObj.workOrderName = $(this).find("td").eq(3).text();
-                    sthTrObj.workOrderAllotUserName = $(this).find("td").eq(4).text();
-                    sthTrObj.workOrderAllotUserId = $(this).find("td").eq(5).text();
+                    sthTrObj.workOrderAllotUserName = $(".tdSelect dl dd.layui-this").html();
+                    sthTrObj.workOrderAllotUserId =$(".tdSelect dl dd.layui-this").attr("lay-value");
                     sthTrObj.bl = $(this).find("td").eq(6).text();
                     sthTrObj.jsId = $(this).find("td").eq(7).text();
                     sthTrObj.dataCode = (dataCode++);
@@ -317,16 +360,16 @@
                 if ($(this).find("td").eq(3).find("input").length > 0) {
                     sthTrObj.dataId = $(this).find("td").eq(2).find("input").val();
                     sthTrObj.workOrderName = $(this).find("td").eq(3).find("input").val();
-                    sthTrObj.workOrderAllotUserName = $(this).find("td").eq(4).find("input").val();
-                    sthTrObj.workOrderAllotUserId = $(this).find("td").eq(5).find("input").val();
+                    sthTrObj.workOrderAllotUserName = $(".tdSelect dl dd.layui-this").html();
+                    sthTrObj.workOrderAllotUserId =$(".tdSelect dl dd.layui-this").attr("lay-value");
                     sthTrObj.bl = $(this).find("td").eq(6).find("input").val();
                     sthTrObj.jsId = $(this).find("td").eq(7).find("input").val();
                     sthTrObj.dataCode = (dataCode++);
                 } else {
                     sthTrObj.dataId = $(this).find("td").eq(2).text();
                     sthTrObj.workOrderName = $(this).find("td").eq(3).text();
-                    sthTrObj.workOrderAllotUserName = $(this).find("td").eq(4).text();
-                    sthTrObj.workOrderAllotUserId = $(this).find("td").eq(5).text();
+                    sthTrObj.workOrderAllotUserName = $(".tdSelect dl dd.layui-this").html();
+                    sthTrObj.workOrderAllotUserId =$(".tdSelect dl dd.layui-this").attr("lay-value");
                     sthTrObj.bl = $(this).find("td").eq(6).text();
                     sthTrObj.jsId = $(this).find("td").eq(7).text();
                     sthTrObj.dataCode = (dataCode++);
@@ -424,7 +467,7 @@
                 "number": 7,
                 "specialElement": [
                     {hide:true,"column":2,"element":"input"},
-                    {"column":4,"element":"select","value":$("#workOrderAllotUserName").val(),"valueId":$("#workOrderAllotUserId").val()},
+                    {"column":4,"element":"select","value":$("#bak4").val(),"valueId":$("#bak6").val()},
                     {hide:true,"column":6,"element":"input"},
                     {"column":5,"element":"input","disabled":true,"value":$(".bl").val()},
                 ]

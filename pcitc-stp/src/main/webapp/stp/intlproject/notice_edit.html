@@ -15,7 +15,7 @@
 <script type="text/javascript" src="/plugins/ckeditor/ckeditor.js"></script>
 <script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
-	<script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+
 
 <script type="text/javascript">
 var file_ids = "appendFiles";
@@ -65,7 +65,7 @@ $(document).ready(function() {
 				/* 监听提交 */
 				form.on('submit(submitBtn)', function(data) {
 					data.field.noticeContent = editor.getData();
-                    ajaxPost('/project/addorupd-notice', data.field, function (data, status) {
+					publicMethods.ajaxPost('/project/addorupd-notice', data.field, function (data, status) {
                         if (data.success) {
                         	parent.layui.table.reload('noticeTable',null);
                         	parent.renderfunc();//隐藏全选按钮

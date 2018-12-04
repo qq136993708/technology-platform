@@ -46,12 +46,8 @@ public class IntlProjectNoticeController extends BaseController {
 		vo.setFunctionId(functionId);
 		vo.setAuthenticatedUserId(this.getUserProfile().getUserId());
 		HttpEntity<WorkflowVo> entity = new HttpEntity<WorkflowVo>(vo, this.httpHeaders);
-		Integer plant = this.restTemplate.exchange(PROJECT_NOTICE_WORKFLOW_URL + noticeId, HttpMethod.POST, entity, Integer.class).getBody();
-		if (plant == 0) {
-			return new Result(false);
-		} else {
-			return new Result(true);
-		}
+		Result rs = this.restTemplate.exchange(PROJECT_NOTICE_WORKFLOW_URL + noticeId, HttpMethod.POST, entity, Result.class).getBody();
+		return rs;
 	}
 	
 	@RequestMapping(value = "/project/notice-list", method = RequestMethod.POST)
@@ -67,12 +63,8 @@ public class IntlProjectNoticeController extends BaseController {
 	public Object saveNoticeInfo(@ModelAttribute(value = "notice") IntlProjectNotice notice, HttpServletRequest request) throws IOException {
 		notice.setDelFlag(DelFlagEnum.STATUS_NORMAL.getCode());
 		notice.setCreater(sysUserInfo.getUserId());
-		ResponseEntity<Integer> status = this.restTemplate.exchange(PROJECT_NOTICE_ADDORUPD, HttpMethod.POST, new HttpEntity<IntlProjectNotice>(notice, this.httpHeaders), Integer.class);
-		if (status.getBody() == 0) {
-			return new Result(false);
-		} else {
-			return new Result(true);
-		}
+		ResponseEntity<Result> status = this.restTemplate.exchange(PROJECT_NOTICE_ADDORUPD, HttpMethod.POST, new HttpEntity<IntlProjectNotice>(notice, this.httpHeaders), Result.class);
+		return status.getBody();
 	}
 
 	@RequestMapping(value = "/project/get-notice")

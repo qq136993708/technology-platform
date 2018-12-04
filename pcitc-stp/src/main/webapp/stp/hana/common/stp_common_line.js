@@ -230,7 +230,13 @@ var mony_line_option_02 = {
 	        subtext:''
 	    },
 	    tooltip: {
-	        trigger: 'axis'
+	        trigger: 'axis',
+            axisPointer: {
+                type: 'shadow',
+                crossStyle: {
+                    color: '#999'
+                }
+            }
 	    },
 	    /*toolbox: {
             feature: {
@@ -239,10 +245,11 @@ var mony_line_option_02 = {
             }
         },*/
         grid: {
-            x: 60,
-            y: 60,
-            x2: 60,
-            y2: 60
+            top:"10.5%",
+            left: '0%',
+            right: '5%',
+            bottom: '10%',
+            containLabel: true
 	    },
 	    color:['#6592b2', '#54b6e9','#70b1aa','#e8a791','#b5c26a','#d59981'],
 	    
@@ -281,7 +288,7 @@ var mony_line_option_02 = {
 	        }
 	    ],
 	    series: [
-	        
+
 	    ]
 	};
 
@@ -323,8 +330,10 @@ function get_mony_line_option_ajax(url,echartsobj, options)
 	        	           	seriesData.push({
 	        	           		   type: seriesList[i].type,
 	        	                   name: seriesList[i].name,
-	        	                   data: seriesList[i].data
-	        	                   
+	        	                   data: seriesList[i].data,
+                                       // 显示数值
+								   itemStyle : { normal: {label : {show: true,color:"#000"}}}
+
 	        	                   /*//系列中的数据标注内容    
 	                               ,markPoint: {    
 	                                   data: [    
@@ -403,6 +412,18 @@ function load_mony_line_02(url,id,title,subtext,yAxis)
 	get_mony_line_option_ajax(url,echartsobj, mony_line_option_02);
 	return echartsobj;
 }
+function load_mony_line_one(url,id,title,subtext,yAxis)
+{
+    var echartsobj = echarts.init(document.getElementById(id));
+    mony_line_option_02.title.text=title;
+    mony_line_option_02.title.subtext=subtext;
+    mony_line_option_02.yAxis=yAxis;
+    mony_line_option_02.color=["#9799ec","#b68d01"];
+    echartsobj.setOption(mony_line_option_02);
+    echartsobj.showLoading();
+    get_mony_line_option_ajax(url,echartsobj, mony_line_option_02);
+    return echartsobj;
+}
 
 
 
@@ -453,7 +474,7 @@ var option_dt = {
 	    tooltip : {
 	        trigger: 'axis',
 	        axisPointer: {
-	            type: 'cross',
+	            type: 'shadow',
 	            label: {
 	                backgroundColor: '#6a7985'
 	            }
@@ -469,17 +490,22 @@ var option_dt = {
 	        }
 	    },*/
 	    grid: {
-	    	
-	    	x: 50,
-  	        y: 50,
-  	        x2: 80,
-  	        y2: 80
+
+            top:"10%",
+            left: '0%',
+            right: '3%',
+            bottom: '10%',
+            containLabel: true
 	    },
 	    xAxis : [
 	        {
 	            type : 'category',
 	            boundaryGap : false,
-	            data : []
+	            data : [],
+	            axisLabel:{
+                    interval:0,//0：全部显示，1：间隔为1显示对应类目，2：依次类推，（简单试一下就明白了，这样说是不是有点抽象）
+                    rotate:30,//倾斜显示，-：顺时针旋转，+或不写：逆时针旋转
+                   }
 	        }
 	    ],
 	    yAxis : [
@@ -532,7 +558,8 @@ function get_mony_line_option_ajax_dt(url,echartsobj, options)
 	        	                   areaStyle: seriesList[i].areaStyle,
 	        	                   stack: seriesList[i].stack,
 	        	                   smooth: seriesList[i].smooth,
-	        	                   color: seriesList[i].color
+	        	                   color: seriesList[i].color,
+                                   itemStyle : { normal: {label : {show: true,color:"#000"}}},
 	        	                   /*//系列中的数据标注内容    
 	                               ,markPoint: {    
 	                                   data: [    

@@ -32,6 +32,7 @@ import com.pcitc.base.hana.report.HanaConstant;
 import com.pcitc.base.system.SysCollect;
 import com.pcitc.base.system.SysFunction;
 import com.pcitc.base.system.SysUser;
+import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.MD5Util;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.JwtTokenUtil;
@@ -198,7 +199,7 @@ public class AdminController extends BaseController {
 
 		String cFlag = request.getParameter("cFlag");
 		if (rsUser.getUserLevel() != null && rsUser.getUserLevel() == 1 && cFlag == null) {
-			return "/leaderIndex";
+			return "/oneLevelMain";
 		} else {
 			return "/index";
 		}
@@ -360,6 +361,39 @@ public class AdminController extends BaseController {
 			}
 		}
 	}
+	
+	
+	
+	
+	@RequestMapping(value = "/instituteIndex")
+	public String instituteIndex(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		String url=CommonUtil.getParameter(request, "url", "");
+		request.setAttribute("url", url);
+	    SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
+	    
+	    SysUser  userDetails = this.restTemplate.exchange(USER_DETAILS_URL + sysUserInfo.getUserId(), HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SysUser.class).getBody();
+	    
+	    
+		// 收藏的菜单
+		List<SysCollect> scList = userInfo.getScList();
+		List<SysFunction> funList = userDetails.getFunList();
+		List<SysFunction> upList = new ArrayList<SysFunction>();
+		for (SysFunction sysfun : funList) {
+			if (sysfun.getParentId() != null && sysfun.getParentId().equals("10001")) {
+				upList.add(sysfun);
+			}
+		}
+		request.setAttribute("scList", scList);
+		request.setAttribute("funList", funList);
+		request.setAttribute("upList", upList);
+		request.setAttribute("userInfo", userDetails);
+		return "/instituteIndex";
+	}
+
+	
+	
+	
 
 	/**
 	 * 首页的具体内容
