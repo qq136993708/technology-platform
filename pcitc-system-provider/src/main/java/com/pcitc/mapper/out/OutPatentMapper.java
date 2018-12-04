@@ -88,5 +88,11 @@ public interface OutPatentMapper {
      */
     public List getPatentInfoByLXForInstitute(Map hashmap);
     
+    /**
+     * @return
+     * 领导二级页面，直属研究院，专利类型的申请、授权数量
+     */
+    public List getPatentInfoForLX(Map hashmap);
+    
     
 }

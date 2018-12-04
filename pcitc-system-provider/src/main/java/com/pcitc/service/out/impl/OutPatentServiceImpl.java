@@ -169,4 +169,12 @@ public class OutPatentServiceImpl implements OutPatentService {
     public List getPatentInfoByLXForInstitute(Map hashmap) {
     	return outPatentMapper.getPatentInfoByLXForInstitute(hashmap);
     }
+    
+    /**
+     * @return
+     * 领导二级页面，直属研究院，专利类型的申请、授权数量
+     */
+    public List getPatentInfoForLX(Map hashmap) {
+    	return outPatentMapper.getPatentInfoForLX(hashmap);
+    }
 }

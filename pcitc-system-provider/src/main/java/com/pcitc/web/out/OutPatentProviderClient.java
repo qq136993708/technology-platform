@@ -122,4 +122,15 @@ public class OutPatentProviderClient {
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
 		return json;
 	}
+	
+	@ApiOperation(value = "领导二级页面，直属研究院，专利类型的申请、授权数量", notes = "参数是年度、研究院等")
+	@RequestMapping(value = "/out-patent-provider/lx/apply-agree", method = RequestMethod.POST)
+	public JSONArray getPatentInfoForLX(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page getPatentInfoForLX===========================" + map);
+		
+		List temList = outPatentService.getPatentInfoForLX(map);
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		return json;
+	}
+	
 }
