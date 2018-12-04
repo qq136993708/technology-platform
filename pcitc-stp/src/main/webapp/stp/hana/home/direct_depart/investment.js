@@ -215,9 +215,6 @@ function load_mutl_bar_investment(url,id,title,subtext,yAxis)
 
 /**================================================ 堆叠 =========================================*/
 
-
-
-
 var option_dt_investment = {
 		title: {
 	        text: '',
@@ -265,7 +262,7 @@ var option_dt_investment = {
 	            data : [],
 	            axisLabel:{
                     interval:0,//0：全部显示，1：间隔为1显示对应类目，2：依次类推，（简单试一下就明白了，这样说是不是有点抽象）
-                    rotate:30,//倾斜显示，-：顺时针旋转，+或不写：逆时针旋转
+                    //rotate:30,//倾斜显示，-：顺时针旋转，+或不写：逆时针旋转
                    }
 	        }
 	    ],
@@ -391,6 +388,13 @@ function load_mony_line_dt_investment(url,id,title,subtext,yAxis)
 	{
 		option_dt_investment.yAxis=yAxis;
 	}
+	option_dt_investment.grid={
+	        top:"10%",
+	        left: '0%',
+	        right: '3%',
+	        bottom: '10%',
+	        containLabel: true
+	    }
 	echartsobj.setOption(option_dt_investment);
 	echartsobj.showLoading();
 	get_mony_line_option_ajax_dt_investment(url,echartsobj, option_dt_investment);
