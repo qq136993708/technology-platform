@@ -576,6 +576,7 @@
                     , done: function (res, curr, count) {
                         // $(".layui-table-body .layui-table-cell>div i").remove()
 
+                        pcitcReport.strwhere="";
                         console.log("--data---");
                         console.log(res.data.length);
                         pcitcReport.setExt();
@@ -604,7 +605,7 @@
 
         //add start
         if (jsonparam!="") {
-            // var jsonParamArr = jsonparam.split(",");
+            //g0_type_flag=12321,g0_project_scope=12312
             $(".nowtips ul.wd_show_obj_array li").each(function () {
                 var valueG0 = $(this).find("a").attr("value");
                 if (valueG0 == undefined) {
@@ -621,6 +622,10 @@
                     $(this).find("a").click()
                 }
             });
+            //条件赋值
+            console.log("--where---条件");
+            pcitcReport.strwhere= jsonparam;
+            console.log(pcitcReport.strwhere);
             active.reload();
         }
         //add end

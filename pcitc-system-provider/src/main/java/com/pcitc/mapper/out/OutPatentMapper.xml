@@ -1357,7 +1357,7 @@
 		JGHDMC,
 		JSWTHYYXG, FMDHHXFA, YT,
 		CREATE_DATE, CREATE_USER_ID, REMARKS,
-		STATUS)
+		STATUS,GJ,DEFINE1,DEFINE2,DEFINE3,DEFINE4)
 		values
 		<foreach collection="list" item="patent" index="index"
 			separator=",">
@@ -1412,7 +1412,13 @@
 			#{patent.createDate,jdbcType=TIMESTAMP},
 			#{patent.createUserId,jdbcType=VARCHAR},
 			#{patent.remarks,jdbcType=VARCHAR},
-			#{patent.status,jdbcType=VARCHAR})
+			#{patent.status,jdbcType=VARCHAR},
+			#{patent.gj,jdbcType=VARCHAR},
+			#{patent.define1,jdbcType=VARCHAR},
+			#{patent.define2,jdbcType=VARCHAR},
+			#{patent.define3,jdbcType=VARCHAR},
+			#{patent.define4,jdbcType=VARCHAR}
+			)
 		</foreach>
 	</insert>
 

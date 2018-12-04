@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.pcitc.base.stp.out.OutPatent;
 import com.pcitc.base.stp.out.OutPatentExample;
+import com.pcitc.base.stp.out.OutPatentWithBLOBs;
 
 public interface OutPatentMapper {
     int countByExample(OutPatentExample example);
@@ -15,23 +16,29 @@ public interface OutPatentMapper {
 
     int deleteByPrimaryKey(String dataId);
 
-    int insert(OutPatent record);
+    int insert(OutPatentWithBLOBs record);
 
-    int insertSelective(OutPatent record);
+    int insertSelective(OutPatentWithBLOBs record);
+
+    List<OutPatentWithBLOBs> selectByExampleWithBLOBs(OutPatentExample example);
 
     List<OutPatent> selectByExample(OutPatentExample example);
 
-    OutPatent selectByPrimaryKey(String dataId);
+    OutPatentWithBLOBs selectByPrimaryKey(String dataId);
 
-    int updateByExampleSelective(@Param("record") OutPatent record, @Param("example") OutPatentExample example);
+    int updateByExampleSelective(@Param("record") OutPatentWithBLOBs record, @Param("example") OutPatentExample example);
+
+    int updateByExampleWithBLOBs(@Param("record") OutPatentWithBLOBs record, @Param("example") OutPatentExample example);
 
     int updateByExample(@Param("record") OutPatent record, @Param("example") OutPatentExample example);
 
-    int updateByPrimaryKeySelective(OutPatent record);
+    int updateByPrimaryKeySelective(OutPatentWithBLOBs record);
+
+    int updateByPrimaryKeyWithBLOBs(OutPatentWithBLOBs record);
 
     int updateByPrimaryKey(OutPatent record);
     
-    public void insertOutPatentBatch(List<OutPatent> list);
+ public void insertOutPatentBatch(List<OutPatentWithBLOBs> list);
     
     public String getMaxImportDate(String remarks);
     
@@ -74,5 +81,6 @@ public interface OutPatentMapper {
      * 领导二级页面，直属研究院，8个院专利申请、授权、发明专利数量
      */
     public List getPatentTypeCountByInstituteForLD(Map hashmap);
+    
     
 }

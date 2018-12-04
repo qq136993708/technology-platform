@@ -11,8 +11,6 @@ public class OutPatent {
 
     private String fmmc;
 
-    private String zhy;
-
     private String gkh;
 
     private String gkr;
@@ -42,8 +40,6 @@ public class OutPatent {
     private String yxqr;
 
     private String dqflzt;
-
-    private String flztlsxx;
 
     private String flztggrq;
 
@@ -125,6 +121,16 @@ public class OutPatent {
 
     private String status;
 
+    private String gj;
+
+    private String define1;
+
+    private String define2;
+
+    private String define3;
+
+    private String define4;
+
     public String getDataId() {
         return dataId;
     }
@@ -155,14 +161,6 @@ public class OutPatent {
 
     public void setFmmc(String fmmc) {
         this.fmmc = fmmc;
-    }
-
-    public String getZhy() {
-        return zhy;
-    }
-
-    public void setZhy(String zhy) {
-        this.zhy = zhy;
     }
 
     public String getGkh() {
@@ -283,14 +281,6 @@ public class OutPatent {
 
     public void setDqflzt(String dqflzt) {
         this.dqflzt = dqflzt;
-    }
-
-    public String getFlztlsxx() {
-        return flztlsxx;
-    }
-
-    public void setFlztlsxx(String flztlsxx) {
-        this.flztlsxx = flztlsxx;
     }
 
     public String getFlztggrq() {
@@ -611,5 +601,45 @@ public class OutPatent {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getGj() {
+        return gj;
+    }
+
+    public void setGj(String gj) {
+        this.gj = gj;
+    }
+
+    public String getDefine1() {
+        return define1;
+    }
+
+    public void setDefine1(String define1) {
+        this.define1 = define1;
+    }
+
+    public String getDefine2() {
+        return define2;
+    }
+
+    public void setDefine2(String define2) {
+        this.define2 = define2;
+    }
+
+    public String getDefine3() {
+        return define3;
+    }
+
+    public void setDefine3(String define3) {
+        this.define3 = define3;
+    }
+
+    public String getDefine4() {
+        return define4;
+    }
+
+    public void setDefine4(String define4) {
+        this.define4 = define4;
     }
 }

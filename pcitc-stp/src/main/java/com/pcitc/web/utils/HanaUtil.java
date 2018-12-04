@@ -2930,23 +2930,27 @@ public class HanaUtil {
 		if (name.equals("zje")) {
 			chartBarLineSeries.setName("实际下达");
 			chartBarLineSeries.setStack("数量");
+			chartBarLineSeries.setyAxisIndex(0);
 			chartBarLineSeries.setItemStyle("{normal:{color:'#FF8849'}}");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
 		if (name.equals("prezje")) {
 			chartBarLineSeries.setName("年度预算");
 			chartBarLineSeries.setStack("数量");
+			chartBarLineSeries.setyAxisIndex(0);
 			chartBarLineSeries.setItemStyle("{normal:{color:'#FF8849'}}");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
 		if (name.equals("wxd")) {
 			chartBarLineSeries.setName("未下达");
             chartBarLineSeries.setStack("数量");
+            chartBarLineSeries.setyAxisIndex(0);
 			chartBarLineSeries.setItemStyle("{normal:{color:'#3FBB49'}}");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
 		if (name.equals("ztzwcl")) {
 			chartBarLineSeries.setName("投资完成率");
+			chartBarLineSeries.setyAxisIndex(1);
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_LINE);
 		}
 

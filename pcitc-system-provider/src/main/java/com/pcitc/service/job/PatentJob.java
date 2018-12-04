@@ -14,7 +14,7 @@ import org.quartz.JobExecutionException;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.google.gson.JsonObject;
-import com.pcitc.base.stp.out.OutPatent;
+import com.pcitc.base.stp.out.OutPatentWithBLOBs;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.config.SpringContextUtil;
 import com.pcitc.service.out.OutPatentService;
@@ -55,13 +55,13 @@ public class PatentJob implements Job, Serializable {
 			str = DataServiceUtil.getDataService(DataServiceUtil.GET_URL, sqlName, conditions);
 			if (str != null) {
 				JSONArray jSONArray = JSONArray.parseArray(str);
-				List<OutPatent> insertData = new ArrayList<OutPatent>();
+				List<OutPatentWithBLOBs> insertData = new ArrayList<OutPatentWithBLOBs>();
 				int temI = 0;
 				boolean temB = true;
 				for (int i = 0; i < jSONArray.size(); i++) {
 					JSONObject object = (JSONObject) jSONArray.get(i);
 					temI++;
-					OutPatent op = new OutPatent();
+					OutPatentWithBLOBs op = new OutPatentWithBLOBs();
 
 					op.setDataId(UUID.randomUUID().toString().replaceAll("-", ""));
 					op.setSqh(object.getString("SQH"));

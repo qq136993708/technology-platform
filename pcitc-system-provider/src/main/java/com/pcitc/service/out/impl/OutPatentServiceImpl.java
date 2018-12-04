@@ -17,6 +17,7 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.stp.out.OutPatent;
 import com.pcitc.base.stp.out.OutPatentExample;
+import com.pcitc.base.stp.out.OutPatentWithBLOBs;
 import com.pcitc.mapper.out.OutPatentMapper;
 import com.pcitc.service.out.OutPatentService;
 
@@ -29,7 +30,7 @@ public class OutPatentServiceImpl implements OutPatentService {
 
 	private final static Logger logger = LoggerFactory.getLogger(OutPatentServiceImpl.class);
 
-	public int insertPatentData(List<OutPatent> list) {
+	public int insertPatentData(List<OutPatentWithBLOBs> list) {
 		// 删除年度数据
 		// OutPatentExample example = new OutPatentExample();
 		// outPatentMapper.deleteByExample(example);
