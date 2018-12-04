@@ -1,5 +1,6 @@
 package com.pcitc.web.activiti.module;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -30,6 +31,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
+import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.workflow.SysFunctionProdef;
 import com.pcitc.base.workflow.WorkflowVo;
@@ -39,19 +41,21 @@ import com.pcitc.web.common.OperationFilter;
 @Controller
 public class WorkflowController extends BaseController {
 
-	private static final String GET_FUNCTION_COMPLETE_TREE = "http://pplus-zuul/system-proxy/function-provider/function/complete-function-tree";
+	private static final String GET_FUNCTION_COMPLETE_TREE = "http://pcitc-zuul/system-proxy/function-provider/function/complete-function-tree";
 
-	private static final String FUNCTION_PROCESS_DEFINE_PAGE = "http://pplus-zuul/system-proxy/workflow-provider/function/process-list";
-	private static final String FUNCTION_PROCESS_DEFINE_ADD = "http://pplus-zuul/system-proxy/workflow-provider/function/add-config";
+	private static final String FUNCTION_PROCESS_DEFINE_PAGE = "http://pcitc-zuul/system-proxy/workflow-provider/function/process-list";
+	private static final String FUNCTION_PROCESS_DEFINE_ADD = "http://pcitc-zuul/system-proxy/workflow-provider/function/add-config";
 
-	private static final String FUNCTION_CONFIG_DEL = "http://pplus-zuul/system-proxy/workflow-provider/function/configures";
+	private static final String FUNCTION_CONFIG_DEL = "http://pcitc-zuul/system-proxy/workflow-provider/function/configures";
 
-	private final static String PROCESS_DEF_LIST = "http://pplus-zuul/system-proxy/workflow-provider/process/defines/list";
+	private final static String PROCESS_DEF_LIST = "http://pcitc-zuul/system-proxy/workflow-provider/process/defines/list";
 
-	private static final String START_WORKFLOW_URL = "http://pplus-zuul/system-proxy/workflow-provider/workflow/start";
+	private static final String START_WORKFLOW_URL = "http://pcitc-zuul/system-proxy/workflow-provider/workflow/start";
 
-	private static final String AUDIT_FLAG_URL = "http://pplus-zuul/system-proxy/task-provider/workflow/start/audit-type";
+	private static final String AUDIT_FLAG_URL = "http://pcitc-zuul/system-proxy/task-provider/workflow/start/audit-type";
 
+	private static final String PROJECT_LIST = "http://pcitc-zuul/epms-proxy/engin/preparation/Project-provider/project_list";
+	
 	/**
 	 * 判断是否需要选择审批人,判断流程图的第一个审批节点的类型（通过id来区分）
 	 */
@@ -295,7 +299,35 @@ public class WorkflowController extends BaseController {
 		LayuiTableData retJson = responseEntity.getBody();
 		return JSON.toJSON(retJson).toString();
 	}
+	
+	/**
+	 * 跳转到选择工程项目页面
+	 */
+	@RequestMapping(value = "/workflow/function-config/ini-project-list")
+	public String iniProjectListForConfig(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
+		return "/pplus/workflow/project-list";
+	}
+	
+	/**
+	 * 选择生效的项目
+	 * @param param
+	 * @return
+	 */
+	@RequestMapping(value = "/workflow/function-config/project-list", method = RequestMethod.POST)
+	@ResponseBody
+	public Object getProjectListForTable(@ModelAttribute("param") LayuiTableParam param) {
+		Map<String, Object> map = param.getParam();
+		map.put("projectCondition", "0");
+		param.setParam(map);
+		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
+	    ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(PROJECT_LIST, HttpMethod.POST, entity, LayuiTableData.class);
+	    LayuiTableData result = responseEntity.getBody();
+	    CommonUtil.addAttachmentField(result, restTemplate, httpHeaders);
+	    JSONObject retJson = (JSONObject) JSON.toJSON(result);
+		return retJson;
+	}
+	
 
 	/**
 	 * 保存配置,同一个菜单同一种配置只能有一个配置
@@ -309,8 +341,6 @@ public class WorkflowController extends BaseController {
 	@ResponseBody
 	@OperationFilter(modelName = "系统管理", actionName = "新增工作流菜单配置")
 	public Result functionProdefInsert(@RequestBody SysFunctionProdef prodef, HttpServletRequest request) throws Exception {
-		System.out.println("1========/workflow/function/prodef/save=========" + prodef.getUnitShow());
-		System.out.println("2========/workflow/function/prodef/save=========" + prodef.getUnitValue());
 		prodef.setFunctionProdefId(UUID.randomUUID().toString().replaceAll("-", ""));
 		if (prodef.getProjectId() != null && prodef.getProjectId().equals("")) {
 			prodef.setProjectId(null);

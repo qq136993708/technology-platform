@@ -17,6 +17,7 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.stp.out.OutPatent;
 import com.pcitc.base.stp.out.OutPatentExample;
+import com.pcitc.base.stp.out.OutPatentWithBLOBs;
 import com.pcitc.mapper.out.OutPatentMapper;
 import com.pcitc.service.out.OutPatentService;
 
@@ -29,7 +30,7 @@ public class OutPatentServiceImpl implements OutPatentService {
 
 	private final static Logger logger = LoggerFactory.getLogger(OutPatentServiceImpl.class);
 
-	public int insertPatentData(List<OutPatent> list) {
+	public int insertPatentData(List<OutPatentWithBLOBs> list) {
 		// 删除年度数据
 		// OutPatentExample example = new OutPatentExample();
 		// outPatentMapper.deleteByExample(example);
@@ -90,8 +91,8 @@ public class OutPatentServiceImpl implements OutPatentService {
 	 * 
 	 * @return
 	 */
-	public String getMaxImportDate() {
-		return outPatentMapper.getMaxImportDate();
+	public String getMaxImportDate(String remarks) {
+		return outPatentMapper.getMaxImportDate(remarks);
 	}
 
 	public List getWXLXInfo(String nd) {
@@ -159,5 +160,21 @@ public class OutPatentServiceImpl implements OutPatentService {
      */
     public List getPatentTypeCountByInstituteForLD(Map hashmap) {
     	return outPatentMapper.getPatentTypeCountByInstituteForLD(hashmap);
+    }
+    
+    /**
+     * @return
+     * 领导二级页面，直属研究院，8个院发明专利、实用新型的申请和授权，2018数据申请数有问题，暂时用2015年
+     */
+    public List getPatentInfoByLXForInstitute(Map hashmap) {
+    	return outPatentMapper.getPatentInfoByLXForInstitute(hashmap);
+    }
+    
+    /**
+     * @return
+     * 领导二级页面，直属研究院，专利类型的申请、授权数量
+     */
+    public List getPatentInfoForLX(Map hashmap) {
+    	return outPatentMapper.getPatentInfoForLX(hashmap);
     }
 }

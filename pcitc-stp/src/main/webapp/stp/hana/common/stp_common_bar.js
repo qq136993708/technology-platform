@@ -240,7 +240,7 @@ var mutl_bar_bottom = {
         tooltip: {
             trigger: 'axis',
             axisPointer: {
-                type: 'cross',
+                type: 'shadow',
                 crossStyle: {
                     color: '#999'
                 }
@@ -281,20 +281,7 @@ var mutl_bar_bottom = {
             }
         ],
         series: [
-            {
-                type : 'bar',
-                itemStyle : {
-                    normal : {
-                        label: {
-                            show: true,
-                            position: 'top',
-                            textStyle: {
-                                color: '#000'
-                            }
-                        }
-                    }
-                }
-            }
+
         ]
     };
 
@@ -429,7 +416,7 @@ function load_mutl_bar_03(url,id,title,subtext,yAxis)
 		mutl_bar_bottom.title.subtext=subtext;
 	}
     mutl_bar_bottom.grid={
-	    top:"2.5%",
+	    top:"10.5%",
         left: '0%',
         right: '3%',
         bottom: '10%',
@@ -445,7 +432,35 @@ function load_mutl_bar_03(url,id,title,subtext,yAxis)
 	var data=barLineAjax_03(url,echartsobj, mutl_bar_bottom);
 	return data;
 }
-
+function load_mutl_bar_three(url,id,title,subtext,yAxis)
+{
+    var echartsobj = echarts.init(document.getElementById(id));
+    if(title!=null && title!='')
+    {
+        mutl_bar_bottom.title.text=title;
+    }
+    if(subtext!=null && subtext!='')
+    {
+        mutl_bar_bottom.title.subtext=subtext;
+    }
+    mutl_bar_bottom.grid={
+        top:"10.5%",
+        left: '0%',
+        right: '3%',
+        bottom: '10%',
+        containLabel: true
+    }
+    mutl_bar_bottom.color=["#ea886d","#ffad01"];
+    if(yAxis!=null && yAxis!='')
+    {
+        mutl_bar_bottom.yAxis=yAxis;
+    }
+    echartsobj.clear();
+    echartsobj.setOption(mutl_bar_bottom);
+    echartsobj.showLoading();
+    var data=barLineAjax_03(url,echartsobj, mutl_bar_bottom);
+    return data;
+}
 function load_mutl_bar_color(url,id,title,subtext,yAxis)
 {
     var echartsobj = echarts.init(document.getElementById(id));
@@ -628,22 +643,23 @@ var mutl_bar_stack_02 = {
         tooltip: {
             trigger: 'axis',
             axisPointer: {
-                type: 'cross',
+                type: 'shadow',
                 crossStyle: {
                     color: '#999'
                 }
             }
         },
         grid: {
-        	  x: 60,
-              y: 60,
-              x2: 60,
-              y2: 60
+            top:"11%",
+            left: '0%',
+            right: '2%',
+            bottom: '10%',
+            containLabel: true
 	    },
 	    color:['#6592b2', '#FF8849','#3FBB49','#e8a791','#b5c26a','#d59981'],
         legend: {
             type: 'scroll',
-            bottom: 1,
+            bottom: 0,
             data:[]
         },
         xAxis: [
@@ -652,7 +668,7 @@ var mutl_bar_stack_02 = {
                 data: [],
                 axisLabel:{
                     interval:0,//0：全部显示，1：间隔为1显示对应类目，2：依次类推，（简单试一下就明白了，这样说是不是有点抽象）
-                    rotate:30,//倾斜显示，-：顺时针旋转，+或不写：逆时针旋转
+                    //rotate:30,//倾斜显示，-：顺时针旋转，+或不写：逆时针旋转
                    }
 
             }
@@ -689,7 +705,7 @@ function load_mutl_bar_stack_02(url,id,title,subtext,yAxis)
 
 	 mutl_bar_stack_02.title.subtext=subtext;
  }
-
+    mutl_bar_stack_02.color=["#43c5ff","#ffa70f","#fef343","#96e268"];
  if(yAxis!=null && yAxis!='')
  {
 	 mutl_bar_stack_02.yAxis=yAxis;
@@ -700,7 +716,31 @@ function load_mutl_bar_stack_02(url,id,title,subtext,yAxis)
  return data;
  
 }
+function load_mutl_bar_stack_two(url,id,title,subtext,yAxis)
+{
+    var echartsobj = echarts.init(document.getElementById(id));
 
+    if(title!=null && title!='')
+    {
+
+        mutl_bar_stack_02.title.text=title;
+    }
+    if(subtext!=null && subtext!='')
+    {
+
+        mutl_bar_stack_02.title.subtext=subtext;
+    }
+    mutl_bar_stack_02.color=["#70b1ab","#87d359"];
+    if(yAxis!=null && yAxis!='')
+    {
+        mutl_bar_stack_02.yAxis=yAxis;
+    }
+    echartsobj.setOption(mutl_bar_stack_02);
+    echartsobj.showLoading();
+    var data=barLineAjax_Stack_02(url,echartsobj, mutl_bar_stack_02);
+    return data;
+
+}
 function barLineAjax_Stack_02(url,  echartsobj, options) 
 {
 	
@@ -744,7 +784,8 @@ function barLineAjax_Stack_02(url,  echartsobj, options)
 	        	                   name: seriesList[i].name,
 	        	                   data: seriesList[i].data,
 	        	                   stack:seriesList[i].stack,
-	        	                   itemStyle:seriesList[i].itemStyle,
+                                   itemStyle : { normal: {label : {show: true,color:"#000"}}},
+	        	                   /*itemStyle:seriesList[i].itemStyle,*/
 	        	                   barWidth:20
 	        	                   ,yAxisIndex: seriesList[i].yAxisIndex
 	        	               });
@@ -910,7 +951,8 @@ function barLineAjax(url,  echartsobj, options)
 	        	                   name: seriesList[i].name,
 	        	                   data: seriesList[i].data,
 	        	                   barWidth:20
-	        	                   ,yAxisIndex: seriesList[i].yAxisIndex
+	        	                   ,yAxisIndex: seriesList[i].yAxisIndex,
+                                itemStyle : { normal: {label : {show: true,color:"#000"}}},
 	        	                   /*//系列中的数据标注内容    
 	                               ,markPoint: {    
 	                                   data: [    
@@ -1004,7 +1046,8 @@ function barLineAjax_03(url,  echartsobj, options)
 	        	                   name: seriesList[i].name,
 	        	                   data: seriesList[i].data,
 	        	                   barWidth:20
-	        	                   ,yAxisIndex: seriesList[i].yAxisIndex
+	        	                   ,yAxisIndex: seriesList[i].yAxisIndex,
+                                itemStyle : { normal: {label : {show: true,color:"#000",position: 'top'}}},
 	                               
 	        	               });
 	        	           }
@@ -1086,7 +1129,8 @@ function barLineAjax_Stack(url,  echartsobj, options)
 	        	                   stack:seriesList[i].stack,
 	        	                   itemStyle:seriesList[i].itemStyle,
 	        	                   barWidth:20
-	        	                   ,yAxisIndex: seriesList[i].yAxisIndex
+	        	                   ,yAxisIndex: seriesList[i].yAxisIndex,
+                                itemStyle : { normal: {label : {show: true,color:"#000"}}},
 	        	                   /*//系列中的数据标注内容    
 	                               ,markPoint: {    
 	                                   data: [    
@@ -1267,7 +1311,8 @@ function barLine_zhengfu_Ajax(url,  echartsobj, options)
 	        	           	seriesData.push({
 	        	           		   type: seriesList[i].type,
 	        	                   name: seriesList[i].name,
-	        	                   data: seriesList[i].data
+	        	                   data: seriesList[i].data,
+                                itemStyle : { normal: {label : {show: true,color:"#000"}}},
 	        	               });
 	        	           }
 	        	           //加载数据图表

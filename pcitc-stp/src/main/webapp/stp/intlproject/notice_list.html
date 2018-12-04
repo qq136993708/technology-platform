@@ -170,10 +170,10 @@
 					layer.close(index);
 					ajaxPost("/project/notice-start-workflow", {noticeId: selectRowData.noticeId,functionId:param.id}, function (data) {
 	                     if (data.success) {
-	                    	 layer.msg('审核已提交!');
+	                    	 layer.msg(data.message);
 	                    	 renderTable({param: {"noticeTitle":$("#noticeTitle").val()}});
 	                     } else {
-	                    	 layer.msg('操作异常，请重试!');
+	                    	 layer.msg(data.message);
 	                     }
 	                });
             	});

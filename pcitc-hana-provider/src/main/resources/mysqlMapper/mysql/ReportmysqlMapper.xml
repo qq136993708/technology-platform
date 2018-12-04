@@ -21,10 +21,14 @@ WHERE
 	</select>
 
     <select id="getReportListStpMysqlCount" resultType="String" parameterType="java.util.HashMap">
+SELECT count(*) AS counts FROM
+(
         SELECT
         count(*) AS counts
         FROM ${modelIndex}
         where 1=1 ${where}
+        group by ${group}
+        ) t
 </select>
 
     <select id="getReportListStpDb" resultType="java.util.HashMap" parameterType="java.util.HashMap">

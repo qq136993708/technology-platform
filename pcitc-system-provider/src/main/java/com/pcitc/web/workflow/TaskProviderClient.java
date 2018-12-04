@@ -63,9 +63,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.github.pagehelper.PageHelper;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
@@ -245,6 +243,13 @@ public class TaskProviderClient {
 		}
 		if (param.getParam().get("dateFlag") != null && !StrUtil.isBlankOrNull(param.getParam().get("dateFlag").toString())) {
 			query.taskCreatedAfter(DateUtil.dateAdd(new Date(), -Integer.parseInt(param.getParam().get("dateFlag").toString())));
+			if (param.getParam().get("dateFlag").toString().equals("7")) {
+				query.taskCreatedBefore(DateUtil.dateAdd(new Date(), -3));
+			}
+			if (param.getParam().get("dateFlag").toString().equals("30")) {
+				query.taskCreatedBefore(DateUtil.dateAdd(new Date(), -7));
+			}
+			
 		}
 		
 		if (param.getOrderKey() != null && !StrUtil.isBlankOrNull(param.getOrderKey().toString())) {
@@ -406,6 +411,12 @@ public class TaskProviderClient {
 		}
 		if (param.getParam().get("dateFlag") != null && !StrUtil.isBlankOrNull(param.getParam().get("dateFlag").toString())) {
 			query.taskCreatedAfter(DateUtil.dateAdd(new Date(), -Integer.parseInt(param.getParam().get("dateFlag").toString())));
+			if (param.getParam().get("dateFlag").toString().equals("7")) {
+				query.taskCreatedBefore(DateUtil.dateAdd(new Date(), -3));
+			}
+			if (param.getParam().get("dateFlag").toString().equals("30")) {
+				query.taskCreatedBefore(DateUtil.dateAdd(new Date(), -7));
+			}
 		}
 
 		List<HistoricTaskInstance> taskInstances = query.orderByTaskCreateTime().desc().listPage(limit * (page - 1), limit);
@@ -477,7 +488,7 @@ public class TaskProviderClient {
 			processName = "%" + param.getParam().get("processName").toString() + "%";
 			query = query.processDefinitionNameLike(processName);
 		}
-
+		
 		// List<HistoricTaskInstance> taskInstances =
 		// query.orderByTaskCreateTime().desc().listPage(limit*(page-1)+1,
 		// limit);
@@ -499,9 +510,25 @@ public class TaskProviderClient {
 		HistoricProcessInstanceQuery realQuery = historyService.createHistoricProcessInstanceQuery().processInstanceIds(processInstanceIdSet);
 		if (!StrUtil.isEmpty(userId))
 			realQuery.involvedUser(userId);
-
+		
+		if (param.getParam().get("status") != null && !StrUtil.isBlankOrNull(param.getParam().get("status").toString())) {
+			if (param.getParam().get("status").toString().equals("finished")) {
+				realQuery = realQuery.finished();
+			}
+			if (param.getParam().get("status").toString().equals("executing")) {
+				realQuery = realQuery.unfinished();
+			}
+		}
+		
+		if (param.getParam().get("startTime") != null && !StrUtil.isBlankOrNull(param.getParam().get("startTime").toString())) {
+			realQuery = realQuery.startedAfter(DateUtil.strToDate(param.getParam().get("startTime").toString(), DateUtil.FMT_SS));
+		}
+		if (param.getParam().get("endTime") != null && !StrUtil.isBlankOrNull(param.getParam().get("endTime").toString())) {
+			realQuery = realQuery.startedBefore(DateUtil.strToDate(param.getParam().get("endTime").toString(), DateUtil.FMT_SS));
+		}
+		
 		long count = realQuery.count();
-
+		
 		/*
 		 * for (HistoricTaskInstance taskInstance : taskInstances) { TaskDoneVo
 		 * vo = new TaskDoneVo(); BeanUtils.copyProperties(taskInstance, vo);
@@ -604,23 +631,23 @@ public class TaskProviderClient {
 		// 完成本次任务
 		taskService.complete(workflowVo.getTaskId(), globalVar);
 		JSONObject retJson = new JSONObject();
-		//System.out.println("=========globalVar========="+JSON.toJSONString(globalVar));
+
 		if (globalVar.get("agree") != null && globalVar.get("agree").toString().equals("0")) {
-			//System.out.println("=========审批不同意======="+globalVar.get("agree").toString());
+			// System.out.println("=========审批不同意======="+globalVar.get("agree").toString());
 			// 把agree属性，在全局变量中删除
 			// 审批驳回
 			retJson.put("result", "2");
 			retJson.put("auditRejectMethod", globalVar.get("auditRejectMethod").toString());
 			return retJson;
 		} else {
-			//System.out.println("=========审批同意=======----------");
+			// System.out.println("=========审批同意=======----------");
 			ProcessInstance pi = runtimeService.createProcessInstanceQuery().processInstanceId(task.getProcessInstanceId()).singleResult();
-			retJson.put("result", "0");
 			if (pi == null) {
 				// 流程结束
 				retJson.put("result", "1");
 				retJson.put("auditAgreeMethod", globalVar.get("auditAgreeMethod").toString());
 			}
+			retJson.put("result", "0");
 			return retJson;
 		}
 	}
