@@ -54,8 +54,18 @@
 	<!--表格数据操作js-->
 	<script>
 		var table, active, selectRowData = '';
-		layui.use([ 'jquery', 'table', 'laypage', 'laytpl' ], function() {
-			table = layui.table, $ = layui.jquery, laypage = layui.laypage;
+		layui.use([ 'jquery', 'table', 'laypage', 'laytpl','laydate' ], function() {
+			table = layui.table, $ = layui.jquery, laypage = layui.laypage,laydate = layui.laydate;
+
+            laydate.render({
+                elem: '#startTime'
+                ,format: 'yyyy-MM-dd'
+            });
+
+            laydate.render({
+                elem: '#endTime'
+                ,format: 'yyyy-MM-dd'
+            });
 
 			function renderTable() {
 				var param = JSON.parse(window.localStorage.getItem("param"));

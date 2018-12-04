@@ -94,5 +94,10 @@ public interface OutPatentMapper {
      */
     public List getPatentInfoForLX(Map hashmap);
     
+    /**
+     * 领导二级页面，重点项目、国家项目、重大专项、十条龙、其他项目的新开、结转情况
+     */
+    public List getProjectNewOldInfoByType(Map hashmap);
+    
     
 }
