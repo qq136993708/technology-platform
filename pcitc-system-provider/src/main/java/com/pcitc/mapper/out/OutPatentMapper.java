@@ -82,5 +82,11 @@ public interface OutPatentMapper {
      */
     public List getPatentTypeCountByInstituteForLD(Map hashmap);
     
+    /**
+     * @return
+     * 领导二级页面，直属研究院，8个院发明专利的申请和授权，2018数据申请数有问题，暂时用2015年
+     */
+    public List getFMZLInfoByInstitute(Map hashmap);
+    
     
 }
