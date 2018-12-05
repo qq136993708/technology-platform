@@ -48,6 +48,7 @@ import com.pcitc.base.hana.report.ScientificBaseBuildFee01;
 import com.pcitc.base.hana.report.ScientificBaseBuildFee02;
 import com.pcitc.base.hana.report.ScientificBaseBuildFee03;
 import com.pcitc.base.hana.report.ScientificInstrumentPay;
+import com.pcitc.base.hana.report.Topic;
 import com.pcitc.base.hana.report.TotalCostProjectPay01;
 import com.pcitc.base.hana.report.TotalCostProjectPay02;
 import com.pcitc.base.hana.report.TotalCostProjectPay03;
@@ -2764,6 +2765,45 @@ public class HanaUtil {
 	}
 	
 	
+	
+	
+
+	public static ChartBarLineSeries getTopicChartBarLineSeries05(List<Topic> list, String name) {
+
+		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
+		if (name.equals("xksl")) {
+			chartBarLineSeries.setName("新开课题");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		if (name.equals("xjsl")) {
+			chartBarLineSeries.setName("转结课题");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		if (name.equals("zsl")) {
+			chartBarLineSeries.setName("总计");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+
+		List<Object> dataList = new ArrayList<Object>();
+		if (list != null && list.size() > 0) 
+		{
+			for (int i = 0; i < list.size(); i++) 
+			{
+				Topic f03 = list.get(i);
+				Integer xksl = f03.getXksl();
+				Integer xjsl = f03.getXjsl();
+				if (name.equals("xksl")) {
+					dataList.add(xksl.intValue());
+				}
+				if (name.equals("xjsl")) {
+					dataList.add(xjsl.intValue());
+				}
+
+			}
+			chartBarLineSeries.setData(dataList);
+		}
+		return chartBarLineSeries;
+	}
 	
 	public static ChartBarLineSeries getKNOWLDGELevel2ChartBarLineSeries05(List<Knowledge> list, String name) {
 

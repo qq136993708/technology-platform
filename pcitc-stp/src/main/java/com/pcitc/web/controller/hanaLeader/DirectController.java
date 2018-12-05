@@ -26,8 +26,10 @@ import com.pcitc.base.common.ChartBarLineResultData;
 import com.pcitc.base.common.ChartBarLineSeries;
 import com.pcitc.base.common.ChartPieDataValue;
 import com.pcitc.base.common.ChartPieResultData;
+import com.pcitc.base.common.PageResult;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.hana.report.Knowledge;
+import com.pcitc.base.hana.report.Topic;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
@@ -47,6 +49,15 @@ public class DirectController {
 	private static final String getKnowledgeBar_02 = "http://pcitc-zuul/system-proxy/out-patent-provider/institute/type-list";
 	private static final String getKnowledgePie = "http://pcitc-zuul/system-proxy/out-patent-provider/institute/lx/apply-agree";
 		
+	
+	//科研课题
+	private static final String topic_01 = "http://pcitc-zuul/system-proxy/out-project-provider/ld/project-info/unit";
+	private static final String topic_02 = "http://pcitc-zuul/system-proxy/out-project-provider/project-info/new-old/lx";
+	private static final String topic_03 = "http://pcitc-zuul/system-proxy/out-project-provider/tech/type/project-info";
+	
+	
+	
+	
 	@Autowired
 	private HttpHeaders httpHeaders;
 	@Autowired
@@ -71,7 +82,7 @@ public class DirectController {
 		
 		
 		
-		
+		  
 		
 		
 		@RequestMapping(method = RequestMethod.GET, value = "/getKnowledgeBar_01")
@@ -261,5 +272,308 @@ public class DirectController {
 			return resultObj.toString();
 		}
 		
+		
+		
+		/**==========================================成果数量分析====================================*/
+		
+		  @RequestMapping(method = RequestMethod.GET, value = "/achievement")
+		  public String achievement(HttpServletRequest request) throws Exception
+		  {
+			    
+			    SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
+			    HanaUtil.setSearchParaForUser(userInfo,restTemplate,httpHeaders,request);
+			    String unitCode=userInfo.getUnitCode();
+			    request.setAttribute("unitCode", unitCode);
+			    
+			    String year= HanaUtil.getCurrrentYear();
+			    request.setAttribute("year", year);
+		        return "stp/hana/home/oneLevelMain/direct/achievement";
+		  }
+		  
+		  
+		  /**==========================================合同签订===================================*/
+			
+		  @RequestMapping(method = RequestMethod.GET, value = "/contract")
+		  public String contract(HttpServletRequest request) throws Exception
+		  {
+			    
+			    SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
+			    HanaUtil.setSearchParaForUser(userInfo,restTemplate,httpHeaders,request);
+			    String unitCode=userInfo.getUnitCode();
+			    request.setAttribute("unitCode", unitCode);
+			    
+			    String year= HanaUtil.getCurrrentYear();
+			    request.setAttribute("year", year);
+		        return "stp/hana/home/oneLevelMain/direct/contract";
+		  }
+		
+		  
+		  
+		  
+		  
+		  /**=========================================科研课题=================================*/
+			
+		  @RequestMapping(method = RequestMethod.GET, value = "/topic")
+		  public String topic(HttpServletRequest request) throws Exception
+		  {
+			    
+			    SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
+			    HanaUtil.setSearchParaForUser(userInfo,restTemplate,httpHeaders,request);
+			    String unitCode=userInfo.getUnitCode();
+			    request.setAttribute("unitCode", unitCode);
+			    
+			    String year= HanaUtil.getCurrrentYear();
+			    request.setAttribute("year", year);
+		        return "stp/hana/home/oneLevelMain/direct/topic";
+		  }
+		  
+		  
+		    @RequestMapping(method = RequestMethod.GET, value = "/topic_01")
+			@ResponseBody
+			public String topic_01(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		    	String resault="";
+		    	PageResult pageResult = new PageResult();
+				Result result = new Result();
+				String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+				String type = CommonUtil.getParameter(request, "type", "" );
+				Map<String, Object> paramsMap = new HashMap<String, Object>();
+				paramsMap.put("nd", nd);
+				JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+				HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+				if (!nd.equals(""))
+				{
+					ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(topic_01, HttpMethod.POST, entity, JSONArray.class);
+					int statusCode = responseEntity.getStatusCodeValue();
+					if (statusCode == 200) 
+					{
+						
+							JSONArray jSONArray = responseEntity.getBody();
+							System.out.println(">>>>>>>>>>>>>>topic_01 jSONArray-> " + jSONArray.toString());
+							List<Topic> list = JSONObject.parseArray(jSONArray.toJSONString(), Topic.class);
+							if(type.equals("1"))
+ 							{
+								ChartBarLineResultData barLine=new ChartBarLineResultData();
+								List<String>  xAxisDataList=HanaUtil.getduplicatexAxisByList(list,"define2");
+				         		barLine.setxAxisDataList(xAxisDataList);
+				         	
+				         		List<String> legendDataList = new ArrayList<String>();
+								legendDataList.add("新开课题");
+								legendDataList.add("转结课题");
+								barLine.setLegendDataList(legendDataList);
+								// X轴数据
+								List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
+								ChartBarLineSeries s1 = HanaUtil.getTopicChartBarLineSeries05(list, "xksl");
+								seriesList.add(s1);
+								ChartBarLineSeries s2 = HanaUtil.getTopicChartBarLineSeries05(list, "xjsl");
+								seriesList.add(s2);
+								barLine.setSeriesList(seriesList);
+				         		result.setSuccess(true);
+								result.setData(barLine);
+ 							}
+							if(type.equals("2"))
+ 							{
+								pageResult.setData(list);
+								pageResult.setCode(0);
+								pageResult.setCount(Long.valueOf(list.size()));
+								pageResult.setLimit(1000);
+								pageResult.setPage(1l);
+ 							}
+							
+						
+						
+					}
+					
+				} else
+				{
+					result.setSuccess(false);
+					result.setMessage("参数为空");
+				}
+				if(type.equals("1"))
+				{
+					JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
+					resault=resultObj.toString();
+					System.out.println(">>>>>>>>>>>>>>>topic_01 " + resultObj.toString());
+				}
+				else
+				{
+					JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
+					resault=resultObj.toString();
+					System.out.println(">>>>>>>>>>>>>>>topic_01 " + resultObj.toString());
+				}
+				
+				return resault;
+			}
+		
+		  
+		  
+		  
+		            @RequestMapping(method = RequestMethod.GET, value = "/topic_02")
+		 			@ResponseBody
+		 			public String topic_02(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		            	String resault="";
+		 				Result result = new Result();
+		 				PageResult pageResult = new PageResult();
+		 				String type = CommonUtil.getParameter(request, "type", "" );
+		 				String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+		 				Map<String, Object> paramsMap = new HashMap<String, Object>();
+		 				paramsMap.put("nd", nd);
+		 				JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+		 				HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+		 				if (!nd.equals(""))
+		 				{
+		 					ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(topic_02, HttpMethod.POST, entity, JSONArray.class);
+		 					int statusCode = responseEntity.getStatusCodeValue();
+		 					if (statusCode == 200) 
+		 					{
+		 						
+		 							JSONArray jSONArray = responseEntity.getBody();
+		 							System.out.println(">>>>>>>>>>>>>>topic_02 jSONArray-> " + jSONArray.toString());
+		 							List<Topic> list = JSONObject.parseArray(jSONArray.toJSONString(), Topic.class);
+		 							if(type.equals("1"))
+		 							{
+		 								ChartBarLineResultData barLine=new ChartBarLineResultData();
+			 							List<String>  xAxisDataList=HanaUtil.getduplicatexAxisByList(list,"project_scope");
+			 			         		barLine.setxAxisDataList(xAxisDataList);
+			 			         	
+			 			         		List<String> legendDataList = new ArrayList<String>();
+			 							legendDataList.add("新开课题");
+			 							legendDataList.add("转结课题");
+			 							barLine.setLegendDataList(legendDataList);
+			 							// X轴数据
+			 							List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
+			 							ChartBarLineSeries s1 = HanaUtil.getTopicChartBarLineSeries05(list, "xksl");
+			 							seriesList.add(s1);
+			 							ChartBarLineSeries s2 = HanaUtil.getTopicChartBarLineSeries05(list, "xjsl");
+			 							seriesList.add(s2);
+			 							barLine.setSeriesList(seriesList);
+			 			         		result.setSuccess(true);
+			 							result.setData(barLine);
+		 							}
+		 							else
+		 							{
+		 								pageResult.setData(list);
+										pageResult.setCode(0);
+										pageResult.setCount(Long.valueOf(list.size()));
+										pageResult.setLimit(1000);
+										pageResult.setPage(1l);
+		 							}
+		 						
+		 						
+		 					}
+		 					
+		 				} else
+		 				{
+		 					result.setSuccess(false);
+		 					result.setMessage("参数为空");
+		 				}
+		 				if(type.equals("1"))
+						{
+							JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
+							resault=resultObj.toString();
+							System.out.println(">>>>>>>>>>>>>>>topic_01 " + resultObj.toString());
+						}
+						else
+						{
+							JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
+							resault=resultObj.toString();
+							System.out.println(">>>>>>>>>>>>>>>topic_01 " + resultObj.toString());
+						}
+		 				return resault;
+		 			}
+		 		
+		  
+
+		            @RequestMapping(method = RequestMethod.GET, value = "/topic_03")
+		 			@ResponseBody
+		 			public String topic_03(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		 				Result result = new Result();
+		 				String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+		 				Map<String, Object> paramsMap = new HashMap<String, Object>();
+		 				paramsMap.put("nd", nd);
+		 				JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+		 				HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+		 				if (!nd.equals(""))
+		 				{
+		 					ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(topic_03, HttpMethod.POST, entity, JSONArray.class);
+		 					int statusCode = responseEntity.getStatusCodeValue();
+		 					if (statusCode == 200) 
+		 					{
+		 						
+		 							JSONArray jSONArray = responseEntity.getBody();
+		 							System.out.println(">>>>>>>>>>>>>>topic_03 jSONArray-> " + jSONArray.toString());
+		 							List<Topic> list = JSONObject.parseArray(jSONArray.toJSONString(), Topic.class);
+		 							
+		 							ChartBarLineResultData barLine=new ChartBarLineResultData();
+		 							List<String>  xAxisDataList=HanaUtil.getduplicatexAxisByList(list,"define5");
+		 			         		barLine.setxAxisDataList(xAxisDataList);
+		 			         	
+		 			         		List<String> legendDataList = new ArrayList<String>();
+		 							legendDataList.add("新开课题");
+		 							legendDataList.add("转结课题");
+		 							barLine.setLegendDataList(legendDataList);
+		 							// X轴数据
+		 							List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
+		 							ChartBarLineSeries s1 = HanaUtil.getTopicChartBarLineSeries05(list, "xksl");
+		 							seriesList.add(s1);
+		 							ChartBarLineSeries s2 = HanaUtil.getTopicChartBarLineSeries05(list, "xjsl");
+		 							seriesList.add(s2);
+		 							barLine.setSeriesList(seriesList);
+		 			         		result.setSuccess(true);
+		 							result.setData(barLine);
+		 						
+		 						
+		 					}
+		 					
+		 				} else
+		 				{
+		 					result.setSuccess(false);
+		 					result.setMessage("参数为空");
+		 				}
+		 				JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
+		 				System.out.println(">>>>>>>>>>>>>>>topic_03 " + resultObj.toString());
+		 				return resultObj.toString();
+		 			}
+		 		
+		  
+		  /**=========================================科研装备课题=================================*/
+			
+		  @RequestMapping(method = RequestMethod.GET, value = "/equipment")
+		  public String equipment(HttpServletRequest request) throws Exception
+		  {
+			    
+			    SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
+			    HanaUtil.setSearchParaForUser(userInfo,restTemplate,httpHeaders,request);
+			    String unitCode=userInfo.getUnitCode();
+			    request.setAttribute("unitCode", unitCode);
+			    
+			    String year= HanaUtil.getCurrrentYear();
+			    request.setAttribute("year", year);
+		        return "stp/hana/home/oneLevelMain/direct/equipment";
+		  }
+		  
+		  
+		  
+		  
+		  /**=========================================科研实际支出=================================*/
+			
+		  @RequestMapping(method = RequestMethod.GET, value = "/actualPay")
+		  public String actualPay(HttpServletRequest request) throws Exception
+		  {
+			    
+			    SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
+			    HanaUtil.setSearchParaForUser(userInfo,restTemplate,httpHeaders,request);
+			    String unitCode=userInfo.getUnitCode();
+			    request.setAttribute("unitCode", unitCode);
+			    
+			    String year= HanaUtil.getCurrrentYear();
+			    request.setAttribute("year", year);
+		        return "stp/hana/home/oneLevelMain/direct/actualPay";
+		  }
+		  
+		  
+		  
+		 
 
 }
