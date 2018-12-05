@@ -70,4 +70,15 @@ public class OutProjectPlanClient {
 		return json;
 	}
 	
+	@ApiOperation(value = "首页-直属研究院，项目计划完成的比率，按照资本性费用性来分组 ", notes = "参数年度")
+	@RequestMapping(value = "/out-project-plna-provider/complete-rate/money-type")
+	public JSONArray getPlanCompleteRateByPlanType(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page getPlanCompleteRateByPlanType===========================" + map);
+		
+		List temList = outProjectPlanService.getPlanCompleteRateByPlanType(map);
+		
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		return json;
+	}
+	
 }

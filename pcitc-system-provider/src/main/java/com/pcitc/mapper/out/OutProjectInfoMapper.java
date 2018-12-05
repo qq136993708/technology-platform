@@ -196,7 +196,7 @@ public interface OutProjectInfoMapper {
      * @param nd
      * 领导二级页面，8个院新开、续建情况,每一行是一个院
      */
-	public List getProjectTypeCountByUnitLD(String nd);
+	public List getProjectTypeCountByUnitLD(HashMap<String, String> map);
 	
 	/**
      * 领导二级页面，预算数据，8个院费用性和资本性的柱状图

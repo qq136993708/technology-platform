@@ -1778,7 +1778,7 @@ public class OutProjectInfoClient {
 	public JSONArray getProjectTypeCountByUnitLD(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getProjectTypeCountByUnitLD===========================" + map);
 		
-		List temList = outProjectService.getProjectTypeCountByUnitLD("2018");
+		List temList = outProjectService.getProjectTypeCountByUnitLD(map);
 		
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
 		return json;

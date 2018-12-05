@@ -855,4 +855,20 @@
 		) as tableB 
 		group by tableB.DEFINE2
 	</select>
+	
+	<!-- 首页-直属研究院，项目计划完成的比率，按照资本性费用性来分组 -->
+	<select id="getPlanCompleteRateByPlanType" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select tableB.DEFINE1 as define1,count(*) as jhqds,
+			sum(case when tableB.temId is not null then 1 else 0 end) as sjqds,
+			round(sum(case when tableB.temId is not null then 1 else 0 end)/count(*)*100,2) as htqdl
+		from (
+			select out_project_info.xmid as temId,out_project_plan.DEFINE1
+			from out_project_plan left join out_project_info on (out_project_plan.XMID = out_project_info.xmid)
+			WHERE
+				out_project_plan.PROJECT_SCOPE= '新开课题' or out_project_plan.PROJECT_SCOPE= '结转课题'
+		) as tableB 
+		group by tableB.DEFINE1
+	</select>
+	
+	
 </mapper>
