@@ -55,8 +55,14 @@ public interface OutPatentService {
     
     /**
      * @return
-     * 领导二级页面，直属研究院，8个院发明专利的申请和授权，2018数据申请数有问题，暂时用2015年
+     * 领导二级页面，直属研究院，8个院发明专利、实用新型的申请和授权，2018数据申请数有问题，暂时用2015年
      */
-    public List getFMZLInfoByInstitute(Map hashmap);
+    public List getPatentInfoByLXForInstitute(Map hashmap);
+    
+    /**
+     * @return
+     * 领导二级页面，直属研究院，专利类型的申请、授权数量
+     */
+    public List getPatentInfoForLX(Map hashmap);
 	
 }

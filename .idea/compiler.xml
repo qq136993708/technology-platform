@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="pcitc-base" />
+        <module name="pcitc-hana-provider" />
+        <module name="pcitc-registration-center" />
+        <module name="pcitc-stp" />
+        <module name="pcitc-stp-provider" />
+        <module name="pcitc-system-provider" />
+        <module name="pcitc-zuul" />
+      </profile>
+    </annotationProcessing>
+  </component>
+</project>

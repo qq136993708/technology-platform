@@ -29,6 +29,7 @@
             <table id="dataTable" lay-filter="dataTable" class="layui-hide"></table>
         </div>
     </div>
+    <div id="jsonResult"></div>
 </div>
 
 <script>
@@ -105,11 +106,11 @@
             done: function(res, curr, count){
                 viewObj.tbData = res.data;
                 count || this.elem.next('.layui-table-view').find('.layui-table-header').css('overflow', 'auto');
+                form.render();
                 layui.each($('select'), function (index, item) {
                     var elem = $(item);
                     elem.val(elem.data('value')).parents('div.layui-table-cell').css('overflow', 'visible');
                 });
-                form.render();
             }
         });
         //定义事件集合

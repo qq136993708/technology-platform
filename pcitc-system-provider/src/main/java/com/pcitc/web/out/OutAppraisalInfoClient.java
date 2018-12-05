@@ -121,4 +121,167 @@ public class OutAppraisalInfoClient {
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
 		return json;
 	}
+	
+	@ApiOperation(value = "成果鉴定数量分析,按研究院查询", notes = "参数是年度")
+	@RequestMapping(value = "/out-appraisal-provider/institution/cg/info", method = RequestMethod.POST)
+	public JSONArray getAppraisalInfoByInstitute(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page getAppraisalInfoByInstitute===========================" + map);
+		
+		List temList = outAppraisalService.getAppraisalInfoByInstitute(map);
+		if (!JSON.toJSONString(temList).contains("勘探院")) {
+			HashMap<String, Object> temMap = new HashMap<String, Object>();
+			temMap.put("sl", 0);
+			temMap.put("gyhsl", 0);
+			temMap.put("gysysl", 0);
+			temMap.put("define1", "勘探院");
+			temList.add(0, temMap);
+		}
+		if (!JSON.toJSONString(temList).contains("物探院")) {
+			HashMap<String, Object> temMap = new HashMap<String, Object>();
+			temMap.put("sl", 0);
+			temMap.put("gyhsl", 0);
+			temMap.put("gysysl", 0);
+			temMap.put("define1", "物探院");
+			temList.add(1, temMap);
+		}
+		if (!JSON.toJSONString(temList).contains("工程院")) {
+			HashMap<String, Object> temMap = new HashMap<String, Object>();
+			temMap.put("sl", 0);
+			temMap.put("gyhsl", 0);
+			temMap.put("gysysl", 0);
+			temMap.put("define1", "工程院");
+			temList.add(2, temMap);
+		}
+		if (!JSON.toJSONString(temList).contains("石科院")) {
+			HashMap<String, Object> temMap = new HashMap<String, Object>();
+			temMap.put("sl", 0);
+			temMap.put("gyhsl", 0);
+			temMap.put("gysysl", 0);
+			temMap.put("define1", "石科院");
+			temList.add(3, temMap);
+		}
+		if (!JSON.toJSONString(temList).contains("大连院")) {
+			HashMap<String, Object> temMap = new HashMap<String, Object>();
+			temMap.put("sl", 0);
+			temMap.put("gyhsl", 0);
+			temMap.put("gysysl", 0);
+			temMap.put("define1", "大连院");
+			temList.add(4, temMap);
+		}
+		if (!JSON.toJSONString(temList).contains("北化院")) {
+			HashMap<String, Object> temMap = new HashMap<String, Object>();
+			temMap.put("sl", 0);
+			temMap.put("gyhsl", 0);
+			temMap.put("gysysl", 0);
+			temMap.put("define1", "北化院");
+			temList.add(5, temMap);
+		}
+		if (!JSON.toJSONString(temList).contains("上海院")) {
+			HashMap<String, Object> temMap = new HashMap<String, Object>();
+			temMap.put("sl", 0);
+			temMap.put("gyhsl", 0);
+			temMap.put("gysysl", 0);
+			temMap.put("define1", "上海院");
+			temList.add(6, temMap);
+		}
+		
+		if (!JSON.toJSONString(temList).contains("安工院")) {
+			HashMap<String, Object> temMap = new HashMap<String, Object>();
+			temMap.put("sl", 0);
+			temMap.put("gyhsl", 0);
+			temMap.put("gysysl", 0);
+			temMap.put("define1", "安工院");
+			temList.add(7, temMap);
+		}
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		return json;
+	}
+	
+	@ApiOperation(value = "领导二级页面，各种类型的成果情况", notes = "参数是年度")
+	@RequestMapping(value = "/out-appraisal-provider/cglx/cg/info", method = RequestMethod.POST)
+	public JSONArray getAppraisalInfoByCglx(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page getAppraisalInfoByCglx===========================" + map);
+		
+		List temList = outAppraisalService.getAppraisalInfoByCglx(map);
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		return json;
+	}
+	
+	@ApiOperation(value = "领导二级页面，各种专业的成果情况", notes = "参数是年度")
+	@RequestMapping(value = "/out-appraisal-provider/zy/cg/info", method = RequestMethod.POST)
+	public JSONArray getAppraisalInfoByZy(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page getAppraisalInfoByZy===========================" + map);
+		
+		List temList = outAppraisalService.getAppraisalInfoByZy(map);
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		
+		if (!JSON.toJSONString(temList).contains("A.石油勘探")) {
+			HashMap<String, Object> temMap = new HashMap<String, Object>();
+			temMap.put("sl", 0);
+			temMap.put("define1", "A.石油勘探");
+			temList.add(0, temMap);
+		}
+		if (!JSON.toJSONString(temList).contains("B.石油开发")) {
+			HashMap<String, Object> temMap = new HashMap<String, Object>();
+			temMap.put("sl", 0);
+			temMap.put("zy", "B.石油开发");
+			temList.add(1, temMap);
+		}
+		if (!JSON.toJSONString(temList).contains("C.石油工程")) {
+			HashMap<String, Object> temMap = new HashMap<String, Object>();
+			temMap.put("sl", 0);
+			temMap.put("zy", "C.石油工程");
+			temList.add(2, temMap);
+		}
+		if (!JSON.toJSONString(temList).contains("D.石油炼制")) {
+			HashMap<String, Object> temMap = new HashMap<String, Object>();
+			temMap.put("sl", 0);
+			temMap.put("zy", "D.石油炼制");
+			temList.add(3, temMap);
+		}
+		if (!JSON.toJSONString(temList).contains("E.化工")) {
+			HashMap<String, Object> temMap = new HashMap<String, Object>();
+			temMap.put("sl", 0);
+			temMap.put("zy", "E.化工");
+			temList.add(4, temMap);
+		}
+		if (!JSON.toJSONString(temList).contains("F.化纤")) {
+			HashMap<String, Object> temMap = new HashMap<String, Object>();
+			temMap.put("sl", 0);
+			temMap.put("zy", "F.化纤");
+			temList.add(5, temMap);
+		}
+		if (!JSON.toJSONString(temList).contains("G.装备与储运")) {
+			HashMap<String, Object> temMap = new HashMap<String, Object>();
+			temMap.put("sl", 0);
+			temMap.put("zy", "G.装备与储运");
+			temList.add(6, temMap);
+		}
+		
+		if (!JSON.toJSONString(temList).contains("H.安全与环保")) {
+			HashMap<String, Object> temMap = new HashMap<String, Object>();
+			temMap.put("sl", 0);
+			temMap.put("zy", "H.安全与环保");
+			temList.add(7, temMap);
+		}
+		if (!JSON.toJSONString(temList).contains("I.信息技术")) {
+			HashMap<String, Object> temMap = new HashMap<String, Object>();
+			temMap.put("sl", 0);
+			temMap.put("zy", "I.信息技术");
+			temList.add(8, temMap);
+		}
+		if (!JSON.toJSONString(temList).contains("J.大型装备国产化")) {
+			HashMap<String, Object> temMap = new HashMap<String, Object>();
+			temMap.put("sl", 0);
+			temMap.put("zy", "J.大型装备国产化");
+			temList.add(9, temMap);
+		}
+		if (!JSON.toJSONString(temList).contains("K.其它")) {
+			HashMap<String, Object> temMap = new HashMap<String, Object>();
+			temMap.put("sl", 0);
+			temMap.put("zy", "K.其它");
+			temList.add(10, temMap);
+		}
+		return json;
+	}
 }

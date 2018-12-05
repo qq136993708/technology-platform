@@ -521,10 +521,15 @@ public class TaskProviderClient {
 		}
 		
 		if (param.getParam().get("startTime") != null && !StrUtil.isBlankOrNull(param.getParam().get("startTime").toString())) {
-			realQuery = realQuery.startedAfter(DateUtil.strToDate(param.getParam().get("startTime").toString(), DateUtil.FMT_SS));
+			Date temDate = DateUtil.strToDate(param.getParam().get("startTime").toString()+" 00:00:00", DateUtil.FMT_SS);
+			System.out.println("1-----"+param.getParam().get("startTime").toString());
+			realQuery = realQuery.startedAfter(temDate);
+			
 		}
 		if (param.getParam().get("endTime") != null && !StrUtil.isBlankOrNull(param.getParam().get("endTime").toString())) {
-			realQuery = realQuery.startedBefore(DateUtil.strToDate(param.getParam().get("endTime").toString(), DateUtil.FMT_SS));
+			System.out.println("2-----"+param.getParam().get("endTime").toString());
+			Date temDate = DateUtil.strToDate(param.getParam().get("endTime").toString()+" 23:59:59", DateUtil.FMT_SS);
+			realQuery = realQuery.startedBefore(temDate);
 		}
 		
 		long count = realQuery.count();
