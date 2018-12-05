@@ -37,12 +37,34 @@ public class OutProjectPlanClient {
 	
 	private final static Logger logger = LoggerFactory.getLogger(OutProjectPlanClient.class);
 
-	@ApiOperation(value = "领导二级页面，各类型技术的新开、结转情况 ", notes = "参数年度")
+	@ApiOperation(value = "直属研究院二级页面（领导），项目计划完成的比率，按照新开续建、资本性费用性来分组 ", notes = "参数年度")
 	@RequestMapping(value = "/out-project-plna-provider/complete-rate/old-new")
 	public JSONArray getPlanCompleteRateByOldNew(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getPlanCompleteRateByOldNew===========================" + map);
 		
 		List temList = outProjectPlanService.getPlanCompleteRateByOldNew(map);
+		
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		return json;
+	}
+	
+	@ApiOperation(value = "直属研究院二级页面（领导），总的签订率 ", notes = "参数年度")
+	@RequestMapping(value = "/out-project-plna-provider/complete-rate/total")
+	public JSONArray getPlanTotalCompleteRate(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page getPlanTotalCompleteRate===========================" + map);
+		
+		List temList = outProjectPlanService.getPlanTotalCompleteRate(map);
+		
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		return json;
+	}
+	
+	@ApiOperation(value = "直属研究院二级页面（领导），各个院的合同签订率", notes = "参数年度")
+	@RequestMapping(value = "/out-project-plna-provider/complete-rate/institute")
+	public JSONArray getPlanCompleteRateByInstitute(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page getPlanCompleteRateByInstitute===========================" + map);
+		
+		List temList = outProjectPlanService.getPlanCompleteRateByInstitute(map);
 		
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
 		return json;

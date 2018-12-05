@@ -17,5 +17,15 @@ public interface OutProjectPlanService {
      */
 	public List getPlanCompleteRateByOldNew(HashMap<String, String> map);
 	
+	/**
+     * 直属研究院二级页面（领导），总的签订率
+     */
+	public List getPlanTotalCompleteRate(HashMap<String, String> map);
+	
+	/**
+     * 直属研究院二级页面（领导），各个院的合同签订率
+     */
+	public List getPlanCompleteRateByInstitute(HashMap<String, String> map);
+	
 	
 }

@@ -814,7 +814,7 @@
 	
 	<!-- 直属研究院二级页面（领导），项目计划完成的比率，按照新开续建、资本性费用性来分组 -->
 	<select id="getPlanCompleteRateByOldNew" resultType="java.util.Map" parameterType="java.util.HashMap">
-		select tableB.DEFINE1,tableB.PROJECT_SCOPE,count(*) as jhqds, 
+		select tableB.DEFINE1 as define1,tableB.PROJECT_SCOPE as project_scope,count(*) as jhqds,
 			sum(case when tableB.temId is not null then 1 else 0 end) as sjqds,
 			round(sum(case when tableB.temId is not null then 1 else 0 end)/count(*)*100,2) as qdbl
 		from (
@@ -824,5 +824,35 @@
 				out_project_plan.PROJECT_SCOPE= '新开课题' or out_project_plan.PROJECT_SCOPE= '结转课题'
 		) as tableB 
 		group by tableB.DEFINE1,tableB.PROJECT_SCOPE
+	</select>
+	
+	<!-- 直属研究院二级页面（领导），总的签订率-->
+	<select id="getPlanTotalCompleteRate" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select count(*) as zsl,
+			sum(case when tableB.temId is not null then 1 else 0 end) as yqht,
+			sum(case when tableB.temId is null then 1 else 0 end) as wqht,
+			round(sum(case when tableB.temId is not null then 1 else 0 end)/count(*)*100,2) as qdl
+		from (
+			select out_project_info.xmid as temId,out_project_plan.DEFINE1,out_project_plan.PROJECT_SCOPE 
+			from out_project_plan left join out_project_info on (out_project_plan.XMID = out_project_info.xmid)
+			WHERE
+				out_project_plan.PROJECT_SCOPE= '新开课题' or out_project_plan.PROJECT_SCOPE= '结转课题'
+		) as tableB
+	</select>
+	
+	<!-- 直属研究院二级页面（领导），各个院的合同签订率-->
+	<select id="getPlanCompleteRateByInstitute" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select SUBSTR(tableB.DEFINE2 FROM 4) as define2,count(*) as zsl,
+			sum(case when tableB.temId is not null then 1 else 0 end) as yqhtzj,
+			sum(case when tableB.temId is null then 1 else 0 end) as wqhtzj,
+			round(sum(case when tableB.temId is not null then 1 else 0 end)/count(*)*100,2) as qdlzj
+		from (
+			select out_project_info.xmid as temId,out_project_plan.DEFINE2
+			from out_project_plan left join out_project_info on (out_project_plan.XMID = out_project_info.xmid)
+			WHERE
+				(out_project_plan.PROJECT_SCOPE= '新开课题' or out_project_plan.PROJECT_SCOPE= '结转课题')
+			  and out_project_plan.DEFINE2 is not null
+		) as tableB 
+		group by tableB.DEFINE2
 	</select>
 </mapper>
