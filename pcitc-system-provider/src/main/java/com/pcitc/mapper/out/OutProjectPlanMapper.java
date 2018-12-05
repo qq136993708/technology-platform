@@ -2,7 +2,10 @@ package com.pcitc.mapper.out;
 
 import com.pcitc.base.stp.out.OutProjectPlan;
 import com.pcitc.base.stp.out.OutProjectPlanExample;
+
+import java.util.HashMap;
 import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface OutProjectPlanMapper {
@@ -32,4 +35,9 @@ public interface OutProjectPlanMapper {
      * 批量插入项目计划数据
      */
     public void insertOutProjectPlanBatch(List<OutProjectPlan> list);
+    
+    /**
+     * 直属研究院二级页面（领导），项目计划完成的比率，按照新开续建、资本性费用性来分组
+     */
+	public List getPlanCompleteRateByOldNew(HashMap<String, String> map);
 }
