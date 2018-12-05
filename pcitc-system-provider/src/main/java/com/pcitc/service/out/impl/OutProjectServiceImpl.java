@@ -397,8 +397,8 @@ public class OutProjectServiceImpl implements OutProjectService {
      * @return
      * 领导二级页面，8个院新开、续建情况,每一行是一个院
      */
-	public List getProjectTypeCountByUnitLD(String nd) {
-		return outProjectInfoMapper.getProjectTypeCountByUnitLD(nd);
+	public List getProjectTypeCountByUnitLD(HashMap<String, String> map) {
+		return outProjectInfoMapper.getProjectTypeCountByUnitLD(map);
 	}
 	
 	/**
@@ -456,5 +456,19 @@ public class OutProjectServiceImpl implements OutProjectService {
      */
 	public List getZDSTLProjectCountByInstitute(HashMap<String, String> map) {
 		return outProjectInfoMapper.getZDSTLProjectCountByInstitute(map);
+	}
+	
+	/**
+     * 领导二级页面，重点项目、国家项目、重大专项、十条龙、其他项目的新开、结转情况
+     */
+    public List getProjectNewOldInfoByType(HashMap<String, String> map) {
+    	return outProjectInfoMapper.getProjectNewOldInfoByType(map);
+    }
+    
+    /**
+     * 领导二级页面，各类型技术的新开、结转情况 
+     */
+	public List getProjectInfoByTecTypeWithOldNew(HashMap<String, String> map) {
+		return outProjectInfoMapper.getProjectInfoByTecTypeWithOldNew(map);
 	}
 }

@@ -38,7 +38,7 @@ public interface OutPatentMapper {
 
     int updateByPrimaryKey(OutPatent record);
     
- public void insertOutPatentBatch(List<OutPatentWithBLOBs> list);
+    public void insertOutPatentBatch(List<OutPatentWithBLOBs> list);
     
     public String getMaxImportDate(String remarks);
     
@@ -93,6 +93,11 @@ public interface OutPatentMapper {
      * 领导二级页面，直属研究院，专利类型的申请、授权数量
      */
     public List getPatentInfoForLX(Map hashmap);
+    
+    /**
+     * 领导二级页面，重点项目、国家项目、重大专项、十条龙、其他项目的新开、结转情况
+     */
+    public List getProjectNewOldInfoByType(Map hashmap);
     
     
 }
