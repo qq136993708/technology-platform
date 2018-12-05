@@ -14,10 +14,15 @@
 	<script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
 	<script type="text/javascript">
 	var file_ids = "appendFiles";
-	//detail:详情，edit：编辑
+    var file_ids2 = "appendFiles2";
+    //detail:详情，edit：编辑
 	file_edit_detail = "edit";
+    file_edit_detail2 = "edit";
 	//统管理-附件管理-附件配置：页面标识
 	file_opt_flag = "4c20bd28057543839c0db8754f417c6a";
+	file_opt_flag2 = "4c20bd28057543839c0db8754f417c6a";
+
+
 	
 	$(document).ready(function() {
 		//var applyEditor = CKEDITOR.replace("applyContent");
@@ -38,7 +43,7 @@
 	             		form.val("info-form",data);
 	             		//applyEditor.setData(data.applyContent);
 	             		
-	             		$("#appendFiles2").val(data.appendFiles);
+	             		// $("#appendFiles2").val(data.appendFiles);
 	             		$("#file_div2").load('/common/public/uploadlayuiload2.html');
 	                });
 	    		});
@@ -59,7 +64,7 @@
 	             		form.val("info-form",dt);
 	             		//applyEditor.setData(dt.applyContent);
 	             		
-	             		$("#appendFiles2").val(dt.appendFiles);
+	             		// $("#appendFiles2").val(dt.appendFiles);
 	             		$("#file_div2").load('/common/public/uploadlayuiload2.html');
 	                });
 	    		}
@@ -92,8 +97,8 @@
 <form id="info-form" name="info-form" lay-filter="info-form" class="form-horizontal layui-form">
 	<input type="hidden" name="projectId" id="projectId" value="">
 	<input type="hidden" name="plantId" id="plantId" value="">
-	<input type="hidden" name="appendFiles" id="appendFiles">
-	<input type="hidden" name="appendFiles2" id="appendFiles2">
+	<input type="text" name="appendFiles" id="appendFiles" value="333">
+	<input type="text" name="appendFiles2" id="appendFiles2" value="444">
 	<div class="formBox">
 		<div class="box-body">
 			<div class="layui-row">

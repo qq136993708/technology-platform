@@ -98,8 +98,6 @@
                     console.log(file);
                     strTempFileIds=(strTempFileIds==""?file.id:(strTempFileIds+","+file.id));
                 }
-                console.log("文件ids");
-                console.log(strTempFileIds);
                 data.field.bak2 = $("#fileIds").val();
                 data.field.fileIds = strTempFileIds;
                 ajaxPost("/sysfilekind/savesysFileKindUpload", data.field, function (dt, status) {
