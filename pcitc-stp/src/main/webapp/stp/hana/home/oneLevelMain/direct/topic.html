@@ -42,12 +42,12 @@
                     </div>
                     <div class="layui-row-main">
                        <div class="text-total">
-                            <span>总计:<span class="text-total-blue"    id="knowldege_chart1_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>专利申请:<span class="text-total-blue" id="knowldege_chart1_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>专利授权:<span class="text-total-blue" id="knowldege_chart1_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>总计:<span class="text-total-blue"    id="topic_chart1_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>专利申请:<span class="text-total-blue" id="topic_chart1_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>专利授权:<span class="text-total-blue" id="topic_chart1_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                         </div>
                         
-                        <div class="main-chart" id="knowldege_chart1" style="height:280px;width: 100%;"></div>
+                        <div class="main-chart" id="topic_chart1" style="height:280px;width: 100%;"></div>
                     </div>
                 </div>
             </div>
@@ -100,13 +100,13 @@
                     <div class="layui-row-main">
                     
                     <div class="text-total">
-                            <span>总计:<span class="text-total-blue"    id="knowldege_chart4_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>发明授权:<span class="text-total-blue" id="knowldege_chart4_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>外观设计:<span class="text-total-blue" id="knowldege_chart4_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>实用新型:<span class="text-total-blue" id="knowldege_chart4_04"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>总计:<span class="text-total-blue"    id="topic_chart4_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>发明授权:<span class="text-total-blue" id="topic_chart4_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>外观设计:<span class="text-total-blue" id="topic_chart4_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>实用新型:<span class="text-total-blue" id="topic_chart4_04"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                         </div>
                         
-                        <div class="main-chart" id="knowldege_chart4" style="height:280px;width: 100%;"></div>
+                        <div class="main-chart" id="topic_chart4" style="height:280px;width: 100%;"></div>
                     </div>
                 </div>
             </div>
@@ -240,7 +240,7 @@ function initEchart()
 	
     $(".layui-time").html($("#year").val());
 	var chart1_url="/direct/topic_01?type=1&nd="+nd+"&v_date="+v_date;
-	var echart1=load_mutl_bar_down(chart1_url,"knowldege_chart1","","",yAxis);
+	var echart1=load_mutl_bar_down(chart1_url,"topic_chart1","","",yAxis);
 	echart1.on('click', function (params) {
 		var xName=params.name;
 		var legentName=params.seriesName;
@@ -253,7 +253,7 @@ function initEchart()
 	
 	
 	var chart4_url="/direct/topic_02?type=1&nd="+nd+"&v_date="+v_date; 
-	var echart4=load_mutl_bar_down(chart4_url,"knowldege_chart4","","",yAxis);
+	var echart4=load_mutl_bar_down(chart4_url,"topic_chart4","","",yAxis);
 	echart4.on('click', function (params) {
 		var xName=params.name;
 		var legentName=params.seriesName;

@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class Contract implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
-    private String yqht;
+    private Object yqht;
     private Object wqht;
     private Object zsl;
     private Object yqhtzj;
@@ -17,10 +17,10 @@ public class Contract implements Serializable{
     private String project_scope;
     private String define2;
     private String define1;
-	public String getYqht() {
+	public Object getYqht() {
 		return yqht;
 	}
-	public void setYqht(String yqht) {
+	public void setYqht(Object yqht) {
 		this.yqht = yqht;
 	}
 	public Object getWqht() {
@@ -89,6 +89,7 @@ public class Contract implements Serializable{
 	public void setDefine1(String define1) {
 		this.define1 = define1;
 	}
+    
     
     
     

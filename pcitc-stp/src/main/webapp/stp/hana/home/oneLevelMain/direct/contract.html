@@ -42,19 +42,22 @@
                     </div>
                     <div class="layui-row-main">
                        <div class="text-total">
-                            <span>总计:<span class="text-total-blue"    id="knowldege_chart1_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>专利申请:<span class="text-total-blue" id="knowldege_chart1_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>专利授权:<span class="text-total-blue" id="knowldege_chart1_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>总计:<span class="text-total-blue"    id="contract_chart1_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>已签合同:<span class="text-total-blue" id="contract_chart1_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>未签合同:<span class="text-total-blue" id="contract_chart1_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                        </div>
+                        <div>
+                          <div class="main-chart" id="contract_chart1"    style="float:left;height:280px;width: 50%;"></div>
+                          <div class="main-chart" id="contract_chart1_02" style="float:right;height:280px;width: 50%;"></div>
                         </div>
                         
-                        <div class="main-chart" id="knowldege_chart1" style="height:280px;width: 100%;"></div>
                     </div>
                 </div>
             </div>
             <div class="layui-col-md6 layui-main-oil6 layui-col-space15">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        ${year}年直属研究院科研课题数量
+                        ${year}年直属研究院科研课题数量占比
                         <div class="layui-tool">
                             <button type="button" class="btn btn-tool collapse"></button>
                             <button type="button" class="btn btn-tool remove"></button>
@@ -70,25 +73,24 @@
             <div class="layui-col-md6 layui-main-oil4">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        <span class="layui-time"></span>年直属研究院专利授权数量
+                        <span class="layui-time"></span>直属研究院合同鉴定率
                     </div>
                     <div class="layui-row-main">
                     
                     <div class="text-total">
-                            <span>总计:<span class="text-total-blue"    id="knowldege_chart4_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>发明授权:<span class="text-total-blue" id="knowldege_chart4_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>外观设计:<span class="text-total-blue" id="knowldege_chart4_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>实用新型:<span class="text-total-blue" id="knowldege_chart4_04"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>计划签订合同数:<span class="text-total-blue" id="contract_chart4_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>实际签订合同数:<span class="text-total-blue" id="contract_chart4_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>签订率:<span class="text-total-blue" id="contract_chart4_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                         </div>
                         
-                        <div class="main-chart" id="knowldege_chart4" style="height:280px;width: 100%;"></div>
+                        <div class="main-chart" id="contract_chart4" style="height:280px;width: 100%;"></div>
                     </div>
                 </div>
             </div>
             <div class="layui-col-md6 layui-main-oil6 layui-col-space15">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        ${year}科研投资完成率
+                        ${year}直属研究院科研课题数量占比
                         <div class="layui-tool">
                             <button type="button" class="btn btn-tool collapse"></button>
                             <button type="button" class="btn btn-tool remove"></button>
@@ -121,14 +123,15 @@
 <script type="text/javascript" src="/stp/hana/home/direct_depart/direct_common.js"></script>
 
 <script type="text/javascript">
-var table;
+var table,treeGridCom;
 layui.config({
-    base: '/layuiadmin/'
+	base: '/layuiadmin/lib/extend/'
 }).extend({
-    index: 'lib/index' //主入口模块
-}).use(['index','jquery','form', 'laydate','table','laypage'], function(){
-	  $ = layui.jquery
-      ,table = layui.table
+	treeGridCom:'treeGridCom'
+}).use(['jquery','form','treeGridCom', 'laydate','table','laypage'], function(){
+	table = layui.table;
+	treeGridCom = layui.treeGridCom;
+	 var $ = layui.jquery
       ,form = layui.form
       ,laydate = layui.laydate
 	  form.render(null, 'component-form-group');
@@ -140,6 +143,9 @@ layui.config({
         $("#knowledge_table").click(function () {
         	window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
         });
+       
+        renderTable2();
+        renderTable();
         
 });
 
@@ -166,7 +172,7 @@ function initEchart()
 	
     $(".layui-time").html($("#year").val());
 	var chart1_url="/direct/contract_01?type=1&nd="+nd+"&v_date="+v_date;
-	var echart1=load_mutl_bar_down(chart1_url,"knowldege_chart1","","",yAxis);
+	var echart1=load_single_bar_down(chart1_url,"contract_chart1","","",yAxis);
 	echart1.on('click', function (params) {
 		var xName=params.name;
 		var legentName=params.seriesName;
@@ -174,19 +180,25 @@ function initEchart()
           
     });
 	
-	
-	
-	
-	
-	var chart4_url="/direct/contract_03?type=1&nd="+nd+"&v_date="+v_date; 
-	var echart4=load_mutl_bar_down(chart4_url,"knowldege_chart4","","",yAxis);
-	echart4.on('click', function (params) {
+	var chart5_url="/direct/contract_01?type=2&nd="+nd+"&v_date="+v_date;
+	var echart5=loadPie(chart5_url,"contract_chart1_02","",""); 
+	echart5.on('click', function (params) {
 		var xName=params.name;
 		var legentName=params.seriesName;
 		window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
           
     });
 	
+	
+	 
+	var chart4_url="/direct/contract_03?type=1&nd="+nd+"&v_date="+v_date; 
+	var echart4=load_mutl_bar_down(chart4_url,"contract_chart4","","",yAxis);
+	echart4.on('click', function (params) {
+		var xName=params.name;
+		var legentName=params.seriesName;
+		window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
+          
+    });
 	
 	
 	
@@ -208,17 +220,15 @@ function renderTable()
 {  
 	
 	  var month=$("#year").val();
-	  var companyCode=$("#companyCode").val();
-	  ptable=treeGridCom.render({
-	        id:tableId
-	        ,elem: '#'+tableId
-	        ,url:'/direct/contract_02?nd='+month+"&companyCode="+companyCode
+	 var ptable=treeGridCom.render({
+	        id:'processdef_table'
+	        ,elem: '#processdef_table'
+	        ,url:'/direct/contract_02?nd='+month
 	        ,cellMinWidth: 200
 	        ,idField:'id'//必須字段
 	        ,treeId:'id'//树形id字段名称
 	        ,treeUpId:'pId'//树形父id字段名称
 	        ,treeShowName:'name'//以树形式显示的字段
-	       // ,heightRemove:[".dHead",10]//不计算的高度,表格设定的是固定高度，此项不生效
 	        ,height:'280'
 	        ,isFilter:false
 	        ,iconOpen:false//是否显示图标【默认显示】
@@ -226,8 +236,10 @@ function renderTable()
 	        ,loading: false
 	        ,method:'get'
 	        ,cols: [[
-	            {field:'name', width:'50%', title: '名称',edit:'text'},
-	            {field:'extend01',  title:'数量',  style:'cursor: pointer;',align: 'left', width: '50%'}
+	            {field:'name',  title:'类型',  style:'cursor: pointer;',align: 'left', width: '25%'},
+	            {field:'extend01',  title:'计划签订数（个）',   style:'cursor: pointer;',align: 'left', width: '25%'},
+	            {field:'extend02',  title:'实际签订数（个）',   style:'cursor: pointer;',align: 'left', width: '25%'},
+	            {field:'extend03',  title:'签订率（%）',       style:'cursor: pointer;',align: 'left', width: '25%',templet:function(d){return d.extend03+"%"}}
 	            
 	        ]]
 	        ,isPage:false
@@ -253,37 +265,20 @@ function renderTable2()
 {
 	
 	  var month=$("#month").val();
-	  var companyCode=$("#companyCode").val();
 	  var tableOne=table.render({
 	  elem: '#processdef_table_02',
-	  url:'/direct/contract_03?month='+month+"&companyCode="+companyCode+"&type=2",
+	  url:'/direct/contract_03?month='+month+"&type=2",
 	  method:"GET",
-	  where: {param: {"month":$("#month").val(),"companyCode":$("#companyCode").val()}},
+	  where: {param: {"month":$("#month").val()}},
 	  limit: 15,
-	  id: 'processdef-table',
-	  height: commonDislodgeTable(),
-	  page: {
-	      groups: 5,
-	      limits: [15,30,45,60],
-	      layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
-	      first: '首页', //不显示首页
-	      last: '尾页', //不显示尾页
-	      theme: '#0F9EE0'
-	  },
+	  id: 'processdef_table_02',
+	  
 	  cols: [[
-	  	{type:'checkbox',event: 'changeEvents',width: '5%'},
-	  	{title:'序号', type:'numbers', width: '5%'},
-	  	 {field:'hth',            title: '课题号',edit:'text', width: '8%'},
-	       {field:'xmmc',           title:'课题名',style:'cursor: pointer;',align: 'left', width: '25%'},
-	       {field:'jf',             title:'经费（亿）',style:'cursor: pointer;',align: 'left', width: '8%'},
-	       {field:'fzdw',           title:'负责单位',style:'cursor: pointer;',align: 'left', width: '8%'},
-	       {field:'project_scope',  title:'课题性质',style:'cursor: pointer;',align: 'left', width: '8%'},
-	       {field:'zylb',           title:'专业类别',style:'cursor: pointer;',align: 'left', width: '8%'},
-	       {field:'fzrxm',          title:'负责人',style:'cursor: pointer;',align: 'left', width: '8%'},
-	       {field:'zycmc',          title:'专业处',style:'cursor: pointer;',align: 'left', width: '8%'},
-	       {field:'xmlbmc',         title:'课题类别',style:'cursor: pointer;',align: 'left', width: '8%'},
-	       {field:'define1',        title:'资本/费用',style:'cursor: pointer;',align: 'left', width: '8%'},
-	       {field:'fwdx',           title:'集团/股份/资产',style:'cursor: pointer;',align: 'left', width: '8%'}
+	  	   {field:'define2',        title: '类型',    edit:'text', width: '40%'},
+	       {field:'zsl',            title:'计划签订数',style:'cursor: pointer;',align: 'left', width: '20%'},
+	       {field:'yqhtzj',         title:'实际签订数',style:'cursor: pointer;',align: 'left', width: '20%'},
+	       {field:'qdlzj',          title:'签订率(%)',   style:'cursor: pointer;',align: 'left', width: '20%',templet:function(d){return d.qdlzj+"%"}
+	       }
 	       
 	       
 	  ]],
