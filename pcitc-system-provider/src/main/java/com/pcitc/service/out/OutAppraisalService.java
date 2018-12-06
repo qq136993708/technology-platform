@@ -67,4 +67,10 @@ public interface OutAppraisalService {
      */
 	public List getAppraisalInfoByZy(HashMap<String, String> map);
     
+	/**
+     * 领导首页-科研成果，直属院、分子公司等9个的成果情况
+     */
+	public List getAppraisalInfoByCompanyType(HashMap<String, String> map);
+	
+	
 }
