@@ -10,6 +10,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -17,7 +18,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.druid.support.json.JSONUtils;
 import com.alibaba.fastjson.JSONObject;
@@ -27,7 +27,7 @@ import com.pcitc.base.system.SysUnit;
 import com.pcitc.base.util.IdUtil;
 import com.pcitc.web.common.BaseController;
 
-@RestController
+@Controller
 public class UnitController extends BaseController {
 
 	private static final String UNIT_GET_UNIT = "http://pcitc-zuul/system-proxy/unit-provider/unit/get-unit/";
@@ -125,43 +125,47 @@ public class UnitController extends BaseController {
 	}
 
 	@RequestMapping(value = "/unit/get-unit/{unitId}")
+	@ResponseBody
 	public Object getUnitInfo(@PathVariable("unitId") String unitId) throws Exception {
 		SysUnit unit = this.restTemplate.exchange(UNIT_GET_UNIT + unitId, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), SysUnit.class).getBody();
 		return unit;
 	}
 
 	@RequestMapping(value = "/unit/tree-data")
+	@ResponseBody
 	public Object getUnitTreeData() throws Exception {
 		HttpEntity<Object> node = this.restTemplate.exchange(UNIT_TREE_DATA, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Object.class);
 		return node.getBody();
 	}
 
 	@RequestMapping(value = "/unit/add-unit")
+	@ResponseBody
 	public Object addUnit(@ModelAttribute("unit") SysUnit unit, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
+		Result rs = null;
 		if (StringUtils.isBlank(unit.getUnitId())) {
 			// 获得父机构
 			SysUnit punit = this.restTemplate.exchange(UNIT_GET_UNIT + unit.getUnitRelation(), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), SysUnit.class).getBody();
-
 			unit.setUnitId(IdUtil.createIdByTime());
 			unit.setUnitDelflag(DelFlagEnum.STATUS_NORMAL.getCode());
 			unit.setUnitLevel(punit.getUnitLevel() + 1);
 			HttpEntity<Object> entit = new HttpEntity<Object>(unit, this.httpHeaders);
-			this.restTemplate.exchange(UNIT_ADD_UNIT, HttpMethod.POST, entit, Object.class);
+			rs = this.restTemplate.exchange(UNIT_ADD_UNIT, HttpMethod.POST, entit, Result.class).getBody();
 		} else {
 			HttpEntity<Object> entit = new HttpEntity<Object>(unit, this.httpHeaders);
-			this.restTemplate.exchange(UNIT_UPDATE_UNIT, HttpMethod.POST, entit, Object.class);
+			rs = this.restTemplate.exchange(UNIT_UPDATE_UNIT, HttpMethod.POST, entit, Result.class).getBody();
 		}
-		return new Result(true, unit.getUnitId());
+		return new Result(rs.isSuccess(),unit.getUnitId(),rs.getMessage());
 	}
 
 	@RequestMapping(value = "/unit/upd-unit")
+	@ResponseBody
 	public Object updateUnit(@RequestBody SysUnit unit) throws Exception {
-		Integer rs = this.restTemplate.exchange(UNIT_UPDATE_UNIT, HttpMethod.POST, new HttpEntity<Object>(unit, this.httpHeaders), Integer.class).getBody();
+		this.restTemplate.exchange(UNIT_UPDATE_UNIT, HttpMethod.POST, new HttpEntity<Object>(unit, this.httpHeaders), Integer.class).getBody();
 		return new Result(true);
 	}
 
 	@RequestMapping(value = "/unit/del-unit/{unitId}")
+	@ResponseBody
 	public Object delUnit(@PathVariable("unitId") String unitId) throws Exception {
 		Integer rs = this.restTemplate.exchange(UNIT_DEL_UNIT + unitId, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class).getBody();
 		if (rs > 0) {
@@ -172,12 +176,14 @@ public class UnitController extends BaseController {
 	}
 
 	@RequestMapping(value = "/unit/del-unit-real")
+	@ResponseBody
 	public Object delUnitReal(String unitId) throws Exception {
-		Integer rs = this.restTemplate.exchange(UNIT_DEL_UNIT_REAL + unitId, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class).getBody();
+		this.restTemplate.exchange(UNIT_DEL_UNIT_REAL + unitId, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class).getBody();
 		return new Result(true);
 	}
 
 	@RequestMapping(value = "/unit/list-data")
+	@ResponseBody
 	public Object getUnitListData() throws Exception {
 		HttpEntity<Object> node = this.restTemplate.exchange(UNIT_LIST_DATA, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Object.class);
 		return node.getBody();
@@ -185,6 +191,7 @@ public class UnitController extends BaseController {
 
 	@SuppressWarnings("rawtypes")
 	@RequestMapping(value = "/unit/getUnitTree")
+	@ResponseBody
 	public String getUnitTree(HttpServletRequest request) throws Exception {
 
 		ResponseEntity<List> responseEntity = restTemplate.exchange(UNIT_TREE_NODE, HttpMethod.POST, new HttpEntity<String>(null, this.httpHeaders), List.class);
@@ -194,6 +201,7 @@ public class UnitController extends BaseController {
 	}
 
 	@RequestMapping(value = "/unit/ztree-unit-list")
+	@ResponseBody
 	public String getComboboxUnitTree(HttpServletRequest request) throws Exception {
 		ResponseEntity<String> responseEntity = restTemplate.exchange(UNIT_LIST_ZTREE_DATA, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), String.class);
 		System.out.println(responseEntity.getBody());
@@ -233,6 +241,7 @@ public class UnitController extends BaseController {
 	 * data.setiTotalRecords(totalCount); } return data; }
 	 */
 	@RequestMapping(value = "/unit/unit-code")
+	@ResponseBody
 	public Object getUnitCodeByUnitName(@ModelAttribute("unit") SysUnit unit) {
 		ResponseEntity<String> responseEntity = restTemplate.exchange(GET_UNIT_CODE, HttpMethod.POST, new HttpEntity<SysUnit>(unit, this.httpHeaders), String.class);
 		String rs = responseEntity.getBody();

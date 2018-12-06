@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.common.Result;
 import com.pcitc.base.common.TreeNode;
 import com.pcitc.base.system.SysUnit;
 import com.pcitc.base.util.DataTableInfoVo;
@@ -223,6 +224,14 @@ public class UnitProviderClient
 		return unitService.seletUnitById(unitId);
 	}
 	
+
+	@ApiOperation(value="根据编码检索机构",notes="根据机构编码检索机构信息。")
+	@RequestMapping(value = "/unit-provider/unit/get-unit-bycode/{unitCode}", method = RequestMethod.POST)
+	public SysUnit getUnitByCode(@PathVariable(value = "unitCode", required = true) String unitCode) 
+	{
+		return unitService.seletUnitByCode(unitCode);
+	}
+	
 	@ApiOperation(value="检索机构树",notes="检索完整的机构树，从根节点开始。")
 	@RequestMapping(value = "/unit-provider/unit/tree-data", method = RequestMethod.POST)
 	public List<TreeNode> getUnitListTree() 
@@ -232,23 +241,41 @@ public class UnitProviderClient
 	
 	@ApiOperation(value="添加机构",notes="保存数据到持久化结构中,操作返回持久化数据的数量，1为成功，0不成功。")
 	@RequestMapping(value = "/unit-provider/unit/add-unit", method = RequestMethod.POST)
-	public Integer saveUnit(@RequestBody SysUnit unit) 
+	public Object saveUnit(@RequestBody SysUnit unit) 
 	{
 		logger.info("save unit start.....");
+		SysUnit dbunit = unitService.seletUnitByCode(unit.getUnitCode());
+		if(dbunit != null) {
+			return new Result(false, "编码重复!");
+		}
 		Integer rs = unitService.saveUnit(unit);
-		return rs;
+		if(rs > 0) {
+			return new Result(true, "操作成功!");
+		}else {
+			return new Result(false, "操作异常，请联系管理员!");
+		}
 	}
 	@ApiOperation(value="更新机构",notes="持久化结构数据更新,操作返回持久化数据的数量，1为成功，0不成功。")
 	@RequestMapping(value = "/unit-provider/unit/upd-unit", method = RequestMethod.POST)
-	public Integer updateUnit(@RequestBody SysUnit unit) 
+	public Object updateUnit(@RequestBody SysUnit unit) 
 	{
+		SysUnit dbunit = unitService.seletUnitByCode(unit.getUnitCode());
+		if(dbunit!=null && !dbunit.getUnitId().equals(unit.getUnitId())) 
+		{
+			return new Result(false, "编码重复!");
+		}
 		logger.info("update unit start.....");
 		SysUnit oldUnit = unitService.seletUnitById(unit.getUnitId());
 		if(oldUnit != null)
 		{
 			MyBeanUtils.copyPropertiesIgnoreNull(unit, oldUnit);
 		}
-		return unitService.updateUnit(oldUnit);
+		Integer rs =  unitService.updateUnit(oldUnit);
+		if(rs > 0) {
+			return new Result(true, "操作成功!");
+		}else {
+			return new Result(false, "操作异常，请联系管理员!");
+		}
 	}
 	
 	@ApiOperation(value="删除机构(逻辑删除)",notes="删除指定ID机构信息，逻辑删除，物理数据依然存在于持久化数据结构中。")
