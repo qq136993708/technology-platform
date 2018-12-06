@@ -57,7 +57,7 @@ public class TenDragonController {
 		    request.setAttribute("unitCode", unitCode);
 		    request.setAttribute("YJY_CODE_NOT_YINGKE", HanaUtil.YJY_CODE_NOT_YINGKE);
 		    request.setAttribute("YJY_CODE_ALL", HanaUtil.YJY_CODE_ALL);
-	        return "stp/hana/home/direct_depart/ten_dragon";
+	        return "stp/hana/home/oneLevelMain/ten_dragon";
 	        
 	  }
 	

@@ -74,8 +74,35 @@ public class HomeLDController {
 	    
 	    
 	    request.setAttribute("companyCode", HanaUtil.YJY_CODE_NOT_YINGKE);
-		return "stp/hana/home/direct_depart";
+		return "stp/hana/home/oneLevelMain/direct_depart";
 	}
+	
+	//科研合同
+	@RequestMapping( value = "/contract")
+	public String contract(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
+	    HanaUtil.setSearchParaForUser(userInfo,restTemplate,httpHeaders,request);
+	    String unitCode=userInfo.getUnitCode();
+	    request.setAttribute("unitCode", unitCode);
+	    String year= HanaUtil.getCurrrentYear();
+	    request.setAttribute("year", year);
+	    request.setAttribute("companyCode", HanaUtil.YJY_CODE_NOT_YINGKE);
+		return "stp/hana/home/oneLevelMain/contract";
+	}
+	//科研装备
+	@RequestMapping( value = "/equipment")
+	public String equipment(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
+	    HanaUtil.setSearchParaForUser(userInfo,restTemplate,httpHeaders,request);
+	    String unitCode=userInfo.getUnitCode();
+	    request.setAttribute("unitCode", unitCode);
+	    String year= HanaUtil.getCurrrentYear();
+	    request.setAttribute("year", year);
+	    request.setAttribute("companyCode", HanaUtil.YJY_CODE_NOT_YINGKE);
+		return "stp/hana/home/oneLevelMain/equipment";
+	}
+	
+	
 
 	//年度预算 经费支出
 	@RequestMapping(method = RequestMethod.GET, value = "/getndys_xfzc")
