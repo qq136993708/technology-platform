@@ -1571,10 +1571,10 @@
 	    	SUBSTR(define2 FROM 4) define2
 		from out_project_info
 		where project_type != '1' and (project_scope = '新开课题' or project_scope = '结转课题') and define2 is not null 
-			  <if test="xmlbbm != null and xmlbbm = 'kyzb'">
+			  <if test="xmlbbm != null and xmlbbm == 'kyzb'">
 				 and xmlbbm ='KYZB'
 			  </if>
-			  <if test="xmlbbm != null and xmlbbm = 'fkyzb'">
+			  <if test="xmlbbm != null and xmlbbm == 'fkyzb'">
 				 and xmlbbm !='KYZB'
 			  </if>
 	    group by define2
@@ -1696,10 +1696,10 @@
 		FROM out_project_info
 		where 
 			project_type != '1' and (project_scope = '新开课题' or project_scope = '结转课题')
-			<if test="xmlbbm != null and xmlbbm = 'kyzb'">
+			<if test="xmlbbm != null and xmlbbm == 'kyzb'">
 				 and xmlbbm ='KYZB'
 		    </if>
-		    <if test="xmlbbm != null and xmlbbm = 'fkyzb'">
+		    <if test="xmlbbm != null and xmlbbm == 'fkyzb'">
 			     and xmlbbm !='KYZB'
 		    </if>
 		group by project_property
