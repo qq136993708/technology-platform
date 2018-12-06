@@ -173,7 +173,7 @@ public class UnitServiceImpl implements UnitService {
 			if(oldUnit != null)
 			{
 				MyBeanUtils.copyPropertiesIgnoreNull(unit, oldUnit);
-				oldUnit.setUnitCode(createCode(oldUnit));
+				//oldUnit.setUnitCode(createCode(oldUnit));
 				return unitMapper.updateByPrimaryKey(oldUnit);
 			}
 		}catch(Exception e){
@@ -403,5 +403,18 @@ public class UnitServiceImpl implements UnitService {
 		Long total = pageInfo.getTotal();
 		data.setCount(total.intValue());
 		return data;
+	}
+
+	@Override
+	public SysUnit seletUnitByCode(String code) 
+	{
+		SysUnitExample example = new SysUnitExample();
+		SysUnitExample.Criteria cr = example.createCriteria();
+		cr.andUnitCodeEqualTo(code);
+		List<SysUnit> units = unitMapper.selectByExample(example);
+		if(units != null && units.size()>0) {
+			return units.get(0);
+		}
+		return null;
 	}
 }
