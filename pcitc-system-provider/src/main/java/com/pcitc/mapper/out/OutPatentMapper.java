@@ -99,5 +99,10 @@ public interface OutPatentMapper {
      */
     public List getProjectNewOldInfoByType(Map hashmap);
     
+    /**
+     * 领导首页-知识产权，直属研究院、分子公司等9个类型公司的发明专利、实用新型的申请和授权
+     */
+    public List getPatentInfoByCompanyType(Map hashmap);
+    
     
 }
