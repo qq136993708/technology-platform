@@ -33,6 +33,7 @@ import com.pcitc.base.hana.report.Award;
 import com.pcitc.base.hana.report.BrandConstructionPay;
 import com.pcitc.base.hana.report.BudgetMysql;
 import com.pcitc.base.hana.report.CompanyCode;
+import com.pcitc.base.hana.report.Contract;
 import com.pcitc.base.hana.report.FundsComprehensiveAnalysis01;
 import com.pcitc.base.hana.report.FundsComprehensiveAnalysis03;
 import com.pcitc.base.hana.report.H1AMKYSY100104;
@@ -2767,6 +2768,77 @@ public class HanaUtil {
 	
 	
 	
+	
+	public static ChartBarLineSeries getContractChartBarLineSeries(List<Contract> list, String name) {
+
+		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
+		if (name.equals("yqhtzj")) {
+			chartBarLineSeries.setName("已签合同");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		if (name.equals("wqhtzj")) {
+			chartBarLineSeries.setName("未签合同");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		
+
+		List<Object> dataList = new ArrayList<Object>();
+		if (list != null && list.size() > 0) 
+		{
+			for (int i = 0; i < list.size(); i++) 
+			{
+				Contract f03 = list.get(i);
+				Integer yqhtzj =(Integer)f03.getYqhtzj();
+				Integer wqhtzj = (Integer)f03.getWqhtzj();
+				if (name.equals("yqhtzj")) {
+					dataList.add(yqhtzj);
+				}
+				if (name.equals("wqhtzj")) {
+					dataList.add(wqhtzj);
+				}
+
+			}
+			chartBarLineSeries.setData(dataList);
+		}
+		return chartBarLineSeries;
+	}
+	
+	public static ChartBarLineSeries getContractChartBarLineSeries6(List<Contract> list, String name) {
+
+		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
+		if (name.equals("xksl")) {
+			chartBarLineSeries.setName("新开课题");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		if (name.equals("xjsl")) {
+			chartBarLineSeries.setName("转结课题");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		if (name.equals("zsl")) {
+			chartBarLineSeries.setName("总计");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+
+		List<Object> dataList = new ArrayList<Object>();
+		if (list != null && list.size() > 0) 
+		{
+			for (int i = 0; i < list.size(); i++) 
+			{
+				Contract f03 = list.get(i);
+				Integer yqhtzj =(Integer)f03.getYqhtzj();
+				Integer wqhtzj =(Integer)f03.getWqhtzj();
+				if (name.equals("yqhtzj")) {
+					dataList.add(yqhtzj);
+				}
+				if (name.equals("wqhtzj")) {
+					dataList.add(wqhtzj);
+				}
+
+			}
+			chartBarLineSeries.setData(dataList);
+		}
+		return chartBarLineSeries;
+	}
 
 	public static ChartBarLineSeries getTopicChartBarLineSeries05(List<Topic> list, String name) {
 
