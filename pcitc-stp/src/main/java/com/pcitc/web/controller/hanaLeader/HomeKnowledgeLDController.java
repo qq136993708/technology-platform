@@ -87,7 +87,7 @@ public class HomeKnowledgeLDController {
 			    
 			    String year= HanaUtil.getCurrrentYear();
 			    request.setAttribute("year", year);
-		        return "stp/hana/home/direct_depart/knowledge_level2";
+		        return "stp/hana/home/oneLevelMain/knowledge_level2";
 		  }
 		
 		

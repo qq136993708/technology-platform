@@ -58,7 +58,7 @@ public class InvestmentController {
 		    
 		    String year= HanaUtil.getCurrrentYear();
 		    request.setAttribute("year", year);
-	        return "stp/hana/home/direct_depart/investment";
+	        return "stp/hana/home/oneLevelMain/investment";
 	        
 	  }
 	
