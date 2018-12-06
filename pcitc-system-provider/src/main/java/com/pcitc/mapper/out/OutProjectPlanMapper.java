@@ -51,5 +51,11 @@ public interface OutProjectPlanMapper {
      */
 	public List getPlanCompleteRateByInstitute(HashMap<String, String> map);
 	
+	/**
+     * 首页-直属研究院，项目计划完成的比率，按照资本性费用性来分组
+     */
+	public List getPlanCompleteRateByPlanType(HashMap<String, String> map);
+	
+	
 	
 }
