@@ -966,22 +966,22 @@ public class ReportServiceImpl implements ReportService {
         //合计list
         List<Map<String, Object>> listHeJi = getHeJiList(list, map,count);
 //        Set<Map<String, Object>> set = new TreeSet<>();
-        Set<Map<String, Object>> set = new HashSet<>();
+        Set<Map<String, Object>> set = new LinkedHashSet<>();
         System.out.println(" = ======================");
-        System.out.println(listHeJi);
-        System.out.println(mapList);
         //添加汇总排序
 //        sortList(list,map);
         set.addAll(listHeJi);
         set.addAll(mapList);
-        return Arrays.asList(set.toArray());
+
+        List<?> rs = Arrays.asList(set.toArray());
+        return rs;
     }
 
     public void sortList(List<Map<String,Object>> list,Map<String,Object> map){
 //        List<Map<String, Object>> collect = list.stream().sorted(Comparator.comparing(Test::comparingByName)
 //                .thenComparing(Comparator.comparing(Test::comparingByAge).reversed()))
 //                .collect(Collectors.toList());
-String string = map.get("column").toString().split(",")[0];
+        String string = map.get("column").toString().split(",")[0];
         Collections.sort(list, new Comparator<Map<String, Object>>() {
 
             public int compare(Map<String, Object> o1, Map<String, Object> o2) {

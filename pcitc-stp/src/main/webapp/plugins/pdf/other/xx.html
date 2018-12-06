@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title></title>
+    <style>
+        .pdfobject-container {
+            width: 100%;
+            height: 580px;
+        }
+
+        .pdfobject {
+            border: solid 1px #666;
+        }
+    </style>
+</head>
+<body>
+<div id="pdf"></div>
+<script src="pdfobject.js"></script>
+<script>
+    var name = "自动化运维和数据化运维-从硬盘开始.pdf";
+    var options = {
+        pdfOpenParams: {
+            navpanes: 0,
+            toolbar: 0,
+            statusbar: 0,
+            view: "FitV",
+            pagemode: "thumbs",
+            page: 2
+        },
+        forcePDFJS: true,
+        PDFJS_URL: "./pdfjs-2.0.943-dist/web/viewer.html"
+    };
+    var myPDF = PDFObject.embed(name, "#pdf", options);
+    var el = document.querySelector("#results");
+</script>
+<script>
+    (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+    ga('create', 'UA-1394306-6', 'auto');
+    ga('send', 'pageview');
+</script>
+</body>
+</html>
