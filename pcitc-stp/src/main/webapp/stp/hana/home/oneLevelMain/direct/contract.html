@@ -46,9 +46,9 @@
                             <span>已签合同:<span class="text-total-blue" id="contract_chart1_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                             <span>未签合同:<span class="text-total-blue" id="contract_chart1_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                         </div>
-                        <div>
+                        <div style="height:280px;width: 100%;">
                           <div class="main-chart" id="contract_chart1"    style="float:left;height:280px;width: 50%;"></div>
-                          <div class="main-chart" id="contract_chart1_02" style="float:right;height:280px;width: 50%;"></div>
+                           <div class="" id="contract_chart1_02_02" style="float:right;height:280px;width: 50%;"></div>
                         </div>
                         
                     </div>
@@ -102,7 +102,6 @@
                 </div>
             </div>
         </div>
-        
         
         
         
@@ -180,9 +179,9 @@ function initEchart()
           
     });
 	
-	var chart5_url="/direct/contract_01?type=2&nd="+nd+"&v_date="+v_date;
-	var echart5=loadPie(chart5_url,"contract_chart1_02","",""); 
-	echart5.on('click', function (params) {
+	var chart2_url="/direct/contract_01?type=2&nd="+nd+"&v_date="+v_date;
+	var echart2=loadPie(chart2_url,"contract_chart1_02_02","",""); 
+	echart2.on('click', function (params) {
 		var xName=params.name;
 		var legentName=params.seriesName;
 		window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
