@@ -230,7 +230,7 @@ public interface OutProjectService {
      * @return
      * 领导二级页面，8个院新开、续建情况,每一行是一个院
      */
-	public List getProjectTypeCountByUnitLD(String nd);
+	public List getProjectTypeCountByUnitLD(HashMap<String, String> map);
 	
 	/**
      * @return
@@ -282,5 +282,6 @@ public interface OutProjectService {
      * 领导二级页面，各类型技术的新开、结转情况 
      */
 	public List getProjectInfoByTecTypeWithOldNew(HashMap<String, String> map);
+	
 	
 }

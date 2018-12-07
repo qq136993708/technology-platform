@@ -14,7 +14,7 @@
 		<sqlMapGenerator     targetPackage="com.pcitc.mapper.out"   targetProject="pcitc-system-provider" />
 		<javaClientGenerator targetPackage="com.pcitc.mapper.out"   targetProject="pcitc-system-provider" type="XMLMAPPER" />
 	    
-	    <table schema="pcitc-system-provider" domainObjectName="OutPatent"  tableName="out_patent"  enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
+	    <table schema="pcitc-system-provider" domainObjectName="OutProjectPlan"  tableName="out_project_plan"  enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
 	    </table>
 	
 	</context>

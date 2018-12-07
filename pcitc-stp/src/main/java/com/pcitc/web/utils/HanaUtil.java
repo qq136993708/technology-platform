@@ -33,6 +33,7 @@ import com.pcitc.base.hana.report.Award;
 import com.pcitc.base.hana.report.BrandConstructionPay;
 import com.pcitc.base.hana.report.BudgetMysql;
 import com.pcitc.base.hana.report.CompanyCode;
+import com.pcitc.base.hana.report.Contract;
 import com.pcitc.base.hana.report.FundsComprehensiveAnalysis01;
 import com.pcitc.base.hana.report.FundsComprehensiveAnalysis03;
 import com.pcitc.base.hana.report.H1AMKYSY100104;
@@ -48,6 +49,7 @@ import com.pcitc.base.hana.report.ScientificBaseBuildFee01;
 import com.pcitc.base.hana.report.ScientificBaseBuildFee02;
 import com.pcitc.base.hana.report.ScientificBaseBuildFee03;
 import com.pcitc.base.hana.report.ScientificInstrumentPay;
+import com.pcitc.base.hana.report.Topic;
 import com.pcitc.base.hana.report.TotalCostProjectPay01;
 import com.pcitc.base.hana.report.TotalCostProjectPay02;
 import com.pcitc.base.hana.report.TotalCostProjectPay03;
@@ -1187,7 +1189,61 @@ public class HanaUtil {
 	
 	
 	
-	
+	public static List<TreeNode2> getChildChartCircleuContract(List<String>  listLevel1Title,List<Contract> listAll) 
+	{
+		
+		List<TreeNode2> resut = new ArrayList();
+		for(int i=0;i<listLevel1Title.size();i++)
+		{
+			String title=listLevel1Title.get(i);
+			TreeNode2 node=new TreeNode2();
+			node.setId("999"+String.valueOf(i));
+			node.setLay_icon_open("/layuiadmin/layui/images/treegrid1_open.png");
+			node.setLay_icon("/layuiadmin/layui/images/treegrid2.png");
+			node.setLay_is_open(true);
+			int extend01_count=0;
+			int extend02_count=0;
+			for (int j = 0; j < listAll.size(); j++) 
+			{
+				Contract entity=listAll.get(j);
+				String name=entity.getDefine1();
+				Integer jhqds=(Integer)entity.getJhqds();
+				Integer sjqds=(Integer)entity.getSjqds();
+				String name02=entity.getProject_scope();
+				
+				if(name.equals(title))
+				{
+					TreeNode2 node02=new TreeNode2();
+					node02.setpId(node.getId());
+					node02.setName(name02);
+					
+					node02.setExtend01(String.valueOf(jhqds));
+					node02.setExtend02(String.valueOf(sjqds));
+					
+					DecimalFormat df=new DecimalFormat("0.00");
+					String str=df.format(((float)sjqds/jhqds)*100);
+					
+					node02.setExtend03(str);
+					
+					node02.setId(""+i+"_"+j);
+					resut.add(node02);
+					
+					extend01_count=extend01_count+jhqds;
+					extend02_count=extend01_count+sjqds;
+					
+				}
+			}
+			node.setName(title);
+			node.setExtend01(String.valueOf(extend01_count));
+			node.setExtend02(String.valueOf(extend02_count));
+			DecimalFormat df=new DecimalFormat("0.00");
+			String strvv=df.format(((float)extend02_count/extend01_count)*100);
+			node.setExtend03(strvv);
+			resut.add(node);
+			
+		}
+		return resut;
+	}
 	
 	public static List<TreeNode2> getChildChartCircleuNITForproject01type(List<String>  listLevel1Title,List<ProjectForMysql> listAll) 
 	{
@@ -2600,6 +2656,58 @@ public class HanaUtil {
 	}
 	
 	
+	public static ChartBarLineSeries  getContractChartBarLineSeries22(List<Contract> list, String name) {
+
+		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
+		if (name.equals("fyxRate")) {
+			chartBarLineSeries.setName("费用性");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_LINE);
+		}
+		if (name.equals("zbxRate")) {
+			chartBarLineSeries.setName("资本性");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_LINE);
+		}
+		
+
+		List<Object> dataList = new ArrayList<Object>();
+		if (list != null && list.size() > 0) {
+			for (int i = 0; i < list.size(); i++) {
+				Contract f03 = list.get(i);
+				String fyxRate =((BigDecimal)f03.getFyxRate()).toString(); 
+				String zbxRate = ((BigDecimal)f03.getZbxRate()).toString();
+				if (name.equals("fyxRate")) {
+					
+					if (fyxRate==null || fyxRate.equals(""))
+					{
+						dataList.add(0);
+					}else
+					{
+						dataList.add(String.format("%.2f", Double.valueOf(fyxRate)));
+					}
+					
+					
+				}
+				if (name.equals("zbxRate")) {
+					
+					if (zbxRate==null || zbxRate.equals(""))
+					{
+						dataList.add(0);
+					}else
+					{
+						dataList.add(String.format("%.2f", Double.valueOf(zbxRate)));
+					}
+					
+					
+				}
+				
+
+			}
+			chartBarLineSeries.setData(dataList);
+		}
+		return chartBarLineSeries;
+	}
+	
+	
 	public static ChartBarLineSeries getKNOWLDGELevel2ChartBarLineSeries(List<Knowledge> list, String name) {
 
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
@@ -2762,6 +2870,173 @@ public class HanaUtil {
 		}
 		return chartBarLineSeries;
 	}
+	
+	
+	
+	
+	
+	public static ChartBarLineSeries getContractChartBarLineSeries(List<Contract> list, String name) {
+
+		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
+		if (name.equals("yqhtzj")) {
+			chartBarLineSeries.setName("已签合同");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		if (name.equals("wqhtzj")) {
+			chartBarLineSeries.setName("未签合同");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		
+
+		List<Object> dataList = new ArrayList<Object>();
+		if (list != null && list.size() > 0) 
+		{
+			for (int i = 0; i < list.size(); i++) 
+			{
+				Contract f03 = list.get(i);
+				Integer yqhtzj =(Integer)f03.getYqhtzj();
+				Integer wqhtzj = (Integer)f03.getWqhtzj();
+				if (name.equals("yqhtzj")) {
+					dataList.add(yqhtzj);
+				}
+				if (name.equals("wqhtzj")) {
+					dataList.add(wqhtzj);
+				}
+
+			}
+			chartBarLineSeries.setData(dataList);
+		}
+		return chartBarLineSeries;
+	}
+	
+	public static ChartBarLineSeries getContractChartBarLineSeries6(List<Contract> list, String name) {
+
+		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
+		if (name.equals("zsl"))
+		{
+			chartBarLineSeries.setName("计划签订");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		if (name.equals("yqhtzj")) 
+		{
+			chartBarLineSeries.setName("实际签订");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		if (name.equals("qdlzj")) 
+		{
+			chartBarLineSeries.setName("签订率");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_LINE);
+		}
+		List<Object> dataList = new ArrayList<Object>();
+		if (list != null && list.size() > 0) 
+		{
+			for (int i = 0; i < list.size(); i++) 
+			{
+				Contract f03 = list.get(i);
+				Integer zsl =(Integer)f03.getZsl();
+				Integer yqhtzj =(Integer)f03.getYqhtzj();
+				Object qdlzj =f03.getQdlzj();
+				String str=String.format("%.2f", Double.valueOf(String.valueOf(qdlzj)));
+				
+				if (name.equals("zsl")) 
+				{
+					dataList.add(zsl);
+				}
+				if (name.equals("yqhtzj")) 
+				{
+					dataList.add(yqhtzj);
+				}
+				if (name.equals("qdlzj")) 
+				{
+					dataList.add(str);
+				}
+
+			}
+			chartBarLineSeries.setData(dataList);
+		}
+		return chartBarLineSeries;
+	}
+
+	public static ChartBarLineSeries getTopicChartBarLineSeries05(List<Topic> list, String name) {
+
+		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
+		if (name.equals("xksl")) {
+			chartBarLineSeries.setName("新开课题");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		if (name.equals("xjsl")) {
+			chartBarLineSeries.setName("转结课题");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		if (name.equals("zsl")) {
+			chartBarLineSeries.setName("总计");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+
+		List<Object> dataList = new ArrayList<Object>();
+		if (list != null && list.size() > 0) 
+		{
+			for (int i = 0; i < list.size(); i++) 
+			{
+				Topic f03 = list.get(i);
+				Integer xksl = f03.getXksl();
+				Integer xjsl = f03.getXjsl();
+				if (name.equals("xksl")) {
+					dataList.add(xksl.intValue());
+				}
+				if (name.equals("xjsl")) {
+					dataList.add(xjsl.intValue());
+				}
+
+			}
+			chartBarLineSeries.setData(dataList);
+		}
+		return chartBarLineSeries;
+	}
+	
+	public static ChartBarLineSeries getKNOWLDGELevel2ChartBarLineSeries05(List<Knowledge> list, String name) {
+
+		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
+		if (name.equals("fmsqsl")) {
+			chartBarLineSeries.setName("发明授权");
+			chartBarLineSeries.setStack("总量");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		if (name.equals("wgsjsl")) {
+			chartBarLineSeries.setName("外观设计");
+			chartBarLineSeries.setStack("总量");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		if (name.equals("syxxsl")) {
+			chartBarLineSeries.setName("实用新型");
+			chartBarLineSeries.setStack("总量");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+
+		List<Object> dataList = new ArrayList<Object>();
+		if (list != null && list.size() > 0) {
+			for (int i = 0; i < list.size(); i++) {
+				Knowledge f03 = list.get(i);
+				String fmsqsl = f03.getFmsqsl();
+				String wgsjsl = f03.getWgsjsl();
+
+				String syxxsl = f03.getSyxxsl();
+				if (name.equals("fmsqsl")) {
+					dataList.add(Double.valueOf(fmsqsl).intValue());
+				}
+				if (name.equals("wgsjsl")) {
+					dataList.add(Double.valueOf(wgsjsl).intValue());
+				}
+				if (name.equals("syxxsl")) {
+					dataList.add(Double.valueOf(syxxsl).intValue());
+				}
+
+			}
+			chartBarLineSeries.setData(dataList);
+		}
+		return chartBarLineSeries;
+	}
+	
 	
 	
 	public static ChartBarLineSeries getKNOWLDGELevel2ChartBarLineSeries02(List<Knowledge> list, String name) {
@@ -4662,10 +4937,22 @@ public class HanaUtil {
 			request.setAttribute("project_scopeList", project_scopeList);
 	
 	}
-	public static void main(String[] args) {
-		String str="232.2000";
-		String vv=String.format("%.2f", Double.valueOf(str));
-		System.out.println(vv);
+	public static String chufa(int a,int b) 
+	{
+		double f1 = new BigDecimal((float)a/b).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+		return String.valueOf(f1);
 	}
+	
+	/*public static void main(String[] args) {
+		
+		DecimalFormat df=new DecimalFormat("0.0000");
+		
+		double f1 = new BigDecimal((float)67/120).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+		
+		System.out.println(f1);
+		
+		
+		
+	}*/
 
 }

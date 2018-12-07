@@ -433,6 +433,29 @@ layui.define(['jquery','form','table','laydate'],
                     });
                 }
             },
+            moduleConfig:function (text,img,color) {
+                var html="<div class='layui-col-md layui-agency-party'>" +
+                    "       <div class='layui-text-icon layui-text-center' style='background:"+color+" url("+img+") center center no-repeat;'>" +
+                    "           <p>"+text+"</p>" +
+                    "        </div>" +
+                    "      </div>";
+                $("#layui-add").before(html);
+            },
+            moduleConfigText:function (text,id,unit,img,color) {
+                if(unit==""){
+                    var unitText="个";
+                }else {
+                    var unitText=unit;
+                }
+                var html="<div class='layui-col-md layui-agency-party layui-text-icon'>" +
+                    "       <div class='layui-text-icon' style='background:"+color+" url("+img+") center center no-repeat;'>" +
+                    "           <p>"+text+"</p>" +
+                    "           <span id='"+id+"'>0</span><span class='layui-text-span'>"+unitText+"</span>" +
+                    /*"           <img src='/layuiadmin/layui/images/level-close.png' class='dele'>" +*/
+                    "        </div>" +
+                    "      </div>";
+                $("#layui-add").before(html);
+            },
         };
         /**
          * 接口输出

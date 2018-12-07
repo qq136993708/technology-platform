@@ -25,13 +25,62 @@ public class Knowledge {
 	private  String unitName;
 	
 	
-	private  Integer sqsl;
 	private  Integer shouqsl;
 	private String fmshouqsl;
 	
+	private  String lxmc;
+	
+	private Integer fmzlAgreeCount;
+	
+	private Integer fmzlApplyCount;
+	
+    private Integer syxxAgreeCount;
+	
+	private Integer syxxApplyCount;
+	private Integer sqsl;
 	
 	
 	
+
+	public String getLxmc() {
+		return lxmc;
+	}
+
+	public void setLxmc(String lxmc) {
+		this.lxmc = lxmc;
+	}
+
+	public Integer getFmzlAgreeCount() {
+		return fmzlAgreeCount;
+	}
+
+	public void setFmzlAgreeCount(Integer fmzlAgreeCount) {
+		this.fmzlAgreeCount = fmzlAgreeCount;
+	}
+
+	public Integer getFmzlApplyCount() {
+		return fmzlApplyCount;
+	}
+
+	public void setFmzlApplyCount(Integer fmzlApplyCount) {
+		this.fmzlApplyCount = fmzlApplyCount;
+	}
+
+	public Integer getSyxxAgreeCount() {
+		return syxxAgreeCount;
+	}
+
+	public void setSyxxAgreeCount(Integer syxxAgreeCount) {
+		this.syxxAgreeCount = syxxAgreeCount;
+	}
+
+	public Integer getSyxxApplyCount() {
+		return syxxApplyCount;
+	}
+
+	public void setSyxxApplyCount(Integer syxxApplyCount) {
+		this.syxxApplyCount = syxxApplyCount;
+	}
 
 	public String getFmshouqsl() {
 		return fmshouqsl;

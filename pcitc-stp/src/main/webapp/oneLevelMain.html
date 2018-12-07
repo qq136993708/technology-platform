@@ -153,7 +153,7 @@
                                 <span id="">0</span><span class="layui-text-span">个</span>
                                 <img src="/layuiadmin/layui/images/level-close.png" class="dele" alt="">
                             </div>
-                            <div class="layui-party">
+                            <div class="layui-text-center layui-party">
                                 <p>领导讲话</p>
                             </div>
                         </div>
@@ -173,19 +173,17 @@
                     </div>
                 </div>
             </div>
-            <div class="layui-row layui-left " style="margin-top: 20px;">
-                <div class="layui-agency-right layui-col-md8">
-                    <div class="layui-col-md6 layui-agency-party">
-                        <div class="layui-text-icon layui-party-four">
-                            <p>中国石化标准化</p>
-                            <span id="">0</span><span class="layui-text-span">个</span>
-                            <img src="/layuiadmin/layui/images/level-close.png" class="dele" alt="">
-                        </div>
+            <div class="layui-row layui-row-special" style="margin-top: 20px;display: flex;">
+                <div class="layui-col-md layui-agency-party">
+                    <div class="layui-text-icon layui-party-four">
+                        <p>中国石化标准化</p>
+                        <span id="">0</span><span class="layui-text-span">个</span>
+                        <img src="/layuiadmin/layui/images/level-close.png" class="dele" alt="">
                     </div>
-                    <div class="layui-col-md6">
-                        <div class="layui-add">
-                            <img src="/layuiadmin/layui/images/icon-puls.png"/>
-                        </div>
+                </div>
+                <div class="layui-col-md" id="layui-add">
+                    <div class="layui-add">
+                        <img src="/layuiadmin/layui/images/icon-puls.png"/>
                     </div>
                 </div>
             </div>
@@ -194,14 +192,15 @@
 </div>
 <script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
 <script>
-    layui.use([ 'carousel', 'form','jquery'], function(){
-        var carousel = layui.carousel,$=layui.jquery
+    layui.use([ 'carousel', 'form','jquery','publicMethods'], function(){
+        var carousel = layui.carousel,$=layui.jquery,publicMethods=layui.publicMethods
             ,form = layui.form;
         //图片轮播
          $(".dele").click(function () {
             $(this).parents(".layui-text-icon").remove();
         });
-        
+        /*publicMethods.moduleConfigText("中国石化标准化","id","","","#0094d3");
+        publicMethods.moduleConfig("中国石化标准化","","#0094d3");*/
         carousel.render({
             elem: '#test-carousel-img'
             ,width: '100%'
@@ -213,11 +212,9 @@
         //直属研究院
         $("#mainLeader").on("click",function () {
         	
-        			 
         	 window.open("/instituteIndex?url="+"/home_ld/direct_depart","_target");
-        	 
         });
-       //科研投入(合同签订)
+        //科研投入(合同签订)
         $("#home_budget").on("click",function () {
         	
         	window.open("/instituteIndex?url="+"/investment/investment","_target");
@@ -238,6 +235,7 @@
         $("#knowledge_right").on("click",function () {
         	
         	window.open("/instituteIndex?url="+"/home_knowledge_ld/knowledge_level2","_target");
+        	
         	
         });
         

@@ -31,8 +31,8 @@ public class OutAppraisalServiceImpl implements OutAppraisalService {
 
 	public int insertAppraisalData(List<OutAppraisal> list, String nd) {
 		// 删除年度数据
-		OutAppraisalExample example = new OutAppraisalExample();
-		outAppraisalMapper.deleteByExample(example);
+		//OutAppraisalExample example = new OutAppraisalExample();
+		//outAppraisalMapper.deleteByExample(example);
 
 		// 批量插入数据
 		outAppraisalMapper.insertOutAppraisalBatch(list);
@@ -148,6 +148,13 @@ public class OutAppraisalServiceImpl implements OutAppraisalService {
      */
 	public List getAppraisalInfoByZy(HashMap<String, String> map) {
 		return outAppraisalMapper.getAppraisalInfoByZy(map);
+	}
+	
+	/**
+     * 领导首页-科研成果，直属院、分子公司等9个的成果情况
+     */
+	public List getAppraisalInfoByCompanyType(HashMap<String, String> map) {
+		return outAppraisalMapper.getAppraisalInfoByCompanyType(map);
 	}
 	
 	

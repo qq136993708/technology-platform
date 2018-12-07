@@ -55,6 +55,7 @@ var optionpie = {
 };
 function pieAjax(url, echartsobj, options) 
 {
+	
 	 var names=[];  
      var values=[];  
      $.ajax({
@@ -118,8 +119,16 @@ function loadPie(url,id,title,subtext)
 {
 	
 	var echartsobj = echarts.init(document.getElementById(id));
-	optionpie.title.text=title;
-	optionpie.title.subtext=subtext;
+	if(title!='')
+	{
+		optionpie.title.text=title;
+	}
+	if(subtext!='')
+	{
+		optionpie.title.subtext=subtext;
+	}
+	
+	
 	echartsobj.setOption(optionpie);
 	echartsobj.showLoading();
 	pieAjax(url,echartsobj,optionpie);

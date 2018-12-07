@@ -75,7 +75,7 @@ public class OutPatentServiceImpl implements OutPatentService {
 
 		OutPatentExample example = new OutPatentExample();
 		OutPatentExample.Criteria criteria = example.createCriteria();
-		criteria.andRemarksLike("%" + map.get("nd") + "%");
+		criteria.andShouqrLike("%" + map.get("nd") + "%");
 		criteria.andFlztyjEqualTo("有效");
 		criteria.andFlztejEqualTo("授权");
 		
@@ -183,5 +183,12 @@ public class OutPatentServiceImpl implements OutPatentService {
      */
     public List getProjectNewOldInfoByType(Map hashmap) {
     	return outPatentMapper.getProjectNewOldInfoByType(hashmap);
+    }
+    
+    /**
+     * 领导首页-知识产权，直属研究院、分子公司等9个类型公司的发明专利、实用新型的申请和授权
+     */
+    public List getPatentInfoByCompanyType(Map hashmap) {
+    	return outPatentMapper.getPatentInfoByCompanyType(hashmap);
     }
 }

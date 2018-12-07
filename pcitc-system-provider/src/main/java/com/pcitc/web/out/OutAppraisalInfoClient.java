@@ -218,7 +218,7 @@ public class OutAppraisalInfoClient {
 		if (!JSON.toJSONString(temList).contains("A.石油勘探")) {
 			HashMap<String, Object> temMap = new HashMap<String, Object>();
 			temMap.put("sl", 0);
-			temMap.put("define1", "A.石油勘探");
+			temMap.put("zy", "A.石油勘探");
 			temList.add(0, temMap);
 		}
 		if (!JSON.toJSONString(temList).contains("B.石油开发")) {
@@ -282,6 +282,71 @@ public class OutAppraisalInfoClient {
 			temMap.put("zy", "K.其它");
 			temList.add(10, temMap);
 		}
+		return json;
+	}
+	
+	@ApiOperation(value = "领导首页-科研成果，直属院、分子公司等9个的成果情况", notes = "参数是年度")
+	@RequestMapping(value = "/out-appraisal-provider/cg/count/company-type", method = RequestMethod.POST)
+	public JSONArray getAppraisalInfoByCompanyType(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page getAppraisalInfoByCompanyType===========================" + map);
+		List temList = outAppraisalService.getAppraisalInfoByCompanyType(map);
+		
+		if (!JSON.toJSONString(temList).contains("直属研究院")) {
+			HashMap<String, Object> temMap = new HashMap<String, Object>();
+			temMap.put("sl", 0);
+			temMap.put("define3", "直属研究院");
+			temList.add(0, temMap);
+		}
+		if (!JSON.toJSONString(temList).contains("分子公司")) {
+			HashMap<String, Object> temMap = new HashMap<String, Object>();
+			temMap.put("sl", 0);
+			temMap.put("define3", "分子公司");
+			temList.add(1, temMap);
+		}
+		if (!JSON.toJSONString(temList).contains("集团单位")) {
+			HashMap<String, Object> temMap = new HashMap<String, Object>();
+			temMap.put("sl", 0);
+			temMap.put("define3", "集团单位");
+			temList.add(2, temMap);
+		}
+		if (!JSON.toJSONString(temList).contains("外部单位")) {
+			HashMap<String, Object> temMap = new HashMap<String, Object>();
+			temMap.put("sl", 0);
+			temMap.put("define3", "外部单位");
+			temList.add(3, temMap);
+		}
+		
+		if (!JSON.toJSONString(temList).contains("休斯顿研发中心")) {
+			HashMap<String, Object> temMap = new HashMap<String, Object>();
+			temMap.put("sl", 0);
+			temMap.put("define3", "休斯顿研发中心");
+			temList.add(4, temMap);
+		}
+		if (!JSON.toJSONString(temList).contains("中东研发中心")) {
+			HashMap<String, Object> temMap = new HashMap<String, Object>();
+			temMap.put("sl", 0);
+			temMap.put("define3", "中东研发中心");
+			temList.add(5, temMap);
+		}
+		if (!JSON.toJSONString(temList).contains("集团公司")) {
+			HashMap<String, Object> temMap = new HashMap<String, Object>();
+			temMap.put("sl", 0);
+			temMap.put("define3", "集团公司");
+			temList.add(6, temMap);
+		}
+		if (!JSON.toJSONString(temList).contains("资产公司")) {
+			HashMap<String, Object> temMap = new HashMap<String, Object>();
+			temMap.put("sl", 0);
+			temMap.put("define3", "资产公司");
+			temList.add(7, temMap);
+		}
+		if (!JSON.toJSONString(temList).contains("盈科")) {
+			HashMap<String, Object> temMap = new HashMap<String, Object>();
+			temMap.put("sl", 0);
+			temMap.put("define3", "盈科");
+			temList.add(8, temMap);
+		}
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
 		return json;
 	}
 }

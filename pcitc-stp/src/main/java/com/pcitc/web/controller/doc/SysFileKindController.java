@@ -3,6 +3,7 @@ package com.pcitc.web.controller.doc;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -385,7 +386,9 @@ public class SysFileKindController extends BaseController {
 	 */
 	@RequestMapping(value = { "/toListPagePrivateEdit" }, method = { RequestMethod.GET })
 	@OperationFilter(modelName = "", actionName = "跳转录入页toListPagePrivateEdit")
-	public String toListPagePrivateEdit() {
+	public String toListPagePrivateEdit()
+    {
+        request.setAttribute("bak2",UUID.randomUUID().toString().replace("-",""));
 		return "pplus/doc/sysFile_edit";
 	}
 
@@ -414,6 +417,8 @@ public class SysFileKindController extends BaseController {
 		model.addAttribute("id", id);
 		model.addAttribute("opt", opt);
 		model.addAttribute("parentId", parentId);
+        Object dataId = request.getParameter("dataId");
+        model.addAttribute("bak2", dataId==null?UUID.randomUUID().toString().replace("-",""):dataId);
 		return "pplus/doc/sysFile_edit";
 	}
 
