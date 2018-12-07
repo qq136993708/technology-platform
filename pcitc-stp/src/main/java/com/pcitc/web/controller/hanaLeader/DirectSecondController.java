@@ -32,10 +32,13 @@ import com.pcitc.web.utils.HanaUtil;
 public class DirectSecondController  extends BaseController
 {
 	
-	private static final String ACHIEVEMENT_ANALYSIS = "http://pcitc-zuul/system-proxy/out-appraisal-provider/institution/cg/info";
+	private static final String direct_second_data_01 = "http://pcitc-zuul/system-proxy/out-appraisal-provider/institution/cg/info";
+	private static final String direct_second_data_02 = "http://pcitc-zuul/system-proxy/out-appraisal-provider/cglx/cg/info";
+	
+	
 
 	/**
-	 *    领导二级页面，各个研究院的成果情况 汇总
+	 *    领导二级页面，直属研究院成果数量
 	 * @param request
 	 * @param response
 	 * @return
@@ -43,7 +46,7 @@ public class DirectSecondController  extends BaseController
 	 */
 	@RequestMapping(method = RequestMethod.GET, value = "/direct_second_data_01")
 	@ResponseBody
-	public String getKnowledgeBar_01(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public String getDirectSecendData01(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		Result result = new Result();
 		String nd = CommonUtil.getParameter(request, "nd",DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
@@ -51,7 +54,7 @@ public class DirectSecondController  extends BaseController
 		paramsMap.put("nd", nd);
 		
 		HttpEntity<Map<String, Object>> entity = new HttpEntity<Map<String, Object>>(paramsMap, httpHeaders);
-		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(ACHIEVEMENT_ANALYSIS, HttpMethod.POST, entity, JSONArray.class);
+		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(direct_second_data_01, HttpMethod.POST, entity, JSONArray.class);
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode == 200) 
 		{
@@ -74,7 +77,48 @@ public class DirectSecondController  extends BaseController
 			result.setData(csr);
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-		System.out.println(">>>>>>>>>>>>>>>direct_second_data_01 " + resultObj.toString());
+		return resultObj.toString();
+	}
+	/**
+	 * 年成果鉴定数量按单位分析
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(method = RequestMethod.GET, value = "/direct_second_data_02")
+	@ResponseBody
+	public String getDirectSecendData02(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		Result result = new Result();
+		String nd = CommonUtil.getParameter(request, "nd",DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+		Map<String, Object> paramsMap = new HashMap<String, Object>();
+		paramsMap.put("nd", nd);
+		
+		HttpEntity<Map<String, Object>> entity = new HttpEntity<Map<String, Object>>(paramsMap, httpHeaders);
+		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(direct_second_data_02, HttpMethod.POST, entity, JSONArray.class);
+		int statusCode = responseEntity.getStatusCodeValue();
+		if (statusCode == 200) 
+		{
+			JSONArray jSONArray = responseEntity.getBody();
+			List<AchievementsAnalysis> list = JSONObject.parseArray(jSONArray.toJSONString(), AchievementsAnalysis.class);
+		
+			
+			ChartSingleLineResultData csr = new ChartSingleLineResultData();
+			//X轴数据
+			List<Object> seriesDataList=new ArrayList<Object>();
+			for(AchievementsAnalysis dt:list) {
+				seriesDataList.add(dt.getSl());
+			}
+			csr.setSeriesDataList(seriesDataList);
+			//成果类型
+		    List<String>  xAxisDataList=HanaUtil.getduplicatexAxisByList(list,"cglx");
+     		csr.setxAxisDataList(xAxisDataList);
+			
+     		result.setSuccess(true);
+			result.setData(csr);
+		}
+		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
 		return resultObj.toString();
 	}
 

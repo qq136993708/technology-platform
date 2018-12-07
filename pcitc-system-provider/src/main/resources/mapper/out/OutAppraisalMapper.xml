@@ -878,7 +878,7 @@
 		select count(*) as sl, cglx 
 		from out_appraisal
 		where 
-			cglx is not NULL and nd='2018'
+			cglx is not NULL and nd='${nd}'
 			<if test="define1 != null and define1 != ''">
 				and define1 is not null
 			</if>

@@ -11,6 +11,7 @@ public class AchievementsAnalysis
 	private Integer gysysl;//工业实验数量
 	private Integer qtsl;//其他
 	
+	private String cglx;//成果类型
 	private String define1;//研究院简称
 	
 	public Integer getSl() {
@@ -43,4 +44,11 @@ public class AchievementsAnalysis
 	public void setQtsl(Integer qtsl) {
 		this.qtsl = qtsl;
 	}
+	public String getCglx() {
+		return cglx;
+	}
+	public void setCglx(String cglx) {
+		this.cglx = cglx;
+	}
+	
 }
