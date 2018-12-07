@@ -218,7 +218,7 @@ public class OutAppraisalInfoClient {
 		if (!JSON.toJSONString(temList).contains("A.石油勘探")) {
 			HashMap<String, Object> temMap = new HashMap<String, Object>();
 			temMap.put("sl", 0);
-			temMap.put("define1", "A.石油勘探");
+			temMap.put("zy", "A.石油勘探");
 			temList.add(0, temMap);
 		}
 		if (!JSON.toJSONString(temList).contains("B.石油开发")) {

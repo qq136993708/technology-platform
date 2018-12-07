@@ -1053,7 +1053,7 @@
 			#{projectInfo.gsbmmc,jdbcType=VARCHAR},
 			#{projectInfo.gsbmbm,jdbcType=VARCHAR},
 			#{projectInfo.zycmc,jdbcType=VARCHAR},
-			#{projectInfo.zycbm,jdbcType=VARCHAR}
+			#{projectInfo.zycbm,jdbcType=VARCHAR},
 			#{projectInfo.define1,jdbcType=VARCHAR},
 			#{projectInfo.define2,jdbcType=VARCHAR},
 			#{projectInfo.define3,jdbcType=VARCHAR},
