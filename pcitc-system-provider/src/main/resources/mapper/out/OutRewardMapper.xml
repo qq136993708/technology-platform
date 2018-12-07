@@ -534,17 +534,17 @@
 						      define1, define2, define3, 
 						      define4)
 		values
-		<foreach collection="list" item="patent" index="index"
+		<foreach collection="list" item="reward" index="index"
 			separator=",">
-			(#{patent.dataId,jdbcType=VARCHAR}, #{patent.xmid,jdbcType=VARCHAR}, #{patent.xmbh,jdbcType=VARCHAR}, 
-      		#{patent.nd,jdbcType=VARCHAR}, #{patent.xmmc,jdbcType=VARCHAR}, #{patent.sbdw,jdbcType=VARCHAR}, 
-      		#{patent.sbjz,jdbcType=VARCHAR}, #{patent.xkfl,jdbcType=VARCHAR}, #{patent.sbdj,jdbcType=VARCHAR}, 
-      		#{patent.sbrq,jdbcType=VARCHAR}, #{patent.rwly,jdbcType=VARCHAR}, #{patent.jddw,jdbcType=VARCHAR}, 
-      		#{patent.hth,jdbcType=VARCHAR}, #{patent.kssj,jdbcType=VARCHAR}, #{patent.jssj,jdbcType=VARCHAR}, 
-      		#{patent.sbzt,jdbcType=VARCHAR}, #{patent.psdj,jdbcType=VARCHAR}, #{patent.createDate,jdbcType=TIMESTAMP}, 
-      		#{patent.createUserId,jdbcType=VARCHAR}, #{patent.remarks,jdbcType=VARCHAR}, #{patent.status,jdbcType=VARCHAR}, 
-      		#{patent.define1,jdbcType=VARCHAR}, #{patent.define2,jdbcType=VARCHAR}, #{patent.define3,jdbcType=VARCHAR}, 
-      		#{patent.define4,jdbcType=VARCHAR})
+			(#{reward.dataId,jdbcType=VARCHAR}, #{reward.xmid,jdbcType=VARCHAR}, #{reward.xmbh,jdbcType=VARCHAR}, 
+      		#{reward.nd,jdbcType=VARCHAR}, #{reward.xmmc,jdbcType=VARCHAR}, #{reward.sbdw,jdbcType=VARCHAR}, 
+      		#{reward.sbjz,jdbcType=VARCHAR}, #{reward.xkfl,jdbcType=VARCHAR}, #{reward.sbdj,jdbcType=VARCHAR}, 
+      		#{reward.sbrq,jdbcType=VARCHAR}, #{reward.rwly,jdbcType=VARCHAR}, #{reward.jddw,jdbcType=VARCHAR}, 
+      		#{reward.hth,jdbcType=VARCHAR}, #{reward.kssj,jdbcType=VARCHAR}, #{reward.jssj,jdbcType=VARCHAR}, 
+      		#{reward.sbzt,jdbcType=VARCHAR}, #{reward.psdj,jdbcType=VARCHAR}, #{reward.createDate,jdbcType=TIMESTAMP}, 
+      		#{reward.createUserId,jdbcType=VARCHAR}, #{reward.remarks,jdbcType=VARCHAR}, #{reward.status,jdbcType=VARCHAR}, 
+      		#{reward.define1,jdbcType=VARCHAR}, #{reward.define2,jdbcType=VARCHAR}, #{reward.define3,jdbcType=VARCHAR}, 
+      		#{reward.define4,jdbcType=VARCHAR})
 		</foreach>
 	</insert>
 </mapper>

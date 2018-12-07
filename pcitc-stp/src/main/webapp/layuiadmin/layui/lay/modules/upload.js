@@ -58,9 +58,10 @@ layui.define("layer", function(e) {
             o = t.elem.next();
         (o.hasClass(u) || o.hasClass(c)) && o.remove(), a.ie && a.ie < 10 && t.elem.wrap('<div class="layui-upload-wrap"></div>'), e.isFile() ? (e.elemFile = t.elem, t.field = t.elem[0].name) : t.elem.after(n), a.ie && a.ie < 10 && e.initIE()
     }, p.prototype.initIE = function() {
+        var domain = "http://"+location.host;
         var e = this,
             t = e.config,
-            n = i('<iframe id="' + f + '" class="' + f + '" name="' + f + '" frameborder="0"></iframe>'),
+            n = i('<iframe src="'+domain+'" id="' + f + '" class="' + f + '" name="' + f + '" frameborder="0"></iframe>'),
             a = i(['<form target="' + f + '" class="' + c + '" method="' + t.method, '" key="set-mine" enctype="multipart/form-data" action="' + t.url + '">', "</form>"].join(""));
         i("#" + f)[0] || i("body").append(n), t.elem.next().hasClass(c) || (e.elemFile.wrap(a), t.elem.next("." + c).append(function() {
             var e = [];
@@ -136,7 +137,9 @@ layui.define("layer", function(e) {
                 if (o.elemFile.next("." + s).remove(), r.value = "", "object" != typeof i) try {
                     i = JSON.parse(i)
                 } catch (t) {
-                    return i = {}, o.msg("请对上传接口返回有效JSON")
+                    /*return i = {}, o.msg("请对上传接口返回有效JSON")*/
+                    $('#'+pcitcFile.file_table_id).html("");
+                    pcitcFile.reloadTable();
                 }
                 "function" == typeof l.done && l.done(i, e || 0, function(e) {
                     o.upload(e)

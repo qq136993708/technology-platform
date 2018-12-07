@@ -1053,7 +1053,7 @@
 			#{projectInfo.gsbmmc,jdbcType=VARCHAR},
 			#{projectInfo.gsbmbm,jdbcType=VARCHAR},
 			#{projectInfo.zycmc,jdbcType=VARCHAR},
-			#{projectInfo.zycbm,jdbcType=VARCHAR}
+			#{projectInfo.zycbm,jdbcType=VARCHAR},
 			#{projectInfo.define1,jdbcType=VARCHAR},
 			#{projectInfo.define2,jdbcType=VARCHAR},
 			#{projectInfo.define3,jdbcType=VARCHAR},
@@ -1415,12 +1415,18 @@
 		
 	</select>
 	
+	<!--  领导首页-直属研究院，8个研究院的资本性、费用性信息 -->
 	<select id="getProjectMoneyByYJY" resultType="java.util.Map"
 		parameterType="java.lang.String">
 		select
 			round(sum(case when define1 = '费用性' then jf else 0 end),4) as fyxje,
 	    	round(sum(case when define1 = '资本性' then jf else 0 end),4) as zbxje,
-	    	round(sum(jf),4) as zje,
+	    	round(sum(jf), 2) as zje,
+				sum(case when define1 = '费用性' then 1 else 0 end) as fyxsl,
+				sum(case when define1 = '资本性' then jf else 0 end) as zbxsl,
+				count(*) as zsl,
+				round(sum(case when define1 = '费用性' then 1 else 0 end)/count(*)*100, 2) as fyxRate,
+				round(sum(case when define1 = '资本性' then 1 else 0 end)/count(*)*100, 2) as zbxRate,
 	    	SUBSTR(define2 FROM 4) define2
 		from out_project_info
 		where project_type != '1' and (project_scope = '新开课题' or project_scope = '结转课题') and define2 is not null
@@ -1585,7 +1591,7 @@
 		SELECT show_ali as unitName,zbx_money as zbxje,fyx_money as fyxje 
 		FROM out_tem_money_total
 		WHERE 
-			is_yjy = '研究院'
+			is_yjy = '研究院' 
 		ORDER BY show_order
 	</select>
 	
@@ -1656,7 +1662,7 @@
 							'actMoney' as showFlag,SUBSTR(define2,3,1) as show_order
 				FROM out_project_info
 				WHERE
-					define2 is not NULL and nd = '2018'
+					define2 is not NULL and nd = '2018' and (project_scope = '新开课题' or project_scope = '结转课题')
 				group by define2) as tableA
 			GROUP BY unitName, show_order
 			ORDER BY show_order
@@ -1679,7 +1685,7 @@
 		    count(*) as zsl,
 	    	SUBSTR(define2 FROM 4) define2
 		from out_project_info
-		where nd = '2018' and define2 is not null
+		where nd = '2018' and define2 is not null and (project_scope = '新开课题' or project_scope = '结转课题')
 	    group by define2
 	</select>
 	

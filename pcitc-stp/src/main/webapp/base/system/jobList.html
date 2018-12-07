@@ -73,9 +73,9 @@
                     theme: '#0F9EE0'
                 }
                 ,cols: [[
-                    {type:'checkbox', event: 'changeEvents'},
-                    {title:'序号', type:'numbers'},
-                    {field:'delFlag',      title:'状态', event: 'setActive', style:'cursor: pointer;'
+                    {type:'checkbox', event: 'changeEvents',width : 55},
+                    {title:'序号', type:'numbers',width : 55},
+                    {field:'delFlag',      title:'状态', event: 'setActive', width : '5%', style:'cursor: pointer;'
                         ,templet: function(d){
                             if(d.delFlag == 0){
                                 return "启用";
@@ -86,8 +86,8 @@
                             }
                         }
                     },
-                    {field:'jobName',      title:'作业名称', event: 'setActive', style:'cursor: pointer;'},
-                    {field:'jobClass',        title:'作业类', event: 'setActive', style:'cursor: pointer;'},
+                    {field:'jobName',      title:'作业名称', event: 'setActive', width : '15%', style:'cursor: pointer;'},
+                    {field:'jobClass',        title:'作业类', event: 'setActive', width : '25%', style:'cursor: pointer;'},
                     // {field:'intervalUnit', title:'周期单位' ,event: 'setActive',style:'cursor: pointer;'},
                     // {field:'timeInterval',       title:'周期', event: 'setActive', style:'cursor: pointer;'},
                     {field:'cronExpression',title:'表达式', event: 'setActive', style:'cursor: pointer;'},

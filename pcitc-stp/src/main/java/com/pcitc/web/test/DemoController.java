@@ -146,7 +146,7 @@ public class DemoController {
 			client.addHeaders(headerMap);
 
 			Map<String, String> paramMap = new HashMap<String, String>();
-			paramMap.put("sqlName", "SelectAllProjectFromPlanData");
+			paramMap.put("sqlName", "SelectAllProject");
 			JsonObject jo = new JsonObject();
 			jo.addProperty("ND", "2018");
 			System.out.println(jo.toString());
