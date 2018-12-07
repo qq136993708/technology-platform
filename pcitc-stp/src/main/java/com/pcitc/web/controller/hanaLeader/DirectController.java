@@ -1,5 +1,6 @@
 package com.pcitc.web.controller.hanaLeader;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -26,6 +27,7 @@ import com.pcitc.base.common.ChartBarLineResultData;
 import com.pcitc.base.common.ChartBarLineSeries;
 import com.pcitc.base.common.ChartPieDataValue;
 import com.pcitc.base.common.ChartPieResultData;
+import com.pcitc.base.common.ChartSingleLineResultData;
 import com.pcitc.base.common.PageResult;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.TreeNode2;
@@ -175,7 +177,6 @@ public class DirectController {
 		         		barLine.setxAxisDataList(xAxisDataList);
 		         	
 		         		
-		         		
 		         		List<String> legendDataList = new ArrayList<String>();
 						legendDataList.add("发明授权");
 						legendDataList.add("外观设计");
@@ -314,7 +315,6 @@ public class DirectController {
 			public String contract_01(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		    	String resault="";
-		    	PageResult pageResult = new PageResult();
 				Result result = new Result();
 				String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 				String type = CommonUtil.getParameter(request, "type", "" );
@@ -322,7 +322,7 @@ public class DirectController {
 				paramsMap.put("nd", nd);
 				paramsMap.put("xmlbbm", "fkyzb");
 				
-				
+				ChartPieResultData pie = new ChartPieResultData();
 				JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 				HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 				if (!nd.equals(""))
@@ -337,31 +337,45 @@ public class DirectController {
 							List<Contract> list = JSONObject.parseArray(jSONArray.toJSONString(), Contract.class);
 							if(type.equals("1"))
 							{
-								ChartBarLineResultData barLine=new ChartBarLineResultData();
-								List<String>  xAxisDataList=HanaUtil.getduplicatexAxisByList(list,"define2");
-				         		barLine.setxAxisDataList(xAxisDataList);
-				         	
-				         		List<String> legendDataList = new ArrayList<String>();
-								legendDataList.add("已签合同");
-								legendDataList.add("未签合同");
-								barLine.setLegendDataList(legendDataList);
-								// X轴数据
-								List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
-								ChartBarLineSeries s1 = HanaUtil.getContractChartBarLineSeries(list, "yqhtzj");
-								seriesList.add(s1);
-								ChartBarLineSeries s2 = HanaUtil.getContractChartBarLineSeries(list, "wqhtzj");
-								seriesList.add(s2);
-								barLine.setSeriesList(seriesList);
+								Contract contract=list.get(0);
+				         		Integer yqht =(Integer)contract.getYqht();
+								Integer wqht = (Integer)contract.getWqht();
+								
+								ChartSingleLineResultData chartSingleLineResultData = new ChartSingleLineResultData();
+								List<String> xAxisDataList = new ArrayList<String>();
+								xAxisDataList.add("已签合同");
+								xAxisDataList.add("未签合同");
+								List<Object> seriesDataList = new ArrayList<Object>();
+								seriesDataList.add(yqht);
+								seriesDataList.add(wqht);
+								
+								chartSingleLineResultData.setSeriesDataList(seriesDataList);
+								chartSingleLineResultData.setxAxisDataList(xAxisDataList);
+								
+								
+								
 				         		result.setSuccess(true);
-								result.setData(barLine);
+								result.setData(chartSingleLineResultData);
 							}
 							if(type.equals("2"))
 							{
-								pageResult.setData(list);
-								pageResult.setCode(0);
-								pageResult.setCount(Long.valueOf(list.size()));
-								pageResult.setLimit(1000);
-								pageResult.setPage(1l);
+								
+								List<ChartPieDataValue> dataList = new ArrayList<ChartPieDataValue>();
+								List<String> legendDataList = new ArrayList<String>();
+								Contract contract=list.get(0);
+				         		Integer yqht =(Integer)contract.getYqht();
+								Integer wqht = (Integer)contract.getWqht();
+								legendDataList.add("已签合同");
+								legendDataList.add("未签合同");
+								
+								dataList.add(new ChartPieDataValue(yqht, "已签合同"));
+								dataList.add(new ChartPieDataValue(wqht, "未签合同"));
+								
+								pie.setDataList(dataList);
+								pie.setLegendDataList(legendDataList);
+				         		result.setSuccess(true);
+								result.setData(pie);
+								
 							}
 							
 						
@@ -373,18 +387,9 @@ public class DirectController {
 					result.setSuccess(false);
 					result.setMessage("参数为空");
 				}
-				if(type.equals("1"))
-				{
-					JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-					resault=resultObj.toString();
-					System.out.println(">>>>>>>>>>>>>>>contract_01 " + resultObj.toString());
-				}
-				else
-				{
-					JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
-					resault=resultObj.toString();
-					System.out.println(">>>>>>>>>>>>>>>contract_01 " + resultObj.toString());
-				}
+				JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
+				resault=resultObj.toString();
+				System.out.println(">>>>>>>>>>>>>>type="+type+"    contract_01 " + resultObj.toString());
 				
 				return resault;
 			}
@@ -408,11 +413,11 @@ public class DirectController {
 					if (statusCode == 200) 
 					{
 						JSONArray jSONArray = responseEntity.getBody();
-						System.out.println(">>>>>>>>>>>>>>>getProjectByCountCricle jSONArray" + jSONArray.toString());
+						System.out.println(">>>>>>>>>>>>>>>contract_02 jSONArray" + jSONArray.toString());
 						
-						List<ProjectForMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), ProjectForMysql.class);
-						List<String>  lista=HanaUtil.getduplicatexAxisByList(list,"project_scope");
-						List<TreeNode2>  chartCircleList=	HanaUtil.getChildChartCircleuNITForproject01type(lista,list);
+						List<Contract> list = JSONObject.parseArray(jSONArray.toJSONString(), Contract.class);
+						List<String>  lista=HanaUtil.getduplicatexAxisByList(list,"define1");
+						List<TreeNode2>  chartCircleList=	HanaUtil.getChildChartCircleuContract(lista,list);
 						
 						pageResult.setData(chartCircleList);
 						pageResult.setCode(0);
@@ -425,7 +430,7 @@ public class DirectController {
 					
 				
 				JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
-				System.out.println(">>>>>>>>>>>>>>>getProjectByCountCricle " + resultObj.toString());
+				System.out.println(">>>>>>>>>>>>>>>contract_02 " + resultObj.toString());
 				return resultObj.toString();
 			}
 			
@@ -461,24 +466,30 @@ public class DirectController {
 				         		barLine.setxAxisDataList(xAxisDataList);
 				         	
 				         		List<String> legendDataList = new ArrayList<String>();
-								legendDataList.add("新开课题");
-								legendDataList.add("转结课题");
+								legendDataList.add("计划签订");
+								legendDataList.add("实际签订");
+								legendDataList.add("签订率");
 								barLine.setLegendDataList(legendDataList);
-								// X轴数据
+								//X轴数据
 								List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
-								ChartBarLineSeries s1 = HanaUtil.getContractChartBarLineSeries6(list, "xksl");
+								ChartBarLineSeries s1 = HanaUtil.getContractChartBarLineSeries6(list, "zsl");
 								seriesList.add(s1);
-								ChartBarLineSeries s2 = HanaUtil.getContractChartBarLineSeries6(list, "xjsl");
+								ChartBarLineSeries s2 = HanaUtil.getContractChartBarLineSeries6(list, "yqhtzj");
 								seriesList.add(s2);
+								ChartBarLineSeries qdlzj = HanaUtil.getContractChartBarLineSeries6(list, "qdlzj");
+								seriesList.add(qdlzj);
 								barLine.setSeriesList(seriesList);
 				         		result.setSuccess(true);
 								result.setData(barLine);
 							}
 							if(type.equals("2"))
 							{
-								pageResult.setData(list);
+								
+								
+								List<Contract> resutList =addListLine(list);
+								pageResult.setData(resutList);
 								pageResult.setCode(0);
-								pageResult.setCount(Long.valueOf(list.size()));
+								pageResult.setCount(Long.valueOf(resutList.size()));
 								pageResult.setLimit(1000);
 								pageResult.setPage(1l);
 							}
@@ -502,13 +513,46 @@ public class DirectController {
 				{
 					JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
 					resault=resultObj.toString();
-					System.out.println(">>>>>>>>>>>>>>>topic_01 " + resultObj.toString());
+					System.out.println(">>>>>>>>>>>>>>>contract_03 " + resultObj.toString());
 				}
 				
 				return resault;
 			}
 				
-				  
+			public List<Contract>  addListLine(List<Contract> list)
+			{
+				List<Contract> resutList =new ArrayList<Contract>();
+				//加--总数行
+				Contract temp=new Contract();
+				temp.setDefine2("总计");
+				int zsl_count=0;
+				int yqhtzj_count=0;
+				for(int i=0;i<list.size();i++)
+				{
+					Contract contract=list.get(i);
+					Integer zsl =(Integer)contract.getZsl();
+					Integer yqhtzj =(Integer)contract.getYqhtzj();
+					zsl_count=zsl_count+zsl;
+					yqhtzj_count=yqhtzj_count+yqhtzj;
+					
+				}
+				temp.setZsl(zsl_count);
+				temp.setYqhtzj(yqhtzj_count);
+				DecimalFormat df=new DecimalFormat("0.00");
+				System.out.println("yqhtzj_count="+yqhtzj_count+"zsl_count="+zsl_count);
+				
+				
+				String str=df.format(((float)yqhtzj_count/zsl_count)*100);
+				
+				temp.setQdlzj(str);
+				resutList.add(temp);
+				for(int i=0;i<list.size();i++)
+				{
+					Contract contract=list.get(i);
+					resutList.add(contract);
+				}
+				return resutList;
+			}
 		  
 		  
 		  /**==========================================合同签订 end ================================*/
@@ -640,7 +684,7 @@ public class DirectController {
 		 							if(type.equals("1"))
 		 							{
 		 								ChartBarLineResultData barLine=new ChartBarLineResultData();
-			 							List<String>  xAxisDataList=HanaUtil.getduplicatexAxisByList(list,"project_scope");
+			 							List<String>  xAxisDataList=HanaUtil.getduplicatexAxisByList(list,"project_property");
 			 			         		barLine.setxAxisDataList(xAxisDataList);
 			 			         	
 			 			         		List<String> legendDataList = new ArrayList<String>();
@@ -678,13 +722,13 @@ public class DirectController {
 						{
 							JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
 							resault=resultObj.toString();
-							System.out.println(">>>>>>>>>>>>>>>topic_01 " + resultObj.toString());
+							System.out.println(">>>>>>>>>>>>>>>topic_02 resault" + resultObj.toString());
 						}
 						else
 						{
 							JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
 							resault=resultObj.toString();
-							System.out.println(">>>>>>>>>>>>>>>topic_01 " + resultObj.toString());
+							System.out.println(">>>>>>>>>>>>>>>topic_02 resault " + resultObj.toString());
 						}
 		 				return resault;
 		 			}

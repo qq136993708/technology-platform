@@ -292,17 +292,20 @@
             var $=layui.jquery,table=layui.table,carousel = layui.carousel,laydate=layui.laydate
                 ,layer = layui.layer;
             element = layui.element;
+            
             //科研课题
             $(".layui-top .layui-col-md15").eq(0).click(function () {
             	window.open("/instituteIndex?url="+"/direct/topic","_target");
             });
+            //科研装备
             $(".layui-top .layui-col-md15").eq(1).click(function () {
-                parent.layui.index.openTabsPage("/home_device_02/home_device", "科研装备（新开续建）");//oil_field.html
+                window.open("/instituteIndex?url="+"/direct/equipment","_target");
             });
+            //合同
             $(".layui-top .layui-col-md15").eq(2).click(function () {
             	window.open("/instituteIndex?url="+"/direct/contract","_target");
             });
-            
+            //合同
             $(".layui-top .layui-col-md15").eq(3).click(function () {
                 parent.layui.index.openTabsPage("/home_pay/home_pay", "经费支出（万元）");///home_second/ndys_level2 home_second/jfzc_level2
             });
