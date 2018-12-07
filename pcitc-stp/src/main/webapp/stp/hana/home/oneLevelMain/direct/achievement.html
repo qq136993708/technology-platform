@@ -119,7 +119,7 @@ layui.config({
        ,format: 'yyyy'
     });
     $("#knowledge_table").click(function () {
-    	parent.layui.index.openTabsPage("/home_achievement/award_table", "科技成果明细");
+    	//parent.layui.index.openTabsPage("/home_achievement/award_table", "科技成果明细");
     });
   
 });
@@ -144,14 +144,14 @@ function initEchart()
             }
         }
     ];
-	var chart1_url="/direct_second/direct_second_total_byunit?nd="+nd+"&v_date="+v_date;
+	var chart1_url="/direct_second/direct_second_data_01?nd="+nd+"&v_date="+v_date;
 	var echart1=load_single_bar(chart1_url,"chart1","","",yAxis);
-	echart1.on('click', function (params) {
+	/* echart1.on('click', function (params) {
 		var xName=params.name;
 		var legentName=params.seriesName;
 		parent.layui.index.openTabsPage("/home_achievement/award_table?project_property="+xName, "科技成果明细");
           
-    });
+    }); */
 	
 	
 	/* var chart2_url="/home_achievement/getAwardTypeList?nd="+nd+"&v_date="+v_date+"&type=2";
