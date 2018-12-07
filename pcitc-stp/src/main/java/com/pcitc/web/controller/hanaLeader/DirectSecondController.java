@@ -46,7 +46,7 @@ public class DirectSecondController  extends BaseController
 	public String getKnowledgeBar_01(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		Result result = new Result();
-		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+		String nd = CommonUtil.getParameter(request, "nd",DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		
