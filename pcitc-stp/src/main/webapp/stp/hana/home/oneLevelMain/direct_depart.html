@@ -213,12 +213,12 @@
                     </div>
                     <div class="layui-card-body btn-function">
                     <div class="text-total">
-                            <span>总计:<span class="text-total-blue"    id="bar7_all_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>申请数量:<span class="text-total-blue" id="bar7_1_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>授权数量:<span class="text-total-blue" id="bar7_2_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>总计:<span class="text-total-blue"    id="direct_knowledge_chart1_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>申请总数:<span class="text-total-blue" id="direct_knowledge_chart1_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>授权总数:<span class="text-total-blue" id="direct_knowledge_chart1_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                         </div>
                         
-                        <div class="main-chart" id="barOne" style="height:270px;width: 100%;"></div>
+                        <div class="main-chart" id="direct_knowledge_chart1" style="height:270px;width: 100%;"></div>
                     </div>
                 </div>
             </div>
@@ -240,9 +240,6 @@
                     </div>
                     <div class="layui-card-body btn-function">
                     
-                       <div class="text-total">
-                            <span>总计:<span class="text-total-blue"    id="bar8_all_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                        </div>
                         
                         <div  style="height:270px;width: 100%;" id="bar02"></div>
                     </div>
@@ -258,9 +255,6 @@
                         </div>
                     </div>
                     <div class="layui-card-body btn-function">
-                      <div class="text-total">
-                            <span>总计:<span class="text-total-blue"    id="bar9_all_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                        </div>
                         <div  style="height:270px;width: 100%;" id="bar03"></div>
                     </div>
                 </div>
@@ -572,26 +566,17 @@
 	            
             
 
-        	var chart7_url="/home_knowledge_ld/getKnowledgeUnitList_stack?nd="+year+"&v_date="+v_date;
-        	var data7=load_mutl_bar_stack_two(chart7_url,"barOne","","",yAxis);
-        	var bCount_7=getDataCountForName(data7,'申请总数');
-        	var zCount_7=getDataCountForName(data7,'授权总数');
-        	var allCount_7=bCount_7+zCount_7;
-        	
-       	    $("#bar7_all_count").html(allCount_7);
-            $("#bar7_1_count").html(bCount_7);
-            $("#bar7_2_count").html(zCount_7);
+        	var chart7_url="/direct/knowledge_04?type=1&nd="+year+"&v_date="+v_date;
+        	var data7=load_mutl_bar_down(chart7_url,"direct_knowledge_chart1","","",yAxis);
   	            
               
         	
-        	var url_8="/home_knowledge_ld/getKnowledgePie?month="+month+"&v_date="+v_date+"&type=1&companyCode="+companyCode;
+        	var url_8="/direct/knowledge_04?type=2&month="+year+"&v_date="+v_date;
         	var allCount=loadPie_02(url_8,"bar02","","");
-        	$("#bar8_all_count").html(allCount);
         	 
         	 
-        	var url_9="/home_knowledge_ld/getKnowledgePie?month="+month+"&v_date="+v_date+"&type=2&companyCode="+companyCode;
+        	var url_9="/direct/knowledge_04?type=3&month="+year+"&v_date="+v_date;
         	var allCount2=loadPie_02(url_9,"bar03","","");
-        	$("#bar9_all_count").html(allCount2);
         	
             	
        		}

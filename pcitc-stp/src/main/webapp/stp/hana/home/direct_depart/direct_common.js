@@ -497,6 +497,19 @@ function set_multi_graph_statistics(data,id)
         $("#equipment_chart1_02").html(xkCount_1);
         $("#equipment_chart1_03").html(jzCount_2);
 	}
+	
+	if(id=='direct_knowledge_chart1')
+	{
+		var xkCount_1=getDataCountForName(data,'申请总数');
+    	var jzCount_2=getDataCountForName(data,'授权总数');
+        var allCount_3=xkCount_1+jzCount_2;
+        
+        $("#direct_knowledge_chart1_01").html(allCount_3);
+        $("#direct_knowledge_chart1_02").html(xkCount_1);
+        $("#direct_knowledge_chart1_03").html(jzCount_2);
+	}
+	
+	
 	/**=============================直属研究院 end===========================*/
 	
 	/**===================================领导 begin===============================*/

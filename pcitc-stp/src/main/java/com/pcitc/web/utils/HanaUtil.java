@@ -2994,6 +2994,40 @@ public class HanaUtil {
 		return chartBarLineSeries;
 	}
 	
+	
+	public static ChartBarLineSeries getKNOWLDGELevel2ChartBarLineSeries06(List<Knowledge> list, String name) {
+
+		
+		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
+		if (name.equals("applyCount")) {
+			chartBarLineSeries.setName("申请总数");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		if (name.equals("agreeCount")) {
+			chartBarLineSeries.setName("授权总数");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+
+		List<Object> dataList = new ArrayList<Object>();
+		if (list != null && list.size() > 0) {
+			for (int i = 0; i < list.size(); i++) {
+				Knowledge f03 = list.get(i);
+				String applyCount = f03.getApplyCount();
+				String agreeCount = f03.getAgreeCount();
+				if (name.equals("applyCount")) {
+					dataList.add(Double.valueOf(applyCount).intValue());
+				}
+				if (name.equals("agreeCount")) {
+					dataList.add(Double.valueOf(agreeCount).intValue());
+				}
+
+			}
+			chartBarLineSeries.setData(dataList);
+		}
+		return chartBarLineSeries;
+	}
+	
+	
 	public static ChartBarLineSeries getKNOWLDGELevel2ChartBarLineSeries05(List<Knowledge> list, String name) {
 
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
