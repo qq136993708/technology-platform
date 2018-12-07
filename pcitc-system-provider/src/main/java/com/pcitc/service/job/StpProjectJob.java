@@ -31,7 +31,7 @@ public class StpProjectJob implements Job, Serializable {
 
 		System.out.println("==========" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "定时获取项目管理系统的项目数据 ---开始=============");
 		String sqlName = "SelectAllProjectFromSinopecData2017";
-		String ndCon = "2018";
+		String ndCon = "2017";
 		String str = null;
 		try {
 			// 远程获取数据 -----

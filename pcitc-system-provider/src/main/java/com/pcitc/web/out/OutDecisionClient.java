@@ -35,7 +35,7 @@ public class OutDecisionClient {
 	public JSONArray getGroupCompanyStpMoneyForBudgetProposals(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getGroupCompanyStpMoneyForBudgetProposals===========================" + map);
 		
-		List temList = outDecisionService.getGroupCompanyStpMoneyForBudgetProposals("2018");
+		List temList = outDecisionService.getGroupCompanyStpMoneyForBudgetProposals(map);
 		
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
 		return json;
@@ -46,7 +46,7 @@ public class OutDecisionClient {
 	public JSONArray getStockCompanyMoneyTable(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getStockCompanyMoneyTable==========================="+map);
 
-		List temList = outDecisionService.getStockCompanyMoneyTable("2018");
+		List temList = outDecisionService.getStockCompanyMoneyTable(map);
 
 		System.out.println("===="+JSON.toJSONString(temList));
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
