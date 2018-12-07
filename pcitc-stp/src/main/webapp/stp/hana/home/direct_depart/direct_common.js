@@ -70,7 +70,7 @@ function barAjax_single_down(url,  echartsobj, options,id)
 		        		    echartsobj.hideLoading();
 		        		    
 		        		    dataresutl=data.data;
-		        		    set_single_chart_text(dataresutl,id);
+		        		    set_single_graph_statistics(dataresutl,id);
 		        		       
 		        		       
 		        	        var chartList=data.data.xAxisDataList;
@@ -254,7 +254,7 @@ function barLineAjax_down(url,  echartsobj, options,id)
 	          {
 	        		       echartsobj.hideLoading();
 	        		       dataresutl=data.data;
-	        		       chart_ajax_back(dataresutl,id);
+	        		       set_multi_graph_statistics(dataresutl,id);
 	        	           var legendDataList=data.data.legendDataList;
 	        	           //挨个取出类别并填入类别数组
 	        	           for(var i=0;i<legendDataList.length;i++)
@@ -369,7 +369,7 @@ function getDataCountForName(data,strName)
 }
 
 //单柱图
-function set_single_chart_text(data,id)
+function set_single_graph_statistics(data,id)
 {
 	
 	if(id=='contract_chart1')
@@ -399,9 +399,12 @@ function set_single_chart_text(data,id)
 }
 
 
-//多柱图
-function chart_ajax_back(data,id)
+//多柱图 -统计
+function set_multi_graph_statistics(data,id)
 {
+	
+	
+	/**=============================直属研究院===========================*/
 	
 	//专利
 	if(id=='knowldege_chart1')
@@ -482,6 +485,27 @@ function chart_ajax_back(data,id)
         
 		
 	}
+	
+	//装备
+	if(id=='equipment_chart1')
+	{
+		var xkCount_1=getDataCountForName(data,'新开课题');
+    	var jzCount_2=getDataCountForName(data,'转结课题');
+        var allCount_3=xkCount_1+jzCount_2;
+        
+        $("#equipment_chart1_01").html(allCount_3);
+        $("#equipment_chart1_02").html(xkCount_1);
+        $("#equipment_chart1_03").html(jzCount_2);
+	}
+	/**=============================直属研究院 end===========================*/
+	
+	/**===================================领导 begin===============================*/
+	
+	
+	
+	
+	/**===================================领导 end===============================*/
+	
 	
 }
 

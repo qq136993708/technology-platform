@@ -318,8 +318,7 @@
                 }
                 var files = this.files = obj.pushFile(); //将每次选择的文件追加到文件队列
                 //读取本地文件
-                if(pcitcFile.IEVersion()=="IE"){
-                    if(fIEVersion==9){
+                if(pcitcFile.IEVersion()=="IE"  && fIEVersion==9){
                         var objInputFile=$(".layui-upload-file");
                         objInputFile.select();
                         objInputFile.focus();
@@ -338,7 +337,6 @@
                             , '</td>'
                             , '</tr>'].join(''));
                         demoListView.append(tr);
-                    }
                 }else {
                     obj.preview(function (index, file, result) {
                         var tr = $(['<tr id="upload-' + index + '">'
@@ -414,11 +412,9 @@
                 } else {
                     this.error(index, upload);
                 }*/
-                if(pcitcFile.IEVersion()=="IE"){
-                    if(fIEVersion==9){
+                if(pcitcFile.IEVersion()=="IE"  && fIEVersion==9){
                         $('#'+pcitcFile.file_table_id).html("");
                         pcitcFile.reloadTable();
-                    }
                 }else {
                     if (res.error == null) { //上传成功
                         console.log("-------------done------------" + index);
@@ -440,6 +436,7 @@
                     } else {
                         this.error(index, upload);
                     }
+                }
             }
             , allDone: function (obj) {
                 pcitcFile.setHeadCheck();

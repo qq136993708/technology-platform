@@ -448,6 +448,7 @@ textarea{ padding: 6px 10px; display: block;color: #555;background-color: #fff;b
 
 /*加载中*/
 .loadingImg{width: 56px;height: auto;}
+.text-total .loadingImg{width: 24px; height: auto;}
 
 /*搜索图标*/
 .formSearch{    position: absolute;right: 1px;top: 1px;width: 20px;height: 13px;

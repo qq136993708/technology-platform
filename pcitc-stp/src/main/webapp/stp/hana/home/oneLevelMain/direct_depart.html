@@ -132,16 +132,12 @@
                         </div>
                     </div>
                     <div class="layui-card-body btn-function">
-                    
-                    <div class="text-total">
-                            <span>总计:<span class="text-total-blue"    id="bar1_all_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>新开课题:<span class="text-total-blue" id="bar1_xk_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>结转课题:<span class="text-total-blue" id="bar1_jz_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                       <div class="text-total">
+                            <span>总计:<span    class="text-total-blue"    id="topic_chart1_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>新开课题:<span class="text-total-blue"    id="topic_chart1_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>转结课题:<span class="text-total-blue"    id="topic_chart1_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                         </div>
-                    
-                    
-                    
-                        <div  style="height:270px;width: 100%;" id="bar1"></div>
+                        <div  style="height:270px;width: 100%;" id="topic_chart1"></div>
                     </div>
                 </div>
             </div>
@@ -175,12 +171,12 @@
                         </div>
                     </div>
                     <div class="layui-card-body btn-function">
-                     <div class="text-total">
-                            <span>总计:<span class="text-total-blue"    id="bar3_all_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>新开课题:<span class="text-total-blue" id="bar3_xk_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>结转课题:<span class="text-total-blue" id="bar3_zj_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                      <div class="text-total">
+                            <span>总计:<span    class="text-total-blue"    id="topic_chart3_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>新开课题:<span class="text-total-blue"    id="topic_chart3_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>转结课题:<span class="text-total-blue"    id="topic_chart3_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                         </div>
-                        <div  style="height:270px;width: 100%;" id="bar3"></div>
+                        <div  style="height:270px;width: 100%;" id="topic_chart3"></div>
                     </div>
                 </div>
             </div>
@@ -285,6 +281,7 @@
 <script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
 <script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
 <script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
+<script type="text/javascript" src="/stp/hana/home/direct_depart/direct_common.js"></script>
     <script>
     var codec=$("#companyCode").val();
     var element;
@@ -350,8 +347,6 @@
             
         });
 
-       
-        
         
         //科研项目、科研装备、预算
         function getKyxm(month)
@@ -429,22 +424,24 @@
         
          
         
-         //专利
-         function patentCount()
+         //专利-知识产权
+         function patentCount(month)
          {
+        	
          	$.ajax({
  				type : 'POST',
- 				url : "/admin/patent-count?define2=1",
+ 				url : "/admin/patent-count?define2=1&nd="+month,
  				dataType : 'json',
  				headers : {
  					'Content-Type' : 'application/json'
  				},
- 				timeout : 3000, //超时时间设置，单位毫秒
+ 				timeout : 20000, //超时时间设置，单位毫秒
  				error : function(XMLHttpRequest, status) {
  					$("#patentId").html("--<small>(个)</small>");
  				},
  				success : function(data) { //请求成功后处理函数。
  					var patentCount = data.patentCount;
+ 					// alert(patentCount);
  					$("#patentId").html(patentCount+"<small>(个)</small>"); 
  				}
  			});
@@ -452,11 +449,11 @@
          }
          
          //成果
-         function appraisalCount()
+         function appraisalCount(month)
          {
          	$.ajax({
  				type : 'POST',
- 				url : "/admin/appraisal-count?define2=1",
+ 				url : "/admin/appraisal-count?define2=1&nd="+month,
  				dataType : 'json',
  				headers : {
  					'Content-Type' : 'application/json'
@@ -484,11 +481,10 @@
         	var v_date=(new Date()).getTime();
         	if(month!=null && month!='')
        		{
-        		getKyxm(month);//科研项目、科研装备、合同签订
+        		getKyxm(year);//科研项目、科研装备、合同签订
             	getndys_xfzc(month);//合同签订 经费支出
-            	patentCount();//专利
-            	appraisalCount();//成果
-            	
+            	patentCount(year);//专利
+            	appraisalCount(year);//成果
             	
             	var yAxis= [
                     {
@@ -528,38 +524,35 @@
                         }
                     }
                 ];
-            	
-            	
             	 
             	 
             	
-           	//直属研究院科研课题数量分布情况分析--项目
-           	var chart1_url="/home_project_ld/getProjectByDistributeBar?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
-           	var data=load_mutl_bar_03(chart1_url,"bar1","","",yAxis);
-           	
-           	var xkCount=getDataCountForName(data,'新开课题');
-           	var jzCount=getDataCountForName(data,'结转课题');
-  	        var allCount=xkCount+jzCount;
-  	        $("#bar1_all_count").html(allCount);
-  	        $("#bar1_xk_count").html(xkCount);
-  	        $("#bar1_jz_count").html(jzCount);
+            	var chart1_url="/direct/topic_01?type=1&nd="+year+"&v_date="+v_date+"&xmlbbm=fkyzb";
+            	var echart1=load_mutl_bar_down(chart1_url,"topic_chart1","","",yAxis);
+            	echart1.on('click', function (params) {
+            		var xName=params.name;
+            		var legentName=params.seriesName;
+            		window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
+                      
+                });
+            	
             	
             	
             //直属研究院合同签订分析
-           	var chart2_url="/home_budget_ld/getMoney_rate?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
-           	var echart2= load_mony_line_one(chart2_url,"bar2","","",yAxis3);
+           	var chart2_url="/direct/contract_04?nd="+year+"&v_date="+v_date+"&type=1";
+           	var echart2= load_mony_line_02(chart2_url,"bar2","","",yAxis3);
            	   
-           	//直属研究科研装备数量分析
-           	var chart3_url="/home_device_ld/getDeviceByDistributeBar?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
-        	var data=load_mutl_bar_three(chart3_url,"bar3","","",yAxis);
+           	
+
+        	var chart3_url="/direct/topic_01?type=1&nd="+year+"&v_date="+v_date+"&xmlbbm=kyzb";
+        	var echart3=load_mutl_bar_down(chart3_url,"topic_chart3","","",yAxis);
+        	echart3.on('click', function (params) {
+        		var xName=params.name;
+        		var legentName=params.seriesName;
+        		window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
+                  
+            });
         	
-        	var xkCount_3=getDataCountForName(data,'新开课题');
-        	var jzCount_3=getDataCountForName(data,'结转课题');
-	        var allCount_3=xkCount_3+jzCount_3;
-	        
-            $("#bar3_all_count").html(allCount_3);
-            $("#bar3_xk_count").html(xkCount_3);
-            $("#bar3_zj_count").html(jzCount_3);
             
         	
          	//直属研究院科研设备数量分析

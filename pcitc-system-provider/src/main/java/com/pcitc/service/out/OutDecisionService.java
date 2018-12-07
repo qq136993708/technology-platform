@@ -1,5 +1,6 @@
 package com.pcitc.service.out;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,14 +14,14 @@ public interface OutDecisionService {
      * @return
      * 经费预算建议--集团公司总部科技经费预算（建议稿）
      */
-    public List getGroupCompanyStpMoneyForBudgetProposals(String nd);
+	public List getGroupCompanyStpMoneyForBudgetProposals(HashMap<String, String> map);
     
     /**
      * @param nd
      * @return
      * 预算分配,经费预算分析,股份公司总部科技经费预算（建议稿）
      */
-	public List getStockCompanyMoneyTable(String nd);
+	public List getStockCompanyMoneyTable(HashMap<String, String> map);
 	
 	/**
      * @param nd

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/pcitc-base/pcitc-base.iml" filepath="$PROJECT_DIR$/pcitc-base/pcitc-base.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pcitc-hana-provider/pcitc-hana-provider.iml" filepath="$PROJECT_DIR$/pcitc-hana-provider/pcitc-hana-provider.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pcitc-registration-center/pcitc-registration-center.iml" filepath="$PROJECT_DIR$/pcitc-registration-center/pcitc-registration-center.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pcitc-stp/pcitc-stp.iml" filepath="$PROJECT_DIR$/pcitc-stp/pcitc-stp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pcitc-stp-provider/pcitc-stp-provider.iml" filepath="$PROJECT_DIR$/pcitc-stp-provider/pcitc-stp-provider.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pcitc-system-provider/pcitc-system-provider.iml" filepath="$PROJECT_DIR$/pcitc-system-provider/pcitc-system-provider.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pcitc-zuul/pcitc-zuul.iml" filepath="$PROJECT_DIR$/pcitc-zuul/pcitc-zuul.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/stp.iml" filepath="$PROJECT_DIR$/.idea/stp.iml" />
+    </modules>
+  </component>
+</project>

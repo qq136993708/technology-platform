@@ -17,6 +17,41 @@ public class Contract implements Serializable{
     private String project_scope;
     private String define2;
     private String define1;
+    
+    private Object fyxRate;
+    private Object zbxRate;
+    private Object fyxsl;
+    private Object zbxsl;
+    
+    
+    
+    
+    
+    
+	public Object getFyxRate() {
+		return fyxRate;
+	}
+	public void setFyxRate(Object fyxRate) {
+		this.fyxRate = fyxRate;
+	}
+	public Object getZbxRate() {
+		return zbxRate;
+	}
+	public void setZbxRate(Object zbxRate) {
+		this.zbxRate = zbxRate;
+	}
+	public Object getFyxsl() {
+		return fyxsl;
+	}
+	public void setFyxsl(Object fyxsl) {
+		this.fyxsl = fyxsl;
+	}
+	public Object getZbxsl() {
+		return zbxsl;
+	}
+	public void setZbxsl(Object zbxsl) {
+		this.zbxsl = zbxsl;
+	}
 	public Object getYqht() {
 		return yqht;
 	}

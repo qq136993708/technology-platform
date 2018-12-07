@@ -59,11 +59,11 @@
   </resultMap>
 	
 	<!-- 经费预算建议 集团公司总部科技经费预算（建议稿） -->
-	<select id="getGroupCompanyStpMoneyForBudgetProposals" resultType="java.util.Map" parameterType="java.lang.String">
-		select fzdw,xmlbmc,round(sum(case when nd = '2017' then jf else 0 end)/10000,2) as qnje,
-			round(sum(case when nd = '2018' then jf else 0 end)/10000,2) as jnje,
-			round(sum(case when nd = '2018' and xmlbmc='科研' then jf else 0 end)/10000,2) as jnkyje,
-			round(sum(case when nd = '2018' and xmlbmc='重点实验室专项' then jf else 0 end)/10000,2) as jnsysje
+	<select id="getGroupCompanyStpMoneyForBudgetProposals" resultType="java.util.Map" parameterType="java.util.Map">
+		select fzdw,xmlbmc,round(sum(case when nd = '2017' then jf else 0 end),2) as qnje,
+			round(sum(case when nd = '2018' then jf else 0 end),2) as jnje,
+			round(sum(case when nd = '2018' and xmlbmc='科研' then jf else 0 end),2) as jnkyje,
+			round(sum(case when nd = '2018' and xmlbmc='重点实验室专项' then jf else 0 end),2) as jnsysje
 		from out_project_info
 		where 
 			project_type != '1' and fzdw is not null and jf is not null
@@ -71,8 +71,8 @@
 	</select>
 	
 	<!-- 预算分配,经费预算分析,股份公司总部科技经费预算（建议稿） -->
-	<select id="getStockCompanyMoneyTable" resultType="java.util.Map" parameterType="java.lang.String">
-		SELECT case when lbName = '10' then '直属研究院' when lbName = '20' then '分子公司' when lbName = '30' then '集团单位' when lbName = '40' then '外部单位' else lbName end,
+	<select id="getStockCompanyMoneyTable" resultType="java.util.Map" parameterType="java.util.Map">
+		<!-- SELECT case when lbName = '10' then '直属研究院' when lbName = '20' then '分子公司' when lbName = '30' then '集团单位' when lbName = '40' then '外部单位' else lbName end,
 			   realIndex,indexName,fyxje,zbxje,zje
 		FROM (
 			select
@@ -93,7 +93,13 @@
 			from out_project_info
 			where project_type != '1' and (project_scope = '新开课题' or project_scope = '结转课题') and define2 is not null
 		    group by SUBSTR(define2,1,2),SUBSTR(define2,1,1)
-	    ) as tableA ORDER BY realIndex
+	    ) as tableA ORDER BY realIndex -->
+	    
+	    select show_index,unit_name,sum(zbx_money+fyx_money) as hj_money,zbx_money,fyx_money 
+		from out_tem_money_total
+		where 
+			sheet_flag = '2018年预算总表'
+		group by data_id
 	</select>
 	
 	<!-- 预算分配,经费预算分析,各处、部门科技经费预算总表 -->

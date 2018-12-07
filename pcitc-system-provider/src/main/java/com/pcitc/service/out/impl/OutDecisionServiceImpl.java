@@ -1,5 +1,6 @@
 package com.pcitc.service.out.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -31,8 +32,8 @@ public class OutDecisionServiceImpl implements OutDecisionService {
      * @return
      * 经费预算建议--集团公司总部科技经费预算（建议稿）
      */
-    public List getGroupCompanyStpMoneyForBudgetProposals(String nd) {
-    	return outDecisionMapper.getGroupCompanyStpMoneyForBudgetProposals(nd);
+	public List getGroupCompanyStpMoneyForBudgetProposals(HashMap<String, String> map) {
+    	return outDecisionMapper.getGroupCompanyStpMoneyForBudgetProposals(map);
     }
     
     /**
@@ -40,8 +41,8 @@ public class OutDecisionServiceImpl implements OutDecisionService {
      * @return
      * 预算分配,经费预算分析,股份公司总部科技经费预算（建议稿）
      */
-	public List getStockCompanyMoneyTable(String nd) {
-		return outDecisionMapper.getStockCompanyMoneyTable(nd);
+	public List getStockCompanyMoneyTable(HashMap<String, String> map) {
+		return outDecisionMapper.getStockCompanyMoneyTable(map);
 	}
 	
 	

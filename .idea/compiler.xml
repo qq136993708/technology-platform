@@ -15,5 +15,15 @@
         <module name="pcitc-zuul" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="pcitc-base" target="1.8" />
+      <module name="pcitc-hana-provider" target="1.8" />
+      <module name="pcitc-parent" target="1.6" />
+      <module name="pcitc-registration-center" target="1.8" />
+      <module name="pcitc-stp" target="1.8" />
+      <module name="pcitc-stp-provider" target="1.8" />
+      <module name="pcitc-system-provider" target="1.8" />
+      <module name="pcitc-zuul" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>
