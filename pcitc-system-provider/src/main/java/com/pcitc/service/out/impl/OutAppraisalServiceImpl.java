@@ -31,8 +31,8 @@ public class OutAppraisalServiceImpl implements OutAppraisalService {
 
 	public int insertAppraisalData(List<OutAppraisal> list, String nd) {
 		// 删除年度数据
-		OutAppraisalExample example = new OutAppraisalExample();
-		outAppraisalMapper.deleteByExample(example);
+		//OutAppraisalExample example = new OutAppraisalExample();
+		//outAppraisalMapper.deleteByExample(example);
 
 		// 批量插入数据
 		outAppraisalMapper.insertOutAppraisalBatch(list);
