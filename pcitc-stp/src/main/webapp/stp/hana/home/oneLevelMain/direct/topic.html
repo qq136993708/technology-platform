@@ -230,7 +230,7 @@ function initEchart()
 	
 	
     $(".layui-time").html($("#year").val());
-	var chart1_url="/direct/topic_01?type=1&nd="+nd+"&v_date="+v_date;
+	var chart1_url="/direct/topic_01?type=1&nd="+nd+"&v_date="+v_date+"&xmlbbm=fkyzb";
 	var echart1=load_mutl_bar_down(chart1_url,"topic_chart1","","",yAxis);
 	echart1.on('click', function (params) {
 		var xName=params.name;
