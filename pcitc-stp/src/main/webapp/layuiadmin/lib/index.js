@@ -39,12 +39,12 @@ layui.extend({
     });
     
     text = text || '新标签页';
-
+    var domain = "http://"+location.host;
     if($("#"+setter.container+">div").hasClass("layui-leader-admin")){
        $("#LAY_app_body .layadmin-tabsbody-item").remove();
         $(APP_BODY).append([
             '<div class="layadmin-tabsbody-item layui-show">'
-            ,'<iframe src="'+ url +'" id="'+code+'"  data-code="'+id+'" data-functionbuttons="'+functionbuttons+'" frameborder="0" class="layadmin-iframe"></iframe>'
+            ,'<iframe src="'+ domain+url +'" id="'+code+'"  data-code="'+id+'" data-functionbuttons="'+functionbuttons+'" frameborder="0" class="layadmin-iframe"></iframe>'
             ,'</div>'
         ].join(''));
     }else {
@@ -54,7 +54,7 @@ layui.extend({
             if(!matchTo){
                 $(APP_BODY).append([
                     '<div class="layadmin-tabsbody-item layui-show">'
-                    ,'<iframe src="'+ url +'" id="'+code+'"  data-code="'+id+'" data-functionbuttons="'+functionbuttons+'" frameborder="0" class="layadmin-iframe"></iframe>'
+                    ,'<iframe src="'+ domain+url +'" id="'+code+'"  data-code="'+id+'" data-functionbuttons="'+functionbuttons+'" frameborder="0" class="layadmin-iframe"></iframe>'
                     ,'</div>'
                 ].join(''));
                 tabsPage.index = tabs.length;
@@ -76,7 +76,7 @@ layui.extend({
                 window.localStorage.setItem("param",param);
             }else {
                 $(APP_BODY+" div").eq(tabsPage.index+1).addClass("layui-show").html([
-                    '<iframe src="'+ url +'" id="'+code+'"  data-code="'+id+'" data-functionbuttons="'+functionbuttons+'" frameborder="0" class="layadmin-iframe"></iframe>'
+                    '<iframe src="'+domain+ url +'" id="'+code+'"  data-code="'+id+'" data-functionbuttons="'+functionbuttons+'" frameborder="0" class="layadmin-iframe"></iframe>'
                 ].join(''));
                 var id=parent.$(".layui-body .layui-show .layadmin-iframe").eq(0).attr("id");
                 var param={

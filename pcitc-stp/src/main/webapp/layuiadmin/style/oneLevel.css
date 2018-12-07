@@ -17,8 +17,8 @@ html{background: #013660;}
 #99afbf;width: 45px;height: 34px;border: none;cursor: pointer;
     position: absolute;top: 38px;right: -1px;}
 /*common*/
-.layui-left{width: 44%;float: left;}
-.layui-right{float: right;width: 54%;}
+.layui-left{width: 42%;float: left;}
+.layui-right{float: right;width: 56.5%;}
 /*图片*/
 .layui-row-pic{height: 277px;}
 .layui-row-pic img{width: 100%;height: 100%;}
@@ -84,8 +84,10 @@ html{background: #013660;}
 .layui-agency-party{margin-right: 20px;}
 .layui-party-four{height: 128px;
     background:url("/layuiadmin/layui/images/icon-achievements.png") center center no-repeat #159617;}
-.layui-left .layui-party-four{
+.layui-row-special .layui-party-four{
     background:url("/layuiadmin/layui/images/textBottomFour.png") center center no-repeat #a544af;}
+.layui-col-md{width: 13%;}
+.layui-text-center p{line-height: 128px;}
 /*1366*/
 /*
 @media screen and (max-height: 946px) {
