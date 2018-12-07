@@ -637,18 +637,15 @@
 	</insert>
 
 	<select id="getOutAppraisalCount" resultType="java.lang.Integer" parameterType="java.util.HashMap">
-		select count(*) from (
-			select cgid from out_appraisal
-			where 
-				status = '1'
-				<if test="nd != null and nd != ''">
-					and nd = #{nd,jdbcType=VARCHAR} 
-				</if>
-				<if test="define2 != null and define2 != ''">
-					and define2 is not null
-				</if>
-			group by cgid
-		) as tableA
+		select count(DISTINCT cgid) as cgid from out_appraisal
+		where 
+			status = '1'
+			<if test="nd != null and nd != ''">
+				and nd = #{nd,jdbcType=VARCHAR} 
+			</if>
+			<if test="define2 != null and define2 != ''">
+				and define2 is not null
+			</if>
 	</select>
 
 	<select id="getResultInfo" resultType="java.util.Map"

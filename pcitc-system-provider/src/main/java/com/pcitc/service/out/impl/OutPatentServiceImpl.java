@@ -75,7 +75,7 @@ public class OutPatentServiceImpl implements OutPatentService {
 
 		OutPatentExample example = new OutPatentExample();
 		OutPatentExample.Criteria criteria = example.createCriteria();
-		criteria.andRemarksLike("%" + map.get("nd") + "%");
+		criteria.andShouqrLike("%" + map.get("nd") + "%");
 		criteria.andFlztyjEqualTo("有效");
 		criteria.andFlztejEqualTo("授权");
 		
