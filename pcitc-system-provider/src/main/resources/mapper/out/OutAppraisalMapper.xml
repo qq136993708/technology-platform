@@ -879,6 +879,9 @@
 		from out_appraisal
 		where 
 			cglx is not NULL and nd='2018'
+			<if test="define1 != null and define1 != ''">
+				and define1 is not null
+			</if>
 		group by cglx
 	</select>
 	
@@ -888,6 +891,9 @@
 		from out_appraisal
 		where 
 			zy is not NULL and nd='2018'
+			<if test="define1 != null and define1 != ''">
+				and define1 is not null
+			</if>
 		group by zy
 	</select>
 	
