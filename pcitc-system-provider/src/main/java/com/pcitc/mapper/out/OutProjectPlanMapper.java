@@ -56,6 +56,10 @@ public interface OutProjectPlanMapper {
      */
 	public List getPlanCompleteRateByPlanType(HashMap<String, String> map);
 	
+	/**
+     * 领导首页-科研合同，项目计划完成的比率，按照直属研究所、分子公司等9个来分组
+     */
+	public List getPlanCompleteRateByCompanyType(HashMap<String, String> map);
 	
 	
 }

@@ -150,5 +150,12 @@ public class OutAppraisalServiceImpl implements OutAppraisalService {
 		return outAppraisalMapper.getAppraisalInfoByZy(map);
 	}
 	
+	/**
+     * 领导首页-科研成果，直属院、分子公司等9个的成果情况
+     */
+	public List getAppraisalInfoByCompanyType(HashMap<String, String> map) {
+		return outAppraisalMapper.getAppraisalInfoByCompanyType(map);
+	}
+	
 	
 }

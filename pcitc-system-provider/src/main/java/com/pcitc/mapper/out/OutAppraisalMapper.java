@@ -1,12 +1,12 @@
 package com.pcitc.mapper.out;
 
-import com.pcitc.base.stp.out.OutAppraisal;
-import com.pcitc.base.stp.out.OutAppraisalExample;
-
 import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
+
+import com.pcitc.base.stp.out.OutAppraisal;
+import com.pcitc.base.stp.out.OutAppraisalExample;
 
 public interface OutAppraisalMapper {
     int countByExample(OutAppraisalExample example);
@@ -84,6 +84,11 @@ public interface OutAppraisalMapper {
      * 领导二级页面，各种专业的成果情况
      */
 	public List getAppraisalInfoByZy(HashMap<String, String> map);
+	
+	/**
+     * 领导首页-科研成果，直属院、分子公司等9个的成果情况
+     */
+	public List getAppraisalInfoByCompanyType(HashMap<String, String> map);
     
     
 }

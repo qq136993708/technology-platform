@@ -1,17 +1,17 @@
 package com.pcitc.web.controller.system;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.alibaba.druid.support.json.JSONUtils;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.pcitc.base.common.*;
+import com.pcitc.base.common.enums.DataOperationStatusEnum;
+import com.pcitc.base.system.SysFile;
+import com.pcitc.base.system.SysFileVo;
+import com.pcitc.base.system.SysUser;
+import com.pcitc.base.util.DataTableInfoVo;
+import com.pcitc.base.util.IdUtil;
+import com.pcitc.web.common.BaseController;
+import com.pcitc.web.feign.SysFileFeignClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
@@ -21,33 +21,20 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.alibaba.druid.support.json.JSONUtils;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.pcitc.base.common.FileResult;
-import com.pcitc.base.common.LayuiTableData;
-import com.pcitc.base.common.LayuiTableParam;
-import com.pcitc.base.common.Result;
-import com.pcitc.base.common.TreeNode;
-import com.pcitc.base.common.UploadType;
-import com.pcitc.base.common.enums.DataOperationStatusEnum;
-import com.pcitc.base.system.SysFile;
-import com.pcitc.base.system.SysFileVo;
-import com.pcitc.base.system.SysUser;
-import com.pcitc.base.util.DataTableInfoVo;
-import com.pcitc.base.util.IdUtil;
-import com.pcitc.web.common.BaseController;
-import com.pcitc.web.feign.SysFileFeignClient;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * <p>
@@ -568,6 +555,8 @@ public class SysFileController extends BaseController {
 		ResponseEntity<String> responseEntity = this.restTemplate.exchange(getTableData, HttpMethod.POST, entity, String.class);
 		String result = responseEntity.getBody();
 		JSONObject retJson = JSONObject.parseObject(result);
+
+
 		LayuiTableData data = new LayuiTableData();
 		if (retJson != null) {
 			int totalCount = retJson.get("totalCount") != null ? Integer.parseInt(retJson.get("totalCount").toString()) : 0;
