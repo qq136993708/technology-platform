@@ -12,6 +12,7 @@ public class AchievementsAnalysis
 	private Integer qtsl;//其他
 	
 	private String cglx;//成果类型
+	private String zy;//专业
 	private String define1;//研究院简称
 	
 	public Integer getSl() {
@@ -49,6 +50,12 @@ public class AchievementsAnalysis
 	}
 	public void setCglx(String cglx) {
 		this.cglx = cglx;
+	}
+	public String getZy() {
+		return zy;
+	}
+	public void setZy(String zy) {
+		this.zy = zy;
 	}
 	
 }

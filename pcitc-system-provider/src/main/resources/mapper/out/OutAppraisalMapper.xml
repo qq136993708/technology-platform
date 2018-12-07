@@ -890,7 +890,7 @@
 		select count(*) as sl, zy 
 		from out_appraisal
 		where 
-			zy is not NULL and nd='2018'
+			zy is not NULL and nd='${nd}'
 			<if test="define1 != null and define1 != ''">
 				and define1 is not null
 			</if>

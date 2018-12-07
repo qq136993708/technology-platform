@@ -45,7 +45,7 @@
             <div class="layui-col-md6 layui-main-oil4">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        <span class="layui-time"></span>年成果鉴定数量按单位分析
+                        <span class="layui-time"></span>年成果数量
                     </div>
                     <div class="layui-row-main">
                         <div class="main-chart" id="chart4" style="height:280px;width: 100%;"></div>
@@ -56,7 +56,7 @@
                 <div class="layui-col-md5">
                     <div class="layui-card">
                         <div class="layui-card-header">
-                            <span class="layui-time"></span>年成果鉴定数量占比分析
+                            <span class="layui-time"></span>年工业化成果数量占比
                         </div>
                         <div class="layui-row-main">
                             <div class="main-chart" id="chart5" style="height:280px;width: 100%;"></div>
@@ -66,7 +66,7 @@
                 <div class="layui-col-md5">
                     <div class="layui-card">
                         <div class="layui-card-header">
-                            <span class="layui-time"></span>年直属研究院成果鉴定数量占比分析
+                            <span class="layui-time"></span>年工业试验成果数量占比
                         </div>
                         <div class="layui-row-main">
                             <div class="main-chart" id="chart6" style="height:280px;width: 100%;"></div>
@@ -79,7 +79,7 @@
             <div class="layui-col-md12">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        <span class="layui-time"></span>年成果鉴定数量分布情况分析
+                        <span class="layui-time"></span>年成果数量技术分布情况
                     </div>
                     <div class="layui-row-main">
                         <div class="main-chart" id="chart7" style="height:280px;width: 100%;"></div>
@@ -178,33 +178,33 @@ function initEchart()
     }); */
 	
 	
-	var chart5_url="/home_achievement/get_unit_result_count?type=2&nd="+nd+"&v_date="+v_date;
+	var chart5_url="/direct_second/direct_second_data_03?type=2&nd="+nd+"&v_date="+v_date;
 	var echart5=loadPie(chart5_url,"chart5","","");
-	echart5.on('click', function (params) {
+	/* echart5.on('click', function (params) {
 		var xName=params.name;
 		var legentName=params.seriesName;
 		parent.layui.index.openTabsPage("/home_achievement/award_table?project_property="+xName, "科技成果明细");
           
-    });
+    }); */
 	
-	var chart6_url="/home_achievement/get_institution_result_count?nd="+nd+"&v_date="+v_date;
+	var chart6_url="/direct_second/direct_second_data_04?nd="+nd+"&v_date="+v_date;
 	var echart6= loadPie(chart6_url,"chart6","","");
-	echart6.on('click', function (params) {
+	/* echart6.on('click', function (params) {
 		var xName=params.name;
 		var legentName=params.seriesName;
 		parent.layui.index.openTabsPage("/home_achievement/award_table?project_property="+xName, "科技成果明细");
           
-    });
+    }); */
 	
 	
-	var chart7_url="/home_achievement/getAwardUnitTypeList?nd="+nd+"&v_date="+v_date;
-	var echart7=load_mutl_bar_02(chart7_url,"chart7","","",yAxis);
-	echart7.on('click', function (params) {
+	var chart7_url="/direct_second/direct_second_data_05?nd="+nd+"&v_date="+v_date;
+	var echart7=load_single_bar(chart7_url,"chart7","","",yAxis);
+	/* echart7.on('click', function (params) {
 		var xName=params.name;
 		var legentName=params.seriesName;
 		parent.layui.index.openTabsPage("/home_achievement/award_table?project_property="+xName, "科技成果明细");
           
-    });
+    }); */
 	
 }
 
