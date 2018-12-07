@@ -73,6 +73,7 @@
     // var file_ext = "zip|rar|7z";
 </script>
 <script>
+
     var pcitc = pcitc || {};
     pcitc.fileUpload = pcitc.fileUpload || {};
     var pcitcFile = pcitc.fileUpload = {
@@ -228,6 +229,7 @@
                 return "未定义:" + userAgent;
             }
         },reloadTable:function () {
+            //alert("3333")
             var fileList = pcitcFile.getFileResult(pcitcFile.fileIds);
             console.log(fileList);
             for (var i = 0; i < fileList.list.length; i++) {
@@ -285,6 +287,9 @@
         pcitcFile.file_table_id = file_table_id;
     }
     if (pcitcFile.IEVersion() == "IE") {
+        var reIE = new RegExp("MSIE (\\d+\\.\\d+);");
+        reIE.test(navigator.userAgent);
+        var fIEVersion = parseFloat(RegExp["$1"]);
         pcitcFile.url = "/sysfile/uploadMultipleFileLayuiIE";
     }
     //获取文件列表
@@ -337,59 +342,89 @@
                 }
                 var files = this.files = obj.pushFile(); //将每次选择的文件追加到文件队列
                 //读取本地文件
-                obj.preview(function (index, file, result) {
+                if(pcitcFile.IEVersion()=="IE"){
+                    if(fIEVersion==9){
+                        var objInputFile=$(".layui-upload-file");
+                        objInputFile.select();
+                        objInputFile.focus();
+                        var urlText=document.selection.createRange().text;
+                        console.log(urlText)
+                        var fileName=urlText.replace(/^.+?\\([^\\]+?)(\.[^\.\\]*?)?$/gi,"$1");
+                        var tr = $(['<tr id="upload-' + 1 + '">'
+                            , '<td style="display: none;"><input type="checkbox" class=\'fileTableCheck\' value=\'' + ($(".fileTableCheck").length * 1 + 1) + '\'></td>'
+                            , '<td style="display: none;">' + ($(".fileTableCheck").length * 1 + 1) + '</td>'
+                            , '<td>' + fileName+ '</td>'
+                            , '<td>未知</td>'
+                            , '<td>等待上传</td>'
+                            , '<td>'
+                            , '<button class="layui-btn layui-btn-mini demo-reload btnMyBgImg layui-btn-blue layui-hide">重传</button>'
+                            , '<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg demo-delete">删除</button>'
+                            , '</td>'
+                            , '</tr>'].join(''));
+                        demoListView.append(tr);
+                    }
+                }else {
+                    obj.preview(function (index, file, result) {
+                        var tr = $(['<tr id="upload-' + index + '">'
+                            , '<td style="display: none;"><input type="checkbox" class=\'fileTableCheck\' value=\'' + ($(".fileTableCheck").length * 1 + 1) + '\'></td>'
+                            , '<td style="display: none;">' + ($(".fileTableCheck").length * 1 + 1) + '</td>'
+                            , '<td>' + file.name + '</td>'
+                            , '<td>' + (file.size / 1014).toFixed(1) + 'kb</td>'
+                            , '<td>等待上传</td>'
+                            , '<td>'
+                            , '<button class="layui-btn layui-btn-mini demo-reload btnMyBgImg layui-btn-blue layui-hide">重传</button>'
+                            , '<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg demo-delete">删除</button>'
+                            , '</td>'
+                            , '</tr>'].join(''));
+                        //单个重传
+                        tr.find('.demo-reload').on('click', function () {
+                            obj.upload(index, file);
+                        });
 
-                    var tr = $(['<tr id="upload-' + index + '">'
-                        , '<td style="display: none;"><input type="checkbox" class=\'fileTableCheck\' value=\'' + ($(".fileTableCheck").length * 1 + 1) + '\'></td>'
-                        , '<td style="display: none;">' + ($(".fileTableCheck").length * 1 + 1) + '</td>'
-                        , '<td>' + file.name + '</td>'
-                        , '<td>' + (file.size / 1014).toFixed(1) + 'kb</td>'
-                        , '<td>等待上传</td>'
-                        , '<td>'
-                        , '<button class="layui-btn layui-btn-mini demo-reload btnMyBgImg layui-btn-blue layui-hide">重传</button>'
-                        , '<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg demo-delete">删除</button>'
-                        , '</td>'
-                        , '</tr>'].join(''));
+                        //删除
+                        tr.find('.demo-delete').on('click', function () {
+                            delete files[index]; //删除对应的文件
+                            tr.remove();
+                            uploadListIns.config.elem.next()[0].value = ''; //清空 input file 值，以免删除后出现同名文件不可选
+                            pcitcFile.tableSort();
+                        });
 
-                    //单个重传
-                    tr.find('.demo-reload').on('click', function () {
-                        obj.upload(index, file);
+                        demoListView.append(tr);
                     });
+                }
 
-                    //删除
-                    tr.find('.demo-delete').on('click', function () {
-                        delete files[index]; //删除对应的文件
-                        tr.remove();
-                        uploadListIns.config.elem.next()[0].value = ''; //清空 input file 值，以免删除后出现同名文件不可选
-                        pcitcFile.tableSort();
-                    });
-
-                    demoListView.append(tr);
-                });
                 pcitcFile.complete="1";
             }
             , done: function (res, index, upload) {
                 console.log("done");
-                if (res.error == null) { //上传成功
-                    console.log("-------------done------------" + index);
-                    console.log(res);
-                    var tr = demoListView.find('tr#upload-' + index)
-                        , tds = tr.children();
-                    tr.attr("id", "upload-" + (tds.eq(1).html() * 1 - 1));
-                    tds.eq(0).html('<input type="checkbox" class=\'fileTableCheck\' value=\'' + res.list[0].id + '\'>');
-                    tds.eq(4).html('<span style="color: #5FB878;">上传成功</span>');
-                    console.log("index:" + index);
-                    console.log(($("#uploadTable tr").length - 2));
-                    tds.eq(5).html("<a class='layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg demo-delete' href=\"javascript:pcitcFile.deleteFile('" + res.list[0].id + "','" + ($("#uploadTable tr").length - 2) + "');\" id=\"" + res.list[0].id + "\">删除</a>" + '<a class=\'layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_import btnMyBgImg demo-delete\' href=\"/sysfile/download/' + res.list[0].id + '\">下载</a>');
-                    //清空操作
-                    delete this.files[index]; //删除文件队列已经上传成功的文件
-                    // var ids = $("#"+pcitcFile.fileIds).val();
-                    // ids = (ids == "" ? "" : (ids + ",")) + res.list[0].id;
-                    // $("#"+pcitcFile.fileIds).val(ids);
-                    return;
-                } else {
-                    this.error(index, upload);
+                if(pcitcFile.IEVersion()=="IE"){
+                    if(fIEVersion==9){
+                        $('#'+pcitcFile.file_table_id).html("");
+                        pcitcFile.reloadTable();
+                    }
+                }else {
+                    if (res.error == null) { //上传成功
+                        console.log("-------------done------------" + index);
+                        console.log(res);
+                        var tr = demoListView.find('tr#upload-' + index)
+                            , tds = tr.children();
+                        tr.attr("id", "upload-" + (tds.eq(1).html() * 1 - 1));
+                        tds.eq(0).html('<input type="checkbox" class=\'fileTableCheck\' value=\'' + res.list[0].id + '\'>');
+                        tds.eq(4).html('<span style="color: #5FB878;">上传成功</span>');
+                        console.log("index:" + index);
+                        console.log(($("#uploadTable tr").length - 2));
+                        tds.eq(5).html("<a class='layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg demo-delete' href=\"javascript:pcitcFile.deleteFile('" + res.list[0].id + "','" + ($("#uploadTable tr").length - 2) + "');\" id=\"" + res.list[0].id + "\">删除</a>" + '<a class=\'layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_import btnMyBgImg demo-delete\' href=\"/sysfile/download/' + res.list[0].id + '\">下载</a>');
+                        //清空操作
+                        delete this.files[index]; //删除文件队列已经上传成功的文件
+                        // var ids = $("#"+pcitcFile.fileIds).val();
+                        // ids = (ids == "" ? "" : (ids + ",")) + res.list[0].id;
+                        // $("#"+pcitcFile.fileIds).val(ids);
+                        return;
+                    } else {
+                        this.error(index, upload);
+                    }
                 }
+
                 layer.closeAll('loading');
             }
             , allDone: function (obj) {
@@ -421,6 +456,7 @@
                 tds.eq(3).find('.demo-reload').removeClass('layui-hide'); //显示重传
             }
         });
+
     });
 </script>
 </body>
