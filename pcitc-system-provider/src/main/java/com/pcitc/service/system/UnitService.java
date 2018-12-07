@@ -150,5 +150,11 @@ public interface UnitService
 	 * @throws Exception
 	 */
 	LayuiTableData selectControlUnit(LayuiTableParam param) throws Exception;
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public SysUnit seletUnitByCode(String code);
 	
 }

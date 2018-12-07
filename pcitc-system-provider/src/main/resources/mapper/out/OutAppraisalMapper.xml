@@ -637,18 +637,15 @@
 	</insert>
 
 	<select id="getOutAppraisalCount" resultType="java.lang.Integer" parameterType="java.util.HashMap">
-		select count(*) from (
-			select cgid from out_appraisal
-			where 
-				status = '1'
-				<if test="nd != null and nd != ''">
-					and nd = #{nd,jdbcType=VARCHAR} 
-				</if>
-				<if test="define2 != null and define2 != ''">
-					and define2 is not null
-				</if>
-			group by cgid
-		) as tableA
+		select count(DISTINCT cgid) as cgid from out_appraisal
+		where 
+			status = '1'
+			<if test="nd != null and nd != ''">
+				and nd = #{nd,jdbcType=VARCHAR} 
+			</if>
+			<if test="define2 != null and define2 != ''">
+				and define2 is not null
+			</if>
 	</select>
 
 	<select id="getResultInfo" resultType="java.util.Map"
@@ -862,5 +859,51 @@
 			and nd = #{nd,jdbcType=VARCHAR}
 		</if>
 
+	</select>
+	
+	<!--  领导二级页面，各个研究院的成果情况 -->
+	<select id="getAppraisalInfoByInstitute" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select count(*) as sl, 
+			sum(case when cglx = 'A.工业化' then 1 else 0 end) as gyhsl,
+			sum(case when cglx = 'B.工业试验' then 1 else 0 end) as gysysl,
+			SUBSTR(define1 FROM 4) define1 
+		from out_appraisal
+		where 
+			define1 is not NULL and nd='2017'
+		group by define1
+	</select>
+	
+	<!--  领导二级页面，各种类型的成果情况 -->
+	<select id="getAppraisalInfoByCglx" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select count(*) as sl, cglx 
+		from out_appraisal
+		where 
+			cglx is not NULL and nd='2018'
+			<if test="define1 != null and define1 != ''">
+				and define1 is not null
+			</if>
+		group by cglx
+	</select>
+	
+	<!--  领导二级页面，各种专业的成果情况 -->
+	<select id="getAppraisalInfoByZy" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select count(*) as sl, zy 
+		from out_appraisal
+		where 
+			zy is not NULL and nd='2018'
+			<if test="define1 != null and define1 != ''">
+				and define1 is not null
+			</if>
+		group by zy
+	</select>
+	
+	<!--  领导首页-科研成果，直属院、分子公司等9个的成果情况 -->
+	<select id="getAppraisalInfoByCompanyType" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select count(*) as sl, 
+			SUBSTR(define3 FROM 2) define3 
+		from out_appraisal
+		where 
+			define3 is not NULL and nd='2018'
+		group by define3
 	</select>
 </mapper>

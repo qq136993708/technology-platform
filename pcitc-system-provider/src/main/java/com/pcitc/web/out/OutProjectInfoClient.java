@@ -117,15 +117,6 @@ public class OutProjectInfoClient {
 	public JSONObject getProjectCount(@RequestBody HashMap<String, String> map) {
 		String nd = null;
 		JSONObject retJson = new JSONObject();
-		System.out.println("1jsonStr======" + map);
-		if (map != null && map.get("nd") != null && !map.get("nd").equals("")) {
-			nd = map.get("nd").toString();
-		} else {
-			retJson.put("jfTotal", 0);
-			retJson.put("kyzbCount", 0);
-			retJson.put("projectCount", 0);
-		}
-		System.out.println("2jsonStr======" + nd);
 		
 		HashMap<String, String> temMap = outProjectService.getOutProjectInfoCount(map);
 		if (temMap != null) {
@@ -1778,73 +1769,8 @@ public class OutProjectInfoClient {
 	public JSONArray getProjectTypeCountByUnitLD(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getProjectTypeCountByUnitLD===========================" + map);
 		
-		List temList = outProjectService.getProjectTypeCountByUnitLD("2018");
+		List temList = outProjectService.getProjectTypeCountByUnitLD(map);
 		
-		if (!JSON.toJSONString(temList).contains("勘探院")) {
-			HashMap<String, Object> temMap = new HashMap<String, Object>();
-			temMap.put("xksl", 0);
-			temMap.put("xjsl", 0);
-			temMap.put("zsl", 0);
-			temMap.put("define2", "勘探院");
-			temList.add(temMap);
-		}
-		if (!JSON.toJSONString(temList).contains("物探院")) {
-			HashMap<String, Object> temMap = new HashMap<String, Object>();
-			temMap.put("xksl", 0);
-			temMap.put("xjsl", 0);
-			temMap.put("zsl", 0);
-			temMap.put("define2", "物探院");
-			temList.add(temMap);
-		}
-		if (!JSON.toJSONString(temList).contains("工程院")) {
-			HashMap<String, Object> temMap = new HashMap<String, Object>();
-			temMap.put("xksl", 0);
-			temMap.put("xjsl", 0);
-			temMap.put("zsl", 0);
-			temMap.put("define2", "工程院");
-			temList.add(temMap);
-		}
-		if (!JSON.toJSONString(temList).contains("石科院")) {
-			HashMap<String, Object> temMap = new HashMap<String, Object>();
-			temMap.put("xksl", 0);
-			temMap.put("xjsl", 0);
-			temMap.put("zsl", 0);
-			temMap.put("define2", "石科院");
-			temList.add(temMap);
-		}
-		if (!JSON.toJSONString(temList).contains("大连院")) {
-			HashMap<String, Object> temMap = new HashMap<String, Object>();
-			temMap.put("xksl", 0);
-			temMap.put("xjsl", 0);
-			temMap.put("zsl", 0);
-			temMap.put("define2", "大连院");
-			temList.add(temMap);
-		}
-		if (!JSON.toJSONString(temList).contains("北化院")) {
-			HashMap<String, Object> temMap = new HashMap<String, Object>();
-			temMap.put("xksl", 0);
-			temMap.put("xjsl", 0);
-			temMap.put("zsl", 0);
-			temMap.put("define2", "北化院");
-			temList.add(temMap);
-		}
-		if (!JSON.toJSONString(temList).contains("上海院")) {
-			HashMap<String, Object> temMap = new HashMap<String, Object>();
-			temMap.put("xksl", 0);
-			temMap.put("xjsl", 0);
-			temMap.put("zsl", 0);
-			temMap.put("define2", "上海院");
-			temList.add(temMap);
-		}
-		if (!JSON.toJSONString(temList).contains("安工院")) {
-			HashMap<String, Object> temMap = new HashMap<String, Object>();
-			temMap.put("xksl", 0);
-			temMap.put("xjsl", 0);
-			temMap.put("zsl", 0);
-			temMap.put("define2", "安工院");
-			temList.add(temMap);
-		}
-		System.out.println("===="+JSON.toJSONString(temList));
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
 		return json;
 	}
@@ -1928,6 +1854,28 @@ public class OutProjectInfoClient {
 		logger.info("==================page getZDSTLProjectCountByInstitute===========================" + map);
 		
 		List temList = outProjectService.getZDSTLProjectCountByInstitute(map);
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		return json;
+	}
+	
+	@ApiOperation(value = "领导二级页面，重点项目、国家项目、重大专项、十条龙、其他项目的新开、结转情况", notes = "参数年度")
+	@RequestMapping(value = "/out-project-provider/project-info/new-old/lx")
+	public JSONArray getProjectNewOldInfoByType(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page getProjectNewOldInfoByType===========================" + map);
+		
+		List temList = outProjectService.getProjectNewOldInfoByType(map);
+		
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		return json;
+	}
+	
+	@ApiOperation(value = "领导二级页面，各类型技术的新开、结转情况 ", notes = "参数年度")
+	@RequestMapping(value = "/out-project-provider/tech/type/project-info")
+	public JSONArray getProjectInfoByTecTypeWithOldNew(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page getProjectInfoByTecTypeWithOldNew===========================" + map);
+		
+		List temList = outProjectService.getProjectInfoByTecTypeWithOldNew(map);
+		
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
 		return json;
 	}

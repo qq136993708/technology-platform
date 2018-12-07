@@ -32,14 +32,13 @@
                     <div class="layui-main-box">
                         <span class="layui-box-icon bg-1"></span>
                         <div class="layui-box-content">
-                            <span class="layui-box-text">科研项目</span>
+                            <span class="layui-box-text">科研课题</span>
                             <span class="layui-box-number" id="kyxm">
                                 <img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
                             </span>
                         </div>
                     </div>
-                </div>
-                
+                 </div>
                  <div class="layui-col-md15">
                     <div class="layui-main-box">
                         <span class="layui-box-icon bg-4"></span>
@@ -293,34 +292,38 @@
             var $=layui.jquery,table=layui.table,carousel = layui.carousel,laydate=layui.laydate
                 ,layer = layui.layer;
             element = layui.element;
-            /*新开页面*/
-           /* $(".layui-top .layui-col-md15").eq(0).click(function () {
-                parent.layui.index.openTabsPage("/home_project_02/home_project", "科研项目（新开续建）");
-            });
-            $(".layui-top .layui-col-md15").eq(1).click(function () {
-                parent.layui.index.openTabsPage("/home_device_02/home_device", "科研装备（新开续建）");//oil_field.html
-            });
-            $(".layui-top .layui-col-md15").eq(2).click(function () {
-                parent.layui.index.openTabsPage("/home_budget_02/home_budget", "合同签订（万元）");
-            });
             
+            //科研课题
+            $(".layui-top .layui-col-md15").eq(0).click(function () {
+            	window.open("/instituteIndex?url="+"/direct/topic","_target");
+            });
+            //科研装备
+            $(".layui-top .layui-col-md15").eq(1).click(function () {
+                window.open("/instituteIndex?url="+"/direct/equipment","_target");
+            });
+            //合同
+            $(".layui-top .layui-col-md15").eq(2).click(function () {
+            	window.open("/instituteIndex?url="+"/direct/contract","_target");
+            });
+            //合同
             $(".layui-top .layui-col-md15").eq(3).click(function () {
                 parent.layui.index.openTabsPage("/home_pay/home_pay", "经费支出（万元）");///home_second/ndys_level2 home_second/jfzc_level2
             });
             
             
             $(".layui-top .layui-col-md15").eq(4).click(function () {
-                parent.layui.index.openTabsPage("/home_knowledge/knowledge_level2", "知识产权");
+            	window.open("/instituteIndex?url="+"/direct/knowledgePatent","_target");
             });
             
-            
+            //科研成果
             $(".layui-top .layui-col-md15").eq(5).click(function () {
-                parent.layui.index.openTabsPage("/home_achievement/award_level2", "科技成果");
+            	
+            	window.open("/instituteIndex?url="+"/direct/achievement","_target");
             });
             
             $(".layui-top .layui-col-md15").eq(6).click(function () {
                 parent.layui.index.openTabsPage("/intl_project/report/report_intl_project_main", "国际合作");
-            });*/
+            });
             
             
             var md4Height=$(".layui-col-md4").height()-2;
