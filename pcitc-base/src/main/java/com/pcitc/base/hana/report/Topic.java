@@ -13,6 +13,15 @@ public class Topic {
 	private Object xkRate;
 	private Object xjRate;
 	private String project_scope;
+	private String project_property;
+	
+	
+	public String getProject_property() {
+		return project_property;
+	}
+	public void setProject_property(String project_property) {
+		this.project_property = project_property;
+	}
 	public String getDefine2() {
 		return define2;
 	}

@@ -177,7 +177,6 @@ public class DirectController {
 		         		barLine.setxAxisDataList(xAxisDataList);
 		         	
 		         		
-		         		
 		         		List<String> legendDataList = new ArrayList<String>();
 						legendDataList.add("发明授权");
 						legendDataList.add("外观设计");
@@ -685,7 +684,7 @@ public class DirectController {
 		 							if(type.equals("1"))
 		 							{
 		 								ChartBarLineResultData barLine=new ChartBarLineResultData();
-			 							List<String>  xAxisDataList=HanaUtil.getduplicatexAxisByList(list,"project_scope");
+			 							List<String>  xAxisDataList=HanaUtil.getduplicatexAxisByList(list,"project_property");
 			 			         		barLine.setxAxisDataList(xAxisDataList);
 			 			         	
 			 			         		List<String> legendDataList = new ArrayList<String>();
@@ -723,13 +722,13 @@ public class DirectController {
 						{
 							JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
 							resault=resultObj.toString();
-							System.out.println(">>>>>>>>>>>>>>>topic_01 " + resultObj.toString());
+							System.out.println(">>>>>>>>>>>>>>>topic_02 resault" + resultObj.toString());
 						}
 						else
 						{
 							JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
 							resault=resultObj.toString();
-							System.out.println(">>>>>>>>>>>>>>>topic_01 " + resultObj.toString());
+							System.out.println(">>>>>>>>>>>>>>>topic_02 resault " + resultObj.toString());
 						}
 		 				return resault;
 		 			}

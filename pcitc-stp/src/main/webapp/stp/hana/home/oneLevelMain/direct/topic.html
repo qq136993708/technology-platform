@@ -38,13 +38,13 @@
             <div class="layui-col-md6 layui-main-oil4">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        <span class="layui-time"></span>年专利申请/授权数量
+                        <span class="layui-time"></span>年直属研究院科研科题数量分布
                     </div>
                     <div class="layui-row-main">
                        <div class="text-total">
-                            <span>总计:<span class="text-total-blue"    id="topic_chart1_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>专利申请:<span class="text-total-blue" id="topic_chart1_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>专利授权:<span class="text-total-blue" id="topic_chart1_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>总计:<span    class="text-total-blue"    id="topic_chart1_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>新开课题:<span class="text-total-blue"    id="topic_chart1_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>转结课题:<span class="text-total-blue"    id="topic_chart1_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                         </div>
                         
                         <div class="main-chart" id="topic_chart1" style="height:280px;width: 100%;"></div>
@@ -54,33 +54,30 @@
             <div class="layui-col-md6 layui-main-oil6 layui-col-space15">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        ${year}科研投资完成率
+                        ${year}年直属研究院科研科题数量占比
                         <div class="layui-tool">
                             <button type="button" class="btn btn-tool collapse"></button>
                             <button type="button" class="btn btn-tool remove"></button>
                         </div>
                     </div>
                     <div class="layui-card-body btn-function" >
-                        <table id="myTable" class="layui-table" lay-data="{url:'/investment/get_investment_unit_type_table',height:'295'}">
+                        <table id="myTable" class="layui-table" lay-data="{url:'/direct/topic_01?type=2',height:'295'}">
                             <thead>
                             <tr>
-                                <th lay-data="{field:'type_flag', width:'18%'}" rowspan="2">企业类型</th>
-                                <th lay-data="{align:'center'}" colspan="3">总计</th>
-                                <th lay-data="{align:'center'}" colspan="3">费用性</th>
-                                <th lay-data="{align:'center'}" colspan="3">资本性</th>
+                                <th lay-data="{field:'define2', width:'18%'}" rowspan="2">项目</th>
+                                <th lay-data="{align:'center'}" colspan="2">总计</th>
+                                <th lay-data="{align:'center'}" colspan="2">新开课题</th>
+                                <th lay-data="{align:'center'}" colspan="2">转结课题</th>
                             </tr>
                             <tr>
-                                <th lay-data="{field:'prezje', width:'15%'}">年度预算（万元）</th>
-                                <th lay-data="{field:'zje', width:'15%'}">实际下达（万元）</th>
-                                <th lay-data="{field:'ztzwcl', width:'15%'}">投资完成率</th>
+                                <th lay-data="{field:'zsl', width:'13%'}">数量（个）</th>
+                                <th lay-data="{field:'zslRate', width:'13%'}">占比</th>
 
-                                <th lay-data="{field:'prefyxje', width:'15%'}">年度预算（万元）</th>
-                                <th lay-data="{field:'fyxje', width:'15%'}">实际下达（万元）</th>
-                                <th lay-data="{field:'fyxtzwcl', width:'15%'}">投资完成率</th>
+                                <th lay-data="{field:'xksl', width:'13%'}">数量（个）</th>
+                                <th lay-data="{field:'xkRate', width:'13%'}">占比</th>
 
-                                <th lay-data="{field:'prezbxje', width:'15%'}">年度预算（万元）</th>
-                                <th lay-data="{field:'zbxje', width:'15%'}">实际下达（万元）</th>
-                                <th lay-data="{field:'zbxtzwcl', width:'15%'}">投资完成率</th>
+                                <th lay-data="{field:'xjsl', width:'13%'}">数量（个）</th>
+                                <th lay-data="{field:'xjRate', width:'13%'}">占比</th>
 
                             </tr>
 
@@ -95,17 +92,14 @@
             <div class="layui-col-md6 layui-main-oil4">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        <span class="layui-time"></span>年直属研究院专利授权数量
+                        <span class="layui-time"></span>年科研科题数量
                     </div>
                     <div class="layui-row-main">
-                    
                     <div class="text-total">
                             <span>总计:<span class="text-total-blue"    id="topic_chart4_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>发明授权:<span class="text-total-blue" id="topic_chart4_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>外观设计:<span class="text-total-blue" id="topic_chart4_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>实用新型:<span class="text-total-blue" id="topic_chart4_04"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>新开课题:<span class="text-total-blue" id="topic_chart4_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>转结课题:<span class="text-total-blue" id="topic_chart4_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                         </div>
-                        
                         <div class="main-chart" id="topic_chart4" style="height:280px;width: 100%;"></div>
                     </div>
                 </div>
@@ -113,7 +107,7 @@
             <div class="layui-col-md6 layui-main-oil6 layui-col-space15">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        ${year}科研投资完成率
+                        ${year}年科研科题数量占比
                         <div class="layui-tool">
                             <button type="button" class="btn btn-tool collapse"></button>
                             <button type="button" class="btn btn-tool remove"></button>
@@ -122,26 +116,23 @@
                     <div class="layui-card-body btn-function" >
 
 
-                        <table id="myTable" class="layui-table" lay-data="{url:'/investment/get_investment_unit_type_table',height:'295'}">
+                        <table id="myTable2" class="layui-table" lay-data="{url:'/direct/topic_02?type=2',height:'295'}">
                             <thead>
                             <tr>
-                                <th lay-data="{field:'type_flag', width:'18%'}" rowspan="2">企业类型</th>
-                                <th lay-data="{align:'center'}" colspan="3">总计</th>
-                                <th lay-data="{align:'center'}" colspan="3">费用性</th>
-                                <th lay-data="{align:'center'}" colspan="3">资本性</th>
+                                <th lay-data="{field:'project_property', width:'18%'}" rowspan="2">项目</th>
+                                <th lay-data="{align:'center'}" colspan="2">总计</th>
+                                <th lay-data="{align:'center'}" colspan="2">新开课题</th>
+                                <th lay-data="{align:'center'}" colspan="2">转结课题</th>
                             </tr>
                             <tr>
-                                <th lay-data="{field:'prezje', width:'15%'}">年度预算（万元）</th>
-                                <th lay-data="{field:'zje', width:'15%'}">实际下达（万元）</th>
-                                <th lay-data="{field:'ztzwcl', width:'15%'}">投资完成率</th>
+                                <th lay-data="{field:'zsl', width:'13%'}">数量（个）</th>
+                                <th lay-data="{field:'zslRate', width:'13%'}">占比</th>
 
-                                <th lay-data="{field:'prefyxje', width:'15%'}">年度预算（万元）</th>
-                                <th lay-data="{field:'fyxje', width:'15%'}">实际下达（万元）</th>
-                                <th lay-data="{field:'fyxtzwcl', width:'15%'}">投资完成率</th>
+                                <th lay-data="{field:'xksl', width:'13%'}">数量（个）</th>
+                                <th lay-data="{field:'xkRate', width:'13%'}">占比</th>
 
-                                <th lay-data="{field:'prezbxje', width:'15%'}">年度预算（万元）</th>
-                                <th lay-data="{field:'zbxje', width:'15%'}">实际下达（万元）</th>
-                                <th lay-data="{field:'zbxtzwcl', width:'15%'}">投资完成率</th>
+                                <th lay-data="{field:'xjsl', width:'13%'}">数量（个）</th>
+                                <th lay-data="{field:'xjRate', width:'13%'}">占比</th>
 
                             </tr>
 
@@ -161,18 +152,17 @@
             <div class="layui-col-md12">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        <span class="layui-time"></span>直属研究院科研项目数量分布情况分析
+                        <span class="layui-time"></span>直属研究院科研项目数量技术分布
                     </div>
                     <div class="layui-card-body btn-function">
 
-                          <div class="text-total">
-                            <span>年度预算总计:<span class="text-total-blue"     id="prezje_count"><img class="loadingImg" style="" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>实际下达总计:<span class="text-total-blue"     id="zje_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>未下达总计:<span class="text-total-blue"       id="wxd_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>投资完成率:<span class="text-total-blue"       id="ztzwcl_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                         <div class="text-total">
+                            <span>总计:<span class="text-total-blue"    id="topic_chart7_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>新开课题:<span class="text-total-blue" id="topic_chart7_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>转结课题:<span class="text-total-blue" id="topic_chart7_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                         </div>
 
-                        <div class="main-chart" id="chart7" style="height:280px;width: 100%;"></div>
+                        <div class="main-chart" id="topic_chart7" style="height:280px;width: 100%;"></div>
                     </div>
                 </div>
             </div>
@@ -216,6 +206,7 @@ layui.config({
         });
         
 });
+
 
 function initEchart()
 {
@@ -266,7 +257,7 @@ function initEchart()
 	
 	
 	var chart6_url="/direct/topic_03?type=4&nd="+nd+"&v_date="+v_date;
-	var echart6=loadPie(chart6_url,"chart7","","");
+	var echart6=load_mutl_bar_down(chart6_url,"topic_chart7","","");
 	echart6.on('click', function (params) {
 		var xName=params.name;
 		var legentName=params.seriesName;
