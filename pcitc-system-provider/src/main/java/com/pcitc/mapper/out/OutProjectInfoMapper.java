@@ -2,6 +2,7 @@ package com.pcitc.mapper.out;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -195,7 +196,7 @@ public interface OutProjectInfoMapper {
      * @param nd
      * 领导二级页面，8个院新开、续建情况,每一行是一个院
      */
-	public List getProjectTypeCountByUnitLD(String nd);
+	public List getProjectTypeCountByUnitLD(HashMap<String, String> map);
 	
 	/**
      * 领导二级页面，预算数据，8个院费用性和资本性的柱状图
@@ -236,5 +237,15 @@ public interface OutProjectInfoMapper {
      * 领导二级页面，重大项目和十条龙项目, 8个院中重大、十条龙项目的情况, 每一行是一个院
      */
 	public List getZDSTLProjectCountByInstitute(HashMap<String, String> map);
+	
+	/**
+     * 领导二级页面，重点项目、国家项目、重大专项、十条龙、其他项目的新开、结转情况
+     */
+    public List getProjectNewOldInfoByType(Map hashmap);
+	
+	/**
+     * 领导二级页面，各类型技术的新开、结转情况 
+     */
+	public List getProjectInfoByTecTypeWithOldNew(HashMap<String, String> map);
 	
 }

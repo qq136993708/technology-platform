@@ -635,6 +635,7 @@ public class SysFileServiceImpl implements SysFileService {
 //                                String[] strImgTypeArray = strImgDesc.split(":");
 //                                ImageUtils.getImgSize(Integer.parseInt(strImgTypeArray[0]),Integer.parseInt(strImgTypeArray[1]),uploaderPath + strSavePath + File.separator + savedName,uploaderPath + strSavePath + File.separator + "img_"+savedName);
 //                            }else if("1".equals(strImgType)){
+//                                    strImgDesc = strImgDesc==null?"0.5":strImgDesc;
 //                                ImageUtils.getImgScale(Double.parseDouble(strImgDesc),uploaderPath + strSavePath + File.separator + savedName,uploaderPath + strSavePath + File.separator + "img_"+savedName);
 //                            }else if("2".equals(strImgType)){
 //                                String[] strImgTypeArray = strImgDesc.split(":");

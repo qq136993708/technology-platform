@@ -1,0 +1,889 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pcitc.mapper.out.OutProjectPlanMapper" >
+  <resultMap id="BaseResultMap" type="com.pcitc.base.stp.out.OutProjectPlan" >
+    <id column="DATA_ID" property="dataId" jdbcType="VARCHAR" />
+    <result column="XMID" property="xmid" jdbcType="VARCHAR" />
+    <result column="ND" property="nd" jdbcType="VARCHAR" />
+    <result column="HTH" property="hth" jdbcType="VARCHAR" />
+    <result column="XMMC" property="xmmc" jdbcType="VARCHAR" />
+    <result column="XMJB" property="xmjb" jdbcType="VARCHAR" />
+    <result column="JF" property="jf" jdbcType="VARCHAR" />
+    <result column="FWDXBM" property="fwdxbm" jdbcType="VARCHAR" />
+    <result column="FWDX" property="fwdx" jdbcType="VARCHAR" />
+    <result column="GSBMBM" property="gsbmbm" jdbcType="VARCHAR" />
+    <result column="GSBMMC" property="gsbmmc" jdbcType="VARCHAR" />
+    <result column="ZYCBM" property="zycbm" jdbcType="VARCHAR" />
+    <result column="ZYCMC" property="zycmc" jdbcType="VARCHAR" />
+    <result column="XMLBBM" property="xmlbbm" jdbcType="VARCHAR" />
+    <result column="XMLBMC" property="xmlbmc" jdbcType="VARCHAR" />
+    <result column="ZYLBBM" property="zylbbm" jdbcType="VARCHAR" />
+    <result column="ZYLB" property="zylb" jdbcType="VARCHAR" />
+    <result column="FZDWBM" property="fzdwbm" jdbcType="VARCHAR" />
+    <result column="FZDW" property="fzdw" jdbcType="VARCHAR" />
+    <result column="JTFZDWBM" property="jtfzdwbm" jdbcType="VARCHAR" />
+    <result column="JTFZDW" property="jtfzdw" jdbcType="VARCHAR" />
+    <result column="FZRXM" property="fzrxm" jdbcType="VARCHAR" />
+    <result column="JSSXXM" property="jssxxm" jdbcType="VARCHAR" />
+    <result column="YJSJ" property="yjsj" jdbcType="VARCHAR" />
+    <result column="ZYLY" property="zyly" jdbcType="VARCHAR" />
+    <result column="ZYSX" property="zysx" jdbcType="VARCHAR" />
+    <result column="SJID" property="sjid" jdbcType="VARCHAR" />
+    <result column="LXBJ" property="lxbj" jdbcType="VARCHAR" />
+    <result column="YJNR" property="yjnr" jdbcType="VARCHAR" />
+    <result column="JDAP" property="jdap" jdbcType="VARCHAR" />
+    <result column="YJMB" property="yjmb" jdbcType="VARCHAR" />
+    <result column="YJYJC" property="yjyjc" jdbcType="VARCHAR" />
+    <result column="PROJECT_PROPERTY" property="projectProperty" jdbcType="VARCHAR" />
+    <result column="PROJECT_SCOPE" property="projectScope" jdbcType="VARCHAR" />
+    <result column="PROJECT_TYPE" property="projectType" jdbcType="VARCHAR" />
+    <result column="DEFINE1" property="define1" jdbcType="VARCHAR" />
+    <result column="DEFINE2" property="define2" jdbcType="VARCHAR" />
+    <result column="DEFINE3" property="define3" jdbcType="VARCHAR" />
+    <result column="DEFINE4" property="define4" jdbcType="VARCHAR" />
+    <result column="DEFINE5" property="define5" jdbcType="VARCHAR" />
+    <result column="DEFINE6" property="define6" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    DATA_ID, XMID, ND, HTH, XMMC, XMJB, JF, FWDXBM, FWDX, GSBMBM, GSBMMC, ZYCBM, ZYCMC, 
+    XMLBBM, XMLBMC, ZYLBBM, ZYLB, FZDWBM, FZDW, JTFZDWBM, JTFZDW, FZRXM, JSSXXM, YJSJ, 
+    ZYLY, ZYSX, SJID, LXBJ, YJNR, JDAP, YJMB, YJYJC, PROJECT_PROPERTY, PROJECT_SCOPE, 
+    PROJECT_TYPE, DEFINE1, DEFINE2, DEFINE3, DEFINE4, DEFINE5, DEFINE6
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.pcitc.base.stp.out.OutProjectPlanExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from out_project_plan
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from out_project_plan
+    where DATA_ID = #{dataId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from out_project_plan
+    where DATA_ID = #{dataId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.pcitc.base.stp.out.OutProjectPlanExample" >
+    delete from out_project_plan
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.pcitc.base.stp.out.OutProjectPlan" >
+    insert into out_project_plan (DATA_ID, XMID, ND, 
+      HTH, XMMC, XMJB, JF, 
+      FWDXBM, FWDX, GSBMBM, 
+      GSBMMC, ZYCBM, ZYCMC, 
+      XMLBBM, XMLBMC, ZYLBBM, 
+      ZYLB, FZDWBM, FZDW, 
+      JTFZDWBM, JTFZDW, FZRXM, 
+      JSSXXM, YJSJ, ZYLY, 
+      ZYSX, SJID, LXBJ, YJNR, 
+      JDAP, YJMB, YJYJC, 
+      PROJECT_PROPERTY, PROJECT_SCOPE, PROJECT_TYPE, 
+      DEFINE1, DEFINE2, DEFINE3, 
+      DEFINE4, DEFINE5, DEFINE6
+      )
+    values (#{dataId,jdbcType=VARCHAR}, #{xmid,jdbcType=VARCHAR}, #{nd,jdbcType=VARCHAR}, 
+      #{hth,jdbcType=VARCHAR}, #{xmmc,jdbcType=VARCHAR}, #{xmjb,jdbcType=VARCHAR}, #{jf,jdbcType=VARCHAR}, 
+      #{fwdxbm,jdbcType=VARCHAR}, #{fwdx,jdbcType=VARCHAR}, #{gsbmbm,jdbcType=VARCHAR}, 
+      #{gsbmmc,jdbcType=VARCHAR}, #{zycbm,jdbcType=VARCHAR}, #{zycmc,jdbcType=VARCHAR}, 
+      #{xmlbbm,jdbcType=VARCHAR}, #{xmlbmc,jdbcType=VARCHAR}, #{zylbbm,jdbcType=VARCHAR}, 
+      #{zylb,jdbcType=VARCHAR}, #{fzdwbm,jdbcType=VARCHAR}, #{fzdw,jdbcType=VARCHAR}, 
+      #{jtfzdwbm,jdbcType=VARCHAR}, #{jtfzdw,jdbcType=VARCHAR}, #{fzrxm,jdbcType=VARCHAR}, 
+      #{jssxxm,jdbcType=VARCHAR}, #{yjsj,jdbcType=VARCHAR}, #{zyly,jdbcType=VARCHAR}, 
+      #{zysx,jdbcType=VARCHAR}, #{sjid,jdbcType=VARCHAR}, #{lxbj,jdbcType=VARCHAR}, #{yjnr,jdbcType=VARCHAR}, 
+      #{jdap,jdbcType=VARCHAR}, #{yjmb,jdbcType=VARCHAR}, #{yjyjc,jdbcType=VARCHAR}, 
+      #{projectProperty,jdbcType=VARCHAR}, #{projectScope,jdbcType=VARCHAR}, #{projectType,jdbcType=VARCHAR}, 
+      #{define1,jdbcType=VARCHAR}, #{define2,jdbcType=VARCHAR}, #{define3,jdbcType=VARCHAR}, 
+      #{define4,jdbcType=VARCHAR}, #{define5,jdbcType=VARCHAR}, #{define6,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.pcitc.base.stp.out.OutProjectPlan" >
+    insert into out_project_plan
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="dataId != null" >
+        DATA_ID,
+      </if>
+      <if test="xmid != null" >
+        XMID,
+      </if>
+      <if test="nd != null" >
+        ND,
+      </if>
+      <if test="hth != null" >
+        HTH,
+      </if>
+      <if test="xmmc != null" >
+        XMMC,
+      </if>
+      <if test="xmjb != null" >
+        XMJB,
+      </if>
+      <if test="jf != null" >
+        JF,
+      </if>
+      <if test="fwdxbm != null" >
+        FWDXBM,
+      </if>
+      <if test="fwdx != null" >
+        FWDX,
+      </if>
+      <if test="gsbmbm != null" >
+        GSBMBM,
+      </if>
+      <if test="gsbmmc != null" >
+        GSBMMC,
+      </if>
+      <if test="zycbm != null" >
+        ZYCBM,
+      </if>
+      <if test="zycmc != null" >
+        ZYCMC,
+      </if>
+      <if test="xmlbbm != null" >
+        XMLBBM,
+      </if>
+      <if test="xmlbmc != null" >
+        XMLBMC,
+      </if>
+      <if test="zylbbm != null" >
+        ZYLBBM,
+      </if>
+      <if test="zylb != null" >
+        ZYLB,
+      </if>
+      <if test="fzdwbm != null" >
+        FZDWBM,
+      </if>
+      <if test="fzdw != null" >
+        FZDW,
+      </if>
+      <if test="jtfzdwbm != null" >
+        JTFZDWBM,
+      </if>
+      <if test="jtfzdw != null" >
+        JTFZDW,
+      </if>
+      <if test="fzrxm != null" >
+        FZRXM,
+      </if>
+      <if test="jssxxm != null" >
+        JSSXXM,
+      </if>
+      <if test="yjsj != null" >
+        YJSJ,
+      </if>
+      <if test="zyly != null" >
+        ZYLY,
+      </if>
+      <if test="zysx != null" >
+        ZYSX,
+      </if>
+      <if test="sjid != null" >
+        SJID,
+      </if>
+      <if test="lxbj != null" >
+        LXBJ,
+      </if>
+      <if test="yjnr != null" >
+        YJNR,
+      </if>
+      <if test="jdap != null" >
+        JDAP,
+      </if>
+      <if test="yjmb != null" >
+        YJMB,
+      </if>
+      <if test="yjyjc != null" >
+        YJYJC,
+      </if>
+      <if test="projectProperty != null" >
+        PROJECT_PROPERTY,
+      </if>
+      <if test="projectScope != null" >
+        PROJECT_SCOPE,
+      </if>
+      <if test="projectType != null" >
+        PROJECT_TYPE,
+      </if>
+      <if test="define1 != null" >
+        DEFINE1,
+      </if>
+      <if test="define2 != null" >
+        DEFINE2,
+      </if>
+      <if test="define3 != null" >
+        DEFINE3,
+      </if>
+      <if test="define4 != null" >
+        DEFINE4,
+      </if>
+      <if test="define5 != null" >
+        DEFINE5,
+      </if>
+      <if test="define6 != null" >
+        DEFINE6,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="dataId != null" >
+        #{dataId,jdbcType=VARCHAR},
+      </if>
+      <if test="xmid != null" >
+        #{xmid,jdbcType=VARCHAR},
+      </if>
+      <if test="nd != null" >
+        #{nd,jdbcType=VARCHAR},
+      </if>
+      <if test="hth != null" >
+        #{hth,jdbcType=VARCHAR},
+      </if>
+      <if test="xmmc != null" >
+        #{xmmc,jdbcType=VARCHAR},
+      </if>
+      <if test="xmjb != null" >
+        #{xmjb,jdbcType=VARCHAR},
+      </if>
+      <if test="jf != null" >
+        #{jf,jdbcType=VARCHAR},
+      </if>
+      <if test="fwdxbm != null" >
+        #{fwdxbm,jdbcType=VARCHAR},
+      </if>
+      <if test="fwdx != null" >
+        #{fwdx,jdbcType=VARCHAR},
+      </if>
+      <if test="gsbmbm != null" >
+        #{gsbmbm,jdbcType=VARCHAR},
+      </if>
+      <if test="gsbmmc != null" >
+        #{gsbmmc,jdbcType=VARCHAR},
+      </if>
+      <if test="zycbm != null" >
+        #{zycbm,jdbcType=VARCHAR},
+      </if>
+      <if test="zycmc != null" >
+        #{zycmc,jdbcType=VARCHAR},
+      </if>
+      <if test="xmlbbm != null" >
+        #{xmlbbm,jdbcType=VARCHAR},
+      </if>
+      <if test="xmlbmc != null" >
+        #{xmlbmc,jdbcType=VARCHAR},
+      </if>
+      <if test="zylbbm != null" >
+        #{zylbbm,jdbcType=VARCHAR},
+      </if>
+      <if test="zylb != null" >
+        #{zylb,jdbcType=VARCHAR},
+      </if>
+      <if test="fzdwbm != null" >
+        #{fzdwbm,jdbcType=VARCHAR},
+      </if>
+      <if test="fzdw != null" >
+        #{fzdw,jdbcType=VARCHAR},
+      </if>
+      <if test="jtfzdwbm != null" >
+        #{jtfzdwbm,jdbcType=VARCHAR},
+      </if>
+      <if test="jtfzdw != null" >
+        #{jtfzdw,jdbcType=VARCHAR},
+      </if>
+      <if test="fzrxm != null" >
+        #{fzrxm,jdbcType=VARCHAR},
+      </if>
+      <if test="jssxxm != null" >
+        #{jssxxm,jdbcType=VARCHAR},
+      </if>
+      <if test="yjsj != null" >
+        #{yjsj,jdbcType=VARCHAR},
+      </if>
+      <if test="zyly != null" >
+        #{zyly,jdbcType=VARCHAR},
+      </if>
+      <if test="zysx != null" >
+        #{zysx,jdbcType=VARCHAR},
+      </if>
+      <if test="sjid != null" >
+        #{sjid,jdbcType=VARCHAR},
+      </if>
+      <if test="lxbj != null" >
+        #{lxbj,jdbcType=VARCHAR},
+      </if>
+      <if test="yjnr != null" >
+        #{yjnr,jdbcType=VARCHAR},
+      </if>
+      <if test="jdap != null" >
+        #{jdap,jdbcType=VARCHAR},
+      </if>
+      <if test="yjmb != null" >
+        #{yjmb,jdbcType=VARCHAR},
+      </if>
+      <if test="yjyjc != null" >
+        #{yjyjc,jdbcType=VARCHAR},
+      </if>
+      <if test="projectProperty != null" >
+        #{projectProperty,jdbcType=VARCHAR},
+      </if>
+      <if test="projectScope != null" >
+        #{projectScope,jdbcType=VARCHAR},
+      </if>
+      <if test="projectType != null" >
+        #{projectType,jdbcType=VARCHAR},
+      </if>
+      <if test="define1 != null" >
+        #{define1,jdbcType=VARCHAR},
+      </if>
+      <if test="define2 != null" >
+        #{define2,jdbcType=VARCHAR},
+      </if>
+      <if test="define3 != null" >
+        #{define3,jdbcType=VARCHAR},
+      </if>
+      <if test="define4 != null" >
+        #{define4,jdbcType=VARCHAR},
+      </if>
+      <if test="define5 != null" >
+        #{define5,jdbcType=VARCHAR},
+      </if>
+      <if test="define6 != null" >
+        #{define6,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.pcitc.base.stp.out.OutProjectPlanExample" resultType="java.lang.Integer" >
+    select count(*) from out_project_plan
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update out_project_plan
+    <set >
+      <if test="record.dataId != null" >
+        DATA_ID = #{record.dataId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.xmid != null" >
+        XMID = #{record.xmid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nd != null" >
+        ND = #{record.nd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hth != null" >
+        HTH = #{record.hth,jdbcType=VARCHAR},
+      </if>
+      <if test="record.xmmc != null" >
+        XMMC = #{record.xmmc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.xmjb != null" >
+        XMJB = #{record.xmjb,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jf != null" >
+        JF = #{record.jf,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fwdxbm != null" >
+        FWDXBM = #{record.fwdxbm,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fwdx != null" >
+        FWDX = #{record.fwdx,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gsbmbm != null" >
+        GSBMBM = #{record.gsbmbm,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gsbmmc != null" >
+        GSBMMC = #{record.gsbmmc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.zycbm != null" >
+        ZYCBM = #{record.zycbm,jdbcType=VARCHAR},
+      </if>
+      <if test="record.zycmc != null" >
+        ZYCMC = #{record.zycmc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.xmlbbm != null" >
+        XMLBBM = #{record.xmlbbm,jdbcType=VARCHAR},
+      </if>
+      <if test="record.xmlbmc != null" >
+        XMLBMC = #{record.xmlbmc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.zylbbm != null" >
+        ZYLBBM = #{record.zylbbm,jdbcType=VARCHAR},
+      </if>
+      <if test="record.zylb != null" >
+        ZYLB = #{record.zylb,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fzdwbm != null" >
+        FZDWBM = #{record.fzdwbm,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fzdw != null" >
+        FZDW = #{record.fzdw,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jtfzdwbm != null" >
+        JTFZDWBM = #{record.jtfzdwbm,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jtfzdw != null" >
+        JTFZDW = #{record.jtfzdw,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fzrxm != null" >
+        FZRXM = #{record.fzrxm,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jssxxm != null" >
+        JSSXXM = #{record.jssxxm,jdbcType=VARCHAR},
+      </if>
+      <if test="record.yjsj != null" >
+        YJSJ = #{record.yjsj,jdbcType=VARCHAR},
+      </if>
+      <if test="record.zyly != null" >
+        ZYLY = #{record.zyly,jdbcType=VARCHAR},
+      </if>
+      <if test="record.zysx != null" >
+        ZYSX = #{record.zysx,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sjid != null" >
+        SJID = #{record.sjid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lxbj != null" >
+        LXBJ = #{record.lxbj,jdbcType=VARCHAR},
+      </if>
+      <if test="record.yjnr != null" >
+        YJNR = #{record.yjnr,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jdap != null" >
+        JDAP = #{record.jdap,jdbcType=VARCHAR},
+      </if>
+      <if test="record.yjmb != null" >
+        YJMB = #{record.yjmb,jdbcType=VARCHAR},
+      </if>
+      <if test="record.yjyjc != null" >
+        YJYJC = #{record.yjyjc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectProperty != null" >
+        PROJECT_PROPERTY = #{record.projectProperty,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectScope != null" >
+        PROJECT_SCOPE = #{record.projectScope,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectType != null" >
+        PROJECT_TYPE = #{record.projectType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.define1 != null" >
+        DEFINE1 = #{record.define1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.define2 != null" >
+        DEFINE2 = #{record.define2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.define3 != null" >
+        DEFINE3 = #{record.define3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.define4 != null" >
+        DEFINE4 = #{record.define4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.define5 != null" >
+        DEFINE5 = #{record.define5,jdbcType=VARCHAR},
+      </if>
+      <if test="record.define6 != null" >
+        DEFINE6 = #{record.define6,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update out_project_plan
+    set DATA_ID = #{record.dataId,jdbcType=VARCHAR},
+      XMID = #{record.xmid,jdbcType=VARCHAR},
+      ND = #{record.nd,jdbcType=VARCHAR},
+      HTH = #{record.hth,jdbcType=VARCHAR},
+      XMMC = #{record.xmmc,jdbcType=VARCHAR},
+      XMJB = #{record.xmjb,jdbcType=VARCHAR},
+      JF = #{record.jf,jdbcType=VARCHAR},
+      FWDXBM = #{record.fwdxbm,jdbcType=VARCHAR},
+      FWDX = #{record.fwdx,jdbcType=VARCHAR},
+      GSBMBM = #{record.gsbmbm,jdbcType=VARCHAR},
+      GSBMMC = #{record.gsbmmc,jdbcType=VARCHAR},
+      ZYCBM = #{record.zycbm,jdbcType=VARCHAR},
+      ZYCMC = #{record.zycmc,jdbcType=VARCHAR},
+      XMLBBM = #{record.xmlbbm,jdbcType=VARCHAR},
+      XMLBMC = #{record.xmlbmc,jdbcType=VARCHAR},
+      ZYLBBM = #{record.zylbbm,jdbcType=VARCHAR},
+      ZYLB = #{record.zylb,jdbcType=VARCHAR},
+      FZDWBM = #{record.fzdwbm,jdbcType=VARCHAR},
+      FZDW = #{record.fzdw,jdbcType=VARCHAR},
+      JTFZDWBM = #{record.jtfzdwbm,jdbcType=VARCHAR},
+      JTFZDW = #{record.jtfzdw,jdbcType=VARCHAR},
+      FZRXM = #{record.fzrxm,jdbcType=VARCHAR},
+      JSSXXM = #{record.jssxxm,jdbcType=VARCHAR},
+      YJSJ = #{record.yjsj,jdbcType=VARCHAR},
+      ZYLY = #{record.zyly,jdbcType=VARCHAR},
+      ZYSX = #{record.zysx,jdbcType=VARCHAR},
+      SJID = #{record.sjid,jdbcType=VARCHAR},
+      LXBJ = #{record.lxbj,jdbcType=VARCHAR},
+      YJNR = #{record.yjnr,jdbcType=VARCHAR},
+      JDAP = #{record.jdap,jdbcType=VARCHAR},
+      YJMB = #{record.yjmb,jdbcType=VARCHAR},
+      YJYJC = #{record.yjyjc,jdbcType=VARCHAR},
+      PROJECT_PROPERTY = #{record.projectProperty,jdbcType=VARCHAR},
+      PROJECT_SCOPE = #{record.projectScope,jdbcType=VARCHAR},
+      PROJECT_TYPE = #{record.projectType,jdbcType=VARCHAR},
+      DEFINE1 = #{record.define1,jdbcType=VARCHAR},
+      DEFINE2 = #{record.define2,jdbcType=VARCHAR},
+      DEFINE3 = #{record.define3,jdbcType=VARCHAR},
+      DEFINE4 = #{record.define4,jdbcType=VARCHAR},
+      DEFINE5 = #{record.define5,jdbcType=VARCHAR},
+      DEFINE6 = #{record.define6,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.stp.out.OutProjectPlan" >
+    update out_project_plan
+    <set >
+      <if test="xmid != null" >
+        XMID = #{xmid,jdbcType=VARCHAR},
+      </if>
+      <if test="nd != null" >
+        ND = #{nd,jdbcType=VARCHAR},
+      </if>
+      <if test="hth != null" >
+        HTH = #{hth,jdbcType=VARCHAR},
+      </if>
+      <if test="xmmc != null" >
+        XMMC = #{xmmc,jdbcType=VARCHAR},
+      </if>
+      <if test="xmjb != null" >
+        XMJB = #{xmjb,jdbcType=VARCHAR},
+      </if>
+      <if test="jf != null" >
+        JF = #{jf,jdbcType=VARCHAR},
+      </if>
+      <if test="fwdxbm != null" >
+        FWDXBM = #{fwdxbm,jdbcType=VARCHAR},
+      </if>
+      <if test="fwdx != null" >
+        FWDX = #{fwdx,jdbcType=VARCHAR},
+      </if>
+      <if test="gsbmbm != null" >
+        GSBMBM = #{gsbmbm,jdbcType=VARCHAR},
+      </if>
+      <if test="gsbmmc != null" >
+        GSBMMC = #{gsbmmc,jdbcType=VARCHAR},
+      </if>
+      <if test="zycbm != null" >
+        ZYCBM = #{zycbm,jdbcType=VARCHAR},
+      </if>
+      <if test="zycmc != null" >
+        ZYCMC = #{zycmc,jdbcType=VARCHAR},
+      </if>
+      <if test="xmlbbm != null" >
+        XMLBBM = #{xmlbbm,jdbcType=VARCHAR},
+      </if>
+      <if test="xmlbmc != null" >
+        XMLBMC = #{xmlbmc,jdbcType=VARCHAR},
+      </if>
+      <if test="zylbbm != null" >
+        ZYLBBM = #{zylbbm,jdbcType=VARCHAR},
+      </if>
+      <if test="zylb != null" >
+        ZYLB = #{zylb,jdbcType=VARCHAR},
+      </if>
+      <if test="fzdwbm != null" >
+        FZDWBM = #{fzdwbm,jdbcType=VARCHAR},
+      </if>
+      <if test="fzdw != null" >
+        FZDW = #{fzdw,jdbcType=VARCHAR},
+      </if>
+      <if test="jtfzdwbm != null" >
+        JTFZDWBM = #{jtfzdwbm,jdbcType=VARCHAR},
+      </if>
+      <if test="jtfzdw != null" >
+        JTFZDW = #{jtfzdw,jdbcType=VARCHAR},
+      </if>
+      <if test="fzrxm != null" >
+        FZRXM = #{fzrxm,jdbcType=VARCHAR},
+      </if>
+      <if test="jssxxm != null" >
+        JSSXXM = #{jssxxm,jdbcType=VARCHAR},
+      </if>
+      <if test="yjsj != null" >
+        YJSJ = #{yjsj,jdbcType=VARCHAR},
+      </if>
+      <if test="zyly != null" >
+        ZYLY = #{zyly,jdbcType=VARCHAR},
+      </if>
+      <if test="zysx != null" >
+        ZYSX = #{zysx,jdbcType=VARCHAR},
+      </if>
+      <if test="sjid != null" >
+        SJID = #{sjid,jdbcType=VARCHAR},
+      </if>
+      <if test="lxbj != null" >
+        LXBJ = #{lxbj,jdbcType=VARCHAR},
+      </if>
+      <if test="yjnr != null" >
+        YJNR = #{yjnr,jdbcType=VARCHAR},
+      </if>
+      <if test="jdap != null" >
+        JDAP = #{jdap,jdbcType=VARCHAR},
+      </if>
+      <if test="yjmb != null" >
+        YJMB = #{yjmb,jdbcType=VARCHAR},
+      </if>
+      <if test="yjyjc != null" >
+        YJYJC = #{yjyjc,jdbcType=VARCHAR},
+      </if>
+      <if test="projectProperty != null" >
+        PROJECT_PROPERTY = #{projectProperty,jdbcType=VARCHAR},
+      </if>
+      <if test="projectScope != null" >
+        PROJECT_SCOPE = #{projectScope,jdbcType=VARCHAR},
+      </if>
+      <if test="projectType != null" >
+        PROJECT_TYPE = #{projectType,jdbcType=VARCHAR},
+      </if>
+      <if test="define1 != null" >
+        DEFINE1 = #{define1,jdbcType=VARCHAR},
+      </if>
+      <if test="define2 != null" >
+        DEFINE2 = #{define2,jdbcType=VARCHAR},
+      </if>
+      <if test="define3 != null" >
+        DEFINE3 = #{define3,jdbcType=VARCHAR},
+      </if>
+      <if test="define4 != null" >
+        DEFINE4 = #{define4,jdbcType=VARCHAR},
+      </if>
+      <if test="define5 != null" >
+        DEFINE5 = #{define5,jdbcType=VARCHAR},
+      </if>
+      <if test="define6 != null" >
+        DEFINE6 = #{define6,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where DATA_ID = #{dataId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.out.OutProjectPlan" >
+    update out_project_plan
+    set XMID = #{xmid,jdbcType=VARCHAR},
+      ND = #{nd,jdbcType=VARCHAR},
+      HTH = #{hth,jdbcType=VARCHAR},
+      XMMC = #{xmmc,jdbcType=VARCHAR},
+      XMJB = #{xmjb,jdbcType=VARCHAR},
+      JF = #{jf,jdbcType=VARCHAR},
+      FWDXBM = #{fwdxbm,jdbcType=VARCHAR},
+      FWDX = #{fwdx,jdbcType=VARCHAR},
+      GSBMBM = #{gsbmbm,jdbcType=VARCHAR},
+      GSBMMC = #{gsbmmc,jdbcType=VARCHAR},
+      ZYCBM = #{zycbm,jdbcType=VARCHAR},
+      ZYCMC = #{zycmc,jdbcType=VARCHAR},
+      XMLBBM = #{xmlbbm,jdbcType=VARCHAR},
+      XMLBMC = #{xmlbmc,jdbcType=VARCHAR},
+      ZYLBBM = #{zylbbm,jdbcType=VARCHAR},
+      ZYLB = #{zylb,jdbcType=VARCHAR},
+      FZDWBM = #{fzdwbm,jdbcType=VARCHAR},
+      FZDW = #{fzdw,jdbcType=VARCHAR},
+      JTFZDWBM = #{jtfzdwbm,jdbcType=VARCHAR},
+      JTFZDW = #{jtfzdw,jdbcType=VARCHAR},
+      FZRXM = #{fzrxm,jdbcType=VARCHAR},
+      JSSXXM = #{jssxxm,jdbcType=VARCHAR},
+      YJSJ = #{yjsj,jdbcType=VARCHAR},
+      ZYLY = #{zyly,jdbcType=VARCHAR},
+      ZYSX = #{zysx,jdbcType=VARCHAR},
+      SJID = #{sjid,jdbcType=VARCHAR},
+      LXBJ = #{lxbj,jdbcType=VARCHAR},
+      YJNR = #{yjnr,jdbcType=VARCHAR},
+      JDAP = #{jdap,jdbcType=VARCHAR},
+      YJMB = #{yjmb,jdbcType=VARCHAR},
+      YJYJC = #{yjyjc,jdbcType=VARCHAR},
+      PROJECT_PROPERTY = #{projectProperty,jdbcType=VARCHAR},
+      PROJECT_SCOPE = #{projectScope,jdbcType=VARCHAR},
+      PROJECT_TYPE = #{projectType,jdbcType=VARCHAR},
+      DEFINE1 = #{define1,jdbcType=VARCHAR},
+      DEFINE2 = #{define2,jdbcType=VARCHAR},
+      DEFINE3 = #{define3,jdbcType=VARCHAR},
+      DEFINE4 = #{define4,jdbcType=VARCHAR},
+      DEFINE5 = #{define5,jdbcType=VARCHAR},
+      DEFINE6 = #{define6,jdbcType=VARCHAR}
+    where DATA_ID = #{dataId,jdbcType=VARCHAR}
+  </update>
+  
+  <!-- 批量插入项目计划数据 -->
+  <insert id="insertOutProjectPlanBatch" parameterType="java.util.List">
+		insert into out_project_plan (DATA_ID, XMID, ND, 
+	      HTH, XMMC, XMJB, JF, 
+	      FWDXBM, FWDX, GSBMBM, 
+	      GSBMMC, ZYCBM, ZYCMC, 
+	      XMLBBM, XMLBMC, ZYLBBM, 
+	      ZYLB, FZDWBM, FZDW, 
+	      JTFZDWBM, JTFZDW, FZRXM, 
+	      JSSXXM, YJSJ, ZYLY, 
+	      ZYSX, SJID, LXBJ, YJNR, 
+	      JDAP, YJMB, YJYJC,
+	      PROJECT_PROPERTY, PROJECT_SCOPE, PROJECT_TYPE,
+	      DEFINE1, DEFINE2, DEFINE3, 
+	      DEFINE4, DEFINE5, DEFINE6
+	      )
+	    values
+		<foreach collection="list" item="projectPlan" index="index"
+			separator=",">
+			( #{projectPlan.dataId,jdbcType=VARCHAR}, #{projectPlan.xmid,jdbcType=VARCHAR}, #{projectPlan.nd,jdbcType=VARCHAR}, 
+		      #{projectPlan.hth,jdbcType=VARCHAR}, #{projectPlan.xmmc,jdbcType=VARCHAR}, #{projectPlan.xmjb,jdbcType=VARCHAR}, #{projectPlan.jf,jdbcType=VARCHAR}, 
+		      #{projectPlan.fwdxbm,jdbcType=VARCHAR}, #{projectPlan.fwdx,jdbcType=VARCHAR}, #{projectPlan.gsbmbm,jdbcType=VARCHAR}, 
+		      #{projectPlan.gsbmmc,jdbcType=VARCHAR}, #{projectPlan.zycbm,jdbcType=VARCHAR}, #{projectPlan.zycmc,jdbcType=VARCHAR}, 
+		      #{projectPlan.xmlbbm,jdbcType=VARCHAR}, #{projectPlan.xmlbmc,jdbcType=VARCHAR}, #{projectPlan.zylbbm,jdbcType=VARCHAR}, 
+		      #{projectPlan.zylb,jdbcType=VARCHAR}, #{projectPlan.fzdwbm,jdbcType=VARCHAR}, #{projectPlan.fzdw,jdbcType=VARCHAR}, 
+		      #{projectPlan.jtfzdwbm,jdbcType=VARCHAR}, #{projectPlan.jtfzdw,jdbcType=VARCHAR}, #{projectPlan.fzrxm,jdbcType=VARCHAR}, 
+		      #{projectPlan.jssxxm,jdbcType=VARCHAR}, #{projectPlan.yjsj,jdbcType=VARCHAR}, #{projectPlan.zyly,jdbcType=VARCHAR}, 
+		      #{projectPlan.zysx,jdbcType=VARCHAR}, #{projectPlan.sjid,jdbcType=VARCHAR}, #{projectPlan.lxbj,jdbcType=VARCHAR}, #{projectPlan.yjnr,jdbcType=VARCHAR}, 
+		      #{projectPlan.jdap,jdbcType=VARCHAR}, #{projectPlan.yjmb,jdbcType=VARCHAR}, #{projectPlan.yjyjc,jdbcType=VARCHAR}, 
+		      #{projectPlan.projectProperty,jdbcType=VARCHAR}, #{projectPlan.projectScope,jdbcType=VARCHAR}, #{projectPlan.projectType,jdbcType=VARCHAR}, 
+		      #{projectPlan.define1,jdbcType=VARCHAR}, #{projectPlan.define2,jdbcType=VARCHAR}, #{projectPlan.define3,jdbcType=VARCHAR}, 
+		      #{projectPlan.define4,jdbcType=VARCHAR}, #{projectPlan.define5,jdbcType=VARCHAR}, #{projectPlan.define6,jdbcType=VARCHAR} )
+		</foreach>
+	</insert>
+	
+	<!-- 直属研究院二级页面（领导），项目计划完成的比率，按照新开续建、资本性费用性来分组 -->
+	<select id="getPlanCompleteRateByOldNew" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select tableB.DEFINE1 as define1,tableB.PROJECT_SCOPE as project_scope,count(*) as jhqds,
+			sum(case when tableB.temId is not null then 1 else 0 end) as sjqds,
+			round(sum(case when tableB.temId is not null then 1 else 0 end)/count(*)*100,2) as qdbl
+		from (
+			select out_project_info.xmid as temId,out_project_plan.DEFINE1,out_project_plan.PROJECT_SCOPE 
+			from out_project_plan left join out_project_info on (out_project_plan.XMID = out_project_info.xmid)
+			WHERE
+				out_project_plan.PROJECT_SCOPE= '新开课题' or out_project_plan.PROJECT_SCOPE= '结转课题'
+		) as tableB 
+		group by tableB.DEFINE1,tableB.PROJECT_SCOPE
+	</select>
+	
+	<!-- 直属研究院二级页面（领导），总的签订率-->
+	<select id="getPlanTotalCompleteRate" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select count(*) as zsl,
+			sum(case when tableB.temId is not null then 1 else 0 end) as yqht,
+			sum(case when tableB.temId is null then 1 else 0 end) as wqht,
+			round(sum(case when tableB.temId is not null then 1 else 0 end)/count(*)*100,2) as qdl
+		from (
+			select out_project_info.xmid as temId,out_project_plan.DEFINE1,out_project_plan.PROJECT_SCOPE 
+			from out_project_plan left join out_project_info on (out_project_plan.XMID = out_project_info.xmid)
+			WHERE
+				out_project_plan.PROJECT_SCOPE= '新开课题' or out_project_plan.PROJECT_SCOPE= '结转课题'
+		) as tableB
+	</select>
+	
+	<!-- 直属研究院二级页面（领导），各个院的合同签订率-->
+	<select id="getPlanCompleteRateByInstitute" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select SUBSTR(tableB.DEFINE2 FROM 4) as define2,count(*) as zsl,
+			sum(case when tableB.temId is not null then 1 else 0 end) as yqhtzj,
+			sum(case when tableB.temId is null then 1 else 0 end) as wqhtzj,
+			round(sum(case when tableB.temId is not null then 1 else 0 end)/count(*)*100,2) as qdlzj
+		from (
+			select out_project_info.xmid as temId,out_project_plan.DEFINE2
+			from out_project_plan left join out_project_info on (out_project_plan.XMID = out_project_info.xmid)
+			WHERE
+				(out_project_plan.PROJECT_SCOPE= '新开课题' or out_project_plan.PROJECT_SCOPE= '结转课题')
+			  and out_project_plan.DEFINE2 is not null
+		) as tableB 
+		group by tableB.DEFINE2
+	</select>
+	
+	<!-- 首页-直属研究院，项目计划完成的比率，按照资本性费用性来分组 -->
+	<select id="getPlanCompleteRateByPlanType" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select tableB.DEFINE1 as define1,count(*) as jhqds,
+			sum(case when tableB.temId is not null then 1 else 0 end) as sjqds,
+			round(sum(case when tableB.temId is not null then 1 else 0 end)/count(*)*100,2) as htqdl
+		from (
+			select out_project_info.xmid as temId,out_project_plan.DEFINE1
+			from out_project_plan left join out_project_info on (out_project_plan.XMID = out_project_info.xmid)
+			WHERE
+				out_project_plan.PROJECT_SCOPE= '新开课题' or out_project_plan.PROJECT_SCOPE= '结转课题'
+		) as tableB 
+		group by tableB.DEFINE1
+	</select>
+	
+	<!-- 领导首页-科研合同，项目计划完成的比率，按照直属研究所、分子公司等9个来分组 -->
+	<select id="getPlanCompleteRateByCompanyType" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select SUBSTR(tableB.DEFINE3 FROM 2) as define3,count(*) as jhqds,
+			sum(case when tableB.temId is not null then 1 else 0 end) as sjqds,
+			round(sum(case when tableB.temId is not null then 1 else 0 end)/count(*)*100,2) as qdbl
+		from (
+			select out_project_info.xmid as temId,out_project_plan.DEFINE3
+			from out_project_plan left join out_project_info on (out_project_plan.XMID = out_project_info.xmid)
+			WHERE
+				(out_project_plan.PROJECT_SCOPE= '新开课题' or out_project_plan.PROJECT_SCOPE= '结转课题')
+				and out_project_plan.DEFINE3 is not null and out_project_plan.ND='2018'
+		) as tableB 
+		group by tableB.DEFINE3
+	</select>
+	
+	
+</mapper>

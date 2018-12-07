@@ -31,7 +31,6 @@ public class RewardJob implements Job, Serializable {
 		String sqlName = "SelectAllProject";
 		JsonObject jo = new JsonObject();
 
-		jo.addProperty("nd", "");
 		System.out.println("==========开始导入---定时任务--奖励系统接口--=============");
 		// 参数
 		String conditions = jo.toString();
@@ -44,6 +43,7 @@ public class RewardJob implements Job, Serializable {
 				List<OutReward> insertData = new ArrayList<OutReward>();
 				int temI = 0;
 				boolean temB = true;
+				System.out.println("==========开始导入---定时任务--奖励系统接口--============="+jSONArray.size());
 				for (int i = 0; i < jSONArray.size(); i++) {
 					JSONObject object = (JSONObject) jSONArray.get(i);
 					temI++;
@@ -51,11 +51,27 @@ public class RewardJob implements Job, Serializable {
 
 					op.setDataId(UUID.randomUUID().toString().replaceAll("-", ""));
 					op.setCreateDate(new Date());
-
+					
+					op.setXmid(String.valueOf(object.getInteger("XMID")));
+					op.setXmbh(object.getString("XMBH"));
+					op.setNd(object.getString("ND"));
+					op.setXmmc(object.getString("XMMC"));
+					op.setSbdw(object.getString("SBDW"));
+					op.setSbjz(object.getString("SBJZ"));
+					op.setXkfl(object.getString("XKFL"));
+					op.setSbdj(object.getString("SBDJ"));
+					op.setSbrq(object.getString("SBRQ"));
+					op.setRwly(object.getString("RWLY"));
+					op.setJddw(object.getString("JDDW"));
+					op.setHth(object.getString("HTH"));
+					op.setKssj(object.getString("KSSJ"));
+					op.setJssj(object.getString("JSSJ"));
+					op.setSbzt(object.getString("sbzt"));
+					op.setPsdj(object.getString("PSDJ"));
 					insertData.add(op);
 					if (temI > 1000) {
 						temI = 0;
-						//OutRewardService.insertPatentData(insertData);
+						outRewardService.insertRewardData(insertData);
 						temB = false;
 						insertData.clear();
 					} else {
@@ -63,10 +79,10 @@ public class RewardJob implements Job, Serializable {
 					}
 				}
 				if (temB && insertData != null && insertData.size() > 0) {
-					//OutRewardService.insertPatentData(insertData);
+					outRewardService.insertRewardData(insertData);
 				}
 
-				System.out.println("======" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "专利项目--保存到本地数据库-结束=========");
+				System.out.println("======" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "奖励--保存到本地数据库-结束=========");
 			}
 
 		} catch (Exception e) {

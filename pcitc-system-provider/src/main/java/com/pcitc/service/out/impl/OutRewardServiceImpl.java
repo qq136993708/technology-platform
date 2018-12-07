@@ -58,10 +58,13 @@ public class OutRewardServiceImpl implements OutRewardService {
 		OutRewardExample example = new OutRewardExample();
 		OutRewardExample.Criteria criteria = example.createCriteria();
 
-		if (paraMap.get("xmbh") != null && !paraMap.get("xmbh").equals("")) {
+		if (paraMap.get("xmbh") != null && !paraMap.get("xmbh").toString().equals("")) {
 			criteria.andXmbhLike("%" + paraMap.get("xmbh").toString() + "%");
 		}
-		if (paraMap.get("xmmc") != null && !paraMap.get("xmmc").equals("")) {
+		if (paraMap.get("nd") != null && !paraMap.get("nd").toString().equals("")) {
+			criteria.andNdEqualTo(paraMap.get("nd").toString());
+		}
+		if (paraMap.get("xmmc") != null && !paraMap.get("xmmc").toString().equals("")) {
 			criteria.andXmmcLike("%" + paraMap.get("xmmc").toString() + "%");
 		}
 		example.setOrderByClause(" create_date desc ");

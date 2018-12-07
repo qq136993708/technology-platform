@@ -75,7 +75,7 @@ public class OutPatentServiceImpl implements OutPatentService {
 
 		OutPatentExample example = new OutPatentExample();
 		OutPatentExample.Criteria criteria = example.createCriteria();
-		criteria.andRemarksLike("%" + map.get("nd") + "%");
+		criteria.andShouqrLike("%" + map.get("nd") + "%");
 		criteria.andFlztyjEqualTo("有效");
 		criteria.andFlztejEqualTo("授权");
 		
@@ -160,5 +160,35 @@ public class OutPatentServiceImpl implements OutPatentService {
      */
     public List getPatentTypeCountByInstituteForLD(Map hashmap) {
     	return outPatentMapper.getPatentTypeCountByInstituteForLD(hashmap);
+    }
+    
+    /**
+     * @return
+     * 领导二级页面，直属研究院，8个院发明专利、实用新型的申请和授权，2018数据申请数有问题，暂时用2015年
+     */
+    public List getPatentInfoByLXForInstitute(Map hashmap) {
+    	return outPatentMapper.getPatentInfoByLXForInstitute(hashmap);
+    }
+    
+    /**
+     * @return
+     * 领导二级页面，直属研究院，专利类型的申请、授权数量
+     */
+    public List getPatentInfoForLX(Map hashmap) {
+    	return outPatentMapper.getPatentInfoForLX(hashmap);
+    }
+    
+    /**
+     * 领导二级页面，重点项目、国家项目、重大专项、十条龙、其他项目的新开、结转情况
+     */
+    public List getProjectNewOldInfoByType(Map hashmap) {
+    	return outPatentMapper.getProjectNewOldInfoByType(hashmap);
+    }
+    
+    /**
+     * 领导首页-知识产权，直属研究院、分子公司等9个类型公司的发明专利、实用新型的申请和授权
+     */
+    public List getPatentInfoByCompanyType(Map hashmap) {
+    	return outPatentMapper.getPatentInfoByCompanyType(hashmap);
     }
 }

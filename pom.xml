@@ -279,6 +279,11 @@
 				<artifactId>poi-scratchpad</artifactId>
 				<version>3.17</version>
 			</dependency>
+			<dependency>
+				<groupId>org.apache.poi</groupId>
+				<artifactId>poi-ooxml-schemas</artifactId>
+				<version>3.17</version>
+			</dependency>
 			<!-- End:get text from doc -->
 			<!-- get text from excel -->
 			<dependency>

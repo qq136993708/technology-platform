@@ -122,11 +122,11 @@
                     {type: 'checkbox', event: 'changeEvents'},
                     {title: '序号', type: 'numbers'},
                     {field: 'fileName', title: '文件名称', event: 'setActive', style: 'cursor: pointer;'},
-                    {field: 'createUserId', title: '创建人', event: 'setActive', style: 'cursor: pointer;'},
+                    {field: 'bak2', title: '创建人', event: 'setActive', style: 'cursor: pointer;'},
                     {field: 'createDateTime', title: '创建时间', event: 'setActive', style: 'cursor: pointer;'},
-                    {field: 'fileSize', title: '文件大小(KB)', event: 'setActive', style: 'cursor: pointer;'},
+                    {field: 'fileSize', title: '文件大小(KB)', event: 'setActive', style: 'cursor: pointer;',align:'right'},
                     {field: 'bak3', title: '是否分享', event: 'setActive', style: 'cursor: pointer;'},
-                    {field: 'bak1', title: '权限', event: 'setActive', style: 'cursor: pointer;'}
+                    {field: 'bak1', title: '权限', event: 'setActive', style: 'cursor: pointer;', templet: '#powerShow'}
                 ]],
                 done: function (res, curr, count) {
                     // $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
@@ -236,7 +236,8 @@
                     layer.msg("请选择一条数据");
                     return;
                 }
-                openBaseWin("编辑", "/sysfilekind/editUpload?opt=edit&id=" + ids[0].id+"&parentId="+parentId);
+                console.log(ids[0].dataid);
+                openBaseWin("编辑", "/sysfilekind/editUpload?opt=edit&id=" + ids[0].id+"&parentId="+parentId+"&dataId="+ids[0].dataid);
             },
             shareEvent: function () {
                 var ids = active.getCheckData();
@@ -252,6 +253,15 @@
             active[type] ? active[type].call(this) : '';
         });
     });
+</script>
+<script type="text/html" id="powerShow">
+    {{#  if(d.bak1 == 'private'){ }}
+    私有
+    {{# } else if(d.bak1 == 'public'){ }}
+    公共
+    {{#  } else{ }}
+    共享
+    {{#  } }}
 </script>
 </body>
 

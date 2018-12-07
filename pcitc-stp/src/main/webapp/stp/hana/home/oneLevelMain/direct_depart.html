@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="Shortcut Icon" href="/layuiadmin/layui/images/favicon.ico" />
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/adminStp.css?+Math.random()" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/mainStp.css?+Math.random()" media="all">
+    <link rel="stylesheet" href="/common/css/echart-common.css">
+    <script src="/layuiadmin/layui/layui.js"></script>
+    <style>
+        .refreshBox{display:none;width: 100%;height: 100px;line-height: 100px;text-align:center;font-size: 12px;}
+        .loadingImg{width: 24px; height: auto;}
+        .anchorBL{display:none}
+    </style>
+</head>
+<body >
+
+<input type="hidden" name="month" value="${month}"   id="month">
+<input type="hidden" name="year" value="${year}"   id="year">
+<input type="hidden" name="companyCode" value="${companyCode}"   id="companyCode">
+
+
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <div class="layui-col-md12 layui-top">
+                <div class="layui-col-md15">
+                    <div class="layui-main-box">
+                        <span class="layui-box-icon bg-1"></span>
+                        <div class="layui-box-content">
+                            <span class="layui-box-text">科研课题</span>
+                            <span class="layui-box-number" id="kyxm">
+                                <img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+                            </span>
+                        </div>
+                    </div>
+                 </div>
+                 <div class="layui-col-md15">
+                    <div class="layui-main-box">
+                        <span class="layui-box-icon bg-4"></span>
+                        <div class="layui-box-content">
+                            <span class="layui-box-text">科研装备</span>
+                            <span class="layui-box-number" id="K0BNGLFPHJECB_t">
+                                <img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+                                <small>(个)</small>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="layui-col-md15">
+                    <div class="layui-main-box">
+                        <span class="layui-box-icon bg-2"></span>
+                        <div class="layui-box-content">
+                            <span class="layui-box-text">合同签订</span>
+                            <span class="layui-box-number" id="k0BNYSJHJE">
+                            <img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md15" >
+                    <div class="layui-main-box">
+                        <span class="layui-box-icon bg-3"></span>
+                        <div class="layui-box-content">
+                            <span class="layui-box-text">经费支出</span>
+                            <span class="layui-box-number" id="k0BNGLFPHJECB">
+                            <img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+                            </span>
+                        </div>
+                    </div>
+                </div>
+               
+                <div class="layui-col-md15">
+                    <div class="layui-main-box">
+                        <span class="layui-box-icon bg-5"></span>
+                        <div class="layui-box-content">
+                            <span class="layui-box-text">知识产权</span>
+                            <span class="layui-box-number" id="patentId">
+                            <img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md15">
+                    <div class="layui-main-box">
+                        <span class="layui-box-icon bg-6"></span>
+                        <div class="layui-box-content">
+                            <span class="layui-box-text">科技成果</span>
+                            <span class="layui-box-number" id="appraisalId">
+                             <img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md15">
+                    <div class="layui-main-box">
+                        <span class="layui-box-icon bg-7"></span>
+                        <div class="layui-box-content">
+                            <span class="layui-box-text">国际合作</span>
+                            <span class="layui-box-number">
+                                65
+                                <small>(个)</small>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md15">
+                    <div class="layui-main-box">
+                        <span class="layui-box-icon bg-8"></span>
+                        <div class="layui-box-content">
+                            <span class="layui-box-text">标准制修订</span>
+                            <span class="layui-box-number">
+                                234
+                                <small>(个)</small>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md6">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        ${year}年直属研究院科研课题数量分布情况分析
+                        <div class="layui-tool">
+                            <button type="button" class="btn btn-tool collapse"></button>
+                            <button type="button" class="btn btn-tool remove"></button>
+                        </div>
+                    </div>
+                    <div class="layui-card-body btn-function">
+                    
+                    <div class="text-total">
+                            <span>总计:<span class="text-total-blue"    id="bar1_all_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>新开课题:<span class="text-total-blue" id="bar1_xk_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>结转课题:<span class="text-total-blue" id="bar1_jz_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                        </div>
+                    
+                    
+                    
+                        <div  style="height:270px;width: 100%;" id="bar1"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md6">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        ${year}年直属研究院合同签订分析
+                        <div class="layui-tool">
+                            <button type="button" class="btn btn-tool collapse"></button>
+                            <button type="button" class="btn btn-tool remove"></button>
+                        </div>
+                    </div>
+                    <div class="layui-card-body btn-function">
+                     <div class="text-total">
+                            <span>总计:<span class="text-total-blue"    id="bar2_all_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>费用性:<span class="text-total-blue"   id="bar2_fyx_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>资本性:<span class="text-total-blue"   id="bar2_zbx_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                        </div>
+                        <div  style="height:270px;width: 100%;" id="bar2"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="layui-col-md6">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        ${year}年科研装备数量分析
+                        <div class="layui-tool">
+                            <button type="button" class="btn btn-tool collapse"></button>
+                            <button type="button" class="btn btn-tool remove"></button>
+                        </div>
+                    </div>
+                    <div class="layui-card-body btn-function">
+                     <div class="text-total">
+                            <span>总计:<span class="text-total-blue"    id="bar3_all_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>新开课题:<span class="text-total-blue" id="bar3_xk_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>结转课题:<span class="text-total-blue" id="bar3_zj_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                        </div>
+                        <div  style="height:270px;width: 100%;" id="bar3"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md6">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        ${year}年直属研究院科研设备数量分析
+                        <div class="layui-tool">
+                            <button type="button" class="btn btn-tool collapse"></button>
+                            <button type="button" class="btn btn-tool remove"></button>
+                        </div>
+                    </div>
+                    
+        	
+                    <div class="layui-card-body btn-function">
+                     <div class="text-total">
+                           
+                            <span>大型分析仪器:<span class="text-total-blue" id="bar4_1_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>中型实验装置:<span class="text-total-blue" id="bar4_2_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>单台值大于500万:<span class="text-total-blue" id="bar4_3_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>专业软件（外购）:<span class="text-total-blue" id="bar4_4_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                        </div>
+                        <div  style="height:270px;width: 100%;" id="bar4"></div>
+                    </div>
+                </div>
+            </div>
+            
+            
+            
+            <div class="layui-col-md6">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        <span class="layui-time"></span>  专利数量
+                    </div>
+                    <div class="layui-card-body btn-function">
+                    <div class="text-total">
+                            <span>总计:<span class="text-total-blue"    id="bar7_all_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>申请数量:<span class="text-total-blue" id="bar7_1_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>授权数量:<span class="text-total-blue" id="bar7_2_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                        </div>
+                        
+                        <div class="main-chart" id="barOne" style="height:270px;width: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+            
+            
+            
+            
+            
+            
+            
+              <div class="layui-col-md3">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        ${year}年直属研究院发明专利申请
+                        <div class="layui-tool">
+                            <button type="button" class="btn btn-tool collapse"></button>
+                            <button type="button" class="btn btn-tool remove"></button>
+                        </div>
+                    </div>
+                    <div class="layui-card-body btn-function">
+                    
+                       <div class="text-total">
+                            <span>总计:<span class="text-total-blue"    id="bar8_all_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                        </div>
+                        
+                        <div  style="height:270px;width: 100%;" id="bar02"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md3">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        ${year}年直属研究院发明专利授权
+                        <div class="layui-tool">
+                            <button type="button" class="btn btn-tool collapse"></button>
+                            <button type="button" class="btn btn-tool remove"></button>
+                        </div>
+                    </div>
+                    <div class="layui-card-body btn-function">
+                      <div class="text-total">
+                            <span>总计:<span class="text-total-blue"    id="bar9_all_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                        </div>
+                        <div  style="height:270px;width: 100%;" id="bar03"></div>
+                    </div>
+                </div>
+            </div>
+            
+        
+        
+            
+        </div>
+    </div>
+    
+    
+<script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
+<script src="/common/js/layer-v3.1.1/layer.js"></script>
+<script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
+<script type="text/javascript" src="/layuiadmin/modules/bmap.js"></script>
+<script type="text/javascript" src="/plugins/echarts/walden.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
+    <script>
+    var codec=$("#companyCode").val();
+    var element;
+        layui.use(['jquery','table','carousel','layer','laydate','element'], function(){
+            var $=layui.jquery,table=layui.table,carousel = layui.carousel,laydate=layui.laydate
+                ,layer = layui.layer;
+            element = layui.element;
+            
+            //科研课题
+            $(".layui-top .layui-col-md15").eq(0).click(function () {
+            	window.open("/instituteIndex?url="+"/direct/topic","_target");
+            });
+            //科研装备
+            $(".layui-top .layui-col-md15").eq(1).click(function () {
+                window.open("/instituteIndex?url="+"/direct/equipment","_target");
+            });
+            //合同
+            $(".layui-top .layui-col-md15").eq(2).click(function () {
+            	window.open("/instituteIndex?url="+"/direct/contract","_target");
+            });
+            //合同
+            $(".layui-top .layui-col-md15").eq(3).click(function () {
+                parent.layui.index.openTabsPage("/home_pay/home_pay", "经费支出（万元）");///home_second/ndys_level2 home_second/jfzc_level2
+            });
+            
+            
+            $(".layui-top .layui-col-md15").eq(4).click(function () {
+            	window.open("/instituteIndex?url="+"/direct/knowledgePatent","_target");
+            });
+            
+            //科研成果
+            $(".layui-top .layui-col-md15").eq(5).click(function () {
+            	
+            	window.open("/instituteIndex?url="+"/direct/achievement","_target");
+            });
+            
+            $(".layui-top .layui-col-md15").eq(6).click(function () {
+                parent.layui.index.openTabsPage("/intl_project/report/report_intl_project_main", "国际合作");
+            });
+            
+            
+            var md4Height=$(".layui-col-md4").height()-2;
+            var headerHeight=$(".layui-card-header").outerHeight(true);
+            $(".layui-wifi-left,.layui-wifi-right").css("height",md4Height-headerHeight+"px");
+            
+            laydate.render({
+                elem: '#month'
+                ,format: 'yyyyMM'
+             });
+         
+           
+            
+            
+            $(".remove").on("click",function () {
+                $(this).parents(".layui-card").parent().remove();
+            });
+            $(".collapse").on("click",function () {
+                $(this).parent().parent().nextAll().slideToggle(400);
+            });
+           
+            
+            
+            
+        });
+
+       
+        
+        
+        //科研项目、科研装备、预算
+        function getKyxm(month)
+        {
+        	$.ajax({
+ 				type : 'POST',
+ 				url : "/admin/project-count?define2=1",
+ 				dataType : 'json',
+ 				headers : {
+ 					'Content-Type' : 'application/json'
+ 				},
+ 				timeout : 3000, //超时时间设置，单位毫秒
+ 				error : function(XMLHttpRequest, status) {
+ 					$("#kyxm").html("<small>--(个)</small>");
+ 					$("#K0BNGLFPHJECB_t").html("<small>--(个)</small>");
+ 					$("#k0BNYSJHJE").html("<small>--(万元)</small>");
+ 				},
+ 				success : function(data) { //请求成功后处理函数。
+ 					$("#kyxm").html(data.projectCount+"<small>(个)</small>");
+ 					$("#K0BNGLFPHJECB_t").html(data.kyzbCount+"<small>(个)</small>");
+ 					if (data.jfTotal > 100) {
+ 						$("#k0BNYSJHJE").html((data.jfTotal/10000).toFixed(2)+"<small>(亿)</small>");
+ 					} else {
+ 						$("#k0BNYSJHJE").html(data.jfTotal+"<small>(万元)</small>");
+ 					}
+ 				}
+ 			});
+        	
+        }
+        
+        //合同签订 经费支出
+        function getndys_xfzc(month)
+        {
+        	
+        	 var v_date=(new Date()).getTime();
+        	 $.ajax({
+        	     type:"GET",
+        	     url: '/home/getndys_xfzc?month='+month+'&companyCode='+codec+'&v_date'+v_date,
+        	     dataType:"json",
+        	     timeout : 20000,
+        	     cache: false,
+        	     contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                 success:function(data,status)
+                 {    
+        	          if(data.success==true ||data.success=='true')
+        	          {
+        	        	  var k0BNGLFPHJECB=parseInt(data.data.k0BNGLFPHJECB);
+        	              
+        	        	  if(k0BNGLFPHJECB.toString().length>3)
+        	              {
+        	        		  $("#k0BNGLFPHJECB").html((k0BNGLFPHJECB/10000).toFixed(2)+"<small>亿</small>");
+        	              }else
+        	              {
+        	            	  $("#k0BNGLFPHJECB").html(k0BNGLFPHJECB+"<small>万元</small>");
+        	              } 
+        	          } 
+        		   },
+        		   error:function()
+        		   {
+        		    	//alert("您的网络不给力呀!");
+        		   },
+        		   complete: function (XMLHttpRequest, status) {
+        	            if(status == 'timeout'){
+        	            	 
+        	            }
+        	        }
+          });
+        	
+        }
+        
+        
+      
+        
+       
+        
+         
+        
+         //专利
+         function patentCount()
+         {
+         	$.ajax({
+ 				type : 'POST',
+ 				url : "/admin/patent-count?define2=1",
+ 				dataType : 'json',
+ 				headers : {
+ 					'Content-Type' : 'application/json'
+ 				},
+ 				timeout : 3000, //超时时间设置，单位毫秒
+ 				error : function(XMLHttpRequest, status) {
+ 					$("#patentId").html("--<small>(个)</small>");
+ 				},
+ 				success : function(data) { //请求成功后处理函数。
+ 					var patentCount = data.patentCount;
+ 					$("#patentId").html(patentCount+"<small>(个)</small>"); 
+ 				}
+ 			});
+         	
+         }
+         
+         //成果
+         function appraisalCount()
+         {
+         	$.ajax({
+ 				type : 'POST',
+ 				url : "/admin/appraisal-count?define2=1",
+ 				dataType : 'json',
+ 				headers : {
+ 					'Content-Type' : 'application/json'
+ 				},
+ 				timeout : 3000, //超时时间设置，单位毫秒
+ 				error : function(XMLHttpRequest, status) {
+ 					$("#appraisalId").html("--<small>(个)</small>");
+ 				},
+ 				success : function(data) { //请求成功后处理函数。
+ 					var appraisalCount = data.appraisalCount;
+ 					$("#appraisalId").html(appraisalCount+"<small>(个)</small>"); 
+ 				}
+ 			});
+         	
+         }
+         
+         
+        
+        function init()
+        {
+        	
+        	var month=$('#month').val();
+        	var companyCode=$("#companyCode").val();
+        	var year=$("#year").val();
+        	var v_date=(new Date()).getTime();
+        	if(month!=null && month!='')
+       		{
+        		getKyxm(month);//科研项目、科研装备、合同签订
+            	getndys_xfzc(month);//合同签订 经费支出
+            	patentCount();//专利
+            	appraisalCount();//成果
+            	
+            	
+            	var yAxis= [
+                    {
+                        type: 'value',
+                        name: '数量',
+                        min: 0,
+                        max:'dataMax',
+                        position: 'left',
+                        axisLabel: {
+                            formatter: '{value}'
+                        }
+                    }
+                ];
+            	
+            	var yAxis2= [
+                    {
+                        type: 'value',
+                        name: '金额（亿元）',
+                        min: 0,
+                        max:'dataMax',
+                        position: 'left',
+                        axisLabel: {
+                            formatter: '{value}'
+                        }
+                    }
+                ];
+            	
+            	var yAxis3= [
+                    {
+                        type: 'value',
+                        name: '百分比',
+                        min: 0,
+                        max:'dataMax',
+                        position: 'left',
+                        axisLabel: {
+                        	formatter: '{value} %'
+                        }
+                    }
+                ];
+            	
+            	
+            	 
+            	 
+            	
+           	//直属研究院科研课题数量分布情况分析--项目
+           	var chart1_url="/home_project_ld/getProjectByDistributeBar?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
+           	var data=load_mutl_bar_03(chart1_url,"bar1","","",yAxis);
+           	
+           	var xkCount=getDataCountForName(data,'新开课题');
+           	var jzCount=getDataCountForName(data,'结转课题');
+  	        var allCount=xkCount+jzCount;
+  	        $("#bar1_all_count").html(allCount);
+  	        $("#bar1_xk_count").html(xkCount);
+  	        $("#bar1_jz_count").html(jzCount);
+            	
+            	
+            //直属研究院合同签订分析
+           	var chart2_url="/home_budget_ld/getMoney_rate?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
+           	var echart2= load_mony_line_one(chart2_url,"bar2","","",yAxis3);
+           	   
+           	//直属研究科研装备数量分析
+           	var chart3_url="/home_device_ld/getDeviceByDistributeBar?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
+        	var data=load_mutl_bar_three(chart3_url,"bar3","","",yAxis);
+        	
+        	var xkCount_3=getDataCountForName(data,'新开课题');
+        	var jzCount_3=getDataCountForName(data,'结转课题');
+	        var allCount_3=xkCount_3+jzCount_3;
+	        
+            $("#bar3_all_count").html(allCount_3);
+            $("#bar3_xk_count").html(xkCount_3);
+            $("#bar3_zj_count").html(jzCount_3);
+            
+        	
+         	//直属研究院科研设备数量分析
+           	var chart4_url="/home/GET_getDzzk_bar?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
+        	var data=load_mutl_bar_stack_02(chart4_url,"bar4","","",yAxis);
+        	
+        	var bCount_4=getDataCountForName(data,'大型分析仪器');
+        	var zCount_4=getDataCountForName(data,'中型实验装置');
+        	var dCount_4=getDataCountForName(data,'单台值大于500万');
+        	var zyCount_4=getDataCountForName(data,'专业软件（外购）');
+	        var allCount_4=bCount_4+zCount_4+dCount_4+zyCount_4;
+	        
+            $("#bar4_1_count").html(bCount_4);
+            $("#bar4_2_count").html(zCount_4);
+            $("#bar4_3_count").html(dCount_4);
+            $("#bar4_4_count").html(zyCount_4);
+	            
+            
+
+        	var chart7_url="/home_knowledge_ld/getKnowledgeUnitList_stack?nd="+year+"&v_date="+v_date;
+        	var data7=load_mutl_bar_stack_two(chart7_url,"barOne","","",yAxis);
+        	var bCount_7=getDataCountForName(data7,'申请总数');
+        	var zCount_7=getDataCountForName(data7,'授权总数');
+        	var allCount_7=bCount_7+zCount_7;
+        	
+       	    $("#bar7_all_count").html(allCount_7);
+            $("#bar7_1_count").html(bCount_7);
+            $("#bar7_2_count").html(zCount_7);
+  	            
+              
+        	
+        	var url_8="/home_knowledge_ld/getKnowledgePie?month="+month+"&v_date="+v_date+"&type=1&companyCode="+companyCode;
+        	var allCount=loadPie_02(url_8,"bar02","","");
+        	$("#bar8_all_count").html(allCount);
+        	 
+        	 
+        	var url_9="/home_knowledge_ld/getKnowledgePie?month="+month+"&v_date="+v_date+"&type=2&companyCode="+companyCode;
+        	var allCount2=loadPie_02(url_9,"bar03","","");
+        	$("#bar9_all_count").html(allCount2);
+        	
+            	
+       		}
+        }
+        
+        
+        function getDataCountForName(data,strName)
+        {
+        	var seriesList=data.seriesList;
+            var xkCount=0;
+            
+	            for(var i=0;i<seriesList.length;i++)
+	            {
+	            	var arr=seriesList[i].data;
+	            	var name=seriesList[i].name;
+	            	if(name==strName)
+	            	{
+	            		var name_count=0;
+	            		for(var j=0;j<arr.length;j++)
+	    	            {
+	            			name_count=name_count+parseInt(arr[j]);
+	    	            }
+	            		xkCount=name_count;
+	            	}
+	            } 
+	            return parseInt(xkCount);
+        }
+        init();
+     </script>
+</body>
+</html>
