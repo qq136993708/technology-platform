@@ -52,7 +52,7 @@
                             <span id="textTopTwo">0</span><span class="layui-text-span">个</span>
                             <img src="/layuiadmin/layui/images/level-close.png" class="dele" alt="">
                         </div>
-                        <div class="layui-col-md3 layui-text-icon layui-textTop-three"  id="achievements" style="cursor:pointer">
+                        <div class="layui-col-md3 layui-text-icon layui-textTop-three"   style="cursor:pointer">
                             <p>科研装备</p>
                             <!--  <span id="textTopThree"></span><span class="layui-text-span">个</span> -->
                             <span class="layui-box-number" id="appraisalId">
@@ -66,7 +66,7 @@
                             <!--<span id="textBottomFour">0</span><span class="layui-text-span">个</span>-->
                             <img src="/layuiadmin/layui/images/level-close.png" class="dele" alt="">
                         </div>
-                        <div class="layui-col-md3 layui-text-icon layui-contract">
+                        <div class="layui-col-md3 layui-text-icon layui-contract" id="contract">
                             <p>科研合同</p>
                             <!--  <span id="textTopThree"></span><span class="layui-text-span">个</span> -->
                             <span class="layui-box-number" id="">
@@ -148,7 +148,7 @@
                     </div>
                     <div class="layui-agency-right layui-col-md6">
                         <div class="layui-col-md6 layui-agency-party">
-                            <div class="layui-text-icon layui-party-four">
+                            <div class="layui-text-icon layui-party-four" id="achievements">
                                 <p>科技成果</p>
                                 <span id="">0</span><span class="layui-text-span">个</span>
                                 <img src="/layuiadmin/layui/images/level-close.png" class="dele" alt="">
@@ -214,7 +214,7 @@
         	
         	 window.open("/instituteIndex?url="+"/home_ld/direct_depart","_target");
         });
-        //科研投入(合同签订)
+        //科研投入
         $("#home_budget").on("click",function () {
         	
         	window.open("/instituteIndex?url="+"/investment/investment","_target");
@@ -229,16 +229,23 @@
         //科技成果
         $("#achievements").on("click",function () {
         	
-        	window.open("/instituteIndex?url="+"/home_achievement_ld/award_level2","_target");
+        	window.open("/instituteIndex?url="+"/one_level_main/achievement","_target");
         });
         //知识产权
         $("#knowledge_right").on("click",function () {
         	
-        	window.open("/instituteIndex?url="+"/home_knowledge_ld/knowledge_level2","_target");
+        	window.open("/instituteIndex?url="+"/one_level_main/knowledge","_target");
         	
         	
         });
         
+        //合同
+        $("#contract").on("click",function () {
+        	
+        	window.open("/instituteIndex?url="+"/one_level_main/contract","_target");
+        	
+        	
+        });
         
     });
     

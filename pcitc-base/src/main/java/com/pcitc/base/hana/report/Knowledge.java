@@ -40,7 +40,45 @@ public class Knowledge {
 	private Integer sqsl;
 	
 	
+	 private Integer wgsjAgreeCount;
+	 
+	 private  String define1;
+	 private  String define2;
+	 private  String define3;
+	 
 	
+
+	public String getDefine1() {
+		return define1;
+	}
+
+	public void setDefine1(String define1) {
+		this.define1 = define1;
+	}
+
+	public String getDefine2() {
+		return define2;
+	}
+
+	public void setDefine2(String define2) {
+		this.define2 = define2;
+	}
+
+	public String getDefine3() {
+		return define3;
+	}
+
+	public void setDefine3(String define3) {
+		this.define3 = define3;
+	}
+
+	public Integer getWgsjAgreeCount() {
+		return wgsjAgreeCount;
+	}
+
+	public void setWgsjAgreeCount(Integer wgsjAgreeCount) {
+		this.wgsjAgreeCount = wgsjAgreeCount;
+	}
 
 	public String getLxmc() {
 		return lxmc;
