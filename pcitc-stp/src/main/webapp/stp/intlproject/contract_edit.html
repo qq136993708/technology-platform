@@ -25,6 +25,15 @@
 					$("#projectId").append('<option value="'+data[i].applyId+'">'+data[i].applyTitle+'</option>');
 				});
 		   	});
+    		//加载字典
+			var dicMap = ['ROOT_UNIVERSAL_GJHBBZ'];
+			publicMethods.ajaxPost("/dictionary/map/getMapListDictionarys",{"parentCodes":JSON.stringify(dicMap)}, function (data) {
+				$.each(data,function(key,val){
+					$.each(val,function(i,dt){
+						$("#"+key).append('<option value="'+dt.code+'">'+dt.name+'</option>');
+					});
+				});
+		   	});
     		//日期
     		laydate.render({
                 elem: '#signDate'
@@ -141,6 +150,35 @@
 					</div>
 				</div>
 			</div>
+		</div>
+		<div class="layui-row">
+			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+				<div class="layui-form-item">
+					<label for="" class="layui-form-label">签约地区<span class="must-fill">*</span></label>
+					<div class="layui-input-block">
+						<input type="text" class="layui-input" id="chineseContractCompany" name="chineseContractCompany" placeholder="请填写中方合作单位名称">
+					</div>
+				</div>
+			</div>
+			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">                
+			 	<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">签约金额(万元)<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <select name="moneyType" id="ROOT_UNIVERSAL_GJHBBZ" lay-verify="required"  lay-filter="test">
+                                <option value="">--请选择币种--</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                         <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
+                         	<input class="layui-input" name="foreignMoney" id="foreignMoney" lay-verify="required|number" placeholder="请输入金额（万元）" autocomplete="off" type="text">
+                         </div>
+                    </div>
+                </div>
+            </div>
 		</div>
 		<div class="layui-row">
 			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
