@@ -48,12 +48,21 @@ var option_bar_single = {
 
 
 
-
-
-
 function barAjax_single(url,  echartsobj, options) 
 {
-	
+	barAjax_single(url,  echartsobj, options,null);
+}
+
+/**
+ * 支持回调函数的数据请求
+ * @param url
+ * @param echartsobj
+ * @param options
+ * @param callback
+ * @returns
+ */
+function barAjax_single(url,  echartsobj, options,callback) 
+{
 	 var xAxisData=[];  
      var series=[];  
      $.ajax({
@@ -67,29 +76,33 @@ function barAjax_single(url,  echartsobj, options)
 	      {    
 		          if(data.success==true ||data.success=='true')
 		          {
-		        		    echartsobj.hideLoading();
-		        	        var chartList=data.data.xAxisDataList;
-		                    for(var i=0;i<chartList.length;i++)
-		                    {
-		                        xAxisData.push(chartList[i]);
-		                    }
-		                    
-		                    var seriesDataList=data.data.seriesDataList;
-		                    for(var i=0;i<seriesDataList.length;i++)
-		                    {
-		                    	series.push(seriesDataList[i]);
-		                    }
-		                    //加载数据图表
-		                    echartsobj.setOption({
-		                    	xAxis: {
-		                            data: xAxisData
-		                        },
-		                        series: [{
-		                            data: series,
-		                            type: 'bar',
-		                            barWidth:20
-		                        }]
-		                    });
+	        		    echartsobj.hideLoading();
+	        	        var chartList=data.data.xAxisDataList;
+	                    for(var i=0;i<chartList.length;i++)
+	                    {
+	                        xAxisData.push(chartList[i]);
+	                    }
+	                    
+	                    var seriesDataList=data.data.seriesDataList;
+	                    for(var i=0;i<seriesDataList.length;i++)
+	                    {
+	                    	series.push(seriesDataList[i]);
+	                    }
+	                    //加载数据图表
+	                    echartsobj.setOption({
+	                    	xAxis: {
+	                            data: xAxisData
+	                        },
+	                        series: [{
+	                            data: series,
+	                            type: 'bar',
+	                            barWidth:20
+	                        }]
+	                    });
+	                    if(callback)
+	                    {
+	                    	callback(data);
+	                    }
 		        	        
 		          } 
 			   },
@@ -110,6 +123,20 @@ function barAjax_single(url,  echartsobj, options)
 //单图
 function load_single_bar(url,id,title,subtext,yAxis)
 {
+	load_single_bar(url,id,title,subtext,yAxis,null);
+}
+/**
+ * 支持回调函数的bar
+ * @param url
+ * @param id
+ * @param title
+ * @param subtext
+ * @param yAxis
+ * @param callback
+ * @returns
+ */
+function load_single_bar(url,id,title,subtext,yAxis,callback)
+{
 	var echartsobj = echarts.init(document.getElementById(id));
 	option_bar_single.title.text=title;
 	option_bar_single.title.subtext=subtext;
@@ -118,14 +145,11 @@ function load_single_bar(url,id,title,subtext,yAxis)
 	{
 		option_bar_single.yAxis=yAxis;
 	}
-	
-	
 	echartsobj.setOption(option_bar_single);
 	echartsobj.showLoading();
-	barAjax_single(url, echartsobj, option_bar_single);
+	barAjax_single(url, echartsobj, option_bar_single,callback);
 	return echartsobj;
 }
-
 
 //假的
 function load_single_bar_tt(id,title,xAxisData,seriesdata,subtext)
