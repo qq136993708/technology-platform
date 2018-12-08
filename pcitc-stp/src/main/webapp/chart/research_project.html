@@ -177,8 +177,6 @@
                             <li>2015</li>
                             <li>2014</li>
                             <li>2013</li>
-                            <li>2012</li>
-                            <li>2011</li>
                         </ul>
                         <div class="pre_next"></div>
                     </div>
@@ -197,27 +195,6 @@
                         </div>
                         <div class="duty_nr" style="display: block; position: relative; top: 0px; left: 0px; opacity: 1;">
                             5
-                        </div>
-                        <div class="duty_nr" style="display: block; position: relative; top: 0px; left: 0px; opacity: 1;">
-                            6
-                        </div>
-                        <div class="duty_nr" style="display: block; position: relative; top: 0px; left: 0px; opacity: 1;">
-                            7
-                        </div>
-                        <div class="duty_nr" style="display: block; position: relative; top: 0px; left: 0px; opacity: 1;">
-                            8
-                        </div>
-                        <div class="duty_nr" style="display: block; position: relative; top: 0px; left: 0px; opacity: 1;">
-                            9
-                        </div>
-                        <div class="duty_nr" style="display: block; position: relative; top: 0px; left: 0px; opacity: 1;">
-                            10
-                        </div>
-                        <div class="duty_nr" style="display: block; position: relative; top: 0px; left: 0px; opacity: 1;">
-                            11
-                        </div>
-                        <div class="duty_nr" style="display: block; position: relative; top: 0px; left: 0px; opacity: 1;">
-                            12
                         </div>
                     </div>
                 </div>
@@ -670,6 +647,70 @@
                 }
             };
             myChart1.setOption(option);
+
+
+
+            /*时间轴*/
+            var len_fzlc  = $(".duty_gd ul li").length;
+            var index_fzlc = 0;
+            var fzlcWidth = $(".duty_gd ul li").width();
+
+
+            //li点击
+
+            $(".duty_gd ul li").click(function () {
+
+
+                index_fzlc=$(this).index();
+
+                $(this).addClass("layui-this").siblings().removeClass("layui-this");
+
+                $(".duty_gd ul").stop(true,false).animate({top: -fzlcWidth*index_fzlc},500);
+
+                $(".duty_content>div").eq(index_fzlc).fadeIn(700).siblings().hide();
+
+            }).eq(0).click();
+
+
+            //往左按钮
+            $(".pre_last").click(function () {
+                if(index_fzlc!=0){
+
+                    index_fzlc--;
+                }
+                else{
+                    index_fzlc=len_fzlc-1;
+                }
+                $(".duty_gd ul li").eq(index_fzlc).addClass("layui-this").siblings().removeClass("layui-this");
+
+                $(".duty_gd ul").stop(true,false).animate({top: -fzlcWidth*index_fzlc},500);
+
+                $(".duty_content>div").eq(index_fzlc).fadeIn(700).siblings().hide();
+
+
+
+
+            });
+            //往右按钮
+            $(".pre_next").click(function () {
+                if(index_fzlc!=(len_fzlc-1)){
+
+                    index_fzlc++;
+
+                }
+                else{
+                    index_fzlc=0;
+                }
+                $(".duty_gd ul li").eq(index_fzlc).addClass("layui-this").siblings().removeClass("layui-this");
+
+                $(".duty_gd ul").stop(true,false).animate({top: -fzlcWidth*index_fzlc},500);
+
+                $(".duty_content>div").eq(index_fzlc).fadeIn(700).siblings().hide();
+
+
+
+            });
+
         });
     </script>
 </body>
