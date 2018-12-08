@@ -283,6 +283,95 @@ public class DirectController {
 		
 		
 		
+		
+		
+		@RequestMapping(method = RequestMethod.GET, value = "/knowledge_04")
+		@ResponseBody
+		public String knowledge_04(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+			Result result = new Result();
+			String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+			String companyCode = CommonUtil.getParameter(request, "companyCode", HanaUtil.YJY_CODE_ALL);
+			String type = CommonUtil.getParameter(request, "type", "1");
+			Map<String, Object> paramsMap = new HashMap<String, Object>();
+			paramsMap.put("month", month);
+			paramsMap.put("companyCode", companyCode);
+			JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+			HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+			if (!companyCode.equals(""))
+			{
+				ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(getKnowledgePie, HttpMethod.POST, entity, JSONArray.class);
+				int statusCode = responseEntity.getStatusCodeValue();
+				if (statusCode == 200) 
+				{
+					JSONArray jSONArray = responseEntity.getBody();
+					System.out.println(">>>>>>>>>>>>>>knowledge_04 jSONArray-> " + jSONArray.toString());
+					List<Knowledge> list = JSONObject.parseArray(jSONArray.toJSONString(), Knowledge.class);
+					if(type.equals("1"))
+					{
+						ChartBarLineResultData barLine=new ChartBarLineResultData();
+						List<String>  xAxisDataList=HanaUtil.getduplicatexAxisByList(list,"lx");
+		         		barLine.setxAxisDataList(xAxisDataList);
+		         	
+		         		
+		         		List<String> legendDataList = new ArrayList<String>();
+						legendDataList.add("申请总数");
+						legendDataList.add("授权总数");
+						barLine.setLegendDataList(legendDataList);
+						// X轴数据
+						List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
+						ChartBarLineSeries s1 = HanaUtil.getKNOWLDGELevel2ChartBarLineSeries06(list, "applyCount");
+						seriesList.add(s1);
+						ChartBarLineSeries s2 = HanaUtil.getKNOWLDGELevel2ChartBarLineSeries06(list, "agreeCount");
+						seriesList.add(s2);
+						barLine.setSeriesList(seriesList);
+		         		result.setSuccess(true);
+						result.setData(barLine);
+					}
+					if(type.equals("2") || type.equals("3"))
+					{
+						ChartPieResultData pie = new ChartPieResultData();
+						List<ChartPieDataValue> dataList = new ArrayList<ChartPieDataValue>();
+						List<String> legendDataList = new ArrayList<String>();
+						for (int i = 0; i < list.size(); i++) 
+						{
+							Knowledge f2 = list.get(i);
+							String applyCount = f2.getApplyCount();
+							String agreeCount = f2.getAgreeCount();
+							
+							int value =0;
+							if(type.equals("2"))
+							{
+								value =Integer.valueOf(applyCount).intValue();
+							}
+							if(type.equals("3"))
+							{                
+								value =Integer.valueOf(agreeCount).intValue();
+							}
+							
+							legendDataList.add(f2.getLx());
+							dataList.add(new ChartPieDataValue(value, f2.getLx()));
+						}
+						pie.setDataList(dataList);
+						pie.setLegendDataList(legendDataList);
+		         		result.setSuccess(true);
+						result.setData(pie);
+					}
+					
+					
+				}
+				
+			} else
+			{
+				result.setSuccess(false);
+				result.setMessage("参数为空");
+			}
+			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
+			System.out.println(">>>>>>>>>>>>>>>knowledge_04 " + resultObj.toString());
+			return resultObj.toString();
+		}
+		
+		
 		/**==========================================成果数量分析====================================*/
 		
 		  @RequestMapping(method = RequestMethod.GET, value = "/achievement")
