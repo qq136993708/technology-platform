@@ -106,7 +106,7 @@
 <script type="text/javascript" src="/plugins/echarts/walden.js"></script>	
 <script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
 <script type="text/javascript" src="/stp/hana/common/stp_common_bar.js?v=2"></script>
-<script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_pie.js?v=2"></script>
 
 <script type="text/javascript">
 var editObj=null,ptable=null,treeGridCom=null,layer=null;
@@ -200,7 +200,9 @@ function initEchart()
 	
 	
 	var chart5_url="/direct_second/direct_second_data_03?type=2&nd="+nd+"&v_date="+v_date;
-	var echart5=loadPie(chart5_url,"chart5","","");
+	var echart5=loadPie_02(chart5_url,"chart5","","",function(data){
+		console.log(data);
+	});
 	/* echart5.on('click', function (params) {
 		var xName=params.name;
 		var legentName=params.seriesName;
@@ -209,7 +211,9 @@ function initEchart()
     }); */
 	
 	var chart6_url="/direct_second/direct_second_data_04?nd="+nd+"&v_date="+v_date;
-	var echart6= loadPie(chart6_url,"chart6","","");
+	var echart6= loadPie_02(chart6_url,"chart6","","",function(data){
+		console.log(data);
+	});
 	/* echart6.on('click', function (params) {
 		var xName=params.name;
 		var legentName=params.seriesName;

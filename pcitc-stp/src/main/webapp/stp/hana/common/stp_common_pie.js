@@ -211,7 +211,20 @@ var optionpie_02 = {
 	        }
 	    ]
 	};
-	function pieAjax_02(url, echartsobj, options) 
+
+	function pieAjax_02(url, echartsobj, options)
+	{
+		pieAjax_02(url, echartsobj, options,null);
+	}
+	/**
+	 * 支持回调的数据加载
+	 * @param url
+	 * @param echartsobj
+	 * @param options
+	 * @param callback
+	 * @returns
+	 */
+	function pieAjax_02(url, echartsobj, options,callback) 
 	{
 		 var allCount=0;
 		 var names=[];  
@@ -251,6 +264,10 @@ var optionpie_02 = {
 			                            data: values
 			                        }]
 			                    });
+			                    if(callback)
+			                    {
+			                    	callback(data);
+			                    }
 			        	        
 			          } 
 				   },
@@ -276,15 +293,18 @@ var optionpie_02 = {
 	//饼图
 	function loadPie_02(url,id,title,subtext)
 	{
+		return loadPie_02(url,id,title,subtext,null);
+	}
+	function loadPie_02(url,id,title,subtext,callback)
+	{
 		var echartsobj = echarts.init(document.getElementById(id));
 		optionpie_02.title.text=title;
 		optionpie_02.title.subtext=subtext;
 		echartsobj.setOption(optionpie_02);
 		echartsobj.showLoading();
-		var allCount=pieAjax_02(url,echartsobj,optionpie_02);
+		var allCount=pieAjax_02(url,echartsobj,optionpie_02,callback);
 		return allCount;
 	}
-
 	
 /**
  * ======================================饼形图 end==============================================
