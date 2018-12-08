@@ -65,6 +65,9 @@
                             <span class="layui-time"></span>年工业化成果数量占比
                         </div>
                         <div class="layui-row-main">
+                         	<div class="text-total">
+	                            <span>总计:<span class="text-total-blue"    id="chart_title_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+	                        </div>
                             <div class="main-chart" id="chart5" style="height:280px;width: 100%;"></div>
                         </div>
                     </div>
@@ -75,6 +78,9 @@
                             <span class="layui-time"></span>年工业试验成果数量占比
                         </div>
                         <div class="layui-row-main">
+	                        <div class="text-total">
+	                            <span>总计:<span class="text-total-blue"    id="chart_title_04"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+	                        </div>
                             <div class="main-chart" id="chart6" style="height:280px;width: 100%;"></div>
                         </div>
                     </div>
@@ -201,7 +207,11 @@ function initEchart()
 	
 	var chart5_url="/direct_second/direct_second_data_03?type=2&nd="+nd+"&v_date="+v_date;
 	var echart5=loadPie_02(chart5_url,"chart5","","",function(data){
-		console.log(data);
+		var total_count = 0;
+		$.each(data.data.dataList,function(index,dt){
+			total_count += dt.value;
+		});
+		$("#chart_title_03").html(total_count+"个");
 	});
 	/* echart5.on('click', function (params) {
 		var xName=params.name;
@@ -212,7 +222,11 @@ function initEchart()
 	
 	var chart6_url="/direct_second/direct_second_data_04?nd="+nd+"&v_date="+v_date;
 	var echart6= loadPie_02(chart6_url,"chart6","","",function(data){
-		console.log(data);
+		var total_count = 0;
+		$.each(data.data.dataList,function(index,dt){
+			total_count += dt.value;
+		});
+		$("#chart_title_04").html(total_count+"个");
 	});
 	/* echart6.on('click', function (params) {
 		var xName=params.name;
