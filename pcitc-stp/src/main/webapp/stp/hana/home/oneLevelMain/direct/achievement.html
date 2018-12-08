@@ -37,7 +37,7 @@
                     </div>
                     <div class="layui-row-main">
                     	<div class="text-total">
-                            <span>总计:<span class="text-total-blue"    id="topic_chart"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>成果数量总计：<span class="text-total-blue"    id="topic_chart"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                        </div>
                         <div class="main-chart" id="chart1" style="height:280px;width: 100%;"></div>
                     </div>
@@ -149,8 +149,11 @@ function initEchart()
     ];
 	var chart1_url="/direct_second/direct_second_data_01?nd="+nd+"&v_date="+v_date;
 	var echart1=load_single_bar(chart1_url,"chart1","","",yAxis,function(data){
-		
-		$("#topic_chart").html("");
+		var total_count = 0;
+		$.each(data.data.seriesDataList,function(index,dt){
+			total_count += dt;
+		});
+		$("#topic_chart").html(total_count+"个");
 	});
 	/* echart1.on('click', function (params) {
 		var xName=params.name;
