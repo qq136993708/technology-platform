@@ -26,7 +26,7 @@
 				});
 		   	});
     		//加载字典
-			var dicMap = ['ROOT_UNIVERSAL_GJHBBZ'];
+			var dicMap = ['ROOT_UNIVERSAL_GJHBBZ','ROOT_UNIVERSAL_GJDQ'];
 			publicMethods.ajaxPost("/dictionary/map/getMapListDictionarys",{"parentCodes":JSON.stringify(dicMap)}, function (data) {
 				$.each(data,function(key,val){
 					$.each(val,function(i,dt){
@@ -156,7 +156,10 @@
 				<div class="layui-form-item">
 					<label for="" class="layui-form-label">签约地区<span class="must-fill">*</span></label>
 					<div class="layui-input-block">
-						<input type="text" class="layui-input" id="chineseContractCompany" name="chineseContractCompany" placeholder="请填写中方合作单位名称">
+						<select name="countryName" id="ROOT_UNIVERSAL_GJDQ" lay-verify="required"  lay-filter="userKind">
+		                	<option value="">请选择</option>
+		             	</select>
+						
 					</div>
 				</div>
 			</div>

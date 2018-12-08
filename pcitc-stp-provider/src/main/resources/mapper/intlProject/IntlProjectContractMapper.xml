@@ -31,7 +31,7 @@
     <result column="person_study" jdbcType="VARCHAR" property="personStudy" />
     <result column="result_status" jdbcType="VARCHAR" property="resultStatus" />
     <result column="unit_id" jdbcType="VARCHAR" property="unitId" />
-    <result column="country" jdbcType="VARCHAR" property="country" />
+    <result column="country_name" jdbcType="VARCHAR" property="countryName" />
     <result column="money_type" jdbcType="VARCHAR" property="moneyType" />
     <result column="foreign_money" jdbcType="DOUBLE" property="foreignMoney" />
     <result column="rmb_money" jdbcType="DOUBLE" property="rmbMoney" />
@@ -104,7 +104,7 @@
     flow_agreement_review, flow_technology_review, flow_knowledge_review, flow_comprehensive_review, 
     del_flag, append_files, contract_status, chinese_contract_company, foreign_contract_company, 
     company_introduction, company_advantage, project_target, research_content, person_study, 
-    result_status, unit_id, country, money_type, foreign_money, rmb_money, agreement_start_date, 
+    result_status, unit_id, country_name, money_type, foreign_money, rmb_money, agreement_start_date, 
     agreement_end_date, secrecy_start_date, secrecy_end_date
   </sql>
   <select id="selectByExample" parameterType="com.pcitc.base.stp.IntlProject.IntlProjectContractExample" resultMap="BaseResultMap">
@@ -149,7 +149,7 @@
       chinese_contract_company, foreign_contract_company, 
       company_introduction, company_advantage, 
       project_target, research_content, person_study, 
-      result_status, unit_id, country, 
+      result_status, unit_id, country_name, 
       money_type, foreign_money, rmb_money, 
       agreement_start_date, agreement_end_date, secrecy_start_date, 
       secrecy_end_date)
@@ -163,7 +163,7 @@
       #{chineseContractCompany,jdbcType=VARCHAR}, #{foreignContractCompany,jdbcType=VARCHAR}, 
       #{companyIntroduction,jdbcType=VARCHAR}, #{companyAdvantage,jdbcType=VARCHAR}, 
       #{projectTarget,jdbcType=VARCHAR}, #{researchContent,jdbcType=VARCHAR}, #{personStudy,jdbcType=VARCHAR}, 
-      #{resultStatus,jdbcType=VARCHAR}, #{unitId,jdbcType=VARCHAR}, #{country,jdbcType=VARCHAR}, 
+      #{resultStatus,jdbcType=VARCHAR}, #{unitId,jdbcType=VARCHAR}, #{countryName,jdbcType=VARCHAR}, 
       #{moneyType,jdbcType=VARCHAR}, #{foreignMoney,jdbcType=DOUBLE}, #{rmbMoney,jdbcType=DOUBLE}, 
       #{agreementStartDate,jdbcType=VARCHAR}, #{agreementEndDate,jdbcType=VARCHAR}, #{secrecyStartDate,jdbcType=VARCHAR}, 
       #{secrecyEndDate,jdbcType=VARCHAR})
@@ -258,8 +258,8 @@
       <if test="unitId != null">
         unit_id,
       </if>
-      <if test="country != null">
-        country,
+      <if test="countryName != null">
+        country_name,
       </if>
       <if test="moneyType != null">
         money_type,
@@ -371,8 +371,8 @@
       <if test="unitId != null">
         #{unitId,jdbcType=VARCHAR},
       </if>
-      <if test="country != null">
-        #{country,jdbcType=VARCHAR},
+      <if test="countryName != null">
+        #{countryName,jdbcType=VARCHAR},
       </if>
       <if test="moneyType != null">
         #{moneyType,jdbcType=VARCHAR},
@@ -493,8 +493,8 @@
       <if test="record.unitId != null">
         unit_id = #{record.unitId,jdbcType=VARCHAR},
       </if>
-      <if test="record.country != null">
-        country = #{record.country,jdbcType=VARCHAR},
+      <if test="record.countryName != null">
+        country_name = #{record.countryName,jdbcType=VARCHAR},
       </if>
       <if test="record.moneyType != null">
         money_type = #{record.moneyType,jdbcType=VARCHAR},
@@ -553,7 +553,7 @@
       person_study = #{record.personStudy,jdbcType=VARCHAR},
       result_status = #{record.resultStatus,jdbcType=VARCHAR},
       unit_id = #{record.unitId,jdbcType=VARCHAR},
-      country = #{record.country,jdbcType=VARCHAR},
+      country_name = #{record.countryName,jdbcType=VARCHAR},
       money_type = #{record.moneyType,jdbcType=VARCHAR},
       foreign_money = #{record.foreignMoney,jdbcType=DOUBLE},
       rmb_money = #{record.rmbMoney,jdbcType=DOUBLE},
@@ -652,8 +652,8 @@
       <if test="unitId != null">
         unit_id = #{unitId,jdbcType=VARCHAR},
       </if>
-      <if test="country != null">
-        country = #{country,jdbcType=VARCHAR},
+      <if test="countryName != null">
+        country_name = #{countryName,jdbcType=VARCHAR},
       </if>
       <if test="moneyType != null">
         money_type = #{moneyType,jdbcType=VARCHAR},
@@ -709,7 +709,7 @@
       person_study = #{personStudy,jdbcType=VARCHAR},
       result_status = #{resultStatus,jdbcType=VARCHAR},
       unit_id = #{unitId,jdbcType=VARCHAR},
-      country = #{country,jdbcType=VARCHAR},
+      country_name = #{countryName,jdbcType=VARCHAR},
       money_type = #{moneyType,jdbcType=VARCHAR},
       foreign_money = #{foreignMoney,jdbcType=DOUBLE},
       rmb_money = #{rmbMoney,jdbcType=DOUBLE},
