@@ -151,7 +151,9 @@
 			/* 自定义验证规则  title 要验证的input的 lay-verify=""*/
 			form.verify({
 				prodefId : function(value) {
-					if (value.length == '') { return '需要选择流程定义'; }
+					if (value.length == '') {
+						return '需要选择流程定义';
+					}
 				}
 			});
 
