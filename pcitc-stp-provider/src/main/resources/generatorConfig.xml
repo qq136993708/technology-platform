@@ -3,7 +3,7 @@
 <generatorConfiguration>
 	<!-- <classPathEntry location="D:\eclipse64workplace\mpbw\WebContent\WEB-INF\lib\mysql-connector-java-5.1.20-bin.jar" />
 	 -->
-	 <classPathEntry location="D:\software\libs\mysql-connector-java-5.1.40.jar" />
+	 <classPathEntry location="D:\software\libs\mysql-connector-java-5.1.25.jar" />
 	
 	
 	<context id="context1">
@@ -34,6 +34,7 @@
 	   <table schema="pcitc-stp-provider" domainObjectName="TechFamily" tableName="tfm_type" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"/>
 	   <table schema="pcitc-stp-provider" domainObjectName="IntlProjectPlant" tableName="intl_project_plant" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"/>
 	  	-->
-		
+		<table schema="pcitc-stp-provider" domainObjectName="IntlProjectContract" tableName="intl_project_contract" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"/>
+	  
 	</context>
 </generatorConfiguration>

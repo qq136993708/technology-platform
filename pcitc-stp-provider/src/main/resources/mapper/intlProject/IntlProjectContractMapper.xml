@@ -32,6 +32,7 @@
     <result column="result_status" jdbcType="VARCHAR" property="resultStatus" />
     <result column="unit_id" jdbcType="VARCHAR" property="unitId" />
     <result column="country" jdbcType="VARCHAR" property="country" />
+    <result column="money_type" jdbcType="VARCHAR" property="moneyType" />
     <result column="foreign_money" jdbcType="DOUBLE" property="foreignMoney" />
     <result column="rmb_money" jdbcType="DOUBLE" property="rmbMoney" />
     <result column="agreement_start_date" jdbcType="VARCHAR" property="agreementStartDate" />
@@ -103,7 +104,7 @@
     flow_agreement_review, flow_technology_review, flow_knowledge_review, flow_comprehensive_review, 
     del_flag, append_files, contract_status, chinese_contract_company, foreign_contract_company, 
     company_introduction, company_advantage, project_target, research_content, person_study, 
-    result_status, unit_id, country, foreign_money, rmb_money, agreement_start_date, 
+    result_status, unit_id, country, money_type, foreign_money, rmb_money, agreement_start_date, 
     agreement_end_date, secrecy_start_date, secrecy_end_date
   </sql>
   <select id="selectByExample" parameterType="com.pcitc.base.stp.IntlProject.IntlProjectContractExample" resultMap="BaseResultMap">
@@ -149,9 +150,9 @@
       company_introduction, company_advantage, 
       project_target, research_content, person_study, 
       result_status, unit_id, country, 
-      foreign_money, rmb_money, agreement_start_date, 
-      agreement_end_date, secrecy_start_date, secrecy_end_date
-      )
+      money_type, foreign_money, rmb_money, 
+      agreement_start_date, agreement_end_date, secrecy_start_date, 
+      secrecy_end_date)
     values (#{contractId,jdbcType=VARCHAR}, #{contractNo,jdbcType=VARCHAR}, #{signDate,jdbcType=VARCHAR}, 
       #{signAddress,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR}, #{contractContent,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=VARCHAR}, #{updateTime,jdbcType=VARCHAR}, #{creater,jdbcType=VARCHAR}, 
@@ -163,9 +164,9 @@
       #{companyIntroduction,jdbcType=VARCHAR}, #{companyAdvantage,jdbcType=VARCHAR}, 
       #{projectTarget,jdbcType=VARCHAR}, #{researchContent,jdbcType=VARCHAR}, #{personStudy,jdbcType=VARCHAR}, 
       #{resultStatus,jdbcType=VARCHAR}, #{unitId,jdbcType=VARCHAR}, #{country,jdbcType=VARCHAR}, 
-      #{foreignMoney,jdbcType=DOUBLE}, #{rmbMoney,jdbcType=DOUBLE}, #{agreementStartDate,jdbcType=VARCHAR}, 
-      #{agreementEndDate,jdbcType=VARCHAR}, #{secrecyStartDate,jdbcType=VARCHAR}, #{secrecyEndDate,jdbcType=VARCHAR}
-      )
+      #{moneyType,jdbcType=VARCHAR}, #{foreignMoney,jdbcType=DOUBLE}, #{rmbMoney,jdbcType=DOUBLE}, 
+      #{agreementStartDate,jdbcType=VARCHAR}, #{agreementEndDate,jdbcType=VARCHAR}, #{secrecyStartDate,jdbcType=VARCHAR}, 
+      #{secrecyEndDate,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.pcitc.base.stp.IntlProject.IntlProjectContract">
     insert into intl_project_contract
@@ -259,6 +260,9 @@
       </if>
       <if test="country != null">
         country,
+      </if>
+      <if test="moneyType != null">
+        money_type,
       </if>
       <if test="foreignMoney != null">
         foreign_money,
@@ -369,6 +373,9 @@
       </if>
       <if test="country != null">
         #{country,jdbcType=VARCHAR},
+      </if>
+      <if test="moneyType != null">
+        #{moneyType,jdbcType=VARCHAR},
       </if>
       <if test="foreignMoney != null">
         #{foreignMoney,jdbcType=DOUBLE},
@@ -489,6 +496,9 @@
       <if test="record.country != null">
         country = #{record.country,jdbcType=VARCHAR},
       </if>
+      <if test="record.moneyType != null">
+        money_type = #{record.moneyType,jdbcType=VARCHAR},
+      </if>
       <if test="record.foreignMoney != null">
         foreign_money = #{record.foreignMoney,jdbcType=DOUBLE},
       </if>
@@ -544,6 +554,7 @@
       result_status = #{record.resultStatus,jdbcType=VARCHAR},
       unit_id = #{record.unitId,jdbcType=VARCHAR},
       country = #{record.country,jdbcType=VARCHAR},
+      money_type = #{record.moneyType,jdbcType=VARCHAR},
       foreign_money = #{record.foreignMoney,jdbcType=DOUBLE},
       rmb_money = #{record.rmbMoney,jdbcType=DOUBLE},
       agreement_start_date = #{record.agreementStartDate,jdbcType=VARCHAR},
@@ -644,6 +655,9 @@
       <if test="country != null">
         country = #{country,jdbcType=VARCHAR},
       </if>
+      <if test="moneyType != null">
+        money_type = #{moneyType,jdbcType=VARCHAR},
+      </if>
       <if test="foreignMoney != null">
         foreign_money = #{foreignMoney,jdbcType=DOUBLE},
       </if>
@@ -696,6 +710,7 @@
       result_status = #{resultStatus,jdbcType=VARCHAR},
       unit_id = #{unitId,jdbcType=VARCHAR},
       country = #{country,jdbcType=VARCHAR},
+      money_type = #{moneyType,jdbcType=VARCHAR},
       foreign_money = #{foreignMoney,jdbcType=DOUBLE},
       rmb_money = #{rmbMoney,jdbcType=DOUBLE},
       agreement_start_date = #{agreementStartDate,jdbcType=VARCHAR},

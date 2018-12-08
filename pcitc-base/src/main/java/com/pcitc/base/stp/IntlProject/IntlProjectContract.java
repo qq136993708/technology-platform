@@ -61,6 +61,8 @@ public class IntlProjectContract {
 
     private String country;
 
+    private String moneyType;
+
     private Double foreignMoney;
 
     private Double rmbMoney;
@@ -311,6 +313,14 @@ public class IntlProjectContract {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    public String getMoneyType() {
+        return moneyType;
+    }
+
+    public void setMoneyType(String moneyType) {
+        this.moneyType = moneyType;
     }
 
     public Double getForeignMoney() {

@@ -2144,6 +2144,76 @@ public class IntlProjectContractExample {
             return (Criteria) this;
         }
 
+        public Criteria andMoneyTypeIsNull() {
+            addCriterion("money_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMoneyTypeIsNotNull() {
+            addCriterion("money_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMoneyTypeEqualTo(String value) {
+            addCriterion("money_type =", value, "moneyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andMoneyTypeNotEqualTo(String value) {
+            addCriterion("money_type <>", value, "moneyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andMoneyTypeGreaterThan(String value) {
+            addCriterion("money_type >", value, "moneyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andMoneyTypeGreaterThanOrEqualTo(String value) {
+            addCriterion("money_type >=", value, "moneyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andMoneyTypeLessThan(String value) {
+            addCriterion("money_type <", value, "moneyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andMoneyTypeLessThanOrEqualTo(String value) {
+            addCriterion("money_type <=", value, "moneyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andMoneyTypeLike(String value) {
+            addCriterion("money_type like", value, "moneyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andMoneyTypeNotLike(String value) {
+            addCriterion("money_type not like", value, "moneyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andMoneyTypeIn(List<String> values) {
+            addCriterion("money_type in", values, "moneyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andMoneyTypeNotIn(List<String> values) {
+            addCriterion("money_type not in", values, "moneyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andMoneyTypeBetween(String value1, String value2) {
+            addCriterion("money_type between", value1, value2, "moneyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andMoneyTypeNotBetween(String value1, String value2) {
+            addCriterion("money_type not between", value1, value2, "moneyType");
+            return (Criteria) this;
+        }
+
         public Criteria andForeignMoneyIsNull() {
             addCriterion("foreign_money is null");
             return (Criteria) this;
