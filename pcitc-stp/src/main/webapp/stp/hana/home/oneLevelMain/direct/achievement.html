@@ -88,6 +88,9 @@
                         <span class="layui-time"></span>年成果数量技术分布情况
                     </div>
                     <div class="layui-row-main">
+                    	<div class="text-total">
+                            <span>成果数量总计：<span class="text-total-blue" id="chart_title_05"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                        </div>
                         <div class="main-chart" id="chart7" style="height:280px;width: 100%;"></div>
                     </div>
                 </div>
@@ -216,7 +219,13 @@ function initEchart()
 	
 	
 	var chart7_url="/direct_second/direct_second_data_05?nd="+nd+"&v_date="+v_date;
-	var echart7=load_single_bar(chart7_url,"chart7","","",yAxis);
+	var echart7=load_single_bar(chart7_url,"chart7","","",yAxis,function(data){
+		var total_count = 0;
+		$.each(data.data.seriesDataList,function(index,dt){
+			total_count += dt;
+		});
+		$("#chart_title_05").html(total_count+"个");
+	});
 	/* echart7.on('click', function (params) {
 		var xName=params.name;
 		var legentName=params.seriesName;
