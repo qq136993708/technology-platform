@@ -59,7 +59,9 @@ public class IntlProjectContract {
 
     private String unitId;
 
-    private String country;
+    private String countryName;
+
+    private String moneyType;
 
     private Double foreignMoney;
 
@@ -305,12 +307,20 @@ public class IntlProjectContract {
         this.unitId = unitId;
     }
 
-    public String getCountry() {
-        return country;
+    public String getCountryName() {
+        return countryName;
     }
 
-    public void setCountry(String country) {
-        this.country = country;
+    public void setCountryName(String countryName) {
+        this.countryName = countryName;
+    }
+
+    public String getMoneyType() {
+        return moneyType;
+    }
+
+    public void setMoneyType(String moneyType) {
+        this.moneyType = moneyType;
     }
 
     public Double getForeignMoney() {

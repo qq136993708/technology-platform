@@ -2074,73 +2074,143 @@ public class IntlProjectContractExample {
             return (Criteria) this;
         }
 
-        public Criteria andCountryIsNull() {
-            addCriterion("country is null");
+        public Criteria andCountryNameIsNull() {
+            addCriterion("country_name is null");
             return (Criteria) this;
         }
 
-        public Criteria andCountryIsNotNull() {
-            addCriterion("country is not null");
+        public Criteria andCountryNameIsNotNull() {
+            addCriterion("country_name is not null");
             return (Criteria) this;
         }
 
-        public Criteria andCountryEqualTo(String value) {
-            addCriterion("country =", value, "country");
+        public Criteria andCountryNameEqualTo(String value) {
+            addCriterion("country_name =", value, "countryName");
             return (Criteria) this;
         }
 
-        public Criteria andCountryNotEqualTo(String value) {
-            addCriterion("country <>", value, "country");
+        public Criteria andCountryNameNotEqualTo(String value) {
+            addCriterion("country_name <>", value, "countryName");
             return (Criteria) this;
         }
 
-        public Criteria andCountryGreaterThan(String value) {
-            addCriterion("country >", value, "country");
+        public Criteria andCountryNameGreaterThan(String value) {
+            addCriterion("country_name >", value, "countryName");
             return (Criteria) this;
         }
 
-        public Criteria andCountryGreaterThanOrEqualTo(String value) {
-            addCriterion("country >=", value, "country");
+        public Criteria andCountryNameGreaterThanOrEqualTo(String value) {
+            addCriterion("country_name >=", value, "countryName");
             return (Criteria) this;
         }
 
-        public Criteria andCountryLessThan(String value) {
-            addCriterion("country <", value, "country");
+        public Criteria andCountryNameLessThan(String value) {
+            addCriterion("country_name <", value, "countryName");
             return (Criteria) this;
         }
 
-        public Criteria andCountryLessThanOrEqualTo(String value) {
-            addCriterion("country <=", value, "country");
+        public Criteria andCountryNameLessThanOrEqualTo(String value) {
+            addCriterion("country_name <=", value, "countryName");
             return (Criteria) this;
         }
 
-        public Criteria andCountryLike(String value) {
-            addCriterion("country like", value, "country");
+        public Criteria andCountryNameLike(String value) {
+            addCriterion("country_name like", value, "countryName");
             return (Criteria) this;
         }
 
-        public Criteria andCountryNotLike(String value) {
-            addCriterion("country not like", value, "country");
+        public Criteria andCountryNameNotLike(String value) {
+            addCriterion("country_name not like", value, "countryName");
             return (Criteria) this;
         }
 
-        public Criteria andCountryIn(List<String> values) {
-            addCriterion("country in", values, "country");
+        public Criteria andCountryNameIn(List<String> values) {
+            addCriterion("country_name in", values, "countryName");
             return (Criteria) this;
         }
 
-        public Criteria andCountryNotIn(List<String> values) {
-            addCriterion("country not in", values, "country");
+        public Criteria andCountryNameNotIn(List<String> values) {
+            addCriterion("country_name not in", values, "countryName");
             return (Criteria) this;
         }
 
-        public Criteria andCountryBetween(String value1, String value2) {
-            addCriterion("country between", value1, value2, "country");
+        public Criteria andCountryNameBetween(String value1, String value2) {
+            addCriterion("country_name between", value1, value2, "countryName");
             return (Criteria) this;
         }
 
-        public Criteria andCountryNotBetween(String value1, String value2) {
-            addCriterion("country not between", value1, value2, "country");
+        public Criteria andCountryNameNotBetween(String value1, String value2) {
+            addCriterion("country_name not between", value1, value2, "countryName");
+            return (Criteria) this;
+        }
+
+        public Criteria andMoneyTypeIsNull() {
+            addCriterion("money_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMoneyTypeIsNotNull() {
+            addCriterion("money_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMoneyTypeEqualTo(String value) {
+            addCriterion("money_type =", value, "moneyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andMoneyTypeNotEqualTo(String value) {
+            addCriterion("money_type <>", value, "moneyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andMoneyTypeGreaterThan(String value) {
+            addCriterion("money_type >", value, "moneyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andMoneyTypeGreaterThanOrEqualTo(String value) {
+            addCriterion("money_type >=", value, "moneyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andMoneyTypeLessThan(String value) {
+            addCriterion("money_type <", value, "moneyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andMoneyTypeLessThanOrEqualTo(String value) {
+            addCriterion("money_type <=", value, "moneyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andMoneyTypeLike(String value) {
+            addCriterion("money_type like", value, "moneyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andMoneyTypeNotLike(String value) {
+            addCriterion("money_type not like", value, "moneyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andMoneyTypeIn(List<String> values) {
+            addCriterion("money_type in", values, "moneyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andMoneyTypeNotIn(List<String> values) {
+            addCriterion("money_type not in", values, "moneyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andMoneyTypeBetween(String value1, String value2) {
+            addCriterion("money_type between", value1, value2, "moneyType");
+            return (Criteria) this;
+        }
+
+        public Criteria andMoneyTypeNotBetween(String value1, String value2) {
+            addCriterion("money_type not between", value1, value2, "moneyType");
             return (Criteria) this;
         }
 
