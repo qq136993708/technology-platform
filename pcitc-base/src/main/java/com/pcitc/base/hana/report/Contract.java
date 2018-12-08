@@ -22,12 +22,18 @@ public class Contract implements Serializable{
     private Object zbxRate;
     private Object fyxsl;
     private Object zbxsl;
+    private Object qdl;
     
     
     
     
     
-    
+	public Object getQdl() {
+		return qdl;
+	}
+	public void setQdl(Object qdl) {
+		this.qdl = qdl;
+	}
 	public Object getFyxRate() {
 		return fyxRate;
 	}

@@ -667,9 +667,9 @@ public class DirectController {
     						for(int i=0;i<list.size();i++)
     						{
     							Contract contract=list.get(i);
-    							Integer fyxsl =(Integer)contract.getFyxsl();
-    							Integer zbxsl =(Integer)contract.getZbxsl();
-    							Integer zsl =(Integer)contract.getZsl();
+    							Integer fyxsl =Double.valueOf(String.valueOf(contract.getFyxsl())).intValue();
+    							Integer zbxsl =Double.valueOf(String.valueOf(contract.getZbxsl())).intValue() ;
+    							Integer zsl =Double.valueOf(String.valueOf(contract.getZsl())).intValue();
     							
     							zsl_count=zsl_count+zsl;
     							fyxsl_count=fyxsl_count+fyxsl;
@@ -680,8 +680,8 @@ public class DirectController {
     						double fyxsl_rate = new BigDecimal((float)fyxsl_count/zsl_count).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
     						double zbxsl_rate = new BigDecimal((float)zbxsl_count/zsl_count).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
     						
-    						map.put("fyxsl_rate", fyxsl_rate);
-    						map.put("zbxsl_rate", zbxsl_rate);
+    						map.put("fyxsl_rate", fyxsl_rate*100+"%");
+    						map.put("zbxsl_rate", zbxsl_rate*100+"%");
     						result.setSuccess(true);
     						result.setData(map);
     					}

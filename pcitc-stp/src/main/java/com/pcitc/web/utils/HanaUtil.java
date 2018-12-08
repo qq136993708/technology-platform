@@ -2909,6 +2909,57 @@ public class HanaUtil {
 		return chartBarLineSeries;
 	}
 	
+	
+	
+	public static ChartBarLineSeries getContractChartBarLineSeries7(List<Contract> list, String name) {
+
+		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
+		if (name.equals("jhqds"))
+		{
+			chartBarLineSeries.setName("计划签订");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		if (name.equals("sjqds")) 
+		{
+			chartBarLineSeries.setName("实际签订");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		if (name.equals("qdbl")) 
+		{
+			chartBarLineSeries.setName("签订率");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_LINE);
+		}
+		List<Object> dataList = new ArrayList<Object>();
+		if (list != null && list.size() > 0) 
+		{
+			for (int i = 0; i < list.size(); i++) 
+			{
+				Contract f03 = list.get(i);
+				Integer jhqds =(Integer)f03.getJhqds();
+				Integer sjqds =(Integer)f03.getSjqds();
+				Object qdbl =f03.getQdbl();
+				String str=String.format("%.2f", Double.valueOf(String.valueOf(qdbl)));
+				
+				if (name.equals("jhqds")) 
+				{
+					dataList.add(jhqds);
+				}
+				if (name.equals("sjqds")) 
+				{
+					dataList.add(sjqds);
+				}
+				if (name.equals("qdbl")) 
+				{
+					dataList.add(str);
+				}
+
+			}
+			chartBarLineSeries.setData(dataList);
+		}
+		return chartBarLineSeries;
+	}
+	
+	
 	public static ChartBarLineSeries getContractChartBarLineSeries6(List<Contract> list, String name) {
 
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
@@ -3026,6 +3077,52 @@ public class HanaUtil {
 		}
 		return chartBarLineSeries;
 	}
+	
+	
+	
+	public static ChartBarLineSeries getKnowledgeChartBarLineSeries07(List<Knowledge> list, String name) {
+
+		
+		
+		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
+		if (name.equals("fmzlAgreeCount")) {
+			chartBarLineSeries.setName("发明授权");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		if (name.equals("wgsjAgreeCount")) {
+			chartBarLineSeries.setName("外观设计");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		if (name.equals("syxxAgreeCount")) {
+			chartBarLineSeries.setName("实用新型");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+
+		List<Object> dataList = new ArrayList<Object>();
+		if (list != null && list.size() > 0) {
+			for (int i = 0; i < list.size(); i++) {
+				Knowledge f03 = list.get(i);
+				Integer fmzlAgreeCount = f03.getFmzlAgreeCount();
+				Integer wgsjAgreeCount = f03.getWgsjAgreeCount();
+				Integer syxxAgreeCount = f03.getSyxxAgreeCount();
+
+				String syxxsl = f03.getSyxxsl();
+				if (name.equals("fmzlAgreeCount")) {
+					dataList.add(Double.valueOf(fmzlAgreeCount).intValue());
+				}
+				if (name.equals("wgsjAgreeCount")) {
+					dataList.add(Double.valueOf(wgsjAgreeCount).intValue());
+				}
+				if (name.equals("syxxAgreeCount")) {
+					dataList.add(Double.valueOf(syxxAgreeCount).intValue());
+				}
+
+			}
+			chartBarLineSeries.setData(dataList);
+		}
+		return chartBarLineSeries;
+	}
+	
 	
 	
 	public static ChartBarLineSeries getKNOWLDGELevel2ChartBarLineSeries05(List<Knowledge> list, String name) {

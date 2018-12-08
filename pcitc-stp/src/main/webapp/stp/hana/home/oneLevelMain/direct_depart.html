@@ -152,11 +152,11 @@
                     </div>
                     <div class="layui-card-body btn-function">
                      <div class="text-total">
-                            <span>总计:<span class="text-total-blue"    id="bar2_all_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>费用性:<span class="text-total-blue"   id="bar2_fyx_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>资本性:<span class="text-total-blue"   id="bar2_zbx_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>总计:<span class="text-total-blue"    id="contract_line_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>费用性:<span class="text-total-blue"   id="contract_line_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>资本性:<span class="text-total-blue"   id="contract_line_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                         </div>
-                        <div  style="height:270px;width: 100%;" id="bar2"></div>
+                        <div  style="height:270px;width: 100%;" id="contract_line"></div>
                     </div>
                 </div>
             </div>
@@ -172,11 +172,11 @@
                     </div>
                     <div class="layui-card-body btn-function">
                       <div class="text-total">
-                            <span>总计:<span    class="text-total-blue"    id="topic_chart3_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>新开课题:<span class="text-total-blue"    id="topic_chart3_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>转结课题:<span class="text-total-blue"    id="topic_chart3_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>总计:<span    class="text-total-blue"    id="direct_topic_chart3_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>新开课题:<span class="text-total-blue"    id="direct_topic_chart3_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>转结课题:<span class="text-total-blue"    id="direct_topic_chart3_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                         </div>
-                        <div  style="height:270px;width: 100%;" id="topic_chart3"></div>
+                        <div  style="height:270px;width: 100%;" id="direct_topic_chart3"></div>
                     </div>
                 </div>
             </div>
@@ -465,6 +465,34 @@
          }
          
          
+         //合同签订率总计
+         function setContractCount(year)
+         {
+         	$.ajax({
+ 				type : 'GET',
+ 				url : "/direct/contract_04?type=2&nd="+year,
+ 				dataType : 'json',
+ 				headers : {
+ 					'Content-Type' : 'application/json'
+ 				},
+ 				timeout : 20000, 
+ 				error : function(XMLHttpRequest, status) 
+ 				{
+ 					$("#appraisalId").html("--<small>(个)</small>");
+ 				},
+ 				success : function(data) 
+ 				{
+ 					var fyxsl_rate = data.data.fyxsl_rate;
+ 					var zbxsl_rate = data.data.zbxsl_rate;
+ 					//$("#contract_line_01").html("100%"); 
+ 					$("#contract_line_02").html(fyxsl_rate); 
+ 					$("#contract_line_03").html(zbxsl_rate); 
+ 					
+ 				}
+ 			});
+         	
+         }
+         
         
         function init()
         {
@@ -479,7 +507,7 @@
             	getndys_xfzc(month);//合同签订 经费支出
             	patentCount(year);//专利
             	appraisalCount(year);//成果
-            	
+            	setContractCount(year);
             	var yAxis= [
                     {
                         type: 'value',
@@ -532,20 +560,20 @@
             	
             	
             	
-            //直属研究院合同签订分析
-           	var chart2_url="/direct/contract_04?nd="+year+"&v_date="+v_date+"&type=1";
-           	var echart2= load_mony_line_02(chart2_url,"bar2","","",yAxis3);
+             //直属研究院合同签订分析
+           	 var chart2_url="/direct/contract_04?nd="+year+"&v_date="+v_date+"&type=1";
+           	 var echart2= load_mony_line_02(chart2_url,"contract_line","","",yAxis3);
            	   
            	
 
-        	var chart3_url="/direct/topic_01?type=1&nd="+year+"&v_date="+v_date+"&xmlbbm=kyzb";
-        	var echart3=load_mutl_bar_down(chart3_url,"topic_chart3","","",yAxis);
-        	echart3.on('click', function (params) {
+        	 var chart3_url="/direct/topic_01?type=1&nd="+year+"&v_date="+v_date+"&xmlbbm=kyzb";
+        	 var echart3=load_mutl_bar_down(chart3_url,"direct_topic_chart3","","",yAxis);
+        	 echart3.on('click', function (params) {
         		var xName=params.name;
         		var legentName=params.seriesName;
         		window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
                   
-            });
+             });
         	
             
         	

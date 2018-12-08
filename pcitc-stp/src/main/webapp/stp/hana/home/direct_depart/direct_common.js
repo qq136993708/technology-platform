@@ -508,6 +508,19 @@ function set_multi_graph_statistics(data,id)
         $("#direct_knowledge_chart1_02").html(xkCount_1);
         $("#direct_knowledge_chart1_03").html(jzCount_2);
 	}
+	if(id=='direct_topic_chart3')
+	{
+		var xkCount_1=getDataCountForName(data,'新开课题');
+    	var jzCount_2=getDataCountForName(data,'转结课题');
+        var allCount_3=xkCount_1+jzCount_2;
+        
+        $("#direct_topic_chart3_01").html(allCount_3);
+        $("#direct_topic_chart3_02").html(xkCount_1);
+        $("#direct_topic_chart3_03").html(jzCount_2);
+	}
+	
+	
+	
 	
 	
 	/**=============================直属研究院 end===========================*/
