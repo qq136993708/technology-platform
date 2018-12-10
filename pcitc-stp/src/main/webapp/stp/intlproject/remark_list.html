@@ -115,6 +115,10 @@
 	                    $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
 	                    selectRowData=res.data[index-1];
 	                }); 
+	            },
+	            onDblClickRow:function(index, o){
+	            	console.log(index);
+	            	console.log(o);
 	            }
     		});
     		renderfunc = function removeHeaderCheckbox(){
