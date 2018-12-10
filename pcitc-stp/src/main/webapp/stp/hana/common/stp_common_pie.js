@@ -53,6 +53,56 @@ var optionpie = {
         }
     ]
 };
+var optionpieNew = {
+    title: {
+        text: '',
+        x: 'center',
+        y: '10px',
+        textStyle: {
+            fontSize: 15,
+            fontWeight: 'normal',
+            color: '#000000'
+        },
+        subtextStyle: {
+            color: '#7B7B7B'
+        },
+        subtext:''
+    },
+    color:['#87d359', '#70b1aa','#f3cc42','#e79579','#349bd1','#7e7fa5','#9799ec','#c3c784','#f4964a'],
+    tooltip: {
+        trigger: 'item',
+        formatter: "{a} <br/>{b} : {c}  ({d}%)"
+    },
+    legend: {
+        type: 'scroll',
+        top: 10,
+        data: []
+    },
+    series: [
+        {
+            name: '访问来源',
+            type: 'pie',
+            radius: ['30%', '60%'],
+            center: ['40%','55%'],
+            avoidLabelOverlap: false,
+            data: [],
+            itemStyle: {
+                normal: {
+                    label: {
+                        show: true,
+                        formatter: '{b} \n {c} \n({d}%)'
+                    },
+                    labelLine: {show: true}
+                },
+                emphasis: {
+                    shadowBlur: 10,
+                    shadowOffsetX: 0,
+                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                }
+            }
+        }
+    ]
+};
 function pieAjax(url, echartsobj, options) 
 {
 	
@@ -133,6 +183,23 @@ function loadPie(url,id,title,subtext)
 	echartsobj.showLoading();
 	pieAjax(url,echartsobj,optionpie);
 	return echartsobj;
+}
+function loadPieNew(url,id,title,subtext)
+{
+
+    var echartsobj = echarts.init(document.getElementById(id));
+    if(title!='')
+    {
+        optionpieNew.title.text=title;
+    }
+    if(subtext!='')
+    {
+        optionpieNew.title.subtext=subtext;
+    }
+    echartsobj.setOption(optionpieNew);
+    echartsobj.showLoading();
+    pieAjax(url,echartsobj,optionpieNew);
+    return echartsobj;
 }
 
 function loadPie_tt(id,title,legend_names,series_values,subtext)
