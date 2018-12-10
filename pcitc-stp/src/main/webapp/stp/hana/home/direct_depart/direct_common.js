@@ -38,7 +38,7 @@ var option_bar_single_down = {
 	        data: [],
 	        axisLabel:{
                 interval:0,//0：全部显示，1：间隔为1显示对应类目，2：依次类推，（简单试一下就明白了，这样说是不是有点抽象）
-                //rotate:-30,//倾斜显示，-：顺时针旋转，+或不写：逆时针旋转
+                rotate:-30,//倾斜显示，-：顺时针旋转，+或不写：逆时针旋转
                }
 	    },
 	    yAxis: {
@@ -181,7 +181,7 @@ var mutl_bar_down = {
                 data: [],
                 axisLabel:{
                     interval:0,//0：全部显示，1：间隔为1显示对应类目，2：依次类推，（简单试一下就明白了，这样说是不是有点抽象）
-                    //rotate:30,//倾斜显示，-：顺时针旋转，+或不写：逆时针旋转
+                    rotate:30,//倾斜显示，-：顺时针旋转，+或不写：逆时针旋转
                    }
 
             }
@@ -521,7 +521,15 @@ function set_multi_graph_statistics(data,id)
 	}
 	
 	
-	
+	if(id=='direct_contract_chart')
+	{
+		var count_1=getDataCountForName(data,'已签合同');
+    	var count_2=getDataCountForName(data,'未签合同');
+        
+        $("#direct_contract_chart_01").html(count_1);
+        $("#direct_contract_chart_02").html(count_2);
+        $("#direct_contract_chart_03").html(percentNum(count_1,count_1+count_2));
+	}
 	
 	
 	/**=============================直属研究院 end===========================*/

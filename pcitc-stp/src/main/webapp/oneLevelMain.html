@@ -49,13 +49,12 @@
 
                         <div class="layui-col-md3 layui-text-icon layui-textTop-two"  id="home_budget" style="cursor:pointer">
                             <p>科研投入</p>
-                            <span id="textTopTwo">0</span><span class="layui-text-span">个</span>
+                            <span id="textTopTwo">0</span><span class="layui-text-span">亿</span>
                             <img src="/layuiadmin/layui/images/level-close.png" class="dele" alt="">
                         </div>
                         <div class="layui-col-md3 layui-text-icon layui-textTop-three"   style="cursor:pointer">
                             <p>科研装备</p>
-                            <!--  <span id="textTopThree"></span><span class="layui-text-span">个</span> -->
-                            <span class="layui-box-number" id="appraisalId">
+                            <span class="layui-box-number" id="K0BNGLFPHJECB_t">
                              <img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
                             </span>
                             <img src="/layuiadmin/layui/images/level-close.png" class="dele" alt="">
@@ -69,7 +68,7 @@
                         <div class="layui-col-md3 layui-text-icon layui-contract" id="contract">
                             <p>科研合同</p>
                             <!--  <span id="textTopThree"></span><span class="layui-text-span">个</span> -->
-                            <span class="layui-box-number" id="">
+                            <span class="layui-box-number" id="kyxm">
                              <img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
                             </span>
                             <img src="/layuiadmin/layui/images/level-close.png" class="dele" alt="">
@@ -80,7 +79,7 @@
                         <div class="layui-col-md6 layui-text-icon layui-textTop-one"  id="porject">
                             <p>集团重点项目及十条龙科技攻关 </p>
                             <!--  <span id="textTopOne">50</span><span class="layui-text-span">个</span> -->
-                            <span class="layui-box-number" id="kyxm">
+                            <span class="layui-box-number" id="">
                                 <img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
                             </span>
 
@@ -95,7 +94,6 @@
                             <span class="layui-box-number" id="patentId">
                                <img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
                             </span>
-                            <!-- <span id="textBottomThree"></span><span class="layui-text-span">个</span> -->
                             <img src="/layuiadmin/layui/images/level-close.png" class="dele" alt="">
                         </div>
                     </div>
@@ -150,8 +148,11 @@
                         <div class="layui-col-md6 layui-agency-party">
                             <div class="layui-text-icon layui-party-four" id="achievements">
                                 <p>科技成果</p>
-                                <span id="">0</span><span class="layui-text-span">个</span>
-                                <img src="/layuiadmin/layui/images/level-close.png" class="dele" alt="">
+                                
+                                 <span class="layui-box-number" id="appraisalId">
+                               <img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+                            </span>
+                            
                             </div>
                             <div class="layui-text-center layui-party">
                                 <p>领导讲话</p>
@@ -161,7 +162,7 @@
 
                             <div class="layui-text-icon layui-textBottom-two">
                                 <p>重点实验室</p>
-                                <span id="textBottomTwo">0</span><span class="layui-text-span">个</span>
+                                <span id="textBottomTwo">48</span><span class="layui-text-span">个</span>
                                 <img src="/layuiadmin/layui/images/level-close.png" class="dele" alt="">
                             </div>
                             <div class="layui-cooperation layui-text-icon">
@@ -264,8 +265,11 @@
 				timeout : 3000, 
 				error : function(XMLHttpRequest, status) {
 					$("#kyxm").html("<small style='font-size:14px'>--(个)</small>");
+					$("#K0BNGLFPHJECB_t").html("<small>--(台)</small>");
 				},
 				success : function(data) { 
+					
+					$("#K0BNGLFPHJECB_t").html(data.projectCount+"<small style='font-size:14px'>(台)</small>");
 					$("#kyxm").html(data.projectCount+"<small style='font-size:14px'>(个)</small>");
 				}
 			});
