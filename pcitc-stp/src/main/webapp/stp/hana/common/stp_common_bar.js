@@ -25,7 +25,7 @@ var option_bar_single = {
 	    tooltip: {
             trigger: 'axis',
             axisPointer: {
-                type: 'cross',
+                type: 'shadow',
                 crossStyle: {
                     color: '#999'
                 }
@@ -37,7 +37,7 @@ var option_bar_single = {
 	        data: [],
 	        axisLabel:{
                 interval:0,//0：全部显示，1：间隔为1显示对应类目，2：依次类推，（简单试一下就明白了，这样说是不是有点抽象）
-                rotate:-30,//倾斜显示，-：顺时针旋转，+或不写：逆时针旋转
+                //rotate:-30,//倾斜显示，-：顺时针旋转，+或不写：逆时针旋转
                }
 	    },
 	    yAxis: {
@@ -96,7 +96,15 @@ function barAjax_single(url,  echartsobj, options,callback)
 	                        series: [{
 	                            data: series,
 	                            type: 'bar',
-	                            barWidth:20
+	                            barWidth:20,
+                                label: {
+                                    show: true, //开启显示
+                                    position: 'top', //在上方显示
+                                    textStyle: { //数值样式
+                                        color: 'black',
+                                        fontSize: 14
+                                    }
+                                }
 	                        }]
 	                    });
 	                    if(callback)
@@ -145,6 +153,13 @@ function load_single_bar(url,id,title,subtext,yAxis,callback)
 	{
 		option_bar_single.yAxis=yAxis;
 	}
+    option_bar_single.grid={
+        top:"12%",
+        left: '0%',
+        right: '0%',
+        bottom: '5%',
+        containLabel: true
+    };
 	echartsobj.setOption(option_bar_single);
 	echartsobj.showLoading();
 	barAjax_single(url, echartsobj, option_bar_single,callback);
