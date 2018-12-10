@@ -17,31 +17,32 @@ var option_bar_single_down = {
 	        subtext:''
 	    },
 	    grid: {
-	    	    x: 40,
-	            y: 30,
-	            x2: 30,
-	            y2: 60
+            top:'15%',
+            left: '0%',
+            right: '0.5%',
+            bottom: '10%',
+            containLabel: true
 	    },
 	    tooltip: {
             trigger: 'axis',
             axisPointer: {
-                type: 'cross',
+                type: 'shadow',
                 crossStyle: {
                     color: '#999'
                 }
             }
         },
-        color:['#6592b2', '#54b6e9','#70b1aa','#e8a791','#b5c26a','#d59981'],
+        color:['#43c5ff', '#ffa70f','#70b1aa','#e8a791','#b5c26a','#d59981'],
 	    xAxis: {
 	        type: 'category',
 	        data: [],
 	        axisLabel:{
                 interval:0,//0：全部显示，1：间隔为1显示对应类目，2：依次类推，（简单试一下就明白了，这样说是不是有点抽象）
-                rotate:-30,//倾斜显示，-：顺时针旋转，+或不写：逆时针旋转
+                //rotate:-30,//倾斜显示，-：顺时针旋转，+或不写：逆时针旋转
                }
 	    },
 	    yAxis: {
-	        type: 'value'
+	        type: 'value',
 	    },
 	    series: []
 	};
@@ -92,7 +93,7 @@ function barAjax_single_down(url,  echartsobj, options,id)
 		                        series: [{
 		                            data: series,
 		                            type: 'bar',
-		                            barWidth:20
+		                            barWidth:50,
 		                        }]
 		                    });
 		        	        
@@ -517,17 +518,6 @@ function set_multi_graph_statistics(data,id)
         $("#direct_topic_chart3_01").html(allCount_3);
         $("#direct_topic_chart3_02").html(xkCount_1);
         $("#direct_topic_chart3_03").html(jzCount_2);
-	}
-	
-	
-	if(id=='direct_contract_chart')
-	{
-		var count_1=getDataCountForName(data,'已签合同');
-    	var count_2=getDataCountForName(data,'未签合同');
-        
-        $("#direct_contract_chart_01").html(count_1);
-        $("#direct_contract_chart_02").html(count_2);
-        $("#direct_contract_chart_03").html(percentNum(count_1,count_1+count_2));
 	}
 	
 	
