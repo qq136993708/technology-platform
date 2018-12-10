@@ -520,6 +520,17 @@ function set_multi_graph_statistics(data,id)
 	}
 	
 	
+	if(id=='direct_contract_chart')
+	{
+		var count_1=getDataCountForName(data,'已签合同');
+    	var count_2=getDataCountForName(data,'未签合同');
+        
+        $("#direct_contract_chart_01").html(count_1);
+        $("#direct_contract_chart_02").html(count_2);
+        $("#direct_contract_chart_03").html(percentNum(count_1,count_1+count_2));
+	}
+	
+	
 	
 	
 	
