@@ -34,7 +34,6 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.PageResult;
 import com.pcitc.base.common.Result;
-import com.pcitc.base.common.TreeNode2;
 import com.pcitc.base.hana.report.AchievementsAnalysis;
 import com.pcitc.base.hana.report.Contract;
 import com.pcitc.base.hana.report.Knowledge;
@@ -59,6 +58,7 @@ public class OneLevelMainController {
 		
 		//合同
 		private static final String contract_01 = "http://pcitc-zuul/system-proxy/out-project-plna-provider/complete-rate/total";
+		private static final String contract_01_01 = "http://pcitc-zuul/system-proxy/out-project-plna-provider/complete-rate/money-type";
 		private static final String contract_02 = "http://pcitc-zuul/system-proxy/out-project-plna-provider/complete-rate/company-type";
 		private static final String contract_03 = "http://pcitc-zuul/system-proxy/out-project-plna-provider/complete-rate/institute";
 		private static final String contract_04 = "http://pcitc-zuul/system-proxy/out-project-provider/project-money/institute";
@@ -383,7 +383,113 @@ public class OneLevelMainController {
 				return resault;
 			}
 		
+		    @RequestMapping(method = RequestMethod.GET, value = "/contract_01_01")
+			@ResponseBody
+			public String contract_01_01(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		    	String resault="";
+		    	PageResult pageResult = new PageResult();
+				Result result = new Result();
+				String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+				String type = CommonUtil.getParameter(request, "type", "" );
+				Map<String, Object> paramsMap = new HashMap<String, Object>();
+				paramsMap.put("nd", nd);
+				JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+				HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+				if (!nd.equals(""))
+				{
+					ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(contract_01_01, HttpMethod.POST, entity, JSONArray.class);
+					int statusCode = responseEntity.getStatusCodeValue();
+					if (statusCode == 200) 
+					{
+						
+							JSONArray jSONArray = responseEntity.getBody();
+							System.out.println(">>>>>>>>>>>>>>contract_01_01 jSONArray-> " + jSONArray.toString());
+							List<Contract> list = JSONObject.parseArray(jSONArray.toJSONString(), Contract.class);
+							if(type.equals("1"))
+							{
+								ChartBarLineResultData barLine=new ChartBarLineResultData();
+								List<String>  xAxisDataList=HanaUtil.getduplicatexAxisByList(list,"define1");
+				         		barLine.setxAxisDataList(xAxisDataList);
+				         		List<String> legendDataList = new ArrayList<String>();
+								legendDataList.add("计划合同");
+								legendDataList.add("已签合同");
+								barLine.setLegendDataList(legendDataList);
+								//X轴数据
+								List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
+								ChartBarLineSeries s1 = HanaUtil.getContractChartBarLineSeries9(list, "jhqds");
+								seriesList.add(s1);
+								ChartBarLineSeries s2 = HanaUtil.getContractChartBarLineSeries9(list, "sjqds");
+								seriesList.add(s2);
+								barLine.setSeriesList(seriesList);
+				         		result.setSuccess(true);
+								result.setData(barLine);
+							}
+							if(type.equals("2"))
+							{
+								List<Contract> resutList =addListLine02(list);
+								pageResult.setData(resutList);
+								pageResult.setCode(0);
+								pageResult.setCount(Long.valueOf(resutList.size()));
+								pageResult.setLimit(1000);
+								pageResult.setPage(1l);
+							}
+							
+						
+						
+					}
+					
+				} else
+				{
+					result.setSuccess(false);
+					result.setMessage("参数为空");
+				}
+				if(type.equals("1"))
+				{
+					JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
+					resault=resultObj.toString();
+					System.out.println(">>>>>>>>>>>>>>>contract_01_01 " + resultObj.toString());
+				}
+				else
+				{
+					JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
+					resault=resultObj.toString();
+					System.out.println(">>>>>>>>>>>>>>>contract_01_01 " + resultObj.toString());
+				}
+				
+				return resault;
+			}
 		    
+		    public List<Contract>  addListLine02(List<Contract> list)
+			{
+				List<Contract> resutList =new ArrayList<Contract>();
+				//加--总数行
+				Contract temp=new Contract();
+				temp.setDefine1("总计");
+				int jhqds_count=0;
+				int sjqds_count=0;
+				for(int i=0;i<list.size();i++)
+				{
+					Contract contract=list.get(i);
+					Integer jhqds =(Integer)contract.getJhqds();
+					Integer sjqds =(Integer)contract.getSjqds();
+					jhqds_count=jhqds_count+jhqds;
+					sjqds_count=sjqds_count+sjqds;
+				}
+				temp.setJhqds(jhqds_count);
+				temp.setSjqds(sjqds_count);
+				DecimalFormat df=new DecimalFormat("0.00");
+				String str=df.format(((float)sjqds_count/jhqds_count)*100);
+				temp.setHtqdl(str);
+				resutList.add(temp);
+				for(int i=0;i<list.size();i++)
+				{
+					Contract contract=list.get(i);
+					resutList.add(contract);
+				}
+				return resutList;
+			}
+          
 		    @RequestMapping(method = RequestMethod.GET, value = "/contract_02")
 			@ResponseBody
 			public String contract_02(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -395,7 +501,7 @@ public class OneLevelMainController {
 				paramsMap.put("companyCode", companyCode);
 				JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 				HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
-				
+				ChartSingleLineResultData chartSingleLineResultData = new ChartSingleLineResultData();
 					ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(contract_02, HttpMethod.POST, entity, JSONArray.class);
 					int statusCode = responseEntity.getStatusCodeValue();
 					if (statusCode == 200) 
@@ -404,28 +510,23 @@ public class OneLevelMainController {
 						System.out.println(">>>>>>>>>>>>>>>contract_02 jSONArray" + jSONArray.toString());
 						
 						List<Contract> list = JSONObject.parseArray(jSONArray.toJSONString(), Contract.class);
-						ChartBarLineResultData barLine=new ChartBarLineResultData();
-						List<String>  xAxisDataList=HanaUtil.getduplicatexAxisByList(list,"define3");
-		         		barLine.setxAxisDataList(xAxisDataList);
-		         	
-		         		List<String> legendDataList = new ArrayList<String>();
-						legendDataList.add("计划签订");
-						legendDataList.add("实际签订");
-						legendDataList.add("签订率");
-						barLine.setLegendDataList(legendDataList);
-						//X轴数据
-						List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
-						ChartBarLineSeries s1 = HanaUtil.getContractChartBarLineSeries7(list, "jhqds");
-						seriesList.add(s1);
-						ChartBarLineSeries s2 = HanaUtil.getContractChartBarLineSeries7(list, "sjqds");
-						seriesList.add(s2);
-						ChartBarLineSeries qdlzj = HanaUtil.getContractChartBarLineSeries7(list, "qdbl");
-						seriesList.add(qdlzj);
-						barLine.setSeriesList(seriesList);
+						
+						List<String> xAxisDataList = new ArrayList<String>();
+						List<Object> seriesDataList = new ArrayList<Object>();
+						
+						for (int i = 0; i < list.size(); i++) {
+							Contract contract = (Contract) list.get(i);
+							String define3 = contract.getDefine3();
+							Object qdbl =contract.getQdbl();
+							String str=String.format("%.2f", Double.valueOf(String.valueOf(qdbl)));
+							seriesDataList.add(str);
+							xAxisDataList.add(define3);
+							
+						}
+						chartSingleLineResultData.setxAxisDataList(xAxisDataList);
+						chartSingleLineResultData.setSeriesDataList(seriesDataList);
 						result.setSuccess(true);
-						result.setData(barLine);
-						
-						
+						result.setData(chartSingleLineResultData);
 					}
 					
 				
@@ -464,20 +565,16 @@ public class OneLevelMainController {
 								ChartBarLineResultData barLine=new ChartBarLineResultData();
 								List<String>  xAxisDataList=HanaUtil.getduplicatexAxisByList(list,"define2");
 				         		barLine.setxAxisDataList(xAxisDataList);
-				         	
 				         		List<String> legendDataList = new ArrayList<String>();
-								legendDataList.add("计划签订");
-								legendDataList.add("实际签订");
-								legendDataList.add("签订率");
+								legendDataList.add("已签合同");
+								legendDataList.add("未签合同");
 								barLine.setLegendDataList(legendDataList);
 								//X轴数据
 								List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
-								ChartBarLineSeries s1 = HanaUtil.getContractChartBarLineSeries6(list, "zsl");
+								ChartBarLineSeries s1 = HanaUtil.getContractChartBarLineSeries8(list, "yqhtzj");
 								seriesList.add(s1);
-								ChartBarLineSeries s2 = HanaUtil.getContractChartBarLineSeries6(list, "yqhtzj");
+								ChartBarLineSeries s2 = HanaUtil.getContractChartBarLineSeries8(list, "wqhtzj");
 								seriesList.add(s2);
-								ChartBarLineSeries qdlzj = HanaUtil.getContractChartBarLineSeries6(list, "qdlzj");
-								seriesList.add(qdlzj);
 								barLine.setSeriesList(seriesList);
 				         		result.setSuccess(true);
 								result.setData(barLine);

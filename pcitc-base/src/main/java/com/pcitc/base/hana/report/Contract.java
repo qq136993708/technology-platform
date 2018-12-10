@@ -25,9 +25,24 @@ public class Contract implements Serializable{
     private Object qdl;
     
     
+    private Object htqdl;
+    
+    private String define3;
     
     
     
+	public String getDefine3() {
+		return define3;
+	}
+	public void setDefine3(String define3) {
+		this.define3 = define3;
+	}
+	public Object getHtqdl() {
+		return htqdl;
+	}
+	public void setHtqdl(Object htqdl) {
+		this.htqdl = htqdl;
+	}
 	public Object getQdl() {
 		return qdl;
 	}

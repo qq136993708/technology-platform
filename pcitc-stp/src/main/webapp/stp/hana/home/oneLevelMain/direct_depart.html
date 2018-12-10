@@ -152,7 +152,7 @@
                     </div>
                     <div class="layui-card-body btn-function">
                      <div class="text-total">
-                            <span>总计:<span class="text-total-blue"    id="contract_line_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <!-- <span>总计:<span class="text-total-blue"    id="contract_line_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span> -->
                             <span>费用性:<span class="text-total-blue"   id="contract_line_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                             <span>资本性:<span class="text-total-blue"   id="contract_line_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                         </div>
@@ -562,7 +562,7 @@
             	
              //直属研究院合同签订分析
            	 var chart2_url="/direct/contract_04?nd="+year+"&v_date="+v_date+"&type=1";
-           	 var echart2= load_mony_line_02(chart2_url,"contract_line","","",yAxis3);
+           	 var echart2= load_mony_line_down(chart2_url,"contract_line","","",yAxis3);
            	   
            	
 
@@ -579,19 +579,24 @@
         	
          	//直属研究院科研设备数量分析
            	var chart4_url="/home/GET_getDzzk_bar?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
-        	var data=load_mutl_bar_stack_02(chart4_url,"bar4","","",yAxis);
+        	var data=load_mutl_bar_stack_02(chart4_url,"bar4","","",yAxis,function(data){
+        		
+        		
+        		var bCount_4=getDataCountForName_t(data,'大型分析仪器');
+            	var zCount_4=getDataCountForName_t(data,'中型实验装置');
+            	var dCount_4=getDataCountForName_t(data,'单台值大于500万');
+            	var zyCount_4=getDataCountForName_t(data,'专业软件（外购）'); 
+    	        var allCount_4=bCount_4+zCount_4+dCount_4+zyCount_4;
+    	        //alert(bCount_4);
+                $("#bar4_1_count").html(bCount_4);
+                $("#bar4_2_count").html(zCount_4);
+                $("#bar4_3_count").html(dCount_4);
+                $("#bar4_4_count").html(zyCount_4);
+    	            
+        		
+        	});
         	
-        	var bCount_4=getDataCountForName(data,'大型分析仪器');
-        	var zCount_4=getDataCountForName(data,'中型实验装置');
-        	var dCount_4=getDataCountForName(data,'单台值大于500万');
-        	var zyCount_4=getDataCountForName(data,'专业软件（外购）');
-	        var allCount_4=bCount_4+zCount_4+dCount_4+zyCount_4;
-	        
-            $("#bar4_1_count").html(bCount_4);
-            $("#bar4_2_count").html(zCount_4);
-            $("#bar4_3_count").html(dCount_4);
-            $("#bar4_4_count").html(zyCount_4);
-	            
+        
             
 
         	var chart7_url="/direct/knowledge_04?type=1&nd="+year+"&v_date="+v_date;
@@ -611,26 +616,34 @@
         }
         
         
-        function getDataCountForName(data,strName)
+        function getDataCountForName_t(data,strName)
         {
         	var seriesList=data.seriesList;
+        	//alert(data);
             var xkCount=0;
-            
-	            for(var i=0;i<seriesList.length;i++)
-	            {
-	            	var arr=seriesList[i].data;
-	            	var name=seriesList[i].name;
-	            	if(name==strName)
-	            	{
-	            		var name_count=0;
-	            		for(var j=0;j<arr.length;j++)
-	    	            {
-	            			name_count=name_count+parseInt(arr[j]);
-	    	            }
-	            		xkCount=name_count;
-	            	}
-	            } 
-	            return parseInt(xkCount);
+            if (typeof(seriesList) == "undefined") 
+            { 
+            	
+            }else
+            {
+            	 for(var i=0;i<seriesList.length;i++)
+ 	            {
+ 	            	var arr=seriesList[i].data;
+ 	            	var name=seriesList[i].name;
+ 	            	if(name==strName)
+ 	            	{
+ 	            		var name_count=0;
+ 	            		for(var j=0;j<arr.length;j++)
+ 	    	            {
+ 	            			name_count=name_count+parseInt(arr[j]);
+ 	    	            }
+ 	            		xkCount=name_count;
+ 	            	}
+ 	            } 
+ 	           
+            }   
+            return parseInt(xkCount);
+	           
         }
         init();
      </script>

@@ -2959,6 +2959,88 @@ public class HanaUtil {
 		return chartBarLineSeries;
 	}
 	
+	public static ChartBarLineSeries getContractChartBarLineSeries9(List<Contract> list, String name) {
+		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
+		if (name.equals("sjqds"))
+		{
+			chartBarLineSeries.setName("已签合同");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		if (name.equals("jhqds")) 
+		{
+			chartBarLineSeries.setName("计划合同");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		List<Object> dataList = new ArrayList<Object>();
+		if (list != null && list.size() > 0) 
+		{
+			for (int i = 0; i < list.size(); i++) 
+			{
+				Contract f03 = list.get(i);
+				Integer sjqds =(Integer)f03.getSjqds();
+				Integer jhqds =(Integer)f03.getJhqds();
+				Object qdlzj =f03.getQdlzj();
+				//String str=String.format("%.2f", Double.valueOf(String.valueOf(qdlzj)));
+				
+				if (name.equals("sjqds")) 
+				{
+					dataList.add(sjqds);
+				}
+				if (name.equals("jhqds")) 
+				{
+					dataList.add(jhqds);
+				}
+			}
+			chartBarLineSeries.setData(dataList);
+		}
+		return chartBarLineSeries;
+	}
+	
+	
+	
+	
+	
+	public static ChartBarLineSeries getContractChartBarLineSeries8(List<Contract> list, String name) {
+		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
+		if (name.equals("yqhtzj"))
+		{
+			chartBarLineSeries.setName("已签合同");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		if (name.equals("wqhtzj")) 
+		{
+			chartBarLineSeries.setName("未签合同");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		List<Object> dataList = new ArrayList<Object>();
+		if (list != null && list.size() > 0) 
+		{
+			for (int i = 0; i < list.size(); i++) 
+			{
+				Contract f03 = list.get(i);
+				Integer wqhtzj =(Integer)f03.getWqhtzj();
+				Integer yqhtzj =(Integer)f03.getYqhtzj();
+				Object qdlzj =f03.getQdlzj();
+				String str=String.format("%.2f", Double.valueOf(String.valueOf(qdlzj)));
+				
+				if (name.equals("wqhtzj")) 
+				{
+					dataList.add(wqhtzj);
+				}
+				if (name.equals("yqhtzj")) 
+				{
+					dataList.add(yqhtzj);
+				}
+				if (name.equals("qdlzj")) 
+				{
+					dataList.add(str);
+				}
+
+			}
+			chartBarLineSeries.setData(dataList);
+		}
+		return chartBarLineSeries;
+	}
 	
 	public static ChartBarLineSeries getContractChartBarLineSeries6(List<Contract> list, String name) {
 
