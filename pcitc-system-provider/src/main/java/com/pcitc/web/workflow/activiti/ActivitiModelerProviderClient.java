@@ -12,7 +12,6 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 import java.util.zip.ZipInputStream;
 
 import javax.xml.stream.XMLInputFactory;
@@ -149,7 +148,6 @@ public class ActivitiModelerProviderClient implements ModelDataJsonConstants {
 	@RequestMapping(value = "/modeler-provider/model/save", method = RequestMethod.POST)
 	public void saveModel(@RequestBody WorkflowVo workflowVo) {// 对接收参数进行了修改
 		try {
-			System.out.println("saveModelProvider-------------------");
 			Model model = repositoryService.getModel(workflowVo.getModelId());
 
 			ObjectNode modelJson = (ObjectNode) objectMapper.readTree(model.getMetaInfo());
@@ -219,16 +217,13 @@ public class ActivitiModelerProviderClient implements ModelDataJsonConstants {
 
 				ByteArrayInputStream in = new ByteArrayInputStream(bpmnBytes);
 				String fileName = modelData.getKey() + ".model.bpmn";
-				System.out.println("1=============="+fileName);
 				String realPath = uploadPath + fileName;
-				System.out.println("2=============="+realPath);
 				File file = new File(realPath);
 				if (file.exists()) {
 					file.delete();
 				}
 				FileUtil.copyInputStreamToFile(in, file);
 				String realName = fileName.replaceAll("\\\\", "/");
-				System.out.println("3=============="+realName);
 				return realName;
 			} else {
 				byte[] pngBytes = repositoryService.getModelEditorSourceExtra(workflowVo.getModelId());
@@ -241,9 +236,7 @@ public class ActivitiModelerProviderClient implements ModelDataJsonConstants {
 				
 				ByteArrayInputStream in = new ByteArrayInputStream(pngBytes);
 				FileUtil.copyInputStreamToFile(in, file);
-				System.out.println("33=============="+file.getAbsolutePath());
 				String realName = fileName.replaceAll("\\\\", "/");
-				System.out.println("4=============="+realName);
 				return realName;
 			}
 		} catch (Exception e) {
@@ -347,7 +340,6 @@ public class ActivitiModelerProviderClient implements ModelDataJsonConstants {
 		ModelQuery mq = repositoryService.createModelQuery();
 
 		for (int i = 0; i < fileList.size(); i++) {
-			System.out.println("uploadModel---------" + fileList.get(i).getFileName());
 			try {
 				File bpmnFile = new File(fileList.get(i).getFilePath());
 				InputStream input = new FileInputStream(bpmnFile);
@@ -375,7 +367,6 @@ public class ActivitiModelerProviderClient implements ModelDataJsonConstants {
 			}
 		}
 
-		System.out.println("saveWorkflowUpload---------" + msg);
 		if (!bpmnFlag) {
 			// 上传的文件有问题
 			return new Result(false, "部署失败", msg);
@@ -431,10 +422,7 @@ public class ActivitiModelerProviderClient implements ModelDataJsonConstants {
 		if (param.getParam().get("processName") != null && !StrUtil.isBlankOrNull(param.getParam().get("processName").toString())) {
 			processName = "%" + param.getParam().get("processName").toString() + "%";
 			query = query.processDefinitionNameLike(processName);
-			
-			System.out.println("99selectProcessDefineList===========" + page + "==========" + processName);
 		}
-		System.out.println("0selectProcessDefineList===========" + page + "==========" + processName);
 		int dataCount = (int) query.count();
 		List<ProcessDefinition> processDefList = query.orderByProcessDefinitionId().desc().listPage(limit * (page - 1), limit);
 		List<ProcessDefVo> retList = new ArrayList<ProcessDefVo>();
@@ -484,21 +472,19 @@ public class ActivitiModelerProviderClient implements ModelDataJsonConstants {
 	
 	@ApiOperation(value = "图形化显示业务流程", notes = "activiti系统接口")
 	@RequestMapping(value = "/modeler-provider/process/show", method = RequestMethod.POST)
-	public Result showProcessResource(@RequestBody WorkflowVo workflowVo) throws IOException {
+	public byte[] showProcessResource(@RequestBody WorkflowVo workflowVo) throws IOException {
 		ProcessDefinition processDefinition = repositoryService.getProcessDefinition(workflowVo.getProcessDefineId());
 		String resourceName = processDefinition.getDiagramResourceName();
 
 		InputStream resourceAsStream = repositoryService.getResourceAsStream(processDefinition.getDeploymentId(), resourceName);
-		String realPath = uploadPath + resourceName;
-		realPath = realPath.replaceAll("\\\\", "/");
-		File file = new File(realPath);
-		if (file.exists()) {
-			file.delete();
-		}
-
-		FileUtil.copyInputStreamToFile(resourceAsStream, file);
-		String realName = resourceName.replaceAll("\\\\", "/");
-		return new Result(true, realName, "成功生成png");
+		ByteArrayOutputStream swapStream = new ByteArrayOutputStream(); 
+		byte[] buff = new byte[100]; //buff用于存放循环读取的临时数据 
+		int rc = 0; 
+		while ((rc = resourceAsStream.read(buff, 0, 100)) > 0) { 
+		swapStream.write(buff, 0, rc); 
+		} 
+		byte[] in_b = swapStream.toByteArray(); //in_b为转换之后的结果 
+		return in_b;
 	}
 
 }

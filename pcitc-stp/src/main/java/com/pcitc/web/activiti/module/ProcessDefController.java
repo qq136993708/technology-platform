@@ -1,5 +1,7 @@
 package com.pcitc.web.activiti.module;
 
+import java.io.OutputStream;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -124,14 +126,32 @@ public class ProcessDefController extends BaseController {
 	public String showResoure(@PathVariable("pdId") String pdId, HttpServletRequest request) {
 		System.out.println("====showResoure" + pdId);
 
+		return "/pplus/workflow/processdef-show";
+	}
+	
+	@RequestMapping(value = "/activiti-def/image/{pdId}", method = RequestMethod.GET)
+	@ResponseBody
+	public String generateImage(@PathVariable("pdId") String pdId, HttpServletRequest request) {
 		WorkflowVo workflowVo = new WorkflowVo();
 		workflowVo.setDataType("image");
 		workflowVo.setProcessDefineId(pdId);
-		ResponseEntity<Result> resultRes = this.restTemplate.exchange(PROCESS_DEFINE_IMAGE, HttpMethod.POST, new HttpEntity<WorkflowVo>(workflowVo, this.httpHeaders), Result.class);
-		System.out.println("generateResource=====" + resultRes.getBody());
-		request.setAttribute("image", resultRes.getBody().getData());
 		
-		return "/pplus/workflow/processdef-show";
+		ResponseEntity<byte[]> fileStream = this.restTemplate.exchange(PROCESS_DEFINE_IMAGE, HttpMethod.POST, new HttpEntity<WorkflowVo>(workflowVo, this.httpHeaders), byte[].class);
+		byte[] image = fileStream.getBody();
+		OutputStream os = null;
+		try {
+			os = response.getOutputStream();
+			os.write(image);
+			os.flush();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		try {
+			os.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "ok";
 	}
 
 }

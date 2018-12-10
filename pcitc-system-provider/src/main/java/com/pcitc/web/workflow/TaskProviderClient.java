@@ -3,7 +3,7 @@ package com.pcitc.web.workflow;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-import java.io.File;
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -66,10 +66,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
-import com.pcitc.base.common.Result;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.DateUtil;
-import com.pcitc.base.util.FileUtil;
 import com.pcitc.base.util.StrUtil;
 import com.pcitc.base.workflow.ActivityVo;
 import com.pcitc.base.workflow.Constants;
@@ -665,7 +663,7 @@ public class TaskProviderClient {
 	 */
 	@ApiOperation(value = "查詢流程实例的流程图片", notes = "重点高亮当前节点，高亮已经执行的链路")
 	@RequestMapping(value = "/task-provider/task/process/info", method = RequestMethod.POST)
-	public Result getTaskProcessInfo(@RequestBody WorkflowVo workflowVo) {
+	public byte[] getTaskProcessInfo(@RequestBody WorkflowVo workflowVo) {
 		try {
 			ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId(workflowVo.getInstanceId()).singleResult();
 			BpmnModel bpmnModel;
@@ -705,7 +703,7 @@ public class TaskProviderClient {
 			// processEngine.getProcessEngineConfiguration().getActivityFontName(),
 			// processEngine.getProcessEngineConfiguration().getLabelFontName()
 			InputStream inputStream = pdg.generateDiagram(bpmnModel, "PNG", activeActivityIds, highLightedFlows, "宋体", "宋体", "宋体", processEngine.getProcessEngineConfiguration().getProcessEngineConfiguration().getClassLoader(), 1);
-			resourceName = DateUtil.format(new Date(), "yyyyMMddHHmmss") + "_" + resourceName;
+			/*resourceName = DateUtil.format(new Date(), "yyyyMMddHHmmss") + "_" + resourceName;
 			// 生成本地图片
 			String realPath = uploadPath + resourceName;
 			realPath = realPath.replaceAll("\\\\", "/");
@@ -715,10 +713,18 @@ public class TaskProviderClient {
 			}
 			FileUtil.copyInputStreamToFile(inputStream, file);
 			String realName = ("" + File.separator + resourceName).replaceAll("\\\\", "/");
-			inputStream.close();
-			return new Result(true, realName, "成功生成png");
+			inputStream.close();*/
+			
+			ByteArrayOutputStream swapStream = new ByteArrayOutputStream(); 
+			byte[] buff = new byte[100]; //buff用于存放循环读取的临时数据 
+			int rc = 0; 
+			while ((rc = inputStream.read(buff, 0, 100)) > 0) { 
+			swapStream.write(buff, 0, rc); 
+			} 
+			byte[] in_b = swapStream.toByteArray(); //in_b为转换之后的结果 
+			return in_b;
 		} catch (Exception e) {
-			return new Result(false);
+			return null;
 		}
 	}
 

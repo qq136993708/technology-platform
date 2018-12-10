@@ -16,20 +16,11 @@
 		<div class="tab-content" style="padding: 0px;">
 			<div class="tab-pane active" id="tab-content-edit">
 				<div id="imageContainer" class="text-center" align="center">
-					<img src="" style="width: 80%; height: 80%">
+					<img src="/activiti-def/image/${pdId}" style="width: 80%; height: 80%">
 				</div>
 			</div>
 
 		</div>
 	</div>
-	<script>
-		$(function() {
-
-			var imagePath = "${image?default(0)}";
-			if (imagePath != 0) {
-				$("#imageContainer img").attr("src", "http://10.238.120.35:8762/" + imagePath);
-			}
-		});
-	</script>
 </body>
 </html>
