@@ -35,7 +35,7 @@
         </div>
 
         <div class="layui-row layui-col-space15">
-            <div class="layui-col-md6 layui-main-oil4">
+            <div class="layui-col-md6">
                 <div class="layui-card">
                     <div class="layui-card-header">
                         <span class="layui-time"></span>年直属研究院合同鉴定率
@@ -45,23 +45,18 @@
                             <span>总计:<span class="text-total-blue"    id="contract_chart1_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                             <span>已签合同:<span class="text-total-blue" id="contract_chart1_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                             <span>未签合同:<span class="text-total-blue" id="contract_chart1_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                        </div>
-                        <div style="height:280px;width: 100%;">
-                          <div class="main-chart" id="contract_chart1"    style="float:left;height:280px;width: 50%;"></div>
-                           <div class="" id="contract_chart1_02_02" style="float:right;height:280px;width: 50%;"></div>
-                        </div>
-                        
+                       </div>
+                       <div class="layui-row">
+                           <div class="layui-col-md6" id="contract_chart1_02_02" style="height:280px;"></div>
+                           <div class="layui-col-md6" id="contract_chart1"    style="height:280px;"></div>
+                       </div>
                     </div>
                 </div>
             </div>
-            <div class="layui-col-md6 layui-main-oil6 layui-col-space15">
+            <div class="layui-col-md6">
                 <div class="layui-card">
                     <div class="layui-card-header">
                         ${year}年直属研究院科研课题数量占比
-                        <div class="layui-tool">
-                            <button type="button" class="btn btn-tool collapse"></button>
-                            <button type="button" class="btn btn-tool remove"></button>
-                        </div>
                     </div>
                     <div class="layui-card-body btn-function" >
                          <table id="processdef_table" class="layui-hide" lay-filter="processdef_table"></table>
@@ -70,7 +65,7 @@
             </div>
         </div>
         <div class="layui-row layui-col-space15">
-            <div class="layui-col-md6 layui-main-oil4">
+            <div class="layui-col-md6">
                 <div class="layui-card">
                     <div class="layui-card-header">
                         <span class="layui-time"></span>直属研究院合同鉴定率
@@ -87,7 +82,7 @@
                     </div>
                 </div>
             </div>
-            <div class="layui-col-md6 layui-main-oil6 layui-col-space15">
+            <div class="layui-col-md6">
                 <div class="layui-card">
                     <div class="layui-card-header">
                         ${year}直属研究院科研课题数量占比
@@ -173,7 +168,7 @@ function initEchart()
     });
 	
 	var chart2_url="/direct/contract_01?type=2&nd="+nd+"&v_date="+v_date;
-	var echart2=loadPie(chart2_url,"contract_chart1_02_02","",""); 
+	var echart2=loadPieNew(chart2_url,"contract_chart1_02_02","","");
 	echart2.on('click', function (params) {
 		var xName=params.name;
 		var legentName=params.seriesName;
@@ -221,7 +216,7 @@ function renderTable()
 	        ,treeId:'id'//树形id字段名称
 	        ,treeUpId:'pId'//树形父id字段名称
 	        ,treeShowName:'name'//以树形式显示的字段
-	        ,height:'280'
+	        ,height:'309'
 	        ,isFilter:false
 	        ,iconOpen:false//是否显示图标【默认显示】
 	        ,isOpenDefault:true//节点默认是展开还是折叠【默认展开】
@@ -261,6 +256,7 @@ function renderTable2()
 	  elem: '#processdef_table_02',
 	  url:'/direct/contract_03?month='+month+"&type=2",
 	  method:"GET",
+      height:309,
 	  where: {param: {"month":$("#month").val()}},
 	  limit: 15,
 	  id: 'processdef_table_02',

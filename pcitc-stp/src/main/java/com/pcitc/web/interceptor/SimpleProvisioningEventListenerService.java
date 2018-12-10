@@ -9,6 +9,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import com.pcitc.base.system.SysUnit;
@@ -31,15 +32,16 @@ import com.sinopec.siam.provisioning.listener.ProvisioningEventListener;
  * @date 2018年8月07日 上午10:21:11
  * 
  */
+@Component
 public class SimpleProvisioningEventListenerService implements ProvisioningEventListener {
-	private static final String UNIT_GET_UNIT = "http://10.246.94.67:8762/unit-provider/unit/get-unit/";
-    private static final String UNIT_ADD_UNIT = "http://10.246.94.67:8762/unit-provider/unit/add-unit";
-    private static final String UNIT_UPDATE_UNIT = "http://10.246.94.67:8762/unit-provider/unit/upd-unit";
-    private static final String GET_UNIT_CODE = "http://10.246.94.67:8762/unit-provider/unit/unit-code";
-    private static final String GET_USER_INFO = "http://10.246.94.67:8762/user-provider/user/get-user-byname/";
-	private static final String USER_ADD_URL = "http://10.246.94.67:8762/user-provider/user/add-user";
-	private static final String USER_UNIT_ADD_URL = "http://10.246.94.67:8762/user-provider/user/add-user_unit";
-	private static final String USER_UPDATE_URL = "http://10.246.94.67:8762/user-provider/user/update-user";
+	private static final String UNIT_GET_UNIT = "http://pcitc-zuul/system-proxy/unit-provider/unit/get-unit/";
+    private static final String UNIT_ADD_UNIT = "http://pcitc-zuul/system-proxy/unit-provider/unit/add-unit";
+    private static final String UNIT_UPDATE_UNIT = "http://pcitc-zuul/system-proxy/unit-provider/unit/upd-unit";
+    private static final String GET_UNIT_CODE = "http://pcitc-zuul/system-proxy/unit-provider/unit/unit-code";
+    private static final String GET_USER_INFO = "http://pcitc-zuul/system-proxy/user-provider/user/get-user-byname/";
+	private static final String USER_ADD_URL = "http://pcitc-zuul/system-proxy/user-provider/user/add-user";
+	private static final String USER_UNIT_ADD_URL = "http://pcitc-zuul/system-proxy/user-provider/user/add-user_unit";
+	private static final String USER_UPDATE_URL = "http://pcitc-zuul/system-proxy/user-provider/user/update-user";
     
     public SimpleProvisioningEventListenerService() {
 		super();

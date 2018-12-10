@@ -1,5 +1,6 @@
 package com.pcitc.web.activiti.module;
 
+import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -157,7 +158,7 @@ public class TaskController extends BaseController {
 
 		// 获取当前登录人信息
 		param.getParam().put("userId", sysUserInfo.getUserId());
-		
+		System.out.println("====/task/pending-list" + sysUserInfo.getUserId());
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(PENDING_PAGE_URL, HttpMethod.POST, entity, LayuiTableData.class);
 		LayuiTableData retJson = responseEntity.getBody();
@@ -328,7 +329,7 @@ public class TaskController extends BaseController {
 	/**
 	 * @author zhf
 	 * @date 2018年4月20日 下午3:07:29 显示流程资源文件
-	 */
+	 *//*
 	@RequestMapping(value = "/task/show/image/{pdId}", method = RequestMethod.GET)
 	public String showResoure(@PathVariable("instanceId") String instanceId, HttpServletRequest request) {
 		System.out.println("====task/show/image" + instanceId);
@@ -336,7 +337,7 @@ public class TaskController extends BaseController {
 		Result image = generateImage(instanceId, request);
 		request.setAttribute("image", image.getData());
 		return "/pplus/workflow/process-show";
-	}
+	}*/
 
 	/**
 	 * 生成流程实例的流程图片，并重点高亮当前节点，高亮已经执行的链路
@@ -344,14 +345,27 @@ public class TaskController extends BaseController {
 	 * @author zhf
 	 * @date 2018年4月23日 下午5:42:11
 	 */
-	@RequestMapping(value = "/task/process/image/{instanceId}", method = RequestMethod.POST)
+	@RequestMapping(value = "/task/process/image/{instanceId}", method = RequestMethod.GET)
 	@ResponseBody
-	public Result generateImage(@PathVariable("instanceId") String instanceId, HttpServletRequest request) {
+	public String generateImage(@PathVariable("instanceId") String instanceId, HttpServletRequest request) {
 		WorkflowVo workflowVo = new WorkflowVo();
 		workflowVo.setInstanceId(instanceId);
-		ResponseEntity<Result> retJson = this.restTemplate.exchange(TASK_PROCESS_INFO, HttpMethod.POST, new HttpEntity<WorkflowVo>(workflowVo, this.httpHeaders), Result.class);
-		System.out.println("iniDealTask=====" + retJson.getBody());
-		return retJson.getBody();
+		ResponseEntity<byte[]> fileStream = this.restTemplate.exchange(TASK_PROCESS_INFO, HttpMethod.POST, new HttpEntity<WorkflowVo>(workflowVo, this.httpHeaders), byte[].class);
+		byte[] image = fileStream.getBody();
+		OutputStream os = null;
+		try {
+			os = response.getOutputStream();
+			os.write(image);
+			os.flush();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		try {
+			os.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "ok";
 	}
 
 }

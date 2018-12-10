@@ -23,7 +23,7 @@
 				</div>
 				<div class="layui-tab-item">
 					<div id="imageContainer" align="center">
-						<img src="#" style="width: 80%; height: 80%">
+						<img src="/task/process/image/${instanceId}" style="width: 80%; height: 80%">
 					</div>
 				</div>
 			</div>
@@ -122,22 +122,6 @@
 			var $ = layui.jquery, element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
 		});
 
-		//生成image,把生成路径返回
-		$.ajax({
-			url : "/task/process/image/" + instanceId,//这个就是请求地址对应sAjaxSource
-			data : null,//这个是把datatable的一些基本数据传给后台,比如起始位置,每页显示的行数
-			type : 'post',
-			dataType : 'json',
-			headers : {
-				'Content-Type' : 'application/json',
-			},
-			async : false,
-			success : function(msg) {
-				$("#imageContainer img").attr("src", "http://10.238.120.35:8762/" + msg.data);
-			},
-			error : function(msg) {
-			}
-		});
 	</script>
 </body>
 </html>
