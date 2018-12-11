@@ -108,7 +108,7 @@ public class BudgetAllocationController {
 			request.setAttribute("month", month);
 	        return "stp/hana/budgetAllocation/gfgszbkjjfystzg";
 	  }
-	//股份公司总部科技经费预算（建议稿）
+	  //股份公司总部科技经费预算（建议稿）
 	  @RequestMapping(method = RequestMethod.GET, value = "/ba/gfgszbkjjfysjyg")
 	  public String gfgszbkjjfysjyg(HttpServletRequest request) throws Exception
 	  {
@@ -116,43 +116,40 @@ public class BudgetAllocationController {
 			request.setAttribute("year", month);
 	        return "stp/hana/budgetAllocation/gfgszbkjjfysjyg";
 	  }
-	  
-	  
-	  
-	  //股份公司总部科技经费预算----（建议稿）
-	    @RequestMapping(method = RequestMethod.GET, value = "/ba/gfgszbkjjfysjyg_data")
-		@ResponseBody
-		public String gfgszbkjjfysjyg_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 
-	    	PageResult pageResult = new PageResult();
-	    	String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+	  // 股份公司总部科技经费预算----（建议稿）
+	  @RequestMapping(method = RequestMethod.GET, value = "/ba/gfgszbkjjfysjyg_data")
+	  @ResponseBody
+	  public String gfgszbkjjfysjyg_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request,
+			HttpServletResponse response) {
+
+			PageResult pageResult = new PageResult();
+			String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
 			String companyCode = CommonUtil.getParameter(request, "companyCode", "");
 			Map<String, Object> paramsMap = new HashMap<String, Object>();
 			paramsMap.put("month", month);
 			paramsMap.put("companyCode", companyCode);
 			JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 			HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
-			
-			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(gfgszbkjjfysjyg_data, HttpMethod.POST, entity, JSONArray.class);
+	
+			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(gfgszbkjjfysjyg_data, HttpMethod.POST, entity,
+					JSONArray.class);
 			int statusCode = responseEntity.getStatusCodeValue();
-			if (statusCode == 200)
-			{
-				
-				JSONArray	jSONArray = responseEntity.getBody();
+			if (statusCode == 200) {
+	
+				JSONArray jSONArray = responseEntity.getBody();
 				pageResult.setData(jSONArray);
 				pageResult.setCode(0);
 				pageResult.setCount(Long.valueOf(jSONArray.size()));
 				pageResult.setLimit(1000);
 				pageResult.setPage(1l);
-				
+	
 			}
 			JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
 			System.out.println(">>>>>>>>>>>>>股份公司总部科技经费预算gfgszbkjjfysjyg_data:" + result.toString());
 			return result.toString();
-		}
-	  
-	    
-	    
+	  }
+
 	//处部门科技经费预算总表
 	  @RequestMapping(method = RequestMethod.GET, value = "/ba/cbmkjjfyszb")
 	  public String cbmkjjfyszb(HttpServletRequest request) throws Exception
