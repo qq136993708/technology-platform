@@ -181,4 +181,20 @@
 		nd = '2018'
 	</select>
 	
+	<!-- 科技经费预算总表，资产经费预算明细表 -->
+	<select id="selectJFYSForAsset" resultType="java.util.Map" parameterType="java.util.Map">
+		select xh,zyc,yshj,jzxmjfhj,jzxmjfzcb,jzxmjfhgb,xkxmjfhj,xkxmjfzcb,xkxmjfhgb
+		from out_tem_money_asset
+		where
+		nd = '2018'
+	</select>
+	
+	<!-- 科技经费预算总表，直属研究院科技经费预算表 -->
+	<select id="selectJFYSForInstitute" resultType="java.util.Map" parameterType="java.util.Map">
+		select xh,zyc,hj,kty,gcy,wty,sky,dly,bhy,shy,agy
+		from out_tem_money_institute
+		where
+		nd = '2018'
+	</select>
+	
 </mapper>

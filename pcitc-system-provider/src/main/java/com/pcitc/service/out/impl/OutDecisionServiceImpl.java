@@ -119,5 +119,19 @@ public class OutDecisionServiceImpl implements OutDecisionService {
 		return outDecisionMapper.selectJFYSForGroup(map);
 	}
 	
+	/**
+     * 科技经费预算总表，资产经费预算明细表
+     */
+	public List selectJFYSForAsset(Map map) {
+		return outDecisionMapper.selectJFYSForAsset(map);
+	}
+	
+	/**
+     * 科技经费预算总表，直属研究院科技经费预算表
+     */
+	public List selectJFYSForInstitute(Map map) {
+		return outDecisionMapper.selectJFYSForInstitute(map);
+	}
+	
 	
 }

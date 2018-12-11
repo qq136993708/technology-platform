@@ -174,5 +174,29 @@ public class OutDecisionClient {
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
 		return json;
 	}
+	
+	@ApiOperation(value = "科技经费预算总表，资产经费预算明细表", notes = "参数年度")
+	@RequestMapping(value = "/out-project-provider/budget-proposals/asset/stp-money")
+	public JSONArray selectJFYSForAsset(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page selectJFYSForAsset===========================" + map);
+		
+		List temList = outDecisionService.selectJFYSForAsset(map);
+		
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		return json;
+	}
+	
+	@ApiOperation(value = "科技经费预算总表，直属研究院科技经费预算表", notes = "参数年度")
+	@RequestMapping(value = "/out-project-provider/budget-proposals/institute/stp-money")
+	public JSONArray selectJFYSForInstitute(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page selectJFYSForInstitute===========================" + map);
+		
+		List temList = outDecisionService.selectJFYSForInstitute(map);
+		
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		return json;
+	}
+	
+	
 
 }
