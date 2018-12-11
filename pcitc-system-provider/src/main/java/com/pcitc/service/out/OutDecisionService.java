@@ -62,4 +62,8 @@ public interface OutDecisionService {
      */
 	public List selectJFYSZBForDepartment(Map map);
 	
+	/**
+     * 科技经费预算总表，集团经费预算明细表
+     */
+	public List selectJFYSForGroup(Map map);
 }

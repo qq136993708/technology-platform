@@ -112,5 +112,12 @@ public class OutDecisionServiceImpl implements OutDecisionService {
 		return outDecisionMapper.selectJFYSZBForDepartment(map);
 	}
 	
+	/**
+     * 科技经费预算总表，集团经费预算明细表
+     */
+	public List selectJFYSForGroup(Map map) {
+		return outDecisionMapper.selectJFYSForGroup(map);
+	}
+	
 	
 }

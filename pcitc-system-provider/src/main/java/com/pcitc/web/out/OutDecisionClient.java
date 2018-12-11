@@ -163,5 +163,16 @@ public class OutDecisionClient {
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
 		return json;
 	}
+	
+	@ApiOperation(value = "科技经费预算总表，集团经费预算明细表", notes = "参数年度")
+	@RequestMapping(value = "/out-project-provider/budget-proposals/group/stp-money")
+	public JSONArray selectJFYSForGroup(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page selectJFYSForGroup===========================" + map);
+		
+		List temList = outDecisionService.selectJFYSForGroup(map);
+		
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		return json;
+	}
 
 }

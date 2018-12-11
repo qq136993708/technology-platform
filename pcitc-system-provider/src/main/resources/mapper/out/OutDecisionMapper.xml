@@ -173,4 +173,12 @@
 		from out_tem_money_decompose
 	</select>
 	
+	<!-- 科技经费预算总表，集团经费预算明细表 -->
+	<select id="selectJFYSForGroup" resultType="java.util.Map" parameterType="java.util.Map">
+		select xh,zyc,yshj,jzxmjfhj,jzxmjfbkyf,jzxmjfbkjx,jzxmjfqt,jzxmjfjh,xkxmjfhj,xkxmjfbkyf,xkxmjfbkjx,xkxmjfqt,xkxmjfjh
+		from out_tem_money_group
+		where
+		nd = '2018'
+	</select>
+	
 </mapper>
