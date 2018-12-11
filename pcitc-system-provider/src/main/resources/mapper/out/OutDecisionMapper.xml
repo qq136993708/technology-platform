@@ -167,4 +167,10 @@
 		SHOUQR like '2018-05%' AND `STATUS` IS NOT NULL and flztyj = '有效' and flztej = '授权'
 	</select>
 	
+	<!-- 处部门科技经费预算总表，各处、部门科技经费预算总表 -->
+	<select id="selectJFYSZBForDepartment" resultType="java.util.Map" parameterType="java.util.Map">
+		select xh,cb,jfyszjys,jfyszjlht,jfyszjxq,jtyshjys,jtyshjlht,jtyshxq,zcyshjys,zcyshjlht,zcyshjxq,gfyshjys,gfyshjlht,gfyshjxq
+		from out_tem_money_decompose
+	</select>
+	
 </mapper>

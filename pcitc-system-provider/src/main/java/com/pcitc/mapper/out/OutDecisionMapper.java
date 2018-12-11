@@ -51,7 +51,11 @@ public interface OutDecisionMapper {
      */
 	public List selectPatentDetailInfoByCond(Map map);
 	
-	
+	/**
+     * @return
+     * 处部门科技经费预算总表，各处、部门科技经费预算总表
+     */
+	public List selectJFYSZBForDepartment(Map map);
 	
 	
 	

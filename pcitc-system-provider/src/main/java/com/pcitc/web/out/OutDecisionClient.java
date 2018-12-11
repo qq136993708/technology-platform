@@ -152,5 +152,16 @@ public class OutDecisionClient {
 		logger.info("==================page selectPatentDetailInfoByCond===========================" + param);
 		return outDecisionService.selectPatentDetailInfoByCond(param);
 	}
+	
+	@ApiOperation(value = "处部门科技经费预算总表，各处、部门科技经费预算总表", notes = "参数年度")
+	@RequestMapping(value = "/out-project-provider/budget-proposals/department/stp-money")
+	public JSONArray selectJFYSZBForDepartment(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page selectJFYSZBForDepartment===========================" + map);
+		
+		List temList = outDecisionService.selectJFYSZBForDepartment(map);
+		
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		return json;
+	}
 
 }
