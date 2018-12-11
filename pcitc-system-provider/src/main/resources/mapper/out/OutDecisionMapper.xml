@@ -181,4 +181,53 @@
 		nd = '2018'
 	</select>
 	
+	<!-- 科技经费预算总表，资产经费预算明细表 -->
+	<select id="selectJFYSForAsset" resultType="java.util.Map" parameterType="java.util.Map">
+		select xh,zyc,yshj,jzxmjfhj,jzxmjfzcb,jzxmjfhgb,xkxmjfhj,xkxmjfzcb,xkxmjfhgb
+		from out_tem_money_asset
+		where
+		nd = '2018'
+	</select>
+	
+	<!-- 科技经费预算总表，直属研究院科技经费预算表 -->
+	<select id="selectJFYSForInstitute" resultType="java.util.Map" parameterType="java.util.Map">
+		select xh,zyc,hj,kty,gcy,wty,sky,dly,bhy,shy,agy
+		from out_tem_money_institute
+		where
+		nd = '2018'
+	</select>
+	
+	<!-- 科技经费预算总表，股份支付集团、外系统及盈科经费预算表 -->
+	<select id="selectJFYSForOther" resultType="java.util.Map" parameterType="java.util.Map">
+		select xh,cb,gffjtys,gffjtlht,gffjtkxq,gffxtwys,gffxtwlht,gffxtwkxq,gffykys,gffyklht,gffykkxq
+		from out_tem_money_other
+		where
+		nd = '2018'
+	</select>
+	
+	<!-- 科技经费预算总表，分子公司科技经费预算表 -->
+	<select id="selectJFYSForCompany" resultType="java.util.Map" parameterType="java.util.Map">
+		select xh,cb,jfys,jzjf,kxq
+		from out_tem_money_company
+		where
+		nd = '2018'
+	</select>
+	
+	<!-- 科技经费预算总表，分子公司科技经费预算表 -->
+	<select id="selectJFYSForB2c" resultType="java.util.Map" parameterType="java.util.Map">
+		select xh,mc,lysybys,lysybjz,lysybkxq,hgsybys,hgsybjz,hgsybkxq
+		from out_tem_money_b2c
+		where
+		nd = '2018'
+	</select>
+	
+	<!-- 科技经费预算总表，股份公司科技专项经费预算表 -->
+	<select id="selectJFYSForTech" resultType="java.util.Map" parameterType="java.util.Map">
+		select ysxm,jtgs,kty,gcy,wty,sky,bhy,dly,shy,agy,zsyhj,fzgs,xtw
+		from out_tem_money_tech
+		where
+		nd = '2018'
+	</select>
+	
+	
 </mapper>

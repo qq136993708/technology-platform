@@ -55,6 +55,38 @@ public interface OutDecisionMapper {
      */
 	public List selectJFYSForGroup(Map map);
 	
+	/**
+     * 科技经费预算总表，资产经费预算明细表
+     */
+	public List selectJFYSForAsset(Map map);
+	
+	/**
+     * 科技经费预算总表，直属研究院科技经费预算表
+     */
+	public List selectJFYSForInstitute(Map map);
+	
+	/**
+     * 科技经费预算总表，股份支付集团、外系统及盈科经费预算表
+     */
+	public List selectJFYSForOther(Map map);
+	
+	/**
+     * 科技经费预算总表，分子公司科技经费预算表
+     */
+	public List selectJFYSForCompany(Map map);
+	
+	/**
+     * 科技经费预算总表，分子公司科技经费预算表
+     */
+	public List selectJFYSForB2c(Map map);
+	
+	/**
+     * 科技经费预算总表，股份公司科技专项经费预算表
+     */
+	public List selectJFYSForTech(Map map);
+	
+	
+	
 	
 	
 }
