@@ -1118,7 +1118,7 @@
 		from out_project_info
 		where (project_type = '0' or project_type = '2') and (project_scope = '新开课题' or project_scope = '结转课题')
 		<if test="define2 != null and define2 != ''">
-			and define2 is not null
+			and define2 is not null and type_flag like '%直属研究院%'
 		</if>
 	</select>
 
@@ -1169,7 +1169,7 @@
 		from out_project_info
 		where project_type != '1' and (project_scope = '新开课题' or project_scope = '结转课题') 
 		<if test="define2 != null and define2 != ''">
-			and define2 is not null
+			and define2 is not null and type_flag like '%直属研究院%'
 		</if>
 	</select>
 
@@ -1233,7 +1233,8 @@
 		    count(*) as zsl,
 	    	SUBSTR(define2 FROM 4) define2
 		from out_project_info
-		where project_type != '1' and (project_scope = '新开课题' or project_scope = '结转课题') and define2 is not null and xmlbbm !='KYZB'
+		where project_type != '1' and (project_scope = '新开课题' or project_scope = '结转课题') and 
+			  define2 is not null and xmlbbm !='KYZB' and type_flag like '%直属研究院%'
 	    group by define2
 	</select>
 	
@@ -1245,7 +1246,8 @@
 		    count(*) as zsl,
 	    	SUBSTR(define2 FROM 4) define2
 		from out_project_info
-		where project_type != '1' and (project_scope = '新开课题' or project_scope = '结转课题') and define2 is not null and xmlbbm ='KYZB'
+		where project_type != '1' and (project_scope = '新开课题' or project_scope = '结转课题') and 
+			  define2 is not null and xmlbbm ='KYZB' and type_flag like '%直属研究院%'
 	    group by define2
 	</select>
 	
@@ -1423,13 +1425,14 @@
 	    	round(sum(case when define1 = '资本性' then jf else 0 end),4) as zbxje,
 	    	round(sum(jf), 2) as zje,
 				sum(case when define1 = '费用性' then 1 else 0 end) as fyxsl,
-				sum(case when define1 = '资本性' then jf else 0 end) as zbxsl,
+				sum(case when define1 = '资本性' then 1 else 0 end) as zbxsl,
 				count(*) as zsl,
 				round(sum(case when define1 = '费用性' then 1 else 0 end)/count(*)*100, 2) as fyxRate,
 				round(sum(case when define1 = '资本性' then 1 else 0 end)/count(*)*100, 2) as zbxRate,
 	    	SUBSTR(define2 FROM 4) define2
 		from out_project_info
-		where project_type != '1' and (project_scope = '新开课题' or project_scope = '结转课题') and define2 is not null
+		where project_type != '1' and (project_scope = '新开课题' or project_scope = '结转课题') 
+			  and define2 is not null and type_flag like '%直属研究院%'
 	    group by define2
 	</select>
 	
@@ -1470,7 +1473,8 @@
 		    count(*) as zsl,UUID() as id,project_scope,SUBSTR(define2 FROM 4) define2
 		from out_project_info
 		where 
-			project_type != '1' and (project_scope = '新开课题' or project_scope = '结转课题') and xmlbbm ='KYZB' and define2 is not null
+			project_type != '1' and (project_scope = '新开课题' or project_scope = '结转课题') and xmlbbm ='KYZB' 
+			and define2 is not null and type_flag like '%直属研究院%'
 	    group by project_scope,define2
 	    
 	</select>
@@ -1576,7 +1580,8 @@
 			sum(case when project_scope = '结转课题' then 1 else 0 end)/count(*)*100 as xjRate,
 	    	SUBSTR(define2 FROM 4) define2
 		from out_project_info
-		where project_type != '1' and (project_scope = '新开课题' or project_scope = '结转课题') and define2 is not null 
+		where project_type != '1' and (project_scope = '新开课题' or project_scope = '结转课题') and 
+			  define2 is not null and type_flag like '%直属研究院%'
 			  <if test="xmlbbm != null and xmlbbm == 'kyzb'">
 				 and xmlbbm ='KYZB'
 			  </if>
@@ -1662,7 +1667,7 @@
 							'actMoney' as showFlag,SUBSTR(define2,3,1) as show_order
 				FROM out_project_info
 				WHERE
-					define2 is not NULL and nd = '2018' and (project_scope = '新开课题' or project_scope = '结转课题')
+					define2 is not NULL and nd = '2018' and (project_scope = '新开课题' or project_scope = '结转课题') and type_flag like '%直属研究院%'
 				group by define2) as tableA
 			GROUP BY unitName, show_order
 			ORDER BY show_order
@@ -1685,7 +1690,7 @@
 		    count(*) as zsl,
 	    	SUBSTR(define2 FROM 4) define2
 		from out_project_info
-		where nd = '2018' and define2 is not null and (project_scope = '新开课题' or project_scope = '结转课题')
+		where nd = '2018' and define2 is not null and (project_scope = '新开课题' or project_scope = '结转课题') and type_flag like '%直属研究院%'
 	    group by define2
 	</select>
 	
