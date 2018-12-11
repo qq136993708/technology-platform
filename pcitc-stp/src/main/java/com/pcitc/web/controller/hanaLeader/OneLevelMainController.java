@@ -227,6 +227,63 @@ public class OneLevelMainController {
 			return resultObj.toString();
 		}
 		
+		
+		
+		@RequestMapping(method = RequestMethod.GET, value = "/knowledge_bar_02")
+		@ResponseBody
+		public String knowledge_bar_02(HttpServletRequest request, HttpServletResponse response) throws Exception {
+			Result result = new Result();
+			
+			String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+			String type = CommonUtil.getParameter(request, "type", "");
+			
+			Map<String, Object> paramsMap = new HashMap<String, Object>();
+			paramsMap.put("nd", nd);
+			paramsMap.put("type", type);
+			JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+			HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+			if (!nd.equals(""))
+			{
+				ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(knowledge_pie, HttpMethod.POST, entity, JSONArray.class);
+				int statusCode = responseEntity.getStatusCodeValue();
+				if (statusCode == 200) 
+				{
+					
+					JSONArray jSONArray = responseEntity.getBody();
+				    System.out.println(">>>>>>>>>>>>>>knowledge_bar_02 jSONArray-> " + jSONArray.toString());
+					List<Knowledge> list = JSONObject.parseArray(jSONArray.toJSONString(), Knowledge.class);
+				
+					
+					ChartBarLineResultData barLine=new ChartBarLineResultData();
+					List<String>  xAxisDataList=HanaUtil.getduplicatexAxisByList(list,"define3");
+	         		barLine.setxAxisDataList(xAxisDataList);
+	         	
+	         		
+	         		List<String> legendDataList = new ArrayList<String>();
+					legendDataList.add("专利申请");
+					legendDataList.add("专利授权");
+					barLine.setLegendDataList(legendDataList);
+					// X轴数据
+					List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
+					ChartBarLineSeries s1 = HanaUtil.getKNOWLDGELevel2ChartBarLineSeries(list, "applyCount");
+					seriesList.add(s1);
+					ChartBarLineSeries s2 = HanaUtil.getKNOWLDGELevel2ChartBarLineSeries(list, "agreeCount");
+					seriesList.add(s2);
+					barLine.setSeriesList(seriesList);
+	         		result.setSuccess(true);
+					result.setData(barLine);
+				}
+				
+			} else
+			{
+				result.setSuccess(false);
+				result.setMessage("参数为空");
+			}
+			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
+			System.out.println(">>>>>>>>>>>>>>knowledge_bar_02 type= "+type+" : " + resultObj.toString());
+			return resultObj.toString();
+		}
+		
 
 		
 		@RequestMapping(method = RequestMethod.GET, value = "/knowledge_02")

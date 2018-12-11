@@ -27,6 +27,13 @@ public interface IHomeService {
     public List<H1AMKYSY100117>  getDzzk(Map map)throws Exception;
     
     public List<H1AMKYSY100117>  getDzzk_bar(Map map)throws Exception;
+    
+    public List<H1AMKYSY100117>  get_direct_KYZB(Map map)throws Exception;
+    public List<H1AMKYSY100117>  get_direct_KYZB_02(Map map)throws Exception;
+    
+    
+    
+    
     public LayuiTableData getNdkyxmzlTble(LayuiTableParam param)throws Exception;
     
     
