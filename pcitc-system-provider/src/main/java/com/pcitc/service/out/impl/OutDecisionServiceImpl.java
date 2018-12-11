@@ -133,5 +133,32 @@ public class OutDecisionServiceImpl implements OutDecisionService {
 		return outDecisionMapper.selectJFYSForInstitute(map);
 	}
 	
+	/**
+     * 股份支付集团、外系统及盈科经费预算表
+     */
+	public List selectJFYSForOther(Map map) {
+		return outDecisionMapper.selectJFYSForOther(map);
+	}
+	
+	/**
+     * 科技经费预算总表，分子公司科技经费预算表
+     */
+	public List selectJFYSForCompany(Map map) {
+		return outDecisionMapper.selectJFYSForCompany(map);
+	}
+	
+	/**
+     * 科技经费预算总表，分子公司科技经费预算表
+     */
+	public List selectJFYSForB2c(Map map) {
+		return outDecisionMapper.selectJFYSForB2c(map);
+	}
+	
+	/**
+     * 科技经费预算总表，股份公司科技专项经费预算表
+     */
+	public List selectJFYSForTech(Map map) {
+		return outDecisionMapper.selectJFYSForTech(map);
+	}
 	
 }
