@@ -56,6 +56,10 @@ public interface OutDecisionService {
 	public LayuiTableData selectPatentDetailInfoByCond(LayuiTableParam param);
 	
 	
-	
+	/**
+     * @return
+     * 处部门科技经费预算总表，各处、部门科技经费预算总表
+     */
+	public List selectJFYSZBForDepartment(Map map);
 	
 }
