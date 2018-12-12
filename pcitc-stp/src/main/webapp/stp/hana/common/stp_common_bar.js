@@ -765,7 +765,7 @@ function barLineAjax_Stack_callback(url,  echartsobj, options,callback)
    var legends=[];     //指标
    var xAxisData=[];   //X轴名称
    var seriesData=[];  //X轴数据
-   var dataresutl;
+  
    $.ajax({
 	     type:"GET",
 	     url: url,
@@ -778,7 +778,7 @@ function barLineAjax_Stack_callback(url,  echartsobj, options,callback)
 	          if(data.success==true ||data.success=='true')
 	          {
 	        		       echartsobj.hideLoading();
-	        		       dataresutl=data.data;
+	        		      
 	        	           var legendDataList=data.data.legendDataList;
 	        	           //挨个取出类别并填入类别数组
 	        	           for(var i=0;i<legendDataList.length;i++)
@@ -836,7 +836,7 @@ function barLineAjax_Stack_callback(url,  echartsobj, options,callback)
 	        }
 		  
   });
-   return dataresutl;
+   return echartsobj;
    
 } 
 

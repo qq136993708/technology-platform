@@ -189,7 +189,7 @@ function initEchart()
 	
 	
 	var chart2_url="/direct/getKnowledgePie?nd="+nd+"&v_date="+v_date+"&type=1";
-	var echart2=loadPie(chart2_url,"knowldege_chart2","","");
+	var echart2=loadPie_02(chart2_url,"knowldege_chart2","","");
 	echart2.on('click', function (params) {
 		var xName=params.name;
 		var legentName=params.seriesName;
@@ -198,7 +198,7 @@ function initEchart()
     });
 	
 	var chart3_url="/direct/getKnowledgePie?nd="+nd+"&v_date="+v_date+"&type=3";
-	var echart3=loadPie(chart3_url,"knowldege_chart3","","");
+	var echart3=loadPie_02(chart3_url,"knowldege_chart3","","");
 	echart3.on('click', function (params) {
 		var xName=params.name;
 		var legentName=params.seriesName;
@@ -219,8 +219,8 @@ function initEchart()
 	
 	
 	var chart5_url="/direct/getKnowledgePie?type=2&nd="+nd+"&v_date="+v_date;
-	var echart5=loadPie(chart5_url,"knowldege_chart5","","");
-	echart5.on('click', function (params) {
+	var echart5=loadPie_02(chart5_url,"knowldege_chart5","","");
+	 echart5.on('click', function (params) {
 		var xName=params.name;
 		var legentName=params.seriesName;
 		window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
@@ -230,13 +230,13 @@ function initEchart()
 	
 	
 	var chart6_url="/direct/getKnowledgePie?type=4&nd="+nd+"&v_date="+v_date;
-	var echart6=loadPie(chart6_url,"knowldege_chart6","","");
-	echart6.on('click', function (params) {
+	var echart6=loadPie_02(chart6_url,"knowldege_chart6","","");
+	 echart6.on('click', function (params) {
 		var xName=params.name;
 		var legentName=params.seriesName;
 		window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
           
-    });
+    }); 
 	
 	
 	
