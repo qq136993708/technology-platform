@@ -1064,9 +1064,41 @@ public class OneLevelMainController {
 						System.out.println(">>>>>>>>>>>>>>>equipment_02 " + jSONArray.toString());
 						
 						List<H1AMKYSY100117> list = JSONObject.parseArray(jSONArray.toJSONString(), H1AMKYSY100117.class);
-						List<String>  lista=HanaUtil.getduplicatexAxisByList(list,"g0ZCXLMS");
-						List<TreeNode2>  chartCircleList=	HanaUtil.getChildChartH1AMKYSY100117(lista,list);
+						//List<String>  lista=HanaUtil.getduplicatexAxisByList(list,"g0ZCXLMS");
+						//List<TreeNode2>  chartCircleList=	HanaUtil.getChildChartH1AMKYSY100117(lista,list);
 						
+						List<TreeNode2>  chartCircleList = new ArrayList<TreeNode2>();
+						for(int i = 0;i<list.size();i++) 
+						{
+							H1AMKYSY100117 bean = list.get(i);
+							TreeNode2 node = new TreeNode2();
+							node.setExtend01(bean.getG0ZCXLMS());//设备类型
+							node.setExtend02(bean.getG0GSJC());//直属研究院
+							node.setExtend03(bean.getG0TXT50());//设备名称
+							node.setExtend04(bean.getG0ZBHND());//购置年度
+							node.setExtend05(bean.getG0NDJAR());//使用年限
+							node.setExtend06(bean.getG0NDSYN());//剩余年限
+							
+							DecimalFormat decimalFormat=new DecimalFormat(".00");
+							node.setExtend07(bean.getG0NCGZYZJE());//购置金额(万元)
+							if(bean.getG0NCGZYZJE()!=null )
+							{
+								node.setExtend07(decimalFormat.format(Double.valueOf(bean.getG0NCGZYZJE())/10000l));
+							}
+							node.setExtend08(bean.getG0LJZJJE());//折旧金额（万元）
+							if(bean.getG0LJZJJE()!=null )
+							{
+								node.setExtend08(decimalFormat.format(Double.valueOf(bean.getG0LJZJJE())/10000l));
+							}
+							
+							node.setExtend09(bean.getBl()+"%");//折旧率
+							
+							chartCircleList.add(node);
+						}
+						//把合计放到第一位置（查询结果在队列末尾）
+						chartCircleList.set(0, chartCircleList.get(chartCircleList.size()-1));
+						//移除最后位置的合计值
+						chartCircleList.remove(chartCircleList.size()-1);
 						
 						pageResult.setData(chartCircleList);
 						pageResult.setCode(0);
@@ -1078,7 +1110,7 @@ public class OneLevelMainController {
 					
 				
 				JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
-				System.out.println(">>>>>>>>>>>>>>>equipment_02 " + resultObj.toString());
+				//System.out.println(">>>>>>>>>>>>>>>equipment_02 " + resultObj.toString());
 				return resultObj.toString();
 			}
 				
