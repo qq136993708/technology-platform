@@ -52,7 +52,7 @@
                             <span id="textTopTwo">0</span><span class="layui-text-span">亿</span>
                             <img src="/layuiadmin/layui/images/level-close.png" class="dele" alt="">
                         </div>
-                        <div class="layui-col-md3 layui-text-icon layui-textTop-three"   style="cursor:pointer">
+                        <div class="layui-col-md3 layui-text-icon layui-textTop-three" id="equipment"  style="cursor:pointer">
                             <p>科研装备</p>
                             <span class="layui-box-number" id="K0BNGLFPHJECB_t">
                              <img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
@@ -247,6 +247,15 @@
         	
         	
         });
+        
+        //装备
+        $("#equipment").on("click",function () {
+        	window.open("/instituteIndex?url="+"/one_level_main/equipment","_target");
+        	
+        });
+        
+        
+        
         
     });
     

@@ -193,7 +193,6 @@
         	
                     <div class="layui-card-body btn-function">
                      <div class="text-total">
-                           
                             <span>大型分析仪器:<span class="text-total-blue" id="bar4_1_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                             <span>中型实验装置:<span class="text-total-blue" id="bar4_2_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                             <span>单台值大于500万:<span class="text-total-blue" id="bar4_3_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
@@ -296,16 +295,14 @@
             $(".layui-top .layui-col-md15").eq(2).click(function () {
             	window.open("/instituteIndex?url="+"/direct/contract","_target");
             });
-            //合同
+            //支出
             $(".layui-top .layui-col-md15").eq(3).click(function () {
-                parent.layui.index.openTabsPage("/home_pay/home_pay", "经费支出（万元）");///home_second/ndys_level2 home_second/jfzc_level2
+            	window.open("/instituteIndex?url="+"/direct/actualPay","_target");
             });
-            
             
             $(".layui-top .layui-col-md15").eq(4).click(function () {
             	window.open("/instituteIndex?url="+"/direct/knowledgePatent","_target");
             });
-            
             //科研成果
             $(".layui-top .layui-col-md15").eq(5).click(function () {
             	
@@ -316,7 +313,6 @@
                 parent.layui.index.openTabsPage("/intl_project/report/report_intl_project_main", "国际合作");
             });
             
-            
             var md4Height=$(".layui-col-md4").height()-2;
             var headerHeight=$(".layui-card-header").outerHeight(true);
             $(".layui-wifi-left,.layui-wifi-right").css("height",md4Height-headerHeight+"px");
@@ -325,9 +321,6 @@
                 elem: '#month'
                 ,format: 'yyyyMM'
              });
-         
-           
-            
             
             $(".remove").on("click",function () {
                 $(this).parents(".layui-card").parent().remove();
@@ -335,9 +328,6 @@
             $(".collapse").on("click",function () {
                 $(this).parent().parent().nextAll().slideToggle(400);
             });
-           
-            
-            
             
         });
 
@@ -579,7 +569,7 @@
         	
          	//直属研究院科研设备数量分析
            	var chart4_url="/home/GET_getDzzk_bar?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
-        	var data=load_mutl_bar_stack_02(chart4_url,"bar4","","",yAxis,function(data){
+        	load_mutl_bar_stack_02(chart4_url,"bar4","","",yAxis,function(data){
         		
         		
         		var bCount_4=getDataCountForName_t(data,'大型分析仪器');

@@ -388,7 +388,7 @@ function get_mony_line_option_ajax_dt_investment(url,echartsobj, options)
   });
    
 } 
-function 	load_mony_line_dt_investment(url,id,title,subtext,yAxis)
+function 	load_mony_line_dt_investment(url,id,title,subtext,yAxis,rotate)
 {
 	var echartsobj = echarts.init(document.getElementById(id));
 	option_dt_investment.title.text=title;
@@ -404,6 +404,23 @@ function 	load_mony_line_dt_investment(url,id,title,subtext,yAxis)
 	        bottom: '12%',
 	        containLabel: true
 	    }
+    if(rotate==undefined){
+        option_dt_investment.xAxis=[{
+            type: 'category',
+            axisLabel:{
+                interval:0,//0：全部显示，1：间隔为1显示对应类目，2：依次类推，（简单试一下就明白了，这样说是不是有点抽象）
+                rotate:0,//倾斜显示，-：顺时针旋转，+或不写：逆时针旋转
+            }
+        }]
+    }else {
+        option_dt_investment.xAxis=[{
+            type: 'category',
+            axisLabel:{
+                interval:0,//0：全部显示，1：间隔为1显示对应类目，2：依次类推，（简单试一下就明白了，这样说是不是有点抽象）
+                rotate:30,//倾斜显示，-：顺时针旋转，+或不写：逆时针旋转
+            }
+        }]
+    }
 	echartsobj.setOption(option_dt_investment);
 	echartsobj.showLoading();
 	get_mony_line_option_ajax_dt_investment(url,echartsobj, option_dt_investment);

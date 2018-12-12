@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/adminStp.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/mainStp.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/second.css" media="all">
+    <style>
+        .btn_details{background:url(/layuiadmin/layui/images/operation_03.png) 2px 4px #fff no-repeat;}
+        .btnMyBgImg:hover{background-size:inherit;background-position: 2px;}
+        .searchBox{background:none;}
+    </style>
+</head>
+<body>
+<div class="layui-fluid">
+ <input type="hidden" name="month"        value="${month}"         id="month">
+   <input type="hidden" name="companyCode"  value="${companyCode}"   id="companyCode">
+    <div class="">
+        <div class="searchBox">
+            <label class="dateInput">
+                <span>月份</span>
+                <input type="text" name="year" placeholder="请选择月份" title="月份" value="${year}"  autocomplete="off" class="form-control" id="year">
+            </label>
+            <!--按钮组-->
+            <div class="btnGroup">
+                <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg"
+                        onclick="search_Event()">查询</button>
+            </div>
+            <div class="btnGroup" style="float:right">
+                <button id="knowledge_table" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue  btnMyBgImg btn_details"
+                >详情</button>
+            </div>
+        </div>
+
+        <div class="layui-row layui-col-space15">
+            <div class="layui-col-md12">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        <span class="layui-time"></span>单台价值大于500万装备
+                    </div>
+                    <div class="layui-row-main">
+                        <div class="main-chart" id="equipment_01_chart" style="height:280px;width: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+         <div class="layui-row layui-col-space15">
+            <div class="layui-col-md12">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        <span class="layui-time"></span>单台价值大于500万装备清单
+                    </div>
+                    <div class="layui-row-main">
+                        <table id="processdef_table_02" class="layui-hide" lay-filter="processdef_table_02"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        
+        
+        
+                    
+        
+        
+        
+    </div>
+</div>
+
+<script src="/common/js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+<script src="/common/js/layer-v3.1.1/layer.js"></script>
+<script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
+<script type="text/javascript" src="/plugins/echarts/walden.js"></script>	
+<script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
+<script type="text/javascript" src="/stp/hana/home/direct_depart/direct_common.js"></script>
+
+<script type="text/javascript">
+var table,treeGridCom;
+layui.config({
+	 base: '/layuiadmin/lib/extend/'
+}).extend({
+	treeGridCom:'treeGridCom'
+}).use(['jquery','form', 'laydate','treeGridCom','table','laypage'], function(){
+	var $=layui.jquery;
+    treeGridCom = layui.treeGridCom;//很重要
+    layer=layui.layer;
+    laydate = layui.laydate;
+    form = layui.form;
+    
+	  form.render(null, 'component-form-group');
+        laydate.render({
+           elem: '#month'
+           ,format: 'yyyyMM'
+        });
+        
+        
+        
+        
+        
+        renderTable();
+        
+        
+        $(".layui-time").html($("#month").val());
+        $("#knowledge_table").click(function () {
+        	window.open("/reportNew/reportPageStp?name=167305d0060_d4723a52");
+        });
+       
+        
+});
+
+function initEchart()
+{
+	
+	var v_date=(new Date()).getTime();
+	var month=$('#month').val();
+	var companyCode=$('#companyCode').val();
+	var yAxis= [
+        {
+            type: 'value',
+            name: '数量',
+            min: 0,
+            max:'dataMax',
+            position: 'left',
+            axisLabel: {
+                formatter: '{value}'
+            }
+        }
+    ];
+    $(".layui-time").html($("#year").val());
+	var chart1_url="/one_level_main/equipment_01?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
+	var echart1=load_single_bar(chart1_url,"equipment_01_chart","","",yAxis,'');
+	echart1.on('click', function (params) {
+		var xName=params.name;
+		var legentName=params.seriesName;
+		window.open("/reportNew/reportPageStp?name=167305d0060_d4723a52");
+          
+    });
+	
+}
+
+//初始化图形
+initEchart();
+//查询
+function search_Event()
+{
+	initEchart();
+	renderTable();
+}
+        
+
+function renderTable()
+{  
+	 var month=$("#month").val();
+	 var companyCode=$("#companyCode").val();
+	  treeGridCom.render({
+	        id: 'processdef_table_02'
+	        ,elem: '#processdef_table_02'
+	        ,url:'/one_level_main/equipment_02?month='+month+"&companyCode="+companyCode
+	        ,idField:'id'//必須字段
+	        ,treeId:'id'//树形id字段名称
+	        ,treeUpId:'pId'//树形父id字段名称
+	        ,treeShowName:'name'//以树形式显示的字段
+	       // ,heightRemove:[".dHead",10]//不计算的高度,表格设定的是固定高度，此项不生效
+	        ,height:'280'
+	        ,isFilter:false
+	        ,iconOpen:false//是否显示图标【默认显示】
+	        ,isOpenDefault:true//节点默认是展开还是折叠【默认展开】
+	        ,loading: false
+	        ,method:'get'
+	        ,cols: [[
+	            {field:'name',  title: '企业单位',edit:'text'},
+	            {field:'extend01',  title:'设备名称',  style:'cursor: pointer;',align: 'left'},
+	            {field:'extend02',  title:'购置年度',  style:'cursor: pointer;',align: 'left'},
+	            {field:'extend03',  title:'使用年度',  style:'cursor: pointer;',align: 'left'},
+	            {field:'extend04',  title:'购置价值(万元)',  style:'cursor: pointer;',align: 'left',  templet: '<div>{{ layui.laytpl.milliFormat(d.extend04,2) }}</div>'},
+	            {field:'extend05',  title:'折旧价值(万元)',  style:'cursor: pointer;',align: 'left',  templet: '<div>{{ layui.laytpl.milliFormat(d.extend05,2) }}</div>'},
+	            {field:'extend06',  title:'折旧率',  style:'cursor: pointer;',align: 'left'}
+	            
+	        ]]
+	        ,isPage:false
+	        ,parseData:function (res) {
+	            return res;
+	        }
+	        
+	        ,onDblClickRow:function (index, o) {
+	            console.log(index,o,"双击");
+	        }
+	    });
+}
+        
+</script>
+</body>
+</html>

@@ -12,228 +12,25 @@
 
 	<div class="content-body container">
 		<div style="text-align: center; font-weight: bold; margin: 10px;">表2 资产经费预算明细表</div>
-		<table class="layui-table">
-				
-				<thead>
-					<tr>
-						<td rowspan="2">序号</td>
-						<td rowspan="2">专业处/部门</td>
-						<td rowspan="2">预算合计</td>
-						<td colspan="3">2018年结转项目经费</td>
-						<td colspan="3">2018年新开项目经费</td>
-					</tr>
-					</thead>
-					<tbody>
-					<tr>
-						<td>合计</td>
-						<td>资产部</td>
-						<td>化工部</td>
-						<td>合计</td>
-						<td>资产部</td>
-						<td>化工部</td>
-					</tr>
-					<tr>
-						<td>1</td>
-						<td>油田处</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>2</td>
-						<td>炼油处</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>3</td>
-						<td>化工处</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>4</td>
-						<td>材料处</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>5</td>
-						<td>装储处</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>6</td>
-						<td>综合计划处</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>7</td>
-						<td>技术监督处</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>8</td>
-						<td>三剂处</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>9</td>
-						<td>知识产权处</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>10</td>
-						<td>物装部</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>11</td>
-						<td>信息部</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>12</td>
-						<td>工程部</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>13</td>
-						<td>炼油事业部（军工）</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>14</td>
-						<td>炼油事业部（B2、C类）</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>15</td>
-						<td>化工事业部（B2、C类）</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>16</td>
-						<td>专项</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>17</td>
-						<td>机动</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td></td>
-						<td>合计</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr></tr>
-					<tr></tr>
-					<tr></tr>
-				</tbody>
+		<table id="myTable" class="layui-table" lay-data="{url:'/ba/zcjfysmxb_data',height:'auto'}">
+			<thead>
+			    <tr>
+			      <th lay-data="{type:'numbers'}" rowspan="2">序号</th>
+			      <th lay-data="{field:'zyc', width:'20%'}" rowspan="2">专业处/部门</th>
+			      <th lay-data="{field:'yshj',align:'right', width:'18%'}" rowspan="2">预算合计</th>
+			      <th lay-data="{align:'center', width:'30%'}" colspan="3">结转项目经费</th>
+			      <th lay-data="{align:'center', width:'30%'}" colspan="3">新开项目经费</th>
+			    </tr>
+			    <tr>
+			      <th lay-data="{field:'jzxmjfhj',align:'right', width:'10%'}">合计</th>
+			      <th lay-data="{field:'jzxmjfzcb',align:'right', width:'10%'}">资产部</th>
+			      <th lay-data="{field:'jzxmjfhgb',align:'right', width:'10%'}">化工部</th>
+			      
+			      <th lay-data="{field:'xkxmjfhj',align:'right', width:'10%'}">合计</th>
+			      <th lay-data="{field:'xkxmjfzcb',align:'right', width:'10%'}">资产部</th>
+			      <th lay-data="{field:'xkxmjfhgb',align:'right', width:'10%'}">化工部</th>
+			    </tr>
+			  </thead>
 			</table>
 	</div>
 

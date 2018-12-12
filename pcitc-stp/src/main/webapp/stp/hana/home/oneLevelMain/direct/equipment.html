@@ -104,10 +104,10 @@
                     </div>
                     <div class="layui-row-main">
                         <div class="text-total">
-                            <span>大型分析仪器:<span class="text-total-blue"    id="equipment_chart3_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>中型实验装置:<span class="text-total-blue"    id="equipment_chart3_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>单台值大于500万:<span class="text-total-blue" id="equipment_chart3_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>专业软件（外购）:<span class="text-total-blue" id="equipment_chart3_04"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                             <span>大型分析仪器:<span class="text-total-blue" id="bar4_1_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>中型实验装置:<span class="text-total-blue" id="bar4_2_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>单台值大于500万:<span class="text-total-blue" id="bar4_3_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>专业软件（外购）:<span class="text-total-blue" id="bar4_4_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                         </div>
                         <div class="main-chart" id="equipment_chart3" style="height:280px;width: 100%;"></div>
                     </div>
@@ -222,7 +222,20 @@ function initEchart()
     });
 	
 	var url_01="/direct/equipment_02?type=1&companyCode="+companyCode+"&month="+month+"&v_date="+v_date;
-	load_bar_zhengfu(url_01,"equipment_chart3","","");
+	load_bar_zhengfu_callback(url_01,"equipment_chart3","","",function(data){
+
+		var bCount_4=getDataCountForName_t(data,'大型分析仪器');
+    	var zCount_4=getDataCountForName_t(data,'中型实验装置');
+    	var dCount_4=getDataCountForName_t(data,'单台值大于500万');
+    	var zyCount_4=getDataCountForName_t(data,'专业软件（外购）'); 
+        var allCount_4=bCount_4+zCount_4+dCount_4+zyCount_4;
+        //alert(bCount_4);
+        $("#bar4_1_count").html(bCount_4);
+        $("#bar4_2_count").html(zCount_4);
+        $("#bar4_3_count").html(dCount_4);
+        $("#bar4_4_count").html(zyCount_4);
+		
+	});
 	
 	
 	var chart5_url="/direct/equipment_03?companyCode="+companyCode+"&v_date="+v_date+"&month="+month;
@@ -236,6 +249,35 @@ function initEchart()
 	
 }
 
+function getDataCountForName_t(data,strName)
+{
+	var seriesList=data.seriesList;
+	//alert(data);
+    var xkCount=0;
+    if (typeof(seriesList) == "undefined") 
+    { 
+    	
+    }else
+    {
+    	 for(var i=0;i<seriesList.length;i++)
+         {
+         	var arr=seriesList[i].data;
+         	var name=seriesList[i].name;
+         	if(name==strName)
+         	{
+         		var name_count=0;
+         		for(var j=0;j<arr.length;j++)
+ 	            {
+         			name_count=name_count+parseInt(arr[j]);
+ 	            }
+         		xkCount=name_count;
+         	}
+         } 
+        
+    }   
+    return parseInt(xkCount);
+       
+}
 //初始化图形
 initEchart();
 //查询

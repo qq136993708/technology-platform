@@ -112,6 +112,16 @@ public class HomeServiceImpl implements IHomeService{
     }
     
     
+    public  List<H1AMKYSY100117> get_home_KYZB(Map map)throws Exception
+    {
+    	List<H1AMKYSY100117> one = homePageMapper.get_home_KYZB(map);
+    	return one;
+    }
+    public  List<H1AMKYSY100117> get_home_KYZB_02(Map map)throws Exception
+    {
+    	List<H1AMKYSY100117> one = homePageMapper.get_home_KYZB_02(map);
+    	return one;
+    }
     
     
     

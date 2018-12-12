@@ -765,7 +765,7 @@ function barLineAjax_Stack_callback(url,  echartsobj, options,callback)
    var legends=[];     //指标
    var xAxisData=[];   //X轴名称
    var seriesData=[];  //X轴数据
-   var dataresutl;
+  
    $.ajax({
 	     type:"GET",
 	     url: url,
@@ -778,7 +778,7 @@ function barLineAjax_Stack_callback(url,  echartsobj, options,callback)
 	          if(data.success==true ||data.success=='true')
 	          {
 	        		       echartsobj.hideLoading();
-	        		       dataresutl=data.data;
+	        		      
 	        	           var legendDataList=data.data.legendDataList;
 	        	           //挨个取出类别并填入类别数组
 	        	           for(var i=0;i<legendDataList.length;i++)
@@ -820,7 +820,7 @@ function barLineAjax_Stack_callback(url,  echartsobj, options,callback)
 	        	           
 	        	           if(callback)
 		                    {
-		                    	callback(data);
+		                    	callback(data.data);
 		                    }
 	        	       
 	          } else
@@ -836,7 +836,7 @@ function barLineAjax_Stack_callback(url,  echartsobj, options,callback)
 	        }
 		  
   });
-   return dataresutl;
+   return echartsobj;
    
 } 
 
@@ -1290,7 +1290,7 @@ function barLineAjax_Stack(url,  echartsobj, options)
 	        	       
 	          } else
 	          {
-	        	 layer.alert(failMsg);
+	        	 layer.alert("");
 	          }
 		   },
 		   error:function()
@@ -1400,7 +1400,7 @@ var option_zhengfu = {
 
 
 
-function barLine_zhengfu_Ajax(url,  echartsobj, options) 
+function barLine_zhengfu_Ajax(url,  echartsobj, options,callback) 
 {
 	
    var legends=[];     //指标
@@ -1437,6 +1437,7 @@ function barLine_zhengfu_Ajax(url,  echartsobj, options)
 	        	           		   type: seriesList[i].type,
 	        	                   name: seriesList[i].name,
 	        	                   data: seriesList[i].data,
+	        	                   stack: seriesList[i].stack,
                                 itemStyle : { normal: {label : {show: true,color:"#000"}}},
 	        	               });
 	        	           }
@@ -1453,11 +1454,16 @@ function barLine_zhengfu_Ajax(url,  echartsobj, options)
 	        	               ],
 	        	               series: seriesData
 	        	           });
-	        	           console.log(options);
+	        	           
+	        	            if(callback)
+		                    {
+		                    	callback(data.data);
+		                    }
+	        	           
 	        	       
 	          } else
 	          {
-	        	 layer.alert(failMsg);
+	        	 layer.alert("");
 	          }
 		   },
 		   error:function()
@@ -1484,9 +1490,25 @@ function load_bar_zhengfu(url,id,title,subtext)
 	option_zhengfu.title.subtext=subtext;
 	echartsobj.setOption(option_zhengfu);
 	echartsobj.showLoading();
-	barLine_zhengfu_Ajax(url,echartsobj, option_zhengfu);
+	barLine_zhengfu_Ajax(url,echartsobj, option_zhengfu,null);
 	return echartsobj;
 }	
+
+
+function load_bar_zhengfu_callback(url,id,title,subtext,callback)
+{
+	
+	var echartsobj = echarts.init(document.getElementById(id));
+	option_zhengfu.title.text=title;
+	option_zhengfu.title.subtext=subtext;
+	echartsobj.setOption(option_zhengfu);
+	echartsobj.showLoading();
+	barLine_zhengfu_Ajax(url,echartsobj, option_zhengfu,callback);
+	return echartsobj;
+}	
+
+
+
 function load_bar_zhengfu_tt(id,title,subtext,legends,yAxisData,seriesData)
 {
 	
