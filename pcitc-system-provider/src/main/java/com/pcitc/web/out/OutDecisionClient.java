@@ -269,5 +269,16 @@ public class OutDecisionClient {
 		return json;
 	}
 	
+	@ApiOperation(value = "辅助决策中心，各类型专利及涉外专利的情况", notes = "参数年度")
+	@RequestMapping(value = "/out-decision-provider/patent/type-abroad")
+	public JSONArray getPatentInfoByTypeAndAbroad(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page getPatentInfoByTypeAndAbroad===========================" + map);
+		
+		List temList = outDecisionService.getPatentInfoByTypeAndAbroad(map);
+		
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		return json;
+	}
+	
 
 }

@@ -240,5 +240,15 @@
 		GROUP BY REMARKS
 	</select>
 	
+	<!-- 辅助决策中心，各类型专利及涉外专利的情况 -->
+	<select id="getPatentInfoByTypeAndAbroad" resultType="java.util.Map" parameterType="java.util.Map">
+		select
+			sum(case when LEFT(SHOUQR,4) = '2018' and (WXLX = '发明公布' or WXLX = '发明授权') then 1 else 0 end) as fmzlCount,
+			sum(case when LEFT(SHOUQR,4) = '2018' and (WXLX = '外观设计') then 1 else 0 end) as wgsjCount,
+			sum(case when LEFT(SHOUQR,4) = '2018' and (WXLX = '实用新型') then 1 else 0 end) as syxxCount,
+			sum(case when LEFT(GKR,4) = '2018' and (REMARKS = '国际专利') then 1 else 0 end) as gjzlCount
+		from out_patent
+	</select>
+	
 	
 </mapper>
