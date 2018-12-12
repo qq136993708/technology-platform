@@ -21,7 +21,6 @@ import org.springframework.web.client.RestTemplate;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.PageResult;
 import com.pcitc.base.util.CommonUtil;
@@ -42,6 +41,8 @@ public class BudgetAllocationController {
 	//private static final String cbmkjjfyszb_data = "http://pcitc-zuul/system-proxy/out-decision-provider/ysfp/jfysfx/department-budget";
 	private static final String cbmkjjfyszb_data = "http://pcitc-zuul/system-proxy/out-decision-provider/budget-proposals/department/stp-money";
 	private static final String jtjfysmxb_data = "http://pcitc-zuul/system-proxy/out-decision-provider/budget-proposals/group/stp-money";
+	private static final String zcjfysmxb_data = "http://pcitc-zuul/system-proxy/out-decision-provider/budget-proposals/asset/stp-money";
+	private static final String gfzsyjfysmxb_data = "http://pcitc-zuul/system-proxy/out-decision-provider/budget-proposals/institute/stp-money";
 	
 	
 	
@@ -189,7 +190,7 @@ public class BudgetAllocationController {
 	  public String jtjfysmxbData(HttpServletRequest request) throws Exception
 	  {
 		    
-		 String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+		String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
 		String companyCode = CommonUtil.getParameter(request, "companyCode", "");
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("month", month);
@@ -199,20 +200,50 @@ public class BudgetAllocationController {
 		System.out.println(">>>>>>>>>>>>>集团经费预算明细表jtjfysmxb_data:" + result);
 		return result;
 	  }
-	//资产经费预算明细表
+	  //资产经费预算明细表
 	  @RequestMapping(method = RequestMethod.GET, value = "/ba/zcjfysmxb")
 	  public String zcjfysmxb(HttpServletRequest request) throws Exception
 	  {
 		    
 	        return "stp/hana/budgetAllocation/zcjfysmxb";
 	  }
-	
-	//股份（直属院）经费预算明细表
+	  //资产经费预算明细表
+	  @RequestMapping(method = RequestMethod.GET, value = "/ba/zcjfysmxb_data")
+	  @ResponseBody
+	  public String zcjfysmxbData(HttpServletRequest request) throws Exception
+	  {
+		String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+		String companyCode = CommonUtil.getParameter(request, "companyCode", "");
+		Map<String, Object> paramsMap = new HashMap<String, Object>();
+		paramsMap.put("month", month);
+		paramsMap.put("companyCode", companyCode);
+		
+		String result = getTableDataNotPagin(paramsMap,zcjfysmxb_data);
+		System.out.println(">>>>>>>>>>>>>资产经费预算明细表zcjfysmxb_data:" + result);
+		return result;
+	  }
+	  //股份（直属院）经费预算明细表
 	  @RequestMapping(method = RequestMethod.GET, value = "/ba/gfzsyjfysmxb")
 	  public String gfzsyjfysmxb(HttpServletRequest request) throws Exception
 	  {
 		    
 	        return "stp/hana/budgetAllocation/gfzsyjfysmxb";
+	  }
+	  //股份（直属院）经费预算明细表
+	  @RequestMapping(method = RequestMethod.GET, value = "/ba/gfzsyjfysmxb_data")
+	  @ResponseBody
+	  public String gfzsyjfysmxbData(HttpServletRequest request) throws Exception
+	  {
+		    
+		  String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+			String companyCode = CommonUtil.getParameter(request, "companyCode", "");
+			Map<String, Object> paramsMap = new HashMap<String, Object>();
+			paramsMap.put("month", month);
+			paramsMap.put("companyCode", companyCode);
+			
+			String result = getTableDataNotPagin(paramsMap,gfzsyjfysmxb_data);
+			System.out.println(">>>>>>>>>>>>>股份（直属院）经费预算明细表gfzsyjfysmxb_data:" + result);
+			return result;
 	  }
 	//股份（系统外及集团）经费预算明细表
 	  @RequestMapping(method = RequestMethod.GET, value = "/ba/gfxtwjjtjfysmxb")
