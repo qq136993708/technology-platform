@@ -236,6 +236,34 @@ public class OutDecisionClient {
 		logger.info("==================page selectJFYSForTech===========================" + map);
 		
 		List temList = outDecisionService.selectJFYSForTech(map);
+		int jnCount = 0;
+		int qnCount = 0;
+		int qiannCount = 0;
+		for (int i = 0; i < temList.size(); i++) {
+			HashMap<String, String> temMap = (HashMap<String, String>)temList.get(i);
+			jnCount = jnCount + Integer.parseInt(temMap.get("jnCount"));
+			qnCount = qnCount + Integer.parseInt(temMap.get("qnCount"));
+			qiannCount = qiannCount + Integer.parseInt(temMap.get("qiannCount"));
+		}
+		
+		HashMap<String, String> totalMap = new HashMap<String, String>();
+		totalMap.put("showName", "专利总数");
+		totalMap.put("jnCount", String.valueOf(jnCount));
+		totalMap.put("qnCount", String.valueOf(qnCount));
+		totalMap.put("qiannCount", String.valueOf(qiannCount));
+		
+		temList.add(0, totalMap);
+		
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		return json;
+	}
+	
+	@ApiOperation(value = "知识产权分析，近三年国内外专利的情况", notes = "参数年度")
+	@RequestMapping(value = "/out-decision-provider/patent/home-baroad/three-year")
+	public JSONArray getPatentInfoByHomeAbroad(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page getPatentInfoByHomeAbroad===========================" + map);
+		
+		List temList = outDecisionService.getPatentInfoByHomeAbroad(map);
 		
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
 		return json;
