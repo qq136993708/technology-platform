@@ -14,7 +14,18 @@ public class TreeNode2 {
     private String extend03;
     private String extend04;
     private String extend05;
+    private String extend06;
     private Integer count;
+    
+    
+    
+    
+	public String getExtend06() {
+		return extend06;
+	}
+	public void setExtend06(String extend06) {
+		this.extend06 = extend06;
+	}
 	public String getId() {
 		return id;
 	}

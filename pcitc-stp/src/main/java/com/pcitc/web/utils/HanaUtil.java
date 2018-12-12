@@ -956,7 +956,155 @@ public class HanaUtil {
 		}
 		return resut;
 	}
+	/*public static List<H1AMKYSY100117> getChildChartH1AMKYSY100117_02(List<String>  listLevel1Title,List<H1AMKYSY100117> listAll)throws Exception  
+	{
+		List<H1AMKYSY100117> resut = new ArrayList();
+		for(int i=0;i<listLevel1Title.size();i++)
+		{
+			String title=listLevel1Title.get(i);
+			H1AMKYSY100117 node=new H1AMKYSY100117();
+			node.setId("first_"+String.valueOf(i));
+			resut.add(node);
+		}
+	}*/
 	
+	public static List<TreeNode2> getChildChartH1AMKYSY100117(List<String>  listLevel1Title,List<H1AMKYSY100117> listAll)throws Exception  
+	{
+		
+		List<TreeNode2> resut = new ArrayList();
+		for(int i=0;i<listLevel1Title.size();i++)
+		{
+			String title=listLevel1Title.get(i);
+			TreeNode2 node=new TreeNode2();
+			node.setId("first_"+String.valueOf(i));
+			node.setLay_icon_open("/layuiadmin/layui/images/treegrid1_open.png");
+			node.setLay_icon("/layuiadmin/layui/images/treegrid2.png");
+			node.setLay_is_open(true);
+			node.setName(title);
+			
+			List<H1AMKYSY100117> resat02=getchildH1AMKYSY100117( title, listAll);
+			/*Double count=0.00;*/
+			/*for(int v=0;v<resat02.size();v++)
+			{
+				H1AMKYSY100117  h1AMKYSY100109=resat02.get(v);
+				String value=h1AMKYSY100109.getK0BNYSJHJE();
+				DecimalFormat decimalFormat=new DecimalFormat(".00");
+				value=decimalFormat.format(Double.valueOf(value));
+				if(value!=null)
+				{
+					count=add(count,Double.valueOf(value));
+				}else
+				{
+					count=add(count,0);
+				}
+			}*/
+			//node.setExtend01(String.valueOf(count));
+			resut.add(node);
+			
+			//二级
+			List<String>  list2tiele=getduplicatexAxisByList(resat02,"g0GSJC");
+			for(int j=0;j<list2tiele.size();j++)
+			{
+				String title02=list2tiele.get(j);
+				TreeNode2 node02=new TreeNode2();
+				node02.setId("second_"+i+"_"+String.valueOf(j));
+				node02.setName(title02);
+				node02.setpId("first_"+String.valueOf(i));
+				
+				
+				//三级
+				List<H1AMKYSY100117> resat03=getchildH1AMKYSY100117_02(title, title02, listAll);
+				Double count2=0.00;
+				Double count5=0.00;
+				for(int k=0;k<resat03.size();k++)
+				{
+					H1AMKYSY100117  h1AMKYSY100109=resat03.get(k);
+					String G0TXT50=h1AMKYSY100109.getG0TXT50();
+					String G0ZBHND=h1AMKYSY100109.getG0ZBHND();
+					String G0NDSYN=h1AMKYSY100109.getG0NDSYN();
+					String G0NCGZYZJE=h1AMKYSY100109.getG0NCGZYZJE();
+					String G0LJZJJE=h1AMKYSY100109.getG0LJZJJE();
+					String bl=h1AMKYSY100109.getBl();
+					
+					TreeNode2 node03=new TreeNode2();
+					node03.setId("three_"+k);
+					//node03.setName(h1AMKYSY100109.getG0GSJC());
+					node03.setExtend01(G0TXT50);
+					node03.setExtend02(G0ZBHND);
+					node03.setExtend03(G0NDSYN);
+					node03.setExtend04(G0NCGZYZJE);
+					node03.setExtend05(G0LJZJJE);
+					node03.setExtend06(bl);
+					node03.setpId("second_"+i+"_"+String.valueOf(j));
+					resut.add(node03);
+					
+					
+					DecimalFormat decimalFormat=new DecimalFormat(".00");
+					G0NCGZYZJE=decimalFormat.format(Double.valueOf(G0NCGZYZJE));
+					if(G0NCGZYZJE!=null )
+					{
+						count2=add(count2,Double.valueOf(G0NCGZYZJE));
+					}else
+					{
+						count2=add(count2,0);
+					}
+					
+					
+					
+
+					DecimalFormat decimalFormat2=new DecimalFormat(".00");
+					G0LJZJJE=decimalFormat2.format(Double.valueOf(G0LJZJJE));
+					if(G0LJZJJE!=null )
+					{
+						count5=add(count5,Double.valueOf(G0LJZJJE));
+					}else
+					{
+						count5=add(count5,0);
+					}
+					
+					
+				}
+				node02.setExtend04(String.valueOf(count2));
+				node02.setExtend05(String.valueOf(count5));
+				resut.add(node02);
+			}
+			
+		}
+		return resut;
+	}
+	
+	
+	public static List<H1AMKYSY100117> getchildH1AMKYSY100117(String title,List<H1AMKYSY100117> listAll) 
+	{
+		
+		List<H1AMKYSY100117> resat=new ArrayList();
+		for (int j = 0; j < listAll.size(); j++) 
+		{
+			H1AMKYSY100117 entity=listAll.get(j);
+			String name=entity.getG0ZCXLMS();
+			if(name.equals(title))
+			{
+				resat.add(entity);
+			}
+		}
+		return resat;
+	}
+	public static List<H1AMKYSY100117> getchildH1AMKYSY100117_02(String title,String title2,List<H1AMKYSY100117> listAll) 
+	{
+		
+		List<H1AMKYSY100117> resat=new ArrayList();
+		for (int j = 0; j < listAll.size(); j++) 
+		{
+			H1AMKYSY100117 entity=listAll.get(j);
+			String G0ZCXLMS=entity.getG0ZCXLMS();
+			String G0GSJC=entity.getG0GSJC();
+			if(G0ZCXLMS.equals(title) && G0GSJC.equals(title2))
+			{
+				resat.add(entity);
+			}
+		}
+		return resat;
+	}
 	public static List<TreeNode2> getChildChartCircleUnitPay(List<String>  listLevel1Title,List<H1AMKYSY100109> listAll)throws Exception  
 	{
 		
