@@ -76,7 +76,7 @@
 
 <script src="/common/js/jquery-1.11.3.min.js"></script>
 <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
-<!-- <script src="/common/js/layer-v3.1.1/layer.js"></script> -->
+<script src="/common/js/layer-v3.1.1/layer.js"></script>
 <script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
 <script type="text/javascript" src="/plugins/echarts/walden.js"></script>	
 <script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
@@ -85,7 +85,7 @@
 <script type="text/javascript" src="/stp/hana/home/direct_depart/direct_common.js"></script>
 
 <script type="text/javascript">
-var table,treeGridCom,util;
+var table,treeGridCom;
 layui.config({
 	 base: '/layuiadmin/lib/extend/'
 }).extend({
@@ -97,22 +97,23 @@ layui.config({
     laydate = layui.laydate;
     form = layui.form;
     
-    table = layui.table;
-    util = layui.laytpl;
-    
-    
-  	form.render(null, 'component-form-group');
-       laydate.render({
-          elem: '#month'
-          ,format: 'yyyyMM'
-    });
-    
-    renderTable();
-
-    $(".layui-time").html($("#month").val());
-    $("#knowledge_table").click(function () {
-    	window.open("/reportNew/reportPageStp?name=167305d0060_d4723a52");
-    });
+	  form.render(null, 'component-form-group');
+        laydate.render({
+           elem: '#month'
+           ,format: 'yyyyMM'
+        });
+        
+        
+        
+        
+        
+        renderTable();
+        
+        
+        $(".layui-time").html($("#month").val());
+        $("#knowledge_table").click(function () {
+        	window.open("/reportNew/reportPageStp?name=167305d0060_d4723a52");
+        });
        
         
 });
@@ -156,64 +157,7 @@ function search_Event()
 	renderTable();
 }
         
-function renderTable(){
-	var month=$("#month").val();
-	var companyCode=$("#companyCode").val();
-    table.render({
-        elem: '#processdef_table_02' //表格容器
-        , url: '/one_level_main/equipment_02?month='+month+"&companyCode="+companyCode
-        , limit: 15 //每页默认显示的数量
-        , id: 'processdef_table_02'
-        , height: commonDislodgeTable()
-        , cols: [[
-        	  	{field:'extend01',  title: '设备类型',width:'15%',edit:'text'},
-	            {field:'extend02',  title:'直属研究院',width:'8%',  style:'cursor: pointer;',align: 'left'},
-	            {field:'extend03',  title:'设备名称',width:'25%',  style:'cursor: pointer;',align: 'left'},
-	            {field:'extend04',  title:'购置年度',width:'8%',  style:'cursor: pointer;',align: 'center'},
-	            {field:'extend05',  title:'使用年限',  style:'cursor: pointer;',align: 'right'},
-	            {field:'extend06',  title:'剩余年限',  style:'cursor: pointer;',align: 'right'},
-	            {field:'extend07',  title:'购置价值(万元)',  style:'cursor: pointer;',align: 'right',  templet: '<div>{{ layui.laytpl.milliFormat(d.extend07,2) }}</div>'},
-	            {field:'extend08',  title:'折旧价值(万元)',  style:'cursor: pointer;',align: 'right',  templet: '<div>{{ layui.laytpl.milliFormat(d.extend08,2) }}</div>'},
-	            {field:'extend09',  title:'折旧率',  style:'cursor: pointer;',align: 'right'}
-        ]],
-        done: function(res, curr, count){
-            merge(res);
-        }
-    });
 
-    function merge(res) {
-
-        var data = res.data;
-        var mergeIndex = 0;//定位需要添加合并属性的行数
-        var mark = 1; //这里涉及到简单的运算，mark是计算每次需要合并的格子数
-        var columsName = ['extend01','extend02'];//需要合并的列名称
-        var columsIndex = [0,1];//需要合并的列索引值
-
-        for (var k = 0; k < columsName.length; k++) { //这里循环所有要合并的列
-            var trArr = $(".layui-table-body>.layui-table").find("tr");//所有行
-            for (var i = 1; i < res.data.length; i++) { //这里循环表格当前的数据
-                var tdCurArr = trArr.eq(i).find("td").eq(columsIndex[k]);//获取当前行的当前列
-                var tdPreArr = trArr.eq(mergeIndex).find("td").eq(columsIndex[k]);//获取相同列的第一列
-
-                if (data[i][columsName[k]] === data[i-1][columsName[k]]) { //后一行的值与前一行的值做比较，相同就需要合并
-                    mark += 1;
-                    tdPreArr.each(function () {//相同列的第一列增加rowspan属性
-                        $(this).attr("rowspan", mark);
-                    });
-                    tdCurArr.each(function () {//当前行隐藏
-                        $(this).css("display", "none");
-                    });
-                }else {
-                    mergeIndex = i;
-                    mark = 1;//一旦前后两行的值不一样了，那么需要合并的格子数mark就需要重新计算
-                }
-            }
-            mergeIndex = 0;
-            mark = 1;
-        }
-    }
-}
-/* 
 function renderTable()
 {  
 	 var month=$("#month").val();
@@ -252,7 +196,7 @@ function renderTable()
 	            console.log(index,o,"双击");
 	        }
 	    });
-} */
+}
         
 </script>
 </body>
