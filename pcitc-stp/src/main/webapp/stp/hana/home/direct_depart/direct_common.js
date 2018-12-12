@@ -561,6 +561,17 @@ function set_multi_graph_statistics(data,id)
 	}
 	
 	
+	if(id=='pay_chart3')
+	{
+		var xkCount_1=getDataCountForName(data,'资本性');
+    	var jzCount_2=getDataCountForName(data,'费用性');
+        var allCount_3=xkCount_1+jzCount_2;
+        
+        $("#pay_chart3_01").html(allCount_3);
+        $("#pay_chart3_02").html(xkCount_1);
+        $("#pay_chart3_03").html(jzCount_2);
+	}
+	
 	/**=============================直属研究院 end===========================*/
 	
 	/**===================================领导 begin===============================*/
