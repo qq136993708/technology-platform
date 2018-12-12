@@ -53,11 +53,11 @@
                     <div class="layui-card-body btn-function">
 
                         <div class="text-total">
-                            <span>总计:<span class="text-total-blue"    id="bar1_all_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>新开课题:<span class="text-total-blue" id="bar1_xk_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>结转课题:<span class="text-total-blue" id="bar1_jz_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>总计:<span class="text-total-blue"    id="pay_chart1_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>新开课题:<span class="text-total-blue" id="pay_chart1_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>结转课题:<span class="text-total-blue" id="pay_chart1_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                         </div>
-                        <div  style="height:270px;width: 100%;" id="chart1"></div>
+                        <div  style="height:270px;width: 100%;" id="pay_chart1"></div>
                     </div>
                 </div>
             </div>
@@ -93,11 +93,11 @@
                     <div class="layui-card-body btn-function">
 
                         <div class="text-total">
-                            <span>总计:<span class="text-total-blue"    id="bar1_all_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>新开课题:<span class="text-total-blue" id="bar1_xk_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>结转课题:<span class="text-total-blue" id="bar1_jz_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>总计:<span class="text-total-blue"    id="pay_chart3_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>新开课题:<span class="text-total-blue" id="pay_chart3_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>结转课题:<span class="text-total-blue" id="pay_chart3_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                         </div>
-                        <div  style="height:270px;width: 100%;" id="chart1dd"></div>
+                        <div  style="height:270px;width: 100%;" id="pay_chart3"></div>
                     </div>
                 </div>
             </div>
@@ -130,6 +130,7 @@
 <script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
 <script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
 <script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
+<script type="text/javascript" src="/stp/hana/home/direct_depart/direct_common.js"></script>
 
 <script type="text/javascript">
 
@@ -153,6 +154,9 @@ layui.config({
        elem: '#month'
        ,format: 'yyyyMM'
     });
+    
+    $(".layui-time").html($("#month").val());
+    
     renderTable();
     renderTable_UNIT();
     $("#knowledge_table").click(function () {
@@ -193,7 +197,7 @@ function initEchart()
 	
 
 	var chart1_url="/direct/pay_01?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
-	var echart1=load_mutl_bar_02(chart1_url,"chart1","","",yAxis)
+	var echart1=load_mutl_bar_down(chart1_url,"pay_chart1","","",yAxis)
 	echart1.on('click', function (params) {
 		var xName=params.name;
 		var legentName=params.seriesName;
@@ -205,7 +209,7 @@ function initEchart()
 	
 	
 	var chart7_url="/direct/pay_02?month="+month+"&v_date="+v_date+"&companyCode="+YJY_CODE_NOT_YINGKE;
-	var echart7=load_mutl_bar_02(chart7_url,"chart7","","",yAxis);
+	var echart7=load_mutl_bar_02(chart7_url,"pay_chart3","","",yAxis);
 	echart7.on('click', function (params) {
 		var xName=params.name;
 		var legentName=params.seriesName;
