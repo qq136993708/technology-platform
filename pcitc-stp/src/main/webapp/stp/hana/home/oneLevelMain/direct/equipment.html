@@ -17,6 +17,8 @@
 </head>
 <body>
 <div class="layui-fluid">
+   <input type="hidden" name="month"        value="${month}"         id="month">
+   <input type="hidden" name="companyCode"  value="${companyCode}"   id="companyCode">
     <div class="">
         <div class="searchBox">
             <label class="dateInput">
@@ -51,6 +53,8 @@
                     </div>
                 </div>
             </div>
+            
+            
             <div class="layui-col-md6">
                 <div class="layui-card">
                     <div class="layui-card-header">
@@ -88,6 +92,62 @@
                 </div>
             </div>
         </div>
+        
+        
+        
+        
+         <div class="layui-row layui-col-space15">
+            <div class="layui-col-md6">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        <span class="layui-time"></span>年直属研究院科研装备数量
+                    </div>
+                    <div class="layui-row-main">
+                        <div class="text-total">
+                            <span>大型分析仪器:<span class="text-total-blue"    id="equipment_chart3_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>中型实验装置:<span class="text-total-blue"    id="equipment_chart3_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>单台值大于500万:<span class="text-total-blue" id="equipment_chart3_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>专业软件（外购）:<span class="text-total-blue" id="equipment_chart3_04"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                        </div>
+                        <div class="main-chart" id="equipment_chart3" style="height:280px;width: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <div class="layui-col-md6">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        ${year}年直属研究院科研装备数量占比
+                        <div class="layui-tool">
+                            <button type="button" class="btn btn-tool collapse"></button>
+                            <button type="button" class="btn btn-tool remove"></button>
+                        </div>
+                    </div>
+                     <div class="layui-card-body btn-function" >
+                        <table id="processdef_table_02" class="layui-hide" lay-filter="processdef_table"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+         
+         
+         
+         
+         <div class="layui-row layui-col-space15">
+            <div class="layui-col-md12">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        <span class="layui-time"></span>年直属研究院科研装备数量
+                    </div>
+                    <div class="layui-row-main">
+                        <div class="main-chart" id="equipment_chart5" style="height:280px;width: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
        
         
         
@@ -109,7 +169,7 @@ var table;
 layui.config({
     base: '/layuiadmin/'
 }).extend({
-    index: 'lib/index' //主入口模块
+    index: 'lib/index' 
 }).use(['index','jquery','form', 'laydate','table','laypage'], function(){
 	  $ = layui.jquery
       ,table = layui.table
@@ -124,12 +184,16 @@ layui.config({
         $("#knowledge_table").click(function () {
         	window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
         });
-        
+        renderTable2();
 });
 
 
 function initEchart()
 {
+	
+	
+	var month=$('#month').val();
+	var companyCode=$('#companyCode').val();
 	
 	var v_date=(new Date()).getTime();
 	var nd=$('#year').val();
@@ -147,8 +211,6 @@ function initEchart()
         }
     ];
 	
-	
-	
     $(".layui-time").html($("#year").val());
 	var chart1_url="/direct/equipment_01?type=1&nd="+nd+"&v_date="+v_date;
 	var echart1=load_mutl_bar_down(chart1_url,"equipment_chart1","","",yAxis);
@@ -159,9 +221,17 @@ function initEchart()
           
     });
 	
+	var url_01="/direct/equipment_02?type=1&companyCode="+companyCode+"&month="+month+"&v_date="+v_date;
+	load_bar_zhengfu(url_01,"equipment_chart3","","");
 	
 	
-	
+	var chart5_url="/direct/equipment_03?companyCode="+companyCode+"&v_date="+v_date+"&month="+month;
+	var echart5=load_mutl_bar_stack_02(chart5_url,"equipment_chart5","","",yAxis);
+	echart5.on('click', function (params) {
+		var xName=params.name;
+		var legentName=params.seriesName;
+		window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
+    });
 	
 	
 }
@@ -175,6 +245,48 @@ function search_Event()
 }
         
 
+//集团重大项目
+function renderTable2()
+{
+	var month=$('#month').val();
+	var companyCode=$('#companyCode').val();
+	
+	var v_date=(new Date()).getTime();
+	  var tableOne=table.render({
+	  elem: '#processdef_table_02',
+	  url:'/direct/equipment_02?type=2&companyCode='+companyCode+'&v_date='+v_date+'&month='+month,
+	  method:"GET",
+      height:309,
+	  where: {param: {"month":$("#month").val()}},
+	  limit: 15,
+	  id: 'processdef_table_02',
+	  
+	  cols: [[
+	  	   {field:'g0GSJC',        title: '研究院',    edit:'text', width: '20%'},
+	       {field:'g0SBSL1',            title:'大型分析仪器（套）',style:'cursor: pointer;',align: 'left', width: '20%'},
+	       {field:'g0SBSL2',         title:'中型实验装置（台）',style:'cursor: pointer;',align: 'left', width: '20%'},
+	       {field:'g0SBSL3',          title:'单台值大于500万（台）',   style:'cursor: pointer;',align: 'left', width: '20%'},
+	       {field:'g0SBSL4',          title:'外购专业软件（套）',   style:'cursor: pointer;',align: 'left', width: '20%'}
+		      
+	       
+   
+	       
+	  ]],
+	  done: function (res, curr, count) {
+	  	layer.closeAll('loading');
+	      // 点击行联动选择框--单选
+	      $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+	      	var index=parseInt($(this).index()+1);
+	          $('tr').removeClass('layui-table-click');
+	          $(this).addClass('layui-table-click');
+	          $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+	          $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+	          selectRowData=res.data[index-1];
+	      });
+	  }
+	});
+
+}
 
         
 </script>

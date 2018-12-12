@@ -28,6 +28,12 @@ public interface HomePageMapper
      public  List<H1AMKYSY100117> getDzzk_bar(Map map);
      
      
+     public  List<H1AMKYSY100117> get_direct_KYZB(Map map);
+     public  List<H1AMKYSY100117> get_direct_KYZB_02(Map map);
+     
+     
+     
+     
      
      
      //二级页面

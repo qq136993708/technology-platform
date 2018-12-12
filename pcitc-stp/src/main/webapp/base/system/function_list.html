@@ -55,10 +55,10 @@
 		var zNodes;
 		var treeId;
 		var treeName;
-		var temFunctionId;
-		var temFunctionName;
 
 		var nodeId;
+		var nodeName;
+		var treeNodeParentId;
 		var parentId;
 		var parentCode
 		var levelCode;
@@ -99,19 +99,19 @@
 		function onClickMenu(event, treeId, treeNode, clickFlag) {
 			treeId = treeNode.id;
 			treeName = treeNode.name;
-			temFunctionId = treeNode.id;
-			temFunctionName = treeNode.name;
-
+			treeNodeParentId = treeNode.pId;
 			parentId = treeNode.id;
-			nodeId = treeNode.id;
 			parentCode = treeNode.code;
 			levelCode = treeNode.levelCode;
-			console.log(treeNode)
+
+			nodeId = '';
+			nodeName = '';
+
+			console.log(treeNode);
 			table.reload('function', {
 				where : {
 					param : {
-						"parentId" : parentId,
-						"name":$("input[name=functionName]").val()
+						"parentId" : parentId
 					}
 				}
 			});
@@ -125,14 +125,17 @@
 			}
 			for (var i = 0, l = nodes.length; i < l; i++) {
 				zTree.reAsyncChildNodes(nodes[i], type, silent);
-				if (!silent)
-					zTree.selectNode(nodes[i]);
+				if (!silent) zTree.selectNode(nodes[i]);
 			}
+			nodeId = '';
+			nodeName = '';
 		}
 
 		//刷新树
 		function refreshTree() {
 			$.fn.zTree.getZTreeObj("funTree").refresh();
+			nodeId = '';
+			nodeName = '';
 		}
 
 		function refreshNode() {
@@ -143,6 +146,8 @@
 			console.log("nodes" + nodes)
 			/*强行异步加载父节点的子节点。[setting.async.enable = true 时有效]*/
 			zTree.reAsyncChildNodes(nodes[0], type, silent);
+			nodeId = '';
+			nodeName = '';
 		}
 
 		var table, selectRowData;
@@ -236,8 +241,8 @@
 							$('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
 							$('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
 							selectRowData = res.data[index - 1];
-							temFunctionId = selectRowData.id;
 							nodeId = selectRowData.id;
+							nodeName = selectRowData.name;
 
 						});
 					}
@@ -251,8 +256,10 @@
 				addEvent : function() { //点击新增按钮
 					if (typeof (parentId) == "undefined") {
 						layer.msg("请先选择一个树节点菜单");
-					} else {
-						var temUrl = "/function/edit?parentCode=" + parentCode + "&parentId=" + parentId + "&levelCode=" + levelCode + "&parentName=" + temFunctionName;
+					} else if (typeof (treeNodeParentId) != "undefined" && treeNodeParentId == "e5c1006277a845f0b8a9d3674b6fc7e1") {
+						layer.msg("个人工作台下只允许创建一层节点");
+					} else if (typeof (treeName) != "undefined" && treeName == "个人工作台") {
+						var temUrl = "/function/function_edit_desk?parentCode=" + parentCode + "&parentId=" + parentId + "&levelCode=" + levelCode + "&parentName=" + treeName;
 						temUrl = encodeURI(temUrl);
 						layer.open({
 							title : '新增',
@@ -266,14 +273,46 @@
 							area : [ '70%', '90%' ],
 							content : temUrl
 						});
-						//refreshTree();
+					} else {
+						var temUrl = "/function/edit?parentCode=" + parentCode + "&parentId=" + parentId + "&levelCode=" + levelCode + "&parentName=" + treeName;
+						temUrl = encodeURI(temUrl);
+						layer.open({
+							title : '新增',
+							skin : 'layui-layer-lan',
+							shadeClose : true,
+							type : 2,
+							fixed : false,
+							//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+							maxmin : true,
+							//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+							area : [ '70%', '90%' ],
+							content : temUrl
+						});
 					}
 				},
 				editEvent : function() { //点击新增按钮
-					if (typeof (temFunctionId) == "undefined") {
+					if (typeof (nodeId) == "undefined" || isBlank(nodeId)) {
 						layer.msg("请先选择一个菜单");
+					} else if (typeof (nodeName) != "undefined" && nodeName == "个人工作台") {
+						layer.msg("个人工作台不允许编辑");
+					} else if (typeof (treeName) != "undefined" && treeName == "个人工作台") {
+						var temUrl = "/function/function_edit_desk?id=" + nodeId;
+						temUrl = encodeURI(temUrl);
+						layer.open({
+							title : '编辑',
+							skin : 'layui-layer-lan',
+							shadeClose : true,
+							type : 2,
+							fixed : false,
+							//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+							maxmin : true,
+							//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+							area : [ '70%', '90%' ],
+							content : temUrl
+						});
+						nodeId = '';
 					} else {
-						var temUrl = "/function/edit?id=" + temFunctionId;
+						var temUrl = "/function/edit?id=" + nodeId;
 						layer.open({
 							title : '编辑',
 							skin : 'layui-layer-lan',
@@ -287,11 +326,14 @@
 							content : temUrl
 						});
 						refreshTree();
+						nodeId = '';
 					}
 				},
 				deleteEvent : function() { //点击删除按钮
 					if (isBlank(nodeId)) {
 						layer.msg('请点击选择要删除的菜单!');
+					} else if (typeof (nodeName) != "undefined" && !isBlank(nodeName) && nodeName == '个人工作台') {
+						layer.msg('个人工作台不允许删除!');
 					} else {
 						layer.confirm('确认要删除吗？', {
 							icon : 3,
@@ -323,9 +365,8 @@
 								}
 							});
 						});
-
 					}
-
+					nodeId = '';
 					//	refreshTree();
 				},
 				searchEvent : function() { //点击查询按钮
@@ -382,16 +423,12 @@
 		});
 
 		function isBlank(str) {
-			if (str == null || typeof str == "undefined" || str == "" || trim(str) == "") {
-				return true;
-			}
+			if (str == null || typeof str == "undefined" || str == "" || trim(str) == "") { return true; }
 			return false;
 		}
 
 		function trim(str) {
-			if (str == null || typeof str == "undefined") {
-				return "";
-			}
+			if (str == null || typeof str == "undefined") { return ""; }
 			return str.toString().replace(/(^\s+)|(\s+$)/g, "");
 		}
 	</script>

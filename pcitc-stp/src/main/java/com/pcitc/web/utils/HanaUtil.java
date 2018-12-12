@@ -1325,7 +1325,6 @@ public class HanaUtil {
 				String id=(String)entity.getId();
 				String name02=(String)entity.getType_flag();
 				
-				
 				if(name.equals(title))
 				{
 					TreeNode2 node02=new TreeNode2();

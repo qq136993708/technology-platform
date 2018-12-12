@@ -191,6 +191,50 @@ public class HomeProviderClient {
     
     
     
+    @ApiOperation(value = "大型分析仪器、中型实验装置、专业软件（外购）、勘探前沿装备", notes = "大型分析仪器、中型实验装置、专业软件（外购）、勘探前沿装备")
+   	@RequestMapping(value = "/get_direct_KYZB", method = RequestMethod.POST)
+   	public JSONArray get_direct_KYZB(@ApiParam(value="月份:month如201812,公司代码:companyCode",required=true)@RequestBody String paramsJson) throws Exception 
+    {
+   		
+   		System.out.println(" paramsJson=" + paramsJson);
+   		JSONObject jo = JSONObject.parseObject(paramsJson);
+   		String month = jo.getString("month");
+   		String companyCode = jo.getString("companyCode");
+   		Map map = new HashMap();
+   		map.put("month", month);
+   		map.put("companyCode", companyCode);
+   		List<H1AMKYSY100117> list = homeService.get_direct_KYZB(map);
+   		
+   		JSONArray json = JSON.parseArray(JSON.toJSONString(list));
+   		System.out.println(">>>>>>>>>>>>>>>>>get_direct_KYZB " + json.toString());
+   		return json;
+   	}
+    
+    
+    
+    
+    
+    @ApiOperation(value = "大型分析仪器、中型实验装置、专业软件（外购）、勘探前沿装备", notes = "大型分析仪器、中型实验装置、专业软件（外购）、勘探前沿装备")
+   	@RequestMapping(value = "/get_direct_KYZB_02", method = RequestMethod.POST)
+   	public JSONArray get_direct_KYZB_02(@ApiParam(value="月份:month如201812,公司代码:companyCode",required=true)@RequestBody String paramsJson) throws Exception 
+    {
+   		
+   		System.out.println(" paramsJson=" + paramsJson);
+   		JSONObject jo = JSONObject.parseObject(paramsJson);
+   		String month = jo.getString("month");
+   		String companyCode = jo.getString("companyCode");
+   		Map map = new HashMap();
+   		map.put("month", month);
+   		map.put("companyCode", companyCode);
+   		List<H1AMKYSY100117> list = homeService.get_direct_KYZB_02(map);
+   		
+   		JSONArray json = JSON.parseArray(JSON.toJSONString(list));
+   		System.out.println(">>>>>>>>>>>>>>>>>get_direct_KYZB_02 " + json.toString());
+   		return json;
+   	}
+    
+    
+    
     
 
     

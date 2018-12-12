@@ -148,10 +148,18 @@ public class AdminController extends BaseController {
 						SysUser userDetails = this.restTemplate.exchange(USER_DETAILS_URL + rsUser.getUserId(), HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SysUser.class).getBody();
 						List<SysFunction> funList = userDetails.getFunList();
 						List<SysFunction> upList = new ArrayList<SysFunction>();
+						
+						// 个人工作台菜单
+						List<SysFunction> grgztList = new ArrayList<SysFunction>();
+						
 						if (funList != null) {
 							for (SysFunction sysfun : funList) {
-								if (sysfun.getParentId() != null && sysfun.getParentId().equals("10001")) {
+								if (sysfun.getParentId() != null && sysfun.getParentId().equals("10001") && !sysfun.getName().equals("个人工作台")) {
 									upList.add(sysfun);
+								}
+								
+								if (sysfun.getParentId() != null && sysfun.getParentId().equals("e5c1006277a845f0b8a9d3674b6fc7e1")) {
+									grgztList.add(sysfun);
 								}
 							}
 							System.out.println("查询菜单权限----------" + funList.size());
@@ -164,6 +172,7 @@ public class AdminController extends BaseController {
 						List<SysCollect> scList = userDetails.getScList();
 						request.setAttribute("scList", scList);
 						request.setAttribute("funList", funList);
+						request.setAttribute("grgztList", grgztList);
 						request.setAttribute("upList", upList);
 						request.setAttribute("userInfo", rsUser);
 					} else {
@@ -274,9 +283,15 @@ public class AdminController extends BaseController {
 			userDetails = this.restTemplate.exchange(USER_DETAILS_URL + tokenUser.getUserId(), HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SysUser.class).getBody();
 			List<SysFunction> funList = userDetails.getFunList();
 			List<SysFunction> upList = new ArrayList<SysFunction>();
+			// 个人工作台菜单
+			List<SysFunction> grgztList = new ArrayList<SysFunction>();
 			for (SysFunction sysfun : funList) {
-				if (sysfun.getParentId() != null && sysfun.getParentId().equals("10001")) {
+				if (sysfun.getParentId() != null && sysfun.getParentId().equals("10001") && !sysfun.getName().equals("个人工作台")) {
 					upList.add(sysfun);
+				}
+				
+				if (sysfun.getParentId() != null && sysfun.getParentId().equals("e5c1006277a845f0b8a9d3674b6fc7e1")) {
+					grgztList.add(sysfun);
 				}
 			}
 
@@ -291,6 +306,7 @@ public class AdminController extends BaseController {
 
 			request.setAttribute("scList", scList);
 			request.setAttribute("funList", funList);
+			request.setAttribute("grgztList", grgztList);
 			request.setAttribute("upList", upList);
 			request.setAttribute("userInfo", userDetails);
 
@@ -318,9 +334,15 @@ public class AdminController extends BaseController {
 			userDetails = this.restTemplate.exchange(USER_DETAILS_URL + sysUserInfo.getUserId(), HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SysUser.class).getBody();
 			List<SysFunction> funList = userDetails.getFunList();
 			List<SysFunction> upList = new ArrayList<SysFunction>();
+			// 个人工作台菜单
+			List<SysFunction> grgztList = new ArrayList<SysFunction>();
 			for (SysFunction sysfun : funList) {
-				if (sysfun.getParentId() != null && sysfun.getParentId().equals("10001")) {
+				if (sysfun.getParentId() != null && sysfun.getParentId().equals("10001") && !sysfun.getName().equals("个人工作台")) {
 					upList.add(sysfun);
+				}
+				
+				if (sysfun.getParentId() != null && sysfun.getParentId().equals("e5c1006277a845f0b8a9d3674b6fc7e1")) {
+					grgztList.add(sysfun);
 				}
 			}
 
@@ -344,6 +366,7 @@ public class AdminController extends BaseController {
 
 			request.setAttribute("scList", scList);
 			request.setAttribute("funList", funList);
+			request.setAttribute("grgztList", grgztList);
 			request.setAttribute("upList", upList);
 			request.setAttribute("userInfo", userDetails);
 
@@ -379,13 +402,20 @@ public class AdminController extends BaseController {
 		List<SysCollect> scList = userInfo.getScList();
 		List<SysFunction> funList = userDetails.getFunList();
 		List<SysFunction> upList = new ArrayList<SysFunction>();
+		// 个人工作台菜单
+		List<SysFunction> grgztList = new ArrayList<SysFunction>();
 		for (SysFunction sysfun : funList) {
-			if (sysfun.getParentId() != null && sysfun.getParentId().equals("10001")) {
+			if (sysfun.getParentId() != null && sysfun.getParentId().equals("10001") && !sysfun.getName().equals("个人工作台")) {
 				upList.add(sysfun);
+			}
+			
+			if (sysfun.getParentId() != null && sysfun.getParentId().equals("e5c1006277a845f0b8a9d3674b6fc7e1")) {
+				grgztList.add(sysfun);
 			}
 		}
 		request.setAttribute("scList", scList);
 		request.setAttribute("funList", funList);
+		request.setAttribute("grgztList", grgztList);
 		request.setAttribute("upList", upList);
 		request.setAttribute("userInfo", userDetails);
 		return "/instituteIndex";

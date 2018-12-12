@@ -38,41 +38,24 @@
 				<div class="box-body">
 
 					<input type="hidden" id="id" name="id" />
+					<input type="hidden" id="name" name="name" />
+					<input type="hidden" id="code" name="code" />
+					<input type="hidden" id="url" name="url" />
 					<input type="hidden" id="parentId" name="parentId" />
 					<input type="hidden" id="parentCode" name="parentCode" />
 					<input type="hidden" id="levelCode" name="levelCode" />
+					
 					<div class="layui-row">
 						<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 							<div class="layui-form-item">
 								<label for="" class="layui-form-label">
-									菜单名称
+									选择菜单
 									<span class="must-fill">*</span>
 								</label>
-								<div class="layui-input-block">
-									<input class="layui-input" id="name" name="name" lay-verify="name" placeholder="" autocomplete="off" type="text">
-								</div>
-							</div>
-						</div>
-						<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-							<div class="layui-form-item">
-								<label id="parentText" for="" class="layui-form-label">设置父节点:</label>
 								<div class="layui-input-block">
 									<div class="selectTreeBox">
-										<div id="parentName" class="layui-form-select select-tree"></div>
+										<div id="function" class="layui-form-select select-tree"></div>
 									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="layui-row">
-						<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-							<div class="layui-form-item">
-								<label for="" class="layui-form-label">
-									菜单编码
-									<span class="must-fill">*</span>
-								</label>
-								<div class="layui-input-block">
-									<input class="layui-input readOnlyBox" disabled id="code" name="code" lay-verify="code" placeholder="自动生成" autocomplete="off" type="text">
 								</div>
 							</div>
 						</div>
@@ -88,15 +71,15 @@
 							</div>
 						</div>
 					</div>
+					
 					<div class="layui-row">
 						<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 							<div class="layui-form-item">
 								<label for="" class="layui-form-label">
-									菜单URL
-									<span class="must-fill">*</span>
+									菜单图标
 								</label>
 								<div class="layui-input-block">
-									<input class="layui-input" name="url" lay-verify="url" placeholder="#" autocomplete="off" type="text" value="#">
+									<input class="layui-input" name="icon" lay-verify="icon" autocomplete="off" type="text">
 								</div>
 							</div>
 						</div>
@@ -110,19 +93,6 @@
 							</div>
 						</div>
 					</div>
-					<div class="layui-row">
-						<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-							<div class="layui-form-item">
-								<label for="" class="layui-form-label">
-									菜单图标
-								</label>
-								<div class="layui-input-block">
-									<input class="layui-input" name="icon" lay-verify="icon" autocomplete="off" type="text">
-								</div>
-							</div>
-						</div>
-					</div>
-
 				</div>
 
 			</div>
@@ -154,7 +124,7 @@
 		ajaxPost('/function/select-tree-function', null, function(data, status) {
 			zNodes = data;
 		});
-		initSelectTree("parentName", false, true, false) //参数： 参数1：div的id，参数2：isMultiple 是否多选(true或false), 参数3：不用动
+		initSelectTree("function", false, true, false); //参数： 参数1：div的id，参数2：isMultiple 是否多选(true或false), 参数3：不用动
 		initHideMenu(); //不加此方法则默认打开下拉树
 	});
 	var functionId;
@@ -173,8 +143,7 @@
 		$("input[name='parentId']").val("${parentId}");
 		$("input[name='parentCode']").val("${parentCode}");
 		$("input[name='levelCode']").val("${levelCode}");
-		console.log(functionId)
-		if (!isBlank(functionId)) {// 编辑
+		if (!isBlank(functionId)) {// 修改
 			$.ajax({
 				type : 'post',
 				dataType : 'json',
@@ -195,9 +164,10 @@
 					$("input[name='parentCode']").val(data.parentCode);
 					$("input[name='levelCode']").val(data.levelCode);
 					$("input[name=status][value=" + data.status + "]").prop("checked", "checked");
+					$("input[name='image'][value=" + data.image + "]").prop("checked", "checked");
 					//selectTree 赋值
-					$("#parentNameShow").attr("title", data.parentName);
-					$("#parentNameShow").attr("value", data.parentName);
+					$("#functionShow").attr("title", data.name);
+					$("#functionShow").attr("value", data.name);
 					form.render();
 				},
 				error : function(e) {
@@ -206,11 +176,7 @@
 			});
 
 		} else {// 新增
-			initCode();
 			initWeight();
-			$("#parentText").html("父节点");
-			$("#parentNameShow").attr("value", "${parentName}");
-			$("#parentName").attr("disabled", true);
 		}
 
 		form.render(null, 'component-form-group');
@@ -220,24 +186,23 @@
 		});
 		/* 自定义验证规则 */
 		form.verify({
-			name : function(value) {
-				if (isBlank(value)) { return '菜单名称不能为空'; }
-			},
-			url : function(value) {
-				if (isBlank(value)) { return 'url不能为空'; }
-			},
 			weight : function(value) {
 				if (isBlank(value)) { return '排序号不能为空'; }
 				if (!isInteger(value)) { return '排序号必须是整数数字' }
 			}
 		});
 
-		enhance.setSelectVal("parentName", $("#parentId").val(), "true")
-
 		/* 监听保存 */
 		form.on('submit(component-form-save)', function(data) {
+			if (typeof (data.field.url) != "undefined" && !isBlank(data.field.url)) {
+				
+			} else {
+				data.field.name = data.field.functionName;
+				data.field.url = data.field.functionUrl;
+				data.field.code = data.field.functionCode;
+			}
+			
 			var formData = data.field;
-			console.log("formData:" + JSON.stringify(formData))
 			$.ajax({
 				type : 'post',
 				dataType : 'json',
@@ -268,7 +233,6 @@
 			return false;
 		});
 
-		console.log("functionId:" + functionId)
 		$ = layui.jquery;
 		table = layui.table;
 		//渲染
@@ -345,25 +309,6 @@
 					content : temUrl
 				});
 			},
-			editEvent : function() { //点击新增按钮
-				if (typeof (buttonId) == "undefined") {
-					layer.msg("请先选择一个按钮");
-				} else {
-					var temUrl = "/function/editBtn?id=" + buttonId;
-					parent.layer.open({
-						title : '编辑',
-						skin : 'layui-layer-lan',
-						shadeClose : true,
-						type : 2,
-						fixed : false,
-						//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-						maxmin : true,
-						//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-						area : [ '40%', '80%' ],
-						content : temUrl
-					});
-				}
-			},
 			deleteEvent : function() { //点击删除按钮
 				if (isBlank(buttonId)) {
 					layer.msg('请点击选择要删除的数据!');
@@ -404,7 +349,6 @@
 		//监听排序
 		table.on('sort(buttonTable)', function(obj) {
 			console.log(this, obj.field, obj.type)
-			//return;
 			//服务端排序
 			table.reload('buttonTable', {
 				initSort : obj,
@@ -439,30 +383,6 @@
 	function isInteger(number) {
 		var reg = /^[1-9]+[0-9]*]*$/;
 		return reg.test(number)
-	}
-
-	function initCode() {
-		var name = $("#name").val();
-		var parentCode = $("#parentCode").val();
-		$.ajax({
-			type : 'post',
-			dataType : 'text',
-			data : JSON.stringify({
-				"name" : name,
-				"parentCode" : parentCode
-			}),
-			headers : {
-				'Content-Type' : 'application/json;charset=utf-8',
-			},
-			url : '/function/create-code?i=' + Math.random(),
-			async : false,
-			success : function(data) {
-				$("#code").val(data);
-			},
-			error : function() {
-				layer.msg("出错了");
-			}
-		});
 	}
 
 	function initWeight() {
