@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>菜单管理-新增菜单</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+<link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
+<link rel="stylesheet" type="text/css" href="/layuiadmin/ztree/css/metroStyle/metroStyle.css">
+<link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
+<script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.excheck.min.js"></script>
+<script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.all.js"></script>
+<script type="text/javascript" src="/layuiadmin/modules/selectTree.js?v=9"></script>
+<script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+</head>
+<body style="overflow: hidden;">
+	<div class="layer-box">
+		<form id="editForm" class="layui-form" action="" lay-filter="component-form-group layui-container">
+			<div class="formBox">
+
+				<div class="tableToolBox">
+					<div class="tableBtns">
+						<div class="tableTitle">
+							菜单信息
+							<span class="red">（标*号为必填项）</span>
+						</div>
+
+					</div>
+				</div>
+
+				<div class="box-body">
+
+					<input type="hidden" id="id" name="id" />
+					<input type="hidden" id="name" name="name" />
+					<input type="hidden" id="code" name="code" />
+					<input type="hidden" id="url" name="url" />
+					<input type="hidden" id="parentId" name="parentId" />
+					<input type="hidden" id="parentCode" name="parentCode" />
+					<input type="hidden" id="levelCode" name="levelCode" />
+					
+					<div class="layui-row">
+						<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+							<div class="layui-form-item">
+								<label for="" class="layui-form-label">
+									选择菜单
+									<span class="must-fill">*</span>
+								</label>
+								<div class="layui-input-block">
+									<div class="selectTreeBox">
+										<div id="function" class="layui-form-select select-tree"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+							<div class="layui-form-item">
+								<label for="" class="layui-form-label">
+									排序号
+									<span class="must-fill">*</span>
+								</label>
+								<div class="layui-input-block">
+									<input class="layui-input" name="weight" id="weight" lay-verify="weight" placeholder="请输入数字" autocomplete="off" type="text">
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="layui-row">
+						<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+							<div class="layui-form-item">
+								<label for="" class="layui-form-label">
+									菜单图标
+								</label>
+								<div class="layui-input-block">
+									<input class="layui-input" name="icon" lay-verify="icon" autocomplete="off" type="text">
+								</div>
+							</div>
+						</div>
+						<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+							<div class="layui-form-item">
+								<label class="layui-form-label">状态:</label>
+								<div class="layui-input-block">
+									<input class="layui-input" lay-filter="radioEvent" type="radio" name="status" value="1" title="生效" checked>
+									<input class="layui-input" lay-filter="radioEvent" type="radio" name="status" value="0" title="失效">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+			<div class="tableBox">
+				<div class="tableToolBox">
+					<div class="tableBtns">
+						<a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg" data-type="addEventBtn">新增 </a>
+						<a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="deleteEvent">删除 </a>
+					</div>
+				</div>
+
+				<table id="buttonTable" class="layui-hide" lay-filter="tableData"></table>
+			</div>
+			<div class="form-bottom">
+				<div class="form-bottom-btns">
+					<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="" lay-filter="component-form-save">保存</button>
+					<button type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" id="closeBtn">关闭</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</body>
+</html>
+<script>
+	var zNodes;
+	var table, selectRowData, buttonId;
+	$(function() {
+		//加载下拉树
+		ajaxPost('/function/select-tree-function', null, function(data, status) {
+			zNodes = data;
+		});
+		initSelectTree("function", false, true, false); //参数： 参数1：div的id，参数2：isMultiple 是否多选(true或false), 参数3：不用动
+		initHideMenu(); //不加此方法则默认打开下拉树
+	});
+	var functionId;
+	layui.config({
+		base : '/layuiadmin/lib/extend/' //静态资源所在路径
+	}).extend({
+		index : 'layui/tableDemo', //主入口模块
+		enhanceform : 'enhanceform'
+	}).use([ 'jquery', 'form', 'laydate', 'table', 'layer', 'enhanceform' ], function() {
+		var $ = layui.jquery, $$ = parent.layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate, form = layui.form, enhanceForm = layui.enhanceform;
+		var enhance = new enhanceForm({
+			elem : '#editForm' //表单选择器
+		});
+
+		functionId = "${id}";
+		$("input[name='parentId']").val("${parentId}");
+		$("input[name='parentCode']").val("${parentCode}");
+		$("input[name='levelCode']").val("${levelCode}");
+		if (!isBlank(functionId)) {// 修改
+			$.ajax({
+				type : 'post',
+				dataType : 'json',
+				async : false,
+				data : {
+					"id" : functionId
+				},
+				url : '/function/getFunction?i=' + Math.random(),
+				success : function(data) {
+					console.log(data)
+					$("input[name='id']").val(data.id);
+					$("input[name='name']").val(data.name);
+					$("input[name='url']").val(data.url);
+					$("input[name='code']").val(data.code);
+					$("input[name='weight']").val(data.weight);
+					$("input[name='icon']").val(data.icon);
+					$("input[name='parentId']").val(data.parentId);
+					$("input[name='parentCode']").val(data.parentCode);
+					$("input[name='levelCode']").val(data.levelCode);
+					$("input[name=status][value=" + data.status + "]").prop("checked", "checked");
+					$("input[name='image'][value=" + data.image + "]").prop("checked", "checked");
+					//selectTree 赋值
+					$("#functionShow").attr("title", data.name);
+					$("#functionShow").attr("value", data.name);
+					form.render();
+				},
+				error : function(e) {
+					layer.msg("出错了！");
+				}
+			});
+
+		} else {// 新增
+			initWeight();
+		}
+
+		form.render(null, 'component-form-group');
+
+		laydate.render({
+			elem : '#LAY-component-form-group-date'
+		});
+		/* 自定义验证规则 */
+		form.verify({
+			weight : function(value) {
+				if (isBlank(value)) { return '排序号不能为空'; }
+				if (!isInteger(value)) { return '排序号必须是整数数字' }
+			}
+		});
+
+		/* 监听保存 */
+		form.on('submit(component-form-save)', function(data) {
+			if (typeof (data.field.url) != "undefined" && !isBlank(data.field.url)) {
+				
+			} else {
+				data.field.name = data.field.functionName;
+				data.field.url = data.field.functionUrl;
+				data.field.code = data.field.functionCode;
+			}
+			
+			var formData = data.field;
+			$.ajax({
+				type : 'post',
+				dataType : 'json',
+				data : JSON.stringify(formData),
+				headers : {
+					'Content-Type' : 'application/json',
+				},
+				url : '/function/saveFunction?i=' + Math.random(),
+				async : false,
+				success : function(data) {
+					if (data == '200') {
+						var index = parent.layer.getFrameIndex(window.name);
+						parent.layer.close(index);
+						parent.layer.msg("保存成功");
+						//刷新table;
+						parent.layui.table.reload('function', {});
+						parent.initTree();
+					} else if (data == '201') {
+						layer.msg("菜单名称重复，请核对后再保存")
+					} else {
+						layer.msg("保存失败");
+					}
+				},
+				error : function() {
+					layer.msg("出错了");
+				}
+			});
+			return false;
+		});
+
+		$ = layui.jquery;
+		table = layui.table;
+		//渲染
+		table.render({
+			elem : '#buttonTable',
+			url : '/function/getButtonTableData',
+			method : "POST",
+			where : {
+				param : {
+					"functionId" : functionId
+				}
+			},
+			limit : 10,
+			id : 'buttonTable',
+			height : "full-318",
+			page : {
+				count : 500, //数据总数，从服务端得到
+				groups : 5,
+				limits : [ 15, 30, 45, 60 ],
+				layout : [ 'count', 'limit', 'prev', 'page', 'next', 'skip' ], //自定义分页布局
+				first : '首页', //不显示首页
+				last : '尾页', //不显示尾页
+				theme : '#0F9EE0'
+			},
+			cols : [ [ {
+				type : 'checkbox',
+				event : 'changeEvents',
+				width : 55
+			}, {
+				title : '序号',
+				type : 'numbers',
+				width : 55
+			}, {
+				field : 'name',
+				title : '按钮名称',
+				style : 'cursor: pointer;'
+			},
+			{
+				field : 'code',
+				title : '按钮编码',
+				style : 'cursor: pointer;'
+			},
+			] ],
+			done : function(res, curr, count) {
+				// 点击行联动选择框--单选
+				$('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function() {
+					var index = parseInt($(this).index() + 1);
+					$('tr').removeClass('layui-table-click');
+					$(this).addClass('layui-table-click');
+					$('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+					$('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+					selectRowData = res.data[index - 1];
+					buttonId = selectRowData.id;
+				});
+			}
+		});
+
+		$(".layui-table-header table thead th input").remove(); //移除表头的复选框,去掉全选
+
+		// 触发不同的按钮事件
+		var $ = layui.$, active = {
+			addEventBtn : function() { //点击新增按钮
+				var temUrl = "/function/editBtn?functionId=" + functionId;
+				layer.open({
+					title : '新增',
+					skin : 'layui-layer-lan',
+					shadeClose : true,
+					type : 2,
+					fixed : false,
+					//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+					maxmin : true,
+					//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+					area : [ '40%', '80%' ],
+					content : temUrl
+				});
+			},
+			deleteEvent : function() { //点击删除按钮
+				if (isBlank(buttonId)) {
+					layer.msg('请点击选择要删除的数据!');
+				} else {
+					layer.confirm('确认要删除吗？', {
+						icon : 3,
+						btn : [ '确定', '取消' ]
+					}, function(index) {
+						layer.close(index);
+						$.ajax({
+							type : 'post',
+							dataType : "text",
+							data : {
+								"id" : buttonId
+							},
+							url : '/function/deleteButton?i=' + Math.random(),
+							error : function(data) {
+								parent.layer.msg('删除失败!');
+							},
+							success : function(data) {
+								parent.layer.msg('删除成功!');
+								table.reload('buttonTable', {});
+								$(".layui-table-header table thead th input").remove();
+							}
+						});
+					});
+
+				}
+			}
+
+		};
+		//关闭事件
+		$("#closeBtn").click(function() {
+			var index = parent.layer.getFrameIndex(window.name);
+			parent.layer.close(index);
+		})
+
+		//监听排序
+		table.on('sort(buttonTable)', function(obj) {
+			console.log(this, obj.field, obj.type)
+			//服务端排序
+			table.reload('buttonTable', {
+				initSort : obj,
+				page : {
+					curr : 1
+				}, //重新从第一页开始
+				where : { //重新请求服务端
+					key : obj.field, //排序字段
+					order : obj.type
+				//排序方式
+				}
+			});
+		});
+		//区别按钮属性
+		$('.layui-btn').on('click', function() {
+			var type = $(this).data('type');
+			active[type] ? active[type].call(this) : '';
+		});
+
+	});
+
+	function isBlank(str) {
+		if (str == null || typeof str == "undefined" || str == "" || trim(str) == "") { return true; }
+		return false;
+	}
+
+	function trim(str) {
+		if (str == null || typeof str == "undefined") { return ""; }
+		return str.toString().replace(/(^\s+)|(\s+$)/g, "");
+	}
+
+	function isInteger(number) {
+		var reg = /^[1-9]+[0-9]*]*$/;
+		return reg.test(number)
+	}
+
+	function initWeight() {
+		var name = $("#name").val();
+		var parentCode = $("#parentCode").val();
+		$.ajax({
+			type : 'post',
+			dataType : 'text',
+			data : JSON.stringify({
+				"name" : name,
+				"parentCode" : parentCode
+			}),
+			headers : {
+				'Content-Type' : 'application/json;charset=utf-8',
+			},
+			url : '/function/create-weight?i=' + Math.random(),
+			async : false,
+			success : function(data) {
+				$("#weight").val(data);
+			},
+			error : function() {
+				layer.msg("出错了");
+			}
+		});
+	}
+</script>

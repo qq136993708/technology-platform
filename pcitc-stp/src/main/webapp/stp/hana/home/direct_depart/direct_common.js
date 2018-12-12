@@ -17,21 +17,22 @@ var option_bar_single_down = {
 	        subtext:''
 	    },
 	    grid: {
-	    	    x: 40,
-	            y: 30,
-	            x2: 30,
-	            y2: 60
+            top:'15%',
+            left: '0%',
+            right: '0.5%',
+            bottom: '10%',
+            containLabel: true
 	    },
 	    tooltip: {
             trigger: 'axis',
             axisPointer: {
-                type: 'cross',
+                type: 'shadow',
                 crossStyle: {
                     color: '#999'
                 }
             }
         },
-        color:['#6592b2', '#54b6e9','#70b1aa','#e8a791','#b5c26a','#d59981'],
+        color:['#43c5ff', '#ffa70f','#70b1aa','#e8a791','#b5c26a','#d59981'],
 	    xAxis: {
 	        type: 'category',
 	        data: [],
@@ -41,7 +42,7 @@ var option_bar_single_down = {
                }
 	    },
 	    yAxis: {
-	        type: 'value'
+	        type: 'value',
 	    },
 	    series: []
 	};
@@ -92,7 +93,7 @@ function barAjax_single_down(url,  echartsobj, options,id)
 		                        series: [{
 		                            data: series,
 		                            type: 'bar',
-		                            barWidth:20
+		                            barWidth:50,
 		                        }]
 		                    });
 		        	        
@@ -497,6 +498,40 @@ function set_multi_graph_statistics(data,id)
         $("#equipment_chart1_02").html(xkCount_1);
         $("#equipment_chart1_03").html(jzCount_2);
 	}
+	
+	if(id=='direct_knowledge_chart1')
+	{
+		var xkCount_1=getDataCountForName(data,'申请总数');
+    	var jzCount_2=getDataCountForName(data,'授权总数');
+        var allCount_3=xkCount_1+jzCount_2;
+        
+        $("#direct_knowledge_chart1_01").html(allCount_3);
+        $("#direct_knowledge_chart1_02").html(xkCount_1);
+        $("#direct_knowledge_chart1_03").html(jzCount_2);
+	}
+	if(id=='direct_topic_chart3')
+	{
+		var xkCount_1=getDataCountForName(data,'新开课题');
+    	var jzCount_2=getDataCountForName(data,'转结课题');
+        var allCount_3=xkCount_1+jzCount_2;
+        
+        $("#direct_topic_chart3_01").html(allCount_3);
+        $("#direct_topic_chart3_02").html(xkCount_1);
+        $("#direct_topic_chart3_03").html(jzCount_2);
+	}
+	
+	
+	if(id=='direct_contract_chart')
+	{
+		var count_1=getDataCountForName(data,'已签合同');
+    	var count_2=getDataCountForName(data,'未签合同');
+        
+        $("#direct_contract_chart_01").html(count_1);
+        $("#direct_contract_chart_02").html(count_2);
+        $("#direct_contract_chart_03").html(percentNum(count_1,count_1+count_2));
+	}
+	
+	
 	/**=============================直属研究院 end===========================*/
 	
 	/**===================================领导 begin===============================*/

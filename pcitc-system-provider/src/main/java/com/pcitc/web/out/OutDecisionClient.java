@@ -31,7 +31,7 @@ public class OutDecisionClient {
 	private final static Logger	logger	= LoggerFactory.getLogger(OutDecisionClient.class);
 	
 	@ApiOperation(value = "经费预算建议--集团公司总部科技经费预算（建议稿）", notes = "参数年度")
-	@RequestMapping(value = "/out-project-provider/budget-proposals/group-company/stp-money")
+	@RequestMapping(value = "/out-decision-provider/budget-proposals/group-company/stp-money")
 	public JSONArray getGroupCompanyStpMoneyForBudgetProposals(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getGroupCompanyStpMoneyForBudgetProposals===========================" + map);
 		
@@ -152,5 +152,122 @@ public class OutDecisionClient {
 		logger.info("==================page selectPatentDetailInfoByCond===========================" + param);
 		return outDecisionService.selectPatentDetailInfoByCond(param);
 	}
+	
+	@ApiOperation(value = "处部门科技经费预算总表，各处、部门科技经费预算总表", notes = "参数年度")
+	@RequestMapping(value = "/out-decision-provider/budget-proposals/department/stp-money")
+	public JSONArray selectJFYSZBForDepartment(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page selectJFYSZBForDepartment===========================" + map);
+		
+		List temList = outDecisionService.selectJFYSZBForDepartment(map);
+		
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		return json;
+	}
+	
+	@ApiOperation(value = "科技经费预算总表，集团经费预算明细表", notes = "参数年度")
+	@RequestMapping(value = "/out-decision-provider/budget-proposals/group/stp-money")
+	public JSONArray selectJFYSForGroup(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page selectJFYSForGroup===========================" + map);
+		
+		List temList = outDecisionService.selectJFYSForGroup(map);
+		
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		return json;
+	}
+	
+	@ApiOperation(value = "科技经费预算总表，资产经费预算明细表", notes = "参数年度")
+	@RequestMapping(value = "/out-decision-provider/budget-proposals/asset/stp-money")
+	public JSONArray selectJFYSForAsset(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page selectJFYSForAsset===========================" + map);
+		
+		List temList = outDecisionService.selectJFYSForAsset(map);
+		
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		return json;
+	}
+	
+	@ApiOperation(value = "科技经费预算总表，直属研究院科技经费预算表", notes = "参数年度")
+	@RequestMapping(value = "/out-decision-provider/budget-proposals/institute/stp-money")
+	public JSONArray selectJFYSForInstitute(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page selectJFYSForInstitute===========================" + map);
+		
+		List temList = outDecisionService.selectJFYSForInstitute(map);
+		
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		return json;
+	}
+	
+	@ApiOperation(value = "科技经费预算总表，股份支付集团、外系统及盈科经费预算表", notes = "参数年度")
+	@RequestMapping(value = "/out-decision-provider/budget-proposals/other/stp-money")
+	public JSONArray selectJFYSForOther(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page selectJFYSForOther===========================" + map);
+		
+		List temList = outDecisionService.selectJFYSForOther(map);
+		
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		return json;
+	}
+	
+	@ApiOperation(value = "科技经费预算总表，分子公司科技经费预算表", notes = "参数年度")
+	@RequestMapping(value = "/out-decision-provider/budget-proposals/company/stp-money")
+	public JSONArray selectJFYSForCompany(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page selectJFYSForCompany===========================" + map);
+		
+		List temList = outDecisionService.selectJFYSForCompany(map);
+		
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		return json;
+	}
+	
+	@ApiOperation(value = "科技经费预算总表，分子公司科技经费预算表", notes = "参数年度")
+	@RequestMapping(value = "/out-decision-provider/budget-proposals/b2c/stp-money")
+	public JSONArray selectJFYSForB2c(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page selectJFYSForB2c===========================" + map);
+		
+		List temList = outDecisionService.selectJFYSForB2c(map);
+		
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		return json;
+	}
+	
+	@ApiOperation(value = "科技经费预算总表，股份公司科技专项经费预算表", notes = "参数年度")
+	@RequestMapping(value = "/out-decision-provider/budget-proposals/tech/stp-money")
+	public JSONArray selectJFYSForTech(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page selectJFYSForTech===========================" + map);
+		
+		List temList = outDecisionService.selectJFYSForTech(map);
+		int jnCount = 0;
+		int qnCount = 0;
+		int qiannCount = 0;
+		for (int i = 0; i < temList.size(); i++) {
+			HashMap<String, String> temMap = (HashMap<String, String>)temList.get(i);
+			jnCount = jnCount + Integer.parseInt(temMap.get("jnCount"));
+			qnCount = qnCount + Integer.parseInt(temMap.get("qnCount"));
+			qiannCount = qiannCount + Integer.parseInt(temMap.get("qiannCount"));
+		}
+		
+		HashMap<String, String> totalMap = new HashMap<String, String>();
+		totalMap.put("showName", "专利总数");
+		totalMap.put("jnCount", String.valueOf(jnCount));
+		totalMap.put("qnCount", String.valueOf(qnCount));
+		totalMap.put("qiannCount", String.valueOf(qiannCount));
+		
+		temList.add(0, totalMap);
+		
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		return json;
+	}
+	
+	@ApiOperation(value = "知识产权分析，近三年国内外专利的情况", notes = "参数年度")
+	@RequestMapping(value = "/out-decision-provider/patent/home-baroad/three-year")
+	public JSONArray getPatentInfoByHomeAbroad(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page getPatentInfoByHomeAbroad===========================" + map);
+		
+		List temList = outDecisionService.getPatentInfoByHomeAbroad(map);
+		
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		return json;
+	}
+	
 
 }

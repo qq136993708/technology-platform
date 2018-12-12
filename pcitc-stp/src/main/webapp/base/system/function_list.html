@@ -1,352 +1,437 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>菜单管理</title>	
-    <link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
-    <link rel="stylesheet" type="text/css" href="/layuiadmin/ztree/css/metroStyle/metroStyle.css">
-    <link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
-    <link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()" media="all">
-    <script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
-    <script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.core.js"></script>
-    <script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.excheck.min.js"></script>
-    <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
-    <script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.all.js"></script>
+<meta charset="UTF-8">
+<title>菜单管理</title>
+<link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
+<link rel="stylesheet" type="text/css" href="/layuiadmin/ztree/css/metroStyle/metroStyle.css">
+<link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
+<link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()" media="all">
+<script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.core.js"></script>
+<script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.excheck.min.js"></script>
+<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+<script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.all.js"></script>
 
 </head>
 <body>
-<div class="treeTableContainer">
-<div class="treeBox">
-    <div class="title-box">
-                <span>功能节点菜单</span>
-            </div>
-        <div class="layui-side-scroll">
-            <!-- 左侧子菜单 -->
-            <ul id="funTree" class="ztree"></ul>
-        </div>
-</div>
+	<div class="treeTableContainer">
+		<div class="treeBox">
+			<div class="title-box">
+				<span>功能节点菜单</span>
+			</div>
+			<div class="layui-side-scroll">
+				<!-- 左侧子菜单 -->
+				<ul id="funTree" class="ztree"></ul>
+			</div>
+		</div>
 
-<div class="treeTableBox">
-    <div class="searchBox">
-        <!--查询条件-->
-        <label class="dateInput">
-            <span>菜单名称</span>
-            <input type="text" name="functionName" placeholder="请输入菜单名称"
-                   title="菜单名称" autocomplete="off"
-                   class="form-control" id="name">
-        </label>
-        <!--按钮组-->
-        <div class="btnGroup">
-            <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询
-            </button>
-            <button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg"
-                    data-type="resetEvent">重置
-            </button>
-        </div>
-    </div>
-	<div class="tableToolBox">
-        <div class="whiteLine"></div>
-        <div  class="tableBtns">
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg " data-type="addEvent">新增</button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg "  data-type="editEvent">编辑</button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="deleteEvent" >删除</button>
-        </div>
-    </div>
-    <table id="functionTable" class="layui-hide" lay-filter="tableEvent"></table>
-</div>
-</div>
+		<div class="treeTableBox">
+			<div class="searchBox">
+				<!--查询条件-->
+				<label class="dateInput">
+					<span>菜单名称</span>
+					<input type="text" name="functionName" placeholder="请输入菜单名称" title="菜单名称" autocomplete="off" class="form-control" id="name">
+				</label>
+				<!--按钮组-->
+				<div class="btnGroup">
+					<button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>
+					<button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg" data-type="resetEvent">重置</button>
+				</div>
+			</div>
+			<div class="tableToolBox">
+				<div class="whiteLine"></div>
+				<div class="tableBtns">
+					<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg " data-type="addEvent">新增</button>
+					<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg " data-type="editEvent">编辑</button>
+					<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="deleteEvent">删除</button>
+				</div>
+			</div>
+			<table id="functionTable" class="layui-hide" lay-filter="tableEvent"></table>
+		</div>
+	</div>
 
 	<script>
-	
-	var zNodes;
-	var treeId;
-	var treeName;
-	var temFunctionId;
-	var temFunctionName;
-	
+		var zNodes;
+		var treeId;
+		var treeName;
 
+		var nodeId;
+		var nodeName;
+		var treeNodeParentId;
+		var parentId;
+		var parentCode
+		var levelCode;
 
-	var nodeId;
-	var parentId;   
-	var parentCode
-	var levelCode;
+		function initTree() {
+			$.ajax({
+				//url: "/function/getTreeByLevel",//这个就是请求地址对应sAjaxSource
+				url : "/function/getCommonFunctionTree",//这个就是请求地址对应sAjaxSource
+				type : 'post',
+				dataType : 'json',
+				async : false,
+				success : function(data) {
+					zNodes = data;
+				},
+				error : function(msg) {
+					alert(msg);
+				}
+			});
 
-	function initTree(){
-		$.ajax({
-			//url: "/function/getTreeByLevel",//这个就是请求地址对应sAjaxSource
-			url: "/function/getCommonFunctionTree",//这个就是请求地址对应sAjaxSource
-            type : 'post',
-            dataType : 'json',
-            async : false,
-            success : function(data){
-            	zNodes = data;
-            },
-            error : function(msg) {
-            	alert(msg);
-            }
-        });
-		
-		var setting = {
-		        data: {
-		            simpleData: {
-		                enable: true
-		            }
-		        },
-		        callback: {
-		            onClick: onClickMenu
-		        }
-    	};
-		
-		 $.fn.zTree.init($("#funTree"), setting, zNodes);
-	}
-	
-	
-    $(document).ready(function () {
-    	initTree();
-    });
+			var setting = {
+				data : {
+					simpleData : {
+						enable : true
+					}
+				},
+				callback : {
+					onClick : onClickMenu
+				}
+			};
 
-    function onClickMenu(event,treeId,treeNode,clickFlag) {
-    	treeId = treeNode.id;
-    	treeName = treeNode.name;
-    	temFunctionId = treeNode.id;
-    	temFunctionName = treeNode.name;
-    	
-    	parentId = treeNode.id;
-    	nodeId = treeNode.id;
-    	parentCode = treeNode.code;
-    	levelCode = treeNode.levelCode;
-    	console.log(treeNode)
-	   	table.reload('function', {
-	       where: {param: {"parentId": parentId}}
-	    });
-    	$(".layui-table-header table thead th input").remove();  //移除表头的复选框,去掉全选
-    }
-
-    function refreshNode(e) {
-        var zTree = $.fn.zTree.getZTreeObj("funTree"),
-            type = e.data.type,
-            silent = e.data.silent,
-            nodes = zTree.getSelectedNodes();
-        if (nodes.length == 0) {
-            alert("请先选择一个父节点");
-        }
-        for (var i = 0, l = nodes.length; i < l; i++) {
-            zTree.reAsyncChildNodes(nodes[i], type, silent);
-            if (!silent) zTree.selectNode(nodes[i]);
-        }
-    }
-
-    
-
-    //刷新树
-    function refreshTree(){
-    	$.fn.zTree.getZTreeObj("funTree").refresh();
-    }
-
-    function refreshNode() {
-		/*根据 treeId 获取 zTree 对象*/
-		var zTree = $.fn.zTree.getZTreeObj("funTree"),
-		type = "refresh",
-		silent = false,
-		/*获取 zTree 当前被选中的节点数据集合*/
-		nodes = zTree.getSelectedNodes();
-		console.log("nodes"+nodes)
-		/*强行异步加载父节点的子节点。[setting.async.enable = true 时有效]*/
-		zTree.reAsyncChildNodes(nodes[0], type, silent);
-	}
-
-
-    
-    var table,selectRowData;
-    var param ;
-    layui.use(['jquery','table'], function () {
-        $ =layui.jquery;
-    	table = layui.table;
-    	
-    	param = JSON.parse(window.localStorage.getItem("param"));
-        //渲染
-        table.render({
-            elem: '#functionTable',
-            url: '/function/getTableData',
-            //contentType:'application/json;charset=UTF-8',
-            method:"POST",
-            //where: {param: {"name":$("input[name=functionName]").val(),"parentCode": parentCode}},
-            limit : param.selfRownum,
-            id: 'function',
-            height: commonDislodgeTable(), 
-            page: {
-                count: 500, //数据总数，从服务端得到
-                groups: 5,
-                limits : [ param.selfRownum, 15, 30, 45, 60 ],
-                layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
-                first: '首页', //不显示首页
-                last: '尾页', //不显示尾页
-                theme: '#0F9EE0'
-            },
-            cols: [[
-				{type:'checkbox',event: 'changeEvents'},
-                {title:'序号', type:'numbers'},
-                {field:'code',     title:'菜单编码',  width: '12%', style:'cursor: pointer;',align:'left',sort  : true},
-                {field:'name',     title:'菜单名称',  width: '25%', style:'cursor: pointer;',align:'left',sort  : true},
-                {field:'url',      title:'菜单url',  width: '25%', style:'cursor: pointer;',align:'left'},
-                {field:'status',   title:'状态',  width: '8%', style:'cursor: pointer;',align:'center',
-                templet: function(d){
-                	if(d.status == 1){
-                		return "生效";
-                	} else {
-                		return "失效";
-                	}
-            	}},
-                {field:'weight',   title:'排序号', width: '7%', style:'cursor: pointer;',align:'left',sort  : true},
-                {field:'remarks',  title:'说明',  style:'cursor: pointer;',align:'left'}
-            ]],
-            done: function (res, curr, count) {
-                // 点击行联动选择框--单选
-                $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
-                	var index=parseInt($(this).index()+1);
-                    $('tr').removeClass('layui-table-click');
-                    $(this).addClass('layui-table-click');
-                    $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
-                    $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
-                    selectRowData=res.data[index-1];
-                    temFunctionId = selectRowData.id;
-                    nodeId = selectRowData.id;
-                    
-                });
-            }
-        });
-        
-        $(".layui-table-header table thead th input").remove();  //移除表头的复选框,去掉全选
-        
-     	// 触发不同的按钮事件
-        var $ = layui.$, active = {
-            addEvent: function(){ //点击新增按钮
-            	if (typeof(parentId) == "undefined") {
-            		layer.msg("请先选择一个树节点菜单");
-            	} else {
-            		var temUrl="/function/edit?parentCode="+parentCode+"&parentId="+parentId+"&levelCode="+levelCode+"&parentName="+temFunctionName;
-            		temUrl=encodeURI(temUrl);
-                    layer.open({
-                        title:'新增',
-                        skin: 'layui-layer-lan',
-                        shadeClose: true,
-                        type: 2,
-                        fixed: false,
-                        //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                        maxmin: true,
-                        //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                        area: ['70%', '90%'],
-                        content:  temUrl
-                    });
-                	//refreshTree();
-            	}
-            },
-            editEvent: function(){ //点击新增按钮
-            	if (typeof(temFunctionId) == "undefined") {
-            		layer.msg("请先选择一个菜单");
-            	} else {
-            		var temUrl="/function/edit?id="+temFunctionId;
-                    layer.open({
-                        title:'编辑',
-                        skin: 'layui-layer-lan',
-                        shadeClose: true,
-                        type: 2,
-                        fixed: false,
-                        //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                        maxmin: true,
-                        //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                        area: ['70%', '90%'],
-                        content:  temUrl
-                    });
-                	refreshTree();
-            	}
-            },
-            deleteEvent: function(){ //点击删除按钮
-                if (isBlank(nodeId)) {
-            		layer.msg('请点击选择要删除的菜单!');
-            	} else {
-            		layer.confirm('确认要删除吗？',{icon:3,btn:['确定','取消']},function(index){
-    	            	layer.close(index);
-    	            	$.ajax({
-                			type : 'post',
-                            dataType : "text",
-                            data : { "id":nodeId},
-                            url : '/function/deleteFunction?i='+Math.random(),
-                            error : function(data) {
-                            	layer.msg('删除失败!');
-                            },
-                            success : function(data) {
-                            	if(data==200){
-                            		layer.msg('删除成功!');
-                                	table.reload('function', {  where: {}  });
-                                	initTree();
-        		            	}else if(data==101){
-        		            		layer.msg("请先删除下级菜单");
-        		            	}
-                            }
-                        }); 
-             		});
-            		
-            	}
-	           	
-	           //	refreshTree();
-            },
-            searchEvent: function() { //点击查询按钮
-                table.reload('function', {
-                    where: {param: {"name":$("#name").val()}}
-                });
-            },
-            resetEvent: function() { //点击重置按钮
-            	$("#name").val('');
-            	table.reload('function', {
-                    where: {param: {"name":$("#name").val()}}
-                });
-            }
-            
-        };
-
-        //监听排序
-        table.on('sort(tableEvent)', function(obj){
-            console.log(this, obj.field, obj.type)
-            //return;
-            //服务端排序
-            table.reload('function', {
-                initSort: obj,
-                page: {curr: 1}, //重新从第一页开始
-                where: { //重新请求服务端
-                	orderKey : obj.field, //排序字段
-					orderType : obj.type
-                }
-            });
-        });
-        
-        //区别按钮属性
-        $('.layui-btn').on('click', function(){
-            var type = $(this).data('type');
-            active[type] ? active[type].call(this) : '';
-        });
-
-    });
-	
-		
-      
-	    
-	    function isBlank(str) {
-		    if (str == null || typeof str == "undefined" || str == "" || trim(str) == "") {
-		        return true;
-		    }
-		    return false;
+			$.fn.zTree.init($("#funTree"), setting, zNodes);
 		}
-		
+
+		$(document).ready(function() {
+			initTree();
+		});
+
+		function onClickMenu(event, treeId, treeNode, clickFlag) {
+			treeId = treeNode.id;
+			treeName = treeNode.name;
+			treeNodeParentId = treeNode.pId;
+			parentId = treeNode.id;
+			parentCode = treeNode.code;
+			levelCode = treeNode.levelCode;
+
+			nodeId = '';
+			nodeName = '';
+
+			console.log(treeNode);
+			table.reload('function', {
+				where : {
+					param : {
+						"parentId" : parentId
+					}
+				}
+			});
+			$(".layui-table-header table thead th input").remove(); //移除表头的复选框,去掉全选
+		}
+
+		function refreshNode(e) {
+			var zTree = $.fn.zTree.getZTreeObj("funTree"), type = e.data.type, silent = e.data.silent, nodes = zTree.getSelectedNodes();
+			if (nodes.length == 0) {
+				alert("请先选择一个父节点");
+			}
+			for (var i = 0, l = nodes.length; i < l; i++) {
+				zTree.reAsyncChildNodes(nodes[i], type, silent);
+				if (!silent) zTree.selectNode(nodes[i]);
+			}
+			nodeId = '';
+			nodeName = '';
+		}
+
+		//刷新树
+		function refreshTree() {
+			$.fn.zTree.getZTreeObj("funTree").refresh();
+			nodeId = '';
+			nodeName = '';
+		}
+
+		function refreshNode() {
+			/*根据 treeId 获取 zTree 对象*/
+			var zTree = $.fn.zTree.getZTreeObj("funTree"), type = "refresh", silent = false;
+			/*获取 zTree 当前被选中的节点数据集合*/
+			nodes = zTree.getSelectedNodes();
+			console.log("nodes" + nodes)
+			/*强行异步加载父节点的子节点。[setting.async.enable = true 时有效]*/
+			zTree.reAsyncChildNodes(nodes[0], type, silent);
+			nodeId = '';
+			nodeName = '';
+		}
+
+		var table, selectRowData;
+		var param;
+		layui.use([ 'jquery', 'table' ], function() {
+			$ = layui.jquery;
+			table = layui.table;
+			//渲染
+			window.renderTable = function(where) {
+				var lodingMsg = layer.msg('数据加载中....');
+				var param = JSON.parse(window.localStorage.getItem("param"));
+				//渲染
+				table.render({
+					elem : '#functionTable',
+					url : '/function/getTableData',
+					//contentType:'application/json;charset=UTF-8',
+					method : "POST",
+					//where: {param: {"name":$("input[name=functionName]").val(),"parentCode": parentCode}},
+					limit : param.selfRownum,
+					id : 'function',
+					height : commonDislodgeTable(),
+					page : {
+						count : 500, //数据总数，从服务端得到
+						groups : 5,
+						limits : [ param.selfRownum, 15, 30, 45, 60 ],
+						layout : [ 'count', 'limit', 'prev', 'page', 'next', 'skip' ], //自定义分页布局
+						first : '首页', //不显示首页
+						last : '尾页', //不显示尾页
+						theme : '#0F9EE0'
+					},
+					cols : [ [ {
+						type : 'checkbox',
+						event : 'changeEvents'
+					}, {
+						title : '序号',
+						type : 'numbers'
+					}, {
+						field : 'code',
+						title : '菜单编码',
+						width : '12%',
+						style : 'cursor: pointer;',
+						align : 'left',
+						sort : true
+					}, {
+						field : 'name',
+						title : '菜单名称',
+						width : '25%',
+						style : 'cursor: pointer;',
+						align : 'left',
+						sort : true
+					}, {
+						field : 'url',
+						title : '菜单url',
+						width : '25%',
+						style : 'cursor: pointer;',
+						align : 'left'
+					}, {
+						field : 'status',
+						title : '状态',
+						width : '8%',
+						style : 'cursor: pointer;',
+						align : 'center',
+						templet : function(d) {
+							if (d.status == 1) {
+								return "生效";
+							} else {
+								return "失效";
+							}
+						}
+					}, {
+						field : 'weight',
+						title : '排序号',
+						width : '7%',
+						style : 'cursor: pointer;',
+						align : 'left',
+						sort : true
+					}, {
+						field : 'remarks',
+						title : '说明',
+						style : 'cursor: pointer;',
+						align : 'left'
+					} ] ],
+					done : function(res, curr, count) {
+						layer.close(lodingMsg);
+
+						// 点击行联动选择框--单选
+						$('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function() {
+							var index = parseInt($(this).index() + 1);
+							$('tr').removeClass('layui-table-click');
+							$(this).addClass('layui-table-click');
+							$('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+							$('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+							selectRowData = res.data[index - 1];
+							nodeId = selectRowData.id;
+							nodeName = selectRowData.name;
+
+						});
+					}
+				});
+
+				$(".layui-table-header table thead th input").remove(); //移除表头的复选框,去掉全选
+			}
+			renderTable();
+			// 触发不同的按钮事件
+			var $ = layui.$, active = {
+				addEvent : function() { //点击新增按钮
+					if (typeof (parentId) == "undefined") {
+						layer.msg("请先选择一个树节点菜单");
+					} else if (typeof (treeNodeParentId) != "undefined" && treeNodeParentId == "e5c1006277a845f0b8a9d3674b6fc7e1") {
+						layer.msg("个人工作台下只允许创建一层节点");
+					} else if (typeof (treeName) != "undefined" && treeName == "个人工作台") {
+						var temUrl = "/function/function_edit_desk?parentCode=" + parentCode + "&parentId=" + parentId + "&levelCode=" + levelCode + "&parentName=" + treeName;
+						temUrl = encodeURI(temUrl);
+						layer.open({
+							title : '新增',
+							skin : 'layui-layer-lan',
+							shadeClose : true,
+							type : 2,
+							fixed : false,
+							//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+							maxmin : true,
+							//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+							area : [ '70%', '90%' ],
+							content : temUrl
+						});
+					} else {
+						var temUrl = "/function/edit?parentCode=" + parentCode + "&parentId=" + parentId + "&levelCode=" + levelCode + "&parentName=" + treeName;
+						temUrl = encodeURI(temUrl);
+						layer.open({
+							title : '新增',
+							skin : 'layui-layer-lan',
+							shadeClose : true,
+							type : 2,
+							fixed : false,
+							//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+							maxmin : true,
+							//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+							area : [ '70%', '90%' ],
+							content : temUrl
+						});
+					}
+				},
+				editEvent : function() { //点击新增按钮
+					if (typeof (nodeId) == "undefined" || isBlank(nodeId)) {
+						layer.msg("请先选择一个菜单");
+					} else if (typeof (nodeName) != "undefined" && nodeName == "个人工作台") {
+						layer.msg("个人工作台不允许编辑");
+					} else if (typeof (treeName) != "undefined" && treeName == "个人工作台") {
+						var temUrl = "/function/function_edit_desk?id=" + nodeId;
+						temUrl = encodeURI(temUrl);
+						layer.open({
+							title : '编辑',
+							skin : 'layui-layer-lan',
+							shadeClose : true,
+							type : 2,
+							fixed : false,
+							//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+							maxmin : true,
+							//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+							area : [ '70%', '90%' ],
+							content : temUrl
+						});
+						nodeId = '';
+					} else {
+						var temUrl = "/function/edit?id=" + nodeId;
+						layer.open({
+							title : '编辑',
+							skin : 'layui-layer-lan',
+							shadeClose : true,
+							type : 2,
+							fixed : false,
+							//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+							maxmin : true,
+							//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+							area : [ '70%', '90%' ],
+							content : temUrl
+						});
+						refreshTree();
+						nodeId = '';
+					}
+				},
+				deleteEvent : function() { //点击删除按钮
+					if (isBlank(nodeId)) {
+						layer.msg('请点击选择要删除的菜单!');
+					} else if (typeof (nodeName) != "undefined" && !isBlank(nodeName) && nodeName == '个人工作台') {
+						layer.msg('个人工作台不允许删除!');
+					} else {
+						layer.confirm('确认要删除吗？', {
+							icon : 3,
+							btn : [ '确定', '取消' ]
+						}, function(index) {
+							layer.close(index);
+							$.ajax({
+								type : 'post',
+								dataType : "text",
+								data : {
+									"id" : nodeId
+								},
+								url : '/function/deleteFunction?i=' + Math.random(),
+								error : function(data) {
+									layer.msg('删除失败!');
+								},
+								success : function(data) {
+									if (data == 200) {
+										layer.msg('删除成功!');
+										table.reload('function', {
+											where : {}
+										});
+										$(".layui-table-header table thead th input").remove(); //移除表头的复选框,去掉全选
+										//renderTable();
+										initTree();
+									} else if (data == 101) {
+										layer.msg("请先删除下级菜单");
+									}
+								}
+							});
+						});
+					}
+					nodeId = '';
+					//	refreshTree();
+				},
+				searchEvent : function() { //点击查询按钮
+					table.reload('function', {
+						where : {
+							param : {
+								"name" : $("#name").val()
+							}
+						}
+					});
+					$(".layui-table-header table thead th input").remove(); //移除表头的复选框,去掉全选
+					//renderTable({param: {"name":$("#name").val()}});
+				},
+				resetEvent : function() { //点击重置按钮
+					$("#name").val('');
+					table.reload('function', {
+						where : {
+							param : {
+								"name" : $("#name").val()
+							}
+						}
+					});
+					$(".layui-table-header table thead th input").remove(); //移除表头的复选框,去掉全选
+					//renderTable({param: {"name":$("#name").val()}});
+
+				}
+
+			};
+
+			//监听排序
+			table.on('sort(tableEvent)', function(obj) {
+				console.log(this, obj.field, obj.type)
+				//return;
+				//服务端排序
+				table.reload('function', {
+					initSort : obj,
+					page : {
+						curr : 1
+					}, //重新从第一页开始
+					where : { //重新请求服务端
+						orderKey : obj.field, //排序字段
+						orderType : obj.type
+					}
+				});
+				$(".layui-table-header table thead th input").remove(); //移除表头的复选框,去掉全选
+			});
+
+			//区别按钮属性
+			$('.layui-btn').on('click', function() {
+				var type = $(this).data('type');
+				active[type] ? active[type].call(this) : '';
+			});
+
+		});
+
+		function isBlank(str) {
+			if (str == null || typeof str == "undefined" || str == "" || trim(str) == "") { return true; }
+			return false;
+		}
+
 		function trim(str) {
-		    if (str == null || typeof str == "undefined") {
-		        return "";
-		    }
-		    return str.toString().replace(/(^\s+)|(\s+$)/g, "");
+			if (str == null || typeof str == "undefined") { return ""; }
+			return str.toString().replace(/(^\s+)|(\s+$)/g, "");
 		}
-        
-        
 	</script>
-	
+
 </body>
 </html>

@@ -1077,6 +1077,57 @@
      
 	 
 	  <!-- 科研装备二级  END-->
+	  
+	  
+	 <!-- 新科研装备 -->
+	 <select id="get_direct_KYZB" resultMap="H1AM_KY_SY_1001_17ResultMap" parameterType="java.util.Map" > 
+        SELECT
+		     "G0ZCXLBM",  
+		     "G0ZCXLMS",
+		     sum("G0SBSL1") AS "G0SBSL1",
+		     sum("G0SBSL2") AS "G0SBSL2",
+		     sum("G0SBSL3") AS "G0SBSL3",
+		     sum("G0SBSL4") AS "G0SBSL4" 
+		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_SY_1001_19"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+		     '${month}'),
+		     'PLACEHOLDER' = ('$$PR_GSDM$$',
+		     '${companyCode}')) 
+		GROUP BY 
+		     "G0ZCXLBM", 
+		     "G0ZCXLMS"
+		order by "G0ZCXLBM"  desc
+     </select>
+     
+    <select id="get_direct_KYZB_02" resultMap="H1AM_KY_SY_1001_17ResultMap" parameterType="java.util.Map" > 
+        SELECT
+		     "G0GSJC",
+		     sum("G0SBSL") AS "G0SBSL",
+		     sum("G0SBSL1") AS "G0SBSL1",
+		     sum("G0SBSL2") AS "G0SBSL2",
+		     sum("G0SBSL3") AS "G0SBSL3",
+		     sum("G0SBSL4") AS "G0SBSL4" 
+		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_SY_1001_19"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+		     '${month}'),
+		     'PLACEHOLDER' = ('$$PR_GSDM$$',
+		     '${companyCode}')) 
+		GROUP BY 
+		     "G0GSJC",
+		     "G0GSOR"
+		order by "G0GSOR"
+     </select>
+     
+	<!-- 科研装备-->
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
 	 
 	 
 

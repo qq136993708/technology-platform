@@ -152,6 +152,7 @@ public class IntlProjectNoticeProviderClient
 			return new Result(false,"操作出现异常，请重试！");
 		}
 	}
+	@ApiOperation(value="项目申报通知关闭",notes="关闭通知信息（逻辑删除）。")
 	@RequestMapping(value = "/stp-provider/project/close-notice/{noticeId}", method = RequestMethod.POST)
 	public Integer delPlantClose(@PathVariable("noticeId") String noticeId) 
 	{
@@ -179,13 +180,29 @@ public class IntlProjectNoticeProviderClient
 		{
 			return new Result(false,"审批未通过，不能发送");
 		}else {
-			Integer rs = mailSentService.sentMail(new MailBean("376221835@qq.com","测试邮件通知",notice.getNoticeContent()));
-			rs += mailSentService.sentAppendFileMail(new MailBean("376221835@qq.com","测试邮件通知",notice.getNoticeContent()));
+			//获取指定岗位负责人邮箱
+			String [] postCodes =new String [] {
+					"ZSH_ZSYJY_KTY_KTYGJHZGW",
+					"ZSH_ZSYJY_WTY_WKYGJHZGW",
+					"ZSH_ZSYJY_GCY_GCYGJHZGW",
+					"ZSH_ZSYJY_SKY_SKYGJHZGW",
+					"ZSH_ZSYJY_DLY_DLYGJHZGW",
+					"ZSH_ZSYJY_BHY_BHYGJHZGW",
+					"ZSH_ZSYJY_SHY_SHYGJHZGW",
+					"ZSH_ZSYJY_AGY_AGYGJHZGW"};
+			Integer rs = 0;
+			for(String postCode:postCodes) {
+				List<SysUser> users = systemRemoteClient.selectUsersByPostCode(postCode);
+				for(SysUser user:users) {
+					rs += this.mailSentService.sentMail(new MailBean(user.getUserMail(),"国际合作项目申报通知",notice.getNoticeContent()));
+				}
+			}
+			//另外再发一封测试邮件
+			//rs = mailSentService.sentMail(new MailBean("376221835@qq.com","测试邮件通知",notice.getNoticeContent()));
 			
 			notice.setNoticeStatus("1");
 			notice.setNoticeSentTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
 			intlProjectService.updProjectNotice(notice);
-			
 			return new Result(true,"通知已下发!");
 		}
 	}

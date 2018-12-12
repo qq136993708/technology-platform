@@ -160,21 +160,22 @@
 							个人工作台
 							<div></div>
 						</li>
-						<li class="layui-nav-item layui-nav-itemed">
-							<a href="#" title="业务处理">
-								<span>业务处理</span>
-								<span class="arrow"></span>
-								<i class="fa fa-angle-left pull-right"></i>
-							</a>
-							<dl class="layui-nav-child">
-								<dd>
-									<a lay-href="/task/pending/list/ini" lay-text="待办任务" data-id="d1cc4095-e2c1-4caf-bfee-78c5ec85316c" data-code="10010103" data-functionbuttons="ALL">待办任务</a>
-								</dd>
-								<dd>
-									<a lay-href="/task/done-task/list/ini" lay-text="已办任务" data-id="ad348eed-40bd-448b-ab6b-cb87147f8173" data-code="10010104" data-functionbuttons="ALL">已办任务</a>
-								</dd>
-							</dl>
-						</li>
+						<#if grgztList?exists>
+							<li class="layui-nav-item layui-nav-itemed">
+								<a href="#">
+									<span>个人工作台</span>
+									<span class="arrow"></span>
+									<i class="fa fa-angle-left pull-right"></i>
+								</a>
+								<dl class="layui-nav-child">
+									<#list grgztList as grgzt>
+										<dd>
+											<a lay-href="${grgzt.url}" lay-text="${grgzt.name}" data-id="${grgzt.id}" data-code="${grgzt.code}" data-functionbuttons="ALL">${grgzt.name}</a>
+										</dd>
+									</#list>
+								</dl>
+							</li>
+						</#if> 
 						<#if scList?exists>
 							<li class="layui-nav-item">
 								<a href="#" title="我的收藏">

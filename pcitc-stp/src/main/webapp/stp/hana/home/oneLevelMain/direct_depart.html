@@ -152,11 +152,11 @@
                     </div>
                     <div class="layui-card-body btn-function">
                      <div class="text-total">
-                            <span>总计:<span class="text-total-blue"    id="bar2_all_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>费用性:<span class="text-total-blue"   id="bar2_fyx_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>资本性:<span class="text-total-blue"   id="bar2_zbx_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <!-- <span>总计:<span class="text-total-blue"    id="contract_line_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span> -->
+                            <span>费用性:<span class="text-total-blue"   id="contract_line_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>资本性:<span class="text-total-blue"   id="contract_line_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                         </div>
-                        <div  style="height:270px;width: 100%;" id="bar2"></div>
+                        <div  style="height:270px;width: 100%;" id="contract_line"></div>
                     </div>
                 </div>
             </div>
@@ -172,11 +172,11 @@
                     </div>
                     <div class="layui-card-body btn-function">
                       <div class="text-total">
-                            <span>总计:<span    class="text-total-blue"    id="topic_chart3_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>新开课题:<span class="text-total-blue"    id="topic_chart3_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>转结课题:<span class="text-total-blue"    id="topic_chart3_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>总计:<span    class="text-total-blue"    id="direct_topic_chart3_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>新开课题:<span class="text-total-blue"    id="direct_topic_chart3_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>转结课题:<span class="text-total-blue"    id="direct_topic_chart3_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                         </div>
-                        <div  style="height:270px;width: 100%;" id="topic_chart3"></div>
+                        <div  style="height:270px;width: 100%;" id="direct_topic_chart3"></div>
                     </div>
                 </div>
             </div>
@@ -213,12 +213,12 @@
                     </div>
                     <div class="layui-card-body btn-function">
                     <div class="text-total">
-                            <span>总计:<span class="text-total-blue"    id="bar7_all_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>申请数量:<span class="text-total-blue" id="bar7_1_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>授权数量:<span class="text-total-blue" id="bar7_2_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>总计:<span class="text-total-blue"    id="direct_knowledge_chart1_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>申请总数:<span class="text-total-blue" id="direct_knowledge_chart1_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>授权总数:<span class="text-total-blue" id="direct_knowledge_chart1_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                         </div>
                         
-                        <div class="main-chart" id="barOne" style="height:270px;width: 100%;"></div>
+                        <div class="main-chart" id="direct_knowledge_chart1" style="height:270px;width: 100%;"></div>
                     </div>
                 </div>
             </div>
@@ -240,11 +240,8 @@
                     </div>
                     <div class="layui-card-body btn-function">
                     
-                       <div class="text-total">
-                            <span>总计:<span class="text-total-blue"    id="bar8_all_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                        </div>
                         
-                        <div  style="height:270px;width: 100%;" id="bar02"></div>
+                        <div  style="height:294px;width: 100%;" id="bar02"></div>
                     </div>
                 </div>
             </div>
@@ -258,10 +255,7 @@
                         </div>
                     </div>
                     <div class="layui-card-body btn-function">
-                      <div class="text-total">
-                            <span>总计:<span class="text-total-blue"    id="bar9_all_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                        </div>
-                        <div  style="height:270px;width: 100%;" id="bar03"></div>
+                        <div  style="height:294px;width: 100%;" id="bar03"></div>
                     </div>
                 </div>
             </div>
@@ -471,6 +465,34 @@
          }
          
          
+         //合同签订率总计
+         function setContractCount(year)
+         {
+         	$.ajax({
+ 				type : 'GET',
+ 				url : "/direct/contract_04?type=2&nd="+year,
+ 				dataType : 'json',
+ 				headers : {
+ 					'Content-Type' : 'application/json'
+ 				},
+ 				timeout : 20000, 
+ 				error : function(XMLHttpRequest, status) 
+ 				{
+ 					
+ 				},
+ 				success : function(data) 
+ 				{
+ 					var fyxsl_rate = data.data.fyxsl_rate;
+ 					var zbxsl_rate = data.data.zbxsl_rate;
+ 					//$("#contract_line_01").html("100%"); 
+ 					$("#contract_line_02").html(fyxsl_rate); 
+ 					$("#contract_line_03").html(zbxsl_rate); 
+ 					
+ 				}
+ 			});
+         	
+         }
+         
         
         function init()
         {
@@ -485,7 +507,7 @@
             	getndys_xfzc(month);//合同签订 经费支出
             	patentCount(year);//专利
             	appraisalCount(year);//成果
-            	
+            	setContractCount(year);
             	var yAxis= [
                     {
                         type: 'value',
@@ -538,86 +560,90 @@
             	
             	
             	
-            //直属研究院合同签订分析
-           	var chart2_url="/direct/contract_04?nd="+year+"&v_date="+v_date+"&type=1";
-           	var echart2= load_mony_line_02(chart2_url,"bar2","","",yAxis3);
+             //直属研究院合同签订分析
+           	 var chart2_url="/direct/contract_04?nd="+year+"&v_date="+v_date+"&type=1";
+           	 var echart2= load_mony_line_down(chart2_url,"contract_line","","",yAxis3);
            	   
            	
 
-        	var chart3_url="/direct/topic_01?type=1&nd="+year+"&v_date="+v_date+"&xmlbbm=kyzb";
-        	var echart3=load_mutl_bar_down(chart3_url,"topic_chart3","","",yAxis);
-        	echart3.on('click', function (params) {
+        	 var chart3_url="/direct/topic_01?type=1&nd="+year+"&v_date="+v_date+"&xmlbbm=kyzb";
+        	 var echart3=load_mutl_bar_down(chart3_url,"direct_topic_chart3","","",yAxis);
+        	 echart3.on('click', function (params) {
         		var xName=params.name;
         		var legentName=params.seriesName;
         		window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
                   
-            });
+             });
         	
             
         	
          	//直属研究院科研设备数量分析
            	var chart4_url="/home/GET_getDzzk_bar?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
-        	var data=load_mutl_bar_stack_02(chart4_url,"bar4","","",yAxis);
+        	var data=load_mutl_bar_stack_02(chart4_url,"bar4","","",yAxis,function(data){
+        		
+        		
+        		var bCount_4=getDataCountForName_t(data,'大型分析仪器');
+            	var zCount_4=getDataCountForName_t(data,'中型实验装置');
+            	var dCount_4=getDataCountForName_t(data,'单台值大于500万');
+            	var zyCount_4=getDataCountForName_t(data,'专业软件（外购）'); 
+    	        var allCount_4=bCount_4+zCount_4+dCount_4+zyCount_4;
+    	        //alert(bCount_4);
+                $("#bar4_1_count").html(bCount_4);
+                $("#bar4_2_count").html(zCount_4);
+                $("#bar4_3_count").html(dCount_4);
+                $("#bar4_4_count").html(zyCount_4);
+    	            
+        		
+        	});
         	
-        	var bCount_4=getDataCountForName(data,'大型分析仪器');
-        	var zCount_4=getDataCountForName(data,'中型实验装置');
-        	var dCount_4=getDataCountForName(data,'单台值大于500万');
-        	var zyCount_4=getDataCountForName(data,'专业软件（外购）');
-	        var allCount_4=bCount_4+zCount_4+dCount_4+zyCount_4;
-	        
-            $("#bar4_1_count").html(bCount_4);
-            $("#bar4_2_count").html(zCount_4);
-            $("#bar4_3_count").html(dCount_4);
-            $("#bar4_4_count").html(zyCount_4);
-	            
+        
             
 
-        	var chart7_url="/home_knowledge_ld/getKnowledgeUnitList_stack?nd="+year+"&v_date="+v_date;
-        	var data7=load_mutl_bar_stack_two(chart7_url,"barOne","","",yAxis);
-        	var bCount_7=getDataCountForName(data7,'申请总数');
-        	var zCount_7=getDataCountForName(data7,'授权总数');
-        	var allCount_7=bCount_7+zCount_7;
-        	
-       	    $("#bar7_all_count").html(allCount_7);
-            $("#bar7_1_count").html(bCount_7);
-            $("#bar7_2_count").html(zCount_7);
+        	var chart7_url="/direct/knowledge_04?type=1&nd="+year+"&v_date="+v_date;
+        	var data7=load_mutl_bar_down(chart7_url,"direct_knowledge_chart1","","",yAxis);
   	            
               
         	
-        	var url_8="/home_knowledge_ld/getKnowledgePie?month="+month+"&v_date="+v_date+"&type=1&companyCode="+companyCode;
+        	var url_8="/direct/knowledge_04?type=2&month="+year+"&v_date="+v_date;
         	var allCount=loadPie_02(url_8,"bar02","","");
-        	$("#bar8_all_count").html(allCount);
         	 
         	 
-        	var url_9="/home_knowledge_ld/getKnowledgePie?month="+month+"&v_date="+v_date+"&type=2&companyCode="+companyCode;
+        	var url_9="/direct/knowledge_04?type=3&month="+year+"&v_date="+v_date;
         	var allCount2=loadPie_02(url_9,"bar03","","");
-        	$("#bar9_all_count").html(allCount2);
         	
             	
        		}
         }
         
         
-        function getDataCountForName(data,strName)
+        function getDataCountForName_t(data,strName)
         {
         	var seriesList=data.seriesList;
+        	//alert(data);
             var xkCount=0;
-            
-	            for(var i=0;i<seriesList.length;i++)
-	            {
-	            	var arr=seriesList[i].data;
-	            	var name=seriesList[i].name;
-	            	if(name==strName)
-	            	{
-	            		var name_count=0;
-	            		for(var j=0;j<arr.length;j++)
-	    	            {
-	            			name_count=name_count+parseInt(arr[j]);
-	    	            }
-	            		xkCount=name_count;
-	            	}
-	            } 
-	            return parseInt(xkCount);
+            if (typeof(seriesList) == "undefined") 
+            { 
+            	
+            }else
+            {
+            	 for(var i=0;i<seriesList.length;i++)
+ 	            {
+ 	            	var arr=seriesList[i].data;
+ 	            	var name=seriesList[i].name;
+ 	            	if(name==strName)
+ 	            	{
+ 	            		var name_count=0;
+ 	            		for(var j=0;j<arr.length;j++)
+ 	    	            {
+ 	            			name_count=name_count+parseInt(arr[j]);
+ 	    	            }
+ 	            		xkCount=name_count;
+ 	            	}
+ 	            } 
+ 	           
+            }   
+            return parseInt(xkCount);
+	           
         }
         init();
      </script>

@@ -38,9 +38,11 @@ function initSelectTree(id, isMultiple, isShowLine, isShowIcon, chkboxType) {
     $("#" + id).append(html);
     $("#" + id).parent().append('<div class="tree-content scrollbar">' +
     	'<input hidden id="' + id + '"' + 'name="' + id + '">' +
-        '<input hidden id="' + id + 'Value" ' + 'name="' + id + 'Value">' +
+    	'<input hidden id="' + id + 'Value" ' + 'name="' + id + 'Value">' +
         '<input hidden id="' + id + 'Code" ' + 'name="' + id + 'Code">' +
         '<input hidden id="' + id + 'Type" ' + 'name="' + id + 'Type">' +
+        '<input hidden id="' + id + 'Url" ' + 'name="' + id + 'Url">' +
+        '<input hidden id="' + id + 'Name" ' + 'name="' + id + 'Name">' +
         '<input hidden id="' + id + 'Save" ' + 'name="' + id + 'Save">' +
         '<input hidden id="' + id + 'Show" ' + 'name="' + id + 'Show">' +
         '<ul id="' + id + 'Tree" class="ztree"></ul>' +
@@ -91,8 +93,8 @@ function onClick(event, treeId, treeNode) {
     }
     //机具报验退场 联动单项工程联动
     if(treeId=="wbsTree"){
-    	$("input[name=projectCode]").val(treeNode.code);
-    	$("input[name=projectName]").val(treeNode.name);
+    	$("input[name=wbsCode]").val(treeNode.code);
+    	$("input[name=wbsName]").val(treeNode.name);
     	$("input[name=wbsId]").val(treeNode.id);
     	refreshTable(treeNode.id);
     }
@@ -123,28 +125,43 @@ function assignment(treeId, nodes) {
     var ids = "";
     var codes = "";
     var types = "";
+    var urls = "";    // 系统菜单树中的菜单节点url
     for (var i = 0, l = nodes.length; i < l; i++) {
-        console.log(nodes[i])
+        console.log("-------"+nodes[i].treeUrl+"-------"+nodes[i].name+"-------"+nodes[i].id);
         //if(nodes[i].isParent!=true){
             names += nodes[i].name + ",";
             ids += nodes[i].id + ",";
             codes += nodes[i].code + ",";
             types += nodes[i].nodeType + ",";
+            urls += nodes[i].treeUrl + ",";
         //}
     }
+    console.log("1-------"+names);
     if (names.length > 0) {
         names = names.substring(0, names.length - 1);
         ids = ids.substring(0, ids.length - 1);
         types = types.substring(0, types.length - 1);
         codes = codes.substring(0, codes.length - 1);
+        urls = urls.substring(0, urls.length - 1);
     }
     treeId = treeId.substring(0, treeId.length - 4);
-    $("#" + treeId + "Show").attr("value", names);
-    $("#" + treeId + "Show").attr("title", names);
+    console.log("2-------"+names);
+    if(names){
+        $("#" + treeId + "Show").attr("value", names);
+        $("#" + treeId + "Show").attr("title", names);
+        $("#" + treeId + "Name").attr("value", names);
+    }
+    if(types){
+        $("#" + treeId + "Type").attr("value", types);
+    }
+    if(codes){
+        $("#" + treeId + "Code").attr("value", codes);
+    }
+    if(urls){
+        $("#" + treeId + "Url").attr("value", urls);
+    }
     $("#" + treeId + "Value").attr("value", ids);
     $("#" + treeId ).attr("value", ids);
-    $("#" + treeId + "Code").attr("value", codes);
-    $("#" + treeId + "Type").attr("value", types);
     $("input[name='"+treeId+"']").attr("value", ids);
 }
 function onBodyDown(event) {
@@ -168,7 +185,7 @@ function zTreeNode(id,pId,name)
 function autoCheck(id,arry)
 {
     var zTree = $.fn.zTree.getZTreeObj(id);
-    // var nodes = zTree.getNodes();
+    var nodes = zTree.getNodes();
     // console.log(nodes)
     // console.log(zNodes)
     // console.log(arry)

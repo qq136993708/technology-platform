@@ -37,16 +37,22 @@ var line_single_option = {
 	    },
 	    xAxis: {
 	        type: 'category',
-	        data: []
+	        data: [],
+	    axisLabel:{
+            interval:0,//0：全部显示，1：间隔为1显示对应类目，2：依次类推，（简单试一下就明白了，这样说是不是有点抽象）
+            //rotate:30,//倾斜显示，-：顺时针旋转，+或不写：逆时针旋转
+           }
 	    },
-	    color:['#6592b2', '#54b6e9','#70b1aa','#e8a791','#b5c26a','#d59981'],
+	    color:['#b78c01'],
 	    yAxis: {
 	        type: 'value'
 	    },
 	    series: [{
 	        data: [],
+	        
 	        type: 'line',
-	        smooth: true//线是弧形
+            itemStyle : { normal: {label : {show: true,color:"#000",position: 'top'}}},
+	        //smooth: true//线是弧形
 	    }]
 };
 function lineSingleAjax(url, echartsobj, options) 
@@ -401,7 +407,7 @@ function load_mony_line(url,id,title,subtext,yAxis)
 
 
 
-function load_mony_line_02(url,id,title,subtext,yAxis)
+function load_mony_line_down(url,id,title,subtext,yAxis)
 {
 	var echartsobj = echarts.init(document.getElementById(id));
 	mony_line_option_02.title.text=title;

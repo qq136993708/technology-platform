@@ -1,0 +1,1245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pcitc.mapper.expert.ZjkBaseInfoMapper">
+
+    <resultMap id="BaseResultMap" type="com.pcitc.base.expert.ZjkBaseInfo">
+
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="company_name" jdbcType="VARCHAR" property="companyName"/>
+        <result column="company" jdbcType="VARCHAR" property="company"/>
+        <result column="user_desc" jdbcType="VARCHAR" property="userDesc"/>
+        <result column="zhicheng" jdbcType="VARCHAR" property="zhicheng"/>
+        <result column="age_between" jdbcType="VARCHAR" property="ageBetween"/>
+        <result column="age" jdbcType="VARCHAR" property="age"/>
+        <result column="csrq" jdbcType="VARCHAR" property="csrq"/>
+        <result column="hyly_name" jdbcType="VARCHAR" property="hylyName"/>
+        <result column="hyly" jdbcType="VARCHAR" property="hyly"/>
+        <result column="dz" jdbcType="VARCHAR" property="dz"/>
+        <result column="byyx" jdbcType="VARCHAR" property="byyx"/>
+        <result column="sheng" jdbcType="VARCHAR" property="sheng"/>
+        <result column="shi" jdbcType="VARCHAR" property="shi"/>
+        <result column="xian" jdbcType="VARCHAR" property="xian"/>
+        <result column="je_count" jdbcType="VARCHAR" property="jeCount"/>
+        <result column="zl_count" jdbcType="VARCHAR" property="zlCount"/>
+        <result column="xm_count" jdbcType="VARCHAR" property="xmCount"/>
+        <result column="jg_count" jdbcType="VARCHAR" property="jgCount"/>
+        <result column="cg_count" jdbcType="VARCHAR" property="cgCount"/>
+        <result column="jwd" jdbcType="VARCHAR" property="jwd"/>
+        <result column="DATA_CODE" jdbcType="VARCHAR" property="dataCode"/>
+        <result column="SYS_FLAG" jdbcType="VARCHAR" property="sysFlag"/>
+        <result column="DATA_ORDER" jdbcType="VARCHAR" property="dataOrder"/>
+        <result column="STATUS" jdbcType="VARCHAR" property="status"/>
+        <result column="DEL_FLAG" jdbcType="VARCHAR" property="delFlag"/>
+        <result column="CREATE_DATE" jdbcType="VARCHAR" property="createDate"/>
+        <result column="CREATE_USER" jdbcType="VARCHAR" property="createUser"/>
+        <result column="CREATE_USER_NAME" jdbcType="VARCHAR" property="createUserName"/>
+        <result column="UPDATE_DATE" jdbcType="VARCHAR" property="updateDate"/>
+        <result column="UPDATE_USER" jdbcType="VARCHAR" property="updateUser"/>
+        <result column="UPDATE_USER_NAME" jdbcType="VARCHAR" property="updateUserName"/>
+        <result column="bak1" jdbcType="VARCHAR" property="bak1"/>
+        <result column="bak2" jdbcType="VARCHAR" property="bak2"/>
+        <result column="bak3" jdbcType="VARCHAR" property="bak3"/>
+        <result column="bak4" jdbcType="VARCHAR" property="bak4"/>
+        <result column="bak5" jdbcType="VARCHAR" property="bak5"/>
+        <result column="bak6" jdbcType="VARCHAR" property="bak6"/>
+        <result column="user_id" jdbcType="VARCHAR" property="userId"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        id,
+        name,
+        email,
+        company_name,
+        company,
+        user_desc,
+        zhicheng,
+        age_between,
+        age,
+        csrq,
+        hyly_name,
+        hyly,
+        dz,
+        byyx,
+        sheng,
+        shi,
+        xian,
+        je_count,
+        zl_count,
+        xm_count,
+        jg_count,
+        cg_count,
+        jwd,
+        DATA_CODE,
+        SYS_FLAG,
+        DATA_ORDER,
+        STATUS,
+        DEL_FLAG,
+        CREATE_DATE,
+        CREATE_USER,
+        CREATE_USER_NAME,
+        UPDATE_DATE,
+        UPDATE_USER,
+        UPDATE_USER_NAME,
+        bak1,
+        bak2,
+        bak3,
+        bak4,
+        bak5,
+        bak6,
+        user_id
+</sql>
+
+    <select id="selectByExample" parameterType="com.pcitc.base.expert.ZjkBaseInfoExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from zjk_base_info
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        <if test="limit != null">
+            <if test="offset != null">
+                limit ${offset}, ${limit}
+            </if>
+            <if test="offset == null">
+                limit ${limit}
+            </if>
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from zjk_base_info
+        where id = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from zjk_base_info
+        where id = #{id,jdbcType=VARCHAR}
+    </delete>
+    <delete id="deleteByExample" parameterType="com.pcitc.base.expert.ZjkBaseInfoExample">
+        delete from zjk_base_info
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.pcitc.base.expert.ZjkBaseInfo">
+        insert into zjk_base_info (
+            id,
+            name,
+            email,
+            company_name,
+            company,
+            user_desc,
+            zhicheng,
+            age_between,
+            age,
+            csrq,
+            hyly_name,
+            hyly,
+            dz,
+            byyx,
+            sheng,
+            shi,
+            xian,
+            je_count,
+            zl_count,
+            xm_count,
+            jg_count,
+            cg_count,
+            jwd,
+            DATA_CODE,
+            SYS_FLAG,
+            DATA_ORDER,
+            STATUS,
+            DEL_FLAG,
+            CREATE_DATE,
+            CREATE_USER,
+            CREATE_USER_NAME,
+            UPDATE_DATE,
+            UPDATE_USER,
+            UPDATE_USER_NAME,
+            bak1,
+            bak2,
+            bak3,
+            bak4,
+            bak5,
+            bak6,
+            user_id
+        )
+        values (
+
+    #{id,jdbcType=VARCHAR},
+    #{name,jdbcType=VARCHAR},
+    #{email,jdbcType=VARCHAR},
+    #{companyName,jdbcType=VARCHAR},
+    #{company,jdbcType=VARCHAR},
+    #{userDesc,jdbcType=VARCHAR},
+    #{zhicheng,jdbcType=VARCHAR},
+    #{ageBetween,jdbcType=VARCHAR},
+    #{age,jdbcType=VARCHAR},
+    #{csrq,jdbcType=VARCHAR},
+    #{hylyName,jdbcType=VARCHAR},
+    #{hyly,jdbcType=VARCHAR},
+    #{dz,jdbcType=VARCHAR},
+    #{byyx,jdbcType=VARCHAR},
+    #{sheng,jdbcType=VARCHAR},
+    #{shi,jdbcType=VARCHAR},
+    #{xian,jdbcType=VARCHAR},
+    #{jeCount,jdbcType=VARCHAR},
+    #{zlCount,jdbcType=VARCHAR},
+    #{xmCount,jdbcType=VARCHAR},
+    #{jgCount,jdbcType=VARCHAR},
+    #{cgCount,jdbcType=VARCHAR},
+    #{jwd,jdbcType=VARCHAR},
+    #{dataCode,jdbcType=VARCHAR},
+    #{sysFlag,jdbcType=VARCHAR},
+    #{dataOrder,jdbcType=VARCHAR},
+    #{status,jdbcType=VARCHAR},
+    #{delFlag,jdbcType=VARCHAR},
+    #{createDate,jdbcType=VARCHAR},
+    #{createUser,jdbcType=VARCHAR},
+    #{createUserName,jdbcType=VARCHAR},
+    #{updateDate,jdbcType=VARCHAR},
+    #{updateUser,jdbcType=VARCHAR},
+    #{updateUserName,jdbcType=VARCHAR},
+    #{bak1,jdbcType=VARCHAR},
+    #{bak2,jdbcType=VARCHAR},
+    #{bak3,jdbcType=VARCHAR},
+    #{bak4,jdbcType=VARCHAR},
+    #{bak5,jdbcType=VARCHAR},
+    #{bak6,jdbcType=VARCHAR},
+    #{userId,jdbcType=VARCHAR}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.pcitc.base.expert.ZjkBaseInfo">
+        insert into zjk_base_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+
+            <if test="id != null">
+                id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="email != null">
+                email,
+            </if>
+            <if test="companyName != null">
+                company_name,
+            </if>
+            <if test="company != null">
+                company,
+            </if>
+            <if test="userDesc != null">
+                user_desc,
+            </if>
+            <if test="zhicheng != null">
+                zhicheng,
+            </if>
+            <if test="ageBetween != null">
+                age_between,
+            </if>
+            <if test="age != null">
+                age,
+            </if>
+            <if test="csrq != null">
+                csrq,
+            </if>
+            <if test="hylyName != null">
+                hyly_name,
+            </if>
+            <if test="hyly != null">
+                hyly,
+            </if>
+            <if test="dz != null">
+                dz,
+            </if>
+            <if test="byyx != null">
+                byyx,
+            </if>
+            <if test="sheng != null">
+                sheng,
+            </if>
+            <if test="shi != null">
+                shi,
+            </if>
+            <if test="xian != null">
+                xian,
+            </if>
+            <if test="jeCount != null">
+                je_count,
+            </if>
+            <if test="zlCount != null">
+                zl_count,
+            </if>
+            <if test="xmCount != null">
+                xm_count,
+            </if>
+            <if test="jgCount != null">
+                jg_count,
+            </if>
+            <if test="cgCount != null">
+                cg_count,
+            </if>
+            <if test="jwd != null">
+                jwd,
+            </if>
+            <if test="dataCode != null">
+                DATA_CODE,
+            </if>
+            <if test="sysFlag != null">
+                SYS_FLAG,
+            </if>
+            <if test="dataOrder != null">
+                DATA_ORDER,
+            </if>
+            <if test="status != null">
+                STATUS,
+            </if>
+            <if test="delFlag != null">
+                DEL_FLAG,
+            </if>
+            <if test="createDate != null">
+                CREATE_DATE,
+            </if>
+            <if test="createUser != null">
+                CREATE_USER,
+            </if>
+            <if test="createUserName != null">
+                CREATE_USER_NAME,
+            </if>
+            <if test="updateDate != null">
+                UPDATE_DATE,
+            </if>
+            <if test="updateUser != null">
+                UPDATE_USER,
+            </if>
+            <if test="updateUserName != null">
+                UPDATE_USER_NAME,
+            </if>
+            <if test="bak1 != null">
+                bak1,
+            </if>
+            <if test="bak2 != null">
+                bak2,
+            </if>
+            <if test="bak3 != null">
+                bak3,
+            </if>
+            <if test="bak4 != null">
+                bak4,
+            </if>
+            <if test="bak5 != null">
+                bak5,
+            </if>
+            <if test="bak6 != null">
+                bak6,
+            </if>
+            <if test="userId != null">
+                user_id
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+
+
+            <if test="id != null">
+                #{id ,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                #{name ,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                #{email ,jdbcType=VARCHAR},
+            </if>
+            <if test="companyName != null">
+                #{companyName ,jdbcType=VARCHAR},
+            </if>
+            <if test="company != null">
+                #{company ,jdbcType=VARCHAR},
+            </if>
+            <if test="userDesc != null">
+                #{userDesc ,jdbcType=VARCHAR},
+            </if>
+            <if test="zhicheng != null">
+                #{zhicheng ,jdbcType=VARCHAR},
+            </if>
+            <if test="ageBetween != null">
+                #{ageBetween ,jdbcType=VARCHAR},
+            </if>
+            <if test="age != null">
+                #{age ,jdbcType=VARCHAR},
+            </if>
+            <if test="csrq != null">
+                #{csrq ,jdbcType=VARCHAR},
+            </if>
+            <if test="hylyName != null">
+                #{hylyName ,jdbcType=VARCHAR},
+            </if>
+            <if test="hyly != null">
+                #{hyly ,jdbcType=VARCHAR},
+            </if>
+            <if test="dz != null">
+                #{dz ,jdbcType=VARCHAR},
+            </if>
+            <if test="byyx != null">
+                #{byyx ,jdbcType=VARCHAR},
+            </if>
+            <if test="sheng != null">
+                #{sheng ,jdbcType=VARCHAR},
+            </if>
+            <if test="shi != null">
+                #{shi ,jdbcType=VARCHAR},
+            </if>
+            <if test="xian != null">
+                #{xian ,jdbcType=VARCHAR},
+            </if>
+            <if test="jeCount != null">
+                #{jeCount ,jdbcType=VARCHAR},
+            </if>
+            <if test="zlCount != null">
+                #{zlCount ,jdbcType=VARCHAR},
+            </if>
+            <if test="xmCount != null">
+                #{xmCount ,jdbcType=VARCHAR},
+            </if>
+            <if test="jgCount != null">
+                #{jgCount ,jdbcType=VARCHAR},
+            </if>
+            <if test="cgCount != null">
+                #{cgCount ,jdbcType=VARCHAR},
+            </if>
+            <if test="jwd != null">
+                #{jwd ,jdbcType=VARCHAR},
+            </if>
+            <if test="dataCode != null">
+                #{dataCode ,jdbcType=VARCHAR},
+            </if>
+            <if test="sysFlag != null">
+                #{sysFlag ,jdbcType=VARCHAR},
+            </if>
+            <if test="dataOrder != null">
+                #{dataOrder ,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status ,jdbcType=VARCHAR},
+            </if>
+            <if test="delFlag != null">
+                #{delFlag ,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                #{createDate ,jdbcType=VARCHAR},
+            </if>
+            <if test="createUser != null">
+                #{createUser ,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserName != null">
+                #{createUserName ,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null">
+                #{updateDate ,jdbcType=VARCHAR},
+            </if>
+            <if test="updateUser != null">
+                #{updateUser ,jdbcType=VARCHAR},
+            </if>
+            <if test="updateUserName != null">
+                #{updateUserName ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak1 != null">
+                #{bak1 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak2 != null">
+                #{bak2 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak3 != null">
+                #{bak3 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak4 != null">
+                #{bak4 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak5 != null">
+                #{bak5 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak6 != null">
+                #{bak6 ,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null">
+                #{userId ,jdbcType=VARCHAR}
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.pcitc.base.expert.ZjkBaseInfoExample" resultType="java.lang.Long">
+        select count(*) from zjk_base_info
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update zjk_base_info
+        <set>
+
+            <if test="record.id != null">
+                id=#{record.id,jdbcType=VARCHAR},
+            </if>
+            <if test="record.name != null">
+                name=#{record.name,jdbcType=VARCHAR},
+            </if>
+            <if test="record.email != null">
+                email=#{record.email,jdbcType=VARCHAR},
+            </if>
+            <if test="record.companyName != null">
+                company_name=#{record.companyName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.company != null">
+                company=#{record.company,jdbcType=VARCHAR},
+            </if>
+            <if test="record.userDesc != null">
+                user_desc=#{record.userDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="record.zhicheng != null">
+                zhicheng=#{record.zhicheng,jdbcType=VARCHAR},
+            </if>
+            <if test="record.ageBetween != null">
+                age_between=#{record.ageBetween,jdbcType=VARCHAR},
+            </if>
+            <if test="record.age != null">
+                age=#{record.age,jdbcType=VARCHAR},
+            </if>
+            <if test="record.csrq != null">
+                csrq=#{record.csrq,jdbcType=VARCHAR},
+            </if>
+            <if test="record.hylyName != null">
+                hyly_name=#{record.hylyName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.hyly != null">
+                hyly=#{record.hyly,jdbcType=VARCHAR},
+            </if>
+            <if test="record.dz != null">
+                dz=#{record.dz,jdbcType=VARCHAR},
+            </if>
+            <if test="record.byyx != null">
+                byyx=#{record.byyx,jdbcType=VARCHAR},
+            </if>
+            <if test="record.sheng != null">
+                sheng=#{record.sheng,jdbcType=VARCHAR},
+            </if>
+            <if test="record.shi != null">
+                shi=#{record.shi,jdbcType=VARCHAR},
+            </if>
+            <if test="record.xian != null">
+                xian=#{record.xian,jdbcType=VARCHAR},
+            </if>
+            <if test="record.jeCount != null">
+                je_count=#{record.jeCount,jdbcType=VARCHAR},
+            </if>
+            <if test="record.zlCount != null">
+                zl_count=#{record.zlCount,jdbcType=VARCHAR},
+            </if>
+            <if test="record.xmCount != null">
+                xm_count=#{record.xmCount,jdbcType=VARCHAR},
+            </if>
+            <if test="record.jgCount != null">
+                jg_count=#{record.jgCount,jdbcType=VARCHAR},
+            </if>
+            <if test="record.cgCount != null">
+                cg_count=#{record.cgCount,jdbcType=VARCHAR},
+            </if>
+            <if test="record.jwd != null">
+                jwd=#{record.jwd,jdbcType=VARCHAR},
+            </if>
+            <if test="record.dataCode != null">
+                DATA_CODE=#{record.dataCode,jdbcType=VARCHAR},
+            </if>
+            <if test="record.sysFlag != null">
+                SYS_FLAG=#{record.sysFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="record.dataOrder != null">
+                DATA_ORDER=#{record.dataOrder,jdbcType=VARCHAR},
+            </if>
+            <if test="record.status != null">
+                STATUS=#{record.status,jdbcType=VARCHAR},
+            </if>
+            <if test="record.delFlag != null">
+                DEL_FLAG=#{record.delFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="record.createDate != null">
+                CREATE_DATE=#{record.createDate,jdbcType=VARCHAR},
+            </if>
+            <if test="record.createUser != null">
+                CREATE_USER=#{record.createUser,jdbcType=VARCHAR},
+            </if>
+            <if test="record.createUserName != null">
+                CREATE_USER_NAME=#{record.createUserName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.updateDate != null">
+                UPDATE_DATE=#{record.updateDate,jdbcType=VARCHAR},
+            </if>
+            <if test="record.updateUser != null">
+                UPDATE_USER=#{record.updateUser,jdbcType=VARCHAR},
+            </if>
+            <if test="record.updateUserName != null">
+                UPDATE_USER_NAME=#{record.updateUserName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bak1 != null">
+                bak1=#{record.bak1,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bak2 != null">
+                bak2=#{record.bak2,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bak3 != null">
+                bak3=#{record.bak3,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bak4 != null">
+                bak4=#{record.bak4,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bak5 != null">
+                bak5=#{record.bak5,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bak6 != null">
+                bak6=#{record.bak6,jdbcType=VARCHAR},
+            </if>
+            <if test="record.userId != null">
+                user_id=#{record.userId,jdbcType=VARCHAR}
+            </if>
+
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update zjk_base_info
+        set
+        id=#{record.id,jdbcType=VARCHAR},
+        name=#{record.name,jdbcType=VARCHAR},
+        email=#{record.email,jdbcType=VARCHAR},
+        company_name=#{record.companyName,jdbcType=VARCHAR},
+        company=#{record.company,jdbcType=VARCHAR},
+        user_desc=#{record.userDesc,jdbcType=VARCHAR},
+        zhicheng=#{record.zhicheng,jdbcType=VARCHAR},
+        age_between=#{record.ageBetween,jdbcType=VARCHAR},
+        age=#{record.age,jdbcType=VARCHAR},
+        csrq=#{record.csrq,jdbcType=VARCHAR},
+        hyly_name=#{record.hylyName,jdbcType=VARCHAR},
+        hyly=#{record.hyly,jdbcType=VARCHAR},
+        dz=#{record.dz,jdbcType=VARCHAR},
+        byyx=#{record.byyx,jdbcType=VARCHAR},
+        sheng=#{record.sheng,jdbcType=VARCHAR},
+        shi=#{record.shi,jdbcType=VARCHAR},
+        xian=#{record.xian,jdbcType=VARCHAR},
+        je_count=#{record.jeCount,jdbcType=VARCHAR},
+        zl_count=#{record.zlCount,jdbcType=VARCHAR},
+        xm_count=#{record.xmCount,jdbcType=VARCHAR},
+        jg_count=#{record.jgCount,jdbcType=VARCHAR},
+        cg_count=#{record.cgCount,jdbcType=VARCHAR},
+        jwd=#{record.jwd,jdbcType=VARCHAR},
+        DATA_CODE=#{record.dataCode,jdbcType=VARCHAR},
+        SYS_FLAG=#{record.sysFlag,jdbcType=VARCHAR},
+        DATA_ORDER=#{record.dataOrder,jdbcType=VARCHAR},
+        STATUS=#{record.status,jdbcType=VARCHAR},
+        DEL_FLAG=#{record.delFlag,jdbcType=VARCHAR},
+        CREATE_DATE=#{record.createDate,jdbcType=VARCHAR},
+        CREATE_USER=#{record.createUser,jdbcType=VARCHAR},
+        CREATE_USER_NAME=#{record.createUserName,jdbcType=VARCHAR},
+        UPDATE_DATE=#{record.updateDate,jdbcType=VARCHAR},
+        UPDATE_USER=#{record.updateUser,jdbcType=VARCHAR},
+        UPDATE_USER_NAME=#{record.updateUserName,jdbcType=VARCHAR},
+        bak1=#{record.bak1,jdbcType=VARCHAR},
+        bak2=#{record.bak2,jdbcType=VARCHAR},
+        bak3=#{record.bak3,jdbcType=VARCHAR},
+        bak4=#{record.bak4,jdbcType=VARCHAR},
+        bak5=#{record.bak5,jdbcType=VARCHAR},
+        bak6=#{record.bak6,jdbcType=VARCHAR},
+        user_id=#{record.userId,jdbcType=VARCHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.expert.ZjkBaseInfo">
+        update zjk_base_info
+        <set>
+
+            <if test="name != null">
+                name=#{name ,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                email=#{email ,jdbcType=VARCHAR},
+            </if>
+            <if test="companyName != null">
+                company_name=#{companyName ,jdbcType=VARCHAR},
+            </if>
+            <if test="company != null">
+                company=#{company ,jdbcType=VARCHAR},
+            </if>
+            <if test="userDesc != null">
+                user_desc=#{userDesc ,jdbcType=VARCHAR},
+            </if>
+            <if test="zhicheng != null">
+                zhicheng=#{zhicheng ,jdbcType=VARCHAR},
+            </if>
+            <if test="ageBetween != null">
+                age_between=#{ageBetween ,jdbcType=VARCHAR},
+            </if>
+            <if test="age != null">
+                age=#{age ,jdbcType=VARCHAR},
+            </if>
+            <if test="csrq != null">
+                csrq=#{csrq ,jdbcType=VARCHAR},
+            </if>
+            <if test="hylyName != null">
+                hyly_name=#{hylyName ,jdbcType=VARCHAR},
+            </if>
+            <if test="hyly != null">
+                hyly=#{hyly ,jdbcType=VARCHAR},
+            </if>
+            <if test="dz != null">
+                dz=#{dz ,jdbcType=VARCHAR},
+            </if>
+            <if test="byyx != null">
+                byyx=#{byyx ,jdbcType=VARCHAR},
+            </if>
+            <if test="sheng != null">
+                sheng=#{sheng ,jdbcType=VARCHAR},
+            </if>
+            <if test="shi != null">
+                shi=#{shi ,jdbcType=VARCHAR},
+            </if>
+            <if test="xian != null">
+                xian=#{xian ,jdbcType=VARCHAR},
+            </if>
+            <if test="jeCount != null">
+                je_count=#{jeCount ,jdbcType=VARCHAR},
+            </if>
+            <if test="zlCount != null">
+                zl_count=#{zlCount ,jdbcType=VARCHAR},
+            </if>
+            <if test="xmCount != null">
+                xm_count=#{xmCount ,jdbcType=VARCHAR},
+            </if>
+            <if test="jgCount != null">
+                jg_count=#{jgCount ,jdbcType=VARCHAR},
+            </if>
+            <if test="cgCount != null">
+                cg_count=#{cgCount ,jdbcType=VARCHAR},
+            </if>
+            <if test="jwd != null">
+                jwd=#{jwd ,jdbcType=VARCHAR},
+            </if>
+            <if test="dataCode != null">
+                DATA_CODE=#{dataCode ,jdbcType=VARCHAR},
+            </if>
+            <if test="sysFlag != null">
+                SYS_FLAG=#{sysFlag ,jdbcType=VARCHAR},
+            </if>
+            <if test="dataOrder != null">
+                DATA_ORDER=#{dataOrder ,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                STATUS=#{status ,jdbcType=VARCHAR},
+            </if>
+            <if test="delFlag != null">
+                DEL_FLAG=#{delFlag ,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                CREATE_DATE=#{createDate ,jdbcType=VARCHAR},
+            </if>
+            <if test="createUser != null">
+                CREATE_USER=#{createUser ,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserName != null">
+                CREATE_USER_NAME=#{createUserName ,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null">
+                UPDATE_DATE=#{updateDate ,jdbcType=VARCHAR},
+            </if>
+            <if test="updateUser != null">
+                UPDATE_USER=#{updateUser ,jdbcType=VARCHAR},
+            </if>
+            <if test="updateUserName != null">
+                UPDATE_USER_NAME=#{updateUserName ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak1 != null">
+                bak1=#{bak1 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak2 != null">
+                bak2=#{bak2 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak3 != null">
+                bak3=#{bak3 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak4 != null">
+                bak4=#{bak4 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak5 != null">
+                bak5=#{bak5 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak6 != null">
+                bak6=#{bak6 ,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null">
+                user_id=#{userId ,jdbcType=VARCHAR}
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.pcitc.base.expert.ZjkBaseInfo">
+        update zjk_base_info
+        set
+            name=#{name,jdbcType=VARCHAR},
+            email=#{email,jdbcType=VARCHAR},
+            company_name=#{companyName,jdbcType=VARCHAR},
+            company=#{company,jdbcType=VARCHAR},
+            user_desc=#{userDesc,jdbcType=VARCHAR},
+            zhicheng=#{zhicheng,jdbcType=VARCHAR},
+            age_between=#{ageBetween,jdbcType=VARCHAR},
+            age=#{age,jdbcType=VARCHAR},
+            csrq=#{csrq,jdbcType=VARCHAR},
+            hyly_name=#{hylyName,jdbcType=VARCHAR},
+            hyly=#{hyly,jdbcType=VARCHAR},
+            dz=#{dz,jdbcType=VARCHAR},
+            byyx=#{byyx,jdbcType=VARCHAR},
+            sheng=#{sheng,jdbcType=VARCHAR},
+            shi=#{shi,jdbcType=VARCHAR},
+            xian=#{xian,jdbcType=VARCHAR},
+            je_count=#{jeCount,jdbcType=VARCHAR},
+            zl_count=#{zlCount,jdbcType=VARCHAR},
+            xm_count=#{xmCount,jdbcType=VARCHAR},
+            jg_count=#{jgCount,jdbcType=VARCHAR},
+            cg_count=#{cgCount,jdbcType=VARCHAR},
+            jwd=#{jwd,jdbcType=VARCHAR},
+            DATA_CODE=#{dataCode,jdbcType=VARCHAR},
+            SYS_FLAG=#{sysFlag,jdbcType=VARCHAR},
+            DATA_ORDER=#{dataOrder,jdbcType=VARCHAR},
+            STATUS=#{status,jdbcType=VARCHAR},
+            DEL_FLAG=#{delFlag,jdbcType=VARCHAR},
+            CREATE_DATE=#{createDate,jdbcType=VARCHAR},
+            CREATE_USER=#{createUser,jdbcType=VARCHAR},
+            CREATE_USER_NAME=#{createUserName,jdbcType=VARCHAR},
+            UPDATE_DATE=#{updateDate,jdbcType=VARCHAR},
+            UPDATE_USER=#{updateUser,jdbcType=VARCHAR},
+            UPDATE_USER_NAME=#{updateUserName,jdbcType=VARCHAR},
+            bak1=#{bak1,jdbcType=VARCHAR},
+            bak2=#{bak2,jdbcType=VARCHAR},
+            bak3=#{bak3,jdbcType=VARCHAR},
+            bak4=#{bak4,jdbcType=VARCHAR},
+            bak5=#{bak5,jdbcType=VARCHAR},
+            bak6=#{bak6,jdbcType=VARCHAR},
+            user_id=#{userId,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
+    <!-- 分页查询 -->
+    <select id="findSysFileKindByPage" parameterType="com.pcitc.base.expert.ZjkBaseInfo" resultMap="BaseResultMap">
+
+        select
+        id,
+        name,
+        email,
+        company_name,
+        company,
+        user_desc,
+        zhicheng,
+        age_between,
+        age,
+        csrq,
+        hyly_name,
+        hyly,
+        dz,
+        byyx,
+        sheng,
+        shi,
+        xian,
+        je_count,
+        zl_count,
+        xm_count,
+        jg_count,
+        cg_count,
+        jwd,
+        DATA_CODE,
+        SYS_FLAG,
+        DATA_ORDER,
+        STATUS,
+        DEL_FLAG,
+        CREATE_DATE,
+        CREATE_USER,
+        CREATE_USER_NAME,
+        UPDATE_DATE,
+        UPDATE_USER,
+        UPDATE_USER_NAME,
+        bak1,
+        bak2,
+        bak3,
+        bak4,
+        bak5,
+        bak6,
+        user_id
+        from zjk_base_info
+        where 1=1
+        <if test="id!=null and id!=''.toString()">
+            and id like '%${id}%'
+        </if>
+        <if test="name!=null and name!=''.toString()">
+            and name like '%${name}%'
+        </if>
+        <if test="email!=null and email!=''.toString()">
+            and email like '%${email}%'
+        </if>
+        <if test="companyName!=null and companyName!=''.toString()">
+            and company_name like '%${companyName}%'
+        </if>
+        <if test="company!=null and company!=''.toString()">
+            and company like '%${company}%'
+        </if>
+        <if test="userDesc!=null and userDesc!=''.toString()">
+            and user_desc like '%${userDesc}%'
+        </if>
+        <if test="zhicheng!=null and zhicheng!=''.toString()">
+            and zhicheng like '%${zhicheng}%'
+        </if>
+        <if test="ageBetween!=null and ageBetween!=''.toString()">
+            and age_between like '%${ageBetween}%'
+        </if>
+        <if test="age!=null and age!=''.toString()">
+            and age like '%${age}%'
+        </if>
+        <if test="csrq!=null and csrq!=''.toString()">
+            and csrq like '%${csrq}%'
+        </if>
+        <if test="hylyName!=null and hylyName!=''.toString()">
+            and hyly_name like '%${hylyName}%'
+        </if>
+        <if test="hyly!=null and hyly!=''.toString()">
+            and hyly like '%${hyly}%'
+        </if>
+        <if test="dz!=null and dz!=''.toString()">
+            and dz like '%${dz}%'
+        </if>
+        <if test="byyx!=null and byyx!=''.toString()">
+            and byyx like '%${byyx}%'
+        </if>
+        <if test="sheng!=null and sheng!=''.toString()">
+            and sheng like '%${sheng}%'
+        </if>
+        <if test="shi!=null and shi!=''.toString()">
+            and shi like '%${shi}%'
+        </if>
+        <if test="xian!=null and xian!=''.toString()">
+            and xian like '%${xian}%'
+        </if>
+        <if test="jeCount!=null and jeCount!=''.toString()">
+            and je_count like '%${jeCount}%'
+        </if>
+        <if test="zlCount!=null and zlCount!=''.toString()">
+            and zl_count like '%${zlCount}%'
+        </if>
+        <if test="xmCount!=null and xmCount!=''.toString()">
+            and xm_count like '%${xmCount}%'
+        </if>
+        <if test="jgCount!=null and jgCount!=''.toString()">
+            and jg_count like '%${jgCount}%'
+        </if>
+        <if test="cgCount!=null and cgCount!=''.toString()">
+            and cg_count like '%${cgCount}%'
+        </if>
+        <if test="jwd!=null and jwd!=''.toString()">
+            and jwd like '%${jwd}%'
+        </if>
+        <if test="dataCode!=null and dataCode!=''.toString()">
+            and DATA_CODE like '%${dataCode}%'
+        </if>
+        <if test="sysFlag!=null and sysFlag!=''.toString()">
+            and SYS_FLAG like '%${sysFlag}%'
+        </if>
+        <if test="dataOrder!=null and dataOrder!=''.toString()">
+            and DATA_ORDER like '%${dataOrder}%'
+        </if>
+        <if test="status!=null and status!=''.toString()">
+            and STATUS like '%${status}%'
+        </if>
+        <if test="delFlag!=null and delFlag!=''.toString()">
+            and DEL_FLAG like '%${delFlag}%'
+        </if>
+        <if test="createDate!=null and createDate!=''.toString()">
+            and CREATE_DATE like '%${createDate}%'
+        </if>
+        <if test="createUser!=null and createUser!=''.toString()">
+            and CREATE_USER like '%${createUser}%'
+        </if>
+        <if test="createUserName!=null and createUserName!=''.toString()">
+            and CREATE_USER_NAME like '%${createUserName}%'
+        </if>
+        <if test="updateDate!=null and updateDate!=''.toString()">
+            and UPDATE_DATE like '%${updateDate}%'
+        </if>
+        <if test="updateUser!=null and updateUser!=''.toString()">
+            and UPDATE_USER like '%${updateUser}%'
+        </if>
+        <if test="updateUserName!=null and updateUserName!=''.toString()">
+            and UPDATE_USER_NAME like '%${updateUserName}%'
+        </if>
+        <if test="bak1!=null and bak1!=''.toString()">
+            and bak1 like '%${bak1}%'
+        </if>
+        <if test="bak2!=null and bak2!=''.toString()">
+            and bak2 like '%${bak2}%'
+        </if>
+        <if test="bak3!=null and bak3!=''.toString()">
+            and bak3 like '%${bak3}%'
+        </if>
+        <if test="bak4!=null and bak4!=''.toString()">
+            and bak4 like '%${bak4}%'
+        </if>
+        <if test="bak5!=null and bak5!=''.toString()">
+            and bak5 like '%${bak5}%'
+        </if>
+        <if test="bak6!=null and bak6!=''.toString()">
+            and bak6 like '%${bak6}%'
+        </if>
+        <if test="userId!=null and userId!=''.toString()">
+            and user_id like '%${userId}%'
+        </if>
+
+        <if test="iSortCol!=null and iSortCol!=''.toString()">
+            order by ${iSortCol} ${sSortDir_0}
+        </if>
+    </select>
+    <!-- 查询列表 -->
+    <select id="findZjkBaseInfoList" parameterType="com.pcitc.base.expert.ZjkBaseInfo" resultMap="BaseResultMap">
+        select
+        id,
+        name,
+        email,
+        company_name,
+        company,
+        user_desc,
+        zhicheng,
+        age_between,
+        age,
+        csrq,
+        hyly_name,
+        hyly,
+        dz,
+        byyx,
+        sheng,
+        shi,
+        xian,
+        je_count,
+        zl_count,
+        xm_count,
+        jg_count,
+        cg_count,
+        jwd,
+        DATA_CODE,
+        SYS_FLAG,
+        DATA_ORDER,
+        STATUS,
+        DEL_FLAG,
+        CREATE_DATE,
+        CREATE_USER,
+        CREATE_USER_NAME,
+        UPDATE_DATE,
+        UPDATE_USER,
+        UPDATE_USER_NAME,
+        bak1,
+        bak2,
+        bak3,
+        bak4,
+        bak5,
+        bak6,
+        user_id
+        from zjk_base_info
+        where 1=1
+        <if test="id!=null">
+            and id = #{id,jdbcType=VARCHAR}
+        </if>
+        <if test="name!=null">
+            and name = #{name,jdbcType=VARCHAR}
+        </if>
+        <if test="email!=null">
+            and email = #{email,jdbcType=VARCHAR}
+        </if>
+        <if test="companyName!=null">
+            and company_name = #{companyName,jdbcType=VARCHAR}
+        </if>
+        <if test="company!=null">
+            and company = #{company,jdbcType=VARCHAR}
+        </if>
+        <if test="userDesc!=null">
+            and user_desc = #{userDesc,jdbcType=VARCHAR}
+        </if>
+        <if test="zhicheng!=null">
+            and zhicheng = #{zhicheng,jdbcType=VARCHAR}
+        </if>
+        <if test="ageBetween!=null">
+            and age_between = #{ageBetween,jdbcType=VARCHAR}
+        </if>
+        <if test="age!=null">
+            and age = #{age,jdbcType=VARCHAR}
+        </if>
+        <if test="csrq!=null">
+            and csrq = #{csrq,jdbcType=VARCHAR}
+        </if>
+        <if test="hylyName!=null">
+            and hyly_name = #{hylyName,jdbcType=VARCHAR}
+        </if>
+        <if test="hyly!=null">
+            and hyly = #{hyly,jdbcType=VARCHAR}
+        </if>
+        <if test="dz!=null">
+            and dz = #{dz,jdbcType=VARCHAR}
+        </if>
+        <if test="byyx!=null">
+            and byyx = #{byyx,jdbcType=VARCHAR}
+        </if>
+        <if test="sheng!=null">
+            and sheng = #{sheng,jdbcType=VARCHAR}
+        </if>
+        <if test="shi!=null">
+            and shi = #{shi,jdbcType=VARCHAR}
+        </if>
+        <if test="xian!=null">
+            and xian = #{xian,jdbcType=VARCHAR}
+        </if>
+        <if test="jeCount!=null">
+            and je_count = #{jeCount,jdbcType=VARCHAR}
+        </if>
+        <if test="zlCount!=null">
+            and zl_count = #{zlCount,jdbcType=VARCHAR}
+        </if>
+        <if test="xmCount!=null">
+            and xm_count = #{xmCount,jdbcType=VARCHAR}
+        </if>
+        <if test="jgCount!=null">
+            and jg_count = #{jgCount,jdbcType=VARCHAR}
+        </if>
+        <if test="cgCount!=null">
+            and cg_count = #{cgCount,jdbcType=VARCHAR}
+        </if>
+        <if test="jwd!=null">
+            and jwd = #{jwd,jdbcType=VARCHAR}
+        </if>
+        <if test="dataCode!=null">
+            and DATA_CODE = #{dataCode,jdbcType=VARCHAR}
+        </if>
+        <if test="sysFlag!=null">
+            and SYS_FLAG = #{sysFlag,jdbcType=VARCHAR}
+        </if>
+        <if test="dataOrder!=null">
+            and DATA_ORDER = #{dataOrder,jdbcType=VARCHAR}
+        </if>
+        <if test="status!=null">
+            and STATUS = #{status,jdbcType=VARCHAR}
+        </if>
+        <if test="delFlag!=null">
+            and DEL_FLAG = #{delFlag,jdbcType=VARCHAR}
+        </if>
+        <if test="createDate!=null">
+            and CREATE_DATE = #{createDate,jdbcType=VARCHAR}
+        </if>
+        <if test="createUser!=null">
+            and CREATE_USER = #{createUser,jdbcType=VARCHAR}
+        </if>
+        <if test="createUserName!=null">
+            and CREATE_USER_NAME = #{createUserName,jdbcType=VARCHAR}
+        </if>
+        <if test="updateDate!=null">
+            and UPDATE_DATE = #{updateDate,jdbcType=VARCHAR}
+        </if>
+        <if test="updateUser!=null">
+            and UPDATE_USER = #{updateUser,jdbcType=VARCHAR}
+        </if>
+        <if test="updateUserName!=null">
+            and UPDATE_USER_NAME = #{updateUserName,jdbcType=VARCHAR}
+        </if>
+        <if test="bak1!=null">
+            and bak1 = #{bak1,jdbcType=VARCHAR}
+        </if>
+        <if test="bak2!=null">
+            and bak2 = #{bak2,jdbcType=VARCHAR}
+        </if>
+        <if test="bak3!=null">
+            and bak3 = #{bak3,jdbcType=VARCHAR}
+        </if>
+        <if test="bak4!=null">
+            and bak4 = #{bak4,jdbcType=VARCHAR}
+        </if>
+        <if test="bak5!=null">
+            and bak5 = #{bak5,jdbcType=VARCHAR}
+        </if>
+        <if test="bak6!=null">
+            and bak6 = #{bak6,jdbcType=VARCHAR}
+        </if>
+        <if test="userId!=null">
+            and user_id = #{userId,jdbcType=VARCHAR}
+        </if>
+
+        <if test="iSortCol!=null and iSortCol!=''.toString()">
+            order by ${iSortCol} ${sSortDir_0}
+        </if>
+    </select>
+</mapper>

@@ -117,6 +117,10 @@
 		            	var ns = resultTypeMap[res.data[i].resultType];
 		            	$("tr[data-index='"+i+"'] td[data-field='resultType'] div").html(ns);
 		            }); */
+	            },
+	            onDblClickRow:function(index, o){
+	            	console.log(index);
+	            	console.log(o);
 	            }
 	        });
 	        renderfunc = function removeHeaderCheckbox(){

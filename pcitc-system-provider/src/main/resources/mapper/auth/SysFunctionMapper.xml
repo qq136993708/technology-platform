@@ -393,10 +393,10 @@
   
   <!-- 根据id获取菜单详情 -->
   <select id="getFunctionById" resultType="com.pcitc.base.system.SysFunction">
-   select f1.id, f1.name,f1.parent_id as parentId,f1.url,f1.weight,f1.type,f1.code,f1.remark,f1.status,f1.parent_code as parentCode,f1.level_code as levelCode,
-	f1.icon,f2.name as parentName
-	from sys_function f1 
-	left join sys_function f2 on f1.parent_id = f2.id
+   select f1.id, f1.name,f1.parent_id as parentId,f1.url,f1.weight,f1.type,f1.code,f1.remark,f1.status,
+   		f1.parent_code as parentCode,f1.level_code as levelCode,
+		f1.icon,f1.image,f2.name as parentName
+	from sys_function f1 left join sys_function f2 on f1.parent_id = f2.id
    where f1.id = #{id}
   </select>
   
@@ -464,7 +464,7 @@
   
    <!-- 查询菜单列表 -->
   <select id="selectFunctionByLevelCode" resultType="com.pcitc.base.common.TreeNode"> 
-   select id,name,parent_id as pId,url,weight,type ,code,remark,status,icon
+   select id,name,parent_id as pId,url,url as treeUrl,weight,type ,code,remark,status,icon
    from sys_function where level_code &lt;=3 
    <if test="id != null and id!=''.toString()">
    and id != #{id}

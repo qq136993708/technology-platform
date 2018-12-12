@@ -18,7 +18,7 @@ var mutl_bar_investment = {
         tooltip: {
             trigger: 'axis',
             axisPointer: {
-                type: 'cross',
+                type: 'shadow',
                 crossStyle: {
                     color: '#999'
                 }
@@ -53,7 +53,7 @@ var mutl_bar_investment = {
                 data: [],
                 axisLabel:{
                     interval:0,
-                    rotate:30,
+                    //rotate:30,
                    }
 
             }
@@ -137,7 +137,15 @@ function barLineAjax_investment(url,  echartsobj, options)
 		        	                   name: seriesList[i].name,
 		        	                   data: seriesList[i].data,
 		        	                  // stack:seriesList[i].stack,
-		        	                   barWidth:20
+		        	                   barWidth:20,
+                                       label: {
+                                           show: true, //开启显示
+                                           position: 'top', //在上方显示
+                                           textStyle: { //数值样式
+                                               color: 'black',
+                                               fontSize: 14
+                                           }
+                                       }
 		        	                   ,yAxisIndex: seriesList[i].yAxisIndex
 		        	                 });
 	        	           	
@@ -194,9 +202,10 @@ function load_mutl_bar_investment(url,id,title,subtext,yAxis)
     }
 
     mutl_bar_investment.grid={
+    	top:'10%',
         left: '0%',
         right: '0.5%',
-        bottom: '0',
+        bottom: '10%',
         containLabel: true
     }
 
@@ -233,7 +242,7 @@ var option_dt_investment = {
 	    tooltip : {
 	        trigger: 'axis',
 	        axisPointer: {
-	            type: 'cross',
+	            type: 'shadow',
 	            label: {
 	                backgroundColor: '#6a7985'
 	            }
@@ -379,7 +388,7 @@ function get_mony_line_option_ajax_dt_investment(url,echartsobj, options)
   });
    
 } 
-function load_mony_line_dt_investment(url,id,title,subtext,yAxis)
+function 	load_mony_line_dt_investment(url,id,title,subtext,yAxis)
 {
 	var echartsobj = echarts.init(document.getElementById(id));
 	option_dt_investment.title.text=title;
@@ -389,10 +398,10 @@ function load_mony_line_dt_investment(url,id,title,subtext,yAxis)
 		option_dt_investment.yAxis=yAxis;
 	}
 	option_dt_investment.grid={
-	        top:"10%",
+	        top:"12%",
 	        left: '0%',
-	        right: '3%',
-	        bottom: '10%',
+	        right: '5%',
+	        bottom: '12%',
 	        containLabel: true
 	    }
 	echartsobj.setOption(option_dt_investment);

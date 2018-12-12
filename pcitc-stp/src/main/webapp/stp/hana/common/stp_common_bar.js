@@ -25,7 +25,7 @@ var option_bar_single = {
 	    tooltip: {
             trigger: 'axis',
             axisPointer: {
-                type: 'cross',
+                type: 'shadow',
                 crossStyle: {
                     color: '#999'
                 }
@@ -37,7 +37,7 @@ var option_bar_single = {
 	        data: [],
 	        axisLabel:{
                 interval:0,//0：全部显示，1：间隔为1显示对应类目，2：依次类推，（简单试一下就明白了，这样说是不是有点抽象）
-                rotate:-30,//倾斜显示，-：顺时针旋转，+或不写：逆时针旋转
+                //rotate:-30,//倾斜显示，-：顺时针旋转，+或不写：逆时针旋转
                }
 	    },
 	    yAxis: {
@@ -48,12 +48,21 @@ var option_bar_single = {
 
 
 
-
-
-
 function barAjax_single(url,  echartsobj, options) 
 {
-	
+	barAjax_single(url,  echartsobj, options,null);
+}
+
+/**
+ * 支持回调函数的数据请求
+ * @param url
+ * @param echartsobj
+ * @param options
+ * @param callback
+ * @returns
+ */
+function barAjax_single(url,  echartsobj, options,callback) 
+{
 	 var xAxisData=[];  
      var series=[];  
      $.ajax({
@@ -67,29 +76,41 @@ function barAjax_single(url,  echartsobj, options)
 	      {    
 		          if(data.success==true ||data.success=='true')
 		          {
-		        		    echartsobj.hideLoading();
-		        	        var chartList=data.data.xAxisDataList;
-		                    for(var i=0;i<chartList.length;i++)
-		                    {
-		                        xAxisData.push(chartList[i]);
-		                    }
-		                    
-		                    var seriesDataList=data.data.seriesDataList;
-		                    for(var i=0;i<seriesDataList.length;i++)
-		                    {
-		                    	series.push(seriesDataList[i]);
-		                    }
-		                    //加载数据图表
-		                    echartsobj.setOption({
-		                    	xAxis: {
-		                            data: xAxisData
-		                        },
-		                        series: [{
-		                            data: series,
-		                            type: 'bar',
-		                            barWidth:20
-		                        }]
-		                    });
+	        		    echartsobj.hideLoading();
+	        	        var chartList=data.data.xAxisDataList;
+	                    for(var i=0;i<chartList.length;i++)
+	                    {
+	                        xAxisData.push(chartList[i]);
+	                    }
+	                    
+	                    var seriesDataList=data.data.seriesDataList;
+	                    for(var i=0;i<seriesDataList.length;i++)
+	                    {
+	                    	series.push(seriesDataList[i]);
+	                    }
+	                    //加载数据图表
+	                    echartsobj.setOption({
+	                    	xAxis: {
+	                            data: xAxisData
+	                        },
+	                        series: [{
+	                            data: series,
+	                            type: 'bar',
+	                            barWidth:20,
+                                label: {
+                                    show: true, //开启显示
+                                    position: 'top', //在上方显示
+                                    textStyle: { //数值样式
+                                        color: 'black',
+                                        fontSize: 14
+                                    }
+                                }
+	                        }]
+	                    });
+	                    if(callback)
+	                    {
+	                    	callback(data);
+	                    }
 		        	        
 		          } 
 			   },
@@ -110,6 +131,20 @@ function barAjax_single(url,  echartsobj, options)
 //单图
 function load_single_bar(url,id,title,subtext,yAxis)
 {
+	load_single_bar(url,id,title,subtext,yAxis,null);
+}
+/**
+ * 支持回调函数的bar
+ * @param url
+ * @param id
+ * @param title
+ * @param subtext
+ * @param yAxis
+ * @param callback
+ * @returns
+ */
+function load_single_bar(url,id,title,subtext,yAxis,callback)
+{
 	var echartsobj = echarts.init(document.getElementById(id));
 	option_bar_single.title.text=title;
 	option_bar_single.title.subtext=subtext;
@@ -118,14 +153,18 @@ function load_single_bar(url,id,title,subtext,yAxis)
 	{
 		option_bar_single.yAxis=yAxis;
 	}
-	
-	
+    option_bar_single.grid={
+        top:"12%",
+        left: '0%',
+        right: '0%',
+        bottom: '5%',
+        containLabel: true
+    };
 	echartsobj.setOption(option_bar_single);
 	echartsobj.showLoading();
-	barAjax_single(url, echartsobj, option_bar_single);
+	barAjax_single(url, echartsobj, option_bar_single,callback);
 	return echartsobj;
 }
-
 
 //假的
 function load_single_bar_tt(id,title,xAxisData,seriesdata,subtext)
@@ -691,7 +730,7 @@ var mutl_bar_stack_02 = {
 
 
 //barLineAjax返回DATA,指标在下方
-function load_mutl_bar_stack_02(url,id,title,subtext,yAxis)
+function load_mutl_bar_stack_02(url,id,title,subtext,yAxis,callback)
 {
  var echartsobj = echarts.init(document.getElementById(id));
 
@@ -712,10 +751,95 @@ function load_mutl_bar_stack_02(url,id,title,subtext,yAxis)
  }
  echartsobj.setOption(mutl_bar_stack_02);
  echartsobj.showLoading();
- var data=barLineAjax_Stack_02(url,echartsobj, mutl_bar_stack_02);
- return data;
+ echartsobj=barLineAjax_Stack_callback(url,echartsobj, mutl_bar_stack_02,callback);
+ return echartsobj;
  
 }
+
+
+
+
+function barLineAjax_Stack_callback(url,  echartsobj, options,callback) 
+{
+	
+   var legends=[];     //指标
+   var xAxisData=[];   //X轴名称
+   var seriesData=[];  //X轴数据
+   var dataresutl;
+   $.ajax({
+	     type:"GET",
+	     url: url,
+	     dataType:"json",
+	     timeout : 11000,
+	     cache: false,
+	     contentType: "application/x-www-form-urlencoded; charset=utf-8",
+         success:function(data,status)
+         {    
+	          if(data.success==true ||data.success=='true')
+	          {
+	        		       echartsobj.hideLoading();
+	        		       dataresutl=data.data;
+	        	           var legendDataList=data.data.legendDataList;
+	        	           //挨个取出类别并填入类别数组
+	        	           for(var i=0;i<legendDataList.length;i++)
+	        	           {
+	        	               legends.push(legendDataList[i]);
+	        	           }
+	        	           var xAxisDataList=data.data.xAxisDataList;
+	        	           for(var i=0;i<xAxisDataList.length;i++)
+	        	           {
+
+	        	           	xAxisData.push(xAxisDataList[i]);
+	        	           }
+	        	           var seriesList=data.data.seriesList;
+	        	           for(var i=0;i<seriesList.length;i++)
+	        	           {
+	        	           	seriesData.push({
+	        	           		   type: seriesList[i].type,
+	        	                   name: seriesList[i].name,
+	        	                   data: seriesList[i].data,
+	        	                   stack:seriesList[i].stack,
+                                   itemStyle : { normal: {label : {show: true,color:"#000"}}},
+	        	                   barWidth:20
+	        	                   ,yAxisIndex: seriesList[i].yAxisIndex
+	        	               });
+	        	           }
+	        	           //加载数据图表
+	        	           echartsobj.setOption({
+	        	               legend: {
+	        	                   data: legends
+	        	               },
+	        	               xAxis: [
+	        	                   {
+	        	                       type: 'category',
+	        	                       data: xAxisData
+	        	                   }
+	        	               ],
+	        	               series: seriesData
+	        	           });
+	        	           
+	        	           if(callback)
+		                    {
+		                    	callback(data);
+		                    }
+	        	       
+	          } else
+	          {
+	          }
+		   },
+		   error:function()
+		   {
+		   },
+		   complete: function (XMLHttpRequest, status) {
+	            if(status == 'timeout'){
+	            }
+	        }
+		  
+  });
+   return dataresutl;
+   
+} 
+
 function load_mutl_bar_stack_two(url,id,title,subtext,yAxis)
 {
     var echartsobj = echarts.init(document.getElementById(id));
@@ -741,6 +865,7 @@ function load_mutl_bar_stack_two(url,id,title,subtext,yAxis)
     return data;
 
 }
+
 function barLineAjax_Stack_02(url,  echartsobj, options) 
 {
 	

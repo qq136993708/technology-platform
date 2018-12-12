@@ -53,8 +53,16 @@ public class H1AMKYSY100117 implements Serializable{
     private String g0NCGZYZJE;
     private String g0LJZJJE;
     
-
+    private String g0SBSL;
     
+    
+    
+	public String getG0SBSL() {
+		return g0SBSL;
+	}
+	public void setG0SBSL(String g0sbsl) {
+		g0SBSL = g0sbsl;
+	}
 	public String getG0NCGZYZJE() {
 		return g0NCGZYZJE;
 	}
