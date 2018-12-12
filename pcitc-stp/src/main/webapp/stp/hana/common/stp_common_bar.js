@@ -932,7 +932,7 @@ function barLineAjax_Stack_02(url,  echartsobj, options)
 	        	       
 	          } else
 	          {
-	        	 layer.alert(failMsg);
+	        	 layer.alert("");
 	          }
 		   },
 		   error:function()
@@ -1112,7 +1112,7 @@ function barLineAjax(url,  echartsobj, options)
 	        	       
 	          } else
 	          {
-	        	 layer.alert(failMsg);
+	        	 layer.alert("");
 	          }
 		   },
 		   error:function()
@@ -1193,7 +1193,7 @@ function barLineAjax_03(url,  echartsobj, options)
 	        	       
 	          } else
 	          {
-	        	 layer.alert(failMsg);
+	        	 layer.alert("");
 	          }
 		   },
 		   error:function()

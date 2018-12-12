@@ -68,6 +68,7 @@ public class DirectController {
 	//支出
 	private static final String pay_01 =      "http://pcitc-zuul/hana-proxy/hana/home/getPayByCountBar";
 	private static final String pay_02 =   "http://pcitc-zuul/hana-proxy/hana/home/getPayByCountCricle";
+	private static final String pay_03 = "http://pcitc-zuul/hana-proxy/hana/home/getPayByDistributeBar";
 	
 	@Autowired
 	private HttpHeaders httpHeaders;
@@ -1359,7 +1360,91 @@ public class DirectController {
 							return resultObj.toString();
 						}
 						
-						
+						@RequestMapping(method = RequestMethod.GET, value = "/pay_03")
+						@ResponseBody
+						public String pay_03(HttpServletRequest request, HttpServletResponse response) throws Exception {
+                             String resault="";
+                             PageResult pageResult = new PageResult();
+							Result result = new Result();
+							ChartBarLineResultData barLine=new ChartBarLineResultData();
+							String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+							String companyCode = CommonUtil.getParameter(request, "companyCode", "");
+							String type = CommonUtil.getParameter(request, "type", "");
+							
+							Map<String, Object> paramsMap = new HashMap<String, Object>();
+							paramsMap.put("month", month);
+							paramsMap.put("companyCode", companyCode);
+							JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+							HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+							if (!companyCode.equals(""))
+							{
+								ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(pay_03, HttpMethod.POST, entity, JSONArray.class);
+								int statusCode = responseEntity.getStatusCodeValue();
+								if (statusCode == 200) 
+								{
+									JSONArray jSONArray = responseEntity.getBody();
+									System.out.println(">>>>>>>>>>>>>>pay_03 jSONArray-> " + jSONArray.toString());
+									
+									List<H1AMKYSY100109> list = JSONObject.parseArray(jSONArray.toJSONString(), H1AMKYSY100109.class);
+									if(type.equals("1"))
+									{
+										List<String>  xAxisDataList=HanaUtil.getduplicatexAxisByList(list,"g0GSJC");
+						         		barLine.setxAxisDataList(xAxisDataList);
+						         	
+										List<String> legendDataList = new ArrayList<String>();
+										//legendDataList.add("总计");
+										legendDataList.add("费用性");
+										legendDataList.add("资本性");
+										
+										
+										barLine.setxAxisDataList(xAxisDataList);
+										barLine.setLegendDataList(legendDataList);
+										// X轴数据
+										List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
+										//ChartBarLineSeries s1 = HanaUtil.getChartBarLineSeries_PAY02_bar(list, "K0BNYSJHJE");
+										ChartBarLineSeries s2 = HanaUtil.getChartBarLineSeries_PAY02_bar(list, "K0BNFYJE");
+										ChartBarLineSeries s3 = HanaUtil.getChartBarLineSeries_PAY02_bar(list, "K0BNZBJE");
+										
+										//seriesList.add(s1);
+										seriesList.add(s2);
+										seriesList.add(s3);
+										barLine.setSeriesList(seriesList);
+						         		result.setSuccess(true);
+										result.setData(barLine);
+									}else
+									{
+										pageResult.setData(list);
+										pageResult.setCode(0);
+										pageResult.setCount(Long.valueOf(list.size()));
+										pageResult.setLimit(1000);
+										pageResult.setPage(1l);
+									}
+									
+									
+								}
+								
+							} else
+							{
+								result.setSuccess(false);
+								result.setMessage("参数为空");
+							}
+							
+							if(type.equals("1"))
+							{
+								JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
+								resault=resultObj.toString();
+								System.out.println(">>>>>>>>>>>>>>>pay_03 " + resultObj.toString());
+							}
+							else
+							{
+								JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
+								resault=resultObj.toString();
+								System.out.println(">>>>>>>>>>>>>>>pay_03 " + resultObj.toString());
+							}
+							
+							return resault;
+						}
+			
 		  
 		  
 		 
