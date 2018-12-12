@@ -530,7 +530,16 @@ function set_multi_graph_statistics(data,id)
         $("#direct_contract_chart_02").html(count_2);
         $("#direct_contract_chart_03").html(percentNum(count_1,count_1+count_2));
 	}
-	
+	if(id=='pay_chart1')
+	{
+		var xkCount_1=getDataCountForName(data,'新开课题');
+    	var jzCount_2=getDataCountForName(data,'转结课题');
+        var allCount_3=xkCount_1+jzCount_2;
+        
+        $("#pay_chart1_01").html(allCount_3);
+        $("#pay_chart1_02").html(xkCount_1);
+        $("#pay_chart1_03").html(jzCount_2);
+	}
 	
 	/**=============================直属研究院 end===========================*/
 	
