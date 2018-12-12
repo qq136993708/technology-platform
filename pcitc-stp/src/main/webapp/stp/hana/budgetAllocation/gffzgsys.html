@@ -12,146 +12,19 @@
 
 	<div class="content-body container">
 		<div style="text-align: center; font-weight: bold; margin: 10px;">表5  2018年分子公司科技经费预算表</div>
-		 <table class="layui-table">
-				
+			<table id="myTable" class="layui-table" lay-data="{url:'/ba/gffzgsys_data',height:'auto'}">
 				<thead>
-					<tr>
-						<td>序号</td>
-						<td>处别</td>
-						<td>经费预算</td>
-						<td>结转经费</td>
-						<td>可新签</td>
-					</tr>
-					</thead>
-					<tbody>
-					<tr>
-						<td>1</td>
-						<td>油田处</td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>2</td>
-						<td>炼油处</td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>3</td>
-						<td>化工处</td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>4</td>
-						<td>材料处</td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>5</td>
-						<td>装储处</td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>6</td>
-						<td>综合计划处</td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>7</td>
-						<td>技术监督处</td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>8</td>
-						<td>三剂处</td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>9</td>
-						<td>知识产权处</td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>10</td>
-						<td>物装部</td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>11</td>
-						<td>信息部</td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>12</td>
-						<td>工程部</td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>13</td>
-						<td>炼油部（军工）</td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>14</td>
-						<td>炼油部（B2、C类）</td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>15</td>
-						<td>化工部（B2、C类）</td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>16</td>
-						<td>专项</td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>17</td>
-						<td>机动</td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td></td>
-						<td>合计</td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-				</tbody>
-			</table>
+			    <tr>
+			      <th lay-data="{type:'numbers'}">序号</th>
+			      <th lay-data="{field:'cb', width:'23%'}">处别</th>
+			      
+			      <th lay-data="{field:'jfys',align:'right', width:'25%'}">经费预算</th>
+			      <th lay-data="{field:'jzjf',align:'right', width:'25%'}">结转经费</th>
+			      <th lay-data="{field:'kxq',align:'right', width:'25%'}">可新签</th>
+			    </tr>
+			  
+			</thead>
+		</table>
 	</div>
 
 	<!--表格数据操作js-->
