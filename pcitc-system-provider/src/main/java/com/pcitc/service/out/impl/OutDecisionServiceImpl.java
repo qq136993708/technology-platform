@@ -161,4 +161,11 @@ public class OutDecisionServiceImpl implements OutDecisionService {
 		return outDecisionMapper.selectJFYSForTech(map);
 	}
 	
+	/**
+     * 知识产权分析，近三年国内外专利的情况
+     */
+	public List getPatentInfoByHomeAbroad(Map map) {
+		return outDecisionMapper.getPatentInfoByHomeAbroad(map);
+	}
+	
 }

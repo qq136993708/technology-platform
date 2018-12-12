@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -91,10 +90,6 @@ public class SysFunctionController extends BaseController {
 	@RequestMapping(value = "/saveFunction")
 	@ResponseBody
 	public int saveFunction(@RequestBody SysFunctionVo function) {
-
-		// 如果不加这行代码 报：Could not write request: no suitable HttpMessageConverter
-		// found for request type:[SysFunction]
-		// this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 		HttpEntity<SysFunctionVo> entity = new HttpEntity<SysFunctionVo>(function, this.httpHeaders);
 		ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(SAVE_FUNCTION, HttpMethod.POST, entity, Integer.class);
 		int result = responseEntity.getBody();
@@ -265,6 +260,26 @@ public class SysFunctionController extends BaseController {
 		model.addAttribute("levelCode", levelCode);
 		model.addAttribute("parentName", parentName);
 		return "base/system/function_info";
+	}
+	
+	@RequestMapping(value = "/function_edit_desk")
+	public String iniFunctionEditDesk(String id, String parentId, String parentCode, String levelCode, String parentName, Model model) {
+		if (StringUtils.isEmpty(id))
+			id = "";
+		if (StringUtils.isEmpty(parentId))
+			parentId = "";
+		if (StringUtils.isEmpty(parentCode))
+			parentCode = "";
+		if (StringUtils.isEmpty(levelCode))
+			levelCode = "";
+		if (StringUtils.isEmpty(parentName))
+			parentName = "";
+		model.addAttribute("id", id);
+		model.addAttribute("parentId", parentId);
+		model.addAttribute("parentCode", parentCode);
+		model.addAttribute("levelCode", levelCode);
+		model.addAttribute("parentName", parentName);
+		return "base/system/function_edit_desk";
 	}
 
 	@RequestMapping(value = "/select-tree-function")
