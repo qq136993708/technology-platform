@@ -4,8 +4,6 @@ import java.io.Serializable;
 
 public class H1AMKYSY100117 implements Serializable{
 	
-	
-	
 	private static final long serialVersionUID = 1L;
     private String g0CALP;//公司代码
     private String g0GSDM;
@@ -33,30 +31,50 @@ public class H1AMKYSY100117 implements Serializable{
     private String k0LJZJJE;
     private String k0BNZCJE;
     private String g0BNGZYZJE;
-    
-    
-    
     private String g0SBSL1;
     private String g0SBSL2;
     private String g0SBSL3;
     private String g0SBSL4;
-    
-    
     private String g0SBFL;
-    
     private String g0GSSP;
     private String g0GSJCL;
-    
     private String g0PRCTRT;
-    
-    
     private String g0NCGZYZJE;
     private String g0LJZJJE;
-    
     private String g0SBSL;
+    private String bl;
     
     
     
+    private String id;
+    private String pId;
+    private String g0NDSYN;
+    
+    
+	public String getG0NDSYN() {
+		return g0NDSYN;
+	}
+	public void setG0NDSYN(String g0ndsyn) {
+		g0NDSYN = g0ndsyn;
+	}
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	public String getpId() {
+		return pId;
+	}
+	public void setpId(String pId) {
+		this.pId = pId;
+	}
+	public String getBl() {
+		return bl;
+	}
+	public void setBl(String bl) {
+		this.bl = bl;
+	}
 	public String getG0SBSL() {
 		return g0SBSL;
 	}
