@@ -41,7 +41,7 @@ public class BudgetAllocationController {
 	private static final String gfgszbkjjfysjyg_data = "http://pcitc-zuul/system-proxy/out-decision-provider/ysfp/jfysfx/stock-company-money";
 	//private static final String cbmkjjfyszb_data = "http://pcitc-zuul/system-proxy/out-decision-provider/ysfp/jfysfx/department-budget";
 	private static final String cbmkjjfyszb_data = "http://pcitc-zuul/system-proxy/out-decision-provider/budget-proposals/department/stp-money";
-	
+	private static final String jtjfysmxb_data = "http://pcitc-zuul/system-proxy/out-decision-provider/budget-proposals/group/stp-money";
 	
 	
 	
@@ -123,31 +123,16 @@ public class BudgetAllocationController {
 	  public String gfgszbkjjfysjyg_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request,
 			HttpServletResponse response) {
 
-			PageResult pageResult = new PageResult();
 			String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
 			String companyCode = CommonUtil.getParameter(request, "companyCode", "");
 			Map<String, Object> paramsMap = new HashMap<String, Object>();
 			paramsMap.put("month", month);
 			paramsMap.put("companyCode", companyCode);
-			JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
-			HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
-	
-			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(gfgszbkjjfysjyg_data, HttpMethod.POST, entity,
-					JSONArray.class);
-			int statusCode = responseEntity.getStatusCodeValue();
-			if (statusCode == 200) {
-	
-				JSONArray jSONArray = responseEntity.getBody();
-				pageResult.setData(jSONArray);
-				pageResult.setCode(0);
-				pageResult.setCount(Long.valueOf(jSONArray.size()));
-				pageResult.setLimit(1000);
-				pageResult.setPage(1l);
-	
-			}
-			JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
-			System.out.println(">>>>>>>>>>>>>股份公司总部科技经费预算gfgszbkjjfysjyg_data:" + result.toString());
-			return result.toString();
+			
+			String result = getTableDataNotPagin(paramsMap,gfgszbkjjfysjyg_data);
+			System.out.println(">>>>>>>>>>>>>股份公司总部科技经费预算gfgszbkjjfysjyg_data:" + result);
+			return result;
+			
 	  }
 
 	  //处部门科技经费预算总表
@@ -191,12 +176,28 @@ public class BudgetAllocationController {
 			return result.toString();
 	  }
 
-	//集团经费预算明细表
+	  //集团经费预算明细表
 	  @RequestMapping(method = RequestMethod.GET, value = "/ba/jtjfysmxb")
 	  public String jtjfysmxb(HttpServletRequest request) throws Exception
 	  {
 		    
 	        return "stp/hana/budgetAllocation/jtjfysmxb";
+	  }
+	  //集团经费预算明细表
+	  @RequestMapping(method = RequestMethod.GET, value = "/ba/jtjfysmxb_data")
+	  @ResponseBody
+	  public String jtjfysmxbData(HttpServletRequest request) throws Exception
+	  {
+		    
+		 String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+		String companyCode = CommonUtil.getParameter(request, "companyCode", "");
+		Map<String, Object> paramsMap = new HashMap<String, Object>();
+		paramsMap.put("month", month);
+		paramsMap.put("companyCode", companyCode);
+		
+		String result = getTableDataNotPagin(paramsMap,jtjfysmxb_data);
+		System.out.println(">>>>>>>>>>>>>集团经费预算明细表jtjfysmxb_data:" + result);
+		return result;
 	  }
 	//资产经费预算明细表
 	  @RequestMapping(method = RequestMethod.GET, value = "/ba/zcjfysmxb")
@@ -227,19 +228,44 @@ public class BudgetAllocationController {
 		    
 	        return "stp/hana/budgetAllocation/gffzgsys";
 	  }
-	//股份炼油事业部、化工事业部B2、C类科技经费预算表
+	  //股份炼油事业部、化工事业部B2、C类科技经费预算表
 	  @RequestMapping(method = RequestMethod.GET, value = "/ba/gflysybhgsybB2Clkjjfysb")
 	  public String gflysybhgsybB2Clkjjfysb(HttpServletRequest request) throws Exception
 	  {
 		    
 	        return "stp/hana/budgetAllocation/gflysybhgsybB2Clkjjfysb";
 	  }
-	//股份公司科技专项经费预算表
+	  //股份公司科技专项经费预算表
 	  @RequestMapping(method = RequestMethod.GET, value = "/ba/gfgskjzxjfysb")
 	  public String gfgskjzxjfysb(HttpServletRequest request) throws Exception
 	  {
 		    
 	        return "stp/hana/budgetAllocation/gfgskjzxjfysb";
+	  }
+	  
+	  // 获取二维表格数据（不分页）
+	  private String getTableDataNotPagin(Map<String, Object> paramsMap,String data_url) 
+	  {
+		  	PageResult pageResult = new PageResult();
+			JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+			HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+			
+			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(data_url, HttpMethod.POST, entity, JSONArray.class);
+			int statusCode = responseEntity.getStatusCodeValue();
+			if (statusCode == 200)
+			{
+				
+				JSONArray	jSONArray = responseEntity.getBody();
+				pageResult.setData(jSONArray);
+				pageResult.setCode(0);
+				pageResult.setCount(Long.valueOf(jSONArray.size()));
+				pageResult.setLimit(1000);
+				pageResult.setPage(1l);
+				
+			}
+			JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
+			System.out.println("load data>>>>>>>>>>>>>:" + result.toString());
+			return result.toString();
 	  }
 	
 }
