@@ -168,11 +168,4 @@ public class OutDecisionServiceImpl implements OutDecisionService {
 		return outDecisionMapper.getPatentInfoByHomeAbroad(map);
 	}
 	
-	/**
-     * 辅助决策中心，各类型专利及涉外专利的情况
-     */
-	public List getPatentInfoByTypeAndAbroad(Map map) {
-		return outDecisionMapper.getPatentInfoByTypeAndAbroad(map);
-	}
-	
 }

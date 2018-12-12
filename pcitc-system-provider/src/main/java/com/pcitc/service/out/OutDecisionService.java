@@ -102,11 +102,6 @@ public interface OutDecisionService {
      */
 	public List getPatentInfoByHomeAbroad(Map map);
 	
-	/**
-     * 辅助决策中心，各类型专利及涉外专利的情况
-     */
-	public List getPatentInfoByTypeAndAbroad(Map map);
-	
 	
 	
 	

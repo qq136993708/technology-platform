@@ -204,7 +204,7 @@ var mutl_bar_down = {
 
 
 // barLineAjax返回DATA,指标在下方
-function load_mutl_bar_down(url,id,title,subtext,yAxis,rotate)
+function load_mutl_bar_down(url,id,title,subtext,yAxis)
 {
 	var echartsobj = echarts.init(document.getElementById(id));
 	if(title!=null && title!='')
@@ -222,23 +222,6 @@ function load_mutl_bar_down(url,id,title,subtext,yAxis,rotate)
         bottom: '10%',
         containLabel: true
     }
-    if(rotate==undefined){
-        mutl_bar_down.xAxis=[{
-         	type: 'category',
-            axisLabel:{
-                interval:0,//0：全部显示，1：间隔为1显示对应类目，2：依次类推，（简单试一下就明白了，这样说是不是有点抽象）
-                rotate:0,//倾斜显示，-：顺时针旋转，+或不写：逆时针旋转
-            }
-		}]
-	}else {
-        mutl_bar_down.xAxis=[{
-         	type: 'category',
-            axisLabel:{
-                interval:0,//0：全部显示，1：间隔为1显示对应类目，2：依次类推，（简单试一下就明白了，这样说是不是有点抽象）
-                rotate:30,//倾斜显示，-：顺时针旋转，+或不写：逆时针旋转
-            }
-        }]
-	}
 	if(yAxis!=null && yAxis!='')
 	{
 		mutl_bar_down.yAxis=yAxis;
@@ -252,7 +235,7 @@ function load_mutl_bar_down(url,id,title,subtext,yAxis,rotate)
 }
 
 
-function barLineAjax_down(url,  echartsobj, options,id)
+function barLineAjax_down(url,  echartsobj, options,id) 
 {
 	
    var legends=[];     
@@ -547,16 +530,7 @@ function set_multi_graph_statistics(data,id)
         $("#direct_contract_chart_02").html(count_2);
         $("#direct_contract_chart_03").html(percentNum(count_1,count_1+count_2));
 	}
-	if(id=='pay_chart1')
-	{
-		var xkCount_1=getDataCountForName(data,'新开课题');
-    	var jzCount_2=getDataCountForName(data,'转结课题');
-        var allCount_3=xkCount_1+jzCount_2;
-        
-        $("#pay_chart1_01").html(allCount_3);
-        $("#pay_chart1_02").html(xkCount_1);
-        $("#pay_chart1_03").html(jzCount_2);
-	}
+	
 	
 	/**=============================直属研究院 end===========================*/
 	
