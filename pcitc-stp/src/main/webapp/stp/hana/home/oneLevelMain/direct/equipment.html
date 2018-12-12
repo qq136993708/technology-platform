@@ -213,7 +213,7 @@ function initEchart()
 	
     $(".layui-time").html($("#year").val());
 	var chart1_url="/direct/equipment_01?type=1&nd="+nd+"&v_date="+v_date;
-	var echart1=load_mutl_bar_down(chart1_url,"equipment_chart1","","",yAxis);
+	var echart1=load_mutl_bar_down_color(chart1_url,"equipment_chart1","","",yAxis);
 	echart1.on('click', function (params) {
 		var xName=params.name;
 		var legentName=params.seriesName;
@@ -239,7 +239,7 @@ function initEchart()
 	
 	
 	var chart5_url="/direct/equipment_03?companyCode="+companyCode+"&v_date="+v_date+"&month="+month;
-	var echart5=load_mutl_bar_stack_02(chart5_url,"equipment_chart5","","",yAxis);
+	var echart5=load_mutl_bar_stack_02(chart5_url,"equipment_chart5","","",yAxis,1);
 	echart5.on('click', function (params) {
 		var xName=params.name;
 		var legentName=params.seriesName;
