@@ -123,7 +123,10 @@ function pieAjax(url, echartsobj, options)
 		        	        var chartList=data.data.dataList;
 		                    for(var i=0;i<chartList.length;i++)
 		                    {
-		                        names.push(chartList[i].name);
+                                names.push(chartList[i].name);
+                                if(chartList[i].value==0||chartList[i].value=="0"){
+                                    selecteds[chartList[i].name]=false;
+                                }
 		                    }
 		                    for(var i=0;i<chartList.length;i++)
 		                    {
