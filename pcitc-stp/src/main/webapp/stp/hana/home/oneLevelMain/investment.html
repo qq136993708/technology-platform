@@ -197,7 +197,7 @@ function initEchart()
 	
 
 	var chart1_url="/investment/get_investment_unit_type?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
-	var echart=load_mony_line_dt_investment(chart1_url,"chart1","","",yAxis);
+	var echart=load_mony_line_dt_investment(chart1_url,"chart1","","",yAxis,1);
 	echart.on('click', function (params) {
 		//params.name：X轴的值 
 		//params.data：Y轴的值 
