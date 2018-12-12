@@ -43,8 +43,10 @@ public class BudgetAllocationController {
 	private static final String jtjfysmxb_data = "http://pcitc-zuul/system-proxy/out-decision-provider/budget-proposals/group/stp-money";
 	private static final String zcjfysmxb_data = "http://pcitc-zuul/system-proxy/out-decision-provider/budget-proposals/asset/stp-money";
 	private static final String gfzsyjfysmxb_data = "http://pcitc-zuul/system-proxy/out-decision-provider/budget-proposals/institute/stp-money";
-	
-	
+	private static final String gfxtwjjtjfysmxb_data = "http://pcitc-zuul/system-proxy/out-decision-provider/budget-proposals/other/stp-money";
+	private static final String gffzgsys_data = "http://pcitc-zuul/system-proxy/out-decision-provider/budget-proposals/company/stp-money";
+	private static final String gflysybhgsybB2Clkjjfysb_data = "http://pcitc-zuul/system-proxy/out-decision-provider/budget-proposals/b2c/stp-money";
+	private static final String gfgskjzxjfysb_data = "http://pcitc-zuul/system-proxy/out-decision-provider/budget-proposals/tech/stp-money";
 	
 	
 	  
@@ -235,7 +237,7 @@ public class BudgetAllocationController {
 	  public String gfzsyjfysmxbData(HttpServletRequest request) throws Exception
 	  {
 		    
-		  String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+		  	String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
 			String companyCode = CommonUtil.getParameter(request, "companyCode", "");
 			Map<String, Object> paramsMap = new HashMap<String, Object>();
 			paramsMap.put("month", month);
@@ -245,19 +247,51 @@ public class BudgetAllocationController {
 			System.out.println(">>>>>>>>>>>>>股份（直属院）经费预算明细表gfzsyjfysmxb_data:" + result);
 			return result;
 	  }
-	//股份（系统外及集团）经费预算明细表
+	  //股份（系统外及集团）经费预算明细表
 	  @RequestMapping(method = RequestMethod.GET, value = "/ba/gfxtwjjtjfysmxb")
 	  public String gfxtwjjtjfysmxb(HttpServletRequest request) throws Exception
 	  {
 		    
 	        return "stp/hana/budgetAllocation/gfxtwjjtjfysmxb";
 	  }
-	//股份（分子公司）预算
+	  //股份（系统外及集团）经费预算明细表
+	  @RequestMapping(method = RequestMethod.GET, value = "/ba/gfxtwjjtjfysmxb_data")
+	  @ResponseBody
+	  public String gfxtwjjtjfysmxbData(HttpServletRequest request) throws Exception
+	  {
+		    
+		  String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+			String companyCode = CommonUtil.getParameter(request, "companyCode", "");
+			Map<String, Object> paramsMap = new HashMap<String, Object>();
+			paramsMap.put("month", month);
+			paramsMap.put("companyCode", companyCode);
+			
+			String result = getTableDataNotPagin(paramsMap,gfxtwjjtjfysmxb_data);
+			System.out.println(">>>>>>>>>>>>>股份（直属院）经费预算明细表gfzsyjfysmxb_data:" + result);
+			return result;
+	  }
+	  //股份（分子公司）预算
 	  @RequestMapping(method = RequestMethod.GET, value = "/ba/gffzgsys")
 	  public String gffzgsys(HttpServletRequest request) throws Exception
 	  {
 		    
 	        return "stp/hana/budgetAllocation/gffzgsys";
+	  }
+	  //股份（分子公司）预算
+	  @RequestMapping(method = RequestMethod.GET, value = "/ba/gffzgsys_data")
+	  @ResponseBody
+	  public String gffzgsysData(HttpServletRequest request) throws Exception
+	  {
+		    
+		  	String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+			String companyCode = CommonUtil.getParameter(request, "companyCode", "");
+			Map<String, Object> paramsMap = new HashMap<String, Object>();
+			paramsMap.put("month", month);
+			paramsMap.put("companyCode", companyCode);
+			
+			String result = getTableDataNotPagin(paramsMap,gffzgsys_data);
+			System.out.println(">>>>>>>>>>>>>股份（分子公司）预算gffzgsys_data:" + result);
+			return result;
 	  }
 	  //股份炼油事业部、化工事业部B2、C类科技经费预算表
 	  @RequestMapping(method = RequestMethod.GET, value = "/ba/gflysybhgsybB2Clkjjfysb")
@@ -266,6 +300,22 @@ public class BudgetAllocationController {
 		    
 	        return "stp/hana/budgetAllocation/gflysybhgsybB2Clkjjfysb";
 	  }
+	  //股份炼油事业部、化工事业部B2、C类科技经费预算表
+	  @RequestMapping(method = RequestMethod.GET, value = "/ba/gflysybhgsybB2Clkjjfysb_data")
+	  @ResponseBody
+	  public String gflysybhgsybB2ClkjjfysbData(HttpServletRequest request) throws Exception
+	  {
+		    
+			String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+			String companyCode = CommonUtil.getParameter(request, "companyCode", "");
+			Map<String, Object> paramsMap = new HashMap<String, Object>();
+			paramsMap.put("month", month);
+			paramsMap.put("companyCode", companyCode);
+			
+			String result = getTableDataNotPagin(paramsMap,gflysybhgsybB2Clkjjfysb_data);
+			System.out.println(">>>>>>>>>>>>>股份炼油事业部、化工事业部B2、C类科技经费预算表gflysybhgsybB2Clkjjfysb_data:" + result);
+			return result;
+	  }
 	  //股份公司科技专项经费预算表
 	  @RequestMapping(method = RequestMethod.GET, value = "/ba/gfgskjzxjfysb")
 	  public String gfgskjzxjfysb(HttpServletRequest request) throws Exception
@@ -273,7 +323,21 @@ public class BudgetAllocationController {
 		    
 	        return "stp/hana/budgetAllocation/gfgskjzxjfysb";
 	  }
-	  
+	  //股份公司科技专项经费预算表
+	  @RequestMapping(method = RequestMethod.GET, value = "/ba/gfgskjzxjfysb_data")
+	  @ResponseBody
+	  public String gfgskjzxjfysbData(HttpServletRequest request) throws Exception
+	  {
+		  String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+			String companyCode = CommonUtil.getParameter(request, "companyCode", "");
+			Map<String, Object> paramsMap = new HashMap<String, Object>();
+			paramsMap.put("month", month);
+			paramsMap.put("companyCode", companyCode);
+			
+			String result = getTableDataNotPagin(paramsMap,gfgskjzxjfysb_data);
+			System.out.println(">>>>>>>>>>>>>股份公司科技专项经费预算表gfgskjzxjfysb_data:" + result);
+			return result;
+	  }
 	  // 获取二维表格数据（不分页）
 	  private String getTableDataNotPagin(Map<String, Object> paramsMap,String data_url) 
 	  {
