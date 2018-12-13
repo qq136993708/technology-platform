@@ -903,7 +903,7 @@
 			SUBSTR(define3 FROM 2) define3 
 		from out_appraisal
 		where 
-			define3 is not NULL and nd='2018'
+			define3 is not NULL and nd='${nd}'
 		group by define3
 	</select>
 </mapper>
