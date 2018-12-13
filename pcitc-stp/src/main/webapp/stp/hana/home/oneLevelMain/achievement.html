@@ -86,7 +86,7 @@
             <div class="layui-col-md12">
                <div class="layui-card">
                     <div class="layui-card-header">
-                        <span class="layui-time"></span>所获奖励
+                        <span>&nbsp;</span>所获奖励
                     </div>
                     <div class="layui-row-main" style="display: flex;">
                     	<div class="duty_gd">
@@ -267,7 +267,13 @@ initEchart();
 function search_Event()
 {
 	initEchart();
-	renderTable();
+	$.each($("li"),function(index,dt){
+		if($(this).html() == $("#year").val())
+		{
+			$(this).addClass("layui-this").siblings().removeClass("layui-this");
+		}
+	});
+	renderTable($(".layui-this").html());
 }
 //集团重大项目
 function renderTable()
