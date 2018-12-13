@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/adminStp.css"  media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/mainStp.css"   media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css"    media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/second.css"    media="all">
+    <style>
+        .btn_details{background:url(/layuiadmin/layui/images/operation_03.png) 2px 4px #fff no-repeat;}
+        .btnMyBgImg:hover{background-size:inherit;background-position: 2px;}
+        .searchBox{background:none;}
+    </style>
+</head>
+<body>
+<div class="layui-fluid">
+    <div class="">
+        <div class="searchBox">
+            <input type="hidden" name="YJY_CODE_ALL"  value="${YJY_CODE_ALL}"   id="YJY_CODE_ALL">
+            <input type="hidden" name="YJY_CODE_NOT_YINGKE"  value="${YJY_CODE_NOT_YINGKE}"   id="YJY_CODE_NOT_YINGKE">
+            <input type="hidden" name="companyCode"  value="${companyCode}"   id="companyCode">
+            
+            
+            
+            <label class="dateInput">
+                <span>月份</span>
+                <input type="text" name="month" placeholder="请选择月份" title="月份" value="${month}"  autocomplete="off" class="form-control" id="month">
+            </label>
+           
+            <!--按钮组-->
+            <div class="btnGroup">
+                <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()">查询</button>
+            </div>
+            <div class="btnGroup" style="float:right">
+                <button id="knowledge_table" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue  btnMyBgImg btn_details"
+                >详情</button>
+            </div>
+        </div>
+        
+         <div class="ayui-row layui-col-space15">
+            <div class="layui-col-md6">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        ${year}科研支出分析
+                        <div class="layui-tool">
+                            <button type="button" class="btn btn-tool collapse"></button>
+                            <button type="button" class="btn btn-tool remove"></button>
+                        </div>
+                    </div>
+                    <div class="layui-card-body btn-function">
+
+                        <div class="text-total">
+                            <span>总计:<span class="text-total-blue"    id="pay_chart1_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>新开课题:<span class="text-total-blue" id="pay_chart1_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>结转课题:<span class="text-total-blue" id="pay_chart1_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                        </div>
+                        <div  style="height:270px;width: 100%;" id="pay_chart1"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-col-md6">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        ${year}科研支出分析
+                        <div class="layui-tool">
+                            <button type="button" class="btn btn-tool collapse"></button>
+                            <button type="button" class="btn btn-tool remove"></button>
+                        </div>
+                    </div>
+                    <div class="layui-card-body btn-function" >
+                    <table id="processdef-table" class="layui-hide" lay-filter="processdef-table"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        <div class="ayui-row layui-col-space15">
+            <div class="layui-col-md6">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        ${year}直属研究院科研支出分析
+                        <div class="layui-tool">
+                            <button type="button" class="btn btn-tool collapse"></button>
+                            <button type="button" class="btn btn-tool remove"></button>
+                        </div>
+                    </div>
+                    <div class="layui-card-body btn-function">
+
+                        <div class="text-total">
+                            <span>总计:<span class="text-total-blue"    id="pay_chart3_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>资本性:<span class="text-total-blue" id="pay_chart3_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>费用性:<span class="text-total-blue" id="pay_chart3_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                        </div>
+                        <div  style="height:270px;width: 100%;" id="pay_chart3"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-col-md6">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        ${year}直属研究院科研经费使用比率
+                        <div class="layui-tool">
+                            <button type="button" class="btn btn-tool collapse"></button>
+                            <button type="button" class="btn btn-tool remove"></button>
+                        </div>
+                    </div>
+                    <div class="layui-card-body btn-function" >
+                    <table id="processdef-tabled" class="layui-hide" lay-filter="processdef-table"></table>
+                    </div>
+                </div>
+            </div>
+         </div>
+         
+        
+    </div>
+</div>
+
+<script src="/common/js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+<script src="/common/js/layer-v3.1.1/layer.js"></script>
+<script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
+<script type="text/javascript" src="/plugins/echarts/walden.js"></script>	
+<script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
+<script type="text/javascript" src="/stp/hana/home/direct_depart/direct_common.js"></script>
+
+<script type="text/javascript">
+
+var editObj=null,ptable=null,treeGridCom=null,tableId='processdef-table',layer=null;
+var ptable02=null,treeGridCom=null,tableId02='processdef_table_02';
+var table;
+layui.config({
+    base: '/layuiadmin/lib/extend/'
+}).extend({
+    treeGridCom:'treeGridCom'
+}).use(['jquery','form','table', 'laydate','treeGridCom','layer'], function(){
+    var $=layui.jquery;
+    treeGridCom = layui.treeGridCom;//很重要
+    layer=layui.layer;
+    table = layui.table;
+    laydate = layui.laydate;
+    form = layui.form;
+    var monthValY=$("#month").val().substring(4,0);
+    var monthValM=$("#month").val().substring(4);
+    $(".layui-time").html(monthValY+"年"+monthValM+"月");
+    form.render(null, 'component-form-group');
+    laydate.render({
+       elem: '#month'
+       ,format: 'yyyyMM'
+    });
+    
+    $(".layui-time").html($("#month").val());
+    
+    renderTable();
+    renderTable2();
+    $("#knowledge_table").click(function () {
+        parent.layui.index.openTabsPage("/home_pay/home_pay_table", "经费支出明细");
+    });
+  
+});
+
+
+function initEchart()
+{
+	var companyCode=$("#companyCode").val();
+	var v_date=(new Date()).getTime();
+	var month=$('#month').val();
+	var ndstr=getNowFormatDate($('#month').val());
+	
+	var YJY_CODE_ALL=$('#YJY_CODE_ALL').val();
+	var YJY_CODE_NOT_YINGKE=$('#YJY_CODE_NOT_YINGKE').val();
+    var monthValY=$("#month").val().substring(4,0);
+    var monthValM=$("#month").val().substring(4);
+    $(".layui-time").html(monthValY+"年"+monthValM+"月");
+	var yAxis= [
+        {
+            type: 'value',
+            name: '金额(万元)',
+            min: 0,
+            max:'dataMax',
+            position: 'left',
+            axisLabel: {
+                formatter: '{value}'
+                
+                	
+            }
+        }
+    ];
+	
+	
+	
+
+	var chart1_url="/direct/pay_01?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
+	var echart1=load_mutl_bar_down(chart1_url,"pay_chart1","","",yAxis)
+	echart1.on('click', function (params) {
+		var xName=params.name;
+		var legentName=params.seriesName;
+		window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
+    });
+	
+	var chart7_url="/direct/pay_03?type=1&month="+month+"&v_date="+v_date+"&companyCode="+YJY_CODE_NOT_YINGKE;
+	var echart7=load_mutl_bar_down(chart7_url,"pay_chart3","","",yAxis);
+	echart7.on('click', function (params) {
+		var xName=params.name;
+		var legentName=params.seriesName;
+		window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
+    });
+	
+	
+	
+}
+
+//初始化图形
+initEchart();
+//查询
+function search_Event()
+{
+	initEchart();
+	renderTable();
+	renderTable2();
+}
+
+
+
+function renderTable()
+{  
+	
+	 var month=$("#month").val();
+	 var companyCode=$("#companyCode").val();
+	 
+	  ptable=treeGridCom.render({
+	        id:tableId
+	        ,elem: '#'+tableId
+	        ,url:'/direct/pay_02?month='+month+"&companyCode="+companyCode
+	       // ,cellMinWidth: 200
+	        ,idField:'id'//必須字段
+	        ,treeId:'id'//树形id字段名称
+	        ,treeUpId:'pId'//树形父id字段名称
+	        ,treeShowName:'name'//以树形式显示的字段
+	       // ,heightRemove:[".dHead",10]//不计算的高度,表格设定的是固定高度，此项不生效
+	        ,height:280
+	        ,isFilter:false
+	        ,iconOpen:false//是否显示图标【默认显示】
+	        ,isOpenDefault:true//节点默认是展开还是折叠【默认展开】
+	        ,loading: false
+	        ,method:'get'
+	        ,cols: [[
+	            {field:'name',  title: '名称',edit:'text'},
+	            {field:'extend01',  title:'科研支出(万元)',  style:'cursor: pointer;',align: 'left',  templet: '<div>{{ layui.laytpl.milliFormat(d.extend01,2) }}</div>'}
+	            //{field:'extend02',  title:'结转课题(万元)',  style:'cursor: pointer;',align: 'left', width: '35%', templet: '<div>{{ layui.laytpl.milliFormat(d.extend02,2) }}</div>'}
+	            
+	        ]]
+	        ,isPage:false
+	        ,parseData:function (res) {
+	            return res;
+	        }
+	        ,onClickRow:function (index, o) {
+	            console.log(index,o,"单击！");
+	        }
+	        ,onDblClickRow:function (index, o) {
+	            console.log(index,o,"双击");
+	        }
+	    });
+}
+function renderTable2()
+{
+
+    var month=$("#month").val();
+    var companyCode=$("#companyCode").val();
+    var tableOne=table.render({
+        elem: '#processdef-tabled',
+        url:'/direct/pay_03?month='+month+"&type=2&companyCode="+companyCode,
+        method:"GET",
+        where: {param: {"month":$("#month").val()}},
+        limit: 15,
+        id: 'processdef-tabled',
+        cols: [[
+            {field:'g0GSJC',        title: '研究院',    edit:'text', width: '40%'},
+            {field:'jhqds',          title:'计划签订数',style:'cursor: pointer;',align: 'left', width: '20%'},
+            {field:'sjqds',          title:'实际签订数',style:'cursor: pointer;',align: 'left', width: '20%'},
+            {field:'htqdl',          title:'签订率(%)',   style:'cursor: pointer;',align: 'left', width: '20%',templet:function(d){return d.htqdl+"%"}
+            }
+        ]],
+        done: function (res, curr, count) {
+            layer.closeAll('loading');
+            // 点击行联动选择框--单选
+            $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+                var index=parseInt($(this).index()+1);
+                $('tr').removeClass('layui-table-click');
+                $(this).addClass('layui-table-click');
+                $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                selectRowData=res.data[index-1];
+            });
+        }
+    });
+
+}
+        
+</script>
+</body>
+</html>

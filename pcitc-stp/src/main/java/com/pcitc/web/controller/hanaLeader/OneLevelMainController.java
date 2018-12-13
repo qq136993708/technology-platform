@@ -34,8 +34,11 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.PageResult;
 import com.pcitc.base.common.Result;
+import com.pcitc.base.common.TreeNode2;
 import com.pcitc.base.hana.report.AchievementsAnalysis;
 import com.pcitc.base.hana.report.Contract;
+import com.pcitc.base.hana.report.H1AMKYSY100109;
+import com.pcitc.base.hana.report.H1AMKYSY100117;
 import com.pcitc.base.hana.report.Knowledge;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CommonUtil;
@@ -71,7 +74,9 @@ public class OneLevelMainController {
 		private static final String achievement_04 = "http://pcitc-zuul/system-proxy/out-provider/reward-list";
 		
 		
-		
+		//科研装备
+		private static final String equipment_01 = "http://pcitc-zuul/hana-proxy/hana/home/get_home_KYZB";
+		private static final String equipment_02 = "http://pcitc-zuul/hana-proxy/hana/home/get_home_KYZB_02";
 		
 		
 		
@@ -975,4 +980,140 @@ public class OneLevelMainController {
 			}
 		/**=========================================科技成果 end===============================*/
 		
+			
+			
+			/**=========================================科研装备===============================*/
+			
+			@RequestMapping(method = RequestMethod.GET, value = "/equipment")
+			  public String equipment(HttpServletRequest request) throws Exception
+			  {
+				    
+					
+				    SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
+				    HanaUtil.setSearchParaForUser(userInfo,restTemplate,httpHeaders,request);
+				    String unitCode=userInfo.getUnitCode();
+				    request.setAttribute("unitCode", unitCode);
+				    
+				    String year= HanaUtil.getCurrrentYear();
+				    request.setAttribute("year", year);
+			        return "stp/hana/home/oneLevelMain/equipment";
+			  }
+				
+			
+		    @RequestMapping(method = RequestMethod.GET, value = "/equipment_01")
+			@ResponseBody
+			public String equipment_01(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		    	Result result = new Result();
+				String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+				String companyCode = CommonUtil.getParameter(request, "companyCode", "");
+				Map<String, Object> paramsMap = new HashMap<String, Object>();
+				paramsMap.put("month", month);
+				paramsMap.put("companyCode", companyCode);
+				JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+				HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+				ChartSingleLineResultData chartSingleLineResultData = new ChartSingleLineResultData();
+					ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(equipment_01, HttpMethod.POST, entity, JSONArray.class);
+					int statusCode = responseEntity.getStatusCodeValue();
+					if (statusCode == 200) 
+					{
+						JSONArray jSONArray = responseEntity.getBody();
+						System.out.println(">>>>>>>>>>>>>>>equipment_01 jSONArray" + jSONArray.toString());
+						List<H1AMKYSY100117> list = JSONObject.parseArray(jSONArray.toJSONString(), H1AMKYSY100117.class);
+						List<String> xAxisDataList = new ArrayList<String>();
+						List<Object> seriesDataList = new ArrayList<Object>();
+						for (int i = 0; i < list.size(); i++) 
+						{
+							H1AMKYSY100117 contract = (H1AMKYSY100117) list.get(i);
+							String G0GSJC = contract.getG0GSJC();
+							Object G0SBSL =contract.getG0SBSL();
+							seriesDataList.add(Double.valueOf(String.valueOf(G0SBSL)).intValue());
+							xAxisDataList.add(G0GSJC);
+							
+						}
+						chartSingleLineResultData.setxAxisDataList(xAxisDataList);
+						chartSingleLineResultData.setSeriesDataList(seriesDataList);
+						result.setSuccess(true);
+						result.setData(chartSingleLineResultData);
+					}
+					
+				
+				JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
+				System.out.println(">>>>>>>>>>>>>>>equipment_01 " + resultObj.toString());
+				return resultObj.toString();
+			}
+		    
+		    
+		    @RequestMapping(method = RequestMethod.GET, value = "/equipment_02")
+			@ResponseBody
+			public String equipment_02(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+				PageResult pageResult = new PageResult();
+				String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+				String companyCode = CommonUtil.getParameter(request, "companyCode", "");
+				Map<String, Object> paramsMap = new HashMap<String, Object>();
+				paramsMap.put("month", month);
+				paramsMap.put("companyCode", companyCode);
+				JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+				HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+				
+					ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(equipment_02, HttpMethod.POST, entity, JSONArray.class);
+					int statusCode = responseEntity.getStatusCodeValue();
+					if (statusCode == 200) 
+					{
+						JSONArray jSONArray = responseEntity.getBody();
+						System.out.println(">>>>>>>>>>>>>>>equipment_02 " + jSONArray.toString());
+						
+						List<H1AMKYSY100117> list = JSONObject.parseArray(jSONArray.toJSONString(), H1AMKYSY100117.class);
+						//List<String>  lista=HanaUtil.getduplicatexAxisByList(list,"g0ZCXLMS");
+						//List<TreeNode2>  chartCircleList=	HanaUtil.getChildChartH1AMKYSY100117(lista,list);
+						
+						List<TreeNode2>  chartCircleList = new ArrayList<TreeNode2>();
+						for(int i = 0;i<list.size();i++) 
+						{
+							H1AMKYSY100117 bean = list.get(i);
+							TreeNode2 node = new TreeNode2();
+							node.setExtend01(bean.getG0ZCXLMS());//设备类型
+							node.setExtend02(bean.getG0GSJC());//直属研究院
+							node.setExtend03(bean.getG0TXT50());//设备名称
+							node.setExtend04(bean.getG0ZBHND());//购置年度
+							node.setExtend05(bean.getG0NDJAR());//使用年限
+							node.setExtend06(bean.getG0NDSYN());//剩余年限
+							
+							DecimalFormat decimalFormat=new DecimalFormat(".00");
+							node.setExtend07(bean.getG0NCGZYZJE());//购置金额(万元)
+							if(bean.getG0NCGZYZJE()!=null )
+							{
+								node.setExtend07(decimalFormat.format(Double.valueOf(bean.getG0NCGZYZJE())/10000l));
+							}
+							node.setExtend08(bean.getG0LJZJJE());//折旧金额（万元）
+							if(bean.getG0LJZJJE()!=null )
+							{
+								node.setExtend08(decimalFormat.format(Double.valueOf(bean.getG0LJZJJE())/10000l));
+							}
+							
+							node.setExtend09(bean.getBl()+"%");//折旧率
+							
+							chartCircleList.add(node);
+						}
+						//把合计放到第一位置（查询结果在队列末尾）
+						chartCircleList.set(0, chartCircleList.get(chartCircleList.size()-1));
+						//移除最后位置的合计值
+						chartCircleList.remove(chartCircleList.size()-1);
+						
+						pageResult.setData(chartCircleList);
+						pageResult.setCode(0);
+						pageResult.setCount(Long.valueOf(chartCircleList.size()));
+						pageResult.setLimit(1000);
+						pageResult.setPage(1l);
+						
+					}
+					
+				
+				JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
+				//System.out.println(">>>>>>>>>>>>>>>equipment_02 " + resultObj.toString());
+				return resultObj.toString();
+			}
+				
+			/**=========================================科研装备 end===============================*/
+			
 }

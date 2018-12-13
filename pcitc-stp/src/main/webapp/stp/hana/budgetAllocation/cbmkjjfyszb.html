@@ -13,14 +13,9 @@
     <!--查询条件-->
     
     <label class="dateInput">
-            <span>年份</span>
-            <input type="text" name="year" placeholder="请选择年份" title="年份" value="${year}"  autocomplete="off" class="form-control" id="year">
-        </label>
-        
-        
-        
-       
-       
+        <span>年份</span>
+        <input type="text" name="year" placeholder="请选择年份" title="年份" value="${year}"  autocomplete="off" class="form-control" id="year">
+    </label>
     <!--按钮组-->
     <div class="btnGroup">
         <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg"  onclick="serarch()">查询</button>
@@ -32,25 +27,29 @@
 <table id="myTable" class="layui-table" lay-data="{url:'/ba/cbmkjjfyszb_data',height:'auto'}">
   <thead>
     <tr>
-      <th lay-data="{checkbox:true, width:55}" rowspan="2"></th>
-      <th lay-data="{type:'numbers', width:55}" rowspan="2">序号</th>
-      <th lay-data="{field:'cbName', width:'18%'}" rowspan="2">类别</th>
-      <th lay-data="{align:'center'}" colspan="3">集团预算</th>
-      <th lay-data="{align:'center'}" colspan="3">资产预算</th>
-      <th lay-data="{align:'center'}" colspan="3">股份预算</th>
+      <th lay-data="{type:'numbers'}" rowspan="2">序号</th>
+      <th lay-data="{field:'cb', width:'14%'}" rowspan="2">处别</th>
+      <th lay-data="{align:'center', width:'21%'}" colspan="3">经费预算总计</th>
+      <th lay-data="{align:'center', width:'21%'}" colspan="3">（1）集团预算合计</th>
+      <th lay-data="{align:'center', width:'21%'}" colspan="3">（2）资产预算合计</th>
+      <th lay-data="{align:'center', width:'21%'}" colspan="3">（3）股份预算合计</th>
     </tr>
     <tr>
-      <th lay-data="{field:'jtxkje', width:'8%'}">集团新开课题（万元）</th>
-      <th lay-data="{field:'jtjzje', width:'8%'}">集团结转课题（万元）</th>
-      <th lay-data="{field:'jtzje', width:'8%'}">集团合计（万元）</th>
+      <th lay-data="{field:'jfyszjys', align:'right',width:'7%'}">预算（万元）</th>
+      <th lay-data="{field:'jfyszjlht',  align:'right',width:'7%'}">老合同（万元）</th>
+      <th lay-data="{field:'jfyszjxq',  align:'right',width:'7%'}">新签（万元）</th>
       
-      <th lay-data="{field:'zcxkje', width:'8%'}">资产新开课题（万元）</th>
-      <th lay-data="{field:'zcjzje', width:'8%'}">资产结转课题（万元）</th>
-      <th lay-data="{field:'zczje', width:'8%'}">资产合计（万元）</th>
+      <th lay-data="{field:'jtyshjys',  align:'right',width:'7%'}">预算（万元）</th>
+      <th lay-data="{field:'jtyshjlht',  align:'right',width:'7%'}">老合同（万元）</th>
+      <th lay-data="{field:'jtyshxq',  align:'right',width:'7%'}">新签（万元）</th>
       
-       <th lay-data="{field:'gfxkje', width:'8%'}">股份新开课题（万元）</th>
-      <th lay-data="{field:'gfjzje', width:'8%'}">股份结转课题（万元）</th>
-      <th lay-data="{field:'gfzje', width:'8%'}">股份合计（万元）</th>
+      <th lay-data="{field:'zcyshjys',  align:'right',width:'7%'}">预算（万元）</th>
+      <th lay-data="{field:'zcyshjlht',  align:'right',width:'7%'}">老合同（万元）</th>
+      <th lay-data="{field:'zcyshjxq',  align:'right',width:'7%'}">新签（万元）</th>
+      
+      <th lay-data="{field:'gfyshjys',  align:'right',width:'7%'}">预算（万元）</th>
+      <th lay-data="{field:'gfyshjlht',  align:'right',width:'7%'}">老合同（万元）</th>
+      <th lay-data="{field:'gfyshjxq',  align:'right',width:'7%'}">新签（万元）</th>
       
     </tr>
   </thead>

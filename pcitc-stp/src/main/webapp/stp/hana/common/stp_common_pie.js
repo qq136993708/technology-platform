@@ -123,7 +123,10 @@ function pieAjax(url, echartsobj, options)
 		        	        var chartList=data.data.dataList;
 		                    for(var i=0;i<chartList.length;i++)
 		                    {
-		                        names.push(chartList[i].name);
+                                names.push(chartList[i].name);
+                                if(chartList[i].value==0||chartList[i].value=="0"){
+                                    selecteds[chartList[i].name]=false;
+                                }
 		                    }
 		                    for(var i=0;i<chartList.length;i++)
 		                    {
@@ -293,7 +296,7 @@ var optionpie_02 = {
 	 */
 	function pieAjax_02(url, echartsobj, options,callback) 
 	{
-		 var allCount=0;
+		 
 		 var names=[];  
 	     var values=[];  
 	     $.ajax({
@@ -301,7 +304,6 @@ var optionpie_02 = {
 		     url: url,
 		     dataType:"json",
 		     timeout : 11000,
-		     async:false, 
 		     cache: false,
 		     contentType: "application/x-www-form-urlencoded; charset=utf-8",
 		      success:function(data,status)
@@ -316,7 +318,7 @@ var optionpie_02 = {
 			                    }
 			                    for(var i=0;i<chartList.length;i++)
 			                    {
-			                    	allCount=allCount+parseInt(chartList[i].value);
+			                    	//allCount=allCount+parseInt(chartList[i].value);
 			                    	values.push({
 			                            value: chartList[i].value,
 			                            name: chartList[i].name
@@ -349,7 +351,7 @@ var optionpie_02 = {
 			        }
 		    });
 	     
-	     return allCount;
+	     return echartsobj;
 	        
 	        
 	}

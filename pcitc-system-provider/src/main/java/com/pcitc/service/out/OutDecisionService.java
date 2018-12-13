@@ -96,4 +96,13 @@ public interface OutDecisionService {
      * 科技经费预算总表，股份公司科技专项经费预算表
      */
 	public List selectJFYSForTech(Map map);
+	
+	/**
+     * 知识产权分析，近三年国内外专利的情况
+     */
+	public List getPatentInfoByHomeAbroad(Map map);
+	
+	
+	
+	
 }

@@ -234,7 +234,36 @@ function load_mutl_bar_down(url,id,title,subtext,yAxis)
 	return echartsobj;
 }
 
+function load_mutl_bar_down_color(url,id,title,subtext,yAxis)
+{
+    var echartsobj = echarts.init(document.getElementById(id));
+    if(title!=null && title!='')
+    {
+        mutl_bar_down.title.text=title;
+    }
+    if(subtext!=null && subtext!='')
+    {
+        mutl_bar_down.title.subtext=subtext;
+    }
+    mutl_bar_down.grid={
+        top:"10.5%",
+        left: '0%',
+        right: '3%',
+        bottom: '10%',
+        containLabel: true
+    }
+    mutl_bar_down.color=["#66e0e3","#fedb5b"]
+    if(yAxis!=null && yAxis!='')
+    {
+        mutl_bar_down.yAxis=yAxis;
+    }
+    echartsobj.clear();
+    echartsobj.setOption(mutl_bar_down);
+    echartsobj.showLoading();
 
+    echartsobj=barLineAjax_down(url,echartsobj, mutl_bar_down,id);
+    return echartsobj;
+}
 function barLineAjax_down(url,  echartsobj, options,id) 
 {
 	
@@ -531,6 +560,17 @@ function set_multi_graph_statistics(data,id)
         $("#direct_contract_chart_03").html(percentNum(count_1,count_1+count_2));
 	}
 	
+	
+	if(id=='pay_chart3')
+	{
+		var xkCount_1=getDataCountForName(data,'资本性');
+    	var jzCount_2=getDataCountForName(data,'费用性');
+        var allCount_3=xkCount_1+jzCount_2;
+        
+        $("#pay_chart3_01").html(allCount_3);
+        $("#pay_chart3_02").html(xkCount_1);
+        $("#pay_chart3_03").html(jzCount_2);
+	}
 	
 	/**=============================直属研究院 end===========================*/
 	

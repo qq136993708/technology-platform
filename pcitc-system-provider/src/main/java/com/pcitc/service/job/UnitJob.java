@@ -27,7 +27,7 @@ public class UnitJob implements Job, Serializable {
 	public void execute(JobExecutionContext job) throws JobExecutionException {
 
 		OutUnitService outUnitService = SpringContextUtil.getApplicationContext().getBean(OutUnitService.class);
-		/*System.out.println("==========" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "---定时任务--组织机构接口---开始=============");
+		System.out.println("==========" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "---定时任务--组织机构接口---开始=============");
 		String sqlName = "SHYK_ZSHKJXMGL_DWXXB";
 		JsonObject jo = new JsonObject();
 		jo.addProperty("DWBM", "%%");
@@ -50,11 +50,13 @@ public class UnitJob implements Job, Serializable {
 					String dwqc = object.getString("DWQC");
 					String sjbm = object.getString("SJBM");
 					
+					
 					oa.setUnitCode(dwbm);
 					oa.setUnitName(dwqc);
 					oa.setUnitAli(dwjc);
 					oa.setDefine1(sjbm);
 					oa.setParentCode(sjbm);
+					oa.setDefine1("奖励系统");
 					
 					oa.setCreateDate(new Date());
 					insertData.add(oa);
@@ -68,9 +70,9 @@ public class UnitJob implements Job, Serializable {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-		}*/
+		}
 		
-		// 奖励系统的组织机构数据
+		/*// 奖励系统的组织机构数据
 		System.out.println("==========" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "---定时任务--组织机构接口---开始=============");
 		String sqlName = "GetDWXXB";
 		JsonObject jo = new JsonObject();
@@ -113,7 +115,7 @@ public class UnitJob implements Job, Serializable {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
+		}*/
 
 	}
 }

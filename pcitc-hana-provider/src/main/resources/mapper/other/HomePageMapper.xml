@@ -321,7 +321,7 @@
        <result column="G0SBFL2"           property="g0SBFL2"          jdbcType="VARCHAR" />
        <result column="G0SBFL3"           property="g0SBFL3"          jdbcType="VARCHAR" />
        <result column="G0SBFL4"           property="g0SBFL4"          jdbcType="VARCHAR" />
-       <result column="G0SBSL"            property="k0SBSL"           jdbcType="VARCHAR" />
+       <result column="G0SBSL"            property="g0SBSL"           jdbcType="VARCHAR" />
        <result column="G0NCGZYZJE"        property="g0NCGZYZJE"       jdbcType="VARCHAR" />
        <result column="G0LJZJJE"          property="g0LJZJJE"         jdbcType="VARCHAR" />
        <result column="K0BNZCJE"          property="k0BNZCJE"         jdbcType="VARCHAR" />   
@@ -333,7 +333,8 @@
        <result column="G0SBSL3"        property="g0SBSL3"       jdbcType="VARCHAR" /> 
        <result column="G0SBSL4"        property="g0SBSL4"       jdbcType="VARCHAR" /> 
        <result column="G0SBFL"          property="g0SBFL"         jdbcType="VARCHAR" /> 
-       
+       <result column="bl"          property="bl"         jdbcType="VARCHAR" /> 
+         <result column="G0NDSYN"          property="g0NDSYN"         jdbcType="VARCHAR" /> 
        
        
        
@@ -1114,6 +1115,109 @@
 		     "G0GSJC",
 		     "G0GSOR"
 		order by "G0GSOR"
+     </select>
+     
+     
+     
+     
+     <select id="get_home_KYZB" resultMap="H1AM_KY_SY_1001_17ResultMap" parameterType="java.util.Map" > 
+        SELECT
+		     "G0GSJC",
+		     sum("G0SBSL") AS "G0SBSL"
+		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_SY_1001_18"
+		    (
+		    'PLACEHOLDER' = ('$$PR_CALMONTH$$','${month}'),
+		     'PLACEHOLDER' = ('$$PR_GSDM$$',
+		     '${companyCode}')
+		     ) 
+		GROUP BY 
+		     "G0GSJC",
+		     "G0GSOR"
+		order by "G0GSOR"
+     </select>
+     
+     <select id="get_home_KYZB_02" resultMap="H1AM_KY_SY_1001_17ResultMap" parameterType="java.util.Map" > 
+        select 
+		     ifnull("G0ZCXLMS",'') as "G0ZCXLMS",
+		     ifnull("G0GSJC",'')   as "G0GSJC",
+		     ifnull("G0ZDXZCT",'') as "G0ZDXZCT",
+		     ifnull("G0TXT50",'')  as "G0TXT50",
+		     ifnull( "G0ZBHND",'') as "G0ZBHND",
+		     ifnull( "G0NDJAR",'') as "G0NDJAR",
+		     ifnull( "G0NDSYN",'') as "G0NDSYN",
+		     sum("G0NCGZYZJE") AS "G0NCGZYZJE",
+		     sum("G0LJZJJE") AS "G0LJZJJE",
+		     case when  sum("G0NCGZYZJE")=0 then 0 else
+		     round (sum("G0LJZJJE") / sum("G0NCGZYZJE")*100 ,2) end  as "bl"
+		from (
+		SELECT
+		     "G0ZCXLMS",
+		     "G0GSJC",
+		     "G0ZDXZCT",
+		     "G0TXT50",
+		     "G0ZBHND",
+		     "G0NDJAR",
+		     "G0NDSYN",
+		     "G0GSOR",
+		     sum("G0NCGZYZJE") AS "G0NCGZYZJE",
+		     sum("G0LJZJJE") AS "G0LJZJJE",
+		     sum("K0BNZCJE") AS "K0BNZCJE",
+		     sum("G0BNGZYZJE") AS "G0BNGZYZJE" 
+		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_SY_1001_18"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+		     '${month}'),
+		     'PLACEHOLDER' = ('$$PR_GSDM$$',
+		     '${companyCode}')) 
+		GROUP BY 
+		     "G0ZCXLBM",
+		     "G0ZCXLMS",
+		     "G0GSJC",
+		     "G0ZDXZCT",
+		     "G0TXT50",
+		     "G0ZBHND",
+		     "G0NDJAR",
+		     "G0NDSYN",
+		     "G0GSOR"
+		union all 
+		SELECT
+		     '总计'as "G0ZCXLMS",
+		     null as "G0GSJC",
+		    null as "G0ZDXZCT",
+		    null as "G0TXT50",
+		     null as"G0ZBHND",
+		     null as"G0NDJAR",
+		     null as"G0NDSYN",
+		     '0' as  "G0GSOR",
+		     sum("G0NCGZYZJE") AS "G0NCGZYZJE",
+		     sum("G0LJZJJE") AS "G0LJZJJE",
+		     sum("K0BNZCJE") AS "K0BNZCJE",
+		     sum("G0BNGZYZJE") AS "G0BNGZYZJE" 
+		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_SY_1001_18"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+		     '${month}'),
+		     'PLACEHOLDER' = ('$$PR_GSDM$$',
+		     '${companyCode}')) 
+		GROUP BY 
+		     "G0ZCXLBM",
+		     "G0ZCXLMS",
+		     "G0GSJC",
+		     "G0ZDXZCT",
+		     "G0TXT50",
+		     "G0ZBHND",
+		     "G0NDJAR",
+		     "G0NDSYN",
+		     "G0GSOR"
+		     )
+		     
+		     GROUP BY 
+		   
+		     "G0ZCXLMS",
+		     "G0GSJC",
+		     "G0ZDXZCT",
+		     "G0TXT50",
+		     "G0ZBHND",
+		     "G0NDJAR",
+		     "G0NDSYN" ,
+		     "G0GSOR"
+		  order by "G0ZCXLMS" desc,"G0GSOR"  
      </select>
      
 	<!-- 科研装备-->

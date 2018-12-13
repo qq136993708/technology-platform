@@ -14,7 +14,22 @@ public class TreeNode2 {
     private String extend03;
     private String extend04;
     private String extend05;
+    private String extend06;
+    private String extend07;
+    private String extend08;
+    private String extend09;
+    private String extend10;
     private Integer count;
+    
+    
+    
+    
+	public String getExtend06() {
+		return extend06;
+	}
+	public void setExtend06(String extend06) {
+		this.extend06 = extend06;
+	}
 	public String getId() {
 		return id;
 	}
@@ -86,6 +101,30 @@ public class TreeNode2 {
 	}
 	public void setCount(Integer count) {
 		this.count = count;
+	}
+	public String getExtend07() {
+		return extend07;
+	}
+	public void setExtend07(String extend07) {
+		this.extend07 = extend07;
+	}
+	public String getExtend08() {
+		return extend08;
+	}
+	public void setExtend08(String extend08) {
+		this.extend08 = extend08;
+	}
+	public String getExtend09() {
+		return extend09;
+	}
+	public void setExtend09(String extend09) {
+		this.extend09 = extend09;
+	}
+	public String getExtend10() {
+		return extend10;
+	}
+	public void setExtend10(String extend10) {
+		this.extend10 = extend10;
 	}
     
     
