@@ -88,8 +88,19 @@
                     <div class="layui-card-header">
                         <span class="layui-time"></span>所获奖励
                     </div>
-                    <div class="layui-row-main">
-                       <table id="processdef-table"  lay-filter="tableEvent1"></table>
+                    <div class="layui-row-main" style="display: flex;">
+                    	<div class="duty_gd">
+	                       	<div class="pre_last"></div>
+		                        <ul>
+		                            <li class="layui-this">2017</li>
+		                        </ul>
+	                        <div class="pre_next"></div>
+	                    </div>
+	                    <div class="duty_content" style="width:99%;">
+	                        <div class="duty_nr" style="display: block; position: relative; top: 0px; left: 0px; opacity: 1;">
+	                           <table id="processdef-table"  lay-filter="tableEvent1"></table>
+	                        </div>
+	                    </div>
                     </div>
                 </div>
             </div>
@@ -116,8 +127,9 @@ layui.config({
     base: '/layuiadmin/lib/extend/'
 }).extend({
     treeGridCom:'treeGridCom'
-}).use(['jquery','table','form', 'laydate','treeGridCom','layer'], function(){
+}).use(['jquery','table','form', 'laydate','treeGridCom','layer',"publicMethods"], function(){
     var $=layui.jquery;
+    var publicMethods=layui.publicMethods;
     treeGridCom = layui.treeGridCom;//很重要
     layer=layui.layer;
     laydate = layui.laydate;
@@ -128,11 +140,61 @@ layui.config({
        elem: '#year'
        ,format: 'yyyy'
     });
-    renderTable();
+    publicMethods.ajaxPost("/one_level_main/achievement_05",null, function (data) {
+    	$(".duty_gd ul").html("");
+		$.each(data,function(i,dt){
+			if(i>=6){return false;}//由于太长只显示6年，请前端妥善处理
+			var cs = (dt==$("#year").val())?' class="layui-this"':'';
+			$(".duty_gd ul").append('<li'+cs+'>'+dt+'</li>');
+		});
+   	});
+    
     $("#knowledge_table").click(function () {
     	parent.layui.index.openTabsPage("/home_achievement/award_table", "科技成果明细");
     });
-  
+    
+    
+    /*时间轴*/
+    var len_fzlc  = $(".duty_gd ul li").length;
+    var index_fzlc = 0;
+    var fzlcWidth = $(".duty_gd ul li").width();
+
+    //li点击
+    $("ul > li").on("click",function () {
+        index_fzlc=$(this).index();
+        $(this).addClass("layui-this").siblings().removeClass("layui-this");
+        $(".duty_gd ul").stop(true,false).animate({top: -fzlcWidth*index_fzlc},500);
+        //加载表格
+        renderTable($(".layui-this").html());
+        //$(".duty_content>div").eq(index_fzlc).fadeIn(700).siblings().hide();
+    });
+    //往左按钮
+    $(".pre_last").on("click",function () {
+        if(index_fzlc!=0){
+            index_fzlc--;
+        }
+        else{
+            index_fzlc=len_fzlc-1;
+        }
+        $(".duty_gd ul li").eq(index_fzlc).addClass("layui-this").siblings().removeClass("layui-this");
+        $(".duty_gd ul").stop(true,false).animate({top: -fzlcWidth*index_fzlc},500);
+        //$(".duty_content>div").eq(index_fzlc).fadeIn(700).siblings().hide();
+        renderTable($(".layui-this").html());
+    });
+    //往右按钮
+    $(".pre_next").on("click",function () {
+        if(index_fzlc!=(len_fzlc-1)){
+            index_fzlc++;
+        }
+        else{
+            index_fzlc=0;
+        }
+        $(".duty_gd ul li").eq(index_fzlc).addClass("layui-this").siblings().removeClass("layui-this");
+        $(".duty_gd ul").stop(true,false).animate({top: -fzlcWidth*index_fzlc},500);
+        //$(".duty_content>div").eq(index_fzlc).fadeIn(700).siblings().hide();
+        renderTable($(".layui-this").html());
+    });
+    renderTable();
 });
 
 
@@ -205,19 +267,21 @@ function search_Event()
 	initEchart();
 	renderTable();
 }
-
-
-
 //集团重大项目
 function renderTable()
 {
+	renderTable($("#year").val());
+}
+function renderTable(nd)
+{
 	
-	 var month=$("#month").val();
+	
+	 var year=$("#year").val();
 	 var tableOne=table.render({
 		  elem: '#processdef-table',
-		  url:'/one_level_main/achievement_04?month='+month,
+		  url:'/one_level_main/achievement_04',
 		  method:"POST",
-		  where: {param: {"month":$("#month").val()}},
+		  where: {param: {"nd":nd}},
 		  limit: 15,
 		  id: 'processdef-table',
 		  height: commonDislodgeTable(),

@@ -89,4 +89,10 @@ public class OutRewardServiceImpl implements OutRewardService {
 		outRewardMapper.insertOutRewardBatch(list);
 		return 1;
 	}
+
+	@Override
+	public List<String> selectOutRewardYearList() 
+	{
+		return outRewardMapper.selectOutRewardYearList();
+	}
 }

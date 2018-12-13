@@ -15,5 +15,9 @@ public interface OutRewardService {
 	OutReward getOutRewardShowById(String dataId) throws Exception;
 	
 	public int insertRewardData(List<OutReward> list);
-	
+	/**
+	 *  获取成果年度列表
+	 * @return
+	 */
+	public List<String> selectOutRewardYearList();
 }
