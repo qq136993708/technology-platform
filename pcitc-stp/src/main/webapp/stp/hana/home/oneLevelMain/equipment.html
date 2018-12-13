@@ -17,13 +17,13 @@
 </head>
 <body>
 <div class="layui-fluid">
- <input type="hidden" name="month"        value="${month}"         id="month">
+ 
    <input type="hidden" name="companyCode"  value="${companyCode}"   id="companyCode">
     <div class="">
         <div class="searchBox">
             <label class="dateInput">
                 <span>月份</span>
-                <input type="text" name="year" placeholder="请选择月份" title="月份" value="${year}"  autocomplete="off" class="form-control" id="year">
+                <input type="text" name="month" placeholder="请选择月份" title="月份" value="${month}"  autocomplete="off" class="form-control" id="month">
             </label>
             <!--按钮组-->
             <div class="btnGroup">
@@ -134,7 +134,7 @@ function initEchart()
             }
         }
     ];
-    $(".layui-time").html($("#year").val());
+    $(".layui-time").html($("#month").val());
 	var chart1_url="/one_level_main/equipment_01?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
 	var echart1=load_single_bar(chart1_url,"equipment_01_chart","","",yAxis,'');
 	echart1.on('click', function (params) {

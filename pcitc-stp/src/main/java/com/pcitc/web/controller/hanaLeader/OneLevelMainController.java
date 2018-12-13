@@ -936,6 +936,9 @@ public class OneLevelMainController {
 
 		String year = HanaUtil.getCurrrentYear();
 		request.setAttribute("year", year);
+		
+		String month = DateUtil.format(new Date(), DateUtil.FMT_MM);//年月
+		request.setAttribute("month", month);
 		return "stp/hana/home/oneLevelMain/equipment";
 	}
 
