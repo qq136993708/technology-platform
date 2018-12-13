@@ -283,5 +283,15 @@ public interface OutProjectService {
      */
 	public List getProjectInfoByTecTypeWithOldNew(HashMap<String, String> map);
 	
+	/**
+     * 领导首页-十条龙，十条龙项目的类型分布
+     */
+	public List getDragonProjectInfoByType(HashMap<String, String> map);
+	
+	/**
+     * 领导首页-十条龙，十条龙项目的出入龙情况
+     */
+	public List getDragonProjectInfoWithOutIn(HashMap<String, String> map);
+	
 	
 }
