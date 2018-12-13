@@ -732,6 +732,8 @@ public class OneLevelMainController {
 		request.setAttribute("unitCode", unitCode);
 
 		String year = HanaUtil.getCurrrentYear();
+		//Date dt = DateUtil.dateAdd(new Date(), -365);
+		//String year =DateUtil.format(dt, DateUtil.FMT_YYYY);
 		request.setAttribute("year", year);
 		return "stp/hana/home/oneLevelMain/achievement";
 	}
@@ -872,13 +874,17 @@ public class OneLevelMainController {
 		return resultObj.toString();
 	}
 
-	@RequestMapping(method = RequestMethod.POST, value = "/achievement_04")
+	@RequestMapping(method = RequestMethod.GET, value = "/achievement_04")
 	@ResponseBody
 	public String achievement_04(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request,
 			HttpServletResponse response) {
 
 		System.out.println("achievement_04 param=   " + JSONObject.toJSONString(param));
-
+		String nd = CommonUtil.getParameter(request, "nd", DateUtil.format(new Date(), DateUtil.FMT_YYYY));
+		//设置不分页
+		param.setLimit(2000);
+		param.getParam().put("nd", nd);
+		
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(achievement_04, HttpMethod.POST, entity,
