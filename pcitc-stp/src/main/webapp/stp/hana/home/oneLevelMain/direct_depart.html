@@ -44,7 +44,7 @@
                         <span class="layui-box-icon bg-4"></span>
                         <div class="layui-box-content">
                             <span class="layui-box-text">科研装备</span>
-                            <span class="layui-box-number" id="K0BNGLFPHJECB_t">
+                            <span class="layui-box-number" id="equipment_id">
                                 <img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
                                 <small>(个)</small>
                             </span>
@@ -68,7 +68,7 @@
                         <span class="layui-box-icon bg-3"></span>
                         <div class="layui-box-content">
                             <span class="layui-box-text">经费支出</span>
-                            <span class="layui-box-number" id="k0BNGLFPHJECB">
+                            <span class="layui-box-number" id="pay_id">
                             <img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
                             </span>
                         </div>
@@ -135,7 +135,7 @@
                        <div class="text-total">
                             <span>总计:<span    class="text-total-blue"    id="topic_chart1_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                             <span>新开课题:<span class="text-total-blue"    id="topic_chart1_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>转结课题:<span class="text-total-blue"    id="topic_chart1_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>结转课题:<span class="text-total-blue"    id="topic_chart1_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                         </div>
                         <div  style="height:270px;width: 100%;" id="topic_chart1"></div>
                     </div>
@@ -174,7 +174,7 @@
                       <div class="text-total">
                             <span>总计:<span    class="text-total-blue"    id="direct_topic_chart3_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                             <span>新开课题:<span class="text-total-blue"    id="direct_topic_chart3_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>转结课题:<span class="text-total-blue"    id="direct_topic_chart3_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>结转课题:<span class="text-total-blue"    id="direct_topic_chart3_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                         </div>
                         <div  style="height:270px;width: 100%;" id="direct_topic_chart3"></div>
                     </div>
@@ -345,12 +345,12 @@
  				timeout : 3000, //超时时间设置，单位毫秒
  				error : function(XMLHttpRequest, status) {
  					$("#kyxm").html("<small>--(个)</small>");
- 					$("#K0BNGLFPHJECB_t").html("<small>--(个)</small>");
+ 					$("#equipment_id").html("<small>--(个)</small>");
  					$("#k0BNYSJHJE").html("<small>--(万元)</small>");
  				},
  				success : function(data) { //请求成功后处理函数。
  					$("#kyxm").html(data.projectCount+"<small>(个)</small>");
- 					$("#K0BNGLFPHJECB_t").html(data.kyzbCount+"<small>(个)</small>");
+ 					$("#equipment_id").html(data.kyzbCount+"<small>(个)</small>");
  					if (data.jfTotal > 100) {
  						$("#k0BNYSJHJE").html((data.jfTotal/10000).toFixed(2)+"<small>(亿)</small>");
  					} else {
@@ -368,7 +368,7 @@
         	 var v_date=(new Date()).getTime();
         	 $.ajax({
         	     type:"GET",
-        	     url: '/home/getndys_xfzc?month='+month+'&companyCode='+codec+'&v_date'+v_date,
+        	     url: '/direct/getndys_xfzc?month='+month+'&companyCode='+codec+'&v_date'+v_date,
         	     dataType:"json",
         	     timeout : 20000,
         	     cache: false,
@@ -377,14 +377,14 @@
                  {    
         	          if(data.success==true ||data.success=='true')
         	          {
-        	        	  var k0BNGLFPHJECB=parseInt(data.data.k0BNGLFPHJECB);
+        	        	  var pay_id=parseInt(data.data.k0BNGLFPHJECB);
         	              
-        	        	  if(k0BNGLFPHJECB.toString().length>3)
+        	        	  if(pay_id.toString().length>3)
         	              {
-        	        		  $("#k0BNGLFPHJECB").html((k0BNGLFPHJECB/10000).toFixed(2)+"<small>亿</small>");
+        	        		  $("#pay_id").html((pay_id/10000).toFixed(2)+"<small>亿</small>");
         	              }else
         	              {
-        	            	  $("#k0BNGLFPHJECB").html(k0BNGLFPHJECB+"<small>万元</small>");
+        	            	  $("#pay_id").html(pay_id+"<small>万元</small>");
         	              } 
         	          } 
         		   },
@@ -557,7 +557,8 @@
            	
 
         	 var chart3_url="/direct/topic_01?type=1&nd="+year+"&v_date="+v_date+"&xmlbbm=kyzb";
-        	 var echart3=load_mutl_bar_down(chart3_url,"direct_topic_chart3","","",yAxis);
+        	 var color=["#ea886d","#ffad01"];
+        	 var echart3=load_mutl_bar_down(chart3_url,"direct_topic_chart3","","",yAxis,20,color);
         	 echart3.on('click', function (params) {
         		var xName=params.name;
         		var legentName=params.seriesName;
@@ -590,7 +591,8 @@
             
 
         	var chart7_url="/direct/knowledge_04?type=1&nd="+year+"&v_date="+v_date;
-        	var data7=load_mutl_bar_down(chart7_url,"direct_knowledge_chart1","","",yAxis);
+        	var colorNew=["#70b1ab","#87d359"];
+        	var data7=load_mutl_bar_down(chart7_url,"direct_knowledge_chart1","","",yAxis,20,colorNew);
   	            
               
         	

@@ -45,13 +45,8 @@
                 <div class="layui-card">
                     <div class="layui-card-header">
                         ${year}科研支出分析
-                        <div class="layui-tool">
-                            <button type="button" class="btn btn-tool collapse"></button>
-                            <button type="button" class="btn btn-tool remove"></button>
-                        </div>
                     </div>
                     <div class="layui-card-body btn-function">
-
                         <div class="text-total">
                             <span>总计:<span class="text-total-blue"    id="pay_chart1_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                             <span>新开课题:<span class="text-total-blue" id="pay_chart1_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
@@ -66,12 +61,8 @@
                 <div class="layui-card">
                     <div class="layui-card-header">
                         ${year}科研支出分析
-                        <div class="layui-tool">
-                            <button type="button" class="btn btn-tool collapse"></button>
-                            <button type="button" class="btn btn-tool remove"></button>
-                        </div>
                     </div>
-                    <div class="layui-card-body btn-function" >
+                    <div class="layui-card-body btn-function" style="height: 296px;">
                     <table id="processdef-table" class="layui-hide" lay-filter="processdef-table"></table>
                     </div>
                 </div>
@@ -85,10 +76,6 @@
                 <div class="layui-card">
                     <div class="layui-card-header">
                         ${year}直属研究院科研支出分析
-                        <div class="layui-tool">
-                            <button type="button" class="btn btn-tool collapse"></button>
-                            <button type="button" class="btn btn-tool remove"></button>
-                        </div>
                     </div>
                     <div class="layui-card-body btn-function">
 
@@ -106,12 +93,8 @@
                 <div class="layui-card">
                     <div class="layui-card-header">
                         ${year}直属研究院科研经费使用比率
-                        <div class="layui-tool">
-                            <button type="button" class="btn btn-tool collapse"></button>
-                            <button type="button" class="btn btn-tool remove"></button>
-                        </div>
                     </div>
-                    <div class="layui-card-body btn-function" >
+                    <div class="layui-card-body btn-function" style="height: 296px;">
                     <table id="processdef-tabled" class="layui-hide" lay-filter="processdef-table"></table>
                     </div>
                 </div>
@@ -194,20 +177,20 @@ function initEchart()
             }
         }
     ];
-	
-	
-	
 
-	var chart1_url="/direct/pay_01?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
-	var echart1=load_mutl_bar_down(chart1_url,"pay_chart1","","",yAxis)
+
+
+    var color=["#37a2da","#72c376"];
+    var chart1_url="/direct/pay_01?month="+month+"&v_date="+v_date+"&companyCode="+YJY_CODE_NOT_YINGKE;
+	var echart1=load_mutl_bar_down(chart1_url,"pay_chart1","","",yAxis,50,color);
 	echart1.on('click', function (params) {
 		var xName=params.name;
 		var legentName=params.seriesName;
 		window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
     });
-	
-	var chart7_url="/direct/pay_03?type=1&month="+month+"&v_date="+v_date+"&companyCode="+YJY_CODE_NOT_YINGKE;
-	var echart7=load_mutl_bar_down(chart7_url,"pay_chart3","","",yAxis);
+    var colorNew=["#8278e9","#f7d454"];
+    var chart7_url="/direct/pay_03?type=1&month="+month+"&v_date="+v_date+"&companyCode="+YJY_CODE_NOT_YINGKE;
+	var echart7=load_mutl_bar_down_color(chart7_url,"pay_chart3","","",yAxis,colorNew);
 	echart7.on('click', function (params) {
 		var xName=params.name;
 		var legentName=params.seriesName;
@@ -233,13 +216,13 @@ function search_Event()
 function renderTable()
 {  
 	
-	 var month=$("#month").val();
+	var month=$("#month").val();
 	 var companyCode=$("#companyCode").val();
-	 
+	 var YJY_CODE_NOT_YINGKE=$('#YJY_CODE_NOT_YINGKE').val();
 	  ptable=treeGridCom.render({
 	        id:tableId
 	        ,elem: '#'+tableId
-	        ,url:'/direct/pay_02?month='+month+"&companyCode="+companyCode
+	        ,url:'/direct/pay_02?month='+month+"&companyCode="+YJY_CODE_NOT_YINGKE
 	       // ,cellMinWidth: 200
 	        ,idField:'id'//必須字段
 	        ,treeId:'id'//树形id字段名称
@@ -254,7 +237,7 @@ function renderTable()
 	        ,method:'get'
 	        ,cols: [[
 	            {field:'name',  title: '名称',edit:'text'},
-	            {field:'extend01',  title:'科研支出(万元)',  style:'cursor: pointer;',align: 'left',  templet: '<div>{{ layui.laytpl.milliFormat(d.extend01,2) }}</div>'}
+	            {field:'extend01',  title:'科研支出(亿元)',  style:'cursor: pointer;',align: 'left',  templet: '<div>{{ layui.laytpl.milliFormat(d.extend01,2) }}</div>'}
 	            //{field:'extend02',  title:'结转课题(万元)',  style:'cursor: pointer;',align: 'left', width: '35%', templet: '<div>{{ layui.laytpl.milliFormat(d.extend02,2) }}</div>'}
 	            
 	        ]]
@@ -273,21 +256,21 @@ function renderTable()
 function renderTable2()
 {
 
-    var month=$("#month").val();
+	var month=$("#month").val();
     var companyCode=$("#companyCode").val();
+    var YJY_CODE_NOT_YINGKE=$('#YJY_CODE_NOT_YINGKE').val();
     var tableOne=table.render({
         elem: '#processdef-tabled',
-        url:'/direct/pay_03?month='+month+"&type=2&companyCode="+companyCode,
+        url:'/direct/pay_03?month='+month+"&type=2&companyCode="+YJY_CODE_NOT_YINGKE,
         method:"GET",
         where: {param: {"month":$("#month").val()}},
         limit: 15,
         id: 'processdef-tabled',
         cols: [[
-            {field:'g0GSJC',        title: '研究院',    edit:'text', width: '40%'},
-            {field:'jhqds',          title:'计划签订数',style:'cursor: pointer;',align: 'left', width: '20%'},
-            {field:'sjqds',          title:'实际签订数',style:'cursor: pointer;',align: 'left', width: '20%'},
-            {field:'htqdl',          title:'签订率(%)',   style:'cursor: pointer;',align: 'left', width: '20%',templet:function(d){return d.htqdl+"%"}
-            }
+            {field:'g0GSJC',            title: '研究院',       edit:'text', width: '40%'},
+            {field:'k0BNYSJHJE',        title:'总计实际支出（亿元）',    style:'cursor: pointer;',align: 'left', width: '20%'},
+            {field:'k0BNZBJE',          title:'费用性实际支出（亿元）',  style:'cursor: pointer;',align: 'left', width: '20%'},
+            {field:'k0BNFYJE',          title:'资本性实际支出（亿元）',   style:'cursor: pointer;',align: 'left', width: '20%'}
         ]],
         done: function (res, curr, count) {
             layer.closeAll('loading');
@@ -302,7 +285,6 @@ function renderTable2()
             });
         }
     });
-
 }
         
 </script>

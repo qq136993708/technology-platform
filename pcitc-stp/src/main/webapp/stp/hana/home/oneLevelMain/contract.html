@@ -191,7 +191,7 @@
 
 
         var chart_01_01="/one_level_main/contract_01_01?type=1&nd="+nd+"&v_date="+v_date;
-        var echartchart_01_01=load_mutl_bar_down(chart_01_01,"direct_contract_01_01","","",yAxis);
+        var echartchart_01_01=load_mutl_bar_down(chart_01_01,"direct_contract_01_01","","",yAxis,50);
         echartchart_01_01.on('click', function (params) {
             var xName=params.name;
             var legentName=params.seriesName;
@@ -364,10 +364,10 @@
             ,loading: false
             ,method:'get'
             ,cols: [[
-                {field:'name',      title:'类型',            style:'cursor: pointer;',align: 'left', width: '25%'},
-                {field:'extend01',  title:'计划签订数（个）',   style:'cursor: pointer;',align: 'left', width: '25%'},
-                {field:'extend02',  title:'实际签订数（个）',   style:'cursor: pointer;',align: 'left', width: '25%'},
-                {field:'extend03',  title:'签订率（%）',       style:'cursor: pointer;',align: 'left', width: '25%',templet:function(d){return d.extend03+"%"}}
+                {field:'name',      title:'类型',            style:'cursor: pointer;',align: 'left'},
+                {field:'extend01',  title:'计划签订数（个）',   style:'cursor: pointer;',align: 'left'},
+                {field:'extend02',  title:'实际签订数（个）',   style:'cursor: pointer;',align: 'left'},
+                {field:'extend03',  title:'签订率（%）',       style:'cursor: pointer;',align: 'left',templet:function(d){return d.extend03+"%"}}
 
             ]]
             ,isPage:false
@@ -401,10 +401,10 @@
             limit: 15,
             id: 'processdef_table_02',
             cols: [[
-                {field:'define1',        title: '合同类型',    edit:'text', width: '40%'},
-                {field:'jhqds',            title:'计划签订数',style:'cursor: pointer;',align: 'left', width: '20%'},
-                {field:'sjqds',         title:'实际签订数',style:'cursor: pointer;',align: 'left', width: '20%'},
-                {field:'htqdl',          title:'签订率(%)',   style:'cursor: pointer;',align: 'left', width: '20%',templet:function(d){return d.htqdl+"%"}
+                {field:'define1',        title: '合同类型',    edit:'text'},
+                {field:'jhqds',            title:'计划签订数',style:'cursor: pointer;',align: 'left'},
+                {field:'sjqds',         title:'实际签订数',style:'cursor: pointer;',align: 'left'},
+                {field:'htqdl',          title:'签订率(%)',   style:'cursor: pointer;',align: 'left',templet:function(d){return d.htqdl+"%"}
                 }
             ]],
             done: function (res, curr, count) {
