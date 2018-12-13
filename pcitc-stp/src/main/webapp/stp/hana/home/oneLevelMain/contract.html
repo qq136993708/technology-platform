@@ -39,7 +39,7 @@
                 <div class="layui-col-md5">
                     <div class="layui-card">
                         <div class="layui-card-header">
-                            <span class="layui-time"></span>年合同签订率
+                            <span class="layui-time"></span>年石化集团合同签订率
                         </div>
                         <div class="layui-row-main">
                             <div class="text-total">
@@ -54,7 +54,7 @@
                 <div class="layui-col-md5" style="padding-left: 15px;">
                     <div class="layui-card">
                         <div class="layui-card-header">
-                            <span class="layui-time"></span>年资本性、费用性合同签订率
+                            <span class="layui-time"></span>年石化集团资本性、费用性合同签订率
                         </div>
                         <div class="layui-row-main">
                             <div class="main-chart" id="direct_contract_01_01" style="height:270px;width: 100%;"></div>
@@ -65,7 +65,7 @@
             <div class="layui-col-md4">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        <span class="layui-time"></span>年合同签订率清单
+                        <span class="layui-time"></span>年石化集团合同签订率清单
                     </div>
                     <div class="layui-row-main" style="height:270px;">
                         <table id="processdef_table_02" class="layui-hide" lay-filter="processdef_table"></table>
@@ -91,7 +91,7 @@
             <div class="layui-col-md4">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        ${year}直属研究院科研课题数量占比
+                        ${year}石化集团科研课题数量占比
                         <div class="layui-tool">
                             <button type="button" class="btn btn-tool collapse"></button>
                             <button type="button" class="btn btn-tool remove"></button>
@@ -161,7 +161,7 @@
         });
 
         renderTable2();
-        // renderTable();
+        renderTable();
 
     });
 
@@ -187,7 +187,6 @@
         //表盘
         setGauge("direct_contract_01");
         $(".layui-time").html($("#year").val());
-
 
 
         var chart_01_01="/one_level_main/contract_01_01?type=1&nd="+nd+"&v_date="+v_date;
@@ -250,9 +249,9 @@
             {
                 if(data.success==true ||data.success=='true')
                 {
-                    $("#vdirect_contract_01_01").html(data.data.zsl);
-                    $("#vdirect_contract_01_02").html(data.data.yqht);
-                    $("#vdirect_contract_01_03").html(data.data.qdl);
+                    $("#vdirect_contract_01_01").html(data.data.zsl+"个");
+                    $("#vdirect_contract_01_02").html(data.data.yqht+"个");
+                    $("#vdirect_contract_01_03").html(data.data.qdl+"%");
                 }
             },
             error:function()
@@ -344,45 +343,45 @@
 
     }
 
+
     function renderTable()
-    {
-
-        var month=$("#year").val();
-        var ptable=treeGridCom.render({
-            id:'processdef_table'
-            ,elem: '#processdef_table'
-            ,url:'/direct/contract_02?nd='+month
-            ,cellMinWidth: 200
-            ,idField:'id'//必須字段
-            ,treeId:'id'//树形id字段名称
-            ,treeUpId:'pId'//树形父id字段名称
-            ,treeShowName:'name'//以树形式显示的字段
-            ,height:'280'
-            ,isFilter:false
-            ,iconOpen:false//是否显示图标【默认显示】
-            ,isOpenDefault:true//节点默认是展开还是折叠【默认展开】
-            ,loading: false
-            ,method:'get'
-            ,cols: [[
-                {field:'name',      title:'类型',            style:'cursor: pointer;',align: 'left'},
-                {field:'extend01',  title:'计划签订数（个）',   style:'cursor: pointer;',align: 'left'},
-                {field:'extend02',  title:'实际签订数（个）',   style:'cursor: pointer;',align: 'left'},
-                {field:'extend03',  title:'签订率（%）',       style:'cursor: pointer;',align: 'left',templet:function(d){return d.extend03+"%"}}
-
-            ]]
-            ,isPage:false
-            ,parseData:function (res) {
-                return res;
-            }
-            ,onClickRow:function (index, o) {
-                console.log(index,o,"单击！");
-            }
-            ,onDblClickRow:function (index, o) {
-                console.log(index,o,"双击");
-            }
-        });
+    {  
+    	
+    	  var month=$("#year").val();
+    	 var ptable=treeGridCom.render({
+    	        id:'processdef_table'
+    	        ,elem: '#processdef_table'
+    	        ,url:'/one_level_main/contract_05?nd='+month
+    	        ,cellMinWidth: 200
+    	        ,idField:'id'//必須字段
+    	        ,treeId:'id'//树形id字段名称
+    	        ,treeUpId:'pId'//树形父id字段名称
+    	        ,treeShowName:'name'//以树形式显示的字段
+    	        ,height:'309'
+    	        ,isFilter:false
+    	        ,iconOpen:false//是否显示图标【默认显示】
+    	        ,isOpenDefault:true//节点默认是展开还是折叠【默认展开】
+    	        ,loading: false
+    	        ,method:'get'
+    	        ,cols: [[
+    	            {field:'name',  title:'类型',  style:'cursor: pointer;',align: 'left', width: '25%'},
+    	            {field:'extend01',  title:'计划签订数（个）',   style:'cursor: pointer;',align: 'left', width: '25%'},
+    	            {field:'extend02',  title:'实际签订数（个）',   style:'cursor: pointer;',align: 'left', width: '25%'},
+    	            {field:'extend03',  title:'签订率（%）',       style:'cursor: pointer;',align: 'left', width: '25%',templet:function(d){return d.extend03+"%"}}
+    	            
+    	        ]]
+    	        ,isPage:false
+    	        ,parseData:function (res) {
+    	            return res;
+    	        }
+    	        ,onClickRow:function (index, o) {
+    	            console.log(index,o,"单击！");
+    	        }
+    	        ,onDblClickRow:function (index, o) {
+    	            console.log(index,o,"双击");
+    	        }
+    	    });
     }
-
 
 
 
