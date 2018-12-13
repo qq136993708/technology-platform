@@ -66,7 +66,6 @@ public class OneLevelMainController {
 		private static final String contract_03 = "http://pcitc-zuul/system-proxy/out-project-plna-provider/complete-rate/institute";
 		private static final String contract_04 = "http://pcitc-zuul/system-proxy/out-project-provider/project-money/institute";
 		
-		
 		//科技成果
 		private static final String achievement_01 = "http://pcitc-zuul/system-proxy/out-appraisal-provider/institution/cg/info";
 		private static final String achievement_02 = "http://pcitc-zuul/system-proxy/out-appraisal-provider/cg/count/company-type";
