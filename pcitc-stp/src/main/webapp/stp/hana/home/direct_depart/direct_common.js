@@ -480,9 +480,9 @@ function set_single_graph_statistics(data,id)
     	var jzCount_2=getSingleDataCountForName(data,'未签合同');
         var allCount_3=xkCount_1+jzCount_2;
         
-        $("#contract_chart1_01").html(allCount_3);
-        $("#contract_chart1_02").html(xkCount_1);
-        $("#contract_chart1_03").html(jzCount_2);
+        $("#contract_chart1_01").html(allCount_3+"个");
+        $("#contract_chart1_02").html(xkCount_1+"个");
+        $("#contract_chart1_03").html(jzCount_2+"个");
 	}
 	if(id=='contract_chart4')
 	{
@@ -516,9 +516,9 @@ function set_multi_graph_statistics(data,id)
         var allCount_3=xkCount_1+jzCount_2;
         
         
-        $("#knowldege_chart1_01").html(allCount_3);
-        $("#knowldege_chart1_02").html(xkCount_1);
-        $("#knowldege_chart1_03").html(jzCount_2);
+        $("#knowldege_chart1_01").html(allCount_3+"个");
+        $("#knowldege_chart1_02").html(xkCount_1+"个");
+        $("#knowldege_chart1_03").html(jzCount_2+"个");
 	}
 	if(id=='knowldege_chart4')
 	{
@@ -528,10 +528,10 @@ function set_multi_graph_statistics(data,id)
         var count_3=getDataCountForName(data,'实用新型');
         var count_all=count_1+count_2+count_3;
         
-        $("#knowldege_chart4_01").html(count_all);
-        $("#knowldege_chart4_02").html(count_1);
-        $("#knowldege_chart4_03").html(count_2);
-        $("#knowldege_chart4_04").html(count_3);
+        $("#knowldege_chart4_01").html(count_all+"个");
+        $("#knowldege_chart4_02").html(count_1+"个");
+        $("#knowldege_chart4_03").html(count_2+"个");
+        $("#knowldege_chart4_04").html(count_3+"个");
         
 		
 	}
@@ -544,9 +544,9 @@ function set_multi_graph_statistics(data,id)
     	var jzCount_2=getDataCountForName(data,'结转课题');
         var allCount_3=xkCount_1+jzCount_2;
         
-        $("#topic_chart1_01").html(allCount_3);
-        $("#topic_chart1_02").html(xkCount_1);
-        $("#topic_chart1_03").html(jzCount_2);
+        $("#topic_chart1_01").html(allCount_3+"个");
+        $("#topic_chart1_02").html(xkCount_1+"个");
+        $("#topic_chart1_03").html(jzCount_2+"个");
 	}
 	if(id=='topic_chart4')
 	{
@@ -581,8 +581,8 @@ function set_multi_graph_statistics(data,id)
 		var count_1=getDataCountForName(data,'计划签订');
     	var count_2=getDataCountForName(data,'实际签订');
         
-        $("#contract_chart4_01").html(count_1);
-        $("#contract_chart4_02").html(count_2);
+        $("#contract_chart4_01").html(count_1+"个");
+        $("#contract_chart4_02").html(count_2+"个");
         $("#contract_chart4_03").html(percentNum(count_2,count_1));
         
 		
@@ -595,9 +595,9 @@ function set_multi_graph_statistics(data,id)
     	var jzCount_2=getDataCountForName(data,'结转课题');
         var allCount_3=xkCount_1+jzCount_2;
         
-        $("#equipment_chart1_01").html(allCount_3);
-        $("#equipment_chart1_02").html(xkCount_1);
-        $("#equipment_chart1_03").html(jzCount_2);
+        $("#equipment_chart1_01").html(allCount_3+"个");
+        $("#equipment_chart1_02").html(xkCount_1+"个");
+        $("#equipment_chart1_03").html(jzCount_2+"个");
 	}
 	
 	if(id=='direct_knowledge_chart1')
@@ -606,9 +606,9 @@ function set_multi_graph_statistics(data,id)
     	var jzCount_2=getDataCountForName(data,'授权总数');
         var allCount_3=xkCount_1+jzCount_2;
         
-        $("#direct_knowledge_chart1_01").html(allCount_3);
-        $("#direct_knowledge_chart1_02").html(xkCount_1);
-        $("#direct_knowledge_chart1_03").html(jzCount_2);
+        $("#direct_knowledge_chart1_01").html(allCount_3+"个");
+        $("#direct_knowledge_chart1_02").html(xkCount_1+"个");
+        $("#direct_knowledge_chart1_03").html(jzCount_2+"个");
 	}
 	if(id=='direct_topic_chart3')
 	{
@@ -616,9 +616,9 @@ function set_multi_graph_statistics(data,id)
     	var jzCount_2=getDataCountForName(data,'结转课题');
         var allCount_3=xkCount_1+jzCount_2;
         
-        $("#direct_topic_chart3_01").html(allCount_3);
-        $("#direct_topic_chart3_02").html(xkCount_1);
-        $("#direct_topic_chart3_03").html(jzCount_2);
+        $("#direct_topic_chart3_01").html(allCount_3+"个");
+        $("#direct_topic_chart3_02").html(xkCount_1+"个");
+        $("#direct_topic_chart3_03").html(jzCount_2+"个");
 	}
 	
 	
