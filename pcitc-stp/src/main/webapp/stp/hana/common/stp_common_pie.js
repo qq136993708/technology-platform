@@ -287,7 +287,7 @@ var optionpie_02 = {
 
 	function pieAjax_02(url, echartsobj, options)
 	{
-		pieAjax_02(url, echartsobj, options,null);
+		return pieAjax_02(url, echartsobj, options,null);
 	}
 	/**
 	 * 支持回调的数据加载
@@ -321,7 +321,7 @@ var optionpie_02 = {
 			                    }
 			                    for(var i=0;i<chartList.length;i++)
 			                    {
-			                    	//allCount=allCount+parseInt(chartList[i].value);
+			                    	
 			                    	values.push({
 			                            value: chartList[i].value,
 			                            name: chartList[i].name
@@ -374,8 +374,8 @@ var optionpie_02 = {
 		optionpie_02.title.subtext=subtext;
 		echartsobj.setOption(optionpie_02);
 		echartsobj.showLoading();
-		var allCount=pieAjax_02(url,echartsobj,optionpie_02,callback);
-		return allCount;
+		echartsobj=pieAjax_02(url,echartsobj,optionpie_02,callback);
+		return echartsobj;
 	}
 	
 /**

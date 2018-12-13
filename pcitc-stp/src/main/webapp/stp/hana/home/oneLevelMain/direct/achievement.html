@@ -125,7 +125,7 @@ layui.config({
 }).extend({
     treeGridCom:'treeGridCom'
 }).use(['jquery','form', 'laydate','treeGridCom','layer'], function(){
-    var $=layui.jquery;
+   // var $=layui.jquery;
     treeGridCom = layui.treeGridCom;//很重要
     layer=layui.layer;
     laydate = layui.laydate;
@@ -137,7 +137,7 @@ layui.config({
        ,format: 'yyyy'
     });
     $("#knowledge_table").click(function () {
-    	//parent.layui.index.openTabsPage("/home_achievement/award_table", "科技成果明细");
+    	window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
     });
   
 });
