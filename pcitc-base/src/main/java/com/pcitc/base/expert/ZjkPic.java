@@ -9,12 +9,12 @@ import java.io.Serializable;
 
 /**
  * <p>实体类</p>
- * <p>Table: zjk_choice - 专家-人员选择</p>
+ * <p>Table: zjk_pic - </p>
  *
- * @since 2018-12-12 01:57:28
+ * @since 2018-12-12 02:58:24
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ZjkChoice extends DataEntity implements Serializable {
+public class ZjkPic extends DataEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -24,49 +24,49 @@ public class ZjkChoice extends DataEntity implements Serializable {
     private String id;
 
     /**
-     * add_user_id - 加入人ID
+     * sql_sql -
      */
-    private String addUserId;
+    private String sqlSql;
 
     /**
-     * xm_id - 项目id
+     * echar_type -
      */
-    private String xmId;
+    private String echarType;
 
     /**
-     * xm_name - 项目名称
+     * x -
      */
-    private String xmName;
+    private String x;
 
     /**
-     * company_id - 机构
+     * y -
      */
-    private String companyId;
+    private String y;
 
     /**
-     * company_name - 机构名称
+     * is_dz - 0:是,1否
      */
-    private String companyName;
+    private String isDz;
 
     /**
-     * status - 状态0:备选1:对比2:选中
+     * title -
      */
-    private String status;
+    private String title;
 
     /**
-     * zj_id - 专家id
+     * sub_title -
      */
-    private String zjId;
+    private String subTitle;
 
     /**
-     * user_id - 用户id
+     * call_back_class -
      */
-    private String userId;
+    private String callBackClass;
 
     /**
-     * year - 参评时间
+     * call_back_js -
      */
-    private String year;
+    private String callBackJs;
 
     /**
      * DEL_FLAG - 是否删除
@@ -142,76 +142,76 @@ public class ZjkChoice extends DataEntity implements Serializable {
         this.id = id;
     }
 
-    public String getAddUserId() {
-        return this.addUserId;
+    public String getSqlSql() {
+        return this.sqlSql;
     }
 
-    public void setAddUserId(String addUserId) {
-        this.addUserId = addUserId;
+    public void setSqlSql(String sqlSql) {
+        this.sqlSql = sqlSql;
     }
 
-    public String getXmId() {
-        return this.xmId;
+    public String getEcharType() {
+        return this.echarType;
     }
 
-    public void setXmId(String xmId) {
-        this.xmId = xmId;
+    public void setEcharType(String echarType) {
+        this.echarType = echarType;
     }
 
-    public String getXmName() {
-        return this.xmName;
+    public String getX() {
+        return this.x;
     }
 
-    public void setXmName(String xmName) {
-        this.xmName = xmName;
+    public void setX(String x) {
+        this.x = x;
     }
 
-    public String getCompanyId() {
-        return this.companyId;
+    public String getY() {
+        return this.y;
     }
 
-    public void setCompanyId(String companyId) {
-        this.companyId = companyId;
+    public void setY(String y) {
+        this.y = y;
     }
 
-    public String getCompanyName() {
-        return this.companyName;
+    public String getIsDz() {
+        return this.isDz;
     }
 
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
+    public void setIsDz(String isDz) {
+        this.isDz = isDz;
     }
 
-    public String getStatus() {
-        return this.status;
+    public String getTitle() {
+        return this.title;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getZjId() {
-        return this.zjId;
+    public String getSubTitle() {
+        return this.subTitle;
     }
 
-    public void setZjId(String zjId) {
-        this.zjId = zjId;
+    public void setSubTitle(String subTitle) {
+        this.subTitle = subTitle;
     }
 
-    public String getUserId() {
-        return this.userId;
+    public String getCallBackClass() {
+        return this.callBackClass;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setCallBackClass(String callBackClass) {
+        this.callBackClass = callBackClass;
     }
 
-    public String getYear() {
-        return this.year;
+    public String getCallBackJs() {
+        return this.callBackJs;
     }
 
-    public void setYear(String year) {
-        this.year = year;
+    public void setCallBackJs(String callBackJs) {
+        this.callBackJs = callBackJs;
     }
 
     public String getDelFlag() {
@@ -330,29 +330,29 @@ public class ZjkChoice extends DataEntity implements Serializable {
             return false;
         }
 
-        ZjkChoice other = (ZjkChoice) that;
+        ZjkPic other = (ZjkPic) that;
 
 
         return
                 (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId())) &&
 
-                        (this.getAddUserId() == null ? other.getAddUserId() == null : this.getAddUserId().equals(other.getAddUserId())) &&
+                        (this.getSqlSql() == null ? other.getSqlSql() == null : this.getSqlSql().equals(other.getSqlSql())) &&
 
-                        (this.getXmId() == null ? other.getXmId() == null : this.getXmId().equals(other.getXmId())) &&
+                        (this.getEcharType() == null ? other.getEcharType() == null : this.getEcharType().equals(other.getEcharType())) &&
 
-                        (this.getXmName() == null ? other.getXmName() == null : this.getXmName().equals(other.getXmName())) &&
+                        (this.getX() == null ? other.getX() == null : this.getX().equals(other.getX())) &&
 
-                        (this.getCompanyId() == null ? other.getCompanyId() == null : this.getCompanyId().equals(other.getCompanyId())) &&
+                        (this.getY() == null ? other.getY() == null : this.getY().equals(other.getY())) &&
 
-                        (this.getCompanyName() == null ? other.getCompanyName() == null : this.getCompanyName().equals(other.getCompanyName())) &&
+                        (this.getIsDz() == null ? other.getIsDz() == null : this.getIsDz().equals(other.getIsDz())) &&
 
-                        (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus())) &&
+                        (this.getTitle() == null ? other.getTitle() == null : this.getTitle().equals(other.getTitle())) &&
 
-                        (this.getZjId() == null ? other.getZjId() == null : this.getZjId().equals(other.getZjId())) &&
+                        (this.getSubTitle() == null ? other.getSubTitle() == null : this.getSubTitle().equals(other.getSubTitle())) &&
 
-                        (this.getUserId() == null ? other.getUserId() == null : this.getUserId().equals(other.getUserId())) &&
+                        (this.getCallBackClass() == null ? other.getCallBackClass() == null : this.getCallBackClass().equals(other.getCallBackClass())) &&
 
-                        (this.getYear() == null ? other.getYear() == null : this.getYear().equals(other.getYear())) &&
+                        (this.getCallBackJs() == null ? other.getCallBackJs() == null : this.getCallBackJs().equals(other.getCallBackJs())) &&
 
                         (this.getDelFlag() == null ? other.getDelFlag() == null : this.getDelFlag().equals(other.getDelFlag())) &&
 
@@ -386,15 +386,15 @@ public class ZjkChoice extends DataEntity implements Serializable {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getAddUserId() == null) ? 0 : getAddUserId().hashCode());
-        result = prime * result + ((getXmId() == null) ? 0 : getXmId().hashCode());
-        result = prime * result + ((getXmName() == null) ? 0 : getXmName().hashCode());
-        result = prime * result + ((getCompanyId() == null) ? 0 : getCompanyId().hashCode());
-        result = prime * result + ((getCompanyName() == null) ? 0 : getCompanyName().hashCode());
-        result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
-        result = prime * result + ((getZjId() == null) ? 0 : getZjId().hashCode());
-        result = prime * result + ((getUserId() == null) ? 0 : getUserId().hashCode());
-        result = prime * result + ((getYear() == null) ? 0 : getYear().hashCode());
+        result = prime * result + ((getSqlSql() == null) ? 0 : getSqlSql().hashCode());
+        result = prime * result + ((getEcharType() == null) ? 0 : getEcharType().hashCode());
+        result = prime * result + ((getX() == null) ? 0 : getX().hashCode());
+        result = prime * result + ((getY() == null) ? 0 : getY().hashCode());
+        result = prime * result + ((getIsDz() == null) ? 0 : getIsDz().hashCode());
+        result = prime * result + ((getTitle() == null) ? 0 : getTitle().hashCode());
+        result = prime * result + ((getSubTitle() == null) ? 0 : getSubTitle().hashCode());
+        result = prime * result + ((getCallBackClass() == null) ? 0 : getCallBackClass().hashCode());
+        result = prime * result + ((getCallBackJs() == null) ? 0 : getCallBackJs().hashCode());
         result = prime * result + ((getDelFlag() == null) ? 0 : getDelFlag().hashCode());
         result = prime * result + ((getCreateDate() == null) ? 0 : getCreateDate().hashCode());
         result = prime * result + ((getCreateUser() == null) ? 0 : getCreateUser().hashCode());
@@ -418,15 +418,15 @@ public class ZjkChoice extends DataEntity implements Serializable {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
-        sb.append(", addUserId=").append(addUserId);
-        sb.append(", xmId=").append(xmId);
-        sb.append(", xmName=").append(xmName);
-        sb.append(", companyId=").append(companyId);
-        sb.append(", companyName=").append(companyName);
-        sb.append(", status=").append(status);
-        sb.append(", zjId=").append(zjId);
-        sb.append(", userId=").append(userId);
-        sb.append(", year=").append(year);
+        sb.append(", sqlSql=").append(sqlSql);
+        sb.append(", echarType=").append(echarType);
+        sb.append(", x=").append(x);
+        sb.append(", y=").append(y);
+        sb.append(", isDz=").append(isDz);
+        sb.append(", title=").append(title);
+        sb.append(", subTitle=").append(subTitle);
+        sb.append(", callBackClass=").append(callBackClass);
+        sb.append(", callBackJs=").append(callBackJs);
         sb.append(", delFlag=").append(delFlag);
         sb.append(", createDate=").append(createDate);
         sb.append(", createUser=").append(createUser);

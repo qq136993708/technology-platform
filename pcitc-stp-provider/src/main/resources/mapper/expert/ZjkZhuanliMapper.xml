@@ -6,6 +6,8 @@
     <resultMap id="BaseResultMap" type="com.pcitc.base.expert.ZjkZhuanli">
 
         <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="user_id" jdbcType="VARCHAR" property="userId"/>
+        <result column="zj_id" jdbcType="VARCHAR" property="zjId"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
         <result column="code" jdbcType="VARCHAR" property="code"/>
         <result column="zt" jdbcType="VARCHAR" property="zt"/>
@@ -90,6 +92,8 @@
     </sql>
     <sql id="Base_Column_List">
         id,
+        user_id,
+        zj_id,
         name,
         code,
         zt,
@@ -154,6 +158,8 @@
     <insert id="insert" parameterType="com.pcitc.base.expert.ZjkZhuanli">
         insert into zjk_zhuanli (
             id,
+            user_id,
+            zj_id,
             name,
             code,
             zt,
@@ -179,6 +185,8 @@
         values (
 
     #{id,jdbcType=VARCHAR},
+    #{userId,jdbcType=VARCHAR},
+    #{zjId,jdbcType=VARCHAR},
     #{name,jdbcType=VARCHAR},
     #{code,jdbcType=VARCHAR},
     #{zt,jdbcType=VARCHAR},
@@ -208,6 +216,12 @@
 
             <if test="id != null">
                 id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="zjId != null">
+                zj_id,
             </if>
             <if test="name != null">
                 name,
@@ -278,6 +292,12 @@
 
             <if test="id != null">
                 #{id ,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null">
+                #{userId ,jdbcType=VARCHAR},
+            </if>
+            <if test="zjId != null">
+                #{zjId ,jdbcType=VARCHAR},
             </if>
             <if test="name != null">
                 #{name ,jdbcType=VARCHAR},
@@ -357,6 +377,12 @@
             <if test="record.id != null">
                 id=#{record.id,jdbcType=VARCHAR},
             </if>
+            <if test="record.userId != null">
+                user_id=#{record.userId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.zjId != null">
+                zj_id=#{record.zjId,jdbcType=VARCHAR},
+            </if>
             <if test="record.name != null">
                 name=#{record.name,jdbcType=VARCHAR},
             </if>
@@ -430,6 +456,8 @@
         update zjk_zhuanli
         set
         id=#{record.id,jdbcType=VARCHAR},
+        user_id=#{record.userId,jdbcType=VARCHAR},
+        zj_id=#{record.zjId,jdbcType=VARCHAR},
         name=#{record.name,jdbcType=VARCHAR},
         code=#{record.code,jdbcType=VARCHAR},
         zt=#{record.zt,jdbcType=VARCHAR},
@@ -459,6 +487,12 @@
         update zjk_zhuanli
         <set>
 
+            <if test="userId != null">
+                user_id=#{userId ,jdbcType=VARCHAR},
+            </if>
+            <if test="zjId != null">
+                zj_id=#{zjId ,jdbcType=VARCHAR},
+            </if>
             <if test="name != null">
                 name=#{name ,jdbcType=VARCHAR},
             </if>
@@ -528,6 +562,8 @@
     <update id="updateByPrimaryKey" parameterType="com.pcitc.base.expert.ZjkZhuanli">
         update zjk_zhuanli
         set
+            user_id=#{userId,jdbcType=VARCHAR},
+            zj_id=#{zjId,jdbcType=VARCHAR},
             name=#{name,jdbcType=VARCHAR},
             code=#{code,jdbcType=VARCHAR},
             zt=#{zt,jdbcType=VARCHAR},
@@ -556,6 +592,8 @@
 
         select
         id,
+        user_id,
+        zj_id,
         name,
         code,
         zt,
@@ -581,6 +619,12 @@
         where 1=1
         <if test="id!=null and id!=''.toString()">
             and id like '%${id}%'
+        </if>
+        <if test="userId!=null and userId!=''.toString()">
+            and user_id like '%${userId}%'
+        </if>
+        <if test="zjId!=null and zjId!=''.toString()">
+            and zj_id like '%${zjId}%'
         </if>
         <if test="name!=null and name!=''.toString()">
             and name like '%${name}%'
@@ -654,6 +698,8 @@
     <select id="findZjkZhuanliList" parameterType="com.pcitc.base.expert.ZjkZhuanli" resultMap="BaseResultMap">
         select
         id,
+        user_id,
+        zj_id,
         name,
         code,
         zt,
@@ -679,6 +725,12 @@
         where 1=1
         <if test="id!=null">
             and id = #{id,jdbcType=VARCHAR}
+        </if>
+        <if test="userId!=null">
+            and user_id = #{userId,jdbcType=VARCHAR}
+        </if>
+        <if test="zjId!=null">
+            and zj_id = #{zjId,jdbcType=VARCHAR}
         </if>
         <if test="name!=null">
             and name = #{name,jdbcType=VARCHAR}

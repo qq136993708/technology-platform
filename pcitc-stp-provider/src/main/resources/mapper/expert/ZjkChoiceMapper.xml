@@ -14,6 +14,7 @@
         <result column="status" jdbcType="VARCHAR" property="status"/>
         <result column="zj_id" jdbcType="VARCHAR" property="zjId"/>
         <result column="user_id" jdbcType="VARCHAR" property="userId"/>
+        <result column="year" jdbcType="VARCHAR" property="year"/>
         <result column="DEL_FLAG" jdbcType="VARCHAR" property="delFlag"/>
         <result column="CREATE_DATE" jdbcType="VARCHAR" property="createDate"/>
         <result column="CREATE_USER" jdbcType="VARCHAR" property="createUser"/>
@@ -98,6 +99,7 @@
         status,
         zj_id,
         user_id,
+        year,
         DEL_FLAG,
         CREATE_DATE,
         CREATE_USER,
@@ -162,6 +164,7 @@
             status,
             zj_id,
             user_id,
+            year,
             DEL_FLAG,
             CREATE_DATE,
             CREATE_USER,
@@ -187,6 +190,7 @@
     #{status,jdbcType=VARCHAR},
     #{zjId,jdbcType=VARCHAR},
     #{userId,jdbcType=VARCHAR},
+    #{year,jdbcType=VARCHAR},
     #{delFlag,jdbcType=VARCHAR},
     #{createDate,jdbcType=VARCHAR},
     #{createUser,jdbcType=VARCHAR},
@@ -232,6 +236,9 @@
             </if>
             <if test="userId != null">
                 user_id,
+            </if>
+            <if test="year != null">
+                year,
             </if>
             <if test="delFlag != null">
                 DEL_FLAG,
@@ -302,6 +309,9 @@
             </if>
             <if test="userId != null">
                 #{userId ,jdbcType=VARCHAR},
+            </if>
+            <if test="year != null">
+                #{year ,jdbcType=VARCHAR},
             </if>
             <if test="delFlag != null">
                 #{delFlag ,jdbcType=VARCHAR},
@@ -381,6 +391,9 @@
             <if test="record.userId != null">
                 user_id=#{record.userId,jdbcType=VARCHAR},
             </if>
+            <if test="record.year != null">
+                year=#{record.year,jdbcType=VARCHAR},
+            </if>
             <if test="record.delFlag != null">
                 DEL_FLAG=#{record.delFlag,jdbcType=VARCHAR},
             </if>
@@ -438,6 +451,7 @@
         status=#{record.status,jdbcType=VARCHAR},
         zj_id=#{record.zjId,jdbcType=VARCHAR},
         user_id=#{record.userId,jdbcType=VARCHAR},
+        year=#{record.year,jdbcType=VARCHAR},
         DEL_FLAG=#{record.delFlag,jdbcType=VARCHAR},
         CREATE_DATE=#{record.createDate,jdbcType=VARCHAR},
         CREATE_USER=#{record.createUser,jdbcType=VARCHAR},
@@ -482,6 +496,9 @@
             </if>
             <if test="userId != null">
                 user_id=#{userId ,jdbcType=VARCHAR},
+            </if>
+            <if test="year != null">
+                year=#{year ,jdbcType=VARCHAR},
             </if>
             <if test="delFlag != null">
                 DEL_FLAG=#{delFlag ,jdbcType=VARCHAR},
@@ -536,6 +553,7 @@
             status=#{status,jdbcType=VARCHAR},
             zj_id=#{zjId,jdbcType=VARCHAR},
             user_id=#{userId,jdbcType=VARCHAR},
+            year=#{year,jdbcType=VARCHAR},
             DEL_FLAG=#{delFlag,jdbcType=VARCHAR},
             CREATE_DATE=#{createDate,jdbcType=VARCHAR},
             CREATE_USER=#{createUser,jdbcType=VARCHAR},
@@ -564,6 +582,7 @@
         status,
         zj_id,
         user_id,
+        year,
         DEL_FLAG,
         CREATE_DATE,
         CREATE_USER,
@@ -605,6 +624,9 @@
         </if>
         <if test="userId!=null and userId!=''.toString()">
             and user_id like '%${userId}%'
+        </if>
+        <if test="year!=null and year!=''.toString()">
+            and year like '%${year}%'
         </if>
         <if test="delFlag!=null and delFlag!=''.toString()">
             and DEL_FLAG like '%${delFlag}%'
@@ -662,6 +684,7 @@
         status,
         zj_id,
         user_id,
+        year,
         DEL_FLAG,
         CREATE_DATE,
         CREATE_USER,
@@ -703,6 +726,9 @@
         </if>
         <if test="userId!=null">
             and user_id = #{userId,jdbcType=VARCHAR}
+        </if>
+        <if test="year!=null">
+            and year = #{year,jdbcType=VARCHAR}
         </if>
         <if test="delFlag!=null">
             and DEL_FLAG = #{delFlag,jdbcType=VARCHAR}

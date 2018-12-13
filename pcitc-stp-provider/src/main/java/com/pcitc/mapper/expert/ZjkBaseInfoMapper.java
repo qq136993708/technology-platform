@@ -37,4 +37,6 @@ public interface ZjkBaseInfoMapper {
 
     List<ZjkBaseInfo> findZjkBaseInfoList(ZjkBaseInfo record);
 
+    List<Map<String,Object>> listSqlResult(Map<String,Object> map);
+
 }

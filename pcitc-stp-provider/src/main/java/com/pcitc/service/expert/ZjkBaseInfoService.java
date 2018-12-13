@@ -1,5 +1,6 @@
 package com.pcitc.service.expert;
 
+import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.enums.DataOperationStatusEnum;
@@ -167,6 +168,8 @@ public interface ZjkBaseInfoService {
      */
     LayuiTableData findZjkBaseInfoByPage(LayuiTableParam param);
 
+    LayuiTableData findZjkBaseInfoByPageIndex(LayuiTableParam param);
+
     /**
      * 真删除
      *
@@ -181,4 +184,12 @@ public interface ZjkBaseInfoService {
      * @return
      */
     List<TreeNode> selectObjectByTree();
+
+    /**
+     * 图表
+     *
+     * @param jsonObject
+     * @return
+     */
+    JSONObject echarts(JSONObject jsonObject);
 }

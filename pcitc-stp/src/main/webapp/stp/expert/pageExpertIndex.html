@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
+    <script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+    <script type="text/javascript" src="/common/js/base.js"></script>
+</head>
+<body>
+统计
+${expertCount}
+${cgCount}
+${zlCount}
+${jlCount}
+<a href="/expertController/queryExpert" target="_blank">查询</a>
+<script>
+
+
+</script>
+
+<script src="/common/js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+<script src="/common/js/layer-v3.1.1/layer.js"></script>
+<script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
+<script type="text/javascript" src="/plugins/echarts/walden.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
+
+            <div class="main-chart" id="two" style="height:280px;width: 100%;"></div>
+            <div class="main-chart" id="three" style="height:280px;width: 100%;"></div>
+<script>
+    function initEchart() {
+        var yAxis= [
+            {
+                type: 'value',
+                name: '数量',
+                min: 0,
+                max:'dataMax',
+                position: 'left',
+                axisLabel: {
+                    formatter: '{value}'
+                }
+            }
+        ];
+        var two="/expertController/picIndex?id=1";
+        var two=load_single_bar(two,"two","专家参与评标项目数量统计图","",yAxis);
+        // two.on('click', function (params) {
+        //     var xName=params.name;
+        //     var legentName=params.seriesName;
+        //     parent.layui.index.openTabsPage("/home_achievement/award_table?project_property="+xName, "科技成果明细");
+        // });
+        var three="/expertController/picIndex?id=2";
+        var three=load_single_bar(three,"three","专家所在行业领域展示图","",yAxis);
+    }
+    initEchart();
+</script>
+</body>
+</html>
