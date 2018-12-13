@@ -64,4 +64,16 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 	public List getPlanCompleteRateByCompanyType(HashMap<String, String> map) {
 		return outProjectPlanMapper.getPlanCompleteRateByCompanyType(map);
 	}
+	
+	/**
+     * 领导首页-科研合同，科研合同签订率清单
+     */
+	public List getPlanCompleteRateDetails(HashMap<String, String> map) {
+		return outProjectPlanMapper.getPlanCompleteRateDetails(map);
+	}
+	
+	
+	
+	
+	
 }
