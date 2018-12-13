@@ -11,7 +11,7 @@ import java.io.Serializable;
  * <p>实体类</p>
  * <p>Table: zjk_zhuanli - 专家-专利信息</p>
  *
- * @since 2018-12-08 04:10:52
+ * @since 2018-12-10 01:50:48
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ZjkZhuanli extends DataEntity implements Serializable {
@@ -22,6 +22,16 @@ public class ZjkZhuanli extends DataEntity implements Serializable {
      * id -
      */
     private String id;
+
+    /**
+     * user_id - 用户id
+     */
+    private String userId;
+
+    /**
+     * zj_id - 专家id
+     */
+    private String zjId;
 
     /**
      * name - 专利名称
@@ -135,6 +145,22 @@ public class ZjkZhuanli extends DataEntity implements Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getUserId() {
+        return this.userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getZjId() {
+        return this.zjId;
+    }
+
+    public void setZjId(String zjId) {
+        this.zjId = zjId;
     }
 
     public String getName() {
@@ -323,6 +349,10 @@ public class ZjkZhuanli extends DataEntity implements Serializable {
         return
                 (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId())) &&
 
+                        (this.getUserId() == null ? other.getUserId() == null : this.getUserId().equals(other.getUserId())) &&
+
+                        (this.getZjId() == null ? other.getZjId() == null : this.getZjId().equals(other.getZjId())) &&
+
                         (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName())) &&
 
                         (this.getCode() == null ? other.getCode() == null : this.getCode().equals(other.getCode())) &&
@@ -371,6 +401,8 @@ public class ZjkZhuanli extends DataEntity implements Serializable {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
+        result = prime * result + ((getUserId() == null) ? 0 : getUserId().hashCode());
+        result = prime * result + ((getZjId() == null) ? 0 : getZjId().hashCode());
         result = prime * result + ((getName() == null) ? 0 : getName().hashCode());
         result = prime * result + ((getCode() == null) ? 0 : getCode().hashCode());
         result = prime * result + ((getZt() == null) ? 0 : getZt().hashCode());
@@ -402,6 +434,8 @@ public class ZjkZhuanli extends DataEntity implements Serializable {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
+        sb.append(", userId=").append(userId);
+        sb.append(", zjId=").append(zjId);
         sb.append(", name=").append(name);
         sb.append(", code=").append(code);
         sb.append(", zt=").append(zt);

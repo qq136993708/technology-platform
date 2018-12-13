@@ -59,6 +59,23 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
     }
 
     @Override
+    public int updateOrInsertZjkChoiceUpdate(ZjkChoice zjkChoice) throws Exception {
+        int result = 500;
+        List<ZjkChoice> zjkChoiceList = this.findZjkChoiceList(zjkChoice);
+        if (zjkChoiceList != null && zjkChoiceList.size() > 0) {
+            this.deleteByPrimaryKey(zjkChoice.getId());
+        }
+        if (zjkChoice.getId() != null && zjkChoice.getId() != null) {
+            zjkChoiceMapper.updateByPrimaryKeySelective(zjkChoice);
+        } else {
+            zjkChoice.setId(IdUtil.createIdByTime());
+            zjkChoiceMapper.insertSelective(zjkChoice);
+        }
+        result = 200;
+        return result;
+    }
+
+    @Override
     public int deleteZjkChoiceById(String id) throws Exception {
         int result = 500;
         if (id != null) {

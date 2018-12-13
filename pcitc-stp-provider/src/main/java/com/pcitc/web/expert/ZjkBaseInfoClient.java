@@ -3,6 +3,7 @@ package com.pcitc.web.expert;
 
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.DataOperationStatusEnum;
 import com.pcitc.base.expert.ZjkBaseInfo;
 import com.pcitc.base.expert.ZjkBaseInfoExample;
@@ -16,6 +17,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -57,6 +59,21 @@ public class ZjkBaseInfoClient {
         JSONObject retJson = new JSONObject();
         try {
             List<ZjkBaseInfo> list = zjkBaseInfoService.findZjkBaseInfoList(zjkBaseInfo);
+            retJson.put("list", list);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return retJson;
+    }
+
+    @ApiOperation(value = "专家-基本信息查询列表", notes = "自定义对象(条件)查询专家-基本信息信息,返回存储在JSONObject对象中的专家-基本信息列表")
+    @RequestMapping(value = "/zjkbaseinfo-provider/zjkbaseinfo/zjkbaseinfo_list_example", method = RequestMethod.POST)
+    public JSONObject selectZjkBaseInfoListExample(@RequestBody JSONObject jsonObject) {
+        JSONObject retJson = new JSONObject();
+        try {
+            ZjkBaseInfoExample zjkBaseInfoExample = new ZjkBaseInfoExample();
+            zjkBaseInfoExample.createCriteria().andHylyIn(Arrays.asList(jsonObject.get("strHyly").toString().split(",")));
+            List<ZjkBaseInfo> list = zjkBaseInfoService.selectByExample(zjkBaseInfoExample);
             retJson.put("list", list);
         } catch (Exception e) {
             e.printStackTrace();
@@ -129,6 +146,18 @@ public class ZjkBaseInfoClient {
     }
 
     /**
+     * 分页查询
+     *
+     * @param param
+     * @return
+     */
+    @ApiOperation(value = "查询专家-基本信息信息-分页查询", notes = "查询专家-基本信息信息-分页查询,Object")
+    @RequestMapping(value = "/zjkbaseinfo-provider/zjkbaseinfo/zjkbaseinfo-pageIndex")
+    public Object selectZjkBaseInfoByPageIndex(@RequestBody LayuiTableParam param) {
+        return zjkBaseInfoService.findZjkBaseInfoByPageIndex(param);
+    }
+
+    /**
      * 保存
      *
      * @param zjkBaseInfo
@@ -143,5 +172,17 @@ public class ZjkBaseInfoClient {
             logger.error("[保存信息失败：]", e);
         }
         return 500;
+    }
+
+    @ApiOperation(value = "首页-图形展示", notes = "图形展示,返回Result")
+    @RequestMapping(value = "/zjkbaseinfo-provider/zjkbaseinfo/echarts", method = RequestMethod.POST)
+    public JSONObject echarts(@RequestBody JSONObject jsonObject) {
+        JSONObject retJson = new JSONObject();
+        try {
+            retJson = zjkBaseInfoService.echarts(jsonObject);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return retJson;
     }
 }

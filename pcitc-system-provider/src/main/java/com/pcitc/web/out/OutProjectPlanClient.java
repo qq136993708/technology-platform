@@ -155,4 +155,15 @@ public class OutProjectPlanClient {
 		return json;
 	}
 	
+	@ApiOperation(value = "领导首页-科研合同，科研合同签订率清单", notes = "参数年度")
+	@RequestMapping(value = "/out-project-plna-provider/contract-rate/details")
+	public JSONArray getPlanCompleteRateDetails(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page getPlanCompleteRateDetails===========================" + map);
+		
+		List temList = outProjectPlanService.getPlanCompleteRateDetails(map);
+		
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		return json;
+	}
+	
 }
