@@ -16,9 +16,14 @@ public interface HomePayMapper {
     public List<H1AMKYSY100109> getPayByDistributeBar(Map map);
     
 
-    public List<H1AMKYSY100109> getTableList(Map map);
-	 
+     public List<H1AMKYSY100109> getTableList(Map map);
 	 public Integer getTableCount(Map map);
-    
+	 public List<H1AMKYSY100109> pay_01(Map map);
+	 public List<H1AMKYSY100109> pay_02(Map map);
+	 public List<H1AMKYSY100109> pay_03(Map map);
+	        
+	 
+	 
+	 
 
 }

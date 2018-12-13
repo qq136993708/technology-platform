@@ -61,7 +61,7 @@ function barAjax_single(url,  echartsobj, options)
  * @param callback
  * @returns
  */
-function barAjax_single(url,  echartsobj, options,callback) 
+function barAjax_single(url,  echartsobj, options,width,callback)
 {
 	 var xAxisData=[];  
      var series=[];  
@@ -88,6 +88,10 @@ function barAjax_single(url,  echartsobj, options,callback)
 	                    {
 	                    	series.push(seriesDataList[i]);
 	                    }
+	                    var barWidth=20;
+	                    if(width!=undefined){
+                            barWidth=width;
+                        }
 	                    //加载数据图表
 	                    echartsobj.setOption({
 	                    	xAxis: {
@@ -96,7 +100,7 @@ function barAjax_single(url,  echartsobj, options,callback)
 	                        series: [{
 	                            data: series,
 	                            type: 'bar',
-	                            barWidth:20,
+	                            barWidth:barWidth,
                                 label: {
                                     show: true, //开启显示
                                     position: 'top', //在上方显示
@@ -143,7 +147,7 @@ function load_single_bar(url,id,title,subtext,yAxis)
  * @param callback
  * @returns
  */
-function load_single_bar(url,id,title,subtext,yAxis,callback)
+function load_single_bar(url,id,title,subtext,yAxis,color,width,callback)
 {
 	var echartsobj = echarts.init(document.getElementById(id));
 	option_bar_single.title.text=title;
@@ -160,9 +164,12 @@ function load_single_bar(url,id,title,subtext,yAxis,callback)
         bottom: '5%',
         containLabel: true
     };
+	if(color!=undefined){
+        option_bar_single.color=color
+    }
 	echartsobj.setOption(option_bar_single);
 	echartsobj.showLoading();
-	barAjax_single(url, echartsobj, option_bar_single,callback);
+	barAjax_single(url, echartsobj, option_bar_single,width,callback);
 	return echartsobj;
 }
 
@@ -443,7 +450,7 @@ function load_mutl_bar_02(url,id,title,subtext,yAxis)
 
 
 // barLineAjax返回DATA,指标在下方
-function load_mutl_bar_03(url,id,title,subtext,yAxis)
+function load_mutl_bar_callback(url,id,title,subtext,yAxis,callback)
 {
 	var echartsobj = echarts.init(document.getElementById(id));
 	if(title!=null && title!='')
@@ -468,8 +475,8 @@ function load_mutl_bar_03(url,id,title,subtext,yAxis)
     echartsobj.clear();
 	echartsobj.setOption(mutl_bar_bottom);
 	echartsobj.showLoading();
-	var data=barLineAjax_03(url,echartsobj, mutl_bar_bottom);
-	return data;
+	echartsobj=barLineAjax_Stack_callback(url,echartsobj, mutl_bar_bottom,callback);
+	return echartsobj;
 }
 function load_mutl_bar_three(url,id,title,subtext,yAxis)
 {

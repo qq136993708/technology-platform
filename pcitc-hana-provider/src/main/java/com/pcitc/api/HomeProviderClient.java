@@ -1192,6 +1192,62 @@ public class HomeProviderClient {
    		return json;
    	}
     
+    
+    @ApiOperation(value = "下钻页-二级页面科研支出-按分布", notes = "下钻页-二级页面科研支出-按分布")
+   	@RequestMapping(value = "/pay_01", method = RequestMethod.POST)
+   	public JSONArray pay_01(@ApiParam(value="月份:month如201812,公司代码:companyCode",required=true)@RequestBody String paramsJson) throws Exception 
+    {
+   		
+   		System.out.println(" paramsJson=" + paramsJson);
+   		JSONObject jo = JSONObject.parseObject(paramsJson);
+   		String month = jo.getString("month");
+   		String companyCode = jo.getString("companyCode");
+   		Map map = new HashMap();
+   		map.put("month", month);
+   		map.put("companyCode", companyCode);
+   		List<H1AMKYSY100109> list = homeService.pay_01(map);
+   		JSONArray json = JSON.parseArray(JSON.toJSONString(list));
+   		System.out.println(">>>>>>>>>>>>>>>>>pay_01 " + json.toString());
+   		return json;
+   	}
+    @ApiOperation(value = "下钻页-二级页面科研支出-按分布", notes = "下钻页-二级页面科研支出-按分布")
+   	@RequestMapping(value = "/pay_02", method = RequestMethod.POST)
+   	public JSONArray pay_02(@ApiParam(value="月份:month如201812,公司代码:companyCode",required=true)@RequestBody String paramsJson) throws Exception 
+    {
+   		
+   		System.out.println(" paramsJson=" + paramsJson);
+   		JSONObject jo = JSONObject.parseObject(paramsJson);
+   		String month = jo.getString("month");
+   		String companyCode = jo.getString("companyCode");
+   		Map map = new HashMap();
+   		map.put("month", month);
+   		map.put("companyCode", companyCode);
+   		List<H1AMKYSY100109> list = homeService.pay_02(map);
+   		JSONArray json = JSON.parseArray(JSON.toJSONString(list));
+   		System.out.println(">>>>>>>>>>>>>>>>>pay_02 " + json.toString());
+   		return json;
+   	}
+    
+    
+    @ApiOperation(value = "下钻页-二级页面科研支出-按分布", notes = "下钻页-二级页面科研支出-按分布")
+   	@RequestMapping(value = "/pay_03", method = RequestMethod.POST)
+   	public JSONArray pay_03(@ApiParam(value="月份:month如201812,公司代码:companyCode",required=true)@RequestBody String paramsJson) throws Exception 
+    {
+   		
+   		System.out.println(" paramsJson=" + paramsJson);
+   		JSONObject jo = JSONObject.parseObject(paramsJson);
+   		String month = jo.getString("month");
+   		String companyCode = jo.getString("companyCode");
+   		Map map = new HashMap();
+   		map.put("month", month);
+   		map.put("companyCode", companyCode);
+   		List<H1AMKYSY100109> list = homeService.pay_03(map);
+   		JSONArray json = JSON.parseArray(JSON.toJSONString(list));
+   		System.out.println(">>>>>>>>>>>>>>>>>pay_03 " + json.toString());
+   		return json;
+   	}
+    
+    
     @ApiOperation(value = "下钻页-科研支出三级页面", notes = "下钻页-科研支出三级页面")
    	@RequestMapping(value = "/getPayTable", method = RequestMethod.POST)
    	public LayuiTableData getPayTable(@RequestBody LayuiTableParam param)throws Exception

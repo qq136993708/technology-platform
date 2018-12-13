@@ -178,8 +178,9 @@ function initEchart()
 	
 	
 	 
-	var chart4_url="/direct/contract_03?type=1&nd="+nd+"&v_date="+v_date; 
-	var echart4=load_mutl_bar_down(chart4_url,"contract_chart4","","",yAxis);
+	var chart4_url="/direct/contract_03?type=1&nd="+nd+"&v_date="+v_date;
+    var colorTr=["#17a2b9","#43c5ff","#f9c16d"];
+	var echart4=load_mutl_bar_down_r(chart4_url,"contract_chart4","","",yAxis,1,12,colorTr);
 	echart4.on('click', function (params) {
 		var xName=params.name;
 		var legentName=params.seriesName;

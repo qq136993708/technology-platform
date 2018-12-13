@@ -33,6 +33,7 @@ import com.pcitc.base.common.PageResult;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.TreeNode2;
 import com.pcitc.base.hana.report.Contract;
+import com.pcitc.base.hana.report.H1AMKYSY100104;
 import com.pcitc.base.hana.report.H1AMKYSY100109;
 import com.pcitc.base.hana.report.H1AMKYSY100117;
 import com.pcitc.base.hana.report.Knowledge;
@@ -66,9 +67,12 @@ public class DirectController {
 	private static final String equipment_02 = "http://pcitc-zuul/hana-proxy/hana/home/get_direct_KYZB_02";
 	private static final String equipment_03 = "http://pcitc-zuul/hana-proxy/hana/home/get_direct_KYZB";
 	//支出
-	private static final String pay_01 =      "http://pcitc-zuul/hana-proxy/hana/home/getPayByCountBar";
-	private static final String pay_02 =   "http://pcitc-zuul/hana-proxy/hana/home/getPayByCountCricle";
-	private static final String pay_03 = "http://pcitc-zuul/hana-proxy/hana/home/getPayByDistributeBar";
+	private static final String pay_01 =      "http://pcitc-zuul/hana-proxy/hana/home/pay_01";
+	private static final String pay_02 =   "http://pcitc-zuul/hana-proxy/hana/home/pay_02";
+	private static final String pay_03 = "http://pcitc-zuul/hana-proxy/hana/home/pay_03";
+	
+	
+	private static final String GET_XFZC =      "http://pcitc-zuul/hana-proxy/hana/home/getndys_xfzc";
 	
 	@Autowired
 	private HttpHeaders httpHeaders;
@@ -77,7 +81,41 @@ public class DirectController {
 
 	
 	/**===================================首页=================================*/
-	
+	//年度预算 经费支出
+			@RequestMapping(method = RequestMethod.GET, value = "/getndys_xfzc")
+			@ResponseBody
+			public String getndys_xfzc(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+				Result result = new Result();
+				String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+				String companyCode = CommonUtil.getParameter(request, "companyCode", "");
+				Map<String, Object> paramsMap = new HashMap<String, Object>();
+				paramsMap.put("month", month);
+				paramsMap.put("companyCode", companyCode);
+				JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+				HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+				if (!companyCode.equals("")) {
+					ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(GET_XFZC, HttpMethod.POST, entity, JSONArray.class);
+					int statusCode = responseEntity.getStatusCodeValue();
+					if (statusCode == 200) {
+						JSONArray jSONArray = responseEntity.getBody();
+						List<H1AMKYSY100104> list = JSONObject.parseArray(jSONArray.toJSONString(), H1AMKYSY100104.class);
+						
+						if(list!=null && list.size()>0)
+						{
+							result.setSuccess(true);
+							result.setData(list.get(0));
+						}
+					}
+				} else {
+					result.setSuccess(false);
+					result.setMessage("参数为空");
+				}
+				JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
+				System.out.println(">>>>>>>>>>>>>>>>>年度预算 经费支出" + resultObj.toString());
+				return resultObj.toString();
+
+			}
 	
 	/**===================================首页  end=================================*/
 	
@@ -798,7 +836,7 @@ public class DirectController {
 				         	
 				         		List<String> legendDataList = new ArrayList<String>();
 								legendDataList.add("新开课题");
-								legendDataList.add("转结课题");
+								legendDataList.add("结转课题");
 								barLine.setLegendDataList(legendDataList);
 								// X轴数据
 								List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
@@ -878,7 +916,7 @@ public class DirectController {
 			 			         	
 			 			         		List<String> legendDataList = new ArrayList<String>();
 			 							legendDataList.add("新开课题");
-			 							legendDataList.add("转结课题");
+			 							legendDataList.add("结转课题");
 			 							barLine.setLegendDataList(legendDataList);
 			 							// X轴数据
 			 							List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
@@ -951,7 +989,7 @@ public class DirectController {
 		 			         	
 		 			         		List<String> legendDataList = new ArrayList<String>();
 		 							legendDataList.add("新开课题");
-		 							legendDataList.add("转结课题");
+		 							legendDataList.add("结转课题");
 		 							barLine.setLegendDataList(legendDataList);
 		 							// X轴数据
 		 							List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
@@ -1031,7 +1069,7 @@ public class DirectController {
 				         	
 				         		List<String> legendDataList = new ArrayList<String>();
 								legendDataList.add("新开课题");
-								legendDataList.add("转结课题");
+								legendDataList.add("结转课题");
 								barLine.setLegendDataList(legendDataList);
 								// X轴数据
 								List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
@@ -1396,7 +1434,6 @@ public class DirectController {
 										legendDataList.add("费用性");
 										legendDataList.add("资本性");
 										
-										
 										barLine.setxAxisDataList(xAxisDataList);
 										barLine.setLegendDataList(legendDataList);
 										// X轴数据
@@ -1413,7 +1450,7 @@ public class DirectController {
 										result.setData(barLine);
 									}else
 									{
-										pageResult.setData(list);
+										pageResult.setData(addListLineH1AMKYSY100109(list));
 										pageResult.setCode(0);
 										pageResult.setCount(Long.valueOf(list.size()));
 										pageResult.setLimit(1000);
@@ -1444,6 +1481,46 @@ public class DirectController {
 							
 							return resault;
 						}
+						
+						
+						public List<H1AMKYSY100109>  addListLineH1AMKYSY100109(List<H1AMKYSY100109> list)
+						{
+							List<H1AMKYSY100109> resutList =new ArrayList<H1AMKYSY100109>();
+							//加--总数行
+							H1AMKYSY100109 temp=new H1AMKYSY100109();
+							temp.setG0GSJC("总计");
+							Double k0BNYSJHJE_count=0.0;
+							Double k0BNZBJE_count=0.0;
+							Double k0BNFYJE_count=0.0;
+							DecimalFormat df=new DecimalFormat("0.00");
+							for(int i=0;i<list.size();i++)
+							{
+								H1AMKYSY100109 contract=list.get(i);
+								String k0BNYSJHJE =contract.getK0BNYSJHJE();
+								String k0BNZBJE =contract.getK0BNZBJE();
+								String k0BNFYJE =contract.getK0BNFYJE();
+								k0BNYSJHJE_count=k0BNYSJHJE_count+Double.valueOf(k0BNYSJHJE);
+								k0BNZBJE_count=k0BNZBJE_count+Double.valueOf(k0BNZBJE);
+								k0BNFYJE_count=k0BNFYJE_count+Double.valueOf(k0BNFYJE);
+								
+							}
+							temp.setK0BNYSJHJE(df.format(k0BNFYJE_count));
+							temp.setK0BNZBJE(df.format(k0BNZBJE_count));
+							temp.setK0BNFYJE(df.format(k0BNFYJE_count));
+							
+    						//double fyxsl_rate = new BigDecimal((float)fyxsl_count/zsl_count).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+							resutList.add(temp);
+							for(int i=0;i<list.size();i++)
+							{
+								H1AMKYSY100109 contract=list.get(i);
+								contract.setK0BNYSJHJE(df.format(Double.valueOf(contract.getK0BNYSJHJE())));
+								contract.setK0BNZBJE(df.format(Double.valueOf(contract.getK0BNZBJE())));
+								contract.setK0BNFYJE(df.format(Double.valueOf(contract.getK0BNFYJE())));
+								resutList.add(contract);
+							}
+							return resutList;
+						}
+					  
 			
 		  
 		  

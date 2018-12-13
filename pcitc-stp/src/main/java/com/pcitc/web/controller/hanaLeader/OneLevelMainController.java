@@ -995,6 +995,9 @@ public class OneLevelMainController {
 				    
 				    String year= HanaUtil.getCurrrentYear();
 				    request.setAttribute("year", year);
+				    
+				    request.setAttribute("YJY_CODE_NOT_YINGKE", HanaUtil.YJY_CODE_NOT_YINGKE);
+				    
 			        return "stp/hana/home/oneLevelMain/equipment";
 			  }
 				
@@ -1076,13 +1079,6 @@ public class OneLevelMainController {
 							node.setExtend03(bean.getG0TXT50());//设备名称
 							node.setExtend04(bean.getG0ZBHND());//购置年度
 							node.setExtend05(bean.getG0NDJAR());//使用年限
-							//处理年限
-							if(bean.getG0NDJAR()!=null && bean.getG0NDJAR().length()==3) 
-							{
-								Integer y = new Integer("1"+bean.getG0NDJAR())%1000;
-								node.setExtend05(y.toString());
-							}
-							
 							node.setExtend06(bean.getG0NDSYN());//剩余年限
 							
 							DecimalFormat decimalFormat=new DecimalFormat(".00");
