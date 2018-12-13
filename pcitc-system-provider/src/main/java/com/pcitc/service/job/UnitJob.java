@@ -55,7 +55,7 @@ public class UnitJob implements Job, Serializable {
 					oa.setUnitName(dwqc);
 					oa.setUnitAli(dwjc);
 					oa.setParentCode(sjbm);
-					oa.setDefine1("科研项目系统");
+					oa.setDefine1("科研项目系统1");
 					oa.setDefine2(dwlb);
 					
 					oa.setCreateDate(new Date());
