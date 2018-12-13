@@ -31,4 +31,10 @@ public interface OutUnitMapper {
     int updateByPrimaryKey(OutUnit record);
     
     public void insertOutUnitBatch(List<OutUnit> list);
+    
+    /**
+	 * @param list
+	 * 批量修改数据
+	 */
+	public int updateUnitDataBatch(List<OutUnit> list);
 }

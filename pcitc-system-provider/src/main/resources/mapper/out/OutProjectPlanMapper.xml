@@ -851,7 +851,7 @@
 			from out_project_plan left join out_project_info on (out_project_plan.XMID = out_project_info.xmid)
 			WHERE
 				(out_project_plan.PROJECT_SCOPE= '新开课题' or out_project_plan.PROJECT_SCOPE= '结转课题')
-			  and out_project_plan.DEFINE2 is not null
+			  and out_project_plan.DEFINE2 is not null and out_project_plan.DEFINE3 like '%直属研究院%'
 		) as tableB 
 		group by tableB.DEFINE2
 	</select>

@@ -13,7 +13,6 @@ import org.quartz.JobExecutionException;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.google.gson.JsonObject;
-import com.pcitc.base.stp.out.OutAppraisal;
 import com.pcitc.base.stp.out.OutUnit;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.config.SpringContextUtil;
@@ -40,7 +39,7 @@ public class UnitJob implements Job, Serializable {
 			str = DataServiceUtil.getDataService(DataServiceUtil.GET_URL, sqlName, conditions);
 			if (str != null) {
 				JSONArray jSONArray = JSONArray.parseArray(str);
-				List<OutUnit> insertData = new ArrayList<OutUnit>();
+				List<OutUnit> unitList = new ArrayList<OutUnit>();
 				for (int i = 0; i < jSONArray.size(); i++) {
 					JSONObject object = (JSONObject) jSONArray.get(i);
 					OutUnit oa = new OutUnit();
@@ -49,20 +48,23 @@ public class UnitJob implements Job, Serializable {
 					String dwjc = object.getString("DWJC");
 					String dwqc = object.getString("DWQC");
 					String sjbm = object.getString("SJBM");
+					String dwlb = object.getString("DWLB");
 					
 					
 					oa.setUnitCode(dwbm);
 					oa.setUnitName(dwqc);
 					oa.setUnitAli(dwjc);
-					oa.setDefine1(sjbm);
 					oa.setParentCode(sjbm);
-					oa.setDefine1("奖励系统");
+					oa.setDefine1("科研项目系统");
+					oa.setDefine2(dwlb);
 					
 					oa.setCreateDate(new Date());
-					insertData.add(oa);
+					unitList.add(oa);
 				}
-				if (insertData != null && insertData.size() > 0) {
-					outUnitService.insertUnitData(insertData);
+				if (unitList != null && unitList.size() > 0) {
+					//outUnitService.insertOutUnitBatch(unitList);
+					// 批量修改
+					outUnitService.updateUnitDataBatch(unitList);
 				}
 				
 				System.out.println("======" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "组织机构数据--保存到本地数据库-结束=========");
@@ -107,7 +109,7 @@ public class UnitJob implements Job, Serializable {
 					insertData.add(oa);
 				}
 				if (insertData != null && insertData.size() > 0) {
-					outUnitService.insertUnitData(insertData);
+					outUnitService.insertOutUnitBatch(insertData);
 				}
 				
 				System.out.println("======" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "组织机构数据--保存到本地数据库-结束=========");
