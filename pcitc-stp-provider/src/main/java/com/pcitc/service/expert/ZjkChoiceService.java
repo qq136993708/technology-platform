@@ -37,6 +37,8 @@ public interface ZjkChoiceService {
      */
     int updateOrInsertZjkChoice(ZjkChoice record) throws Exception;
 
+    int updateOrInsertZjkChoiceUpdate(ZjkChoice record) throws Exception;
+
     /**
      * 根据id删除
      *

@@ -11,7 +11,7 @@ import java.io.Serializable;
  * <p>实体类</p>
  * <p>Table: zjk_choice - 专家-人员选择</p>
  *
- * @since 2018-12-08 04:10:47
+ * @since 2018-12-12 01:57:28
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ZjkChoice extends DataEntity implements Serializable {
@@ -62,6 +62,11 @@ public class ZjkChoice extends DataEntity implements Serializable {
      * user_id - 用户id
      */
     private String userId;
+
+    /**
+     * year - 参评时间
+     */
+    private String year;
 
     /**
      * DEL_FLAG - 是否删除
@@ -199,6 +204,14 @@ public class ZjkChoice extends DataEntity implements Serializable {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public String getYear() {
+        return this.year;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
     }
 
     public String getDelFlag() {
@@ -339,6 +352,8 @@ public class ZjkChoice extends DataEntity implements Serializable {
 
                         (this.getUserId() == null ? other.getUserId() == null : this.getUserId().equals(other.getUserId())) &&
 
+                        (this.getYear() == null ? other.getYear() == null : this.getYear().equals(other.getYear())) &&
+
                         (this.getDelFlag() == null ? other.getDelFlag() == null : this.getDelFlag().equals(other.getDelFlag())) &&
 
                         (this.getCreateDate() == null ? other.getCreateDate() == null : this.getCreateDate().equals(other.getCreateDate())) &&
@@ -379,6 +394,7 @@ public class ZjkChoice extends DataEntity implements Serializable {
         result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
         result = prime * result + ((getZjId() == null) ? 0 : getZjId().hashCode());
         result = prime * result + ((getUserId() == null) ? 0 : getUserId().hashCode());
+        result = prime * result + ((getYear() == null) ? 0 : getYear().hashCode());
         result = prime * result + ((getDelFlag() == null) ? 0 : getDelFlag().hashCode());
         result = prime * result + ((getCreateDate() == null) ? 0 : getCreateDate().hashCode());
         result = prime * result + ((getCreateUser() == null) ? 0 : getCreateUser().hashCode());
@@ -410,6 +426,7 @@ public class ZjkChoice extends DataEntity implements Serializable {
         sb.append(", status=").append(status);
         sb.append(", zjId=").append(zjId);
         sb.append(", userId=").append(userId);
+        sb.append(", year=").append(year);
         sb.append(", delFlag=").append(delFlag);
         sb.append(", createDate=").append(createDate);
         sb.append(", createUser=").append(createUser);

@@ -385,13 +385,14 @@ layui.define(['jquery','form','table','laydate'],
                     }
                 });
             },
-            tableRender:function (elem,id,url,toolbar,cols,done) {
+            tableRender:function (elem,id,url,toolbar,cols,where,done) {
                 if(toolbar){
                     table.render({
                         elem: '#'+elem //表格容器
                         , url:url //请求的url地址
                         , limit: param.selfRownum //每页默认显示的数量
                         , id: id
+                        , where:where
                         ,method:"POST"
                         , height: commonDislodgeTable()
                         , page: {
@@ -416,6 +417,7 @@ layui.define(['jquery','form','table','laydate'],
                         , url:url //请求的url地址
                         , limit: param.selfRownum //每页默认显示的数量
                         , id: id
+                        , where:where
                         ,method:"POST"
                         , height: commonDislodgeTable()
                         , page: {

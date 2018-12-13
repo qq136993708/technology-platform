@@ -144,4 +144,21 @@ public class ZjkChoiceClient {
         }
         return 500;
     }
+
+    /**
+     * 保存
+     *
+     * @param zjkChoice
+     * @return
+     */
+    @ApiOperation(value = "新增专家-人员选择信息", notes = "新增专家-人员选择信息,操作成功返回500")
+    @RequestMapping(value = "/zjkchoice-provider/zjkchoice/save_zjkchoice_update", method = RequestMethod.POST)
+    public int updateOrInsertZjkChoiceUpdate(@RequestBody ZjkChoice zjkChoice) {
+        try {
+            return zjkChoiceService.updateOrInsertZjkChoiceUpdate(zjkChoice);
+        } catch (Exception e) {
+            logger.error("[保存信息失败：]", e);
+        }
+        return 500;
+    }
 }
