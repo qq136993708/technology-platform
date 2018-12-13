@@ -107,7 +107,8 @@ function pieAjax(url, echartsobj, options)
 {
 	
 	 var names=[];  
-     var values=[];  
+     var values=[]; 
+     var selecteds={};
      $.ajax({
 	     type:"get",
 	     url: url,

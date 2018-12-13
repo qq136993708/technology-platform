@@ -31,4 +31,6 @@ public interface OutRewardMapper {
     int updateByPrimaryKey(OutReward record);
     
     public void insertOutRewardBatch(List<OutReward> list);
+    
+    List<String> selectOutRewardYearList();
 }
