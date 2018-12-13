@@ -65,6 +65,11 @@ public class OneLevelMainController {
 		private static final String contract_02 = "http://pcitc-zuul/system-proxy/out-project-plna-provider/complete-rate/company-type";
 		private static final String contract_03 = "http://pcitc-zuul/system-proxy/out-project-plna-provider/complete-rate/institute";
 		private static final String contract_04 = "http://pcitc-zuul/system-proxy/out-project-provider/project-money/institute";
+		private static final String contract_05 = "http://pcitc-zuul/system-proxy/out-project-plna-provider/contract-rate/details";
+		
+		
+		
+		
 		
 		//科技成果
 		private static final String achievement_01 = "http://pcitc-zuul/system-proxy/out-appraisal-provider/institution/cg/info";
@@ -763,7 +768,45 @@ public class OneLevelMainController {
   	
   	
           
-          
+          @RequestMapping(method = RequestMethod.GET, value = "/contract_05")
+			@ResponseBody
+			public String contract_05(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+				PageResult pageResult = new PageResult();
+				String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+				String companyCode = CommonUtil.getParameter(request, "companyCode", "");
+				Map<String, Object> paramsMap = new HashMap<String, Object>();
+				paramsMap.put("month", month);
+				paramsMap.put("companyCode", companyCode);
+				JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+				HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+				
+					ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(contract_05, HttpMethod.POST, entity, JSONArray.class);
+					int statusCode = responseEntity.getStatusCodeValue();
+					if (statusCode == 200) 
+					{
+						JSONArray jSONArray = responseEntity.getBody();
+						System.out.println(">>>>>>>>>>>>>>>contract_05 jSONArray" + jSONArray.toString());
+						
+						List<Contract> list = JSONObject.parseArray(jSONArray.toJSONString(), Contract.class);
+						List<String>  lista=HanaUtil.getduplicatexAxisByList(list,"define3");
+						List<TreeNode2>  chartCircleList=	HanaUtil.getChildChartCircleuContract02(lista,list);
+						
+						pageResult.setData(chartCircleList);
+						pageResult.setCode(0);
+						pageResult.setCount(Long.valueOf(chartCircleList.size()));
+						pageResult.setLimit(1000);
+						pageResult.setPage(1l);
+						
+						
+					}
+					
+				
+				JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
+				System.out.println(">>>>>>>>>>>>>>>contract_05 " + resultObj.toString());
+				return resultObj.toString();
+			}
+			
 				
 			public List<Contract>  addListLine(List<Contract> list)
 			{
