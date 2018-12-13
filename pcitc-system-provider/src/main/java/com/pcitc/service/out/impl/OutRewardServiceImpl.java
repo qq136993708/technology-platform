@@ -67,7 +67,7 @@ public class OutRewardServiceImpl implements OutRewardService {
 		if (paraMap.get("xmmc") != null && !paraMap.get("xmmc").toString().equals("")) {
 			criteria.andXmmcLike("%" + paraMap.get("xmmc").toString() + "%");
 		}
-		example.setOrderByClause(" create_date desc ");
+		example.setOrderByClause(" sbjz,sbdj asc ");
 
 		List<OutReward> list = outRewardMapper.selectByExample(example);
 		PageInfo<OutReward> pageInfo = new PageInfo<OutReward>(list);
