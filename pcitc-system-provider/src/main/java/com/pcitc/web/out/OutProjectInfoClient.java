@@ -1923,9 +1923,10 @@ public class OutProjectInfoClient {
 		List finalList = new ArrayList();
 		
 		int index = 0;
+		int showIndex = 0;
 		String xmmc = "";
-		String zzdw = null;
-		String xzdw = null;
+		String zzdw = "";
+		String xzdw = "";
 		for (int i = 0; i < temList.size(); i++) {
 			HashMap<String, String> temMap = (HashMap<String, String>)temList.get(i);
 			String temXmmc = temMap.get("xmmc");
@@ -1935,22 +1936,25 @@ public class OutProjectInfoClient {
 			}
 			
 			if (!xmmc.equals(temXmmc)) {
-				index++;
+				showIndex++;
 				xmmc = temXmmc;
-				zzdw = null;
-				xzdw = null;
+				zzdw = "";
+				xzdw = "";
 			}
 			
 			//排序，组长和协作的先出现
 			if (define6.contains("组长")) {
 				zzdw = temMap.get("zydw");
 			} else if (define6.contains("协作")) {
-				xzdw = temMap.get("zydw");
+				xzdw = temMap.get("xzdw");
 			} else {
 				temMap.put("zzdw", zzdw);
 				temMap.put("xzdw", xzdw);
 				
+				temMap.put("showIndex", String.valueOf(showIndex+1));
+				
 				finalList.add(index, temMap);
+				index++;
 			}
 		}
 		
