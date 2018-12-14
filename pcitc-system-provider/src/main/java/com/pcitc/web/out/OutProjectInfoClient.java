@@ -1943,23 +1943,18 @@ public class OutProjectInfoClient {
 			
 			//排序，组长和协作的先出现
 			if (define6.contains("组长")) {
-				zzdw = temMap.get("fzdw");
+				zzdw = temMap.get("zydw");
 			} else if (define6.contains("协作")) {
-				xzdw = temMap.get("fzdw");
+				xzdw = temMap.get("zydw");
 			} else {
-				if (zzdw != null) {
-					temMap.put("zzdw", zzdw);
-				}
-				
-				if (xzdw != null) {
-					temMap.put("xzdw", xzdw);
-				}
+				temMap.put("zzdw", zzdw);
+				temMap.put("xzdw", xzdw);
 				
 				finalList.add(index, temMap);
 			}
 		}
 		
-		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(finalList));
 		return json;
 	}
 	
