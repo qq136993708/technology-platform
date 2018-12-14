@@ -1902,4 +1902,15 @@ public class OutProjectInfoClient {
 		return json;
 	}
 	
+	@ApiOperation(value = "领导首页-十条龙，十条龙项目的出入龙情况 ", notes = "参数年度")
+	@RequestMapping(value = "/out-project-provider/dragon/institute/project-info")
+	public JSONArray getDragonProjectInfoByInstitute(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page getDragonProjectInfoByInstitute===========================" + map);
+		
+		List temList = outProjectService.getDragonProjectInfoByInstitute(map);
+		
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		return json;
+	}
+	
 }

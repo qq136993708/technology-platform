@@ -1746,7 +1746,16 @@
 			project_property = '十条龙项目' 
 	</select>
 	
-	
+	<!--  领导首页-十条龙，8个研究院的龙项目/重大专项项目分布 -->
+	<select id="getDragonProjectInfoByInstitute" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select SUBSTR(define2 FROM 4) as define2,
+			 sum(case when project_property = '十条龙项目' then 1 else 0 end) stlxm,
+			 sum(case when project_property = '重大专项' then 1 else 0 end) zdzx
+		from out_project_info
+		WHERE
+			 nd = '2017' and type_flag like '%研究院'
+    	GROUP BY define2
+	</select>
 	
 	
 </mapper>
