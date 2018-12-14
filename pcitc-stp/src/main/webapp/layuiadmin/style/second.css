@@ -63,20 +63,22 @@ h3{font-size: 18px;/*font-weight: bold;*/color: #000000;height: 30px;line-height
 .layui-main-lab .layui-card-header-r{font-size: 18px; color: #e60012;width: 218px;
     background: url("/layuiadmin/layui/images/icon-lab-r.png") no-repeat;}
 /*时间轴*/
-.duty_gd{width: 120px;margin-left: 35px;float: left;}
+.duty_gd{width: 120px;float: left;position: relative;height: 620px;
+    overflow: hidden;background: url("/layuiadmin/layui/images/icon-time-g.png") repeat-y 14px 0;}
 .pre_last{background: url("/layuiadmin/layui/images/icon-time-up-g.png") no-repeat;width: 32px;height: 32px;
-    cursor: pointer;}
+    cursor: pointer;position: absolute;top: 0;}
 .pre_last:hover{background: url("/layuiadmin/layui/images/icon-time-up.png") no-repeat;}
 .pre_next{background: url("/layuiadmin/layui/images/icon-time-down-g.png") no-repeat;width: 32px;height: 32px;
-    cursor: pointer;}
+    cursor: pointer;position: absolute;bottom: 0;}
 .pre_next:hover{background: url("/layuiadmin/layui/images/icon-time-down.png") no-repeat;}
-.duty_gd ul{background: url("/layuiadmin/layui/images/icon-time-g.png") repeat-y 14px 0;padding: 36px 0;}
-.duty_gd ul li{height: 92px;line-height: 96px;text-indent: 56px;cursor: pointer;
+.duty_gd ul{position: absolute;padding: 32px 0;}
+.duty_gd ul li{padding:36px 0;text-indent: 56px;cursor: pointer;height: 20px;
     background: url("/layuiadmin/layui/images/icon-time-l.png") no-repeat 5px 50%;}
 .duty_gd ul li:hover,.duty_gd ul li.layui-this{background: url("/layuiadmin/layui/images/icon-time.png") no-repeat 5px 50%;color: #17a2b9;}
 .layui-main-oil .dateInput select{font-size: 14px;height: 24px;line-height: 24px;
     padding:0 6px;border-radius: 2px;vertical-align: middle;color: #555;background-color: #fff;
     border: 1px solid #ccc;margin-right: 8px;}
+.duty_content{width: 90%;float: right;}
 @media screen and (min-width: 992px) {
     .layui-row-text span{font-size: 12px;}
     .layui-col-md5 {width: 50%;}

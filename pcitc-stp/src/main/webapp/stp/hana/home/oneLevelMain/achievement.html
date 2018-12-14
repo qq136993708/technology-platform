@@ -88,7 +88,7 @@
                     <div class="layui-card-header">
                         <span>&nbsp;</span>所获奖励
                     </div>
-                    <div class="layui-row-main" style="display: flex;">
+                    <div class="layui-row-main" style="padding-left: 35px;">
                     	<div class="duty_gd">
 	                       	<div class="pre_last"></div>
 		                        <ul>
@@ -96,7 +96,7 @@
 		                        </ul>
 	                        <div class="pre_next"></div>
 	                    </div>
-	                    <div class="duty_content" style="width:99%;">
+	                    <div class="duty_content">
 	                        <div class="duty_nr" style="display: block; position: relative; top: 0px; left: 0px; opacity: 1;">
 	                           <table id="processdef-table"  lay-filter="tableEvent1"></table>
 	                        </div>
@@ -143,7 +143,7 @@ layui.config({
     publicMethods.ajaxPost("/one_level_main/achievement_05",null, function (data) {
     	$(".duty_gd ul").html("");
 		$.each(data,function(i,dt){
-			if(i>=6){return false;}//由于太长只显示6年，请前端妥善处理
+			//if(i>=6){return false;}//由于太长只显示6年，请前端妥善处理
 			var cs = (dt==$("#year").val())?' class="layui-this"':'';
 			$(".duty_gd ul").append('<li'+cs+'>'+dt+'</li>');
 		});
@@ -165,7 +165,7 @@ layui.config({
     $("ul > li").on("click",function () {
         index_fzlc=$(this).index();
         $(this).addClass("layui-this").siblings().removeClass("layui-this");
-        $(".duty_gd ul").stop(true,false).animate({top: -fzlcWidth*index_fzlc},500);
+        $(".duty_gd ul").stop(true,false).animate({top: -92*index_fzlc},500);
         //加载表格
         renderTable($(".layui-this").html());
         //$(".duty_content>div").eq(index_fzlc).fadeIn(700).siblings().hide();
@@ -179,7 +179,7 @@ layui.config({
             index_fzlc=len_fzlc-1;
         }
         $(".duty_gd ul li").eq(index_fzlc).addClass("layui-this").siblings().removeClass("layui-this");
-        $(".duty_gd ul").stop(true,false).animate({top: -fzlcWidth*index_fzlc},500);
+        $(".duty_gd ul").stop(true,false).animate({top: -92*index_fzlc},500);
         //$(".duty_content>div").eq(index_fzlc).fadeIn(700).siblings().hide();
         renderTable($(".layui-this").html());
     });
@@ -192,7 +192,7 @@ layui.config({
             index_fzlc=0;
         }
         $(".duty_gd ul li").eq(index_fzlc).addClass("layui-this").siblings().removeClass("layui-this");
-        $(".duty_gd ul").stop(true,false).animate({top: -fzlcWidth*index_fzlc},500);
+        $(".duty_gd ul").stop(true,false).animate({top: -92*index_fzlc},500);
         //$(".duty_content>div").eq(index_fzlc).fadeIn(700).siblings().hide();
         renderTable($(".layui-this").html());
     });
@@ -336,7 +336,7 @@ function renderTable(nd){
         , url:'/one_level_main/achievement_04?nd='+nd
         , limit: 15 //每页默认显示的数量
         , id: 'processdef-table'
-        , height: commonDislodgeTable()
+        , height: "620px"
         , cols: [[
         	  		{field:'nd',title:'年度',edit:'text',align: 'center'},
 		  	   		{field:'sbjz',title:'获奖类别',edit:'text', width: '15%'},
