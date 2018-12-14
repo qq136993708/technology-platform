@@ -493,6 +493,12 @@ public class OutProjectServiceImpl implements OutProjectService {
 		return outProjectInfoMapper.getDragonProjectInfoByInstitute(map);
 	}
 	
+	/**
+     * 领导首页-十条龙，十条龙项目的详情
+     */
+	public List getDragonProjectDetails(HashMap<String, String> map) {
+		return outProjectInfoMapper.getDragonProjectDetails(map);
+	}
 	
 	
 }

@@ -1913,4 +1913,54 @@ public class OutProjectInfoClient {
 		return json;
 	}
 	
+	@ApiOperation(value = "领导首页-十条龙，十条龙项目的详情", notes = "参数年度")
+	@RequestMapping(value = "/out-project-provider/dragon/details")
+	public JSONArray getDragonProjectDetails(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page getDragonProjectDetails===========================" + map);
+		
+		List temList = outProjectService.getDragonProjectDetails(map);
+		
+		List finalList = new ArrayList();
+		
+		int index = 0;
+		String xmmc = "";
+		String zzdw = null;
+		String xzdw = null;
+		for (int i = 0; i < temList.size(); i++) {
+			HashMap<String, String> temMap = (HashMap<String, String>)temList.get(i);
+			String temXmmc = temMap.get("xmmc");
+			String define6 = temMap.get("define6");
+			if (xmmc.equals("")) { //第一次赋值
+				xmmc = temXmmc;
+			}
+			
+			if (!xmmc.equals(temXmmc)) {
+				index++;
+				xmmc = temXmmc;
+				zzdw = null;
+				xzdw = null;
+			}
+			
+			//排序，组长和协作的先出现
+			if (define6.contains("组长")) {
+				zzdw = temMap.get("fzdw");
+			} else if (define6.contains("协作")) {
+				xzdw = temMap.get("fzdw");
+			} else {
+				if (zzdw != null) {
+					temMap.put("zzdw", zzdw);
+				}
+				
+				if (xzdw != null) {
+					temMap.put("xzdw", xzdw);
+				}
+				
+				finalList.add(index, temMap);
+			}
+		}
+		
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		return json;
+	}
+	
 }
