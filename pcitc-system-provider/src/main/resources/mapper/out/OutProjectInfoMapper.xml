@@ -1673,13 +1673,14 @@
 			ORDER BY show_order
 	</select>
 	
-	<!-- 领导二级页面，重大项目和十条龙项目详情 -->
+	<!-- 领导二级页面，重大专项项目详情 -->
 	<select id="getZDSTLProjectInfo" resultType="java.util.Map" parameterType="java.util.HashMap">
 			select 
 				nd,hth,xmmc,jf,fzdw,project_scope,zylb,fzrxm,zycmc,xmlbmc,define1,fwdx
 			from out_project_info
 			where 
-				project_property = '重点项目' limit 10
+				project_property = '重大专项' 
+			order by nd desc,xmmc
 	</select>
 	
 	<!-- 领导二级页面，重大项目和十条龙项目, 8个院中重大、十条龙项目的情况, 每一行是一个院 -->
