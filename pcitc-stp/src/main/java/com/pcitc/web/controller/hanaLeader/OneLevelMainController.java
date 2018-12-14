@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.ChartBarLineResultData;
@@ -40,6 +41,7 @@ import com.pcitc.base.hana.report.Contract;
 import com.pcitc.base.hana.report.H1AMKYSY100109;
 import com.pcitc.base.hana.report.H1AMKYSY100117;
 import com.pcitc.base.hana.report.Knowledge;
+import com.pcitc.base.hana.report.ProjectForMysql;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
@@ -76,7 +78,8 @@ public class OneLevelMainController {
 		private static final String achievement_02 = "http://pcitc-zuul/system-proxy/out-appraisal-provider/cg/count/company-type";
 		private static final String achievement_03 = "http://pcitc-zuul/system-proxy/out-appraisal-provider/zy/cg/info";
 		private static final String achievement_04 = "http://pcitc-zuul/system-proxy/out-provider/reward-list";
-		
+		private static final String achievement_05 = "http://pcitc-zuul/system-proxy/out-provider/reward-year-list";
+
 		
 		//科研装备
 		private static final String equipment_01 = "http://pcitc-zuul/hana-proxy/hana/home/get_home_KYZB";
@@ -84,8 +87,12 @@ public class OneLevelMainController {
 		
 		
 		
-		
-		
+		//十条龙
+		private static final String dragon_01 = "http://pcitc-zuul/system-proxy/out-project-provider/dragon/type/project-info";
+		private static final String dragon_02 = "http://pcitc-zuul/system-proxy/out-project-provider/dragon/out-in/project-info";
+		private static final String getZdstlTable = "http://pcitc-zuul/system-proxy/out-project-provider/ld/project-info/zdstl";
+		private static final String getZdstlPie = "http://pcitc-zuul/system-proxy/out-project-provider/ld/zdstl/count";
+
 		
 		
 		@Autowired
@@ -1003,12 +1010,14 @@ public class OneLevelMainController {
 			}
 			
 			
-			@RequestMapping(method = RequestMethod.POST, value = "/achievement_04")
+			@RequestMapping(method = RequestMethod.GET, value = "/achievement_04")
 			@ResponseBody
 			public String achievement_04(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 
 				System.out.println("achievement_04 param=   " + JSONObject.toJSONString(param));
-
+				String nd = CommonUtil.getParameter(request, "nd", DateUtil.format(new Date(), DateUtil.FMT_YYYY));
+				param.setLimit(2000);
+				param.getParam().put("nd", nd);
 				LayuiTableData layuiTableData = new LayuiTableData();
 				HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
 				ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(achievement_04, HttpMethod.POST, entity, LayuiTableData.class);
@@ -1019,6 +1028,25 @@ public class OneLevelMainController {
 				JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
 				System.out.println("achievement_04 result=   " + result.toJSONString());
 				return result.toString();
+			}
+			//获得科技成果的所有年限
+			@RequestMapping(method = RequestMethod.POST, value = "/achievement_05")
+			@ResponseBody
+			public String achievement_05(HttpServletRequest request,
+					HttpServletResponse response) {
+
+				System.out.println("achievement_05 param=   ");
+
+				Object rs = null;
+				HttpEntity<Object> entity = new HttpEntity<Object>(httpHeaders);
+				ResponseEntity<Object> responseEntity = restTemplate.exchange(achievement_05, HttpMethod.POST, entity,
+						Object.class);
+				int statusCode = responseEntity.getStatusCodeValue();
+				if (statusCode == 200) {
+					rs = responseEntity.getBody();
+				}
+				System.out.println("achievement_05 result=   " +JSON.toJSONString(rs));
+				return JSON.toJSONString(rs);
 			}
 		/**=========================================科技成果 end===============================*/
 		
@@ -1160,5 +1188,222 @@ public class OneLevelMainController {
 			}
 				
 			/**=========================================科研装备 end===============================*/
+			
+		    
+		    
+		    
+		    
+		    /**======================十条龙==================================*/
+			
+			
+			@RequestMapping(method = RequestMethod.GET, value = "/dragon")
+			  public String dragon(HttpServletRequest request) throws Exception
+			  {
+				    
+				    SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
+				    HanaUtil.setSearchParaForUser(userInfo,restTemplate,httpHeaders,request);
+				    String unitCode=userInfo.getUnitCode();
+				    request.setAttribute("unitCode", unitCode);
+				    request.setAttribute("YJY_CODE_NOT_YINGKE", HanaUtil.YJY_CODE_NOT_YINGKE);
+				    request.setAttribute("YJY_CODE_ALL", HanaUtil.YJY_CODE_ALL);
+				    String year= HanaUtil.getCurrrentYear();
+				    request.setAttribute("year", year);
+			        return "stp/hana/home/oneLevelMain/ten_dragon";
+			        
+			  }
+			
+			
+			
+			@RequestMapping(method = RequestMethod.GET, value = "/dragon_01")
+			@ResponseBody
+			public String dragon_01(HttpServletRequest request, HttpServletResponse response) throws Exception 
+			{
+				
+				Result result = new Result();
+				String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+				String type = CommonUtil.getParameter(request, "type", "");
+				
+				Map<String, Object> paramsMap = new HashMap<String, Object>();
+				paramsMap.put("nd", nd);
+				paramsMap.put("type", type);
+				JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+				HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+				if (!nd.equals(""))
+				{
+					ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(dragon_01, HttpMethod.POST, entity, JSONArray.class);
+					int statusCode = responseEntity.getStatusCodeValue();
+					if (statusCode == 200) 
+					{
+						
+						JSONArray jSONArray = responseEntity.getBody();
+					    System.out.println(">>>>>>>>>>>>>>dragon_01 jSONArray-> " + jSONArray.toString());
+						List<ProjectForMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), ProjectForMysql.class);
+					
+						
+							ChartPieResultData pie = new ChartPieResultData();
+							List<ChartPieDataValue> dataList = new ArrayList<ChartPieDataValue>();
+							List<String> legendDataList = new ArrayList<String>();
+							for (int i = 0; i < list.size(); i++) {
+								ProjectForMysql f2 = list.get(i);
+								String projectName = (String)f2.getXmlbmc();
+								Integer value =(Integer)f2.getSl();
+								legendDataList.add(projectName);
+								dataList.add(new ChartPieDataValue(value, projectName));
+							}
+							pie.setDataList(dataList);
+							pie.setLegendDataList(legendDataList);
+							result.setSuccess(true);
+							result.setData(pie);
+						
+					}
+					
+				} else
+				{
+					result.setSuccess(false);
+					result.setMessage("参数为空");
+				}
+				JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
+				System.out.println(">>>>>>>>>>>>>>dragon_01 type= "+type+" : " + resultObj.toString());
+				return resultObj.toString();
+			}
+			
+			
+			    @RequestMapping(method = RequestMethod.GET, value = "/dragon_02")
+				@ResponseBody
+				public String dragon_02(HttpServletRequest request, HttpServletResponse response) throws Exception {
+			    	Result result = new Result();
+					String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+					String companyCode = CommonUtil.getParameter(request, "companyCode", "");
+					Map<String, Object> paramsMap = new HashMap<String, Object>();
+					paramsMap.put("month", month);
+					paramsMap.put("companyCode", companyCode);
+					JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+					HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+					ChartSingleLineResultData chartSingleLineResultData = new ChartSingleLineResultData();
+						ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(dragon_02, HttpMethod.POST, entity, JSONArray.class);
+						int statusCode = responseEntity.getStatusCodeValue();
+						if (statusCode == 200) 
+						{
+							JSONArray jSONArray = responseEntity.getBody();
+							System.out.println(">>>>>>>>>>>>>>>dragon_02 jSONArray" + jSONArray.toString());
+							List<ProjectForMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), ProjectForMysql.class);
+							List<String> xAxisDataList = new ArrayList<String>();
+							List<Object> seriesDataList = new ArrayList<Object>();
+							if(list!=null && list.size()>0)
+							{
+								ProjectForMysql contract = (ProjectForMysql) list.get(0);
+								Integer sqcl =(Integer)contract.getSqcl();
+								Integer tjrl =(Integer)contract.getTjrl();
+								Integer zyxm =(Integer)contract.getZyxm();
+								
+								xAxisDataList.add(HanaUtil.getCurrrentYear()+"申请出龙");
+								xAxisDataList.add(HanaUtil.getCurrrentYear()+"推荐入龙");
+								xAxisDataList.add(HanaUtil.getCurrrentYear()+"在研项目");
+								
+								seriesDataList.add(sqcl);
+								seriesDataList.add(tjrl);
+								seriesDataList.add(zyxm);
+								chartSingleLineResultData.setSeriesDataList(seriesDataList);
+								chartSingleLineResultData.setxAxisDataList(xAxisDataList);
+							}
+							result.setSuccess(true);
+							result.setData(chartSingleLineResultData);
+						}
+					JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
+					System.out.println(">>>>>>>>>>>>>>>dragon_02 " + resultObj.toString());
+					return resultObj.toString();
+			}
+			
+			@RequestMapping(method = RequestMethod.GET, value = "/getZdstlPie")
+			@ResponseBody
+			public String getProjectByCountBar(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+				Result result = new Result();
+				ChartBarLineResultData barLine=new ChartBarLineResultData();
+				String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+				String companyCode = CommonUtil.getParameter(request, "companyCode", "");
+				Map<String, Object> paramsMap = new HashMap<String, Object>();
+				paramsMap.put("month", month);
+				paramsMap.put("companyCode", companyCode);
+				JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+				HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+				if (!companyCode.equals(""))
+				{
+					ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(getZdstlPie, HttpMethod.POST, entity, JSONArray.class);
+					int statusCode = responseEntity.getStatusCodeValue();
+					if (statusCode == 200) 
+					{
+						JSONArray jSONArray = responseEntity.getBody();
+						System.out.println(">>>>>>>>>>>>>>getZdstlPie jSONArray-> " + jSONArray.toString());
+						List<ProjectForMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), ProjectForMysql.class);
+						List<String>  xAxisDataList=HanaUtil.getduplicatexAxisByList(list,"define2");
+		         		barLine.setxAxisDataList(xAxisDataList);
+		         	
+						List<String> legendDataList = new ArrayList<String>();
+						legendDataList.add("十条龙项目");
+						legendDataList.add("重大项目");
+						barLine.setxAxisDataList(xAxisDataList);
+						barLine.setLegendDataList(legendDataList);
+						// X轴数据
+						List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
+						ChartBarLineSeries s1 = HanaUtil.getTenDragonChartBarLineSeries(list, "stlsl");
+						ChartBarLineSeries s2 = HanaUtil.getTenDragonChartBarLineSeries(list, "zdzxsl");
+						seriesList.add(s1);
+						seriesList.add(s2);
+						barLine.setSeriesList(seriesList);
+		         		result.setSuccess(true);
+						result.setData(barLine);
+					}
+					
+				} else
+				{
+					result.setSuccess(false);
+					result.setMessage("参数为空");
+				}
+				JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
+				System.out.println(">>>>>>>>>>>>>>getZdstlPie " + resultObj.toString());
+				return resultObj.toString();
+			}
+						
+						
+						//重在集团
+						@RequestMapping(method = RequestMethod.GET, value = "/getZdstlTable")
+						@ResponseBody
+						public String getZdstlTable(HttpServletRequest request, HttpServletResponse response) throws Exception {
+							PageResult pageResult = new PageResult();
+							String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+							String companyCode = CommonUtil.getParameter(request, "companyCode", "");
+							String type = CommonUtil.getParameter(request, "type", "重点专项");
+							Map<String, Object> paramsMap = new HashMap<String, Object>();
+							paramsMap.put("month", month);
+							paramsMap.put("type", type);
+							paramsMap.put("companyCode", companyCode);
+							JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+							HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+							
+								ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(getZdstlTable, HttpMethod.POST, entity, JSONArray.class);
+								int statusCode = responseEntity.getStatusCodeValue();
+								if (statusCode == 200) 
+								{
+									JSONArray jSONArray = responseEntity.getBody();
+									System.out.println(">>>>>>>>>>>>getZdstlTable jSONArray>>> " + jSONArray.toString());
+									List<ProjectForMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), ProjectForMysql.class);
+									pageResult.setData(list);
+									pageResult.setCode(0);
+									pageResult.setCount(Long.valueOf(list.size()));
+									pageResult.setLimit(1000);
+									pageResult.setPage(1l);
+								}
+								
+							
+							JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
+							System.out.println(">>>>>>>>>>>>>>>getZdstlTable " + resultObj.toString());
+							return resultObj.toString();
+						}
+						
+						
+			 /**======================十条龙 end==================================*/
+				
+			
 			
 }
