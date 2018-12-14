@@ -38,7 +38,6 @@ import com.pcitc.base.common.Result;
 import com.pcitc.base.common.TreeNode2;
 import com.pcitc.base.hana.report.AchievementsAnalysis;
 import com.pcitc.base.hana.report.Contract;
-import com.pcitc.base.hana.report.H1AMKYSY100109;
 import com.pcitc.base.hana.report.H1AMKYSY100117;
 import com.pcitc.base.hana.report.Knowledge;
 import com.pcitc.base.hana.report.ProjectForMysql;
@@ -80,7 +79,6 @@ public class OneLevelMainController {
 		private static final String achievement_04 = "http://pcitc-zuul/system-proxy/out-provider/reward-list";
 		private static final String achievement_05 = "http://pcitc-zuul/system-proxy/out-provider/reward-year-list";
 
-		
 		//科研装备
 		private static final String equipment_01 = "http://pcitc-zuul/hana-proxy/hana/home/get_home_KYZB";
 		private static final String equipment_02 = "http://pcitc-zuul/hana-proxy/hana/home/get_home_KYZB_02";
@@ -1163,8 +1161,13 @@ public class OneLevelMainController {
 							{
 								node.setExtend08(decimalFormat.format(Double.valueOf(bean.getG0LJZJJE())/10000l));
 							}
-							
-							node.setExtend09(bean.getBl()+"%");//折旧率
+							node.setExtend09("0");
+							if(bean.getG0NCGZYZJE()!=null && bean.getG0LJZJJE()!=null) 
+							{
+								Double rs = Double.valueOf(node.getExtend07())-Double.valueOf(node.getExtend08());
+								node.setExtend09(decimalFormat.format(rs));
+							}
+							node.setExtend10(bean.getBl()+"%");//折旧率
 							
 							chartCircleList.add(node);
 						}
