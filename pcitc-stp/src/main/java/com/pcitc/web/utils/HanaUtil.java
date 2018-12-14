@@ -3723,11 +3723,11 @@ public class HanaUtil {
 	public static ChartBarLineSeries getTenDragonChartBarLineSeries(List<ProjectForMysql> list, String name) {
 
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
-		if (name.equals("stlsl")) {
+		if (name.equals("stlxm")) {
 			chartBarLineSeries.setName("十条龙项目");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
-		if (name.equals("zdzxsl")) {
+		if (name.equals("zdzx")) {
 			chartBarLineSeries.setName("重大项目");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
@@ -3737,14 +3737,14 @@ public class HanaUtil {
 		if (list != null && list.size() > 0) {
 			for (int i = 0; i < list.size(); i++) {
 				ProjectForMysql f03 = list.get(i);
-				Integer stlsl = (Integer)f03.getXksl();
-				Integer zdzxsl =  (Integer)f03.getZdzxsl();
+				Integer stlxm = (Integer)f03.getStlxm();
+				Integer zdzx =  (Integer)f03.getZdzx();
 				
-					if (name.equals("stlsl")) {
+					if (name.equals("stlxm")) {
 						
-						if(stlsl!=null)
+						if(stlxm!=null)
 						{
-							dataList.add(stlsl);
+							dataList.add(stlxm);
 						}else
 						{
 							dataList.add(0);
@@ -3752,11 +3752,11 @@ public class HanaUtil {
 						
 						
 					}
-					if (name.equals("zdzxsl")) {
+					if (name.equals("zdzx")) {
 						
-						if(zdzxsl!=null)
+						if(zdzx!=null)
 						{
-							dataList.add(zdzxsl);
+							dataList.add(zdzx);
 						}else
 						{
 							dataList.add(0);

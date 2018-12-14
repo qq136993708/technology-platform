@@ -91,7 +91,7 @@ public class OneLevelMainController {
 		private static final String dragon_01 = "http://pcitc-zuul/system-proxy/out-project-provider/dragon/type/project-info";
 		private static final String dragon_02 = "http://pcitc-zuul/system-proxy/out-project-provider/dragon/out-in/project-info";
 		private static final String getZdstlTable = "http://pcitc-zuul/system-proxy/out-project-provider/ld/project-info/zdstl";
-		private static final String getZdstlPie = "http://pcitc-zuul/system-proxy/out-project-provider/ld/zdstl/count";
+		private static final String dragon_03 = "http://pcitc-zuul/system-proxy/out-project-provider/dragon/institute/project-info";
 
 		
 		
@@ -1272,10 +1272,10 @@ public class OneLevelMainController {
 				@ResponseBody
 				public String dragon_02(HttpServletRequest request, HttpServletResponse response) throws Exception {
 			    	Result result = new Result();
-					String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+					String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
 					String companyCode = CommonUtil.getParameter(request, "companyCode", "");
 					Map<String, Object> paramsMap = new HashMap<String, Object>();
-					paramsMap.put("month", month);
+					paramsMap.put("nd", nd);
 					paramsMap.put("companyCode", companyCode);
 					JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 					HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
@@ -1314,27 +1314,27 @@ public class OneLevelMainController {
 					return resultObj.toString();
 			}
 			
-			@RequestMapping(method = RequestMethod.GET, value = "/getZdstlPie")
+			@RequestMapping(method = RequestMethod.GET, value = "/dragon_03")
 			@ResponseBody
 			public String getProjectByCountBar(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 				Result result = new Result();
 				ChartBarLineResultData barLine=new ChartBarLineResultData();
-				String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+				String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
 				String companyCode = CommonUtil.getParameter(request, "companyCode", "");
 				Map<String, Object> paramsMap = new HashMap<String, Object>();
-				paramsMap.put("month", month);
+				paramsMap.put("nd", nd);
 				paramsMap.put("companyCode", companyCode);
 				JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 				HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 				if (!companyCode.equals(""))
 				{
-					ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(getZdstlPie, HttpMethod.POST, entity, JSONArray.class);
+					ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(dragon_03, HttpMethod.POST, entity, JSONArray.class);
 					int statusCode = responseEntity.getStatusCodeValue();
 					if (statusCode == 200) 
 					{
 						JSONArray jSONArray = responseEntity.getBody();
-						System.out.println(">>>>>>>>>>>>>>getZdstlPie jSONArray-> " + jSONArray.toString());
+						System.out.println(">>>>>>>>>>>>>>dragon_03 jSONArray-> " + jSONArray.toString());
 						List<ProjectForMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), ProjectForMysql.class);
 						List<String>  xAxisDataList=HanaUtil.getduplicatexAxisByList(list,"define2");
 		         		barLine.setxAxisDataList(xAxisDataList);
@@ -1346,8 +1346,8 @@ public class OneLevelMainController {
 						barLine.setLegendDataList(legendDataList);
 						// X轴数据
 						List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
-						ChartBarLineSeries s1 = HanaUtil.getTenDragonChartBarLineSeries(list, "stlsl");
-						ChartBarLineSeries s2 = HanaUtil.getTenDragonChartBarLineSeries(list, "zdzxsl");
+						ChartBarLineSeries s1 = HanaUtil.getTenDragonChartBarLineSeries(list, "stlxm");
+						ChartBarLineSeries s2 = HanaUtil.getTenDragonChartBarLineSeries(list, "zdzx");
 						seriesList.add(s1);
 						seriesList.add(s2);
 						barLine.setSeriesList(seriesList);
@@ -1361,7 +1361,7 @@ public class OneLevelMainController {
 					result.setMessage("参数为空");
 				}
 				JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-				System.out.println(">>>>>>>>>>>>>>getZdstlPie " + resultObj.toString());
+				System.out.println(">>>>>>>>>>>>>>dragon_03 " + resultObj.toString());
 				return resultObj.toString();
 			}
 						
@@ -1371,12 +1371,11 @@ public class OneLevelMainController {
 						@ResponseBody
 						public String getZdstlTable(HttpServletRequest request, HttpServletResponse response) throws Exception {
 							PageResult pageResult = new PageResult();
-							String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+							String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
 							String companyCode = CommonUtil.getParameter(request, "companyCode", "");
 							String type = CommonUtil.getParameter(request, "type", "重点专项");
 							Map<String, Object> paramsMap = new HashMap<String, Object>();
-							paramsMap.put("month", month);
-							paramsMap.put("type", type);
+							paramsMap.put("nd", nd);
 							paramsMap.put("companyCode", companyCode);
 							JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 							HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
