@@ -45,7 +45,30 @@
         </div>
         
         
-       
+         <div class="layui-row layui-col-space15">
+            <div class="layui-col-md6">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        <span class="layui-time"></span>十条龙科技公关项目
+                    </div>
+                    <div class="layui-row-main">
+                       <div class="layui-row">
+                           <div class="layui-col-md6" id="dragon1"    style="height:280px;"></div>
+                       </div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md6">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        <span class="layui-time"></span>十条龙项目
+                    </div>
+                    <div class="layui-card-body btn-function" >
+                        <div class="layui-col-md6" id="dragon2"    style="height:280px;"></div>
+                       </div>
+                </div>
+            </div>
+        </div>
         
         
         <div class="layui-row layui-col-space15">
@@ -55,7 +78,7 @@
                         <span class="layui-time"></span>直属研究院课题分布情况
                     </div>
                     <div class="layui-row-main">
-                        <div class="main-chart" id="chart1" style="height:280px;width: 100%;"></div>
+                        <div class="main-chart" id="dragon3" style="height:280px;width: 100%;"></div>
                     </div>
                 </div>
             </div>
@@ -93,6 +116,7 @@
 <script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
 <script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
 <script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
+<script type="text/javascript" src="/stp/hana/home/direct_depart/direct_common.js"></script>
 
 <script type="text/javascript">
 
@@ -114,15 +138,15 @@ layui.config({
        elem: '#year'
        ,format: 'yyyy'
     });
-    renderTable();
-    renderTable2();
+    //renderTable();
+   // renderTable2();
   
 });
 
 function initEchart()
 {
 	
-	 var year=$("#year").val();
+	 var nd=$("#year").val();
      $(".layui-time").html(year+"年");
 	 var companyCode=$("#companyCode").val();
 	 var v_date=(new Date()).getTime();
@@ -140,9 +164,31 @@ function initEchart()
         }
     ];
 	
+	 
+	 var chart1_url="/one_level_main/dragon_01?type=2&nd="+nd+"&v_date="+v_date;
+		var echart1=loadPie_02(chart1_url,"dragon1","","",function(data){
+			var total_count = 0;
+			$.each(data.data.dataList,function(index,dt){
+				total_count += dt.value;
+			});
+			$("#chart_title_03").html(total_count+"个");
+		});
+		
+	 
+	 
+	 var chart2_url="/one_level_main/dragon_02?nd="+nd+"&v_date="+v_date;
+		var echart1=load_single_bar(chart2_url,"dragon2","","",yAxis,function(data){
+			var total_count = 0;
+			$.each(data.data.seriesDataList,function(index,dt){
+				total_count += dt;
+			});
+			$("#chart_title_01").html(total_count+"个");
+		});
+		
+		
 	
-	var chart7_url="/ten_dragon/getZdstlPie?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
-	var echart7=load_mutl_bar_02(chart7_url,"chart1","","",yAxis);
+	var chart7_url="/one_level_main/getZdstlPie?nd="+year+"&v_date="+v_date+"&companyCode="+companyCode;
+	var echart7=load_mutl_bar_02(chart7_url,"dragon3","","",yAxis);
 	echart7.on('click', function (params){
 		var xName=params.name;
 		var legentName=params.seriesName;
@@ -166,7 +212,7 @@ function search_Event()
 function renderTable()
 {
 	
-	 var month=$("#month").val();
+	 var month=$("#year").val();
 	 var companyCode=$("#companyCode").val();
 	 var tableOne=table.render({
     elem: '#processdef-table',
@@ -224,7 +270,7 @@ function renderTable()
 function renderTable2()
 {
 	
-	 var month=$("#month").val();
+	 var month=$("#year").val();
 	 var companyCode=$("#companyCode").val();
 	 var tableTwo=table.render({
     elem: '#processdef_table_2',
