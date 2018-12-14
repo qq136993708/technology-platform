@@ -1880,4 +1880,37 @@ public class OutProjectInfoClient {
 		return json;
 	}
 	
+	@ApiOperation(value = "领导首页-十条龙，十条龙项目的类型分布 ", notes = "参数年度")
+	@RequestMapping(value = "/out-project-provider/dragon/type/project-info")
+	public JSONArray getDragonProjectInfoByType(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page getDragonProjectInfoByType===========================" + map);
+		
+		List temList = outProjectService.getDragonProjectInfoByType(map);
+		
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		return json;
+	}
+	
+	@ApiOperation(value = "领导首页-十条龙，十条龙项目的出入龙情况 ", notes = "参数年度")
+	@RequestMapping(value = "/out-project-provider/dragon/out-in/project-info")
+	public JSONArray getDragonProjectInfoWithOutIn(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page getDragonProjectInfoWithOutIn===========================" + map);
+		
+		List temList = outProjectService.getDragonProjectInfoWithOutIn(map);
+		
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		return json;
+	}
+	
+	@ApiOperation(value = "领导首页-十条龙，十条龙项目的出入龙情况 ", notes = "参数年度")
+	@RequestMapping(value = "/out-project-provider/dragon/institute/project-info")
+	public JSONArray getDragonProjectInfoByInstitute(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page getDragonProjectInfoByInstitute===========================" + map);
+		
+		List temList = outProjectService.getDragonProjectInfoByInstitute(map);
+		
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		return json;
+	}
+	
 }

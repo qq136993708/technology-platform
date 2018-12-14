@@ -46,7 +46,9 @@
                 </div>
                 <div class="layui-right layui-row-text">
                     <div class="layui-row-textBottom layui-row">
-
+                        <div class="layui-col-md3 layui-text-icon layui-party"  style="cursor:pointer">
+                            <p>领导讲话</p>
+                        </div>
                         <div class="layui-col-md3 layui-text-icon layui-textTop-two"  id="home_budget" style="cursor:pointer">
                             <p>科研投入</p>
                             <span id="textTopTwo">0</span><span class="layui-text-span">亿</span>
@@ -65,14 +67,7 @@
                             <!--<span id="textBottomFour">0</span><span class="layui-text-span">个</span>-->
                             <img src="/layuiadmin/layui/images/level-close.png" class="dele" alt="">
                         </div>
-                        <div class="layui-col-md3 layui-text-icon layui-contract" id="contract">
-                            <p>科研合同</p>
-                            <!--  <span id="textTopThree"></span><span class="layui-text-span">个</span> -->
-                            <span class="layui-box-number" id="kyxm">
-                             <img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
-                            </span>
-                            <img src="/layuiadmin/layui/images/level-close.png" class="dele" alt="">
-                        </div>
+
 
                     </div>
                     <div class="layui-row-textTop layui-row">
@@ -85,15 +80,16 @@
 
                             <img src="/layuiadmin/layui/images/level-close.png" class="dele" alt="">
                         </div>
-                        <div class="layui-col-md3 layui-text-icon layui-textBottom-one" id="mainLeader">
-                            <p>直属研究院概况</p>
+                        <div class="layui-col-md3 layui-text-icon layui-contract" id="contract">
+                            <p>科研合同</p>
+                            <!--  <span id="textTopThree"></span><span class="layui-text-span">个</span> -->
+                            <span class="layui-box-number" id="kyxm">
+                             <img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+                            </span>
                             <img src="/layuiadmin/layui/images/level-close.png" class="dele" alt="">
                         </div>
-                        <div class="layui-col-md3 layui-text-icon layui-textBottom-three"  id="knowledge_right">
-                            <p>知识产权</p>
-                            <span class="layui-box-number" id="patentId">
-                               <img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
-                            </span>
+                        <div class="layui-col-md3 layui-text-icon layui-textBottom-one" id="mainLeader">
+                            <p>直属研究院概况</p>
                             <img src="/layuiadmin/layui/images/level-close.png" class="dele" alt="">
                         </div>
                     </div>
@@ -128,65 +124,61 @@
                                 <span class="layui-agency-span" id="agencyOne">1</span>
                             </li>
                             <li>
-                                <img src="/layuiadmin/layui/images/agencyTwo.png" alt="">
-                                <span class="layui-agency-left-span">已办事项</span>
-                                <span class="layui-agency-span" id="agencyTwo">1</span>
-                            </li>
-                            <li>
-                                <img src="/layuiadmin/layui/images/agencyThree.png" alt="">
-                                <span class="layui-agency-left-span">已结事项</span>
-                                <span class="layui-agency-span" id="agencyThree">12</span>
-                            </li>
-                            <li>
                                 <img src="/layuiadmin/layui/images/agencyFour.png" alt="">
                                 <span class="layui-agency-left-span">任务督办</span>
                                 <span class="layui-agency-span" id="agencyFour">1</span>
                             </li>
                         </ul>
-                    </div>
-                    <div class="layui-agency-right layui-col-md6">
-                        <div class="layui-col-md6 layui-agency-party">
-                            <div class="layui-text-icon layui-party-four" id="achievements">
-                                <p>科技成果</p>
-                                
-                                 <span class="layui-box-number" id="appraisalId">
-                               <img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
-                            </span>
-                            
-                            </div>
-                            <div class="layui-text-center layui-party">
-                                <p>领导讲话</p>
-                            </div>
-                        </div>
-                        <div class="layui-col-md6">
-
-                            <div class="layui-text-icon layui-textBottom-two">
+                        <div class="layui-col-md6" >
+                            <div class="layui-text-icon layui-textBottom-two" style="margin-right: 20px;">
                                 <p>重点实验室</p>
                                 <span id="textBottomTwo">48</span><span class="layui-text-span">个</span>
                                 <img src="/layuiadmin/layui/images/level-close.png" class="dele" alt="">
                             </div>
+                        </div>
+                        <div class="layui-col-md6">
                             <div class="layui-cooperation layui-text-icon">
                                 <p>国际合作年度报告</p>
                                 <img src="/layuiadmin/layui/images/level-close.png" class="dele" alt="">
                             </div>
                         </div>
-
+                    </div>
+                    <div class="layui-agency-right layui-col-md6">
+                        <div class="layui-col-md6 layui-agency-party">
+                            <div class="layui-text-icon layui-party-four" id="achievements">
+                                <p>科技成果</p>
+                                 <span class="layui-box-number" id="appraisalId">
+                                     <img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+                                 </span>
+                            </div>
+                            <div class="layui-col-md layui-agency-party">
+                                <div class="layui-text-icon layui-party-shi">
+                                    <p>中国石化标准化</p>
+                                    <span id="">0</span><span class="layui-text-span">个</span>
+                                    <img src="/layuiadmin/layui/images/level-close.png" class="dele" alt="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-col-md6 layui-agency-party" style="margin-right: 0;">
+                            <div class="layui-text-icon layui-textBottom-three"  id="knowledge_right">
+                                <p>知识产权</p>
+                                <span class="layui-box-number" id="patentId">
+                                    <img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
+                                </span>
+                                <img src="/layuiadmin/layui/images/level-close.png" class="dele" alt="">
+                            </div>
+                            <div class="layui-col-md" id="layui-add">
+                                <div class="layui-add">
+                                    <img src="/layuiadmin/layui/images/icon-puls.png"/>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="layui-row layui-row-special" style="margin-top: 20px;display: flex;">
-                <div class="layui-col-md layui-agency-party">
-                    <div class="layui-text-icon layui-party-four">
-                        <p>中国石化标准化</p>
-                        <span id="">0</span><span class="layui-text-span">个</span>
-                        <img src="/layuiadmin/layui/images/level-close.png" class="dele" alt="">
-                    </div>
-                </div>
-                <div class="layui-col-md" id="layui-add">
-                    <div class="layui-add">
-                        <img src="/layuiadmin/layui/images/icon-puls.png"/>
-                    </div>
-                </div>
+
+
             </div>
         </div>
     </div>

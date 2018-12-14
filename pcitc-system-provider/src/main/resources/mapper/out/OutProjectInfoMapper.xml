@@ -1727,7 +1727,35 @@
 		group by define5
 	</select>
 	
+	<!--  领导首页-十条龙，十条龙项目的类型分布 -->
+	<select id="getDragonProjectInfoByType" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select xmlbmc,count(*) as sl
+		from out_project_info
+		WHERE
+			project_property = '十条龙项目'  and nd='2017'
+		group by xmlbmc
+	</select>
 	
+	<!--  领导首页-十条龙，十条龙项目的出入龙情况 -->
+	<select id="getDragonProjectInfoWithOutIn" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select sum(case when nd='2017' and `status` = '申请出龙' then 1 else 0 end) sqcl,
+			 sum(case when nd='2018' and `status` = '推荐入龙' then 1 else 0 end) tjrl,
+			 sum(case when nd='2018' and `status` = '在研项目' then 1 else 0 end) zyxm
+		from out_project_info
+		WHERE
+			project_property = '十条龙项目' 
+	</select>
+	
+	<!--  领导首页-十条龙，8个研究院的龙项目/重大专项项目分布 -->
+	<select id="getDragonProjectInfoByInstitute" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select SUBSTR(define2 FROM 4) as define2,
+			 sum(case when project_property = '十条龙项目' then 1 else 0 end) stlxm,
+			 sum(case when project_property = '重大专项' then 1 else 0 end) zdzx
+		from out_project_info
+		WHERE
+			 nd = '2017' and type_flag like '%研究院'
+    	GROUP BY define2
+	</select>
 	
 	
 </mapper>

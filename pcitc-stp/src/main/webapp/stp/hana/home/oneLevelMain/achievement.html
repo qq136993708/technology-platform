@@ -38,7 +38,7 @@
             <div class="layui-col-md6 layui-main-oil4">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        <span class="layui-time"></span>年石化集团成果鉴定数量按单位分析
+                        <span class="layui-time"></span>年成果鉴定数量按单位分析
                     </div>
                     <div class="layui-row-main">
                         <div class="main-chart" id="chart4" style="height:280px;width: 100%;"></div>
@@ -49,7 +49,7 @@
                 <div class="layui-col-md5">
                     <div class="layui-card">
                         <div class="layui-card-header">
-                            <span class="layui-time"></span>年石化集团成果鉴定数量占比分析
+                            <span class="layui-time"></span>年成果鉴定数量占比分析
                         </div>
                         <div class="layui-row-main">
                             <div class="main-chart" id="chart5" style="height:280px;width: 100%;"></div>
@@ -72,7 +72,7 @@
             <div class="layui-col-md12">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        <span class="layui-time"></span>年石化集团成果鉴定数量分布情况分析
+                        <span class="layui-time"></span>年成果鉴定数量分布情况分析
                     </div>
                     <div class="layui-row-main">
                         <div class="main-chart" id="chart7" style="height:280px;width: 100%;"></div>
@@ -86,10 +86,21 @@
             <div class="layui-col-md12">
                <div class="layui-card">
                     <div class="layui-card-header">
-                        <span class="layui-time"></span>石化集团所获奖励
+                        <span>&nbsp;</span>所获奖励
                     </div>
-                    <div class="layui-row-main">
-                       <table id="processdef-table"  lay-filter="tableEvent1"></table>
+                    <div class="layui-row-main" style="display: flex;">
+                    	<div class="duty_gd">
+	                       	<div class="pre_last"></div>
+		                        <ul>
+		                            <li class="layui-this">2017</li>
+		                        </ul>
+	                        <div class="pre_next"></div>
+	                    </div>
+	                    <div class="duty_content" style="width:99%;">
+	                        <div class="duty_nr" style="display: block; position: relative; top: 0px; left: 0px; opacity: 1;">
+	                           <table id="processdef-table"  lay-filter="tableEvent1"></table>
+	                        </div>
+	                    </div>
                     </div>
                 </div>
             </div>
@@ -116,8 +127,9 @@ layui.config({
     base: '/layuiadmin/lib/extend/'
 }).extend({
     treeGridCom:'treeGridCom'
-}).use(['jquery','table','form', 'laydate','treeGridCom','layer'], function(){
+}).use(['jquery','table','form', 'laydate','treeGridCom','layer',"publicMethods"], function(){
     var $=layui.jquery;
+    var publicMethods=layui.publicMethods;
     treeGridCom = layui.treeGridCom;//很重要
     layer=layui.layer;
     laydate = layui.laydate;
@@ -128,11 +140,63 @@ layui.config({
        elem: '#year'
        ,format: 'yyyy'
     });
-    renderTable();
+    publicMethods.ajaxPost("/one_level_main/achievement_05",null, function (data) {
+    	$(".duty_gd ul").html("");
+		$.each(data,function(i,dt){
+			if(i>=6){return false;}//由于太长只显示6年，请前端妥善处理
+			var cs = (dt==$("#year").val())?' class="layui-this"':'';
+			$(".duty_gd ul").append('<li'+cs+'>'+dt+'</li>');
+		});
+		$("ul > li:first").addClass("layui-this");
+		renderTable($(".layui-this").html());
+   	});
+    
     $("#knowledge_table").click(function () {
     	parent.layui.index.openTabsPage("/home_achievement/award_table", "科技成果明细");
     });
-  
+    
+    
+    /*时间轴*/
+    var len_fzlc  = $(".duty_gd ul li").length;
+    var index_fzlc = 0;
+    var fzlcWidth = $(".duty_gd ul li").width();
+
+    //li点击
+    $("ul > li").on("click",function () {
+        index_fzlc=$(this).index();
+        $(this).addClass("layui-this").siblings().removeClass("layui-this");
+        $(".duty_gd ul").stop(true,false).animate({top: -fzlcWidth*index_fzlc},500);
+        //加载表格
+        renderTable($(".layui-this").html());
+        //$(".duty_content>div").eq(index_fzlc).fadeIn(700).siblings().hide();
+    });
+    //往左按钮
+    $(".pre_last").on("click",function () {
+        if(index_fzlc!=0){
+            index_fzlc--;
+        }
+        else{
+            index_fzlc=len_fzlc-1;
+        }
+        $(".duty_gd ul li").eq(index_fzlc).addClass("layui-this").siblings().removeClass("layui-this");
+        $(".duty_gd ul").stop(true,false).animate({top: -fzlcWidth*index_fzlc},500);
+        //$(".duty_content>div").eq(index_fzlc).fadeIn(700).siblings().hide();
+        renderTable($(".layui-this").html());
+    });
+    //往右按钮
+    $(".pre_next").on("click",function () {
+        if(index_fzlc!=(len_fzlc-1)){
+            index_fzlc++;
+        }
+        else{
+            index_fzlc=0;
+        }
+        $(".duty_gd ul li").eq(index_fzlc).addClass("layui-this").siblings().removeClass("layui-this");
+        $(".duty_gd ul").stop(true,false).animate({top: -fzlcWidth*index_fzlc},500);
+        //$(".duty_content>div").eq(index_fzlc).fadeIn(700).siblings().hide();
+        renderTable($(".layui-this").html());
+    });
+    //renderTable();
 });
 
 
@@ -203,21 +267,31 @@ initEchart();
 function search_Event()
 {
 	initEchart();
-	renderTable();
+	$.each($("li"),function(index,dt){
+		if($(this).html() == $("#year").val())
+		{
+			$(this).addClass("layui-this").siblings().removeClass("layui-this");
+		}
+	});
+	renderTable($(".layui-this").html());
 }
-
-
-
 //集团重大项目
 function renderTable()
 {
+	//renderTable($("#year").val());
+	renderTable($(".layui-this").html());
 	
-	 var month=$("#month").val();
+}
+/* function renderTable(nd)
+{
+	
+	
+	 var year=$("#year").val();
 	 var tableOne=table.render({
 		  elem: '#processdef-table',
-		  url:'/one_level_main/achievement_04?month='+month,
+		  url:'/one_level_main/achievement_04',
 		  method:"POST",
-		  where: {param: {"month":$("#month").val()}},
+		  where: {param: {"nd":nd}},
 		  limit: 15,
 		  id: 'processdef-table',
 		  height: commonDislodgeTable(),
@@ -252,9 +326,62 @@ function renderTable()
 		  }
 		});
 
+} */
+
+function renderTable(nd){
+	var month=$("#month").val();
+	var companyCode=$("#companyCode").val();
+    table.render({
+        elem: '#processdef-table' //表格容器
+        , url:'/one_level_main/achievement_04?nd='+nd
+        , limit: 15 //每页默认显示的数量
+        , id: 'processdef-table'
+        , height: commonDislodgeTable()
+        , cols: [[
+        	  		{field:'nd',title:'年度',edit:'text',align: 'center'},
+		  	   		{field:'sbjz',title:'获奖类别',edit:'text', width: '15%'},
+		       		{field:'sbdj',title:'奖项',style:'cursor: pointer;',align: 'center', width: '8%'},
+		       		{field:'xmmc',title:'名称',style:'cursor: pointer;',align: 'left', width: '25%'},
+		       		{field:'fzdw',title:'主要完成人',style:'cursor: pointer;',align: 'left', width: '20%'},
+		       		{field:'sbdw',title:'单位',style:'cursor: pointer;',align: 'left', width: '25%'}
+        ]],
+        done: function(res, curr, count){
+            merge(res);
+        }
+    });
+
+    function merge(res) {
+
+        var data = res.data;
+        var mergeIndex = 0;//定位需要添加合并属性的行数
+        var mark = 1; //这里涉及到简单的运算，mark是计算每次需要合并的格子数
+        var columsName = ['nd','sbjz','sbdj'];//需要合并的列名称
+        var columsIndex = [0,1];//需要合并的列索引值
+
+        for (var k = 0; k < columsName.length; k++) { //这里循环所有要合并的列
+            var trArr = $(".layui-table-body>.layui-table").find("tr");//所有行
+            for (var i = 1; i < res.data.length; i++) { //这里循环表格当前的数据
+                var tdCurArr = trArr.eq(i).find("td").eq(columsIndex[k]);//获取当前行的当前列
+                var tdPreArr = trArr.eq(mergeIndex).find("td").eq(columsIndex[k]);//获取相同列的第一列
+
+                if (data[i][columsName[k]] === data[i-1][columsName[k]]) { //后一行的值与前一行的值做比较，相同就需要合并
+                    mark += 1;
+                    tdPreArr.each(function () {//相同列的第一列增加rowspan属性
+                        $(this).attr("rowspan", mark);
+                    });
+                    tdCurArr.each(function () {//当前行隐藏
+                        $(this).css("display", "none");
+                    });
+                }else {
+                    mergeIndex = i;
+                    mark = 1;//一旦前后两行的值不一样了，那么需要合并的格子数mark就需要重新计算
+                }
+            }
+            mergeIndex = 0;
+            mark = 1;
+        }
+    }
 }
-
-
 
  
         

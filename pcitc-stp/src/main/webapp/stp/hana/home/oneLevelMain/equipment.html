@@ -13,18 +13,17 @@
         .btn_details{background:url(/layuiadmin/layui/images/operation_03.png) 2px 4px #fff no-repeat;}
         .btnMyBgImg:hover{background-size:inherit;background-position: 2px;}
         .searchBox{background:none;}
-        .layui-table-body .layui-table tr:nth-child(1){background: #def4ff;}
     </style>
 </head>
 <body>
 <div class="layui-fluid">
- <input type="hidden" name="month"        value="${month}"         id="month">
-   <input type="hidden" name="companyCode"  value="${YJY_CODE_NOT_YINGKE}"   id="companyCode">
+ 
+   <input type="hidden" name="companyCode"  value="${companyCode}"   id="companyCode">
     <div class="">
         <div class="searchBox">
             <label class="dateInput">
                 <span>月份</span>
-                <input type="text" name="year" placeholder="请选择月份" title="月份" value="${year}"  autocomplete="off" class="form-control" id="year">
+                <input type="text" name="month" placeholder="请选择月份" title="月份" value="${month}"  autocomplete="off" class="form-control" id="month">
             </label>
             <!--按钮组-->
             <div class="btnGroup">
@@ -41,7 +40,7 @@
             <div class="layui-col-md12">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        <span class="layui-time"></span>直属研究院单台价值大于500万装备
+                        <span class="layui-time"></span>单台价值大于500万装备
                     </div>
                     <div class="layui-row-main">
                         <div class="main-chart" id="equipment_01_chart" style="height:280px;width: 100%;"></div>
@@ -54,7 +53,7 @@
             <div class="layui-col-md12">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        <span class="layui-time"></span>直属研究院单台价值大于500万装备清单
+                        <span class="layui-time"></span>单台价值大于500万装备清单
                     </div>
                     <div class="layui-row-main">
                         <table id="processdef_table_02" class="layui-hide" lay-filter="processdef_table_02"></table>
@@ -115,7 +114,6 @@ layui.config({
     	window.open("/reportNew/reportPageStp?name=167305d0060_d4723a52");
     });
        
-        
 });
 
 function initEchart()
@@ -136,10 +134,9 @@ function initEchart()
             }
         }
     ];
-    $(".layui-time").html($("#year").val());
-    var color=["#78c34c"]
+    $(".layui-time").html($("#month").val());
 	var chart1_url="/one_level_main/equipment_01?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
-	var echart1=load_single_bar(chart1_url,"equipment_01_chart","","",yAxis,color,60,'');
+	var echart1=load_single_bar(chart1_url,"equipment_01_chart","","",yAxis,'');
 	echart1.on('click', function (params) {
 		var xName=params.name;
 		var legentName=params.seriesName;
@@ -166,7 +163,7 @@ function renderTable(){
         , url: '/one_level_main/equipment_02?month='+month+"&companyCode="+companyCode
         , limit: 15 //每页默认显示的数量
         , id: 'processdef_table_02'
-        , height: 305
+        , height: commonDislodgeTable()
         , cols: [[
         	  	{field:'extend01',  title: '设备类型',width:'15%',edit:'text'},
 	            {field:'extend02',  title:'直属研究院',width:'8%',  style:'cursor: pointer;',align: 'left'},

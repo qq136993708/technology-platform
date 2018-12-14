@@ -399,10 +399,10 @@
 	</insert>
 	
 	<!-- 批量修改数据 -->
-  <insert id="updateUnitDataBatch" parameterType="java.util.List">
+    <insert id="updateUnitDataBatch" parameterType="java.util.List">
 	  update out_unit set define2 = 
-	 <foreach collection="list" item="unit" index="index" separator=" " open="case unit_code" close="else define2 end">
-		 when #{unit.unitCode} then #{unit.define2}
-	 </foreach>
-	</insert>
+		 <foreach collection="list" item="unit" index="index" separator=" " open="case " close="else define2 end">
+			 when define1 = '奖励系统' and unit_code=#{unit.unitCode} then #{unit.define2}
+		 </foreach>
+    </insert>
 </mapper>
