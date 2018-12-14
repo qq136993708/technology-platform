@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.ChartBarLineResultData;
@@ -37,7 +38,6 @@ import com.pcitc.base.common.Result;
 import com.pcitc.base.common.TreeNode2;
 import com.pcitc.base.hana.report.AchievementsAnalysis;
 import com.pcitc.base.hana.report.Contract;
-import com.pcitc.base.hana.report.H1AMKYSY100109;
 import com.pcitc.base.hana.report.H1AMKYSY100117;
 import com.pcitc.base.hana.report.Knowledge;
 import com.pcitc.base.system.SysUser;
@@ -76,7 +76,7 @@ public class OneLevelMainController {
 		private static final String achievement_02 = "http://pcitc-zuul/system-proxy/out-appraisal-provider/cg/count/company-type";
 		private static final String achievement_03 = "http://pcitc-zuul/system-proxy/out-appraisal-provider/zy/cg/info";
 		private static final String achievement_04 = "http://pcitc-zuul/system-proxy/out-provider/reward-list";
-		
+		private static final String achievement_05 = "http://pcitc-zuul/system-proxy/out-provider/reward-year-list";
 		
 		//科研装备
 		private static final String equipment_01 = "http://pcitc-zuul/hana-proxy/hana/home/get_home_KYZB";
@@ -1003,12 +1003,14 @@ public class OneLevelMainController {
 			}
 			
 			
-			@RequestMapping(method = RequestMethod.POST, value = "/achievement_04")
+			@RequestMapping(method = RequestMethod.GET, value = "/achievement_04")
 			@ResponseBody
 			public String achievement_04(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 
 				System.out.println("achievement_04 param=   " + JSONObject.toJSONString(param));
-
+				String nd = CommonUtil.getParameter(request, "nd", DateUtil.format(new Date(), DateUtil.FMT_YYYY));
+				param.setLimit(2000);
+				param.getParam().put("nd", nd);
 				LayuiTableData layuiTableData = new LayuiTableData();
 				HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
 				ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(achievement_04, HttpMethod.POST, entity, LayuiTableData.class);
@@ -1019,6 +1021,25 @@ public class OneLevelMainController {
 				JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
 				System.out.println("achievement_04 result=   " + result.toJSONString());
 				return result.toString();
+			}
+			//获得科技成果的所有年限
+			@RequestMapping(method = RequestMethod.POST, value = "/achievement_05")
+			@ResponseBody
+			public String achievement_05(HttpServletRequest request,
+					HttpServletResponse response) {
+
+				System.out.println("achievement_05 param=   ");
+
+				Object rs = null;
+				HttpEntity<Object> entity = new HttpEntity<Object>(httpHeaders);
+				ResponseEntity<Object> responseEntity = restTemplate.exchange(achievement_05, HttpMethod.POST, entity,
+						Object.class);
+				int statusCode = responseEntity.getStatusCodeValue();
+				if (statusCode == 200) {
+					rs = responseEntity.getBody();
+				}
+				System.out.println("achievement_05 result=   " +JSON.toJSONString(rs));
+				return JSON.toJSONString(rs);
 			}
 		/**=========================================科技成果 end===============================*/
 		
@@ -1135,8 +1156,13 @@ public class OneLevelMainController {
 							{
 								node.setExtend08(decimalFormat.format(Double.valueOf(bean.getG0LJZJJE())/10000l));
 							}
-							
-							node.setExtend09(bean.getBl()+"%");//折旧率
+							node.setExtend09("0");
+							if(bean.getG0NCGZYZJE()!=null && bean.getG0LJZJJE()!=null) 
+							{
+								Double rs = Double.valueOf(node.getExtend07())-Double.valueOf(node.getExtend08());
+								node.setExtend09(decimalFormat.format(rs));
+							}
+							node.setExtend10(bean.getBl()+"%");//折旧率
 							
 							chartCircleList.add(node);
 						}
