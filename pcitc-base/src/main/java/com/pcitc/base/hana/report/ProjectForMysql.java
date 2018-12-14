@@ -36,8 +36,37 @@ public class ProjectForMysql {
 	  private Object fwdx;
 	  private Object stlsl;
 	  private Object zdzxsl;
+	  private Object sl;
+	  private Object sqcl;
+	  private Object tjrl;
+	  private Object zyxm;
 	  
 	  
+	  
+	public Object getSl() {
+		return sl;
+	}
+	public void setSl(Object sl) {
+		this.sl = sl;
+	}
+	public Object getSqcl() {
+		return sqcl;
+	}
+	public void setSqcl(Object sqcl) {
+		this.sqcl = sqcl;
+	}
+	public Object getTjrl() {
+		return tjrl;
+	}
+	public void setTjrl(Object tjrl) {
+		this.tjrl = tjrl;
+	}
+	public Object getZyxm() {
+		return zyxm;
+	}
+	public void setZyxm(Object zyxm) {
+		this.zyxm = zyxm;
+	}
 	public Object getStlsl() {
 		return stlsl;
 	}
