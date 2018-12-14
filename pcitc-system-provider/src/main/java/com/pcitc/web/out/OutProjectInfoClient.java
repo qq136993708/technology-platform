@@ -1838,7 +1838,7 @@ public class OutProjectInfoClient {
 		return json;
 	}
 	
-	@ApiOperation(value = "领导二级页面，重大项目和十条龙项目详情", notes = "参数年度、研究院等")
+	@ApiOperation(value = "领导首页，十条龙页面，重大专项项目详情", notes = "参数年度、研究院等")
 	@RequestMapping(value = "/out-project-provider/ld/project-info/zdstl")
 	public JSONArray getZDSTLProjectInfo(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getZDSTLProjectInfo===========================" + map);
