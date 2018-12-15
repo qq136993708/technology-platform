@@ -14,6 +14,7 @@ import com.pcitc.base.hana.report.AchievementsAnalysis;
 import com.pcitc.base.util.IdUtil;
 import com.pcitc.base.util.ReverseSqlResult;
 import com.pcitc.base.util.TreeNodeUtil;
+import com.pcitc.config.SpringContextUtil;
 import com.pcitc.mapper.expert.ZjkBaseInfoMapper;
 import com.pcitc.service.expert.ZjkBaseInfoService;
 import com.pcitc.service.expert.ZjkChengguoService;
@@ -26,6 +27,9 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -293,25 +297,36 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
 
     public JSONObject echarts(JSONObject jsonObject) {
         Result result = new Result();
-        String id = jsonObject.get("id").toString();
-        ZjkPic zjkPic = zjkPicService.selectByPrimaryKey(id);
+        ZjkPic zjkPic = zjkPicService.selectByPrimaryKey(jsonObject.get("id").toString());
         String sql = zjkPic.getSqlSql();
         String x = zjkPic.getX();
         String y = zjkPic.getY();
-        String title = zjkPic.getTitle();
+//        String title = zjkPic.getTitle();
+        String bak1 = zjkPic.getBak1();
+        String bak2 = zjkPic.getBak2();
+        String javaCallBack = zjkPic.getCallBackClass();
 
-        Map<String,Object> param = (Map<String, Object>) jsonObject.get("param");
-        for(Map.Entry<String,Object> e:param.entrySet()){
-            sql =sql.replace("#{"+e.getKey()+"}","'"+e.getValue().toString()+"'");
+
+
+        Map<String, Object> param = (Map<String, Object>) jsonObject.get("param");
+
+        if(bak1!=null&&bak2!=null){
+            Object o = SpringContextUtil.getBean(bak1);
+            invokeMethod(o.getClass(),o,bak2,param);
         }
 
+        for (Map.Entry<String, Object> e : param.entrySet()) {
+            sql = sql.replace("#{" + e.getKey() + "}", "'" + e.getValue().toString() + "'");
+        }
+
+
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("sqlval", sql);
+        List<Map<String, Object>> maps = zjkBaseInfoMapper.listSqlResult(map);
+
         if ("bar".equals(zjkPic.getEcharType())) {
-            Map<String, Object> map = new HashMap<>();
-            map.put("sqlval", sql);
-            List<Map<String, Object>> maps = zjkBaseInfoMapper.listSqlResult(map);
             if ("1".equals(zjkPic.getIsDz())) {
-                //转
-//                String[][] data = ReverseSqlResult.reverdraSort(ReverseSqlResult.listToArray(maps));
                 ChartSingleLineResultData csr = new ChartSingleLineResultData();
                 List<Object> ySeries = new ArrayList<Object>();
                 List<String> xData = new ArrayList<String>();
@@ -321,7 +336,7 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
                         String key = entry.getKey();
                         if (x.contains(key)) {
                             xData.add(entry.getValue().toString());
-                        }else if (y.contains(key)) {
+                        } else if (y.contains(key)) {
                             ySeries.add(entry.getValue());
                         }
                     }
@@ -331,9 +346,104 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
                 result.setSuccess(true);
                 result.setData(csr);
             }
+        }else if ("pie".equals(zjkPic.getEcharType())) {
+                ChartPieResultData pie = new ChartPieResultData();
+                List<ChartPieDataValue> dataList = new ArrayList<ChartPieDataValue>();
+                List<String> legendDataList = new ArrayList<String>();
+                for (int i = 0; i < maps.size(); i++) {
+                    Map<String, Object> m = maps.get(i);
+                    String name = "";
+                    String value = "";
+                    for (Map.Entry<String, Object> entry : m.entrySet()) {
+                        String key = entry.getKey();
+                        if (x.equals(key)) {
+                            name = entry.getValue().toString();
+                        }
+                        if (y.equals(key)) {
+                            value = entry.getValue().toString();
+                        }
+                    }
+                    legendDataList.add(name);
+                    dataList.add(new ChartPieDataValue(value, name));
+                }
+                pie.setDataList(dataList);
+                pie.setLegendDataList(legendDataList);
+                result.setSuccess(true);
+                result.setData(pie);
+        } else if ("force".equals(zjkPic.getEcharType())) {
+            ChartForceResultData force = new ChartForceResultData();
+            List<ChartForceDataNode> nodes = new ArrayList<ChartForceDataNode>();
+
+            List<ChartForceDataLink> links = new ArrayList<ChartForceDataLink>();
+
+            List<ChartForceCategories> categories = new ArrayList<ChartForceCategories>();
+
+            List<String> legendDataList = new ArrayList<String>();
+
+            String firstName = param.get(ChartForceResultData.name).toString();
+            String firstValue = param.get(ChartForceResultData.value).toString();
+
+            nodes.add(new ChartForceDataNode(0, firstName, firstValue, firstName));
+
+            for (int i = 0; i < maps.size(); i++) {
+                Map<String, Object> m = maps.get(i);
+                String name = "";
+                String value = "";
+
+                for (Map.Entry<String, Object> entry : m.entrySet()) {
+                    String key = entry.getKey();
+                    if (x.equals(key)) {
+                        name = entry.getValue().toString();
+                        categories.add(new ChartForceCategories(name));
+                    }
+                    if (y.equals(key)) {
+                        value = entry.getValue().toString();
+                    }
+                }
+                nodes.add(new ChartForceDataNode(i + 1, name, value, name));
+                links.add(new ChartForceDataLink(name, firstName, i + 1, name));
+                legendDataList.add(name);
+            }
+            force.setLegendDataList(legendDataList);
+            force.setCategories(categories);
+            force.setNodes(nodes);
+            force.setLinks(links);
+            result.setSuccess(true);
+            result.setData(force);
         }
 
         jsonObject.put("result", result);
+
+        if(javaCallBack!=null){
+            String[] strings = javaCallBack.split("|");
+            Object o = SpringContextUtil.getBean(strings[0]);
+            invokeMethod(o.getClass(),o,strings[1],jsonObject);
+        }
+
         return jsonObject;
+    }
+
+    public Map<String,Object> getResult(Map<String,Object> param){
+        ZjkBaseInfo zjkBaseInfo = this.selectByPrimaryKey(param.get("expertId").toString());
+        param.put(ChartForceResultData.name,zjkBaseInfo.getName());
+        param.put(ChartForceResultData.value,zjkBaseInfo.getId());
+        return param;
+    }
+
+    public static Object invokeMethod(Class clazz, Object object, String strName, Map<String, Object> param) {
+        Object obj = new Object();
+        try {
+            clazz.getMethod(strName,Map.class);
+            Method method = clazz.getMethod(strName, Map.class);
+            obj =  method.invoke(object, new Object[]{param});
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }finally {
+            return obj;
+        }
     }
 }

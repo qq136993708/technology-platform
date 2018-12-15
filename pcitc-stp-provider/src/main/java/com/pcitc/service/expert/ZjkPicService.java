@@ -10,6 +10,7 @@ import com.pcitc.base.expert.ZjkPicExample;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>接口类</p>
@@ -18,6 +19,7 @@ import java.util.List;
  * @since 2018-12-12 02:58:24
  */
 public interface ZjkPicService {
+
 
     /**
      * 判空-信息
