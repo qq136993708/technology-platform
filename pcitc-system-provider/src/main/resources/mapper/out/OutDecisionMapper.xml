@@ -240,5 +240,47 @@
 		GROUP BY REMARKS
 	</select>
 	
+	<!-- 辅助决策中心，各个研究院知识产权的情况，去年和今年 -->
+	<select id="getPatentYearInfoByInstitute" resultType="java.util.Map" parameterType="java.util.Map">
+		select
+			SUBSTR(define2 FROM 4) as define2,
+			sum(case when LEFT(SHOUQR,4) = '2018' and (WXLX = '发明公布' or WXLX = '发明授权') then 1 else 0 end) as jnCount,
+			sum(case when LEFT(SHOUQR,4) = '2017' and (WXLX = '发明公布' or WXLX = '发明授权') then 1 else 0 end) as qnCount,
+			round(sum(case when LEFT(SHOUQR,4) = '2018' and (WXLX = '发明公布' or WXLX = '发明授权') then 1 else 0 end)/sum(case when LEFT(SHOUQR,4) = '2017' and (WXLX = '发明公布' or WXLX = '发明授权') then 1 else 0 end),2) as slRate
+		from out_patent
+		where 
+		define2 is not null
+		GROUP BY define2
+	</select>
 	
+	
+	<!-- 辅助决策中心，成果，最近几年的鉴定结论 -->
+	<select id="getAppraisalInfoByJDJG" resultType="java.util.Map" parameterType="java.util.Map">
+		select
+			jdjg,
+			sum(case when nd = '2018' then 1 else 0 end) as jnCount,
+			sum(case when nd = '2017' then 1 else 0 end) as qnCount,
+			sum(case when nd = '2016' then 1 else 0 end) as qiannCount
+		from out_appraisal
+		where 
+			jdjg is not null and jdjg != '未通过' and jdjg != '未鉴定'
+		GROUP BY JDJG
+	</select>
+	
+	<!-- 辅助决策中心，成果，各个研究院成果情况 -->
+	<select id="getAppraisalInfoByInstitute" resultType="java.util.Map" parameterType="java.util.Map">
+		select
+			SUBSTR(define1 FROM 4) as define1,
+			sum(case when jdjg = '国内先进' then 1 else 0 end) as gnxjCount,
+			sum(case when jdjg = '国内领先' then 1 else 0 end) as gnlxCount,
+			sum(case when jdjg = '国际先进' then 1 else 0 end) as gjxjCount,
+			sum(case when jdjg = '国际领先' then 1 else 0 end) as gjlxCount,
+			sum(case when jdjg = '行业先进' then 1 else 0 end) as xyxjCount,
+			sum(case when jdjg = '行业领先' then 1 else 0 end) as xylxCount,
+			count(*) as zsl
+		from out_appraisal
+		where 
+		define1 is not null and jdjg != '未通过' and jdjg != '未鉴定' and nd='2018'
+		GROUP BY define1
+	</select>
 </mapper>

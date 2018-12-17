@@ -168,4 +168,25 @@ public class OutDecisionServiceImpl implements OutDecisionService {
 		return outDecisionMapper.getPatentInfoByHomeAbroad(map);
 	}
 	
+	/**
+     * 辅助决策中心，知识产权分析,各个研究院知识产权的情况，去年和今年
+     */
+	public List getPatentYearInfoByInstitute(Map map) {
+		return outDecisionMapper.getPatentYearInfoByInstitute(map);
+	}
+	
+	/**
+     * 辅助决策中心，成果，最近几年的鉴定结论
+     */
+	public List getAppraisalInfoByJDJG(Map map) {
+		return outDecisionMapper.getAppraisalInfoByJDJG(map);
+	}
+	
+	/**
+     * 辅助决策中心，成果，各个研究院成果情况
+     */
+	public List getAppraisalInfoByInstitute(Map map) {
+		return outDecisionMapper.getAppraisalInfoByInstitute(map);
+	}
+	
 }
