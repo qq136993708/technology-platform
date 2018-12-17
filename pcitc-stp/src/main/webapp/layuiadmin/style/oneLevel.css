@@ -1,8 +1,8 @@
 html{background: #013660;}
 .layui-fluid{padding: 0;}
-.layui-header{height: 100px;width: 76%;margin: 0 auto;}
+.layui-header{height: 100px;width: 78%;margin: 0 auto;}
 .layui-main{height: auto;overflow: hidden;width: 100%;}
-.layui-level-main{width: 76%;margin: 0 auto;padding: 15px 0 14px;height: auto;overflow: hidden;}
+.layui-level-main{width: 78%;margin: 0 auto;padding: 15px 0 14px;height: auto;overflow: hidden;}
 /*导航*/
 .layui-level-menu{padding-bottom: 17px;}
 .layui-level-menu ul li{ float: left;padding-right: 18px;}
