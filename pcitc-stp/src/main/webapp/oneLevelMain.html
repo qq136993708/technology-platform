@@ -56,7 +56,7 @@
                         </div>
                         <div class="layui-col-md3 layui-text-icon layui-textTop-three" id="equipment"  style="cursor:pointer">
                             <p>科研装备</p>
-                            <span class="layui-box-number" id="K0BNGLFPHJECB_t">
+                            <span class="layui-box-number" id="equipment_id">
                              <img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
                             </span>
                             <img src="/layuiadmin/layui/images/level-close.png" class="dele" alt="">
@@ -83,7 +83,7 @@
                         <div class="layui-col-md3 layui-text-icon layui-contract" id="contract">
                             <p>科研合同</p>
                             <!--  <span id="textTopThree"></span><span class="layui-text-span">个</span> -->
-                            <span class="layui-box-number" id="kyxm">
+                            <span class="layui-box-number" id="contract_id">
                              <img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
                             </span>
                             <img src="/layuiadmin/layui/images/level-close.png" class="dele" alt="">
@@ -253,7 +253,7 @@
     
     
     
-    //科研项目
+    //科研装备，合同
     function getKyxm()
     {
     	$.ajax({
@@ -265,13 +265,13 @@
 				},
 				timeout : 3000, 
 				error : function(XMLHttpRequest, status) {
-					$("#kyxm").html("<small style='font-size:14px'>--(个)</small>");
-					$("#K0BNGLFPHJECB_t").html("<small>--(台)</small>");
+					$("#contract_id").html("<small style='font-size:14px'>--(个)</small>");
+					$("#equipment_id").html("<small>--(台)</small>");
 				},
 				success : function(data) { 
-					
-					$("#K0BNGLFPHJECB_t").html(data.projectCount+"<small style='font-size:14px'>(台)</small>");
-					$("#kyxm").html(data.projectCount+"<small style='font-size:14px'>(个)</small>");
+					var zje=data.zje;
+					$("#equipment_id").html(data.kyzbCount+"<small style='font-size:14px'>(台)</small>");
+					$("#contract_id").html(data.projectCount+"<small style='font-size:14px'>(个)</small>");
 				}
 			});
     	
