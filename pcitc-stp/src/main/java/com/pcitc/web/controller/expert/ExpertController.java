@@ -2,10 +2,7 @@ package com.pcitc.web.controller.expert;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.pcitc.base.common.ChartSingleLineResultData;
-import com.pcitc.base.common.LayuiTableData;
-import com.pcitc.base.common.LayuiTableParam;
-import com.pcitc.base.common.Result;
+import com.pcitc.base.common.*;
 import com.pcitc.base.expert.*;
 import com.pcitc.base.hana.report.AchievementsAnalysis;
 import com.pcitc.base.util.DateUtil;
@@ -89,6 +86,11 @@ public class ExpertController extends BaseController {
     private static final String LISTBAK = "http://pcitc-zuul/stp-proxy/zjkchoice-provider/zjkchoice/zjkchoice_list";
     //备选移除
     private static final String DEL_BAK = "http://pcitc-zuul/stp-proxy/zjkchoice-provider/zjkchoice/del-zjkchoice-real/";
+
+    @RequestMapping(value = "/test", method = RequestMethod.GET)
+    public String test() {
+        return "stp/expert/eee";
+    }
 
 
     /**
@@ -304,7 +306,7 @@ public class ExpertController extends BaseController {
      * @param zjkChoice
      * @return
      */
-    @RequestMapping(value = "/selectBakList", method = RequestMethod.POST)
+    @RequestMapping(value = "/selectBakList", method = RequestMethod.GET)
     @OperationFilter(modelName = "专家-备选人员查询", actionName = "备选查询列表selectBakList")
     public String selectBakList(@RequestBody ZjkChoice zjkChoice) {
 //        zjkChoice.setStatus("1");
@@ -366,9 +368,20 @@ public class ExpertController extends BaseController {
     @ResponseBody
     @OperationFilter(modelName = "首页图形展示", actionName = "首页图形展示indexPicTwo")
     public Object indexPicTwo() {
+        String type = request.getParameter("type");
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("type","bar");
+        jsonObject.put("type",type);
         jsonObject.put("id",request.getParameter("id"));
+
+//        if ("force".equals(type)){
+//            //添加自定义中心字段
+//            String expertId = request.getParameter("expertId");
+//            ResponseEntity<ZjkBaseInfo> responseEntity = this.restTemplate.exchange(GET_INFO + expertId, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), ZjkBaseInfo.class);
+//            ZjkBaseInfo zjkBaseInfo = responseEntity.getBody();
+//            jsonObject.put(ChartForceResultData.name,zjkBaseInfo.getName());
+//            jsonObject.put(ChartForceResultData.value,zjkBaseInfo.getId());
+//        }
+
         try {
             jsonObject.put("param",ReverseSqlResult.getParameterMap(request));
         } catch (Exception e) {
@@ -376,8 +389,9 @@ public class ExpertController extends BaseController {
         }
         ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(Echart, HttpMethod.POST, new HttpEntity<JSONObject>(jsonObject,this.httpHeaders), JSONObject.class);
         JSONObject object = responseEntity.getBody();
-        System.out.println(object);
+//        System.out.println(object);
 
-        return JSONObject.parseObject(JSONObject.toJSONString(object.get("result"))).toString();
+        return object.get("result");
+//        return JSONObject.parseObject(JSONObject.toJSONString(object.get("result"))).toString();
     }
 }
