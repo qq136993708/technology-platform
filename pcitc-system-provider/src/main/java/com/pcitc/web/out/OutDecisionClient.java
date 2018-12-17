@@ -236,7 +236,7 @@ public class OutDecisionClient {
 		logger.info("==================page selectJFYSForTech===========================" + map);
 		
 		List temList = outDecisionService.selectJFYSForTech(map);
-		int jnCount = 0;
+		/*int jnCount = 0;
 		int qnCount = 0;
 		int qiannCount = 0;
 		for (int i = 0; i < temList.size(); i++) {
@@ -252,7 +252,7 @@ public class OutDecisionClient {
 		totalMap.put("qnCount", String.valueOf(qnCount));
 		totalMap.put("qiannCount", String.valueOf(qiannCount));
 		
-		temList.add(0, totalMap);
+		temList.add(0, totalMap);*/
 		
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
 		return json;
@@ -269,5 +269,53 @@ public class OutDecisionClient {
 		return json;
 	}
 	
+	@ApiOperation(value = "辅助决策中心，知识产权分析,各个研究院知识产权的情况，去年和今年", notes = "参数年度")
+	@RequestMapping(value = "/out-decision-provider/zscq/patent-count/year/institute")
+	public JSONArray getPatentYearInfoByInstitute(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page getPatentYearInfoByInstitute==========================="+map);
 
+		List temList = outDecisionService.getPatentYearInfoByInstitute(map);
+		
+		System.out.println("===="+JSON.toJSONString(temList));
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		return json;
+	}
+	
+	@ApiOperation(value = "辅助决策中心，奖励，最近几年的鉴定结论", notes = "参数年度")
+	@RequestMapping(value = "/out-decision-provider/cgjd/appraisal/jdjg")
+	public JSONArray getAppraisalInfoByJDJG(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page getAppraisalInfoByJDJG==========================="+map);
+
+		List temList = outDecisionService.getAppraisalInfoByJDJG(map);
+		
+		System.out.println("===="+JSON.toJSONString(temList));
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		return json;
+	}
+	
+	
+	@ApiOperation(value = "辅助决策中心，成果，各个研究院成果情况", notes = "参数年度")
+	@RequestMapping(value = "/out-decision-provider/cgjd/appraisal/institute")
+	public JSONArray getAppraisalInfoByInstitute(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page getAppraisalInfoByInstitute==========================="+map);
+
+		List temList = outDecisionService.getAppraisalInfoByInstitute(map);
+		
+		System.out.println("===="+JSON.toJSONString(temList));
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		return json;
+	}
+	
+	@ApiOperation(value = "辅助决策中心，奖励，各个奖励类型的数量", notes = "参数年度")
+	@RequestMapping(value = "/out-decision-provider/kjjl/reward/type")
+	public JSONArray getRewardInfoByType(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page getRewardInfoByType==========================="+map);
+
+		List temList = outDecisionService.getRewardInfoByType(map);
+		
+		System.out.println("===="+JSON.toJSONString(temList));
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		return json;
+	}
+	
 }

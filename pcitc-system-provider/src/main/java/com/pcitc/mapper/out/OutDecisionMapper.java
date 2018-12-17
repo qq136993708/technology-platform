@@ -90,6 +90,24 @@ public interface OutDecisionMapper {
      */
 	public List getPatentInfoByHomeAbroad(Map map);
 	
+	/**
+     * 辅助决策中心，知识产权分析,各个研究院知识产权的情况，去年和今年
+     */
+	public List getPatentYearInfoByInstitute(Map map);
 	
+	/**
+     * 辅助决策中心，成果，最近几年的鉴定结论
+     */
+	public List getAppraisalInfoByJDJG(Map map);
+	
+	/**
+     * 辅助决策中心，成果，各个研究院成果情况
+     */
+	public List getAppraisalInfoByInstitute(Map map);
+	
+	/**
+     * 辅助决策中心，奖励，各个奖励类型的数量
+     */
+	public List getRewardInfoByType(Map map);
 	
 }
