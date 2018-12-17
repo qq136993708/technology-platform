@@ -31,12 +31,12 @@ var mutl_bar_investment = {
             	 return relVal;;
             }
         },
-        grid: {
+        /*grid: {
         	  x: 80,
               y: 80,
               x2: 80,
               y2: 80
-	    },
+	    },*/
 	    color:['#6592b2', '#54b6e9','#70b1aa','#e8a791','#b5c26a','#d59981'],
 	    
 	   
@@ -63,9 +63,9 @@ var mutl_bar_investment = {
             {
             	 type: 'value',
                  name: '亿元',
-                 min: 0,
-                 interval: 10,
-                 max:'dataMax',
+                 //min: 0,
+                 //interval: 10,
+                 //max:'dataMax',
                  position: 'left',
                  axisLabel: {
                      formatter: '{value}'
@@ -75,9 +75,9 @@ var mutl_bar_investment = {
                 type: 'value',
                 show: true ,
                 name: '百分比',
-                min: 0,
-                max: 100,
-                interval: 20,
+                //min: 0,
+                //max: 100,
+                //interval: 20,
                 position: 'right',
                 axisLabel: {
                     formatter: '{value}%'
