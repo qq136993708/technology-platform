@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="Shortcut Icon" href="/layuiadmin/layui/images/favicon.ico" />
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/adminStp.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/oneLevel.css" media="all">
+    <link rel="stylesheet" href="/common/css/echart-common.css">
+    <script src="/layuiadmin/layui/layui.js"></script>
+</head>
+<body>
+<div class="module">
+    <p id="leader">领导讲话</p>
+    <p id="home_budget">科研投入</p>
+</div>
+<script>
+    layui.use([ 'jquery','publicMethods'], function(){
+        var $=layui.jquery,publicMethods=layui.publicMethods;
+        $("#leader").click(function () {
+            var data={"power":"1", "name":"领导讲话","color":"#f10033","img":"/layuiadmin/layui/images/icon-party.png","class":"layui-col-md3","id":"","spareId":null};
+            publicMethods.moduleConfig(data);
+        });
+        $("#home_budget").click(function () {
+            var data=
+                {"power":"3", "name":"科研装备","color":"#488c34","img":"/layuiadmin/layui/images/textTopThree.png","class":"layui-col-md3","id":"equipment","spareId":"K0BNGLFPHJECB_t"};
+            publicMethods.moduleConfig(data);
+        })
+    });
+</script>
+</body>
+</html>
