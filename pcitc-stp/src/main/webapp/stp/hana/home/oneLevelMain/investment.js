@@ -31,12 +31,12 @@ var mutl_bar_investment = {
             	 return relVal;;
             }
         },
-        grid: {
+        /*grid: {
         	  x: 80,
               y: 80,
               x2: 80,
               y2: 80
-	    },
+	    },*/
 	    color:['#6592b2', '#54b6e9','#70b1aa','#e8a791','#b5c26a','#d59981'],
 	    
 	   
@@ -63,9 +63,9 @@ var mutl_bar_investment = {
             {
             	 type: 'value',
                  name: '亿元',
-                 min: 0,
-                 interval: 10,
-                 max:'dataMax',
+                 //min: 0,
+                 //interval: 10,
+                 //max:'dataMax',
                  position: 'left',
                  axisLabel: {
                      formatter: '{value}'
@@ -75,9 +75,9 @@ var mutl_bar_investment = {
                 type: 'value',
                 show: true ,
                 name: '百分比',
-                min: 0,
-                max: 100,
-                interval: 20,
+                //min: 0,
+                //max: 100,
+                //interval: 20,
                 position: 'right',
                 axisLabel: {
                     formatter: '{value}%'
@@ -400,13 +400,14 @@ function 	load_mony_line_dt_investment(url,id,title,subtext,yAxis,rotate)
 	option_dt_investment.grid={
 	        top:"12%",
 	        left: '0%',
-	        right: '5%',
+	        right: '6%',
 	        bottom: '12%',
 	        containLabel: true
 	    }
     if(rotate==undefined){
         option_dt_investment.xAxis=[{
             type: 'category',
+            boundaryGap : false,
             axisLabel:{
                 interval:0,//0：全部显示，1：间隔为1显示对应类目，2：依次类推，（简单试一下就明白了，这样说是不是有点抽象）
                 rotate:0,//倾斜显示，-：顺时针旋转，+或不写：逆时针旋转
@@ -415,9 +416,10 @@ function 	load_mony_line_dt_investment(url,id,title,subtext,yAxis,rotate)
     }else {
         option_dt_investment.xAxis=[{
             type: 'category',
+            boundaryGap : false,
             axisLabel:{
                 interval:0,//0：全部显示，1：间隔为1显示对应类目，2：依次类推，（简单试一下就明白了，这样说是不是有点抽象）
-                rotate:30,//倾斜显示，-：顺时针旋转，+或不写：逆时针旋转
+                rotate:-30,//倾斜显示，-：顺时针旋转，+或不写：逆时针旋转
             }
         }]
     }
