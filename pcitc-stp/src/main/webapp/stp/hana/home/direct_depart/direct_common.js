@@ -655,40 +655,24 @@ function set_multi_graph_statistics(data,id)
         $("#pay_chart3_02").html(xkCount_1+"亿元");
         $("#pay_chart3_03").html(jzCount_2+"亿元");
 	}
-	
-	
-	
-	
 
-
-	function getDataCountForNameFloat(data,strName)
+	if(id=='dragon3')
 	{
-		var seriesList=data.seriesList;
-	    var xkCount=0;
-	    if (typeof(seriesList) == "undefined") 
-	    { 
-	    	
-	    }else
-	    {
-	    	 for(var i=0;i<seriesList.length;i++)
-	         {
-	         	var arr=seriesList[i].data;
-	         	var name=seriesList[i].name;
-	         	if(name==strName)
-	         	{
-	         		var name_count=0;
-	         		for(var j=0;j<arr.length;j++)
-	 	            {
-	         			name_count=name_count+parseFloat(arr[j]);
-	 	            }
-	         		xkCount=name_count;
-	         	}
-	         } 
-	        
-	    }   
-	    return parseInt(xkCount);
-	       
+
+		var xkCount_1=getDataCountForName(data,'十条龙项目');
+    	var jzCount_2=getDataCountForName(data,'重大项目');
+        var allCount_3=xkCount_1+jzCount_2;
+        
+        $("#dragon3_01").html(allCount_3+"个");
+        $("#dragon3_02").html(xkCount_1+"个");
+        $("#dragon3_03").html(jzCount_2+"个");
 	}
+	
+	
+	
+
+
+	
 	
 	/**=============================直属研究院 end===========================*/
 	
@@ -701,7 +685,34 @@ function set_multi_graph_statistics(data,id)
 	
 	
 }
-
+function getDataCountForNameFloat(data,strName)
+{
+	var seriesList=data.seriesList;
+    var xkCount=0;
+    if (typeof(seriesList) == "undefined") 
+    { 
+    	
+    }else
+    {
+    	 for(var i=0;i<seriesList.length;i++)
+         {
+         	var arr=seriesList[i].data;
+         	var name=seriesList[i].name;
+         	if(name==strName)
+         	{
+         		var name_count=0;
+         		for(var j=0;j<arr.length;j++)
+ 	            {
+         			name_count=name_count+parseFloat(arr[j]);
+ 	            }
+         		xkCount=name_count;
+         	}
+         } 
+        
+    }   
+    return parseInt(xkCount);
+       
+}
 //小数点后两位百分比
 function percentNum(num,num2) {
 	
