@@ -792,6 +792,24 @@ public class HomeServiceImpl implements IHomeService{
     	return list;
     }
     
+    public List<H1AMKYSY100109> pay_01(Map map)throws Exception
+    {
+    	List<H1AMKYSY100109> list = homePayMapper.pay_01(map);
+    	return list;
+    }
+
+    public List<H1AMKYSY100109> pay_02(Map map)throws Exception
+    {
+    	List<H1AMKYSY100109> list = homePayMapper.pay_02(map);
+    	return list;
+    }
+
+    public List<H1AMKYSY100109> pay_03(Map map)throws Exception
+    {
+    	List<H1AMKYSY100109> list = homePayMapper.pay_03(map);
+    	return list;
+    }
+    
     
     public LayuiTableData getPayTable(LayuiTableParam param)throws Exception
     {

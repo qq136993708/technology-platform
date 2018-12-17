@@ -44,7 +44,7 @@
                         <span class="layui-box-icon bg-4"></span>
                         <div class="layui-box-content">
                             <span class="layui-box-text">科研装备</span>
-                            <span class="layui-box-number" id="K0BNGLFPHJECB_t">
+                            <span class="layui-box-number" id="equipment_id">
                                 <img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
                                 <small>(个)</small>
                             </span>
@@ -68,7 +68,7 @@
                         <span class="layui-box-icon bg-3"></span>
                         <div class="layui-box-content">
                             <span class="layui-box-text">经费支出</span>
-                            <span class="layui-box-number" id="k0BNGLFPHJECB">
+                            <span class="layui-box-number" id="pay_id">
                             <img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
                             </span>
                         </div>
@@ -125,7 +125,7 @@
             <div class="layui-col-md6">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        ${year}年直属研究院科研课题数量分布情况分析
+                        ${year}年直属研究院科研课题数量
                         <div class="layui-tool">
                             <button type="button" class="btn btn-tool collapse"></button>
                             <button type="button" class="btn btn-tool remove"></button>
@@ -135,7 +135,7 @@
                        <div class="text-total">
                             <span>总计:<span    class="text-total-blue"    id="topic_chart1_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                             <span>新开课题:<span class="text-total-blue"    id="topic_chart1_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>转结课题:<span class="text-total-blue"    id="topic_chart1_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>结转课题:<span class="text-total-blue"    id="topic_chart1_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                         </div>
                         <div  style="height:270px;width: 100%;" id="topic_chart1"></div>
                     </div>
@@ -144,7 +144,7 @@
             <div class="layui-col-md6">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        ${year}年直属研究院合同签订分析
+                        ${year}年直属研究院合同签订率
                         <div class="layui-tool">
                             <button type="button" class="btn btn-tool collapse"></button>
                             <button type="button" class="btn btn-tool remove"></button>
@@ -164,7 +164,7 @@
             <div class="layui-col-md6">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        ${year}年科研装备数量分析
+                        ${year}年科研装备课题数量
                         <div class="layui-tool">
                             <button type="button" class="btn btn-tool collapse"></button>
                             <button type="button" class="btn btn-tool remove"></button>
@@ -174,7 +174,7 @@
                       <div class="text-total">
                             <span>总计:<span    class="text-total-blue"    id="direct_topic_chart3_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                             <span>新开课题:<span class="text-total-blue"    id="direct_topic_chart3_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>转结课题:<span class="text-total-blue"    id="direct_topic_chart3_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>结转课题:<span class="text-total-blue"    id="direct_topic_chart3_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                         </div>
                         <div  style="height:270px;width: 100%;" id="direct_topic_chart3"></div>
                     </div>
@@ -183,7 +183,7 @@
             <div class="layui-col-md6">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        ${year}年直属研究院科研设备数量分析
+                        ${year}年直属研究院科研设备数量
                         <div class="layui-tool">
                             <button type="button" class="btn btn-tool collapse"></button>
                             <button type="button" class="btn btn-tool remove"></button>
@@ -208,7 +208,7 @@
             <div class="layui-col-md6">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        <span class="layui-time"></span>  专利数量
+                        <span class="layui-time"></span>${year}年直属研究院专利申请及授权数量
                     </div>
                     <div class="layui-card-body btn-function">
                     <div class="text-total">
@@ -345,12 +345,12 @@
  				timeout : 3000, //超时时间设置，单位毫秒
  				error : function(XMLHttpRequest, status) {
  					$("#kyxm").html("<small>--(个)</small>");
- 					$("#K0BNGLFPHJECB_t").html("<small>--(个)</small>");
+ 					$("#equipment_id").html("<small>--(个)</small>");
  					$("#k0BNYSJHJE").html("<small>--(万元)</small>");
  				},
  				success : function(data) { //请求成功后处理函数。
  					$("#kyxm").html(data.projectCount+"<small>(个)</small>");
- 					$("#K0BNGLFPHJECB_t").html(data.kyzbCount+"<small>(个)</small>");
+ 					$("#equipment_id").html(data.kyzbCount+"<small>(个)</small>");
  					if (data.jfTotal > 100) {
  						$("#k0BNYSJHJE").html((data.jfTotal/10000).toFixed(2)+"<small>(亿)</small>");
  					} else {
@@ -368,7 +368,7 @@
         	 var v_date=(new Date()).getTime();
         	 $.ajax({
         	     type:"GET",
-        	     url: '/home/getndys_xfzc?month='+month+'&companyCode='+codec+'&v_date'+v_date,
+        	     url: '/direct/getndys_xfzc?month='+month+'&companyCode='+codec+'&v_date'+v_date,
         	     dataType:"json",
         	     timeout : 20000,
         	     cache: false,
@@ -377,14 +377,14 @@
                  {    
         	          if(data.success==true ||data.success=='true')
         	          {
-        	        	  var k0BNGLFPHJECB=parseInt(data.data.k0BNGLFPHJECB);
+        	        	  var pay_id=parseInt(data.data.k0BNGLFPHJECB);
         	              
-        	        	  if(k0BNGLFPHJECB.toString().length>3)
+        	        	  if(pay_id.toString().length>3)
         	              {
-        	        		  $("#k0BNGLFPHJECB").html((k0BNGLFPHJECB/10000).toFixed(2)+"<small>亿</small>");
+        	        		  $("#pay_id").html((pay_id/10000).toFixed(2)+"<small>亿</small>");
         	              }else
         	              {
-        	            	  $("#k0BNGLFPHJECB").html(k0BNGLFPHJECB+"<small>万元</small>");
+        	            	  $("#pay_id").html(pay_id+"<small>万元</small>");
         	              } 
         	          } 
         		   },
@@ -557,7 +557,8 @@
            	
 
         	 var chart3_url="/direct/topic_01?type=1&nd="+year+"&v_date="+v_date+"&xmlbbm=kyzb";
-        	 var echart3=load_mutl_bar_down(chart3_url,"direct_topic_chart3","","",yAxis);
+        	 var color=["#ea886d","#ffad01"];
+        	 var echart3=load_mutl_bar_down(chart3_url,"direct_topic_chart3","","",yAxis,20,color);
         	 echart3.on('click', function (params) {
         		var xName=params.name;
         		var legentName=params.seriesName;
@@ -569,37 +570,55 @@
         	
          	//直属研究院科研设备数量分析
            	var chart4_url="/home/GET_getDzzk_bar?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
-        	load_mutl_bar_stack_02(chart4_url,"bar4","","",yAxis,function(data){
-        		
-        		
+        	var echart4=load_mutl_bar_stack_02(chart4_url,"bar4","","",yAxis,1,function(data){
         		var bCount_4=getDataCountForName_t(data,'大型分析仪器');
             	var zCount_4=getDataCountForName_t(data,'中型实验装置');
             	var dCount_4=getDataCountForName_t(data,'单台值大于500万');
             	var zyCount_4=getDataCountForName_t(data,'专业软件（外购）'); 
     	        var allCount_4=bCount_4+zCount_4+dCount_4+zyCount_4;
-    	        //alert(bCount_4);
-                $("#bar4_1_count").html(bCount_4);
-                $("#bar4_2_count").html(zCount_4);
-                $("#bar4_3_count").html(dCount_4);
-                $("#bar4_4_count").html(zyCount_4);
-    	            
+                $("#bar4_1_count").html(bCount_4+"套");
+                $("#bar4_2_count").html(zCount_4+"台");
+                $("#bar4_3_count").html(dCount_4+"台");
+                $("#bar4_4_count").html(zyCount_4+"套");
         		
         	});
-        	
+        	echart4.on('click', function (params) {
+        		var xName=params.name;
+        		var legentName=params.seriesName;
+        		window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
+            });
         
             
 
         	var chart7_url="/direct/knowledge_04?type=1&nd="+year+"&v_date="+v_date;
-        	var data7=load_mutl_bar_down(chart7_url,"direct_knowledge_chart1","","",yAxis);
-  	            
+        	var colorNew=["#70b1ab","#87d359"];
+        	var data7=load_mutl_bar_down(chart7_url,"direct_knowledge_chart1","","",yAxis,20,colorNew);
+        	data7.on('click', function (params) {
+        		var xName=params.name;
+        		var legentName=params.seriesName;
+        		window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
+            });  
               
         	
         	var url_8="/direct/knowledge_04?type=2&month="+year+"&v_date="+v_date;
-        	var allCount=loadPie_02(url_8,"bar02","","");
+        	var echart8=loadPie_02(url_8,"bar02","","");
+        	echart8.on('click', function (params) {
+        		var xName=params.name;
+        		var legentName=params.seriesName;
+        		window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
+            });
+        	
         	 
         	 
         	var url_9="/direct/knowledge_04?type=3&month="+year+"&v_date="+v_date;
-        	var allCount2=loadPie_02(url_9,"bar03","","");
+        	var echart9=loadPie_02(url_9,"bar03","","");
+        	echart9.on('click', function (params) {
+        		var xName=params.name;
+        		var legentName=params.seriesName;
+        		window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
+            });
+        	
+        	
         	
             	
        		}
@@ -609,7 +628,6 @@
         function getDataCountForName_t(data,strName)
         {
         	var seriesList=data.seriesList;
-        	//alert(data);
             var xkCount=0;
             if (typeof(seriesList) == "undefined") 
             { 

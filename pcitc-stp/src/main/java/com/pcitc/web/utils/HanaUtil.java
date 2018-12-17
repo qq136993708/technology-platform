@@ -68,7 +68,8 @@ public class HanaUtil {
 	
 	public static final String YJY_CODE_ALL = "1020,1040,1041,1060,1061,1080,1100,1101,1120,1123,1124,1127,1130,4360,1016,1019,101G,101I,1018,4270,101H,101F,101A,4370,8280";
 	
-	public static final String YJY_CODE_NOT_YINGKE = "1120,1123,1124,1127,1130,4360,1020,1060,1061,1040,1041,1080,1100,1101";
+	//直属研究院
+	public static final String YJY_CODE_NOT_YINGKE = "1020,1040,1041,1060,1061,1080,1100,1101,1120,1123,1124,1127,1130,4360";
 	
 	
 
@@ -3245,7 +3246,7 @@ public class HanaUtil {
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
 		if (name.equals("xjsl")) {
-			chartBarLineSeries.setName("转结课题");
+			chartBarLineSeries.setName("结转课题");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
 		if (name.equals("zsl")) {
@@ -4813,7 +4814,65 @@ public class HanaUtil {
 		}
 		return chartBarLineSeries;
 	}
-
+	public static List<TreeNode2> getChildChartCircleuContract02(List<String>  listLevel1Title,List<Contract> listAll) 
+	{
+		
+		List<TreeNode2> resut = new ArrayList();
+		for(int i=0;i<listLevel1Title.size();i++)
+		{
+			String title=listLevel1Title.get(i);
+			TreeNode2 node=new TreeNode2();
+			node.setId("999"+String.valueOf(i));
+			node.setLay_icon_open("/layuiadmin/layui/images/treegrid1_open.png");
+			node.setLay_icon("/layuiadmin/layui/images/treegrid2.png");
+			node.setLay_is_open(true);
+			int extend01_count=0;
+			int extend02_count=0;
+			for (int j = 0; j < listAll.size(); j++) 
+			{
+				Contract entity=listAll.get(j);
+				String name=entity.getDefine3();
+				Integer zsl=(Integer)entity.getZsl();
+				Integer yqhtzj=(Integer)entity.getYqhtzj();
+				
+				String qdlzj =((BigDecimal)entity.getQdlzj()).toString();
+				
+				
+				String name02=entity.getDefine2();
+				
+				if(name.equals(title))
+				{
+					TreeNode2 node02=new TreeNode2();
+					node02.setpId(node.getId());
+					node02.setName(name02);
+					
+					node02.setExtend01(String.valueOf(zsl));
+					node02.setExtend02(String.valueOf(yqhtzj));
+					node02.setExtend03(String.valueOf(qdlzj));
+					/*DecimalFormat df=new DecimalFormat("0.00");
+					String str=df.format(((float)sjqds/jhqds)*100);
+					
+					node02.setExtend03(str);*/
+					
+					node02.setId(""+i+"_"+j);
+					resut.add(node02);
+					
+					extend01_count=extend01_count+zsl;
+					extend02_count=extend02_count+yqhtzj;
+					
+				}
+			}
+			node.setName(title);
+			node.setExtend01(String.valueOf(extend01_count));
+			node.setExtend02(String.valueOf(extend02_count));
+			DecimalFormat df=new DecimalFormat("0.00");
+			String strvv=df.format(((float)extend02_count/extend01_count)*100);
+			node.setExtend03(strvv);
+			resut.add(node);
+			
+		}
+		return resut;
+	}
 	public static ChartBarLineSeries getChartBarLineSeries_InvisibleCapitalDevelop(List<InvisibleCapitalDevelop> list,
 			String name) {
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();

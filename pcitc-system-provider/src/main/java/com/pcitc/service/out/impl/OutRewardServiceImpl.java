@@ -67,7 +67,7 @@ public class OutRewardServiceImpl implements OutRewardService {
 		if (paraMap.get("xmmc") != null && !paraMap.get("xmmc").toString().equals("")) {
 			criteria.andXmmcLike("%" + paraMap.get("xmmc").toString() + "%");
 		}
-		example.setOrderByClause(" create_date desc ");
+		example.setOrderByClause(" sbjz,sbdj asc ");
 
 		List<OutReward> list = outRewardMapper.selectByExample(example);
 		PageInfo<OutReward> pageInfo = new PageInfo<OutReward>(list);
@@ -88,5 +88,11 @@ public class OutRewardServiceImpl implements OutRewardService {
 	public int insertRewardData(List<OutReward> list) {
 		outRewardMapper.insertOutRewardBatch(list);
 		return 1;
+	}
+
+	@Override
+	public List<String> selectOutRewardYearList() 
+	{
+		return outRewardMapper.selectOutRewardYearList();
 	}
 }

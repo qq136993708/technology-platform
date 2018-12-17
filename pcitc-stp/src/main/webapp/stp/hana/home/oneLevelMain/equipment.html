@@ -17,13 +17,13 @@
 </head>
 <body>
 <div class="layui-fluid">
- <input type="hidden" name="month"        value="${month}"         id="month">
+ 
    <input type="hidden" name="companyCode"  value="${companyCode}"   id="companyCode">
     <div class="">
         <div class="searchBox">
             <label class="dateInput">
                 <span>月份</span>
-                <input type="text" name="year" placeholder="请选择月份" title="月份" value="${year}"  autocomplete="off" class="form-control" id="year">
+                <input type="text" name="month" placeholder="请选择月份" title="月份" value="${month}"  autocomplete="off" class="form-control" id="month">
             </label>
             <!--按钮组-->
             <div class="btnGroup">
@@ -114,7 +114,6 @@ layui.config({
     	window.open("/reportNew/reportPageStp?name=167305d0060_d4723a52");
     });
        
-        
 });
 
 function initEchart()
@@ -135,7 +134,7 @@ function initEchart()
             }
         }
     ];
-    $(".layui-time").html($("#year").val());
+    $(".layui-time").html($("#month").val());
 	var chart1_url="/one_level_main/equipment_01?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
 	var echart1=load_single_bar(chart1_url,"equipment_01_chart","","",yAxis,'');
 	echart1.on('click', function (params) {
@@ -173,8 +172,9 @@ function renderTable(){
 	            {field:'extend05',  title:'使用年限',  style:'cursor: pointer;',align: 'right'},
 	            {field:'extend06',  title:'剩余年限',  style:'cursor: pointer;',align: 'right'},
 	            {field:'extend07',  title:'购置价值(万元)',  style:'cursor: pointer;',align: 'right',  templet: '<div>{{ layui.laytpl.milliFormat(d.extend07,2) }}</div>'},
-	            {field:'extend08',  title:'折旧价值(万元)',  style:'cursor: pointer;',align: 'right',  templet: '<div>{{ layui.laytpl.milliFormat(d.extend08,2) }}</div>'},
-	            {field:'extend09',  title:'折旧率',  style:'cursor: pointer;',align: 'right'}
+	            {field:'extend08',  title:'累计折旧(万元)',  style:'cursor: pointer;',align: 'right',  templet: '<div>{{ layui.laytpl.milliFormat(d.extend08,2) }}</div>'},
+	            {field:'extend09',  title:'资产净值(万元)',  style:'cursor: pointer;',align: 'right',  templet: '<div>{{ layui.laytpl.milliFormat(d.extend09,2) }}</div>'},
+	            {field:'extend10',  title:'折旧率',  style:'cursor: pointer;',align: 'right'}
         ]],
         done: function(res, curr, count){
             merge(res);

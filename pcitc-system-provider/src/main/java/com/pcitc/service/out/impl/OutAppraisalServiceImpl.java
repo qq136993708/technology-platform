@@ -57,6 +57,9 @@ public class OutAppraisalServiceImpl implements OutAppraisalService {
 		if (paraMap.get("xmmc") != null && !paraMap.get("xmmc").equals("")) {
 			criteria.andXmmcLike("%" + paraMap.get("xmmc").toString() + "%");
 		}
+		if (paraMap.get("nd") != null && !"".equals(paraMap.get("nd"))) {
+			criteria.andNdEqualTo(paraMap.get("nd").toString());
+		}
 		example.setOrderByClause(" nd desc ");
 
 		List<OutAppraisal> list = outAppraisalMapper.selectByExample(example);

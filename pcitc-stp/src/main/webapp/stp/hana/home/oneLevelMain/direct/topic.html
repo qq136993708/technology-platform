@@ -198,7 +198,8 @@ function initEchart()
 	
     $(".layui-time").html($("#year").val());
 	var chart1_url="/direct/topic_01?type=1&nd="+nd+"&v_date="+v_date+"&xmlbbm=fkyzb";
-	var echart1=load_mutl_bar_down(chart1_url,"topic_chart1","","",yAxis);
+	var colorOne=["#3ec0c2","#55b6e9"];
+	var echart1=load_mutl_bar_down(chart1_url,"topic_chart1","","",yAxis,20,colorOne);
 	echart1.on('click', function (params) {
 		var xName=params.name;
 		var legentName=params.seriesName;
@@ -210,8 +211,9 @@ function initEchart()
 	
 	
 	
-	var chart4_url="/direct/topic_02?type=1&nd="+nd+"&v_date="+v_date; 
-	var echart4=load_mutl_bar_down(chart4_url,"topic_chart4","","",yAxis);
+	var chart4_url="/direct/topic_02?type=1&nd="+nd+"&v_date="+v_date;
+    var colorT=["#ff9f7f","#f3d156"];
+	var echart4=load_mutl_bar_down(chart4_url,"topic_chart4","","",yAxis,20,colorT);
 	echart4.on('click', function (params) {
 		var xName=params.name;
 		var legentName=params.seriesName;
@@ -224,7 +226,8 @@ function initEchart()
 	
 	
 	var chart6_url="/direct/topic_03?type=4&nd="+nd+"&v_date="+v_date;
-	var echart6=load_mutl_bar_down(chart6_url,"topic_chart7","","");
+    var colorTr=["#71d398","#96bfff"];
+	var echart6=load_mutl_bar_down(chart6_url,"topic_chart7","","","",50,colorTr);
 	echart6.on('click', function (params) {
 		var xName=params.name;
 		var legentName=params.seriesName;

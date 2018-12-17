@@ -1673,13 +1673,14 @@
 			ORDER BY show_order
 	</select>
 	
-	<!-- 领导二级页面，重大项目和十条龙项目详情 -->
+	<!-- 领导二级页面，重大专项项目详情 -->
 	<select id="getZDSTLProjectInfo" resultType="java.util.Map" parameterType="java.util.HashMap">
 			select 
 				nd,hth,xmmc,jf,fzdw,project_scope,zylb,fzrxm,zycmc,xmlbmc,define1,fwdx
 			from out_project_info
 			where 
-				project_property = '重点项目' limit 10
+				project_property = '重大专项' 
+			order by nd desc,hth
 	</select>
 	
 	<!-- 领导二级页面，重大项目和十条龙项目, 8个院中重大、十条龙项目的情况, 每一行是一个院 -->
@@ -1727,7 +1728,58 @@
 		group by define5
 	</select>
 	
+	<!--  领导首页-十条龙，十条龙项目的类型分布 -->
+	<select id="getDragonProjectInfoByType" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select xmlbmc,count(*) as sl
+		from out_project_info
+		WHERE
+			project_property = '十条龙项目'  and nd='2017'
+		group by xmlbmc
+	</select>
 	
+	<!--  领导首页-十条龙，十条龙项目的出入龙情况 -->
+	<select id="getDragonProjectInfoWithOutIn" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select sum(case when nd='2017' and `status` = '申请出龙' then 1 else 0 end) sqcl,
+			 sum(case when nd='2018' and `status` = '推荐入龙' then 1 else 0 end) tjrl,
+			 sum(case when nd='2018' and `status` = '在研项目' then 1 else 0 end) zyxm
+		from out_project_info
+		WHERE
+			project_property = '十条龙项目' 
+	</select>
+	
+	<!--  领导首页-十条龙，8个研究院的龙项目/重大专项项目分布 -->
+	<select id="getDragonProjectInfoByInstitute" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select SUBSTR(define2 FROM 4) as define2,
+			 sum(case when project_property = '十条龙项目' then 1 else 0 end) stlxm,
+			 sum(case when project_property = '重大专项' then 1 else 0 end) zdzx
+		from out_project_info
+		WHERE
+			 nd = '2017' and type_flag like '%研究院'
+    	GROUP BY define2
+	</select>
+	
+	<!--  领导首页-十条龙，十条龙项目的详情 -->
+	<select id="getDragonProjectDetails" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select nd,xmmc,fzdw as zydw,`status`,define6
+		from out_project_info
+		WHERE
+			 nd = '2017' and project_property = '十条龙项目' and define6 = '4组员单位'
+		
+		union all
+		select nd,xmmc,GROUP_CONCAT(fzdw) as zydw,`status`,define6
+		from out_project_info
+		WHERE
+			 nd = '2017' and project_property = '十条龙项目' and (define6 = '1组长单位' or define6 = '2副组长单位')
+		GROUP BY xmmc
+		
+		union all
+		select nd,xmmc,GROUP_CONCAT(fzdw) as zydw,`status`,define6
+		from out_project_info
+		WHERE
+			 nd = '2017' and project_property = '十条龙项目' and define6 = '3协作单位'
+		GROUP BY xmmc
+		order by xmmc,define6
+	</select>
 	
 	
 </mapper>

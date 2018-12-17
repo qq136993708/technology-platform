@@ -369,7 +369,7 @@
     where data_id = #{dataId,jdbcType=VARCHAR}
   </update>
   
-  <!-- 批量插入专利数据 -->
+  <!-- 批量插入组织机构数据 -->
   <insert id="insertOutUnitBatch" parameterType="java.util.List">
 	  insert into out_unit (data_id, unit_name, unit_code, 
       unit_ali, parent_code, unit_index, 
@@ -397,4 +397,12 @@
       		#{unit.define3,jdbcType=VARCHAR})
 		</foreach>
 	</insert>
+	
+	<!-- 批量修改数据 -->
+    <insert id="updateUnitDataBatch" parameterType="java.util.List">
+	  update out_unit set define2 = 
+		 <foreach collection="list" item="unit" index="index" separator=" " open="case " close="else define2 end">
+			 when define1 = '奖励系统' and unit_code=#{unit.unitCode} then #{unit.define2}
+		 </foreach>
+    </insert>
 </mapper>

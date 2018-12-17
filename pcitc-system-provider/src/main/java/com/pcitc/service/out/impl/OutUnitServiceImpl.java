@@ -22,7 +22,7 @@ public class OutUnitServiceImpl implements OutUnitService {
 
 	private final static Logger logger = LoggerFactory.getLogger(OutUnitServiceImpl.class);
 
-	public int insertUnitData(List<OutUnit> list) {
+	public int insertOutUnitBatch(List<OutUnit> list) {
 		// 删除年度数据
 		// OutPatentExample example = new OutPatentExample();
 		// outPatentMapper.deleteByExample(example);
@@ -31,5 +31,13 @@ public class OutUnitServiceImpl implements OutUnitService {
 		outUnitMapper.insertOutUnitBatch(list);
 		return 1;
 	}
-
+	
+	/**
+	 * @param list
+	 * 批量修改数据
+	 */
+	public int updateUnitDataBatch(List<OutUnit> list) {
+		outUnitMapper.updateUnitDataBatch(list);
+		return 1;
+	}
 }

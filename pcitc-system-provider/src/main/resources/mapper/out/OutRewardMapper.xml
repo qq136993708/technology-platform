@@ -547,4 +547,9 @@
       		#{reward.define4,jdbcType=VARCHAR})
 		</foreach>
 	</insert>
+	<!-- 查询有科技成果的年份 -->
+	<select id="selectOutRewardYearList" resultType="java.lang.String">
+    	SELECT DISTINCT nd from out_reward ORDER BY nd DESC
+  	</select>
+	
 </mapper>

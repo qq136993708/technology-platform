@@ -32,7 +32,13 @@ public class OutRewardClient {
 		logger.info("==================page getOutRewardListPage==================" + param);
 		return outRewardService.getOutRewardListPage(param);
 	}
-	
+
+	@ApiOperation(value = "科技成果年份列表", notes = "获取拥有科技成果历史记录的年份")
+	@RequestMapping(value = "/out-provider/reward-year-list", method = RequestMethod.POST)
+	public Object getOutRewardYearList() throws Exception {
+		logger.info("==================nopage selectOutRewardYearList==================");
+		return outRewardService.selectOutRewardYearList();
+	}
 	/*@ApiOperation(value = "奖励总数", notes = "首页查询使用")
 	@RequestMapping(value = "/out-provider/appraisal-count", method = RequestMethod.POST)
 	public JSONObject getAppraisalCount(@RequestBody HashMap<String, String> map) {

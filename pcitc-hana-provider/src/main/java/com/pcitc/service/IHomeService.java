@@ -33,22 +33,15 @@ public interface IHomeService {
     
     public  List<H1AMKYSY100117> get_home_KYZB(Map map)throws Exception;
     public  List<H1AMKYSY100117> get_home_KYZB_02(Map map)throws Exception;
-    
-    
     public LayuiTableData getNdkyxmzlTble(LayuiTableParam param)throws Exception;
     
     
     //二级页面
     public List<H1AMKYSY100109> getNdkyxmzl(Map map)throws Exception;
     public List<H1AMKYSY100109> getNdkyxmzl02(Map map)throws Exception;
-    
     public List<H1AMKYSY100109> getNdkyxmzBar(Map map)throws Exception;
     public List<H1AMKYSY100109> getNdkyxmzCircle(Map map)throws Exception;
-    
-    
     public LayuiTableData getListLevel2(LayuiTableParam param)throws Exception;
-    
-    
     
     
     
@@ -62,9 +55,6 @@ public interface IHomeService {
     public LayuiTableData get_kyzb_table_data(LayuiTableParam param)throws Exception;
     public LayuiTableData getZhuanziTableList(LayuiTableParam param)throws Exception;
     
-    
-
-    
     //经费支出二级页面
     public List<H1AMKYSY100104>  getJFZCLevel2(Map map)throws Exception;
  	public List<H1AMKYSY100104>  getJFZCLevel2Bar(Map map)throws Exception;
@@ -75,9 +65,9 @@ public interface IHomeService {
     public List<H1AMKYSY100104>  getJFXDPie(Map map)throws Exception;
     
     
-    
-    
-    
+    public List<H1AMKYSY100109> pay_01(Map map)throws Exception;
+    public List<H1AMKYSY100109> pay_02(Map map)throws Exception;
+    public List<H1AMKYSY100109> pay_03(Map map)throws Exception;
     
     
     

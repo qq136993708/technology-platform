@@ -61,5 +61,10 @@ public interface OutProjectPlanMapper {
      */
 	public List getPlanCompleteRateByCompanyType(HashMap<String, String> map);
 	
+	/**
+     * 领导首页-科研合同，科研合同签订率清单
+     */
+	public List getPlanCompleteRateDetails(HashMap<String, String> map);
+	
 	
 }

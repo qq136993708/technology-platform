@@ -38,7 +38,7 @@ var option_bar_single_down = {
 	        data: [],
 	        axisLabel:{
                 interval:0,//0：全部显示，1：间隔为1显示对应类目，2：依次类推，（简单试一下就明白了，这样说是不是有点抽象）
-                rotate:-30,//倾斜显示，-：顺时针旋转，+或不写：逆时针旋转
+                //rotate:-30,//倾斜显示，-：顺时针旋转，+或不写：逆时针旋转
                }
 	    },
 	    yAxis: {
@@ -46,7 +46,6 @@ var option_bar_single_down = {
 	    },
 	    series: []
 	};
-
 
 
 
@@ -203,8 +202,10 @@ var mutl_bar_down = {
     };
 
 
-// barLineAjax返回DATA,指标在下方
-function load_mutl_bar_down(url,id,title,subtext,yAxis)
+
+
+//barLineAjax返回DATA,指标在下方
+function load_mutl_bar_down(url,id,title,subtext,yAxis,width,color)
 {
 	var echartsobj = echarts.init(document.getElementById(id));
 	if(title!=null && title!='')
@@ -215,56 +216,119 @@ function load_mutl_bar_down(url,id,title,subtext,yAxis)
 	{
 		mutl_bar_down.title.subtext=subtext;
 	}
-    mutl_bar_down.grid={
+ mutl_bar_down.grid={
 	    top:"10.5%",
-        left: '0%',
-        right: '3%',
-        bottom: '10%',
-        containLabel: true
-    }
+     left: '0%',
+     right: '3%',
+     bottom: '10%',
+     containLabel: true
+ }
 	if(yAxis!=null && yAxis!='')
 	{
 		mutl_bar_down.yAxis=yAxis;
 	}
-    echartsobj.clear();
+	if(color!=undefined){
+     mutl_bar_down.color=color;
+	}
+ mutl_bar_down.xAxis=[{
+     type: 'category',
+     axisLabel:{
+         interval:0,//0：全部显示，1：间隔为1显示对应类目，2：依次类推，（简单试一下就明白了，这样说是不是有点抽象）
+         rotate:0,//倾斜显示，-：顺时针旋转，+或不写：逆时针旋转
+     }
+ }]
+ echartsobj.clear();
 	echartsobj.setOption(mutl_bar_down);
 	echartsobj.showLoading();
 	
-	 echartsobj=barLineAjax_down(url,echartsobj, mutl_bar_down,id);
+	 echartsobj=barLineAjax_down(url,echartsobj, mutl_bar_down,id,width);
 	return echartsobj;
 }
-
-function load_mutl_bar_down_color(url,id,title,subtext,yAxis)
+function load_mutl_bar_down_r(url,id,title,subtext,yAxis,rotate,width,color)
 {
-    var echartsobj = echarts.init(document.getElementById(id));
-    if(title!=null && title!='')
-    {
-        mutl_bar_down.title.text=title;
-    }
-    if(subtext!=null && subtext!='')
-    {
-        mutl_bar_down.title.subtext=subtext;
-    }
-    mutl_bar_down.grid={
-        top:"10.5%",
-        left: '0%',
-        right: '3%',
-        bottom: '10%',
-        containLabel: true
-    }
-    mutl_bar_down.color=["#66e0e3","#fedb5b"]
-    if(yAxis!=null && yAxis!='')
-    {
-        mutl_bar_down.yAxis=yAxis;
-    }
-    echartsobj.clear();
-    echartsobj.setOption(mutl_bar_down);
-    echartsobj.showLoading();
+ var echartsobj = echarts.init(document.getElementById(id));
+ if(title!=null && title!='')
+ {
+     mutl_bar_down.title.text=title;
+ }
+ if(subtext!=null && subtext!='')
+ {
+     mutl_bar_down.title.subtext=subtext;
+ }
+ mutl_bar_down.grid={
+     top:"10.5%",
+     left: '0%',
+     right: '3%',
+     bottom: '10%',
+     containLabel: true
+ }
+ if(yAxis!=null && yAxis!='')
+ {
+     mutl_bar_down.yAxis=yAxis;
+ }
+ if(color!=undefined){
+     mutl_bar_down.color=color;
+ }
+ if(rotate==undefined && rotate!=''){
+     mutl_bar_down.xAxis=[{
+         type: 'category',
+         axisLabel:{
+             interval:0,//0：全部显示，1：间隔为1显示对应类目，2：依次类推，（简单试一下就明白了，这样说是不是有点抽象）
+             rotate:0,//倾斜显示，-：顺时针旋转，+或不写：逆时针旋转
+         }
+     }]
+ }else {
+     mutl_bar_down.xAxis=[{
+         type: 'category',
+         axisLabel:{
+             interval:0,//0：全部显示，1：间隔为1显示对应类目，2：依次类推，（简单试一下就明白了，这样说是不是有点抽象）
+             rotate:30,//倾斜显示，-：顺时针旋转，+或不写：逆时针旋转
+         }
+     }]
+ }
+ echartsobj.clear();
+ echartsobj.setOption(mutl_bar_down);
+ echartsobj.showLoading();
 
-    echartsobj=barLineAjax_down(url,echartsobj, mutl_bar_down,id);
-    return echartsobj;
+ echartsobj=barLineAjax_down(url,echartsobj, mutl_bar_down,id,width);
+ return echartsobj;
 }
-function barLineAjax_down(url,  echartsobj, options,id) 
+function load_mutl_bar_down_color(url,id,title,subtext,yAxis,color)
+{
+ var echartsobj = echarts.init(document.getElementById(id));
+ if(title!=null && title!='')
+ {
+     mutl_bar_down.title.text=title;
+ }
+ if(subtext!=null && subtext!='')
+ {
+     mutl_bar_down.title.subtext=subtext;
+ }
+ mutl_bar_down.grid={
+     top:"10.5%",
+     left: '0%',
+     right: '3%',
+     bottom: '10%',
+     containLabel: true
+ }
+ if(color!=undefined){
+     mutl_bar_down.color=color;
+ }else {
+     mutl_bar_down.color=["#66e0e3","#fedb5b"]
+	}
+ if(yAxis!=null && yAxis!='')
+ {
+     mutl_bar_down.yAxis=yAxis;
+ }
+ echartsobj.clear();
+ echartsobj.setOption(mutl_bar_down);
+ echartsobj.showLoading();
+
+ echartsobj=barLineAjax_down(url,echartsobj, mutl_bar_down,id);
+ return echartsobj;
+}
+
+function barLineAjax_down(url,  echartsobj, options,id,width) 
 {
 	
    var legends=[];     
@@ -298,6 +362,14 @@ function barLineAjax_down(url,  echartsobj, options,id)
 	        	           	xAxisData.push(xAxisDataList[i]);
 	        	           }
 	        	           var seriesList=data.data.seriesList;
+	        	           
+	        	           
+	        	       	   var barWidth=20;
+	        	           if(width!=undefined && width!="")
+	        	           {
+	        	           	barWidth=width
+						   }
+	        	           
 	        	           for(var i=0;i<seriesList.length;i++)
 	        	           {
 	                            
@@ -306,7 +378,7 @@ function barLineAjax_down(url,  echartsobj, options,id)
 	        	                   name: seriesList[i].name,
 	        	                   data: seriesList[i].data,
 	        	                   stack: seriesList[i].stack,
-	        	                   barWidth:20
+	        	                   barWidth:barWidth
 	        	                   ,yAxisIndex: seriesList[i].yAxisIndex,
                                 itemStyle : { normal: {label : {show: true,color:"#000",position: 'top'}}},
 	                               
@@ -408,9 +480,9 @@ function set_single_graph_statistics(data,id)
     	var jzCount_2=getSingleDataCountForName(data,'未签合同');
         var allCount_3=xkCount_1+jzCount_2;
         
-        $("#contract_chart1_01").html(allCount_3);
-        $("#contract_chart1_02").html(xkCount_1);
-        $("#contract_chart1_03").html(jzCount_2);
+        $("#contract_chart1_01").html(allCount_3+"个");
+        $("#contract_chart1_02").html(xkCount_1+"个");
+        $("#contract_chart1_03").html(jzCount_2+"个");
 	}
 	if(id=='contract_chart4')
 	{
@@ -444,9 +516,9 @@ function set_multi_graph_statistics(data,id)
         var allCount_3=xkCount_1+jzCount_2;
         
         
-        $("#knowldege_chart1_01").html(allCount_3);
-        $("#knowldege_chart1_02").html(xkCount_1);
-        $("#knowldege_chart1_03").html(jzCount_2);
+        $("#knowldege_chart1_01").html(allCount_3+"个");
+        $("#knowldege_chart1_02").html(xkCount_1+"个");
+        $("#knowldege_chart1_03").html(jzCount_2+"个");
 	}
 	if(id=='knowldege_chart4')
 	{
@@ -456,10 +528,10 @@ function set_multi_graph_statistics(data,id)
         var count_3=getDataCountForName(data,'实用新型');
         var count_all=count_1+count_2+count_3;
         
-        $("#knowldege_chart4_01").html(count_all);
-        $("#knowldege_chart4_02").html(count_1);
-        $("#knowldege_chart4_03").html(count_2);
-        $("#knowldege_chart4_04").html(count_3);
+        $("#knowldege_chart4_01").html(count_all+"个");
+        $("#knowldege_chart4_02").html(count_1+"个");
+        $("#knowldege_chart4_03").html(count_2+"个");
+        $("#knowldege_chart4_04").html(count_3+"个");
         
 		
 	}
@@ -469,18 +541,18 @@ function set_multi_graph_statistics(data,id)
 	if(id=='topic_chart1')
 	{
 		var xkCount_1=getDataCountForName(data,'新开课题');
-    	var jzCount_2=getDataCountForName(data,'转结课题');
+    	var jzCount_2=getDataCountForName(data,'结转课题');
         var allCount_3=xkCount_1+jzCount_2;
         
-        $("#topic_chart1_01").html(allCount_3);
-        $("#topic_chart1_02").html(xkCount_1);
-        $("#topic_chart1_03").html(jzCount_2);
+        $("#topic_chart1_01").html(allCount_3+"个");
+        $("#topic_chart1_02").html(xkCount_1+"个");
+        $("#topic_chart1_03").html(jzCount_2+"个");
 	}
 	if(id=='topic_chart4')
 	{
 		
 		var xkCount_1=getDataCountForName(data,'新开课题');
-    	var jzCount_2=getDataCountForName(data,'转结课题');
+    	var jzCount_2=getDataCountForName(data,'结转课题');
         var allCount_3=xkCount_1+jzCount_2;
         
         $("#topic_chart4_01").html(allCount_3);
@@ -493,7 +565,7 @@ function set_multi_graph_statistics(data,id)
 	{
 		
 		var xkCount_1=getDataCountForName(data,'新开课题');
-    	var jzCount_2=getDataCountForName(data,'转结课题');
+    	var jzCount_2=getDataCountForName(data,'结转课题');
         var allCount_3=xkCount_1+jzCount_2;
         
         $("#topic_chart7_01").html(allCount_3);
@@ -509,8 +581,8 @@ function set_multi_graph_statistics(data,id)
 		var count_1=getDataCountForName(data,'计划签订');
     	var count_2=getDataCountForName(data,'实际签订');
         
-        $("#contract_chart4_01").html(count_1);
-        $("#contract_chart4_02").html(count_2);
+        $("#contract_chart4_01").html(count_1+"个");
+        $("#contract_chart4_02").html(count_2+"个");
         $("#contract_chart4_03").html(percentNum(count_2,count_1));
         
 		
@@ -520,12 +592,12 @@ function set_multi_graph_statistics(data,id)
 	if(id=='equipment_chart1')
 	{
 		var xkCount_1=getDataCountForName(data,'新开课题');
-    	var jzCount_2=getDataCountForName(data,'转结课题');
+    	var jzCount_2=getDataCountForName(data,'结转课题');
         var allCount_3=xkCount_1+jzCount_2;
         
-        $("#equipment_chart1_01").html(allCount_3);
-        $("#equipment_chart1_02").html(xkCount_1);
-        $("#equipment_chart1_03").html(jzCount_2);
+        $("#equipment_chart1_01").html(allCount_3+"个");
+        $("#equipment_chart1_02").html(xkCount_1+"个");
+        $("#equipment_chart1_03").html(jzCount_2+"个");
 	}
 	
 	if(id=='direct_knowledge_chart1')
@@ -534,19 +606,19 @@ function set_multi_graph_statistics(data,id)
     	var jzCount_2=getDataCountForName(data,'授权总数');
         var allCount_3=xkCount_1+jzCount_2;
         
-        $("#direct_knowledge_chart1_01").html(allCount_3);
-        $("#direct_knowledge_chart1_02").html(xkCount_1);
-        $("#direct_knowledge_chart1_03").html(jzCount_2);
+        $("#direct_knowledge_chart1_01").html(allCount_3+"个");
+        $("#direct_knowledge_chart1_02").html(xkCount_1+"个");
+        $("#direct_knowledge_chart1_03").html(jzCount_2+"个");
 	}
 	if(id=='direct_topic_chart3')
 	{
 		var xkCount_1=getDataCountForName(data,'新开课题');
-    	var jzCount_2=getDataCountForName(data,'转结课题');
+    	var jzCount_2=getDataCountForName(data,'结转课题');
         var allCount_3=xkCount_1+jzCount_2;
         
-        $("#direct_topic_chart3_01").html(allCount_3);
-        $("#direct_topic_chart3_02").html(xkCount_1);
-        $("#direct_topic_chart3_03").html(jzCount_2);
+        $("#direct_topic_chart3_01").html(allCount_3+"个");
+        $("#direct_topic_chart3_02").html(xkCount_1+"个");
+        $("#direct_topic_chart3_03").html(jzCount_2+"个");
 	}
 	
 	
@@ -560,16 +632,62 @@ function set_multi_graph_statistics(data,id)
         $("#direct_contract_chart_03").html(percentNum(count_1,count_1+count_2));
 	}
 	
+	if(id=='pay_chart1')
+	{
+		var xkCount_1=getDataCountForNameFloat(data,'新开课题');
+    	var jzCount_2=getDataCountForNameFloat(data,'结转课题');
+        var allCount_3=xkCount_1+jzCount_2;
+        
+        $("#pay_chart1_01").html(allCount_3+"亿元");
+        $("#pay_chart1_02").html(xkCount_1+"亿元");
+        $("#pay_chart1_03").html(jzCount_2+"亿元");
+	}
+	
 	
 	if(id=='pay_chart3')
 	{
-		var xkCount_1=getDataCountForName(data,'资本性');
-    	var jzCount_2=getDataCountForName(data,'费用性');
+
+		var xkCount_1=getDataCountForNameFloat(data,'资本性');
+    	var jzCount_2=getDataCountForNameFloat(data,'费用性');
         var allCount_3=xkCount_1+jzCount_2;
         
-        $("#pay_chart3_01").html(allCount_3);
-        $("#pay_chart3_02").html(xkCount_1);
-        $("#pay_chart3_03").html(jzCount_2);
+        $("#pay_chart3_01").html(allCount_3+"亿元");
+        $("#pay_chart3_02").html(xkCount_1+"亿元");
+        $("#pay_chart3_03").html(jzCount_2+"亿元");
+	}
+	
+	
+	
+	
+
+
+	function getDataCountForNameFloat(data,strName)
+	{
+		var seriesList=data.seriesList;
+	    var xkCount=0;
+	    if (typeof(seriesList) == "undefined") 
+	    { 
+	    	
+	    }else
+	    {
+	    	 for(var i=0;i<seriesList.length;i++)
+	         {
+	         	var arr=seriesList[i].data;
+	         	var name=seriesList[i].name;
+	         	if(name==strName)
+	         	{
+	         		var name_count=0;
+	         		for(var j=0;j<arr.length;j++)
+	 	            {
+	         			name_count=name_count+parseFloat(arr[j]);
+	 	            }
+	         		xkCount=name_count;
+	         	}
+	         } 
+	        
+	    }   
+	    return parseInt(xkCount);
+	       
 	}
 	
 	/**=============================直属研究院 end===========================*/

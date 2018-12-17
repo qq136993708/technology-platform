@@ -24,16 +24,17 @@ var optionpie = {
         formatter: "{a} <br/>{b} : {c}  ({d}%)"
     },
     legend: {
-        type: 'scroll',
-        top: 0,
-        data: []
+    	 type: 'scroll',
+         bottom: 0,
+         data: [],
+         selected:{}
     },
     series: [
         {
             name: '访问来源',
             type: 'pie',
             radius: ['30%', '60%'],
-            center: ['53%','58%'],
+            center: ['50%','45%'],
             avoidLabelOverlap: false,
             data: [],
             itemStyle: {
@@ -103,67 +104,69 @@ var optionpieNew = {
         }
     ]
 };
-function pieAjax(url, echartsobj, options) 
-{
-	
-	 var names=[];  
-     var values=[];  
-     $.ajax({
-	     type:"get",
-	     url: url,
-	     dataType:"json",
-	     timeout : 11000,
-	     cache: false,
-	     contentType: "application/x-www-form-urlencoded; charset=utf-8",
-	      success:function(data,status)
-	      {    
-		          if(data.success==true ||data.success=='true')
-		          {
-		        		    echartsobj.hideLoading();
-		        	        var chartList=data.data.dataList;
-		                    for(var i=0;i<chartList.length;i++)
-		                    {
-                                names.push(chartList[i].name);
-                                if(chartList[i].value==0||chartList[i].value=="0"){
-                                    selecteds[chartList[i].name]=false;
-                                }
-		                    }
-		                    for(var i=0;i<chartList.length;i++)
-		                    {
-	
-		                    	values.push({
-		                            value: chartList[i].value,
-		                            name: chartList[i].name
-		                        });
-		                    }
-		                    //加载数据图表
-		                    echartsobj.setOption({
-		                        legend: {
-		                            data: names
-		                        },
-		                        series: [{
-		                            data: values
-		                        }]
-		                    });
-		        	        
-		          } 
-			   },
-			   error:function()
-			   {
-				   layer.msg('图表加载失败');
-			   },
-			   complete: function (XMLHttpRequest, status) {
-		            if(status == 'timeout'){
-		            	 layer.msg('超时');
-		            }
-		        }
-	    });
-     
-     
-        
-        
-}
 
+function pieAjax(url, echartsobj, options)
+{
+
+    var names=[];
+    var values=[];
+    var selecteds={};
+    $.ajax({
+        type:"get",
+        url: url,
+        dataType:"json",
+        timeout : 11000,
+        cache: false,
+        contentType: "application/x-www-form-urlencoded; charset=utf-8",
+        success:function(data,status)
+        {
+            if(data.success==true ||data.success=='true')
+            {
+                echartsobj.hideLoading();
+                var chartList=data.data.dataList;
+                for(var i=0;i<chartList.length;i++)
+                {
+                    names.push(chartList[i].name);
+                    if(chartList[i].value==0||chartList[i].value=="0"){
+                        selecteds[chartList[i].name]=false;
+                    }
+                }
+                for(var i=0;i<chartList.length;i++)
+                {
+
+                    values.push({
+                        value: chartList[i].value,
+                        name: chartList[i].name
+                    });
+                }
+                //加载数据图表
+                echartsobj.setOption({
+                    legend: {
+                        data: names,
+                        selected:selecteds
+                    },
+                    series: [{
+                        data: values
+                    }]
+                });
+
+            }
+        },
+        error:function()
+        {
+            layer.msg('图表加载失败');
+        },
+        complete: function (XMLHttpRequest, status) {
+            if(status == 'timeout'){
+                layer.msg('超时');
+            }
+        }
+    });
+
+
+
+
+}
 
 
 
@@ -284,7 +287,7 @@ var optionpie_02 = {
 
 	function pieAjax_02(url, echartsobj, options)
 	{
-		pieAjax_02(url, echartsobj, options,null);
+		return pieAjax_02(url, echartsobj, options,null);
 	}
 	/**
 	 * 支持回调的数据加载
@@ -318,7 +321,7 @@ var optionpie_02 = {
 			                    }
 			                    for(var i=0;i<chartList.length;i++)
 			                    {
-			                    	//allCount=allCount+parseInt(chartList[i].value);
+			                    	
 			                    	values.push({
 			                            value: chartList[i].value,
 			                            name: chartList[i].name
@@ -371,8 +374,8 @@ var optionpie_02 = {
 		optionpie_02.title.subtext=subtext;
 		echartsobj.setOption(optionpie_02);
 		echartsobj.showLoading();
-		var allCount=pieAjax_02(url,echartsobj,optionpie_02,callback);
-		return allCount;
+		echartsobj=pieAjax_02(url,echartsobj,optionpie_02,callback);
+		return echartsobj;
 	}
 	
 /**

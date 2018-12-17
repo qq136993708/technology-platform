@@ -1838,7 +1838,7 @@ public class OutProjectInfoClient {
 		return json;
 	}
 	
-	@ApiOperation(value = "领导二级页面，重大项目和十条龙项目详情", notes = "参数年度、研究院等")
+	@ApiOperation(value = "领导首页，十条龙页面，重大专项项目详情", notes = "参数年度、研究院等")
 	@RequestMapping(value = "/out-project-provider/ld/project-info/zdstl")
 	public JSONArray getZDSTLProjectInfo(@RequestBody HashMap<String, String> map) throws Exception {
 		logger.info("==================page getZDSTLProjectInfo===========================" + map);
@@ -1877,6 +1877,88 @@ public class OutProjectInfoClient {
 		List temList = outProjectService.getProjectInfoByTecTypeWithOldNew(map);
 		
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		return json;
+	}
+	
+	@ApiOperation(value = "领导首页-十条龙，十条龙项目的类型分布 ", notes = "参数年度")
+	@RequestMapping(value = "/out-project-provider/dragon/type/project-info")
+	public JSONArray getDragonProjectInfoByType(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page getDragonProjectInfoByType===========================" + map);
+		
+		List temList = outProjectService.getDragonProjectInfoByType(map);
+		
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		return json;
+	}
+	
+	@ApiOperation(value = "领导首页-十条龙，十条龙项目的出入龙情况 ", notes = "参数年度")
+	@RequestMapping(value = "/out-project-provider/dragon/out-in/project-info")
+	public JSONArray getDragonProjectInfoWithOutIn(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page getDragonProjectInfoWithOutIn===========================" + map);
+		
+		List temList = outProjectService.getDragonProjectInfoWithOutIn(map);
+		
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		return json;
+	}
+	
+	@ApiOperation(value = "领导首页-十条龙，十条龙项目的出入龙情况 ", notes = "参数年度")
+	@RequestMapping(value = "/out-project-provider/dragon/institute/project-info")
+	public JSONArray getDragonProjectInfoByInstitute(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page getDragonProjectInfoByInstitute===========================" + map);
+		
+		List temList = outProjectService.getDragonProjectInfoByInstitute(map);
+		
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		return json;
+	}
+	
+	@ApiOperation(value = "领导首页-十条龙，十条龙项目的详情", notes = "参数年度")
+	@RequestMapping(value = "/out-project-provider/dragon/details")
+	public JSONArray getDragonProjectDetails(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page getDragonProjectDetails===========================" + map);
+		
+		List temList = outProjectService.getDragonProjectDetails(map);
+		
+		List finalList = new ArrayList();
+		
+		int index = 0;
+		int showIndex = 0;
+		String xmmc = "";
+		String zzdw = "";
+		String xzdw = "";
+		for (int i = 0; i < temList.size(); i++) {
+			HashMap<String, String> temMap = (HashMap<String, String>)temList.get(i);
+			String temXmmc = temMap.get("xmmc");
+			String define6 = temMap.get("define6");
+			if (xmmc.equals("")) { //第一次赋值
+				xmmc = temXmmc;
+			}
+			
+			if (!xmmc.equals(temXmmc)) {
+				showIndex++;
+				xmmc = temXmmc;
+				zzdw = "";
+				xzdw = "";
+			}
+			
+			//排序，组长和协作的先出现
+			if (define6.contains("组长")) {
+				zzdw = temMap.get("zydw");
+			} else if (define6.contains("协作")) {
+				xzdw = temMap.get("xzdw");
+			} else {
+				temMap.put("zzdw", zzdw);
+				temMap.put("xzdw", xzdw);
+				
+				temMap.put("showIndex", String.valueOf(showIndex+1));
+				
+				finalList.add(index, temMap);
+				index++;
+			}
+		}
+		
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(finalList));
 		return json;
 	}
 	

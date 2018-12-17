@@ -40,13 +40,13 @@
             <div class="layui-col-md6">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        <span class="layui-time"></span>年直属研究院科研装备数量分布
+                        <span class="layui-time"></span>年直属研究院科研装备课题数量
                     </div>
                     <div class="layui-row-main">
                        <div class="text-total">
                             <span>总计:<span    class="text-total-blue"    id="equipment_chart1_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                             <span>新开课题:<span class="text-total-blue"    id="equipment_chart1_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>转结课题:<span class="text-total-blue"    id="equipment_chart1_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>结转课题:<span class="text-total-blue"    id="equipment_chart1_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                         </div>
                         
                         <div class="main-chart" id="equipment_chart1" style="height:280px;width: 100%;"></div>
@@ -71,7 +71,7 @@
                                 <th lay-data="{field:'define2', width:'22%'}" rowspan="2">项目</th>
                                 <th lay-data="{align:'center'}" colspan="2">总计</th>
                                 <th lay-data="{align:'center'}" colspan="2">新开课题</th>
-                                <th lay-data="{align:'center'}" colspan="2">转结课题</th>
+                                <th lay-data="{align:'center'}" colspan="2">结转课题</th>
                             </tr>
                             <tr>
                                 <th lay-data="{field:'zsl', width:'13%'}">数量（个）</th>
@@ -118,7 +118,7 @@
             <div class="layui-col-md6">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        ${year}年直属研究院科研装备数量占比
+                        ${year}年直属研究院科研课题数量占比
                         <div class="layui-tool">
                             <button type="button" class="btn btn-tool collapse"></button>
                             <button type="button" class="btn btn-tool remove"></button>
@@ -133,7 +133,6 @@
          
          
          
-         
          <div class="layui-row layui-col-space15">
             <div class="layui-col-md12">
                 <div class="layui-card">
@@ -141,6 +140,12 @@
                         <span class="layui-time"></span>年直属研究院科研装备数量
                     </div>
                     <div class="layui-row-main">
+                     <div class="text-total">
+                            <span>大型分析仪器:<span class="text-total-blue"    id="equipment_chart5_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>中型实验装置:<span class="text-total-blue"    id="equipment_chart5_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>单台值大于500万:<span class="text-total-blue" id="equipment_chart5_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>专业软件（外购）:<span class="text-total-blue" id="equipment_chart5_04"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                        </div>
                         <div class="main-chart" id="equipment_chart5" style="height:280px;width: 100%;"></div>
                     </div>
                 </div>
@@ -222,7 +227,7 @@ function initEchart()
     });
 	
 	var url_01="/direct/equipment_02?type=1&companyCode="+companyCode+"&month="+month+"&v_date="+v_date;
-	load_bar_zhengfu_callback(url_01,"equipment_chart3","","",function(data){
+	var data7=load_bar_zhengfu_callback(url_01,"equipment_chart3","","",function(data){
 
 		var bCount_4=getDataCountForName_t(data,'大型分析仪器');
     	var zCount_4=getDataCountForName_t(data,'中型实验装置');
@@ -230,16 +235,32 @@ function initEchart()
     	var zyCount_4=getDataCountForName_t(data,'专业软件（外购）'); 
         var allCount_4=bCount_4+zCount_4+dCount_4+zyCount_4;
         //alert(bCount_4);
-        $("#bar4_1_count").html(bCount_4);
-        $("#bar4_2_count").html(zCount_4);
-        $("#bar4_3_count").html(dCount_4);
-        $("#bar4_4_count").html(zyCount_4);
+        $("#bar4_1_count").html(bCount_4+"套");
+        $("#bar4_2_count").html(zCount_4+"台");
+        $("#bar4_3_count").html(dCount_4+"台");
+        $("#bar4_4_count").html(zyCount_4+"套");
 		
 	});
-	
+	data7.on('click', function (params) {
+		var xName=params.name;
+		var legentName=params.seriesName;
+		window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
+    });
 	
 	var chart5_url="/direct/equipment_03?companyCode="+companyCode+"&v_date="+v_date+"&month="+month;
-	var echart5=load_mutl_bar_stack_02(chart5_url,"equipment_chart5","","",yAxis,1);
+	var echart5=load_mutl_bar_stack_02(chart5_url,"equipment_chart5","","",yAxis,1,function(data){
+		
+		var bCount_4=getDataCountForName_t(data,'大型分析仪器');
+    	var zCount_4=getDataCountForName_t(data,'中型实验装置');
+    	var dCount_4=getDataCountForName_t(data,'单台值大于500万');
+    	var zyCount_4=getDataCountForName_t(data,'专业软件（外购）'); 
+        var allCount_4=bCount_4+zCount_4+dCount_4+zyCount_4;
+        //alert(bCount_4);
+        $("#equipment_chart5_01").html(bCount_4+"套");
+        $("#equipment_chart5_02").html(zCount_4+"台");
+        $("#equipment_chart5_03").html(dCount_4+"台");
+        $("#equipment_chart5_04").html(zyCount_4+"套");
+	});
 	echart5.on('click', function (params) {
 		var xName=params.name;
 		var legentName=params.seriesName;
