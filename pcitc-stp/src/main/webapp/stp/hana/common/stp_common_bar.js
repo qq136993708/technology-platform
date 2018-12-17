@@ -50,7 +50,7 @@ var option_bar_single = {
 
 function barAjax_single(url,  echartsobj, options) 
 {
-	barAjax_single(url,  echartsobj, options,null);
+	barAjax_single(url,  echartsobj, options,null,null);
 }
 
 /**
@@ -89,7 +89,7 @@ function barAjax_single(url,  echartsobj, options,width,callback)
 	                    	series.push(seriesDataList[i]);
 	                    }
 	                    var barWidth=20;
-	                    if(width!=undefined){
+	                    if(width!=undefined && width != null){
                             barWidth=width;
                         }
 	                    //加载数据图表
@@ -113,6 +113,7 @@ function barAjax_single(url,  echartsobj, options,width,callback)
 	                    });
 	                    if(callback)
 	                    {
+	                    	console.log("call.....back......");
 	                    	callback(data);
 	                    }
 		        	        
@@ -130,13 +131,6 @@ function barAjax_single(url,  echartsobj, options,width,callback)
 	    });
    
 } 
-
-
-//单图
-function load_single_bar(url,id,title,subtext,yAxis)
-{
-	load_single_bar(url,id,title,subtext,yAxis,null);
-}
 /**
  * 支持回调函数的bar
  * @param url
@@ -164,7 +158,7 @@ function load_single_bar(url,id,title,subtext,yAxis,color,width,callback)
         bottom: '5%',
         containLabel: true
     };
-	if(color!=undefined){
+	if(color!=undefined && color != null){
         option_bar_single.color=color
     }
 	echartsobj.setOption(option_bar_single);

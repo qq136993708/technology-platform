@@ -43,6 +43,9 @@
                         <span class="layui-time"></span>单台价值大于500万装备
                     </div>
                     <div class="layui-row-main">
+                    	<div class="text-total">
+                        	<span>总计：<span class="text-total-blue" id="chart_title_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                    	</div>
                         <div class="main-chart" id="equipment_01_chart" style="height:280px;width: 100%;"></div>
                     </div>
                 </div>
@@ -136,7 +139,13 @@ function initEchart()
     ];
     $(".layui-time").html($("#month").val());
 	var chart1_url="/one_level_main/equipment_01?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
-	var echart1=load_single_bar(chart1_url,"equipment_01_chart","","",yAxis,'');
+	var echart1=load_single_bar(chart1_url,"equipment_01_chart","","",yAxis,null,null,function(data){
+		var total_count = 0;
+		$.each(data.data.seriesDataList,function(index,dt){
+			total_count+=dt;
+		});
+		$("#chart_title_01").html(total_count+"（台）");
+	});
 	echart1.on('click', function (params) {
 		var xName=params.name;
 		var legentName=params.seriesName;
