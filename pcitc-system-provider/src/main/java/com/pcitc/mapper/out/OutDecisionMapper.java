@@ -105,6 +105,9 @@ public interface OutDecisionMapper {
      */
 	public List getAppraisalInfoByInstitute(Map map);
 	
-	
+	/**
+     * 辅助决策中心，奖励，各个奖励类型的数量
+     */
+	public List getRewardInfoByType(Map map);
 	
 }

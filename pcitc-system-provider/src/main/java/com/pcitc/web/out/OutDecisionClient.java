@@ -306,4 +306,16 @@ public class OutDecisionClient {
 		return json;
 	}
 	
+	@ApiOperation(value = "辅助决策中心，奖励，各个奖励类型的数量", notes = "参数年度")
+	@RequestMapping(value = "/out-decision-provider/kjjl/reward/type")
+	public JSONArray getRewardInfoByType(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page getRewardInfoByType==========================="+map);
+
+		List temList = outDecisionService.getRewardInfoByType(map);
+		
+		System.out.println("===="+JSON.toJSONString(temList));
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		return json;
+	}
+	
 }
