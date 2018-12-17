@@ -236,7 +236,7 @@ public class OutDecisionClient {
 		logger.info("==================page selectJFYSForTech===========================" + map);
 		
 		List temList = outDecisionService.selectJFYSForTech(map);
-		int jnCount = 0;
+		/*int jnCount = 0;
 		int qnCount = 0;
 		int qiannCount = 0;
 		for (int i = 0; i < temList.size(); i++) {
@@ -252,7 +252,7 @@ public class OutDecisionClient {
 		totalMap.put("qnCount", String.valueOf(qnCount));
 		totalMap.put("qiannCount", String.valueOf(qiannCount));
 		
-		temList.add(0, totalMap);
+		temList.add(0, totalMap);*/
 		
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
 		return json;
