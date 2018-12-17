@@ -42,7 +42,7 @@
 				</button>
 				<button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg" data-type="monthEvent">
 					<span class="btn-state btn-yellow"></span>
-					一个月内
+					一周以上
 				</button>
 
 				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" data-type="detailEvent">查看</button>
@@ -93,6 +93,23 @@
 						title : '序号',
 						type : 'numbers',
 						width : 55
+					}, {
+						field : 'flowState',
+						title : '状态',
+						width : 55,
+						style : 'cursor: pointer;',
+						align : 'center',
+						templet: function(d){
+							var crTime = new Date(d.createTime);
+							var nowDate = new Date();
+							if ((nowDate.getTime() - crTime.getTime()) < 86400000*3 ) {
+								return '<img src="/layuiadmin/layui/images/Red_Ball.png">';
+							} else if ((nowDate.getTime() - crTime.getTime()) > 86400000*3 && (nowDate.getTime() - crTime.getTime()) < 86400000*7) {
+								return '<img src="/layuiadmin/layui/images/Yellow_Ball.png">';
+							} else {
+								return '<img src="/layuiadmin/layui/images/Green_Ball.png">';
+							}
+						}
 					}, {
 						field : 'name',
 						title : '任务节点名称',
@@ -193,8 +210,8 @@
 					$(this).addClass('active');
 					active.searchEvent();
 				},
-				monthEvent : function() { //点击30天内按钮
-					$('#dateFlag').val("30");
+				monthEvent : function() { //点击一周以上
+					$('#dateFlag').val("8");
 					$(this).siblings().removeClass('active');
 					$(this).addClass('active');
 					active.searchEvent();

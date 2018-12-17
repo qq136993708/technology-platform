@@ -240,11 +240,15 @@ public class TaskProviderClient {
 			query = query.taskNameLike(taskName);
 		}
 		if (param.getParam().get("dateFlag") != null && !StrUtil.isBlankOrNull(param.getParam().get("dateFlag").toString())) {
-			query.taskCreatedAfter(DateUtil.dateAdd(new Date(), -Integer.parseInt(param.getParam().get("dateFlag").toString())));
+			
+			if (param.getParam().get("dateFlag").toString().equals("3")) {
+				query.taskCreatedAfter(DateUtil.dateAdd(new Date(), -3));
+			}
 			if (param.getParam().get("dateFlag").toString().equals("7")) {
+				query.taskCreatedAfter(DateUtil.dateAdd(new Date(), -7));
 				query.taskCreatedBefore(DateUtil.dateAdd(new Date(), -3));
 			}
-			if (param.getParam().get("dateFlag").toString().equals("30")) {
+			if (param.getParam().get("dateFlag").toString().equals("8")) {
 				query.taskCreatedBefore(DateUtil.dateAdd(new Date(), -7));
 			}
 			
@@ -408,18 +412,20 @@ public class TaskProviderClient {
 			query = query.taskNameLike(processName);
 		}
 		if (param.getParam().get("dateFlag") != null && !StrUtil.isBlankOrNull(param.getParam().get("dateFlag").toString())) {
-			query.taskCreatedAfter(DateUtil.dateAdd(new Date(), -Integer.parseInt(param.getParam().get("dateFlag").toString())));
+			if (param.getParam().get("dateFlag").toString().equals("3")) {
+				query.taskCreatedAfter(DateUtil.dateAdd(new Date(), -3));
+			}
 			if (param.getParam().get("dateFlag").toString().equals("7")) {
+				query.taskCreatedAfter(DateUtil.dateAdd(new Date(), -7));
 				query.taskCreatedBefore(DateUtil.dateAdd(new Date(), -3));
 			}
-			if (param.getParam().get("dateFlag").toString().equals("30")) {
+			if (param.getParam().get("dateFlag").toString().equals("8")) {
 				query.taskCreatedBefore(DateUtil.dateAdd(new Date(), -7));
 			}
 		}
 
 		List<HistoricTaskInstance> taskInstances = query.orderByTaskCreateTime().desc().listPage(limit * (page - 1), limit);
 		long count = query.count();
-		System.out.println("=====" + param.getParam().get("dateFlag").toString() + "====" + count);
 		List<TaskDoneVo> voList = new ArrayList<TaskDoneVo>();
 		for (HistoricTaskInstance taskInstance : taskInstances) {
 			TaskDoneVo vo = new TaskDoneVo();
