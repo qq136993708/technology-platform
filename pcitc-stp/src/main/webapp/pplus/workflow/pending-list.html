@@ -42,7 +42,7 @@
 				</button>
 				<button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg" data-type="monthEvent">
 					<span class="btn-state btn-yellow"></span>
-					一个月内
+					一周以上
 				</button>
 				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit" data-type="handleEvent">办理</button>
 				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" data-type="detailEvent">查看</button>
@@ -96,6 +96,23 @@
 						title : '序号',
 						type : 'numbers',
 						width : 55
+					}, {
+						field : 'flowState',
+						title : '状态',
+						width : 55,
+						style : 'cursor: pointer;',
+						align : 'center',
+						templet: function(d){
+							var auditDate = new Date(d.auditDate);
+							var nowDate = new Date();
+							if ((nowDate.getTime() - auditDate.getTime()) < 86400000*3 ) {
+								return '<img src="/layuiadmin/layui/images/Red_Ball.png">';
+							} else if ((nowDate.getTime() - auditDate.getTime()) > 86400000*3 && (nowDate.getTime() - auditDate.getTime()) < 86400000*7) {
+								return '<img src="/layuiadmin/layui/images/Yellow_Ball.png">';
+							} else {
+								return '<img src="/layuiadmin/layui/images/Green_Ball.png">';
+							}
+						}
 					}, {
 						field : 'processDefinitionName',
 						title : '业务模块',
@@ -153,7 +170,6 @@
 							$('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
 							selectRowData = res.data[index - 1];
 						});
-
 					}
 				});
 			}
@@ -206,8 +222,8 @@
 					$(this).addClass('active');
 					active.searchEvent();
 				},
-				monthEvent : function() { //点击30天内按钮
-					$('#dateFlag').val("30");
+				monthEvent : function() { //点击一周以上
+					$('#dateFlag').val("8");
 					$(this).siblings().removeClass('active');
 					$(this).addClass('active');
 					active.searchEvent();

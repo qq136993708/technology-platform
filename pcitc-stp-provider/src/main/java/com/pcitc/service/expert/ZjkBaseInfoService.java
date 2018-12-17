@@ -11,6 +11,7 @@ import com.pcitc.base.expert.ZjkBaseInfoExample;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>接口类</p>
@@ -192,4 +193,5 @@ public interface ZjkBaseInfoService {
      * @return
      */
     JSONObject echarts(JSONObject jsonObject);
+    public Map<String,Object> getResult(Map<String,Object> param);
 }

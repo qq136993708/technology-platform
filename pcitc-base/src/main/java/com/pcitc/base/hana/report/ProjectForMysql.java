@@ -41,8 +41,23 @@ public class ProjectForMysql {
 	  private Object tjrl;
 	  private Object zyxm;
 	  
+	  private Integer stlxm;
+	  private Integer zdzx;
 	  
 	  
+	  
+	public Integer getStlxm() {
+		return stlxm;
+	}
+	public void setStlxm(Integer stlxm) {
+		this.stlxm = stlxm;
+	}
+	public Integer getZdzx() {
+		return zdzx;
+	}
+	public void setZdzx(Integer zdzx) {
+		this.zdzx = zdzx;
+	}
 	public Object getSl() {
 		return sl;
 	}

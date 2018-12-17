@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="/common/js/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+    <script src="/common/js/layer-v3.1.1/layer.js"></script>
+    <script type="text/javascript" src="/plugins/echarts/echarts-all.js"></script>
+</head>
+<body>
+<div class="main-chart" id="one" style="height:280px;width: 100%;"></div>
+
+<script>
+    var option = {
+        title: {
+            text: '人物关系：乔布斯',
+            subtext: '数据来自人立方',
+            x: 'right',
+            y: 'bottom'
+        },
+        tooltip: {
+            trigger: 'item',
+            formatter: '{a} : {b}'
+        },
+        toolbox: {
+            show: true,
+            feature: {
+                restore: {show: true},
+                magicType: {show: true, type: ['force', 'chord']},
+                saveAsImage: {show: true}
+            }
+        },
+        legend: {
+            x: 'left',
+            data: ['家人']
+        },
+        series: [
+            {
+                type: 'force',
+                name: "人物关系1",
+                ribbonType: false,
+                categories: [
+                    {
+                        name: '人物'
+                    },
+                    {
+                        name: '家人'
+                    }
+
+                ],
+                itemStyle: {
+                    normal: {
+                        label: {
+                            show: true,
+                            textStyle: {
+                                color: '#333'
+                            }
+                        },
+                        nodeStyle: {
+                            brushType: 'both',
+                            borderColor: 'rgba(255,215,0,0.4)',
+                            borderWidth: 1
+                        },
+                        linkStyle: {
+                            type: 'curve'
+                        }
+                    },
+                    emphasis: {
+                        label: {
+                            show: false
+                            // textStyle: null      // 默认使用全局文本样式，详见TEXTSTYLE
+                        },
+                        nodeStyle: {
+                            //r: 30
+                        },
+                        linkStyle: {}
+                    }
+                },
+                useWorker: false,
+                minRadius: 15,
+                maxRadius: 25,
+                gravity: 1.1,
+                scaling: 1.1,
+                roam: 'move',
+                nodes: [
+                    {category: 0, name: '乔布斯', value: 10, label: '乔布斯\n（主要）'},
+                    {category: 1, name: '丽萨-乔布斯', value: 2},
+                    {category: 1, name: '保罗-乔布斯', value: 3},
+                    {category: 1, name: '克拉拉-乔布斯', value: 3},
+                    {category: 1, name: '劳伦-鲍威尔', value: 7},
+                ],
+                links: [
+                    {source: '丽萨-乔布斯', target: '乔布斯', weight: 1, name: '女儿'},
+                    {source: '保罗-乔布斯', target: '乔布斯', weight: 2, name: '父亲'},
+                    {source: '克拉拉-乔布斯', target: '乔布斯', weight: 1, name: '母亲'},
+                    {source: '劳伦-鲍威尔', target: '乔布斯', weight: 2}
+                ]
+            }
+        ]
+    };
+
+    var echartsobj = echarts.init(document.getElementById("one"));
+    echartsobj.setOption(option);
+</script>
+</body>
+</html>
