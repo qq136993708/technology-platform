@@ -845,9 +845,16 @@
 		select SUBSTR(tableB.DEFINE2 FROM 4) as define2,count(*) as zsl,
 			sum(case when tableB.temId is not null then 1 else 0 end) as yqhtzj,
 			sum(case when tableB.temId is null then 1 else 0 end) as wqhtzj,
-			round(sum(case when tableB.temId is not null then 1 else 0 end)/count(*)*100,2) as qdlzj
+			sum(case when tableB.temId is not null then 1 else 0 end) as yqhtzj,
+			sum(case when tableB.temId is null then 1 else 0 end) as wqhtzj,
+			
+			round(sum(case when tableB.temId is not null then 1 else 0 end)/count(*)*100,2) as qdlzj,
+			round(sum(jf1),2) as zysje,
+			round(sum(jf2),2) as zsjje,
+			round(sum(jf1)-sum(jf2),2) as wxdje,
+			round(sum(jf2)/sum(jf1)*100,2) as jeRate
 		from (
-			select out_project_info.xmid as temId,out_project_plan.DEFINE2
+			select out_project_info.xmid as temId,out_project_plan.DEFINE2,out_project_plan.jf as jf1,out_project_info.jf as jf2
 			from out_project_plan left join out_project_info on (out_project_plan.XMID = out_project_info.xmid)
 			WHERE
 				(out_project_plan.PROJECT_SCOPE= '新开课题' or out_project_plan.PROJECT_SCOPE= '结转课题')
@@ -874,9 +881,22 @@
 	<select id="getPlanCompleteRateByCompanyType" resultType="java.util.Map" parameterType="java.util.HashMap">
 		select SUBSTR(tableB.DEFINE3 FROM 2) as define3,count(*) as jhqds,
 			sum(case when tableB.temId is not null then 1 else 0 end) as sjqds,
-			round(sum(case when tableB.temId is not null then 1 else 0 end)/count(*)*100,2) as qdbl
+			round(sum(case when tableB.temId is not null then 1 else 0 end)/count(*)*100,2) as qdbl,
+			round(sum(case when tableB.xmlbbm1 is not null then jf else 0 end),2) as zysje,
+			round(sum(case when tableB.xmlbbm2 is not null then jf else 0 end),2) as zsjje,
+			round(sum(case when tableB.xmlbbm2 is not null then jf else 0 end)/sum(case when tableB.xmlbbm1 is not null then jf else 0 end)*100,2) as zRate,
+
+			round(sum(case when tableB.xmlbbm1 is not null and tableB.xmlbbm1='KYZB' then jf else 0 end),2) as zbxysje,
+			round(sum(case when tableB.xmlbbm2 is not null and tableB.xmlbbm2='KYZB' then jf else 0 end),2) as zbxsjje,
+			round(sum(case when tableB.xmlbbm2 is not null and tableB.xmlbbm2='KYZB' then jf else 0 end)/sum(case when tableB.xmlbbm1 is not null and tableB.xmlbbm1='KYZB' then jf else 0 end)*100,2) as zbxRate,
+			
+			round(sum(case when tableB.xmlbbm1 is not null and tableB.xmlbbm1!='KYZB' then jf else 0 end),2) as fyxysje,
+			round(sum(case when tableB.xmlbbm2 is not null and tableB.xmlbbm2!='KYZB' then jf else 0 end),2) as fyxsjje,
+			round(sum(case when tableB.xmlbbm2 is not null and tableB.xmlbbm2!='KYZB' then jf else 0 end)/sum(case when tableB.xmlbbm1 is not null and tableB.xmlbbm1!='KYZB' then jf else 0 end)*100,2) as fyxRate
+
+			
 		from (
-			select out_project_info.xmid as temId,out_project_plan.DEFINE3
+			select out_project_info.xmid as temId,out_project_plan.DEFINE3,out_project_plan.jf,out_project_plan.xmlbbm as xmlbbm1,out_project_info.xmlbbm as xmlbbm2
 			from out_project_plan left join out_project_info on (out_project_plan.XMID = out_project_info.xmid)
 			WHERE
 				(out_project_plan.PROJECT_SCOPE= '新开课题' or out_project_plan.PROJECT_SCOPE= '结转课题')
