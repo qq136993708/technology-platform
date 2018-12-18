@@ -283,4 +283,25 @@
 		define1 is not null and jdjg != '未通过' and jdjg != '未鉴定' and nd='2018'
 		GROUP BY define1
 	</select>
+	
+	<!-- 辅助决策中心，奖励，各个奖励类型的数量 -->
+	<select id="getRewardInfoByType" resultType="java.util.Map" parameterType="java.util.Map">
+		select
+			sbjz,
+			sum(case when nd = '2017' then 1 else 0 end) as count1,
+			sum(case when nd = '2016' then 1 else 0 end) as count2,
+			sum(case when nd = '2015' then 1 else 0 end) as count3,
+			sum(case when nd = '2014' then 1 else 0 end) as count4,
+			sum(case when nd = '2013' then 1 else 0 end) as count5,
+			
+			sum(case when nd = '2017' and sbdj = '特等奖' then 1 else 0 end) as tdjCount,
+			sum(case when nd = '2017' and sbdj = '一等奖' then 1 else 0 end) as ydjCount,
+			sum(case when nd = '2017' and sbdj = '二等奖' then 1 else 0 end) as edjCount,
+			sum(case when nd = '2017' and sbdj = '三等奖' then 1 else 0 end) as sdjCount,
+			count(*) as zsl
+		from out_reward
+		where 
+		sbjz is not null 
+		GROUP BY sbjz
+	</select>
 </mapper>

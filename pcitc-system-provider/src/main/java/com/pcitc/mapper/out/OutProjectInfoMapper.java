@@ -44,6 +44,13 @@ public interface OutProjectInfoMapper {
      * 首页科研项目数、装备项目数、总金额（预算）
      */
 	public HashMap<String, String> getOutProjectInfoCount(HashMap<String, String> map);
+	
+	/**
+     * @param nd
+     * @return
+     * 首页计算十条龙及重大专项项目的总数量
+     */
+	public HashMap<String, String> getOutProjectDragonInfoCount(HashMap<String, String> map);
 
 	public List getOutProjectScopeInfo(String nd);
 	

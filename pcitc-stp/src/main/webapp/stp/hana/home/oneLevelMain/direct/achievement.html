@@ -110,7 +110,6 @@
 
 <script type="text/javascript" src="/common/js/jquery-1.11.3.min.js"></script>
 <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
-<!-- <script src="/common/js/layer-v3.1.1/layer.js"></script> -->
 <script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
 <script type="text/javascript" src="/plugins/echarts/walden.js"></script>	
 <script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
@@ -163,7 +162,7 @@ function initEchart()
         }
     ];
 	var chart1_url="/direct_second/direct_second_data_01?nd="+nd+"&v_date="+v_date;
-	var echart1=load_single_bar(chart1_url,"chart1","","",yAxis,function(data){
+	var echart1=load_single_bar(chart1_url,"chart1","","",yAxis,["#87d359"],70,"",function(data){
 		var total_count = 0;
 		$.each(data.data.seriesDataList,function(index,dt){
 			total_count += dt;
@@ -193,7 +192,7 @@ function initEchart()
 	
 	
 	var chart4_url="/direct_second/direct_second_data_02?type=1&nd="+nd+"&v_date="+v_date; 
-	var echart4=load_single_bar(chart4_url,"chart4","","",yAxis,function(data){
+	var echart4=load_single_bar(chart4_url,"chart4","","",yAxis,["#ff9f7f"],70,"",function(data){
 		var total_count = 0;
 		$.each(data.data.seriesDataList,function(index,dt){
 			total_count += dt;
@@ -240,7 +239,7 @@ function initEchart()
 	
 	
 	var chart7_url="/direct_second/direct_second_data_05?nd="+nd+"&v_date="+v_date;
-	var echart7=load_single_bar(chart7_url,"chart7","","",yAxis,function(data){
+	var echart7=load_single_bar(chart7_url,"chart7","","",yAxis,["#9799ec"],70,"",function(data){
 		var total_count = 0;
 		$.each(data.data.seriesDataList,function(index,dt){
 			total_count += dt;

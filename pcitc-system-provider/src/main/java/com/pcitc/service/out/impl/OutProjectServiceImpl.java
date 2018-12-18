@@ -22,6 +22,7 @@ import com.pcitc.base.util.StrUtil;
 import com.pcitc.mapper.out.OutProjectErpMapper;
 import com.pcitc.mapper.out.OutProjectInfoMapper;
 import com.pcitc.service.out.OutProjectService;
+import com.pcitc.utils.StringUtils;
 
 @Service("outProjectService")
 @Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = Exception.class)
@@ -58,49 +59,50 @@ public class OutProjectServiceImpl implements OutProjectService {
 		PageHelper.startPage(pageNum, pageSize);
 
 		OutProjectInfo opi = new OutProjectInfo();
-		if (param.getParam().get("xmmc") != null) {
+		if(param.getParam().get("xmmc") !=null && !StringUtils.isBlank(param.getParam().get("xmmc")+"")){
 			opi.setXmmc((String) param.getParam().get("xmmc"));
 		}
-		if (param.getParam().get("hth") != null) {
+		
+		if(param.getParam().get("hth") !=null && !StringUtils.isBlank(param.getParam().get("hth")+"")){
 			opi.setHth((String) param.getParam().get("hth"));
 		}
 		// 资本性、费用性
-		if (param.getParam().get("define1") != null) {
+		if(param.getParam().get("define1") !=null && !StringUtils.isBlank(param.getParam().get("define1")+"")){
 			opi.setDefine1((String) param.getParam().get("define1"));
 		}
 		
 		// 8大院
-		if (param.getParam().get("define2") != null) {
+		if(param.getParam().get("define2") !=null && !StringUtils.isBlank(param.getParam().get("define2")+"")){
 			opi.setDefine2((String) param.getParam().get("define2"));
 		}
 		
 		// 国家项目、重大专项、重点项目、其他项目
-		if (param.getParam().get("project_property") != null) {
+		if(param.getParam().get("project_property") !=null && !StringUtils.isBlank(param.getParam().get("project_property")+"")){
 			opi.setProjectProperty((String) param.getParam().get("project_property"));
 		}
 		
 		// 新开项目、续建项目、完工项目
-		if (param.getParam().get("project_scope") != null) {
+		if(param.getParam().get("project_scope") !=null && !StringUtils.isBlank(param.getParam().get("project_scope")+"")){
 			opi.setProjectScope((String) param.getParam().get("project_scope"));
 		}
 		
 		// 直属研究院、分子公司、集团等9种类型
-		if (param.getParam().get("type_flag") != null) {
+		if(param.getParam().get("type_flag") !=null && !StringUtils.isBlank(param.getParam().get("type_flag")+"")){
 			opi.setTypeFlag((String) param.getParam().get("type_flag"));
 		}
 		
 		// 装备的各种技术类型
-		if (param.getParam().get("zylb") != null) {
+		if(param.getParam().get("zylb") !=null && !StringUtils.isBlank(param.getParam().get("zylb")+"")){
 			opi.setZylb((String) param.getParam().get("zylb"));
 		}
 		
 		// 各个处室
-		if (param.getParam().get("zycmc") != null) {
+		if(param.getParam().get("zycmc") !=null && !StringUtils.isBlank(param.getParam().get("zycmc")+"")){
 			opi.setZycmc((String) param.getParam().get("zycmc"));
 		}
 		
 		// 年度，暂时不用
-		if (param.getParam().get("nd") != null) {
+		if(param.getParam().get("nd") !=null && !StringUtils.isBlank(param.getParam().get("nd")+"")){
 			opi.setNd((String) param.getParam().get("nd"));
 		}
 		
@@ -498,6 +500,15 @@ public class OutProjectServiceImpl implements OutProjectService {
      */
 	public List getDragonProjectDetails(HashMap<String, String> map) {
 		return outProjectInfoMapper.getDragonProjectDetails(map);
+	}
+	
+	/**
+     * @param nd
+     * @return
+     * 首页计算十条龙及重大专项项目的总数量
+     */
+	public HashMap<String, String> getOutProjectDragonInfoCount(HashMap<String, String> map) {
+		return outProjectInfoMapper.getOutProjectDragonInfoCount(map);
 	}
 	
 	

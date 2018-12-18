@@ -141,7 +141,7 @@ function barAjax_single(url,  echartsobj, options,width,callback)
  * @param callback
  * @returns
  */
-function load_single_bar(url,id,title,subtext,yAxis,color,width,callback)
+function load_single_bar(url,id,title,subtext,yAxis,color,width,rotate,callback)
 {
 	var echartsobj = echarts.init(document.getElementById(id));
 	option_bar_single.title.text=title;
@@ -155,11 +155,28 @@ function load_single_bar(url,id,title,subtext,yAxis,color,width,callback)
         top:"12%",
         left: '0%',
         right: '0%',
-        bottom: '5%',
+        bottom: '0%',
         containLabel: true
     };
 	if(color!=undefined && color != null){
         option_bar_single.color=color
+    }
+    if(rotate==undefined || rotate==""){
+        option_bar_single.xAxis=[{
+            type: 'category',
+            axisLabel:{
+                interval:0,//0：全部显示，1：间隔为1显示对应类目，2：依次类推，（简单试一下就明白了，这样说是不是有点抽象）
+                rotate:0,//倾斜显示，-：顺时针旋转，+或不写：逆时针旋转
+            }
+        }]
+    }else {
+        option_bar_single.xAxis=[{
+            type: 'category',
+            axisLabel:{
+                interval:0,//0：全部显示，1：间隔为1显示对应类目，2：依次类推，（简单试一下就明白了，这样说是不是有点抽象）
+                rotate:30,//倾斜显示，-：顺时针旋转，+或不写：逆时针旋转
+            }
+        }]
     }
 	echartsobj.setOption(option_bar_single);
 	echartsobj.showLoading();
@@ -818,7 +835,7 @@ function barLineAjax_Stack_callback(url,  echartsobj, options,callback)
 	        	                   data: seriesList[i].data,
 	        	                   stack:seriesList[i].stack,
                                    itemStyle : { normal: {label : {show: true,color:"#000"}}},
-	        	                   barWidth:20
+	        	                   barWidth:40
 	        	                   ,yAxisIndex: seriesList[i].yAxisIndex
 	        	               });
 	        	           }

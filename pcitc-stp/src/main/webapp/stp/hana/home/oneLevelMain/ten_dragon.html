@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-      <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/adminStp.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/mainStp.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/common.css" media="all">
@@ -17,13 +17,13 @@
 </head>
 <body>
 <div class="layui-fluid">
-	<input type="hidden" name="companyCode"  value="${companyCode}"   id="companyCode">
+    <input type="hidden" name="companyCode"  value="${companyCode}"   id="companyCode">
 
     <div class="">
         <div class="searchBox">
             <label class="dateInput">
-                <span>月份</span>
-                <input type="text" name="year" placeholder="请选择月份" title="月份" value="${year}"  autocomplete="off" class="form-control" id="year">
+                <span>年份</span>
+                <input type="text" name="year" placeholder="请选择年份" title="年份" value="${year}"  autocomplete="off" class="form-control" id="year">
             </label>
 
             <!-- <div class="layui-input-inline">
@@ -43,85 +43,101 @@
                 <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()">查询</button>
             </div>
         </div>
-        
-        
-         <div class="layui-row layui-col-space15">
+
+
+        <div class="layui-row layui-col-space15">
             <div class="layui-col-md6">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        <span class="layui-time"></span>十条龙科技公关项目
+                        <span class="layui-time1"></span>年十条龙科技攻关项目
                     </div>
                     <div class="layui-row-main">
-                       <div class="layui-row">
-                        <div class="text-total">
-                            <span>总数:<span class="text-total-blue" id="dragon1_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                        <div class="layui-row">
+                            <div class="text-total">
+                                <span>总数:<span class="text-total-blue" id="dragon1_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            </div>
+                            <div class="layui-col-md6" id="dragon1"    style="height:280px;width: 100%;"></div>
                         </div>
-                        <div class="layui-col-md6" id="dragon1"    style="height:280px;width: 100%;"></div>
-                       </div>
                     </div>
                 </div>
             </div>
             <div class="layui-col-md6">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        <span class="layui-time"></span>十条龙项目
+                        <!--<span class="layui-time"></span>-->十条龙项目
                     </div>
                     <div class="layui-card-body btn-function" >
-                    <div class="text-total">
+                        <div class="text-total">
                             <span>总数:<span class="text-total-blue" id="dragon2_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                         </div>
                         <div class="layui-col-md6" id="dragon2"    style="height:280px;width: 100%;"></div>
-                       </div>
+                    </div>
                 </div>
             </div>
         </div>
-        
-        
+
+
         <div class="layui-row layui-col-space15">
             <div class="layui-col-md12">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        <span class="layui-time"></span>直属研究院课题分布情况
+                        <span class="layui-time"></span>年直属研究院课题分布情况
                     </div>
                     <div class="layui-row-main">
-                     <div class="text-total">
+                        <div class="text-total">
                             <span>总数:<span class="text-total-blue" id="dragon3_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                             <span>十条龙项目数:<span class="text-total-blue" id="dragon3_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                             <span>重大项目数:<span class="text-total-blue" id="dragon3_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                         </div>
-                        
+
                         <div class="main-chart" id="dragon3" style="height:280px;width: 100%;"></div>
                     </div>
                 </div>
             </div>
+            <!--<div class="layui-col-md6">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        十条龙年度工作报告
+                    </div>
+                    <div class="layui-row-main">
+                        <div class="main-chart">
+                            <ul>
+                                <li>
+                                    <span>2016</span>
+                                    <span>工作报告</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>-->
         </div>
         <div class="layui-row layui-col-space15">
             <div class="layui-col-md12">
-               <div class="layui-card">
+                <div class="layui-card">
                     <div class="layui-card-header">
-                        <span class="layui-time"></span>集团重大项目
+                        <!--<span class="layui-time"></span>-->十条龙项目
                     </div>
                     <div class="layui-row-main">
-                       <table id="processdef_table"  lay-filter="tableEvent1"></table>
+
+                        <table id="processdef_table_2" lay-filter="tableEvent"></table>
                     </div>
                 </div>
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        <span class="layui-time"></span>十条龙项目
+                        <!--<span class="layui-time"></span>-->集团重大项目
                     </div>
                     <div class="layui-row-main">
-                       
-                       <table id="processdef_table_2" lay-filter="tableEvent"></table>
+                        <table id="processdef_table"  lay-filter="tableEvent1"></table>
                     </div>
-                </div> 
+                </div>
             </div>
         </div>
-                             
+
     </div>
 </div>
 <script src="/common/js/jquery-1.11.3.min.js"></script>
 <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
-<script src="/common/js/layer-v3.1.1/layer.js"></script>
 <script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
 <script type="text/javascript" src="/plugins/echarts/walden.js"></script>
 <script type="text/javascript" src="/stp/hana/common/stp_common_chart.js"></script>
@@ -132,211 +148,213 @@
 
 <script type="text/javascript">
 
-var tableOne=null,tableTwo=null,selectRowData;
-layui.config({
-    base: '/layuiadmin/lib/extend/'
-}).extend({
-    treeGridCom:'treeGridCom'
-}).use(['jquery','table','form', 'laydate','layer'], function(){
-    var $=layui.jquery;
-    table = layui.table;
-    layer=layui.layer;
-    laydate = layui.laydate;
-    form = layui.form;
-    var year=$("#year").val();
-    $(".layui-time").html(year+"年");
-    form.render(null, 'component-form-group');
-    laydate.render({
-       elem: '#year'
-       ,format: 'yyyy'
-    });
-    renderTable();
-    //renderTable2();
-  
-});
+    var tableOne=null,tableTwo=null,selectRowData;
+    layui.config({
+        base: '/layuiadmin/lib/extend/'
+    }).extend({
+        treeGridCom:'treeGridCom'
+    }).use(['jquery','table','form', 'laydate','layer'], function(){
+        var $=layui.jquery;
+        table = layui.table;
+        layer=layui.layer;
+        laydate = layui.laydate;
+        form = layui.form;
+        var year=$("#year").val();
+        $(".layui-time").html(year);
+        $(".layui-time1").html(year-1);
+        form.render(null, 'component-form-group');
+        laydate.render({
+            elem: '#year'
+            ,format: 'yyyy'
+        });
+        renderTable();
+        //renderTable2();
 
-function initEchart()
-{
-	
-	 var nd=$("#year").val();
-     $(".layui-time").html(nd+"");
-	 var companyCode=$("#companyCode").val();
-	 var v_date=(new Date()).getTime();
-	 var month=$('#year').val();
-	 var yAxis= [
-        {
-            type: 'value',
-            name: '数量',
-            min: 0,
-            max:'dataMax',
-            position: 'left',
-            axisLabel: {
-                formatter: '{value}'
+    });
+
+    function initEchart()
+    {
+
+        var nd=$("#year").val();
+        $(".layui-time").html(nd);
+        $(".layui-time1").html(nd-1);
+        var companyCode=$("#companyCode").val();
+        var v_date=(new Date()).getTime();
+        var month=$('#year').val();
+        var yAxis= [
+            {
+                type: 'value',
+                name: '数量',
+                min: 0,
+                max:'dataMax',
+                position: 'left',
+                axisLabel: {
+                    formatter: '{value}'
+                }
             }
+        ];
+
+
+        var chart1_url="/one_level_main/dragon_01?type=2&nd="+nd+"&v_date="+v_date;
+        var echart1=loadPie_02(chart1_url,"dragon1","","",function(data){
+
+
+            var total_count = 0;
+            $.each(data.data.dataList,function(index,dt){
+                total_count += dt.value;
+            });
+            $("#dragon1_01").html(total_count+"个");
+
+        });
+
+
+
+        var chart2_url="/one_level_main/dragon_02?nd="+nd+"&v_date="+v_date;
+        var colorNew=["#54b6e9","#70b1aa","#87d359"];
+        var echart1=load_single_bar(chart2_url,"dragon2","","",yAxis,colorNew,65,"",function(data){
+            var total_count = 0;
+            $.each(data.data.seriesDataList,function(index,dt){
+                total_count += dt;
+            });
+            $("#dragon2_01").html(total_count+"个");
+        });
+
+
+
+        var chart7_url="/one_level_main/dragon_03?nd="+year+"&v_date="+v_date+"&companyCode="+companyCode;
+        //var color=["#70b1ab","#87d359"];
+        var echart7=load_mutl_bar_down(chart7_url,"dragon3","","",yAxis,20);
+        echart7.on('click', function (params){
+            var xName=params.name;
+            var legentName=params.seriesName;
+            window.open("/reportNew/reportPageStp?name=167305d0060_d4723a52");
+        });
+
+    }
+
+    //初始化图形
+    initEchart();
+    //查询
+    function search_Event()
+    {
+        initEchart();
+        renderTable();
+        //renderTable2();
+    }
+
+
+    //集团重大项目
+    function renderTable()
+    {
+
+        var month=$("#year").val();
+        var companyCode=$("#companyCode").val();
+        var tableOne=table.render({
+            elem: '#processdef_table',
+            url:'/one_level_main/getZdstlTable?month='+month+"&companyCode="+companyCode+"&type=重点专项",
+            method:"GET",
+            where: {param: {"month":$("#month").val(),"companyCode":$("#companyCode").val()}},
+            limit: 100,
+            id: 'processdef_table',
+            height: commonDislodgeTable(),
+            /* page: {
+                groups: 5,
+                limits: [15,30,45,60],
+                layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
+                first: '首页', //不显示首页
+                last: '尾页', //不显示尾页
+                theme: '#0F9EE0'
+            }, */
+            cols: [[
+                {type:'checkbox',event: 'changeEvents',width: '5%'},
+                {title:'序号', type:'numbers', width: '5%'},
+                {field:'hth',            title: '课题号',edit:'text', width: '8%'},
+                {field:'xmmc',           title:'课题名',style:'cursor: pointer;',align: 'left', width: '25%'},
+                {field:'jf',             title:'经费（亿）',style:'cursor: pointer;',align: 'left', width: '8%'},
+                {field:'fzdw',           title:'负责单位',style:'cursor: pointer;',align: 'left', width: '8%'},
+                {field:'project_scope',  title:'课题性质',style:'cursor: pointer;',align: 'left', width: '8%'},
+                {field:'zylb',           title:'专业类别',style:'cursor: pointer;',align: 'left', width: '8%'},
+                {field:'fzrxm',          title:'负责人',style:'cursor: pointer;',align: 'left', width: '8%'},
+                {field:'zycmc',          title:'专业处',style:'cursor: pointer;',align: 'left', width: '8%'},
+                {field:'xmlbmc',         title:'课题类别',style:'cursor: pointer;',align: 'left', width: '8%'},
+                {field:'define1',        title:'资本/费用',style:'cursor: pointer;',align: 'left', width: '8%'},
+                {field:'fwdx',           title:'集团/股份/资产',style:'cursor: pointer;',align: 'left', width: '8%'}
+
+
+            ]],
+            done: function (res, curr, count) {
+                layer.closeAll('loading');
+                // 点击行联动选择框--单选
+                $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+                    var index=parseInt($(this).index()+1);
+                    $('tr').removeClass('layui-table-click');
+                    $(this).addClass('layui-table-click');
+                    $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                    $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                    selectRowData=res.data[index-1];
+                });
+            }
+        });
+
+    }
+
+
+
+    /*
+
+    function renderTable2()
+    {
+
+         var month=$("#year").val();
+         var companyCode=$("#companyCode").val();
+         var tableTwo=table.render({
+        elem: '#processdef_table_2',
+        url:'/ten_dragon/getZdstlTable?month='+month+"&companyCode="+companyCode+"&type=十条龙项目",
+        method:"GET",
+        where: {param: {"month":$("#month").val(),"companyCode":$("#companyCode").val()}},
+        limit: 15,
+        id: 'processdef_table_2',
+        height: commonDislodgeTable(),
+        page: {
+            groups: 5,
+            limits: [15,30,45,60],
+            layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
+            first: '首页', //不显示首页
+            last: '尾页', //不显示尾页
+            theme: '#0F9EE0'
+        },
+        cols: [[
+            {type:'checkbox',event: 'changeEvents',width: '5%'},
+            {title:'序号', type:'numbers', width: '5%'},
+             {field:'hth',            title: '课题号',edit:'text', width: '8%'},
+             {field:'xmmc',           title:'课题名',style:'cursor: pointer;',align: 'left', width: '25%'},
+             {field:'jf',             title:'经费（亿）',style:'cursor: pointer;',align: 'left', width: '8%'},
+             {field:'fzdw',           title:'负责单位',style:'cursor: pointer;',align: 'left', width: '8%'},
+             {field:'project_scope',  title:'课题性质',style:'cursor: pointer;',align: 'left', width: '8%'},
+             {field:'zylb',           title:'专业类别',style:'cursor: pointer;',align: 'left', width: '8%'},
+             {field:'fzrxm',          title:'负责人',style:'cursor: pointer;',align: 'left', width: '8%'},
+             {field:'zycmc',          title:'专业处',style:'cursor: pointer;',align: 'left', width: '8%'},
+             {field:'xmlbmc',         title:'课题类别',style:'cursor: pointer;',align: 'left', width: '8%'},
+             {field:'define1',        title:'资本/费用',style:'cursor: pointer;',align: 'left', width: '8%'},
+             {field:'fwdx',           title:'集团/股份/资产',style:'cursor: pointer;',align: 'left', width: '8%'}
+
+
+        ]],
+        done: function (res, curr, count) {
+            layer.closeAll('loading');
+            $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+                var index=parseInt($(this).index()+1);
+                $('tr').removeClass('layui-table-click');
+                $(this).addClass('layui-table-click');
+                $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                selectRowData=res.data[index-1];
+            });
         }
-    ];
-	
-	 
-	 var chart1_url="/one_level_main/dragon_01?type=2&nd="+nd+"&v_date="+v_date;
-		var echart1=loadPie_02(chart1_url,"dragon1","","",function(data){
-			
-			
-			var total_count = 0;
-			$.each(data.data.dataList,function(index,dt){
-				total_count += dt.value;
-			});
-			$("#dragon1_01").html(total_count+"个");
-			
-		});
-		
-	 
-	 
-	 var chart2_url="/one_level_main/dragon_02?nd="+nd+"&v_date="+v_date;
-	 var colorNew=["#70b1ab","#87d359"];
-	 var echart1=load_single_bar(chart2_url,"dragon2","","",yAxis,colorNew,30,function(data){
-		 var total_count = 0;
-			$.each(data.data.seriesDataList,function(index,dt){
-				total_count += dt;
-			});
-			$("#dragon2_01").html(total_count+"个");
-	 });
-		
-		
-	
-	var chart7_url="/one_level_main/dragon_03?nd="+year+"&v_date="+v_date+"&companyCode="+companyCode;
-	var colorNew=["#70b1ab","#87d359"];
-	var echart7=load_mutl_bar_down(chart7_url,"dragon3","","",yAxis,30,colorNew);
-	echart7.on('click', function (params){
-		var xName=params.name;
-		var legentName=params.seriesName;
-		window.open("/reportNew/reportPageStp?name=167305d0060_d4723a52");
-    });
-	
-}
+      });
 
-//初始化图形
-initEchart();
-//查询
-function search_Event()
-{
-	initEchart();
-	renderTable();
-	//renderTable2();
-}
-
-
-//集团重大项目
-function renderTable()
-{
-	
-	 var month=$("#year").val();
-	 var companyCode=$("#companyCode").val();
-	 var tableOne=table.render({
-    elem: '#processdef_table',
-    url:'/one_level_main/getZdstlTable?month='+month+"&companyCode="+companyCode+"&type=重点专项",
-    method:"GET",
-    where: {param: {"month":$("#month").val(),"companyCode":$("#companyCode").val()}},
-    limit: 100,
-    id: 'processdef_table',
-    height: commonDislodgeTable(),
-    /* page: {
-        groups: 5,
-        limits: [15,30,45,60],
-        layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
-        first: '首页', //不显示首页
-        last: '尾页', //不显示尾页
-        theme: '#0F9EE0'
-    }, */
-    cols: [[
-    	{type:'checkbox',event: 'changeEvents',width: '5%'},
-    	{title:'序号', type:'numbers', width: '5%'},
-    	 {field:'hth',            title: '课题号',edit:'text', width: '8%'},
-         {field:'xmmc',           title:'课题名',style:'cursor: pointer;',align: 'left', width: '25%'},
-         {field:'jf',             title:'经费（亿）',style:'cursor: pointer;',align: 'left', width: '8%'},
-         {field:'fzdw',           title:'负责单位',style:'cursor: pointer;',align: 'left', width: '8%'},
-         {field:'project_scope',  title:'课题性质',style:'cursor: pointer;',align: 'left', width: '8%'},
-         {field:'zylb',           title:'专业类别',style:'cursor: pointer;',align: 'left', width: '8%'},
-         {field:'fzrxm',          title:'负责人',style:'cursor: pointer;',align: 'left', width: '8%'},
-         {field:'zycmc',          title:'专业处',style:'cursor: pointer;',align: 'left', width: '8%'},
-         {field:'xmlbmc',         title:'课题类别',style:'cursor: pointer;',align: 'left', width: '8%'},
-         {field:'define1',        title:'资本/费用',style:'cursor: pointer;',align: 'left', width: '8%'},
-         {field:'fwdx',           title:'集团/股份/资产',style:'cursor: pointer;',align: 'left', width: '8%'}
-         
-         
-    ]],
-    done: function (res, curr, count) {
-    	layer.closeAll('loading');
-        // 点击行联动选择框--单选
-        $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
-        	var index=parseInt($(this).index()+1);
-            $('tr').removeClass('layui-table-click');
-            $(this).addClass('layui-table-click');
-            $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
-            $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
-            selectRowData=res.data[index-1];
-        });
     }
-  });
-  
-}
-
-
-
-/* 
-
-function renderTable2()
-{
-	
-	 var month=$("#year").val();
-	 var companyCode=$("#companyCode").val();
-	 var tableTwo=table.render({
-    elem: '#processdef_table_2',
-    url:'/ten_dragon/getZdstlTable?month='+month+"&companyCode="+companyCode+"&type=十条龙项目",
-    method:"GET",
-    where: {param: {"month":$("#month").val(),"companyCode":$("#companyCode").val()}},
-    limit: 15,
-    id: 'processdef_table_2',
-    height: commonDislodgeTable(),
-    page: {
-        groups: 5,
-        limits: [15,30,45,60],
-        layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
-        first: '首页', //不显示首页
-        last: '尾页', //不显示尾页
-        theme: '#0F9EE0'
-    },
-    cols: [[
-    	{type:'checkbox',event: 'changeEvents',width: '5%'},
-    	{title:'序号', type:'numbers', width: '5%'},
-    	 {field:'hth',            title: '课题号',edit:'text', width: '8%'},
-         {field:'xmmc',           title:'课题名',style:'cursor: pointer;',align: 'left', width: '25%'},
-         {field:'jf',             title:'经费（亿）',style:'cursor: pointer;',align: 'left', width: '8%'},
-         {field:'fzdw',           title:'负责单位',style:'cursor: pointer;',align: 'left', width: '8%'},
-         {field:'project_scope',  title:'课题性质',style:'cursor: pointer;',align: 'left', width: '8%'},
-         {field:'zylb',           title:'专业类别',style:'cursor: pointer;',align: 'left', width: '8%'},
-         {field:'fzrxm',          title:'负责人',style:'cursor: pointer;',align: 'left', width: '8%'},
-         {field:'zycmc',          title:'专业处',style:'cursor: pointer;',align: 'left', width: '8%'},
-         {field:'xmlbmc',         title:'课题类别',style:'cursor: pointer;',align: 'left', width: '8%'},
-         {field:'define1',        title:'资本/费用',style:'cursor: pointer;',align: 'left', width: '8%'},
-         {field:'fwdx',           title:'集团/股份/资产',style:'cursor: pointer;',align: 'left', width: '8%'}
-         
-         
-    ]],
-    done: function (res, curr, count) {
-    	layer.closeAll('loading');
-        $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
-        	var index=parseInt($(this).index()+1);
-            $('tr').removeClass('layui-table-click');
-            $(this).addClass('layui-table-click');
-            $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
-            $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
-            selectRowData=res.data[index-1];
-        });
-    }
-  });
-  
-}
- */
+     */
 </script>
 </body>
 </html>

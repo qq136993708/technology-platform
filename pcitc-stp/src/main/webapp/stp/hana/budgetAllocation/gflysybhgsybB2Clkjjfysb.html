@@ -12,123 +12,27 @@
 
 	<div class="content-body container">
 		<div style="text-align: center; font-weight: bold; margin: 10px;">2018年股份炼油事业部、化工事业部B2、C类科技经费预算表</div>
-		<table class="layui-table">
-			
-				 <thead>
-				 
-					<tr>
-						<td rowspan="2">序号</td>
-						<td rowspan="2">名称</td>
-						<td colspan="3">其中：炼油事业部</td>
-						<td colspan="3">其中：化工事业部</td>
-					</tr>
-					</thead>
-						<tbody>
-						
-					<tr>
-						<td>预算</td>
-						<td>结转</td>
-						<td>可新签</td>
-						<td>预算</td>
-						<td>结转</td>
-						<td>可新签</td>
-					</tr>
-					<tr>
-						<td rowspan="6">1</td>
-						<td>付直属院合计</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>石油化工科学研究院</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>抚顺石油化工研究院</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>北京化工研究院</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>上海石油化工研究院</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>青岛安全工程研究院</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>2</td>
-						<td>付分子公司</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>3</td>
-						<td>付集团</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>4</td>
-						<td>付盈科</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td colspan="2">合计</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-				</tbody>
-			</table>
+		<table id="myTable" class="layui-table" lay-data="{url:'/ba/gflysybhgsybB2Clkjjfysb_data',height:'auto'}">
+		  <thead>
+		    <tr>
+		      <th lay-data="{type:'numbers'}" rowspan="2">序号</th>
+		      <th lay-data="{field:'mc', width:'25%'}" rowspan="2">名称</th>
+		      <th lay-data="{align:'center', width:'36%'}" colspan="3">其中：炼油事业部</th>
+		      <th lay-data="{align:'center', width:'36%'}" colspan="3">其中：化工事业部</th>
+		    </tr>
+		    <tr>
+		      <th lay-data="{field:'lysybys', align:'right',width:'12%'}">预算（万元）</th>
+		      <th lay-data="{field:'lysybjz',  align:'right',width:'12%'}">结转（万元）</th>
+		      <th lay-data="{field:'lysybkxq',  align:'right',width:'12%'}">可新签（万元）</th>
+		      
+		      <th lay-data="{field:'hgsybys',  align:'right',width:'12%'}">预算（万元）</th>
+		      <th lay-data="{field:'hgsybjz',  align:'right',width:'12%'}">结转（万元）</th>
+		      <th lay-data="{field:'hgsybkxq',  align:'right',width:'12%'}">可新签（万元）</th>
+		      
+		    </tr>
+		  </thead>
+		</table>
+		
 	</div>
 
 	<!--表格数据操作js-->
@@ -156,12 +60,12 @@ layui.config({
       ,form = layui.form
       ,laypage = layui.laypage;
 	  form.render(null, 'component-form-group');
-            laydate.render({
-               elem: '#month'
-               ,format: 'yyyyMM'
-            });
+       laydate.render({
+          elem: '#month'
+          ,format: 'yyyyMM'
+       });
       //初始化表格
-      renderTable();
+      //renderTable();
 });
 
 var allCode="${allCode?default('')}";

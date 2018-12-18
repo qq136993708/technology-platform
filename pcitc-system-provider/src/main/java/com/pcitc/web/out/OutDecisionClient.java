@@ -236,7 +236,7 @@ public class OutDecisionClient {
 		logger.info("==================page selectJFYSForTech===========================" + map);
 		
 		List temList = outDecisionService.selectJFYSForTech(map);
-		int jnCount = 0;
+		/*int jnCount = 0;
 		int qnCount = 0;
 		int qiannCount = 0;
 		for (int i = 0; i < temList.size(); i++) {
@@ -252,7 +252,7 @@ public class OutDecisionClient {
 		totalMap.put("qnCount", String.valueOf(qnCount));
 		totalMap.put("qiannCount", String.valueOf(qiannCount));
 		
-		temList.add(0, totalMap);
+		temList.add(0, totalMap);*/
 		
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
 		return json;
@@ -300,6 +300,18 @@ public class OutDecisionClient {
 		logger.info("==================page getAppraisalInfoByInstitute==========================="+map);
 
 		List temList = outDecisionService.getAppraisalInfoByInstitute(map);
+		
+		System.out.println("===="+JSON.toJSONString(temList));
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		return json;
+	}
+	
+	@ApiOperation(value = "辅助决策中心，奖励，各个奖励类型的数量", notes = "参数年度")
+	@RequestMapping(value = "/out-decision-provider/kjjl/reward/type")
+	public JSONArray getRewardInfoByType(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page getRewardInfoByType==========================="+map);
+
+		List temList = outDecisionService.getRewardInfoByType(map);
 		
 		System.out.println("===="+JSON.toJSONString(temList));
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));

@@ -435,29 +435,117 @@ layui.define(['jquery','form','table','laydate'],
                     });
                 }
             },
-            moduleConfig:function (text,img,color) {
-                var html="<div class='layui-col-md layui-agency-party'>" +
-                    "       <div class='layui-text-icon layui-text-center' style='background:"+color+" url("+img+") center center no-repeat;'>" +
-                    "           <p>"+text+"</p>" +
-                    "        </div>" +
-                    "      </div>";
-                $("#layui-add").before(html);
+            moduleConfigs:function (data) {
+                var param=data
+                $.each(param, function( key, data ) {
+                    var spareId=data.spareId;
+                    if(spareId==null){
+                        var classDiv;
+                        if(data.name.length>7){
+                            classDiv="layui-icon_p layui-icon_report";
+                        }else if(data.name.length>6){
+                            classDiv="layui-icon_p layui-icon_institute";
+                        }else if(data.name.length==4){
+                            classDiv="layui-leader";
+                        }
+                        if(data.name=="待办督办"){
+                            var html="<li class='"+data.class+"' data-power='"+data.power+"'>" +
+                                "       <div class='layui-agency-left' style='background:"+data.color+"'>" +
+                                "             <p>待办督办</p>"+
+                                "              <ul>" +
+                                "                   <li>" +
+                                "                       <img src='/layuiadmin/layui/images/agencyOne.png' alt=''>" +
+                                "                       <span class='layui-agency-left-span'>待办事项</span>" +
+                                "                       <span class='layui-agency-span' id='agencyOne'>1</span>" +
+                                "                   </li>" +
+                                "                   <li>" +
+                                "                       <img src='/layuiadmin/layui/images/agencyFour.png' alt=''>" +
+                                "                       <span class='layui-agency-left-span'>任务督办</span>" +
+                                "                       <span class='layui-agency-span' id='agencyFour'>1</span>" +
+                                "                   </li>" +
+                                "              </ul>"
+                                "           <p>"+data.name+"</p>" +
+                                "      </div></li>";
+                        }else {
+                            var html="<li class='"+data.class+"' data-power='"+data.power+"'>" +
+                                "       <div class='layui-text-icon "+classDiv+"' style='background:"+data.color+" url("+data.img+") center center no-repeat;' id='"+data.id+"'>" +
+                                "           <p>"+data.name+"</p>" +
+                                "           <img src='/layuiadmin/layui/images/level-close.png' class='dele'>"
+                                "      </div></li>";
+                        }
+                        $("#moduleConfig").append(html);
+                    }else {
+                        if(data.name=="集团重点项目及十条龙科技攻关"){
+                            var html="<li class='"+data.class+"' data-power='"+data.power+"'>" +
+                                "       <div class='layui-text-icon' style='background:"+data.color+" url("+data.img+") center center no-repeat;' id='"+data.id+"'>" +
+                                "           <p>"+data.name+"</p>" +
+                                "           <span id='"+data.spareId+"'>0</span>" +
+                                "      </div></li>";
+                        }else {
+                            var html="<li class='"+data.class+"' data-power='"+data.power+"'>" +
+                                "       <div class='layui-text-icon' style='background:"+data.color+" url("+data.img+") center center no-repeat;' id='"+data.id+"'>" +
+                                "           <p>"+data.name+"</p>" +
+                                "           <span id='"+data.spareId+"'>0</span>" +
+                                "           <img src='/layuiadmin/layui/images/level-close.png' class='dele'>"
+                                "      </div></li>";
+
+                        }
+                        $("#moduleConfig").append(html);
+                    }
+                });
+                var html="<li class='layui-col-md3'>" +
+                    "           <div class='layui-col-md' id='layui-add'>" +
+                    "               <div class='layui-add'>" +
+                    "                   <img src='/layuiadmin/layui/images/icon-puls.png'/>" +
+                    "               </div>" +
+                    "           </div>" +
+                    "      </li>";
+                $("#moduleConfig").append(html);
             },
-            moduleConfigText:function (text,id,unit,img,color) {
-                if(unit==""){
-                    var unitText="个";
+            moduleConfig:function (data) {
+                var spareId=data.spareId;
+                var classDiv;
+                if(data.name.length==4){
+                    classDiv="layui-leader";
                 }else {
-                    var unitText=unit;
+
                 }
-                var html="<div class='layui-col-md layui-agency-party layui-text-icon'>" +
-                    "       <div class='layui-text-icon' style='background:"+color+" url("+img+") center center no-repeat;'>" +
-                    "           <p>"+text+"</p>" +
-                    "           <span id='"+id+"'>0</span><span class='layui-text-span'>"+unitText+"</span>" +
-                    /*"           <img src='/layuiadmin/layui/images/level-close.png' class='dele'>" +*/
-                    "        </div>" +
-                    "      </div>";
-                $("#layui-add").before(html);
-            },
+                if(data.power==""|| data.power==null || parseInt(data.power)>13){
+                    if(spareId==null || spareId==""){
+                        var html="<li class='"+data.class+"' data-power='"+data.power+"'>" +
+                            "       <div class='layui-text-icon "+classDiv+"' style='background:"+data.color+" url("+data.img+") center center no-repeat;' id='"+data.id+"'>" +
+                            "           <p>"+data.name+"</p>" +
+                            "           <img src='/layuiadmin/layui/images/level-close.png' class='dele'>"
+                            "      </div></li>";
+                        parent.$(".layui-row-special ul").append(html);
+                    }else {
+                        var html="<li class='"+data.class+"' data-power='"+data.power+"'>" +
+                            "       <div class='layui-text-icon' style='background:"+data.color+" url("+data.img+") center center no-repeat;' id='"+data.id+"'>" +
+                            "           <p>"+data.name+"</p>" +
+                            "           <span id='"+data.spareId+"'>0</span>" +
+                            "           <img src='/layuiadmin/layui/images/level-close.png' class='dele'>"
+                            "      </div></li>";
+                        parent.$(".layui-row-special ul").append(html);
+                    }
+                }else {
+                    if(spareId==null || spareId==""){
+                        var html="<li class='"+data.class+"' data-power='"+data.power+"'>" +
+                            "       <div class='layui-text-icon "+classDiv+"' style='background:"+data.color+" url("+data.img+") center center no-repeat;' id='"+data.id+"'>" +
+                            "           <p>"+data.name+"</p>" +
+                            "           <img src='/layuiadmin/layui/images/level-close.png' class='dele'>"
+                        "      </div></li>";
+                        parent.$("#moduleConfig li").eq(data.power).before(html);
+                    }else {
+                        var html="<li class='"+data.class+"' data-power='"+data.power+"'>" +
+                            "       <div class='layui-text-icon' style='background:"+data.color+" url("+data.img+") center center no-repeat;' id='"+data.id+"'>" +
+                            "           <p>"+data.name+"</p>" +
+                            "           <span id='"+data.spareId+"'>0</span>" +
+                            "           <img src='/layuiadmin/layui/images/level-close.png' class='dele'>"
+                        "      </div></li>";
+                        parent.$("#moduleConfig li").eq(data.power).before(html);
+                    }
+                }
+            }
         };
         /**
          * 接口输出

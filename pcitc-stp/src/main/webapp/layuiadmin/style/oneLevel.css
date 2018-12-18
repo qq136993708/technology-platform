@@ -1,8 +1,8 @@
 html{background: #013660;}
 .layui-fluid{padding: 0;}
-.layui-header{height: 100px;width: 78%;margin: 0 auto;}
+.layui-header{height: 100px;width: 85%;margin: 0 auto;}
 .layui-main{height: auto;overflow: hidden;width: 100%;}
-.layui-level-main{width: 78%;margin: 0 auto;padding: 15px 0 14px;height: auto;overflow: hidden;}
+.layui-level-main{width: 85%;margin: 0 auto;padding: 15px 0 14px;height: auto;overflow: hidden;}
 /*导航*/
 .layui-level-menu{padding-bottom: 17px;}
 .layui-level-menu ul li{ float: left;padding-right: 18px;}
@@ -10,36 +10,46 @@ html{background: #013660;}
 .layui-level-menu ul li a{font-size: 20px; color: white;padding: 10px 20px;display: inline-block;}
 .layui-level-menu ul li.layui-this a,.layui-level-menu ul li a:hover{background-color: #00a3fe;}
 /*搜索*/
-.layui-search{width: 30%;float: right;margin-top: 37px;}
+.layui-search{width: 30%;float: right;margin-top: 37px;margin-right: 20px;}
 .layui-search input{height: 34px;border: 1px solid #809bb0;width: 100%;
     background: none;color: white;text-indent: .6em;}
 .layui-search button{background:url("/layuiadmin/layui/images/icon-search-le.png") no-repeat 10px 5px
-#99afbf;width: 45px;height: 34px;border: none;cursor: pointer;
-    position: absolute;top: 38px;right: -1px;}
+#99afbf;width: 45px;height: 35px;border: none;cursor: pointer;
+    position: absolute;top: 37px;right: 19px;}
 /*common*/
 .layui-left{width: 42%;float: left;}
 .layui-right{float: right;width: 56.5%;}
+.layui-right ul li:nth-child(5),.layui-right ul li:nth-child(6),.layui-right ul li:nth-child(7),
+.layui-right ul li:nth-child(8),.layui-right ul li:nth-child(9),.layui-right ul li:nth-child(10),
+.layui-right ul li:nth-child(11),.layui-right ul li:nth-child(12),.layui-right ul li:nth-child(13),
+.layui-right ul li:nth-child(14){margin-top: 20px;}
+.layui-right ul li>div{margin-right: 20px;}
+.layui-text-icon{height:128px;text-align: center;color: white;position: relative;cursor: pointer;}
+.layui-text-icon>img{position: absolute;top: 0;right: 0;opacity: 0;}
+.layui-text-icon:hover img{opacity: 1;}
+.layui-text-icon span{font-size: 48px;font-family: "黑体"}
+.layui-text-icon span.layui-text-span{font-size: 18px;}
+.layui-text-icon p{ height:50px;line-height:80px;margin-bottom:10px;font-size: 26px;}
+.layui-row-special ul {width: 100%;}
+.layui-row-special ul li {margin-right: 20px;margin-bottom: 20px}
+.layui-row-special .layui-col-md3{width: 13.05%;}
+.layui-row-special .layui-col-md6{width: 26.1%;}
 /*图片*/
 .layui-row-pic{height: 277px;}
 .layui-row-pic img{width: 100%;height: 100%;}
 .layui-row-pic p{    position: absolute;color: #fff;bottom: 0;width: 100%;font-size: 16px;
     text-align: center;height: 50px;line-height: 50px;background-color: rgba(0,0,0,.6);}
 .layui-carousel-ind ul{position: absolute;right: 0;bottom: 20px;background: none;}
-.layui-text-icon{height:128px;text-align: center;color: white;position: relative;cursor: pointer;}
-.layui-text-icon>img,.layui-cooperation>img{position: absolute;top: 0;right: 0;opacity: 0;}
-.layui-text-icon:hover img,.layui-cooperation:hover img{opacity: 1;}
-.layui-text-icon span{font-size: 48px;font-family: "黑体"}
-.layui-text-icon span.layui-text-span{font-size: 18px;}
-.layui-text-icon p{ height:50px;line-height:80px;margin-bottom:10px;font-size: 26px;}
+
 .layui-row-textTop{height: auto;overflow: hidden;display: flex;margin-top: 20px;}
-.layui-textTop-one{margin-right: 20px;width: 53%;
+.layui-textTop-one{
     background:url("/layuiadmin/layui/images/textTopOne.png") center center no-repeat #00a4e5;}
-.layui-textTop-two{margin-right: 20px;
+.layui-textTop-two{
     background:url("/layuiadmin/layui/images/textTopTwo.png") center center no-repeat #aaae44;}
-.layui-textTop-three{margin-right: 20px;
+.layui-textTop-three{
     background:url("/layuiadmin/layui/images/textTopThree.png") center center no-repeat #488c34;}
 .layui-row-textBottom{height: auto;overflow:hidden;display: flex;}
-.layui-textBottom-one{padding: 35px 0;
+.layui-textBottom-one{padding: 35px 0;height: 58px;
     background:url("/layuiadmin/layui/images/textBottomOne.png") center center no-repeat #61a0a8;}
 .layui-textBottom-one p{    width: 78%;    margin: 0 auto;height: 30px;line-height: 30px;}
 .layui-textBottom-two{height: 128px;
@@ -48,14 +58,14 @@ html{background: #013660;}
     background:url("/layuiadmin/layui/images/textBottomThree.png") center center no-repeat #f36c00;}
 .layui-textBottom-four{
     background:url("/layuiadmin/layui/images/icon-personnel.png") center center no-repeat #8d49e0;}
-.layui-contract{margin-right: 20px;
+.layui-contract{
     background:url("/layuiadmin/layui/images/icon-contract.png") center center no-repeat #4b54a3;}
 .layui-textBottom-four p{line-height: 128px;margin: 0;}
-.layui-news{background-color: #2db674;}
+.layui-news{background-color: #2db674;margin-top: 20px;}
 .layui-agency{display: flex;}
 .layui-news p,.layui-agency-right p{color: white;height: 50px;line-height: 50px;font-size: 22px;
     margin: 0 20px;}
-.layui-agency-left p{color: white;font-size: 22px;margin: 19px 20px 10px;}
+.layui-agency-left p{color: white;font-size: 22px;padding: 19px 20px 10px;}
 .layui-agency-right p{line-height: 80px;margin-bottom: 10px;}
 .layui-news p span{font-size: 16px;float: right;}
 .layui-news p span a{color:#9ff6cc;}
@@ -65,7 +75,7 @@ html{background: #013660;}
 .layui-news ul li a{width: 73%;display: inline-block;overflow: hidden;color: white;
     text-overflow: ellipsis;white-space: nowrap;font-size: 16px;}
 .layui-news ul li span{color:#a8ffd5;font-size:16px;position: relative;right:-30px;top: -10px;}
-.layui-agency-left{background-color: #0094d3;height: 128px;margin-right: 20px;}
+.layui-agency-left{background-color: #0094d3;height: 128px;}
 .layui-agency-left ul {height: auto;overflow: hidden;padding-left: 50px;}
 .layui-agency-left ul li{width: 43%;float: left;text-align: center;position: relative;
     color: white;margin-top: 10px;padding-bottom: 2px;}
@@ -74,37 +84,48 @@ html{background: #013660;}
 .layui-agency-span{    position: absolute;top: -10px;background: #f80824;border-radius: 3px;
     padding: 3px;font-size: 12px;left: 58%;}
 .layui-agency-right{display: flex;}
-.layui-party{height: 128px; text-align: center;margin-right: 20px;
+.layui-party{
     background:url("/layuiadmin/layui/images/icon-party.png") center center no-repeat #f10033;}
-.layui-party p{line-height: 128px;}
+.layui-leader p{line-height: 128px;}
+.layui-icon_p{height: 58px;padding: 35px 0;text-align: center}
+.layui-icon_p p{height: 30px;line-height: 30px;margin: 0 auto;}
+.layui-icon_report p{width: 50%;}
+.layui-icon_institute p{width: 62%;}
 .layui-add{background-color: #345e80;padding: 25px 0 24px;text-align: center;
     height: 79px;}
-.layui-cooperation{margin-top:20px;text-align: center;height: 58px;position: relative;padding: 35px 0;
+.layui-cooperation{text-align: center;height: 58px;position: relative;padding: 35px 0;
     background:url("/layuiadmin/layui/images/icon-cooperation.png") center center no-repeat #0094d3;}
 .layui-cooperation p{width: 50%;margin: 0 auto;height: 30px;line-height: 30px;}
-.layui-agency-party{margin-right: 20px;}
+.layui-agency-party{}
 .layui-party-four{height: 128px;
     background:url("/layuiadmin/layui/images/icon-achievements.png") center center no-repeat #159617;}
 .layui-party-shi{
     background:url("/layuiadmin/layui/images/textBottomFour.png") center center no-repeat #a544af;}
 .layui-text-center p{line-height: 128px;}
-.layui-col-md{margin-top: 20px;margin-right: 0}
 /*1366*/
 /*
 @media screen and (max-height: 946px) {
     .layui-level-main{width: 88%;}
 }
 */
+@media screen and (max-width: 1680px) {
+    .layui-level-main,.layui-header{width: 88%;}
+    .layui-icon_report p{width: 58%;}
+    .layui-icon_institute p{width: 72%;}
+}
 @media screen and (max-width: 1600px) {
+    .layui-icon_report p{width: 55%;}
+    .layui-icon_institute p{width: 67%;}
     .layui-text-icon p{font-size: 22px;}
     .layui-textBottom-two p,.layui-textTop-one p{font-size:21px; }
     .layui-cooperation p,.layui-left .layui-agency-right p{font-size: 18px;}
     .layui-party-shi p{font-size: 19px;}
 }
 @media screen and (max-width: 1536px) {
-    .layui-level-main{width: 88%;}
     .layui-textTop-one p{font-size: 23px;}
     .layui-cooperation p,.layui-left .layui-party-four p{font-size: 20px;}
+    .layui-icon_report p{width: 58%;}
+    .layui-icon_institute p{width: 72%;}
 }
 @media screen and (max-width: 1440px) {
     .layui-text-icon p{font-size: 22px;}
@@ -112,8 +133,6 @@ html{background: #013660;}
     .layui-cooperation p,.layui-left .layui-agency-right p{font-size: 18px;}
 }
 @media screen and (max-width: 1366px) {
-    .layui-header{width: 85%;;}
-    .layui-level-main{width: 85%;}
     .layui-level-menu ul li a{font-size: 16px; padding: 10px;}
     .layui-text-icon p{font-size: 20px;}
     .layui-news p{font-size: 18px;}

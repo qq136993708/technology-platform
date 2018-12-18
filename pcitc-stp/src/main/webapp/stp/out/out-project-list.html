@@ -13,6 +13,10 @@
 	<div class="searchBox">
 		<!--查询条件-->
 		<label class="dateInput">
+			<span>年度</span>
+			<input type="text" id="nd" name="nd" placeholder="请输入年度" title="年度" class="form-control">
+		</label>
+		<label class="dateInput">
 			<span>合同号</span>
 			<input type="text" id="hth" name="hth" placeholder="请输入合同号" title="合同号" class="form-control">
 		</label>
@@ -20,6 +24,17 @@
 			<span>项目名称</span>
 			<input type="text" id="xmmc" name="xmmc" placeholder="请输入项目名称" title="项目名称" class="form-control">
 		</label>
+		<label class="dateInput">
+	        <span>项目类型</span>
+			<select name="project_property" id="project_property"  lay-filter="project_property" class="form-control">
+	            <option value="">请选择</option>
+	            <option value="国家项目">国家项目</option>
+	            <option value="重大专项">重大专项</option>
+	            <option value="重点项目">重点项目</option>
+	            <option value="十条龙项目">十条龙项目</option>
+	            <option value="其他">其他</option>
+	        </select>
+	    </label>
 		<!--按钮组-->
 		<div class="btnGroup">
 			<button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>
@@ -46,8 +61,6 @@
 			table = layui.table, $ = layui.jquery, laydate = layui.laydate, laypage = layui.laypage, form = layui.form;
 
 			function renderTable() {
-				var hth = $('#hth').val();
-				var xmmc = $('#xmmc').val();
 				var param = JSON.parse(window.localStorage.getItem("param"));
 				var lodingMsg = layer.msg('数据加载中....');
 
@@ -58,8 +71,10 @@
 					method : "POST",
 					where : {
 						param : {
-							"hth" : hth,
-							"xmmc" : xmmc,
+							"nd" : $('#nd').val(),
+							"hth" : $('#hth').val(),
+							"xmmc" : $('#xmmc').val(),
+							"project_property":$("#project_property").val(),
 							"functionCode" : param.code
 						}
 					},

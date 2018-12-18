@@ -20,8 +20,8 @@
     <div class="">
         <div class="searchBox">
             <label class="dateInput">
-                <span>月份</span>
-                <input type="text" name="year" placeholder="请选择月份" title="月份" value="${year}"  autocomplete="off" class="form-control" id="year">
+                <span>年份</span>
+                <input type="text" name="year" placeholder="请选择年份" title="年份" value="${year}"  autocomplete="off" class="form-control" id="year">
             </label>
             <!--按钮组-->
             <div class="btnGroup">
@@ -65,11 +65,11 @@
                             </tr>
                             <tr>
                                 <th lay-data="{field:'zsl', width:'13%'}">数量（个）</th>
-                                <th lay-data="{field:'zslRate', width:'13%'}">占比</th>
+                                <th lay-data="{field:'zslRate', width:'13%',templet:function(d){return d.zslRate+'%'}}">占比</th>
                                 <th lay-data="{field:'xksl', width:'13%'}">数量（个）</th>
-                                <th lay-data="{field:'xkRate', width:'13%'}">占比</th>
+                                <th lay-data="{field:'xkRate', width:'13%',templet:function(d){return d.xkRate+'%'}}">占比</th>
                                 <th lay-data="{field:'xjsl', width:'13%'}">数量（个）</th>
-                                <th lay-data="{field:'xjRate', width:'13%'}">占比</th>
+                                <th lay-data="{field:'xjRate', width:'13%',templet:function(d){return d.xjRate+'%'}}">占比</th>
                             </tr>
                             </thead>
                         </table>
@@ -109,11 +109,11 @@
                             </tr>
                             <tr>
                                 <th lay-data="{field:'zsl', width:'13%'}">数量（个）</th>
-                                <th lay-data="{field:'zslRate', width:'13%'}">占比</th>
+                                <th lay-data="{field:'zslRate', width:'13%',templet:function(d){return d.zslRate+'%'}}">占比</th>
                                 <th lay-data="{field:'xksl', width:'13%'}">数量（个）</th>
-                                <th lay-data="{field:'xkRate', width:'13%'}">占比</th>
+                                <th lay-data="{field:'xkRate', width:'13%',templet:function(d){return d.xkRate+'%'}}">占比</th>
                                 <th lay-data="{field:'xjsl', width:'13%'}">数量（个）</th>
-                                <th lay-data="{field:'xjRate', width:'13%'}">占比</th>
+                                <th lay-data="{field:'xjRate', width:'13%',templet:function(d){return d.xjRate+'%'}}">占比</th>
                             </tr>
                             </thead>
                         </table>
@@ -125,7 +125,7 @@
             <div class="layui-col-md12">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        <span class="layui-time"></span>直属研究院科研项目数量技术分布
+                        <span class="layui-time"></span>年科研课题数量技术分布
                     </div>
                     <div class="layui-card-body btn-function">
                          <div class="text-total">
@@ -143,7 +143,6 @@
 
 <script src="/common/js/jquery-1.11.3.min.js"></script>
 <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
-<script src="/common/js/layer-v3.1.1/layer.js"></script>
 <script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
 <script type="text/javascript" src="/plugins/echarts/walden.js"></script>	
 <script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
