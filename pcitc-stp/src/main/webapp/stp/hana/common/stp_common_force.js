@@ -1,4 +1,4 @@
-/**===============================================单柱图 =================================*/
+/**===============================================关系图 =================================*/
 
 var option_force_single = {
     title: {
@@ -98,26 +98,13 @@ function forceAjax_single(url, echartsobj, options, callback) {
         success: function (data, status) {
             if (data.success == true || data.success == 'true') {
                 echartsobj.hideLoading();
-                console.log("data");
-                console.log(data);
                 var nodes = data.data.nodes;
                 var links = data.data.links;
                 var categories = data.data.categories;
                 var legendDataList = data.data.legendDataList;
-                console.log("nodes");
-                console.log(nodes);
-                console.log("links");
-                console.log(links);
-                console.log("catergories");
-                console.log(categories);
                 for (var i = 0; i < legendDataList.length; i++) {
                     legend_Array.push(legendDataList[i]);
                 }
-
-                // var seriesDataList = data.data.seriesDataList;
-                // for (var i = 0; i < seriesDataList.length; i++) {
-                //     series.push(seriesDataList[i]);
-                // }
                 //加载数据图表
                 echartsobj.setOption({
                     legend: {
@@ -159,7 +146,8 @@ function forceAjax_single(url, echartsobj, options, callback) {
                                 }
                             },
                             useWorker: false,
-                            minRadius: 15,
+                            minRadius: 18,
+                            // minRadius: 15,
                             maxRadius: 85,
                             gravity: 1.1,
                             scaling: 1.1,
