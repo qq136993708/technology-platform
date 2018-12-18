@@ -1069,7 +1069,7 @@
 		select out_project_info.*, group_concat(out_project_erp.erp_project_code) as epc
 		from out_project_info left join out_project_erp on (out_project_info.data_id = out_project_erp.opi_id)
 		where
-		out_project_info.status = '1' and (out_project_info.project_type = '0' or out_project_info.project_type = '2')
+		(out_project_info.project_type = '0' or out_project_info.project_type = '2')
 		<if test="nd != null">
 			and out_project_info.nd = #{nd,jdbcType=VARCHAR}
 		</if>
