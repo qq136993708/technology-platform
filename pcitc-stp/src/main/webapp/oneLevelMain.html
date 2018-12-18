@@ -405,7 +405,7 @@
 				$.each(list, function(index, dt) {
 					if (index < 6) {
 						var html = "<li><a href='/news/toNewsLook?id='"+dt.id+" target='_blank'>"
-								+ dt.title + "</a><span>" + dt.createtime
+								+ dt.title + "</a><span>" + dt.createtimestr
 								+ "</span></li>"
 						$("#news").append(html);
 					}

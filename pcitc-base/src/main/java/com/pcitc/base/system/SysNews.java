@@ -25,8 +25,21 @@ public class SysNews extends SearchInfo implements Serializable {
 
     // 内容
     private String content;
+    
+    
+    
+    private String createtimestr;
+    
 
-    private static final long serialVersionUID = 1L;
+    public String getCreatetimestr() {
+		return createtimestr;
+	}
+
+	public void setCreatetimestr(String createtimestr) {
+		this.createtimestr = createtimestr;
+	}
+
+	private static final long serialVersionUID = 1L;
 
     public Integer getId() {
         return id;

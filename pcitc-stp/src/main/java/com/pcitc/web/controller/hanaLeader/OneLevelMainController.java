@@ -1735,6 +1735,12 @@ public class OneLevelMainController {
 												JSONArray jSONArray = responseEntity.getBody();
 												System.out.println(">>>>>>>>>>>>get_news jSONArray>>> " + jSONArray.toString());
 												List<SysNews> list = JSONObject.parseArray(jSONArray.toJSONString(), SysNews.class);
+												for(int i=0;i<list.size();i++)
+												{
+													SysNews sysNews=list.get(i);
+													sysNews.setCreatetimestr(DateUtil.dateToStr(sysNews.getCreatetime(), DateUtil.FMT_DD));
+													
+												}
 												result.setSuccess(true);
 												result.setData(list);
 											}
