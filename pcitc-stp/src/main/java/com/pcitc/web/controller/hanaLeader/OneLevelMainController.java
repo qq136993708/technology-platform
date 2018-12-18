@@ -42,6 +42,7 @@ import com.pcitc.base.hana.report.Contract;
 import com.pcitc.base.hana.report.H1AMKYSY100117;
 import com.pcitc.base.hana.report.Knowledge;
 import com.pcitc.base.hana.report.ProjectForMysql;
+import com.pcitc.base.system.SysNews;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
@@ -91,12 +92,21 @@ public class OneLevelMainController {
 		private static final String dragon_02 = "http://pcitc-zuul/system-proxy/out-project-provider/dragon/out-in/project-info";
 		private static final String getZdstlTable = "http://pcitc-zuul/system-proxy/out-project-provider/ld/project-info/zdstl";
 		private static final String dragon_03 = "http://pcitc-zuul/system-proxy/out-project-provider/dragon/institute/project-info";
+		private static final String dragon_count = "http://pcitc-zuul/system-proxy/out-provider/dragon/project-count";
 
 
 		//科研投入
 		private static final String investment_01 = "http://pcitc-zuul/system-proxy/out-project-plna-provider/complete-rate/company-type";
 		private static final String investment_01_01 = "http://pcitc-zuul/system-proxy/out-project-plna-provider/complete-rate/company-type";
 		private static final String investment_02 = "http://pcitc-zuul/system-proxy/out-project-plna-provider/complete-rate/institute";
+		
+		
+		//新闻
+		private static final String get_news = "http://pcitc-zuul/system-proxy/news-provider/select_news_main";
+		
+		
+		
+		
 		
 		
 		@Autowired
@@ -1415,6 +1425,46 @@ public class OneLevelMainController {
 						}
 						
 						
+						   @RequestMapping(method = RequestMethod.GET, value = "/dragon_count")
+							@ResponseBody
+							public String dragon_count(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+						    	String resault="";
+								Result result = new Result();
+								String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+								Map<String, Object> paramsMap = new HashMap<String, Object>();
+								paramsMap.put("nd", nd);
+								
+								JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+								HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+								if (!nd.equals(""))
+								{
+									ResponseEntity<JSONObject> responseEntity = restTemplate.exchange(dragon_count, HttpMethod.POST, entity, JSONObject.class);
+									int statusCode = responseEntity.getStatusCodeValue();
+									if (statusCode == 200) 
+									{
+										
+										    JSONObject jSONObject = responseEntity.getBody();
+											System.out.println(">>>>>>>>>>>>>>jSONObject -> " + jSONObject.toString());
+											result.setSuccess(true);
+											result.setData(jSONObject);
+										
+									}
+									
+								} else
+								{
+									result.setSuccess(false);
+									result.setMessage("参数为空");
+								}
+								JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
+								resault=resultObj.toString();
+								System.out.println(">>>>>>>>>>>>>dragon_count " + resultObj.toString());
+								
+								return resault;
+							}
+						    
+						 
+						
 			 /**======================十条龙 end==================================*/
 
 						/**======================科研投入============================*/
@@ -1668,4 +1718,35 @@ public class OneLevelMainController {
 									
 			
 			
+									/**=============================================新闻=========================*/
+									//新闻
+									@RequestMapping(method = RequestMethod.GET, value = "/get_news")
+									@ResponseBody
+									public String get_news(HttpServletRequest request, HttpServletResponse response) throws Exception {
+										Result result = new Result();
+										String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+										Map<String, Object> paramsMap = new HashMap<String, Object>();
+										paramsMap.put("month", month);
+										JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+										HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+										
+											ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(investment_01_01, HttpMethod.POST, entity, JSONArray.class);
+											int statusCode = responseEntity.getStatusCodeValue();
+											if (statusCode == 200) 
+											{
+												JSONArray jSONArray = responseEntity.getBody();
+												System.out.println(">>>>>>>>>>>>get_news jSONArray>>> " + jSONArray.toString());
+												List<SysNews> list = JSONObject.parseArray(jSONArray.toJSONString(), SysNews.class);
+												
+												
+												
+												result.setSuccess(true);
+												result.setData(list);
+											}
+											
+										
+										JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
+										return resultObj.toString();
+									}
+									
 }

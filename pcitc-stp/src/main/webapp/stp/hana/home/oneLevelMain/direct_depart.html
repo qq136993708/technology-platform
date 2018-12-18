@@ -357,6 +357,31 @@
         
         
         //合同签订
+        function setContcator_id(nd,v_date)
+        {
+        	
+        	var url="/direct/contract_01_count?type=1&nd="+nd+"&v_date="+v_date;
+        	$.ajax({
+ 				type : 'GET',
+ 				url : url,
+ 				dataType : 'json',
+ 				headers : {
+ 					'Content-Type' : 'application/json'
+ 				},
+ 				timeout : 3000, 
+ 				error : function(XMLHttpRequest, status) {
+ 					$("#contcator_id").html("<small>--(个)</small>");
+ 				},
+ 				success : function(data) { 
+ 					    var yqht=data.data.yqht;
+ 				       $("#contcator_id").html(yqht+"<small>(个)</small>");
+ 				       
+ 					
+ 				}
+ 			});
+        	
+        }
+        
         
         
         // 经费支出
@@ -492,10 +517,12 @@
         	if(month!=null && month!='')
        		{
         		getKyxm(year);//科研项目、科研装备、合同签订
-            	getndys_xfzc(month);//合同签订 经费支出
+            	getndys_xfzc(month);//经费支出
             	patentCount(year);//专利
             	appraisalCount(year);//成果
             	setContractCount(year);
+            	setContcator_id(year,v_date);//合同签订 
+            	
             	var yAxis= [
                     {
                         type: 'value',
@@ -622,7 +649,9 @@
             	
        		}
         }
-        
+
+   
+
         
         function getDataCountForName_t(data,strName)
         {
