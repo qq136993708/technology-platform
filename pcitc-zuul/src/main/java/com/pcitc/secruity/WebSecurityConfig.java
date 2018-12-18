@@ -72,7 +72,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				// 对于获取token的rest api要允许匿名访问
 				.antMatchers("/system-proxy/**").permitAll()
 				.antMatchers("/auth/**").permitAll()
-				.antMatchers("/lhfx-proxy/**").permitAll()
 				//对于获取设备授权状态的查询开放访问权限（20181016）
 				.antMatchers("/mobile-proxy/**").permitAll()
 				//对于作业许可证接口开放访问权限（20181019）
