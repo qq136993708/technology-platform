@@ -1299,9 +1299,11 @@ public class OneLevelMainController {
 								Integer tjrl =(Integer)contract.getTjrl();
 								Integer zyxm =(Integer)contract.getZyxm();
 								
-								xAxisDataList.add(HanaUtil.getCurrrentYear()+"申请出龙");
-								xAxisDataList.add(HanaUtil.getCurrrentYear()+"推荐入龙");
-								xAxisDataList.add(HanaUtil.getCurrrentYear()+"在研项目");
+								
+								String lastYear = DateUtil.format(DateUtil.dateAdd(DateUtil.strToDate(nd, DateUtil.FMT_YYYY), -365), DateUtil.FMT_YYYY);
+								xAxisDataList.add(lastYear+"申请出龙");
+								xAxisDataList.add(nd+"推荐入龙");
+								xAxisDataList.add(nd+"在研龙项目");
 								
 								seriesDataList.add(sqcl);
 								seriesDataList.add(tjrl);
