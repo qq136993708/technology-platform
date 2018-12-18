@@ -1276,9 +1276,12 @@ public class OneLevelMainController {
 				public String dragon_02(HttpServletRequest request, HttpServletResponse response) throws Exception {
 			    	Result result = new Result();
 					String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+					String l_nd = DateUtil.format(DateUtil.dateAdd(DateUtil.strToDate(nd, DateUtil.FMT_YYYY), -365), DateUtil.FMT_YYYY);
+					
 					String companyCode = CommonUtil.getParameter(request, "companyCode", "");
 					Map<String, Object> paramsMap = new HashMap<String, Object>();
 					paramsMap.put("nd", nd);
+					paramsMap.put("l_nd", l_nd);
 					paramsMap.put("companyCode", companyCode);
 					JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 					HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
@@ -1300,8 +1303,8 @@ public class OneLevelMainController {
 								Integer zyxm =(Integer)contract.getZyxm();
 								
 								
-								String lastYear = DateUtil.format(DateUtil.dateAdd(DateUtil.strToDate(nd, DateUtil.FMT_YYYY), -365), DateUtil.FMT_YYYY);
-								xAxisDataList.add(lastYear+"申请出龙");
+								
+								xAxisDataList.add(l_nd+"申请出龙");
 								xAxisDataList.add(nd+"推荐入龙");
 								xAxisDataList.add(nd+"在研龙项目");
 								
