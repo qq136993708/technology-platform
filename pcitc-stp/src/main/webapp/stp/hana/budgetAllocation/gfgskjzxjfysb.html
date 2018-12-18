@@ -12,130 +12,37 @@
 
 	<div class="content-body container">
 		<div style="text-align: center; font-weight: bold; margin: 10px;">2018年股份公司科技专项经费预算表</div>
-		<table class="layui-table">
-				
-				<thead>
-					<tr>
-						<td rowspan="3">预算项目</td>
-						<td rowspan="3">集团公司</td>
-						<td colspan="10">股份公司</td>
-					</tr>
-					<tr>
-						<td colspan="9">直属院</td>
-					</tr>
-					</thead>
-					<tbody>
-					
-					<tr>
-						<td>勘探院</td>
-						<td>工程院</td>
-						<td>物探院</td>
-						<td>石科院</td>
-						<td>北化院</td>
-						<td>抚研院</td>
-						<td>上海院</td>
-						<td>青岛院</td>
-						<td>合计</td>
-					</tr>
-					<tr>
-						<td>科技委活动经费</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>科技奖励费用</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>国内外学术组织会费及国际交流、合作经费</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>学术刊物出版与技术活动资助费用</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>重大专项管理办公室经费</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>标准、质量专项经费</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-					<tr>
-						<td>合计</td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-					</tr>
-				</tbody>
-			</table>
+		<table id="myTable" class="layui-table" lay-data="{url:'/ba/gfgskjzxjfysb_data',height:'auto'}">
+			<thead>
+				<tr>
+			      <th lay-data="{type:'numbers'}" rowspan="3">序号</th>
+			      <th lay-data="{field:'ysxm', width:'11%'}" rowspan="3">预算项目</th>
+			      <th lay-data="{field:'jtgs', width:'11%',align:'right'}" rowspan="3">集团公司</th>
+			      <th lay-data="{align:'center'}" colspan="10">股份公司</th>
+			      <th lay-data="{field:'xtw', width:'10%',align:'right'}" rowspan="3">系统外</th>
+			    </tr>
+				<tr>
+					<th lay-data="{align:'center'}" colspan="9">直属院</th>
+					<th lay-data="{field:'fzgs', width:'10%',align:'right'}" rowspan="2">分子公司</th>
+				</tr>
+				<tr>
+					<th lay-data="{field:'kty', width:'7%',align:'right'}">勘探院</th>
+					<th lay-data="{field:'gcy', width:'7%',align:'right'}">工程院</th>
+					<th lay-data="{field:'wty', width:'7%',align:'right'}">物探院</th>
+					<th lay-data="{field:'sky', width:'7%',align:'right'}">石科院</th>
+					<th lay-data="{field:'bhy', width:'7%',align:'right'}">北化院</th>
+					<th lay-data="{field:'dly', width:'7%',align:'right'}">大连院</th>
+					<th lay-data="{field:'shy', width:'7%',align:'right'}">上海院</th>
+					<th lay-data="{field:'agy', width:'7%',align:'right'}">安工院</th>
+				</tr>
+			</thead>
+	  	</table>
 	</div>
 
 	<!--表格数据操作js-->
 <script src="/common/js/jquery-1.11.3.min.js"></script>
 <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
-<script src="/common/js/layer-v3.1.1/layer.js"></script>
+<!-- <script src="/common/js/layer-v3.1.1/layer.js"></script> -->
 <script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
 <script type="text/javascript" src="/plugins/echarts/walden.js"></script>
 <script type="text/javascript" src="/stp/hana/common/stp_common_chart.js"></script>
@@ -162,7 +69,7 @@ layui.config({
                ,format: 'yyyyMM'
             });
       //初始化表格
-      renderTable();
+      //renderTable();
 });
 
 var allCode="${allCode?default('')}";

@@ -103,10 +103,7 @@
 			parentId = treeNode.id;
 			parentCode = treeNode.code;
 			levelCode = treeNode.levelCode;
-
-			nodeId = '';
-			nodeName = '';
-
+			
 			console.log(treeNode);
 			table.reload('function', {
 				where : {
@@ -127,8 +124,6 @@
 				zTree.reAsyncChildNodes(nodes[i], type, silent);
 				if (!silent) zTree.selectNode(nodes[i]);
 			}
-			nodeId = '';
-			nodeName = '';
 		}
 
 		//刷新树
@@ -146,8 +141,6 @@
 			console.log("nodes" + nodes)
 			/*强行异步加载父节点的子节点。[setting.async.enable = true 时有效]*/
 			zTree.reAsyncChildNodes(nodes[0], type, silent);
-			nodeId = '';
-			nodeName = '';
 		}
 
 		var table, selectRowData;
@@ -310,7 +303,6 @@
 							area : [ '70%', '90%' ],
 							content : temUrl
 						});
-						nodeId = '';
 					} else {
 						var temUrl = "/function/edit?id=" + nodeId;
 						layer.open({
@@ -326,7 +318,6 @@
 							content : temUrl
 						});
 						refreshTree();
-						nodeId = '';
 					}
 				},
 				deleteEvent : function() { //点击删除按钮
@@ -359,6 +350,7 @@
 										$(".layui-table-header table thead th input").remove(); //移除表头的复选框,去掉全选
 										//renderTable();
 										initTree();
+										nodeId='';
 									} else if (data == 101) {
 										layer.msg("请先删除下级菜单");
 									}
@@ -366,7 +358,6 @@
 							});
 						});
 					}
-					nodeId = '';
 					//	refreshTree();
 				},
 				searchEvent : function() { //点击查询按钮

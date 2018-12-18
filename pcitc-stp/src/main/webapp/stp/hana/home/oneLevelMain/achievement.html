@@ -41,6 +41,9 @@
                         <span class="layui-time"></span>年成果鉴定数量按单位分析
                     </div>
                     <div class="layui-row-main">
+                    	<div class="text-total">
+                        	<span>总计：<span class="text-total-blue" id="chart_title_04"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                    	</div>
                         <div class="main-chart" id="chart4" style="height:280px;width: 100%;"></div>
                     </div>
                 </div>
@@ -75,6 +78,9 @@
                         <span class="layui-time"></span>年成果鉴定数量分布情况分析
                     </div>
                     <div class="layui-row-main">
+                    	<div class="text-total">
+                        	<span>总计：<span class="text-total-blue" id="chart_title_07"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                    	</div>
                         <div class="main-chart" id="chart7" style="height:280px;width: 100%;"></div>
                     </div>
                 </div>
@@ -88,7 +94,7 @@
                     <div class="layui-card-header">
                         <span>&nbsp;</span>所获奖励
                     </div>
-                    <div class="layui-row-main" style="display: flex;">
+                    <div class="layui-row-main" style="padding-left: 35px;">
                     	<div class="duty_gd">
 	                       	<div class="pre_last"></div>
 		                        <ul>
@@ -96,7 +102,7 @@
 		                        </ul>
 	                        <div class="pre_next"></div>
 	                    </div>
-	                    <div class="duty_content" style="width:99%;">
+	                    <div class="duty_content">
 	                        <div class="duty_nr" style="display: block; position: relative; top: 0px; left: 0px; opacity: 1;">
 	                           <table id="processdef-table"  lay-filter="tableEvent1"></table>
 	                        </div>
@@ -112,7 +118,7 @@
 
 <script src="/common/js/jquery-1.11.3.min.js"></script>
 <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
-<script src="/common/js/layer-v3.1.1/layer.js"></script>
+<!-- <script src="/common/js/layer-v3.1.1/layer.js"></script> -->
 <script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
 <script type="text/javascript" src="/plugins/echarts/walden.js"></script>	
 <script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
@@ -143,7 +149,7 @@ layui.config({
     publicMethods.ajaxPost("/one_level_main/achievement_05",null, function (data) {
     	$(".duty_gd ul").html("");
 		$.each(data,function(i,dt){
-			if(i>=6){return false;}//由于太长只显示6年，请前端妥善处理
+			//if(i>=6){return false;}//由于太长只显示6年，请前端妥善处理
 			var cs = (dt==$("#year").val())?' class="layui-this"':'';
 			$(".duty_gd ul").append('<li'+cs+'>'+dt+'</li>');
 		});
@@ -165,7 +171,7 @@ layui.config({
     $("ul > li").on("click",function () {
         index_fzlc=$(this).index();
         $(this).addClass("layui-this").siblings().removeClass("layui-this");
-        $(".duty_gd ul").stop(true,false).animate({top: -fzlcWidth*index_fzlc},500);
+        $(".duty_gd ul").stop(true,false).animate({top: -92*index_fzlc},500);
         //加载表格
         renderTable($(".layui-this").html());
         //$(".duty_content>div").eq(index_fzlc).fadeIn(700).siblings().hide();
@@ -179,7 +185,7 @@ layui.config({
             index_fzlc=len_fzlc-1;
         }
         $(".duty_gd ul li").eq(index_fzlc).addClass("layui-this").siblings().removeClass("layui-this");
-        $(".duty_gd ul").stop(true,false).animate({top: -fzlcWidth*index_fzlc},500);
+        $(".duty_gd ul").stop(true,false).animate({top: -92*index_fzlc},500);
         //$(".duty_content>div").eq(index_fzlc).fadeIn(700).siblings().hide();
         renderTable($(".layui-this").html());
     });
@@ -192,7 +198,7 @@ layui.config({
             index_fzlc=0;
         }
         $(".duty_gd ul li").eq(index_fzlc).addClass("layui-this").siblings().removeClass("layui-this");
-        $(".duty_gd ul").stop(true,false).animate({top: -fzlcWidth*index_fzlc},500);
+        $(".duty_gd ul").stop(true,false).animate({top: -92*index_fzlc},500);
         //$(".duty_content>div").eq(index_fzlc).fadeIn(700).siblings().hide();
         renderTable($(".layui-this").html());
     });
@@ -222,7 +228,14 @@ function initEchart()
 	
 	
 	var chart4_url="/one_level_main/achievement_02?type=1&nd="+nd+"&v_date="+v_date; 
-	var echart4=load_single_bar(chart4_url,"chart4","","",yAxis);
+	var echart4=load_single_bar(chart4_url,"chart4","","",yAxis,null,null,function(data){
+		console.log(data);
+		var total_count = 0;
+		$.each(data.data.seriesDataList,function(index,dt){
+			total_count+=dt;
+		});
+		$("#chart_title_04").html(total_count+"个");
+	});
 	echart4.on('click', function (params) {
 		var xName=params.name;
 		var legentName=params.seriesName;
@@ -251,7 +264,14 @@ function initEchart()
 	
 	
 	var chart7_url="/one_level_main/achievement_03?nd="+nd+"&v_date="+v_date;
-	var echart7=load_single_bar(chart7_url,"chart7","","",yAxis);
+	var echart7=load_single_bar(chart7_url,"chart7","","",yAxis,null,null,function(data){
+		console.log(data);
+		var total_count = 0;
+		$.each(data.data.seriesDataList,function(index,dt){
+			total_count+=dt;
+		});
+		$("#chart_title_07").html(total_count+"个");
+	});
 	echart7.on('click', function (params) {
 		var xName=params.name;
 		var legentName=params.seriesName;
@@ -336,7 +356,7 @@ function renderTable(nd){
         , url:'/one_level_main/achievement_04?nd='+nd
         , limit: 15 //每页默认显示的数量
         , id: 'processdef-table'
-        , height: commonDislodgeTable()
+        , height: "620px"
         , cols: [[
         	  		{field:'nd',title:'年度',edit:'text',align: 'center'},
 		  	   		{field:'sbjz',title:'获奖类别',edit:'text', width: '15%'},

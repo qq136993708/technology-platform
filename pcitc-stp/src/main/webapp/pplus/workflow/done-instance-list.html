@@ -41,11 +41,11 @@
 					全部
 				</button>
 				<button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg" data-type="completeEvent">
-					<span class="btn-state btn-yellow"></span>
+					<span class="btn-state btn-blue"></span>
 					已完成
 				</button>
 				<button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg" data-type="approvedEvent">
-					<span class="btn-state btn-blue"></span>
+					<span class="btn-state btn-yellow"></span>
 					执行中
 				</button>
 				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" data-type="detailEvent">查看</ button>
@@ -152,11 +152,10 @@
 						});
 
 						$("[data-field='flowState']").children().each(function() {
-							if ($(this).text() == '0') {
+							if ($(this).text() == '1') {
 								$(this).html("<img src='/layuiadmin/layui/images/Red_Ball.png'>");
-							} else if ($(this).text() == '1') {
+							} else if ($(this).text() == '0') {
 								$(this).html("<img src='/layuiadmin/layui/images/Green_Ball.png'>");
-								//$(this).parent().parent().parent().css('background','#eee');
 							}
 						});
 

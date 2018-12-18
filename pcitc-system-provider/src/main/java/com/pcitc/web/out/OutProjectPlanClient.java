@@ -82,6 +82,17 @@ public class OutProjectPlanClient {
 			temMap.put("jhqds", 0);
 			temMap.put("sjqds", 0);
 			temMap.put("qdbl", 0);
+			
+			temMap.put("zysje", 0);
+			temMap.put("zsjje", 0);
+			temMap.put("zRate", 0);
+			temMap.put("zbxysje", 0);
+			temMap.put("zbxsjje", 0);
+			temMap.put("zbxRate", 0);
+			temMap.put("fyxysje", 0);
+			temMap.put("fyxsjje", 0);
+			temMap.put("fyxRate", 0);
+			
 			temMap.put("define3", "直属研究院");
 			temList.add(0, temMap);
 		}
@@ -90,6 +101,16 @@ public class OutProjectPlanClient {
 			temMap.put("jhqds", 0);
 			temMap.put("sjqds", 0);
 			temMap.put("qdbl", 0);
+			
+			temMap.put("zysje", 0);
+			temMap.put("zsjje", 0);
+			temMap.put("zRate", 0);
+			temMap.put("zbxysje", 0);
+			temMap.put("zbxsjje", 0);
+			temMap.put("zbxRate", 0);
+			temMap.put("fyxysje", 0);
+			temMap.put("fyxsjje", 0);
+			temMap.put("fyxRate", 0);
 			temMap.put("define3", "分子公司");
 			temList.add(1, temMap);
 		}
@@ -98,6 +119,16 @@ public class OutProjectPlanClient {
 			temMap.put("jhqds", 0);
 			temMap.put("sjqds", 0);
 			temMap.put("qdbl", 0);
+			
+			temMap.put("zysje", 0);
+			temMap.put("zsjje", 0);
+			temMap.put("zRate", 0);
+			temMap.put("zbxysje", 0);
+			temMap.put("zbxsjje", 0);
+			temMap.put("zbxRate", 0);
+			temMap.put("fyxysje", 0);
+			temMap.put("fyxsjje", 0);
+			temMap.put("fyxRate", 0);
 			temMap.put("define3", "集团单位");
 			temList.add(2, temMap);
 		}
@@ -106,6 +137,17 @@ public class OutProjectPlanClient {
 			temMap.put("jhqds", 0);
 			temMap.put("sjqds", 0);
 			temMap.put("qdbl", 0);
+			
+			temMap.put("zysje", 0);
+			temMap.put("zsjje", 0);
+			temMap.put("zRate", 0);
+			temMap.put("zbxysje", 0);
+			temMap.put("zbxsjje", 0);
+			temMap.put("zbxRate", 0);
+			temMap.put("fyxysje", 0);
+			temMap.put("fyxsjje", 0);
+			temMap.put("fyxRate", 0);
+			
 			temMap.put("define3", "外部单位");
 			temList.add(3, temMap);
 		}
@@ -115,6 +157,17 @@ public class OutProjectPlanClient {
 			temMap.put("jhqds", 0);
 			temMap.put("sjqds", 0);
 			temMap.put("qdbl", 0);
+			
+			temMap.put("zysje", 0);
+			temMap.put("zsjje", 0);
+			temMap.put("zRate", 0);
+			temMap.put("zbxysje", 0);
+			temMap.put("zbxsjje", 0);
+			temMap.put("zbxRate", 0);
+			temMap.put("fyxysje", 0);
+			temMap.put("fyxsjje", 0);
+			temMap.put("fyxRate", 0);
+			
 			temMap.put("define3", "休斯顿研发中心");
 			temList.add(4, temMap);
 		}
@@ -123,6 +176,17 @@ public class OutProjectPlanClient {
 			temMap.put("jhqds", 0);
 			temMap.put("sjqds", 0);
 			temMap.put("qdbl", 0);
+			
+			temMap.put("zysje", 0);
+			temMap.put("zsjje", 0);
+			temMap.put("zRate", 0);
+			temMap.put("zbxysje", 0);
+			temMap.put("zbxsjje", 0);
+			temMap.put("zbxRate", 0);
+			temMap.put("fyxysje", 0);
+			temMap.put("fyxsjje", 0);
+			temMap.put("fyxRate", 0);
+			
 			temMap.put("define3", "中东研发中心");
 			temList.add(5, temMap);
 		}
@@ -131,6 +195,17 @@ public class OutProjectPlanClient {
 			temMap.put("jhqds", 0);
 			temMap.put("sjqds", 0);
 			temMap.put("qdbl", 0);
+			
+			temMap.put("zysje", 0);
+			temMap.put("zsjje", 0);
+			temMap.put("zRate", 0);
+			temMap.put("zbxysje", 0);
+			temMap.put("zbxsjje", 0);
+			temMap.put("zbxRate", 0);
+			temMap.put("fyxysje", 0);
+			temMap.put("fyxsjje", 0);
+			temMap.put("fyxRate", 0);
+			
 			temMap.put("define3", "集团公司");
 			temList.add(6, temMap);
 		}
@@ -139,6 +214,17 @@ public class OutProjectPlanClient {
 			temMap.put("jhqds", 0);
 			temMap.put("sjqds", 0);
 			temMap.put("qdbl", 0);
+			
+			temMap.put("zysje", 0);
+			temMap.put("zsjje", 0);
+			temMap.put("zRate", 0);
+			temMap.put("zbxysje", 0);
+			temMap.put("zbxsjje", 0);
+			temMap.put("zbxRate", 0);
+			temMap.put("fyxysje", 0);
+			temMap.put("fyxsjje", 0);
+			temMap.put("fyxRate", 0);
+			
 			temMap.put("define3", "资产公司");
 			temList.add(7, temMap);
 		}
@@ -147,6 +233,17 @@ public class OutProjectPlanClient {
 			temMap.put("jhqds", 0);
 			temMap.put("sjqds", 0);
 			temMap.put("qdbl", 0);
+			
+			temMap.put("zysje", 0);
+			temMap.put("zsjje", 0);
+			temMap.put("zRate", 0);
+			temMap.put("zbxysje", 0);
+			temMap.put("zbxsjje", 0);
+			temMap.put("zbxRate", 0);
+			temMap.put("fyxysje", 0);
+			temMap.put("fyxsjje", 0);
+			temMap.put("fyxRate", 0);
+			
 			temMap.put("define3", "盈科");
 			temList.add(8, temMap);
 		}

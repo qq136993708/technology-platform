@@ -53,7 +53,10 @@
                     </div>
                     <div class="layui-row-main">
                        <div class="layui-row">
-                           <div class="layui-col-md6" id="dragon1"    style="height:280px;"></div>
+                        <div class="text-total">
+                            <span>总数:<span class="text-total-blue" id="dragon1_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                        </div>
+                        <div class="layui-col-md6" id="dragon1"    style="height:280px;width: 100%;"></div>
                        </div>
                     </div>
                 </div>
@@ -64,7 +67,10 @@
                         <span class="layui-time"></span>十条龙项目
                     </div>
                     <div class="layui-card-body btn-function" >
-                        <div class="layui-col-md6" id="dragon2"    style="height:280px;"></div>
+                    <div class="text-total">
+                            <span>总数:<span class="text-total-blue" id="dragon2_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                        </div>
+                        <div class="layui-col-md6" id="dragon2"    style="height:280px;width: 100%;"></div>
                        </div>
                 </div>
             </div>
@@ -78,6 +84,12 @@
                         <span class="layui-time"></span>直属研究院课题分布情况
                     </div>
                     <div class="layui-row-main">
+                     <div class="text-total">
+                            <span>总数:<span class="text-total-blue" id="dragon3_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>十条龙项目数:<span class="text-total-blue" id="dragon3_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>重大项目数:<span class="text-total-blue" id="dragon3_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                        </div>
+                        
                         <div class="main-chart" id="dragon3" style="height:280px;width: 100%;"></div>
                     </div>
                 </div>
@@ -90,7 +102,7 @@
                         <span class="layui-time"></span>集团重大项目
                     </div>
                     <div class="layui-row-main">
-                       <table id="processdef-table"  lay-filter="tableEvent1"></table>
+                       <table id="processdef_table"  lay-filter="tableEvent1"></table>
                     </div>
                 </div>
                 <div class="layui-card">
@@ -138,8 +150,8 @@ layui.config({
        elem: '#year'
        ,format: 'yyyy'
     });
-    //renderTable();
-   // renderTable2();
+    renderTable();
+    //renderTable2();
   
 });
 
@@ -147,7 +159,7 @@ function initEchart()
 {
 	
 	 var nd=$("#year").val();
-     $(".layui-time").html(year+"年");
+     $(".layui-time").html(nd+"");
 	 var companyCode=$("#companyCode").val();
 	 var v_date=(new Date()).getTime();
 	 var month=$('#year').val();
@@ -167,28 +179,33 @@ function initEchart()
 	 
 	 var chart1_url="/one_level_main/dragon_01?type=2&nd="+nd+"&v_date="+v_date;
 		var echart1=loadPie_02(chart1_url,"dragon1","","",function(data){
+			
+			
 			var total_count = 0;
 			$.each(data.data.dataList,function(index,dt){
 				total_count += dt.value;
 			});
-			$("#chart_title_03").html(total_count+"个");
+			$("#dragon1_01").html(total_count+"个");
+			
 		});
 		
 	 
 	 
 	 var chart2_url="/one_level_main/dragon_02?nd="+nd+"&v_date="+v_date;
-		var echart1=load_single_bar(chart2_url,"dragon2","","",yAxis,function(data){
-			var total_count = 0;
+	 var colorNew=["#70b1ab","#87d359"];
+	 var echart1=load_single_bar(chart2_url,"dragon2","","",yAxis,colorNew,30,function(data){
+		 var total_count = 0;
 			$.each(data.data.seriesDataList,function(index,dt){
 				total_count += dt;
 			});
-			$("#chart_title_01").html(total_count+"个");
-		});
+			$("#dragon2_01").html(total_count+"个");
+	 });
 		
 		
 	
-	var chart7_url="/one_level_main/getZdstlPie?nd="+year+"&v_date="+v_date+"&companyCode="+companyCode;
-	var echart7=load_mutl_bar_02(chart7_url,"dragon3","","",yAxis);
+	var chart7_url="/one_level_main/dragon_03?nd="+year+"&v_date="+v_date+"&companyCode="+companyCode;
+	var colorNew=["#70b1ab","#87d359"];
+	var echart7=load_mutl_bar_down(chart7_url,"dragon3","","",yAxis,30,colorNew);
 	echart7.on('click', function (params){
 		var xName=params.name;
 		var legentName=params.seriesName;
@@ -204,7 +221,7 @@ function search_Event()
 {
 	initEchart();
 	renderTable();
-	renderTable2();
+	//renderTable2();
 }
 
 
@@ -215,21 +232,21 @@ function renderTable()
 	 var month=$("#year").val();
 	 var companyCode=$("#companyCode").val();
 	 var tableOne=table.render({
-    elem: '#processdef-table',
-    url:'/ten_dragon/getZdstlTable?month='+month+"&companyCode="+companyCode+"&type=重点专项",
+    elem: '#processdef_table',
+    url:'/one_level_main/getZdstlTable?month='+month+"&companyCode="+companyCode+"&type=重点专项",
     method:"GET",
     where: {param: {"month":$("#month").val(),"companyCode":$("#companyCode").val()}},
-    limit: 15,
-    id: 'processdef-table',
+    limit: 100,
+    id: 'processdef_table',
     height: commonDislodgeTable(),
-    page: {
+    /* page: {
         groups: 5,
         limits: [15,30,45,60],
         layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
         first: '首页', //不显示首页
         last: '尾页', //不显示尾页
         theme: '#0F9EE0'
-    },
+    }, */
     cols: [[
     	{type:'checkbox',event: 'changeEvents',width: '5%'},
     	{title:'序号', type:'numbers', width: '5%'},
@@ -265,7 +282,7 @@ function renderTable()
 
 
 
-
+/* 
 
 function renderTable2()
 {
@@ -307,7 +324,6 @@ function renderTable2()
     ]],
     done: function (res, curr, count) {
     	layer.closeAll('loading');
-        // 点击行联动选择框--单选
         $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
         	var index=parseInt($(this).index()+1);
             $('tr').removeClass('layui-table-click');
@@ -320,7 +336,7 @@ function renderTable2()
   });
   
 }
-
+ */
 </script>
 </body>
 </html>
