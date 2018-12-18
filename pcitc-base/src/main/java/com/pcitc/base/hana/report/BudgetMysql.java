@@ -46,122 +46,24 @@ public class BudgetMysql {
 	 
 	 private Object wxd;
 	 
+	 private Object zysje;
+	 private Object zsjje;
+	 private Object wxdje;
+	 private Object jeRate;
+	 
+	 private String define3;
+	 private Object zRate;
 	 
 	 
 	 
+	 private Object fyxysje;
+	 private Object fyxsjje;
+	 private Object fyxRate;
 	 
 	 
-	 
-		
-	 
-	public Object getWxd() {
-		return wxd;
-	}
-	public void setWxd(Object wxd) {
-		this.wxd = wxd;
-	}
-	public Object getPrezje() {
-		return prezje;
-	}
-	public void setPrezje(Object prezje) {
-		this.prezje = prezje;
-	}
-	public Object getZtzwcl() {
-		return ztzwcl;
-	}
-	public void setZtzwcl(Object ztzwcl) {
-		this.ztzwcl = ztzwcl;
-	}
-	public Object getFyxtzwcl() {
-		return fyxtzwcl;
-	}
-	public void setFyxtzwcl(Object fyxtzwcl) {
-		this.fyxtzwcl = fyxtzwcl;
-	}
-	public Object getZbxtzwcl() {
-		return zbxtzwcl;
-	}
-	public void setZbxtzwcl(Object zbxtzwcl) {
-		this.zbxtzwcl = zbxtzwcl;
-	}
-	public String getUnitName() {
-		return unitName;
-	}
-	public void setUnitName(String unitName) {
-		this.unitName = unitName;
-	}
-	public Object getPrezbxje() {
-		return prezbxje;
-	}
-	public void setPrezbxje(Object prezbxje) {
-		this.prezbxje = prezbxje;
-	}
-	public Object getPrefyxje() {
-		return prefyxje;
-	}
-	public void setPrefyxje(Object prefyxje) {
-		this.prefyxje = prefyxje;
-	}
-	public Object getActzbxje() {
-		return actzbxje;
-	}
-	public void setActzbxje(Object actzbxje) {
-		this.actzbxje = actzbxje;
-	}
-	public Object getActfyxje() {
-		return actfyxje;
-	}
-	public void setActfyxje(Object actfyxje) {
-		this.actfyxje = actfyxje;
-	}
-	public Object getFyxrate() {
-		return fyxrate;
-	}
-	public void setFyxrate(Object fyxrate) {
-		this.fyxrate = fyxrate;
-	}
-	public Object getZbxrate() {
-		return zbxrate;
-	}
-	public void setZbxrate(Object zbxrate) {
-		this.zbxrate = zbxrate;
-	}
-	public String getLbName() {
-		return lbName;
-	}
-	public void setLbName(String lbName) {
-		this.lbName = lbName;
-	}
-	public String getId() {
-		return id;
-	}
-	public void setId(String id) {
-		this.id = id;
-	}
-	public String getType_flag() {
-		return type_flag;
-	}
-	public void setType_flag(String type_flag) {
-		this.type_flag = type_flag;
-	}
-	public Object getFyje() {
-		return fyje;
-	}
-	public void setFyje(Object fyje) {
-		this.fyje = fyje;
-	}
-	public Object getZbje() {
-		return zbje;
-	}
-	public void setZbje(Object zbje) {
-		this.zbje = zbje;
-	}
-	public String getDefine2() {
-		return define2;
-	}
-	public void setDefine2(String define2) {
-		this.define2 = define2;
-	}
+	 private Object zbxysje;
+	 private Object zbxsjje;
+	 private Object zbxRate;
 	public String getDefine1() {
 		return define1;
 	}
@@ -288,7 +190,188 @@ public class BudgetMysql {
 	public void setXjje(Object xjje) {
 		this.xjje = xjje;
 	}
+	public Object getZbje() {
+		return zbje;
+	}
+	public void setZbje(Object zbje) {
+		this.zbje = zbje;
+	}
+	public String getDefine2() {
+		return define2;
+	}
+	public void setDefine2(String define2) {
+		this.define2 = define2;
+	}
+	public Object getFyje() {
+		return fyje;
+	}
+	public void setFyje(Object fyje) {
+		this.fyje = fyje;
+	}
+	public String getType_flag() {
+		return type_flag;
+	}
+	public void setType_flag(String type_flag) {
+		this.type_flag = type_flag;
+	}
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	public String getLbName() {
+		return lbName;
+	}
+	public void setLbName(String lbName) {
+		this.lbName = lbName;
+	}
+	public String getUnitName() {
+		return unitName;
+	}
+	public void setUnitName(String unitName) {
+		this.unitName = unitName;
+	}
+	public Object getPrezbxje() {
+		return prezbxje;
+	}
+	public void setPrezbxje(Object prezbxje) {
+		this.prezbxje = prezbxje;
+	}
+	public Object getPrefyxje() {
+		return prefyxje;
+	}
+	public void setPrefyxje(Object prefyxje) {
+		this.prefyxje = prefyxje;
+	}
+	public Object getActzbxje() {
+		return actzbxje;
+	}
+	public void setActzbxje(Object actzbxje) {
+		this.actzbxje = actzbxje;
+	}
+	public Object getActfyxje() {
+		return actfyxje;
+	}
+	public void setActfyxje(Object actfyxje) {
+		this.actfyxje = actfyxje;
+	}
+	public Object getFyxrate() {
+		return fyxrate;
+	}
+	public void setFyxrate(Object fyxrate) {
+		this.fyxrate = fyxrate;
+	}
+	public Object getZbxrate() {
+		return zbxrate;
+	}
+	public void setZbxrate(Object zbxrate) {
+		this.zbxrate = zbxrate;
+	}
+	public Object getPrezje() {
+		return prezje;
+	}
+	public void setPrezje(Object prezje) {
+		this.prezje = prezje;
+	}
+	public Object getZtzwcl() {
+		return ztzwcl;
+	}
+	public void setZtzwcl(Object ztzwcl) {
+		this.ztzwcl = ztzwcl;
+	}
+	public Object getFyxtzwcl() {
+		return fyxtzwcl;
+	}
+	public void setFyxtzwcl(Object fyxtzwcl) {
+		this.fyxtzwcl = fyxtzwcl;
+	}
+	public Object getZbxtzwcl() {
+		return zbxtzwcl;
+	}
+	public void setZbxtzwcl(Object zbxtzwcl) {
+		this.zbxtzwcl = zbxtzwcl;
+	}
+	public Object getWxd() {
+		return wxd;
+	}
+	public void setWxd(Object wxd) {
+		this.wxd = wxd;
+	}
+	public Object getZysje() {
+		return zysje;
+	}
+	public void setZysje(Object zysje) {
+		this.zysje = zysje;
+	}
+	public Object getZsjje() {
+		return zsjje;
+	}
+	public void setZsjje(Object zsjje) {
+		this.zsjje = zsjje;
+	}
+	public Object getWxdje() {
+		return wxdje;
+	}
+	public void setWxdje(Object wxdje) {
+		this.wxdje = wxdje;
+	}
+	public Object getJeRate() {
+		return jeRate;
+	}
+	public void setJeRate(Object jeRate) {
+		this.jeRate = jeRate;
+	}
+	public String getDefine3() {
+		return define3;
+	}
+	public void setDefine3(String define3) {
+		this.define3 = define3;
+	}
+	public Object getzRate() {
+		return zRate;
+	}
+	public void setzRate(Object zRate) {
+		this.zRate = zRate;
+	}
+	public Object getFyxysje() {
+		return fyxysje;
+	}
+	public void setFyxysje(Object fyxysje) {
+		this.fyxysje = fyxysje;
+	}
+	public Object getFyxsjje() {
+		return fyxsjje;
+	}
+	public void setFyxsjje(Object fyxsjje) {
+		this.fyxsjje = fyxsjje;
+	}
+	public Object getFyxRate() {
+		return fyxRate;
+	}
+	public void setFyxRate(Object fyxRate) {
+		this.fyxRate = fyxRate;
+	}
+	public Object getZbxysje() {
+		return zbxysje;
+	}
+	public void setZbxysje(Object zbxysje) {
+		this.zbxysje = zbxysje;
+	}
+	public Object getZbxsjje() {
+		return zbxsjje;
+	}
+	public void setZbxsjje(Object zbxsjje) {
+		this.zbxsjje = zbxsjje;
+	}
+	public Object getZbxRate() {
+		return zbxRate;
+	}
+	public void setZbxRate(Object zbxRate) {
+		this.zbxRate = zbxRate;
+	}
 	 
+	
 	 
 	 
 	 
