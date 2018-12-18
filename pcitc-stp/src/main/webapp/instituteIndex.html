@@ -13,7 +13,7 @@
 <body class="layui-layout-body">
 
 	<div id="LAY_app">
-		<div class="layui-layout layui-layout-admin">
+		<div class="layui-layout layui-layout-admin layui-leader">
 			<div class="layui-header">
 				<!--搜索框-->
 				<div class="stpSearchBox">
@@ -512,13 +512,13 @@
             },function (){
                 $(this).find("img").addClass("layui-hide");
             });
-            $(".layui-side-scroll .layui-nav a").on("click",function(){
+            /*$(".layui-side-scroll .layui-nav a").on("click",function(){
             	if($(this).attr("lay-href")!=undefined){
             		$(".layadmin-tabsbody-item").eq(0).siblings().remove()
             		document.getElementById("mainIframe").src=$(this).attr("lay-href");
                 	console.log($(this).attr("lay-href"))
             	}
-            });
+            });*/
 			// 菜单收藏
 			$("#collectFunction").on("click", function() {
 				var param = JSON.parse(window.localStorage.getItem("param"));

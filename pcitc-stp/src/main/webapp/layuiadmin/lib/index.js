@@ -40,13 +40,22 @@ layui.extend({
     
     text = text || '新标签页';
     var domain = "http://"+location.host;
-    if($("#"+setter.container+">div").hasClass("layui-leader-admin")){
+    if(parent.$("#LAY_app .layui-layout-admin").hasClass("layui-leader")){
        $("#LAY_app_body .layadmin-tabsbody-item").remove();
         $(APP_BODY).append([
             '<div class="layadmin-tabsbody-item layui-show">'
             ,'<iframe src="'+ domain+url +'" id="'+code+'"  data-code="'+id+'" data-functionbuttons="'+functionbuttons+'" frameborder="0" class="layadmin-iframe"></iframe>'
             ,'</div>'
         ].join(''));
+        var param={
+            "id":id,
+            "code":code,
+            "functionbuttons":  functionbuttons,
+            "name":text,
+            "selfRownum":selfRownum
+        }
+        param = JSON.stringify(param)
+        window.localStorage.setItem("param",param);
     }else {
         if(setter.pageTabs){
             //如果未在选项卡中匹配到，则追加选项卡
@@ -68,11 +77,12 @@ layui.extend({
                 var param={
                     "id":parent.$(".layui-body .layui-show .layadmin-iframe").eq(1).attr("data-code"),
                     "code":id,
-                    "functionbuttons":  parent.$(".layui-body .layui-show .layadmin-iframe").eq(1).attr("data-functionbuttons"),
+                    "functionbuttons":  functionbuttons,
                     "name":text,
                     "selfRownum":selfRownum
                 }
                 param = JSON.stringify(param)
+                console.log(parent.$(".layui-body .layui-show .layadmin-iframe"))
                 window.localStorage.setItem("param",param);
             }else {
                 $(APP_BODY+" div").eq(tabsPage.index+1).addClass("layui-show").html([
@@ -87,6 +97,7 @@ layui.extend({
                     "selfRownum":selfRownum
                 }
                 param = JSON.stringify(param)
+                console.log(param)
                 window.localStorage.setItem("param",param);
 
             }

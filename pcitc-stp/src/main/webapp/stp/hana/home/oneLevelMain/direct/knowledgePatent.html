@@ -20,8 +20,8 @@
     <div class="">
         <div class="searchBox">
             <label class="dateInput">
-                <span>月份</span>
-                <input type="text" name="year" placeholder="请选择月份" title="月份" value="${year}"  autocomplete="off" class="form-control" id="year">
+                <span>年份</span>
+                <input type="text" name="year" placeholder="请选择年份" title="年份" value="${year}"  autocomplete="off" class="form-control" id="year">
             </label>
             <!--按钮组-->
             <div class="btnGroup">
@@ -35,7 +35,7 @@
         </div>
 
         <div class="layui-row layui-col-space15">
-            <div class="layui-col-md6 layui-main-oil4">
+            <div class="layui-col-md4">
                 <div class="layui-card">
                     <div class="layui-card-header">
                         <span class="layui-time"></span>年专利申请/授权数量
@@ -51,67 +51,63 @@
                     </div>
                 </div>
             </div>
-            <div class="layui-col-md6 layui-main-oil6 layui-col-space15">
-                <div class="layui-col-md5">
-                    <div class="layui-card">
-                        <div class="layui-card-header">
-                            <span class="layui-time"></span>年直属研究院发明专利申请占比
-                        </div>
-                        <div class="layui-row-main">
-                            <div class="main-chart" id="knowldege_chart2" style="height:300px;width: 100%;"></div>
-                        </div>
+            <div class="layui-col-md4">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        <span class="layui-time"></span>年直属研究院发明专利申请占比
+                    </div>
+                    <div class="layui-row-main">
+                        <div class="main-chart" id="knowldege_chart2" style="height:300px;width: 100%;"></div>
                     </div>
                 </div>
-                <div class="layui-col-md5">
-                    <div class="layui-card">
-                        <div class="layui-card-header">
-                            <span class="layui-time"></span>年直属研究院发明专利授权占比
-                        </div>
-                        <div class="layui-row-main">
-                            <div class="main-chart" id="knowldege_chart3" style="height:300px;width: 100%;"></div>
-                        </div>
+            </div>
+            <div class="layui-col-md4">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        <span class="layui-time"></span>年直属研究院实用新型申请占比
+                    </div>
+                    <div class="layui-row-main">
+                        <div class="main-chart" id="knowldege_chart3" style="height:300px;width: 100%;"></div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="layui-row layui-col-space15">
-            <div class="layui-col-md6 layui-main-oil4">
+            <div class="layui-col-md4">
                 <div class="layui-card">
                     <div class="layui-card-header">
                         <span class="layui-time"></span>年直属研究院专利授权数量
                     </div>
                     <div class="layui-row-main">
                     
-                    <div class="text-total">
+                    <div class="text-total" style="font-size: 12px;">
                             <span>总计:<span class="text-total-blue"    id="knowldege_chart4_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                             <span>发明授权:<span class="text-total-blue" id="knowldege_chart4_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                             <span>外观设计:<span class="text-total-blue" id="knowldege_chart4_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                             <span>实用新型:<span class="text-total-blue" id="knowldege_chart4_04"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                         </div>
                         
-                        <div class="main-chart" id="knowldege_chart4" style="height:280px;width: 100%;"></div>
+                        <div class="main-chart" id="knowldege_chart4" style="height:285px;width: 100%;"></div>
                     </div>
                 </div>
             </div>
-            <div class="layui-col-md6 layui-main-oil6 layui-col-space15">
-                <div class="layui-col-md5">
-                    <div class="layui-card">
-                        <div class="layui-card-header">
-                            <span class="layui-time"></span>年直属研究院专利授权数量占比
-                        </div>
-                        <div class="layui-row-main">
-                            <div class="main-chart" id="knowldege_chart5" style="height:300px;width: 100%;"></div>
-                        </div>
+            <div class="layui-col-md4">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        <span class="layui-time"></span>年直属研究院发明专利授权占比
+                    </div>
+                    <div class="layui-row-main">
+                        <div class="main-chart" id="knowldege_chart5" style="height:300px;width: 100%;"></div>
                     </div>
                 </div>
-                <div class="layui-col-md5">
-                    <div class="layui-card">
-                        <div class="layui-card-header">
-                            <span class="layui-time"></span>年直属研究院实用新型授权占比
-                        </div>
-                        <div class="layui-row-main">
-                            <div class="main-chart" id="knowldege_chart6" style="height:300px;width: 100%;"></div>
-                        </div>
+            </div>
+            <div class="layui-col-md4">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        <span class="layui-time"></span>年直属研究院实用新型授权占比
+                    </div>
+                    <div class="layui-row-main">
+                        <div class="main-chart" id="knowldege_chart6" style="height:300px;width: 100%;"></div>
                     </div>
                 </div>
             </div>
@@ -123,7 +119,6 @@
 
 <script src="/common/js/jquery-1.11.3.min.js"></script>
 <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
-<script src="/common/js/layer-v3.1.1/layer.js"></script>
 <script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
 <script type="text/javascript" src="/plugins/echarts/walden.js"></script>	
 <script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
@@ -177,7 +172,7 @@ function initEchart()
 	
     $(".layui-time").html($("#year").val());
 	var chart1_url="/direct/getKnowledgeBar_01?type=1&nd="+nd+"&v_date="+v_date;
-	var echart1=load_mutl_bar_down(chart1_url,"knowldege_chart1","","",yAxis,50);
+	var echart1=load_mutl_bar_down(chart1_url,"knowldege_chart1","","",yAxis,35);
 	echart1.on('click', function (params) {
 		var xName=params.name;
 		var legentName=params.seriesName;
@@ -209,7 +204,7 @@ function initEchart()
 	
 	var chart4_url="/direct/getKnowledgeBar_02?nd="+nd+"&v_date="+v_date;
 	var color=["#37a1da","#ff9f7f","#fedb5b"];
-	var echart4=load_mutl_bar_down(chart4_url,"knowldege_chart4","","",yAxis,50,color);
+	var echart4=load_mutl_bar_down(chart4_url,"knowldege_chart4","","",yAxis,30,color);
 	echart4.on('click', function (params) {
 		var xName=params.name;
 		var legentName=params.seriesName;

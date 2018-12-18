@@ -24,6 +24,7 @@
 .layui-main-box .bg-5{background: url("/layuiadmin/layui/images/icon-knowledge.png") no-repeat;}
 .layui-main-box .bg-6{background: url("/layuiadmin/layui/images/icon-achievement.png") no-repeat;}
 .layui-main-box .bg-7{background: url("/layuiadmin/layui/images/icon-cooperation.png") no-repeat;}
+.layui-fluid .layui-main-box .bg-7{background: url("/layuiadmin/layui/images/icon-hz.png") no-repeat;    background-size: cover}
 .layui-main-box .bg-8{background: url("/layuiadmin/layui/images/icon-revise.png") no-repeat;}
 .layui-main-box .layui-box-content{margin-left: 70px;}
 .layui-main-box .layui-box-content span{display: block;height: 32px;line-height: 32px;}

@@ -38,7 +38,7 @@
             <div class="layui-col-md6">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        <span class="layui-time"></span>年直属研究院合同鉴定率
+                        <span class="layui-time"></span>年直属研究院合同签定率
                     </div>
                     <div class="layui-row-main">
                        <div class="text-total">
@@ -68,7 +68,7 @@
             <div class="layui-col-md6">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        <span class="layui-time"></span>直属研究院合同鉴定率
+                        <span class="layui-time"></span>年科研课题合同签订率
                     </div>
                     <div class="layui-row-main">
                     
@@ -85,7 +85,7 @@
             <div class="layui-col-md6">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        ${year}直属研究院科研课题数量占比
+                        ${year}年直属研究院科研课题数量占比
                         <div class="layui-tool">
                             <button type="button" class="btn btn-tool collapse"></button>
                             <button type="button" class="btn btn-tool remove"></button>
@@ -103,7 +103,6 @@
 
 <script src="/common/js/jquery-1.11.3.min.js"></script>
 <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
-<script src="/common/js/layer-v3.1.1/layer.js"></script>
 <script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
 <script type="text/javascript" src="/plugins/echarts/walden.js"></script>	
 <script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
@@ -159,7 +158,8 @@ function initEchart()
 	
     $(".layui-time").html($("#year").val());
 	var chart1_url="/direct/contract_01?type=1&nd="+nd+"&v_date="+v_date;
-	var echart1=load_single_bar_down(chart1_url,"contract_chart1","","",yAxis);
+	var color=["#43c5ff","#ffa70f"];
+	var echart1=load_single_bar_down(chart1_url,"contract_chart1","","",yAxis,color);
 	echart1.on('click', function (params) {
 		var xName=params.name;
 		var legentName=params.seriesName;
@@ -180,7 +180,7 @@ function initEchart()
 	 
 	var chart4_url="/direct/contract_03?type=1&nd="+nd+"&v_date="+v_date;
     var colorTr=["#17a2b9","#43c5ff","#f9c16d"];
-	var echart4=load_mutl_bar_down_r(chart4_url,"contract_chart4","","",yAxis,1,12,colorTr);
+	var echart4=load_mutl_bar_down_r(chart4_url,"contract_chart4","","",yAxis,1,25,colorTr);
 	echart4.on('click', function (params) {
 		var xName=params.name;
 		var legentName=params.seriesName;

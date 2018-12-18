@@ -468,7 +468,7 @@ layui.define(['jquery','form','table','laydate'],
                                 "      </div></li>";
                         }else {
                             var html="<li class='"+data.class+"' data-power='"+data.power+"'>" +
-                                "       <div class='layui-text-icon "+classDiv+"' style='background:"+data.color+" url("+data.img+") center center no-repeat;'>" +
+                                "       <div class='layui-text-icon "+classDiv+"' style='background:"+data.color+" url("+data.img+") center center no-repeat;' id='"+data.id+"'>" +
                                 "           <p>"+data.name+"</p>" +
                                 "           <img src='/layuiadmin/layui/images/level-close.png' class='dele'>"
                                 "      </div></li>";
@@ -513,7 +513,7 @@ layui.define(['jquery','form','table','laydate'],
                 if(data.power==""|| data.power==null || parseInt(data.power)>13){
                     if(spareId==null || spareId==""){
                         var html="<li class='"+data.class+"' data-power='"+data.power+"'>" +
-                            "       <div class='layui-text-icon "+classDiv+"' style='background:"+data.color+" url("+data.img+") center center no-repeat;'>" +
+                            "       <div class='layui-text-icon "+classDiv+"' style='background:"+data.color+" url("+data.img+") center center no-repeat;' id='"+data.id+"'>" +
                             "           <p>"+data.name+"</p>" +
                             "           <img src='/layuiadmin/layui/images/level-close.png' class='dele'>"
                             "      </div></li>";
@@ -530,7 +530,7 @@ layui.define(['jquery','form','table','laydate'],
                 }else {
                     if(spareId==null || spareId==""){
                         var html="<li class='"+data.class+"' data-power='"+data.power+"'>" +
-                            "       <div class='layui-text-icon "+classDiv+"' style='background:"+data.color+" url("+data.img+") center center no-repeat;'>" +
+                            "       <div class='layui-text-icon "+classDiv+"' style='background:"+data.color+" url("+data.img+") center center no-repeat;' id='"+data.id+"'>" +
                             "           <p>"+data.name+"</p>" +
                             "           <img src='/layuiadmin/layui/images/level-close.png' class='dele'>"
                         "      </div></li>";

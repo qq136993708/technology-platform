@@ -407,12 +407,15 @@ function load_mony_line(url,id,title,subtext,yAxis)
 
 
 
-function load_mony_line_down(url,id,title,subtext,yAxis)
+function load_mony_line_down(url,id,title,subtext,yAxis,color)
 {
 	var echartsobj = echarts.init(document.getElementById(id));
 	mony_line_option_02.title.text=title;
 	mony_line_option_02.title.subtext=subtext;
 	mony_line_option_02.yAxis=yAxis;
+	if(color!=undefined || color!=""){
+        mony_line_option_02.color=color;
+	}
 	echartsobj.setOption(mony_line_option_02);
 	echartsobj.showLoading();
 	get_mony_line_option_ajax(url,echartsobj, mony_line_option_02);
