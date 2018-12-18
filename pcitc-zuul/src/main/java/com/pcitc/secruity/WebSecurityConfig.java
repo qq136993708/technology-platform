@@ -71,13 +71,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers(HttpMethod.GET, "/", "/auth", "/*.html", "/favicon.ico", "/**/*.html", "/**/*.css", "/**/*.js", "/**/*.woff").permitAll()
 				// 对于获取token的rest api要允许匿名访问
 				.antMatchers("/system-proxy/**").permitAll()
+				.antMatchers("/stp-proxy/**").permitAll()
+				.antMatchers("/hana-proxy/**").permitAll()
 				.antMatchers("/auth/**").permitAll()
-				//对于获取设备授权状态的查询开放访问权限（20181016）
-				.antMatchers("/mobile-proxy/**").permitAll()
-				//对于作业许可证接口开放访问权限（20181019）
-				.antMatchers("/epms-proxy/**").permitAll()
 				//对于移动端的访问，暂时放开权限（20181031）
-				.antMatchers("/mobile/**").permitAll()
 				// 对于增加日志的访问，允许匿名访问
 				//.antMatchers("/system-proxy/log-provider/log/**").permitAll()
 				// 未登录时获取用户信息设置登录失败次数和记录验证码
