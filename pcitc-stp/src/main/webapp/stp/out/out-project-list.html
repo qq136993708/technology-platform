@@ -61,9 +61,6 @@
 			table = layui.table, $ = layui.jquery, laydate = layui.laydate, laypage = layui.laypage, form = layui.form;
 
 			function renderTable() {
-				var nd = $('#nd').val();
-				var hth = $('#hth').val();
-				var xmmc = $('#xmmc').val();
 				var param = JSON.parse(window.localStorage.getItem("param"));
 				var lodingMsg = layer.msg('数据加载中....');
 
@@ -74,9 +71,10 @@
 					method : "POST",
 					where : {
 						param : {
-							"nd" : nd,
-							"hth" : hth,
-							"xmmc" : xmmc,
+							"nd" : $('#nd').val(),
+							"hth" : $('#hth').val(),
+							"xmmc" : $('#xmmc').val(),
+							"userKind":$("#userKind").val(),
 							"functionCode" : param.code
 						}
 					},
