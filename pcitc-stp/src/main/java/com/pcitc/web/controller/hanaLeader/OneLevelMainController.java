@@ -1716,8 +1716,6 @@ public class OneLevelMainController {
 										return resultObj.toString();
 									}
 									
-			
-			
 									/**=============================================新闻=========================*/
 									//新闻
 									@RequestMapping(method = RequestMethod.GET, value = "/get_news")
@@ -1730,16 +1728,13 @@ public class OneLevelMainController {
 										JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 										HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 										
-											ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(investment_01_01, HttpMethod.POST, entity, JSONArray.class);
+											ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(get_news, HttpMethod.POST, entity, JSONArray.class);
 											int statusCode = responseEntity.getStatusCodeValue();
 											if (statusCode == 200) 
 											{
 												JSONArray jSONArray = responseEntity.getBody();
 												System.out.println(">>>>>>>>>>>>get_news jSONArray>>> " + jSONArray.toString());
 												List<SysNews> list = JSONObject.parseArray(jSONArray.toJSONString(), SysNews.class);
-												
-												
-												
 												result.setSuccess(true);
 												result.setData(list);
 											}
