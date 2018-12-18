@@ -37,6 +37,7 @@ import com.pcitc.base.common.PageResult;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.TreeNode2;
 import com.pcitc.base.hana.report.AchievementsAnalysis;
+import com.pcitc.base.hana.report.BudgetMysql;
 import com.pcitc.base.hana.report.Contract;
 import com.pcitc.base.hana.report.H1AMKYSY100117;
 import com.pcitc.base.hana.report.Knowledge;
@@ -91,6 +92,13 @@ public class OneLevelMainController {
 		private static final String getZdstlTable = "http://pcitc-zuul/system-proxy/out-project-provider/ld/project-info/zdstl";
 		private static final String dragon_03 = "http://pcitc-zuul/system-proxy/out-project-provider/dragon/institute/project-info";
 
+		
+		//科研投入
+		private static final String investment_01 = "http://pcitc-zuul/system-proxy/out-project-plna-provider/complete-rate/company-type";
+		private static final String investment_01_01 = "http://pcitc-zuul/system-proxy/out-project-plna-provider/complete-rate/company-type";
+		private static final String investment_02 = "http://pcitc-zuul/system-proxy/out-project-plna-provider/complete-rate/institute";
+		
+		
 		
 		
 		@Autowired
@@ -1405,7 +1413,257 @@ public class OneLevelMainController {
 						
 						
 			 /**======================十条龙 end==================================*/
+						
 				
+			/**======================科研投入============================*/
+						
+							
+						
+						
+
+						  @RequestMapping(method = RequestMethod.GET, value = "/investment")
+						  public String kyzb_level2(HttpServletRequest request) throws Exception
+						  {
+							    
+							    SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
+							    HanaUtil.setSearchParaForUser(userInfo,restTemplate,httpHeaders,request);
+							    String unitCode=userInfo.getUnitCode();
+							    request.setAttribute("unitCode", unitCode);
+							    request.setAttribute("YJY_CODE_NOT_YINGKE", HanaUtil.YJY_CODE_NOT_YINGKE);
+							    request.setAttribute("YJY_CODE_ALL", HanaUtil.YJY_CODE_ALL);
+							    
+							    String year= HanaUtil.getCurrrentYear();
+							    request.setAttribute("year", year);
+						        return "stp/hana/home/oneLevelMain/investment";
+						        
+						  }
+						
+						
+						@RequestMapping(method = RequestMethod.GET, value = "/investment_01")
+						@ResponseBody
+						public String investment_01(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+							Result result = new Result();
+							ChartBarLineResultData barLine=new ChartBarLineResultData();
+							String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+							String companyCode = CommonUtil.getParameter(request, "companyCode", "");
+							Map<String, Object> paramsMap = new HashMap<String, Object>();
+							paramsMap.put("month", month);
+							paramsMap.put("companyCode", companyCode);
+							JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+							HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+							if (!companyCode.equals(""))
+							{
+								ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(investment_01, HttpMethod.POST, entity, JSONArray.class);
+								int statusCode = responseEntity.getStatusCodeValue();
+								if (statusCode == 200) 
+								{
+									JSONArray jSONArray = responseEntity.getBody();
+									System.out.println(">>>>>>>>>>>>>>investment_01 jSONArray-> " + jSONArray.toString());
+									List<BudgetMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), BudgetMysql.class);
+									
+									
+									List<String>  xAxisDataList=HanaUtil.getduplicatexAxisByList(list,"define3");
+					         		barLine.setxAxisDataList(xAxisDataList);
+									List<String> legendDataList = new ArrayList<String>();
+									legendDataList.add("费用性实际下达");
+									legendDataList.add("资本性实际下达");
+									barLine.setxAxisDataList(xAxisDataList);
+									barLine.setLegendDataList(legendDataList);
+									
+									// X轴数据
+									List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
+									ChartBarLineSeries s1 = HanaUtil.getinvestmentChartBarLineSeries(list, "fyxsjje");
+									ChartBarLineSeries s2 = HanaUtil.getinvestmentChartBarLineSeries(list, "zbxsjje");
+									seriesList.add(s1);
+									seriesList.add(s2);
+									barLine.setSeriesList(seriesList);
+					         		result.setSuccess(true);
+									result.setData(barLine);
+								}
+								
+							} else
+							{
+								result.setSuccess(false);
+								result.setMessage("参数为空");
+							}
+							JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
+							System.out.println(">>>>>>>>>>>>>>investment_01 " + resultObj.toString());
+							return resultObj.toString();
+						}
+						
+						
+						@RequestMapping(method = RequestMethod.GET, value = "/investment_0101")
+						@ResponseBody
+						public String investment_0101(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+							Result result = new Result();
+							String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+							String companyCode = CommonUtil.getParameter(request, "companyCode", "");
+							Map<String, Object> paramsMap = new HashMap<String, Object>();
+							paramsMap.put("month", month);
+							paramsMap.put("companyCode", companyCode);
+							JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+							HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+							if (!companyCode.equals(""))
+							{
+								ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(investment_01, HttpMethod.POST, entity, JSONArray.class);
+								int statusCode = responseEntity.getStatusCodeValue();
+								if (statusCode == 200) 
+								{
+									JSONArray jSONArray = responseEntity.getBody();
+									System.out.println(">>>>>>>>>>>>>>investment_0101 jSONArray-> " + jSONArray.toString());
+									List<BudgetMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), BudgetMysql.class);
+					         		result.setSuccess(true);
+									result.setData(list);
+								}
+								
+							} else
+							{
+								result.setSuccess(false);
+								result.setMessage("参数为空");
+							}
+							JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
+							System.out.println(">>>>>>>>>>>>>>investment_0101 " + resultObj.toString());
+							return resultObj.toString();
+						}
+						
+						
+
+						//重在集团
+						@RequestMapping(method = RequestMethod.GET, value = "/investment_01_01")
+						@ResponseBody
+						public String investment_01_01(HttpServletRequest request, HttpServletResponse response) throws Exception {
+							PageResult pageResult = new PageResult();
+							String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+							String companyCode = CommonUtil.getParameter(request, "companyCode", "");
+							String type = CommonUtil.getParameter(request, "type", "重点专项");
+							Map<String, Object> paramsMap = new HashMap<String, Object>();
+							paramsMap.put("month", month);
+							paramsMap.put("type", type);
+							paramsMap.put("companyCode", companyCode);
+							JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+							HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+							
+								ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(investment_01_01, HttpMethod.POST, entity, JSONArray.class);
+								int statusCode = responseEntity.getStatusCodeValue();
+								if (statusCode == 200) 
+								{
+									JSONArray jSONArray = responseEntity.getBody();
+									System.out.println(">>>>>>>>>>>>investment_01_01 jSONArray>>> " + jSONArray.toString());
+									List<BudgetMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), BudgetMysql.class);
+									
+									
+									
+									pageResult.setData(list);
+									pageResult.setCode(0);
+									pageResult.setCount(Long.valueOf(list.size()));
+									pageResult.setLimit(1000);
+									pageResult.setPage(1l);
+								}
+								
+							
+							JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
+							System.out.println(">>>>>>>>>>>>>>>investment_01_01 " + resultObj.toString());
+							return resultObj.toString();
+						}
+						
+						
+						
+						@RequestMapping(method = RequestMethod.GET, value = "/investment_02")
+						@ResponseBody
+						public String investment_02(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+							Result result = new Result();
+							ChartBarLineResultData barLine=new ChartBarLineResultData();
+							String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+							String companyCode = CommonUtil.getParameter(request, "companyCode", "");
+							Map<String, Object> paramsMap = new HashMap<String, Object>();
+							paramsMap.put("month", month);
+							paramsMap.put("companyCode", companyCode);
+							JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+							HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+							if (!companyCode.equals(""))
+							{
+								ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(investment_02, HttpMethod.POST, entity, JSONArray.class);
+								int statusCode = responseEntity.getStatusCodeValue();
+								if (statusCode == 200) 
+								{
+									
+									JSONArray jSONArray = responseEntity.getBody();
+									System.out.println(">>>>>>>>>>>>>>investment_02 jSONArray-> " + jSONArray.toString());
+									List<BudgetMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), BudgetMysql.class);
+									List<String>  xAxisDataList=HanaUtil.getduplicatexAxisByList(list,"define2");
+					         		barLine.setxAxisDataList(xAxisDataList);
+									List<String> legendDataList = new ArrayList<String>();
+									legendDataList.add("实际下达");
+									legendDataList.add("未下达");
+									legendDataList.add("投资完成率");
+									barLine.setxAxisDataList(xAxisDataList);
+									barLine.setLegendDataList(legendDataList);
+									// X轴数据
+									List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
+									ChartBarLineSeries s1 = HanaUtil.getinvestmentBarLineSeries2(list, "zsjje");
+									ChartBarLineSeries s2 = HanaUtil.getinvestmentBarLineSeries2(list, "wxdje");
+									ChartBarLineSeries ztzwcl = HanaUtil.getinvestmentBarLineSeries2(list, "jeRate");
+									seriesList.add(s1);
+									seriesList.add(s2);
+									seriesList.add(ztzwcl);
+									barLine.setSeriesList(seriesList);
+					         		result.setSuccess(true);
+									result.setData(barLine);
+									
+								}
+								
+							} else
+							{
+								result.setSuccess(false);
+								result.setMessage("参数为空");
+							}
+							JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
+							System.out.println(">>>>>>>>>>>>>>investment_02 " + resultObj.toString());
+							return resultObj.toString();
+						}
+						
+						
+						
+						@RequestMapping(method = RequestMethod.GET, value = "/investment_02_count")
+						@ResponseBody
+						public String investment_02_count(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+							Result result = new Result();
+							String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+							String companyCode = CommonUtil.getParameter(request, "companyCode", "");
+							Map<String, Object> paramsMap = new HashMap<String, Object>();
+							paramsMap.put("month", month);
+							paramsMap.put("companyCode", companyCode);
+							JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+							HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+							if (!companyCode.equals(""))
+							{
+								ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(investment_02, HttpMethod.POST, entity, JSONArray.class);
+								int statusCode = responseEntity.getStatusCodeValue();
+								if (statusCode == 200) 
+								{
+									
+									JSONArray jSONArray = responseEntity.getBody();
+									System.out.println(">>>>>>>>>>>>>>investment_02_count jSONArray-> " + jSONArray.toString());
+									List<BudgetMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), BudgetMysql.class);
+					         		result.setSuccess(true);
+									result.setData(list);
+									
+								}
+								
+							} else
+							{
+								result.setSuccess(false);
+								result.setMessage("参数为空");
+							}
+							JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
+							System.out.println(">>>>>>>>>>>>>>investment_02_count " + resultObj.toString());
+							return resultObj.toString();
+						}
+						
 			
 			
 }

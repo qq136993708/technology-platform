@@ -109,34 +109,24 @@ function barLineAjax_investment(url,  echartsobj, options)
 	          if(data.success==true ||data.success=='true')
 	          {
 	        		       echartsobj.hideLoading();
-	        		       
-	        		       var budgetMysql=data.data.budgetMysql;
-	        		       if(budgetMysql!=null)
-        	        	   {
-        	        		   $("#prezje_count").html(budgetMysql.prezje+"亿元");
-        	        		   $("#zje_count").html(budgetMysql.zje+"亿元");
-        	        		   $("#wxd_count").html(budgetMysql.wxd+"亿元");
-        	        		   $("#ztzwcl_count").html(budgetMysql.ztzwcl+"%");
-        	        	   }
-	        		       
-	        	           var legendDataList=data.data.barLine.legendDataList;
+	        	           var legendDataList=data.data.legendDataList;
 	        	           for(var i=0;i<legendDataList.length;i++)
 	        	           {
 	        	               legends.push(legendDataList[i]);
 	        	           }
-	        	           var xAxisDataList=data.data.barLine.xAxisDataList;
+	        	           var xAxisDataList=data.data.xAxisDataList;
 	        	           for(var i=0;i<xAxisDataList.length;i++)
 	        	           {
 	        	        		   xAxisData.push(xAxisDataList[i]);
 	        	           }
-	        	           var seriesList=data.data.barLine.seriesList;
+	        	           var seriesList=data.data.seriesList;
 	        	           for(var i=0;i<seriesList.length;i++)
 	        	           {
 	        	        		      seriesData.push({
 		        	           		   type: seriesList[i].type,
 		        	                   name: seriesList[i].name,
 		        	                   data: seriesList[i].data,
-		        	                  // stack:seriesList[i].stack,
+		        	                  stack:seriesList[i].stack,
 		        	                   barWidth:20,
                                        label: {
                                            show: true, //开启显示
@@ -303,31 +293,22 @@ function get_mony_line_option_ajax_dt_investment(url,echartsobj, options)
 	          {
 	        		       echartsobj.hideLoading();
 	        		       
-	        		       var budgetMysql=data.data.budgetMysql;
-	        		       if(budgetMysql!=null)
-        	        	   {
-        	        		   $("#bar1_all_count").html(budgetMysql.prezje+"亿元");
-        	        		   $("#bar1_xk_count").html(budgetMysql.fyxje+"亿元");
-        	        		   $("#bar1_jz_count").html(budgetMysql.zbxje+"亿元");
-        	        		   $("#bar1_tz_count").html(budgetMysql.ztzwcl+"%");
-        	        		   
-        	        		   
-        	        	   }
+	        		      
 	        		       
 	        		       
-	        	           var legendDataList=data.data.barLine.legendDataList;
+	        	           var legendDataList=data.data.legendDataList;
 	        	           //挨个取出类别并填入类别数组
 	        	           for(var i=0;i<legendDataList.length;i++)
 	        	           {
 	        	               legends.push(legendDataList[i]);
 	        	           }
-	        	           var xAxisDataList=data.data.barLine.xAxisDataList;
+	        	           var xAxisDataList=data.data.xAxisDataList;
 	        	           for(var i=0;i<xAxisDataList.length;i++)
 	        	           {
 
 	        	           	xAxisData.push(xAxisDataList[i]);
 	        	           }
-	        	           var seriesList=data.data.barLine.seriesList;
+	        	           var seriesList=data.data.seriesList;
 	        	           for(var i=0;i<seriesList.length;i++)
 	        	           {
 	        	           	seriesData.push({

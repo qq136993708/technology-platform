@@ -3556,6 +3556,84 @@ public class HanaUtil {
 		return chartBarLineSeries;
 	}
 	
+	
+	
+	public static ChartBarLineSeries getinvestmentBarLineSeries2(List<BudgetMysql> list, String name) {
+
+		
+   	 
+    	
+		
+		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
+		if (name.equals("zsjje")) {
+			chartBarLineSeries.setName("实际下达");
+			chartBarLineSeries.setStack("数量");
+			chartBarLineSeries.setyAxisIndex(0);
+			chartBarLineSeries.setItemStyle("{normal:{color:'#FF8849'}}");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		if (name.equals("wxdje")) {
+			chartBarLineSeries.setName("未下达");
+			chartBarLineSeries.setStack("数量");
+			chartBarLineSeries.setyAxisIndex(0);
+			chartBarLineSeries.setItemStyle("{normal:{color:'#FF8849'}}");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		if (name.equals("jeRate")) {
+			chartBarLineSeries.setName("投资完成率");
+			chartBarLineSeries.setyAxisIndex(1);
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_LINE);
+		}
+
+		List<Object> dataList = new ArrayList<Object>();
+		if (list != null && list.size() > 0) 
+		{
+			for (int i = 0; i < list.size(); i++) 
+			{
+				BudgetMysql f03 = list.get(i);
+				String zsjje =((BigDecimal)f03.getZsjje()).toString();
+				String wxdje =((BigDecimal)f03.getWxdje()).toString();
+				String jeRate =((BigDecimal)f03.getJeRate()).toString(); 
+				
+					if (name.equals("zsjje"))
+					{
+						
+						if(zsjje!=null)
+						{
+							dataList.add(String.format("%.2f", Double.valueOf(zsjje)/10000));
+							
+						}else
+						{
+							dataList.add(0);
+						}
+						
+					}
+					if (name.equals("wxdje")) 
+					{
+						
+						if(wxdje!=null)
+						{
+							dataList.add(String.format("%.2f", Double.valueOf(wxdje)/10000));
+						}else
+						{
+							dataList.add(0);
+						}
+					}
+					
+					
+                   
+               	
+                   if (name.equals("jeRate")) 
+                   {
+                	   dataList.add(jeRate);
+				   }
+				}
+
+			chartBarLineSeries.setData(dataList);
+		}
+		return chartBarLineSeries;
+	}
+	
      public static ChartBarLineSeries getinvestmentBarLineSeries(List<BudgetMysql> list, String name) {
 
 		
@@ -3656,7 +3734,7 @@ public class HanaUtil {
 
 		
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
-		if (name.equals("fyxje")) {
+		if (name.equals("fyxsjje")) {
 			chartBarLineSeries.setName("费用性实际下达");
 			chartBarLineSeries.setStack("总量");
 			chartBarLineSeries.setAreaStyle(new Object());
@@ -3665,7 +3743,7 @@ public class HanaUtil {
 			chartBarLineSeries.setSmooth(true);
 			
 		}
-		if (name.equals("zbxje")) {
+		if (name.equals("zbxsjje")) {
 			chartBarLineSeries.setName("资本性实际下达");
 			chartBarLineSeries.setStack("总量");
 			chartBarLineSeries.setAreaStyle(new Object());
@@ -3679,14 +3757,15 @@ public class HanaUtil {
 		if (list != null && list.size() > 0) {
 			for (int i = 0; i < list.size(); i++) {
 				BudgetMysql f03 = list.get(i);
-				String fyxje =((BigDecimal)f03.getFyxje()).toString();
-				String zbxje =((BigDecimal)f03.getZbxje()).toString();
+			
+				String fyxsjje =String.valueOf(f03.getFyxsjje());
+				String zbxsjje =String.valueOf(f03.getZbxsjje());
 				
-					if (name.equals("fyxje")) {
+					if (name.equals("fyxsjje")) {
 						
-						if(fyxje!=null)
+						if(fyxsjje!=null)
 						{
-							dataList.add(String.format("%.2f", Double.valueOf(fyxje)));
+							dataList.add(String.format("%.2f", Double.valueOf(fyxsjje)/10000));
 							
 						}else
 						{
@@ -3695,11 +3774,11 @@ public class HanaUtil {
 						
 						
 					}
-					if (name.equals("zbxje")) {
+					if (name.equals("zbxsjje")) {
 						
-						if(zbxje!=null)
+						if(zbxsjje!=null)
 						{
-							dataList.add(String.format("%.2f", Double.valueOf(zbxje)));
+							dataList.add(String.format("%.2f", Double.valueOf(zbxsjje)/10000));
 						}else
 						{
 							dataList.add(0);

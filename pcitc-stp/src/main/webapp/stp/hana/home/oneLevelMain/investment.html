@@ -55,7 +55,7 @@
             <div class="layui-col-md6">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        ${year}科研投资完成率
+                       <span class="layui-time"></span>科研投资完成率
                         <div class="layui-tool">
                             <button type="button" class="btn btn-tool collapse"></button>
                             <button type="button" class="btn btn-tool remove"></button>
@@ -64,9 +64,10 @@
                     <div class="layui-card-body btn-function">
 
                         <div class="text-total">
-                            <span>总计:<span class="text-total-blue"    id="bar1_all_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>新开课题:<span class="text-total-blue" id="bar1_xk_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>结转课题:<span class="text-total-blue" id="bar1_jz_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>年度预算总计:<span class="text-total-blue"    id="chart1_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>费用性实际下达:<span class="text-total-blue"   id="chart1_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>资本性实际下达:<span class="text-total-blue"   id="chart1_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>投资完成率:<span class="text-total-blue"      id="chart1_04"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                         </div>
                         <div  style="height:270px;width: 100%;" id="chart1"></div>
                     </div>
@@ -76,7 +77,7 @@
             <div class="layui-col-md6">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        ${year}科研投资完成率
+                       <span class="layui-time"></span>科研投资完成率
                         <div class="layui-tool">
                             <button type="button" class="btn btn-tool collapse"></button>
                             <button type="button" class="btn btn-tool remove"></button>
@@ -85,26 +86,26 @@
                     <div class="layui-card-body btn-function" >
 
 
-                        <table id="myTable" class="layui-table" lay-data="{url:'/investment/get_investment_unit_type_table',height:'295'}">
+                        <table id="myTable" class="layui-table" lay-data="{url:'/one_level_main/investment_01_01',height:'295'}">
                             <thead>
                             <tr>
-                                <th lay-data="{field:'type_flag', width:'18%'}" rowspan="2">企业类型</th>
+                                <th lay-data="{field:'define3', width:'18%'}" rowspan="2">企业类型</th>
                                 <th lay-data="{align:'center'}" colspan="3">总计</th>
                                 <th lay-data="{align:'center'}" colspan="3">费用性</th>
                                 <th lay-data="{align:'center'}" colspan="3">资本性</th>
                             </tr>
                             <tr>
-                                <th lay-data="{field:'prezje', width:'15%'}">年度预算（万元）</th>
-                                <th lay-data="{field:'zje', width:'15%'}">实际下达（万元）</th>
-                                <th lay-data="{field:'ztzwcl', width:'15%'}">投资完成率</th>
+                                <th lay-data="{field:'zysje', width:'15%'}">年度预算（万元）</th>
+                                <th lay-data="{field:'zsjje', width:'15%'}">实际下达（万元）</th>
+                                <th lay-data="{field:'zRate', width:'15%'}">投资完成率</th>
 
-                                <th lay-data="{field:'prefyxje', width:'15%'}">年度预算（万元）</th>
-                                <th lay-data="{field:'fyxje', width:'15%'}">实际下达（万元）</th>
-                                <th lay-data="{field:'fyxtzwcl', width:'15%'}">投资完成率</th>
+                                <th lay-data="{field:'fyxysje', width:'15%'}">年度预算（万元）</th>
+                                <th lay-data="{field:'fyxsjje', width:'15%'}">实际下达（万元）</th>
+                                <th lay-data="{field:'fyxRate', width:'15%'}">投资完成率</th>
 
-                                <th lay-data="{field:'prezbxje', width:'15%'}">年度预算（万元）</th>
-                                <th lay-data="{field:'zbxje', width:'15%'}">实际下达（万元）</th>
-                                <th lay-data="{field:'zbxtzwcl', width:'15%'}">投资完成率</th>
+                                <th lay-data="{field:'zbxysje', width:'15%'}">年度预算（万元）</th>
+                                <th lay-data="{field:'zbxsjje', width:'15%'}">实际下达（万元）</th>
+                                <th lay-data="{field:'zbxRate', width:'15%'}">投资完成率</th>
 
                             </tr>
 
@@ -119,15 +120,15 @@
             <div class="layui-col-md12">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        <span class="layui-time"></span>直属研究院科研项目数量分布情况分析
+                        <span class="layui-time"></span>直属研究院科研投资完成率
                     </div>
                     <div class="layui-card-body btn-function">
 
                           <div class="text-total">
-                            <span>年度预算总计:<span class="text-total-blue"     id="prezje_count"><img class="loadingImg" style="" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>实际下达总计:<span class="text-total-blue"     id="zje_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>未下达总计:<span class="text-total-blue"       id="wxd_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>投资完成率:<span class="text-total-blue"       id="ztzwcl_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>年度预算总计:<span class="text-total-blue"     id="chart7_01"><img class="loadingImg" style="" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>实际下达总计:<span class="text-total-blue"     id="chart7_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>未下达总计:<span class="text-total-blue"       id="chart7_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>投资完成率:<span class="text-total-blue"       id="chart7_04"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                         </div>
 
                         <div class="main-chart" id="chart7" style="height:280px;width: 100%;"></div>
@@ -145,9 +146,9 @@
 <script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
 <script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
 <script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
-<script type="text/javascript" src="/stp/hana/home/oneLevelMain/investment.js?v=3"></script>
+<script type="text/javascript" src="/stp/hana/home/direct_depart/direct_common.js"></script>
+<script type="text/javascript" src="/stp/hana/home/oneLevelMain/investment.js"></script>
 <script type="text/javascript">
-
 var tableOne=null,tableTwo=null,selectRowData;
 layui.config({
     base: '/layuiadmin/lib/extend/'
@@ -194,34 +195,38 @@ function initEchart()
             }
         }
     ];
+	 
+	 
+	 
+	
+ 	
 	
 
-	var chart1_url="/investment/get_investment_unit_type?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
+	var chart1_url="/one_level_main/investment_01?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
 	var echart=load_mony_line_dt_investment(chart1_url,"chart1","","",yAxis,1);
+	//var echart=load_mutl_bar_down(chart1_url,"chart1","","",yAxis);
 	echart.on('click', function (params) {
-		//params.name：X轴的值 
-		//params.data：Y轴的值 
-		//params.value：Y轴的值 
-		//params.type：点击事件均为click 
-		//params.seriesName： legend的名称 
-		//alert("name="+params.name+" seriesName="+params.seriesName+" value="+params.value+" data="+params.data);
 		var xName=params.name;
 		var legentName=params.seriesName;
-		
-		window.open("/reportNew/reportPageStp?name=167305d0060_d4723a52");
-          
-    });
+		window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
+    }); 
 	
 	
+	var investment_0101_url="/one_level_main/investment_0101?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
+	setinvestmentCount(investment_0101_url);
 	
-	var chart7_url="/investment/get_investment_unit_type_bar?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
+	
+	var chart7_url="/one_level_main/investment_02?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
 	var echart7=load_mutl_bar_investment(chart7_url,"chart7","","","");
 	echart7.on('click', function (params){
 		var xName=params.name;
 		var legentName=params.seriesName;
-		window.open("/reportNew/reportPageStp?name=167305d0060_d4723a52");
+		window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
     });
 	
+
+	var investment_02_count_url="/one_level_main/investment_02_count?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
+	setInvestment_02_count(investment_02_count_url) 
 }
 
 //初始化图形
@@ -230,19 +235,143 @@ initEchart();
 function search_Event()
 {
 	initEchart();
+	myTable();
 }
 
 
 function myTable()
 {
 	table.reload('myTable', {
-		  url: '/investment/get_investment_unit_type_table'
+		  url: '/one_level_main/investment_01_01'
 		  ,where: {} 
 		  
 		});
 }
 
-        
+
+
+
+function setinvestmentCount(url) 
+{
+	
+	
+   $.ajax({
+	     type:"GET",
+	     url: url,
+	     dataType:"json",
+	     timeout : 11000,
+	     cache: false,
+	     contentType: "application/x-www-form-urlencoded; charset=utf-8",
+         success:function(data,status)
+         {    
+	          if(data.success==true ||data.success=='true')
+	          {
+	        	  
+	        	           var zysje_count=0;
+	        	           var fyxsjje_count=0;
+	        	           var zbxsjje_count=0;
+	        	           
+	        	           var list=data.data;
+	        	           for(var i=0;i<list.length;i++)
+	        	           {
+	        	        	  var zysje=list[i].zysje/10000;//预算总计 
+	        	        	  var fyxsjje=list[i].fyxsjje/10000;//费用性实际下达
+	        	        	  var zbxsjje=list[i].zbxsjje/10000;//资本性实际下达
+	        	        	 // alert(fyxsjje);
+	        	        	  zysje_count=zysje_count+parseFloat(zysje);
+	        	        	  fyxsjje_count=fyxsjje_count+parseFloat(fyxsjje);
+	        	        	  zbxsjje_count=zbxsjje_count+parseFloat(zbxsjje);
+	        	           }
+	        	           
+	        	           
+	        	           
+	        	           $("#chart1_01").html(zysje_count.toFixed(2)+"亿元");
+	        	           $("#chart1_02").html(fyxsjje_count.toFixed(2)+"亿元");
+	        	           $("#chart1_03").html(zbxsjje_count.toFixed(2)+"亿元");
+	        	           $("#chart1_04").html(percentNum(zbxsjje_count+zbxsjje_count,zysje_count));
+	        	           
+	        	           
+	        	       
+	          } 
+		   },
+		   error:function()
+		   {
+		   },
+		   complete: function (XMLHttpRequest, status) 
+		   {
+	            
+	       }
+		  
+  });
+} 
+
+
+
+function setInvestment_02_count(url) 
+{
+	
+   $.ajax({
+	     type:"GET",
+	     url: url,
+	     dataType:"json",
+	     timeout : 11000,
+	     cache: false,
+	     contentType: "application/x-www-form-urlencoded; charset=utf-8",
+         success:function(data,status)
+         {    
+	          if(data.success==true ||data.success=='true')
+	          {
+	        	  
+	        	           var zysje_count=0;
+	        	           var zsjje_count=0;
+	        	           var wxdje_count=0;
+	        	           
+	        	           var list=data.data;
+	        	           for(var i=0;i<list.length;i++)
+	        	           {
+	        	        	  var zysje=list[i].zysje/10000;//预算总计 
+	        	        	  var zsjje=list[i].zsjje/10000;//实际下达
+	        	        	  var wxdje=list[i].wxdje/10000;//未下达
+	        	        	 // alert(fyxsjje);
+	        	        	  zysje_count=zysje_count+parseFloat(zysje);
+	        	        	  zsjje_count=zsjje_count+parseFloat(zsjje);
+	        	        	  wxdje_count=wxdje_count+parseFloat(wxdje_count);
+	        	           }
+	        	           
+	        	           
+	        	           
+	        	           $("#chart7_01").html(zysje_count.toFixed(2)+"亿元");
+	        	           $("#chart7_02").html(zsjje_count.toFixed(2)+"亿元");
+	        	           $("#chart7_03").html(wxdje_count.toFixed(2)+"亿元");
+	        	           $("#chart7_04").html(percentNum(zsjje_count,zysje_count));
+	        	           
+	        	           
+	        	       
+	          } 
+		   },
+		   error:function()
+		   {
+		   },
+		   complete: function (XMLHttpRequest, status) 
+		   {
+	            
+	       }
+		  
+  });
+} 
+
+function percent_Num(num,num2) {
+	
+   return (Math.round(num / num2 * 10000) / 100.00); 
+}
+
+
+//小数点后两位百分比
+function percentNum(num,num2) {
+	
+	//return Math.floor(num / num2 * 100) / 100+"%";
+   return (Math.round(num / num2 * 10000) / 100.00 + "%"); 
+}
         
 </script>
 </body>
