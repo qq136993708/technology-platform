@@ -123,12 +123,15 @@ public class OutProjectInfoClient {
 			retJson.put("jfTotal", temMap.get("jfTotal"));
 			retJson.put("kyzbCount", temMap.get("kyzbCount"));
 			retJson.put("projectCount", temMap.get("projectCount"));
+			retJson.put("ldzsl", temMap.get("ldzsl"));
+			retJson.put("zje", temMap.get("zje"));
 		} else {
 			retJson.put("jfTotal", 0);
 			retJson.put("kyzbCount", 0);
 			retJson.put("projectCount", 0);
+			retJson.put("ldzsl", 0);
+			retJson.put("zje", 0);
 		}
-		
 		return retJson;
     }
     
