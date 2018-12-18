@@ -134,6 +134,25 @@ public class OutProjectInfoClient {
 		}
 		return retJson;
     }
+	
+	@ApiOperation(value = "十条龙及重大专项项目的总数", notes = "首页查询使用")
+	@RequestMapping(value = "/out-provider/dragon/project-count", method = RequestMethod.POST)
+	public JSONObject getProjectCountForDragon(@RequestBody HashMap<String, String> map) {
+		String nd = null;
+		JSONObject retJson = new JSONObject();
+		
+		HashMap<String, String> temMap = outProjectService.getOutProjectDragonInfoCount(map);
+		if (temMap != null) {
+			retJson.put("zsl", temMap.get("zsl"));
+			retJson.put("zdzxsl", temMap.get("zdzxsl"));
+			retJson.put("stlsl", temMap.get("stlsl"));
+		} else {
+			retJson.put("zsl", 0);
+			retJson.put("zdzxsl", 0);
+			retJson.put("stlsl", 0);
+		}
+		return retJson;
+    }
     
 	/**
 	 * @author Nishikino

@@ -1121,6 +1121,19 @@
 			and define2 is not null and type_flag like '%直属研究院%'
 		</if>
 	</select>
+	
+	<!-- 首页计算十条龙及重大专项项目的总数量 -->
+	<select id="getOutProjectDragonInfoCount" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select 
+        	sum(case when project_property = '重大专项' or project_property = '十条龙项目' then 1 else 0 end) as zsl,
+        	sum(case when project_property = '重大专项' then 1 else 0 end) as zdzxsl, 
+			sum(case when project_property = '十条龙项目' then 1 else 0 end) as stlsl
+		from out_project_info
+		where (project_type = '0' or project_type = '2') and nd='2017'
+		<if test="define2 != null and define2 != ''">
+			and define2 is not null and type_flag like '%直属研究院%'
+		</if>
+	</select>
 
 	<select id="getOutProjectScopeInfo" resultType="java.util.Map" parameterType="java.lang.String">
 		select
