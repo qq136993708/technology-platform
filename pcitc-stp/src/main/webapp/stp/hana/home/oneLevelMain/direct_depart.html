@@ -144,7 +144,7 @@
             <div class="layui-col-md6">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        ${year}年直属研究院合同签订率
+                        ${year}年直属研究院科研合同签订率
                         <div class="layui-tool">
                             <button type="button" class="btn btn-tool collapse"></button>
                             <button type="button" class="btn btn-tool remove"></button>
@@ -183,7 +183,7 @@
             <div class="layui-col-md6">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        ${year}年直属研究院科研设备数量
+                        ${year}年直属研究院科研装备数量
                         <div class="layui-tool">
                             <button type="button" class="btn btn-tool collapse"></button>
                             <button type="button" class="btn btn-tool remove"></button>
@@ -208,7 +208,7 @@
             <div class="layui-col-md6">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        <span class="layui-time"></span>${year}年直属研究院专利申请及授权数量
+                        <span class="layui-time"></span>${year}年直属研究院专利申请及授权情况
                     </div>
                     <div class="layui-card-body btn-function">
                     <div class="text-total">
@@ -267,7 +267,6 @@
     
     
 <script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
-<script src="/common/js/layer-v3.1.1/layer.js"></script>
 <script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
 <script type="text/javascript" src="/layuiadmin/modules/bmap.js"></script>
 <script type="text/javascript" src="/plugins/echarts/walden.js"></script>
@@ -551,12 +550,13 @@
             	
              //直属研究院合同签订分析
            	 var chart2_url="/direct/contract_04?nd="+year+"&v_date="+v_date+"&type=1";
-           	 var echart2= load_mony_line_down(chart2_url,"contract_line","","",yAxis3);
+           	 var colorLine=["#b68d01","#9799ec"];
+           	 var echart2= load_mony_line_down(chart2_url,"contract_line","","",yAxis3,colorLine);
            	   
            	
 
         	 var chart3_url="/direct/topic_01?type=1&nd="+year+"&v_date="+v_date+"&xmlbbm=kyzb";
-        	 var color=["#ea886d","#ffad01"];
+        	 var color=["#ea886d","#9799ec"];
         	 var echart3=load_mutl_bar_down(chart3_url,"direct_topic_chart3","","",yAxis,20,color);
         	 echart3.on('click', function (params) {
         		var xName=params.name;
