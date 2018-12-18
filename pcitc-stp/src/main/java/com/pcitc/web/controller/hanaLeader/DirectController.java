@@ -531,6 +531,51 @@ public class DirectController {
 				
 				return resault;
 			}
+		    
+		    
+		    
+		    
+		    @RequestMapping(method = RequestMethod.GET, value = "/contract_01_count")
+			@ResponseBody
+			public String contract_01_count(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		    	String resault="";
+				Result result = new Result();
+				String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+				Map<String, Object> paramsMap = new HashMap<String, Object>();
+				paramsMap.put("nd", nd);
+				paramsMap.put("xmlbbm", "fkyzb");
+				
+				JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+				HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+				if (!nd.equals(""))
+				{
+					ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(contract_01, HttpMethod.POST, entity, JSONArray.class);
+					int statusCode = responseEntity.getStatusCodeValue();
+					if (statusCode == 200) 
+					{
+						
+							JSONArray jSONArray = responseEntity.getBody();
+							System.out.println(">>>>>>>>>>>>>>contract_01_count jSONArray-> " + jSONArray.toString());
+							List<Contract> list = JSONObject.parseArray(jSONArray.toJSONString(), Contract.class);
+							Contract contract=list.get(0);
+							result.setSuccess(true);
+							result.setData(contract);
+						
+					}
+					
+				} else
+				{
+					result.setSuccess(false);
+					result.setMessage("参数为空");
+				}
+				JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
+				resault=resultObj.toString();
+				System.out.println(">>>>>>>>>>>>>contract_01_count " + resultObj.toString());
+				
+				return resault;
+			}
+		    
 		
 		    
 		    @RequestMapping(method = RequestMethod.GET, value = "/contract_02")
