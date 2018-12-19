@@ -1609,9 +1609,28 @@ public class OneLevelMainController {
 												JSONArray jSONArray = responseEntity.getBody();
 												System.out.println(">>>>>>>>>>>>investment_01_01 jSONArray>>> " + jSONArray.toString());
 												List<BudgetMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), BudgetMysql.class);
-												
-												
-												
+												for(int i=0;i<list.size();i++)
+												{
+													BudgetMysql budgetMysql=list.get(i);
+													Object fyxRate= budgetMysql.getFyxRate();
+													Object jeRate= budgetMysql.getJeRate();
+													Object zbxRate= budgetMysql.getZbxRate();
+													if(fyxRate==null)
+													{
+														fyxRate=0;
+													}
+													if(jeRate==null)
+													{
+														jeRate=0;
+													}
+													if(zbxRate==null)
+													{
+														zbxRate=0;
+													}
+													budgetMysql.setFyxRate(fyxRate);;
+													budgetMysql.setJeRate(jeRate);
+													budgetMysql.setZbxRate(zbxRate);
+												}
 												pageResult.setData(list);
 												pageResult.setCode(0);
 												pageResult.setCount(Long.valueOf(list.size()));
