@@ -91,7 +91,7 @@ var mutl_bar_investment = {
         ]
     };
 
-function barLineAjax_investment(url,  echartsobj, options) 
+function barLineAjax_investment(url,  echartsobj, options,width)
 {
 	
    var legends=[];     
@@ -120,6 +120,11 @@ function barLineAjax_investment(url,  echartsobj, options)
 	        	        		   xAxisData.push(xAxisDataList[i]);
 	        	           }
 	        	           var seriesList=data.data.seriesList;
+	        	           if(width!=undefined && width!="" && width!=null){
+	        	           		var barWidth=width
+						   }else{
+                               var barWidth=20
+						   }
 	        	           for(var i=0;i<seriesList.length;i++)
 	        	           {
 	        	        		      seriesData.push({
@@ -127,7 +132,7 @@ function barLineAjax_investment(url,  echartsobj, options)
 		        	                   name: seriesList[i].name,
 		        	                   data: seriesList[i].data,
 		        	                  stack:seriesList[i].stack,
-		        	                   barWidth:20,
+		        	                   barWidth:barWidth,
                                        label: {
                                            show: true, //开启显示
                                            position: 'top', //在上方显示
@@ -176,7 +181,7 @@ function barLineAjax_investment(url,  echartsobj, options)
 } 
 
 
-function load_mutl_bar_investment(url,id,title,subtext,yAxis)
+function load_mutl_bar_investment(url,id,title,subtext,yAxis,color,width)
 {
     var echartsobj = echarts.init(document.getElementById(id));
 
@@ -190,7 +195,9 @@ function load_mutl_bar_investment(url,id,title,subtext,yAxis)
 
     	mutl_bar_investment.title.subtext=subtext;
     }
-
+	if(color!=undefined && color!=""){
+        mutl_bar_investment.color=color;
+	}
     mutl_bar_investment.grid={
     	top:'10%',
         left: '0%',
@@ -205,7 +212,7 @@ function load_mutl_bar_investment(url,id,title,subtext,yAxis)
     }
     echartsobj.setOption(mutl_bar_investment);
     echartsobj.showLoading();
-    barLineAjax_investment(url,echartsobj, mutl_bar_investment);
+    barLineAjax_investment(url,echartsobj, mutl_bar_investment,width);
     
     return echartsobj;
     

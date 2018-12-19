@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.pcitc.base.stp.out.OutPatentExample;
 import com.pcitc.base.stp.out.OutProjectPlan;
+import com.pcitc.base.stp.out.OutProjectPlanExample;
 import com.pcitc.mapper.out.OutProjectPlanMapper;
 import com.pcitc.service.out.OutProjectPlanService;
 
@@ -73,7 +75,18 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 	}
 	
 	
-	
+	/**
+     * 获取所有的项目计划数据
+     */
+    public List getProjectPlanList(HashMap<String, String> map) {
+    	OutProjectPlanExample example = new OutProjectPlanExample();
+    	OutProjectPlanExample.Criteria criteria = example.createCriteria();
+    	
+    	criteria.andDefine4EqualTo("项目管理系统");
+
+    	List<OutProjectPlan> returnList = outProjectPlanMapper.selectByExample(example);
+    	return returnList;
+    }
 	
 	
 }

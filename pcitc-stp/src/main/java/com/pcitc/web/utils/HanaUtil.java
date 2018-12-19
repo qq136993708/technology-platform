@@ -3119,6 +3119,15 @@ public class HanaUtil {
 			chartBarLineSeries.setName("计划合同");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
+		
+		if (name.equals("htqdl")) 
+		{
+			chartBarLineSeries.setName("合同签订率");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_LINE);
+		}
+		
+		
+		
 		List<Object> dataList = new ArrayList<Object>();
 		if (list != null && list.size() > 0) 
 		{
@@ -3127,7 +3136,7 @@ public class HanaUtil {
 				Contract f03 = list.get(i);
 				Integer sjqds =(Integer)f03.getSjqds();
 				Integer jhqds =(Integer)f03.getJhqds();
-				Object qdlzj =f03.getQdlzj();
+				Object htqdl =f03.getHtqdl();
 				//String str=String.format("%.2f", Double.valueOf(String.valueOf(qdlzj)));
 				
 				if (name.equals("sjqds")) 
@@ -3137,6 +3146,10 @@ public class HanaUtil {
 				if (name.equals("jhqds")) 
 				{
 					dataList.add(jhqds);
+				}
+				if (name.equals("htqdl")) 
+				{
+					dataList.add(htqdl);
 				}
 			}
 			chartBarLineSeries.setData(dataList);

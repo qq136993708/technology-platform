@@ -1767,7 +1767,7 @@
 			 sum(case when project_property = '重大专项' then 1 else 0 end) zdzx
 		from out_project_info
 		WHERE
-			 nd = '2017' and type_flag like '%研究院'
+			 nd = '2017' and type_flag like '%研究院' and define2 is not null
     	GROUP BY define2
 	</select>
 	

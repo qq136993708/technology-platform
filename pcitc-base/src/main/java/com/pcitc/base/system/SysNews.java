@@ -1,7 +1,6 @@
 package com.pcitc.base.system;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import com.pcitc.base.util.SearchInfo;
 
@@ -37,8 +36,18 @@ public class SysNews extends SearchInfo implements Serializable {
     private String noticeTitle;
     
     private String noticeCreater;
+    
+    private String createtimestr;
+    
+    public String getCreatetimestr() {
+		return createtimestr;
+	}
 
-    private static final long serialVersionUID = 1L;
+	public void setCreatetimestr(String createtimestr) {
+		this.createtimestr = createtimestr;
+	}
+
+	private static final long serialVersionUID = 1L;
 
     public Integer getId() {
         return id;
