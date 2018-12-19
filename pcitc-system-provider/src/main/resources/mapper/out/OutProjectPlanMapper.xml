@@ -919,6 +919,7 @@
 			  and out_project_plan.DEFINE2 is not null and out_project_plan.DEFINE3 is not null
 		) as tableB 
 		group by tableB.DEFINE3,tableB.DEFINE2
+		order by tableB.DEFINE3
 	</select>
 	
 	
