@@ -1705,7 +1705,7 @@
 		    count(*) as zsl,
 	    	SUBSTR(define2 FROM 4) define2
 		from out_project_info
-		where nd = '2018' and define2 is not null and (project_scope = '新开课题' or project_scope = '结转课题') and type_flag like '%直属研究院%'
+		where define2 is not null and (project_scope = '新开课题' or project_scope = '结转课题') and type_flag like '%直属研究院%'
 	    group by define2
 	</select>
 	
