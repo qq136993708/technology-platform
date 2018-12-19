@@ -137,6 +137,104 @@ layui.config({
         
 });
 
+//圆圈初始化
+var labelTop = {
+	    normal : {
+	        label : {
+	            show : true,
+	            position : 'center',
+	            formatter : '{b}',
+	            textStyle: {
+	                baseline : 'bottom'
+	            }
+	        },
+	        labelLine : {
+	            show : false
+	        }
+	    }
+	};
+	var labelFromatter = {
+	    normal : {
+	        label : {
+	            formatter : function (params){
+	                return 100 - params.value + '%'
+	            },
+	            textStyle: {
+	                baseline : 'top'
+	            }
+	        }
+	    },
+	}
+	var labelBottom = {
+	    normal : {
+	        color: '#ccc',
+	        label : {
+	            show : true,
+	            position : 'center'
+	        },
+	        labelLine : {
+	            show : false
+	        }
+	    },
+	    emphasis: {
+	        color: 'rgba(0,0,0,0)'
+	    }
+	};
+	var radius = [40, 55];
+	var option_cicle = {
+	    legend: {
+	        x : 'center',
+	        y : 'center',
+	        data:[
+	            '已签合同'
+	        ]
+	    },
+	     toolbox: {
+	        show : true,
+	        feature : {
+	            dataView : {show: true, readOnly: false},
+	            magicType : {
+	                show: true, 
+	                type: ['pie', 'funnel'],
+	                option: {
+	                    funnel: {
+	                        width: '20%',
+	                        height: '30%',
+	                        itemStyle : {
+	                            normal : {
+	                                label : {
+	                                    formatter : function (params){
+	                                    	//alert(params);
+	                                        return '已签合同\n' + params.value + '%\n'
+	                                    },
+	                                    textStyle: {
+	                                        baseline : 'middle'
+	                                    }
+	                                }
+	                            },
+	                        } 
+	                    }
+	                }
+	            },
+	            restore : {show: true}
+	        }
+	    }, 
+	    series : [
+	        {
+	            type : 'pie',
+	            center : ['10%', '30%'],
+	            radius : radius,
+	            x: '0%', 
+	            itemStyle : labelFromatter,
+	            data : [
+	                
+	            ]
+	        }
+	    ]
+	};
+	
+	
+
 function initEchart()
 {
 	
@@ -166,17 +264,9 @@ function initEchart()
 		window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
           
     });
-	
-	var chart2_url="/direct/contract_01?type=2&nd="+nd+"&v_date="+v_date;
-	var echart2=loadPieNew(chart2_url,"contract_chart1_02_02","","");
-	echart2.on('click', function (params) {
-		var xName=params.name;
-		var legentName=params.seriesName;
-		window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
-          
-    });
-	
-	
+	//圆圈
+    var url="/direct/contract_01?type=2&nd="+nd+"&v_date="+v_date;
+	loadCicle(url,"contract_chart1_02_02");
 	 
 	var chart4_url="/direct/contract_03?type=1&nd="+nd+"&v_date="+v_date;
     var colorTr=["#17a2b9","#43c5ff","#f9c16d"];
@@ -192,6 +282,7 @@ function initEchart()
 	
 }
 
+
 //初始化图形
 initEchart();
 //查询
@@ -201,13 +292,13 @@ function search_Event()
 	renderTable();
 	renderTable2();
 }
-        
+
 
 
 function renderTable()
 {  
 	
-	  var month=$("#year").val();
+	 var month=$("#year").val();
 	 var ptable=treeGridCom.render({
 	        id:'processdef_table'
 	        ,elem: '#processdef_table'
@@ -288,7 +379,59 @@ function renderTable2()
 }
 
 
-        
+
+
+	//圆圈                    
+	function setCicle(url,echartsobj,option)
+	{
+	    var values=[];
+	    $.ajax({
+	        type:"get",
+	        url: url,
+	        dataType:"json",
+	        timeout : 11000,
+	        cache: false,
+	        contentType: "application/x-www-form-urlencoded; charset=utf-8",
+	        success:function(data,status)
+	        {
+	            if(data.success==true ||data.success=='true')
+	            {
+	                echartsobj.hideLoading();
+	                var chartList=data.data.dataList;
+	                for(var i=0;i<chartList.length;i++)
+	                {
+	                	//alert(chartList[i].name+"="+chartList[i].value);
+	                    values.push({
+	                        value: chartList[i].value,
+	                        name: chartList[i].name
+	                    });
+	                }
+	                echartsobj.setOption({
+	                    series: [{
+	                        data: values
+	                    }]
+	                });
+	            }
+	        },
+	        error:function()
+	        {
+	        },
+	        complete: function (XMLHttpRequest, status) {
+	        }
+	    });
+	} 
+	
+	function loadCicle(url,id)
+	{
+		
+		var echartsobj = echarts.init(document.getElementById(id));
+		echartsobj.setOption(option_cicle);
+		echartsobj.showLoading();
+		setCicle(url,echartsobj,option_cicle);
+		return echartsobj;
+	}
+	
+	
 </script>
 
 </body>
