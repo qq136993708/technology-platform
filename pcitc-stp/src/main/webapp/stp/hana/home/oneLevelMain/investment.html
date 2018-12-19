@@ -15,6 +15,7 @@
         .btnMyBgImg:hover{background-size:inherit;background-position: 2px;}
         .searchBox{background:none;}
         .layui-card-body .layui-table-body .layui-table tr:nth-child(1){background: #def4ff;}
+        th{font-weight:bold}
     </style>
 </head>
 <body>
@@ -77,7 +78,7 @@
             <div class="layui-col-md6">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                       <span class="layui-time"></span>石化集团科研投资完成率
+                       <span class="layui-time"></span>石化集团科研投资完成率（万元）
                         <div class="layui-tool">
                             <button type="button" class="btn btn-tool collapse"></button>
                             <button type="button" class="btn btn-tool remove"></button>
@@ -89,23 +90,23 @@
                         <table id="myTable" class="layui-table" lay-data="{url:'/one_level_main/investment_01_01',height:'295'}">
                             <thead>
                             <tr>
-                                <th lay-data="{field:'define3', width:'18%'}" rowspan="2">企业类型</th>
+                                <th lay-data="{field:'define3', width:'16%'}" rowspan="2" >企业类型</th>
                                 <th lay-data="{align:'center'}" colspan="3">总计</th>
                                 <th lay-data="{align:'center'}" colspan="3">费用性</th>
                                 <th lay-data="{align:'center'}" colspan="3">资本性</th>
                             </tr>
                             <tr>
-                                <th lay-data="{field:'zysje', width:'15%'}">年度预算（万元）</th>
-                                <th lay-data="{field:'zsjje', width:'15%'}">实际下达（万元）</th>
-                                <th lay-data="{field:'zRate', width:'15%',templet:function(d){return d.zRate+'%'}}">投资完成率</th>
+                                <th lay-data="{field:'zysje', width:'10%'}">年度预算</th>
+                                <th lay-data="{field:'zsjje', width:'10%'}">实际下达</th>
+                                <th lay-data="{field:'zRate', width:'8%',templet:function(d){return d.zRate+'%'}}">完成率</th>
 
-                                <th lay-data="{field:'fyxysje', width:'15%'}">年度预算（万元）</th>
-                                <th lay-data="{field:'fyxsjje', width:'15%'}">实际下达（万元）</th>
-                                <th lay-data="{field:'fyxRate', width:'15%',templet:function(d){return d.fyxRate+'%'}}">投资完成率</th>
+                                <th lay-data="{field:'fyxysje', width:'10%'}">年度预算</th>
+                                <th lay-data="{field:'fyxsjje', width:'10%'}">实际下达</th>
+                                <th lay-data="{field:'fyxRate', width:'8%',templet:function(d){return d.fyxRate+'%'}}">完成率</th>
 
-                                <th lay-data="{field:'zbxysje', width:'15%'}">年度预算（万元）</th>
-                                <th lay-data="{field:'zbxsjje', width:'15%'}">实际下达（万元）</th>
-                                <th lay-data="{field:'zbxRate', width:'15%',templet:function(d){return d.zbxRate+'%'}}">投资完成率</th>
+                                <th lay-data="{field:'zbxysje', width:'10%'}">年度预算</th>
+                                <th lay-data="{field:'zbxsjje', width:'10%'}">实际下达</th>
+                                <th lay-data="{field:'zbxRate', width:'8%',templet:function(d){return d.zbxRate+'%'}}">完成率</th>
 
                             </tr>
 
