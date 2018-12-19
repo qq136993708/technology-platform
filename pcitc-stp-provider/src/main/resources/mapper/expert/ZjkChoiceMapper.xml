@@ -3,32 +3,32 @@
 
 <mapper namespace="com.pcitc.mapper.expert.ZjkChoiceMapper">
 
-    <resultMap id="BaseResultMap" type="com.pcitc.base.expert.ZjkChoice">
+<resultMap id="BaseResultMap" type="com.pcitc.base.expert.ZjkChoice">
 
-        <id column="id" jdbcType="VARCHAR" property="id"/>
-        <result column="add_user_id" jdbcType="VARCHAR" property="addUserId"/>
-        <result column="xm_id" jdbcType="VARCHAR" property="xmId"/>
-        <result column="xm_name" jdbcType="VARCHAR" property="xmName"/>
-        <result column="company_id" jdbcType="VARCHAR" property="companyId"/>
-        <result column="company_name" jdbcType="VARCHAR" property="companyName"/>
-        <result column="status" jdbcType="VARCHAR" property="status"/>
-        <result column="zj_id" jdbcType="VARCHAR" property="zjId"/>
-        <result column="user_id" jdbcType="VARCHAR" property="userId"/>
-        <result column="year" jdbcType="VARCHAR" property="year"/>
-        <result column="DEL_FLAG" jdbcType="VARCHAR" property="delFlag"/>
-        <result column="CREATE_DATE" jdbcType="VARCHAR" property="createDate"/>
-        <result column="CREATE_USER" jdbcType="VARCHAR" property="createUser"/>
-        <result column="CREATE_USER_NAME" jdbcType="VARCHAR" property="createUserName"/>
-        <result column="UPDATE_DATE" jdbcType="VARCHAR" property="updateDate"/>
-        <result column="UPDATE_USER" jdbcType="VARCHAR" property="updateUser"/>
-        <result column="UPDATE_USER_NAME" jdbcType="VARCHAR" property="updateUserName"/>
-        <result column="bak1" jdbcType="VARCHAR" property="bak1"/>
-        <result column="bak2" jdbcType="VARCHAR" property="bak2"/>
-        <result column="bak3" jdbcType="VARCHAR" property="bak3"/>
-        <result column="bak4" jdbcType="VARCHAR" property="bak4"/>
-        <result column="bak5" jdbcType="VARCHAR" property="bak5"/>
-        <result column="bak6" jdbcType="VARCHAR" property="bak6"/>
-    </resultMap>
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="add_user_id" jdbcType="VARCHAR" property="addUserId" />
+    <result column="xm_id" jdbcType="VARCHAR" property="xmId" />
+    <result column="xm_name" jdbcType="VARCHAR" property="xmName" />
+    <result column="company_id" jdbcType="VARCHAR" property="companyId" />
+    <result column="company_name" jdbcType="VARCHAR" property="companyName" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="zj_id" jdbcType="VARCHAR" property="zjId" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="year" jdbcType="VARCHAR" property="year" />
+    <result column="DEL_FLAG" jdbcType="VARCHAR" property="delFlag" />
+    <result column="CREATE_DATE" jdbcType="VARCHAR" property="createDate" />
+    <result column="CREATE_USER" jdbcType="VARCHAR" property="createUser" />
+    <result column="CREATE_USER_NAME" jdbcType="VARCHAR" property="createUserName" />
+    <result column="UPDATE_DATE" jdbcType="VARCHAR" property="updateDate" />
+    <result column="UPDATE_USER" jdbcType="VARCHAR" property="updateUser" />
+    <result column="UPDATE_USER_NAME" jdbcType="VARCHAR" property="updateUserName" />
+    <result column="bak1" jdbcType="VARCHAR" property="bak1" />
+    <result column="bak2" jdbcType="VARCHAR" property="bak2" />
+    <result column="bak3" jdbcType="VARCHAR" property="bak3" />
+    <result column="bak4" jdbcType="VARCHAR" property="bak4" />
+    <result column="bak5" jdbcType="VARCHAR" property="bak5" />
+    <result column="bak6" jdbcType="VARCHAR" property="bak6" />
+</resultMap>
     <sql id="Example_Where_Clause">
         <where>
             <foreach collection="oredCriteria" item="criteria" separator="or">
@@ -47,9 +47,8 @@
                                 </when>
                                 <when test="criterion.listValue">
                                     and ${criterion.condition}
-                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
-                                             separator=",">
-                                        #{listItem}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                    #{listItem}
                                     </foreach>
                                 </when>
                             </choose>
@@ -77,9 +76,8 @@
                                 </when>
                                 <when test="criterion.listValue">
                                     and ${criterion.condition}
-                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
-                                             separator=",">
-                                        #{listItem}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                    #{listItem}
                                     </foreach>
                                 </when>
                             </choose>
@@ -89,7 +87,7 @@
             </foreach>
         </where>
     </sql>
-    <sql id="Base_Column_List">
+<sql id="Base_Column_List">
         id,
         add_user_id,
         xm_id,
@@ -120,10 +118,10 @@
         <if test="distinct">
             distinct
         </if>
-        <include refid="Base_Column_List"/>
+        <include refid="Base_Column_List" />
         from zjk_choice
         <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
+            <include refid="Example_Where_Clause" />
         </if>
         <if test="orderByClause != null">
             order by ${orderByClause}
@@ -139,7 +137,7 @@
     </select>
     <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
         select
-        <include refid="Base_Column_List"/>
+        <include refid="Base_Column_List" />
         from zjk_choice
         where id = #{id,jdbcType=VARCHAR}
     </select>
@@ -150,7 +148,7 @@
     <delete id="deleteByExample" parameterType="com.pcitc.base.expert.ZjkChoiceExample">
         delete from zjk_choice
         <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
+            <include refid="Example_Where_Clause" />
         </if>
     </delete>
     <insert id="insert" parameterType="com.pcitc.base.expert.ZjkChoice">
@@ -211,153 +209,153 @@
         <trim prefix="(" suffix=")" suffixOverrides=",">
 
             <if test="id != null">
-                id,
+            id,
             </if>
             <if test="addUserId != null">
-                add_user_id,
+            add_user_id,
             </if>
             <if test="xmId != null">
-                xm_id,
+            xm_id,
             </if>
             <if test="xmName != null">
-                xm_name,
+            xm_name,
             </if>
             <if test="companyId != null">
-                company_id,
+            company_id,
             </if>
             <if test="companyName != null">
-                company_name,
+            company_name,
             </if>
             <if test="status != null">
-                status,
+            status,
             </if>
             <if test="zjId != null">
-                zj_id,
+            zj_id,
             </if>
             <if test="userId != null">
-                user_id,
+            user_id,
             </if>
             <if test="year != null">
-                year,
+            year,
             </if>
             <if test="delFlag != null">
-                DEL_FLAG,
+            DEL_FLAG,
             </if>
             <if test="createDate != null">
-                CREATE_DATE,
+            CREATE_DATE,
             </if>
             <if test="createUser != null">
-                CREATE_USER,
+            CREATE_USER,
             </if>
             <if test="createUserName != null">
-                CREATE_USER_NAME,
+            CREATE_USER_NAME,
             </if>
             <if test="updateDate != null">
-                UPDATE_DATE,
+            UPDATE_DATE,
             </if>
             <if test="updateUser != null">
-                UPDATE_USER,
+            UPDATE_USER,
             </if>
             <if test="updateUserName != null">
-                UPDATE_USER_NAME,
+            UPDATE_USER_NAME,
             </if>
             <if test="bak1 != null">
-                bak1,
+            bak1,
             </if>
             <if test="bak2 != null">
-                bak2,
+            bak2,
             </if>
             <if test="bak3 != null">
-                bak3,
+            bak3,
             </if>
             <if test="bak4 != null">
-                bak4,
+            bak4,
             </if>
             <if test="bak5 != null">
-                bak5,
+            bak5,
             </if>
             <if test="bak6 != null">
-                bak6
+            bak6
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
 
 
             <if test="id != null">
-                #{id ,jdbcType=VARCHAR},
+            #{id ,jdbcType=VARCHAR},
             </if>
             <if test="addUserId != null">
-                #{addUserId ,jdbcType=VARCHAR},
+            #{addUserId ,jdbcType=VARCHAR},
             </if>
             <if test="xmId != null">
-                #{xmId ,jdbcType=VARCHAR},
+            #{xmId ,jdbcType=VARCHAR},
             </if>
             <if test="xmName != null">
-                #{xmName ,jdbcType=VARCHAR},
+            #{xmName ,jdbcType=VARCHAR},
             </if>
             <if test="companyId != null">
-                #{companyId ,jdbcType=VARCHAR},
+            #{companyId ,jdbcType=VARCHAR},
             </if>
             <if test="companyName != null">
-                #{companyName ,jdbcType=VARCHAR},
+            #{companyName ,jdbcType=VARCHAR},
             </if>
             <if test="status != null">
-                #{status ,jdbcType=VARCHAR},
+            #{status ,jdbcType=VARCHAR},
             </if>
             <if test="zjId != null">
-                #{zjId ,jdbcType=VARCHAR},
+            #{zjId ,jdbcType=VARCHAR},
             </if>
             <if test="userId != null">
-                #{userId ,jdbcType=VARCHAR},
+            #{userId ,jdbcType=VARCHAR},
             </if>
             <if test="year != null">
-                #{year ,jdbcType=VARCHAR},
+            #{year ,jdbcType=VARCHAR},
             </if>
             <if test="delFlag != null">
-                #{delFlag ,jdbcType=VARCHAR},
+            #{delFlag ,jdbcType=VARCHAR},
             </if>
             <if test="createDate != null">
-                #{createDate ,jdbcType=VARCHAR},
+            #{createDate ,jdbcType=VARCHAR},
             </if>
             <if test="createUser != null">
-                #{createUser ,jdbcType=VARCHAR},
+            #{createUser ,jdbcType=VARCHAR},
             </if>
             <if test="createUserName != null">
-                #{createUserName ,jdbcType=VARCHAR},
+            #{createUserName ,jdbcType=VARCHAR},
             </if>
             <if test="updateDate != null">
-                #{updateDate ,jdbcType=VARCHAR},
+            #{updateDate ,jdbcType=VARCHAR},
             </if>
             <if test="updateUser != null">
-                #{updateUser ,jdbcType=VARCHAR},
+            #{updateUser ,jdbcType=VARCHAR},
             </if>
             <if test="updateUserName != null">
-                #{updateUserName ,jdbcType=VARCHAR},
+            #{updateUserName ,jdbcType=VARCHAR},
             </if>
             <if test="bak1 != null">
-                #{bak1 ,jdbcType=VARCHAR},
+            #{bak1 ,jdbcType=VARCHAR},
             </if>
             <if test="bak2 != null">
-                #{bak2 ,jdbcType=VARCHAR},
+            #{bak2 ,jdbcType=VARCHAR},
             </if>
             <if test="bak3 != null">
-                #{bak3 ,jdbcType=VARCHAR},
+            #{bak3 ,jdbcType=VARCHAR},
             </if>
             <if test="bak4 != null">
-                #{bak4 ,jdbcType=VARCHAR},
+            #{bak4 ,jdbcType=VARCHAR},
             </if>
             <if test="bak5 != null">
-                #{bak5 ,jdbcType=VARCHAR},
+            #{bak5 ,jdbcType=VARCHAR},
             </if>
             <if test="bak6 != null">
-                #{bak6 ,jdbcType=VARCHAR}
+            #{bak6 ,jdbcType=VARCHAR}
             </if>
         </trim>
     </insert>
     <select id="countByExample" parameterType="com.pcitc.base.expert.ZjkChoiceExample" resultType="java.lang.Long">
         select count(*) from zjk_choice
         <if test="_parameter != null">
-            <include refid="Example_Where_Clause"/>
+            <include refid="Example_Where_Clause" />
         </if>
     </select>
     <update id="updateByExampleSelective" parameterType="map">
@@ -436,7 +434,7 @@
 
         </set>
         <if test="_parameter != null">
-            <include refid="Update_By_Example_Where_Clause"/>
+            <include refid="Update_By_Example_Where_Clause" />
         </if>
     </update>
     <update id="updateByExample" parameterType="map">
@@ -466,7 +464,7 @@
         bak5=#{record.bak5,jdbcType=VARCHAR},
         bak6=#{record.bak6,jdbcType=VARCHAR}
         <if test="_parameter != null">
-            <include refid="Update_By_Example_Where_Clause"/>
+            <include refid="Update_By_Example_Where_Clause" />
         </if>
     </update>
     <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.expert.ZjkChoice">
@@ -474,70 +472,70 @@
         <set>
 
             <if test="addUserId != null">
-                add_user_id=#{addUserId ,jdbcType=VARCHAR},
+            add_user_id=#{addUserId ,jdbcType=VARCHAR},
             </if>
             <if test="xmId != null">
-                xm_id=#{xmId ,jdbcType=VARCHAR},
+            xm_id=#{xmId ,jdbcType=VARCHAR},
             </if>
             <if test="xmName != null">
-                xm_name=#{xmName ,jdbcType=VARCHAR},
+            xm_name=#{xmName ,jdbcType=VARCHAR},
             </if>
             <if test="companyId != null">
-                company_id=#{companyId ,jdbcType=VARCHAR},
+            company_id=#{companyId ,jdbcType=VARCHAR},
             </if>
             <if test="companyName != null">
-                company_name=#{companyName ,jdbcType=VARCHAR},
+            company_name=#{companyName ,jdbcType=VARCHAR},
             </if>
             <if test="status != null">
-                status=#{status ,jdbcType=VARCHAR},
+            status=#{status ,jdbcType=VARCHAR},
             </if>
             <if test="zjId != null">
-                zj_id=#{zjId ,jdbcType=VARCHAR},
+            zj_id=#{zjId ,jdbcType=VARCHAR},
             </if>
             <if test="userId != null">
-                user_id=#{userId ,jdbcType=VARCHAR},
+            user_id=#{userId ,jdbcType=VARCHAR},
             </if>
             <if test="year != null">
-                year=#{year ,jdbcType=VARCHAR},
+            year=#{year ,jdbcType=VARCHAR},
             </if>
             <if test="delFlag != null">
-                DEL_FLAG=#{delFlag ,jdbcType=VARCHAR},
+            DEL_FLAG=#{delFlag ,jdbcType=VARCHAR},
             </if>
             <if test="createDate != null">
-                CREATE_DATE=#{createDate ,jdbcType=VARCHAR},
+            CREATE_DATE=#{createDate ,jdbcType=VARCHAR},
             </if>
             <if test="createUser != null">
-                CREATE_USER=#{createUser ,jdbcType=VARCHAR},
+            CREATE_USER=#{createUser ,jdbcType=VARCHAR},
             </if>
             <if test="createUserName != null">
-                CREATE_USER_NAME=#{createUserName ,jdbcType=VARCHAR},
+            CREATE_USER_NAME=#{createUserName ,jdbcType=VARCHAR},
             </if>
             <if test="updateDate != null">
-                UPDATE_DATE=#{updateDate ,jdbcType=VARCHAR},
+            UPDATE_DATE=#{updateDate ,jdbcType=VARCHAR},
             </if>
             <if test="updateUser != null">
-                UPDATE_USER=#{updateUser ,jdbcType=VARCHAR},
+            UPDATE_USER=#{updateUser ,jdbcType=VARCHAR},
             </if>
             <if test="updateUserName != null">
-                UPDATE_USER_NAME=#{updateUserName ,jdbcType=VARCHAR},
+            UPDATE_USER_NAME=#{updateUserName ,jdbcType=VARCHAR},
             </if>
             <if test="bak1 != null">
-                bak1=#{bak1 ,jdbcType=VARCHAR},
+            bak1=#{bak1 ,jdbcType=VARCHAR},
             </if>
             <if test="bak2 != null">
-                bak2=#{bak2 ,jdbcType=VARCHAR},
+            bak2=#{bak2 ,jdbcType=VARCHAR},
             </if>
             <if test="bak3 != null">
-                bak3=#{bak3 ,jdbcType=VARCHAR},
+            bak3=#{bak3 ,jdbcType=VARCHAR},
             </if>
             <if test="bak4 != null">
-                bak4=#{bak4 ,jdbcType=VARCHAR},
+            bak4=#{bak4 ,jdbcType=VARCHAR},
             </if>
             <if test="bak5 != null">
-                bak5=#{bak5 ,jdbcType=VARCHAR},
+            bak5=#{bak5 ,jdbcType=VARCHAR},
             </if>
             <if test="bak6 != null">
-                bak6=#{bak6 ,jdbcType=VARCHAR}
+            bak6=#{bak6 ,jdbcType=VARCHAR}
             </if>
         </set>
         where id = #{id,jdbcType=VARCHAR}
@@ -570,103 +568,103 @@
         where id = #{id,jdbcType=VARCHAR}
     </update>
     <!-- 分页查询 -->
-    <select id="findSysFileKindByPage" parameterType="com.pcitc.base.expert.ZjkChoice" resultMap="BaseResultMap">
+        <select id="findSysFileKindByPage" parameterType="com.pcitc.base.expert.ZjkChoice"  resultMap="BaseResultMap">
 
         select
-        id,
-        add_user_id,
-        xm_id,
-        xm_name,
-        company_id,
-        company_name,
-        status,
-        zj_id,
-        user_id,
-        year,
-        DEL_FLAG,
-        CREATE_DATE,
-        CREATE_USER,
-        CREATE_USER_NAME,
-        UPDATE_DATE,
-        UPDATE_USER,
-        UPDATE_USER_NAME,
-        bak1,
-        bak2,
-        bak3,
-        bak4,
-        bak5,
-        bak6
+                    id,
+                    add_user_id,
+                    xm_id,
+                    xm_name,
+                    company_id,
+                    company_name,
+                    status,
+                    zj_id,
+                    user_id,
+                    year,
+                    DEL_FLAG,
+                    CREATE_DATE,
+                    CREATE_USER,
+                    CREATE_USER_NAME,
+                    UPDATE_DATE,
+                    UPDATE_USER,
+                    UPDATE_USER_NAME,
+                    bak1,
+                    bak2,
+                    bak3,
+                    bak4,
+                    bak5,
+                    bak6
         from zjk_choice
         where 1=1
-        <if test="id!=null and id!=''.toString()">
-            and id like '%${id}%'
-        </if>
-        <if test="addUserId!=null and addUserId!=''.toString()">
-            and add_user_id like '%${addUserId}%'
-        </if>
-        <if test="xmId!=null and xmId!=''.toString()">
-            and xm_id like '%${xmId}%'
-        </if>
-        <if test="xmName!=null and xmName!=''.toString()">
-            and xm_name like '%${xmName}%'
-        </if>
-        <if test="companyId!=null and companyId!=''.toString()">
-            and company_id like '%${companyId}%'
-        </if>
-        <if test="companyName!=null and companyName!=''.toString()">
-            and company_name like '%${companyName}%'
-        </if>
-        <if test="status!=null and status!=''.toString()">
-            and status like '%${status}%'
-        </if>
-        <if test="zjId!=null and zjId!=''.toString()">
-            and zj_id like '%${zjId}%'
-        </if>
-        <if test="userId!=null and userId!=''.toString()">
-            and user_id like '%${userId}%'
-        </if>
-        <if test="year!=null and year!=''.toString()">
-            and year like '%${year}%'
-        </if>
-        <if test="delFlag!=null and delFlag!=''.toString()">
-            and DEL_FLAG like '%${delFlag}%'
-        </if>
-        <if test="createDate!=null and createDate!=''.toString()">
-            and CREATE_DATE like '%${createDate}%'
-        </if>
-        <if test="createUser!=null and createUser!=''.toString()">
-            and CREATE_USER like '%${createUser}%'
-        </if>
-        <if test="createUserName!=null and createUserName!=''.toString()">
-            and CREATE_USER_NAME like '%${createUserName}%'
-        </if>
-        <if test="updateDate!=null and updateDate!=''.toString()">
-            and UPDATE_DATE like '%${updateDate}%'
-        </if>
-        <if test="updateUser!=null and updateUser!=''.toString()">
-            and UPDATE_USER like '%${updateUser}%'
-        </if>
-        <if test="updateUserName!=null and updateUserName!=''.toString()">
-            and UPDATE_USER_NAME like '%${updateUserName}%'
-        </if>
-        <if test="bak1!=null and bak1!=''.toString()">
-            and bak1 like '%${bak1}%'
-        </if>
-        <if test="bak2!=null and bak2!=''.toString()">
-            and bak2 like '%${bak2}%'
-        </if>
-        <if test="bak3!=null and bak3!=''.toString()">
-            and bak3 like '%${bak3}%'
-        </if>
-        <if test="bak4!=null and bak4!=''.toString()">
-            and bak4 like '%${bak4}%'
-        </if>
-        <if test="bak5!=null and bak5!=''.toString()">
-            and bak5 like '%${bak5}%'
-        </if>
-        <if test="bak6!=null and bak6!=''.toString()">
-            and bak6 like '%${bak6}%'
-        </if>
+                        <if test="id!=null and id!=''.toString()">
+                            and id like '%${id}%'
+                        </if>
+                        <if test="addUserId!=null and addUserId!=''.toString()">
+                            and add_user_id like '%${addUserId}%'
+                        </if>
+                        <if test="xmId!=null and xmId!=''.toString()">
+                            and xm_id like '%${xmId}%'
+                        </if>
+                        <if test="xmName!=null and xmName!=''.toString()">
+                            and xm_name like '%${xmName}%'
+                        </if>
+                        <if test="companyId!=null and companyId!=''.toString()">
+                            and company_id like '%${companyId}%'
+                        </if>
+                        <if test="companyName!=null and companyName!=''.toString()">
+                            and company_name like '%${companyName}%'
+                        </if>
+                        <if test="status!=null and status!=''.toString()">
+                            and status like '%${status}%'
+                        </if>
+                        <if test="zjId!=null and zjId!=''.toString()">
+                            and zj_id like '%${zjId}%'
+                        </if>
+                        <if test="userId!=null and userId!=''.toString()">
+                            and user_id like '%${userId}%'
+                        </if>
+                        <if test="year!=null and year!=''.toString()">
+                            and year like '%${year}%'
+                        </if>
+                        <if test="delFlag!=null and delFlag!=''.toString()">
+                            and DEL_FLAG like '%${delFlag}%'
+                        </if>
+                        <if test="createDate!=null and createDate!=''.toString()">
+                            and CREATE_DATE like '%${createDate}%'
+                        </if>
+                        <if test="createUser!=null and createUser!=''.toString()">
+                            and CREATE_USER like '%${createUser}%'
+                        </if>
+                        <if test="createUserName!=null and createUserName!=''.toString()">
+                            and CREATE_USER_NAME like '%${createUserName}%'
+                        </if>
+                        <if test="updateDate!=null and updateDate!=''.toString()">
+                            and UPDATE_DATE like '%${updateDate}%'
+                        </if>
+                        <if test="updateUser!=null and updateUser!=''.toString()">
+                            and UPDATE_USER like '%${updateUser}%'
+                        </if>
+                        <if test="updateUserName!=null and updateUserName!=''.toString()">
+                            and UPDATE_USER_NAME like '%${updateUserName}%'
+                        </if>
+                        <if test="bak1!=null and bak1!=''.toString()">
+                            and bak1 like '%${bak1}%'
+                        </if>
+                        <if test="bak2!=null and bak2!=''.toString()">
+                            and bak2 like '%${bak2}%'
+                        </if>
+                        <if test="bak3!=null and bak3!=''.toString()">
+                            and bak3 like '%${bak3}%'
+                        </if>
+                        <if test="bak4!=null and bak4!=''.toString()">
+                            and bak4 like '%${bak4}%'
+                        </if>
+                        <if test="bak5!=null and bak5!=''.toString()">
+                            and bak5 like '%${bak5}%'
+                        </if>
+                        <if test="bak6!=null and bak6!=''.toString()">
+                            and bak6 like '%${bak6}%'
+                        </if>
 
         <if test="iSortCol!=null and iSortCol!=''.toString()">
             order by ${iSortCol} ${sSortDir_0}
@@ -675,100 +673,100 @@
     <!-- 查询列表 -->
     <select id="findZjkChoiceList" parameterType="com.pcitc.base.expert.ZjkChoice" resultMap="BaseResultMap">
         select
-        id,
-        add_user_id,
-        xm_id,
-        xm_name,
-        company_id,
-        company_name,
-        status,
-        zj_id,
-        user_id,
-        year,
-        DEL_FLAG,
-        CREATE_DATE,
-        CREATE_USER,
-        CREATE_USER_NAME,
-        UPDATE_DATE,
-        UPDATE_USER,
-        UPDATE_USER_NAME,
-        bak1,
-        bak2,
-        bak3,
-        bak4,
-        bak5,
-        bak6
+                    id,
+                    add_user_id,
+                    xm_id,
+                    xm_name,
+                    company_id,
+                    company_name,
+                    status,
+                    zj_id,
+                    user_id,
+                    year,
+                    DEL_FLAG,
+                    CREATE_DATE,
+                    CREATE_USER,
+                    CREATE_USER_NAME,
+                    UPDATE_DATE,
+                    UPDATE_USER,
+                    UPDATE_USER_NAME,
+                    bak1,
+                    bak2,
+                    bak3,
+                    bak4,
+                    bak5,
+                    bak6
         from zjk_choice
         where 1=1
-        <if test="id!=null">
-            and id = #{id,jdbcType=VARCHAR}
-        </if>
-        <if test="addUserId!=null">
-            and add_user_id = #{addUserId,jdbcType=VARCHAR}
-        </if>
-        <if test="xmId!=null">
-            and xm_id = #{xmId,jdbcType=VARCHAR}
-        </if>
-        <if test="xmName!=null">
-            and xm_name = #{xmName,jdbcType=VARCHAR}
-        </if>
-        <if test="companyId!=null">
-            and company_id = #{companyId,jdbcType=VARCHAR}
-        </if>
-        <if test="companyName!=null">
-            and company_name = #{companyName,jdbcType=VARCHAR}
-        </if>
-        <if test="status!=null">
-            and status = #{status,jdbcType=VARCHAR}
-        </if>
-        <if test="zjId!=null">
-            and zj_id = #{zjId,jdbcType=VARCHAR}
-        </if>
-        <if test="userId!=null">
-            and user_id = #{userId,jdbcType=VARCHAR}
-        </if>
-        <if test="year!=null">
-            and year = #{year,jdbcType=VARCHAR}
-        </if>
-        <if test="delFlag!=null">
-            and DEL_FLAG = #{delFlag,jdbcType=VARCHAR}
-        </if>
-        <if test="createDate!=null">
-            and CREATE_DATE = #{createDate,jdbcType=VARCHAR}
-        </if>
-        <if test="createUser!=null">
-            and CREATE_USER = #{createUser,jdbcType=VARCHAR}
-        </if>
-        <if test="createUserName!=null">
-            and CREATE_USER_NAME = #{createUserName,jdbcType=VARCHAR}
-        </if>
-        <if test="updateDate!=null">
-            and UPDATE_DATE = #{updateDate,jdbcType=VARCHAR}
-        </if>
-        <if test="updateUser!=null">
-            and UPDATE_USER = #{updateUser,jdbcType=VARCHAR}
-        </if>
-        <if test="updateUserName!=null">
-            and UPDATE_USER_NAME = #{updateUserName,jdbcType=VARCHAR}
-        </if>
-        <if test="bak1!=null">
-            and bak1 = #{bak1,jdbcType=VARCHAR}
-        </if>
-        <if test="bak2!=null">
-            and bak2 = #{bak2,jdbcType=VARCHAR}
-        </if>
-        <if test="bak3!=null">
-            and bak3 = #{bak3,jdbcType=VARCHAR}
-        </if>
-        <if test="bak4!=null">
-            and bak4 = #{bak4,jdbcType=VARCHAR}
-        </if>
-        <if test="bak5!=null">
-            and bak5 = #{bak5,jdbcType=VARCHAR}
-        </if>
-        <if test="bak6!=null">
-            and bak6 = #{bak6,jdbcType=VARCHAR}
-        </if>
+                        <if test="id!=null">
+                            and id = #{id,jdbcType=VARCHAR}
+                        </if>
+                        <if test="addUserId!=null">
+                            and add_user_id = #{addUserId,jdbcType=VARCHAR}
+                        </if>
+                        <if test="xmId!=null">
+                            and xm_id = #{xmId,jdbcType=VARCHAR}
+                        </if>
+                        <if test="xmName!=null">
+                            and xm_name = #{xmName,jdbcType=VARCHAR}
+                        </if>
+                        <if test="companyId!=null">
+                            and company_id = #{companyId,jdbcType=VARCHAR}
+                        </if>
+                        <if test="companyName!=null">
+                            and company_name = #{companyName,jdbcType=VARCHAR}
+                        </if>
+                        <if test="status!=null">
+                            and status = #{status,jdbcType=VARCHAR}
+                        </if>
+                        <if test="zjId!=null">
+                            and zj_id = #{zjId,jdbcType=VARCHAR}
+                        </if>
+                        <if test="userId!=null">
+                            and user_id = #{userId,jdbcType=VARCHAR}
+                        </if>
+                        <if test="year!=null">
+                            and year = #{year,jdbcType=VARCHAR}
+                        </if>
+                        <if test="delFlag!=null">
+                            and DEL_FLAG = #{delFlag,jdbcType=VARCHAR}
+                        </if>
+                        <if test="createDate!=null">
+                            and CREATE_DATE = #{createDate,jdbcType=VARCHAR}
+                        </if>
+                        <if test="createUser!=null">
+                            and CREATE_USER = #{createUser,jdbcType=VARCHAR}
+                        </if>
+                        <if test="createUserName!=null">
+                            and CREATE_USER_NAME = #{createUserName,jdbcType=VARCHAR}
+                        </if>
+                        <if test="updateDate!=null">
+                            and UPDATE_DATE = #{updateDate,jdbcType=VARCHAR}
+                        </if>
+                        <if test="updateUser!=null">
+                            and UPDATE_USER = #{updateUser,jdbcType=VARCHAR}
+                        </if>
+                        <if test="updateUserName!=null">
+                            and UPDATE_USER_NAME = #{updateUserName,jdbcType=VARCHAR}
+                        </if>
+                        <if test="bak1!=null">
+                            and bak1 = #{bak1,jdbcType=VARCHAR}
+                        </if>
+                        <if test="bak2!=null">
+                            and bak2 = #{bak2,jdbcType=VARCHAR}
+                        </if>
+                        <if test="bak3!=null">
+                            and bak3 = #{bak3,jdbcType=VARCHAR}
+                        </if>
+                        <if test="bak4!=null">
+                            and bak4 = #{bak4,jdbcType=VARCHAR}
+                        </if>
+                        <if test="bak5!=null">
+                            and bak5 = #{bak5,jdbcType=VARCHAR}
+                        </if>
+                        <if test="bak6!=null">
+                            and bak6 = #{bak6,jdbcType=VARCHAR}
+                        </if>
 
         <if test="iSortCol!=null and iSortCol!=''.toString()">
             order by ${iSortCol} ${sSortDir_0}

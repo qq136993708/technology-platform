@@ -10,11 +10,16 @@
 </head>
 <body>
 统计
-${expertCount}
-${cgCount}
-${zlCount}
-${jlCount}
-<a href="/expertController/queryExpert" target="_blank">查询</a>
+专家数量:${expertCount}
+成果数量${cgCount}
+专利数量${zlCount}
+成果+专利${cgzlCount}
+机构数量${jlCount}
+<input id="hyly" value="hyly"/>
+<input id="jg" value="jg"/>
+<input id="zjmc" value="zjmc"/>
+<input id="key" value="key"/>
+<a href="/expertController/queryExpert" target="_blank">找专家</a>
 <script>
 
 
@@ -22,17 +27,13 @@ ${jlCount}
 
 <script src="/common/js/jquery-1.11.3.min.js"></script>
 <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
-<script src="/common/js/layer-v3.1.1/layer.js"></script>
-<!--<script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>-->
-<script type="text/javascript" src="/plugins/echarts/echarts-all.js"></script>
+<script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
 
-<!--<script type="text/javascript" src="/plugins/echarts/walden.js"></script>-->
+<script type="text/javascript" src="/plugins/echarts/walden.js"></script>
 <script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
 <script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
-<script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
 <script type="text/javascript" src="/stp/hana/common/stp_common_force.js"></script>
 
-<div class="main-chart" id="one" style="height:440px;width: 100%;"></div>
 
 <div class="main-chart" id="four" style="height:280px;width: 100%;"></div>
 <div class="main-chart" id="three" style="height:280px;width: 100%;"></div>
@@ -42,41 +43,50 @@ ${jlCount}
 
 <script>
     function initEchart() {
-        var yAxis= [
+        var yAxis = [
             {
                 type: 'value',
                 name: '数量',
                 min: 0,
-                max:'dataMax',
+                max: 'dataMax',
                 position: 'left',
                 axisLabel: {
                     formatter: '{value}'
                 }
             }
         ];
-        var two="/expertController/picIndex?id=1&expertId=1&type=bar";
-        var two=load_single_bar(two,"two","专家参与评标项目数量统计图","",yAxis);
+        var two = "/expertController/picIndex?id=1&expertId=1&type=bar";
+        var two = load_single_bar(two, "two", "专家参与评标项目数量统计图", "", yAxis);
         // two.on('click', function (params) {
         //     var xName=params.name;
         //     var legentName=params.seriesName;
         //     parent.layui.index.openTabsPage("/home_achievement/award_table?project_property="+xName, "科技成果明细");
         // });
-        var three="/expertController/picIndex?id=2&type=bar";
-        var three=load_single_bar(three,"three","年龄段专家数量","",yAxis);
+        var three = "/expertController/picIndex?id=2&type=bar";
+        var three = load_single_bar(three, "three", "年龄段专家数量", "", yAxis);
 
-        var four="/expertController/picIndex?id=3&type=bar";
-        var four=load_single_bar(four,"four","研究院专家数量","",yAxis);
+        var four = "/expertController/picIndex?id=3&type=bar";
+        var four = load_single_bar(four, "four", "研究院专家数量", "", yAxis);
 
-        var five="/expertController/picIndex?id=4&hyly=hyly&type=bar";
-        var five=load_single_bar(five,"five","专家所在行业领域展示图","",yAxis);
+        var five = "/expertController/picIndex?id=4&hyly=hyly&type=bar";
+        var five = load_single_bar(five, "five", "专家所在行业领域展示图", "", yAxis);
     }
+
     initEchart();
 
-    function relationPic() {
-        var one="/expertController/picIndex?id=5&type=force&expertId=1";
-        var one=load_single_force(one,"one","专家与机构关系","","");
-    }
-    relationPic();
+
 </script>
+
+<!--<script type="text/javascript" src="/plugins/echarts/echarts-all.js"></script>-->
+<!--<div class="main-chart" id="one" style="height:440px;width: 100%;"></div>-->
+<!--<script>-->
+    <!--function relationPic() {-->
+        <!--var one = "/expertController/picIndex?id=5&type=force&expertId=1";-->
+        <!--var one = load_single_force(one, "one", "专家与机构关系", "", "");-->
+    <!--}-->
+
+    <!--relationPic();-->
+<!--</script>-->
+
 </body>
 </html>

@@ -46,6 +46,8 @@
         <result column="bak5" jdbcType="VARCHAR" property="bak5"/>
         <result column="bak6" jdbcType="VARCHAR" property="bak6"/>
         <result column="user_id" jdbcType="VARCHAR" property="userId"/>
+        <result column="dh" jdbcType="VARCHAR" property="dh"/>
+        <result column="zc" jdbcType="VARCHAR" property="zc"/>
     </resultMap>
     <sql id="Example_Where_Clause">
         <where>
@@ -148,7 +150,9 @@
         bak4,
         bak5,
         bak6,
-        user_id
+        user_id,
+        dh,
+        zc
 </sql>
 
     <select id="selectByExample" parameterType="com.pcitc.base.expert.ZjkBaseInfoExample" resultMap="BaseResultMap">
@@ -231,7 +235,9 @@
             bak4,
             bak5,
             bak6,
-            user_id
+            user_id,
+            dh,
+            zc
         )
         values (
 
@@ -275,7 +281,9 @@
     #{bak4,jdbcType=VARCHAR},
     #{bak5,jdbcType=VARCHAR},
     #{bak6,jdbcType=VARCHAR},
-    #{userId,jdbcType=VARCHAR}
+    #{userId,jdbcType=VARCHAR},
+    #{dh,jdbcType=VARCHAR},
+    #{zc,jdbcType=VARCHAR}
         )
     </insert>
     <insert id="insertSelective" parameterType="com.pcitc.base.expert.ZjkBaseInfo">
@@ -403,7 +411,13 @@
                 bak6,
             </if>
             <if test="userId != null">
-                user_id
+                user_id,
+            </if>
+            <if test="dh != null">
+                dh,
+            </if>
+            <if test="zc != null">
+                zc
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -530,7 +544,13 @@
                 #{bak6 ,jdbcType=VARCHAR},
             </if>
             <if test="userId != null">
-                #{userId ,jdbcType=VARCHAR}
+                #{userId ,jdbcType=VARCHAR},
+            </if>
+            <if test="dh != null">
+                #{dh ,jdbcType=VARCHAR},
+            </if>
+            <if test="zc != null">
+                #{zc ,jdbcType=VARCHAR}
             </if>
         </trim>
     </insert>
@@ -665,7 +685,13 @@
                 bak6=#{record.bak6,jdbcType=VARCHAR},
             </if>
             <if test="record.userId != null">
-                user_id=#{record.userId,jdbcType=VARCHAR}
+                user_id=#{record.userId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.dh != null">
+                dh=#{record.dh,jdbcType=VARCHAR},
+            </if>
+            <if test="record.zc != null">
+                zc=#{record.zc,jdbcType=VARCHAR}
             </if>
 
         </set>
@@ -716,7 +742,9 @@
         bak4=#{record.bak4,jdbcType=VARCHAR},
         bak5=#{record.bak5,jdbcType=VARCHAR},
         bak6=#{record.bak6,jdbcType=VARCHAR},
-        user_id=#{record.userId,jdbcType=VARCHAR}
+        user_id=#{record.userId,jdbcType=VARCHAR},
+        dh=#{record.dh,jdbcType=VARCHAR},
+        zc=#{record.zc,jdbcType=VARCHAR}
         <if test="_parameter != null">
             <include refid="Update_By_Example_Where_Clause"/>
         </if>
@@ -843,7 +871,13 @@
                 bak6=#{bak6 ,jdbcType=VARCHAR},
             </if>
             <if test="userId != null">
-                user_id=#{userId ,jdbcType=VARCHAR}
+                user_id=#{userId ,jdbcType=VARCHAR},
+            </if>
+            <if test="dh != null">
+                dh=#{dh ,jdbcType=VARCHAR},
+            </if>
+            <if test="zc != null">
+                zc=#{zc ,jdbcType=VARCHAR}
             </if>
         </set>
         where id = #{id,jdbcType=VARCHAR}
@@ -890,7 +924,9 @@
             bak4=#{bak4,jdbcType=VARCHAR},
             bak5=#{bak5,jdbcType=VARCHAR},
             bak6=#{bak6,jdbcType=VARCHAR},
-            user_id=#{userId,jdbcType=VARCHAR}
+            user_id=#{userId,jdbcType=VARCHAR},
+            dh=#{dh,jdbcType=VARCHAR},
+            zc=#{zc,jdbcType=VARCHAR}
         where id = #{id,jdbcType=VARCHAR}
     </update>
     <!-- 分页查询 -->
@@ -937,7 +973,9 @@
         bak4,
         bak5,
         bak6,
-        user_id
+        user_id,
+        dh,
+        zc
         from zjk_base_info
         where 1=1
         <if test="id!=null and id!=''.toString()">
@@ -1063,6 +1101,12 @@
         <if test="userId!=null and userId!=''.toString()">
             and user_id like '%${userId}%'
         </if>
+        <if test="dh!=null and dh!=''.toString()">
+            and dh like '%${dh}%'
+        </if>
+        <if test="zc!=null and zc!=''.toString()">
+            and zc like '%${zc}%'
+        </if>
 
         <if test="iSortCol!=null and iSortCol!=''.toString()">
             order by ${iSortCol} ${sSortDir_0}
@@ -1111,7 +1155,9 @@
         bak4,
         bak5,
         bak6,
-        user_id
+        user_id,
+        dh,
+        zc
         from zjk_base_info
         where 1=1
         <if test="id!=null">
@@ -1236,6 +1282,12 @@
         </if>
         <if test="userId!=null">
             and user_id = #{userId,jdbcType=VARCHAR}
+        </if>
+        <if test="dh!=null">
+            and dh = #{dh,jdbcType=VARCHAR}
+        </if>
+        <if test="zc!=null">
+            and zc = #{zc,jdbcType=VARCHAR}
         </if>
 
         <if test="iSortCol!=null and iSortCol!=''.toString()">

@@ -13,6 +13,7 @@ import com.pcitc.base.expert.ZjkChoiceExample;
 import com.pcitc.base.util.IdUtil;
 import com.pcitc.base.util.TreeNodeUtil;
 import com.pcitc.mapper.expert.ZjkChoiceMapper;
+import com.pcitc.service.expert.ZjkBaseInfoService;
 import com.pcitc.service.expert.ZjkChoiceService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.annotations.Param;
@@ -40,9 +41,20 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
     @Autowired
     private ZjkChoiceMapper zjkChoiceMapper;
 
+
+    @Autowired
+    private ZjkBaseInfoService zjkBaseInfoService;
+
     public List<ZjkChoice> findZjkChoiceList(ZjkChoice zjkChoice) {
         List<ZjkChoice> record = zjkChoiceMapper.findZjkChoiceList(zjkChoice);
         return record;
+    }
+
+    public List<ZjkBaseInfo> findZjkBaseInofList(List<String> ids) {
+        ZjkBaseInfoExample example = new ZjkBaseInfoExample();
+        example.createCriteria().andIdIn(ids);
+        List<ZjkBaseInfo> list = zjkBaseInfoService.selectByExample(example);
+        return list;
     }
 
     @Override

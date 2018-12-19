@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.enums.DataOperationStatusEnum;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.TreeNode;
+import com.pcitc.base.expert.ZjkBaseInfo;
 import com.pcitc.base.expert.ZjkChoice;
 import com.pcitc.base.expert.ZjkChoiceExample;
 import org.apache.ibatis.annotations.Param;
@@ -183,4 +184,12 @@ public interface ZjkChoiceService {
      * @return
      */
     List<TreeNode> selectObjectByTree();
+
+    /**
+     * 根据IDS查询专家信息
+     *
+     * @param ids
+     * @return
+     */
+    public List<ZjkBaseInfo> findZjkBaseInofList(List<String> ids);
 }

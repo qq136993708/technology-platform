@@ -2996,6 +2996,146 @@ public class ZjkBaseInfoExample {
             addCriterion("user_id not between", value1, value2, "userId");
             return (Criteria) this;
         }
+
+        public Criteria andDhIsNull() {
+            addCriterion("dh is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDhIsNotNull() {
+            addCriterion("dh is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDhEqualTo(String value) {
+            addCriterion("dh =", value, "dh");
+            return (Criteria) this;
+        }
+
+        public Criteria andDhNotEqualTo(String value) {
+            addCriterion("dh <>", value, "dh");
+            return (Criteria) this;
+        }
+
+        public Criteria andDhGreaterThan(String value) {
+            addCriterion("dh >", value, "dh");
+            return (Criteria) this;
+        }
+
+        public Criteria andDhGreaterThanOrEqualTo(String value) {
+            addCriterion("dh >=", value, "dh");
+            return (Criteria) this;
+        }
+
+        public Criteria andDhLessThan(String value) {
+            addCriterion("dh <", value, "dh");
+            return (Criteria) this;
+        }
+
+        public Criteria andDhLessThanOrEqualTo(String value) {
+            addCriterion("dh <=", value, "dh");
+            return (Criteria) this;
+        }
+
+        public Criteria andDhLike(String value) {
+            addCriterion("dh like", value, "dh");
+            return (Criteria) this;
+        }
+
+        public Criteria andDhNotLike(String value) {
+            addCriterion("dh not like", value, "dh");
+            return (Criteria) this;
+        }
+
+        public Criteria andDhIn(List<String> values) {
+            addCriterion("dh in", values, "dh");
+            return (Criteria) this;
+        }
+
+        public Criteria andDhNotIn(List<String> values) {
+            addCriterion("dh not in", values, "dh");
+            return (Criteria) this;
+        }
+
+        public Criteria andDhBetween(String value1, String value2) {
+            addCriterion("dh between", value1, value2, "dh");
+            return (Criteria) this;
+        }
+
+        public Criteria andDhNotBetween(String value1, String value2) {
+            addCriterion("dh not between", value1, value2, "dh");
+            return (Criteria) this;
+        }
+
+        public Criteria andZcIsNull() {
+            addCriterion("zc is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andZcIsNotNull() {
+            addCriterion("zc is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andZcEqualTo(String value) {
+            addCriterion("zc =", value, "zc");
+            return (Criteria) this;
+        }
+
+        public Criteria andZcNotEqualTo(String value) {
+            addCriterion("zc <>", value, "zc");
+            return (Criteria) this;
+        }
+
+        public Criteria andZcGreaterThan(String value) {
+            addCriterion("zc >", value, "zc");
+            return (Criteria) this;
+        }
+
+        public Criteria andZcGreaterThanOrEqualTo(String value) {
+            addCriterion("zc >=", value, "zc");
+            return (Criteria) this;
+        }
+
+        public Criteria andZcLessThan(String value) {
+            addCriterion("zc <", value, "zc");
+            return (Criteria) this;
+        }
+
+        public Criteria andZcLessThanOrEqualTo(String value) {
+            addCriterion("zc <=", value, "zc");
+            return (Criteria) this;
+        }
+
+        public Criteria andZcLike(String value) {
+            addCriterion("zc like", value, "zc");
+            return (Criteria) this;
+        }
+
+        public Criteria andZcNotLike(String value) {
+            addCriterion("zc not like", value, "zc");
+            return (Criteria) this;
+        }
+
+        public Criteria andZcIn(List<String> values) {
+            addCriterion("zc in", values, "zc");
+            return (Criteria) this;
+        }
+
+        public Criteria andZcNotIn(List<String> values) {
+            addCriterion("zc not in", values, "zc");
+            return (Criteria) this;
+        }
+
+        public Criteria andZcBetween(String value1, String value2) {
+            addCriterion("zc between", value1, value2, "zc");
+            return (Criteria) this;
+        }
+
+        public Criteria andZcNotBetween(String value1, String value2) {
+            addCriterion("zc not between", value1, value2, "zc");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {
