@@ -838,6 +838,7 @@
 			WHERE
 				(out_project_plan.PROJECT_SCOPE= '新开课题' or out_project_plan.PROJECT_SCOPE= '结转课题')
 				and out_project_plan.define1 = '费用性' 
+				and out_project_plan.define3 is not null
 				and (out_project_plan.PROJECT_TYPE= '0' or out_project_plan.PROJECT_TYPE= '2')
 			group by out_project_plan.data_id
 		) as tableB
