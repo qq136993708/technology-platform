@@ -671,11 +671,41 @@ function set_multi_graph_statistics(data,id)
 	}
 	
 	
-	
+	if(id=='leader_knowledge_chart1')
+	{
+		var xkCount_1=getDataCountForName(data,'专利申请');
+    	var jzCount_2=getDataCountForName(data,'专利授权');
+        var allCount_3=xkCount_1+jzCount_2;
+        
+        $("#leader_knowledge_chart1_01").html(allCount_3+"个");
+        $("#leader_knowledge_chart1_02").html(xkCount_1+"个");
+        $("#leader_knowledge_chart1_03").html(jzCount_2+"个");
+	}
 
-
+	if(id=='leader_knowledge_chart4')
+	{
+		var xkCount_1=getDataCountForName(data,'专利申请');
+    	var jzCount_2=getDataCountForName(data,'专利授权');
+        var allCount_3=xkCount_1+jzCount_2;
+        
+        $("#leader_knowledge_chart4_01").html(allCount_3+"个");
+        $("#leader_knowledge_chart4_02").html(xkCount_1+"个");
+        $("#leader_knowledge_chart4_03").html(jzCount_2+"个");
+	}
 	
-	
+	if(id=='leader_knowledge_chart7')
+	{
+		var count_1=getDataCountForName(data,'发明授权');
+    	var count_2=getDataCountForName(data,'外观设计');
+        var count_3=getDataCountForName(data,'实用新型');
+        var count_all=count_1+count_2+count_3;
+        
+        $("#leader_knowledge_chart7_01").html(count_all+"个");
+        $("#leader_knowledge_chart7_02").html(count_1+"个");
+        $("#leader_knowledge_chart7_03").html(count_2+"个");
+        $("#leader_knowledge_chart7_04").html(count_3+"个");
+        
+	}
 	/**=============================直属研究院 end===========================*/
 	
 	/**===================================领导 begin===============================*/
