@@ -280,6 +280,7 @@ public class ReportColumnServiceImpl implements ReportColumnService {
             JSONArray default_wd_zb_obj_array_temp = new JSONArray();
             JSONArray default_x_obj_array = new JSONArray();
             JSONArray default_column_obj_array = new JSONArray();
+            JSONArray query_obj_array = new JSONArray();
             for (int i = 0; i < list.size(); i++) {
                 ReportColumn column = list.get(i);
 
@@ -352,6 +353,13 @@ public class ReportColumnServiceImpl implements ReportColumnService {
                     default_column_obj.put("var " + strField, "=" + column.getBak1() + ";");
                     default_column_obj_array.add(default_column_obj);
                 }
+                if (column.getBak3() != null && !"".equals(column.getBak3())) {
+                    JSONObject object = new JSONObject();
+                    object.put("type",column.getBak3());
+                    object.put("desc",column.getBak4());
+                    object.put("field",strField);
+                    query_obj_array.add(object);
+                }
             }
             retJson.put("wd_obj_array", wd_obj_array);
             retJson.put("zb_obj_array", zb_obj_array);
@@ -362,6 +370,7 @@ public class ReportColumnServiceImpl implements ReportColumnService {
             retJson.put("default_wd_zb_obj_array", this.joinJSONArray(default_wd_zb_obj_array, default_wd_zb_obj_array_temp));
             retJson.put("default_x_obj_array", default_x_obj_array);
             retJson.put("default_column_obj_array", default_column_obj_array);
+            retJson.put("query_obj_array", query_obj_array);
         } catch (Exception e) {
             e.printStackTrace();
         }

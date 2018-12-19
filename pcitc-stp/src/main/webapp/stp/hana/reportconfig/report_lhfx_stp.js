@@ -450,6 +450,31 @@ var pcitcReport = pcitc.report = {
         }
         $("#gsdm_select").html(gsdm_html);
         pcitcReport.gsdm = gsdm_init;
+    }, queryCon: function (obj) {
+        var input = "<input type=\"text\"  id=\"xxxxx\" value=\"\">"
+        for (var i = 0,l = obj.length; i < l; i++) {
+            var type = obj[i].type;
+            var desc = obj[i].desc;
+            var field = obj[i].field;
+            var htmlInput = input.replace("xxxxx",field);
+            $("#inputHtml").append(htmlInput);
+            console.log(htmlInput);
+        }
+    },getQueryval:function (obj) {
+        console.log("getQueryval");
+        console.log(obj);
+        if(obj.length==0){
+            return;
+        }
+        for (var i = 0,l = obj.length; i < l; i++) {
+            var type = obj[i].type;
+            var desc = obj[i].desc;
+            var field = obj[i].field;
+            if("input"==type&&$("#"+field).val()!==""){
+                pcitcReport.strwhere += ' and '+field+'='+$("#"+field).val();
+            }
+            console.log(pcitcReport.strwhere);
+        }
     }
     , drag: function () {//拖拽
         /*拖拽*/
@@ -907,7 +932,7 @@ var pcitcReport = pcitc.report = {
             return false;
         } else if (storeName == "") {
             layui.use(['element', 'layer', 'form', 'treeGrid', 'element', 'formSelects'], function () {
-               // alert(storeName)
+                // alert(storeName)
                 layer.msg('请输入收藏名称');
             })
 
@@ -948,7 +973,7 @@ var pcitcReport = pcitc.report = {
                 for (var i = 0; i < data.length; i++) {
                     html = html + "<dd><a href=\"javascript:pcitcReport.tzStore('" + data[i].modelConfigId + "','" + data[i].id + "');\">" + data[i].bak4 + "</a></dd>";
                 }
-                if(html==""){
+                if (html == "") {
                     html = "<dd><a>无数据</a></dd>";
                 }
                 $("#mxstorelist").append(html);

@@ -11,7 +11,7 @@ import java.io.Serializable;
  * <p>实体类</p>
  * <p>Table: zjk_choice - 专家-人员选择</p>
  *
- * @since 2018-12-12 01:57:28
+ * @since 2018-12-19 10:34:09
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ZjkChoice extends DataEntity implements Serializable {
