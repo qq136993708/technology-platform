@@ -39,7 +39,7 @@
                 <div class="layui-col-md5">
                     <div class="layui-card">
                         <div class="layui-card-header">
-                            <span class="layui-time"></span>年科研合同签订率
+                            <span class="layui-time"></span>年石化集团科研合同签订率
                         </div>
                         <div class="layui-row-main">
                             <div class="text-total">
@@ -54,7 +54,7 @@
                 <div class="layui-col-md5" style="padding-left: 15px;">
                     <div class="layui-card">
                         <div class="layui-card-header">
-                            <span class="layui-time"></span>年费用性/资本性科研合同签订率
+                            <span class="layui-time"></span>年石化集团费用性/资本性科研合同签订率
                         </div>
                         <div class="layui-row-main">
                             <div class="main-chart" id="direct_contract_01_01" style="height:270px;width: 100%;"></div>
@@ -65,7 +65,7 @@
             <div class="layui-col-md4">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        <span class="layui-time"></span>年科研合同签订率清单
+                        <span class="layui-time"></span>年石化集团科研合同签订率清单
                     </div>
                     <div class="layui-row-main" style="height:270px;">
                         <table id="processdef_table_02" class="layui-hide" lay-filter="processdef_table"></table>
@@ -80,7 +80,7 @@
             <div class="layui-col-md8">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        <span class="layui-time"></span>年中石化集团科研合同签订率
+                        <span class="layui-time"></span>年石化集团科研合同签订率
                     </div>
                     <div class="layui-row-main">
 
@@ -91,13 +91,13 @@
             <div class="layui-col-md4">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        ${year}年中石化集团科研合同签订率清单
+                        ${year}年石化集团科研合同签订率清单
                         <div class="layui-tool">
                             <button type="button" class="btn btn-tool collapse"></button>
                             <button type="button" class="btn btn-tool remove"></button>
                         </div>
                     </div>
-                    <div class="layui-card-body btn-function" style="height:280px;">
+                    <div class="layui-card-body btn-function" style="height:280px;" id="processdef_table_div">
                         <table id="processdef_table" class="layui-hide" lay-filter="processdef_table"></table>
                     </div>
                 </div>
@@ -108,7 +108,7 @@
             <div class="layui-col-md12">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        <span class="layui-time"></span>年直属研究院科研合同签订率
+                        <span class="layui-time"></span>年石化集团直属研究院科研合同签订率
                     </div>
                     <div class="layui-row-main">
                         <div class="text-total">
@@ -345,8 +345,56 @@
 
     function renderTable()
     {  
-    	
-    	  var month=$("#year").val();
+    	var month=$("#year").val();
+    	table.render({
+            elem: '#processdef_table' //表格容器
+            , url:'/one_level_main/contract_05?nd='+month
+            , id: 'processdef_table'
+            , limit: 15 //每页默认显示的数量
+            , height: commonDislodgeTable()
+            , cols: [[
+            	{field:'define3',  title:'类别',  style:'cursor: pointer;',align: 'left'},
+            	{field:'define2',  title:'机构',  style:'cursor: pointer;',align: 'left', width: '20%'},
+ 	            {field:'zsl',  title:'计划签订数（个）',   style:'cursor: pointer;',align: 'left', width: '20%'},
+ 	            {field:'yqhtzj',  title:'实际签订数（个）',   style:'cursor: pointer;',align: 'left', width: '20%'},
+ 	            {field:'qdlzj',  title:'签订率（%）',       style:'cursor: pointer;',align: 'left', width: '20%',templet:function(d){return d.qdlzj+"%"}}
+            ]],
+            done: function(res, curr, count){
+               merge(res);
+            }
+        });
+    	function merge(res) {
+
+            var data = res.data;
+            var mergeIndex = 0;//定位需要添加合并属性的行数
+            var mark = 1; //这里涉及到简单的运算，mark是计算每次需要合并的格子数
+            var columsName = ['define3'];//需要合并的列名称
+            var columsIndex = [0];//需要合并的列索引值
+
+            for (var k = 0; k < columsName.length; k++) { //这里循环所有要合并的列
+                var trArr = $("#processdef_table_div .layui-table-body .layui-table").find("tr");//所有行
+                for (var i = 1; i < res.data.length; i++) { //这里循环表格当前的数据
+                    var tdCurArr = trArr.eq(i).find("td").eq(columsIndex[k]);//获取当前行的当前列
+                    var tdPreArr = trArr.eq(mergeIndex).find("td").eq(columsIndex[k]);//获取相同列的第一列
+
+                    if (data[i][columsName[k]] === data[i-1][columsName[k]]) { //后一行的值与前一行的值做比较，相同就需要合并
+                        mark += 1;
+                        tdPreArr.each(function () {//相同列的第一列增加rowspan属性
+                            $(this).attr("rowspan", mark);
+                        });
+                        tdCurArr.each(function () {//当前行隐藏
+                            $(this).css("display", "none");
+                        });
+                    }else {
+                        mergeIndex = i;
+                        mark = 1;//一旦前后两行的值不一样了，那么需要合并的格子数mark就需要重新计算
+                    }
+                }
+                mergeIndex = 0;
+                mark = 1;
+            }
+        }
+    	 /* var month=$("#year").val();
     	 var ptable=treeGridCom.render({
     	        id:'processdef_table'
     	        ,elem: '#processdef_table'
@@ -379,7 +427,7 @@
     	        ,onDblClickRow:function (index, o) {
     	            console.log(index,o,"双击");
     	        }
-    	    });
+    	    }); */
     }
 
 
