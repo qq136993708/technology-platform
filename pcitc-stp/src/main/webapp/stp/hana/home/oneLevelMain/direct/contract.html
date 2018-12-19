@@ -134,7 +134,6 @@ layui.config({
        
         renderTable2();
         renderTable();
-        
 });
 
 //圆圈初始化
@@ -165,22 +164,7 @@ var labelTop = {
 	        }
 	    },
 	}
-	var labelBottom = {
-	    normal : {
-	        color: '#ccc',
-	        label : {
-	            show : true,
-	            position : 'center'
-	        },
-	        labelLine : {
-	            show : false
-	        }
-	    },
-	    emphasis: {
-	        color: 'rgba(0,0,0,0)'
-	    }
-	};
-	var radius = [40, 55];
+	var radius = [80, 110];
 	var option_cicle = {
 	    legend: {
 	        x : 'center',
@@ -189,43 +173,17 @@ var labelTop = {
 	            '已签合同'
 	        ]
 	    },
-	     toolbox: {
-	        show : true,
-	        feature : {
-	            dataView : {show: true, readOnly: false},
-	            magicType : {
-	                show: true, 
-	                type: ['pie', 'funnel'],
-	                option: {
-	                    funnel: {
-	                        width: '20%',
-	                        height: '30%',
-	                        itemStyle : {
-	                            normal : {
-	                                label : {
-	                                    formatter : function (params){
-	                                    	//alert(params);
-	                                        return '已签合同\n' + params.value + '%\n'
-	                                    },
-	                                    textStyle: {
-	                                        baseline : 'middle'
-	                                    }
-	                                }
-	                            },
-	                        } 
-	                    }
-	                }
-	            },
-	            restore : {show: true}
-	        }
-	    }, 
 	    series : [
 	        {
 	            type : 'pie',
-	            center : ['10%', '30%'],
+	            center : ['50%', '45%'],
+                silent: true,
+                labelLine : {
+                    show : false
+                },
+
+                color:"#02c2ad",
 	            radius : radius,
-	            x: '0%', 
-	            itemStyle : labelFromatter,
 	            data : [
 	                
 	            ]
@@ -400,11 +358,36 @@ function renderTable2()
 	                var chartList=data.data.dataList;
 	                for(var i=0;i<chartList.length;i++)
 	                {
+                        console.log(chartList[i])
+                        if(chartList[i].name=="已签合同"){
+                            values.push({
+                                value: chartList[i].value,
+                                name: "签订率",
+                                label:{normal: {formatter:'{b}\n{d}%', position: 'center',
+                                        color:"#02c2ad",textStyle : {fontSize : 20}}}
+                            });
+                        }else {
+                            values.push({
+                                value: chartList[i].value,
+                                name: chartList[i].name,
+                                itemStyle:{
+                                    normal : {
+                                        color: '#cccccc',
+                                        label : {
+                                            show : false,
+                                            position : 'center'
+                                        },
+                                        labelLine : {
+                                            show : false
+                                        }
+                                    }
+                                },
+                                label:{show : false},
+                                labelLine : {show : false}
+                            });
+                        }
 	                	//alert(chartList[i].name+"="+chartList[i].value);
-	                    values.push({
-	                        value: chartList[i].value,
-	                        name: chartList[i].name
-	                    });
+
 	                }
 	                echartsobj.setOption({
 	                    series: [{
