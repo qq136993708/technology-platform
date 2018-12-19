@@ -501,6 +501,7 @@ public class OneLevelMainController {
 				         		List<String> legendDataList = new ArrayList<String>();
 								legendDataList.add("计划合同");
 								legendDataList.add("已签合同");
+								legendDataList.add("合同签订率");
 								barLine.setLegendDataList(legendDataList);
 								//X轴数据
 								List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
@@ -508,6 +509,10 @@ public class OneLevelMainController {
 								seriesList.add(s1);
 								ChartBarLineSeries s2 = HanaUtil.getContractChartBarLineSeries9(list, "sjqds");
 								seriesList.add(s2);
+								
+								ChartBarLineSeries s3 = HanaUtil.getContractChartBarLineSeries9(list, "htqdl");
+								seriesList.add(s3);
+								
 								barLine.setSeriesList(seriesList);
 				         		result.setSuccess(true);
 								result.setData(barLine);

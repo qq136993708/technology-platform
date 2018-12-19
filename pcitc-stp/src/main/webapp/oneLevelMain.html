@@ -44,7 +44,7 @@
                         </div>
                     </div>
                     <div class="layui-news">
-                        <p>科技要闻<span><a href="javascript:;">更多></a></span></p>
+                        <p>科技要闻<span><a href="/news/toNewsList" target="_blank">更多></a></span></p>
                         <ul id="news">
                           <!--   <li><a href="javascript:void(0);">武汉石化开发监控模块强化安全生产管控</a>
                                 <span>2018-11-12 </span></li>
@@ -401,15 +401,15 @@
 			error : function(XMLHttpRequest, status) {
 			},
 			success : function(data) {
-				var list = data.data;
-				$.each(list, function(index, dt) {
+				 var list = data.data;
+				 $.each(list, function(index, dt) {
 					if (index < 6) {
-						var html = "<li><a href='/news/toNewsLook?id='"+dt.id+" target='_blank'>"
+						var html = "<li><a href='/news/toNewsLook?id="+dt.id+"' target='_blank'>"
 								+ dt.title + "</a><span>" + dt.createtimestr
 								+ "</span></li>"
 						$("#news").append(html);
 					}
-				});
+				}); 
 			}
 		});
 	}
