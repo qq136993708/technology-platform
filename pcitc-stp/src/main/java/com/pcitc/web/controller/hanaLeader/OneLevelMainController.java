@@ -93,6 +93,7 @@ public class OneLevelMainController {
 		private static final String getZdstlTable = "http://pcitc-zuul/system-proxy/out-project-provider/ld/project-info/zdstl";
 		private static final String dragon_03 = "http://pcitc-zuul/system-proxy/out-project-provider/dragon/institute/project-info";
 		private static final String dragon_count = "http://pcitc-zuul/system-proxy/out-provider/dragon/project-count";
+		private static final String getStlTable = "http://pcitc-zuul/system-proxy/out-project-provider/dragon/details";
 
 
 		//科研投入
@@ -1463,8 +1464,41 @@ public class OneLevelMainController {
 								return resault;
 							}
 						    
-						 
-						
+	// 十条龙
+	@RequestMapping(method = RequestMethod.GET, value = "/getStlTable")
+	@ResponseBody
+	public String getStlTable(HttpServletRequest request, HttpServletResponse response) throws Exception
+	{
+		PageResult pageResult = new PageResult();
+		String nd = CommonUtil.getParameter(request,"nd",DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+		String companyCode = CommonUtil.getParameter(request, "companyCode", "");
+	
+		Map<String, Object> paramsMap = new HashMap<String, Object>();
+		paramsMap.put("nd", nd);
+		paramsMap.put("companyCode", companyCode);
+		
+		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+
+		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(getStlTable, HttpMethod.POST, entity, JSONArray.class);
+		int statusCode = responseEntity.getStatusCodeValue();
+		if (statusCode == 200)
+		{
+			JSONArray jSONArray = responseEntity.getBody();
+			System.out.println(">>>>>>>>>>>>getZdstlTable jSONArray>>> " + jSONArray.toString());
+			//List<ProjectForMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), ProjectForMysql.class);
+			pageResult.setData(jSONArray);
+			pageResult.setCode(0);
+			pageResult.setCount(Long.valueOf(jSONArray.size()));
+			pageResult.setLimit(1000);
+			pageResult.setPage(1l);
+		}
+
+		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
+		System.out.println(">>>>>>>>>>>>>>>getStlTable " + resultObj.toString());
+		return resultObj.toString();
+	}
+
 			 /**======================十条龙 end==================================*/
 
 						/**======================科研投入============================*/

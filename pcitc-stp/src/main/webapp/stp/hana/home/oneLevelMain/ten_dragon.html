@@ -168,7 +168,7 @@
             ,format: 'yyyy'
         });
         renderTable();
-        //renderTable2();
+        renderStlTable();
 
     });
 
@@ -186,7 +186,6 @@
                 type: 'value',
                 name: '数量',
                 min: 0,
-                max:'dataMax',
                 position: 'left',
                 axisLabel: {
                     formatter: '{value}'
@@ -239,14 +238,72 @@
     {
         initEchart();
         renderTable();
-        //renderTable2();
+        renderStlTable();
     }
 
+    //集团重大项目
+    function renderStlTable()
+    {
+        var month=$("#year").val();
+        var companyCode=$("#companyCode").val();
+        var tableOne=table.render({
+            elem: '#processdef_table_2',
+            url:'/one_level_main/getStlTable?nd='+month+"&companyCode="+companyCode+"&type=重点专项",
+            method:"GET",
+            where: {param: {"nd":$("#month").val(),"companyCode":$("#companyCode").val()}},
+            limit: 100,
+            id: 'processdef_table_2',
+            height: commonDislodgeTable(),
+            cols: [[
+                {field:'nd',             title: '年度',style:'cursor: pointer;',align: 'center', width: '5%'},
+                {field:'showIndex',      title:'项目编号',style:'cursor: pointer;',align: 'center', width: '5%'},
+                {field:'xmmc',           title:'项目名称',style:'cursor: pointer;',align: 'left', width: '20%'},
+                {field:'zzdw',           title:'组长单位',style:'cursor: pointer;',align: 'left', width: '15%'},
+                {field:'zydw',  		 title:'组员单位',style:'cursor: pointer;',align: 'left', width: '15%'},
+                {field:'xzdw',           title:'协作单位',style:'cursor: pointer;',align: 'left'},
+                {field:'status',         title:'项目状态',style:'cursor: pointer;',align: 'center'},
+                {field:'zycmc',          title:'入龙原因',style:'cursor: pointer;',align: 'left'},
+                {field:'xmlbmc',         title:'文档查询',style:'cursor: pointer;',align: 'left', width: '10%'}
+            ]],
+            done: function(res, curr, count){
+                merge(res);
+            }
+        });
+        function merge(res) {
 
+            var data = res.data;
+            var mergeIndex = 0;//定位需要添加合并属性的行数
+            var mark = 1; //这里涉及到简单的运算，mark是计算每次需要合并的格子数
+            var columsName = ['nd','showIndex','xmmc','zzdw'];//需要合并的列名称
+            var columsIndex = [0,1,2,3];//需要合并的列索引值
+
+            for (var k = 0; k < columsName.length; k++) { //这里循环所有要合并的列
+                var trArr = $(".layui-table-body>.layui-table").find("tr");//所有行
+                for (var i = 1; i < res.data.length; i++) { //这里循环表格当前的数据
+                    var tdCurArr = trArr.eq(i).find("td").eq(columsIndex[k]);//获取当前行的当前列
+                    var tdPreArr = trArr.eq(mergeIndex).find("td").eq(columsIndex[k]);//获取相同列的第一列
+
+                    if (data[i][columsName[k]] === data[i-1][columsName[k]]) { //后一行的值与前一行的值做比较，相同就需要合并
+                        mark += 1;
+                        tdPreArr.each(function () {//相同列的第一列增加rowspan属性
+                            $(this).attr("rowspan", mark);
+                        });
+                        tdCurArr.each(function () {//当前行隐藏
+                            $(this).css("display", "none");
+                        });
+                    }else {
+                        mergeIndex = i;
+                        mark = 1;//一旦前后两行的值不一样了，那么需要合并的格子数mark就需要重新计算
+                    }
+                }
+                mergeIndex = 0;
+                mark = 1;
+            }
+        }
+    }
     //集团重大项目
     function renderTable()
     {
-
         var month=$("#year").val();
         var companyCode=$("#companyCode").val();
         var tableOne=table.render({
@@ -257,104 +314,22 @@
             limit: 100,
             id: 'processdef_table',
             height: commonDislodgeTable(),
-            /* page: {
-                groups: 5,
-                limits: [15,30,45,60],
-                layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
-                first: '首页', //不显示首页
-                last: '尾页', //不显示尾页
-                theme: '#0F9EE0'
-            }, */
             cols: [[
-                {type:'checkbox',event: 'changeEvents',width: '5%'},
                 {title:'序号', type:'numbers', width: '5%'},
                 {field:'hth',            title: '课题号',edit:'text', width: '8%'},
-                {field:'xmmc',           title:'课题名',style:'cursor: pointer;',align: 'left', width: '25%'},
-                {field:'jf',             title:'经费（亿）',style:'cursor: pointer;',align: 'left', width: '8%'},
-                {field:'fzdw',           title:'负责单位',style:'cursor: pointer;',align: 'left', width: '8%'},
-                {field:'project_scope',  title:'课题性质',style:'cursor: pointer;',align: 'left', width: '8%'},
-                {field:'zylb',           title:'专业类别',style:'cursor: pointer;',align: 'left', width: '8%'},
-                {field:'fzrxm',          title:'负责人',style:'cursor: pointer;',align: 'left', width: '8%'},
-                {field:'zycmc',          title:'专业处',style:'cursor: pointer;',align: 'left', width: '8%'},
-                {field:'xmlbmc',         title:'课题类别',style:'cursor: pointer;',align: 'left', width: '8%'},
-                {field:'define1',        title:'资本/费用',style:'cursor: pointer;',align: 'left', width: '8%'},
-                {field:'fwdx',           title:'集团/股份/资产',style:'cursor: pointer;',align: 'left', width: '8%'}
-
-
-            ]],
-            done: function (res, curr, count) {
-                layer.closeAll('loading');
-                // 点击行联动选择框--单选
-                $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
-                    var index=parseInt($(this).index()+1);
-                    $('tr').removeClass('layui-table-click');
-                    $(this).addClass('layui-table-click');
-                    $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
-                    $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
-                    selectRowData=res.data[index-1];
-                });
-            }
+                {field:'xmmc',           title:'课题名',style:'cursor: pointer;',align: 'left', width: '22%'},
+                {field:'jf',             title:'经费（亿）',style:'cursor: pointer;',align: 'right', width: '6%'},
+                {field:'fzdw',           title:'负责单位',style:'cursor: pointer;',align: 'left', width: '12%'},
+                {field:'project_scope',  title:'课题性质',style:'cursor: pointer;',align: 'center'},
+                {field:'zylb',           title:'专业类别',style:'cursor: pointer;',align: 'left', width: '12%'},
+                {field:'fzrxm',          title:'负责人',style:'cursor: pointer;',align: 'left'},
+                {field:'zycmc',          title:'专业处',style:'cursor: pointer;',align: 'center'},
+                {field:'xmlbmc',         title:'课题类别',style:'cursor: pointer;',align: 'center'},
+                {field:'define1',        title:'资本/费用',style:'cursor: pointer;',align: 'center'},
+                {field:'fwdx',           title:'集团/股份/资产',style:'cursor: pointer;',align: 'center', width: '8%'}
+            ]]
         });
-
     }
-
-
-
-    /*
-
-    function renderTable2()
-    {
-
-         var month=$("#year").val();
-         var companyCode=$("#companyCode").val();
-         var tableTwo=table.render({
-        elem: '#processdef_table_2',
-        url:'/ten_dragon/getZdstlTable?month='+month+"&companyCode="+companyCode+"&type=十条龙项目",
-        method:"GET",
-        where: {param: {"month":$("#month").val(),"companyCode":$("#companyCode").val()}},
-        limit: 15,
-        id: 'processdef_table_2',
-        height: commonDislodgeTable(),
-        page: {
-            groups: 5,
-            limits: [15,30,45,60],
-            layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
-            first: '首页', //不显示首页
-            last: '尾页', //不显示尾页
-            theme: '#0F9EE0'
-        },
-        cols: [[
-            {type:'checkbox',event: 'changeEvents',width: '5%'},
-            {title:'序号', type:'numbers', width: '5%'},
-             {field:'hth',            title: '课题号',edit:'text', width: '8%'},
-             {field:'xmmc',           title:'课题名',style:'cursor: pointer;',align: 'left', width: '25%'},
-             {field:'jf',             title:'经费（亿）',style:'cursor: pointer;',align: 'left', width: '8%'},
-             {field:'fzdw',           title:'负责单位',style:'cursor: pointer;',align: 'left', width: '8%'},
-             {field:'project_scope',  title:'课题性质',style:'cursor: pointer;',align: 'left', width: '8%'},
-             {field:'zylb',           title:'专业类别',style:'cursor: pointer;',align: 'left', width: '8%'},
-             {field:'fzrxm',          title:'负责人',style:'cursor: pointer;',align: 'left', width: '8%'},
-             {field:'zycmc',          title:'专业处',style:'cursor: pointer;',align: 'left', width: '8%'},
-             {field:'xmlbmc',         title:'课题类别',style:'cursor: pointer;',align: 'left', width: '8%'},
-             {field:'define1',        title:'资本/费用',style:'cursor: pointer;',align: 'left', width: '8%'},
-             {field:'fwdx',           title:'集团/股份/资产',style:'cursor: pointer;',align: 'left', width: '8%'}
-
-
-        ]],
-        done: function (res, curr, count) {
-            layer.closeAll('loading');
-            $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
-                var index=parseInt($(this).index()+1);
-                $('tr').removeClass('layui-table-click');
-                $(this).addClass('layui-table-click');
-                $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
-                $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
-                selectRowData=res.data[index-1];
-            });
-        }
-      });
-
-    }
-     */
 </script>
 </body>
 </html>
