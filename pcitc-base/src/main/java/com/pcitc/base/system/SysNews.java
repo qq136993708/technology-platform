@@ -11,20 +11,32 @@ public class SysNews extends SearchInfo implements Serializable {
     // 标题
     private String title;
 
-    // 1上架 2 未上架
+    // 1上架 0 未上架
     private Byte status;
 
     // 创建时间
-    private Date createtime;
+    private String createtime;
 
     // 修改时间
-    private Date updatetime;
+    private String updatetime;
 
     // 作者(发布者）
     private String author;
 
     // 内容
     private String content;
+    
+    private String noticePublisherName;
+
+    private String noticePublisherUnit;
+
+    private String noticePublishtime;
+    
+    private String noticeContent;
+    
+    private String noticeTitle;
+    
+    private String noticeCreater;
 
     private static final long serialVersionUID = 1L;
 
@@ -52,19 +64,19 @@ public class SysNews extends SearchInfo implements Serializable {
         this.status = status;
     }
 
-    public Date getCreatetime() {
+    public String getCreatetime() {
         return createtime;
     }
 
-    public void setCreatetime(Date createtime) {
+    public void setCreatetime(String createtime) {
         this.createtime = createtime;
     }
 
-    public Date getUpdatetime() {
+    public String getUpdatetime() {
         return updatetime;
     }
 
-    public void setUpdatetime(Date updatetime) {
+    public void setUpdatetime(String updatetime) {
         this.updatetime = updatetime;
     }
 
@@ -83,8 +95,59 @@ public class SysNews extends SearchInfo implements Serializable {
     public void setContent(String content) {
         this.content = content == null ? null : content.trim();
     }
+    
+    
 
-    @Override
+    public String getNoticePublisherName() {
+		return noticePublisherName;
+	}
+
+	public void setNoticePublisherName(String noticePublisherName) {
+		this.noticePublisherName = noticePublisherName;
+	}
+
+	public String getNoticePublisherUnit() {
+		return noticePublisherUnit;
+	}
+
+	public void setNoticePublisherUnit(String noticePublisherUnit) {
+		this.noticePublisherUnit = noticePublisherUnit;
+	}
+
+	public String getNoticePublishtime() {
+		return noticePublishtime;
+	}
+
+	public void setNoticePublishtime(String noticePublishtime) {
+		this.noticePublishtime = noticePublishtime;
+	}
+
+	public String getNoticeContent() {
+		return noticeContent;
+	}
+
+	public void setNoticeContent(String noticeContent) {
+		this.noticeContent = noticeContent;
+	}
+
+	public String getNoticeTitle() {
+		return noticeTitle;
+	}
+
+	public void setNoticeTitle(String noticeTitle) {
+		this.noticeTitle = noticeTitle;
+	}
+
+	
+	public String getNoticeCreater() {
+		return noticeCreater;
+	}
+
+	public void setNoticeCreater(String noticeCreater) {
+		this.noticeCreater = noticeCreater;
+	}
+
+	@Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(getClass().getSimpleName());

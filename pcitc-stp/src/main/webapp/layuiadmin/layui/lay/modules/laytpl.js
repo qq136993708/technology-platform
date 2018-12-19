@@ -101,6 +101,17 @@ layui.define(['jquery'],function (e) {
         }
         return stateData;
     };
+    /*o.auditStatus = function(d){
+        var stateData;
+        if(d==0){
+            stateData="<span class='fontStateColor fontStateColor-yellow'></span>"
+        }else if(d==1){
+            stateData="<span class='fontStateColor fontStateColor-green'></span>"
+        }else if(d==2){
+            stateData="<span class='fontStateColor fontStateColor-blue'></span>"
+        }
+        return stateData;
+    };*/
     o.auditStatus = function(d){
         var stateData;
         if(d==0){
@@ -112,25 +123,32 @@ layui.define(['jquery'],function (e) {
         }
         return stateData;
     };
-    o.auditStatus1 = function(d){
-    	var stateData;
-    	if(d==0){
-    		stateData="<span class='fontStateColor fontStateColorYellow'></span>"
-    	}else if(d==1){
-    		stateData="<span class='fontStateColor fontStateColor-green'></span>"
-    	}else if(d==2){
-    		stateData="<span class='fontStateColor fontStateColor-blue'></span>"
-    	}else if(d==3){
-    		stateData="<span class='fontStateColor fontStateColor-yellow'></span>"
-    	}
-    	return stateData;
+    o.releaseStatus = function(d){
+        var stateData;
+        if(d==0){
+            stateData="<span class='fontStateColor fontStateColor-yellow'></span>"
+        }else if(d==1){
+            stateData="<span class='fontStateColor fontStateColor-blue'></span>"
+        }
+        return stateData;
     };
     o.grantStatus = function(d){
         var stateData;
-        if(d=='已保存'){
+        if(d=='已保存'||d==0){
             stateData="<span class='fontStateColor fontStateColor-yellow'></span>"
-        }else if(d=='已下发'){
-            stateData="<span class='fontStateColor fontStateColor-green'></span>"
+        }else if(d=='已下发'||d==1){
+            stateData="<span class='fontStateColor fontStateColor-blue'></span>"
+        }
+        return stateData;
+    };
+    o.contractorStatus = function(d){
+        var stateData;
+        if(d == 1){
+            stateData="<img src='/layuiadmin/layui/images/icon_46.png'/>"
+        }else if(d == 0){
+            stateData="<img src='/layuiadmin/layui/images/icon_74.png'/>"
+        }else{
+        	stateData="<img src='/layuiadmin/layui/images/operation_71.png'/>"
         }
         return stateData;
     };

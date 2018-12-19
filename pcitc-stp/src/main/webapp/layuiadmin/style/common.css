@@ -350,6 +350,7 @@ textarea{ padding: 6px 10px; display: block;color: #555;background-color: #fff;b
 .borderStateColor-blue.active{border: 1px solid #17a2b8;color: #17a2b8;}
 .btn-state{width: 16px; height: 16px;display:block;float:left;margin-right: 6px;margin-top: 3px;}
 .btn-all{background: url("/layuiadmin/layui/images/All_Ball.png")  no-repeat;}
+.btn-two-state{background: url("/layuiadmin/layui/images/Two_Ball.png")  no-repeat;}
 .btn-two{background: url("/layuiadmin/layui/images/Two_Ball.png")  no-repeat;}
 .btn-level{background: url("/layuiadmin/layui/images/icon_level.png") -2px 2px no-repeat;margin-right: 0px;}
 .btn-yellow{background: url("/layuiadmin/layui/images/Green_Ball.png")  no-repeat;}

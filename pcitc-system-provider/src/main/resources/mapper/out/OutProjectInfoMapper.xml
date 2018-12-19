@@ -1069,7 +1069,7 @@
 		select out_project_info.*, group_concat(out_project_erp.erp_project_code) as epc
 		from out_project_info left join out_project_erp on (out_project_info.data_id = out_project_erp.opi_id)
 		where
-		out_project_info.status = '1' and (out_project_info.project_type = '0' or out_project_info.project_type = '2')
+		(out_project_info.project_type = '0' or out_project_info.project_type = '2')
 		<if test="nd != null">
 			and out_project_info.nd = #{nd,jdbcType=VARCHAR}
 		</if>
@@ -1117,6 +1117,19 @@
 			sum(case xmlbbm when 'KYZB' then 0 else 1 end) as projectCount
 		from out_project_info
 		where (project_type = '0' or project_type = '2') and (project_scope = '新开课题' or project_scope = '结转课题')
+		<if test="define2 != null and define2 != ''">
+			and define2 is not null and type_flag like '%直属研究院%'
+		</if>
+	</select>
+	
+	<!-- 首页计算十条龙及重大专项项目的总数量 -->
+	<select id="getOutProjectDragonInfoCount" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select 
+        	sum(case when project_property = '重大专项' or project_property = '十条龙项目' then 1 else 0 end) as zsl,
+        	sum(case when project_property = '重大专项' then 1 else 0 end) as zdzxsl, 
+			sum(case when project_property = '十条龙项目' then 1 else 0 end) as stlsl
+		from out_project_info
+		where (project_type = '0' or project_type = '2') and nd='2017'
 		<if test="define2 != null and define2 != ''">
 			and define2 is not null and type_flag like '%直属研究院%'
 		</if>
@@ -1739,9 +1752,9 @@
 	
 	<!--  领导首页-十条龙，十条龙项目的出入龙情况 -->
 	<select id="getDragonProjectInfoWithOutIn" resultType="java.util.Map" parameterType="java.util.HashMap">
-		select sum(case when nd='2017' and `status` = '申请出龙' then 1 else 0 end) sqcl,
-			 sum(case when nd='2018' and `status` = '推荐入龙' then 1 else 0 end) tjrl,
-			 sum(case when nd='2018' and `status` = '在研项目' then 1 else 0 end) zyxm
+		select sum(case when nd='${l_nd}' and `status` = '申请出龙' then 1 else 0 end) sqcl,
+			 sum(case when nd='${nd}' and `status` = '推荐入龙' then 1 else 0 end) tjrl,
+			 sum(case when nd='${nd}' and `status` = '在研项目' then 1 else 0 end) zyxm
 		from out_project_info
 		WHERE
 			project_property = '十条龙项目' 

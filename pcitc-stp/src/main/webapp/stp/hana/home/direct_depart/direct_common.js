@@ -113,7 +113,7 @@ function barAjax_single_down(url,  echartsobj, options,id)
 
 
 //单图
-function load_single_bar_down(url,id,title,subtext,yAxis)
+function load_single_bar_down(url,id,title,subtext,yAxis,color)
 {
 	var echartsobj = echarts.init(document.getElementById(id));
 	option_bar_single_down.title.text=title;
@@ -123,7 +123,9 @@ function load_single_bar_down(url,id,title,subtext,yAxis)
 	{
 		option_bar_single_down.yAxis=yAxis;
 	}
-	
+	if(color!=undefined && color!=""){
+        option_bar_single_down.color=color;
+	}
 	
 	echartsobj.setOption(option_bar_single_down);
 	echartsobj.showLoading();
@@ -227,7 +229,7 @@ function load_mutl_bar_down(url,id,title,subtext,yAxis,width,color)
 	{
 		mutl_bar_down.yAxis=yAxis;
 	}
-	if(color!=undefined){
+	if(color!=undefined && color!=""){
      mutl_bar_down.color=color;
 	}
  mutl_bar_down.xAxis=[{
@@ -266,7 +268,7 @@ function load_mutl_bar_down_r(url,id,title,subtext,yAxis,rotate,width,color)
  {
      mutl_bar_down.yAxis=yAxis;
  }
- if(color!=undefined){
+ if(color!=undefined && color!=""){
      mutl_bar_down.color=color;
  }
  if(rotate==undefined && rotate!=''){

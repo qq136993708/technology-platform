@@ -58,7 +58,7 @@
             <div class="layui-col-md6">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        ${year}年直属研究院科研装备数量占比
+                        ${year}年直属研究院科研课题数量占比
                         <div class="layui-tool">
                             <button type="button" class="btn btn-tool collapse"></button>
                             <button type="button" class="btn btn-tool remove"></button>
@@ -75,13 +75,13 @@
                             </tr>
                             <tr>
                                 <th lay-data="{field:'zsl', width:'13%'}">数量（个）</th>
-                                <th lay-data="{field:'zslRate', width:'13%'}">占比</th>
+                                <th lay-data="{field:'zslRate', width:'13%',templet:function(d){return d.zslRate+'%'}}">占比</th>
 
                                 <th lay-data="{field:'xksl', width:'13%'}">数量（个）</th>
-                                <th lay-data="{field:'xkRate', width:'13%'}">占比</th>
+                                <th lay-data="{field:'xkRate', width:'13%',templet:function(d){return d.xkRate+'%'}}">占比</th>
 
                                 <th lay-data="{field:'xjsl', width:'13%'}">数量（个）</th>
-                                <th lay-data="{field:'xjRate', width:'13%'}">占比</th>
+                                <th lay-data="{field:'xjRate', width:'13%',templet:function(d){return d.xjRate+'%'}}">占比</th>
 
                             </tr>
 
@@ -103,7 +103,7 @@
                         <span class="layui-time"></span>年直属研究院科研装备数量
                     </div>
                     <div class="layui-row-main">
-                        <div class="text-total">
+                        <div class="text-total" style="font-size: 12px;">
                              <span>大型分析仪器:<span class="text-total-blue" id="bar4_1_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                             <span>中型实验装置:<span class="text-total-blue" id="bar4_2_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                             <span>单台值大于500万:<span class="text-total-blue" id="bar4_3_count"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
@@ -118,7 +118,7 @@
             <div class="layui-col-md6">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        ${year}年直属研究院科研课题数量占比
+                        ${year}年科研课题数量占比
                         <div class="layui-tool">
                             <button type="button" class="btn btn-tool collapse"></button>
                             <button type="button" class="btn btn-tool remove"></button>
@@ -161,7 +161,6 @@
 
 <script src="/common/js/jquery-1.11.3.min.js"></script>
 <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
-<script src="/common/js/layer-v3.1.1/layer.js"></script>
 <script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
 <script type="text/javascript" src="/plugins/echarts/walden.js"></script>	
 <script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
@@ -319,7 +318,7 @@ function renderTable2()
 	  elem: '#processdef_table_02',
 	  url:'/direct/equipment_02?type=2&companyCode='+companyCode+'&v_date='+v_date+'&month='+month,
 	  method:"GET",
-      height:309,
+      height:306,
 	  where: {param: {"month":$("#month").val()}},
 	  limit: 15,
 	  id: 'processdef_table_02',

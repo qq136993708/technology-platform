@@ -45,8 +45,8 @@
                     </div>
                     <div class="layui-news">
                         <p>科技要闻<span><a href="javascript:;">更多></a></span></p>
-                        <ul>
-                            <li><a href="javascript:void(0);">武汉石化开发监控模块强化安全生产管控</a>
+                        <ul id="news">
+                          <!--   <li><a href="javascript:void(0);">武汉石化开发监控模块强化安全生产管控</a>
                                 <span>2018-11-12 </span></li>
                             <li><a href="javascript:void(0);">武汉石化开发监控模块强化安全生产管控</a>
                                 <span>2018-11-12 </span></li>
@@ -57,7 +57,7 @@
                             <li><a href="javascript:void(0);">武汉石化开发监控模块强化安全生产管控</a>
                                 <span>2018-11-12 </span></li>
                             <li><a href="javascript:void(0);">武汉石化开发监控模块强化安全生产管控</a>
-                                <span>2018-11-12 </span></li>
+                                <span>2018-11-12 </span></li> -->
                         </ul>
                     </div>
                 </div>
@@ -220,7 +220,7 @@
                 });
                 //科研投入
                 $("#home_budget").on("click",function () {
-                    window.open("/instituteIndex?url="+"/investment/investment","_target");
+                	window.open("/instituteIndex?url="+"/one_level_main/investment","_target");
                 });
                 //十条龙-项目
                 $("#porject").on("click",function () {
@@ -242,97 +242,186 @@
                 $("#equipment").on("click",function () {
                     window.open("/instituteIndex?url="+"/one_level_main/equipment","_target");
                 });
-                init()
-                $("#textBottomTwo").html("48");
-                $("#layui-add").click(function () {
-                    var temUrl="/moduleConfig.html";
-                    publicMethods.openBaseWin("模块配置",temUrl,"50%","50%")
-                });
-            },
-            error: function (err, err1, err2) {
-                console.log("ajaxPost发生异常，请仔细检查请求url是否正确");
-            }
-        });
-    });
+                
+	init()
+										$("#textBottomTwo").html("48");
+										$("#layui-add")
+												.click(
+														function() {
+															var temUrl = "/moduleConfig.html";
+															publicMethods
+																	.openBaseWin(
+																			"模块配置",
+																			temUrl,
+																			"50%",
+																			"50%")
+														});
+									},
+									error : function(err, err1, err2) {
+										console
+												.log("ajaxPost发生异常，请仔细检查请求url是否正确");
+									}
+								});
+					});
 
-    
-    
-    //科研装备，合同
-    function getKyxm()
-    {
-    	$.ajax({
-				type : 'POST',
-				url : "/admin/project-count",
-				dataType : 'json',
-				headers : {
-					'Content-Type' : 'application/json'
-				},
-				timeout : 3000, 
-				error : function(XMLHttpRequest, status) {
-					$("#contract_id").html("<small style='font-size:14px'>--(个)</small>");
-					$("#equipment_id").html("<small>--(台)</small>");
-				},
-				success : function(data) { 
-					var zje=data.zje;
-					$("#equipment_id").html(data.kyzbCount+"<small style='font-size:14px'>(台)</small>");
-					$("#contract_id").html(data.projectCount+"<small style='font-size:14px'>(个)</small>");
-				}
-			});
-    	
-    }
-    //专利
-    function patentCount()
-    {
-    	$.ajax({
+	//科研装备，合同
+	function getKyxm() {
+		$.ajax({
+			type : 'POST',
+			url : "/admin/project-count",
+			dataType : 'json',
+			headers : {
+				'Content-Type' : 'application/json'
+			},
+			timeout : 3000,
+			error : function(XMLHttpRequest, status) {
+				$("#contract_id").html(
+						"<small style='font-size:14px'>--(个)</small>");
+				$("#equipment_id").html("<small>--(台)</small>");
+			},
+			success : function(data) {
+				var zje = data.zje;
+				$("#equipment_id").html(
+						data.kyzbCount
+								+ "<small style='font-size:14px'>(台)</small>");
+				$("#contract_id").html(
+						data.projectCount
+								+ "<small style='font-size:14px'>(个)</small>");
+			}
+		});
+
+	}
+	//专利
+	function patentCount() {
+		$.ajax({
 			type : 'POST',
 			url : "/admin/patent-count",
 			dataType : 'json',
 			headers : {
 				'Content-Type' : 'application/json'
 			},
-			timeout : 3000, 
+			timeout : 3000,
 			error : function(XMLHttpRequest, status) {
-				$("#patentId").html("--<small style='font-size:14px'>(个)</small>");
+				$("#patentId").html(
+						"--<small style='font-size:14px'>(个)</small>");
 			},
-			success : function(data) { 
+			success : function(data) {
 				var patentCount = data.patentCount;
-				$("#patentId").html(patentCount+"<small style='font-size:14px'>(个)</small>"); 
+				$("#patentId").html(
+						patentCount
+								+ "<small style='font-size:14px'>(个)</small>");
 			}
 		});
-    	
-    }
-    
-  //成果
-    function appraisalCount()
-    {
-    	$.ajax({
-			type : 'POST',
-			url : "/admin/appraisal-count",
+
+	}
+
+	//成果
+	function appraisalCount() {
+		$
+				.ajax({
+					type : 'POST',
+					url : "/admin/appraisal-count",
+					dataType : 'json',
+					headers : {
+						'Content-Type' : 'application/json'
+					},
+					timeout : 3000,
+					error : function(XMLHttpRequest, status) {
+						$("#appraisalId").html(
+								"--<small style='font-size:14px'>(个)</small>");
+					},
+					success : function(data) {
+						var appraisalCount = data.appraisalCount;
+						$("#appraisalId")
+								.html(
+										appraisalCount
+												+ "<small  style='font-size:14px'>(个)</small>");
+					}
+				});
+
+	}
+
+	//十条龙-项目
+	function setdragon_count() {
+		$.ajax({
+			type : 'GET',
+			url : "/one_level_main/dragon_count",
 			dataType : 'json',
 			headers : {
 				'Content-Type' : 'application/json'
 			},
-			timeout : 3000, 
+			timeout : 3000,
 			error : function(XMLHttpRequest, status) {
-				$("#appraisalId").html("--<small style='font-size:14px'>(个)</small>");
+				$("#dragon_id").html(
+						"--<small style='font-size:14px'>(个)</small>");
 			},
 			success : function(data) {
-				var appraisalCount = data.appraisalCount;
-				$("#appraisalId").html(appraisalCount+"<small  style='font-size:14px'>(个)</small>"); 
+				var zsl = data.data.zsl;
+				$("#dragon_id").html(
+						zsl + "<small  style='font-size:14px'>(个)</small>");
 			}
 		});
-    	
-    }
-  
-    
-    function init()
-    {
-    	appraisalCount();
-    	patentCount();
-    	getKyxm();
-    	
-    }
-    init();
+	}
+
+	//科研投入
+	function setinvestment_count() {
+		$
+				.ajax({
+					type : 'POST',
+					url : "/admin/project-count",
+					dataType : 'json',
+					headers : {
+						'Content-Type' : 'application/json'
+					},
+					timeout : 3000, //超时时间设置，单位毫秒
+					error : function(XMLHttpRequest, status) {
+						$("#textTopTwo").html(
+								"<small style='font-size:14px'>0(亿元)</small>");
+					},
+					success : function(data) {
+						//alert(data.zje);
+						$("#textTopTwo")
+								.html(
+										data.zje
+												+ "<small style='font-size:14px'>(亿元)</small>");
+					}
+				});
+	}
+
+	//新闻
+	function get_news() {
+		$.ajax({
+			type : 'GET',
+			url : "/one_level_main/get_news",
+			dataType : 'json',
+			headers : {
+				'Content-Type' : 'application/json'
+			},
+			timeout : 3000,
+			error : function(XMLHttpRequest, status) {
+			},
+			success : function(data) {
+				var list = data.data;
+				$.each(list, function(index, dt) {
+					if (index < 6) {
+						var html = "<li><a href='/news/toNewsLook?id='"+dt.id+" target='_blank'>"
+								+ dt.title + "</a><span>" + dt.createtime
+								+ "</span></li>"
+						$("#news").append(html);
+					}
+				});
+			}
+		});
+	}
+
+	function init() {
+		appraisalCount();
+		patentCount();
+		getKyxm();
+		setdragon_count();
+		setinvestment_count();
+		get_news();
+	}
 </script>
 </body>
 </html>

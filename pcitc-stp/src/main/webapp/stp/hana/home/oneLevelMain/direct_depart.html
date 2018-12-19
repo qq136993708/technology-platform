@@ -57,7 +57,7 @@
                         <span class="layui-box-icon bg-2"></span>
                         <div class="layui-box-content">
                             <span class="layui-box-text">合同签订</span>
-                            <span class="layui-box-number" id="k0BNYSJHJE">
+                            <span class="layui-box-number" id="contcator_id">
                             <img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
                             </span>
                         </div>
@@ -144,7 +144,7 @@
             <div class="layui-col-md6">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        ${year}年直属研究院合同签订率
+                        ${year}年直属研究院科研合同签订率
                         <div class="layui-tool">
                             <button type="button" class="btn btn-tool collapse"></button>
                             <button type="button" class="btn btn-tool remove"></button>
@@ -183,7 +183,7 @@
             <div class="layui-col-md6">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        ${year}年直属研究院科研设备数量
+                        ${year}年直属研究院科研装备数量
                         <div class="layui-tool">
                             <button type="button" class="btn btn-tool collapse"></button>
                             <button type="button" class="btn btn-tool remove"></button>
@@ -208,7 +208,7 @@
             <div class="layui-col-md6">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        <span class="layui-time"></span>${year}年直属研究院专利申请及授权数量
+                        <span class="layui-time"></span>${year}年直属研究院专利申请及授权情况
                     </div>
                     <div class="layui-card-body btn-function">
                     <div class="text-total">
@@ -267,7 +267,6 @@
     
     
 <script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
-<script src="/common/js/layer-v3.1.1/layer.js"></script>
 <script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
 <script type="text/javascript" src="/layuiadmin/modules/bmap.js"></script>
 <script type="text/javascript" src="/plugins/echarts/walden.js"></script>
@@ -346,22 +345,46 @@
  				error : function(XMLHttpRequest, status) {
  					$("#kyxm").html("<small>--(个)</small>");
  					$("#equipment_id").html("<small>--(个)</small>");
- 					$("#k0BNYSJHJE").html("<small>--(万元)</small>");
  				},
  				success : function(data) { //请求成功后处理函数。
  					$("#kyxm").html(data.projectCount+"<small>(个)</small>");
  					$("#equipment_id").html(data.kyzbCount+"<small>(个)</small>");
- 					if (data.jfTotal > 100) {
- 						$("#k0BNYSJHJE").html((data.jfTotal/10000).toFixed(2)+"<small>(亿)</small>");
- 					} else {
- 						$("#k0BNYSJHJE").html(data.jfTotal+"<small>(万元)</small>");
- 					}
  				}
  			});
         	
         }
         
-        //合同签订 经费支出
+        
+        
+        //合同签订
+        function setContcator_id(nd,v_date)
+        {
+        	
+        	var url="/direct/contract_01_count?type=1&nd="+nd+"&v_date="+v_date;
+        	$.ajax({
+ 				type : 'GET',
+ 				url : url,
+ 				dataType : 'json',
+ 				headers : {
+ 					'Content-Type' : 'application/json'
+ 				},
+ 				timeout : 3000, 
+ 				error : function(XMLHttpRequest, status) {
+ 					$("#contcator_id").html("<small>--(个)</small>");
+ 				},
+ 				success : function(data) { 
+ 					    var yqht=data.data.yqht;
+ 				       $("#contcator_id").html(yqht+"<small>(个)</small>");
+ 				       
+ 					
+ 				}
+ 			});
+        	
+        }
+        
+        
+        
+        // 经费支出
         function getndys_xfzc(month)
         {
         	
@@ -494,10 +517,12 @@
         	if(month!=null && month!='')
        		{
         		getKyxm(year);//科研项目、科研装备、合同签订
-            	getndys_xfzc(month);//合同签订 经费支出
+            	getndys_xfzc(month);//经费支出
             	patentCount(year);//专利
             	appraisalCount(year);//成果
             	setContractCount(year);
+            	setContcator_id(year,v_date);//合同签订 
+            	
             	var yAxis= [
                     {
                         type: 'value',
@@ -552,12 +577,13 @@
             	
              //直属研究院合同签订分析
            	 var chart2_url="/direct/contract_04?nd="+year+"&v_date="+v_date+"&type=1";
-           	 var echart2= load_mony_line_down(chart2_url,"contract_line","","",yAxis3);
+           	 var colorLine=["#b68d01","#9799ec"];
+           	 var echart2= load_mony_line_down(chart2_url,"contract_line","","",yAxis3,colorLine);
            	   
            	
 
         	 var chart3_url="/direct/topic_01?type=1&nd="+year+"&v_date="+v_date+"&xmlbbm=kyzb";
-        	 var color=["#ea886d","#ffad01"];
+        	 var color=["#ea886d","#9799ec"];
         	 var echart3=load_mutl_bar_down(chart3_url,"direct_topic_chart3","","",yAxis,20,color);
         	 echart3.on('click', function (params) {
         		var xName=params.name;
@@ -623,7 +649,9 @@
             	
        		}
         }
-        
+
+   
+
         
         function getDataCountForName_t(data,strName)
         {

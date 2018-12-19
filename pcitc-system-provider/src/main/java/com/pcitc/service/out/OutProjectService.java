@@ -303,6 +303,13 @@ public interface OutProjectService {
      */
 	public List getDragonProjectDetails(HashMap<String, String> map);
 	
+	/**
+     * @param nd
+     * @return
+     * 首页计算十条龙及重大专项项目的总数量
+     */
+	public HashMap<String, String> getOutProjectDragonInfoCount(HashMap<String, String> map);
+	
 	
 	
 	
