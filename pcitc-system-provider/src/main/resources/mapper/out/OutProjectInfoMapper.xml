@@ -1117,6 +1117,7 @@
 			sum(case xmlbbm when 'KYZB' then 0 else 1 end) as projectCount
 		from out_project_info
 		where (project_type = '0' or project_type = '2') and (project_scope = '新开课题' or project_scope = '结转课题')
+			  and out_project_info.DEFINE2 is not null
 		<if test="define2 != null and define2 != ''">
 			and define2 is not null and type_flag like '%直属研究院%'
 		</if>

@@ -900,11 +900,12 @@
 			
 		from (
 			select out_project_info.xmid as temId,out_project_plan.DEFINE3,out_project_plan.jf as jf1,out_project_plan.jf as jf2,out_project_plan.xmlbbm as xmlbbm1,out_project_info.xmlbbm as xmlbbm2
-			from out_project_plan left join out_project_info on (out_project_plan.XMID = out_project_info.xmid)
+			from out_project_plan left join out_project_info on (out_project_plan.XMID = out_project_info.xmid and (out_project_info.PROJECT_TYPE= '0' or out_project_info.PROJECT_TYPE= '2') and (out_project_info.PROJECT_SCOPE= '新开课题' or out_project_info.PROJECT_SCOPE= '结转课题'))
 			WHERE
 				(out_project_plan.PROJECT_SCOPE= '新开课题' or out_project_plan.PROJECT_SCOPE= '结转课题')
-				and out_project_plan.DEFINE3 is not null and out_project_plan.ND='2018'
-		) as tableB 
+				and out_project_plan.DEFINE3 is not null
+				and (out_project_plan.PROJECT_TYPE= '0' or out_project_plan.PROJECT_TYPE= '2')
+		) as tableB  
 		group by tableB.DEFINE3
 	</select>
 	
