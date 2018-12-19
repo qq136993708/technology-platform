@@ -3287,7 +3287,37 @@ public class HanaUtil {
 		}
 		return chartBarLineSeries;
 	}
-	
+public static ChartBarLineSeries getKNOWLDGELevel2ChartBarLineSeries07(List<Knowledge> list, String name) {
+
+		
+		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
+		if (name.equals("gjxksl")) {
+			chartBarLineSeries.setName("新开课题");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		if (name.equals("gjjzsl")) {
+			chartBarLineSeries.setName("结转课题");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+
+		List<Object> dataList = new ArrayList<Object>();
+		if (list != null && list.size() > 0) {
+			for (int i = 0; i < list.size(); i++) {
+				Knowledge f03 = list.get(i);
+				Integer gjxksl = f03.getGjxksl();
+				Integer gjjzsl = f03.getGjjzsl();
+				if (name.equals("gjxksl")) {
+					dataList.add(Double.valueOf(gjxksl).intValue());
+				}
+				if (name.equals("gjjzsl")) {
+					dataList.add(Double.valueOf(gjjzsl).intValue());
+				}
+
+			}
+			chartBarLineSeries.setData(dataList);
+		}
+		return chartBarLineSeries;
+	}
 	
 	public static ChartBarLineSeries getKNOWLDGELevel2ChartBarLineSeries06(List<Knowledge> list, String name) {
 

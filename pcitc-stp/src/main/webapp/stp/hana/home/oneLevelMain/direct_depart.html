@@ -257,7 +257,52 @@
             
             
             
-          
+            
+             <div class="layui-col-md6">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        ${year}年直属研究院承担国家课题情况
+                    </div>
+                    <div class="layui-card-body btn-function">
+                    <div class="text-total">
+                            <span>总计:<span    class="text-total-blue"    id="direct_kt_chart1_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>新开课题:<span class="text-total-blue"    id="direct_kt_chart1_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>结转课题:<span class="text-total-blue"    id="direct_kt_chart1_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                       </div>
+                        
+                        <div class="main-chart" id="direct_kt_chart1" style="height:270px;width: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+           <div class="layui-col-md3">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        ${year}年直属研究院承担国家课题占比
+                        <div class="layui-tool">
+                            <button type="button" class="btn btn-tool collapse"></button>
+                            <button type="button" class="btn btn-tool remove"></button>
+                        </div>
+                    </div>
+                    <div class="layui-card-body btn-function">
+                        <div  style="height:294px;width: 100%;" id="direct_kt_chart2"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-md3">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                      ${year}年直属研究院国家课题领域占比
+                        <div class="layui-tool">
+                            <button type="button" class="btn btn-tool collapse"></button>
+                            <button type="button" class="btn btn-tool remove"></button>
+                        </div>
+                    </div>
+                    <div class="layui-card-body btn-function">
+                        <div  style="height:294px;width: 100%;" id="direct_kt_chart3"></div>
+                    </div>
+                </div>
+            </div>
+            
             
         
         
@@ -638,6 +683,41 @@
         	 
         	var url_9="/direct/knowledge_04?type=3&month="+year+"&v_date="+v_date;
         	var echart9=loadPie_02(url_9,"bar03","","");
+        	echart9.on('click', function (params) {
+        		var xName=params.name;
+        		var legentName=params.seriesName;
+        		window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
+            });
+        	
+        	
+        	
+        	
+        	
+        	
+        	//第4排
+        	
+        	var chart7_url="/direct/contry_01?type=1&nd="+year+"&v_date="+v_date;
+        	var colorNew=["#70b1ab","#87d359"];
+        	var data7=load_mutl_bar_down(chart7_url,"direct_kt_chart1","","",yAxis,20,colorNew);
+        	data7.on('click', function (params) {
+        		var xName=params.name;
+        		var legentName=params.seriesName;
+        		window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
+            });  
+              
+        	
+        	var url_8="/direct/contry_01?type=2&month="+year+"&v_date="+v_date;
+        	var echart8=loadPie_02(url_8,"direct_kt_chart2","","");
+        	echart8.on('click', function (params) {
+        		var xName=params.name;
+        		var legentName=params.seriesName;
+        		window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
+            });
+        	
+        	 
+        	 
+        	var url_9="/direct/contry_02?month="+year+"&v_date="+v_date;
+        	var echart9=loadPie_02(url_9,"direct_kt_chart3","","");
         	echart9.on('click', function (params) {
         		var xName=params.name;
         		var legentName=params.seriesName;
