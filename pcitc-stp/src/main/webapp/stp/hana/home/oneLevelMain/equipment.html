@@ -122,7 +122,7 @@ function initEchart()
             type: 'value',
             name: '数量',
             min: 0,
-            max:'dataMax',
+            //max:'dataMax',
             position: 'left',
             axisLabel: {
                 formatter: '{value}'
@@ -130,10 +130,11 @@ function initEchart()
         }
     ];
     $(".layui-time").html($("#month").val());
-	var chart1_url="/one_level_main/equipment_01?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
+	var chart1_url="/one_level_main/equipment_01?month="+$("#month").val()+"&v_date="+v_date+"&companyCode="+companyCode;
 	var color=["#78c34b"];
-	var echart1=load_single_bar(chart1_url,"equipment_01_chart","","",yAxis,color,70,function(data){
+	var echart1=load_single_bar(chart1_url,"equipment_01_chart","","",yAxis,color,70,null,function(data){
 		var total_count = 0;
+		console.log(data);
 		$.each(data.data.seriesDataList,function(index,dt){
 			total_count+=dt;
 		});
