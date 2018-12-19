@@ -16,6 +16,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -120,6 +121,8 @@ public class ExpertController extends BaseController {
         List<ZjkZhuanli> listZl = (List<ZjkZhuanli>) retJsonZl.get("list");
         request.setAttribute("zlCount", listZl.size());//专利总数
 
+        request.setAttribute("cgzlCount", listCg.size() + listZl.size());
+
         //机构总数
         ZjkChoice zjkChoice = new ZjkChoice();
         zjkChoice.setStatus("2");//2选中数量
@@ -137,19 +140,20 @@ public class ExpertController extends BaseController {
 
     /**
      * 跳转到查询页面
+     *
      * @return
      */
     @RequestMapping(value = "/queryExpert", method = RequestMethod.GET)
     @OperationFilter(modelName = "专家-查询跳转", actionName = "查询跳转queryExpert")
     public String queryExpert() {
 
-        request.setAttribute("hyly",request.getParameter("hyly"));
-        request.setAttribute("jg",request.getParameter("jg"));
-        request.setAttribute("zjmc",request.getParameter("zjmc"));
-        request.setAttribute("key",request.getParameter("key"));
-        request.setAttribute("nld",request.getParameter("nld"));
-        request.setAttribute("zc",request.getParameter("zc"));
-        request.setAttribute("gb",request.getParameter("gb"));
+        request.setAttribute("hyly", request.getParameter("hyly"));
+        request.setAttribute("jg", request.getParameter("jg"));
+        request.setAttribute("zjmc", request.getParameter("zjmc"));
+        request.setAttribute("key", request.getParameter("key"));
+        request.setAttribute("nld", request.getParameter("nld"));
+        request.setAttribute("zc", request.getParameter("zc"));
+        request.setAttribute("gb", request.getParameter("gb"));
         return "stp/expert/queryExpert";
     }
 
@@ -192,6 +196,7 @@ public class ExpertController extends BaseController {
         JSONObject retJsonCg = responseEntityCg.getBody();
         List<ZjkChengguo> list = (List<ZjkChengguo>) retJsonCg.get("list");
         request.setAttribute("listCg", list);
+        request.setAttribute("listCgCount", list.size());
         //专利
         ZjkZhuanli zjkZhuanli = new ZjkZhuanli();
         zjkZhuanli.setZjId(expertId);
@@ -199,13 +204,14 @@ public class ExpertController extends BaseController {
         JSONObject retJsonZl = responseZlEntity.getBody();
         List<ZjkZhuanli> listZl = (List<ZjkZhuanli>) retJsonZl.get("list");
         request.setAttribute("listZl", listZl);
+        request.setAttribute("listZlCount", listZl.size());
         // 行业领域count
         String strHyly = zjkBaseInfo.getHyly();
         if (strHyly == null || "".equals(strHyly)) {
             request.setAttribute("hylyCount", "0");
         } else {
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("strHyly",strHyly);
+            jsonObject.put("strHyly", strHyly);
             ResponseEntity<JSONObject> responseEntityHyly = this.restTemplate.exchange(LIST_EXAMPLE, HttpMethod.POST, new HttpEntity<JSONObject>(jsonObject, this.httpHeaders), JSONObject.class);
             JSONObject retJson = responseEntityHyly.getBody();
             List<ZjkBaseInfo> listHyly = (List<ZjkBaseInfo>) retJson.get("list");
@@ -268,7 +274,9 @@ public class ExpertController extends BaseController {
             record.setUpdateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
             record.setUpdateUser(sysUserInfo.getUserId());
         }
+        record.setAddUserId(sysUserInfo.getUserId());
         record.setStatus("0");
+        record.setYear(DateUtil.format(new Date(), DateUtil.FMT_YYYY));
         ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(SAVECHOICE, HttpMethod.POST, new HttpEntity<ZjkChoice>(record, this.httpHeaders), Integer.class);
         Integer result = responseEntity.getBody();
         return result;
@@ -294,7 +302,9 @@ public class ExpertController extends BaseController {
             record.setUpdateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
             record.setUpdateUser(sysUserInfo.getUserId());
         }
+        record.setAddUserId(sysUserInfo.getUserId());
         record.setStatus("1");
+        record.setYear(DateUtil.format(new Date(), DateUtil.FMT_YYYY));
         ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(SAVECHOICE, HttpMethod.POST, new HttpEntity<ZjkChoice>(record, this.httpHeaders), Integer.class);
         Integer result = responseEntity.getBody();
         return result;
@@ -303,17 +313,28 @@ public class ExpertController extends BaseController {
     /**
      * 备选查询
      *
-     * @param zjkChoice
      * @return
      */
     @RequestMapping(value = "/selectBakList", method = RequestMethod.GET)
     @OperationFilter(modelName = "专家-备选人员查询", actionName = "备选查询列表selectBakList")
-    public String selectBakList(@RequestBody ZjkChoice zjkChoice) {
-//        zjkChoice.setStatus("1");
+    public String selectBakList() {
+        String status = request.getParameter("status");
+        String addUserId = request.getParameter("addUserId");
+
+        ZjkChoice zjkChoice = new ZjkChoice();
+        if (status != null && !"".equals(status)) {
+            zjkChoice.setStatus(status);
+        }
+        if (addUserId != null && !"".equals(addUserId)) {
+            zjkChoice.setAddUserId(sysUserInfo.getUserId());
+        }
+
         ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LISTBAK, HttpMethod.POST, new HttpEntity<ZjkChoice>(zjkChoice, this.httpHeaders), JSONObject.class);
         JSONObject retJson = responseEntity.getBody();
         List<ZjkChoice> list = (List<ZjkChoice>) retJson.get("list");
+        List<ZjkBaseInfo> baseList = (List<ZjkBaseInfo>) retJson.get("baseList");
         request.setAttribute("bakList", list);
+        request.setAttribute("baseList", baseList);
         return "stp/expert/bakList";
     }
 
@@ -360,8 +381,10 @@ public class ExpertController extends BaseController {
 
     //---------------------------------pic--------------------------
     private static final String Echart = "http://pcitc-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/echarts";
+
     /**
      * 首页图形展示
+     *
      * @return
      */
     @RequestMapping(value = "/picIndex", method = RequestMethod.GET)
@@ -370,8 +393,8 @@ public class ExpertController extends BaseController {
     public Object indexPicTwo() {
         String type = request.getParameter("type");
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("type",type);
-        jsonObject.put("id",request.getParameter("id"));
+        jsonObject.put("type", type);
+        jsonObject.put("id", request.getParameter("id"));
 
 //        if ("force".equals(type)){
 //            //添加自定义中心字段
@@ -383,15 +406,15 @@ public class ExpertController extends BaseController {
 //        }
 
         try {
-            jsonObject.put("param",ReverseSqlResult.getParameterMap(request));
+            jsonObject.put("param", ReverseSqlResult.getParameterMap(request));
         } catch (Exception e) {
             e.printStackTrace();
         }
-        ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(Echart, HttpMethod.POST, new HttpEntity<JSONObject>(jsonObject,this.httpHeaders), JSONObject.class);
+        ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(Echart, HttpMethod.POST, new HttpEntity<JSONObject>(jsonObject, this.httpHeaders), JSONObject.class);
         JSONObject object = responseEntity.getBody();
 //        System.out.println(object);
 
-        return object.get("result");
-//        return JSONObject.parseObject(JSONObject.toJSONString(object.get("result"))).toString();
+//        return object.get("result");
+        return JSONObject.parseObject(JSONObject.toJSONString(object.get("result"))).toString();
     }
 }

@@ -134,8 +134,64 @@ layui.config({
        
         renderTable2();
         renderTable();
-        
 });
+
+//圆圈初始化
+var labelTop = {
+	    normal : {
+	        label : {
+	            show : true,
+	            position : 'center',
+	            formatter : '{b}',
+	            textStyle: {
+	                baseline : 'bottom'
+	            }
+	        },
+	        labelLine : {
+	            show : false
+	        }
+	    }
+	};
+	var labelFromatter = {
+	    normal : {
+	        label : {
+	            formatter : function (params){
+	                return 100 - params.value + '%'
+	            },
+	            textStyle: {
+	                baseline : 'top'
+	            }
+	        }
+	    },
+	}
+	var radius = [80, 110];
+	var option_cicle = {
+	    legend: {
+	        x : 'center',
+	        y : 'center',
+	        data:[
+	            '已签合同'
+	        ]
+	    },
+	    series : [
+	        {
+	            type : 'pie',
+	            center : ['50%', '45%'],
+                silent: true,
+                labelLine : {
+                    show : false
+                },
+
+                color:"#02c2ad",
+	            radius : radius,
+	            data : [
+	                
+	            ]
+	        }
+	    ]
+	};
+	
+	
 
 function initEchart()
 {
@@ -166,17 +222,9 @@ function initEchart()
 		window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
           
     });
-	
-	var chart2_url="/direct/contract_01?type=2&nd="+nd+"&v_date="+v_date;
-	var echart2=loadPieNew(chart2_url,"contract_chart1_02_02","","");
-	echart2.on('click', function (params) {
-		var xName=params.name;
-		var legentName=params.seriesName;
-		window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
-          
-    });
-	
-	
+	//圆圈
+    var url="/direct/contract_01?type=2&nd="+nd+"&v_date="+v_date;
+	loadCicle(url,"contract_chart1_02_02");
 	 
 	var chart4_url="/direct/contract_03?type=1&nd="+nd+"&v_date="+v_date;
     var colorTr=["#17a2b9","#43c5ff","#f9c16d"];
@@ -192,6 +240,7 @@ function initEchart()
 	
 }
 
+
 //初始化图形
 initEchart();
 //查询
@@ -201,13 +250,13 @@ function search_Event()
 	renderTable();
 	renderTable2();
 }
-        
+
 
 
 function renderTable()
 {  
 	
-	  var month=$("#year").val();
+	 var month=$("#year").val();
 	 var ptable=treeGridCom.render({
 	        id:'processdef_table'
 	        ,elem: '#processdef_table'
@@ -288,7 +337,84 @@ function renderTable2()
 }
 
 
-        
+
+
+	//圆圈                    
+	function setCicle(url,echartsobj,option)
+	{
+	    var values=[];
+	    $.ajax({
+	        type:"get",
+	        url: url,
+	        dataType:"json",
+	        timeout : 11000,
+	        cache: false,
+	        contentType: "application/x-www-form-urlencoded; charset=utf-8",
+	        success:function(data,status)
+	        {
+	            if(data.success==true ||data.success=='true')
+	            {
+	                echartsobj.hideLoading();
+	                var chartList=data.data.dataList;
+	                for(var i=0;i<chartList.length;i++)
+	                {
+                        console.log(chartList[i])
+                        if(chartList[i].name=="已签合同"){
+                            values.push({
+                                value: chartList[i].value,
+                                name: "签订率",
+                                label:{normal: {formatter:'{b}\n{d}%', position: 'center',
+                                        color:"#02c2ad",textStyle : {fontSize : 20}}}
+                            });
+                        }else {
+                            values.push({
+                                value: chartList[i].value,
+                                name: chartList[i].name,
+                                itemStyle:{
+                                    normal : {
+                                        color: '#cccccc',
+                                        label : {
+                                            show : false,
+                                            position : 'center'
+                                        },
+                                        labelLine : {
+                                            show : false
+                                        }
+                                    }
+                                },
+                                label:{show : false},
+                                labelLine : {show : false}
+                            });
+                        }
+	                	//alert(chartList[i].name+"="+chartList[i].value);
+
+	                }
+	                echartsobj.setOption({
+	                    series: [{
+	                        data: values
+	                    }]
+	                });
+	            }
+	        },
+	        error:function()
+	        {
+	        },
+	        complete: function (XMLHttpRequest, status) {
+	        }
+	    });
+	} 
+	
+	function loadCicle(url,id)
+	{
+		
+		var echartsobj = echarts.init(document.getElementById(id));
+		echartsobj.setOption(option_cicle);
+		echartsobj.showLoading();
+		setCicle(url,echartsobj,option_cicle);
+		return echartsobj;
+	}
+	
+	
 </script>
 
 </body>

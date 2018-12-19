@@ -189,6 +189,71 @@ public class OneLevelMainController {
 		}
 		
 		
+
+		@RequestMapping(method = RequestMethod.GET, value = "/knowledge_pie_01")
+		@ResponseBody
+		public String knowledge_pie_01(HttpServletRequest request, HttpServletResponse response) throws Exception {
+			Result result = new Result();
+			
+			String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+			String type = CommonUtil.getParameter(request, "type", "");
+			
+			Map<String, Object> paramsMap = new HashMap<String, Object>();
+			paramsMap.put("nd", nd);
+			paramsMap.put("type", type);
+			JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+			HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+			if (!nd.equals(""))
+			{
+				ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(knowledge_02, HttpMethod.POST, entity, JSONArray.class);
+				int statusCode = responseEntity.getStatusCodeValue();
+				if (statusCode == 200) 
+				{
+					
+					JSONArray jSONArray = responseEntity.getBody();
+				    System.out.println(">>>>>>>>>>>>>>knowledge_pie_01 jSONArray-> " + jSONArray.toString());
+					List<Knowledge> list = JSONObject.parseArray(jSONArray.toJSONString(), Knowledge.class);
+				
+					
+						ChartPieResultData pie = new ChartPieResultData();
+						List<ChartPieDataValue> dataList = new ArrayList<ChartPieDataValue>();
+						List<String> legendDataList = new ArrayList<String>();
+						for (int i = 0; i < list.size(); i++) {
+							Knowledge f2 = list.get(i);
+							String projectName = f2.getLx();
+							String value = "0";
+							if(type.equals("1"))
+							{
+								value =f2.getApplyCount();
+							}
+							
+							if(type.equals("2"))
+							{
+								value =f2.getAgreeCount();
+							}
+							
+							
+							legendDataList.add(projectName);
+							dataList.add(new ChartPieDataValue(Integer.valueOf(value), projectName));
+						}
+						pie.setDataList(dataList);
+						pie.setLegendDataList(legendDataList);
+						result.setSuccess(true);
+						result.setData(pie);
+					
+				}
+				
+			} else
+			{
+				result.setSuccess(false);
+				result.setMessage("参数为空");
+			}
+			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
+			System.out.println(">>>>>>>>>>>>>>knowledge_pie_01 type= "+type+" : " + resultObj.toString());
+			return resultObj.toString();
+		}
+		
+		
 		@RequestMapping(method = RequestMethod.GET, value = "/knowledge_pie")
 		@ResponseBody
 		public String knowledge_pie(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -502,6 +567,7 @@ public class OneLevelMainController {
 				         		List<String> legendDataList = new ArrayList<String>();
 								legendDataList.add("计划合同");
 								legendDataList.add("已签合同");
+								legendDataList.add("合同签订率");
 								barLine.setLegendDataList(legendDataList);
 								//X轴数据
 								List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
@@ -509,6 +575,10 @@ public class OneLevelMainController {
 								seriesList.add(s1);
 								ChartBarLineSeries s2 = HanaUtil.getContractChartBarLineSeries9(list, "sjqds");
 								seriesList.add(s2);
+								
+								ChartBarLineSeries s3 = HanaUtil.getContractChartBarLineSeries9(list, "htqdl");
+								seriesList.add(s3);
+								
 								barLine.setSeriesList(seriesList);
 				         		result.setSuccess(true);
 								result.setData(barLine);
@@ -1639,7 +1709,28 @@ public class OneLevelMainController {
 												System.out.println(">>>>>>>>>>>>investment_01_01 jSONArray>>> " + jSONArray.toString());
 												List<BudgetMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), BudgetMysql.class);
 												
-												
+												for(int i=0;i<list.size();i++)
+												{
+													BudgetMysql budgetMysql=list.get(i);
+													Object fyxRate= budgetMysql.getFyxRate();
+													Object jeRate= budgetMysql.getJeRate();
+													Object zbxRate= budgetMysql.getZbxRate();
+													if(fyxRate==null)
+													{
+														fyxRate=0;
+													}
+													if(jeRate==null)
+													{
+														jeRate=0;
+													}
+													if(zbxRate==null)
+													{
+														zbxRate=0;
+													}
+													budgetMysql.setFyxRate(fyxRate);;
+													budgetMysql.setJeRate(jeRate);
+													budgetMysql.setZbxRate(zbxRate);
+												}
 												
 												pageResult.setData(list);
 												pageResult.setCode(0);
@@ -1769,6 +1860,17 @@ public class OneLevelMainController {
 												JSONArray jSONArray = responseEntity.getBody();
 												System.out.println(">>>>>>>>>>>>get_news jSONArray>>> " + jSONArray.toString());
 												List<SysNews> list = JSONObject.parseArray(jSONArray.toJSONString(), SysNews.class);
+												for(int i=0;i<list.size();i++)
+												{
+													SysNews sysNews=list.get(i);
+													String str="";
+													String createtime=sysNews.getCreatetime();
+													if(createtime!=null)
+													{
+														str=DateUtil.dateToStr(DateUtil.strToDate(sysNews.getCreatetime(), DateUtil.FMT_DD) , DateUtil.FMT_DD);
+													}
+													sysNews.setCreatetimestr(str);
+												}
 												result.setSuccess(true);
 												result.setData(list);
 											}

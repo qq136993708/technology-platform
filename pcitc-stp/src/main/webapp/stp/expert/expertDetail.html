@@ -6,7 +6,6 @@
     <link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
     <script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
-    <script type="text/javascript" src="/common/js/base.js"></script>
 </head>
 <body>
 <div class="searchBox">
@@ -23,6 +22,42 @@
     </div>
 </div>
 
+${zjkBaseInfo.id}
+
+
+${zjkBaseInfo.name}
+${zjkBaseInfo.dz}
+${zjkBaseInfo.email}
+${zjkBaseInfo.dh}
+${zjkBaseInfo.dz}
+${zjkBaseInfo.hylyName}
+${zjkBaseInfo.zc}
+
+${zjkBaseInfo.company}
+${zjkBaseInfo.companyName}
+
+${zjkBaseInfo.hyly}
+
+
+${zjkBaseInfo.zlCount}
+${zjkBaseInfo.cgCount}
+${zjkBaseInfo.jeCount}
+${zjkBaseInfo.xmCount}
+${zjkBaseInfo.jgCount}
+
+${hylyCount}
+
+
+//成果遍历
+<#list listCg as vo>
+    ${vo.cgName}--${vo.publistDate}---${vo.hylyName}---${vo.cgDesc}
+</#list>
+
+//专利遍历
+<#list listZl as vo>
+    ${vo.name}---${vo.bak1}
+</#list>
+
 
 <input id="hyly" value="" type="text"/>
 <input id="jg" value="" type="text"/>
@@ -31,12 +66,49 @@
 <input id="nld" value="" type="text"/>
 <input id="zc" value="" type="text"/>
 <input id="gb" value="" type="text"/>
+<a href="/expertController/queryExpert" id="hylyshowall" target="_blank">行业领域查看类似</a>
 
+<a href="/expertController/selectBakList?status=1&addUserId=addUserId" id="showBak" target="_blank">查看对比</a>
 <table id="expertTable" class="layui-hide" lay-filter="tableEvent"></table>
 <script type="text/html" id="showDetail">
     <a class="layui-btn layui-btn-xs" lay-event="showDetail">查看</a>
 </script>
 <script>
+
+    layui.use(['jquery', 'form', 'laydate', 'table', 'layer', 'element', "publicMethods"],
+        function () {
+            var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer,
+                laydate = layui.laydate;
+            var form = layui.form;
+            var publicMethods = layui.publicMethods;
+
+            var record = {};
+            record.companyId = '${zjkBaseInfo.company}';
+            record.companyName = '${zjkBaseInfo.companyName}';
+            record.zjId = '${zjkBaseInfo.id}';
+            //加入备选
+            function addBx(){
+                publicMethods.ajaxPost("/expertController/saveBak", record, function (data) {
+                    console.log(data);
+                    layer.msg("操作成功");
+                });
+            }
+            function addDb(){
+                //加入对比
+                publicMethods.ajaxPost("/expertController/addCompare", record, function (data) {
+                    layer.msg("操作成功");
+                });
+            }
+            //行业领域查看所有
+            function searchHyly() {
+
+                $("#hylyshowall").href="/expertController/queryExpert?hyly=${zjkBaseInfo.hyly}";
+
+                $("#hylyshowall").click();
+            }
+        });
+
+
 </script>
 <script>
     var zjkBaseInfo = "${zjkBaseInfo}";
@@ -183,11 +255,11 @@
             }
         };
         //监听行工具事件
-        table.on('tool(tableEvent)', function(obj){
+        table.on('tool(tableEvent)', function (obj) {
             var data = obj.data;
-            if(obj.event === 'showDetail'){
+            if (obj.event === 'showDetail') {
                 layer.open({
-                    title:"任务反馈",
+                    title: "任务反馈",
                     skin: 'layui-layer-lan',
                     shadeClose: false,
                     type: 2,
@@ -195,8 +267,8 @@
                     //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
                     maxmin: true,
                     //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                    area: ['70%','90%'],
-                    content: '/plan/my/viewPlanDetail?dataId='+data.dataId
+                    area: ['70%', '90%'],
+                    content: '/plan/my/viewPlanDetail?dataId=' + data.dataId
                 });
             }
         });

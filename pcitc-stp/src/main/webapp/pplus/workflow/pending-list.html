@@ -29,7 +29,7 @@
 			<div class="whiteLine"></div>
 			<div class="tableBtns">
 				<button id="allData" class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue active btnMyBgImg" data-type="allEvent">
-					<span class="btn-state btn-all"></span>
+					<span class="btn-state btn-all-ryg"></span>
 					全部
 				</button>
 				<button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg" data-type="threeEvent">
@@ -172,10 +172,9 @@
 						});
 					}
 				});
+                $(".layui-table-header table thead th input").remove(); //移除表头的复选框,去掉全选
 			}
 			renderTable();
-
-			$(".layui-table-header table thead th input").remove(); //移除表头的复选框,去掉全选
 
 			// 触发不同的按钮事件
 			var $ = layui.$;
