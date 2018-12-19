@@ -829,14 +829,17 @@
 	<!-- 直属研究院二级页面（领导），总的签订率-->
 	<select id="getPlanTotalCompleteRate" resultType="java.util.Map" parameterType="java.util.HashMap">
 		select count(*) as zsl,
-			sum(case when tableB.temId is not null then 1 else 0 end) as yqht,
-			sum(case when tableB.temId is null then 1 else 0 end) as wqht,
-			round(sum(case when tableB.temId is not null then 1 else 0 end)/count(*)*100,2) as qdl
+			sum(case when tableB.xmid is not null then 1 else 0 end) as yqht,
+			sum(case when tableB.xmid is null then 1 else 0 end) as wqht,
+			round(sum(case when tableB.xmid is not null then 1 else 0 end)/count(*)*100,2) as qdl
 		from (
-			select out_project_info.xmid as temId,out_project_plan.DEFINE1,out_project_plan.PROJECT_SCOPE 
-			from out_project_plan left join out_project_info on (out_project_plan.XMID = out_project_info.xmid)
+			select out_project_info.xmid,out_project_plan.DEFINE1,out_project_plan.PROJECT_SCOPE 
+			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and out_project_info.define1 = '费用性' and (out_project_info.PROJECT_TYPE= '0' or out_project_info.PROJECT_TYPE= '2') and (out_project_info.PROJECT_SCOPE= '新开课题' or out_project_info.PROJECT_SCOPE= '结转课题'))
 			WHERE
-				out_project_plan.PROJECT_SCOPE= '新开课题' or out_project_plan.PROJECT_SCOPE= '结转课题'
+				(out_project_plan.PROJECT_SCOPE= '新开课题' or out_project_plan.PROJECT_SCOPE= '结转课题')
+				and out_project_plan.define1 = '费用性' 
+				and (out_project_plan.PROJECT_TYPE= '0' or out_project_plan.PROJECT_TYPE= '2')
+			group by out_project_plan.data_id
 		) as tableB
 	</select>
 	
