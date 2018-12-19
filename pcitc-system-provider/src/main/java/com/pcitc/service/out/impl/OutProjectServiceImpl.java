@@ -36,6 +36,19 @@ public class OutProjectServiceImpl implements OutProjectService {
 
 	private final static Logger logger = LoggerFactory.getLogger(OutProjectServiceImpl.class);
 
+	/**
+	 * 获取项目数据
+	 */
+	public List<OutProjectInfo> getProjectList(HashMap<String, String> map) {
+		
+		OutProjectInfoExample example = new OutProjectInfoExample();
+		
+		OutProjectInfoExample.Criteria criteria = example.createCriteria();
+    	
+    	criteria.andDefine3EqualTo("项目管理系统");
+    	List<OutProjectInfo> returnList = outProjectInfoMapper.selectByExample(example);
+    	return returnList;
+	}
 	public int insertProjectData(List<OutProjectInfo> list, String nd) {
 		// 把年度数据复制到临时表中备份
 		// outProjectInfoMapper.copyData(nd);

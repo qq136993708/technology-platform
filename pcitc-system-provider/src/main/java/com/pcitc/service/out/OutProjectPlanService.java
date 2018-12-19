@@ -8,6 +8,11 @@ import com.pcitc.base.stp.out.OutProjectPlan;
 public interface OutProjectPlanService {
 
 	/**
+     * 获取所有的项目计划数据
+     */
+    public List getProjectPlanList(HashMap<String, String> map);
+    
+    /**
      * 批量插入项目计划数据
      */
     public void insertOutProjectPlanBatch(List<OutProjectPlan> list);
