@@ -117,7 +117,7 @@
                         <div class="time">
                             <label>
                                 <span>查询日期:</span>
-                                <div class="layui-form">
+                                <div class="layui-form" id="inputHtml">
                                     <!--<input type="radio" name="time"  value="按年份" title="按年份">-->
                                     <input type="radio" name="time" value="按月份" title="按月份" checked>
                                     <input type="text" class="layui-input layui-input-timeY layui-hide"
@@ -342,12 +342,13 @@
     </div>
 </div>
 <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
-<script type="text/javascript" src="/stp/hana/reportconfig/report_lhfx_stp.js"></script>
+<script type="text/javascript" src="/stp/hana/reportconfig/table_list.js"></script>
 <script>
     console.log("----------------------new---------------");
     //维度
     pcitcReport.createVar(JSON.parse(('${wd_obj_array}')));
     //指标
+    var s = '[{"ZB":{"field":"ZB","title":"指标","align":"right"}}]';
     pcitcReport.createVar(JSON.parse('${zb_obj_array}'));
     //维度展示
     pcitcReport.show_wd(JSON.parse('${wd_show_obj_array}'));
@@ -379,6 +380,9 @@
     var jsonparam = '${jsonparam}';
     console.log("-----------------");
     console.log(jsonparam);
+    //初始化查询条件
+    var query_obj_array = JSON.parse('${query_obj_array}');
+    pcitcReport.queryCon(query_obj_array);
 </script>
 
 <script>
@@ -397,13 +401,12 @@
         var table = layui.table;
         // var multiSelect = layui.multiSelect;//'multiSelect',
         var formSelects = layui.formSelects;
-        var treeGridCom = layui.treeGridComStp;//很重要
+        var treeGridCom = layui.table;//很重要
         pcitcReport.treeGridCom = layui.treeGridComStp;//很重要
         //获取收藏内容,赋值
         pcitcReport.getStoreModel('1');
         console.log(pcitcReport.column);
         // pcitcReport.calTableWidth();
-
 
 
         treeGridCom.render({
@@ -418,7 +421,7 @@
             , treeUpId: 'pid'//树形父id字段名称
             , treeShowName: pcitcReport.strcolumns.split(",")[0]//以树形式显示的字段
             , heightRemove: [".dHead", 10]//不计算的高度,表格设定的是固定高度，此项不生效
-            , height: '100%'
+            , height: '200px'
             , isFilter: false
             , iconOpen: false//是否显示图标【默认显示】
             , isOpenDefault: true//节点默认是展开还是折叠【默认展开】
@@ -493,12 +496,13 @@
         active = {
             reload: function () {
                 pcitcReport.flag = true;
-                if (pcitcReport.getCheck() == false) {
-                    return;
-                }
-                pcitcReport.storeToValue('1');//收藏赋值
+                // if (pcitcReport.getCheck() == false) {
+                //     return;
+                // }
+                // pcitcReport.storeToValue('1');//收藏赋值
                 // pcitcReport.calTableWidth();
                 console.log("--reload--");
+                pcitcReport.getQueryval(query_obj_array);//查询添加where
                 //转换静态表格
                 treeGridCom.render({
                     elem: '#treeTable'
@@ -512,7 +516,7 @@
                     , treeUpId: 'pid'//树形父id字段名称
                     , treeShowName: pcitcReport.strcolumns.split(",")[0]//以树形式显示的字段
                     , heightRemove: [".dHead", 10]//不计算的高度,表格设定的是固定高度，此项不生效
-                    , height: '100%'
+                    , height: '200'
                     , isFilter: false
                     , iconOpen: false//是否显示图标【默认显示】
                     , isOpenDefault: true//节点默认是展开还是折叠【默认展开】
@@ -576,7 +580,7 @@
                     , done: function (res, curr, count) {
                         // $(".layui-table-body .layui-table-cell>div i").remove()
 
-                        pcitcReport.strwhere="";
+                        pcitcReport.strwhere = "";
                         console.log("--data---");
                         console.log(res.data.length);
                         pcitcReport.setExt();
@@ -604,7 +608,7 @@
         };
 
         //add start
-        if (jsonparam!="") {
+        if (jsonparam != "") {
             //g0_type_flag=12321,g0_project_scope=12312
             $(".nowtips ul.wd_show_obj_array li").each(function () {
                 var valueG0 = $(this).find("a").attr("value");
@@ -624,7 +628,7 @@
             });
             //条件赋值
             console.log("--where---条件");
-            pcitcReport.strwhere= jsonparam;
+            pcitcReport.strwhere = jsonparam;
             console.log(pcitcReport.strwhere);
             active.reload();
         }
@@ -809,7 +813,8 @@
 
             }
         });
-        var $ = layui.jquery; active = {};
+        var $ = layui.jquery;
+        active = {};
         form.render('select', 'xData')
         $('i').on('click', function () {
             var type = $(this).data('type');
@@ -919,7 +924,8 @@
             var data = obj.data;
         });
 
-        var $ = layui.jquery; active = {
+        var $ = layui.jquery;
+        active = {
             reloadPic: function () {
                 changePic();
                 // pcitcReport.arrayColumns_pic = pcitcReport.arrayColumns_pic.slice(0, 0);
