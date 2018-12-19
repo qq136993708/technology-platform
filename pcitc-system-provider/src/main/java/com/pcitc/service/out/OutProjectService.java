@@ -20,6 +20,11 @@ public interface OutProjectService {
 	public int insertProjectData(List<OutProjectInfo> list, String nd);
 	
 	/**
+	 * 获取项目数据
+	 */
+	public List<OutProjectInfo> getProjectList(HashMap<String, String> map);
+	
+	/**
 	 * 分页显示项目
 	 * @param param
 	 * @return
