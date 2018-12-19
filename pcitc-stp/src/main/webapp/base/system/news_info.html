@@ -33,10 +33,10 @@ body{padding: 10px 10px 0;}
 			</div>
 			<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 				<div class="layui-form-item">
-		          <label class="layui-form-label">是否上架:</label>
+		          <label class="layui-form-label">是否发布:</label>
 		          <div class="layui-input-block">
-		              <input  class="layui-input" lay-filter="radioEvent" type="radio" name="status" value="1" title="上架" checked>
-		              <input  class="layui-input" lay-filter="radioEvent" type="radio" name="status" value="0" title="下架">
+		              <input  class="layui-input" lay-filter="radioEvent" type="radio" name="status" value="1" title="发布" checked>
+		              <input  class="layui-input" lay-filter="radioEvent" type="radio" name="status" value="0" title="不发布">
 		          </div>
 		        </div>
 			</div>
@@ -146,10 +146,11 @@ body{padding: 10px 10px 0;}
 			formData.content = content;
 			if(status) formData.status=status;
             console.log(JSON.stringify(formData))
+            console.log(JSON.stringify({"news":JSON.stringify(formData)}));
         	$.ajax({
     			type : 'post',
     			dataType : 'json',
-    			data : JSON.stringify(formData),
+    			data : JSON.stringify({"news":JSON.stringify(formData)}),
     			headers: {
                 	'Content-Type' : 'application/json',
                 },

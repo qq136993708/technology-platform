@@ -5,7 +5,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,11 +15,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.InforVo;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.system.SysNews;
-import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.OperationFilter;
 
@@ -51,8 +50,9 @@ public class SysNewsController extends BaseController {
 	@OperationFilter(modelName = "新闻管理", actionName = "新增或修改新闻")
 	@RequestMapping(value = "/saveNews")
 	@ResponseBody
-	public int saveNews(@RequestBody SysNews news) {
-		ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(SAVE_NEWS, HttpMethod.POST, new HttpEntity<SysNews>(news, this.httpHeaders), Integer.class);
+	public int saveNews(@RequestBody JSONObject news) {
+		news.put("user", JSONObject.parseObject(JSON.toJSONString(this.sysUserInfo)));
+		ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(SAVE_NEWS, HttpMethod.POST, new HttpEntity<JSONObject>(news, this.httpHeaders), Integer.class);
 		Integer result = responseEntity.getBody();
 		return result;
 	}
@@ -105,7 +105,7 @@ public class SysNewsController extends BaseController {
 		SysNews entity = responseEntity.getBody();
 		InforVo inforVo = new InforVo();
 		inforVo.setContent(entity.getContent());
-		inforVo.setDate(DateUtil.format(entity.getUpdatetime(), DateUtil.FMT_DD));
+		inforVo.setDate(entity.getUpdatetime());
 		inforVo.setTitle(entity.getTitle());
 		model.addAttribute("info", inforVo);
 
@@ -117,6 +117,26 @@ public class SysNewsController extends BaseController {
 		}
 
 		// return "base/system/news_show";
+	}
+
+	/**
+	 * 后台跳转至新闻查看页面
+	 * 
+	 * @return
+	 */
+	@RequestMapping(value = { "/toNewsLook" }, method = RequestMethod.GET)
+	public String toNewsLook(String id, Model model) {
+		ResponseEntity<SysNews> responseEntity = this.restTemplate.exchange(GET_NEWS + id, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), SysNews.class);
+		SysNews entity = responseEntity.getBody();
+		entity.setNoticeContent(entity.getContent());
+		entity.setNoticeTitle(entity.getTitle());
+		entity.setNoticePublisherName(entity.getAuthor());
+		entity.setNoticePublisherUnit(this.sysUserInfo.getUnitName());
+		entity.setNoticePublishtime(entity.getUpdatetime());
+		entity.setNoticeCreater(entity.getAuthor());
+		model.addAttribute("info", entity);
+
+		return "base/system/info-dialog-news";
 	}
 
 }

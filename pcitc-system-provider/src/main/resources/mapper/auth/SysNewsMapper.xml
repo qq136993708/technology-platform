@@ -5,8 +5,8 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="title" property="title" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="TINYINT" />
-    <result column="createtime" property="createtime" jdbcType="TIMESTAMP" />
-    <result column="updatetime" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="createtime" property="createtime" jdbcType="VARCHAR" />
+    <result column="updatetime" property="updatetime" jdbcType="VARCHAR" />
     <result column="author" property="author" jdbcType="VARCHAR" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.pcitc.base.system.SysNews" extends="BaseResultMap" >
@@ -40,7 +40,7 @@
       createtime, updatetime, author, 
       content)
     values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
-      #{createtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP}, #{author,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=VARCHAR}, #{updatetime,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR}, 
       #{content,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.pcitc.base.system.SysNews" >
@@ -79,10 +79,10 @@
         #{status,jdbcType=TINYINT},
       </if>
       <if test="createtime != null" >
-        #{createtime,jdbcType=TIMESTAMP},
+        #{createtime,jdbcType=VARCHAR},
       </if>
       <if test="updatetime != null" >
-        #{updatetime,jdbcType=TIMESTAMP},
+        #{updatetime,jdbcType=VARCHAR},
       </if>
       <if test="author != null" >
         #{author,jdbcType=VARCHAR},
@@ -102,10 +102,10 @@
         status = #{status,jdbcType=TINYINT},
       </if>
       <if test="createtime != null" >
-        createtime = #{createtime,jdbcType=TIMESTAMP},
+        createtime = #{createtime,jdbcType=VARCHAR},
       </if>
       <if test="updatetime != null" >
-        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+        updatetime = #{updatetime,jdbcType=VARCHAR},
       </if>
       <if test="author != null" >
         author = #{author,jdbcType=VARCHAR},
@@ -120,8 +120,8 @@
     update sys_news
     set title = #{title,jdbcType=VARCHAR},
       status = #{status,jdbcType=TINYINT},
-      createtime = #{createtime,jdbcType=TIMESTAMP},
-      updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      createtime = #{createtime,jdbcType=VARCHAR},
+      updatetime = #{updatetime,jdbcType=VARCHAR},
       author = #{author,jdbcType=VARCHAR},
       content = #{content,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
@@ -130,8 +130,8 @@
     update sys_news
     set title = #{title,jdbcType=VARCHAR},
       status = #{status,jdbcType=TINYINT},
-      createtime = #{createtime,jdbcType=TIMESTAMP},
-      updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      createtime = #{createtime,jdbcType=VARCHAR},
+      updatetime = #{updatetime,jdbcType=VARCHAR},
       author = #{author,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -139,9 +139,12 @@
   <!-- 查询新闻列表 -->
   <select id="selectNews" resultType="com.pcitc.base.system.SysNews">
 	  select id ,title,content,status,author,createtime,updatetime
-	  from sys_news 
+	  from sys_news where(1=1)
 	  <if test="title!=null and title!=''.toString()">
-	  where title like '%${title}%' or content like '%${title}%'
+	  and title like '%${title}%' or content like '%${title}%'
+	  </if>
+	  <if test="status!=null ">
+	  and status = #{status}
 	  </if>
 	  <if test="iSortCol!=null and iSortCol!=''.toString()">
     	order by ${iSortCol} ${sSortDir_0}
