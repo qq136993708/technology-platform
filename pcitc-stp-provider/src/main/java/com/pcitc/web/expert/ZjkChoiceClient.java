@@ -16,7 +16,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 /**
@@ -58,6 +60,11 @@ public class ZjkChoiceClient {
         try {
             List<ZjkChoice> list = zjkChoiceService.findZjkChoiceList(zjkChoice);
             retJson.put("list", list);
+            if(list!=null&&list.size()>0){
+                retJson.put("baseList", zjkChoiceService.findZjkBaseInofList(list.stream().map(ZjkChoice::getZjId).collect(Collectors.toList())));
+            }else {
+                retJson.put("baseList",new ArrayList<>());
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

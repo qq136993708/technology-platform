@@ -176,10 +176,9 @@ public interface OutProjectService {
 	
 	/**
      * @param nd
-     * @return
-     * 科研二级页面，研究院的各项目的费用性金额、资本性金额统计
+     * 科研二级页面，研究院的各项目的费用性金额、资本性金额、国家项目新开数量、国家项目结转数量等统计
      */
-	public List getProjectMoneyByYJY(String nd);
+	public List getProjectMoneyByYJY(HashMap<String, String> map);
 	
 	/**
      * @param nd

@@ -880,15 +880,15 @@ public class OneLevelMainController {
 						JSONArray jSONArray = responseEntity.getBody();
 						System.out.println(">>>>>>>>>>>>>>>contract_05 jSONArray" + jSONArray.toString());
 						
-						List<Contract> list = JSONObject.parseArray(jSONArray.toJSONString(), Contract.class);
-						List<String>  lista=HanaUtil.getduplicatexAxisByList(list,"define3");
-						List<TreeNode2>  chartCircleList=	HanaUtil.getChildChartCircleuContract02(lista,list);
+						//List<Contract> list = JSONObject.parseArray(jSONArray.toJSONString(), Contract.class);
+						//List<String>  lista=HanaUtil.getduplicatexAxisByList(list,"define3");
+						//List<TreeNode2>  chartCircleList=	HanaUtil.getChildChartCircleuContract02(lista,list);
 						
-						pageResult.setData(chartCircleList);
+						pageResult.setData(jSONArray);
 						pageResult.setCode(0);
-						pageResult.setCount(Long.valueOf(chartCircleList.size()));
-						pageResult.setLimit(1000);
-						pageResult.setPage(1l);
+						pageResult.setCount(Long.valueOf(jSONArray.size()));
+						//pageResult.setLimit(1000);
+						//pageResult.setPage(1l);
 						
 						
 					}

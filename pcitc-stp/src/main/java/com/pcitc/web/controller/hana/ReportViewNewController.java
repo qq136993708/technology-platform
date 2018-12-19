@@ -56,6 +56,70 @@ public class ReportViewNewController extends BaseController {
     private static final String LISTPARAM_COLUMN = "http://pcitc-zuul/system-proxy/reportcolumn-provider/reportcolumn/reportcolumn_list";
 
     /**
+     * 页面查询
+     * @return
+     */
+    @RequestMapping(method = RequestMethod.GET, value = "/reportPageQuery")
+    public String reportPageQuery() {
+        String strUrl = "";
+        try {
+            String strId = request.getParameter("name");
+            if (strId == null) {
+                return "";
+            }
+            ResponseEntity<ReportConfig> responseEntityConfig = this.restTemplate.exchange(GET_INFO_REPORT_CONFIG + strId, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), ReportConfig.class);
+            ReportConfig config = responseEntityConfig.getBody();
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("config",config);
+//            if ("0".equals(config.getBak2())){
+                strUrl = "stp/hana/reportconfig/table_query";
+//            }else {
+//                strUrl = "stp/hana/reportconfig/stp_report_listcount";
+//            }
+
+            request.setAttribute("name", strId);
+            //获取配置信息，拼装标准json字符串，放入request
+            httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+            MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<String, String>();
+            requestBody.add("id", strId);
+            HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<MultiValueMap<String, String>>(requestBody, this.httpHeaders);
+
+            ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LIST_REPORT, HttpMethod.POST, entity, JSONObject.class);
+            JSONObject retJson = responseEntity.getBody();
+
+            request.setAttribute("jsonObject",JSON.toJSONString(jsonObject));
+            request.setAttribute("wd_obj_array", JSON.toJSONString(retJson.getJSONArray("wd_obj_array")));
+            request.setAttribute("zb_obj_array", JSON.toJSONString(retJson.getJSONArray("zb_obj_array")));
+            request.setAttribute("wd_show_obj_array", JSON.toJSONString(retJson.getJSONArray("wd_show_obj_array")));
+            request.setAttribute("wd_hide_obj_array", JSON.toJSONString(retJson.getJSONArray("wd_hide_obj_array")));
+            request.setAttribute("zb_show_obj_array", JSON.toJSONString(retJson.getJSONArray("zb_show_obj_array")));
+            request.setAttribute("zb_hide_obj_array", JSON.toJSONString(retJson.getJSONArray("zb_hide_obj_array")));
+            request.setAttribute("default_wd_zb_obj_array", JSON.toJSONString(retJson.getJSONArray("default_wd_zb_obj_array")));
+            request.setAttribute("default_x_obj_array", JSON.toJSONString(retJson.getJSONArray("default_x_obj_array")));
+            request.setAttribute("default_column_obj_array", JSON.toJSONString(retJson.getJSONArray("default_column_obj_array")));
+            //select
+            request.setAttribute("query_obj_array", JSON.toJSONString(retJson.getJSONArray("query_obj_array")));
+
+            request.setAttribute("gsdmcode",JSON.toJSONString(sysUserInfo.getInstituteCodes()));
+            request.setAttribute("gsdmname",JSON.toJSONString(sysUserInfo.getInstituteNames()));
+
+            //store
+            String strStoreId = request.getParameter("storeId");
+            request.setAttribute("storeId",strStoreId==null?"":strStoreId);
+            request.setAttribute("strUrl",config.getBak2());
+            System.out.println(config.getBak2());
+
+            //url param
+            String jsonparam = request.getParameter("jsonparam");
+            request.setAttribute("jsonparam",(jsonparam==null||"".equals(jsonparam))?"":JSON.toJSONString(jsonparam.toUpperCase()));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return strUrl;
+    }
+
+    /**
      * Catalog查询
      *
      * @param request
