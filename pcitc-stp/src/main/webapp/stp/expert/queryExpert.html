@@ -4,33 +4,39 @@
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
     <link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/style/second.css">
     <script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
     <script type="text/javascript" src="/common/js/base.js"></script>
 </head>
 <body>
-<div class="searchBox">
-    <!--查询条件-->
-    <label class="dateInput">
-    </label>
-    <!--按钮组-->
-    <div class="btnGroup">
-        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询
-        </button>
-        <button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg"
-                data-type="resetEvent">重置
-        </button>
+<div class="layui-main-oil">
+    <div class="search">
+        <span>行业领域</span>
+        <input id="hyly" value="${hyly}" type="text"/>
+        <span>机构</span>
+        <input id="jg" value="${jg}" type="text"/>
+        <span>专家姓名</span>
+        <input id="zjmc" value="${zjmc}" type="text"/>
+        <span>关键字</span>
+        <input id="key" value="${key}" type="text"/>
+        <span>关键字</span>
+        <input id="nld" value="${nld}" type="text"/>
+        <span>关键字</span>
+        <input id="zc" value="${zc}" type="text"/>
+        <span>关键字</span>
+        <input id="gb" value="${gb}" type="text"/>
+        <div class="btnGroup">
+            <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询
+            </button>
+            <button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg"
+                    data-type="resetEvent">重置
+            </button>
+        </div>
     </div>
 </div>
 
 
-<input id="hyly" value="${hyly}" type="text"/>
-<input id="jg" value="${jg}" type="text"/>
-<input id="zjmc" value="${zjmc}" type="text"/>
-<input id="key" value="${key}" type="text"/>
-<input id="nld" value="${nld}" type="text"/>
-<input id="zc" value="${zc}" type="text"/>
-<input id="gb" value="${gb}" type="text"/>
 
 <table id="expertTable" class="layui-hide" lay-filter="tableEvent"></table>
 <script type="text/html" id="showDetail">

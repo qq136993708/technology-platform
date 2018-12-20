@@ -1,7 +1,5 @@
 package com.pcitc.service.feign.hana;
 
-import io.swagger.annotations.ApiOperation;
-
 import java.util.HashMap;
 
 import org.springframework.cloud.netflix.feign.FeignClient;
@@ -25,7 +23,6 @@ public interface OutProjectRemoteClient {
 	
 
 	
-	@ApiOperation(value = "得到最新的国家项目列表 ", notes = "参数年度")
 	@RequestMapping(value = "/hana/country-project/list")
 	public JSONArray getLastCountryProject(@RequestBody HashMap<String, String> map);
 

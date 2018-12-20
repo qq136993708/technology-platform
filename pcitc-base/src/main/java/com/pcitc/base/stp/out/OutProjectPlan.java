@@ -82,8 +82,29 @@ public class OutProjectPlan {
     private String define5;
 
     private String define6;
+    
+    private String parentName;
+    
+    private String projectId;
 
-    public String getDataId() {
+    
+    public String getParentName() {
+		return parentName;
+	}
+
+	public void setParentName(String parentName) {
+		this.parentName = parentName;
+	}
+
+	public String getProjectId() {
+		return projectId;
+	}
+
+	public void setProjectId(String projectId) {
+		this.projectId = projectId;
+	}
+
+	public String getDataId() {
         return dataId;
     }
 

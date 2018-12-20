@@ -26,6 +26,7 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.stp.out.OutProjectErp;
 import com.pcitc.base.stp.out.OutProjectInfo;
+import com.pcitc.service.feign.hana.OutProjectRemoteClient;
 import com.pcitc.service.out.OutProjectService;
 
 @Api(value = "OUTPROJECT-API", description = "项目数据，从项目管理系统中获取")
@@ -34,6 +35,9 @@ public class OutProjectInfoClient {
 
 	@Autowired
 	private OutProjectService outProjectService;
+	
+	@Autowired
+	private OutProjectRemoteClient outProjectRemoteClient;
 	
 	private final static Logger logger = LoggerFactory.getLogger(OutProjectInfoClient.class);
 
@@ -1864,7 +1868,10 @@ public class OutProjectInfoClient {
 		logger.info("==================page getDragonProjectInfoByInstitute===========================" + map);
 		
 		List temList = outProjectService.getDragonProjectInfoByInstitute(map);
-		
+		System.out.println("1=================www");
+		HashMap<String, String> map1 = new HashMap<String, String>();
+		outProjectRemoteClient.getLastCountryProject(map1);
+		System.out.println("2=================www");
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
 		return json;
 	}

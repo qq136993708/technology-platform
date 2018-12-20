@@ -3,6 +3,8 @@ package com.pcitc.service.out;
 import java.util.HashMap;
 import java.util.List;
 
+import com.pcitc.base.common.LayuiTableData;
+import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.stp.out.OutProjectPlan;
 
 public interface OutProjectPlanService {
@@ -46,6 +48,11 @@ public interface OutProjectPlanService {
      * 领导首页-科研合同，科研合同签订率清单
      */
 	public List getPlanCompleteRateDetails(HashMap<String, String> map);
+	
+	/**
+     * 项目计划数据，涉及项目预算、项目计划详情等相关的查询时调用
+     */
+	public LayuiTableData selectProjectPlanByCond(LayuiTableParam param);
 	
 	
 }

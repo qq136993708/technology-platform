@@ -388,9 +388,9 @@
             , cols: [[
             	{field:'define3',  title:'类别',  style:'cursor: pointer;',align: 'left'},
             	{field:'define2',  title:'机构',  style:'cursor: pointer;',align: 'left', width: '20%'},
- 	            {field:'zsl',  title:'计划签订数（个）',   style:'cursor: pointer;',align: 'left', width: '20%'},
- 	            {field:'yqhtzj',  title:'实际签订数（个）',   style:'cursor: pointer;',align: 'left', width: '20%'},
- 	            {field:'qdlzj',  title:'签订率（%）',       style:'cursor: pointer;',align: 'left', width: '20%',templet:function(d){return d.qdlzj+"%"}}
+ 	            {field:'zsl',  title:'计划签订数（个）',   style:'cursor: pointer;',align: 'right', width: '20%'},
+ 	            {field:'yqhtzj',  title:'实际签订数（个）',   style:'cursor: pointer;',align: 'right', width: '20%'},
+ 	            {field:'qdlzj',  title:'签订率（%）',       style:'cursor: pointer;',align: 'right', width: '20%',templet:function(d){return d.qdlzj+"%"}}
             ]],
             done: function(res, curr, count){
                merge(res);
@@ -481,9 +481,9 @@
             id: 'processdef_table_02',
             cols: [[
                 {field:'define1',        title: '合同类型',    edit:'text'},
-                {field:'jhqds',            title:'计划签订数',style:'cursor: pointer;',align: 'left'},
-                {field:'sjqds',         title:'实际签订数',style:'cursor: pointer;',align: 'left'},
-                {field:'htqdl',          title:'签订率(%)',   style:'cursor: pointer;',align: 'left',templet:function(d){return d.htqdl+"%"}
+                {field:'jhqds',            title:'计划签订数',style:'cursor: pointer;',align: 'right'},
+                {field:'sjqds',         title:'实际签订数',style:'cursor: pointer;',align: 'right'},
+                {field:'htqdl',          title:'签订率(%)',   style:'cursor: pointer;',align: 'right',templet:function(d){return d.htqdl+"%"}
                 }
             ]],
             done: function (res, curr, count) {

@@ -19,7 +19,7 @@ public class HanaProjectJob implements Job, Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Autowired
-	private OutProjectRemoteClient outProjectRemoteClient;
+	private static OutProjectRemoteClient outProjectRemoteClient;
 
 	public void execute(JobExecutionContext job) throws JobExecutionException {
 		System.out.println("定时开始调用feign获取hana数据---------------"+outProjectRemoteClient);
