@@ -932,7 +932,7 @@
 	</select>
 	
 	<!-- 项目计划数据，涉及项目预算、项目计划详情等相关的查询时调用 -->
-	<select id="selectProjectPlanByCond" resultMap="com.pcitc.base.stp.out.OutProjectPlan" parameterType="com.pcitc.base.stp.out.OutProjectPlan">
+	<select id="selectProjectPlanByCond" resultType="com.pcitc.base.stp.out.OutProjectPlan" parameterType="com.pcitc.base.stp.out.OutProjectPlan">
 		select * from (
 			select out_project_plan.DEFINE1,out_project_plan.DEFINE2,out_project_plan.DEFINE3,out_project_plan.XMMC,out_project_plan.JF,
 				   out_project_plan.PROJECT_PROPERTY,out_project_plan.PROJECT_SCOPE,out_project_plan.FZDW,out_project_plan.ZYLB,
