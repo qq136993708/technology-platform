@@ -1747,7 +1747,7 @@
 	
 	<!--  领导首页-十条龙，十条龙项目的类型分布 -->
 	<select id="getDragonProjectInfoByType" resultType="java.util.Map" parameterType="java.util.HashMap">
-		select xmlbmc,count(*) as sl
+		select xmlbmc,count(DISTINCT xmmc) as sl
 		from out_project_info
 		WHERE
 			project_property = '十条龙项目'  and nd='2017'
@@ -1759,9 +1759,13 @@
 		select sum(case when nd='${l_nd}' and `status` = '申请出龙' then 1 else 0 end) sqcl,
 			 sum(case when nd='${nd}' and `status` = '推荐入龙' then 1 else 0 end) tjrl,
 			 sum(case when nd='${nd}' and `status` = '在研项目' then 1 else 0 end) zyxm
-		from out_project_info
-		WHERE
-			project_property = '十条龙项目' 
+		from (
+			select distinct xmmc,nd,`status`
+			from out_project_info
+			WHERE
+				project_property = '十条龙项目' 
+		) as tableA
+		
 	</select>
 	
 	<!--  领导首页-十条龙，8个研究院的龙项目/重大专项项目分布 -->
@@ -1769,10 +1773,13 @@
 		select SUBSTR(define2 FROM 4) as define2,
 			 sum(case when project_property = '十条龙项目' then 1 else 0 end) stlxm,
 			 sum(case when project_property = '重大专项' then 1 else 0 end) zdzx
-		from out_project_info
-		WHERE
-			 nd = '2017' and type_flag like '%研究院' and define2 is not null
-    	GROUP BY define2
+		FROM 
+			(select distinct xmmc,nd,project_property,define2
+			 from out_project_info
+			 WHERE
+				 nd = '2017' and type_flag like '%研究院' and define2 is not null
+	    	) as tableA
+		GROUP BY tableA.define2
 	</select>
 	
 	<!--  领导首页-十条龙，十条龙项目的详情 -->
