@@ -234,7 +234,7 @@ function renderTable()
 	        ,method:'get'
 	        ,cols: [[
 	            {field:'name',  title: '名称',edit:'text'},
-	            {field:'extend01',  title:'科研支出(亿元)',  style:'cursor: pointer;',align: 'left',  templet: '<div>{{ layui.laytpl.milliFormat(d.extend01,2) }}</div>'}
+	            {field:'extend01',  title:'科研支出(亿元)',  style:'cursor: pointer;',align: 'right',  templet: '<div>{{ layui.laytpl.milliFormat(d.extend01,2) }}</div>'}
 	            //{field:'extend02',  title:'结转课题(万元)',  style:'cursor: pointer;',align: 'left', width: '35%', templet: '<div>{{ layui.laytpl.milliFormat(d.extend02,2) }}</div>'}
 	            
 	        ]]
@@ -264,10 +264,10 @@ function renderTable2()
         limit: 15,
         id: 'processdef-tabled',
         cols: [[
-            {field:'g0GSJC',            title: '研究院',       edit:'text', width: '40%'},
-            {field:'k0BNYSJHJE',        title:'总计实际支出（亿元）',    style:'cursor: pointer;',align: 'left', width: '20%'},
-            {field:'k0BNZBJE',          title:'费用性实际支出（亿元）',  style:'cursor: pointer;',align: 'left', width: '20%'},
-            {field:'k0BNFYJE',          title:'资本性实际支出（亿元）',   style:'cursor: pointer;',align: 'left', width: '20%'}
+            {field:'g0GSJC',            title: '研究院',       edit:'text', width: '40%',align: 'center'},
+            {field:'k0BNYSJHJE',        title:'总计实际支出（亿元）',    style:'cursor: pointer;',align: 'right', width: '20%'},
+            {field:'k0BNZBJE',          title:'费用性实际支出（亿元）',  style:'cursor: pointer;',align: 'right', width: '20%'},
+            {field:'k0BNFYJE',          title:'资本性实际支出（亿元）',   style:'cursor: pointer;',align: 'right', width: '20%'}
         ]],
         done: function (res, curr, count) {
             layer.closeAll('loading');
