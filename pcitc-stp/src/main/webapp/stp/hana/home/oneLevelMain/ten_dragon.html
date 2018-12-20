@@ -263,7 +263,14 @@
                 {field:'xzdw',           title:'协作单位',style:'cursor: pointer;',align: 'left'},
                 {field:'status',         title:'项目状态',style:'cursor: pointer;',align: 'center'},
                 {field:'zycmc',          title:'入龙原因',style:'cursor: pointer;',align: 'left'},
-                {field:'xmlbmc',         title:'文档查询',style:'cursor: pointer;',align: 'left', width: '10%'}
+                {field:'xmlbmc',         title:'文档查询',style:'cursor: pointer;',align: 'center', width: '15%',
+                	 templet: function(d){
+                         return "<a href='#'><img alt='第一次小组会议' src='/common/images/meeting_1.png'></a>&nbsp;&nbsp;&nbsp;&nbsp;"+
+                         "<a href='#'><img alt='第二次小组会议' src='/common/images/meeting_2.png'></a>&nbsp;&nbsp;&nbsp;&nbsp;"+
+                         "<a href='#'><img alt='会议纪要' src='/common/images/meeting_remark.png'></a>&nbsp;&nbsp;&nbsp;&nbsp;"+
+                         "<a href='#'><img alt='工作总结' src='/common/images/work_rs.png'></a>";
+                     }
+                }
             ]],
             done: function(res, curr, count){
                 merge(res);

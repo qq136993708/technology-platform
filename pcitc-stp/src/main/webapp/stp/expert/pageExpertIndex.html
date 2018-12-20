@@ -10,7 +10,7 @@
     <script type="text/javascript" src="/common/js/base.js"></script>
 </head>
 <body>
-<div class="layui-main-oil">
+<div class="layui-main-oil layui-expert">
     <div class="layui-statistics">
         <span>机构数量${jlCount}</span>
         <span>专利数量${zlCount}</span>
@@ -27,20 +27,26 @@
         <input id="key" value="key"/>
         <a href="/expertController/queryExpert" target="_blank">找专家</a>
     </div>
-    <div class="layui-card">
-        <div class="layui-card-header">
-            研究院专家数量
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    研究院专家数量
+                </div>
+                <div class="layui-row-main">
+                    <div class="main-chart" id="four" style="height:250px;width: 100%;"></div>
+                </div>
+            </div>
         </div>
-        <div class="layui-row-main">
-            <div class="main-chart" id="four" style="height:250px;width: 100%;"></div>
-        </div>
-    </div>
-    <div class="layui-card">
-        <div class="layui-card-header">
-            年龄段专家数量
-        </div>
-        <div class="layui-row-main">
-            <div class="main-chart" id="three" style="height:250px;width: 100%;"></div>
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    年龄段专家数量
+                </div>
+                <div class="layui-row-main">
+                    <div class="main-chart" id="three" style="height:250px;width: 100%;"></div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -101,16 +107,16 @@
 
 </script>
 
-<!--<script type="text/javascript" src="/plugins/echarts/echarts-all.js"></script>-->
-<!--<div class="main-chart" id="one" style="height:440px;width: 100%;"></div>-->
-<!--<script>-->
-    <!--function relationPic() {-->
-        <!--var one = "/expertController/picIndex?id=5&type=force&expertId=1";-->
-        <!--var one = load_single_force(one, "one", "专家与机构关系", "", "");-->
-    <!--}-->
+<!--<script type="text/javascript" src="/plugins/echarts/echarts-all.js"></script>
+<div class="main-chart" id="one" style="height:440px;width: 100%;"></div>
+<script>
+    function relationPic() {
+        var one = "/expertController/picIndex?id=5&type=force&expertId=1";
+        var one = load_single_force(one, "one", "专家与机构关系", "", "");
+    }
 
-    <!--relationPic();-->
-<!--</script>-->
+    relationPic();
+</script>-->
 
 </body>
 </html>

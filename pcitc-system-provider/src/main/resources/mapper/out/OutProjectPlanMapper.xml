@@ -971,17 +971,11 @@
 			<if test="projectScope != null">
 				and tableA.project_scope like '%${projectScope}%'
 			</if>
-			<if test="typeFlag != null">
-				and tableA.type_flag like '%${typeFlag}%'
-			</if>
 			<if test="zylb != null">
 				and tableA.zylb like '%${zylb}%'
 			</if>
 			<if test="zycmc != null">
 				and tableA.zycmc like '%${zycmc}%'
-			</if>
-			<if test="status != null">
-				and tableA.status = #{status,jdbcType=VARCHAR}
 			</if>
 	</select>
 	

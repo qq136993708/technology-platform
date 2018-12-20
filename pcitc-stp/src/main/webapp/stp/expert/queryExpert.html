@@ -20,11 +20,11 @@
         <input id="zjmc" value="${zjmc}" type="text"/>
         <span>关键字</span>
         <input id="key" value="${key}" type="text"/>
-        <span>关键字</span>
+        <span>年度</span>
         <input id="nld" value="${nld}" type="text"/>
-        <span>关键字</span>
+        <span>职称</span>
         <input id="zc" value="${zc}" type="text"/>
-        <span>关键字</span>
+        <span>是否规避</span>
         <input id="gb" value="${gb}" type="text"/>
         <div class="btnGroup">
             <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询
@@ -34,11 +34,12 @@
             </button>
         </div>
     </div>
+    <table id="expertTable" class="layui-hide" lay-filter="tableEvent"></table>
 </div>
 
 
 
-<table id="expertTable" class="layui-hide" lay-filter="tableEvent"></table>
+
 <script type="text/html" id="showDetail">
     <a class="layui-btn layui-btn-xs" lay-event="showDetail">查看</a>
 </script>
