@@ -380,9 +380,10 @@ function barLineAjax_down(url,  echartsobj, options,id,width)
 	        	                   name: seriesList[i].name,
 	        	                   data: seriesList[i].data,
 	        	                   stack: seriesList[i].stack,
-	        	                   barWidth:barWidth
-	        	                   ,yAxisIndex: seriesList[i].yAxisIndex,
-                                itemStyle : { normal: {label : {show: true,color:"#000",position: 'top'}}},
+	        	                   barWidth:barWidth,
+	        	                   barGap:"4%"
+	        	                   ,yAxisIndex: seriesList[i].yAxisIndex
+                               , itemStyle : { normal: {label : {show: true,color:"#000",position: 'inside'}}},
 	                               
 	        	               });
 	        	           }
@@ -403,7 +404,7 @@ function barLineAjax_down(url,  echartsobj, options,id,width)
 	        	       
 	          } else
 	          {
-	        	 layer.alert(failMsg);
+	        	 
 	          }
 		   },
 		   error:function()
@@ -629,8 +630,8 @@ function set_multi_graph_statistics(data,id)
 		var count_1=getDataCountForName(data,'已签合同');
     	var count_2=getDataCountForName(data,'未签合同');
         
-        $("#direct_contract_chart_01").html(count_1);
-        $("#direct_contract_chart_02").html(count_2);
+        $("#direct_contract_chart_01").html(count_1+"个");
+        $("#direct_contract_chart_02").html(count_2+"个");
         $("#direct_contract_chart_03").html(percentNum(count_1,count_1+count_2));
 	}
 	

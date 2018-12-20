@@ -208,6 +208,9 @@ public class AdminController extends BaseController {
 
 		String cFlag = request.getParameter("cFlag");
 		if (rsUser.getUserLevel() != null && rsUser.getUserLevel() == 1 && cFlag == null) {
+			request.setAttribute("companyCode", HanaUtil.YJY_CODE_ALL);
+			String month = HanaUtil.getCurrrentYearMoth();
+			request.setAttribute("month", month);
 			return "/oneLevelMain";
 		} else {
 			return "/index";
@@ -318,6 +321,9 @@ public class AdminController extends BaseController {
 
 			String cFlag = request.getParameter("cFlag");
 			if (userDetails.getUserLevel() != null && userDetails.getUserLevel() == 1 && cFlag == null) {
+				request.setAttribute("companyCode", HanaUtil.YJY_CODE_ALL);
+				String month = HanaUtil.getCurrrentYearMoth();
+				request.setAttribute("month", month);
 				return "/oneLevelMain";//leaderIndex
 			} else {
 				return "/index";
@@ -378,6 +384,9 @@ public class AdminController extends BaseController {
 
 			String cFlag = request.getParameter("cFlag");
 			if (userDetails.getUserLevel() != null && userDetails.getUserLevel() == 1 && cFlag == null) {
+				request.setAttribute("companyCode", HanaUtil.YJY_CODE_ALL);
+				String month = HanaUtil.getCurrrentYearMoth();
+				request.setAttribute("month", month);
 				return "/oneLevelMain";//leaderIndex
 			} else {
 				return "/index";

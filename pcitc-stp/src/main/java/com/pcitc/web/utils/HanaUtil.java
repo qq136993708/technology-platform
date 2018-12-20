@@ -3112,17 +3112,20 @@ public class HanaUtil {
 		if (name.equals("sjqds"))
 		{
 			chartBarLineSeries.setName("已签合同");
+			chartBarLineSeries.setyAxisIndex(0);
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
 		if (name.equals("jhqds")) 
 		{
 			chartBarLineSeries.setName("计划合同");
+			chartBarLineSeries.setyAxisIndex(0);
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
 		
 		if (name.equals("htqdl")) 
 		{
 			chartBarLineSeries.setName("合同签订率");
+			chartBarLineSeries.setyAxisIndex(1);
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_LINE);
 		}
 		
@@ -3166,11 +3169,13 @@ public class HanaUtil {
 		if (name.equals("yqhtzj"))
 		{
 			chartBarLineSeries.setName("已签合同");
+			chartBarLineSeries.setStack("数量");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
 		if (name.equals("wqhtzj")) 
 		{
 			chartBarLineSeries.setName("未签合同");
+			chartBarLineSeries.setStack("数量");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
 		List<Object> dataList = new ArrayList<Object>();
@@ -5484,13 +5489,21 @@ public static ChartBarLineSeries getKNOWLDGELevel2ChartBarLineSeries07(List<Know
 		return String.valueOf(f1);
 	}
 	
+	
+	public static double chufa2(int a,int b) 
+	{
+		double f1 = new BigDecimal((float)a/b).setScale(4, BigDecimal.ROUND_HALF_UP).doubleValue();
+		return f1*100;
+	}
+	
+	
 	/*public static void main(String[] args) {
 		
 		DecimalFormat df=new DecimalFormat("0.0000");
 		
-		double f1 = new BigDecimal((float)67/120).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+		double f1 = new BigDecimal((float)2466/2565).setScale(4, BigDecimal.ROUND_HALF_UP).doubleValue();
 		
-		System.out.println(f1);
+		System.out.println(chufa2(2466,2565) );
 		
 		
 		

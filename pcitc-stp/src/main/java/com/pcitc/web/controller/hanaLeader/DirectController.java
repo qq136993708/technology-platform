@@ -740,25 +740,61 @@ public class DirectController {
 						System.out.println(">>>>>>>>>>>>>>>contract_02 jSONArray" + jSONArray.toString());
 						
 						List<Contract> list = JSONObject.parseArray(jSONArray.toJSONString(), Contract.class);
+						Map  map= get_contract_02_map(list);
 						List<String>  lista=HanaUtil.getduplicatexAxisByList(list,"define1");
 						List<TreeNode2>  chartCircleList=	HanaUtil.getChildChartCircleuContract(lista,list);
 						
-						pageResult.setData(chartCircleList);
+						TreeNode2 treeNode2=new TreeNode2();
+						treeNode2.setId("00001");
+						treeNode2.setName("总计");
+						treeNode2.setExtend01(String.valueOf(map.get("jhqds_count")));
+						treeNode2.setExtend02(String.valueOf(map.get("sjqds_count")));
+						String jhqds_count=String.valueOf(map.get("jhqds_count"));
+						String sjqds_count=String.valueOf(map.get("sjqds_count"));
+						treeNode2.setExtend03(String.valueOf(HanaUtil.chufa2(Integer.valueOf(sjqds_count), Integer.valueOf(jhqds_count))));
+						
+						
+						
+						List<TreeNode2>  result=new ArrayList();
+						result.add(treeNode2);
+						for(int i=0;i<chartCircleList.size();i++)
+						{
+							TreeNode2 treeNode_02=chartCircleList.get(i);
+							
+							result.add(treeNode_02);
+						}
+						pageResult.setData(result);
 						pageResult.setCode(0);
-						pageResult.setCount(Long.valueOf(chartCircleList.size()));
+						pageResult.setCount(Long.valueOf(result.size()));
 						pageResult.setLimit(1000);
 						pageResult.setPage(1l);
-						
-						
 					}
-					
-				
 				JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
 				System.out.println(">>>>>>>>>>>>>>>contract_02 " + resultObj.toString());
 				return resultObj.toString();
 			}
-			
 		    
+		    
+		    public Map   get_contract_02_map(List<Contract> list)
+			{
+				List<Contract> resutList =new ArrayList<Contract>();
+				int jhqds_count=0;
+				int sjqds_count=0;
+				for(int i=0;i<list.size();i++)
+				{
+					Contract contract=list.get(i);
+					
+					Integer jhqds=(Integer)contract.getJhqds();
+					Integer sjqds=(Integer)contract.getSjqds();
+					jhqds_count=jhqds_count+jhqds;
+					sjqds_count=sjqds_count+sjqds;
+				}
+				Map map=new HashMap();
+				map.put("jhqds_count", jhqds_count);
+				map.put("sjqds_count", sjqds_count);
+				return map;
+			}
+ 		
 		  
             @RequestMapping(method = RequestMethod.GET, value = "/contract_03")
 			@ResponseBody
@@ -1036,7 +1072,9 @@ public class DirectController {
  							}
 							if(type.equals("2"))
  							{
-								pageResult.setData(list);
+								
+								
+								pageResult.setData(add_topic_01(list));
 								pageResult.setCode(0);
 								pageResult.setCount(Long.valueOf(list.size()));
 								pageResult.setLimit(1000);
@@ -1068,6 +1106,44 @@ public class DirectController {
 				return resault;
 			}
 		
+		    
+		    
+		    
+		    public List<Topic>  add_topic_01(List<Topic> list)
+			{
+				List<Topic> resutList =new ArrayList<Topic>();
+				Topic temp=new Topic();
+				temp.setDefine2("总计");
+				int zsl_count=0;
+				int xksl_count=0;
+				int xjsl_count=0;
+				for(int i=0;i<list.size();i++)
+				{
+					Topic contract=list.get(i);
+					Integer zsl =Double.valueOf(contract.getZsl()).intValue();
+					Integer xksl =Double.valueOf(contract.getXksl()).intValue();
+					Integer xjsl =Double.valueOf(contract.getXjsl()).intValue();
+					zsl_count=zsl_count+zsl;
+					xksl_count=xksl_count+xksl;
+					xjsl_count=xjsl_count+xjsl;
+					
+				}
+				temp.setZsl(zsl_count);
+				temp.setXksl(xksl_count);
+				temp.setXjsl(xjsl_count);
+				temp.setXkRate(HanaUtil.chufa2(xksl_count, zsl_count));
+				temp.setXjRate(HanaUtil.chufa2(xjsl_count, zsl_count));
+				temp.setZslRate(100);
+				resutList.add(temp);
+				for(int i=0;i<list.size();i++)
+				{
+					Topic contract=list.get(i);
+					resutList.add(contract);
+				}
+				return resutList;
+			}
+		  
+		    
 		  
 		  
 		  
@@ -1116,7 +1192,7 @@ public class DirectController {
 		 							}
 		 							else
 		 							{
-		 								pageResult.setData(list);
+		 								pageResult.setData(add_topic_02(list));
 										pageResult.setCode(0);
 										pageResult.setCount(Long.valueOf(list.size()));
 										pageResult.setLimit(1000);
@@ -1145,6 +1221,43 @@ public class DirectController {
 						}
 		 				return resault;
 		 			}
+		            
+		            
+		            
+		            
+		            public List<Topic>  add_topic_02(List<Topic> list)
+					{
+						List<Topic> resutList =new ArrayList<Topic>();
+						Topic temp=new Topic();
+						temp.setProject_property("总计");
+						int zsl_count=0;
+						int xksl_count=0;
+						int xjsl_count=0;
+						for(int i=0;i<list.size();i++)
+						{
+							Topic contract=list.get(i);
+							Integer zsl =Double.valueOf(contract.getZsl()).intValue();
+							Integer xksl =Double.valueOf(contract.getXksl()).intValue();
+							Integer xjsl =Double.valueOf(contract.getXjsl()).intValue();
+							zsl_count=zsl_count+zsl;
+							xksl_count=xksl_count+xksl;
+							xjsl_count=xjsl_count+xjsl;
+							
+						}
+						temp.setZsl(zsl_count);
+						temp.setXksl(xksl_count);
+						temp.setXjsl(xjsl_count);
+						temp.setXkRate(HanaUtil.chufa2(xksl_count, zsl_count));
+						temp.setXjRate(HanaUtil.chufa2(xjsl_count, zsl_count));
+						temp.setZslRate(100);
+						resutList.add(temp);
+						for(int i=0;i<list.size();i++)
+						{
+							Topic contract=list.get(i);
+							resutList.add(contract);
+						}
+						return resutList;
+					}
 		 		
 		  
 
@@ -1269,7 +1382,7 @@ public class DirectController {
 							}
 							if(type.equals("2"))
 							{
-								pageResult.setData(list);
+								pageResult.setData(add_equipment_01(list));
 								pageResult.setCode(0);
 								pageResult.setCount(Long.valueOf(list.size()));
 								pageResult.setLimit(1000);
@@ -1301,6 +1414,42 @@ public class DirectController {
 				return resault;
 			}
 		    
+		    
+		    
+		    public List<Topic>  add_equipment_01(List<Topic> list)
+			{
+				List<Topic> resutList =new ArrayList<Topic>();
+				Topic temp=new Topic();
+				temp.setDefine2("总计");
+				int zsl_count=0;
+				int xksl_count=0;
+				int xjsl_count=0;
+				for(int i=0;i<list.size();i++)
+				{
+					Topic contract=list.get(i);
+					Integer zsl =Double.valueOf(contract.getZsl()).intValue();
+					Integer xksl =Double.valueOf(contract.getXksl()).intValue();
+					Integer xjsl =Double.valueOf(contract.getXjsl()).intValue();
+					zsl_count=zsl_count+zsl;
+					xksl_count=xksl_count+xksl;
+					xjsl_count=xjsl_count+xjsl;
+					
+				}
+				temp.setZsl(zsl_count);
+				temp.setXksl(xksl_count);
+				temp.setXjsl(xjsl_count);
+				temp.setXkRate(HanaUtil.chufa2(xksl_count, zsl_count));
+				temp.setXjRate(HanaUtil.chufa2(xjsl_count, zsl_count));
+				temp.setZslRate(100);
+				resutList.add(temp);
+				for(int i=0;i<list.size();i++)
+				{
+					Topic contract=list.get(i);
+					resutList.add(contract);
+				}
+				return resutList;
+			}
+ 		
 		    
 		    @RequestMapping(method = RequestMethod.GET, value = "/equipment_02")
 			@ResponseBody
@@ -1569,11 +1718,30 @@ public class DirectController {
 									
 									System.out.println(">>>>>>>>>>>>pay_02 jSONArray>>> " + jSONArray.toString());
 									List<H1AMKYSY100109> list = JSONObject.parseArray(jSONArray.toJSONString(), H1AMKYSY100109.class);
+									
+									Map  map= get_pay_02_map(list);
 									List<String>  lista=HanaUtil.getduplicatexAxisByList(list,"g0XMXZ");
 									List<TreeNode2>  chartCircleList=	HanaUtil.getChildChartCircleForBudgetCount(lista,list);
-									pageResult.setData(chartCircleList);
+									
+									
+									TreeNode2 treeNode2=new TreeNode2();
+									treeNode2.setId("00001");
+									treeNode2.setName("总计");
+									treeNode2.setExtend01(String.valueOf(map.get("K0BNYSJHJE_count")));
+									
+									List<TreeNode2>  result=new ArrayList();
+									result.add(treeNode2);
+									for(int i=0;i<chartCircleList.size();i++)
+									{
+										TreeNode2 treeNode_02=chartCircleList.get(i);
+										result.add(treeNode_02);
+									}
+									
+									
+									
+									pageResult.setData(result);
 									pageResult.setCode(0);
-									pageResult.setCount(Long.valueOf(chartCircleList.size()));
+									pageResult.setCount(Long.valueOf(result.size()));
 									pageResult.setLimit(1000);
 									pageResult.setPage(1l);
 								}
@@ -1583,6 +1751,21 @@ public class DirectController {
 							System.out.println(">>>>>>>>>>>>>>>pay_02 " + resultObj.toString());
 							return resultObj.toString();
 						}
+						
+						public Map   get_pay_02_map(List<H1AMKYSY100109> list)
+						{
+							Double K0BNYSJHJE_count=0.00;
+							for(int i=0;i<list.size();i++)
+							{
+								H1AMKYSY100109 contract=list.get(i);
+								String K0BNYSJHJE=contract.getK0BNYSJHJE();
+								K0BNYSJHJE_count=HanaUtil.add(K0BNYSJHJE_count,Double.valueOf(K0BNYSJHJE));
+							}
+							Map map=new HashMap();
+							map.put("K0BNYSJHJE_count", K0BNYSJHJE_count);
+							return map;
+						}
+						
 						
 						@RequestMapping(method = RequestMethod.GET, value = "/pay_03")
 						@ResponseBody

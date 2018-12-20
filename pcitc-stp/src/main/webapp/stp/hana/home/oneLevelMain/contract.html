@@ -39,7 +39,7 @@
                 <div class="layui-col-md5">
                     <div class="layui-card">
                         <div class="layui-card-header">
-                            <span class="layui-time"></span>年石化集团科研合同签订率
+                            <span class="layui-time"></span>年集团科研合同签订率
                         </div>
                         <div class="layui-row-main">
                             <div class="text-total">
@@ -54,7 +54,7 @@
                 <div class="layui-col-md5" style="padding-left: 15px;">
                     <div class="layui-card">
                         <div class="layui-card-header">
-                            <span class="layui-time"></span>年石化集团费用性/资本性科研合同签订率
+                            <span class="layui-time"></span>年集团费用性/资本性科研合同签订率
                         </div>
                         <div class="layui-row-main">
                             <div class="main-chart" id="direct_contract_01_01" style="height:270px;width: 100%;"></div>
@@ -65,7 +65,7 @@
             <div class="layui-col-md4">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        <span class="layui-time"></span>年石化集团科研合同签订率清单
+                        <span class="layui-time"></span>年集团科研合同签订率清单
                     </div>
                     <div class="layui-row-main" style="height:270px;">
                         <table id="processdef_table_02" class="layui-hide" lay-filter="processdef_table"></table>
@@ -80,7 +80,7 @@
             <div class="layui-col-md8">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        <span class="layui-time"></span>年石化集团科研合同签订率
+                        <span class="layui-time"></span>年集团科研合同签订率
                     </div>
                     <div class="layui-row-main">
 
@@ -91,7 +91,7 @@
             <div class="layui-col-md4">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        ${year}年石化集团科研合同签订率清单
+                        <span class="layui-time"></span>年集团科研合同签订率清单
                         <div class="layui-tool">
                             <button type="button" class="btn btn-tool collapse"></button>
                             <button type="button" class="btn btn-tool remove"></button>
@@ -108,7 +108,7 @@
             <div class="layui-col-md12">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        <span class="layui-time"></span>年石化集团直属研究院科研合同签订率
+                        <span class="layui-time"></span>年集团直属研究院科研合同签订率
                     </div>
                     <div class="layui-row-main">
                         <div class="text-total">
@@ -136,6 +136,7 @@
 <script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
 <script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
 <script type="text/javascript" src="/stp/hana/home/direct_depart/direct_common.js"></script>
+<script type="text/javascript" src="/stp/hana/home/oneLevelMain/investment.js"></script>
 
 <script type="text/javascript">
     var table,treeGridCom;
@@ -173,7 +174,7 @@
         var yAxis= [
             {
                 type: 'value',
-                name: '数量',
+                name: '数量（个）',
                 min: 0,
                 max:'dataMax',
                 position: 'left',
@@ -182,6 +183,37 @@
                 }
             }
         ];
+        
+        
+        
+        
+        
+       var  yAxis2= [
+            {
+            	 type: 'value',
+                 name: '数量（个）',
+                 //min: 0,
+                 //interval: 10,
+                 //max:'dataMax',
+                 position: 'left',
+                 axisLabel: {
+                     formatter: '{value}'
+                 }
+            },
+            {
+                type: 'value',
+                show: true ,
+                name: '百分比',
+                //min: 0,
+                //max: 100,
+                //interval: 20,
+                position: 'right',
+                axisLabel: {
+                    formatter: '{value}%'
+                }
+            }
+        ];
+        
 
         //表盘
         setGauge("direct_contract_01");
@@ -189,7 +221,7 @@
 
 
         var chart_01_01="/one_level_main/contract_01_01?type=1&nd="+nd+"&v_date="+v_date;
-        var echartchart_01_01=load_mutl_bar_down(chart_01_01,"direct_contract_01_01","","",yAxis,50);
+        var echartchart_01_01=load_mutl_bar_down(chart_01_01,"direct_contract_01_01","","",yAxis2,30,"");
         echartchart_01_01.on('click', function (params) {
             var xName=params.name;
             var legentName=params.seriesName;
@@ -210,7 +242,8 @@
 
         //直属研究院合同签订率
         var chart6_url="/one_level_main/contract_03?type=1&nd="+nd+"&v_date="+v_date;
-        var echart6=load_mutl_bar_down(chart6_url,"direct_contract_chart","","",yAxis);
+        var color2=["#f3655b","#8ab3cf","#f19049"];
+        var echart6=load_mutl_bar_down(chart6_url,"direct_contract_chart","","",yAxis,30,color2);
         echart6.on('click', function (params) {
             var xName=params.name;
             var legentName=params.seriesName;

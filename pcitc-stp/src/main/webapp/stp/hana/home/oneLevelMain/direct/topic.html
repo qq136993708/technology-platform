@@ -52,7 +52,7 @@
             <div class="layui-col-md6">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        ${year}年直属研究院科研科题数量占比
+                        <span class="layui-time"></span>年直属研究院科研科题数量占比
                     </div>
                     <div class="layui-card-body btn-function" >
                         <table id="myTable" class="layui-table" lay-data="{url:'/direct/topic_01?type=2',height:'309'}">
@@ -96,7 +96,7 @@
             <div class="layui-col-md6">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        ${year}年科研科题数量占比
+                        <span class="layui-time"></span>年科研科题数量占比
                     </div>
                     <div class="layui-card-body btn-function" >
                         <table id="myTable2" class="layui-table" lay-data="{url:'/direct/topic_02?type=2',height:'309'}">
@@ -183,7 +183,7 @@ function initEchart()
 	var yAxis= [
         {
             type: 'value',
-            name: '数量',
+            name: '数量（个）',
             min: 0,
             max:'dataMax',
             position: 'left',
