@@ -931,5 +931,59 @@
 		order by tableB.DEFINE3
 	</select>
 	
+	<!-- 项目计划数据，涉及项目预算、项目计划详情等相关的查询时调用 -->
+	<select id="selectProjectPlanByCond" resultMap="com.pcitc.base.stp.out.OutProjectPlan" parameterType="com.pcitc.base.stp.out.OutProjectPlan">
+		select * from (
+			select out_project_plan.DEFINE1,out_project_plan.DEFINE2,out_project_plan.DEFINE3,out_project_plan.XMMC,out_project_plan.JF,
+				   out_project_plan.PROJECT_PROPERTY,out_project_plan.PROJECT_SCOPE,out_project_plan.FZDW,out_project_plan.ZYLB,
+			       out_project_plan.ND,out_project_plan.HTH,
+			       tableA.XMMC as parentName,out_project_info.xmid as projectId
+			from out_project_plan left join out_project_info on (out_project_plan.XMID = out_project_info.xmid)
+					              left join out_project_plan as tableA on (out_project_plan.SJID = tableA.xmid)
+			WHERE
+				(out_project_plan.PROJECT_SCOPE= '新开课题' or out_project_plan.PROJECT_SCOPE= '结转课题')
+			     and out_project_plan.DEFINE2 is not null and out_project_plan.DEFINE3 is not null
+				 and (out_project_plan.PROJECT_TYPE = '0' or out_project_plan.PROJECT_TYPE = '2')
+				) as tableA
+		WHERE 
+			1 = 1
+			<if test="projectId != null">
+				and tableA.projectId is null
+			</if>
+			<if test="nd != null">
+				and tableA.nd = #{nd,jdbcType=VARCHAR}
+			</if>
+			<if test="hth != null">
+				and tableA.hth like '%${hth}%'
+			</if>
+			<if test="xmmc != null">
+				and tableA.xmmc like '%${xmmc}%'
+			</if>
+			<if test="define1 != null">
+				and tableA.define1 like '%${define1}%'
+			</if>
+			<if test="define2 != null">
+				and tableA.define2 like '%${define2}%'
+			</if>
+			<if test="projectProperty != null">
+				and tableA.project_property like '%${projectProperty}%'
+			</if>
+			<if test="projectScope != null">
+				and tableA.project_scope like '%${projectScope}%'
+			</if>
+			<if test="typeFlag != null">
+				and tableA.type_flag like '%${typeFlag}%'
+			</if>
+			<if test="zylb != null">
+				and tableA.zylb like '%${zylb}%'
+			</if>
+			<if test="zycmc != null">
+				and tableA.zycmc like '%${zycmc}%'
+			</if>
+			<if test="status != null">
+				and tableA.status = #{status,jdbcType=VARCHAR}
+			</if>
+	</select>
+	
 	
 </mapper>

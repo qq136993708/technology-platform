@@ -1,12 +1,12 @@
 package com.pcitc.mapper.out;
 
-import com.pcitc.base.stp.out.OutProjectPlan;
-import com.pcitc.base.stp.out.OutProjectPlanExample;
-
 import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
+
+import com.pcitc.base.stp.out.OutProjectPlan;
+import com.pcitc.base.stp.out.OutProjectPlanExample;
 
 public interface OutProjectPlanMapper {
     int countByExample(OutProjectPlanExample example);
@@ -65,6 +65,11 @@ public interface OutProjectPlanMapper {
      * 领导首页-科研合同，科研合同签订率清单
      */
 	public List getPlanCompleteRateDetails(HashMap<String, String> map);
+	
+	/**
+     * 项目计划数据，涉及项目预算、项目计划详情等相关的查询时调用
+     */
+	public List<OutProjectPlan> selectProjectPlanByCond(OutProjectPlan opp);
 	
 	
 }

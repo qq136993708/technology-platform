@@ -11,10 +11,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import com.pcitc.base.common.LayuiTableData;
+import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.service.out.OutProjectPlanService;
 
 @Api(value = "OUTPROJECTPLAN-API", description = "项目计划数据，从项目管理系统中获取")
@@ -25,6 +28,13 @@ public class OutProjectPlanClient {
 	private OutProjectPlanService outProjectPlanService;
 	
 	private final static Logger logger = LoggerFactory.getLogger(OutProjectPlanClient.class);
+	
+	@ApiOperation(value = "分页显示项目计划数据", notes = "分页显示项目计划数据")
+	@RequestMapping(value = "/out-project-plna-provider/project-plan/page/list", method = RequestMethod.POST)
+	public LayuiTableData selectProjectPlanByCond(@RequestBody LayuiTableParam param) throws Exception {
+		logger.info("==================page selectProjectPlanByCond===========================" + param);
+		return outProjectPlanService.selectProjectPlanByCond(param);
+	}
 
 	@ApiOperation(value = "直属研究院二级页面（领导），项目计划完成的比率，按照新开续建、资本性费用性来分组 ", notes = "参数年度")
 	@RequestMapping(value = "/out-project-plna-provider/complete-rate/old-new")
