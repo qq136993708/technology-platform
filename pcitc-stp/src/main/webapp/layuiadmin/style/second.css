@@ -128,17 +128,19 @@ h3{font-size: 18px;/*font-weight: bold;*/color: #000000;height: 30px;line-height
     .layui-col-md5 {width: 50%;}
 }
 /*专家*/
-.layui-statistics{width: 632px;margin: 30px auto;}
+.layui-statistics{width: 632px;margin: 30px auto 0;}
 .layui-statistics span{width: 200px;height: 80px;line-height: 80px;font-size: 16px;color: #fff;margin-right: 11px;
     display: inline-block;border-radius: 3px;text-align: center;}
 .layui-statistics span:nth-child(1){background-color: #79bf4d}
 .layui-statistics span:nth-child(2){background-color: #5fa3c8}
 .layui-statistics span:nth-child(3){background-color: #f4920b;margin-right: 0;}
-.search{width: 1090px;margin: 0 auto;}
+.search{width: 1090px;margin: 30px auto;}
 .search span{font-size: 16px; color: #666666;}
 .search input{width: 160px;height: 28px;line-height: 28px;border: 1px solid #dddddd;color: #666666;margin:0 10px;
     text-indent: 6px;}
 .search a{width: 104px;height: 29px;line-height: 29px;color: white;font-size: 16px;display: inline-block;
     text-indent: 40px;border-radius: 3px;background: url("/layuiadmin/layui/images/icon-search-z.png") no-repeat 10px center #00a3b5;}
-.layui-card{ border: 1px solid #e5e5e5;width: 98%;margin: 16px auto;border: 1px solid #e5e5e5;border-radius: 3px;}
-.layui-card-header{background-color: #eeeeee;}
+.layui-expert{border: 0;box-shadow: none;}
+.layui-expert .layui-card{ border: 1px solid #e5e5e5;border: 1px solid #e5e5e5;border-radius: 3px;}
+.layui-expert .layui-card-header{background-color: #eeeeee;}
+.layui-expert .layui-col-md12 {margin-bottom: 0px;}
