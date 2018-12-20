@@ -821,7 +821,8 @@
 			select out_project_info.xmid as temId,out_project_plan.DEFINE1,out_project_plan.PROJECT_SCOPE 
 			from out_project_plan left join out_project_info on (out_project_plan.XMID = out_project_info.xmid)
 			WHERE
-				out_project_plan.PROJECT_SCOPE= '新开课题' or out_project_plan.PROJECT_SCOPE= '结转课题'
+				(out_project_plan.PROJECT_SCOPE= '新开课题' or out_project_plan.PROJECT_SCOPE= '结转课题')
+				 and (out_project_plan.PROJECT_TYPE = '0' or out_project_plan.PROJECT_TYPE = '2')
 		) as tableB 
 		group by tableB.DEFINE1,tableB.PROJECT_SCOPE
 	</select>
@@ -862,7 +863,8 @@
 			from out_project_plan left join out_project_info on (out_project_plan.XMID = out_project_info.xmid)
 			WHERE
 				(out_project_plan.PROJECT_SCOPE= '新开课题' or out_project_plan.PROJECT_SCOPE= '结转课题')
-			  and out_project_plan.DEFINE2 is not null and out_project_plan.DEFINE3 like '%直属研究院%'
+			     and out_project_plan.DEFINE2 is not null and out_project_plan.DEFINE3 like '%直属研究院%'
+			     and (out_project_plan.PROJECT_TYPE = '0' or out_project_plan.PROJECT_TYPE = '2')
 		) as tableB 
 		group by tableB.DEFINE2
 	</select>
@@ -876,7 +878,8 @@
 			select out_project_info.xmid as temId,out_project_plan.DEFINE1
 			from out_project_plan left join out_project_info on (out_project_plan.XMID = out_project_info.xmid)
 			WHERE
-				out_project_plan.PROJECT_SCOPE= '新开课题' or out_project_plan.PROJECT_SCOPE= '结转课题'
+				(out_project_plan.PROJECT_SCOPE= '新开课题' or out_project_plan.PROJECT_SCOPE= '结转课题')
+				and (out_project_plan.PROJECT_TYPE = '0' or out_project_plan.PROJECT_TYPE = '2')
 		) as tableB 
 		group by tableB.DEFINE1
 	</select>
@@ -904,8 +907,8 @@
 			from out_project_plan left join out_project_info on (out_project_plan.XMID = out_project_info.xmid and (out_project_info.PROJECT_TYPE= '0' or out_project_info.PROJECT_TYPE= '2') and (out_project_info.PROJECT_SCOPE= '新开课题' or out_project_info.PROJECT_SCOPE= '结转课题'))
 			WHERE
 				(out_project_plan.PROJECT_SCOPE= '新开课题' or out_project_plan.PROJECT_SCOPE= '结转课题')
-				and out_project_plan.DEFINE3 is not null
-				and (out_project_plan.PROJECT_TYPE= '0' or out_project_plan.PROJECT_TYPE= '2')
+				 and out_project_plan.DEFINE3 is not null
+				 and (out_project_plan.PROJECT_TYPE= '0' or out_project_plan.PROJECT_TYPE= '2')
 		) as tableB  
 		group by tableB.DEFINE3
 	</select>
@@ -921,7 +924,8 @@
 			from out_project_plan left join out_project_info on (out_project_plan.XMID = out_project_info.xmid)
 			WHERE
 				(out_project_plan.PROJECT_SCOPE= '新开课题' or out_project_plan.PROJECT_SCOPE= '结转课题')
-			  and out_project_plan.DEFINE2 is not null and out_project_plan.DEFINE3 is not null
+			     and out_project_plan.DEFINE2 is not null and out_project_plan.DEFINE3 is not null
+			     and (out_project_plan.PROJECT_TYPE = '0' or out_project_plan.PROJECT_TYPE = '2')
 		) as tableB 
 		group by tableB.DEFINE3,tableB.DEFINE2
 		order by tableB.DEFINE3
