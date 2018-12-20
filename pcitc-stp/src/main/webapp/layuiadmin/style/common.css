@@ -484,7 +484,8 @@ textarea{ padding: 6px 10px; display: block;color: #555;background-color: #fff;b
 .hse-details p{width: 30%;float: left;}
 .hse-details p>span{display: block;line-height: 24px;color: #777777;}
 .hse-details p>span span{color: #000000;}
-
+/*layui-title-right  */
+.layui-title-right{float: right;}
 
 
 

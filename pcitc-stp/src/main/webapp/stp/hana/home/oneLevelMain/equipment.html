@@ -40,6 +40,7 @@
                 <div class="layui-card">
                     <div class="layui-card-header">
                         <span class="layui-time"></span>石化集团单台价值大于500万科研装备数量
+                        <span class="layui-title-right">单位：万元</span>
                     </div>
                     <div class="layui-row-main">
                     	<div class="text-total">
@@ -55,6 +56,7 @@
                 <div class="layui-card">
                     <div class="layui-card-header">
                         <span class="layui-time"></span>石化集团单台价值大于500万科研装备清单
+                        <span class="layui-title-right">单位：万元</span>
                     </div>
                     <div class="layui-row-main">
                         <table id="processdef_table_02" class="layui-hide" lay-filter="processdef_table_02"></table>
@@ -171,19 +173,16 @@ function renderTable(){
         	  	{field:'extend01',  title: '设备类型',width:'15%',edit:'text'},
 	            {field:'extend02',  title:'直属研究院',width:'8%',  style:'cursor: pointer;',align: 'left'},
 	            {field:'extend03',  title:'设备名称',width:'25%',  style:'cursor: pointer;',align: 'left'},
-	            {field:'extend04',  title:'购置年度',width:'8%',  style:'cursor: pointer;',align: 'center',templet: function(d){
-                        return d.extend04.substr(0,4);
-                    }
-                 },
+	            {field:'extend04',  title:'购置年度',width:'8%',  style:'cursor: pointer;',align: 'center'},
 	            {field:'extend05',  title:'使用年限',  style:'cursor: pointer;',align: 'center',
                     templet: function(d){
                         return d.extend05.substr(1);
                     }
                 },
 	            {field:'extend06',  title:'剩余年限',  style:'cursor: pointer;',align: 'center'},
-	            {field:'extend07',  title:'购置价值(万元)',  style:'cursor: pointer;',align: 'right',  templet: '<div>{{ layui.laytpl.milliFormat(d.extend07,2) }}</div>'},
-	            {field:'extend08',  title:'累计折旧(万元)',  style:'cursor: pointer;',align: 'right',  templet: '<div>{{ layui.laytpl.milliFormat(d.extend08,2) }}</div>'},
-	            {field:'extend09',  title:'资产净值(万元)',  style:'cursor: pointer;',align: 'right',  templet: '<div>{{ layui.laytpl.milliFormat(d.extend09,2) }}</div>'},
+	            {field:'extend07',  title:'购置价值',  style:'cursor: pointer;',align: 'right',  templet: '<div>{{ layui.laytpl.milliFormat(d.extend07,2) }}</div>'},
+	            {field:'extend08',  title:'累计折旧',  style:'cursor: pointer;',align: 'right',  templet: '<div>{{ layui.laytpl.milliFormat(d.extend08,2) }}</div>'},
+	            {field:'extend09',  title:'资产净值',  style:'cursor: pointer;',align: 'right',  templet: '<div>{{ layui.laytpl.milliFormat(d.extend09,2) }}</div>'},
 	            {field:'extend10',  title:'折旧率',  style:'cursor: pointer;',align: 'right'}
         ]],
         done: function(res, curr, count){
