@@ -115,14 +115,50 @@ h3{font-size: 18px;/*font-weight: bold;*/color: #000000;height: 30px;line-height
 .layui-country-div div:nth-child(11) .layui-text-span{right: 100px;}
 .layui-country-div div:nth-child(12) .layui-lab-span{margin-left: 100px;}
 .layui-country-div div:nth-child(12) .layui-text-span{left: 100px;}
-.layui-country-div div span{display: inline-block;}
-.layui-text-span{font-size: 14px;color: #838383;padding-right: 10px;text-align: left;
-    position: absolute;top: 40px;right: 0;}
+span{display: inline-block;}
+.layui-text-span{font-size: 14px;color: #838383;padding-right: 10px;text-align: left;}
+.layui-country-div .layui-text-span{position: absolute;top: 40px;right: 0;}
 .layui-lab-span{font-size: 16px;color: #000;padding: 0 20px;
     border-radius: 20px;height: 36px;line-height: 36px;}
 .layui-country-div div .layui-lab-span{box-shadow: 0 0 15px #a8f1f8;}
-.layui-petrifaction {height: 400px;overflow: hidden;margin-bottom: 20px !important;
+.layui-petrifaction p{height: 60px; line-height: 60px;color: white;border-radius: 30px;width: 226px;
+    font-size: 24px;text-indent:90px;}
+.layui-prospecting-div{padding-left: 110px;}
+.layui-prospecting{margin: 50px 0;height: auto;overflow: hidden;}
+.layui-prospecting p{background: url("/layuiadmin/layui/images/icon-red-title.png") 28px center no-repeat #e60012;}
+.layui-petrifaction {height: auto;overflow: hidden;margin-bottom: 20px !important;
     background: url("/layuiadmin/layui/images/icon-petrifaction-bg.png") white no-repeat center bottom;}
+.layui-red-left{background: url("/layuiadmin/layui/images/icon-red-left.png") no-repeat;width: 58px;height: 418px;
+    float: left;}
+.layui-red-list{width: 45.8%;float: left;height: 418px;
+    background: url("/layuiadmin/layui/images/icon-red-line.png") 0 413px repeat-x;}
+.layui-right-list{width: 45%;float: left;height: 422px;margin-top: -5px;
+    background: url("/layuiadmin/layui/images/icon-red-right.png") no-repeat;}
+.layui-red-list div{margin-bottom: 2px;}
+.layui-red-list div:nth-child(1){ margin-top: 38px;}
+.layui-right-list div{margin-left: 70px;margin-bottom: 2px;}
+.layui-right-list div:nth-child(1){ margin-top: 42px;}
+.layui-red-list .layui-lab-span,.layui-right-list .layui-lab-span{box-shadow:0 0 15px #f9b0b5}
+.layui-oil p{float: left;margin: 110px 0;
+    background: url("/layuiadmin/layui/images/icon-purple-title.png") 28px center no-repeat #7e78ec;}
+.layui-oil-div {    width: 75%;float: left;height: 280px;
+    background: url("/layuiadmin/layui/images/icon-purple-line.png") repeat-x 0 center;}
+/*.layui-oil-div div{float: left;}*/
+.layui-oil-div div img{display: block;position: relative;}
+.layui-oil-div div span,.layui-oil-div div{position: relative;}
+.layui-oil-div .layui-text-span{display: block;margin-top: 6px;}
+.layui-oil-div .layui-lab-span{box-shadow:0 0 15px #bfbcfd}
+.layui-oil-div div:nth-child(1) span{top: 16px;left: 100px;}
+.layui-oil-div div:nth-child(1) img{top: 16px;left: 200px;}
+.layui-oil-div div:nth-child(2){top: -137px;left: 600px;}
+.layui-oil-div div:nth-child(2) span{top: 16px;left: 100px;}
+.layui-oil-div div:nth-child(2) img{top: 16px;left: 250px;}
+.layui-oil-div div:nth-child(3) {top: -144px;  left: 129px;}
+.layui-oil-div div:nth-child(3) span{left: -116px;}
+.layui-oil-div div:nth-child(4){    top: -279px;left: 350px;}
+.layui-oil-div div:nth-child(4) img{left: 165px;}
+.layui-oil-div div:nth-child(5){    top: -416px;  left: 900px;}
+.layui-oil-div div:nth-child(5) img{left: 80px;}
 @media screen and (min-width: 992px) {
     .layui-row-text span{font-size: 12px;}
     .layui-col-md5 {width: 50%;}
