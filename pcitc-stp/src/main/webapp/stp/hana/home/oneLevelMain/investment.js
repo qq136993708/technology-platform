@@ -135,7 +135,7 @@ function barLineAjax_investment(url,  echartsobj, options,width)
 		        	                   barWidth:barWidth,
                                        label: {
                                            show: true, //开启显示
-                                           position: 'top', //在上方显示
+                                           position: 'inside', //在上方显示
                                            textStyle: { //数值样式
                                                color: 'black',
                                                fontSize: 14
@@ -173,7 +173,7 @@ function barLineAjax_investment(url,  echartsobj, options,width)
 		   {
 	            if(status == 'timeout')
 	            {
-	            	 layer.msg('超时');
+	            	 
 	            }
 	       }
 		  
@@ -360,7 +360,7 @@ function get_mony_line_option_ajax_dt_investment(url,echartsobj, options)
 	        	       
 	          } else
 	          {
-	        	 layer.alert(failMsg);
+	        	 
 	          }
 		   },
 		   error:function()
@@ -369,7 +369,7 @@ function get_mony_line_option_ajax_dt_investment(url,echartsobj, options)
 		   },
 		   complete: function (XMLHttpRequest, status) {
 	            if(status == 'timeout'){
-	            	 layer.msg('超时');
+	            	 
 	            }
 	        }
 		  

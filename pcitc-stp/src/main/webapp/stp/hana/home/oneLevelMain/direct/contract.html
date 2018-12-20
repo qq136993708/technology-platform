@@ -56,7 +56,7 @@
             <div class="layui-col-md6">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        ${year}年直属研究院科研课题数量占比
+                        <span class="layui-time"></span>年直属研究院科研课题数量占比
                     </div>
                     <div class="layui-card-body btn-function" >
                          <table id="processdef_table" class="layui-hide" lay-filter="processdef_table"></table>
@@ -85,7 +85,7 @@
             <div class="layui-col-md6">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        ${year}年直属研究院科研课题数量占比
+                        <span class="layui-time"></span>年直属研究院科研课题数量占比
                         <div class="layui-tool">
                             <button type="button" class="btn btn-tool collapse"></button>
                             <button type="button" class="btn btn-tool remove"></button>
@@ -202,7 +202,7 @@ function initEchart()
 	var yAxis= [
         {
             type: 'value',
-            name: '数量',
+            name: '数量（个）',
             min: 0,
             max:'dataMax',
             position: 'left',
@@ -273,9 +273,9 @@ function renderTable()
 	        ,loading: false
 	        ,method:'get'
 	        ,cols: [[
-	            {field:'name',  title:'类型',  style:'cursor: pointer;',align: 'left', width: '25%'},
-	            {field:'extend01',  title:'计划签订数（个）',   style:'cursor: pointer;',align: 'right', width: '25%'},
-	            {field:'extend02',  title:'实际签订数（个）',   style:'cursor: pointer;',align: 'right', width: '25%'},
+	            {field:'name',      title:'类型',            style:'cursor: pointer;',align: 'left', width: '25%'},
+	            {field:'extend01',  title:'计划签订数（个）',    style:'cursor: pointer;',align: 'right', width: '25%'},
+	            {field:'extend02',  title:'实际签订数（个）',    style:'cursor: pointer;',align: 'right', width: '25%'},
 	            {field:'extend03',  title:'签订率（%）',       style:'cursor: pointer;',align: 'right', width: '25%',templet:function(d){return d.extend03+"%"}}
 	            
 	        ]]

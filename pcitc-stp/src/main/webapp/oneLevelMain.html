@@ -14,6 +14,8 @@
     <script src="/layuiadmin/layui/layui.js"></script>
 </head>
 <body>
+<input type="hidden" name="companyCode"  value="${companyCode}"   id="companyCode">
+<input type="hidden" name="month"  value="${month}"   id="month">
 <div class="layui-fluid layui-level-admin">
     <div style="background: #002a53;">
         <div class="layui-header">
@@ -264,8 +266,8 @@
 								});
 					});
 
-	//科研装备，合同
-	function getKyxm() {
+	//合同
+	function getContract() {
 		$.ajax({
 			type : 'POST',
 			url : "/admin/project-count",
@@ -277,13 +279,9 @@
 			error : function(XMLHttpRequest, status) {
 				$("#contract_id").html(
 						"<small style='font-size:14px'>--(个)</small>");
-				$("#equipment_id").html("<small>--(台)</small>");
 			},
 			success : function(data) {
 				var zje = data.zje;
-				$("#equipment_id").html(
-						data.kyzbCount
-								+ "<small style='font-size:14px'>(台)</small>");
 				$("#contract_id").html(
 						data.projectCount
 								+ "<small style='font-size:14px'>(个)</small>");
@@ -291,6 +289,36 @@
 		});
 
 	}
+	//科研装备
+	function getEquipment() {
+		
+		var v_date=(new Date()).getTime();
+		var month=$("#month").val();
+		var companyCode=$("#companyCode").val();
+		var chart1_url="/one_level_main/equipment_01?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
+		$.ajax({
+			type : 'GET',
+			url : chart1_url,
+			dataType : 'json',
+			headers : {
+				'Content-Type' : 'application/json'
+			},
+			timeout : 3000,
+			error : function(XMLHttpRequest, status) {
+				$("#equipment_id").html("<small>--(台)</small>");
+			},
+			success : function(data) {
+				//alert(data.data.seriesDataList.length);
+				var total_count = 0;
+				$.each(data.data.seriesDataList,function(index,dt){
+					total_count+=dt;
+				});
+				$("#equipment_id").html(total_count+ "<small style='font-size:14px'>(台)</small>");
+			}
+		});
+
+	}
+	
 	//专利
 	function patentCount() {
 		$.ajax({
@@ -417,7 +445,8 @@
 	function init() {
 		appraisalCount();
 		patentCount();
-		getKyxm();
+		getContract();
+		getEquipment();
 		setdragon_count();
 		setinvestment_count();
 		get_news();
