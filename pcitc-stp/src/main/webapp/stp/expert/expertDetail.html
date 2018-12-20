@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
     <link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/style/second.css">
     <script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
 </head>
@@ -21,10 +22,45 @@
         </button>
     </div>
 </div>
-
+<div class="layui-main-oil layui-expert">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md5">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    与${zjkBaseInfo.name}有过合作的机构展示图
+                </div>
+                <div class="layui-row-main">
+                    <div class="main-chart" id="direct_contract_011" style="height:250px;width: 100%;"></div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md5">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    ${zjkBaseInfo.name}参与评标项目数量统计图
+                </div>
+                <div class="layui-row-main">
+                    <div class="main-chart" id="direct_contract_01" style="height:250px;width: 100%;"></div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    ${zjkBaseInfo.name}55岁所在行业领域年龄段统计图
+                </div>
+                <div class="layui-row-main">
+                    <div class="main-chart" id="direct_contract_01" style="height:250px;width: 100%;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 ${zjkBaseInfo.id}
 
 
+<!--<div class="main-chart" id="two" style="height:280px;width: 100%;"></div>
+<div class="main-chart" id="five" style="height:280px;width: 100%;"></div>-->
 ${zjkBaseInfo.name}
 ${zjkBaseInfo.dz}
 ${zjkBaseInfo.email}
