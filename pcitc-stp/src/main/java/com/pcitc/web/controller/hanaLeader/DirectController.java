@@ -74,6 +74,12 @@ public class DirectController {
 	
 	private static final String GET_XFZC =      "http://pcitc-zuul/hana-proxy/hana/home/getndys_xfzc";
 	
+	
+	
+	private static final String contry_01 = "http://pcitc-zuul/system-proxy/out-project-provider/project-money/institute";
+	private static final String contry_02 = "http://pcitc-zuul/system-proxy/out-project-provider/tech/type/project-info";
+	
+	
 	@Autowired
 	private HttpHeaders httpHeaders;
 	@Autowired
@@ -415,6 +421,141 @@ public class DirectController {
 			System.out.println(">>>>>>>>>>>>>>>knowledge_04 " + resultObj.toString());
 			return resultObj.toString();
 		}
+		
+		
+		
+		
+		
+		@RequestMapping(method = RequestMethod.GET, value = "/contry_01")
+		@ResponseBody
+		public String contry_01(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+			Result result = new Result();
+			String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+			String companyCode = CommonUtil.getParameter(request, "companyCode", HanaUtil.YJY_CODE_ALL);
+			String type = CommonUtil.getParameter(request, "type", "1");
+			Map<String, Object> paramsMap = new HashMap<String, Object>();
+			paramsMap.put("month", month);
+			paramsMap.put("companyCode", companyCode);
+			JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+			HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+			if (!companyCode.equals(""))
+			{
+				ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(contry_01, HttpMethod.POST, entity, JSONArray.class);
+				int statusCode = responseEntity.getStatusCodeValue();
+				if (statusCode == 200) 
+				{
+					JSONArray jSONArray = responseEntity.getBody();
+					System.out.println(">>>>>>>>>>>>>>contry_01 jSONArray-> " + jSONArray.toString());
+					List<Knowledge> list = JSONObject.parseArray(jSONArray.toJSONString(), Knowledge.class);
+					if(type.equals("1"))
+					{
+						ChartBarLineResultData barLine=new ChartBarLineResultData();
+						List<String>  xAxisDataList=HanaUtil.getduplicatexAxisByList(list,"define2");
+		         		barLine.setxAxisDataList(xAxisDataList);
+		         		
+		         		List<String> legendDataList = new ArrayList<String>();
+		         		legendDataList.add("新开课题");
+						legendDataList.add("结转课题");
+						barLine.setLegendDataList(legendDataList);
+						// X轴数据
+						List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
+						ChartBarLineSeries s1 = HanaUtil.getKNOWLDGELevel2ChartBarLineSeries07(list, "gjxksl");
+						seriesList.add(s1);
+						ChartBarLineSeries s2 = HanaUtil.getKNOWLDGELevel2ChartBarLineSeries07(list, "gjjzsl");
+						seriesList.add(s2);
+						barLine.setSeriesList(seriesList);
+		         		result.setSuccess(true);
+						result.setData(barLine);
+					}
+					if(type.equals("2") )
+					{
+						ChartPieResultData pie = new ChartPieResultData();
+						List<ChartPieDataValue> dataList = new ArrayList<ChartPieDataValue>();
+						List<String> legendDataList = new ArrayList<String>();
+						for (int i = 0; i < list.size(); i++) 
+						{
+							Knowledge f2 = list.get(i);
+							Integer applyCount = f2.getGjjzsl();
+							
+							int value =Integer.valueOf(applyCount).intValue();
+							legendDataList.add(f2.getLx());
+							dataList.add(new ChartPieDataValue(value, f2.getDefine2()));
+						}
+						pie.setDataList(dataList);
+						pie.setLegendDataList(legendDataList);
+		         		result.setSuccess(true);
+						result.setData(pie);
+					}
+					
+					
+				}
+				
+			} else
+			{
+				result.setSuccess(false);
+				result.setMessage("参数为空");
+			}
+			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
+			System.out.println(">>>>>>>>>>>>>>>contry_01 " + resultObj.toString());
+			return resultObj.toString();
+		}
+		
+		
+		
+		@RequestMapping(method = RequestMethod.GET, value = "/contry_02")
+		@ResponseBody
+		public String contry_02(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+			Result result = new Result();
+			String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+			String companyCode = CommonUtil.getParameter(request, "companyCode", HanaUtil.YJY_CODE_ALL);
+			String type = CommonUtil.getParameter(request, "type", "1");
+			Map<String, Object> paramsMap = new HashMap<String, Object>();
+			paramsMap.put("month", month);
+			paramsMap.put("companyCode", companyCode);
+			JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+			HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+			if (!companyCode.equals(""))
+			{
+				ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(contry_02, HttpMethod.POST, entity, JSONArray.class);
+				int statusCode = responseEntity.getStatusCodeValue();
+				if (statusCode == 200) 
+				{
+					JSONArray jSONArray = responseEntity.getBody();
+					System.out.println(">>>>>>>>>>>>>>contry_02 jSONArray-> " + jSONArray.toString());
+					List<Knowledge> list = JSONObject.parseArray(jSONArray.toJSONString(), Knowledge.class);
+					
+					
+						ChartPieResultData pie = new ChartPieResultData();
+						List<ChartPieDataValue> dataList = new ArrayList<ChartPieDataValue>();
+						List<String> legendDataList = new ArrayList<String>();
+						for (int i = 0; i < list.size(); i++) 
+						{
+							Knowledge f2 = list.get(i);
+							int applyCount = f2.getZsl();
+							legendDataList.add(f2.getLx());
+							dataList.add(new ChartPieDataValue(applyCount, f2.getDefine5()));
+						}
+						pie.setDataList(dataList);
+						pie.setLegendDataList(legendDataList);
+		         		result.setSuccess(true);
+						result.setData(pie);
+					
+					
+					
+				}
+				
+			} else
+			{
+				result.setSuccess(false);
+				result.setMessage("参数为空");
+			}
+			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
+			System.out.println(">>>>>>>>>>>>>>>contry_02 " + resultObj.toString());
+			return resultObj.toString();
+		}
+		
 		
 		
 		/**==========================================成果数量分析====================================*/

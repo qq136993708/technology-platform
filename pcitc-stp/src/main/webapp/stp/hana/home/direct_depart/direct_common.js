@@ -677,7 +677,7 @@ function set_multi_graph_statistics(data,id)
     	var jzCount_2=getDataCountForName(data,'专利授权');
         var allCount_3=xkCount_1+jzCount_2;
         
-        $("#leader_knowledge_chart1_01").html(allCount_3+"个");
+      
         $("#leader_knowledge_chart1_02").html(xkCount_1+"个");
         $("#leader_knowledge_chart1_03").html(jzCount_2+"个");
 	}
@@ -688,7 +688,7 @@ function set_multi_graph_statistics(data,id)
     	var jzCount_2=getDataCountForName(data,'专利授权');
         var allCount_3=xkCount_1+jzCount_2;
         
-        $("#leader_knowledge_chart4_01").html(allCount_3+"个");
+     
         $("#leader_knowledge_chart4_02").html(xkCount_1+"个");
         $("#leader_knowledge_chart4_03").html(jzCount_2+"个");
 	}
@@ -706,6 +706,21 @@ function set_multi_graph_statistics(data,id)
         $("#leader_knowledge_chart7_04").html(count_3+"个");
         
 	}
+	
+	if(id=='direct_kt_chart1')
+	{
+		var xkCount_1=getDataCountForNameFloat(data,'新开课题');
+    	var jzCount_2=getDataCountForNameFloat(data,'结转课题');
+        var allCount_3=xkCount_1+jzCount_2;
+        
+        $("#direct_kt_chart1_01").html(allCount_3+"个");
+        $("#direct_kt_chart1_02").html(xkCount_1+"个");
+        $("#direct_kt_chart1_03").html(jzCount_2+"个");
+	}
+	
+	
+	
+	
 	/**=============================直属研究院 end===========================*/
 	
 	/**===================================领导 begin===============================*/

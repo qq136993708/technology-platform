@@ -58,18 +58,18 @@
                         <table id="myTable" class="layui-table" lay-data="{url:'/direct/topic_01?type=2',height:'309'}">
                             <thead>
                             <tr>
-                                <th lay-data="{field:'define2', width:'22%'}" rowspan="2">项目</th>
+                                <th lay-data="{field:'define2', width:'22%',align:'center'}" rowspan="2">项目</th>
                                 <th lay-data="{align:'center'}" colspan="2">总计</th>
                                 <th lay-data="{align:'center'}" colspan="2">新开课题</th>
                                 <th lay-data="{align:'center'}" colspan="2">转结课题</th>
                             </tr>
                             <tr>
-                                <th lay-data="{field:'zsl', width:'13%'}">数量（个）</th>
-                                <th lay-data="{field:'zslRate', width:'13%',templet:function(d){return d.zslRate+'%'}}">占比</th>
-                                <th lay-data="{field:'xksl', width:'13%'}">数量（个）</th>
-                                <th lay-data="{field:'xkRate', width:'13%',templet:function(d){return d.xkRate+'%'}}">占比</th>
-                                <th lay-data="{field:'xjsl', width:'13%'}">数量（个）</th>
-                                <th lay-data="{field:'xjRate', width:'13%',templet:function(d){return d.xjRate+'%'}}">占比</th>
+                                <th lay-data="{field:'zsl', width:'13%',align:'right'}">数量（个）</th>
+                                <th lay-data="{field:'zslRate', width:'13%',align:'right',templet:function(d){return d.zslRate.toFixed(2)+'%'}}">占比</th>
+                                <th lay-data="{field:'xksl', width:'13%',align:'right'}">数量（个）</th>
+                                <th lay-data="{field:'xkRate', width:'13%',align:'right',templet:function(d){return d.xkRate.toFixed(2)+'%'}}">占比</th>
+                                <th lay-data="{field:'xjsl', width:'13%',align:'right'}">数量（个）</th>
+                                <th lay-data="{field:'xjRate', width:'13%',align:'right',templet:function(d){return d.xjRate.toFixed(2)+'%'}}">占比</th>
                             </tr>
                             </thead>
                         </table>
@@ -102,18 +102,18 @@
                         <table id="myTable2" class="layui-table" lay-data="{url:'/direct/topic_02?type=2',height:'309'}">
                             <thead>
                             <tr>
-                                <th lay-data="{field:'project_property', width:'22%'}" rowspan="2">项目</th>
+                                <th lay-data="{field:'project_property', width:'22%',align:'center'}" rowspan="2">项目</th>
                                 <th lay-data="{align:'center'}" colspan="2">总计</th>
                                 <th lay-data="{align:'center'}" colspan="2">新开课题</th>
                                 <th lay-data="{align:'center'}" colspan="2">转结课题</th>
                             </tr>
                             <tr>
-                                <th lay-data="{field:'zsl', width:'13%'}">数量（个）</th>
-                                <th lay-data="{field:'zslRate', width:'13%',templet:function(d){return d.zslRate+'%'}}">占比</th>
-                                <th lay-data="{field:'xksl', width:'13%'}">数量（个）</th>
-                                <th lay-data="{field:'xkRate', width:'13%',templet:function(d){return d.xkRate+'%'}}">占比</th>
-                                <th lay-data="{field:'xjsl', width:'13%'}">数量（个）</th>
-                                <th lay-data="{field:'xjRate', width:'13%',templet:function(d){return d.xjRate+'%'}}">占比</th>
+                                <th lay-data="{field:'zsl', width:'13%',align:'right'}">数量（个）</th>
+                                <th lay-data="{field:'zslRate', width:'13%',align:'right',templet:function(d){return d.zslRate.toFixed(2)+'%'}}">占比</th>
+                                <th lay-data="{field:'xksl', width:'13%',align:'right'}">数量（个）</th>
+                                <th lay-data="{field:'xkRate', width:'13%',align:'right',templet:function(d){return d.xkRate.toFixed(2)+'%'}}">占比</th>
+                                <th lay-data="{field:'xjsl', width:'13%',align:'right'}">数量（个）</th>
+                                <th lay-data="{field:'xjRate', width:'13%',align:'right',templet:function(d){return d.xjRate.toFixed(2)+'%'}}">占比</th>
                             </tr>
                             </thead>
                         </table>

@@ -274,9 +274,9 @@ function renderTable()
 	        ,method:'get'
 	        ,cols: [[
 	            {field:'name',  title:'类型',  style:'cursor: pointer;',align: 'left', width: '25%'},
-	            {field:'extend01',  title:'计划签订数（个）',   style:'cursor: pointer;',align: 'left', width: '25%'},
-	            {field:'extend02',  title:'实际签订数（个）',   style:'cursor: pointer;',align: 'left', width: '25%'},
-	            {field:'extend03',  title:'签订率（%）',       style:'cursor: pointer;',align: 'left', width: '25%',templet:function(d){return d.extend03+"%"}}
+	            {field:'extend01',  title:'计划签订数（个）',   style:'cursor: pointer;',align: 'right', width: '25%'},
+	            {field:'extend02',  title:'实际签订数（个）',   style:'cursor: pointer;',align: 'right', width: '25%'},
+	            {field:'extend03',  title:'签订率（%）',       style:'cursor: pointer;',align: 'right', width: '25%',templet:function(d){return d.extend03+"%"}}
 	            
 	        ]]
 	        ,isPage:false
@@ -312,10 +312,10 @@ function renderTable2()
 	  id: 'processdef_table_02',
 	  
 	  cols: [[
-	  	   {field:'define2',        title: '类型',    edit:'text', width: '40%'},
-	       {field:'zsl',            title:'计划签订数',style:'cursor: pointer;',align: 'left', width: '20%'},
-	       {field:'yqhtzj',         title:'实际签订数',style:'cursor: pointer;',align: 'left', width: '20%'},
-	       {field:'qdlzj',          title:'签订率(%)',   style:'cursor: pointer;',align: 'left', width: '20%',templet:function(d){return d.qdlzj+"%"}
+	  	   {field:'define2',        title: '类型',    edit:'text', width: '40%',align: 'center'},
+	       {field:'zsl',            title:'计划签订数',style:'cursor: pointer;',align: 'right', width: '20%'},
+	       {field:'yqhtzj',         title:'实际签订数',style:'cursor: pointer;',align: 'right', width: '20%'},
+	       {field:'qdlzj',          title:'签订率(%)',   style:'cursor: pointer;',align: 'right', width: '20%',templet:function(d){return d.qdlzj+"%"}
 	       }
 	       
 	       

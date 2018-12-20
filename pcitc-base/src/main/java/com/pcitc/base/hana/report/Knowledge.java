@@ -46,7 +46,50 @@ public class Knowledge {
 	 private  String define2;
 	 private  String define3;
 	 
-	
+	 
+	 private Integer gjjzsl;
+	 
+	 private  String define5;
+	 
+	 private Integer zsl;
+	 
+	 private Integer gjxksl;
+	 
+	 
+	 
+	 
+
+	public Integer getGjxksl() {
+		return gjxksl;
+	}
+
+	public void setGjxksl(Integer gjxksl) {
+		this.gjxksl = gjxksl;
+	}
+
+	public String getDefine5() {
+		return define5;
+	}
+
+	public void setDefine5(String define5) {
+		this.define5 = define5;
+	}
+
+	public Integer getZsl() {
+		return zsl;
+	}
+
+	public void setZsl(Integer zsl) {
+		this.zsl = zsl;
+	}
+
+	public Integer getGjjzsl() {
+		return gjjzsl;
+	}
+
+	public void setGjjzsl(Integer gjjzsl) {
+		this.gjjzsl = gjjzsl;
+	}
 
 	public String getDefine1() {
 		return define1;

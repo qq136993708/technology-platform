@@ -68,20 +68,20 @@
                         <table id="myTable" class="layui-table" lay-data="{url:'/direct/equipment_01?type=2',height:'309'}">
                             <thead>
                             <tr>
-                                <th lay-data="{field:'define2', width:'22%'}" rowspan="2">项目</th>
+                                <th lay-data="{field:'define2', width:'22%',align:'center'}" rowspan="2">项目</th>
                                 <th lay-data="{align:'center'}" colspan="2">总计</th>
                                 <th lay-data="{align:'center'}" colspan="2">新开课题</th>
                                 <th lay-data="{align:'center'}" colspan="2">结转课题</th>
                             </tr>
                             <tr>
-                                <th lay-data="{field:'zsl', width:'13%'}">数量（个）</th>
-                                <th lay-data="{field:'zslRate', width:'13%',templet:function(d){return d.zslRate+'%'}}">占比</th>
+                                <th lay-data="{field:'zsl', width:'13%',align:'right'}">数量（个）</th>
+                                <th lay-data="{field:'zslRate', width:'13%',align:'right',templet:function(d){return d.zslRate.toFixed(2)+'%'}}">占比</th>
 
-                                <th lay-data="{field:'xksl', width:'13%'}">数量（个）</th>
-                                <th lay-data="{field:'xkRate', width:'13%',templet:function(d){return d.xkRate+'%'}}">占比</th>
+                                <th lay-data="{field:'xksl', width:'13%',align:'right'}">数量（个）</th>
+                                <th lay-data="{field:'xkRate', width:'13%',align:'right',templet:function(d){return d.xkRate.toFixed(2)+'%'}}">占比</th>
 
-                                <th lay-data="{field:'xjsl', width:'13%'}">数量（个）</th>
-                                <th lay-data="{field:'xjRate', width:'13%',templet:function(d){return d.xjRate+'%'}}">占比</th>
+                                <th lay-data="{field:'xjsl', width:'13%',align:'right'}">数量（个）</th>
+                                <th lay-data="{field:'xjRate', width:'13%',align:'right',templet:function(d){return d.xjRate.toFixed(2)+'%'}}">占比</th>
 
                             </tr>
 
@@ -324,11 +324,11 @@ function renderTable2()
 	  id: 'processdef_table_02',
 	  
 	  cols: [[
-	  	   {field:'g0GSJC',        title: '研究院',    edit:'text', width: '20%'},
-	       {field:'g0SBSL1',            title:'大型分析仪器（套）',style:'cursor: pointer;',align: 'left', width: '20%'},
-	       {field:'g0SBSL2',         title:'中型实验装置（台）',style:'cursor: pointer;',align: 'left', width: '20%'},
-	       {field:'g0SBSL3',          title:'单台值大于500万（台）',   style:'cursor: pointer;',align: 'left', width: '20%'},
-	       {field:'g0SBSL4',          title:'外购专业软件（套）',   style:'cursor: pointer;',align: 'left', width: '20%'}
+	  	   {field:'g0GSJC',           title: '研究院',    edit:'text', width: '20%',align: 'center'},
+	       {field:'g0SBSL1',          title:'大型分析仪器（套）',style:'cursor: pointer;',align: 'right', width: '20%',templet:function(d){return parseInt(d.g0SBSL1)}},
+	       {field:'g0SBSL2',          title:'中型实验装置（台）',style:'cursor: pointer;',align: 'right', width: '20%',templet:function(d){return parseInt(d.g0SBSL2)}},
+	       {field:'g0SBSL3',          title:'单台值大于500万（台）',   style:'cursor: pointer;',align: 'right', width: '20%',templet:function(d){return parseInt(d.g0SBSL3)}},
+	       {field:'g0SBSL4',          title:'外购专业软件（套）',   style:'cursor: pointer;',align: 'right', width: '20%',templet:function(d){return parseInt(d.g0SBSL4)}}
 		      
 	       
    
