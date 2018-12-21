@@ -947,7 +947,10 @@
 				) as tableA
 		WHERE 
 			1 = 1
-			<if test="projectId != null">
+			<if test="projectId != null and projectId == 1">
+				and tableA.projectId is not null
+			</if>
+			<if test="projectId != null and projectId == 2">
 				and tableA.projectId is null
 			</if>
 			<if test="nd != null">

@@ -54,9 +54,9 @@ public class OutProjectServiceImpl implements OutProjectService {
 		// outProjectInfoMapper.copyData(nd);
 
 		// 删除年度数据
-		OutProjectInfoExample example = new OutProjectInfoExample();
-		example.createCriteria().andNdEqualTo(nd);
-		outProjectInfoMapper.deleteByExample(example);
+		//OutProjectInfoExample example = new OutProjectInfoExample();
+		//example.createCriteria().andNdEqualTo(nd);
+		//outProjectInfoMapper.deleteByExample(example);
 
 		// 批量插入数据
 		outProjectInfoMapper.insertOutProjectBatch(list);
