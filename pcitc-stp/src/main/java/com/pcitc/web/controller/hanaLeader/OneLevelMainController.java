@@ -40,7 +40,9 @@ import com.pcitc.base.hana.report.AchievementsAnalysis;
 import com.pcitc.base.hana.report.BudgetMysql;
 import com.pcitc.base.hana.report.Contract;
 import com.pcitc.base.hana.report.H1AMKYSY100117;
+import com.pcitc.base.hana.report.H1AMKYZH100006;
 import com.pcitc.base.hana.report.Knowledge;
+import com.pcitc.base.hana.report.ProjectCode;
 import com.pcitc.base.hana.report.ProjectForMysql;
 import com.pcitc.base.system.SysNews;
 import com.pcitc.base.system.SysUser;
@@ -105,8 +107,7 @@ public class OneLevelMainController {
 		//新闻
 		private static final String get_news = "http://pcitc-zuul/system-proxy/news-provider/select_news_main";
 		
-		
-		
+		private static final String common_table = "http://pcitc-zuul/system-proxy/out-project-plna-provider/project-plan/page/list";
 		
 		
 		
@@ -114,6 +115,56 @@ public class OneLevelMainController {
 		private HttpHeaders httpHeaders;
 		@Autowired
 		private RestTemplate restTemplate;
+		
+		
+		
+		
+		
+		@RequestMapping(method = RequestMethod.GET, value = "/common_table")
+		  public String common_table(HttpServletRequest request) throws Exception
+		  {
+			    
+				String month = HanaUtil.getCurrrentYearMoth();
+				request.setAttribute("month", month);
+				String g0XMGLLX=CommonUtil.getParameter(request, "g0XMGLLX", "");
+				request.setAttribute("g0XMGLLX", g0XMGLLX);
+				
+				
+				String g0GSSP=CommonUtil.getParameter(request, "g0GSSP", "");
+				request.setAttribute("g0GSSP", g0GSSP);
+				
+			    SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
+			    HanaUtil.setSearchParaForUser(userInfo,restTemplate,httpHeaders,request);
+			    
+			    String companyCode=CommonUtil.getParameter(request, "companyCode", "");
+				request.setAttribute("companyCode", companyCode);
+				
+			    String unitCode=userInfo.getUnitCode();
+			    request.setAttribute("unitCode", unitCode);
+		        return "stp/hana/home/oneLevelMain/common_table";
+		  }
+		
+		
+		 //三级表格
+	    @RequestMapping(method = RequestMethod.GET, value = "/common_table_data")
+		@ResponseBody
+		public String common_table_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
+
+	    	System.out.println(">>>>>>>>>>>>>param:" + JSONObject.toJSONString(param));
+	    	
+			LayuiTableData layuiTableData = new LayuiTableData();
+			HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+			ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(common_table, HttpMethod.POST, entity, LayuiTableData.class);
+			int statusCode = responseEntity.getStatusCodeValue();
+			if (statusCode == 200) {
+				layuiTableData = responseEntity.getBody();
+			}
+			JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
+			System.out.println(">>>>>>>>>>>>>common_table:" + result.toString());
+			return result.toString();
+		}
+	    
+	    
 
 		/**======================高层首页-知识产权==================================*/
 			
