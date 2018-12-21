@@ -13,10 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.service.ICommonService;
+import com.pcitc.service.IOutProjectService;
 
 @Api(value = "OUT-HANA-API",description = "为了前端和其他系统集成-相关接口")
 @RestController
@@ -26,6 +28,9 @@ public class OutProviderClient {
 
 	@Autowired
 	private ICommonService commonService;
+	
+	@Autowired
+	private IOutProjectService outProjectService;
 	
 	
 	@ApiOperation(value = "查询erp中课题", notes = "分页显示，和项目管理系统进行关联匹配")
@@ -43,7 +48,9 @@ public class OutProviderClient {
 	@RequestMapping(value = "/hana/country-project/list")
 	public JSONArray getLastCountryProject(@RequestBody HashMap<String, String> map) {
 		System.out.println("=================getLastCountryProject");
-		return null;
+		List resultList = outProjectService.getCountryProjectList(map);
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(resultList));
+		return json;
 	}
 	
 }
