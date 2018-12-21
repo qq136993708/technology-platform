@@ -1868,12 +1868,12 @@ public class DirectController {
 								String k0BNYSJHJE =contract.getK0BNYSJHJE();
 								String k0BNZBJE =contract.getK0BNZBJE();
 								String k0BNFYJE =contract.getK0BNFYJE();
-								k0BNYSJHJE_count=k0BNYSJHJE_count+Double.valueOf(k0BNYSJHJE);
+								//k0BNYSJHJE_count=k0BNYSJHJE_count+Double.valueOf(k0BNYSJHJE);
 								k0BNZBJE_count=k0BNZBJE_count+Double.valueOf(k0BNZBJE);
 								k0BNFYJE_count=k0BNFYJE_count+Double.valueOf(k0BNFYJE);
 								
 							}
-							temp.setK0BNYSJHJE(df.format(k0BNFYJE_count));
+							temp.setK0BNYSJHJE(df.format(k0BNZBJE_count+k0BNFYJE_count));
 							temp.setK0BNZBJE(df.format(k0BNZBJE_count));
 							temp.setK0BNFYJE(df.format(k0BNFYJE_count));
 							

@@ -641,9 +641,9 @@ function set_multi_graph_statistics(data,id)
     	var jzCount_2=getDataCountForNameFloat(data,'结转课题');
         var allCount_3=xkCount_1+jzCount_2;
         
-        $("#pay_chart1_01").html(allCount_3+"亿元");
-        $("#pay_chart1_02").html(xkCount_1+"亿元");
-        $("#pay_chart1_03").html(jzCount_2+"亿元");
+        $("#pay_chart1_01").html(allCount_3.toFixed(2)+"亿元");
+        $("#pay_chart1_02").html(xkCount_1.toFixed(2)+"亿元");
+        $("#pay_chart1_03").html(jzCount_2.toFixed(2)+"亿元");
 	}
 	
 	
@@ -654,9 +654,9 @@ function set_multi_graph_statistics(data,id)
     	var jzCount_2=getDataCountForNameFloat(data,'费用性');
         var allCount_3=xkCount_1+jzCount_2;
         
-        $("#pay_chart3_01").html(allCount_3+"亿元");
-        $("#pay_chart3_02").html(xkCount_1+"亿元");
-        $("#pay_chart3_03").html(jzCount_2+"亿元");
+        $("#pay_chart3_01").html(allCount_3.toFixed(2)+"亿元");
+        $("#pay_chart3_02").html(xkCount_1.toFixed(2)+"亿元");
+        $("#pay_chart3_03").html(jzCount_2.toFixed(2)+"亿元");
 	}
 
 	if(id=='dragon3')
@@ -758,7 +758,7 @@ function getDataCountForNameFloat(data,strName)
          } 
         
     }   
-    return parseInt(xkCount);
+    return parseFloat(xkCount);
        
 }
 //小数点后两位百分比
