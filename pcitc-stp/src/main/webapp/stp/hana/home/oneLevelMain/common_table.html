@@ -10,81 +10,47 @@
 </head>
 <body>
 <div class="searchBox">
+<!-- 国家项目、重大专项、重点项目、其他项目   -->
+<input type="hidden" name="project_property" value="${project_property}"  id="project_property">
+<!-- 新开项目、续建项目、完工项目  -->
+<input type="hidden" name="project_scope" value="${project_scope}"  id="project_scope">
+<!-- 装备的各种技术类型 -->
+<input type="hidden" name="zylb" value="${zylb}"  id="zylb">
+<!-- 各个处室 -->
+<input type="hidden" name="zycmc" value="${zycmc}"  id="zycmc">
+
     <!--查询条件-->
     <label class="dateInput">
         <span>项目名称</span>
-        <input type="text" name="g0PROJTXT" placeholder="请输项目名称" title="项目名称" autocomplete="off" class="form-control" id="g0PROJTXT">
+        <input type="text" name="xmmc" title="项目名称" autocomplete="off" class="form-control" id="xmmc">
     </label>
+    <label class="dateInput">
+        <span>合同号</span>
+        <input type="text" name="hth" title="合同号" autocomplete="off" class="form-control" id="hth">
+    </label>
+    <!-- 资本性、费用性   -->	
+    <label class="dateInput">
+        <span>费用类别</span>
+        <input type="text" name="define1" value="${define1}"  title="费用类别" autocomplete="off" class="form-control"  id="define1">
+    </label>
+    <!-- 8大院等细分结构  -->
+    <label class="dateInput">
+        <span>研究院</span>
+        <input type="text" name="define2" value="${define2}"  title="研究院" autocomplete="off" class="form-control"  id="define2">
+    </label>
+    <!-- 直属研究院、分子公司、集团等9种类型   -->
+    <label class="dateInput">
+        <span>分公司</span>
+        <input type="text" name="define3" value="${define2}"  title="分公司" autocomplete="off" class="form-control"  id="define3">
+    </label>
+    
+    
+    
     
     <label class="dateInput">
             <span>月份</span>
-            <input type="text" name="month" placeholder="请选择月份" title="月份" value="${month}"  autocomplete="off" class="form-control" id="month">
+            <input type="text" name="nd" placeholder="请选择月份" title="月份" value="${nd}"  autocomplete="off" class="form-control" id="nd">
         </label>
-        <div class="layui-input-inline">
-         <select name="companyCode" id="companyCode" style="width:120px">
-              <#list companyCodeList as vo>
-              	 <#if vo.g0GSJC == '全部'>
-              	 	<option value="${vo.g0GSDM}"  selected="selected">${vo.g0GSJC}</option>
-              	 </#if>
-                 <#if vo.g0GSJC != '全部'>
-              	 	<option value="${vo.g0GSDM}">${vo.g0GSJC}</option>
-              	 </#if>
-               </#list>
-            </select>
-       </div>
-        
-        
-        
-        <div class="layui-input-inline">
-         <select name="g0XMGLLX" id="g0XMGLLX" >
-             <option value="">---项目类型 ---</option>
-              <#list G0XMGLLX_LIST as vo>
-              	 	<option value="${vo}"
-              	 	 <#if vo == '${g0XMGLLX}'>selected="selected" </#if>
-              	 	 >${vo}</option>
-               </#list>
-            </select>
-       </div>
-       
-       
-       <div class="layui-input-inline">
-         <select name="g0XMGLLY" id="g0XMGLLY" >
-         <option value="">--- 项目来源 ---</option>
-              <#list G0XMGLLY_LIST as vo>
-              	 	<option value="${vo}">${vo}</option>
-               </#list>
-            </select>
-       </div>
-       
-       
-       <div class="layui-input-inline">
-         <select name="g0XMGLJB" id="g0XMGLJB" >
-         <option value="">--- 管理级别 ---</option>
-              <#list G0XMGLJB_LIST as vo>
-              	 	<option value="${vo}">${vo}</option>
-               </#list>
-            </select>
-       </div>
-       
-       
-       <div class="layui-input-inline">
-         <select name="g0XMLX" id="g0XMLX" >
-         <option value="">--- 项目类别 ---</option>
-              <#list G0XMLX_LIST as vo>
-              	 	<option value="${vo}">${vo}</option>
-               </#list>
-            </select>
-       </div> 
-       
-       
-        <div class="layui-input-inline">
-         <select name="g0XMXZ" id="g0XMXZ" style="width:120px">
-         <option value="">--- 项目性质 ---</option>
-              <#list G0XMXZ_LIST as vo>
-              	 	<option value="${vo.g0XMXZ}">${vo.g0XMXZ}</option>
-               </#list>
-            </select>
-       </div>
        
        
     <!--按钮组-->
@@ -99,39 +65,13 @@
     <table id="processdef-table" class="layui-hide" lay-filter="tableEvent">
 </div>
 
-<script id="dateTpl" type="text/html"> {{formatTime(d.createDate)}} </script>
-<script type="text/javascript">
-    // 时间格式化
-    function formatTime(d) {
-        if (d) {
-            var date = new Date();
-            date.setTime(d);
-            var y = date.getFullYear();
-            var m = date.getMonth() + 1;
-            m = m < 10 ? ('0' + m) : m;
-            var day = date.getDate();
-            day = day < 10 ? ("0" + day) : day;
-            var h = date.getHours();
-            h = h < 10 ? ("0" + h) : h;
-            var M = date.getMinutes();
-            M = M < 10 ? ("0" + M) : M;
-            var str = y + "-" + m + "-" + day + " " + h + ":" + M;
-            return str;
-        } else {
-            return '';
-        }
-    }
 </script>
 
 <!--表格数据操作js-->
 <script src="/common/js/jquery-1.11.3.min.js"></script>
 <script>
 var table,selectRowData;
-var g0PROJTXT=$('#g0PROJTXT').val();
-
-var g0XMGLLX="${g0XMGLLX?default('')}";
-
-
+var xmmc=$('#xmmc').val();
 
 layui.config({
 	  base: '/layuiadmin/lib/extend/'
@@ -142,8 +82,8 @@ layui.config({
       ,laydate = layui.laydate,
 	  form.render(null, 'component-form-group');
             laydate.render({
-               elem: '#month'
-               ,format: 'yyyyMM'
+               elem: '#nd'
+               ,format: 'yyyy'
                
             });
 
@@ -200,14 +140,15 @@ layui.config({
         url: '/one_level_main/common_table_data',
         method:"POST",
         where: {param: {
-        	      "month":$("#month").val(),
-        	      "companyCode":$("#companyCode").val(),
-        	      "g0PROJTXT":$("#g0PROJTXT").val(),
-        	      "g0XMGLLX":$("#g0XMGLLX").val(),
-        	      "g0XMGLLY":$("#g0XMGLLY").val(),
-        	      "g0XMGLJB":$("#g0XMGLJB").val(),
-        	      "g0XMLX":$("#g0XMLX").val(),
-        	      "g0XMXZ":$("#g0XMXZ").val()
+        	      "nd":$("#nd").val(),
+        	      "xmmc":$("#xmmc").val(),
+        	      "define1":$("#define1").val(),
+        	      "define2":$("#define2").val(),
+        	      "define3":$("#define3").val(),
+        	      "zycmc":$("#zycmc").val(),
+        	      "zylb":$("#zylb").val(),
+        	      "project_scope":$("#project_scope").val(),
+        	      "project_property":$("#project_property").val()
         	
                }},
         limit: 15,
@@ -222,24 +163,17 @@ layui.config({
             theme: '#0F9EE0'
         },
         cols: [[
-        	{title:'序号',              type:'numbers', width: '4%'},
-        	{field:'g0GSJC',          title:'公司简称',        style:'cursor: pointer;',align: 'center', width: '150'},
-        	{field:'g0GSSP',          title:'二级公司',        style:'cursor: pointer;',align: 'center', width: '150'},
-            {field:'g0PROJTXT',       title:'项目名称',        style:'cursor: pointer;',align: 'left', width: '380'},
-            {field:'g0XMGLLX',        title:'项目类型',        style:'cursor: pointer;',align: 'center', width: '150'},
-            {field:'g0XMGLLY',        title:'项目来源',        style:'cursor: pointer;',align: 'center', width: '150'},
-            {field:'g0XMGLJB',        title:'管理级别',        style:'cursor: pointer;',align: 'center', width: '150'},
-            {field:'g0XMLXMS',        title:'项目类别描述',     style:'cursor: pointer;',align: 'center', width: '150'},
-            {field:'g0XMZTMS',        title:'项目状态描述',     style:'cursor: pointer;',align: 'center', width: '150'},
-            {field:'g0XMXZ',          title:'项目性质',        style:'cursor: pointer;',align: 'center', width: '150'},
-            {field:'k0BNYSL',         title:'本年执行项目数量',     style:'cursor: pointer;',align: 'center', width: '150', templet: '<div>{{ layui.laytpl.milliFormat(d.k0BNYSJHJE,0) }}</div>'},
-            {field:'k0BNYSJHJE',      title:'年度计划预算',       style:'cursor: pointer;',align: 'center', width: '150', templet: '<div>{{ layui.laytpl.milliFormat(d.k0BNXMXKSL,0) }}</div>'},
-            {field:'k0BNGLFPHJECB',   title:'管理分配后金额-成本-本年',     style:'cursor: pointer;',align: 'center', width: '150', templet: '<div>{{ layui.laytpl.milliFormat(d.k0BNGLFPHJECB,0) }}</div>'},
-            {field:'k0BNYSJY',        title:'本年预算结余金额',     style:'cursor: pointer;',align: 'center', width: '150', templet: '<div>{{ layui.laytpl.milliFormat(d.k0BNYSJY,0) }}</div>'},
-            {field:'k0LJYSL',         title:'累计执行项目数量',     style:'cursor: pointer;',align: 'center', width: '150', templet: '<div>{{ layui.laytpl.milliFormat(d.k0LJYSL,0) }}</div>'},
-            {field:'k0ZTYSJE',        title:'项目总预算',          style:'cursor: pointer;',align: 'center', width: '150', templet: '<div>{{ layui.laytpl.milliFormat(d.k0ZTYSJE,0) }}</div>'},
-            {field:'k0LJGLFPHJECB',   title:'管理分配后金额-成本(含承诺)-累计',   style:'cursor: pointer;',align: 'center', width: '150', templet: '<div>{{ layui.laytpl.milliFormat(d.k0LJGLFPHJECB,0) }}</div>'},
-            {field:'k0LJYSJY',        title:'本年预算结余金额',               style:'cursor: pointer;',align: 'center', width: '150', templet: '<div>{{ layui.laytpl.milliFormat(d.k0LJYSJY,0) }}</div>'}
+        	{title:'序号',               type:'numbers', width: '4%'},
+        	  {field:'nd',               title:'年度',             style:'cursor: pointer;',align: 'center', width: '150'},
+              {field:'hth',              title:'合同号',            style:'cursor: pointer;',align: 'center', width: '150'},
+              {field:'xmmc',             title:'项目名称',           style:'cursor: pointer;',align: 'left', width: '380'},
+              {field:'jf',               title:'项目经费总额（万元）',        style:'cursor: pointer;',align: 'center', width: '150'},
+        	{field:'define1',          title:'资本/费用',           style:'cursor: pointer;',align: 'center', width: '150'},
+        	{field:'define2',          title:'研究院',            style:'cursor: pointer;',align: 'left', width: '150'},
+        	{field:'define3',          title:'其他系统标识',        style:'cursor: pointer;',align: 'left', width: '150'},
+            {field:'zylb',             title:'专业类别',          style:'cursor: pointer;',align: 'left', width: '150'},
+            {field:'fzdw',             title:'项目类别描述',        style:'cursor: pointer;',align: 'left', width: '150'},
+            {field:'parentName',       title:'父项目名',     style:'cursor: pointer;',align: 'left', width: '150'}
             
         ]],
         done: function (res, curr, count) {

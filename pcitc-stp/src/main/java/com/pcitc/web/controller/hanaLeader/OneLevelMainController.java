@@ -123,30 +123,33 @@ public class OneLevelMainController {
 		@RequestMapping(method = RequestMethod.GET, value = "/common_table")
 		  public String common_table(HttpServletRequest request) throws Exception
 		  {
-			    
-				String month = HanaUtil.getCurrrentYearMoth();
-				request.setAttribute("month", month);
-				String g0XMGLLX=CommonUtil.getParameter(request, "g0XMGLLX", "");
-				request.setAttribute("g0XMGLLX", g0XMGLLX);
+			    String nd = HanaUtil.getCurrrentYear();
+				request.setAttribute("nd", nd);
+				String xmmc=CommonUtil.getParameter(request, "xmmc", "");//项目名
+				String hth=CommonUtil.getParameter(request, "hth", "");//合同号
+				String define1=CommonUtil.getParameter(request, "define1", "");//资本性、费用性
+				String define2=CommonUtil.getParameter(request, "define2", "");//8大院等细分结构
+				String define3=CommonUtil.getParameter(request, "define3", "");//直属研究院、分子公司、集团等9种类型
+				String project_property=CommonUtil.getParameter(request, "project_property", "");//国家项目、重大专项、重点项目、其他项目
+				String project_scope=CommonUtil.getParameter(request, "project_scope", "");//新开项目、续建项目、完工项目
+				String zylb=CommonUtil.getParameter(request, "zylb", "");//装备的各种技术类型
+				String zycmc=CommonUtil.getParameter(request, "zycmc", "");//各个处室
 				
-				
-				String g0GSSP=CommonUtil.getParameter(request, "g0GSSP", "");
-				request.setAttribute("g0GSSP", g0GSSP);
-				
-			    SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
-			    HanaUtil.setSearchParaForUser(userInfo,restTemplate,httpHeaders,request);
-			    
-			    String companyCode=CommonUtil.getParameter(request, "companyCode", "");
-				request.setAttribute("companyCode", companyCode);
-				
-			    String unitCode=userInfo.getUnitCode();
-			    request.setAttribute("unitCode", unitCode);
+				request.setAttribute("zycmc", zycmc);
+				request.setAttribute("xmmc", xmmc);
+				request.setAttribute("hth", hth);
+				request.setAttribute("define1", define1);
+				request.setAttribute("define2", define2);
+				request.setAttribute("define3", define3);
+				request.setAttribute("project_property", project_property);
+				request.setAttribute("project_scope", project_scope);
+				request.setAttribute("zylb", zylb);
 		        return "stp/hana/home/oneLevelMain/common_table";
 		  }
 		
 		
 		 //三级表格
-	    @RequestMapping(method = RequestMethod.GET, value = "/common_table_data")
+	    @RequestMapping(method = RequestMethod.POST, value = "/common_table_data")
 		@ResponseBody
 		public String common_table_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 

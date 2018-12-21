@@ -225,7 +225,21 @@
         echartchart_01_01.on('click', function (params) {
             var xName=params.name;
             var legentName=params.seriesName;
-            window.open("/one_level_main/common_table_data");
+           // alert("xName="+xName+" legentName="+legentName);
+            var projectId="";
+            if(legentName=='已签合同')
+            {
+            	 projectId="1";
+            }
+            if(legentName=='未签合同')
+            {
+            	 projectId="2";
+            }
+            if(legentName=='计划合同')
+            {
+            	 projectId="0";
+            }
+            window.open("/one_level_main/common_table?define1="+xName+"&projectId="+projectId);
 
         });
 
@@ -235,7 +249,21 @@
         echart2.on('click', function (params) {
             var xName=params.name;
             var legentName=params.seriesName;
-            window.open("/one_level_main/common_table_data");
+           // alert("xName="+xName+" legentName="+legentName);
+            var projectId="";
+            if(legentName=='已签合同')
+            {
+            	 projectId="1";
+            }
+            if(legentName=='未签合同')
+            {
+            	 projectId="2";
+            }
+            if(legentName=='计划合同')
+            {
+            	 projectId="0";
+            }
+            window.open("/one_level_main/common_table?define3="+xName+"&projectId="+projectId);
 
         });
 
@@ -247,7 +275,21 @@
         echart6.on('click', function (params) {
             var xName=params.name;
             var legentName=params.seriesName;
-            window.open("/one_level_main/common_table_data");
+            //alert("xName="+xName+" legentName="+legentName);
+            var projectId="";
+            if(legentName=='已签合同')
+            {
+            	 projectId="1";
+            }
+            if(legentName=='未签合同')
+            {
+            	 projectId="2";
+            }
+            if(legentName=='计划合同')
+            {
+            	 projectId="0";
+            }
+            window.open("/one_level_main/common_table?define2="+xName+"&projectId="+projectId);
         });
 
 
@@ -386,14 +428,31 @@
             , limit: 15 //每页默认显示的数量
             , height: 270
             , cols: [[
-            	{field:'define3',  title:'类别',  style:'cursor: pointer;',align: 'left'},
-            	{field:'define2',  title:'机构',  style:'cursor: pointer;',align: 'left', width: '20%'},
- 	            {field:'zsl',  title:'计划签订数（个）',   style:'cursor: pointer;',align: 'right', width: '20%'},
- 	            {field:'yqhtzj',  title:'实际签订数（个）',   style:'cursor: pointer;',align: 'right', width: '20%'},
- 	            {field:'qdlzj',  title:'签订率（%）',       style:'cursor: pointer;',align: 'right', width: '20%',templet:function(d){return d.qdlzj+"%"}}
+            	{field:'define3',  title:'类别',           style:'cursor: pointer;',align: 'left'},
+            	{field:'define2',  title:'机构',           style:'cursor: pointer;',align: 'left', width: '20%'},
+ 	            {field:'zsl',      title:'计划签订数（个）',   style:'cursor: pointer;',align: 'right', width: '20%'},
+ 	            {field:'yqhtzj',   title:'实际签订数（个）',   style:'cursor: pointer;',align: 'right', width: '20%'},
+ 	            {field:'qdlzj',    title:'签订率（%）',      style:'cursor: pointer;',align: 'right', width: '20%',templet:function(d){return d.qdlzj+"%"}}
             ]],
             done: function(res, curr, count){
-               merge(res);
+               
+               
+            	 merge(res);
+               
+               $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+                   var index=parseInt($(this).index()+1);
+                   $('tr').removeClass('layui-table-click');
+                   $(this).addClass('layui-table-click');
+                   $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                   $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                   selectRowData=res.data[index-1];
+                  // alert(selectRowData.define3+"=="+selectRowData.define2);
+                   window.open("/one_level_main/common_table?define3="+selectRowData.define3+"&projectId=0&define2="+selectRowData.define2);
+                   
+               });
+               
+              
+               
             }
         });
     	function merge(res) {
@@ -496,6 +555,8 @@
                     $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
                     $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
                     selectRowData=res.data[index-1];
+                    window.open("/one_level_main/common_table?define1="+selectRowData.define1+"&projectId=0");
+                    
                 });
             }
         });
