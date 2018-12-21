@@ -11,7 +11,7 @@
     {"power":"8", "name":"待办督办","color":"#0094d3","img":"","class":"layui-col-md6","id":"","spareId":null},
     {"power":"9", "name":"科技成果","color":"#159617","img":"/layuiadmin/layui/images/icon-achievements.png","class":"layui-col-md3","id":"achievements","spareId":"appraisalId"},
     {"power":"10", "name":"知识产权","color":"#f36c00","img":"/layuiadmin/layui/images/textBottomThree.png","class":"layui-col-md3","id":"knowledge_right","spareId":"patentId"},
-    {"power":"11", "name":"重点实验室","color":"#ca163c","img":"/layuiadmin/layui/images/textBottomTwo.png","class":"layui-col-md3","id":"","spareId":"textBottomTwo"},
+    {"power":"11", "name":"重点实验室","color":"#ca163c","img":"/layuiadmin/layui/images/textBottomTwo.png","class":"layui-col-md3","id":"laboratory","spareId":"textBottomTwo"},
     {"power":"12", "name":"国际合作年度报告","color":"#0094d3","img":"/layuiadmin/layui/images/icon-cooperation.png","class":"layui-col-md3","id":"","spareId":null},
     {"power":"13", "name":"中国石化标准化","color":"#a544af","img":"/layuiadmin/layui/images/textBottomFour.png","class":"layui-col-md3","id":"","spareId":"petrifaction"}
   ]
