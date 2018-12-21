@@ -558,9 +558,9 @@ function set_multi_graph_statistics(data,id)
     	var jzCount_2=getDataCountForName(data,'结转课题');
         var allCount_3=xkCount_1+jzCount_2;
         
-        $("#topic_chart4_01").html(allCount_3);
-        $("#topic_chart4_02").html(xkCount_1);
-        $("#topic_chart4_03").html(jzCount_2);
+        $("#topic_chart4_01").html(allCount_3+"个");
+        $("#topic_chart4_02").html(xkCount_1+"个");
+        $("#topic_chart4_03").html(jzCount_2+"个");
         
 		
 	}
@@ -571,9 +571,9 @@ function set_multi_graph_statistics(data,id)
     	var jzCount_2=getDataCountForName(data,'结转课题');
         var allCount_3=xkCount_1+jzCount_2;
         
-        $("#topic_chart7_01").html(allCount_3);
-        $("#topic_chart7_02").html(xkCount_1);
-        $("#topic_chart7_03").html(jzCount_2);
+        $("#topic_chart7_01").html(allCount_3+"个");
+        $("#topic_chart7_02").html(xkCount_1+"个");
+        $("#topic_chart7_03").html(jzCount_2+"个");
         
 		
 	}

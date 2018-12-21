@@ -130,15 +130,16 @@ span{display: inline-block;}
     background: url("/layuiadmin/layui/images/icon-petrifaction-bg.png") white no-repeat center bottom;}
 .layui-red-left{background: url("/layuiadmin/layui/images/icon-red-left.png") no-repeat;width: 58px;height: 418px;
     float: left;}
-.layui-red-list{width: 45.8%;float: left;height: 418px;
+.layui-red-list{width: 41%;float: left;height: 418px;
     background: url("/layuiadmin/layui/images/icon-red-line.png") 0 413px repeat-x;}
-.layui-right-list{width: 45%;float: left;height: 422px;margin-top: -5px;
+.layui-right-list{width: 52%;float: left;height: 422px;margin-top: -5px;
     background: url("/layuiadmin/layui/images/icon-red-right.png") no-repeat;}
-.layui-red-list div{margin-bottom: 2px;}
+.layui-red-list div{margin-top: 26px;}
 .layui-red-list div:nth-child(1){ margin-top: 38px;}
-.layui-right-list div{margin-left: 70px;margin-bottom: 2px;}
+.layui-right-list div{margin-left: 70px;margin-top: 26px;}
 .layui-right-list div:nth-child(1){ margin-top: 42px;}
 .layui-red-list .layui-lab-span,.layui-right-list .layui-lab-span{box-shadow:0 0 15px #f9b0b5}
+.layui-oil{height: 280px;margin: 50px 0;}
 .layui-oil p{float: left;margin: 110px 0;
     background: url("/layuiadmin/layui/images/icon-purple-title.png") 28px center no-repeat #7e78ec;}
 .layui-oil-div {    width: 75%;float: left;height: 280px;
@@ -148,17 +149,113 @@ span{display: inline-block;}
 .layui-oil-div div span,.layui-oil-div div{position: relative;}
 .layui-oil-div .layui-text-span{display: block;margin-top: 6px;}
 .layui-oil-div .layui-lab-span{box-shadow:0 0 15px #bfbcfd}
+.layui-oil-div div:nth-child(1){left: 50px;}
 .layui-oil-div div:nth-child(1) span{top: 16px;left: 100px;}
 .layui-oil-div div:nth-child(1) img{top: 16px;left: 200px;}
-.layui-oil-div div:nth-child(2){top: -137px;left: 600px;}
+.layui-oil-div div:nth-child(2){top: -137px;left: 390px;}
 .layui-oil-div div:nth-child(2) span{top: 16px;left: 100px;}
 .layui-oil-div div:nth-child(2) img{top: 16px;left: 250px;}
 .layui-oil-div div:nth-child(3) {top: -144px;  left: 129px;}
 .layui-oil-div div:nth-child(3) span{left: -116px;}
-.layui-oil-div div:nth-child(4){    top: -279px;left: 350px;}
+.layui-oil-div div:nth-child(4){    top: -279px;left: 376px;}
 .layui-oil-div div:nth-child(4) img{left: 165px;}
-.layui-oil-div div:nth-child(5){    top: -416px;  left: 900px;}
+.layui-oil-div div:nth-child(5){    top: -416px;  left: 690px;}
 .layui-oil-div div:nth-child(5) img{left: 80px;}
+.layui-oil>img{    position: relative;top: 45%;left: 5px;}
+/*石油化工*/
+.layui-industry{height: auto;overflow: hidden;margin: 50px 0;}
+.layui-industry p{background: url("/layuiadmin/layui/images/icon-green-title.png") 28px center no-repeat #50d142;
+    position: relative;top: 28px;}
+.layui-industry-left{background: url("/layuiadmin/layui/images/icon-green-line.png") repeat-x;width: 50%;float: left;}
+.layui-green-list{margin-left: 100px;padding: 66px 0 20px;
+    background: url("/layuiadmin/layui/images/icon-green-lines.png") repeat-y;}
+.layui-green-list>div {
+    background: url("/layuiadmin/layui/images/icon-green-l.png") 0 8px no-repeat;margin: 2px 0 2px -10px;}
+.layui-green-list>div span{margin-left: 58px;}
+.layui-industry-div .layui-lab-span{box-shadow:0 0 15px #c0febb}
+.layui-industry-right{height: 463px;
+    background: url("/layuiadmin/layui/images/icon-green-r.png") no-repeat;width: 50%;float: left;}
+.layui-industry-right span{margin-left: 80px;}
+.layui-industry-right div:nth-child(1) .layui-lab-span{margin-top: 70px;}
+.layui-industry-right div:nth-child(4) .layui-lab-span,.layui-industry-right div:nth-child(5) .layui-lab-span {
+    margin-top: 3px;}
+.layui-industry-left>img{    margin-left: 96px;margin-top: -10px;}
+/*公共技术*/
+.layui-technique{margin: 50px 0;height: auto;overflow: hidden;}
+.layui-technique p{background: url("/layuiadmin/layui/images/icon-orange-title.png") 28px center no-repeat #ff6600;
+    position: relative;top: 28px;}
+.layui-technique-left{width: 55%;float: left;
+    background: url("/layuiadmin/layui/images/icon-orange-h.png") repeat-x;}
+.layui-orange-bg{margin-left: 286px;    padding: 48px 0 0 24px;
+    background: url("/layuiadmin/layui/images/icon-orange-l.png") no-repeat;}
+.layui-orange-list{background: url("/layuiadmin/layui/images/icon-orange-s.png") repeat-y; padding-top: 20px;}
+.layui-technique-right{width: 45%;float: left;padding-top: 42px;
+    background: url("/layuiadmin/layui/images/icon-orange-r.png") no-repeat;}
+.layui-technique-right .layui-orange-list{margin-left: 32px}
+.layui-technique .layui-lab-span{box-shadow:0 0 15px #fac29d}
+.layui-orange-list>div {
+    background: url("/layuiadmin/layui/images/icon-orange-bg.png") 0 8px no-repeat;margin: 10px 0 10px -10px;}
+.layui-orange-list span {margin-left: 62px;}
+.layui-orange-list .layui-text-span{display: block;}
+.layui-orange-bg>img{margin-left: -4px;margin-top: -30px;}
+.layui-technique-right>img{margin-top: -30px;margin-left: 28px;}
+/*.layui-technique-right .layui-orange-list .layui-lab-span {margin-left: 62px;}*/
+.prospecting{padding-left: 42px;}
+/*分辨率*/
+@media screen and (max-width: 1680px) {
+    .layui-oil-div div:nth-child(1){left: 0;}
+    .layui-oil-div div:nth-child(1) img{left: 260px}
+    .layui-oil-div div:nth-child(4){    top: -279px;left: 382px;}
+    .layui-oil-div div:nth-child(4) img{left: 126px;}
+    .layui-oil-div div:nth-child(5) .layui-text-span {
+        width: 552px;}
+    .layui-country-div .layui-text-span{position: static;}
+    .layui-industry-div .layui-text-span{margin-left: 0;}
+    .layui-industry-left{width: 55%;}
+    .layui-industry-right{width: 45%;}
+    .layui-green-list>div{margin: 20px 0 20px -10px}
+    .layui-industry-right>div{margin-top: 25px;}
+    .layui-industry-right>div:nth-child(1){margin-top: 0;}
+    .prospecting .layui-text-span{text-indent: 4px;}
+    .layui-oil .layui-text-span,.layui-technique-div .layui-text-span{text-indent: 20px;}
+    .layui-oil-div .layui-lab-span{font-size: 16px;}
+}
+@media screen and (max-width: 1536px) {
+    .layui-red-list div,.layui-right-list div,.layui-industry-right>div{margin-top: 0;}
+    .layui-prospecting-div .layui-text-span{display: block;}
+    .layui-country-div .layui-text-span{position: absolute;}
+    .layui-green-list>div span {margin-left: 58px !important;}
+    .layui-industry-right span {margin-left: 80px !important;}
+    .layui-green-list>div{    margin: 2px 0 2px -10px;}
+    .layui-orange-bg{background: none;    margin-left: 100px;padding: 25px 0 0 24px;}
+    .layui-oil-div div:nth-child(5) .layui-text-span{width:248px;}
+    .layui-oil .layui-text-span,.layui-technique-div .layui-text-span,
+    .layui-prospecting .layui-text-span,.layui-industry .layui-text-span{text-indent: 20px;}
+}
+@media screen and (max-width: 1118px) {
+    .layui-oil-div div:nth-child(1) img{left: 210px;}
+    .layui-oil-div div:nth-child(5){left: 584px;}
+    .layui-oil-div div:nth-child(2){left: 340px;}
+    .layui-oil-div div:nth-child(4){left: 326px;}
+    .layui-oil-div div:nth-child(4) img{left: 96px;}
+    .layui-oil-div .layui-lab-span{font-size: 12px;}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 @media screen and (min-width: 992px) {
     .layui-row-text span{font-size: 12px;}
     .layui-col-md5 {width: 50%;}
