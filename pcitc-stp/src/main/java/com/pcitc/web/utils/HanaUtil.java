@@ -3615,20 +3615,21 @@ public static ChartBarLineSeries getKNOWLDGELevel2ChartBarLineSeries07(List<Know
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
 		if (name.equals("zsjje")) {
 			chartBarLineSeries.setName("实际下达");
-			chartBarLineSeries.setStack("数量");
+			chartBarLineSeries.setStack("亿元");
 			chartBarLineSeries.setyAxisIndex(0);
 			chartBarLineSeries.setItemStyle("{normal:{color:'#FF8849'}}");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
 		if (name.equals("wxdje")) {
 			chartBarLineSeries.setName("未下达");
-			chartBarLineSeries.setStack("数量");
+			chartBarLineSeries.setStack("亿元");
 			chartBarLineSeries.setyAxisIndex(0);
 			chartBarLineSeries.setItemStyle("{normal:{color:'#FF8849'}}");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
 		if (name.equals("jeRate")) {
 			chartBarLineSeries.setName("投资完成率");
+			chartBarLineSeries.setStack("百分比");
 			chartBarLineSeries.setyAxisIndex(1);
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_LINE);
 		}
