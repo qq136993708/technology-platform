@@ -122,10 +122,10 @@ public class StpProjectJob implements Job, Serializable {
 						opi.setZyly(zyly);
 						opi.setZysx(zysx);
 						opi.setSjid(sjid);
-						opi.setLxbj(lxbj);
+						/*opi.setLxbj(lxbj);
 						opi.setYjnr(yjnr);
 						opi.setJdap(jdap);
-						opi.setYjmb(yjmb);
+						opi.setYjmb(yjmb);*/
 						
 						opi.setGsbmbm(gsbmbm);
 						opi.setGsbmmc(gsbmmc);
