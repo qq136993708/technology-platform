@@ -1880,8 +1880,32 @@ public class OneLevelMainController {
 												JSONArray jSONArray = responseEntity.getBody();
 												System.out.println(">>>>>>>>>>>>>>investment_02_count jSONArray-> " + jSONArray.toString());
 												List<BudgetMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), BudgetMysql.class);
+												
+												
+												List<Object> dataList = new ArrayList<Object>();
+												if (list != null && list.size() > 0) 
+												{
+													for (int i = 0; i < list.size(); i++) 
+													{
+														BudgetMysql f03 = list.get(i);
+														String zsjje =((BigDecimal)f03.getZsjje()).toString();//实际下达
+														String wxdje =((BigDecimal)f03.getWxdje()).toString();//未下达
+														String jeRate =((BigDecimal)f03.getJeRate()).toString(); 
+														String zysje =((BigDecimal)f03.getZysje()).toString();//总金额
+														//
+														zsjje=String.format("%.2f", Double.valueOf(zsjje)/10000);
+														wxdje=String.format("%.2f", Double.valueOf(wxdje)/10000);
+														zysje=String.format("%.2f", Double.valueOf(zysje)/10000);
+														//
+														f03.setZsjje(zsjje);
+														f03.setWxdje(wxdje);
+														f03.setJeRate(jeRate);
+														f03.setZysje(zysje);
+														dataList.add(f03);
+													}
+												}
 								         		result.setSuccess(true);
-												result.setData(list);
+												result.setData(dataList);
 												
 											}
 											
