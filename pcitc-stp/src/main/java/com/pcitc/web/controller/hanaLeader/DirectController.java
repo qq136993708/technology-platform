@@ -928,9 +928,9 @@ public class DirectController {
     						barLine.setLegendDataList(legendDataList);
     						// X轴数据
     						List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
-    						ChartBarLineSeries s1 = HanaUtil.getContractChartBarLineSeries22(list, "fyxRate");
+    						ChartBarLineSeries s1 = HanaUtil.getContractChartBarLineSeries224(list, "fyxRate");
     						seriesList.add(s1);
-    						ChartBarLineSeries s2 = HanaUtil.getContractChartBarLineSeries22(list, "zbxRate");
+    						ChartBarLineSeries s2 = HanaUtil.getContractChartBarLineSeries224(list, "zbxRate");
     						seriesList.add(s2);
     						barLine.setSeriesList(seriesList);
     		         		result.setSuccess(true);

@@ -2883,6 +2883,65 @@ public class HanaUtil {
 	}
 	
 	
+	
+	public static ChartBarLineSeries  getContractChartBarLineSeries224(List<Contract> list, String name) {
+
+		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
+		if (name.equals("fyxRate")) {
+			chartBarLineSeries.setName("费用性");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_LINE);
+		}
+		if (name.equals("zbxRate")) {
+			chartBarLineSeries.setName("资本性");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_LINE);
+		}
+		
+
+		List<Object> dataList = new ArrayList<Object>();
+		if (list != null && list.size() > 0) {
+			for (int i = 0; i < list.size(); i++) {
+				Contract f03 = list.get(i);
+				String fyxRate =((BigDecimal)f03.getFyxRate()).toString(); 
+				String zbxRate = ((BigDecimal)f03.getZbxRate()).toString();
+				if (name.equals("fyxRate")) {
+					
+					if (fyxRate==null || fyxRate.equals(""))
+					{
+						dataList.add(0);
+					}else
+					{
+						
+
+						  
+						fyxRate=new BigDecimal(fyxRate).stripTrailingZeros().toPlainString();
+						dataList.add(fyxRate);
+					}
+					
+					
+				}
+				if (name.equals("zbxRate")) {
+					
+					if (zbxRate==null || zbxRate.equals(""))
+					{
+						dataList.add(0);
+					}else
+					{
+						zbxRate=new BigDecimal(zbxRate).stripTrailingZeros().toPlainString();
+						dataList.add(zbxRate);
+					}
+					
+					
+				}
+				
+
+			}
+			chartBarLineSeries.setData(dataList);
+		}
+		return chartBarLineSeries;
+	}
+	
+	
+	
 	public static ChartBarLineSeries  getContractChartBarLineSeries22(List<Contract> list, String name) {
 
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
@@ -2909,6 +2968,10 @@ public class HanaUtil {
 						dataList.add(0);
 					}else
 					{
+						
+
+						  
+						fyxRate=new BigDecimal(fyxRate).stripTrailingZeros().toPlainString();
 						dataList.add(String.format("%.2f", Double.valueOf(fyxRate)));
 					}
 					
@@ -2921,6 +2984,7 @@ public class HanaUtil {
 						dataList.add(0);
 					}else
 					{
+						zbxRate=new BigDecimal(zbxRate).stripTrailingZeros().toPlainString();
 						dataList.add(String.format("%.2f", Double.valueOf(zbxRate)));
 					}
 					
