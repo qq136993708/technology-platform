@@ -8,6 +8,7 @@ import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.TreeNode;
 import com.pcitc.base.expert.ZjkBaseInfo;
 import com.pcitc.base.expert.ZjkBaseInfoExample;
+import com.pcitc.base.system.SysDictionary;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -193,5 +194,15 @@ public interface ZjkBaseInfoService {
      * @return
      */
     JSONObject echarts(JSONObject jsonObject);
+
     public Map<String,Object> getResult(Map<String,Object> param);
+
+    /**
+     * 获取下一级字典集合
+     * @param strParentCode
+     * @return
+     */
+    public List<SysDictionary> getDicSon(String strParentCode);
+
+    public String getDicSonVal(List<SysDictionary> list);
 }

@@ -404,12 +404,10 @@
         console.log(pcitcReport.column);
         // pcitcReport.calTableWidth();
 
-
-
         treeGridCom.render({
             elem: '#treeTable'
             , id: "treeTable"
-            , url: '/reportNew/getTableReportStp'
+            , url:(jsonparam!=""?"":'/reportNew/getTableReportStp')
             , method: "post"
             , limit: 500
 
@@ -480,6 +478,7 @@
             //     query();
             // }
             , done: function (res, curr, count) {
+
                 // $(".layui-table-body .layui-table-cell>div i").remove()
                 console.log("--data---");
                 console.log(res.data);
@@ -578,7 +577,7 @@
 
                         pcitcReport.strwhere="";
                         console.log("--data---");
-                        console.log(res.data.length);
+                        console.log(res.data);
                         pcitcReport.setExt();
                         pcitcReport.changeTableId(res.data);
                         query();
@@ -624,7 +623,9 @@
             });
             //条件赋值
             console.log("--where---条件");
-            pcitcReport.strwhere= jsonparam;
+            if(jsonparam.indexOf("=")>-1){
+                pcitcReport.strwhere= jsonparam;
+            }
             console.log(pcitcReport.strwhere);
             active.reload();
         }
