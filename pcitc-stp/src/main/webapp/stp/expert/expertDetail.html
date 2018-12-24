@@ -9,11 +9,11 @@
     <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
 </head>
 <body>
-<div class="searchBox">
-    <!--查询条件-->
+<!--<div class="searchBox">
+    &lt;!&ndash;查询条件&ndash;&gt;
     <label class="dateInput">
     </label>
-    <!--按钮组-->
+    &lt;!&ndash;按钮组&ndash;&gt;
     <div class="btnGroup">
         <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询
         </button>
@@ -21,16 +21,37 @@
                 data-type="resetEvent">重置
         </button>
     </div>
-</div>
+</div>-->
 <div class="layui-main-oil layui-expert">
     <div class="layui-row layui-col-space15">
+
+        <div class="layui-col-md5 layui-col-space15">
+            <div class="layui-col-md3">1</div>
+            <div class="layui-col-md9">
+                <p>${zjkBaseInfo.name}</p>
+                <span>参与评标累计项目总数量${zjkBaseInfo.xmCount}个</span>
+                <span>参与评标机构总数量${zjkBaseInfo.jgCount}个</span>
+                <span>成果数量${zjkBaseInfo.cgCount}个</span>
+                <span>专利数量${zjkBaseInfo.zlCount}个</span>
+                <span>同一行业领域共计300人</span>
+            </div>
+        </div>
+
+        <div class="layui-col-md5 layui-col-space15">
+            <div class="layui-col-md3">1</div>
+            <div class="layui-col-md9">
+                <#list listZl as vo>
+                    ${vo.name}---${vo.bak1}
+                </#list>
+            </div>
+        </div>
         <div class="layui-col-md5">
             <div class="layui-card">
                 <div class="layui-card-header">
                     与${zjkBaseInfo.name}有过合作的机构展示图
                 </div>
                 <div class="layui-row-main">
-                    <div class="main-chart" id="direct_contract_011" style="height:250px;width: 100%;"></div>
+                    <div class="main-chart" id="one" style="height:250px;width: 100%;"></div>
                 </div>
             </div>
         </div>
@@ -40,7 +61,7 @@
                     ${zjkBaseInfo.name}参与评标项目数量统计图
                 </div>
                 <div class="layui-row-main">
-                    <div class="main-chart" id="direct_contract_01" style="height:250px;width: 100%;"></div>
+                    <div class="main-chart" id="two" style="height:250px;width: 100%;"></div>
                 </div>
             </div>
         </div>
@@ -50,7 +71,7 @@
                     ${zjkBaseInfo.name}55岁所在行业领域年龄段统计图
                 </div>
                 <div class="layui-row-main">
-                    <div class="main-chart" id="direct_contract_01" style="height:250px;width: 100%;"></div>
+                    <div class="main-chart" id="five" style="height:250px;width: 100%;"></div>
                 </div>
             </div>
         </div>
@@ -106,6 +127,13 @@ ${hylyCount}
 
 <a href="/expertController/selectBakList?status=1&addUserId=addUserId" id="showBak" target="_blank">查看对比</a>
 <table id="expertTable" class="layui-hide" lay-filter="tableEvent"></table>
+<script src="/common/js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+<script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
+<script type="text/javascript" src="/plugins/echarts/walden.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_force.js"></script>
 <script type="text/html" id="showDetail">
     <a class="layui-btn layui-btn-xs" lay-event="showDetail">查看</a>
 </script>
@@ -143,7 +171,34 @@ ${hylyCount}
                 $("#hylyshowall").click();
             }
         });
+    function initEchart() {
+        var yAxis = [
+            {
+                type: 'value',
+                name: '数量',
+                min: 0,
+                max: 'dataMax',
+                position: 'left',
+                axisLabel: {
+                    formatter: '{value}'
+                }
+            }
+        ];
+        var twoUrl = "/expertController/picIndex?id=1&expertId=1&type=bar";
+        var coloTwo=["#ff9945"];
+        var two = load_single_bar(twoUrl, "two", "", "", yAxis,coloTwo,80);
+        two.on('click', function (params) {
+            var xName=params.name;
+            var legentName=params.seriesName;
+            parent.layui.index.openTabsPage("/home_achievement/award_table?project_property="+xName, "科技成果明细");
+        });
 
+
+        var fiveUrl = "/expertController/picIndex?id=4&hyly=hyly&type=bar";
+        var colorFive=["#8fc31f"];
+        var five = load_single_bar(fiveUrl, "five", "", "", yAxis,colorFive,80);
+    }
+    initEchart();
 
 </script>
 <script>
@@ -315,6 +370,15 @@ ${hylyCount}
         });
         $(".layui-table-header table thead th input").remove();
     });
+</script>
+<script type="text/javascript" src="/plugins/echarts/echarts-all.js"></script>
+<script>
+    function relationPic() {
+        var one = "/expertController/picIndex?id=5&type=force&expertId=1";
+        var one = load_single_force(one, "one", "专家与机构关系", "", "");
+    }
+
+    relationPic();
 </script>
 </body>
 

@@ -61,7 +61,7 @@ html{background: #013660;}
 .layui-contract{
     background:url("/layuiadmin/layui/images/icon-contract.png") center center no-repeat #4b54a3;}
 .layui-textBottom-four p{line-height: 128px;margin: 0;}
-.layui-news{background-color: #2db674;margin-top: 20px;}
+.layui-news{background-color: #2db674;margin-top: 20px;height: 274px;}
 .layui-agency{display: flex;}
 .layui-news p,.layui-agency-right p{color: white;height: 50px;line-height: 50px;font-size: 22px;
     margin: 0 20px;}
