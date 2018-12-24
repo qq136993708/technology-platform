@@ -376,7 +376,7 @@
         });
 
         
-        //科研项目、科研装备、预算
+        //科研课题 projectCount、科研装备 kyzbCount、合同zje
         function getKyxm(month)
         {
         	$.ajax({
@@ -390,10 +390,12 @@
  				error : function(XMLHttpRequest, status) {
  					$("#kyxm").html("<small>--(个)</small>");
  					$("#equipment_id").html("<small>--(个)</small>");
+ 					$("#contcator_id").html("<small>--(个)</small>");
  				},
  				success : function(data) { //请求成功后处理函数。
- 					$("#kyxm").html(data.projectCount+"<small>(个)</small>");
+ 					$("#kyxm").html(data.projectCount+"<small>(个)</small>");//课题数量
  					$("#equipment_id").html(data.kyzbCount+"<small>(个)</small>");
+ 					$("#contcator_id").html(data.zje+"<small>(亿元)</small>");
  				}
  			});
         	
@@ -401,7 +403,7 @@
         
         
         
-        //合同签订
+        //合同签订--back
         function setContcator_id(nd,v_date)
         {
         	
@@ -561,7 +563,7 @@
             	patentCount(year);//专利
             	appraisalCount(year);//成果
             	setContractCount(year);
-            	setContcator_id(year,v_date);//合同签订 
+            	//setContcator_id(year,v_date);//合同签订 
             	
             	var yAxis= [
                     {
