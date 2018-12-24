@@ -55,6 +55,10 @@ public class Knowledge {
 	 
 	 private Integer gjxksl;
 	 
+	 private  String showName;
+	 private Integer jnCount;
+	 private Integer quCount;
+	 private Integer qiannCount;
 	 
 	 
 	 
@@ -313,6 +317,46 @@ public class Knowledge {
 
 	public void setUnitType(String unitType) {
 		this.unitType = unitType;
+	}
+
+	public String getShowName()
+	{
+		return showName;
+	}
+
+	public void setShowName(String showName)
+	{
+		this.showName = showName;
+	}
+
+	public Integer getJnCount()
+	{
+		return jnCount;
+	}
+
+	public void setJnCount(Integer jnCount)
+	{
+		this.jnCount = jnCount;
+	}
+
+	public Integer getQuCount()
+	{
+		return quCount;
+	}
+
+	public void setQuCount(Integer quCount)
+	{
+		this.quCount = quCount;
+	}
+
+	public Integer getQiannCount()
+	{
+		return qiannCount;
+	}
+
+	public void setQiannCount(Integer qiannCount)
+	{
+		this.qiannCount = qiannCount;
 	}
 	
 	
