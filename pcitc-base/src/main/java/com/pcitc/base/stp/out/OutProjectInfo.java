@@ -37,6 +37,10 @@ public class OutProjectInfo {
 
     private String jssxxm;
 
+    private String jssj;
+
+    private String kssj;
+
     private String yjsj;
 
     private String zyly;
@@ -44,14 +48,6 @@ public class OutProjectInfo {
     private String zysx;
 
     private String sjid;
-
-    private String lxbj;
-
-    private String yjnr;
-
-    private String jdap;
-
-    private String yjmb;
 
     private Date createDate;
 
@@ -68,8 +64,6 @@ public class OutProjectInfo {
     private String projectType;
 
     private String erpProjectCode;
-
-    private String erpProjectName;
 
     private String projectScope;
 
@@ -110,6 +104,12 @@ public class OutProjectInfo {
     private String define5;
 
     private String define6;
+
+    private String define7;
+
+    private String define8;
+
+    private String define9;
 
     public String getDataId() {
         return dataId;
@@ -247,6 +247,22 @@ public class OutProjectInfo {
         this.jssxxm = jssxxm;
     }
 
+    public String getJssj() {
+        return jssj;
+    }
+
+    public void setJssj(String jssj) {
+        this.jssj = jssj;
+    }
+
+    public String getKssj() {
+        return kssj;
+    }
+
+    public void setKssj(String kssj) {
+        this.kssj = kssj;
+    }
+
     public String getYjsj() {
         return yjsj;
     }
@@ -277,38 +293,6 @@ public class OutProjectInfo {
 
     public void setSjid(String sjid) {
         this.sjid = sjid;
-    }
-
-    public String getLxbj() {
-        return lxbj;
-    }
-
-    public void setLxbj(String lxbj) {
-        this.lxbj = lxbj;
-    }
-
-    public String getYjnr() {
-        return yjnr;
-    }
-
-    public void setYjnr(String yjnr) {
-        this.yjnr = yjnr;
-    }
-
-    public String getJdap() {
-        return jdap;
-    }
-
-    public void setJdap(String jdap) {
-        this.jdap = jdap;
-    }
-
-    public String getYjmb() {
-        return yjmb;
-    }
-
-    public void setYjmb(String yjmb) {
-        this.yjmb = yjmb;
     }
 
     public Date getCreateDate() {
@@ -373,14 +357,6 @@ public class OutProjectInfo {
 
     public void setErpProjectCode(String erpProjectCode) {
         this.erpProjectCode = erpProjectCode;
-    }
-
-    public String getErpProjectName() {
-        return erpProjectName;
-    }
-
-    public void setErpProjectName(String erpProjectName) {
-        this.erpProjectName = erpProjectName;
     }
 
     public String getProjectScope() {
@@ -541,5 +517,29 @@ public class OutProjectInfo {
 
     public void setDefine6(String define6) {
         this.define6 = define6;
+    }
+
+    public String getDefine7() {
+        return define7;
+    }
+
+    public void setDefine7(String define7) {
+        this.define7 = define7;
+    }
+
+    public String getDefine8() {
+        return define8;
+    }
+
+    public void setDefine8(String define8) {
+        this.define8 = define8;
+    }
+
+    public String getDefine9() {
+        return define9;
+    }
+
+    public void setDefine9(String define9) {
+        this.define9 = define9;
     }
 }
