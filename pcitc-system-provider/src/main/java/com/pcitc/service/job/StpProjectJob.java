@@ -13,7 +13,6 @@ import org.quartz.JobExecutionException;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.stp.out.OutProjectInfo;
-import com.pcitc.base.stp.out.OutProjectPlan;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.config.SpringContextUtil;
 import com.pcitc.service.out.OutProjectService;
@@ -33,7 +32,7 @@ public class StpProjectJob implements Job, Serializable {
 		// 先获取已经插入到数据库的原项目计划数据oldList，和新接口获取的数据进行比较。如果不存在就插入
 		// 由于数据库数据不大，所以可以采用这个方式
 		List<OutProjectInfo> temList = outProjectService.getProjectList(null);
-		
+		int culTotal = 0;
 		System.out.println("==========" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "定时获取项目管理系统的项目数据 ---开始=============");
 		String sqlName = "SelectAllProjectFromSinopecData2017";
 		String ndCon = "2017";
@@ -50,7 +49,7 @@ public class StpProjectJob implements Job, Serializable {
 				// 批量新增处理
 				for (int i = 0; i < jSONArray.size(); i++) {
 					JSONObject object = (JSONObject) jSONArray.get(i);
-					
+					culTotal++;
 					boolean insertFlag = true;
 					String temXmid = object.getString("XMID");
 					for (int j = 0; j < temList.size(); j++) {
@@ -117,8 +116,12 @@ public class StpProjectJob implements Job, Serializable {
 						opi.setJtfzdw(jtfzdw);
 						opi.setFzrxm(fzrxm);
 						opi.setJssxxm(jssxxm);
-
+						
+						yjsj = yjsj.replaceAll(" ", "");
+						String[] temDateFlag = yjsj.split("/");
 						opi.setYjsj(yjsj);
+						opi.setKssj(temDateFlag[0]);
+						opi.setJssj(temDateFlag[1]);
 						opi.setZyly(zyly);
 						opi.setZysx(zysx);
 						opi.setSjid(sjid);
@@ -176,7 +179,6 @@ public class StpProjectJob implements Job, Serializable {
 					outProjectService.insertProjectData(insertData, ndCon);
 				}
 				
-				
 				/*// for修改
 				for (int i = 0; i < jSONArray.size(); i++) {
 					JSONObject object = (JSONObject) jSONArray.get(i);
@@ -201,7 +203,7 @@ public class StpProjectJob implements Job, Serializable {
 					outProjectService.updateOutProjectInfo(opi);
 				}*/
 				
-				System.out.println("======" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "定时任务--定时获取项目管理系统的项目数据--保存到本地数据库-结束=========");
+				System.out.println("======" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "定时任务--定时获取项目管理系统的项目数据--保存到本地数据库-结束========="+culTotal);
 				// 统一调用存储过程，把数据中部分属性集中处理
 			}
 
