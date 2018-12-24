@@ -122,8 +122,8 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 		}
 		
 		// 直属研究院、分子公司、集团等9种类型
-		if(param.getParam().get("define2") !=null && !StringUtils.isBlank(param.getParam().get("define2")+"")){
-			opi.setDefine2((String) param.getParam().get("define2"));
+		if(param.getParam().get("define3") !=null && !StringUtils.isBlank(param.getParam().get("define3")+"")){
+			opi.setDefine3((String) param.getParam().get("define3"));
 		}
 		
 		// 国家项目、重大专项、重点项目、其他项目

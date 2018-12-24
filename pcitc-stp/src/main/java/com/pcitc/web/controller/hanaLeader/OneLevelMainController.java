@@ -40,7 +40,9 @@ import com.pcitc.base.hana.report.AchievementsAnalysis;
 import com.pcitc.base.hana.report.BudgetMysql;
 import com.pcitc.base.hana.report.Contract;
 import com.pcitc.base.hana.report.H1AMKYSY100117;
+import com.pcitc.base.hana.report.H1AMKYZH100006;
 import com.pcitc.base.hana.report.Knowledge;
+import com.pcitc.base.hana.report.ProjectCode;
 import com.pcitc.base.hana.report.ProjectForMysql;
 import com.pcitc.base.system.SysNews;
 import com.pcitc.base.system.SysUser;
@@ -105,8 +107,7 @@ public class OneLevelMainController {
 		//新闻
 		private static final String get_news = "http://pcitc-zuul/system-proxy/news-provider/select_news_main";
 		
-		
-		
+		private static final String common_table = "http://pcitc-zuul/system-proxy/out-project-plna-provider/project-plan/page/list";
 		
 		
 		
@@ -114,6 +115,59 @@ public class OneLevelMainController {
 		private HttpHeaders httpHeaders;
 		@Autowired
 		private RestTemplate restTemplate;
+		
+		
+		
+		
+		
+		@RequestMapping(method = RequestMethod.GET, value = "/common_table")
+		  public String common_table(HttpServletRequest request) throws Exception
+		  {
+			    String nd = HanaUtil.getCurrrentYear();
+				request.setAttribute("nd", nd);
+				String xmmc=CommonUtil.getParameter(request, "xmmc", "");//项目名
+				String hth=CommonUtil.getParameter(request, "hth", "");//合同号
+				String define1=CommonUtil.getParameter(request, "define1", "");//资本性、费用性
+				String define2=CommonUtil.getParameter(request, "define2", "");//8大院等细分结构
+				String define3=CommonUtil.getParameter(request, "define3", "");//直属研究院、分子公司、集团等9种类型
+				String project_property=CommonUtil.getParameter(request, "project_property", "");//国家项目、重大专项、重点项目、其他项目
+				String project_scope=CommonUtil.getParameter(request, "project_scope", "");//新开项目、续建项目、完工项目
+				String zylb=CommonUtil.getParameter(request, "zylb", "");//装备的各种技术类型
+				String zycmc=CommonUtil.getParameter(request, "zycmc", "");//各个处室
+				
+				request.setAttribute("zycmc", zycmc);
+				request.setAttribute("xmmc", xmmc);
+				request.setAttribute("hth", hth);
+				request.setAttribute("define1", define1);
+				request.setAttribute("define2", define2);
+				request.setAttribute("define3", define3);
+				request.setAttribute("project_property", project_property);
+				request.setAttribute("project_scope", project_scope);
+				request.setAttribute("zylb", zylb);
+		        return "stp/hana/home/oneLevelMain/common_table";
+		  }
+		
+		
+		 //三级表格
+	    @RequestMapping(method = RequestMethod.POST, value = "/common_table_data")
+		@ResponseBody
+		public String common_table_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
+
+	    	System.out.println(">>>>>>>>>>>>>param:" + JSONObject.toJSONString(param));
+	    	
+			LayuiTableData layuiTableData = new LayuiTableData();
+			HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+			ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(common_table, HttpMethod.POST, entity, LayuiTableData.class);
+			int statusCode = responseEntity.getStatusCodeValue();
+			if (statusCode == 200) {
+				layuiTableData = responseEntity.getBody();
+			}
+			JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
+			System.out.println(">>>>>>>>>>>>>common_table:" + result.toString());
+			return result.toString();
+		}
+	    
+	    
 
 		/**======================高层首页-知识产权==================================*/
 			
@@ -1826,8 +1880,32 @@ public class OneLevelMainController {
 												JSONArray jSONArray = responseEntity.getBody();
 												System.out.println(">>>>>>>>>>>>>>investment_02_count jSONArray-> " + jSONArray.toString());
 												List<BudgetMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), BudgetMysql.class);
+												
+												
+												List<Object> dataList = new ArrayList<Object>();
+												if (list != null && list.size() > 0) 
+												{
+													for (int i = 0; i < list.size(); i++) 
+													{
+														BudgetMysql f03 = list.get(i);
+														String zsjje =((BigDecimal)f03.getZsjje()).toString();//实际下达
+														String wxdje =((BigDecimal)f03.getWxdje()).toString();//未下达
+														String jeRate =((BigDecimal)f03.getJeRate()).toString(); 
+														String zysje =((BigDecimal)f03.getZysje()).toString();//总金额
+														//
+														zsjje=String.format("%.2f", Double.valueOf(zsjje)/10000);
+														wxdje=String.format("%.2f", Double.valueOf(wxdje)/10000);
+														zysje=String.format("%.2f", Double.valueOf(zysje)/10000);
+														//
+														f03.setZsjje(zsjje);
+														f03.setWxdje(wxdje);
+														f03.setJeRate(jeRate);
+														f03.setZysje(zysje);
+														dataList.add(f03);
+													}
+												}
 								         		result.setSuccess(true);
-												result.setData(list);
+												result.setData(dataList);
 												
 											}
 											

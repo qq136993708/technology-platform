@@ -679,6 +679,9 @@ public class AdminController extends BaseController {
 	public Object getProjectCount(HttpServletRequest request) {
 		System.out.println("1====/admin/project-count" + sysUserInfo.getUserId());
 		HashMap<String, String> map = new HashMap<String, String>();
+		if (request.getParameter("define2") != null && !request.getParameter("define2").equals("")) {
+			map.put("define2", "院");
+		}
 		map.put("nd", "2018");
 		HttpEntity<HashMap<String, String>> entity = new HttpEntity<HashMap<String, String>>(map, this.httpHeaders);
 

@@ -240,6 +240,10 @@
                 $("#contract").on("click",function () {
                     window.open("/instituteIndex?url="+"/one_level_main/contract","_target");
                 });
+                //重点实验室
+                $("#laboratory").on("click",function () {
+                    window.open("/instituteIndex?url=/chart/lab.html","_target");
+                });
                 //装备
                 $("#equipment").on("click",function () {
                     window.open("/instituteIndex?url="+"/one_level_main/equipment","_target");
@@ -277,8 +281,7 @@
 			},
 			timeout : 3000,
 			error : function(XMLHttpRequest, status) {
-				$("#contract_id").html(
-						"<small style='font-size:14px'>--(个)</small>");
+				
 			},
 			success : function(data) {
 				var zje = data.zje;
@@ -305,7 +308,7 @@
 			},
 			timeout : 3000,
 			error : function(XMLHttpRequest, status) {
-				$("#equipment_id").html("<small>--(台)</small>");
+			
 			},
 			success : function(data) {
 				//alert(data.data.seriesDataList.length);
@@ -330,8 +333,7 @@
 			},
 			timeout : 3000,
 			error : function(XMLHttpRequest, status) {
-				$("#patentId").html(
-						"--<small style='font-size:14px'>(个)</small>");
+				
 			},
 			success : function(data) {
 				var patentCount = data.patentCount;
@@ -355,8 +357,7 @@
 					},
 					timeout : 3000,
 					error : function(XMLHttpRequest, status) {
-						$("#appraisalId").html(
-								"--<small style='font-size:14px'>(个)</small>");
+						
 					},
 					success : function(data) {
 						var appraisalCount = data.appraisalCount;
@@ -380,8 +381,7 @@
 			},
 			timeout : 3000,
 			error : function(XMLHttpRequest, status) {
-				$("#dragon_id").html(
-						"--<small style='font-size:14px'>(个)</small>");
+				
 			},
 			success : function(data) {
 				var zsl = data.data.zsl;
@@ -403,8 +403,7 @@
 					},
 					timeout : 3000, //超时时间设置，单位毫秒
 					error : function(XMLHttpRequest, status) {
-						$("#textTopTwo").html(
-								"<small style='font-size:14px'>0(亿元)</small>");
+						
 					},
 					success : function(data) {
 						//alert(data.zje);

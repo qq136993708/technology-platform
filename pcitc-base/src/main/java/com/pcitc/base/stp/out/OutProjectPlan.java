@@ -86,7 +86,6 @@ public class OutProjectPlan {
     private String parentName;
     
     private String projectId;
-
     
     public String getParentName() {
 		return parentName;

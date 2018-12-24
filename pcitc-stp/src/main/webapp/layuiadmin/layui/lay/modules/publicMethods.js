@@ -479,13 +479,13 @@ layui.define(['jquery','form','table','laydate'],
                             var html="<li class='"+data.class+"' data-power='"+data.power+"'>" +
                                 "       <div class='layui-text-icon' style='background:"+data.color+" url("+data.img+") center center no-repeat;' id='"+data.id+"'>" +
                                 "           <p>"+data.name+"</p>" +
-                                "           <span id='"+data.spareId+"'>0</span>" +
+                                "           <span id='"+data.spareId+"'><img class='loadingImg' src='/layuiadmin/layui/images/loadingImg04.gif'></span>" +
                                 "      </div></li>";
                         }else {
                             var html="<li class='"+data.class+"' data-power='"+data.power+"'>" +
                                 "       <div class='layui-text-icon' style='background:"+data.color+" url("+data.img+") center center no-repeat;' id='"+data.id+"'>" +
                                 "           <p>"+data.name+"</p>" +
-                                "           <span id='"+data.spareId+"'>0</span>" +
+                                "           <span id='"+data.spareId+"'><img class='loadingImg' src='/layuiadmin/layui/images/loadingImg04.gif'></span>" +
                                 "           <img src='/layuiadmin/layui/images/level-close.png' class='dele'>"
                                 "      </div></li>";
 
@@ -522,7 +522,7 @@ layui.define(['jquery','form','table','laydate'],
                         var html="<li class='"+data.class+"' data-power='"+data.power+"'>" +
                             "       <div class='layui-text-icon' style='background:"+data.color+" url("+data.img+") center center no-repeat;' id='"+data.id+"'>" +
                             "           <p>"+data.name+"</p>" +
-                            "           <span id='"+data.spareId+"'>0</span>" +
+                            "           <span id='"+data.spareId+"'><img class='loadingImg' src='/layuiadmin/layui/images/loadingImg04.gif'></span>" +
                             "           <img src='/layuiadmin/layui/images/level-close.png' class='dele'>"
                             "      </div></li>";
                         parent.$(".layui-row-special ul").append(html);
@@ -539,7 +539,7 @@ layui.define(['jquery','form','table','laydate'],
                         var html="<li class='"+data.class+"' data-power='"+data.power+"'>" +
                             "       <div class='layui-text-icon' style='background:"+data.color+" url("+data.img+") center center no-repeat;' id='"+data.id+"'>" +
                             "           <p>"+data.name+"</p>" +
-                            "           <span id='"+data.spareId+"'>0</span>" +
+                            "           <span id='"+data.spareId+"'><img class='loadingImg' src='/layuiadmin/layui/images/loadingImg04.gif'></span>" +
                             "           <img src='/layuiadmin/layui/images/level-close.png' class='dele'>"
                         "      </div></li>";
                         parent.$("#moduleConfig li").eq(data.power).before(html);

@@ -91,7 +91,7 @@ var mutl_bar_investment = {
         ]
     };
 
-function barLineAjax_investment(url,  echartsobj, options,width)
+function barLineAjax_investment(url,  echartsobj, options,width,callback)
 {
 	
    var legends=[];     
@@ -158,7 +158,11 @@ function barLineAjax_investment(url,  echartsobj, options,width)
 	        	               ],
 	        	               series: seriesData
 	        	           });
-	        	           console.log(options);
+	        	           if(callback)
+		                    {
+		                    	console.log("call.....back......");
+		                    	callback(data.data);
+		                    }
 	        	       
 	          } else
 	          {
@@ -181,7 +185,7 @@ function barLineAjax_investment(url,  echartsobj, options,width)
 } 
 
 
-function load_mutl_bar_investment(url,id,title,subtext,yAxis,color,width)
+function load_mutl_bar_investment(url,id,title,subtext,yAxis,color,width,callback)
 {
     var echartsobj = echarts.init(document.getElementById(id));
 
@@ -212,7 +216,7 @@ function load_mutl_bar_investment(url,id,title,subtext,yAxis,color,width)
     }
     echartsobj.setOption(mutl_bar_investment);
     echartsobj.showLoading();
-    barLineAjax_investment(url,echartsobj, mutl_bar_investment,width);
+    barLineAjax_investment(url,echartsobj, mutl_bar_investment,width,callback);
     
     return echartsobj;
     
