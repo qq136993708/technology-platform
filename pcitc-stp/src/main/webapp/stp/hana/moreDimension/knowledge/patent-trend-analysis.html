@@ -24,11 +24,14 @@
 				</label>
 				<div class="layui-input-inline">
 					<select name="companyCode" id="companyCode">
-						<#list companyCodeList as vo> <#if vo.g0GSJC=='全部'>
-						<option value="${vo.g0GSDM}" selected="selected">${vo.g0GSJC}</option>
-						</#if> <#if vo.g0GSJC !='全部'>
-						<option value="${vo.g0GSDM}">${vo.g0GSJC}</option>
-						</#if> </#list>
+					<#list companyCodeList as vo> 
+						<#if vo.g0GSJC=='全部'>
+							<option value="${vo.g0GSDM}" selected="selected">${vo.g0GSJC}</option>
+						</#if> 
+						<#if vo.g0GSJC !='全部'>
+							<option value="${vo.g0GSDM}">${vo.g0GSJC}</option>
+						</#if> 
+					</#list>
 					</select>
 				</div>
 				<!--按钮组-->
@@ -46,8 +49,7 @@
 							<span class="layui-time"></span>专利授权数量年趋势分析
 						</div>
 						<div class="layui-row-main">
-							<div class="main-chart" id="main1"
-								style="height: 280px; width: 100%;"></div>
+							<div class="main-chart" id="chart1" style="height: 280px; width: 100%;"></div>
 						</div>
 					</div>
 				</div>

@@ -39,4 +39,7 @@ public interface ZjkBaseInfoMapper {
 
     List<Map<String,Object>> listSqlResult(Map<String,Object> map);
 
+//        <select id="listSqlResult" parameterType="map" resultType="map">
+//    ${sqlval}
+//    </select>
 }

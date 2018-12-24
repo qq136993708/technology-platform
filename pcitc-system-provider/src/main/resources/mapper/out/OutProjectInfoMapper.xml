@@ -1118,9 +1118,12 @@
 		from out_project_info
 		where (project_type = '0' or project_type = '2') and (project_scope = '新开课题' or project_scope = '结转课题')
 			  and out_project_info.DEFINE2 is not null
-		<if test="define2 != null and define2 != ''">
-			and define2 is not null and type_flag like '%直属研究院%'
-		</if>
+			<if test="define2 != null and define2 != ''">
+				and define2 like '%${define2}%'
+			</if>
+			<if test="typeFlag != null and typeFlag != ''">
+				and type_flag like '%${typeFlag}%'
+			</if>
 	</select>
 	
 	<!-- 首页计算十条龙及重大专项项目的总数量 -->
@@ -1186,9 +1189,12 @@
 			count(*) as zsl
 		from out_project_info
 		where project_type != '1' and (project_scope = '新开课题' or project_scope = '结转课题') 
-		<if test="define2 != null and define2 != ''">
-			and define2 is not null and type_flag like '%直属研究院%'
-		</if>
+			<if test="define2 != null and define2 != ''">
+				and define2 is not null and define2 like '%${define2}%'
+			</if>
+			<if test="typeFlag != null and typeFlag != ''">
+				and type_flag like '%${typeFlag}%'
+			</if>
 	</select>
 
 	<select id="getProjectTotalCountYearAndLastYear" resultType="java.util.Map"
