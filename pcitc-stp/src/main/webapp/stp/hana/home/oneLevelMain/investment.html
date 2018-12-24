@@ -183,18 +183,34 @@ function initEchart()
 	 var companyCode=$("#companyCode").val();
 	 var v_date=(new Date()).getTime();
 	 var month=$('#year').val();
-	 var yAxis= [
-        {
-            type: 'value',
-            name: '亿元',
-            min: 0,
-            //max:'dataMax',
-            position: 'left',
-            axisLabel: {
-                formatter: '{value}'
-            }
-        }
-    ];
+	 
+	  var  yAxis= [
+          {
+          	 type: 'value',
+          	 name: '亿元',
+               //min: 0,
+               //interval: 10,
+               //max:'dataMax',
+               position: 'left',
+               axisLabel: {
+                   formatter: '{value}'
+               }
+          } ,
+          {
+              type: 'value',
+              show: true ,
+              name: '百分比',
+              //min: 0,
+              //max: 100,
+              //interval: 20,
+              position: 'right',
+              axisLabel: {
+                  formatter: '{value}%'
+              }
+          } 
+      ];
+	  
+	  
 	 
 	 
 	 
@@ -218,7 +234,7 @@ function initEchart()
 		
 		var chart7_url="/one_level_main/investment_02?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
 		var color=["#f3655b","#8ab3cf","#f19049"];
-		var echart7=load_mutl_bar_investment(chart7_url,"chart7","","","",color,60,function (data){
+		var echart7=load_mutl_bar_investment(chart7_url,"chart7","","",yAxis,color,60,function (data){
 			   /* var legendDataList=data.legendDataList;
 			   alert(legendDataList.length);
 	           for(var i=0;i<legendDataList.length;i++)
