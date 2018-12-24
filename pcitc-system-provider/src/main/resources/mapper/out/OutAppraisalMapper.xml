@@ -863,7 +863,7 @@
 	
 	<!--  领导二级页面，各个研究院的成果情况 -->
 	<select id="getAppraisalInfoByInstitute" resultType="java.util.Map" parameterType="java.util.HashMap">
-		select count(*) as sl, 
+		select count(DISTINCT cgid) as sl, 
 			sum(case when cglx = 'A.工业化' then 1 else 0 end) as gyhsl,
 			sum(case when cglx = 'B.工业试验' then 1 else 0 end) as gysysl,
 			SUBSTR(define1 FROM 4) define1 
@@ -875,7 +875,7 @@
 	
 	<!--  领导二级页面，各种类型的成果情况 -->
 	<select id="getAppraisalInfoByCglx" resultType="java.util.Map" parameterType="java.util.HashMap">
-		select count(*) as sl, cglx 
+		select count(DISTINCT cgid) as sl, cglx 
 		from out_appraisal
 		where 
 			cglx is not NULL and nd='${nd}'
@@ -887,12 +887,12 @@
 	
 	<!--  领导二级页面，各种专业的成果情况 -->
 	<select id="getAppraisalInfoByZy" resultType="java.util.Map" parameterType="java.util.HashMap">
-		select count(*) as sl, zy 
+		select count(DISTINCT cgid) as sl, zy 
 		from out_appraisal
 		where 
 			zy is not NULL and nd='${nd}'
 			<if test="define1 != null and define1 != ''">
-				and define1 is not null
+				and define1 like '%院'
 			</if>
 		group by zy
 	</select>
