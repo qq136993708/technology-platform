@@ -657,9 +657,13 @@ public class AdminController extends BaseController {
 		if (request.getParameter("lastYearFlag") != null && !request.getParameter("lastYearFlag").equals("")) {
 			map.put("nd", String.valueOf(Integer.parseInt(sdf.format(date))-1));
 		}
-		if (request.getParameter("define2") != null && !request.getParameter("define2").equals("")) {
-			map.put("define2", "院");
+		if (request.getParameter("define3") != null && !request.getParameter("define3").equals("")) {
+			map.put("define3", request.getParameter("define3"));
 		}
+		if (request.getParameter("define1") != null && !request.getParameter("define1").equals("")) {
+			map.put("define1", request.getParameter("define1"));
+		}
+		
 		HttpEntity<HashMap<String, String>> entity = new HttpEntity<HashMap<String, String>>(map, this.httpHeaders);
 
 		ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(APPRAISAL_COUNT, HttpMethod.POST, entity, JSONObject.class);

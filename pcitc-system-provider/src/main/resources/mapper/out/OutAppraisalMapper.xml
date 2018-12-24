@@ -644,17 +644,18 @@
 				and nd = #{nd,jdbcType=VARCHAR} 
 			</if>
 			<if test="define3 != null and define3 != ''">
-				and define3 is not null
+				and define3 like '%${define3}%'
+			</if>
+			<if test="define1 != null and define1 != ''">
+				and define1 like '%${define1}%'
 			</if>
 	</select>
 
-	<select id="getResultInfo" resultType="java.util.Map"
-		parameterType="java.lang.String">
-		select
-		count(*) as mscount,jdjg as ms
+	<select id="getResultInfo" resultType="java.util.Map" parameterType="java.lang.String">
+		select count(DISTINCT cgid) as mscount,jdjg as ms
 		from out_appraisal
 		where
-		jdjg is not null
+			jdjg is not null
 		<if test="_parameter != null">
 			and nd = #{nd,jdbcType=VARCHAR}
 		</if>
