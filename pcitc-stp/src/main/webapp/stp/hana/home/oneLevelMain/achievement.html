@@ -142,8 +142,8 @@ layui.config({
     table = layui.table;
     form.render(null, 'component-form-group');
     laydate.render({
-       elem: '#year'
-       ,format: 'yyyy'
+    	 elem: '#year'
+     	      ,type: 'year'
     });
     publicMethods.ajaxPost("/one_level_main/achievement_05",null, function (data) {
     	$(".duty_gd ul").html("");

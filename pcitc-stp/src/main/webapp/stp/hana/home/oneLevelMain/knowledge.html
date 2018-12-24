@@ -166,8 +166,8 @@
             ,laydate = layui.laydate
         form.render(null, 'component-form-group');
         laydate.render({
-            elem: '#year'
-            ,format: 'yyyy'
+        	 elem: '#year'
+         	      ,type: 'year'
         });
         $(".layui-time").html($("#year").val());
         $("#knowledge_table").click(function () {

@@ -124,8 +124,8 @@ layui.config({
       ,laydate = layui.laydate
 	  form.render(null, 'component-form-group');
         laydate.render({
-           elem: '#year'
-           ,format: 'yyyy'
+        	 elem: '#year'
+         	      ,type: 'year'
         });
         $(".layui-time").html($("#year").val());
         $("#knowledge_table").click(function () {
@@ -224,7 +224,15 @@ function initEchart()
     });
 	//圆圈
     var url="/direct/contract_01?type=2&nd="+nd+"&v_date="+v_date;
-	loadCicle(url,"contract_chart1_02_02");
+	var echart2=loadCicle(url,"contract_chart1_02_02");
+	echart2.on('click', function (params) {
+		var xName=params.name;
+		var legentName=params.seriesName;
+		window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
+          
+    });
+	
+	
 	 
 	var chart4_url="/direct/contract_03?type=1&nd="+nd+"&v_date="+v_date;
     var colorTr=["#17a2b9","#43c5ff","#f9c16d"];
@@ -330,6 +338,7 @@ function renderTable2()
 	          $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
 	          $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
 	          selectRowData=res.data[index-1];
+	          window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
 	      });
 	  }
 	});
@@ -402,6 +411,8 @@ function renderTable2()
 	        complete: function (XMLHttpRequest, status) {
 	        }
 	    });
+	    
+	    return echartsobj;
 	} 
 	
 	function loadCicle(url,id)
@@ -410,7 +421,7 @@ function renderTable2()
 		var echartsobj = echarts.init(document.getElementById(id));
 		echartsobj.setOption(option_cicle);
 		echartsobj.showLoading();
-		setCicle(url,echartsobj,option_cicle);
+		echartsobj=setCicle(url,echartsobj,option_cicle);
 		return echartsobj;
 	}
 	

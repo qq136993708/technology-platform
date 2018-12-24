@@ -20,10 +20,9 @@
 </head>
 <body >
 
-<input type="hidden" name="month" value="${month}"   id="month">
-<input type="hidden" name="year" value="${year}"   id="year">
+<input type="hidden" name="month"       value="${month}"         id="month">
+<input type="hidden" name="year"        value="${year}"          id="year">
 <input type="hidden" name="companyCode" value="${companyCode}"   id="companyCode">
-
 
     <div class="layui-fluid">
         <div class="layui-row layui-col-space15">
@@ -619,6 +618,14 @@
            	 var chart2_url="/direct/contract_04?nd="+year+"&v_date="+v_date+"&type=1";
            	 var colorLine=["#b68d01","#9799ec"];
            	 var echart2= load_mony_line_down(chart2_url,"contract_line","","",yAxis3,colorLine);
+           	 
+           	echart2.on('click', function (params) {
+         		var xName=params.name;
+         		var legentName=params.seriesName;
+         		window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
+                   
+              });
+           	 
            	   
            	
 
