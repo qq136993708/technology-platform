@@ -267,13 +267,19 @@ span{display: inline-block;}
 .layui-statistics span:nth-child(1){background-color: #79bf4d}
 .layui-statistics span:nth-child(2){background-color: #5fa3c8}
 .layui-statistics span:nth-child(3){background-color: #f4920b;margin-right: 0;}
-.search{width: 1090px;margin: 30px auto;}
+.search{width: 90%;margin: 30px auto;}
 .search span{font-size: 16px; color: #666666;}
 .search input{width: 160px;height: 28px;line-height: 28px;border: 1px solid #dddddd;color: #666666;margin:0 10px;
     text-indent: 6px;}
-.search a{width: 104px;height: 29px;line-height: 29px;color: white;font-size: 16px;display: inline-block;
+.search a{padding-right: 15px;height: 29px;line-height: 29px;color: white;font-size: 16px;display: inline-block;cursor: pointer;
     text-indent: 40px;border-radius: 3px;background: url("/layuiadmin/layui/images/icon-search-z.png") no-repeat 10px center #00a3b5;}
 .layui-expert{border: 0;box-shadow: none;}
 .layui-expert .layui-card{ border: 1px solid #e5e5e5;border: 1px solid #e5e5e5;border-radius: 3px;}
 .layui-expert .layui-card-header{background-color: #eeeeee;}
 .layui-expert .layui-col-md12 {margin-bottom: 0px;}
+.layui-search{padding: 30px;}
+.layui-search .search{width: 100%;margin: 15px 0;}
+.layui-search .search input{margin: 0 10px 0 0}
+.layui-search .search a.add{border: 1px solid #00a3b5;background: none;color: #00a3b5;text-indent: 15px}
+.layui-table .details{text-align: center;color: #54b6e9;font-size: 16px;cursor: pointer;}
+.searchIpnut>div .layui-unselect {margin: 10px 0;}

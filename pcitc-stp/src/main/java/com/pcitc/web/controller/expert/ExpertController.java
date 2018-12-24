@@ -154,6 +154,7 @@ public class ExpertController extends BaseController {
         request.setAttribute("nld", request.getParameter("nld"));
         request.setAttribute("zc", request.getParameter("zc"));
         request.setAttribute("gb", request.getParameter("gb"));
+        request.setAttribute("gbcode",sysUserInfo.getUnitCode());
         return "stp/expert/queryExpert";
     }
 
