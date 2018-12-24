@@ -659,6 +659,16 @@ public class DirectController {
 								result.setData(pie);
 								
 							}
+							
+							
+							if(type.equals("3"))
+							{
+								
+								Contract contract=list.get(0);
+				         		result.setSuccess(true);
+								result.setData(contract);
+								
+							}
 					}
 					
 				} else
@@ -1642,115 +1652,116 @@ public class DirectController {
 		        return "stp/hana/home/oneLevelMain/direct/actualPay";
 		  }
 		  
+		  
+		  
 		    
-						@RequestMapping(method = RequestMethod.GET, value = "/pay_01")
-						@ResponseBody
-						public String pay_01(HttpServletRequest request, HttpServletResponse response) throws Exception {
+			@RequestMapping(method = RequestMethod.GET, value = "/pay_01")
+			@ResponseBody
+			public String pay_01(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-							Result result = new Result();
-							ChartBarLineResultData barLine=new ChartBarLineResultData();
-							String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
-							String companyCode = CommonUtil.getParameter(request, "companyCode", "");
-							Map<String, Object> paramsMap = new HashMap<String, Object>();
-							paramsMap.put("month", month);
-							paramsMap.put("companyCode", companyCode);
-							JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
-							HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
-							if (!companyCode.equals(""))
+				Result result = new Result();
+				ChartBarLineResultData barLine=new ChartBarLineResultData();
+				String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+				String companyCode = CommonUtil.getParameter(request, "companyCode", "");
+				Map<String, Object> paramsMap = new HashMap<String, Object>();
+				paramsMap.put("month", month);
+				paramsMap.put("companyCode", companyCode);
+				JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+				HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+				if (!companyCode.equals(""))
+				{
+					ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(pay_01, HttpMethod.POST, entity, JSONArray.class);
+					int statusCode = responseEntity.getStatusCodeValue();
+					if (statusCode == 200) 
+					{
+						JSONArray jSONArray = responseEntity.getBody();
+						System.out.println(">>>>>>>>>>>>>>pay_01 jSONArray-> " + jSONArray.toString());
+		         	
+		         		List<H1AMKYSY100109> list = JSONObject.parseArray(jSONArray.toJSONString(), H1AMKYSY100109.class);
+						List<String>  xAxisDataList=HanaUtil.getduplicatexAxisByList(list,"g0XMDL");
+		         		barLine.setxAxisDataList(xAxisDataList);
+		         	
+						List<String> legendDataList = new ArrayList<String>();
+						legendDataList.add("新开课题");
+						legendDataList.add("结转课题");
+						barLine.setxAxisDataList(xAxisDataList);
+						barLine.setLegendDataList(legendDataList);
+						// X轴数据
+						List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
+						ChartBarLineSeries s2 = HanaUtil.getChartBarLineSeries_budget_count_bar(list, "K0BNXKJE");
+						ChartBarLineSeries s3 = HanaUtil.getChartBarLineSeries_budget_count_bar(list, "K0BNXJJE");
+						
+						seriesList.add(s2);
+						seriesList.add(s3);
+						barLine.setSeriesList(seriesList);
+		         		result.setSuccess(true);
+						result.setData(barLine);
+					}
+					
+				} else
+				{
+					result.setSuccess(false);
+					result.setMessage("参数为空");
+				}
+				JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
+				System.out.println(">>>>>>>>>>>>>>pay_01 " + resultObj.toString());
+				return resultObj.toString();
+			}
+		  
+		  
+				@RequestMapping(method = RequestMethod.GET, value = "/pay_02")
+				@ResponseBody
+				public String pay_02(HttpServletRequest request, HttpServletResponse response) throws Exception {
+					PageResult pageResult = new PageResult();
+					String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+					String companyCode = CommonUtil.getParameter(request, "companyCode", "");
+					Map<String, Object> paramsMap = new HashMap<String, Object>();
+					paramsMap.put("month", month);
+					paramsMap.put("companyCode", companyCode);
+					JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+					HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+					
+						ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(pay_02, HttpMethod.POST, entity, JSONArray.class);
+						int statusCode = responseEntity.getStatusCodeValue();
+						if (statusCode == 200) 
+						{
+							JSONArray jSONArray = responseEntity.getBody();
+							
+							System.out.println(">>>>>>>>>>>>pay_02 jSONArray>>> " + jSONArray.toString());
+							List<H1AMKYSY100109> list = JSONObject.parseArray(jSONArray.toJSONString(), H1AMKYSY100109.class);
+							
+							Map  map= get_pay_02_map(list);
+							List<String>  lista=HanaUtil.getduplicatexAxisByList(list,"g0XMXZ");
+							List<TreeNode2>  chartCircleList=	HanaUtil.getChildChartCircleForBudgetCount(lista,list);
+							
+							
+							TreeNode2 treeNode2=new TreeNode2();
+							treeNode2.setId("00001");
+							treeNode2.setName("总计");
+							treeNode2.setExtend01(String.valueOf(map.get("K0BNYSJHJE_count")));
+							
+							List<TreeNode2>  result=new ArrayList();
+							result.add(treeNode2);
+							for(int i=0;i<chartCircleList.size();i++)
 							{
-								ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(pay_01, HttpMethod.POST, entity, JSONArray.class);
-								int statusCode = responseEntity.getStatusCodeValue();
-								if (statusCode == 200) 
-								{
-									JSONArray jSONArray = responseEntity.getBody();
-									System.out.println(">>>>>>>>>>>>>>pay_01 jSONArray-> " + jSONArray.toString());
-									
-					         	
-					         		List<H1AMKYSY100109> list = JSONObject.parseArray(jSONArray.toJSONString(), H1AMKYSY100109.class);
-									List<String>  xAxisDataList=HanaUtil.getduplicatexAxisByList(list,"g0XMDL");
-					         		barLine.setxAxisDataList(xAxisDataList);
-					         	
-									List<String> legendDataList = new ArrayList<String>();
-									legendDataList.add("新开课题");
-									legendDataList.add("结转课题");
-									barLine.setxAxisDataList(xAxisDataList);
-									barLine.setLegendDataList(legendDataList);
-									// X轴数据
-									List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
-									ChartBarLineSeries s2 = HanaUtil.getChartBarLineSeries_budget_count_bar(list, "K0BNXKJE");
-									ChartBarLineSeries s3 = HanaUtil.getChartBarLineSeries_budget_count_bar(list, "K0BNXJJE");
-									
-									seriesList.add(s2);
-									seriesList.add(s3);
-									barLine.setSeriesList(seriesList);
-					         		result.setSuccess(true);
-									result.setData(barLine);
-								}
-								
-							} else
-							{
-								result.setSuccess(false);
-								result.setMessage("参数为空");
+								TreeNode2 treeNode_02=chartCircleList.get(i);
+								result.add(treeNode_02);
 							}
-							JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-							System.out.println(">>>>>>>>>>>>>>pay_01 " + resultObj.toString());
-							return resultObj.toString();
-						}
-		  
-		  
-						@RequestMapping(method = RequestMethod.GET, value = "/pay_02")
-						@ResponseBody
-						public String pay_02(HttpServletRequest request, HttpServletResponse response) throws Exception {
-							PageResult pageResult = new PageResult();
-							String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
-							String companyCode = CommonUtil.getParameter(request, "companyCode", "");
-							Map<String, Object> paramsMap = new HashMap<String, Object>();
-							paramsMap.put("month", month);
-							paramsMap.put("companyCode", companyCode);
-							JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
-							HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 							
-								ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(pay_02, HttpMethod.POST, entity, JSONArray.class);
-								int statusCode = responseEntity.getStatusCodeValue();
-								if (statusCode == 200) 
-								{
-									JSONArray jSONArray = responseEntity.getBody();
-									
-									System.out.println(">>>>>>>>>>>>pay_02 jSONArray>>> " + jSONArray.toString());
-									List<H1AMKYSY100109> list = JSONObject.parseArray(jSONArray.toJSONString(), H1AMKYSY100109.class);
-									
-									Map  map= get_pay_02_map(list);
-									List<String>  lista=HanaUtil.getduplicatexAxisByList(list,"g0XMXZ");
-									List<TreeNode2>  chartCircleList=	HanaUtil.getChildChartCircleForBudgetCount(lista,list);
-									
-									
-									TreeNode2 treeNode2=new TreeNode2();
-									treeNode2.setId("00001");
-									treeNode2.setName("总计");
-									treeNode2.setExtend01(String.valueOf(map.get("K0BNYSJHJE_count")));
-									
-									List<TreeNode2>  result=new ArrayList();
-									result.add(treeNode2);
-									for(int i=0;i<chartCircleList.size();i++)
-									{
-										TreeNode2 treeNode_02=chartCircleList.get(i);
-										result.add(treeNode_02);
-									}
-									
-									
-									
-									pageResult.setData(result);
-									pageResult.setCode(0);
-									pageResult.setCount(Long.valueOf(result.size()));
-									pageResult.setLimit(1000);
-									pageResult.setPage(1l);
-								}
-								
 							
-							JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
-							System.out.println(">>>>>>>>>>>>>>>pay_02 " + resultObj.toString());
-							return resultObj.toString();
+							
+							pageResult.setData(result);
+							pageResult.setCode(0);
+							pageResult.setCount(Long.valueOf(result.size()));
+							pageResult.setLimit(1000);
+							pageResult.setPage(1l);
 						}
+						
+					
+					JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
+					System.out.println(">>>>>>>>>>>>>>>pay_02 " + resultObj.toString());
+					return resultObj.toString();
+				}
 						
 						public Map   get_pay_02_map(List<H1AMKYSY100109> list)
 						{
