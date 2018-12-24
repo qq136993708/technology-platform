@@ -323,6 +323,7 @@ function get_mony_line_option_ajax_dt_investment(url,echartsobj, options)
 	        	                   areaStyle: seriesList[i].areaStyle,
 	        	                   stack: seriesList[i].stack,
 	        	                   smooth: seriesList[i].smooth,
+	        	                   yAxisIndex: seriesList[i].yAxisIndex,
 	        	                   color: seriesList[i].color
 	        	                   //系列中的数据标注内容    
 	                               /*,markPoint: {    

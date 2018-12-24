@@ -35,6 +35,7 @@ import com.pcitc.base.common.TreeNode2;
 import com.pcitc.base.hana.report.Contract;
 import com.pcitc.base.hana.report.H1AMKYSY100104;
 import com.pcitc.base.hana.report.H1AMKYSY100109;
+import com.pcitc.base.hana.report.H1AMKYSY10010902;
 import com.pcitc.base.hana.report.H1AMKYSY100117;
 import com.pcitc.base.hana.report.Knowledge;
 import com.pcitc.base.hana.report.Topic;
@@ -62,7 +63,10 @@ public class DirectController {
 	private static final String contract_01 = "http://pcitc-zuul/system-proxy/out-project-plna-provider/complete-rate/total";
 	private static final String contract_02 = "http://pcitc-zuul/system-proxy/out-project-plna-provider/complete-rate/old-new";
 	private static final String contract_03 = "http://pcitc-zuul/system-proxy/out-project-plna-provider/complete-rate/institute";
-	private static final String contract_04 = "http://pcitc-zuul/system-proxy/out-project-provider/project-money/institute";
+	//private static final String contract_04 = "http://pcitc-zuul/system-proxy/out-project-provider/project-money/institute";
+	
+	private static final String contract_04 = "http://pcitc-zuul/system-proxy/out-project-plna-provider/complete-rate/institute";
+	
 	
 	private static final String equipment_02 = "http://pcitc-zuul/hana-proxy/hana/home/get_direct_KYZB_02";
 	private static final String equipment_03 = "http://pcitc-zuul/hana-proxy/hana/home/get_direct_KYZB";
@@ -935,27 +939,32 @@ public class DirectController {
     					}else
     					{
     						Map map =new HashMap();
-    						int zsl_count=0;
-    						int fyxsl_count=0;
-    						int zbxsl_count=0;
+    						
+    						
+    						int fyxsjsl_count=0;
+    						int zbxsjsl_count=0;
+    						int fyxjhsl_count=0;
+    						int zbxjhsl_count=0;
+    						
     						for(int i=0;i<list.size();i++)
     						{
     							Contract contract=list.get(i);
-    							Integer fyxsl =Double.valueOf(String.valueOf(contract.getFyxsl())).intValue();
-    							Integer zbxsl =Double.valueOf(String.valueOf(contract.getZbxsl())).intValue() ;
-    							Integer zsl =Double.valueOf(String.valueOf(contract.getZsl())).intValue();
+    							Integer fyxsjsl =contract.getFyxsjsl();
+    							Integer zbxsjsl =contract.getZbxsjsl();
+    							Integer fyxjhsl =contract.getFyxjhsl();
+    							Integer zbxjhsl =contract.getZbxjhsl();
     							
-    							zsl_count=zsl_count+zsl;
-    							fyxsl_count=fyxsl_count+fyxsl;
-    							zbxsl_count=zbxsl_count+zbxsl;
+    							fyxsjsl_count=fyxsjsl_count+fyxsjsl;
+    							zbxsjsl_count=zbxsjsl_count+zbxsjsl;
+    							fyxjhsl_count=fyxjhsl_count+fyxjhsl;
+    							zbxjhsl_count=zbxjhsl_count+zbxjhsl;
     						}
     						
-    						DecimalFormat df=new DecimalFormat("0.00");
-    						double fyxsl_rate = new BigDecimal((float)fyxsl_count/zsl_count).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-    						double zbxsl_rate = new BigDecimal((float)zbxsl_count/zsl_count).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+    						double fyxsl_rate =	HanaUtil.chufa2(fyxsjsl_count,fyxjhsl_count);
+    						double zbxsl_rate =	HanaUtil.chufa2(zbxsjsl_count,zbxjhsl_count);
     						
-    						map.put("fyxsl_rate", fyxsl_rate*100+"%");
-    						map.put("zbxsl_rate", zbxsl_rate*100+"%");
+    						map.put("fyxsl_rate", fyxsl_rate+"%");
+    						map.put("zbxsl_rate", zbxsl_rate+"%");
     						result.setSuccess(true);
     						result.setData(map);
     					}
@@ -1677,7 +1686,7 @@ public class DirectController {
 						JSONArray jSONArray = responseEntity.getBody();
 						System.out.println(">>>>>>>>>>>>>>pay_01 jSONArray-> " + jSONArray.toString());
 		         	
-		         		List<H1AMKYSY100109> list = JSONObject.parseArray(jSONArray.toJSONString(), H1AMKYSY100109.class);
+		         		List<H1AMKYSY10010902> list = JSONObject.parseArray(jSONArray.toJSONString(), H1AMKYSY10010902.class);
 						List<String>  xAxisDataList=HanaUtil.getduplicatexAxisByList(list,"g0XMDL");
 		         		barLine.setxAxisDataList(xAxisDataList);
 		         	
@@ -1688,8 +1697,8 @@ public class DirectController {
 						barLine.setLegendDataList(legendDataList);
 						// X轴数据
 						List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
-						ChartBarLineSeries s2 = HanaUtil.getChartBarLineSeries_budget_count_bar(list, "K0BNXKJE");
-						ChartBarLineSeries s3 = HanaUtil.getChartBarLineSeries_budget_count_bar(list, "K0BNXJJE");
+						ChartBarLineSeries s2 = HanaUtil.getChartBarLineSeries_budget_count_bar_02(list, "K0BNXKJE");
+						ChartBarLineSeries s3 = HanaUtil.getChartBarLineSeries_budget_count_bar_02(list, "K0BNXJJE");
 						
 						seriesList.add(s2);
 						seriesList.add(s3);
@@ -1728,11 +1737,11 @@ public class DirectController {
 							JSONArray jSONArray = responseEntity.getBody();
 							
 							System.out.println(">>>>>>>>>>>>pay_02 jSONArray>>> " + jSONArray.toString());
-							List<H1AMKYSY100109> list = JSONObject.parseArray(jSONArray.toJSONString(), H1AMKYSY100109.class);
+							List<H1AMKYSY10010902> list = JSONObject.parseArray(jSONArray.toJSONString(), H1AMKYSY10010902.class);
 							
 							Map  map= get_pay_02_map(list);
 							List<String>  lista=HanaUtil.getduplicatexAxisByList(list,"g0XMXZ");
-							List<TreeNode2>  chartCircleList=	HanaUtil.getChildChartCircleForBudgetCount(lista,list);
+							List<TreeNode2>  chartCircleList=	HanaUtil.getChildChartCircleForBudgetCount02(lista,list);
 							
 							
 							TreeNode2 treeNode2=new TreeNode2();
@@ -1763,14 +1772,14 @@ public class DirectController {
 					return resultObj.toString();
 				}
 						
-						public Map   get_pay_02_map(List<H1AMKYSY100109> list)
+						public Map   get_pay_02_map(List<H1AMKYSY10010902> list)
 						{
 							Double K0BNYSJHJE_count=0.00;
 							for(int i=0;i<list.size();i++)
 							{
-								H1AMKYSY100109 contract=list.get(i);
-								String K0BNYSJHJE=contract.getK0BNYSJHJE();
-								K0BNYSJHJE_count=HanaUtil.add(K0BNYSJHJE_count,Double.valueOf(K0BNYSJHJE));
+								H1AMKYSY10010902 contract=list.get(i);
+								BigDecimal K0BNYSJHJE=contract.getK0BNYSJHJE();
+								K0BNYSJHJE_count=HanaUtil.add(K0BNYSJHJE_count,Double.valueOf(K0BNYSJHJE.toString()));
 							}
 							Map map=new HashMap();
 							map.put("K0BNYSJHJE_count", K0BNYSJHJE_count);
@@ -1803,7 +1812,7 @@ public class DirectController {
 									JSONArray jSONArray = responseEntity.getBody();
 									System.out.println(">>>>>>>>>>>>>>pay_03 jSONArray-> " + jSONArray.toString());
 									
-									List<H1AMKYSY100109> list = JSONObject.parseArray(jSONArray.toJSONString(), H1AMKYSY100109.class);
+									List<H1AMKYSY10010902> list = JSONObject.parseArray(jSONArray.toJSONString(), H1AMKYSY10010902.class);
 									if(type.equals("1"))
 									{
 										List<String>  xAxisDataList=HanaUtil.getduplicatexAxisByList(list,"g0GSJC");
@@ -1819,8 +1828,8 @@ public class DirectController {
 										// X轴数据
 										List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
 										//ChartBarLineSeries s1 = HanaUtil.getChartBarLineSeries_PAY02_bar(list, "K0BNYSJHJE");
-										ChartBarLineSeries s2 = HanaUtil.getChartBarLineSeries_PAY02_bar(list, "K0BNFYJE");
-										ChartBarLineSeries s3 = HanaUtil.getChartBarLineSeries_PAY02_bar(list, "K0BNZBJE");
+										ChartBarLineSeries s2 = HanaUtil.getChartBarLineSeries_PAY02_bar02(list, "K0BNFYJE");
+										ChartBarLineSeries s3 = HanaUtil.getChartBarLineSeries_PAY02_bar02(list, "K0BNZBJE");
 										
 										//seriesList.add(s1);
 										seriesList.add(s2);
@@ -1863,11 +1872,11 @@ public class DirectController {
 						}
 						
 						
-						public List<H1AMKYSY100109>  addListLineH1AMKYSY100109(List<H1AMKYSY100109> list)
+						public List<H1AMKYSY10010902>  addListLineH1AMKYSY100109(List<H1AMKYSY10010902> list)
 						{
-							List<H1AMKYSY100109> resutList =new ArrayList<H1AMKYSY100109>();
+							List<H1AMKYSY10010902> resutList =new ArrayList<H1AMKYSY10010902>();
 							//加--总数行
-							H1AMKYSY100109 temp=new H1AMKYSY100109();
+							H1AMKYSY10010902 temp=new H1AMKYSY10010902();
 							temp.setG0GSJC("总计");
 							Double k0BNYSJHJE_count=0.0;
 							Double k0BNZBJE_count=0.0;
@@ -1875,27 +1884,26 @@ public class DirectController {
 							DecimalFormat df=new DecimalFormat("0.00");
 							for(int i=0;i<list.size();i++)
 							{
-								H1AMKYSY100109 contract=list.get(i);
-								String k0BNYSJHJE =contract.getK0BNYSJHJE();
-								String k0BNZBJE =contract.getK0BNZBJE();
-								String k0BNFYJE =contract.getK0BNFYJE();
+								H1AMKYSY10010902 contract=list.get(i);
+								BigDecimal k0BNYSJHJE =contract.getK0BNYSJHJE();
+								BigDecimal k0BNZBJE =contract.getK0BNZBJE();
+								BigDecimal k0BNFYJE =contract.getK0BNFYJE();
 								//k0BNYSJHJE_count=k0BNYSJHJE_count+Double.valueOf(k0BNYSJHJE);
-								k0BNZBJE_count=k0BNZBJE_count+Double.valueOf(k0BNZBJE);
-								k0BNFYJE_count=k0BNFYJE_count+Double.valueOf(k0BNFYJE);
+								k0BNZBJE_count=k0BNZBJE_count+Double.valueOf(k0BNZBJE.toString());
+								k0BNFYJE_count=k0BNFYJE_count+Double.valueOf(k0BNFYJE.toString());
 								
 							}
-							temp.setK0BNYSJHJE(df.format(k0BNZBJE_count+k0BNFYJE_count));
-							temp.setK0BNZBJE(df.format(k0BNZBJE_count));
-							temp.setK0BNFYJE(df.format(k0BNFYJE_count));
-							
+							temp.setK0BNYSJHJE(BigDecimal.valueOf(k0BNZBJE_count+k0BNFYJE_count));
+							temp.setK0BNZBJE(BigDecimal.valueOf(k0BNZBJE_count));
+							temp.setK0BNFYJE(BigDecimal.valueOf(k0BNFYJE_count) );
     						//double fyxsl_rate = new BigDecimal((float)fyxsl_count/zsl_count).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 							resutList.add(temp);
 							for(int i=0;i<list.size();i++)
 							{
-								H1AMKYSY100109 contract=list.get(i);
-								contract.setK0BNYSJHJE(df.format(Double.valueOf(contract.getK0BNYSJHJE())));
-								contract.setK0BNZBJE(df.format(Double.valueOf(contract.getK0BNZBJE())));
-								contract.setK0BNFYJE(df.format(Double.valueOf(contract.getK0BNFYJE())));
+								H1AMKYSY10010902 contract=list.get(i);
+								contract.setK0BNYSJHJE(contract.getK0BNYSJHJE());
+								contract.setK0BNZBJE(contract.getK0BNZBJE());
+								contract.setK0BNFYJE(contract.getK0BNFYJE());
 								resutList.add(contract);
 							}
 							return resutList;
