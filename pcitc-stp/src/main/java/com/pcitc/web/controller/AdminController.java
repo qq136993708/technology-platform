@@ -627,6 +627,9 @@ public class AdminController extends BaseController {
 		if (request.getParameter("lastYearFlag") != null && !request.getParameter("lastYearFlag").equals("")) {
 			map.put("nd", String.valueOf(Integer.parseInt(sdf.format(date))-1));
 		}
+		if (request.getParameter("define3") != null && !request.getParameter("define3").equals("")) {
+			map.put("define3", request.getParameter("define3"));
+		}
 		HttpEntity<HashMap<String, String>> entity = new HttpEntity<HashMap<String, String>>(map, this.httpHeaders);
 
 		ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(PATENT_COUNT, HttpMethod.POST, entity, JSONObject.class);
@@ -687,7 +690,10 @@ public class AdminController extends BaseController {
 		System.out.println("1====/admin/project-count" + sysUserInfo.getUserId());
 		HashMap<String, String> map = new HashMap<String, String>();
 		if (request.getParameter("define2") != null && !request.getParameter("define2").equals("")) {
-			map.put("define2", "院");
+			map.put("define2", request.getParameter("define2"));
+		}
+		if (request.getParameter("typeFlag") != null && !request.getParameter("typeFlag").equals("")) {
+			map.put("typeFlag", request.getParameter("typeFlag"));
 		}
 		map.put("nd", "2018");
 		HttpEntity<HashMap<String, String>> entity = new HttpEntity<HashMap<String, String>>(map, this.httpHeaders);
@@ -707,8 +713,8 @@ public class AdminController extends BaseController {
 	public Object getProjectTotalInfoByNew(HttpServletRequest request) {
 		System.out.println("1====/admin/project/type/new");
 		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("nd", "2017");
-		map.put("define2", "1");
+		map.put("nd", "2018");
+		map.put("typeFlag", "研究院");
 		HttpEntity<HashMap<String, String>> entity = new HttpEntity<HashMap<String, String>>(map, this.httpHeaders);
 
 		ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(NEW_PROJECT_COUNT, HttpMethod.POST, entity, JSONObject.class);

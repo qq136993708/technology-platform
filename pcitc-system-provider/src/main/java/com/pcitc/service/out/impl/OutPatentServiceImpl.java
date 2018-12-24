@@ -79,9 +79,11 @@ public class OutPatentServiceImpl implements OutPatentService {
 		criteria.andFlztyjEqualTo("有效");
 		criteria.andFlztejEqualTo("授权");
 		
-		// 只查询研究院的
 		if (map.get("define2") != null && !map.get("define2").equals("")) {
-			criteria.andStatusIsNotNull();
+			criteria.andDefine3Like(map.get("define2"));
+		}
+		if (map.get("define3") != null && !map.get("define3").equals("")) {
+			criteria.andDefine3Like(map.get("define3"));
 		}
 		return outPatentMapper.countByExample(example);
 	}
