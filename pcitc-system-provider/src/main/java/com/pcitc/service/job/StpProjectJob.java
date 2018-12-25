@@ -35,7 +35,7 @@ public class StpProjectJob implements Job, Serializable {
 		int culTotal = 0;
 		System.out.println("==========" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "定时获取项目管理系统的项目数据 ---开始=============");
 		String sqlName = "SelectAllProjectFromSinopecData2017";
-		String ndCon = "2017";
+		String ndCon = "2018";
 		String str = null;
 		try {
 			// 远程获取数据 -----
@@ -83,10 +83,10 @@ public class StpProjectJob implements Job, Serializable {
 						String zyly = object.getString("ZYLY");
 						String zysx = object.getString("ZYSX");
 						String sjid = object.getString("SJID");
-						String lxbj = object.getString("LXBJ");
+						/*String lxbj = object.getString("LXBJ");
 						String yjnr = object.getString("YJNR");
 						String jdap = object.getString("JDAP");
-						String yjmb = object.getString("YJMB");
+						String yjmb = object.getString("YJMB");*/
 						
 						String gsbmbm = object.getString("GSBMBM");
 						String gsbmmc = object.getString("GSBMMC");
