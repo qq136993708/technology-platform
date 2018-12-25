@@ -31,6 +31,45 @@ public class Contract implements Serializable{
     
     
     
+    
+    
+    
+    
+    private Integer fyxsjsl;
+    private Integer zbxsjsl;
+    private Integer fyxjhsl;
+    private Integer zbxjhsl;
+    
+    
+	
+	
+    
+    
+    
+	public Integer getFyxsjsl() {
+		return fyxsjsl;
+	}
+	public void setFyxsjsl(Integer fyxsjsl) {
+		this.fyxsjsl = fyxsjsl;
+	}
+	public Integer getZbxsjsl() {
+		return zbxsjsl;
+	}
+	public void setZbxsjsl(Integer zbxsjsl) {
+		this.zbxsjsl = zbxsjsl;
+	}
+	public Integer getFyxjhsl() {
+		return fyxjhsl;
+	}
+	public void setFyxjhsl(Integer fyxjhsl) {
+		this.fyxjhsl = fyxjhsl;
+	}
+	public Integer getZbxjhsl() {
+		return zbxjhsl;
+	}
+	public void setZbxjhsl(Integer zbxjhsl) {
+		this.zbxjhsl = zbxjhsl;
+	}
 	public String getDefine3() {
 		return define3;
 	}

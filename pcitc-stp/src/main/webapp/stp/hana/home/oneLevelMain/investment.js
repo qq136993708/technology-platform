@@ -25,10 +25,26 @@ var mutl_bar_investment = {
             },
             formatter: function(params, ticket, callback) {
             	 var relVal = params[0].name+"<br/>";
-            	 relVal += params[0].seriesName+ ' : ' + params[0].value+"亿元<br/>";
-            	 relVal += params[1].seriesName+ ' : ' +params[1].value+"亿元<br/>";
-            	 relVal += params[2].seriesName+ ' : ' + params[2].value+"%";
+            	 
+            	var lenghtv=params.length;
+            	if(params[0]!=null)
+            	{
+            		 relVal += params[0].seriesName+ ' : ' + params[0].value+"亿元<br/>";
+            	}
+            	if(params[1]!=null)
+            	{
+            		 relVal += params[1].seriesName+ ' : ' +params[1].value+"亿元<br/>";
+            	}
+            	if(params[2]!=null)
+            	{
+            		 relVal += params[2].seriesName+ ' : ' + params[2].value+"%";
+            	}
+            	
+            	
             	 return relVal;;
+            	
+            	
+            	
             }
         },
         /*grid: {
@@ -60,29 +76,7 @@ var mutl_bar_investment = {
         ],
         
         yAxis: [
-            {
-            	 type: 'value',
-                 name: '亿元',
-                 //min: 0,
-                 //interval: 10,
-                 //max:'dataMax',
-                 position: 'left',
-                 axisLabel: {
-                     formatter: '{value}'
-                 }
-            },
-            {
-                type: 'value',
-                show: true ,
-                name: '百分比',
-                //min: 0,
-                //max: 100,
-                //interval: 20,
-                position: 'right',
-                axisLabel: {
-                    formatter: '{value}%'
-                }
-            }
+            
         ],
         
         
@@ -91,7 +85,7 @@ var mutl_bar_investment = {
         ]
     };
 
-function barLineAjax_investment(url,  echartsobj, options,width)
+function barLineAjax_investment(url,  echartsobj, options,width,callback)
 {
 	
    var legends=[];     
@@ -131,7 +125,7 @@ function barLineAjax_investment(url,  echartsobj, options,width)
 		        	           		   type: seriesList[i].type,
 		        	                   name: seriesList[i].name,
 		        	                   data: seriesList[i].data,
-		        	                  stack:seriesList[i].stack,
+		        	                   stack:seriesList[i].stack,
 		        	                   barWidth:barWidth,
                                        label: {
                                            show: true, //开启显示
@@ -158,7 +152,11 @@ function barLineAjax_investment(url,  echartsobj, options,width)
 	        	               ],
 	        	               series: seriesData
 	        	           });
-	        	           console.log(options);
+	        	           if(callback)
+		                    {
+		                    	console.log("call.....back......");
+		                    	callback(data.data);
+		                    }
 	        	       
 	          } else
 	          {
@@ -181,7 +179,7 @@ function barLineAjax_investment(url,  echartsobj, options,width)
 } 
 
 
-function load_mutl_bar_investment(url,id,title,subtext,yAxis,color,width)
+function load_mutl_bar_investment(url,id,title,subtext,yAxis,color,width,callback)
 {
     var echartsobj = echarts.init(document.getElementById(id));
 
@@ -212,7 +210,7 @@ function load_mutl_bar_investment(url,id,title,subtext,yAxis,color,width)
     }
     echartsobj.setOption(mutl_bar_investment);
     echartsobj.showLoading();
-    barLineAjax_investment(url,echartsobj, mutl_bar_investment,width);
+    barLineAjax_investment(url,echartsobj, mutl_bar_investment,width,callback);
     
     return echartsobj;
     
@@ -325,6 +323,7 @@ function get_mony_line_option_ajax_dt_investment(url,echartsobj, options)
 	        	                   areaStyle: seriesList[i].areaStyle,
 	        	                   stack: seriesList[i].stack,
 	        	                   smooth: seriesList[i].smooth,
+	        	                   yAxisIndex: seriesList[i].yAxisIndex,
 	        	                   color: seriesList[i].color
 	        	                   //系列中的数据标注内容    
 	                               /*,markPoint: {    

@@ -153,7 +153,7 @@ function load_single_bar(url,id,title,subtext,yAxis,color,width,rotate,callback)
 	}
     option_bar_single.grid={
         top:"12%",
-        left: '0%',
+        left: '1.5%',
         right: '0%',
         bottom: '0%',
         containLabel: true

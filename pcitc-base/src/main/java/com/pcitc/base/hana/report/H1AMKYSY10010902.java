@@ -1,10 +1,8 @@
 package com.pcitc.base.hana.report;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class H1AMKYSY100109 implements Serializable{
-	
+public class H1AMKYSY10010902 {
 	private static final long serialVersionUID = 1L;
     private String g0GSDM;//公司代码
     private String g0GSJC;//公司简称
@@ -25,40 +23,42 @@ public class H1AMKYSY100109 implements Serializable{
     private String id;
     
     
-	private String k0BNXMZXSL;
-    private String k0BNXMXKSL;
-    private String k0BNXMXJSL;
-    private String k0BNXMXJGJSL;
-    private String k0BNXMXJZDSL;
-    private String k0BNXMXJSLSL;
-    private String k0BNXMXJYKSL;
-    private String k0BNXMWGSL;
-    private String k0BNXMZCSL;
-    private String k0BNXMYQSL;
-    private String k0BNXMWJSL;
-    private String k0SNXMXKSL;
-    private String k0SNXMXJSL;
-    private String k0SNXMXJGJSL;
-    private String k0SNXMXJZDSL;
-    private String k0SNXMXJSLSL;
-    private String k0SNXMXJYKSL;
-    private String k0SNXMWGSL;
-    private String k0SNXMZCSL;
-    private String k0SNXMYQSL;
-    private String k0SNXMWJSL;
-    private String k0SNJTBL;
-    private String k0XMXJGJBL;
-    private String k0XMXJZDBL;
-    private String k0XMXJSLBL;
-    private String k0XMXJYKBL;
-    private String k0XMZXSL;
-    private String k0BNXMXKSLK0BNXMXJSL;
-    private String xKXJ;
-    private String k0BNYSJHJE;
-    private String k0BNXKJE;
-    private String k0BNXJJE;
-    private String k0BNZBJE;
-    private String k0BNFYJE;
+	private BigDecimal k0BNXMZXSL;
+    private BigDecimal k0BNXMXKSL;
+    private BigDecimal k0BNXMXJSL;
+    private BigDecimal k0BNXMXJGJSL;
+    private BigDecimal k0BNXMXJZDSL;
+    private BigDecimal k0BNXMXJSLSL;
+    private BigDecimal k0BNXMXJYKSL;
+    private BigDecimal k0BNXMWGSL;
+    private BigDecimal k0BNXMZCSL;
+    private BigDecimal k0BNXMYQSL;
+    private BigDecimal k0BNXMWJSL;
+    private BigDecimal k0SNXMXKSL;
+    private BigDecimal k0SNXMXJSL;
+    private BigDecimal k0SNXMXJGJSL;
+    private BigDecimal k0SNXMXJZDSL;
+    private BigDecimal k0SNXMXJSLSL;
+    private BigDecimal k0SNXMXJYKSL;
+    private BigDecimal k0SNXMWGSL;
+    private BigDecimal k0SNXMZCSL;
+    private BigDecimal k0SNXMYQSL;
+    private BigDecimal k0SNXMWJSL;
+    private BigDecimal k0SNJTBL;
+    private BigDecimal k0XMXJGJBL;
+    private BigDecimal k0XMXJZDBL;
+    private BigDecimal k0XMXJSLBL;
+    private BigDecimal k0XMXJYKBL;
+    private BigDecimal k0XMZXSL;
+    private BigDecimal k0BNXMXKSLK0BNXMXJSL;
+    private BigDecimal xKXJ;
+    private BigDecimal k0BNYSJHJE;
+    private BigDecimal k0BNXKJE;
+    private BigDecimal k0BNXJJE;
+    private BigDecimal k0BNZBJE;
+    private BigDecimal k0BNFYJE;
+    
+    
 	public String getG0GSDM() {
 		return g0GSDM;
 	}
@@ -161,220 +161,211 @@ public class H1AMKYSY100109 implements Serializable{
 	public void setId(String id) {
 		this.id = id;
 	}
-	public String getK0BNXMZXSL() {
+	public BigDecimal getK0BNXMZXSL() {
 		return k0BNXMZXSL;
 	}
-	public void setK0BNXMZXSL(String k0bnxmzxsl) {
+	public void setK0BNXMZXSL(BigDecimal k0bnxmzxsl) {
 		k0BNXMZXSL = k0bnxmzxsl;
 	}
-	public String getK0BNXMXKSL() {
+	public BigDecimal getK0BNXMXKSL() {
 		return k0BNXMXKSL;
 	}
-	public void setK0BNXMXKSL(String k0bnxmxksl) {
+	public void setK0BNXMXKSL(BigDecimal k0bnxmxksl) {
 		k0BNXMXKSL = k0bnxmxksl;
 	}
-	public String getK0BNXMXJSL() {
+	public BigDecimal getK0BNXMXJSL() {
 		return k0BNXMXJSL;
 	}
-	public void setK0BNXMXJSL(String k0bnxmxjsl) {
+	public void setK0BNXMXJSL(BigDecimal k0bnxmxjsl) {
 		k0BNXMXJSL = k0bnxmxjsl;
 	}
-	public String getK0BNXMXJGJSL() {
+	public BigDecimal getK0BNXMXJGJSL() {
 		return k0BNXMXJGJSL;
 	}
-	public void setK0BNXMXJGJSL(String k0bnxmxjgjsl) {
+	public void setK0BNXMXJGJSL(BigDecimal k0bnxmxjgjsl) {
 		k0BNXMXJGJSL = k0bnxmxjgjsl;
 	}
-	public String getK0BNXMXJZDSL() {
+	public BigDecimal getK0BNXMXJZDSL() {
 		return k0BNXMXJZDSL;
 	}
-	public void setK0BNXMXJZDSL(String k0bnxmxjzdsl) {
+	public void setK0BNXMXJZDSL(BigDecimal k0bnxmxjzdsl) {
 		k0BNXMXJZDSL = k0bnxmxjzdsl;
 	}
-	public String getK0BNXMXJSLSL() {
+	public BigDecimal getK0BNXMXJSLSL() {
 		return k0BNXMXJSLSL;
 	}
-	public void setK0BNXMXJSLSL(String k0bnxmxjslsl) {
+	public void setK0BNXMXJSLSL(BigDecimal k0bnxmxjslsl) {
 		k0BNXMXJSLSL = k0bnxmxjslsl;
 	}
-	public String getK0BNXMXJYKSL() {
+	public BigDecimal getK0BNXMXJYKSL() {
 		return k0BNXMXJYKSL;
 	}
-	public void setK0BNXMXJYKSL(String k0bnxmxjyksl) {
+	public void setK0BNXMXJYKSL(BigDecimal k0bnxmxjyksl) {
 		k0BNXMXJYKSL = k0bnxmxjyksl;
 	}
-	public String getK0BNXMWGSL() {
+	public BigDecimal getK0BNXMWGSL() {
 		return k0BNXMWGSL;
 	}
-	public void setK0BNXMWGSL(String k0bnxmwgsl) {
+	public void setK0BNXMWGSL(BigDecimal k0bnxmwgsl) {
 		k0BNXMWGSL = k0bnxmwgsl;
 	}
-	public String getK0BNXMZCSL() {
+	public BigDecimal getK0BNXMZCSL() {
 		return k0BNXMZCSL;
 	}
-	public void setK0BNXMZCSL(String k0bnxmzcsl) {
+	public void setK0BNXMZCSL(BigDecimal k0bnxmzcsl) {
 		k0BNXMZCSL = k0bnxmzcsl;
 	}
-	public String getK0BNXMYQSL() {
+	public BigDecimal getK0BNXMYQSL() {
 		return k0BNXMYQSL;
 	}
-	public void setK0BNXMYQSL(String k0bnxmyqsl) {
+	public void setK0BNXMYQSL(BigDecimal k0bnxmyqsl) {
 		k0BNXMYQSL = k0bnxmyqsl;
 	}
-	public String getK0BNXMWJSL() {
+	public BigDecimal getK0BNXMWJSL() {
 		return k0BNXMWJSL;
 	}
-	public void setK0BNXMWJSL(String k0bnxmwjsl) {
+	public void setK0BNXMWJSL(BigDecimal k0bnxmwjsl) {
 		k0BNXMWJSL = k0bnxmwjsl;
 	}
-	public String getK0SNXMXKSL() {
+	public BigDecimal getK0SNXMXKSL() {
 		return k0SNXMXKSL;
 	}
-	public void setK0SNXMXKSL(String k0snxmxksl) {
+	public void setK0SNXMXKSL(BigDecimal k0snxmxksl) {
 		k0SNXMXKSL = k0snxmxksl;
 	}
-	public String getK0SNXMXJSL() {
+	public BigDecimal getK0SNXMXJSL() {
 		return k0SNXMXJSL;
 	}
-	public void setK0SNXMXJSL(String k0snxmxjsl) {
+	public void setK0SNXMXJSL(BigDecimal k0snxmxjsl) {
 		k0SNXMXJSL = k0snxmxjsl;
 	}
-	public String getK0SNXMXJGJSL() {
+	public BigDecimal getK0SNXMXJGJSL() {
 		return k0SNXMXJGJSL;
 	}
-	public void setK0SNXMXJGJSL(String k0snxmxjgjsl) {
+	public void setK0SNXMXJGJSL(BigDecimal k0snxmxjgjsl) {
 		k0SNXMXJGJSL = k0snxmxjgjsl;
 	}
-	public String getK0SNXMXJZDSL() {
+	public BigDecimal getK0SNXMXJZDSL() {
 		return k0SNXMXJZDSL;
 	}
-	public void setK0SNXMXJZDSL(String k0snxmxjzdsl) {
+	public void setK0SNXMXJZDSL(BigDecimal k0snxmxjzdsl) {
 		k0SNXMXJZDSL = k0snxmxjzdsl;
 	}
-	public String getK0SNXMXJSLSL() {
+	public BigDecimal getK0SNXMXJSLSL() {
 		return k0SNXMXJSLSL;
 	}
-	public void setK0SNXMXJSLSL(String k0snxmxjslsl) {
+	public void setK0SNXMXJSLSL(BigDecimal k0snxmxjslsl) {
 		k0SNXMXJSLSL = k0snxmxjslsl;
 	}
-	public String getK0SNXMXJYKSL() {
+	public BigDecimal getK0SNXMXJYKSL() {
 		return k0SNXMXJYKSL;
 	}
-	public void setK0SNXMXJYKSL(String k0snxmxjyksl) {
+	public void setK0SNXMXJYKSL(BigDecimal k0snxmxjyksl) {
 		k0SNXMXJYKSL = k0snxmxjyksl;
 	}
-	public String getK0SNXMWGSL() {
+	public BigDecimal getK0SNXMWGSL() {
 		return k0SNXMWGSL;
 	}
-	public void setK0SNXMWGSL(String k0snxmwgsl) {
+	public void setK0SNXMWGSL(BigDecimal k0snxmwgsl) {
 		k0SNXMWGSL = k0snxmwgsl;
 	}
-	public String getK0SNXMZCSL() {
+	public BigDecimal getK0SNXMZCSL() {
 		return k0SNXMZCSL;
 	}
-	public void setK0SNXMZCSL(String k0snxmzcsl) {
+	public void setK0SNXMZCSL(BigDecimal k0snxmzcsl) {
 		k0SNXMZCSL = k0snxmzcsl;
 	}
-	public String getK0SNXMYQSL() {
+	public BigDecimal getK0SNXMYQSL() {
 		return k0SNXMYQSL;
 	}
-	public void setK0SNXMYQSL(String k0snxmyqsl) {
+	public void setK0SNXMYQSL(BigDecimal k0snxmyqsl) {
 		k0SNXMYQSL = k0snxmyqsl;
 	}
-	public String getK0SNXMWJSL() {
+	public BigDecimal getK0SNXMWJSL() {
 		return k0SNXMWJSL;
 	}
-	public void setK0SNXMWJSL(String k0snxmwjsl) {
+	public void setK0SNXMWJSL(BigDecimal k0snxmwjsl) {
 		k0SNXMWJSL = k0snxmwjsl;
 	}
-	public String getK0SNJTBL() {
+	public BigDecimal getK0SNJTBL() {
 		return k0SNJTBL;
 	}
-	public void setK0SNJTBL(String k0snjtbl) {
+	public void setK0SNJTBL(BigDecimal k0snjtbl) {
 		k0SNJTBL = k0snjtbl;
 	}
-	public String getK0XMXJGJBL() {
+	public BigDecimal getK0XMXJGJBL() {
 		return k0XMXJGJBL;
 	}
-	public void setK0XMXJGJBL(String k0xmxjgjbl) {
+	public void setK0XMXJGJBL(BigDecimal k0xmxjgjbl) {
 		k0XMXJGJBL = k0xmxjgjbl;
 	}
-	public String getK0XMXJZDBL() {
+	public BigDecimal getK0XMXJZDBL() {
 		return k0XMXJZDBL;
 	}
-	public void setK0XMXJZDBL(String k0xmxjzdbl) {
+	public void setK0XMXJZDBL(BigDecimal k0xmxjzdbl) {
 		k0XMXJZDBL = k0xmxjzdbl;
 	}
-	public String getK0XMXJSLBL() {
+	public BigDecimal getK0XMXJSLBL() {
 		return k0XMXJSLBL;
 	}
-	public void setK0XMXJSLBL(String k0xmxjslbl) {
+	public void setK0XMXJSLBL(BigDecimal k0xmxjslbl) {
 		k0XMXJSLBL = k0xmxjslbl;
 	}
-	public String getK0XMXJYKBL() {
+	public BigDecimal getK0XMXJYKBL() {
 		return k0XMXJYKBL;
 	}
-	public void setK0XMXJYKBL(String k0xmxjykbl) {
+	public void setK0XMXJYKBL(BigDecimal k0xmxjykbl) {
 		k0XMXJYKBL = k0xmxjykbl;
 	}
-	public String getK0XMZXSL() {
+	public BigDecimal getK0XMZXSL() {
 		return k0XMZXSL;
 	}
-	public void setK0XMZXSL(String k0xmzxsl) {
+	public void setK0XMZXSL(BigDecimal k0xmzxsl) {
 		k0XMZXSL = k0xmzxsl;
 	}
-	public String getK0BNXMXKSLK0BNXMXJSL() {
+	public BigDecimal getK0BNXMXKSLK0BNXMXJSL() {
 		return k0BNXMXKSLK0BNXMXJSL;
 	}
-	public void setK0BNXMXKSLK0BNXMXJSL(String k0bnxmxkslk0bnxmxjsl) {
+	public void setK0BNXMXKSLK0BNXMXJSL(BigDecimal k0bnxmxkslk0bnxmxjsl) {
 		k0BNXMXKSLK0BNXMXJSL = k0bnxmxkslk0bnxmxjsl;
 	}
-	public String getxKXJ() {
+	public BigDecimal getxKXJ() {
 		return xKXJ;
 	}
-	public void setxKXJ(String xKXJ) {
+	public void setxKXJ(BigDecimal xKXJ) {
 		this.xKXJ = xKXJ;
 	}
-	public String getK0BNYSJHJE() {
+	public BigDecimal getK0BNYSJHJE() {
 		return k0BNYSJHJE;
 	}
-	public void setK0BNYSJHJE(String k0bnysjhje) {
+	public void setK0BNYSJHJE(BigDecimal k0bnysjhje) {
 		k0BNYSJHJE = k0bnysjhje;
 	}
-	public String getK0BNXKJE() {
+	public BigDecimal getK0BNXKJE() {
 		return k0BNXKJE;
 	}
-	public void setK0BNXKJE(String k0bnxkje) {
+	public void setK0BNXKJE(BigDecimal k0bnxkje) {
 		k0BNXKJE = k0bnxkje;
 	}
-	public String getK0BNXJJE() {
+	public BigDecimal getK0BNXJJE() {
 		return k0BNXJJE;
 	}
-	public void setK0BNXJJE(String k0bnxjje) {
+	public void setK0BNXJJE(BigDecimal k0bnxjje) {
 		k0BNXJJE = k0bnxjje;
 	}
-	public String getK0BNZBJE() {
+	public BigDecimal getK0BNZBJE() {
 		return k0BNZBJE;
 	}
-	public void setK0BNZBJE(String k0bnzbje) {
+	public void setK0BNZBJE(BigDecimal k0bnzbje) {
 		k0BNZBJE = k0bnzbje;
 	}
-	public String getK0BNFYJE() {
+	public BigDecimal getK0BNFYJE() {
 		return k0BNFYJE;
 	}
-	public void setK0BNFYJE(String k0bnfyje) {
+	public void setK0BNFYJE(BigDecimal k0bnfyje) {
 		k0BNFYJE = k0bnfyje;
 	}
     
-      
     
     
-    
-    
-    
-    
-    
-    
-    
-
 }

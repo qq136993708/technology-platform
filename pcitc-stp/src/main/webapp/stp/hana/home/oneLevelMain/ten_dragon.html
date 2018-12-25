@@ -164,8 +164,8 @@
         $(".layui-time1").html(year-1);
         form.render(null, 'component-form-group');
         laydate.render({
-            elem: '#year'
-            ,format: 'yyyy'
+        	  elem: '#year'
+      	      ,type: 'year'
         });
         renderTable();
         renderStlTable();
@@ -196,21 +196,25 @@
 
         var chart1_url="/one_level_main/dragon_01?type=2&nd="+nd+"&v_date="+v_date;
         var echart1=loadPie_02(chart1_url,"dragon1","","",function(data){
-
-
             var total_count = 0;
             $.each(data.data.dataList,function(index,dt){
                 total_count += dt.value;
             });
             $("#dragon1_01").html(total_count+"个");
-
         });
+        
+        echart1.on('click', function (params) {
+			var xName=params.name;
+			var legentName=params.seriesName;
+			window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
+	    }); 
+        
 
 
 
         var chart2_url="/one_level_main/dragon_02?nd="+nd+"&v_date="+v_date;
         var colorNew=["#54b6e9","#70b1aa","#87d359"];
-        var echart1=load_single_bar(chart2_url,"dragon2","","",yAxis,colorNew,65,"",function(data){
+        var echart2=load_single_bar(chart2_url,"dragon2","","",yAxis,colorNew,65,"",function(data){
             var total_count = 0;
             $.each(data.data.seriesDataList,function(index,dt){
                 total_count += dt;
@@ -218,7 +222,13 @@
             $("#dragon2_01").html(total_count+"个");
         });
 
-
+        
+        echart2.on('click', function (params) {
+			var xName=params.name;
+			var legentName=params.seriesName;
+			window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
+	    }); 
+        
 
         var chart7_url="/one_level_main/dragon_03?nd="+year+"&v_date="+v_date+"&companyCode="+companyCode;
         //var color=["#70b1ab","#87d359"];
@@ -226,7 +236,7 @@
         echart7.on('click', function (params){
             var xName=params.name;
             var legentName=params.seriesName;
-            window.open("/reportNew/reportPageStp?name=167305d0060_d4723a52");
+            window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
         });
 
     }

@@ -38,6 +38,7 @@ import com.pcitc.base.hana.report.FundsComprehensiveAnalysis01;
 import com.pcitc.base.hana.report.FundsComprehensiveAnalysis03;
 import com.pcitc.base.hana.report.H1AMKYSY100104;
 import com.pcitc.base.hana.report.H1AMKYSY100109;
+import com.pcitc.base.hana.report.H1AMKYSY10010902;
 import com.pcitc.base.hana.report.H1AMKYSY100117;
 import com.pcitc.base.hana.report.H1AMKYZH100006;
 import com.pcitc.base.hana.report.HanaConstant;
@@ -1670,6 +1671,84 @@ public class HanaUtil {
 	}
 	
 	
+	
+	public static List<TreeNode2> getChildChartCircleForBudgetCount02(List<String>  listLevel1Title,List<H1AMKYSY10010902> listAll) 
+	{
+		
+		
+		
+		List<TreeNode2> resut = new ArrayList();
+		for(int i=0;i<listLevel1Title.size();i++)
+		{
+			String title=listLevel1Title.get(i);
+			TreeNode2 node=new TreeNode2();
+			node.setId("999"+String.valueOf(i));
+			node.setLay_icon_open("/layuiadmin/layui/images/treegrid1_open.png");
+			node.setLay_icon("/layuiadmin/layui/images/treegrid2.png");
+			node.setLay_is_open(true);
+			Double count=0.00;
+			Double count2=0.00;
+			for (int j = 0; j < listAll.size(); j++) 
+			{
+				H1AMKYSY10010902 entity=listAll.get(j);
+				String name=entity.getG0XMXZ();
+				BigDecimal K0BNXKJE=entity.getK0BNXKJE();
+				BigDecimal K0BNXJJE=entity.getK0BNXJJE();
+				BigDecimal K0BNYSJHJE=entity.getK0BNYSJHJE();
+				String id=entity.getId();
+				String name02=entity.getG0XMDL();
+				
+				//System.out.println(">>>>>>>>>>>>>>>K0BNXKJE " + K0BNXKJE+" K0BNXJJE="+K0BNXJJE+" id="+id);
+				if(name.equals(title))
+				{
+					TreeNode2 node02=new TreeNode2();
+					node02.setpId(node.getId());
+					node02.setName(name02);
+					node02.setExtend01(String.format("%.2f", Double.valueOf(K0BNYSJHJE.toString())));
+					//node02.setExtend01(String.format("%.2f", Double.valueOf(K0BNXKJE)));
+					//node02.setExtend02(String.format("%.2f", Double.valueOf(K0BNXJJE)));
+					node02.setId(""+id);
+					resut.add(node02);
+					/*if(K0BNXKJE!=null && !K0BNXKJE.equals(""))
+					{
+						count=add(count,Double.valueOf(K0BNXKJE));
+					}else
+					{
+						count=add(count,0);
+					}*/
+					
+					/*if(K0BNXKJE!=null && !K0BNXKJE.equals(""))
+					{
+						count=add(count,Double.valueOf(K0BNXKJE));
+					}else
+					{
+						count=add(count,0);
+					}
+					
+					if(K0BNXJJE!=null && !K0BNXJJE.equals(""))
+					{
+						count2=add(count2,Double.valueOf(K0BNXJJE));
+					}else
+					{
+						count2=add(count2,0);
+					}*/
+					
+					
+					count=add(count,Double.valueOf(K0BNYSJHJE.toString()));
+					//count2=add(count2,Double.valueOf(K0BNXJJE));
+					
+					
+				}
+			}
+			node.setName(title);
+			node.setExtend01(String.format("%.2f", Double.valueOf(count)));
+			//node.setExtend02(String.format("%.2f", Double.valueOf(count2)));
+			resut.add(node);
+			
+		}
+		return resut;
+	}
+	
 	public static List<TreeNode2> getChildChartCircleForBudgetCount(List<String>  listLevel1Title,List<H1AMKYSY100109> listAll) 
 	{
 		
@@ -2804,6 +2883,65 @@ public class HanaUtil {
 	}
 	
 	
+	
+	public static ChartBarLineSeries  getContractChartBarLineSeries224(List<Contract> list, String name) {
+
+		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
+		if (name.equals("fyxRate")) {
+			chartBarLineSeries.setName("费用性");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_LINE);
+		}
+		if (name.equals("zbxRate")) {
+			chartBarLineSeries.setName("资本性");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_LINE);
+		}
+		
+
+		List<Object> dataList = new ArrayList<Object>();
+		if (list != null && list.size() > 0) {
+			for (int i = 0; i < list.size(); i++) {
+				Contract f03 = list.get(i);
+				String fyxRate =((BigDecimal)f03.getFyxRate()).toString(); 
+				String zbxRate = ((BigDecimal)f03.getZbxRate()).toString();
+				if (name.equals("fyxRate")) {
+					
+					if (fyxRate==null || fyxRate.equals(""))
+					{
+						dataList.add(0);
+					}else
+					{
+						
+
+						  
+						fyxRate=new BigDecimal(fyxRate).stripTrailingZeros().toPlainString();
+						dataList.add(fyxRate);
+					}
+					
+					
+				}
+				if (name.equals("zbxRate")) {
+					
+					if (zbxRate==null || zbxRate.equals(""))
+					{
+						dataList.add(0);
+					}else
+					{
+						zbxRate=new BigDecimal(zbxRate).stripTrailingZeros().toPlainString();
+						dataList.add(zbxRate);
+					}
+					
+					
+				}
+				
+
+			}
+			chartBarLineSeries.setData(dataList);
+		}
+		return chartBarLineSeries;
+	}
+	
+	
+	
 	public static ChartBarLineSeries  getContractChartBarLineSeries22(List<Contract> list, String name) {
 
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
@@ -2830,6 +2968,10 @@ public class HanaUtil {
 						dataList.add(0);
 					}else
 					{
+						
+
+						  
+						fyxRate=new BigDecimal(fyxRate).stripTrailingZeros().toPlainString();
 						dataList.add(String.format("%.2f", Double.valueOf(fyxRate)));
 					}
 					
@@ -2842,6 +2984,7 @@ public class HanaUtil {
 						dataList.add(0);
 					}else
 					{
+						zbxRate=new BigDecimal(zbxRate).stripTrailingZeros().toPlainString();
 						dataList.add(String.format("%.2f", Double.valueOf(zbxRate)));
 					}
 					
@@ -3615,20 +3758,21 @@ public static ChartBarLineSeries getKNOWLDGELevel2ChartBarLineSeries07(List<Know
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
 		if (name.equals("zsjje")) {
 			chartBarLineSeries.setName("实际下达");
-			chartBarLineSeries.setStack("数量");
+			chartBarLineSeries.setStack("亿元");
 			chartBarLineSeries.setyAxisIndex(0);
 			chartBarLineSeries.setItemStyle("{normal:{color:'#FF8849'}}");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
 		if (name.equals("wxdje")) {
 			chartBarLineSeries.setName("未下达");
-			chartBarLineSeries.setStack("数量");
+			chartBarLineSeries.setStack("亿元");
 			chartBarLineSeries.setyAxisIndex(0);
 			chartBarLineSeries.setItemStyle("{normal:{color:'#FF8849'}}");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
 		if (name.equals("jeRate")) {
 			chartBarLineSeries.setName("投资完成率");
+			chartBarLineSeries.setStack("百分比");
 			chartBarLineSeries.setyAxisIndex(1);
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_LINE);
 		}
@@ -4402,6 +4546,88 @@ public static ChartBarLineSeries getKNOWLDGELevel2ChartBarLineSeries07(List<Know
 	}
 	
 	
+	public static ChartBarLineSeries getChartBarLineSeries_PAY02_bar02(List<H1AMKYSY10010902> list, String name) {
+
+		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
+		
+		if (name.equals("K0BNZBJE")) {
+			chartBarLineSeries.setName("资本性");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		
+		if (name.equals("K0BNFYJE")) {
+			chartBarLineSeries.setName("费用性");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		
+		if (name.equals("K0BNYSJHJE")) {
+			chartBarLineSeries.setName("总计");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+
+		List<Object> dataList = new ArrayList<Object>();
+		if (list != null && list.size() > 0) 
+		{
+			for (int i = 0; i < list.size(); i++) 
+			{
+				H1AMKYSY10010902 f03 = list.get(i);
+				
+				BigDecimal K0BNZBJE = f03.getK0BNZBJE();
+				BigDecimal K0BNFYJE = f03.getK0BNFYJE();
+				BigDecimal K0BNYSJHJE = f03.getK0BNYSJHJE();
+				
+				//System.out.println(">>>>>>>>>>>>>>>K0BNYSJHJE= " + K0BNYSJHJE+" K0BNZBJE="+K0BNZBJE+" K0BNFYJE="+K0BNFYJE);
+				if (name.equals("K0BNZBJE")) {
+					
+					if (K0BNZBJE!=null) 
+					{
+						dataList.add(String.format("%.2f", Double.valueOf(K0BNZBJE.toString())));
+					}else
+					{
+						dataList.add("0.00");
+					}
+					
+				}
+				if (name.equals("K0BNFYJE")) {
+					
+					
+					if (K0BNFYJE!=null) 
+					{
+						dataList.add(String.format("%.2f", Double.valueOf(K0BNFYJE.toString())));
+					}else
+					{
+						dataList.add("0.00");
+					}
+					
+					
+					
+				}
+               if (name.equals("K0BNYSJHJE")) {
+					
+					
+            	   if (K0BNYSJHJE!=null) 
+					{
+            		   dataList.add(String.format("%.2f", Double.valueOf(K0BNYSJHJE.toString())));
+					}else
+					{
+						dataList.add("0.00");
+					}
+					
+					
+					
+				}
+				
+				
+			chartBarLineSeries.setData(dataList);
+		}
+		}
+		
+		
+		
+		
+		return chartBarLineSeries;
+	}
+	
 	
 
 	public static ChartBarLineSeries getChartBarLineSeries_PAY02_bar(List<H1AMKYSY100109> list, String name) {
@@ -4637,6 +4863,85 @@ public static ChartBarLineSeries getKNOWLDGELevel2ChartBarLineSeries07(List<Know
 		
 		
 		
+		return chartBarLineSeries;
+	}
+	
+	
+	
+	
+
+	public static ChartBarLineSeries getChartBarLineSeries_budget_count_bar_02(List<H1AMKYSY10010902> list, String name) {
+
+		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
+		
+		if (name.equals("K0BNYSJHJE")) {
+			chartBarLineSeries.setName("总计");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		
+		if (name.equals("K0BNXKJE")) {
+			chartBarLineSeries.setName("新开课题");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		if (name.equals("K0BNXJJE")) {
+			chartBarLineSeries.setName("结转课题");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		
+
+		List<Object> dataList = new ArrayList<Object>();
+		if (list != null && list.size() > 0) 
+		{
+			for (int i = 0; i < list.size(); i++) 
+			{
+				H1AMKYSY10010902 f03 = list.get(i);
+				
+				BigDecimal K0BNYSJHJE = f03.getK0BNYSJHJE();
+				BigDecimal K0BNXKJE = f03.getK0BNXKJE();
+				BigDecimal K0BNXJJE = f03.getK0BNXJJE();
+				
+				
+				if (name.equals("K0BNYSJHJE")) {
+					
+					
+					if(K0BNYSJHJE!=null)
+					{
+						dataList.add(String.format("%.2f", Double.valueOf(K0BNYSJHJE.toString())));
+					}else
+					{
+						dataList.add("0.00");
+					}
+				}
+				if (name.equals("K0BNXKJE")) {
+					
+					
+					
+					if(K0BNXKJE!=null)
+					{
+						dataList.add(String.format("%.2f", Double.valueOf(K0BNXKJE.toString())));
+					}else
+					{
+						dataList.add("0.00");
+					}
+					
+					
+				}
+				if (name.equals("K0BNXJJE")) {
+					
+					
+					if(K0BNXJJE!=null)
+					{
+						dataList.add(String.format("%.2f", Double.valueOf(K0BNXJJE.toString())));
+					}else
+					{
+						dataList.add("0.00");
+					}
+					
+				}
+				
+			chartBarLineSeries.setData(dataList);
+		}
+		}
 		return chartBarLineSeries;
 	}
 	
@@ -5495,17 +5800,17 @@ public static ChartBarLineSeries getKNOWLDGELevel2ChartBarLineSeries07(List<Know
 		double f1 = new BigDecimal((float)a/b).setScale(4, BigDecimal.ROUND_HALF_UP).doubleValue();
 		return f1*100;
 	}
-	
+	public static double chufa3(int a,int b,int wei) 
+	{
+		double f1 = new BigDecimal((float)a/b).setScale(wei, BigDecimal.ROUND_HALF_UP).doubleValue();
+		return f1*100;
+	}
 	
 	/*public static void main(String[] args) {
 		
 		DecimalFormat df=new DecimalFormat("0.0000");
-		
 		double f1 = new BigDecimal((float)2466/2565).setScale(4, BigDecimal.ROUND_HALF_UP).doubleValue();
-		
 		System.out.println(chufa2(2466,2565) );
-		
-		
 		
 	}*/
 

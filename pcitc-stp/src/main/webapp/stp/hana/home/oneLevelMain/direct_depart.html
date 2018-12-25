@@ -20,10 +20,9 @@
 </head>
 <body >
 
-<input type="hidden" name="month" value="${month}"   id="month">
-<input type="hidden" name="year" value="${year}"   id="year">
+<input type="hidden" name="month"       value="${month}"         id="month">
+<input type="hidden" name="year"        value="${year}"          id="year">
 <input type="hidden" name="companyCode" value="${companyCode}"   id="companyCode">
-
 
     <div class="layui-fluid">
         <div class="layui-row layui-col-space15">
@@ -33,7 +32,7 @@
                         <span class="layui-box-icon bg-1"></span>
                         <div class="layui-box-content">
                             <span class="layui-box-text">科研课题</span>
-                            <span class="layui-box-number" id="kyxm">
+                            <span class="layui-box-number" id="topic_id">
                                 <img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
                             </span>
                         </div>
@@ -56,7 +55,7 @@
                     <div class="layui-main-box">
                         <span class="layui-box-icon bg-2"></span>
                         <div class="layui-box-content">
-                            <span class="layui-box-text">合同签订</span>
+                            <span class="layui-box-text">合同签订率</span>
                             <span class="layui-box-number" id="contcator_id">
                             <img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">
                             </span>
@@ -376,24 +375,26 @@
         });
 
         
-        //科研项目、科研装备、预算
-        function getKyxm(month)
+        //科研课题 projectCount、科研装备 kyzbCount、合同zje
+        function getCommonCount(month)
         {
         	$.ajax({
  				type : 'POST',
- 				url : "/admin/project-count?define2=1",
+ 				url : "/admin/project-count?typeFlag=研究院",
  				dataType : 'json',
  				headers : {
  					'Content-Type' : 'application/json'
  				},
  				timeout : 3000, //超时时间设置，单位毫秒
  				error : function(XMLHttpRequest, status) {
- 					$("#kyxm").html("<small>--(个)</small>");
+ 					$("#topic_id").html("<small>--(个)</small>");
  					$("#equipment_id").html("<small>--(个)</small>");
+ 					//$("#contcator_id").html("<small>--(个)</small>");
  				},
  				success : function(data) { //请求成功后处理函数。
- 					$("#kyxm").html(data.projectCount+"<small>(个)</small>");
+ 					$("#topic_id").html(data.projectCount+"<small>(个)</small>");//课题数量
  					$("#equipment_id").html(data.kyzbCount+"<small>(个)</small>");
+ 					//$("#contcator_id").html(data.zje+"<small>(亿元)</small>");
  				}
  			});
         	
@@ -401,11 +402,11 @@
         
         
         
-        //合同签订
+        //合同签订--bak--
         function setContcator_id(nd,v_date)
         {
-        	
-        	var url="/direct/contract_01_count?type=1&nd="+nd+"&v_date="+v_date;
+        	var url="/direct/contract_01?type=3&nd="+nd+"&v_date="+v_date;
+        	//var url="/direct/contract_01_count?type=1&nd="+nd+"&v_date="+v_date;
         	$.ajax({
  				type : 'GET',
  				url : url,
@@ -415,13 +416,11 @@
  				},
  				timeout : 3000, 
  				error : function(XMLHttpRequest, status) {
- 					$("#contcator_id").html("<small>--(个)</small>");
+ 					$("#contcator_id").html("<small>--(%)</small>");
  				},
  				success : function(data) { 
- 					    var yqht=data.data.yqht;
- 				       $("#contcator_id").html(yqht+"<small>(个)</small>");
- 				       
- 					
+ 					   // var yqht=data.data.yqht;
+ 				       $("#contcator_id").html(data.data.qdl+"<small>(%)</small>");
  				}
  			});
         	
@@ -477,7 +476,7 @@
         	
          	$.ajax({
  				type : 'POST',
- 				url : "/admin/patent-count?define2=1&nd="+month,
+ 				url : "/admin/patent-count?define3=研究院&nd="+month,
  				dataType : 'json',
  				headers : {
  					'Content-Type' : 'application/json'
@@ -500,7 +499,7 @@
          {
          	$.ajax({
  				type : 'POST',
- 				url : "/admin/appraisal-count?define2=1&nd="+month,
+ 				url : "/admin/appraisal-count?define3=研究院&nd="+month,
  				dataType : 'json',
  				headers : {
  					'Content-Type' : 'application/json'
@@ -556,12 +555,12 @@
         	var v_date=(new Date()).getTime();
         	if(month!=null && month!='')
        		{
-        		getKyxm(year);//科研项目、科研装备、合同签订
+        		getCommonCount(year);//科研课题、科研装备、合同签订
             	getndys_xfzc(month);//经费支出
             	patentCount(year);//专利
             	appraisalCount(year);//成果
             	setContractCount(year);
-            	setContcator_id(year,v_date);//合同签订 
+            	setContcator_id(year,v_date);//合同签订率
             	
             	var yAxis= [
                     {
@@ -619,6 +618,14 @@
            	 var chart2_url="/direct/contract_04?nd="+year+"&v_date="+v_date+"&type=1";
            	 var colorLine=["#b68d01","#9799ec"];
            	 var echart2= load_mony_line_down(chart2_url,"contract_line","","",yAxis3,colorLine);
+           	 
+           	echart2.on('click', function (params) {
+         		var xName=params.name;
+         		var legentName=params.seriesName;
+         		window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
+                   
+              });
+           	 
            	   
            	
 
