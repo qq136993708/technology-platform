@@ -20,9 +20,19 @@ public interface OutProjectService {
 	public int insertProjectData(List<OutProjectInfo> list, String nd);
 	
 	/**
+	 * 批量插入项目预算数据
+	 */
+	public int insertProjectItemData(List<OutProjectInfo> list);
+	
+	/**
 	 * 获取项目数据
 	 */
 	public List<OutProjectInfo> getProjectList(HashMap<String, String> map);
+	
+	/**
+	 * 获取项目预算数据
+	 */
+	public List getProjectItemList(HashMap<String, String> map);
 	
 	/**
 	 * 分页显示项目
