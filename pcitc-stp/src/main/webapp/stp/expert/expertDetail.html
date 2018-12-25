@@ -24,25 +24,59 @@
 </div>-->
 <div class="layui-main-oil layui-expert">
     <div class="layui-row layui-col-space15">
-
-        <div class="layui-col-md5 layui-col-space15">
-            <div class="layui-col-md3">1</div>
-            <div class="layui-col-md9">
-                <p>${zjkBaseInfo.name}</p>
-                <span>参与评标累计项目总数量${zjkBaseInfo.xmCount}个</span>
-                <span>参与评标机构总数量${zjkBaseInfo.jgCount}个</span>
-                <span>成果数量${zjkBaseInfo.cgCount}个</span>
-                <span>专利数量${zjkBaseInfo.zlCount}个</span>
-                <span>同一行业领域共计300人</span>
+        <div class="layui-col-md5 layui-expert-div">
+            <div class="layui-card">
+                <div class="layui-col-md4" style="border: 1px solid #ccc;">1</div>
+                <div class="layui-col-md8" style="padding-left: 30px;">
+                    <p>${zjkBaseInfo.name}</p>
+                    <span>参与评标累计项目总数量 <span class="red">${zjkBaseInfo.xmCount}2</span>个</span>
+                    <span>参与评标机构总数量 <span class="red">${zjkBaseInfo.jgCount}</span> 个</span>
+                    <span>成果数量$<span class="red">1</span>个</span>
+                    <span>专利数量$<span class="red">1</span>个</span>
+                    <span>同一行业领域共计<span class="red">300</span>人</span>
+                    <span class="layui-zc">职称：高级顾问</span>
+                    <span class="layui-pone">电话：13095957743</span>
+                    <span class="layui-e">邮箱：7873289@sinopec.com</span>
+                    <span class="layui-a">地址：北京市朝阳区朝阳门外大街18号</span>
+                    <div class="search">
+                        <a class="add" href="javascript:;" id="addBx">加入备选</a>
+                        <a class="add" href="javascript:;" id="addDb">加入对比</a>
+                    </div>
+                </div>
             </div>
-        </div>
 
-        <div class="layui-col-md5 layui-col-space15">
-            <div class="layui-col-md3">1</div>
-            <div class="layui-col-md9">
-                <#list listZl as vo>
-                    ${vo.name}---${vo.bak1}
-                </#list>
+        </div>
+        <div class="layui-col-md5">
+            <div class="layui-card">
+                <div class="layui-tab layui-tab-brief" lay-filter="component-tabs-hash">
+                    <ul class="layui-tab-title">
+                        <li class="layui-this" lay-id="11">个人信息</li>
+                        <li lay-id="22">成果信息</li>
+                        <li lay-id="33">专利信息</li>
+                    </ul>
+                    <div class="layui-tab-content">
+                        <div class="layui-tab-item layui-show">
+                            个人信息
+                        </div>
+                        <div class="layui-tab-item">
+                            <ul>
+                                <li>
+                                    <p>时间</p>
+                                    <span>成果信息</span>
+                                </li>
+                                <li>
+                                    <p>时间</p>
+                                    <span>成果信息</span>
+                                </li>
+                                <li>
+                                    <p>时间</p>
+                                    <span>成果信息</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="layui-tab-item">内容3</div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="layui-col-md5">
@@ -77,11 +111,11 @@
         </div>
     </div>
 </div>
-${zjkBaseInfo.id}
+<!--${zjkBaseInfo.id}
 
 
-<!--<div class="main-chart" id="two" style="height:280px;width: 100%;"></div>
-<div class="main-chart" id="five" style="height:280px;width: 100%;"></div>-->
+&lt;!&ndash;<div class="main-chart" id="two" style="height:280px;width: 100%;"></div>
+<div class="main-chart" id="five" style="height:280px;width: 100%;"></div>&ndash;&gt;
 ${zjkBaseInfo.name}
 ${zjkBaseInfo.dz}
 ${zjkBaseInfo.email}
@@ -107,12 +141,12 @@ ${hylyCount}
 
 //成果遍历
 <#list listCg as vo>
-    ${vo.cgName}--${vo.publistDate}---${vo.hylyName}---${vo.cgDesc}
+    ${vo.cgName}&#45;&#45;${vo.publistDate}-&#45;&#45;${vo.hylyName}-&#45;&#45;${vo.cgDesc}
 </#list>
 
 //专利遍历
 <#list listZl as vo>
-    ${vo.name}---${vo.bak1}
+    ${vo.name}-&#45;&#45;${vo.bak1}
 </#list>
 
 
@@ -126,7 +160,7 @@ ${hylyCount}
 <a href="/expertController/queryExpert" id="hylyshowall" target="_blank">行业领域查看类似</a>
 
 <a href="/expertController/selectBakList?status=1&addUserId=addUserId" id="showBak" target="_blank">查看对比</a>
-<table id="expertTable" class="layui-hide" lay-filter="tableEvent"></table>
+<table id="expertTable" class="layui-hide" lay-filter="tableEvent"></table>-->
 <script src="/common/js/jquery-1.11.3.min.js"></script>
 <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
 <script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
