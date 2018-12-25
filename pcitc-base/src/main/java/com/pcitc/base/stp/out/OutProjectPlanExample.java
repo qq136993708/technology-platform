@@ -1574,6 +1574,146 @@ public class OutProjectPlanExample {
             return (Criteria) this;
         }
 
+        public Criteria andFzryxIsNull() {
+            addCriterion("FZRYX is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFzryxIsNotNull() {
+            addCriterion("FZRYX is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFzryxEqualTo(String value) {
+            addCriterion("FZRYX =", value, "fzryx");
+            return (Criteria) this;
+        }
+
+        public Criteria andFzryxNotEqualTo(String value) {
+            addCriterion("FZRYX <>", value, "fzryx");
+            return (Criteria) this;
+        }
+
+        public Criteria andFzryxGreaterThan(String value) {
+            addCriterion("FZRYX >", value, "fzryx");
+            return (Criteria) this;
+        }
+
+        public Criteria andFzryxGreaterThanOrEqualTo(String value) {
+            addCriterion("FZRYX >=", value, "fzryx");
+            return (Criteria) this;
+        }
+
+        public Criteria andFzryxLessThan(String value) {
+            addCriterion("FZRYX <", value, "fzryx");
+            return (Criteria) this;
+        }
+
+        public Criteria andFzryxLessThanOrEqualTo(String value) {
+            addCriterion("FZRYX <=", value, "fzryx");
+            return (Criteria) this;
+        }
+
+        public Criteria andFzryxLike(String value) {
+            addCriterion("FZRYX like", value, "fzryx");
+            return (Criteria) this;
+        }
+
+        public Criteria andFzryxNotLike(String value) {
+            addCriterion("FZRYX not like", value, "fzryx");
+            return (Criteria) this;
+        }
+
+        public Criteria andFzryxIn(List<String> values) {
+            addCriterion("FZRYX in", values, "fzryx");
+            return (Criteria) this;
+        }
+
+        public Criteria andFzryxNotIn(List<String> values) {
+            addCriterion("FZRYX not in", values, "fzryx");
+            return (Criteria) this;
+        }
+
+        public Criteria andFzryxBetween(String value1, String value2) {
+            addCriterion("FZRYX between", value1, value2, "fzryx");
+            return (Criteria) this;
+        }
+
+        public Criteria andFzryxNotBetween(String value1, String value2) {
+            addCriterion("FZRYX not between", value1, value2, "fzryx");
+            return (Criteria) this;
+        }
+
+        public Criteria andFzrdhIsNull() {
+            addCriterion("FZRDH is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFzrdhIsNotNull() {
+            addCriterion("FZRDH is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFzrdhEqualTo(String value) {
+            addCriterion("FZRDH =", value, "fzrdh");
+            return (Criteria) this;
+        }
+
+        public Criteria andFzrdhNotEqualTo(String value) {
+            addCriterion("FZRDH <>", value, "fzrdh");
+            return (Criteria) this;
+        }
+
+        public Criteria andFzrdhGreaterThan(String value) {
+            addCriterion("FZRDH >", value, "fzrdh");
+            return (Criteria) this;
+        }
+
+        public Criteria andFzrdhGreaterThanOrEqualTo(String value) {
+            addCriterion("FZRDH >=", value, "fzrdh");
+            return (Criteria) this;
+        }
+
+        public Criteria andFzrdhLessThan(String value) {
+            addCriterion("FZRDH <", value, "fzrdh");
+            return (Criteria) this;
+        }
+
+        public Criteria andFzrdhLessThanOrEqualTo(String value) {
+            addCriterion("FZRDH <=", value, "fzrdh");
+            return (Criteria) this;
+        }
+
+        public Criteria andFzrdhLike(String value) {
+            addCriterion("FZRDH like", value, "fzrdh");
+            return (Criteria) this;
+        }
+
+        public Criteria andFzrdhNotLike(String value) {
+            addCriterion("FZRDH not like", value, "fzrdh");
+            return (Criteria) this;
+        }
+
+        public Criteria andFzrdhIn(List<String> values) {
+            addCriterion("FZRDH in", values, "fzrdh");
+            return (Criteria) this;
+        }
+
+        public Criteria andFzrdhNotIn(List<String> values) {
+            addCriterion("FZRDH not in", values, "fzrdh");
+            return (Criteria) this;
+        }
+
+        public Criteria andFzrdhBetween(String value1, String value2) {
+            addCriterion("FZRDH between", value1, value2, "fzrdh");
+            return (Criteria) this;
+        }
+
+        public Criteria andFzrdhNotBetween(String value1, String value2) {
+            addCriterion("FZRDH not between", value1, value2, "fzrdh");
+            return (Criteria) this;
+        }
+
         public Criteria andFzrxmIsNull() {
             addCriterion("FZRXM is null");
             return (Criteria) this;
@@ -1711,6 +1851,146 @@ public class OutProjectPlanExample {
 
         public Criteria andJssxxmNotBetween(String value1, String value2) {
             addCriterion("JSSXXM not between", value1, value2, "jssxxm");
+            return (Criteria) this;
+        }
+
+        public Criteria andJssjIsNull() {
+            addCriterion("JSSJ is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andJssjIsNotNull() {
+            addCriterion("JSSJ is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andJssjEqualTo(String value) {
+            addCriterion("JSSJ =", value, "jssj");
+            return (Criteria) this;
+        }
+
+        public Criteria andJssjNotEqualTo(String value) {
+            addCriterion("JSSJ <>", value, "jssj");
+            return (Criteria) this;
+        }
+
+        public Criteria andJssjGreaterThan(String value) {
+            addCriterion("JSSJ >", value, "jssj");
+            return (Criteria) this;
+        }
+
+        public Criteria andJssjGreaterThanOrEqualTo(String value) {
+            addCriterion("JSSJ >=", value, "jssj");
+            return (Criteria) this;
+        }
+
+        public Criteria andJssjLessThan(String value) {
+            addCriterion("JSSJ <", value, "jssj");
+            return (Criteria) this;
+        }
+
+        public Criteria andJssjLessThanOrEqualTo(String value) {
+            addCriterion("JSSJ <=", value, "jssj");
+            return (Criteria) this;
+        }
+
+        public Criteria andJssjLike(String value) {
+            addCriterion("JSSJ like", value, "jssj");
+            return (Criteria) this;
+        }
+
+        public Criteria andJssjNotLike(String value) {
+            addCriterion("JSSJ not like", value, "jssj");
+            return (Criteria) this;
+        }
+
+        public Criteria andJssjIn(List<String> values) {
+            addCriterion("JSSJ in", values, "jssj");
+            return (Criteria) this;
+        }
+
+        public Criteria andJssjNotIn(List<String> values) {
+            addCriterion("JSSJ not in", values, "jssj");
+            return (Criteria) this;
+        }
+
+        public Criteria andJssjBetween(String value1, String value2) {
+            addCriterion("JSSJ between", value1, value2, "jssj");
+            return (Criteria) this;
+        }
+
+        public Criteria andJssjNotBetween(String value1, String value2) {
+            addCriterion("JSSJ not between", value1, value2, "jssj");
+            return (Criteria) this;
+        }
+
+        public Criteria andKssjIsNull() {
+            addCriterion("KSSJ is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andKssjIsNotNull() {
+            addCriterion("KSSJ is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andKssjEqualTo(String value) {
+            addCriterion("KSSJ =", value, "kssj");
+            return (Criteria) this;
+        }
+
+        public Criteria andKssjNotEqualTo(String value) {
+            addCriterion("KSSJ <>", value, "kssj");
+            return (Criteria) this;
+        }
+
+        public Criteria andKssjGreaterThan(String value) {
+            addCriterion("KSSJ >", value, "kssj");
+            return (Criteria) this;
+        }
+
+        public Criteria andKssjGreaterThanOrEqualTo(String value) {
+            addCriterion("KSSJ >=", value, "kssj");
+            return (Criteria) this;
+        }
+
+        public Criteria andKssjLessThan(String value) {
+            addCriterion("KSSJ <", value, "kssj");
+            return (Criteria) this;
+        }
+
+        public Criteria andKssjLessThanOrEqualTo(String value) {
+            addCriterion("KSSJ <=", value, "kssj");
+            return (Criteria) this;
+        }
+
+        public Criteria andKssjLike(String value) {
+            addCriterion("KSSJ like", value, "kssj");
+            return (Criteria) this;
+        }
+
+        public Criteria andKssjNotLike(String value) {
+            addCriterion("KSSJ not like", value, "kssj");
+            return (Criteria) this;
+        }
+
+        public Criteria andKssjIn(List<String> values) {
+            addCriterion("KSSJ in", values, "kssj");
+            return (Criteria) this;
+        }
+
+        public Criteria andKssjNotIn(List<String> values) {
+            addCriterion("KSSJ not in", values, "kssj");
+            return (Criteria) this;
+        }
+
+        public Criteria andKssjBetween(String value1, String value2) {
+            addCriterion("KSSJ between", value1, value2, "kssj");
+            return (Criteria) this;
+        }
+
+        public Criteria andKssjNotBetween(String value1, String value2) {
+            addCriterion("KSSJ not between", value1, value2, "kssj");
             return (Criteria) this;
         }
 
@@ -2971,6 +3251,216 @@ public class OutProjectPlanExample {
 
         public Criteria andDefine6NotBetween(String value1, String value2) {
             addCriterion("DEFINE6 not between", value1, value2, "define6");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine7IsNull() {
+            addCriterion("DEFINE7 is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine7IsNotNull() {
+            addCriterion("DEFINE7 is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine7EqualTo(String value) {
+            addCriterion("DEFINE7 =", value, "define7");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine7NotEqualTo(String value) {
+            addCriterion("DEFINE7 <>", value, "define7");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine7GreaterThan(String value) {
+            addCriterion("DEFINE7 >", value, "define7");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine7GreaterThanOrEqualTo(String value) {
+            addCriterion("DEFINE7 >=", value, "define7");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine7LessThan(String value) {
+            addCriterion("DEFINE7 <", value, "define7");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine7LessThanOrEqualTo(String value) {
+            addCriterion("DEFINE7 <=", value, "define7");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine7Like(String value) {
+            addCriterion("DEFINE7 like", value, "define7");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine7NotLike(String value) {
+            addCriterion("DEFINE7 not like", value, "define7");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine7In(List<String> values) {
+            addCriterion("DEFINE7 in", values, "define7");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine7NotIn(List<String> values) {
+            addCriterion("DEFINE7 not in", values, "define7");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine7Between(String value1, String value2) {
+            addCriterion("DEFINE7 between", value1, value2, "define7");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine7NotBetween(String value1, String value2) {
+            addCriterion("DEFINE7 not between", value1, value2, "define7");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine8IsNull() {
+            addCriterion("DEFINE8 is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine8IsNotNull() {
+            addCriterion("DEFINE8 is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine8EqualTo(String value) {
+            addCriterion("DEFINE8 =", value, "define8");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine8NotEqualTo(String value) {
+            addCriterion("DEFINE8 <>", value, "define8");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine8GreaterThan(String value) {
+            addCriterion("DEFINE8 >", value, "define8");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine8GreaterThanOrEqualTo(String value) {
+            addCriterion("DEFINE8 >=", value, "define8");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine8LessThan(String value) {
+            addCriterion("DEFINE8 <", value, "define8");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine8LessThanOrEqualTo(String value) {
+            addCriterion("DEFINE8 <=", value, "define8");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine8Like(String value) {
+            addCriterion("DEFINE8 like", value, "define8");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine8NotLike(String value) {
+            addCriterion("DEFINE8 not like", value, "define8");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine8In(List<String> values) {
+            addCriterion("DEFINE8 in", values, "define8");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine8NotIn(List<String> values) {
+            addCriterion("DEFINE8 not in", values, "define8");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine8Between(String value1, String value2) {
+            addCriterion("DEFINE8 between", value1, value2, "define8");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine8NotBetween(String value1, String value2) {
+            addCriterion("DEFINE8 not between", value1, value2, "define8");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine9IsNull() {
+            addCriterion("DEFINE9 is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine9IsNotNull() {
+            addCriterion("DEFINE9 is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine9EqualTo(String value) {
+            addCriterion("DEFINE9 =", value, "define9");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine9NotEqualTo(String value) {
+            addCriterion("DEFINE9 <>", value, "define9");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine9GreaterThan(String value) {
+            addCriterion("DEFINE9 >", value, "define9");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine9GreaterThanOrEqualTo(String value) {
+            addCriterion("DEFINE9 >=", value, "define9");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine9LessThan(String value) {
+            addCriterion("DEFINE9 <", value, "define9");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine9LessThanOrEqualTo(String value) {
+            addCriterion("DEFINE9 <=", value, "define9");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine9Like(String value) {
+            addCriterion("DEFINE9 like", value, "define9");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine9NotLike(String value) {
+            addCriterion("DEFINE9 not like", value, "define9");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine9In(List<String> values) {
+            addCriterion("DEFINE9 in", values, "define9");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine9NotIn(List<String> values) {
+            addCriterion("DEFINE9 not in", values, "define9");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine9Between(String value1, String value2) {
+            addCriterion("DEFINE9 between", value1, value2, "define9");
+            return (Criteria) this;
+        }
+
+        public Criteria andDefine9NotBetween(String value1, String value2) {
+            addCriterion("DEFINE9 not between", value1, value2, "define9");
             return (Criteria) this;
         }
     }

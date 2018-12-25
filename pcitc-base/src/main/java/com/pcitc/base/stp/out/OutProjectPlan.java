@@ -43,9 +43,17 @@ public class OutProjectPlan {
 
     private String jtfzdw;
 
+    private String fzryx;
+
+    private String fzrdh;
+
     private String fzrxm;
 
     private String jssxxm;
+
+    private String jssj;
+
+    private String kssj;
 
     private String yjsj;
 
@@ -82,6 +90,12 @@ public class OutProjectPlan {
     private String define5;
 
     private String define6;
+
+    private String define7;
+
+    private String define8;
+
+    private String define9;
     
     private String parentName;
     
@@ -271,6 +285,22 @@ public class OutProjectPlan {
         this.jtfzdw = jtfzdw;
     }
 
+    public String getFzryx() {
+        return fzryx;
+    }
+
+    public void setFzryx(String fzryx) {
+        this.fzryx = fzryx;
+    }
+
+    public String getFzrdh() {
+        return fzrdh;
+    }
+
+    public void setFzrdh(String fzrdh) {
+        this.fzrdh = fzrdh;
+    }
+
     public String getFzrxm() {
         return fzrxm;
     }
@@ -285,6 +315,22 @@ public class OutProjectPlan {
 
     public void setJssxxm(String jssxxm) {
         this.jssxxm = jssxxm;
+    }
+
+    public String getJssj() {
+        return jssj;
+    }
+
+    public void setJssj(String jssj) {
+        this.jssj = jssj;
+    }
+
+    public String getKssj() {
+        return kssj;
+    }
+
+    public void setKssj(String kssj) {
+        this.kssj = kssj;
     }
 
     public String getYjsj() {
@@ -429,5 +475,29 @@ public class OutProjectPlan {
 
     public void setDefine6(String define6) {
         this.define6 = define6;
+    }
+
+    public String getDefine7() {
+        return define7;
+    }
+
+    public void setDefine7(String define7) {
+        this.define7 = define7;
+    }
+
+    public String getDefine8() {
+        return define8;
+    }
+
+    public void setDefine8(String define8) {
+        this.define8 = define8;
+    }
+
+    public String getDefine9() {
+        return define9;
+    }
+
+    public void setDefine9(String define9) {
+        this.define9 = define9;
     }
 }

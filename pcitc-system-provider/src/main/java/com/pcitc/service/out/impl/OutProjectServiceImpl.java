@@ -132,39 +132,54 @@ public class OutProjectServiceImpl implements OutProjectService {
 	}
 
 	public int updateOutProjectInfo(OutProjectInfo opi) {
-		OutProjectInfo newOPI = outProjectInfoMapper.selectByPrimaryKey(opi.getDataId());
-		if (StrUtil.isNotBlank(opi.getProjectLevel())) {
-			newOPI.setProjectLevel(opi.getProjectLevel());
-		}
-		if (StrUtil.isNotBlank(opi.getProjectProperty())) {
-			newOPI.setProjectProperty(opi.getProjectProperty());
-		}
-		if (StrUtil.isNotBlank(opi.getProjectAbc())) {
-			newOPI.setProjectAbc(opi.getProjectAbc());
-		}
-		if (StrUtil.isNotBlank(opi.getProjectSource())) {
-			newOPI.setProjectSource(opi.getProjectSource());
+		
+		OutProjectInfoExample example = new OutProjectInfoExample();
+		
+		OutProjectInfoExample.Criteria criteria = example.createCriteria();
+    	
+    	criteria.andXmidEqualTo(opi.getXmid());
+    	List<OutProjectInfo> returnList = outProjectInfoMapper.selectByExample(example);
+    	
+		OutProjectInfo newOPI = returnList.get(0);
+		if (newOPI != null) {
+			if (StrUtil.isNotBlank(opi.getProjectLevel())) {
+				newOPI.setProjectLevel(opi.getProjectLevel());
+			}
+			
+			System.out.println(opi+"=========---------------------------"+opi.getProjectProperty());
+			if (StrUtil.isNotBlank(opi.getProjectProperty()) ) {
+				newOPI.setProjectProperty(opi.getProjectProperty());
+			}
+			if (StrUtil.isNotBlank(opi.getProjectAbc())) {
+				newOPI.setProjectAbc(opi.getProjectAbc());
+			}
+			if (StrUtil.isNotBlank(opi.getProjectSource())) {
+				newOPI.setProjectSource(opi.getProjectSource());
+			}
+			
+			if (StrUtil.isNotBlank(opi.getXmlbbm())) {
+				newOPI.setXmlbbm(opi.getXmlbbm());
+			}
+			if (StrUtil.isNotBlank(opi.getXmlbmc())) {
+				newOPI.setXmlbmc(opi.getXmlbmc());
+			}
+			if (StrUtil.isNotBlank(opi.getZycbm())) {
+				newOPI.setZycbm(opi.getZycbm());
+			}
+			if (StrUtil.isNotBlank(opi.getZycmc())) {
+				newOPI.setZycmc(opi.getZycmc());
+			}
+			if (StrUtil.isNotBlank(opi.getGsbmbm())) {
+				newOPI.setGsbmbm(opi.getGsbmbm());
+			}
+			if (StrUtil.isNotBlank(opi.getGsbmmc())) {
+				newOPI.setGsbmmc(opi.getGsbmmc());
+			}
+			return outProjectInfoMapper.updateByPrimaryKey(newOPI);
+		} else {
+			return 123;
 		}
 		
-		if (StrUtil.isNotBlank(opi.getXmlbbm())) {
-			newOPI.setXmlbbm(opi.getXmlbbm());
-		}
-		if (StrUtil.isNotBlank(opi.getXmlbmc())) {
-			newOPI.setXmlbmc(opi.getXmlbmc());
-		}
-		if (StrUtil.isNotBlank(opi.getZycbm())) {
-			newOPI.setZycbm(opi.getZycbm());
-		}
-		if (StrUtil.isNotBlank(opi.getZycmc())) {
-			newOPI.setZycmc(opi.getZycmc());
-		}
-		if (StrUtil.isNotBlank(opi.getGsbmbm())) {
-			newOPI.setGsbmbm(opi.getGsbmbm());
-		}
-		if (StrUtil.isNotBlank(opi.getGsbmmc())) {
-			newOPI.setGsbmmc(opi.getGsbmmc());
-		}
-		return outProjectInfoMapper.updateByPrimaryKey(newOPI);
 	}
 
 	/**
