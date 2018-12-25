@@ -281,4 +281,14 @@ public interface OutProjectInfoMapper {
      * 领导首页-十条龙，十条龙项目的详情
      */
 	public List getDragonProjectDetails(HashMap<String, String> map);
+	
+	/**
+	 * 获取项目预算数据
+	 */
+	public List getProjectItemList(HashMap<String, String> map);
+	
+	/**
+	 * 批量插入项目预算数据
+	 */
+	public int insertProjectItemData(List<OutProjectInfo> list);
 }

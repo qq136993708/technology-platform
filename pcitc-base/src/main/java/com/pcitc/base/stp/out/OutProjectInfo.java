@@ -33,7 +33,17 @@ public class OutProjectInfo {
 
     private String jtfzdw;
 
+    private String fzryx;
+
+    private String fzrdh;
+
     private String fzrxm;
+
+    private String lxrdh;
+
+    private String lxryx;
+
+    private String lxrxm;
 
     private String jssxxm;
 
@@ -112,6 +122,13 @@ public class OutProjectInfo {
     private String define9;
     
     private String erpProjectName;	//erp关联的项目名称，可能多个，逗号隔开
+    
+    private String ktid;
+    
+    private String ktmc;
+    
+    private String jfhj;
+    
 
     public String getErpProjectName() {
 		return erpProjectName;
@@ -119,6 +136,30 @@ public class OutProjectInfo {
 
 	public void setErpProjectName(String erpProjectName) {
 		this.erpProjectName = erpProjectName;
+	}
+
+	public String getKtid() {
+		return ktid;
+	}
+
+	public void setKtid(String ktid) {
+		this.ktid = ktid;
+	}
+
+	public String getKtmc() {
+		return ktmc;
+	}
+
+	public void setKtmc(String ktmc) {
+		this.ktmc = ktmc;
+	}
+
+	public String getJfhj() {
+		return jfhj;
+	}
+
+	public void setJfhj(String jfhj) {
+		this.jfhj = jfhj;
 	}
 
 	public String getDataId() {
@@ -241,12 +282,52 @@ public class OutProjectInfo {
         this.jtfzdw = jtfzdw;
     }
 
+    public String getFzryx() {
+        return fzryx;
+    }
+
+    public void setFzryx(String fzryx) {
+        this.fzryx = fzryx;
+    }
+
+    public String getFzrdh() {
+        return fzrdh;
+    }
+
+    public void setFzrdh(String fzrdh) {
+        this.fzrdh = fzrdh;
+    }
+
     public String getFzrxm() {
         return fzrxm;
     }
 
     public void setFzrxm(String fzrxm) {
         this.fzrxm = fzrxm;
+    }
+
+    public String getLxrdh() {
+        return lxrdh;
+    }
+
+    public void setLxrdh(String lxrdh) {
+        this.lxrdh = lxrdh;
+    }
+
+    public String getLxryx() {
+        return lxryx;
+    }
+
+    public void setLxryx(String lxryx) {
+        this.lxryx = lxryx;
+    }
+
+    public String getLxrxm() {
+        return lxrxm;
+    }
+
+    public void setLxrxm(String lxrxm) {
+        this.lxrxm = lxrxm;
     }
 
     public String getJssxxm() {

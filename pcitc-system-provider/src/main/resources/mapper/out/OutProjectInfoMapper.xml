@@ -17,7 +17,12 @@
     <result column="fzdw" property="fzdw" jdbcType="VARCHAR" />
     <result column="jtfzdwbm" property="jtfzdwbm" jdbcType="VARCHAR" />
     <result column="jtfzdw" property="jtfzdw" jdbcType="VARCHAR" />
+    <result column="fzryx" property="fzryx" jdbcType="VARCHAR" />
+    <result column="fzrdh" property="fzrdh" jdbcType="VARCHAR" />
     <result column="fzrxm" property="fzrxm" jdbcType="VARCHAR" />
+    <result column="lxrdh" property="lxrdh" jdbcType="VARCHAR" />
+    <result column="lxryx" property="lxryx" jdbcType="VARCHAR" />
+    <result column="lxrxm" property="lxrxm" jdbcType="VARCHAR" />
     <result column="jssxxm" property="jssxxm" jdbcType="VARCHAR" />
     <result column="jssj" property="jssj" jdbcType="VARCHAR" />
     <result column="kssj" property="kssj" jdbcType="VARCHAR" />
@@ -124,11 +129,11 @@
   </sql>
   <sql id="Base_Column_List" >
     data_id, nd, xmid, hth, xmmc, xmjb, jf, fwdxbm, fwdx, zylbbm, zylb, fzdwbm, fzdw, 
-    jtfzdwbm, jtfzdw, fzrxm, jssxxm, jssj, kssj, yjsj, zyly, zysx, sjid, create_date, 
-    create_person, status, update_date, project_id, parent_project_id, project_type, 
-    erp_project_code, project_scope, project_level, project_property, project_abc, project_source, 
-    yjsjks, yjsjjs, xmlbbm, xmlbmc, gsbmmc, gsbmbm, zycmc, zycbm, type_flag, define1, 
-    define2, define3, define4, define5, define6, define7, define8, define9
+    jtfzdwbm, jtfzdw, fzryx, fzrdh, fzrxm, lxrdh, lxryx, lxrxm, jssxxm, jssj, kssj, yjsj, 
+    zyly, zysx, sjid, create_date, create_person, status, update_date, project_id, parent_project_id, 
+    project_type, erp_project_code, project_scope, project_level, project_property, project_abc, 
+    project_source, yjsjks, yjsjjs, xmlbbm, xmlbmc, gsbmmc, gsbmbm, zycmc, zycbm, type_flag, 
+    define1, define2, define3, define4, define5, define6, define7, define8, define9
   </sql>
   <sql id="Blob_Column_List" >
     lxbj, yjnr, jdap, yjmb, erp_project_name
@@ -188,42 +193,44 @@
       hth, xmmc, xmjb, jf, 
       fwdxbm, fwdx, zylbbm, 
       zylb, fzdwbm, fzdw, 
-      jtfzdwbm, jtfzdw, fzrxm, 
-      jssxxm, jssj, kssj, 
-      yjsj, zyly, zysx, sjid, 
-      create_date, create_person, status, 
-      update_date, project_id, parent_project_id, 
-      project_type, erp_project_code, project_scope, 
-      project_level, project_property, project_abc, 
-      project_source, yjsjks, yjsjjs, 
-      xmlbbm, xmlbmc, gsbmmc, 
-      gsbmbm, zycmc, zycbm, 
-      type_flag, define1, define2, 
-      define3, define4, define5, 
-      define6, define7, define8, 
-      define9, lxbj, yjnr, 
-      jdap, yjmb, erp_project_name
-      )
+      jtfzdwbm, jtfzdw, fzryx, 
+      fzrdh, fzrxm, lxrdh, 
+      lxryx, lxrxm, jssxxm, 
+      jssj, kssj, yjsj, zyly, 
+      zysx, sjid, create_date, 
+      create_person, status, update_date, 
+      project_id, parent_project_id, project_type, 
+      erp_project_code, project_scope, project_level, 
+      project_property, project_abc, project_source, 
+      yjsjks, yjsjjs, xmlbbm, 
+      xmlbmc, gsbmmc, gsbmbm, 
+      zycmc, zycbm, type_flag, 
+      define1, define2, define3, 
+      define4, define5, define6, 
+      define7, define8, define9, 
+      lxbj, yjnr, jdap, 
+      yjmb, erp_project_name)
     values (#{dataId,jdbcType=VARCHAR}, #{nd,jdbcType=VARCHAR}, #{xmid,jdbcType=VARCHAR}, 
       #{hth,jdbcType=VARCHAR}, #{xmmc,jdbcType=VARCHAR}, #{xmjb,jdbcType=VARCHAR}, #{jf,jdbcType=VARCHAR}, 
       #{fwdxbm,jdbcType=VARCHAR}, #{fwdx,jdbcType=VARCHAR}, #{zylbbm,jdbcType=VARCHAR}, 
       #{zylb,jdbcType=VARCHAR}, #{fzdwbm,jdbcType=VARCHAR}, #{fzdw,jdbcType=VARCHAR}, 
-      #{jtfzdwbm,jdbcType=VARCHAR}, #{jtfzdw,jdbcType=VARCHAR}, #{fzrxm,jdbcType=VARCHAR}, 
-      #{jssxxm,jdbcType=VARCHAR}, #{jssj,jdbcType=VARCHAR}, #{kssj,jdbcType=VARCHAR}, 
-      #{yjsj,jdbcType=VARCHAR}, #{zyly,jdbcType=VARCHAR}, #{zysx,jdbcType=VARCHAR}, #{sjid,jdbcType=VARCHAR}, 
-      #{createDate,jdbcType=TIMESTAMP}, #{createPerson,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
-      #{updateDate,jdbcType=TIMESTAMP}, #{projectId,jdbcType=VARCHAR}, #{parentProjectId,jdbcType=VARCHAR}, 
-      #{projectType,jdbcType=VARCHAR}, #{erpProjectCode,jdbcType=VARCHAR}, #{projectScope,jdbcType=VARCHAR}, 
-      #{projectLevel,jdbcType=VARCHAR}, #{projectProperty,jdbcType=VARCHAR}, #{projectAbc,jdbcType=VARCHAR}, 
-      #{projectSource,jdbcType=VARCHAR}, #{yjsjks,jdbcType=VARCHAR}, #{yjsjjs,jdbcType=VARCHAR}, 
-      #{xmlbbm,jdbcType=VARCHAR}, #{xmlbmc,jdbcType=VARCHAR}, #{gsbmmc,jdbcType=VARCHAR}, 
-      #{gsbmbm,jdbcType=VARCHAR}, #{zycmc,jdbcType=VARCHAR}, #{zycbm,jdbcType=VARCHAR}, 
-      #{typeFlag,jdbcType=VARCHAR}, #{define1,jdbcType=VARCHAR}, #{define2,jdbcType=VARCHAR}, 
-      #{define3,jdbcType=VARCHAR}, #{define4,jdbcType=VARCHAR}, #{define5,jdbcType=VARCHAR}, 
-      #{define6,jdbcType=VARCHAR}, #{define7,jdbcType=VARCHAR}, #{define8,jdbcType=VARCHAR}, 
-      #{define9,jdbcType=VARCHAR}, #{lxbj,jdbcType=LONGVARCHAR}, #{yjnr,jdbcType=LONGVARCHAR}, 
-      #{jdap,jdbcType=LONGVARCHAR}, #{yjmb,jdbcType=LONGVARCHAR}, #{erpProjectName,jdbcType=LONGVARCHAR}
-      )
+      #{jtfzdwbm,jdbcType=VARCHAR}, #{jtfzdw,jdbcType=VARCHAR}, #{fzryx,jdbcType=VARCHAR}, 
+      #{fzrdh,jdbcType=VARCHAR}, #{fzrxm,jdbcType=VARCHAR}, #{lxrdh,jdbcType=VARCHAR}, 
+      #{lxryx,jdbcType=VARCHAR}, #{lxrxm,jdbcType=VARCHAR}, #{jssxxm,jdbcType=VARCHAR}, 
+      #{jssj,jdbcType=VARCHAR}, #{kssj,jdbcType=VARCHAR}, #{yjsj,jdbcType=VARCHAR}, #{zyly,jdbcType=VARCHAR}, 
+      #{zysx,jdbcType=VARCHAR}, #{sjid,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{createPerson,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, 
+      #{projectId,jdbcType=VARCHAR}, #{parentProjectId,jdbcType=VARCHAR}, #{projectType,jdbcType=VARCHAR}, 
+      #{erpProjectCode,jdbcType=VARCHAR}, #{projectScope,jdbcType=VARCHAR}, #{projectLevel,jdbcType=VARCHAR}, 
+      #{projectProperty,jdbcType=VARCHAR}, #{projectAbc,jdbcType=VARCHAR}, #{projectSource,jdbcType=VARCHAR}, 
+      #{yjsjks,jdbcType=VARCHAR}, #{yjsjjs,jdbcType=VARCHAR}, #{xmlbbm,jdbcType=VARCHAR}, 
+      #{xmlbmc,jdbcType=VARCHAR}, #{gsbmmc,jdbcType=VARCHAR}, #{gsbmbm,jdbcType=VARCHAR}, 
+      #{zycmc,jdbcType=VARCHAR}, #{zycbm,jdbcType=VARCHAR}, #{typeFlag,jdbcType=VARCHAR}, 
+      #{define1,jdbcType=VARCHAR}, #{define2,jdbcType=VARCHAR}, #{define3,jdbcType=VARCHAR}, 
+      #{define4,jdbcType=VARCHAR}, #{define5,jdbcType=VARCHAR}, #{define6,jdbcType=VARCHAR}, 
+      #{define7,jdbcType=VARCHAR}, #{define8,jdbcType=VARCHAR}, #{define9,jdbcType=VARCHAR}, 
+      #{lxbj,jdbcType=LONGVARCHAR}, #{yjnr,jdbcType=LONGVARCHAR}, #{jdap,jdbcType=LONGVARCHAR}, 
+      #{yjmb,jdbcType=LONGVARCHAR}, #{erpProjectName,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.pcitc.base.stp.out.OutProjectInfoWithBLOBs" >
     insert into out_project_info
@@ -273,8 +280,23 @@
       <if test="jtfzdw != null" >
         jtfzdw,
       </if>
+      <if test="fzryx != null" >
+        fzryx,
+      </if>
+      <if test="fzrdh != null" >
+        fzrdh,
+      </if>
       <if test="fzrxm != null" >
         fzrxm,
+      </if>
+      <if test="lxrdh != null" >
+        lxrdh,
+      </if>
+      <if test="lxryx != null" >
+        lxryx,
+      </if>
+      <if test="lxrxm != null" >
+        lxrxm,
       </if>
       <if test="jssxxm != null" >
         jssxxm,
@@ -452,8 +474,23 @@
       <if test="jtfzdw != null" >
         #{jtfzdw,jdbcType=VARCHAR},
       </if>
+      <if test="fzryx != null" >
+        #{fzryx,jdbcType=VARCHAR},
+      </if>
+      <if test="fzrdh != null" >
+        #{fzrdh,jdbcType=VARCHAR},
+      </if>
       <if test="fzrxm != null" >
         #{fzrxm,jdbcType=VARCHAR},
+      </if>
+      <if test="lxrdh != null" >
+        #{lxrdh,jdbcType=VARCHAR},
+      </if>
+      <if test="lxryx != null" >
+        #{lxryx,jdbcType=VARCHAR},
+      </if>
+      <if test="lxrxm != null" >
+        #{lxrxm,jdbcType=VARCHAR},
       </if>
       <if test="jssxxm != null" >
         #{jssxxm,jdbcType=VARCHAR},
@@ -640,8 +677,23 @@
       <if test="record.jtfzdw != null" >
         jtfzdw = #{record.jtfzdw,jdbcType=VARCHAR},
       </if>
+      <if test="record.fzryx != null" >
+        fzryx = #{record.fzryx,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fzrdh != null" >
+        fzrdh = #{record.fzrdh,jdbcType=VARCHAR},
+      </if>
       <if test="record.fzrxm != null" >
         fzrxm = #{record.fzrxm,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lxrdh != null" >
+        lxrdh = #{record.lxrdh,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lxryx != null" >
+        lxryx = #{record.lxryx,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lxrxm != null" >
+        lxrxm = #{record.lxrxm,jdbcType=VARCHAR},
       </if>
       <if test="record.jssxxm != null" >
         jssxxm = #{record.jssxxm,jdbcType=VARCHAR},
@@ -794,7 +846,12 @@
       fzdw = #{record.fzdw,jdbcType=VARCHAR},
       jtfzdwbm = #{record.jtfzdwbm,jdbcType=VARCHAR},
       jtfzdw = #{record.jtfzdw,jdbcType=VARCHAR},
+      fzryx = #{record.fzryx,jdbcType=VARCHAR},
+      fzrdh = #{record.fzrdh,jdbcType=VARCHAR},
       fzrxm = #{record.fzrxm,jdbcType=VARCHAR},
+      lxrdh = #{record.lxrdh,jdbcType=VARCHAR},
+      lxryx = #{record.lxryx,jdbcType=VARCHAR},
+      lxrxm = #{record.lxrxm,jdbcType=VARCHAR},
       jssxxm = #{record.jssxxm,jdbcType=VARCHAR},
       jssj = #{record.jssj,jdbcType=VARCHAR},
       kssj = #{record.kssj,jdbcType=VARCHAR},
@@ -859,7 +916,12 @@
       fzdw = #{record.fzdw,jdbcType=VARCHAR},
       jtfzdwbm = #{record.jtfzdwbm,jdbcType=VARCHAR},
       jtfzdw = #{record.jtfzdw,jdbcType=VARCHAR},
+      fzryx = #{record.fzryx,jdbcType=VARCHAR},
+      fzrdh = #{record.fzrdh,jdbcType=VARCHAR},
       fzrxm = #{record.fzrxm,jdbcType=VARCHAR},
+      lxrdh = #{record.lxrdh,jdbcType=VARCHAR},
+      lxryx = #{record.lxryx,jdbcType=VARCHAR},
+      lxrxm = #{record.lxrxm,jdbcType=VARCHAR},
       jssxxm = #{record.jssxxm,jdbcType=VARCHAR},
       jssj = #{record.jssj,jdbcType=VARCHAR},
       kssj = #{record.kssj,jdbcType=VARCHAR},
@@ -947,8 +1009,23 @@
       <if test="jtfzdw != null" >
         jtfzdw = #{jtfzdw,jdbcType=VARCHAR},
       </if>
+      <if test="fzryx != null" >
+        fzryx = #{fzryx,jdbcType=VARCHAR},
+      </if>
+      <if test="fzrdh != null" >
+        fzrdh = #{fzrdh,jdbcType=VARCHAR},
+      </if>
       <if test="fzrxm != null" >
         fzrxm = #{fzrxm,jdbcType=VARCHAR},
+      </if>
+      <if test="lxrdh != null" >
+        lxrdh = #{lxrdh,jdbcType=VARCHAR},
+      </if>
+      <if test="lxryx != null" >
+        lxryx = #{lxryx,jdbcType=VARCHAR},
+      </if>
+      <if test="lxrxm != null" >
+        lxrxm = #{lxrxm,jdbcType=VARCHAR},
       </if>
       <if test="jssxxm != null" >
         jssxxm = #{jssxxm,jdbcType=VARCHAR},
@@ -1098,7 +1175,12 @@
       fzdw = #{fzdw,jdbcType=VARCHAR},
       jtfzdwbm = #{jtfzdwbm,jdbcType=VARCHAR},
       jtfzdw = #{jtfzdw,jdbcType=VARCHAR},
+      fzryx = #{fzryx,jdbcType=VARCHAR},
+      fzrdh = #{fzrdh,jdbcType=VARCHAR},
       fzrxm = #{fzrxm,jdbcType=VARCHAR},
+      lxrdh = #{lxrdh,jdbcType=VARCHAR},
+      lxryx = #{lxryx,jdbcType=VARCHAR},
+      lxrxm = #{lxrxm,jdbcType=VARCHAR},
       jssxxm = #{jssxxm,jdbcType=VARCHAR},
       jssj = #{jssj,jdbcType=VARCHAR},
       kssj = #{kssj,jdbcType=VARCHAR},
@@ -1160,7 +1242,12 @@
       fzdw = #{fzdw,jdbcType=VARCHAR},
       jtfzdwbm = #{jtfzdwbm,jdbcType=VARCHAR},
       jtfzdw = #{jtfzdw,jdbcType=VARCHAR},
+      fzryx = #{fzryx,jdbcType=VARCHAR},
+      fzrdh = #{fzrdh,jdbcType=VARCHAR},
       fzrxm = #{fzrxm,jdbcType=VARCHAR},
+      lxrdh = #{lxrdh,jdbcType=VARCHAR},
+      lxryx = #{lxryx,jdbcType=VARCHAR},
+      lxrxm = #{lxrxm,jdbcType=VARCHAR},
       jssxxm = #{jssxxm,jdbcType=VARCHAR},
       jssj = #{jssj,jdbcType=VARCHAR},
       kssj = #{kssj,jdbcType=VARCHAR},
@@ -1216,7 +1303,7 @@
 		fwdxbm, fwdx,
 		zylbbm, zylb, fzdwbm,
 		fzdw, jtfzdwbm, jtfzdw,
-		fzrxm,
+		fzrxm,fzrdh,fzryx,lxrxm,lxrdh,lxryx,
 		jssxxm, yjsj,kssj,jssj,
 		zyly,
 		zysx, sjid, create_date,
@@ -1248,6 +1335,11 @@
 			#{projectInfo.jtfzdwbm,jdbcType=VARCHAR},
 			#{projectInfo.jtfzdw,jdbcType=VARCHAR},
 			#{projectInfo.fzrxm,jdbcType=VARCHAR},
+			#{projectInfo.fzrdh,jdbcType=VARCHAR},
+			#{projectInfo.fzryx,jdbcType=VARCHAR},
+			#{projectInfo.lxrxm,jdbcType=VARCHAR},
+			#{projectInfo.lxrdh,jdbcType=VARCHAR},
+			#{projectInfo.lxryx,jdbcType=VARCHAR},
 			#{projectInfo.jssxxm,jdbcType=VARCHAR},
 			#{projectInfo.yjsj,jdbcType=VARCHAR},
 			#{projectInfo.kssj,jdbcType=VARCHAR},
@@ -1281,6 +1373,35 @@
 			#{projectInfo.define7,jdbcType=VARCHAR},
 			#{projectInfo.define8,jdbcType=VARCHAR},
 			#{projectInfo.define9,jdbcType=VARCHAR}
+			)
+		</foreach>
+	</insert>
+	
+	<!-- 批量插入项目预算数据 -->
+	<insert id="insertProjectItemData" parameterType="java.util.List">
+		insert into out_project_item (data_id, nd, ktid, ktmc, jfhj,
+		create_date, create_person, status, update_date, 
+		define1,define2,define3,define4,define5,define6
+		)
+		values
+		<foreach collection="list" item="projectInfo" index="index"
+			separator=",">
+			(
+			#{projectInfo.dataId,jdbcType=VARCHAR},
+			#{projectInfo.nd,jdbcType=VARCHAR},
+			#{projectInfo.ktid,jdbcType=VARCHAR},
+			#{projectInfo.ktmc,jdbcType=VARCHAR},
+			#{projectInfo.jfhj,jdbcType=VARCHAR},
+			#{projectInfo.createDate,jdbcType=TIMESTAMP},
+			#{projectInfo.createPerson,jdbcType=VARCHAR},
+			#{projectInfo.status,jdbcType=VARCHAR},
+			#{projectInfo.updateDate,jdbcType=TIMESTAMP},
+			#{projectInfo.define1,jdbcType=VARCHAR},
+			#{projectInfo.define2,jdbcType=VARCHAR},
+			#{projectInfo.define3,jdbcType=VARCHAR},
+			#{projectInfo.define4,jdbcType=VARCHAR},
+			#{projectInfo.define5,jdbcType=VARCHAR},
+			#{projectInfo.define6,jdbcType=VARCHAR}
 			)
 		</foreach>
 	</insert>
@@ -2034,5 +2155,14 @@
 			 nd = '2017' and project_property = '十条龙项目' and define6 = '3协作单位'
 		GROUP BY xmmc
 		order by xmmc,define6
+	</select>
+	
+	<!-- 得到已保存的预算数据 -->
+	<select id="getProjectItemList" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select *
+		from out_project_item
+		WHERE
+			 nd = '2017'
+		
 	</select>
 </mapper>
