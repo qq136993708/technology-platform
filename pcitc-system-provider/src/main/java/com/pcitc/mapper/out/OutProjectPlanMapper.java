@@ -70,6 +70,4 @@ public interface OutProjectPlanMapper {
      * 项目计划数据，涉及项目预算、项目计划详情等相关的查询时调用
      */
 	public List<OutProjectPlan> selectProjectPlanByCond(OutProjectPlan opp);
-	
-	
 }
