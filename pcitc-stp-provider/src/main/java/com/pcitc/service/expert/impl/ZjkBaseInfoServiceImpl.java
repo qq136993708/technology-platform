@@ -11,6 +11,7 @@ import com.pcitc.base.common.enums.DelFlagEnum;
 import com.pcitc.base.expert.*;
 import com.pcitc.base.expert.ZjkBaseInfoExample;
 import com.pcitc.base.hana.report.AchievementsAnalysis;
+import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.util.IdUtil;
 import com.pcitc.base.util.ReverseSqlResult;
 import com.pcitc.base.util.TreeNodeUtil;
@@ -19,6 +20,7 @@ import com.pcitc.mapper.expert.ZjkBaseInfoMapper;
 import com.pcitc.service.expert.ZjkBaseInfoService;
 import com.pcitc.service.expert.ZjkChengguoService;
 import com.pcitc.service.expert.ZjkPicService;
+import com.pcitc.web.feign.SystemRemoteClient;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -185,6 +188,19 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
     @Autowired
     private ZjkChengguoService zjkChengguoService;
 
+    @Resource
+    private SystemRemoteClient systemRemoteClient;
+
+    public List<SysDictionary> getDicSon(String strParentCode) {
+        List<SysDictionary> list = systemRemoteClient.getDictionaryListByParentCode(strParentCode);
+        return list;
+    }
+
+    public String getDicSonVal(List<SysDictionary> list, String val) {
+        List<SysDictionary> dictionaries = list.stream().filter(a -> val.equals(a.getCode())).collect(Collectors.toList());
+        return (dictionaries == null || dictionaries.size() == 0) ? "" : dictionaries.get(0).getCode();
+    }
+
     @Override
     public LayuiTableData findZjkBaseInfoByPageIndex(LayuiTableParam param) {
         Object hyly = param.getParam().get("hyly");//行业领域
@@ -304,21 +320,26 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
 //        String title = zjkPic.getTitle();
         String bak1 = zjkPic.getBak1();
         String bak2 = zjkPic.getBak2();
+        String bak3 = zjkPic.getBak3();//字典
         String javaCallBack = zjkPic.getCallBackClass();
 
+        List<String> stringsDic = new ArrayList<>();
+        if (bak3 != null && bak3 != null) {
+            List<SysDictionary> dicSon = this.getDicSon(bak3);
+            stringsDic = dicSon.stream().map(SysDictionary::getName).collect(Collectors.toList());
+        }
 
 
         Map<String, Object> param = (Map<String, Object>) jsonObject.get("param");
 
-        if(bak1!=null&&bak2!=null){
+        if (bak1 != null && bak2 != null) {
             Object o = SpringContextUtil.getBean(bak1);
-            invokeMethod(o.getClass(),o,bak2,param);
+            invokeMethod(o.getClass(), o, bak2, param);
         }
 
         for (Map.Entry<String, Object> e : param.entrySet()) {
             sql = sql.replace("#{" + e.getKey() + "}", "'" + e.getValue().toString() + "'");
         }
-
 
 
         Map<String, Object> map = new HashMap<>();
@@ -342,34 +363,34 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
                     }
                 }
                 csr.setSeriesDataList(ySeries);
-                csr.setxAxisDataList(xData);
+                csr.setxAxisDataList(stringsDic.size()==0?xData:stringsDic);
                 result.setSuccess(true);
                 result.setData(csr);
             }
-        }else if ("pie".equals(zjkPic.getEcharType())) {
-                ChartPieResultData pie = new ChartPieResultData();
-                List<ChartPieDataValue> dataList = new ArrayList<ChartPieDataValue>();
-                List<String> legendDataList = new ArrayList<String>();
-                for (int i = 0; i < maps.size(); i++) {
-                    Map<String, Object> m = maps.get(i);
-                    String name = "";
-                    String value = "";
-                    for (Map.Entry<String, Object> entry : m.entrySet()) {
-                        String key = entry.getKey();
-                        if (x.equals(key)) {
-                            name = entry.getValue().toString();
-                        }
-                        if (y.equals(key)) {
-                            value = entry.getValue().toString();
-                        }
+        } else if ("pie".equals(zjkPic.getEcharType())) {
+            ChartPieResultData pie = new ChartPieResultData();
+            List<ChartPieDataValue> dataList = new ArrayList<ChartPieDataValue>();
+            List<String> legendDataList = new ArrayList<String>();
+            for (int i = 0; i < maps.size(); i++) {
+                Map<String, Object> m = maps.get(i);
+                String name = "";
+                String value = "";
+                for (Map.Entry<String, Object> entry : m.entrySet()) {
+                    String key = entry.getKey();
+                    if (x.equals(key)) {
+                        name = entry.getValue().toString();
                     }
-                    legendDataList.add(name);
-                    dataList.add(new ChartPieDataValue(value, name));
+                    if (y.equals(key)) {
+                        value = entry.getValue().toString();
+                    }
                 }
-                pie.setDataList(dataList);
-                pie.setLegendDataList(legendDataList);
-                result.setSuccess(true);
-                result.setData(pie);
+                legendDataList.add(name);
+                dataList.add(new ChartPieDataValue(value, name));
+            }
+            pie.setDataList(dataList);
+            pie.setLegendDataList(legendDataList);
+            result.setSuccess(true);
+            result.setData(pie);
         } else if ("force".equals(zjkPic.getEcharType())) {
             ChartForceResultData force = new ChartForceResultData();
             List<ChartForceDataNode> nodes = new ArrayList<ChartForceDataNode>();
@@ -414,35 +435,35 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
 
         jsonObject.put("result", result);
 
-        if(javaCallBack!=null){
+        if (javaCallBack != null) {
             String[] strings = javaCallBack.split("|");
             Object o = SpringContextUtil.getBean(strings[0]);
-            invokeMethod(o.getClass(),o,strings[1],jsonObject);
+            invokeMethod(o.getClass(), o, strings[1], jsonObject);
         }
 
         return jsonObject;
     }
 
-    public Map<String,Object> getResult(Map<String,Object> param){
+    public Map<String, Object> getResult(Map<String, Object> param) {
         ZjkBaseInfo zjkBaseInfo = this.selectByPrimaryKey(param.get("expertId").toString());
-        param.put(ChartForceResultData.name,zjkBaseInfo.getName());
-        param.put(ChartForceResultData.value,zjkBaseInfo.getId());
+        param.put(ChartForceResultData.name, zjkBaseInfo.getName());
+        param.put(ChartForceResultData.value, zjkBaseInfo.getId());
         return param;
     }
 
     public static Object invokeMethod(Class clazz, Object object, String strName, Map<String, Object> param) {
         Object obj = new Object();
         try {
-            clazz.getMethod(strName,Map.class);
+            clazz.getMethod(strName, Map.class);
             Method method = clazz.getMethod(strName, Map.class);
-            obj =  method.invoke(object, new Object[]{param});
+            obj = method.invoke(object, new Object[]{param});
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             return obj;
         }
     }

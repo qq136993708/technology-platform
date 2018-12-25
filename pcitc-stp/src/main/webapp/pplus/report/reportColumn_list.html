@@ -86,6 +86,9 @@
                 <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"
                         data-type="deleteEvent">删除
                 </button>
+                <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"
+                        data-type="showLinkEvent">查看链接
+                </button>
             </div>
         </div>
         <table id="reportColumnTableId" class="layui-hide" lay-filter="tableEvent"></table>
@@ -338,6 +341,10 @@
                         loadtable();
                     });
                 });
+            }
+            ,
+            showLinkEvent:function () {
+                layer.msg("/reportNew/reportPageStp?name="+parentId);
             }
         };
         $('.layui-btn').on('click', function () {
