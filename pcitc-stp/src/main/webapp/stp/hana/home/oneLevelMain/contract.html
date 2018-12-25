@@ -152,8 +152,8 @@
             ,laydate = layui.laydate
         form.render(null, 'component-form-group');
         laydate.render({
-            elem: '#year'
-            ,format: 'yyyy'
+        	      elem: '#year'
+         	      ,type: 'year'
         });
         $(".layui-time").html($("#year").val());
         $("#knowledge_table").click(function () {
@@ -214,12 +214,9 @@
             }
         ];
         
-
         //表盘
         setGauge("direct_contract_01");
         $(".layui-time").html($("#year").val());
-
-
         var chart_01_01="/one_level_main/contract_01_01?type=1&nd="+nd+"&v_date="+v_date;
         var echartchart_01_01=load_mutl_bar_down(chart_01_01,"direct_contract_01_01","","",yAxis2,30,"");
         echartchart_01_01.on('click', function (params) {

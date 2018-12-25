@@ -409,11 +409,9 @@ function barLineAjax_down(url,  echartsobj, options,id,width)
 		   },
 		   error:function()
 		   {
-		    	layer.alert("网络访问错误");
 		   },
 		   complete: function (XMLHttpRequest, status) {
 	            if(status == 'timeout'){
-	            	 layer.msg('超时');
 	            }
 	        }
 		  

@@ -10,9 +10,30 @@
     <script type="text/javascript" src="/common/js/base.js"></script>
 </head>
 <body>
-<div class="layui-main-oil">
+<div class="layui-main-oil layui-search">
+    <form action="" class="layui-form">
+        <div class="searchIpnut">
+            <div class="searchF">
+                <p>是否规避本院</p>
+                <input type="checkbox" title="规避本院" value="${gb}" lay-skin='primary'>
+            </div>
+            <div class="searchIndustry">
+                <p>行业领域</p>
+            </div>
+            <div class="searchYard">
+                <p>研究院</p>
+            </div>
+            <div class="searchAge">
+                <p>年龄段信息</p>
+            </div>
+            <div class="searchTitle">
+                <p>职称信息</p>
+            </div>
+        </div>
+    </form>
+
     <div class="search">
-        <span>行业领域</span>
+        <!--<span>行业领域</span>
         <input id="hyly" value="${hyly}" type="text"/>
         <span>机构</span>
         <input id="jg" value="${jg}" type="text"/>
@@ -25,14 +46,13 @@
         <span>职称</span>
         <input id="zc" value="${zc}" type="text"/>
         <span>是否规避</span>
-        <input id="gb" value="${gb}" type="text"/>
-        <div class="btnGroup">
-            <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询
-            </button>
-            <button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg"
-                    data-type="resetEvent">重置
-            </button>
-        </div>
+        <input id="gb" value="${gb}" type="text"/>-->
+
+        <input id="key" value="${key}" type="text"/>
+        <input id="zjmc" value="${zjmc}" type="text" class="layui-hide"/>
+        <a data-type="searchEvent">查询</a>
+        <a class="add" href="javascript:;" id="addBx">加入备选</a>
+        <a class="add" href="javascript:;" id="addDb">加入对比</a>
     </div>
     <table id="expertTable" class="layui-hide" lay-filter="tableEvent"></table>
 </div>
@@ -41,7 +61,7 @@
 
 
 <script type="text/html" id="showDetail">
-    <a class="layui-btn layui-btn-xs" lay-event="showDetail">查看</a>
+    <a class="details" lay-event="showDetail">查看详情</a>
 </script>
 <script>
     var hyly = "${hyly}";
@@ -63,14 +83,53 @@
 <script>
     var param = JSON.parse(window.localStorage.getItem("param"));
     var table, selectRowData, workOrderStatus;
-    layui.use(['jquery', 'table', 'laypage', 'publicMethods'], function () {
+    layui.config({
+        base : '../layuiadmin/' //静态资源所在路径
+    }).extend({
+        index : 'lib/index' //主入口模块
+    }).use([ 'index','jquery', 'table', 'laypage', 'publicMethods','form'], function () {
         table = layui.table,
             $ = layui.jquery,
             layer = layui.layer,
             publicMethods = layui.publicMethods,
             laypage = layui.laypage;
+        var form=layui.form;
         // {param: {"equipmentUse":$("#equipmentUse").val()}},
         console.log("---------where--------------");
+        /*查询条件*/
+        //行业领域
+        publicMethods.ajaxPost("/pageCommon/dic/ZJK_XYLY",null,function (data) {
+            $.each(data, function (index, item) {
+                console.log(item.code+"----"+item.name);
+                var html="<input type='checkbox' title='"+item.name+"' value='"+item.code+"' lay-skin='primary'>"
+                $(".searchIndustry").append(html);
+            })
+        });
+        //研究院
+        publicMethods.ajaxPost("/pageCommon/dic/ROOT_XTGL_ZSYJY",null,function (data) {
+            $.each(data, function (index, item) {
+                console.log(item.code+"----"+item.name);
+                var html="<input type='checkbox' title='"+item.name+"' value='"+item.code+"' lay-skin='primary'>"
+                $(".searchYard").append(html);
+            })
+        });
+        //年龄段信息
+        publicMethods.ajaxPost("/pageCommon/dic/ZJK_NLDXX",null,function (data) {
+            $.each(data, function (index, item) {
+                console.log(item.code+"----"+item.name);
+                var html="<input type='checkbox' title='"+item.name+"' value='"+item.code+"' lay-skin='primary'>"
+                $(".searchAge").append(html);
+            })
+        });
+        //职称信息
+        publicMethods.ajaxPost("/pageCommon/dic/ZJK_JSLY",null,function (data) {
+            $.each(data, function (index, item) {
+                console.log(item.code+"----"+item.name);
+                var html="<input type='checkbox' title='"+item.name+"' value='"+item.code+"' lay-skin='primary'>"
+                $(".searchTitle").append(html);
+            })
+        });
+        form.render();
         var cols = [
             {type: 'checkbox', event: 'changeEvents', width: 55},
             {title: '序号', type: 'numbers', width: 55},
@@ -101,22 +160,39 @@
                 sort: true,
             },
             {field: 'zhicheng', title: '职称', event: 'setActive', style: 'cursor: pointer;', sort: true}
-            , {fixed: 'right', title: '查看', toolbar: '#showDetail', width: 150}
+            , {fixed: 'right', title: '查看', toolbar: '#showDetail', width: 150, align: 'center'}
         ];
 
         function renderTable() {
+            var arrIndustry =[],arrYard=[],arrAge=[],arrTitle=[],gbStr="";
+            $(".searchIndustry input:checkbox:checked").each(function(i){
+                arrIndustry[i] = $(this).val();
+            });
+            $(".searchYard input:checkbox:checked").each(function(i){
+                arrYard[i] = $(this).val();
+            });
+            $(".searchAge input:checkbox:checked").each(function(i){
+                arrAge[i] = $(this).val();
+            });
+            $(".searchTitle input:checkbox:checked").each(function(i){
+                arrTitle[i] = $(this).val();
+            });
+            $(".searchF input:checkbox:checked").each(function(i){
+                gbStr = $(this).val();
+            });
+            //data.field.like = arrIndustry.join(",");//将数组合并成字符串
             var where = {
                 param: {
-                    hyly: $("#hyly").val(),
-                    jg: $("#jg").val(),
+                    hyly: arrIndustry.join(","),
+                    jg: arrYard.join(","),
                     zjmc: $("#zjmc").val(),
                     key: $("#key").val(),
-                    nld: $("#nld").val(),
-                    zc: $("#zc").val(),
-                    gb: $("#gb").val()
+                    nld:arrAge.join(","),
+                    zc: arrTitle.join(","),
+                    gb: gbStr
                 }
             };
-            console.log(where);
+            console.log(where)
             publicMethods.tableRender('expertTable', 'expertTable', '/expertController/queryIndex', false, cols, where, function (res, curr, count) {
                 $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
                     var index = parseInt($(this).index() + 1);
@@ -185,7 +261,8 @@
         table.on('tool(tableEvent)', function(obj){
             var data = obj.data;
             if(obj.event === 'showDetail'){
-                window.open("/expertController/expertDetail?expertId="+data.id);
+				parent.layui.index.openTabsPage("/expertController/expertDetail?expertId="+data.id, "专家详情");
+                //window.open("/expertController/expertDetail?expertId="+data.id);
             }
         });
         //区别按钮属性
@@ -194,6 +271,24 @@
             active[type] ? active[type].call(this) : '';
         });
         $(".layui-table-header table thead th input").remove();
+        /*加入备选*/
+        var record = {};
+        record.companyId = '${zjkBaseInfo.company}';
+        record.companyName = '${zjkBaseInfo.companyName}';
+        record.zjId = '${zjkBaseInfo.id}';
+        //加入备选
+        $("#addBx").click(function () {
+            publicMethods.ajaxPost("/expertController/saveBak", record, function (data) {
+                console.log(data);
+                layer.msg("操作成功");
+            });
+        });
+        $("#addDb").click(function () {
+            //加入对比
+            publicMethods.ajaxPost("/expertController/addCompare", record, function (data) {
+                layer.msg("操作成功");
+            });
+        });
     });
 </script>
 </body>
