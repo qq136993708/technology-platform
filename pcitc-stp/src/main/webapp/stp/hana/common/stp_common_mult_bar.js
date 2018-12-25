@@ -1,7 +1,23 @@
-
-var option_dt = 
+function load_mult_bar(url,id,title,subtext,callback)
 {
-	option = {
+	
+	var echartsobj = echarts.init(document.getElementById(id));
+	if(title!='')
+	{
+		mult_option.title.text=title;
+	}
+	if(subtext!='')
+	{
+		mult_option.title.subtext=subtext;
+	}
+	echartsobj.setOption(mult_option);
+	echartsobj.showLoading();
+	ajax_load_data(url,echartsobj,callback);
+	return echartsobj;
+}
+
+var mult_option = 
+{
 	    tooltip : {
 	        trigger: 'axis',
 	        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
@@ -9,7 +25,7 @@ var option_dt =
 	        }
 	    },
 	    legend: {
-	        data:['直接访问','邮件营销','联盟广告']
+	        data:['2016','2017','2018']
 	    },
 	    grid: {
 	        left: '3%',
@@ -20,7 +36,7 @@ var option_dt =
 	    xAxis : [
 	        {
 	            type : 'category',
-	            data : ['周一','周二','周三']
+	            data : ['专利总数','国际专利','国内专利']
 	        }
 	    ],
 	    yAxis : [
@@ -30,22 +46,94 @@ var option_dt =
 	    ],
 	    series : [
 	        {
-	            name:'直接访问',
+	            name:'2016',
 	            type:'bar',
 	            data:[320, 332, 301]
 	        },
 	        
 	        {
-	            name:'视频广告',
+	            name:'2017',
 	            type:'bar',
 	            stack: '广告',
 	            data:[150, 232, 201]
 	        },
 	        {
-	            name:'搜索引擎',
+	            name:'2018',
 	            type:'bar',
 	            data:[862, 1018, 964]
 	        }
 	    ]
-	}
 };
+
+/**
+ * 支持回调函数的数据请求
+ * @param url
+ * @param echartsobj
+ * @param options
+ * @param callback
+ * @returns
+ */
+function ajax_load_data(url,echartsobj,callback)
+{
+	 var xAxisData=[];  
+     var series=[];  
+     $.ajax({
+	     type:"get",
+	     url: url,
+	     timeout : 9000,
+	     dataType:"json",
+	     cache: false,
+	     contentType: "application/x-www-form-urlencoded; charset=utf-8",
+	     success:function(data,status)
+	      {    
+		          if(data.success==true ||data.success=='true')
+		          {
+	        		    echartsobj.hideLoading();
+	        	        var chartList=data.data.xAxisDataList;
+	                    for(var i=0;i<chartList.length;i++)
+	                    {
+	                        xAxisData.push(chartList[i]);
+	                    }
+	                    
+	                    var seriesDataList=data.data.seriesDataList;
+	                    for(var i=0;i<seriesDataList.length;i++)
+	                    {
+	                    	series.push(seriesDataList[i]);
+	                    }
+	                    //加载数据图表
+	                    echartsobj.setOption({
+	                    	xAxis: {
+	                            data: xAxisData
+	                        },
+	                        series: [{
+	                            data: series,
+	                            type: 'bar',
+                                label: {
+                                    show: true, //开启显示
+                                    position: 'top', //在上方显示
+                                    textStyle: { //数值样式
+                                        color: 'black',
+                                        fontSize: 14
+                                    }
+                                }
+	                        }]
+	                    });
+	                    if(callback)
+	                    {
+	                    	callback(data);
+	                    }
+		        	        
+		          } 
+			   },
+			   error:function()
+			   {
+				   layer.msg('图表加载失败');
+			   },
+			   complete: function (XMLHttpRequest, status) {
+		            if(status == 'timeout'){
+		            	 layer.msg('超时');
+		            }
+		        }
+	    });
+   
+} 

@@ -175,6 +175,7 @@
 	<script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
 	<script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
 	<script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
+	<script type="text/javascript" src="/stp/hana/common/stp_common_mult_bar.js"></script>
 	<script type="text/javascript">
 		layui.config({
 			base : '/layuiadmin/module/modules/'
@@ -221,6 +222,10 @@
 			}];
 
 			var chart1_url = "/more-dimension/patent_trend_analysis_01?month=" + month + "&v_date=" + v_date + "&companyCode=" + companyCode;
+			var echart1 = load_mult_bar(chart1_url, "chart1", "", "", function(data){
+				console.log(data);
+			});
+			/* var chart1_url = "/more-dimension/patent_trend_analysis_01?month=" + month + "&v_date=" + v_date + "&companyCode=" + companyCode;
 			var echart1 = load_mutl_bar_2(chart1_url, "chart1", "", "", yAxis);
 			echart1.on('click', function(params)
 			{
@@ -228,7 +233,7 @@
 				var legentName = params.seriesName;
 				parent.layui.index.openTabsPage("/home/project-list?define1=" + xName + "&project_scope=" + legentName, "合同签订详情");
 
-			});
+			}); */
 
 			var chart2_url = "/more-dimension/patent_trend_analysis_02?month=" + month + "&v_date=" + v_date + "&companyCode=" + companyCode;
 			var echart2 = loadPie(chart2_url, "main3", "", '');
