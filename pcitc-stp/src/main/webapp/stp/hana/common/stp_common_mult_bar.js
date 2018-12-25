@@ -45,21 +45,21 @@ var mult_option =
 	        }
 	    ],
 	    series : [
-	       /* {
+	        /*{
 	            name:'2016',
 	            type:'bar',
-	            data:[320, 332, 301,111]
+	            data:[320, 332, 301,111,11]
 	        },
 	        
 	        {
 	            name:'2017',
 	            type:'bar',
-	            data:[150, 232, 201,111]
+	            data:[150, 232, 201,111,12]
 	        },
 	        {
 	            name:'2018',
 	            type:'bar',
-	            data:[862, 1018, 964,222]
+	            data:[862, 1018, 964,222,23]
 	        }*/
 	    ]
 };
@@ -114,8 +114,8 @@ function ajax_load_data(url,echartsobj,callback)
 	                        },
 	                        legend: {
 	                	        data:legendData
-	                	    },
-	                        series: series
+	                	    }
+	                        ,series: series
 	                    });
 	                    if(callback)
 	                    {

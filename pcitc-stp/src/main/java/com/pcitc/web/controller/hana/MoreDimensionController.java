@@ -170,15 +170,23 @@ public class MoreDimensionController extends BaseController
 			{
 				JSONArray jSONArray = responseEntity.getBody();
 				System.out.println(">>>>>>>>>>>>>>patent_trend_analysis jSONArray-> " + jSONArray.toString());
-				//List<Knowledge> list = JSONObject.parseArray(jSONArray.toJSONString(), Knowledge.class);
+				List<Knowledge> list = JSONObject.parseArray(jSONArray.toJSONString(), Knowledge.class);
+				
 				//List<String> xAxisDataList = HanaUtil.getduplicatexAxisByList(list, "showName");
 				//barLine.setxAxisDataList(xAxisDataList);
 				List<String> xAxisDataList = new ArrayList<String>();
 				xAxisDataList.add("专利总数");
 				xAxisDataList.add("国内专利");
-				xAxisDataList.add("国外专利");
+				xAxisDataList.add("国际专利");
+				//计算总数
+				Knowledge know = new Knowledge();
+				know.setJnCount(list.get(0).getJnCount()+list.get(1).getJnCount());
+				know.setQnCount(list.get(0).getQnCount()+list.get(1).getQnCount());
+				know.setQiannCount(list.get(0).getQiannCount()+list.get(1).getQiannCount());
+				list.add(0,know);
+				System.out.println(">>>>>>>>>>>>>>patent_trend_analysis jSONArray-> " + jSONArray.toJSONString(list));
 				
-				List<String> yearList = HanaUtil.getBeforeYearList(HanaUtil.getCurrrentYear(), 5);
+				List<String> yearList = HanaUtil.getBeforeYearList(HanaUtil.getCurrrentYear(), 3);
 				List<String> legendDataList = yearList;
 				
 				barLine.setxAxisDataList(xAxisDataList);
@@ -190,11 +198,21 @@ public class MoreDimensionController extends BaseController
 				{
 					String str = yearList.get(i);
 					List<Object> dt = new ArrayList<Object>();
-					dt.add(113);
-					dt.add(123);
-					dt.add(133);
-					dt.add(133);
-					dt.add(133);
+					if("2018".equals(str)) {
+						dt.add(list.get(0).getJnCount());
+						dt.add(list.get(1).getJnCount());
+						dt.add(list.get(2).getJnCount());
+					}else if("2017".equals(str)) {
+						dt.add(list.get(0).getQnCount());
+						dt.add(list.get(1).getQnCount());
+						dt.add(list.get(2).getQnCount());
+					}else if("2016".equals(str)) {
+						dt.add(list.get(0).getQiannCount());
+						dt.add(list.get(1).getQiannCount());
+						dt.add(list.get(2).getQiannCount());
+					}else {
+						System.out.println("not found.....");
+					}
 					ChartBarLineSeries s1 = new ChartBarLineSeries();
 					//HanaUtil.getChartBarLineSeries_knowledet_bar_year(list, str, yearList);
 					

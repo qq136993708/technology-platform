@@ -57,7 +57,7 @@ public class Knowledge {
 	 
 	 private  String showName;
 	 private Integer jnCount;
-	 private Integer quCount;
+	 private Integer qnCount;
 	 private Integer qiannCount;
 	 
 	 
@@ -339,14 +339,14 @@ public class Knowledge {
 		this.jnCount = jnCount;
 	}
 
-	public Integer getQuCount()
+	public Integer getQnCount()
 	{
-		return quCount;
+		return qnCount;
 	}
 
-	public void setQuCount(Integer quCount)
+	public void setQnCount(Integer qnCount)
 	{
-		this.quCount = quCount;
+		this.qnCount = qnCount;
 	}
 
 	public Integer getQiannCount()
