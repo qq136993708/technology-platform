@@ -35,7 +35,7 @@ public class StpProjectJob implements Job, Serializable {
 		int culTotal = 0;
 		System.out.println("==========" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "定时获取项目管理系统的项目数据 ---开始=============");
 		String sqlName = "SelectAllProjectFromSinopecData2017";
-		String ndCon = "2017";
+		String ndCon = "2018";
 		String str = null;
 		try {
 			// 远程获取数据 -----
@@ -125,10 +125,10 @@ public class StpProjectJob implements Job, Serializable {
 						opi.setZyly(zyly);
 						opi.setZysx(zysx);
 						opi.setSjid(sjid);
-						/*opi.setLxbj(lxbj);
-						opi.setYjnr(yjnr);
-						opi.setJdap(jdap);
-						opi.setYjmb(yjmb);*/
+						//opi.setLxbj(lxbj);
+						//opi.setYjnr(yjnr);
+						//opi.setJdap(jdap);
+						//opi.setYjmb(yjmb);
 						
 						opi.setGsbmbm(gsbmbm);
 						opi.setGsbmmc(gsbmmc);
@@ -184,6 +184,7 @@ public class StpProjectJob implements Job, Serializable {
 					JSONObject object = (JSONObject) jSONArray.get(i);
 					
 					String xmid = object.getString("XMID");
+					String xmjb = object.getString("XMJB");
 					String gsbmbm = object.getString("GSBMBM");
 					String gsbmmc = object.getString("GSBMMC");
 					String zycbm = object.getString("ZYCBM");
@@ -193,6 +194,23 @@ public class StpProjectJob implements Job, Serializable {
 
 					OutProjectInfo opi = new OutProjectInfo();
 					opi.setDataId(xmid);
+					opi.setXmid(xmid);
+					
+					if (xmlbbm != null && xmlbbm.equals("KYZB")) {
+						opi.setDefine1("资本性");
+						opi.setProjectProperty("其他项目");
+					} else {
+						opi.setDefine1("费用性");
+						if (xmlbbm != null && !xmlbbm.equals("KY")) {
+							opi.setProjectProperty("其他项目");
+						} else {
+							if (xmjb != null && xmjb.equals("ZHONGDA")) {
+								opi.setProjectProperty("重大专项");
+							} else {
+								opi.setProjectProperty("重点项目");
+							}
+						}
+					}
 					
 					opi.setGsbmbm(gsbmbm);
 					opi.setGsbmmc(gsbmmc);

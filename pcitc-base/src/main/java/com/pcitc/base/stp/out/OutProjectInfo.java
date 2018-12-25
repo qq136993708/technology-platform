@@ -110,8 +110,18 @@ public class OutProjectInfo {
     private String define8;
 
     private String define9;
+    
+    private String erpProjectName;	//erp关联的项目名称，可能多个，逗号隔开
 
-    public String getDataId() {
+    public String getErpProjectName() {
+		return erpProjectName;
+	}
+
+	public void setErpProjectName(String erpProjectName) {
+		this.erpProjectName = erpProjectName;
+	}
+
+	public String getDataId() {
         return dataId;
     }
 

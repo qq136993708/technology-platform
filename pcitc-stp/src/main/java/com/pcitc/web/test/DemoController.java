@@ -131,7 +131,7 @@ public class DemoController {
 
 		try {
 
-			String TEST_URL = "http://10.248.67.142/ers/bull/unify/request";
+			String TEST_URL = "http://10.1.19.131:9001/DataService/BasicQuery/Sql";
 			System.out.println("=====开始访问===" + TEST_URL);
 			// 创建一个请求客户端
 			RestfulHttpClient.HttpClient client = RestfulHttpClient.getClient(TEST_URL);
@@ -146,11 +146,13 @@ public class DemoController {
 			client.addHeaders(headerMap);
 
 			Map<String, String> paramMap = new HashMap<String, String>();
-			paramMap.put("executeKey", "sysnPubPaymentBillInfo");
+			paramMap.put("sqlName", "SelectAllProjectFromSinopecData2017");
 			JsonObject jo = new JsonObject();
 			System.out.println(jo.toString());
-			paramMap.put("reqMsg", "{'compCode':'1015','orgId':'2033445','begDate':'20180101','endDate':'20180301'}");
-			paramMap.put("sign", "94ec184ab93d601018206163d4e4db3d");
+			jo.addProperty("nd", "2018");
+
+			System.out.println(jo.toString());
+			paramMap.put("conditions", jo.toString());
 			// 添加多个参数
 			client.queryParams(paramMap);
 
