@@ -204,5 +204,5 @@ public interface ZjkBaseInfoService {
      */
     public List<SysDictionary> getDicSon(String strParentCode);
 
-    public String getDicSonVal(List<SysDictionary> list);
+    public String getDicSonVal(List<SysDictionary> list, String val);
 }
