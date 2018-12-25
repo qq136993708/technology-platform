@@ -25,18 +25,18 @@ var mult_option =
 	        }
 	    },
 	    legend: {
-	        data:['2016','2017','2018']
+	        //data:['2016','2017','2018','2019']
 	    },
 	    grid: {
 	        left: '3%',
-	        right: '4%',
+	        right: '0%',
 	        bottom: '3%',
 	        containLabel: true
 	    },
 	    xAxis : [
 	        {
 	            type : 'category',
-	            data : ['专利总数','国际专利','国内专利']
+	           //data : ['专利总数','国际专利','国内专利']
 	        }
 	    ],
 	    yAxis : [
@@ -45,23 +45,22 @@ var mult_option =
 	        }
 	    ],
 	    series : [
-	        {
+	       /* {
 	            name:'2016',
 	            type:'bar',
-	            data:[320, 332, 301]
+	            data:[320, 332, 301,111]
 	        },
 	        
 	        {
 	            name:'2017',
 	            type:'bar',
-	            stack: '广告',
-	            data:[150, 232, 201]
+	            data:[150, 232, 201,111]
 	        },
 	        {
 	            name:'2018',
 	            type:'bar',
-	            data:[862, 1018, 964]
-	        }
+	            data:[862, 1018, 964,222]
+	        }*/
 	    ]
 };
 
@@ -75,7 +74,8 @@ var mult_option =
  */
 function ajax_load_data(url,echartsobj,callback)
 {
-	 var xAxisData=[];  
+	 var xAxisData=[];
+	 var legendData=[];
      var series=[];  
      $.ajax({
 	     type:"get",
@@ -94,29 +94,28 @@ function ajax_load_data(url,echartsobj,callback)
 	                    {
 	                        xAxisData.push(chartList[i]);
 	                    }
+	                    var legendDataList = data.data.legendDataList;
+	                    for(var i=0;i<legendDataList.length;i++)
+	                    {
+	                    	legendData.push(legendDataList[i]);
+	                    }
+	                    console.log(legendData);
 	                    
-	                    var seriesDataList=data.data.seriesDataList;
+	                    var seriesDataList=data.data.seriesList;
 	                    for(var i=0;i<seriesDataList.length;i++)
 	                    {
 	                    	series.push(seriesDataList[i]);
+	                    	console.log(seriesDataList[i]);
 	                    }
 	                    //加载数据图表
 	                    echartsobj.setOption({
 	                    	xAxis: {
 	                            data: xAxisData
 	                        },
-	                        series: [{
-	                            data: series,
-	                            type: 'bar',
-                                label: {
-                                    show: true, //开启显示
-                                    position: 'top', //在上方显示
-                                    textStyle: { //数值样式
-                                        color: 'black',
-                                        fontSize: 14
-                                    }
-                                }
-	                        }]
+	                        legend: {
+	                	        data:legendData
+	                	    },
+	                        series: series
 	                    });
 	                    if(callback)
 	                    {
