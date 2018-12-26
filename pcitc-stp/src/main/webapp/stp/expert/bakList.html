@@ -15,16 +15,38 @@
 <body>
 <div class="layui-main-oil layui-expert-choice">
     <div class="layui-row layui-col-space15">
+        <#list baseList as zjkBaseInfo>
         <div class="layui-col-md3">
             <div class="layui-information">
                 <div class="layui-img"> </div>
+                <p class="layui-title">${zjkBaseInfo.name}</p>
+                <p>参与评标累计项目总数量 <span class="red">${zjkBaseInfo.xmCount}</span>个</p>
+                <p>参与评标机构总数量 <span class="red">${zjkBaseInfo.jgCount}</span> 个</p>
+                <p>成果数量$<span class="red">${zjkBaseInfo.cgCount}</span>个</p>
+                <p>专利数量$<span class="red">${zjkBaseInfo.zlCount?default('0')}</span>个</p>
+                <p class="layui-f">同一行业领域共计<span class="red">${hylyCount}</span>人</p>
+                <p>职称：${zjkBaseInfo.zc}</p>
+                <p>电话：${zjkBaseInfo.dh}</p>
+                <p>邮箱：${zjkBaseInfo.email}</p>
+                <p>地址：${zjkBaseInfo.dz}</p>
+                <div class="search">
+                    <a class="add addBx" href="javascript:;">加入备选</a>
+                    <a class="add delBak" href="javascript:;">移出</a>
+                </div>
+            </div>
+        </div>
+    </#list>
+
+    <!--<div class="layui-col-md3">
+            <div class="layui-information">
+                <div class="layui-img"> </div>
                 <div class="layui-x">
-                    <p>王震</p>
+                    <p class="layui-title">王震</p>
                     <p>参与评标累计项目总数量 <span class="red">${zjkBaseInfo.xmCount}2</span>个</p>
                     <p>参与评标机构总数量 <span class="red">${zjkBaseInfo.jgCount}</span> 个</p>
                     <p>成果数量$<span class="red">1</span>个</p>
                     <p>专利数量$<span class="red">1</span>个</p>
-                    <p>同一行业领域共计<span class="red">300</span>人</p>
+                    <p class="layui-f">同一行业领域共计<span class="red">300</span>人</p>
                     <p>职称：高级顾问</p>
                     <p>电话：13095957743</p>
                     <p>邮箱：7873289@sinopec.com</p>
@@ -32,76 +54,14 @@
                 </div>
                 <div class="search">
                     <a class="add" href="javascript:;" id="addBx">加入备选</a>
-                    <a class="add" href="javascript:;" id="addDb">加入对比</a>
+                    <a class="add" href="javascript:;" id="delBak">移出</a>
                 </div>
             </div>
-        </div>
-        <div class="layui-col-md3">
-            <div class="layui-information">
-                <div class="layui-img"> </div>
-                <div class="layui-x">
-                    <p>王震</p>
-                    <p>参与评标累计项目总数量 <span class="red">${zjkBaseInfo.xmCount}2</span>个</p>
-                    <p>参与评标机构总数量 <span class="red">${zjkBaseInfo.jgCount}</span> 个</p>
-                    <p>成果数量$<span class="red">1</span>个</p>
-                    <p>专利数量$<span class="red">1</span>个</p>
-                    <p>同一行业领域共计<span class="red">300</span>人</p>
-                    <p>职称：高级顾问</p>
-                    <p>电话：13095957743</p>
-                    <p>邮箱：7873289@sinopec.com</p>
-                    <p>地址：北京市朝阳区朝阳门外大街18号</p>
-                </div>
-                <div class="search">
-                    <a class="add" href="javascript:;" id="addBx">加入备选</a>
-                    <a class="add" href="javascript:;" id="addDb">加入对比</a>
-                </div>
-            </div>
-        </div>
-        <div class="layui-col-md3">
-            <div class="layui-information">
-                <div class="layui-img"> </div>
-                <div class="layui-x">
-                    <p>王震</p>
-                    <p>参与评标累计项目总数量 <span class="red">${zjkBaseInfo.xmCount}2</span>个</p>
-                    <p>参与评标机构总数量 <span class="red">${zjkBaseInfo.jgCount}</span> 个</p>
-                    <p>成果数量$<span class="red">1</span>个</p>
-                    <p>专利数量$<span class="red">1</span>个</p>
-                    <p>同一行业领域共计<span class="red">300</span>人</p>
-                    <p>职称：高级顾问</p>
-                    <p>电话：13095957743</p>
-                    <p>邮箱：7873289@sinopec.com</p>
-                    <p>地址：北京市朝阳区朝阳门外大街18号</p>
-                </div>
-                <div class="search">
-                    <a class="add" href="javascript:;" id="addBx">加入备选</a>
-                    <a class="add" href="javascript:;" id="addDb">加入对比</a>
-                </div>
-            </div>
-        </div>
-        <div class="layui-col-md3">
-            <div class="layui-information">
-                <div class="layui-img"> </div>
-                <div class="layui-x">
-                    <p>王震</p>
-                    <p>参与评标累计项目总数量 <span class="red">${zjkBaseInfo.xmCount}2</span>个</p>
-                    <p>参与评标机构总数量 <span class="red">${zjkBaseInfo.jgCount}</span> 个</p>
-                    <p>成果数量$<span class="red">1</span>个</p>
-                    <p>专利数量$<span class="red">1</span>个</p>
-                    <p>同一行业领域共计<span class="red">300</span>人</p>
-                    <p>职称：高级顾问</p>
-                    <p>电话：13095957743</p>
-                    <p>邮箱：7873289@sinopec.com</p>
-                    <p>地址：北京市朝阳区朝阳门外大街18号</p>
-                </div>
-                <div class="search">
-                    <a class="add" href="javascript:;" id="addBx">加入备选</a>
-                    <a class="add" href="javascript:;" id="addDb">加入对比</a>
-                </div>
-            </div>
-        </div>
+        </div>-->
+
     </div>
-</div><!--
-<#list baseList as zjkBaseInfo>
+</div>
+<!--<#list baseList as zjkBaseInfo>
         ${zjkBaseInfo.id}
 &#45;&#45;&#45;&#45;
         ${zjkBaseInfo.name}
@@ -127,7 +87,7 @@ ${zjkBaseInfo.jgCount}
     layui.use(['jquery', 'form', 'laydate', 'table', 'layer', 'element'], function () {
         var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer,
             laydate = layui.laydate;
-
+        parent.$("#LAY_app_body").css("background","none");
         //移除对比
         function delBak(expertId) {
             publicMethods.ajaxPost("/expertController/delBak?expertId=" + expertId, {}, function (data) {

@@ -29,15 +29,15 @@
                 <div class="layui-col-md4" style="border: 1px solid #ccc;">1</div>
                 <div class="layui-col-md8" style="padding-left: 30px;">
                     <p>${zjkBaseInfo.name}</p>
-                    <span>参与评标累计项目总数量 <span class="red">${zjkBaseInfo.xmCount}2</span>个</span>
+                    <span>参与评标累计项目总数量 <span class="red">${zjkBaseInfo.xmCount}</span>个</span>
                     <span>参与评标机构总数量 <span class="red">${zjkBaseInfo.jgCount}</span> 个</span>
-                    <span>成果数量$<span class="red">1</span>个</span>
-                    <span>专利数量$<span class="red">1</span>个</span>
-                    <span>同一行业领域共计<span class="red">300</span>人</span>
-                    <span class="layui-zc">职称：高级顾问</span>
-                    <span class="layui-pone">电话：13095957743</span>
-                    <span class="layui-e">邮箱：7873289@sinopec.com</span>
-                    <span class="layui-a">地址：北京市朝阳区朝阳门外大街18号</span>
+                    <span>成果数量$<span class="red">${zjkBaseInfo.cgCount}</span>个</span>
+                    <span>专利数量$<span class="red">${zjkBaseInfo.zlCount?default('0')}</span>个</span>
+                    <span>同一行业领域共计<span class="red">${hylyCount}</span>人</span>
+                    <span class="layui-zc">职称：${zjkBaseInfo.zc}</span>
+                    <span class="layui-pone">电话：${hylyCount}</span>
+                    <span class="layui-e">邮箱：${zjkBaseInfo.email}</span>
+                    <span class="layui-a">地址：${zjkBaseInfo.dz}</span>
                     <div class="search">
                         <a class="add" href="javascript:;" id="addBx">加入备选</a>
                         <a class="add" href="javascript:;" id="addDb">加入对比</a>
