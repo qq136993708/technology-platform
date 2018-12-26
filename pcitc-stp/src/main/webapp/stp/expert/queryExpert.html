@@ -50,7 +50,7 @@
 
         <input id="key" value="${key}" type="text"/>
         <input id="zjmc" value="${zjmc}" type="text" class="layui-hide"/>
-        <a data-type="searchEvent">查询</a>
+        <a data-type="searchEvent" id="searchEvent">查询</a>
         <a class="add" href="javascript:;" id="addBx">加入备选</a>
         <a class="add" href="javascript:;" id="addDb">加入对比</a>
     </div>
@@ -255,6 +255,10 @@
             });
         })
         //** 搜索框宽度随着内容自适应End
+        $("#searchEvent").click(function () {
+            renderTable();
+
+        });
         // 触发不同的按钮事件
         var $ = layui.$, active = {
             searchEvent: function () { //点击查询按钮
@@ -293,18 +297,31 @@
         });
         $(".layui-table-header table thead th input").remove();
         /*加入备选*/
-        var record = {};
-        record.companyId = '${zjkBaseInfo.company}';
-        record.companyName = '${zjkBaseInfo.companyName}';
-        record.zjId = '${zjkBaseInfo.id}';
+
         //加入备选
         $("#addBx").click(function () {
+            if (typeof (selectRowData) == "undefined") {
+                layer.msg("请选择一条数据");
+                return
+            }
+            var record = {};
+            record.companyId = selectRowData.company;
+            record.companyName = selectRowData.companyName;
+            record.zjId = selectRowData.id;
             publicMethods.ajaxPost("/expertController/saveBak", record, function (data) {
                 console.log(data);
                 layer.msg("操作成功");
             });
         });
         $("#addDb").click(function () {
+            if (typeof (selectRowData) == "undefined") {
+                layer.msg("请选择一条数据");
+                return
+            }
+            var record = {};
+            record.companyId = selectRowData.company;
+            record.companyName = selectRowData.companyName;
+            record.zjId = selectRowData.id;
             //加入对比
             publicMethods.ajaxPost("/expertController/addCompare", record, function (data) {
                 layer.msg("操作成功");
