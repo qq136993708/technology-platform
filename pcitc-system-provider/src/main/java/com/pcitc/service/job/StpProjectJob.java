@@ -13,7 +13,6 @@ import org.quartz.JobExecutionException;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.stp.out.OutProjectInfo;
-import com.pcitc.base.stp.out.OutProjectPlan;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.config.SpringContextUtil;
 import com.pcitc.service.out.OutProjectService;
@@ -32,8 +31,8 @@ public class StpProjectJob implements Job, Serializable {
 		
 		// 先获取已经插入到数据库的原项目计划数据oldList，和新接口获取的数据进行比较。如果不存在就插入
 		// 由于数据库数据不大，所以可以采用这个方式
-		List<OutProjectInfo> temList = outProjectService.getProjectList(null);
-		
+		//List<OutProjectInfo> temList = outProjectService.getProjectList(null);
+		int culTotal = 0;
 		System.out.println("==========" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "定时获取项目管理系统的项目数据 ---开始=============");
 		String sqlName = "SelectAllProjectFromSinopecData2017";
 		String ndCon = "2017";
@@ -48,9 +47,9 @@ public class StpProjectJob implements Job, Serializable {
 				JSONArray jSONArray = JSONArray.parseArray(str);
 				
 				// 批量新增处理
-				for (int i = 0; i < jSONArray.size(); i++) {
+				/*for (int i = 0; i < jSONArray.size(); i++) {
 					JSONObject object = (JSONObject) jSONArray.get(i);
-					
+					culTotal++;
 					boolean insertFlag = true;
 					String temXmid = object.getString("XMID");
 					for (int j = 0; j < temList.size(); j++) {
@@ -78,6 +77,11 @@ public class StpProjectJob implements Job, Serializable {
 						String jtfzdwbm = object.getString("JTFZDWBM");
 						String jtfzdw = object.getString("JTFZDW");
 						String fzrxm = object.getString("FZRXM");
+						
+						String lxrxm = object.getString("LXR_Xm");
+						String lxryx = object.getString("LXR_Email");
+						String lxrdh = object.getString("LXR_Tel");
+						
 						String jssxxm = object.getString("JSSXXM");
 
 						String yjsj = object.getString("YJSJ");
@@ -116,16 +120,23 @@ public class StpProjectJob implements Job, Serializable {
 						opi.setJtfzdwbm(jtfzdwbm);
 						opi.setJtfzdw(jtfzdw);
 						opi.setFzrxm(fzrxm);
+						opi.setLxrdh(lxrdh);
+						opi.setLxryx(lxryx);
+						opi.setLxrxm(lxrxm);
 						opi.setJssxxm(jssxxm);
-
+						
+						yjsj = yjsj.replaceAll(" ", "");
+						String[] temDateFlag = yjsj.split("/");
 						opi.setYjsj(yjsj);
+						opi.setKssj(temDateFlag[0]);
+						opi.setJssj(temDateFlag[1]);
 						opi.setZyly(zyly);
 						opi.setZysx(zysx);
 						opi.setSjid(sjid);
-						opi.setLxbj(lxbj);
-						opi.setYjnr(yjnr);
-						opi.setJdap(jdap);
-						opi.setYjmb(yjmb);
+						//opi.setLxbj(lxbj);
+						//opi.setYjnr(yjnr);
+						//opi.setJdap(jdap);
+						//opi.setYjmb(yjmb);
 						
 						opi.setGsbmbm(gsbmbm);
 						opi.setGsbmmc(gsbmmc);
@@ -174,23 +185,44 @@ public class StpProjectJob implements Job, Serializable {
 				}
 				if (insertData != null && insertData.size() > 0) {
 					outProjectService.insertProjectData(insertData, ndCon);
-				}
+				}*/
 				
-				
-				/*// for修改
+				// for修改
 				for (int i = 0; i < jSONArray.size(); i++) {
 					JSONObject object = (JSONObject) jSONArray.get(i);
 					
 					String xmid = object.getString("XMID");
+					String xmjb = object.getString("XMJB");
 					String gsbmbm = object.getString("GSBMBM");
 					String gsbmmc = object.getString("GSBMMC");
 					String zycbm = object.getString("ZYCBM");
 					String zycmc = object.getString("ZYCMC");
 					String xmlbbm = object.getString("XMLBBM");
 					String xmlbmc = object.getString("XMLBMC");
+					
+					String lxrxm = object.getString("LXR_Xm");
+					String lxryx = object.getString("LXR_Email");
+					String lxrdh = object.getString("LXR_Tel");
 
 					OutProjectInfo opi = new OutProjectInfo();
 					opi.setDataId(xmid);
+					opi.setXmid(xmid);
+					
+					if (xmlbbm != null && xmlbbm.equals("KYZB")) {
+						opi.setDefine1("资本性");
+						opi.setProjectProperty("其他项目");
+					} else {
+						opi.setDefine1("费用性");
+						if (xmlbbm != null && !xmlbbm.equals("KY")) {
+							opi.setProjectProperty("其他项目");
+						} else {
+							if (xmjb != null && xmjb.equals("ZHONGDA")) {
+								opi.setProjectProperty("重大专项");
+							} else {
+								opi.setProjectProperty("重点项目");
+							}
+						}
+					}
 					
 					opi.setGsbmbm(gsbmbm);
 					opi.setGsbmmc(gsbmmc);
@@ -198,10 +230,14 @@ public class StpProjectJob implements Job, Serializable {
 					opi.setZycmc(zycmc);
 					opi.setXmlbbm(xmlbbm);
 					opi.setXmlbmc(xmlbmc);
+					
+					opi.setLxrdh(lxrdh);
+					opi.setLxryx(lxryx);
+					opi.setLxrxm(lxrxm);
 					outProjectService.updateOutProjectInfo(opi);
-				}*/
+				}
 				
-				System.out.println("======" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "定时任务--定时获取项目管理系统的项目数据--保存到本地数据库-结束=========");
+				System.out.println("======" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "定时任务--定时获取项目管理系统的项目数据--保存到本地数据库-结束========="+culTotal);
 				// 统一调用存储过程，把数据中部分属性集中处理
 			}
 

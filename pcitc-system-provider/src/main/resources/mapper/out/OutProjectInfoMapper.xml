@@ -17,16 +17,19 @@
     <result column="fzdw" property="fzdw" jdbcType="VARCHAR" />
     <result column="jtfzdwbm" property="jtfzdwbm" jdbcType="VARCHAR" />
     <result column="jtfzdw" property="jtfzdw" jdbcType="VARCHAR" />
+    <result column="fzryx" property="fzryx" jdbcType="VARCHAR" />
+    <result column="fzrdh" property="fzrdh" jdbcType="VARCHAR" />
     <result column="fzrxm" property="fzrxm" jdbcType="VARCHAR" />
+    <result column="lxrdh" property="lxrdh" jdbcType="VARCHAR" />
+    <result column="lxryx" property="lxryx" jdbcType="VARCHAR" />
+    <result column="lxrxm" property="lxrxm" jdbcType="VARCHAR" />
     <result column="jssxxm" property="jssxxm" jdbcType="VARCHAR" />
+    <result column="jssj" property="jssj" jdbcType="VARCHAR" />
+    <result column="kssj" property="kssj" jdbcType="VARCHAR" />
     <result column="yjsj" property="yjsj" jdbcType="VARCHAR" />
     <result column="zyly" property="zyly" jdbcType="VARCHAR" />
     <result column="zysx" property="zysx" jdbcType="VARCHAR" />
     <result column="sjid" property="sjid" jdbcType="VARCHAR" />
-    <result column="lxbj" property="lxbj" jdbcType="VARCHAR" />
-    <result column="yjnr" property="yjnr" jdbcType="VARCHAR" />
-    <result column="jdap" property="jdap" jdbcType="VARCHAR" />
-    <result column="yjmb" property="yjmb" jdbcType="VARCHAR" />
     <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
     <result column="create_person" property="createPerson" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="VARCHAR" />
@@ -35,7 +38,6 @@
     <result column="parent_project_id" property="parentProjectId" jdbcType="VARCHAR" />
     <result column="project_type" property="projectType" jdbcType="VARCHAR" />
     <result column="erp_project_code" property="erpProjectCode" jdbcType="VARCHAR" />
-    <result column="erp_project_name" property="erpProjectName" jdbcType="VARCHAR" />
     <result column="project_scope" property="projectScope" jdbcType="VARCHAR" />
     <result column="project_level" property="projectLevel" jdbcType="VARCHAR" />
     <result column="project_property" property="projectProperty" jdbcType="VARCHAR" />
@@ -56,6 +58,16 @@
     <result column="define4" property="define4" jdbcType="VARCHAR" />
     <result column="define5" property="define5" jdbcType="VARCHAR" />
     <result column="define6" property="define6" jdbcType="VARCHAR" />
+    <result column="define7" property="define7" jdbcType="VARCHAR" />
+    <result column="define8" property="define8" jdbcType="VARCHAR" />
+    <result column="define9" property="define9" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.pcitc.base.stp.out.OutProjectInfoWithBLOBs" extends="BaseResultMap" >
+    <result column="lxbj" property="lxbj" jdbcType="LONGVARCHAR" />
+    <result column="yjnr" property="yjnr" jdbcType="LONGVARCHAR" />
+    <result column="jdap" property="jdap" jdbcType="LONGVARCHAR" />
+    <result column="yjmb" property="yjmb" jdbcType="LONGVARCHAR" />
+    <result column="erp_project_name" property="erpProjectName" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -117,12 +129,32 @@
   </sql>
   <sql id="Base_Column_List" >
     data_id, nd, xmid, hth, xmmc, xmjb, jf, fwdxbm, fwdx, zylbbm, zylb, fzdwbm, fzdw, 
-    jtfzdwbm, jtfzdw, fzrxm, jssxxm, yjsj, zyly, zysx, sjid, lxbj, yjnr, jdap, yjmb, 
-    create_date, create_person, status, update_date, project_id, parent_project_id, project_type, 
-    erp_project_code, erp_project_name, project_scope, project_level, project_property, 
-    project_abc, project_source, yjsjks, yjsjjs, xmlbbm, xmlbmc, gsbmmc, gsbmbm, zycmc, 
-    zycbm, type_flag, define1, define2, define3, define4, define5, define6
+    jtfzdwbm, jtfzdw, fzryx, fzrdh, fzrxm, lxrdh, lxryx, lxrxm, jssxxm, jssj, kssj, yjsj, 
+    zyly, zysx, sjid, create_date, create_person, status, update_date, project_id, parent_project_id, 
+    project_type, erp_project_code, project_scope, project_level, project_property, project_abc, 
+    project_source, yjsjks, yjsjjs, xmlbbm, xmlbmc, gsbmmc, gsbmbm, zycmc, zycbm, type_flag, 
+    define1, define2, define3, define4, define5, define6, define7, define8, define9
   </sql>
+  <sql id="Blob_Column_List" >
+    lxbj, yjnr, jdap, yjmb, erp_project_name
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.pcitc.base.stp.out.OutProjectInfoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from out_project_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.pcitc.base.stp.out.OutProjectInfoExample" >
     select
     <if test="distinct" >
@@ -138,9 +170,11 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
     from out_project_info
     where data_id = #{dataId,jdbcType=VARCHAR}
   </select>
@@ -154,45 +188,51 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.pcitc.base.stp.out.OutProjectInfo" >
+  <insert id="insert" parameterType="com.pcitc.base.stp.out.OutProjectInfoWithBLOBs" >
     insert into out_project_info (data_id, nd, xmid, 
       hth, xmmc, xmjb, jf, 
       fwdxbm, fwdx, zylbbm, 
       zylb, fzdwbm, fzdw, 
-      jtfzdwbm, jtfzdw, fzrxm, 
-      jssxxm, yjsj, zyly, 
-      zysx, sjid, lxbj, yjnr, 
-      jdap, yjmb, create_date, 
+      jtfzdwbm, jtfzdw, fzryx, 
+      fzrdh, fzrxm, lxrdh, 
+      lxryx, lxrxm, jssxxm, 
+      jssj, kssj, yjsj, zyly, 
+      zysx, sjid, create_date, 
       create_person, status, update_date, 
       project_id, parent_project_id, project_type, 
-      erp_project_code, erp_project_name, project_scope, 
-      project_level, project_property, project_abc, 
-      project_source, yjsjks, yjsjjs, 
-      xmlbbm, xmlbmc, gsbmmc, 
-      gsbmbm, zycmc, zycbm, 
-      type_flag, define1, define2, 
-      define3, define4, define5, 
-      define6)
+      erp_project_code, project_scope, project_level, 
+      project_property, project_abc, project_source, 
+      yjsjks, yjsjjs, xmlbbm, 
+      xmlbmc, gsbmmc, gsbmbm, 
+      zycmc, zycbm, type_flag, 
+      define1, define2, define3, 
+      define4, define5, define6, 
+      define7, define8, define9, 
+      lxbj, yjnr, jdap, 
+      yjmb, erp_project_name)
     values (#{dataId,jdbcType=VARCHAR}, #{nd,jdbcType=VARCHAR}, #{xmid,jdbcType=VARCHAR}, 
       #{hth,jdbcType=VARCHAR}, #{xmmc,jdbcType=VARCHAR}, #{xmjb,jdbcType=VARCHAR}, #{jf,jdbcType=VARCHAR}, 
       #{fwdxbm,jdbcType=VARCHAR}, #{fwdx,jdbcType=VARCHAR}, #{zylbbm,jdbcType=VARCHAR}, 
       #{zylb,jdbcType=VARCHAR}, #{fzdwbm,jdbcType=VARCHAR}, #{fzdw,jdbcType=VARCHAR}, 
-      #{jtfzdwbm,jdbcType=VARCHAR}, #{jtfzdw,jdbcType=VARCHAR}, #{fzrxm,jdbcType=VARCHAR}, 
-      #{jssxxm,jdbcType=VARCHAR}, #{yjsj,jdbcType=VARCHAR}, #{zyly,jdbcType=VARCHAR}, 
-      #{zysx,jdbcType=VARCHAR}, #{sjid,jdbcType=VARCHAR}, #{lxbj,jdbcType=VARCHAR}, #{yjnr,jdbcType=VARCHAR}, 
-      #{jdap,jdbcType=VARCHAR}, #{yjmb,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{jtfzdwbm,jdbcType=VARCHAR}, #{jtfzdw,jdbcType=VARCHAR}, #{fzryx,jdbcType=VARCHAR}, 
+      #{fzrdh,jdbcType=VARCHAR}, #{fzrxm,jdbcType=VARCHAR}, #{lxrdh,jdbcType=VARCHAR}, 
+      #{lxryx,jdbcType=VARCHAR}, #{lxrxm,jdbcType=VARCHAR}, #{jssxxm,jdbcType=VARCHAR}, 
+      #{jssj,jdbcType=VARCHAR}, #{kssj,jdbcType=VARCHAR}, #{yjsj,jdbcType=VARCHAR}, #{zyly,jdbcType=VARCHAR}, 
+      #{zysx,jdbcType=VARCHAR}, #{sjid,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
       #{createPerson,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, 
       #{projectId,jdbcType=VARCHAR}, #{parentProjectId,jdbcType=VARCHAR}, #{projectType,jdbcType=VARCHAR}, 
-      #{erpProjectCode,jdbcType=VARCHAR}, #{erpProjectName,jdbcType=VARCHAR}, #{projectScope,jdbcType=VARCHAR}, 
-      #{projectLevel,jdbcType=VARCHAR}, #{projectProperty,jdbcType=VARCHAR}, #{projectAbc,jdbcType=VARCHAR}, 
-      #{projectSource,jdbcType=VARCHAR}, #{yjsjks,jdbcType=VARCHAR}, #{yjsjjs,jdbcType=VARCHAR}, 
-      #{xmlbbm,jdbcType=VARCHAR}, #{xmlbmc,jdbcType=VARCHAR}, #{gsbmmc,jdbcType=VARCHAR}, 
-      #{gsbmbm,jdbcType=VARCHAR}, #{zycmc,jdbcType=VARCHAR}, #{zycbm,jdbcType=VARCHAR}, 
-      #{typeFlag,jdbcType=VARCHAR}, #{define1,jdbcType=VARCHAR}, #{define2,jdbcType=VARCHAR}, 
-      #{define3,jdbcType=VARCHAR}, #{define4,jdbcType=VARCHAR}, #{define5,jdbcType=VARCHAR}, 
-      #{define6,jdbcType=VARCHAR})
+      #{erpProjectCode,jdbcType=VARCHAR}, #{projectScope,jdbcType=VARCHAR}, #{projectLevel,jdbcType=VARCHAR}, 
+      #{projectProperty,jdbcType=VARCHAR}, #{projectAbc,jdbcType=VARCHAR}, #{projectSource,jdbcType=VARCHAR}, 
+      #{yjsjks,jdbcType=VARCHAR}, #{yjsjjs,jdbcType=VARCHAR}, #{xmlbbm,jdbcType=VARCHAR}, 
+      #{xmlbmc,jdbcType=VARCHAR}, #{gsbmmc,jdbcType=VARCHAR}, #{gsbmbm,jdbcType=VARCHAR}, 
+      #{zycmc,jdbcType=VARCHAR}, #{zycbm,jdbcType=VARCHAR}, #{typeFlag,jdbcType=VARCHAR}, 
+      #{define1,jdbcType=VARCHAR}, #{define2,jdbcType=VARCHAR}, #{define3,jdbcType=VARCHAR}, 
+      #{define4,jdbcType=VARCHAR}, #{define5,jdbcType=VARCHAR}, #{define6,jdbcType=VARCHAR}, 
+      #{define7,jdbcType=VARCHAR}, #{define8,jdbcType=VARCHAR}, #{define9,jdbcType=VARCHAR}, 
+      #{lxbj,jdbcType=LONGVARCHAR}, #{yjnr,jdbcType=LONGVARCHAR}, #{jdap,jdbcType=LONGVARCHAR}, 
+      #{yjmb,jdbcType=LONGVARCHAR}, #{erpProjectName,jdbcType=LONGVARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.pcitc.base.stp.out.OutProjectInfo" >
+  <insert id="insertSelective" parameterType="com.pcitc.base.stp.out.OutProjectInfoWithBLOBs" >
     insert into out_project_info
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="dataId != null" >
@@ -240,11 +280,32 @@
       <if test="jtfzdw != null" >
         jtfzdw,
       </if>
+      <if test="fzryx != null" >
+        fzryx,
+      </if>
+      <if test="fzrdh != null" >
+        fzrdh,
+      </if>
       <if test="fzrxm != null" >
         fzrxm,
       </if>
+      <if test="lxrdh != null" >
+        lxrdh,
+      </if>
+      <if test="lxryx != null" >
+        lxryx,
+      </if>
+      <if test="lxrxm != null" >
+        lxrxm,
+      </if>
       <if test="jssxxm != null" >
         jssxxm,
+      </if>
+      <if test="jssj != null" >
+        jssj,
+      </if>
+      <if test="kssj != null" >
+        kssj,
       </if>
       <if test="yjsj != null" >
         yjsj,
@@ -257,18 +318,6 @@
       </if>
       <if test="sjid != null" >
         sjid,
-      </if>
-      <if test="lxbj != null" >
-        lxbj,
-      </if>
-      <if test="yjnr != null" >
-        yjnr,
-      </if>
-      <if test="jdap != null" >
-        jdap,
-      </if>
-      <if test="yjmb != null" >
-        yjmb,
       </if>
       <if test="createDate != null" >
         create_date,
@@ -293,9 +342,6 @@
       </if>
       <if test="erpProjectCode != null" >
         erp_project_code,
-      </if>
-      <if test="erpProjectName != null" >
-        erp_project_name,
       </if>
       <if test="projectScope != null" >
         project_scope,
@@ -357,6 +403,30 @@
       <if test="define6 != null" >
         define6,
       </if>
+      <if test="define7 != null" >
+        define7,
+      </if>
+      <if test="define8 != null" >
+        define8,
+      </if>
+      <if test="define9 != null" >
+        define9,
+      </if>
+      <if test="lxbj != null" >
+        lxbj,
+      </if>
+      <if test="yjnr != null" >
+        yjnr,
+      </if>
+      <if test="jdap != null" >
+        jdap,
+      </if>
+      <if test="yjmb != null" >
+        yjmb,
+      </if>
+      <if test="erpProjectName != null" >
+        erp_project_name,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="dataId != null" >
@@ -404,11 +474,32 @@
       <if test="jtfzdw != null" >
         #{jtfzdw,jdbcType=VARCHAR},
       </if>
+      <if test="fzryx != null" >
+        #{fzryx,jdbcType=VARCHAR},
+      </if>
+      <if test="fzrdh != null" >
+        #{fzrdh,jdbcType=VARCHAR},
+      </if>
       <if test="fzrxm != null" >
         #{fzrxm,jdbcType=VARCHAR},
       </if>
+      <if test="lxrdh != null" >
+        #{lxrdh,jdbcType=VARCHAR},
+      </if>
+      <if test="lxryx != null" >
+        #{lxryx,jdbcType=VARCHAR},
+      </if>
+      <if test="lxrxm != null" >
+        #{lxrxm,jdbcType=VARCHAR},
+      </if>
       <if test="jssxxm != null" >
         #{jssxxm,jdbcType=VARCHAR},
+      </if>
+      <if test="jssj != null" >
+        #{jssj,jdbcType=VARCHAR},
+      </if>
+      <if test="kssj != null" >
+        #{kssj,jdbcType=VARCHAR},
       </if>
       <if test="yjsj != null" >
         #{yjsj,jdbcType=VARCHAR},
@@ -421,18 +512,6 @@
       </if>
       <if test="sjid != null" >
         #{sjid,jdbcType=VARCHAR},
-      </if>
-      <if test="lxbj != null" >
-        #{lxbj,jdbcType=VARCHAR},
-      </if>
-      <if test="yjnr != null" >
-        #{yjnr,jdbcType=VARCHAR},
-      </if>
-      <if test="jdap != null" >
-        #{jdap,jdbcType=VARCHAR},
-      </if>
-      <if test="yjmb != null" >
-        #{yjmb,jdbcType=VARCHAR},
       </if>
       <if test="createDate != null" >
         #{createDate,jdbcType=TIMESTAMP},
@@ -457,9 +536,6 @@
       </if>
       <if test="erpProjectCode != null" >
         #{erpProjectCode,jdbcType=VARCHAR},
-      </if>
-      <if test="erpProjectName != null" >
-        #{erpProjectName,jdbcType=VARCHAR},
       </if>
       <if test="projectScope != null" >
         #{projectScope,jdbcType=VARCHAR},
@@ -521,6 +597,30 @@
       <if test="define6 != null" >
         #{define6,jdbcType=VARCHAR},
       </if>
+      <if test="define7 != null" >
+        #{define7,jdbcType=VARCHAR},
+      </if>
+      <if test="define8 != null" >
+        #{define8,jdbcType=VARCHAR},
+      </if>
+      <if test="define9 != null" >
+        #{define9,jdbcType=VARCHAR},
+      </if>
+      <if test="lxbj != null" >
+        #{lxbj,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="yjnr != null" >
+        #{yjnr,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="jdap != null" >
+        #{jdap,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="yjmb != null" >
+        #{yjmb,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="erpProjectName != null" >
+        #{erpProjectName,jdbcType=LONGVARCHAR},
+      </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.pcitc.base.stp.out.OutProjectInfoExample" resultType="java.lang.Integer" >
@@ -577,11 +677,32 @@
       <if test="record.jtfzdw != null" >
         jtfzdw = #{record.jtfzdw,jdbcType=VARCHAR},
       </if>
+      <if test="record.fzryx != null" >
+        fzryx = #{record.fzryx,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fzrdh != null" >
+        fzrdh = #{record.fzrdh,jdbcType=VARCHAR},
+      </if>
       <if test="record.fzrxm != null" >
         fzrxm = #{record.fzrxm,jdbcType=VARCHAR},
       </if>
+      <if test="record.lxrdh != null" >
+        lxrdh = #{record.lxrdh,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lxryx != null" >
+        lxryx = #{record.lxryx,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lxrxm != null" >
+        lxrxm = #{record.lxrxm,jdbcType=VARCHAR},
+      </if>
       <if test="record.jssxxm != null" >
         jssxxm = #{record.jssxxm,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jssj != null" >
+        jssj = #{record.jssj,jdbcType=VARCHAR},
+      </if>
+      <if test="record.kssj != null" >
+        kssj = #{record.kssj,jdbcType=VARCHAR},
       </if>
       <if test="record.yjsj != null" >
         yjsj = #{record.yjsj,jdbcType=VARCHAR},
@@ -594,18 +715,6 @@
       </if>
       <if test="record.sjid != null" >
         sjid = #{record.sjid,jdbcType=VARCHAR},
-      </if>
-      <if test="record.lxbj != null" >
-        lxbj = #{record.lxbj,jdbcType=VARCHAR},
-      </if>
-      <if test="record.yjnr != null" >
-        yjnr = #{record.yjnr,jdbcType=VARCHAR},
-      </if>
-      <if test="record.jdap != null" >
-        jdap = #{record.jdap,jdbcType=VARCHAR},
-      </if>
-      <if test="record.yjmb != null" >
-        yjmb = #{record.yjmb,jdbcType=VARCHAR},
       </if>
       <if test="record.createDate != null" >
         create_date = #{record.createDate,jdbcType=TIMESTAMP},
@@ -630,9 +739,6 @@
       </if>
       <if test="record.erpProjectCode != null" >
         erp_project_code = #{record.erpProjectCode,jdbcType=VARCHAR},
-      </if>
-      <if test="record.erpProjectName != null" >
-        erp_project_name = #{record.erpProjectName,jdbcType=VARCHAR},
       </if>
       <if test="record.projectScope != null" >
         project_scope = #{record.projectScope,jdbcType=VARCHAR},
@@ -694,7 +800,101 @@
       <if test="record.define6 != null" >
         define6 = #{record.define6,jdbcType=VARCHAR},
       </if>
+      <if test="record.define7 != null" >
+        define7 = #{record.define7,jdbcType=VARCHAR},
+      </if>
+      <if test="record.define8 != null" >
+        define8 = #{record.define8,jdbcType=VARCHAR},
+      </if>
+      <if test="record.define9 != null" >
+        define9 = #{record.define9,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lxbj != null" >
+        lxbj = #{record.lxbj,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.yjnr != null" >
+        yjnr = #{record.yjnr,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.jdap != null" >
+        jdap = #{record.jdap,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.yjmb != null" >
+        yjmb = #{record.yjmb,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.erpProjectName != null" >
+        erp_project_name = #{record.erpProjectName,jdbcType=LONGVARCHAR},
+      </if>
     </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update out_project_info
+    set data_id = #{record.dataId,jdbcType=VARCHAR},
+      nd = #{record.nd,jdbcType=VARCHAR},
+      xmid = #{record.xmid,jdbcType=VARCHAR},
+      hth = #{record.hth,jdbcType=VARCHAR},
+      xmmc = #{record.xmmc,jdbcType=VARCHAR},
+      xmjb = #{record.xmjb,jdbcType=VARCHAR},
+      jf = #{record.jf,jdbcType=VARCHAR},
+      fwdxbm = #{record.fwdxbm,jdbcType=VARCHAR},
+      fwdx = #{record.fwdx,jdbcType=VARCHAR},
+      zylbbm = #{record.zylbbm,jdbcType=VARCHAR},
+      zylb = #{record.zylb,jdbcType=VARCHAR},
+      fzdwbm = #{record.fzdwbm,jdbcType=VARCHAR},
+      fzdw = #{record.fzdw,jdbcType=VARCHAR},
+      jtfzdwbm = #{record.jtfzdwbm,jdbcType=VARCHAR},
+      jtfzdw = #{record.jtfzdw,jdbcType=VARCHAR},
+      fzryx = #{record.fzryx,jdbcType=VARCHAR},
+      fzrdh = #{record.fzrdh,jdbcType=VARCHAR},
+      fzrxm = #{record.fzrxm,jdbcType=VARCHAR},
+      lxrdh = #{record.lxrdh,jdbcType=VARCHAR},
+      lxryx = #{record.lxryx,jdbcType=VARCHAR},
+      lxrxm = #{record.lxrxm,jdbcType=VARCHAR},
+      jssxxm = #{record.jssxxm,jdbcType=VARCHAR},
+      jssj = #{record.jssj,jdbcType=VARCHAR},
+      kssj = #{record.kssj,jdbcType=VARCHAR},
+      yjsj = #{record.yjsj,jdbcType=VARCHAR},
+      zyly = #{record.zyly,jdbcType=VARCHAR},
+      zysx = #{record.zysx,jdbcType=VARCHAR},
+      sjid = #{record.sjid,jdbcType=VARCHAR},
+      create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      create_person = #{record.createPerson,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=VARCHAR},
+      update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+      project_id = #{record.projectId,jdbcType=VARCHAR},
+      parent_project_id = #{record.parentProjectId,jdbcType=VARCHAR},
+      project_type = #{record.projectType,jdbcType=VARCHAR},
+      erp_project_code = #{record.erpProjectCode,jdbcType=VARCHAR},
+      project_scope = #{record.projectScope,jdbcType=VARCHAR},
+      project_level = #{record.projectLevel,jdbcType=VARCHAR},
+      project_property = #{record.projectProperty,jdbcType=VARCHAR},
+      project_abc = #{record.projectAbc,jdbcType=VARCHAR},
+      project_source = #{record.projectSource,jdbcType=VARCHAR},
+      yjsjks = #{record.yjsjks,jdbcType=VARCHAR},
+      yjsjjs = #{record.yjsjjs,jdbcType=VARCHAR},
+      xmlbbm = #{record.xmlbbm,jdbcType=VARCHAR},
+      xmlbmc = #{record.xmlbmc,jdbcType=VARCHAR},
+      gsbmmc = #{record.gsbmmc,jdbcType=VARCHAR},
+      gsbmbm = #{record.gsbmbm,jdbcType=VARCHAR},
+      zycmc = #{record.zycmc,jdbcType=VARCHAR},
+      zycbm = #{record.zycbm,jdbcType=VARCHAR},
+      type_flag = #{record.typeFlag,jdbcType=VARCHAR},
+      define1 = #{record.define1,jdbcType=VARCHAR},
+      define2 = #{record.define2,jdbcType=VARCHAR},
+      define3 = #{record.define3,jdbcType=VARCHAR},
+      define4 = #{record.define4,jdbcType=VARCHAR},
+      define5 = #{record.define5,jdbcType=VARCHAR},
+      define6 = #{record.define6,jdbcType=VARCHAR},
+      define7 = #{record.define7,jdbcType=VARCHAR},
+      define8 = #{record.define8,jdbcType=VARCHAR},
+      define9 = #{record.define9,jdbcType=VARCHAR},
+      lxbj = #{record.lxbj,jdbcType=LONGVARCHAR},
+      yjnr = #{record.yjnr,jdbcType=LONGVARCHAR},
+      jdap = #{record.jdap,jdbcType=LONGVARCHAR},
+      yjmb = #{record.yjmb,jdbcType=LONGVARCHAR},
+      erp_project_name = #{record.erpProjectName,jdbcType=LONGVARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -716,16 +916,19 @@
       fzdw = #{record.fzdw,jdbcType=VARCHAR},
       jtfzdwbm = #{record.jtfzdwbm,jdbcType=VARCHAR},
       jtfzdw = #{record.jtfzdw,jdbcType=VARCHAR},
+      fzryx = #{record.fzryx,jdbcType=VARCHAR},
+      fzrdh = #{record.fzrdh,jdbcType=VARCHAR},
       fzrxm = #{record.fzrxm,jdbcType=VARCHAR},
+      lxrdh = #{record.lxrdh,jdbcType=VARCHAR},
+      lxryx = #{record.lxryx,jdbcType=VARCHAR},
+      lxrxm = #{record.lxrxm,jdbcType=VARCHAR},
       jssxxm = #{record.jssxxm,jdbcType=VARCHAR},
+      jssj = #{record.jssj,jdbcType=VARCHAR},
+      kssj = #{record.kssj,jdbcType=VARCHAR},
       yjsj = #{record.yjsj,jdbcType=VARCHAR},
       zyly = #{record.zyly,jdbcType=VARCHAR},
       zysx = #{record.zysx,jdbcType=VARCHAR},
       sjid = #{record.sjid,jdbcType=VARCHAR},
-      lxbj = #{record.lxbj,jdbcType=VARCHAR},
-      yjnr = #{record.yjnr,jdbcType=VARCHAR},
-      jdap = #{record.jdap,jdbcType=VARCHAR},
-      yjmb = #{record.yjmb,jdbcType=VARCHAR},
       create_date = #{record.createDate,jdbcType=TIMESTAMP},
       create_person = #{record.createPerson,jdbcType=VARCHAR},
       status = #{record.status,jdbcType=VARCHAR},
@@ -734,7 +937,6 @@
       parent_project_id = #{record.parentProjectId,jdbcType=VARCHAR},
       project_type = #{record.projectType,jdbcType=VARCHAR},
       erp_project_code = #{record.erpProjectCode,jdbcType=VARCHAR},
-      erp_project_name = #{record.erpProjectName,jdbcType=VARCHAR},
       project_scope = #{record.projectScope,jdbcType=VARCHAR},
       project_level = #{record.projectLevel,jdbcType=VARCHAR},
       project_property = #{record.projectProperty,jdbcType=VARCHAR},
@@ -754,12 +956,15 @@
       define3 = #{record.define3,jdbcType=VARCHAR},
       define4 = #{record.define4,jdbcType=VARCHAR},
       define5 = #{record.define5,jdbcType=VARCHAR},
-      define6 = #{record.define6,jdbcType=VARCHAR}
+      define6 = #{record.define6,jdbcType=VARCHAR},
+      define7 = #{record.define7,jdbcType=VARCHAR},
+      define8 = #{record.define8,jdbcType=VARCHAR},
+      define9 = #{record.define9,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.stp.out.OutProjectInfo" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.stp.out.OutProjectInfoWithBLOBs" >
     update out_project_info
     <set >
       <if test="nd != null" >
@@ -804,11 +1009,32 @@
       <if test="jtfzdw != null" >
         jtfzdw = #{jtfzdw,jdbcType=VARCHAR},
       </if>
+      <if test="fzryx != null" >
+        fzryx = #{fzryx,jdbcType=VARCHAR},
+      </if>
+      <if test="fzrdh != null" >
+        fzrdh = #{fzrdh,jdbcType=VARCHAR},
+      </if>
       <if test="fzrxm != null" >
         fzrxm = #{fzrxm,jdbcType=VARCHAR},
       </if>
+      <if test="lxrdh != null" >
+        lxrdh = #{lxrdh,jdbcType=VARCHAR},
+      </if>
+      <if test="lxryx != null" >
+        lxryx = #{lxryx,jdbcType=VARCHAR},
+      </if>
+      <if test="lxrxm != null" >
+        lxrxm = #{lxrxm,jdbcType=VARCHAR},
+      </if>
       <if test="jssxxm != null" >
         jssxxm = #{jssxxm,jdbcType=VARCHAR},
+      </if>
+      <if test="jssj != null" >
+        jssj = #{jssj,jdbcType=VARCHAR},
+      </if>
+      <if test="kssj != null" >
+        kssj = #{kssj,jdbcType=VARCHAR},
       </if>
       <if test="yjsj != null" >
         yjsj = #{yjsj,jdbcType=VARCHAR},
@@ -821,18 +1047,6 @@
       </if>
       <if test="sjid != null" >
         sjid = #{sjid,jdbcType=VARCHAR},
-      </if>
-      <if test="lxbj != null" >
-        lxbj = #{lxbj,jdbcType=VARCHAR},
-      </if>
-      <if test="yjnr != null" >
-        yjnr = #{yjnr,jdbcType=VARCHAR},
-      </if>
-      <if test="jdap != null" >
-        jdap = #{jdap,jdbcType=VARCHAR},
-      </if>
-      <if test="yjmb != null" >
-        yjmb = #{yjmb,jdbcType=VARCHAR},
       </if>
       <if test="createDate != null" >
         create_date = #{createDate,jdbcType=TIMESTAMP},
@@ -857,9 +1071,6 @@
       </if>
       <if test="erpProjectCode != null" >
         erp_project_code = #{erpProjectCode,jdbcType=VARCHAR},
-      </if>
-      <if test="erpProjectName != null" >
-        erp_project_name = #{erpProjectName,jdbcType=VARCHAR},
       </if>
       <if test="projectScope != null" >
         project_scope = #{projectScope,jdbcType=VARCHAR},
@@ -921,10 +1132,34 @@
       <if test="define6 != null" >
         define6 = #{define6,jdbcType=VARCHAR},
       </if>
+      <if test="define7 != null" >
+        define7 = #{define7,jdbcType=VARCHAR},
+      </if>
+      <if test="define8 != null" >
+        define8 = #{define8,jdbcType=VARCHAR},
+      </if>
+      <if test="define9 != null" >
+        define9 = #{define9,jdbcType=VARCHAR},
+      </if>
+      <if test="lxbj != null" >
+        lxbj = #{lxbj,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="yjnr != null" >
+        yjnr = #{yjnr,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="jdap != null" >
+        jdap = #{jdap,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="yjmb != null" >
+        yjmb = #{yjmb,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="erpProjectName != null" >
+        erp_project_name = #{erpProjectName,jdbcType=LONGVARCHAR},
+      </if>
     </set>
     where data_id = #{dataId,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.out.OutProjectInfo" >
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.pcitc.base.stp.out.OutProjectInfoWithBLOBs" >
     update out_project_info
     set nd = #{nd,jdbcType=VARCHAR},
       xmid = #{xmid,jdbcType=VARCHAR},
@@ -940,16 +1175,19 @@
       fzdw = #{fzdw,jdbcType=VARCHAR},
       jtfzdwbm = #{jtfzdwbm,jdbcType=VARCHAR},
       jtfzdw = #{jtfzdw,jdbcType=VARCHAR},
+      fzryx = #{fzryx,jdbcType=VARCHAR},
+      fzrdh = #{fzrdh,jdbcType=VARCHAR},
       fzrxm = #{fzrxm,jdbcType=VARCHAR},
+      lxrdh = #{lxrdh,jdbcType=VARCHAR},
+      lxryx = #{lxryx,jdbcType=VARCHAR},
+      lxrxm = #{lxrxm,jdbcType=VARCHAR},
       jssxxm = #{jssxxm,jdbcType=VARCHAR},
+      jssj = #{jssj,jdbcType=VARCHAR},
+      kssj = #{kssj,jdbcType=VARCHAR},
       yjsj = #{yjsj,jdbcType=VARCHAR},
       zyly = #{zyly,jdbcType=VARCHAR},
       zysx = #{zysx,jdbcType=VARCHAR},
       sjid = #{sjid,jdbcType=VARCHAR},
-      lxbj = #{lxbj,jdbcType=VARCHAR},
-      yjnr = #{yjnr,jdbcType=VARCHAR},
-      jdap = #{jdap,jdbcType=VARCHAR},
-      yjmb = #{yjmb,jdbcType=VARCHAR},
       create_date = #{createDate,jdbcType=TIMESTAMP},
       create_person = #{createPerson,jdbcType=VARCHAR},
       status = #{status,jdbcType=VARCHAR},
@@ -958,7 +1196,6 @@
       parent_project_id = #{parentProjectId,jdbcType=VARCHAR},
       project_type = #{projectType,jdbcType=VARCHAR},
       erp_project_code = #{erpProjectCode,jdbcType=VARCHAR},
-      erp_project_name = #{erpProjectName,jdbcType=VARCHAR},
       project_scope = #{projectScope,jdbcType=VARCHAR},
       project_level = #{projectLevel,jdbcType=VARCHAR},
       project_property = #{projectProperty,jdbcType=VARCHAR},
@@ -978,7 +1215,77 @@
       define3 = #{define3,jdbcType=VARCHAR},
       define4 = #{define4,jdbcType=VARCHAR},
       define5 = #{define5,jdbcType=VARCHAR},
-      define6 = #{define6,jdbcType=VARCHAR}
+      define6 = #{define6,jdbcType=VARCHAR},
+      define7 = #{define7,jdbcType=VARCHAR},
+      define8 = #{define8,jdbcType=VARCHAR},
+      define9 = #{define9,jdbcType=VARCHAR},
+      lxbj = #{lxbj,jdbcType=LONGVARCHAR},
+      yjnr = #{yjnr,jdbcType=LONGVARCHAR},
+      jdap = #{jdap,jdbcType=LONGVARCHAR},
+      yjmb = #{yjmb,jdbcType=LONGVARCHAR},
+      erp_project_name = #{erpProjectName,jdbcType=LONGVARCHAR}
+    where data_id = #{dataId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.out.OutProjectInfo" >
+    update out_project_info
+    set nd = #{nd,jdbcType=VARCHAR},
+      xmid = #{xmid,jdbcType=VARCHAR},
+      hth = #{hth,jdbcType=VARCHAR},
+      xmmc = #{xmmc,jdbcType=VARCHAR},
+      xmjb = #{xmjb,jdbcType=VARCHAR},
+      jf = #{jf,jdbcType=VARCHAR},
+      fwdxbm = #{fwdxbm,jdbcType=VARCHAR},
+      fwdx = #{fwdx,jdbcType=VARCHAR},
+      zylbbm = #{zylbbm,jdbcType=VARCHAR},
+      zylb = #{zylb,jdbcType=VARCHAR},
+      fzdwbm = #{fzdwbm,jdbcType=VARCHAR},
+      fzdw = #{fzdw,jdbcType=VARCHAR},
+      jtfzdwbm = #{jtfzdwbm,jdbcType=VARCHAR},
+      jtfzdw = #{jtfzdw,jdbcType=VARCHAR},
+      fzryx = #{fzryx,jdbcType=VARCHAR},
+      fzrdh = #{fzrdh,jdbcType=VARCHAR},
+      fzrxm = #{fzrxm,jdbcType=VARCHAR},
+      lxrdh = #{lxrdh,jdbcType=VARCHAR},
+      lxryx = #{lxryx,jdbcType=VARCHAR},
+      lxrxm = #{lxrxm,jdbcType=VARCHAR},
+      jssxxm = #{jssxxm,jdbcType=VARCHAR},
+      jssj = #{jssj,jdbcType=VARCHAR},
+      kssj = #{kssj,jdbcType=VARCHAR},
+      yjsj = #{yjsj,jdbcType=VARCHAR},
+      zyly = #{zyly,jdbcType=VARCHAR},
+      zysx = #{zysx,jdbcType=VARCHAR},
+      sjid = #{sjid,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      create_person = #{createPerson,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      project_id = #{projectId,jdbcType=VARCHAR},
+      parent_project_id = #{parentProjectId,jdbcType=VARCHAR},
+      project_type = #{projectType,jdbcType=VARCHAR},
+      erp_project_code = #{erpProjectCode,jdbcType=VARCHAR},
+      project_scope = #{projectScope,jdbcType=VARCHAR},
+      project_level = #{projectLevel,jdbcType=VARCHAR},
+      project_property = #{projectProperty,jdbcType=VARCHAR},
+      project_abc = #{projectAbc,jdbcType=VARCHAR},
+      project_source = #{projectSource,jdbcType=VARCHAR},
+      yjsjks = #{yjsjks,jdbcType=VARCHAR},
+      yjsjjs = #{yjsjjs,jdbcType=VARCHAR},
+      xmlbbm = #{xmlbbm,jdbcType=VARCHAR},
+      xmlbmc = #{xmlbmc,jdbcType=VARCHAR},
+      gsbmmc = #{gsbmmc,jdbcType=VARCHAR},
+      gsbmbm = #{gsbmbm,jdbcType=VARCHAR},
+      zycmc = #{zycmc,jdbcType=VARCHAR},
+      zycbm = #{zycbm,jdbcType=VARCHAR},
+      type_flag = #{typeFlag,jdbcType=VARCHAR},
+      define1 = #{define1,jdbcType=VARCHAR},
+      define2 = #{define2,jdbcType=VARCHAR},
+      define3 = #{define3,jdbcType=VARCHAR},
+      define4 = #{define4,jdbcType=VARCHAR},
+      define5 = #{define5,jdbcType=VARCHAR},
+      define6 = #{define6,jdbcType=VARCHAR},
+      define7 = #{define7,jdbcType=VARCHAR},
+      define8 = #{define8,jdbcType=VARCHAR},
+      define9 = #{define9,jdbcType=VARCHAR}
     where data_id = #{dataId,jdbcType=VARCHAR}
   </update>
   
@@ -996,18 +1303,17 @@
 		fwdxbm, fwdx,
 		zylbbm, zylb, fzdwbm,
 		fzdw, jtfzdwbm, jtfzdw,
-		fzrxm,
-		jssxxm, yjsj,
+		fzrxm,fzrdh,fzryx,lxrxm,lxrdh,lxryx,
+		jssxxm, yjsj,kssj,jssj,
 		zyly,
-		zysx, sjid, lxbj, yjnr,
-		jdap, yjmb, create_date,
+		zysx, sjid, create_date,
 		create_person, status,
 		update_date,project_id, parent_project_id,
-		project_type,
+		project_type,project_property,
 		erp_project_code,
 		erp_project_name,type_flag,
 		xmlbbm,xmlbmc,gsbmmc,gsbmbm,zycmc,zycbm,
-		define1,define2,define3,define4,define5,define6
+		define1,define2,define3,define4,define5,define6,define7,define8,define9
 		)
 		values
 		<foreach collection="list" item="projectInfo" index="index"
@@ -1029,15 +1335,18 @@
 			#{projectInfo.jtfzdwbm,jdbcType=VARCHAR},
 			#{projectInfo.jtfzdw,jdbcType=VARCHAR},
 			#{projectInfo.fzrxm,jdbcType=VARCHAR},
+			#{projectInfo.fzrdh,jdbcType=VARCHAR},
+			#{projectInfo.fzryx,jdbcType=VARCHAR},
+			#{projectInfo.lxrxm,jdbcType=VARCHAR},
+			#{projectInfo.lxrdh,jdbcType=VARCHAR},
+			#{projectInfo.lxryx,jdbcType=VARCHAR},
 			#{projectInfo.jssxxm,jdbcType=VARCHAR},
 			#{projectInfo.yjsj,jdbcType=VARCHAR},
+			#{projectInfo.kssj,jdbcType=VARCHAR},
+			#{projectInfo.jssj,jdbcType=VARCHAR},
 			#{projectInfo.zyly,jdbcType=VARCHAR},
 			#{projectInfo.zysx,jdbcType=VARCHAR},
 			#{projectInfo.sjid,jdbcType=VARCHAR},
-			#{projectInfo.lxbj,jdbcType=VARCHAR},
-			#{projectInfo.yjnr,jdbcType=VARCHAR},
-			#{projectInfo.jdap,jdbcType=VARCHAR},
-			#{projectInfo.yjmb,jdbcType=VARCHAR},
 			#{projectInfo.createDate,jdbcType=TIMESTAMP},
 			#{projectInfo.createPerson,jdbcType=VARCHAR},
 			#{projectInfo.status,jdbcType=VARCHAR},
@@ -1045,6 +1354,7 @@
 			#{projectInfo.projectId,jdbcType=VARCHAR},
 			#{projectInfo.parentProjectId,jdbcType=TIMESTAMP},
 			#{projectInfo.projectType,jdbcType=VARCHAR},
+			#{projectInfo.projectProperty,jdbcType=VARCHAR},
 			#{projectInfo.erpProjectCode,jdbcType=VARCHAR},
 			#{projectInfo.erpProjectName,jdbcType=VARCHAR},
 			#{projectInfo.typeFlag,jdbcType=TIMESTAMP},
@@ -1054,6 +1364,38 @@
 			#{projectInfo.gsbmbm,jdbcType=VARCHAR},
 			#{projectInfo.zycmc,jdbcType=VARCHAR},
 			#{projectInfo.zycbm,jdbcType=VARCHAR},
+			#{projectInfo.define1,jdbcType=VARCHAR},
+			#{projectInfo.define2,jdbcType=VARCHAR},
+			#{projectInfo.define3,jdbcType=VARCHAR},
+			#{projectInfo.define4,jdbcType=VARCHAR},
+			#{projectInfo.define5,jdbcType=VARCHAR},
+			#{projectInfo.define6,jdbcType=VARCHAR},
+			#{projectInfo.define7,jdbcType=VARCHAR},
+			#{projectInfo.define8,jdbcType=VARCHAR},
+			#{projectInfo.define9,jdbcType=VARCHAR}
+			)
+		</foreach>
+	</insert>
+	
+	<!-- 批量插入项目预算数据 -->
+	<insert id="insertProjectItemData" parameterType="java.util.List">
+		insert into out_project_item (data_id, nd, ktid, ktmc, jfhj,
+		create_date, create_person, status, update_date, 
+		define1,define2,define3,define4,define5,define6
+		)
+		values
+		<foreach collection="list" item="projectInfo" index="index"
+			separator=",">
+			(
+			#{projectInfo.dataId,jdbcType=VARCHAR},
+			#{projectInfo.nd,jdbcType=VARCHAR},
+			#{projectInfo.ktid,jdbcType=VARCHAR},
+			#{projectInfo.ktmc,jdbcType=VARCHAR},
+			#{projectInfo.jfhj,jdbcType=VARCHAR},
+			#{projectInfo.createDate,jdbcType=TIMESTAMP},
+			#{projectInfo.createPerson,jdbcType=VARCHAR},
+			#{projectInfo.status,jdbcType=VARCHAR},
+			#{projectInfo.updateDate,jdbcType=TIMESTAMP},
 			#{projectInfo.define1,jdbcType=VARCHAR},
 			#{projectInfo.define2,jdbcType=VARCHAR},
 			#{projectInfo.define3,jdbcType=VARCHAR},
@@ -1815,5 +2157,12 @@
 		order by xmmc,define6
 	</select>
 	
-	
+	<!-- 得到已保存的预算数据 -->
+	<select id="getProjectItemList" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select *
+		from out_project_item
+		WHERE
+			 nd = '2017'
+		
+	</select>
 </mapper>

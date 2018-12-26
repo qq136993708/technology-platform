@@ -240,22 +240,6 @@ span{display: inline-block;}
     .layui-oil-div div:nth-child(4) img{left: 96px;}
     .layui-oil-div .layui-lab-span{font-size: 12px;}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @media screen and (min-width: 992px) {
     .layui-row-text span{font-size: 12px;}
     .layui-col-md5 {width: 50%;}
@@ -268,18 +252,56 @@ span{display: inline-block;}
 .layui-statistics span:nth-child(2){background-color: #5fa3c8}
 .layui-statistics span:nth-child(3){background-color: #f4920b;margin-right: 0;}
 .search{width: 90%;margin: 30px auto;}
-.search span{font-size: 16px; color: #666666;}
-.search input{width: 160px;height: 28px;line-height: 28px;border: 1px solid #dddddd;color: #666666;margin:0 10px;
+.search span{font-size: 16px; color: #666666;padding-left: 7px;}
+.search input{width: 150px;height: 28px;line-height: 28px;border: 1px solid #dddddd;color: #666666;margin:0 10px;
     text-indent: 6px;}
 .search a{padding-right: 15px;height: 29px;line-height: 29px;color: white;font-size: 16px;display: inline-block;cursor: pointer;
     text-indent: 40px;border-radius: 3px;background: url("/layuiadmin/layui/images/icon-search-z.png") no-repeat 10px center #00a3b5;}
 .layui-expert{border: 0;box-shadow: none;}
-.layui-expert .layui-card{ border: 1px solid #e5e5e5;border: 1px solid #e5e5e5;border-radius: 3px;}
+.layui-expert .layui-card{ border: 1px solid #e5e5e5;border-radius: 3px;height: auto;overflow: hidden;}
 .layui-expert .layui-card-header{background-color: #eeeeee;}
 .layui-expert .layui-col-md12 {margin-bottom: 0px;}
 .layui-search{padding: 30px;}
 .layui-search .search{width: 100%;margin: 15px 0;}
 .layui-search .search input{margin: 0 10px 0 0}
-.layui-search .search a.add{border: 1px solid #00a3b5;background: none;color: #00a3b5;text-indent: 15px}
+.search a.add{border: 1px solid #00a3b5;background: none;color: #00a3b5;text-indent: 15px}
 .layui-table .details{text-align: center;color: #54b6e9;font-size: 16px;cursor: pointer;}
 .searchIpnut>div .layui-unselect {margin: 10px 0;}
+.layui-expert-div .layui-card{padding: 20px;}
+.layui-expert-div p{font-size: 30px;color: #000;padding: 8px 0 16px;}
+.layui-expert-div span{background: #cce2ed;height: 36px;line-height: 36px;border-radius: 18px;font-size: 16px;
+    padding: 0 10px;    margin-bottom: 10px;}
+.layui-expert-div span .red{padding: 0;color: #ff0000;}
+.layui-expert-div .layui-zc,.layui-expert-div .layui-pone,.layui-expert-div .layui-e,.layui-expert-div .layui-a{
+    background: none; padding: 0;margin: 0;font-size: 16px;}
+.layui-a{display: block;}
+.layui-expert-div .layui-zc{display: block;}
+.layui-expert-div .layui-pone{margin-right: 6px;}
+.layui-expert-div .search{margin: 10px 0;width: 100%;}
+.layui-tab-brief>.layui-tab-more li.layui-this:after, .layui-tab-brief>.layui-tab-title .layui-this:after{
+    border: 0;}
+.layui-tab-brief>.layui-tab-title .layui-this{background-color: #17a2b8;color: white;}
+.layui-tab-item{ padding: 20px;}
+.layui-tab-item ul li{background: url("/layuiadmin/layui/images/icon-expertu.png") no-repeat;
+    padding-left: 25px;height: 90px;}
+.layui-tab-item ul li p{font-size: 16px; color: #000000;padding-bottom: 15px;}
+.layui-tab-item ul li span{font-size: 16px;color: #666666;}
+.layui-tab-item ul li:last-child{background: url("/layuiadmin/layui/images/icon-expertd.png") no-repeat;height: 68px;}
+.layui-expert-choice{box-shadow:none;border: none;background: none;padding: 5px; width: 99%;}
+.layui-expert-choice .layui-information{border: 1px solid #dddddd;border-radius: 4px;padding:20px;
+background: white;box-shadow: 0 0 5px #dadcde;}
+.layui-expert-choice p{line-height: 28px;font-size: 16px;}
+.layui-expert-choice .red{color: #ff0000;}
+.layui-expert-choice .layui-title{margin: 8px 0 10px;font-size: 30px;color: #000;}
+.layui-f{border-bottom: 1px solid #ddd;margin-bottom: 10px;padding-bottom: 10px;}
+.layui-expert-choice .search{width: 100%;text-align: center;margin: 15px 0;}
+.layui-expert-choice .search a.add{width: 80px;}
+.layui-expert-choice .layui-img{}
+
+.layui-select-more{display: inline-block;}
+@media screen and (max-width: 1680px) {
+   .layui-tab-content{height: 318px}
+}
+@media screen and (max-width: 1536px) {
+    .layui-tab-content{height: 364px}
+}

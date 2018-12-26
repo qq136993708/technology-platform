@@ -15,7 +15,7 @@
         <div class="searchIpnut">
             <div class="searchF">
                 <p>是否规避本院</p>
-                <input type="checkbox" title="规避本院" value="${gb}" lay-skin='primary'>
+                <input type="checkbox" title="规避本院" value="${gbcode}" lay-skin='primary'>
             </div>
             <div class="searchIndustry">
                 <p>行业领域</p>
@@ -50,7 +50,7 @@
 
         <input id="key" value="${key}" type="text"/>
         <input id="zjmc" value="${zjmc}" type="text" class="layui-hide"/>
-        <a data-type="searchEvent">查询</a>
+        <a data-type="searchEvent" id="searchEvent">查询</a>
         <a class="add" href="javascript:;" id="addBx">加入备选</a>
         <a class="add" href="javascript:;" id="addDb">加入对比</a>
     </div>
@@ -71,6 +71,7 @@
     var nld = "${nld}";
     var zc = "${zc}";
     var gb = "${gb}";
+    var gbcode = "${gbcode}";
 
     console.log(hyly);
     console.log(jg);
@@ -78,7 +79,7 @@
     console.log(key);
     console.log(nld);
     console.log(zc);
-    console.log(gb);
+    console.log("规避:"+gbcode);
 </script>
 <script>
     var param = JSON.parse(window.localStorage.getItem("param"));
@@ -100,32 +101,52 @@
         //行业领域
         publicMethods.ajaxPost("/pageCommon/dic/ZJK_XYLY",null,function (data) {
             $.each(data, function (index, item) {
-                console.log(item.code+"----"+item.name);
-                var html="<input type='checkbox' title='"+item.name+"' value='"+item.code+"' lay-skin='primary'>"
+                var html = "";
+                if(hyly.indexOf(item.code)>-1){
+                    html="<input type='checkbox' checked title='"+item.name+"' value='"+item.code+"' lay-skin='primary'>"
+                }else {
+                    html="<input type='checkbox' title='"+item.name+"' value='"+item.code+"' lay-skin='primary'>"
+                }
                 $(".searchIndustry").append(html);
             })
         });
         //研究院
         publicMethods.ajaxPost("/pageCommon/dic/ROOT_XTGL_ZSYJY",null,function (data) {
             $.each(data, function (index, item) {
-                console.log(item.code+"----"+item.name);
-                var html="<input type='checkbox' title='"+item.name+"' value='"+item.code+"' lay-skin='primary'>"
-                $(".searchYard").append(html);
+                if(index<8){
+                    var html="";
+                    if(jg.indexOf(item.code)>-1){
+                        html = "<input type='checkbox' checked title='"+item.name+"' value='"+item.code+"' lay-skin='primary'>";
+                    }else {
+                        html = "<input type='checkbox' title='"+item.name+"' value='"+item.code+"' lay-skin='primary'>";
+                    }
+                    $(".searchYard").append(html);
+                }
             })
         });
         //年龄段信息
         publicMethods.ajaxPost("/pageCommon/dic/ZJK_NLDXX",null,function (data) {
             $.each(data, function (index, item) {
-                console.log(item.code+"----"+item.name);
-                var html="<input type='checkbox' title='"+item.name+"' value='"+item.code+"' lay-skin='primary'>"
+                // console.log(item.code+"----"+item.name);
+                var html="";
+                if(nld.indexOf(item.code)>-1){
+                    html="<input type='checkbox' checked title='"+item.name+"' value='"+item.code+"' lay-skin='primary'>"
+                }else{
+                    html="<input type='checkbox' title='"+item.name+"' value='"+item.code+"' lay-skin='primary'>"
+                }
                 $(".searchAge").append(html);
             })
         });
         //职称信息
-        publicMethods.ajaxPost("/pageCommon/dic/ZJK_JSLY",null,function (data) {
+        publicMethods.ajaxPost("/pageCommon/dic/ZJK_ZCXX",null,function (data) {
             $.each(data, function (index, item) {
-                console.log(item.code+"----"+item.name);
-                var html="<input type='checkbox' title='"+item.name+"' value='"+item.code+"' lay-skin='primary'>"
+                // console.log(item.code+"----"+item.name);
+                var html="";
+                if(zc.indexOf(item.code)>-1){
+                    html="<input type='checkbox' checked title='"+item.name+"' value='"+item.code+"' lay-skin='primary'>"
+                }else{
+                    html="<input type='checkbox' title='"+item.name+"' value='"+item.code+"' lay-skin='primary'>"
+                }
                 $(".searchTitle").append(html);
             })
         });
@@ -234,6 +255,10 @@
             });
         })
         //** 搜索框宽度随着内容自适应End
+        $("#searchEvent").click(function () {
+            renderTable();
+
+        });
         // 触发不同的按钮事件
         var $ = layui.$, active = {
             searchEvent: function () { //点击查询按钮
@@ -272,18 +297,31 @@
         });
         $(".layui-table-header table thead th input").remove();
         /*加入备选*/
-        var record = {};
-        record.companyId = '${zjkBaseInfo.company}';
-        record.companyName = '${zjkBaseInfo.companyName}';
-        record.zjId = '${zjkBaseInfo.id}';
+
         //加入备选
         $("#addBx").click(function () {
+            if (typeof (selectRowData) == "undefined") {
+                layer.msg("请选择一条数据");
+                return
+            }
+            var record = {};
+            record.companyId = selectRowData.company;
+            record.companyName = selectRowData.companyName;
+            record.zjId = selectRowData.id;
             publicMethods.ajaxPost("/expertController/saveBak", record, function (data) {
                 console.log(data);
                 layer.msg("操作成功");
             });
         });
         $("#addDb").click(function () {
+            if (typeof (selectRowData) == "undefined") {
+                layer.msg("请选择一条数据");
+                return
+            }
+            var record = {};
+            record.companyId = selectRowData.company;
+            record.companyName = selectRowData.companyName;
+            record.zjId = selectRowData.id;
             //加入对比
             publicMethods.ajaxPost("/expertController/addCompare", record, function (data) {
                 layer.msg("操作成功");

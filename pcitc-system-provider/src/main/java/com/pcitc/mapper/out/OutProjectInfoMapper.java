@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.pcitc.base.stp.out.OutProjectInfo;
 import com.pcitc.base.stp.out.OutProjectInfoExample;
+import com.pcitc.base.stp.out.OutProjectInfoWithBLOBs;
 
 public interface OutProjectInfoMapper {
     int countByExample(OutProjectInfoExample example);
@@ -16,19 +17,25 @@ public interface OutProjectInfoMapper {
 
     int deleteByPrimaryKey(String dataId);
 
-    int insert(OutProjectInfo record);
+    int insert(OutProjectInfoWithBLOBs record);
 
-    int insertSelective(OutProjectInfo record);
+    int insertSelective(OutProjectInfoWithBLOBs record);
+
+    List<OutProjectInfoWithBLOBs> selectByExampleWithBLOBs(OutProjectInfoExample example);
 
     List<OutProjectInfo> selectByExample(OutProjectInfoExample example);
 
-    OutProjectInfo selectByPrimaryKey(String dataId);
+    OutProjectInfoWithBLOBs selectByPrimaryKey(String dataId);
 
-    int updateByExampleSelective(@Param("record") OutProjectInfo record, @Param("example") OutProjectInfoExample example);
+    int updateByExampleSelective(@Param("record") OutProjectInfoWithBLOBs record, @Param("example") OutProjectInfoExample example);
+
+    int updateByExampleWithBLOBs(@Param("record") OutProjectInfoWithBLOBs record, @Param("example") OutProjectInfoExample example);
 
     int updateByExample(@Param("record") OutProjectInfo record, @Param("example") OutProjectInfoExample example);
 
-    int updateByPrimaryKeySelective(OutProjectInfo record);
+    int updateByPrimaryKeySelective(OutProjectInfoWithBLOBs record);
+
+    int updateByPrimaryKeyWithBLOBs(OutProjectInfoWithBLOBs record);
 
     int updateByPrimaryKey(OutProjectInfo record);
     
@@ -275,5 +282,13 @@ public interface OutProjectInfoMapper {
      */
 	public List getDragonProjectDetails(HashMap<String, String> map);
 	
+	/**
+	 * 获取项目预算数据
+	 */
+	public List getProjectItemList(HashMap<String, String> map);
 	
+	/**
+	 * 批量插入项目预算数据
+	 */
+	public int insertProjectItemData(List<OutProjectInfo> list);
 }

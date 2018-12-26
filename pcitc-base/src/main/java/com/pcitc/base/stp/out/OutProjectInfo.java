@@ -33,9 +33,23 @@ public class OutProjectInfo {
 
     private String jtfzdw;
 
+    private String fzryx;
+
+    private String fzrdh;
+
     private String fzrxm;
 
+    private String lxrdh;
+
+    private String lxryx;
+
+    private String lxrxm;
+
     private String jssxxm;
+
+    private String jssj;
+
+    private String kssj;
 
     private String yjsj;
 
@@ -44,14 +58,6 @@ public class OutProjectInfo {
     private String zysx;
 
     private String sjid;
-
-    private String lxbj;
-
-    private String yjnr;
-
-    private String jdap;
-
-    private String yjmb;
 
     private Date createDate;
 
@@ -68,8 +74,6 @@ public class OutProjectInfo {
     private String projectType;
 
     private String erpProjectCode;
-
-    private String erpProjectName;
 
     private String projectScope;
 
@@ -111,7 +115,54 @@ public class OutProjectInfo {
 
     private String define6;
 
-    public String getDataId() {
+    private String define7;
+
+    private String define8;
+
+    private String define9;
+    
+    private String erpProjectName;	//erp关联的项目名称，可能多个，逗号隔开
+    
+    private String ktid;
+    
+    private String ktmc;
+    
+    private String jfhj;
+    
+
+    public String getErpProjectName() {
+		return erpProjectName;
+	}
+
+	public void setErpProjectName(String erpProjectName) {
+		this.erpProjectName = erpProjectName;
+	}
+
+	public String getKtid() {
+		return ktid;
+	}
+
+	public void setKtid(String ktid) {
+		this.ktid = ktid;
+	}
+
+	public String getKtmc() {
+		return ktmc;
+	}
+
+	public void setKtmc(String ktmc) {
+		this.ktmc = ktmc;
+	}
+
+	public String getJfhj() {
+		return jfhj;
+	}
+
+	public void setJfhj(String jfhj) {
+		this.jfhj = jfhj;
+	}
+
+	public String getDataId() {
         return dataId;
     }
 
@@ -231,6 +282,22 @@ public class OutProjectInfo {
         this.jtfzdw = jtfzdw;
     }
 
+    public String getFzryx() {
+        return fzryx;
+    }
+
+    public void setFzryx(String fzryx) {
+        this.fzryx = fzryx;
+    }
+
+    public String getFzrdh() {
+        return fzrdh;
+    }
+
+    public void setFzrdh(String fzrdh) {
+        this.fzrdh = fzrdh;
+    }
+
     public String getFzrxm() {
         return fzrxm;
     }
@@ -239,12 +306,52 @@ public class OutProjectInfo {
         this.fzrxm = fzrxm;
     }
 
+    public String getLxrdh() {
+        return lxrdh;
+    }
+
+    public void setLxrdh(String lxrdh) {
+        this.lxrdh = lxrdh;
+    }
+
+    public String getLxryx() {
+        return lxryx;
+    }
+
+    public void setLxryx(String lxryx) {
+        this.lxryx = lxryx;
+    }
+
+    public String getLxrxm() {
+        return lxrxm;
+    }
+
+    public void setLxrxm(String lxrxm) {
+        this.lxrxm = lxrxm;
+    }
+
     public String getJssxxm() {
         return jssxxm;
     }
 
     public void setJssxxm(String jssxxm) {
         this.jssxxm = jssxxm;
+    }
+
+    public String getJssj() {
+        return jssj;
+    }
+
+    public void setJssj(String jssj) {
+        this.jssj = jssj;
+    }
+
+    public String getKssj() {
+        return kssj;
+    }
+
+    public void setKssj(String kssj) {
+        this.kssj = kssj;
     }
 
     public String getYjsj() {
@@ -277,38 +384,6 @@ public class OutProjectInfo {
 
     public void setSjid(String sjid) {
         this.sjid = sjid;
-    }
-
-    public String getLxbj() {
-        return lxbj;
-    }
-
-    public void setLxbj(String lxbj) {
-        this.lxbj = lxbj;
-    }
-
-    public String getYjnr() {
-        return yjnr;
-    }
-
-    public void setYjnr(String yjnr) {
-        this.yjnr = yjnr;
-    }
-
-    public String getJdap() {
-        return jdap;
-    }
-
-    public void setJdap(String jdap) {
-        this.jdap = jdap;
-    }
-
-    public String getYjmb() {
-        return yjmb;
-    }
-
-    public void setYjmb(String yjmb) {
-        this.yjmb = yjmb;
     }
 
     public Date getCreateDate() {
@@ -373,14 +448,6 @@ public class OutProjectInfo {
 
     public void setErpProjectCode(String erpProjectCode) {
         this.erpProjectCode = erpProjectCode;
-    }
-
-    public String getErpProjectName() {
-        return erpProjectName;
-    }
-
-    public void setErpProjectName(String erpProjectName) {
-        this.erpProjectName = erpProjectName;
     }
 
     public String getProjectScope() {
@@ -541,5 +608,29 @@ public class OutProjectInfo {
 
     public void setDefine6(String define6) {
         this.define6 = define6;
+    }
+
+    public String getDefine7() {
+        return define7;
+    }
+
+    public void setDefine7(String define7) {
+        this.define7 = define7;
+    }
+
+    public String getDefine8() {
+        return define8;
+    }
+
+    public void setDefine8(String define8) {
+        this.define8 = define8;
+    }
+
+    public String getDefine9() {
+        return define9;
+    }
+
+    public void setDefine9(String define9) {
+        this.define9 = define9;
     }
 }

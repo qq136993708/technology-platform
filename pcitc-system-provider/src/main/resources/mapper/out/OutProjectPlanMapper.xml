@@ -23,8 +23,12 @@
     <result column="FZDW" property="fzdw" jdbcType="VARCHAR" />
     <result column="JTFZDWBM" property="jtfzdwbm" jdbcType="VARCHAR" />
     <result column="JTFZDW" property="jtfzdw" jdbcType="VARCHAR" />
+    <result column="FZRYX" property="fzryx" jdbcType="VARCHAR" />
+    <result column="FZRDH" property="fzrdh" jdbcType="VARCHAR" />
     <result column="FZRXM" property="fzrxm" jdbcType="VARCHAR" />
     <result column="JSSXXM" property="jssxxm" jdbcType="VARCHAR" />
+    <result column="JSSJ" property="jssj" jdbcType="VARCHAR" />
+    <result column="KSSJ" property="kssj" jdbcType="VARCHAR" />
     <result column="YJSJ" property="yjsj" jdbcType="VARCHAR" />
     <result column="ZYLY" property="zyly" jdbcType="VARCHAR" />
     <result column="ZYSX" property="zysx" jdbcType="VARCHAR" />
@@ -43,6 +47,9 @@
     <result column="DEFINE4" property="define4" jdbcType="VARCHAR" />
     <result column="DEFINE5" property="define5" jdbcType="VARCHAR" />
     <result column="DEFINE6" property="define6" jdbcType="VARCHAR" />
+    <result column="DEFINE7" property="define7" jdbcType="VARCHAR" />
+    <result column="DEFINE8" property="define8" jdbcType="VARCHAR" />
+    <result column="DEFINE9" property="define9" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -104,9 +111,10 @@
   </sql>
   <sql id="Base_Column_List" >
     DATA_ID, XMID, ND, HTH, XMMC, XMJB, JF, FWDXBM, FWDX, GSBMBM, GSBMMC, ZYCBM, ZYCMC, 
-    XMLBBM, XMLBMC, ZYLBBM, ZYLB, FZDWBM, FZDW, JTFZDWBM, JTFZDW, FZRXM, JSSXXM, YJSJ, 
-    ZYLY, ZYSX, SJID, LXBJ, YJNR, JDAP, YJMB, YJYJC, PROJECT_PROPERTY, PROJECT_SCOPE, 
-    PROJECT_TYPE, DEFINE1, DEFINE2, DEFINE3, DEFINE4, DEFINE5, DEFINE6
+    XMLBBM, XMLBMC, ZYLBBM, ZYLB, FZDWBM, FZDW, JTFZDWBM, JTFZDW, FZRYX, FZRDH, FZRXM, 
+    JSSXXM, JSSJ, KSSJ, YJSJ, ZYLY, ZYSX, SJID, LXBJ, YJNR, JDAP, YJMB, YJYJC, PROJECT_PROPERTY, 
+    PROJECT_SCOPE, PROJECT_TYPE, DEFINE1, DEFINE2, DEFINE3, DEFINE4, DEFINE5, DEFINE6, 
+    DEFINE7, DEFINE8, DEFINE9
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.pcitc.base.stp.out.OutProjectPlanExample" >
     select
@@ -146,13 +154,15 @@
       GSBMMC, ZYCBM, ZYCMC, 
       XMLBBM, XMLBMC, ZYLBBM, 
       ZYLB, FZDWBM, FZDW, 
-      JTFZDWBM, JTFZDW, FZRXM, 
-      JSSXXM, YJSJ, ZYLY, 
+      JTFZDWBM, JTFZDW, FZRYX, 
+      FZRDH, FZRXM, JSSXXM, 
+      JSSJ, KSSJ, YJSJ, ZYLY, 
       ZYSX, SJID, LXBJ, YJNR, 
       JDAP, YJMB, YJYJC, 
       PROJECT_PROPERTY, PROJECT_SCOPE, PROJECT_TYPE, 
       DEFINE1, DEFINE2, DEFINE3, 
-      DEFINE4, DEFINE5, DEFINE6
+      DEFINE4, DEFINE5, DEFINE6, 
+      DEFINE7, DEFINE8, DEFINE9
       )
     values (#{dataId,jdbcType=VARCHAR}, #{xmid,jdbcType=VARCHAR}, #{nd,jdbcType=VARCHAR}, 
       #{hth,jdbcType=VARCHAR}, #{xmmc,jdbcType=VARCHAR}, #{xmjb,jdbcType=VARCHAR}, #{jf,jdbcType=VARCHAR}, 
@@ -160,13 +170,15 @@
       #{gsbmmc,jdbcType=VARCHAR}, #{zycbm,jdbcType=VARCHAR}, #{zycmc,jdbcType=VARCHAR}, 
       #{xmlbbm,jdbcType=VARCHAR}, #{xmlbmc,jdbcType=VARCHAR}, #{zylbbm,jdbcType=VARCHAR}, 
       #{zylb,jdbcType=VARCHAR}, #{fzdwbm,jdbcType=VARCHAR}, #{fzdw,jdbcType=VARCHAR}, 
-      #{jtfzdwbm,jdbcType=VARCHAR}, #{jtfzdw,jdbcType=VARCHAR}, #{fzrxm,jdbcType=VARCHAR}, 
-      #{jssxxm,jdbcType=VARCHAR}, #{yjsj,jdbcType=VARCHAR}, #{zyly,jdbcType=VARCHAR}, 
+      #{jtfzdwbm,jdbcType=VARCHAR}, #{jtfzdw,jdbcType=VARCHAR}, #{fzryx,jdbcType=VARCHAR}, 
+      #{fzrdh,jdbcType=VARCHAR}, #{fzrxm,jdbcType=VARCHAR}, #{jssxxm,jdbcType=VARCHAR}, 
+      #{jssj,jdbcType=VARCHAR}, #{kssj,jdbcType=VARCHAR}, #{yjsj,jdbcType=VARCHAR}, #{zyly,jdbcType=VARCHAR}, 
       #{zysx,jdbcType=VARCHAR}, #{sjid,jdbcType=VARCHAR}, #{lxbj,jdbcType=VARCHAR}, #{yjnr,jdbcType=VARCHAR}, 
       #{jdap,jdbcType=VARCHAR}, #{yjmb,jdbcType=VARCHAR}, #{yjyjc,jdbcType=VARCHAR}, 
       #{projectProperty,jdbcType=VARCHAR}, #{projectScope,jdbcType=VARCHAR}, #{projectType,jdbcType=VARCHAR}, 
       #{define1,jdbcType=VARCHAR}, #{define2,jdbcType=VARCHAR}, #{define3,jdbcType=VARCHAR}, 
-      #{define4,jdbcType=VARCHAR}, #{define5,jdbcType=VARCHAR}, #{define6,jdbcType=VARCHAR}
+      #{define4,jdbcType=VARCHAR}, #{define5,jdbcType=VARCHAR}, #{define6,jdbcType=VARCHAR}, 
+      #{define7,jdbcType=VARCHAR}, #{define8,jdbcType=VARCHAR}, #{define9,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.pcitc.base.stp.out.OutProjectPlan" >
@@ -235,11 +247,23 @@
       <if test="jtfzdw != null" >
         JTFZDW,
       </if>
+      <if test="fzryx != null" >
+        FZRYX,
+      </if>
+      <if test="fzrdh != null" >
+        FZRDH,
+      </if>
       <if test="fzrxm != null" >
         FZRXM,
       </if>
       <if test="jssxxm != null" >
         JSSXXM,
+      </if>
+      <if test="jssj != null" >
+        JSSJ,
+      </if>
+      <if test="kssj != null" >
+        KSSJ,
       </if>
       <if test="yjsj != null" >
         YJSJ,
@@ -294,6 +318,15 @@
       </if>
       <if test="define6 != null" >
         DEFINE6,
+      </if>
+      <if test="define7 != null" >
+        DEFINE7,
+      </if>
+      <if test="define8 != null" >
+        DEFINE8,
+      </if>
+      <if test="define9 != null" >
+        DEFINE9,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -360,11 +393,23 @@
       <if test="jtfzdw != null" >
         #{jtfzdw,jdbcType=VARCHAR},
       </if>
+      <if test="fzryx != null" >
+        #{fzryx,jdbcType=VARCHAR},
+      </if>
+      <if test="fzrdh != null" >
+        #{fzrdh,jdbcType=VARCHAR},
+      </if>
       <if test="fzrxm != null" >
         #{fzrxm,jdbcType=VARCHAR},
       </if>
       <if test="jssxxm != null" >
         #{jssxxm,jdbcType=VARCHAR},
+      </if>
+      <if test="jssj != null" >
+        #{jssj,jdbcType=VARCHAR},
+      </if>
+      <if test="kssj != null" >
+        #{kssj,jdbcType=VARCHAR},
       </if>
       <if test="yjsj != null" >
         #{yjsj,jdbcType=VARCHAR},
@@ -419,6 +464,15 @@
       </if>
       <if test="define6 != null" >
         #{define6,jdbcType=VARCHAR},
+      </if>
+      <if test="define7 != null" >
+        #{define7,jdbcType=VARCHAR},
+      </if>
+      <if test="define8 != null" >
+        #{define8,jdbcType=VARCHAR},
+      </if>
+      <if test="define9 != null" >
+        #{define9,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -494,11 +548,23 @@
       <if test="record.jtfzdw != null" >
         JTFZDW = #{record.jtfzdw,jdbcType=VARCHAR},
       </if>
+      <if test="record.fzryx != null" >
+        FZRYX = #{record.fzryx,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fzrdh != null" >
+        FZRDH = #{record.fzrdh,jdbcType=VARCHAR},
+      </if>
       <if test="record.fzrxm != null" >
         FZRXM = #{record.fzrxm,jdbcType=VARCHAR},
       </if>
       <if test="record.jssxxm != null" >
         JSSXXM = #{record.jssxxm,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jssj != null" >
+        JSSJ = #{record.jssj,jdbcType=VARCHAR},
+      </if>
+      <if test="record.kssj != null" >
+        KSSJ = #{record.kssj,jdbcType=VARCHAR},
       </if>
       <if test="record.yjsj != null" >
         YJSJ = #{record.yjsj,jdbcType=VARCHAR},
@@ -554,6 +620,15 @@
       <if test="record.define6 != null" >
         DEFINE6 = #{record.define6,jdbcType=VARCHAR},
       </if>
+      <if test="record.define7 != null" >
+        DEFINE7 = #{record.define7,jdbcType=VARCHAR},
+      </if>
+      <if test="record.define8 != null" >
+        DEFINE8 = #{record.define8,jdbcType=VARCHAR},
+      </if>
+      <if test="record.define9 != null" >
+        DEFINE9 = #{record.define9,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -582,8 +657,12 @@
       FZDW = #{record.fzdw,jdbcType=VARCHAR},
       JTFZDWBM = #{record.jtfzdwbm,jdbcType=VARCHAR},
       JTFZDW = #{record.jtfzdw,jdbcType=VARCHAR},
+      FZRYX = #{record.fzryx,jdbcType=VARCHAR},
+      FZRDH = #{record.fzrdh,jdbcType=VARCHAR},
       FZRXM = #{record.fzrxm,jdbcType=VARCHAR},
       JSSXXM = #{record.jssxxm,jdbcType=VARCHAR},
+      JSSJ = #{record.jssj,jdbcType=VARCHAR},
+      KSSJ = #{record.kssj,jdbcType=VARCHAR},
       YJSJ = #{record.yjsj,jdbcType=VARCHAR},
       ZYLY = #{record.zyly,jdbcType=VARCHAR},
       ZYSX = #{record.zysx,jdbcType=VARCHAR},
@@ -601,7 +680,10 @@
       DEFINE3 = #{record.define3,jdbcType=VARCHAR},
       DEFINE4 = #{record.define4,jdbcType=VARCHAR},
       DEFINE5 = #{record.define5,jdbcType=VARCHAR},
-      DEFINE6 = #{record.define6,jdbcType=VARCHAR}
+      DEFINE6 = #{record.define6,jdbcType=VARCHAR},
+      DEFINE7 = #{record.define7,jdbcType=VARCHAR},
+      DEFINE8 = #{record.define8,jdbcType=VARCHAR},
+      DEFINE9 = #{record.define9,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -669,11 +751,23 @@
       <if test="jtfzdw != null" >
         JTFZDW = #{jtfzdw,jdbcType=VARCHAR},
       </if>
+      <if test="fzryx != null" >
+        FZRYX = #{fzryx,jdbcType=VARCHAR},
+      </if>
+      <if test="fzrdh != null" >
+        FZRDH = #{fzrdh,jdbcType=VARCHAR},
+      </if>
       <if test="fzrxm != null" >
         FZRXM = #{fzrxm,jdbcType=VARCHAR},
       </if>
       <if test="jssxxm != null" >
         JSSXXM = #{jssxxm,jdbcType=VARCHAR},
+      </if>
+      <if test="jssj != null" >
+        JSSJ = #{jssj,jdbcType=VARCHAR},
+      </if>
+      <if test="kssj != null" >
+        KSSJ = #{kssj,jdbcType=VARCHAR},
       </if>
       <if test="yjsj != null" >
         YJSJ = #{yjsj,jdbcType=VARCHAR},
@@ -729,6 +823,15 @@
       <if test="define6 != null" >
         DEFINE6 = #{define6,jdbcType=VARCHAR},
       </if>
+      <if test="define7 != null" >
+        DEFINE7 = #{define7,jdbcType=VARCHAR},
+      </if>
+      <if test="define8 != null" >
+        DEFINE8 = #{define8,jdbcType=VARCHAR},
+      </if>
+      <if test="define9 != null" >
+        DEFINE9 = #{define9,jdbcType=VARCHAR},
+      </if>
     </set>
     where DATA_ID = #{dataId,jdbcType=VARCHAR}
   </update>
@@ -754,8 +857,12 @@
       FZDW = #{fzdw,jdbcType=VARCHAR},
       JTFZDWBM = #{jtfzdwbm,jdbcType=VARCHAR},
       JTFZDW = #{jtfzdw,jdbcType=VARCHAR},
+      FZRYX = #{fzryx,jdbcType=VARCHAR},
+      FZRDH = #{fzrdh,jdbcType=VARCHAR},
       FZRXM = #{fzrxm,jdbcType=VARCHAR},
       JSSXXM = #{jssxxm,jdbcType=VARCHAR},
+      JSSJ = #{jssj,jdbcType=VARCHAR},
+      KSSJ = #{kssj,jdbcType=VARCHAR},
       YJSJ = #{yjsj,jdbcType=VARCHAR},
       ZYLY = #{zyly,jdbcType=VARCHAR},
       ZYSX = #{zysx,jdbcType=VARCHAR},
@@ -773,9 +880,13 @@
       DEFINE3 = #{define3,jdbcType=VARCHAR},
       DEFINE4 = #{define4,jdbcType=VARCHAR},
       DEFINE5 = #{define5,jdbcType=VARCHAR},
-      DEFINE6 = #{define6,jdbcType=VARCHAR}
+      DEFINE6 = #{define6,jdbcType=VARCHAR},
+      DEFINE7 = #{define7,jdbcType=VARCHAR},
+      DEFINE8 = #{define8,jdbcType=VARCHAR},
+      DEFINE9 = #{define9,jdbcType=VARCHAR}
     where DATA_ID = #{dataId,jdbcType=VARCHAR}
   </update>
+  
   
   <!-- 批量插入项目计划数据 -->
   <insert id="insertOutProjectPlanBatch" parameterType="java.util.List">
@@ -785,8 +896,8 @@
 	      GSBMMC, ZYCBM, ZYCMC, 
 	      XMLBBM, XMLBMC, ZYLBBM, 
 	      ZYLB, FZDWBM, FZDW, 
-	      JTFZDWBM, JTFZDW, FZRXM, 
-	      JSSXXM, YJSJ, ZYLY, 
+	      JTFZDWBM, JTFZDW, FZRXM,FZRDH,FZRYX, 
+	      JSSXXM, KSSJ, JSSJ, YJSJ, ZYLY, 
 	      ZYSX, SJID, LXBJ, YJNR, 
 	      JDAP, YJMB, YJYJC,
 	      PROJECT_PROPERTY, PROJECT_SCOPE, PROJECT_TYPE,
@@ -802,8 +913,8 @@
 		      #{projectPlan.gsbmmc,jdbcType=VARCHAR}, #{projectPlan.zycbm,jdbcType=VARCHAR}, #{projectPlan.zycmc,jdbcType=VARCHAR}, 
 		      #{projectPlan.xmlbbm,jdbcType=VARCHAR}, #{projectPlan.xmlbmc,jdbcType=VARCHAR}, #{projectPlan.zylbbm,jdbcType=VARCHAR}, 
 		      #{projectPlan.zylb,jdbcType=VARCHAR}, #{projectPlan.fzdwbm,jdbcType=VARCHAR}, #{projectPlan.fzdw,jdbcType=VARCHAR}, 
-		      #{projectPlan.jtfzdwbm,jdbcType=VARCHAR}, #{projectPlan.jtfzdw,jdbcType=VARCHAR}, #{projectPlan.fzrxm,jdbcType=VARCHAR}, 
-		      #{projectPlan.jssxxm,jdbcType=VARCHAR}, #{projectPlan.yjsj,jdbcType=VARCHAR}, #{projectPlan.zyly,jdbcType=VARCHAR}, 
+		      #{projectPlan.jtfzdwbm,jdbcType=VARCHAR}, #{projectPlan.jtfzdw,jdbcType=VARCHAR}, #{projectPlan.fzrxm,jdbcType=VARCHAR},  #{projectPlan.fzrdh,jdbcType=VARCHAR}, #{projectPlan.fzryx,jdbcType=VARCHAR},
+		      #{projectPlan.jssxxm,jdbcType=VARCHAR}, #{projectPlan.kssj,jdbcType=VARCHAR}, #{projectPlan.jssj,jdbcType=VARCHAR}, #{projectPlan.yjsj,jdbcType=VARCHAR}, #{projectPlan.zyly,jdbcType=VARCHAR}, 
 		      #{projectPlan.zysx,jdbcType=VARCHAR}, #{projectPlan.sjid,jdbcType=VARCHAR}, #{projectPlan.lxbj,jdbcType=VARCHAR}, #{projectPlan.yjnr,jdbcType=VARCHAR}, 
 		      #{projectPlan.jdap,jdbcType=VARCHAR}, #{projectPlan.yjmb,jdbcType=VARCHAR}, #{projectPlan.yjyjc,jdbcType=VARCHAR}, 
 		      #{projectPlan.projectProperty,jdbcType=VARCHAR}, #{projectPlan.projectScope,jdbcType=VARCHAR}, #{projectPlan.projectType,jdbcType=VARCHAR}, 
@@ -909,11 +1020,11 @@
 
 			
 		from (
-			select out_project_info.xmid as temId,out_project_plan.DEFINE3,out_project_plan.jf as jf1,out_project_plan.jf as jf2,out_project_plan.xmlbbm as xmlbbm1,out_project_info.xmlbbm as xmlbbm2
+			select out_project_info.xmid as temId,case when out_project_plan.DEFINE3 is null then '9其他' else out_project_plan.DEFINE3 end as DEFINE3,
+						 out_project_plan.jf as jf1,out_project_plan.jf as jf2,out_project_plan.xmlbbm as xmlbbm1,out_project_info.xmlbbm as xmlbbm2
 			from out_project_plan left join out_project_info on (out_project_plan.XMID = out_project_info.xmid and (out_project_info.PROJECT_TYPE= '0' or out_project_info.PROJECT_TYPE= '2') and (out_project_info.PROJECT_SCOPE= '新开课题' or out_project_info.PROJECT_SCOPE= '结转课题'))
 			WHERE
 				(out_project_plan.PROJECT_SCOPE= '新开课题' or out_project_plan.PROJECT_SCOPE= '结转课题')
-				 and out_project_plan.DEFINE3 is not null
 				 and (out_project_plan.PROJECT_TYPE= '0' or out_project_plan.PROJECT_TYPE= '2')
 		) as tableB  
 		group by tableB.DEFINE3
@@ -940,7 +1051,8 @@
 	<!-- 项目计划数据，涉及项目预算、项目计划详情等相关的查询时调用 -->
 	<select id="selectProjectPlanByCond" resultType="com.pcitc.base.stp.out.OutProjectPlan" parameterType="com.pcitc.base.stp.out.OutProjectPlan">
 		select * from (
-			select out_project_plan.DEFINE1,out_project_plan.DEFINE2,out_project_plan.DEFINE3,out_project_plan.XMMC,out_project_plan.JF,
+			select out_project_plan.DEFINE1,SUBSTR(out_project_plan.DEFINE2 FROM 4) as DEFINE2,SUBSTR(out_project_plan.DEFINE3 FROM 2) as DEFINE3,
+					 out_project_plan.XMMC,out_project_plan.JF,
 				   out_project_plan.PROJECT_PROPERTY,out_project_plan.PROJECT_SCOPE,out_project_plan.FZDW,out_project_plan.ZYLB,
 			       out_project_plan.ND,out_project_plan.HTH,
 			       tableA.XMMC as parentName,out_project_info.xmid as projectId
@@ -987,6 +1099,4 @@
 				and tableA.zycmc like '%${zycmc}%'
 			</if>
 	</select>
-	
-	
 </mapper>

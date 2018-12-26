@@ -50,15 +50,16 @@ import com.pcitc.web.utils.HanaUtil;
 public class MoreDimensionController extends BaseController
 {
 
-	private static final String patent_trend_analysis_01 = "http://pcitc-zuul/system-proxy/out-decision-provider/zscq/patent-count/country-type";
-	private static final String patent_trend_analysis_02 = "http://pcitc-zuul/system-proxy/out-decision-provider/zscq/patent-count/patent-type";
+	//private static final String patent_trend_analysis_01 = "http://pcitc-zuul/system-proxy/out-decision-provider/zscq/patent-count/country-type";
+	//private static final String patent_trend_analysis_02 = "http://pcitc-zuul/system-proxy/out-decision-provider/zscq/patent-count/patent-type";
 	private static final String patent_trend_analysis_institute = "http://pcitc-zuul/system-proxy/out-decision-provider/zscq/patent-count/institute";
 	private static final String zlsbqkmxfxb_data = "http://pcitc-zuul/system-proxy/out-decision-provider/zscq/patent-detail/page";
 	
 	//辅助决策中心》多维分析》知识产权》知识产权分析
 	//专利授权数量年趋势分析
-	private static final String zlsqslnqsfx_data = "http://pcitc-zuul/system-proxy/out-decision-provider/patent/home-baroad/three-year";
-	
+	private static final String patent_trend_analysis_01 = "http://pcitc-zuul/system-proxy/out-decision-provider/patent/home-baroad/three-year";
+	private static final String patent_trend_analysis_02 = "http://pcitc-zuul/system-proxy/out-decision-provider/zscq/patent-count/patent-type";
+	private static final String patent_trend_analysis_03 = "http://pcitc-zuul/system-proxy/out-decision-provider/zscq/patent-count/patent-type";
 	
 	
 	@Autowired
@@ -164,37 +165,59 @@ public class MoreDimensionController extends BaseController
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!companyCode.equals(""))
 		{
-			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(zlsqslnqsfx_data, HttpMethod.POST, entity, JSONArray.class);
+			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(patent_trend_analysis_01, HttpMethod.POST, entity, JSONArray.class);
 			int statusCode = responseEntity.getStatusCodeValue();
 			if (statusCode == 200)
 			{
 				JSONArray jSONArray = responseEntity.getBody();
 				System.out.println(">>>>>>>>>>>>>>patent_trend_analysis jSONArray-> " + jSONArray.toString());
 				List<Knowledge> list = JSONObject.parseArray(jSONArray.toJSONString(), Knowledge.class);
+				
 				//List<String> xAxisDataList = HanaUtil.getduplicatexAxisByList(list, "showName");
 				//barLine.setxAxisDataList(xAxisDataList);
 				List<String> xAxisDataList = new ArrayList<String>();
 				xAxisDataList.add("专利总数");
 				xAxisDataList.add("国内专利");
-				xAxisDataList.add("国外专利");
+				xAxisDataList.add("国际专利");
+				//计算总数
+				Knowledge know = new Knowledge();
+				know.setJnCount(list.get(0).getJnCount()+list.get(1).getJnCount());
+				know.setQnCount(list.get(0).getQnCount()+list.get(1).getQnCount());
+				know.setQiannCount(list.get(0).getQiannCount()+list.get(1).getQiannCount());
+				list.add(0,know);
+				System.out.println(">>>>>>>>>>>>>>patent_trend_analysis jSONArray-> " + jSONArray.toJSONString(list));
 				
 				List<String> yearList = HanaUtil.getBeforeYearList(HanaUtil.getCurrrentYear(), 3);
 				List<String> legendDataList = yearList;
+				
 				barLine.setxAxisDataList(xAxisDataList);
 				barLine.setLegendDataList(legendDataList);
+				
 				// X轴数据
 				List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
 				for (int i = 0; i < yearList.size(); i++)
 				{
 					String str = yearList.get(i);
 					List<Object> dt = new ArrayList<Object>();
-					dt.add(123);
-					dt.add(123);
-					dt.add(123);
-					ChartBarLineSeries s1 = new ChartBarLineSeries();//HanaUtil.getChartBarLineSeries_knowledet_bar_year(list, str, yearList);
-					
+					if("2018".equals(str)) {
+						dt.add(list.get(0).getJnCount());
+						dt.add(list.get(1).getJnCount());
+						dt.add(list.get(2).getJnCount());
+					}else if("2017".equals(str)) {
+						dt.add(list.get(0).getQnCount());
+						dt.add(list.get(1).getQnCount());
+						dt.add(list.get(2).getQnCount());
+					}else if("2016".equals(str)) {
+						dt.add(list.get(0).getQiannCount());
+						dt.add(list.get(1).getQiannCount());
+						dt.add(list.get(2).getQiannCount());
+					}else {
+						System.out.println("not found.....");
+					}
+					ChartBarLineSeries s1 = new ChartBarLineSeries();
 					s1.setName(str);
 					s1.setData(dt);
+					s1.setType("bar");
 					seriesList.add(s1);
 				}
 
@@ -202,7 +225,6 @@ public class MoreDimensionController extends BaseController
 				result.setSuccess(true);
 				result.setData(barLine);
 			}
-
 		}
 		else
 		{
@@ -214,7 +236,7 @@ public class MoreDimensionController extends BaseController
 		return resultObj.toString();
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/patent_trend_analysis_02")
+	@RequestMapping(method = RequestMethod.GET, value = "/patent_trend_analysis_03")
 	@ResponseBody
 	public String patent_trend_analysis_02(HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
@@ -229,12 +251,12 @@ public class MoreDimensionController extends BaseController
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!companyCode.equals(""))
 		{
-			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(patent_trend_analysis_02, HttpMethod.POST, entity, JSONArray.class);
+			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(patent_trend_analysis_03, HttpMethod.POST, entity, JSONArray.class);
 			int statusCode = responseEntity.getStatusCodeValue();
 			if (statusCode == 200)
 			{
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>patent_trend_analysis_02_pie jSONArray-> " + jSONArray.toString());
+				System.out.println(">>>>>>>>>>>>>>patent_trend_analysis_03 jSONArray-> " + jSONArray.toString());
 				List<Knowledge> list = JSONObject.parseArray(jSONArray.toJSONString(), Knowledge.class);
 				ChartPieResultData pie = new ChartPieResultData();
 				List<ChartPieDataValue> dataList = new ArrayList<ChartPieDataValue>();
