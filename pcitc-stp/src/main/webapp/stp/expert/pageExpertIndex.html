@@ -21,19 +21,19 @@
     <div class="search">
         <span>行业领域</span>
         <div class="layui-select-more">
-            <select id="hyly" onchange ="changeUrl()" xm-select="hyly"></select>
+            <select id="hyly" onchange="changeUrl()" onclick="changeUrl()" xm-select="hyly"></select>
         </div>
 
         <span>机构</span>
         <div class="layui-select-more">
-            <select id="jg" onchange ="changeUrl()" xm-select="jg"></select>
+            <select id="jg" onchange="changeUrl()"  onclick="changeUrl()" xm-select="jg"></select>
         </div>
         <span>专家姓名</span>
-        <input id="zjmc" value="" onblur="changeUrl()" />
+        <input id="zjmc" value="" onblur="changeUrl()"/>
         <span>关键字</span>
-        <input id="key" value="" onblur="changeUrl()" />
+        <input id="key" value="" onblur="changeUrl()"/>
         <!--<a href="/expertController/queryExpert" target="_blank">找专家</a>-->
-        <a lay-href="/expertController/queryExpert" target="_blank"  id="hrefExpert" lay-text="找专家">找专家</a>
+        <a lay-href="/expertController/queryExpert" target="_blank" id="hrefExpert" lay-text="找专家">找专家</a>
         <!--<a lay-href="/expertController/selectBakList?status=1&addUserId=addUserId" target="_blank" lay-text="找专家">找专家</a>-->
     </div>
     <div class="layui-row layui-col-space15">
@@ -80,18 +80,18 @@
 
 <script>
     layui.config({
-        base : '../layuiadmin/' //静态资源所在路径
+        base: '../layuiadmin/' //静态资源所在路径
     }).extend({
-        index : 'lib/index' //主入口模块
-    }).use([ 'index','form', 'jquery','publicMethods','formSelects'], function() {
-        var publicMethods = layui.publicMethods,formSelects = layui.formSelects;
+        index: 'lib/index' //主入口模块
+    }).use(['index', 'form', 'jquery', 'publicMethods', 'formSelects'], function () {
+        var publicMethods = layui.publicMethods, formSelects = layui.formSelects;
         //行业领域
 
-        publicMethods.ajaxPost("/pageCommon/dic/ZJK_XYLY",null,function (data) {
-            var arr=[];
+        publicMethods.ajaxPost("/pageCommon/dic/ZJK_XYLY", null, function (data) {
+            var arr = [];
             $.each(data, function (index, item) {
                 console.log(data);
-                var obj={"name":item.name,"value":item.code};
+                var obj = {"name": item.name, "value": item.code};
                 arr.push(obj)
             });
             formSelects.data('hyly', 'local', {
@@ -99,12 +99,13 @@
             });
         });
         //研究院
-        publicMethods.ajaxPost("/pageCommon/dic/ROOT_XTGL_ZSYJY",null,function (data) {
-            var arr=[];
+        publicMethods.ajaxPost("/pageCommon/dic/ROOT_XTGL_ZSYJY", null, function (data) {
+            var arr = [];
             $.each(data, function (index, item) {
-                console.log(data);
-                var obj={"name":item.name,"value":item.code};
-                arr.push(obj)
+                if (index < 8) {
+                    var obj = {"name": item.name, "value": item.code};
+                    arr.push(obj)
+                }
             });
             formSelects.data('jg', 'local', {
                 arr: arr
@@ -114,10 +115,11 @@
     });
 
     function changeUrl() {
-        var href = "hyly="+$("#hyly").val()+"&jg="+$("#jg").val()+"&zjmc="+$("#zjmc").val()+"&key="+$("#key").val();
+        var href = "hyly=" + layui.formSelects.value('hyly', 'valStr') + "&jg=" + layui.formSelects.value('jg', 'valStr') + "&zjmc=" + $("#zjmc").val() + "&key=" + $("#key").val();
         console.log(href);
-        $("#hrefExpert").href=href;
+        $("#hrefExpert").attr("lay-href",$("#hrefExpert").attr("lay-href")+"?"+href);
     }
+
     function initEchart() {
         var yAxis = [
             {
@@ -139,15 +141,15 @@
         //     parent.layui.index.openTabsPage("/home_achievement/award_table?project_property="+xName, "科技成果明细");
         // });
         var three = "/expertController/picIndex?id=2&type=bar";
-        var colorNew=["#8fd101"];
-        var three = load_single_bar(three, "three", "", "", yAxis,colorNew,80);
+        var colorNew = ["#8fd101"];
+        var three = load_single_bar(three, "three", "", "", yAxis, colorNew, 80);
 
         var four = "/expertController/picIndex?id=3&type=bar";
-        var color=["#50cedc"];
-        var four = load_single_bar(four, "four", "", "", yAxis,color,80);
+        var color = ["#50cedc"];
+        var four = load_single_bar(four, "four", "", "", yAxis, color, 80);
 
-       /* var five = "/expertController/picIndex?id=4&hyly=hyly&type=bar";
-        var five = load_single_bar(five, "five", "专家所在行业领域展示图", "", yAxis);*/
+        /* var five = "/expertController/picIndex?id=4&hyly=hyly&type=bar";
+         var five = load_single_bar(five, "five", "专家所在行业领域展示图", "", yAxis);*/
     }
 
     initEchart();
