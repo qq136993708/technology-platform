@@ -198,8 +198,18 @@
         $(".layui-time").html($("#year").val());
         
         
-        
-        
+         //集团专利申请/授权数量
+         $("#leader_knowledge_chart4_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+    	 $("#leader_knowledge_chart4_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+    	 //直属研究院专利申请/授权数量
+    	 $("#leader_knowledge_chart1_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+     	 $("#leader_knowledge_chart1_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+     	 //直属研究院专利授权数量分布情况
+     	 $("#leader_knowledge_chart7_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+      	 $("#leader_knowledge_chart7_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+      	 $("#leader_knowledge_chart7_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+      	 $("#leader_knowledge_chart7_04").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+      	
         var chart1_url="/one_level_main/knowledge_01?type=1&nd="+nd+"&v_date="+v_date;
     	var colorNew=["#70b1ab","#87d359"];
     	var data7=load_mutl_bar_down(chart1_url,"leader_knowledge_chart1","","",yAxis,40,colorNew);

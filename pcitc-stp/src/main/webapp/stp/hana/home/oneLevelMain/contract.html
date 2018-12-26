@@ -44,7 +44,7 @@
                         <div class="layui-row-main">
                             <div class="text-total">
                                 <span>计划合同签:<span class="text-total-blue"      id="vdirect_contract_01_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                                <span>实际合同签订:<span class="text-total-blue"    id="vdirect_contract_01_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                                <span>实际合同签订:<span class="text-total-blue"     id="vdirect_contract_01_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                                 <span>签订率:<span class="text-total-blue"         id="vdirect_contract_01_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                             </div>
                             <div class="main-chart" id="direct_contract_01" style="height:250px;width: 100%;"></div>
@@ -216,6 +216,7 @@
         
         //表盘
         setGauge("direct_contract_01");
+        setGauge_count();
         $(".layui-time").html($("#year").val());
         var chart_01_01="/one_level_main/contract_01_01?type=1&nd="+nd+"&v_date="+v_date;
         var echartchart_01_01=load_mutl_bar_down(chart_01_01,"direct_contract_01_01","","",yAxis2,30,"");
@@ -266,6 +267,12 @@
 
 
         //直属研究院合同签订率
+        
+        $("#direct_contract_chart_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+        $("#direct_contract_chart_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+        $("#direct_contract_chart_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+        
+        
         var chart6_url="/one_level_main/contract_03?type=1&nd="+nd+"&v_date="+v_date;
         var color2=["#f3655b","#8ab3cf","#f19049"];
         var echart6=load_mutl_bar_down(chart6_url,"direct_contract_chart","","",yAxis,30,color2);
@@ -298,7 +305,7 @@
     function search_Event()
     {
         initEchart();
-        //renderTable();
+        renderTable();
         renderTable2();
     }
 
@@ -308,6 +315,12 @@
 
     function setGauge_count()
     {
+    	
+    	$("#vdirect_contract_01_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+        $("#vdirect_contract_01_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+        $("#vdirect_contract_01_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+        
+        
         var series=[];
         $.ajax({
             type:"get",
@@ -333,7 +346,7 @@
         });
 
     }
-    setGauge_count();
+    
 
     function setGauge(id)
     {
