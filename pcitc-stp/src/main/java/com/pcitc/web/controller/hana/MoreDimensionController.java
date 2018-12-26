@@ -51,14 +51,15 @@ public class MoreDimensionController extends BaseController
 {
 
 	//private static final String patent_trend_analysis_01 = "http://pcitc-zuul/system-proxy/out-decision-provider/zscq/patent-count/country-type";
-	private static final String patent_trend_analysis_02 = "http://pcitc-zuul/system-proxy/out-decision-provider/zscq/patent-count/patent-type";
+	//private static final String patent_trend_analysis_02 = "http://pcitc-zuul/system-proxy/out-decision-provider/zscq/patent-count/patent-type";
 	private static final String patent_trend_analysis_institute = "http://pcitc-zuul/system-proxy/out-decision-provider/zscq/patent-count/institute";
 	private static final String zlsbqkmxfxb_data = "http://pcitc-zuul/system-proxy/out-decision-provider/zscq/patent-detail/page";
 	
 	//辅助决策中心》多维分析》知识产权》知识产权分析
 	//专利授权数量年趋势分析
 	private static final String patent_trend_analysis_01 = "http://pcitc-zuul/system-proxy/out-decision-provider/patent/home-baroad/three-year";
-	
+	private static final String patent_trend_analysis_02 = "http://pcitc-zuul/system-proxy/out-decision-provider/zscq/patent-count/patent-type";
+	private static final String patent_trend_analysis_03 = "http://pcitc-zuul/system-proxy/out-decision-provider/zscq/patent-count/patent-type";
 	
 	
 	@Autowired
@@ -214,8 +215,6 @@ public class MoreDimensionController extends BaseController
 						System.out.println("not found.....");
 					}
 					ChartBarLineSeries s1 = new ChartBarLineSeries();
-					//HanaUtil.getChartBarLineSeries_knowledet_bar_year(list, str, yearList);
-					
 					s1.setName(str);
 					s1.setData(dt);
 					s1.setType("bar");
@@ -226,7 +225,6 @@ public class MoreDimensionController extends BaseController
 				result.setSuccess(true);
 				result.setData(barLine);
 			}
-
 		}
 		else
 		{
@@ -238,7 +236,7 @@ public class MoreDimensionController extends BaseController
 		return resultObj.toString();
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/patent_trend_analysis_02")
+	@RequestMapping(method = RequestMethod.GET, value = "/patent_trend_analysis_03")
 	@ResponseBody
 	public String patent_trend_analysis_02(HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
@@ -253,12 +251,12 @@ public class MoreDimensionController extends BaseController
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		if (!companyCode.equals(""))
 		{
-			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(patent_trend_analysis_02, HttpMethod.POST, entity, JSONArray.class);
+			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(patent_trend_analysis_03, HttpMethod.POST, entity, JSONArray.class);
 			int statusCode = responseEntity.getStatusCodeValue();
 			if (statusCode == 200)
 			{
 				JSONArray jSONArray = responseEntity.getBody();
-				System.out.println(">>>>>>>>>>>>>>patent_trend_analysis_02_pie jSONArray-> " + jSONArray.toString());
+				System.out.println(">>>>>>>>>>>>>>patent_trend_analysis_03 jSONArray-> " + jSONArray.toString());
 				List<Knowledge> list = JSONObject.parseArray(jSONArray.toJSONString(), Knowledge.class);
 				ChartPieResultData pie = new ChartPieResultData();
 				List<ChartPieDataValue> dataList = new ArrayList<ChartPieDataValue>();

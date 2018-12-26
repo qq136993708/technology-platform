@@ -55,7 +55,7 @@
 				</div>
 				<div class="layui-col-sm6">
 					<div class="layui-card">
-						<div class="layui-card-header">科研项目经费情况明细</div>
+						<div class="layui-card-header">全国企业专利占有量前十</div>
 						<div class="layui-row-main" style="height: 280px;">
 							<table class="layui-table">
 								<thead>
@@ -150,7 +150,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="layui-row layui-col-space10">
+			<!-- <div class="layui-row layui-col-space10">
 				<div class="layui-col-sm12">
 					<div class="layui-card">
 						<div class="layui-card-header">
@@ -162,7 +162,7 @@
 						</div>
 					</div>
 				</div>
-			</div>
+			</div> -->
 		</div>
 	</div>
 
@@ -235,7 +235,7 @@
 
 			}); */
 
-			var chart2_url = "/more-dimension/patent_trend_analysis_02?month=" + month + "&v_date=" + v_date + "&companyCode=" + companyCode;
+			var chart2_url = "/more-dimension/patent_trend_analysis_03?month=" + month + "&v_date=" + v_date + "&companyCode=" + companyCode;
 			var echart2 = loadPie(chart2_url, "main3", "", '');
 			echart2.on('click', function(params)
 			{
@@ -276,7 +276,7 @@
 						color : '#c4cddc'
 					}
 				},
-				data : [1.2, 2.3, 32.2, 1.2, 3.3, 7.4, 7.4, 2.4]
+				data : [100, 23, 32, 12, 33, 74, 74, 24]
 			}];
 			var yAxis_5 = [{
 				type : 'value',
@@ -302,7 +302,7 @@
 			var xAxisData_5 = ['石勘院', '物探院', '工程院', '石科院', '抚研院', '北化院', '上海院', '安工院'];
 			load_mutl_bar_yy("main5", "", legends_5, xAxisData_5, yAxis_5, seriesData_5, "");
 
-			var legends = ['人均经费', '人均专利'];
+			/* var legends = ['人均经费', '人均专利'];
 			var xAxisData = ['石勘院', '物探院', '工程院', '石科院', '抚研院', '北化院', '上海院', '安工院'];
 			var seriesData = [{
 				name : '人均经费',
@@ -320,7 +320,7 @@
 			{
 				type : 'value'
 			};
-			load_mony_line_tt('main6', '', legends, xAxisData, yAxis, seriesData, "");
+			load_mony_line_tt('main6', '', legends, xAxisData, yAxis, seriesData, ""); */
 		}
 		init();
 		function search_Event()
