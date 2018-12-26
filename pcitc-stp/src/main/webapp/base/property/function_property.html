@@ -44,6 +44,7 @@
 	var temFunctionName;
 	var temFunctionCode;
 	var temFunUrl='';
+	var isLeaf;
 	var table,functionId,functionCode;
 	layui.use(['jquery','table'], function(){
 		table = layui.table,
@@ -70,6 +71,7 @@
             temFunctionName = treeNode.name;
             temFunctionCode = treeNode.code;
             temFunUrl = treeNode.treeUrl;
+			isLeaf = treeNode.isLeaf;
 
             $('#funcId').val(treeId);
             $('#funcCode').val(treeNode.code);
@@ -86,17 +88,18 @@
 
 		//渲染
 		function renderTable(){
+            var param = JSON.parse(window.localStorage.getItem("param"));
             table.render({
                 elem: '#funTable',
                 url: '/functionProperty/getFunctionPropertyList',
                 method:"POST",
                 where: {functionId: functionId, functionCode: functionCode},
-                limit: 15,
+                limit: param.selfRownum,
                 id: 'funTable',
                 height: commonDislodgeTable(),
                 page: {
                     groups: 5,
-                    limits: [15,30,45,60],
+                    limits: [param.selfRownum,15,30,45,60],
                     layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
                     first: '首页', //不显示首页
                     last: '尾页', //不显示尾页
@@ -123,7 +126,7 @@
                         var index=parseInt($(this).index()+1);
                         $('tr').removeClass('layui-table-click');
                         $(this).addClass('layui-table-click');
-                        $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                        $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked");
                         $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
                         selectRowData=res.data[index-1];
                     })
@@ -133,13 +136,17 @@
             $(".layui-table-header table thead th input").remove();
         }
 
+		//区别按钮属性
+		$('.layui-btn').on('click', function(){
+			var type = $(this).data('type');
+			active[type] ? active[type].call(this) : '';
+		});
+
 		// 触发不同的按钮事件
 		var $ = layui.$, active = {
 			addEvent: function(){ //点击新增按钮
-				if (typeof(temFunctionId) == "undefined") {
-					layer.msg("请先选择功能菜单");
-				} else if (typeof(temFunUrl) == "undefined" || temFunUrl=='' || temFunUrl=='#') {
-					layer.msg("请选择功能菜单进行配置");
+				if (isLeaf!=1) {
+					layer.msg("请选择菜单叶子节点进行配置");
 				} else {
 					var temUrl="/functionProperty/function_property_info?funcId=" + temFunctionId +"&funcCode=" + temFunctionCode;
 					layer.open({
@@ -157,26 +164,26 @@
 				}
 			},
 			editEvent: function(){  //点击编辑按钮
-			var id;
-			if(selectRowData.id){
-				id = selectRowData.id;
-				var funcId = $("#funcId").val();
-				var funcCode = $("#funcCode").val();
-				layer.open({
-					title:'编辑配置项'
-					,skin: 'layui-layer-lan'
-					,shadeClose: true
-					,type: 2
-					,fixed: false
-					//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-					,maxmin: true
-					//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-					,area: ['50%', '50%']
-					,content: "/functionProperty/function_property_info?id=" + id + "&funcId=" + funcId +"&funcCode=" + funcCode,
+				var id;
+				if(selectRowData.id){
+					id = selectRowData.id;
+					var funcId = $("#funcId").val();
+					var funcCode = $("#funcCode").val();
+					layer.open({
+						title:'编辑配置项'
+						,skin: 'layui-layer-lan'
+						,shadeClose: true
+						,type: 2
+						,fixed: false
+						//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+						,maxmin: true
+						//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+						,area: ['50%', '50%']
+						,content: "/functionProperty/function_property_info?id=" + id + "&funcId=" + funcId +"&funcCode=" + funcCode,
 					});
 				} else {
 					layer.msg('请选择一条数据');
-					return;
+
 				}
 			},
 			deleteEvent: function(){ //点击删除按钮
@@ -208,9 +215,9 @@
 				table.reload('funTable', {
 					where: {functionId: temFunctionId, functionName: functionName}
 				});
-                selectRowData = '';
-                //若使用单选框 需要移除表头的复选框
-                $(".layui-table-header table thead th input").remove();
+				selectRowData = '';
+				//若使用单选框 需要移除表头的复选框
+				$(".layui-table-header table thead th input").remove();
 			},
 			resetEvent: function() { //点击重置按钮
 				$('#functionName').val("");
@@ -218,12 +225,6 @@
 			},
 
 		};
-
-		//区别按钮属性
-		$('.layui-btn').on('click', function(){
-			var type = $(this).data('type');
-			active[type] ? active[type].call(this) : '';
-		});
 
         $(function() {
             $.ajax({

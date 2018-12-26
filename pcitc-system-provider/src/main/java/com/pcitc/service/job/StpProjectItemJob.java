@@ -33,7 +33,7 @@ public class StpProjectItemJob implements Job, Serializable {
 		// 先获取已经插入到数据库的原项目计划数据oldList，和新接口获取的数据进行比较。如果不存在就插入
 		// 由于数据库数据不大，所以可以采用这个方式
 		HashMap<String, String> map = new HashMap<String, String>();
-		List temList = outProjectService.getProjectItemList(map);
+		//List temList = outProjectService.getProjectItemList(map);
 		int culTotal = 0;
 		System.out.println("==========" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "定时获取项目管理系统的项目预算数据 ---开始=============");
 		String sqlName = "ktxmndjf";
@@ -55,14 +55,14 @@ public class StpProjectItemJob implements Job, Serializable {
 					boolean insertFlag = true;
 					String ktid = object.getString("ktid");
 					String nd = object.getString("nd");
-					for (int j = 0; j < temList.size(); j++) {
+/*					for (int j = 0; j < temList.size(); j++) {
 						HashMap<String, String> opp = (HashMap<String, String>)temList.get(j);
 						if (ktid.equals(opp.get("ktid").toString()) && nd.equals(opp.get("nd").toString())) {
 							insertFlag = false;
 							break;
 						}
 					}
-					
+*/					
 					if (insertFlag) {
 						String ktmc = object.getString("ktmc");
 						String jfhj = object.getString("jfhj");
