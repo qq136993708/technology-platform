@@ -202,7 +202,7 @@ span{display: inline-block;}
 /*.layui-technique-right .layui-orange-list .layui-lab-span {margin-left: 62px;}*/
 .prospecting{padding-left: 42px;}
 /*分辨率*/
-@media screen and (max-width: 1680px) {
+@media screen and (max-width: 1920px) {
     .layui-oil-div div:nth-child(1){left: 0;}
     .layui-oil-div div:nth-child(1) img{left: 260px}
     .layui-oil-div div:nth-child(4){    top: -279px;left: 382px;}
