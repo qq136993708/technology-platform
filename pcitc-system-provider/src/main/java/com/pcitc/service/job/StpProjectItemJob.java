@@ -37,7 +37,7 @@ public class StpProjectItemJob implements Job, Serializable {
 		int culTotal = 0;
 		System.out.println("==========" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "定时获取项目管理系统的项目预算数据 ---开始=============");
 		String sqlName = "ktxmndjf";
-		String ndCon = "2018";
+		String ndCon = "2019";
 		String str = null;
 		try {
 			// 远程获取数据 -----
