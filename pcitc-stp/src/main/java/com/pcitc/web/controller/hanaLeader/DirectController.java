@@ -1718,9 +1718,11 @@ public class DirectController {
 			}
 		  
 		  
-				@RequestMapping(method = RequestMethod.GET, value = "/pay_02")
+				@RequestMapping( value = "/pay_02")
 				@ResponseBody
 				public String pay_02(HttpServletRequest request, HttpServletResponse response) throws Exception {
+					System.out.println(">>>>>>>>>>>>pay_02-----ddddd------- ");
+					
 					PageResult pageResult = new PageResult();
 					String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
 					String companyCode = CommonUtil.getParameter(request, "companyCode", "");
@@ -1825,6 +1827,7 @@ public class DirectController {
 										
 										barLine.setxAxisDataList(xAxisDataList);
 										barLine.setLegendDataList(legendDataList);
+										
 										// X轴数据
 										List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
 										//ChartBarLineSeries s1 = HanaUtil.getChartBarLineSeries_PAY02_bar(list, "K0BNYSJHJE");
@@ -1837,13 +1840,18 @@ public class DirectController {
 										barLine.setSeriesList(seriesList);
 						         		result.setSuccess(true);
 										result.setData(barLine);
-									}else
+									}else if(type.equals("2"))
 									{
 										pageResult.setData(addListLineH1AMKYSY100109(list));
 										pageResult.setCode(0);
 										pageResult.setCount(Long.valueOf(list.size()));
 										pageResult.setLimit(1000);
 										pageResult.setPage(1l);
+									}else if(type.equals("3"))
+									{
+										H1AMKYSY10010902 h1AMKYSY10010902= getListLineH1AMKYSY100109_count(list);
+										result.setSuccess(true);
+										result.setData(h1AMKYSY10010902);
 									}
 									
 									
@@ -1859,16 +1867,49 @@ public class DirectController {
 							{
 								JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
 								resault=resultObj.toString();
-								System.out.println(">>>>>>>>>>>>>>>pay_03 " + resultObj.toString());
+								System.out.println(">>>>type>>"+type+">>>>>>>>>pay_03 " + resultObj.toString());
 							}
-							else
+							else if(type.equals("2"))
 							{
 								JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
 								resault=resultObj.toString();
-								System.out.println(">>>>>>>>>>>>>>>pay_03 " + resultObj.toString());
+								System.out.println(">>>>>>type>"+type+">>>>pay_03 " + resultObj.toString());
+							}
+							else if(type.equals("3"))
+							{
+								JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
+								resault=resultObj.toString();
+								System.out.println(">>>>>>type>"+type+">>>>pay_03 " + resultObj.toString());
 							}
 							
 							return resault;
+						}
+						
+						
+						
+						public H1AMKYSY10010902  getListLineH1AMKYSY100109_count(List<H1AMKYSY10010902> list)
+						{
+							H1AMKYSY10010902 temp=new H1AMKYSY10010902();
+							
+							
+							Double k0BNZBJE_count=0.0;
+							Double k0BNFYJE_count=0.0;
+							for(int i=0;i<list.size();i++)
+							{
+								H1AMKYSY10010902 contract=list.get(i);
+								
+								BigDecimal k0BNZBJE =contract.getK0BNZBJE();
+								BigDecimal k0BNFYJE =contract.getK0BNFYJE();
+								
+								k0BNZBJE_count=k0BNZBJE_count+Double.valueOf(k0BNZBJE.toString());
+								k0BNFYJE_count=k0BNFYJE_count+Double.valueOf(k0BNFYJE.toString());
+								
+							}
+							temp.setK0BNYSJHJE(BigDecimal.valueOf(k0BNZBJE_count+k0BNFYJE_count).setScale(2, BigDecimal.ROUND_DOWN));
+							temp.setK0BNZBJE(BigDecimal.valueOf(k0BNZBJE_count).setScale(2, BigDecimal.ROUND_DOWN));
+							temp.setK0BNFYJE(BigDecimal.valueOf(k0BNFYJE_count).setScale(2, BigDecimal.ROUND_DOWN) );
+    						
+							return temp;
 						}
 						
 						
@@ -1893,9 +1934,9 @@ public class DirectController {
 								k0BNFYJE_count=k0BNFYJE_count+Double.valueOf(k0BNFYJE.toString());
 								
 							}
-							temp.setK0BNYSJHJE(BigDecimal.valueOf(k0BNZBJE_count+k0BNFYJE_count));
-							temp.setK0BNZBJE(BigDecimal.valueOf(k0BNZBJE_count));
-							temp.setK0BNFYJE(BigDecimal.valueOf(k0BNFYJE_count) );
+							temp.setK0BNYSJHJE(BigDecimal.valueOf(k0BNZBJE_count+k0BNFYJE_count).setScale(2, BigDecimal.ROUND_DOWN));
+							temp.setK0BNZBJE(BigDecimal.valueOf(k0BNZBJE_count).setScale(2, BigDecimal.ROUND_DOWN));
+							temp.setK0BNFYJE(BigDecimal.valueOf(k0BNFYJE_count).setScale(2, BigDecimal.ROUND_DOWN) );
     						//double fyxsl_rate = new BigDecimal((float)fyxsl_count/zsl_count).setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 							resutList.add(temp);
 							for(int i=0;i<list.size();i++)

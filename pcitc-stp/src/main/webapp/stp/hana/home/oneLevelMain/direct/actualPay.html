@@ -56,14 +56,13 @@
                     </div>
                 </div>
             </div>
-
             <div class="layui-col-md6">
                 <div class="layui-card">
                     <div class="layui-card-header">
                        <span class="layui-time"></span>直属研究院各课题类型经费使用占比
                     </div>
                     <div class="layui-card-body btn-function" style="height: 296px;">
-                    <table id="processdef-table" class="layui-hide" lay-filter="processdef-table"></table>
+                    <table id="processdef-table" class="layui-hide" lay-filter="processdef-table"></table> 
                     </div>
                 </div>
             </div>
@@ -95,7 +94,33 @@
                         <span class="layui-time"></span>直属研究院科研经费使用比率
                     </div>
                     <div class="layui-card-body btn-function" style="height: 296px;">
-                    <table id="processdef-tabled" class="layui-hide" lay-filter="processdef-table"></table>
+                    
+            
+                     <table id="myTable233" class="layui-table"  lay-filter="myTable233">
+                            <thead>
+                            <tr>
+                                <th lay-data="{field:'g0GSJC', width:'16%'}" rowspan="2" >研究院</th>
+                                <th lay-data="{align:'center'}" colspan="3">总计</th>
+                                <th lay-data="{align:'center'}" colspan="3">费用性</th>
+                                <th lay-data="{align:'center'}" colspan="3">资本性</th>
+                            </tr>
+                            <tr>
+                                <th lay-data="{field:'zysje', width:'10%'}">经费批复(亿元)</th>
+                                <th lay-data="{field:'k0BNYSJHJE', width:'10%',templet:function(d){return d.k0BNYSJHJE.toFixed(2)}}">实际支出(亿元)</th>
+                                <th lay-data="{field:'zRate', width:'8%'}">使用比率</th>
+
+                                <th lay-data="{field:'fyxysje', width:'10%'}">经费批复(亿元)</th>
+                                <th lay-data="{field:'k0BNFYJE', width:'10%',templet:function(d){return d.k0BNFYJE.toFixed(2)}}">实际支出(亿元)</th>
+                                <th lay-data="{field:'fyxRate', width:'8%'}">使用比率</th>
+
+                                <th lay-data="{field:'zbxysje', width:'10%'}">经费批复(亿元)</th>
+                                <th lay-data="{field:'k0BNZBJE', width:'10%',templet:function(d){return d.k0BNZBJE.toFixed(2)}}">实际支出(亿元)</th>
+                                <th lay-data="{field:'zbxRate', width:'8%'}">使用比率</th>
+                            </tr>
+                            </thead>
+                        </table> 
+                        
+                    <!-- <table id="processdef-tabled" class="layui-hide" lay-filter="processdef-table"></table>  -->
                     </div>
                 </div>
             </div>
@@ -105,7 +130,6 @@
 
 <script src="/common/js/jquery-1.11.3.min.js"></script>
 <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
-<script src="/common/js/layer-v3.1.1/layer.js"></script>
 <script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
 <script type="text/javascript" src="/plugins/echarts/walden.js"></script>	
 <script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
@@ -115,40 +139,37 @@
 
 <script type="text/javascript">
 
-var editObj=null,ptable=null,treeGridCom=null,tableId='processdef-table',layer=null;
-var ptable02=null,treeGridCom=null,tableId02='processdef_table_02';
-var table;
+var editObj=null,ptable=null,tableId='processdef-table';
+
+ var table,treeGridCom;
 layui.config({
-    base: '/layuiadmin/lib/extend/'
+	base: '/layuiadmin/lib/extend/'
 }).extend({
-    treeGridCom:'treeGridCom'
-}).use(['jquery','form','table', 'laydate','treeGridCom','layer'], function(){
-    var $=layui.jquery;
-    treeGridCom = layui.treeGridCom;//很重要
-    layer=layui.layer;
-    table = layui.table;
-    laydate = layui.laydate;
-    form = layui.form;
+	treeGridCom:'treeGridCom'
+}).use(['jquery','form','treeGridCom', 'laydate','table','laypage'], function(){
+	table = layui.table;
+	treeGridCom = layui.treeGridCom;
+	 var $ = layui.jquery
+      ,form = layui.form
+      ,laydate = layui.laydate
     
-    
+   
     var monthValY=$("#month").val().substring(4,0);
     var monthValM=$("#month").val().substring(4);
     $(".layui-time").html(monthValY+"年"+monthValM+"月");
     form.render(null, 'component-form-group');
     laydate.render({
-       elem: '#month'
+        elem: '#month'
        ,format: 'yyyyMM'
     });
-    
+   
     renderTable();
     renderTable2();
     $("#knowledge_table").click(function () {
     	window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
     });
   
-});
-
-
+}); 
 function initEchart()
 {
 	var companyCode=$("#companyCode").val();
@@ -170,12 +191,9 @@ function initEchart()
             position: 'left',
             axisLabel: {
                 formatter: '{value}'
-                
-                	
             }
         }
     ];
-
 
     var color=["#37a2da","#72c376"];
     var chart1_url="/direct/pay_01?month="+month+"&v_date="+v_date+"&companyCode="+YJY_CODE_NOT_YINGKE;
@@ -185,6 +203,7 @@ function initEchart()
 		var legentName=params.seriesName;
 		window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
     });
+	//
     var colorNew=["#8278e9","#f7d454"];
     var chart7_url="/direct/pay_03?type=1&month="+month+"&v_date="+v_date+"&companyCode="+YJY_CODE_NOT_YINGKE;
 	var echart7=load_mutl_bar_down_color(chart7_url,"pay_chart3","","",yAxis,colorNew);
@@ -193,8 +212,9 @@ function initEchart()
 		var legentName=params.seriesName;
 		window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
     });
-	
-	
+	 //
+	var setPay_count_count_url="/direct/pay_03?type=3&month="+month+"&v_date="+v_date+"&companyCode="+YJY_CODE_NOT_YINGKE;
+	setPay_count(setPay_count_count_url);
 	
 }
 
@@ -210,32 +230,66 @@ function search_Event()
 
 
 
+
+function setPay_count(url) 
+{
+	
+   $.ajax({
+	     type:"GET",
+	     url: url,
+	     dataType:"json",
+	     timeout : 11000,
+	     cache: false,
+	     contentType: "application/x-www-form-urlencoded; charset=utf-8",
+         success:function(data,status)
+         {    
+	          if(data.success==true ||data.success=='true')
+	          {
+       	           $("#pay_chart3_01").html(data.data.k0BNYSJHJE.toFixed(2)+"亿元");
+       	           $("#pay_chart3_02").html(data.data.k0BNZBJE.toFixed(2)+"亿元");
+       	           $("#pay_chart3_03").html(data.data.k0BNFYJE.toFixed(2)+"亿元");
+	          } 
+		   },
+		   error:function()
+		   {
+		   },
+		   complete: function (XMLHttpRequest, status) 
+		   {
+	       }
+		  
+  });
+} 
 function renderTable()
 {  
 	
-	var month=$("#month").val();
-	 var companyCode=$("#companyCode").val();
-	 var YJY_CODE_NOT_YINGKE=$('#YJY_CODE_NOT_YINGKE').val();
-	  ptable=treeGridCom.render({
+	  var month=$("#month").val();
+	  var companyCode=$("#companyCode").val();
+	  var YJY_CODE_NOT_YINGKE=$('#YJY_CODE_NOT_YINGKE').val();
+	  var url='/direct/pay_02?month='+month+"&companyCode="+YJY_CODE_NOT_YINGKE;
+	  
+	  
+	  
+	 var  ptable=treeGridCom.render({
 	        id:tableId
-	        ,elem: '#'+tableId
-	        ,url:'/direct/pay_02?month='+month+"&companyCode="+YJY_CODE_NOT_YINGKE
-	       // ,cellMinWidth: 200
+	        ,elem: '#processdef-table'
+	        ,url:url
+	        // ,cellMinWidth: 200
 	        ,idField:'id'//必須字段
 	        ,treeId:'id'//树形id字段名称
 	        ,treeUpId:'pId'//树形父id字段名称
 	        ,treeShowName:'name'//以树形式显示的字段
-	       // ,heightRemove:[".dHead",10]//不计算的高度,表格设定的是固定高度，此项不生效
+	        // ,heightRemove:[".dHead",10]//不计算的高度,表格设定的是固定高度，此项不生效
 	        ,height:280
 	        ,isFilter:false
-	        ,iconOpen:false//是否显示图标【默认显示】
-	        ,isOpenDefault:true//节点默认是展开还是折叠【默认展开】
+	        ,iconOpen:false
+	        ,isOpenDefault:true
 	        ,loading: false
 	        ,method:'get'
 	        ,cols: [[
 	            {field:'name',  title: '名称',edit:'text'},
-	            {field:'extend01',  title:'科研支出(亿元)',  style:'cursor: pointer;',align: 'right',  templet: '<div>{{ layui.laytpl.milliFormat(d.extend01,2) }}</div>'}
-	            //{field:'extend02',  title:'结转课题(万元)',  style:'cursor: pointer;',align: 'left', width: '35%', templet: '<div>{{ layui.laytpl.milliFormat(d.extend02,2) }}</div>'}
+	            {field:'extend02',  title:'经费批复(亿元)',  style:'cursor: pointer;',align: 'left', width: '35%'},
+	            {field:'extend01',  title:'实际支出(亿元)',  style:'cursor: pointer;',align: 'right',  templet: '<div>{{ layui.laytpl.milliFormat(d.extend01,2) }}</div>'},
+	            {field:'extend03',  title:'使用比率',       style:'cursor: pointer;',align: 'left', width: '35%'}
 	            
 	        ]]
 	        ,isPage:false
@@ -248,15 +302,15 @@ function renderTable()
 	        ,onDblClickRow:function (index, o) {
 	            console.log(index,o,"双击");
 	        }
-	    });
+	    }); 
 }
-function renderTable2()
+ function renderTable2()
 {
 
 	var month=$("#month").val();
     var companyCode=$("#companyCode").val();
     var YJY_CODE_NOT_YINGKE=$('#YJY_CODE_NOT_YINGKE').val();
-    var tableOne=table.render({
+    /* var tableOne=table.render({
         elem: '#processdef-tabled',
         url:'/direct/pay_03?month='+month+"&type=2&companyCode="+YJY_CODE_NOT_YINGKE,
         method:"GET",
@@ -264,10 +318,10 @@ function renderTable2()
         limit: 15,
         id: 'processdef-tabled',
         cols: [[
-            {field:'g0GSJC',            title: '研究院',       edit:'text', width: '40%',align: 'center'},
-            {field:'k0BNYSJHJE',        title:'总计实际支出（亿元）',    style:'cursor: pointer;',align: 'right', width: '20%'},
-            {field:'k0BNZBJE',          title:'费用性实际支出（亿元）',  style:'cursor: pointer;',align: 'right', width: '20%'},
-            {field:'k0BNFYJE',          title:'资本性实际支出（亿元）',   style:'cursor: pointer;',align: 'right', width: '20%'}
+            {field:'g0GSJC',            title: '研究院',             edit:'text', width: '40%',align: 'center'},
+            {field:'k0BNYSJHJE',        title:'总计实际支出（亿元）',    style:'cursor: pointer;',align: 'right', width: '20%',templet:function(d){return d.k0BNYSJHJE.toFixed(2)}},
+            {field:'k0BNZBJE',          title:'费用性实际支出（亿元）',   style:'cursor: pointer;',align: 'right', width: '20%',templet:function(d){return d.k0BNZBJE.toFixed(2)}},
+            {field:'k0BNFYJE',          title:'资本性实际支出（亿元）',   style:'cursor: pointer;',align: 'right', width: '20%',templet:function(d){return d.k0BNFYJE.toFixed(2)}}
         ]],
         done: function (res, curr, count) {
             layer.closeAll('loading');
@@ -281,8 +335,17 @@ function renderTable2()
                 selectRowData=res.data[index-1];
             });
         }
-    });
-}
+    }); */
+    
+    var url= '/direct/pay_03?month='+month+"&type=2&companyCode="+YJY_CODE_NOT_YINGKE;
+    table.init('myTable233', {
+		  url: url
+		  ,height:"295px"
+		  ,where: {} 
+		  
+		});
+    
+} 
         
 </script>
 </body>
