@@ -17,34 +17,17 @@
 			<div class="layui-header">
 				<!--搜索框-->
 				<div class="stpSearchBox">
-					<span class="selectBox-span">
-						<small style="font-size: 14px;">知识管理</small>
-						<img src="/layuiadmin/layui/images/stpicon_07.png" alt="">
-						<dl class="layui-nav-child-span layui-hide">
-							<dd>
-								<a href="javascript:void(0)">知识管理</a>
-							</dd>
-						</dl>
-					</span>
-
+					<div class="logo"><img src="/layuiadmin/layui/images/logo-stp.png"></div>
 					<div class="seacrhBox">
 						<input type="text" placeholder="搜索">
 						<img src="/layuiadmin/layui/images/stpicon_06.png" alt="">
 					</div>
 				</div>
-				<!-- 导航 -->
-				<div class="layui-header-div">
-					<ul class="layui-nav layui-layout-left">
-						<#if upList?exists> <#list upList as p>
-						<li class="layui-nav-item" id="up${p.id}">
-							<a href="javascript:;" id="${p.id}">${p.name}</a>
-						</li>
-						</#list> </#if>
-					</ul>
-				</div>
-				<div class="layui-icon layadmin-tabs-control layui-icon-prev layui-hide"></div>
 				<!--通知-->
 				<ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
+					<li class="layui-index layui-nav-item layui-nav-itemnew">
+						<a href="/index"><img src="/layuiadmin/layui/images/icon-index.png"/> </a>
+					</li>
 					<li class="layui-nav-item layui-nav-itemnew chat" title="通知">
 						<a id="numberChat" lay-href="/task/pending/list/ini" lay-text="会话"><span id="pendingCount" style="visibility: hidden"></span></a>
 						<div class="chat-content layui-hide">
@@ -138,161 +121,18 @@
 							</dl>
 						</div>
 					</li>
+					<li class="layui-nav-item layui-nav-itemnew collection" title="收藏">
+						<a id="collection"></a>
+					</li>
 				</ul>
 			</div>
 
-			<!-- 侧边菜单 -->
-			<div class="layui-side layui-side-menu layui-side-menu-div" style="background: #fff !important; box-shadow: 0 10px 10px rgba(0, 0, 0, 0.6) !important;">
-				<div class="layui-side-scroll">
-					<!--logo-->
-					<div class="layui-logo" style="background: #17a2b8;">
-						<span>
-							<img src="/layuiadmin/layui/images/logo-stp.png" />
-						</span>
-					</div>
-					<!--左侧导航-->
-
-					<ul class="layui-nav layui-nav-tree" lay-shrink="all" lay-filter="layadmin-system-side-menu" id="nav${p.id}">
-						<li class="layadmin-flexible">
-							个人工作台
-							<div></div>
-						</li>
-						<#if grgztList?exists>
-							<li class="layui-nav-item layui-nav-itemed">
-								<a href="#">
-									<span>个人工作台</span>
-									<span class="arrow"></span>
-									<i class="fa fa-angle-left pull-right"></i>
-								</a>
-								<dl class="layui-nav-child">
-									<#list grgztList as grgzt>
-										<dd>
-											<a lay-href="${grgzt.url}" lay-text="${grgzt.name}" data-id="${grgzt.id}" data-code="${grgzt.code}" data-functionbuttons="ALL">${grgzt.name}</a>
-										</dd>
-									</#list>
-								</dl>
-							</li>
-						</#if> 
-						<#if scList?exists>
-							<li class="layui-nav-item">
-								<a href="#" title="我的收藏">
-									<span>我的收藏</span>
-									<span class="arrow"></span>
-									<i class="fa fa-angle-left pull-right"></i>
-								</a>
-								<dl class="layui-nav-child" id="dlCollect">
-									<#list scList as sc>
-										<dd id="${sc.dataId}">
-											<a lay-href="${sc.collectUrl}" lay-text="${sc.collectName}" data-id="${sc.functionId}" data-code="${sc.functionCode}" data-functionbuttons="ALL">${sc.collectName}
-												<img title="取消收藏"  src="/layuiadmin/layui/images/icon_collection.png" class="layui-hide"/></a>
-										</dd>
-									</#list>
-								</dl>
-							</li>
-						</#if> 
-																		
-					</ul>
-
-					<#if upList?exists> 
-						<#list upList as p>
-							<ul class="layui-nav layui-nav-tree layui-hide" lay-shrink="all" lay-filter="layadmin-system-side-menu" id="nav${p.id}">
-								<li class="layadmin-flexible">
-									${p.name}
-									<div></div>
-								</li>
-								<#assign openFlag="0"> 
-								<#list funList as s> 
-									<#if s.parentId == p.id && s.url=='#'> 
-										<#if openFlag=="0">
-											<li class="layui-nav-item layui-nav-itemed">
-												<a href="#" title="${s.name}">
-													<span>${s.name}</span>
-													<span class="arrow"></span>
-													<i class="fa fa-angle-left pull-right"></i>
-												</a>
-												<dl class="layui-nav-child">
-													<#list funList as t> 
-														<#if t.parentId == s.id>
-															<dd>
-																<#if t.url != '#'>
-																	<a lay-href="${t.url}" lay-text="${t.name}" data-id="${t.id}" data-code="${t.code}" data-functionbuttons="${t.functionButtons}">${t.name}</a>
-																</#if> 
-																<#if t.url == '#'>
-																	<a href="${t.url}" title="${t.name}">${t.name}</a>
-																	<dl class="layui-nav-child">
-																		<#list funList as k> 
-																			<#if k.parentId == t.id>
-																				<dd>
-																					<a class="thirdChild" lay-href="${k.url}" lay-text="${k.name}" data-id="${k.id}" data-code="${k.code}" data-functionbuttons="${k.functionButtons}" title="${k.name}">${k.name}</a>
-																				</dd>
-																			</#if> 
-																		</#list>
-																	</dl>
-																</#if>
-															</dd>
-														</#if>
-													</#list>
-												</dl>
-											</li>
-										</#if> 
-										<#if openFlag!="0">
-											<li class="layui-nav-item">
-												<a href="#" title="${s.name}">
-													<span>${s.name}</span>
-													<span class="arrow"></span>
-													<i class="fa fa-angle-left pull-right"></i>
-												</a>
-												<dl class="layui-nav-child">
-													<#list funList as t> 
-														<#if t.parentId == s.id>
-															<dd>
-																<#if t.url != '#'>
-																	<a lay-href="${t.url}" lay-text="${t.name}" data-id="${t.id}" data-code="${t.code}" data-functionbuttons="${t.functionButtons}">${t.name}</a>
-																</#if> 
-																<#if t.url == '#'>
-																	<a href="${t.url}" title="${t.name}">${t.name}</a>
-																	<dl class="layui-nav-child">
-																		<#list funList as k> 
-																			<#if k.parentId == t.id>
-																				<dd>
-																					<a class="thirdChild" lay-href="${k.url}" lay-text="${k.name}" data-id="${k.id}" data-code="${k.code}" data-functionbuttons="${k.functionButtons}" title="${k.name}">${k.name}</a>
-																				</dd>
-																			</#if> 
-																		</#list>
-																	</dl>
-																</#if>
-															</dd>
-														</#if> 
-													</#list>
-												</dl>
-											</li>
-										</#if> 
-										<#assign openFlag="1"> 
-									</#if> 
-									<#if s.parentId == p.id && s.url!='#'>
-										<li class="layui-nav-item">
-											<a lay-href="${s.url}" lay-text="${s.name}"  data-id="${s.id}" data-code="${s.code}" data-functionbuttons="${s.functionButtons}">
-												<span>${s.name}</span>
-											</a>
-										</li>
-									</#if> 
-								</#list>
-							</ul>
-						</#list> 
-					</#if>
-				</div>
-			</div>
 			<input type="text" class="selfRownum layui-hide" id="userConfig1" value="${userInfo.userConfig1?default(15)}">
 
 			<!-- 主体内容 -->
-			<div class="layui-body" id="LAY_app_body" style="top: 100px;">
+			<div class="layui-body" id="LAY_app_body">
 				<div class="layadmin-tabsbody-item layui-show">
 					<iframe id="mainIframe" frameborder="0" class="layadmin-iframe"></iframe>
-				</div>
-			</div>
-			<div class="layui-footer">
-				<div>
-					<p>版权所有：石化盈科信息技术有限责任公司</p>
 				</div>
 			</div>
 			<!-- 辅助元素，一般用于移动设备下遮罩 -->

@@ -191,8 +191,8 @@ var mutl_bar_down = {
             {
                 type: 'value',
                 name: '金额（万元）',
-                min: 'dataMin',
-                max:'dataMax',
+                /*min: 'dataMin',
+                max:'dataMax',*/
                 axisLabel: {
                     formatter: '{value}'
                 }
