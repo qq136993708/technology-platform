@@ -286,8 +286,16 @@ span{display: inline-block;}
 .layui-tab-item ul li p{font-size: 16px; color: #000000;padding-bottom: 15px;}
 .layui-tab-item ul li span{font-size: 16px;color: #666666;}
 .layui-tab-item ul li:last-child{background: url("/layuiadmin/layui/images/icon-expertd.png") no-repeat;height: 68px;}
-.layui-expert-choice{box-shadow:none;border: none;}
-.layui-expert-choice .layui-information{border: 1px solid #dddddd;border-radius: 4px;padding:8px;}
+.layui-expert-choice{box-shadow:none;border: none;background: none;padding: 5px; width: 99%;}
+.layui-expert-choice .layui-information{border: 1px solid #dddddd;border-radius: 4px;padding:20px;
+background: white;box-shadow: 0 0 5px #dadcde;}
+.layui-expert-choice p{line-height: 28px;font-size: 16px;}
+.layui-expert-choice .red{color: #ff0000;}
+.layui-expert-choice .layui-title{margin: 8px 0 10px;font-size: 30px;color: #000;}
+.layui-f{border-bottom: 1px solid #ddd;margin-bottom: 10px;padding-bottom: 10px;}
+.layui-expert-choice .search{width: 100%;text-align: center;margin: 15px 0;}
+.layui-expert-choice .search a.add{width: 80px;}
+.layui-expert-choice .layui-img{}
 @media screen and (max-width: 1680px) {
    .layui-tab-content{height: 318px}
 }

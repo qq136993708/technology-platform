@@ -7,25 +7,32 @@
     <link rel="stylesheet" type="text/css" href="/layuiadmin/style/second.css">
     <script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+    <script type="text/javascript" src="/layuiadmin/layui/lay/modules/publicMethods.js"></script>
     <script type="text/javascript" src="/common/js/base.js"></script>
 </head>
 <body>
 <div class="layui-main-oil layui-expert">
     <div class="layui-statistics">
         <span>机构数量${jlCount}</span>
-        <span>专家数量${zlCount}</span>
+        <span>专家数量${expertCount}</span>
         <span>成果专利数量${cgzlCount}</span>
     </div>
     <div class="search">
         <span>行业领域</span>
-        <input id="hyly" value="hyly"/>
+        <select id="hyly" onchange ="changeUrl()">
+
+        </select>
         <span>机构</span>
-        <input id="jg" value="jg"/>
+        <select id="jg" onchange ="changeUrl()">
+
+        </select>
         <span>专家姓名</span>
-        <input id="zjmc" value="zjmc"/>
+        <input id="zjmc" value="" onblur="changeUrl()" />
         <span>关键字</span>
-        <input id="key" value="key"/>
-        <a lay-href="/expertController/selectBakList?status=1&addUserId=addUserId" target="_blank" lay-text="找专家">找专家</a>
+        <input id="key" value="" onblur="changeUrl()" />
+        <!--<a href="/expertController/queryExpert" target="_blank">找专家</a>-->
+        <a lay-href="/expertController/queryExpert" target="_blank"  id="hrefExpert" lay-text="找专家">找专家</a>
+        <!--<a lay-href="/expertController/selectBakList?status=1&addUserId=addUserId" target="_blank" lay-text="找专家">找专家</a>-->
     </div>
     <div class="layui-row layui-col-space15">
         <div class="layui-col-md12">
@@ -74,9 +81,31 @@
         base : '../layuiadmin/' //静态资源所在路径
     }).extend({
         index : 'lib/index' //主入口模块
-    }).use([ 'index', 'jquery' ], function() {
-
+    }).use([ 'index', 'jquery','publicMethods'], function() {
+        publicMethods = layui.publicMethods;
+        //行业领域
+        publicMethods.ajaxPost("/pageCommon/dic/ZJK_XYLY",null,function (data) {
+            $.each(data, function (index, item) {
+                console.log(item.code+"----"+item.name);
+                var html="<input type='checkbox' title='"+item.name+"' value='"+item.code+"' lay-skin='primary'>"
+                $("#hyly").append(html);
+            })
+        });
+        //研究院
+        publicMethods.ajaxPost("/pageCommon/dic/ROOT_XTGL_ZSYJY",null,function (data) {
+            $.each(data, function (index, item) {
+                console.log(item.code+"----"+item.name);
+                var html="<input type='checkbox' title='"+item.name+"' value='"+item.code+"' lay-skin='primary'>"
+                $("#jg").append(html);
+            })
+        });
     });
+
+    function changeUrl() {
+        var href = "hyly="+$("#hyly").val()+"&jg="+$("#jg").val()+"&zjmc="+$("#zjmc").val()+"&key="+$("#key").val();
+        console.log(href);
+        $("#hrefExpert").href=href;
+    }
     function initEchart() {
         var yAxis = [
             {
@@ -122,7 +151,7 @@
         var one = load_single_force(one, "one", "专家与机构关系", "", "");
     }
 
-    relationPic();
+    // relationPic();
 </script>
 
 </body>
