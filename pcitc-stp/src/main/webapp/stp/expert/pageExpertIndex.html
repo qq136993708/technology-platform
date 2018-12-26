@@ -5,6 +5,7 @@
     <link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
     <link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
     <link rel="stylesheet" type="text/css" href="/layuiadmin/style/second.css">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/modules/formSelects-v4.css">
     <script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
     <script type="text/javascript" src="/layuiadmin/layui/lay/modules/publicMethods.js"></script>
@@ -19,13 +20,14 @@
     </div>
     <div class="search">
         <span>行业领域</span>
-        <select id="hyly" onchange ="changeUrl()">
+        <div class="layui-select-more">
+            <select id="hyly" onchange ="changeUrl()" xm-select="hyly"></select>
+        </div>
 
-        </select>
         <span>机构</span>
-        <select id="jg" onchange ="changeUrl()">
-
-        </select>
+        <div class="layui-select-more">
+            <select id="jg" onchange ="changeUrl()" xm-select="jg"></select>
+        </div>
         <span>专家姓名</span>
         <input id="zjmc" value="" onblur="changeUrl()" />
         <span>关键字</span>
@@ -81,23 +83,33 @@
         base : '../layuiadmin/' //静态资源所在路径
     }).extend({
         index : 'lib/index' //主入口模块
-    }).use([ 'index', 'jquery','publicMethods'], function() {
-        publicMethods = layui.publicMethods;
+    }).use([ 'index','form', 'jquery','publicMethods','formSelects'], function() {
+        var publicMethods = layui.publicMethods,formSelects = layui.formSelects;
         //行业领域
+
         publicMethods.ajaxPost("/pageCommon/dic/ZJK_XYLY",null,function (data) {
+            var arr=[];
             $.each(data, function (index, item) {
-                console.log(item.code+"----"+item.name);
-                var html="<input type='checkbox' title='"+item.name+"' value='"+item.code+"' lay-skin='primary'>"
-                $("#hyly").append(html);
-            })
+                console.log(data);
+                var obj={"name":item.name,"value":item.code};
+                arr.push(obj)
+            });
+            formSelects.data('hyly', 'local', {
+                arr: arr
+            });
         });
         //研究院
         publicMethods.ajaxPost("/pageCommon/dic/ROOT_XTGL_ZSYJY",null,function (data) {
+            var arr=[];
             $.each(data, function (index, item) {
-                console.log(item.code+"----"+item.name);
-                var html="<input type='checkbox' title='"+item.name+"' value='"+item.code+"' lay-skin='primary'>"
-                $("#jg").append(html);
-            })
+                console.log(data);
+                var obj={"name":item.name,"value":item.code};
+                arr.push(obj)
+            });
+            formSelects.data('jg', 'local', {
+                arr: arr
+            });
+
         });
     });
 

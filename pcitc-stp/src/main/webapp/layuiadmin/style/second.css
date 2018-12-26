@@ -252,8 +252,8 @@ span{display: inline-block;}
 .layui-statistics span:nth-child(2){background-color: #5fa3c8}
 .layui-statistics span:nth-child(3){background-color: #f4920b;margin-right: 0;}
 .search{width: 90%;margin: 30px auto;}
-.search span{font-size: 16px; color: #666666;}
-.search input{width: 160px;height: 28px;line-height: 28px;border: 1px solid #dddddd;color: #666666;margin:0 10px;
+.search span{font-size: 16px; color: #666666;padding-left: 7px;}
+.search input{width: 150px;height: 28px;line-height: 28px;border: 1px solid #dddddd;color: #666666;margin:0 10px;
     text-indent: 6px;}
 .search a{padding-right: 15px;height: 29px;line-height: 29px;color: white;font-size: 16px;display: inline-block;cursor: pointer;
     text-indent: 40px;border-radius: 3px;background: url("/layuiadmin/layui/images/icon-search-z.png") no-repeat 10px center #00a3b5;}
@@ -274,6 +274,7 @@ span{display: inline-block;}
 .layui-expert-div span .red{padding: 0;color: #ff0000;}
 .layui-expert-div .layui-zc,.layui-expert-div .layui-pone,.layui-expert-div .layui-e,.layui-expert-div .layui-a{
     background: none; padding: 0;margin: 0;font-size: 16px;}
+.layui-a{display: block;}
 .layui-expert-div .layui-zc{display: block;}
 .layui-expert-div .layui-pone{margin-right: 6px;}
 .layui-expert-div .search{margin: 10px 0;width: 100%;}
@@ -296,9 +297,11 @@ background: white;box-shadow: 0 0 5px #dadcde;}
 .layui-expert-choice .search{width: 100%;text-align: center;margin: 15px 0;}
 .layui-expert-choice .search a.add{width: 80px;}
 .layui-expert-choice .layui-img{}
+
+.layui-select-more{display: inline-block;}
 @media screen and (max-width: 1680px) {
    .layui-tab-content{height: 318px}
 }
 @media screen and (max-width: 1536px) {
-    .layui-tab-content{height: 400px}
+    .layui-tab-content{height: 364px}
 }
