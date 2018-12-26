@@ -223,15 +223,15 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
 //            example.or(criteria2);
         }
         if (zc != null && !"".equals(zc)) {
-            c.andZhichengIn(Arrays.asList(zc.toString().split(",")));
+            c.andZcIn(Arrays.asList(zc.toString().split(",")));
         }
         if (nld != null && !"".equals(nld)) {
             c.andAgeBetweenIn(Arrays.asList(nld.toString().split(",")));
         }
         if (jg != null && !"".equals(jg)) {//选择了机构
             List<String> jgList = Arrays.asList(jg.toString().split(","));
-            if (gb != null && !"".equals(gb) && jgList.contains(gb)) {//选择了规避,移除
-                jgList.remove(jgList.indexOf(gb));
+            if (gb != null && !"".equals(gb)) {//选择了规避,移除
+                jgList.remove(gb);
             }
             c.andCompanyIn(jgList);
         } else {//只有规避机构
@@ -251,7 +251,7 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
                 Set<String> set = new HashSet<>();
                 set.addAll(strings);
                 List<String> stringsSet = (List<String>) (List) Arrays.asList(set.toArray());
-                c.andCompanyIn(stringsSet);
+                c.andIdIn(stringsSet);
             }
         }
         example.setOrderByClause("create_date desc");
