@@ -1379,7 +1379,7 @@
 	
 	<!-- 批量插入项目预算数据 -->
 	<insert id="insertProjectItemData" parameterType="java.util.List">
-		insert into out_project_item (data_id, nd, ktid, ktmc, jfhj,
+		insert into out_project_item (data_id, nd, ktid, ktmc, jfhj,sjhf,xdjf,
 		create_date, create_person, status, update_date, 
 		define1,define2,define3,define4,define5,define6
 		)
@@ -1392,6 +1392,8 @@
 			#{projectInfo.ktid,jdbcType=VARCHAR},
 			#{projectInfo.ktmc,jdbcType=VARCHAR},
 			#{projectInfo.jfhj,jdbcType=VARCHAR},
+			#{projectInfo.sjhf,jdbcType=VARCHAR},
+			#{projectInfo.xdjf,jdbcType=VARCHAR},
 			#{projectInfo.createDate,jdbcType=TIMESTAMP},
 			#{projectInfo.createPerson,jdbcType=VARCHAR},
 			#{projectInfo.status,jdbcType=VARCHAR},
@@ -2170,5 +2172,11 @@
 	<delete id="deleteProjectItemByNd" parameterType="java.lang.String" >
     	delete from out_project_item
    	 	where nd = #{nd,jdbcType=VARCHAR}
+  	</delete>
+  	
+  	<!-- 删除国家项目预算数据 -->
+	<delete id="deleteCountryProjectItemByDefind1" parameterType="java.lang.String" >
+    	delete from out_project_item
+   	 	where nd = #{nd,jdbcType=VARCHAR} and define1 = 'sap国家项目预算'
   	</delete>
 </mapper>

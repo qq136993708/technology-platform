@@ -20,9 +20,22 @@ public interface OutProjectService {
 	public int insertProjectData(List<OutProjectInfo> list, String nd);
 	
 	/**
+	 * 批量插入国家项目
+	 * @param list
+	 * @param nd
+	 * @return
+	 */
+	public int insertCountryProjectData(List<OutProjectInfo> list);
+	
+	/**
 	 * 批量插入项目预算数据
 	 */
 	public int insertProjectItemData(List<OutProjectInfo> list, String nd);
+	
+	/**
+	 * 批量插入国家项目预算数据
+	 */
+	public int insertCountryProjectItemData(List<OutProjectInfo> list, String nd);
 	
 	/**
 	 * 获取项目数据
