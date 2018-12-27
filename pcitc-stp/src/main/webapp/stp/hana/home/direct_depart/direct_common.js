@@ -308,7 +308,7 @@ function load_mutl_bar_down_color(url,id,title,subtext,yAxis,color)
  }
  mutl_bar_down.grid={
      top:"10.5%",
-     left: '0%',
+     left: '1.5%',
      right: '3%',
      bottom: '10%',
      containLabel: true
