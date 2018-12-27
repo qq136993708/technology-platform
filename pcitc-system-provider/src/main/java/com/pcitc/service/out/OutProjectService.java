@@ -22,7 +22,7 @@ public interface OutProjectService {
 	/**
 	 * 批量插入项目预算数据
 	 */
-	public int insertProjectItemData(List<OutProjectInfo> list);
+	public int insertProjectItemData(List<OutProjectInfo> list, String nd);
 	
 	/**
 	 * 获取项目数据

@@ -2164,8 +2164,11 @@
 	<select id="getProjectItemList" resultType="java.util.Map" parameterType="java.util.HashMap">
 		select *
 		from out_project_item
-		WHERE
-			 nd = '2017'
-		
 	</select>
+	
+	<!-- 删除年度预算数据 -->
+	<delete id="deleteProjectItemByNd" parameterType="java.lang.String" >
+    	delete from out_project_item
+   	 	where nd = #{nd,jdbcType=VARCHAR}
+  	</delete>
 </mapper>
