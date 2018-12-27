@@ -129,8 +129,27 @@ public class OutProjectInfo {
     
     private String jfhj;
     
+    private String sjhf;
+    
+    private String xdjf;
+    
+    public String getSjhf() {
+		return sjhf;
+	}
 
-    public String getErpProjectName() {
+	public void setSjhf(String sjhf) {
+		this.sjhf = sjhf;
+	}
+
+	public String getXdjf() {
+		return xdjf;
+	}
+
+	public void setXdjf(String xdjf) {
+		this.xdjf = xdjf;
+	}
+
+	public String getErpProjectName() {
 		return erpProjectName;
 	}
 

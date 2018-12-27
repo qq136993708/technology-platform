@@ -297,4 +297,10 @@ public interface OutProjectInfoMapper {
 	 */
 	public int deleteProjectItemByNd(String nd);
 	
+	/**
+	 * 删除国家项目预算数据
+	 */
+	public int deleteCountryProjectItemByDefind1(String define1);
+	
+	
 }
