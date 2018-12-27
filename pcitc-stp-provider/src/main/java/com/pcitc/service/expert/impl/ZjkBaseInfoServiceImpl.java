@@ -12,6 +12,7 @@ import com.pcitc.base.expert.*;
 import com.pcitc.base.expert.ZjkBaseInfoExample;
 import com.pcitc.base.hana.report.AchievementsAnalysis;
 import com.pcitc.base.system.SysDictionary;
+import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.IdUtil;
 import com.pcitc.base.util.ReverseSqlResult;
 import com.pcitc.base.util.TreeNodeUtil;
@@ -325,8 +326,16 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
 
         List<String> stringsDic = new ArrayList<>();
         if (bak3 != null && bak3 != null) {
-            List<SysDictionary> dicSon = this.getDicSon(bak3);
-            stringsDic = dicSon.stream().map(SysDictionary::getName).collect(Collectors.toList());
+            if ("year".equals(bak3)){
+                int nowDate = Integer.parseInt(DateUtil.dateToStr(new Date(),DateUtil.FMT_YYYY));
+                for (int i = 10; i >0; i--) {
+                    stringsDic.add((nowDate-i)+"");
+                }
+                stringsDic.add(nowDate+"");
+            }else {
+                List<SysDictionary> dicSon = this.getDicSon(bak3);
+                stringsDic = dicSon.stream().map(SysDictionary::getName).collect(Collectors.toList());
+            }
         }
 
 

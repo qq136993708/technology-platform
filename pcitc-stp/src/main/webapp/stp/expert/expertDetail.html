@@ -26,21 +26,23 @@
     <div class="layui-row layui-col-space15">
         <div class="layui-col-md5 layui-expert-div">
             <div class="layui-card">
-                <div class="layui-col-md4" style="border: 1px solid #ccc;">1</div>
+                <div class="layui-col-md4" style="border: 1px solid #ccc;"><img width="100" height="300"
+                                                                                src="/stp/expert/img_temp.jpg"></div>
                 <div class="layui-col-md8" style="padding-left: 30px;">
                     <p>${zjkBaseInfo.name}</p>
-                    <span>参与评标累计项目总数量 <span class="red">${zjkBaseInfo.xmCount}</span>个</span>
-                    <span>参与评标机构总数量 <span class="red">${zjkBaseInfo.jgCount}</span> 个</span>
-                    <span>成果数量<span class="red">${zjkBaseInfo.cgCount}</span>个</span>
-                    <span>专利数量<span class="red">${zjkBaseInfo.zlCount?default('0')}</span>个</span>
+                    <span>参与评标累计项目总数量 <span class="red">${xmCount}</span>个</span>
+                    <span>参与评标机构总数量 <span class="red">${jgCount}</span> 个</span>
+                    <span>成果数量<span class="red">${listCgCount}</span>个</span>
+                    <span>专利数量<span class="red">${listZlCount}</span>个</span>
                     <span>同一行业领域共计<span class="red">${hylyCount}</span>人</span>
                     <span class="layui-zc">职称：${zjkBaseInfo.zc}</span>
-                    <span class="layui-pone">电话：${hylyCount}</span>
+                    <span class="layui-pone">电话：${zjkBaseInfo.dh}</span>
                     <span class="layui-e">邮箱：${zjkBaseInfo.email}</span>
                     <span class="layui-a">地址：${zjkBaseInfo.dz}</span>
                     <div class="search">
                         <a class="add" href="javascript:;" id="addBx">加入备选</a>
                         <a class="add" href="javascript:;" id="addDb">加入对比</a>
+                        <a class="add" href="javascript:;" id="showDb">查看对比</a>
                     </div>
                 </div>
             </div>
@@ -56,111 +58,63 @@
                     </ul>
                     <div class="layui-tab-content">
                         <div class="layui-tab-item layui-show">
-                            个人信息
+                            ${zjkBaseInfo.userDesc}
                         </div>
                         <div class="layui-tab-item">
                             <ul>
+                                <#list listCg as vo>
                                 <li>
-                                    <p>时间</p>
-                                    <span>成果信息</span>
+                                    <p>${vo.publishDate}</p>
+                                    <span>${vo.cgName}</span>
+                                    <p>${vo.cgDesc}</p>
                                 </li>
-                                <li>
-                                    <p>时间</p>
-                                    <span>成果信息</span>
-                                </li>
-                                <li>
-                                    <p>时间</p>
-                                    <span>成果信息</span>
-                                </li>
+                            </#list>
                             </ul>
                         </div>
-                        <div class="layui-tab-item">内容3</div>
+                        <div class="layui-tab-item">
+                            <#list listZl as vo>
+                            <li>
+                                <p>${vo.code}</p>
+                                <span>${vo.name}</span>
+                            </li>
+                        </#list>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="layui-col-md5">
-            <div class="layui-card">
-                <div class="layui-card-header">
-                    与${zjkBaseInfo.name}有过合作的机构展示图
-                </div>
-                <div class="layui-row-main">
-                    <div class="main-chart" id="one" style="height:250px;width: 100%;"></div>
-                </div>
+    </div>
+    <div class="layui-col-md5">
+        <div class="layui-card">
+            <div class="layui-card-header">
+                与${zjkBaseInfo.name}有过合作的机构展示图
+            </div>
+            <div class="layui-row-main">
+                <div class="main-chart" id="one" style="height:250px;width: 100%;"></div>
             </div>
         </div>
-        <div class="layui-col-md5">
-            <div class="layui-card">
-                <div class="layui-card-header">
-                    ${zjkBaseInfo.name}参与评标项目数量统计图
-                </div>
-                <div class="layui-row-main">
-                    <div class="main-chart" id="two" style="height:250px;width: 100%;"></div>
-                </div>
+    </div>
+    <div class="layui-col-md5">
+        <div class="layui-card">
+            <div class="layui-card-header">
+                ${zjkBaseInfo.name}参与评标项目数量统计图
+            </div>
+            <div class="layui-row-main">
+                <div class="main-chart" id="two" style="height:250px;width: 100%;"></div>
             </div>
         </div>
-        <div class="layui-col-md12">
-            <div class="layui-card">
-                <div class="layui-card-header">
-                    ${zjkBaseInfo.name}55岁所在行业领域年龄段统计图
-                </div>
-                <div class="layui-row-main">
-                    <div class="main-chart" id="five" style="height:250px;width: 100%;"></div>
-                </div>
+    </div>
+    <div class="layui-col-md12">
+        <div class="layui-card">
+            <div class="layui-card-header">
+                ${zjkBaseInfo.name}${zjkBaseInfo.age}岁所在行业领域(${zjkBaseInfo.hylyName})年龄段统计图
+            </div>
+            <div class="layui-row-main">
+                <div class="main-chart" id="five" style="height:250px;width: 100%;"></div>
             </div>
         </div>
     </div>
 </div>
-<!--${zjkBaseInfo.id}
-
-
-&lt;!&ndash;<div class="main-chart" id="two" style="height:280px;width: 100%;"></div>
-<div class="main-chart" id="five" style="height:280px;width: 100%;"></div>&ndash;&gt;
-${zjkBaseInfo.name}
-${zjkBaseInfo.dz}
-${zjkBaseInfo.email}
-${zjkBaseInfo.dh}
-${zjkBaseInfo.dz}
-${zjkBaseInfo.hylyName}
-${zjkBaseInfo.zc}
-
-${zjkBaseInfo.company}
-${zjkBaseInfo.companyName}
-
-${zjkBaseInfo.hyly}
-
-
-${zjkBaseInfo.zlCount}
-${zjkBaseInfo.cgCount}
-${zjkBaseInfo.jeCount}
-${zjkBaseInfo.xmCount}
-${zjkBaseInfo.jgCount}
-
-${hylyCount}
-
-
-//成果遍历
-<#list listCg as vo>
-    ${vo.cgName}&#45;&#45;${vo.publistDate}-&#45;&#45;${vo.hylyName}-&#45;&#45;${vo.cgDesc}
-</#list>
-
-//专利遍历
-<#list listZl as vo>
-    ${vo.name}-&#45;&#45;${vo.bak1}
-</#list>
-
-
-<input id="hyly" value="" type="text"/>
-<input id="jg" value="" type="text"/>
-<input id="zjmc" value="" type="text"/>
-<input id="key" value="" type="text"/>
-<input id="nld" value="" type="text"/>
-<input id="zc" value="" type="text"/>
-<input id="gb" value="" type="text"/>
-<a href="/expertController/queryExpert" id="hylyshowall" target="_blank">行业领域查看类似</a>
-
-<a href="/expertController/selectBakList?status=1&addUserId=addUserId" id="showBak" target="_blank">查看对比</a>
-<table id="expertTable" class="layui-hide" lay-filter="tableEvent"></table>-->
+</div>
 <script src="/common/js/jquery-1.11.3.min.js"></script>
 <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
 <script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
@@ -172,7 +126,7 @@ ${hylyCount}
     <a class="layui-btn layui-btn-xs" lay-event="showDetail">查看</a>
 </script>
 <script>
-
+    var expertId = '${zjkBaseInfo.id}';
     layui.use(['jquery', 'form', 'laydate', 'table', 'layer', 'element', "publicMethods"],
         function () {
             var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer,
@@ -180,31 +134,50 @@ ${hylyCount}
             var form = layui.form;
             var publicMethods = layui.publicMethods;
 
+            $("#addBx").click(function () {
+                addBx();
+            });
+            $("#addDb").click(function () {
+                addDb();
+            });
+            $("#showDb").click(function () {
+                showDb();
+            });
+
             var record = {};
-            record.companyId = '${zjkBaseInfo.company}';
-            record.companyName = '${zjkBaseInfo.companyName}';
+            // record.companyId = '${zjkBaseInfo.company}';
+            // record.companyName = '${zjkBaseInfo.companyName}';
             record.zjId = '${zjkBaseInfo.id}';
+
+            function showDb() {
+                parent.layui.index.openTabsPage("/expertController/selectBakList?status=1&addUserId=addUserId", "科技成果明细");
+            }
+
+
             //加入备选
-            function addBx(){
+            function addBx() {
                 publicMethods.ajaxPost("/expertController/saveBak", record, function (data) {
-                    console.log(data);
                     layer.msg("操作成功");
                 });
             }
-            function addDb(){
+
+            function addDb() {
                 //加入对比
                 publicMethods.ajaxPost("/expertController/addCompare", record, function (data) {
                     layer.msg("操作成功");
                 });
             }
+
             //行业领域查看所有
             function searchHyly() {
 
-                $("#hylyshowall").href="/expertController/queryExpert?hyly=${zjkBaseInfo.hyly}";
+                $("#hylyshowall").href = "/expertController/queryExpert?hyly=${zjkBaseInfo.hyly}";
 
                 $("#hylyshowall").click();
             }
         });
+
+
     function initEchart() {
         var yAxis = [
             {
@@ -218,20 +191,21 @@ ${hylyCount}
                 }
             }
         ];
-        var twoUrl = "/expertController/picIndex?id=1&expertId=1&type=bar";
-        var coloTwo=["#ff9945"];
-        var two = load_single_bar(twoUrl, "two", "", "", yAxis,coloTwo,80);
+        var twoUrl = "/expertController/picIndex?id=1&expertId="+expertId+"&type=bar";
+        var coloTwo = ["#ff9945"];
+        var two = load_single_bar(twoUrl, "two", "", "", yAxis, coloTwo, 80);
         two.on('click', function (params) {
-            var xName=params.name;
-            var legentName=params.seriesName;
-            parent.layui.index.openTabsPage("/home_achievement/award_table?project_property="+xName, "科技成果明细");
+            var xName = params.name;
+            var legentName = params.seriesName;
+            parent.layui.index.openTabsPage("/home_achievement/award_table?project_property=" + xName, "科技成果明细");
         });
 
 
-        var fiveUrl = "/expertController/picIndex?id=4&hyly=hyly&type=bar";
-        var colorFive=["#8fc31f"];
-        var five = load_single_bar(fiveUrl, "five", "", "", yAxis,colorFive,80);
+        var fiveUrl = "/expertController/picIndex?id=4&hyly=${zjkBaseInfo.hyly}&type=bar";
+        var colorFive = ["#8fc31f"];
+        var five = load_single_bar(fiveUrl, "five", "", "", yAxis, colorFive, 80);
     }
+
     initEchart();
 
 </script>
@@ -408,7 +382,7 @@ ${hylyCount}
 <script type="text/javascript" src="/plugins/echarts/echarts-all.js"></script>
 <script>
     function relationPic() {
-        var one = "/expertController/picIndex?id=5&type=force&expertId=1";
+        var one = "/expertController/picIndex?id=5&type=force&expertId="+expertId;
         var one = load_single_force(one, "one", "专家与机构关系", "", "");
     }
 

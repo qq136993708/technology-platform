@@ -53,6 +53,7 @@
         <a data-type="searchEvent" id="searchEvent">查询</a>
         <a class="add" href="javascript:;" id="addBx">加入备选</a>
         <a class="add" href="javascript:;" id="addDb">加入对比</a>
+        <a class="add" href="javascript:;" id="showDb">查看对比</a>
     </div>
     <table id="expertTable" class="layui-hide" lay-filter="tableEvent"></table>
 </div>
@@ -305,8 +306,8 @@
                 return
             }
             var record = {};
-            record.companyId = selectRowData.company;
-            record.companyName = selectRowData.companyName;
+            // record.companyId = selectRowData.company;
+            // record.companyName = selectRowData.companyName;
             record.zjId = selectRowData.id;
             publicMethods.ajaxPost("/expertController/saveBak", record, function (data) {
                 console.log(data);
@@ -319,13 +320,17 @@
                 return
             }
             var record = {};
-            record.companyId = selectRowData.company;
-            record.companyName = selectRowData.companyName;
+            // record.companyId = selectRowData.company;
+            // record.companyName = selectRowData.companyName;
             record.zjId = selectRowData.id;
             //加入对比
             publicMethods.ajaxPost("/expertController/addCompare", record, function (data) {
                 layer.msg("操作成功");
             });
+        });
+
+        $("#showDb").click(function () {
+            parent.layui.index.openTabsPage("/expertController/selectBakList?status=1&addUserId=addUserId", "科技成果明细");
         });
     });
 </script>
