@@ -39,8 +39,11 @@
                 </select>
             </div> -->
             <!--按钮组-->
-            <div class="btnGroup">
+           <!-- <div class="btnGroup">
                 <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()">查询</button>
+            </div>-->
+            <div class="breadcrumb">
+                <a href="/index" target="_parent">首页 > </a><span>重大专项及十条龙科技攻关</span>
             </div>
         </div>
 
@@ -56,7 +59,7 @@
                             <div class="text-total">
                                 <span>总数:<span class="text-total-blue" id="dragon1_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                             </div>
-                            <div class="layui-col-md6" id="dragon1"    style="height:280px;width: 100%;"></div>
+                            <div class="layui-col-md6" id="dragon1"    style="height:275px;width: 100%;"></div>
                         </div>
                     </div>
                 </div>
@@ -166,6 +169,10 @@
         laydate.render({
         	  elem: '#year'
       	      ,type: 'year'
+              ,done:function (value, date, endDate) {
+                $(".layui-time").html(date.year);
+                search_Event();
+            }
         });
         renderTable();
         renderStlTable();

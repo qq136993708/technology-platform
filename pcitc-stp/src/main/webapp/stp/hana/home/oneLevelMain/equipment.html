@@ -35,7 +35,7 @@
                 >详情</button>
             </div>
             <div class="breadcrumb">
-                <a href="/index">首页</a><span>/科研装备</span>
+                <a href="/index" target="_parent">首页 > </a><span>科研装备</span>
             </div>
         </div>
         <div class="layui-row layui-col-space15">
@@ -94,18 +94,18 @@ layui.config({
     
     table = layui.table;
     util = layui.laytpl;
-    
-    
-  	form.render(null, 'component-form-group');
-       laydate.render({
-          elem: '#month'
-          ,format: 'yyyyMM'
-          ,done: function(value, date, endDate){
-             console.log($(".layui-time"))
-              $(".layui-time").html(date.year+"年"+date.month+"月");
-              search_Event();
-          }
+
+
+    form.render(null, 'component-form-group');
+    laydate.render({
+        elem: '#month'
+        ,format: 'yyyyMM'
+        ,done: function(value, date, endDate){
+            $(".layui-time").html(date.year+"年"+date.month+"月");
+            search_Event();
+        }
     });
+
 
     renderTable();
 
