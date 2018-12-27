@@ -17,22 +17,19 @@
 </head>
 <body>
 <div class="layui-fluid">
-   <input type="hidden" name="month"        value="${month}"         id="month">
    <input type="hidden" name="companyCode"  value="${companyCode}"   id="companyCode">
     <div class="">
         <div class="searchBox">
             <label class="dateInput">
-                <span>月份</span>
-                <input type="text" name="year" placeholder="请选择月份" title="月份" value="${year}"  autocomplete="off" class="form-control" id="year">
+                <span>年月份</span>
+                <input type="text" name="month" placeholder="请选择年份" title="年份" value="${month}"  autocomplete="off" class="form-control" id="month">
             </label>
             <!--按钮组-->
             <div class="btnGroup">
-                <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg"
-                        onclick="search_Event()">查询</button>
+                <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()">查询</button>
             </div>
             <div class="btnGroup" style="float:right">
-                <button id="knowledge_table" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue  btnMyBgImg btn_details"
-                >详情</button>
+                <button id="knowledge_table" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue  btnMyBgImg btn_details" >详情</button>
             </div>
         </div>
 
@@ -40,7 +37,7 @@
             <div class="layui-col-md6">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        <span class="layui-time"></span>年直属研究院科研装备课题数量
+                        <span class="layui-time" id="layui_time_01"></span>年直属研究院科研装备课题数量
                     </div>
                     <div class="layui-row-main">
                        <div class="text-total">
@@ -58,7 +55,7 @@
             <div class="layui-col-md6">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        <span class="layui-time"></span>年直属研究院科研课题数量占比
+                        <span class="layui-time" id="layui_time_02"></span>年直属研究院科研课题数量占比
                         <div class="layui-tool">
                             <button type="button" class="btn btn-tool collapse"></button>
                             <button type="button" class="btn btn-tool remove"></button>
@@ -181,10 +178,18 @@ layui.config({
       ,laydate = layui.laydate
 	  form.render(null, 'component-form-group');
         laydate.render({
-        	 elem: '#year'
-         	      ,type: 'year'
+        	 elem: '#month'
+        	       ,format: 'yyyyMM'
         });
-        $(".layui-time").html($("#year").val());
+       
+        
+        var monthValY=$("#month").val().substring(4,0);
+        var monthValM=$("#month").val().substring(4);
+        $(".layui-time").html(monthValY+"年"+monthValM+"月");
+        
+        $("#layui_time_01").html(monthValY);
+        $("#layui_time_02").html(monthValY);
+        
         $("#knowledge_table").click(function () {
         	window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
         });
@@ -210,9 +215,9 @@ function initEchart()
 	
 	var month=$('#month').val();
 	var companyCode=$('#companyCode').val();
+	var nd=month.substr(0,4);
 	
 	var v_date=(new Date()).getTime();
-	var nd=$('#year').val();
 	var ndstr=nd+"年";
 	var yAxis= [
         {
@@ -249,7 +254,8 @@ function initEchart()
     
     
 	
-    $(".layui-time").html($("#year").val());
+    
+    
 	var chart1_url="/direct/equipment_01?type=1&nd="+nd+"&v_date="+v_date;
 	var echart1=load_mutl_bar_down_color(chart1_url,"equipment_chart1","","",yAxis);
 	echart1.on('click', function (params) {
@@ -339,6 +345,7 @@ function search_Event()
 {
 	initEchart();
 	myTable();
+	renderTable2();
 }
         
 
