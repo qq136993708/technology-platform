@@ -203,10 +203,12 @@ public class StpProjectJob implements Job, Serializable {
 					String lxrxm = object.getString("LXR_Xm");
 					String lxryx = object.getString("LXR_Email");
 					String lxrdh = object.getString("LXR_Tel");
+					String jf = object.getString("JF");
 
 					OutProjectInfo opi = new OutProjectInfo();
 					opi.setDataId(xmid);
 					opi.setXmid(xmid);
+					opi.setJf(jf);
 					
 					if (xmlbbm != null && xmlbbm.equals("KYZB")) {
 						opi.setDefine1("资本性");
