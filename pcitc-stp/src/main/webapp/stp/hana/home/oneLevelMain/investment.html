@@ -42,12 +42,15 @@
                 </select>
             </div> -->
             <!--按钮组-->
-            <div class="btnGroup">
+            <!--<div class="btnGroup">
                 <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()">查询</button>
-            </div>
-            <div class="btnGroup" style="float:right">
+            </div>-->
+            <div class="btnGroup">
                 <button id="knowledge_table" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue  btnMyBgImg btn_details"
                 >明细</button>
+            </div>
+            <div class="breadcrumb">
+                <a href="/index" target="_parent">首页 > </a><span>科研投入</span>
             </div>
         </div>
 
@@ -162,11 +165,12 @@ layui.config({
     $(".layui-time").html(year+"年");
     form.render(null, 'component-form-group');
     laydate.render({
-    	
-    	 elem: '#year'
-    	      ,type: 'year'
-
-    	      
+        elem: '#year'
+        ,type: 'year'
+        ,done: function(value, date, endDate){
+            $(".layui-time").html(date.year);
+            search_Event();
+        }
     });
    
     $("#knowledge_table").click(function () {
@@ -178,9 +182,6 @@ layui.config({
 
 function initEchart()
 {
-	
-	 var nd=$("#year").val();
-     $(".layui-time").html(nd+"年");
 	 var companyCode=$("#companyCode").val();
 	 var v_date=(new Date()).getTime();
 	 var month=$('#year').val();
