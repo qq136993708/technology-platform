@@ -29,6 +29,7 @@ import com.pcitc.base.common.ChartPieDataValue;
 import com.pcitc.base.common.ChartPieResultData;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.common.PageResult;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.hana.report.Knowledge;
 import com.pcitc.base.hana.report.ProjectCode;
@@ -235,10 +236,25 @@ public class MoreDimensionController extends BaseController
 		System.out.println(">>>>>>>>>>>>>>patent_trend_analysis 结果" + resultObj.toString());
 		return resultObj.toString();
 	}
+	@RequestMapping(method = RequestMethod.GET, value = "/patent_trend_analysis_02")
+	@ResponseBody
+	public String patent_trend_analysis_02(HttpServletRequest request, HttpServletResponse response) throws Exception
+	{
+
+		Result result = new Result();
+		String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+		JSONArray data = null;
+		String c_2017="[{},{}]";
+		
+		
+		
+		
+		return getTableDataNotPagin(data);
+	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/patent_trend_analysis_03")
 	@ResponseBody
-	public String patent_trend_analysis_02(HttpServletRequest request, HttpServletResponse response) throws Exception
+	public String patent_trend_analysis_03(HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
 
 		Result result = new Result();
@@ -436,6 +452,20 @@ public class MoreDimensionController extends BaseController
 		List<ProjectCode> projectCodeList = HanaUtil.getProjectCode(restTemplate, httpHeaders);
 		request.setAttribute("projectCodeList", projectCodeList);
 		return "stp/hana/moreDimension/science/science-patent-analysis";
+	}
+
+	// 获取二维表格数据（不分页）
+	private String getTableDataNotPagin(JSONArray data)
+	{
+		PageResult pageResult = new PageResult();
+
+		pageResult.setData(data);
+		pageResult.setCode(0);
+		pageResult.setCount(Long.valueOf(data.size()));
+		pageResult.setLimit(1000);
+		pageResult.setPage(1l);
+
+		return JSONObject.toJSONString(pageResult);
 	}
 
 }
