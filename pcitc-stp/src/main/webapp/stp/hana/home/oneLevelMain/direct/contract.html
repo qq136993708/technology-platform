@@ -20,8 +20,8 @@
     <div class="">
         <div class="searchBox">
             <label class="dateInput">
-                <span>月份</span>
-                <input type="text" name="year" placeholder="请选择月份" title="月份" value="${year}"  autocomplete="off" class="form-control" id="year">
+                <span>年份</span>
+                <input type="text" name="year" placeholder="请选择年份" title="年份" value="${year}"  autocomplete="off" class="form-control" id="year">
             </label>
             <!--按钮组-->
             <div class="btnGroup">
@@ -329,7 +329,7 @@ function renderTable2()
 	  url:'/direct/contract_03?month='+month+"&type=2",
 	  method:"GET",
       height:309,
-	  where: {param: {"month":$("#month").val()}},
+	  where: {param: {"nd":$("#month").val()}},
 	  limit: 15,
 	  id: 'processdef_table_02',
 	  

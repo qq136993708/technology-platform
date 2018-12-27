@@ -165,7 +165,7 @@ function barLineAjax_investment(url,  echartsobj, options,width,callback)
 		   },
 		   error:function()
 		   {
-		    	layer.alert("网络访问错误");
+		    	
 		   },
 		   complete: function (XMLHttpRequest, status) 
 		   {
@@ -364,7 +364,7 @@ function get_mony_line_option_ajax_dt_investment(url,echartsobj, options)
 		   },
 		   error:function()
 		   {
-		    	layer.alert("网络访问错误!");
+		    	
 		   },
 		   complete: function (XMLHttpRequest, status) {
 	            if(status == 'timeout'){

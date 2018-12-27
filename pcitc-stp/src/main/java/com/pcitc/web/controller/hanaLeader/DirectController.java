@@ -1347,8 +1347,8 @@ public class DirectController {
 			    String unitCode=userInfo.getUnitCode();
 			    request.setAttribute("unitCode", unitCode);
 			    
-			    String year= HanaUtil.getCurrrentYear();
-			    request.setAttribute("year", year);
+			    String month = HanaUtil.getCurrrentYearMoth();
+				request.setAttribute("month", month);
 		        return "stp/hana/home/oneLevelMain/direct/equipment";
 		  }
 		  
