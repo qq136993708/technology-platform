@@ -297,7 +297,8 @@ background: white;box-shadow: 0 0 5px #dadcde;}
 .layui-expert-choice .search{width: 100%;text-align: center;margin: 15px 0;}
 .layui-expert-choice .search a.add{width: 80px;}
 .layui-expert-choice .layui-img{}
-
+/*面包屑导航*/
+.breadcrumb{float: right;}
 .layui-select-more{display: inline-block;}
 @media screen and (max-width: 1680px) {
    .layui-tab-content{height: 318px}
