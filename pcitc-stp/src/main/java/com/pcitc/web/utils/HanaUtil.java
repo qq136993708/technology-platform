@@ -4581,7 +4581,12 @@ public static ChartBarLineSeries getKNOWLDGELevel2ChartBarLineSeries07(List<Know
 					
 					if (K0BNZBJE!=null) 
 					{
-						dataList.add(String.format("%.2f", Double.valueOf(K0BNZBJE.toString())));
+						
+						//dataList.add(String.format("%.2f", Double.valueOf(K0BNZBJE.toString())));
+						
+						
+						dataList.add(K0BNZBJE.setScale(2, BigDecimal.ROUND_DOWN));
+						
 					}else
 					{
 						dataList.add("0.00");
@@ -4593,7 +4598,10 @@ public static ChartBarLineSeries getKNOWLDGELevel2ChartBarLineSeries07(List<Know
 					
 					if (K0BNFYJE!=null) 
 					{
-						dataList.add(String.format("%.2f", Double.valueOf(K0BNFYJE.toString())));
+						//dataList.add(String.format("%.2f", Double.valueOf(K0BNFYJE.toString())));
+						
+						dataList.add(K0BNFYJE.setScale(2, BigDecimal.ROUND_DOWN));
+						
 					}else
 					{
 						dataList.add("0.00");
@@ -4607,7 +4615,9 @@ public static ChartBarLineSeries getKNOWLDGELevel2ChartBarLineSeries07(List<Know
 					
             	   if (K0BNYSJHJE!=null) 
 					{
-            		   dataList.add(String.format("%.2f", Double.valueOf(K0BNYSJHJE.toString())));
+            		   
+            		   dataList.add(K0BNYSJHJE.setScale(2, BigDecimal.ROUND_DOWN));
+            		  // dataList.add(String.format("%.2f", Double.valueOf(K0BNYSJHJE.toString())));
 					}else
 					{
 						dataList.add("0.00");

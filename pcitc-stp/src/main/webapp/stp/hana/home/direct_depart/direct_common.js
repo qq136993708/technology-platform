@@ -191,8 +191,8 @@ var mutl_bar_down = {
             {
                 type: 'value',
                 name: '金额（万元）',
-                min: 'dataMin',
-                max:'dataMax',
+                /*min: 'dataMin',
+                max:'dataMax',*/
                 axisLabel: {
                     formatter: '{value}'
                 }
@@ -648,13 +648,6 @@ function set_multi_graph_statistics(data,id)
 	if(id=='pay_chart3')
 	{
 
-		var xkCount_1=getDataCountForNameFloat(data,'资本性');
-    	var jzCount_2=getDataCountForNameFloat(data,'费用性');
-        var allCount_3=xkCount_1+jzCount_2;
-        
-        $("#pay_chart3_01").html(allCount_3.toFixed(2)+"亿元");
-        $("#pay_chart3_02").html(xkCount_1.toFixed(2)+"亿元");
-        $("#pay_chart3_03").html(jzCount_2.toFixed(2)+"亿元");
 	}
 
 	if(id=='dragon3')
