@@ -212,6 +212,20 @@ function initEchart()
         }
     ];
 	
+	
+	
+	//直属研究院合同签定率
+    $("#contract_chart1_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+    $("#contract_chart1_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+    $("#contract_chart1_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+    //科研课题合同签订率
+    $("#contract_chart4_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+    $("#contract_chart4_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+    $("#contract_chart4_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+    
+    
+    
+	
     $(".layui-time").html($("#year").val());
 	var chart1_url="/direct/contract_01?type=1&nd="+nd+"&v_date="+v_date;
 	var color=["#43c5ff","#ffa70f"];

@@ -1052,9 +1052,11 @@
 	  <select id="pay_03" resultMap="H1AMKYSY100109ResultMap" parameterType="java.util.Map" >
 	   select
 			    "G0GSJC",
-			     round( round(sum("K0BNZBJE")/100000000,2)+round(sum("K0BNFYJE")/100000000,2),2)  as K0BNYSJHJE,
-			     round(sum("K0BNZBJE")/100000000,2)   as K0BNZBJE,
-			     round(sum("K0BNFYJE")/100000000,2)  as K0BNFYJE 
+			     
+			     round(sum("K0BNYSJHJE")/100000000,4)   as K0BNYSJHJE,
+			     
+			     round(sum("K0BNZBJE")/100000000,4)   as K0BNZBJE,
+			     round(sum("K0BNFYJE")/100000000,4)  as K0BNFYJE 
 			from ( SELECT
 			     "G0GSJC",
 			     "G0GSOR",

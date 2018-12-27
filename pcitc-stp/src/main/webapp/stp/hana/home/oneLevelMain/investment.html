@@ -234,8 +234,9 @@ function initEchart()
 	 
 	 
 	
-	 
-
+	    $("#chart1_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+        $("#chart1_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+        $("#chart1_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
 		var chart1_url="/one_level_main/investment_01?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
 		var color=["#bee5d2","#6bdf9e"];
 		var echart=load_mony_line_dt_investment(chart1_url,"chart1","","",yAxis1,1,color);
@@ -251,6 +252,14 @@ function initEchart()
 		
 		
 		
+		
+		
+		
+		
+	    $("#chart7_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+        $("#chart7_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+        $("#chart7_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+        $("#chart7_04").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
 		var chart7_url="/one_level_main/investment_02?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
 		var color=["#f3655b","#8ab3cf","#f19049"];
 		var echart7=load_mutl_bar_investment(chart7_url,"chart7","","",yAxis2,color,60,function (data){

@@ -161,6 +161,18 @@ function initEchart()
             }
         }
     ];
+	
+	
+    $("#chart_title_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+    $("#chart_title_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+    $("#chart_title_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+    $("#chart_title_04").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+    $("#chart_title_05").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+    
+    
+    
+    
+    
 	var chart1_url="/direct_second/direct_second_data_01?nd="+nd+"&v_date="+v_date;
 	var echart1=load_single_bar(chart1_url,"chart1","","",yAxis,["#87d359"],70,"",function(data){
 		var total_count = 0;

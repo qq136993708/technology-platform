@@ -227,6 +227,28 @@ function initEchart()
         }
     ];
 	
+	
+	
+	//直属研究院科研装备课题数量
+    $("#equipment_chart1_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+    $("#equipment_chart1_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+    $("#equipment_chart1_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+    //直属研究院科研装备数量
+    $("#bar4_1_count").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+    $("#bar4_2_count").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+    $("#bar4_3_count").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+    $("#bar4_4_count").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+    //直属研究院科研装备数量
+    $("#equipment_chart5_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+    $("#equipment_chart5_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+    $("#equipment_chart5_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+    $("#equipment_chart5_04").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+
+
+    
+    
+    
+	
     $(".layui-time").html($("#year").val());
 	var chart1_url="/direct/equipment_01?type=1&nd="+nd+"&v_date="+v_date;
 	var echart1=load_mutl_bar_down_color(chart1_url,"equipment_chart1","","",yAxis);
