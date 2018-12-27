@@ -1,6 +1,7 @@
 package com.pcitc.service.expert.impl;
 
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
@@ -26,6 +27,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 /**
@@ -73,9 +75,14 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
     @Override
     public int updateOrInsertZjkChoiceUpdate(ZjkChoice zjkChoice) throws Exception {
         int result = 500;
-        List<ZjkChoice> zjkChoiceList = this.findZjkChoiceList(zjkChoice);
+        ZjkChoice choice = new ZjkChoice();
+        choice.setZjId(zjkChoice.getZjId());
+        choice.setAddUserId(zjkChoice.getAddUserId());
+        List<ZjkChoice> zjkChoiceList = this.findZjkChoiceList(choice);
         if (zjkChoiceList != null && zjkChoiceList.size() > 0) {
-            this.deleteByPrimaryKey(zjkChoice.getId());
+            for (int i = 0; i < zjkChoiceList.size(); i++) {
+                this.deleteByPrimaryKey(zjkChoiceList.get(i).getId());
+            }
         }
         if (zjkChoice.getId() != null && zjkChoice.getId() != null) {
             zjkChoiceMapper.updateByPrimaryKeySelective(zjkChoice);
@@ -186,20 +193,33 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
         }
     }
 
+
     @Override
     public LayuiTableData findZjkChoiceByPage(LayuiTableParam param) {
         ZjkChoiceExample example = new ZjkChoiceExample();
         ZjkChoiceExample.Criteria c = example.createCriteria();
 //        c.andStatusEqualTo("1");
-//        if(param.getParam().get("fileKind") !=null && !com.pcitc.common.StringUtils.isBlank(param.getParam().get("fileKind")+""))
-//        {
-        //   c.andIdLike("'%"+param.getParam().get("fileKind")+"%'");
-//            ZjkChoiceExample.Criteria criteria2 = example.or();
-//            criteria2.andParentIdEqualTo(param.getParam().get("fileKind").toString());
-//            example.or(criteria2);
-        //       }
+        c.andStatusEqualTo(param.getParam().get("status").toString());
+        c.andAddUserIdEqualTo(param.getParam().get("addUserId").toString());
         example.setOrderByClause("create_date desc");
-        return this.findByExample(param, example);
+
+        List<ZjkChoice> zjkChoices = this.selectByExample(example);
+        if (zjkChoices==null||zjkChoices.size()==0){
+            return new LayuiTableData();
+        }else {
+
+            ZjkBaseInfoExample ex = new ZjkBaseInfoExample();
+            List<String> strings = zjkChoices.stream().map(ZjkChoice::getZjId).collect(Collectors.toList());
+            ex.createCriteria().andIdIn(strings);
+            List<ZjkBaseInfo> list = zjkBaseInfoService.selectByExample(ex);
+
+            LayuiTableData data = new LayuiTableData();
+            data.setData(list);
+
+            return data;
+        }
+
+//        return zjkBaseInfoService.findByExample(param, ex);
 
     }
 

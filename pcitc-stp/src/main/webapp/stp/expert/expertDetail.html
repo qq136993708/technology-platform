@@ -194,11 +194,11 @@
         var twoUrl = "/expertController/picIndex?id=1&expertId="+expertId+"&type=bar";
         var coloTwo = ["#ff9945"];
         var two = load_single_bar(twoUrl, "two", "", "", yAxis, coloTwo, 80);
-        two.on('click', function (params) {
-            var xName = params.name;
-            var legentName = params.seriesName;
-            parent.layui.index.openTabsPage("/home_achievement/award_table?project_property=" + xName, "科技成果明细");
-        });
+        // two.on('click', function (params) {
+        //     var xName = params.name;
+        //     var legentName = params.seriesName;
+        //     parent.layui.index.openTabsPage("/home_achievement/award_table?project_property=" + xName, "科技成果明细");
+        // });
 
 
         var fiveUrl = "/expertController/picIndex?id=4&hyly=${zjkBaseInfo.hyly}&type=bar";
@@ -211,7 +211,6 @@
 </script>
 <script>
     var zjkBaseInfo = "${zjkBaseInfo}";
-    console.log(zjkBaseInfo);
     var param = JSON.parse(window.localStorage.getItem("param"));
     var table, selectRowData, workOrderStatus;
     layui.use(['jquery', 'table', 'laypage', 'publicMethods'], function () {
@@ -233,7 +232,6 @@
             }
         };
         console.log("---------where--------------");
-        console.log(where);
         var cols = [
             {type: 'checkbox', event: 'changeEvents', width: 55},
             {title: '序号', type: 'numbers', width: 55},
@@ -301,10 +299,8 @@
             //propertychange监听input里面的字符变化,属性改变事件
             $('.form-control').bind('input propertychange', function () {
                 var $this = $(this);
-                console.log($this);
                 var text_length = $this.val().length;//获取当前文本框的长度
                 var current_width = parseInt(text_length) * 12;//该16是改变前的宽度除以当前字符串的长度,算出每个字符的长度
-                console.log(current_width)
                 $this.css("width", current_width + "px");
             });
         })

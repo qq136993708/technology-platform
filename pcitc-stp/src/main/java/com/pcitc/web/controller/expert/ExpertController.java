@@ -90,6 +90,9 @@ public class ExpertController extends BaseController {
     private static final String DEL_BAK = "http://pcitc-zuul/stp-proxy/zjkchoice-provider/zjkchoice/del-zjkchoice-real/";
     private static final String DEL_BAK_USERID = "http://pcitc-zuul/stp-proxy/zjkchoice-provider/zjkchoice/del-zjkchoice-zjid";
 
+    //备选查询-table
+    private static final String LISTBAKTABLE = "http://pcitc-zuul/stp-proxy/zjkchoice-provider/zjkchoice/zjkchoice-page";
+
     @RequestMapping(value = "/test", method = RequestMethod.GET)
     public String test() {
         return "stp/expert/eee";
@@ -163,6 +166,33 @@ public class ExpertController extends BaseController {
         return "stp/expert/queryExpert";
     }
 
+    /**
+     * 跳转到备选
+     *
+     * @return
+     */
+    @RequestMapping(value = "/bakTablePage", method = RequestMethod.GET)
+    @OperationFilter(modelName = "专家-备选跳转", actionName = "查询跳转bakTablePage")
+    public String bakTablePage() {
+        request.setAttribute("addUserId", sysUserInfo.getUserId());
+        return "stp/expert/bakTable";
+    }
+
+    /**
+     * 备选信息分页查询
+     *
+     * @param param
+     * @return
+     */
+    @RequestMapping(value = "/bakTableData", method = RequestMethod.POST)
+    @ResponseBody
+    @OperationFilter(modelName = "备选查询", actionName = "查询列表bakTableData")
+    public Object bakTableData(@ModelAttribute("param") LayuiTableParam param) {
+        HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
+        ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(LISTBAKTABLE, HttpMethod.POST, entity, LayuiTableData.class);
+        LayuiTableData data = responseEntity.getBody();
+        return JSON.toJSON(data).toString();
+    }
 
     /**
      * 专家信息分页查询
@@ -337,6 +367,32 @@ public class ExpertController extends BaseController {
 
         record.setAddUserId(sysUserInfo.getUserId());
         record.setStatus("1");
+        record.setYear(DateUtil.format(new Date(), DateUtil.FMT_YYYY));
+        ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(SAVECHOICE, HttpMethod.POST, new HttpEntity<ZjkChoice>(record, this.httpHeaders), Integer.class);
+        Integer result = responseEntity.getBody();
+        return result;
+    }
+
+    @RequestMapping(value = "/addChoice")
+    @ResponseBody
+    @OperationFilter(modelName = "专家-人员选择", actionName = "保存addChoice")
+    public int addChoice(ZjkChoice record) {
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        if (record.getId() == null || "".equals(record.getId())) {
+            record.setCreateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
+            record.setCreateUser(sysUserInfo.getUserId());
+            record.setCreateUserName(sysUserInfo.getUserName());
+        } else {
+            record.setUpdateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
+            record.setUpdateUser(sysUserInfo.getUserId());
+        }
+
+        //添加当前人的机构,机构id
+        record.setCompanyId(sysUserInfo.getUnitId());
+        record.setCompanyName(sysUserInfo.getUnitName());
+
+        record.setAddUserId(sysUserInfo.getUserId());
+        record.setStatus("2");
         record.setYear(DateUtil.format(new Date(), DateUtil.FMT_YYYY));
         ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(SAVECHOICE, HttpMethod.POST, new HttpEntity<ZjkChoice>(record, this.httpHeaders), Integer.class);
         Integer result = responseEntity.getBody();
