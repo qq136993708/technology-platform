@@ -3785,7 +3785,12 @@ public static ChartBarLineSeries getKNOWLDGELevel2ChartBarLineSeries07(List<Know
 				BudgetMysql f03 = list.get(i);
 				String zsjje =((BigDecimal)f03.getZsjje()).toString();
 				String wxdje =((BigDecimal)f03.getWxdje()).toString();
-				String jeRate =((BigDecimal)f03.getJeRate()).toString(); 
+				String jeRate ="0";
+				Object o=f03.getJeRate();
+				if(o!=null)
+				{
+					jeRate =((BigDecimal)f03.getJeRate()).toString();
+				}
 				
 					if (name.equals("zsjje"))
 					{
@@ -3812,13 +3817,19 @@ public static ChartBarLineSeries getKNOWLDGELevel2ChartBarLineSeries07(List<Know
 						}
 					}
 					
-					
+					if (name.equals("jeRate")) 
+					{
+						
+						if(jeRate!=null)
+						{
+							 dataList.add(jeRate);
+						}else
+						{
+							dataList.add(0);
+						}
+					}
                    
                	
-                   if (name.equals("jeRate")) 
-                   {
-                	   dataList.add(jeRate);
-				   }
 				}
 
 			chartBarLineSeries.setData(dataList);

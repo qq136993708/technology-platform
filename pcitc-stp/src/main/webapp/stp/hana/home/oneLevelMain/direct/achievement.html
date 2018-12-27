@@ -23,13 +23,18 @@
             <input type="text" name="year" placeholder="请选择月份" title="月份" value="${year}"  autocomplete="off" class="form-control" id="year">
         </label>
         <!--按钮组-->
-        <div class="btnGroup">
+        <!--<div class="btnGroup">
             <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg"
                     onclick="search_Event()">查询</button>
-        </div>
-        <div class="btnGroup" style="float:right">
+        </div>-->
+        <div class="btnGroup">
             <button id="knowledge_table" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue  btnMyBgImg btn_details"
             >详情</button>
+        </div>
+        <div class="breadcrumb">
+            <a href="/index" target="_parent">首页 > </a>
+            <a href="/instituteIndex?url=/home_ld/direct_depart" target="_parent">直属研究院概况 > </a>
+            <span>科技成果</span>
         </div>
     </div>
 
@@ -134,7 +139,13 @@ layui.config({
     laydate.render({
     	      elem: '#year'
      	      ,type: 'year'
+        ,done: function(value, date, endDate){
+            $(".layui-time").html(date.year);
+            search_Event();
+        }
     });
+
+    $(".layui-time").html($("#year").val());
     $("#knowledge_table").click(function () {
     	window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
     });
@@ -147,14 +158,11 @@ function initEchart()
 
 	var v_date=(new Date()).getTime();
 	var nd=$('#year').val();
-    $(".layui-time").html(nd);
 	var ndstr=nd+"年";
 	var yAxis= [
         {
             type: 'value',
             name: '数量（个）',
-            min: 0,
-            max:'dataMax',
             position: 'left',
             axisLabel: {
                 formatter: '{value}'

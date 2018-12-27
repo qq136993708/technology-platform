@@ -24,13 +24,16 @@
                 <input type="text" name="year" placeholder="请选择年份" title="年份" value="${year}"  autocomplete="off" class="form-control" id="year">
             </label>
             <!--按钮组-->
-            <div class="btnGroup">
+            <!--<div class="btnGroup">
                 <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg"
                         onclick="search_Event()">查询</button>
-            </div>
-            <div class="btnGroup" style="float:right">
+            </div>-->
+            <div class="btnGroup">
                 <button id="knowledge_table" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue  btnMyBgImg btn_details"
                 >详情</button>
+            </div>
+            <div class="breadcrumb">
+                <a href="/index" target="_parent">首页 > </a><span>知识产权</span>
             </div>
         </div>
         
@@ -48,7 +51,7 @@
                             <span>专利授权:<span class="text-total-blue"    id="leader_knowledge_chart4_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                         </div>
                         
-                        <div class="main-chart" id="leader_knowledge_chart4" style="height:280px;width: 100%;"></div>
+                        <div class="main-chart" id="leader_knowledge_chart4" style="height:261px;width: 100%;"></div>
                     </div>
                 </div>
             </div>
@@ -89,7 +92,7 @@
                             <span>专利申请:<span class="text-total-blue"    id="leader_knowledge_chart1_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                             <span>专利授权:<span class="text-total-blue"    id="leader_knowledge_chart1_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                         </div>
-                        <div class="main-chart" id="leader_knowledge_chart1" style="height:280px;width: 100%;"></div>
+                        <div class="main-chart" id="leader_knowledge_chart1" style="height:261px;width: 100%;"></div>
                     </div>
                 </div>
             </div>
@@ -168,6 +171,10 @@
         laydate.render({
         	 elem: '#year'
          	      ,type: 'year'
+            ,done: function(value, date, endDate){
+                $(".layui-time").html(date.year);
+                search_Event();
+            }
         });
         $(".layui-time").html($("#year").val());
         $("#knowledge_table").click(function () {
@@ -187,15 +194,12 @@
             {
                 type: 'value',
                 name: '数量（个）',
-                min: 0,
-                max:'dataMax',
                 position: 'left',
                 axisLabel: {
                     formatter: '{value}'
                 }
             }
         ];
-        $(".layui-time").html($("#year").val());
         
         
          //集团专利申请/授权数量
@@ -243,7 +247,7 @@
 
 
         var chart4_url="/one_level_main/knowledge_bar_02?nd="+nd+"&v_date="+v_date;
-        var color=["#70b1ab","#87d359"]
+        var color=["#6592b3","#55b6e9"]
         var echart4=load_mutl_bar_down_r(chart4_url,"leader_knowledge_chart4","","",yAxis,1,20,color);
         echart4.on('click', function (params) {
             var xName=params.name;
@@ -294,7 +298,7 @@
     function search_Event()
     {
         initEchart();
-        renderTable();
+        //renderTable();
     }
 
 
