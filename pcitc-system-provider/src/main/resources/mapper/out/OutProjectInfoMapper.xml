@@ -1452,14 +1452,17 @@
 	<!-- 首页计算科研装备项目数、非装备项目数、新开项目总金额、新开和结转项目总金额 -->
 	<select id="getOutProjectInfoCount" resultType="java.util.Map" parameterType="java.util.HashMap">
 		select 
-        	round(sum(case nd when '2018' then jf else 0 end),2) as jfTotal, 
-        	round(sum(jf)/10000,2) as zje, 
-        	sum(case when project_property ='其他项目' then 0 else 1 end) as ldzsl,
+        	round(sum(case when out_project_item.nd = '${nd}' then jfhj else 0 end),2) as jfTotal, 
+        	round(sum(jfhj)/10000,2) as zje, 
+        	count(*) as zsl,
+			sum(case when left(kssj,4) = '${nd}' then 1 else 0 end) as ldzsl, 
         	sum(case xmlbbm when 'KYZB' then 1 else 0 end) as kyzbCount, 
-			sum(case xmlbbm when 'KYZB' then 0 else 1 end) as projectCount
-		from out_project_info
-		where (project_type = '0' or project_type = '2') and (project_scope = '新开课题' or project_scope = '结转课题')
-			  and out_project_info.DEFINE2 is not null
+        	sum(case when xmlbbm != 'KYZB' then 1 else 0 end) as kyktCount, 
+			sum(case when out_project_info.nd = '${nd}' then 1 else 0 end) as projectCount
+		from out_project_info left join out_project_item on (out_project_item.ktid = out_project_info.xmid and out_project_item.nd = '${nd}')
+		where 
+			project_property not like '%十条龙%' and 
+			(project_type = '0' or project_type = '2') and left(jssj,4) &gt;= '${nd}' and left(kssj,4) &lt;= '${nd}'
 			<if test="define2 != null and define2 != ''">
 				and define2 like '%${define2}%'
 			</if>
