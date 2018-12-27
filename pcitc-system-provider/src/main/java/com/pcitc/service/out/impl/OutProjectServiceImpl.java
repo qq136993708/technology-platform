@@ -62,7 +62,9 @@ public class OutProjectServiceImpl implements OutProjectService {
 	/**
 	 * 批量插入项目预算数据
 	 */
-	public int insertProjectItemData(List<OutProjectInfo> list) {
+	public int insertProjectItemData(List<OutProjectInfo> list, String nd) {
+		// 删除年度预算，重新获取
+		outProjectInfoMapper.deleteProjectItemByNd(nd);
 		outProjectInfoMapper.insertProjectItemData(list);
 		return 1;
 	}
@@ -164,9 +166,11 @@ public class OutProjectServiceImpl implements OutProjectService {
     				newOPI.setProjectLevel(opi.getProjectLevel());
     			}
     			
-    			System.out.println(opi+"=========---------------------------"+opi.getProjectProperty());
     			if (StrUtil.isNotBlank(opi.getProjectProperty()) ) {
     				newOPI.setProjectProperty(opi.getProjectProperty());
+    			}
+    			if (StrUtil.isNotBlank(opi.getJf()) ) {
+    				newOPI.setJf(opi.getJf());
     			}
     			if (StrUtil.isNotBlank(opi.getProjectAbc())) {
     				newOPI.setProjectAbc(opi.getProjectAbc());

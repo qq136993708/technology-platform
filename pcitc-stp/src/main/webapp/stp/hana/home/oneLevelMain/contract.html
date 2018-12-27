@@ -24,13 +24,16 @@
                 <input type="text" name="year" placeholder="请选择年份" title="年份" value="${year}"  autocomplete="off" class="form-control" id="year">
             </label>
             <!--按钮组-->
-            <div class="btnGroup">
+            <!--<div class="btnGroup">
                 <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg"
                         onclick="search_Event()">查询</button>
-            </div>
-            <div class="btnGroup" style="float:right">
+            </div>-->
+            <div class="btnGroup">
                 <button id="knowledge_table" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue  btnMyBgImg btn_details"
                 >详情</button>
+            </div>
+            <div class="breadcrumb">
+                <a href="/index" target="_parent">首页 > </a><span>科研合同</span>
             </div>
         </div>
 
@@ -154,6 +157,10 @@
         laydate.render({
         	      elem: '#year'
          	      ,type: 'year'
+            ,done: function(value, date, endDate){
+                $(".layui-time").html(date.year);
+                search_Event();
+            }
         });
         $(".layui-time").html($("#year").val());
         $("#knowledge_table").click(function () {
@@ -217,7 +224,6 @@
         //表盘
         setGauge("direct_contract_01");
         setGauge_count();
-        $(".layui-time").html($("#year").val());
         var chart_01_01="/one_level_main/contract_01_01?type=1&nd="+nd+"&v_date="+v_date;
         var echartchart_01_01=load_mutl_bar_down(chart_01_01,"direct_contract_01_01","","",yAxis2,30,"");
         echartchart_01_01.on('click', function (params) {
@@ -241,6 +247,7 @@
 
         });
 
+        
         //
         var chart2_url="/one_level_main/contract_02?type=1&nd="+nd+"&v_date="+v_date;
         var echart2=load_single_line(chart2_url,"direct_contract_04","","",yAxis);
@@ -262,12 +269,10 @@
             	 projectId="0";
             }
             window.open("/one_level_main/common_table?define3="+xName+"&projectId="+projectId);
-
         });
 
 
         //直属研究院合同签订率
-        
         $("#direct_contract_chart_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
         $("#direct_contract_chart_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
         $("#direct_contract_chart_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
@@ -430,10 +435,11 @@
 
     function renderTable()
     {  
-    	var month=$("#year").val();
+    	var year=$("#year").val();
+    	var v_date=(new Date()).getTime();
     	table.render({
             elem: '#processdef_table' //表格容器
-            , url:'/one_level_main/contract_05?nd='+month
+            , url:'/one_level_main/contract_05?nd='+year+"&v_date="+v_date
             , id: 'processdef_table'
             , limit: 15 //每页默认显示的数量
             , height: 270
@@ -540,10 +546,10 @@
     function renderTable2()
     {
 
-        var month=$("#month").val();
+        var nd=$('#year').val();
         var tableOne=table.render({
             elem: '#processdef_table_02',
-            url:'/one_level_main/contract_01_01?month='+month+"&type=2",
+            url:'/one_level_main/contract_01_01?nd='+nd+"&type=2",
             method:"GET",
             where: {param: {"month":$("#month").val()}},
             limit: 15,

@@ -26,13 +26,16 @@
                 <input type="text" name="month" placeholder="请选择年月" title="年月" value="${month}"  autocomplete="off" class="form-control" id="month">
             </label>
             <!--按钮组-->
-            <div class="btnGroup">
+            <!--<div class="btnGroup">
                 <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg"
                         onclick="search_Event()">查询</button>
-            </div>
-            <div class="btnGroup" style="float:right">
+            </div>-->
+            <div class="btnGroup">
                 <button id="knowledge_table" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue  btnMyBgImg btn_details"
                 >详情</button>
+            </div>
+            <div class="breadcrumb">
+                <a href="/index" target="_parent">首页 > </a><span>科研装备</span>
             </div>
         </div>
         <div class="layui-row layui-col-space15">
@@ -91,14 +94,19 @@ layui.config({
     
     table = layui.table;
     util = layui.laytpl;
-    
-    
-  	form.render(null, 'component-form-group');
-       laydate.render({
-          elem: '#month'
-          ,format: 'yyyyMM'
+
+
+    form.render(null, 'component-form-group');
+    laydate.render({
+        elem: '#month'
+        ,format: 'yyyyMM'
+        ,done: function(value, date, endDate){
+            $(".layui-time").html(date.year+"年"+date.month+"月");
+            search_Event();
+        }
     });
-    
+
+
     renderTable();
 
     var monthValY=$("#month").val().substring(4,0);
@@ -116,9 +124,6 @@ function initEchart()
 	
 	$("#chart_title_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
 	var v_date=(new Date()).getTime();
-    var monthValY=$("#month").val().substring(4,0);
-    var monthValM=$("#month").val().substring(4);
-    $(".layui-time").html(monthValY+"年"+monthValM+"月");
 	var companyCode=$('#companyCode').val();
 	var yAxis= [
         {
@@ -132,7 +137,6 @@ function initEchart()
             }
         }
     ];
-    $(".layui-time").html($("#month").val());
 	var chart1_url="/one_level_main/equipment_01?month="+$("#month").val()+"&v_date="+v_date+"&companyCode="+companyCode;
 	var color=["#78c34b"];
 	var echart1=load_single_bar(chart1_url,"equipment_01_chart","","",yAxis,color,70,null,function(data){
@@ -160,7 +164,6 @@ function search_Event()
 	initEchart();
 	renderTable();
 }
-        
 function renderTable(){
 	var month=$("#month").val();
 	var companyCode=$("#companyCode").val();

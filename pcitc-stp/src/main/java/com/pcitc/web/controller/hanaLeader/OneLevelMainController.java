@@ -660,13 +660,13 @@ public class OneLevelMainController {
 				{
 					JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
 					resault=resultObj.toString();
-					System.out.println(">>>>>>>>>>>>>>>contract_01_01 " + resultObj.toString());
+					System.out.println(">>>>>>>>>>1>>>>>contract_01_01 " + resultObj.toString());
 				}
 				else
 				{
 					JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
 					resault=resultObj.toString();
-					System.out.println(">>>>>>>>>>>>>>>contract_01_01 " + resultObj.toString());
+					System.out.println(">>>>>>>>>>>>2>>>contract_01_01 " + resultObj.toString());
 				}
 				
 				return resault;
@@ -701,15 +701,16 @@ public class OneLevelMainController {
 				}
 				return resutList;
 			}
+		    
           
 		    @RequestMapping(method = RequestMethod.GET, value = "/contract_02")
 			@ResponseBody
 			public String contract_02(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		    	Result result = new Result();
-				String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+				String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 				String companyCode = CommonUtil.getParameter(request, "companyCode", "");
 				Map<String, Object> paramsMap = new HashMap<String, Object>();
-				paramsMap.put("month", month);
+				paramsMap.put("nd", nd);
 				paramsMap.put("companyCode", companyCode);
 				JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 				HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
@@ -919,10 +920,10 @@ public class OneLevelMainController {
 			public String contract_05(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 				PageResult pageResult = new PageResult();
-				String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+				String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 				String companyCode = CommonUtil.getParameter(request, "companyCode", "");
 				Map<String, Object> paramsMap = new HashMap<String, Object>();
-				paramsMap.put("month", month);
+				paramsMap.put("nd", nd);
 				paramsMap.put("companyCode", companyCode);
 				JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 				HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
@@ -1655,10 +1656,10 @@ public class OneLevelMainController {
 
 										Result result = new Result();
 										ChartBarLineResultData barLine=new ChartBarLineResultData();
-										String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+										String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 										String companyCode = CommonUtil.getParameter(request, "companyCode", "");
 										Map<String, Object> paramsMap = new HashMap<String, Object>();
-										paramsMap.put("month", month);
+										paramsMap.put("nd", nd);
 										paramsMap.put("companyCode", companyCode);
 										JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 										HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
@@ -1708,10 +1709,10 @@ public class OneLevelMainController {
 									public String investment_0101(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 										Result result = new Result();
-										String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+										String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 										String companyCode = CommonUtil.getParameter(request, "companyCode", "");
 										Map<String, Object> paramsMap = new HashMap<String, Object>();
-										paramsMap.put("month", month);
+										paramsMap.put("nd", nd);
 										paramsMap.put("companyCode", companyCode);
 										JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 										HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
@@ -1745,11 +1746,11 @@ public class OneLevelMainController {
 									@ResponseBody
 									public String investment_01_01(HttpServletRequest request, HttpServletResponse response) throws Exception {
 										PageResult pageResult = new PageResult();
-										String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+										String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 										String companyCode = CommonUtil.getParameter(request, "companyCode", "");
 										String type = CommonUtil.getParameter(request, "type", "重点专项");
 										Map<String, Object> paramsMap = new HashMap<String, Object>();
-										paramsMap.put("month", month);
+										paramsMap.put("nd", nd);
 										paramsMap.put("type", type);
 										paramsMap.put("companyCode", companyCode);
 										JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
@@ -1807,10 +1808,10 @@ public class OneLevelMainController {
 
 										Result result = new Result();
 										ChartBarLineResultData barLine=new ChartBarLineResultData();
-										String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+										String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 										String companyCode = CommonUtil.getParameter(request, "companyCode", "");
 										Map<String, Object> paramsMap = new HashMap<String, Object>();
-										paramsMap.put("month", month);
+										paramsMap.put("nd", nd);
 										paramsMap.put("companyCode", companyCode);
 										JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 										HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
@@ -1863,10 +1864,10 @@ public class OneLevelMainController {
 									public String investment_02_count(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 										Result result = new Result();
-										String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+										String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 										String companyCode = CommonUtil.getParameter(request, "companyCode", "");
 										Map<String, Object> paramsMap = new HashMap<String, Object>();
-										paramsMap.put("month", month);
+										paramsMap.put("nd", nd);
 										paramsMap.put("companyCode", companyCode);
 										JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 										HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
@@ -1890,8 +1891,13 @@ public class OneLevelMainController {
 														BudgetMysql f03 = list.get(i);
 														String zsjje =((BigDecimal)f03.getZsjje()).toString();//实际下达
 														String wxdje =((BigDecimal)f03.getWxdje()).toString();//未下达
-														String jeRate =((BigDecimal)f03.getJeRate()).toString(); 
+														String jeRate ="0";
 														String zysje =((BigDecimal)f03.getZysje()).toString();//总金额
+														Object o=f03.getJeRate();
+														if(o!=null)
+														{
+															jeRate =((BigDecimal)f03.getJeRate()).toString(); 
+														}
 														//
 														zsjje=String.format("%.2f", Double.valueOf(zsjje)/10000);
 														wxdje=String.format("%.2f", Double.valueOf(wxdje)/10000);

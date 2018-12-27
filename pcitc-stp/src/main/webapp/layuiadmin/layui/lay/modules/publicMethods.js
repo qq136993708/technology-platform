@@ -385,7 +385,20 @@ layui.define(['jquery','form','table','laydate'],
                     }
                 });
             },
-            tableRender:function (elem,id,url,toolbar,cols,where,done) {
+            tableRender:function (elem,id,url,toolbar,cols,where,page,done) {
+                if(page==true){
+                    var page={
+                        count: 500 //数据总数，从服务端得到
+                        , groups: 5
+                        , limits: [param.selfRownum, 30, 45, 60]
+                        , layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+                        , first: '首页' //不显示首页
+                        , last: '尾页' //不显示尾页
+                        , theme: '#0F9EE0'
+                    }
+                }else {
+                    var page=false;
+                }
                 if(toolbar){
                     table.render({
                         elem: '#'+elem //表格容器
@@ -395,15 +408,7 @@ layui.define(['jquery','form','table','laydate'],
                         , where:where
                         ,method:"POST"
                         , height: commonDislodgeTable()
-                        , page: {
-                            count: 500 //数据总数，从服务端得到
-                            , groups: 5
-                            , limits: [param.selfRownum, 30, 45, 60]
-                            , layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'] //自定义分页布局
-                            , first: '首页' //不显示首页
-                            , last: '尾页' //不显示尾页
-                            , theme: '#0F9EE0'
-                        }
+                        , page: page
                         ,toolbar:{
                             toolbar:"#test"
                         }
@@ -420,15 +425,7 @@ layui.define(['jquery','form','table','laydate'],
                         , where:where
                         ,method:"POST"
                         , height: commonDislodgeTable()
-                        , page: {
-                            count: 500 //数据总数，从服务端得到
-                            , groups: 5
-                            , limits: [param.selfRownum, 30, 45, 60]
-                            , layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'] //自定义分页布局
-                            , first: '首页' //不显示首页
-                            , last: '尾页' //不显示尾页
-                            , theme: '#0F9EE0'
-                        }
+                        , page: page
                         ,defaultToolbar:['filter','exports','print']
                         , cols: [cols]
                         , done: done

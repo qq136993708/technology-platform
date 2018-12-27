@@ -202,7 +202,7 @@ span{display: inline-block;}
 /*.layui-technique-right .layui-orange-list .layui-lab-span {margin-left: 62px;}*/
 .prospecting{padding-left: 42px;}
 /*分辨率*/
-@media screen and (max-width: 1680px) {
+@media screen and (max-width: 1920px) {
     .layui-oil-div div:nth-child(1){left: 0;}
     .layui-oil-div div:nth-child(1) img{left: 260px}
     .layui-oil-div div:nth-child(4){    top: -279px;left: 382px;}
@@ -297,7 +297,10 @@ background: white;box-shadow: 0 0 5px #dadcde;}
 .layui-expert-choice .search{width: 100%;text-align: center;margin: 15px 0;}
 .layui-expert-choice .search a.add{width: 80px;}
 .layui-expert-choice .layui-img{}
-
+/*面包屑导航*/
+.breadcrumb{float: right;font-size: 14px;}
+.breadcrumb{color: black;}
+.breadcrumb a{color: #999;}
 .layui-select-more{display: inline-block;}
 @media screen and (max-width: 1680px) {
    .layui-tab-content{height: 318px}

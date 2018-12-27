@@ -39,8 +39,11 @@
                 </select>
             </div> -->
             <!--按钮组-->
-            <div class="btnGroup">
+           <!-- <div class="btnGroup">
                 <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()">查询</button>
+            </div>-->
+            <div class="breadcrumb">
+                <a href="/index" target="_parent">首页 > </a><span>重大专项及十条龙科技攻关</span>
             </div>
         </div>
 
@@ -56,7 +59,7 @@
                             <div class="text-total">
                                 <span>总数:<span class="text-total-blue" id="dragon1_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                             </div>
-                            <div class="layui-col-md6" id="dragon1"    style="height:280px;width: 100%;"></div>
+                            <div class="layui-col-md6" id="dragon1"    style="height:275px;width: 100%;"></div>
                         </div>
                     </div>
                 </div>
@@ -166,6 +169,10 @@
         laydate.render({
         	  elem: '#year'
       	      ,type: 'year'
+              ,done:function (value, date, endDate) {
+                $(".layui-time").html(date.year);
+                search_Event();
+            }
         });
         renderTable();
         renderStlTable();
@@ -192,7 +199,11 @@
                 }
             }
         ];
-
+        $("#dragon1_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+        $("#dragon2_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+        $("#dragon3_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+        $("#dragon3_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+        $("#dragon3_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
 
         var chart1_url="/one_level_main/dragon_01?type=2&nd="+nd+"&v_date="+v_date;
         var echart1=loadPie_02(chart1_url,"dragon1","","",function(data){
@@ -254,11 +265,11 @@
     //集团重大项目
     function renderStlTable()
     {
-        var month=$("#year").val();
+        var nd=$("#year").val();
         var companyCode=$("#companyCode").val();
         var tableOne=table.render({
             elem: '#processdef_table_2',
-            url:'/one_level_main/getStlTable?nd='+month+"&companyCode="+companyCode+"&type=重点专项",
+            url:'/one_level_main/getStlTable?nd='+nd+"&companyCode="+companyCode+"&type=重点专项",
             method:"GET",
             where: {param: {"nd":$("#month").val(),"companyCode":$("#companyCode").val()}},
             limit: 100,
@@ -321,11 +332,11 @@
     //集团重大项目
     function renderTable()
     {
-        var month=$("#year").val();
+        var nd=$("#year").val();
         var companyCode=$("#companyCode").val();
         var tableOne=table.render({
             elem: '#processdef_table',
-            url:'/one_level_main/getZdstlTable?month='+month+"&companyCode="+companyCode+"&type=重点专项",
+            url:'/one_level_main/getZdstlTable?nd='+nd+"&companyCode="+companyCode+"&type=重点专项",
             method:"GET",
             where: {param: {"month":$("#month").val(),"companyCode":$("#companyCode").val()}},
             limit: 100,
