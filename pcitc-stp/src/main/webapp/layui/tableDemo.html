@@ -115,7 +115,7 @@
         </div>
     </div>
 
-    <div class="condition layui-hide">
+    <div class="conditionNew layui-hide">
         <div class="selector-left">已选条件：</div>
         <div class="selector-right">
             <ul>
@@ -488,7 +488,7 @@
             if($(this).parents("li").hasClass("layui-this")){
                 $(this).parents("li").removeClass("layui-this");
                 var htmlThis=$(this).html();
-                $(".condition ul li a").each(function () {
+                $(".conditionNewNew ul li a").each(function () {
                     if(htmlThis.indexOf($(this).html())!= -1 ){
                         $(this).parents("li").remove();
                     }
@@ -498,15 +498,15 @@
                 $(this).parents("li").addClass("layui-this");
                 var htmlName=$(this).parents(".selector-right").prev().html();
                 var htmlThis=$(this).html();
-                $(".condition").removeClass("layui-hide");
-                $(".condition ul").append("<li>"+htmlName+"<a href='javascript:;'>"+htmlThis+"</a></li>");
-                $(".condition ul li a").click(function () {
+                $(".conditionNew").removeClass("layui-hide");
+                $(".conditionNew ul").append("<li>"+htmlName+"<a href='javascript:;'>"+htmlThis+"</a></li>");
+                $(".conditionNew ul li a").click(function () {
                     $(this).parents("li").remove();
                 });
-                $(".condition .dele").click(function () {
-                    $(".condition ul li").remove();
+                $(".conditionNew .dele").click(function () {
+                    $(".conditionNew ul li").remove();
                     $(".selector-right ul li").removeClass("layui-this");
-                    $(".condition").addClass("layui-hide");
+                    $(".conditionNew").addClass("layui-hide");
                 });
             }
         });
