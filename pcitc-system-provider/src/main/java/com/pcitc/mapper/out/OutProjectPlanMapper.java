@@ -51,6 +51,11 @@ public interface OutProjectPlanMapper {
 	public List getPlanCompleteRateByInstitute(HashMap<String, String> map);
 	
 	/**
+     * 直属研究院二级页面（领导），各个院的合同预算情况
+     */
+	public List getPlanMoneyCompleteRateByInstitute(HashMap<String, String> map);
+	
+	/**
      * 首页-直属研究院，项目计划完成的比率，按照资本性费用性来分组
      */
 	public List getPlanCompleteRateByPlanType(HashMap<String, String> map);
@@ -59,6 +64,11 @@ public interface OutProjectPlanMapper {
      * 领导首页-科研合同，项目计划完成的比率，按照直属研究所、分子公司等9个来分组
      */
 	public List getPlanCompleteRateByCompanyType(HashMap<String, String> map);
+	
+	/**
+     * 领导首页-科研投入，按照直属研究所、分子公司等9个来分组
+     */
+	public List getPlanMoneyCompleteRateByCompanyType(HashMap<String, String> map);
 	
 	/**
      * 领导首页-科研合同，科研合同签订率清单
