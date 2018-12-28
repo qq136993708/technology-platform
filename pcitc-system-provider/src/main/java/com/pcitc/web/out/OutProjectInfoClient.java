@@ -116,7 +116,7 @@ public class OutProjectInfoClient {
 		return "1";
 	}
 
-	@ApiOperation(value = "项目总数", notes = "首页查询使用")
+	@ApiOperation(value = "首页计算新开项目总数", notes = "首页查询使用")
 	@RequestMapping(value = "/out-provider/project-count", method = RequestMethod.POST)
 	public JSONObject getProjectCount(@RequestBody HashMap<String, String> map) {
 		String nd = null;
@@ -124,17 +124,24 @@ public class OutProjectInfoClient {
 		
 		HashMap<String, String> temMap = outProjectService.getOutProjectInfoCount(map);
 		if (temMap != null) {
-			retJson.put("jfTotal", temMap.get("jfTotal"));
-			retJson.put("kyzbCount", temMap.get("kyzbCount"));
 			retJson.put("projectCount", temMap.get("projectCount"));
-			retJson.put("ldzsl", temMap.get("ldzsl"));
-			retJson.put("zje", temMap.get("zje"));
 		} else {
-			retJson.put("jfTotal", 0);
-			retJson.put("kyzbCount", 0);
 			retJson.put("projectCount", 0);
-			retJson.put("ldzsl", 0);
-			retJson.put("zje", 0);
+		}
+		return retJson;
+    }
+	
+	@ApiOperation(value = "首页计算新开项目总数", notes = "首页查询使用")
+	@RequestMapping(value = "/out-provider/project-money", method = RequestMethod.POST)
+	public JSONObject getProjectMoney(@RequestBody HashMap<String, String> map) {
+		String nd = null;
+		JSONObject retJson = new JSONObject();
+		
+		HashMap<String, String> temMap = outProjectService.getOutProjectInfoMoney(map);
+		if (temMap != null) {
+			retJson.put("projectCount", temMap.get("projectCount"));
+		} else {
+			retJson.put("projectCount", 0);
 		}
 		return retJson;
     }

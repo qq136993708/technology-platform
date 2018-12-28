@@ -1,8 +1,10 @@
 package com.pcitc.service.out.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +20,7 @@ import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.stp.out.OutProjectErp;
 import com.pcitc.base.stp.out.OutProjectInfo;
 import com.pcitc.base.stp.out.OutProjectInfoExample;
+import com.pcitc.base.stp.out.OutProjectInfoWithBLOBs;
 import com.pcitc.base.util.StrUtil;
 import com.pcitc.mapper.out.OutProjectErpMapper;
 import com.pcitc.mapper.out.OutProjectInfoMapper;
@@ -64,8 +67,14 @@ public class OutProjectServiceImpl implements OutProjectService {
 	 */
 	public int insertProjectItemData(List<OutProjectInfo> list, String nd) {
 		// 删除年度预算，重新获取
-		outProjectInfoMapper.deleteProjectItemByNd(nd);
-		outProjectInfoMapper.insertProjectItemData(list);
+		// outProjectInfoMapper.deleteProjectItemByNd(nd);
+		//outProjectInfoMapper.insertProjectItemData(list);
+		
+		// 修改本年的预算，没有的查询原项目信息后，保存
+		for (int i = 0; i < list.size(); i++) {
+			int temInt = this.updateOutProjectInfoForYS(list.get(i));
+			
+		}
 		return 1;
 	}
 	
@@ -86,10 +95,10 @@ public class OutProjectServiceImpl implements OutProjectService {
 	 * @param nd
 	 * @return
 	 */
-	public int insertCountryProjectData(List<OutProjectInfo> list) {
+	public int insertCountryProjectData(List<OutProjectInfo> list, String nd) {
 		// 删除删除国家项目数据
 		OutProjectInfoExample example = new OutProjectInfoExample();
-		example.createCriteria().andDefine3EqualTo("sap国家项目");
+		example.createCriteria().andDefine3EqualTo("sap国家项目").andYsndEqualTo(nd);
 		outProjectInfoMapper.deleteByExample(example);
 
 		// 批量插入数据
@@ -98,16 +107,25 @@ public class OutProjectServiceImpl implements OutProjectService {
 	}
 	
 	public int insertProjectData(List<OutProjectInfo> list, String nd) {
-		// 把年度数据复制到临时表中备份
-		// outProjectInfoMapper.copyData(nd);
-
-		// 删除年度数据
+		// 存在某个数据，修改这个数据
 		//OutProjectInfoExample example = new OutProjectInfoExample();
 		//example.createCriteria().andNdEqualTo(nd);
 		//outProjectInfoMapper.deleteByExample(example);
-
+		List<OutProjectInfo> insertData = new ArrayList<OutProjectInfo>();
+		// 先更新，没有的批量插入
+		for (int i = 0; i < list.size(); i++) {
+			int temInt = this.updateOutProjectInfo(list.get(i));
+			if (temInt == -1) {
+				insertData.add(list.get(i));
+			}
+		}
+		
+		System.out.println("===========新插入条数----------------"+insertData.size());
 		// 批量插入数据
-		outProjectInfoMapper.insertOutProjectBatch(list);
+		if (insertData.size() > 0) {
+			outProjectInfoMapper.insertOutProjectBatch(insertData);
+		}
+		
 		return 1;
 	}
 
@@ -206,6 +224,18 @@ public class OutProjectServiceImpl implements OutProjectService {
     			if (StrUtil.isNotBlank(opi.getProjectSource())) {
     				newOPI.setProjectSource(opi.getProjectSource());
     			}
+    			if (StrUtil.isNotBlank(opi.getFwdx())) {
+    				newOPI.setFwdx(opi.getFwdx());
+    			}
+    			if (StrUtil.isNotBlank(opi.getFwdxbm())) {
+    				newOPI.setFwdxbm(opi.getFwdxbm());
+    			}
+    			if (StrUtil.isNotBlank(opi.getFzdw())) {
+    				newOPI.setFzdw(opi.getFzdw());
+    			}
+    			if (StrUtil.isNotBlank(opi.getFzdwbm())) {
+    				newOPI.setFzdwbm(opi.getFzdwbm());
+    			}
     			
     			if (StrUtil.isNotBlank(opi.getXmlbbm())) {
     				newOPI.setXmlbbm(opi.getXmlbbm());
@@ -237,22 +267,121 @@ public class OutProjectServiceImpl implements OutProjectService {
     			}
     			return outProjectInfoMapper.updateByPrimaryKey(newOPI);
     		} else {
-    			return 123;
+    			return 0;
     		}
     	} else {
-			return 123;
+			return -1;
 		}
+	}
+	
+	public int updateOutProjectInfoForYS(OutProjectInfo opi) {
 		
+		OutProjectInfoExample example = new OutProjectInfoExample();
+		OutProjectInfoExample.Criteria criteria = example.createCriteria();
+    	criteria.andXmidEqualTo(opi.getXmid());
+    	criteria.andYsndEqualTo(opi.getYsnd());
+    	List<OutProjectInfo> returnList = outProjectInfoMapper.selectByExample(example);
+    	if (returnList != null && returnList.size() > 0) {
+    		OutProjectInfo newOPI = returnList.get(0);
+    		if (StrUtil.isNotBlank(opi.getProjectLevel())) {
+				newOPI.setProjectLevel(opi.getProjectLevel());
+			}
+			
+			if (StrUtil.isNotBlank(opi.getProjectProperty()) ) {
+				newOPI.setProjectProperty(opi.getProjectProperty());
+			}
+			if (StrUtil.isNotBlank(opi.getJf()) ) {
+				newOPI.setJf(opi.getJf());
+			}
+			
+			// 预算
+			if (StrUtil.isNotBlank(opi.getYsje())) {
+				newOPI.setYsje(opi.getYsje());
+			}
+			
+			if (StrUtil.isNotBlank(opi.getProjectAbc())) {
+				newOPI.setProjectAbc(opi.getProjectAbc());
+			}
+			if (StrUtil.isNotBlank(opi.getProjectSource())) {
+				newOPI.setProjectSource(opi.getProjectSource());
+			}
+			if (StrUtil.isNotBlank(opi.getFwdx())) {
+				newOPI.setFwdx(opi.getFwdx());
+			}
+			if (StrUtil.isNotBlank(opi.getFwdxbm())) {
+				newOPI.setFwdxbm(opi.getFwdxbm());
+			}
+			if (StrUtil.isNotBlank(opi.getFzdw())) {
+				newOPI.setFzdw(opi.getFzdw());
+			}
+			if (StrUtil.isNotBlank(opi.getFzdwbm())) {
+				newOPI.setFzdwbm(opi.getFzdwbm());
+			}
+			
+			if (StrUtil.isNotBlank(opi.getXmlbbm())) {
+				newOPI.setXmlbbm(opi.getXmlbbm());
+			}
+			if (StrUtil.isNotBlank(opi.getXmlbmc())) {
+				newOPI.setXmlbmc(opi.getXmlbmc());
+			}
+			if (StrUtil.isNotBlank(opi.getZycbm())) {
+				newOPI.setZycbm(opi.getZycbm());
+			}
+			if (StrUtil.isNotBlank(opi.getZycmc())) {
+				newOPI.setZycmc(opi.getZycmc());
+			}
+			if (StrUtil.isNotBlank(opi.getGsbmbm())) {
+				newOPI.setGsbmbm(opi.getGsbmbm());
+			}
+			if (StrUtil.isNotBlank(opi.getGsbmmc())) {
+				newOPI.setGsbmmc(opi.getGsbmmc());
+			}
+			
+			if (StrUtil.isNotBlank(opi.getLxrdh())) {
+				newOPI.setLxrdh(opi.getLxrdh());
+			}
+			if (StrUtil.isNotBlank(opi.getLxryx())) {
+				newOPI.setLxryx(opi.getLxryx());
+			}
+			if (StrUtil.isNotBlank(opi.getLxrxm())) {
+				newOPI.setLxrxm(opi.getLxrxm());
+			}
+			return outProjectInfoMapper.updateByPrimaryKey(newOPI);
+    	} else {
+    		// 此项目此预算年度没有预算费用
+    		OutProjectInfoExample example1 = new OutProjectInfoExample();
+    		OutProjectInfoExample.Criteria criteria1 = example1.createCriteria();
+        	criteria1.andXmidEqualTo(opi.getXmid());
+        	List<OutProjectInfo> insertList = outProjectInfoMapper.selectByExample(example1);
+        	if (insertList != null && insertList.size() > 0) {
+        		OutProjectInfo insertOPI = insertList.get(0);
+        		insertOPI.setYsnd(opi.getYsnd());
+        		insertOPI.setYsje(opi.getYsje());
+        		insertOPI.setDataId(UUID.randomUUID().toString().replaceAll("-", ""));
+        		
+        		List<OutProjectInfo> temList = new ArrayList<OutProjectInfo>();
+        		temList.add(insertOPI);
+        		outProjectInfoMapper.insertOutProjectBatch(temList);
+        		return 1;
+        	} 
+        	System.out.println("插入异常------插入异常------插入异常------------------------------------------------");
+			return -1;
+		}
 		
 	}
 
 	/**
-     * @param nd
-     * @return
-     * 首页科研项目数、装备项目数、总金额（预算）
+     * 首页计算新开项目总数 
      */
 	public HashMap<String, String> getOutProjectInfoCount(HashMap<String, String> map) {
 		return outProjectInfoMapper.getOutProjectInfoCount(map);
+	}
+	
+	/**
+     * 首页计算项目总金额, 包含结转和新开
+     */
+	public HashMap<String, String> getOutProjectInfoMoney(HashMap<String, String> map) {
+		return outProjectInfoMapper.getOutProjectInfoMoney(map);
 	}
 
 	public int deleteProjectErpBatch(Map map) {

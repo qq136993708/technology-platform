@@ -25,7 +25,7 @@ public interface OutProjectService {
 	 * @param nd
 	 * @return
 	 */
-	public int insertCountryProjectData(List<OutProjectInfo> list);
+	public int insertCountryProjectData(List<OutProjectInfo> list, String nd);
 	
 	/**
 	 * 批量插入项目预算数据
@@ -69,11 +69,14 @@ public interface OutProjectService {
 	public int insertProjectErpBatch(List<OutProjectErp> list);
 	
 	/**
-     * @param nd
-     * @return
-     * 首页科研项目数、装备项目数、总金额（预算）
+     * 首页计算新开项目总数 
      */
 	public HashMap<String, String> getOutProjectInfoCount(HashMap<String, String> map);
+	
+	/**
+     * 首页计算项目总金额, 包含结转和新开
+     */
+	public HashMap<String, String> getOutProjectInfoMoney(HashMap<String, String> map);
 	
 	/**
 	 * 修改项目属性
