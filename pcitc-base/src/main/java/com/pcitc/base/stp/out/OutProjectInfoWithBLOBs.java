@@ -9,8 +9,6 @@ public class OutProjectInfoWithBLOBs extends OutProjectInfo {
 
     private String yjmb;
 
-    private String erpProjectName;
-
     public String getLxbj() {
         return lxbj;
     }
@@ -41,13 +39,5 @@ public class OutProjectInfoWithBLOBs extends OutProjectInfo {
 
     public void setYjmb(String yjmb) {
         this.yjmb = yjmb;
-    }
-
-    public String getErpProjectName() {
-        return erpProjectName;
-    }
-
-    public void setErpProjectName(String erpProjectName) {
-        this.erpProjectName = erpProjectName;
     }
 }

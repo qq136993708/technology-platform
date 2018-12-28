@@ -47,7 +47,6 @@ public class HanaProjectJob implements Job, Serializable {
 		
 		Calendar date = Calendar.getInstance();
 		String ysYear = String.valueOf(date.get(Calendar.YEAR));
-		
 		map.put("nd", ysYear);
 		JSONArray resultList = outProjectRemoteClient.getLastCountryProject(map);
 		if (resultList != null) {
@@ -101,10 +100,10 @@ public class HanaProjectJob implements Job, Serializable {
 				opp.setFwdx("股份");
 				
 				String jf = json.getString("K0ZTYSJE");
-				opi.setJf(String.valueOf(Double.parseDouble(jf)/1000)); //金额
+				opi.setJf(String.valueOf(Double.parseDouble(jf)/10000)); //金额
 				opi.setProjectProperty("国家项目");
 				
-				opp.setJf(String.valueOf(Double.parseDouble(jf)/1000)); //金额
+				opp.setJf(String.valueOf(Double.parseDouble(jf)/10000)); //金额
 				opp.setProjectProperty("国家项目");
 				
 				// 资本性、费用性
@@ -140,48 +139,37 @@ public class HanaProjectJob implements Job, Serializable {
 				opp.setDataId(dataId);
 				opp.setXmid(G0PROJCODE);
 				
-				insertData.add(opi);
-				insertPlanDate.add(opp);
-				
-				//保留预算相关
-				opItem.setKtid(json.getString("G0PROJCODE")); //项目编码
-				opItem.setKtmc(json.getString("G0PROJTXT")); //项目名称
-				opItem.setDefine1("sap国家项目预算"); //数据来源
-				opItem.setNd(ysYear); //年度
-				
+				//预算相关
+				opi.setYsnd(ysYear); //预算年度
 				String jfhj = json.getString("K0BNYSJE");
 				String xdjf = json.getString("K0BNSJJE");
-				opItem.setJfhj(String.valueOf(Double.parseDouble(jfhj)/1000)); //金额
-				opItem.setSjhf(String.valueOf(Double.parseDouble(jfhj)/1000)); //报销金额
-				opItem.setXdjf(String.valueOf(Double.parseDouble(xdjf)/1000)); //下达金额
+				opi.setYsje(String.valueOf(Double.parseDouble(jfhj)/10000)); //报销金额
+				opi.setYsxd(String.valueOf(Double.parseDouble(xdjf)/10000)); //下达金额
 				
-				opItem.setDataId(dataId);
-				opItem.setCreateDate(new Date());
-				opItem.setCreatePerson("admin");
+				opp.setYsnd(ysYear); //预算年度
+				opp.setYsje(String.valueOf(Double.parseDouble(jfhj)/10000)); //报销金额
 				
-				//项目是否已经关闭
+				//sap项目是否已经关闭
 				String G0XMZT = json.getString("G0XMZT");
 				
 				if (G0XMZT != null && G0XMZT.equals("I0046")) {
-					opItem.setDefine2("sap项目已关闭");
+					opi.setDefine7("sap项目已关闭");
 				} else {
-					opItem.setDefine2("sap项目未关闭");
+					opi.setDefine7("sap项目未关闭");
 				}
-				insertItemData.add(opItem);
+				
+				insertData.add(opi);
+				insertPlanDate.add(opp);
+				
 			}
 			
 			if (insertPlanDate != null && insertPlanDate.size() > 0) {
 				
-				outProjectPlanService.insertCountryProjectPlanBatch(insertPlanDate);
-				outProjectService.insertCountryProjectData(insertData);
+				outProjectPlanService.insertCountryProjectPlanBatch(insertPlanDate, ysYear);
+				outProjectService.insertCountryProjectData(insertData, ysYear);
 			}
 			
-			if (insertItemData != null && insertItemData.size() > 0) {
-				System.out.println("保存预算---------------"+resultList);
-				outProjectService.insertCountryProjectItemData(insertItemData, ysYear);
-			}
 		}
-		
 		
 		System.out.println("定时结束调用feign获取hana数据---------------"+resultList);
 	}

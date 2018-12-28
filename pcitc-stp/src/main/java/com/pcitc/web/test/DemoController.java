@@ -149,7 +149,7 @@ public class DemoController {
 			paramMap.put("sqlName", "ktxmndjf");
 			JsonObject jo = new JsonObject();
 			System.out.println(jo.toString());
-			jo.addProperty("nd", "2019");
+			jo.addProperty("nd", "2018");
 
 			System.out.println(jo.toString());
 			paramMap.put("conditions", jo.toString());

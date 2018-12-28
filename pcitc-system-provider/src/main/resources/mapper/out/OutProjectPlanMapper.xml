@@ -8,6 +8,8 @@
     <result column="HTH" property="hth" jdbcType="VARCHAR" />
     <result column="XMMC" property="xmmc" jdbcType="VARCHAR" />
     <result column="XMJB" property="xmjb" jdbcType="VARCHAR" />
+    <result column="YSND" property="ysnd" jdbcType="VARCHAR" />
+    <result column="YSJE" property="ysje" jdbcType="VARCHAR" />
     <result column="JF" property="jf" jdbcType="VARCHAR" />
     <result column="FWDXBM" property="fwdxbm" jdbcType="VARCHAR" />
     <result column="FWDX" property="fwdx" jdbcType="VARCHAR" />
@@ -110,11 +112,11 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    DATA_ID, XMID, ND, HTH, XMMC, XMJB, JF, FWDXBM, FWDX, GSBMBM, GSBMMC, ZYCBM, ZYCMC, 
-    XMLBBM, XMLBMC, ZYLBBM, ZYLB, FZDWBM, FZDW, JTFZDWBM, JTFZDW, FZRYX, FZRDH, FZRXM, 
-    JSSXXM, JSSJ, KSSJ, YJSJ, ZYLY, ZYSX, SJID, LXBJ, YJNR, JDAP, YJMB, YJYJC, PROJECT_PROPERTY, 
-    PROJECT_SCOPE, PROJECT_TYPE, DEFINE1, DEFINE2, DEFINE3, DEFINE4, DEFINE5, DEFINE6, 
-    DEFINE7, DEFINE8, DEFINE9
+    DATA_ID, XMID, ND, HTH, XMMC, XMJB, YSND, YSJE, JF, FWDXBM, FWDX, GSBMBM, GSBMMC, 
+    ZYCBM, ZYCMC, XMLBBM, XMLBMC, ZYLBBM, ZYLB, FZDWBM, FZDW, JTFZDWBM, JTFZDW, FZRYX, 
+    FZRDH, FZRXM, JSSXXM, JSSJ, KSSJ, YJSJ, ZYLY, ZYSX, SJID, LXBJ, YJNR, JDAP, YJMB, 
+    YJYJC, PROJECT_PROPERTY, PROJECT_SCOPE, PROJECT_TYPE, DEFINE1, DEFINE2, DEFINE3, 
+    DEFINE4, DEFINE5, DEFINE6, DEFINE7, DEFINE8, DEFINE9
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.pcitc.base.stp.out.OutProjectPlanExample" >
     select
@@ -149,37 +151,37 @@
   </delete>
   <insert id="insert" parameterType="com.pcitc.base.stp.out.OutProjectPlan" >
     insert into out_project_plan (DATA_ID, XMID, ND, 
-      HTH, XMMC, XMJB, JF, 
-      FWDXBM, FWDX, GSBMBM, 
-      GSBMMC, ZYCBM, ZYCMC, 
-      XMLBBM, XMLBMC, ZYLBBM, 
-      ZYLB, FZDWBM, FZDW, 
-      JTFZDWBM, JTFZDW, FZRYX, 
-      FZRDH, FZRXM, JSSXXM, 
-      JSSJ, KSSJ, YJSJ, ZYLY, 
-      ZYSX, SJID, LXBJ, YJNR, 
-      JDAP, YJMB, YJYJC, 
-      PROJECT_PROPERTY, PROJECT_SCOPE, PROJECT_TYPE, 
-      DEFINE1, DEFINE2, DEFINE3, 
-      DEFINE4, DEFINE5, DEFINE6, 
-      DEFINE7, DEFINE8, DEFINE9
-      )
+      HTH, XMMC, XMJB, YSND, 
+      YSJE, JF, FWDXBM, FWDX, 
+      GSBMBM, GSBMMC, ZYCBM, 
+      ZYCMC, XMLBBM, XMLBMC, 
+      ZYLBBM, ZYLB, FZDWBM, 
+      FZDW, JTFZDWBM, JTFZDW, 
+      FZRYX, FZRDH, FZRXM, 
+      JSSXXM, JSSJ, KSSJ, 
+      YJSJ, ZYLY, ZYSX, SJID, 
+      LXBJ, YJNR, JDAP, YJMB, 
+      YJYJC, PROJECT_PROPERTY, PROJECT_SCOPE, 
+      PROJECT_TYPE, DEFINE1, DEFINE2, 
+      DEFINE3, DEFINE4, DEFINE5, 
+      DEFINE6, DEFINE7, DEFINE8, 
+      DEFINE9)
     values (#{dataId,jdbcType=VARCHAR}, #{xmid,jdbcType=VARCHAR}, #{nd,jdbcType=VARCHAR}, 
-      #{hth,jdbcType=VARCHAR}, #{xmmc,jdbcType=VARCHAR}, #{xmjb,jdbcType=VARCHAR}, #{jf,jdbcType=VARCHAR}, 
-      #{fwdxbm,jdbcType=VARCHAR}, #{fwdx,jdbcType=VARCHAR}, #{gsbmbm,jdbcType=VARCHAR}, 
-      #{gsbmmc,jdbcType=VARCHAR}, #{zycbm,jdbcType=VARCHAR}, #{zycmc,jdbcType=VARCHAR}, 
-      #{xmlbbm,jdbcType=VARCHAR}, #{xmlbmc,jdbcType=VARCHAR}, #{zylbbm,jdbcType=VARCHAR}, 
-      #{zylb,jdbcType=VARCHAR}, #{fzdwbm,jdbcType=VARCHAR}, #{fzdw,jdbcType=VARCHAR}, 
-      #{jtfzdwbm,jdbcType=VARCHAR}, #{jtfzdw,jdbcType=VARCHAR}, #{fzryx,jdbcType=VARCHAR}, 
-      #{fzrdh,jdbcType=VARCHAR}, #{fzrxm,jdbcType=VARCHAR}, #{jssxxm,jdbcType=VARCHAR}, 
-      #{jssj,jdbcType=VARCHAR}, #{kssj,jdbcType=VARCHAR}, #{yjsj,jdbcType=VARCHAR}, #{zyly,jdbcType=VARCHAR}, 
-      #{zysx,jdbcType=VARCHAR}, #{sjid,jdbcType=VARCHAR}, #{lxbj,jdbcType=VARCHAR}, #{yjnr,jdbcType=VARCHAR}, 
-      #{jdap,jdbcType=VARCHAR}, #{yjmb,jdbcType=VARCHAR}, #{yjyjc,jdbcType=VARCHAR}, 
-      #{projectProperty,jdbcType=VARCHAR}, #{projectScope,jdbcType=VARCHAR}, #{projectType,jdbcType=VARCHAR}, 
-      #{define1,jdbcType=VARCHAR}, #{define2,jdbcType=VARCHAR}, #{define3,jdbcType=VARCHAR}, 
-      #{define4,jdbcType=VARCHAR}, #{define5,jdbcType=VARCHAR}, #{define6,jdbcType=VARCHAR}, 
-      #{define7,jdbcType=VARCHAR}, #{define8,jdbcType=VARCHAR}, #{define9,jdbcType=VARCHAR}
-      )
+      #{hth,jdbcType=VARCHAR}, #{xmmc,jdbcType=VARCHAR}, #{xmjb,jdbcType=VARCHAR}, #{ysnd,jdbcType=VARCHAR}, 
+      #{ysje,jdbcType=VARCHAR}, #{jf,jdbcType=VARCHAR}, #{fwdxbm,jdbcType=VARCHAR}, #{fwdx,jdbcType=VARCHAR}, 
+      #{gsbmbm,jdbcType=VARCHAR}, #{gsbmmc,jdbcType=VARCHAR}, #{zycbm,jdbcType=VARCHAR}, 
+      #{zycmc,jdbcType=VARCHAR}, #{xmlbbm,jdbcType=VARCHAR}, #{xmlbmc,jdbcType=VARCHAR}, 
+      #{zylbbm,jdbcType=VARCHAR}, #{zylb,jdbcType=VARCHAR}, #{fzdwbm,jdbcType=VARCHAR}, 
+      #{fzdw,jdbcType=VARCHAR}, #{jtfzdwbm,jdbcType=VARCHAR}, #{jtfzdw,jdbcType=VARCHAR}, 
+      #{fzryx,jdbcType=VARCHAR}, #{fzrdh,jdbcType=VARCHAR}, #{fzrxm,jdbcType=VARCHAR}, 
+      #{jssxxm,jdbcType=VARCHAR}, #{jssj,jdbcType=VARCHAR}, #{kssj,jdbcType=VARCHAR}, 
+      #{yjsj,jdbcType=VARCHAR}, #{zyly,jdbcType=VARCHAR}, #{zysx,jdbcType=VARCHAR}, #{sjid,jdbcType=VARCHAR}, 
+      #{lxbj,jdbcType=VARCHAR}, #{yjnr,jdbcType=VARCHAR}, #{jdap,jdbcType=VARCHAR}, #{yjmb,jdbcType=VARCHAR}, 
+      #{yjyjc,jdbcType=VARCHAR}, #{projectProperty,jdbcType=VARCHAR}, #{projectScope,jdbcType=VARCHAR}, 
+      #{projectType,jdbcType=VARCHAR}, #{define1,jdbcType=VARCHAR}, #{define2,jdbcType=VARCHAR}, 
+      #{define3,jdbcType=VARCHAR}, #{define4,jdbcType=VARCHAR}, #{define5,jdbcType=VARCHAR}, 
+      #{define6,jdbcType=VARCHAR}, #{define7,jdbcType=VARCHAR}, #{define8,jdbcType=VARCHAR}, 
+      #{define9,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.pcitc.base.stp.out.OutProjectPlan" >
     insert into out_project_plan
@@ -201,6 +203,12 @@
       </if>
       <if test="xmjb != null" >
         XMJB,
+      </if>
+      <if test="ysnd != null" >
+        YSND,
+      </if>
+      <if test="ysje != null" >
+        YSJE,
       </if>
       <if test="jf != null" >
         JF,
@@ -347,6 +355,12 @@
       </if>
       <if test="xmjb != null" >
         #{xmjb,jdbcType=VARCHAR},
+      </if>
+      <if test="ysnd != null" >
+        #{ysnd,jdbcType=VARCHAR},
+      </if>
+      <if test="ysje != null" >
+        #{ysje,jdbcType=VARCHAR},
       </if>
       <if test="jf != null" >
         #{jf,jdbcType=VARCHAR},
@@ -503,6 +517,12 @@
       <if test="record.xmjb != null" >
         XMJB = #{record.xmjb,jdbcType=VARCHAR},
       </if>
+      <if test="record.ysnd != null" >
+        YSND = #{record.ysnd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ysje != null" >
+        YSJE = #{record.ysje,jdbcType=VARCHAR},
+      </if>
       <if test="record.jf != null" >
         JF = #{record.jf,jdbcType=VARCHAR},
       </if>
@@ -642,6 +662,8 @@
       HTH = #{record.hth,jdbcType=VARCHAR},
       XMMC = #{record.xmmc,jdbcType=VARCHAR},
       XMJB = #{record.xmjb,jdbcType=VARCHAR},
+      YSND = #{record.ysnd,jdbcType=VARCHAR},
+      YSJE = #{record.ysje,jdbcType=VARCHAR},
       JF = #{record.jf,jdbcType=VARCHAR},
       FWDXBM = #{record.fwdxbm,jdbcType=VARCHAR},
       FWDX = #{record.fwdx,jdbcType=VARCHAR},
@@ -705,6 +727,12 @@
       </if>
       <if test="xmjb != null" >
         XMJB = #{xmjb,jdbcType=VARCHAR},
+      </if>
+      <if test="ysnd != null" >
+        YSND = #{ysnd,jdbcType=VARCHAR},
+      </if>
+      <if test="ysje != null" >
+        YSJE = #{ysje,jdbcType=VARCHAR},
       </if>
       <if test="jf != null" >
         JF = #{jf,jdbcType=VARCHAR},
@@ -842,6 +870,8 @@
       HTH = #{hth,jdbcType=VARCHAR},
       XMMC = #{xmmc,jdbcType=VARCHAR},
       XMJB = #{xmjb,jdbcType=VARCHAR},
+      YSND = #{ysnd,jdbcType=VARCHAR},
+      YSJE = #{ysje,jdbcType=VARCHAR},
       JF = #{jf,jdbcType=VARCHAR},
       FWDXBM = #{fwdxbm,jdbcType=VARCHAR},
       FWDX = #{fwdx,jdbcType=VARCHAR},
@@ -887,11 +917,10 @@
     where DATA_ID = #{dataId,jdbcType=VARCHAR}
   </update>
   
-  
   <!-- 批量插入项目计划数据 -->
   <insert id="insertOutProjectPlanBatch" parameterType="java.util.List">
 		insert into out_project_plan (DATA_ID, XMID, ND, 
-	      HTH, XMMC, XMJB, JF, 
+	      HTH, XMMC, XMJB, JF, YSND, YSJE,
 	      FWDXBM, FWDX, GSBMBM, 
 	      GSBMMC, ZYCBM, ZYCMC, 
 	      XMLBBM, XMLBMC, ZYLBBM, 
@@ -908,7 +937,7 @@
 		<foreach collection="list" item="projectPlan" index="index"
 			separator=",">
 			( #{projectPlan.dataId,jdbcType=VARCHAR}, #{projectPlan.xmid,jdbcType=VARCHAR}, #{projectPlan.nd,jdbcType=VARCHAR}, 
-		      #{projectPlan.hth,jdbcType=VARCHAR}, #{projectPlan.xmmc,jdbcType=VARCHAR}, #{projectPlan.xmjb,jdbcType=VARCHAR}, #{projectPlan.jf,jdbcType=VARCHAR}, 
+		      #{projectPlan.hth,jdbcType=VARCHAR}, #{projectPlan.xmmc,jdbcType=VARCHAR}, #{projectPlan.xmjb,jdbcType=VARCHAR}, #{projectPlan.jf,jdbcType=VARCHAR}, #{projectPlan.ysnd,jdbcType=VARCHAR}, #{projectPlan.ysje,jdbcType=VARCHAR}, 
 		      #{projectPlan.fwdxbm,jdbcType=VARCHAR}, #{projectPlan.fwdx,jdbcType=VARCHAR}, #{projectPlan.gsbmbm,jdbcType=VARCHAR}, 
 		      #{projectPlan.gsbmmc,jdbcType=VARCHAR}, #{projectPlan.zycbm,jdbcType=VARCHAR}, #{projectPlan.zycmc,jdbcType=VARCHAR}, 
 		      #{projectPlan.xmlbbm,jdbcType=VARCHAR}, #{projectPlan.xmlbmc,jdbcType=VARCHAR}, #{projectPlan.zylbbm,jdbcType=VARCHAR}, 
@@ -946,7 +975,7 @@
 			round(sum(case when tableB.xmid is not null then 1 else 0 end)/count(*)*100,2) as qdl
 		from (
 			select out_project_info.xmid,out_project_plan.DEFINE1,out_project_plan.PROJECT_SCOPE 
-			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and (out_project_info.PROJECT_TYPE= '0' or out_project_info.PROJECT_TYPE= '2') and out_project_info.project_property not like '%十条龙%' and out_project_info.nd= '${nd}')
+			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and (out_project_info.PROJECT_TYPE= '0' or out_project_info.PROJECT_TYPE= '2') and out_project_info.project_property not like '%十条龙%' and out_project_info.nd= '${nd}' and define7 not like '%已关闭%')
 			WHERE
 				out_project_plan.ND= '${nd}'
 				and (out_project_plan.PROJECT_TYPE= '0' or out_project_plan.PROJECT_TYPE= '2')
@@ -956,13 +985,13 @@
 	
 	<!-- 直属研究院二级页面（领导），各个院的合同签订率-->
 	<select id="getPlanCompleteRateByInstitute" resultType="java.util.Map" parameterType="java.util.HashMap">
-		select SUBSTR(tableB.DEFINE2 FROM 4) as define2,count(*) as zsl,
+		select SUBSTR(tableB.DEFINE2 FROM 4) as define2,count(xmid) as zsl,
 			sum(case when tableB.temId is not null then 1 else 0 end) as yqhtzj,
 			sum(case when tableB.temId is null then 1 else 0 end) as wqhtzj,
 			sum(case when tableB.temId is not null then 1 else 0 end) as yqhtzj,
 			sum(case when tableB.temId is null then 1 else 0 end) as wqhtzj,
 			
-			round(sum(case when tableB.temId is not null then 1 else 0 end)/count(*)*100,2) as qdlzj,
+			round(sum(case when tableB.temId is not null then 1 else 0 end)/count(xmid)*100,2) as qdlzj,
 			round(sum(jf1),2) as zysje,
 			round(sum(jf2),2) as zsjje,
 			round(sum(jf1)-sum(jf2),2) as wxdje,
@@ -974,35 +1003,37 @@
 			sum(case when define1 = '费用性' then 1 else 0 end) as fyxjhsl,
 			sum(case when define1 = '资本性' then 1 else 0 end) as zbxjhsl
 		from (
-			select out_project_info.xmid as temId,out_project_plan.DEFINE1,out_project_plan.DEFINE2,out_project_plan.jf as jf1,out_project_info.jf as jf2
-			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and (out_project_info.PROJECT_TYPE= '0' or out_project_info.PROJECT_TYPE= '2') and out_project_info.project_property not like '%十条龙%' and out_project_info.ND= '${nd}')
+			select out_project_info.xmid as temId,out_project_plan.xmid as xmid,out_project_plan.DEFINE1,out_project_plan.DEFINE2,out_project_plan.jf as jf1,out_project_info.jf as jf2
+			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and (out_project_info.PROJECT_TYPE= '0' or out_project_info.PROJECT_TYPE= '2') and out_project_info.project_property not like '%十条龙%' and out_project_info.ND= '${nd}' and define7 not like '%已关闭%')
 			WHERE
 				out_project_plan.ND= '${nd}' and out_project_plan.DEFINE3 like '%直属研究院%'
 				and (out_project_plan.PROJECT_TYPE= '0' or out_project_plan.PROJECT_TYPE= '2')
+				group by out_project_plan.xmid
 		) as tableB 
 		group by tableB.DEFINE2
 	</select>
 	
 	<!-- 首页-直属研究院，项目计划完成的比率，按照资本性费用性来分组 -->
 	<select id="getPlanCompleteRateByPlanType" resultType="java.util.Map" parameterType="java.util.HashMap">
-		select tableB.DEFINE1 as define1,count(*) as jhqds,
+		select tableB.DEFINE1 as define1,count(xmid) as jhqds,
 			sum(case when tableB.temId is not null then 1 else 0 end) as sjqds,
-			round(sum(case when tableB.temId is not null then 1 else 0 end)/count(*)*100,2) as htqdl
+			round(sum(case when tableB.temId is not null then 1 else 0 end)/count(xmid)*100,2) as htqdl
 		from (
-			select out_project_info.xmid as temId,out_project_plan.DEFINE1
-			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and (out_project_info.PROJECT_TYPE= '0' or out_project_info.PROJECT_TYPE= '2') and out_project_info.project_property not like '%十条龙%' and out_project_info.ND= '${nd}')
+			select out_project_info.xmid as temId,out_project_plan.xmid as xmid,out_project_plan.DEFINE1
+			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and (out_project_info.PROJECT_TYPE= '0' or out_project_info.PROJECT_TYPE= '2') and out_project_info.project_property not like '%十条龙%' and out_project_info.ND= '${nd}' and define7 not like '%已关闭%')
 			WHERE
 				out_project_plan.ND= '${nd}'
 				and (out_project_plan.PROJECT_TYPE = '0' or out_project_plan.PROJECT_TYPE = '2')
+				group by out_project_plan.xmid
 		) as tableB 
 		group by tableB.DEFINE1
 	</select>
 	
 	<!-- 领导首页-科研合同，项目计划完成的比率，按照直属研究所、分子公司等9个来分组 -->
 	<select id="getPlanCompleteRateByCompanyType" resultType="java.util.Map" parameterType="java.util.HashMap">
-		select SUBSTR(tableB.DEFINE3 FROM 2) as define3,count(*) as jhqds,
+		select SUBSTR(tableB.DEFINE3 FROM 2) as define3,count(xmid) as jhqds,
 			sum(case when tableB.temId is not null then 1 else 0 end) as sjqds,
-			round(sum(case when tableB.temId is not null then 1 else 0 end)/count(*)*100,2) as qdbl,
+			round(sum(case when tableB.temId is not null then 1 else 0 end)/count(xmid)*100,2) as qdbl,
 			round(sum(case when tableB.xmlbbm1 is not null then jf1 else 0 end),2) as zysje,
 			round(sum(case when tableB.xmlbbm2 is not null then jf2 else 0 end),2) as zsjje,
 			round(sum(case when tableB.xmlbbm2 is not null then jf2 else 0 end)/sum(case when tableB.xmlbbm1 is not null then jf1 else 0 end)*100,2) as zRate,
@@ -1015,30 +1046,31 @@
 			round(sum(case when tableB.xmlbbm2 is not null and tableB.xmlbbm2!='KYZB' then jf2 else 0 end),2) as fyxsjje,
 			round(sum(case when tableB.xmlbbm2 is not null and tableB.xmlbbm2!='KYZB' then jf2 else 0 end)/sum(case when tableB.xmlbbm1 is not null and tableB.xmlbbm1!='KYZB' then jf1 else 0 end)*100,2) as fyxRate
 
-			
 		from (
-			select out_project_info.xmid as temId,case when out_project_plan.DEFINE3 is null then 'J其他' else out_project_plan.DEFINE3 end as DEFINE3,
+			select out_project_info.xmid as temId,out_project_plan.xmid as xmid,case when out_project_plan.DEFINE3 is null then 'J其他' else out_project_plan.DEFINE3 end as DEFINE3,
 						 out_project_plan.jf as jf1,out_project_plan.jf as jf2,out_project_plan.xmlbbm as xmlbbm1,out_project_info.xmlbbm as xmlbbm2
-			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and (out_project_info.PROJECT_TYPE= '0' or out_project_info.PROJECT_TYPE= '2') and out_project_info.project_property not like '%十条龙%' and out_project_info.ND= '${nd}')
+			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and (out_project_info.PROJECT_TYPE= '0' or out_project_info.PROJECT_TYPE= '2') and out_project_info.project_property not like '%十条龙%' and out_project_info.ND= '${nd}' and define7 not like '%已关闭%')
 			WHERE
 				out_project_plan.ND= '${nd}'
 				and (out_project_plan.PROJECT_TYPE= '0' or out_project_plan.PROJECT_TYPE= '2')
+				group by out_project_plan.xmid
 		) as tableB  
 		group by tableB.DEFINE3
 	</select>
 	
 	<!-- 领导首页-科研合同，科研合同签订率清单-->
 	<select id="getPlanCompleteRateDetails" resultType="java.util.Map" parameterType="java.util.HashMap">
-		select SUBSTR(tableB.DEFINE3 FROM 2) as define3,SUBSTR(tableB.DEFINE2 FROM 4) as define2,count(*) as zsl,
+		select SUBSTR(tableB.DEFINE3 FROM 2) as define3,SUBSTR(tableB.DEFINE2 FROM 4) as define2,count(xmid) as zsl,
 			sum(case when tableB.temId is not null then 1 else 0 end) as yqhtzj,
 			sum(case when tableB.temId is null then 1 else 0 end) as wqhtzj,
-			round(sum(case when tableB.temId is not null then 1 else 0 end)/count(*)*100,2) as qdlzj
+			round(sum(case when tableB.temId is not null then 1 else 0 end)/count(xmid)*100,2) as qdlzj
 		from (
-			select out_project_info.xmid as temId,IFNULL(out_project_plan.DEFINE2,'J01其他') as DEFINE2,IFNULL(out_project_plan.DEFINE3,'J其他') as DEFINE3
-			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and (out_project_info.PROJECT_TYPE= '0' or out_project_info.PROJECT_TYPE= '2') and out_project_info.project_property not like '%十条龙%' and out_project_info.ND= '${nd}')
+			select out_project_info.xmid as temId,out_project_plan.xmid as xmid,IFNULL(out_project_plan.DEFINE2,'J01其他') as DEFINE2,IFNULL(out_project_plan.DEFINE3,'J其他') as DEFINE3
+			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and (out_project_info.PROJECT_TYPE= '0' or out_project_info.PROJECT_TYPE= '2') and out_project_info.project_property not like '%十条龙%' and out_project_info.ND= '${nd}' and define7 not like '%已关闭%')
 			WHERE
 				out_project_plan.ND = '${nd}'
 				and (out_project_plan.PROJECT_TYPE= '0' or out_project_plan.PROJECT_TYPE= '2')
+				group by out_project_plan.xmid
 		) as tableB 
 		group by tableB.DEFINE3,tableB.DEFINE2
 		order by tableB.DEFINE3

@@ -524,6 +524,146 @@ public class OutProjectPlanExample {
             return (Criteria) this;
         }
 
+        public Criteria andYsndIsNull() {
+            addCriterion("YSND is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andYsndIsNotNull() {
+            addCriterion("YSND is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andYsndEqualTo(String value) {
+            addCriterion("YSND =", value, "ysnd");
+            return (Criteria) this;
+        }
+
+        public Criteria andYsndNotEqualTo(String value) {
+            addCriterion("YSND <>", value, "ysnd");
+            return (Criteria) this;
+        }
+
+        public Criteria andYsndGreaterThan(String value) {
+            addCriterion("YSND >", value, "ysnd");
+            return (Criteria) this;
+        }
+
+        public Criteria andYsndGreaterThanOrEqualTo(String value) {
+            addCriterion("YSND >=", value, "ysnd");
+            return (Criteria) this;
+        }
+
+        public Criteria andYsndLessThan(String value) {
+            addCriterion("YSND <", value, "ysnd");
+            return (Criteria) this;
+        }
+
+        public Criteria andYsndLessThanOrEqualTo(String value) {
+            addCriterion("YSND <=", value, "ysnd");
+            return (Criteria) this;
+        }
+
+        public Criteria andYsndLike(String value) {
+            addCriterion("YSND like", value, "ysnd");
+            return (Criteria) this;
+        }
+
+        public Criteria andYsndNotLike(String value) {
+            addCriterion("YSND not like", value, "ysnd");
+            return (Criteria) this;
+        }
+
+        public Criteria andYsndIn(List<String> values) {
+            addCriterion("YSND in", values, "ysnd");
+            return (Criteria) this;
+        }
+
+        public Criteria andYsndNotIn(List<String> values) {
+            addCriterion("YSND not in", values, "ysnd");
+            return (Criteria) this;
+        }
+
+        public Criteria andYsndBetween(String value1, String value2) {
+            addCriterion("YSND between", value1, value2, "ysnd");
+            return (Criteria) this;
+        }
+
+        public Criteria andYsndNotBetween(String value1, String value2) {
+            addCriterion("YSND not between", value1, value2, "ysnd");
+            return (Criteria) this;
+        }
+
+        public Criteria andYsjeIsNull() {
+            addCriterion("YSJE is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andYsjeIsNotNull() {
+            addCriterion("YSJE is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andYsjeEqualTo(String value) {
+            addCriterion("YSJE =", value, "ysje");
+            return (Criteria) this;
+        }
+
+        public Criteria andYsjeNotEqualTo(String value) {
+            addCriterion("YSJE <>", value, "ysje");
+            return (Criteria) this;
+        }
+
+        public Criteria andYsjeGreaterThan(String value) {
+            addCriterion("YSJE >", value, "ysje");
+            return (Criteria) this;
+        }
+
+        public Criteria andYsjeGreaterThanOrEqualTo(String value) {
+            addCriterion("YSJE >=", value, "ysje");
+            return (Criteria) this;
+        }
+
+        public Criteria andYsjeLessThan(String value) {
+            addCriterion("YSJE <", value, "ysje");
+            return (Criteria) this;
+        }
+
+        public Criteria andYsjeLessThanOrEqualTo(String value) {
+            addCriterion("YSJE <=", value, "ysje");
+            return (Criteria) this;
+        }
+
+        public Criteria andYsjeLike(String value) {
+            addCriterion("YSJE like", value, "ysje");
+            return (Criteria) this;
+        }
+
+        public Criteria andYsjeNotLike(String value) {
+            addCriterion("YSJE not like", value, "ysje");
+            return (Criteria) this;
+        }
+
+        public Criteria andYsjeIn(List<String> values) {
+            addCriterion("YSJE in", values, "ysje");
+            return (Criteria) this;
+        }
+
+        public Criteria andYsjeNotIn(List<String> values) {
+            addCriterion("YSJE not in", values, "ysje");
+            return (Criteria) this;
+        }
+
+        public Criteria andYsjeBetween(String value1, String value2) {
+            addCriterion("YSJE between", value1, value2, "ysje");
+            return (Criteria) this;
+        }
+
+        public Criteria andYsjeNotBetween(String value1, String value2) {
+            addCriterion("YSJE not between", value1, value2, "ysje");
+            return (Criteria) this;
+        }
+
         public Criteria andJfIsNull() {
             addCriterion("JF is null");
             return (Criteria) this;
