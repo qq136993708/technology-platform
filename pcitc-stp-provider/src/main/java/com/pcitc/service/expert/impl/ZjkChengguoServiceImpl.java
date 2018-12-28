@@ -9,10 +9,10 @@ import com.pcitc.base.common.enums.DataOperationStatusEnum;
 import com.pcitc.base.common.enums.DelFlagEnum;
 import com.pcitc.base.common.TreeNode;
 import com.pcitc.base.expert.*;
-import com.pcitc.base.expert.ZjkChengguoExample;
+import com.pcitc.base.expert.ZjkAchievementExample;
 import com.pcitc.base.util.IdUtil;
 import com.pcitc.base.util.TreeNodeUtil;
-import com.pcitc.mapper.expert.ZjkChengguoMapper;
+import com.pcitc.mapper.expert.ZjkAchievementMapper;
 import com.pcitc.service.expert.ZjkChengguoService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.annotations.Param;
@@ -38,15 +38,15 @@ import java.util.Map;
 public class ZjkChengguoServiceImpl implements ZjkChengguoService {
 
     @Autowired
-    private ZjkChengguoMapper zjkChengguoMapper;
+    private ZjkAchievementMapper zjkChengguoMapper;
 
-    public List<ZjkChengguo> findZjkChengguoList(ZjkChengguo zjkChengguo) {
-        List<ZjkChengguo> record = zjkChengguoMapper.findZjkChengguoList(zjkChengguo);
+    public List<ZjkAchievement> findZjkChengguoList(ZjkAchievement zjkChengguo) {
+        List<ZjkAchievement> record = zjkChengguoMapper.findZjkAchievementList(zjkChengguo);
         return record;
     }
 
     @Override
-    public int updateOrInsertZjkChengguo(ZjkChengguo zjkChengguo) throws Exception {
+    public int updateOrInsertZjkChengguo(ZjkAchievement zjkChengguo) throws Exception {
         int result = 500;
         if (zjkChengguo.getId() != null && zjkChengguo.getId() != null) {
             zjkChengguoMapper.updateByPrimaryKeySelective(zjkChengguo);
@@ -69,18 +69,18 @@ public class ZjkChengguoServiceImpl implements ZjkChengguoService {
     }
 
     @Override
-    public ZjkChengguo getZjkChengguoInfo(String id) throws Exception {
+    public ZjkAchievement getZjkChengguoInfo(String id) throws Exception {
 
         return zjkChengguoMapper.selectByPrimaryKey(id);
     }
 
     @Override
-    public long countByExample(ZjkChengguoExample example) {
+    public long countByExample(ZjkAchievementExample example) {
         return zjkChengguoMapper.countByExample(example);
     }
 
     @Override
-    public int deleteByExample(ZjkChengguoExample example) {
+    public int deleteByExample(ZjkAchievementExample example) {
         return zjkChengguoMapper.deleteByExample(example);
     }
 
@@ -95,48 +95,48 @@ public class ZjkChengguoServiceImpl implements ZjkChengguoService {
     }
 
     @Override
-    public int insert(ZjkChengguo record) {
+    public int insert(ZjkAchievement record) {
         record.setId(IdUtil.createIdByTime());
         return zjkChengguoMapper.insert(record);
     }
 
     @Override
-    public int insertSelective(ZjkChengguo record) {
+    public int insertSelective(ZjkAchievement record) {
         return zjkChengguoMapper.insertSelective(record);
     }
 
-    public ZjkChengguo insertObject(ZjkChengguo record) {
+    public ZjkAchievement insertObject(ZjkAchievement record) {
         this.insert(record);
         return record;
     }
 
     @Override
-    public List<ZjkChengguo> selectByExample(ZjkChengguoExample example) {
+    public List<ZjkAchievement> selectByExample(ZjkAchievementExample example) {
         return zjkChengguoMapper.selectByExample(example);
     }
 
     @Override
-    public ZjkChengguo selectByPrimaryKey(String recordId) {
+    public ZjkAchievement selectByPrimaryKey(String recordId) {
         return zjkChengguoMapper.selectByPrimaryKey(recordId);
     }
 
     @Override
-    public int updateByExampleSelective(@Param("record") ZjkChengguo record, @Param("example") ZjkChengguoExample example) {
+    public int updateByExampleSelective(@Param("record") ZjkAchievement record, @Param("example") ZjkAchievementExample example) {
         return zjkChengguoMapper.updateByExampleSelective(record, example);
     }
 
     @Override
-    public int updateByExample(@Param("record") ZjkChengguo record, @Param("example") ZjkChengguoExample example) {
+    public int updateByExample(@Param("record") ZjkAchievement record, @Param("example") ZjkAchievementExample example) {
         return zjkChengguoMapper.updateByExample(record, example);
     }
 
     @Override
-    public int updateByPrimaryKeySelective(ZjkChengguo record) {
+    public int updateByPrimaryKeySelective(ZjkAchievement record) {
         return zjkChengguoMapper.updateByPrimaryKeySelective(record);
     }
 
     @Override
-    public int updateByPrimaryKey(ZjkChengguo record) {
+    public int updateByPrimaryKey(ZjkAchievement record) {
         if (record.getStatus() == null) {
             record.setStatus("");
         }
@@ -146,7 +146,7 @@ public class ZjkChengguoServiceImpl implements ZjkChengguoService {
     @Override
     public Integer deleteZjkChengguo(Serializable zjkChengguoId) {
         try {
-            ZjkChengguo record = zjkChengguoMapper.selectByPrimaryKey(zjkChengguoId.toString());
+            ZjkAchievement record = zjkChengguoMapper.selectByPrimaryKey(zjkChengguoId.toString());
             if (record != null) {
                 record.setStatus(DelFlagEnum.STATUS_DEL.getCode() + "");
                 zjkChengguoMapper.updateByPrimaryKey(record);
@@ -159,13 +159,13 @@ public class ZjkChengguoServiceImpl implements ZjkChengguoService {
 
     @Override
     public LayuiTableData findZjkChengguoByPage(LayuiTableParam param) {
-        ZjkChengguoExample example = new ZjkChengguoExample();
-        ZjkChengguoExample.Criteria c = example.createCriteria();
+        ZjkAchievementExample example = new ZjkAchievementExample();
+        ZjkAchievementExample.Criteria c = example.createCriteria();
 //        c.andStatusEqualTo("1");
 //        if(param.getParam().get("fileKind") !=null && !com.pcitc.common.StringUtils.isBlank(param.getParam().get("fileKind")+""))
 //        {
         //   c.andIdLike("'%"+param.getParam().get("fileKind")+"%'");
-//            ZjkChengguoExample.Criteria criteria2 = example.or();
+//            ZjkAchievementExample.Criteria criteria2 = example.or();
 //            criteria2.andParentIdEqualTo(param.getParam().get("fileKind").toString());
 //            example.or(criteria2);
         //       }
@@ -181,14 +181,14 @@ public class ZjkChengguoServiceImpl implements ZjkChengguoService {
      * @param example
      * @return
      */
-    private LayuiTableData findByExample(LayuiTableParam param, ZjkChengguoExample example) {
+    private LayuiTableData findByExample(LayuiTableParam param, ZjkAchievementExample example) {
         int pageSize = param.getLimit();
         int pageStart = (param.getPage() - 1) * pageSize;
         int pageNum = pageStart / pageSize + 1;
         PageHelper.startPage(pageNum, pageSize);
-        List<ZjkChengguo> list = zjkChengguoMapper.selectByExample(example);
+        List<ZjkAchievement> list = zjkChengguoMapper.selectByExample(example);
         // 3、获取分页查询后的数据
-        PageInfo<ZjkChengguo> pageInfo = new PageInfo<ZjkChengguo>(list);
+        PageInfo<ZjkAchievement> pageInfo = new PageInfo<ZjkAchievement>(list);
         LayuiTableData data = new LayuiTableData();
         data.setData(pageInfo.getList());
         Long total = pageInfo.getTotal();
@@ -204,10 +204,9 @@ public class ZjkChengguoServiceImpl implements ZjkChengguoService {
     @Override
     public List<TreeNode> selectObjectByTree() {
         List<TreeNode> nodes = new ArrayList<TreeNode>();
-        ZjkChengguoExample example = new ZjkChengguoExample();
-        example.getOredCriteria().add(example.createCriteria().andStatusNotEqualTo(DataOperationStatusEnum.DEL_OK.getStatusCode().toString()));
-        List<ZjkChengguo> records = zjkChengguoMapper.selectByExample(example);
-        for (ZjkChengguo record : records) {
+        ZjkAchievementExample example = new ZjkAchievementExample();
+        List<ZjkAchievement> records = zjkChengguoMapper.selectByExample(example);
+        for (ZjkAchievement record : records) {
             TreeNode node = new TreeNode();
             node.setId(record.getId());
             //            node.setLevelCode(record.getUnitLevel().toString());
@@ -216,7 +215,7 @@ public class ZjkChengguoServiceImpl implements ZjkChengguoService {
         }
         //构建树形结构(从根节点开始的树形结构)
 
-        ZjkChengguoExample zjkChengguoExample = new ZjkChengguoExample();
+        ZjkAchievementExample zjkChengguoExample = new ZjkAchievementExample();
         String strParentId = zjkChengguoMapper.selectByExample(zjkChengguoExample).get(0).getId();
         List<TreeNode> orderNodes = TreeNodeUtil.getChildrenNode(strParentId, nodes);
 

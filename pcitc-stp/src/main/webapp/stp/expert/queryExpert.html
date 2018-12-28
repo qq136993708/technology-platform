@@ -157,7 +157,7 @@
             {type: 'checkbox', event: 'changeEvents', width: 55},
             {title: '序号', type: 'numbers', width: 55},
             {
-                field: 'name',
+                field: 'expertName',
                 title: '姓名',
                 event: 'setActive',
                 align: 'center',
@@ -173,16 +173,15 @@
                 width: 55,
             },
             {field: 'companyName', title: '机构', event: 'setActive', style: 'cursor: pointer;', sort: true,},
-            // {field: 'workOrderType', title: '类型', event: 'setActive', style: 'cursor: pointer;', sort: true,},
             {
-                field: 'hylyName',
+                field: 'expertProfessionalFieldName',
                 title: '行业领域',
                 event: 'setActive',
                 style: 'cursor: pointer;',
                 align: 'center',
                 sort: true,
             },
-            {field: 'zhicheng', title: '职称', event: 'setActive', style: 'cursor: pointer;', sort: true}
+            {field: 'expertProfessinal', title: '职称', event: 'setActive', style: 'cursor: pointer;', sort: true}
             , {fixed: 'right', title: '查看', toolbar: '#showDetail', width: 150, align: 'center'}
         ];
 
@@ -288,7 +287,7 @@
         table.on('tool(tableEvent)', function(obj){
             var data = obj.data;
             if(obj.event === 'showDetail'){
-				parent.layui.index.openTabsPage("/expertController/expertDetail?expertId="+data.id, "专家详情");
+				parent.layui.index.openTabsPage("/expertController/expertDetail?expertId="+data.dataId, "专家详情");
                 //window.open("/expertController/expertDetail?expertId="+data.id);
             }
         });
@@ -309,7 +308,7 @@
             var record = {};
             // record.companyId = selectRowData.company;
             // record.companyName = selectRowData.companyName;
-            record.zjId = selectRowData.id;
+            record.zjId = selectRowData.dataId;
             publicMethods.ajaxPost("/expertController/saveBak", record, function (data) {
                 console.log(data);
                 layer.msg("操作成功");
@@ -323,7 +322,7 @@
             var record = {};
             // record.companyId = selectRowData.company;
             // record.companyName = selectRowData.companyName;
-            record.zjId = selectRowData.id;
+            record.zjId = selectRowData.dataId;
             //加入对比
             publicMethods.ajaxPost("/expertController/addCompare", record, function (data) {
                 layer.msg("操作成功");

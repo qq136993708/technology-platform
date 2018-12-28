@@ -5,9 +5,9 @@ import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.enums.DataOperationStatusEnum;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.TreeNode;
-import com.pcitc.base.expert.ZjkBaseInfo;
 import com.pcitc.base.expert.ZjkChoice;
 import com.pcitc.base.expert.ZjkChoiceExample;
+import com.pcitc.base.expert.ZjkExpert;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -191,5 +191,5 @@ public interface ZjkChoiceService {
      * @param ids
      * @return
      */
-    public List<ZjkBaseInfo> findZjkBaseInofList(List<String> ids);
+    public List<ZjkExpert> findZjkBaseInofList(List<String> ids);
 }
