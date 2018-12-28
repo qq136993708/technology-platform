@@ -2902,7 +2902,12 @@ public class HanaUtil {
 			for (int i = 0; i < list.size(); i++) {
 				Contract f03 = list.get(i);
 				String fyxRate =((BigDecimal)f03.getFyxRate()).toString(); 
-				String zbxRate = ((BigDecimal)f03.getZbxRate()).toString();
+				String zbxRate ="";
+				Object o=f03.getZbxRate();
+				if(o!=null)
+				{
+					zbxRate =((BigDecimal)f03.getZbxRate()).toString();
+				}
 				if (name.equals("fyxRate")) {
 					
 					if (fyxRate==null || fyxRate.equals(""))

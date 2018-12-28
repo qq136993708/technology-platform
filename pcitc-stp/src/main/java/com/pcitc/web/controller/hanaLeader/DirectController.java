@@ -962,9 +962,9 @@ public class DirectController {
     						
     						double fyxsl_rate =	HanaUtil.chufa2(fyxsjsl_count,fyxjhsl_count);
     						double zbxsl_rate =	HanaUtil.chufa2(zbxsjsl_count,zbxjhsl_count);
-    						
-    						map.put("fyxsl_rate", fyxsl_rate+"%");
-    						map.put("zbxsl_rate", zbxsl_rate+"%");
+    						//System.out.println(">>>>>>>>>>>>>>fyxsl_rate: " + fyxsl_rate+" zbxsl_rate:"+zbxsl_rate);
+    						map.put("fyxsl_rate", String.format("%.2f", Double.valueOf(fyxsl_rate))+"%");
+    						map.put("zbxsl_rate",String.format("%.2f", Double.valueOf(zbxsl_rate))+"%");
     						result.setSuccess(true);
     						result.setData(map);
     					}

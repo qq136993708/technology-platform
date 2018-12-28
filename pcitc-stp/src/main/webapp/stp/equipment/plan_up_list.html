@@ -14,12 +14,8 @@
 <div class="searchBox">
     <!--查询条件-->
     <label class="dateInput">
-        <span>上报单位</span>
-        <input type="text" name="name" title="提报单位" autocomplete="off" class="form-control" id="name">
-        
-        <span>资产名称</span>
-        <input type="text" name="name" title="提报单位" autocomplete="off" class="form-control" id="name">
-        
+        <span>项目名称</span>
+        <input type="text" name="name" placeholder="请输入项目名称" title="项目名称" autocomplete="off" class="form-control" id="name">
     </label>
     <!--按钮组-->
     <div class="btnGroup">
@@ -29,56 +25,32 @@
 
 
 <div class="tableBox">
-     <table class="layui-table">
-             <thead>
-	             <tr>
-	                <td>资产名称</td>
-	                <td>上报单位</td>
-	                <td>资产分类</td>
-	                <td>规格型号</td>
-	                <td>出厂编号</td>
-	                <td>数量</td>
-	                <td>单价金额</td>
-	                <td>计量单位</td>
-	                <td>国别</td>
-	                <td>使用状态</td>
-	                <td>资产状况</td>
-	                <td>账实相符情况</td>
-	             </tr>
-            </thead>
-            
-                <tr>
-	                <td>图像分析系统DS-9222</td>
-	                <td>勘探院</td>
-	                <td>软件</td>
-	                <td></td>
-	                <td></td>
-	                <td>1</td>
-	                <td>100</td>
-	                <td>套</td>
-	                <td>中国</td>
-	                <td>在用</td>
-	                <td>良好</td>
-	                <td>盘亏</td>
-	             </tr>
-	             
-	             <tr>
-	                <td>微波取仪器</td>
-	                <td>勘探院</td>
-	                <td>取仪器</td>
-	                <td>DDD121</td>
-	                <td></td>
-	                <td>1</td>
-	                <td>100</td>
-	                <td>台</td>
-	                <td>中国</td>
-	                <td>未使用</td>
-	                <td>已坏</td>
-	                <td>账实相符</td>
-	             </tr>
-	             
-     </table>
+	<div class="tableToolBox">
+        <div class="whiteLine"></div>
+        <div  class="tableBtns">
+            <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"
+                    data-type="draftEvent">
+                <span class="btn-state btnYellow"></span>未审核
+            </button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"
+                    data-type="approvalEvent">
+                <span class="btn-state btn-green"></span>审批中
+            </button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"
+                    data-type="approvedEvent">
+                <span class="btn-state btn-blue"></span>审批通过
+            </button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"
+                    data-type="approvedEvent">
+                <span class="btn-state btn-yellow"></span>审批不通过
+            </button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"     data-type="addEvent"  id="addEvent" >上报</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"     data-type="updateEvent"  id="updateEvent" >变更</button>
+        </div>
+    </div>
+    <table id="processdef-table" class="layui-hide" lay-filter="tableEvent"></table>
 </div>
+
 
 <script id="dateTpl" type="text/html"> {{formatTime(d.createDate)}} </script>
 <script type="text/javascript">
@@ -137,12 +109,21 @@ var name=$('#name').val();
             	renderTable();
                
             },
-            resetEvent: function() { //点击重置按钮
-            	$('#name').val("");
+            updateEvent: function() { 
+            	layer.open({
+                    title:'计划变更',
+                    skin: 'layui-layer-lan',
+                    shadeClose: true,
+                    type: 2,
+                    fixed: false,
+                    maxmin: false,
+                   area: ['60%', '80%'],
+                    content:  '/sre-equipment/plan_update'
+                });
             },
-            addEvent: function(){ //点击新增按钮
+            addEvent: function(){ 
                 layer.open({
-                    title:'报废上报',
+                    title:'计划上报',
                     skin: 'layui-layer-lan',
                     shadeClose: true,
                     type: 2,
@@ -150,112 +131,12 @@ var name=$('#name').val();
                     //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
                     maxmin: false,
                     //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                   area: ['70%', '90%'],
-                    content:  '/sre-equipment/apply_waste'
+                   area: ['60%', '80%'],
+                    content:  '/sre-equipment/plan_up'
                 });
             }
-            ,editEvent: function(){  //点击编辑按钮
-            	
-            	if (typeof(selectRowData.equipmentId) == "undefined") {
-            		layer.msg('请点击选择一行数据');
-            	} else {
-            		 var equipmentId=selectRowData.equipmentId;
-           		     var url="/sre-equipment/update?equipmentId="+equipmentId;
-           		     
-           		  layer.open({
-                      title:'装备-修改',
-                      skin: 'layui-layer-lan',
-                      shadeClose: true,
-                      type: 2,
-                      fixed: false,
-                      //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                      maxmin: false,
-                      //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                      area: ['70%', '90%'],
-                      content:  url
-                  });
-            	}
-               
-            },deleteEvent: function(){  //点击删除按钮
-                 console.log('点击了删除按钮')
-                 if (typeof(selectRowData.equipmentId) == "undefined") 
-                 {
-            		layer.msg('请点击选择一行数据');
-            	 } else 
-            	 {
-            		  var equipmentId=selectRowData.equipmentId;
-           		      var url="/sre-equipment/delete/"+equipmentId;
-	           		  layer.confirm('确定要删除吗？', { btn: ['确定','取消']}, function(){
-	         				 ajaxDeleteOpt(url,"post","删除成功","删除失败");
-	         			}, function(){
-	         			 
-	         			});
-            	}
             
-              
-            },
-            detailEvent: function(){  //点击详情按钮
-            	if (typeof(selectRowData.equipmentId) == "undefined") {
-            		layer.msg('请点击选择一行数据');
-            	} else {
-            		 var equipmentId=selectRowData.equipmentId;
-            		 var temUrl="/sre-equipment/get/" + equipmentId;
-            		 layer.open({
-                         title:'详情',
-                         skin: 'layui-layer-lan',
-                         shadeClose: true,
-                         type: 2,
-                         fixed: false,
-                         //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                         maxmin: false,
-                         //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                          area: ['70%', '90%'],
-                         content:  temUrl
-                     });
-            	}
-            
-            },
-            acceptSoftEvent: function(){  //软件验收
-            	if (typeof(selectRowData.equipmentId) == "undefined") {
-            		layer.msg('请点击选择一行数据');
-            	} else {
-            		 var equipmentId=selectRowData.equipmentId;
-            		 layer.open({
-                         title:'软件验收-》新增'
-                         ,skin: 'layui-layer-lan'
-                         ,shadeClose: true
-                         ,type: 2
-                         ,fixed: false
-                         //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                         ,maxmin: false
-                         //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                         ,area: ['60%', '80%']
-                         ,content: "/sre-accept/software/add?equipmentId="+equipmentId
-                     });
-            	}
-            },
-            acceptHareEvent: function(){  //硬件验收
-            	if (typeof(selectRowData.equipmentId) == "undefined") {
-            		layer.msg('请点击选择一行数据');
-            	} else {
-            		 var equipmentId=selectRowData.equipmentId;
-            		 layer.open({
-                         title:'硬件验收-》新增'
-                         ,skin: 'layui-layer-lan'
-                         ,shadeClose: true
-                         ,type: 2
-                         ,fixed: false
-                         //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                         ,maxmin: false
-                         //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                         ,area: ['60%', '80%']
-                         ,content: "/sre-accept/hardware/add?equipmentId="+equipmentId
-                     });
-            	}
-            }
-            
-        };
-
+         }
       //监听排序
         table.on('sort(model-table)', function(obj){
             console.log(this, obj.field, obj.type)

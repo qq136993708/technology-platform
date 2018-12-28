@@ -64,6 +64,16 @@ public class BudgetMysql {
 	 private Object zbxysje;
 	 private Object zbxsjje;
 	 private Object zbxRate;
+	 
+	 private Object totalMoney;
+	 
+	 
+	public Object getTotalMoney() {
+		return totalMoney;
+	}
+	public void setTotalMoney(Object totalMoney) {
+		this.totalMoney = totalMoney;
+	}
 	public String getDefine1() {
 		return define1;
 	}

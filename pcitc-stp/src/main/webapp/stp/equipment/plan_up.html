@@ -26,7 +26,7 @@
 		<div class="formBox">
 			<div class="tableToolBox">
 				<div class="tableBtns">
-					<div class="tableTitle">基本信息<span class="red">（标*号为必填项）</span>
+					<div class="tableTitle">项目基本信息<span class="red">（标*号为必填项）</span>
 					</div>
 				</div>
 			</div>
@@ -44,57 +44,6 @@
   <input  name="checkContentDoc"    id="checkContentDoc"   value="${checkContentDoc}"  type="hidden">
   <input  name="taskDoc"            id="taskDoc"           value="${taskDoc}"  type="hidden">
   
-  <div  class="tableBtns" style="float:right">
-       <a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add" data-type="addEvent">添加装备</a>
-  </div>
-     <!--文本域-->
-      <div class="layui-form-item layui-form-text" >
-        <div class="layui-input-block">
-           <table class="layui-table">
-             <thead>
-	             <tr>
-	                <td>序号</td>
-	                <td>装备名称</td>
-	                <td>规格型号</td>
-	                <td>计划金额（万元）</td>
-	                <td>数量</td>
-	                <td>功用用途</td>
-	                <td>需求部门</td>
-	             </tr>
-            </thead>
-             <tr>
-                <td>1</td>
-                <td>软件</td>
-                <td>DL788</td>
-                <td>500万</td>
-                <td>2</td>
-                <td>可用于电气评估可用于电气评估可用于电气评估 </td>
-                <td>处理解释中心</td>
-             </tr>
-             <tr>
-                <td>2</td>
-                <td>红外成像设备</td>
-                <td>DeL788</td>
-                <td>400万</td>
-                <td>2</td>
-                <td>分析温度变化 </td>
-                <td>处理解释中心</td>
-             </tr>
-             <tr>
-                <td>3</td>
-                <td>便携式设备</td>
-                <td>DeL788</td>
-                <td>700万</td>
-                <td>2</td>
-                <td>处理温度变化 </td>
-                <td>处理解释中心</td>
-             </tr>
-           </table>
-        
-        </div>
-      </div>
-      
-      
         
       <!--行有两个的情况-->
       <div class="layui-row">
@@ -102,7 +51,7 @@
           <div class="layui-form-item">
             <label for="" class="layui-form-label">项目名称<span class="must-fill">*</span></label>
             <div class="layui-input-block">
-              <input class="layui-input" name="name" id="name" value="${sreProjectBasic.name}"  lay-verify="name"  autocomplete="off" type="text">
+              <input class="layui-input" name="name" id="name"  value="雷电仿真实验室"  lay-verify="name"  autocomplete="off" type="text">
             </div>
           </div>
         </div>
@@ -110,7 +59,7 @@
           <div class="layui-form-item">
             <label for="" class="layui-form-label">关键词</label>
             <div class="layui-input-block">
-              <input class="layui-input" name="keyWord" id="keyWord" value="${sreProjectBasic.keyWord}"  autocomplete="off" type="text">
+              <input class="layui-input" name="keyWord" id="keyWord" value="实验室"   autocomplete="off" type="text">
             </div>
           </div>
         </div>
@@ -119,9 +68,11 @@
        <div class="layui-row">
         <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
           <div class="layui-form-item">
-            <label for="" class="layui-form-label">项目属性<span class="must-fill">*</span></label>
+            <label for="" class="layui-form-label">项目类型<span class="must-fill">*</span></label>
             <div class="layui-input-block">
-              <input class="layui-input" name="projectType" id="projectType" value="${sreProjectBasic.projectType}"  lay-verify="required"  autocomplete="off" type="text">
+            <select name="projectType">
+              <option value="">科研装备</option>
+             </select>
             </div>
           </div>
         </div>
@@ -130,9 +81,9 @@
             <label for="" class="layui-form-label">建设年限</label>
             <div class="layui-input-block">
                   <div class="layui-input-inline" style="float:left">
-		            <input type="text" class="layui-input" name="beginYear" id="beginYear" value="${sreProjectBasic.beginYear}" style="width:80px;float:left" placeholder="开始年份">
+		            <input type="text" class="layui-input" name="beginYear" id="beginYear" value="2017" style="width:80px;float:left" placeholder="开始年份">
 		             <div class="layui-form-mid" style="width:8px;float:left"> - </div>
-		            <input type="text" class="layui-input" id="endYear" name="endYear"   value="${sreProjectBasic.endYear}" style="width:80px;float:left" placeholder="结束年份">
+		            <input type="text" class="layui-input" id="endYear" name="endYear"   value="2018" style="width:80px;float:left" placeholder="结束年份">
 		          </div>
             </div>
           </div>
@@ -144,15 +95,15 @@
           <div class="layui-form-item">
             <label for="" class="layui-form-label">项目长<span class="must-fill">*</span></label>
             <div class="layui-input-block">
-              <input class="layui-input" name="projectLeader" id="projectLeader" value="${sreProjectBasic.projectLeader}"  lay-verify="required" placeholder="请输入装备名称" autocomplete="off" type="text">
+              <input class="layui-input" name="projectLeader" id="projectLeader" value="张三"  lay-verify="required" placeholder="请输入装备名称" autocomplete="off" type="text">
             </div>
           </div>
         </div>
         <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
           <div class="layui-form-item">
-            <label for="" class="layui-form-label">院级上报金额<span class="must-fill">*</span></label>
+            <label for="" class="layui-form-label">项目金额<span class="must-fill">*</span></label>
             <div class="layui-input-block">
-              <input class="layui-input" name="applyMoney" id="applyMoney" value="${sreProjectBasic.applyMoney}"  autocomplete="off" type="text">
+              <input class="layui-input" name="applyMoney" id="applyMoney" value="500万"  autocomplete="off" type="text">
             </div>
           </div>
         </div>
@@ -177,8 +128,21 @@
           </div>
         </div>
       </div>
+      </div>
       
-      <div <#if sreProjectBasic.status != '2'>style="display:none"</#if>>
+      
+      <div class="formBox">
+			<div class="tableToolBox">
+				<div class="tableBtns">
+					<div class="tableTitle">任务书信息<span class="red">（标*号为必填项）</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		
+      
+      <div >
       <!--文本域-->
       <div class="layui-form-item layui-form-text" >
         <label class="layui-form-label">目的和主要任务</label>
@@ -195,25 +159,40 @@
         </div>
       </div>
       
-       <!--行有两个的情况-->
-      <div class="layui-row">
-        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-          <div class="layui-form-item">
-            <label for="" class="layui-form-label">计划进度和考核目标<span class="must-fill">*</span></label>
-            <div class="layui-input-block">
-              <input class="layui-input" name="taskAssessmentContent" id="taskAssessmentContent" value="${sreProjectBasic.taskAssessmentContent}"  lay-verify="taskAssessmentContent"  autocomplete="off" type="text">
+          <!--项目任务附件-->
+      <div class="layui-form-item layui-form-text" >
+        <label class="layui-form-label">主要图表</label>
+        <div class="layui-input-block">
+         <button type="button" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_save" onclick="upload_File('${taskDoc}');">选择文件</button>
             </div>
-          </div>
-        </div>
-        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-          <div class="layui-form-item">
-            <label for="" class="layui-form-label">应提交验收的内容</label>
-            <div class="layui-input-block">
-              <input class="layui-input" name="taskCheckContents" id="taskCheckContents" value="${sreProjectBasic.taskCheckContents}"  autocomplete="off" type="text">
-            </div>
-          </div>
+      </div>
+      
+      
+      
+      
+       <!--文本域-->
+      <div class="layui-form-item layui-form-text" >
+        <label class="layui-form-label">进度和考核目标</label>
+        <div class="layui-input-block">
+           <table class="layui-table">
+             <thead>
+             <tr>
+                <td>时间</td><td>内容</td><td>阶段</td><td>负者人</td><td>操作</td>
+             </tr>
+              </thead>
+             <tr>
+                <td><input type="text"> </td>
+                <td><input type="text"></td>
+                <td><input type="text"></td>
+                <td><input type="text"></td>
+                <td><a href="#" >增加</a> </td>
+             </tr>
+           </table>
+        
         </div>
       </div>
+      
+      
       
        <!--项目任务附件-->
       <div class="layui-form-item layui-form-text" >
@@ -227,7 +206,17 @@
       <div class="layui-form-item layui-form-text" >
         <label class="layui-form-label">验收内容名称</label>
         <div class="layui-input-block">
-          <textarea placeholder="请输入:项目总结报告；设计图纸、设计总结报告；使用（操作）手册；质量评定、使用考核情况报告；安全、消防验收证明；环境保护验收证明；职业防护验收证明；财务决算报告；审计报告" name="checkContents" id="projectContent" lay-verify="required"   class="layui-textarea">${sreProjectBasic.projectContent}</textarea>
+        <input type="checkbox" value="1" >项目总结报告
+        <input type="checkbox" value="1" >设计图纸
+        <input type="checkbox" value="1" >设计总结报告
+        <input type="checkbox" value="1" >使用（操作）手册
+        <input type="checkbox" value="1" >质量评定<br/>
+        <input type="checkbox" value="1" >使用考核情况报告
+        <input type="checkbox" value="1" >安全、消防验收证明
+        <input type="checkbox" value="1" >环境保护验收证明
+        <input type="checkbox" value="1" >职业防护验收证明
+        <input type="checkbox" value="1" >财务决算报告
+        <input type="checkbox" value="1" >审计报告
         </div>
       </div>
       
@@ -251,7 +240,7 @@
         </div>
       </div>
       
-      </div>
+      
     <!--行结束-->
     <div class="form-bottom">
 	  		<div class="form-bottom-btns">

@@ -23,7 +23,7 @@
 		<div class="formBox">
 			<div class="tableToolBox">
 				<div class="tableBtns">
-					<div class="tableTitle">基本信息<span class="red">（标*号为必填项）</span>
+					<div class="tableTitle"><span class="red">（标*号为必填项）上传相关：装备名称、建设合同、采购合同、技术资料、图纸、验收报告、合同竣工报告、财务报告、审计报告等</span>
 					</div>
 				</div>
 			</div>
@@ -36,110 +36,32 @@
 		<input type="hidden"  name="auditStatus"     id="auditStatus" value="0"  >
 		<input type="hidden"  name="type"            id="type"        value="${sreEquipment.type}"  >
   
-      <!-- 行有两个的情况 -->
-      <div class="layui-row">
-        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-          <div class="layui-form-item">
-            <label for="" class="layui-form-label">装备名称<span class="must-fill">*</span></label>
-            <div class="layui-input-block">
-              <input class="layui-input" name="name" id="name" value="${sreEquipment.name}"  lay-verify="name" placeholder="请输入装备名称" autocomplete="off" type="text">
-            </div>
-          </div>
-        </div>
-        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-          <div class="layui-form-item">
-            <label for="" class="layui-form-label">项目课题</label>
-            <div class="layui-input-block">
-              <select name="keyWord" id="keyWord" >
-                <option value="1">XXX课题</option>
-              </select>
-            </div>
-          </div>
-        </div>
-      </div>
+    
+        
       
-      <div class="layui-row">
-        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-          <div class="layui-form-item">
-            <label for="" class="layui-form-label">装备分类<span class="must-fill">*</span></label>
-            <div class="layui-input-block">
-               <input class="layui-input" name="typeName" id="typeName" value="${sreEquipment.typeName}" onclick="chooseType()" readonly="readonly" lay-verify="required"  autocomplete="off" type="text">
-            </div>
-          </div>
-        </div>
-        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-          <div class="layui-form-item">
-            <label for="" class="layui-form-label">年份</label>
-            <div class="layui-input-block">
-		          <div class="layui-input-inline" style="float:left">
-		            <input type="text" class="layui-input" id="beginYear" value="${sreEquipment.beginYear}"  style="width:80px;float:left" placeholder="开始年份">
-		             <div class="layui-form-mid" style="width:8px;float:left"> - </div>
-		            <input type="text" class="layui-input" id="endYear"  value="${sreEquipment.endYear}"  style="width:80px;float:left" placeholder="结束年份">
-		          </div>
-            </div>
-          </div>
-        </div>
-      </div>
+   
       
-       <div class="layui-row">
-        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-          <div class="layui-form-item">
-            <label for="" class="layui-form-label">计划金额(万元)<span class="must-fill">*</span></label>
+        <!-- 文本域 -->
+      <div class="layui-form-item layui-form-text" >
+       <div class="layui-form-item">
+            <label for="" class="layui-form-label">合同/报告/图纸<span class="must-fill">*</span></label>
             <div class="layui-input-block">
-              <input class="layui-input" name="planMoney" id="planMoney" value="${sreEquipment.planMoney}"  onkeyup="clearNoNum(this)" lay-verify="required"  autocomplete="off" type="text">
-            </div>
-          </div>
-        </div>
-        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-          <div class="layui-form-item">
-            <label for="" class="layui-form-label">申请数量</label>
-            <div class="layui-input-block">
-               <input class="layui-input" name="applyAcount" id="applyAcount" value="${sreEquipment.applyAcount}"   lay-verify="required"  autocomplete="off" type="text">
-            </div>
-          </div>
-        </div>
-      </div>
-      
-       <div class="layui-row">
-        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-          <div class="layui-form-item">
-            <label for="" class="layui-form-label">规格型号<span class="must-fill">*</span></label>
-            <div class="layui-input-block">
-              <input class="layui-input" name="typeModel" id="typeModel" value="${sreEquipment.typeModel}"   lay-verify="required"  autocomplete="off" type="text">
-            </div>
-          </div>
-        </div>
-        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-          <div class="layui-form-item">
-            <label for="" class="layui-form-label">立项报告（附件）<span class="must-fill">*</span></label>
-            <div class="layui-input-block">
-                <input class="layui-input readOnlyBox"  name="attachmentDoc" id="attachmentDoc" value="${sreEquipment.attachmentDoc}"   lay-verify="required"  autocomplete="off" type="hidden">
                 <a style="float:left" class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" onclick="upload_File()">上传</a>
             </div>
           </div>
-        </div>
       </div>
-      
-      
+         
        <!-- 文本域 -->
       <div class="layui-form-item layui-form-text" >
-        <label class="layui-form-label">主要功能</label>
+        <label class="layui-form-label">归档说明</label>
         <div class="layui-input-block">
           <textarea placeholder="请输入内容" name="notes" id="notes" lay-verify="required"   class="layui-textarea">${sreEquipment.notes}</textarea>
         </div>
       </div>
       
-      <!-- 文本域 -->
-      <div class="layui-form-item layui-form-text" >
-        <label class="layui-form-label">特殊说明</label>
-        <div class="layui-input-block">
-          <textarea placeholder="请输入内容" name="specialNotes" id="specialNotes" lay-verify="required"   class="layui-textarea">${sreEquipment.specialNotes}</textarea>
-        </div>
-      </div>
 	  	<div class="form-bottom">
 	  		<div class="form-bottom-btns">
 	    		<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="" lay-filter="save">保存</button>
-	    		<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="" lay-filter="component-form-submit">提交</button>
           		<button type="button"class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" id="closeBtn">关闭</button>
 	  		</div>
 		</div>

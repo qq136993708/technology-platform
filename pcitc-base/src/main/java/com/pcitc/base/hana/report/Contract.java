@@ -41,11 +41,17 @@ public class Contract implements Serializable{
     private Integer zbxjhsl;
     
     
+    private Integer projectCount;
 	
-	
     
     
     
+	public Integer getProjectCount() {
+		return projectCount;
+	}
+	public void setProjectCount(Integer projectCount) {
+		this.projectCount = projectCount;
+	}
 	public Integer getFyxsjsl() {
 		return fyxsjsl;
 	}
