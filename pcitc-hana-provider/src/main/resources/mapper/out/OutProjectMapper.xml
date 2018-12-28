@@ -5,82 +5,63 @@
 
 	<!-- 获取国家项目的数据 -->
 	<select id="getCountryProjectList" resultType="java.util.Map" parameterType="java.util.HashMap">
-		select
-			a."G0YEARXM",
-			a."G0GSDM",
-			a."G0GSJC",
-			a."G0PROJCODE",
-			a."G0PROJTXT",
-			a."G0XMGLLX",
-			a."G0XMGLLY",
-			a."G0XMGLJB",
-			a."G0XMLX",
-			a."G0XMLXMS",
-			a."G0XMZT",
-			a."G0XMZTMS",
-			a."G0STUFE",
-			a."G0PLFAZ",
-			a."G0PLSEZ",
-			a."G0FLAG",
-			a."G0XMDL",
-			a."G0KYPFWH",
-			sum(b."K0ZTJHYS") AS "K0ZTJHYS"
-		from (
-			SELECT
-			"G0MXMC",
-			"G0YEARXM",
-			"G0GSDM",
-			"G0GSJC",
-			"G0PROJCODE",
-			"G0PROJTXT",
-			"G0XMGLLX",
-			"G0XMGLLY",
-			"G0XMGLJB",
-			"G0XMLX",
-			"G0XMLXMS",
-			"G0XMZT",
-			"G0XMZTMS",
-			"G0STUFE",
-			"G0PLFAZ",
-			"G0PLSEZ",
-			"G0FLAG",
-			"G0XMDL",
-			"G0LOGSYS",
-			"G0KYPFWH"
-			FROM
-			"H"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY::H1AM_KY_ZH_0000_01.H1AM_KY_ZH_1000_02"
-			WHERE ("G0XMGLLX" = '国家项目'
-			AND "G0STUFE" = '1')
-		) as a left join (
-			SELECT
-			"G0GSDM",
-			"G0PROJCODE",
-			sum("K0ZTJHYS") AS "K0ZTJHYS"
-			FROM
-				"_SYS_BIC"."SINOPEC.EDW.01_DATAMART_LAYER.004_D.XM.DF/DDFXM0001"('PLACEHOLDER' = ('$$PR_CALMONTH$$','999912'),
-				'PLACEHOLDER' = ('$$PR_GSDM$$','1020,1040,1041,1060,1061,1080,1100,1101,1120,1123,1124,1127,1130,4360'))
-			WHERE ("G0STUFE" = '1')
-			GROUP BY "G0LOGSYSTEM","G0MANDT","G0GSDM","G0PROJCODE"
-		) as b on a."G0GSDM" = b."G0GSDM" and a."G0PROJCODE" =b."G0PROJCODE"
-		group by
-			a."G0YEARXM",
-			a."G0GSDM",
-			a."G0GSJC",
-			a."G0PROJCODE",
-			a."G0PROJTXT",
-			a."G0XMGLLX",
-			a."G0XMGLLY",
-			a."G0XMGLJB",
-			a."G0XMLX",
-			a."G0XMLXMS",
-			a."G0XMZT",
-			a."G0XMZTMS",
-			a."G0STUFE",
-			a."G0PLFAZ",
-			a."G0PLSEZ",
-			a."G0FLAG",
-			a."G0XMDL",
-			a."G0KYPFWH"
+		SELECT
+     "G0LOGSYS",
+     "CALDYEAR",
+     "G0GSDM",
+     "G0GSJC",
+     "G0GSOR",
+     "G0GSJCL",
+     "G0GSGP",
+     "G0GSSP",
+     "G0YEARXM",
+     "G0PROJCODE",
+     "G0PROJTXT",
+     "G0PROJCTXT",
+     "G0XMGLLX",
+     "G0XMGLLY",
+     "G0XMGLJB",
+     "G0XMLX",
+     "G0XMLXMS",
+     "G0XMZT",
+     "G0XMZTMS",
+     "G0FLAG",
+     "G0PLFAZ",
+     "G0PLSEZ",
+     "G0XMDL",
+     "G0XMXZ",
+     "G0XMJD",
+     sum("K0ZTYSJE") AS "K0ZTYSJE",
+     sum("K0BNYSJE") AS "K0BNYSJE",
+     sum("K0BNSJJE") AS "K0BNSJJE" 
+FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_ZH_1000_07"('PLACEHOLDER' = ('$$PR_GSDM$$',
+     '1020,1040,1041,1060,1061,1080,1100,1101,1120,1123,1124,1127,1130,4360,1016,1019,101G,101I,1018,4270,101H,101F,101A'),
+     'PLACEHOLDER' = ('$$PR_YEAR$$','${nd}')) 
+GROUP BY "G0LOGSYS",
+     "CALDYEAR",
+     "G0GSDM",
+     "G0GSJC",
+     "G0GSOR",
+     "G0GSJCL",
+     "G0GSGP",
+     "G0GSSP",
+     "G0YEARXM",
+     "G0PROJCODE",
+     "G0PROJTXT",
+     "G0PROJCTXT",
+     "G0XMGLLX",
+     "G0XMGLLY",
+     "G0XMGLJB",
+     "G0XMLX",
+     "G0XMLXMS",
+     "G0XMZT",
+     "G0XMZTMS",
+     "G0FLAG",
+     "G0PLFAZ",
+     "G0PLSEZ",
+     "G0XMDL",
+     "G0XMXZ",
+     "G0XMJD"
 
 	</select>
 

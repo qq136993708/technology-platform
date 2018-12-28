@@ -20,6 +20,12 @@ public interface OutProjectPlanService {
     public void insertOutProjectPlanBatch(List<OutProjectPlan> list);
     
     /**
+     * 批量插入国家项目计划数据
+     */
+    public void insertCountryProjectPlanBatch(List<OutProjectPlan> list);
+    
+    
+    /**
      * 直属研究院二级页面（领导），项目计划完成的比率，按照新开续建、资本性费用性来分组
      */
 	public List getPlanCompleteRateByOldNew(HashMap<String, String> map);

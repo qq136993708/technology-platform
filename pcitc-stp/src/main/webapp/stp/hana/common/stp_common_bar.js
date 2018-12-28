@@ -88,6 +88,10 @@ function barAjax_single(url,  echartsobj, options,width,callback)
 	                    {
 	                    	series.push(seriesDataList[i]);
 	                    }
+	                    console.log("series");
+	                    console.log(series);
+	                    console.log("xAxisData");
+	                    console.log(xAxisData);
 	                    var barWidth=20;
 	                    if(width!=undefined && width != null){
                             barWidth=width;
