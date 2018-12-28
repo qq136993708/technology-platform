@@ -20,6 +20,11 @@ public interface OutProjectPlanService {
     public void insertOutProjectPlanBatch(List<OutProjectPlan> list);
     
     /**
+     * 批量插入项目计划预算数据
+     */
+    public void insertOutProjectPlanForYS(List<OutProjectPlan> list);
+    
+    /**
      * 批量插入国家项目计划数据
      */
     public void insertCountryProjectPlanBatch(List<OutProjectPlan> list, String nd);

@@ -2,6 +2,7 @@ package com.pcitc.service.out.impl;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +17,7 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.stp.out.OutProjectPlan;
 import com.pcitc.base.stp.out.OutProjectPlanExample;
+import com.pcitc.base.util.StrUtil;
 import com.pcitc.mapper.out.OutProjectPlanMapper;
 import com.pcitc.service.out.OutProjectPlanService;
 import com.pcitc.utils.StringUtils;
@@ -34,6 +36,51 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
      */
     public void insertOutProjectPlanBatch(List<OutProjectPlan> list) {
     	outProjectPlanMapper.insertOutProjectPlanBatch(list);
+    }
+    
+    /**
+     * 批量插入项目计划预算数据
+     */
+    public void insertOutProjectPlanForYS(List<OutProjectPlan> list) {
+    	
+    	// 修改本年的预算，没有的查询原项目信息后，保存
+		for (int i = 0; i < list.size(); i++) {
+			OutProjectPlan opp = list.get(i);
+			
+			OutProjectPlanExample example = new OutProjectPlanExample();
+	    	OutProjectPlanExample.Criteria criteria = example.createCriteria();
+	    	
+	    	criteria.andDefine4EqualTo("项目管理系统");
+	    	criteria.andYsndEqualTo(opp.getYsnd());
+	    	criteria.andXmidEqualTo(opp.getXmid());
+
+	    	List<OutProjectPlan> oppList = outProjectPlanMapper.selectByExample(example);
+	    	
+	    	if (oppList != null && oppList.size() > 0) {
+	    		OutProjectPlan newOPP = oppList.get(0);
+	    		if (StrUtil.isNotBlank(newOPP.getYsje())) {
+	    			newOPP.setYsje(opp.getYsje());
+				}
+	    		outProjectPlanMapper.updateByPrimaryKey(newOPP);
+	    	} else {
+	    		// 此项目此预算年度没有预算费用
+	    		OutProjectPlanExample example1 = new OutProjectPlanExample();
+		    	OutProjectPlanExample.Criteria criteria1 = example1.createCriteria();
+		    	
+		    	criteria1.andDefine4EqualTo("项目管理系统");
+		    	criteria1.andXmidEqualTo(opp.getXmid());
+		    	
+	        	List<OutProjectPlan> insertList = outProjectPlanMapper.selectByExample(example1);
+	        	if (insertList != null && insertList.size() > 0) {
+	        		OutProjectPlan insertOPP = insertList.get(0);
+	        		insertOPP.setYsnd(opp.getYsnd());
+	        		insertOPP.setYsje(opp.getYsje());
+	        		insertOPP.setDataId(UUID.randomUUID().toString().replaceAll("-", ""));
+	        		outProjectPlanMapper.insert(insertOPP);
+	        	} 
+	    	}
+			
+		}
     }
     
     /**
