@@ -5,8 +5,8 @@ import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.enums.DataOperationStatusEnum;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.TreeNode;
-import com.pcitc.base.expert.ZjkZhuanli;
-import com.pcitc.base.expert.ZjkZhuanliExample;
+import com.pcitc.base.expert.ZjkPatent;
+import com.pcitc.base.expert.ZjkPatentExample;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -26,7 +26,7 @@ public interface ZjkZhuanliService {
      * @return
      * @throws Exception
      */
-    List<ZjkZhuanli> findZjkZhuanliList(ZjkZhuanli record) throws Exception;
+    List<ZjkPatent> findZjkZhuanliList(ZjkPatent record) throws Exception;
 
     /**
      * 删除
@@ -35,7 +35,7 @@ public interface ZjkZhuanliService {
      * @return
      * @throws Exception
      */
-    int updateOrInsertZjkZhuanli(ZjkZhuanli record) throws Exception;
+    int updateOrInsertZjkZhuanli(ZjkPatent record) throws Exception;
 
     /**
      * 根据id删除
@@ -53,7 +53,7 @@ public interface ZjkZhuanliService {
      * @return
      * @throws Exception
      */
-    ZjkZhuanli getZjkZhuanliInfo(String id) throws Exception;
+    ZjkPatent getZjkZhuanliInfo(String id) throws Exception;
 
     /**
      * 查询总条数
@@ -61,7 +61,7 @@ public interface ZjkZhuanliService {
      * @param example
      * @return
      */
-    long countByExample(ZjkZhuanliExample example);
+    long countByExample(ZjkPatentExample example);
 
     /**
      * 根据example条件删除
@@ -69,7 +69,7 @@ public interface ZjkZhuanliService {
      * @param example
      * @return
      */
-    int deleteByExample(ZjkZhuanliExample example);
+    int deleteByExample(ZjkPatentExample example);
 
     /**
      * 根据主键删除
@@ -85,7 +85,7 @@ public interface ZjkZhuanliService {
      * @param record
      * @return
      */
-    int insert(ZjkZhuanli record);
+    int insert(ZjkPatent record);
 
     /**
      * 插入信息,返回对象
@@ -93,7 +93,7 @@ public interface ZjkZhuanliService {
      * @param record
      * @return
      */
-    ZjkZhuanli insertObject(ZjkZhuanli record);
+    ZjkPatent insertObject(ZjkPatent record);
 
     /**
      * 判空-插入信息
@@ -101,7 +101,7 @@ public interface ZjkZhuanliService {
      * @param record
      * @return
      */
-    int insertSelective(ZjkZhuanli record);
+    int insertSelective(ZjkPatent record);
 
     /**
      * 根据example条件查询
@@ -109,7 +109,7 @@ public interface ZjkZhuanliService {
      * @param example
      * @return
      */
-    List<ZjkZhuanli> selectByExample(ZjkZhuanliExample example);
+    List<ZjkPatent> selectByExample(ZjkPatentExample example);
 
     /**
      * 根据主键查询
@@ -117,7 +117,7 @@ public interface ZjkZhuanliService {
      * @param id
      * @return
      */
-    ZjkZhuanli selectByPrimaryKey(String id);
+    ZjkPatent selectByPrimaryKey(String id);
 
     /**
      * 根据example条件-判空更新
@@ -126,7 +126,7 @@ public interface ZjkZhuanliService {
      * @param example
      * @return
      */
-    int updateByExampleSelective(@Param("record") ZjkZhuanli record, @Param("example") ZjkZhuanliExample example);
+    int updateByExampleSelective(@Param("record") ZjkPatent record, @Param("example") ZjkPatentExample example);
 
     /**
      * 根据example条件,更新所有
@@ -135,7 +135,7 @@ public interface ZjkZhuanliService {
      * @param example
      * @return
      */
-    int updateByExample(@Param("record") ZjkZhuanli record, @Param("example") ZjkZhuanliExample example);
+    int updateByExample(@Param("record") ZjkPatent record, @Param("example") ZjkPatentExample example);
 
     /**
      * 根据主键判空-更新
@@ -143,7 +143,7 @@ public interface ZjkZhuanliService {
      * @param record
      * @return
      */
-    int updateByPrimaryKeySelective(ZjkZhuanli record);
+    int updateByPrimaryKeySelective(ZjkPatent record);
 
     /**
      * 根据主键更新所有
@@ -151,7 +151,7 @@ public interface ZjkZhuanliService {
      * @param record
      * @return
      */
-    int updateByPrimaryKey(ZjkZhuanli record);
+    int updateByPrimaryKey(ZjkPatent record);
 
     /**
      * 删除菜单

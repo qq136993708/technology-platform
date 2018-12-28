@@ -13,7 +13,7 @@
 <div class="layui-main-oil layui-search">
 
     <div class="search">
-        <a data-type="searchEvent" id="searchEvent">查询</a>
+        <!--<a data-type="searchEvent" id="searchEvent">查询</a>-->
         <a class="add" href="javascript:;" id="okDb">确定</a>
     </div>
     <table id="expertTable" class="layui-hide" lay-filter="tableEvent"></table>
@@ -45,32 +45,32 @@
             {type: 'checkbox', event: 'changeEvents', width: 55},
             {title: '序号', type: 'numbers', width: 55},
             {
-                field: 'name',
-                title: '专家姓名',
+                field: 'expertName',
+                title: '姓名',
                 event: 'setActive',
-                align: 'center',
+                align: 'left',
                 style: 'cursor: pointer;',
-                width: 55
+                width: 120
             },
             {
                 field: 'email',
                 title: '邮箱',
                 event: 'setActive',
-                align: 'center',
+                align: 'left',
                 style: 'cursor: pointer;',
-                width: 55,
+                width: 150,
             },
             {field: 'companyName', title: '机构', event: 'setActive', style: 'cursor: pointer;', sort: true,},
             // {field: 'workOrderType', title: '类型', event: 'setActive', style: 'cursor: pointer;', sort: true,},
             {
-                field: 'hylyName',
+                field: 'expertProfessionalFieldName',
                 title: '行业领域',
                 event: 'setActive',
                 style: 'cursor: pointer;',
                 align: 'center',
                 sort: true,
             },
-            {field: 'zhicheng', title: '职称', event: 'setActive', style: 'cursor: pointer;', sort: true}
+            {field: 'expertProfessinal', title: '职称', event: 'setActive', style: 'cursor: pointer;', sort: true}
             , {fixed: 'right', title: '查看', toolbar: '#showDetail', width: 150, align: 'center'}
         ];
 
@@ -81,8 +81,7 @@
                     ,"addUserId":"${addUserId}"
                 }
             };
-            console.log(where)
-            publicMethods.tableRender('expertTable', 'expertTable', '/expertController/bakTableData', false, cols, where, function (res, curr, count) {
+            publicMethods.tableRender('expertTable', 'expertTable', '/expertController/bakTableData', false, cols, where,false, function (res, curr, count) {
                 $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
                     var index = parseInt($(this).index() + 1);
                     $('tr').removeClass('layui-table-click');
@@ -140,7 +139,7 @@
         table.on('tool(tableEvent)', function(obj){
             var data = obj.data;
             if(obj.event === 'showDetail'){
-				parent.layui.index.openTabsPage("/expertController/expertDetail?expertId="+data.id, "专家详情");
+				parent.layui.index.openTabsPage("/expertController/expertDetail?expertId="+data.dataId, "专家详情");
                 //window.open("/expertController/expertDetail?expertId="+data.id);
             }
         });
@@ -161,7 +160,7 @@
             var record = {};
             // record.companyId = selectRowData.company;
             // record.companyName = selectRowData.companyName;
-            record.zjId = selectRowData.id;
+            record.zjId = selectRowData.dataId;
             publicMethods.ajaxPost("/expertController/addChoice", record, function (data) {
                 console.log(data);
                 layer.msg("操作成功");

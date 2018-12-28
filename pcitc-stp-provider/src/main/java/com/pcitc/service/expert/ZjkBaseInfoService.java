@@ -6,8 +6,8 @@ import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.enums.DataOperationStatusEnum;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.TreeNode;
-import com.pcitc.base.expert.ZjkBaseInfo;
-import com.pcitc.base.expert.ZjkBaseInfoExample;
+import com.pcitc.base.expert.ZjkExpert;
+import com.pcitc.base.expert.ZjkExpertExample;
 import com.pcitc.base.system.SysDictionary;
 import org.apache.ibatis.annotations.Param;
 
@@ -29,7 +29,7 @@ public interface ZjkBaseInfoService {
      * @return
      * @throws Exception
      */
-    List<ZjkBaseInfo> findZjkBaseInfoList(ZjkBaseInfo record) throws Exception;
+    List<ZjkExpert> findZjkBaseInfoList(ZjkExpert record) throws Exception;
 
     /**
      * 删除
@@ -38,7 +38,7 @@ public interface ZjkBaseInfoService {
      * @return
      * @throws Exception
      */
-    int updateOrInsertZjkBaseInfo(ZjkBaseInfo record) throws Exception;
+    int updateOrInsertZjkBaseInfo(ZjkExpert record) throws Exception;
 
     /**
      * 根据id删除
@@ -56,7 +56,7 @@ public interface ZjkBaseInfoService {
      * @return
      * @throws Exception
      */
-    ZjkBaseInfo getZjkBaseInfoInfo(String id) throws Exception;
+    ZjkExpert getZjkBaseInfoInfo(String id) throws Exception;
 
     /**
      * 查询总条数
@@ -64,7 +64,7 @@ public interface ZjkBaseInfoService {
      * @param example
      * @return
      */
-    long countByExample(ZjkBaseInfoExample example);
+    long countByExample(ZjkExpertExample example);
 
     /**
      * 根据example条件删除
@@ -72,7 +72,7 @@ public interface ZjkBaseInfoService {
      * @param example
      * @return
      */
-    int deleteByExample(ZjkBaseInfoExample example);
+    int deleteByExample(ZjkExpertExample example);
 
     /**
      * 根据主键删除
@@ -88,7 +88,7 @@ public interface ZjkBaseInfoService {
      * @param record
      * @return
      */
-    int insert(ZjkBaseInfo record);
+    int insert(ZjkExpert record);
 
     /**
      * 插入信息,返回对象
@@ -96,7 +96,7 @@ public interface ZjkBaseInfoService {
      * @param record
      * @return
      */
-    ZjkBaseInfo insertObject(ZjkBaseInfo record);
+    ZjkExpert insertObject(ZjkExpert record);
 
     /**
      * 判空-插入信息
@@ -104,7 +104,7 @@ public interface ZjkBaseInfoService {
      * @param record
      * @return
      */
-    int insertSelective(ZjkBaseInfo record);
+    int insertSelective(ZjkExpert record);
 
     /**
      * 根据example条件查询
@@ -112,7 +112,7 @@ public interface ZjkBaseInfoService {
      * @param example
      * @return
      */
-    List<ZjkBaseInfo> selectByExample(ZjkBaseInfoExample example);
+    List<ZjkExpert> selectByExample(ZjkExpertExample example);
 
     /**
      * 根据主键查询
@@ -120,7 +120,7 @@ public interface ZjkBaseInfoService {
      * @param id
      * @return
      */
-    ZjkBaseInfo selectByPrimaryKey(String id);
+    ZjkExpert selectByPrimaryKey(String id);
 
     /**
      * 根据example条件-判空更新
@@ -129,7 +129,7 @@ public interface ZjkBaseInfoService {
      * @param example
      * @return
      */
-    int updateByExampleSelective(@Param("record") ZjkBaseInfo record, @Param("example") ZjkBaseInfoExample example);
+    int updateByExampleSelective(@Param("record") ZjkExpert record, @Param("example") ZjkExpertExample example);
 
     /**
      * 根据example条件,更新所有
@@ -138,7 +138,7 @@ public interface ZjkBaseInfoService {
      * @param example
      * @return
      */
-    int updateByExample(@Param("record") ZjkBaseInfo record, @Param("example") ZjkBaseInfoExample example);
+    int updateByExample(@Param("record") ZjkExpert record, @Param("example") ZjkExpertExample example);
 
     /**
      * 根据主键判空-更新
@@ -146,7 +146,7 @@ public interface ZjkBaseInfoService {
      * @param record
      * @return
      */
-    int updateByPrimaryKeySelective(ZjkBaseInfo record);
+    int updateByPrimaryKeySelective(ZjkExpert record);
 
     /**
      * 根据主键更新所有
@@ -154,7 +154,7 @@ public interface ZjkBaseInfoService {
      * @param record
      * @return
      */
-    int updateByPrimaryKey(ZjkBaseInfo record);
+    int updateByPrimaryKey(ZjkExpert record);
 
     /**
      * 删除菜单
@@ -187,7 +187,7 @@ public interface ZjkBaseInfoService {
      */
     List<TreeNode> selectObjectByTree();
 
-    public LayuiTableData findByExample(LayuiTableParam param, ZjkBaseInfoExample example);
+    public LayuiTableData findByExample(LayuiTableParam param, ZjkExpertExample example);
 
     /**
      * 图表

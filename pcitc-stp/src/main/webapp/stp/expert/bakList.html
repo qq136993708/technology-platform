@@ -14,23 +14,23 @@
 <div class="layui-main-oil layui-expert-choice">
     <div class="layui-row layui-col-space15">
         <#list baseList as zjkBaseInfo>
-        <div class="layui-col-md3" id="${zjkBaseInfo.id}">
+        <div class="layui-col-md3" id="${zjkBaseInfo.dataId}">
             <div class="layui-information">
                 <div class="layui-img"> </div>
-                <p class="layui-title">${zjkBaseInfo.name}</p>
-                <p>参与评标累计项目总数量 <span class="red">${zjkBaseInfo.xmCount}</span>个</p>
-                <p>参与评标机构总数量 <span class="red">${zjkBaseInfo.jgCount}</span> 个</p>
-                <p>成果数量<span class="red">${zjkBaseInfo.cgCount}</span>个</p>
-                <p>专利数量<span class="red">${zjkBaseInfo.zlCount?default('0')}</span>个</p>
+                <p class="layui-title">${zjkBaseInfo.expertName}</p>
+                <p>参与评标累计项目总数量 <span class="red">${zjkBaseInfo.projectCount}</span>个</p>
+                <p>参与评标机构总数量 <span class="red">${zjkBaseInfo.companyCount}</span> 个</p>
+                <p>成果数量<span class="red">${zjkBaseInfo.achievementCount}</span>个</p>
+                <p>专利数量<span class="red">${zjkBaseInfo.patentCount}</span>个</p>
                 <p class="layui-f">同一行业领域共计<span class="red">${hylyCount}</span>人</p>
-                <p>职称：${zjkBaseInfo.zc}</p>
-                <p>电话：${zjkBaseInfo.dh}</p>
+                <p>职称：${zjkBaseInfo.expertProfessinal}</p>
+                <p>电话：${zjkBaseInfo.mobile}</p>
                 <p>邮箱：${zjkBaseInfo.email}</p>
-                <p>地址：${zjkBaseInfo.dz}</p>
+                <p>地址：${zjkBaseInfo.address}</p>
                 <div class="search">
-                    <a class="add addBx" href="javascript:;" id="addBx" onclick="addBx('${zjkBaseInfo.id}','${zjkBaseInfo.company}','${zjkBaseInfo.companyName}')">加入备选</a>
-                    <a class="add delBak" href="javascript:;" id="delBak" onclick="delBak('${zjkBaseInfo.id}')">移除</a>
-                    <a class="add " href="javascript:;" id="showDetail" onclick="showDetail('${zjkBaseInfo.id}')">查看详情</a>
+                    <a class="add addBx" href="javascript:;" id="addBx" onclick="addBx('${zjkBaseInfo.dataId}','${zjkBaseInfo.company}','${zjkBaseInfo.companyName}')">加入备选</a>
+                    <a class="add delBak" href="javascript:;" id="delBak" onclick="delBak('${zjkBaseInfo.dataId}')">移除</a>
+                    <a class="add " href="javascript:;" id="showDetail" onclick="showDetail('${zjkBaseInfo.dataId}')">查看详情</a>
                 </div>
             </div>
         </div>

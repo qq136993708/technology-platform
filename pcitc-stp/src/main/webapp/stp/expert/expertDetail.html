@@ -29,16 +29,16 @@
                 <div class="layui-col-md4" style="border: 1px solid #ccc;"><img width="100" height="300"
                                                                                 src="/stp/expert/img_temp.jpg"></div>
                 <div class="layui-col-md8" style="padding-left: 30px;">
-                    <p>${zjkBaseInfo.name}</p>
+                    <p>${zjkBaseInfo.expertName}</p>
                     <span>参与评标累计项目总数量 <span class="red">${xmCount}</span>个</span>
                     <span>参与评标机构总数量 <span class="red">${jgCount}</span> 个</span>
                     <span>成果数量<span class="red">${listCgCount}</span>个</span>
                     <span>专利数量<span class="red">${listZlCount}</span>个</span>
                     <span>同一行业领域共计<span class="red">${hylyCount}</span>人</span>
-                    <span class="layui-zc">职称：${zjkBaseInfo.zc}</span>
-                    <span class="layui-pone">电话：${zjkBaseInfo.dh}</span>
+                    <span class="layui-zc">职称：${zjkBaseInfo.expertProfessinal}</span>
+                    <span class="layui-pone">电话：${zjkBaseInfo.mobile}</span>
                     <span class="layui-e">邮箱：${zjkBaseInfo.email}</span>
-                    <span class="layui-a">地址：${zjkBaseInfo.dz}</span>
+                    <span class="layui-a">地址：${zjkBaseInfo.address}</span>
                     <div class="search">
                         <a class="add" href="javascript:;" id="addBx">加入备选</a>
                         <a class="add" href="javascript:;" id="addDb">加入对比</a>
@@ -65,8 +65,8 @@
                                 <#list listCg as vo>
                                 <li>
                                     <p>${vo.publishDate}</p>
-                                    <span>${vo.cgName}</span>
-                                    <p>${vo.cgDesc}</p>
+                                    <span>${vo.achievementName}</span>
+                                    <p>${vo.achievementDesc}</p>
                                 </li>
                             </#list>
                             </ul>
@@ -74,8 +74,8 @@
                         <div class="layui-tab-item">
                             <#list listZl as vo>
                             <li>
-                                <p>${vo.code}</p>
-                                <span>${vo.name}</span>
+                                <p>${vo.patentCode}</p>
+                                <span>${vo.patentName}</span>
                             </li>
                         </#list>
                     </div>
@@ -86,7 +86,7 @@
     <div class="layui-col-md5">
         <div class="layui-card">
             <div class="layui-card-header">
-                与${zjkBaseInfo.name}有过合作的机构展示图
+                与<span style="color: red;">${zjkBaseInfo.expertName}</span>有过合作的机构关系图
             </div>
             <div class="layui-row-main">
                 <div class="main-chart" id="one" style="height:250px;width: 100%;"></div>
@@ -96,7 +96,7 @@
     <div class="layui-col-md5">
         <div class="layui-card">
             <div class="layui-card-header">
-                ${zjkBaseInfo.name}参与评标项目数量统计图
+                <span style="color: red;">${zjkBaseInfo.expertName}</span>参与评标项目数量统计图
             </div>
             <div class="layui-row-main">
                 <div class="main-chart" id="two" style="height:250px;width: 100%;"></div>
@@ -106,7 +106,7 @@
     <div class="layui-col-md12">
         <div class="layui-card">
             <div class="layui-card-header">
-                ${zjkBaseInfo.name}${zjkBaseInfo.age}岁所在行业领域(${zjkBaseInfo.hylyName})年龄段统计图
+                <span style="color: red;">${zjkBaseInfo.expertName}</span>(${zjkBaseInfo.age}岁)所在行业领域(${zjkBaseInfo.expertProfessionalFieldName})年龄段统计图
             </div>
             <div class="layui-row-main">
                 <div class="main-chart" id="five" style="height:250px;width: 100%;"></div>
@@ -126,7 +126,7 @@
     <a class="layui-btn layui-btn-xs" lay-event="showDetail">查看</a>
 </script>
 <script>
-    var expertId = '${zjkBaseInfo.id}';
+    var expertId = '${zjkBaseInfo.dataId}';
     layui.use(['jquery', 'form', 'laydate', 'table', 'layer', 'element', "publicMethods"],
         function () {
             var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer,
@@ -147,7 +147,7 @@
             var record = {};
             // record.companyId = '${zjkBaseInfo.company}';
             // record.companyName = '${zjkBaseInfo.companyName}';
-            record.zjId = '${zjkBaseInfo.id}';
+            record.zjId = '${zjkBaseInfo.dataId}';
 
             function showDb() {
                 parent.layui.index.openTabsPage("/expertController/selectBakList?status=1&addUserId=addUserId", "科技成果明细");
@@ -171,7 +171,7 @@
             //行业领域查看所有
             function searchHyly() {
 
-                $("#hylyshowall").href = "/expertController/queryExpert?hyly=${zjkBaseInfo.hyly}";
+                $("#hylyshowall").href = "/expertController/queryExpert?hyly=${zjkBaseInfo.expertProfessionalField}";
 
                 $("#hylyshowall").click();
             }
@@ -201,7 +201,7 @@
         // });
 
 
-        var fiveUrl = "/expertController/picIndex?id=4&hyly=${zjkBaseInfo.hyly}&type=bar";
+        var fiveUrl = "/expertController/picIndex?id=4&hyly=${zjkBaseInfo.expertProfessionalField}&type=bar";
         var colorFive = ["#8fc31f"];
         var five = load_single_bar(fiveUrl, "five", "", "", yAxis, colorFive, 80);
     }
@@ -236,7 +236,7 @@
             {type: 'checkbox', event: 'changeEvents', width: 55},
             {title: '序号', type: 'numbers', width: 55},
             {
-                field: 'name',
+                field: 'expertName',
                 title: '姓名',
                 event: 'setActive',
                 align: 'center',
@@ -252,21 +252,20 @@
                 width: 55,
             },
             {field: 'companyName', title: '机构', event: 'setActive', style: 'cursor: pointer;', sort: true,},
-            {field: 'workOrderType', title: '类型', event: 'setActive', style: 'cursor: pointer;', sort: true,},
             {
-                field: 'hylyName',
+                field: 'expertProfessionalFieldName',
                 title: '行业领域',
                 event: 'setActive',
                 style: 'cursor: pointer;',
                 align: 'center',
                 sort: true,
             },
-            {field: 'zhicheng', title: '职称', event: 'setActive', style: 'cursor: pointer;', sort: true}
+            {field: 'expertProfessinal', title: '职称', event: 'setActive', style: 'cursor: pointer;', sort: true}
             , {fixed: 'right', title: '查看', toolbar: '#showDetail', width: 150}
         ];
 
         function renderTable() {
-            publicMethods.tableRender('expertTable', 'expertTable', '/expertController/queryIndex', false, cols, where, function (res, curr, count) {
+            publicMethods.tableRender('expertTable', 'expertTable', '/expertController/queryIndex', false, cols, where,true, function (res, curr, count) {
                 $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
                     var index = parseInt($(this).index() + 1);
                     $('tr').removeClass('layui-table-click');

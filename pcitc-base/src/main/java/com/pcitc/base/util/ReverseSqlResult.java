@@ -87,7 +87,7 @@ public class ReverseSqlResult {
         for (String key : keys) {
             byte source [] = request.getParameter(key).getBytes("iso8859-1");
             String modelname = new String (source,"UTF-8");
-            resultMap.put(key,modelname);
+            resultMap.put(key,(modelname==null)?"":modelname);
         }
         return resultMap;
     }

@@ -9,12 +9,11 @@ import com.pcitc.base.common.enums.DataOperationStatusEnum;
 import com.pcitc.base.common.enums.DelFlagEnum;
 import com.pcitc.base.common.TreeNode;
 import com.pcitc.base.expert.*;
-import com.pcitc.base.expert.ZjkZhuanliExample;
+import com.pcitc.base.expert.ZjkPatentExample;
 import com.pcitc.base.util.IdUtil;
 import com.pcitc.base.util.TreeNodeUtil;
-import com.pcitc.mapper.expert.ZjkZhuanliMapper;
+import com.pcitc.mapper.expert.ZjkPatentMapper;
 import com.pcitc.service.expert.ZjkZhuanliService;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,15 +37,15 @@ import java.util.Map;
 public class ZjkZhuanliServiceImpl implements ZjkZhuanliService {
 
     @Autowired
-    private ZjkZhuanliMapper zjkZhuanliMapper;
+    private ZjkPatentMapper zjkZhuanliMapper;
 
-    public List<ZjkZhuanli> findZjkZhuanliList(ZjkZhuanli zjkZhuanli) {
-        List<ZjkZhuanli> record = zjkZhuanliMapper.findZjkZhuanliList(zjkZhuanli);
+    public List<ZjkPatent> findZjkZhuanliList(ZjkPatent zjkZhuanli) {
+        List<ZjkPatent> record = zjkZhuanliMapper.findZjkPatentList(zjkZhuanli);
         return record;
     }
 
     @Override
-    public int updateOrInsertZjkZhuanli(ZjkZhuanli zjkZhuanli) throws Exception {
+    public int updateOrInsertZjkZhuanli(ZjkPatent zjkZhuanli) throws Exception {
         int result = 500;
         if (zjkZhuanli.getId() != null && zjkZhuanli.getId() != null) {
             zjkZhuanliMapper.updateByPrimaryKeySelective(zjkZhuanli);
@@ -69,18 +68,18 @@ public class ZjkZhuanliServiceImpl implements ZjkZhuanliService {
     }
 
     @Override
-    public ZjkZhuanli getZjkZhuanliInfo(String id) throws Exception {
+    public ZjkPatent getZjkZhuanliInfo(String id) throws Exception {
 
         return zjkZhuanliMapper.selectByPrimaryKey(id);
     }
 
     @Override
-    public long countByExample(ZjkZhuanliExample example) {
+    public long countByExample(ZjkPatentExample example) {
         return zjkZhuanliMapper.countByExample(example);
     }
 
     @Override
-    public int deleteByExample(ZjkZhuanliExample example) {
+    public int deleteByExample(ZjkPatentExample example) {
         return zjkZhuanliMapper.deleteByExample(example);
     }
 
@@ -95,48 +94,48 @@ public class ZjkZhuanliServiceImpl implements ZjkZhuanliService {
     }
 
     @Override
-    public int insert(ZjkZhuanli record) {
+    public int insert(ZjkPatent record) {
         record.setId(IdUtil.createIdByTime());
         return zjkZhuanliMapper.insert(record);
     }
 
     @Override
-    public int insertSelective(ZjkZhuanli record) {
+    public int insertSelective(ZjkPatent record) {
         return zjkZhuanliMapper.insertSelective(record);
     }
 
-    public ZjkZhuanli insertObject(ZjkZhuanli record) {
+    public ZjkPatent insertObject(ZjkPatent record) {
         this.insert(record);
         return record;
     }
 
     @Override
-    public List<ZjkZhuanli> selectByExample(ZjkZhuanliExample example) {
+    public List<ZjkPatent> selectByExample(ZjkPatentExample example) {
         return zjkZhuanliMapper.selectByExample(example);
     }
 
     @Override
-    public ZjkZhuanli selectByPrimaryKey(String recordId) {
+    public ZjkPatent selectByPrimaryKey(String recordId) {
         return zjkZhuanliMapper.selectByPrimaryKey(recordId);
     }
 
     @Override
-    public int updateByExampleSelective(@Param("record") ZjkZhuanli record, @Param("example") ZjkZhuanliExample example) {
+    public int updateByExampleSelective(@Param("record") ZjkPatent record, @Param("example") ZjkPatentExample example) {
         return zjkZhuanliMapper.updateByExampleSelective(record, example);
     }
 
     @Override
-    public int updateByExample(@Param("record") ZjkZhuanli record, @Param("example") ZjkZhuanliExample example) {
+    public int updateByExample(@Param("record") ZjkPatent record, @Param("example") ZjkPatentExample example) {
         return zjkZhuanliMapper.updateByExample(record, example);
     }
 
     @Override
-    public int updateByPrimaryKeySelective(ZjkZhuanli record) {
+    public int updateByPrimaryKeySelective(ZjkPatent record) {
         return zjkZhuanliMapper.updateByPrimaryKeySelective(record);
     }
 
     @Override
-    public int updateByPrimaryKey(ZjkZhuanli record) {
+    public int updateByPrimaryKey(ZjkPatent record) {
         if (record.getStatus() == null) {
             record.setStatus("");
         }
@@ -146,7 +145,7 @@ public class ZjkZhuanliServiceImpl implements ZjkZhuanliService {
     @Override
     public Integer deleteZjkZhuanli(Serializable zjkZhuanliId) {
         try {
-            ZjkZhuanli record = zjkZhuanliMapper.selectByPrimaryKey(zjkZhuanliId.toString());
+            ZjkPatent record = zjkZhuanliMapper.selectByPrimaryKey(zjkZhuanliId.toString());
             if (record != null) {
                 record.setStatus(DelFlagEnum.STATUS_DEL.getCode() + "");
                 zjkZhuanliMapper.updateByPrimaryKey(record);
@@ -159,13 +158,13 @@ public class ZjkZhuanliServiceImpl implements ZjkZhuanliService {
 
     @Override
     public LayuiTableData findZjkZhuanliByPage(LayuiTableParam param) {
-        ZjkZhuanliExample example = new ZjkZhuanliExample();
-        ZjkZhuanliExample.Criteria c = example.createCriteria();
+        ZjkPatentExample example = new ZjkPatentExample();
+        ZjkPatentExample.Criteria c = example.createCriteria();
 //        c.andStatusEqualTo("1");
 //        if(param.getParam().get("fileKind") !=null && !com.pcitc.common.StringUtils.isBlank(param.getParam().get("fileKind")+""))
 //        {
         //   c.andIdLike("'%"+param.getParam().get("fileKind")+"%'");
-//            ZjkZhuanliExample.Criteria criteria2 = example.or();
+//            ZjkPatentExample.Criteria criteria2 = example.or();
 //            criteria2.andParentIdEqualTo(param.getParam().get("fileKind").toString());
 //            example.or(criteria2);
         //       }
@@ -181,14 +180,14 @@ public class ZjkZhuanliServiceImpl implements ZjkZhuanliService {
      * @param example
      * @return
      */
-    private LayuiTableData findByExample(LayuiTableParam param, ZjkZhuanliExample example) {
+    private LayuiTableData findByExample(LayuiTableParam param, ZjkPatentExample example) {
         int pageSize = param.getLimit();
         int pageStart = (param.getPage() - 1) * pageSize;
         int pageNum = pageStart / pageSize + 1;
         PageHelper.startPage(pageNum, pageSize);
-        List<ZjkZhuanli> list = zjkZhuanliMapper.selectByExample(example);
+        List<ZjkPatent> list = zjkZhuanliMapper.selectByExample(example);
         // 3、获取分页查询后的数据
-        PageInfo<ZjkZhuanli> pageInfo = new PageInfo<ZjkZhuanli>(list);
+        PageInfo<ZjkPatent> pageInfo = new PageInfo<ZjkPatent>(list);
         LayuiTableData data = new LayuiTableData();
         data.setData(pageInfo.getList());
         Long total = pageInfo.getTotal();
@@ -204,10 +203,9 @@ public class ZjkZhuanliServiceImpl implements ZjkZhuanliService {
     @Override
     public List<TreeNode> selectObjectByTree() {
         List<TreeNode> nodes = new ArrayList<TreeNode>();
-        ZjkZhuanliExample example = new ZjkZhuanliExample();
-        example.getOredCriteria().add(example.createCriteria().andStatusNotEqualTo(DataOperationStatusEnum.DEL_OK.getStatusCode().toString()));
-        List<ZjkZhuanli> records = zjkZhuanliMapper.selectByExample(example);
-        for (ZjkZhuanli record : records) {
+        ZjkPatentExample example = new ZjkPatentExample();
+        List<ZjkPatent> records = zjkZhuanliMapper.selectByExample(example);
+        for (ZjkPatent record : records) {
             TreeNode node = new TreeNode();
             node.setId(record.getId());
             //            node.setLevelCode(record.getUnitLevel().toString());
@@ -216,7 +214,7 @@ public class ZjkZhuanliServiceImpl implements ZjkZhuanliService {
         }
         //构建树形结构(从根节点开始的树形结构)
 
-        ZjkZhuanliExample zjkZhuanliExample = new ZjkZhuanliExample();
+        ZjkPatentExample zjkZhuanliExample = new ZjkPatentExample();
         String strParentId = zjkZhuanliMapper.selectByExample(zjkZhuanliExample).get(0).getId();
         List<TreeNode> orderNodes = TreeNodeUtil.getChildrenNode(strParentId, nodes);
 

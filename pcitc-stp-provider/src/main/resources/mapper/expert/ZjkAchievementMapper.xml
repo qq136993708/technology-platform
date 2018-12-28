@@ -1,0 +1,1035 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pcitc.mapper.expert.ZjkAchievementMapper">
+
+<resultMap id="BaseResultMap" type="com.pcitc.base.expert.ZjkAchievement">
+
+    <id column="data_id" jdbcType="VARCHAR" property="dataId" />
+    <result column="expert_id" jdbcType="VARCHAR" property="expertId" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="achievement_name" jdbcType="VARCHAR" property="achievementName" />
+    <result column="finish_people" jdbcType="VARCHAR" property="finishPeople" />
+    <result column="industry_id" jdbcType="VARCHAR" property="industryId" />
+    <result column="industry_name" jdbcType="VARCHAR" property="industryName" />
+    <result column="achievement_keys" jdbcType="VARCHAR" property="achievementKeys" />
+    <result column="publish_date" jdbcType="VARCHAR" property="publishDate" />
+    <result column="achievement_desc" jdbcType="VARCHAR" property="achievementDesc" />
+    <result column="achievement_level" jdbcType="VARCHAR" property="achievementLevel" />
+    <result column="achievement_type" jdbcType="VARCHAR" property="achievementType" />
+    <result column="owner_contract_name" jdbcType="VARCHAR" property="ownerContractName" />
+    <result column="owner_contract_id" jdbcType="VARCHAR" property="ownerContractId" />
+    <result column="owner_project_id" jdbcType="VARCHAR" property="ownerProjectId" />
+    <result column="owner_project_name" jdbcType="VARCHAR" property="ownerProjectName" />
+    <result column="compan_id" jdbcType="VARCHAR" property="companId" />
+    <result column="company" jdbcType="VARCHAR" property="company" />
+    <result column="bak1" jdbcType="VARCHAR" property="bak1" />
+    <result column="bak2" jdbcType="VARCHAR" property="bak2" />
+    <result column="bak3" jdbcType="VARCHAR" property="bak3" />
+    <result column="bak4" jdbcType="VARCHAR" property="bak4" />
+    <result column="bak5" jdbcType="VARCHAR" property="bak5" />
+    <result column="bak6" jdbcType="VARCHAR" property="bak6" />
+    <result column="sys_flag" jdbcType="VARCHAR" property="sysFlag" />
+    <result column="data_order" jdbcType="INTEGER" property="dataOrder" />
+    <result column="del_flag" jdbcType="INTEGER" property="delFlag" />
+    <result column="create_date" jdbcType="VARCHAR" property="createDate" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="create_user_disp" jdbcType="VARCHAR" property="createUserDisp" />
+    <result column="modify_date" jdbcType="VARCHAR" property="modifyDate" />
+    <result column="modify_user" jdbcType="VARCHAR" property="modifyUser" />
+    <result column="modify_user_disp" jdbcType="VARCHAR" property="modifyUserDisp" />
+</resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                    #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                    #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+<sql id="Base_Column_List">
+        data_id,
+        expert_id,
+        user_id,
+        achievement_name,
+        finish_people,
+        industry_id,
+        industry_name,
+        achievement_keys,
+        publish_date,
+        achievement_desc,
+        achievement_level,
+        achievement_type,
+        owner_contract_name,
+        owner_contract_id,
+        owner_project_id,
+        owner_project_name,
+        compan_id,
+        company,
+        bak1,
+        bak2,
+        bak3,
+        bak4,
+        bak5,
+        bak6,
+        sys_flag,
+        data_order,
+        del_flag,
+        create_date,
+        create_user,
+        create_user_disp,
+        modify_date,
+        modify_user,
+        modify_user_disp
+</sql>
+
+    <select id="selectByExample" parameterType="com.pcitc.base.expert.ZjkAchievementExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List" />
+        from zjk_achievement
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        <if test="limit != null">
+            <if test="offset != null">
+                limit ${offset}, ${limit}
+            </if>
+            <if test="offset == null">
+                limit ${limit}
+            </if>
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from zjk_achievement
+        where data_id = #{dataId,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from zjk_achievement
+        where data_id = #{dataId,jdbcType=VARCHAR}
+    </delete>
+    <delete id="deleteByExample" parameterType="com.pcitc.base.expert.ZjkAchievementExample">
+        delete from zjk_achievement
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.pcitc.base.expert.ZjkAchievement">
+        insert into zjk_achievement (
+            data_id,
+            expert_id,
+            user_id,
+            achievement_name,
+            finish_people,
+            industry_id,
+            industry_name,
+            achievement_keys,
+            publish_date,
+            achievement_desc,
+            achievement_level,
+            achievement_type,
+            owner_contract_name,
+            owner_contract_id,
+            owner_project_id,
+            owner_project_name,
+            compan_id,
+            company,
+            bak1,
+            bak2,
+            bak3,
+            bak4,
+            bak5,
+            bak6,
+            sys_flag,
+            data_order,
+            del_flag,
+            create_date,
+            create_user,
+            create_user_disp,
+            modify_date,
+            modify_user,
+            modify_user_disp
+        )
+        values (
+
+    #{dataId,jdbcType=VARCHAR},
+    #{expertId,jdbcType=VARCHAR},
+    #{userId,jdbcType=VARCHAR},
+    #{achievementName,jdbcType=VARCHAR},
+    #{finishPeople,jdbcType=VARCHAR},
+    #{industryId,jdbcType=VARCHAR},
+    #{industryName,jdbcType=VARCHAR},
+    #{achievementKeys,jdbcType=VARCHAR},
+    #{publishDate,jdbcType=VARCHAR},
+    #{achievementDesc,jdbcType=VARCHAR},
+    #{achievementLevel,jdbcType=VARCHAR},
+    #{achievementType,jdbcType=VARCHAR},
+    #{ownerContractName,jdbcType=VARCHAR},
+    #{ownerContractId,jdbcType=VARCHAR},
+    #{ownerProjectId,jdbcType=VARCHAR},
+    #{ownerProjectName,jdbcType=VARCHAR},
+    #{companId,jdbcType=VARCHAR},
+    #{company,jdbcType=VARCHAR},
+    #{bak1,jdbcType=VARCHAR},
+    #{bak2,jdbcType=VARCHAR},
+    #{bak3,jdbcType=VARCHAR},
+    #{bak4,jdbcType=VARCHAR},
+    #{bak5,jdbcType=VARCHAR},
+    #{bak6,jdbcType=VARCHAR},
+    #{sysFlag,jdbcType=VARCHAR},
+    #{dataOrder,jdbcType=INTEGER},
+    #{delFlag,jdbcType=INTEGER},
+    #{createDate,jdbcType=VARCHAR},
+    #{createUser,jdbcType=VARCHAR},
+    #{createUserDisp,jdbcType=VARCHAR},
+    #{modifyDate,jdbcType=VARCHAR},
+    #{modifyUser,jdbcType=VARCHAR},
+    #{modifyUserDisp,jdbcType=VARCHAR}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.pcitc.base.expert.ZjkAchievement">
+        insert into zjk_achievement
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+
+            <if test="dataId != null">
+            data_id,
+            </if>
+            <if test="expertId != null">
+            expert_id,
+            </if>
+            <if test="userId != null">
+            user_id,
+            </if>
+            <if test="achievementName != null">
+            achievement_name,
+            </if>
+            <if test="finishPeople != null">
+            finish_people,
+            </if>
+            <if test="industryId != null">
+            industry_id,
+            </if>
+            <if test="industryName != null">
+            industry_name,
+            </if>
+            <if test="achievementKeys != null">
+            achievement_keys,
+            </if>
+            <if test="publishDate != null">
+            publish_date,
+            </if>
+            <if test="achievementDesc != null">
+            achievement_desc,
+            </if>
+            <if test="achievementLevel != null">
+            achievement_level,
+            </if>
+            <if test="achievementType != null">
+            achievement_type,
+            </if>
+            <if test="ownerContractName != null">
+            owner_contract_name,
+            </if>
+            <if test="ownerContractId != null">
+            owner_contract_id,
+            </if>
+            <if test="ownerProjectId != null">
+            owner_project_id,
+            </if>
+            <if test="ownerProjectName != null">
+            owner_project_name,
+            </if>
+            <if test="companId != null">
+            compan_id,
+            </if>
+            <if test="company != null">
+            company,
+            </if>
+            <if test="bak1 != null">
+            bak1,
+            </if>
+            <if test="bak2 != null">
+            bak2,
+            </if>
+            <if test="bak3 != null">
+            bak3,
+            </if>
+            <if test="bak4 != null">
+            bak4,
+            </if>
+            <if test="bak5 != null">
+            bak5,
+            </if>
+            <if test="bak6 != null">
+            bak6,
+            </if>
+            <if test="sysFlag != null">
+            sys_flag,
+            </if>
+            <if test="dataOrder != null">
+            data_order,
+            </if>
+            <if test="delFlag != null">
+            del_flag,
+            </if>
+            <if test="createDate != null">
+            create_date,
+            </if>
+            <if test="createUser != null">
+            create_user,
+            </if>
+            <if test="createUserDisp != null">
+            create_user_disp,
+            </if>
+            <if test="modifyDate != null">
+            modify_date,
+            </if>
+            <if test="modifyUser != null">
+            modify_user,
+            </if>
+            <if test="modifyUserDisp != null">
+            modify_user_disp
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+
+
+            <if test="dataId != null">
+            #{dataId ,jdbcType=VARCHAR},
+            </if>
+            <if test="expertId != null">
+            #{expertId ,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null">
+            #{userId ,jdbcType=VARCHAR},
+            </if>
+            <if test="achievementName != null">
+            #{achievementName ,jdbcType=VARCHAR},
+            </if>
+            <if test="finishPeople != null">
+            #{finishPeople ,jdbcType=VARCHAR},
+            </if>
+            <if test="industryId != null">
+            #{industryId ,jdbcType=VARCHAR},
+            </if>
+            <if test="industryName != null">
+            #{industryName ,jdbcType=VARCHAR},
+            </if>
+            <if test="achievementKeys != null">
+            #{achievementKeys ,jdbcType=VARCHAR},
+            </if>
+            <if test="publishDate != null">
+            #{publishDate ,jdbcType=VARCHAR},
+            </if>
+            <if test="achievementDesc != null">
+            #{achievementDesc ,jdbcType=VARCHAR},
+            </if>
+            <if test="achievementLevel != null">
+            #{achievementLevel ,jdbcType=VARCHAR},
+            </if>
+            <if test="achievementType != null">
+            #{achievementType ,jdbcType=VARCHAR},
+            </if>
+            <if test="ownerContractName != null">
+            #{ownerContractName ,jdbcType=VARCHAR},
+            </if>
+            <if test="ownerContractId != null">
+            #{ownerContractId ,jdbcType=VARCHAR},
+            </if>
+            <if test="ownerProjectId != null">
+            #{ownerProjectId ,jdbcType=VARCHAR},
+            </if>
+            <if test="ownerProjectName != null">
+            #{ownerProjectName ,jdbcType=VARCHAR},
+            </if>
+            <if test="companId != null">
+            #{companId ,jdbcType=VARCHAR},
+            </if>
+            <if test="company != null">
+            #{company ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak1 != null">
+            #{bak1 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak2 != null">
+            #{bak2 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak3 != null">
+            #{bak3 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak4 != null">
+            #{bak4 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak5 != null">
+            #{bak5 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak6 != null">
+            #{bak6 ,jdbcType=VARCHAR},
+            </if>
+            <if test="sysFlag != null">
+            #{sysFlag ,jdbcType=VARCHAR},
+            </if>
+            <if test="dataOrder != null">
+            #{dataOrder ,jdbcType=INTEGER},
+            </if>
+            <if test="delFlag != null">
+            #{delFlag ,jdbcType=INTEGER},
+            </if>
+            <if test="createDate != null">
+            #{createDate ,jdbcType=VARCHAR},
+            </if>
+            <if test="createUser != null">
+            #{createUser ,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserDisp != null">
+            #{createUserDisp ,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyDate != null">
+            #{modifyDate ,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyUser != null">
+            #{modifyUser ,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyUserDisp != null">
+            #{modifyUserDisp ,jdbcType=VARCHAR}
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.pcitc.base.expert.ZjkAchievementExample" resultType="java.lang.Long">
+        select count(*) from zjk_achievement
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update zjk_achievement
+        <set>
+
+            <if test="record.dataId != null">
+                data_id=#{record.dataId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.expertId != null">
+                expert_id=#{record.expertId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.userId != null">
+                user_id=#{record.userId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.achievementName != null">
+                achievement_name=#{record.achievementName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.finishPeople != null">
+                finish_people=#{record.finishPeople,jdbcType=VARCHAR},
+            </if>
+            <if test="record.industryId != null">
+                industry_id=#{record.industryId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.industryName != null">
+                industry_name=#{record.industryName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.achievementKeys != null">
+                achievement_keys=#{record.achievementKeys,jdbcType=VARCHAR},
+            </if>
+            <if test="record.publishDate != null">
+                publish_date=#{record.publishDate,jdbcType=VARCHAR},
+            </if>
+            <if test="record.achievementDesc != null">
+                achievement_desc=#{record.achievementDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="record.achievementLevel != null">
+                achievement_level=#{record.achievementLevel,jdbcType=VARCHAR},
+            </if>
+            <if test="record.achievementType != null">
+                achievement_type=#{record.achievementType,jdbcType=VARCHAR},
+            </if>
+            <if test="record.ownerContractName != null">
+                owner_contract_name=#{record.ownerContractName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.ownerContractId != null">
+                owner_contract_id=#{record.ownerContractId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.ownerProjectId != null">
+                owner_project_id=#{record.ownerProjectId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.ownerProjectName != null">
+                owner_project_name=#{record.ownerProjectName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.companId != null">
+                compan_id=#{record.companId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.company != null">
+                company=#{record.company,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bak1 != null">
+                bak1=#{record.bak1,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bak2 != null">
+                bak2=#{record.bak2,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bak3 != null">
+                bak3=#{record.bak3,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bak4 != null">
+                bak4=#{record.bak4,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bak5 != null">
+                bak5=#{record.bak5,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bak6 != null">
+                bak6=#{record.bak6,jdbcType=VARCHAR},
+            </if>
+            <if test="record.sysFlag != null">
+                sys_flag=#{record.sysFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="record.dataOrder != null">
+                data_order=#{record.dataOrder,jdbcType=INTEGER},
+            </if>
+            <if test="record.delFlag != null">
+                del_flag=#{record.delFlag,jdbcType=INTEGER},
+            </if>
+            <if test="record.createDate != null">
+                create_date=#{record.createDate,jdbcType=VARCHAR},
+            </if>
+            <if test="record.createUser != null">
+                create_user=#{record.createUser,jdbcType=VARCHAR},
+            </if>
+            <if test="record.createUserDisp != null">
+                create_user_disp=#{record.createUserDisp,jdbcType=VARCHAR},
+            </if>
+            <if test="record.modifyDate != null">
+                modify_date=#{record.modifyDate,jdbcType=VARCHAR},
+            </if>
+            <if test="record.modifyUser != null">
+                modify_user=#{record.modifyUser,jdbcType=VARCHAR},
+            </if>
+            <if test="record.modifyUserDisp != null">
+                modify_user_disp=#{record.modifyUserDisp,jdbcType=VARCHAR}
+            </if>
+
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update zjk_achievement
+        set
+        data_id=#{record.dataId,jdbcType=VARCHAR},
+        expert_id=#{record.expertId,jdbcType=VARCHAR},
+        user_id=#{record.userId,jdbcType=VARCHAR},
+        achievement_name=#{record.achievementName,jdbcType=VARCHAR},
+        finish_people=#{record.finishPeople,jdbcType=VARCHAR},
+        industry_id=#{record.industryId,jdbcType=VARCHAR},
+        industry_name=#{record.industryName,jdbcType=VARCHAR},
+        achievement_keys=#{record.achievementKeys,jdbcType=VARCHAR},
+        publish_date=#{record.publishDate,jdbcType=VARCHAR},
+        achievement_desc=#{record.achievementDesc,jdbcType=VARCHAR},
+        achievement_level=#{record.achievementLevel,jdbcType=VARCHAR},
+        achievement_type=#{record.achievementType,jdbcType=VARCHAR},
+        owner_contract_name=#{record.ownerContractName,jdbcType=VARCHAR},
+        owner_contract_id=#{record.ownerContractId,jdbcType=VARCHAR},
+        owner_project_id=#{record.ownerProjectId,jdbcType=VARCHAR},
+        owner_project_name=#{record.ownerProjectName,jdbcType=VARCHAR},
+        compan_id=#{record.companId,jdbcType=VARCHAR},
+        company=#{record.company,jdbcType=VARCHAR},
+        bak1=#{record.bak1,jdbcType=VARCHAR},
+        bak2=#{record.bak2,jdbcType=VARCHAR},
+        bak3=#{record.bak3,jdbcType=VARCHAR},
+        bak4=#{record.bak4,jdbcType=VARCHAR},
+        bak5=#{record.bak5,jdbcType=VARCHAR},
+        bak6=#{record.bak6,jdbcType=VARCHAR},
+        sys_flag=#{record.sysFlag,jdbcType=VARCHAR},
+        data_order=#{record.dataOrder,jdbcType=INTEGER},
+        del_flag=#{record.delFlag,jdbcType=INTEGER},
+        create_date=#{record.createDate,jdbcType=VARCHAR},
+        create_user=#{record.createUser,jdbcType=VARCHAR},
+        create_user_disp=#{record.createUserDisp,jdbcType=VARCHAR},
+        modify_date=#{record.modifyDate,jdbcType=VARCHAR},
+        modify_user=#{record.modifyUser,jdbcType=VARCHAR},
+        modify_user_disp=#{record.modifyUserDisp,jdbcType=VARCHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.expert.ZjkAchievement">
+        update zjk_achievement
+        <set>
+
+            <if test="expertId != null">
+            expert_id=#{expertId ,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null">
+            user_id=#{userId ,jdbcType=VARCHAR},
+            </if>
+            <if test="achievementName != null">
+            achievement_name=#{achievementName ,jdbcType=VARCHAR},
+            </if>
+            <if test="finishPeople != null">
+            finish_people=#{finishPeople ,jdbcType=VARCHAR},
+            </if>
+            <if test="industryId != null">
+            industry_id=#{industryId ,jdbcType=VARCHAR},
+            </if>
+            <if test="industryName != null">
+            industry_name=#{industryName ,jdbcType=VARCHAR},
+            </if>
+            <if test="achievementKeys != null">
+            achievement_keys=#{achievementKeys ,jdbcType=VARCHAR},
+            </if>
+            <if test="publishDate != null">
+            publish_date=#{publishDate ,jdbcType=VARCHAR},
+            </if>
+            <if test="achievementDesc != null">
+            achievement_desc=#{achievementDesc ,jdbcType=VARCHAR},
+            </if>
+            <if test="achievementLevel != null">
+            achievement_level=#{achievementLevel ,jdbcType=VARCHAR},
+            </if>
+            <if test="achievementType != null">
+            achievement_type=#{achievementType ,jdbcType=VARCHAR},
+            </if>
+            <if test="ownerContractName != null">
+            owner_contract_name=#{ownerContractName ,jdbcType=VARCHAR},
+            </if>
+            <if test="ownerContractId != null">
+            owner_contract_id=#{ownerContractId ,jdbcType=VARCHAR},
+            </if>
+            <if test="ownerProjectId != null">
+            owner_project_id=#{ownerProjectId ,jdbcType=VARCHAR},
+            </if>
+            <if test="ownerProjectName != null">
+            owner_project_name=#{ownerProjectName ,jdbcType=VARCHAR},
+            </if>
+            <if test="companId != null">
+            compan_id=#{companId ,jdbcType=VARCHAR},
+            </if>
+            <if test="company != null">
+            company=#{company ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak1 != null">
+            bak1=#{bak1 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak2 != null">
+            bak2=#{bak2 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak3 != null">
+            bak3=#{bak3 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak4 != null">
+            bak4=#{bak4 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak5 != null">
+            bak5=#{bak5 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak6 != null">
+            bak6=#{bak6 ,jdbcType=VARCHAR},
+            </if>
+            <if test="sysFlag != null">
+            sys_flag=#{sysFlag ,jdbcType=VARCHAR},
+            </if>
+            <if test="dataOrder != null">
+            data_order=#{dataOrder ,jdbcType=INTEGER},
+            </if>
+            <if test="delFlag != null">
+            del_flag=#{delFlag ,jdbcType=INTEGER},
+            </if>
+            <if test="createDate != null">
+            create_date=#{createDate ,jdbcType=VARCHAR},
+            </if>
+            <if test="createUser != null">
+            create_user=#{createUser ,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserDisp != null">
+            create_user_disp=#{createUserDisp ,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyDate != null">
+            modify_date=#{modifyDate ,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyUser != null">
+            modify_user=#{modifyUser ,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyUserDisp != null">
+            modify_user_disp=#{modifyUserDisp ,jdbcType=VARCHAR}
+            </if>
+        </set>
+        where data_id = #{dataId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.pcitc.base.expert.ZjkAchievement">
+        update zjk_achievement
+        set
+            expert_id=#{expertId,jdbcType=VARCHAR},
+            user_id=#{userId,jdbcType=VARCHAR},
+            achievement_name=#{achievementName,jdbcType=VARCHAR},
+            finish_people=#{finishPeople,jdbcType=VARCHAR},
+            industry_id=#{industryId,jdbcType=VARCHAR},
+            industry_name=#{industryName,jdbcType=VARCHAR},
+            achievement_keys=#{achievementKeys,jdbcType=VARCHAR},
+            publish_date=#{publishDate,jdbcType=VARCHAR},
+            achievement_desc=#{achievementDesc,jdbcType=VARCHAR},
+            achievement_level=#{achievementLevel,jdbcType=VARCHAR},
+            achievement_type=#{achievementType,jdbcType=VARCHAR},
+            owner_contract_name=#{ownerContractName,jdbcType=VARCHAR},
+            owner_contract_id=#{ownerContractId,jdbcType=VARCHAR},
+            owner_project_id=#{ownerProjectId,jdbcType=VARCHAR},
+            owner_project_name=#{ownerProjectName,jdbcType=VARCHAR},
+            compan_id=#{companId,jdbcType=VARCHAR},
+            company=#{company,jdbcType=VARCHAR},
+            bak1=#{bak1,jdbcType=VARCHAR},
+            bak2=#{bak2,jdbcType=VARCHAR},
+            bak3=#{bak3,jdbcType=VARCHAR},
+            bak4=#{bak4,jdbcType=VARCHAR},
+            bak5=#{bak5,jdbcType=VARCHAR},
+            bak6=#{bak6,jdbcType=VARCHAR},
+            sys_flag=#{sysFlag,jdbcType=VARCHAR},
+            data_order=#{dataOrder,jdbcType=INTEGER},
+            del_flag=#{delFlag,jdbcType=INTEGER},
+            create_date=#{createDate,jdbcType=VARCHAR},
+            create_user=#{createUser,jdbcType=VARCHAR},
+            create_user_disp=#{createUserDisp,jdbcType=VARCHAR},
+            modify_date=#{modifyDate,jdbcType=VARCHAR},
+            modify_user=#{modifyUser,jdbcType=VARCHAR},
+            modify_user_disp=#{modifyUserDisp,jdbcType=VARCHAR}
+        where data_id = #{dataId,jdbcType=VARCHAR}
+    </update>
+    <!-- 分页查询 -->
+        <select id="findSysFileKindByPage" parameterType="com.pcitc.base.expert.ZjkAchievement"  resultMap="BaseResultMap">
+
+        select
+                    data_id,
+                    expert_id,
+                    user_id,
+                    achievement_name,
+                    finish_people,
+                    industry_id,
+                    industry_name,
+                    achievement_keys,
+                    publish_date,
+                    achievement_desc,
+                    achievement_level,
+                    achievement_type,
+                    owner_contract_name,
+                    owner_contract_id,
+                    owner_project_id,
+                    owner_project_name,
+                    compan_id,
+                    company,
+                    bak1,
+                    bak2,
+                    bak3,
+                    bak4,
+                    bak5,
+                    bak6,
+                    sys_flag,
+                    data_order,
+                    del_flag,
+                    create_date,
+                    create_user,
+                    create_user_disp,
+                    modify_date,
+                    modify_user,
+                    modify_user_disp
+        from zjk_achievement
+        where 1=1
+                        <if test="dataId!=null and dataId!=''.toString()">
+                            and data_id like '%${dataId}%'
+                        </if>
+                        <if test="expertId!=null and expertId!=''.toString()">
+                            and expert_id like '%${expertId}%'
+                        </if>
+                        <if test="userId!=null and userId!=''.toString()">
+                            and user_id like '%${userId}%'
+                        </if>
+                        <if test="achievementName!=null and achievementName!=''.toString()">
+                            and achievement_name like '%${achievementName}%'
+                        </if>
+                        <if test="finishPeople!=null and finishPeople!=''.toString()">
+                            and finish_people like '%${finishPeople}%'
+                        </if>
+                        <if test="industryId!=null and industryId!=''.toString()">
+                            and industry_id like '%${industryId}%'
+                        </if>
+                        <if test="industryName!=null and industryName!=''.toString()">
+                            and industry_name like '%${industryName}%'
+                        </if>
+                        <if test="achievementKeys!=null and achievementKeys!=''.toString()">
+                            and achievement_keys like '%${achievementKeys}%'
+                        </if>
+                        <if test="publishDate!=null and publishDate!=''.toString()">
+                            and publish_date like '%${publishDate}%'
+                        </if>
+                        <if test="achievementDesc!=null and achievementDesc!=''.toString()">
+                            and achievement_desc like '%${achievementDesc}%'
+                        </if>
+                        <if test="achievementLevel!=null and achievementLevel!=''.toString()">
+                            and achievement_level like '%${achievementLevel}%'
+                        </if>
+                        <if test="achievementType!=null and achievementType!=''.toString()">
+                            and achievement_type like '%${achievementType}%'
+                        </if>
+                        <if test="ownerContractName!=null and ownerContractName!=''.toString()">
+                            and owner_contract_name like '%${ownerContractName}%'
+                        </if>
+                        <if test="ownerContractId!=null and ownerContractId!=''.toString()">
+                            and owner_contract_id like '%${ownerContractId}%'
+                        </if>
+                        <if test="ownerProjectId!=null and ownerProjectId!=''.toString()">
+                            and owner_project_id like '%${ownerProjectId}%'
+                        </if>
+                        <if test="ownerProjectName!=null and ownerProjectName!=''.toString()">
+                            and owner_project_name like '%${ownerProjectName}%'
+                        </if>
+                        <if test="companId!=null and companId!=''.toString()">
+                            and compan_id like '%${companId}%'
+                        </if>
+                        <if test="company!=null and company!=''.toString()">
+                            and company like '%${company}%'
+                        </if>
+                        <if test="bak1!=null and bak1!=''.toString()">
+                            and bak1 like '%${bak1}%'
+                        </if>
+                        <if test="bak2!=null and bak2!=''.toString()">
+                            and bak2 like '%${bak2}%'
+                        </if>
+                        <if test="bak3!=null and bak3!=''.toString()">
+                            and bak3 like '%${bak3}%'
+                        </if>
+                        <if test="bak4!=null and bak4!=''.toString()">
+                            and bak4 like '%${bak4}%'
+                        </if>
+                        <if test="bak5!=null and bak5!=''.toString()">
+                            and bak5 like '%${bak5}%'
+                        </if>
+                        <if test="bak6!=null and bak6!=''.toString()">
+                            and bak6 like '%${bak6}%'
+                        </if>
+                        <if test="sysFlag!=null and sysFlag!=''.toString()">
+                            and sys_flag like '%${sysFlag}%'
+                        </if>
+                        <if test="dataOrder!=null and dataOrder!=''.toString()">
+                            and data_order like '%${dataOrder}%'
+                        </if>
+                        <if test="delFlag!=null and delFlag!=''.toString()">
+                            and del_flag like '%${delFlag}%'
+                        </if>
+                        <if test="createDate!=null and createDate!=''.toString()">
+                            and create_date like '%${createDate}%'
+                        </if>
+                        <if test="createUser!=null and createUser!=''.toString()">
+                            and create_user like '%${createUser}%'
+                        </if>
+                        <if test="createUserDisp!=null and createUserDisp!=''.toString()">
+                            and create_user_disp like '%${createUserDisp}%'
+                        </if>
+                        <if test="modifyDate!=null and modifyDate!=''.toString()">
+                            and modify_date like '%${modifyDate}%'
+                        </if>
+                        <if test="modifyUser!=null and modifyUser!=''.toString()">
+                            and modify_user like '%${modifyUser}%'
+                        </if>
+                        <if test="modifyUserDisp!=null and modifyUserDisp!=''.toString()">
+                            and modify_user_disp like '%${modifyUserDisp}%'
+                        </if>
+
+        <if test="iSortCol!=null and iSortCol!=''.toString()">
+            order by ${iSortCol} ${sSortDir_0}
+        </if>
+    </select>
+    <!-- 查询列表 -->
+    <select id="findZjkAchievementList" parameterType="com.pcitc.base.expert.ZjkAchievement" resultMap="BaseResultMap">
+        select
+                    data_id,
+                    expert_id,
+                    user_id,
+                    achievement_name,
+                    finish_people,
+                    industry_id,
+                    industry_name,
+                    achievement_keys,
+                    publish_date,
+                    achievement_desc,
+                    achievement_level,
+                    achievement_type,
+                    owner_contract_name,
+                    owner_contract_id,
+                    owner_project_id,
+                    owner_project_name,
+                    compan_id,
+                    company,
+                    bak1,
+                    bak2,
+                    bak3,
+                    bak4,
+                    bak5,
+                    bak6,
+                    sys_flag,
+                    data_order,
+                    del_flag,
+                    create_date,
+                    create_user,
+                    create_user_disp,
+                    modify_date,
+                    modify_user,
+                    modify_user_disp
+        from zjk_achievement
+        where 1=1
+                        <if test="dataId!=null">
+                            and data_id = #{dataId,jdbcType=VARCHAR}
+                        </if>
+                        <if test="expertId!=null">
+                            and expert_id = #{expertId,jdbcType=VARCHAR}
+                        </if>
+                        <if test="userId!=null">
+                            and user_id = #{userId,jdbcType=VARCHAR}
+                        </if>
+                        <if test="achievementName!=null">
+                            and achievement_name = #{achievementName,jdbcType=VARCHAR}
+                        </if>
+                        <if test="finishPeople!=null">
+                            and finish_people = #{finishPeople,jdbcType=VARCHAR}
+                        </if>
+                        <if test="industryId!=null">
+                            and industry_id = #{industryId,jdbcType=VARCHAR}
+                        </if>
+                        <if test="industryName!=null">
+                            and industry_name = #{industryName,jdbcType=VARCHAR}
+                        </if>
+                        <if test="achievementKeys!=null">
+                            and achievement_keys = #{achievementKeys,jdbcType=VARCHAR}
+                        </if>
+                        <if test="publishDate!=null">
+                            and publish_date = #{publishDate,jdbcType=VARCHAR}
+                        </if>
+                        <if test="achievementDesc!=null">
+                            and achievement_desc = #{achievementDesc,jdbcType=VARCHAR}
+                        </if>
+                        <if test="achievementLevel!=null">
+                            and achievement_level = #{achievementLevel,jdbcType=VARCHAR}
+                        </if>
+                        <if test="achievementType!=null">
+                            and achievement_type = #{achievementType,jdbcType=VARCHAR}
+                        </if>
+                        <if test="ownerContractName!=null">
+                            and owner_contract_name = #{ownerContractName,jdbcType=VARCHAR}
+                        </if>
+                        <if test="ownerContractId!=null">
+                            and owner_contract_id = #{ownerContractId,jdbcType=VARCHAR}
+                        </if>
+                        <if test="ownerProjectId!=null">
+                            and owner_project_id = #{ownerProjectId,jdbcType=VARCHAR}
+                        </if>
+                        <if test="ownerProjectName!=null">
+                            and owner_project_name = #{ownerProjectName,jdbcType=VARCHAR}
+                        </if>
+                        <if test="companId!=null">
+                            and compan_id = #{companId,jdbcType=VARCHAR}
+                        </if>
+                        <if test="company!=null">
+                            and company = #{company,jdbcType=VARCHAR}
+                        </if>
+                        <if test="bak1!=null">
+                            and bak1 = #{bak1,jdbcType=VARCHAR}
+                        </if>
+                        <if test="bak2!=null">
+                            and bak2 = #{bak2,jdbcType=VARCHAR}
+                        </if>
+                        <if test="bak3!=null">
+                            and bak3 = #{bak3,jdbcType=VARCHAR}
+                        </if>
+                        <if test="bak4!=null">
+                            and bak4 = #{bak4,jdbcType=VARCHAR}
+                        </if>
+                        <if test="bak5!=null">
+                            and bak5 = #{bak5,jdbcType=VARCHAR}
+                        </if>
+                        <if test="bak6!=null">
+                            and bak6 = #{bak6,jdbcType=VARCHAR}
+                        </if>
+                        <if test="sysFlag!=null">
+                            and sys_flag = #{sysFlag,jdbcType=VARCHAR}
+                        </if>
+                        <if test="dataOrder!=null">
+                            and data_order = #{dataOrder,jdbcType=VARCHAR}
+                        </if>
+                        <if test="delFlag!=null">
+                            and del_flag = #{delFlag,jdbcType=VARCHAR}
+                        </if>
+                        <if test="createDate!=null">
+                            and create_date = #{createDate,jdbcType=VARCHAR}
+                        </if>
+                        <if test="createUser!=null">
+                            and create_user = #{createUser,jdbcType=VARCHAR}
+                        </if>
+                        <if test="createUserDisp!=null">
+                            and create_user_disp = #{createUserDisp,jdbcType=VARCHAR}
+                        </if>
+                        <if test="modifyDate!=null">
+                            and modify_date = #{modifyDate,jdbcType=VARCHAR}
+                        </if>
+                        <if test="modifyUser!=null">
+                            and modify_user = #{modifyUser,jdbcType=VARCHAR}
+                        </if>
+                        <if test="modifyUserDisp!=null">
+                            and modify_user_disp = #{modifyUserDisp,jdbcType=VARCHAR}
+                        </if>
+
+        <if test="iSortCol!=null and iSortCol!=''.toString()">
+            order by ${iSortCol} ${sSortDir_0}
+        </if>
+    </select>
+</mapper>
