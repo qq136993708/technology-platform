@@ -1018,9 +1018,9 @@
 		from (
 			select out_project_info.xmid as temId,out_project_plan.xmid as xmid,out_project_plan.DEFINE1,out_project_plan.DEFINE2,
 				   out_project_plan.ysje as jf1,out_project_info.ysje as jf2
-			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and (out_project_info.PROJECT_TYPE= '0' or out_project_info.PROJECT_TYPE= '2') and out_project_info.project_property not like '%十条龙%' and out_project_info.ND= '${nd}' and out_project_info.define7 not like '%已关闭%')
+			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and (out_project_info.PROJECT_TYPE= '0' or out_project_info.PROJECT_TYPE= '2') and out_project_info.project_property not like '%十条龙%' and out_project_info.YSND= '${nd}' and out_project_info.define7 not like '%已关闭%')
 			WHERE
-				out_project_plan.ND= '${nd}' and out_project_plan.DEFINE3 like '%直属研究院%'
+				out_project_plan.YSND= '${nd}' and out_project_plan.DEFINE3 like '%直属研究院%'
 				and (out_project_plan.PROJECT_TYPE= '0' or out_project_plan.PROJECT_TYPE= '2')
 				group by out_project_plan.xmid
 		) as tableB 
