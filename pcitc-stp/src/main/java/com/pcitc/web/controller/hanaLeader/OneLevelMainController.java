@@ -146,12 +146,12 @@ public class OneLevelMainController {
 					   JSONObject jSONArray = responseEntity.getBody();
 						System.out.println(">>>>>>>>>>>>>>investment_first_page_count jSONArray-> " + jSONArray.toString());
 						
-						String totalMoney =String.valueOf(jSONArray.getString("totalMoney"));
+						String projectMoney =String.valueOf(jSONArray.getString("projectMoney"));
 		         		
-						totalMoney=String.format("%.2f", Double.valueOf(totalMoney));
+						projectMoney=String.format("%.2f", Double.valueOf(projectMoney));
 		         		
 						Map map=new HashMap();
-						map.put("totalMoney", totalMoney);
+						map.put("projectMoney", projectMoney);
 		         		result.setSuccess(true);
 						result.setData(map);
 					
@@ -191,7 +191,7 @@ public class OneLevelMainController {
 				{
 					
 					    JSONObject jSONArray = responseEntity.getBody();
-						System.out.println(">>>>>>>>>>>>>>investment_first_page_count jSONArray-> " + jSONArray.toString());
+						System.out.println(">>>>>>>>>>>>>>contract_count jSONArray-> " + jSONArray.toString());
 						Integer projectCount =	jSONArray.getInteger("projectCount");
 						Map map=new HashMap();
 						map.put("projectCount", projectCount);

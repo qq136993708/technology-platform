@@ -404,10 +404,12 @@
 						
 					},
 					success : function(data) {
-						alert(data.data.totalMoney);
+						var projectMoney=data.data.projectMoney;
+						var tt =parseFloat(projectMoney)/10000;
+						
 						$("#textTopTwo")
 								.html(
-										data.zje
+										tt.toFixed(2)
 												+ "<small style='font-size:14px'>(亿元)</small>");
 					}
 				});
