@@ -13,7 +13,7 @@
 <div class="layui-main-oil layui-search">
 
     <div class="search">
-        <a data-type="searchEvent" id="searchEvent">查询</a>
+        <!--<a data-type="searchEvent" id="searchEvent">查询</a>-->
         <a class="add" href="javascript:;" id="okDb">确定</a>
     </div>
     <table id="expertTable" class="layui-hide" lay-filter="tableEvent"></table>
@@ -46,19 +46,19 @@
             {title: '序号', type: 'numbers', width: 55},
             {
                 field: 'expertName',
-                title: '专家姓名',
+                title: '姓名',
                 event: 'setActive',
-                align: 'center',
+                align: 'left',
                 style: 'cursor: pointer;',
-                width: 55
+                width: 120
             },
             {
                 field: 'email',
                 title: '邮箱',
                 event: 'setActive',
-                align: 'center',
+                align: 'left',
                 style: 'cursor: pointer;',
-                width: 55,
+                width: 150,
             },
             {field: 'companyName', title: '机构', event: 'setActive', style: 'cursor: pointer;', sort: true,},
             // {field: 'workOrderType', title: '类型', event: 'setActive', style: 'cursor: pointer;', sort: true,},
