@@ -157,6 +157,16 @@ public class EquipmentController extends BaseController {
 			public String assets(HttpServletRequest request, HttpServletResponse response) {
 				return "/stp/equipment/assets";
 			}
+			
+			
+
+			//转资
+			@RequestMapping(value = "/transfer_funds_list")
+			public String transfer_funds_list(HttpServletRequest request, HttpServletResponse response) {
+				return "/stp/equipment/transfer_funds_list";
+			}
+			
+			
 		
 	/**
 	 * 选择资产分类

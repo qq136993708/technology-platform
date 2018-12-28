@@ -103,6 +103,13 @@ public class OneLevelMainController {
 		private static final String investment_01_01 = "http://pcitc-zuul/system-proxy/out-project-plna-provider/complete-rate/company-type";
 		private static final String investment_02 = "http://pcitc-zuul/system-proxy/out-project-plna-provider/complete-rate/institute";
 		
+		private static final String investment_first_page_count = "http://pcitc-zuul/system-proxy/out-provider/project-money";
+		private static final String contract_count = "http://pcitc-zuul/system-proxy/out-provider/project-count";
+		
+		
+		
+		
+		
 		
 		//新闻
 		private static final String get_news = "http://pcitc-zuul/system-proxy/news-provider/select_news_main";
@@ -116,6 +123,94 @@ public class OneLevelMainController {
 		@Autowired
 		private RestTemplate restTemplate;
 		
+		
+		@RequestMapping(method = RequestMethod.GET, value = "/investment_first_page_count")
+		@ResponseBody
+		public String investment_first_page_count(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+	    	String resault="";
+			Result result = new Result();
+			String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+			Map<String, Object> paramsMap = new HashMap<String, Object>();
+			paramsMap.put("nd", nd);
+			
+			JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+			HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+			if (!nd.equals(""))
+			{
+				ResponseEntity<JSONObject> responseEntity = restTemplate.exchange(investment_first_page_count, HttpMethod.POST, entity, JSONObject.class);
+				int statusCode = responseEntity.getStatusCodeValue();
+				if (statusCode == 200) 
+				{
+					
+					   JSONObject jSONArray = responseEntity.getBody();
+						System.out.println(">>>>>>>>>>>>>>investment_first_page_count jSONArray-> " + jSONArray.toString());
+						
+						String totalMoney =String.valueOf(jSONArray.getString("totalMoney"));
+		         		
+						totalMoney=String.format("%.2f", Double.valueOf(totalMoney));
+		         		
+						Map map=new HashMap();
+						map.put("totalMoney", totalMoney);
+		         		result.setSuccess(true);
+						result.setData(map);
+					
+				}
+				
+			} else
+			{
+				result.setSuccess(false);
+				result.setMessage("参数为空");
+			}
+			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
+			resault=resultObj.toString();
+			System.out.println(">>>>>>>>>>>>>investment_first_page_count " + resultObj.toString());
+			
+			return resault;
+		}
+		
+		
+		
+		@RequestMapping(method = RequestMethod.GET, value = "/contract_count")
+		@ResponseBody
+		public String contract_count(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+	    	String resault="";
+			Result result = new Result();
+			String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+			Map<String, Object> paramsMap = new HashMap<String, Object>();
+			paramsMap.put("nd", nd);
+			
+			JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+			HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+			if (!nd.equals(""))
+			{
+				ResponseEntity<JSONObject> responseEntity = restTemplate.exchange(contract_count, HttpMethod.POST, entity, JSONObject.class);
+				int statusCode = responseEntity.getStatusCodeValue();
+				if (statusCode == 200) 
+				{
+					
+					    JSONObject jSONArray = responseEntity.getBody();
+						System.out.println(">>>>>>>>>>>>>>investment_first_page_count jSONArray-> " + jSONArray.toString());
+						Integer projectCount =	jSONArray.getInteger("projectCount");
+						Map map=new HashMap();
+						map.put("projectCount", projectCount);
+		         		result.setSuccess(true);
+						result.setData(map);
+					
+				}
+				
+			} else
+			{
+				result.setSuccess(false);
+				result.setMessage("参数为空");
+			}
+			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
+			resault=resultObj.toString();
+			System.out.println(">>>>>>>>>>>>>contract_count " + resultObj.toString());
+			
+			return resault;
+		}
 		
 		
 		
