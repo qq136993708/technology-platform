@@ -849,7 +849,7 @@ display: inline-block;vertical-align: top;margin: 6px 10px 0 0;}
 .layui-leader .layui-header{background-color: #002a54;height: 56px;}
 .layui-leader .stpSearchBox{margin: 6px 0 0 30px;}
 .layui-leader .logo{display: inline-block; margin-right: 40px;}
-.layui-leader .stpSearchBox .seacrhBox{width: 268px;}
+.layui-leader .stpSearchBox .seacrhBox{width: 268px;top: 4px;}
 .layui-leader .stpSearchBox .seacrhBox input{background-color: #335676;border: 1px solid #335676;width: 100%;
     color: #adb7c1;}
 .layui-leader .layui-body{bottom: 0;left: 22px;top: 66px;}

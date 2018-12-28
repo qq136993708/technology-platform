@@ -13,6 +13,10 @@ public class OutProjectPlan {
 
     private String xmjb;
 
+    private String ysnd;
+
+    private String ysje;
+
     private String jf;
 
     private String fwdxbm;
@@ -96,28 +100,8 @@ public class OutProjectPlan {
     private String define8;
 
     private String define9;
-    
-    private String parentName;
-    
-    private String projectId;
-    
-    public String getParentName() {
-		return parentName;
-	}
 
-	public void setParentName(String parentName) {
-		this.parentName = parentName;
-	}
-
-	public String getProjectId() {
-		return projectId;
-	}
-
-	public void setProjectId(String projectId) {
-		this.projectId = projectId;
-	}
-
-	public String getDataId() {
+    public String getDataId() {
         return dataId;
     }
 
@@ -163,6 +147,22 @@ public class OutProjectPlan {
 
     public void setXmjb(String xmjb) {
         this.xmjb = xmjb;
+    }
+
+    public String getYsnd() {
+        return ysnd;
+    }
+
+    public void setYsnd(String ysnd) {
+        this.ysnd = ysnd;
+    }
+
+    public String getYsje() {
+        return ysje;
+    }
+
+    public void setYsje(String ysje) {
+        this.ysje = ysje;
     }
 
     public String getJf() {

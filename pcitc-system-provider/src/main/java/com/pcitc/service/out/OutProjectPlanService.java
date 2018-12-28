@@ -22,7 +22,7 @@ public interface OutProjectPlanService {
     /**
      * 批量插入国家项目计划数据
      */
-    public void insertCountryProjectPlanBatch(List<OutProjectPlan> list);
+    public void insertCountryProjectPlanBatch(List<OutProjectPlan> list, String nd);
     
     
     /**

@@ -302,9 +302,27 @@ background: white;box-shadow: 0 0 5px #dadcde;}
 .breadcrumb{color: black;}
 .breadcrumb a{color: #999;}
 .layui-select-more{display: inline-block;}
+.layui-fluid{padding-bottom: 20px;}
+/*十条龙工作报告*/
+.work-report ul{ padding: 1px 30px 30px;}
+.work-report ul li {width: 120px; height: 120px;float: left;margin-top: 29px;margin-right: 50px;}
+.work-report ul li a{width: 120px; height: 120px;display: inline-block;}
+.work-report ul li:nth-child(1) a{background: url("/layuiadmin/layui/images/icon-long.png") no-repeat;}
+.work-report ul li:nth-child(2) a{background: url("/layuiadmin/layui/images/icon-she.png") no-repeat;}
+.work-report ul li:nth-child(3) a{background: url("/layuiadmin/layui/images/icon-ma.png") no-repeat;}
+.work-report ul li:nth-child(4){margin-right: 0;}
+.work-report ul li:nth-child(4) a{background: url("/layuiadmin/layui/images/icon-yang.png") no-repeat;}
+.work-report ul li:nth-child(5){margin-left: 80px;}
+.work-report ul li:nth-child(5) a{background: url("/layuiadmin/layui/images/icon-hou.png") no-repeat;}
+.work-report ul li:nth-child(6) a{background: url("/layuiadmin/layui/images/icon-ji.png") no-repeat;}
+.work-report ul li:nth-child(7) a{background: url("/layuiadmin/layui/images/icon-gou.png") no-repeat;}
 @media screen and (max-width: 1680px) {
    .layui-tab-content{height: 318px}
 }
 @media screen and (max-width: 1536px) {
+    .layui-tab-content{height: 364px}
+}
+@media screen and (max-width: 1366px) {
+    .work-report ul li{margin-right: 28px;}
     .layui-tab-content{height: 364px}
 }

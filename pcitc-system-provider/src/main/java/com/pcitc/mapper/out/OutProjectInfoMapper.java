@@ -39,8 +39,6 @@ public interface OutProjectInfoMapper {
 
     int updateByPrimaryKey(OutProjectInfo record);
     
-    public void copyData(String nd);
-
 	public void insertOutProjectBatch(List<OutProjectInfo> list);
 
 	public List<OutProjectInfo> selectProjectByCond(OutProjectInfo opi);
@@ -51,6 +49,11 @@ public interface OutProjectInfoMapper {
      * 首页科研项目数、装备项目数、总金额（预算）
      */
 	public HashMap<String, String> getOutProjectInfoCount(HashMap<String, String> map);
+	
+	/**
+     * 首页计算项目总金额, 包含结转和新开
+     */
+	public HashMap<String, String> getOutProjectInfoMoney(HashMap<String, String> map);
 	
 	/**
      * @param nd
@@ -301,6 +304,4 @@ public interface OutProjectInfoMapper {
 	 * 删除国家项目预算数据
 	 */
 	public int deleteCountryProjectItemByDefind1(String define1);
-	
-	
 }

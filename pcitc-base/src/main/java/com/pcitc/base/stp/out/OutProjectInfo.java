@@ -15,6 +15,14 @@ public class OutProjectInfo {
 
     private String xmjb;
 
+    private String ysnd;
+
+    private String yshf;
+
+    private String ysxd;
+
+    private String ysje;
+
     private String jf;
 
     private String fwdxbm;
@@ -75,6 +83,8 @@ public class OutProjectInfo {
 
     private String erpProjectCode;
 
+    private String erpProjectName;
+
     private String projectScope;
 
     private String projectLevel;
@@ -120,68 +130,8 @@ public class OutProjectInfo {
     private String define8;
 
     private String define9;
-    
-    private String erpProjectName;	//erp关联的项目名称，可能多个，逗号隔开
-    
-    private String ktid;
-    
-    private String ktmc;
-    
-    private String jfhj;
-    
-    private String sjhf;
-    
-    private String xdjf;
-    
-    public String getSjhf() {
-		return sjhf;
-	}
 
-	public void setSjhf(String sjhf) {
-		this.sjhf = sjhf;
-	}
-
-	public String getXdjf() {
-		return xdjf;
-	}
-
-	public void setXdjf(String xdjf) {
-		this.xdjf = xdjf;
-	}
-
-	public String getErpProjectName() {
-		return erpProjectName;
-	}
-
-	public void setErpProjectName(String erpProjectName) {
-		this.erpProjectName = erpProjectName;
-	}
-
-	public String getKtid() {
-		return ktid;
-	}
-
-	public void setKtid(String ktid) {
-		this.ktid = ktid;
-	}
-
-	public String getKtmc() {
-		return ktmc;
-	}
-
-	public void setKtmc(String ktmc) {
-		this.ktmc = ktmc;
-	}
-
-	public String getJfhj() {
-		return jfhj;
-	}
-
-	public void setJfhj(String jfhj) {
-		this.jfhj = jfhj;
-	}
-
-	public String getDataId() {
+    public String getDataId() {
         return dataId;
     }
 
@@ -227,6 +177,38 @@ public class OutProjectInfo {
 
     public void setXmjb(String xmjb) {
         this.xmjb = xmjb;
+    }
+
+    public String getYsnd() {
+        return ysnd;
+    }
+
+    public void setYsnd(String ysnd) {
+        this.ysnd = ysnd;
+    }
+
+    public String getYshf() {
+        return yshf;
+    }
+
+    public void setYshf(String yshf) {
+        this.yshf = yshf;
+    }
+
+    public String getYsxd() {
+        return ysxd;
+    }
+
+    public void setYsxd(String ysxd) {
+        this.ysxd = ysxd;
+    }
+
+    public String getYsje() {
+        return ysje;
+    }
+
+    public void setYsje(String ysje) {
+        this.ysje = ysje;
     }
 
     public String getJf() {
@@ -467,6 +449,14 @@ public class OutProjectInfo {
 
     public void setErpProjectCode(String erpProjectCode) {
         this.erpProjectCode = erpProjectCode;
+    }
+
+    public String getErpProjectName() {
+        return erpProjectName;
+    }
+
+    public void setErpProjectName(String erpProjectName) {
+        this.erpProjectName = erpProjectName;
     }
 
     public String getProjectScope() {
