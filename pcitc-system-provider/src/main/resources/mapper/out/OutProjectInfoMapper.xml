@@ -8,6 +8,10 @@
     <result column="hth" property="hth" jdbcType="VARCHAR" />
     <result column="xmmc" property="xmmc" jdbcType="VARCHAR" />
     <result column="xmjb" property="xmjb" jdbcType="VARCHAR" />
+    <result column="ysnd" property="ysnd" jdbcType="VARCHAR" />
+    <result column="yshf" property="yshf" jdbcType="VARCHAR" />
+    <result column="ysxd" property="ysxd" jdbcType="VARCHAR" />
+    <result column="ysje" property="ysje" jdbcType="VARCHAR" />
     <result column="jf" property="jf" jdbcType="VARCHAR" />
     <result column="fwdxbm" property="fwdxbm" jdbcType="VARCHAR" />
     <result column="fwdx" property="fwdx" jdbcType="VARCHAR" />
@@ -38,6 +42,7 @@
     <result column="parent_project_id" property="parentProjectId" jdbcType="VARCHAR" />
     <result column="project_type" property="projectType" jdbcType="VARCHAR" />
     <result column="erp_project_code" property="erpProjectCode" jdbcType="VARCHAR" />
+    <result column="erp_project_name" property="erpProjectName" jdbcType="VARCHAR" />
     <result column="project_scope" property="projectScope" jdbcType="VARCHAR" />
     <result column="project_level" property="projectLevel" jdbcType="VARCHAR" />
     <result column="project_property" property="projectProperty" jdbcType="VARCHAR" />
@@ -67,7 +72,6 @@
     <result column="yjnr" property="yjnr" jdbcType="LONGVARCHAR" />
     <result column="jdap" property="jdap" jdbcType="LONGVARCHAR" />
     <result column="yjmb" property="yjmb" jdbcType="LONGVARCHAR" />
-    <result column="erp_project_name" property="erpProjectName" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -128,15 +132,16 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    data_id, nd, xmid, hth, xmmc, xmjb, jf, fwdxbm, fwdx, zylbbm, zylb, fzdwbm, fzdw, 
-    jtfzdwbm, jtfzdw, fzryx, fzrdh, fzrxm, lxrdh, lxryx, lxrxm, jssxxm, jssj, kssj, yjsj, 
-    zyly, zysx, sjid, create_date, create_person, status, update_date, project_id, parent_project_id, 
-    project_type, erp_project_code, project_scope, project_level, project_property, project_abc, 
-    project_source, yjsjks, yjsjjs, xmlbbm, xmlbmc, gsbmmc, gsbmbm, zycmc, zycbm, type_flag, 
-    define1, define2, define3, define4, define5, define6, define7, define8, define9
+    data_id, nd, xmid, hth, xmmc, xmjb, ysnd, yshf, ysxd, ysje, jf, fwdxbm, fwdx, zylbbm, 
+    zylb, fzdwbm, fzdw, jtfzdwbm, jtfzdw, fzryx, fzrdh, fzrxm, lxrdh, lxryx, lxrxm, jssxxm, 
+    jssj, kssj, yjsj, zyly, zysx, sjid, create_date, create_person, status, update_date, 
+    project_id, parent_project_id, project_type, erp_project_code, erp_project_name, 
+    project_scope, project_level, project_property, project_abc, project_source, yjsjks, 
+    yjsjjs, xmlbbm, xmlbmc, gsbmmc, gsbmbm, zycmc, zycbm, type_flag, define1, define2, 
+    define3, define4, define5, define6, define7, define8, define9
   </sql>
   <sql id="Blob_Column_List" >
-    lxbj, yjnr, jdap, yjmb, erp_project_name
+    lxbj, yjnr, jdap, yjmb
   </sql>
   <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.pcitc.base.stp.out.OutProjectInfoExample" >
     select
@@ -190,7 +195,8 @@
   </delete>
   <insert id="insert" parameterType="com.pcitc.base.stp.out.OutProjectInfoWithBLOBs" >
     insert into out_project_info (data_id, nd, xmid, 
-      hth, xmmc, xmjb, jf, 
+      hth, xmmc, xmjb, ysnd, 
+      yshf, ysxd, ysje, jf, 
       fwdxbm, fwdx, zylbbm, 
       zylb, fzdwbm, fzdw, 
       jtfzdwbm, jtfzdw, fzryx, 
@@ -200,18 +206,19 @@
       zysx, sjid, create_date, 
       create_person, status, update_date, 
       project_id, parent_project_id, project_type, 
-      erp_project_code, project_scope, project_level, 
-      project_property, project_abc, project_source, 
-      yjsjks, yjsjjs, xmlbbm, 
-      xmlbmc, gsbmmc, gsbmbm, 
-      zycmc, zycbm, type_flag, 
-      define1, define2, define3, 
-      define4, define5, define6, 
-      define7, define8, define9, 
-      lxbj, yjnr, jdap, 
-      yjmb, erp_project_name)
+      erp_project_code, erp_project_name, project_scope, 
+      project_level, project_property, project_abc, 
+      project_source, yjsjks, yjsjjs, 
+      xmlbbm, xmlbmc, gsbmmc, 
+      gsbmbm, zycmc, zycbm, 
+      type_flag, define1, define2, 
+      define3, define4, define5, 
+      define6, define7, define8, 
+      define9, lxbj, yjnr, 
+      jdap, yjmb)
     values (#{dataId,jdbcType=VARCHAR}, #{nd,jdbcType=VARCHAR}, #{xmid,jdbcType=VARCHAR}, 
-      #{hth,jdbcType=VARCHAR}, #{xmmc,jdbcType=VARCHAR}, #{xmjb,jdbcType=VARCHAR}, #{jf,jdbcType=VARCHAR}, 
+      #{hth,jdbcType=VARCHAR}, #{xmmc,jdbcType=VARCHAR}, #{xmjb,jdbcType=VARCHAR}, #{ysnd,jdbcType=VARCHAR}, 
+      #{yshf,jdbcType=VARCHAR}, #{ysxd,jdbcType=VARCHAR}, #{ysje,jdbcType=VARCHAR}, #{jf,jdbcType=VARCHAR}, 
       #{fwdxbm,jdbcType=VARCHAR}, #{fwdx,jdbcType=VARCHAR}, #{zylbbm,jdbcType=VARCHAR}, 
       #{zylb,jdbcType=VARCHAR}, #{fzdwbm,jdbcType=VARCHAR}, #{fzdw,jdbcType=VARCHAR}, 
       #{jtfzdwbm,jdbcType=VARCHAR}, #{jtfzdw,jdbcType=VARCHAR}, #{fzryx,jdbcType=VARCHAR}, 
@@ -221,16 +228,16 @@
       #{zysx,jdbcType=VARCHAR}, #{sjid,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
       #{createPerson,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, 
       #{projectId,jdbcType=VARCHAR}, #{parentProjectId,jdbcType=VARCHAR}, #{projectType,jdbcType=VARCHAR}, 
-      #{erpProjectCode,jdbcType=VARCHAR}, #{projectScope,jdbcType=VARCHAR}, #{projectLevel,jdbcType=VARCHAR}, 
-      #{projectProperty,jdbcType=VARCHAR}, #{projectAbc,jdbcType=VARCHAR}, #{projectSource,jdbcType=VARCHAR}, 
-      #{yjsjks,jdbcType=VARCHAR}, #{yjsjjs,jdbcType=VARCHAR}, #{xmlbbm,jdbcType=VARCHAR}, 
-      #{xmlbmc,jdbcType=VARCHAR}, #{gsbmmc,jdbcType=VARCHAR}, #{gsbmbm,jdbcType=VARCHAR}, 
-      #{zycmc,jdbcType=VARCHAR}, #{zycbm,jdbcType=VARCHAR}, #{typeFlag,jdbcType=VARCHAR}, 
-      #{define1,jdbcType=VARCHAR}, #{define2,jdbcType=VARCHAR}, #{define3,jdbcType=VARCHAR}, 
-      #{define4,jdbcType=VARCHAR}, #{define5,jdbcType=VARCHAR}, #{define6,jdbcType=VARCHAR}, 
-      #{define7,jdbcType=VARCHAR}, #{define8,jdbcType=VARCHAR}, #{define9,jdbcType=VARCHAR}, 
-      #{lxbj,jdbcType=LONGVARCHAR}, #{yjnr,jdbcType=LONGVARCHAR}, #{jdap,jdbcType=LONGVARCHAR}, 
-      #{yjmb,jdbcType=LONGVARCHAR}, #{erpProjectName,jdbcType=LONGVARCHAR})
+      #{erpProjectCode,jdbcType=VARCHAR}, #{erpProjectName,jdbcType=VARCHAR}, #{projectScope,jdbcType=VARCHAR}, 
+      #{projectLevel,jdbcType=VARCHAR}, #{projectProperty,jdbcType=VARCHAR}, #{projectAbc,jdbcType=VARCHAR}, 
+      #{projectSource,jdbcType=VARCHAR}, #{yjsjks,jdbcType=VARCHAR}, #{yjsjjs,jdbcType=VARCHAR}, 
+      #{xmlbbm,jdbcType=VARCHAR}, #{xmlbmc,jdbcType=VARCHAR}, #{gsbmmc,jdbcType=VARCHAR}, 
+      #{gsbmbm,jdbcType=VARCHAR}, #{zycmc,jdbcType=VARCHAR}, #{zycbm,jdbcType=VARCHAR}, 
+      #{typeFlag,jdbcType=VARCHAR}, #{define1,jdbcType=VARCHAR}, #{define2,jdbcType=VARCHAR}, 
+      #{define3,jdbcType=VARCHAR}, #{define4,jdbcType=VARCHAR}, #{define5,jdbcType=VARCHAR}, 
+      #{define6,jdbcType=VARCHAR}, #{define7,jdbcType=VARCHAR}, #{define8,jdbcType=VARCHAR}, 
+      #{define9,jdbcType=VARCHAR}, #{lxbj,jdbcType=LONGVARCHAR}, #{yjnr,jdbcType=LONGVARCHAR}, 
+      #{jdap,jdbcType=LONGVARCHAR}, #{yjmb,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.pcitc.base.stp.out.OutProjectInfoWithBLOBs" >
     insert into out_project_info
@@ -252,6 +259,18 @@
       </if>
       <if test="xmjb != null" >
         xmjb,
+      </if>
+      <if test="ysnd != null" >
+        ysnd,
+      </if>
+      <if test="yshf != null" >
+        yshf,
+      </if>
+      <if test="ysxd != null" >
+        ysxd,
+      </if>
+      <if test="ysje != null" >
+        ysje,
       </if>
       <if test="jf != null" >
         jf,
@@ -343,6 +362,9 @@
       <if test="erpProjectCode != null" >
         erp_project_code,
       </if>
+      <if test="erpProjectName != null" >
+        erp_project_name,
+      </if>
       <if test="projectScope != null" >
         project_scope,
       </if>
@@ -424,9 +446,6 @@
       <if test="yjmb != null" >
         yjmb,
       </if>
-      <if test="erpProjectName != null" >
-        erp_project_name,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="dataId != null" >
@@ -446,6 +465,18 @@
       </if>
       <if test="xmjb != null" >
         #{xmjb,jdbcType=VARCHAR},
+      </if>
+      <if test="ysnd != null" >
+        #{ysnd,jdbcType=VARCHAR},
+      </if>
+      <if test="yshf != null" >
+        #{yshf,jdbcType=VARCHAR},
+      </if>
+      <if test="ysxd != null" >
+        #{ysxd,jdbcType=VARCHAR},
+      </if>
+      <if test="ysje != null" >
+        #{ysje,jdbcType=VARCHAR},
       </if>
       <if test="jf != null" >
         #{jf,jdbcType=VARCHAR},
@@ -537,6 +568,9 @@
       <if test="erpProjectCode != null" >
         #{erpProjectCode,jdbcType=VARCHAR},
       </if>
+      <if test="erpProjectName != null" >
+        #{erpProjectName,jdbcType=VARCHAR},
+      </if>
       <if test="projectScope != null" >
         #{projectScope,jdbcType=VARCHAR},
       </if>
@@ -618,9 +652,6 @@
       <if test="yjmb != null" >
         #{yjmb,jdbcType=LONGVARCHAR},
       </if>
-      <if test="erpProjectName != null" >
-        #{erpProjectName,jdbcType=LONGVARCHAR},
-      </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.pcitc.base.stp.out.OutProjectInfoExample" resultType="java.lang.Integer" >
@@ -649,6 +680,18 @@
       </if>
       <if test="record.xmjb != null" >
         xmjb = #{record.xmjb,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ysnd != null" >
+        ysnd = #{record.ysnd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.yshf != null" >
+        yshf = #{record.yshf,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ysxd != null" >
+        ysxd = #{record.ysxd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ysje != null" >
+        ysje = #{record.ysje,jdbcType=VARCHAR},
       </if>
       <if test="record.jf != null" >
         jf = #{record.jf,jdbcType=VARCHAR},
@@ -740,6 +783,9 @@
       <if test="record.erpProjectCode != null" >
         erp_project_code = #{record.erpProjectCode,jdbcType=VARCHAR},
       </if>
+      <if test="record.erpProjectName != null" >
+        erp_project_name = #{record.erpProjectName,jdbcType=VARCHAR},
+      </if>
       <if test="record.projectScope != null" >
         project_scope = #{record.projectScope,jdbcType=VARCHAR},
       </if>
@@ -821,9 +867,6 @@
       <if test="record.yjmb != null" >
         yjmb = #{record.yjmb,jdbcType=LONGVARCHAR},
       </if>
-      <if test="record.erpProjectName != null" >
-        erp_project_name = #{record.erpProjectName,jdbcType=LONGVARCHAR},
-      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -837,6 +880,10 @@
       hth = #{record.hth,jdbcType=VARCHAR},
       xmmc = #{record.xmmc,jdbcType=VARCHAR},
       xmjb = #{record.xmjb,jdbcType=VARCHAR},
+      ysnd = #{record.ysnd,jdbcType=VARCHAR},
+      yshf = #{record.yshf,jdbcType=VARCHAR},
+      ysxd = #{record.ysxd,jdbcType=VARCHAR},
+      ysje = #{record.ysje,jdbcType=VARCHAR},
       jf = #{record.jf,jdbcType=VARCHAR},
       fwdxbm = #{record.fwdxbm,jdbcType=VARCHAR},
       fwdx = #{record.fwdx,jdbcType=VARCHAR},
@@ -867,6 +914,7 @@
       parent_project_id = #{record.parentProjectId,jdbcType=VARCHAR},
       project_type = #{record.projectType,jdbcType=VARCHAR},
       erp_project_code = #{record.erpProjectCode,jdbcType=VARCHAR},
+      erp_project_name = #{record.erpProjectName,jdbcType=VARCHAR},
       project_scope = #{record.projectScope,jdbcType=VARCHAR},
       project_level = #{record.projectLevel,jdbcType=VARCHAR},
       project_property = #{record.projectProperty,jdbcType=VARCHAR},
@@ -893,8 +941,7 @@
       lxbj = #{record.lxbj,jdbcType=LONGVARCHAR},
       yjnr = #{record.yjnr,jdbcType=LONGVARCHAR},
       jdap = #{record.jdap,jdbcType=LONGVARCHAR},
-      yjmb = #{record.yjmb,jdbcType=LONGVARCHAR},
-      erp_project_name = #{record.erpProjectName,jdbcType=LONGVARCHAR}
+      yjmb = #{record.yjmb,jdbcType=LONGVARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -907,6 +954,10 @@
       hth = #{record.hth,jdbcType=VARCHAR},
       xmmc = #{record.xmmc,jdbcType=VARCHAR},
       xmjb = #{record.xmjb,jdbcType=VARCHAR},
+      ysnd = #{record.ysnd,jdbcType=VARCHAR},
+      yshf = #{record.yshf,jdbcType=VARCHAR},
+      ysxd = #{record.ysxd,jdbcType=VARCHAR},
+      ysje = #{record.ysje,jdbcType=VARCHAR},
       jf = #{record.jf,jdbcType=VARCHAR},
       fwdxbm = #{record.fwdxbm,jdbcType=VARCHAR},
       fwdx = #{record.fwdx,jdbcType=VARCHAR},
@@ -937,6 +988,7 @@
       parent_project_id = #{record.parentProjectId,jdbcType=VARCHAR},
       project_type = #{record.projectType,jdbcType=VARCHAR},
       erp_project_code = #{record.erpProjectCode,jdbcType=VARCHAR},
+      erp_project_name = #{record.erpProjectName,jdbcType=VARCHAR},
       project_scope = #{record.projectScope,jdbcType=VARCHAR},
       project_level = #{record.projectLevel,jdbcType=VARCHAR},
       project_property = #{record.projectProperty,jdbcType=VARCHAR},
@@ -981,6 +1033,18 @@
       </if>
       <if test="xmjb != null" >
         xmjb = #{xmjb,jdbcType=VARCHAR},
+      </if>
+      <if test="ysnd != null" >
+        ysnd = #{ysnd,jdbcType=VARCHAR},
+      </if>
+      <if test="yshf != null" >
+        yshf = #{yshf,jdbcType=VARCHAR},
+      </if>
+      <if test="ysxd != null" >
+        ysxd = #{ysxd,jdbcType=VARCHAR},
+      </if>
+      <if test="ysje != null" >
+        ysje = #{ysje,jdbcType=VARCHAR},
       </if>
       <if test="jf != null" >
         jf = #{jf,jdbcType=VARCHAR},
@@ -1072,6 +1136,9 @@
       <if test="erpProjectCode != null" >
         erp_project_code = #{erpProjectCode,jdbcType=VARCHAR},
       </if>
+      <if test="erpProjectName != null" >
+        erp_project_name = #{erpProjectName,jdbcType=VARCHAR},
+      </if>
       <if test="projectScope != null" >
         project_scope = #{projectScope,jdbcType=VARCHAR},
       </if>
@@ -1153,9 +1220,6 @@
       <if test="yjmb != null" >
         yjmb = #{yjmb,jdbcType=LONGVARCHAR},
       </if>
-      <if test="erpProjectName != null" >
-        erp_project_name = #{erpProjectName,jdbcType=LONGVARCHAR},
-      </if>
     </set>
     where data_id = #{dataId,jdbcType=VARCHAR}
   </update>
@@ -1166,6 +1230,10 @@
       hth = #{hth,jdbcType=VARCHAR},
       xmmc = #{xmmc,jdbcType=VARCHAR},
       xmjb = #{xmjb,jdbcType=VARCHAR},
+      ysnd = #{ysnd,jdbcType=VARCHAR},
+      yshf = #{yshf,jdbcType=VARCHAR},
+      ysxd = #{ysxd,jdbcType=VARCHAR},
+      ysje = #{ysje,jdbcType=VARCHAR},
       jf = #{jf,jdbcType=VARCHAR},
       fwdxbm = #{fwdxbm,jdbcType=VARCHAR},
       fwdx = #{fwdx,jdbcType=VARCHAR},
@@ -1196,6 +1264,7 @@
       parent_project_id = #{parentProjectId,jdbcType=VARCHAR},
       project_type = #{projectType,jdbcType=VARCHAR},
       erp_project_code = #{erpProjectCode,jdbcType=VARCHAR},
+      erp_project_name = #{erpProjectName,jdbcType=VARCHAR},
       project_scope = #{projectScope,jdbcType=VARCHAR},
       project_level = #{projectLevel,jdbcType=VARCHAR},
       project_property = #{projectProperty,jdbcType=VARCHAR},
@@ -1222,8 +1291,7 @@
       lxbj = #{lxbj,jdbcType=LONGVARCHAR},
       yjnr = #{yjnr,jdbcType=LONGVARCHAR},
       jdap = #{jdap,jdbcType=LONGVARCHAR},
-      yjmb = #{yjmb,jdbcType=LONGVARCHAR},
-      erp_project_name = #{erpProjectName,jdbcType=LONGVARCHAR}
+      yjmb = #{yjmb,jdbcType=LONGVARCHAR}
     where data_id = #{dataId,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.out.OutProjectInfo" >
@@ -1233,6 +1301,10 @@
       hth = #{hth,jdbcType=VARCHAR},
       xmmc = #{xmmc,jdbcType=VARCHAR},
       xmjb = #{xmjb,jdbcType=VARCHAR},
+      ysnd = #{ysnd,jdbcType=VARCHAR},
+      yshf = #{yshf,jdbcType=VARCHAR},
+      ysxd = #{ysxd,jdbcType=VARCHAR},
+      ysje = #{ysje,jdbcType=VARCHAR},
       jf = #{jf,jdbcType=VARCHAR},
       fwdxbm = #{fwdxbm,jdbcType=VARCHAR},
       fwdx = #{fwdx,jdbcType=VARCHAR},
@@ -1263,6 +1335,7 @@
       parent_project_id = #{parentProjectId,jdbcType=VARCHAR},
       project_type = #{projectType,jdbcType=VARCHAR},
       erp_project_code = #{erpProjectCode,jdbcType=VARCHAR},
+      erp_project_name = #{erpProjectName,jdbcType=VARCHAR},
       project_scope = #{projectScope,jdbcType=VARCHAR},
       project_level = #{projectLevel,jdbcType=VARCHAR},
       project_property = #{projectProperty,jdbcType=VARCHAR},
@@ -1289,17 +1362,10 @@
     where data_id = #{dataId,jdbcType=VARCHAR}
   </update>
   
-  <select id="copyData" parameterType="java.lang.String">
-		insert into
-		out_project_info_tem select * from out_project_info
-		where nd =
-		#{nd,jdbcType=VARCHAR}
-	</select>
-
 	<!-- 批量插入项目数据 -->
 	<insert id="insertOutProjectBatch" parameterType="java.util.List">
 		insert into out_project_info (data_id, nd, xmid, hth,
-		xmmc, xmjb, jf,
+		xmmc, xmjb, jf, ysnd, yshf, ysxd, ysje, 
 		fwdxbm, fwdx,
 		zylbbm, zylb, fzdwbm,
 		fzdw, jtfzdwbm, jtfzdw,
@@ -1326,6 +1392,10 @@
 			#{projectInfo.xmmc,jdbcType=VARCHAR},
 			#{projectInfo.xmjb,jdbcType=VARCHAR},
 			#{projectInfo.jf,jdbcType=VARCHAR},
+			#{projectInfo.ysnd,jdbcType=VARCHAR},
+			#{projectInfo.yshf,jdbcType=VARCHAR},
+			#{projectInfo.ysxd,jdbcType=VARCHAR},
+			#{projectInfo.ysje,jdbcType=VARCHAR},
 			#{projectInfo.fwdxbm,jdbcType=VARCHAR},
 			#{projectInfo.fwdx,jdbcType=VARCHAR},
 			#{projectInfo.zylbbm,jdbcType=VARCHAR},
@@ -1451,20 +1521,30 @@
 		group by out_project_info.data_id
 	</select>
 
-	<!-- 首页计算科研装备项目数、非装备项目数、新开项目总金额、新开和结转项目总金额 -->
+	<!-- 首页计算新开项目总数 -->
 	<select id="getOutProjectInfoCount" resultType="java.util.Map" parameterType="java.util.HashMap">
 		select 
-        	round(sum(case when out_project_item.nd = '${nd}' then jfhj else 0 end),2) as jfTotal, 
-        	round(sum(jfhj)/10000,2) as zje, 
-        	count(*) as zsl,
-			sum(case when left(kssj,4) = '${nd}' then 1 else 0 end) as ldzsl, 
-        	sum(case xmlbbm when 'KYZB' then 1 else 0 end) as kyzbCount, 
-        	sum(case when xmlbbm != 'KYZB' then 1 else 0 end) as kyktCount, 
-			sum(case when out_project_info.nd = '${nd}' then 1 else 0 end) as projectCount
-		from out_project_info left join out_project_item on (out_project_item.ktid = out_project_info.xmid and out_project_item.nd = '${nd}')
+        	count(DISTINCT xmid) as projectCount
+		from out_project_info
 		where 
-			project_property not like '%十条龙%' and 
-			(project_type = '0' or project_type = '2') and left(jssj,4) &gt;= '${nd}' and left(kssj,4) &lt;= '${nd}'
+			project_property not like '%十条龙%' and out_project_info.nd = '${nd}' and define7 not like '%已关闭%' and
+			(project_type = '0' or project_type = '2')
+			<if test="define2 != null and define2 != ''">
+				and define2 like '%${define2}%'
+			</if>
+			<if test="typeFlag != null and typeFlag != ''">
+				and type_flag like '%${typeFlag}%'
+			</if>
+	</select>
+	
+	<!-- 首页计算项目总金额, 包含结转和新开 -->
+	<select id="getOutProjectInfoMoney" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select 
+        	round(sum(out_project_info.ysje),4) as projectMoney
+		from out_project_info
+		where 
+			project_property not like '%十条龙%' and out_project_info.ysnd = '${nd}' and define7 not like '%已关闭%' and
+			(project_type = '0' or project_type = '2')
 			<if test="define2 != null and define2 != ''">
 				and define2 like '%${define2}%'
 			</if>

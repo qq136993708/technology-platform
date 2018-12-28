@@ -167,10 +167,10 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 	/**
      * 批量插入国家项目计划数据
      */
-    public void insertCountryProjectPlanBatch(List<OutProjectPlan> list) {
+    public void insertCountryProjectPlanBatch(List<OutProjectPlan> list, String nd) {
     	// 先删除原国家项目计划数据
 		OutProjectPlanExample example = new OutProjectPlanExample();
-		example.createCriteria().andDefine4EqualTo("sap国家项目");
+		example.createCriteria().andDefine4EqualTo("sap国家项目").andYsndEqualTo(nd);
 		outProjectPlanMapper.deleteByExample(example);
     	outProjectPlanMapper.insertOutProjectPlanBatch(list);
     }
