@@ -432,12 +432,26 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
                     String key = entry.getKey();
                     if (x.equals(key)) {
                         name = entry.getValue().toString();
+//                        String[] names = name.split(",");
+//                        for (int j = 0; j < names.length; j++) {
+//
+//                            categories.add(new ChartForceCategories(names[j]));
+//                        }
                         categories.add(new ChartForceCategories(name));
                     }
                     if (y.equals(key)) {
                         value = entry.getValue().toString();
                     }
                 }
+//                String[] names = name.split(",");
+//
+//                for (int j = 0; j < names.length; j++) {
+//
+//                    nodes.add(new ChartForceDataNode(i + 1, names[j], value, names[j]));
+//                    links.add(new ChartForceDataLink(names[j], firstName, i + 1, names[j]));
+//                    links.add(new ChartForceDataLink(names[j], firstName, i + 1, names[j]));
+//                    legendDataList.add(names[j]);
+//                }
                 nodes.add(new ChartForceDataNode(i + 1, name, value, name));
                 links.add(new ChartForceDataLink(name, firstName, i + 1, name));
                 legendDataList.add(name);

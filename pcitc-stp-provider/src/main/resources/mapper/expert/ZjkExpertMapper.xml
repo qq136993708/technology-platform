@@ -1,0 +1,1506 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pcitc.mapper.expert.ZjkExpertMapper">
+
+<resultMap id="BaseResultMap" type="com.pcitc.base.expert.ZjkExpert">
+
+    <id column="data_id" jdbcType="VARCHAR" property="dataId" />
+    <result column="expert_name" jdbcType="VARCHAR" property="expertName" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="company_name" jdbcType="VARCHAR" property="companyName" />
+    <result column="company" jdbcType="VARCHAR" property="company" />
+    <result column="user_desc" jdbcType="LONGVARCHAR" property="userDesc" />
+    <result column="expert_professinal" jdbcType="VARCHAR" property="expertProfessinal" />
+    <result column="age_between" jdbcType="VARCHAR" property="ageBetween" />
+    <result column="age" jdbcType="VARCHAR" property="age" />
+    <result column="birth_date" jdbcType="VARCHAR" property="birthDate" />
+    <result column="industry_name" jdbcType="VARCHAR" property="industryName" />
+    <result column="industry_id" jdbcType="VARCHAR" property="industryId" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="college" jdbcType="VARCHAR" property="college" />
+    <result column="province" jdbcType="VARCHAR" property="province" />
+    <result column="city" jdbcType="VARCHAR" property="city" />
+    <result column="county" jdbcType="VARCHAR" property="county" />
+    <result column="amount_count" jdbcType="VARCHAR" property="amountCount" />
+    <result column="patent_count" jdbcType="VARCHAR" property="patentCount" />
+    <result column="project_count" jdbcType="VARCHAR" property="projectCount" />
+    <result column="company_count" jdbcType="VARCHAR" property="companyCount" />
+    <result column="achievement_count" jdbcType="VARCHAR" property="achievementCount" />
+    <result column="bak1" jdbcType="VARCHAR" property="bak1" />
+    <result column="bak2" jdbcType="VARCHAR" property="bak2" />
+    <result column="bak3" jdbcType="VARCHAR" property="bak3" />
+    <result column="bak4" jdbcType="VARCHAR" property="bak4" />
+    <result column="bak5" jdbcType="VARCHAR" property="bak5" />
+    <result column="bak6" jdbcType="VARCHAR" property="bak6" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="expert_professional_field" jdbcType="VARCHAR" property="expertProfessionalField" />
+    <result column="expert_professional_field_name" jdbcType="VARCHAR" property="expertProfessionalFieldName" />
+    <result column="source" jdbcType="VARCHAR" property="source" />
+    <result column="source_id" jdbcType="VARCHAR" property="sourceId" />
+    <result column="sex" jdbcType="VARCHAR" property="sex" />
+    <result column="card_id" jdbcType="VARCHAR" property="cardId" />
+    <result column="card_type" jdbcType="VARCHAR" property="cardType" />
+    <result column="education" jdbcType="VARCHAR" property="education" />
+    <result column="header_img" jdbcType="VARCHAR" property="headerImg" />
+    <result column="join_project_name" jdbcType="VARCHAR" property="joinProjectName" />
+    <result column="join_project_id" jdbcType="VARCHAR" property="joinProjectId" />
+    <result column="expert_nationality" jdbcType="VARCHAR" property="expertNationality" />
+    <result column="sys_flag" jdbcType="VARCHAR" property="sysFlag" />
+    <result column="data_order" jdbcType="INTEGER" property="dataOrder" />
+    <result column="del_flag" jdbcType="INTEGER" property="delFlag" />
+    <result column="create_date" jdbcType="VARCHAR" property="createDate" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="create_user_disp" jdbcType="VARCHAR" property="createUserDisp" />
+    <result column="modify_date" jdbcType="VARCHAR" property="modifyDate" />
+    <result column="modify_user" jdbcType="VARCHAR" property="modifyUser" />
+    <result column="modify_user_disp" jdbcType="VARCHAR" property="modifyUserDisp" />
+</resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                    #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                    #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+<sql id="Base_Column_List">
+        data_id,
+        expert_name,
+        email,
+        company_name,
+        company,
+        user_desc,
+        expert_professinal,
+        age_between,
+        age,
+        birth_date,
+        industry_name,
+        industry_id,
+        address,
+        college,
+        province,
+        city,
+        county,
+        amount_count,
+        patent_count,
+        project_count,
+        company_count,
+        achievement_count,
+        bak1,
+        bak2,
+        bak3,
+        bak4,
+        bak5,
+        bak6,
+        user_id,
+        mobile,
+        expert_professional_field,
+        expert_professional_field_name,
+        source,
+        source_id,
+        sex,
+        card_id,
+        card_type,
+        education,
+        header_img,
+        join_project_name,
+        join_project_id,
+        expert_nationality,
+        sys_flag,
+        data_order,
+        del_flag,
+        create_date,
+        create_user,
+        create_user_disp,
+        modify_date,
+        modify_user,
+        modify_user_disp
+</sql>
+
+    <select id="selectByExample" parameterType="com.pcitc.base.expert.ZjkExpertExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List" />
+        from zjk_expert
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        <if test="limit != null">
+            <if test="offset != null">
+                limit ${offset}, ${limit}
+            </if>
+            <if test="offset == null">
+                limit ${limit}
+            </if>
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from zjk_expert
+        where data_id = #{dataId,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from zjk_expert
+        where data_id = #{dataId,jdbcType=VARCHAR}
+    </delete>
+    <delete id="deleteByExample" parameterType="com.pcitc.base.expert.ZjkExpertExample">
+        delete from zjk_expert
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.pcitc.base.expert.ZjkExpert">
+        insert into zjk_expert (
+            data_id,
+            expert_name,
+            email,
+            company_name,
+            company,
+            user_desc,
+            expert_professinal,
+            age_between,
+            age,
+            birth_date,
+            industry_name,
+            industry_id,
+            address,
+            college,
+            province,
+            city,
+            county,
+            amount_count,
+            patent_count,
+            project_count,
+            company_count,
+            achievement_count,
+            bak1,
+            bak2,
+            bak3,
+            bak4,
+            bak5,
+            bak6,
+            user_id,
+            mobile,
+            expert_professional_field,
+            expert_professional_field_name,
+            source,
+            source_id,
+            sex,
+            card_id,
+            card_type,
+            education,
+            header_img,
+            join_project_name,
+            join_project_id,
+            expert_nationality,
+            sys_flag,
+            data_order,
+            del_flag,
+            create_date,
+            create_user,
+            create_user_disp,
+            modify_date,
+            modify_user,
+            modify_user_disp
+        )
+        values (
+
+    #{dataId,jdbcType=VARCHAR},
+    #{expertName,jdbcType=VARCHAR},
+    #{email,jdbcType=VARCHAR},
+    #{companyName,jdbcType=VARCHAR},
+    #{company,jdbcType=VARCHAR},
+    #{userDesc,jdbcType=LONGVARCHAR},
+    #{expertProfessinal,jdbcType=VARCHAR},
+    #{ageBetween,jdbcType=VARCHAR},
+    #{age,jdbcType=VARCHAR},
+    #{birthDate,jdbcType=VARCHAR},
+    #{industryName,jdbcType=VARCHAR},
+    #{industryId,jdbcType=VARCHAR},
+    #{address,jdbcType=VARCHAR},
+    #{college,jdbcType=VARCHAR},
+    #{province,jdbcType=VARCHAR},
+    #{city,jdbcType=VARCHAR},
+    #{county,jdbcType=VARCHAR},
+    #{amountCount,jdbcType=VARCHAR},
+    #{patentCount,jdbcType=VARCHAR},
+    #{projectCount,jdbcType=VARCHAR},
+    #{companyCount,jdbcType=VARCHAR},
+    #{achievementCount,jdbcType=VARCHAR},
+    #{bak1,jdbcType=VARCHAR},
+    #{bak2,jdbcType=VARCHAR},
+    #{bak3,jdbcType=VARCHAR},
+    #{bak4,jdbcType=VARCHAR},
+    #{bak5,jdbcType=VARCHAR},
+    #{bak6,jdbcType=VARCHAR},
+    #{userId,jdbcType=VARCHAR},
+    #{mobile,jdbcType=VARCHAR},
+    #{expertProfessionalField,jdbcType=VARCHAR},
+    #{expertProfessionalFieldName,jdbcType=VARCHAR},
+    #{source,jdbcType=VARCHAR},
+    #{sourceId,jdbcType=VARCHAR},
+    #{sex,jdbcType=VARCHAR},
+    #{cardId,jdbcType=VARCHAR},
+    #{cardType,jdbcType=VARCHAR},
+    #{education,jdbcType=VARCHAR},
+    #{headerImg,jdbcType=VARCHAR},
+    #{joinProjectName,jdbcType=VARCHAR},
+    #{joinProjectId,jdbcType=VARCHAR},
+    #{expertNationality,jdbcType=VARCHAR},
+    #{sysFlag,jdbcType=VARCHAR},
+    #{dataOrder,jdbcType=INTEGER},
+    #{delFlag,jdbcType=INTEGER},
+    #{createDate,jdbcType=VARCHAR},
+    #{createUser,jdbcType=VARCHAR},
+    #{createUserDisp,jdbcType=VARCHAR},
+    #{modifyDate,jdbcType=VARCHAR},
+    #{modifyUser,jdbcType=VARCHAR},
+    #{modifyUserDisp,jdbcType=VARCHAR}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.pcitc.base.expert.ZjkExpert">
+        insert into zjk_expert
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+
+            <if test="dataId != null">
+            data_id,
+            </if>
+            <if test="expertName != null">
+            expert_name,
+            </if>
+            <if test="email != null">
+            email,
+            </if>
+            <if test="companyName != null">
+            company_name,
+            </if>
+            <if test="company != null">
+            company,
+            </if>
+            <if test="userDesc != null">
+            user_desc,
+            </if>
+            <if test="expertProfessinal != null">
+            expert_professinal,
+            </if>
+            <if test="ageBetween != null">
+            age_between,
+            </if>
+            <if test="age != null">
+            age,
+            </if>
+            <if test="birthDate != null">
+            birth_date,
+            </if>
+            <if test="industryName != null">
+            industry_name,
+            </if>
+            <if test="industryId != null">
+            industry_id,
+            </if>
+            <if test="address != null">
+            address,
+            </if>
+            <if test="college != null">
+            college,
+            </if>
+            <if test="province != null">
+            province,
+            </if>
+            <if test="city != null">
+            city,
+            </if>
+            <if test="county != null">
+            county,
+            </if>
+            <if test="amountCount != null">
+            amount_count,
+            </if>
+            <if test="patentCount != null">
+            patent_count,
+            </if>
+            <if test="projectCount != null">
+            project_count,
+            </if>
+            <if test="companyCount != null">
+            company_count,
+            </if>
+            <if test="achievementCount != null">
+            achievement_count,
+            </if>
+            <if test="bak1 != null">
+            bak1,
+            </if>
+            <if test="bak2 != null">
+            bak2,
+            </if>
+            <if test="bak3 != null">
+            bak3,
+            </if>
+            <if test="bak4 != null">
+            bak4,
+            </if>
+            <if test="bak5 != null">
+            bak5,
+            </if>
+            <if test="bak6 != null">
+            bak6,
+            </if>
+            <if test="userId != null">
+            user_id,
+            </if>
+            <if test="mobile != null">
+            mobile,
+            </if>
+            <if test="expertProfessionalField != null">
+            expert_professional_field,
+            </if>
+            <if test="expertProfessionalFieldName != null">
+            expert_professional_field_name,
+            </if>
+            <if test="source != null">
+            source,
+            </if>
+            <if test="sourceId != null">
+            source_id,
+            </if>
+            <if test="sex != null">
+            sex,
+            </if>
+            <if test="cardId != null">
+            card_id,
+            </if>
+            <if test="cardType != null">
+            card_type,
+            </if>
+            <if test="education != null">
+            education,
+            </if>
+            <if test="headerImg != null">
+            header_img,
+            </if>
+            <if test="joinProjectName != null">
+            join_project_name,
+            </if>
+            <if test="joinProjectId != null">
+            join_project_id,
+            </if>
+            <if test="expertNationality != null">
+            expert_nationality,
+            </if>
+            <if test="sysFlag != null">
+            sys_flag,
+            </if>
+            <if test="dataOrder != null">
+            data_order,
+            </if>
+            <if test="delFlag != null">
+            del_flag,
+            </if>
+            <if test="createDate != null">
+            create_date,
+            </if>
+            <if test="createUser != null">
+            create_user,
+            </if>
+            <if test="createUserDisp != null">
+            create_user_disp,
+            </if>
+            <if test="modifyDate != null">
+            modify_date,
+            </if>
+            <if test="modifyUser != null">
+            modify_user,
+            </if>
+            <if test="modifyUserDisp != null">
+            modify_user_disp
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+
+
+            <if test="dataId != null">
+            #{dataId ,jdbcType=VARCHAR},
+            </if>
+            <if test="expertName != null">
+            #{expertName ,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+            #{email ,jdbcType=VARCHAR},
+            </if>
+            <if test="companyName != null">
+            #{companyName ,jdbcType=VARCHAR},
+            </if>
+            <if test="company != null">
+            #{company ,jdbcType=VARCHAR},
+            </if>
+            <if test="userDesc != null">
+            #{userDesc ,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="expertProfessinal != null">
+            #{expertProfessinal ,jdbcType=VARCHAR},
+            </if>
+            <if test="ageBetween != null">
+            #{ageBetween ,jdbcType=VARCHAR},
+            </if>
+            <if test="age != null">
+            #{age ,jdbcType=VARCHAR},
+            </if>
+            <if test="birthDate != null">
+            #{birthDate ,jdbcType=VARCHAR},
+            </if>
+            <if test="industryName != null">
+            #{industryName ,jdbcType=VARCHAR},
+            </if>
+            <if test="industryId != null">
+            #{industryId ,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null">
+            #{address ,jdbcType=VARCHAR},
+            </if>
+            <if test="college != null">
+            #{college ,jdbcType=VARCHAR},
+            </if>
+            <if test="province != null">
+            #{province ,jdbcType=VARCHAR},
+            </if>
+            <if test="city != null">
+            #{city ,jdbcType=VARCHAR},
+            </if>
+            <if test="county != null">
+            #{county ,jdbcType=VARCHAR},
+            </if>
+            <if test="amountCount != null">
+            #{amountCount ,jdbcType=VARCHAR},
+            </if>
+            <if test="patentCount != null">
+            #{patentCount ,jdbcType=VARCHAR},
+            </if>
+            <if test="projectCount != null">
+            #{projectCount ,jdbcType=VARCHAR},
+            </if>
+            <if test="companyCount != null">
+            #{companyCount ,jdbcType=VARCHAR},
+            </if>
+            <if test="achievementCount != null">
+            #{achievementCount ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak1 != null">
+            #{bak1 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak2 != null">
+            #{bak2 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak3 != null">
+            #{bak3 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak4 != null">
+            #{bak4 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak5 != null">
+            #{bak5 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak6 != null">
+            #{bak6 ,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null">
+            #{userId ,jdbcType=VARCHAR},
+            </if>
+            <if test="mobile != null">
+            #{mobile ,jdbcType=VARCHAR},
+            </if>
+            <if test="expertProfessionalField != null">
+            #{expertProfessionalField ,jdbcType=VARCHAR},
+            </if>
+            <if test="expertProfessionalFieldName != null">
+            #{expertProfessionalFieldName ,jdbcType=VARCHAR},
+            </if>
+            <if test="source != null">
+            #{source ,jdbcType=VARCHAR},
+            </if>
+            <if test="sourceId != null">
+            #{sourceId ,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null">
+            #{sex ,jdbcType=VARCHAR},
+            </if>
+            <if test="cardId != null">
+            #{cardId ,jdbcType=VARCHAR},
+            </if>
+            <if test="cardType != null">
+            #{cardType ,jdbcType=VARCHAR},
+            </if>
+            <if test="education != null">
+            #{education ,jdbcType=VARCHAR},
+            </if>
+            <if test="headerImg != null">
+            #{headerImg ,jdbcType=VARCHAR},
+            </if>
+            <if test="joinProjectName != null">
+            #{joinProjectName ,jdbcType=VARCHAR},
+            </if>
+            <if test="joinProjectId != null">
+            #{joinProjectId ,jdbcType=VARCHAR},
+            </if>
+            <if test="expertNationality != null">
+            #{expertNationality ,jdbcType=VARCHAR},
+            </if>
+            <if test="sysFlag != null">
+            #{sysFlag ,jdbcType=VARCHAR},
+            </if>
+            <if test="dataOrder != null">
+            #{dataOrder ,jdbcType=INTEGER},
+            </if>
+            <if test="delFlag != null">
+            #{delFlag ,jdbcType=INTEGER},
+            </if>
+            <if test="createDate != null">
+            #{createDate ,jdbcType=VARCHAR},
+            </if>
+            <if test="createUser != null">
+            #{createUser ,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserDisp != null">
+            #{createUserDisp ,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyDate != null">
+            #{modifyDate ,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyUser != null">
+            #{modifyUser ,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyUserDisp != null">
+            #{modifyUserDisp ,jdbcType=VARCHAR}
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.pcitc.base.expert.ZjkExpertExample" resultType="java.lang.Long">
+        select count(*) from zjk_expert
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update zjk_expert
+        <set>
+
+            <if test="record.dataId != null">
+                data_id=#{record.dataId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.expertName != null">
+                expert_name=#{record.expertName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.email != null">
+                email=#{record.email,jdbcType=VARCHAR},
+            </if>
+            <if test="record.companyName != null">
+                company_name=#{record.companyName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.company != null">
+                company=#{record.company,jdbcType=VARCHAR},
+            </if>
+            <if test="record.userDesc != null">
+                user_desc=#{record.userDesc,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="record.expertProfessinal != null">
+                expert_professinal=#{record.expertProfessinal,jdbcType=VARCHAR},
+            </if>
+            <if test="record.ageBetween != null">
+                age_between=#{record.ageBetween,jdbcType=VARCHAR},
+            </if>
+            <if test="record.age != null">
+                age=#{record.age,jdbcType=VARCHAR},
+            </if>
+            <if test="record.birthDate != null">
+                birth_date=#{record.birthDate,jdbcType=VARCHAR},
+            </if>
+            <if test="record.industryName != null">
+                industry_name=#{record.industryName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.industryId != null">
+                industry_id=#{record.industryId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.address != null">
+                address=#{record.address,jdbcType=VARCHAR},
+            </if>
+            <if test="record.college != null">
+                college=#{record.college,jdbcType=VARCHAR},
+            </if>
+            <if test="record.province != null">
+                province=#{record.province,jdbcType=VARCHAR},
+            </if>
+            <if test="record.city != null">
+                city=#{record.city,jdbcType=VARCHAR},
+            </if>
+            <if test="record.county != null">
+                county=#{record.county,jdbcType=VARCHAR},
+            </if>
+            <if test="record.amountCount != null">
+                amount_count=#{record.amountCount,jdbcType=VARCHAR},
+            </if>
+            <if test="record.patentCount != null">
+                patent_count=#{record.patentCount,jdbcType=VARCHAR},
+            </if>
+            <if test="record.projectCount != null">
+                project_count=#{record.projectCount,jdbcType=VARCHAR},
+            </if>
+            <if test="record.companyCount != null">
+                company_count=#{record.companyCount,jdbcType=VARCHAR},
+            </if>
+            <if test="record.achievementCount != null">
+                achievement_count=#{record.achievementCount,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bak1 != null">
+                bak1=#{record.bak1,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bak2 != null">
+                bak2=#{record.bak2,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bak3 != null">
+                bak3=#{record.bak3,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bak4 != null">
+                bak4=#{record.bak4,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bak5 != null">
+                bak5=#{record.bak5,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bak6 != null">
+                bak6=#{record.bak6,jdbcType=VARCHAR},
+            </if>
+            <if test="record.userId != null">
+                user_id=#{record.userId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.mobile != null">
+                mobile=#{record.mobile,jdbcType=VARCHAR},
+            </if>
+            <if test="record.expertProfessionalField != null">
+                expert_professional_field=#{record.expertProfessionalField,jdbcType=VARCHAR},
+            </if>
+            <if test="record.expertProfessionalFieldName != null">
+                expert_professional_field_name=#{record.expertProfessionalFieldName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.source != null">
+                source=#{record.source,jdbcType=VARCHAR},
+            </if>
+            <if test="record.sourceId != null">
+                source_id=#{record.sourceId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.sex != null">
+                sex=#{record.sex,jdbcType=VARCHAR},
+            </if>
+            <if test="record.cardId != null">
+                card_id=#{record.cardId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.cardType != null">
+                card_type=#{record.cardType,jdbcType=VARCHAR},
+            </if>
+            <if test="record.education != null">
+                education=#{record.education,jdbcType=VARCHAR},
+            </if>
+            <if test="record.headerImg != null">
+                header_img=#{record.headerImg,jdbcType=VARCHAR},
+            </if>
+            <if test="record.joinProjectName != null">
+                join_project_name=#{record.joinProjectName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.joinProjectId != null">
+                join_project_id=#{record.joinProjectId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.expertNationality != null">
+                expert_nationality=#{record.expertNationality,jdbcType=VARCHAR},
+            </if>
+            <if test="record.sysFlag != null">
+                sys_flag=#{record.sysFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="record.dataOrder != null">
+                data_order=#{record.dataOrder,jdbcType=INTEGER},
+            </if>
+            <if test="record.delFlag != null">
+                del_flag=#{record.delFlag,jdbcType=INTEGER},
+            </if>
+            <if test="record.createDate != null">
+                create_date=#{record.createDate,jdbcType=VARCHAR},
+            </if>
+            <if test="record.createUser != null">
+                create_user=#{record.createUser,jdbcType=VARCHAR},
+            </if>
+            <if test="record.createUserDisp != null">
+                create_user_disp=#{record.createUserDisp,jdbcType=VARCHAR},
+            </if>
+            <if test="record.modifyDate != null">
+                modify_date=#{record.modifyDate,jdbcType=VARCHAR},
+            </if>
+            <if test="record.modifyUser != null">
+                modify_user=#{record.modifyUser,jdbcType=VARCHAR},
+            </if>
+            <if test="record.modifyUserDisp != null">
+                modify_user_disp=#{record.modifyUserDisp,jdbcType=VARCHAR}
+            </if>
+
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update zjk_expert
+        set
+        data_id=#{record.dataId,jdbcType=VARCHAR},
+        expert_name=#{record.expertName,jdbcType=VARCHAR},
+        email=#{record.email,jdbcType=VARCHAR},
+        company_name=#{record.companyName,jdbcType=VARCHAR},
+        company=#{record.company,jdbcType=VARCHAR},
+        user_desc=#{record.userDesc,jdbcType=LONGVARCHAR},
+        expert_professinal=#{record.expertProfessinal,jdbcType=VARCHAR},
+        age_between=#{record.ageBetween,jdbcType=VARCHAR},
+        age=#{record.age,jdbcType=VARCHAR},
+        birth_date=#{record.birthDate,jdbcType=VARCHAR},
+        industry_name=#{record.industryName,jdbcType=VARCHAR},
+        industry_id=#{record.industryId,jdbcType=VARCHAR},
+        address=#{record.address,jdbcType=VARCHAR},
+        college=#{record.college,jdbcType=VARCHAR},
+        province=#{record.province,jdbcType=VARCHAR},
+        city=#{record.city,jdbcType=VARCHAR},
+        county=#{record.county,jdbcType=VARCHAR},
+        amount_count=#{record.amountCount,jdbcType=VARCHAR},
+        patent_count=#{record.patentCount,jdbcType=VARCHAR},
+        project_count=#{record.projectCount,jdbcType=VARCHAR},
+        company_count=#{record.companyCount,jdbcType=VARCHAR},
+        achievement_count=#{record.achievementCount,jdbcType=VARCHAR},
+        bak1=#{record.bak1,jdbcType=VARCHAR},
+        bak2=#{record.bak2,jdbcType=VARCHAR},
+        bak3=#{record.bak3,jdbcType=VARCHAR},
+        bak4=#{record.bak4,jdbcType=VARCHAR},
+        bak5=#{record.bak5,jdbcType=VARCHAR},
+        bak6=#{record.bak6,jdbcType=VARCHAR},
+        user_id=#{record.userId,jdbcType=VARCHAR},
+        mobile=#{record.mobile,jdbcType=VARCHAR},
+        expert_professional_field=#{record.expertProfessionalField,jdbcType=VARCHAR},
+        expert_professional_field_name=#{record.expertProfessionalFieldName,jdbcType=VARCHAR},
+        source=#{record.source,jdbcType=VARCHAR},
+        source_id=#{record.sourceId,jdbcType=VARCHAR},
+        sex=#{record.sex,jdbcType=VARCHAR},
+        card_id=#{record.cardId,jdbcType=VARCHAR},
+        card_type=#{record.cardType,jdbcType=VARCHAR},
+        education=#{record.education,jdbcType=VARCHAR},
+        header_img=#{record.headerImg,jdbcType=VARCHAR},
+        join_project_name=#{record.joinProjectName,jdbcType=VARCHAR},
+        join_project_id=#{record.joinProjectId,jdbcType=VARCHAR},
+        expert_nationality=#{record.expertNationality,jdbcType=VARCHAR},
+        sys_flag=#{record.sysFlag,jdbcType=VARCHAR},
+        data_order=#{record.dataOrder,jdbcType=INTEGER},
+        del_flag=#{record.delFlag,jdbcType=INTEGER},
+        create_date=#{record.createDate,jdbcType=VARCHAR},
+        create_user=#{record.createUser,jdbcType=VARCHAR},
+        create_user_disp=#{record.createUserDisp,jdbcType=VARCHAR},
+        modify_date=#{record.modifyDate,jdbcType=VARCHAR},
+        modify_user=#{record.modifyUser,jdbcType=VARCHAR},
+        modify_user_disp=#{record.modifyUserDisp,jdbcType=VARCHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.expert.ZjkExpert">
+        update zjk_expert
+        <set>
+
+            <if test="expertName != null">
+            expert_name=#{expertName ,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+            email=#{email ,jdbcType=VARCHAR},
+            </if>
+            <if test="companyName != null">
+            company_name=#{companyName ,jdbcType=VARCHAR},
+            </if>
+            <if test="company != null">
+            company=#{company ,jdbcType=VARCHAR},
+            </if>
+            <if test="userDesc != null">
+            user_desc=#{userDesc ,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="expertProfessinal != null">
+            expert_professinal=#{expertProfessinal ,jdbcType=VARCHAR},
+            </if>
+            <if test="ageBetween != null">
+            age_between=#{ageBetween ,jdbcType=VARCHAR},
+            </if>
+            <if test="age != null">
+            age=#{age ,jdbcType=VARCHAR},
+            </if>
+            <if test="birthDate != null">
+            birth_date=#{birthDate ,jdbcType=VARCHAR},
+            </if>
+            <if test="industryName != null">
+            industry_name=#{industryName ,jdbcType=VARCHAR},
+            </if>
+            <if test="industryId != null">
+            industry_id=#{industryId ,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null">
+            address=#{address ,jdbcType=VARCHAR},
+            </if>
+            <if test="college != null">
+            college=#{college ,jdbcType=VARCHAR},
+            </if>
+            <if test="province != null">
+            province=#{province ,jdbcType=VARCHAR},
+            </if>
+            <if test="city != null">
+            city=#{city ,jdbcType=VARCHAR},
+            </if>
+            <if test="county != null">
+            county=#{county ,jdbcType=VARCHAR},
+            </if>
+            <if test="amountCount != null">
+            amount_count=#{amountCount ,jdbcType=VARCHAR},
+            </if>
+            <if test="patentCount != null">
+            patent_count=#{patentCount ,jdbcType=VARCHAR},
+            </if>
+            <if test="projectCount != null">
+            project_count=#{projectCount ,jdbcType=VARCHAR},
+            </if>
+            <if test="companyCount != null">
+            company_count=#{companyCount ,jdbcType=VARCHAR},
+            </if>
+            <if test="achievementCount != null">
+            achievement_count=#{achievementCount ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak1 != null">
+            bak1=#{bak1 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak2 != null">
+            bak2=#{bak2 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak3 != null">
+            bak3=#{bak3 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak4 != null">
+            bak4=#{bak4 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak5 != null">
+            bak5=#{bak5 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak6 != null">
+            bak6=#{bak6 ,jdbcType=VARCHAR},
+            </if>
+            <if test="userId != null">
+            user_id=#{userId ,jdbcType=VARCHAR},
+            </if>
+            <if test="mobile != null">
+            mobile=#{mobile ,jdbcType=VARCHAR},
+            </if>
+            <if test="expertProfessionalField != null">
+            expert_professional_field=#{expertProfessionalField ,jdbcType=VARCHAR},
+            </if>
+            <if test="expertProfessionalFieldName != null">
+            expert_professional_field_name=#{expertProfessionalFieldName ,jdbcType=VARCHAR},
+            </if>
+            <if test="source != null">
+            source=#{source ,jdbcType=VARCHAR},
+            </if>
+            <if test="sourceId != null">
+            source_id=#{sourceId ,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null">
+            sex=#{sex ,jdbcType=VARCHAR},
+            </if>
+            <if test="cardId != null">
+            card_id=#{cardId ,jdbcType=VARCHAR},
+            </if>
+            <if test="cardType != null">
+            card_type=#{cardType ,jdbcType=VARCHAR},
+            </if>
+            <if test="education != null">
+            education=#{education ,jdbcType=VARCHAR},
+            </if>
+            <if test="headerImg != null">
+            header_img=#{headerImg ,jdbcType=VARCHAR},
+            </if>
+            <if test="joinProjectName != null">
+            join_project_name=#{joinProjectName ,jdbcType=VARCHAR},
+            </if>
+            <if test="joinProjectId != null">
+            join_project_id=#{joinProjectId ,jdbcType=VARCHAR},
+            </if>
+            <if test="expertNationality != null">
+            expert_nationality=#{expertNationality ,jdbcType=VARCHAR},
+            </if>
+            <if test="sysFlag != null">
+            sys_flag=#{sysFlag ,jdbcType=VARCHAR},
+            </if>
+            <if test="dataOrder != null">
+            data_order=#{dataOrder ,jdbcType=INTEGER},
+            </if>
+            <if test="delFlag != null">
+            del_flag=#{delFlag ,jdbcType=INTEGER},
+            </if>
+            <if test="createDate != null">
+            create_date=#{createDate ,jdbcType=VARCHAR},
+            </if>
+            <if test="createUser != null">
+            create_user=#{createUser ,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserDisp != null">
+            create_user_disp=#{createUserDisp ,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyDate != null">
+            modify_date=#{modifyDate ,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyUser != null">
+            modify_user=#{modifyUser ,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyUserDisp != null">
+            modify_user_disp=#{modifyUserDisp ,jdbcType=VARCHAR}
+            </if>
+        </set>
+        where data_id = #{dataId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.pcitc.base.expert.ZjkExpert">
+        update zjk_expert
+        set
+            expert_name=#{expertName,jdbcType=VARCHAR},
+            email=#{email,jdbcType=VARCHAR},
+            company_name=#{companyName,jdbcType=VARCHAR},
+            company=#{company,jdbcType=VARCHAR},
+            user_desc=#{userDesc,jdbcType=LONGVARCHAR},
+            expert_professinal=#{expertProfessinal,jdbcType=VARCHAR},
+            age_between=#{ageBetween,jdbcType=VARCHAR},
+            age=#{age,jdbcType=VARCHAR},
+            birth_date=#{birthDate,jdbcType=VARCHAR},
+            industry_name=#{industryName,jdbcType=VARCHAR},
+            industry_id=#{industryId,jdbcType=VARCHAR},
+            address=#{address,jdbcType=VARCHAR},
+            college=#{college,jdbcType=VARCHAR},
+            province=#{province,jdbcType=VARCHAR},
+            city=#{city,jdbcType=VARCHAR},
+            county=#{county,jdbcType=VARCHAR},
+            amount_count=#{amountCount,jdbcType=VARCHAR},
+            patent_count=#{patentCount,jdbcType=VARCHAR},
+            project_count=#{projectCount,jdbcType=VARCHAR},
+            company_count=#{companyCount,jdbcType=VARCHAR},
+            achievement_count=#{achievementCount,jdbcType=VARCHAR},
+            bak1=#{bak1,jdbcType=VARCHAR},
+            bak2=#{bak2,jdbcType=VARCHAR},
+            bak3=#{bak3,jdbcType=VARCHAR},
+            bak4=#{bak4,jdbcType=VARCHAR},
+            bak5=#{bak5,jdbcType=VARCHAR},
+            bak6=#{bak6,jdbcType=VARCHAR},
+            user_id=#{userId,jdbcType=VARCHAR},
+            mobile=#{mobile,jdbcType=VARCHAR},
+            expert_professional_field=#{expertProfessionalField,jdbcType=VARCHAR},
+            expert_professional_field_name=#{expertProfessionalFieldName,jdbcType=VARCHAR},
+            source=#{source,jdbcType=VARCHAR},
+            source_id=#{sourceId,jdbcType=VARCHAR},
+            sex=#{sex,jdbcType=VARCHAR},
+            card_id=#{cardId,jdbcType=VARCHAR},
+            card_type=#{cardType,jdbcType=VARCHAR},
+            education=#{education,jdbcType=VARCHAR},
+            header_img=#{headerImg,jdbcType=VARCHAR},
+            join_project_name=#{joinProjectName,jdbcType=VARCHAR},
+            join_project_id=#{joinProjectId,jdbcType=VARCHAR},
+            expert_nationality=#{expertNationality,jdbcType=VARCHAR},
+            sys_flag=#{sysFlag,jdbcType=VARCHAR},
+            data_order=#{dataOrder,jdbcType=INTEGER},
+            del_flag=#{delFlag,jdbcType=INTEGER},
+            create_date=#{createDate,jdbcType=VARCHAR},
+            create_user=#{createUser,jdbcType=VARCHAR},
+            create_user_disp=#{createUserDisp,jdbcType=VARCHAR},
+            modify_date=#{modifyDate,jdbcType=VARCHAR},
+            modify_user=#{modifyUser,jdbcType=VARCHAR},
+            modify_user_disp=#{modifyUserDisp,jdbcType=VARCHAR}
+        where data_id = #{dataId,jdbcType=VARCHAR}
+    </update>
+    <!-- 分页查询 -->
+        <select id="findSysFileKindByPage" parameterType="com.pcitc.base.expert.ZjkExpert"  resultMap="BaseResultMap">
+
+        select
+                    data_id,
+                    expert_name,
+                    email,
+                    company_name,
+                    company,
+                    user_desc,
+                    expert_professinal,
+                    age_between,
+                    age,
+                    birth_date,
+                    industry_name,
+                    industry_id,
+                    address,
+                    college,
+                    province,
+                    city,
+                    county,
+                    amount_count,
+                    patent_count,
+                    project_count,
+                    company_count,
+                    achievement_count,
+                    bak1,
+                    bak2,
+                    bak3,
+                    bak4,
+                    bak5,
+                    bak6,
+                    user_id,
+                    mobile,
+                    expert_professional_field,
+                    expert_professional_field_name,
+                    source,
+                    source_id,
+                    sex,
+                    card_id,
+                    card_type,
+                    education,
+                    header_img,
+                    join_project_name,
+                    join_project_id,
+                    expert_nationality,
+                    sys_flag,
+                    data_order,
+                    del_flag,
+                    create_date,
+                    create_user,
+                    create_user_disp,
+                    modify_date,
+                    modify_user,
+                    modify_user_disp
+        from zjk_expert
+        where 1=1
+                        <if test="dataId!=null and dataId!=''.toString()">
+                            and data_id like '%${dataId}%'
+                        </if>
+                        <if test="expertName!=null and expertName!=''.toString()">
+                            and expert_name like '%${expertName}%'
+                        </if>
+                        <if test="email!=null and email!=''.toString()">
+                            and email like '%${email}%'
+                        </if>
+                        <if test="companyName!=null and companyName!=''.toString()">
+                            and company_name like '%${companyName}%'
+                        </if>
+                        <if test="company!=null and company!=''.toString()">
+                            and company like '%${company}%'
+                        </if>
+                        <if test="userDesc!=null and userDesc!=''.toString()">
+                            and user_desc like '%${userDesc}%'
+                        </if>
+                        <if test="expertProfessinal!=null and expertProfessinal!=''.toString()">
+                            and expert_professinal like '%${expertProfessinal}%'
+                        </if>
+                        <if test="ageBetween!=null and ageBetween!=''.toString()">
+                            and age_between like '%${ageBetween}%'
+                        </if>
+                        <if test="age!=null and age!=''.toString()">
+                            and age like '%${age}%'
+                        </if>
+                        <if test="birthDate!=null and birthDate!=''.toString()">
+                            and birth_date like '%${birthDate}%'
+                        </if>
+                        <if test="industryName!=null and industryName!=''.toString()">
+                            and industry_name like '%${industryName}%'
+                        </if>
+                        <if test="industryId!=null and industryId!=''.toString()">
+                            and industry_id like '%${industryId}%'
+                        </if>
+                        <if test="address!=null and address!=''.toString()">
+                            and address like '%${address}%'
+                        </if>
+                        <if test="college!=null and college!=''.toString()">
+                            and college like '%${college}%'
+                        </if>
+                        <if test="province!=null and province!=''.toString()">
+                            and province like '%${province}%'
+                        </if>
+                        <if test="city!=null and city!=''.toString()">
+                            and city like '%${city}%'
+                        </if>
+                        <if test="county!=null and county!=''.toString()">
+                            and county like '%${county}%'
+                        </if>
+                        <if test="amountCount!=null and amountCount!=''.toString()">
+                            and amount_count like '%${amountCount}%'
+                        </if>
+                        <if test="patentCount!=null and patentCount!=''.toString()">
+                            and patent_count like '%${patentCount}%'
+                        </if>
+                        <if test="projectCount!=null and projectCount!=''.toString()">
+                            and project_count like '%${projectCount}%'
+                        </if>
+                        <if test="companyCount!=null and companyCount!=''.toString()">
+                            and company_count like '%${companyCount}%'
+                        </if>
+                        <if test="achievementCount!=null and achievementCount!=''.toString()">
+                            and achievement_count like '%${achievementCount}%'
+                        </if>
+                        <if test="bak1!=null and bak1!=''.toString()">
+                            and bak1 like '%${bak1}%'
+                        </if>
+                        <if test="bak2!=null and bak2!=''.toString()">
+                            and bak2 like '%${bak2}%'
+                        </if>
+                        <if test="bak3!=null and bak3!=''.toString()">
+                            and bak3 like '%${bak3}%'
+                        </if>
+                        <if test="bak4!=null and bak4!=''.toString()">
+                            and bak4 like '%${bak4}%'
+                        </if>
+                        <if test="bak5!=null and bak5!=''.toString()">
+                            and bak5 like '%${bak5}%'
+                        </if>
+                        <if test="bak6!=null and bak6!=''.toString()">
+                            and bak6 like '%${bak6}%'
+                        </if>
+                        <if test="userId!=null and userId!=''.toString()">
+                            and user_id like '%${userId}%'
+                        </if>
+                        <if test="mobile!=null and mobile!=''.toString()">
+                            and mobile like '%${mobile}%'
+                        </if>
+                        <if test="expertProfessionalField!=null and expertProfessionalField!=''.toString()">
+                            and expert_professional_field like '%${expertProfessionalField}%'
+                        </if>
+                        <if test="expertProfessionalFieldName!=null and expertProfessionalFieldName!=''.toString()">
+                            and expert_professional_field_name like '%${expertProfessionalFieldName}%'
+                        </if>
+                        <if test="source!=null and source!=''.toString()">
+                            and source like '%${source}%'
+                        </if>
+                        <if test="sourceId!=null and sourceId!=''.toString()">
+                            and source_id like '%${sourceId}%'
+                        </if>
+                        <if test="sex!=null and sex!=''.toString()">
+                            and sex like '%${sex}%'
+                        </if>
+                        <if test="cardId!=null and cardId!=''.toString()">
+                            and card_id like '%${cardId}%'
+                        </if>
+                        <if test="cardType!=null and cardType!=''.toString()">
+                            and card_type like '%${cardType}%'
+                        </if>
+                        <if test="education!=null and education!=''.toString()">
+                            and education like '%${education}%'
+                        </if>
+                        <if test="headerImg!=null and headerImg!=''.toString()">
+                            and header_img like '%${headerImg}%'
+                        </if>
+                        <if test="joinProjectName!=null and joinProjectName!=''.toString()">
+                            and join_project_name like '%${joinProjectName}%'
+                        </if>
+                        <if test="joinProjectId!=null and joinProjectId!=''.toString()">
+                            and join_project_id like '%${joinProjectId}%'
+                        </if>
+                        <if test="expertNationality!=null and expertNationality!=''.toString()">
+                            and expert_nationality like '%${expertNationality}%'
+                        </if>
+                        <if test="sysFlag!=null and sysFlag!=''.toString()">
+                            and sys_flag like '%${sysFlag}%'
+                        </if>
+                        <if test="dataOrder!=null and dataOrder!=''.toString()">
+                            and data_order like '%${dataOrder}%'
+                        </if>
+                        <if test="delFlag!=null and delFlag!=''.toString()">
+                            and del_flag like '%${delFlag}%'
+                        </if>
+                        <if test="createDate!=null and createDate!=''.toString()">
+                            and create_date like '%${createDate}%'
+                        </if>
+                        <if test="createUser!=null and createUser!=''.toString()">
+                            and create_user like '%${createUser}%'
+                        </if>
+                        <if test="createUserDisp!=null and createUserDisp!=''.toString()">
+                            and create_user_disp like '%${createUserDisp}%'
+                        </if>
+                        <if test="modifyDate!=null and modifyDate!=''.toString()">
+                            and modify_date like '%${modifyDate}%'
+                        </if>
+                        <if test="modifyUser!=null and modifyUser!=''.toString()">
+                            and modify_user like '%${modifyUser}%'
+                        </if>
+                        <if test="modifyUserDisp!=null and modifyUserDisp!=''.toString()">
+                            and modify_user_disp like '%${modifyUserDisp}%'
+                        </if>
+
+        <if test="iSortCol!=null and iSortCol!=''.toString()">
+            order by ${iSortCol} ${sSortDir_0}
+        </if>
+    </select>
+    <!-- 查询列表 -->
+    <select id="findZjkExpertList" parameterType="com.pcitc.base.expert.ZjkExpert" resultMap="BaseResultMap">
+        select
+                    data_id,
+                    expert_name,
+                    email,
+                    company_name,
+                    company,
+                    user_desc,
+                    expert_professinal,
+                    age_between,
+                    age,
+                    birth_date,
+                    industry_name,
+                    industry_id,
+                    address,
+                    college,
+                    province,
+                    city,
+                    county,
+                    amount_count,
+                    patent_count,
+                    project_count,
+                    company_count,
+                    achievement_count,
+                    bak1,
+                    bak2,
+                    bak3,
+                    bak4,
+                    bak5,
+                    bak6,
+                    user_id,
+                    mobile,
+                    expert_professional_field,
+                    expert_professional_field_name,
+                    source,
+                    source_id,
+                    sex,
+                    card_id,
+                    card_type,
+                    education,
+                    header_img,
+                    join_project_name,
+                    join_project_id,
+                    expert_nationality,
+                    sys_flag,
+                    data_order,
+                    del_flag,
+                    create_date,
+                    create_user,
+                    create_user_disp,
+                    modify_date,
+                    modify_user,
+                    modify_user_disp
+        from zjk_expert
+        where 1=1
+                        <if test="dataId!=null">
+                            and data_id = #{dataId,jdbcType=VARCHAR}
+                        </if>
+                        <if test="expertName!=null">
+                            and expert_name = #{expertName,jdbcType=VARCHAR}
+                        </if>
+                        <if test="email!=null">
+                            and email = #{email,jdbcType=VARCHAR}
+                        </if>
+                        <if test="companyName!=null">
+                            and company_name = #{companyName,jdbcType=VARCHAR}
+                        </if>
+                        <if test="company!=null">
+                            and company = #{company,jdbcType=VARCHAR}
+                        </if>
+                        <if test="userDesc!=null">
+                            and user_desc = #{userDesc,jdbcType=VARCHAR}
+                        </if>
+                        <if test="expertProfessinal!=null">
+                            and expert_professinal = #{expertProfessinal,jdbcType=VARCHAR}
+                        </if>
+                        <if test="ageBetween!=null">
+                            and age_between = #{ageBetween,jdbcType=VARCHAR}
+                        </if>
+                        <if test="age!=null">
+                            and age = #{age,jdbcType=VARCHAR}
+                        </if>
+                        <if test="birthDate!=null">
+                            and birth_date = #{birthDate,jdbcType=VARCHAR}
+                        </if>
+                        <if test="industryName!=null">
+                            and industry_name = #{industryName,jdbcType=VARCHAR}
+                        </if>
+                        <if test="industryId!=null">
+                            and industry_id = #{industryId,jdbcType=VARCHAR}
+                        </if>
+                        <if test="address!=null">
+                            and address = #{address,jdbcType=VARCHAR}
+                        </if>
+                        <if test="college!=null">
+                            and college = #{college,jdbcType=VARCHAR}
+                        </if>
+                        <if test="province!=null">
+                            and province = #{province,jdbcType=VARCHAR}
+                        </if>
+                        <if test="city!=null">
+                            and city = #{city,jdbcType=VARCHAR}
+                        </if>
+                        <if test="county!=null">
+                            and county = #{county,jdbcType=VARCHAR}
+                        </if>
+                        <if test="amountCount!=null">
+                            and amount_count = #{amountCount,jdbcType=VARCHAR}
+                        </if>
+                        <if test="patentCount!=null">
+                            and patent_count = #{patentCount,jdbcType=VARCHAR}
+                        </if>
+                        <if test="projectCount!=null">
+                            and project_count = #{projectCount,jdbcType=VARCHAR}
+                        </if>
+                        <if test="companyCount!=null">
+                            and company_count = #{companyCount,jdbcType=VARCHAR}
+                        </if>
+                        <if test="achievementCount!=null">
+                            and achievement_count = #{achievementCount,jdbcType=VARCHAR}
+                        </if>
+                        <if test="bak1!=null">
+                            and bak1 = #{bak1,jdbcType=VARCHAR}
+                        </if>
+                        <if test="bak2!=null">
+                            and bak2 = #{bak2,jdbcType=VARCHAR}
+                        </if>
+                        <if test="bak3!=null">
+                            and bak3 = #{bak3,jdbcType=VARCHAR}
+                        </if>
+                        <if test="bak4!=null">
+                            and bak4 = #{bak4,jdbcType=VARCHAR}
+                        </if>
+                        <if test="bak5!=null">
+                            and bak5 = #{bak5,jdbcType=VARCHAR}
+                        </if>
+                        <if test="bak6!=null">
+                            and bak6 = #{bak6,jdbcType=VARCHAR}
+                        </if>
+                        <if test="userId!=null">
+                            and user_id = #{userId,jdbcType=VARCHAR}
+                        </if>
+                        <if test="mobile!=null">
+                            and mobile = #{mobile,jdbcType=VARCHAR}
+                        </if>
+                        <if test="expertProfessionalField!=null">
+                            and expert_professional_field = #{expertProfessionalField,jdbcType=VARCHAR}
+                        </if>
+                        <if test="expertProfessionalFieldName!=null">
+                            and expert_professional_field_name = #{expertProfessionalFieldName,jdbcType=VARCHAR}
+                        </if>
+                        <if test="source!=null">
+                            and source = #{source,jdbcType=VARCHAR}
+                        </if>
+                        <if test="sourceId!=null">
+                            and source_id = #{sourceId,jdbcType=VARCHAR}
+                        </if>
+                        <if test="sex!=null">
+                            and sex = #{sex,jdbcType=VARCHAR}
+                        </if>
+                        <if test="cardId!=null">
+                            and card_id = #{cardId,jdbcType=VARCHAR}
+                        </if>
+                        <if test="cardType!=null">
+                            and card_type = #{cardType,jdbcType=VARCHAR}
+                        </if>
+                        <if test="education!=null">
+                            and education = #{education,jdbcType=VARCHAR}
+                        </if>
+                        <if test="headerImg!=null">
+                            and header_img = #{headerImg,jdbcType=VARCHAR}
+                        </if>
+                        <if test="joinProjectName!=null">
+                            and join_project_name = #{joinProjectName,jdbcType=VARCHAR}
+                        </if>
+                        <if test="joinProjectId!=null">
+                            and join_project_id = #{joinProjectId,jdbcType=VARCHAR}
+                        </if>
+                        <if test="expertNationality!=null">
+                            and expert_nationality = #{expertNationality,jdbcType=VARCHAR}
+                        </if>
+                        <if test="sysFlag!=null">
+                            and sys_flag = #{sysFlag,jdbcType=VARCHAR}
+                        </if>
+                        <if test="dataOrder!=null">
+                            and data_order = #{dataOrder,jdbcType=VARCHAR}
+                        </if>
+                        <if test="delFlag!=null">
+                            and del_flag = #{delFlag,jdbcType=VARCHAR}
+                        </if>
+                        <if test="createDate!=null">
+                            and create_date = #{createDate,jdbcType=VARCHAR}
+                        </if>
+                        <if test="createUser!=null">
+                            and create_user = #{createUser,jdbcType=VARCHAR}
+                        </if>
+                        <if test="createUserDisp!=null">
+                            and create_user_disp = #{createUserDisp,jdbcType=VARCHAR}
+                        </if>
+                        <if test="modifyDate!=null">
+                            and modify_date = #{modifyDate,jdbcType=VARCHAR}
+                        </if>
+                        <if test="modifyUser!=null">
+                            and modify_user = #{modifyUser,jdbcType=VARCHAR}
+                        </if>
+                        <if test="modifyUserDisp!=null">
+                            and modify_user_disp = #{modifyUserDisp,jdbcType=VARCHAR}
+                        </if>
+
+        <if test="iSortCol!=null and iSortCol!=''.toString()">
+            order by ${iSortCol} ${sSortDir_0}
+        </if>
+    </select>
+    <select id="listSqlResult" parameterType="map" resultType="map">
+      ${sqlval}
+    </select>
+</mapper>
