@@ -1,11 +1,8 @@
 package com.pcitc.web.expert;
 
 
-import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
-import com.pcitc.base.common.enums.DataOperationStatusEnum;
-import com.pcitc.base.expert.ZjkZhuanli;
-import com.pcitc.base.expert.ZjkZhuanliExample;
+import com.pcitc.base.expert.ZjkPatent;
 import com.pcitc.service.expert.ZjkZhuanliService;
 import com.alibaba.fastjson.JSONObject;
 import org.slf4j.Logger;
@@ -15,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-import java.io.Serializable;
 import java.util.List;
 
 
@@ -40,9 +36,9 @@ public class ZjkZhuanliClient {
     public JSONObject selectZjkZhuanliListParam(@RequestParam(value = "id", required = false) String id) {
         JSONObject retJson = new JSONObject();
         try {
-            ZjkZhuanli zjkZhuanli = new ZjkZhuanli();
+            ZjkPatent zjkZhuanli = new ZjkPatent();
             zjkZhuanli.setId(id);
-            List<ZjkZhuanli> list = zjkZhuanliService.findZjkZhuanliList(zjkZhuanli);
+            List<ZjkPatent> list = zjkZhuanliService.findZjkZhuanliList(zjkZhuanli);
             retJson.put("list", list);
         } catch (Exception e) {
             e.printStackTrace();
@@ -53,10 +49,10 @@ public class ZjkZhuanliClient {
     //对象查询,js需要JSON.stringify({id:"1"},转换之后,才能自动赋值
     @ApiOperation(value = "专家-专利信息查询列表", notes = "自定义对象(条件)查询专家-专利信息信息,返回存储在JSONObject对象中的专家-专利信息列表")
     @RequestMapping(value = "/zjkzhuanli-provider/zjkzhuanli/zjkzhuanli_list", method = RequestMethod.POST)
-    public JSONObject selectZjkZhuanliList(@RequestBody ZjkZhuanli zjkZhuanli) {
+    public JSONObject selectZjkZhuanliList(@RequestBody ZjkPatent zjkZhuanli) {
         JSONObject retJson = new JSONObject();
         try {
-            List<ZjkZhuanli> list = zjkZhuanliService.findZjkZhuanliList(zjkZhuanli);
+            List<ZjkPatent> list = zjkZhuanliService.findZjkZhuanliList(zjkZhuanli);
             retJson.put("list", list);
         } catch (Exception e) {
             e.printStackTrace();
@@ -67,7 +63,7 @@ public class ZjkZhuanliClient {
 
     @ApiOperation(value = "查询专家-专利信息树形详情信息", notes = "按ID查询专家-专利信息详情信息(带父ID),操作成功返回SysFileKind对象")
     @RequestMapping(value = "/zjkzhuanli-provider/zjkzhuanli/get-zjkzhuanli/{id}", method = RequestMethod.POST)
-    public ZjkZhuanli getZjkZhuanliInfo(@PathVariable(value = "id", required = true) String id) {
+    public ZjkPatent getZjkZhuanliInfo(@PathVariable(value = "id", required = true) String id) {
         try {
             return zjkZhuanliService.getZjkZhuanliInfo(id);
         } catch (Exception e) {
@@ -136,7 +132,7 @@ public class ZjkZhuanliClient {
      */
     @ApiOperation(value = "新增专家-专利信息信息", notes = "新增专家-专利信息信息,操作成功返回500")
     @RequestMapping(value = "/zjkzhuanli-provider/zjkzhuanli/save_zjkzhuanli", method = RequestMethod.POST)
-    public int updateOrInsertZjkZhuanli(@RequestBody ZjkZhuanli zjkZhuanli) {
+    public int updateOrInsertZjkZhuanli(@RequestBody ZjkPatent zjkZhuanli) {
         try {
             return zjkZhuanliService.updateOrInsertZjkZhuanli(zjkZhuanli);
         } catch (Exception e) {

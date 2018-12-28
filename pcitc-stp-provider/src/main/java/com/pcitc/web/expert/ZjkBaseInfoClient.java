@@ -5,8 +5,8 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.DataOperationStatusEnum;
-import com.pcitc.base.expert.ZjkBaseInfo;
-import com.pcitc.base.expert.ZjkBaseInfoExample;
+import com.pcitc.base.expert.ZjkExpert;
+import com.pcitc.base.expert.ZjkExpertExample;
 import com.pcitc.service.expert.ZjkBaseInfoService;
 import com.alibaba.fastjson.JSONObject;
 import org.slf4j.Logger;
@@ -42,9 +42,9 @@ public class ZjkBaseInfoClient {
     public JSONObject selectZjkBaseInfoListParam(@RequestParam(value = "id", required = false) String id) {
         JSONObject retJson = new JSONObject();
         try {
-            ZjkBaseInfo zjkBaseInfo = new ZjkBaseInfo();
+            ZjkExpert zjkBaseInfo = new ZjkExpert();
             zjkBaseInfo.setId(id);
-            List<ZjkBaseInfo> list = zjkBaseInfoService.findZjkBaseInfoList(zjkBaseInfo);
+            List<ZjkExpert> list = zjkBaseInfoService.findZjkBaseInfoList(zjkBaseInfo);
             retJson.put("list", list);
         } catch (Exception e) {
             e.printStackTrace();
@@ -55,10 +55,10 @@ public class ZjkBaseInfoClient {
     //对象查询,js需要JSON.stringify({id:"1"},转换之后,才能自动赋值
     @ApiOperation(value = "专家-基本信息查询列表", notes = "自定义对象(条件)查询专家-基本信息信息,返回存储在JSONObject对象中的专家-基本信息列表")
     @RequestMapping(value = "/zjkbaseinfo-provider/zjkbaseinfo/zjkbaseinfo_list", method = RequestMethod.POST)
-    public JSONObject selectZjkBaseInfoList(@RequestBody ZjkBaseInfo zjkBaseInfo) {
+    public JSONObject selectZjkBaseInfoList(@RequestBody ZjkExpert zjkBaseInfo) {
         JSONObject retJson = new JSONObject();
         try {
-            List<ZjkBaseInfo> list = zjkBaseInfoService.findZjkBaseInfoList(zjkBaseInfo);
+            List<ZjkExpert> list = zjkBaseInfoService.findZjkBaseInfoList(zjkBaseInfo);
             retJson.put("list", list);
         } catch (Exception e) {
             e.printStackTrace();
@@ -71,9 +71,9 @@ public class ZjkBaseInfoClient {
     public JSONObject selectZjkBaseInfoListExample(@RequestBody JSONObject jsonObject) {
         JSONObject retJson = new JSONObject();
         try {
-            ZjkBaseInfoExample zjkBaseInfoExample = new ZjkBaseInfoExample();
-            zjkBaseInfoExample.createCriteria().andHylyIn(Arrays.asList(jsonObject.get("strHyly").toString().split(",")));
-            List<ZjkBaseInfo> list = zjkBaseInfoService.selectByExample(zjkBaseInfoExample);
+            ZjkExpertExample zjkBaseInfoExample = new ZjkExpertExample();
+            zjkBaseInfoExample.createCriteria().andExpertProfessionalFieldIn(Arrays.asList(jsonObject.get("strHyly").toString().split(",")));
+            List<ZjkExpert> list = zjkBaseInfoService.selectByExample(zjkBaseInfoExample);
             retJson.put("list", list);
         } catch (Exception e) {
             e.printStackTrace();
@@ -84,7 +84,7 @@ public class ZjkBaseInfoClient {
 
     @ApiOperation(value = "查询专家-基本信息树形详情信息", notes = "按ID查询专家-基本信息详情信息(带父ID),操作成功返回SysFileKind对象")
     @RequestMapping(value = "/zjkbaseinfo-provider/zjkbaseinfo/get-zjkbaseinfo/{id}", method = RequestMethod.POST)
-    public ZjkBaseInfo getZjkBaseInfoInfo(@PathVariable(value = "id", required = true) String id) {
+    public ZjkExpert getZjkBaseInfoInfo(@PathVariable(value = "id", required = true) String id) {
         try {
             return zjkBaseInfoService.getZjkBaseInfoInfo(id);
         } catch (Exception e) {
@@ -165,7 +165,7 @@ public class ZjkBaseInfoClient {
      */
     @ApiOperation(value = "新增专家-基本信息信息", notes = "新增专家-基本信息信息,操作成功返回500")
     @RequestMapping(value = "/zjkbaseinfo-provider/zjkbaseinfo/save_zjkbaseinfo", method = RequestMethod.POST)
-    public int updateOrInsertZjkBaseInfo(@RequestBody ZjkBaseInfo zjkBaseInfo) {
+    public int updateOrInsertZjkBaseInfo(@RequestBody ZjkExpert zjkBaseInfo) {
         try {
             return zjkBaseInfoService.updateOrInsertZjkBaseInfo(zjkBaseInfo);
         } catch (Exception e) {

@@ -4,8 +4,7 @@ package com.pcitc.web.expert;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.enums.DataOperationStatusEnum;
-import com.pcitc.base.expert.ZjkChengguo;
-import com.pcitc.base.expert.ZjkChengguoExample;
+import com.pcitc.base.expert.ZjkAchievement;
 import com.pcitc.service.expert.ZjkChengguoService;
 import com.alibaba.fastjson.JSONObject;
 import org.slf4j.Logger;
@@ -40,9 +39,9 @@ public class ZjkChengguoClient {
     public JSONObject selectZjkChengguoListParam(@RequestParam(value = "id", required = false) String id) {
         JSONObject retJson = new JSONObject();
         try {
-            ZjkChengguo zjkChengguo = new ZjkChengguo();
+            ZjkAchievement zjkChengguo = new ZjkAchievement();
             zjkChengguo.setId(id);
-            List<ZjkChengguo> list = zjkChengguoService.findZjkChengguoList(zjkChengguo);
+            List<ZjkAchievement> list = zjkChengguoService.findZjkChengguoList(zjkChengguo);
             retJson.put("list", list);
         } catch (Exception e) {
             e.printStackTrace();
@@ -53,10 +52,10 @@ public class ZjkChengguoClient {
     //对象查询,js需要JSON.stringify({id:"1"},转换之后,才能自动赋值
     @ApiOperation(value = "专家-成果信息查询列表", notes = "自定义对象(条件)查询专家-成果信息信息,返回存储在JSONObject对象中的专家-成果信息列表")
     @RequestMapping(value = "/zjkchengguo-provider/zjkchengguo/zjkchengguo_list", method = RequestMethod.POST)
-    public JSONObject selectZjkChengguoList(@RequestBody ZjkChengguo zjkChengguo) {
+    public JSONObject selectZjkChengguoList(@RequestBody ZjkAchievement zjkChengguo) {
         JSONObject retJson = new JSONObject();
         try {
-            List<ZjkChengguo> list = zjkChengguoService.findZjkChengguoList(zjkChengguo);
+            List<ZjkAchievement> list = zjkChengguoService.findZjkChengguoList(zjkChengguo);
             retJson.put("list", list);
         } catch (Exception e) {
             e.printStackTrace();
@@ -67,7 +66,7 @@ public class ZjkChengguoClient {
 
     @ApiOperation(value = "查询专家-成果信息树形详情信息", notes = "按ID查询专家-成果信息详情信息(带父ID),操作成功返回SysFileKind对象")
     @RequestMapping(value = "/zjkchengguo-provider/zjkchengguo/get-zjkchengguo/{id}", method = RequestMethod.POST)
-    public ZjkChengguo getZjkChengguoInfo(@PathVariable(value = "id", required = true) String id) {
+    public ZjkAchievement getZjkChengguoInfo(@PathVariable(value = "id", required = true) String id) {
         try {
             return zjkChengguoService.getZjkChengguoInfo(id);
         } catch (Exception e) {
@@ -136,7 +135,7 @@ public class ZjkChengguoClient {
      */
     @ApiOperation(value = "新增专家-成果信息信息", notes = "新增专家-成果信息信息,操作成功返回500")
     @RequestMapping(value = "/zjkchengguo-provider/zjkchengguo/save_zjkchengguo", method = RequestMethod.POST)
-    public int updateOrInsertZjkChengguo(@RequestBody ZjkChengguo zjkChengguo) {
+    public int updateOrInsertZjkChengguo(@RequestBody ZjkAchievement zjkChengguo) {
         try {
             return zjkChengguoService.updateOrInsertZjkChengguo(zjkChengguo);
         } catch (Exception e) {
