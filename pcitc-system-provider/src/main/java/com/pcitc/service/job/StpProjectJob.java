@@ -200,6 +200,9 @@ public class StpProjectJob implements Job, Serializable {
 					String xmlbbm = object.getString("XMLBBM");
 					String xmlbmc = object.getString("XMLBMC");
 					
+					String fzdw = object.getString("FZDW");
+					String fzdwbm = object.getString("FZDWBM");
+					
 					String lxrxm = object.getString("LXR_Xm");
 					String lxryx = object.getString("LXR_Email");
 					String lxrdh = object.getString("LXR_Tel");
@@ -209,6 +212,8 @@ public class StpProjectJob implements Job, Serializable {
 					opi.setDataId(xmid);
 					opi.setXmid(xmid);
 					opi.setJf(jf);
+					opi.setFzdw(fzdwbm);
+					opi.setFzdwbm(fzdwbm);
 					
 					if (xmlbbm != null && xmlbbm.equals("KYZB")) {
 						opi.setDefine1("资本性");
