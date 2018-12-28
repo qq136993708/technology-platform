@@ -30,7 +30,6 @@ public interface OutProjectPlanMapper {
     int updateByPrimaryKeySelective(OutProjectPlan record);
 
     int updateByPrimaryKey(OutProjectPlan record);
-    
     /**
      * 批量插入项目计划数据
      */

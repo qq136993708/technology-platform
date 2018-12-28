@@ -6,7 +6,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
 
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
@@ -55,37 +54,19 @@ public class StpProjectItemJob implements Job, Serializable {
 				for (int i = 0; i < jSONArray.size(); i++) {
 					JSONObject object = (JSONObject) jSONArray.get(i);
 					culTotal++;
-					boolean insertFlag = true;
 					String ktid = object.getString("ktid");
 					String nd = object.getString("nd");
-/*					for (int j = 0; j < temList.size(); j++) {
-						HashMap<String, String> opp = (HashMap<String, String>)temList.get(j);
-						if (ktid.equals(opp.get("ktid").toString()) && nd.equals(opp.get("nd").toString())) {
-							insertFlag = false;
-							break;
-						}
-					}
-*/					
-					if (insertFlag) {
-						String ktmc = object.getString("ktmc");
-						String jfhj = object.getString("jfhj");
+					String jfhj = object.getString("jfhj");
 
-						OutProjectInfo opi = new OutProjectInfo();
-						
-						opi.setNd(nd);
-						opi.setJfhj(jfhj);
-						opi.setKtid(ktid);
-						opi.setKtmc(ktmc);
-						
-						opi.setDataId(UUID.randomUUID().toString().replaceAll("-", ""));
-						opi.setStatus("1");
-						opi.setCreateDate(new Date());
-						opi.setCreatePerson("admin");
-						opi.setDefine1("项目管理系统预算接口");
-						insertData.add(opi);
-					}
+					OutProjectInfo opi = new OutProjectInfo();
+					opi.setYsnd(nd);
+					opi.setYsje(jfhj);
+					opi.setXmid(ktid);
+					
+					insertData.add(opi);
 				}
 				if (insertData != null && insertData.size() > 0) {
+					// 修改当前年度的预算费用。没有的，查询后插入
 					outProjectService.insertProjectItemData(insertData, ndCon);
 				}
 				
@@ -108,25 +89,46 @@ public class StpProjectItemJob implements Job, Serializable {
 					culTotal++;
 					String ktid = object.getString("ktid");
 					String nd = object.getString("nd");
-					String ktmc = object.getString("ktmc");
 					String jfhj = object.getString("jfhj");
 
 					OutProjectInfo opi = new OutProjectInfo();
-					
-					opi.setNd(nd);
-					opi.setJfhj(jfhj);
-					opi.setKtid(ktid);
-					opi.setKtmc(ktmc);
-					
-					opi.setDataId(UUID.randomUUID().toString().replaceAll("-", ""));
-					opi.setStatus("1");
-					opi.setCreateDate(new Date());
-					opi.setCreatePerson("admin");
-					opi.setDefine1("项目管理系统预算接口");
+					opi.setYsnd(nd);
+					opi.setYsje(jfhj);
+					opi.setXmid(ktid);
 					insertData.add(opi);
 				}
 				if (insertData != null && insertData.size() > 0) {
 					outProjectService.insertProjectItemData(insertData, String.valueOf(Integer.parseInt(ndCon)+1));
+				}
+				
+				System.out.println("======" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "定时任务--定时获取项目管理系统的项目数据--保存到本地数据库-结束========="+culTotal);
+				// 统一调用存储过程，把数据中部分属性集中处理
+			}
+			
+			// 远程获取第二年数据 -----
+			str = DataServiceUtil.getProjectData(sqlName, String.valueOf(Integer.parseInt(ndCon)+2));
+			System.out.println("======" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "定时获取项目管理系统的项目预算数据 返回 success第二年====="+String.valueOf(Integer.parseInt(ndCon)+2));
+			if (str != null) {
+				// 先删除年度为nd的本地数据（备份一份到临时表中，防止意外）
+				List<OutProjectInfo> insertData = new ArrayList<OutProjectInfo>();
+				JSONArray jSONArray = JSONArray.parseArray(str);
+				
+				// 批量新增处理
+				for (int i = 0; i < jSONArray.size(); i++) {
+					JSONObject object = (JSONObject) jSONArray.get(i);
+					culTotal++;
+					String ktid = object.getString("ktid");
+					String nd = object.getString("nd");
+					String jfhj = object.getString("jfhj");
+
+					OutProjectInfo opi = new OutProjectInfo();
+					opi.setYsnd(nd);
+					opi.setYsje(jfhj);
+					opi.setXmid(ktid);
+					insertData.add(opi);
+				}
+				if (insertData != null && insertData.size() > 0) {
+					outProjectService.insertProjectItemData(insertData, String.valueOf(Integer.parseInt(ndCon)+2));
 				}
 				
 				System.out.println("======" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "定时任务--定时获取项目管理系统的项目数据--保存到本地数据库-结束========="+culTotal);
