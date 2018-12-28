@@ -62,8 +62,38 @@ public class OutProjectServiceImpl implements OutProjectService {
 	/**
 	 * 批量插入项目预算数据
 	 */
-	public int insertProjectItemData(List<OutProjectInfo> list) {
+	public int insertProjectItemData(List<OutProjectInfo> list, String nd) {
+		// 删除年度预算，重新获取
+		outProjectInfoMapper.deleteProjectItemByNd(nd);
 		outProjectInfoMapper.insertProjectItemData(list);
+		return 1;
+	}
+	
+	/**
+	 * 批量插入国家项目预算数据
+	 */
+	public int insertCountryProjectItemData(List<OutProjectInfo> list, String nd) {
+		
+		// 删除国家项目数据，重新生成
+		outProjectInfoMapper.deleteCountryProjectItemByDefind1("nd");
+		outProjectInfoMapper.insertProjectItemData(list);
+		return 1;
+	}
+	
+	/**
+	 * 批量插入国家项目
+	 * @param list
+	 * @param nd
+	 * @return
+	 */
+	public int insertCountryProjectData(List<OutProjectInfo> list) {
+		// 删除删除国家项目数据
+		OutProjectInfoExample example = new OutProjectInfoExample();
+		example.createCriteria().andDefine3EqualTo("sap国家项目");
+		outProjectInfoMapper.deleteByExample(example);
+
+		// 批量插入数据
+		outProjectInfoMapper.insertOutProjectBatch(list);
 		return 1;
 	}
 	
@@ -164,9 +194,11 @@ public class OutProjectServiceImpl implements OutProjectService {
     				newOPI.setProjectLevel(opi.getProjectLevel());
     			}
     			
-    			System.out.println(opi+"=========---------------------------"+opi.getProjectProperty());
     			if (StrUtil.isNotBlank(opi.getProjectProperty()) ) {
     				newOPI.setProjectProperty(opi.getProjectProperty());
+    			}
+    			if (StrUtil.isNotBlank(opi.getJf()) ) {
+    				newOPI.setJf(opi.getJf());
     			}
     			if (StrUtil.isNotBlank(opi.getProjectAbc())) {
     				newOPI.setProjectAbc(opi.getProjectAbc());

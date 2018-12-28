@@ -59,9 +59,9 @@ public class ZjkChoiceClient {
         JSONObject retJson = new JSONObject();
         try {
             List<ZjkChoice> list = zjkChoiceService.findZjkChoiceList(zjkChoice);
-            retJson.put("list", list);
+            retJson.put("list", JSONObject.toJSON(list).toString());
             if(list!=null&&list.size()>0){
-                retJson.put("baseList", zjkChoiceService.findZjkBaseInofList(list.stream().map(ZjkChoice::getZjId).collect(Collectors.toList())));
+                retJson.put("baseList", JSONObject.toJSON(zjkChoiceService.findZjkBaseInofList(list.stream().map(ZjkChoice::getZjId).collect(Collectors.toList()))).toString());
             }else {
                 retJson.put("baseList",new ArrayList<>());
             }
@@ -168,4 +168,21 @@ public class ZjkChoiceClient {
         }
         return 500;
     }
+
+    @ApiOperation(value = "删除专家-人员选择信息", notes = "按专家ID删除专家-人员选择信息,操作成功返回201")
+    @RequestMapping(value = "/zjkchoice-provider/zjkchoice/del-zjkchoice-zjid", method = RequestMethod.POST)
+    public Object deleteZjkChoiceRealByZjId(@RequestBody JSONObject jsonObject) {
+            Object o = null;
+        try {
+            ZjkChoiceExample ex = new ZjkChoiceExample();
+            ex.createCriteria().andZjIdEqualTo(jsonObject.get("expertId").toString());
+            ex.createCriteria().andAddUserIdEqualTo(jsonObject.get("addUserId").toString());
+            o = zjkChoiceService.deleteByExample(ex);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            return o;
+        }
+    }
+
 }

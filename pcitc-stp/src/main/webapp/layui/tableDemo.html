@@ -9,6 +9,42 @@
     <script src="/layuiadmin/layui/layui.js"></script>
 </head>
 <body>
+<!--选择器-->
+<div class="selector">
+    <div class="cost">
+        <div class="selector-left">费用类别：</div>
+        <div class="selector-right">
+            <ul>
+                <li>
+                    <a href="javascript:;">资本性</a>
+                </li>
+                <li>
+                    <a href="javascript:;">费用性</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="institute">
+        <div class="selector-left">研究院：</div>
+        <div class="selector-right">1</div>
+    </div>
+    <div class="system">
+        <div class="selector-left">其他系统标识：</div>
+        <div class="selector-right">1</div>
+    </div>
+    <div class="specialty">
+        <div class="selector-left">专业类别：</div>
+        <div class="selector-right">1</div>
+    </div>
+
+    <div class="condition">
+        <div class="selector-left">已选条件：</div>
+        <div class="selector-right">
+            <ul>
+            </ul>
+        </div>
+    </div>
+</div>
 <div class="searchBox">
     <!--查询条件-->
     <label class="dateInput">
@@ -365,8 +401,16 @@
             //obj.del(); //删除当前行
             obj.update(fields) //修改当前行数据
         });
+        $(".selector>div ul li a").click(function () {
+            alert("11")
+            var htmlName=$(this).parents(".selector-right").prev().html();
+            var htmlThis=$(this).html();
+            $(".condition ul").append("<li>"+htmlName+"<a href='javascript:;'>"+htmlThis+"</a></li>");
 
-
+            $(".condition ul li a").click(function () {
+                $(this).parents("li").remove();
+            });
+        });
         // 点击按钮时激活
         $('.tableBtns').children('button').on('click',function (){
             $(this).addClass('active');

@@ -1,6 +1,7 @@
 package com.pcitc.web.controller.expert;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.*;
 import com.pcitc.base.expert.*;
@@ -87,6 +88,10 @@ public class ExpertController extends BaseController {
     private static final String LISTBAK = "http://pcitc-zuul/stp-proxy/zjkchoice-provider/zjkchoice/zjkchoice_list";
     //备选移除
     private static final String DEL_BAK = "http://pcitc-zuul/stp-proxy/zjkchoice-provider/zjkchoice/del-zjkchoice-real/";
+    private static final String DEL_BAK_USERID = "http://pcitc-zuul/stp-proxy/zjkchoice-provider/zjkchoice/del-zjkchoice-zjid";
+
+    //备选查询-table
+    private static final String LISTBAKTABLE = "http://pcitc-zuul/stp-proxy/zjkchoice-provider/zjkchoice/zjkchoice-page";
 
     @RequestMapping(value = "/test", method = RequestMethod.GET)
     public String test() {
@@ -156,11 +161,38 @@ public class ExpertController extends BaseController {
         request.setAttribute("gb", request.getParameter("gb"));
         List<String> gbcode = sysUserInfo.getInstituteCodes();
         System.out.println(gbcode);
-        request.setAttribute("gbcode",(gbcode==null||gbcode.size()==0)?"":org.apache.commons.lang3.StringUtils.join(gbcode, ","));
+        request.setAttribute("gbcode", (gbcode == null || gbcode.size() == 0) ? "" : org.apache.commons.lang3.StringUtils.join(gbcode, ","));
         System.out.println(request.getParameter("gbcode"));
         return "stp/expert/queryExpert";
     }
 
+    /**
+     * 跳转到备选
+     *
+     * @return
+     */
+    @RequestMapping(value = "/bakTablePage", method = RequestMethod.GET)
+    @OperationFilter(modelName = "专家-备选跳转", actionName = "查询跳转bakTablePage")
+    public String bakTablePage() {
+        request.setAttribute("addUserId", sysUserInfo.getUserId());
+        return "stp/expert/bakTable";
+    }
+
+    /**
+     * 备选信息分页查询
+     *
+     * @param param
+     * @return
+     */
+    @RequestMapping(value = "/bakTableData", method = RequestMethod.POST)
+    @ResponseBody
+    @OperationFilter(modelName = "备选查询", actionName = "查询列表bakTableData")
+    public Object bakTableData(@ModelAttribute("param") LayuiTableParam param) {
+        HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
+        ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(LISTBAKTABLE, HttpMethod.POST, entity, LayuiTableData.class);
+        LayuiTableData data = responseEntity.getBody();
+        return JSON.toJSON(data).toString();
+    }
 
     /**
      * 专家信息分页查询
@@ -221,6 +253,24 @@ public class ExpertController extends BaseController {
             List<ZjkBaseInfo> listHyly = (List<ZjkBaseInfo>) retJson.get("list");
             request.setAttribute("hylyCount", listHyly == null ? "0" : listHyly.size());
         }
+        //评标机构
+        ZjkChoice zjkChoice = new ZjkChoice();
+        zjkChoice.setStatus("2");
+        zjkChoice.setZjId(expertId);
+        ResponseEntity<JSONObject> expert = this.restTemplate.exchange(LISTBAK, HttpMethod.POST, new HttpEntity<ZjkChoice>(zjkChoice, this.httpHeaders), JSONObject.class);
+        JSONObject retJson = expert.getBody();
+        List<ZjkChoice> listJg = JSONArray.parseArray(retJson.get("list").toString(), ZjkChoice.class);
+        if (listJg == null || listJg.size() == 0) {
+            request.setAttribute("jgCount", 0);
+            request.setAttribute("xmCount", 0);
+        } else {
+            List setjg = listJg.stream().map(ZjkChoice::getCompanyId).distinct().collect(Collectors.toList());
+            List setxm = listJg.stream().map(ZjkChoice::getXmId).distinct().collect(Collectors.toList());
+            request.setAttribute("jgCount", setjg.size());
+            request.setAttribute("xmCount", setxm.size());
+        }
+        //项目数量
+
         return "stp/expert/expertDetail";
     }
 
@@ -278,6 +328,10 @@ public class ExpertController extends BaseController {
             record.setUpdateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
             record.setUpdateUser(sysUserInfo.getUserId());
         }
+        //添加当前人的机构,机构id
+        record.setCompanyId(sysUserInfo.getUnitId());
+        record.setCompanyName(sysUserInfo.getUnitName());
+
         record.setAddUserId(sysUserInfo.getUserId());
         record.setStatus("0");
         record.setYear(DateUtil.format(new Date(), DateUtil.FMT_YYYY));
@@ -306,8 +360,39 @@ public class ExpertController extends BaseController {
             record.setUpdateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
             record.setUpdateUser(sysUserInfo.getUserId());
         }
+
+        //添加当前人的机构,机构id
+        record.setCompanyId(sysUserInfo.getUnitId());
+        record.setCompanyName(sysUserInfo.getUnitName());
+
         record.setAddUserId(sysUserInfo.getUserId());
         record.setStatus("1");
+        record.setYear(DateUtil.format(new Date(), DateUtil.FMT_YYYY));
+        ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(SAVECHOICE, HttpMethod.POST, new HttpEntity<ZjkChoice>(record, this.httpHeaders), Integer.class);
+        Integer result = responseEntity.getBody();
+        return result;
+    }
+
+    @RequestMapping(value = "/addChoice")
+    @ResponseBody
+    @OperationFilter(modelName = "专家-人员选择", actionName = "保存addChoice")
+    public int addChoice(ZjkChoice record) {
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        if (record.getId() == null || "".equals(record.getId())) {
+            record.setCreateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
+            record.setCreateUser(sysUserInfo.getUserId());
+            record.setCreateUserName(sysUserInfo.getUserName());
+        } else {
+            record.setUpdateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
+            record.setUpdateUser(sysUserInfo.getUserId());
+        }
+
+        //添加当前人的机构,机构id
+        record.setCompanyId(sysUserInfo.getUnitId());
+        record.setCompanyName(sysUserInfo.getUnitName());
+
+        record.setAddUserId(sysUserInfo.getUserId());
+        record.setStatus("2");
         record.setYear(DateUtil.format(new Date(), DateUtil.FMT_YYYY));
         ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(SAVECHOICE, HttpMethod.POST, new HttpEntity<ZjkChoice>(record, this.httpHeaders), Integer.class);
         Integer result = responseEntity.getBody();
@@ -335,8 +420,8 @@ public class ExpertController extends BaseController {
 
         ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LISTBAK, HttpMethod.POST, new HttpEntity<ZjkChoice>(zjkChoice, this.httpHeaders), JSONObject.class);
         JSONObject retJson = responseEntity.getBody();
-        List<ZjkChoice> list = (List<ZjkChoice>) retJson.get("list");
-        List<ZjkBaseInfo> baseList = (List<ZjkBaseInfo>) retJson.get("baseList");
+        List<ZjkChoice> list = JSONArray.parseArray(retJson.get("list").toString(), ZjkChoice.class);
+        List<ZjkBaseInfo> baseList = JSONArray.parseArray(retJson.get("baseList").toString(), ZjkBaseInfo.class);
         request.setAttribute("bakList", list);
         request.setAttribute("baseList", baseList);
         return "stp/expert/bakList";
@@ -351,13 +436,12 @@ public class ExpertController extends BaseController {
     @OperationFilter(modelName = "备选专家-删除备选", actionName = "根据ID删除专家-删除备选专家")
     @RequestMapping(value = "/delBak", method = RequestMethod.POST)
     @ResponseBody
-    public Object delBak() throws Exception {
-        Integer rs = this.restTemplate.exchange(DEL_BAK + request.getParameter("id"), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class).getBody();
-        if (rs > 0) {
-            return new Result(true, "操作成功！");
-        } else {
-            return new Result(false, "保存失败请重试！");
-        }
+    public Object delBak(){
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("addUserId", sysUserInfo.getUserId());//操作人ＩＤ
+        jsonObject.put("expertId", request.getParameter("expertId"));//专家ｉｄ
+        this.restTemplate.exchange(DEL_BAK_USERID, HttpMethod.POST, new HttpEntity<JSONObject>(jsonObject, this.httpHeaders), JSONObject.class);
+        return new Result(true, "操作成功！");
     }
 
     /**

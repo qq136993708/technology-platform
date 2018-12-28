@@ -187,6 +187,8 @@ public interface ZjkBaseInfoService {
      */
     List<TreeNode> selectObjectByTree();
 
+    public LayuiTableData findByExample(LayuiTableParam param, ZjkBaseInfoExample example);
+
     /**
      * 图表
      *

@@ -291,4 +291,16 @@ public interface OutProjectInfoMapper {
 	 * 批量插入项目预算数据
 	 */
 	public int insertProjectItemData(List<OutProjectInfo> list);
+	
+	/**
+	 * 删除年度项目预算数据
+	 */
+	public int deleteProjectItemByNd(String nd);
+	
+	/**
+	 * 删除国家项目预算数据
+	 */
+	public int deleteCountryProjectItemByDefind1(String define1);
+	
+	
 }

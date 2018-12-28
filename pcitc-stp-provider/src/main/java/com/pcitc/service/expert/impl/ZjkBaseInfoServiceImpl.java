@@ -12,6 +12,7 @@ import com.pcitc.base.expert.*;
 import com.pcitc.base.expert.ZjkBaseInfoExample;
 import com.pcitc.base.hana.report.AchievementsAnalysis;
 import com.pcitc.base.system.SysDictionary;
+import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.IdUtil;
 import com.pcitc.base.util.ReverseSqlResult;
 import com.pcitc.base.util.TreeNodeUtil;
@@ -265,7 +266,7 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
      * @param example
      * @return
      */
-    private LayuiTableData findByExample(LayuiTableParam param, ZjkBaseInfoExample example) {
+    public LayuiTableData findByExample(LayuiTableParam param, ZjkBaseInfoExample example) {
         int pageSize = param.getLimit();
         int pageStart = (param.getPage() - 1) * pageSize;
         int pageNum = pageStart / pageSize + 1;
@@ -325,8 +326,16 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
 
         List<String> stringsDic = new ArrayList<>();
         if (bak3 != null && bak3 != null) {
-            List<SysDictionary> dicSon = this.getDicSon(bak3);
-            stringsDic = dicSon.stream().map(SysDictionary::getName).collect(Collectors.toList());
+            if ("year".equals(bak3)){
+                int nowDate = Integer.parseInt(DateUtil.dateToStr(new Date(),DateUtil.FMT_YYYY));
+                for (int i = 10; i >0; i--) {
+                    stringsDic.add(((nowDate-i)+"").trim());
+                }
+                stringsDic.add((nowDate+"").trim());
+            }else {
+                List<SysDictionary> dicSon = this.getDicSon(bak3);
+                stringsDic = dicSon.stream().map(SysDictionary::getName).collect(Collectors.toList());
+            }
         }
 
 
@@ -355,15 +364,20 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
                     Map<String, Object> m = maps.get(i);
                     for (Map.Entry<String, Object> entry : m.entrySet()) {
                         String key = entry.getKey();
+                        System.out.println(key+"----"+entry.getValue());
                         if (x.contains(key)) {
                             xData.add(entry.getValue().toString());
-                        } else if (y.contains(key)) {
+                        }
+                        if (y.contains(key)) {
                             ySeries.add(entry.getValue());
                         }
                     }
                 }
+                for (int i = 0; i < stringsDic.size(); i++) {
+                    System.out.println(stringsDic.get(i).length()+"---"+stringsDic.get(i).trim().length());
+                }
                 csr.setSeriesDataList(ySeries);
-                csr.setxAxisDataList(stringsDic.size()==0?xData:stringsDic);
+                csr.setxAxisDataList(xData);
                 result.setSuccess(true);
                 result.setData(csr);
             }
