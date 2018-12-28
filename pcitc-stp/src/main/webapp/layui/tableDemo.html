@@ -26,22 +26,104 @@
     </div>
     <div class="institute">
         <div class="selector-left">研究院：</div>
-        <div class="selector-right">1</div>
+        <div class="selector-right">
+            <ul>
+                <li>
+                    <a href="javascript:;">勘探院</a>
+                </li>
+                <li>
+                    <a href="javascript:;">物探院</a>
+                </li>
+                <li>
+                    <a href="javascript:;">工程院</a>
+                </li>
+                <li>
+                    <a href="javascript:;">石科院</a>
+                </li>
+                <li>
+                    <a href="javascript:;">大连院</a>
+                </li>
+                <li>
+                    <a href="javascript:;">北化院</a>
+                </li>
+                <li>
+                    <a href="javascript:;">上海院</a>
+                </li>
+                <li>
+                    <a href="javascript:;">安工院</a>
+                </li>
+            </ul>
+        </div>
     </div>
     <div class="system">
         <div class="selector-left">其他系统标识：</div>
-        <div class="selector-right">1</div>
+        <div class="selector-right">
+            <ul>
+                <li>
+                    <a href="javascript:;">直属研究院</a>
+                </li>
+                <li>
+                    <a href="javascript:;">集团单位</a>
+                </li>
+                <li>
+                    <a href="javascript:;">集团公司</a>
+                </li>
+                <li>
+                    <a href="javascript:;">分子公司</a>
+                </li>
+            </ul>
+        </div>
     </div>
     <div class="specialty">
         <div class="selector-left">专业类别：</div>
-        <div class="selector-right">1</div>
+        <div class="selector-right">
+            <ul>
+                <li>
+                    <a href="javascript:;">基础研究</a>
+                </li>
+                <li>
+                    <a href="javascript:;">物探</a>
+                </li>
+                <li>
+                    <a href="javascript:;">开发</a>
+                </li>
+                <li>
+                    <a href="javascript:;">合成树脂新产品</a>
+                </li>
+                <li>
+                    <a href="javascript:;">炼化环保</a>
+                </li>
+                <li>
+                    <a href="javascript:;">C1化工</a>
+                </li>
+                <li>
+                    <a href="javascript:;">合原及合纤</a>
+                </li>
+                <li>
+                    <a href="javascript:;">装备及防腐</a>
+                </li>
+                <li>
+                    <a href="javascript:;">重油加工、沥青</a>
+                </li>
+                <li>
+                    <a href="javascript:;">重点实验室专项</a>
+                </li>
+                <li>
+                    <a href="javascript:;">合成树脂工艺及催化剂</a>
+                </li>
+            </ul>
+        </div>
     </div>
 
-    <div class="condition">
+    <div class="condition layui-hide">
         <div class="selector-left">已选条件：</div>
         <div class="selector-right">
             <ul>
+
             </ul>
+            <div class="dele">
+                <a href="javascript:;">清除全部</a>
+            </div>
         </div>
     </div>
 </div>
@@ -401,15 +483,32 @@
             //obj.del(); //删除当前行
             obj.update(fields) //修改当前行数据
         });
+        /*选择器*/
         $(".selector>div ul li a").click(function () {
-            alert("11")
-            var htmlName=$(this).parents(".selector-right").prev().html();
-            var htmlThis=$(this).html();
-            $(".condition ul").append("<li>"+htmlName+"<a href='javascript:;'>"+htmlThis+"</a></li>");
-
-            $(".condition ul li a").click(function () {
-                $(this).parents("li").remove();
-            });
+            if($(this).parents("li").hasClass("layui-this")){
+                $(this).parents("li").removeClass("layui-this");
+                var htmlThis=$(this).html();
+                $(".condition ul li a").each(function () {
+                    if(htmlThis.indexOf($(this).html())!= -1 ){
+                        $(this).parents("li").remove();
+                    }
+                });
+                return false;
+            }else {
+                $(this).parents("li").addClass("layui-this");
+                var htmlName=$(this).parents(".selector-right").prev().html();
+                var htmlThis=$(this).html();
+                $(".condition").removeClass("layui-hide");
+                $(".condition ul").append("<li>"+htmlName+"<a href='javascript:;'>"+htmlThis+"</a></li>");
+                $(".condition ul li a").click(function () {
+                    $(this).parents("li").remove();
+                });
+                $(".condition .dele").click(function () {
+                    $(".condition ul li").remove();
+                    $(".selector-right ul li").removeClass("layui-this");
+                    $(".condition").addClass("layui-hide");
+                });
+            }
         });
         // 点击按钮时激活
         $('.tableBtns').children('button').on('click',function (){
