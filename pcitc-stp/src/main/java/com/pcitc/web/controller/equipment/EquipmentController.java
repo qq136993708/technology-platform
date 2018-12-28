@@ -88,6 +88,14 @@ public class EquipmentController extends BaseController {
 	public String plan_up_list(HttpServletRequest request, HttpServletResponse response) {
 		return "/stp/equipment/plan_up_list";
 	}
+	
+	@RequestMapping(value = "/plan_update")
+	public String plan_update(HttpServletRequest request, HttpServletResponse response) {
+		return "/stp/equipment/plan_update";
+	}
+	
+	
+	
 	//规划审批
 	@RequestMapping(value = "/plan_audit_list")
 			public String plan_audit_list(HttpServletRequest request, HttpServletResponse response) {
@@ -126,6 +134,30 @@ public class EquipmentController extends BaseController {
 		return "/stp/equipment/check_list";
 	}
 	
+	
+	  //报废处置
+		@RequestMapping(value = "/apply_waste_list")
+		public String apply_waste_list(HttpServletRequest request, HttpServletResponse response) {
+			return "/stp/equipment/apply_waste_list";
+		}
+			@RequestMapping(value = "/apply_waste")
+			public String apply_waste(HttpServletRequest request, HttpServletResponse response) {
+				return "/stp/equipment/apply_waste";
+			}
+			
+			
+			
+			
+			//设备资料归档
+			@RequestMapping(value = "/assets_list")
+			public String assets_list(HttpServletRequest request, HttpServletResponse response) {
+				return "/stp/equipment/assets_list";
+			}
+			@RequestMapping(value = "/assets")
+			public String assets(HttpServletRequest request, HttpServletResponse response) {
+				return "/stp/equipment/assets";
+			}
+		
 	/**
 	 * 选择资产分类
 	 * 

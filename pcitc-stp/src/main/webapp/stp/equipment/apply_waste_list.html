@@ -14,8 +14,8 @@
 <div class="searchBox">
     <!--查询条件-->
     <label class="dateInput">
-        <span>院所</span>
-        <input type="text" name="name" title="院所" autocomplete="off" class="form-control" id="name">
+        <span>提报单位</span>
+        <input type="text" name="name" title="提报单位" autocomplete="off" class="form-control" id="name">
     </label>
     <!--按钮组-->
     <div class="btnGroup">
@@ -53,12 +53,10 @@
              <thead>
 	             <tr>
 	                <td>序号</td>
-	                <td>标题</td>
-	                <td>研究院</td>
-	                <td>规划日期</td>
-	                <td>规划金额</td>
-	                <td>规划附件</td>
-	                <td>审核状态</td>
+	                <td>提报单位</td>
+	                <td>提报日期</td>
+	                <td>报废装备名称</td>
+	                <td>报废审核状态</td>
 	             </tr>
             </thead>
              
@@ -129,7 +127,7 @@ var name=$('#name').val();
             },
             addEvent: function(){ //点击新增按钮
                 layer.open({
-                    title:'规划建议上报',
+                    title:'报废上报',
                     skin: 'layui-layer-lan',
                     shadeClose: true,
                     type: 2,
@@ -138,7 +136,7 @@ var name=$('#name').val();
                     maxmin: false,
                     //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
                    area: ['70%', '90%'],
-                    content:  '/sre-equipment/guihua'
+                    content:  '/sre-equipment/apply_waste'
                 });
             }
             ,editEvent: function(){  //点击编辑按钮
