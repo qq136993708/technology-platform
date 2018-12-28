@@ -23,18 +23,10 @@
 <body>
   <div class="layer-box">
 	<form id="planForm" class="layui-form" action="" lay-filter="component-form-group layui-container"></form>
-		<div class="formBox">
-			<div class="tableToolBox">
-				<div class="tableBtns">
-					<div class="tableTitle">基本信息<span class="red">（标*号为必填项）</span>
-					</div>
-				</div>
-			</div>
-		</div>
 		<div class="">
   			<table id="eqiu_table" class="layui-hide" lay-filter="tableEvent"></table>
   		</div>
-	<div class="box-body">
+<div class="box-body">
   <form class="layui-form" name="form1" id="form1" action="" method="POST" lay-filter="component-form-group layui-container">
   <input type="hidden" name="equipmentId" id="equipmentId" value="${equipmentId}">
   <input type="hidden" name="projectId" id="projectId" value="${projectId}">
@@ -44,12 +36,109 @@
   <input  name="checkContentDoc"    id="checkContentDoc"   value="${checkContentDoc}"  type="hidden">
   <input  name="taskDoc"            id="taskDoc"           value="${taskDoc}"  type="hidden">
   
-  <div  class="tableBtns" style="float:right">
-       <a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add" data-type="addEvent">添加装备</a>
-  </div>
-     <!--文本域-->
-      <div class="layui-form-item layui-form-text" >
-        <div class="layui-input-block">
+      <div class="layui-row">
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label for="" class="layui-form-label">项目名称</label>
+            <div class="layui-input-block">
+              xxx院实验室建设
+            </div>
+          </div>
+        </div>
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label for="" class="layui-form-label">申请数量</label>
+            <div class="layui-input-block">
+              2
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      
+       <div class="layui-row">
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label for="" class="layui-form-label">上报单位</label>
+            <div class="layui-input-block">
+              中国石油勘探开发研究院
+            </div>
+          </div>
+        </div>
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label for="" class="layui-form-label">上报部门</label>
+            <div class="layui-input-block">发展计划部
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="layui-row">
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label for="" class="layui-form-label">任务书</label>
+            <div class="layui-input-block">
+            
+             <button type="button" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_save" onclick="upload_File('${applyDoc}');">查看任务书</button>
+              
+            </div>
+          </div>
+        </div>
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label for="" class="layui-form-label">项目申请文件</label>
+            <div class="layui-input-block">
+               <button type="button" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_save" onclick="upload_File('${applyDoc}');">查看文件</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      
+      
+       <!-- <div class="layui-row">
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label for="" class="layui-form-label">项目属性</label>
+            <div class="layui-input-block">
+              xxxxxx
+            </div>
+          </div>
+        </div>
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label for="" class="layui-form-label">项目类型</label>
+            <div class="layui-input-block">
+                 xxxxxx
+            </div>
+          </div>
+        </div>
+      </div> -->
+      
+       <!-- <div class="layui-row">
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label for="" class="layui-form-label">项目申请文件</label>
+            <div class="layui-input-block">
+               <button type="button" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_save" onclick="upload_File('${applyDoc}');">查看文件</button>
+            </div>
+          </div>
+        </div>
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label for="" class="layui-form-label">批复公公文</label>
+            <div class="layui-input-block">
+               <button type="button" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_save" onclick="upload_File('${auditDoc}');">查看文件</button>
+            </div>
+          </div>
+        </div>
+      </div>
+       -->
+      
+      
+      
+      
+       <!--文本域-->
            <table class="layui-table">
              <thead>
 	             <tr>
@@ -66,7 +155,7 @@
                 <td>1</td>
                 <td>软件</td>
                 <td>DL788</td>
-                <td>500万</td>
+                <td>100万</td>
                 <td>2</td>
                 <td>可用于电气评估可用于电气评估可用于电气评估 </td>
                 <td>处理解释中心</td>
@@ -75,7 +164,7 @@
                 <td>2</td>
                 <td>红外成像设备</td>
                 <td>DeL788</td>
-                <td>400万</td>
+                <td>100万</td>
                 <td>2</td>
                 <td>分析温度变化 </td>
                 <td>处理解释中心</td>
@@ -84,179 +173,60 @@
                 <td>3</td>
                 <td>便携式设备</td>
                 <td>DeL788</td>
-                <td>700万</td>
+                <td>100万</td>
                 <td>2</td>
                 <td>处理温度变化 </td>
                 <td>处理解释中心</td>
              </tr>
            </table>
+           
+          
+           
+        </div>
+      
+ <div class="formBox">
+			<div class="tableToolBox">
+				<div class="tableBtns">
+					<div class="tableTitle" style="color:red">审核信息</span>
+					</div>
+				</div>
+			</div>
+		</div>      
+		
+       <!-- 文本域 -->
+      <div class="layui-form-item layui-form-text" >
+        <label class="layui-form-label">计划金额（万元）</label>
+        <div class="layui-input-block">
+          <input class="layui-input readOnlyBox" name="name" id="name" value="300万"  lay-verify="name" readonly="readonly"  autocomplete="off" type="text">
+        </div>
+      </div>
+      <!-- 文本域 -->
+      <div class="layui-form-item layui-form-text" >
+        <label class="layui-form-label">初审金额（万元）<span class="must-fill">*</span></label>
+        <div class="layui-input-block">
+           <input class="layui-input" name="keyWord" id="keyWord" value="200万"  autocomplete="off" type="text">
+        </div>
+      </div>
+      
+      <!-- 文本域 -->
+      <div class="layui-form-item layui-form-text" >
+        <label class="layui-form-label">审核意见<span class="must-fill">*</span></label>
+        <div class="layui-input-block">
+          <textarea name="notes" id="notes" lay-verify="required"   class="layui-textarea">${sreEquipment.notes}</textarea>
+        </div>
+      </div>
+      
+    
+     
         
-        </div>
-      </div>
+     
       
       
-        
-      <!--行有两个的情况-->
-      <div class="layui-row">
-        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-          <div class="layui-form-item">
-            <label for="" class="layui-form-label">项目名称<span class="must-fill">*</span></label>
-            <div class="layui-input-block">
-              <input class="layui-input" name="name" id="name" value="${sreProjectBasic.name}"  lay-verify="name"  autocomplete="off" type="text">
-            </div>
-          </div>
-        </div>
-        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-          <div class="layui-form-item">
-            <label for="" class="layui-form-label">关键词</label>
-            <div class="layui-input-block">
-              <input class="layui-input" name="keyWord" id="keyWord" value="${sreProjectBasic.keyWord}"  autocomplete="off" type="text">
-            </div>
-          </div>
-        </div>
-      </div>
-      
-       <div class="layui-row">
-        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-          <div class="layui-form-item">
-            <label for="" class="layui-form-label">项目属性<span class="must-fill">*</span></label>
-            <div class="layui-input-block">
-              <input class="layui-input" name="projectType" id="projectType" value="${sreProjectBasic.projectType}"  lay-verify="required"  autocomplete="off" type="text">
-            </div>
-          </div>
-        </div>
-        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-          <div class="layui-form-item">
-            <label for="" class="layui-form-label">建设年限</label>
-            <div class="layui-input-block">
-                  <div class="layui-input-inline" style="float:left">
-		            <input type="text" class="layui-input" name="beginYear" id="beginYear" value="${sreProjectBasic.beginYear}" style="width:80px;float:left" placeholder="开始年份">
-		             <div class="layui-form-mid" style="width:8px;float:left"> - </div>
-		            <input type="text" class="layui-input" id="endYear" name="endYear"   value="${sreProjectBasic.endYear}" style="width:80px;float:left" placeholder="结束年份">
-		          </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <div class="layui-row">
-        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-          <div class="layui-form-item">
-            <label for="" class="layui-form-label">项目长<span class="must-fill">*</span></label>
-            <div class="layui-input-block">
-              <input class="layui-input" name="projectLeader" id="projectLeader" value="${sreProjectBasic.projectLeader}"  lay-verify="required" placeholder="请输入装备名称" autocomplete="off" type="text">
-            </div>
-          </div>
-        </div>
-        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-          <div class="layui-form-item">
-            <label for="" class="layui-form-label">院级上报金额<span class="must-fill">*</span></label>
-            <div class="layui-input-block">
-              <input class="layui-input" name="applyMoney" id="applyMoney" value="${sreProjectBasic.applyMoney}"  autocomplete="off" type="text">
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      
-      <div class="layui-row">
-        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-          <div class="layui-form-item">
-            <label for="" class="layui-form-label">项目申请文件<span class="must-fill">*</span></label>
-            <div class="layui-input-block">
-               <button type="button" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_save" onclick="upload_File('${applyDoc}');">选择文件</button>
-            </div>
-          </div>
-        </div>
-        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-          <div class="layui-form-item">
-            <label for="" class="layui-form-label">批复公公文<span class="must-fill">*</span></label>
-            <div class="layui-input-block">
-               <button type="button" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_save" onclick="upload_File('${auditDoc}');">选择文件</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <div <#if sreProjectBasic.status != '2'>style="display:none"</#if>>
-      <!--文本域-->
-      <div class="layui-form-item layui-form-text" >
-        <label class="layui-form-label">目的和主要任务</label>
-        <div class="layui-input-block">
-          <textarea placeholder="请输入目的和主要任务" name="taskMainTaskContent" id="taskMainTaskContent" lay-verify="required"   class="layui-textarea">${sreProjectBasic.taskMainTaskContent}</textarea>
-        </div>
-      </div>
-      
-      <!--文本域-->
-      <div class="layui-form-item layui-form-text" >
-        <label class="layui-form-label">项目内容</label>
-        <div class="layui-input-block">
-          <textarea placeholder="请输入项目内容" name="taskContent" id="taskContent" lay-verify="required"   class="layui-textarea">${sreProjectBasic.taskContent}</textarea>
-        </div>
-      </div>
-      
-       <!--行有两个的情况-->
-      <div class="layui-row">
-        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-          <div class="layui-form-item">
-            <label for="" class="layui-form-label">计划进度和考核目标<span class="must-fill">*</span></label>
-            <div class="layui-input-block">
-              <input class="layui-input" name="taskAssessmentContent" id="taskAssessmentContent" value="${sreProjectBasic.taskAssessmentContent}"  lay-verify="taskAssessmentContent"  autocomplete="off" type="text">
-            </div>
-          </div>
-        </div>
-        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-          <div class="layui-form-item">
-            <label for="" class="layui-form-label">应提交验收的内容</label>
-            <div class="layui-input-block">
-              <input class="layui-input" name="taskCheckContents" id="taskCheckContents" value="${sreProjectBasic.taskCheckContents}"  autocomplete="off" type="text">
-            </div>
-          </div>
-        </div>
-      </div>
-      
-       <!--项目任务附件-->
-      <div class="layui-form-item layui-form-text" >
-        <label class="layui-form-label">任务附件</label>
-        <div class="layui-input-block">
-         <button type="button" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_save" onclick="upload_File('${taskDoc}');">选择文件</button>
-            </div>
-      </div>
-      
-      <!--文本域-->
-      <div class="layui-form-item layui-form-text" >
-        <label class="layui-form-label">验收内容名称</label>
-        <div class="layui-input-block">
-          <textarea placeholder="请输入:项目总结报告；设计图纸、设计总结报告；使用（操作）手册；质量评定、使用考核情况报告；安全、消防验收证明；环境保护验收证明；职业防护验收证明；财务决算报告；审计报告" name="checkContents" id="projectContent" lay-verify="required"   class="layui-textarea">${sreProjectBasic.projectContent}</textarea>
-        </div>
-      </div>
-      
-      <!--文本域-->
-      <div class="layui-row">
-        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-          <div class="layui-form-item">
-            <label for="" class="layui-form-label">验收人<span class="must-fill">*</span></label>
-            <div class="layui-input-block">
-               <input class="layui-input" name="checkUser" id="checkUser" value="${sreProjectBasic.checkUser}"  lay-verify="required" placeholder="请输入验收人" autocomplete="off" type="text">
-            </div>
-          </div>
-        </div>
-        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-          <div class="layui-form-item">
-            <label for="" class="layui-form-label">验收文件<span class="must-fill">*</span></label>
-            <div class="layui-input-block">
-               <button type="button" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_save" onclick="upload_File('${checkContentDoc}');">选择文件</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      </div>
     <!--行结束-->
     <div class="form-bottom">
 	  		<div class="form-bottom-btns">
-	    		<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue"   lay-submit="" lay-filter="sub">保存</button>
-             	<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue"  lay-submit="" lay-filter="up">上报</button>
+	    		<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue"   lay-submit="" lay-filter="sub">通过</button>
+             	<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue"  lay-submit="" lay-filter="up">不通过</button>
           		<button type="button"class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" id="closeBtn">关闭</button>
 	  		</div>
 		</div>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()" media="all">
+    <script src="/layuiadmin/layui/layui.js"></script>
+</head>
+
+<body>
+
+<div class="searchBox">
+    <!--查询条件-->
+    <label class="dateInput">
+        <span>状态</span>
+        <select style="width:150px">
+           <option>未完成</option>
+           <option>已完成</option>
+        </select>
+    </label>
+    <!--按钮组-->
+    <div class="btnGroup">
+        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>
+    </div>
+</div>
+
+
+<div class="tableBox">
+     <table class="layui-table">
+             <thead>
+	             <tr>
+	                <td>序号</td>
+	                <td>装备名称</td>
+	                <td>项目名称</td>
+	                <td>中标公司</td>
+	                <td>中标金额（万元）</td>
+	                <td>合同信息</td>
+	                <td>购置清单</td>
+	                <td>操作</td>
+	             </tr>
+            </thead>
+             <tr>
+                <td>1</td>
+                <td>自动速度分析器</td>
+                <td>勘探院处理解释软件购置</td>
+                <td>XXX科技有限公司</td>
+                <td>80</td>
+                <td>查看文件 </td>
+                <td>查看文件 </td>
+               <td><button class="layui-btn layui-btn-sm fontColor-white  " >验收</button> </td>
+             </tr>
+             <tr>
+                <td>2</td>
+                <td>红外成像设备</td>
+                <td>勘探院处理解释软件购置</td>
+                <td>XXX科技有限公司</td>
+                <td>80</td>
+                <td>查看文件 </td>
+                <td>查看文件 </td>
+               <td><button class="layui-btn layui-btn-sm fontColor-white  " >验收</button> </td>
+             </tr>
+             <tr>
+                <td>3</td>
+                <td>便携式设备</td>
+                 <td>勘探院处理解释软件购置</td>
+                <td>XXX科技有限公司</td>
+               <td>80</td>
+                <td>查看文件 </td>
+                <td>查看文件 </td>
+                <td><button class="layui-btn layui-btn-sm fontColor-white hardware"  data-type="hardware"  onclick="hardware()" id="hardware" >验收</button> </td>
+             </tr>
+           </table>
+</div>
+
+
+<script id="dateTpl" type="text/html"> {{formatTime(d.createDate)}} </script>
+<script type="text/javascript">
+    // 时间格式化
+    function formatTime(d) {
+        if (d) {
+            var date = new Date();
+            date.setTime(d);
+            var y = date.getFullYear();
+            var m = date.getMonth() + 1;
+            m = m < 10 ? ('0' + m) : m;
+            var day = date.getDate();
+            day = day < 10 ? ("0" + day) : day;
+            var h = date.getHours();
+            h = h < 10 ? ("0" + h) : h;
+            var M = date.getMinutes();
+            M = M < 10 ? ("0" + M) : M;
+            var str = y + "-" + m + "-" + day + " " + h + ":" + M;
+            return str;
+        } else {
+            return '';
+        }
+    }
+</script>
+<script type="text/html" id="buttonTpl">
+          {{#  if(d.auditStatus == '0'){ }}
+            <button class="layui-btn layui-btn-warm layui-btn-xs">未审核</button>
+          {{#  } else if(d.auditStatus == '1'){ }}
+            <button class="layui-btn  layui-btn-xs">审批中</button>
+          {{#  } else if(d.auditStatus == '2'){ }}
+            <button class="layui-btn layui-btn-normal layui-btn-xs">审批通过</button>
+           {{#  } else if(d.auditStatus == '3'){ }}
+            <button class="layui-btn layui-btn-danger layui-btn-xs">审批不通过</button>
+          {{#  } else{ }}
+            <button class="layui-btn layui-btn-primary layui-btn-xs">未审核</button>
+          {{#  } }}
+</script>
+
+<!--表格数据操作js-->
+<script src="/common/js/jquery-1.11.3.min.js"></script>
+<script>
+var table,selectRowData;
+var name=$('#name').val();
+    layui.use(['jquery','table','laypage','layer','laytpl'], function(){
+           table = layui.table,
+            $ = layui.jquery,
+            layer = layui.layer,
+            laypage = layui.laypage;
+	     //加载表格      
+	     //移除表头的复选框,去掉全选
+	     $(".layui-table-header table thead th input").remove();  
+         // 触发不同的按钮事件
+         var $ = layui.$, active = {
+            addEvent: function(){ //点击新增按钮
+                layer.open({
+                    title:'装备上报-新增',
+                    skin: 'layui-layer-lan',
+                    shadeClose: true,
+                    type: 2,
+                    fixed: false,
+                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                    maxmin: false,
+                    //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                   area: ['70%', '90%'],
+                    content:  '/sre-accept/hardware/add'
+                });
+            }
+            
+        };
+
+
+         
+        
+        
+    });
+    
+    
+
+    function hardware()
+    {
+    	 var temUrl="/sre-accept/hardware/add";
+    	 layer.open({
+             title:'装备验收',
+             skin: 'layui-layer-lan',
+             shadeClose: true,
+             type: 2,
+             fixed: false,
+             maxmin: false,
+             area: ['60%', '80%'],
+             content:  temUrl
+         });
+    }
+
+   
+
+</script>
+
+</body>
+</html>

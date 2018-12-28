@@ -66,6 +66,66 @@ public class EquipmentController extends BaseController {
 	private static final String GET_DIC_ASSET_TYPE = "http://pcitc-zuul/hana-proxy/hana/common/dic/asset_type";
 	private static final String GET_DIC_SUPPLYER = "http://pcitc-zuul/hana-proxy/hana/common/dic/supplyer";
 
+	
+	@RequestMapping(value = "/guihua")
+	public String guihua(HttpServletRequest request, HttpServletResponse response) {
+		return "/stp/equipment/guihua";
+	}
+	@RequestMapping(value = "/guihua_list")
+	public String guihua_list(HttpServletRequest request, HttpServletResponse response) {
+		return "/stp/equipment/guihua_list";
+	}
+	
+	
+	//计划上报
+	@RequestMapping(value = "/plan_up")
+	public String plan_up(HttpServletRequest request, HttpServletResponse response) {
+		return "/stp/equipment/plan_up";
+	}
+	
+	
+	@RequestMapping(value = "/plan_up_list")
+	public String plan_up_list(HttpServletRequest request, HttpServletResponse response) {
+		return "/stp/equipment/plan_up_list";
+	}
+	//规划审批
+	@RequestMapping(value = "/plan_audit_list")
+			public String plan_audit_list(HttpServletRequest request, HttpServletResponse response) {
+				return "/stp/equipment/plan_audit_list";
+			}
+	
+	
+	
+	//规划审批
+	@RequestMapping(value = "/plan_audit")
+	public String plan_audit(HttpServletRequest request, HttpServletResponse response) {
+		return "/stp/equipment/plan_audit";
+	}
+		
+	
+	
+	
+	//接收计划
+	@RequestMapping(value = "/over_plan")
+	public String over_plan(HttpServletRequest request, HttpServletResponse response) {
+		return "/stp/equipment/over_plan";
+	}
+	
+	
+	//采购信息
+	@RequestMapping(value = "/plan_info")
+	public String plan_info(HttpServletRequest request, HttpServletResponse response) {
+		return "/stp/equipment/plan_info";
+	}
+		
+		
+
+	//验收
+	@RequestMapping(value = "/check_list")
+	public String check_list(HttpServletRequest request, HttpServletResponse response) {
+		return "/stp/equipment/check_list";
+	}
+	
 	/**
 	 * 选择资产分类
 	 * 
