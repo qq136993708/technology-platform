@@ -44,11 +44,14 @@ public interface OutProjectInfoMapper {
 	public List<OutProjectInfo> selectProjectByCond(OutProjectInfo opi);
 
 	/**
-     * @param nd
-     * @return
      * 首页科研项目数、装备项目数、总金额（预算）
      */
 	public HashMap<String, String> getOutProjectInfoCount(HashMap<String, String> map);
+	
+	/**
+     * 研究院首页计算装备和科研合同总数 
+     */
+	public HashMap<String, String> getOutProjectInfoCountWithKYZB(HashMap<String, String> map);
 	
 	/**
      * 首页计算项目总金额, 包含结转和新开
