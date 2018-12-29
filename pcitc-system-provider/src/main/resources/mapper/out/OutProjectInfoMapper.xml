@@ -2147,13 +2147,13 @@
 	<!--  领导二级页面，重点项目、国家项目、重大专项、十条龙、其他项目的新开、结转情况 -->
 	<select id="getProjectNewOldInfoByType" resultType="java.util.Map" parameterType="java.util.HashMap">
 		select 
-			sum(case when nd = '2018' then 1 else 0 end) as xksl,
-		    sum(case when nd != '2018' then 1 else 0 end) as xjsl,
+			sum(case when nd = '${nd}' then 1 else 0 end) as xksl,
+		    sum(case when nd != '${nd}' then 1 else 0 end) as xjsl,
 		    count(*) as zsl,
-			(select count(*) from out_project_info where project_type != '1' and project_property not like '%十条龙%' and out_project_info.ysnd = '2018' and define7 not like '%已关闭%' and type_flag like '%直属研究院%') as temsh,
+			(select count(*) from out_project_info where project_type != '1' and project_property not like '%十条龙%' and out_project_info.ysnd = '${nd}' and define7 not like '%已关闭%' and type_flag like '%直属研究院%') as temsh,
 			round(count(*)/(select count(*) from out_project_info 
 							where 
-								project_type != '1' and project_property not like '%十条龙%' and out_project_info.ysnd = '2018' and define7 not like '%已关闭%' 
+								project_type != '1' and project_property not like '%十条龙%' and out_project_info.ysnd = '${nd}' and define7 not like '%已关闭%' 
 								and type_flag like '%直属研究院%' 
 								<if test="xmlbbm != null and xmlbbm == 'kyzb'">
 									 and xmlbbm ='KYZB'
@@ -2162,12 +2162,12 @@
 								     and xmlbbm !='KYZB'
 							    </if>
 							)*100, 2) as zslRate,
-			round(sum(case when nd = '2018' then 1 else 0 end)/count(*)*100, 2) as xkRate,
-			round(sum(case when nd != '2018' then 1 else 0 end)/count(*)*100, 2) as xjRate,
+			round(sum(case when nd = '${nd}' then 1 else 0 end)/count(*)*100, 2) as xkRate,
+			round(sum(case when nd != '${nd}' then 1 else 0 end)/count(*)*100, 2) as xjRate,
 			project_property
 		FROM out_project_info
 		where 
-			project_type != '1' and project_property not like '%十条龙%' and out_project_info.ysnd = '2018' and define7 not like '%已关闭%' 
+			project_type != '1' and project_property not like '%十条龙%' and out_project_info.ysnd = '${nd}' and define7 not like '%已关闭%' 
 			and type_flag like '%直属研究院%'
 			<if test="xmlbbm != null and xmlbbm == 'kyzb'">
 				 and xmlbbm ='KYZB'
@@ -2181,13 +2181,17 @@
 	
 	<!--  领导二级页面，各类型技术的新开、结转情况 -->
 	<select id="getProjectInfoByTecTypeWithOldNew" resultType="java.util.Map" parameterType="java.util.HashMap">
-		select SUBSTR(define5 FROM 4) define5,count(*) as zsl,
-			   sum(case when project_scope = '新开课题' then 1 else 0 end) as xksl,
-		       sum(case when project_scope = '结转课题' then 1 else 0 end) as xjsl
-		from out_project_info
-		WHERE
-			define5 is not null and (project_scope = '新开课题' or project_scope = '结转课题')
-		group by define5
+		SELECT SUBSTR(define5 FROM 4) define5,SUM(zsl) zsl,SUM(xksl) xksl,SUM(xjsl) xjsl FROM (
+			select 
+				case when define5 is null then '109其他相关技术' else define5 end as define5,
+					 count(*) as zsl,
+				   sum(case when nd = '${nd}' then 1 else 0 end) as xksl,
+			       sum(case when nd != '${nd}' then 1 else 0 end) as xjsl
+			from out_project_info
+			WHERE
+				ysnd= '${nd}' and project_type != '1' and project_property not like '%十条龙%' and define7 not like '%已关闭%'
+			group by define5) AS tableA
+		GROUP BY tableA.define5
 	</select>
 	
 	<!--  领导首页-十条龙，十条龙项目的类型分布 -->
