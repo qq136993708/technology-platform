@@ -489,11 +489,13 @@ public class DirectController {
 		public String contry_01(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 			Result result = new Result();
-			String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+			String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 			String companyCode = CommonUtil.getParameter(request, "companyCode", HanaUtil.YJY_CODE_ALL);
+			String define3  = CommonUtil.getParameter(request, "define3 ", "研究院" );
 			String type = CommonUtil.getParameter(request, "type", "1");
 			Map<String, Object> paramsMap = new HashMap<String, Object>();
-			paramsMap.put("month", month);
+			paramsMap.put("nd", nd);
+			paramsMap.put("define3", define3);
 			paramsMap.put("companyCode", companyCode);
 			JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 			HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
@@ -566,11 +568,12 @@ public class DirectController {
 		public String contry_02(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 			Result result = new Result();
-			String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+			String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 			String companyCode = CommonUtil.getParameter(request, "companyCode", HanaUtil.YJY_CODE_ALL);
-			String type = CommonUtil.getParameter(request, "type", "1");
+			String define3  = CommonUtil.getParameter(request, "define3 ", "研究院" );
 			Map<String, Object> paramsMap = new HashMap<String, Object>();
-			paramsMap.put("month", month);
+			paramsMap.put("define3", define3);
+			paramsMap.put("nd", nd);
 			paramsMap.put("companyCode", companyCode);
 			JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 			HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
