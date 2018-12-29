@@ -387,8 +387,9 @@
  					
  				},
  				success : function(data) { 
- 					$("#topic_id").html(data.projectCount+"<small>(个)</small>");
- 					$("#equipment_id").html(data.kyzbCount+"<small>(个)</small>");
+ 					//alert(data.data.projectCount);
+ 					$("#topic_id").html(data.data.projectCount+"<small>(个)</small>");
+ 					$("#equipment_id").html(data.data.kyzbCount+"<small>(个)</small>");
  					
  				}
  			});
