@@ -99,16 +99,14 @@ public class OneLevelMainController {
 
 
 		//科研投入
-		private static final String investment_01 = "http://pcitc-zuul/system-proxy/out-project-plna-provider/complete-rate/company-type";
-		private static final String investment_01_01 = "http://pcitc-zuul/system-proxy/out-project-plna-provider/complete-rate/company-type";
-		private static final String investment_02 = "http://pcitc-zuul/system-proxy/out-project-plna-provider/complete-rate/institute";
+		private static final String investment_01 = "http://pcitc-zuul/system-proxy/out-project-plna-provider/money/complete-rate/company-type";
+		private static final String investment_02 = "http://pcitc-zuul/system-proxy/out-project-plna-provider/money/complete-rate/institute";
 		
 		private static final String investment_first_page_count = "http://pcitc-zuul/system-proxy/out-provider/project-money";
 		private static final String contract_count = "http://pcitc-zuul/system-proxy/out-provider/project-count";
 		
 		
-		private static final String investment_01_new = "http://pcitc-zuul/system-proxy/out-project-plna-provider/money/complete-rate/company-type";
-		private static final String investment_02_new = "http://pcitc-zuul/system-proxy/out-project-plna-provider/money/complete-rate/institute";
+		
 		
 		
 		
@@ -1761,7 +1759,7 @@ public class OneLevelMainController {
 										HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 										if (!companyCode.equals(""))
 										{
-											ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(investment_01_new, HttpMethod.POST, entity, JSONArray.class);
+											ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(investment_01, HttpMethod.POST, entity, JSONArray.class);
 											int statusCode = responseEntity.getStatusCodeValue();
 											if (statusCode == 200) 
 											{
@@ -1814,7 +1812,7 @@ public class OneLevelMainController {
 										HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 										if (!companyCode.equals(""))
 										{
-											ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(investment_01_new, HttpMethod.POST, entity, JSONArray.class);
+											ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(investment_01, HttpMethod.POST, entity, JSONArray.class);
 											int statusCode = responseEntity.getStatusCodeValue();
 											if (statusCode == 200) 
 											{
@@ -1852,7 +1850,7 @@ public class OneLevelMainController {
 										JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 										HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 										
-											ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(investment_01_new, HttpMethod.POST, entity, JSONArray.class);
+											ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(investment_01, HttpMethod.POST, entity, JSONArray.class);
 											int statusCode = responseEntity.getStatusCodeValue();
 											if (statusCode == 200) 
 											{
@@ -1913,7 +1911,7 @@ public class OneLevelMainController {
 										HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 										if (!companyCode.equals(""))
 										{
-											ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(investment_02_new, HttpMethod.POST, entity, JSONArray.class);
+											ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(investment_02, HttpMethod.POST, entity, JSONArray.class);
 											int statusCode = responseEntity.getStatusCodeValue();
 											if (statusCode == 200) 
 											{
@@ -1969,7 +1967,7 @@ public class OneLevelMainController {
 										HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 										if (!companyCode.equals(""))
 										{
-											ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(investment_02_new, HttpMethod.POST, entity, JSONArray.class);
+											ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(investment_02, HttpMethod.POST, entity, JSONArray.class);
 											int statusCode = responseEntity.getStatusCodeValue();
 											if (statusCode == 200) 
 											{
