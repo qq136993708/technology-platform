@@ -145,6 +145,22 @@ public class OutProjectInfoClient {
 		return retJson;
     }
 	
+	@ApiOperation(value = "研究院首页计算装备和科研合同总数", notes = "首页查询使用")
+	@RequestMapping(value = "/out-provider/kyzb/project-count", method = RequestMethod.POST)
+	public JSONObject getOutProjectInfoCountWithKYZB(@RequestBody HashMap<String, String> map) {
+		JSONObject retJson = new JSONObject();
+		
+		HashMap<String, String> temMap = outProjectService.getOutProjectInfoCountWithKYZB(map);
+		if (temMap != null) {
+			retJson.put("projectCount", temMap.get("projectCount"));
+			retJson.put("kyzbCount", temMap.get("kyzbCount"));
+		} else {
+			retJson.put("projectCount", 0);
+			retJson.put("kyzbCount", 0);
+		}
+		return retJson;
+    }
+	
 	@ApiOperation(value = "十条龙及重大专项项目的总数", notes = "首页查询使用")
 	@RequestMapping(value = "/out-provider/dragon/project-count", method = RequestMethod.POST)
 	public JSONObject getProjectCountForDragon(@RequestBody HashMap<String, String> map) {

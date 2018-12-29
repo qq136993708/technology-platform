@@ -38,6 +38,13 @@ public class OutProjectServiceImpl implements OutProjectService {
 	private OutProjectErpMapper outProjectErpMapper;
 
 	private final static Logger logger = LoggerFactory.getLogger(OutProjectServiceImpl.class);
+	
+	/**
+     * 研究院首页计算装备和科研合同总数 
+     */
+	public HashMap<String, String> getOutProjectInfoCountWithKYZB(HashMap<String, String> map) {
+		return outProjectInfoMapper.getOutProjectInfoCountWithKYZB(map);
+	}
 
 	/**
 	 * 获取项目数据
