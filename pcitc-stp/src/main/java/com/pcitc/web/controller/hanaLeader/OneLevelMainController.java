@@ -825,9 +825,13 @@ public class OneLevelMainController {
 							Contract contract = (Contract) list.get(i);
 							String define3 = contract.getDefine3();
 							Object qdbl =contract.getQdbl();
-							String str=String.format("%.2f", Double.valueOf(String.valueOf(qdbl)));
-							seriesDataList.add(str);
-							xAxisDataList.add(define3);
+							if(qdbl!=null && !qdbl.toString().equals("0"))
+							{
+								String str=String.format("%.2f", Double.valueOf(String.valueOf(qdbl)));
+								seriesDataList.add(str);
+								xAxisDataList.add(define3);
+							}
+							
 							
 						}
 						chartSingleLineResultData.setxAxisDataList(xAxisDataList);
