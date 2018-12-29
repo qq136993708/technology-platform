@@ -952,23 +952,22 @@
 		</foreach>
 	</insert>
 	
-	<!-- 直属研究院二级页面（领导），项目计划完成的比率，按照新开续建、资本性费用性来分组 -->
+	<!-- 直属研究院二级页面（领导），项目计划完成的比率，按照项目类型、资本性费用性来分组 -->
 	<select id="getPlanCompleteRateByOldNew" resultType="java.util.Map" parameterType="java.util.HashMap">
-		select define1,project_scope,sum(jhqds) as jhqds,sum(sjqds) as sjqds, round(sum(sjqds)/sum(jhqds)*100,2) as qdbl from (
-			select tableB.DEFINE1 as define1,case WHEN nd = '2018' then '新开课题' else '结转课题' end as project_scope,nd,
-						count(xmid) as jhqds,
-						sum(case when tableB.temId is not null then 1 else 0 end) as sjqds
-					from (
-						select out_project_info.xmid as temId,out_project_plan.xmid as xmid,out_project_plan.DEFINE1,out_project_plan.nd 
-						from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and (out_project_info.PROJECT_TYPE= '0' or out_project_info.PROJECT_TYPE= '2') and out_project_info.project_property not like '%十条龙%' and out_project_info.YSND= '${nd}' and out_project_info.define7 not like '%已关闭%')
-						WHERE
-							out_project_plan.YSND= '${nd}' and out_project_plan.define7 not like '%已关闭%'
-							and (out_project_plan.PROJECT_TYPE= '0' or out_project_plan.PROJECT_TYPE= '2')
-							group by out_project_plan.xmid
-					) as tableB 
-					group by tableB.DEFINE1,nd
-			) as tableA
-		GROUP BY tableA.define1,tableA.project_scope
+		select tableB.DEFINE1 as define1,PROJECT_PROPERTY as project_scope,count(xmid) as jhqds,
+			sum(case when tableB.temId is not null then 1 else 0 end) as sjqds
+		from (
+			select out_project_info.xmid as temId,out_project_plan.xmid as xmid,out_project_plan.DEFINE1,out_project_plan.PROJECT_PROPERTY
+			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and (out_project_info.PROJECT_TYPE= '0' or out_project_info.PROJECT_TYPE= '2') and out_project_info.project_property not like '%十条龙%' and out_project_info.ND= '2018' and out_project_info.define7 not like '%已关闭%')
+			WHERE
+				out_project_plan.ND= '2018' and out_project_plan.define7 not like '%已关闭%'
+				and (out_project_plan.PROJECT_TYPE= '0' or out_project_plan.PROJECT_TYPE= '2')
+				<if test="define3 != null and define3 != ''">
+					and out_project_plan.DEFINE3 like '%${define3}%'
+				</if>
+				group by out_project_plan.xmid
+		) as tableB 
+		group by tableB.DEFINE1,tableB.PROJECT_PROPERTY
 	</select>
 	
 	<!-- 直属研究院二级页面（领导），总的签订率-->

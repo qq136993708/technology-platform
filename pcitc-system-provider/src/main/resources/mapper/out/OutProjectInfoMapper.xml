@@ -2147,23 +2147,35 @@
 	<!--  领导二级页面，重点项目、国家项目、重大专项、十条龙、其他项目的新开、结转情况 -->
 	<select id="getProjectNewOldInfoByType" resultType="java.util.Map" parameterType="java.util.HashMap">
 		select 
-			sum(case when project_scope = '新开课题' then 1 else 0 end) as xksl,
-		    sum(case when project_scope = '结转课题' then 1 else 0 end) as xjsl,
+			sum(case when nd = '2018' then 1 else 0 end) as xksl,
+		    sum(case when nd != '2018' then 1 else 0 end) as xjsl,
 		    count(*) as zsl,
-			round(count(*)/(select count(*) from out_project_info where project_type != '1' and (project_scope = '新开课题' or project_scope = '结转课题') and define2 is not null)*100, 2) as zslRate,
-			round(sum(case when project_scope = '新开课题' then 1 else 0 end)/count(*)*100, 2) as xkRate,
-			round(sum(case when project_scope = '结转课题' then 1 else 0 end)/count(*)*100, 2) as xjRate,
+			(select count(*) from out_project_info where project_type != '1' and project_property not like '%十条龙%' and out_project_info.ysnd = '2018' and define7 not like '%已关闭%' and type_flag like '%直属研究院%') as temsh,
+			round(count(*)/(select count(*) from out_project_info 
+							where 
+								project_type != '1' and project_property not like '%十条龙%' and out_project_info.ysnd = '2018' and define7 not like '%已关闭%' 
+								and type_flag like '%直属研究院%' 
+								<if test="xmlbbm != null and xmlbbm == 'kyzb'">
+									 and xmlbbm ='KYZB'
+							    </if>
+							    <if test="xmlbbm != null and xmlbbm == 'fkyzb'">
+								     and xmlbbm !='KYZB'
+							    </if>
+							)*100, 2) as zslRate,
+			round(sum(case when nd = '2018' then 1 else 0 end)/count(*)*100, 2) as xkRate,
+			round(sum(case when nd != '2018' then 1 else 0 end)/count(*)*100, 2) as xjRate,
 			project_property
 		FROM out_project_info
 		where 
-			project_type != '1' and (project_scope = '新开课题' or project_scope = '结转课题')
-			and project_property is not null
+			project_type != '1' and project_property not like '%十条龙%' and out_project_info.ysnd = '2018' and define7 not like '%已关闭%' 
+			and type_flag like '%直属研究院%'
 			<if test="xmlbbm != null and xmlbbm == 'kyzb'">
 				 and xmlbbm ='KYZB'
 		    </if>
 		    <if test="xmlbbm != null and xmlbbm == 'fkyzb'">
 			     and xmlbbm !='KYZB'
 		    </if>
+			
 		group by project_property
 	</select>
 	
