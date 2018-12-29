@@ -962,6 +962,7 @@
 			WHERE
 				out_project_plan.ND= '${nd}' and out_project_plan.define7 not like '%已关闭%'
 				and (out_project_plan.PROJECT_TYPE= '0' or out_project_plan.PROJECT_TYPE= '2')
+				and out_project_plan.project_property not like '%国家%'
 				<if test="define3 != null and define3 != ''">
 					and out_project_plan.DEFINE3 like '%${define3}%'
 				</if>
@@ -982,6 +983,7 @@
 			WHERE
 				out_project_plan.ND= '${nd}' and out_project_plan.define7 not like '%已关闭%'
 				and (out_project_plan.PROJECT_TYPE= '0' or out_project_plan.PROJECT_TYPE= '2')
+				and out_project_plan.project_property not like '%国家%'
 				<if test="define3 != null and define3 != ''">
 					and out_project_plan.DEFINE3 like '%${define3}%'
 				</if>
@@ -1005,6 +1007,7 @@
 			WHERE
 				out_project_plan.ND= '${nd}' and out_project_plan.define7 not like '%已关闭%' and out_project_plan.DEFINE3 like '%直属研究院%'
 				and (out_project_plan.PROJECT_TYPE= '0' or out_project_plan.PROJECT_TYPE= '2')
+				and out_project_plan.project_property not like '%国家%'
 				group by out_project_plan.xmid
 		) as tableB 
 		group by tableB.DEFINE2
@@ -1030,6 +1033,7 @@
 			WHERE
 				out_project_plan.YSND= '${nd}' and out_project_plan.define7 not like '%已关闭%' and out_project_plan.DEFINE3 like '%直属研究院%'
 				and (out_project_plan.PROJECT_TYPE= '0' or out_project_plan.PROJECT_TYPE= '2')
+				and out_project_plan.project_property not like '%国家%'
 				group by out_project_plan.xmid
 		) as tableB 
 		group by tableB.DEFINE2
@@ -1046,6 +1050,7 @@
 			WHERE
 				out_project_plan.ND= '${nd}' and out_project_plan.define7 not like '%已关闭%'
 				and (out_project_plan.PROJECT_TYPE = '0' or out_project_plan.PROJECT_TYPE = '2')
+				and out_project_plan.project_property not like '%国家%'
 				group by out_project_plan.xmid
 		) as tableB 
 		group by tableB.DEFINE1
@@ -1075,6 +1080,7 @@
 			WHERE
 				out_project_plan.ND= '${nd}' and out_project_plan.define7 not like '%已关闭%'
 				and (out_project_plan.PROJECT_TYPE= '0' or out_project_plan.PROJECT_TYPE= '2')
+				and out_project_plan.project_property not like '%国家%'
 				group by out_project_plan.xmid
 		) as tableB  
 		group by tableB.DEFINE3
@@ -1102,6 +1108,7 @@
 			WHERE
 				out_project_plan.ysnd= '${nd}' and out_project_plan.define7 not like '%已关闭%'
 				and (out_project_plan.PROJECT_TYPE= '0' or out_project_plan.PROJECT_TYPE= '2')
+				and out_project_plan.project_property not like '%国家%'
 				group by out_project_plan.xmid
 		) as tableB  
 		group by tableB.DEFINE3
@@ -1119,6 +1126,7 @@
 			WHERE
 				out_project_plan.ND = '${nd}' and out_project_plan.define7 not like '%已关闭%'
 				and (out_project_plan.PROJECT_TYPE= '0' or out_project_plan.PROJECT_TYPE= '2')
+				and out_project_plan.project_property not like '%国家%'
 				group by out_project_plan.xmid
 		) as tableB 
 		group by tableB.DEFINE3,tableB.DEFINE2
