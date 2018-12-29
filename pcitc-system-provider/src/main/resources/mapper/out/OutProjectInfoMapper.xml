@@ -2024,17 +2024,13 @@
 	<!-- 领导二级页面，8个院新开、续建情况,每一行是一个院 -->
 	<select id="getProjectTypeCountByUnitLD" resultType="java.util.Map" parameterType="java.util.HashMap">
 		select
-		    sum(case when project_scope = '新开课题' then 1 else 0 end) as xksl,
-		    sum(case when project_scope = '结转课题' then 1 else 0 end) as xjsl,
-		    count(*) as zsl,
-		    (select count(*) from out_project_info where project_type != '1' and (project_scope = '新开课题' or project_scope = '结转课题') and define2 is not null) as hjzsl,
-			count(*)/(select count(*) from out_project_info where project_type != '1' and (project_scope = '新开课题' or project_scope = '结转课题') and define2 is not null)*100 as zslRate,
-			sum(case when project_scope = '新开课题' then 1 else 0 end)/count(*)*100 as xkRate,
-			sum(case when project_scope = '结转课题' then 1 else 0 end)/count(*)*100 as xjRate,
+		    sum(case when nd = '${nd}' then 1 else 0 end) as xksl,
+		    sum(case when nd != '${nd}' then 1 else 0 end) as xjsl,
+		    count(xmid) as zsl,
 	    	SUBSTR(define2 FROM 4) define2
 		from out_project_info
-		where project_type != '1' and (project_scope = '新开课题' or project_scope = '结转课题') and 
-			  define2 is not null and type_flag like '%直属研究院%'
+		where project_type != '1' and project_property not like '%十条龙%' and out_project_info.ysnd = '${nd}' and define7 not like '%已关闭%' and
+			   type_flag like '%直属研究院%'
 			  <if test="xmlbbm != null and xmlbbm == 'kyzb'">
 				 and xmlbbm ='KYZB'
 			  </if>
