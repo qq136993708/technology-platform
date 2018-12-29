@@ -20,6 +20,11 @@ public interface OutProjectPlanService {
     public void insertOutProjectPlanBatch(List<OutProjectPlan> list);
     
     /**
+     * 批量插入项目计划预算数据
+     */
+    public void insertOutProjectPlanForYS(List<OutProjectPlan> list);
+    
+    /**
      * 批量插入国家项目计划数据
      */
     public void insertCountryProjectPlanBatch(List<OutProjectPlan> list, String nd);
@@ -36,6 +41,11 @@ public interface OutProjectPlanService {
 	public List getPlanTotalCompleteRate(HashMap<String, String> map);
 	
 	/**
+     * 直属研究院二级页面（领导），各个院的合同预算情况
+     */
+	public List getPlanMoneyCompleteRateByInstitute(HashMap<String, String> map);
+	
+	/**
      * 直属研究院二级页面（领导），各个院的合同签订率
      */
 	public List getPlanCompleteRateByInstitute(HashMap<String, String> map);
@@ -49,6 +59,11 @@ public interface OutProjectPlanService {
      * 领导首页-科研合同，项目计划完成的比率，按照直属研究所、分子公司等9个来分组
      */
 	public List getPlanCompleteRateByCompanyType(HashMap<String, String> map);
+	
+	/**
+     * 领导首页-科研投入，按照直属研究所、分子公司等9个来分组
+     */
+	public List getPlanMoneyCompleteRateByCompanyType(HashMap<String, String> map);
 	
 	/**
      * 领导首页-科研合同，科研合同签订率清单

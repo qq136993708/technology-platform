@@ -4,7 +4,7 @@ import com.alibaba.druid.support.json.JSONUtils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.Result;
-import com.pcitc.base.expert.ZjkBaseInfo;
+import com.pcitc.base.expert.ZjkExpert;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.web.utils.UserProfileAware;
@@ -100,11 +100,11 @@ public class ZjkBaseInfoController extends BaseController {
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ResponseBody
     @OperationFilter(modelName = "专家-基本信息", actionName = "查询列表getList")
-    public Object getList(@RequestBody ZjkBaseInfo zjkBaseInfo) {
+    public Object getList(@RequestBody ZjkExpert zjkBaseInfo) {
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LIST, HttpMethod.POST, new HttpEntity<ZjkBaseInfo>(zjkBaseInfo, this.httpHeaders), JSONObject.class);
+        ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LIST, HttpMethod.POST, new HttpEntity<ZjkExpert>(zjkBaseInfo, this.httpHeaders), JSONObject.class);
         JSONObject retJson = responseEntity.getBody();
-        List<ZjkBaseInfo> list = (List<ZjkBaseInfo>) retJson.get("list");
+        List<ZjkExpert> list = (List<ZjkExpert>) retJson.get("list");
         return list;
     }
 
@@ -119,7 +119,7 @@ public class ZjkBaseInfoController extends BaseController {
         HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<MultiValueMap<String, String>>(requestBody, this.httpHeaders);
         ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LISTPARAM, HttpMethod.POST, entity, JSONObject.class);
         JSONObject retJson = responseEntity.getBody();
-        List<ZjkBaseInfo> list = (List<ZjkBaseInfo>) retJson.get("list");
+        List<ZjkExpert> list = (List<ZjkExpert>) retJson.get("list");
         return list;
     }
 
@@ -148,18 +148,18 @@ public class ZjkBaseInfoController extends BaseController {
     @RequestMapping(value = "/saveZjkBaseInfo")
     @ResponseBody
     @OperationFilter(modelName = "专家-基本信息", actionName = "保存saveRecord")
-    public int saveRecord(ZjkBaseInfo record) {
+    public int saveRecord(ZjkExpert record) {
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         if (record.getId() == null || "".equals(record.getId())) {
             record.setCreateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
             record.setCreateUser(sysUserInfo.getUserId());
-            record.setCreateUserName(sysUserInfo.getUserName());
+            record.setCreateUserDisp(sysUserInfo.getUserName());
         } else {
             record.setUpdateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
-            record.setUpdateUser(sysUserInfo.getUserId());
+            record.setUpdatePersonName(sysUserInfo.getUserId());
         }
         record.setStatus("0");
-        ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(SAVE, HttpMethod.POST, new HttpEntity<ZjkBaseInfo>(record, this.httpHeaders), Integer.class);
+        ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(SAVE, HttpMethod.POST, new HttpEntity<ZjkExpert>(record, this.httpHeaders), Integer.class);
         Integer result = responseEntity.getBody();
         return result;
     }
@@ -203,8 +203,8 @@ public class ZjkBaseInfoController extends BaseController {
     @ResponseBody
     public Object getzjkBaseInfoInfo(HttpServletRequest request) {
         String id = request.getParameter("id");
-        ResponseEntity<ZjkBaseInfo> responseEntity = this.restTemplate.exchange(GET_INFO + id, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), ZjkBaseInfo.class);
-        ZjkBaseInfo news = responseEntity.getBody();
+        ResponseEntity<ZjkExpert> responseEntity = this.restTemplate.exchange(GET_INFO + id, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), ZjkExpert.class);
+        ZjkExpert news = responseEntity.getBody();
         return news;
     }
 

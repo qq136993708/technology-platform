@@ -1,7 +1,6 @@
 package com.pcitc.service.expert.impl;
 
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -9,20 +8,17 @@ import com.pcitc.base.common.*;
 import com.pcitc.base.common.enums.DataOperationStatusEnum;
 import com.pcitc.base.common.enums.DelFlagEnum;
 import com.pcitc.base.expert.*;
-import com.pcitc.base.expert.ZjkBaseInfoExample;
-import com.pcitc.base.hana.report.AchievementsAnalysis;
+import com.pcitc.base.expert.ZjkExpertExample;
 import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.IdUtil;
-import com.pcitc.base.util.ReverseSqlResult;
 import com.pcitc.base.util.TreeNodeUtil;
 import com.pcitc.config.SpringContextUtil;
-import com.pcitc.mapper.expert.ZjkBaseInfoMapper;
+import com.pcitc.mapper.expert.ZjkExpertMapper;
 import com.pcitc.service.expert.ZjkBaseInfoService;
 import com.pcitc.service.expert.ZjkChengguoService;
 import com.pcitc.service.expert.ZjkPicService;
 import com.pcitc.web.feign.SystemRemoteClient;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,7 +29,6 @@ import javax.annotation.Resource;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -48,16 +43,27 @@ import java.util.stream.Collectors;
 @Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = Exception.class)
 public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
 
-    @Autowired
-    private ZjkBaseInfoMapper zjkBaseInfoMapper;
+    @Resource
+    private ZjkExpertMapper zjkBaseInfoMapper;
 
-    public List<ZjkBaseInfo> findZjkBaseInfoList(ZjkBaseInfo zjkBaseInfo) {
-        List<ZjkBaseInfo> record = zjkBaseInfoMapper.findZjkBaseInfoList(zjkBaseInfo);
+    @Autowired
+    private ZjkChengguoService zjkChengguoService;
+
+    @Resource
+    private SystemRemoteClient systemRemoteClient;
+
+    public List<ZjkExpert> findZjkExpertList(ZjkExpert zjkBaseInfo) {
+        List<ZjkExpert> record = zjkBaseInfoMapper.findZjkExpertList(zjkBaseInfo);
         return record;
     }
 
     @Override
-    public int updateOrInsertZjkBaseInfo(ZjkBaseInfo zjkBaseInfo) throws Exception {
+    public List<ZjkExpert> findZjkBaseInfoList(ZjkExpert record) throws Exception {
+        return zjkBaseInfoMapper.findZjkExpertList(record);
+    }
+
+    @Override
+    public int updateOrInsertZjkBaseInfo(ZjkExpert zjkBaseInfo) throws Exception {
         int result = 500;
         if (zjkBaseInfo.getId() != null && zjkBaseInfo.getId() != null) {
             zjkBaseInfoMapper.updateByPrimaryKeySelective(zjkBaseInfo);
@@ -80,18 +86,18 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
     }
 
     @Override
-    public ZjkBaseInfo getZjkBaseInfoInfo(String id) throws Exception {
+    public ZjkExpert getZjkBaseInfoInfo(String id) throws Exception {
 
         return zjkBaseInfoMapper.selectByPrimaryKey(id);
     }
 
     @Override
-    public long countByExample(ZjkBaseInfoExample example) {
+    public long countByExample(ZjkExpertExample example) {
         return zjkBaseInfoMapper.countByExample(example);
     }
 
     @Override
-    public int deleteByExample(ZjkBaseInfoExample example) {
+    public int deleteByExample(ZjkExpertExample example) {
         return zjkBaseInfoMapper.deleteByExample(example);
     }
 
@@ -106,48 +112,48 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
     }
 
     @Override
-    public int insert(ZjkBaseInfo record) {
+    public int insert(ZjkExpert record) {
         record.setId(IdUtil.createIdByTime());
         return zjkBaseInfoMapper.insert(record);
     }
 
     @Override
-    public int insertSelective(ZjkBaseInfo record) {
+    public int insertSelective(ZjkExpert record) {
         return zjkBaseInfoMapper.insertSelective(record);
     }
 
-    public ZjkBaseInfo insertObject(ZjkBaseInfo record) {
+    public ZjkExpert insertObject(ZjkExpert record) {
         this.insert(record);
         return record;
     }
 
     @Override
-    public List<ZjkBaseInfo> selectByExample(ZjkBaseInfoExample example) {
+    public List<ZjkExpert> selectByExample(ZjkExpertExample example) {
         return zjkBaseInfoMapper.selectByExample(example);
     }
 
     @Override
-    public ZjkBaseInfo selectByPrimaryKey(String recordId) {
+    public ZjkExpert selectByPrimaryKey(String recordId) {
         return zjkBaseInfoMapper.selectByPrimaryKey(recordId);
     }
 
     @Override
-    public int updateByExampleSelective(@Param("record") ZjkBaseInfo record, @Param("example") ZjkBaseInfoExample example) {
+    public int updateByExampleSelective(@Param("record") ZjkExpert record, @Param("example") ZjkExpertExample example) {
         return zjkBaseInfoMapper.updateByExampleSelective(record, example);
     }
 
     @Override
-    public int updateByExample(@Param("record") ZjkBaseInfo record, @Param("example") ZjkBaseInfoExample example) {
+    public int updateByExample(@Param("record") ZjkExpert record, @Param("example") ZjkExpertExample example) {
         return zjkBaseInfoMapper.updateByExample(record, example);
     }
 
     @Override
-    public int updateByPrimaryKeySelective(ZjkBaseInfo record) {
+    public int updateByPrimaryKeySelective(ZjkExpert record) {
         return zjkBaseInfoMapper.updateByPrimaryKeySelective(record);
     }
 
     @Override
-    public int updateByPrimaryKey(ZjkBaseInfo record) {
+    public int updateByPrimaryKey(ZjkExpert record) {
         if (record.getStatus() == null) {
             record.setStatus("");
         }
@@ -157,7 +163,7 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
     @Override
     public Integer deleteZjkBaseInfo(Serializable zjkBaseInfoId) {
         try {
-            ZjkBaseInfo record = zjkBaseInfoMapper.selectByPrimaryKey(zjkBaseInfoId.toString());
+            ZjkExpert record = zjkBaseInfoMapper.selectByPrimaryKey(zjkBaseInfoId.toString());
             if (record != null) {
                 record.setStatus(DelFlagEnum.STATUS_DEL.getCode() + "");
                 zjkBaseInfoMapper.updateByPrimaryKey(record);
@@ -170,13 +176,13 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
 
     @Override
     public LayuiTableData findZjkBaseInfoByPage(LayuiTableParam param) {
-        ZjkBaseInfoExample example = new ZjkBaseInfoExample();
-        ZjkBaseInfoExample.Criteria c = example.createCriteria();
+        ZjkExpertExample example = new ZjkExpertExample();
+        ZjkExpertExample.Criteria c = example.createCriteria();
 //        c.andStatusEqualTo("1");
 //        if(param.getParam().get("fileKind") !=null && !com.pcitc.common.StringUtils.isBlank(param.getParam().get("fileKind")+""))
 //        {
         //   c.andIdLike("'%"+param.getParam().get("fileKind")+"%'");
-//            ZjkBaseInfoExample.Criteria criteria2 = example.or();
+//            ZjkExpertExample.Criteria criteria2 = example.or();
 //            criteria2.andParentIdEqualTo(param.getParam().get("fileKind").toString());
 //            example.or(criteria2);
         //       }
@@ -186,11 +192,7 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
     }
 
 
-    @Autowired
-    private ZjkChengguoService zjkChengguoService;
 
-    @Resource
-    private SystemRemoteClient systemRemoteClient;
 
     public List<SysDictionary> getDicSon(String strParentCode) {
         List<SysDictionary> list = systemRemoteClient.getDictionaryListByParentCode(strParentCode);
@@ -214,17 +216,17 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
 
         Object gb = param.getParam().get("gb");//规避本院
 
-        ZjkBaseInfoExample example = new ZjkBaseInfoExample();
-        ZjkBaseInfoExample.Criteria c = example.createCriteria();
+        ZjkExpertExample example = new ZjkExpertExample();
+        ZjkExpertExample.Criteria c = example.createCriteria();
 
         if (hyly != null && !"".equals(hyly)) {
-            c.andHylyIn(Arrays.asList(hyly.toString().split(",")));
-//            ZjkBaseInfoExample.Criteria criteria2 = example.or();
+            c.andExpertProfessionalFieldIn(Arrays.asList(hyly.toString().split(",")));
+//            ZjkExpertExample.Criteria criteria2 = example.or();
 //            criteria2.andParentIdEqualTo(param.getParam().get("fileKind").toString());
 //            example.or(criteria2);
         }
         if (zc != null && !"".equals(zc)) {
-            c.andZcIn(Arrays.asList(zc.toString().split(",")));
+            c.andExpertProfessinalIn(Arrays.asList(zc.toString().split(",")));
         }
         if (nld != null && !"".equals(nld)) {
             c.andAgeBetweenIn(Arrays.asList(nld.toString().split(",")));
@@ -239,20 +241,20 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
             c.andCompanyNotEqualTo(gb.toString());
         }
         if (zjmc != null && !"".equals(zjmc)) {
-            c.andNameLike("%" + zjmc + "%");
+            c.andExpertNameLike("%" + zjmc + "%");
         }
         if (key != null && !"".equals(key)) {
             //获取成果人员id
-            ZjkChengguoExample chengguoExample = new ZjkChengguoExample();
-            chengguoExample.createCriteria().andCgKeysIn(Arrays.asList(key.toString().split(",")));
-            List<ZjkChengguo> zjkChengguos = zjkChengguoService.selectByExample(chengguoExample);
+            ZjkAchievementExample chengguoExample = new ZjkAchievementExample();
+            chengguoExample.createCriteria().andAchievementKeysIn(Arrays.asList(key.toString().split(",")));
+            List<ZjkAchievement> zjkChengguos = zjkChengguoService.selectByExample(chengguoExample);
             //添加人员id查询条件
-            List<String> strings = zjkChengguos.stream().map(ZjkChengguo::getZjId).collect(Collectors.toList());
+            List<String> strings = zjkChengguos.stream().map(ZjkAchievement::getExpertId).collect(Collectors.toList());
             if (strings != null && strings.size() > 0 && !"".equals(strings)) {
                 Set<String> set = new HashSet<>();
                 set.addAll(strings);
                 List<String> stringsSet = (List<String>) (List) Arrays.asList(set.toArray());
-                c.andIdIn(stringsSet);
+                c.andDataIdIn(stringsSet);
             }
         }
         example.setOrderByClause("create_date desc");
@@ -266,14 +268,14 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
      * @param example
      * @return
      */
-    public LayuiTableData findByExample(LayuiTableParam param, ZjkBaseInfoExample example) {
+    public LayuiTableData findByExample(LayuiTableParam param, ZjkExpertExample example) {
         int pageSize = param.getLimit();
         int pageStart = (param.getPage() - 1) * pageSize;
         int pageNum = pageStart / pageSize + 1;
         PageHelper.startPage(pageNum, pageSize);
-        List<ZjkBaseInfo> list = zjkBaseInfoMapper.selectByExample(example);
+        List<ZjkExpert> list = zjkBaseInfoMapper.selectByExample(example);
         // 3、获取分页查询后的数据
-        PageInfo<ZjkBaseInfo> pageInfo = new PageInfo<ZjkBaseInfo>(list);
+        PageInfo<ZjkExpert> pageInfo = new PageInfo<ZjkExpert>(list);
         LayuiTableData data = new LayuiTableData();
         data.setData(pageInfo.getList());
         Long total = pageInfo.getTotal();
@@ -289,10 +291,10 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
     @Override
     public List<TreeNode> selectObjectByTree() {
         List<TreeNode> nodes = new ArrayList<TreeNode>();
-        ZjkBaseInfoExample example = new ZjkBaseInfoExample();
-        example.getOredCriteria().add(example.createCriteria().andStatusNotEqualTo(DataOperationStatusEnum.DEL_OK.getStatusCode().toString()));
-        List<ZjkBaseInfo> records = zjkBaseInfoMapper.selectByExample(example);
-        for (ZjkBaseInfo record : records) {
+        ZjkExpertExample example = new ZjkExpertExample();
+//        example.getOredCriteria().add(example.createCriteria().andStatusNotEqualTo(DataOperationStatusEnum.DEL_OK.getStatusCode().toString()));
+        List<ZjkExpert> records = zjkBaseInfoMapper.selectByExample(example);
+        for (ZjkExpert record : records) {
             TreeNode node = new TreeNode();
             node.setId(record.getId());
             //            node.setLevelCode(record.getUnitLevel().toString());
@@ -301,7 +303,7 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
         }
         //构建树形结构(从根节点开始的树形结构)
 
-        ZjkBaseInfoExample zjkBaseInfoExample = new ZjkBaseInfoExample();
+        ZjkExpertExample zjkBaseInfoExample = new ZjkExpertExample();
         String strParentId = zjkBaseInfoMapper.selectByExample(zjkBaseInfoExample).get(0).getId();
         List<TreeNode> orderNodes = TreeNodeUtil.getChildrenNode(strParentId, nodes);
 
@@ -347,8 +349,11 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
         }
 
         for (Map.Entry<String, Object> e : param.entrySet()) {
-            sql = sql.replace("#{" + e.getKey() + "}", "'" + e.getValue().toString() + "'");
+            System.out.println(e.getKey());
+            System.out.println(e.getValue());
+            sql = sql.replace("#{" + e.getKey() + "}", "'" + ((e.getValue()==null)?"":e.getValue()) + "'");
         }
+
 
 
         Map<String, Object> map = new HashMap<>();
@@ -364,7 +369,6 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
                     Map<String, Object> m = maps.get(i);
                     for (Map.Entry<String, Object> entry : m.entrySet()) {
                         String key = entry.getKey();
-                        System.out.println(key+"----"+entry.getValue());
                         if (x.contains(key)) {
                             xData.add(entry.getValue().toString());
                         }
@@ -373,9 +377,7 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
                         }
                     }
                 }
-                for (int i = 0; i < stringsDic.size(); i++) {
-                    System.out.println(stringsDic.get(i).length()+"---"+stringsDic.get(i).trim().length());
-                }
+
                 csr.setSeriesDataList(ySeries);
                 csr.setxAxisDataList(xData);
                 result.setSuccess(true);
@@ -416,7 +418,8 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
             List<String> legendDataList = new ArrayList<String>();
 
             String firstName = param.get(ChartForceResultData.name).toString();
-            String firstValue = param.get(ChartForceResultData.value).toString();
+            Object object_first_val = param.get(ChartForceResultData.value);
+            String firstValue = object_first_val==null?"":object_first_val.toString();
 
             nodes.add(new ChartForceDataNode(0, firstName, firstValue, firstName));
 
@@ -429,12 +432,26 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
                     String key = entry.getKey();
                     if (x.equals(key)) {
                         name = entry.getValue().toString();
+//                        String[] names = name.split(",");
+//                        for (int j = 0; j < names.length; j++) {
+//
+//                            categories.add(new ChartForceCategories(names[j]));
+//                        }
                         categories.add(new ChartForceCategories(name));
                     }
                     if (y.equals(key)) {
                         value = entry.getValue().toString();
                     }
                 }
+//                String[] names = name.split(",");
+//
+//                for (int j = 0; j < names.length; j++) {
+//
+//                    nodes.add(new ChartForceDataNode(i + 1, names[j], value, names[j]));
+//                    links.add(new ChartForceDataLink(names[j], firstName, i + 1, names[j]));
+//                    links.add(new ChartForceDataLink(names[j], firstName, i + 1, names[j]));
+//                    legendDataList.add(names[j]);
+//                }
                 nodes.add(new ChartForceDataNode(i + 1, name, value, name));
                 links.add(new ChartForceDataLink(name, firstName, i + 1, name));
                 legendDataList.add(name);
@@ -459,8 +476,8 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
     }
 
     public Map<String, Object> getResult(Map<String, Object> param) {
-        ZjkBaseInfo zjkBaseInfo = this.selectByPrimaryKey(param.get("expertId").toString());
-        param.put(ChartForceResultData.name, zjkBaseInfo.getName());
+        ZjkExpert zjkBaseInfo = this.selectByPrimaryKey(param.get("expertId").toString());
+        param.put(ChartForceResultData.name, zjkBaseInfo.getExpertName());
         param.put(ChartForceResultData.value, zjkBaseInfo.getId());
         return param;
     }

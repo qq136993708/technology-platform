@@ -75,7 +75,7 @@
         ];
         // elem,id,url,toolbar,cols,done
 		function renderTable(){
-            publicMethods.tableRender('tableListElem','tableList','/plan/getTableData',false,cols,{},function (res, curr, count){
+            publicMethods.tableRender('tableListElem','tableList','/plan/getTableData',false,cols,{},true,function (res, curr, count){
                 $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
                     var index=parseInt($(this).index()+1);
                     $('tr').removeClass('layui-table-click');

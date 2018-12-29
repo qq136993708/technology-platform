@@ -134,14 +134,13 @@ public class OutProjectInfoClient {
 	@ApiOperation(value = "首页计算新开项目总数", notes = "首页查询使用")
 	@RequestMapping(value = "/out-provider/project-money", method = RequestMethod.POST)
 	public JSONObject getProjectMoney(@RequestBody HashMap<String, String> map) {
-		String nd = null;
 		JSONObject retJson = new JSONObject();
 		
 		HashMap<String, String> temMap = outProjectService.getOutProjectInfoMoney(map);
 		if (temMap != null) {
-			retJson.put("projectCount", temMap.get("projectCount"));
+			retJson.put("projectMoney", temMap.get("projectMoney"));
 		} else {
-			retJson.put("projectCount", 0);
+			retJson.put("projectMoney", 0);
 		}
 		return retJson;
     }

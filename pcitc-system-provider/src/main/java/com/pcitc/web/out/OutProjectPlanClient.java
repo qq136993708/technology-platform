@@ -69,6 +69,17 @@ public class OutProjectPlanClient {
 		return json;
 	}
 	
+	@ApiOperation(value = "直属研究院二级页面（领导），各个院的合同签订率", notes = "参数年度")
+	@RequestMapping(value = "/out-project-plna-provider/money/complete-rate/institute")
+	public JSONArray getPlanMoneyCompleteRateByInstitute(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page getPlanMoneyCompleteRateByInstitute===========================" + map);
+		
+		List temList = outProjectPlanService.getPlanMoneyCompleteRateByInstitute(map);
+		
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		return json;
+	}
+	
 	@ApiOperation(value = "首页-直属研究院，项目计划完成的比率，按照资本性费用性来分组 ", notes = "参数年度")
 	@RequestMapping(value = "/out-project-plna-provider/complete-rate/money-type")
 	public JSONArray getPlanCompleteRateByPlanType(@RequestBody HashMap<String, String> map) throws Exception {
@@ -93,6 +104,95 @@ public class OutProjectPlanClient {
 			temMap.put("sjqds", 0);
 			temMap.put("qdbl", 0);
 			
+			temMap.put("define3", "直属研究院");
+			temList.add(0, temMap);
+		}
+		if (!JSON.toJSONString(temList).contains("分子公司")) {
+			HashMap<String, Object> temMap = new HashMap<String, Object>();
+			temMap.put("jhqds", 0);
+			temMap.put("sjqds", 0);
+			temMap.put("qdbl", 0);
+			
+			temMap.put("define3", "分子公司");
+			temList.add(1, temMap);
+		}
+		if (!JSON.toJSONString(temList).contains("集团单位")) {
+			HashMap<String, Object> temMap = new HashMap<String, Object>();
+			temMap.put("jhqds", 0);
+			temMap.put("sjqds", 0);
+			temMap.put("qdbl", 0);
+
+			temMap.put("define3", "集团单位");
+			temList.add(2, temMap);
+		}
+		if (!JSON.toJSONString(temList).contains("外部单位")) {
+			HashMap<String, Object> temMap = new HashMap<String, Object>();
+			temMap.put("jhqds", 0);
+			temMap.put("sjqds", 0);
+			temMap.put("qdbl", 0);
+			
+			temMap.put("define3", "外部单位");
+			temList.add(3, temMap);
+		}
+		
+		if (!JSON.toJSONString(temList).contains("休斯顿研发中心")) {
+			HashMap<String, Object> temMap = new HashMap<String, Object>();
+			temMap.put("jhqds", 0);
+			temMap.put("sjqds", 0);
+			temMap.put("qdbl", 0);
+			
+			temMap.put("define3", "休斯顿研发中心");
+			temList.add(4, temMap);
+		}
+		if (!JSON.toJSONString(temList).contains("中东研发中心")) {
+			HashMap<String, Object> temMap = new HashMap<String, Object>();
+			temMap.put("jhqds", 0);
+			temMap.put("sjqds", 0);
+			temMap.put("qdbl", 0);
+			
+			temMap.put("define3", "中东研发中心");
+			temList.add(5, temMap);
+		}
+		if (!JSON.toJSONString(temList).contains("集团公司")) {
+			HashMap<String, Object> temMap = new HashMap<String, Object>();
+			temMap.put("jhqds", 0);
+			temMap.put("sjqds", 0);
+			temMap.put("qdbl", 0);
+			
+			temMap.put("define3", "集团公司");
+			temList.add(6, temMap);
+		}
+		if (!JSON.toJSONString(temList).contains("资产公司")) {
+			HashMap<String, Object> temMap = new HashMap<String, Object>();
+			temMap.put("jhqds", 0);
+			temMap.put("sjqds", 0);
+			temMap.put("qdbl", 0);
+			temMap.put("define3", "资产公司");
+			temList.add(7, temMap);
+		}
+		if (!JSON.toJSONString(temList).contains("盈科")) {
+			HashMap<String, Object> temMap = new HashMap<String, Object>();
+			temMap.put("jhqds", 0);
+			temMap.put("sjqds", 0);
+			temMap.put("qdbl", 0);
+			
+			temMap.put("define3", "盈科");
+			temList.add(8, temMap);
+		}
+		
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		return json;
+	}
+	
+	@ApiOperation(value = "领导首页-科研合同，项目计划完成的比率，按照直属研究所、分子公司等9个来分组", notes = "参数年度")
+	@RequestMapping(value = "/out-project-plna-provider/money/complete-rate/company-type")
+	public JSONArray getPlanMoneyCompleteRateByCompanyType(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page getPlanMoneyCompleteRateByCompanyType===========================" + map);
+		
+		List temList = outProjectPlanService.getPlanMoneyCompleteRateByCompanyType(map);
+		
+		if (!JSON.toJSONString(temList).contains("直属研究院")) {
+			HashMap<String, Object> temMap = new HashMap<String, Object>();
 			temMap.put("zysje", 0);
 			temMap.put("zsjje", 0);
 			temMap.put("zRate", 0);
@@ -108,10 +208,6 @@ public class OutProjectPlanClient {
 		}
 		if (!JSON.toJSONString(temList).contains("分子公司")) {
 			HashMap<String, Object> temMap = new HashMap<String, Object>();
-			temMap.put("jhqds", 0);
-			temMap.put("sjqds", 0);
-			temMap.put("qdbl", 0);
-			
 			temMap.put("zysje", 0);
 			temMap.put("zsjje", 0);
 			temMap.put("zRate", 0);
@@ -126,10 +222,6 @@ public class OutProjectPlanClient {
 		}
 		if (!JSON.toJSONString(temList).contains("集团单位")) {
 			HashMap<String, Object> temMap = new HashMap<String, Object>();
-			temMap.put("jhqds", 0);
-			temMap.put("sjqds", 0);
-			temMap.put("qdbl", 0);
-			
 			temMap.put("zysje", 0);
 			temMap.put("zsjje", 0);
 			temMap.put("zRate", 0);
@@ -144,10 +236,6 @@ public class OutProjectPlanClient {
 		}
 		if (!JSON.toJSONString(temList).contains("外部单位")) {
 			HashMap<String, Object> temMap = new HashMap<String, Object>();
-			temMap.put("jhqds", 0);
-			temMap.put("sjqds", 0);
-			temMap.put("qdbl", 0);
-			
 			temMap.put("zysje", 0);
 			temMap.put("zsjje", 0);
 			temMap.put("zRate", 0);
@@ -164,10 +252,6 @@ public class OutProjectPlanClient {
 		
 		if (!JSON.toJSONString(temList).contains("休斯顿研发中心")) {
 			HashMap<String, Object> temMap = new HashMap<String, Object>();
-			temMap.put("jhqds", 0);
-			temMap.put("sjqds", 0);
-			temMap.put("qdbl", 0);
-			
 			temMap.put("zysje", 0);
 			temMap.put("zsjje", 0);
 			temMap.put("zRate", 0);
@@ -183,10 +267,6 @@ public class OutProjectPlanClient {
 		}
 		if (!JSON.toJSONString(temList).contains("中东研发中心")) {
 			HashMap<String, Object> temMap = new HashMap<String, Object>();
-			temMap.put("jhqds", 0);
-			temMap.put("sjqds", 0);
-			temMap.put("qdbl", 0);
-			
 			temMap.put("zysje", 0);
 			temMap.put("zsjje", 0);
 			temMap.put("zRate", 0);
@@ -202,10 +282,6 @@ public class OutProjectPlanClient {
 		}
 		if (!JSON.toJSONString(temList).contains("集团公司")) {
 			HashMap<String, Object> temMap = new HashMap<String, Object>();
-			temMap.put("jhqds", 0);
-			temMap.put("sjqds", 0);
-			temMap.put("qdbl", 0);
-			
 			temMap.put("zysje", 0);
 			temMap.put("zsjje", 0);
 			temMap.put("zRate", 0);
@@ -221,10 +297,6 @@ public class OutProjectPlanClient {
 		}
 		if (!JSON.toJSONString(temList).contains("资产公司")) {
 			HashMap<String, Object> temMap = new HashMap<String, Object>();
-			temMap.put("jhqds", 0);
-			temMap.put("sjqds", 0);
-			temMap.put("qdbl", 0);
-			
 			temMap.put("zysje", 0);
 			temMap.put("zsjje", 0);
 			temMap.put("zRate", 0);
@@ -240,10 +312,6 @@ public class OutProjectPlanClient {
 		}
 		if (!JSON.toJSONString(temList).contains("盈科")) {
 			HashMap<String, Object> temMap = new HashMap<String, Object>();
-			temMap.put("jhqds", 0);
-			temMap.put("sjqds", 0);
-			temMap.put("qdbl", 0);
-			
 			temMap.put("zysje", 0);
 			temMap.put("zsjje", 0);
 			temMap.put("zRate", 0);

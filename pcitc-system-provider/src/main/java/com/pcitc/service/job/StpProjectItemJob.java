@@ -14,8 +14,10 @@ import org.quartz.JobExecutionException;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.stp.out.OutProjectInfo;
+import com.pcitc.base.stp.out.OutProjectPlan;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.config.SpringContextUtil;
+import com.pcitc.service.out.OutProjectPlanService;
 import com.pcitc.service.out.OutProjectService;
 import com.pcitc.utils.DataServiceUtil;
 
@@ -29,6 +31,8 @@ public class StpProjectItemJob implements Job, Serializable {
 	public void execute(JobExecutionContext job) throws JobExecutionException {
 
 		OutProjectService outProjectService = SpringContextUtil.getApplicationContext().getBean(OutProjectService.class);
+		
+		OutProjectPlanService outProjectPlanService = SpringContextUtil.getApplicationContext().getBean(OutProjectPlanService.class);
 		
 		// 先获取已经插入到数据库的原项目计划数据oldList，和新接口获取的数据进行比较。如果不存在就插入
 		// 由于数据库数据不大，所以可以采用这个方式
@@ -46,8 +50,8 @@ public class StpProjectItemJob implements Job, Serializable {
 			str = DataServiceUtil.getProjectData(sqlName, ndCon);
 			System.out.println("======" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "定时获取项目管理系统的项目预算数据 返回 success====="+ndCon);
 			if (str != null) {
-				// 先删除年度为nd的本地数据（备份一份到临时表中，防止意外）
 				List<OutProjectInfo> insertData = new ArrayList<OutProjectInfo>();
+				List<OutProjectPlan> planData = new ArrayList<OutProjectPlan>();
 				JSONArray jSONArray = JSONArray.parseArray(str);
 				
 				// 批量新增处理
@@ -62,12 +66,21 @@ public class StpProjectItemJob implements Job, Serializable {
 					opi.setYsnd(nd);
 					opi.setYsje(jfhj);
 					opi.setXmid(ktid);
-					
 					insertData.add(opi);
+					
+					OutProjectPlan opp = new OutProjectPlan();
+					opp.setYsnd(nd);
+					opp.setYsje(jfhj);
+					opp.setXmid(ktid);
+					planData.add(opp);
+					
 				}
 				if (insertData != null && insertData.size() > 0) {
 					// 修改当前年度的预算费用。没有的，查询后插入
 					outProjectService.insertProjectItemData(insertData, ndCon);
+					
+					// 修改当前年度的计划预算费用，没有的查询后插入
+					outProjectPlanService.insertOutProjectPlanForYS(planData);
 				}
 				
 				System.out.println("======" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "定时任务--定时获取项目管理系统的项目数据--保存到本地数据库-结束========="+culTotal);
@@ -79,8 +92,8 @@ public class StpProjectItemJob implements Job, Serializable {
 			str = DataServiceUtil.getProjectData(sqlName, String.valueOf(Integer.parseInt(ndCon)+1));
 			System.out.println("======" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "定时获取项目管理系统的项目预算数据 返回 success第二年====="+String.valueOf(Integer.parseInt(ndCon)+1));
 			if (str != null) {
-				// 先删除年度为nd的本地数据（备份一份到临时表中，防止意外）
 				List<OutProjectInfo> insertData = new ArrayList<OutProjectInfo>();
+				List<OutProjectPlan> planData = new ArrayList<OutProjectPlan>();
 				JSONArray jSONArray = JSONArray.parseArray(str);
 				
 				// 批量新增处理
@@ -96,9 +109,18 @@ public class StpProjectItemJob implements Job, Serializable {
 					opi.setYsje(jfhj);
 					opi.setXmid(ktid);
 					insertData.add(opi);
+					
+					OutProjectPlan opp = new OutProjectPlan();
+					opp.setYsnd(nd);
+					opp.setYsje(jfhj);
+					opp.setXmid(ktid);
+					planData.add(opp);
 				}
 				if (insertData != null && insertData.size() > 0) {
 					outProjectService.insertProjectItemData(insertData, String.valueOf(Integer.parseInt(ndCon)+1));
+					
+					// 修改当前年度的计划预算费用，没有的查询后插入
+					outProjectPlanService.insertOutProjectPlanForYS(planData);
 				}
 				
 				System.out.println("======" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "定时任务--定时获取项目管理系统的项目数据--保存到本地数据库-结束========="+culTotal);
@@ -109,8 +131,8 @@ public class StpProjectItemJob implements Job, Serializable {
 			str = DataServiceUtil.getProjectData(sqlName, String.valueOf(Integer.parseInt(ndCon)+2));
 			System.out.println("======" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "定时获取项目管理系统的项目预算数据 返回 success第二年====="+String.valueOf(Integer.parseInt(ndCon)+2));
 			if (str != null) {
-				// 先删除年度为nd的本地数据（备份一份到临时表中，防止意外）
 				List<OutProjectInfo> insertData = new ArrayList<OutProjectInfo>();
+				List<OutProjectPlan> planData = new ArrayList<OutProjectPlan>();
 				JSONArray jSONArray = JSONArray.parseArray(str);
 				
 				// 批量新增处理
@@ -126,9 +148,18 @@ public class StpProjectItemJob implements Job, Serializable {
 					opi.setYsje(jfhj);
 					opi.setXmid(ktid);
 					insertData.add(opi);
+					
+					OutProjectPlan opp = new OutProjectPlan();
+					opp.setYsnd(nd);
+					opp.setYsje(jfhj);
+					opp.setXmid(ktid);
+					planData.add(opp);
 				}
 				if (insertData != null && insertData.size() > 0) {
 					outProjectService.insertProjectItemData(insertData, String.valueOf(Integer.parseInt(ndCon)+2));
+					
+					// 修改当前年度的计划预算费用，没有的查询后插入
+					outProjectPlanService.insertOutProjectPlanForYS(planData);
 				}
 				
 				System.out.println("======" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "定时任务--定时获取项目管理系统的项目数据--保存到本地数据库-结束========="+culTotal);

@@ -23,13 +23,13 @@
 		<div class="formBox">
 			<div class="tableToolBox">
 				<div class="tableBtns">
-					<div class="tableTitle">基本信息<span class="red">（标*号为必填项）</span>
+					<div class="tableTitle">验收信息<span class="red">（标*号为必填项）</span>
 					</div>
 				</div>
 			</div>
 		</div>
   <div class="box-body">
-     <table class="layui-table">
+   <!--   <table class="layui-table">
               <colgroup>
                 <col width="150">
                 <col width="150">
@@ -52,7 +52,33 @@
                   <td>${sreEquipment.typeModel}</td>
                 </tr>
               </tbody>
-            </table>
+            </table> -->
+            
+            
+            <table class="layui-table">
+             <thead>
+	             <tr>
+	                <td>序号</td>
+	                <td>装备名称</td>
+	                <td>规格型号</td>
+	                <td>计划金额（万元）</td>
+	                <td>数量</td>
+	                <td>功用用途</td>
+	                <td>需求部门</td>
+	             </tr>
+            </thead>
+             <tr>
+                <td>1</td>
+                <td>自动速度分析器</td>
+                <td>DL788</td>
+                <td>10万</td>
+                <td>2</td>
+                <td>可用于电气评估可用于电气评估可用于电气评估 </td>
+                <td>处理解释中心</td>
+             </tr>
+           </table>
+           
+           
       <form class="layui-form" style="margin-top:30px;" name="form1" id="form1" action="" method="POST" lay-filter="component-form-group layui-container">
            <input type="hidden" name="hardwareId" id="hardwareId" value="${hardwareId}">
            <input type="hidden" name="equipmentId" id="equipmentId" value="${equipmentId}">
@@ -140,7 +166,7 @@
     <!--行结束-->
     <div class="form-bottom">
   		<div class="form-bottom-btns">
-    		<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="" lay-filter="sub">保存</button>
+    		<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="" lay-filter="sub">验收</button>
        		<button type="button"class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" id="closeBtn">关闭</button>
   		</div>
 	</div>

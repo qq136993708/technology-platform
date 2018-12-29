@@ -75,6 +75,7 @@ public class OutProjectServiceImpl implements OutProjectService {
 			int temInt = this.updateOutProjectInfoForYS(list.get(i));
 			
 		}
+		
 		return 1;
 	}
 	

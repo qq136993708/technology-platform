@@ -5,8 +5,8 @@ import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.enums.DataOperationStatusEnum;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.TreeNode;
-import com.pcitc.base.expert.ZjkChengguo;
-import com.pcitc.base.expert.ZjkChengguoExample;
+import com.pcitc.base.expert.ZjkAchievement;
+import com.pcitc.base.expert.ZjkAchievementExample;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -26,7 +26,7 @@ public interface ZjkChengguoService {
      * @return
      * @throws Exception
      */
-    List<ZjkChengguo> findZjkChengguoList(ZjkChengguo record) throws Exception;
+    List<ZjkAchievement> findZjkChengguoList(ZjkAchievement record) throws Exception;
 
     /**
      * 删除
@@ -35,7 +35,7 @@ public interface ZjkChengguoService {
      * @return
      * @throws Exception
      */
-    int updateOrInsertZjkChengguo(ZjkChengguo record) throws Exception;
+    int updateOrInsertZjkChengguo(ZjkAchievement record) throws Exception;
 
     /**
      * 根据id删除
@@ -53,7 +53,7 @@ public interface ZjkChengguoService {
      * @return
      * @throws Exception
      */
-    ZjkChengguo getZjkChengguoInfo(String id) throws Exception;
+    ZjkAchievement getZjkChengguoInfo(String id) throws Exception;
 
     /**
      * 查询总条数
@@ -61,7 +61,7 @@ public interface ZjkChengguoService {
      * @param example
      * @return
      */
-    long countByExample(ZjkChengguoExample example);
+    long countByExample(ZjkAchievementExample example);
 
     /**
      * 根据example条件删除
@@ -69,7 +69,7 @@ public interface ZjkChengguoService {
      * @param example
      * @return
      */
-    int deleteByExample(ZjkChengguoExample example);
+    int deleteByExample(ZjkAchievementExample example);
 
     /**
      * 根据主键删除
@@ -85,7 +85,7 @@ public interface ZjkChengguoService {
      * @param record
      * @return
      */
-    int insert(ZjkChengguo record);
+    int insert(ZjkAchievement record);
 
     /**
      * 插入信息,返回对象
@@ -93,7 +93,7 @@ public interface ZjkChengguoService {
      * @param record
      * @return
      */
-    ZjkChengguo insertObject(ZjkChengguo record);
+    ZjkAchievement insertObject(ZjkAchievement record);
 
     /**
      * 判空-插入信息
@@ -101,7 +101,7 @@ public interface ZjkChengguoService {
      * @param record
      * @return
      */
-    int insertSelective(ZjkChengguo record);
+    int insertSelective(ZjkAchievement record);
 
     /**
      * 根据example条件查询
@@ -109,7 +109,7 @@ public interface ZjkChengguoService {
      * @param example
      * @return
      */
-    List<ZjkChengguo> selectByExample(ZjkChengguoExample example);
+    List<ZjkAchievement> selectByExample(ZjkAchievementExample example);
 
     /**
      * 根据主键查询
@@ -117,7 +117,7 @@ public interface ZjkChengguoService {
      * @param id
      * @return
      */
-    ZjkChengguo selectByPrimaryKey(String id);
+    ZjkAchievement selectByPrimaryKey(String id);
 
     /**
      * 根据example条件-判空更新
@@ -126,7 +126,7 @@ public interface ZjkChengguoService {
      * @param example
      * @return
      */
-    int updateByExampleSelective(@Param("record") ZjkChengguo record, @Param("example") ZjkChengguoExample example);
+    int updateByExampleSelective(@Param("record") ZjkAchievement record, @Param("example") ZjkAchievementExample example);
 
     /**
      * 根据example条件,更新所有
@@ -135,7 +135,7 @@ public interface ZjkChengguoService {
      * @param example
      * @return
      */
-    int updateByExample(@Param("record") ZjkChengguo record, @Param("example") ZjkChengguoExample example);
+    int updateByExample(@Param("record") ZjkAchievement record, @Param("example") ZjkAchievementExample example);
 
     /**
      * 根据主键判空-更新
@@ -143,7 +143,7 @@ public interface ZjkChengguoService {
      * @param record
      * @return
      */
-    int updateByPrimaryKeySelective(ZjkChengguo record);
+    int updateByPrimaryKeySelective(ZjkAchievement record);
 
     /**
      * 根据主键更新所有
@@ -151,7 +151,7 @@ public interface ZjkChengguoService {
      * @param record
      * @return
      */
-    int updateByPrimaryKey(ZjkChengguo record);
+    int updateByPrimaryKey(ZjkAchievement record);
 
     /**
      * 删除菜单

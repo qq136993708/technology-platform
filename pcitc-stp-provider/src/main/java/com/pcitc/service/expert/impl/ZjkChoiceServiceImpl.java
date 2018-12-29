@@ -52,10 +52,10 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
         return record;
     }
 
-    public List<ZjkBaseInfo> findZjkBaseInofList(List<String> ids) {
-        ZjkBaseInfoExample example = new ZjkBaseInfoExample();
-        example.createCriteria().andIdIn(ids);
-        List<ZjkBaseInfo> list = zjkBaseInfoService.selectByExample(example);
+    public List<ZjkExpert> findZjkBaseInofList(List<String> ids) {
+        ZjkExpertExample example = new ZjkExpertExample();
+        example.createCriteria().andDataIdIn(ids);
+        List<ZjkExpert> list = zjkBaseInfoService.selectByExample(example);
         return list;
     }
 
@@ -208,10 +208,10 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
             return new LayuiTableData();
         }else {
 
-            ZjkBaseInfoExample ex = new ZjkBaseInfoExample();
+            ZjkExpertExample ex = new ZjkExpertExample();
             List<String> strings = zjkChoices.stream().map(ZjkChoice::getZjId).collect(Collectors.toList());
-            ex.createCriteria().andIdIn(strings);
-            List<ZjkBaseInfo> list = zjkBaseInfoService.selectByExample(ex);
+            ex.createCriteria().andDataIdIn(strings);
+            List<ZjkExpert> list = zjkBaseInfoService.selectByExample(ex);
 
             LayuiTableData data = new LayuiTableData();
             data.setData(list);

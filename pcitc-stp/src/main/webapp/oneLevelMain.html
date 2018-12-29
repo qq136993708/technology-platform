@@ -273,8 +273,8 @@
 	//合同
 	function getContract() {
 		$.ajax({
-			type : 'POST',
-			url : "/admin/project-count",
+			type : 'GET',
+			url : "/one_level_main/contract_count",
 			dataType : 'json',
 			headers : {
 				'Content-Type' : 'application/json'
@@ -284,10 +284,8 @@
 				
 			},
 			success : function(data) {
-				var zje = data.zje;
-				$("#contract_id").html(
-						data.projectCount
-								+ "<small style='font-size:14px'>(个)</small>");
+				var projectCount = data.data.projectCount;
+				$("#contract_id").html(projectCount+ "<small style='font-size:14px'>(个)</small>");
 			}
 		});
 
@@ -395,8 +393,8 @@
 	function setinvestment_count() {
 		$
 				.ajax({
-					type : 'POST',
-					url : "/admin/project-count",
+					type : 'GET',
+					url : "/one_level_main/investment_first_page_count",
 					dataType : 'json',
 					headers : {
 						'Content-Type' : 'application/json'
@@ -406,10 +404,12 @@
 						
 					},
 					success : function(data) {
-						//alert(data.zje);
+						var projectMoney=data.data.projectMoney;
+						var tt =parseFloat(projectMoney)/10000;
+						
 						$("#textTopTwo")
 								.html(
-										data.zje
+										tt.toFixed(2)
 												+ "<small style='font-size:14px'>(亿元)</small>");
 					}
 				});
