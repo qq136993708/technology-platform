@@ -389,7 +389,17 @@
  				success : function(data) { 
  					//alert(data.data.projectCount);
  					$("#topic_id").html(data.data.projectCount+"<small>(个)</small>");
- 					$("#equipment_id").html(data.data.kyzbCount+"<small>(个)</small>");
+ 					
+ 					
+ 					    if (typeof(data.data.kyzbCount) == "undefined")
+					    {
+ 					    	$("#equipment_id").html("<small>0(个)</small>");
+					    }else
+				    	{
+					    	$("#equipment_id").html(data.data.kyzbCount+"<small>(个)</small>");
+				    	}
+ 					 
+ 					
  					
  				}
  			});
@@ -423,7 +433,6 @@
         function setContcator_id(nd,v_date)
         {
         	var url="/direct/contract_01?type=3&nd="+nd+"&v_date="+v_date;
-        	//var url="/direct/contract_01_count?type=1&nd="+nd+"&v_date="+v_date;
         	$.ajax({
  				type : 'GET',
  				url : url,
@@ -436,8 +445,15 @@
  					$("#contcator_id").html("<small>--(%)</small>");
  				},
  				success : function(data) { 
- 					   // var yqht=data.data.yqht;
- 				       $("#contcator_id").html(data.data.qdl+"<small>(%)</small>");
+ 					    var qdl="0";
+ 					    if (typeof(data.data.qdl) == "undefined")
+					    {
+ 					    	 $("#contcator_id").html("0<small>(%)</small>");
+					    }else
+				    	{
+					    	 $("#contcator_id").html(data.data.qdl+"<small>(%)</small>");
+				    	}
+ 				      
  				}
  			});
         	
@@ -690,7 +706,7 @@
             });  
               
         	
-        	var url_8="/direct/knowledge_04?type=2&month="+year+"&v_date="+v_date;
+        	var url_8="/direct/knowledge_04?type=2&nd="+year+"&v_date="+v_date;
         	var echart8=loadPie_02(url_8,"bar02","","");
         	echart8.on('click', function (params) {
         		var xName=params.name;
@@ -700,7 +716,7 @@
         	
         	 
         	 
-        	var url_9="/direct/knowledge_04?type=3&month="+year+"&v_date="+v_date;
+        	var url_9="/direct/knowledge_04?type=3&nd="+year+"&v_date="+v_date;
         	var echart9=loadPie_02(url_9,"bar03","","");
         	echart9.on('click', function (params) {
         		var xName=params.name;
@@ -714,7 +730,6 @@
         	
         	
         	//第4排
-        	
         	var chart7_url="/direct/contry_01?type=1&nd="+year+"&v_date="+v_date;
         	var colorNew=["#70b1ab","#87d359"];
         	var data7=load_mutl_bar_down(chart7_url,"direct_kt_chart1","","",yAxis,20,colorNew);
@@ -725,7 +740,7 @@
             });  
               
         	
-        	var url_8="/direct/contry_01?type=2&month="+year+"&v_date="+v_date;
+        	var url_8="/direct/contry_01?type=2&nd="+year+"&v_date="+v_date;
         	var echart8=loadPie_02(url_8,"direct_kt_chart2","","");
         	echart8.on('click', function (params) {
         		var xName=params.name;
@@ -735,7 +750,7 @@
         	
         	 
         	 
-        	var url_9="/direct/contry_02?month="+year+"&v_date="+v_date;
+        	var url_9="/direct/contry_02?nd="+year+"&v_date="+v_date;
         	var echart9=loadPie_02(url_9,"direct_kt_chart3","","");
         	echart9.on('click', function (params) {
         		var xName=params.name;
