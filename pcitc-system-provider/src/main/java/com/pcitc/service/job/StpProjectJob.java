@@ -181,7 +181,7 @@ public class StpProjectJob implements Job, Serializable {
 					
 				}
 				if (insertData != null && insertData.size() > 0) {
-					//outProjectService.insertProjectData(insertData, ndCon);
+					outProjectService.insertProjectData(insertData, ndCon);
 				}
 				
 				

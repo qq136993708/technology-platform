@@ -307,4 +307,9 @@ public interface OutProjectInfoMapper {
 	 * 删除国家项目预算数据
 	 */
 	public int deleteCountryProjectItemByDefind1(String define1);
+	
+	/**
+	 * 获取详细的查询条件
+	 */
+	public List getProjectInfoSelectCondition(HashMap<String, String> map);
 }
