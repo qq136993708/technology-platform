@@ -488,12 +488,12 @@
             if($(this).parents("li").hasClass("layui-this")){
                 $(this).parents("li").removeClass("layui-this");
                 var htmlThis=$(this).html();
-                $(".conditionNewNew ul li a").each(function () {
+                $(".conditionNew ul li a").each(function () {
                     if(htmlThis.indexOf($(this).html())!= -1 ){
                         $(this).parents("li").remove();
+                        return false;
                     }
                 });
-                return false;
             }else {
                 $(this).parents("li").addClass("layui-this");
                 var htmlName=$(this).parents(".selector-right").prev().html();
@@ -502,6 +502,15 @@
                 $(".conditionNew ul").append("<li>"+htmlName+"<a href='javascript:;'>"+htmlThis+"</a></li>");
                 $(".conditionNew ul li a").click(function () {
                     $(this).parents("li").remove();
+                });
+                $(".conditionNew ul li a").click(function () {
+                    var htmlThis=$(this).html();
+                    $(".selector-right ul li a").each(function () {
+                        if(htmlThis.indexOf($(this).html())!= -1 ){
+                            $(this).parents("li").removeClass("layui-this");
+                            return false;
+                        }
+                    });
                 });
                 $(".conditionNew .dele").click(function () {
                     $(".conditionNew ul li").remove();
