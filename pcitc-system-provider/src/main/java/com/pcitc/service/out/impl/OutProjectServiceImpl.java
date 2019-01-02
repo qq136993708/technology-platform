@@ -1,6 +1,7 @@
 package com.pcitc.service.out.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,7 +21,6 @@ import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.stp.out.OutProjectErp;
 import com.pcitc.base.stp.out.OutProjectInfo;
 import com.pcitc.base.stp.out.OutProjectInfoExample;
-import com.pcitc.base.stp.out.OutProjectInfoWithBLOBs;
 import com.pcitc.base.util.StrUtil;
 import com.pcitc.mapper.out.OutProjectErpMapper;
 import com.pcitc.mapper.out.OutProjectInfoMapper;
@@ -82,6 +82,19 @@ public class OutProjectServiceImpl implements OutProjectService {
 			int temInt = this.updateOutProjectInfoForYS(list.get(i));
 			
 		}
+		
+		return 1;
+	}
+	
+	/**
+	 * 批量插入项目预算数据
+	 */
+	public int insertProjectItemDataTest(List<OutProjectInfo> list, String nd) {
+		// 删除年度预算，重新获取
+		// outProjectInfoMapper.deleteProjectItemByNd(nd);
+		//outProjectInfoMapper.insertProjectItemData(list);
+		
+		outProjectInfoMapper.insertOutProjectBatch(list);
 		
 		return 1;
 	}
@@ -212,71 +225,77 @@ public class OutProjectServiceImpl implements OutProjectService {
 		OutProjectInfoExample.Criteria criteria = example.createCriteria();
     	
     	criteria.andXmidEqualTo(opi.getXmid());
+    	criteria.andDefine3EqualTo("项目管理系统");
+    	criteria.andNdEqualTo(opi.getNd());
     	List<OutProjectInfo> returnList = outProjectInfoMapper.selectByExample(example);
     	if (returnList != null && returnList.size() > 0) {
-    		OutProjectInfo newOPI = returnList.get(0);
-    		if (newOPI != null) {
-    			if (StrUtil.isNotBlank(opi.getProjectLevel())) {
-    				newOPI.setProjectLevel(opi.getProjectLevel());
-    			}
-    			
-    			if (StrUtil.isNotBlank(opi.getProjectProperty()) ) {
-    				newOPI.setProjectProperty(opi.getProjectProperty());
-    			}
-    			if (StrUtil.isNotBlank(opi.getJf()) ) {
-    				newOPI.setJf(opi.getJf());
-    			}
-    			if (StrUtil.isNotBlank(opi.getProjectAbc())) {
-    				newOPI.setProjectAbc(opi.getProjectAbc());
-    			}
-    			if (StrUtil.isNotBlank(opi.getProjectSource())) {
-    				newOPI.setProjectSource(opi.getProjectSource());
-    			}
-    			if (StrUtil.isNotBlank(opi.getFwdx())) {
-    				newOPI.setFwdx(opi.getFwdx());
-    			}
-    			if (StrUtil.isNotBlank(opi.getFwdxbm())) {
-    				newOPI.setFwdxbm(opi.getFwdxbm());
-    			}
-    			if (StrUtil.isNotBlank(opi.getFzdw())) {
-    				newOPI.setFzdw(opi.getFzdw());
-    			}
-    			if (StrUtil.isNotBlank(opi.getFzdwbm())) {
-    				newOPI.setFzdwbm(opi.getFzdwbm());
-    			}
-    			
-    			if (StrUtil.isNotBlank(opi.getXmlbbm())) {
-    				newOPI.setXmlbbm(opi.getXmlbbm());
-    			}
-    			if (StrUtil.isNotBlank(opi.getXmlbmc())) {
-    				newOPI.setXmlbmc(opi.getXmlbmc());
-    			}
-    			if (StrUtil.isNotBlank(opi.getZycbm())) {
-    				newOPI.setZycbm(opi.getZycbm());
-    			}
-    			if (StrUtil.isNotBlank(opi.getZycmc())) {
-    				newOPI.setZycmc(opi.getZycmc());
-    			}
-    			if (StrUtil.isNotBlank(opi.getGsbmbm())) {
-    				newOPI.setGsbmbm(opi.getGsbmbm());
-    			}
-    			if (StrUtil.isNotBlank(opi.getGsbmmc())) {
-    				newOPI.setGsbmmc(opi.getGsbmmc());
-    			}
-    			
-    			if (StrUtil.isNotBlank(opi.getLxrdh())) {
-    				newOPI.setLxrdh(opi.getLxrdh());
-    			}
-    			if (StrUtil.isNotBlank(opi.getLxryx())) {
-    				newOPI.setLxryx(opi.getLxryx());
-    			}
-    			if (StrUtil.isNotBlank(opi.getLxrxm())) {
-    				newOPI.setLxrxm(opi.getLxrxm());
-    			}
-    			return outProjectInfoMapper.updateByPrimaryKey(newOPI);
-    		} else {
-    			return 0;
+    		for (int j = 0; j < returnList.size(); j++) {
+    			OutProjectInfo newOPI = returnList.get(j);
+        		if (newOPI != null) {
+        			if (StrUtil.isNotBlank(opi.getProjectLevel())) {
+        				newOPI.setProjectLevel(opi.getProjectLevel());
+        			}
+        			
+        			if (StrUtil.isNotBlank(opi.getProjectProperty()) ) {
+        				newOPI.setProjectProperty(opi.getProjectProperty());
+        			}
+        			if (StrUtil.isNotBlank(opi.getJf()) ) {
+        				newOPI.setJf(opi.getJf());
+        			}
+        			if (StrUtil.isNotBlank(opi.getYsnd()) ) {
+        				newOPI.setYsnd(opi.getYsnd());
+        			}
+        			if (StrUtil.isNotBlank(opi.getProjectAbc())) {
+        				newOPI.setProjectAbc(opi.getProjectAbc());
+        			}
+        			if (StrUtil.isNotBlank(opi.getProjectSource())) {
+        				newOPI.setProjectSource(opi.getProjectSource());
+        			}
+        			if (StrUtil.isNotBlank(opi.getFwdx())) {
+        				newOPI.setFwdx(opi.getFwdx());
+        			}
+        			if (StrUtil.isNotBlank(opi.getFwdxbm())) {
+        				newOPI.setFwdxbm(opi.getFwdxbm());
+        			}
+        			if (StrUtil.isNotBlank(opi.getFzdw())) {
+        				newOPI.setFzdw(opi.getFzdw());
+        			}
+        			if (StrUtil.isNotBlank(opi.getFzdwbm())) {
+        				newOPI.setFzdwbm(opi.getFzdwbm());
+        			}
+        			
+        			if (StrUtil.isNotBlank(opi.getXmlbbm())) {
+        				newOPI.setXmlbbm(opi.getXmlbbm());
+        			}
+        			if (StrUtil.isNotBlank(opi.getXmlbmc())) {
+        				newOPI.setXmlbmc(opi.getXmlbmc());
+        			}
+        			if (StrUtil.isNotBlank(opi.getZycbm())) {
+        				newOPI.setZycbm(opi.getZycbm());
+        			}
+        			if (StrUtil.isNotBlank(opi.getZycmc())) {
+        				newOPI.setZycmc(opi.getZycmc());
+        			}
+        			if (StrUtil.isNotBlank(opi.getGsbmbm())) {
+        				newOPI.setGsbmbm(opi.getGsbmbm());
+        			}
+        			if (StrUtil.isNotBlank(opi.getGsbmmc())) {
+        				newOPI.setGsbmmc(opi.getGsbmmc());
+        			}
+        			
+        			if (StrUtil.isNotBlank(opi.getLxrdh())) {
+        				newOPI.setLxrdh(opi.getLxrdh());
+        			}
+        			if (StrUtil.isNotBlank(opi.getLxryx())) {
+        				newOPI.setLxryx(opi.getLxryx());
+        			}
+        			if (StrUtil.isNotBlank(opi.getLxrxm())) {
+        				newOPI.setLxrxm(opi.getLxrxm());
+        			}
+        			outProjectInfoMapper.updateByPrimaryKey(newOPI);
+        		} 
     		}
+    		return 0;
     	} else {
 			return -1;
 		}
@@ -305,6 +324,9 @@ public class OutProjectServiceImpl implements OutProjectService {
 			// 预算
 			if (StrUtil.isNotBlank(opi.getYsje())) {
 				newOPI.setYsje(opi.getYsje());
+			}
+			if (StrUtil.isNotBlank(opi.getYsnd())) {
+				newOPI.setYsnd(opi.getYsnd());
 			}
 			
 			if (StrUtil.isNotBlank(opi.getProjectAbc())) {
@@ -366,12 +388,14 @@ public class OutProjectServiceImpl implements OutProjectService {
         		insertOPI.setYsnd(opi.getYsnd());
         		insertOPI.setYsje(opi.getYsje());
         		insertOPI.setDataId(UUID.randomUUID().toString().replaceAll("-", ""));
+        		insertOPI.setCreateDate(new Date());
+        		insertOPI.setCreatePerson("newItem");
         		
         		List<OutProjectInfo> temList = new ArrayList<OutProjectInfo>();
         		temList.add(insertOPI);
         		outProjectInfoMapper.insertOutProjectBatch(temList);
         		return 1;
-        	} 
+        	}
         	System.out.println("插入异常------插入异常------插入异常------------------------------------------------");
 			return -1;
 		}
@@ -742,6 +766,13 @@ public class OutProjectServiceImpl implements OutProjectService {
      */
 	public HashMap<String, String> getOutProjectDragonInfoCount(HashMap<String, String> map) {
 		return outProjectInfoMapper.getOutProjectDragonInfoCount(map);
+	}
+	
+	/**
+	 * 获取详细的查询条件
+	 */
+	public List getProjectInfoSelectCondition(HashMap<String, String> map) {
+		return outProjectInfoMapper.getProjectInfoSelectCondition(map);
 	}
 	
 	

@@ -1,5 +1,6 @@
 package com.pcitc.service.out.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
@@ -35,8 +36,86 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
      * 批量插入项目计划数据
      */
     public void insertOutProjectPlanBatch(List<OutProjectPlan> list) {
-    	outProjectPlanMapper.insertOutProjectPlanBatch(list);
+    	
+    	List<OutProjectPlan> insertData = new ArrayList<OutProjectPlan>();
+		// 先更新，没有的批量插入
+		for (int i = 0; i < list.size(); i++) {
+			int temInt = this.updateOutProjectPlan(list.get(i));
+			if (temInt == -1) {
+				insertData.add(list.get(i));
+			}
+		}
+		System.out.println("===========新插入条数----------------"+insertData.size());
+		// 批量插入数据
+		if (insertData.size() > 0) {
+			outProjectPlanMapper.insertOutProjectPlanBatch(insertData);
+		}
+    	
     }
+    
+    public int updateOutProjectPlan(OutProjectPlan opp) {
+		
+		OutProjectPlanExample example = new OutProjectPlanExample();
+		
+		OutProjectPlanExample.Criteria criteria = example.createCriteria();
+    	
+    	criteria.andXmidEqualTo(opp.getXmid());
+    	criteria.andDefine3EqualTo("项目管理系统");
+    	criteria.andYsndEqualTo(opp.getYsnd());
+    	List<OutProjectPlan> returnList = outProjectPlanMapper.selectByExample(example);
+    	if (returnList != null && returnList.size() > 0) {
+    		OutProjectPlan newOPI = returnList.get(0);
+    		if (newOPI != null) {
+    			if (StrUtil.isNotBlank(opp.getProjectProperty()) ) {
+    				newOPI.setProjectProperty(opp.getProjectProperty());
+    			}
+    			if (StrUtil.isNotBlank(opp.getJf()) ) {
+    				newOPI.setJf(opp.getJf());
+    			}
+    			
+    			if (StrUtil.isNotBlank(opp.getYsje()) ) {
+    				newOPI.setYsje(opp.getYsje());
+    			}
+    			if (StrUtil.isNotBlank(opp.getFwdx())) {
+    				newOPI.setFwdx(opp.getFwdx());
+    			}
+    			if (StrUtil.isNotBlank(opp.getFwdxbm())) {
+    				newOPI.setFwdxbm(opp.getFwdxbm());
+    			}
+    			if (StrUtil.isNotBlank(opp.getFzdw())) {
+    				newOPI.setFzdw(opp.getFzdw());
+    			}
+    			if (StrUtil.isNotBlank(opp.getFzdwbm())) {
+    				newOPI.setFzdwbm(opp.getFzdwbm());
+    			}
+    			
+    			if (StrUtil.isNotBlank(opp.getXmlbbm())) {
+    				newOPI.setXmlbbm(opp.getXmlbbm());
+    			}
+    			if (StrUtil.isNotBlank(opp.getXmlbmc())) {
+    				newOPI.setXmlbmc(opp.getXmlbmc());
+    			}
+    			if (StrUtil.isNotBlank(opp.getZycbm())) {
+    				newOPI.setZycbm(opp.getZycbm());
+    			}
+    			if (StrUtil.isNotBlank(opp.getZycmc())) {
+    				newOPI.setZycmc(opp.getZycmc());
+    			}
+    			if (StrUtil.isNotBlank(opp.getGsbmbm())) {
+    				newOPI.setGsbmbm(opp.getGsbmbm());
+    			}
+    			if (StrUtil.isNotBlank(opp.getGsbmmc())) {
+    				newOPI.setGsbmmc(opp.getGsbmmc());
+    			}
+    			
+    			return outProjectPlanMapper.updateByPrimaryKey(newOPI);
+    		} else {
+    			return 0;
+    		}
+    	} else {
+			return -1;
+		}
+	}
     
     /**
      * 批量插入项目计划预算数据
