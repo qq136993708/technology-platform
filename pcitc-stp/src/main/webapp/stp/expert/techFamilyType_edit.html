@@ -18,6 +18,7 @@
         <input type="hidden" name="groupId">
         <div class="box-body">
             <input type="hidden" name="dataId" id="dataId"/>
+            <input type="hidden" name="parentId" id="parentId" value="${parentId}"/>
             <div class="layui-form-item">
                 <label class="layui-form-label">名称<span class="must-fill">*</span></label>
                 <div class="layui-input-block">
@@ -93,6 +94,7 @@
                     parent.layui.table.reload('techFamilyTypeTableId', {where: {param: {}}});
                     var index = parent.layer.getFrameIndex(window.name);
                     parent.layer.close(index);
+                    parent.initTree();
                 });
                 return false;
             });

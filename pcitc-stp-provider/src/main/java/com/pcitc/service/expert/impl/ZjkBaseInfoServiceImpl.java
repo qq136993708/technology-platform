@@ -349,8 +349,6 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
         }
 
         for (Map.Entry<String, Object> e : param.entrySet()) {
-            System.out.println(e.getKey());
-            System.out.println(e.getValue());
             sql = sql.replace("#{" + e.getKey() + "}", "'" + ((e.getValue()==null)?"":e.getValue()) + "'");
         }
 
