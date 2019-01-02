@@ -2250,7 +2250,7 @@
 		select xmlbmc,count(DISTINCT xmmc) as sl
 		from out_project_info
 		WHERE
-			project_property = '十条龙项目'  and nd='2017'
+			project_property = '十条龙项目'  and nd='${nd}'
 		group by xmlbmc
 	</select>
 	
