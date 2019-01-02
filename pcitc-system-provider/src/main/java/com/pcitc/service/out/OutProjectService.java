@@ -356,4 +356,10 @@ public interface OutProjectService {
 	 */
 	public List getProjectInfoSelectCondition(HashMap<String, String> map);
 	
+	/**
+     * @param nd
+     * 领导首页-直属研究院，8个研究院国家项目情况
+     */
+	public List getCountryProjectByYJY(HashMap<String, String> map);
+	
 }
