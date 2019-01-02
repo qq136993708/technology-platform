@@ -80,7 +80,7 @@ public class DirectController {
 	
 	
 	
-	private static final String contry_01 = "http://pcitc-zuul/system-proxy/out-project-provider/project-money/institute";
+	private static final String contry_01 = "http://pcitc-zuul/system-proxy/out-project-provider/country-project/institute";
 	private static final String contry_02 = "http://pcitc-zuul/system-proxy/out-project-provider/tech/type/project-info";
 	
 	private static final String topic_equipment_count = "http://pcitc-zuul/system-proxy/out-provider/kyzb/project-count";
@@ -491,11 +491,13 @@ public class DirectController {
 			Result result = new Result();
 			String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 			String companyCode = CommonUtil.getParameter(request, "companyCode", HanaUtil.YJY_CODE_ALL);
-			String define3  = CommonUtil.getParameter(request, "define3 ", "研究院" );
+			String typeFlag  = CommonUtil.getParameter(request, "typeFlag ", "研究院" );
+			String xmlbbm  = CommonUtil.getParameter(request, "xmlbbm ", "" );
 			String type = CommonUtil.getParameter(request, "type", "1");
 			Map<String, Object> paramsMap = new HashMap<String, Object>();
 			paramsMap.put("nd", nd);
-			paramsMap.put("define3", define3);
+			paramsMap.put("typeFlag", typeFlag);
+			paramsMap.put("xmlbbm", xmlbbm);
 			paramsMap.put("companyCode", companyCode);
 			JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 			HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
@@ -570,10 +572,12 @@ public class DirectController {
 			Result result = new Result();
 			String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 			String companyCode = CommonUtil.getParameter(request, "companyCode", HanaUtil.YJY_CODE_ALL);
-			String define3  = CommonUtil.getParameter(request, "define3 ", "研究院" );
+			String typeFlag  = CommonUtil.getParameter(request, "typeFlag ", "研究院" );
+			String xmlbbm  = CommonUtil.getParameter(request, "xmlbbm ", "" );
 			Map<String, Object> paramsMap = new HashMap<String, Object>();
-			paramsMap.put("define3", define3);
+			paramsMap.put("typeFlag", typeFlag);
 			paramsMap.put("nd", nd);
+			paramsMap.put("xmlbbm", xmlbbm);
 			paramsMap.put("companyCode", companyCode);
 			JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 			HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
@@ -828,7 +832,16 @@ public class DirectController {
 						treeNode2.setExtend02(String.valueOf(map.get("sjqds_count")));
 						String jhqds_count=String.valueOf(map.get("jhqds_count"));
 						String sjqds_count=String.valueOf(map.get("sjqds_count"));
-						treeNode2.setExtend03(String.valueOf(HanaUtil.chufa2(Integer.valueOf(sjqds_count), Integer.valueOf(jhqds_count))));
+						
+						//System.out.println(">>>>>>>>>>>>>>>sjqds_count " + sjqds_count+" jhqds_count="+jhqds_count);
+						if(!jhqds_count.equals("0"))
+						{
+							treeNode2.setExtend03(String.valueOf(HanaUtil.chufa2(Integer.valueOf(sjqds_count), Integer.valueOf(jhqds_count))));
+						}else
+						{
+							treeNode2.setExtend03("0");
+						}
+						
 						
 						
 						
@@ -1139,10 +1152,10 @@ public class DirectController {
 				String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 				String type = CommonUtil.getParameter(request, "type", "" );
 				String xmlbbm = CommonUtil.getParameter(request, "xmlbbm", "fkyzb");
-				String define3  = CommonUtil.getParameter(request, "define3 ", "研究院" );
+				String typeFlag  = CommonUtil.getParameter(request, "typeFlag ", "研究院" );
 				Map<String, Object> paramsMap = new HashMap<String, Object>();
 				paramsMap.put("nd", nd);
-				paramsMap.put("define3", define3);
+				paramsMap.put("typeFlag", typeFlag);
 				paramsMap.put("xmlbbm", xmlbbm);
 				
 				
@@ -1239,8 +1252,16 @@ public class DirectController {
 				temp.setZsl(zsl_count);
 				temp.setXksl(xksl_count);
 				temp.setXjsl(xjsl_count);
-				temp.setXkRate(HanaUtil.chufa2(xksl_count, zsl_count));
-				temp.setXjRate(HanaUtil.chufa2(xjsl_count, zsl_count));
+				if(zsl_count==0)
+				{
+					temp.setXkRate(0);
+					temp.setXjRate(0);
+				}else
+				{
+					temp.setXkRate(HanaUtil.chufa2(xksl_count, zsl_count));
+					temp.setXjRate(HanaUtil.chufa2(xjsl_count, zsl_count));
+				}
+				
 				temp.setZslRate(100);
 				resutList.add(temp);
 				for(int i=0;i<list.size();i++)
@@ -1262,12 +1283,13 @@ public class DirectController {
 		 				Result result = new Result();
 		 				PageResult pageResult = new PageResult();
 		 				String type = CommonUtil.getParameter(request, "type", "" );
+		 				String xmlbbm = CommonUtil.getParameter(request, "xmlbbm", "" );
 		 				String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
-		 				String define3  = CommonUtil.getParameter(request, "define3 ", "研究院" );
+		 				String typeFlag  = CommonUtil.getParameter(request, "typeFlag ", "研究院" );
 						Map<String, Object> paramsMap = new HashMap<String, Object>();
 						paramsMap.put("nd", nd);
-						paramsMap.put("define3", define3);
-		 				paramsMap.put("xmlbbm", "fkyzb");
+						paramsMap.put("typeFlag", typeFlag);
+		 				paramsMap.put("xmlbbm",xmlbbm);
 		 				JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		 				HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		 				if (!nd.equals(""))
@@ -1357,8 +1379,16 @@ public class DirectController {
 						temp.setZsl(zsl_count);
 						temp.setXksl(xksl_count);
 						temp.setXjsl(xjsl_count);
-						temp.setXkRate(HanaUtil.chufa2(xksl_count, zsl_count));
-						temp.setXjRate(HanaUtil.chufa2(xjsl_count, zsl_count));
+						if(zsl_count==0)
+						{
+							temp.setXkRate(0);
+							temp.setXjRate(0);
+						}else
+						{
+							temp.setXkRate(HanaUtil.chufa2(xksl_count, zsl_count));
+							temp.setXjRate(HanaUtil.chufa2(xjsl_count, zsl_count));
+						}
+						
 						temp.setZslRate(100);
 						resutList.add(temp);
 						for(int i=0;i<list.size();i++)
@@ -1377,12 +1407,12 @@ public class DirectController {
 
 		 				Result result = new Result();
 		 				String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
-		 				
-		 				String define3  = CommonUtil.getParameter(request, "define3 ", "研究院" );
+		 				String xmlbbm = CommonUtil.getParameter(request, "xmlbbm", "" );
+		 				String typeFlag  = CommonUtil.getParameter(request, "typeFlag ", "研究院" );
 						Map<String, Object> paramsMap = new HashMap<String, Object>();
 						paramsMap.put("nd", nd);
-						paramsMap.put("define3", define3);
-						
+						paramsMap.put("typeFlag", typeFlag);
+						paramsMap.put("xmlbbm", xmlbbm);
 						
 		 				JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		 				HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
@@ -1555,8 +1585,17 @@ public class DirectController {
 				temp.setZsl(zsl_count);
 				temp.setXksl(xksl_count);
 				temp.setXjsl(xjsl_count);
-				temp.setXkRate(HanaUtil.chufa2(xksl_count, zsl_count));
-				temp.setXjRate(HanaUtil.chufa2(xjsl_count, zsl_count));
+				System.out.println(">>>>>>>>>>xksl_count"+xksl_count+"zsl_count"+zsl_count);
+				if(zsl_count==0)
+				{
+					temp.setXkRate(0);
+					temp.setXjRate(0);
+				}else
+				{
+					temp.setXkRate(HanaUtil.chufa2(xksl_count, zsl_count));
+					temp.setXjRate(HanaUtil.chufa2(xjsl_count, zsl_count));
+				}
+				
 				temp.setZslRate(100);
 				resutList.add(temp);
 				for(int i=0;i<list.size();i++)

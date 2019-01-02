@@ -730,7 +730,7 @@
         	
         	
         	//第4排
-        	var chart7_url="/direct/contry_01?type=1&nd="+year+"&v_date="+v_date;
+        	var chart7_url="/direct/contry_01?type=1&nd="+year+"&v_date="+v_date+"&xmlbbm=fkyzb";
         	var colorNew=["#70b1ab","#87d359"];
         	var data7=load_mutl_bar_down(chart7_url,"direct_kt_chart1","","",yAxis,20,colorNew);
         	data7.on('click', function (params) {
@@ -740,7 +740,7 @@
             });  
               
         	
-        	var url_8="/direct/contry_01?type=2&nd="+year+"&v_date="+v_date;
+        	var url_8="/direct/contry_01?type=2&nd="+year+"&v_date="+v_date+"&xmlbbm=fkyzb";
         	var echart8=loadPie_02(url_8,"direct_kt_chart2","","");
         	echart8.on('click', function (params) {
         		var xName=params.name;
@@ -750,7 +750,7 @@
         	
         	 
         	 
-        	var url_9="/direct/contry_02?nd="+year+"&v_date="+v_date;
+        	var url_9="/direct/contry_02?nd="+year+"&v_date="+v_date+"&xmlbbm=fkyzb";
         	var echart9=loadPie_02(url_9,"direct_kt_chart3","","");
         	echart9.on('click', function (params) {
         		var xName=params.name;
