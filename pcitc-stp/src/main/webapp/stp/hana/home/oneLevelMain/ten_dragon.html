@@ -190,12 +190,16 @@
       	      ,type: 'year'
               ,done:function (value, date, endDate) {
                 $(".layui-time").html(date.year);
+                $("#year").val(date.year);
                 search_Event();
             }
         });
         renderTable();
         renderStlTable();
-
+      	//目前沒有2018年的数据，只显示2017年度的数据
+        $("#year").val("2017");
+        //初始化图形
+        initEchart();
     });
 
     function initEchart()
@@ -271,8 +275,7 @@
 
     }
 
-    //初始化图形
-    initEchart();
+  
     //查询
     function search_Event()
     {
