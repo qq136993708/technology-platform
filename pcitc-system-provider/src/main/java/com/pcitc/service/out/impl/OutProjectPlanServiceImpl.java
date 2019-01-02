@@ -76,6 +76,9 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
     			if (StrUtil.isNotBlank(opp.getYsje()) ) {
     				newOPI.setYsje(opp.getYsje());
     			}
+    			if (StrUtil.isNotBlank(opp.getYsnd()) ) {
+    				newOPI.setYsnd(opp.getYsnd());
+    			}
     			if (StrUtil.isNotBlank(opp.getFwdx())) {
     				newOPI.setFwdx(opp.getFwdx());
     			}
@@ -137,7 +140,7 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 	    	
 	    	if (oppList != null && oppList.size() > 0) {
 	    		OutProjectPlan newOPP = oppList.get(0);
-	    		if (StrUtil.isNotBlank(newOPP.getYsje())) {
+	    		if (StrUtil.isNotBlank(opp.getYsje())) {
 	    			newOPP.setYsje(opp.getYsje());
 				}
 	    		outProjectPlanMapper.updateByPrimaryKey(newOPP);
