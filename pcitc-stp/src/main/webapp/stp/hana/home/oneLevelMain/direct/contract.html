@@ -133,6 +133,7 @@ layui.config({
          	      ,type: 'year'
             ,done: function(value, date, endDate){
                 $(".layui-time").html(date.year);
+                $("#year").val(date.year); 
                 search_Event();
             }
         });

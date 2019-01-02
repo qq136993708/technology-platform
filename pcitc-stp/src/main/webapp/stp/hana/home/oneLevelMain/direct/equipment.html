@@ -187,8 +187,10 @@ layui.config({
         	       ,format: 'yyyyMM'
             ,done: function(value, date, endDate){
                 $(".layui-time1").html(date.year);
-
                 $(".layui-time").html(date.year+"年"+date.month+"月");
+                
+                $("#month").val(date.year+""+PrefixInteger(date.month, 2)); 
+                
                 search_Event();
             }
         });
@@ -217,6 +219,9 @@ layui.config({
         
 });
 
+function PrefixInteger(num, length) {
+	  return (num/Math.pow(10,length)).toFixed(length).substr(2);
+	}
 
 function initEchart()
 {

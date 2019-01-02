@@ -481,6 +481,18 @@ function set_single_graph_statistics(data,id)
     	var jzCount_2=getSingleDataCountForName(data,'未签合同');
         var allCount_3=xkCount_1+jzCount_2;
         
+        if(isNaN(allCount_3))
+    	{
+    	 allCount_3=0;
+    	}
+        if(isNaN(xkCount_1))
+    	{
+        	xkCount_1=0;
+    	}
+        if(isNaN(jzCount_2))
+    	{
+        	jzCount_2=0;
+    	}
         $("#contract_chart1_01").html(allCount_3+"个");
         $("#contract_chart1_02").html(xkCount_1+"个");
         $("#contract_chart1_03").html(jzCount_2+"个");
@@ -492,6 +504,12 @@ function set_single_graph_statistics(data,id)
     	var count_2=getSingleDataCountForName(data,'外观设计');
         var count_3=getSingleDataCountForName(data,'实用新型');
         var count_all=count_1+count_2+count_3;
+        
+        
+        if(isNaN(count_2))
+    	{
+        	count_2=0;
+    	}
         
         $("#contract_chart4_01").html(count_all);
         $("#contract_chart4_02").html(count_1);
@@ -584,7 +602,14 @@ function set_multi_graph_statistics(data,id)
         
         $("#contract_chart4_01").html(count_1+"个");
         $("#contract_chart4_02").html(count_2+"个");
-        $("#contract_chart4_03").html(percentNum(count_2,count_1));
+        var tt=percentNum(count_2,count_1);
+        
+        if(isNaN(tt))
+    	{
+        	tt="0%";
+    	}
+        
+        $("#contract_chart4_03").html(tt);
         
 		
 	}

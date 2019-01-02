@@ -71,6 +71,7 @@ public class OneLevelMainController {
 		private static final String contract_03 = "http://pcitc-zuul/system-proxy/out-project-plna-provider/complete-rate/institute";
 		private static final String contract_04 = "http://pcitc-zuul/system-proxy/out-project-provider/project-money/institute";
 		private static final String contract_05 = "http://pcitc-zuul/system-proxy/out-project-plna-provider/contract-rate/details";
+		private static final String contract_dic = "http://pcitc-zuul/system-proxy/out-project-provider/select-condition/list";
 		
 		
 		
@@ -238,6 +239,55 @@ public class OneLevelMainController {
 				request.setAttribute("project_property", project_property);
 				request.setAttribute("project_scope", project_scope);
 				request.setAttribute("zylb", zylb);
+				
+				String projectId=CommonUtil.getParameter(request, "projectId", "");
+				request.setAttribute("projectId", projectId);
+				
+				
+				Map<String, Object> paramsMap = new HashMap<String, Object>();
+				paramsMap.put("nd", nd);
+				JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+				HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+				
+				ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(contract_dic, HttpMethod.POST, entity, JSONArray.class);
+				int statusCode = responseEntity.getStatusCodeValue();
+				if (statusCode == 200) 
+				{
+					 JSONArray jSONArray = responseEntity.getBody();
+					 List<String> define1List = new ArrayList<String>();
+					 List<String> define21List = new ArrayList<String>();//8大研究院 
+					 List<String> type_flagList = new ArrayList<String>();
+					 List<String> zylbList = new ArrayList<String>();
+					 for (int i = 0; i < jSONArray.size(); i++)
+			         {
+						     Map  object = (Map) jSONArray.get(i);
+			                String showCode= (String)object.get("showCode");
+			                String showName= (String)object.get("showName");
+			                if(showCode.equals("define1"))
+			                {
+			                	define1List.add(showName);
+			                }
+			                if(showCode.equals("define2"))
+			                {
+			                	define21List.add(showName);
+			                }
+			                if(showCode.equals("type_flag"))
+			                {
+			                	type_flagList.add(showName);
+			                }
+			                if(showCode.equals("zylb"))
+			                {
+			                	zylbList.add(showName);
+			                }
+			                
+			          }
+					 
+					 request.setAttribute("define1List", define1List);
+					 request.setAttribute("define21List", define21List);
+					 request.setAttribute("type_flagList", type_flagList);
+					 request.setAttribute("zylbList", zylbList);
+					
+				}
 		        return "stp/hana/home/oneLevelMain/common_table";
 		  }
 		
