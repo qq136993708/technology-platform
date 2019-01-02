@@ -60,6 +60,44 @@ layui.define(['jquery','form','table','laydate'],
                 return result;
             },
             /**
+             * ajax请求
+             * @param {String} url 请求地址
+             * @param {String} params 请求参数
+             * @param {String} callback 状态
+             */
+            ajaxGet:function(url, params, callback) {
+                var result = null;
+                var headers = {
+                    //'Content-Type':'application/json',
+                    //'access-token':getCookie("token")
+                };
+                if (params && typeof params == "object") {
+                    params = publicMet.deleteEmptyProp(params);
+                }
+                $.ajax({
+                    type: 'get',
+                    async: false,
+                    url: url,
+                    data: params,
+                    dataType: 'json',
+                    headers: headers,
+                    success: function (data, status) {
+                        result = data;
+                        if (data && data.code && data.code == '101') {
+                            console.log("操作失败，请刷新重试，具体错误：" + data.message);
+                            return false;
+                        }
+                        if (callback) {
+                            callback.call(this, data, status);
+                        }
+                    },
+                    error: function (err, err1, err2) {
+                        console.log("ajaxGet发生异常，请仔细检查请求url是否正确");
+                    }
+                });
+                return result;
+            },
+            /**
              * select 渲染
              * @param {String} title 标题
              * @param {String} temUrl 地址

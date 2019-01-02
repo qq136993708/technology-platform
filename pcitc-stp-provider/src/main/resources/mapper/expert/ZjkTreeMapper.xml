@@ -1,0 +1,521 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pcitc.mapper.expert.ZjkTreeMapper">
+
+    <resultMap id="BaseResultMap" type="com.pcitc.base.expert.ZjkTree">
+
+        <id column="data_id" jdbcType="VARCHAR" property="dataId"/>
+        <result column="sql_text" jdbcType="VARCHAR" property="sqlText"/>
+        <result column="stype" jdbcType="VARCHAR" property="stype"/>
+        <result column="sname" jdbcType="VARCHAR" property="sname"/>
+        <result column="level_open" jdbcType="VARCHAR" property="levelOpen"/>
+        <result column="sys_flag" jdbcType="VARCHAR" property="sysFlag"/>
+        <result column="data_order" jdbcType="INTEGER" property="dataOrder"/>
+        <result column="del_flag" jdbcType="INTEGER" property="delFlag"/>
+        <result column="create_date" jdbcType="VARCHAR" property="createDate"/>
+        <result column="create_user" jdbcType="VARCHAR" property="createUser"/>
+        <result column="create_user_disp" jdbcType="VARCHAR" property="createUserDisp"/>
+        <result column="modify_date" jdbcType="VARCHAR" property="modifyDate"/>
+        <result column="modify_user" jdbcType="VARCHAR" property="modifyUser"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="("
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+        data_id,
+        sql_text,
+        stype,
+        sname,
+        level_open,
+        sys_flag,
+        data_order,
+        del_flag,
+        create_date,
+        create_user,
+        create_user_disp,
+        modify_date,
+        modify_user
+</sql>
+
+    <select id="selectByExample" parameterType="com.pcitc.base.expert.ZjkTreeExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from zjk_tree
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        <if test="limit != null">
+            <if test="offset != null">
+                limit ${offset}, ${limit}
+            </if>
+            <if test="offset == null">
+                limit ${limit}
+            </if>
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from zjk_tree
+        where data_id = #{dataId,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from zjk_tree
+        where data_id = #{dataId,jdbcType=VARCHAR}
+    </delete>
+    <delete id="deleteByExample" parameterType="com.pcitc.base.expert.ZjkTreeExample">
+        delete from zjk_tree
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.pcitc.base.expert.ZjkTree">
+        insert into zjk_tree (
+            data_id,
+            sql_text,
+            stype,
+            sname,
+            level_open,
+            sys_flag,
+            data_order,
+            del_flag,
+            create_date,
+            create_user,
+            create_user_disp,
+            modify_date,
+            modify_user
+        )
+        values (
+
+    #{dataId,jdbcType=VARCHAR},
+    #{sqlText,jdbcType=VARCHAR},
+    #{stype,jdbcType=VARCHAR},
+    #{sname,jdbcType=VARCHAR},
+    #{levelOpen,jdbcType=VARCHAR},
+    #{sysFlag,jdbcType=VARCHAR},
+    #{dataOrder,jdbcType=INTEGER},
+    #{delFlag,jdbcType=INTEGER},
+    #{createDate,jdbcType=VARCHAR},
+    #{createUser,jdbcType=VARCHAR},
+    #{createUserDisp,jdbcType=VARCHAR},
+    #{modifyDate,jdbcType=VARCHAR},
+    #{modifyUser,jdbcType=VARCHAR}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.pcitc.base.expert.ZjkTree">
+        insert into zjk_tree
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+
+            <if test="dataId != null">
+                data_id,
+            </if>
+            <if test="sqlText != null">
+                sql_text,
+            </if>
+            <if test="stype != null">
+                stype,
+            </if>
+            <if test="sname != null">
+                sname,
+            </if>
+            <if test="levelOpen != null">
+                level_open,
+            </if>
+            <if test="sysFlag != null">
+                sys_flag,
+            </if>
+            <if test="dataOrder != null">
+                data_order,
+            </if>
+            <if test="delFlag != null">
+                del_flag,
+            </if>
+            <if test="createDate != null">
+                create_date,
+            </if>
+            <if test="createUser != null">
+                create_user,
+            </if>
+            <if test="createUserDisp != null">
+                create_user_disp,
+            </if>
+            <if test="modifyDate != null">
+                modify_date,
+            </if>
+            <if test="modifyUser != null">
+                modify_user
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+
+
+            <if test="dataId != null">
+                #{dataId ,jdbcType=VARCHAR},
+            </if>
+            <if test="sqlText != null">
+                #{sqlText ,jdbcType=VARCHAR},
+            </if>
+            <if test="stype != null">
+                #{stype ,jdbcType=VARCHAR},
+            </if>
+            <if test="sname != null">
+                #{sname ,jdbcType=VARCHAR},
+            </if>
+            <if test="levelOpen != null">
+                #{levelOpen ,jdbcType=VARCHAR},
+            </if>
+            <if test="sysFlag != null">
+                #{sysFlag ,jdbcType=VARCHAR},
+            </if>
+            <if test="dataOrder != null">
+                #{dataOrder ,jdbcType=INTEGER},
+            </if>
+            <if test="delFlag != null">
+                #{delFlag ,jdbcType=INTEGER},
+            </if>
+            <if test="createDate != null">
+                #{createDate ,jdbcType=VARCHAR},
+            </if>
+            <if test="createUser != null">
+                #{createUser ,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserDisp != null">
+                #{createUserDisp ,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyDate != null">
+                #{modifyDate ,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyUser != null">
+                #{modifyUser ,jdbcType=VARCHAR}
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.pcitc.base.expert.ZjkTreeExample" resultType="java.lang.Long">
+        select count(*) from zjk_tree
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update zjk_tree
+        <set>
+
+            <if test="record.dataId != null">
+                data_id=#{record.dataId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.sqlText != null">
+                sql_text=#{record.sqlText,jdbcType=VARCHAR},
+            </if>
+            <if test="record.stype != null">
+                stype=#{record.stype,jdbcType=VARCHAR},
+            </if>
+            <if test="record.sname != null">
+                sname=#{record.sname,jdbcType=VARCHAR},
+            </if>
+            <if test="record.levelOpen != null">
+                level_open=#{record.levelOpen,jdbcType=VARCHAR},
+            </if>
+            <if test="record.sysFlag != null">
+                sys_flag=#{record.sysFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="record.dataOrder != null">
+                data_order=#{record.dataOrder,jdbcType=INTEGER},
+            </if>
+            <if test="record.delFlag != null">
+                del_flag=#{record.delFlag,jdbcType=INTEGER},
+            </if>
+            <if test="record.createDate != null">
+                create_date=#{record.createDate,jdbcType=VARCHAR},
+            </if>
+            <if test="record.createUser != null">
+                create_user=#{record.createUser,jdbcType=VARCHAR},
+            </if>
+            <if test="record.createUserDisp != null">
+                create_user_disp=#{record.createUserDisp,jdbcType=VARCHAR},
+            </if>
+            <if test="record.modifyDate != null">
+                modify_date=#{record.modifyDate,jdbcType=VARCHAR},
+            </if>
+            <if test="record.modifyUser != null">
+                modify_user=#{record.modifyUser,jdbcType=VARCHAR}
+            </if>
+
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update zjk_tree
+        set
+        data_id=#{record.dataId,jdbcType=VARCHAR},
+        sql_text=#{record.sqlText,jdbcType=VARCHAR},
+        stype=#{record.stype,jdbcType=VARCHAR},
+        sname=#{record.sname,jdbcType=VARCHAR},
+        level_open=#{record.levelOpen,jdbcType=VARCHAR},
+        sys_flag=#{record.sysFlag,jdbcType=VARCHAR},
+        data_order=#{record.dataOrder,jdbcType=INTEGER},
+        del_flag=#{record.delFlag,jdbcType=INTEGER},
+        create_date=#{record.createDate,jdbcType=VARCHAR},
+        create_user=#{record.createUser,jdbcType=VARCHAR},
+        create_user_disp=#{record.createUserDisp,jdbcType=VARCHAR},
+        modify_date=#{record.modifyDate,jdbcType=VARCHAR},
+        modify_user=#{record.modifyUser,jdbcType=VARCHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.expert.ZjkTree">
+        update zjk_tree
+        <set>
+
+            <if test="sqlText != null">
+                sql_text=#{sqlText ,jdbcType=VARCHAR},
+            </if>
+            <if test="stype != null">
+                stype=#{stype ,jdbcType=VARCHAR},
+            </if>
+            <if test="sname != null">
+                sname=#{sname ,jdbcType=VARCHAR},
+            </if>
+            <if test="levelOpen != null">
+                level_open=#{levelOpen ,jdbcType=VARCHAR},
+            </if>
+            <if test="sysFlag != null">
+                sys_flag=#{sysFlag ,jdbcType=VARCHAR},
+            </if>
+            <if test="dataOrder != null">
+                data_order=#{dataOrder ,jdbcType=INTEGER},
+            </if>
+            <if test="delFlag != null">
+                del_flag=#{delFlag ,jdbcType=INTEGER},
+            </if>
+            <if test="createDate != null">
+                create_date=#{createDate ,jdbcType=VARCHAR},
+            </if>
+            <if test="createUser != null">
+                create_user=#{createUser ,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserDisp != null">
+                create_user_disp=#{createUserDisp ,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyDate != null">
+                modify_date=#{modifyDate ,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyUser != null">
+                modify_user=#{modifyUser ,jdbcType=VARCHAR}
+            </if>
+        </set>
+        where data_id = #{dataId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.pcitc.base.expert.ZjkTree">
+        update zjk_tree
+        set
+            sql_text=#{sqlText,jdbcType=VARCHAR},
+            stype=#{stype,jdbcType=VARCHAR},
+            sname=#{sname,jdbcType=VARCHAR},
+            level_open=#{levelOpen,jdbcType=VARCHAR},
+            sys_flag=#{sysFlag,jdbcType=VARCHAR},
+            data_order=#{dataOrder,jdbcType=INTEGER},
+            del_flag=#{delFlag,jdbcType=INTEGER},
+            create_date=#{createDate,jdbcType=VARCHAR},
+            create_user=#{createUser,jdbcType=VARCHAR},
+            create_user_disp=#{createUserDisp,jdbcType=VARCHAR},
+            modify_date=#{modifyDate,jdbcType=VARCHAR},
+            modify_user=#{modifyUser,jdbcType=VARCHAR}
+        where data_id = #{dataId,jdbcType=VARCHAR}
+    </update>
+    <!-- 分页查询 -->
+    <select id="findSysFileKindByPage" parameterType="com.pcitc.base.expert.ZjkTree" resultMap="BaseResultMap">
+
+        select
+        data_id,
+        sql_text,
+        stype,
+        sname,
+        level_open,
+        sys_flag,
+        data_order,
+        del_flag,
+        create_date,
+        create_user,
+        create_user_disp,
+        modify_date,
+        modify_user
+        from zjk_tree
+        where 1=1
+        <if test="dataId!=null and dataId!=''.toString()">
+            and data_id like '%${dataId}%'
+        </if>
+        <if test="sqlText!=null and sqlText!=''.toString()">
+            and sql_text like '%${sqlText}%'
+        </if>
+        <if test="stype!=null and stype!=''.toString()">
+            and stype like '%${stype}%'
+        </if>
+        <if test="sname!=null and sname!=''.toString()">
+            and sname like '%${sname}%'
+        </if>
+        <if test="levelOpen!=null and levelOpen!=''.toString()">
+            and level_open like '%${levelOpen}%'
+        </if>
+        <if test="sysFlag!=null and sysFlag!=''.toString()">
+            and sys_flag like '%${sysFlag}%'
+        </if>
+        <if test="dataOrder!=null and dataOrder!=''.toString()">
+            and data_order like '%${dataOrder}%'
+        </if>
+        <if test="delFlag!=null and delFlag!=''.toString()">
+            and del_flag like '%${delFlag}%'
+        </if>
+        <if test="createDate!=null and createDate!=''.toString()">
+            and create_date like '%${createDate}%'
+        </if>
+        <if test="createUser!=null and createUser!=''.toString()">
+            and create_user like '%${createUser}%'
+        </if>
+        <if test="createUserDisp!=null and createUserDisp!=''.toString()">
+            and create_user_disp like '%${createUserDisp}%'
+        </if>
+        <if test="modifyDate!=null and modifyDate!=''.toString()">
+            and modify_date like '%${modifyDate}%'
+        </if>
+        <if test="modifyUser!=null and modifyUser!=''.toString()">
+            and modify_user like '%${modifyUser}%'
+        </if>
+
+        <if test="iSortCol!=null and iSortCol!=''.toString()">
+            order by ${iSortCol} ${sSortDir_0}
+        </if>
+    </select>
+    <!-- 查询列表 -->
+    <select id="findZjkTreeList" parameterType="com.pcitc.base.expert.ZjkTree" resultMap="BaseResultMap">
+        select
+        data_id,
+        sql_text,
+        stype,
+        sname,
+        level_open,
+        sys_flag,
+        data_order,
+        del_flag,
+        create_date,
+        create_user,
+        create_user_disp,
+        modify_date,
+        modify_user
+        from zjk_tree
+        where 1=1
+        <if test="dataId!=null">
+            and data_id = #{dataId,jdbcType=VARCHAR}
+        </if>
+        <if test="sqlText!=null">
+            and sql_text = #{sqlText,jdbcType=VARCHAR}
+        </if>
+        <if test="stype!=null">
+            and stype = #{stype,jdbcType=VARCHAR}
+        </if>
+        <if test="sname!=null">
+            and sname = #{sname,jdbcType=VARCHAR}
+        </if>
+        <if test="levelOpen!=null">
+            and level_open = #{levelOpen,jdbcType=VARCHAR}
+        </if>
+        <if test="sysFlag!=null">
+            and sys_flag = #{sysFlag,jdbcType=VARCHAR}
+        </if>
+        <if test="dataOrder!=null">
+            and data_order = #{dataOrder,jdbcType=VARCHAR}
+        </if>
+        <if test="delFlag!=null">
+            and del_flag = #{delFlag,jdbcType=VARCHAR}
+        </if>
+        <if test="createDate!=null">
+            and create_date = #{createDate,jdbcType=VARCHAR}
+        </if>
+        <if test="createUser!=null">
+            and create_user = #{createUser,jdbcType=VARCHAR}
+        </if>
+        <if test="createUserDisp!=null">
+            and create_user_disp = #{createUserDisp,jdbcType=VARCHAR}
+        </if>
+        <if test="modifyDate!=null">
+            and modify_date = #{modifyDate,jdbcType=VARCHAR}
+        </if>
+        <if test="modifyUser!=null">
+            and modify_user = #{modifyUser,jdbcType=VARCHAR}
+        </if>
+
+        <if test="iSortCol!=null and iSortCol!=''.toString()">
+            order by ${iSortCol} ${sSortDir_0}
+        </if>
+    </select>
+
+    <select id="selectTree" parameterType="map" resultType="com.pcitc.base.common.TreeNode">
+      ${sqlval}
+    </select>
+</mapper>

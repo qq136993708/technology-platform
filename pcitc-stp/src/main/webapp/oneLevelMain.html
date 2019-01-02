@@ -192,6 +192,8 @@
 </div>
 <script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
 <script>
+var nd=$("#month").val().substring(4,0);
+
     layui.use([ 'carousel', 'form','jquery','publicMethods'], function(){
         var carousel = layui.carousel,$=layui.jquery,publicMethods=layui.publicMethods
             ,form = layui.form;
@@ -274,7 +276,7 @@
 	function getContract() {
 		$.ajax({
 			type : 'GET',
-			url : "/one_level_main/contract_count",
+			url : "/one_level_main/contract_count?nd="+nd,
 			dataType : 'json',
 			headers : {
 				'Content-Type' : 'application/json'
@@ -295,6 +297,7 @@
 		
 		var v_date=(new Date()).getTime();
 		var month=$("#month").val();
+		//alert(month);
 		var companyCode=$("#companyCode").val();
 		var chart1_url="/one_level_main/equipment_01?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
 		$.ajax({
@@ -309,7 +312,6 @@
 			
 			},
 			success : function(data) {
-				//alert(data.data.seriesDataList.length);
 				var total_count = 0;
 				$.each(data.data.seriesDataList,function(index,dt){
 					total_count+=dt;
@@ -324,7 +326,7 @@
 	function patentCount() {
 		$.ajax({
 			type : 'POST',
-			url : "/admin/patent-count",
+			url : "/admin/patent-count?nd="+nd,
 			dataType : 'json',
 			headers : {
 				'Content-Type' : 'application/json'
@@ -348,7 +350,7 @@
 		$
 				.ajax({
 					type : 'POST',
-					url : "/admin/appraisal-count",
+					url : "/admin/appraisal-count?nd="+nd,
 					dataType : 'json',
 					headers : {
 						'Content-Type' : 'application/json'
@@ -372,7 +374,7 @@
 	function setdragon_count() {
 		$.ajax({
 			type : 'GET',
-			url : "/one_level_main/dragon_count",
+			url : "/one_level_main/dragon_count?nd="+nd,
 			dataType : 'json',
 			headers : {
 				'Content-Type' : 'application/json'
@@ -394,7 +396,7 @@
 		$
 				.ajax({
 					type : 'GET',
-					url : "/one_level_main/investment_first_page_count",
+					url : "/one_level_main/investment_first_page_count?nd="+nd,
 					dataType : 'json',
 					headers : {
 						'Content-Type' : 'application/json'

@@ -38,7 +38,7 @@ import java.util.Map;
 @Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = Exception.class)
 public class TechFamilyTypeServiceImpl implements TechFamilyTypeService {
 
-    @Resource
+    @Autowired
     private TechFamilyTypeMapper techFamilyTypeMapper;
 
     public List<TechFamilyType> findTechFamilyTypeList(TechFamilyType techFamilyType) {
@@ -162,14 +162,9 @@ public class TechFamilyTypeServiceImpl implements TechFamilyTypeService {
     public LayuiTableData findTechFamilyTypeByPage(LayuiTableParam param) {
         TechFamilyTypeExample example = new TechFamilyTypeExample();
         TechFamilyTypeExample.Criteria c = example.createCriteria();
-//        c.andStatusEqualTo("1");
-//        if(param.getParam().get("fileKind") !=null && !com.pcitc.common.StringUtils.isBlank(param.getParam().get("fileKind")+""))
-//        {
-        //   c.andIdLike("'%"+param.getParam().get("fileKind")+"%'");
-//            TechFamilyTypeExample.Criteria criteria2 = example.or();
-//            criteria2.andParentIdEqualTo(param.getParam().get("fileKind").toString());
-//            example.or(criteria2);
-        //       }
+//        if (param.getParam().get("parentId") != null) {
+            c.andParentIdEqualTo(param.getParam().get("parentId").toString());
+//        }
         example.setOrderByClause("create_date desc");
         return this.findByExample(param, example);
 
@@ -188,6 +183,7 @@ public class TechFamilyTypeServiceImpl implements TechFamilyTypeService {
         int pageNum = pageStart / pageSize + 1;
         PageHelper.startPage(pageNum, pageSize);
         List<TechFamilyType> list = techFamilyTypeMapper.selectByExample(example);
+        System.out.println("list = " + list);
         // 3、获取分页查询后的数据
         PageInfo<TechFamilyType> pageInfo = new PageInfo<TechFamilyType>(list);
         LayuiTableData data = new LayuiTableData();

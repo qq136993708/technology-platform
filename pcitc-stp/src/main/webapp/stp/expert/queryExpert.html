@@ -214,7 +214,6 @@
                     gb: gbStr
                 }
             };
-            console.log(where)
             publicMethods.tableRender('expertTable', 'expertTable', '/expertController/queryIndex', false, cols, where,true, function (res, curr, count) {
                 $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
                     var index = parseInt($(this).index() + 1);
