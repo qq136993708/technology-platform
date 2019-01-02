@@ -1527,7 +1527,7 @@
         	count(DISTINCT xmid) as projectCount
 		from out_project_info
 		where 
-			project_property not like '%十条龙%' and out_project_info.nd = '${nd}' and out_project_info.ysnd = '${nd}' and define7 not like '%已关闭%' and
+			project_property not like '%十条龙%' and out_project_info.nd = '${nd}' and out_project_info.ysnd = '${nd}' and
 			(project_type = '0' or project_type = '2') and out_project_info.project_property not like '%国家%'
 			<if test="define2 != null and define2 != ''">
 				and define2 like '%${define2}%'
@@ -1543,7 +1543,7 @@
         	round(sum(out_project_info.ysje),4) as projectMoney
 		from out_project_info
 		where 
-			project_property not like '%十条龙%' and out_project_info.ysnd = '${nd}' and define7 not like '%已关闭%' and
+			project_property not like '%十条龙%' and out_project_info.ysnd = '${nd}' and
 			(project_type = '0' or project_type = '2') and out_project_info.project_property not like '%国家%'
 			<if test="define2 != null and define2 != ''">
 				and define2 like '%${define2}%'
@@ -1560,7 +1560,7 @@
 			sum(case when xmlbbm = 'KYZB' then 1 else 0 end) as kyzbCount
 		from out_project_info
 		where 
-			project_property not like '%十条龙%' and out_project_info.ysnd = '${nd}' and define7 not like '%已关闭%' and
+			project_property not like '%十条龙%' and out_project_info.ysnd = '${nd}' and
 			(project_type = '0' or project_type = '2') and out_project_info.project_property not like '%国家%'
 			<if test="typeFlag != null and typeFlag != ''">
 				and type_flag like '%${typeFlag}%'
@@ -2044,8 +2044,7 @@
 		    round(count(DISTINCT xmid)/(select count(*) 
 		    							from out_project_info 
 		    							where 
-		    								project_type != '1' and project_property not like '%十条龙%' and out_project_info.ysnd = '${nd}' and 
-		    								define7 not like '%已关闭%' and type_flag like '%直属研究院%'and out_project_info.project_property not like '%国家%'
+		    								project_type != '1' and project_property not like '%十条龙%' and out_project_info.ysnd = '${nd}' and type_flag like '%直属研究院%'and out_project_info.project_property not like '%国家%'
 		    								<if test="xmlbbm != null and xmlbbm == 'kyzb'">
 												 and xmlbbm ='KYZB'
 											</if>
@@ -2056,8 +2055,7 @@
 			round(sum(case when nd = '2018' then 1 else 0 end)/(select count(*) 
 		    							from out_project_info 
 		    							where 
-		    								project_type != '1' and project_property not like '%十条龙%' and out_project_info.ysnd = '${nd}' and 
-		    								define7 not like '%已关闭%' and type_flag like '%直属研究院%' and out_project_info.project_property not like '%国家%'
+		    								project_type != '1' and project_property not like '%十条龙%' and out_project_info.ysnd = '${nd}' and type_flag like '%直属研究院%' and out_project_info.project_property not like '%国家%'
 		    								<if test="xmlbbm != null and xmlbbm == 'kyzb'">
 												 and xmlbbm ='KYZB'
 											</if>
@@ -2068,8 +2066,7 @@
 			round(sum(case when nd != '2018' then 1 else 0 end)/(select count(*) 
 		    							from out_project_info 
 		    							where 
-		    								project_type != '1' and project_property not like '%十条龙%' and out_project_info.ysnd = '${nd}' and 
-		    								define7 not like '%已关闭%' and type_flag like '%直属研究院%' and out_project_info.project_property not like '%国家%'
+		    								project_type != '1' and project_property not like '%十条龙%' and out_project_info.ysnd = '${nd}' and type_flag like '%直属研究院%' and out_project_info.project_property not like '%国家%'
 		    								<if test="xmlbbm != null and xmlbbm == 'kyzb'">
 												 and xmlbbm ='KYZB'
 											</if>
@@ -2079,7 +2076,7 @@
 		    						)*100,4) xjRate,
 	    	SUBSTR(define2 FROM 4) define2
 		from out_project_info
-		where project_type != '1' and project_property not like '%十条龙%' and out_project_info.ysnd = '${nd}' and define7 not like '%已关闭%' and
+		where project_type != '1' and project_property not like '%十条龙%' and out_project_info.ysnd = '${nd}'  and
 			   type_flag like '%直属研究院%' and out_project_info.project_property not like '%国家%'
 			  <if test="xmlbbm != null and xmlbbm == 'kyzb'">
 				 and xmlbbm ='KYZB'
@@ -2203,7 +2200,7 @@
 			(select count(*) from out_project_info where project_type != '1' and project_property not like '%十条龙%' and out_project_info.ysnd = '${nd}' and define7 not like '%已关闭%' and type_flag like '%直属研究院%' and out_project_info.project_property not like '%国家%') as temsh,
 			round(count(*)/(select count(*) from out_project_info 
 							where 
-								project_type != '1' and project_property not like '%十条龙%' and out_project_info.ysnd = '${nd}' and define7 not like '%已关闭%' 
+								project_type != '1' and project_property not like '%十条龙%' and out_project_info.ysnd = '${nd}'
 								and type_flag like '%直属研究院%' and out_project_info.project_property not like '%国家%'
 								<if test="xmlbbm != null and xmlbbm == 'kyzb'">
 									 and xmlbbm ='KYZB'
@@ -2217,7 +2214,7 @@
 			project_property
 		FROM out_project_info
 		where 
-			project_type != '1' and project_property not like '%十条龙%' and out_project_info.ysnd = '${nd}' and define7 not like '%已关闭%' 
+			project_type != '1' and project_property not like '%十条龙%' and out_project_info.ysnd = '${nd}'
 			and type_flag like '%直属研究院%' and out_project_info.project_property not like '%国家%'
 			<if test="xmlbbm != null and xmlbbm == 'kyzb'">
 				 and xmlbbm ='KYZB'
@@ -2239,7 +2236,7 @@
 			       sum(case when nd != '${nd}' then 1 else 0 end) as xjsl
 			from out_project_info
 			WHERE
-				ysnd= '${nd}' and project_type != '1' and project_property not like '%十条龙%' and define7 not like '%已关闭%'
+				ysnd= '${nd}' and project_type != '1' and project_property not like '%十条龙%'
 				and out_project_info.project_property not like '%国家%'
 			group by define5) AS tableA 
 		GROUP BY tableA.define5

@@ -958,9 +958,9 @@
 			sum(case when tableB.temId is not null then 1 else 0 end) as sjqds
 		from (
 			select out_project_info.xmid as temId,out_project_plan.xmid as xmid,out_project_plan.DEFINE1,out_project_plan.PROJECT_PROPERTY
-			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and (out_project_info.PROJECT_TYPE= '0' or out_project_info.PROJECT_TYPE= '2') and out_project_info.project_property not like '%十条龙%' and out_project_info.ND= '${nd}' and out_project_info.define7 not like '%已关闭%')
+			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and (out_project_info.PROJECT_TYPE= '0' or out_project_info.PROJECT_TYPE= '2') and out_project_info.project_property not like '%十条龙%' and out_project_info.ND= '${nd}' and out_project_info.project_property not like '%国家%')
 			WHERE
-				out_project_plan.ND= '${nd}' and out_project_plan.define7 not like '%已关闭%'
+				out_project_plan.ND= '${nd}' 
 				and (out_project_plan.PROJECT_TYPE= '0' or out_project_plan.PROJECT_TYPE= '2')
 				and out_project_plan.project_property not like '%国家%'
 				<if test="define3 != null and define3 != ''">
@@ -974,14 +974,14 @@
 	<!-- 直属研究院二级页面（领导），总的签订率-->
 	<select id="getPlanTotalCompleteRate" resultType="java.util.Map" parameterType="java.util.HashMap">
 		select count(xmid) as zsl,
-			sum(case when tableB.temId is not null then 1 else 0 end) as yqht,
-			sum(case when tableB.temId is null then 1 else 0 end) as wqht,
-			round(sum(case when tableB.temId is not null then 1 else 0 end)/count(xmid)*100,2) as qdl
+			IFNULL(sum(case when tableB.temId is not null then 1 else 0 end),0) as yqht,
+			IFNULL(sum(case when tableB.temId is null then 1 else 0 end),0) as wqht,
+			IFNULL(round(sum(case when tableB.temId is not null then 1 else 0 end)/count(xmid)*100,2),0) as qdl
 		from (
 			select out_project_info.xmid as temId,out_project_plan.xmid,out_project_plan.DEFINE1,out_project_plan.PROJECT_SCOPE 
-			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and (out_project_info.PROJECT_TYPE= '0' or out_project_info.PROJECT_TYPE= '2') and out_project_info.project_property not like '%十条龙%' and out_project_info.nd= '${nd}' and out_project_info.define7 not like '%已关闭%')
+			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and (out_project_info.PROJECT_TYPE= '0' or out_project_info.PROJECT_TYPE= '2') and out_project_info.project_property not like '%十条龙%' and out_project_info.nd= '${nd}' and out_project_info.project_property not like '%国家%')
 			WHERE
-				out_project_plan.ND= '${nd}' and out_project_plan.define7 not like '%已关闭%'
+				out_project_plan.ND= '${nd}'
 				and (out_project_plan.PROJECT_TYPE= '0' or out_project_plan.PROJECT_TYPE= '2')
 				and out_project_plan.project_property not like '%国家%'
 				<if test="define3 != null and define3 != ''">
@@ -1003,9 +1003,9 @@
 			sum(case when tableB.temId is not null and define1 = '资本性' then 1 else 0 end) as zbxsjsl
 		from (
 			select out_project_info.xmid as temId,out_project_plan.xmid as xmid,out_project_plan.DEFINE1,out_project_plan.DEFINE2,out_project_plan.jf as jf1,out_project_info.jf as jf2
-			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and (out_project_info.PROJECT_TYPE= '0' or out_project_info.PROJECT_TYPE= '2') and out_project_info.project_property not like '%十条龙%' and out_project_info.ND= '${nd}' and out_project_info.define7 not like '%已关闭%')
+			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and (out_project_info.PROJECT_TYPE= '0' or out_project_info.PROJECT_TYPE= '2') and out_project_info.project_property not like '%十条龙%' and out_project_info.ND= '${nd}' and out_project_info.project_property not like '%国家%')
 			WHERE
-				out_project_plan.ND= '${nd}' and out_project_plan.define7 not like '%已关闭%' and out_project_plan.DEFINE3 like '%直属研究院%'
+				out_project_plan.ND= '${nd}' and out_project_plan.DEFINE3 like '%直属研究院%'
 				and (out_project_plan.PROJECT_TYPE= '0' or out_project_plan.PROJECT_TYPE= '2')
 				and out_project_plan.project_property not like '%国家%'
 				group by out_project_plan.xmid
@@ -1029,9 +1029,9 @@
 		from (
 			select out_project_info.xmid as temId,out_project_plan.xmid as xmid,out_project_plan.DEFINE1,out_project_plan.DEFINE2,
 				   out_project_plan.ysje as jf1,out_project_info.ysje as jf2
-			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and (out_project_info.PROJECT_TYPE= '0' or out_project_info.PROJECT_TYPE= '2') and out_project_info.project_property not like '%十条龙%' and out_project_info.YSND= '${nd}' and out_project_info.define7 not like '%已关闭%')
+			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and (out_project_info.PROJECT_TYPE= '0' or out_project_info.PROJECT_TYPE= '2') and out_project_info.project_property not like '%十条龙%' and out_project_info.YSND= '${nd}' and out_project_info.project_property not like '%国家%')
 			WHERE
-				out_project_plan.YSND= '${nd}' and out_project_plan.define7 not like '%已关闭%' and out_project_plan.DEFINE3 like '%直属研究院%'
+				out_project_plan.YSND= '${nd}' and out_project_plan.DEFINE3 like '%直属研究院%'
 				and (out_project_plan.PROJECT_TYPE= '0' or out_project_plan.PROJECT_TYPE= '2')
 				and out_project_plan.project_property not like '%国家%'
 				group by out_project_plan.xmid
@@ -1046,9 +1046,9 @@
 			round(sum(case when tableB.temId is not null then 1 else 0 end)/count(xmid)*100,2) as htqdl
 		from (
 			select out_project_info.xmid as temId,out_project_plan.xmid as xmid,out_project_plan.DEFINE1
-			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and (out_project_info.PROJECT_TYPE= '0' or out_project_info.PROJECT_TYPE= '2') and out_project_info.project_property not like '%十条龙%' and out_project_info.ND= '${nd}' and out_project_info.define7 not like '%已关闭%')
+			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and (out_project_info.PROJECT_TYPE= '0' or out_project_info.PROJECT_TYPE= '2') and out_project_info.project_property not like '%十条龙%' and out_project_info.ND= '${nd}' and out_project_info.project_property not like '%国家%')
 			WHERE
-				out_project_plan.ND= '${nd}' and out_project_plan.define7 not like '%已关闭%'
+				out_project_plan.ND= '${nd}' 
 				and (out_project_plan.PROJECT_TYPE = '0' or out_project_plan.PROJECT_TYPE = '2')
 				and out_project_plan.project_property not like '%国家%'
 				group by out_project_plan.xmid
@@ -1076,9 +1076,9 @@
 		from (
 			select out_project_info.xmid as temId,out_project_plan.xmid as xmid,case when out_project_plan.DEFINE3 is null then 'J其他' else out_project_plan.DEFINE3 end as DEFINE3,
 						 out_project_plan.jf as jf1,out_project_plan.jf as jf2,out_project_plan.xmlbbm as xmlbbm1,out_project_info.xmlbbm as xmlbbm2
-			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and (out_project_info.PROJECT_TYPE= '0' or out_project_info.PROJECT_TYPE= '2') and out_project_info.project_property not like '%十条龙%' and out_project_info.ND= '${nd}' and out_project_info.define7 not like '%已关闭%')
+			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and (out_project_info.PROJECT_TYPE= '0' or out_project_info.PROJECT_TYPE= '2') and out_project_info.project_property not like '%十条龙%' and out_project_info.ND= '${nd}' and out_project_info.project_property not like '%国家%')
 			WHERE
-				out_project_plan.ND= '${nd}' and out_project_plan.define7 not like '%已关闭%'
+				out_project_plan.ND= '${nd}' 
 				and (out_project_plan.PROJECT_TYPE= '0' or out_project_plan.PROJECT_TYPE= '2')
 				and out_project_plan.project_property not like '%国家%'
 				group by out_project_plan.xmid
@@ -1104,9 +1104,9 @@
 		from (
 			select out_project_info.xmid as temId,out_project_plan.xmid as xmid,case when out_project_plan.DEFINE3 is null then 'J其他' else out_project_plan.DEFINE3 end as DEFINE3,
 						 out_project_plan.ysje as jf1,out_project_info.ysje as jf2,out_project_plan.xmlbbm as xmlbbm1,out_project_info.xmlbbm as xmlbbm2
-			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and (out_project_info.PROJECT_TYPE= '0' or out_project_info.PROJECT_TYPE= '2') and out_project_info.project_property not like '%十条龙%' and out_project_info.ysnd= '${nd}' and out_project_info.define7 not like '%已关闭%')
+			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and (out_project_info.PROJECT_TYPE= '0' or out_project_info.PROJECT_TYPE= '2') and out_project_info.project_property not like '%十条龙%' and out_project_info.ysnd= '${nd}' and out_project_info.project_property not like '%国家%')
 			WHERE
-				out_project_plan.ysnd= '${nd}' and out_project_plan.define7 not like '%已关闭%'
+				out_project_plan.ysnd= '${nd}' 
 				and (out_project_plan.PROJECT_TYPE= '0' or out_project_plan.PROJECT_TYPE= '2')
 				and out_project_plan.project_property not like '%国家%'
 				group by out_project_plan.xmid
@@ -1122,9 +1122,9 @@
 			round(sum(case when tableB.temId is not null then 1 else 0 end)/count(xmid)*100,2) as qdlzj
 		from (
 			select out_project_info.xmid as temId,out_project_plan.xmid as xmid,IFNULL(out_project_plan.DEFINE2,'J01其他') as DEFINE2,IFNULL(out_project_plan.DEFINE3,'J其他') as DEFINE3
-			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and (out_project_info.PROJECT_TYPE= '0' or out_project_info.PROJECT_TYPE= '2') and out_project_info.project_property not like '%十条龙%' and out_project_info.ND= '${nd}' and out_project_info.define7 not like '%已关闭%')
+			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and (out_project_info.PROJECT_TYPE= '0' or out_project_info.PROJECT_TYPE= '2') and out_project_info.project_property not like '%十条龙%' and out_project_info.ND= '${nd}' and out_project_info.project_property not like '%国家%')
 			WHERE
-				out_project_plan.ND = '${nd}' and out_project_plan.define7 not like '%已关闭%'
+				out_project_plan.ND = '${nd}' 
 				and (out_project_plan.PROJECT_TYPE= '0' or out_project_plan.PROJECT_TYPE= '2')
 				and out_project_plan.project_property not like '%国家%'
 				group by out_project_plan.xmid
@@ -1140,7 +1140,7 @@
 					 out_project_plan.XMMC,out_project_plan.JF,out_project_plan.YSJE,out_project_plan.YSND,
 				   out_project_plan.PROJECT_PROPERTY,out_project_plan.PROJECT_SCOPE,out_project_plan.FZDW,out_project_plan.ZYLB,
 			       out_project_plan.ND,out_project_plan.HTH
-			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and (out_project_info.PROJECT_TYPE= '0' or out_project_info.PROJECT_TYPE= '2') and out_project_info.project_property not like '%十条龙%' and out_project_plan.YSND= out_project_info.YSND and out_project_info.define7 not like '%已关闭%')	              
+			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and (out_project_info.PROJECT_TYPE= '0' or out_project_info.PROJECT_TYPE= '2') and out_project_info.project_property not like '%十条龙%' and out_project_plan.YSND= out_project_info.YSND and out_project_info.project_property not like '%国家%')	              
 			WHERE
 				 out_project_plan.define7 not like '%已关闭%'
 				 and (out_project_plan.PROJECT_TYPE= '0' or out_project_plan.PROJECT_TYPE= '2')

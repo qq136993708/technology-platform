@@ -144,7 +144,7 @@ public class OutProjectServiceImpl implements OutProjectService {
 		System.out.println("===========新插入条数----------------"+insertData.size());
 		// 批量插入数据
 		if (insertData.size() > 0) {
-			outProjectInfoMapper.insertOutProjectBatch(insertData);
+			//outProjectInfoMapper.insertOutProjectBatch(insertData);
 		}
 		
 		return 1;
@@ -297,7 +297,10 @@ public class OutProjectServiceImpl implements OutProjectService {
     		}
     		return 0;
     	} else {
-			return -1;
+    		List<OutProjectInfo> insertData = new ArrayList<OutProjectInfo>();
+    		insertData.add(opi);
+    		outProjectInfoMapper.insertOutProjectBatch(insertData);
+    		return -1;
 		}
 	}
 	
