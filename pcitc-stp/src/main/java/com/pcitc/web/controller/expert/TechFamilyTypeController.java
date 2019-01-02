@@ -173,9 +173,10 @@ public class TechFamilyTypeController extends BaseController {
      */
     @RequestMapping(method = RequestMethod.GET, value = "/edit")
     @OperationFilter(modelName = "技术族-分类", actionName = "跳转编辑页面pageEdit")
-    public String pageEdit(String id, Model model, String opt) {
+    public String pageEdit(String id, Model model, String opt,String parentId) {
         model.addAttribute("id", id);
         model.addAttribute("opt", opt);
+        model.addAttribute("parentId",(parentId==null||"".equals(parentId))?"":parentId);
         return "stp/expert/techFamilyType_edit";
     }
 
