@@ -484,6 +484,15 @@
             obj.update(fields) //修改当前行数据
         });
         /*选择器*/
+        /*循环生成*/
+        //费用类别
+        $(".cost ul").append("<li><a href='javascript:;'>"+"资本性"+"</a> </li>");
+        //研究院
+        $(".institute ul").append("<li><a href='javascript:;'>"+"资本性"+"</a> </li>");
+        //其他系统标识
+        $(".system ul").append("<li><a href='javascript:;'>"+"资本性"+"</a> </li>");
+        //专业类别
+        $(".specialty ul").append("<li><a href='javascript:;'>"+"资本性"+"</a> </li>");
         $(".selector>div ul li a").click(function () {
             if($(this).parents("li").hasClass("layui-this")){
                 $(this).parents("li").removeClass("layui-this");
@@ -541,6 +550,12 @@
         // 触发不同的按钮事件
         var $ = layui.$, active = {
             searchEvent: function () { //点击查询按钮
+                var selectedItem="";
+                /*获取选中项*/
+                $(".conditionNew ul li").each(function () {
+                    selectedItem+=$(this).find("a").html()+','
+                });
+                selectedItem=selectedItem.slice(0,selectedItem.length-1);
                 console.log("点击了查询按钮")
                 renderTable()
             }
