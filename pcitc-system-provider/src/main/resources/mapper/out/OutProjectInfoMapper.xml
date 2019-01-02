@@ -1904,7 +1904,7 @@
 	<select id="getCountryProjectByYJY" resultType="java.util.Map" parameterType="java.util.HashMap">
 		select
 			sum(case when project_property = '国家项目' and nd = '${nd}' then 1 else 0 end) as gjxksl,
-			sum(case when project_property = '国家项目' and project_scope != '${nd}' then 1 else 0 end) as gjjzsl,
+			sum(case when project_property = '国家项目' and nd != '${nd}' then 1 else 0 end) as gjjzsl,
 			sum(case when project_property = '国家项目' then 1 else 0 end) as gjsl,
 	    	SUBSTR(define2 FROM 4) define2
 		from out_project_info
