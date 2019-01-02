@@ -498,7 +498,7 @@ textarea{ padding: 6px 10px; display: block;color: #555;background-color: #fff;b
     padding-right: 16px;}
 .conditionNew ul li:hover a{background: url("/layuiadmin/layui/images/icon-selector-b.png") no-repeat center right;
     color: #17a2b9;}
-.selector-right ul li.layui-this{border: 1px dashed #17a2b9;background-color: #eff7f8;cursor: pointer;}
+.selector-right ul li.layui-this{border: 1px dashed #17a2b9;background-color: #eff7f8;cursor: pointer;box-sizing: border-box;}
 .selector-right ul li.layui-this a{padding-right: 16px;
     background: url("/layuiadmin/layui/images/icon-selector-g.png") no-repeat center right;}
 .conditionNew .dele{border: none;background: none;}
