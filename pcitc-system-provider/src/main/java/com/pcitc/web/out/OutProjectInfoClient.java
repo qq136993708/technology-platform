@@ -721,6 +721,17 @@ public class OutProjectInfoClient {
 		return json;
 	}
 	
+	@ApiOperation(value = "研究院的各项目的费用性金额、资本性金额统计", notes = "参数年度")
+	@RequestMapping(value = "/out-project-provider/country-project/institute")
+	public JSONArray getCountryProjectByYJY(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page getCountryProjectByYJY===========================" + map);
+		
+		List temList = outProjectService.getCountryProjectByYJY(map);
+		System.out.println("===="+JSON.toJSONString(temList));
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		return json;
+	}
+	
 	@ApiOperation(value = "树形结构，费用性金额、资本性金额和新开、续建情况", notes = "参数年度")
 	@RequestMapping(value = "/out-project-provider/project-money/scope/type")
 	public JSONArray getProjectMoneyForTree(@RequestBody HashMap<String, String> map) throws Exception {

@@ -159,9 +159,15 @@ public interface OutProjectInfoMapper {
 	
 	/**
      * @param nd
-     * 科研二级页面，研究院的各项目的费用性金额、资本性金额、国家项目新开数量、国家项目结转数量等统计
+     * 科研二级页面，研究院的各项目的费用性金额、资本性金额、结转数量等统计
      */
 	public List getProjectMoneyByYJY(HashMap<String, String> map);
+	
+	/**
+     * @param nd
+     * 领导首页-直属研究院，8个研究院国家项目情况
+     */
+	public List getCountryProjectByYJY(HashMap<String, String> map);
 	
 	/**
      * @param nd

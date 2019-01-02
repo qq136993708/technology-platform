@@ -1893,13 +1893,23 @@
 			count(*) as zsl,
 			round(sum(case when define1 = '费用性' then 1 else 0 end)/count(*)*100, 2) as fyxRate,
 			round(sum(case when define1 = '资本性' then 1 else 0 end)/count(*)*100, 2) as zbxRate,
-			sum(case when project_property = '国家项目' and project_scope = '新开课题' then 1 else 0 end) as gjxksl,
-			sum(case when project_property = '国家项目' and project_scope = '结转课题' then 1 else 0 end) as gjjzsl,
+	    	SUBSTR(define2 FROM 4) define2
+		from out_project_info
+		where project_type != '1' and project_property not like '%十条龙%' and out_project_info.ysnd = '${nd}'  and
+			   type_flag like '%直属研究院%' and out_project_info.project_property not like '%国家%'
+	    group by define2
+	</select>
+	
+	<!--  领导首页-直属研究院，8个研究院国家项目情况 -->
+	<select id="getCountryProjectByYJY" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select
+			sum(case when project_property = '国家项目' and nd = '${nd}' then 1 else 0 end) as gjxksl,
+			sum(case when project_property = '国家项目' and project_scope != '${nd}' then 1 else 0 end) as gjjzsl,
 			sum(case when project_property = '国家项目' then 1 else 0 end) as gjsl,
 	    	SUBSTR(define2 FROM 4) define2
 		from out_project_info
-		where project_type != '1' and (project_scope = '新开课题' or project_scope = '结转课题') 
-			  and define2 is not null and type_flag like '%直属研究院%'
+		where project_type != '1' and project_property not like '%十条龙%' and out_project_info.ysnd = '${nd}'  and
+			   type_flag like '%直属研究院%'
 	    group by define2
 	</select>
 	
@@ -2238,6 +2248,15 @@
 			WHERE
 				ysnd= '${nd}' and project_type != '1' and project_property not like '%十条龙%'
 				and out_project_info.project_property not like '%国家%'
+				<if test="typeFlag != null and typeFlag != ''">
+					and type_flag like '%${typeFlag}%'
+				</if>
+				<if test="xmlbbm != null and xmlbbm == 'kyzb'">
+					 and xmlbbm ='KYZB'
+				</if>
+				<if test="xmlbbm != null and xmlbbm == 'fkyzb'">
+					 and xmlbbm !='KYZB'
+				</if>
 			group by define5) AS tableA 
 		GROUP BY tableA.define5
 	</select>

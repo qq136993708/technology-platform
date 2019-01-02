@@ -404,6 +404,14 @@ public class OutProjectServiceImpl implements OutProjectService {
 		}
 		
 	}
+	
+	/**
+     * @param nd
+     * 领导首页-直属研究院，8个研究院国家项目情况
+     */
+	public List getCountryProjectByYJY(HashMap<String, String> map) {
+		return outProjectInfoMapper.getCountryProjectByYJY(map);
+	}
 
 	/**
      * 首页计算新开项目总数 
