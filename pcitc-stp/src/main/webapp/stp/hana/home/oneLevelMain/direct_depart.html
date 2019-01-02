@@ -389,7 +389,17 @@
  				success : function(data) { 
  					//alert(data.data.projectCount);
  					$("#topic_id").html(data.data.projectCount+"<small>(个)</small>");
- 					$("#equipment_id").html(data.data.kyzbCount+"<small>(个)</small>");
+ 					
+ 					
+ 					    if (typeof(data.data.kyzbCount) == "undefined")
+					    {
+ 					    	$("#equipment_id").html("<small>0(个)</small>");
+					    }else
+				    	{
+					    	$("#equipment_id").html(data.data.kyzbCount+"<small>(个)</small>");
+				    	}
+ 					 
+ 					
  					
  				}
  			});
@@ -423,7 +433,6 @@
         function setContcator_id(nd,v_date)
         {
         	var url="/direct/contract_01?type=3&nd="+nd+"&v_date="+v_date;
-        	//var url="/direct/contract_01_count?type=1&nd="+nd+"&v_date="+v_date;
         	$.ajax({
  				type : 'GET',
  				url : url,
@@ -436,8 +445,15 @@
  					$("#contcator_id").html("<small>--(%)</small>");
  				},
  				success : function(data) { 
- 					   // var yqht=data.data.yqht;
- 				       $("#contcator_id").html(data.data.qdl+"<small>(%)</small>");
+ 					    var qdl="0";
+ 					    if (typeof(data.data.qdl) == "undefined")
+					    {
+ 					    	 $("#contcator_id").html("0<small>(%)</small>");
+					    }else
+				    	{
+					    	 $("#contcator_id").html(data.data.qdl+"<small>(%)</small>");
+				    	}
+ 				      
  				}
  			});
         	

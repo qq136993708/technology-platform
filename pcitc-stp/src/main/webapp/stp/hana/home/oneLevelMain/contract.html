@@ -339,7 +339,17 @@
                 if(data.success==true ||data.success=='true')
                 {
                     $("#vdirect_contract_01_01").html(data.data.zsl+"个");
-                    $("#vdirect_contract_01_02").html(data.data.yqht+"个");
+                    
+                    if (typeof(data.data.yqht) == "undefined")
+				    {
+                    	 $("#vdirect_contract_01_02").html("0个");
+				    }else
+			    	{
+				    	 $("#vdirect_contract_01_02").html(data.data.yqht+"个");
+			    	}
+                    
+                    
+                   
                     $("#vdirect_contract_01_03").html(data.data.qdl+"%");
                 }
             },

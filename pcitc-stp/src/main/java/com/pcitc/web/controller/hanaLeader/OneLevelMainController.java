@@ -643,8 +643,12 @@ public class OneLevelMainController {
 			         		Integer yqht =(Integer)contract.getYqht();
 							Integer wqht = (Integer)contract.getWqht();
 							Integer zsl = (Integer)contract.getZsl();
-							String qdl =((BigDecimal)contract.getQdl()).toString();
-							
+							Object o=contract.getQdl();
+							String qdl="0";
+							if(o!=null)
+							{
+								qdl =((BigDecimal)contract.getQdl()).toString();
+							}
 							if(type.equals("1"))
 							{
 								
