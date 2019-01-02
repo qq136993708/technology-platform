@@ -100,8 +100,18 @@ public class OutProjectPlan {
     private String define8;
 
     private String define9;
+    
+    private String projectId;
+    
+    public String getProjectId() {
+		return projectId;
+	}
 
-    public String getDataId() {
+	public void setProjectId(String projectId) {
+		this.projectId = projectId;
+	}
+
+	public String getDataId() {
         return dataId;
     }
 

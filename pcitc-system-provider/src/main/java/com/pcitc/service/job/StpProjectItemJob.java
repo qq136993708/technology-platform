@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
@@ -44,6 +45,7 @@ public class StpProjectItemJob implements Job, Serializable {
 		
 		Calendar date = Calendar.getInstance();
 		String ndCon = String.valueOf(date.get(Calendar.YEAR));
+		ndCon = "2018";
 		String str = null;
 		try {
 			// 远程当年获取数据 -----
@@ -66,6 +68,7 @@ public class StpProjectItemJob implements Job, Serializable {
 					opi.setYsnd(nd);
 					opi.setYsje(jfhj);
 					opi.setXmid(ktid);
+					opi.setDataId(UUID.randomUUID().toString().replaceAll("-", ""));
 					insertData.add(opi);
 					
 					OutProjectPlan opp = new OutProjectPlan();
@@ -77,6 +80,7 @@ public class StpProjectItemJob implements Job, Serializable {
 				}
 				if (insertData != null && insertData.size() > 0) {
 					// 修改当前年度的预算费用。没有的，查询后插入
+					//outProjectService.insertProjectItemDataTest(insertData, ndCon);
 					outProjectService.insertProjectItemData(insertData, ndCon);
 					
 					// 修改当前年度的计划预算费用，没有的查询后插入
@@ -89,7 +93,7 @@ public class StpProjectItemJob implements Job, Serializable {
 			
 			
 			// 远程获取第二年数据 -----
-			str = DataServiceUtil.getProjectData(sqlName, String.valueOf(Integer.parseInt(ndCon)+1));
+			/*str = DataServiceUtil.getProjectData(sqlName, String.valueOf(Integer.parseInt(ndCon)+1));
 			System.out.println("======" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "定时获取项目管理系统的项目预算数据 返回 success第二年====="+String.valueOf(Integer.parseInt(ndCon)+1));
 			if (str != null) {
 				List<OutProjectInfo> insertData = new ArrayList<OutProjectInfo>();
@@ -127,7 +131,7 @@ public class StpProjectItemJob implements Job, Serializable {
 				// 统一调用存储过程，把数据中部分属性集中处理
 			}
 			
-			// 远程获取第二年数据 -----
+			// 远程获取第三年数据 -----
 			str = DataServiceUtil.getProjectData(sqlName, String.valueOf(Integer.parseInt(ndCon)+2));
 			System.out.println("======" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "定时获取项目管理系统的项目预算数据 返回 success第二年====="+String.valueOf(Integer.parseInt(ndCon)+2));
 			if (str != null) {
@@ -164,7 +168,7 @@ public class StpProjectItemJob implements Job, Serializable {
 				
 				System.out.println("======" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "定时任务--定时获取项目管理系统的项目数据--保存到本地数据库-结束========="+culTotal);
 				// 统一调用存储过程，把数据中部分属性集中处理
-			}
+			}*/
 
 		} catch (Exception e) {
 			e.printStackTrace();
