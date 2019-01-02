@@ -203,7 +203,10 @@ layui.config({
             active[type] ? active[type].call(this) : '';
         });
         
-        
+        if($(".specialty ul li").length>=25){
+            $(".specialty .selector-right").css({"height":"80px","overflow-y":"scroll"})
+        }
+
         
         
         
