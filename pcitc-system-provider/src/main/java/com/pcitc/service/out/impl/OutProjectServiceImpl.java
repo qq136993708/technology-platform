@@ -325,6 +325,9 @@ public class OutProjectServiceImpl implements OutProjectService {
 			if (StrUtil.isNotBlank(opi.getYsje())) {
 				newOPI.setYsje(opi.getYsje());
 			}
+			if (StrUtil.isNotBlank(opi.getYsnd())) {
+				newOPI.setYsnd(opi.getYsnd());
+			}
 			
 			if (StrUtil.isNotBlank(opi.getProjectAbc())) {
 				newOPI.setProjectAbc(opi.getProjectAbc());
@@ -392,9 +395,7 @@ public class OutProjectServiceImpl implements OutProjectService {
         		temList.add(insertOPI);
         		outProjectInfoMapper.insertOutProjectBatch(temList);
         		return 1;
-        	} else {
-        		
-        	} 
+        	}
         	System.out.println("插入异常------插入异常------插入异常------------------------------------------------");
 			return -1;
 		}
@@ -765,6 +766,13 @@ public class OutProjectServiceImpl implements OutProjectService {
      */
 	public HashMap<String, String> getOutProjectDragonInfoCount(HashMap<String, String> map) {
 		return outProjectInfoMapper.getOutProjectDragonInfoCount(map);
+	}
+	
+	/**
+	 * 获取详细的查询条件
+	 */
+	public List getProjectInfoSelectCondition(HashMap<String, String> map) {
+		return outProjectInfoMapper.getProjectInfoSelectCondition(map);
 	}
 	
 	

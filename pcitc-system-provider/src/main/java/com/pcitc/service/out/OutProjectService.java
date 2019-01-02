@@ -351,6 +351,9 @@ public interface OutProjectService {
 	public HashMap<String, String> getOutProjectDragonInfoCount(HashMap<String, String> map);
 	
 	
-	
+	/**
+	 * 获取详细的查询条件
+	 */
+	public List getProjectInfoSelectCondition(HashMap<String, String> map);
 	
 }

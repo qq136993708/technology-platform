@@ -77,14 +77,18 @@ public class StpProjectItemJob implements Job, Serializable {
 					opp.setXmid(ktid);
 					planData.add(opp);
 					
+					if (ktid.equals("100110")) {
+						System.out.println("=============================1111111111111");
+					}
+					
 				}
 				if (insertData != null && insertData.size() > 0) {
 					// 修改当前年度的预算费用。没有的，查询后插入
 					//outProjectService.insertProjectItemDataTest(insertData, ndCon);
-					outProjectService.insertProjectItemData(insertData, ndCon);
+					//outProjectService.insertProjectItemData(insertData, ndCon);
 					
 					// 修改当前年度的计划预算费用，没有的查询后插入
-					outProjectPlanService.insertOutProjectPlanForYS(planData);
+					//outProjectPlanService.insertOutProjectPlanForYS(planData);
 				}
 				
 				System.out.println("======" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "定时任务--定时获取项目管理系统的项目数据--保存到本地数据库-结束========="+culTotal);

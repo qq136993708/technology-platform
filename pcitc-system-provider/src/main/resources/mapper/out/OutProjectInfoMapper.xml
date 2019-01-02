@@ -2322,4 +2322,26 @@
     	delete from out_project_item
    	 	where nd = #{nd,jdbcType=VARCHAR} and define1 = 'sap国家项目预算'
   	</delete>
+  	
+  	<!-- 获取详细的查询条件 -->
+	<select id="getProjectInfoSelectCondition" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select 'define1' as showCode,define1 as showName from out_project_info
+		group by define1
+		union ALL
+		select 'define2',SUBSTR(define2 FROM 4) from out_project_info
+		where 
+		type_flag like '%研究院%'
+		group by define2
+		
+		union ALL
+		
+		select 'type_flag',case when type_flag is null then '其他' else SUBSTR(type_flag FROM 2) end as type_flag
+		from out_project_info
+		group by type_flag
+		
+		union ALL
+		select 'zylb', case when zylb is null then '其他' else zylb end as zylb
+		from out_project_info
+		group by zylb
+	</select>
 </mapper>
