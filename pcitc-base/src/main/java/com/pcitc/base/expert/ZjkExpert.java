@@ -21,7 +21,7 @@ public class ZjkExpert extends DataEntity implements Serializable {
     /**
      * data_id -
      */
-        private String dataId;
+    private String dataId;
 
     /**
      * expert_name - 姓名

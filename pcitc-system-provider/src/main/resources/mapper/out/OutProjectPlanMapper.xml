@@ -952,34 +952,42 @@
 		</foreach>
 	</insert>
 	
-	<!-- 直属研究院二级页面（领导），项目计划完成的比率，按照新开续建、资本性费用性来分组 -->
+	<!-- 直属研究院二级页面（领导），项目计划完成的比率，按照项目类型、资本性费用性来分组 -->
 	<select id="getPlanCompleteRateByOldNew" resultType="java.util.Map" parameterType="java.util.HashMap">
-		select tableB.DEFINE1 as define1,tableB.PROJECT_SCOPE as project_scope,count(*) as jhqds,
-			sum(case when tableB.temId is not null then 1 else 0 end) as sjqds,
-			round(sum(case when tableB.temId is not null then 1 else 0 end)/count(*)*100,2) as qdbl
+		select tableB.DEFINE1 as define1,PROJECT_PROPERTY as project_scope,count(xmid) as jhqds,
+			sum(case when tableB.temId is not null then 1 else 0 end) as sjqds
 		from (
-			select out_project_info.xmid as temId,out_project_plan.DEFINE1,out_project_plan.PROJECT_SCOPE 
-			from out_project_plan left join out_project_info on (out_project_plan.XMID = out_project_info.xmid)
+			select out_project_info.xmid as temId,out_project_plan.xmid as xmid,out_project_plan.DEFINE1,out_project_plan.PROJECT_PROPERTY
+			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and (out_project_info.PROJECT_TYPE= '0' or out_project_info.PROJECT_TYPE= '2') and out_project_info.project_property not like '%十条龙%' and out_project_info.ND= '${nd}' and out_project_info.define7 not like '%已关闭%')
 			WHERE
-				(out_project_plan.PROJECT_SCOPE= '新开课题' or out_project_plan.PROJECT_SCOPE= '结转课题')
-				 and (out_project_plan.PROJECT_TYPE = '0' or out_project_plan.PROJECT_TYPE = '2')
+				out_project_plan.ND= '${nd}' and out_project_plan.define7 not like '%已关闭%'
+				and (out_project_plan.PROJECT_TYPE= '0' or out_project_plan.PROJECT_TYPE= '2')
+				and out_project_plan.project_property not like '%国家%'
+				<if test="define3 != null and define3 != ''">
+					and out_project_plan.DEFINE3 like '%${define3}%'
+				</if>
+				group by out_project_plan.xmid
 		) as tableB 
-		group by tableB.DEFINE1,tableB.PROJECT_SCOPE
+		group by tableB.DEFINE1,tableB.PROJECT_PROPERTY
 	</select>
 	
 	<!-- 直属研究院二级页面（领导），总的签订率-->
 	<select id="getPlanTotalCompleteRate" resultType="java.util.Map" parameterType="java.util.HashMap">
-		select count(*) as zsl,
-			sum(case when tableB.xmid is not null then 1 else 0 end) as yqht,
-			sum(case when tableB.xmid is null then 1 else 0 end) as wqht,
-			round(sum(case when tableB.xmid is not null then 1 else 0 end)/count(*)*100,2) as qdl
+		select count(xmid) as zsl,
+			sum(case when tableB.temId is not null then 1 else 0 end) as yqht,
+			sum(case when tableB.temId is null then 1 else 0 end) as wqht,
+			round(sum(case when tableB.temId is not null then 1 else 0 end)/count(xmid)*100,2) as qdl
 		from (
-			select out_project_info.xmid,out_project_plan.DEFINE1,out_project_plan.PROJECT_SCOPE 
+			select out_project_info.xmid as temId,out_project_plan.xmid,out_project_plan.DEFINE1,out_project_plan.PROJECT_SCOPE 
 			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and (out_project_info.PROJECT_TYPE= '0' or out_project_info.PROJECT_TYPE= '2') and out_project_info.project_property not like '%十条龙%' and out_project_info.nd= '${nd}' and out_project_info.define7 not like '%已关闭%')
 			WHERE
-				out_project_plan.ND= '${nd}'
+				out_project_plan.ND= '${nd}' and out_project_plan.define7 not like '%已关闭%'
 				and (out_project_plan.PROJECT_TYPE= '0' or out_project_plan.PROJECT_TYPE= '2')
-			group by out_project_plan.data_id
+				and out_project_plan.project_property not like '%国家%'
+				<if test="define3 != null and define3 != ''">
+					and out_project_plan.DEFINE3 like '%${define3}%'
+				</if>
+			group by out_project_plan.xmid
 		) as tableB
 	</select>
 	
@@ -988,15 +996,18 @@
 		select SUBSTR(tableB.DEFINE2 FROM 4) as define2,count(xmid) as zsl,
 			sum(case when tableB.temId is not null then 1 else 0 end) as yqhtzj,
 			sum(case when tableB.temId is null then 1 else 0 end) as wqhtzj,
-			sum(case when tableB.temId is not null then 1 else 0 end) as yqhtzj,
-			sum(case when tableB.temId is null then 1 else 0 end) as wqhtzj,
-			round(sum(case when tableB.temId is not null then 1 else 0 end)/count(xmid)*100,2) as qdlzj
+			round(sum(case when tableB.temId is not null then 1 else 0 end)/count(xmid)*100,2) as qdlzj,
+			round(sum(case when tableB.temId is not null and DEFINE1 = '资本性' then 1 else 0 end)/sum(case when DEFINE1 = '资本性' then 1 else 0 end)*100,2) as zbxRate,
+			round(sum(case when tableB.temId is not null and DEFINE1 = '费用性' then 1 else 0 end)/sum(case when DEFINE1 = '费用性' then 1 else 0 end)*100,2) as fyxRate,
+			sum(case when tableB.temId is not null and define1 = '费用性' then 1 else 0 end) as fyxsjsl,
+			sum(case when tableB.temId is not null and define1 = '资本性' then 1 else 0 end) as zbxsjsl
 		from (
 			select out_project_info.xmid as temId,out_project_plan.xmid as xmid,out_project_plan.DEFINE1,out_project_plan.DEFINE2,out_project_plan.jf as jf1,out_project_info.jf as jf2
 			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and (out_project_info.PROJECT_TYPE= '0' or out_project_info.PROJECT_TYPE= '2') and out_project_info.project_property not like '%十条龙%' and out_project_info.ND= '${nd}' and out_project_info.define7 not like '%已关闭%')
 			WHERE
-				out_project_plan.ND= '${nd}' and out_project_plan.DEFINE3 like '%直属研究院%'
+				out_project_plan.ND= '${nd}' and out_project_plan.define7 not like '%已关闭%' and out_project_plan.DEFINE3 like '%直属研究院%'
 				and (out_project_plan.PROJECT_TYPE= '0' or out_project_plan.PROJECT_TYPE= '2')
+				and out_project_plan.project_property not like '%国家%'
 				group by out_project_plan.xmid
 		) as tableB 
 		group by tableB.DEFINE2
@@ -1020,8 +1031,9 @@
 				   out_project_plan.ysje as jf1,out_project_info.ysje as jf2
 			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and (out_project_info.PROJECT_TYPE= '0' or out_project_info.PROJECT_TYPE= '2') and out_project_info.project_property not like '%十条龙%' and out_project_info.YSND= '${nd}' and out_project_info.define7 not like '%已关闭%')
 			WHERE
-				out_project_plan.YSND= '${nd}' and out_project_plan.DEFINE3 like '%直属研究院%'
+				out_project_plan.YSND= '${nd}' and out_project_plan.define7 not like '%已关闭%' and out_project_plan.DEFINE3 like '%直属研究院%'
 				and (out_project_plan.PROJECT_TYPE= '0' or out_project_plan.PROJECT_TYPE= '2')
+				and out_project_plan.project_property not like '%国家%'
 				group by out_project_plan.xmid
 		) as tableB 
 		group by tableB.DEFINE2
@@ -1036,8 +1048,9 @@
 			select out_project_info.xmid as temId,out_project_plan.xmid as xmid,out_project_plan.DEFINE1
 			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and (out_project_info.PROJECT_TYPE= '0' or out_project_info.PROJECT_TYPE= '2') and out_project_info.project_property not like '%十条龙%' and out_project_info.ND= '${nd}' and out_project_info.define7 not like '%已关闭%')
 			WHERE
-				out_project_plan.ND= '${nd}'
+				out_project_plan.ND= '${nd}' and out_project_plan.define7 not like '%已关闭%'
 				and (out_project_plan.PROJECT_TYPE = '0' or out_project_plan.PROJECT_TYPE = '2')
+				and out_project_plan.project_property not like '%国家%'
 				group by out_project_plan.xmid
 		) as tableB 
 		group by tableB.DEFINE1
@@ -1065,8 +1078,9 @@
 						 out_project_plan.jf as jf1,out_project_plan.jf as jf2,out_project_plan.xmlbbm as xmlbbm1,out_project_info.xmlbbm as xmlbbm2
 			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and (out_project_info.PROJECT_TYPE= '0' or out_project_info.PROJECT_TYPE= '2') and out_project_info.project_property not like '%十条龙%' and out_project_info.ND= '${nd}' and out_project_info.define7 not like '%已关闭%')
 			WHERE
-				out_project_plan.ND= '${nd}'
+				out_project_plan.ND= '${nd}' and out_project_plan.define7 not like '%已关闭%'
 				and (out_project_plan.PROJECT_TYPE= '0' or out_project_plan.PROJECT_TYPE= '2')
+				and out_project_plan.project_property not like '%国家%'
 				group by out_project_plan.xmid
 		) as tableB  
 		group by tableB.DEFINE3
@@ -1090,10 +1104,11 @@
 		from (
 			select out_project_info.xmid as temId,out_project_plan.xmid as xmid,case when out_project_plan.DEFINE3 is null then 'J其他' else out_project_plan.DEFINE3 end as DEFINE3,
 						 out_project_plan.ysje as jf1,out_project_info.ysje as jf2,out_project_plan.xmlbbm as xmlbbm1,out_project_info.xmlbbm as xmlbbm2
-			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and (out_project_info.PROJECT_TYPE= '0' or out_project_info.PROJECT_TYPE= '2') and out_project_info.project_property not like '%十条龙%' and out_project_info.ND= '${nd}' and out_project_info.define7 not like '%已关闭%')
+			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and (out_project_info.PROJECT_TYPE= '0' or out_project_info.PROJECT_TYPE= '2') and out_project_info.project_property not like '%十条龙%' and out_project_info.ysnd= '${nd}' and out_project_info.define7 not like '%已关闭%')
 			WHERE
-				out_project_plan.ND= '${nd}'
+				out_project_plan.ysnd= '${nd}' and out_project_plan.define7 not like '%已关闭%'
 				and (out_project_plan.PROJECT_TYPE= '0' or out_project_plan.PROJECT_TYPE= '2')
+				and out_project_plan.project_property not like '%国家%'
 				group by out_project_plan.xmid
 		) as tableB  
 		group by tableB.DEFINE3
@@ -1109,8 +1124,9 @@
 			select out_project_info.xmid as temId,out_project_plan.xmid as xmid,IFNULL(out_project_plan.DEFINE2,'J01其他') as DEFINE2,IFNULL(out_project_plan.DEFINE3,'J其他') as DEFINE3
 			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and (out_project_info.PROJECT_TYPE= '0' or out_project_info.PROJECT_TYPE= '2') and out_project_info.project_property not like '%十条龙%' and out_project_info.ND= '${nd}' and out_project_info.define7 not like '%已关闭%')
 			WHERE
-				out_project_plan.ND = '${nd}'
+				out_project_plan.ND = '${nd}' and out_project_plan.define7 not like '%已关闭%'
 				and (out_project_plan.PROJECT_TYPE= '0' or out_project_plan.PROJECT_TYPE= '2')
+				and out_project_plan.project_property not like '%国家%'
 				group by out_project_plan.xmid
 		) as tableB 
 		group by tableB.DEFINE3,tableB.DEFINE2
@@ -1121,16 +1137,13 @@
 	<select id="selectProjectPlanByCond" resultType="com.pcitc.base.stp.out.OutProjectPlan" parameterType="com.pcitc.base.stp.out.OutProjectPlan">
 		select * from (
 			select out_project_plan.DEFINE1,SUBSTR(out_project_plan.DEFINE2 FROM 4) as DEFINE2,SUBSTR(out_project_plan.DEFINE3 FROM 2) as DEFINE3,
-					 out_project_plan.XMMC,out_project_plan.JF,
+					 out_project_plan.XMMC,out_project_plan.JF,out_project_plan.YSJE,out_project_plan.YSND,
 				   out_project_plan.PROJECT_PROPERTY,out_project_plan.PROJECT_SCOPE,out_project_plan.FZDW,out_project_plan.ZYLB,
-			       out_project_plan.ND,out_project_plan.HTH,
-			       tableA.XMMC as parentName,out_project_info.xmid as projectId
-			from out_project_plan left join out_project_info on (out_project_plan.XMID = out_project_info.xmid)
-					              left join out_project_plan as tableA on (out_project_plan.SJID = tableA.xmid)
+			       out_project_plan.ND,out_project_plan.HTH
+			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and (out_project_info.PROJECT_TYPE= '0' or out_project_info.PROJECT_TYPE= '2') and out_project_info.project_property not like '%十条龙%' and out_project_plan.YSND= out_project_info.YSND and out_project_info.define7 not like '%已关闭%')	              
 			WHERE
-				(out_project_plan.PROJECT_SCOPE= '新开课题' or out_project_plan.PROJECT_SCOPE= '结转课题')
-			     and out_project_plan.DEFINE2 is not null and out_project_plan.DEFINE3 is not null
-				 and (out_project_plan.PROJECT_TYPE = '0' or out_project_plan.PROJECT_TYPE = '2')
+				 out_project_plan.define7 not like '%已关闭%'
+				 and (out_project_plan.PROJECT_TYPE= '0' or out_project_plan.PROJECT_TYPE= '2')
 				) as tableA
 		WHERE 
 			1 = 1
@@ -1142,6 +1155,9 @@
 			</if>
 			<if test="nd != null">
 				and tableA.nd = #{nd,jdbcType=VARCHAR}
+			</if>
+			<if test="ysnd != null">
+				and tableA.ysnd = #{ysnd,jdbcType=VARCHAR}
 			</if>
 			<if test="hth != null">
 				and tableA.hth like '%${hth}%'
