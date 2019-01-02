@@ -20,6 +20,11 @@ public interface OutProjectService {
 	public int insertProjectData(List<OutProjectInfo> list, String nd);
 	
 	/**
+	 * 批量插入项目预算数据
+	 */
+	public int insertProjectItemDataTest(List<OutProjectInfo> list, String nd);
+	
+	/**
      * 研究院首页计算装备和科研合同总数 
      */
 	public HashMap<String, String> getOutProjectInfoCountWithKYZB(HashMap<String, String> map);

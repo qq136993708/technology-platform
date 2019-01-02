@@ -99,6 +99,7 @@ public class ProjectPlanJob implements Job, Serializable {
 						OutProjectPlan opi = new OutProjectPlan();
 						
 						opi.setNd(nd);
+						opi.setYsnd(nd);
 						opi.setXmid(xmid);
 						opi.setHth(hth);
 						opi.setXmmc(xmmc);
