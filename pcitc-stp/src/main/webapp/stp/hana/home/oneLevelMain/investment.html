@@ -403,7 +403,20 @@ function setInvestment_02_count(url)
 	        	           $("#chart7_01").html(zysje_count.toFixed(2)+"亿元");
 	        	           $("#chart7_02").html(zsjje_count.toFixed(2)+"亿元");
 	        	           $("#chart7_03").html(wxdje_count.toFixed(2)+"亿元");
-	        	           $("#chart7_04").html(percentNum(zsjje_count,zysje_count));
+	        	           
+	        	           
+	        	           if(zysje_count==0)
+		        	       	{
+	        	        	   $("#chart7_04").html("0%");
+		        	       	}else
+		        	       		{
+		        	       		$("#chart7_04").html(percentNum(zsjje_count,zysje_count));
+		        	       		
+		        	       		}
+	        	           
+	        	           
+	        	           
+	        	           
 	        	           
 	        	           
 	        	       
