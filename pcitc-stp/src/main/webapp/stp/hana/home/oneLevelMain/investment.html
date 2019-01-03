@@ -14,21 +14,17 @@
         .btn_details{background:url(/layuiadmin/layui/images/operation_03.png) 2px 4px #fff no-repeat;}
         .btnMyBgImg:hover{background-size:inherit;background-position: 2px;}
         .searchBox{background:none;}
-        .layui-card-body .layui-table-body .layui-table tr:nth-child(1){background: #def4ff;}
-        th{font-weight:bold}
     </style>
 </head>
 <body>
 <div class="layui-fluid">
 <input type="hidden" name="companyCode"  value="${companyCode}"   id="companyCode">
-
     <div class="">
         <div class="searchBox">
             <label class="dateInput">
                 <span>年份</span>
                 <input type="text" name="year" placeholder="请选择年份" title="年份" value="${year}"  autocomplete="off" class="form-control" id="year">
             </label>
-
             <!-- <div class="layui-input-inline">
                 <select name="companyCode" id="companyCode"  >
                     <#list companyCodeList as vo>
@@ -53,9 +49,7 @@
                 <a href="/index" target="_parent">首页 > </a><span>科研投入</span>
             </div>
         </div>
-
         <div class="layui-row layui-col-space15">
-
             <div class="layui-col-md6">
                 <div class="layui-card">
                     <div class="layui-card-header">
@@ -90,26 +84,25 @@
                     <div class="layui-card-body btn-function" >
                         <table id="myTable" class="layui-table" lay-data="{url:'/one_level_main/investment_01_01',height:'295'}">
                             <thead>
-                            <tr>
-                                <th lay-data="{field:'define3', width:'16%'}" rowspan="2" >企业类型</th>
-                                <th lay-data="{align:'center'}" colspan="3">总计</th>
-                                <th lay-data="{align:'center'}" colspan="3">费用性</th>
-                                <th lay-data="{align:'center'}" colspan="3">资本性</th>
-                            </tr>
-                            <tr>
-                                <th lay-data="{field:'zysje', width:'10%',align:'right'}">年度预算</th>
-                                <th lay-data="{field:'zsjje', width:'10%',align:'right'}">实际下达</th>
-                                <th lay-data="{field:'zRate', width:'8%',align:'right',templet:function(d){return d.zRate+'%'}}">完成率</th>
-
-                                <th lay-data="{field:'fyxysje', width:'10%',align:'right'}">年度预算</th>
-                                <th lay-data="{field:'fyxsjje', width:'10%',align:'right'}">实际下达</th>
-                                <th lay-data="{field:'fyxRate', width:'8%',align:'right',templet:function(d){return d.fyxRate+'%'}}">完成率</th>
-
-                                <th lay-data="{field:'zbxysje', width:'10%',align:'right'}">年度预算</th>
-                                <th lay-data="{field:'zbxsjje', width:'10%',align:'right'}">实际下达</th>
-                                <th lay-data="{field:'zbxRate', width:'8%',align:'right',templet:function(d){return d.zbxRate+'%'}}">完成率</th>
-                            </tr>
-
+	                            <tr>
+	                                <th lay-data="{field:'define3', width:'16%'}" rowspan="2" >企业类型</th>
+	                                <th lay-data="{align:'center'}" colspan="3">总计</th>
+	                                <th lay-data="{align:'center'}" colspan="3">费用性</th>
+	                                <th lay-data="{align:'center'}" colspan="3">资本性</th>
+	                            </tr>
+	                            <tr>
+	                                <th lay-data="{field:'zysje', width:'10%',align:'right',templet:function(d){if(d.zysje='0') {return '-'} else {return d.zysje}}}">年度预算</th>
+	                                <th lay-data="{field:'zsjje', width:'10%',align:'right',templet:function(d){if(d.zsjje='0') {return '-'} else {return d.zsjje}}}">实际下达</th>
+	                                <th lay-data="{field:'zRate', width:'8%',align:'right',templet:function(d){return d.zRate+'%'}}">完成率</th>
+	
+	                                <th lay-data="{field:'fyxysje', width:'10%',align:'right',templet:function(d){if(d.fyxysje='0') {return '-'} else {return d.fyxysje}}}">年度预算</th>
+	                                <th lay-data="{field:'fyxsjje', width:'10%',align:'right',templet:function(d){if(d.fyxsjje='0') {return '-'} else {return d.fyxsjje}}}">实际下达</th>
+	                                <th lay-data="{field:'fyxRate', width:'8%',align:'right',templet:function(d){return d.fyxRate+'%'}}">完成率</th>
+	
+	                                <th lay-data="{field:'zbxysje', width:'10%',align:'right',templet:function(d){if(d.zbxysje='0') {return '-'} else {return d.zbxysje}}}">年度预算</th>
+	                                <th lay-data="{field:'zbxsjje', width:'10%',align:'right',templet:function(d){if(d.zbxsjje='0') {return '-'} else {return d.zbxsjje}}}">实际下达</th>
+	                                <th lay-data="{field:'zbxRate', width:'8%',align:'right',templet:function(d){return d.zbxRate+'%'}}">完成率</th>
+	                            </tr>
                             </thead>
                         </table>
 
@@ -180,6 +173,7 @@ layui.config({
     });
   
 });
+
 
 function initEchart()
 {

@@ -100,7 +100,7 @@
                             <button type="button" class="btn btn-tool remove"></button> -->
                         </div>
                     </div>
-                    <div class="layui-card-body btn-function" style="height:280px;" id="processdef_table_div">
+                    <div class="layui-row-main"  id="processdef_table_div">
                         <table id="processdef_table" class="layui-hide" lay-filter="processdef_table"></table>
                     </div>
                 </div>
@@ -326,11 +326,11 @@
         $("#vdirect_contract_01_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
         $("#vdirect_contract_01_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
         
-        
+        var nd=$('#year').val();
         var series=[];
         $.ajax({
             type:"get",
-            url: "/one_level_main/contract_01?type=1",
+            url: "/one_level_main/contract_01?type=1&nd="+nd,
             timeout : 9000,
             dataType:"json",
             cache: false,
@@ -398,8 +398,8 @@
                 }
             ]
         };
-
-        ajax_getGauge("/one_level_main/contract_01?type=2", myChart2, options);
+        var nd=$('#year').val();
+        ajax_getGauge("/one_level_main/contract_01?type=2&nd="+nd, myChart2, options);
     }
 
     function ajax_getGauge(url, echartsobj, options)
