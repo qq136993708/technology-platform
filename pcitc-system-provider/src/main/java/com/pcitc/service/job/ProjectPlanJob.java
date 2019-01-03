@@ -35,7 +35,7 @@ public class ProjectPlanJob implements Job, Serializable {
 
 		System.out.println("==========" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "定时获取项目管理系统的项目计划数据 ---开始=============");
 		String sqlName = "SelectAllProjectFromPlanData";
-		String ndCon = "2017";
+		String ndCon = "2018";
 		String str = null;
 		try {
 			// 远程获取数据 -----
