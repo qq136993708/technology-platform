@@ -839,7 +839,11 @@ public class OneLevelMainController {
 				temp.setJhqds(jhqds_count);
 				temp.setSjqds(sjqds_count);
 				DecimalFormat df=new DecimalFormat("0.00");
-				String str=df.format(((float)sjqds_count/jhqds_count)*100);
+				String str="0";
+				if(jhqds_count!=0)
+				{
+					str=df.format(((float)sjqds_count/jhqds_count)*100);
+				}
 				temp.setHtqdl(str);
 				resutList.add(temp);
 				for(int i=0;i<list.size();i++)
@@ -1622,7 +1626,7 @@ public class OneLevelMainController {
 
 				Result result = new Result();
 				ChartBarLineResultData barLine=new ChartBarLineResultData();
-				String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+				String nd = CommonUtil.getParameter(request, "nd",DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
 				String companyCode = CommonUtil.getParameter(request, "companyCode", "");
 				Map<String, Object> paramsMap = new HashMap<String, Object>();
 				paramsMap.put("nd", nd);
