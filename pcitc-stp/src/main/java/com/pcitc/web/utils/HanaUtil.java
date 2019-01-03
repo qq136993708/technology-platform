@@ -3290,6 +3290,8 @@ public class HanaUtil {
 				Object htqdl =f03.getHtqdl();
 				//String str=String.format("%.2f", Double.valueOf(String.valueOf(qdlzj)));
 				
+				
+				
 				if (name.equals("sjqds")) 
 				{
 					dataList.add(sjqds);

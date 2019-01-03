@@ -110,15 +110,15 @@
                                 <th lay-data="{align:'center'}" colspan="3">资本性</th>
                             </tr>
                             <tr>
-                                <th lay-data="{field:'zysje', width:'10%'}">经费批复(亿元)</th>
+                                <th lay-data="{field:'zysje', width:'10%'}">实际拨款(亿元)</th>
                                 <th lay-data="{field:'k0BNYSJHJE', width:'10%',templet:function(d){return d.k0BNYSJHJE.toFixed(2)}}">实际支出(亿元)</th>
                                 <th lay-data="{field:'zRate', width:'8%'}">使用比率</th>
 
-                                <th lay-data="{field:'fyxysje', width:'10%'}">经费批复(亿元)</th>
+                                <th lay-data="{field:'fyxysje', width:'10%'}">实际拨款(亿元)</th>
                                 <th lay-data="{field:'k0BNFYJE', width:'10%',templet:function(d){return d.k0BNFYJE.toFixed(2)}}">实际支出(亿元)</th>
                                 <th lay-data="{field:'fyxRate', width:'8%'}">使用比率</th>
 
-                                <th lay-data="{field:'zbxysje', width:'10%'}">经费批复(亿元)</th>
+                                <th lay-data="{field:'zbxysje', width:'10%'}">实际拨款(亿元)</th>
                                 <th lay-data="{field:'k0BNZBJE', width:'10%',templet:function(d){return d.k0BNZBJE.toFixed(2)}}">实际支出(亿元)</th>
                                 <th lay-data="{field:'zbxRate', width:'8%'}">使用比率</th>
                             </tr>
@@ -312,7 +312,7 @@ function renderTable()
 	        ,method:'get'
 	        ,cols: [[
 	            {field:'name',  title: '名称',edit:'text'},
-	            {field:'extend02',  title:'经费批复(亿元)',  style:'cursor: pointer;',align: 'left', width: '35%'},
+	            {field:'extend02',  title:'实际拨款(亿元)',  style:'cursor: pointer;',align: 'left', width: '35%'},
 	            {field:'extend01',  title:'实际支出(亿元)',  style:'cursor: pointer;',align: 'right',  templet: '<div>{{ layui.laytpl.milliFormat(d.extend01,2) }}</div>'},
 	            {field:'extend03',  title:'使用比率',       style:'cursor: pointer;',align: 'left', width: '35%'}
 	            
