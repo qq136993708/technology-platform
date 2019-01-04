@@ -42,7 +42,7 @@
                 <div class="layui-col-md5">
                     <div class="layui-card">
                         <div class="layui-card-header">
-                            <span class="layui-time"></span>年科研合同签订率
+                            <span class="layui-time"></span>年新开课题合同（任务书）签订率
                         </div>
                         <div class="layui-row-main">
                             <div class="text-total">
@@ -57,7 +57,7 @@
                 <div class="layui-col-md5" style="padding-left: 15px;">
                     <div class="layui-card">
                         <div class="layui-card-header">
-                            <span class="layui-time"></span>年费用性/资本性科研合同签订率
+                            <span class="layui-time"></span>年新开课题合同（任务书）签订率
                         </div>
                         <div class="layui-row-main">
                             <div class="main-chart" id="direct_contract_01_01" style="height:270px;width: 100%;"></div>
@@ -83,7 +83,7 @@
             <div class="layui-col-md8">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        <span class="layui-time"></span>年科研合同签订率
+                        <span class="layui-time"></span>年新开课题合同（任务书）签订率
                     </div>
                     <div class="layui-row-main">
 
@@ -225,7 +225,7 @@
         //表盘
         setGauge("direct_contract_01");
         setGauge_count();
-        var chart_01_01="/one_level_main/contract_01_01?type=1&nd="+nd+"&v_date="+v_date;
+        var chart_01_01="/one_level_main/contract_01_01?type=1&nd="+nd+"&v_date="+v_date+"&xmlbbm=fkyzb";
         var echartchart_01_01=load_mutl_bar_down(chart_01_01,"direct_contract_01_01","","",yAxis2,30,"");
         echartchart_01_01.on('click', function (params) {
             var xName=params.name;
@@ -250,7 +250,7 @@
 
         
         //
-        var chart2_url="/one_level_main/contract_02?type=1&nd="+nd+"&v_date="+v_date;
+        var chart2_url="/one_level_main/contract_02?type=1&nd="+nd+"&v_date="+v_date+"&xmlbbm=fkyzb";
         var echart2=load_single_line(chart2_url,"direct_contract_04","","",yAxis);
         echart2.on('click', function (params) {
             var xName=params.name;
@@ -279,7 +279,7 @@
         $("#direct_contract_chart_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
         
         
-        var chart6_url="/one_level_main/contract_03?type=1&nd="+nd+"&v_date="+v_date;
+        var chart6_url="/one_level_main/contract_03?type=1&nd="+nd+"&v_date="+v_date+"&xmlbbm=fkyzb";
         var color2=["#f3655b","#8ab3cf","#f19049"];
         var echart6=load_mutl_bar_down(chart6_url,"direct_contract_chart","","",yAxis,30,color2);
         echart6.on('click', function (params) {
@@ -330,7 +330,7 @@
         var series=[];
         $.ajax({
             type:"get",
-            url: "/one_level_main/contract_01?type=1&nd="+nd,
+            url: "/one_level_main/contract_01?type=1&nd="+nd+"&xmlbbm=fkyzb",
             timeout : 9000,
             dataType:"json",
             cache: false,
@@ -399,7 +399,7 @@
             ]
         };
         var nd=$('#year').val();
-        ajax_getGauge("/one_level_main/contract_01?type=2&nd="+nd, myChart2, options);
+        ajax_getGauge("/one_level_main/contract_01?type=2&nd="+nd+"&xmlbbm=fkyzb", myChart2, options);
     }
 
     function ajax_getGauge(url, echartsobj, options)
@@ -450,7 +450,7 @@
     	var v_date=(new Date()).getTime();
     	table.render({
             elem: '#processdef_table' //表格容器
-            , url:'/one_level_main/contract_05?nd='+year+"&v_date="+v_date
+            , url:'/one_level_main/contract_05?nd='+year+"&v_date="+v_date+'&xmlbbm=fkyzb'
             , id: 'processdef_table'
             , limit: 15 //每页默认显示的数量
             , height: 270
@@ -560,7 +560,7 @@
         var nd=$('#year').val();
         var tableOne=table.render({
             elem: '#processdef_table_02',
-            url:'/one_level_main/contract_01_01?nd='+nd+"&type=2",
+            url:'/one_level_main/contract_01_01?nd='+nd+'&type=2&xmlbbm=fkyzb',
             method:"GET",
             where: {param: {"month":$("#month").val()}},
             limit: 15,
