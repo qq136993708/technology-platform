@@ -48,8 +48,9 @@
 						<div class="layui-form-item">
 							<label class="layui-form-label">类型:<span class="must-fill">*</span></label>
 							<div class="layui-input-block">
-								<input class="layui-input readOnlyBox" type="text" id="workOrderType"
+								<input class="layui-input readOnlyBox layui-hide" type="text" id="workOrderType"
 									   name="workOrderType" readonly="readonly">
+								<select id="workOrderTypeS" disabled="disabled"></select>
 							</div>
 						</div>
 					</div>
@@ -216,8 +217,12 @@
             type: 'post',
             success: function (data) {
                 $.each(data, function (index, item) {
-                    console.log(data);
-                    $('#workOrderType').append(new Option(item.name, item.code));//往下拉菜单里添加元素
+                    if(item.code==$("#workOrderType").val()){
+                        $('#workOrderTypeS').append("<option value='"+item.code+"' selected=''>"+item.name+"</option>");//往下拉菜单里添加元素
+                    }else {
+                        $('#workOrderTypeS').append("<option value='"+item.code+"'>"+item.name+"</option>");//往下拉菜单里添加元素
+                    }
+                    console.log( item.code)
                 })
                 form.render();
             }
