@@ -672,10 +672,8 @@ public class OneLevelMainController {
 				Result result = new Result();
 				String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 				String type = CommonUtil.getParameter(request, "type", "" );
-				String xmlbbm = CommonUtil.getParameter(request, "xmlbbm", "" );
 				Map<String, Object> paramsMap = new HashMap<String, Object>();
 				paramsMap.put("nd", nd);
-				paramsMap.put("xmlbbm",xmlbbm);
 				
 				ChartPieResultData pie = new ChartPieResultData();
 				JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
@@ -748,10 +746,8 @@ public class OneLevelMainController {
 				Result result = new Result();
 				String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 				String type = CommonUtil.getParameter(request, "type", "" );
-				String xmlbbm = CommonUtil.getParameter(request, "xmlbbm", "" );
 				Map<String, Object> paramsMap = new HashMap<String, Object>();
 				paramsMap.put("nd", nd);
-				paramsMap.put("xmlbbm",xmlbbm);
 				JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 				HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 				if (!nd.equals(""))
@@ -864,10 +860,8 @@ public class OneLevelMainController {
 		    	Result result = new Result();
 				String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 				String companyCode = CommonUtil.getParameter(request, "companyCode", "");
-				String xmlbbm = CommonUtil.getParameter(request, "xmlbbm", "" );
 				Map<String, Object> paramsMap = new HashMap<String, Object>();
 				paramsMap.put("nd", nd);
-				paramsMap.put("xmlbbm", xmlbbm);
 				paramsMap.put("companyCode", companyCode);
 				JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 				HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
@@ -920,10 +914,8 @@ public class OneLevelMainController {
 				Result result = new Result();
 				String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 				String type = CommonUtil.getParameter(request, "type", "" );
-				String xmlbbm = CommonUtil.getParameter(request, "xmlbbm", "" );
 				Map<String, Object> paramsMap = new HashMap<String, Object>();
 				paramsMap.put("nd", nd);
-				paramsMap.put("xmlbbm", xmlbbm);
 				JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 				HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 				if (!nd.equals(""))
@@ -1001,10 +993,8 @@ public class OneLevelMainController {
   			Result result = new Result();
   			String type = CommonUtil.getParameter(request, "type", "" );
   			String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
-  			String xmlbbm = CommonUtil.getParameter(request, "xmlbbm", "" );
   			Map<String, Object> paramsMap = new HashMap<String, Object>();
   			paramsMap.put("nd", nd);
-  			paramsMap.put("xmlbbm", xmlbbm);
   			JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
   			HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
   			if (!nd.equals(""))
@@ -1087,9 +1077,7 @@ public class OneLevelMainController {
 				PageResult pageResult = new PageResult();
 				String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 				String companyCode = CommonUtil.getParameter(request, "companyCode", "");
-				String xmlbbm = CommonUtil.getParameter(request, "xmlbbm", "" );
 				Map<String, Object> paramsMap = new HashMap<String, Object>();
-				paramsMap.put("xmlbbm", xmlbbm);
 				paramsMap.put("nd", nd);
 				paramsMap.put("companyCode", companyCode);
 				JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
