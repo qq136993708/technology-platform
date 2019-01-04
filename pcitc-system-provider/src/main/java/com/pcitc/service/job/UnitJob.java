@@ -26,7 +26,7 @@ public class UnitJob implements Job, Serializable {
 	public void execute(JobExecutionContext job) throws JobExecutionException {
 
 		OutUnitService outUnitService = SpringContextUtil.getApplicationContext().getBean(OutUnitService.class);
-		/*System.out.println("==========" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "---定时任务--组织机构接口---开始=============");
+		System.out.println("==========" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "---定时任务--组织机构接口---开始=============");
 		String sqlName = "SHYK_ZSHKJXMGL_DWXXB";
 		JsonObject jo = new JsonObject();
 		jo.addProperty("DWBM", "%%");
@@ -55,16 +55,16 @@ public class UnitJob implements Job, Serializable {
 					oa.setUnitName(dwqc);
 					oa.setUnitAli(dwjc);
 					oa.setParentCode(sjbm);
-					oa.setDefine1("科研项目系统1");
+					oa.setDefine1("科研项目系统");
 					oa.setDefine2(dwlb);
 					
 					oa.setCreateDate(new Date());
 					unitList.add(oa);
 				}
 				if (unitList != null && unitList.size() > 0) {
-					//outUnitService.insertOutUnitBatch(unitList);
+					outUnitService.insertOutUnitBatch(unitList, "科研项目系统");
 					// 批量修改
-					outUnitService.updateUnitDataBatch(unitList);
+					//outUnitService.updateUnitDataBatch(unitList);
 				}
 				
 				System.out.println("======" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "组织机构数据--保存到本地数据库-结束=========");
@@ -72,9 +72,9 @@ public class UnitJob implements Job, Serializable {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-		}*/
+		}
 		
-		// 奖励系统的组织机构数据
+		/*// 奖励系统的组织机构数据
 		System.out.println("==========" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "---定时任务--组织机构接口---开始=============");
 		String sqlName = "GetDWXXB";
 		JsonObject jo = new JsonObject();
@@ -121,7 +121,7 @@ public class UnitJob implements Job, Serializable {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
+		}*/
 
 	}
 }
