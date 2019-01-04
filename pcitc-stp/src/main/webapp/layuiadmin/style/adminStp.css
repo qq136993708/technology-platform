@@ -64,16 +64,16 @@ html{background-color: #f2f2f2; color: #666;}
 .layui-layout-admin .layui-header .layui-nav .layui-nav-child dd.layui-this{background: none}
 .agency{background: url("/layuiadmin/layui/images/daiban.png") 10px 25px no-repeat;}
 .notice{background: url("/layuiadmin/layui/images/announcement.png")  10px 25px no-repeat;}
-.info{background: url("/layuiadmin/layui/images/stpicon_05.png")  0px 15px no-repeat;}
-.chat{background: url("/layuiadmin/layui/images/stpicon_01.png")  0px 15px no-repeat;}
-.deal{background: url("/layuiadmin/layui/images/stpicon_02.png")  0px 15px no-repeat;}
-.notify{background: url("/layuiadmin/layui/images/stpicon_03.png")  0px 15px no-repeat;}
+.info{background: url("/layuiadmin/layui/images/stpicon_05.png")  0px 16px no-repeat;}
+.chat{background: url("/layuiadmin/layui/images/stpicon_01.png")  0px 16px no-repeat;}
+.deal{background: url("/layuiadmin/layui/images/stpicon_02.png")  0px 16px no-repeat;}
+.notify{background: url("/layuiadmin/layui/images/stpicon_03.png")  0px 16px no-repeat;}
 
 .collection{background:#009ab0 url("/layuiadmin/layui/images/icon-collection.png")  center 15px no-repeat;
 width: 56px;}
 
 .QRCode{background: url("/layuiadmin/layui/images/stpicon_04.png") center center no-repeat;
-    display: inline-block; float: left;margin-top: 15px;cursor: pointer;width: 19px;height: 19px;}
+    display: inline-block; float: left;margin-top: 16px;cursor: pointer;width: 19px;height: 19px;}
 .QRCode-content img{box-shadow: 0 0 10px #c8c7c7;border-radius: 4px;top: 42px;position: absolute;left: -86px;}
 .layui-nav-child-dl,.layui-nav-child-span{background: white;border-radius: 4px;box-shadow: 0 0 10px #c8c7c7;padding: 10px 0;}
 .layui-nav-child-span{position: absolute;z-index: 99999;width: 106px;margin-left: -10px;}
@@ -856,4 +856,4 @@ display: inline-block;vertical-align: top;margin: 6px 10px 0 0;}
 .layui-leader .collection{height: 55px !important;line-height: 55px !important;
     background: #002142 url(/layuiadmin/layui/images/icon-collection.png) center 18px no-repeat;}
 .layui-leader .layui-index{text-align: left;}
-.layui-leader .layui-header .layui-layout-right{width: 380px;}
+.layui-leader .layui-header .layui-layout-right{width: 430px;}
