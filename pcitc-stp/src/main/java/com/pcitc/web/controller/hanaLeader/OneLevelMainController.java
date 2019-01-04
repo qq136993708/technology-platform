@@ -297,7 +297,7 @@ public class OneLevelMainController {
 		@ResponseBody
 		public String common_table_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 
-	    	System.out.println(">>>>>>>>>>>>>param:" + JSONObject.toJSONString(param));
+	    	System.out.println(">>>>>>>>>>>>common_table_data>param:" + JSONObject.toJSONString(param));
 	    	
 			LayuiTableData layuiTableData = new LayuiTableData();
 			HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
@@ -672,9 +672,10 @@ public class OneLevelMainController {
 				Result result = new Result();
 				String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 				String type = CommonUtil.getParameter(request, "type", "" );
+				String xmlbbm = CommonUtil.getParameter(request, "xmlbbm", "" );
 				Map<String, Object> paramsMap = new HashMap<String, Object>();
 				paramsMap.put("nd", nd);
-				paramsMap.put("xmlbbm", "fkyzb");
+				paramsMap.put("xmlbbm",xmlbbm);
 				
 				ChartPieResultData pie = new ChartPieResultData();
 				JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
@@ -747,8 +748,10 @@ public class OneLevelMainController {
 				Result result = new Result();
 				String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 				String type = CommonUtil.getParameter(request, "type", "" );
+				String xmlbbm = CommonUtil.getParameter(request, "xmlbbm", "" );
 				Map<String, Object> paramsMap = new HashMap<String, Object>();
 				paramsMap.put("nd", nd);
+				paramsMap.put("xmlbbm",xmlbbm);
 				JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 				HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 				if (!nd.equals(""))
@@ -861,8 +864,10 @@ public class OneLevelMainController {
 		    	Result result = new Result();
 				String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 				String companyCode = CommonUtil.getParameter(request, "companyCode", "");
+				String xmlbbm = CommonUtil.getParameter(request, "xmlbbm", "" );
 				Map<String, Object> paramsMap = new HashMap<String, Object>();
 				paramsMap.put("nd", nd);
+				paramsMap.put("xmlbbm", xmlbbm);
 				paramsMap.put("companyCode", companyCode);
 				JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 				HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
@@ -915,8 +920,10 @@ public class OneLevelMainController {
 				Result result = new Result();
 				String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 				String type = CommonUtil.getParameter(request, "type", "" );
+				String xmlbbm = CommonUtil.getParameter(request, "xmlbbm", "" );
 				Map<String, Object> paramsMap = new HashMap<String, Object>();
 				paramsMap.put("nd", nd);
+				paramsMap.put("xmlbbm", xmlbbm);
 				JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 				HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 				if (!nd.equals(""))
@@ -994,8 +1001,10 @@ public class OneLevelMainController {
   			Result result = new Result();
   			String type = CommonUtil.getParameter(request, "type", "" );
   			String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+  			String xmlbbm = CommonUtil.getParameter(request, "xmlbbm", "" );
   			Map<String, Object> paramsMap = new HashMap<String, Object>();
   			paramsMap.put("nd", nd);
+  			paramsMap.put("xmlbbm", xmlbbm);
   			JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
   			HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
   			if (!nd.equals(""))
@@ -1078,7 +1087,9 @@ public class OneLevelMainController {
 				PageResult pageResult = new PageResult();
 				String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 				String companyCode = CommonUtil.getParameter(request, "companyCode", "");
+				String xmlbbm = CommonUtil.getParameter(request, "xmlbbm", "" );
 				Map<String, Object> paramsMap = new HashMap<String, Object>();
+				paramsMap.put("xmlbbm", xmlbbm);
 				paramsMap.put("nd", nd);
 				paramsMap.put("companyCode", companyCode);
 				JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
@@ -1926,21 +1937,64 @@ public class OneLevelMainController {
 													Object fyxRate= budgetMysql.getFyxRate();
 													Object jeRate= budgetMysql.getJeRate();
 													Object zbxRate= budgetMysql.getZbxRate();
+													Object zRate= budgetMysql.getzRate();
+													
+													System.out.println(">>>>>>>>>>>> fyxRate>>> " + fyxRate);
+													
+													Object fyxRate_str="0";
 													if(fyxRate==null)
 													{
-														fyxRate=0;
+														fyxRate_str="0";
+													}else if(fyxRate.toString().equals("0"))
+													{
+														fyxRate_str="0";
+													}else
+													{
+														fyxRate_str=String.format("%.2f", fyxRate);
 													}
+													
+													Object jeRate_str="0";
+													
 													if(jeRate==null)
 													{
-														jeRate=0;
+														jeRate_str=0;
+													}else if(jeRate.toString().equals("0"))
+													{
+														jeRate_str="0";
+													}else
+													{
+														jeRate_str=String.format("%.2f", jeRate);
 													}
+													
+													Object zbxRate_str="0";
+													
 													if(zbxRate==null)
 													{
-														zbxRate=0;
+														zbxRate_str=0;
+													}else if(zbxRate.toString().equals("0"))
+													{
+														zbxRate_str="0";
+													}else
+													{
+														zbxRate_str=String.format("%.2f", zbxRate);
 													}
-													budgetMysql.setFyxRate(fyxRate);;
-													budgetMysql.setJeRate(jeRate);
-													budgetMysql.setZbxRate(zbxRate);
+													
+													Object zRate_str="0";
+													if(zRate==null)
+													{
+														zRate_str=0;
+													}else if(zRate.toString().equals("0"))
+													{
+														zRate_str="0";
+													}else
+													{
+														zRate_str=String.format("%.2f", zRate);
+													}
+													
+													budgetMysql.setFyxRate(fyxRate_str);;
+													budgetMysql.setJeRate(jeRate_str);
+													budgetMysql.setZbxRate(zbxRate_str);
+													budgetMysql.setzRate(zRate_str);
 												}
 												
 												pageResult.setData(list);
@@ -2046,18 +2100,30 @@ public class OneLevelMainController {
 													{
 														BudgetMysql f03 = list.get(i);
 														String zsjje =((BigDecimal)f03.getZsjje()).toString();//实际下达
-														String wxdje =((BigDecimal)f03.getWxdje()).toString();//未下达
+														String wxdje ="0";
+														Object tt=f03.getWxdje();
+														if(tt!=null)
+														{
+															wxdje =((BigDecimal)f03.getWxdje()).toString(); //未下达
+														}
+														
+														String zysje ="0";
+														Object ttt=f03.getZysje();
+														if(ttt!=null)
+														{
+															zysje =((BigDecimal)f03.getZysje()).toString(); //总金额
+														}
+														
 														String jeRate ="0";
-														String zysje =((BigDecimal)f03.getZysje()).toString();//总金额
 														Object o=f03.getJeRate();
 														if(o!=null)
 														{
 															jeRate =((BigDecimal)f03.getJeRate()).toString(); 
 														}
 														//
-														zsjje=String.format("%.2f", Double.valueOf(zsjje)/10000);
-														wxdje=String.format("%.2f", Double.valueOf(wxdje)/10000);
-														zysje=String.format("%.2f", Double.valueOf(zysje)/10000);
+														zsjje=String.format("%.4f", Double.valueOf(zsjje)/10000);
+														wxdje=String.format("%.4f", Double.valueOf(wxdje)/10000);
+														zysje=String.format("%.4f", Double.valueOf(zysje)/10000);
 														//
 														f03.setZsjje(zsjje);
 														f03.setWxdje(wxdje);
