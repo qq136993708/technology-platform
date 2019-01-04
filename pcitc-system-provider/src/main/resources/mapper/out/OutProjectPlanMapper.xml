@@ -1161,7 +1161,7 @@
 	</select>
 	
 	<!-- 项目计划数据，涉及项目预算、项目计划详情等相关的查询时调用 -->
-	<select id="selectProjectPlanByCond" resultType="com.pcitc.base.stp.out.OutProjectPlan" parameterType="com.pcitc.base.stp.out.OutProjectPlan">
+	<select id="selectProjectPlanByCond" resultType="com.pcitc.base.stp.out.OutProjectPlan" parameterType="java.util.HashMap">
 		select * from (
 			select out_project_plan.DEFINE1,SUBSTR(out_project_plan.DEFINE2 FROM 4) as DEFINE2,SUBSTR(out_project_plan.DEFINE3 FROM 2) as DEFINE3,
 					 out_project_plan.XMMC,out_project_plan.JF,out_project_plan.YSJE,out_project_plan.YSND,
@@ -1169,8 +1169,9 @@
 			       out_project_plan.ND,out_project_plan.HTH
 			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and (out_project_info.PROJECT_TYPE= '0' or out_project_info.PROJECT_TYPE= '2') and out_project_info.project_property not like '%十条龙%' and out_project_plan.YSND= out_project_info.YSND and out_project_info.project_property not like '%国家%')	              
 			WHERE
-				 out_project_plan.define7 not like '%已关闭%'
-				 and (out_project_plan.PROJECT_TYPE= '0' or out_project_plan.PROJECT_TYPE= '2')
+				 out_project_plan.PROJECT_TYPE != '1'
+				 and out_project_plan.project_property not like '%国家%'
+				 and out_project_plan.project_property not like '%十条龙%'
 				) as tableA
 		WHERE 
 			1 = 1
@@ -1193,22 +1194,42 @@
 				and tableA.xmmc like '%${xmmc}%'
 			</if>
 			<if test="define1 != null">
-				and tableA.define1 like '%${define1}%'
+				and (
+				<foreach collection="define1" item="define1" index="index" separator=" or ">
+					tableA.define1 like '%${define1}%'
+				</foreach>
+				)
 			</if>
 			<if test="define2 != null">
-				and tableA.define2 like '%${define2}%'
+				and (
+				<foreach collection="define2" item="define2" index="index" separator=" or ">
+					tableA.define2 like '%${define2}%'
+				</foreach>
+				)
 			</if>
 			<if test="projectProperty != null">
-				and tableA.project_property like '%${projectProperty}%'
+				and (
+				<foreach collection="project_property" item="project_property" index="index" separator=" or ">
+					tableA.project_property like '%${project_property}%'
+				</foreach>
+				)
 			</if>
 			<if test="projectScope != null">
 				and tableA.project_scope like '%${projectScope}%'
 			</if>
 			<if test="zylb != null">
-				and tableA.zylb like '%${zylb}%'
+				and (
+				<foreach collection="zylb" item="zylb" index="index" separator=" or ">
+					tableA.zylb like '%${zylb}%'
+				</foreach>
+				)
 			</if>
 			<if test="zycmc != null">
-				and tableA.zycmc like '%${zycmc}%'
+				and (
+				<foreach collection="zycmc" item="zycmc" index="index" separator=" or ">
+					tableA.zycmc like '%${zycmc}%'
+				</foreach>
+				)
 			</if>
 	</select>
 </mapper>
