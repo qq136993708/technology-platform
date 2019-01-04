@@ -6,7 +6,7 @@ import com.pcitc.base.stp.out.OutUnit;
 
 public interface OutUnitService {
 
-	public int insertOutUnitBatch(List<OutUnit> list);
+	public int insertOutUnitBatch(List<OutUnit> list, String deleteFlag);
 	
 	/**
 	 * @param list

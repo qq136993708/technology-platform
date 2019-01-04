@@ -954,7 +954,7 @@
 	
 	<!-- 直属研究院二级页面（领导），项目计划完成的比率，按照项目类型、资本性费用性来分组 -->
 	<select id="getPlanCompleteRateByOldNew" resultType="java.util.Map" parameterType="java.util.HashMap">
-		select tableB.DEFINE1 as define1,PROJECT_PROPERTY as project_scope,count(xmid) as jhqds,
+		select case when tableB.DEFINE1 = '费用性' then '科研开发类' when tableB.DEFINE1 = '资本性' then '科研装备类' else tableB.DEFINE1 end as define1,PROJECT_PROPERTY as project_scope,count(xmid) as jhqds,
 			sum(case when tableB.temId is not null then 1 else 0 end) as sjqds
 		from (
 			select out_project_info.xmid as temId,out_project_plan.xmid as xmid,out_project_plan.DEFINE1,out_project_plan.PROJECT_PROPERTY

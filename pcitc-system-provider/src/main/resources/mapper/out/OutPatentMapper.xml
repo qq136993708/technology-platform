@@ -1418,14 +1418,14 @@
 
 	<select id="getMaxImportDate" resultType="java.lang.String" parameterType="java.lang.String">
 		select
-		max(GKR) maxDate
+		max(LEFT(GKR,10)) maxDate
 		from out_patent where remarks = #{remarks,jdbcType=VARCHAR}
 	</select>
 
 	<select id="getWXLXInfo" resultType="java.util.Map" parameterType="java.lang.String">
 		select
-			sum(case when LEFT(FLZTGGRQ,4) = '2018' then 1 else 0 end) as agreeCount,
-			sum(case when LEFT(SQRI,4) = '2018' then 1 else 0 end) as applyCount,
+			sum(case when LEFT(FLZTGGRQ,4) = '${nd}' then 1 else 0 end) as agreeCount,
+			sum(case when LEFT(SQRI,4) = '${nd}' then 1 else 0 end) as applyCount,
 			WXLX
 		from out_patent
 		WHERE STATUS is not null and flztyj = '有效' and flztej = '授权'
@@ -1524,10 +1524,10 @@
 	<!-- 领导二级页面，直属研究院，8个院专利申请、授权、发明专利数量 -->
 	<select id="getPatentTypeCountByInstituteForLD" resultType="java.util.Map" parameterType="java.lang.String">
 		select
-			sum(case when LEFT(SQRI,4)='2017' then 1 else 0 end) as sqsl,
-			sum(case when LEFT(SHOUQR,4)='2017' then 1 else 0 end) as shouqsl,
-			sum(case when LEFT(SHOUQR,4)='2017' and WXLX = '发明授权' then 1 else 0 end) as fmsqsl,
-			sum(case when LEFT(SHOUQR,4)='2014' and WXLX = '发明授权' then 1 else 0 end) as fmshouqsl,
+			sum(case when LEFT(SQRI,4)='${nd}' then 1 else 0 end) as sqsl,
+			sum(case when LEFT(SHOUQR,4)='${nd}' then 1 else 0 end) as shouqsl,
+			sum(case when LEFT(SHOUQR,4)='${nd}' and WXLX = '发明授权' then 1 else 0 end) as fmsqsl,
+			sum(case when LEFT(SHOUQR,4)='${nd}' and WXLX = '发明授权' then 1 else 0 end) as fmshouqsl,
 			SUBSTR(define2,4) as lx
 		from out_patent
 		WHERE 
@@ -1538,14 +1538,14 @@
 	<!-- 领导二级页面，直属研究院，8个院发明专利、实用新型的申请和授权，2018数据申请数有问题，暂时用2015年 -->
 	<select id="getPatentInfoByLXForInstitute" resultType="java.util.Map" parameterType="java.util.Map">
 		select
-			sum(case when LEFT(SHOUQR,4) = '2016' and (WXLX = '发明公布' or WXLX = '发明授权') then 1 else 0 end) as fmzlAgreeCount,
-			sum(case when LEFT(SQRI,4) = '2016' and (WXLX = '发明公布' or WXLX = '发明授权') then 1 else 0 end) as fmzlApplyCount,
-			sum(case when LEFT(SHOUQR,4) = '2016' and WXLX = '实用新型' then 1 else 0 end) as syxxAgreeCount,
-			sum(case when LEFT(SQRI,4) = '2016' and WXLX = '实用新型' then 1 else 0 end) as syxxApplyCount,
-			sum(case when LEFT(SHOUQR,4) = '2016' and WXLX = '外观设计' then 1 else 0 end) as wgsjAgreeCount,
-			sum(case when LEFT(SQRI,4) = '2016' and WXLX = '外观设计' then 1 else 0 end) as wgsjApplyCount,
-			sum(case when LEFT(SQRI,4)='2016' then 1 else 0 end) as applyCount,
-			sum(case when LEFT(SHOUQR,4)='2016' then 1 else 0 end) as agreeCount,
+			sum(case when LEFT(SHOUQR,4) = '${nd}' and (WXLX = '发明公布' or WXLX = '发明授权') then 1 else 0 end) as fmzlAgreeCount,
+			sum(case when LEFT(SQRI,4) = '${nd}' and (WXLX = '发明公布' or WXLX = '发明授权') then 1 else 0 end) as fmzlApplyCount,
+			sum(case when LEFT(SHOUQR,4) = '${nd}' and WXLX = '实用新型' then 1 else 0 end) as syxxAgreeCount,
+			sum(case when LEFT(SQRI,4) = '${nd}' and WXLX = '实用新型' then 1 else 0 end) as syxxApplyCount,
+			sum(case when LEFT(SHOUQR,4) = '${nd}' and WXLX = '外观设计' then 1 else 0 end) as wgsjAgreeCount,
+			sum(case when LEFT(SQRI,4) = '${nd}' and WXLX = '外观设计' then 1 else 0 end) as wgsjApplyCount,
+			sum(case when LEFT(SQRI,4)='${nd}' then 1 else 0 end) as applyCount,
+			sum(case when LEFT(SHOUQR,4)='${nd}' then 1 else 0 end) as agreeCount,
 			SUBSTR(define2, 4) as lx
 		from out_patent
 		WHERE define2 is not null and flztyj = '有效' 
@@ -1559,8 +1559,8 @@
 			SELECT case when (WXLX = '发明公布' or WXLX = '发明授权') then '发明专利' else WXLX end as lxmc,agreeCount,applyCount
 			FROM (		
 				select
-					sum(case when LEFT(SHOUQR,4) = '2016' then 1 else 0 end) as agreeCount,
-					sum(case when LEFT(SQRI,4) = '2016' then 1 else 0 end) as applyCount,
+					sum(case when LEFT(SHOUQR,4) = '${nd}' then 1 else 0 end) as agreeCount,
+					sum(case when LEFT(SQRI,4) = '${nd}' then 1 else 0 end) as applyCount,
 					WXLX
 				from out_patent
 				WHERE flztyj = '有效' and define3 like '%直属研究院%'
@@ -1571,12 +1571,12 @@
 	<!-- 领导首页-知识产权，直属研究院、分子公司等9个类型公司的发明专利、实用新型的申请和授权，2018数据申请数有问题，暂时用2015年 -->
 	<select id="getPatentInfoByCompanyType" resultType="java.util.Map" parameterType="java.util.Map">
 		select
-			sum(case when LEFT(SHOUQR,4) = '2016' and (WXLX = '发明公布' or WXLX = '发明授权') then 1 else 0 end) as fmzlAgreeCount,
-			sum(case when LEFT(SQRI,4) = '2016' and (WXLX = '发明公布' or WXLX = '发明授权') then 1 else 0 end) as fmzlApplyCount,
-			sum(case when LEFT(SHOUQR,4) = '2016' and WXLX = '实用新型' then 1 else 0 end) as syxxAgreeCount,
-			sum(case when LEFT(SQRI,4) = '2016' and WXLX = '实用新型' then 1 else 0 end) as syxxApplyCount,
-			sum(case when LEFT(SHOUQR,4) = '2016' then 1 else 0 end) as agreeCount,
-			sum(case when LEFT(SQRI,4) = '2016' then 1 else 0 end) as applyCount,
+			sum(case when LEFT(SHOUQR,4) = '${nd}' and (WXLX = '发明公布' or WXLX = '发明授权') then 1 else 0 end) as fmzlAgreeCount,
+			sum(case when LEFT(SQRI,4) = '${nd}' and (WXLX = '发明公布' or WXLX = '发明授权') then 1 else 0 end) as fmzlApplyCount,
+			sum(case when LEFT(SHOUQR,4) = '${nd}' and WXLX = '实用新型' then 1 else 0 end) as syxxAgreeCount,
+			sum(case when LEFT(SQRI,4) = '${nd}' and WXLX = '实用新型' then 1 else 0 end) as syxxApplyCount,
+			sum(case when LEFT(SHOUQR,4) = '${nd}' then 1 else 0 end) as agreeCount,
+			sum(case when LEFT(SQRI,4) = '${nd}' then 1 else 0 end) as applyCount,
 			SUBSTR(DEFINE3,4) as define3
 		from out_patent
 		WHERE DEFINE3 is not null and flztyj = '有效' 
