@@ -39,23 +39,6 @@ public class OutRewardClient {
 		logger.info("==================nopage selectOutRewardYearList==================");
 		return outRewardService.selectOutRewardYearList();
 	}
-	/*@ApiOperation(value = "奖励总数", notes = "首页查询使用")
-	@RequestMapping(value = "/out-provider/appraisal-count", method = RequestMethod.POST)
-	public JSONObject getAppraisalCount(@RequestBody HashMap<String, String> map) {
-		String nd = null;
-		JSONObject retJson = new JSONObject();
-		System.out.println("1jsonStr======" + map);
-		if (map != null && map.get("nd") != null && !map.get("nd").equals("")) {
-			nd = map.get("nd").toString();
-		} else {
-			retJson.put("appraisalCount", "0");
-		}
-		System.out.println("2jsonStr======" + nd);
-		int count = outAppraisalService.getOutAppraisalCount(nd, null);
-		System.out.println("3jsonStr======" + count);
-		retJson.put("appraisalCount", count);
-		return retJson;
-	}*/
 
 	/**
 	 * @author Nishikino

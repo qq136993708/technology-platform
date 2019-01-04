@@ -30,9 +30,9 @@ public class OutAppraisalServiceImpl implements OutAppraisalService {
 	private final static Logger logger = LoggerFactory.getLogger(OutAppraisalServiceImpl.class);
 
 	public int insertAppraisalData(List<OutAppraisal> list, String nd) {
-		// 删除年度数据
-		//OutAppraisalExample example = new OutAppraisalExample();
-		//outAppraisalMapper.deleteByExample(example);
+		// 删除数据
+		OutAppraisalExample example = new OutAppraisalExample();
+		outAppraisalMapper.deleteByExample(example);
 
 		// 批量插入数据
 		outAppraisalMapper.insertOutAppraisalBatch(list);
