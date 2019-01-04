@@ -330,13 +330,14 @@ function renderTable()
 function renderTable2()
 {
 	
-	  var month=$("#month").val();
+	
+	  var nd=$('#year').val();
 	  var tableOne=table.render({
 	  elem: '#processdef_table_02',
-	  url:'/direct/contract_03?month='+month+"&type=2",
+	  url:'/direct/contract_03?nd='+nd+"&type=2",
 	  method:"GET",
       height:309,
-	  where: {param: {"nd":$("#month").val()}},
+	  where: {param: {"nd":nd}},
 	  limit: 15,
 	  id: 'processdef_table_02',
 	  

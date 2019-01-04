@@ -1109,7 +1109,12 @@ public class DirectController {
 				temp.setYqhtzj(yqhtzj_count);
 				DecimalFormat df=new DecimalFormat("0.00");
 				System.out.println("yqhtzj_count="+yqhtzj_count+"zsl_count="+zsl_count);
-				String str=df.format(((float)yqhtzj_count/zsl_count)*100);
+				String str="0";
+				if(zsl_count!=0)
+				{
+					str=df.format(((float)yqhtzj_count/zsl_count)*100);
+				}
+			
 				temp.setQdlzj(str);
 				resutList.add(temp);
 				for(int i=0;i<list.size();i++)
@@ -1338,13 +1343,13 @@ public class DirectController {
 						{
 							JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
 							resault=resultObj.toString();
-							System.out.println(">>>>>>>>>>>>>>>topic_02 resault" + resultObj.toString());
+							System.out.println(">>>>>>>>type>>"+type+">>>>>topic_02 resault" + resultObj.toString());
 						}
 						else
 						{
 							JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
 							resault=resultObj.toString();
-							System.out.println(">>>>>>>>>>>>>>>topic_02 resault " + resultObj.toString());
+							System.out.println(">>>>>>>>type>>>>"+type+">>>topic_02 resault " + resultObj.toString());
 						}
 		 				return resault;
 		 			}
