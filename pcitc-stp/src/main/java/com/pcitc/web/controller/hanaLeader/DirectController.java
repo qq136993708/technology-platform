@@ -665,11 +665,12 @@ public class DirectController {
 				Result result = new Result();
 				String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 				String type = CommonUtil.getParameter(request, "type", "" );
+				String xmlbbm = CommonUtil.getParameter(request, "xmlbbm", "" );
 				String define3  = CommonUtil.getParameter(request, "define3 ", "研究院" );
 				Map<String, Object> paramsMap = new HashMap<String, Object>();
 				paramsMap.put("nd", nd);
 				paramsMap.put("define3", define3);
-				paramsMap.put("xmlbbm", "fkyzb");
+				paramsMap.put("xmlbbm", xmlbbm);
 				
 				ChartPieResultData pie = new ChartPieResultData();
 				JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
@@ -692,8 +693,8 @@ public class DirectController {
 								
 								ChartSingleLineResultData chartSingleLineResultData = new ChartSingleLineResultData();
 								List<String> xAxisDataList = new ArrayList<String>();
-								xAxisDataList.add("已签合同");
-								xAxisDataList.add("未签合同");
+								xAxisDataList.add("已签");
+								xAxisDataList.add("未签");
 								List<Object> seriesDataList = new ArrayList<Object>();
 								seriesDataList.add(yqht);
 								seriesDataList.add(wqht);
@@ -714,11 +715,11 @@ public class DirectController {
 								Contract contract=list.get(0);
 				         		Integer yqht =(Integer)contract.getYqht();
 								Integer wqht = (Integer)contract.getWqht();
-								legendDataList.add("已签合同");
-								legendDataList.add("未签合同");
+								legendDataList.add("已签");
+								legendDataList.add("未签");
 								
-								dataList.add(new ChartPieDataValue(yqht, "已签合同"));
-								dataList.add(new ChartPieDataValue(wqht, "未签合同"));
+								dataList.add(new ChartPieDataValue(yqht, "已签"));
+								dataList.add(new ChartPieDataValue(wqht, "未签"));
 								
 								pie.setDataList(dataList);
 								pie.setLegendDataList(legendDataList);
@@ -936,8 +937,6 @@ public class DirectController {
 							}
 							if(type.equals("2"))
 							{
-								
-								
 								List<Contract> resutList =addListLine(list);
 								pageResult.setData(resutList);
 								pageResult.setCode(0);
@@ -1094,6 +1093,9 @@ public class DirectController {
 				temp.setDefine2("总计");
 				int zsl_count=0;
 				int yqhtzj_count=0;
+				
+				
+				
 				for(int i=0;i<list.size();i++)
 				{
 					Contract contract=list.get(i);
@@ -1107,10 +1109,7 @@ public class DirectController {
 				temp.setYqhtzj(yqhtzj_count);
 				DecimalFormat df=new DecimalFormat("0.00");
 				System.out.println("yqhtzj_count="+yqhtzj_count+"zsl_count="+zsl_count);
-				
-				
 				String str=df.format(((float)yqhtzj_count/zsl_count)*100);
-				
 				temp.setQdlzj(str);
 				resutList.add(temp);
 				for(int i=0;i<list.size();i++)
@@ -1151,12 +1150,10 @@ public class DirectController {
 				Result result = new Result();
 				String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 				String type = CommonUtil.getParameter(request, "type", "" );
-				String xmlbbm = CommonUtil.getParameter(request, "xmlbbm", "fkyzb");
 				String typeFlag  = CommonUtil.getParameter(request, "typeFlag ", "研究院" );
 				Map<String, Object> paramsMap = new HashMap<String, Object>();
 				paramsMap.put("nd", nd);
 				paramsMap.put("typeFlag", typeFlag);
-				paramsMap.put("xmlbbm", xmlbbm);
 				
 				
 				JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
@@ -1283,13 +1280,11 @@ public class DirectController {
 		 				Result result = new Result();
 		 				PageResult pageResult = new PageResult();
 		 				String type = CommonUtil.getParameter(request, "type", "" );
-		 				String xmlbbm = CommonUtil.getParameter(request, "xmlbbm", "" );
 		 				String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		 				String typeFlag  = CommonUtil.getParameter(request, "typeFlag ", "研究院" );
 						Map<String, Object> paramsMap = new HashMap<String, Object>();
 						paramsMap.put("nd", nd);
 						paramsMap.put("typeFlag", typeFlag);
-		 				paramsMap.put("xmlbbm",xmlbbm);
 		 				JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		 				HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 		 				if (!nd.equals(""))
@@ -1407,12 +1402,10 @@ public class DirectController {
 
 		 				Result result = new Result();
 		 				String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
-		 				String xmlbbm = CommonUtil.getParameter(request, "xmlbbm", "" );
 		 				String typeFlag  = CommonUtil.getParameter(request, "typeFlag ", "研究院" );
 						Map<String, Object> paramsMap = new HashMap<String, Object>();
 						paramsMap.put("nd", nd);
 						paramsMap.put("typeFlag", typeFlag);
-						paramsMap.put("xmlbbm", xmlbbm);
 						
 		 				JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		 				HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);

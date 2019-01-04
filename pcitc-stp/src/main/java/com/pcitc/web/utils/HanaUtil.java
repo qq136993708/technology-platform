@@ -3262,25 +3262,24 @@ public class HanaUtil {
 		}
 		return chartBarLineSeries;
 	}
-	
 	public static ChartBarLineSeries getContractChartBarLineSeries9(List<Contract> list, String name) {
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
 		if (name.equals("sjqds"))
 		{
-			chartBarLineSeries.setName("已签合同");
+			chartBarLineSeries.setName("实际签订数");
 			chartBarLineSeries.setyAxisIndex(0);
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
 		if (name.equals("jhqds")) 
 		{
-			chartBarLineSeries.setName("计划合同");
+			chartBarLineSeries.setName("计划签订数");
 			chartBarLineSeries.setyAxisIndex(0);
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
 		
 		if (name.equals("htqdl")) 
 		{
-			chartBarLineSeries.setName("合同签订率");
+			chartBarLineSeries.setName("签订率");
 			chartBarLineSeries.setyAxisIndex(1);
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_LINE);
 		}
@@ -3326,13 +3325,13 @@ public class HanaUtil {
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
 		if (name.equals("yqhtzj"))
 		{
-			chartBarLineSeries.setName("已签合同");
+			chartBarLineSeries.setName("已签");
 			chartBarLineSeries.setStack("数量");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
 		if (name.equals("wqhtzj")) 
 		{
-			chartBarLineSeries.setName("未签合同");
+			chartBarLineSeries.setName("未签");
 			chartBarLineSeries.setStack("数量");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
