@@ -2039,7 +2039,7 @@ public class OneLevelMainController {
 								         		barLine.setxAxisDataList(xAxisDataList);
 												List<String> legendDataList = new ArrayList<String>();
 												legendDataList.add("实际下达");
-												legendDataList.add("未下达");
+												legendDataList.add("未签订");
 												legendDataList.add("投资完成率");
 												barLine.setxAxisDataList(xAxisDataList);
 												barLine.setLegendDataList(legendDataList);
