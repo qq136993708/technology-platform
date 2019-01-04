@@ -1,5 +1,4 @@
-html{background: #013660;}
-.layui-fluid{padding: 0;}
+.layui-fluid{padding: 0;background: #013660;}
 .layui-header{height: 100px;width: 85%;margin: 0 auto;}
 .layui-main{height: auto;overflow: hidden;width: 100%;}
 .layui-level-main{width: 85%;margin: 0 auto;padding: 15px 0 14px;height: auto;overflow: hidden;}
@@ -102,6 +101,29 @@ html{background: #013660;}
 .layui-party-shi{
     background:url("/layuiadmin/layui/images/textBottomFour.png") center center no-repeat #a544af;}
 .layui-text-center p{line-height: 128px;}
+/*配置页面*/
+.layui-layer-lan .layui-layer-title{background-color: #002a53 !important;;text-align: center;height: 60px;
+line-height: 60px;font-size: 22px;}
+.module{background-color: white;overflow-y:scroll;height: 457px; }
+.module>p{background-color: #e9e8f4;font-size: 18px;text-indent: 20px;height: 40px;line-height: 40px;}
+.module .selectOption{padding: 30px;}
+.module .selectOption>div{display: flex;}
+.module .selectOption .title{width: 90px;float: left;font-size: 18px;margin-top: 14px;}
+.module .selectOption .option{float: left;width: 100%;position: relative;}
+.selectOption .option p{height: 36px;line-height: 36px;color: #fff;font-size: 16px;padding: 0 15px;margin: 8px;
+    float: left;cursor: pointer;}
+.selectOption div:nth-child(1) .option p{background-color: #78bf4c;}
+.selectOption div:nth-child(2) .option p{background-color: #47a2d7;}
+.selectOption div:nth-child(3) .option p{background-color: #f09151;}
+.selectOption .option p span{background: url("/layuiadmin/layui/images/icon-level-dele.png") no-repeat;
+    width: 22px;height: 22px;display: inline-block;position: absolute;top: -2px;}
+.selectOption .option p span:hover{background: url("/layuiadmin/layui/images/icon-level-dele-h.png") no-repeat;}
+.moduleB .form-bottom-btns{text-align: center;height: 60px;border-top: 1px solid #eae9f5;width: 100%;position: fixed;
+    left: 0;bottom: 0;background-color: white;}
+.moduleB .form-bottom-btns .layui-btn-c{border: 1px solid #d3d3d3;background-color: white;height: 36px;
+    line-height: 36px;padding: 0 20px;font-size: 18px;margin-top: 12px;cursor: pointer;}
+.moduleB .form-bottom-btns .layui-btn-d{height: 36px;background-color: #002a53;color: white;border: 1px solid #002a53;
+    line-height: 36px;padding: 0 20px;font-size: 18px;margin-top: 12px;cursor: pointer;}
 /*1366*/
 /*
 @media screen and (max-height: 946px) {

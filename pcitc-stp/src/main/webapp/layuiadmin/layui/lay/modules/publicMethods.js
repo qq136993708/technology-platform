@@ -122,7 +122,7 @@ layui.define(['jquery','form','table','laydate'],
                 layer.open({
                     title:title,
                     skin: 'layui-layer-lan',
-                    shadeClose: true,
+                    shadeClose: false,
                     type: 2,
                     fixed: false,
                     //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
@@ -471,7 +471,7 @@ layui.define(['jquery','form','table','laydate'],
                 }
             },
             moduleConfigs:function (data) {
-                var param=data
+                var param=data;
                 $.each(param, function( key, data ) {
                     var spareId=data.spareId;
                     if(spareId==null){
@@ -502,7 +502,7 @@ layui.define(['jquery','form','table','laydate'],
                                 "           <p>"+data.name+"</p>" +
                                 "      </div></li>";
                         }else {
-                            var html="<li class='"+data.class+"' data-power='"+data.power+"'>" +
+                            var html="<li class='item "+data.class+"' data-power='"+data.power+"'>" +
                                 "       <div class='layui-text-icon "+classDiv+"' style='background:"+data.color+" url("+data.img+") center center no-repeat;' id='"+data.id+"'>" +
                                 "           <p>"+data.name+"</p>" +
                                 "           <img src='/layuiadmin/layui/images/level-close.png' class='dele'>"
@@ -510,14 +510,14 @@ layui.define(['jquery','form','table','laydate'],
                         }
                         $("#moduleConfig").append(html);
                     }else {
-                        if(data.name=="集团重点项目及十条龙科技攻关"){
+                        if(data.name=="重大专项及十条龙科技攻关"){
                             var html="<li class='"+data.class+"' data-power='"+data.power+"'>" +
                                 "       <div class='layui-text-icon' style='background:"+data.color+" url("+data.img+") center center no-repeat;' id='"+data.id+"'>" +
                                 "           <p>"+data.name+"</p>" +
                                 "           <span id='"+data.spareId+"'><img class='loadingImg' src='/layuiadmin/layui/images/loadingImg04.gif'></span>" +
                                 "      </div></li>";
                         }else {
-                            var html="<li class='"+data.class+"' data-power='"+data.power+"'>" +
+                            var html="<li class='item "+data.class+"' data-power='"+data.power+"'>" +
                                 "       <div class='layui-text-icon' style='background:"+data.color+" url("+data.img+") center center no-repeat;' id='"+data.id+"'>" +
                                 "           <p>"+data.name+"</p>" +
                                 "           <span id='"+data.spareId+"'><img class='loadingImg' src='/layuiadmin/layui/images/loadingImg04.gif'></span>" +

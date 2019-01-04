@@ -15,13 +15,53 @@
 </head>
 <body>
 <div class="module">
-    <p id="leader">领导讲话</p>
-    <p id="home_budget">科研投入</p>
+    <p>已选菜单</p>
+    <div class="selected selectOption">
+        <div class="selectedProject">
+            <p class="title">项目管理</p>
+            <div class="option"></div>
+        </div>
+        <div class="selectedTechnical">
+            <p class="title">技术管理</p>
+            <div class="option"></div>
+        </div>
+        <div class="selectedItegrated">
+            <p class="title">综合管理</p>
+            <div class="option"></div>
+        </div>
+    </div>
+    <p>未选菜单</p>
+    <div class="unselected selectOption">
+        <div class="unselectedProject">
+            <p class="title">项目管理</p>
+            <div class="option">
+                <p>重大专项及十条龙科技攻关</p>
+            </div>
+        </div>
+        <div class="unselectedTechnical">
+            <p class="title">技术管理</p>
+            <div class="option">
+                <p>直属研究院概况</p>
+            </div>
+        </div>
+        <div class="unselectedIntegrated">
+            <p class="title">综合管理</p>
+            <div class="option">
+                <p>中国石化标准化</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="form-bottom moduleB">
+    <div class="form-bottom-btns">
+        <button type="button" class="layui-btn-c"  id="cancel">取消</button>
+        <button class="layui-btn-d" id="confirm">确定</button>
+    </div>
 </div>
 <script>
     layui.use([ 'jquery','publicMethods'], function(){
         var $=layui.jquery,publicMethods=layui.publicMethods;
-        $("#leader").click(function () {
+        /*$("#leader").click(function () {
             var data={"power":"1", "name":"领导讲话","color":"#f10033","img":"/layuiadmin/layui/images/icon-party.png","class":"layui-col-md3","id":"","spareId":null};
             publicMethods.moduleConfig(data);
         });
@@ -29,7 +69,60 @@
             var data=
                 {"power":"3", "name":"科研装备","color":"#488c34","img":"/layuiadmin/layui/images/textTopThree.png","class":"layui-col-md3","id":"equipment","spareId":"K0BNGLFPHJECB_t"};
             publicMethods.moduleConfig(data);
-        })
+        });*/
+        $(".unselected .option p").click(function () {
+            if($(this).attr("class")!="layui-this"){
+                var index=$(this).parent().parent().index();
+                var html=$(this).html();
+                $(this).addClass("layui-this");
+                $(".selected>div").eq(index).find(".option").append("<p>"+html+"<span></span></p>");
+                $(".option p span").click(function () {
+                    var indexS=$(this).parents(".option").parent().index();
+                    var htmlS=$(this).parent().text();
+                    $(this).parent().remove();
+                    $(".unselected>div").eq(indexS).find(".option p").each(function () {
+                        if(htmlS.indexOf($(this).html())!= -1){
+                            $(this).removeClass("layui-this");
+                        }
+                    });
+                });
+            }
+        });
+        $("#confirm").click(function () {
+            //获取选中项
+            var selectedOP=[];
+            $(".selected .option p").each(function () {
+                selectedOP.push($(this).text())
+            });
+            $.ajax({
+                type: 'GET',
+                dataType: 'json',
+                headers: {
+                    'Content-Type': 'application/json;charset=UTF-8',
+                },
+                url: "/layuiadmin/json/data1.json",
+                success: function (data, status) {
+                    $.each(selectedOP,function (index,d) {
+                        $.each(data.data,function (index,dt) {
+                            if(dt.name==d){
+                                publicMethods.moduleConfig(dt)
+                            }
+                        });
+                    })
+
+                    //publicMethods.moduleConfigs(data.data);
+                },
+                error : function(err, err1, err2) {
+                    console.log("ajaxPost发生异常，请仔细检查请求url是否正确");
+                }
+            });
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
+        });
+        $("#cancel").click(function () {
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
+        });
     });
 </script>
 </body>
