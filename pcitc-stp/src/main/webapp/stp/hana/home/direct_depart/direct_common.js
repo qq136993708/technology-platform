@@ -602,14 +602,17 @@ function set_multi_graph_statistics(data,id)
         
         $("#contract_chart4_01").html(count_1+"个");
         $("#contract_chart4_02").html(count_2+"个");
-        var tt=percentNum(count_2,count_1);
-        
-        if(isNaN(tt))
+        if(count_1==0)
+        {
+        	$("#contract_chart4_03").html("0%");
+        }else
     	{
-        	tt="0%";
+    	  var tt=percentNum(count_2,count_1);
+          $("#contract_chart4_03").html(tt);
     	}
         
-        $("#contract_chart4_03").html(tt);
+        
+       
         
 		
 	}
