@@ -5598,7 +5598,7 @@ public static ChartBarLineSeries getKNOWLDGELevel2ChartBarLineSeries07(List<Know
 
 		String monthstr = String.format("%02d", month);
 
-		String str = "" + (year) + "" + monthstr;
+		String str = "" + (year-1) + "" + monthstr;
 
 		System.out.println(">>>>>str=" + str);
 		return str;
@@ -5611,7 +5611,7 @@ public static ChartBarLineSeries getKNOWLDGELevel2ChartBarLineSeries07(List<Know
 		int year = cal.get(Calendar.YEAR);
 
 		System.out.println(">>>>>year=" + year);
-		return String.valueOf(year);
+		return String.valueOf(year-1);
 	}
 
 	public static String getCurrrent_YearMoth() throws Exception {
