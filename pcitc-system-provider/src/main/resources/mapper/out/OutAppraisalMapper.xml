@@ -639,7 +639,7 @@
 	<select id="getOutAppraisalCount" resultType="java.lang.Integer" parameterType="java.util.HashMap">
 		select count(DISTINCT cgid) as cgid from out_appraisal
 		where 
-			status = '1'
+			1 = 1
 			<if test="nd != null and nd != ''">
 				and nd = #{nd,jdbcType=VARCHAR} 
 			</if>

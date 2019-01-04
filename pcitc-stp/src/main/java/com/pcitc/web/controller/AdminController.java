@@ -74,8 +74,6 @@ public class AdminController extends BaseController {
 	// 收藏菜单
 	private static final String COLLECT_FUNCTION = "http://pcitc-zuul/system-proxy/syscollect-provider/sys_collect/add";
 
-	private static final String PATENT_COUNT1 = "http://pcitc-zuul/system-proxy/out-patent-provider/unit-type/apply-agree-list";
-
 	/**
 	 * 科技平台统一身份认证首页
 	 * 
@@ -758,6 +756,9 @@ public class AdminController extends BaseController {
 		if (request.getParameter("lastYearFlag") != null && !request.getParameter("lastYearFlag").equals("")) {
 			map.put("nd", String.valueOf(Integer.parseInt(sdf.format(date))-1));
 		}
+		if (request.getParameter("nd") != null && !request.getParameter("nd").equals("")) {
+			map.put("nd", request.getParameter("nd"));
+		}
 		if (request.getParameter("define3") != null && !request.getParameter("define3").equals("")) {
 			map.put("define3", request.getParameter("define3"));
 		}
@@ -781,15 +782,16 @@ public class AdminController extends BaseController {
 	@RequestMapping(value = "/admin/appraisal-count", method = RequestMethod.POST)
 	@ResponseBody
 	public synchronized Object getAppraisalCount(HttpServletRequest request) {
-		System.out.println("1====/admin/appraisal-count" + sysUserInfo.getUserId());
 		HashMap<String, String> map = new HashMap<String, String>();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
         Date date = new Date();
-        map.put("nd", sdf.format(date));
         
-		System.out.println("1====/admin/patent-count" + String.valueOf(Integer.parseInt(sdf.format(date))-1));
+		System.out.println("1====getAppraisalCount" + request.getParameter("nd"));
 		if (request.getParameter("lastYearFlag") != null && !request.getParameter("lastYearFlag").equals("")) {
 			map.put("nd", String.valueOf(Integer.parseInt(sdf.format(date))-1));
+		}
+		if (request.getParameter("nd") != null && !request.getParameter("nd").equals("")) {
+			map.put("nd", request.getParameter("nd"));
 		}
 		if (request.getParameter("define3") != null && !request.getParameter("define3").equals("")) {
 			map.put("define3", request.getParameter("define3"));
