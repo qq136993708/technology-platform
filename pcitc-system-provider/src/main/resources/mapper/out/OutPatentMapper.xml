@@ -1418,7 +1418,7 @@
 
 	<select id="getMaxImportDate" resultType="java.lang.String" parameterType="java.lang.String">
 		select
-		max(GKR) maxDate
+		max(LEFT(GKR,10)) maxDate
 		from out_patent where remarks = #{remarks,jdbcType=VARCHAR}
 	</select>
 

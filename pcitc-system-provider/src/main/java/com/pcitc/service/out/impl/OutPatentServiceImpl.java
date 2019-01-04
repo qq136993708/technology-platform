@@ -1,5 +1,6 @@
 package com.pcitc.service.out.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,9 +35,38 @@ public class OutPatentServiceImpl implements OutPatentService {
 		// 删除年度数据
 		// OutPatentExample example = new OutPatentExample();
 		// outPatentMapper.deleteByExample(example);
+		List<OutPatentWithBLOBs> insertData = new ArrayList<OutPatentWithBLOBs>();
+		for (int i = 0; i < list.size(); i++) {
+			//已经存在的专利，更新一下状态
+			OutPatentWithBLOBs op = list.get(i);
+			OutPatentExample example = new OutPatentExample();
+			OutPatentExample.Criteria criteria = example.createCriteria();
+
+			if (op.getSqh() != null && !op.getSqh().equals("")) {
+				criteria.andSqhEqualTo(op.getSqh());
+			}
+			if (op.getWxlx() != null && !op.getWxlx().equals("")) {
+				criteria.andWxlxEqualTo(op.getWxlx());
+			}
+
+			List<OutPatent> temList = outPatentMapper.selectByExample(example);
+			if (temList != null && temList.size() > 0) {
+				//修改状态
+				OutPatent temOP = temList.get(0);
+				
+				temOP.setFlztyj(op.getFlztyj());
+				temOP.setFlztej(op.getFlztej());
+				outPatentMapper.updateByPrimaryKey(temOP);
+			} else {
+				insertData.add(op);
+			}
+		}
 
 		// 批量插入数据
-		outPatentMapper.insertOutPatentBatch(list);
+		if (insertData.size() > 0) {
+			outPatentMapper.insertOutPatentBatch(insertData);
+		}
+		
 		return 1;
 	}
 

@@ -368,10 +368,8 @@
 		});
         
         $("#changeIndex").on("click", function() {
-        	var temUrl = window.location.href;
-        	temUrl = temUrl.replace('#','');
-        	var arr = temUrl.split('?');
-        	window.location.href=arr[0]+"?cFlag=1";
+        	var host = window.location.host;
+        	window.location.href="http://"+host+"/work";
 		});
 
         // 菜单收藏

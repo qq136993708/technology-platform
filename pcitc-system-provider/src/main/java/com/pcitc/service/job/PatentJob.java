@@ -46,7 +46,7 @@ public class PatentJob implements Job, Serializable {
 		String realEndDate = DateUtil.dateToStr(new Date(), DateUtil.FMT_DD);
 		jo.addProperty("ksrq", realStartDate);
 		jo.addProperty("jzrq", realEndDate);
-		System.out.println("==========开始导入---定时任务--专利项目接口---结束日期=============" + realEndDate);
+		System.out.println(realStartDate+"==========开始导入---定时任务--专利项目接口---结束日期=============" + realEndDate);
 		// 参数
 		String conditions = jo.toString();
 		String str = null;

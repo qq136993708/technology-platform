@@ -306,10 +306,8 @@
 			});
 			
 			$("#changeIndex").on("click", function() {
-	        	var temUrl = window.location.href;
-	        	temUrl = temUrl.replace('#','');
-	        	var arr = temUrl.split('?');
-	        	window.location.href=arr[0];
+	        	var host = window.location.host;
+	        	window.location.href="http://"+host+"/work";
 			});
             $("#nav li dl dd a").hover(function (){
                 $(this).find("img").removeClass("layui-hide");
