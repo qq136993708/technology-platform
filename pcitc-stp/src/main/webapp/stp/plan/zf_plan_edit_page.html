@@ -53,8 +53,9 @@
                         <div class="layui-form-item">
                             <label class="layui-form-label">类型:<span class="must-fill">*</span></label>
                             <div class="layui-input-block">
-                                <select id="workOrderType" name="workOrderType" lay-filter="select_filter"
-                                        lay-search></select>
+                                <input class="layui-input readOnlyBox layui-hide" type="text" id="workOrderType"
+                                name="workOrderType" readonly="readonly">
+                                <select id="workOrderTypeS" name="workOrderType" ></select>
                             </div>
                         </div>
                     </div>
@@ -219,7 +220,12 @@
             type: 'post',
             success: function (data) {
                 $.each(data, function (index, item) {
-                    $('#workOrderType').append(new Option(item.name, item.code));//往下拉菜单里添加元素
+                    if(item.code==$("#workOrderType").val()){
+                        $('#workOrderTypeS').append("<option value='"+item.code+"' selected=''>"+item.name+"</option>");//往下拉菜单里添加元素
+                    }else {
+                        $('#workOrderTypeS').append("<option value='"+item.code+"'>"+item.name+"</option>");//往下拉菜单里添加元素
+                    }
+                    console.log( item.code)
                 })
                 form.render();
             }
@@ -282,7 +288,7 @@
                         var index = parent.layer.getFrameIndex(window.name);
                         url = '/plan/editBotWorkOrderZf';
                         dataStatus = 1;
-
+                        parent.layer.close(index);
                         parent.layer.msg("保存成功");
                         parent.layui.table.reload('tableList', {});
                     }
