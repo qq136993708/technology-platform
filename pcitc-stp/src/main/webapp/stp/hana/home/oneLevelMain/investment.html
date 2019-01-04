@@ -82,7 +82,7 @@
                         </div>
                     </div>
                     <div class="layui-card-body btn-function" >
-                        <table id="myTable" class="layui-table" lay-data="{url:'/one_level_main/investment_01_01?nd=2018',height:'295'}">
+                        <table id="myTable" class="layui-table" lay-filter="myTable" >
                             <thead>
 	                            <tr>
 	                                <th lay-data="{field:'define3', width:'16%'}" rowspan="2" >企业类型</th>
@@ -157,8 +157,8 @@ layui.config({
     $(".layui-time").html(year+"年");
     form.render(null, 'component-form-group');
     laydate.render({
-        elem: '#year'
-        ,min: '2016-10-14'
+        elem: '#year',min: '2016-10-14'
+        
         ,type: 'year'
         ,done: function(value, date, endDate){
             $(".layui-time").html(date.year);
@@ -166,7 +166,7 @@ layui.config({
             search_Event();
         }
     });
-   
+    myTable();
     $("#knowledge_table").click(function () {
     	window.open("/reportNew/reportPageStp?name=167305d0060_d4723a52");
         // parent.layui.index.openTabsPage("/home/project-list?define1=费用性", "科研项目明细"); 
@@ -275,7 +275,6 @@ function initEchart()
 
 //初始化图形
 initEchart();
-//myTable();
 //查询
 function search_Event()
 {
@@ -290,13 +289,14 @@ function myTable()
 	 var nd=$("#year").val();
 	 var companyCode=$("#companyCode").val();
 	 var v_date=(new Date()).getTime();
+	 var url= '/one_level_main/investment_01_01?nd='+nd+"&v_date="+v_date;
+	    table.init('myTable', {
+			  url: url
+			  ,height:"295px"
+			  ,where: {} 
+			  
+			});
 	 
-	 
-	table.reload('myTable', {
-		  url: '/one_level_main/investment_01_01?nd='+nd+"&v_date="+v_date
-		  ,where: {} 
-		  
-		});
 }
 
 

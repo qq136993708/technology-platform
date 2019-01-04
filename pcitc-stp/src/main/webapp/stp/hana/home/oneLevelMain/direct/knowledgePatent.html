@@ -144,7 +144,7 @@ layui.config({
       ,laydate = layui.laydate
 	  form.render(null, 'component-form-group');
         laydate.render({
-        	 elem: '#year'
+        	 elem: '#year',min: '2016-10-14'
          	      ,type: 'year'
             ,done: function(value, date, endDate){
                 $(".layui-time").html(date.year);
