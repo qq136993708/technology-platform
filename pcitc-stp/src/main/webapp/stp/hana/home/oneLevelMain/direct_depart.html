@@ -375,7 +375,7 @@
         {
         	$.ajax({
  				type : 'GET',
- 				url : "/direct/topic_equipment_count?typeFlag=研究院",
+ 				url : "/direct/topic_equipment_count?typeFlag=研究院&nd="+month,
  				dataType : 'json',
  				headers : {
  					'Content-Type' : 'application/json'
@@ -407,26 +407,7 @@
         }
         
         
-        //科研课题
-    	/* function getContract() {
-    		$.ajax({
-    			type : 'GET',
-    			url : "/one_level_main/contract_count?typeFlag=研究院",
-    			dataType : 'json',
-    			headers : {
-    				'Content-Type' : 'application/json'
-    			},
-    			timeout : 3000,
-    			error : function(XMLHttpRequest, status) {
-    				
-    			},
-    			success : function(data) {
-    				var projectCount = data.data.projectCount;
-    				$("#topic_id").html(projectCount+ "<small style='font-size:14px'>(个)</small>");
-    			}
-    		});
-
-    	} */
+        
         
         
         //合同签订--bak--
@@ -588,7 +569,6 @@
         	var v_date=(new Date()).getTime();
         	if(month!=null && month!='')
        		{
-        		//getContract();
         		getCommonCount(year);//科研装备、合同签订
             	getndys_xfzc(month);//经费支出
             	patentCount(year);//专利
