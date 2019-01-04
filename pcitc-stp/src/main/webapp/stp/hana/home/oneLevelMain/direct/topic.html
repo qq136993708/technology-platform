@@ -59,7 +59,7 @@
                         <span class="layui-time"></span>年直属研究院科研科题数量占比
                     </div>
                     <div class="layui-card-body btn-function" >
-                        <table id="myTable" class="layui-table" lay-filter="tableData" lay-data="{url:'/direct/topic_01?type=2',height:'309'}">
+                        <table id="myTable" class="layui-table" lay-filter="myTable" >
                             <thead>
                             <tr>
                                 <th lay-data="{field:'define2', width:'22%',align:'center'}" rowspan="2">项目</th>
@@ -103,7 +103,7 @@
                         <span class="layui-time"></span>年科研科题数量占比
                     </div>
                     <div class="layui-card-body btn-function" >
-                        <table id="myTable2" class="layui-table" lay-filter="tableData2" lay-data="{url:'/direct/topic_02?type=2',height:'309'}">
+                        <table id="myTable2" class="layui-table" lay-filter="myTable2" >
                             <thead>
                             <tr>
                                 <th lay-data="{field:'project_property', width:'22%',align:'center'}" rowspan="2">项目</th>
@@ -203,6 +203,8 @@ layui.config({
             
             window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
         });
+        myTable();
+        myTable2();
         
 });
 
@@ -243,7 +245,7 @@ function initEchart()
     
 	
 
-	var chart1_url="/direct/topic_01?type=1&nd="+nd+"&v_date="+v_date+"&xmlbbm=fkyzb&typeFlag=研究院";
+	var chart1_url="/direct/topic_01?type=1&nd="+nd+"&v_date="+v_date+"&typeFlag=研究院";
 	var colorOne=["#3ec0c2","#55b6e9"];
 	var echart1=load_mutl_bar_down(chart1_url,"topic_chart1","","",yAxis,20,colorOne);
 	echart1.on('click', function (params) {
@@ -257,7 +259,7 @@ function initEchart()
 	
 	
 	
-	var chart4_url="/direct/topic_02?type=1&nd="+nd+"&v_date="+v_date+"&typeFlag=研究院&xmlbbm=fkyzb";
+	var chart4_url="/direct/topic_02?type=1&nd="+nd+"&v_date="+v_date+"&typeFlag=研究院";
     var colorT=["#ff9f7f","#f3d156"];
 	var echart4=load_mutl_bar_down(chart4_url,"topic_chart4","","",yAxis,20,colorT);
 	echart4.on('click', function (params) {
@@ -271,7 +273,7 @@ function initEchart()
 	
 	
 	
-	var chart6_url="/direct/topic_03?type=4&nd="+nd+"&v_date="+v_date+"&typeFlag=研究院&xmlbbm=fkyzb";
+	var chart6_url="/direct/topic_03?type=4&nd="+nd+"&v_date="+v_date+"&typeFlag=研究院";
     var colorTr=["#71d398","#96bfff"];
 	var echart6=load_mutl_bar_down(chart6_url,"topic_chart7","","","",50,colorTr);
 	echart6.on('click', function (params) {
@@ -300,11 +302,17 @@ function search_Event()
 
 function myTable()
 {
-	table.reload('myTable', {
-		  url: '/direct/topic_01?type=2'
+	var v_date=(new Date()).getTime();
+	var nd=$('#year').val();
+	var chart1_url="/direct/topic_01?type=2&nd="+nd+"&v_date="+v_date+"&typeFlag=研究院";
+	
+	 table.init('myTable', {
+		 url: chart1_url 
+		  ,height:"309px"
 		  ,where: {} 
 		  
 		});
+	 
 	
 	
 	
@@ -313,11 +321,17 @@ function myTable()
 
 function myTable2()
 {
-	table.reload('myTable2', {
-		  url: '/direct/topic_01?type=2'
+	var v_date=(new Date()).getTime();
+	var nd=$('#year').val();
+	var chart1_url="/direct/topic_02?type=2&nd="+nd+"&v_date="+v_date+"&typeFlag=研究院";
+	table.init('myTable2', {
+		url: chart1_url
+		  ,height:"309px"
 		  ,where: {} 
 		  
 		});
+	 
+	
 }
         
 </script>

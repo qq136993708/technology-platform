@@ -46,8 +46,8 @@
                         </div>
                         <div class="layui-row-main">
                             <div class="text-total">
-                                <span>计划合同签:<span class="text-total-blue"      id="vdirect_contract_01_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                                <span>实际合同签订:<span class="text-total-blue"     id="vdirect_contract_01_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                                <span>计划签订数:<span class="text-total-blue"      id="vdirect_contract_01_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                                <span>实际签订数:<span class="text-total-blue"     id="vdirect_contract_01_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                                 <span>签订率:<span class="text-total-blue"         id="vdirect_contract_01_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                             </div>
                             <div class="main-chart" id="direct_contract_01" style="height:250px;width: 100%;"></div>
@@ -68,7 +68,7 @@
             <div class="layui-col-md4">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        <span class="layui-time"></span>年科研合同签订率清单
+                        <span class="layui-time"></span>年新开课题合同（任务书）签订率清单
                     </div>
                     <div class="layui-row-main" style="height:270px;">
                         <table id="processdef_table_02" class="layui-hide" lay-filter="processdef_table"></table>
@@ -94,7 +94,7 @@
             <div class="layui-col-md4">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        <span class="layui-time"></span>年科研合同签订率清单
+                        <span class="layui-time"></span>年新开课题合同（任务书）签订率清单
                         <div class="layui-tool">
                            <!--  <button type="button" class="btn btn-tool collapse"></button>
                             <button type="button" class="btn btn-tool remove"></button> -->
@@ -111,12 +111,12 @@
             <div class="layui-col-md12">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        <span class="layui-time"></span>年直属研究院科研合同签订率
+                        <span class="layui-time"></span>年直属研究院开课题合同（任务书）签订率
                     </div>
                     <div class="layui-row-main">
                         <div class="text-total">
-                            <span>已签订合同数:<span class="text-total-blue"    id="direct_contract_chart_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>未签订合同数:<span class="text-total-blue"    id="direct_contract_chart_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>已签订数:<span class="text-total-blue"    id="direct_contract_chart_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>未签订数:<span class="text-total-blue"    id="direct_contract_chart_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                             <span>签订率:<span class="text-total-blue"         id="direct_contract_chart_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                         </div>
                         <div class="main-chart" id="direct_contract_chart" style="height:270px;width: 100%;"></div>
@@ -219,6 +219,8 @@
                 axisLabel: {
                     formatter: '{value}%'
                 }
+                ,splitLine:{show: false},//去除网格线
+
             }
         ];
         
@@ -273,7 +275,7 @@
         });
 
 
-        //直属研究院合同签订率
+        //直属研究院签订率
         $("#direct_contract_chart_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
         $("#direct_contract_chart_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
         $("#direct_contract_chart_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
@@ -566,7 +568,7 @@
             limit: 15,
             id: 'processdef_table_02',
             cols: [[
-                {field:'define1',        title: '合同类型',    edit:'text'},
+                {field:'define1',        title: '类型',    edit:'text'},
                 {field:'jhqds',            title:'计划签订数',style:'cursor: pointer;',align: 'right'},
                 {field:'sjqds',         title:'实际签订数',style:'cursor: pointer;',align: 'right'},
                 {field:'htqdl',          title:'签订率(%)',   style:'cursor: pointer;',align: 'right',templet:function(d){return d.htqdl+"%"}
