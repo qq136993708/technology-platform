@@ -107,13 +107,12 @@ public class OutPatentServiceImpl implements OutPatentService {
 		OutPatentExample.Criteria criteria = example.createCriteria();
 		criteria.andShouqrLike("%" + map.get("nd") + "%");
 		criteria.andFlztyjEqualTo("有效");
-		criteria.andFlztejEqualTo("授权");
 		
 		if (map.get("define2") != null && !map.get("define2").equals("")) {
-			criteria.andDefine3Like(map.get("define2"));
+			criteria.andDefine3Like("%" + map.get("define2") + "%");
 		}
 		if (map.get("define3") != null && !map.get("define3").equals("")) {
-			criteria.andDefine3Like(map.get("define3"));
+			criteria.andDefine3Like("%" + map.get("define3") + "%");
 		}
 		return outPatentMapper.countByExample(example);
 	}

@@ -960,13 +960,7 @@
 			select out_project_info.xmid as temId,out_project_plan.xmid as xmid,out_project_plan.DEFINE1,out_project_plan.PROJECT_PROPERTY
 			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and out_project_info.PROJECT_TYPE != '1' 
 																	and out_project_info.project_property not like '%十条龙%' and out_project_info.ND= '${nd}' 
-																	and out_project_info.project_property not like '%国家%'
-																	<if test="xmlbbm != null and xmlbbm == 'kyzb'">
-																		 and out_project_info.xmlbbm ='KYZB'
-																	</if>
-																	<if test="xmlbbm != null and xmlbbm == 'fkyzb'">
-																		 and out_project_info.xmlbbm !='KYZB'
-																	</if>)
+																	and out_project_info.project_property not like '%国家%')
 			WHERE
 				out_project_plan.ND= '${nd}' 
 				and (out_project_plan.PROJECT_TYPE= '0' or out_project_plan.PROJECT_TYPE= '2')
@@ -974,12 +968,7 @@
 				<if test="define3 != null and define3 != ''">
 					and out_project_plan.DEFINE3 like '%${define3}%'
 				</if>
-				<if test="xmlbbm != null and xmlbbm == 'kyzb'">
-					 and out_project_plan.xmlbbm ='KYZB'
-				</if>
-				<if test="xmlbbm != null and xmlbbm == 'fkyzb'">
-					 and out_project_plan.xmlbbm !='KYZB'
-				</if>
+				
 				group by out_project_plan.xmid
 		) as tableB 
 		group by tableB.DEFINE1,tableB.PROJECT_PROPERTY
@@ -995,25 +984,13 @@
 			select out_project_info.xmid as temId,out_project_plan.xmid,out_project_plan.DEFINE1,out_project_plan.PROJECT_SCOPE 
 			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and out_project_info.PROJECT_TYPE != '1' 
 																	and out_project_info.project_property not like '%十条龙%' and out_project_info.ND= '${nd}' 
-																	and out_project_info.project_property not like '%国家%'
-																	<if test="xmlbbm != null and xmlbbm == 'kyzb'">
-																		 and out_project_info.xmlbbm ='KYZB'
-																	</if>
-																	<if test="xmlbbm != null and xmlbbm == 'fkyzb'">
-																		 and out_project_info.xmlbbm !='KYZB'
-																	</if>)
+																	and out_project_info.project_property not like '%国家%')
 			WHERE
 				out_project_plan.ND= '${nd}'
 				and (out_project_plan.PROJECT_TYPE= '0' or out_project_plan.PROJECT_TYPE= '2')
 				and out_project_plan.project_property not like '%国家%'
 				<if test="define3 != null and define3 != ''">
 					and out_project_plan.DEFINE3 like '%${define3}%'
-				</if>
-				<if test="xmlbbm != null and xmlbbm == 'kyzb'">
-					 and out_project_plan.xmlbbm ='KYZB'
-				</if>
-				<if test="xmlbbm != null and xmlbbm == 'fkyzb'">
-					 and out_project_plan.xmlbbm !='KYZB'
 				</if>
 			group by out_project_plan.xmid
 		) as tableB
@@ -1033,13 +1010,7 @@
 			select out_project_info.xmid as temId,out_project_plan.xmid as xmid,out_project_plan.DEFINE1,out_project_plan.DEFINE2,out_project_plan.jf as jf1,out_project_info.jf as jf2
 			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and out_project_info.PROJECT_TYPE != '1' 
 																	and out_project_info.project_property not like '%十条龙%' and out_project_info.ND= '${nd}' 
-																	and out_project_info.project_property not like '%国家%'
-																	<if test="xmlbbm != null and xmlbbm == 'kyzb'">
-																		 and out_project_info.xmlbbm ='KYZB'
-																	</if>
-																	<if test="xmlbbm != null and xmlbbm == 'fkyzb'">
-																		 and out_project_info.xmlbbm !='KYZB'
-																	</if>)
+																	and out_project_info.project_property not like '%国家%')
 			WHERE
 				out_project_plan.ND= '${nd}' and out_project_plan.DEFINE3 like '%直属研究院%'
 				and (out_project_plan.PROJECT_TYPE= '0' or out_project_plan.PROJECT_TYPE= '2')
@@ -1098,23 +1069,11 @@
 			select out_project_info.xmid as temId,out_project_plan.xmid as xmid,out_project_plan.DEFINE1
 			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and out_project_info.PROJECT_TYPE != '1' 
 																	and out_project_info.project_property not like '%十条龙%' and out_project_info.ND= '${nd}' 
-																	and out_project_info.project_property not like '%国家%'
-																	<if test="xmlbbm != null and xmlbbm == 'kyzb'">
-																		 and out_project_info.xmlbbm ='KYZB'
-																	</if>
-																	<if test="xmlbbm != null and xmlbbm == 'fkyzb'">
-																		 and out_project_info.xmlbbm !='KYZB'
-																	</if>)
+																	and out_project_info.project_property not like '%国家%')
 			WHERE
 				out_project_plan.ND= '${nd}' 
 				and out_project_plan.PROJECT_TYPE != '1'
 				and out_project_plan.project_property not like '%国家%'
-				<if test="xmlbbm != null and xmlbbm == 'kyzb'">
-					 and out_project_plan.xmlbbm ='KYZB'
-				</if>
-				<if test="xmlbbm != null and xmlbbm == 'fkyzb'">
-					 and out_project_plan.xmlbbm !='KYZB'
-				</if>
 				group by out_project_plan.xmid
 		) as tableB 
 		group by tableB.DEFINE1
@@ -1142,23 +1101,11 @@
 						 out_project_plan.jf as jf1,out_project_plan.jf as jf2,out_project_plan.xmlbbm as xmlbbm1,out_project_info.xmlbbm as xmlbbm2
 			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and out_project_info.PROJECT_TYPE != '1' 
 																	and out_project_info.project_property not like '%十条龙%' and out_project_info.ND= '${nd}' 
-																	and out_project_info.project_property not like '%国家%'
-																	<if test="xmlbbm != null and xmlbbm == 'kyzb'">
-																		 and out_project_info.xmlbbm ='KYZB'
-																	</if>
-																	<if test="xmlbbm != null and xmlbbm == 'fkyzb'">
-																		 and out_project_info.xmlbbm !='KYZB'
-																	</if>)
+																	and out_project_info.project_property not like '%国家%')
 			WHERE
 				out_project_plan.ND= '${nd}' 
 				and out_project_plan.PROJECT_TYPE != '1'
 				and out_project_plan.project_property not like '%国家%'
-				<if test="xmlbbm != null and xmlbbm == 'kyzb'">
-					 and out_project_plan.xmlbbm ='KYZB'
-				</if>
-				<if test="xmlbbm != null and xmlbbm == 'fkyzb'">
-					 and out_project_plan.xmlbbm !='KYZB'
-				</if>
 				group by out_project_plan.xmid
 		) as tableB  
 		group by tableB.DEFINE3
