@@ -1,13 +1,32 @@
 package com.pcitc.web.controller.hana;
 
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
+
+import com.alibaba.fastjson.JSONObject;
+import com.pcitc.base.common.LayuiTableData;
+import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.hana.report.CompanyCode;
+import com.pcitc.base.util.CommonUtil;
+import com.pcitc.base.util.DateUtil;
+import com.pcitc.web.utils.HanaUtil;
 
 //科研投资
 @Controller
@@ -18,13 +37,44 @@ public class ScientificInvestmentController {
 	@Autowired
 	private RestTemplate restTemplate;
 	
+	private static final String tzxmwcqktjb_data = "http://pcitc-zuul/system-proxy/out-decision-provider/zscq/patent-detail/page";
+	
+	
+	
+	
 	  //投资项目完成情况统计表
 	  @RequestMapping(method = RequestMethod.GET, value = "/si/tzxmwcqktjb")
 	  public String jtgszbkjjfys(HttpServletRequest request) throws Exception
 	  {
-		    
+		    String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+			List<CompanyCode> companyCodeList = HanaUtil.getCompanyCode(restTemplate, httpHeaders);
+			String companyCode = HanaUtil.getCompanyCodeAll(companyCodeList);
+			Map<String, Object> paramsMap = new HashMap<String, Object>();
+			paramsMap.put("month", month);
+			paramsMap.put("companyCode", companyCode);
 	        return "stp/hana/scientificInvestment/tzxmwcqktjb";
 	  }
+	  
+		// 三级表格
+			@RequestMapping(method = RequestMethod.POST, value = "/tzxmwcqktjb_data")
+			@ResponseBody
+			public String tzxmwcqktjb_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response)
+			{
+
+				LayuiTableData layuiTableData = new LayuiTableData();
+				HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+				ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(tzxmwcqktjb_data, HttpMethod.POST, entity, LayuiTableData.class);
+				int statusCode = responseEntity.getStatusCodeValue();
+				if (statusCode == 200)
+				{
+					layuiTableData = responseEntity.getBody();
+				}
+				JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
+				System.out.println(">>>>>>>>>>>>>zlsbqkmxfxb_data:" + result.toString());
+				return result.toString();
+			}
+
+			
 	  
 	  //投资项目采购进度统计表
 	  @RequestMapping(method = RequestMethod.GET, value = "/si/tzxmcgjdtjb")

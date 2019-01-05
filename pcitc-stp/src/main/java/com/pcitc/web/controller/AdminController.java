@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.Cookie;
@@ -531,6 +532,10 @@ public class AdminController extends BaseController {
 		
 		String url=CommonUtil.getParameter(request, "url", "");
 		request.setAttribute("url", url);
+		
+		url = java.net.URLDecoder.decode(request.getParameter("url"),"UTF-8");//名称检索条件
+		
+		
 	    SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
 	    
 	    SysUser  userDetails = this.restTemplate.exchange(USER_DETAILS_URL + sysUserInfo.getUserId(), HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SysUser.class).getBody();
@@ -556,9 +561,49 @@ public class AdminController extends BaseController {
 		request.setAttribute("grgztList", grgztList);
 		request.setAttribute("upList", upList);
 		request.setAttribute("userInfo", userDetails);
+		
+		getContractParameter( request,  response);
 		return "/instituteIndex";
 	}
 
+	
+	public void getContractParameter(HttpServletRequest request, HttpServletResponse response)
+	{
+		String nd=CommonUtil.getParameter(request, "nd", "");//项目名
+		String ysnd=CommonUtil.getParameter(request, "ysnd", "");//项目名
+		String xmmc=CommonUtil.getParameter(request, "xmmc", "");//项目名
+		String hth=CommonUtil.getParameter(request, "hth", "");//合同号
+		String define1=CommonUtil.getParameter(request, "define1", "");//资本性、费用性
+		String define2=CommonUtil.getParameter(request, "define2", "");//8大院等细分结构
+		String define3=CommonUtil.getParameter(request, "define3", "");//直属研究院、分子公司、集团等9种类型
+		String project_property=CommonUtil.getParameter(request, "project_property", "");//国家项目、重大专项、重点项目、其他项目
+		String project_scope=CommonUtil.getParameter(request, "project_scope", "");//新开项目、续建项目、完工项目
+		String zylb=CommonUtil.getParameter(request, "zylb", "");//装备的各种技术类型
+		String zycmc=CommonUtil.getParameter(request, "zycmc", "");//各个处室
+		
+		
+		request.setAttribute("nd", nd);
+		request.setAttribute("ysnd", ysnd);
+		
+		
+		request.setAttribute("zycmc", zycmc);
+		request.setAttribute("xmmc", xmmc);
+		request.setAttribute("hth", hth);
+		request.setAttribute("define1", define1);
+		request.setAttribute("define2", define2);
+		request.setAttribute("define3", define3);
+		request.setAttribute("project_property", project_property);
+		request.setAttribute("project_scope", project_scope);
+		request.setAttribute("zylb", zylb);
+		
+		String projectId=CommonUtil.getParameter(request, "projectId", "");
+		request.setAttribute("projectId", projectId);
+		
+		
+		
+			
+		
+	}
 	
 	
 	
