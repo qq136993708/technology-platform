@@ -12,6 +12,11 @@ import com.pcitc.base.stp.out.OutProjectInfo;
 public interface OutProjectService {
 
 	/**
+     * 分页显示十条龙项目数据数据
+     */
+	public LayuiTableData selectDragonProjectByCond(LayuiTableParam param);
+	
+	/**
 	 * 批量插入项目
 	 * @param list
 	 * @param nd
