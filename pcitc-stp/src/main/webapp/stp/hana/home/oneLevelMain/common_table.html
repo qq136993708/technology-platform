@@ -123,7 +123,6 @@
     <table id="processdef-table" class="layui-hide" lay-filter="tableEvent">
 </div>
 
-</script>
 
 <!--表格数据操作js-->
 <script src="/common/js/jquery-1.11.3.min.js"></script>
@@ -184,8 +183,46 @@ layui.config({
         if($(".specialty ul li").length>=25){
             $(".specialty .selector-right").css({"height":"80px","overflow-y":"scroll"})
         }
-
-        
+        $(".cost ul li").each(function () {
+            var htmlA=$(this).find("a").html(),htmlT=$("#define1").val(),
+                htmlName=$(this).parents(".selector-right").prev().html();
+            if(htmlA==htmlT && htmlA!=""){
+                $(this).addClass("layui-this");
+                $(".conditionNew").removeClass("layui-hide");
+                $(".conditionNew ul").append("<li>"+htmlName+"<a href='javascript:;'>"+htmlA+"</a></li>");
+                renderTable();
+            }
+        });
+        $(".institute ul li").each(function () {
+            var htmlA=$(this).find("a").html(),htmlT=$("#define2").val(),
+                htmlName=$(this).parents(".selector-right").prev().html();
+            if(htmlA==htmlT && htmlA!=""){
+                $(this).addClass("layui-this");
+                $(".conditionNew").removeClass("layui-hide");
+                $(".conditionNew ul").append("<li>"+htmlName+"<a href='javascript:;'>"+htmlA+"</a></li>");
+                renderTable();
+            }
+        });
+        $(".system ul li").each(function () {
+            var htmlA=$(this).find("a").html(),htmlT=$("#define3").val(),
+                htmlName=$(this).parents(".selector-right").prev().html();
+            if(htmlA==htmlT && htmlA!=""){
+                $(this).addClass("layui-this");
+                $(".conditionNew").removeClass("layui-hide");
+                $(".conditionNew ul").append("<li>"+htmlName+"<a href='javascript:;'>"+htmlA+"</a></li>");
+                renderTable();
+            }
+        });
+        $(".specialty ul li").each(function () {
+            var htmlA=$(this).find("a").html(),htmlT=$("#zylb").val(),
+                htmlName=$(this).parents(".selector-right").prev().html();
+            if(htmlA==htmlT && htmlA!=""){
+                $(this).addClass("layui-this");
+                $(".conditionNew").removeClass("layui-hide");
+                $(".conditionNew ul").append("<li>"+htmlName+"<a href='javascript:;'>"+htmlA+"</a></li>");
+                renderTable();
+            }
+        });
         
         
         
