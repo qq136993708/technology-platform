@@ -331,6 +331,7 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 			opi.setNd((String) param.getParam().get("nd"));
 			hashmap.put("nd", param.getParam().get("nd"));
 		}
+		System.out.println("1234>>>>>>>>>查询分页结果" + param.getParam().get("ysnd"));
 		if(param.getParam().get("ysnd") !=null && !StringUtils.isBlank(param.getParam().get("ysnd")+"")){
 			hashmap.put("ysnd", param.getParam().get("ysnd"));
 		}
