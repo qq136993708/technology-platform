@@ -2266,20 +2266,20 @@
 		select xmlbmc,count(DISTINCT xmmc) as sl
 		from out_project_info
 		WHERE
-			project_property = '十条龙项目'  and nd='${nd}'
+			project_property = '十条龙项目'  and nd='${nd}' and project_type != '2'
 		group by xmlbmc
 	</select>
 	
 	<!--  领导首页-十条龙，十条龙项目的出入龙情况 -->
 	<select id="getDragonProjectInfoWithOutIn" resultType="java.util.Map" parameterType="java.util.HashMap">
-		select sum(case when nd='${l_nd}' and `status` = '申请出龙' then 1 else 0 end) sqcl,
-			 sum(case when nd='${nd}' and `status` = '推荐入龙' then 1 else 0 end) tjrl,
-			 sum(case when nd='${nd}' and `status` = '在研项目' then 1 else 0 end) zyxm
+		select sum(case when ysnd='${l_nd}' and `status` = '申请出龙' then 1 else 0 end) sqcl,
+			 sum(case when ysnd='${nd}' and `status` = '推荐入龙' then 1 else 0 end) tjrl,
+			 sum(case when ysnd='${nd}' and `status` = '在研项目' then 1 else 0 end) zyxm
 		from (
-			select distinct xmmc,nd,`status`
+			select distinct xmmc,ysnd,`status`
 			from out_project_info
 			WHERE
-				project_property = '十条龙项目' 
+				project_property = '十条龙项目' and project_type != '2'
 		) as tableA
 		
 	</select>
@@ -2290,10 +2290,10 @@
 			 sum(case when project_property = '十条龙项目' then 1 else 0 end) stlxm,
 			 sum(case when project_property = '重大专项' then 1 else 0 end) zdzx
 		FROM 
-			(select distinct xmmc,nd,project_property,define2
+			(select distinct xmmc,ysnd,project_property,define2
 			 from out_project_info
 			 WHERE
-				 nd = '2017' and type_flag like '%研究院' and define2 is not null
+				 ysnd = '${nd}' and type_flag like '%研究院' and project_type != '2'
 	    	) as tableA
 		GROUP BY tableA.define2
 	</select>
@@ -2303,20 +2303,20 @@
 		select nd,xmmc,fzdw as zydw,`status`,define6
 		from out_project_info
 		WHERE
-			 nd = '2017' and project_property = '十条龙项目' and define6 = '4组员单位'
+			 ysnd = '${nd}' and project_property = '十条龙项目' and define6 = '4组员单位'
 		
 		union all
 		select nd,xmmc,GROUP_CONCAT(fzdw) as zydw,`status`,define6
 		from out_project_info
 		WHERE
-			 nd = '2017' and project_property = '十条龙项目' and (define6 = '1组长单位' or define6 = '2副组长单位')
+			 ysnd = '${nd}' and project_property = '十条龙项目' and (define6 = '1组长单位' or define6 = '2副组长单位')
 		GROUP BY xmmc
 		
 		union all
 		select nd,xmmc,GROUP_CONCAT(fzdw) as zydw,`status`,define6
 		from out_project_info
 		WHERE
-			 nd = '2017' and project_property = '十条龙项目' and define6 = '3协作单位'
+			 ysnd = '${nd}' and project_property = '十条龙项目' and define6 = '3协作单位'
 		GROUP BY xmmc
 		order by xmmc,define6
 	</select>
