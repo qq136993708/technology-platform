@@ -246,7 +246,8 @@
             {
             	 projectId="0";
             }
-            window.open("/one_level_main/common_table?define1="+xName+"&projectId="+projectId+"&nd="+nd+"&ysnd="+nd);
+            var url=　encodeURIComponent("/one_level_main/common_table?define1="+xName+"&projectId="+projectId+"&nd="+nd+"&ysnd="+nd);
+            window.open("/instituteIndex?url="+url);
 
         });
 

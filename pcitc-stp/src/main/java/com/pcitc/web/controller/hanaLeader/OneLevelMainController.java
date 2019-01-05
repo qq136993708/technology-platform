@@ -274,7 +274,11 @@ public class OneLevelMainController {
 			                String showName= (String)object.get("showName");
 			                if(showCode.equals("define1"))
 			                {
-			                	define1List.add(showName);
+			                	if(showName!=null && !showName.equals(""))
+			                	{
+			                		define1List.add(showName);
+			                	}
+			                
 			                }
 			                if(showCode.equals("define2"))
 			                {
