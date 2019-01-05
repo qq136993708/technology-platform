@@ -218,9 +218,7 @@ public class OneLevelMainController {
 		@RequestMapping(method = RequestMethod.GET, value = "/common_table")
 		  public String common_table(HttpServletRequest request) throws Exception
 		  {
-			   /* String nd = HanaUtil.getCurrrentYear();
-				request.setAttribute("nd", nd);
-				request.setAttribute("ysnd", nd);*/
+			 
 				
 				String nd=CommonUtil.getParameter(request, "nd", "");//项目名
 				String ysnd=CommonUtil.getParameter(request, "ysnd", "");//项目名
@@ -267,9 +265,10 @@ public class OneLevelMainController {
 					 List<String> define21List = new ArrayList<String>();//8大研究院 
 					 List<String> type_flagList = new ArrayList<String>();
 					 List<String> zylbList = new ArrayList<String>();
+					 List<String> zycmcList = new ArrayList<String>();
 					 for (int i = 0; i < jSONArray.size(); i++)
 			         {
-						     Map  object = (Map) jSONArray.get(i);
+						    Map  object = (Map) jSONArray.get(i);
 			                String showCode= (String)object.get("showCode");
 			                String showName= (String)object.get("showName");
 			                if(showCode.equals("define1"))
@@ -292,6 +291,10 @@ public class OneLevelMainController {
 			                {
 			                	zylbList.add(showName);
 			                }
+			                if(showCode.equals("zycmc"))
+			                {
+			                	zycmcList.add(showName);
+			                }
 			                
 			          }
 					 
@@ -299,6 +302,7 @@ public class OneLevelMainController {
 					 request.setAttribute("define21List", define21List);
 					 request.setAttribute("type_flagList", type_flagList);
 					 request.setAttribute("zylbList", zylbList);
+					 request.setAttribute("zycmcList", zycmcList);
 					
 				}
 		        return "stp/hana/home/oneLevelMain/common_table";
