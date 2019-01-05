@@ -41,9 +41,9 @@ public class OutProjectServiceImpl implements OutProjectService {
 	
 	
 	/**
-     * 分页显示十条龙项目数据数据
+     * 分页显示项目数据数据,统计的第三级展示
      */
-	public LayuiTableData selectDragonProjectByCond(LayuiTableParam param) {
+	public LayuiTableData selectCommonProjectByCond(LayuiTableParam param) {
 		// 每页显示条数
 		int pageSize = param.getLimit();
 		// 当前是第几页
@@ -134,7 +134,7 @@ public class OutProjectServiceImpl implements OutProjectService {
 			hashmap.put("ysnd", param.getParam().get("ysnd"));
 		}
 		
-		List<OutProjectInfo> list = outProjectInfoMapper.selectDragonProjectByCond(hashmap);
+		List<OutProjectInfo> list = outProjectInfoMapper.selectCommonProjectByCond(hashmap);
 		System.out.println("1>>>>>>>>>查询分页结果" + list.size());
 		PageInfo<OutProjectInfo> pageInfo = new PageInfo<OutProjectInfo>(list);
 		System.out.println("2>>>>>>>>>查询分页结果" + pageInfo.getList().size());
