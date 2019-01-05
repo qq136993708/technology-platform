@@ -2368,21 +2368,21 @@
 	
 	
 	<!-- 分页显示项目数据数据,统计的第三级展示 -->
-	<select id="selectCommonProjectByCond" resultType="com.pcitc.base.stp.out.OutProjectInfo" parameterType="java.util.HashMap">
-		select out_project_info.DEFINE1,SUBSTR(out_project_info.DEFINE2 FROM 4) as DEFINE2,SUBSTR(out_project_info.type_flag FROM 2) as TypeFlag,
-			   out_project_info.XMMC,out_project_info.JF,out_project_info.YSJE,out_project_info.YSND,
-			   out_project_info.PROJECT_PROPERTY,out_project_info.FZDW,out_project_info.ZYLB,
-		       out_project_info.ND,out_project_info.HTH,out_project_info.ZYCMC
+	<select id="selectCommonProjectByCond" resultMap="BaseResultMap" parameterType="java.util.HashMap">
+		select out_project_info.define1,substr(out_project_info.define2 from 4) as define2,substr(out_project_info.type_flag from 2) as type_flag,
+			   out_project_info.xmmc,out_project_info.jf,out_project_info.ysje,out_project_info.ysnd,
+			   out_project_info.project_property,out_project_info.fzdw,out_project_info.zylb,
+		       out_project_info.nd,out_project_info.hth,out_project_info.zycmc
 		from out_project_info
-		WHERE
-			 out_project_info.PROJECT_TYPE != '1'
+		where
+			 out_project_info.project_type != '1'
 			 and out_project_info.project_property not like '%国家%'
 			 and out_project_info.project_property not like '%十条龙%'
 			<if test="nd != null">
-				and out_project_info.nd = #{nd,jdbcType=VARCHAR}
+				and out_project_info.nd = #{nd,jdbctype=varchar}
 			</if>
 			<if test="ysnd != null">
-				and out_project_info.ysnd = #{ysnd,jdbcType=VARCHAR}
+				and out_project_info.ysnd = #{ysnd,jdbctype=varchar}
 			</if>
 			<if test="hth != null">
 				and out_project_info.hth like '%${hth}%'
@@ -2404,7 +2404,7 @@
 				</foreach>
 				)
 			</if>
-			<if test="projectProperty != null">
+			<if test="projectproperty != null">
 				and (
 				<foreach collection="project_property" item="project_property" index="index" separator=" or ">
 					out_project_info.project_property like '%${project_property}%'
