@@ -207,4 +207,12 @@ public interface ZjkBaseInfoService {
     public List<SysDictionary> getDicSon(String strParentCode);
 
     public String getDicSonVal(List<SysDictionary> list, String val);
+
+    JSONObject SaveSKMExpert(JSONObject jsonObject);
+
+    JSONObject SaveSKMType(JSONObject jsonObject);
+
+    JSONObject savePatent(JSONObject jsonObject);
+
+    JSONObject saveSKMAchievement(JSONObject jsonObject);
 }
