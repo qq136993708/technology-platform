@@ -66,22 +66,6 @@
             </ul>
         </div>
     </div>
-    
-    
-    <div class="specialt_chu">
-        <div class="selector-left">专业处：</div>
-        <div class="selector-right">
-            <ul>
-              <#list zycmcList as t> 
-	                <li>
-	                    <a href="javascript:;">${t}</a>
-	                </li>
-                </#list>
-            </ul>
-        </div>
-    </div>
-    
-    
 
     <div class="conditionNew layui-hide">
         <div class="selector-left">已选条件：</div>
@@ -208,6 +192,8 @@ layui.config({
                 $(".conditionNew ul").append("<li>"+htmlName+"<a href='javascript:;'>"+htmlA+"</a></li>");
                 renderTable();
             }
+
+            dele();
         });
         $(".institute ul li").each(function () {
             var htmlA=$(this).find("a").html(),htmlT=$("#define2").val(),
@@ -218,6 +204,8 @@ layui.config({
                 $(".conditionNew ul").append("<li>"+htmlName+"<a href='javascript:;'>"+htmlA+"</a></li>");
                 renderTable();
             }
+
+            dele();
         });
         $(".system ul li").each(function () {
             var htmlA=$(this).find("a").html(),htmlT=$("#define3").val(),
@@ -228,6 +216,8 @@ layui.config({
                 $(".conditionNew ul").append("<li>"+htmlName+"<a href='javascript:;'>"+htmlA+"</a></li>");
                 renderTable();
             }
+
+            dele();
         });
         $(".specialty ul li").each(function () {
             var htmlA=$(this).find("a").html(),htmlT=$("#zylb").val(),
@@ -238,6 +228,8 @@ layui.config({
                 $(".conditionNew ul").append("<li>"+htmlName+"<a href='javascript:;'>"+htmlA+"</a></li>");
                 renderTable();
             }
+
+            dele();
         });
         
         
@@ -252,7 +244,18 @@ layui.config({
         //专业类别
         $(".specialty ul").append("<li><a href='javascript:;'>"+"资本性"+"</a> </li>"); */
         $(".selector>div ul li a").click(function () {
-            if($(this).parents("li").hasClass("layui-this")){
+            if($(this).parents(".selector-right").parent().attr("class")=="conditionNew"){
+                var htmlThis=$(this).html();
+                var htmlW=$(this).parent().text();
+                $(".selector-right ul li a").each(function () {
+                    var htmlN=$(this).parents(".selector-right").prev().html();
+                    if(htmlW.indexOf(htmlN)!= -1 && htmlThis.indexOf($(this).html())!= -1){
+                        $(this).parents("li").removeClass("layui-this");
+                        return false;
+                    }
+                });
+                $(this).parent().remove()
+            }else if($(this).parents("li").hasClass("layui-this")){
                 $(this).parents("li").removeClass("layui-this");
                 var htmlThis=$(this).html();
                 $(".conditionNew ul li a").each(function () {
@@ -272,29 +275,31 @@ layui.config({
                 });
                 $(".conditionNew ul li a").click(function () {
                     var htmlThis=$(this).html();
+                    var htmlW=$(this).parent().text();
                     $(".selector-right ul li a").each(function () {
-                        if(htmlThis.indexOf($(this).html())!= -1 ){
+                        var htmlN=$(this).parents(".selector-right").prev().html();
+                        if(htmlW.indexOf(htmlN)!= -1 && htmlThis.indexOf($(this).html())!= -1){
                             $(this).parents("li").removeClass("layui-this");
                             return false;
                         }
                     });
                 });
-                $(".conditionNew .dele").click(function () {
-                    $(".conditionNew ul li").remove();
-                    $(".selector-right ul li").removeClass("layui-this");
-                    $(".conditionNew").addClass("layui-hide");
-                });
+                dele();
             }
         });
-        
-        
     });
-    
-    
+
+    function dele() {
+        $(".conditionNew .dele").click(function () {
+            $(".conditionNew ul li").remove();
+            $(".selector-right ul li").removeClass("layui-this");
+            $(".conditionNew").addClass("layui-hide");
+        });
+    }
     function renderTable()
     {
     	
-    	 var costSelectedItem="",instituteSelectedItem="",systemSelectedItem="",specialtySelectedItem="",specialtySelectedspecialt_chuItem="";
+    	 var costSelectedItem="",instituteSelectedItem="",systemSelectedItem="",specialtySelectedItem="";
          $(".cost ul li").each(function () {
              if($(this).attr("class")=="layui-this"){
                  costSelectedItem+=$(this).find("a").html()+',';
@@ -315,18 +320,10 @@ layui.config({
                  specialtySelectedItem+=$(this).find("a").html()+',';
              }
          });
-         
-         $(".specialt_chu ul li").each(function () {
-             if($(this).attr("class")=="layui-this"){
-            	 specialtySelectedspecialt_chuItem+=$(this).find("a").html()+',';
-             }
-         });
-         
          costSelectedItem=costSelectedItem.slice(0,costSelectedItem.length-1);//define1
          instituteSelectedItem=instituteSelectedItem.slice(0,instituteSelectedItem.length-1);//define2  8大院等细分结构
          systemSelectedItem=systemSelectedItem.slice(0,systemSelectedItem.length-1);//define3           直属研究院、分子公司、集团等9种类型
          specialtySelectedItem=specialtySelectedItem.slice(0,specialtySelectedItem.length-1);//zylb     装备的各种技术类型
-         specialtySelectedspecialt_chuItem=specialtySelectedspecialt_chuItem.slice(0,specialtySelectedspecialt_chuItem.length-1);//zycmc   专业处
          
         //alert("specialtySelectedItem="+specialtySelectedItem);
     	var index = layer.load(1, {
@@ -340,12 +337,11 @@ layui.config({
         method:"POST",
         where: {param: {
         	      "nd":$("#nd").val(),
-        	      "ysnd":$("#ysnd").val(),
         	      "xmmc":$("#xmmc").val(),
         	      "define1":costSelectedItem,
         	      "define2":instituteSelectedItem,
         	      "type_flag":systemSelectedItem,
-        	      "zycmc":specialtySelectedspecialt_chuItem,
+        	      "zycmc":$("#zycmc").val(),
         	      "zylb":specialtySelectedItem,
         	      "project_scope":$("#project_scope").val(),
         	      "project_property":$("#project_property").val(),
@@ -364,21 +360,19 @@ layui.config({
             theme: '#0F9EE0'
         },
         cols: [[
-        	  {title:'序号',               type:'numbers', width: '4%'},
-        	  {field:'nd',                 title:'项目年度',             style:'cursor: pointer;',align: 'center', width: '150'},
+        	{title:'序号',               type:'numbers', width: '4%'},
+        	  {field:'nd',              title:'项目年度',             style:'cursor: pointer;',align: 'center', width: '150'},
         	  {field:'ysnd',              title:'预算年度',             style:'cursor: pointer;',align: 'center', width: '150'},
-              {field:'hth',               title:'合同号',              style:'cursor: pointer;',align: 'center', width: '150'},
-              {field:'zycmc',             title:'专业处',             style:'cursor: pointer;',align: 'left', width: '150'},
-              {field:'xmmc',              title:'项目名称',            style:'cursor: pointer;',align: 'left', width: '380'},
-              {field:'jf',                title:'总额（万元）',         style:'cursor: pointer;',align: 'center', width: '150'},
+              {field:'hth',             title:'合同号',            style:'cursor: pointer;',align: 'center', width: '150'},
+              {field:'xmmc',            title:'项目名称',           style:'cursor: pointer;',align: 'left', width: '380'},
+              {field:'jf',              title:'总额（万元）',        style:'cursor: pointer;',align: 'center', width: '150'},
               {field:'ysje',              title:'年度预算（万元）',        style:'cursor: pointer;',align: 'center', width: '150'},
-        	  {field:'define1',           title:'资本/费用',           style:'cursor: pointer;',align: 'center', width: '150'},
-        	  {field:'define2',           title:'二级单位名称',        style:'cursor: pointer;',align: 'left', width: '150'},
-        	  {field:'define3',           title:'一级单位名称',        style:'cursor: pointer;',align: 'left', width: '150'},
-              {field:'zylb',              title:'专业类别',           style:'cursor: pointer;',align: 'left', width: '150'},
-              {field:'fzdw',              title:'负责单位',           style:'cursor: pointer;',align: 'left', width: '150'},
-              {field:'qdbz',              title:'签订标识',           style:'cursor: pointer;',align: 'left', width: '150'}
-           
+        	{field:'define1',           title:'资本/费用',           style:'cursor: pointer;',align: 'center', width: '150'},
+        	{field:'define2',           title:'二级单位名称',            style:'cursor: pointer;',align: 'left', width: '150'},
+        	{field:'define3',           title:'一级单位名称',        style:'cursor: pointer;',align: 'left', width: '150'},
+            {field:'zylb',              title:'专业类别',          style:'cursor: pointer;',align: 'left', width: '150'},
+            {field:'fzdw',              title:'项目类别描述',        style:'cursor: pointer;',align: 'left', width: '150'},
+            {field:'parentName',        title:'父项目名',     style:'cursor: pointer;',align: 'left', width: '150'}
             
         ]],
         done: function (res, curr, count) {
