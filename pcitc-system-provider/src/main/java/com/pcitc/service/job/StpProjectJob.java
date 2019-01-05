@@ -146,7 +146,7 @@ public class StpProjectJob implements Job, Serializable {
 					if (sjid != null && Integer.parseInt(sjid) == 0) {
 						opi.setProjectType("1");
 					}
-					if (sjid != null && Integer.parseInt(sjid) == -1) {
+					if (sjid != null && Integer.parseInt(sjid) < 0) {
 						opi.setProjectType("0");
 					}
 					
