@@ -218,8 +218,12 @@ public class OneLevelMainController {
 		@RequestMapping(method = RequestMethod.GET, value = "/common_table")
 		  public String common_table(HttpServletRequest request) throws Exception
 		  {
-			    String nd = HanaUtil.getCurrrentYear();
+			   /* String nd = HanaUtil.getCurrrentYear();
 				request.setAttribute("nd", nd);
+				request.setAttribute("ysnd", nd);*/
+				
+				String nd=CommonUtil.getParameter(request, "nd", "");//项目名
+				String ysnd=CommonUtil.getParameter(request, "ysnd", "");//项目名
 				String xmmc=CommonUtil.getParameter(request, "xmmc", "");//项目名
 				String hth=CommonUtil.getParameter(request, "hth", "");//合同号
 				String define1=CommonUtil.getParameter(request, "define1", "");//资本性、费用性
@@ -229,6 +233,11 @@ public class OneLevelMainController {
 				String project_scope=CommonUtil.getParameter(request, "project_scope", "");//新开项目、续建项目、完工项目
 				String zylb=CommonUtil.getParameter(request, "zylb", "");//装备的各种技术类型
 				String zycmc=CommonUtil.getParameter(request, "zycmc", "");//各个处室
+				
+				
+				request.setAttribute("nd", nd);
+				request.setAttribute("ysnd", ysnd);
+				
 				
 				request.setAttribute("zycmc", zycmc);
 				request.setAttribute("xmmc", xmmc);

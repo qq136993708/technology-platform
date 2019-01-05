@@ -84,42 +84,18 @@
 <input type="hidden" name="project_property" value="${project_property}"  id="project_property">
 <!-- 新开项目、续建项目、完工项目  -->
 <input type="hidden" name="project_scope" value="${project_scope}"  id="project_scope">
-<!-- 装备的各种技术类型 -->
-<input type="hidden" name="zylb" value="${zylb}"  id="zylb">
 <!-- 各个处室 -->
 <input type="hidden" name="zycmc" value="${zycmc}"  id="zycmc">
-
-<input type="hidden" name="define1"     value="${define1}"   id="define1">
-<input type="hidden" name="type_flag"  value="${type_flag}"  id="type_flag">
-<input type="hidden" name="define2"    value="${define2}"    id="define2">
-    
 <input type="hidden" name="projectId"  value="${projectId}"  id="projectId">
-     
-    
-    
-    
-    <!--查询条件-->
-    <!-- 
-    <label class="dateInput">
-        <span>合同号</span>
-        <input type="text" name="hth" title="合同号" autocomplete="off" class="form-control" id="hth">
-    </label>
-    资本性、费用性  	
-    <label class="dateInput">
-        <span>费用类别</span>
-        <input type="text" name="define1" value="${define1}"  title="费用类别" autocomplete="off" class="form-control"  id="define1">
-    </label>
-    8大院等细分结构 
-    <label class="dateInput">
-        <span>研究院</span>
-        <input type="text" name="define2" value="${define2}"  title="研究院" autocomplete="off" class="form-control"  id="define2">
-    </label>
-    直属研究院、分子公司、集团等9种类型  
-    <label class="dateInput">
-        <span>分公司</span>
-        <input type="text" name="define3" value="${define2}"  title="分公司" autocomplete="off" class="form-control"  id="define3">
-    </label> -->
-    
+<!-- 资本性、费用性 -->
+<input type="hidden" name="define1"     value="${define1}"   id="define1">
+<!--8大院等细分结构-->
+<input type="hidden" name="define2"    value="${define2}"    id="define2">
+<!-- 直属研究院、分子公司、集团等9种类型 -->
+<input type="hidden" name="define3"    value="${define3}"    id="define3">
+<!-- 装备的各种技术类型 -->
+<input type="hidden" name="zylb" value="${zylb}"  id="zylb">
+
     
      <label class="dateInput">
         <span>项目名称</span>
@@ -127,15 +103,17 @@
     </label>
     
     <label class="dateInput">
-            <span>月份</span>
-            <input type="text" name="nd" placeholder="请选择月份" title="月份" value="${nd}"  autocomplete="off" class="form-control" id="nd">
-        </label>
-       
-       
-    <!--按钮组-->
-    <div class="btnGroup">
+         <span>项目年度</span>
+         <input type="text" name="nd" placeholder="请选择项目年度" title="项目年度" value="${nd}"  autocomplete="off" class="form-control" id="nd">
+     </label>
+     <label class="dateInput">
+         <span>预算年度</span>
+         <input type="text" name="ysnd" placeholder="请选择预算年度" title="预算年度" value="${ysnd}"  autocomplete="off" class="form-control" id="ysnd">
+     </label>
+     <!--按钮组-->
+     <div class="btnGroup">
         <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg"  onclick="renderTable()">查询</button>
-    </div>
+     </div>
     
     
     
@@ -162,17 +140,17 @@ layui.config({
       ,laydate = layui.laydate,
 	  form.render(null, 'component-form-group');
             laydate.render({
-               
-            	   elem: '#nd'
-             	       ,type: 'year'
-             	       
-               
+            	   elem: '#nd' ,type: 'year'
+            		   ,done: function(value, date, endDate){
+                           $("#nd").val(date.year); 
+                       }
             });
-
-
-
-            
-            
+            laydate.render({
+         	   elem: '#ysnd' ,type: 'year'
+         	   ,done: function(value, date, endDate){
+                   $("#ysnd").val(date.year); 
+               }
+         });
             //加载表格      
      	     renderTable();
      	     //移除表头的复选框,去掉全选
@@ -211,7 +189,6 @@ layui.config({
         
         
         
-        /*选择器*/
         /*循环生成*/
         //费用类别
         /* $(".cost ul").append("<li><a href='javascript:;'>"+"资本性"+"</a> </li>");
@@ -258,10 +235,6 @@ layui.config({
         });
         
         
-
-         
-        
-        
     });
     
     
@@ -289,16 +262,14 @@ layui.config({
                  specialtySelectedItem+=$(this).find("a").html()+',';
              }
          });
-         costSelectedItem=costSelectedItem.slice(0,costSelectedItem.length-1);
-         instituteSelectedItem=instituteSelectedItem.slice(0,instituteSelectedItem.length-1);
-         systemSelectedItem=systemSelectedItem.slice(0,systemSelectedItem.length-1);
-         specialtySelectedItem=specialtySelectedItem.slice(0,specialtySelectedItem.length-1);
+         costSelectedItem=costSelectedItem.slice(0,costSelectedItem.length-1);//define1
+         instituteSelectedItem=instituteSelectedItem.slice(0,instituteSelectedItem.length-1);//define2  8大院等细分结构
+         systemSelectedItem=systemSelectedItem.slice(0,systemSelectedItem.length-1);//define3           直属研究院、分子公司、集团等9种类型
+         specialtySelectedItem=specialtySelectedItem.slice(0,specialtySelectedItem.length-1);//zylb     装备的各种技术类型
          
-         
-         //alert("specialtySelectedItem="+specialtySelectedItem);
-    	
+        //alert("specialtySelectedItem="+specialtySelectedItem);
     	var index = layer.load(1, {
-    		  shade: [0.1,'#fff'] //0.1透明度的白色背景
+    		  shade: [0.1,'#fff'] 
     		});
     	
       //渲染
@@ -332,16 +303,18 @@ layui.config({
         },
         cols: [[
         	{title:'序号',               type:'numbers', width: '4%'},
-        	  {field:'nd',               title:'年度',             style:'cursor: pointer;',align: 'center', width: '150'},
-              {field:'hth',              title:'合同号',            style:'cursor: pointer;',align: 'center', width: '150'},
-              {field:'xmmc',             title:'项目名称',           style:'cursor: pointer;',align: 'left', width: '380'},
-              {field:'jf',               title:'项目经费总额（万元）',        style:'cursor: pointer;',align: 'center', width: '150'},
-        	{field:'define1',          title:'资本/费用',           style:'cursor: pointer;',align: 'center', width: '150'},
-        	{field:'define2',          title:'研究院',            style:'cursor: pointer;',align: 'left', width: '150'},
-        	{field:'define3',          title:'其他系统标识',        style:'cursor: pointer;',align: 'left', width: '150'},
-            {field:'zylb',             title:'专业类别',          style:'cursor: pointer;',align: 'left', width: '150'},
-            {field:'fzdw',             title:'项目类别描述',        style:'cursor: pointer;',align: 'left', width: '150'},
-            {field:'parentName',       title:'父项目名',     style:'cursor: pointer;',align: 'left', width: '150'}
+        	  {field:'nd',              title:'项目年度',             style:'cursor: pointer;',align: 'center', width: '150'},
+        	  {field:'ysnd',              title:'预算年度',             style:'cursor: pointer;',align: 'center', width: '150'},
+              {field:'hth',             title:'合同号',            style:'cursor: pointer;',align: 'center', width: '150'},
+              {field:'xmmc',            title:'项目名称',           style:'cursor: pointer;',align: 'left', width: '380'},
+              {field:'jf',              title:'总额（万元）',        style:'cursor: pointer;',align: 'center', width: '150'},
+              {field:'ysje',              title:'年度预算（万元）',        style:'cursor: pointer;',align: 'center', width: '150'},
+        	{field:'define1',           title:'资本/费用',           style:'cursor: pointer;',align: 'center', width: '150'},
+        	{field:'define2',           title:'二级单位名称',            style:'cursor: pointer;',align: 'left', width: '150'},
+        	{field:'define3',           title:'一级单位名称',        style:'cursor: pointer;',align: 'left', width: '150'},
+            {field:'zylb',              title:'专业类别',          style:'cursor: pointer;',align: 'left', width: '150'},
+            {field:'fzdw',              title:'项目类别描述',        style:'cursor: pointer;',align: 'left', width: '150'},
+            {field:'parentName',        title:'父项目名',     style:'cursor: pointer;',align: 'left', width: '150'}
             
         ]],
         done: function (res, curr, count) {
