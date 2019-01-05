@@ -192,6 +192,8 @@ layui.config({
                 $(".conditionNew ul").append("<li>"+htmlName+"<a href='javascript:;'>"+htmlA+"</a></li>");
                 renderTable();
             }
+
+            dele();
         });
         $(".institute ul li").each(function () {
             var htmlA=$(this).find("a").html(),htmlT=$("#define2").val(),
@@ -202,6 +204,8 @@ layui.config({
                 $(".conditionNew ul").append("<li>"+htmlName+"<a href='javascript:;'>"+htmlA+"</a></li>");
                 renderTable();
             }
+
+            dele();
         });
         $(".system ul li").each(function () {
             var htmlA=$(this).find("a").html(),htmlT=$("#define3").val(),
@@ -212,6 +216,8 @@ layui.config({
                 $(".conditionNew ul").append("<li>"+htmlName+"<a href='javascript:;'>"+htmlA+"</a></li>");
                 renderTable();
             }
+
+            dele();
         });
         $(".specialty ul li").each(function () {
             var htmlA=$(this).find("a").html(),htmlT=$("#zylb").val(),
@@ -222,6 +228,8 @@ layui.config({
                 $(".conditionNew ul").append("<li>"+htmlName+"<a href='javascript:;'>"+htmlA+"</a></li>");
                 renderTable();
             }
+
+            dele();
         });
         
         
@@ -236,7 +244,18 @@ layui.config({
         //专业类别
         $(".specialty ul").append("<li><a href='javascript:;'>"+"资本性"+"</a> </li>"); */
         $(".selector>div ul li a").click(function () {
-            if($(this).parents("li").hasClass("layui-this")){
+            if($(this).parents(".selector-right").parent().attr("class")=="conditionNew"){
+                var htmlThis=$(this).html();
+                var htmlW=$(this).parent().text();
+                $(".selector-right ul li a").each(function () {
+                    var htmlN=$(this).parents(".selector-right").prev().html();
+                    if(htmlW.indexOf(htmlN)!= -1 && htmlThis.indexOf($(this).html())!= -1){
+                        $(this).parents("li").removeClass("layui-this");
+                        return false;
+                    }
+                });
+                $(this).parent().remove()
+            }else if($(this).parents("li").hasClass("layui-this")){
                 $(this).parents("li").removeClass("layui-this");
                 var htmlThis=$(this).html();
                 $(".conditionNew ul li a").each(function () {
@@ -256,25 +275,27 @@ layui.config({
                 });
                 $(".conditionNew ul li a").click(function () {
                     var htmlThis=$(this).html();
+                    var htmlW=$(this).parent().text();
                     $(".selector-right ul li a").each(function () {
-                        if(htmlThis.indexOf($(this).html())!= -1 ){
+                        var htmlN=$(this).parents(".selector-right").prev().html();
+                        if(htmlW.indexOf(htmlN)!= -1 && htmlThis.indexOf($(this).html())!= -1){
                             $(this).parents("li").removeClass("layui-this");
                             return false;
                         }
                     });
                 });
-                $(".conditionNew .dele").click(function () {
-                    $(".conditionNew ul li").remove();
-                    $(".selector-right ul li").removeClass("layui-this");
-                    $(".conditionNew").addClass("layui-hide");
-                });
+                dele();
             }
         });
-        
-        
     });
-    
-    
+
+    function dele() {
+        $(".conditionNew .dele").click(function () {
+            $(".conditionNew ul li").remove();
+            $(".selector-right ul li").removeClass("layui-this");
+            $(".conditionNew").addClass("layui-hide");
+        });
+    }
     function renderTable()
     {
     	
