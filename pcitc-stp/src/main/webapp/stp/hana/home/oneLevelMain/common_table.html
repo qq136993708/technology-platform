@@ -66,6 +66,22 @@
             </ul>
         </div>
     </div>
+    
+    
+    <div class="specialt_chu">
+        <div class="selector-left">专业处：</div>
+        <div class="selector-right">
+            <ul>
+              <#list zycmcList as t> 
+	                <li>
+	                    <a href="javascript:;">${t}</a>
+	                </li>
+                </#list>
+            </ul>
+        </div>
+    </div>
+    
+    
 
     <div class="conditionNew layui-hide">
         <div class="selector-left">已选条件：</div>
@@ -278,7 +294,7 @@ layui.config({
     function renderTable()
     {
     	
-    	 var costSelectedItem="",instituteSelectedItem="",systemSelectedItem="",specialtySelectedItem="";
+    	 var costSelectedItem="",instituteSelectedItem="",systemSelectedItem="",specialtySelectedItem="",specialtySelectedspecialt_chuItem="";
          $(".cost ul li").each(function () {
              if($(this).attr("class")=="layui-this"){
                  costSelectedItem+=$(this).find("a").html()+',';
@@ -299,10 +315,18 @@ layui.config({
                  specialtySelectedItem+=$(this).find("a").html()+',';
              }
          });
+         
+         $(".specialt_chu ul li").each(function () {
+             if($(this).attr("class")=="layui-this"){
+            	 specialtySelectedspecialt_chuItem+=$(this).find("a").html()+',';
+             }
+         });
+         
          costSelectedItem=costSelectedItem.slice(0,costSelectedItem.length-1);//define1
          instituteSelectedItem=instituteSelectedItem.slice(0,instituteSelectedItem.length-1);//define2  8大院等细分结构
          systemSelectedItem=systemSelectedItem.slice(0,systemSelectedItem.length-1);//define3           直属研究院、分子公司、集团等9种类型
          specialtySelectedItem=specialtySelectedItem.slice(0,specialtySelectedItem.length-1);//zylb     装备的各种技术类型
+         specialtySelectedspecialt_chuItem=specialtySelectedspecialt_chuItem.slice(0,specialtySelectedspecialt_chuItem.length-1);//zycmc   专业处
          
         //alert("specialtySelectedItem="+specialtySelectedItem);
     	var index = layer.load(1, {
@@ -316,11 +340,12 @@ layui.config({
         method:"POST",
         where: {param: {
         	      "nd":$("#nd").val(),
+        	      "ysnd":$("#ysnd").val(),
         	      "xmmc":$("#xmmc").val(),
         	      "define1":costSelectedItem,
         	      "define2":instituteSelectedItem,
         	      "type_flag":systemSelectedItem,
-        	      "zycmc":$("#zycmc").val(),
+        	      "zycmc":specialtySelectedspecialt_chuItem,
         	      "zylb":specialtySelectedItem,
         	      "project_scope":$("#project_scope").val(),
         	      "project_property":$("#project_property").val(),
@@ -339,19 +364,21 @@ layui.config({
             theme: '#0F9EE0'
         },
         cols: [[
-        	{title:'序号',               type:'numbers', width: '4%'},
-        	  {field:'nd',              title:'项目年度',             style:'cursor: pointer;',align: 'center', width: '150'},
+        	  {title:'序号',               type:'numbers', width: '4%'},
+        	  {field:'nd',                 title:'项目年度',             style:'cursor: pointer;',align: 'center', width: '150'},
         	  {field:'ysnd',              title:'预算年度',             style:'cursor: pointer;',align: 'center', width: '150'},
-              {field:'hth',             title:'合同号',            style:'cursor: pointer;',align: 'center', width: '150'},
-              {field:'xmmc',            title:'项目名称',           style:'cursor: pointer;',align: 'left', width: '380'},
-              {field:'jf',              title:'总额（万元）',        style:'cursor: pointer;',align: 'center', width: '150'},
+              {field:'hth',               title:'合同号',              style:'cursor: pointer;',align: 'center', width: '150'},
+              {field:'zycmc',             title:'专业处',             style:'cursor: pointer;',align: 'left', width: '150'},
+              {field:'xmmc',              title:'项目名称',            style:'cursor: pointer;',align: 'left', width: '380'},
+              {field:'jf',                title:'总额（万元）',         style:'cursor: pointer;',align: 'center', width: '150'},
               {field:'ysje',              title:'年度预算（万元）',        style:'cursor: pointer;',align: 'center', width: '150'},
-        	{field:'define1',           title:'资本/费用',           style:'cursor: pointer;',align: 'center', width: '150'},
-        	{field:'define2',           title:'二级单位名称',            style:'cursor: pointer;',align: 'left', width: '150'},
-        	{field:'define3',           title:'一级单位名称',        style:'cursor: pointer;',align: 'left', width: '150'},
-            {field:'zylb',              title:'专业类别',          style:'cursor: pointer;',align: 'left', width: '150'},
-            {field:'fzdw',              title:'项目类别描述',        style:'cursor: pointer;',align: 'left', width: '150'},
-            {field:'parentName',        title:'父项目名',     style:'cursor: pointer;',align: 'left', width: '150'}
+        	  {field:'define1',           title:'资本/费用',           style:'cursor: pointer;',align: 'center', width: '150'},
+        	  {field:'define2',           title:'二级单位名称',        style:'cursor: pointer;',align: 'left', width: '150'},
+        	  {field:'define3',           title:'一级单位名称',        style:'cursor: pointer;',align: 'left', width: '150'},
+              {field:'zylb',              title:'专业类别',           style:'cursor: pointer;',align: 'left', width: '150'},
+              {field:'fzdw',              title:'负责单位',           style:'cursor: pointer;',align: 'left', width: '150'},
+              {field:'qdbz',              title:'签订标识',           style:'cursor: pointer;',align: 'left', width: '150'}
+           
             
         ]],
         done: function (res, curr, count) {
