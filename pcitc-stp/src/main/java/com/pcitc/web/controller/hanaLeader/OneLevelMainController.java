@@ -218,9 +218,7 @@ public class OneLevelMainController {
 		@RequestMapping(method = RequestMethod.GET, value = "/common_table")
 		  public String common_table(HttpServletRequest request) throws Exception
 		  {
-			   /* String nd = HanaUtil.getCurrrentYear();
-				request.setAttribute("nd", nd);
-				request.setAttribute("ysnd", nd);*/
+			 
 				
 				String nd=CommonUtil.getParameter(request, "nd", "");//项目名
 				String ysnd=CommonUtil.getParameter(request, "ysnd", "");//项目名
@@ -267,9 +265,10 @@ public class OneLevelMainController {
 					 List<String> define21List = new ArrayList<String>();//8大研究院 
 					 List<String> type_flagList = new ArrayList<String>();
 					 List<String> zylbList = new ArrayList<String>();
+					 List<String> zycmcList = new ArrayList<String>();
 					 for (int i = 0; i < jSONArray.size(); i++)
 			         {
-						     Map  object = (Map) jSONArray.get(i);
+						    Map  object = (Map) jSONArray.get(i);
 			                String showCode= (String)object.get("showCode");
 			                String showName= (String)object.get("showName");
 			                if(showCode.equals("define1"))
@@ -292,6 +291,10 @@ public class OneLevelMainController {
 			                {
 			                	zylbList.add(showName);
 			                }
+			                if(showCode.equals("zycmc"))
+			                {
+			                	zycmcList.add(showName);
+			                }
 			                
 			          }
 					 
@@ -299,6 +302,7 @@ public class OneLevelMainController {
 					 request.setAttribute("define21List", define21List);
 					 request.setAttribute("type_flagList", type_flagList);
 					 request.setAttribute("zylbList", zylbList);
+					 request.setAttribute("zycmcList", zycmcList);
 					
 				}
 		        return "stp/hana/home/oneLevelMain/common_table";
@@ -1691,7 +1695,7 @@ public class OneLevelMainController {
 							PageResult pageResult = new PageResult();
 							String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
 							String companyCode = CommonUtil.getParameter(request, "companyCode", "");
-							String type = CommonUtil.getParameter(request, "type", "重点专项");
+							//String type = CommonUtil.getParameter(request, "type", "重点专项");
 							Map<String, Object> paramsMap = new HashMap<String, Object>();
 							paramsMap.put("nd", nd);
 							paramsMap.put("companyCode", companyCode);
@@ -1704,10 +1708,10 @@ public class OneLevelMainController {
 								{
 									JSONArray jSONArray = responseEntity.getBody();
 									System.out.println(">>>>>>>>>>>>getZdstlTable jSONArray>>> " + jSONArray.toString());
-									List<ProjectForMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), ProjectForMysql.class);
-									pageResult.setData(list);
+									//List<ProjectForMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), ProjectForMysql.class);
+									pageResult.setData(jSONArray);
 									pageResult.setCode(0);
-									pageResult.setCount(Long.valueOf(list.size()));
+									pageResult.setCount(Long.valueOf(jSONArray.size()));
 									pageResult.setLimit(1000);
 									pageResult.setPage(1l);
 								}
@@ -1778,7 +1782,7 @@ public class OneLevelMainController {
 		if (statusCode == 200)
 		{
 			JSONArray jSONArray = responseEntity.getBody();
-			System.out.println(">>>>>>>>>>>>getZdstlTable jSONArray>>> " + jSONArray.toString());
+			System.out.println(">>>>>>>>>>>>getStlTable jSONArray>>> " + jSONArray.toString());
 			//List<ProjectForMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), ProjectForMysql.class);
 			pageResult.setData(jSONArray);
 			pageResult.setCode(0);
@@ -1786,10 +1790,9 @@ public class OneLevelMainController {
 			pageResult.setLimit(1000);
 			pageResult.setPage(1l);
 		}
-
-		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
-		System.out.println(">>>>>>>>>>>>>>>getStlTable " + resultObj.toString());
-		return resultObj.toString();
+		//JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
+		System.out.println(">>>>>>>>>>>>>>>getStlTable " + JSON.toJSON(pageResult).toString());
+		return JSON.toJSON(pageResult).toString();
 	}
 
 			 /**======================十条龙 end==================================*/

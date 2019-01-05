@@ -38,6 +38,8 @@ public class ScientificInvestmentController {
 	private RestTemplate restTemplate;
 	
 	private static final String tzxmwcqktjb_data = "http://pcitc-zuul/system-proxy/out-decision-provider/zscq/patent-detail/page";
+	private static final String tzxmcgjdtjb_data = "http://pcitc-zuul/system-proxy/out-decision-provider/zscq/patent-detail/page";
+	private static final String tzxmzcqkb_data = "http://pcitc-zuul/system-proxy/out-decision-provider/zscq/patent-detail/page";
 	
 	
 	
@@ -85,6 +87,26 @@ public class ScientificInvestmentController {
 	  }
 	  
 	  
+	  
+	    @RequestMapping(method = RequestMethod.POST, value = "/tzxmcgjdtjb_data")
+		@ResponseBody
+		public String tzxmcgjdtjb_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response)
+		{
+
+			LayuiTableData layuiTableData = new LayuiTableData();
+			HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+			ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(tzxmcgjdtjb_data, HttpMethod.POST, entity, LayuiTableData.class);
+			int statusCode = responseEntity.getStatusCodeValue();
+			if (statusCode == 200)
+			{
+				layuiTableData = responseEntity.getBody();
+			}
+			JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
+			System.out.println(">>>>>>>>>>>>>tzxmcgjdtjb_data:" + result.toString());
+			return result.toString();
+		}
+	  
+	  
 	  //投资项目转出情况表
 	  @RequestMapping(method = RequestMethod.GET, value = "/si/tzxmzcqkb")
 	  public String tzxmzcqkb(HttpServletRequest request) throws Exception
@@ -92,6 +114,26 @@ public class ScientificInvestmentController {
 		    
 	        return "stp/hana/scientificInvestment/tzxmzcqkb";
 	  }
+	  
+	  
+	  
+	  @RequestMapping(method = RequestMethod.POST, value = "/tzxmzcqkb_data")
+		@ResponseBody
+		public String tzxmzcqkb_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response)
+		{
+
+			LayuiTableData layuiTableData = new LayuiTableData();
+			HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+			ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(tzxmzcqkb_data, HttpMethod.POST, entity, LayuiTableData.class);
+			int statusCode = responseEntity.getStatusCodeValue();
+			if (statusCode == 200)
+			{
+				layuiTableData = responseEntity.getBody();
+			}
+			JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
+			System.out.println(">>>>>>>>>>>>>tzxmzcqkb_data:" + result.toString());
+			return result.toString();
+		}
 	  
 	  
 	  

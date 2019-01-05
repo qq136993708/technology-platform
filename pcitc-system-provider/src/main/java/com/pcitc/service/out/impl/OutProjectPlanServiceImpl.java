@@ -281,18 +281,6 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 			hashmap.put("define2", define2);
 		}
 		
-		// 直属研究院、分子公司、集团等9种类型
-		if(param.getParam().get("define3") !=null && !StringUtils.isBlank(param.getParam().get("define3")+"")){
-			opi.setDefine3((String) param.getParam().get("define3"));
-			
-			List define3 = new ArrayList();
-			String[] temS = param.getParam().get("define3").toString().split(",");
-			for (int i = 0; i < temS.length; i++) {
-				define3.add(temS[i]);
-			}
-			hashmap.put("define3", define3);
-		}
-		
 		// 国家项目、重大专项、重点项目、其他项目
 		if(param.getParam().get("project_property") !=null && !StringUtils.isBlank(param.getParam().get("project_property")+"")){
 			opi.setProjectProperty((String) param.getParam().get("project_property"));
@@ -305,14 +293,27 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 			hashmap.put("project_property", project_property);
 		}
 		
-		// 新开项目、续建项目、完工项目
-		if(param.getParam().get("project_scope") !=null && !StringUtils.isBlank(param.getParam().get("project_scope")+"")){
-			opi.setProjectScope((String) param.getParam().get("project_scope"));
+		// 一级单位（直属院、分子公司等）
+		if(param.getParam().get("type_flag") !=null && !StringUtils.isBlank(param.getParam().get("type_flag")+"")){
+			
+			List type_flag = new ArrayList();
+			String[] temS = param.getParam().get("type_flag").toString().split(",");
+			for (int i = 0; i < temS.length; i++) {
+				type_flag.add(temS[i]);
+			}
+			hashmap.put("type_flag", type_flag);
 		}
 		
 		// 装备的各种技术类型
 		if(param.getParam().get("zylb") !=null && !StringUtils.isBlank(param.getParam().get("zylb")+"")){
 			opi.setZylb((String) param.getParam().get("zylb"));
+			
+			List zylb = new ArrayList();
+			String[] temS = param.getParam().get("zylb").toString().split(",");
+			for (int i = 0; i < temS.length; i++) {
+				zylb.add(temS[i]);
+			}
+			hashmap.put("zylb", zylb);
 		}
 		
 		// 各个处室
@@ -331,7 +332,13 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 			opi.setNd((String) param.getParam().get("nd"));
 			hashmap.put("nd", param.getParam().get("nd"));
 		}
-		System.out.println("1234>>>>>>>>>查询分页结果" + param.getParam().get("ysnd"));
+		System.out.println("1234>>>>>>>>>ysnd" + param.getParam().get("ysnd"));
+		System.out.println("1234>>>>>>>>>zycmc" + param.getParam().get("zycmc"));
+		System.out.println("1234>>>>>>>>>zylb" + param.getParam().get("zylb"));
+		System.out.println("1234>>>>>>>>>type_flag" + param.getParam().get("type_flag"));
+		System.out.println("1234>>>>>>>>>define1" + param.getParam().get("define1"));
+		System.out.println("1234>>>>>>>>>define2" + param.getParam().get("define2"));
+		
 		if(param.getParam().get("ysnd") !=null && !StringUtils.isBlank(param.getParam().get("ysnd")+"")){
 			hashmap.put("ysnd", param.getParam().get("ysnd"));
 		}
