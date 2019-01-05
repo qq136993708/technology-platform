@@ -217,7 +217,7 @@ var nd=$("#month").val().substring(4,0);
                 publicMethods.moduleConfigs(data.data);
                 //删除模块
                 $(".dele").click(function () {
-                    $(this).parents(".layui-text-icon").remove();
+                    $(this).parents("li").remove();
                 });
                 //直属研究院
                 $("#mainLeader").on("click",function () {
