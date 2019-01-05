@@ -299,13 +299,13 @@
             height: commonDislodgeTable(),
             cols: [[
                 {field:'nd',             title: '年度',style:'cursor: pointer;',align: 'center', width: '5%'},
-                {field:'showIndex',      title:'项目编号',style:'cursor: pointer;',align: 'center', width: '5%'},
+                {field:'showIndex',      title:'序号',style:'cursor: pointer;',align: 'center', width: '5%'},
                 {field:'xmmc',           title:'项目名称',style:'cursor: pointer;',align: 'left', width: '20%'},
                 {field:'zzdw',           title:'组长单位',style:'cursor: pointer;',align: 'left', width: '15%'},
                 {field:'zydw',  		 title:'组员单位',style:'cursor: pointer;',align: 'left', width: '15%'},
                 {field:'xzdw',           title:'协作单位',style:'cursor: pointer;',align: 'left'},
                 {field:'status',         title:'项目状态',style:'cursor: pointer;',align: 'center'},
-                {field:'zycmc',          title:'原因',style:'cursor: pointer;',align: 'left'},
+                {field:'jdap',          title:'原因',style:'cursor: pointer;',align: 'left'},
                 {field:'xmlbmc',         title:'文档查询',style:'cursor: pointer;',align: 'center', width: '15%',
                 	 templet: function(d){
                          return "<a href='#'><img alt='第一次小组会议' src='/common/images/meeting_1.png'></a>&nbsp;&nbsp;&nbsp;&nbsp;"+
@@ -366,17 +366,16 @@
             height: commonDislodgeTable(),
             cols: [[
                 {title:'序号', type:'numbers', width: '5%'},
-                {field:'hth',            title: '项目号',edit:'text', width: '8%'},
+                {field:'hth',            title: '合同号',edit:'text', width: '8%'},
                 {field:'xmmc',           title:'项目名',style:'cursor: pointer;',align: 'left', width: '22%'},
-                {field:'jf',             title:'经费（亿）',style:'cursor: pointer;',align: 'right', width: '6%'},
+                {field:'ysje',           title:'年度预算（万）',style:'cursor: pointer;',align: 'right', width: '6%'},
                 {field:'fzdw',           title:'负责单位',style:'cursor: pointer;',align: 'left', width: '12%'},
-                {field:'project_scope',  title:'项目性质',style:'cursor: pointer;',align: 'center'},
                 {field:'zylb',           title:'专业类别',style:'cursor: pointer;',align: 'left', width: '12%'},
                 {field:'fzrxm',          title:'负责人',style:'cursor: pointer;',align: 'left'},
                 {field:'zycmc',          title:'专业处',style:'cursor: pointer;',align: 'center'},
                 {field:'xmlbmc',         title:'项目类别',style:'cursor: pointer;',align: 'center'},
                 {field:'define1',        title:'资本/费用',style:'cursor: pointer;',align: 'center'},
-                {field:'fwdx',           title:'集团/股份/资产',style:'cursor: pointer;',align: 'center', width: '8%'}
+                {field:'fwdx',           title:'公司性质',style:'cursor: pointer;',align: 'center', width: '8%'}
             ]]
         });
     }
