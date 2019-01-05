@@ -1576,17 +1576,16 @@
 		from (
 			select DISTINCT xmmc,project_property
 			from out_project_info
-			where (project_type = '0' or project_type = '2') and nd='2017'
+			where (project_type = '0' or project_type = '1') and nd='${nd}'
 				<if test="define2 != null and define2 != ''">
 					and define2 is not null and type_flag like '%直属研究院%'
 				</if>
 		) as tableA
-		
 	</select>
 
 	<select id="getOutProjectScopeInfo" resultType="java.util.Map" parameterType="java.lang.String">
 		select
-			sum(case nd when '2017' then 1 else 0 end) as newProject,
+			sum(case nd when '${nd}' then 1 else 0 end) as newProject,
 			count(*) as totalProject,fzdw
 		from out_project_info
 		where project_type != '1'
@@ -2182,10 +2181,10 @@
 	<!-- 领导二级页面，重大专项项目详情 -->
 	<select id="getZDSTLProjectInfo" resultType="java.util.Map" parameterType="java.util.HashMap">
 			select 
-				nd,hth,xmmc,jf,fzdw,project_scope,zylb,fzrxm,zycmc,xmlbmc,define1,fwdx
+				nd,ysnd,hth,xmmc,jf,ysje,fzdw,zylb,fzrxm,zycmc,xmlbmc,define1,fwdx
 			from out_project_info
 			where 
-				project_property = '重大专项' 
+				project_property = '重大专项' and ysnd = '${nd}'
 			order by nd desc,hth
 	</select>
 	
