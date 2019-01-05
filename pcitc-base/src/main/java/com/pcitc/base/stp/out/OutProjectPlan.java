@@ -103,7 +103,17 @@ public class OutProjectPlan {
     
     private String projectId;
     
-    public String getProjectId() {
+    private String qdbz;
+    
+    public String getQdbz() {
+		return qdbz;
+	}
+
+	public void setQdbz(String qdbz) {
+		this.qdbz = qdbz;
+	}
+
+	public String getProjectId() {
 		return projectId;
 	}
 

@@ -2365,4 +2365,17 @@
 		group by zycmc
 		
 	</select>
+	
+	
+	<!-- 分页显示十条龙项目数据数据 -->
+	<select id="selectDragonProjectByCond" resultType="com.pcitc.base.stp.out.OutProjectInfo" parameterType="java.util.HashMap">
+		select SUBSTR(out_project_info.DEFINE2 FROM 4) as DEFINE2,SUBSTR(out_project_info.type_flag FROM 2) as TypeFlag,
+			   out_project_info.XMMC,out_project_info.JF,out_project_info.YSJE,out_project_info.YSND,
+			   out_project_info.FZDW,out_project_info.xmlbmc,
+		       out_project_info.ND,out_project_info.status,out_project_info.jdap
+		from out_project_info
+		WHERE
+			 out_project_info.PROJECT_TYPE != '1'
+			 and out_project_info.project_property like '%十条龙%'
+	</select>
 </mapper>

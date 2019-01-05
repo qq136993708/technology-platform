@@ -39,6 +39,113 @@ public class OutProjectServiceImpl implements OutProjectService {
 
 	private final static Logger logger = LoggerFactory.getLogger(OutProjectServiceImpl.class);
 	
+	
+	/**
+     * 分页显示十条龙项目数据数据
+     */
+	public LayuiTableData selectDragonProjectByCond(LayuiTableParam param) {
+		// 每页显示条数
+		int pageSize = param.getLimit();
+		// 当前是第几页
+		int pageNum = param.getPage();
+		// 1、设置分页信息，包括当前页数和每页显示的总计数
+		PageHelper.startPage(pageNum, pageSize);
+
+		HashMap<String, Object> hashmap = new HashMap<String, Object>();
+		if(param.getParam().get("xmmc") !=null && !StringUtils.isBlank(param.getParam().get("xmmc")+"")){
+			hashmap.put("xmmc", param.getParam().get("xmmc"));
+		}
+		
+		if(param.getParam().get("hth") !=null && !StringUtils.isBlank(param.getParam().get("hth")+"")){
+			hashmap.put("hth", param.getParam().get("hth"));
+		}
+		// 资本性、费用性
+		if(param.getParam().get("define1") !=null && !StringUtils.isBlank(param.getParam().get("define1")+"")){
+			List define1 = new ArrayList();
+			String[] temS = param.getParam().get("define1").toString().split(",");
+			for (int i = 0; i < temS.length; i++) {
+				define1.add(temS[i]);
+			}
+			hashmap.put("define1", define1);
+		}
+		
+		// 8大院等细分结构
+		if(param.getParam().get("define2") !=null && !StringUtils.isBlank(param.getParam().get("define2")+"")){
+			List define2 = new ArrayList();
+			String[] temS = param.getParam().get("define2").toString().split(",");
+			for (int i = 0; i < temS.length; i++) {
+				define2.add(temS[i]);
+			}
+			hashmap.put("define2", define2);
+		}
+		
+		// 国家项目、重大专项、重点项目、其他项目
+		if(param.getParam().get("project_property") !=null && !StringUtils.isBlank(param.getParam().get("project_property")+"")){
+			List project_property = new ArrayList();
+			String[] temS = param.getParam().get("project_property").toString().split(",");
+			for (int i = 0; i < temS.length; i++) {
+				project_property.add(temS[i]);
+			}
+			hashmap.put("project_property", project_property);
+		}
+		
+		// 一级单位（直属院、分子公司等）
+		if(param.getParam().get("type_flag") !=null && !StringUtils.isBlank(param.getParam().get("type_flag")+"")){
+			
+			List type_flag = new ArrayList();
+			String[] temS = param.getParam().get("type_flag").toString().split(",");
+			for (int i = 0; i < temS.length; i++) {
+				type_flag.add(temS[i]);
+			}
+			hashmap.put("type_flag", type_flag);
+		}
+		
+		// 装备的各种技术类型
+		if(param.getParam().get("zylb") !=null && !StringUtils.isBlank(param.getParam().get("zylb")+"")){
+			List zylb = new ArrayList();
+			String[] temS = param.getParam().get("zylb").toString().split(",");
+			for (int i = 0; i < temS.length; i++) {
+				zylb.add(temS[i]);
+			}
+			hashmap.put("zylb", zylb);
+		}
+		
+		// 各个处室
+		if(param.getParam().get("zycmc") !=null && !StringUtils.isBlank(param.getParam().get("zycmc")+"")){
+			List zycmc = new ArrayList();
+			String[] temS = param.getParam().get("zycmc").toString().split(",");
+			for (int i = 0; i < temS.length; i++) {
+				zycmc.add(temS[i]);
+			}
+			hashmap.put("zycmc", zycmc);
+		}
+		
+		if(param.getParam().get("nd") !=null && !StringUtils.isBlank(param.getParam().get("nd")+"")){
+			hashmap.put("nd", param.getParam().get("nd"));
+		}
+		System.out.println("1234>>>>>>>>>ysnd" + param.getParam().get("ysnd"));
+		System.out.println("1234>>>>>>>>>zycmc" + param.getParam().get("zycmc"));
+		System.out.println("1234>>>>>>>>>zylb" + param.getParam().get("zylb"));
+		System.out.println("1234>>>>>>>>>type_flag" + param.getParam().get("type_flag"));
+		System.out.println("1234>>>>>>>>>define1" + param.getParam().get("define1"));
+		System.out.println("1234>>>>>>>>>define2" + param.getParam().get("define2"));
+		
+		if(param.getParam().get("ysnd") !=null && !StringUtils.isBlank(param.getParam().get("ysnd")+"")){
+			hashmap.put("ysnd", param.getParam().get("ysnd"));
+		}
+		
+		List<OutProjectInfo> list = outProjectInfoMapper.selectDragonProjectByCond(hashmap);
+		System.out.println("1>>>>>>>>>查询分页结果" + list.size());
+		PageInfo<OutProjectInfo> pageInfo = new PageInfo<OutProjectInfo>(list);
+		System.out.println("2>>>>>>>>>查询分页结果" + pageInfo.getList().size());
+
+		LayuiTableData data = new LayuiTableData();
+		data.setData(pageInfo.getList());
+		Long total = pageInfo.getTotal();
+		data.setCount(total.intValue());
+		return data;
+	}
+	
 	/**
      * 研究院首页计算装备和科研合同总数 
      */

@@ -48,6 +48,13 @@ public class OutProjectInfoClient {
 		return outProjectService.getOutProjectPage(param);
 	}
 	
+	@ApiOperation(value = "分页显示十条龙项目数据数据", notes = "分页显示")
+	@RequestMapping(value = "/out-project-provider/drogon/list", method = RequestMethod.POST)
+	public LayuiTableData selectDragonProjectByCond(@RequestBody LayuiTableParam param) throws Exception {
+		logger.info("==================page selectDragonProjectByCond===========================" + param);
+		return outProjectService.selectDragonProjectByCond(param);
+	}
+	
 	@ApiOperation(value = "保存erp课题配置", notes = "删除当前页已有的，保存新选择的")
 	@RequestMapping(value = "/out-provider/config-erp-project", method = RequestMethod.POST)
 	public String saveErpProjectConfig(@RequestBody JSONObject json) throws Exception {
