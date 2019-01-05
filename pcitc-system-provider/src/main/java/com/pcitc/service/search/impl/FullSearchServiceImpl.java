@@ -46,6 +46,18 @@ public class FullSearchServiceImpl implements FullSearchService {
         Object keywords = param.getParam().get("keyword");
         if (keywords==null||"".equals(keywords)){
             //查询添加添加keyords
+            hashmap.put("xmmc", keywords);
+            hashmap.put("hth", keywords);
+            hashmap.put("define1", keywords);
+            hashmap.put("define2", keywords);
+            hashmap.put("define3", keywords);
+            hashmap.put("project_property", keywords);
+            hashmap.put("zycmc", keywords);
+
+
+            hashmap.put("zylb", keywords);
+            hashmap.put("fzdw", keywords);
+            hashmap.put("zycmc", keywords);
 
         }
 
