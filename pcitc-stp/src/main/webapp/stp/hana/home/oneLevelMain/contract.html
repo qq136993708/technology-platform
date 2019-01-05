@@ -246,7 +246,8 @@
             {
             	 projectId="0";
             }
-            window.open("/one_level_main/common_table?define1="+xName+"&projectId="+projectId);
+            var url=　encodeURIComponent("/one_level_main/common_table?define1="+xName+"&projectId="+projectId+"&nd="+nd+"&ysnd="+nd);
+            window.open("/instituteIndex?url="+url);
 
         });
 
@@ -271,7 +272,8 @@
             {
             	 projectId="0";
             }
-            window.open("/one_level_main/common_table?define3="+xName+"&projectId="+projectId);
+          //alert(xName+"------"+projectId);
+            window.open("/one_level_main/common_table?define3="+xName+"&projectId="+projectId+"&nd="+nd+"&ysnd="+nd);
         });
 
 
@@ -301,7 +303,8 @@
             {
             	 projectId="0";
             }
-            window.open("/one_level_main/common_table?define2="+xName+"&projectId="+projectId);
+           
+            window.open("/one_level_main/common_table?define2="+xName+"&projectId="+projectId+"&nd="+nd+"&ysnd="+nd);
         });
 
 
@@ -475,8 +478,8 @@
                    $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
                    $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
                    selectRowData=res.data[index-1];
-                  // alert(selectRowData.define3+"=="+selectRowData.define2);
-                   window.open("/one_level_main/common_table?define3="+selectRowData.define3+"&projectId=0&define2="+selectRowData.define2);
+                   //alert(selectRowData.define3+"=="+selectRowData.define2);
+                   window.open("/one_level_main/common_table?define3="+selectRowData.define3+"&projectId=0&nd="+year+"&ysnd="+year+"&define2="+selectRowData.define2);
                    
                });
                
@@ -584,7 +587,7 @@
                     $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
                     $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
                     selectRowData=res.data[index-1];
-                    window.open("/one_level_main/common_table?define1="+selectRowData.define1+"&projectId=0");
+                    window.open("/one_level_main/common_table?define1="+selectRowData.define1+"&projectId=0&nd="+nd+"&ysnd="+nd);
                     
                 });
             }

@@ -327,9 +327,13 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 			hashmap.put("zycmc", zycmc);
 		}
 		
-		// 年度，暂时不用
 		if(param.getParam().get("nd") !=null && !StringUtils.isBlank(param.getParam().get("nd")+"")){
 			opi.setNd((String) param.getParam().get("nd"));
+			hashmap.put("nd", param.getParam().get("nd"));
+		}
+		System.out.println("1234>>>>>>>>>查询分页结果" + param.getParam().get("ysnd"));
+		if(param.getParam().get("ysnd") !=null && !StringUtils.isBlank(param.getParam().get("ysnd")+"")){
+			hashmap.put("ysnd", param.getParam().get("ysnd"));
 		}
 		
 		List<OutProjectPlan> list = outProjectPlanMapper.selectProjectPlanByCond(hashmap);

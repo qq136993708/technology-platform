@@ -1942,7 +1942,7 @@ public class OutProjectInfoClient {
 			if (define6.contains("组长")) {
 				zzdw = temMap.get("zydw");
 			} else if (define6.contains("协作")) {
-				xzdw = temMap.get("xzdw");
+				xzdw = temMap.get("zydw");
 			} else {
 				temMap.put("zzdw", zzdw);
 				temMap.put("xzdw", xzdw);

@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="/layuiadmin/style/adminStp.css?+Math.random()" media="all">
 </head>
 <body class="layui-layout-body">
+<input name="url" id="url" value="${url}" type="hidden" >
 
 	<div id="LAY_app">
 		<div class="layui-layout layui-layout-admin layui-leader">
@@ -146,6 +147,7 @@
 
 	<script src="/layuiadmin/layui/layui.js"></script>
 	<script>
+	var url=$("#url").val();
 		layui.config({
 			base : '../layuiadmin/' //静态资源所在路径
 		}).extend({
@@ -153,8 +155,7 @@
 		}).use(['index' ,'jquery' ], function() {
 			var $ = layui.jquery;
 			var windowHref=window.location.href.split("=");
-            document.getElementById("mainIframe").src=windowHref[1];
-            
+            document.getElementById("mainIframe").src=url;//windowHref[1];
 			/*导航宽度*/
 			var layuiHeaderWidth = parseInt($(".layui-header").width());
 			var layuiHeaderUlActualWidth = 0, DValue = 0, ulLiNumber = 0;

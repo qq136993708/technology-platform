@@ -510,7 +510,7 @@ layui.define(['jquery','form','table','laydate'],
                         }
                         $("#moduleConfig").append(html);
                     }else {
-                        if(data.name=="重大专项及十条龙科技攻关"){
+                        if(data.spareId=="dragon_id"){
                             var html="<li class='"+data.class+"' data-power='"+data.power+"'>" +
                                 "       <div class='layui-text-icon' style='background:"+data.color+" url("+data.img+") center center no-repeat;' id='"+data.id+"'>" +
                                 "           <p>"+data.name+"</p>" +

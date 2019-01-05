@@ -1576,17 +1576,16 @@
 		from (
 			select DISTINCT xmmc,project_property
 			from out_project_info
-			where (project_type = '0' or project_type = '2') and nd='2017'
+			where (project_type = '0' or project_type = '1') and nd='${nd}'
 				<if test="define2 != null and define2 != ''">
 					and define2 is not null and type_flag like '%直属研究院%'
 				</if>
 		) as tableA
-		
 	</select>
 
 	<select id="getOutProjectScopeInfo" resultType="java.util.Map" parameterType="java.lang.String">
 		select
-			sum(case nd when '2017' then 1 else 0 end) as newProject,
+			sum(case nd when '${nd}' then 1 else 0 end) as newProject,
 			count(*) as totalProject,fzdw
 		from out_project_info
 		where project_type != '1'
@@ -2182,10 +2181,10 @@
 	<!-- 领导二级页面，重大专项项目详情 -->
 	<select id="getZDSTLProjectInfo" resultType="java.util.Map" parameterType="java.util.HashMap">
 			select 
-				nd,hth,xmmc,jf,fzdw,project_scope,zylb,fzrxm,zycmc,xmlbmc,define1,fwdx
+				nd,ysnd,hth,xmmc,jf,ysje,fzdw,zylb,fzrxm,zycmc,xmlbmc,define1,fwdx
 			from out_project_info
 			where 
-				project_property = '重大专项' 
+				project_property = '重大专项' and ysnd = '${nd}'
 			order by nd desc,hth
 	</select>
 	
@@ -2266,20 +2265,20 @@
 		select xmlbmc,count(DISTINCT xmmc) as sl
 		from out_project_info
 		WHERE
-			project_property = '十条龙项目'  and nd='${nd}'
+			project_property = '十条龙项目'  and nd='${nd}' and project_type != '2'
 		group by xmlbmc
 	</select>
 	
 	<!--  领导首页-十条龙，十条龙项目的出入龙情况 -->
 	<select id="getDragonProjectInfoWithOutIn" resultType="java.util.Map" parameterType="java.util.HashMap">
-		select sum(case when nd='${l_nd}' and `status` = '申请出龙' then 1 else 0 end) sqcl,
-			 sum(case when nd='${nd}' and `status` = '推荐入龙' then 1 else 0 end) tjrl,
-			 sum(case when nd='${nd}' and `status` = '在研项目' then 1 else 0 end) zyxm
+		select sum(case when ysnd='${l_nd}' and `status` = '申请出龙' then 1 else 0 end) sqcl,
+			 sum(case when ysnd='${nd}' and `status` = '推荐入龙' then 1 else 0 end) tjrl,
+			 sum(case when ysnd='${nd}' and `status` = '在研项目' then 1 else 0 end) zyxm
 		from (
-			select distinct xmmc,nd,`status`
+			select distinct xmmc,ysnd,`status`
 			from out_project_info
 			WHERE
-				project_property = '十条龙项目' 
+				project_property = '十条龙项目' and project_type != '2'
 		) as tableA
 		
 	</select>
@@ -2290,33 +2289,33 @@
 			 sum(case when project_property = '十条龙项目' then 1 else 0 end) stlxm,
 			 sum(case when project_property = '重大专项' then 1 else 0 end) zdzx
 		FROM 
-			(select distinct xmmc,nd,project_property,define2
+			(select distinct xmmc,ysnd,project_property,define2
 			 from out_project_info
 			 WHERE
-				 nd = '2017' and type_flag like '%研究院' and define2 is not null
+				 ysnd = '${nd}' and type_flag like '%研究院' and project_type != '2'
 	    	) as tableA
 		GROUP BY tableA.define2
 	</select>
 	
 	<!--  领导首页-十条龙，十条龙项目的详情 -->
 	<select id="getDragonProjectDetails" resultType="java.util.Map" parameterType="java.util.HashMap">
-		select nd,xmmc,fzdw as zydw,`status`,define6
+		select nd,xmmc,fzdw as zydw,`status`,define6,jdap
 		from out_project_info
 		WHERE
-			 nd = '2017' and project_property = '十条龙项目' and define6 = '4组员单位'
+			 ysnd = '${nd}' and project_property = '十条龙项目' and define6 = '4组员单位'
 		
 		union all
-		select nd,xmmc,GROUP_CONCAT(fzdw) as zydw,`status`,define6
+		select nd,xmmc,GROUP_CONCAT(fzdw) as zydw,`status`,define6,jdap
 		from out_project_info
 		WHERE
-			 nd = '2017' and project_property = '十条龙项目' and (define6 = '1组长单位' or define6 = '2副组长单位')
+			 ysnd = '${nd}' and project_property = '十条龙项目' and (define6 = '1组长单位' or define6 = '2副组长单位')
 		GROUP BY xmmc
 		
 		union all
-		select nd,xmmc,GROUP_CONCAT(fzdw) as zydw,`status`,define6
+		select nd,xmmc,GROUP_CONCAT(fzdw) as zydw,`status`,define6,jdap
 		from out_project_info
 		WHERE
-			 nd = '2017' and project_property = '十条龙项目' and define6 = '3协作单位'
+			 ysnd = '${nd}' and project_property = '十条龙项目' and define6 = '3协作单位'
 		GROUP BY xmmc
 		order by xmmc,define6
 	</select>
