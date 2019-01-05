@@ -43,7 +43,7 @@
                 <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()">查询</button>
             </div>-->
             <div class="breadcrumb">
-                <a href="/index" target="_parent">首页 > </a><span>重大专项及十条龙科技攻关</span>
+                <a href="/index" target="_parent">首页 > </a><span>重大项目及十条龙科技攻关</span>
             </div>
         </div>
 
@@ -100,33 +100,33 @@
             <div class="layui-col-md6">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        十条龙年度工作报告
+                        十条龙年度领导小组会汇报材料
                     </div>
                     <div class="layui-row-main">
                         <div class="work-report">
                             <ul class="work-one">
                                 <li>
-                                    <a href="javascript:;"></a>
+                                    <a href="javascript:;">汇报材料</a>
                                 </li>
                                 <li>
-                                    <a href="javascript:;"></a>
+                                    <a href="javascript:;">汇报材料</a>
                                 </li>
                                 <li>
-                                    <a href="javascript:;"></a>
+                                    <a href="javascript:;">汇报材料</a>
                                 </li>
                                 <li>
-                                    <a href="javascript:;"></a>
+                                    <a href="javascript:;">汇报材料</a>
                                 </li>
                             </ul>
                             <ul class="work-two">
                                 <li>
-                                    <a href="javascript:;"></a>
+                                    <a href="javascript:;">汇报材料</a>
                                 </li>
                                 <li>
-                                    <a href="javascript:;"></a>
+                                    <a href="javascript:;">汇报材料</a>
                                 </li>
                                 <li>
-                                    <a href="javascript:;"></a>
+                                    <a href="javascript:;">汇报材料</a>
                                 </li>
                             </ul>
                         </div>
@@ -186,7 +186,7 @@
         $(".layui-time1").html(year-1);
         form.render(null, 'component-form-group');
         laydate.render({
-        	  elem: '#year'
+        	  elem: '#year',min: '2016-10-14'
       	      ,type: 'year'
               ,done:function (value, date, endDate) {
                 $(".layui-time").html(date.year);
@@ -305,7 +305,7 @@
                 {field:'zydw',  		 title:'组员单位',style:'cursor: pointer;',align: 'left', width: '15%'},
                 {field:'xzdw',           title:'协作单位',style:'cursor: pointer;',align: 'left'},
                 {field:'status',         title:'项目状态',style:'cursor: pointer;',align: 'center'},
-                {field:'zycmc',          title:'入龙原因',style:'cursor: pointer;',align: 'left'},
+                {field:'zycmc',          title:'原因',style:'cursor: pointer;',align: 'left'},
                 {field:'xmlbmc',         title:'文档查询',style:'cursor: pointer;',align: 'center', width: '15%',
                 	 templet: function(d){
                          return "<a href='#'><img alt='第一次小组会议' src='/common/images/meeting_1.png'></a>&nbsp;&nbsp;&nbsp;&nbsp;"+
@@ -366,15 +366,15 @@
             height: commonDislodgeTable(),
             cols: [[
                 {title:'序号', type:'numbers', width: '5%'},
-                {field:'hth',            title: '课题号',edit:'text', width: '8%'},
-                {field:'xmmc',           title:'课题名',style:'cursor: pointer;',align: 'left', width: '22%'},
+                {field:'hth',            title: '项目号',edit:'text', width: '8%'},
+                {field:'xmmc',           title:'项目名',style:'cursor: pointer;',align: 'left', width: '22%'},
                 {field:'jf',             title:'经费（亿）',style:'cursor: pointer;',align: 'right', width: '6%'},
                 {field:'fzdw',           title:'负责单位',style:'cursor: pointer;',align: 'left', width: '12%'},
-                {field:'project_scope',  title:'课题性质',style:'cursor: pointer;',align: 'center'},
+                {field:'project_scope',  title:'项目性质',style:'cursor: pointer;',align: 'center'},
                 {field:'zylb',           title:'专业类别',style:'cursor: pointer;',align: 'left', width: '12%'},
                 {field:'fzrxm',          title:'负责人',style:'cursor: pointer;',align: 'left'},
                 {field:'zycmc',          title:'专业处',style:'cursor: pointer;',align: 'center'},
-                {field:'xmlbmc',         title:'课题类别',style:'cursor: pointer;',align: 'center'},
+                {field:'xmlbmc',         title:'项目类别',style:'cursor: pointer;',align: 'center'},
                 {field:'define1',        title:'资本/费用',style:'cursor: pointer;',align: 'center'},
                 {field:'fwdx',           title:'集团/股份/资产',style:'cursor: pointer;',align: 'center', width: '8%'}
             ]]

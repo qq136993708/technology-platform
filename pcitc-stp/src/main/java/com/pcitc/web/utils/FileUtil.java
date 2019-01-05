@@ -1,15 +1,18 @@
 package com.pcitc.web.utils;
 
 import java.awt.Image;
+import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletResponse;
 
 
 /**
@@ -184,4 +187,60 @@ public class FileUtil {
             return null;
         }
     }
+    /**
+     * 响应客户端文件下载请求
+     * @param file
+     * @param res
+     */
+    public static void fileDownload(File file,HttpServletResponse res) 
+	{
+        res.setHeader("content-type", "application/octet-stream");
+        res.setContentType("application/octet-stream");
+        res.setHeader("Content-Disposition", "attachment;filename=" + file.getName());
+        
+        OutputStream out = null;
+        InputStream in = null;
+        try 
+        {
+          out = res.getOutputStream();
+          in = new FileInputStream(file);
+          
+          byte[] b = new byte[1000];
+          int len;
+          while ((len = in.read(b)) > 0)
+          {
+			out.write(b, 0, len);
+          }
+          out.flush();
+          closeIO(in);
+     	  closeIO(out);
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
+	}
+    /**
+     * 关闭IO
+     * @param io
+     */
+	public static void closeIO(Closeable io) 
+	{
+		if(io != null) 
+		{
+			try 
+			{
+				io.close();
+			}
+			catch(Exception e) 
+			{
+				e.printStackTrace();
+			}
+		}
+	}
+	/*public static void main(String [] args) 
+	{
+		URL url = FileUtil.class.getResource("/");
+		File f = new File(url.getPath() + "static/report_template/intl_project_info_template.docx");
+	    //下载文件的用法
+		fileDownload(f, res);
+	}*/
 }

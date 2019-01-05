@@ -50,7 +50,7 @@
                             <div class="layui-input-block">
                                 <input class="layui-input readOnlyBox layui-hide" type="text" id="workOrderType"
                                        name="workOrderType" readonly="readonly">
-                                <select id="workOrderTypeS"></select>
+                                <select id="workOrderTypeS" disabled="disabled"></select>
                             </div>
                         </div>
                     </div>
@@ -209,7 +209,7 @@
                     if(item.code==$("#workOrderType").val()){
                         $('#workOrderTypeS').append("<option value='"+item.code+"' selected=''>"+item.name+"</option>");//往下拉菜单里添加元素
                     }else {
-                        $('#workOrderTypeS').append("<option value='"+item.code+"' disabled=''>"+item.name+"</option>");//往下拉菜单里添加元素
+                        $('#workOrderTypeS').append("<option value='"+item.code+"'>"+item.name+"</option>");//往下拉菜单里添加元素
                     }
                     console.log( item.code)
                 })

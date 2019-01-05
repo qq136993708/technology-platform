@@ -2900,11 +2900,19 @@ public class HanaUtil {
 		List<Object> dataList = new ArrayList<Object>();
 		if (list != null && list.size() > 0) {
 			for (int i = 0; i < list.size(); i++) {
+				
 				Contract f03 = list.get(i);
-				String fyxRate =((BigDecimal)f03.getFyxRate()).toString(); 
+				
+				//System.out.println("===============fffffffffffff:"+f03.getFyxRate());
+				String fyxRate ="0";
+				Object FyxRate=f03.getFyxRate();
+				if(FyxRate!=null && !FyxRate.toString().equals("0"))
+				{
+					fyxRate =((BigDecimal)f03.getFyxRate()).toString(); 
+				}
 				String zbxRate ="";
 				Object o=f03.getZbxRate();
-				if(o!=null)
+				if(o!=null && !o.toString().equals("0"))
 				{
 					zbxRate =((BigDecimal)f03.getZbxRate()).toString();
 				}
@@ -3254,25 +3262,24 @@ public class HanaUtil {
 		}
 		return chartBarLineSeries;
 	}
-	
 	public static ChartBarLineSeries getContractChartBarLineSeries9(List<Contract> list, String name) {
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
 		if (name.equals("sjqds"))
 		{
-			chartBarLineSeries.setName("已签合同");
+			chartBarLineSeries.setName("实际签订数");
 			chartBarLineSeries.setyAxisIndex(0);
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
 		if (name.equals("jhqds")) 
 		{
-			chartBarLineSeries.setName("计划合同");
+			chartBarLineSeries.setName("计划签订数");
 			chartBarLineSeries.setyAxisIndex(0);
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
 		
 		if (name.equals("htqdl")) 
 		{
-			chartBarLineSeries.setName("合同签订率");
+			chartBarLineSeries.setName("签订率");
 			chartBarLineSeries.setyAxisIndex(1);
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_LINE);
 		}
@@ -3318,13 +3325,13 @@ public class HanaUtil {
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
 		if (name.equals("yqhtzj"))
 		{
-			chartBarLineSeries.setName("已签合同");
+			chartBarLineSeries.setName("已签");
 			chartBarLineSeries.setStack("数量");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
 		if (name.equals("wqhtzj")) 
 		{
-			chartBarLineSeries.setName("未签合同");
+			chartBarLineSeries.setName("未签");
 			chartBarLineSeries.setStack("数量");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
@@ -3790,8 +3797,15 @@ public static ChartBarLineSeries getKNOWLDGELevel2ChartBarLineSeries07(List<Know
 			for (int i = 0; i < list.size(); i++) 
 			{
 				BudgetMysql f03 = list.get(i);
+				//System.out.println("======f03.getZsjje=="+f03.getZsjje()+" getWxdje="+f03.getWxdje());
+				Object wxdjeStr=f03.getWxdje();
+				String wxdje ="0";
+				if(wxdjeStr!=null)
+				{
+					 wxdje =((BigDecimal)f03.getWxdje()).toString();
+				}
+				
 				String zsjje =((BigDecimal)f03.getZsjje()).toString();
-				String wxdje =((BigDecimal)f03.getWxdje()).toString();
 				String jeRate ="0";
 				Object o=f03.getJeRate();
 				if(o!=null)
@@ -3815,7 +3829,7 @@ public static ChartBarLineSeries getKNOWLDGELevel2ChartBarLineSeries07(List<Know
 					if (name.equals("wxdje")) 
 					{
 						
-						if(wxdje!=null)
+						if(!wxdje.equals("0"))
 						{
 							dataList.add(String.format("%.2f", Double.valueOf(wxdje)/10000));
 						}else
@@ -3827,7 +3841,8 @@ public static ChartBarLineSeries getKNOWLDGELevel2ChartBarLineSeries07(List<Know
 					if (name.equals("jeRate")) 
 					{
 						
-						if(jeRate!=null)
+					
+						if(!jeRate.equals("0"))
 						{
 							 dataList.add(jeRate);
 						}else
@@ -5582,7 +5597,7 @@ public static ChartBarLineSeries getKNOWLDGELevel2ChartBarLineSeries07(List<Know
 
 		String monthstr = String.format("%02d", month);
 
-		String str = "" + (year) + "" + monthstr;
+		String str = "" + (year-1) + "" + monthstr;
 
 		System.out.println(">>>>>str=" + str);
 		return str;
@@ -5595,7 +5610,7 @@ public static ChartBarLineSeries getKNOWLDGELevel2ChartBarLineSeries07(List<Know
 		int year = cal.get(Calendar.YEAR);
 
 		System.out.println(">>>>>year=" + year);
-		return String.valueOf(year);
+		return String.valueOf(year-1);
 	}
 
 	public static String getCurrrent_YearMoth() throws Exception {

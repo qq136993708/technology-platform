@@ -477,8 +477,8 @@ function set_single_graph_statistics(data,id)
 	
 	if(id=='contract_chart1')
 	{
-		var xkCount_1=getSingleDataCountForName(data,'已签合同');
-    	var jzCount_2=getSingleDataCountForName(data,'未签合同');
+		var xkCount_1=getSingleDataCountForName(data,'已签');
+    	var jzCount_2=getSingleDataCountForName(data,'未签');
         var allCount_3=xkCount_1+jzCount_2;
         
         if(isNaN(allCount_3))
@@ -602,14 +602,17 @@ function set_multi_graph_statistics(data,id)
         
         $("#contract_chart4_01").html(count_1+"个");
         $("#contract_chart4_02").html(count_2+"个");
-        var tt=percentNum(count_2,count_1);
-        
-        if(isNaN(tt))
+        if(count_1==0)
+        {
+        	$("#contract_chart4_03").html("0%");
+        }else
     	{
-        	tt="0%";
+    	  var tt=percentNum(count_2,count_1);
+          $("#contract_chart4_03").html(tt);
     	}
         
-        $("#contract_chart4_03").html(tt);
+        
+       
         
 		
 	}
@@ -650,8 +653,8 @@ function set_multi_graph_statistics(data,id)
 	
 	if(id=='direct_contract_chart')
 	{
-		var count_1=getDataCountForName(data,'已签合同');
-    	var count_2=getDataCountForName(data,'未签合同');
+		var count_1=getDataCountForName(data,'已签');
+    	var count_2=getDataCountForName(data,'未签');
         
         $("#direct_contract_chart_01").html(count_1+"个");
         $("#direct_contract_chart_02").html(count_2+"个");

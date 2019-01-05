@@ -246,32 +246,63 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 		// 1、设置分页信息，包括当前页数和每页显示的总计数
 		PageHelper.startPage(pageNum, pageSize);
 
+		HashMap<String, Object> hashmap = new HashMap<String, Object>();
 		OutProjectPlan opi = new OutProjectPlan();
 		if(param.getParam().get("xmmc") !=null && !StringUtils.isBlank(param.getParam().get("xmmc")+"")){
 			opi.setXmmc((String) param.getParam().get("xmmc"));
+			hashmap.put("xmmc", param.getParam().get("xmmc"));
 		}
 		
 		if(param.getParam().get("hth") !=null && !StringUtils.isBlank(param.getParam().get("hth")+"")){
 			opi.setHth((String) param.getParam().get("hth"));
+			hashmap.put("hth", param.getParam().get("hth"));
 		}
 		// 资本性、费用性
 		if(param.getParam().get("define1") !=null && !StringUtils.isBlank(param.getParam().get("define1")+"")){
 			opi.setDefine1((String) param.getParam().get("define1"));
+			
+			List define1 = new ArrayList();
+			String[] temS = param.getParam().get("define1").toString().split(",");
+			for (int i = 0; i < temS.length; i++) {
+				define1.add(temS[i]);
+			}
+			hashmap.put("define1", define1);
 		}
 		
 		// 8大院等细分结构
 		if(param.getParam().get("define2") !=null && !StringUtils.isBlank(param.getParam().get("define2")+"")){
 			opi.setDefine2((String) param.getParam().get("define2"));
+			
+			List define2 = new ArrayList();
+			String[] temS = param.getParam().get("define2").toString().split(",");
+			for (int i = 0; i < temS.length; i++) {
+				define2.add(temS[i]);
+			}
+			hashmap.put("define2", define2);
 		}
 		
 		// 直属研究院、分子公司、集团等9种类型
 		if(param.getParam().get("define3") !=null && !StringUtils.isBlank(param.getParam().get("define3")+"")){
 			opi.setDefine3((String) param.getParam().get("define3"));
+			
+			List define3 = new ArrayList();
+			String[] temS = param.getParam().get("define3").toString().split(",");
+			for (int i = 0; i < temS.length; i++) {
+				define3.add(temS[i]);
+			}
+			hashmap.put("define3", define3);
 		}
 		
 		// 国家项目、重大专项、重点项目、其他项目
 		if(param.getParam().get("project_property") !=null && !StringUtils.isBlank(param.getParam().get("project_property")+"")){
 			opi.setProjectProperty((String) param.getParam().get("project_property"));
+			
+			List project_property = new ArrayList();
+			String[] temS = param.getParam().get("project_property").toString().split(",");
+			for (int i = 0; i < temS.length; i++) {
+				project_property.add(temS[i]);
+			}
+			hashmap.put("project_property", project_property);
 		}
 		
 		// 新开项目、续建项目、完工项目
@@ -287,6 +318,13 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 		// 各个处室
 		if(param.getParam().get("zycmc") !=null && !StringUtils.isBlank(param.getParam().get("zycmc")+"")){
 			opi.setZycmc((String) param.getParam().get("zycmc"));
+			
+			List zycmc = new ArrayList();
+			String[] temS = param.getParam().get("zycmc").toString().split(",");
+			for (int i = 0; i < temS.length; i++) {
+				zycmc.add(temS[i]);
+			}
+			hashmap.put("zycmc", zycmc);
 		}
 		
 		// 年度，暂时不用
@@ -294,7 +332,7 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 			opi.setNd((String) param.getParam().get("nd"));
 		}
 		
-		List<OutProjectPlan> list = outProjectPlanMapper.selectProjectPlanByCond(opi);
+		List<OutProjectPlan> list = outProjectPlanMapper.selectProjectPlanByCond(hashmap);
 		System.out.println("1>>>>>>>>>查询分页结果" + list.size());
 		PageInfo<OutProjectPlan> pageInfo = new PageInfo<OutProjectPlan>(list);
 		System.out.println("2>>>>>>>>>查询分页结果" + pageInfo.getList().size());

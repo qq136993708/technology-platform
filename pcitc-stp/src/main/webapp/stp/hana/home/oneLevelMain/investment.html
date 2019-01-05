@@ -53,19 +53,15 @@
             <div class="layui-col-md6">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                       <span class="layui-time"></span>科研投入完成率
-                        <div class="layui-tool">
-                            <button type="button" class="btn btn-tool collapse"></button>
-                            <button type="button" class="btn btn-tool remove"></button>
-                        </div>
+                       <span class="layui-time"></span>科研预算执行率
                     </div>
                     <div class="layui-card-body btn-function">
 
                         <div class="text-total" style="font-size: 13px;">
                             <span>年度预算总计:<span class="text-total-blue"    id="chart1_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>费用性实际下达:<span class="text-total-blue"   id="chart1_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>资本性实际下达:<span class="text-total-blue"   id="chart1_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>投入完成率:<span class="text-total-blue"      id="chart1_04"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>费用性实际签订:<span class="text-total-blue"   id="chart1_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>资本性实际签订:<span class="text-total-blue"   id="chart1_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>预算执行率:<span class="text-total-blue"      id="chart1_04"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                         </div>
                         <div  style="height:272px;width: 100%;" id="chart1"></div>
                     </div>
@@ -75,14 +71,10 @@
             <div class="layui-col-md6">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                       <span class="layui-time"></span>科研投入完成率（万元）
-                        <div class="layui-tool">
-                            <button type="button" class="btn btn-tool collapse"></button>
-                            <button type="button" class="btn btn-tool remove"></button>
-                        </div>
+                       <span class="layui-time"></span>科研预算执行率（万元）
                     </div>
                     <div class="layui-card-body btn-function" >
-                        <table id="myTable" class="layui-table" lay-data="{url:'/one_level_main/investment_01_01',height:'295'}">
+                        <table id="myTable" class="layui-table" lay-filter="myTable" >
                             <thead>
 	                            <tr>
 	                                <th lay-data="{field:'define3', width:'16%'}" rowspan="2" >企业类型</th>
@@ -91,21 +83,20 @@
 	                                <th lay-data="{align:'center'}" colspan="3">资本性</th>
 	                            </tr>
 	                            <tr>
-	                                <th lay-data="{field:'zysje', width:'10%',align:'right',templet:function(d){if(d.zysje='0') {return '-'} else {return d.zysje}}}">年度预算</th>
-	                                <th lay-data="{field:'zsjje', width:'10%',align:'right',templet:function(d){if(d.zsjje='0') {return '-'} else {return d.zsjje}}}">实际下达</th>
-	                                <th lay-data="{field:'zRate', width:'8%',align:'right',templet:function(d){return d.zRate+'%'}}">完成率</th>
+	                                <th lay-data="{field:'zysje', width:'10%',align:'right'}">年度预算</th>
+	                                <th lay-data="{field:'zsjje', width:'10%',align:'right'}">实际签订</th>
+	                                <th lay-data="{field:'zRate', width:'8%',align:'right',templet:function(d){return d.zRate+'%'}}">执行率</th>
 	
-	                                <th lay-data="{field:'fyxysje', width:'10%',align:'right',templet:function(d){if(d.fyxysje='0') {return '-'} else {return d.fyxysje}}}">年度预算</th>
-	                                <th lay-data="{field:'fyxsjje', width:'10%',align:'right',templet:function(d){if(d.fyxsjje='0') {return '-'} else {return d.fyxsjje}}}">实际下达</th>
-	                                <th lay-data="{field:'fyxRate', width:'8%',align:'right',templet:function(d){return d.fyxRate+'%'}}">完成率</th>
+	                                <th lay-data="{field:'fyxysje', width:'10%',align:'right'}">年度预算</th>
+	                                <th lay-data="{field:'fyxsjje', width:'10%',align:'right'}">实际签订</th>
+	                                <th lay-data="{field:'fyxRate', width:'8%',align:'right',templet:function(d){return d.fyxRate+'%'}}">执行率</th>
 	
-	                                <th lay-data="{field:'zbxysje', width:'10%',align:'right',templet:function(d){if(d.zbxysje='0') {return '-'} else {return d.zbxysje}}}">年度预算</th>
-	                                <th lay-data="{field:'zbxsjje', width:'10%',align:'right',templet:function(d){if(d.zbxsjje='0') {return '-'} else {return d.zbxsjje}}}">实际下达</th>
-	                                <th lay-data="{field:'zbxRate', width:'8%',align:'right',templet:function(d){return d.zbxRate+'%'}}">完成率</th>
+	                                <th lay-data="{field:'zbxysje', width:'10%',align:'right'}">年度预算</th>
+	                                <th lay-data="{field:'zbxsjje', width:'10%',align:'right'}">实际签订</th>
+	                                <th lay-data="{field:'zbxRate', width:'8%',align:'right',templet:function(d){return d.zbxRate+'%'}}">执行率</th>
 	                            </tr>
                             </thead>
                         </table>
-
                     </div>
                 </div>
             </div>
@@ -114,15 +105,15 @@
             <div class="layui-col-md12">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        <span class="layui-time"></span>直属研究院科研投入完成率
+                        <span class="layui-time"></span>直属研究院科研预算执行率
                     </div>
                     <div class="layui-card-body btn-function">
 
                           <div class="text-total">
                             <span>年度预算总计:<span class="text-total-blue"     id="chart7_01"><img class="loadingImg" style="" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>实际下达总计:<span class="text-total-blue"     id="chart7_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>未下达总计:<span class="text-total-blue"       id="chart7_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>投入完成率:<span class="text-total-blue"       id="chart7_04"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>实际签订总计:<span class="text-total-blue"     id="chart7_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>未签订总计:<span class="text-total-blue"       id="chart7_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>预算执行率:<span class="text-total-blue"       id="chart7_04"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                         </div>
 
                         <div class="main-chart" id="chart7" style="height:280px;width: 100%;"></div>
@@ -158,7 +149,8 @@ layui.config({
     $(".layui-time").html(year+"年");
     form.render(null, 'component-form-group');
     laydate.render({
-        elem: '#year'
+        elem: '#year',min: '2016-10-14'
+        
         ,type: 'year'
         ,done: function(value, date, endDate){
             $(".layui-time").html(date.year);
@@ -166,7 +158,7 @@ layui.config({
             search_Event();
         }
     });
-   
+    myTable();
     $("#knowledge_table").click(function () {
     	window.open("/reportNew/reportPageStp?name=167305d0060_d4723a52");
         // parent.layui.index.openTabsPage("/home/project-list?define1=费用性", "科研项目明细"); 
@@ -226,7 +218,6 @@ function initEchart()
       ];
 	  
 	  
-	 
 	 
 	 
 	
@@ -289,13 +280,14 @@ function myTable()
 	 var nd=$("#year").val();
 	 var companyCode=$("#companyCode").val();
 	 var v_date=(new Date()).getTime();
+	 var url= '/one_level_main/investment_01_01?nd='+nd+"&v_date="+v_date;
+	    table.init('myTable', {
+			  url: url
+			  ,height:"295px"
+			  ,where: {} 
+			  
+			});
 	 
-	 
-	table.reload('myTable', {
-		  url: '/one_level_main/investment_01_01?nd='+nd+"&v_date="+v_date
-		  ,where: {} 
-		  
-		});
 }
 
 
@@ -323,8 +315,8 @@ function setinvestmentCount(url)
 	        	           for(var i=0;i<list.length;i++)
 	        	           {
 	        	        	  var zysje=list[i].zysje/10000;//预算总计 
-	        	        	  var fyxsjje=list[i].fyxsjje/10000;//费用性实际下达
-	        	        	  var zbxsjje=list[i].zbxsjje/10000;//资本性实际下达
+	        	        	  var fyxsjje=list[i].fyxsjje/10000;//费用性实际签订
+	        	        	  var zbxsjje=list[i].zbxsjje/10000;//资本性实际签订
 	        	        	  // alert(fyxsjje);
 	        	        	  zysje_count=zysje_count+parseFloat(zysje);
 	        	        	  fyxsjje_count=fyxsjje_count+parseFloat(fyxsjje);
@@ -386,8 +378,8 @@ function setInvestment_02_count(url)
 	        	           for(var i=0;i<list.length;i++)
 	        	           {
 	        	        	  var zysje=list[i].zysje;//预算总计 
-	        	        	  var zsjje=list[i].zsjje;//实际下达
-	        	        	  var wxdje=list[i].wxdje;//未下达
+	        	        	  var zsjje=list[i].zsjje;//实际签订
+	        	        	  var wxdje=list[i].wxdje;//未签订
 	        	        	  //alert(fyxsjje);
 	        	        	  zysje_count=zysje_count+parseFloat(zysje);
 	        	        	  zsjje_count=zsjje_count+parseFloat(zsjje);

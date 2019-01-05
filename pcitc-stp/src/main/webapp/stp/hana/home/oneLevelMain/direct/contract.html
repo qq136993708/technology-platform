@@ -43,7 +43,7 @@
             <div class="layui-col-md6">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        <span class="layui-time"></span>年直属研究院合同签定率
+                        <span class="layui-time"></span>年直属研究院课题合同（任务书）签定率
                     </div>
                     <div class="layui-row-main">
                        <div class="text-total">
@@ -61,7 +61,7 @@
             <div class="layui-col-md6">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        <span class="layui-time"></span>年直属研究院科研课题数量占比
+                        <span class="layui-time"></span>年直属研究院课题合同（任务书）数量占比
                     </div>
                     <div class="layui-card-body btn-function" >
                          <table id="processdef_table" class="layui-hide" lay-filter="processdef_table"></table>
@@ -73,13 +73,13 @@
             <div class="layui-col-md6">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        <span class="layui-time"></span>年科研课题合同签订率
+                        <span class="layui-time"></span>年课题合同（任务书）签订率
                     </div>
                     <div class="layui-row-main">
                     
                     <div class="text-total">
-                            <span>计划签订合同数:<span class="text-total-blue" id="contract_chart4_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>实际签订合同数:<span class="text-total-blue" id="contract_chart4_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>计划签同数:<span class="text-total-blue" id="contract_chart4_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>实际签同数:<span class="text-total-blue" id="contract_chart4_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                             <span>签订率:<span class="text-total-blue" id="contract_chart4_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                         </div>
                         
@@ -90,18 +90,13 @@
             <div class="layui-col-md6">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        <span class="layui-time"></span>年直属研究院科研课题数量占比
-                        <div class="layui-tool">
-                            <button type="button" class="btn btn-tool collapse"></button>
-                            <button type="button" class="btn btn-tool remove"></button>
-                        </div>
+                        <span class="layui-time"></span>年直属研究院课题合同（任务书）数量占比
                     </div>
                     <div class="layui-card-body btn-function" >
                         <table id="processdef_table_02" class="layui-hide" lay-filter="processdef_table"></table>
                     </div>
                 </div>
             </div>
-            
         </div>
     </div>
 </div>
@@ -129,7 +124,7 @@ layui.config({
       ,laydate = layui.laydate
 	  form.render(null, 'component-form-group');
         laydate.render({
-        	 elem: '#year'
+        	 elem: '#year',min: '2016-10-14'
          	      ,type: 'year'
             ,done: function(value, date, endDate){
                 $(".layui-time").html(date.year);
@@ -330,13 +325,13 @@ function renderTable()
 function renderTable2()
 {
 	
-	  var month=$("#month").val();
+	  var nd=$('#year').val();
 	  var tableOne=table.render({
 	  elem: '#processdef_table_02',
-	  url:'/direct/contract_03?month='+month+"&type=2",
+	  url:'/direct/contract_03?nd='+nd+"&type=2",
 	  method:"GET",
       height:309,
-	  where: {param: {"nd":$("#month").val()}},
+	  where: {param: {"nd":nd}},
 	  limit: 15,
 	  id: 'processdef_table_02',
 	  
@@ -389,7 +384,7 @@ function renderTable2()
 	                for(var i=0;i<chartList.length;i++)
 	                {
                         console.log(chartList[i])
-                        if(chartList[i].name=="已签合同"){
+                        if(chartList[i].name=="已签"){
                             values.push({
                                 value: chartList[i].value,
                                 name: "签订率",

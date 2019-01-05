@@ -68,6 +68,11 @@ public class BudgetMysql {
 	 private Object totalMoney;
 	 
 	 
+	 
+	 
+	 
+	 
+	 
 	public Object getTotalMoney() {
 		return totalMoney;
 	}

@@ -954,19 +954,13 @@
 	
 	<!-- 直属研究院二级页面（领导），项目计划完成的比率，按照项目类型、资本性费用性来分组 -->
 	<select id="getPlanCompleteRateByOldNew" resultType="java.util.Map" parameterType="java.util.HashMap">
-		select tableB.DEFINE1 as define1,PROJECT_PROPERTY as project_scope,count(xmid) as jhqds,
+		select case when tableB.DEFINE1 = '费用性' then '科研开发类' when tableB.DEFINE1 = '资本性' then '科研装备类' else tableB.DEFINE1 end as define1,PROJECT_PROPERTY as project_scope,count(xmid) as jhqds,
 			sum(case when tableB.temId is not null then 1 else 0 end) as sjqds
 		from (
 			select out_project_info.xmid as temId,out_project_plan.xmid as xmid,out_project_plan.DEFINE1,out_project_plan.PROJECT_PROPERTY
 			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and out_project_info.PROJECT_TYPE != '1' 
 																	and out_project_info.project_property not like '%十条龙%' and out_project_info.ND= '${nd}' 
-																	and out_project_info.project_property not like '%国家%'
-																	<if test="xmlbbm != null and xmlbbm == 'kyzb'">
-																		 and out_project_info.xmlbbm ='KYZB'
-																	</if>
-																	<if test="xmlbbm != null and xmlbbm == 'fkyzb'">
-																		 and out_project_info.xmlbbm !='KYZB'
-																	</if>)
+																	and out_project_info.project_property not like '%国家%')
 			WHERE
 				out_project_plan.ND= '${nd}' 
 				and (out_project_plan.PROJECT_TYPE= '0' or out_project_plan.PROJECT_TYPE= '2')
@@ -974,12 +968,7 @@
 				<if test="define3 != null and define3 != ''">
 					and out_project_plan.DEFINE3 like '%${define3}%'
 				</if>
-				<if test="xmlbbm != null and xmlbbm == 'kyzb'">
-					 and out_project_plan.xmlbbm ='KYZB'
-				</if>
-				<if test="xmlbbm != null and xmlbbm == 'fkyzb'">
-					 and out_project_plan.xmlbbm !='KYZB'
-				</if>
+				
 				group by out_project_plan.xmid
 		) as tableB 
 		group by tableB.DEFINE1,tableB.PROJECT_PROPERTY
@@ -995,25 +984,13 @@
 			select out_project_info.xmid as temId,out_project_plan.xmid,out_project_plan.DEFINE1,out_project_plan.PROJECT_SCOPE 
 			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and out_project_info.PROJECT_TYPE != '1' 
 																	and out_project_info.project_property not like '%十条龙%' and out_project_info.ND= '${nd}' 
-																	and out_project_info.project_property not like '%国家%'
-																	<if test="xmlbbm != null and xmlbbm == 'kyzb'">
-																		 and out_project_info.xmlbbm ='KYZB'
-																	</if>
-																	<if test="xmlbbm != null and xmlbbm == 'fkyzb'">
-																		 and out_project_info.xmlbbm !='KYZB'
-																	</if>)
+																	and out_project_info.project_property not like '%国家%')
 			WHERE
 				out_project_plan.ND= '${nd}'
 				and (out_project_plan.PROJECT_TYPE= '0' or out_project_plan.PROJECT_TYPE= '2')
 				and out_project_plan.project_property not like '%国家%'
 				<if test="define3 != null and define3 != ''">
 					and out_project_plan.DEFINE3 like '%${define3}%'
-				</if>
-				<if test="xmlbbm != null and xmlbbm == 'kyzb'">
-					 and out_project_plan.xmlbbm ='KYZB'
-				</if>
-				<if test="xmlbbm != null and xmlbbm == 'fkyzb'">
-					 and out_project_plan.xmlbbm !='KYZB'
 				</if>
 			group by out_project_plan.xmid
 		) as tableB
@@ -1033,13 +1010,7 @@
 			select out_project_info.xmid as temId,out_project_plan.xmid as xmid,out_project_plan.DEFINE1,out_project_plan.DEFINE2,out_project_plan.jf as jf1,out_project_info.jf as jf2
 			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and out_project_info.PROJECT_TYPE != '1' 
 																	and out_project_info.project_property not like '%十条龙%' and out_project_info.ND= '${nd}' 
-																	and out_project_info.project_property not like '%国家%'
-																	<if test="xmlbbm != null and xmlbbm == 'kyzb'">
-																		 and out_project_info.xmlbbm ='KYZB'
-																	</if>
-																	<if test="xmlbbm != null and xmlbbm == 'fkyzb'">
-																		 and out_project_info.xmlbbm !='KYZB'
-																	</if>)
+																	and out_project_info.project_property not like '%国家%')
 			WHERE
 				out_project_plan.ND= '${nd}' and out_project_plan.DEFINE3 like '%直属研究院%'
 				and (out_project_plan.PROJECT_TYPE= '0' or out_project_plan.PROJECT_TYPE= '2')
@@ -1098,23 +1069,11 @@
 			select out_project_info.xmid as temId,out_project_plan.xmid as xmid,out_project_plan.DEFINE1
 			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and out_project_info.PROJECT_TYPE != '1' 
 																	and out_project_info.project_property not like '%十条龙%' and out_project_info.ND= '${nd}' 
-																	and out_project_info.project_property not like '%国家%'
-																	<if test="xmlbbm != null and xmlbbm == 'kyzb'">
-																		 and out_project_info.xmlbbm ='KYZB'
-																	</if>
-																	<if test="xmlbbm != null and xmlbbm == 'fkyzb'">
-																		 and out_project_info.xmlbbm !='KYZB'
-																	</if>)
+																	and out_project_info.project_property not like '%国家%')
 			WHERE
 				out_project_plan.ND= '${nd}' 
 				and out_project_plan.PROJECT_TYPE != '1'
 				and out_project_plan.project_property not like '%国家%'
-				<if test="xmlbbm != null and xmlbbm == 'kyzb'">
-					 and out_project_plan.xmlbbm ='KYZB'
-				</if>
-				<if test="xmlbbm != null and xmlbbm == 'fkyzb'">
-					 and out_project_plan.xmlbbm !='KYZB'
-				</if>
 				group by out_project_plan.xmid
 		) as tableB 
 		group by tableB.DEFINE1
@@ -1142,23 +1101,11 @@
 						 out_project_plan.jf as jf1,out_project_plan.jf as jf2,out_project_plan.xmlbbm as xmlbbm1,out_project_info.xmlbbm as xmlbbm2
 			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and out_project_info.PROJECT_TYPE != '1' 
 																	and out_project_info.project_property not like '%十条龙%' and out_project_info.ND= '${nd}' 
-																	and out_project_info.project_property not like '%国家%'
-																	<if test="xmlbbm != null and xmlbbm == 'kyzb'">
-																		 and out_project_info.xmlbbm ='KYZB'
-																	</if>
-																	<if test="xmlbbm != null and xmlbbm == 'fkyzb'">
-																		 and out_project_info.xmlbbm !='KYZB'
-																	</if>)
+																	and out_project_info.project_property not like '%国家%')
 			WHERE
 				out_project_plan.ND= '${nd}' 
 				and out_project_plan.PROJECT_TYPE != '1'
 				and out_project_plan.project_property not like '%国家%'
-				<if test="xmlbbm != null and xmlbbm == 'kyzb'">
-					 and out_project_plan.xmlbbm ='KYZB'
-				</if>
-				<if test="xmlbbm != null and xmlbbm == 'fkyzb'">
-					 and out_project_plan.xmlbbm !='KYZB'
-				</if>
 				group by out_project_plan.xmid
 		) as tableB  
 		group by tableB.DEFINE3
@@ -1214,7 +1161,7 @@
 	</select>
 	
 	<!-- 项目计划数据，涉及项目预算、项目计划详情等相关的查询时调用 -->
-	<select id="selectProjectPlanByCond" resultType="com.pcitc.base.stp.out.OutProjectPlan" parameterType="com.pcitc.base.stp.out.OutProjectPlan">
+	<select id="selectProjectPlanByCond" resultType="com.pcitc.base.stp.out.OutProjectPlan" parameterType="java.util.HashMap">
 		select * from (
 			select out_project_plan.DEFINE1,SUBSTR(out_project_plan.DEFINE2 FROM 4) as DEFINE2,SUBSTR(out_project_plan.DEFINE3 FROM 2) as DEFINE3,
 					 out_project_plan.XMMC,out_project_plan.JF,out_project_plan.YSJE,out_project_plan.YSND,
@@ -1222,8 +1169,9 @@
 			       out_project_plan.ND,out_project_plan.HTH
 			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and (out_project_info.PROJECT_TYPE= '0' or out_project_info.PROJECT_TYPE= '2') and out_project_info.project_property not like '%十条龙%' and out_project_plan.YSND= out_project_info.YSND and out_project_info.project_property not like '%国家%')	              
 			WHERE
-				 out_project_plan.define7 not like '%已关闭%'
-				 and (out_project_plan.PROJECT_TYPE= '0' or out_project_plan.PROJECT_TYPE= '2')
+				 out_project_plan.PROJECT_TYPE != '1'
+				 and out_project_plan.project_property not like '%国家%'
+				 and out_project_plan.project_property not like '%十条龙%'
 				) as tableA
 		WHERE 
 			1 = 1
@@ -1246,22 +1194,42 @@
 				and tableA.xmmc like '%${xmmc}%'
 			</if>
 			<if test="define1 != null">
-				and tableA.define1 like '%${define1}%'
+				and (
+				<foreach collection="define1" item="define1" index="index" separator=" or ">
+					tableA.define1 like '%${define1}%'
+				</foreach>
+				)
 			</if>
 			<if test="define2 != null">
-				and tableA.define2 like '%${define2}%'
+				and (
+				<foreach collection="define2" item="define2" index="index" separator=" or ">
+					tableA.define2 like '%${define2}%'
+				</foreach>
+				)
 			</if>
 			<if test="projectProperty != null">
-				and tableA.project_property like '%${projectProperty}%'
+				and (
+				<foreach collection="project_property" item="project_property" index="index" separator=" or ">
+					tableA.project_property like '%${project_property}%'
+				</foreach>
+				)
 			</if>
 			<if test="projectScope != null">
 				and tableA.project_scope like '%${projectScope}%'
 			</if>
 			<if test="zylb != null">
-				and tableA.zylb like '%${zylb}%'
+				and (
+				<foreach collection="zylb" item="zylb" index="index" separator=" or ">
+					tableA.zylb like '%${zylb}%'
+				</foreach>
+				)
 			</if>
 			<if test="zycmc != null">
-				and tableA.zycmc like '%${zycmc}%'
+				and (
+				<foreach collection="zycmc" item="zycmc" index="index" separator=" or ">
+					tableA.zycmc like '%${zycmc}%'
+				</foreach>
+				)
 			</if>
 	</select>
 </mapper>

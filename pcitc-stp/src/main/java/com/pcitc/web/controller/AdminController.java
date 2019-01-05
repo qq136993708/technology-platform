@@ -74,8 +74,6 @@ public class AdminController extends BaseController {
 	// 收藏菜单
 	private static final String COLLECT_FUNCTION = "http://pcitc-zuul/system-proxy/syscollect-provider/sys_collect/add";
 
-	private static final String PATENT_COUNT1 = "http://pcitc-zuul/system-proxy/out-patent-provider/unit-type/apply-agree-list";
-
 	/**
 	 * 科技平台统一身份认证首页
 	 * 
@@ -215,6 +213,137 @@ public class AdminController extends BaseController {
 		} else {
 			return "/index";
 		}
+	}
+	
+	/**
+	 * 领导页面切换到工作页面的特殊转换，不考虑登录者身份直接切换到工作台
+	 */
+	@RequestMapping(value = "/work")
+	public String indexStpWork(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		//System.out.println("进入indexStp....");
+		SSOPrincipal ssoPrincipal = ((SSOPrincipal) request.getSession().getAttribute(SSOPrincipal.NAME_OF_SESSION_ATTR));
+		//System.out.println("ssoPrincipal==========" + ssoPrincipal);
+		String uAccount = "";
+
+		SysUser rsUser = new SysUser();
+		if (ssoPrincipal != null) {
+			System.out.println(SysConfig.sp_login_tsysaccount + "----LogonController2----访问login方法" + ssoPrincipal);
+			// 没有此系统的权限
+			if (ssoPrincipal.getAppAccount() == null || "".equals(ssoPrincipal.getAppAccount())) {
+				System.out.println(ssoPrincipal.getUid() + "---------" + ssoPrincipal.getAppAccount());
+				// 返回权限不足页面
+				return "no_access";
+			}
+			// 查看此账号所拥有的应用系统权限
+			List<String> spRoleList = ssoPrincipal.getValueAsList("spRoleList");
+			// 应用系统权限为空
+			if (spRoleList == null || spRoleList.size() == 0) {
+				// 返回权限不足页面
+				System.out.println("spRoleList=null---------return no_access ");
+				return "no_access";
+			} else {
+				int tem = 0;
+				for (int i = 0; i < spRoleList.size(); i++) {
+					String spList = spRoleList.get(i);
+					System.out.println("spRoleList 第 " + i + "个=====" + spList);
+					boolean status = spList.contains(",");
+					if (status == false) {
+						// 只返回一个spRole
+						String[] sRoleArray = spList.split("@");
+						if (sRoleArray[1].equals(SysConfig.sp_login_tsysaccount)) {
+							tem = 1;
+							break;
+						}
+					} else {
+						// 返回多个spRole
+						String[] spRole = spList.split(",");
+						// 循环spRole，并判断userid是否属于
+						for (int j = 0; j < spRole.length; j++) {
+							String sRole = spRole[j];
+							String[] sRoleArray = sRole.split("@");
+							if (sRoleArray[1].equals(SysConfig.sp_login_tsysaccount)) {
+								tem = 1;
+								break;
+							}
+						}
+					}
+				}
+				System.out.println("校验tem值--------------" + tem);
+				if (tem == 0) {
+					// 返回权限不足页面
+					System.out.println("tem = 0---------return no_access ");
+					return "no_access";
+				} else {
+					System.out.println("获取uAccount----------");
+					uAccount = ssoPrincipal.getAppAccount()[0];
+					System.out.println("uAccount ==========" + uAccount);
+					System.out.println("获取rsUser----------");
+					ResponseEntity<SysUser> rsEntity = this.restTemplate.exchange(GET_USER_INFO_IP + uAccount, HttpMethod.GET, new HttpEntity<Object>(httpHeaders), SysUser.class);
+					rsUser = rsEntity.getBody();
+					if (rsUser != null) {
+						// 用户有哪些菜单权限
+						SysUser userDetails = this.restTemplate.exchange(USER_DETAILS_URL + rsUser.getUserId(), HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SysUser.class).getBody();
+						List<SysFunction> funList = userDetails.getFunList();
+						List<SysFunction> upList = new ArrayList<SysFunction>();
+						
+						// 个人工作台菜单
+						List<SysFunction> grgztList = new ArrayList<SysFunction>();
+						
+						if (funList != null) {
+							for (SysFunction sysfun : funList) {
+								if (sysfun.getParentId() != null && sysfun.getParentId().equals("10001") && !sysfun.getName().equals("个人工作台")) {
+									upList.add(sysfun);
+								}
+								
+								if (sysfun.getParentId() != null && sysfun.getParentId().equals("e5c1006277a845f0b8a9d3674b6fc7e1")) {
+									grgztList.add(sysfun);
+								}
+							}
+							System.out.println("查询菜单权限----------" + funList.size());
+						} else {
+							System.out.println("无菜单权限----------");
+							return "no_access";
+						}
+
+						// 收藏的菜单
+						List<SysCollect> scList = userDetails.getScList();
+						request.setAttribute("scList", scList);
+						request.setAttribute("funList", funList);
+						request.setAttribute("grgztList", grgztList);
+						request.setAttribute("upList", upList);
+						request.setAttribute("userInfo", rsUser);
+					} else {
+						// 返回权限不足页面
+						System.out.println("LogonController----缺少权限");
+						return "no_access";
+					}
+				}
+			}
+
+		} else {
+			// 登录异常
+			System.out.println("LogonController----登录异常");
+			return "no_access";
+		}
+
+		// 重新登录，覆盖原cookies。cookies中信息都是后续要用的
+		httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+		MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<String, String>();
+		requestBody.add("username", rsUser.getUserName());
+		requestBody.add("password", rsUser.getUserPassword());
+		HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<MultiValueMap<String, String>>(requestBody, this.httpHeaders);
+
+		ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LOGIN_URL, HttpMethod.POST, entity, JSONObject.class);
+		JSONObject retJson = responseEntity.getBody();
+
+		System.out.println("-----indexStp----------login token:" + retJson.get("token"));
+
+		Cookie cookie = new Cookie("token", retJson.getString("token"));
+		cookie.setMaxAge(24 * 60 * 60);// 设置有效期为1天
+		cookie.setPath("/");
+		response.addCookie(cookie);
+
+		return "/index";
 	}
 
 	@RequestMapping(value = "/login")
@@ -627,6 +756,9 @@ public class AdminController extends BaseController {
 		if (request.getParameter("lastYearFlag") != null && !request.getParameter("lastYearFlag").equals("")) {
 			map.put("nd", String.valueOf(Integer.parseInt(sdf.format(date))-1));
 		}
+		if (request.getParameter("nd") != null && !request.getParameter("nd").equals("")) {
+			map.put("nd", request.getParameter("nd"));
+		}
 		if (request.getParameter("define3") != null && !request.getParameter("define3").equals("")) {
 			map.put("define3", request.getParameter("define3"));
 		}
@@ -650,15 +782,16 @@ public class AdminController extends BaseController {
 	@RequestMapping(value = "/admin/appraisal-count", method = RequestMethod.POST)
 	@ResponseBody
 	public synchronized Object getAppraisalCount(HttpServletRequest request) {
-		System.out.println("1====/admin/appraisal-count" + sysUserInfo.getUserId());
 		HashMap<String, String> map = new HashMap<String, String>();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
         Date date = new Date();
-        map.put("nd", sdf.format(date));
         
-		System.out.println("1====/admin/patent-count" + String.valueOf(Integer.parseInt(sdf.format(date))-1));
+		System.out.println("1====getAppraisalCount" + request.getParameter("nd"));
 		if (request.getParameter("lastYearFlag") != null && !request.getParameter("lastYearFlag").equals("")) {
 			map.put("nd", String.valueOf(Integer.parseInt(sdf.format(date))-1));
+		}
+		if (request.getParameter("nd") != null && !request.getParameter("nd").equals("")) {
+			map.put("nd", request.getParameter("nd"));
 		}
 		if (request.getParameter("define3") != null && !request.getParameter("define3").equals("")) {
 			map.put("define3", request.getParameter("define3"));

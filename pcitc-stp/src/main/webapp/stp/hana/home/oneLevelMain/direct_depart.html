@@ -125,10 +125,6 @@
                 <div class="layui-card">
                     <div class="layui-card-header">
                         ${year}年直属研究院科研课题数量
-                        <div class="layui-tool">
-                            <button type="button" class="btn btn-tool collapse"></button>
-                            <button type="button" class="btn btn-tool remove"></button>
-                        </div>
                     </div>
                     <div class="layui-card-body btn-function">
                        <div class="text-total">
@@ -144,10 +140,6 @@
                 <div class="layui-card">
                     <div class="layui-card-header">
                         ${year}年直属研究院科研合同签订率
-                        <div class="layui-tool">
-                            <button type="button" class="btn btn-tool collapse"></button>
-                            <button type="button" class="btn btn-tool remove"></button>
-                        </div>
                     </div>
                     <div class="layui-card-body btn-function">
                      <div class="text-total">
@@ -164,10 +156,6 @@
                 <div class="layui-card">
                     <div class="layui-card-header">
                         ${year}年科研装备课题数量
-                        <div class="layui-tool">
-                            <button type="button" class="btn btn-tool collapse"></button>
-                            <button type="button" class="btn btn-tool remove"></button>
-                        </div>
                     </div>
                     <div class="layui-card-body btn-function">
                       <div class="text-total">
@@ -183,10 +171,6 @@
                 <div class="layui-card">
                     <div class="layui-card-header">
                         ${year}年直属研究院科研装备数量
-                        <div class="layui-tool">
-                            <button type="button" class="btn btn-tool collapse"></button>
-                            <button type="button" class="btn btn-tool remove"></button>
-                        </div>
                     </div>
                     
         	
@@ -223,10 +207,6 @@
                 <div class="layui-card">
                     <div class="layui-card-header">
                         ${year}年直属研究院发明专利申请
-                        <div class="layui-tool">
-                            <button type="button" class="btn btn-tool collapse"></button>
-                            <button type="button" class="btn btn-tool remove"></button>
-                        </div>
                     </div>
                     <div class="layui-card-body btn-function">
                         <div  style="height:294px;width: 100%;" id="bar02"></div>
@@ -237,10 +217,6 @@
                 <div class="layui-card">
                     <div class="layui-card-header">
                         ${year}年直属研究院发明专利授权
-                        <div class="layui-tool">
-                            <button type="button" class="btn btn-tool collapse"></button>
-                            <button type="button" class="btn btn-tool remove"></button>
-                        </div>
                     </div>
                     <div class="layui-card-body btn-function">
                         <div  style="height:294px;width: 100%;" id="bar03"></div>
@@ -272,10 +248,6 @@
                 <div class="layui-card">
                     <div class="layui-card-header">
                         ${year}年直属研究院承担国家课题占比
-                        <div class="layui-tool">
-                            <button type="button" class="btn btn-tool collapse"></button>
-                            <button type="button" class="btn btn-tool remove"></button>
-                        </div>
                     </div>
                     <div class="layui-card-body btn-function">
                         <div  style="height:294px;width: 100%;" id="direct_kt_chart2"></div>
@@ -286,10 +258,6 @@
                 <div class="layui-card">
                     <div class="layui-card-header">
                       ${year}年直属研究院国家课题领域占比
-                        <div class="layui-tool">
-                            <button type="button" class="btn btn-tool collapse"></button>
-                            <button type="button" class="btn btn-tool remove"></button>
-                        </div>
                     </div>
                     <div class="layui-card-body btn-function">
                         <div  style="height:294px;width: 100%;" id="direct_kt_chart3"></div>
@@ -375,7 +343,7 @@
         {
         	$.ajax({
  				type : 'GET',
- 				url : "/direct/topic_equipment_count?typeFlag=研究院",
+ 				url : "/direct/topic_equipment_count?typeFlag=研究院&nd="+month,
  				dataType : 'json',
  				headers : {
  					'Content-Type' : 'application/json'
@@ -407,26 +375,7 @@
         }
         
         
-        //科研课题
-    	/* function getContract() {
-    		$.ajax({
-    			type : 'GET',
-    			url : "/one_level_main/contract_count?typeFlag=研究院",
-    			dataType : 'json',
-    			headers : {
-    				'Content-Type' : 'application/json'
-    			},
-    			timeout : 3000,
-    			error : function(XMLHttpRequest, status) {
-    				
-    			},
-    			success : function(data) {
-    				var projectCount = data.data.projectCount;
-    				$("#topic_id").html(projectCount+ "<small style='font-size:14px'>(个)</small>");
-    			}
-    		});
-
-    	} */
+        
         
         
         //合同签订--bak--
@@ -506,7 +455,6 @@
          //专利-知识产权
          function patentCount(month)
          {
-        	
          	$.ajax({
  				type : 'POST',
  				url : "/admin/patent-count?define3=研究院&nd="+month,
@@ -530,6 +478,7 @@
          //成果
          function appraisalCount(month)
          {
+        	
          	$.ajax({
  				type : 'POST',
  				url : "/admin/appraisal-count?define3=研究院&nd="+month,
@@ -588,7 +537,6 @@
         	var v_date=(new Date()).getTime();
         	if(month!=null && month!='')
        		{
-        		//getContract();
         		getCommonCount(year);//科研装备、合同签订
             	getndys_xfzc(month);//经费支出
             	patentCount(year);//专利
