@@ -2365,4 +2365,287 @@
 		group by zycmc
 		
 	</select>
+  <!--首页查询start-->
+  <select id="findOutProjectInfoList" parameterType="com.pcitc.base.stp.out.OutProjectInfo" resultMap="BaseResultMap">
+    select
+    data_id,
+    nd,
+    xmid,
+    hth,
+    xmmc,
+    xmjb,
+    ysnd,
+    yshf,
+    ysxd,
+    ysje,
+    jf,
+    fwdxbm,
+    fwdx,
+    zylbbm,
+    zylb,
+    fzdwbm,
+    fzdw,
+    jtfzdwbm,
+    jtfzdw,
+    fzryx,
+    fzrdh,
+    fzrxm,
+    lxrdh,
+    lxryx,
+    lxrxm,
+    jssxxm,
+    jssj,
+    kssj,
+    yjsj,
+    zyly,
+    zysx,
+    sjid,
+--     lxbj,
+--     yjnr,
+--     jdap,
+--     yjmb,
+    create_date,
+    create_person,
+    status,
+    update_date,
+    project_id,
+    parent_project_id,
+    project_type,
+    erp_project_code,
+    erp_project_name,
+    project_scope,
+    project_level,
+    project_property,
+    project_abc,
+    project_source,
+    yjsjks,
+    yjsjjs,
+    xmlbbm,
+    xmlbmc,
+    gsbmmc,
+    gsbmbm,
+    zycmc,
+    zycbm,
+    type_flag,
+    define1,
+    define2,
+    define3,
+    define4,
+    define5,
+    define6,
+    define7,
+    define8,
+    define9
+    from out_project_info
+    where 1=1
+    <if test="dataId!=null and dataId!=''.toString()">
+      and data_id like '%${dataId}%'
+    </if>
+    <if test="nd!=null and nd!=''.toString()">
+      and nd like '%${nd}%'
+    </if>
+    <if test="xmid!=null and xmid!=''.toString()">
+      and xmid like '%${xmid}%'
+    </if>
+    <if test="hth!=null and hth!=''.toString()">
+      and hth like '%${hth}%'
+    </if>
+    <if test="xmmc!=null and xmmc!=''.toString()">
+      and xmmc like '%${xmmc}%'
+    </if>
+    <if test="xmjb!=null and xmjb!=''.toString()">
+      and xmjb like '%${xmjb}%'
+    </if>
+    <if test="ysnd!=null and ysnd!=''.toString()">
+      and ysnd like '%${ysnd}%'
+    </if>
+    <if test="yshf!=null and yshf!=''.toString()">
+      and yshf like '%${yshf}%'
+    </if>
+    <if test="ysxd!=null and ysxd!=''.toString()">
+      and ysxd like '%${ysxd}%'
+    </if>
+    <if test="ysje!=null and ysje!=''.toString()">
+      and ysje like '%${ysje}%'
+    </if>
+    <if test="jf!=null and jf!=''.toString()">
+      and jf like '%${jf}%'
+    </if>
+    <if test="fwdxbm!=null and fwdxbm!=''.toString()">
+      and fwdxbm like '%${fwdxbm}%'
+    </if>
+    <if test="fwdx!=null and fwdx!=''.toString()">
+      and fwdx like '%${fwdx}%'
+    </if>
+    <if test="zylbbm!=null and zylbbm!=''.toString()">
+      and zylbbm like '%${zylbbm}%'
+    </if>
+    <if test="zylb!=null and zylb!=''.toString()">
+      and zylb like '%${zylb}%'
+    </if>
+    <if test="fzdwbm!=null and fzdwbm!=''.toString()">
+      and fzdwbm like '%${fzdwbm}%'
+    </if>
+    <if test="fzdw!=null and fzdw!=''.toString()">
+      and fzdw like '%${fzdw}%'
+    </if>
+    <if test="jtfzdwbm!=null and jtfzdwbm!=''.toString()">
+      and jtfzdwbm like '%${jtfzdwbm}%'
+    </if>
+    <if test="jtfzdw!=null and jtfzdw!=''.toString()">
+      and jtfzdw like '%${jtfzdw}%'
+    </if>
+    <if test="fzryx!=null and fzryx!=''.toString()">
+      and fzryx like '%${fzryx}%'
+    </if>
+    <if test="fzrdh!=null and fzrdh!=''.toString()">
+      and fzrdh like '%${fzrdh}%'
+    </if>
+    <if test="fzrxm!=null and fzrxm!=''.toString()">
+      and fzrxm like '%${fzrxm}%'
+    </if>
+    <if test="lxrdh!=null and lxrdh!=''.toString()">
+      and lxrdh like '%${lxrdh}%'
+    </if>
+    <if test="lxryx!=null and lxryx!=''.toString()">
+      and lxryx like '%${lxryx}%'
+    </if>
+    <if test="lxrxm!=null and lxrxm!=''.toString()">
+      and lxrxm like '%${lxrxm}%'
+    </if>
+    <if test="jssxxm!=null and jssxxm!=''.toString()">
+      and jssxxm like '%${jssxxm}%'
+    </if>
+    <if test="jssj!=null and jssj!=''.toString()">
+      and jssj like '%${jssj}%'
+    </if>
+    <if test="kssj!=null and kssj!=''.toString()">
+      and kssj like '%${kssj}%'
+    </if>
+    <if test="yjsj!=null and yjsj!=''.toString()">
+      and yjsj like '%${yjsj}%'
+    </if>
+    <if test="zyly!=null and zyly!=''.toString()">
+      and zyly like '%${zyly}%'
+    </if>
+    <if test="zysx!=null and zysx!=''.toString()">
+      and zysx like '%${zysx}%'
+    </if>
+    <if test="sjid!=null and sjid!=''.toString()">
+      and sjid like '%${sjid}%'
+    </if>
+    <!--<if test="lxbj!=null and lxbj!=''.toString()">-->
+      <!--and lxbj like '%${lxbj}%'-->
+    <!--</if>-->
+    <!--<if test="yjnr!=null and yjnr!=''.toString()">-->
+      <!--and yjnr like '%${yjnr}%'-->
+    <!--</if>-->
+    <!--<if test="jdap!=null and jdap!=''.toString()">-->
+      <!--and jdap like '%${jdap}%'-->
+    <!--</if>-->
+    <!--<if test="yjmb!=null and yjmb!=''.toString()">-->
+      <!--and yjmb like '%${yjmb}%'-->
+    <!--</if>-->
+    <if test="createDate!=null and createDate!=''.toString()">
+      and create_date like '%${createDate}%'
+    </if>
+    <if test="createPerson!=null and createPerson!=''.toString()">
+      and create_person like '%${createPerson}%'
+    </if>
+    <if test="status!=null and status!=''.toString()">
+      and status like '%${status}%'
+    </if>
+    <if test="updateDate!=null and updateDate!=''.toString()">
+      and update_date like '%${updateDate}%'
+    </if>
+    <if test="projectId!=null and projectId!=''.toString()">
+      and project_id like '%${projectId}%'
+    </if>
+    <if test="parentProjectId!=null and parentProjectId!=''.toString()">
+      and parent_project_id like '%${parentProjectId}%'
+    </if>
+    <if test="projectType!=null and projectType!=''.toString()">
+      and project_type like '%${projectType}%'
+    </if>
+    <if test="erpProjectCode!=null and erpProjectCode!=''.toString()">
+      and erp_project_code like '%${erpProjectCode}%'
+    </if>
+    <if test="erpProjectName!=null and erpProjectName!=''.toString()">
+      and erp_project_name like '%${erpProjectName}%'
+    </if>
+    <if test="projectScope!=null and projectScope!=''.toString()">
+      and project_scope like '%${projectScope}%'
+    </if>
+    <if test="projectLevel!=null and projectLevel!=''.toString()">
+      and project_level like '%${projectLevel}%'
+    </if>
+    <if test="projectProperty!=null and projectProperty!=''.toString()">
+      and project_property like '%${projectProperty}%'
+    </if>
+    <if test="projectAbc!=null and projectAbc!=''.toString()">
+      and project_abc like '%${projectAbc}%'
+    </if>
+    <if test="projectSource!=null and projectSource!=''.toString()">
+      and project_source like '%${projectSource}%'
+    </if>
+    <if test="yjsjks!=null and yjsjks!=''.toString()">
+      and yjsjks like '%${yjsjks}%'
+    </if>
+    <if test="yjsjjs!=null and yjsjjs!=''.toString()">
+      and yjsjjs like '%${yjsjjs}%'
+    </if>
+    <if test="xmlbbm!=null and xmlbbm!=''.toString()">
+      and xmlbbm like '%${xmlbbm}%'
+    </if>
+    <if test="xmlbmc!=null and xmlbmc!=''.toString()">
+      and xmlbmc like '%${xmlbmc}%'
+    </if>
+    <if test="gsbmmc!=null and gsbmmc!=''.toString()">
+      and gsbmmc like '%${gsbmmc}%'
+    </if>
+    <if test="gsbmbm!=null and gsbmbm!=''.toString()">
+      and gsbmbm like '%${gsbmbm}%'
+    </if>
+    <if test="zycmc!=null and zycmc!=''.toString()">
+      and zycmc like '%${zycmc}%'
+    </if>
+    <if test="zycbm!=null and zycbm!=''.toString()">
+      and zycbm like '%${zycbm}%'
+    </if>
+    <if test="typeFlag!=null and typeFlag!=''.toString()">
+      and type_flag like '%${typeFlag}%'
+    </if>
+    <if test="define1!=null and define1!=''.toString()">
+      and define1 like '%${define1}%'
+    </if>
+    <if test="define2!=null and define2!=''.toString()">
+      and define2 like '%${define2}%'
+    </if>
+    <if test="define3!=null and define3!=''.toString()">
+      and define3 like '%${define3}%'
+    </if>
+    <if test="define4!=null and define4!=''.toString()">
+      and define4 like '%${define4}%'
+    </if>
+    <if test="define5!=null and define5!=''.toString()">
+      and define5 like '%${define5}%'
+    </if>
+    <if test="define6!=null and define6!=''.toString()">
+      and define6 like '%${define6}%'
+    </if>
+    <if test="define7!=null and define7!=''.toString()">
+      and define7 like '%${define7}%'
+    </if>
+    <if test="define8!=null and define8!=''.toString()">
+      and define8 like '%${define8}%'
+    </if>
+    <if test="define9!=null and define9!=''.toString()">
+      and define9 like '%${define9}%'
+    </if>
+
+    <!--<if test="iSortCol!=null and iSortCol!=''.toString()">-->
+      <!--order by ${iSortCol} ${sSortDir_0}-->
+    <!--</if>-->
+  </select>
+  <!--首页查询end-->
 </mapper>

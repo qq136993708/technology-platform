@@ -318,4 +318,8 @@ public interface OutProjectInfoMapper {
 	 * 获取详细的查询条件
 	 */
 	public List getProjectInfoSelectCondition(HashMap<String, String> map);
+
+	//首页查询 end
+	public List<OutProjectInfo> findOutProjectInfoList(OutProjectInfo outProjectInfo);
+	//首页查询 start
 }

@@ -4,24 +4,22 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.stp.out.OutProjectInfo;
 import com.pcitc.base.stp.out.OutProjectPlan;
-import com.pcitc.base.stp.out.OutProjectPlanExample;
-import com.pcitc.base.util.StrUtil;
-import com.pcitc.mapper.out.OutProjectPlanMapper;
-import com.pcitc.service.out.OutProjectPlanService;
+import com.pcitc.mapper.out.OutProjectInfoMapper;
 import com.pcitc.service.search.FullSearchService;
 import com.pcitc.utils.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
 
 @Service("fullSearchServiceImpl")
 @Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = Exception.class)
@@ -29,7 +27,7 @@ public class FullSearchServiceImpl implements FullSearchService {
 
 
     @Autowired
-    OutProjectPlanMapper outProjectPlanMapper;
+    OutProjectInfoMapper outProjectInfoMapper;
 
     @Override
     public LayuiTableData getTableDataScientific(LayuiTableParam param) {
@@ -41,25 +39,7 @@ public class FullSearchServiceImpl implements FullSearchService {
         PageHelper.startPage(pageNum, pageSize);
 
         HashMap<String, Object> hashmap = new HashMap<String, Object>();
-        OutProjectPlan opi = new OutProjectPlan();
-
-        Object keywords = param.getParam().get("keyword");
-        if (keywords==null||"".equals(keywords)){
-            //查询添加添加keyords
-            hashmap.put("xmmc", keywords);
-            hashmap.put("hth", keywords);
-            hashmap.put("define1", keywords);
-            hashmap.put("define2", keywords);
-            hashmap.put("define3", keywords);
-            hashmap.put("project_property", keywords);
-            hashmap.put("zycmc", keywords);
-
-
-            hashmap.put("zylb", keywords);
-            hashmap.put("fzdw", keywords);
-            hashmap.put("zycmc", keywords);
-
-        }
+        OutProjectInfo opi = new OutProjectInfo();
 
         if (param.getParam().get("xmmc") != null && !StringUtils.isBlank(param.getParam().get("xmmc") + "")) {
             opi.setXmmc((String) param.getParam().get("xmmc"));
@@ -145,9 +125,16 @@ public class FullSearchServiceImpl implements FullSearchService {
             opi.setNd((String) param.getParam().get("nd"));
         }
 
-        List<OutProjectPlan> list = outProjectPlanMapper.selectProjectPlanByCond(hashmap);
+        Object keywords = param.getParam().get("keyword");
+        System.out.println("keywords = " + keywords);
+        if (keywords == null || "".equals(keywords)) {
+            //查询添加添加keyords
+            setMethodVal(opi, keywords.toString());
+        }
+
+        List<OutProjectInfo> list = outProjectInfoMapper.findOutProjectInfoList(opi);
         System.out.println("1>>>>>>>>>查询分页结果" + list.size());
-        PageInfo<OutProjectPlan> pageInfo = new PageInfo<OutProjectPlan>(list);
+        PageInfo<OutProjectInfo> pageInfo = new PageInfo<OutProjectInfo>(list);
         System.out.println("2>>>>>>>>>查询分页结果" + pageInfo.getList().size());
 
         LayuiTableData data = new LayuiTableData();
@@ -155,5 +142,26 @@ public class FullSearchServiceImpl implements FullSearchService {
         Long total = pageInfo.getTotal();
         data.setCount(total.intValue());
         return data;
+    }
+
+    public static void setMethodVal(Object obj, String setVal) {
+        try {
+            Class clazz = obj.getClass();//获得实体类名
+            Field[] fields = obj.getClass().getDeclaredFields();//获得属性
+            //获得Object对象中的所有方法
+            for (Field field : fields) {
+                if ("java.lang.String".equals(field.getType().getName())) {
+                    PropertyDescriptor pd = new PropertyDescriptor(field.getName(), clazz);
+                    Method getMethod = pd.getReadMethod();//获得get方法
+                    Object obj_get = getMethod.invoke(obj);//此处为执行该Object对象的get方法
+                    if (obj_get == null || "".equals(obj_get)) {
+                        Method setMethod = pd.getWriteMethod();//获得set方法
+                        setMethod.invoke(obj, setVal);//此处为执行该Object对象的set方法
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
