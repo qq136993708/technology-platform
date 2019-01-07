@@ -2378,10 +2378,10 @@
 			 out_project_info.project_type != '1'
 			 and out_project_info.project_property not like '%十条龙%'
 			<if test="nd != null">
-				and out_project_info.nd = #{nd,jdbctype=varchar}
+				and out_project_info.nd = #{nd}
 			</if>
 			<if test="ysnd != null">
-				and out_project_info.ysnd = #{ysnd,jdbctype=varchar}
+				and out_project_info.ysnd = #{ysnd}
 			</if>
 			<if test="hth != null">
 				and out_project_info.hth like '%${hth}%'

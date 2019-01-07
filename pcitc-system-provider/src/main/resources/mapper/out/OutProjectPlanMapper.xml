@@ -1180,10 +1180,10 @@
 		WHERE 
 			1 = 1
 			<if test="nd != null">
-				and tableA.nd = #{nd,jdbcType=VARCHAR}
+				and tableA.nd = #{nd}
 			</if>
 			<if test="ysnd != null">
-				and tableA.ysnd = #{ysnd,jdbcType=VARCHAR}
+				and tableA.ysnd = #{ysnd}
 			</if>
 			<if test="hth != null">
 				and tableA.hth like '%${hth}%'
