@@ -2273,6 +2273,7 @@
 	<select id="getDragonProjectInfoWithOutIn" resultType="java.util.Map" parameterType="java.util.HashMap">
 		select sum(case when ysnd='${l_nd}' and `status` = '申请出龙' then 1 else 0 end) sqcl,
 			 sum(case when ysnd='${nd}' and `status` = '推荐入龙' then 1 else 0 end) tjrl,
+			 sum(case when ysnd='${nd}' and `status` = '申请延期' then 1 else 0 end) sqyq,
 			 sum(case when ysnd='${nd}' and `status` = '在研项目' then 1 else 0 end) zyxm
 		from (
 			select distinct xmmc,ysnd,`status`
