@@ -10,144 +10,155 @@
 </head>
 <body>
 
+<div class="layui-tab layui-tab-brief" lay-filter="component-tabs-hash">
+    <ul class="layui-tab-title">
+        <li class="layui-this" lay-id="11">科研人才</li>
+        <li lay-id="22">科研合同</li>
+    </ul>
+    <div class="layui-tab-content">
+        <div class="layui-tab-item layui-tab-i layui-show">
+
+            <div class="selector">
+                <div class="cost">
+                    <div class="selector-left">费用类别：</div>
+                    <div class="selector-right">
+                        <ul>
+                            <#list define1List as t>
+                            <li>
+                                <a href="javascript:;">${t}</a>
+                            </li>
+                        </#list>
+                        </ul>
+                    </div>
+                </div>
+                <div class="institute">
+                    <div class="selector-left">研究院：</div>
+                    <div class="selector-right">
+                        <ul>
+                            <#list define21List as t>
+                            <li>
+                                <a href="javascript:;">${t}</a>
+                            </li>
+                        </#list>
+
+                        </ul>
+                    </div>
+                </div>
+                <div class="system">
+                    <div class="selector-left">其他系统标识：</div>
+                    <div class="selector-right">
+                        <ul>
+                            <#list type_flagList as t>
+                            <li>
+                                <a href="javascript:;">${t}</a>
+                            </li>
+                        </#list>
+
+                        </ul>
+                    </div>
+                </div>
+                <div class="specialty">
+                    <div class="selector-left">专业类别：</div>
+                    <div class="selector-right">
+                        <ul>
+                            <#list zylbList as t>
+                            <li>
+                                <a href="javascript:;">${t}</a>
+                            </li>
+                        </#list>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="conditionNew layui-hide">
+                    <div class="selector-left">已选条件：</div>
+                    <div class="selector-right">
+                        <ul>
+
+                        </ul>
+                        <div class="dele">
+                            <a href="javascript:;">清除全部</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="searchBox">
+                <!-- 国家项目、重大专项、重点项目、其他项目   -->
+                <input type="hidden" name="project_property" value="${project_property}"  id="project_property">
+                <!-- 新开项目、续建项目、完工项目  -->
+                <input type="hidden" name="project_scope" value="${project_scope}"  id="project_scope">
+                <!-- 装备的各种技术类型 -->
+                <input type="hidden" name="zylb" value="${zylb}"  id="zylb">
+                <!-- 各个处室 -->
+                <input type="hidden" name="zycmc" value="${zycmc}"  id="zycmc">
+
+                <input type="hidden" name="define1"     value="${define1}"   id="define1">
+                <input type="hidden" name="type_flag"  value="${type_flag}"  id="type_flag">
+                <input type="hidden" name="define2"    value="${define2}"    id="define2">
+
+                <input type="hidden" name="projectId"  value="${projectId}"  id="projectId">
+                <input type="hidden" name="keyword"  value="${keyword}"  id="keyword">
 
 
 
 
-<!--选择器-->
-<div class="selector">
-    <div class="cost">
-        <div class="selector-left">费用类别：</div>
-        <div class="selector-right">
-            <ul>
-                <#list define1List as t>
-                <li>
-                    <a href="javascript:;">${t}</a>
-                </li>
-            </#list>
-            </ul>
-        </div>
-    </div>
-    <div class="institute">
-        <div class="selector-left">研究院：</div>
-        <div class="selector-right">
-            <ul>
-                <#list define21List as t>
-                <li>
-                    <a href="javascript:;">${t}</a>
-                </li>
-            </#list>
+                <!--查询条件-->
+                <!--
+                <label class="dateInput">
+                    <span>合同号</span>
+                    <input type="text" name="hth" title="合同号" autocomplete="off" class="form-control" id="hth">
+                </label>
+                资本性、费用性
+                <label class="dateInput">
+                    <span>费用类别</span>
+                    <input type="text" name="define1" value="${define1}"  title="费用类别" autocomplete="off" class="form-control"  id="define1">
+                </label>
+                8大院等细分结构
+                <label class="dateInput">
+                    <span>研究院</span>
+                    <input type="text" name="define2" value="${define2}"  title="研究院" autocomplete="off" class="form-control"  id="define2">
+                </label>
+                直属研究院、分子公司、集团等9种类型
+                <label class="dateInput">
+                    <span>分公司</span>
+                    <input type="text" name="define3" value="${define2}"  title="分公司" autocomplete="off" class="form-control"  id="define3">
+                </label> -->
 
-            </ul>
-        </div>
-    </div>
-    <div class="system">
-        <div class="selector-left">其他系统标识：</div>
-        <div class="selector-right">
-            <ul>
-                <#list type_flagList as t>
-                <li>
-                    <a href="javascript:;">${t}</a>
-                </li>
-            </#list>
 
-            </ul>
-        </div>
-    </div>
-    <div class="specialty">
-        <div class="selector-left">专业类别：</div>
-        <div class="selector-right">
-            <ul>
-                <#list zylbList as t>
-                <li>
-                    <a href="javascript:;">${t}</a>
-                </li>
-            </#list>
-            </ul>
-        </div>
-    </div>
+                <label class="dateInput">
+                    <span>项目名称</span>
+                    <input type="text" name="xmmc" title="项目名称" autocomplete="off" class="form-control" id="xmmc">
+                </label>
 
-    <div class="conditionNew layui-hide">
-        <div class="selector-left">已选条件：</div>
-        <div class="selector-right">
-            <ul>
+                <label class="dateInput">
+                    <span>月份</span>
+                    <input type="text" name="nd" placeholder="请选择月份" title="月份" value="${nd}"  autocomplete="off" class="form-control" id="nd">
+                </label>
 
-            </ul>
-            <div class="dele">
-                <a href="javascript:;">清除全部</a>
+
+                <!--按钮组-->
+                <div class="btnGroup">
+                    <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg"  onclick="renderTable()">查询</button>
+                </div>
+
+
+
+            </div>
+
+            <div class="tableBox">
+                <table id="processdef-table" class="layui-hide" lay-filter="tableEvent"></table>
             </div>
         </div>
+
+        <div class="layui-tab-item layui-tab-i">内容2</div>
     </div>
 </div>
-<div class="searchBox">
-    <!-- 国家项目、重大专项、重点项目、其他项目   -->
-    <input type="hidden" name="project_property" value="${project_property}"  id="project_property">
-    <!-- 新开项目、续建项目、完工项目  -->
-    <input type="hidden" name="project_scope" value="${project_scope}"  id="project_scope">
-    <!-- 装备的各种技术类型 -->
-    <input type="hidden" name="zylb" value="${zylb}"  id="zylb">
-    <!-- 各个处室 -->
-    <input type="hidden" name="zycmc" value="${zycmc}"  id="zycmc">
 
-    <input type="hidden" name="define1"     value="${define1}"   id="define1">
-    <input type="hidden" name="type_flag"  value="${type_flag}"  id="type_flag">
-    <input type="hidden" name="define2"    value="${define2}"    id="define2">
-
-    <input type="hidden" name="projectId"  value="${projectId}"  id="projectId">
-    <input type="hidden" name="keyword"  value="${keyword}"  id="keyword">
+    <!--选择器-->
 
 
-
-
-    <!--查询条件-->
-    <!--
-    <label class="dateInput">
-        <span>合同号</span>
-        <input type="text" name="hth" title="合同号" autocomplete="off" class="form-control" id="hth">
-    </label>
-    资本性、费用性
-    <label class="dateInput">
-        <span>费用类别</span>
-        <input type="text" name="define1" value="${define1}"  title="费用类别" autocomplete="off" class="form-control"  id="define1">
-    </label>
-    8大院等细分结构
-    <label class="dateInput">
-        <span>研究院</span>
-        <input type="text" name="define2" value="${define2}"  title="研究院" autocomplete="off" class="form-control"  id="define2">
-    </label>
-    直属研究院、分子公司、集团等9种类型
-    <label class="dateInput">
-        <span>分公司</span>
-        <input type="text" name="define3" value="${define2}"  title="分公司" autocomplete="off" class="form-control"  id="define3">
-    </label> -->
-
-
-    <label class="dateInput">
-        <span>项目名称</span>
-        <input type="text" name="xmmc" title="项目名称" autocomplete="off" class="form-control" id="xmmc">
-    </label>
-
-    <label class="dateInput">
-        <span>月份</span>
-        <input type="text" name="nd" placeholder="请选择月份" title="月份" value="${nd}"  autocomplete="off" class="form-control" id="nd">
-    </label>
-
-
-    <!--按钮组-->
-    <div class="btnGroup">
-        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg"  onclick="renderTable()">查询</button>
-    </div>
-
-
-
-</div>
-
-<div class="tableBox" style="clear:both">
-    <table id="processdef-table" class="layui-hide" lay-filter="tableEvent">
-</div>
-
-</script>
-
+</body>
+</html>
 <!--表格数据操作js-->
 <script src="/common/js/jquery-1.11.3.min.js"></script>
 <script>
@@ -156,24 +167,16 @@
 
     layui.config({
         base: '/layuiadmin/lib/extend/'
-    }).use(['jquery','form', 'laydate','table','laypage'], function(){
+    }).use(['jquery','form', 'laydate','table','laypage','element'], function(){
         $ = layui.jquery
             ,table = layui.table
             ,form = layui.form
             ,laydate = layui.laydate,
             form.render(null, 'component-form-group');
         laydate.render({
-
             elem: '#nd'
             ,type: 'year'
-
-
         });
-
-
-
-
-
         //加载表格
         renderTable();
         //移除表头的复选框,去掉全选
@@ -181,8 +184,6 @@
 
         // 触发不同的按钮事件
         var $ = layui.$, active = {
-
-
         };
         //监听排序
         table.on('sort(model-table)', function(obj){
@@ -207,10 +208,6 @@
         if($(".specialty ul li").length>=25){
             $(".specialty .selector-right").css({"height":"80px","overflow-y":"scroll"})
         }
-
-
-
-
 
         /*选择器*/
         /*循环生成*/
@@ -353,17 +350,6 @@
             }
         });
     }
-
-
-
-    function back()
-    {
-
-    }
-
-
-
-
 </script>
 
 </body>
