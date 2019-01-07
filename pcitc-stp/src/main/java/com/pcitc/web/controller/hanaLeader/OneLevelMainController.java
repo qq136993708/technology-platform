@@ -1,6 +1,9 @@
 package com.pcitc.web.controller.hanaLeader;
 
+import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,6 +21,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -40,15 +44,14 @@ import com.pcitc.base.hana.report.AchievementsAnalysis;
 import com.pcitc.base.hana.report.BudgetMysql;
 import com.pcitc.base.hana.report.Contract;
 import com.pcitc.base.hana.report.H1AMKYSY100117;
-import com.pcitc.base.hana.report.H1AMKYZH100006;
 import com.pcitc.base.hana.report.Knowledge;
-import com.pcitc.base.hana.report.ProjectCode;
 import com.pcitc.base.hana.report.ProjectForMysql;
 import com.pcitc.base.system.SysNews;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.JwtTokenUtil;
+import com.pcitc.web.utils.FileUtil;
 import com.pcitc.web.utils.HanaUtil;
 
 
@@ -97,7 +100,8 @@ public class OneLevelMainController {
 		private static final String dragon_03 = "http://pcitc-zuul/system-proxy/out-project-provider/dragon/institute/project-info";
 		private static final String dragon_count = "http://pcitc-zuul/system-proxy/out-provider/dragon/project-count";
 		private static final String getStlTable = "http://pcitc-zuul/system-proxy/out-project-provider/dragon/details";
-
+		
+		
 
 		//科研投入
 		private static final String investment_01 = "http://pcitc-zuul/system-proxy/out-project-plna-provider/money/complete-rate/company-type";
@@ -119,6 +123,16 @@ public class OneLevelMainController {
 		
 		private static final String count_table_data = "http://pcitc-zuul/system-proxy/out-project-provider/common-project/list";
 		
+		
+
+		//数量--成果
+	    private static final String achievement_table_data = "http://pcitc-zuul/system-proxy/out-project-provider/common-project/list";
+				
+	   //数量--知识
+	    private static final String knowledge_table_data = "http://pcitc-zuul/system-proxy/out-project-provider/common-project/list";
+	    private static final String achievement_table_dic = "http://pcitc-zuul/system-proxy/out-provider/project/appraisal-list";
+			
+	    
 		
 		@Autowired
 		private HttpHeaders httpHeaders;
@@ -214,6 +228,104 @@ public class OneLevelMainController {
 			return resault;
 		}
 		
+		
+
+		 
+	    /**========================================================成果--详情==========================================================*/
+
+		
+		
+		@RequestMapping(method = RequestMethod.GET, value = "/achievement_table")
+		  public String achievement_table(HttpServletRequest request) throws Exception
+		  {
+			 
+				String nd=CommonUtil.getParameter(request, "nd", "");//项目名
+				String cglx=CommonUtil.getParameter(request, "cglx", "");//成果类型
+				String zy=CommonUtil.getParameter(request, "zy", "");//成果专业
+				String define3=CommonUtil.getParameter(request, "define3", "");//一级单位
+				String define1=CommonUtil.getParameter(request, "define1", "");//二级单位
+				
+				request.setAttribute("nd", nd);
+				request.setAttribute("cglx", cglx);
+				request.setAttribute("zy", zy);
+				request.setAttribute("define3", define3);
+				request.setAttribute("define1", define1);
+				
+				Map<String, Object> paramsMap = new HashMap<String, Object>();
+				paramsMap.put("nd", nd);
+				JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+				HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+				ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(achievement_table_dic, HttpMethod.POST, entity, JSONArray.class);
+				
+				int statusCode = responseEntity.getStatusCodeValue();
+				if (statusCode == 200) 
+				{
+					 JSONArray jSONArray = responseEntity.getBody();
+					 System.out.println(">>>>>>>>>>>>>achievement_table:" + jSONArray.toString());
+					 
+					 List<String> define1List = new ArrayList<String>();
+					 List<String> define31List = new ArrayList<String>();//8大研究院 
+					 List<String> cglxList = new ArrayList<String>();
+					 List<String> zyList = new ArrayList<String>();
+					 
+					 
+					 for (int i = 0; i < jSONArray.size(); i++)
+			         {
+						    Map  object = (Map) jSONArray.get(i);
+			                String showCode= (String)object.get("showCode");
+			                String showName= (String)object.get("showName");
+			                if(showCode.equals("define1"))
+			                {
+			                	if(showName!=null && !showName.equals(""))
+			                	{
+			                		define1List.add(showName);
+			                	}
+			                }
+			                if(showCode.equals("define3"))
+			                {
+			                	define31List.add(showName);
+			                }
+			                if(showCode.equals("cglx"))
+			                {
+			                	cglxList.add(showName);
+			                }
+			                if(showCode.equals("zy"))
+			                {
+			                	zyList.add(showName);
+			                }
+			                
+			          }
+					 request.setAttribute("define1List", define1List);
+					 request.setAttribute("zyList", zyList);
+					 request.setAttribute("cglxList", cglxList);
+					 request.setAttribute("define31List", define31List);
+				}
+		        return "stp/hana/home/oneLevelMain/achievement_table";
+		  }
+		
+		
+		 //三级表格
+	    @RequestMapping(method = RequestMethod.POST, value = "/achievement_table_data")
+		@ResponseBody
+		public String achievement_table_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
+
+	    	System.out.println(">>>>>>>>>>>>achievement_table_data>param:" + JSONObject.toJSONString(param));
+	    	
+			LayuiTableData layuiTableData = new LayuiTableData();
+			HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+			ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(achievement_table_data, HttpMethod.POST, entity, LayuiTableData.class);
+			int statusCode = responseEntity.getStatusCodeValue();
+			if (statusCode == 200) {
+				layuiTableData = responseEntity.getBody();
+			}
+			JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
+			System.out.println(">>>>>>>>>>>>>achievement_table_data:" + result.toString());
+			return result.toString();
+		}
+	    
+	    /**=========================================================成果-详情  end==========================================================*/
+    
+	    
 		 
 	    /**========================================================数量--详情==========================================================*/
 
@@ -1763,270 +1875,278 @@ public class OneLevelMainController {
 		    
 		    
 		    
-		    /**======================十条龙==================================*/
-			
-			
-			@RequestMapping(method = RequestMethod.GET, value = "/dragon")
-			  public String dragon(HttpServletRequest request) throws Exception
-			  {
-				    
-				    SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
-				    HanaUtil.setSearchParaForUser(userInfo,restTemplate,httpHeaders,request);
-				    String unitCode=userInfo.getUnitCode();
-				    request.setAttribute("unitCode", unitCode);
-				    request.setAttribute("YJY_CODE_NOT_YINGKE", HanaUtil.YJY_CODE_NOT_YINGKE);
-				    request.setAttribute("YJY_CODE_ALL", HanaUtil.YJY_CODE_ALL);
-				    String year= HanaUtil.getCurrrentYear();
-				    request.setAttribute("year", year);
-			        return "stp/hana/home/oneLevelMain/ten_dragon";
-			        
-			  }
-			
-			
-			
-			@RequestMapping(method = RequestMethod.GET, value = "/dragon_01")
-			@ResponseBody
-			public String dragon_01(HttpServletRequest request, HttpServletResponse response) throws Exception 
+/**======================十条龙==================================*/
+
+	@RequestMapping(method = RequestMethod.GET, value = "/dragon")
+	public String dragon(HttpServletRequest request) throws Exception
+	{
+
+		SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
+		HanaUtil.setSearchParaForUser(userInfo, restTemplate, httpHeaders, request);
+		String unitCode = userInfo.getUnitCode();
+		request.setAttribute("unitCode", unitCode);
+		request.setAttribute("YJY_CODE_NOT_YINGKE", HanaUtil.YJY_CODE_NOT_YINGKE);
+		request.setAttribute("YJY_CODE_ALL", HanaUtil.YJY_CODE_ALL);
+		String year = HanaUtil.getCurrrentYear();
+		request.setAttribute("year", year);
+		return "stp/hana/home/oneLevelMain/ten_dragon";
+
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/dragon_01")
+	@ResponseBody
+	public String dragon_01(HttpServletRequest request, HttpServletResponse response) throws Exception
+	{
+
+		Result result = new Result();
+		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+		String type = CommonUtil.getParameter(request, "type", "");
+
+		Map<String, Object> paramsMap = new HashMap<String, Object>();
+		paramsMap.put("nd", nd);
+		paramsMap.put("type", type);
+		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+		if (!nd.equals(""))
+		{
+			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(dragon_01, HttpMethod.POST, entity, JSONArray.class);
+			int statusCode = responseEntity.getStatusCodeValue();
+			if (statusCode == 200)
 			{
-				
-				Result result = new Result();
-				String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
-				String type = CommonUtil.getParameter(request, "type", "");
-				
-				Map<String, Object> paramsMap = new HashMap<String, Object>();
-				paramsMap.put("nd", nd);
-				paramsMap.put("type", type);
-				JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
-				HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
-				if (!nd.equals(""))
-				{
-					ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(dragon_01, HttpMethod.POST, entity, JSONArray.class);
-					int statusCode = responseEntity.getStatusCodeValue();
-					if (statusCode == 200) 
-					{
-						
-						JSONArray jSONArray = responseEntity.getBody();
-					    System.out.println(">>>>>>>>>>>>>>dragon_01 jSONArray-> " + jSONArray.toString());
-						List<ProjectForMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), ProjectForMysql.class);
-					
-						
-							ChartPieResultData pie = new ChartPieResultData();
-							List<ChartPieDataValue> dataList = new ArrayList<ChartPieDataValue>();
-							List<String> legendDataList = new ArrayList<String>();
-							for (int i = 0; i < list.size(); i++) {
-								ProjectForMysql f2 = list.get(i);
-								String projectName = (String)f2.getXmlbmc();
-								Integer value =(Integer)f2.getSl();
-								legendDataList.add(projectName);
-								dataList.add(new ChartPieDataValue(value, projectName));
-							}
-							pie.setDataList(dataList);
-							pie.setLegendDataList(legendDataList);
-							result.setSuccess(true);
-							result.setData(pie);
-						
-					}
-					
-				} else
-				{
-					result.setSuccess(false);
-					result.setMessage("参数为空");
-				}
-				JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-				System.out.println(">>>>>>>>>>>>>>dragon_01 type= "+type+" : " + resultObj.toString());
-				return resultObj.toString();
-			}
-			
-			
-			    @RequestMapping(method = RequestMethod.GET, value = "/dragon_02")
-				@ResponseBody
-				public String dragon_02(HttpServletRequest request, HttpServletResponse response) throws Exception {
-			    	Result result = new Result();
-					String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
-					String l_nd = DateUtil.format(DateUtil.dateAdd(DateUtil.strToDate(nd, DateUtil.FMT_YYYY), -365), DateUtil.FMT_YYYY);
-					
-					String companyCode = CommonUtil.getParameter(request, "companyCode", "");
-					Map<String, Object> paramsMap = new HashMap<String, Object>();
-					paramsMap.put("nd", nd);
-					paramsMap.put("l_nd", l_nd);
-					paramsMap.put("companyCode", companyCode);
-					JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
-					HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
-					ChartSingleLineResultData chartSingleLineResultData = new ChartSingleLineResultData();
-						ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(dragon_02, HttpMethod.POST, entity, JSONArray.class);
-						int statusCode = responseEntity.getStatusCodeValue();
-						if (statusCode == 200) 
-						{
-							JSONArray jSONArray = responseEntity.getBody();
-							System.out.println(">>>>>>>>>>>>>>>dragon_02 jSONArray" + jSONArray.toString());
-							List<ProjectForMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), ProjectForMysql.class);
-							List<String> xAxisDataList = new ArrayList<String>();
-							List<Object> seriesDataList = new ArrayList<Object>();
-							if(list!=null && list.size()>0)
-							{
-								ProjectForMysql contract = (ProjectForMysql) list.get(0);
-								Integer sqcl =(Integer)contract.getSqcl();
-								Integer tjrl =(Integer)contract.getTjrl();
-								Integer zyxm =(Integer)contract.getZyxm();
-								
-								
-								
-								xAxisDataList.add(l_nd+"申请出龙");
-								xAxisDataList.add(nd+"推荐入龙");
-								xAxisDataList.add(nd+"在研龙项目");
-								
-								seriesDataList.add(sqcl);
-								seriesDataList.add(tjrl);
-								seriesDataList.add(zyxm);
-								chartSingleLineResultData.setSeriesDataList(seriesDataList);
-								chartSingleLineResultData.setxAxisDataList(xAxisDataList);
-							}
-							result.setSuccess(true);
-							result.setData(chartSingleLineResultData);
-						}
-					JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-					System.out.println(">>>>>>>>>>>>>>>dragon_02 " + resultObj.toString());
-					return resultObj.toString();
-			}
-			
-			@RequestMapping(method = RequestMethod.GET, value = "/dragon_03")
-			@ResponseBody
-			public String getProjectByCountBar(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-				Result result = new Result();
-				ChartBarLineResultData barLine=new ChartBarLineResultData();
-				String nd = CommonUtil.getParameter(request, "nd",DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
-				String companyCode = CommonUtil.getParameter(request, "companyCode", "");
-				Map<String, Object> paramsMap = new HashMap<String, Object>();
-				paramsMap.put("nd", nd);
-				paramsMap.put("companyCode", companyCode);
-				JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
-				HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
-				if (!companyCode.equals(""))
-				{
-					ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(dragon_03, HttpMethod.POST, entity, JSONArray.class);
-					int statusCode = responseEntity.getStatusCodeValue();
-					if (statusCode == 200) 
-					{
-						JSONArray jSONArray = responseEntity.getBody();
-						System.out.println(">>>>>>>>>>>>>>dragon_03 jSONArray-> " + jSONArray.toString());
-						List<ProjectForMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), ProjectForMysql.class);
-						List<String>  xAxisDataList=HanaUtil.getduplicatexAxisByList(list,"define2");
-		         		barLine.setxAxisDataList(xAxisDataList);
-		         	
-						List<String> legendDataList = new ArrayList<String>();
-						legendDataList.add("十条龙项目");
-						legendDataList.add("重大项目");
-						barLine.setxAxisDataList(xAxisDataList);
-						barLine.setLegendDataList(legendDataList);
-						// X轴数据
-						List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
-						ChartBarLineSeries s1 = HanaUtil.getTenDragonChartBarLineSeries(list, "stlxm");
-						ChartBarLineSeries s2 = HanaUtil.getTenDragonChartBarLineSeries(list, "zdzx");
-						seriesList.add(s1);
-						seriesList.add(s2);
-						barLine.setSeriesList(seriesList);
-		         		result.setSuccess(true);
-						result.setData(barLine);
-					}
-					
-				} else
-				{
-					result.setSuccess(false);
-					result.setMessage("参数为空");
-				}
-				JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-				System.out.println(">>>>>>>>>>>>>>dragon_03 " + resultObj.toString());
-				return resultObj.toString();
-			}
-						
-						
-						//重在集团
-						@RequestMapping(method = RequestMethod.GET, value = "/getZdstlTable")
-						@ResponseBody
-						public String getZdstlTable(HttpServletRequest request, HttpServletResponse response) throws Exception {
-							PageResult pageResult = new PageResult();
-							String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
-							String companyCode = CommonUtil.getParameter(request, "companyCode", "");
-							//String type = CommonUtil.getParameter(request, "type", "重点专项");
-							Map<String, Object> paramsMap = new HashMap<String, Object>();
-							paramsMap.put("nd", nd);
-							paramsMap.put("companyCode", companyCode);
-							JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
-							HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
-							
-								ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(getZdstlTable, HttpMethod.POST, entity, JSONArray.class);
-								int statusCode = responseEntity.getStatusCodeValue();
-								if (statusCode == 200) 
-								{
-									JSONArray jSONArray = responseEntity.getBody();
-									System.out.println(">>>>>>>>>>>>getZdstlTable jSONArray>>> " + jSONArray.toString());
-									//List<ProjectForMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), ProjectForMysql.class);
-									pageResult.setData(jSONArray);
-									pageResult.setCode(0);
-									pageResult.setCount(Long.valueOf(jSONArray.size()));
-									pageResult.setLimit(1000);
-									pageResult.setPage(1l);
-								}
-								
-							
-							JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
-							System.out.println(">>>>>>>>>>>>>>>getZdstlTable " + resultObj.toString());
-							return resultObj.toString();
-						}
-						
-						
-						   @RequestMapping(method = RequestMethod.GET, value = "/dragon_count")
-							@ResponseBody
-							public String dragon_count(HttpServletRequest request, HttpServletResponse response) throws Exception {
+				JSONArray jSONArray = responseEntity.getBody();
+				System.out.println(">>>>>>>>>>>>>>dragon_01 jSONArray-> " + jSONArray.toString());
+				List<ProjectForMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), ProjectForMysql.class);
 
-						    	String resault="";
-								Result result = new Result();
-								String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
-								Map<String, Object> paramsMap = new HashMap<String, Object>();
-								paramsMap.put("nd", nd);
-								
-								JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
-								HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
-								if (!nd.equals(""))
-								{
-									ResponseEntity<JSONObject> responseEntity = restTemplate.exchange(dragon_count, HttpMethod.POST, entity, JSONObject.class);
-									int statusCode = responseEntity.getStatusCodeValue();
-									if (statusCode == 200) 
-									{
-										
-										    JSONObject jSONObject = responseEntity.getBody();
-											System.out.println(">>>>>>>>>>>>>>jSONObject -> " + jSONObject.toString());
-											result.setSuccess(true);
-											result.setData(jSONObject);
-										
-									}
-									
-								} else
-								{
-									result.setSuccess(false);
-									result.setMessage("参数为空");
-								}
-								JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
-								resault=resultObj.toString();
-								System.out.println(">>>>>>>>>>>>>dragon_count " + resultObj.toString());
-								
-								return resault;
-							}
-						    
+				ChartPieResultData pie = new ChartPieResultData();
+				List<ChartPieDataValue> dataList = new ArrayList<ChartPieDataValue>();
+				List<String> legendDataList = new ArrayList<String>();
+				for (int i = 0; i < list.size(); i++)
+				{
+					ProjectForMysql f2 = list.get(i);
+					String projectName = (String) f2.getXmlbmc();
+					Integer value = (Integer) f2.getSl();
+					legendDataList.add(projectName);
+					dataList.add(new ChartPieDataValue(value, projectName));
+				}
+				pie.setDataList(dataList);
+				pie.setLegendDataList(legendDataList);
+				result.setSuccess(true);
+				result.setData(pie);
+
+			}
+
+		}
+		else
+		{
+			result.setSuccess(false);
+			result.setMessage("参数为空");
+		}
+		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
+		System.out.println(">>>>>>>>>>>>>>dragon_01 type= " + type + " : " + resultObj.toString());
+		return resultObj.toString();
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/dragon_02")
+	@ResponseBody
+	public String dragon_02(HttpServletRequest request, HttpServletResponse response) throws Exception
+	{
+		Result result = new Result();
+		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+		String l_nd = DateUtil.format(DateUtil.dateAdd(DateUtil.strToDate(nd, DateUtil.FMT_YYYY), -365), DateUtil.FMT_YYYY);
+
+		String companyCode = CommonUtil.getParameter(request, "companyCode", "");
+		Map<String, Object> paramsMap = new HashMap<String, Object>();
+		paramsMap.put("nd", nd);
+		paramsMap.put("l_nd", l_nd);
+		paramsMap.put("companyCode", companyCode);
+		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+		ChartSingleLineResultData chartSingleLineResultData = new ChartSingleLineResultData();
+		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(dragon_02, HttpMethod.POST, entity, JSONArray.class);
+		int statusCode = responseEntity.getStatusCodeValue();
+		if (statusCode == 200)
+		{
+			JSONArray jSONArray = responseEntity.getBody();
+			System.out.println(">>>>>>>>>>>>>>>dragon_02 jSONArray" + jSONArray.toString());
+			// List<ProjectForMysql> list = JSONObject.parseArray(jSONArray.toJSONString(),
+			// ProjectForMysql.class);
+			List<String> xAxisDataList = new ArrayList<String>();
+			List<Object> seriesDataList = new ArrayList<Object>();
+			if (jSONArray != null && jSONArray.size() > 0)
+			{
+				// ProjectForMysql contract = (ProjectForMysql) list.get(0);
+				JSONObject obj = jSONArray.getJSONObject(0);
+
+				Integer sqcl = obj.getInteger("sqcl");
+				Integer sqxm = obj.getInteger("sqxm");
+				Integer tjrl = obj.getInteger("tjrl");
+				Integer sqyq = obj.getInteger("sqyq");
+				Integer zyxm = obj.getInteger("zyxm");
+
+				xAxisDataList.add(l_nd + "申请出龙");
+				xAxisDataList.add(nd + "申请休眠");
+				xAxisDataList.add(nd + "推荐入龙");
+				xAxisDataList.add(nd + "申请延期");
+				xAxisDataList.add(nd + "在研项目");
+
+				seriesDataList.add(sqcl);
+				seriesDataList.add(sqxm);
+				seriesDataList.add(tjrl);
+				seriesDataList.add(sqyq);
+				seriesDataList.add(zyxm);
+				chartSingleLineResultData.setSeriesDataList(seriesDataList);
+				chartSingleLineResultData.setxAxisDataList(xAxisDataList);
+			}
+			result.setSuccess(true);
+			result.setData(chartSingleLineResultData);
+		}
+		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
+		System.out.println(">>>>>>>>>>>>>>>dragon_02 " + resultObj.toString());
+		return resultObj.toString();
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/dragon_03")
+	@ResponseBody
+	public String getProjectByCountBar(HttpServletRequest request, HttpServletResponse response) throws Exception
+	{
+
+		Result result = new Result();
+		ChartBarLineResultData barLine = new ChartBarLineResultData();
+		String nd = CommonUtil.getParameter(request, "nd", DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+		String companyCode = CommonUtil.getParameter(request, "companyCode", "");
+		Map<String, Object> paramsMap = new HashMap<String, Object>();
+		paramsMap.put("nd", nd);
+		paramsMap.put("companyCode", companyCode);
+		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+		if (!companyCode.equals(""))
+		{
+			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(dragon_03, HttpMethod.POST, entity, JSONArray.class);
+			int statusCode = responseEntity.getStatusCodeValue();
+			if (statusCode == 200)
+			{
+				JSONArray jSONArray = responseEntity.getBody();
+				System.out.println(">>>>>>>>>>>>>>dragon_03 jSONArray-> " + jSONArray.toString());
+				List<ProjectForMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), ProjectForMysql.class);
+				List<String> xAxisDataList = HanaUtil.getduplicatexAxisByList(list, "define2");
+				barLine.setxAxisDataList(xAxisDataList);
+
+				List<String> legendDataList = new ArrayList<String>();
+				legendDataList.add("十条龙项目");
+				legendDataList.add("重大项目");
+				barLine.setxAxisDataList(xAxisDataList);
+				barLine.setLegendDataList(legendDataList);
+				// X轴数据
+				List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
+				ChartBarLineSeries s1 = HanaUtil.getTenDragonChartBarLineSeries(list, "stlxm");
+				ChartBarLineSeries s2 = HanaUtil.getTenDragonChartBarLineSeries(list, "zdzx");
+				seriesList.add(s1);
+				seriesList.add(s2);
+				barLine.setSeriesList(seriesList);
+				result.setSuccess(true);
+				result.setData(barLine);
+			}
+
+		}
+		else
+		{
+			result.setSuccess(false);
+			result.setMessage("参数为空");
+		}
+		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
+		System.out.println(">>>>>>>>>>>>>>dragon_03 " + resultObj.toString());
+		return resultObj.toString();
+	}
+
+	// 重在集团
+	@RequestMapping(method = RequestMethod.GET, value = "/getZdstlTable")
+	@ResponseBody
+	public String getZdstlTable(HttpServletRequest request, HttpServletResponse response) throws Exception
+	{
+		PageResult pageResult = new PageResult();
+		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+		String companyCode = CommonUtil.getParameter(request, "companyCode", "");
+		// String type = CommonUtil.getParameter(request, "type", "重点专项");
+		Map<String, Object> paramsMap = new HashMap<String, Object>();
+		paramsMap.put("nd", nd);
+		paramsMap.put("companyCode", companyCode);
+		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+
+		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(getZdstlTable, HttpMethod.POST, entity, JSONArray.class);
+		int statusCode = responseEntity.getStatusCodeValue();
+		if (statusCode == 200)
+		{
+			JSONArray jSONArray = responseEntity.getBody();
+			System.out.println(">>>>>>>>>>>>getZdstlTable jSONArray>>> " + jSONArray.toString());
+			// List<ProjectForMysql> list = JSONObject.parseArray(jSONArray.toJSONString(),
+			// ProjectForMysql.class);
+			pageResult.setData(jSONArray);
+			pageResult.setCode(0);
+			pageResult.setCount(Long.valueOf(jSONArray.size()));
+			pageResult.setLimit(1000);
+			pageResult.setPage(1l);
+		}
+
+		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
+		System.out.println(">>>>>>>>>>>>>>>getZdstlTable " + resultObj.toString());
+		return resultObj.toString();
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/dragon_count")
+	@ResponseBody
+	public String dragon_count(HttpServletRequest request, HttpServletResponse response) throws Exception
+	{
+
+		String resault = "";
+		Result result = new Result();
+		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+		Map<String, Object> paramsMap = new HashMap<String, Object>();
+		paramsMap.put("nd", nd);
+
+		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+		if (!nd.equals(""))
+		{
+			ResponseEntity<JSONObject> responseEntity = restTemplate.exchange(dragon_count, HttpMethod.POST, entity, JSONObject.class);
+			int statusCode = responseEntity.getStatusCodeValue();
+			if (statusCode == 200)
+			{
+
+				JSONObject jSONObject = responseEntity.getBody();
+				System.out.println(">>>>>>>>>>>>>>jSONObject -> " + jSONObject.toString());
+				result.setSuccess(true);
+				result.setData(jSONObject);
+
+			}
+
+		}
+		else
+		{
+			result.setSuccess(false);
+			result.setMessage("参数为空");
+		}
+		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
+		resault = resultObj.toString();
+		System.out.println(">>>>>>>>>>>>>dragon_count " + resultObj.toString());
+
+		return resault;
+	}
+
 	// 十条龙
 	@RequestMapping(method = RequestMethod.GET, value = "/getStlTable")
 	@ResponseBody
 	public String getStlTable(HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
 		PageResult pageResult = new PageResult();
-		String nd = CommonUtil.getParameter(request,"nd",DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+		String nd = CommonUtil.getParameter(request, "nd", DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
 		String companyCode = CommonUtil.getParameter(request, "companyCode", "");
-	
+
 		Map<String, Object> paramsMap = new HashMap<String, Object>();
 		paramsMap.put("nd", nd);
 		paramsMap.put("companyCode", companyCode);
-		
+
 		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 
@@ -2036,19 +2156,29 @@ public class OneLevelMainController {
 		{
 			JSONArray jSONArray = responseEntity.getBody();
 			System.out.println(">>>>>>>>>>>>getStlTable jSONArray>>> " + jSONArray.toString());
-			//List<ProjectForMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), ProjectForMysql.class);
+			// List<ProjectForMysql> list = JSONObject.parseArray(jSONArray.toJSONString(),
+			// ProjectForMysql.class);
 			pageResult.setData(jSONArray);
 			pageResult.setCode(0);
 			pageResult.setCount(Long.valueOf(jSONArray.size()));
 			pageResult.setLimit(1000);
 			pageResult.setPage(1l);
 		}
-		//JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
+		// JSONObject resultObj =
+		// JSONObject.parseObject(JSONObject.toJSONString(pageResult));
 		System.out.println(">>>>>>>>>>>>>>>getStlTable " + JSON.toJSON(pageResult).toString());
 		return JSON.toJSON(pageResult).toString();
 	}
-
-			 /**======================十条龙 end==================================*/
+	//下载报告
+	@RequestMapping("/report_download/{year}")
+	public void downLoadPlantRunningListInfo(HttpServletResponse res,@PathVariable("year") String year) throws IOException {
+		
+		URL path = this.getClass().getResource("/");
+		File f = new File(path.getPath() + "static/ten_dragon/ten_dragon_report_20121120.doc");
+		
+		FileUtil.fileDownload(f, res);
+	}
+/**======================十条龙 end==================================*/
 
 						/**======================科研投入============================*/
 									

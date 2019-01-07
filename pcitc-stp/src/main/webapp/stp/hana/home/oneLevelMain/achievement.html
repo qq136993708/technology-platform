@@ -251,7 +251,10 @@ function initEchart()
 	echart4.on('click', function (params) {
 		var xName=params.name;
 		var legentName=params.seriesName;
-		parent.layui.index.openTabsPage("/home_achievement/award_table?project_property="+xName, "科技成果明细");
+		
+         var url=　encodeURIComponent("/one_level_main/achievement_table?define2="+xName+"&nd="+nd);
+	     window.open("/instituteIndex?url="+url);
+	        
           
     });
 	
@@ -261,7 +264,8 @@ function initEchart()
 	echart5.on('click', function (params) {
 		var xName=params.name;
 		var legentName=params.seriesName;
-		parent.layui.index.openTabsPage("/home_achievement/award_table?project_property="+xName, "科技成果明细");
+		var url=　encodeURIComponent("/one_level_main/achievement_table?define2="+xName+"&nd="+nd);
+	     window.open("/instituteIndex?url="+url);
           
     });
 	
@@ -270,7 +274,8 @@ function initEchart()
 	echart6.on('click', function (params) {
 		var xName=params.name;
 		var legentName=params.seriesName;
-		parent.layui.index.openTabsPage("/home_achievement/award_table?project_property="+xName, "科技成果明细");
+		var url=　encodeURIComponent("/one_level_main/achievement_table?define2="+xName+"&nd="+nd);
+	     window.open("/instituteIndex?url="+url);
           
     });
 	
