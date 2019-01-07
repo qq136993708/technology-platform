@@ -79,6 +79,16 @@ public class OutProjectServiceImpl implements OutProjectService {
 			hashmap.put("define2", define2);
 		}
 		
+		// 基础研究技术/油气勘探技术等技术
+		if(param.getParam().get("define5") !=null && !StringUtils.isBlank(param.getParam().get("define5")+"")){
+			List define5 = new ArrayList();
+			String[] temS = param.getParam().get("define5").toString().split(",");
+			for (int i = 0; i < temS.length; i++) {
+				define5.add(temS[i]);
+			}
+			hashmap.put("define5", define5);
+		}
+		
 		// 国家项目、重大专项、重点项目、其他项目
 		if(param.getParam().get("project_property") !=null && !StringUtils.isBlank(param.getParam().get("project_property")+"")){
 			List project_property = new ArrayList();
