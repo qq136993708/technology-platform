@@ -219,6 +219,10 @@ var nd=$("#month").val().substring(4,0);
                 $(".dele").click(function () {
                     $(this).parents("li").remove();
                 });
+                //领导讲话
+                $("#layui_leader").on("click",function () {
+                    window.open("/instituteIndex?url="+"/layui/leader_speech.html","_target");
+                });
                 //直属研究院
                 $("#mainLeader").on("click",function () {
                     window.open("/instituteIndex?url="+"/home_ld/direct_depart","_target");
