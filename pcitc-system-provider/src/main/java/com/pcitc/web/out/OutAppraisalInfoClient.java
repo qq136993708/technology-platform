@@ -39,6 +39,13 @@ public class OutAppraisalInfoClient {
 		return outAppraisalService.getOutAppraisalPage(param);
 	}
 	
+	@ApiOperation(value = "分页显示项目的科研成果信息,统计的第三级展示", notes = "分页")
+	@RequestMapping(value = "/out-provider/project/appraisal-list", method = RequestMethod.POST)
+	public LayuiTableData getAppraisalInfoByCond(@RequestBody LayuiTableParam param) throws Exception {
+		logger.info("==================page getAppraisalInfoByCond===========================" + param);
+		return outAppraisalService.getAppraisalInfoByCond(param);
+	}
+	
 	@ApiOperation(value = "成果总数", notes = "首页查询使用")
 	@RequestMapping(value = "/out-provider/appraisal-count", method = RequestMethod.POST)
 	public JSONObject getAppraisalCount(@RequestBody HashMap<String, String> map) {

@@ -6,6 +6,7 @@ import java.util.List;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.stp.out.OutAppraisal;
+import com.pcitc.base.stp.out.OutProjectInfo;
 
 public interface OutAppraisalService {
 
@@ -16,6 +17,11 @@ public interface OutAppraisalService {
 	public int getOutAppraisalCount(HashMap<String, String> map);
 	
 	OutAppraisal getOutAppraisalShowById(String dataId) throws Exception;
+	
+	/**
+	 * 分页显示项目的科研成果信息,统计的第三级展示
+	 */
+	public LayuiTableData getAppraisalInfoByCond(LayuiTableParam param);
 	
 	/**
      * @param nd

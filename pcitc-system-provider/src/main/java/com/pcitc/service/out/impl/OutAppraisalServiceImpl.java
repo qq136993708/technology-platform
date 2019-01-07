@@ -1,5 +1,6 @@
 package com.pcitc.service.out.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,8 +18,10 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.stp.out.OutAppraisal;
 import com.pcitc.base.stp.out.OutAppraisalExample;
+import com.pcitc.base.stp.out.OutProjectInfo;
 import com.pcitc.mapper.out.OutAppraisalMapper;
 import com.pcitc.service.out.OutAppraisalService;
+import com.pcitc.utils.StringUtils;
 
 @Service("outAppraisalService")
 @Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = Exception.class)
@@ -28,6 +31,101 @@ public class OutAppraisalServiceImpl implements OutAppraisalService {
 	private OutAppraisalMapper outAppraisalMapper;
 
 	private final static Logger logger = LoggerFactory.getLogger(OutAppraisalServiceImpl.class);
+	
+	/**
+	 * 分页显示项目的科研成果信息,统计的第三级展示
+	 */
+	public LayuiTableData getAppraisalInfoByCond(LayuiTableParam param) {
+		
+		// 1、设置分页信息，包括当前页数和每页显示的总计数
+		PageHelper.startPage(param.getPage(), param.getLimit());
+		
+		HashMap<String, Object> hashmap = new HashMap<String, Object>();
+		
+		if(param.getParam().get("xmmc") !=null && !StringUtils.isBlank(param.getParam().get("xmmc")+"")){
+			hashmap.put("xmmc", param.getParam().get("xmmc"));
+		}
+		
+		if(param.getParam().get("hth") !=null && !StringUtils.isBlank(param.getParam().get("hth")+"")){
+			hashmap.put("hth", param.getParam().get("hth"));
+		}
+		// 8大院等细分结构
+		if(param.getParam().get("define1") !=null && !StringUtils.isBlank(param.getParam().get("define1")+"")){
+			List define1 = new ArrayList();
+			String[] temS = param.getParam().get("define1").toString().split(",");
+			for (int i = 0; i < temS.length; i++) {
+				define1.add(temS[i]);
+			}
+			hashmap.put("define1", define1);
+		}
+		
+		// 9个机构分类
+		if(param.getParam().get("define3") !=null && !StringUtils.isBlank(param.getParam().get("define3")+"")){
+			List define3 = new ArrayList();
+			String[] temS = param.getParam().get("define3").toString().split(",");
+			for (int i = 0; i < temS.length; i++) {
+				define3.add(temS[i]);
+			}
+			hashmap.put("define3", define3);
+		}
+		
+		// 国家项目、重大专项、重点项目、其他项目
+		if(param.getParam().get("project_property") !=null && !StringUtils.isBlank(param.getParam().get("project_property")+"")){
+			List project_property = new ArrayList();
+			String[] temS = param.getParam().get("project_property").toString().split(",");
+			for (int i = 0; i < temS.length; i++) {
+				project_property.add(temS[i]);
+			}
+			hashmap.put("project_property", project_property);
+		}
+		
+		// A.工业化   B.工业试验等
+		if(param.getParam().get("cglx") !=null && !StringUtils.isBlank(param.getParam().get("cglx")+"")){
+			
+			List cglx = new ArrayList();
+			String[] temS = param.getParam().get("cglx").toString().split(",");
+			for (int i = 0; i < temS.length; i++) {
+				cglx.add(temS[i]);
+			}
+			hashmap.put("cglx", cglx);
+		}
+		
+		// 装备的各种技术类型
+		if(param.getParam().get("zy") !=null && !StringUtils.isBlank(param.getParam().get("zy")+"")){
+			List zy = new ArrayList();
+			String[] temS = param.getParam().get("zy").toString().split(",");
+			for (int i = 0; i < temS.length; i++) {
+				zy.add(temS[i]);
+			}
+			hashmap.put("zy", zy);
+		}
+		
+		
+		if(param.getParam().get("nd") !=null && !StringUtils.isBlank(param.getParam().get("nd")+"")){
+			hashmap.put("nd", param.getParam().get("nd"));
+		}
+		System.out.println("1234>>>>>>>>>ysnd" + param.getParam().get("ysnd"));
+		System.out.println("1234>>>>>>>>>zycmc" + param.getParam().get("zycmc"));
+		System.out.println("1234>>>>>>>>>zylb" + param.getParam().get("zylb"));
+		System.out.println("1234>>>>>>>>>type_flag" + param.getParam().get("type_flag"));
+		System.out.println("1234>>>>>>>>>define1" + param.getParam().get("define1"));
+		System.out.println("1234>>>>>>>>>define2" + param.getParam().get("define2"));
+		
+		if(param.getParam().get("ysnd") !=null && !StringUtils.isBlank(param.getParam().get("ysnd")+"")){
+			hashmap.put("ysnd", param.getParam().get("ysnd"));
+		}
+		
+		List<OutAppraisal> list = outAppraisalMapper.getAppraisalInfoByCond(hashmap);
+		System.out.println("1>>>>>>>>>查询分页结果" + list.size());
+		PageInfo<OutAppraisal> pageInfo = new PageInfo<OutAppraisal>(list);
+		System.out.println("2>>>>>>>>>查询分页结果" + pageInfo.getList().size());
+
+		LayuiTableData data = new LayuiTableData();
+		data.setData(pageInfo.getList());
+		Long total = pageInfo.getTotal();
+		data.setCount(total.intValue());
+		return data;
+	}
 
 	public int insertAppraisalData(List<OutAppraisal> list, String nd) {
 		// 删除数据
