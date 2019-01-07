@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Param;
 import com.pcitc.base.stp.out.OutProjectInfo;
 import com.pcitc.base.stp.out.OutProjectInfoExample;
 import com.pcitc.base.stp.out.OutProjectInfoWithBLOBs;
+import com.pcitc.base.stp.out.OutProjectPlan;
 
 public interface OutProjectInfoMapper {
     int countByExample(OutProjectInfoExample example);
@@ -42,6 +43,11 @@ public interface OutProjectInfoMapper {
 	public void insertOutProjectBatch(List<OutProjectInfo> list);
 
 	public List<OutProjectInfo> selectProjectByCond(OutProjectInfo opi);
+	
+	/**
+     * 分页显示项目数据数据,统计的第三级展示
+     */
+	public List<OutProjectInfo> selectCommonProjectByCond(HashMap<String, Object> map);
 
 	/**
      * 首页科研项目数、装备项目数、总金额（预算）
