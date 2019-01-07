@@ -126,11 +126,11 @@ public class OneLevelMainController {
 		
 
 		//数量--成果
-	    private static final String achievement_table_data = "http://pcitc-zuul/system-proxy/out-project-provider/common-project/list";
+	    private static final String achievement_table_dic = "http://pcitc-zuul/system-proxy/out-provider/appraisal/select-condition/list";
 				
 	   //数量--知识
 	    private static final String knowledge_table_data = "http://pcitc-zuul/system-proxy/out-project-provider/common-project/list";
-	    private static final String achievement_table_dic = "http://pcitc-zuul/system-proxy/out-provider/project/appraisal-list";
+	    private static final String achievement_table_data = "http://pcitc-zuul/system-proxy/out-provider/project/appraisal-list";
 			
 	    
 		
