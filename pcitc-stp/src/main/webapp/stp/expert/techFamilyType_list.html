@@ -182,6 +182,7 @@
                     ajaxPost("/techFamilyType/del-real", {"id": selectRowData.dataId}, function (data) {
                         layer.msg("文件删除成功");
                         renderTable();
+                        initTree();
                     });
                 });
             }

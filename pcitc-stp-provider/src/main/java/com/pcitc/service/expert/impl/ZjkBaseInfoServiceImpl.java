@@ -1,6 +1,7 @@
 package com.pcitc.service.expert.impl;
 
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -15,9 +16,7 @@ import com.pcitc.base.util.IdUtil;
 import com.pcitc.base.util.TreeNodeUtil;
 import com.pcitc.config.SpringContextUtil;
 import com.pcitc.mapper.expert.ZjkExpertMapper;
-import com.pcitc.service.expert.ZjkBaseInfoService;
-import com.pcitc.service.expert.ZjkChengguoService;
-import com.pcitc.service.expert.ZjkPicService;
+import com.pcitc.service.expert.*;
 import com.pcitc.web.feign.SystemRemoteClient;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +50,11 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
 
     @Resource
     private SystemRemoteClient systemRemoteClient;
+
+    @Autowired
+    private TechFamilyTypeService techFamilyTypeService;
+    @Autowired
+    private ZjkZhuanliService zjkZhuanliService;
 
     public List<ZjkExpert> findZjkExpertList(ZjkExpert zjkBaseInfo) {
         List<ZjkExpert> record = zjkBaseInfoMapper.findZjkExpertList(zjkBaseInfo);
@@ -192,8 +196,6 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
     }
 
 
-
-
     public List<SysDictionary> getDicSon(String strParentCode) {
         List<SysDictionary> list = systemRemoteClient.getDictionaryListByParentCode(strParentCode);
         return list;
@@ -328,13 +330,13 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
 
         List<String> stringsDic = new ArrayList<>();
         if (bak3 != null && bak3 != null) {
-            if ("year".equals(bak3)){
-                int nowDate = Integer.parseInt(DateUtil.dateToStr(new Date(),DateUtil.FMT_YYYY));
-                for (int i = 10; i >0; i--) {
-                    stringsDic.add(((nowDate-i)+"").trim());
+            if ("year".equals(bak3)) {
+                int nowDate = Integer.parseInt(DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+                for (int i = 10; i > 0; i--) {
+                    stringsDic.add(((nowDate - i) + "").trim());
                 }
-                stringsDic.add((nowDate+"").trim());
-            }else {
+                stringsDic.add((nowDate + "").trim());
+            } else {
                 List<SysDictionary> dicSon = this.getDicSon(bak3);
                 stringsDic = dicSon.stream().map(SysDictionary::getName).collect(Collectors.toList());
             }
@@ -349,9 +351,8 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
         }
 
         for (Map.Entry<String, Object> e : param.entrySet()) {
-            sql = sql.replace("#{" + e.getKey() + "}", "'" + ((e.getValue()==null)?"":e.getValue()) + "'");
+            sql = sql.replace("#{" + e.getKey() + "}", "'" + ((e.getValue() == null) ? "" : e.getValue()) + "'");
         }
-
 
 
         Map<String, Object> map = new HashMap<>();
@@ -417,7 +418,7 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
 
             String firstName = param.get(ChartForceResultData.name).toString();
             Object object_first_val = param.get(ChartForceResultData.value);
-            String firstValue = object_first_val==null?"":object_first_val.toString();
+            String firstValue = object_first_val == null ? "" : object_first_val.toString();
 
             nodes.add(new ChartForceDataNode(0, firstName, firstValue, firstName));
 
@@ -494,6 +495,153 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
             e.printStackTrace();
         } finally {
             return obj;
+        }
+    }
+
+    //TO DO
+    //专家参与项目与成果，专利关系，对应查询？专家与成果专利对应关系
+    /**
+     * 专家保存
+     *
+     * @param jsonObject
+     * @return
+     */
+    @Override
+    public JSONObject SaveSKMExpert(JSONObject jsonObject) {
+        //判断成功失败
+        ResultSKM resultSKM = JSONObject.parseObject(jsonObject.get("rs").toString(), ResultSKM.class);
+        JSONArray array = (JSONArray) resultSKM.getData();
+        for (int i = 0, j = array.size(); i < j; i++) {
+            JSONObject obj = (JSONObject) array.get(i);
+            ZjkExpert record = new ZjkExpert();
+            record.setDataId(getObjString(obj.get("expertid")));                        //        expertid: 专家id
+            record.setExpertName(getObjString(obj.get("expertName")));                  //        expertName: 专家姓名
+            record.setCompanyName(getObjString(obj.get("companyName")));                //        companyName: 所属公司
+            record.setAge(getObjString(obj.get("age")));                                //        age: 年龄
+            record.setIndustryName(getObjString(obj.get("skillFields")));               //        skillFields:擅长技术领域
+            record.setJoinProjectId(getObjString(obj.get("projectIds")));               //        projectIds:参与项目id
+            record.setJoinProjectName(getObjString(obj.get("projectNames")));           //        projectNames : 参与项目名称
+            record.setMobile(getObjString(obj.get("telephone")));                       //        telephone : 电话
+            record.setEmail(getObjString(obj.get("email")));                            //        email : 邮箱
+            record.setAddress(getObjString(obj.get("address")));                        //        address : 家庭住址
+            record.setCardId(getObjString(obj.get("idNumber")));                        //        idNumber: 证件号
+            record.setCardType(getObjString(obj.get("idNumberType")));                  //        idNumberType: 证件类型
+            record.setEducation(getObjString(obj.get("educationBk")));                  //        educationBk: 学历
+            record.setExpertProfessinal(getObjString(obj.get("discription")));         //        discription: 专家简介
+            record.setUserDesc(getObjString(obj.get("title")));                       //        title: 职称
+            record.setSex(getObjString(obj.get("gender")));                           //        gender: 性别
+            record.setExpertNationality(getObjString(obj.get("nationality")));        //        nationality: 国籍
+            record.setAgeBetween(record.getAge());
+            this.insert(record);
+        }
+        return jsonObject;
+    }
+
+    @Override
+    public JSONObject SaveSKMType(JSONObject jsonObject) {
+        //判断成功失败
+        ResultSKM resultSKM = JSONObject.parseObject(jsonObject.get("rs").toString(), ResultSKM.class);
+        JSONArray array = (JSONArray) resultSKM.getData();
+        for (int i = 0, j = array.size(); i < j; i++) {
+            JSONObject obj = (JSONObject) array.get(i);
+            TechFamilyType record = new TechFamilyType();
+            record.setDataId(getObjString(obj.get("classifyId")));
+            record.setName(getObjString(obj.get("classifyName")));
+            String pId = getObjString(obj.get("parentId"));
+            pId = "0".equals(pId) ? "" : pId;
+            record.setParentId(pId);
+            techFamilyTypeService.insert(record);
+        }
+        return jsonObject;
+    }
+
+    @Override
+    public JSONObject savePatent(JSONObject jsonObject) {
+        //判断成功失败
+        ResultSKM resultSKM = JSONObject.parseObject(jsonObject.get("rs").toString(), ResultSKM.class);
+        JSONArray array = (JSONArray) resultSKM.getData();
+        for (int i = 0, j = array.size(); i < j; i++) {
+            JSONObject obj = (JSONObject) array.get(i);
+            ZjkPatent record = new ZjkPatent();
+            record.setDataId(getObjString(obj.get("entityName")));                  //   entityName: hyzlknowledge  //固定值
+            record.setDataId(getObjString(obj.get("teptName")));                    //   teptName: 行业专利   //固定值
+            record.setDataId(getObjString(obj.get("id")));                          //   id: 专利id
+            record.setDataId(getObjString(obj.get("knowledgeName")));               //   knowledgeName: 专利名称
+            record.setDataId(getObjString(obj.get("applyDate")));                   //   applyDate: 申请时间
+            record.setDataId(getObjString(obj.get("noticeDate")));                  //   noticeDate: 公开时间
+            record.setDataId(getObjString(obj.get("patentHolder")));                //   patentHolder:专利申请人
+            record.setDataId(getObjString(obj.get("patentInventor")));              //   patentInventor:专利发明人
+            record.setDataId(getObjString(obj.get("rightsHolder")));                //   rightsHolder:专利权人
+            record.setDataId(getObjString(obj.get("termTags")));                    //   termTags:标签
+            record.setDataId(getObjString(obj.get("parentProjectId")));             //   parentProjectId: 所属项目id
+            record.setDataId(getObjString(obj.get("parentProjectName")));           //   parentProjectName:所属项目名称
+            record.setDataId(getObjString(obj.get("classifyId")));                  //   classifyId: 所属分类id
+            record.setDataId(getObjString(obj.get("classifyName")));                  //   classifyName: 所属分类名称
+            record.setDataId(getObjString(obj.get("nationCode")));                  //   nationCode: 国别
+            record.setDataId(getObjString(obj.get("companyName")));                 //   companyName: 所属公司
+            record.setDataId(getObjString(obj.get("patentBackground")));            //   patentBackground: 专利背景
+            record.setDataId(getObjString(obj.get("patentDescription")));           //   patentDescription: 专利描述
+            zjkZhuanliService.insert(record);
+        }
+        return jsonObject;
+    }
+
+    @Override
+    public JSONObject saveSKMAchievement(JSONObject jsonObject) {
+        //判断成功失败
+        ResultSKM resultSKM = JSONObject.parseObject(jsonObject.get("rs").toString(), ResultSKM.class);
+        JSONArray array = (JSONArray) resultSKM.getData();
+        for (int i = 0, j = array.size(); i < j; i++) {
+            JSONObject obj = (JSONObject) array.get(i);
+            ZjkAchievement record = new ZjkAchievement();
+            record.setDataId(getObjString(obj.get("entityName")));            //       entityName: kycgknowledge//固定值
+            record.setDataId(getObjString(obj.get("teptName")));              //       teptName: 科研成果   //固定值        
+            record.setDataId(getObjString(obj.get("id")));                    //       id: 成果id                      
+            record.setDataId(getObjString(obj.get("knowledgeName")));         //       knowledgeName:成果名称            
+            record.setDataId(getObjString(obj.get("issuedate")));             //       issuedate:年度（日期）,             
+            record.setDataId(getObjString(obj.get("dutyunit")));              //       dutyunit:所属公司(机构）             
+            record.setDataId(getObjString(obj.get("reportclass")));           //       reportclass:成果类型              
+            record.setDataId(getObjString(obj.get("classify")));              //       classify:专业领域/行业领域(ID)        
+            record.setDataId(getObjString(obj.get("classifyName")));          //       classifyName :专业领域/行业领域(NAME) 
+            record.setDataId(getObjString(obj.get("level")));                 //       level:成果级别                    
+            record.setDataId(getObjString(obj.get("projectId")));             //       projectId : 所属项目（ID）          
+            record.setDataId(getObjString(obj.get("projectName")));           //       projectName:所属项目（NAME）        
+            record.setDataId(getObjString(obj.get("compact")));               //       compact	:所属合同               
+            record.setDataId(getObjString(obj.get("keyword")));               //       keyword	:成果标签（关键字）          
+            record.setDataId(getObjString(obj.get("reportwriter")));          //       reportwriter:负责人              
+            record.setDataId(getObjString(obj.get("description")));           //       description:成果描述  
+            zjkChengguoService.insert(record);
+        }
+        return jsonObject;
+    }
+
+    public String ageBetween(String strAge) {
+        int age = Integer.parseInt(strAge);
+        String ret = "";
+        if (age <= 30) {
+            ret = "20-30";
+        } else if (age <= 40) {
+            ret = "30-40";
+        } else if (age <= 50) {
+            ret = "40-50";
+        } else if (age <= 60) {
+            ret = "50-60";
+        } else if (age <= 70) {
+            ret = "60-70";
+        } else if (age <= 80) {
+            ret = "70-80";
+        } else {
+            ret = "80以上";
+        }
+        return ret;
+    }
+
+    //obj to string
+    public String getObjString(Object obj) {
+        if (obj == null || "".equals(obj)) {
+            return "";
+        } else {
+            return obj.toString();
         }
     }
 }
