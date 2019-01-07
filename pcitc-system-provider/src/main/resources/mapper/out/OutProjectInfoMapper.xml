@@ -2272,7 +2272,9 @@
 	<!--  领导首页-十条龙，十条龙项目的出入龙情况 -->
 	<select id="getDragonProjectInfoWithOutIn" resultType="java.util.Map" parameterType="java.util.HashMap">
 		select sum(case when ysnd='${l_nd}' and `status` = '申请出龙' then 1 else 0 end) sqcl,
-			 sum(case when ysnd='${nd}' and `status` = '推荐入龙' then 1 else 0 end) tjrl,
+			 sum(case when ysnd='${nd}' and `status` = '申请休眠' then 1 else 0 end) sqxm,
+			 sum(case when ysnd='${nd}' and `status` = '入龙' then 1 else 0 end) tjrl,
+			 sum(case when ysnd='${nd}' and `status` = '申请延期' then 1 else 0 end) sqyq,
 			 sum(case when ysnd='${nd}' and `status` = '在研项目' then 1 else 0 end) zyxm
 		from (
 			select distinct xmmc,ysnd,`status`
@@ -2376,13 +2378,12 @@
 		from out_project_info
 		where
 			 out_project_info.project_type != '1'
-			 and out_project_info.project_property not like '%国家%'
 			 and out_project_info.project_property not like '%十条龙%'
 			<if test="nd != null">
-				and out_project_info.nd = #{nd,jdbctype=varchar}
+				and out_project_info.nd = #{nd}
 			</if>
 			<if test="ysnd != null">
-				and out_project_info.ysnd = #{ysnd,jdbctype=varchar}
+				and out_project_info.ysnd = #{ysnd}
 			</if>
 			<if test="hth != null">
 				and out_project_info.hth like '%${hth}%'
@@ -2404,12 +2405,22 @@
 				</foreach>
 				)
 			</if>
-			<if test="projectproperty != null">
+			<if test="define5 != null">
+				and (
+				<foreach collection="define5" item="define5" index="index" separator=" or ">
+					out_project_info.define5 like '%${define5}%'
+				</foreach>
+				)
+			</if>
+			<if test="project_property != null">
 				and (
 				<foreach collection="project_property" item="project_property" index="index" separator=" or ">
 					out_project_info.project_property like '%${project_property}%'
 				</foreach>
 				)
+			</if>
+			<if test="project_property == null">
+				and out_project_info.project_property not like '%国家%'
 			</if>
 			<if test="zylb != null">
 				and (
