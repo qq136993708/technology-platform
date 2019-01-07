@@ -1859,24 +1859,32 @@ public class OneLevelMainController {
 						{
 							JSONArray jSONArray = responseEntity.getBody();
 							System.out.println(">>>>>>>>>>>>>>>dragon_02 jSONArray" + jSONArray.toString());
-							List<ProjectForMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), ProjectForMysql.class);
+							//List<ProjectForMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), ProjectForMysql.class);
 							List<String> xAxisDataList = new ArrayList<String>();
 							List<Object> seriesDataList = new ArrayList<Object>();
-							if(list!=null && list.size()>0)
+							if(jSONArray!=null && jSONArray.size()>0)
 							{
-								ProjectForMysql contract = (ProjectForMysql) list.get(0);
-								Integer sqcl =(Integer)contract.getSqcl();
-								Integer tjrl =(Integer)contract.getTjrl();
-								Integer zyxm =(Integer)contract.getZyxm();
+								//ProjectForMysql contract = (ProjectForMysql) list.get(0);
+								JSONObject obj = jSONArray.getJSONObject(0);
 								
 								
+								Integer sqcl = obj.getInteger("sqcl");
+								Integer sqxm = obj.getInteger("sqxm");
+								Integer tjrl = obj.getInteger("tjrl");
+								Integer sqyq = obj.getInteger("sqyq");
+								Integer zyxm = obj.getInteger("zyxm");
 								
 								xAxisDataList.add(l_nd+"申请出龙");
+								xAxisDataList.add(nd+"申请休眠");
 								xAxisDataList.add(nd+"推荐入龙");
-								xAxisDataList.add(nd+"在研龙项目");
+								xAxisDataList.add(nd+"申请延期");
+								xAxisDataList.add(nd+"在研项目");
+								
 								
 								seriesDataList.add(sqcl);
+								seriesDataList.add(sqxm);
 								seriesDataList.add(tjrl);
+								seriesDataList.add(sqyq);
 								seriesDataList.add(zyxm);
 								chartSingleLineResultData.setSeriesDataList(seriesDataList);
 								chartSingleLineResultData.setxAxisDataList(xAxisDataList);
