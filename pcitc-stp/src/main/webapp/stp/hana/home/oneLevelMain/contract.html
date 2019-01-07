@@ -29,7 +29,7 @@
                         onclick="search_Event()">查询</button>
             </div>-->
             <div class="btnGroup">
-                <button id="knowledge_table" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue  btnMyBgImg btn_details"
+                <button id="table_detail_id" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue  btnMyBgImg btn_details"
                 >详情</button>
             </div>
             <div class="breadcrumb">
@@ -164,13 +164,13 @@
             }
         });
         $(".layui-time").html($("#year").val());
-        $("#knowledge_table").click(function () {
-            window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
+        var nd=$("#year").val();
+        $("#table_detail_id").click(function () {
+        	 var url=　encodeURIComponent("/one_level_main/common_table?nd="+nd+"&ysnd="+nd);
+             window.open("/instituteIndex?url="+url);
         });
-
         renderTable2();
         renderTable();
-
     });
 
     function initEchart()
@@ -183,8 +183,6 @@
             {
                 type: 'value',
                 name: '数量（个）',
-               /* min: 0,
-                max:'dataMax',*/
                 position: 'left',
                 axisLabel: {
                     formatter: '{value}'
@@ -192,17 +190,10 @@
             }
         ];
         
-        
-        
-        
-        
        var  yAxis2= [
             {
             	 type: 'value',
                  name: '数量（个）',
-                 //min: 0,
-                 //interval: 10,
-                 //max:'dataMax',
                  position: 'left',
                  axisLabel: {
                      formatter: '{value}'
@@ -212,9 +203,6 @@
                 type: 'value',
                 show: true ,
                 name: '百分比',
-                //min: 0,
-                //max: 100,
-                //interval: 20,
                 position: 'right',
                 axisLabel: {
                     formatter: '{value}%'
@@ -232,7 +220,7 @@
         echartchart_01_01.on('click', function (params) {
             var xName=params.name;
             var legentName=params.seriesName;
-           // alert("xName="+xName+" legentName="+legentName);
+            // alert("xName="+xName+" legentName="+legentName);
             var projectId="";
             if(legentName=='已签合同')
             {

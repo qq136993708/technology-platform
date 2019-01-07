@@ -108,7 +108,7 @@
 <!--8大院等细分结构-->
 <input type="hidden" name="define2"    value="${define2}"    id="define2">
 <!-- 直属研究院、分子公司、集团等9种类型 -->
-<input type="hidden" name="define3"    value="${define3}"    id="define3">
+<input type="hidden" name="type_flag"    value="${type_flag}"    id="type_flag">
 <!-- 装备的各种技术类型 -->
 <input type="hidden" name="zylb" value="${zylb}"  id="zylb">
 
@@ -211,7 +211,7 @@ layui.config({
             dele();
         });
         $(".system ul li").each(function () {
-            var htmlA=$(this).find("a").html(),htmlT=$("#define3").val(),
+            var htmlA=$(this).find("a").html(),htmlT=$("#type_flag").val(),
                 htmlName=$(this).parents(".selector-right").prev().html();
             if(htmlA==htmlT && htmlA!=""){
                 $(this).addClass("layui-this");
@@ -330,7 +330,7 @@ layui.config({
          });
          costSelectedItem=costSelectedItem.slice(0,costSelectedItem.length-1);//define1
          instituteSelectedItem=instituteSelectedItem.slice(0,instituteSelectedItem.length-1);//define2  8大院等细分结构
-         systemSelectedItem=systemSelectedItem.slice(0,systemSelectedItem.length-1);//define3           直属研究院、分子公司、集团等9种类型
+         systemSelectedItem=systemSelectedItem.slice(0,systemSelectedItem.length-1);//type_flag           直属研究院、分子公司、集团等9种类型
          specialtySelectedItem=specialtySelectedItem.slice(0,specialtySelectedItem.length-1);//zylb     装备的各种技术类型
          specialtySelectedspecialt_chuItem=specialtySelectedspecialt_chuItem.slice(0,specialtySelectedspecialt_chuItem.length-1);//zycmc   专业处
          
@@ -342,7 +342,7 @@ layui.config({
       //渲染
       table.render({
         elem: '#processdef-table',
-        url: '/one_level_main/common_table_data',
+        url: '/one_level_main/count_table_data',
         method:"POST",
         where: {param: {
         	      "nd":$("#nd").val(),
@@ -380,10 +380,9 @@ layui.config({
             {field:'ysje',              title:'年度预算（万元）',        style:'cursor: pointer;',align: 'center', width: '150',sort : true},
       	  {field:'define1',           title:'资本/费用',           style:'cursor: pointer;',align: 'center', width: '150',sort : true},
       	  {field:'define2',           title:'二级单位名称',        style:'cursor: pointer;',align: 'left', width: '150',sort : true},
-      	  {field:'define3',           title:'一级单位名称',        style:'cursor: pointer;',align: 'left', width: '150',sort : true},
+      	  {field:'type_flag',           title:'一级单位名称',        style:'cursor: pointer;',align: 'left', width: '150',sort : true},
             {field:'zylb',              title:'专业类别',           style:'cursor: pointer;',align: 'left', width: '150',sort : true},
-            {field:'fzdw',              title:'负责单位',           style:'cursor: pointer;',align: 'left', width: '150',sort : true},
-            {field:'qdbz',              title:'签订标识',           style:'cursor: pointer;',align: 'left', width: '150',sort : true}
+            {field:'fzdw',              title:'负责单位',           style:'cursor: pointer;',align: 'left', width: '150',sort : true}
          
             
         ]],

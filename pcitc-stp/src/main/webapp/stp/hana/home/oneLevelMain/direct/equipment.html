@@ -63,7 +63,7 @@
                         <span class="layui-time1"></span>年直属研究院科研课题数量占比
                     </div>
                     <div class="layui-card-body btn-function" >
-                        <table id="myTable" class="layui-table" lay-filter="tableData"  lay-data="{url:'/direct/equipment_01?type=2',height:'309'}">
+                        <table id="myTable" class="layui-table" lay-filter="myTable"  >
                             <thead>
                             <tr>
                                 <th lay-data="{field:'define2', width:'22%',align:'center'}" rowspan="2">项目</th>
@@ -119,7 +119,7 @@
                         <span class="layui-time"></span>年科研课题数量占比
                     </div>
                      <div class="layui-card-body btn-function" >
-                        <table id="processdef_table_02" class="layui-hide" lay-filter="processdef_table"></table>
+                        <table id="processdef_table_02" class="layui-hide" lay-filter="processdef_table_02"></table>
                     </div>
                 </div>
             </div>
@@ -194,21 +194,23 @@ layui.config({
         $(".layui-time1").html(monthValY);
         
         $("#knowledge_table").click(function () {
-        	window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
+        	 var nd=$("#year").val();
+             var url=　encodeURIComponent("/one_level_main/count_table?nd="+nd+"&ysnd="+nd);
+    	     window.open("/instituteIndex?url="+url);
         });
         renderTable2();
-        
         //监听行单击事件
-        table.on('row(tableData)', function(obj){
+        table.on('row(myTable)', function(obj){
             console.log(obj.tr) //得到当前行元素对象
             console.log(obj.data) //得到当前行数据
             //obj.del(); //删除当前行
             //obj.update(fields) //修改当前行数据
             selectRowData=obj.data;
-            window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
+            //
+			var url=　encodeURIComponent("/one_level_main/count_table?define2="+selectRowData.define2+"&nd="+nd+"&ysnd="+nd);
+	        window.open("/instituteIndex?url="+url);
         });
-        
-        
+        myTable();
 });
 
 function PrefixInteger(num, length) {
@@ -265,7 +267,10 @@ function initEchart()
 	echart1.on('click', function (params) {
 		var xName=params.name;
 		var legentName=params.seriesName;
-		window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
+		//
+		var url=　encodeURIComponent("/one_level_main/count_table?define2="+xName+"&nd="+nd+"&ysnd="+nd);
+        window.open("/instituteIndex?url="+url);
+        
           
     });
 	
@@ -359,7 +364,7 @@ function renderTable2()
 	var month=$('#month').val();
 	var companyCode=$('#companyCode').val();
 	
-	var v_date=(new Date()).getTime();
+	  var v_date=(new Date()).getTime();
 	  var tableOne=table.render({
 	  elem: '#processdef_table_02',
 	  url:'/direct/equipment_02?type=2&companyCode='+companyCode+'&v_date='+v_date+'&month='+month,
@@ -399,14 +404,14 @@ function renderTable2()
 
 function myTable()
 {
-	table.reload('myTable', {
-		  url: '/direct/equipment_01?type=2'
+	var url= '/direct/equipment_01?type=2';
+    table.init('myTable', {
+		  url: url
+		  ,height:"309px"
 		  ,where: {} 
 		  
 		});
-	
-	
-	
+    
 }
 
         
