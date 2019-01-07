@@ -36,6 +36,11 @@ public interface OutAppraisalMapper {
     public int getOutAppraisalCount(HashMap<String, String> map);
     
     /**
+	 * 分页显示项目的科研成果信息,统计的第三级展示
+	 */
+	public List<OutAppraisal> getAppraisalInfoByCond(HashMap<String, Object> map);
+    
+    /**
      * @param nd
      * @return
      * 得到某个年度专利申请/授权数量按专利类型分组
@@ -89,6 +94,11 @@ public interface OutAppraisalMapper {
      * 领导首页-科研成果，直属院、分子公司等9个的成果情况
      */
 	public List getAppraisalInfoByCompanyType(HashMap<String, String> map);
+	
+	/**
+	 * 获取成果详细的查询条件
+	 */
+	public List getAppraisalInfoSelectCondition(HashMap<String, String> map);
     
     
 }
