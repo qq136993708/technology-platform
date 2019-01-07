@@ -106,27 +106,27 @@
                         <div class="work-report">
                             <ul class="work-one">
                                 <li>
-                                    <a href="javascript:;">汇报材料</a>
+                                    <a href="javascript:export_doc(2012);">汇报材料</a>
                                 </li>
                                 <li>
-                                    <a href="javascript:;">汇报材料</a>
+                                    <a href="javascript:export_doc(2013);">汇报材料</a>
                                 </li>
                                 <li>
-                                    <a href="javascript:;">汇报材料</a>
+                                    <a href="javascript:export_doc(2014);">汇报材料</a>
                                 </li>
                                 <li>
-                                    <a href="javascript:;">汇报材料</a>
+                                    <a href="javascript:export_doc(2015);">汇报材料</a>
                                 </li>
                             </ul>
                             <ul class="work-two">
                                 <li>
-                                    <a href="javascript:;">汇报材料</a>
+                                    <a href="javascript:export_doc(2016);">汇报材料</a>
                                 </li>
                                 <li>
-                                    <a href="javascript:;">汇报材料</a>
+                                    <a href="javascript:export_doc(2017);">汇报材料</a>
                                 </li>
                                 <li>
-                                    <a href="javascript:;">汇报材料</a>
+                                    <a href="javascript:export_doc(2018);">汇报材料</a>
                                 </li>
                             </ul>
                         </div>
@@ -379,6 +379,11 @@
             ]]
         });
     }
+    function export_doc(date_year)
+    {
+    	 window.open("/one_level_main/report_download/"+date_year);
+    }
+   
 </script>
 </body>
 </html>
