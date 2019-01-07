@@ -12,6 +12,11 @@ import com.pcitc.base.stp.out.OutProjectInfo;
 public interface OutProjectService {
 
 	/**
+     * 分页显示项目数据数据,统计的第三级展示
+     */
+	public LayuiTableData selectCommonProjectByCond(LayuiTableParam param);
+	
+	/**
 	 * 批量插入项目
 	 * @param list
 	 * @param nd
