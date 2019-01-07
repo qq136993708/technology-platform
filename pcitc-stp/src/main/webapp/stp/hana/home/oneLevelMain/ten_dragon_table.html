@@ -9,11 +9,6 @@
     <script src="/layuiadmin/layui/layui.js"></script>
 </head>
 <body>
-
-
-
-
-
 <!--选择器-->
 <div class="selector">
     <div class="cost">
@@ -80,8 +75,6 @@
             </ul>
         </div>
     </div>
-    
-    
 
     <div class="conditionNew layui-hide">
         <div class="selector-left">已选条件：</div>
@@ -136,7 +129,7 @@
 </div>
 
 <div class="tableBox" style="clear:both">
-    <table id="processdef-table" class="layui-hide" lay-filter="processdef-table">
+    <table id="processdef-table" class="layui-hide" lay-filter="tableEvent">
 </div>
 
 
@@ -176,7 +169,20 @@ layui.config({
            
             
         };
-        
+        //监听排序
+        table.on('sort(model-table)', function(obj){
+            console.log(this, obj.field, obj.type)
+            //return;
+            //服务端排序
+            table.reload('model-table', {
+                initSort: obj,
+                page: {curr: 1}, //重新从第一页开始
+                where: { //重新请求服务端
+                    key: obj.field, //排序字段
+                    order: obj.type //排序方式
+                }
+            });
+        });
         //区别按钮属性
         $('.layui-btn').on('click', function(){
             var type = $(this).data('type');
@@ -371,19 +377,19 @@ layui.config({
         },
         cols: [[
         	{title:'序号',               type:'numbers', width: '4%'},
-      	  {field:'nd',                 title:'项目年度',             style:'cursor: pointer;',align: 'center', width: '150',sort : true},
-      	  {field:'ysnd',              title:'预算年度',             style:'cursor: pointer;',align: 'center', width: '150',sort : true},
-            {field:'hth',               title:'合同号',              style:'cursor: pointer;',align: 'center', width: '150',sort : true},
-            {field:'zycmc',             title:'专业处',             style:'cursor: pointer;',align: 'left', width: '150',sort : true},
-            {field:'xmmc',              title:'项目名称',            style:'cursor: pointer;',align: 'left', width: '380',sort : true},
-            {field:'jf',                title:'总额（万元）',         style:'cursor: pointer;',align: 'center', width: '150',sort : true},
-            {field:'ysje',              title:'年度预算（万元）',        style:'cursor: pointer;',align: 'center', width: '150',sort : true},
-      	  {field:'define1',           title:'资本/费用',           style:'cursor: pointer;',align: 'center', width: '150',sort : true},
-      	  {field:'define2',           title:'二级单位名称',        style:'cursor: pointer;',align: 'left', width: '150',sort : true},
-      	  {field:'define3',           title:'一级单位名称',        style:'cursor: pointer;',align: 'left', width: '150',sort : true},
-            {field:'zylb',              title:'专业类别',           style:'cursor: pointer;',align: 'left', width: '150',sort : true},
-            {field:'fzdw',              title:'负责单位',           style:'cursor: pointer;',align: 'left', width: '150',sort : true},
-            {field:'qdbz',              title:'签订标识',           style:'cursor: pointer;',align: 'left', width: '150',sort : true}
+      	  {field:'nd',                 title:'项目年度',             style:'cursor: pointer;',align: 'center', width: '150'},
+      	  {field:'ysnd',              title:'预算年度',             style:'cursor: pointer;',align: 'center', width: '150'},
+            {field:'hth',               title:'合同号',              style:'cursor: pointer;',align: 'center', width: '150'},
+            {field:'zycmc',             title:'专业处',             style:'cursor: pointer;',align: 'left', width: '150'},
+            {field:'xmmc',              title:'项目名称',            style:'cursor: pointer;',align: 'left', width: '380'},
+            {field:'jf',                title:'总额（万元）',         style:'cursor: pointer;',align: 'center', width: '150'},
+            {field:'ysje',              title:'年度预算（万元）',        style:'cursor: pointer;',align: 'center', width: '150'},
+      	  {field:'define1',           title:'资本/费用',           style:'cursor: pointer;',align: 'center', width: '150'},
+      	  {field:'define2',           title:'二级单位名称',        style:'cursor: pointer;',align: 'left', width: '150'},
+      	  {field:'define3',           title:'一级单位名称',        style:'cursor: pointer;',align: 'left', width: '150'},
+            {field:'zylb',              title:'专业类别',           style:'cursor: pointer;',align: 'left', width: '150'},
+            {field:'fzdw',              title:'负责单位',           style:'cursor: pointer;',align: 'left', width: '150'},
+            {field:'qdbz',              title:'签订标识',           style:'cursor: pointer;',align: 'left', width: '150'}
          
             
         ]],
@@ -401,24 +407,6 @@ layui.config({
             layer.close(index);
         }
       });
-      
-      
-    //监听排序
-      table.on('sort(processdef-table)', function(obj){
-          console.log(this, obj.field, obj.type)
-          //return;
-          //服务端排序
-          table.reload('processdef-table', {
-              initSort: obj,
-              page: {curr: 1}, //重新从第一页开始
-              where: { //重新请求服务端
-                  key: obj.field, //排序字段
-                  order: obj.type //排序方式
-              }
-          });
-      });
-    
-    
     }
    
     
