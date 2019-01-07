@@ -972,4 +972,31 @@
 				)
 			</if>
 	</select>
+	
+	<!-- 获取成果详细的查询条件 -->
+	<select id="getAppraisalInfoSelectCondition" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select 'cglx' as showCode,cglx as showName
+		from out_appraisal
+		group BY cglx
+
+		union ALL
+		select 'zy',zy as showName
+		from out_appraisal
+		group by zy
+
+		union ALL
+		select 'define1',SUBSTR(define1 FROM 4) as showName
+		from out_appraisal
+		WHERE
+		define1 is not null
+		group by define1
+
+		union ALL
+		select 'define3',SUBSTR(define3 FROM 2) as showName
+		from out_appraisal
+		WHERE
+		define3 is not null
+		group by define3
+		
+	</select>
 </mapper>

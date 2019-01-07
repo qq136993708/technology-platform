@@ -78,5 +78,10 @@ public interface OutAppraisalService {
      */
 	public List getAppraisalInfoByCompanyType(HashMap<String, String> map);
 	
+	/**
+	 * 获取成果详细的查询条件
+	 */
+	public List getAppraisalInfoSelectCondition(HashMap<String, String> map);
+	
 	
 }
