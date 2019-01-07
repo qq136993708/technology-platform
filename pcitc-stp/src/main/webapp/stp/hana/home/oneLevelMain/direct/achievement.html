@@ -190,25 +190,15 @@ function initEchart()
 		});
 		$("#chart_title_01").html(total_count+"个");
 	});
-	/* echart1.on('click', function (params) {
+	 echart1.on('click', function (params) {
 		var xName=params.name;
 		var legentName=params.seriesName;
-		parent.layui.index.openTabsPage("/home_achievement/award_table?project_property="+xName, "科技成果明细");
+		var url=　encodeURIComponent("/one_level_main/achievement_table?define1="+xName+"&nd="+nd);
+	     window.open("/instituteIndex?url="+url);
           
-    }); */
+    }); 
 	
 	
-	/* var chart2_url="/home_achievement/getAwardTypeList?nd="+nd+"&v_date="+v_date+"&type=2";
-	var echart2=loadPie(chart2_url,"chart2","","");
-	echart2.on('click', function (params) {
-		var xName=params.name;
-		var legentName=params.seriesName;
-		parent.layui.index.openTabsPage("/home_achievement/award_table?project_property="+xName, "科技成果明细");
-          
-    }); */
-	
-	/* var chart3_url="/home_achievement/getAwardCircle?nd="+nd+"&v_date="+v_date;
-	getTaiYang(chart3_url,"",""); */
 	
 	
 	
@@ -220,12 +210,13 @@ function initEchart()
 		});
 		$("#chart_title_02").html(total_count+"个");
 	});
-	/* echart4.on('click', function (params) {
+	 echart4.on('click', function (params) {
 		var xName=params.name;
 		var legentName=params.seriesName;
-		parent.layui.index.openTabsPage("/home_achievement/award_table?project_property="+xName, "科技成果明细");
+		var url=　encodeURIComponent("/one_level_main/achievement_table?cglx="+xName+"&nd="+nd);
+	     window.open("/instituteIndex?url="+url);
           
-    }); */
+    }); 
 	
 	
 	var chart5_url="/direct_second/direct_second_data_03?type=2&nd="+nd+"&v_date="+v_date;
@@ -236,12 +227,13 @@ function initEchart()
 		});
 		$("#chart_title_03").html(total_count+"个");
 	});
-	/* echart5.on('click', function (params) {
+	 echart5.on('click', function (params) {
 		var xName=params.name;
 		var legentName=params.seriesName;
-		parent.layui.index.openTabsPage("/home_achievement/award_table?project_property="+xName, "科技成果明细");
+		var url=　encodeURIComponent("/one_level_main/achievement_table?define1="+xName+"&nd="+nd);
+	     window.open("/instituteIndex?url="+url);
           
-    }); */
+    }); 
 	
 	var chart6_url="/direct_second/direct_second_data_04?nd="+nd+"&v_date="+v_date;
 	var echart6= loadPie_02(chart6_url,"chart6","","",function(data){
@@ -251,12 +243,13 @@ function initEchart()
 		});
 		$("#chart_title_04").html(total_count+"个");
 	});
-	/* echart6.on('click', function (params) {
+	echart6.on('click', function (params) {
 		var xName=params.name;
 		var legentName=params.seriesName;
-		parent.layui.index.openTabsPage("/home_achievement/award_table?project_property="+xName, "科技成果明细");
+		var url=　encodeURIComponent("/one_level_main/achievement_table?define1="+xName+"&nd="+nd);
+	     window.open("/instituteIndex?url="+url);
           
-    }); */
+    }); 
 	
 	
 	var chart7_url="/direct_second/direct_second_data_05?nd="+nd+"&v_date="+v_date;
@@ -267,12 +260,13 @@ function initEchart()
 		});
 		$("#chart_title_05").html(total_count+"个");
 	});
-	/* echart7.on('click', function (params) {
+	echart7.on('click', function (params) {
 		var xName=params.name;
 		var legentName=params.seriesName;
-		parent.layui.index.openTabsPage("/home_achievement/award_table?project_property="+xName, "科技成果明细");
+		var url=　encodeURIComponent("/one_level_main/achievement_table?zy="+xName+"&nd="+nd);
+	     window.open("/instituteIndex?url="+url);
           
-    }); */
+    }); 
 	
 }
 

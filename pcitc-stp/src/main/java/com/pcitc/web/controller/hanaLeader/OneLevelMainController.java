@@ -124,6 +124,16 @@ public class OneLevelMainController {
 		private static final String count_table_data = "http://pcitc-zuul/system-proxy/out-project-provider/common-project/list";
 		
 		
+
+		//数量--成果
+	    private static final String achievement_table_dic = "http://pcitc-zuul/system-proxy/out-provider/appraisal/select-condition/list";
+				
+	   //数量--知识
+	    private static final String knowledge_table_data = "http://pcitc-zuul/system-proxy/out-project-provider/common-project/list";
+	    private static final String achievement_table_data = "http://pcitc-zuul/system-proxy/out-provider/project/appraisal-list";
+			
+	    
+		
 		@Autowired
 		private HttpHeaders httpHeaders;
 		@Autowired
@@ -218,6 +228,104 @@ public class OneLevelMainController {
 			return resault;
 		}
 		
+		
+
+		 
+	    /**========================================================成果--详情==========================================================*/
+
+		
+		
+		@RequestMapping(method = RequestMethod.GET, value = "/achievement_table")
+		  public String achievement_table(HttpServletRequest request) throws Exception
+		  {
+			 
+				String nd=CommonUtil.getParameter(request, "nd", "");//项目名
+				String cglx=CommonUtil.getParameter(request, "cglx", "");//成果类型
+				String zy=CommonUtil.getParameter(request, "zy", "");//成果专业
+				String define3=CommonUtil.getParameter(request, "define3", "");//一级单位
+				String define1=CommonUtil.getParameter(request, "define1", "");//二级单位
+				
+				request.setAttribute("nd", nd);
+				request.setAttribute("cglx", cglx);
+				request.setAttribute("zy", zy);
+				request.setAttribute("define3", define3);
+				request.setAttribute("define1", define1);
+				
+				Map<String, Object> paramsMap = new HashMap<String, Object>();
+				paramsMap.put("nd", nd);
+				JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+				HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+				ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(achievement_table_dic, HttpMethod.POST, entity, JSONArray.class);
+				
+				int statusCode = responseEntity.getStatusCodeValue();
+				if (statusCode == 200) 
+				{
+					 JSONArray jSONArray = responseEntity.getBody();
+					 System.out.println(">>>>>>>>>>>>>achievement_table:" + jSONArray.toString());
+					 
+					 List<String> define1List = new ArrayList<String>();
+					 List<String> define31List = new ArrayList<String>();//8大研究院 
+					 List<String> cglxList = new ArrayList<String>();
+					 List<String> zyList = new ArrayList<String>();
+					 
+					 
+					 for (int i = 0; i < jSONArray.size(); i++)
+			         {
+						    Map  object = (Map) jSONArray.get(i);
+			                String showCode= (String)object.get("showCode");
+			                String showName= (String)object.get("showName");
+			                if(showCode.equals("define1"))
+			                {
+			                	if(showName!=null && !showName.equals(""))
+			                	{
+			                		define1List.add(showName);
+			                	}
+			                }
+			                if(showCode.equals("define3"))
+			                {
+			                	define31List.add(showName);
+			                }
+			                if(showCode.equals("cglx"))
+			                {
+			                	cglxList.add(showName);
+			                }
+			                if(showCode.equals("zy"))
+			                {
+			                	zyList.add(showName);
+			                }
+			                
+			          }
+					 request.setAttribute("define1List", define1List);
+					 request.setAttribute("zyList", zyList);
+					 request.setAttribute("cglxList", cglxList);
+					 request.setAttribute("define31List", define31List);
+				}
+		        return "stp/hana/home/oneLevelMain/achievement_table";
+		  }
+		
+		
+		 //三级表格
+	    @RequestMapping(method = RequestMethod.POST, value = "/achievement_table_data")
+		@ResponseBody
+		public String achievement_table_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
+
+	    	System.out.println(">>>>>>>>>>>>achievement_table_data>param:" + JSONObject.toJSONString(param));
+	    	
+			LayuiTableData layuiTableData = new LayuiTableData();
+			HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+			ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(achievement_table_data, HttpMethod.POST, entity, LayuiTableData.class);
+			int statusCode = responseEntity.getStatusCodeValue();
+			if (statusCode == 200) {
+				layuiTableData = responseEntity.getBody();
+			}
+			JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
+			System.out.println(">>>>>>>>>>>>>achievement_table_data:" + result.toString());
+			return result.toString();
+		}
+	    
+	    /**=========================================================成果-详情  end==========================================================*/
+    
+	    
 		 
 	    /**========================================================数量--详情==========================================================*/
 
