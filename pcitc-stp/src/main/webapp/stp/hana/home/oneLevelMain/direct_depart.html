@@ -589,7 +589,11 @@
             	echart1.on('click', function (params) {
             		var xName=params.name;
             		var legentName=params.seriesName;
-            		window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
+            		
+            		var url=　encodeURIComponent("/one_level_main/count_table?define2="+xName+"&nd="+year+"&ysnd="+year);
+                    window.open("/instituteIndex?url="+url);
+                    
+                    
                       
                 });
             	
@@ -603,8 +607,10 @@
            	echart2.on('click', function (params) {
          		var xName=params.name;
          		var legentName=params.seriesName;
-         		window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
-                   
+         		
+         		var url=　encodeURIComponent("/one_level_main/common_table?define2="+xName+"&nd="+year+"&ysnd="+year);
+                window.open("/instituteIndex?url="+url);
+                
               });
            	 
            	   

@@ -115,7 +115,9 @@ public class OneLevelMainController {
 		private static final String get_news = "http://pcitc-zuul/system-proxy/news-provider/select_news_main";
 		
 		private static final String common_table = "http://pcitc-zuul/system-proxy/out-project-plna-provider/project-plan/page/list";
+		private static final String ten_dragon_table_data = "http://pcitc-zuul/system-proxy/out-project-plna-provider/project-plan/page/list";
 		
+		private static final String count_table_data = "http://pcitc-zuul/system-proxy/out-project-provider/common-project/list";
 		
 		
 		@Autowired
@@ -212,7 +214,257 @@ public class OneLevelMainController {
 			return resault;
 		}
 		
+		 
+	    /**========================================================数量--详情==========================================================*/
+
 		
+		
+		@RequestMapping(method = RequestMethod.GET, value = "/count_table")
+		  public String count_table(HttpServletRequest request) throws Exception
+		  {
+			 
+				
+				String nd=CommonUtil.getParameter(request, "nd", "");//项目名
+				String ysnd=CommonUtil.getParameter(request, "ysnd", "");//项目名
+				String xmmc=CommonUtil.getParameter(request, "xmmc", "");//项目名
+				String hth=CommonUtil.getParameter(request, "hth", "");//合同号
+				String define1=CommonUtil.getParameter(request, "define1", "");//资本性、费用性
+				String define2=CommonUtil.getParameter(request, "define2", "");//8大院等细分结构
+				String type_flag=CommonUtil.getParameter(request, "type_flag", "");//直属研究院、分子公司、集团等9种类型
+				String project_property=CommonUtil.getParameter(request, "project_property", "");//国家项目、重大专项、重点项目、其他项目
+				String project_scope=CommonUtil.getParameter(request, "project_scope", "");//新开项目、续建项目、完工项目
+				String zylb=CommonUtil.getParameter(request, "zylb", "");//装备的各种技术类型
+				String zycmc=CommonUtil.getParameter(request, "zycmc", "");//各个处室
+				
+				String define5=CommonUtil.getParameter(request, "define5", "");//技术分布
+				
+				
+				
+				request.setAttribute("define5", define5);
+				
+				
+				request.setAttribute("nd", nd);
+				request.setAttribute("ysnd", ysnd);
+				
+				
+				request.setAttribute("zycmc", zycmc);
+				request.setAttribute("xmmc", xmmc);
+				request.setAttribute("hth", hth);
+				request.setAttribute("define1", define1);
+				request.setAttribute("define2", define2);
+				request.setAttribute("type_flag", type_flag);
+				request.setAttribute("project_property", project_property);
+				request.setAttribute("project_scope", project_scope);
+				request.setAttribute("zylb", zylb);
+				
+				String projectId=CommonUtil.getParameter(request, "projectId", "");
+				request.setAttribute("projectId", projectId);
+				
+				
+				Map<String, Object> paramsMap = new HashMap<String, Object>();
+				paramsMap.put("nd", nd);
+				JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+				HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+				
+				ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(contract_dic, HttpMethod.POST, entity, JSONArray.class);
+				int statusCode = responseEntity.getStatusCodeValue();
+				if (statusCode == 200) 
+				{
+					 JSONArray jSONArray = responseEntity.getBody();
+					 List<String> define1List = new ArrayList<String>();
+					 List<String> define21List = new ArrayList<String>();//8大研究院 
+					 List<String> type_flagList = new ArrayList<String>();
+					 List<String> zylbList = new ArrayList<String>();
+					 List<String> zycmcList = new ArrayList<String>();
+					 for (int i = 0; i < jSONArray.size(); i++)
+			         {
+						    Map  object = (Map) jSONArray.get(i);
+			                String showCode= (String)object.get("showCode");
+			                String showName= (String)object.get("showName");
+			                if(showCode.equals("define1"))
+			                {
+			                	if(showName!=null && !showName.equals(""))
+			                	{
+			                		define1List.add(showName);
+			                	}
+			                
+			                }
+			                if(showCode.equals("define2"))
+			                {
+			                	define21List.add(showName);
+			                }
+			                if(showCode.equals("type_flag"))
+			                {
+			                	type_flagList.add(showName);
+			                }
+			                if(showCode.equals("zylb"))
+			                {
+			                	zylbList.add(showName);
+			                }
+			                if(showCode.equals("zycmc"))
+			                {
+			                	zycmcList.add(showName);
+			                }
+			                
+			          }
+					 
+					 request.setAttribute("define1List", define1List);
+					 request.setAttribute("define21List", define21List);
+					 request.setAttribute("type_flagList", type_flagList);
+					 request.setAttribute("zylbList", zylbList);
+					 request.setAttribute("zycmcList", zycmcList);
+					
+				}
+		        return "stp/hana/home/oneLevelMain/count_table";
+		  }
+		
+		
+		 //三级表格
+	    @RequestMapping(method = RequestMethod.POST, value = "/count_table_data")
+		@ResponseBody
+		public String count_table_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
+
+	    	System.out.println(">>>>>>>>>>>>count_table_data>param:" + JSONObject.toJSONString(param));
+	    	
+			LayuiTableData layuiTableData = new LayuiTableData();
+			HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+			ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(count_table_data, HttpMethod.POST, entity, LayuiTableData.class);
+			int statusCode = responseEntity.getStatusCodeValue();
+			if (statusCode == 200) {
+				layuiTableData = responseEntity.getBody();
+			}
+			JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
+			System.out.println(">>>>>>>>>>>>>count_table_data:" + result.toString());
+			return result.toString();
+		}
+	    
+	    /**========================================================签订率--详情  end==========================================================*/
+    
+		
+		
+		/**========================================================十条龙三级详情==========================================================*/
+
+		@RequestMapping(method = RequestMethod.GET, value = "/ten_dragon_table")
+		  public String ten_dragon_table(HttpServletRequest request) throws Exception
+		  {
+			 
+				
+				String nd=CommonUtil.getParameter(request, "nd", "");//项目名
+				String ysnd=CommonUtil.getParameter(request, "ysnd", "");//项目名
+				String xmmc=CommonUtil.getParameter(request, "xmmc", "");//项目名
+				String hth=CommonUtil.getParameter(request, "hth", "");//合同号
+				String define1=CommonUtil.getParameter(request, "define1", "");//资本性、费用性
+				String define2=CommonUtil.getParameter(request, "define2", "");//8大院等细分结构
+				String define3=CommonUtil.getParameter(request, "define3", "");//直属研究院、分子公司、集团等9种类型
+				String project_property=CommonUtil.getParameter(request, "project_property", "");//国家项目、重大专项、重点项目、其他项目
+				String project_scope=CommonUtil.getParameter(request, "project_scope", "");//新开项目、续建项目、完工项目
+				String zylb=CommonUtil.getParameter(request, "zylb", "");//装备的各种技术类型
+				String zycmc=CommonUtil.getParameter(request, "zycmc", "");//各个处室
+				
+				
+				request.setAttribute("nd", nd);
+				request.setAttribute("ysnd", ysnd);
+				
+				
+				request.setAttribute("zycmc", zycmc);
+				request.setAttribute("xmmc", xmmc);
+				request.setAttribute("hth", hth);
+				request.setAttribute("define1", define1);
+				request.setAttribute("define2", define2);
+				request.setAttribute("define3", define3);
+				request.setAttribute("project_property", project_property);
+				request.setAttribute("project_scope", project_scope);
+				request.setAttribute("zylb", zylb);
+				
+				String projectId=CommonUtil.getParameter(request, "projectId", "");
+				request.setAttribute("projectId", projectId);
+				
+				
+				Map<String, Object> paramsMap = new HashMap<String, Object>();
+				paramsMap.put("nd", nd);
+				JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+				HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+				
+				ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(contract_dic, HttpMethod.POST, entity, JSONArray.class);
+				int statusCode = responseEntity.getStatusCodeValue();
+				if (statusCode == 200) 
+				{
+					 JSONArray jSONArray = responseEntity.getBody();
+					 List<String> define1List = new ArrayList<String>();
+					 List<String> define21List = new ArrayList<String>();//8大研究院 
+					 List<String> type_flagList = new ArrayList<String>();
+					 List<String> zylbList = new ArrayList<String>();
+					 List<String> zycmcList = new ArrayList<String>();
+					 for (int i = 0; i < jSONArray.size(); i++)
+			         {
+						    Map  object = (Map) jSONArray.get(i);
+			                String showCode= (String)object.get("showCode");
+			                String showName= (String)object.get("showName");
+			                if(showCode.equals("define1"))
+			                {
+			                	if(showName!=null && !showName.equals(""))
+			                	{
+			                		define1List.add(showName);
+			                	}
+			                
+			                }
+			                if(showCode.equals("define2"))
+			                {
+			                	define21List.add(showName);
+			                }
+			                if(showCode.equals("type_flag"))
+			                {
+			                	type_flagList.add(showName);
+			                }
+			                if(showCode.equals("zylb"))
+			                {
+			                	zylbList.add(showName);
+			                }
+			                if(showCode.equals("zycmc"))
+			                {
+			                	zycmcList.add(showName);
+			                }
+			                
+			          }
+					 
+					 request.setAttribute("define1List", define1List);
+					 request.setAttribute("define21List", define21List);
+					 request.setAttribute("type_flagList", type_flagList);
+					 request.setAttribute("zylbList", zylbList);
+					 request.setAttribute("zycmcList", zycmcList);
+					
+				}
+		        return "stp/hana/home/oneLevelMain/ten_dragon_table";
+		  }
+		
+		
+		
+		
+		
+		 //三级表格
+	    @RequestMapping(method = RequestMethod.POST, value = "/ten_dragon_table_data")
+		@ResponseBody
+		public String ten_dragon_table_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
+
+	    	System.out.println(">>>>>>>>>>>>ten_dragon_table_data>param:" + JSONObject.toJSONString(param));
+	    	
+			LayuiTableData layuiTableData = new LayuiTableData();
+			HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+			ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(ten_dragon_table_data, HttpMethod.POST, entity, LayuiTableData.class);
+			int statusCode = responseEntity.getStatusCodeValue();
+			if (statusCode == 200) {
+				layuiTableData = responseEntity.getBody();
+			}
+			JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
+			System.out.println(">>>>>>>>>>>>>ten_dragon_table_data:" + result.toString());
+			return result.toString();
+		}
+	    
+	    
+	    
+	    
+	    /**========================================================签订率--详情==========================================================*/
+
 		
 		
 		@RequestMapping(method = RequestMethod.GET, value = "/common_table")
@@ -328,7 +580,8 @@ public class OneLevelMainController {
 			return result.toString();
 		}
 	    
-	    
+	    /**========================================================签订率--详情  end==========================================================*/
+    
 
 		/**======================高层首页-知识产权==================================*/
 			
