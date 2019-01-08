@@ -62,7 +62,7 @@
                     <div class="layui-card-header">
                         <span class="layui-time1"></span>年直属研究院科研课题数量占比
                     </div>
-                    <div class="layui-card-body btn-function" >
+                    <div class="layui-row-main" >
                         <table id="myTable" class="layui-table" lay-filter="myTable"  >
                             <thead>
                             <tr>
@@ -118,7 +118,7 @@
                     <div class="layui-card-header">
                         <span class="layui-time"></span>年科研课题数量占比
                     </div>
-                     <div class="layui-card-body btn-function" >
+                     <div class="layui-row-main" >
                         <table id="processdef_table_02" class="layui-hide" lay-filter="processdef_table_02"></table>
                     </div>
                 </div>
@@ -369,7 +369,7 @@ function renderTable2()
 	  elem: '#processdef_table_02',
 	  url:'/direct/equipment_02?type=2&companyCode='+companyCode+'&v_date='+v_date+'&month='+month,
 	  method:"GET",
-      height:306,
+      height:295,
 	  where: {param: {"month":$("#month").val()}},
 	  limit: 15,
 	  id: 'processdef_table_02',
@@ -407,7 +407,7 @@ function myTable()
 	var url= '/direct/equipment_01?type=2';
     table.init('myTable', {
 		  url: url
-		  ,height:"309px"
+		  ,height:"298px"
 		  ,where: {} 
 		  
 		});
