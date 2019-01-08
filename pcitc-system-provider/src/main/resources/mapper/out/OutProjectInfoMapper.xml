@@ -2535,6 +2535,11 @@
 				</foreach>
 				)
 			</if>
+			<!--add start-->
+	        <if test="keyword != null">
+	            ${keyword}
+	        </if>
+	        <!--add end-->
 			
 			<if test="orderKey != null and orderKey != ''">
 				<if test="orderType != null and orderType != ''">
