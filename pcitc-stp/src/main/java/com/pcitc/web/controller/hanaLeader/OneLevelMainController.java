@@ -1535,15 +1535,16 @@ public class OneLevelMainController {
 			@RequestMapping(method = RequestMethod.GET, value = "/achievement")
 			  public String achievement(HttpServletRequest request) throws Exception
 			  {
-				    
-					
-				    SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
-				    HanaUtil.setSearchParaForUser(userInfo,restTemplate,httpHeaders,request);
-				    String unitCode=userInfo.getUnitCode();
-				    request.setAttribute("unitCode", unitCode);
-				    
-				    String year= HanaUtil.getCurrrentYear();
-				    request.setAttribute("year", year);
+                  SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
+
+                  HanaUtil.setSearchParaForUser(userInfo,restTemplate,httpHeaders,request);
+
+                  String unitCode=userInfo.getUnitCode();
+                  request.setAttribute("unitCode", unitCode);
+
+
+                  String year= HanaUtil.getCurrrentYear();
+                  request.setAttribute("year", year);
 			        return "stp/hana/home/oneLevelMain/achievement";
 			  }
 			

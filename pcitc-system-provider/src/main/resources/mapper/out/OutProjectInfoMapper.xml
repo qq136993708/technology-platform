@@ -2445,7 +2445,9 @@
 			</if>
 
       <!--add start-->
+        <if test="keyword != null">
           ${keyword}
+        </if>
       <!--add end-->
 	</select>
   <!--首页查询start-->

@@ -30,7 +30,6 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.*;
 
-
 @Controller
 @RequestMapping(value = "/fullSearch")
 public class SearchFullController extends BaseController {
@@ -38,6 +37,60 @@ public class SearchFullController extends BaseController {
     private static final String common_table = "http://pcitc-zuul/system-proxy/search/getTableDataScientific";
     private static final String contract_dic = "http://pcitc-zuul/system-proxy/out-project-provider/select-condition/list";
 
+    private static final String getAwardTable = "http://pcitc-zuul/system-proxy/search/getTableDataAchivement";
+
+
+
+    @RequestMapping(method = RequestMethod.GET, value = "/search")
+    public String search(HttpServletRequest request) throws Exception {
+        request.setAttribute("keyword", request.getParameter("keyword"));
+        return "stp/hana/home/search/search";
+    }
+
+    /**
+     * -------------------------------------------------成果-------------------------------------
+     */
+
+
+    @RequestMapping(method = RequestMethod.POST, value = "/getTableDataAchivement")
+    @ResponseBody
+    public String getAwardLevel3TAble(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
+
+        JSONObject tt = JSONObject.parseObject(JSONObject.toJSONString(param));
+        LayuiTableData layuiTableData = new LayuiTableData();
+        HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+        ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(getAwardTable, HttpMethod.POST, entity, LayuiTableData.class);
+        int statusCode = responseEntity.getStatusCodeValue();
+        if (statusCode == 200) {
+            layuiTableData = responseEntity.getBody();
+        }
+        JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
+        return result.toString();
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/query_achievement")
+    public String achievement(HttpServletRequest request) throws Exception {
+
+        SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
+        HanaUtil.setSearchParaForUser(userInfo, restTemplate, httpHeaders, request);
+        String unitCode = userInfo.getUnitCode();
+        request.setAttribute("unitCode", unitCode);
+
+        String year = HanaUtil.getCurrrentYear();
+        request.setAttribute("year", year);
+        request.setAttribute("keyword", request.getParameter("keyword"));
+        return "stp/hana/home/search/query_achievement";
+    }
+
+    /**-------------------------------------------------科研-------------------------------------*/
+    /**
+     * 科研查询
+     *
+     * @param param
+     * @param request
+     * @param response
+     * @return
+     */
     @RequestMapping(method = RequestMethod.POST, value = "/getTableDataScientific")
     @ResponseBody
     public String getTableData(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
@@ -53,9 +106,12 @@ public class SearchFullController extends BaseController {
         return JSONObject.toJSONString(layuiTableData);
     }
 
-
     @RequestMapping(method = RequestMethod.GET, value = "/query_scientific")
     public String query_scientific(HttpServletRequest request) throws Exception {
+
+        //成果
+
+        //科技
         String nd = HanaUtil.getCurrrentYear();
         request.setAttribute("nd", nd);
         String xmmc = CommonUtil.getParameter(request, "xmmc", "");//项目名

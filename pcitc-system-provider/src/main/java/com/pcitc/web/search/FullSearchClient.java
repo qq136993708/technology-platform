@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.service.out.OutAppraisalService;
 import com.pcitc.service.out.OutProjectPlanService;
 import com.pcitc.service.search.FullSearchService;
 import com.pcitc.web.out.OutProjectPlanClient;
@@ -27,7 +28,14 @@ public class FullSearchClient {
     @Autowired
     private FullSearchService fullSearchService;
 
+
     private final static Logger logger = LoggerFactory.getLogger(OutProjectPlanClient.class);
+
+    @ApiOperation(value = "分页显示成果数据", notes = "分页显示成果数据")
+    @RequestMapping(value = "/search/getTableDataAchivement", method = RequestMethod.POST)
+    public LayuiTableData getOutAppraisalListPage(@RequestBody LayuiTableParam param) throws Exception {
+        return fullSearchService.getTableDataAchivement(param);
+    }
 
     @ApiOperation(value = "首页查询", notes = "分页显示数据")
     @RequestMapping(value = "/search/getTableDataScientific", method = RequestMethod.POST)
