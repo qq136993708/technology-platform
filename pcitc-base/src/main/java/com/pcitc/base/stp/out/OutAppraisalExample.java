@@ -84,6 +84,20 @@ public class OutAppraisalExample {
             return criteria;
         }
 
+        public Criteria andOrColumn(String value,String[] columns,String opt){
+            String sql = "";
+            int l = columns.length;
+            for (int i = 0; i < l; i++) {
+                if(i==0){
+                    sql = sql + columns[i]+" "+opt+" '%"+value+"%'";
+                }else {
+                    sql = sql + " or "+columns[i]+" "+opt+" '%"+value+"%'";
+                }
+            }
+            addCriterion("("+sql+")");
+            return (Criteria) this;
+        }
+
         protected void addCriterion(String condition) {
             if (condition == null) {
                 throw new RuntimeException("Value for condition cannot be null");
@@ -2203,6 +2217,8 @@ public class OutAppraisalExample {
             this.typeHandler = typeHandler;
             this.betweenValue = true;
         }
+
+
 
         protected Criterion(String condition, Object value, Object secondValue) {
             this(condition, value, secondValue, null);

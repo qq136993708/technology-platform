@@ -1,10 +1,12 @@
 package com.pcitc.service.search.impl;
 
+import com.alibaba.fastjson.JSONArray;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.stp.out.*;
+import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.mapper.out.OutAppraisalMapper;
 import com.pcitc.mapper.out.OutProjectInfoMapper;
 import com.pcitc.service.search.FullSearchService;
@@ -15,6 +17,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.lang.model.element.Element;
+import javax.swing.*;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -24,7 +27,6 @@ import java.util.*;
 @Service("fullSearchServiceImpl")
 @Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = Exception.class)
 public class FullSearchServiceImpl implements FullSearchService {
-
 
     @Autowired
     OutProjectInfoMapper outProjectInfoMapper;
@@ -87,7 +89,6 @@ public class FullSearchServiceImpl implements FullSearchService {
 
             // 8大院等细分结构
             if (param.getParam().get("define2") != null && !StringUtils.isBlank(param.getParam().get("define2") + "")) {
-                System.out.println("define29999999999999999999999" + param.getParam().get("define2"));
                 opi.setDefine2((String) param.getParam().get("define2"));
                 List define2 = new ArrayList();
                 String[] temS = param.getParam().get("define2").toString().split(",");
@@ -136,7 +137,7 @@ public class FullSearchServiceImpl implements FullSearchService {
 //                c.andProjectScopeLike(param.getParam().get("project_scope").toString());
             }
             // 装备的各种技术类型
-            if(param.getParam().get("zylb") !=null && !StringUtils.isBlank(param.getParam().get("zylb")+"")){
+            if (param.getParam().get("zylb") != null && !StringUtils.isBlank(param.getParam().get("zylb") + "")) {
                 List zylb = new ArrayList();
                 String[] temS = param.getParam().get("zylb").toString().split(",");
                 for (int i = 0; i < temS.length; i++) {
@@ -173,32 +174,53 @@ public class FullSearchServiceImpl implements FullSearchService {
 
 //            list = outProjectInfoMapper.selectByExample(example);
 
-            System.out.println("listInfo = " + listInfo);
-            if (keywords != null && !"".equals(keywords)&&listInfo.size()>0) {
+            if (keywords != null && !"".equals(keywords) && listInfo.size() > 0) {
                 String sql = " and (";
                 for (int i = 0; i < listInfo.size(); i++) {
 //                    setMethodVal(c.getClass(),c,getMethodName(info[i])+"Like","%"+keywords.toString()+"%");
 //                    example.or(c);
-                    sql = sql +" " +(i==0?"":" or ") +listInfo.get(i) +" like '%" + keywords+"%'";
+                    sql = sql + " " + (i == 0 ? "" : " or ") + listInfo.get(i) + " like '%" + keywords + "%'";
                 }
-                sql = sql+" ) ";
-                System.out.println("sql = " + sql);
+                sql = sql + " ) ";
                 hashmap.put("keyword", sql);
 //                list = outProjectInfoMapper.selectByExample(example);
             }
-
             list = outProjectInfoMapper.selectCommonProjectByCond(hashmap);
         }
 
-        System.out.println("1>>>>>>>>>查询分页结果" + list.size());
         PageInfo<OutProjectInfo> pageInfo = new PageInfo<OutProjectInfo>(list);
-        System.out.println("2>>>>>>>>>查询分页结果" + pageInfo.getList().size());
-
         LayuiTableData data = new LayuiTableData();
-        data.setData(pageInfo.getList());
+
+        if (keywords != null && !"".equals(keywords) && listInfo.size() > 0) {
+            data.setData(setKeyWordCss(pageInfo, keywords.toString()));
+        } else {
+            data.setData(pageInfo.getList());
+        }
         Long total = pageInfo.getTotal();
         data.setCount(total.intValue());
         return data;
+    }
+
+    private List<Map<String, Object>> setKeyWordCss(PageInfo<?> pageInfo, String keywords) {
+        List<Map<String, Object>> maps = new ArrayList<>();
+        for (int i = 0; i < pageInfo.getSize(); i++) {
+            Object obj = pageInfo.getList().get(i);
+            Map<String, Object> map = MyBeanUtils.transBean2Map(obj);
+            Set<Map.Entry<String, Object>> entrys = map.entrySet();  //此行可省略，直接将map.entrySet()写在for-each循环的条件中
+
+            Map<String, Object> objectMap = new HashMap<>();
+            for (Map.Entry<String, Object> entry : entrys) {
+                Object val = entry.getValue();
+                if (val != null && !"".equals(val) && val.toString().contains(keywords.toString())) {
+                    objectMap.put(entry.getKey(), val.toString().replace(keywords.toString(), "<span style=\"color:red\">" + keywords.toString() + "</span>"));
+                } else {
+                    objectMap.put(entry.getKey(), entry.getValue());
+                }
+            }
+            maps.add(objectMap);
+
+        }
+        return maps;
     }
 
     @Autowired
@@ -210,7 +232,7 @@ public class FullSearchServiceImpl implements FullSearchService {
         // 1、设置分页信息，包括当前页数和每页显示的总计数
         PageHelper.startPage(param.getPage(), param.getLimit());
         List<String> strings = getListInfo(achievement);
-
+        System.out.println("strings = " + strings);
         OutAppraisalExample example = new OutAppraisalExample();
         OutAppraisalExample.Criteria criteria = example.createCriteria();
 
@@ -233,12 +255,10 @@ public class FullSearchServiceImpl implements FullSearchService {
             strings.removeIf(value -> value.equals("nd"));
             criteria.andNdEqualTo(paraMap.get("nd").toString());
         }
-
+        System.out.println("strings = " + strings);
         Object keywords = param.getParam().get("keyword");
         if (keywords != null && !"".equals(keywords)) {
-            for (int i = 0; i < strings.size(); i++) {
-                setMethodVal(criteria.getClass(), criteria, getMethodName(strings.get(i)) + "Like", "%" + keywords.toString() + "%");
-            }
+            criteria.andOrColumn(keywords.toString(), strings.toArray(new String[strings.size()]), "like");
         }
         example.setOrderByClause(" nd desc ");
 
@@ -246,30 +266,34 @@ public class FullSearchServiceImpl implements FullSearchService {
         PageInfo<OutAppraisal> pageInfo = new PageInfo<OutAppraisal>(list);
 
         LayuiTableData data = new LayuiTableData();
+
+        if (keywords != null && !"".equals(keywords) && getListInfo(achievement).size() > 0) {
+            data.setData(setKeyWordCss(pageInfo, keywords.toString()));
+        } else {
+            data.setData(pageInfo.getList());
+        }
         data.setData(pageInfo.getList());
         Long total = pageInfo.getTotal();
         data.setCount(total.intValue());
         return data;
     }
 
-    private static  String[] achievement = {"hth", "xmmc", "cgmc", "zy"};
-    private static  String[] info = {"xmmc", "xmjb", "ysnd", "yshf", "ysxd", "ysje", "jf", "fwdxbm", "fwdx", "zylbbm", "zylb", "fzdwbm", "fzdw", "jtfzdwbm", "jtfzdw", "fzryx", "fzrdh", "fzrxm", "lxrdh", "lxryx", "lxrxm", "jssxxm", "jssj", "kssj", "yjsj", "zyly", "zysx", "sjid", "status", "yjsjks", "yjsjjs", "xmlbbm", "xmlbmc", "gsbmmc", "gsbmbm", "zycmc", "zycbm", "type_flag", "define3", "define4", "define5", "define6", "define7", "define8", "define9"};
-    private   List<String> listInfo ;
+    private static String[] achievement = {"hth", "xmmc", "cgmc", "zy"};
+    private static String[] info = {"xmmc", "xmjb", "ysnd", "yshf", "ysxd", "ysje", "jf", "fwdxbm", "fwdx", "zylbbm", "zylb", "fzdwbm", "fzdw", "jtfzdwbm", "jtfzdw", "fzryx", "fzrdh", "fzrxm", "lxrdh", "lxryx", "lxrxm", "jssxxm", "jssj", "kssj", "yjsj", "zyly", "zysx", "sjid", "status", "yjsjks", "yjsjjs", "xmlbbm", "xmlbmc", "gsbmmc", "gsbmbm", "zycmc", "zycbm", "type_flag", "define3", "define4", "define5", "define6", "define7", "define8", "define9"};
+    private List<String> listInfo;
 
     public static List<String> getListInfo(String[] array) {
         ArrayList<String> strings = new ArrayList<String>(Arrays.asList(array));
         return strings;
     }
 
-
-    public static void setMethodVal(Object obj, String setVal,String[] array) {
+    public static void setMethodVal(Object obj, String setVal, String[] array) {
         try {
             Class clazz = obj.getClass();//获得实体类名
             Field[] fields = obj.getClass().getDeclaredFields();//获得属性
             //获得Object对象中的所有方法
             for (Field field : fields) {
                 if ("java.lang.String".equals(field.getType().getName()) && getListInfo(array).contains(field.getName())) {
-//                    System.out.print("\""+field.getName()+"\",");
                     PropertyDescriptor pd = new PropertyDescriptor(field.getName(), clazz);
                     Method getMethod = pd.getReadMethod();//获得get方法
                     Object obj_get = getMethod.invoke(obj);//此处为执行该Object对象的get方法
@@ -319,9 +343,7 @@ public class FullSearchServiceImpl implements FullSearchService {
 //        for (int i = 0; i < info.length; i++) {
 //            setMethodVal(c.getClass(), c, getMethodName(info[i]) + "Like", keywords);
 //        }
-            List<String> listInfo = getListInfo(info);
-        System.out.println(listInfo);
+        List<String> listInfo = getListInfo(info);
         listInfo.removeIf(value -> value.equals("zylb"));
-        System.out.println(listInfo);
     }
 }
