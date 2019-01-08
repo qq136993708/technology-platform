@@ -52,6 +52,11 @@ public class OutProjectServiceImpl implements OutProjectService {
 		PageHelper.startPage(pageNum, pageSize);
 
 		HashMap<String, Object> hashmap = new HashMap<String, Object>();
+		if (param.getOrderKey() != null && !StrUtil.isBlankOrNull(param.getOrderKey().toString())) {
+			// 排序，因为select后有关键字，自己手动在sql中调整。否则直接PageHelper.orderBy(param.getOrderKey().toString() + " " + param.getOrderType());
+			hashmap.put("orderKey", param.getOrderKey());
+			hashmap.put("orderType", param.getOrderType());
+		}
 		if(param.getParam().get("xmmc") !=null && !StringUtils.isBlank(param.getParam().get("xmmc")+"")){
 			hashmap.put("xmmc", param.getParam().get("xmmc"));
 		}
