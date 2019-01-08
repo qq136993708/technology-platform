@@ -86,12 +86,16 @@ public class OutAppraisalExample {
 
         public Criteria andOrColumn(String value,String[] columns,String opt){
             String sql = "";
+            String cal = "";
+            if ("like".equals(opt)){
+                cal="%";
+            }
             int l = columns.length;
             for (int i = 0; i < l; i++) {
                 if(i==0){
-                    sql = sql + columns[i]+" "+opt+" '%"+value+"%'";
+                    sql = sql + columns[i]+" "+opt+" '"+cal+value+cal+"'";
                 }else {
-                    sql = sql + " or "+columns[i]+" "+opt+" '%"+value+"%'";
+                    sql = sql + " or "+columns[i]+" "+opt+" '"+cal+value+cal+"'";
                 }
             }
             addCriterion("("+sql+")");
