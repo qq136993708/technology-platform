@@ -15,6 +15,11 @@ public interface FullSearchService {
 	 * @return
 	 */
 	public LayuiTableData getTableDataScientific(LayuiTableParam param);
-	
-	
+
+    /**
+     * 成果查询
+     * @param param
+     * @return
+     */
+    public LayuiTableData getTableDataAchivement(LayuiTableParam param);
 }

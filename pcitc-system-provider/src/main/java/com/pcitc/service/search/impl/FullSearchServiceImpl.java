@@ -4,9 +4,8 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
-import com.pcitc.base.stp.out.OutProjectInfo;
-import com.pcitc.base.stp.out.OutProjectInfoExample;
-import com.pcitc.base.stp.out.OutProjectPlan;
+import com.pcitc.base.stp.out.*;
+import com.pcitc.mapper.out.OutAppraisalMapper;
 import com.pcitc.mapper.out.OutProjectInfoMapper;
 import com.pcitc.service.search.FullSearchService;
 import com.pcitc.utils.StringUtils;
@@ -15,14 +14,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.lang.model.element.Element;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 @Service("fullSearchServiceImpl")
 @Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = Exception.class)
@@ -59,10 +56,11 @@ public class FullSearchServiceImpl implements FullSearchService {
 //        }
 //        else
         {
+            listInfo = getListInfo(info);
             if (param.getParam().get("xmmc") != null && !StringUtils.isBlank(param.getParam().get("xmmc") + "")) {
                 opi.setXmmc((String) param.getParam().get("xmmc"));
                 hashmap.put("xmmc", param.getParam().get("xmmc"));
-                listInfo.remove("xmmc");
+                listInfo.removeIf(value -> value.equals("xmmc"));
 //                c.andXmidLike("%" + param.getParam().get("xmmc") + "%");
             }
 
@@ -70,7 +68,7 @@ public class FullSearchServiceImpl implements FullSearchService {
                 opi.setHth((String) param.getParam().get("hth"));
                 hashmap.put("hth", param.getParam().get("hth"));
 //                c.andHthLike("%" + param.getParam().get("hth") + "%");
-                listInfo.remove("hth");
+                listInfo.removeIf(value -> value.equals("hth"));
             }
             // 资本性、费用性
             if (param.getParam().get("define1") != null && !StringUtils.isBlank(param.getParam().get("define1") + "")) {
@@ -82,7 +80,8 @@ public class FullSearchServiceImpl implements FullSearchService {
                     define1.add(temS[i]);
                 }
                 hashmap.put("define1", define1);
-                listInfo.remove("define1");
+                listInfo.removeIf(value -> value.equals("define1"));
+
 //                c.andDefine1In(define1);
             }
 
@@ -96,7 +95,8 @@ public class FullSearchServiceImpl implements FullSearchService {
                     define2.add(temS[i]);
                 }
                 hashmap.put("define2", define2);
-                listInfo.remove("define2");
+                listInfo.removeIf(value -> value.equals("define2"));
+
             }
 
             // 直属研究院、分子公司、集团等9种类型
@@ -109,7 +109,8 @@ public class FullSearchServiceImpl implements FullSearchService {
                     define3.add(temS[i]);
                 }
                 hashmap.put("define3", define3);
-                listInfo.remove("define3");
+                listInfo.removeIf(value -> value.equals("define3"));
+
 //                c.andDefine3In(define3);
             }
 
@@ -123,7 +124,8 @@ public class FullSearchServiceImpl implements FullSearchService {
                     project_property.add(temS[i]);
                 }
                 hashmap.put("project_property", project_property);
-                listInfo.remove("project_property");
+                listInfo.removeIf(value -> value.equals("project_property"));
+
 //                c.andProjectPropertyIn(project_property);
             }
 
@@ -133,12 +135,16 @@ public class FullSearchServiceImpl implements FullSearchService {
                 listInfo.remove("project_scope");
 //                c.andProjectScopeLike(param.getParam().get("project_scope").toString());
             }
-
             // 装备的各种技术类型
-            if (param.getParam().get("zylb") != null && !StringUtils.isBlank(param.getParam().get("zylb") + "")) {
-                opi.setZylb((String) param.getParam().get("zylb"));
-                listInfo.remove("zylb");
-//                c.andZylbLike(param.getParam().get("zylb").toString());
+            if(param.getParam().get("zylb") !=null && !StringUtils.isBlank(param.getParam().get("zylb")+"")){
+                List zylb = new ArrayList();
+                String[] temS = param.getParam().get("zylb").toString().split(",");
+                for (int i = 0; i < temS.length; i++) {
+                    zylb.add(temS[i]);
+                }
+                listInfo.removeIf(value -> value.equals("zylb"));
+
+                hashmap.put("zylb", zylb);
             }
 
             // 各个处室
@@ -151,14 +157,16 @@ public class FullSearchServiceImpl implements FullSearchService {
                     zycmc.add(temS[i]);
                 }
                 hashmap.put("zycmc", zycmc);
-                listInfo.remove("zycmc");
+                listInfo.removeIf(value -> value.equals("zycmc"));
+
 //                c.andZycmcLike(param.getParam().get("zycmc").toString());
             }
 
             // 年度，暂时不用
             if (param.getParam().get("nd") != null && !StringUtils.isBlank(param.getParam().get("nd") + "")) {
                 opi.setNd((String) param.getParam().get("nd"));
-                listInfo.remove("nd");
+                listInfo.removeIf(value -> value.equals("nd"));
+
 //                c.andNdEqualTo(param.getParam().get("nd").toString());
             }
 //            list = outProjectInfoMapper.findOutProjectInfoList(opi);
@@ -193,65 +201,127 @@ public class FullSearchServiceImpl implements FullSearchService {
         return data;
     }
 
-    private  String[] info = {"xmmc", "xmjb", "ysnd", "yshf", "ysxd", "ysje", "jf", "fwdxbm", "fwdx", "zylbbm", "zylb", "fzdwbm", "fzdw", "jtfzdwbm", "jtfzdw", "fzryx", "fzrdh", "fzrxm", "lxrdh", "lxryx", "lxrxm", "jssxxm", "jssj", "kssj", "yjsj", "zyly", "zysx", "sjid", "status", "yjsjks", "yjsjjs", "xmlbbm", "xmlbmc", "gsbmmc", "gsbmbm", "zycmc", "zycbm", "type_flag", "define3", "define4", "define5", "define6", "define7", "define8", "define9"};
-    private  List<String> listInfo = Arrays.asList(info);
+    @Autowired
+    OutAppraisalMapper outAppraisalMapper;
 
-//    public static void setMethodVal(Object obj, String setVal) {
-//        try {
-//            Class clazz = obj.getClass();//获得实体类名
-//            Field[] fields = obj.getClass().getDeclaredFields();//获得属性
-//            //获得Object对象中的所有方法
-//            for (Field field : fields) {
-//                if ("java.lang.String".equals(field.getType().getName()) && listInfo.contains(field.getName())) {
-////                    System.out.print("\""+field.getName()+"\",");
-//                    PropertyDescriptor pd = new PropertyDescriptor(field.getName(), clazz);
-//                    Method getMethod = pd.getReadMethod();//获得get方法
-//                    Object obj_get = getMethod.invoke(obj);//此处为执行该Object对象的get方法
-//                    if (obj_get == null || "".equals(obj_get)) {
-//                        Method setMethod = pd.getWriteMethod();//获得set方法
-//                        setMethod.invoke(obj, setVal);//此处为执行该Object对象的set方法
-//                    }
-//                }
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
-//
-//    public static void setMethodVal(Class clazz, Object object, String strName, String strVal) {
-//        try {
-//            Method method = clazz.getMethod(strName, String.class);
-//            method.invoke(object, new Object[]{strVal});
-//        } catch (NoSuchMethodException e) {
-//            e.printStackTrace();
-//        } catch (IllegalAccessException e) {
-//            e.printStackTrace();
-//        } catch (InvocationTargetException e) {
-//            e.printStackTrace();
-//        }
-//    }
-//
-//    public static String getMethodName(String javaProperty) {
-//        StringBuilder sb = new StringBuilder();
-//
-//        sb.append(javaProperty);
-//        if (Character.isLowerCase(sb.charAt(0)) && ((sb.length() == 1) || Character.isLowerCase(sb.charAt(1)))) {
-//            sb.setCharAt(0, Character.toUpperCase(sb.charAt(0)));
-//        }
-//        sb.insert(0, "and");
-//
-//        return sb.toString();
-//    }
-//
-//    public static void main(String[] args) {
-//        OutProjectInfo obj = new OutProjectInfo();
-//        OutProjectInfoExample example = new OutProjectInfoExample();
-////        setMethodVal(example, "22");
-//        OutProjectInfoExample.Criteria c = example.createCriteria();
-//        String keywords = "333";
-////        c.andXmidLike("'%"+keywords+"%'");
+    public LayuiTableData getTableDataAchivement(LayuiTableParam param) {
+        Map<String, Object> paraMap = param.getParam();
+
+        // 1、设置分页信息，包括当前页数和每页显示的总计数
+        PageHelper.startPage(param.getPage(), param.getLimit());
+        List<String> strings = getListInfo(achievement);
+
+        OutAppraisalExample example = new OutAppraisalExample();
+        OutAppraisalExample.Criteria criteria = example.createCriteria();
+
+        if (paraMap.get("cgmc") != null && !paraMap.get("cgmc").equals("")) {
+            strings.removeIf(value -> value.equals("cgmc"));
+
+            criteria.andCgmcLike("%" + paraMap.get("cgmc").toString() + "%");
+        }
+        if (paraMap.get("hth") != null && !paraMap.get("hth").equals("")) {
+            strings.removeIf(value -> value.equals("hth"));
+
+            criteria.andHthLike("%" + paraMap.get("hth").toString() + "%");
+        }
+        if (paraMap.get("xmmc") != null && !paraMap.get("xmmc").equals("")) {
+            strings.removeIf(value -> value.equals("xmmc"));
+
+            criteria.andXmmcLike("%" + paraMap.get("xmmc").toString() + "%");
+        }
+        if (paraMap.get("nd") != null && !"".equals(paraMap.get("nd"))) {
+            strings.removeIf(value -> value.equals("nd"));
+            criteria.andNdEqualTo(paraMap.get("nd").toString());
+        }
+
+        Object keywords = param.getParam().get("keyword");
+        if (keywords != null && !"".equals(keywords)) {
+            for (int i = 0; i < strings.size(); i++) {
+                setMethodVal(criteria.getClass(), criteria, getMethodName(strings.get(i)) + "Like", "%" + keywords.toString() + "%");
+            }
+        }
+        example.setOrderByClause(" nd desc ");
+
+        List<OutAppraisal> list = outAppraisalMapper.selectByExample(example);
+        PageInfo<OutAppraisal> pageInfo = new PageInfo<OutAppraisal>(list);
+
+        LayuiTableData data = new LayuiTableData();
+        data.setData(pageInfo.getList());
+        Long total = pageInfo.getTotal();
+        data.setCount(total.intValue());
+        return data;
+    }
+
+    private static  String[] achievement = {"hth", "xmmc", "cgmc", "zy"};
+    private static  String[] info = {"xmmc", "xmjb", "ysnd", "yshf", "ysxd", "ysje", "jf", "fwdxbm", "fwdx", "zylbbm", "zylb", "fzdwbm", "fzdw", "jtfzdwbm", "jtfzdw", "fzryx", "fzrdh", "fzrxm", "lxrdh", "lxryx", "lxrxm", "jssxxm", "jssj", "kssj", "yjsj", "zyly", "zysx", "sjid", "status", "yjsjks", "yjsjjs", "xmlbbm", "xmlbmc", "gsbmmc", "gsbmbm", "zycmc", "zycbm", "type_flag", "define3", "define4", "define5", "define6", "define7", "define8", "define9"};
+    private   List<String> listInfo ;
+
+    public static List<String> getListInfo(String[] array) {
+        ArrayList<String> strings = new ArrayList<String>(Arrays.asList(array));
+        return strings;
+    }
+
+
+    public static void setMethodVal(Object obj, String setVal,String[] array) {
+        try {
+            Class clazz = obj.getClass();//获得实体类名
+            Field[] fields = obj.getClass().getDeclaredFields();//获得属性
+            //获得Object对象中的所有方法
+            for (Field field : fields) {
+                if ("java.lang.String".equals(field.getType().getName()) && getListInfo(array).contains(field.getName())) {
+//                    System.out.print("\""+field.getName()+"\",");
+                    PropertyDescriptor pd = new PropertyDescriptor(field.getName(), clazz);
+                    Method getMethod = pd.getReadMethod();//获得get方法
+                    Object obj_get = getMethod.invoke(obj);//此处为执行该Object对象的get方法
+                    if (obj_get == null || "".equals(obj_get)) {
+                        Method setMethod = pd.getWriteMethod();//获得set方法
+                        setMethod.invoke(obj, setVal);//此处为执行该Object对象的set方法
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void setMethodVal(Class clazz, Object object, String strName, String strVal) {
+        try {
+            Method method = clazz.getMethod(strName, String.class);
+            method.invoke(object, new Object[]{strVal});
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static String getMethodName(String javaProperty) {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(javaProperty);
+        if (Character.isLowerCase(sb.charAt(0)) && ((sb.length() == 1) || Character.isLowerCase(sb.charAt(1)))) {
+            sb.setCharAt(0, Character.toUpperCase(sb.charAt(0)));
+        }
+        sb.insert(0, "and");
+
+        return sb.toString();
+    }
+
+    public static void main(String[] args) {
+        OutProjectInfo obj = new OutProjectInfo();
+        OutProjectInfoExample example = new OutProjectInfoExample();
+//        setMethodVal(example, "22");
+        OutProjectInfoExample.Criteria c = example.createCriteria();
+        String keywords = "333";
+//        c.andXmidLike("'%"+keywords+"%'");
 //        for (int i = 0; i < info.length; i++) {
 //            setMethodVal(c.getClass(), c, getMethodName(info[i]) + "Like", keywords);
 //        }
-//    }
+            List<String> listInfo = getListInfo(info);
+        System.out.println(listInfo);
+        listInfo.removeIf(value -> value.equals("zylb"));
+        System.out.println(listInfo);
+    }
 }
