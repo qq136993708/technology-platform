@@ -2071,20 +2071,25 @@ public class OneLevelMainController {
 				// ProjectForMysql contract = (ProjectForMysql) list.get(0);
 				JSONObject obj = jSONArray.getJSONObject(0);
 
+				Integer sqtl = obj.getInteger("sqtl");
 				Integer sqcl = obj.getInteger("sqcl");
 				Integer sqxm = obj.getInteger("sqxm");
 				Integer tjrl = obj.getInteger("tjrl");
 				Integer sqyq = obj.getInteger("sqyq");
 				Integer zyxm = obj.getInteger("zyxm");
 
-				xAxisDataList.add(l_nd + "申请出龙");
+				
 				xAxisDataList.add(nd + "申请休眠");
-				xAxisDataList.add(nd + "推荐入龙");
+				xAxisDataList.add(nd + "申请退龙");
+				xAxisDataList.add(nd + "申请出龙");
+				xAxisDataList.add(nd + "入龙");
 				xAxisDataList.add(nd + "申请延期");
 				xAxisDataList.add(nd + "在研项目");
 
-				seriesDataList.add(sqcl);
+				
 				seriesDataList.add(sqxm);
+				seriesDataList.add(sqtl);
+				seriesDataList.add(sqcl);
 				seriesDataList.add(tjrl);
 				seriesDataList.add(sqyq);
 				seriesDataList.add(zyxm);
