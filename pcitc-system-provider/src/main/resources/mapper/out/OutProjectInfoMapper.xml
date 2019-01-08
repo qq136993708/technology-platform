@@ -2303,25 +2303,115 @@
 	
 	<!--  领导首页-十条龙，十条龙项目的详情 -->
 	<select id="getDragonProjectDetails" resultType="java.util.Map" parameterType="java.util.HashMap">
-		select nd,xmmc,fzdw as zydw,`status`,define6,jdap
+		select nd,xmmc,fzdw as zydw,`status`,define6,jdap,hth
 		from out_project_info
 		WHERE
-			 ysnd = '${nd}' and project_property = '十条龙项目' and define6 = '4组员单位'
+			 project_property = '十条龙项目' and define6 = '4组员单位'
+			<if test="nd != null">
+				and out_project_info.nd = #{nd}
+			</if>
+			<if test="ysnd != null">
+				and out_project_info.ysnd = #{ysnd}
+			</if>
+			<if test="xmmc != null">
+				and out_project_info.xmmc like '%${xmmc}%'
+			</if>
+			<if test="status != null">
+				and (
+				<foreach collection="status" item="status" index="index" separator=" or ">
+					out_project_info.status like '%${status}%'
+				</foreach>
+				)
+			</if>
+			<if test="define2 != null">
+				and (
+				<foreach collection="define2" item="define2" index="index" separator=" or ">
+					out_project_info.define2 like '%${define2}%'
+				</foreach>
+				)
+			</if>
+			<if test="type_flag != null">
+				and (
+				<foreach collection="type_flag" item="type_flag" index="index" separator=" or ">
+					out_project_info.type_flag like '%${type_flag}%'
+				</foreach>
+				)
+			</if>
 		
 		union all
-		select nd,xmmc,GROUP_CONCAT(fzdw) as zydw,`status`,define6,jdap
+		select nd,xmmc,GROUP_CONCAT(fzdw) as zydw,`status`,define6,jdap,hth
 		from out_project_info
 		WHERE
-			 ysnd = '${nd}' and project_property = '十条龙项目' and (define6 = '1组长单位' or define6 = '2副组长单位')
+			 project_property = '十条龙项目' and (define6 = '1组长单位' or define6 = '2副组长单位')
+			<if test="nd != null">
+				and out_project_info.nd = #{nd}
+			</if>
+			<if test="ysnd != null">
+				and out_project_info.ysnd = #{ysnd}
+			</if>
+			<if test="xmmc != null">
+				and out_project_info.xmmc like '%${xmmc}%'
+			</if>
+			<if test="status != null">
+				and (
+				<foreach collection="status" item="status" index="index" separator=" or ">
+					out_project_info.status like '%${status}%'
+				</foreach>
+				)
+			</if>
+			<if test="define2 != null">
+				and (
+				<foreach collection="define2" item="define2" index="index" separator=" or ">
+					out_project_info.define2 like '%${define2}%'
+				</foreach>
+				)
+			</if>
+			<if test="type_flag != null">
+				and (
+				<foreach collection="type_flag" item="type_flag" index="index" separator=" or ">
+					out_project_info.type_flag like '%${type_flag}%'
+				</foreach>
+				)
+			</if>
 		GROUP BY xmmc
 		
 		union all
-		select nd,xmmc,GROUP_CONCAT(fzdw) as zydw,`status`,define6,jdap
+		select nd,xmmc,GROUP_CONCAT(fzdw) as zydw,`status`,define6,jdap,hth
 		from out_project_info
 		WHERE
-			 ysnd = '${nd}' and project_property = '十条龙项目' and define6 = '3协作单位'
+			 project_property = '十条龙项目' and define6 = '3协作单位'
+			<if test="nd != null">
+				and out_project_info.nd = #{nd}
+			</if>
+			<if test="ysnd != null">
+				and out_project_info.ysnd = #{ysnd}
+			</if>
+			<if test="xmmc != null">
+				and out_project_info.xmmc like '%${xmmc}%'
+			</if>
+			<if test="status != null">
+				and (
+				<foreach collection="status" item="status" index="index" separator=" or ">
+					out_project_info.status like '%${status}%'
+				</foreach>
+				)
+			</if>
+			<if test="define2 != null">
+				and (
+				<foreach collection="define2" item="define2" index="index" separator=" or ">
+					out_project_info.define2 like '%${define2}%'
+				</foreach>
+				)
+			</if>
+			<if test="type_flag != null">
+				and (
+				<foreach collection="type_flag" item="type_flag" index="index" separator=" or ">
+					out_project_info.type_flag like '%${type_flag}%'
+				</foreach>
+				)
+			</if>
 		GROUP BY xmmc
-		order by xmmc,define6
+		order by hth,define6
 	</select>
 	
 	<!-- 得到已保存的预算数据 -->
