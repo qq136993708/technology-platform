@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/common.css">
     <script src="/layuiadmin/layui/layui.js"></script>
+    <style>
+        iframe{width: 100%;height: 100%;border: none;}
+    </style>
 </head>
 <body>
 
@@ -20,16 +23,16 @@
 
 
     <ul class="layui-tab-title">
-        <li class="layui-this" lay-id="11">科研</li>
+        <li class="layui-this" lay-id="11">科研<span id="keyan"></span></li>
         <li lay-id="22">成果</li>
     </ul>
     <div class="layui-tab-content">
         <div class="layui-tab-item layui-tab-i layui-show">
-            <iframe src="/fullSearch/query_scientific?keyword=${keyword}" style="border: 0;width: 100%;height: 100%;margin-top: 15px"></iframe>
+            <iframe id="ifrOne" src="" name="iframename"></iframe>
         </div>
 
         <div class="layui-tab-item layui-tab-i">
-            <iframe src="/fullSearch/query_achievement?keyword=${keyword}" style="border: 0;width: 100%;height: 100%;margin-top: 15px"></iframe>
+            <iframe id="ifrTwo" src=""></iframe>
         </div>
     </div>
 </div>
@@ -134,101 +137,15 @@
                 });
             }
         });
+        /* iframe赋值*/
+        search();
     });
 
+    function search() {
+        var keyword=$("#keyword").val();
+        $("#ifrOne").attr("src","/fullSearch/query_scientific?keyword="+keyword);
+        $("#ifrTwo").attr("src","/fullSearch/query_achievement?keyword="+keyword);
 
-    function renderTable()
-    {
-
-        var costSelectedItem="",instituteSelectedItem="",systemSelectedItem="",specialtySelectedItem="";
-        $(".cost ul li").each(function () {
-            if($(this).attr("class")=="layui-this"){
-                costSelectedItem+=$(this).find("a").html()+',';
-            }
-        });
-        $(".institute ul li").each(function () {
-            if($(this).attr("class")=="layui-this"){
-                instituteSelectedItem+=$(this).find("a").html()+',';
-            }
-        });
-        $(".system ul li").each(function () {
-            if($(this).attr("class")=="layui-this"){
-                systemSelectedItem+=$(this).find("a").html()+',';
-            }
-        });
-        $(".specialty ul li").each(function () {
-            if($(this).attr("class")=="layui-this"){
-                specialtySelectedItem+=$(this).find("a").html()+',';
-            }
-        });
-        costSelectedItem=costSelectedItem.slice(0,costSelectedItem.length-1);
-        instituteSelectedItem=instituteSelectedItem.slice(0,instituteSelectedItem.length-1);
-        systemSelectedItem=systemSelectedItem.slice(0,systemSelectedItem.length-1);
-        specialtySelectedItem=specialtySelectedItem.slice(0,specialtySelectedItem.length-1);
-        //alert("specialtySelectedItem="+specialtySelectedItem);
-
-        var index = layer.load(1, {
-            shade: [0.1,'#fff'] //0.1透明度的白色背景
-        });
-
-        //渲染
-        table.render({
-            elem: '#processdef-table',
-            url: '/fullSearch/getTableDataScientific',
-            method:"POST",
-            where: {param: {
-                    "nd":$("#nd").val(),
-                    "xmmc":$("#xmmc").val(),
-                    "define1":costSelectedItem,
-                    "define2":instituteSelectedItem,
-                    "type_flag":systemSelectedItem,
-                    "zycmc":$("#zycmc").val(),
-                    "zylb":specialtySelectedItem,
-                    "project_scope":$("#project_scope").val(),
-                    "project_property":$("#project_property").val(),
-                    "keyword":$("#keyword").val(),
-                    "projectId":$("#projectId").val()
-
-                }},
-            limit: 15,
-            id: 'processdef-table',
-            height: commonDislodgeTable(),
-            page: {
-                groups: 5,
-                limits: [15,30,45,60],
-                layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
-                first: '首页', //不显示首页
-                last: '尾页', //不显示尾页
-                theme: '#0F9EE0'
-            },
-            cols: [[
-                {title:'序号',               type:'numbers', width: '4%'},
-                {field:'nd',               title:'年度',             style:'cursor: pointer;',align: 'center', width: '150'},
-                {field:'hth',              title:'合同号',            style:'cursor: pointer;',align: 'center', width: '150'},
-                {field:'xmmc',             title:'项目名称',           style:'cursor: pointer;',align: 'left', width: '380'},
-                {field:'jf',               title:'项目经费总额（万元）',        style:'cursor: pointer;',align: 'center', width: '150'},
-                {field:'define1',          title:'资本/费用',           style:'cursor: pointer;',align: 'center', width: '150'},
-                {field:'define2',          title:'研究院',            style:'cursor: pointer;',align: 'left', width: '150'},
-                {field:'define3',          title:'其他系统标识',        style:'cursor: pointer;',align: 'left', width: '150'},
-                {field:'zylb',             title:'专业类别',          style:'cursor: pointer;',align: 'left', width: '150'},
-                {field:'fzdw',             title:'项目类别描述',        style:'cursor: pointer;',align: 'left', width: '150'},
-                {field:'parentName',       title:'父项目名',     style:'cursor: pointer;',align: 'left', width: '150'}
-
-            ]],
-            done: function (res, curr, count) {
-                // 点击行联动选择框--单选
-                $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
-                    var index=parseInt($(this).index()+1);
-                    $('tr').removeClass('layui-table-click');
-                    $(this).addClass('layui-table-click');
-                    $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
-                    $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
-                    selectRowData=res.data[index-1];
-                });
-
-                layer.close(index);
-            }
-        });
     }
 </script>
 
