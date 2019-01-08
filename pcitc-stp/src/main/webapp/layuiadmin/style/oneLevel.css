@@ -128,7 +128,7 @@ line-height: 60px;font-size: 22px;}
 .layui-speech-m{margin-bottom: 50px;font-size: 14px;}
 .layui-speech-m a{color: #999999;}
 .layui-speech-m span{color: #000000;}
-.layui-leader-page{width: 99%;padding-bottom: 20px;}
+.layui-leader-page{    width: 96%;padding-bottom: 20px;margin: 10px auto;}
 .layui-leader-list,.layui-leader-details{width: 75%;margin: 0 auto;}
 .layui-leader-speech .layui-col-md9,.layui-leader-speech .layui-speech-right{padding-right: 60px;}
 .layui-speech .news>p{font-size: 18px;color: #de252a;text-indent: 36px;height: 32px;margin-bottom: 20px;
