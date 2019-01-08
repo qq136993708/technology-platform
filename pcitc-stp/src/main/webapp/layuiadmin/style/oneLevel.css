@@ -125,9 +125,12 @@ line-height: 60px;font-size: 22px;}
 .moduleB .form-bottom-btns .layui-btn-d{height: 36px;background-color: #002a53;color: white;border: 1px solid #002a53;
     line-height: 36px;padding: 0 20px;font-size: 18px;margin-top: 12px;cursor: pointer;}
 /*领导页面*/
-.layui-leader-page{width: 99%;    padding-bottom: 20px;}
-.layui-leader-page .layui-row,.layui-leader-page .layui-col-md9{display: flex;}
-.layui-leader-page .layui-col-md9,.layui-leader-page .layui-speech-right{margin-right: 60px;}
+.layui-speech-m{margin-bottom: 50px;font-size: 14px;}
+.layui-speech-m a{color: #999999;}
+.layui-speech-m span{color: #000000;}
+.layui-leader-page{width: 99%;padding-bottom: 20px;}
+.layui-leader-list{width: 75%;margin: 0 auto;}
+.layui-leader-speech .layui-col-md9,.layui-leader-speech .layui-speech-right{padding-right: 60px;}
 .layui-speech .news>p{font-size: 18px;color: #de252a;text-indent: 36px;height: 32px;margin-bottom: 20px;
     border-bottom: 1px solid #dfdfdf;line-height: 18px;}
 .layui-speech .news>p a{color: #878787;font-size: 16px;float: right;}
@@ -156,6 +159,7 @@ line-height: 60px;font-size: 22px;}
 .country{background: url("/layuiadmin/layui/images/icon-country.png") no-repeat;}
 .science{background: url("/layuiadmin/layui/images/icon-science.png") no-repeat;margin-top: 50px;}
 .study ul{display: block !important;}
+.layui-leader-list .group{margin-top: 0;width: 100%;}
 /*
 @media screen and (max-height: 946px) {
     .layui-level-main{width: 88%;}
