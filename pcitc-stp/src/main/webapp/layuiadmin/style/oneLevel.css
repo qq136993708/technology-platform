@@ -129,7 +129,7 @@ line-height: 60px;font-size: 22px;}
 .layui-speech-m a{color: #999999;}
 .layui-speech-m span{color: #000000;}
 .layui-leader-page{width: 99%;padding-bottom: 20px;}
-.layui-leader-list{width: 75%;margin: 0 auto;}
+.layui-leader-list,.layui-leader-details{width: 75%;margin: 0 auto;}
 .layui-leader-speech .layui-col-md9,.layui-leader-speech .layui-speech-right{padding-right: 60px;}
 .layui-speech .news>p{font-size: 18px;color: #de252a;text-indent: 36px;height: 32px;margin-bottom: 20px;
     border-bottom: 1px solid #dfdfdf;line-height: 18px;}
@@ -160,6 +160,15 @@ line-height: 60px;font-size: 22px;}
 .science{background: url("/layuiadmin/layui/images/icon-science.png") no-repeat;margin-top: 50px;}
 .study ul{display: block !important;}
 .layui-leader-list .group{margin-top: 0;width: 100%;}
+.layui-speech-d{text-align: center;}
+.layui-speech-d span{ font-size: 14px;color: #aaa;display: inline-block;padding: 50px 0 36px;}
+.layui-speech-d .details span{margin: 20px 0 40px;padding: 0}
+.layui-speech-d .details p{text-align: left;font-size: 18px;color: #666666;}
+.layui-speech-d h4{font-size: 26px;color: #000000;}
+.layui-speech-d h5{font-size: 16px;color: #000000;}
+.layui-speech-d .title{margin-top: 26px;}
+.layui-speech-d .title-time{margin-top: 20px;}
+.layui-speech-d .time{margin-right: 10px;}
 /*
 @media screen and (max-height: 946px) {
     .layui-level-main{width: 88%;}
