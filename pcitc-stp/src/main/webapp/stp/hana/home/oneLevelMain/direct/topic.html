@@ -58,7 +58,7 @@
                     <div class="layui-card-header">
                         <span class="layui-time"></span>年直属研究院科研科题数量占比
                     </div>
-                    <div class="layui-card-body btn-function" >
+                    <div class="layui-row-main" >
                         <table id="myTable" class="layui-table" lay-filter="myTable" >
                             <thead>
                             <tr>
@@ -102,7 +102,7 @@
                     <div class="layui-card-header">
                         <span class="layui-time"></span>年科研科题数量占比
                     </div>
-                    <div class="layui-card-body btn-function" >
+                    <div class="layui-row-main" >
                         <table id="myTable2" class="layui-table" lay-filter="myTable2" >
                             <thead>
                             <tr>
@@ -323,7 +323,7 @@ function myTable()
 	
 	 table.init('myTable', {
 		 url: chart1_url 
-		  ,height:"309px"
+		  ,height:"298px"
 		  ,where: {} 
 		  
 		});
@@ -341,7 +341,7 @@ function myTable2()
 	var chart1_url="/direct/topic_02?type=2&nd="+nd+"&v_date="+v_date+"&typeFlag=研究院";
 	table.init('myTable2', {
 		url: chart1_url
-		  ,height:"309px"
+		  ,height:"298px"
 		  ,where: {} 
 		  
 		});

@@ -73,7 +73,7 @@
                     <div class="layui-card-header">
                        <span class="layui-time"></span>科研预算执行率（万元）
                     </div>
-                    <div class="layui-card-body btn-function" >
+                    <div class="layui-row-main" >
                         <table id="myTable" class="layui-table" lay-filter="myTable" >
                             <thead>
 	                            <tr>
@@ -283,7 +283,7 @@ function myTable()
 	 var url= '/one_level_main/investment_01_01?nd='+nd+"&v_date="+v_date;
 	    table.init('myTable', {
 			  url: url
-			  ,height:"295px"
+			  ,height:"285px"
 			  ,where: {} 
 			  
 			});
