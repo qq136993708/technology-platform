@@ -177,7 +177,11 @@ layui.config({
         });
         $(".layui-time").html($("#year").val());
         $("#knowledge_table").click(function () {
-        	window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
+        	
+        	 var nd=$("#year").val();
+             var url=　encodeURIComponent("/one_level_main/count_table?nd="+nd+"&ysnd="+nd);
+    	        window.open("/instituteIndex?url="+url);
+    	        
         });
         
         

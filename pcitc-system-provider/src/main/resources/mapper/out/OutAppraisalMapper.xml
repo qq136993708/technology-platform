@@ -943,10 +943,10 @@
 				</foreach>
 				)
 			</if>
-			<if test="define5 != null">
+			<if test="define3 != null">
 				and (
-				<foreach collection="define5" item="define5" index="index" separator=" or ">
-					out_appraisal.define5 like '%${define5}%'
+				<foreach collection="define3" item="define3" index="index" separator=" or ">
+					out_appraisal.define3 like '%${define3}%'
 				</foreach>
 				)
 			</if>
