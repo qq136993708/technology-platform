@@ -379,8 +379,8 @@ layui.config({
               initSort: obj,
               page: {curr: 1}, //重新从第一页开始
               where: { //重新请求服务端
-                  key: obj.field, //排序字段
-                  order: obj.type //排序方式
+            	  orderKey : obj.field, //排序字段
+				  orderType : obj.type
               }
           });
       });
