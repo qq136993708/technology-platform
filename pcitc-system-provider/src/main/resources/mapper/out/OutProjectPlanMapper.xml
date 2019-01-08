@@ -1236,5 +1236,14 @@
 				</foreach>
 				)
 			</if>
+			
+			<if test="orderKey != null and orderKey != ''">
+				<if test="orderType != null and orderType != ''">
+					order by ${orderKey} ${orderType}
+				</if>
+				<if test="orderType == null or orderType == ''">
+					order by ${orderKey} desc
+				</if>
+			</if>
 	</select>
 </mapper>
