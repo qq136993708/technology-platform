@@ -2271,7 +2271,7 @@
 	
 	<!--  领导首页-十条龙，十条龙项目的出入龙情况 -->
 	<select id="getDragonProjectInfoWithOutIn" resultType="java.util.Map" parameterType="java.util.HashMap">
-		select sum(case when ysnd='${l_nd}' and `status` = '申请出龙' then 1 else 0 end) sqcl,
+		select 
 			 sum(case when ysnd='${nd}' and `status` = '申请休眠' then 1 else 0 end) sqxm,
 			 sum(case when ysnd='${nd}' and `status` = '申请退龙' then 1 else 0 end) sqtl,
 			 sum(case when ysnd='${nd}' and `status` = '入龙' then 1 else 0 end) tjrl,
