@@ -278,17 +278,10 @@ function search_Event()
 	initEchart();
 }
 
-
-
-
-
 function renderTable()
 {  
-	
 	  var month=$("#year").val();
 	  var companyCode=$("#companyCode").val();
-	  
-	 
 	  ptable=treeGridCom.render({
 	        id:tableId
 	        ,elem: '#'+tableId
@@ -321,7 +314,9 @@ function renderTable()
 	            console.log(index,o,"双击");
 	        }
 	    });
+	  
 }
+
 </script>
 </body>
 </html>
