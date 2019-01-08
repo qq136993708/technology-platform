@@ -395,7 +395,9 @@
 					}
 				});
 			});
-
+            $("#mainIframe").load(function() {
+                $("#mainIframe").contents().find(".layui-fluid").css("padding-right","22px");
+			});
 			//待办任务
 			$.ajax({
 				type : 'POST',
@@ -417,13 +419,12 @@
 					}
 				}
 			});
-
 			$(function() {
 				initNoticeSocket();
 				getUserNoticeCount();
 			});
 		});
-		
+
 	</script>
 </body>
 </html>
