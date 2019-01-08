@@ -2330,6 +2330,13 @@
 				</foreach>
 				)
 			</if>
+			<if test="xmlbmc != null">
+				and (
+				<foreach collection="xmlbmc" item="xmlbmc" index="index" separator=" or ">
+					out_project_info.xmlbmc like '%${xmlbmc}%'
+				</foreach>
+				)
+			</if>
 			<if test="type_flag != null">
 				and (
 				<foreach collection="type_flag" item="type_flag" index="index" separator=" or ">
@@ -2363,6 +2370,13 @@
 				and (
 				<foreach collection="define2" item="define2" index="index" separator=" or ">
 					out_project_info.define2 like '%${define2}%'
+				</foreach>
+				)
+			</if>
+			<if test="xmlbmc != null">
+				and (
+				<foreach collection="xmlbmc" item="xmlbmc" index="index" separator=" or ">
+					out_project_info.xmlbmc like '%${xmlbmc}%'
 				</foreach>
 				)
 			</if>
@@ -2400,6 +2414,13 @@
 				and (
 				<foreach collection="define2" item="define2" index="index" separator=" or ">
 					out_project_info.define2 like '%${define2}%'
+				</foreach>
+				)
+			</if>
+			<if test="xmlbmc != null">
+				and (
+				<foreach collection="xmlbmc" item="xmlbmc" index="index" separator=" or ">
+					out_project_info.xmlbmc like '%${xmlbmc}%'
 				</foreach>
 				)
 			</if>
