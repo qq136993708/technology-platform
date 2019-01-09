@@ -84,12 +84,12 @@
             <div class="layui-col-md5">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        <span class="layui-time"></span>年直属研究院课题分布情况
+                        <span class="layui-time"></span>直属研究院项目分布情况
                     </div>
                     <div class="layui-row-main">
                         <div class="text-total">
                             <span>总数:<span class="text-total-blue" id="dragon3_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>十条龙项目并集数:<span class="text-total-blue" id="dragon3_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>十条龙项目数:<span class="text-total-blue" id="dragon3_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                             <span>重大项目数:<span class="text-total-blue" id="dragon3_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                         </div>
 
@@ -254,6 +254,10 @@
                 total_count += dt;
             });
             $("#dragon2_01").html(total_count+"个");
+            //
+           // $("#dragon3_01").html(total_count+"个");
+        	//$("#dragon3_02").html(total_count+"个");
+        	//$("#dragon3_03").html(total_count+"个");
         });
 
         
@@ -298,7 +302,6 @@
             id: 'processdef_table_2',
             height: commonDislodgeTable(),
             cols: [[
-                {field:'nd',             title: '年度',style:'cursor: pointer;',align: 'center', width: '5%'},
                 {field:'showIndex',      title:'序号',style:'cursor: pointer;',align: 'center', width: '5%'},
                 {field:'xmmc',           title:'项目名称',style:'cursor: pointer;',align: 'left', width: '20%'},
                 {field:'zzdw',           title:'组长单位',style:'cursor: pointer;',align: 'left', width: '15%'},
@@ -324,8 +327,8 @@
             var data = res.data;
             var mergeIndex = 0;//定位需要添加合并属性的行数
             var mark = 1; //这里涉及到简单的运算，mark是计算每次需要合并的格子数
-            var columsName = ['nd','showIndex','xmmc','zzdw','status'];//需要合并的列名称
-            var columsIndex = [0,1,2,3,6];//需要合并的列索引值
+            var columsName = ['showIndex','xmmc','zzdw','status'];//需要合并的列名称
+            var columsIndex = [0,1,2,5];//需要合并的列索引值
 
             for (var k = 0; k < columsName.length; k++) { //这里循环所有要合并的列
                 var trArr = $(".layui-table-body>.layui-table").find("tr");//所有行
