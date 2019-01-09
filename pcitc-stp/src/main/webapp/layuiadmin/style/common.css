@@ -514,4 +514,5 @@ textarea{ padding: 6px 10px; display: block;color: #555;background-color: #fff;b
 .layui-q>.layui-tab-title span{background: #fe0002;position: absolute;font-size: 14px;color: white;
     top: -5px;height: 18px;padding: 0 5px;line-height: 18px;border-radius: 6px;}
 
-
+.stpSearchBox .seacrhBox input:-ms-input-placeholder{color: #e0e4e8;}
+.stpSearchBox .seacrhBox input::-webkit-input-placeholder{color: #e0e4e8;}

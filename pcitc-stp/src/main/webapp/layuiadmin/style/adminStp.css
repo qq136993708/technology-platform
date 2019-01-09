@@ -109,8 +109,8 @@ width: 56px;}
 .stpSearchBox .selectBox-span img{float: right;margin-right: 8px;margin-top: 10px;}
 .stpSearchBox .seacrhBox{width: 150px; display: inline-block; position: relative;}
 .stpSearchBox .seacrhBox input{background-color: #45b5c6;font-size: 14px;height: 28px;line-height: 28px;color: #d2f9ff;border: 1px solid #17a2b8;text-indent: 0.5em;border-radius: 4px;}
-.stpSearchBox .seacrhBox input:-ms-input-placeholder{color: #d2f9ff;}
-.stpSearchBox .seacrhBox input::-webkit-input-placeholder{color: #d2f9ff;}
+.stpSearchBox .seacrhBox input:-ms-input-placeholder{color: #e0e4e8;}
+.stpSearchBox .seacrhBox input::-webkit-input-placeholder{color: #e0e4e8;}
 .stpSearchBox input[type=text]::-ms-clear{display: none;}
 .stpSearchBox .seacrhBox img{height: 16px; width: auto;position: absolute;right: 4px; top: 8px; cursor: pointer;}
 .layui-leader-admin .stpSearchBox{padding-left: 240px;}
