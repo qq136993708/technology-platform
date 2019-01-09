@@ -321,9 +321,14 @@ public interface OutProjectInfoMapper {
 	public int deleteCountryProjectItemByDefind1(String define1);
 	
 	/**
-	 * 获取详细的查询条件
+	 * 获取项目详情的查询维度（条件）
 	 */
 	public List getProjectInfoSelectCondition(HashMap<String, String> map);
+	
+	/**
+	 * 获取十条龙详情的查询维度（条件）
+	 */
+	public List getDragonProjectInfoSelectCondition(HashMap<String, String> map);
 
 	//首页查询 end
 	public List<OutProjectInfo> findOutProjectInfoList(OutProjectInfo outProjectInfo);
