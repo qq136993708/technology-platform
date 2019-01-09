@@ -314,6 +314,7 @@
                 }},
             limit: 15,
             id: 'processdef-table',
+            height: commonDislodgeTable(),
             page: {
                 groups: 5,
                 limits: [15,30,45,60],
@@ -346,10 +347,7 @@
                     $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
                     selectRowData=res.data[index-1];
                 });
-                parent.$("#keyan").html("("+count+")").css({
-                    "position":"relative","top":"-6px","left":"10px","color":"red"
-                });
-                console.log( parent.$("#keyan"))
+                parent.$("#keyan").html(count);
                 layer.close(index);
             }
         });
