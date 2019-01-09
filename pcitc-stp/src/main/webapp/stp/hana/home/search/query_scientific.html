@@ -342,7 +342,7 @@
                     var index=parseInt($(this).index()+1);
                     $('tr').removeClass('layui-table-click');
                     $(this).addClass('layui-table-click');
-                    $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                    $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked");
                     $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
                     selectRowData=res.data[index-1];
                 });
