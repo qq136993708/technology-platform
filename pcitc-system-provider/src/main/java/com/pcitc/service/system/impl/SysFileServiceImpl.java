@@ -731,7 +731,7 @@ public class SysFileServiceImpl implements SysFileService {
             accessor.add(sysFile);
         } catch (Exception e) {
             System.out.println("文件写入ES异常");
-            e.printStackTrace();
+//            e.printStackTrace();
         } finally {
             try {
                 //关闭所有的流
