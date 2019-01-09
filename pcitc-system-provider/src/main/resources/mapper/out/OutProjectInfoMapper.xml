@@ -2501,7 +2501,7 @@
 		select 'define2' as showCode,SUBSTR(define2 FROM 4) as showName 
 		from out_project_info 
 		where 
-		define2 is not null and project_property like '%十条龙%'
+		type_flag like '%直属研究院%'
 		GROUP BY define2
 		
 		union all 
