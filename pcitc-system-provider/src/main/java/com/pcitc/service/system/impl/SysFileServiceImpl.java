@@ -480,7 +480,7 @@ public class SysFileServiceImpl implements SysFileService {
         List<SysFile> list = result.getList();
 
         // 4、封装需要返回的分页实体
-        PageInfo<SysFile> pageInfo = new PageInfo<SysFile>(list);
+//        PageInfo<SysFile> pageInfo = new PageInfo<SysFile>(list);
 
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("totalCount", result.getSearchHits().getTotalHits());
@@ -549,12 +549,15 @@ public class SysFileServiceImpl implements SysFileService {
                     String strMd5 = FileUtil.getMD5ByInputStream(file.getInputStream());
                     //查询数量
                     List<SysFile> sysFiles = getSysFileByMd5(strMd5);
+                    String strEsId = selectMaxEsId();
                     if (sysFiles != null && sysFiles.size() > 0) {
                         sysFile = sysFiles.get(0);
                         strFileSuffix = sysFile.getFileSuffix().toUpperCase();
                         //这样也可以上传同名文件了
                         String filePrefixFormat = "yyyyMMddHHmmssS";
                         String savedName = DateUtil.format(new Date(), filePrefixFormat) + "_" + filename;
+                        strEsId = (strEsId == null || "".equals(strEsId)) ? "0" : strEsId;
+                        sysFile.setEsId(Integer.parseInt(strEsId) + 1);
                         sysFile.setId(uuid);
                         sysFile.setFileName(filename);
                         sysFile.setSavedName(savedName);
@@ -608,6 +611,8 @@ public class SysFileServiceImpl implements SysFileService {
                         sysFile.setFlag((flag == null || "".equals(flag)) ? "" : flag);
                         sysFile.setDataid((formId == null || "".equals(formId)) ? "" : formId);
                         sysFile.setBak5(strSavePath + File.separator + savedName);
+                        strEsId = (strEsId == null || "".equals(strEsId)) ? "0" : strEsId;
+                        sysFile.setEsId(Integer.parseInt(strEsId) + 1);
 
                         //获取文件经纬度,创建时间
                         strSuffix = strSuffix.toLowerCase();
@@ -731,8 +736,8 @@ public class SysFileServiceImpl implements SysFileService {
             try {
                 //关闭所有的流
                 baos.close();
-                bis.close();
-                fis.close();
+                if(bis!=null){bis.close();}
+                if(fis!=null){fis.close();}
             } catch (IOException e) {
                 e.printStackTrace();
             }
