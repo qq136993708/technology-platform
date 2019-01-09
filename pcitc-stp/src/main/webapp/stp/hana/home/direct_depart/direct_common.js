@@ -685,8 +685,8 @@ function set_multi_graph_statistics(data,id)
     	var jzCount_2=getDataCountForName(data,'重大项目');
         var allCount_3=xkCount_1+jzCount_2;
         
-        $("#dragon3_01").html(allCount_3+"个");
-        $("#dragon3_02").html(xkCount_1+"个");
+        //$("#dragon3_01").html(allCount_3+"个");
+        //$("#dragon3_02").html(xkCount_1+"个");
         $("#dragon3_03").html(jzCount_2+"个");
 	}
 	

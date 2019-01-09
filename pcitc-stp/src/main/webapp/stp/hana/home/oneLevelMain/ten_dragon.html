@@ -254,10 +254,14 @@
                 total_count += dt;
             });
             $("#dragon2_01").html(total_count+"个");
-            //
-           // $("#dragon3_01").html(total_count+"个");
-        	//$("#dragon3_02").html(total_count+"个");
-        	//$("#dragon3_03").html(total_count+"个");
+            //延时两秒执行
+            setTimeout(function(){
+            	var zhongda = parseInt($("#dragon3_03").html());
+               	$("#dragon3_01").html((zhongda+total_count)+"个");
+            	$("#dragon3_02").html(total_count+"个");
+            },500);
+            
+        
         });
 
         
