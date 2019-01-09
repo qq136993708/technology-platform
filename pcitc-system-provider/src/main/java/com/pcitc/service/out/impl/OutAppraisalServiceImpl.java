@@ -18,7 +18,6 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.stp.out.OutAppraisal;
 import com.pcitc.base.stp.out.OutAppraisalExample;
-import com.pcitc.base.stp.out.OutProjectInfo;
 import com.pcitc.base.util.StrUtil;
 import com.pcitc.mapper.out.OutAppraisalMapper;
 import com.pcitc.service.out.OutAppraisalService;

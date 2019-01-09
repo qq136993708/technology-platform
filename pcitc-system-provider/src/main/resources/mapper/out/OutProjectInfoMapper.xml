@@ -2482,6 +2482,37 @@
 	</select>
 	
 	
+	<!-- 获取十条龙详细的查询条件 -->
+	<select id="getDragonProjectInfoSelectCondition" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select 'status' as showCode,`status` as showName 
+		from out_project_info 
+		where 
+		project_property like '%十条龙%'
+		GROUP BY `status`
+		
+		union all 
+		select 'xmlbmc' as showCode,xmlbmc as showName 
+		from out_project_info 
+		where 
+		project_property like '%十条龙%'
+		GROUP BY xmlbmc
+		
+		union all 
+		select 'define2' as showCode,SUBSTR(define2 FROM 4) as showName 
+		from out_project_info 
+		where 
+		define2 is not null and project_property like '%十条龙%'
+		GROUP BY define2
+		
+		union all 
+		select 'type_flag',case when type_flag is null then '其他' else SUBSTR(type_flag FROM 2) end as type_flag
+		from out_project_info
+		where 
+		project_property like '%十条龙%'
+		group by type_flag
+		
+	</select>
+	
 	<!-- 分页显示项目数据数据,统计的第三级展示 -->
 	<select id="selectCommonProjectByCond" resultMap="BaseResultMap" parameterType="java.util.HashMap">
 		select out_project_info.define1,substr(out_project_info.define2 from 4) as define2,substr(out_project_info.type_flag from 2) as type_flag,

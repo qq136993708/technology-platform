@@ -1966,12 +1966,22 @@ public class OutProjectInfoClient {
 	}
 	
 	
-	@ApiOperation(value = "获取详细的查询条件", notes = "几个维度一次查询，前台特殊处理一下")
+	@ApiOperation(value = "获取项目详情的查询维度（条件）", notes = "几个维度一次查询，前台特殊处理一下")
 	@RequestMapping(value = "/out-project-provider/select-condition/list")
 	public JSONArray getProjectInfoSelectCondition(@RequestBody HashMap<String, String> map) {
 		logger.info("==================page getProjectInfoSelectCondition===========================" + map);
 		
 		List temList = outProjectService.getProjectInfoSelectCondition(map);
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		return json;
+	}
+	
+	@ApiOperation(value = "获取十条龙项目详情的查询维度（条件）", notes = "几个维度一次查询，前台特殊处理一下")
+	@RequestMapping(value = "/out-project-provider/dragon/select-condition/list")
+	public JSONArray getDragonProjectInfoSelectCondition(@RequestBody HashMap<String, String> map) {
+		logger.info("==================page getDragonProjectInfoSelectCondition===========================" + map);
+		
+		List temList = outProjectService.getDragonProjectInfoSelectCondition(map);
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
 		return json;
 	}
