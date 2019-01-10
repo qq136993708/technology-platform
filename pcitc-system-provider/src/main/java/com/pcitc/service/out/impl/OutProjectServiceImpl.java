@@ -888,7 +888,47 @@ public class OutProjectServiceImpl implements OutProjectService {
 	/**
      * 领导首页-十条龙，十条龙项目的详情
      */
-	public List getDragonProjectDetails(HashMap<String, String> map) {
+	public List getDragonProjectDetails(HashMap<String, Object> map) {
+		
+		// 研究院
+		if(map.get("define2") !=null && !StringUtils.isBlank(map.get("define2")+"")){
+			List define2 = new ArrayList();
+			String[] temS = map.get("define2").toString().split(",");
+			for (int i = 0; i < temS.length; i++) {
+				define2.add(temS[i]);
+			}
+			map.put("define2", define2);
+		}
+		
+		// 项目类别
+		if(map.get("xmlbmc") !=null && !StringUtils.isBlank(map.get("xmlbmc")+"")){
+			List xmlbmc = new ArrayList();
+			String[] temS = map.get("xmlbmc").toString().split(",");
+			for (int i = 0; i < temS.length; i++) {
+				xmlbmc.add(temS[i]);
+			}
+			map.put("xmlbmc", xmlbmc);
+		}
+		
+		// 9个机构
+		if(map.get("type_flag") !=null && !StringUtils.isBlank(map.get("type_flag")+"")){
+			List type_flag = new ArrayList();
+			String[] temS = map.get("type_flag").toString().split(",");
+			for (int i = 0; i < temS.length; i++) {
+				type_flag.add(temS[i]);
+			}
+			map.put("type_flag", type_flag);
+		}
+				
+		// 6个状态
+		if(map.get("status") !=null && !StringUtils.isBlank(map.get("status")+"")){
+			List status = new ArrayList();
+			String[] temS = map.get("status").toString().split(",");
+			for (int i = 0; i < temS.length; i++) {
+				status.add(temS[i]);
+			}
+			map.put("status", status);
+		}
 		return outProjectInfoMapper.getDragonProjectDetails(map);
 	}
 	
