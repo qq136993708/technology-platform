@@ -39,13 +39,36 @@ public class SearchFullController extends BaseController {
 
     private static final String getAwardTable = "http://pcitc-zuul/system-proxy/search/getTableDataAchivement";
 
+    private static final String search = "http://pcitc-zuul/system-proxy/search/search";
 
+
+
+
+
+    private static final String[] tabString = {"科研","成果"};
+
+    @RequestMapping(method = RequestMethod.GET, value = "/searchIndex")
+    public String searchIndex(HttpServletRequest request) throws Exception {
+        request.setAttribute("keyword", request.getParameter("keyword"));
+        return "stp/hana/home/search/search_index";
+    }
 
     @RequestMapping(method = RequestMethod.GET, value = "/search")
     public String search(HttpServletRequest request) throws Exception {
         request.setAttribute("keyword", request.getParameter("keyword"));
         return "stp/hana/home/search/search";
     }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/getTableSearch")
+    @ResponseBody
+    public String getTableSearch(@ModelAttribute("param") LayuiTableParam param) {
+        LayuiTableData layuiTableData = new LayuiTableData();
+        HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+        ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(search, HttpMethod.POST, entity, LayuiTableData.class);
+        layuiTableData = responseEntity.getBody();
+        return JSONObject.toJSONString(layuiTableData);
+    }
+
 
     /**
      * -------------------------------------------------成果-------------------------------------
@@ -54,7 +77,7 @@ public class SearchFullController extends BaseController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/getTableDataAchivement")
     @ResponseBody
-    public String getAwardLevel3TAble(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
+    public String getTableDataAchivement(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 
         JSONObject tt = JSONObject.parseObject(JSONObject.toJSONString(param));
         LayuiTableData layuiTableData = new LayuiTableData();

@@ -22,4 +22,11 @@ public interface FullSearchService {
      * @return
      */
     public LayuiTableData getTableDataAchivement(LayuiTableParam param);
+
+    /**
+     * 首页查询
+     * @param param
+     * @return
+     */
+    public LayuiTableData getTableSearch(LayuiTableParam param);
 }

@@ -1382,4 +1382,14 @@ public class SysFileServiceImpl implements SysFileService {
 //        sysFileMapper.deleteSysFileByDataId(map);
 
     }
+
+    public static void main(String[] args) {
+        System.out.println(2/15);
+        System.out.println(2%15);
+        System.out.println(18%15);
+        System.out.println(32%15);
+        System.out.println(2-1*15);
+        System.out.println(18-1*15);
+        System.out.println(18-2*15);
+    }
 }
