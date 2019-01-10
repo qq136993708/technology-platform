@@ -346,7 +346,7 @@ public interface OutProjectService {
 	/**
      * 领导首页-十条龙，十条龙项目的详情
      */
-	public List getDragonProjectDetails(HashMap<String, String> map);
+	public List getDragonProjectDetails(HashMap<String, Object> map);
 	
 	/**
      * @param nd
