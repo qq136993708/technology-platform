@@ -10,9 +10,10 @@
 .two-one-box .oneBox{width: 33%; margin-right: 0;}
 .three-charts-box .echarts:last-child{margin-right: 0;}
 .layui-form1{display: inline-block;padding-left: 10px;width: auto;margin:10px}
-
-
-
+.layui-fluid .layui-main-box .layui-box-icon{height: 64px;}
+@media screen and (max-width: 1366px){
+    .layui-fluid .layui-main-box .layui-box-icon{height: 44px;}
+}
 
   /* .echarts{height: 400px;width: 100%;box-sizing: border-box;border: 1px solid #cccccc;}
     .one-chart-box, .three-charts-box{ margin-bottom: 8px;}

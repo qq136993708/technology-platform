@@ -637,7 +637,7 @@
 	</insert>
 
 	<select id="getOutAppraisalCount" resultType="java.lang.Integer" parameterType="java.util.HashMap">
-		select count(DISTINCT cgid) as cgid from out_appraisal
+		select count(cgid) as cgid from out_appraisal
 		where 
 			1 = 1
 			<if test="nd != null and nd != ''">
@@ -652,7 +652,7 @@
 	</select>
 
 	<select id="getResultInfo" resultType="java.util.Map" parameterType="java.lang.String">
-		select count(DISTINCT cgid) as mscount,jdjg as ms
+		select count(cgid) as mscount,jdjg as ms
 		from out_appraisal
 		where
 			jdjg is not null
@@ -864,7 +864,7 @@
 	
 	<!--  领导二级页面，各个研究院的成果情况 -->
 	<select id="getAppraisalInfoByInstitute" resultType="java.util.Map" parameterType="java.util.HashMap">
-		select count(DISTINCT cgid) as sl, 
+		select count(cgid) as sl, 
 			sum(case when cglx = 'A.工业化' then 1 else 0 end) as gyhsl,
 			sum(case when cglx = 'B.工业试验' then 1 else 0 end) as gysysl,
 			SUBSTR(define1 FROM 4) define1 
@@ -876,7 +876,7 @@
 	
 	<!--  领导二级页面，各种类型的成果情况 -->
 	<select id="getAppraisalInfoByCglx" resultType="java.util.Map" parameterType="java.util.HashMap">
-		select count(DISTINCT cgid) as sl, cglx 
+		select count(cgid) as sl, cglx 
 		from out_appraisal
 		where 
 			cglx is not NULL and nd='${nd}'
@@ -888,7 +888,7 @@
 	
 	<!--  领导二级页面，各种专业的成果情况 -->
 	<select id="getAppraisalInfoByZy" resultType="java.util.Map" parameterType="java.util.HashMap">
-		select count(DISTINCT cgid) as sl, zy 
+		select count(cgid) as sl, zy 
 		from out_appraisal
 		where 
 			zy is not NULL and nd='${nd}'
@@ -901,7 +901,7 @@
 	<!--  领导首页-科研成果，直属院、分子公司等9个的成果情况 -->
 	<select id="getAppraisalInfoByCompanyType" resultType="java.util.Map" parameterType="java.util.HashMap">
 		select tableA.sl,SUBSTR(tableA.define3 FROM 2) as define3 from (
-			select count(DISTINCT cgid) as sl, 
+			select count(cgid) as sl, 
 				IFNULL(define3,'J其他') as define3
 			from out_appraisal
 			where 
@@ -918,7 +918,7 @@
 		where
 			 1 = 1
 			<if test="nd != null">
-				and out_appraisal.nd = #{nd}
+				and out_appraisal.nd = '${nd}'
 			</if>
 			<if test="hth != null">
 				and out_appraisal.hth like '%${hth}%'
@@ -970,6 +970,14 @@
 					out_appraisal.jdjg like '%${jdjg}%'
 				</foreach>
 				)
+			</if>
+			<if test="orderKey != null and orderKey != ''">
+				<if test="orderType != null and orderType != ''">
+					order by ${orderKey} ${orderType}
+				</if>
+				<if test="orderType == null or orderType == ''">
+					order by ${orderKey} desc
+				</if>
 			</if>
 	</select>
 	

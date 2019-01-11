@@ -218,32 +218,32 @@ function load_mutl_bar_down(url,id,title,subtext,yAxis,width,color)
 	{
 		mutl_bar_down.title.subtext=subtext;
 	}
- mutl_bar_down.grid={
+	mutl_bar_down.grid={
 	    top:"10.5%",
-     left: '1.2%',
-     right: '3%',
-     bottom: '10%',
-     containLabel: true
- }
+	    left: '2.5%',
+	    right: '3%',
+	    bottom: '10%',
+	    containLabel: true
+	}
 	if(yAxis!=null && yAxis!='')
 	{
 		mutl_bar_down.yAxis=yAxis;
 	}
 	if(color!=undefined && color!=""){
-     mutl_bar_down.color=color;
+		mutl_bar_down.color=color;
 	}
- mutl_bar_down.xAxis=[{
-     type: 'category',
-     axisLabel:{
-         interval:0,//0：全部显示，1：间隔为1显示对应类目，2：依次类推，（简单试一下就明白了，这样说是不是有点抽象）
-         rotate:0,//倾斜显示，-：顺时针旋转，+或不写：逆时针旋转
-     }
- }]
- echartsobj.clear();
+	mutl_bar_down.xAxis=[{
+		type: 'category',
+		axisLabel:{
+			interval:0,//0：全部显示，1：间隔为1显示对应类目，2：依次类推，（简单试一下就明白了，这样说是不是有点抽象）
+			rotate:0,//倾斜显示，-：顺时针旋转，+或不写：逆时针旋转
+		}
+	}]
+	echartsobj.clear();
 	echartsobj.setOption(mutl_bar_down);
 	echartsobj.showLoading();
 	
-	 echartsobj=barLineAjax_down(url,echartsobj, mutl_bar_down,id,width);
+	echartsobj=barLineAjax_down(url,echartsobj, mutl_bar_down,id,width);
 	return echartsobj;
 }
 function load_mutl_bar_down_r(url,id,title,subtext,yAxis,rotate,width,color)
@@ -685,8 +685,8 @@ function set_multi_graph_statistics(data,id)
     	var jzCount_2=getDataCountForName(data,'重大项目');
         var allCount_3=xkCount_1+jzCount_2;
         
-        $("#dragon3_01").html(allCount_3+"个");
-        $("#dragon3_02").html(xkCount_1+"个");
+        //$("#dragon3_01").html(allCount_3+"个");
+        //$("#dragon3_02").html(xkCount_1+"个");
         $("#dragon3_03").html(jzCount_2+"个");
 	}
 	

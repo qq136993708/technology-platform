@@ -84,12 +84,12 @@
             <div class="layui-col-md5">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        <span class="layui-time"></span>年直属研究院课题分布情况
+                        <span class="layui-time"></span>直属研究院项目分布情况
                     </div>
                     <div class="layui-row-main">
                         <div class="text-total">
                             <span>总数:<span class="text-total-blue" id="dragon3_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>十条龙项目并集数:<span class="text-total-blue" id="dragon3_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>十条龙项目数:<span class="text-total-blue" id="dragon3_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                             <span>重大项目数:<span class="text-total-blue" id="dragon3_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                         </div>
 
@@ -106,10 +106,10 @@
                         <div class="work-report">
                             <ul class="work-one">
                                 <li>
-                                    <a href="javascript:export_doc(2012);">汇报材料</a>
+                                    <a href="/one_level_main/report_download/2012" download="w3logo">汇报材料</a>
                                 </li>
                                 <li>
-                                    <a href="javascript:export_doc(2013);">汇报材料</a>
+                                    <a href="/one_level_main/report_download/2013" download="w3logo">汇报材料</a>
                                 </li>
                                 <li>
                                     <a href="javascript:export_doc(2014);">汇报材料</a>
@@ -201,7 +201,7 @@
         //初始化图形
         initEchart();
     });
-
+	
     function initEchart()
     {
 
@@ -237,10 +237,11 @@
             $("#dragon1_01").html(total_count+"个");
         });
         
+        echart1.off();
         echart1.on('click', function (params) {
 			var xName=params.name;
 			var legentName=params.seriesName;
-			window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
+			window.open("/one_level_main/ten_dragon_table?xmfl="+encodeURIComponent(xName)+"&nd="+nd);
 	    }); 
         
 
@@ -254,23 +255,30 @@
                 total_count += dt;
             });
             $("#dragon2_01").html(total_count+"个");
+            //延时两秒执行
+            setTimeout(function(){
+            	var zhongda = parseInt($("#dragon3_03").html());
+               	$("#dragon3_01").html((zhongda+total_count)+"个");
+            	$("#dragon3_02").html(total_count+"个");
+            },1500);
         });
-
-        
+        echart2.off();
         echart2.on('click', function (params) {
 			var xName=params.name;
 			var legentName=params.seriesName;
-			window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
+			xName = xName.replace(nd,"");
+			window.open("/one_level_main/ten_dragon_table?xmzt="+encodeURIComponent(xName)+"&nd="+nd);
 	    }); 
         
 
         var chart7_url="/one_level_main/dragon_03?nd="+nd+"&v_date="+v_date+"&companyCode="+companyCode;
         //var color=["#70b1ab","#87d359"];
         var echart7=load_mutl_bar_down(chart7_url,"dragon3","","",yAxis,20);
+        echart7.off();
         echart7.on('click', function (params){
             var xName=params.name;
             var legentName=params.seriesName;
-            window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
+            window.open("/one_level_main/ten_dragon_table?yjy="+encodeURIComponent(xName)+"&nd="+nd);
         });
 
     }
@@ -284,7 +292,7 @@
         renderStlTable();
     }
 
-    //重大项目
+    //十条龙项目
     function renderStlTable()
     {
         var nd=$("#year").val();
@@ -298,7 +306,6 @@
             id: 'processdef_table_2',
             height: commonDislodgeTable(),
             cols: [[
-                {field:'nd',             title: '年度',style:'cursor: pointer;',align: 'center', width: '5%'},
                 {field:'showIndex',      title:'序号',style:'cursor: pointer;',align: 'center', width: '5%'},
                 {field:'xmmc',           title:'项目名称',style:'cursor: pointer;',align: 'left', width: '20%'},
                 {field:'zzdw',           title:'组长单位',style:'cursor: pointer;',align: 'left', width: '15%'},
@@ -324,8 +331,8 @@
             var data = res.data;
             var mergeIndex = 0;//定位需要添加合并属性的行数
             var mark = 1; //这里涉及到简单的运算，mark是计算每次需要合并的格子数
-            var columsName = ['nd','showIndex','xmmc','zzdw','status'];//需要合并的列名称
-            var columsIndex = [0,1,2,3,6];//需要合并的列索引值
+            var columsName = ['showIndex','xmmc','zzdw','status'];//需要合并的列名称
+            var columsIndex = [0,1,2,5];//需要合并的列索引值
 
             for (var k = 0; k < columsName.length; k++) { //这里循环所有要合并的列
                 var trArr = $(".layui-table-body>.layui-table").find("tr");//所有行
@@ -381,7 +388,9 @@
     }
     function export_doc(date_year)
     {
-    	 window.open("/one_level_main/report_download/"+date_year);
+    	//window.location.target = "_blank";
+    	//window.location.href="/one_level_main/report_download/"+date_year;
+    	window.open("/one_level_main/report_download/"+date_year);
     }
    
 </script>

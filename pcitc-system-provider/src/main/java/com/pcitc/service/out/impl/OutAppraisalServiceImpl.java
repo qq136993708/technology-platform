@@ -18,7 +18,7 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.stp.out.OutAppraisal;
 import com.pcitc.base.stp.out.OutAppraisalExample;
-import com.pcitc.base.stp.out.OutProjectInfo;
+import com.pcitc.base.util.StrUtil;
 import com.pcitc.mapper.out.OutAppraisalMapper;
 import com.pcitc.service.out.OutAppraisalService;
 import com.pcitc.utils.StringUtils;
@@ -37,11 +37,17 @@ public class OutAppraisalServiceImpl implements OutAppraisalService {
 	 */
 	public LayuiTableData getAppraisalInfoByCond(LayuiTableParam param) {
 		
+		System.out.println("0>>>>>>>>>查询分页结果" + param.getOrderKey());
+		System.out.println("0>>>>>>>>>查询分页结果" + param.getOrderType());
 		// 1、设置分页信息，包括当前页数和每页显示的总计数
 		PageHelper.startPage(param.getPage(), param.getLimit());
 		
 		HashMap<String, Object> hashmap = new HashMap<String, Object>();
-		
+		if (param.getOrderKey() != null && !StrUtil.isBlankOrNull(param.getOrderKey().toString())) {
+			// 排序，因为select后有关键字，自己手动在sql中调整。否则直接PageHelper.orderBy(param.getOrderKey().toString() + " " + param.getOrderType());
+			hashmap.put("orderKey", param.getOrderKey());
+			hashmap.put("orderType", param.getOrderType());
+		}
 		if(param.getParam().get("xmmc") !=null && !StringUtils.isBlank(param.getParam().get("xmmc")+"")){
 			hashmap.put("xmmc", param.getParam().get("xmmc"));
 		}
@@ -140,8 +146,13 @@ public class OutAppraisalServiceImpl implements OutAppraisalService {
 	public LayuiTableData getOutAppraisalPage(LayuiTableParam param) {
 		Map<String, Object> paraMap = param.getParam();
 
-		// 1、设置分页信息，包括当前页数和每页显示的总计数
-		PageHelper.startPage(param.getPage(), param.getLimit());
+		System.out.println("0>>>>>>>>>查询分页结果" + param.getOrderKey());
+		System.out.println("0>>>>>>>>>查询分页结果" + param.getOrderType());
+		if (param.getOrderKey() != null && !StrUtil.isBlankOrNull(param.getOrderKey().toString())) {
+			// 1、设置分页信息，包括当前页数和每页显示的总计数
+			PageHelper.startPage(param.getPage(), param.getLimit(), param.getOrderKey().toString() + " " + param.getOrderType());
+		}
+		
 
 		OutAppraisalExample example = new OutAppraisalExample();
 		OutAppraisalExample.Criteria criteria = example.createCriteria();
@@ -158,11 +169,11 @@ public class OutAppraisalServiceImpl implements OutAppraisalService {
 		if (paraMap.get("nd") != null && !"".equals(paraMap.get("nd"))) {
 			criteria.andNdEqualTo(paraMap.get("nd").toString());
 		}
-		example.setOrderByClause(" nd desc ");
-
+		
+		System.out.println("1>>>>>>>>>查询分页结果" + example.getOrderByClause());
 		List<OutAppraisal> list = outAppraisalMapper.selectByExample(example);
 		PageInfo<OutAppraisal> pageInfo = new PageInfo<OutAppraisal>(list);
-		System.out.println(">>>>>>>>>查询分页结果" + pageInfo.getList().size());
+		System.out.println("2>>>>>>>>>查询分页结果" + pageInfo.getList().size());
 
 		LayuiTableData data = new LayuiTableData();
 		data.setData(pageInfo.getList());

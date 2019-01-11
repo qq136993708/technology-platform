@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <script src="/layuiadmin/layui/layui.js"></script>
+</head>
+<body>
+
+<!--<div class="layui-tab layui-tab-brief" lay-filter="component-tabs-hash">-->
+    <!--<ul class="layui-tab-title">-->
+        <!--<li class="layui-this" lay-id="11">科研人才</li>-->
+        <!--<li lay-id="22">科研合同</li>-->
+    <!--</ul>-->
+    <!--<div class="layui-tab-content">-->
+        <!--<div class="layui-tab-item layui-tab-i layui-show">-->
+
+            <div class="selector">
+                <div class="cost">
+                    <div class="selector-left">费用类别：</div>
+                    <div class="selector-right">
+                        <ul>
+                            <#list define1List as t>
+                            <li>
+                                <a href="javascript:;">${t}</a>
+                            </li>
+                        </#list>
+                        </ul>
+                    </div>
+                </div>
+                <div class="institute">
+                    <div class="selector-left">研究院：</div>
+                    <div class="selector-right">
+                        <ul>
+                            <#list define21List as t>
+                            <li>
+                                <a href="javascript:;">${t}</a>
+                            </li>
+                        </#list>
+
+                        </ul>
+                    </div>
+                </div>
+                <div class="system">
+                    <div class="selector-left">其他系统标识：</div>
+                    <div class="selector-right">
+                        <ul>
+                            <#list type_flagList as t>
+                            <li>
+                                <a href="javascript:;">${t}</a>
+                            </li>
+                        </#list>
+
+                        </ul>
+                    </div>
+                </div>
+                <div class="specialty">
+                    <div class="selector-left">专业类别：</div>
+                    <div class="selector-right">
+                        <ul>
+                            <#list zylbList as t>
+                            <li>
+                                <a href="javascript:;">${t}</a>
+                            </li>
+                        </#list>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="conditionNew layui-hide">
+                    <div class="selector-left">已选条件：</div>
+                    <div class="selector-right">
+                        <ul>
+
+                        </ul>
+                        <div class="dele">
+                            <a href="javascript:;">清除全部</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="searchBox">
+                <!-- 国家项目、重大专项、重点项目、其他项目   -->
+                <input type="hidden" name="project_property" value="${project_property}"  id="project_property">
+                <!-- 新开项目、续建项目、完工项目  -->
+                <input type="hidden" name="project_scope" value="${project_scope}"  id="project_scope">
+                <!-- 装备的各种技术类型 -->
+                <input type="hidden" name="zylb" value="${zylb}"  id="zylb">
+                <!-- 各个处室 -->
+                <input type="hidden" name="zycmc" value="${zycmc}"  id="zycmc">
+
+                <input type="hidden" name="define1"     value="${define1}"   id="define1">
+                <input type="hidden" name="type_flag"  value="${type_flag}"  id="type_flag">
+                <input type="hidden" name="define2"    value="${define2}"    id="define2">
+
+                <input type="hidden" name="projectId"  value="${projectId}"  id="projectId">
+                <input type="hidden" name="keyword"  value="${keyword}"  id="keyword">
+
+
+                <input type="hidden" name="count"  value=""  id="count">
+
+
+
+                <!--查询条件-->
+                <!--
+                <label class="dateInput">
+                    <span>合同号</span>
+                    <input type="text" name="hth" title="合同号" autocomplete="off" class="form-control" id="hth">
+                </label>
+                资本性、费用性
+                <label class="dateInput">
+                    <span>费用类别</span>
+                    <input type="text" name="define1" value="${define1}"  title="费用类别" autocomplete="off" class="form-control"  id="define1">
+                </label>
+                8大院等细分结构
+                <label class="dateInput">
+                    <span>研究院</span>
+                    <input type="text" name="define2" value="${define2}"  title="研究院" autocomplete="off" class="form-control"  id="define2">
+                </label>
+                直属研究院、分子公司、集团等9种类型
+                <label class="dateInput">
+                    <span>分公司</span>
+                    <input type="text" name="define3" value="${define2}"  title="分公司" autocomplete="off" class="form-control"  id="define3">
+                </label> -->
+
+
+                <label class="dateInput">
+                    <span>项目名称</span>
+                    <input type="text" name="xmmc" title="项目名称" autocomplete="off" class="form-control" id="xmmc">
+                </label>
+
+                <label class="dateInput">
+                    <span>月份</span>
+                    <input type="text" name="nd" placeholder="请选择月份" title="月份" value="${nd}"  autocomplete="off" class="form-control" id="nd">
+                </label>
+
+
+                <!--按钮组-->
+                <div class="btnGroup">
+                    <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg"  onclick="renderTable()">查询</button>
+                </div>
+
+
+
+            </div>
+
+            <div class="tableBox">
+                <table id="processdef-table" class="layui-hide" lay-filter="tableEvent"></table>
+            </div>
+        <!--</div>-->
+
+        <!--<div class="layui-tab-item layui-tab-i">内容2</div>-->
+    <!--</div>-->
+<!--</div>-->
+
+    <!--选择器-->
+
+
+</body>
+</html>
+<!--表格数据操作js-->
+<script src="/common/js/jquery-1.11.3.min.js"></script>
+<script>
+    var table,selectRowData;
+    var xmmc=$('#xmmc').val();
+
+    layui.config({
+        base: '/layuiadmin/lib/extend/'
+    }).use(['jquery','form', 'laydate','table','laypage','element'], function(){
+        $ = layui.jquery
+            ,table = layui.table
+            ,form = layui.form
+            ,laydate = layui.laydate,
+            form.render(null, 'component-form-group');
+        laydate.render({
+            elem: '#nd'
+            ,type: 'year'
+        });
+        //加载表格
+        renderTable();
+        //移除表头的复选框,去掉全选
+        $(".layui-table-header table thead th input").remove();
+
+        // 触发不同的按钮事件
+        var $ = layui.$, active = {
+        };
+        //监听排序
+        table.on('sort(model-table)', function(obj){
+            console.log(this, obj.field, obj.type)
+            //return;
+            //服务端排序
+            table.reload('model-table', {
+                initSort: obj,
+                page: {curr: 1}, //重新从第一页开始
+                where: { //重新请求服务端
+                    key: obj.field, //排序字段
+                    order: obj.type //排序方式
+                }
+            });
+        });
+        //区别按钮属性
+        $('.layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+        if($(".specialty ul li").length>=25){
+            $(".specialty .selector-right").css({"height":"80px","overflow-y":"scroll"})
+        }
+
+        /*选择器*/
+        /*循环生成*/
+        //费用类别
+        /* $(".cost ul").append("<li><a href='javascript:;'>"+"资本性"+"</a> </li>");
+        //研究院
+        $(".institute ul").append("<li><a href='javascript:;'>"+"资本性"+"</a> </li>");
+        //其他系统标识
+        $(".system ul").append("<li><a href='javascript:;'>"+"资本性"+"</a> </li>");
+        //专业类别
+        $(".specialty ul").append("<li><a href='javascript:;'>"+"资本性"+"</a> </li>"); */
+        $(".selector>div ul li a").click(function () {
+            if($(this).parents("li").hasClass("layui-this")){
+                $(this).parents("li").removeClass("layui-this");
+                var htmlThis=$(this).html();
+                $(".conditionNew ul li a").each(function () {
+                    if(htmlThis.indexOf($(this).html())!= -1 ){
+                        $(this).parents("li").remove();
+                        return false;
+                    }
+                });
+            }else {
+                $(this).parents("li").addClass("layui-this");
+                var htmlName=$(this).parents(".selector-right").prev().html();
+                var htmlThis=$(this).html();
+                $(".conditionNew").removeClass("layui-hide");
+                $(".conditionNew ul").append("<li>"+htmlName+"<a href='javascript:;'>"+htmlThis+"</a></li>");
+                $(".conditionNew ul li a").click(function () {
+                    $(this).parents("li").remove();
+                });
+                $(".conditionNew ul li a").click(function () {
+                    var htmlThis=$(this).html();
+                    $(".selector-right ul li a").each(function () {
+                        if(htmlThis.indexOf($(this).html())!= -1 ){
+                            $(this).parents("li").removeClass("layui-this");
+                            return false;
+                        }
+                    });
+                });
+                $(".conditionNew .dele").click(function () {
+                    $(".conditionNew ul li").remove();
+                    $(".selector-right ul li").removeClass("layui-this");
+                    $(".conditionNew").addClass("layui-hide");
+                });
+            }
+        });
+    });
+
+
+    function renderTable()
+    {
+
+        var costSelectedItem="",instituteSelectedItem="",systemSelectedItem="",specialtySelectedItem="";
+        $(".cost ul li").each(function () {
+            if($(this).attr("class")=="layui-this"){
+                costSelectedItem+=$(this).find("a").html()+',';
+            }
+        });
+        $(".institute ul li").each(function () {
+            if($(this).attr("class")=="layui-this"){
+                instituteSelectedItem+=$(this).find("a").html()+',';
+            }
+        });
+        $(".system ul li").each(function () {
+            if($(this).attr("class")=="layui-this"){
+                systemSelectedItem+=$(this).find("a").html()+',';
+            }
+        });
+        $(".specialty ul li").each(function () {
+            if($(this).attr("class")=="layui-this"){
+                specialtySelectedItem+=$(this).find("a").html()+',';
+            }
+        });
+        costSelectedItem=costSelectedItem.slice(0,costSelectedItem.length-1);
+        instituteSelectedItem=instituteSelectedItem.slice(0,instituteSelectedItem.length-1);
+        systemSelectedItem=systemSelectedItem.slice(0,systemSelectedItem.length-1);
+        specialtySelectedItem=specialtySelectedItem.slice(0,specialtySelectedItem.length-1);
+        //alert("specialtySelectedItem="+specialtySelectedItem);
+
+        var index = layer.load(1, {
+            shade: [0.1,'#fff'] //0.1透明度的白色背景
+        });
+
+        //渲染
+        table.render({
+            elem: '#processdef-table',
+            url: '/fullSearch/getTableDataScientific',
+            method:"POST",
+            where: {param: {
+                    "nd":$("#nd").val(),
+                    "xmmc":$("#xmmc").val(),
+                    "define1":costSelectedItem,
+                    "define2":instituteSelectedItem,
+                    "type_flag":systemSelectedItem,
+                    "zycmc":$("#zycmc").val(),
+                    "zylb":specialtySelectedItem,
+                    "project_scope":$("#project_scope").val(),
+                    "project_property":$("#project_property").val(),
+                    "keyword":$("#keyword").val(),
+                    "projectId":$("#projectId").val()
+
+                }},
+            limit: 15,
+            id: 'processdef-table',
+            height: commonDislodgeTable(),
+            page: {
+                groups: 5,
+                limits: [15,30,45,60],
+                layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
+                first: '首页', //不显示首页
+                last: '尾页', //不显示尾页
+                theme: '#0F9EE0'
+            },
+            cols: [[
+                {title:'序号',               type:'numbers', width: '4%'},
+                {field:'nd',               title:'年度',             style:'cursor: pointer;',align: 'center', width: '150'},
+                {field:'hth',              title:'合同号',            style:'cursor: pointer;',align: 'center', width: '150'},
+                {field:'xmmc',             title:'项目名称',           style:'cursor: pointer;',align: 'left', width: '380'},
+                {field:'jf',               title:'项目经费总额（万元）',        style:'cursor: pointer;',align: 'center', width: '150'},
+                {field:'define1',          title:'资本/费用',           style:'cursor: pointer;',align: 'center', width: '150'},
+                {field:'define2',          title:'研究院',            style:'cursor: pointer;',align: 'left', width: '150'},
+                {field:'define3',          title:'其他系统标识',        style:'cursor: pointer;',align: 'left', width: '150'},
+                {field:'zylb',             title:'专业类别',          style:'cursor: pointer;',align: 'left', width: '150'},
+                {field:'fzdw',             title:'项目类别描述',        style:'cursor: pointer;',align: 'left', width: '150'},
+                {field:'parentName',       title:'父项目名',     style:'cursor: pointer;',align: 'left', width: '150'}
+
+            ]],
+            done: function (res, curr, count) {
+                // 点击行联动选择框--单选
+                $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+                    var index=parseInt($(this).index()+1);
+                    $('tr').removeClass('layui-table-click');
+                    $(this).addClass('layui-table-click');
+                    $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked");
+                    $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                    selectRowData=res.data[index-1];
+                });
+                parent.$("#keyan").html(count);
+                layer.close(index);
+            }
+        });
+    }
+</script>
+
+</body>
+</html>

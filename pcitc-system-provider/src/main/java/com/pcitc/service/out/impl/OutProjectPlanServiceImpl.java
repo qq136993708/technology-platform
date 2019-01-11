@@ -247,20 +247,20 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 		PageHelper.startPage(pageNum, pageSize);
 
 		HashMap<String, Object> hashmap = new HashMap<String, Object>();
-		OutProjectPlan opi = new OutProjectPlan();
+		if (param.getOrderKey() != null && !StrUtil.isBlankOrNull(param.getOrderKey().toString())) {
+			// 排序，因为select后有关键字，自己手动在sql中调整。否则直接PageHelper.orderBy(param.getOrderKey().toString() + " " + param.getOrderType());
+			hashmap.put("orderKey", param.getOrderKey());
+			hashmap.put("orderType", param.getOrderType());
+		}
 		if(param.getParam().get("xmmc") !=null && !StringUtils.isBlank(param.getParam().get("xmmc")+"")){
-			opi.setXmmc((String) param.getParam().get("xmmc"));
 			hashmap.put("xmmc", param.getParam().get("xmmc"));
 		}
 		
 		if(param.getParam().get("hth") !=null && !StringUtils.isBlank(param.getParam().get("hth")+"")){
-			opi.setHth((String) param.getParam().get("hth"));
 			hashmap.put("hth", param.getParam().get("hth"));
 		}
 		// 资本性、费用性
 		if(param.getParam().get("define1") !=null && !StringUtils.isBlank(param.getParam().get("define1")+"")){
-			opi.setDefine1((String) param.getParam().get("define1"));
-			
 			List define1 = new ArrayList();
 			String[] temS = param.getParam().get("define1").toString().split(",");
 			for (int i = 0; i < temS.length; i++) {
@@ -271,8 +271,6 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 		
 		// 8大院等细分结构
 		if(param.getParam().get("define2") !=null && !StringUtils.isBlank(param.getParam().get("define2")+"")){
-			opi.setDefine2((String) param.getParam().get("define2"));
-			
 			List define2 = new ArrayList();
 			String[] temS = param.getParam().get("define2").toString().split(",");
 			for (int i = 0; i < temS.length; i++) {
@@ -283,8 +281,6 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 		
 		// 国家项目、重大专项、重点项目、其他项目
 		if(param.getParam().get("project_property") !=null && !StringUtils.isBlank(param.getParam().get("project_property")+"")){
-			opi.setProjectProperty((String) param.getParam().get("project_property"));
-			
 			List project_property = new ArrayList();
 			String[] temS = param.getParam().get("project_property").toString().split(",");
 			for (int i = 0; i < temS.length; i++) {
@@ -306,8 +302,6 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 		
 		// 装备的各种技术类型
 		if(param.getParam().get("zylb") !=null && !StringUtils.isBlank(param.getParam().get("zylb")+"")){
-			opi.setZylb((String) param.getParam().get("zylb"));
-			
 			List zylb = new ArrayList();
 			String[] temS = param.getParam().get("zylb").toString().split(",");
 			for (int i = 0; i < temS.length; i++) {
@@ -318,8 +312,6 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 		
 		// 各个处室
 		if(param.getParam().get("zycmc") !=null && !StringUtils.isBlank(param.getParam().get("zycmc")+"")){
-			opi.setZycmc((String) param.getParam().get("zycmc"));
-			
 			List zycmc = new ArrayList();
 			String[] temS = param.getParam().get("zycmc").toString().split(",");
 			for (int i = 0; i < temS.length; i++) {
@@ -329,7 +321,6 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 		}
 		
 		if(param.getParam().get("nd") !=null && !StringUtils.isBlank(param.getParam().get("nd")+"")){
-			opi.setNd((String) param.getParam().get("nd"));
 			hashmap.put("nd", param.getParam().get("nd"));
 		}
 		System.out.println("1234>>>>>>>>>ysnd" + param.getParam().get("ysnd"));

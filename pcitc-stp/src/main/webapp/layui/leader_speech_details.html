@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>领导讲话</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="Shortcut Icon" href="/layuiadmin/layui/images/favicon.ico" />
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/adminStp.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/oneLevel.css" media="all">
+    <script src="/layuiadmin/layui/layui.js"></script>
+    <style>
+        html{background: #fff;}
+    </style>
+</head>
+<body>
+<div class="layui-leader-speech layui-leader-details">
+    <div class="layui-row">
+        <div class="layui-col-md12 layui-speech-m">
+            <a href="/index" target="_parent">首页&nbsp;&nbsp;>&nbsp;&nbsp;</a>
+            <a href="/instituteIndex?url=/layui/leader_speech.html" target="_parent">领导讲话&nbsp;&nbsp;>&nbsp;&nbsp;</a>
+            <span>集团领导讲话</span>
+        </div>
+        <div class="layui-col-md12 layui-speech-d">
+            <!--视频-->
+            <h4>国家主席习近平发表二〇一九年新年贺词</h4>
+            <span id="time" class="time">2019年01月03日07:21</span><span>来源：</span><span id="source">人民网－人民日报</span>
+            <p>视频</p>
+            <!--文本-->
+            <div class="details">
+                <h4>国家主席习近平发表二〇一九年新年贺词</h4>
+                <h5 class="title">——在《告台湾同胞书》发表40周年纪念会上的讲话</h5>
+                <h5 class="title-time">（2019年1月2日）</h5>
+                <span id="time" class="time">2019年01月03日07:21</span><span>来源：</span><span id="source">人民网－人民日报</span>
+                <p>同志们，同胞们，朋友们：</p>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['jquery'], function(){
+        var $=layui.jquery;
+        parent.$("html").css("background","#fff");
+    });
+</script>
+</body>
+</html>

@@ -346,7 +346,7 @@ public interface OutProjectService {
 	/**
      * 领导首页-十条龙，十条龙项目的详情
      */
-	public List getDragonProjectDetails(HashMap<String, String> map);
+	public List getDragonProjectDetails(HashMap<String, Object> map);
 	
 	/**
      * @param nd
@@ -357,9 +357,14 @@ public interface OutProjectService {
 	
 	
 	/**
-	 * 获取详细的查询条件
+	 * 获取项目详情的查询维度（条件）
 	 */
 	public List getProjectInfoSelectCondition(HashMap<String, String> map);
+	
+	/**
+	 * 获取十条龙详情的查询维度（条件）
+	 */
+	public List getDragonProjectInfoSelectCondition(HashMap<String, String> map);
 	
 	/**
      * @param nd

@@ -104,7 +104,7 @@
 /*配置页面*/
 .layui-layer-lan .layui-layer-title{background-color: #002a53 !important;;text-align: center;height: 60px;
 line-height: 60px;font-size: 22px;}
-.module{background-color: white;overflow-y:scroll;height: 457px; }
+.module{background-color: white;height: 457px; }
 .module>p{background-color: #e9e8f4;font-size: 18px;text-indent: 20px;height: 40px;line-height: 40px;}
 .module .selectOption{padding: 30px;}
 .module .selectOption>div{display: flex;}
@@ -124,7 +124,51 @@ line-height: 60px;font-size: 22px;}
     line-height: 36px;padding: 0 20px;font-size: 18px;margin-top: 12px;cursor: pointer;}
 .moduleB .form-bottom-btns .layui-btn-d{height: 36px;background-color: #002a53;color: white;border: 1px solid #002a53;
     line-height: 36px;padding: 0 20px;font-size: 18px;margin-top: 12px;cursor: pointer;}
-/*1366*/
+/*领导页面*/
+.layui-speech-m{margin-bottom: 50px;font-size: 14px;}
+.layui-speech-m a{color: #999999;}
+.layui-speech-m span{color: #000000;}
+.layui-leader-page{    width: 96%;padding-bottom: 20px;margin: 10px auto;}
+.layui-leader-list,.layui-leader-details{width: 75%;margin: 0 auto;}
+.layui-leader-speech .layui-col-md9 .layui-col-md6,.layui-leader-list .layui-col-md8{padding-right: 60px;}
+.layui-speech .news>p{font-size: 18px;color: #de252a;text-indent: 36px;height: 32px;margin-bottom: 20px;
+    border-bottom: 1px solid #dfdfdf;line-height: 18px;}
+.layui-speech .news>p a{color: #878787;font-size: 16px;float: right;}
+.layui-speech-new{background: url("/layuiadmin/layui/images/icon-speech-new.png") no-repeat;}
+.layui-speech-new ul li:nth-child(1){display: flex;margin-bottom: 12px;height: 148px;overflow: hidden;}
+.layui-speech-new ul li img{float: left;}
+.layui-speech-new ul li .details{float: left;width: 100%;padding-left: 28px;
+    text-overflow: ellipsis;}
+.layui-speech-new .details p{text-align: center;font-weight: bold;color: #000;font-size: 22px;height: 58px;
+    line-height:42px; }
+.layui-speech-new .details span{font-size: 16px;text-indent: 2em;line-height: 20px;color: #333;
+    display: inline-block;}
+.layui-speech ul li a{font-size: 16px;color: #666;height: 33px;line-height: 33px;width: 78%; overflow: hidden;
+    text-overflow: ellipsis;white-space: nowrap;display: inline-block;text-indent: 20px;
+    background: url("/layuiadmin/layui/images/icon-speech-g.png") no-repeat center left;}
+.layui-speech .layui-speech-new ul li a{height: 30px;line-height: 30px;}
+.layui-speech .study ul li a{height:auto;width: 100%;text-indent: 0;background: none;}
+.layui-speech .study ul li a img{display: block;}
+.study{background: url("/layuiadmin/layui/images/icon-study.png") no-repeat;}
+.layui-speech ul li.video a{background: url("/layuiadmin/layui/images/icon-video-s.png") no-repeat center left;}
+.layui-speech ul li a:hover{color: #de2726;}
+.layui-speech ul li>span{color:#aaaaaa;float: right;display: inline-block;    position: relative;
+    top: 6px;}
+.layui-speech .layui-speech-new ul li>span{top: 5px;}
+.group{margin-top: 50px;background: url("/layuiadmin/layui/images/icon-group.png") no-repeat;}
+.country{background: url("/layuiadmin/layui/images/icon-country.png") no-repeat;}
+.science{background: url("/layuiadmin/layui/images/icon-science.png") no-repeat;margin-top: 50px;}
+.study ul{display: block !important;}
+.layui-leader-list .group{margin-top: 0;width: 100%;}
+.layui-speech-d{text-align: center;}
+.layui-speech-d span{ font-size: 14px;color: #aaa;display: inline-block;padding: 50px 0 36px;}
+.layui-speech-d .details span{margin: 20px 0 40px;padding: 0}
+.layui-speech-d .details p{text-align: left;font-size: 18px;color: #666666;}
+.layui-speech-d h4{font-size: 26px;color: #000000;}
+.layui-speech-d h5{font-size: 16px;color: #000000;}
+.layui-speech-d .title{margin-top: 26px;}
+.layui-speech-d .title-time{margin-top: 20px;}
+.layui-speech-d .time{margin-right: 10px;}
 /*
 @media screen and (max-height: 946px) {
     .layui-level-main{width: 88%;}

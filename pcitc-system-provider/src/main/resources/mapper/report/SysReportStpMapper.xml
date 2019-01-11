@@ -1,0 +1,697 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pcitc.mapper.report.SysReportStpMapper">
+
+<resultMap id="BaseResultMap" type="com.pcitc.base.report.SysReportStp">
+
+    <id column="data_id" jdbcType="VARCHAR" property="dataId" />
+    <result column="report_name" jdbcType="VARCHAR" property="reportName" />
+    <result column="report_desc" jdbcType="VARCHAR" property="reportDesc" />
+    <result column="report_url" jdbcType="VARCHAR" property="reportUrl" />
+    <result column="report_module" jdbcType="VARCHAR" property="reportModule" />
+    <result column="bak1" jdbcType="VARCHAR" property="bak1" />
+    <result column="bak2" jdbcType="VARCHAR" property="bak2" />
+    <result column="bak3" jdbcType="VARCHAR" property="bak3" />
+    <result column="bak4" jdbcType="VARCHAR" property="bak4" />
+    <result column="bak5" jdbcType="VARCHAR" property="bak5" />
+    <result column="bak6" jdbcType="VARCHAR" property="bak6" />
+    <result column="sys_flag" jdbcType="VARCHAR" property="sysFlag" />
+    <result column="data_order" jdbcType="INTEGER" property="dataOrder" />
+    <result column="del_flag" jdbcType="INTEGER" property="delFlag" />
+    <result column="create_date" jdbcType="VARCHAR" property="createDate" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="create_user_disp" jdbcType="VARCHAR" property="createUserDisp" />
+    <result column="modify_date" jdbcType="VARCHAR" property="modifyDate" />
+    <result column="modify_user" jdbcType="VARCHAR" property="modifyUser" />
+    <result column="modify_user_disp" jdbcType="VARCHAR" property="modifyUserDisp" />
+</resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                    #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" prefixOverrides="and" suffix=")">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                    #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+<sql id="Base_Column_List">
+        data_id,
+        report_name,
+        report_desc,
+        report_url,
+        report_module,
+        bak1,
+        bak2,
+        bak3,
+        bak4,
+        bak5,
+        bak6,
+        sys_flag,
+        data_order,
+        del_flag,
+        create_date,
+        create_user,
+        create_user_disp,
+        modify_date,
+        modify_user,
+        modify_user_disp
+</sql>
+
+    <select id="selectByExample" parameterType="com.pcitc.base.report.SysReportStpExample" resultMap="BaseResultMap">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List" />
+        from sys_report_stp
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        <if test="limit != null">
+            <if test="offset != null">
+                limit ${offset}, ${limit}
+            </if>
+            <if test="offset == null">
+                limit ${limit}
+            </if>
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from sys_report_stp
+        where data_id = #{dataId,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from sys_report_stp
+        where data_id = #{dataId,jdbcType=VARCHAR}
+    </delete>
+    <delete id="deleteByExample" parameterType="com.pcitc.base.report.SysReportStpExample">
+        delete from sys_report_stp
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+    </delete>
+    <insert id="insert" parameterType="com.pcitc.base.report.SysReportStp">
+        insert into sys_report_stp (
+            data_id,
+            report_name,
+            report_desc,
+            report_url,
+            report_module,
+            bak1,
+            bak2,
+            bak3,
+            bak4,
+            bak5,
+            bak6,
+            sys_flag,
+            data_order,
+            del_flag,
+            create_date,
+            create_user,
+            create_user_disp,
+            modify_date,
+            modify_user,
+            modify_user_disp
+        )
+        values (
+
+    #{dataId,jdbcType=VARCHAR},
+    #{reportName,jdbcType=VARCHAR},
+    #{reportDesc,jdbcType=VARCHAR},
+    #{reportUrl,jdbcType=VARCHAR},
+    #{reportModule,jdbcType=VARCHAR},
+    #{bak1,jdbcType=VARCHAR},
+    #{bak2,jdbcType=VARCHAR},
+    #{bak3,jdbcType=VARCHAR},
+    #{bak4,jdbcType=VARCHAR},
+    #{bak5,jdbcType=VARCHAR},
+    #{bak6,jdbcType=VARCHAR},
+    #{sysFlag,jdbcType=VARCHAR},
+    #{dataOrder,jdbcType=INTEGER},
+    #{delFlag,jdbcType=INTEGER},
+    #{createDate,jdbcType=VARCHAR},
+    #{createUser,jdbcType=VARCHAR},
+    #{createUserDisp,jdbcType=VARCHAR},
+    #{modifyDate,jdbcType=VARCHAR},
+    #{modifyUser,jdbcType=VARCHAR},
+    #{modifyUserDisp,jdbcType=VARCHAR}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.pcitc.base.report.SysReportStp">
+        insert into sys_report_stp
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+
+            <if test="dataId != null">
+            data_id,
+            </if>
+            <if test="reportName != null">
+            report_name,
+            </if>
+            <if test="reportDesc != null">
+            report_desc,
+            </if>
+            <if test="reportUrl != null">
+            report_url,
+            </if>
+            <if test="reportModule != null">
+            report_module,
+            </if>
+            <if test="bak1 != null">
+            bak1,
+            </if>
+            <if test="bak2 != null">
+            bak2,
+            </if>
+            <if test="bak3 != null">
+            bak3,
+            </if>
+            <if test="bak4 != null">
+            bak4,
+            </if>
+            <if test="bak5 != null">
+            bak5,
+            </if>
+            <if test="bak6 != null">
+            bak6,
+            </if>
+            <if test="sysFlag != null">
+            sys_flag,
+            </if>
+            <if test="dataOrder != null">
+            data_order,
+            </if>
+            <if test="delFlag != null">
+            del_flag,
+            </if>
+            <if test="createDate != null">
+            create_date,
+            </if>
+            <if test="createUser != null">
+            create_user,
+            </if>
+            <if test="createUserDisp != null">
+            create_user_disp,
+            </if>
+            <if test="modifyDate != null">
+            modify_date,
+            </if>
+            <if test="modifyUser != null">
+            modify_user,
+            </if>
+            <if test="modifyUserDisp != null">
+            modify_user_disp
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+
+
+            <if test="dataId != null">
+            #{dataId ,jdbcType=VARCHAR},
+            </if>
+            <if test="reportName != null">
+            #{reportName ,jdbcType=VARCHAR},
+            </if>
+            <if test="reportDesc != null">
+            #{reportDesc ,jdbcType=VARCHAR},
+            </if>
+            <if test="reportUrl != null">
+            #{reportUrl ,jdbcType=VARCHAR},
+            </if>
+            <if test="reportModule != null">
+            #{reportModule ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak1 != null">
+            #{bak1 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak2 != null">
+            #{bak2 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak3 != null">
+            #{bak3 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak4 != null">
+            #{bak4 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak5 != null">
+            #{bak5 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak6 != null">
+            #{bak6 ,jdbcType=VARCHAR},
+            </if>
+            <if test="sysFlag != null">
+            #{sysFlag ,jdbcType=VARCHAR},
+            </if>
+            <if test="dataOrder != null">
+            #{dataOrder ,jdbcType=INTEGER},
+            </if>
+            <if test="delFlag != null">
+            #{delFlag ,jdbcType=INTEGER},
+            </if>
+            <if test="createDate != null">
+            #{createDate ,jdbcType=VARCHAR},
+            </if>
+            <if test="createUser != null">
+            #{createUser ,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserDisp != null">
+            #{createUserDisp ,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyDate != null">
+            #{modifyDate ,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyUser != null">
+            #{modifyUser ,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyUserDisp != null">
+            #{modifyUserDisp ,jdbcType=VARCHAR}
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="com.pcitc.base.report.SysReportStpExample" resultType="java.lang.Long">
+        select count(*) from sys_report_stp
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause" />
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update sys_report_stp
+        <set>
+
+            <if test="record.dataId != null">
+                data_id=#{record.dataId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.reportName != null">
+                report_name=#{record.reportName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.reportDesc != null">
+                report_desc=#{record.reportDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="record.reportUrl != null">
+                report_url=#{record.reportUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="record.reportModule != null">
+                report_module=#{record.reportModule,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bak1 != null">
+                bak1=#{record.bak1,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bak2 != null">
+                bak2=#{record.bak2,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bak3 != null">
+                bak3=#{record.bak3,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bak4 != null">
+                bak4=#{record.bak4,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bak5 != null">
+                bak5=#{record.bak5,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bak6 != null">
+                bak6=#{record.bak6,jdbcType=VARCHAR},
+            </if>
+            <if test="record.sysFlag != null">
+                sys_flag=#{record.sysFlag,jdbcType=VARCHAR},
+            </if>
+            <if test="record.dataOrder != null">
+                data_order=#{record.dataOrder,jdbcType=INTEGER},
+            </if>
+            <if test="record.delFlag != null">
+                del_flag=#{record.delFlag,jdbcType=INTEGER},
+            </if>
+            <if test="record.createDate != null">
+                create_date=#{record.createDate,jdbcType=VARCHAR},
+            </if>
+            <if test="record.createUser != null">
+                create_user=#{record.createUser,jdbcType=VARCHAR},
+            </if>
+            <if test="record.createUserDisp != null">
+                create_user_disp=#{record.createUserDisp,jdbcType=VARCHAR},
+            </if>
+            <if test="record.modifyDate != null">
+                modify_date=#{record.modifyDate,jdbcType=VARCHAR},
+            </if>
+            <if test="record.modifyUser != null">
+                modify_user=#{record.modifyUser,jdbcType=VARCHAR},
+            </if>
+            <if test="record.modifyUserDisp != null">
+                modify_user_disp=#{record.modifyUserDisp,jdbcType=VARCHAR}
+            </if>
+
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update sys_report_stp
+        set
+        data_id=#{record.dataId,jdbcType=VARCHAR},
+        report_name=#{record.reportName,jdbcType=VARCHAR},
+        report_desc=#{record.reportDesc,jdbcType=VARCHAR},
+        report_url=#{record.reportUrl,jdbcType=VARCHAR},
+        report_module=#{record.reportModule,jdbcType=VARCHAR},
+        bak1=#{record.bak1,jdbcType=VARCHAR},
+        bak2=#{record.bak2,jdbcType=VARCHAR},
+        bak3=#{record.bak3,jdbcType=VARCHAR},
+        bak4=#{record.bak4,jdbcType=VARCHAR},
+        bak5=#{record.bak5,jdbcType=VARCHAR},
+        bak6=#{record.bak6,jdbcType=VARCHAR},
+        sys_flag=#{record.sysFlag,jdbcType=VARCHAR},
+        data_order=#{record.dataOrder,jdbcType=INTEGER},
+        del_flag=#{record.delFlag,jdbcType=INTEGER},
+        create_date=#{record.createDate,jdbcType=VARCHAR},
+        create_user=#{record.createUser,jdbcType=VARCHAR},
+        create_user_disp=#{record.createUserDisp,jdbcType=VARCHAR},
+        modify_date=#{record.modifyDate,jdbcType=VARCHAR},
+        modify_user=#{record.modifyUser,jdbcType=VARCHAR},
+        modify_user_disp=#{record.modifyUserDisp,jdbcType=VARCHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause" />
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.report.SysReportStp">
+        update sys_report_stp
+        <set>
+
+            <if test="reportName != null">
+            report_name=#{reportName ,jdbcType=VARCHAR},
+            </if>
+            <if test="reportDesc != null">
+            report_desc=#{reportDesc ,jdbcType=VARCHAR},
+            </if>
+            <if test="reportUrl != null">
+            report_url=#{reportUrl ,jdbcType=VARCHAR},
+            </if>
+            <if test="reportModule != null">
+            report_module=#{reportModule ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak1 != null">
+            bak1=#{bak1 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak2 != null">
+            bak2=#{bak2 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak3 != null">
+            bak3=#{bak3 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak4 != null">
+            bak4=#{bak4 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak5 != null">
+            bak5=#{bak5 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak6 != null">
+            bak6=#{bak6 ,jdbcType=VARCHAR},
+            </if>
+            <if test="sysFlag != null">
+            sys_flag=#{sysFlag ,jdbcType=VARCHAR},
+            </if>
+            <if test="dataOrder != null">
+            data_order=#{dataOrder ,jdbcType=INTEGER},
+            </if>
+            <if test="delFlag != null">
+            del_flag=#{delFlag ,jdbcType=INTEGER},
+            </if>
+            <if test="createDate != null">
+            create_date=#{createDate ,jdbcType=VARCHAR},
+            </if>
+            <if test="createUser != null">
+            create_user=#{createUser ,jdbcType=VARCHAR},
+            </if>
+            <if test="createUserDisp != null">
+            create_user_disp=#{createUserDisp ,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyDate != null">
+            modify_date=#{modifyDate ,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyUser != null">
+            modify_user=#{modifyUser ,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyUserDisp != null">
+            modify_user_disp=#{modifyUserDisp ,jdbcType=VARCHAR}
+            </if>
+        </set>
+        where data_id = #{dataId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.pcitc.base.report.SysReportStp">
+        update sys_report_stp
+        set
+            report_name=#{reportName,jdbcType=VARCHAR},
+            report_desc=#{reportDesc,jdbcType=VARCHAR},
+            report_url=#{reportUrl,jdbcType=VARCHAR},
+            report_module=#{reportModule,jdbcType=VARCHAR},
+            bak1=#{bak1,jdbcType=VARCHAR},
+            bak2=#{bak2,jdbcType=VARCHAR},
+            bak3=#{bak3,jdbcType=VARCHAR},
+            bak4=#{bak4,jdbcType=VARCHAR},
+            bak5=#{bak5,jdbcType=VARCHAR},
+            bak6=#{bak6,jdbcType=VARCHAR},
+            sys_flag=#{sysFlag,jdbcType=VARCHAR},
+            data_order=#{dataOrder,jdbcType=INTEGER},
+            del_flag=#{delFlag,jdbcType=INTEGER},
+            create_date=#{createDate,jdbcType=VARCHAR},
+            create_user=#{createUser,jdbcType=VARCHAR},
+            create_user_disp=#{createUserDisp,jdbcType=VARCHAR},
+            modify_date=#{modifyDate,jdbcType=VARCHAR},
+            modify_user=#{modifyUser,jdbcType=VARCHAR},
+            modify_user_disp=#{modifyUserDisp,jdbcType=VARCHAR}
+        where data_id = #{dataId,jdbcType=VARCHAR}
+    </update>
+    <!-- 分页查询 -->
+        <select id="findSysFileKindByPage" parameterType="com.pcitc.base.report.SysReportStp"  resultMap="BaseResultMap">
+
+        select
+                    data_id,
+                    report_name,
+                    report_desc,
+                    report_url,
+                    report_module,
+                    bak1,
+                    bak2,
+                    bak3,
+                    bak4,
+                    bak5,
+                    bak6,
+                    sys_flag,
+                    data_order,
+                    del_flag,
+                    create_date,
+                    create_user,
+                    create_user_disp,
+                    modify_date,
+                    modify_user,
+                    modify_user_disp
+        from sys_report_stp
+        where 1=1
+                        <if test="dataId!=null and dataId!=''.toString()">
+                            and data_id like '%${dataId}%'
+                        </if>
+                        <if test="reportName!=null and reportName!=''.toString()">
+                            and report_name like '%${reportName}%'
+                        </if>
+                        <if test="reportDesc!=null and reportDesc!=''.toString()">
+                            and report_desc like '%${reportDesc}%'
+                        </if>
+                        <if test="reportUrl!=null and reportUrl!=''.toString()">
+                            and report_url like '%${reportUrl}%'
+                        </if>
+                        <if test="reportModule!=null and reportModule!=''.toString()">
+                            and report_module like '%${reportModule}%'
+                        </if>
+                        <if test="bak1!=null and bak1!=''.toString()">
+                            and bak1 like '%${bak1}%'
+                        </if>
+                        <if test="bak2!=null and bak2!=''.toString()">
+                            and bak2 like '%${bak2}%'
+                        </if>
+                        <if test="bak3!=null and bak3!=''.toString()">
+                            and bak3 like '%${bak3}%'
+                        </if>
+                        <if test="bak4!=null and bak4!=''.toString()">
+                            and bak4 like '%${bak4}%'
+                        </if>
+                        <if test="bak5!=null and bak5!=''.toString()">
+                            and bak5 like '%${bak5}%'
+                        </if>
+                        <if test="bak6!=null and bak6!=''.toString()">
+                            and bak6 like '%${bak6}%'
+                        </if>
+                        <if test="sysFlag!=null and sysFlag!=''.toString()">
+                            and sys_flag like '%${sysFlag}%'
+                        </if>
+                        <if test="dataOrder!=null and dataOrder!=''.toString()">
+                            and data_order like '%${dataOrder}%'
+                        </if>
+                        <if test="delFlag!=null and delFlag!=''.toString()">
+                            and del_flag like '%${delFlag}%'
+                        </if>
+                        <if test="createDate!=null and createDate!=''.toString()">
+                            and create_date like '%${createDate}%'
+                        </if>
+                        <if test="createUser!=null and createUser!=''.toString()">
+                            and create_user like '%${createUser}%'
+                        </if>
+                        <if test="createUserDisp!=null and createUserDisp!=''.toString()">
+                            and create_user_disp like '%${createUserDisp}%'
+                        </if>
+                        <if test="modifyDate!=null and modifyDate!=''.toString()">
+                            and modify_date like '%${modifyDate}%'
+                        </if>
+                        <if test="modifyUser!=null and modifyUser!=''.toString()">
+                            and modify_user like '%${modifyUser}%'
+                        </if>
+                        <if test="modifyUserDisp!=null and modifyUserDisp!=''.toString()">
+                            and modify_user_disp like '%${modifyUserDisp}%'
+                        </if>
+
+        <if test="iSortCol!=null and iSortCol!=''.toString()">
+            order by ${iSortCol} ${sSortDir_0}
+        </if>
+    </select>
+    <!-- 查询列表 -->
+    <select id="findSysReportStpList" parameterType="com.pcitc.base.report.SysReportStp" resultMap="BaseResultMap">
+        select
+                    data_id,
+                    report_name,
+                    report_desc,
+                    report_url,
+                    report_module,
+                    bak1,
+                    bak2,
+                    bak3,
+                    bak4,
+                    bak5,
+                    bak6,
+                    sys_flag,
+                    data_order,
+                    del_flag,
+                    create_date,
+                    create_user,
+                    create_user_disp,
+                    modify_date,
+                    modify_user,
+                    modify_user_disp
+        from sys_report_stp
+        where 1=1
+                        <if test="dataId!=null">
+                            and data_id = #{dataId,jdbcType=VARCHAR}
+                        </if>
+                        <if test="reportName!=null">
+                            and report_name = #{reportName,jdbcType=VARCHAR}
+                        </if>
+                        <if test="reportDesc!=null">
+                            and report_desc = #{reportDesc,jdbcType=VARCHAR}
+                        </if>
+                        <if test="reportUrl!=null">
+                            and report_url = #{reportUrl,jdbcType=VARCHAR}
+                        </if>
+                        <if test="reportModule!=null">
+                            and report_module = #{reportModule,jdbcType=VARCHAR}
+                        </if>
+                        <if test="bak1!=null">
+                            and bak1 = #{bak1,jdbcType=VARCHAR}
+                        </if>
+                        <if test="bak2!=null">
+                            and bak2 = #{bak2,jdbcType=VARCHAR}
+                        </if>
+                        <if test="bak3!=null">
+                            and bak3 = #{bak3,jdbcType=VARCHAR}
+                        </if>
+                        <if test="bak4!=null">
+                            and bak4 = #{bak4,jdbcType=VARCHAR}
+                        </if>
+                        <if test="bak5!=null">
+                            and bak5 = #{bak5,jdbcType=VARCHAR}
+                        </if>
+                        <if test="bak6!=null">
+                            and bak6 = #{bak6,jdbcType=VARCHAR}
+                        </if>
+                        <if test="sysFlag!=null">
+                            and sys_flag = #{sysFlag,jdbcType=VARCHAR}
+                        </if>
+                        <if test="dataOrder!=null">
+                            and data_order = #{dataOrder,jdbcType=VARCHAR}
+                        </if>
+                        <if test="delFlag!=null">
+                            and del_flag = #{delFlag,jdbcType=VARCHAR}
+                        </if>
+                        <if test="createDate!=null">
+                            and create_date = #{createDate,jdbcType=VARCHAR}
+                        </if>
+                        <if test="createUser!=null">
+                            and create_user = #{createUser,jdbcType=VARCHAR}
+                        </if>
+                        <if test="createUserDisp!=null">
+                            and create_user_disp = #{createUserDisp,jdbcType=VARCHAR}
+                        </if>
+                        <if test="modifyDate!=null">
+                            and modify_date = #{modifyDate,jdbcType=VARCHAR}
+                        </if>
+                        <if test="modifyUser!=null">
+                            and modify_user = #{modifyUser,jdbcType=VARCHAR}
+                        </if>
+                        <if test="modifyUserDisp!=null">
+                            and modify_user_disp = #{modifyUserDisp,jdbcType=VARCHAR}
+                        </if>
+
+        <if test="iSortCol!=null and iSortCol!=''.toString()">
+            order by ${iSortCol} ${sSortDir_0}
+        </if>
+    </select>
+</mapper>

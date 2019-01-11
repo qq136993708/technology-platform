@@ -100,7 +100,7 @@ public class OneLevelMainController {
 		private static final String dragon_03 = "http://pcitc-zuul/system-proxy/out-project-provider/dragon/institute/project-info";
 		private static final String dragon_count = "http://pcitc-zuul/system-proxy/out-provider/dragon/project-count";
 		private static final String getStlTable = "http://pcitc-zuul/system-proxy/out-project-provider/dragon/details";
-		
+		private static final String dragon_search_con = "http://pcitc-zuul/system-proxy/out-project-provider/dragon/select-condition/list";
 		
 
 		//科研投入
@@ -554,37 +554,13 @@ public class OneLevelMainController {
 		@RequestMapping(method = RequestMethod.GET, value = "/ten_dragon_table")
 		  public String ten_dragon_table(HttpServletRequest request) throws Exception
 		  {
-			 
-				
-				String nd=CommonUtil.getParameter(request, "nd", "");//项目名
-				String ysnd=CommonUtil.getParameter(request, "ysnd", "");//项目名
-				String xmmc=CommonUtil.getParameter(request, "xmmc", "");//项目名
-				String hth=CommonUtil.getParameter(request, "hth", "");//合同号
-				String define1=CommonUtil.getParameter(request, "define1", "");//资本性、费用性
-				String define2=CommonUtil.getParameter(request, "define2", "");//8大院等细分结构
-				String define3=CommonUtil.getParameter(request, "define3", "");//直属研究院、分子公司、集团等9种类型
-				String project_property=CommonUtil.getParameter(request, "project_property", "");//国家项目、重大专项、重点项目、其他项目
-				String project_scope=CommonUtil.getParameter(request, "project_scope", "");//新开项目、续建项目、完工项目
-				String zylb=CommonUtil.getParameter(request, "zylb", "");//装备的各种技术类型
-				String zycmc=CommonUtil.getParameter(request, "zycmc", "");//各个处室
-				
+				String nd=CommonUtil.getParameter(request, "nd", DateUtil.dateToStr(DateUtil.getLastYearDay(new Date()), DateUtil.FMT_YYYY));
 				
 				request.setAttribute("nd", nd);
-				request.setAttribute("ysnd", ysnd);
-				
-				
-				request.setAttribute("zycmc", zycmc);
-				request.setAttribute("xmmc", xmmc);
-				request.setAttribute("hth", hth);
-				request.setAttribute("define1", define1);
-				request.setAttribute("define2", define2);
-				request.setAttribute("define3", define3);
-				request.setAttribute("project_property", project_property);
-				request.setAttribute("project_scope", project_scope);
-				request.setAttribute("zylb", zylb);
-				
-				String projectId=CommonUtil.getParameter(request, "projectId", "");
-				request.setAttribute("projectId", projectId);
+				request.setAttribute("xmfl", CommonUtil.getParameter(request, "xmfl", ""));//项目分類：(公共领域，油气勘探.....)
+				request.setAttribute("xmzt", CommonUtil.getParameter(request, "xmzt", ""));//项目状态：（入龙、出龙、退龙...）
+				request.setAttribute("yjy", CommonUtil.getParameter(request, "yjy", ""));//研究院：8大院等细分结构
+				request.setAttribute("yjdw", CommonUtil.getParameter(request, "yjdw", ""));//一級單位：直属研究院、分子公司、集团等9种类型
 				
 				
 				Map<String, Object> paramsMap = new HashMap<String, Object>();
@@ -592,54 +568,46 @@ public class OneLevelMainController {
 				JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 				HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 				
-				ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(contract_dic, HttpMethod.POST, entity, JSONArray.class);
+				//ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(contract_dic, HttpMethod.POST, entity, JSONArray.class);
+				ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(dragon_search_con, HttpMethod.POST, entity, JSONArray.class);
+				System.out.println(JSON.toJSONString(responseEntity.getBody()));
+				
 				int statusCode = responseEntity.getStatusCodeValue();
 				if (statusCode == 200) 
 				{
 					 JSONArray jSONArray = responseEntity.getBody();
-					 List<String> define1List = new ArrayList<String>();
-					 List<String> define21List = new ArrayList<String>();//8大研究院 
-					 List<String> type_flagList = new ArrayList<String>();
-					 List<String> zylbList = new ArrayList<String>();
-					 List<String> zycmcList = new ArrayList<String>();
+					 List<String> xmflList = new ArrayList<String>();
+					 List<String> xmztList = new ArrayList<String>();
+					 List<String> yjyList = new ArrayList<String>();
+					 List<String> yjdwList = new ArrayList<String>();
+					
 					 for (int i = 0; i < jSONArray.size(); i++)
 			         {
-						    Map  object = (Map) jSONArray.get(i);
+						    Map<?,?>  object = (Map<?,?>) jSONArray.get(i);
 			                String showCode= (String)object.get("showCode");
 			                String showName= (String)object.get("showName");
-			                if(showCode.equals("define1"))
-			                {
-			                	if(showName!=null && !showName.equals(""))
-			                	{
-			                		define1List.add(showName);
-			                	}
-			                
-			                }
 			                if(showCode.equals("define2"))
 			                {
-			                	define21List.add(showName);
+			                	yjyList.add(showName);
 			                }
 			                if(showCode.equals("type_flag"))
 			                {
-			                	type_flagList.add(showName);
+			                	yjdwList.add(showName);
 			                }
-			                if(showCode.equals("zylb"))
+			                if(showCode.equals("xmlbmc"))
 			                {
-			                	zylbList.add(showName);
+			                	xmflList.add(showName);
 			                }
-			                if(showCode.equals("zycmc"))
+			                if(showCode.equals("status"))
 			                {
-			                	zycmcList.add(showName);
+			                	xmztList.add(showName);
 			                }
-			                
 			          }
 					 
-					 request.setAttribute("define1List", define1List);
-					 request.setAttribute("define21List", define21List);
-					 request.setAttribute("type_flagList", type_flagList);
-					 request.setAttribute("zylbList", zylbList);
-					 request.setAttribute("zycmcList", zycmcList);
-					
+					 request.setAttribute("yjyList", yjyList);
+					 request.setAttribute("yjdwList", yjdwList);
+					 request.setAttribute("xmflList", xmflList);
+					 request.setAttribute("xmztList", xmztList);
 				}
 		        return "stp/hana/home/oneLevelMain/ten_dragon_table";
 		  }
@@ -654,17 +622,42 @@ public class OneLevelMainController {
 		public String ten_dragon_table_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 
 	    	System.out.println(">>>>>>>>>>>>ten_dragon_table_data>param:" + JSONObject.toJSONString(param));
-	    	
-			LayuiTableData layuiTableData = new LayuiTableData();
-			HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
-			ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(ten_dragon_table_data, HttpMethod.POST, entity, LayuiTableData.class);
+	    	PageResult pageResult = new PageResult();
+			//String nd = CommonUtil.getParameter(request, "nd", DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+			//String companyCode = CommonUtil.getParameter(request, "companyCode", "");
+
+			Map<String, Object> paramsMap = new HashMap<String, Object>();
+			paramsMap.put("nd", param.getParam().get("nd"));
+			paramsMap.put("xmmc", param.getParam().get("xmmc"));
+			
+			paramsMap.put("define2",  param.getParam().get("yjyItem")==""?null:param.getParam().get("yjyItem"));//研究院
+			paramsMap.put("xmlbmc",  param.getParam().get("xmflItem")==""?null:param.getParam().get("xmflItem"));//项目分类
+			paramsMap.put("type_flag",  param.getParam().get("yjdwItem")==""?null:param.getParam().get("yjdwItem"));//一级单位（9个机构）
+			paramsMap.put("status",  param.getParam().get("xmztItem")==""?null:param.getParam().get("xmztItem"));//项目状态
+			
+			
+
+			JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+			HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+
+			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(getStlTable, HttpMethod.POST, entity, JSONArray.class);
 			int statusCode = responseEntity.getStatusCodeValue();
-			if (statusCode == 200) {
-				layuiTableData = responseEntity.getBody();
+			if (statusCode == 200)
+			{
+				JSONArray jSONArray = responseEntity.getBody();
+				System.out.println(">>>>>>>>>>>>ten_dragon_table_data jSONArray>>> " + jSONArray.toString());
+				// List<ProjectForMysql> list = JSONObject.parseArray(jSONArray.toJSONString(),
+				// ProjectForMysql.class);
+				pageResult.setData(jSONArray);
+				pageResult.setCode(0);
+				pageResult.setCount(Long.valueOf(jSONArray.size()));
+				pageResult.setLimit(1000);
+				pageResult.setPage(1l);
 			}
-			JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-			System.out.println(">>>>>>>>>>>>>ten_dragon_table_data:" + result.toString());
-			return result.toString();
+			// JSONObject resultObj =
+			// JSONObject.parseObject(JSONObject.toJSONString(pageResult));
+			System.out.println(">>>>>>>>>>>>>>>ten_dragon_table_data " + JSON.toJSON(pageResult).toString());
+			return JSON.toJSON(pageResult).toString();
 		}
 	    
 	    
@@ -1627,15 +1620,16 @@ public class OneLevelMainController {
 			@RequestMapping(method = RequestMethod.GET, value = "/achievement")
 			  public String achievement(HttpServletRequest request) throws Exception
 			  {
-				    
-					
-				    SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
-				    HanaUtil.setSearchParaForUser(userInfo,restTemplate,httpHeaders,request);
-				    String unitCode=userInfo.getUnitCode();
-				    request.setAttribute("unitCode", unitCode);
-				    
-				    String year= HanaUtil.getCurrrentYear();
-				    request.setAttribute("year", year);
+                  SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
+
+                  HanaUtil.setSearchParaForUser(userInfo,restTemplate,httpHeaders,request);
+
+                  String unitCode=userInfo.getUnitCode();
+                  request.setAttribute("unitCode", unitCode);
+
+
+                  String year= HanaUtil.getCurrrentYear();
+                  request.setAttribute("year", year);
 			        return "stp/hana/home/oneLevelMain/achievement";
 			  }
 			
@@ -2070,20 +2064,25 @@ public class OneLevelMainController {
 				// ProjectForMysql contract = (ProjectForMysql) list.get(0);
 				JSONObject obj = jSONArray.getJSONObject(0);
 
+				Integer sqtl = obj.getInteger("sqtl");
 				Integer sqcl = obj.getInteger("sqcl");
 				Integer sqxm = obj.getInteger("sqxm");
 				Integer tjrl = obj.getInteger("tjrl");
 				Integer sqyq = obj.getInteger("sqyq");
 				Integer zyxm = obj.getInteger("zyxm");
 
-				xAxisDataList.add(l_nd + "申请出龙");
+				
 				xAxisDataList.add(nd + "申请休眠");
-				xAxisDataList.add(nd + "推荐入龙");
+				xAxisDataList.add(nd + "申请退龙");
+				xAxisDataList.add(nd + "申请出龙");
+				xAxisDataList.add(nd + "入龙");
 				xAxisDataList.add(nd + "申请延期");
 				xAxisDataList.add(nd + "在研项目");
 
-				seriesDataList.add(sqcl);
+				
 				seriesDataList.add(sqxm);
+				seriesDataList.add(sqtl);
+				seriesDataList.add(sqcl);
 				seriesDataList.add(tjrl);
 				seriesDataList.add(sqyq);
 				seriesDataList.add(zyxm);

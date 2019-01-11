@@ -118,12 +118,23 @@ public class DateUtil {
 	public static String dateAddHour(String date,String dateFormat,int hour) {
 		return transferLongToDate(dateFormat,(DateUtil.strToDate(date, DateUtil.FMT_YMDTHMS).getTime()+(60 * 60 * 1000)*hour));
 	}
-
-	public static void main(String[] args) {
+	/**
+	 * 获得去年的同一天
+	 * @param day
+	 * @return
+	 */
+	public static Date getLastYearDay(Date day) 
+	{
+		Calendar c = Calendar.getInstance();
+		c.setTime(day);
+		c.add(Calendar.DAY_OF_YEAR, -365);
+		return c.getTime();
+	}
+	/*public static void main(String[] args) {
 		String strCjsj1="2018-10-19T01:59:19.811Z";
 		String strCjsj = DateUtil.dateToStr(DateUtil.strToDate(strCjsj1, DateUtil.FMT_YMDTHMS), DateUtil.FMT_SS);
 		System.out.println(transferLongToDate(DateUtil.FMT_SS,(DateUtil.strToDate(strCjsj1, DateUtil.FMT_YMDTHMS).getTime()+(60 * 60 * 1000)*8)));
 		System.out.println(dateAddHour(strCjsj1,DateUtil.FMT_SS,8));
 
-	}
+	}*/
 }
