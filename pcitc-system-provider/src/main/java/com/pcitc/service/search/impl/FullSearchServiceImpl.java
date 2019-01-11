@@ -105,7 +105,7 @@ public class FullSearchServiceImpl implements FullSearchService {
             }
             vo.setDataTableInfoVo(dataTableInfoVo);
             try {
-                JSONObject jsonObject = sysFileService.selectSysFileListEs(vo);
+                JSONObject jsonObject = setFileFlag(vo);
                 tableDataFile.setData((List<SysFile>) jsonObject.get("list"));
                 tableDataFile.setCount(Integer.valueOf((jsonObject.get("totalCount") + "")));
             } catch (Exception e) {
@@ -142,7 +142,7 @@ public class FullSearchServiceImpl implements FullSearchService {
             }
             vo.setDataTableInfoVo(dataTableInfoVo);
             try {
-                JSONObject jsonObject = sysFileService.selectSysFileListEs(vo);
+                JSONObject jsonObject = setFileFlag(vo);
                 System.out.println(jsonObject);
                 tableDataFile.setData((List<SysFile>) jsonObject.get("list"));
                 tableDataFile.setCount(Integer.valueOf((jsonObject.get("totalCount") + "")));
@@ -166,6 +166,26 @@ public class FullSearchServiceImpl implements FullSearchService {
         tableData.setData(list);
         tableData.setMsg(msg + "");
         return tableData;
+    }
+
+
+    public JSONObject setFileFlag(SysFileVo vo){
+        JSONObject jsonObject = null;
+        try {
+            jsonObject = sysFileService.selectSysFileListEs(vo);
+            List<SysFile> sysFiles = (List<SysFile>) jsonObject.get("list");
+            if(sysFiles!=null&&sysFiles.size()>0)
+            {
+                for (int i = 0,j = sysFiles.size(); i < j; i++) {
+                    sysFiles.get(i).setBak10("file");
+                }
+                jsonObject.put("list",sysFiles);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
     }
 
     private void getTabList(LayuiTableParam param_common, int total, List list, int limit) {
@@ -366,6 +386,10 @@ public class FullSearchServiceImpl implements FullSearchService {
         PageInfo<OutProjectInfo> pageInfo = new PageInfo<OutProjectInfo>(list);
         LayuiTableData data = new LayuiTableData();
 
+        for (int i = 0; i < pageInfo.getList().size(); i++) {
+            pageInfo.getList().get(i).setDefine9("scientific");
+        }
+
         if (keywords != null && !"".equals(keywords) && listInfo.size() > 0) {
             data.setData(setKeyWordCss(pageInfo, keywords.toString()));
         } else {
@@ -441,12 +465,17 @@ public class FullSearchServiceImpl implements FullSearchService {
 
         LayuiTableData data = new LayuiTableData();
 
+        for (int i = 0; i < pageInfo.getList().size(); i++) {
+            pageInfo.getList().get(i).setDefine6("achivement");
+        }
+
         if (keywords != null && !"".equals(keywords) && getListInfo(achievement).size() > 0) {
             data.setData(setKeyWordCss(pageInfo, keywords.toString()));
         } else {
             data.setData(pageInfo.getList());
         }
-        data.setData(pageInfo.getList());
+//        data.setData(pageInfo.getList());
+
         Long total = pageInfo.getTotal();
         data.setCount(total.intValue());
         return data;
