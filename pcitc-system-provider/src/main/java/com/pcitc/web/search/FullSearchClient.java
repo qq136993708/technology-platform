@@ -43,4 +43,10 @@ public class FullSearchClient {
 //        return fullSearchService.selectProjectPlanByCond(param);
         return fullSearchService.getTableDataScientific(param);
     }
+
+    @ApiOperation(value = "分页显示搜索数据", notes = "分页显示搜索数据")
+    @RequestMapping(value = "/search/search", method = RequestMethod.POST)
+    public LayuiTableData search(@RequestBody LayuiTableParam param) throws Exception {
+        return fullSearchService.getTableSearch(param);
+    }
 }

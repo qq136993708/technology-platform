@@ -135,12 +135,16 @@
         <input type="text" class="selfRownum layui-hide" id="userConfig1" value="${userInfo.userConfig1?default(15)}">
         <div class="layui-tab layui-tab-brief layui-q" lay-filter="component-tabs-hash">
             <ul class="layui-tab-title" style="margin-top: 66px;height: 39px;">
+                <li class="layui-this" lay-id="11">首页<span id="index"></span></li>
                 <li class="layui-this" lay-id="11">科研<span id="keyan"></span></li>
                 <li lay-id="22">成果<span id="achivement"></span></li>
             </ul>
 
             <div class="layui-tab-content">
                 <div class="layui-tab-item layui-tab-i layui-show">
+                    <iframe id="ifrIndex" src="" class="layui-iframe"></iframe>
+                </div>
+                <div class="layui-tab-item layui-tab-i">
                     <iframe id="ifrOne" src="" class="layui-iframe"></iframe>
                 </div>
                 <div class="layui-tab-item layui-tab-i">
@@ -270,8 +274,9 @@
     });
     function search() {
         var keyword=$("#keyword").val();
-        $("#ifrOne").attr("src","/fullSearch/query_scientific?keyword="+keyword);
-        $("#ifrTwo").attr("src","/fullSearch/query_achievement?keyword="+keyword);
+        // $("#ifrOne").attr("src","/fullSearch/query_scientific?keyword="+keyword);
+        // $("#ifrTwo").attr("src","/fullSearch/query_achievement?keyword="+keyword);
+        $("#ifrIndex").attr("src","/fullSearch/searchIndex?keyword="+keyword);
     }
 </script>
 </body>
