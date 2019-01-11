@@ -1385,6 +1385,7 @@ public class SysFileServiceImpl implements SysFileService {
 
     public static void main(String[] args) {
         System.out.println(2/15);
+        System.out.println(2/2);
         System.out.println(2%15);
         System.out.println(18%15);
         System.out.println(32%15);

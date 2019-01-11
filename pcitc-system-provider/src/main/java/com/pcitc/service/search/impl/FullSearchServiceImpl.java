@@ -56,8 +56,6 @@ public class FullSearchServiceImpl implements FullSearchService {
 
         LayuiTableData tableData = new LayuiTableData();
 
-        System.out.println("page = " + page);
-        System.out.println("limit = " + limit);
         //组装 tabs
         LayuiTableParam param_common = new LayuiTableParam();
         param_common.setPage(page);
@@ -66,6 +64,7 @@ public class FullSearchServiceImpl implements FullSearchService {
         param_common.setParam(map_common);
         param_common.setLimit(limit_scientific);
         param_common.setParam(param_public);
+
         //科研
         LayuiTableData tableDataScientific = this.getTableDataScientific(param_common);
         List<?> scientificData = tableDataScientific.getData();
@@ -78,23 +77,23 @@ public class FullSearchServiceImpl implements FullSearchService {
         int total = 0;
 
         if (achivementcData != null) {
+            total = total + 1;
             for (int i = 0; i < achivementcData.size(); i++) {
                 list.add(achivementcData.get(i));
             }
-            total = total + 1;
         }
         if (scientificData != null) {
+            total = total + 1;
             for (int i = 0; i < scientificData.size(); i++) {
                 list.add(scientificData.get(i));
             }
-            total = total + 1;
         }
+
+//        getTabList(param_common, total, list, limit);
 
         //首页total，其他页取值
         msg = (page == 1) ? (total) : (tabsCount);
 
-        System.out.println("tabs数量 = " + msg);
-        //file_limit:判断当前页,limit-tabs%limit=
         LayuiTableData tableDataFile = new LayuiTableData();
         DataTableInfoVo dataTableInfoVo = new DataTableInfoVo();
         if (msg >= page * limit) {
@@ -107,8 +106,6 @@ public class FullSearchServiceImpl implements FullSearchService {
             vo.setDataTableInfoVo(dataTableInfoVo);
             try {
                 JSONObject jsonObject = sysFileService.selectSysFileListEs(vo);
-                System.out.println("---文件-----------");
-                System.out.println(jsonObject);
                 tableDataFile.setData((List<SysFile>) jsonObject.get("list"));
                 tableDataFile.setCount(Integer.valueOf((jsonObject.get("totalCount") + "")));
             } catch (Exception e) {
@@ -123,17 +120,16 @@ public class FullSearchServiceImpl implements FullSearchService {
             if (isShowFileAll) {
                 list = new ArrayList();
             }
-            //limit-msg求模，5-2=3
             int file_limit = limit - msg % limit;
-//            int file_limit = page*limit-msg;
-
             if (file_limit > 0) {
-                //不展示所有,0开始-limit;展示所有
-                //第一页0,3，第二页3-8(3,4,5,6,7,8),第三页,8-13(8,9,10,11,12,13)；展示所有，page-(msg/limit+msg%limit>0?1:0)
-                int start_dis = (isShowFileAll) ? (file_limit + ((page - (msg / limit + msg % limit > 0 ? 1 : 0) - 1) * limit)) : (page - 1) * param.getLimit();
+                int start_dis = 0;
+                if (msg >= limit) {
+                    start_dis = (isShowFileAll) ? (((page - (msg / limit + msg % limit > 0 ? 1 : 0)) * limit) - file_limit) : (page - 1) * param.getLimit();
+                } else {
+                    start_dis = (isShowFileAll) ? (file_limit + ((page - (msg / limit + msg % limit > 0 ? 1 : 0) - 1) * limit)) : (page - 1) * param.getLimit();
+                }
                 int limit_dis = (isShowFileAll) ? limit : file_limit;
-                System.out.println("start_dis = " + start_dis);
-                System.out.println("limit_dis = " + limit_dis);
+                System.out.println("tabs数量 = " + msg + "   当前页数 = " + page + "    start = " + start_dis + "  limit = " + limit_dis);
                 dataTableInfoVo.setiDisplayStart(start_dis);
                 dataTableInfoVo.setiDisplayLength(limit_dis);
             } else {
@@ -147,8 +143,6 @@ public class FullSearchServiceImpl implements FullSearchService {
             vo.setDataTableInfoVo(dataTableInfoVo);
             try {
                 JSONObject jsonObject = sysFileService.selectSysFileListEs(vo);
-                System.out.println("---文件-----------");
-                System.out.println("file_limit = " + file_limit);
                 System.out.println(jsonObject);
                 tableDataFile.setData((List<SysFile>) jsonObject.get("list"));
                 tableDataFile.setCount(Integer.valueOf((jsonObject.get("totalCount") + "")));
@@ -172,6 +166,44 @@ public class FullSearchServiceImpl implements FullSearchService {
         tableData.setData(list);
         tableData.setMsg(msg + "");
         return tableData;
+    }
+
+    private void getTabList(LayuiTableParam param_common, int total, List list, int limit) {
+        int tabLeng = tabString.length;
+        if (tabLeng > limit) {
+
+        } else {
+            //正常展示
+
+        }
+
+        for (int a = 0; a < tabLeng; a++) {
+            switch (tabString[a]) {
+                case "科研":
+                    //科研
+                    LayuiTableData tableDataScientific = this.getTableDataScientific(param_common);
+                    List<?> scientificData = tableDataScientific.getData();
+                    if (scientificData != null) {
+                        for (int i = 0; i < scientificData.size(); i++) {
+                            list.add(scientificData.get(i));
+                        }
+                        total = total + 1;
+                    }
+                    break;
+                case "成果":
+                    //成果
+                    LayuiTableData tableDataAchivementc = this.getTableDataAchivement(param_common);
+                    List<?> achivementcData = tableDataAchivementc.getData();
+                    //汇总
+                    if (achivementcData != null) {
+                        for (int i = 0; i < achivementcData.size(); i++) {
+                            list.add(achivementcData.get(i));
+                        }
+                        total = total + 1;
+                    }
+                    break;
+            }
+        }
     }
 
     @Override
