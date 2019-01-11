@@ -11,11 +11,11 @@
 <body>
 <!--选择器-->
 <div class="selector">
-    <div class="cost">
-        <div class="selector-left">费用类别：</div>
+    <div class="xmfl">
+        <div class="selector-left">项目分类：</div>
         <div class="selector-right">
             <ul>
-                <#list define1List as t> 
+                <#list xmflList as t> 
 	                <li>
 	                    <a href="javascript:;">${t}</a>
 	                </li>
@@ -23,37 +23,11 @@
             </ul>
         </div>
     </div>
-    <div class="institute">
-        <div class="selector-left">研究院：</div>
-        <div class="selector-right">
-            <ul>
-               <#list define21List as t> 
-	                <li>
-	                    <a href="javascript:;">${t}</a>
-	                </li>
-                </#list>
-                
-            </ul>
-        </div>
-    </div>
-    <div class="system">
+    <div class="yjdw">
         <div class="selector-left">一级单位：</div>
         <div class="selector-right">
             <ul>
-            <#list type_flagList as t> 
-	                <li>
-	                    <a href="javascript:;">${t}</a>
-	                </li>
-                </#list>
-                
-            </ul>
-        </div>
-    </div>
-    <div class="specialty">
-        <div class="selector-left">专业类别：</div>
-        <div class="selector-right">
-            <ul>
-              <#list zylbList as t> 
+            	<#list yjdwList as t> 
 	                <li>
 	                    <a href="javascript:;">${t}</a>
 	                </li>
@@ -61,13 +35,23 @@
             </ul>
         </div>
     </div>
-    
-    
-    <div class="specialt_chu">
-        <div class="selector-left">专业处：</div>
+    <div class="yjy">
+        <div class="selector-left">研究院：</div>
         <div class="selector-right">
             <ul>
-              <#list zycmcList as t> 
+               <#list yjyList as t> 
+	                <li>
+	                    <a href="javascript:;">${t}</a>
+	                </li>
+                </#list>
+            </ul>
+        </div>
+    </div>
+    <div class="xmzt">
+        <div class="selector-left">项目状态：</div>
+        <div class="selector-right">
+            <ul>
+              <#list xmztList as t> 
 	                <li>
 	                    <a href="javascript:;">${t}</a>
 	                </li>
@@ -89,24 +73,15 @@
     </div>
 </div>
 <div class="searchBox">
-<!-- 国家项目、重大专项、重点项目、其他项目   -->
-<input type="hidden" name="project_property" value="${project_property}"  id="project_property">
-<!-- 新开项目、续建项目、完工项目  -->
-<input type="hidden" name="project_scope" value="${project_scope}"  id="project_scope">
-<!-- 各个处室 -->
-<input type="hidden" name="zycmc" value="${zycmc}"  id="zycmc">
-<input type="hidden" name="projectId"  value="${projectId}"  id="projectId">
-<!-- 资本性、费用性 -->
-<input type="hidden" name="define1"     value="${define1}"   id="define1">
-<!--8大院等细分结构-->
-<input type="hidden" name="define2"    value="${define2}"    id="define2">
-<!-- 直属研究院、分子公司、集团等9种类型 -->
-<input type="hidden" name="define3"    value="${define3}"    id="define3">
-<!-- 装备的各种技术类型 -->
-<input type="hidden" name="zylb" value="${zylb}"  id="zylb">
-
-    
-     <label class="dateInput">
+	<!-- 项目分类：公共领域 油气勘探 石油化工 石油炼制   -->
+	<input type="hidden" name="xmfl" value="${xmfl}"  id="xmfl">
+	<!-- 一级单位：其他 直属研究院 分子公司 集团单位 外部单位 集团公司 资产公司 盈科  -->
+	<input type="hidden" name="yjdw" value="${yjdw}"  id="yjdw">
+	<!-- 研究院：勘探院 物探院 工程院 石科院 大连院 北化院 上海院 安工院 -->
+	<input type="hidden" name="yjy" value="${yjy}"  id="yjy">
+	<!-- 项目状态：入龙 在研项目 申请休眠 申请出龙 申请延期 申请退龙 -->
+	<input type="hidden" name="xmzt"  value="${xmzt}"  id="xmzt">
+    <label class="dateInput">
         <span>项目名称</span>
         <input type="text" name="xmmc" title="项目名称" autocomplete="off" class="form-control" id="xmmc">
     </label>
@@ -115,17 +90,10 @@
          <span>项目年度</span>
          <input type="text" name="nd" placeholder="请选择项目年度" title="项目年度" value="${nd}"  autocomplete="off" class="form-control" id="nd">
      </label>
-     <label class="dateInput">
-         <span>预算年度</span>
-         <input type="text" name="ysnd" placeholder="请选择预算年度" title="预算年度" value="${ysnd}"  autocomplete="off" class="form-control" id="ysnd">
-     </label>
      <!--按钮组-->
      <div class="btnGroup">
         <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg"  onclick="renderTable()">查询</button>
      </div>
-    
-    
-    
 </div>
 
 <div class="tableBox" style="clear:both">
@@ -147,28 +115,20 @@ layui.config({
       ,form = layui.form
       ,laydate = layui.laydate,
 	  form.render(null, 'component-form-group');
-            laydate.render({
-            	   elem: '#nd' ,type: 'year'
-            		   ,done: function(value, date, endDate){
-                           $("#nd").val(date.year); 
-                       }
-            });
-            laydate.render({
-         	   elem: '#ysnd' ,type: 'year'
-         	   ,done: function(value, date, endDate){
-                   $("#ysnd").val(date.year); 
-               }
+         laydate.render({elem: '#nd' ,type: 'year',done: function(value, date, endDate){
+             	$("#nd").val(date.year); 
+            }
          });
-            //加载表格      
-     	     renderTable();
-     	     //移除表头的复选框,去掉全选
-     	     $(".layui-table-header table thead th input").remove();  
-
-        // 触发不同的按钮事件
-        var $ = layui.$, active = {
-           
-            
-        };
+         /* laydate.render({elem: '#ysnd' ,type: 'year',done: function(value, date, endDate){
+                $("#ysnd").val(date.year); 
+         	}
+         }); */
+        //加载表格      
+   	    //renderTable();
+   	    //移除表头的复选框,去掉全选
+   	    $(".layui-table-header table thead th input").remove();  
+       	// 触发不同的按钮事件
+        var $ = layui.$, active = {};
         //监听排序
         table.on('sort(model-table)', function(obj){
             console.log(this, obj.field, obj.type)
@@ -192,8 +152,8 @@ layui.config({
         if($(".specialty ul li").length>=25){
             $(".specialty .selector-right").css({"height":"80px","overflow-y":"scroll"})
         }
-        $(".cost ul li").each(function () {
-            var htmlA=$(this).find("a").html(),htmlT=$("#define1").val(),
+        $(".xmfl ul li").each(function () {
+            var htmlA=$(this).find("a").html(),htmlT=$("#xmfl").val(),
                 htmlName=$(this).parents(".selector-right").prev().html();
             if(htmlA==htmlT && htmlA!=""){
                 $(this).addClass("layui-this");
@@ -204,8 +164,8 @@ layui.config({
 
             dele();
         });
-        $(".institute ul li").each(function () {
-            var htmlA=$(this).find("a").html(),htmlT=$("#define2").val(),
+        $(".yjdw ul li").each(function () {
+            var htmlA=$(this).find("a").html(),htmlT=$("#yjdw").val(),
                 htmlName=$(this).parents(".selector-right").prev().html();
             if(htmlA==htmlT && htmlA!=""){
                 $(this).addClass("layui-this");
@@ -216,8 +176,8 @@ layui.config({
 
             dele();
         });
-        $(".system ul li").each(function () {
-            var htmlA=$(this).find("a").html(),htmlT=$("#define3").val(),
+        $(".yjy ul li").each(function () {
+            var htmlA=$(this).find("a").html(),htmlT=$("#yjy").val(),
                 htmlName=$(this).parents(".selector-right").prev().html();
             if(htmlA==htmlT && htmlA!=""){
                 $(this).addClass("layui-this");
@@ -228,8 +188,8 @@ layui.config({
 
             dele();
         });
-        $(".specialty ul li").each(function () {
-            var htmlA=$(this).find("a").html(),htmlT=$("#zylb").val(),
+        $(".xmzt ul li").each(function () {
+            var htmlA=$(this).find("a").html(),htmlT=$("#xmzt").val(),
                 htmlName=$(this).parents(".selector-right").prev().html();
             if(htmlA==htmlT && htmlA!=""){
                 $(this).addClass("layui-this");
@@ -240,18 +200,7 @@ layui.config({
 
             dele();
         });
-        
-        
-        
         /*循环生成*/
-        //费用类别
-        /* $(".cost ul").append("<li><a href='javascript:;'>"+"资本性"+"</a> </li>");
-        //研究院
-        $(".institute ul").append("<li><a href='javascript:;'>"+"资本性"+"</a> </li>");
-        //其他系统标识
-        $(".system ul").append("<li><a href='javascript:;'>"+"资本性"+"</a> </li>");
-        //专业类别
-        $(".specialty ul").append("<li><a href='javascript:;'>"+"资本性"+"</a> </li>"); */
         $(".selector>div ul li a").click(function () {
             if($(this).parents(".selector-right").parent().attr("class")=="conditionNew"){
                 var htmlThis=$(this).html();
@@ -307,40 +256,40 @@ layui.config({
     }
     function renderTable()
     {
-    	
-    	 var costSelectedItem="",instituteSelectedItem="",systemSelectedItem="",specialtySelectedItem="",specialtySelectedspecialt_chuItem="";
-         $(".cost ul li").each(function () {
+    	 var xmflItem="",yjdwItem="",yjyItem="",xmztItem="";
+         $(".xmfl ul li").each(function () {
              if($(this).attr("class")=="layui-this"){
-                 costSelectedItem+=$(this).find("a").html()+',';
+            	 xmflItem+=$(this).find("a").html()+',';
              }
          });
-         $(".institute ul li").each(function () {
+        
+         $(".yjdw ul li").each(function () {
              if($(this).attr("class")=="layui-this"){
-                 instituteSelectedItem+=$(this).find("a").html()+',';
+            	 yjdwItem+=$(this).find("a").html()+',';
              }
          });
-         $(".system ul li").each(function () {
+         $(".yjy ul li").each(function () {
              if($(this).attr("class")=="layui-this"){
-                 systemSelectedItem+=$(this).find("a").html()+',';
+            	 yjyItem+=$(this).find("a").html()+',';
              }
          });
-         $(".specialty ul li").each(function () {
+         $(".zmzt ul li").each(function () {
              if($(this).attr("class")=="layui-this"){
-                 specialtySelectedItem+=$(this).find("a").html()+',';
+            	 xmztItem+=$(this).find("a").html()+',';
              }
          });
-         $(".specialt_chu ul li").each(function () {
-             if($(this).attr("class")=="layui-this"){
-            	 specialtySelectedspecialt_chuItem+=$(this).find("a").html()+',';
-             }
-         });
-         costSelectedItem=costSelectedItem.slice(0,costSelectedItem.length-1);//define1
-         instituteSelectedItem=instituteSelectedItem.slice(0,instituteSelectedItem.length-1);//define2  8大院等细分结构
-         systemSelectedItem=systemSelectedItem.slice(0,systemSelectedItem.length-1);//define3           直属研究院、分子公司、集团等9种类型
-         specialtySelectedItem=specialtySelectedItem.slice(0,specialtySelectedItem.length-1);//zylb     装备的各种技术类型
-         specialtySelectedspecialt_chuItem=specialtySelectedspecialt_chuItem.slice(0,specialtySelectedspecialt_chuItem.length-1);//zycmc   专业处
+         xmflItem=xmflItem.slice(0,xmflItem.length-1);//项目分类
+         yjdwItem=yjdwItem.slice(0,yjdwItem.length-1);//一级单位  直属研究院、分子公司、集团等9种类型
+         yjyItem=yjyItem.slice(0,yjyItem.length-1);//研究院       
+         xmztItem=xmztItem.slice(0,xmztItem.length-1);//项目状态
+        
          
-        //alert("specialtySelectedItem="+specialtySelectedItem);
+         console.log("-----------------------------");
+         console.log(xmflItem);
+         console.log(yjdwItem);
+         console.log(yjyItem);
+         console.log(xmztItem);
+        
     	var index = layer.load(1, {
     		  shade: [0.1,'#fff'] 
     		});
@@ -348,35 +297,36 @@ layui.config({
       //渲染
       table.render({
         elem: '#processdef-table',
-        url: '/one_level_main/common_table_data',
+        url: '/one_level_main/ten_dragon_table_data',
         method:"POST",
         where: {param: {
         	      "nd":$("#nd").val(),
-        	      "ysnd":$("#ysnd").val(),
         	      "xmmc":$("#xmmc").val(),
-        	      "define1":costSelectedItem,
-        	      "define2":instituteSelectedItem,
-        	      "type_flag":systemSelectedItem,
-        	      "zycmc":specialtySelectedspecialt_chuItem,
-        	      "zylb":specialtySelectedItem,
-        	      "project_scope":$("#project_scope").val(),
-        	      "project_property":$("#project_property").val(),
-        	      "projectId":$("#projectId").val()
-        	
-               }},
-        limit: 15,
+        	      "xmflItem":xmflItem,
+        	      "yjdwItem":yjdwItem,
+        	      "yjyItem":yjyItem,
+        	      "xmztItem":xmztItem
+        }},
         id: 'processdef-table',
         height: commonDislodgeTable(),
-        page: {
-            groups: 5,
-            limits: [15,30,45,60],
-            layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
-            first: '首页', //不显示首页
-            last: '尾页', //不显示尾页
-            theme: '#0F9EE0'
-        },
         cols: [[
-        	{title:'序号',               type:'numbers', width: '4%'},
+        	 {field:'showIndex',      title:'序号',style:'cursor: pointer;',align: 'center', width: '5%'},
+             {field:'xmmc',           title:'项目名称',style:'cursor: pointer;',align: 'left', width: '20%'},
+             {field:'zzdw',           title:'组长单位',style:'cursor: pointer;',align: 'left', width: '15%'},
+             {field:'zydw',  		 title:'组员单位',style:'cursor: pointer;',align: 'left', width: '15%'},
+             {field:'xzdw',           title:'协作单位',style:'cursor: pointer;',align: 'left'},
+             {field:'status',         title:'项目状态',style:'cursor: pointer;',align: 'center'},
+             {field:'jdap',          title:'原因',style:'cursor: pointer;',align: 'left'},
+             {field:'xmlbmc',         title:'文档查询',style:'cursor: pointer;',align: 'center', width: '15%',
+             	 templet: function(d){
+                      return "<a href='#'><img alt='第一次小组会议' src='/common/images/meeting_1.png'></a>&nbsp;&nbsp;&nbsp;&nbsp;"+
+                      "<a href='#'><img alt='第二次小组会议' src='/common/images/meeting_2.png'></a>&nbsp;&nbsp;&nbsp;&nbsp;"+
+                      "<a href='#'><img alt='会议纪要' src='/common/images/meeting_remark.png'></a>&nbsp;&nbsp;&nbsp;&nbsp;"+
+                      "<a href='#'><img alt='工作总结' src='/common/images/work_rs.png'></a>";
+                  }
+             }
+        	
+        	/* {title:'序号',               type:'numbers', width: '4%'},
       	  {field:'nd',                 title:'项目年度',             style:'cursor: pointer;',align: 'center', width: '150'},
       	  {field:'ysnd',              title:'预算年度',             style:'cursor: pointer;',align: 'center', width: '150'},
             {field:'hth',               title:'合同号',              style:'cursor: pointer;',align: 'center', width: '150'},
@@ -389,26 +339,56 @@ layui.config({
       	  {field:'define3',           title:'一级单位名称',        style:'cursor: pointer;',align: 'left', width: '150'},
             {field:'zylb',              title:'专业类别',           style:'cursor: pointer;',align: 'left', width: '150'},
             {field:'fzdw',              title:'负责单位',           style:'cursor: pointer;',align: 'left', width: '150'},
-            {field:'qdbz',              title:'签订标识',           style:'cursor: pointer;',align: 'left', width: '150'}
+            {field:'qdbz',              title:'签订标识',           style:'cursor: pointer;',align: 'left', width: '150'} */
          
             
         ]],
         done: function (res, curr, count) {
             // 点击行联动选择框--单选
-            $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+           /*  $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
             	var index=parseInt($(this).index()+1);
                 $('tr').removeClass('layui-table-click');
                 $(this).addClass('layui-table-click');
                 $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
                 $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
                 selectRowData=res.data[index-1];
-            });
-            
+            }); */
+            merge(res);
             layer.close(index);
         }
       });
     }
-   
+    function merge(res) {
+
+        var data = res.data;
+        var mergeIndex = 0;//定位需要添加合并属性的行数
+        var mark = 1; //这里涉及到简单的运算，mark是计算每次需要合并的格子数
+        var columsName = ['showIndex','xmmc','zzdw','status'];//需要合并的列名称
+        var columsIndex = [0,1,2,5];//需要合并的列索引值
+
+        for (var k = 0; k < columsName.length; k++) { //这里循环所有要合并的列
+            var trArr = $(".layui-table-body>.layui-table").find("tr");//所有行
+            for (var i = 1; i < res.data.length; i++) { //这里循环表格当前的数据
+                var tdCurArr = trArr.eq(i).find("td").eq(columsIndex[k]);//获取当前行的当前列
+                var tdPreArr = trArr.eq(mergeIndex).find("td").eq(columsIndex[k]);//获取相同列的第一列
+
+                if (data[i][columsName[k]] === data[i-1][columsName[k]]) { //后一行的值与前一行的值做比较，相同就需要合并
+                    mark += 1;
+                    tdPreArr.each(function () {//相同列的第一列增加rowspan属性
+                        $(this).attr("rowspan", mark);
+                    });
+                    tdCurArr.each(function () {//当前行隐藏
+                        $(this).css("display", "none");
+                    });
+                }else {
+                    mergeIndex = i;
+                    mark = 1;//一旦前后两行的值不一样了，那么需要合并的格子数mark就需要重新计算
+                }
+            }
+            mergeIndex = 0;
+            mark = 1;
+        }
+    }
     
     
     function back()

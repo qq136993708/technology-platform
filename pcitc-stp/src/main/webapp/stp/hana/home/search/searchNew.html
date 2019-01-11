@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>科技管理平台</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="Shortcut Icon" href="/layuiadmin/layui/images/favicon.ico" />
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/adminStp.css?+Math.random()" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+</head>
+<body class="layui-layout-body">
+<input name="url" id="url" value="${url}" type="hidden" >
+
+<div id="LAY_app">
+    <div class="layui-layout layui-layout-admin layui-leader">
+        <div class="layui-header">
+            <!--搜索框-->
+            <div class="stpSearchBox">
+                <div class="logo"><img src="/layuiadmin/layui/images/logo-stp.png"></div>
+                <div class="seacrhBox">
+                    <input type="text" value="${keyword}" placeholder="搜索" name="keyword" id="keyword">
+                    <img src="/layuiadmin/layui/images/stpicon_06.png" alt="" onclick="search()">
+                </div>
+            </div>
+            <!--通知-->
+            <ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
+                <li class="layui-index layui-nav-item layui-nav-itemnew" title="首页">
+                    <a href="/index"><img src="/layuiadmin/layui/images/icon-index.png"/> </a>
+                </li>
+                <li class="layui-index layui-nav-item layui-nav-itemnew" title="系统">
+                    <a href=""><img src="/layuiadmin/layui/images/icon-system-r.png"/> </a>
+                </li>
+                <li class="layui-nav-item layui-nav-itemnew chat" title="通知">
+                    <a id="numberChat" lay-href="/task/pending/list/ini" lay-text="会话"><span id="pendingCount" style="visibility: hidden"></span></a>
+                    <div class="chat-content layui-hide">
+                        <dl class="layui-nav-child-dl">
+                            <dd>
+                                <span class="layui-name">张三</span>
+                                <span class="layui-text">请查看邮件请查看邮件请查看邮件请查看邮件</span>
+                                <span class="layui-time">
+										<i class="fa fa-clock-o mr-1"></i>
+										4小时之前
+									</span>
+                            </dd>
+                            <dd>
+                                <span class="layui-name">张三</span>
+                                <span class="layui-text">请查看邮件请查看邮件请查看邮件请查看邮件</span>
+                                <span class="layui-time">
+										<i class="fa fa-clock-o mr-1"></i>
+										4小时之前
+									</span>
+                            </dd>
+                            <dd>
+                                <span class="layui-name">张三</span>
+                                <span class="layui-text">请查看邮件请查看邮件请查看邮件请查看邮件</span>
+                                <span class="layui-time">
+										<i class="fa fa-clock-o mr-1"></i>
+										4小时之前
+									</span>
+                            </dd>
+                            <dd>
+                                <a href="javascript:void(0)">查看更多</a>
+                            </dd>
+                        </dl>
+                    </div>
+                </li>
+                <li class="layui-nav-item layui-nav-itemnew deal" title="待办任务">
+                    <a id="numberDeal" lay-href="/sysNotice/index_notice" lay-text="待办任务"><span id="nc" style="visibility: hidden"></span></a>
+                    <div class="deal-content layui-hide">
+                        <dl class="layui-nav-child-dl">
+                            <dd>
+                                <p>
+                                    <span class="layui-icon-span"><img src="/layuiadmin/layui/images/icon-information.png"/></span>
+                                    <span class="layui-text-span">OA待办（3条）</span>
+                                    <span class="layui-date">3小时之前</span>
+                                </p>
+                            </dd>
+                            <dd>
+                                <p>
+                                    <span class="layui-icon-span"><img src="/layuiadmin/layui/images/icon-information.png"/></span>
+                                    <span class="layui-text-span">知识产权管理系统待办（3条）</span>
+                                    <span class="layui-date">3小时之前</span>
+                                </p>
+                            </dd>
+                            <dd>
+                                <a href="javascript:void(0)">查看更多</a>
+                            </dd>
+                        </dl>
+                    </div>
+                </li>
+                <!--<li class="layui-nav-item layui-nav-itemnew notify">
+                    <a id="numberNotify" lay-href="/task/pending/list/ini" lay-text="通知" title="通知"></a>
+                </li>-->
+                <li class="layui-nav-item layui-nav-itemnew " title="二维码">
+                    <span class="QRCode"></span>
+                    <div class="QRCode-content layui-hide">
+                        <img src="/layuiadmin/layui/images/weixin.png" />
+                    </div>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;" style="color: #fff;" class="layui-nav-item-a">
+                        <img src="${userInfo.userExtend!'http://t.cn/RCzsdCq'}" class="layui-nav-img">
+                        ${userInfo.userDisp!}
+                        <span class="layui-nav-more"></span>
+                    </a>
+                    <div class="layui-hide information">
+                        <dl class="layui-nav-child-dl">
+                            <dd>
+                                <a id="toUserInfo" href="javascript:void(0)">基本资料</a>
+                            </dd>
+                            <dd>
+                                <a id="toUpdPass" href="javascript:void(0)">修改密码</a>
+                            </dd>
+                            <dd>
+                                <a id="selfConfig" href="javascript:void(0)">个人设置</a>
+                            </dd>
+                            <dd>
+                                <a id="changeIndex" href="javascript:void(0)">切换</a>
+                            </dd>
+                            <dd>
+                                <a id="logout" href="javascript:void(0)">退出登录</a>
+                            </dd>
+                        </dl>
+                    </div>
+                </li>
+                <li class="layui-nav-item layui-nav-itemnew collection" title="收藏">
+                    <a id="collection"></a>
+                </li>
+            </ul>
+        </div>
+
+        <input type="text" class="selfRownum layui-hide" id="userConfig1" value="${userInfo.userConfig1?default(15)}">
+        <div class="layui-tab layui-tab-brief layui-q" lay-filter="component-tabs-hash">
+            <ul class="layui-tab-title" style="margin-top: 66px;height: 39px;">
+                <li class="layui-this" lay-id="11">科研<span id="keyan"></span></li>
+                <li lay-id="22">成果<span id="achivement"></span></li>
+            </ul>
+
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-tab-i layui-show">
+                    <iframe id="ifrOne" src="" class="layui-iframe"></iframe>
+                </div>
+                <div class="layui-tab-item layui-tab-i">
+                    <iframe id="ifrTwo" src="" class="layui-iframe"></iframe>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="/layuiadmin/layui/layui.js"></script>
+<script src="/common/js/jquery-1.11.3.min.js"></script>
+<script>
+    var url=$("#url").val();
+    layui.config({
+        base : '../layuiadmin/' //静态资源所在路径
+    }).extend({
+        index : 'lib/index' //主入口模块
+    }).use(['index' ,'jquery','element'], function() {
+        var $ = layui.jquery;
+        $(".layui-tab-i").css("height",$(document).height()-143+"px");
+        search();
+        $("#toUserInfo").on("click", function() {
+            layer.open({
+                title : "用户详情",
+                skin : 'layui-layer-lan',
+                shadeClose : true,
+                type : 2,
+                fixed : false,
+                //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                maxmin : false,
+                //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                area : [ '80%', '70%' ],
+                content : "/user/user-dispaly?userId=${userInfo.userId}"
+            });
+        });
+        $("#logout").on("click", function() {
+            layer.confirm('确定要退出登录吗？', {
+                title : "退出登录"
+            }, function(index) {
+                layer.close(index);
+                $.ajax({
+                    type : 'post',
+                    dataType : 'json',
+                    async : false,
+                    url : '/logout',
+                    success : function(data) {
+                        window.location.href = "/login";
+                    },
+                    error : function(e) {
+                        console.log(e);
+                    }
+                });
+            });
+        });
+        $("#toUpdPass").on("click", function() {
+            layer.open({
+                title : "修改密码",
+                skin : 'layui-layer-lan',
+                shadeClose : true,
+                type : 2,
+                fixed : false,
+                //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                maxmin : false,
+                //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                area : [ '500px', '300px' ],
+                content : "/user/upd-pass?userId=${userInfo.userId}"
+            });
+        });
+        $("#selfConfig").on("click", function() {
+            layer.open({
+                title : "个人设置",
+                skin : 'layui-layer-lan',
+                shadeClose : true,
+                type : 2,
+                fixed : false,
+                //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                maxmin : false,
+                //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                area : [ '500px', '300px' ],
+                content : "/user/ini-self-config"
+            });
+        });
+        $("#changeIndex").on("click", function() {
+            var host = window.location.host;
+            window.location.href="http://"+host+"/work";
+        });
+        $("#nav li dl dd a").hover(function (){
+            $(this).find("img").removeClass("layui-hide");
+            $(this).find("img").off("click").on("click",function () {
+                $.ajax({
+                    type : 'post',
+                    dataType : 'json',
+                    async : false,
+                    url : '/admin/collect?functionCode='+$(this).parent().attr("data-code")+"&functionName="+$(this).parent().attr("lay-text")+"&functionId="+$(this).parent().attr("data-id"),
+                    success : function(data) {
+                        layer.msg(data.message);
+                        if (data.success) {
+                            // 动态修改当前我的收藏
+                            var obj = eval('(' + data.data + ')');
+                            if (obj.status == '1') {
+                                var collectMenu = document.getElementById("dlCollect").innerHTML;
+                                collectMenu = collectMenu + "<dd id='"+obj.dataId+"'><a lay-href='"+obj.collectUrl+"' lay-text='"+obj.collectName+"' data-id='"+obj.functionId+"' data-code='"+obj.functionCode+"' data-functionbuttons='ALL'>"+obj.collectName+"<img title=\"取消收藏\"  src=\"/layuiadmin/layui/images/icon_collection.png\" class=\"layui-hide\"/></a></dd>"
+                                document.getElementById("dlCollect").innerHTML = collectMenu;
+
+                            } else if (obj.status == '0') {
+                                var dl = document.getElementById("dlCollect");
+                                // 查找dl里的所有dd
+                                var dds = document.getElementsByTagName('dd');
+                                for (var i = dds.length - 1; i >= 0; i--) {
+                                    if (dds[i].id == obj.dataId) {
+                                        dl.removeChild(dds[i]);
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    error : function(e) {
+                        console.log(e);
+                    }
+                });
+                return false;
+            });
+        },function (){
+            $(this).find("img").addClass("layui-hide");
+        });
+    });
+    function search() {
+        var keyword=$("#keyword").val();
+        $("#ifrOne").attr("src","/fullSearch/query_scientific?keyword="+keyword);
+        $("#ifrTwo").attr("src","/fullSearch/query_achievement?keyword="+keyword);
+    }
+</script>
+</body>
+</html>

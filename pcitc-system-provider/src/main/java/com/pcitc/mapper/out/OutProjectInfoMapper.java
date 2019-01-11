@@ -298,7 +298,7 @@ public interface OutProjectInfoMapper {
 	/**
      * 领导首页-十条龙，十条龙项目的详情
      */
-	public List getDragonProjectDetails(HashMap<String, String> map);
+	public List getDragonProjectDetails(HashMap<String, Object> map);
 	
 	/**
 	 * 获取项目预算数据

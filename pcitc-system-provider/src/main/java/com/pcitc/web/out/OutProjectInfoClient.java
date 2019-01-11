@@ -1918,7 +1918,7 @@ public class OutProjectInfoClient {
 	
 	@ApiOperation(value = "领导首页-十条龙，十条龙项目的详情", notes = "参数年度")
 	@RequestMapping(value = "/out-project-provider/dragon/details")
-	public JSONArray getDragonProjectDetails(@RequestBody HashMap<String, String> map) throws Exception {
+	public JSONArray getDragonProjectDetails(@RequestBody HashMap<String, Object> map) throws Exception {
 		logger.info("==================page getDragonProjectDetails===========================" + map);
 		
 		List temList = outProjectService.getDragonProjectDetails(map);
