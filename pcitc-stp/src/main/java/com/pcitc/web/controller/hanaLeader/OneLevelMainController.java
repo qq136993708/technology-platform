@@ -550,10 +550,9 @@ public class OneLevelMainController {
 		
 		
 		/**========================================================十条龙三级详情==========================================================*/
-
 		@RequestMapping(method = RequestMethod.GET, value = "/ten_dragon_table")
-		  public String ten_dragon_table(HttpServletRequest request) throws Exception
-		  {
+		public String ten_dragon_table(HttpServletRequest request) throws Exception
+		{
 				String nd=CommonUtil.getParameter(request, "nd", DateUtil.dateToStr(DateUtil.getLastYearDay(new Date()), DateUtil.FMT_YYYY));
 				
 				request.setAttribute("nd", nd);
@@ -565,12 +564,10 @@ public class OneLevelMainController {
 				
 				Map<String, Object> paramsMap = new HashMap<String, Object>();
 				paramsMap.put("nd", nd);
-				JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
-				HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+				HttpEntity<String> entity = new HttpEntity<String>(JSONObject.toJSONString(paramsMap), httpHeaders);
 				
-				//ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(contract_dic, HttpMethod.POST, entity, JSONArray.class);
 				ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(dragon_search_con, HttpMethod.POST, entity, JSONArray.class);
-				System.out.println(JSON.toJSONString(responseEntity.getBody()));
+				//System.out.println(JSON.toJSONString(responseEntity.getBody()));
 				
 				int statusCode = responseEntity.getStatusCodeValue();
 				if (statusCode == 200) 
@@ -589,21 +586,19 @@ public class OneLevelMainController {
 			                if(showCode.equals("define2"))
 			                {
 			                	yjyList.add(showName);
-			                }
-			                if(showCode.equals("type_flag"))
+			                }else if(showCode.equals("type_flag"))
 			                {
 			                	yjdwList.add(showName);
-			                }
-			                if(showCode.equals("xmlbmc"))
+			                }else if(showCode.equals("xmlbmc"))
 			                {
 			                	xmflList.add(showName);
-			                }
-			                if(showCode.equals("status"))
+			                }else if(showCode.equals("status"))
 			                {
 			                	xmztList.add(showName);
+			                }else {
+			                	System.out.println("other param:"+showCode+":"+showName);
 			                }
 			          }
-					 
 					 request.setAttribute("yjyList", yjyList);
 					 request.setAttribute("yjdwList", yjdwList);
 					 request.setAttribute("xmflList", xmflList);
@@ -611,20 +606,13 @@ public class OneLevelMainController {
 				}
 		        return "stp/hana/home/oneLevelMain/ten_dragon_table";
 		  }
-		
-		
-		
-		
-		
-		 //三级表格
+		 //十条龙三级表格
 	    @RequestMapping(method = RequestMethod.POST, value = "/ten_dragon_table_data")
 		@ResponseBody
 		public String ten_dragon_table_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 
 	    	System.out.println(">>>>>>>>>>>>ten_dragon_table_data>param:" + JSONObject.toJSONString(param));
 	    	PageResult pageResult = new PageResult();
-			//String nd = CommonUtil.getParameter(request, "nd", DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
-			//String companyCode = CommonUtil.getParameter(request, "companyCode", "");
 
 			Map<String, Object> paramsMap = new HashMap<String, Object>();
 			paramsMap.put("nd", param.getParam().get("nd"));
@@ -646,16 +634,12 @@ public class OneLevelMainController {
 			{
 				JSONArray jSONArray = responseEntity.getBody();
 				System.out.println(">>>>>>>>>>>>ten_dragon_table_data jSONArray>>> " + jSONArray.toString());
-				// List<ProjectForMysql> list = JSONObject.parseArray(jSONArray.toJSONString(),
-				// ProjectForMysql.class);
 				pageResult.setData(jSONArray);
 				pageResult.setCode(0);
 				pageResult.setCount(Long.valueOf(jSONArray.size()));
 				pageResult.setLimit(1000);
 				pageResult.setPage(1l);
 			}
-			// JSONObject resultObj =
-			// JSONObject.parseObject(JSONObject.toJSONString(pageResult));
 			System.out.println(">>>>>>>>>>>>>>>ten_dragon_table_data " + JSON.toJSON(pageResult).toString());
 			return JSON.toJSON(pageResult).toString();
 		}
