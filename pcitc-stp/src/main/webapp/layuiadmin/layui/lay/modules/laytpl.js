@@ -123,6 +123,21 @@ layui.define(['jquery'],function (e) {
         }
         return stateData;
     };
+    
+    o.auditStatus_equipment = function(d){
+        var stateData;
+        if(d==0){
+            stateData="<span class='fontStateColor btnYellow'></span>"
+        }else if(d==1){
+            stateData="<span class='fontStateColor btn-green'></span>"
+        }else if(d==2){
+            stateData="<span class='fontStateColor btn-blue'></span>"
+        }else if(d==3){
+            stateData="<span class='fontStateColor btn-yellow'></span>"
+        }
+        return stateData;
+    };
+    
     o.releaseStatus = function(d){
         var stateData;
         if(d==0){
