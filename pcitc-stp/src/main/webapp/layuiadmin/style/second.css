@@ -328,13 +328,13 @@ background: white;box-shadow: 0 0 5px #dadcde;}
 
 @media screen and (max-width: 1920px) {
     .work-report{padding: 18px 80px 17px;}
-    .work-report ul li {width: 130px; height: 132px;float: left;margin-left: 72px;line-height: 159px;font-size: 18px;}
+    .work-report ul li {width: 130px; height: 132px;float: left;margin-left: 70px;line-height: 159px;font-size: 18px;}
     .work-two{padding-left: 104px;}
 }
 @media screen and (max-width: 1680px) {
     .layui-tab-content{height: 318px}
     .work-report{padding: 18px 20px 17px;}
-    .work-report ul li {margin-left: 48px;}
+    .work-report ul li {margin-left: 46px;}
     .work-two{padding-left: 86px;}
     .work-two li:nth-child(1){margin-left: 0;}
     .work-one li:nth-child(1){margin-left: 0;}
