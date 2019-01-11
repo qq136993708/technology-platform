@@ -275,7 +275,7 @@ layui.config({
             	 yjyItem+=$(this).find("a").html()+',';
              }
          });
-         $(".zmzt ul li").each(function () {
+         $(".xmzt ul li").each(function () {
              if($(this).attr("class")=="layui-this"){
             	 xmztItem+=$(this).find("a").html()+',';
              }
@@ -286,15 +286,10 @@ layui.config({
          xmztItem=xmztItem.slice(0,xmztItem.length-1);//项目状态
         
          
-         console.log("-----------------------------");
-         console.log(xmflItem);
-         console.log(yjdwItem);
-         console.log(yjyItem);
-         console.log(xmztItem);
-        
-    	var index = layer.load(1, {
+         console.log("con:"+xmflItem+"-"+yjdwItem+"-"+yjyItem+"-"+xmztItem);
+    	 var index = layer.load(1, {
     		  shade: [0.1,'#fff'] 
-    		});
+    	 });
     	
       //渲染
       table.render({
