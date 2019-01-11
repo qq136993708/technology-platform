@@ -201,7 +201,7 @@
         //初始化图形
         initEchart();
     });
-
+	
     function initEchart()
     {
 
@@ -236,6 +236,8 @@
             });
             $("#dragon1_01").html(total_count+"个");
         });
+        
+        echart1.off();
         echart1.on('click', function (params) {
 			var xName=params.name;
 			var legentName=params.seriesName;
@@ -260,6 +262,7 @@
             	$("#dragon3_02").html(total_count+"个");
             },1500);
         });
+        echart2.off();
         echart2.on('click', function (params) {
 			var xName=params.name;
 			var legentName=params.seriesName;
@@ -271,6 +274,7 @@
         var chart7_url="/one_level_main/dragon_03?nd="+nd+"&v_date="+v_date+"&companyCode="+companyCode;
         //var color=["#70b1ab","#87d359"];
         var echart7=load_mutl_bar_down(chart7_url,"dragon3","","",yAxis,20);
+        echart7.off();
         echart7.on('click', function (params){
             var xName=params.name;
             var legentName=params.seriesName;
