@@ -111,12 +111,6 @@
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>-->
 
-		<!-- json数据 -->
-		<dependency>
-			<groupId>com.alibaba</groupId>
-			<artifactId>fastjson</artifactId>
-		</dependency>
-
 		<!-- 日志 -->
 		<dependency>
 			<groupId>ch.qos.logback</groupId>

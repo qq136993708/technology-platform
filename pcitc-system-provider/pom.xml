@@ -142,12 +142,6 @@
 		<!-- 安全权限认证 <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-security</artifactId> 
 			</dependency> -->
 
-		<!-- json数据 -->
-		<dependency>
-			<groupId>com.alibaba</groupId>
-			<artifactId>fastjson</artifactId>
-		</dependency>
-
 		<!-- 自动重新编译 热部署 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -236,11 +230,6 @@
 		<dependency>
 			<groupId>org.vaadin.addons</groupId>
 			<artifactId>dcharts-widget</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>commons-io</groupId>
-			<artifactId>commons-io</artifactId>
 		</dependency>
 
 		<!--获取汉字首字母 -->
@@ -379,6 +368,7 @@
 			<artifactId>docx4j-ImportXHTML</artifactId>
 			<version>3.2.0</version>
 		</dependency>
+		
 	</dependencies>
 
 	<build>
