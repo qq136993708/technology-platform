@@ -1191,6 +1191,12 @@
 			<if test="xmmc != null">
 				and tableA.xmmc like '%${xmmc}%'
 			</if>
+			<if test="qdbz != null and qdbz == '已签订'">
+				and tableA.qdbz is not null
+			</if>
+			<if test="qdbz != null and qdbz == '未签订'">
+				and tableA.qdbz is null
+			</if>
 			<if test="define1 != null">
 				and (
 				<foreach collection="define1" item="define1" index="index" separator=" or ">
