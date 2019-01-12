@@ -1,15 +1,20 @@
 package com.pcitc.service.search.impl;
 
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.stp.out.*;
+import com.pcitc.base.system.SysFile;
+import com.pcitc.base.system.SysFileVo;
+import com.pcitc.base.util.DataTableInfoVo;
 import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.mapper.out.OutAppraisalMapper;
 import com.pcitc.mapper.out.OutProjectInfoMapper;
 import com.pcitc.service.search.FullSearchService;
+import com.pcitc.service.system.SysFileService;
 import com.pcitc.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,6 +35,196 @@ public class FullSearchServiceImpl implements FullSearchService {
 
     @Autowired
     OutProjectInfoMapper outProjectInfoMapper;
+
+    @Autowired
+    SysFileService sysFileService;
+
+    private static final String[] tabString = {"科研", "成果"};
+
+    private static int limit_scientific = 1;
+
+    public LayuiTableData getTableSearch(LayuiTableParam param) {
+        //公共
+        int page = param.getPage();
+        int limit = param.getLimit();
+        Map<String, Object> param_public = param.getParam();
+        Object obj = param_public.get("keyword");
+        Object tabCountObj = param_public.get("fileCount");
+        String keyword = (obj == null || "".equals(obj)) ? "" : obj.toString();
+        int msg;
+        int tabsCount = Integer.parseInt((tabCountObj == null || "".equals(tabCountObj)) ? "0" : tabCountObj.toString());//tab总数量  首页：0，其他页有值
+
+        LayuiTableData tableData = new LayuiTableData();
+
+        //组装 tabs
+        LayuiTableParam param_common = new LayuiTableParam();
+        param_common.setPage(page);
+        Map<String, Object> map_common = param.getParam();
+        map_common.put("keyword", keyword);
+        param_common.setParam(map_common);
+        param_common.setLimit(limit_scientific);
+        param_common.setParam(param_public);
+
+        //科研
+        LayuiTableData tableDataScientific = this.getTableDataScientific(param_common);
+        List<?> scientificData = tableDataScientific.getData();
+        //成果
+        LayuiTableData tableDataAchivementc = this.getTableDataAchivement(param_common);
+        List<?> achivementcData = tableDataAchivementc.getData();
+
+        //汇总
+        List list = new ArrayList<>();
+        int total = 0;
+
+        if (achivementcData != null) {
+            total = total + 1;
+            for (int i = 0; i < achivementcData.size(); i++) {
+                list.add(achivementcData.get(i));
+            }
+        }
+        if (scientificData != null) {
+            total = total + 1;
+            for (int i = 0; i < scientificData.size(); i++) {
+                list.add(scientificData.get(i));
+            }
+        }
+
+//        getTabList(param_common, total, list, limit);
+
+        //首页total，其他页取值
+        msg = (page == 1) ? (total) : (tabsCount);
+
+        LayuiTableData tableDataFile = new LayuiTableData();
+        DataTableInfoVo dataTableInfoVo = new DataTableInfoVo();
+        if (msg >= page * limit) {
+            dataTableInfoVo.setiDisplayStart(0);
+            dataTableInfoVo.setiDisplayLength(1);
+            SysFileVo vo = new SysFileVo();
+            if (!"".equals(keyword)) {
+                vo.setFileName(keyword);
+            }
+            vo.setDataTableInfoVo(dataTableInfoVo);
+            try {
+                JSONObject jsonObject = setFileFlag(vo);
+                tableDataFile.setData((List<SysFile>) jsonObject.get("list"));
+                tableDataFile.setCount(Integer.valueOf((jsonObject.get("totalCount") + "")));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            List<?> fileData = tableDataFile.getData();
+            if (fileData != null && fileData.size() > 0) {
+                total = total + tableDataFile.getCount();
+            }
+        } else {
+            boolean isShowFileAll = (page * limit - msg) >= limit;
+            if (isShowFileAll) {
+                list = new ArrayList();
+            }
+            int file_limit = limit - msg % limit;
+            if (file_limit > 0) {
+                int start_dis = 0;
+                if (msg >= limit) {
+                    start_dis = (isShowFileAll) ? (((page - (msg / limit + msg % limit > 0 ? 1 : 0)) * limit) - file_limit) : (page - 1) * param.getLimit();
+                } else {
+                    start_dis = (isShowFileAll) ? (file_limit + ((page - (msg / limit + msg % limit > 0 ? 1 : 0) - 1) * limit)) : (page - 1) * param.getLimit();
+                }
+                int limit_dis = (isShowFileAll) ? limit : file_limit;
+                System.out.println("tabs数量 = " + msg + "   当前页数 = " + page + "    start = " + start_dis + "  limit = " + limit_dis);
+                dataTableInfoVo.setiDisplayStart(start_dis);
+                dataTableInfoVo.setiDisplayLength(limit_dis);
+            } else {
+                dataTableInfoVo.setiDisplayStart(0);
+                dataTableInfoVo.setiDisplayLength(1);
+            }
+            SysFileVo vo = new SysFileVo();
+            if (!"".equals(keyword)) {
+                vo.setFileName(keyword);
+            }
+            vo.setDataTableInfoVo(dataTableInfoVo);
+            try {
+                JSONObject jsonObject = setFileFlag(vo);
+                System.out.println(jsonObject);
+                tableDataFile.setData((List<SysFile>) jsonObject.get("list"));
+                tableDataFile.setCount(Integer.valueOf((jsonObject.get("totalCount") + "")));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            List<?> fileData = tableDataFile.getData();
+            //只算>0;<0算total
+            if (fileData != null && fileData.size() > 0) {
+                if (file_limit > 0) {
+                    for (int i = 0; i < fileData.size(); i++) {
+                        list.add(fileData.get(i));
+                    }
+                }
+                total = total + tableDataFile.getCount();
+            }
+        }
+        //返回
+        tableData.setCount(total);
+        tableData.setData(list);
+        tableData.setMsg(msg + "");
+        return tableData;
+    }
+
+
+    public JSONObject setFileFlag(SysFileVo vo){
+        JSONObject jsonObject = null;
+        try {
+            jsonObject = sysFileService.selectSysFileListEs(vo);
+            List<SysFile> sysFiles = (List<SysFile>) jsonObject.get("list");
+            if(sysFiles!=null&&sysFiles.size()>0)
+            {
+                for (int i = 0,j = sysFiles.size(); i < j; i++) {
+                    sysFiles.get(i).setBak10("file");
+                }
+                jsonObject.put("list",sysFiles);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
+
+    private void getTabList(LayuiTableParam param_common, int total, List list, int limit) {
+        int tabLeng = tabString.length;
+        if (tabLeng > limit) {
+
+        } else {
+            //正常展示
+
+        }
+
+        for (int a = 0; a < tabLeng; a++) {
+            switch (tabString[a]) {
+                case "科研":
+                    //科研
+                    LayuiTableData tableDataScientific = this.getTableDataScientific(param_common);
+                    List<?> scientificData = tableDataScientific.getData();
+                    if (scientificData != null) {
+                        for (int i = 0; i < scientificData.size(); i++) {
+                            list.add(scientificData.get(i));
+                        }
+                        total = total + 1;
+                    }
+                    break;
+                case "成果":
+                    //成果
+                    LayuiTableData tableDataAchivementc = this.getTableDataAchivement(param_common);
+                    List<?> achivementcData = tableDataAchivementc.getData();
+                    //汇总
+                    if (achivementcData != null) {
+                        for (int i = 0; i < achivementcData.size(); i++) {
+                            list.add(achivementcData.get(i));
+                        }
+                        total = total + 1;
+                    }
+                    break;
+            }
+        }
+    }
 
     @Override
     public LayuiTableData getTableDataScientific(LayuiTableParam param) {
@@ -191,6 +386,10 @@ public class FullSearchServiceImpl implements FullSearchService {
         PageInfo<OutProjectInfo> pageInfo = new PageInfo<OutProjectInfo>(list);
         LayuiTableData data = new LayuiTableData();
 
+        for (int i = 0; i < pageInfo.getList().size(); i++) {
+            pageInfo.getList().get(i).setDefine9("scientific");
+        }
+
         if (keywords != null && !"".equals(keywords) && listInfo.size() > 0) {
             data.setData(setKeyWordCss(pageInfo, keywords.toString()));
         } else {
@@ -232,7 +431,6 @@ public class FullSearchServiceImpl implements FullSearchService {
         // 1、设置分页信息，包括当前页数和每页显示的总计数
         PageHelper.startPage(param.getPage(), param.getLimit());
         List<String> strings = getListInfo(achievement);
-        System.out.println("strings = " + strings);
         OutAppraisalExample example = new OutAppraisalExample();
         OutAppraisalExample.Criteria criteria = example.createCriteria();
 
@@ -267,12 +465,17 @@ public class FullSearchServiceImpl implements FullSearchService {
 
         LayuiTableData data = new LayuiTableData();
 
+        for (int i = 0; i < pageInfo.getList().size(); i++) {
+            pageInfo.getList().get(i).setDefine6("achivement");
+        }
+
         if (keywords != null && !"".equals(keywords) && getListInfo(achievement).size() > 0) {
             data.setData(setKeyWordCss(pageInfo, keywords.toString()));
         } else {
             data.setData(pageInfo.getList());
         }
-        data.setData(pageInfo.getList());
+//        data.setData(pageInfo.getList());
+
         Long total = pageInfo.getTotal();
         data.setCount(total.intValue());
         return data;
