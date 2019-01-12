@@ -51,24 +51,24 @@ public class SysUserPropertyServiceImpl implements SysUserPropertyService {
 	public List<TreeNode> selectUserUnderOfUnitTree(String parentId, HttpServletRequest request) throws Exception {
 		String path = request.getContextPath();
 		// 集团下子节点的部门
-		List<TreeNode> listOrg = userPropertyDao.selectChildUnitByUnitId(parentId);
-		listOrg.forEach(obj -> obj.setIsParent(true));
+		//List<TreeNode> listOrg = userPropertyDao.selectChildUnitByUnitId(parentId);
+		//listOrg.forEach(obj -> obj.setIsParent(true));
 
 		// 集团下子节点用户
-		List<TreeNode> listUser = userPropertyDao.selectUserByUintId(parentId);
-		listUser.forEach(obj -> obj.setIcon(path + "/image/humen.png"));
-		listOrg.addAll(listUser);
+		//List<TreeNode> listUser = userPropertyDao.selectUserByUintId(parentId);
+		//listUser.forEach(obj -> obj.setIcon(path + "/image/humen.png"));
+		//listOrg.addAll(listUser);
 		// 集团下子节点岗位
 		List<TreeNode> listPost = userPropertyDao.selectPostByUintId(parentId);
 		listPost.forEach(obj -> obj.setIsParent(true));
 		listPost.forEach(obj -> obj.setIcon(path + "/image/team.png"));
-		listOrg.addAll(listPost);
+		//listPost.addAll(listPost);
 
 		// 部门下岗位下人员
 		List<TreeNode> listPostUser = userPropertyDao.selectUserByPostId(parentId);
 		listPostUser.forEach(obj -> obj.setIcon(path + "/image/humen.png"));
-		listOrg.addAll(listPostUser);
-		return listOrg;
+		listPost.addAll(listPostUser);
+		return listPost;
 	}
 
 	@CacheEvict(value = "userPropertyCache", allEntries = true, beforeInvocation = true)
