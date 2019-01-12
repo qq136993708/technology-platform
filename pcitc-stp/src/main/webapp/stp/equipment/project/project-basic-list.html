@@ -11,10 +11,17 @@
 <body>
 <div class="searchBox">
     <!--查询条件-->
+    
     <label class="dateInput">
-        <span>项目ID</span>
-        <input type="text" name="name" placeholder="请输入项目ID" title="项目ID" autocomplete="off" class="form-control" id="name">
+        <span>立项年度</span>
+        <input type="text" name="name" value="2019" placeholder="请输入立项年度" title="立项年度" autocomplete="off" class="form-control" id="name">
     </label>
+    
+    <label class="dateInput">
+        <span>课题名称</span>
+        <input type="text" name="name" placeholder="请输入课题名称" title="课题名称" autocomplete="off" class="form-control" id="name">
+    </label>
+    
     <!--按钮组-->
     <div class="btnGroup">
         <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>
@@ -45,10 +52,102 @@
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit" data-type="editEvent">编辑</button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" data-type="detailEvent">详情</button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_delete" data-type="deleteEvent">删除</button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_delete" data-type="addPlanEvent">添加计划</button>
+           <!--  <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_delete" data-type="addPlanEvent">添加计划</button> -->
         </div>
     </div>
-    <table id="processdef-table" class="layui-hide" lay-filter="tableEvent"></table>
+    <!-- <table id="processdef-table" class="layui-hide" lay-filter="tableEvent"></table> -->
+    
+    <table class="layui-table">
+             <thead>
+	             <tr>
+	             <td>
+	              </td>
+	                <td width="4%">序号</td>
+	                <td width="6%" align="center">状态</td>
+	                <td width="6%"  align="center">立项年度</td>
+	                <td width="15%" >课题名称</td>
+	                <td width="8%">投资期限</td>
+	                <td width="8%">总经费(万元)</td>
+	                <td width="8%">2019年经费(万元)</td>
+	                <td width="8%">2020年经费(万元)</td>
+	                <td width="10%">承担单位</td>
+	                <td width="15%">委托方</td>
+	                <td width="8%" align="center">申请时间</td>
+	             </tr>
+            </thead>
+            <tbody>
+            <tr>
+		            <td>
+		            <div class="layui-table-cell laytable-cell-1-0-0 laytable-cell-checkbox">
+		            <div class="layui-unselect layui-form-checkbox" lay-skin="primary">
+		            <i class="layui-icon layui-icon-ok"></i></div></div>
+		            </td>
+	                <td>1</td>
+	                <td>
+	                <span class='fontStateColor btnYellow'></span>
+	                </td>
+	                <td align="center">2019</td>
+	                <td>主机房及数据中心硬件配套2019标</td>
+	                <td>2019-2020</td>
+	                <td style="color:red">1600</td>
+	                <td> 1000</td>
+                     <td>
+                            600
+                     </td>
+	                <td>XXXX开发研究院</td>
+	                <td>中国石油化工股份有限公司</td>
+	                <td align="center">2019-01-11</td>
+	             </tr>
+	             
+	             <tr>
+		            <td>
+		            <div class="layui-table-cell laytable-cell-1-0-0 laytable-cell-checkbox">
+		            <div class="layui-unselect layui-form-checkbox" lay-skin="primary">
+		            <i class="layui-icon layui-icon-ok"></i></div></div>
+		            </td>
+	                <td>1</td>
+	                <td>
+	                <span class='fontStateColor btnYellow'></span>
+	                </td>
+	                <td align="center">2019</td>
+	                <td>日常科研装备更新2019</td>
+	                <td>2019-2020</td>
+	                <td style="color:red">1000</td>
+	                <td> 500</td>
+                     <td>
+                            500
+                     </td>
+	                <td>XXXX开发研究院</td>
+	                <td>中国石油化工股份有限公司</td>
+	                <td align="center">2019-01-11</td>
+	             </tr>
+	             
+	             <tr>
+		            <td>
+		            <div class="layui-table-cell laytable-cell-1-0-0 laytable-cell-checkbox">
+		            <div class="layui-unselect layui-form-checkbox" lay-skin="primary">
+		            <i class="layui-icon layui-icon-ok"></i></div></div>
+		            </td>
+	                <td>1</td>
+	                <td>
+	                <span class='fontStateColor btnYellow'></span>
+	                </td>
+	                <td align="center">2019</td>
+	                <td>地震资料处理解释系统硬件配套</td>
+	                <td>2019-2020</td>
+	                <td style="color:red">1600</td>
+	                <td> 1000</td>
+                     <td>
+                            600
+                     </td>
+	                <td>XXXX开发研究院</td>
+	                <td>中国石油化工股份有限公司</td>
+	                <td align="center">2019-01-11</td>
+	             </tr>
+            </tbody>
+             
+     </table>
+     
 </div>
 <script id="dateTpl" type="text/html"> {{formatTime(d.createDate)}} </script>
 <script type="text/javascript">
@@ -92,15 +191,18 @@
 <script>
 var table,selectRowData;
 var name=$('#name').val();
-    layui.use(['jquery','table','laypage','layer','laytpl'], function(){
+    layui.use(['jquery','table','laypage','form','layer','laytpl'], function(){
            table = layui.table,
             $ = layui.jquery,
             layer = layui.layer,
+            form = layui.form,
             laypage = layui.laypage;
            //加载表格      
-  	     renderTable();
+  	     //renderTable();
   	     //移除表头的复选框,去掉全选
   	     $(".layui-table-header table thead th input").remove();  
+  	     
+  	     form.render();
          // 触发不同的按钮事件
          var $ = layui.$, active = {
             searchEvent: function() { //点击查询按钮
@@ -270,9 +372,13 @@ var name=$('#name').val();
             cols: [[
             	{type : 'checkbox', event : 'changeEvents', width : 55},
             	{title : '序号', type :'numbers', width : 55},
-                {field : 'status', title : '状态', style : 'cursor: pointer;', align: 'center', templet : '<div>{{ layui.laytpl.auditStatus1(d.status) }}</div>', width : 55},
-                {field : 'projectCode', title : '编号', style : 'cursor: pointer;', align: 'center'},
-                {field : 'name', title : '项目名称', style : 'cursor: pointer;', align: 'center'},
+                {field : 'status', title : '状态', style : 'cursor: pointer;', align: 'center', templet : '<div>{{ layui.laytpl.auditStatus_equipment(d.status) }}</div>', width : 55},
+                {field : 'name', title : '课题名称', style : 'cursor: pointer;', align: 'left'},
+                {field : 'remarks', title : '课题开发及投资目标', style : 'cursor: pointer;', align: 'left'},
+                {field : 'beginYear', title : '投资期限', style : 'cursor: pointer;', align: 'left'},
+                {field : 'applyMoney', title : '总经费(万元)', style : 'cursor: pointer;', align: 'left'},
+                {field : 'applyUnit', title : '承担单位', style : 'cursor: pointer;', align: 'left'},
+                {field : 'updateUserId', title : '委托方', style : 'cursor: pointer;', align: 'left'},
                 {field : 'createDate', title : '时间', style : 'cursor: pointer;', align: 'center', templet : '#dateTpl'},
             ]],
             done: function (res, curr, count) {

@@ -320,9 +320,7 @@ public class ProjectBasicController extends BaseController {
 			request.setAttribute("auditDoc", auditDoc);
 			String investDoc = sreProjectBasic.getInvestDoc();
 			request.setAttribute("investDoc", investDoc);
-
 		}
-
 		return "/stp/equipment/project/project-basic-add";
 	}
 
@@ -453,5 +451,23 @@ public class ProjectBasicController extends BaseController {
 
 		return "/stp/equipment/project/project-basic-view";
 	}
+	
+	
+	
+	//计划审核
+	@RequestMapping(value = "/audit", method = RequestMethod.GET)
+	public String audit( HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		return "/stp/equipment/project/audit";
+	}
+	
+	@RequestMapping(value = "/audit_look", method = RequestMethod.GET)
+	public String audit_look( HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		return "/stp/equipment/project/audit_look";
+	}
+	
+	
+	
 
 }
