@@ -1168,14 +1168,18 @@
 			   tableA.ND,tableA.HTH,tableA.ZYCMC,case when tableA.qdbz is null then '未签订' else '已签订' end as qdbz
 		from (
 			select out_project_plan.DEFINE1,SUBSTR(out_project_plan.DEFINE2 FROM 4) as DEFINE2,SUBSTR(out_project_plan.DEFINE3 FROM 2) as DEFINE3,
-					 out_project_plan.XMMC,out_project_plan.JF,out_project_plan.YSJE,out_project_plan.YSND,
+				   out_project_plan.XMMC,out_project_plan.JF,out_project_plan.YSJE,out_project_plan.YSND,
 				   out_project_plan.PROJECT_PROPERTY,out_project_plan.PROJECT_SCOPE,out_project_plan.FZDW,out_project_plan.ZYLB,
 			       out_project_plan.ND,out_project_plan.HTH,out_project_plan.ZYCMC,out_project_info.xmid as qdbz
-			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and (out_project_info.PROJECT_TYPE= '0' or out_project_info.PROJECT_TYPE= '2') and out_project_info.project_property not like '%十条龙%' and out_project_plan.YSND= out_project_info.YSND and out_project_info.project_property not like '%国家%')	              
+			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid 
+																and (out_project_info.PROJECT_TYPE= '0' or out_project_info.PROJECT_TYPE= '2') 
+																and out_project_info.project_property not like '%十条龙%' 
+																and out_project_plan.YSND= out_project_info.YSND 
+																and out_project_info.project_property not like '%国家%')	              
 			WHERE
-				 out_project_plan.PROJECT_TYPE != '1'
-				 and out_project_info.project_property not like '%国家%'
-				 and out_project_plan.project_property not like '%十条龙%'
+				   (out_project_plan.PROJECT_TYPE= '0' or out_project_plan.PROJECT_TYPE= '2')
+				   and out_project_plan.project_property not like '%国家%'
+				   and out_project_plan.project_property not like '%十条龙%'
 				) as tableA
 		WHERE 
 			1 = 1
