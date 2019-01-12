@@ -259,6 +259,9 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 		if(param.getParam().get("hth") !=null && !StringUtils.isBlank(param.getParam().get("hth")+"")){
 			hashmap.put("hth", param.getParam().get("hth"));
 		}
+		if(param.getParam().get("qdbz") !=null && !StringUtils.isBlank(param.getParam().get("qdbz")+"")){
+			hashmap.put("qdbz", param.getParam().get("qdbz"));
+		}
 		// 资本性、费用性
 		if(param.getParam().get("define1") !=null && !StringUtils.isBlank(param.getParam().get("define1")+"")){
 			List define1 = new ArrayList();
