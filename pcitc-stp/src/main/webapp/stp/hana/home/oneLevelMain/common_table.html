@@ -81,6 +81,19 @@
         </div>
     </div>
     
+    <div class="specialt_qdbz">
+        <div class="selector-left">签订标示：</div>
+        <div class="selector-right">
+            <ul>
+              <#list qdbzList as t> 
+	                <li>
+	                    <a href="javascript:;">${t}</a>
+	                </li>
+                </#list>
+            </ul>
+        </div>
+    </div>
+    
     
 
     <div class="conditionNew layui-hide">
@@ -111,7 +124,8 @@
 <input type="hidden" name="define3"    value="${define3}"    id="define3">
 <!-- 装备的各种技术类型 -->
 <input type="hidden" name="zylb" value="${zylb}"  id="zylb">
-
+<!-- 已签订  未签订 -->
+<input type="hidden" name="qdbz" value="${qdbz}"  id="qdbz">
     
      <label class="dateInput">
         <span>项目名称</span>
@@ -236,6 +250,39 @@ layui.config({
         });
         
         
+        $(".specialt_chu ul li").each(function () {
+            var htmlA=$(this).find("a").html(),htmlT=$("#zycmc").val(),
+                htmlName=$(this).parents(".selector-right").prev().html();
+            if(htmlA==htmlT && htmlA!=""){
+                $(this).addClass("layui-this");
+                $(".conditionNew").removeClass("layui-hide");
+                $(".conditionNew ul").append("<li>"+htmlName+"<a href='javascript:;'>"+htmlA+"</a></li>");
+                renderTable();
+            }
+
+            dele();
+        });
+        
+        
+        $(".specialt_qdbz ul li").each(function () {
+            var htmlA=$(this).find("a").html(),htmlT=$("#qdbz").val(),
+                htmlName=$(this).parents(".selector-right").prev().html();
+            if(htmlA==htmlT && htmlA!=""){
+                $(this).addClass("layui-this");
+                $(".conditionNew").removeClass("layui-hide");
+                $(".conditionNew ul").append("<li>"+htmlName+"<a href='javascript:;'>"+htmlA+"</a></li>");
+                renderTable();
+            }
+
+            dele();
+        });
+        
+        
+        
+        
+        
+        
+        
         
         /*循环生成*/
         //费用类别
@@ -302,7 +349,7 @@ layui.config({
     function renderTable()
     {
     	
-    	 var costSelectedItem="",instituteSelectedItem="",systemSelectedItem="",specialtySelectedItem="",specialtySelectedspecialt_chuItem="";
+    	 var costSelectedItem="",instituteSelectedItem="",systemSelectedItem="",specialtySelectedItem="",specialtySelectedspecialt_chuItem="",specialtySelectedItem_qdbz="";
          $(".cost ul li").each(function () {
              if($(this).attr("class")=="layui-this"){
                  costSelectedItem+=$(this).find("a").html()+',';
@@ -328,11 +375,20 @@ layui.config({
             	 specialtySelectedspecialt_chuItem+=$(this).find("a").html()+',';
              }
          });
+         
+         $(".specialt_qdbz ul li").each(function () {
+             if($(this).attr("class")=="layui-this"){
+            	 specialtySelectedItem_qdbz+=$(this).find("a").html()+',';
+             }
+         });
+         
          costSelectedItem=costSelectedItem.slice(0,costSelectedItem.length-1);//define1
          instituteSelectedItem=instituteSelectedItem.slice(0,instituteSelectedItem.length-1);//define2  8大院等细分结构
          systemSelectedItem=systemSelectedItem.slice(0,systemSelectedItem.length-1);//define3           直属研究院、分子公司、集团等9种类型
          specialtySelectedItem=specialtySelectedItem.slice(0,specialtySelectedItem.length-1);//zylb     装备的各种技术类型
          specialtySelectedspecialt_chuItem=specialtySelectedspecialt_chuItem.slice(0,specialtySelectedspecialt_chuItem.length-1);//zycmc   专业处
+         specialtySelectedItem_qdbz=specialtySelectedItem_qdbz.slice(0,specialtySelectedItem_qdbz.length-1);//qdbz     签订标示
+         
          
         //alert("specialtySelectedItem="+specialtySelectedItem);
     	var index = layer.load(1, {
@@ -353,6 +409,7 @@ layui.config({
         	      "type_flag":systemSelectedItem,
         	      "zycmc":specialtySelectedspecialt_chuItem,
         	      "zylb":specialtySelectedItem,
+        	      "qdbz":specialtySelectedItem_qdbz,
         	      "project_scope":$("#project_scope").val(),
         	      "project_property":$("#project_property").val(),
         	      "projectId":$("#projectId").val()

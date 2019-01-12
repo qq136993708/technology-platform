@@ -332,6 +332,7 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 		System.out.println("1234>>>>>>>>>type_flag" + param.getParam().get("type_flag"));
 		System.out.println("1234>>>>>>>>>define1" + param.getParam().get("define1"));
 		System.out.println("1234>>>>>>>>>define2" + param.getParam().get("define2"));
+		System.out.println("1234>>>>>>>>>qdbz" + param.getParam().get("qdbz"));
 		
 		if(param.getParam().get("ysnd") !=null && !StringUtils.isBlank(param.getParam().get("ysnd")+"")){
 			hashmap.put("ysnd", param.getParam().get("ysnd"));

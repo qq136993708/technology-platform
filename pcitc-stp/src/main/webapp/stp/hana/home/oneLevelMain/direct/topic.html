@@ -45,9 +45,9 @@
                     </div>
                     <div class="layui-row-main">
                         <div class="text-total">
-                            <span>总计:<span    class="text-total-blue"    id="topic_chart1_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>新开课题:<span class="text-total-blue"    id="topic_chart1_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>转结课题:<span class="text-total-blue"    id="topic_chart1_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>总计:<span    class="text-total-blue"    id="topic_chart1_01" onclick="topic_chart1('')"     style="cursor:pointer"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>新开课题:<span class="text-total-blue"    id="topic_chart1_02" onclick="topic_chart1('新开课题')"     style="cursor:pointer"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>转结课题:<span class="text-total-blue"    id="topic_chart1_03" onclick="topic_chart1('转结课题')"     style="cursor:pointer"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                         </div>
                         <div class="main-chart" id="topic_chart1" style="height:280px;width: 100%;"></div>
                     </div>
@@ -89,9 +89,9 @@
                     </div>
                     <div class="layui-row-main">
                         <div class="text-total">
-                            <span>总计:<span class="text-total-blue"    id="topic_chart4_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>新开课题:<span class="text-total-blue" id="topic_chart4_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>转结课题:<span class="text-total-blue" id="topic_chart4_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>总计:<span class="text-total-blue"    id="topic_chart4_01" onclick="topic_chart1('')"          style="cursor:pointer"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>新开课题:<span class="text-total-blue" id="topic_chart4_02" onclick="topic_chart1('新开课题')"     style="cursor:pointer"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>转结课题:<span class="text-total-blue" id="topic_chart4_03" onclick="topic_chart1('转结课题')"     style="cursor:pointer"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                         </div>
                         <div class="main-chart" id="topic_chart4" style="height:280px;width: 100%;"></div>
                     </div>
@@ -133,9 +133,9 @@
                     </div>
                     <div class="layui-card-body btn-function">
                          <div class="text-total">
-                            <span>总计:<span class="text-total-blue"    id="topic_chart7_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>新开课题:<span class="text-total-blue" id="topic_chart7_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>转结课题:<span class="text-total-blue" id="topic_chart7_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>总计:<span class="text-total-blue"    id="topic_chart7_01"  onclick="topic_chart1('')"          style="cursor:pointer"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>新开课题:<span class="text-total-blue" id="topic_chart7_02"  onclick="topic_chart1('新开课题')"     style="cursor:pointer"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>转结课题:<span class="text-total-blue" id="topic_chart7_03"  onclick="topic_chart1('转结课题')"     style="cursor:pointer"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                         </div>
                         <div class="main-chart" id="topic_chart7" style="height:280px;width: 100%;"></div>
                     </div>
@@ -301,6 +301,17 @@ function initEchart()
 	
 	
 }
+
+function topic_chart1(qdbz)
+{
+	
+	var nd=$("#year").val();
+	var v_date=(new Date()).getTime();
+	var url=　encodeURIComponent("/one_level_main/count_table?nd="+nd+"&ysnd="+nd+"&define1=费用性&v_date="+v_date);
+    window.open("/instituteIndex?url="+url);
+}
+
+
 
 //初始化图形
 initEchart();
