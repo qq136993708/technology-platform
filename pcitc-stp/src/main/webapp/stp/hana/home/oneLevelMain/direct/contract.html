@@ -319,6 +319,15 @@ function renderTable()
 	            
 	        ]]
 	        ,isPage:false
+             ,done:function (res, curr, count) {
+                 $("tr").each(function () {
+                     if($(this).attr("u_id")=="9990" || $(this).attr("u_id")=="9991"){
+                         $(this).click(function () {
+                             //alert("1111")
+                         });
+                     }
+                 });
+             }
 	        ,parseData:function (res) {
 	            return res;
 	        }
