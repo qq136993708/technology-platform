@@ -446,11 +446,12 @@ public class OneLevelMainController {
 				String project_scope=CommonUtil.getParameter(request, "project_scope", "");//新开项目、续建项目、完工项目
 				String zylb=CommonUtil.getParameter(request, "zylb", "");//装备的各种技术类型
 				String zycmc=CommonUtil.getParameter(request, "zycmc", "");//各个处室
-				
 				String define5=CommonUtil.getParameter(request, "define5", "");//技术分布
+				String ktlx=CommonUtil.getParameter(request, "ktlx", "");
 				
 				
 				
+				request.setAttribute("ktlx", ktlx);
 				request.setAttribute("define5", define5);
 				request.setAttribute("nd", nd);
 				request.setAttribute("ysnd", ysnd);
@@ -520,7 +521,12 @@ public class OneLevelMainController {
 					 request.setAttribute("type_flagList", type_flagList);
 					 request.setAttribute("zylbList", zylbList);
 					 request.setAttribute("zycmcList", zycmcList);
-					
+					 
+					 
+					 List<String> ktlxList = new ArrayList<String>();
+					 ktlxList.add("新开课题");
+					 ktlxList.add("结转课题");
+					 request.setAttribute("ktlxList", ktlxList);
 				}
 		        return "stp/hana/home/oneLevelMain/count_table";
 		  }
