@@ -260,19 +260,17 @@ public class OutProjectServiceImpl implements OutProjectService {
 		// OutProjectInfoExample example = new OutProjectInfoExample();
 		// example.createCriteria().andNdEqualTo(nd);
 		// outProjectInfoMapper.deleteByExample(example);
-		List<OutProjectInfo> insertData = new ArrayList<OutProjectInfo>();
-		// 先更新，没有的批量插入
-		for (int i = 0; i<list.size(); i++) {
-			int temInt = this.updateOutProjectInfo(list.get(i));
-			if (temInt==-1) {
-				insertData.add(list.get(i));
-			}
-		}
+		/*
+		 * List<OutProjectInfo> insertData = new ArrayList<OutProjectInfo>(); //
+		 * 先更新，没有的批量插入 for (int i = 0; i<list.size(); i++) { int temInt =
+		 * this.updateOutProjectInfo(list.get(i)); if (temInt==-1) {
+		 * insertData.add(list.get(i)); } }
+		 */
 
-		System.out.println("===========新插入条数----------------"+insertData.size());
+		// System.out.println("===========新插入条数----------------"+insertData.size());
 		// 批量插入数据
-		if (insertData.size()>0) {
-			// outProjectInfoMapper.insertOutProjectBatch(insertData);
+		if (list.size()>0) {
+			outProjectInfoMapper.insertOutProjectBatch(list);
 		}
 
 		return 1;
@@ -438,6 +436,7 @@ public class OutProjectServiceImpl implements OutProjectService {
 		OutProjectInfoExample.Criteria criteria = example.createCriteria();
 		criteria.andXmidEqualTo(opi.getXmid());
 		criteria.andYsndEqualTo(opi.getYsnd());
+		criteria.andDefine8EqualTo(opi.getDefine8());
 		List<OutProjectInfo> returnList = outProjectInfoMapper.selectByExample(example);
 		if (returnList!=null&&returnList.size()>0) {
 			OutProjectInfo newOPI = returnList.get(0);
@@ -521,6 +520,7 @@ public class OutProjectServiceImpl implements OutProjectService {
 				insertOPI.setDataId(UUID.randomUUID().toString().replaceAll("-", ""));
 				insertOPI.setCreateDate(new Date());
 				insertOPI.setCreatePerson("newItem");
+				insertOPI.setDefine8(opi.getDefine8());
 
 				List<OutProjectInfo> temList = new ArrayList<OutProjectInfo>();
 				temList.add(insertOPI);

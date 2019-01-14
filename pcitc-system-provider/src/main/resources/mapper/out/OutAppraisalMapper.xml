@@ -639,7 +639,7 @@
 	<select id="getOutAppraisalCount" resultType="java.lang.Integer" parameterType="java.util.HashMap">
 		select count(cgid) as cgid from out_appraisal
 		where 
-			1 = 1
+			define3 not like '%外部单位%'
 			<if test="nd != null and nd != ''">
 				and nd = #{nd,jdbcType=VARCHAR} 
 			</if>
@@ -655,7 +655,7 @@
 		select count(cgid) as mscount,jdjg as ms
 		from out_appraisal
 		where
-			jdjg is not null
+			jdjg is not null and define3 not like '%外部单位%'
 		<if test="_parameter != null">
 			and nd = #{nd,jdbcType=VARCHAR}
 		</if>
@@ -677,7 +677,7 @@
 		else 0 end) as hylxcount,count(jdjg) as cglxcount,cglx
 		from out_appraisal
 		where
-		jdjg in ('国内先进','国内领先','国际先进','国际领先','行业先进','行业领先')
+		jdjg in ('国内先进','国内领先','国际先进','国际领先','行业先进','行业领先') and define3 not like '%外部单位%'
 		<if test="_parameter != null">
 			and nd = #{nd,jdbcType=VARCHAR}
 		</if>
@@ -706,8 +706,10 @@
 		sum(case when zy = 'K.其它' then 1 else 0
 		end) as kcount,jdjg
 		from out_appraisal
+		where
+		define3 not like '%外部单位%'
 		<if test="_parameter != null">
-			where nd = #{nd,jdbcType=VARCHAR}
+			and nd = #{nd,jdbcType=VARCHAR}
 		</if>
 		group by jdjg
 	</select>
@@ -879,7 +881,7 @@
 		select count(cgid) as sl, cglx 
 		from out_appraisal
 		where 
-			cglx is not NULL and nd='${nd}'
+			cglx is not NULL and nd='${nd}' and define3 not like '%外部单位%'
 			<if test="define1 != null and define1 != ''">
 				and define1 is not null
 			</if>
@@ -891,7 +893,7 @@
 		select count(cgid) as sl, zy 
 		from out_appraisal
 		where 
-			zy is not NULL and nd='${nd}'
+			zy is not NULL and nd='${nd}' and define3 not like '%外部单位%'
 			<if test="define1 != null and define1 != ''">
 				and define1 like '%院'
 			</if>
@@ -905,7 +907,7 @@
 				IFNULL(define3,'J其他') as define3
 			from out_appraisal
 			where 
-				nd='${nd}'
+				nd='${nd}' and define3 not like '%外部单位%'
 			group by define3
 		) as tableA
 		ORDER BY tableA.define3 asc
@@ -916,7 +918,7 @@
 		select nd,cgmc,sqjddw,sqdjh,startTime,endTime,cglx,zy,jdjg,hth,xmmc,substr(define1 from 4) as define1,substr(define3 from 2) as define3
 		from out_appraisal
 		where
-			 1 = 1
+			 define3 not like '%外部单位%'
 			<if test="nd != null">
 				and out_appraisal.nd = '${nd}'
 			</if>
@@ -996,14 +998,14 @@
 		select 'define1',SUBSTR(define1 FROM 4) as showName
 		from out_appraisal
 		WHERE
-		define1 is not null
+		define1 is not null and define1 not like '%科研经费%'
 		group by define1
 
 		union ALL
 		select 'define3',SUBSTR(define3 FROM 2) as showName
 		from out_appraisal
 		WHERE
-		define3 is not null
+		define3 is not null and define3 not like '%外部单位%'
 		group by define3
 		
 	</select>

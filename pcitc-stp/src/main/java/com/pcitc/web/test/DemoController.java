@@ -146,11 +146,12 @@ public class DemoController {
 			client.addHeaders(headerMap);
 
 			Map<String, String> paramMap = new HashMap<String, String>();
-			paramMap.put("sqlName", "SelectByDate");
+			paramMap.put("sqlName", "ktxmndjf");
 			JsonObject jo = new JsonObject();
 			System.out.println(jo.toString());
-			jo.addProperty("ksrq", "2018-01-01");
-			jo.addProperty("jzrq", "2018-02-05");
+			jo.addProperty("ND", "2018");
+			//jo.addProperty("ksrq", "2018-01-01");
+			//jo.addProperty("jzrq", "2018-02-05");
 
 			System.out.println(jo.toString());
 			paramMap.put("conditions", jo.toString());
@@ -161,7 +162,8 @@ public class DemoController {
 			// 最终访问路径是：http://10.1.19.131:9001/DataService/BasicQuery/Sql?sqlName=SelectAllProjectInfo&nd=2008
 			RestfulHttpClient.HttpResponse response = client.request();
 
-			System.out.println("返回--------" + response.getCode());
+			System.out.println("1返回--------" + response);
+			System.out.println("2返回--------" + response.getCode());
 			// 根据状态码判断请求是否成功
 			if (response.getCode() == 200) {
 				// 获取响应内容
@@ -169,7 +171,7 @@ public class DemoController {
 				System.out.println("返回--------" + result);
 			}
 		} catch (Exception e) {
-			System.out.println("执行异常" + e.getStackTrace()[0].toString());
+			System.out.println("执行异常" + e.getStackTrace().toString());
 		}
 		System.out.println("执行完毕--------");
 	}
