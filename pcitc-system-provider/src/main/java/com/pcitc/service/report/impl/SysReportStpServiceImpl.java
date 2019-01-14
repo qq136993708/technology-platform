@@ -179,7 +179,7 @@ public class SysReportStpServiceImpl implements SysReportStpService {
      * @param example
      * @return
      */
-    private LayuiTableData findByExample(LayuiTableParam param, SysReportStpExample example) {
+    public LayuiTableData findByExample(LayuiTableParam param, SysReportStpExample example) {
         int pageSize = param.getLimit();
         int pageStart = (param.getPage() - 1) * pageSize;
         int pageNum = pageStart / pageSize + 1;
