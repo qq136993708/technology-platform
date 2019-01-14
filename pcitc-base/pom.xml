@@ -206,6 +206,7 @@
 		<dependency>
 			<groupId>org.hyperic</groupId>
 			<artifactId>sigar</artifactId>
+			<optional>true</optional>
 		</dependency>
 		<!--文档在线查看结束 -->
 	</dependencies>
