@@ -280,5 +280,43 @@ public class ContractController extends BaseController {
 		request.setAttribute("sreContract", plan);
 		return "/stp/equipment/contract/contract-view";
 	}
+	
+	
+	
+	
+	
+	
+    //合同安排 合同填写  合同上报  合同审批  合同对接
+		@RequestMapping(value = "/arrange", method = RequestMethod.GET)
+		public String arrange( HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+			return "/stp/equipment/contract/arrange";
+		}
+		
+		@RequestMapping(value = "/contract_add", method = RequestMethod.GET)
+		public String contract_add( HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+			return "/stp/equipment/contract/contract_add";
+		}
+		
+		
+		@RequestMapping(value = "/contract_up", method = RequestMethod.GET)
+		public String contract_up( HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+			return "/stp/equipment/contract/contract_up";
+		}
+			
+		@RequestMapping(value = "/contract_audit", method = RequestMethod.GET)
+		public String contract_audit( HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+			return "/stp/equipment/contract/contract_audit";
+		}
+				
+		@RequestMapping(value = "/contract_deal", method = RequestMethod.GET)
+		public String contract_deal( HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+			return "/stp/equipment/contract/contract_deal";
+		}
+		
 
 }

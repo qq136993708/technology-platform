@@ -28,7 +28,7 @@
             <!--<div class="btnGroup">
                 <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()">查询</button>
             </div>-->
-            <div class="btnGroup">
+            <div class="btnGroup" style="display:none">
                 <button id="knowledge_table" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue  btnMyBgImg btn_details" >详情</button>
             </div>
             <div class="breadcrumb">
@@ -46,9 +46,9 @@
                     </div>
                     <div class="layui-row-main">
                        <div class="text-total">
-                            <span>总计:<span    class="text-total-blue"    id="equipment_chart1_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>新开课题:<span class="text-total-blue"    id="equipment_chart1_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>结转课题:<span class="text-total-blue"    id="equipment_chart1_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>总计:<span    class="text-total-blue"    id="equipment_chart1_01" onclick="equipment_chart1('')"     style="cursor:pointer"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>新开课题:<span class="text-total-blue"    id="equipment_chart1_02" onclick="equipment_chart1('新开课题')"     style="cursor:pointer"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>结转课题:<span class="text-total-blue"    id="equipment_chart1_03" onclick="equipment_chart1('结转课题')"     style="cursor:pointer"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                         </div>
                         
                         <div class="main-chart" id="equipment_chart1" style="height:280px;width: 100%;"></div>
@@ -163,6 +163,7 @@
 <script type="text/javascript" src="/stp/hana/home/direct_depart/direct_common.js"></script>
 
 <script type="text/javascript">
+
 var table;
 layui.config({
     base: '/layuiadmin/'
@@ -199,17 +200,6 @@ layui.config({
     	     window.open("/instituteIndex?url="+url);
         });
         renderTable2();
-        //监听行单击事件
-        table.on('row(myTable)', function(obj){
-            console.log(obj.tr) //得到当前行元素对象
-            console.log(obj.data) //得到当前行数据
-            //obj.del(); //删除当前行
-            //obj.update(fields) //修改当前行数据
-            selectRowData=obj.data;
-            //
-			var url=　encodeURIComponent("/one_level_main/count_table?define2="+selectRowData.define2+"&nd="+nd+"&ysnd="+nd);
-	        window.open("/instituteIndex?url="+url);
-        });
         myTable();
 });
 
@@ -268,7 +258,7 @@ function initEchart()
 		var xName=params.name;
 		var legentName=params.seriesName;
 		//
-		var url=　encodeURIComponent("/one_level_main/count_table?define2="+xName+"&nd="+nd+"&ysnd="+nd);
+		var url=　encodeURIComponent("/one_level_main/count_table?define2="+xName+"&nd="+nd+"&ysnd="+nd+"&define1=资本性");
         window.open("/instituteIndex?url="+url);
         
           
@@ -347,6 +337,23 @@ function getDataCountForName_t(data,strName)
     return parseInt(xkCount);
        
 }
+
+
+
+function equipment_chart1(ktlx)
+{
+	
+
+	var month=$('#month').val();
+	var nd=month.substr(0,4);
+	var v_date=(new Date()).getTime();
+	var url=　encodeURIComponent("/one_level_main/count_table?nd="+nd+"&ysnd="+nd+"&define1=资本性&v_date="+v_date);
+    window.open("/instituteIndex?url="+url);
+}
+
+
+
+
 //初始化图形
 initEchart();
 //查询
@@ -404,13 +411,27 @@ function renderTable2()
 
 function myTable()
 {
-	var url= '/direct/equipment_01?type=2';
+	var month=$('#month').val();
+	var nd=month.substr(0,4);
+	var v_date=(new Date()).getTime();
+	var url= '/direct/equipment_01?type=2&v_date='+v_date+"&nd="+nd;
     table.init('myTable', {
 		  url: url
 		  ,height:"298px"
 		  ,where: {} 
 		  
 		});
+    
+    
+    //监听行单击事件
+    table.on('row(myTable)', function(obj){
+        console.log(obj.tr) //得到当前行元素对象
+        console.log(obj.data) //得到当前行数据
+        selectRowData=obj.data;
+        //alert(v_date)
+		var url=　encodeURIComponent("/one_level_main/count_table?define2="+selectRowData.define2+"&nd="+nd+"&ysnd="+nd+"&define1=资本性&v_date="+v_date);
+        window.open("/instituteIndex?url="+url);
+    });
     
 }
 

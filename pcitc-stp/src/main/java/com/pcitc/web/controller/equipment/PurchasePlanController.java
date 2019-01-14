@@ -272,5 +272,52 @@ public class PurchasePlanController extends BaseController {
 		request.setAttribute("srePurchasePlan", plan);
 		return "/stp/equipment/purchasePlan/plan-view";
 	}
+	
+	
+	
+	
+	
+
+	//采购申请 合同系统对接 到货签收 合同验收 安装调试 合同关闭
+	@RequestMapping(value = "/purchase_apply", method = RequestMethod.GET)
+	public String purchase_apply( HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		return "/stp/equipment/purchase/purchase_apply";
+	}
+	// 合同系统对接
+	@RequestMapping(value = "/contract_duijie", method = RequestMethod.GET)
+	public String contract_duijie( HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		return "/stp/equipment/purchase/contract_duijie";
+	}
+	
+	// 到货签收
+	@RequestMapping(value = "/contract_receipt", method = RequestMethod.GET)
+	public String contract_receipt( HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		return "/stp/equipment/purchase/contract_receipt";
+	}
+		
+	// 到货签收
+		@RequestMapping(value = "/contract_ys", method = RequestMethod.GET)
+		public String contract_ys( HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+			return "/stp/equipment/purchase/contract_ys";
+		}
+		
+		@RequestMapping(value = "/contract_Installation", method = RequestMethod.GET)
+		public String contract_Installation( HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+			return "/stp/equipment/purchase/contract_Installation";
+		}
+		
+		//合同关闭
+		@RequestMapping(value = "/contract_close", method = RequestMethod.GET)
+	public String contract_close( HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		return "/stp/equipment/purchase/contract_close";
+	}
+	
+		
 
 }

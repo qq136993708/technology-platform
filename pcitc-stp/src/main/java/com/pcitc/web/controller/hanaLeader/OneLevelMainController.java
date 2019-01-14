@@ -668,6 +668,10 @@ public class OneLevelMainController {
 				String zylb=CommonUtil.getParameter(request, "zylb", "");//装备的各种技术类型
 				String zycmc=CommonUtil.getParameter(request, "zycmc", "");//各个处室
 				
+				String qdbz=CommonUtil.getParameter(request, "qdbz", "");//签订标识
+				
+				request.setAttribute("qdbz", qdbz);
+				
 				
 				request.setAttribute("nd", nd);
 				request.setAttribute("ysnd", ysnd);
@@ -739,7 +743,12 @@ public class OneLevelMainController {
 					 request.setAttribute("type_flagList", type_flagList);
 					 request.setAttribute("zylbList", zylbList);
 					 request.setAttribute("zycmcList", zycmcList);
-					
+					 
+					 
+					 List<String> qdbzList = new ArrayList<String>();
+					 qdbzList.add("已签订");
+					 qdbzList.add("未签订");
+					 request.setAttribute("qdbzList", qdbzList);
 				}
 		        return "stp/hana/home/oneLevelMain/common_table";
 		  }

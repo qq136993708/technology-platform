@@ -4,21 +4,24 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-	<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()" media="all">
-    
-    <script src="/common/js/jquery-1.11.3.min.js"></script>
-    
     <script src="/layuiadmin/layui/layui.js"></script>
-    <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
 </head>
 <body>
 <div class="searchBox">
     <!--查询条件-->
+    
     <label class="dateInput">
-        <span>项目ID</span>
-        <input type="text" name="name" placeholder="请输入项目ID" title="项目ID" autocomplete="off" class="form-control" id="name">
+        <span>立项年度</span>
+        <input type="text" name="name" value="2019" placeholder="请输入立项年度" title="立项年度" autocomplete="off" class="form-control" id="name">
     </label>
+    
+    <label class="dateInput">
+        <span>课题名称</span>
+        <input type="text" name="name" placeholder="请输入课题名称" title="课题名称" autocomplete="off" class="form-control" id="name">
+    </label>
+    
     <!--按钮组-->
     <div class="btnGroup">
         <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>
@@ -29,7 +32,7 @@
 	<div class="tableToolBox">
         <div class="whiteLine"></div>
         <div  class="tableBtns">
-        	<button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"
+            <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"
                     data-type="draftEvent">
                 <span class="btn-state btnYellow"></span>未上报
             </button>
@@ -45,11 +48,109 @@
                     data-type="approvedEvent">
                 <span class="btn-state btn-yellow"></span>退回调整
             </button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit" data-type="passEvent" >审核</button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" data-type="detailEvent" >详情</button>
+            <!-- <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add" data-type="addEvent">新增</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit" data-type="editEvent">编辑</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" data-type="detailEvent">详情</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_delete" data-type="deleteEvent">删除</button> -->
+           <!--  <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_delete" data-type="addPlanEvent">添加计划</button> -->
+           
+           <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit" data-type="addEvent">流程查看</button>
+           <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit" data-type="editEvent">审批</button>
         </div>
     </div>
-    <table id="processdef-table" class="layui-hide" lay-filter="tableEvent"></table>
+    <!-- <table id="processdef-table" class="layui-hide" lay-filter="tableEvent"></table> -->
+    
+    <table class="layui-table">
+             <thead>
+	             <tr>
+	             <td>
+	              </td>
+	                <td width="4%">序号</td>
+	                <td width="6%" align="center">状态</td>
+	                <td width="6%"  align="center">立项年度</td>
+	                <td width="15%" >课题名称</td>
+	                <td width="8%">投资期限</td>
+	                <td width="8%">总经费(万元)</td>
+	                <td width="8%">2019年经费(万元)</td>
+	                <td width="8%">2020年经费(万元)</td>
+	                <td width="10%">承担单位</td>
+	                <td width="15%">委托方</td>
+	                <td width="8%" align="center">申请时间</td>
+	             </tr>
+            </thead>
+            <tbody>
+            <tr>
+		            <td>
+		            <div class="layui-table-cell laytable-cell-1-0-0 laytable-cell-checkbox">
+		            <div class="layui-unselect layui-form-checkbox" lay-skin="primary">
+		            <i class="layui-icon layui-icon-ok"></i></div></div>
+		            </td>
+	                <td>1</td>
+	                <td>
+	                <span class='fontStateColor btnYellow'></span>
+	                </td>
+	                <td align="center">2019</td>
+	                <td>主机房及数据中心硬件配套2019标</td>
+	                <td>2019-2020</td>
+	                <td style="color:red">1600</td>
+	                <td> 1000</td>
+                     <td>
+                            600
+                     </td>
+	                <td>XXXX开发研究院</td>
+	                <td>中国石油化工股份有限公司</td>
+	                <td align="center">2019-01-11</td>
+	             </tr>
+	             
+	             <tr>
+		            <td>
+		            <div class="layui-table-cell laytable-cell-1-0-0 laytable-cell-checkbox">
+		            <div class="layui-unselect layui-form-checkbox" lay-skin="primary">
+		            <i class="layui-icon layui-icon-ok"></i></div></div>
+		            </td>
+	                <td>1</td>
+	                <td>
+	                <span class='fontStateColor btnYellow'></span>
+	                </td>
+	                <td align="center">2019</td>
+	                <td>日常科研装备更新2019</td>
+	                <td>2019-2020</td>
+	                <td style="color:red">1000</td>
+	                <td> 500</td>
+                     <td>
+                            500
+                     </td>
+	                <td>XXXX开发研究院</td>
+	                <td>中国石油化工股份有限公司</td>
+	                <td align="center">2019-01-11</td>
+	             </tr>
+	             
+	             <tr>
+		            <td>
+		            <div class="layui-table-cell laytable-cell-1-0-0 laytable-cell-checkbox">
+		            <div class="layui-unselect layui-form-checkbox" lay-skin="primary">
+		            <i class="layui-icon layui-icon-ok"></i></div></div>
+		            </td>
+	                <td>1</td>
+	                <td>
+	                <span class='fontStateColor btnYellow'></span>
+	                </td>
+	                <td align="center">2019</td>
+	                <td>地震资料处理解释系统硬件配套</td>
+	                <td>2019-2020</td>
+	                <td style="color:red">1600</td>
+	                <td> 1000</td>
+                     <td>
+                            600
+                     </td>
+	                <td>XXXX开发研究院</td>
+	                <td>中国石油化工股份有限公司</td>
+	                <td align="center">2019-01-11</td>
+	             </tr>
+            </tbody>
+             
+     </table>
+     
 </div>
 <script id="dateTpl" type="text/html"> {{formatTime(d.createDate)}} </script>
 <script type="text/javascript">
@@ -87,19 +188,24 @@
             <button class="layui-btn layui-btn-primary layui-btn-xs">未上报</button>
           {{#  } }}
 </script>
+
 <!--表格数据操作js-->
+<script src="/common/js/jquery-1.11.3.min.js"></script>
 <script>
 var table,selectRowData;
 var name=$('#name').val();
-    layui.use(['jquery','table','laypage','layer','laytpl'], function(){
+    layui.use(['jquery','table','laypage','form','layer','laytpl'], function(){
            table = layui.table,
             $ = layui.jquery,
             layer = layui.layer,
+            form = layui.form,
             laypage = layui.laypage;
            //加载表格      
-  	     renderTable();
+  	     //renderTable();
   	     //移除表头的复选框,去掉全选
   	     $(".layui-table-header table thead th input").remove();  
+  	     
+  	     form.render();
          // 触发不同的按钮事件
          var $ = layui.$, active = {
             searchEvent: function() { //点击查询按钮
@@ -108,44 +214,32 @@ var name=$('#name').val();
             },
             resetEvent: function() { //点击重置按钮
             	$('#name').val("");
-            }/* ,
-            backEvent: function(){ 
-            	if (typeof(selectRowData.projectId) == "undefined") 
-            	{
+            },
+            addPlanEvent: function(){ //新增计划
+            	if (typeof(selectRowData.projectId) == "undefined") {
             		layer.msg('请点击选择一行数据');
-            	} else 
-            	{
+            	} else {
+            		
             		 var projectId=selectRowData.projectId;
-            		 var checkMoney=selectRowData.checkMoney;
-            		 alert(checkMoney);
-            		 return;
-            		 if(checkMoney!=null && checkMoney!='')
-            		 {
-            			 backPassOpt(projectId,"2",checkMoney);
-            		 }else
-           			 {
-            			 layer.msg('核定金额为空');
-           			 }
+	                 layer.open({
+	                    title:'新增技术交流',
+	                    skin: 'layui-layer-lan',
+	                    shadeClose: true,
+	                    type: 2,
+	                    fixed: false,
+	                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+	                    maxmin: false,
+	                    //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+	                    area: ['60%', '80%'],
+	                    content:  '/sre-meeting/add?projectId='+projectId
+	                   });
             	}
-            } */
-            ,passEvent: function(){  //点击编辑按钮
-            	if (typeof(selectRowData.projectId) == "undefined") 
-            	{
-            		layer.msg('请点击选择一行数据');
-            	} else 
-            	{
-            		/*  var projectId=selectRowData.projectId;
-            		 var checkMoney=500;
-            		 if(checkMoney!=null && checkMoney!='')
-            		 {
-            			 backPassOpt(projectId,"3",checkMoney);
-            		 }else
-           			 {
-            			 layer.msg('核定金额为空');
-           			 } */
-            		 var temUrl="/sre-equipment/plan_audit";
+            },
+            addEvent: function(){ //点击新增按钮
+            	
+            
             		 layer.open({
-                         title:'领导审核',
+                         title:'审核流程',
                          skin: 'layui-layer-lan',
                          shadeClose: true,
                          type: 2,
@@ -153,12 +247,51 @@ var name=$('#name').val();
                          //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
                          maxmin: false,
                          //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                         area: ['60%', '80%'],
-                         content:  temUrl
+                         area: ['70%','90%'],
+                         content:  '/sre-project-basic/audit_look'
                      });
-            		 
-            	}
                
+                 
+            }
+            ,editEvent: function(){  //点击编辑按钮
+            	
+            	layer.open({
+                    title:'审批',
+                    skin: 'layui-layer-lan',
+                    shadeClose: true,
+                    type: 2,
+                    fixed: false,
+                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                    maxmin: false,
+                    //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                    area: ['70%', '90%'],
+                    content: '/sre-project-basic/audit'
+               });
+               
+            },deleteEvent: function(){  //点击删除按钮
+                 console.log('点击了删除按钮')
+                 if (typeof(selectRowData.projectId) == "undefined") 
+                 {
+            		layer.msg('请点击选择一行数据');
+            	 } else 
+            	 {
+            		  var projectId=selectRowData.projectId;
+           		      var url="/sre-project-basic/delete/"+projectId;
+           		     var status=selectRowData.status;
+         		     if(status=='1' || status=='3')
+         		     {
+         		    	layer.msg('上报中或审核通过，不能删除');
+         		    	return;
+         		     }
+         		     
+	           		  layer.confirm('确定要删除吗？', { btn: ['确定','取消']}, function(){
+	         				 ajaxDeleteOpt(url,"post","删除成功","删除失败");
+	         			}, function(){
+	         			 
+	         			});
+            	}
+            
+              
             },
             detailEvent: function(){  //点击详情按钮
             	if (typeof(selectRowData.projectId) == "undefined") {
@@ -175,7 +308,7 @@ var name=$('#name').val();
                          //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
                          maxmin: false,
                          //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                         area: ['60%', '70%'],
+                         area: ['70%', '90%'],
                          content:  temUrl
                      });
             	}
@@ -213,8 +346,8 @@ var name=$('#name').val();
             elem: '#processdef-table',
             url: '/sre-project-basic/list',
             method:"POST",
-            where: {param: {"name":$("#name").val(),"status":"1"}},
-            limit: 15,
+            where: {param: {"name":$("#name").val()}},
+            limit: 15,	
             id: 'processdef-table',
             height: commonDislodgeTable(),
             page: {
@@ -226,16 +359,16 @@ var name=$('#name').val();
                 theme: '#0F9EE0'
             },
             cols: [[
-            	{type :'checkbox', event : 'changeEvents', width : 55},
-            	{title :'序号', type :'numbers', width : 55},
-            	{field:'status', title : '状态', style : 'cursor: pointer;', align : 'center', templet : '<div>{{ layui.laytpl.auditStatus(d.status) }}</div>', width : 55},
-                {field :'applyUnit', title : '上报单位', style : 'cursor: pointer;', align : 'center'},
-                {field :'name', title : '项目名称', style : 'cursor: pointer;', align : 'center'},
-                {field :'applyDoc', title : '项目申请表', style : 'cursor: pointer;', align : 'center', templet :  function (d) {return "<a href='javascript:void(0)' style='color:blue' onclick='viewFile(\""+d.applyDoc+"\")' id='"+d.applyDoc+"' >文件</a>";  }},
-                {field :'auditDoc', title : '院批复公文', style : 'cursor: pointer;', align : 'center', templet :  function (d) {return "<a href='javascript:void(0)' style='color:blue' onclick='viewFile(\""+d.auditDoc+"\")' id='"+d.auditDoc+"' >文件</a>";  }},
-                {field :'investDoc', title : '投资文件说明', style : 'cursor: pointer;', align : 'center', templet :  function (d) {return "<a href='javascript:void(0)' style='color:blue' onclick='viewFile(\""+d.investDoc+"\")' id='"+d.investDoc+"' >文件</a>";  }},
-                {field :'applyMoney', title : '项目总金额(万元)', style : 'cursor: pointer;', align : 'center'},
-
+            	{type : 'checkbox', event : 'changeEvents', width : 55},
+            	{title : '序号', type :'numbers', width : 55},
+                {field : 'status', title : '状态', style : 'cursor: pointer;', align: 'center', templet : '<div>{{ layui.laytpl.auditStatus_equipment(d.status) }}</div>', width : 55},
+                {field : 'name', title : '课题名称', style : 'cursor: pointer;', align: 'left'},
+                {field : 'remarks', title : '课题开发及投资目标', style : 'cursor: pointer;', align: 'left'},
+                {field : 'beginYear', title : '投资期限', style : 'cursor: pointer;', align: 'left'},
+                {field : 'applyMoney', title : '总经费(万元)', style : 'cursor: pointer;', align: 'left'},
+                {field : 'applyUnit', title : '承担单位', style : 'cursor: pointer;', align: 'left'},
+                {field : 'updateUserId', title : '委托方', style : 'cursor: pointer;', align: 'left'},
+                {field : 'createDate', title : '时间', style : 'cursor: pointer;', align: 'center', templet : '#dateTpl'},
             ]],
             done: function (res, curr, count) {
                 // 点击行联动选择框--单选
@@ -294,57 +427,6 @@ var name=$('#name').val();
     } 
    
    
-    //驳回 
-    function backPassOpt(projectId,status,checkMoney)
-    {
-    	 $.ajax({
-      	     type:"get",
-      	     url: "/sre-project-basic/pass-back/"+projectId+"?status="+status+"&checkMoney="+checkMoney,
-      	     dataType:"json",
-      	     async: false, 
-      	     cache: false,
-      	     contentType: "application/x-www-form-urlencoded; charset=utf-8",
-             success:function(data,status)
-             {    
-    	          
-            	  if(data.success==true ||data.success=='true')
-    	          {
-    	        	  layer.alert(
-    	        			  "操作成功", 
-    	                      {icon: 1,closeBtn: 0 },
-    	                      function () 
-    	                      {
-    	                    	   renderTable();
-    	                    	   layer.closeAll();
-    	                      });
-    	       	   
-    	          } else
-    	          {
-    	        	 layer.alert("操作失败");
-    	          }
-    	     
-    		   },
-    		   error:function()
-    		   {
-    		    	layer.alert("网络访问错误");
-    		   }
-        
-      });
-    } 
-    
-
-    function viewFile(name)
-    {
-         var param = {};
-        param.file_ids_value = name;
-        param.file_opt_flag = "ff8129325ed94773bfd9f33145ccd080";//文件配置ID
-        param.file_edit_detail = "detail";//新增、修改用edit, 显示用detail
-        var temUrl = "/sysFilePage/uploadFileTable?param=" + encodeURIComponent(JSON.stringify(param));
-        openBaseWin("文件上传列表查看", temUrl);
-    }
-
-    
-    
 
 </script>
 

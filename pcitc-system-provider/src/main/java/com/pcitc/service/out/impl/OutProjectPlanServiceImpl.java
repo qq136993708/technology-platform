@@ -259,6 +259,9 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 		if(param.getParam().get("hth") !=null && !StringUtils.isBlank(param.getParam().get("hth")+"")){
 			hashmap.put("hth", param.getParam().get("hth"));
 		}
+		if(param.getParam().get("qdbz") !=null && !StringUtils.isBlank(param.getParam().get("qdbz")+"")){
+			hashmap.put("qdbz", param.getParam().get("qdbz"));
+		}
 		// 资本性、费用性
 		if(param.getParam().get("define1") !=null && !StringUtils.isBlank(param.getParam().get("define1")+"")){
 			List define1 = new ArrayList();
@@ -329,6 +332,7 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 		System.out.println("1234>>>>>>>>>type_flag" + param.getParam().get("type_flag"));
 		System.out.println("1234>>>>>>>>>define1" + param.getParam().get("define1"));
 		System.out.println("1234>>>>>>>>>define2" + param.getParam().get("define2"));
+		System.out.println("1234>>>>>>>>>qdbz" + param.getParam().get("qdbz"));
 		
 		if(param.getParam().get("ysnd") !=null && !StringUtils.isBlank(param.getParam().get("ysnd")+"")){
 			hashmap.put("ysnd", param.getParam().get("ysnd"));

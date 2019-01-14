@@ -47,9 +47,9 @@
                     </div>
                     <div class="layui-row-main">
                        <div class="text-total">
-                            <span>总计:<span class="text-total-blue"    id="contract_chart1_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>已签合同:<span class="text-total-blue" id="contract_chart1_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>未签合同:<span class="text-total-blue" id="contract_chart1_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>总计:<span class="text-total-blue"    id="contract_chart1_01" onclick="contract_chart1('')"     style="cursor:pointer"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>已签合同:<span class="text-total-blue" id="contract_chart1_02" onclick="contract_chart1('已签订')" style="cursor:pointer"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>未签合同:<span class="text-total-blue" id="contract_chart1_03" onclick="contract_chart1('未签订')" style="cursor:pointer"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                        </div>
                        <div class="layui-row">
                            <div class="layui-col-md6" id="contract_chart1_02_02" style="height:280px;"></div>
@@ -78,9 +78,9 @@
                     <div class="layui-row-main">
                     
                        <div class="text-total">
-                            <span>计划签同数:<span class="text-total-blue" id="contract_chart4_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>实际签同数:<span class="text-total-blue" id="contract_chart4_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>签订率:<span class="text-total-blue" id="contract_chart4_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>计划签同数:<span class="text-total-blue" id="contract_chart4_01" onclick="contract_chart1('')"     style="cursor:pointer"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>实际签同数:<span class="text-total-blue" id="contract_chart4_02" onclick="contract_chart1('已签订')" style="cursor:pointer"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>签订率:<span class="text-total-blue" id="contract_chart4_03"    onclick="contract_chart1('已签订')" style="cursor:pointer"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                         </div>
                         <div class="main-chart" id="contract_chart4" style="height:280px;width: 100%;"></div>
                     </div>
@@ -199,12 +199,12 @@ var labelTop = {
 	};
 	
 	
-
+	var v_date=(new Date()).getTime();
+	var nd=$('#year').val();
 function initEchart()
 {
 	
-	var v_date=(new Date()).getTime();
-	var nd=$('#year').val();
+	
 	var ndstr=nd+"年";
 	var yAxis= [
         {
@@ -235,17 +235,21 @@ function initEchart()
 	var color=["#43c5ff","#ffa70f"];
 	var echart1=load_single_bar_down(chart1_url,"contract_chart1","","",yAxis,color);
 	echart1.on('click', function (params) {
-		var xName=params.name;
-		var legentName=params.seriesName;
-		window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
+		 var xName=params.name;
+		 var legentName=params.seriesName;
+		// alert(xName);
+		 var url=　encodeURIComponent("/one_level_main/common_table?define3=直属研究院&qdbz="+xName+"订&nd="+nd+"&ysnd="+nd);
+         window.open("/instituteIndex?url="+url);
           
     });
+	
 	//圆圈
     var url="/direct/contract_01?type=2&nd="+nd+"&v_date="+v_date;
 	var echart2=loadCicle(url,"contract_chart1_02_02");
 	echart2.on('click', function (params) {
 		var xName=params.name;
 		var legentName=params.seriesName;
+		//alert(xName);
           
     });
 	
@@ -266,6 +270,13 @@ function initEchart()
 	
 	
 	
+}
+
+
+function contract_chart1(qdbz)
+{
+	 var url=　encodeURIComponent("/one_level_main/common_table?define3=直属研究院&qdbz="+qdbz+"&nd="+nd+"&ysnd="+nd);
+     window.open("/instituteIndex?url="+url);
 }
 
 

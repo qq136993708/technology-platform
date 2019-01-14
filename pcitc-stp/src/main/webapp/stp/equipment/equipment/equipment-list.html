@@ -29,31 +29,65 @@
 	<div class="tableToolBox">
         <div class="whiteLine"></div>
         <div  class="tableBtns">
-            <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"
-                    data-type="draftEvent">
-                <span class="btn-state btnYellow"></span>未审核
-            </button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"
-                    data-type="approvalEvent">
-                <span class="btn-state btn-green"></span>审批中
-            </button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"
-                    data-type="approvedEvent">
-                <span class="btn-state btn-blue"></span>审批通过
-            </button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"
-                    data-type="approvedEvent">
-                <span class="btn-state btn-yellow"></span>审批不通过
-            </button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"     data-type="addEvent"  id="addEvent" > 新增</button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit"    data-type="editEvent"  id="editEvent" >编辑</button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" data-type="detailEvent" id="detailEvent" >详情</button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_delete"  data-type="deleteEvent" id="deleteEvent" >删除</button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_delete"  data-type="acceptSoftEvent" >软件验收</button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_delete"  data-type="acceptHareEvent" >硬件验收</button>
+          <!--   <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_delete"  data-type="acceptSoftEvent" >软件验收</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_delete"  data-type="acceptHareEvent" >硬件验收</button> -->
         </div>
     </div>
-    <table id="processdef-table" class="layui-hide" lay-filter="tableEvent"></table>
+    <!-- <table id="processdef-table" class="layui-hide" lay-filter="tableEvent"></table> -->
+    
+     
+    <table class="layui-table">
+             <thead>
+	             <tr>
+	                <td width="3%">  </td>
+	                <td width="4%">序号</td>
+	                <td width="20%" >装备名称</td>
+	                <td width="8%" >申请数量</td>
+	                <td width="8%">申报资金(万元)</td>
+	                <td width="8%">申报单位</td>
+	                <td width="8%">第一申报人</td>
+	                <td width="8%" align="center">申请时间</td>
+	             </tr>
+            </thead>
+            <tbody>
+            <tr>
+		            <td>
+		            <div class="layui-table-cell laytable-cell-1-0-0 laytable-cell-checkbox">
+		            <div class="layui-unselect layui-form-checkbox" lay-skin="primary">
+		            <i class="layui-icon layui-icon-ok"></i></div></div>
+		            </td>
+	                <td>1</td>
+	                <td >数据服务器及磁盘阵列</td>
+	                <td>2</td>
+	                <td style="color:red">50</td>
+	                <td>无锡所</td>
+	                <td> 王xxx</td>
+	                <td align="center">2019-01-11</td>
+	             </tr>
+	             
+	             <tr>
+		            <td>
+		            <div class="layui-table-cell laytable-cell-1-0-0 laytable-cell-checkbox">
+		            <div class="layui-unselect layui-form-checkbox" lay-skin="primary">
+		            <i class="layui-icon layui-icon-ok"></i></div></div>
+		            </td>
+	                <td>1</td>
+	                <td >石油地质实验样品二微码</td>
+	                <td>3</td>
+	                <td style="color:red">50</td>
+	                <td >无锡所</td>
+	                <td> 王xxx</td>
+	                <td align="center">2019-01-11</td>
+	             </tr>
+	             
+            </tbody>
+             
+     </table>
+     
 </div>
 
 
@@ -105,7 +139,7 @@ var name=$('#name').val();
             layer = layui.layer,
             laypage = layui.laypage;
 	     //加载表格      
-	     renderTable();
+	     //renderTable();
 	     //移除表头的复选框,去掉全选
 	     $(".layui-table-header table thead th input").remove();  
          // 触发不同的按钮事件
@@ -119,7 +153,7 @@ var name=$('#name').val();
             },
             addEvent: function(){ //点击新增按钮
                 layer.open({
-                    title:'装备上报-新增',
+                    title:'装备-新增',
                     skin: 'layui-layer-lan',
                     shadeClose: true,
                     type: 2,
