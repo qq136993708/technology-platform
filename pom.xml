@@ -51,6 +51,12 @@
 			<id>elastic.co</id>
 			<url>https://artifacts.elastic.co/maven</url>
 		</repository>
+
+		<repository>
+			<id>maven-public</id>
+			<name>Nexus Public Repository</name>
+			<url>http://10.238.120.36:8082/repository/maven-public/</url>
+		</repository>
 	</repositories>
 
 	<dependencyManagement>

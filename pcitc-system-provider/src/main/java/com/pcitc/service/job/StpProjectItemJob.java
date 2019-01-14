@@ -63,7 +63,7 @@ public class StpProjectItemJob implements Job, Serializable {
 					String ktid = object.getString("ktid");
 					String nd = object.getString("nd");
 					String jfhj = object.getString("jfhj");
-
+					String cddw = object.getString("cddw");
 					
 					
 					OutProjectInfo opi = new OutProjectInfo();
@@ -71,12 +71,14 @@ public class StpProjectItemJob implements Job, Serializable {
 					opi.setYsje(jfhj);
 					opi.setXmid(ktid);
 					opi.setDataId(UUID.randomUUID().toString().replaceAll("-", ""));
+					opi.setDefine8(cddw); //承担单位
 					insertData.add(opi);
 					
 					OutProjectPlan opp = new OutProjectPlan();
 					opp.setYsnd(nd);
 					opp.setYsje(jfhj);
 					opp.setXmid(ktid);
+					opp.setDefine8(cddw); //承担单位
 					planData.add(opp);
 					
 				}

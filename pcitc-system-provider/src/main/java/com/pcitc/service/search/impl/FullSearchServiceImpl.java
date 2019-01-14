@@ -71,6 +71,11 @@ public class FullSearchServiceImpl implements FullSearchService {
         //成果
         LayuiTableData tableDataAchivementc = this.getTableDataAchivement(param_common);
         List<?> achivementcData = tableDataAchivementc.getData();
+        //报表
+        LayuiTableData tableDataReport = this.getTableDataReport(param_common);
+        List<?> reportData = tableDataReport.getData();
+
+
 
         //汇总
         List list = new ArrayList<>();
@@ -86,6 +91,12 @@ public class FullSearchServiceImpl implements FullSearchService {
             total = total + 1;
             for (int i = 0; i < scientificData.size(); i++) {
                 list.add(scientificData.get(i));
+            }
+        }
+        if (reportData != null) {
+            total = total + 1;
+            for (int i = 0; i < reportData.size(); i++) {
+                list.add(reportData.get(i));
             }
         }
 
@@ -186,6 +197,11 @@ public class FullSearchServiceImpl implements FullSearchService {
             e.printStackTrace();
         }
         return jsonObject;
+    }
+
+    @Override
+    public LayuiTableData getTableDataReport(LayuiTableParam param_common) {
+        return null;
     }
 
     private void getTabList(LayuiTableParam param_common, int total, List list, int limit) {
