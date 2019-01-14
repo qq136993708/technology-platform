@@ -38,4 +38,6 @@ public interface FullSearchService {
      * @return
      */
     public JSONObject setFileFlag(SysFileVo vo);
+
+    LayuiTableData getTableDataReport(LayuiTableParam param_common);
 }

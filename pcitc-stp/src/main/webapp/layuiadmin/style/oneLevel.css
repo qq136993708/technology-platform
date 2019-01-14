@@ -104,7 +104,7 @@
 /*配置页面*/
 .layui-layer-lan .layui-layer-title{background-color: #002a53 !important;;text-align: center;height: 60px;
 line-height: 60px;font-size: 22px;}
-.module{background-color: white;height: 457px; }
+.module{background-color: white;height: 457px; overflow-y: scroll;}
 .module>p{background-color: #e9e8f4;font-size: 18px;text-indent: 20px;height: 40px;line-height: 40px;}
 .module .selectOption{padding: 30px;}
 .module .selectOption>div{display: flex;}
