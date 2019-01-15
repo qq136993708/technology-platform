@@ -105,7 +105,7 @@ public class FullSearchServiceImpl implements FullSearchService {
 
         //首页total，其他页取值
         msg = (page == 1) ? (total) : (tabsCount);
-
+        System.out.println(msg+"=============== " + (page == 1));
         LayuiTableData tableDataFile = new LayuiTableData();
         DataTableInfoVo dataTableInfoVo = new DataTableInfoVo();
         if (msg >= page * limit) {
@@ -206,11 +206,14 @@ public class FullSearchServiceImpl implements FullSearchService {
         SysReportStpExample example = new SysReportStpExample();
         SysReportStpExample.Criteria c = example.createCriteria();
 
-        Object keywords = param.getParam().get("keywords");
+        Object keywords = param.getParam().get("keyword");
         if (keywords != null && !"".equals(keywords)) {
-            c.andReportNameLike("'%"+keywords+"%'");
-            c.andReportDescLike("'%"+keywords+"%'");
-            c.andReportModuleLike("'%"+keywords+"%'");
+//            String[] strings = {"report_name","report_desc","report_module"};
+//            c.andOrColumn(keywords.toString(),strings,"like");
+//            c.andReportNameLike("%"+keywords.toString()+"%");
+            example.or().andReportNameLike("%"+keywords.toString()+"%");
+            example.or().andReportModuleLike("%"+keywords.toString()+"%");
+            example.or().andReportDescLike("%"+keywords.toString()+"%");
         }
 
         int pageSize = param.getLimit();

@@ -159,6 +159,12 @@ public class SysReportStpServiceImpl implements SysReportStpService {
     public LayuiTableData findSysReportStpByPage(LayuiTableParam param) {
         SysReportStpExample example = new SysReportStpExample();
         SysReportStpExample.Criteria c = example.createCriteria();
+        Object keywords = param.getParam().get("keyword");
+        if (keywords != null && !"".equals(keywords)) {
+            example.or().andReportNameLike("%"+keywords.toString()+"%");
+            example.or().andReportModuleLike("%"+keywords.toString()+"%");
+            example.or().andReportDescLike("%"+keywords.toString()+"%");
+        }
 //        c.andStatusEqualTo("1");
 //        if(param.getParam().get("fileKind") !=null && !com.pcitc.common.StringUtils.isBlank(param.getParam().get("fileKind")+""))
 //        {
@@ -191,6 +197,8 @@ public class SysReportStpServiceImpl implements SysReportStpService {
         data.setData(pageInfo.getList());
         Long total = pageInfo.getTotal();
         data.setCount(total.intValue());
+        System.out.println(" 报表table select ");
+        System.out.println(data.getData().size());
         return data;
     }
 

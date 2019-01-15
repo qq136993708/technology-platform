@@ -49,4 +49,11 @@ public class FullSearchClient {
     public LayuiTableData search(@RequestBody LayuiTableParam param) throws Exception {
         return fullSearchService.getTableSearch(param);
     }
+
+
+    @ApiOperation(value = "首页查询", notes = "分页显示数据")
+    @RequestMapping(value = "/search/getTableDataReport", method = RequestMethod.POST)
+    public LayuiTableData getTableDataReport(@RequestBody LayuiTableParam param) throws Exception {
+        return fullSearchService.getTableDataReport(param);
+    }
 }
