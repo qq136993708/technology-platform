@@ -27,7 +27,7 @@
         <input type="text" name="xmmc" placeholder="描述" title="描述" autocomplete="off" class="form-control" id="xmmc">
     </label>
     <input type="hidden" name="keyword"  value="${keyword}"  id="keyword">
-    <input type="hidden" name="fileCount"  value="2"  id="fileCount"><!--当前页面实际显示数量-文件数量-->
+    <input type="hidden" name="fileCount"  value="3"  id="fileCount"><!--当前页面实际显示数量-文件数量-->
 
     <!--按钮组-->
     <div class="btnGroup">
@@ -129,10 +129,10 @@
                 }},
             limit: 15,
             id: 'processdef-table',
-            height: "523",
+            height: "450",
             page: {
                 groups: 5,
-                limits: [15,5,1,2],
+                limits: [15,30,45,60],
                 layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
                 first: '首页', //不显示首页
                 last: '尾页', //不显示尾页

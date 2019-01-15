@@ -135,9 +135,10 @@
         <input type="text" class="selfRownum layui-hide" id="userConfig1" value="${userInfo.userConfig1?default(15)}">
         <div class="layui-tab layui-tab-brief layui-q" lay-filter="component-tabs-hash">
             <ul class="layui-tab-title" style="margin-top: 66px;height: 39px;">
-                <li class="layui-this" lay-id="11">首页<span id="index"></span></li>
-                <li class="layui-this" lay-id="11">科研<span id="keyan"></span></li>
-                <li lay-id="22">成果<span id="achivement"></span></li>
+                <li class="layui-this" lay-id="11">综合查询<span id="index"></span></li>
+                <li class="layui-this" lay-id="11">科研课题<span id="keyan"></span></li>
+                <li lay-id="22">科技成果<span id="achivement"></span></li>
+                <li lay-id="3">图表<span id="report"></span></li>
             </ul>
 
             <div class="layui-tab-content">
@@ -149,6 +150,9 @@
                 </div>
                 <div class="layui-tab-item layui-tab-i">
                     <iframe id="ifrTwo" src="" class="layui-iframe"></iframe>
+                </div>
+                <div class="layui-tab-item layui-tab-i">
+                    <iframe id="ifrreport" src="" class="layui-iframe"></iframe>
                 </div>
             </div>
         </div>
@@ -274,9 +278,10 @@
     });
     function search() {
         var keyword=$("#keyword").val();
-        // $("#ifrOne").attr("src","/fullSearch/query_scientific?keyword="+keyword);
-        // $("#ifrTwo").attr("src","/fullSearch/query_achievement?keyword="+keyword);
+        $("#ifrOne").attr("src","/fullSearch/query_scientific?keyword="+keyword);
+        $("#ifrTwo").attr("src","/fullSearch/query_achievement?keyword="+keyword);
         $("#ifrIndex").attr("src","/fullSearch/searchIndex?keyword="+keyword);
+        $("#ifrreport").attr("src","/fullSearch/searchReport?keyword="+keyword);
     }
 </script>
 </body>

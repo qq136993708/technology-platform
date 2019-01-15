@@ -6,6 +6,8 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.report.SysReportStp;
+import com.pcitc.base.report.SysReportStpExample;
 import com.pcitc.base.stp.out.*;
 import com.pcitc.base.system.SysFile;
 import com.pcitc.base.system.SysFileVo;
@@ -13,6 +15,7 @@ import com.pcitc.base.util.DataTableInfoVo;
 import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.mapper.out.OutAppraisalMapper;
 import com.pcitc.mapper.out.OutProjectInfoMapper;
+import com.pcitc.service.report.SysReportStpService;
 import com.pcitc.service.search.FullSearchService;
 import com.pcitc.service.system.SysFileService;
 import com.pcitc.utils.StringUtils;
@@ -75,8 +78,6 @@ public class FullSearchServiceImpl implements FullSearchService {
         LayuiTableData tableDataReport = this.getTableDataReport(param_common);
         List<?> reportData = tableDataReport.getData();
 
-
-
         //汇总
         List list = new ArrayList<>();
         int total = 0;
@@ -104,7 +105,7 @@ public class FullSearchServiceImpl implements FullSearchService {
 
         //首页total，其他页取值
         msg = (page == 1) ? (total) : (tabsCount);
-
+        System.out.println(msg+"=============== " + (page == 1));
         LayuiTableData tableDataFile = new LayuiTableData();
         DataTableInfoVo dataTableInfoVo = new DataTableInfoVo();
         if (msg >= page * limit) {
@@ -179,18 +180,16 @@ public class FullSearchServiceImpl implements FullSearchService {
         return tableData;
     }
 
-
-    public JSONObject setFileFlag(SysFileVo vo){
+    public JSONObject setFileFlag(SysFileVo vo) {
         JSONObject jsonObject = null;
         try {
             jsonObject = sysFileService.selectSysFileListEs(vo);
             List<SysFile> sysFiles = (List<SysFile>) jsonObject.get("list");
-            if(sysFiles!=null&&sysFiles.size()>0)
-            {
-                for (int i = 0,j = sysFiles.size(); i < j; i++) {
+            if (sysFiles != null && sysFiles.size() > 0) {
+                for (int i = 0, j = sysFiles.size(); i < j; i++) {
                     sysFiles.get(i).setBak10("file");
                 }
-                jsonObject.put("list",sysFiles);
+                jsonObject.put("list", sysFiles);
             }
 
         } catch (Exception e) {
@@ -199,9 +198,46 @@ public class FullSearchServiceImpl implements FullSearchService {
         return jsonObject;
     }
 
+    @Autowired
+    private SysReportStpService sysReportStpService;
+
     @Override
-    public LayuiTableData getTableDataReport(LayuiTableParam param_common) {
-        return null;
+    public LayuiTableData getTableDataReport(LayuiTableParam param) {
+        SysReportStpExample example = new SysReportStpExample();
+        SysReportStpExample.Criteria c = example.createCriteria();
+
+        Object keywords = param.getParam().get("keyword");
+        if (keywords != null && !"".equals(keywords)) {
+//            String[] strings = {"report_name","report_desc","report_module"};
+//            c.andOrColumn(keywords.toString(),strings,"like");
+//            c.andReportNameLike("%"+keywords.toString()+"%");
+            example.or().andReportNameLike("%"+keywords.toString()+"%");
+            example.or().andReportModuleLike("%"+keywords.toString()+"%");
+            example.or().andReportDescLike("%"+keywords.toString()+"%");
+        }
+
+        int pageSize = param.getLimit();
+        int pageStart = (param.getPage() - 1) * pageSize;
+        int pageNum = pageStart / pageSize + 1;
+        PageHelper.startPage(pageNum, pageSize);
+        List<SysReportStp> list = sysReportStpService.selectByExample(example);
+
+        PageInfo<SysReportStp> pageInfo = new PageInfo<SysReportStp>(list);
+
+        for (int i = 0; i < pageInfo.getList().size(); i++) {
+            pageInfo.getList().get(i).setBak1("report");
+        }
+        // 3、获取分页查询后的数据
+        LayuiTableData data = new LayuiTableData();
+
+        if (keywords != null && !"".equals(keywords)) {
+            data.setData(setKeyWordCss(pageInfo, keywords.toString()));
+        } else {
+            data.setData(pageInfo.getList());
+        }
+        Long total = pageInfo.getTotal();
+        data.setCount(total.intValue());
+        return data;
     }
 
     private void getTabList(LayuiTableParam param_common, int total, List list, int limit) {

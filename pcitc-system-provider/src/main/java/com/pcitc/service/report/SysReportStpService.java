@@ -181,4 +181,6 @@ public interface SysReportStpService {
      * @return
      */
     List<TreeNode> selectObjectByTree();
+
+    LayuiTableData findByExample(LayuiTableParam param_common, SysReportStpExample example);
 }

@@ -1,6 +1,5 @@
 package com.pcitc.web.report;
 
-import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.enums.DataOperationStatusEnum;
 import com.pcitc.base.report.SysReportStp;

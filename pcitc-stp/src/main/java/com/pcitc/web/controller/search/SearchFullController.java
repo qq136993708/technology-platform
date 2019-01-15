@@ -38,6 +38,7 @@ public class SearchFullController extends BaseController {
     private static final String contract_dic = "http://pcitc-zuul/system-proxy/out-project-provider/select-condition/list";
 
     private static final String getAwardTable = "http://pcitc-zuul/system-proxy/search/getTableDataAchivement";
+    private static final String getTableDataReport = "http://pcitc-zuul/system-proxy/search/getTableDataReport";
 
     private static final String search = "http://pcitc-zuul/system-proxy/search/search";
 
@@ -53,6 +54,12 @@ public class SearchFullController extends BaseController {
         return "stp/hana/home/search/search_index";
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/searchReport")
+    public String searchReport(HttpServletRequest request) throws Exception {
+        request.setAttribute("keyword", request.getParameter("keyword"));
+        return "stp/hana/home/search/query_report";
+    }
+
     @RequestMapping(method = RequestMethod.GET, value = "/search")
     public String search(HttpServletRequest request) throws Exception {
         request.setAttribute("keyword", request.getParameter("keyword"));
@@ -65,6 +72,16 @@ public class SearchFullController extends BaseController {
         LayuiTableData layuiTableData = new LayuiTableData();
         HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
         ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(search, HttpMethod.POST, entity, LayuiTableData.class);
+        layuiTableData = responseEntity.getBody();
+        return JSONObject.toJSONString(layuiTableData);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/getTableDataReport")
+    @ResponseBody
+    public String getTableDataReport(@ModelAttribute("param") LayuiTableParam param) {
+        LayuiTableData layuiTableData = new LayuiTableData();
+        HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+        ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(getTableDataReport, HttpMethod.POST, entity, LayuiTableData.class);
         layuiTableData = responseEntity.getBody();
         return JSONObject.toJSONString(layuiTableData);
     }
