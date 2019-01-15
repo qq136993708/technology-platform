@@ -166,9 +166,6 @@ public class StpProjectJob implements Job, Serializable {
 						}
 					}
 					System.out.println("======----------------" + xmid);
-					if (xmid != null && xmid.equals("107491")) {
-						System.out.println("======----------------" + sjid + "-------------====="+opi.getProjectType()+"======="+sjid);
-					}
 					opi.setProjectScope("新开课题");  //新开
 					opi.setProjectId(projectId);
 					
