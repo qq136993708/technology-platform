@@ -70,12 +70,15 @@ public class FullSearchServiceImpl implements FullSearchService {
 
         //科研
         LayuiTableData tableDataScientific = this.getTableDataScientific(param_common);
+        tableDataScientific.addPropertyToData("select_type","scientific");
         List<?> scientificData = tableDataScientific.getData();
         //成果
         LayuiTableData tableDataAchivementc = this.getTableDataAchivement(param_common);
+        tableDataAchivementc.addPropertyToData("select_type","achivement");
         List<?> achivementcData = tableDataAchivementc.getData();
         //报表
         LayuiTableData tableDataReport = this.getTableDataReport(param_common);
+        tableDataReport.addPropertyToData("select_type","report");
         List<?> reportData = tableDataReport.getData();
 
         //汇总
@@ -108,71 +111,73 @@ public class FullSearchServiceImpl implements FullSearchService {
         System.out.println(msg+"=============== " + (page == 1));
         LayuiTableData tableDataFile = new LayuiTableData();
         DataTableInfoVo dataTableInfoVo = new DataTableInfoVo();
-        if (msg >= page * limit) {
-            dataTableInfoVo.setiDisplayStart(0);
-            dataTableInfoVo.setiDisplayLength(1);
-            SysFileVo vo = new SysFileVo();
-            if (!"".equals(keyword)) {
-                vo.setFileName(keyword);
-            }
-            vo.setDataTableInfoVo(dataTableInfoVo);
-            try {
-                JSONObject jsonObject = setFileFlag(vo);
-                tableDataFile.setData((List<SysFile>) jsonObject.get("list"));
-                tableDataFile.setCount(Integer.valueOf((jsonObject.get("totalCount") + "")));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            List<?> fileData = tableDataFile.getData();
-            if (fileData != null && fileData.size() > 0) {
-                total = total + tableDataFile.getCount();
-            }
-        } else {
-            boolean isShowFileAll = (page * limit - msg) >= limit;
-            if (isShowFileAll) {
-                list = new ArrayList();
-            }
-            int file_limit = limit - msg % limit;
-            if (file_limit > 0) {
-                int start_dis = 0;
-                if (msg >= limit) {
-                    start_dis = (isShowFileAll) ? (((page - (msg / limit + msg % limit > 0 ? 1 : 0)) * limit) - file_limit) : (page - 1) * param.getLimit();
-                } else {
-                    start_dis = (isShowFileAll) ? (file_limit + ((page - (msg / limit + msg % limit > 0 ? 1 : 0) - 1) * limit)) : (page - 1) * param.getLimit();
-                }
-                int limit_dis = (isShowFileAll) ? limit : file_limit;
-                System.out.println("tabs数量 = " + msg + "   当前页数 = " + page + "    start = " + start_dis + "  limit = " + limit_dis);
-                dataTableInfoVo.setiDisplayStart(start_dis);
-                dataTableInfoVo.setiDisplayLength(limit_dis);
-            } else {
-                dataTableInfoVo.setiDisplayStart(0);
-                dataTableInfoVo.setiDisplayLength(1);
-            }
-            SysFileVo vo = new SysFileVo();
-            if (!"".equals(keyword)) {
-                vo.setFileName(keyword);
-            }
-            vo.setDataTableInfoVo(dataTableInfoVo);
-            try {
-                JSONObject jsonObject = setFileFlag(vo);
-                System.out.println(jsonObject);
-                tableDataFile.setData((List<SysFile>) jsonObject.get("list"));
-                tableDataFile.setCount(Integer.valueOf((jsonObject.get("totalCount") + "")));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            List<?> fileData = tableDataFile.getData();
-            //只算>0;<0算total
-            if (fileData != null && fileData.size() > 0) {
-                if (file_limit > 0) {
-                    for (int i = 0; i < fileData.size(); i++) {
-                        list.add(fileData.get(i));
-                    }
-                }
-                total = total + tableDataFile.getCount();
-            }
-        }
+//        if (msg >= page * limit) {
+//            dataTableInfoVo.setiDisplayStart(0);
+//            dataTableInfoVo.setiDisplayLength(1);
+//            SysFileVo vo = new SysFileVo();
+//            if (!"".equals(keyword)) {
+//                vo.setFileName(keyword);
+//            }
+//            vo.setDataTableInfoVo(dataTableInfoVo);
+//            try {
+//                JSONObject jsonObject = setFileFlag(vo);
+//                tableDataFile.setData((List<SysFile>) jsonObject.get("list"));
+//                tableDataFile.setCount(Integer.valueOf((jsonObject.get("totalCount") + "")));
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//            tableDataFile.addPropertyToData("select_type","file");
+//            List<?> fileData = tableDataFile.getData();
+//            if (fileData != null && fileData.size() > 0) {
+//                total = total + tableDataFile.getCount();
+//            }
+//        } else {
+//            boolean isShowFileAll = (page * limit - msg) >= limit;
+//            if (isShowFileAll) {
+//                list = new ArrayList();
+//            }
+//            int file_limit = limit - msg % limit;
+//            if (file_limit > 0) {
+//                int start_dis = 0;
+//                if (msg >= limit) {
+//                    start_dis = (isShowFileAll) ? (((page - (msg / limit + msg % limit > 0 ? 1 : 0)) * limit) - file_limit) : (page - 1) * param.getLimit();
+//                } else {
+//                    start_dis = (isShowFileAll) ? (file_limit + ((page - (msg / limit + msg % limit > 0 ? 1 : 0) - 1) * limit)) : (page - 1) * param.getLimit();
+//                }
+//                int limit_dis = (isShowFileAll) ? limit : file_limit;
+//                System.out.println("tabs数量 = " + msg + "   当前页数 = " + page + "    start = " + start_dis + "  limit = " + limit_dis);
+//                dataTableInfoVo.setiDisplayStart(start_dis);
+//                dataTableInfoVo.setiDisplayLength(limit_dis);
+//            } else {
+//                dataTableInfoVo.setiDisplayStart(0);
+//                dataTableInfoVo.setiDisplayLength(1);
+//            }
+//            SysFileVo vo = new SysFileVo();
+//            if (!"".equals(keyword)) {
+//                vo.setFileName(keyword);
+//            }
+//            vo.setDataTableInfoVo(dataTableInfoVo);
+//            try {
+//                JSONObject jsonObject = setFileFlag(vo);
+//                System.out.println(jsonObject);
+//                tableDataFile.setData((List<SysFile>) jsonObject.get("list"));
+//                tableDataFile.setCount(Integer.valueOf((jsonObject.get("totalCount") + "")));
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//
+//            tableDataFile.addPropertyToData("select_type","file");
+//            List<?> fileData = tableDataFile.getData();
+//            //只算>0;<0算total
+//            if (fileData != null && fileData.size() > 0) {
+//                if (file_limit > 0) {
+//                    for (int i = 0; i < fileData.size(); i++) {
+//                        list.add(fileData.get(i));
+//                    }
+//                }
+//                total = total + tableDataFile.getCount();
+//            }
+//        }
         //返回
         tableData.setCount(total);
         tableData.setData(list);
@@ -224,9 +229,9 @@ public class FullSearchServiceImpl implements FullSearchService {
 
         PageInfo<SysReportStp> pageInfo = new PageInfo<SysReportStp>(list);
 
-        for (int i = 0; i < pageInfo.getList().size(); i++) {
-            pageInfo.getList().get(i).setBak1("report");
-        }
+//        for (int i = 0; i < pageInfo.getList().size(); i++) {
+//            pageInfo.getList().get(i).setBak1("report");
+//        }
         // 3、获取分页查询后的数据
         LayuiTableData data = new LayuiTableData();
 
@@ -438,9 +443,9 @@ public class FullSearchServiceImpl implements FullSearchService {
         PageInfo<OutProjectInfo> pageInfo = new PageInfo<OutProjectInfo>(list);
         LayuiTableData data = new LayuiTableData();
 
-        for (int i = 0; i < pageInfo.getList().size(); i++) {
-            pageInfo.getList().get(i).setDefine9("scientific");
-        }
+//        for (int i = 0; i < pageInfo.getList().size(); i++) {
+//            pageInfo.getList().get(i).setDefine9("scientific");
+//        }
 
         if (keywords != null && !"".equals(keywords) && listInfo.size() > 0) {
             data.setData(setKeyWordCss(pageInfo, keywords.toString()));
@@ -517,9 +522,9 @@ public class FullSearchServiceImpl implements FullSearchService {
 
         LayuiTableData data = new LayuiTableData();
 
-        for (int i = 0; i < pageInfo.getList().size(); i++) {
-            pageInfo.getList().get(i).setDefine6("achivement");
-        }
+//        for (int i = 0; i < pageInfo.getList().size(); i++) {
+//            pageInfo.getList().get(i).setDefine6("achivement");
+//        }
 
         if (keywords != null && !"".equals(keywords) && getListInfo(achievement).size() > 0) {
             data.setData(setKeyWordCss(pageInfo, keywords.toString()));
