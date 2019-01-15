@@ -2065,12 +2065,12 @@ public class OneLevelMainController {
 				Integer zyxm = obj.getInteger("zyxm");
 
 				
-				xAxisDataList.add(nd + "申请休眠");
-				xAxisDataList.add(nd + "申请退龙");
-				xAxisDataList.add(nd + "申请出龙");
-				xAxisDataList.add(nd + "入龙");
-				xAxisDataList.add(nd + "申请延期");
-				xAxisDataList.add(nd + "在研项目");
+				xAxisDataList.add("申请休眠");
+				xAxisDataList.add("申请退龙");
+				xAxisDataList.add("申请出龙");
+				xAxisDataList.add("入龙");
+				xAxisDataList.add("申请延期");
+				xAxisDataList.add("在研项目");
 
 				
 				seriesDataList.add(sqxm);
