@@ -15,6 +15,7 @@ import com.pcitc.base.util.DataTableInfoVo;
 import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.mapper.out.OutAppraisalMapper;
 import com.pcitc.mapper.out.OutProjectInfoMapper;
+import com.pcitc.mapper.out.OutRewardMapper;
 import com.pcitc.service.report.SysReportStpService;
 import com.pcitc.service.search.FullSearchService;
 import com.pcitc.service.system.SysFileService;
@@ -283,6 +284,50 @@ public class FullSearchServiceImpl implements FullSearchService {
         }
     }
 
+    @Autowired
+    private OutRewardMapper outRewardMapper;
+
+    public LayuiTableData getOutRewardListPage(LayuiTableParam param) {
+        Map<String, Object> paraMap = param.getParam();
+        PageHelper.startPage(param.getPage(), param.getLimit());
+
+
+        OutRewardExample example = new OutRewardExample();
+        OutRewardExample.Criteria criteria = example.createCriteria();
+
+        if (paraMap.get("xmbh") != null && !paraMap.get("xmbh").toString().equals("")) {
+            criteria.andXmbhLike("%" + paraMap.get("xmbh").toString() + "%");
+        }
+        if (paraMap.get("nd") != null && !paraMap.get("nd").toString().equals("")) {
+            criteria.andNdEqualTo(paraMap.get("nd").toString());
+        }
+        if (paraMap.get("xmmc") != null && !paraMap.get("xmmc").toString().equals("")) {
+            criteria.andXmmcLike("%" + paraMap.get("xmmc").toString() + "%");
+        }
+        List<String> strings = getListInfo(outreward);
+        Object keywords = param.getParam().get("keyword");
+        if (keywords != null && !"".equals(keywords)) {
+            criteria.andOrColumn(keywords.toString(), strings.toArray(new String[strings.size()]), "like");
+        }
+
+        example.setOrderByClause(" sbjz,sbdj asc ");
+
+        List<OutReward> list = outRewardMapper.selectByExample(example);
+        PageInfo<OutReward> pageInfo = new PageInfo<OutReward>(list);
+        System.out.println(">>>>>>>>>查询分页结果" + pageInfo.getList().size());
+
+        LayuiTableData data = new LayuiTableData();
+
+        if (keywords != null && !"".equals(keywords) && listInfo.size() > 0) {
+            data.setData(setKeyWordCss(pageInfo, keywords.toString()));
+        } else {
+            data.setData(pageInfo.getList());
+        }
+        Long total = pageInfo.getTotal();
+        data.setCount(total.intValue());
+        return data;
+    }
+
     @Override
     public LayuiTableData getTableDataScientific(LayuiTableParam param) {
         // 每页显示条数
@@ -538,6 +583,7 @@ public class FullSearchServiceImpl implements FullSearchService {
         return data;
     }
 
+    private static String[] outreward = {"xmmc", "sbdw", "sbjz","xkfl","sbdj","rwly","jddw","psdj"};
     private static String[] achievement = {"hth", "xmmc", "cgmc", "zy"};
     private static String[] info = {"xmmc", "xmjb", "ysnd", "yshf", "ysxd", "ysje", "jf", "fwdxbm", "fwdx", "zylbbm", "zylb", "fzdwbm", "fzdw", "jtfzdwbm", "jtfzdw", "fzryx", "fzrdh", "fzrxm", "lxrdh", "lxryx", "lxrxm", "jssxxm", "jssj", "kssj", "yjsj", "zyly", "zysx", "sjid", "status", "yjsjks", "yjsjjs", "xmlbbm", "xmlbmc", "gsbmmc", "gsbmbm", "zycmc", "zycbm", "type_flag", "define3", "define4", "define5", "define6", "define7", "define8", "define9"};
     private List<String> listInfo;

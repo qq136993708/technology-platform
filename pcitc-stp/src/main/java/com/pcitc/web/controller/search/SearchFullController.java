@@ -39,6 +39,7 @@ public class SearchFullController extends BaseController {
 
     private static final String getAwardTable = "http://pcitc-zuul/system-proxy/search/getTableDataAchivement";
     private static final String getTableDataReport = "http://pcitc-zuul/system-proxy/search/getTableDataReport";
+    private static final String getOutRewardTable = "http://pcitc-zuul/system-proxy/search/reward-list";
 
     private static final String search = "http://pcitc-zuul/system-proxy/search/search";
 
@@ -52,6 +53,12 @@ public class SearchFullController extends BaseController {
     public String searchIndex(HttpServletRequest request) throws Exception {
         request.setAttribute("keyword", request.getParameter("keyword"));
         return "stp/hana/home/search/search_index";
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/searchOutreward")
+    public String searchOutreward(HttpServletRequest request) throws Exception {
+        request.setAttribute("keyword", request.getParameter("keyword"));
+        return "stp/hana/home/search/query_outreward";
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/searchReport")
@@ -100,6 +107,22 @@ public class SearchFullController extends BaseController {
         LayuiTableData layuiTableData = new LayuiTableData();
         HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
         ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(getAwardTable, HttpMethod.POST, entity, LayuiTableData.class);
+        int statusCode = responseEntity.getStatusCodeValue();
+        if (statusCode == 200) {
+            layuiTableData = responseEntity.getBody();
+        }
+        JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
+        return result.toString();
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/getTableDataOutReward")
+    @ResponseBody
+    public String getTableDataOutReward(@ModelAttribute("param") LayuiTableParam param) {
+
+        JSONObject tt = JSONObject.parseObject(JSONObject.toJSONString(param));
+        LayuiTableData layuiTableData = new LayuiTableData();
+        HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+        ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(getOutRewardTable, HttpMethod.POST, entity, LayuiTableData.class);
         int statusCode = responseEntity.getStatusCodeValue();
         if (statusCode == 200) {
             layuiTableData = responseEntity.getBody();

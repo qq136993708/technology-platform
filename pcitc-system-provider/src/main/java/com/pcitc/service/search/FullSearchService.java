@@ -39,5 +39,12 @@ public interface FullSearchService {
      */
     public JSONObject setFileFlag(SysFileVo vo);
 
-    LayuiTableData getTableDataReport(LayuiTableParam param_common);
+    /**
+     * 科技奖励
+     * @param param
+     * @return
+     */
+    public LayuiTableData getOutRewardListPage(LayuiTableParam param);
+
+        LayuiTableData getTableDataReport(LayuiTableParam param_common);
 }

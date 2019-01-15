@@ -143,6 +143,7 @@
                 <li>科研课题<span id="keyan"></span></li>
                 <li>科技成果<span id="achivement"></span></li>
                 <li>图表<span id="report"></span></li>
+                <li>科技奖励<span id="outreward"></span></li>
             </ul>
 
             <div class="layui-tab-content">
@@ -157,6 +158,9 @@
                 </div>
                 <div class="layui-tab-item layui-tab-i">
                     <iframe id="ifrreport" src="" class="layui-iframe"></iframe>
+                </div>
+                <div class="layui-tab-item layui-tab-i">
+                    <iframe id="ifroutreward" src="" class="layui-iframe"></iframe>
                 </div>
             </div>
         </div>
@@ -286,6 +290,7 @@
         $("#ifrTwo").attr("src","/fullSearch/query_achievement?keyword="+keyword);
         $("#ifrIndex").attr("src","/fullSearch/searchIndex?keyword="+keyword);
         $("#ifrreport").attr("src","/fullSearch/searchReport?keyword="+keyword);
+        $("#ifroutreward").attr("src","/fullSearch/searchOutreward?keyword="+keyword);
     }
 </script>
 </body>

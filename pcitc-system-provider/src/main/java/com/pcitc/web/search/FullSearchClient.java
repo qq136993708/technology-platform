@@ -51,9 +51,16 @@ public class FullSearchClient {
     }
 
 
-    @ApiOperation(value = "首页查询", notes = "分页显示数据")
+    @ApiOperation(value = "首页报表查询", notes = "分页显示报表")
     @RequestMapping(value = "/search/getTableDataReport", method = RequestMethod.POST)
     public LayuiTableData getTableDataReport(@RequestBody LayuiTableParam param) throws Exception {
         return fullSearchService.getTableDataReport(param);
+    }
+
+    @ApiOperation(value = "分页显示奖励数据", notes = "分页显示奖励数据")
+    @RequestMapping(value = "/search/reward-list", method = RequestMethod.POST)
+    public LayuiTableData getOutRewardListPage(@RequestBody LayuiTableParam param) throws Exception {
+        logger.info("==================page getOutRewardListPage==================" + param);
+        return fullSearchService.getOutRewardListPage(param);
     }
 }
