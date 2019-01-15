@@ -135,6 +135,7 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 			criteria.andDefine4EqualTo("项目管理系统");
 			criteria.andYsndEqualTo(opp.getYsnd());
 			criteria.andXmidEqualTo(opp.getXmid());
+			criteria.andDefine8EqualTo(opp.getDefine8());
 
 			List<OutProjectPlan> oppList = outProjectPlanMapper.selectByExample(example);
 
@@ -142,8 +143,8 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 				OutProjectPlan newOPP = oppList.get(0);
 				if (StrUtil.isNotBlank(opp.getYsje())) {
 					newOPP.setYsje(opp.getYsje());
+					outProjectPlanMapper.updateByPrimaryKey(newOPP);
 				}
-				outProjectPlanMapper.updateByPrimaryKey(newOPP);
 			} else {
 				// 此项目此预算年度没有预算费用
 				OutProjectPlanExample example1 = new OutProjectPlanExample();
@@ -157,6 +158,7 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 					OutProjectPlan insertOPP = insertList.get(0);
 					insertOPP.setYsnd(opp.getYsnd());
 					insertOPP.setYsje(opp.getYsje());
+					insertOPP.setDefine8(opp.getDefine8());
 					insertOPP.setDataId(UUID.randomUUID().toString().replaceAll("-", ""));
 					outProjectPlanMapper.insert(insertOPP);
 				}

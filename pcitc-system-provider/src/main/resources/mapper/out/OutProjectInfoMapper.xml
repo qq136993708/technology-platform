@@ -2455,28 +2455,37 @@
   	
   	<!-- 获取详细的查询条件 -->
 	<select id="getProjectInfoSelectCondition" resultType="java.util.Map" parameterType="java.util.HashMap">
-		select 'define1' as showCode,define1 as showName from out_project_info
+		select 'define1' as showCode,define1 as showName 
+		from out_project_info
+		WHERE
+		define3='项目管理系统'
 		group by define1
 		union ALL
 		select 'define2',SUBSTR(define2 FROM 4) from out_project_info
-		where 
-		type_flag like '%研究院%'
+		WHERE
+		define3='项目管理系统' and type_flag like '%研究院%'
 		group by define2
 		
 		union ALL
 		
 		select 'type_flag',case when type_flag is null then '其他' else SUBSTR(type_flag FROM 2) end as type_flag
 		from out_project_info
+		WHERE
+		define3='项目管理系统'
 		group by type_flag
 		
 		union ALL
 		select 'zylb', case when zylb is null then '其他' else zylb end as zylb
 		from out_project_info
+		WHERE
+		define3='项目管理系统'
 		group by zylb
 		
 		union ALL
 		select 'zycmc', case when zycmc is null then '其他' else zycmc end as zycmc
 		from out_project_info
+		WHERE
+		define3='项目管理系统'
 		group by zycmc
 		
 	</select>
@@ -2529,10 +2538,10 @@
 			<if test="ysnd != null">
 				and out_project_info.ysnd = #{ysnd}
 			</if>
-			<if test="ktlx != null and ktlx == '新开' and nd != null">
+			<if test="ktlx != null and ktlx == '新开课题' and nd != null">
 				and out_project_info.ysnd = #{nd} and out_project_info.nd = #{nd} 
 			</if>
-			<if test="ktlx != null and ktlx == '结转' and nd != null">
+			<if test="ktlx != null and ktlx == '结转课题' and nd != null">
 				and out_project_info.ysnd = #{nd} and out_project_info.nd &lt; #{nd} 
 			</if>
 			<if test="hth != null">
