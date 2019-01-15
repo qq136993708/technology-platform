@@ -25,7 +25,7 @@ public class ScientificFundsServiceImpl implements IScientificFundsService {
      private final static Logger logger = LoggerFactory.getLogger(DecisionFinancialServiceImpl.class);
      @Autowired
      private ScientificFundsMapper scientificFundsMapper;
-	 public LayuiTableData getTzxmwcqktjbData(LayuiTableParam param)throws Exception
+	 public LayuiTableData getKtzjjfytjbData(LayuiTableParam param)throws Exception
   	 {
   		//每页显示条数
   		int pageSize = param.getLimit();
@@ -56,4 +56,140 @@ public class ScientificFundsServiceImpl implements IScientificFundsService {
   		data.setCount(totalRecords);
   	    return data;
   	}
+	 
+	 
+	 
+	//人工成本支出统计表
+	 public LayuiTableData getRgcbzctjbData(LayuiTableParam param)throws Exception
+  	 {
+  		//每页显示条数
+  		int pageSize = param.getLimit();
+  		//从第多少条开始
+  		int pageNum = param.getPage();
+  		Page p=new Page(pageNum,pageSize);
+		int start=(pageNum-1)*p.getPageSize();
+  		String g0TXT50=(String)param.getParam().get("g0TXT50");
+  		String g0GSJC=(String)param.getParam().get("g0GSJC");
+  		String g0ZCMS=(String)param.getParam().get("g0ZCMS");
+  		String month=(String)param.getParam().get("month");
+  		String companyCode=(String)param.getParam().get("companyCode");
+  		logger.info("===明细查询参数 param: "+JSONObject.toJSONString(param));
+  		Map map=new HashMap();
+  		map.put("start", start);
+  		map.put("pageSize", pageSize);
+  		map.put("month", month);
+  		map.put("companyCode", companyCode);
+  		map.put("g0TXT50", g0TXT50);
+  		map.put("g0ZCMS", g0ZCMS);
+  		map.put("g0GSJC", g0GSJC);
+  		
+  		List<ScientificFunds> list = scientificFundsMapper.getList(map);
+  		Integer totalRecords = scientificFundsMapper.getCount(map);
+  		System.out.println(">>>>>>>>>查询分页结果"+totalRecords);
+  		LayuiTableData data = new LayuiTableData();
+  		data.setData(list);
+  		data.setCount(totalRecords);
+  	    return data;
+  	}
+	//原材料支出统计表
+	 public LayuiTableData getYclzctjbData(LayuiTableParam param)throws Exception
+  	 {
+  		//每页显示条数
+  		int pageSize = param.getLimit();
+  		//从第多少条开始
+  		int pageNum = param.getPage();
+  		Page p=new Page(pageNum,pageSize);
+		int start=(pageNum-1)*p.getPageSize();
+  		String g0TXT50=(String)param.getParam().get("g0TXT50");
+  		String g0GSJC=(String)param.getParam().get("g0GSJC");
+  		String g0ZCMS=(String)param.getParam().get("g0ZCMS");
+  		String month=(String)param.getParam().get("month");
+  		String companyCode=(String)param.getParam().get("companyCode");
+  		logger.info("===明细查询参数 param: "+JSONObject.toJSONString(param));
+  		Map map=new HashMap();
+  		map.put("start", start);
+  		map.put("pageSize", pageSize);
+  		map.put("month", month);
+  		map.put("companyCode", companyCode);
+  		map.put("g0TXT50", g0TXT50);
+  		map.put("g0ZCMS", g0ZCMS);
+  		map.put("g0GSJC", g0GSJC);
+  		
+  		List<ScientificFunds> list = scientificFundsMapper.getList(map);
+  		Integer totalRecords = scientificFundsMapper.getCount(map);
+  		System.out.println(">>>>>>>>>查询分页结果"+totalRecords);
+  		LayuiTableData data = new LayuiTableData();
+  		data.setData(list);
+  		data.setCount(totalRecords);
+  	    return data;
+  	}
+	 
+	    //能耗支出统计表
+		 public LayuiTableData getNhzctjbData(LayuiTableParam param)throws Exception
+	  	 {
+	  		//每页显示条数
+	  		int pageSize = param.getLimit();
+	  		//从第多少条开始
+	  		int pageNum = param.getPage();
+	  		Page p=new Page(pageNum,pageSize);
+			int start=(pageNum-1)*p.getPageSize();
+	  		String g0TXT50=(String)param.getParam().get("g0TXT50");
+	  		String g0GSJC=(String)param.getParam().get("g0GSJC");
+	  		String g0ZCMS=(String)param.getParam().get("g0ZCMS");
+	  		String month=(String)param.getParam().get("month");
+	  		String companyCode=(String)param.getParam().get("companyCode");
+	  		logger.info("===明细查询参数 param: "+JSONObject.toJSONString(param));
+	  		Map map=new HashMap();
+	  		map.put("start", start);
+	  		map.put("pageSize", pageSize);
+	  		map.put("month", month);
+	  		map.put("companyCode", companyCode);
+	  		map.put("g0TXT50", g0TXT50);
+	  		map.put("g0ZCMS", g0ZCMS);
+	  		map.put("g0GSJC", g0GSJC);
+	  		
+	  		List<ScientificFunds> list = scientificFundsMapper.getList(map);
+	  		Integer totalRecords = scientificFundsMapper.getCount(map);
+	  		System.out.println(">>>>>>>>>查询分页结果"+totalRecords);
+	  		LayuiTableData data = new LayuiTableData();
+	  		data.setData(list);
+	  		data.setCount(totalRecords);
+	  	    return data;
+	  	}
+			
+		 
+		 
+		//项目资金流向分析
+		 public LayuiTableData getXmzjlxfxData(LayuiTableParam param)throws Exception
+	  	 {
+	  		//每页显示条数
+	  		int pageSize = param.getLimit();
+	  		//从第多少条开始
+	  		int pageNum = param.getPage();
+	  		Page p=new Page(pageNum,pageSize);
+			int start=(pageNum-1)*p.getPageSize();
+	  		String g0TXT50=(String)param.getParam().get("g0TXT50");
+	  		String g0GSJC=(String)param.getParam().get("g0GSJC");
+	  		String g0ZCMS=(String)param.getParam().get("g0ZCMS");
+	  		String month=(String)param.getParam().get("month");
+	  		String companyCode=(String)param.getParam().get("companyCode");
+	  		logger.info("===明细查询参数 param: "+JSONObject.toJSONString(param));
+	  		Map map=new HashMap();
+	  		map.put("start", start);
+	  		map.put("pageSize", pageSize);
+	  		map.put("month", month);
+	  		map.put("companyCode", companyCode);
+	  		map.put("g0TXT50", g0TXT50);
+	  		map.put("g0ZCMS", g0ZCMS);
+	  		map.put("g0GSJC", g0GSJC);
+	  		
+	  		List<ScientificFunds> list = scientificFundsMapper.getList(map);
+	  		Integer totalRecords = scientificFundsMapper.getCount(map);
+	  		System.out.println(">>>>>>>>>查询分页结果"+totalRecords);
+	  		LayuiTableData data = new LayuiTableData();
+	  		data.setData(list);
+	  		data.setCount(totalRecords);
+	  	    return data;
+	  	}
+			
 }

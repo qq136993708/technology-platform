@@ -5712,6 +5712,9 @@ public static ChartBarLineSeries getKNOWLDGELevel2ChartBarLineSeries07(List<Know
 	 	    	companyCodeList.add(cc);
 	 	    }
 	 		request.setAttribute("companyCodeList", companyCodeList);
+	 		
+			
+	 		
 	 		request.setAttribute("allCode", sb.toString());
 	 		request.setAttribute("companyCode", sb.toString());
 	    }

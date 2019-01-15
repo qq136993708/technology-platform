@@ -483,6 +483,33 @@ public class DecisionFinancialServiceImpl implements IDecisionFinancialService {
 			  return dayCashFlowMapper.getDayCashFlowReport(map);
 		  }
 		  
+		  public LayuiTableData getXjrllfx(LayuiTableParam param)throws Exception
+	      {
+	    	    //每页显示条数
+		  		int pageSize = param.getLimit();
+		  		int pageNum = param.getPage();
+		  		Page p=new Page(pageNum,pageSize);
+				int start=(pageNum-1)*p.getPageSize();
+		  		String month=(String)param.getParam().get("month");
+		  		String g0PROJCODE=(String)param.getParam().get("g0PROJCODE");
+		  		logger.info("===课题研发支出参数 param: "+JSONObject.toJSONString(param));
+		  		Map map=new HashMap();
+		  		map.put("start", start);
+		  		map.put("pageSize", pageSize);
+		  		map.put("month", month);
+		  		map.put("g0PROJCODE", g0PROJCODE);
+		  		
+		  		List<TopicDevelop> list = topicDevelopMapper.getlist(map);
+		  		Integer totalRecords = topicDevelopMapper.getCount(map);
+		  		System.out.println(">>>>>>>>>课题研发支出查询分页结果"+totalRecords);
+		  		LayuiTableData data = new LayuiTableData();
+		  		data.setData(list);
+		  		data.setCount(totalRecords);
+		  	    return data;
+	      }
+		  
+		  
+		  
 		  
 
 }

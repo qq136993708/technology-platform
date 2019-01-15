@@ -2,7 +2,135 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.pcitc.mapper.financial.ScientificInvestmentMapper">
 	
-	  
+	
+	
+	
+     <resultMap id="brandConstructionPayResultMap" type="com.pcitc.base.hana.report.ScientificInvestment" >
+       <result column="G0GSDM"       property="g0GSDM"      jdbcType="VARCHAR" />
+       <result column="G0GSJC"       property="g0GSJC"      jdbcType="VARCHAR" />
+       <result column="G0PROJCODE"   property="g0PROJCODE"  jdbcType="VARCHAR" />
+       <result column="G0YEARXM"     property="g0YEARXM"    jdbcType="VARCHAR" />
+       <result column="G0PROJTXT"    property="g0PROJTXT"   jdbcType="VARCHAR" />
+       <result column="G0XMGLLX"     property="g0XMGLLX"    jdbcType="VARCHAR" />
+       <result column="G0XMGLLY"     property="g0XMGLLY"    jdbcType="VARCHAR" />
+       <result column="g0XMGLJB"     property="g0XMGLJB"        jdbcType="VARCHAR" />
+       <result column="g0XMLX"       property="g0XMLX"          jdbcType="VARCHAR" />
+       <result column="g0XMZT"       property="g0XMZT"          jdbcType="VARCHAR" />
+       <result column="g0XMZTMS"     property="g0XMZTMS"        jdbcType="VARCHAR" />
+       
+       <result column="K0BNYSJHJE"        property="k0BNYSJHJE"        jdbcType="VARCHAR" />
+       <result column="K0BNGLFPHJECB"     property="k0BNGLFPHJECB"        jdbcType="VARCHAR" />
+       <result column="K0BNSJCNJE"     property="k0BNSJCNJE"        jdbcType="VARCHAR" />
+       <result column="K0BNSJDJJE"     property="k0BNSJDJJE"        jdbcType="VARCHAR" />
+       <result column="K0BNYSJY"       property="k0BNYSJY"        jdbcType="VARCHAR" />
+       <result column="K0BNZJSYBL"     property="k0BNZJSYBL"        jdbcType="VARCHAR" />
+       <result column="K0LJGLFPHJECB"  property="k0LJGLFPHJECB"        jdbcType="VARCHAR" />
+       <result column="K0LJSJCNJE"     property="k0LJSJCNJE"        jdbcType="VARCHAR" />
+       <result column="K0LJSJDJJE"     property="k0LJSJDJJE"        jdbcType="VARCHAR" />
+       <result column="K0LJYSJY"       property="k0LJYSJY"        jdbcType="VARCHAR" />
+       <result column="K0LJZJSYBL"     property="k0LJZJSYBL"        jdbcType="VARCHAR" />
+       
+       
+       
+     </resultMap>
+     
+      <!-- 投资项目完成情况统计表--> 
+	 <select id="getTzxmwcqktjbDataList" resultMap="brandConstructionPayResultMap" parameterType="java.util.Map" >
+      SELECT
+			"G0XMBK",
+			"G0XMLXMS",
+			"G0GSJC",
+			"G0PROJTXT",
+			"G0PROJCODE",
+			round( sum("K0BNYSJHJE")/10000,2)  AS "K0BNYSJHJE",
+			round(sum("K0BNGLFPHJECB")/10000,2) AS "K0BNGLFPHJECB",
+			round( sum("K0BNSJCNJE")/10000,2) AS "K0BNSJCNJE",
+			round( sum("K0BNSJDJJE")/10000,2) AS "K0BNSJDJJE",
+			round( sum("K0BNYSJY")/10000,2) AS "K0BNYSJY",
+			round( sum("K0BNZJSYBL"),2) AS "K0BNZJSYBL",
+			round( sum("K0ZTYSJE")/10000,2) AS "K0ZTYSJE",
+			round(sum("K0LJGLFPHJECB")/10000,2) AS "K0LJGLFPHJECB",
+			round(sum("K0LJSJCNJE")/10000,2) AS "K0LJSJCNJE",
+			round( sum("K0LJSJDJJE")/10000,2) AS "K0LJSJDJJE",
+			round( sum("K0LJYSJY") /10000,2) AS "K0LJYSJY",
+			round( sum("K0LJZJSYBL"),2) AS "K0LJZJSYBL" 
+		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_TZ_1001_01"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+			 '${month}'),
+			 'PLACEHOLDER' = ('$$PR_GSDM$$',
+			 '${companyCode}')) 
+		GROUP BY 
+			 "G0GSJC",
+			 "G0XMLXMS",
+			 "G0XMBK",
+			 "G0PROJTXT",
+			 "G0PROJCODE"
+			  order by  "G0XMBK","G0XMLXMS"
+			 <if test="pageSize != null and pageSize !=''">  limit ${pageSize} offset  ${start} </if>   
+	 </select>
+	 <select id="getTzxmwcqktjbDataCount" resultType="java.lang.Integer" parameterType="java.util.Map"> 
+	 
+	select count(*) from(
+        SELECT  count(*)
+	       FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_TZ_1001_01"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+			 '${month}'),
+			 'PLACEHOLDER' = ('$$PR_GSDM$$',
+			 '${companyCode}')) 
+		GROUP BY  
+		     "G0GSJC",
+			 "G0XMLXMS",
+			 "G0XMBK",
+			 "G0PROJTXT",
+			 "G0PROJCODE")
+     </select>
+	 
+	  <select id="getTzxmcgjdtjbDataList" resultMap="brandConstructionPayResultMap" parameterType="java.util.Map" >
+       SELECT
+			 "G0CALY",
+			 "G0ZCMS",
+			 round(sum("K0BNJE")/10000,2) AS "K0BNJE"
+	    FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_CB_1007_01"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+			 '${month}'),
+			 'PLACEHOLDER' = ('$$PR_GSDM$$',
+			 '${companyCode}')) 
+		GROUP BY 
+			 "G0ZCMS","G0CALY"
+			 <if test="pageSize != null and pageSize !=''">  limit ${pageSize} offset  ${start} </if>   
+	 </select>
+	 
+	  <select id="getTzxmcgjdtjbDataCount" resultType="java.lang.Integer" parameterType="java.util.Map"> 
+        SELECT
+		      count(*)
+		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_CB_1008_01"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+			 '${month}'),
+			 'PLACEHOLDER' = ('$$PR_GSDM$$',
+			 '${companyCode}'))  
+     </select>
+     
+     
+	 
+	 <!-- 投资项目转出情况表 -->
+	   <select id="getTzxmzcqkbDataList" resultMap="brandConstructionPayResultMap" parameterType="java.util.Map" >
+       SELECT
+			 "G0CALY",
+			 "G0ZCMS",
+			 round(sum("K0BNJE")/10000,2) AS "K0BNJE"
+	    FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_CB_1007_01"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+			 '${month}'),
+			 'PLACEHOLDER' = ('$$PR_GSDM$$',
+			 '${companyCode}')) 
+		GROUP BY 
+			 "G0ZCMS","G0CALY"
+			 <if test="pageSize != null and pageSize !=''">  limit ${pageSize} offset  ${start} </if>   
+	 </select>
+	 
+	 <select id="getTzxmzcqkbDataCount" resultType="java.lang.Integer" parameterType="java.util.Map"> 
+        SELECT
+		      count(*)
+		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_CB_1008_01"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+			 '${month}'),
+			 'PLACEHOLDER' = ('$$PR_GSDM$$',
+			 '${companyCode}'))  
+     </select>
 	  
      
 </mapper>
