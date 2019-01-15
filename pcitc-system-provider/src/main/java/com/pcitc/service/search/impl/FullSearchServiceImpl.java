@@ -71,15 +71,12 @@ public class FullSearchServiceImpl implements FullSearchService {
 
         //科研
         LayuiTableData tableDataScientific = this.getTableDataScientific(param_common);
-        tableDataScientific.addPropertyToData("select_type","scientific");
         List<?> scientificData = tableDataScientific.getData();
         //成果
         LayuiTableData tableDataAchivementc = this.getTableDataAchivement(param_common);
-        tableDataAchivementc.addPropertyToData("select_type","achivement");
         List<?> achivementcData = tableDataAchivementc.getData();
         //报表
         LayuiTableData tableDataReport = this.getTableDataReport(param_common);
-        tableDataReport.addPropertyToData("select_type","report");
         List<?> reportData = tableDataReport.getData();
 
         //汇总
@@ -87,18 +84,21 @@ public class FullSearchServiceImpl implements FullSearchService {
         int total = 0;
 
         if (achivementcData != null) {
+            tableDataAchivementc.addPropertyToData("select_type","achivement");
             total = total + 1;
             for (int i = 0; i < achivementcData.size(); i++) {
                 list.add(achivementcData.get(i));
             }
         }
         if (scientificData != null) {
+            tableDataScientific.addPropertyToData("select_type","scientific");
             total = total + 1;
             for (int i = 0; i < scientificData.size(); i++) {
                 list.add(scientificData.get(i));
             }
         }
         if (reportData != null) {
+            tableDataReport.addPropertyToData("select_type","report");
             total = total + 1;
             for (int i = 0; i < reportData.size(); i++) {
                 list.add(reportData.get(i));
@@ -318,7 +318,7 @@ public class FullSearchServiceImpl implements FullSearchService {
 
         LayuiTableData data = new LayuiTableData();
 
-        if (keywords != null && !"".equals(keywords) && listInfo.size() > 0) {
+        if (keywords != null && !"".equals(keywords)) {
             data.setData(setKeyWordCss(pageInfo, keywords.toString()));
         } else {
             data.setData(pageInfo.getList());

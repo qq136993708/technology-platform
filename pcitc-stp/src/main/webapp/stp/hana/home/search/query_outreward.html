@@ -34,7 +34,9 @@
 				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" data-type="detailEvent">查看</button>
 			</div>
 		</div>
-		<table id="showTable" class="layui-hide" lay-filter="tableData"></table>
+        <input type="hidden" name="keyword"  value="${keyword}"  id="keyword">
+
+        <table id="showTable" class="layui-hide" lay-filter="tableData"></table>
 	</div>
 
 
@@ -53,14 +55,15 @@
 				//渲染
 				table.render({
 					elem : '#showTable',
-					url : '/out/reward-list',
+					url : '/fullSearch/getTableDataOutReward',
 					method : "POST",
 					where : {
 						param : {
 							"xmbh" : xmbh,
 							"xmmc" : xmmc,
-							"functionCode" : param.code
-						}
+							"functionCode" : param.code,
+                            "keyword":$("#keyword").val()
+                        }
 					},
 					limit : param.selfRownum,
 					id : 'showTable',
@@ -158,6 +161,7 @@
 					done : function(res, curr, count) {
 						// 关闭等待刷新
 						layer.close(lodingMsg);
+                        parent.$("#outreward").html(count);
 
 						// 点击行联动选择框--单选
 						$('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function() {
