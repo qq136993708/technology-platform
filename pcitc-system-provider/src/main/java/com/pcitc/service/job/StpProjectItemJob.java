@@ -78,6 +78,7 @@ public class StpProjectItemJob implements Job, Serializable {
 					opi.setFzdwbm(dwbm);
 					opi.setCreateDate(new Date());
 					opi.setCreatePerson("newItem");
+					opi.setDefine3("项目管理系统");
 					insertData.add(opi);
 					
 					OutProjectPlan opp = new OutProjectPlan();

@@ -207,11 +207,11 @@ public class OutProjectServiceImpl implements OutProjectService {
 		// 修改本年的预算，没有的查询原项目信息后，保存
 		for (int i = 0; i<list.size(); i++) {
 			
-			// int temInt = this.updateOutProjectInfoForYS(list.get(i));
+			int temInt = this.updateOutProjectInfoForYS(list.get(i));
 
 		}
 		
-		outProjectInfoMapper.insertOutProjectBatch(list);
+		//outProjectInfoMapper.insertOutProjectBatch(list);
 
 		return 1;
 	}
@@ -524,6 +524,8 @@ public class OutProjectServiceImpl implements OutProjectService {
 				insertOPI.setCreateDate(new Date());
 				insertOPI.setCreatePerson("newItem");
 				insertOPI.setDefine8(opi.getDefine8());
+				insertOPI.setDefine3(opi.getDefine3());
+				insertOPI.setFzdwbm(opi.getFzdwbm());
 
 				List<OutProjectInfo> temList = new ArrayList<OutProjectInfo>();
 				temList.add(insertOPI);
