@@ -191,6 +191,39 @@ layui.define(['jquery'],function (e) {
         }
         return htmlImg;
     };
+    o.search = function(d){
+        var html='';
+        /*var html=" <div class='layui-div'>" +
+            "        <a href='#'>2018年直属研究院科研<em>预算</em></a>" +
+            "        <div class='c-row c-gap-top-small'>" +
+            "            <a href=''>" +
+            "                <img src='/layuiadmin/layui/images/icon-seach-j.png' alt=''>" +
+            "            </a>" +
+            "            <div class='c-span18 c-span-last'>" +
+            "                <p>2018年直属研究院科研<em>预算</em></p>" +
+            "            </div>" +
+            "        </div>" +
+            "    </div>";*/
+        var title='',abstract='',details='';
+        console.log(d)
+        if(d.cgmc!=undefined){
+            title=d.cgmc;
+        }else if(d.xmmc!=undefined){
+            title=d.xmmc;
+        }else if(d.reportDesc!=undefined){
+            title=d.reportDesc;
+        }
+        html='<div class="layui-div layui-div-n">' +
+            '        <a href="#">'+title+'</a>' +
+            /*'        <div class="c-row c-gap-top-small">' +
+            '            <div class="c-span18 c-span-last">' +
+            '                <p>摘要：2018年直属研究院科研<em>预算</em></p>' +
+            '                <p>2018年直属研究院科研<em>预算</em></p>' +
+            '            </div>' +
+            '        </div>' +*/
+            '    </div>';
+        return html;
+    };
     o.milliFormat = function (number, decimals, dec_point, thousands_sep,roundtag) {
         /*
         * 参数说明：

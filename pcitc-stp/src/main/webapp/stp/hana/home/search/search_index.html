@@ -7,33 +7,16 @@
     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/common.css">
     <script src="/layuiadmin/layui/layui.js"></script>
+    <style>
+        .layui-table-click,.layui-table-hover,.layui-table tbody tr:hover{background: none;}
+        .layui-table-header{display: none;}
+        .layui-table-view,.layui-table-page,.tableBox table tr td{border: none;}
+        .layui-table-body{margin-top: 20px;}
+    </style>
 </head>
 <body>
-<div class="searchBox">
-    <!--查询条件-->
-    <label class="dateInput">
-        <span>名称</span>
-        <input type="text" name="cgmc" placeholder="请输名称" title="名称" autocomplete="off" class="form-control" id="cgmc">
-    </label>
-
-    <label class="dateInput">
-        <span>hth</span>
-        <input type="text" name="hth" placeholder="hth" title="hth" autocomplete="off" class="form-control" id="hth">
-    </label>
-
-
-    <label class="dateInput">
-        <span>描述</span>
-        <input type="text" name="xmmc" placeholder="描述" title="描述" autocomplete="off" class="form-control" id="xmmc">
-    </label>
-    <input type="hidden" name="keyword"  value="${keyword}"  id="keyword">
-    <input type="hidden" name="fileCount"  value="3"  id="fileCount"><!--当前页面实际显示数量-文件数量-->
-
-    <!--按钮组-->
-    <div class="btnGroup">
-        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg"  onclick="renderTable()">查询</button>
-    </div>
-</div>
+<input type="hidden" name="keyword"  value="${keyword}"  id="keyword">
+<input type="hidden" name="fileCount"  value="3"  id="fileCount"><!--当前页面实际显示数量-文件数量-->
 <div class="tableBox">
     <table id="processdef-table" class="layui-hide" lay-filter="tableEvent"></table>
 </div>
@@ -93,7 +76,7 @@
         };
         //监听排序
         table.on('sort(model-table)', function(obj){
-            console.log(this, obj.field, obj.type)
+            //console.log(this, obj.field, obj.type)
             //return;
             //服务端排序
             table.reload('model-table', {
@@ -129,7 +112,7 @@
                 }},
             limit: 15,
             id: 'processdef-table',
-            height: "450",
+            height: $(document).height(),
             page: {
                 groups: 5,
                 limits: [15,30,45,60],
@@ -139,20 +122,12 @@
                 theme: '#0F9EE0'
             },
             cols: [[
-                {title:'序号',          type:'numbers', width: '4%'},
+                {field:'LAY_TABLE_INDEX',title:'年度',
+                    templet:  '<div>{{ layui.laytpl.search(d) }}</div>' },
             ]],
             done: function (res, curr, count) {
-                console.log(res.data);
-                // 点击行联动选择框--单选
-                $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
-                    var index=parseInt($(this).index()+1);
-                    $('tr').removeClass('layui-table-click');
-                    $(this).addClass('layui-table-click');
-                    $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked");
-                    $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
-                    selectRowData=res.data[index-1];
-                });
                 parent.$("#index").html(count);
+                $("#fileCount").val(res.msg);
                 layer.close(index);
             }
         });
