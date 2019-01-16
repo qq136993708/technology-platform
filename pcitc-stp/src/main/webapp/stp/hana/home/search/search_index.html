@@ -126,6 +126,8 @@
                     templet:  '<div>{{ layui.laytpl.search(d) }}</div>' },
             ]],
             done: function (res, curr, count) {
+                console.log("综合");
+                console.log(res.data);
                 parent.$("#index").html(count);
                 $("#fileCount").val(res.msg);
                 layer.close(index);

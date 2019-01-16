@@ -90,6 +90,7 @@
             };
 
             publicMethods.tableRender('sysReportStpTableId', 'sysReportStpTableId', '/fullSearch/getTableDataReport', false, cols, where, true, function (res, curr, count) {
+                parent.$("#report").html(count);
                 console.log("report table");
                 console.log(res.data);
                 $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
