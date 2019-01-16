@@ -314,8 +314,15 @@ function setinvestmentCount(url)
 	        	           
 	        	           for(var i=0;i<list.length;i++)
 	        	           {
+	        	        	   var tt=list[i].fyxsjje;
+	        	        	   
+	        	        	   if (typeof(tt) == "undefined")
+	        	        	   {
+	        	        		   tt=0;
+	        	        	   }
+	        	        	   
 	        	        	  var zysje=list[i].zysje/10000;//预算总计 
-	        	        	  var fyxsjje=list[i].fyxsjje/10000;//费用性科研投入
+	        	        	  var fyxsjje=tt/10000;//费用性科研投入
 	        	        	  var zbxsjje=list[i].zbxsjje/10000;//资本性科研投入
 	        	        	  // alert(fyxsjje);
 	        	        	  zysje_count=zysje_count+parseFloat(zysje);
