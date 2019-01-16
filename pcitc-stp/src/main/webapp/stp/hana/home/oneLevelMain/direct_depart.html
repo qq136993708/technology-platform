@@ -128,9 +128,9 @@
                     </div>
                     <div class="layui-card-body btn-function">
                        <div class="text-total">
-                            <span>总计:<span    class="text-total-blue"    id="topic_chart1_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>新开课题:<span class="text-total-blue"    id="topic_chart1_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>结转课题:<span class="text-total-blue"    id="topic_chart1_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>总计:<span    class="text-total-blue"    id="topic_chart1_01" onclick="equipment_chart1('')"     style="cursor:pointer"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>新开课题:<span class="text-total-blue"    id="topic_chart1_02" onclick="equipment_chart1('新开课题')"     style="cursor:pointer"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>结转课题:<span class="text-total-blue"    id="topic_chart1_03" onclick="equipment_chart1('结转课题')"     style="cursor:pointer"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                         </div>
                         <div  style="height:270px;width: 100%;" id="topic_chart1"></div>
                     </div>
@@ -159,9 +159,9 @@
                     </div>
                     <div class="layui-card-body btn-function">
                       <div class="text-total">
-                            <span>总计:<span    class="text-total-blue"    id="direct_topic_chart3_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>新开课题:<span class="text-total-blue"    id="direct_topic_chart3_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>结转课题:<span class="text-total-blue"    id="direct_topic_chart3_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>总计:<span    class="text-total-blue"    id="direct_topic_chart3_01" onclick="equipment_chart2('')"     style="cursor:pointer"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>新开课题:<span class="text-total-blue"    id="direct_topic_chart3_02" onclick="equipment_chart2('新开课题')"     style="cursor:pointer"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>结转课题:<span class="text-total-blue"    id="direct_topic_chart3_03" onclick="equipment_chart2('结转课题')"     style="cursor:pointer"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                         </div>
                         <div  style="height:270px;width: 100%;" id="direct_topic_chart3"></div>
                     </div>
@@ -777,6 +777,30 @@
         
         
         init();
+        
+        
+        
+        function equipment_chart1(ktlx)
+        {
+        	
+
+        	var nd=$('#year').val();
+        	var v_date=(new Date()).getTime();
+        	var url=　encodeURIComponent("/one_level_main/count_table?nd="+nd+"&ysnd="+nd+"&v_date="+v_date+"&ktlx="+ktlx+"&type_flag=直属研究院");
+            window.open("/instituteIndex?url="+url);
+        }
+
+        
+        function equipment_chart2(ktlx)
+        {
+        	
+
+        	var nd=$('#year').val();
+        	var v_date=(new Date()).getTime();
+        	var url=　encodeURIComponent("/one_level_main/count_table?nd="+nd+"&ysnd="+nd+"&define1=资本性&v_date="+v_date+"&ktlx="+ktlx);
+            window.open("/instituteIndex?url="+url);
+        }
+
      </script>
 </body>
 </html>

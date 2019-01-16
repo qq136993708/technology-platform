@@ -2,7 +2,181 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.pcitc.mapper.financial.ScientificInvestmentMapper">
 	
+	
+	
+	
+     <resultMap id="brandConstructionPayResultMap" type="com.pcitc.base.hana.report.ScientificInvestment" >
+       <result column="G0GSDM"       property="g0GSDM"      jdbcType="VARCHAR" />
+       <result column="G0GSJC"       property="g0GSJC"      jdbcType="VARCHAR" />
+       <result column="G0PROJCODE"   property="g0PROJCODE"  jdbcType="VARCHAR" />
+       <result column="G0YEARXM"     property="g0YEARXM"    jdbcType="VARCHAR" />
+       <result column="G0PROJTXT"    property="g0PROJTXT"   jdbcType="VARCHAR" />
+       <result column="G0XMGLLX"     property="g0XMGLLX"    jdbcType="VARCHAR" />
+       <result column="G0XMGLLY"     property="g0XMGLLY"    jdbcType="VARCHAR" />
+       <result column="G0XMGLJB"     property="g0XMGLJB"        jdbcType="VARCHAR" />
+       <result column="G0XMLX"       property="g0XMLX"          jdbcType="VARCHAR" />
+       <result column="G0XMZT"       property="g0XMZT"          jdbcType="VARCHAR" />
+       <result column="G0XMZTMS"     property="g0XMZTMS"        jdbcType="VARCHAR" />
+       
+       
+       <result column="K0BNYSJHJE"     property="k0BNYSJHJE"        jdbcType="DECIMAL" />
+       <result column="K0BNGLFPHJECB"  property="k0BNGLFPHJECB"     jdbcType="DECIMAL" />
+       <result column="K0BNSJCNJE"     property="k0BNSJCNJE"        jdbcType="DECIMAL" />
+       <result column="K0BNSJDJJE"     property="k0BNSJDJJE"        jdbcType="DECIMAL" />
+       <result column="K0BNYSJY"       property="k0BNYSJY"          jdbcType="DECIMAL" />
+       <result column="K0BNZJSYBL"     property="k0BNZJSYBL"        jdbcType="DECIMAL" />
+       <result column="K0LJGLFPHJECB"  property="k0LJGLFPHJECB"     jdbcType="DECIMAL" />
+       <result column="K0LJSJCNJE"     property="k0LJSJCNJE"        jdbcType="DECIMAL" />
+       <result column="K0LJSJDJJE"     property="k0LJSJDJJE"        jdbcType="DECIMAL" />
+       <result column="K0LJYSJY"       property="k0LJYSJY"          jdbcType="DECIMAL" />
+       <result column="K0LJZJSYBL"     property="k0LJZJSYBL"        jdbcType="DECIMAL" />
+       <result column="ADD1"           property="aDD1"              jdbcType="DECIMAL" />
+       <result column="ADD2"           property="aDD2"              jdbcType="DECIMAL" />
+       <result column="K0ZTYSJE"       property="k0ZTYSJE"          jdbcType="DECIMAL" />
+       
+       <result column="K0XMXQSL"       property="k0XMXQSL"          jdbcType="DECIMAL" />
+       <result column="K0XMJHSL"       property="k0XMJHSL"          jdbcType="DECIMAL" />
+       <result column="K0XMJHJE"       property="k0XMJHJE"          jdbcType="DECIMAL" />
+       <result column="K0XMDDSL"       property="k0XMDDSL"          jdbcType="DECIMAL" />
+       <result column="K0XMDDJE"       property="k0XMDDJE"          jdbcType="DECIMAL" />
+       <result column="K0XMRKSL"       property="k0XMRKSL"          jdbcType="DECIMAL" />
+       <result column="K0XMRKJE"       property="k0XMRKJE"          jdbcType="DECIMAL" />
+       <result column="K0XMFPSL"       property="k0XMFPSL"          jdbcType="DECIMAL" />
+       <result column="K0XMFPJE"       property="k0XMFPJE"          jdbcType="DECIMAL" />
+       <result column="K0XMYFWQJE"     property="k0XMYFWQJE"        jdbcType="DECIMAL" />
+       <result column="K0XMLYJE"       property="k0XMLYJE"          jdbcType="DECIMAL" />
+       
+       <result column="K0WQJE"     property="k0WQJE"        jdbcType="DECIMAL" />
+       <result column="K0YQJE"     property="k0YQJE"        jdbcType="DECIMAL" />
+       <result column="K0ZBJE"     property="k0ZBJE"        jdbcType="DECIMAL" />
+       
+       <result column="K0NCGZYZLJJE"     property="k0NCGZYZLJJE"        jdbcType="DECIMAL" />
+       <result column="K0NCGZYZLJGZJE"     property="k0NCGZYZLJGZJE"        jdbcType="DECIMAL" />
+       <result column="K0NCGZYZLJZJJE"     property="k0NCGZYZLJZJJE"        jdbcType="DECIMAL" />
+       <result column="K0NCGZYZBNJE"     property="k0NCGZYZBNJE"        jdbcType="DECIMAL" />
+       <result column="K0NCGZYZBNGZJE"     property="k0NCGZYZBNGZJE"        jdbcType="DECIMAL" />
+       <result column="K0NCGZYZBNZJJE"     property="k0NCGZYZBNZJJE"        jdbcType="DECIMAL" />
+	    
+       
+       
+       
+     </resultMap>
+     
+      <!-- 投资项目完成情况统计表--> 
+	 <select id="getTzxmwcqktjbDataList" resultMap="brandConstructionPayResultMap" parameterType="java.util.Map" >
+      SELECT
+			"G0XMBK",
+			"G0XMLXMS",
+			"G0GSJC",
+			
+			round( (sum("K0LJGLFPHJECB") + sum("K0LJSJDJJE"))  /10000,2) AS "ADD1",
+	        round( (sum("K0BNGLFPHJECB") + sum("K0BNSJDJJE"))  /10000,2) AS "ADD2",
+			round( sum("K0BNYSJHJE")/10000,2)  AS "K0BNYSJHJE",
+			round(sum("K0BNGLFPHJECB")/10000,2) AS "K0BNGLFPHJECB",
+			round( sum("K0BNSJCNJE")/10000,2) AS "K0BNSJCNJE",
+			round( sum("K0BNSJDJJE")/10000,2) AS "K0BNSJDJJE",
+			round( sum("K0BNYSJY")/10000,2) AS "K0BNYSJY",
+			round( sum("K0BNZJSYBL"),2) AS "K0BNZJSYBL",
+			round( sum("K0ZTYSJE")/10000,2) AS "K0ZTYSJE",
+			round(sum("K0LJGLFPHJECB")/10000,2) AS "K0LJGLFPHJECB",
+			round(sum("K0LJSJCNJE")/10000,2) AS "K0LJSJCNJE",
+			round( sum("K0LJSJDJJE")/10000,2) AS "K0LJSJDJJE",
+			round( sum("K0LJYSJY") /10000,2) AS "K0LJYSJY",
+			round( sum("K0LJZJSYBL"),2) AS "K0LJZJSYBL" 
+		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_TZ_1001_01"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+			 '${month}'),
+			 'PLACEHOLDER' = ('$$PR_GSDM$$',
+			 '${companyCode}')) 
+		GROUP BY 
+			 "G0GSJC",
+			 "G0XMLXMS",
+			 "G0XMBK"
+			 
+			  order by  "G0XMBK","G0XMLXMS"
+	 </select>
+     
+     
+     
+	  <!-- 投资项目采购进度统计表--> 
+	  <select id="getTzxmcgjdtjbDataList" resultMap="brandConstructionPayResultMap" parameterType="java.util.Map" >
+              SELECT
+					"G0GSJC","G0GSDM",
+					round( sum("K0XMXQSL")/10000,2) AS "K0XMXQSL",
+					round( sum("K0XMJHSL")/10000,2) AS "K0XMJHSL",
+					round( sum("K0XMJHJE")/10000,2) AS "K0XMJHJE",
+					round( sum("K0XMDDSL")/10000,2)  AS "K0XMDDSL",
+					round( sum("K0XMDDJE")/10000,2) AS "K0XMDDJE",
+					round( sum("K0XMRKSL")/10000,2)  AS "K0XMRKSL",
+					round( sum("K0XMRKJE")/10000,2) AS "K0XMRKJE",
+					round( sum("K0XMFPSL")/10000,2) AS "K0XMFPSL",
+					round( sum("K0XMFPJE")/10000,2) AS "K0XMFPJE",
+					round( sum("K0XMYFWQJE")/10000,2) AS "K0XMYFWQJE",
+					round( sum("K0WQJE")/10000,2)   AS "K0WQJE",
+					round( sum("K0YQJE")/10000,2)   AS "K0YQJE",
+					round( sum("K0ZBJE") /10000,2)  AS "K0ZBJE",
+					round( sum("K0XMLYSL")/10000,2) AS "K0XMLYSL",
+					round( sum("K0XMLYJE") /10000,2)AS "K0XMLYJE" 
+				FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_TZ_1002_02"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+					 '${month}'),
+					 'PLACEHOLDER' = ('$$PR_GSDM$$',
+					 '${companyCode}')) 
+				GROUP BY  "G0GSJC","G0GSDM","G0GSOR"
+				ORDER BY  "G0GSOR"
+	 </select>
+	 
 	  
+     
+     
+	 
+	 <!-- 投资项目转出情况表 -->
+	   <select id="getTzxmzcqkbDataList" resultMap="brandConstructionPayResultMap" parameterType="java.util.Map" >
+          
+		 SELECT 
+		     "G0GSJC",
+		      ROUND(IFNULL(sum("K0NCGZYZLJJE"),0)/10000,2)   AS "K0NCGZYZLJJE",
+		      ROUND(IFNULL(sum("K0NCGZYZLJGZJE"),0)/10000,2) AS "K0NCGZYZLJGZJE",
+		      ROUND(IFNULL(sum("K0NCGZYZLJZJJE"),0)/10000,2) AS "K0NCGZYZLJZJJE", 
+		      ROUND(IFNULL(sum("K0NCGZYZBNJE"),0)/10000,2)   AS "K0NCGZYZBNJE",    
+		      ROUND(IFNULL(sum("K0NCGZYZBNGZJE"),0)/10000,2) AS "K0NCGZYZBNGZJE", 
+		      ROUND(IFNULL(sum("K0NCGZYZBNZJJE"),0)/10000,2) AS "K0NCGZYZBNZJJE"                 
+		 FROM
+		 (
+		 SELECT
+		     "G0GSDM",
+		     "G0GSJC",
+		     "G0GSOR",
+		     sum("K0NCGZYZJE") AS "K0NCGZYZLJJE",
+		     CASE 
+		        WHEN "G0ZCBJ" IN('GZ') THEN sum("K0NCGZYZJE")
+		     END               AS "K0NCGZYZLJGZJE",
+		     CASE 
+		        WHEN "G0ZCBJ" IN('ZJ') THEN sum("K0NCGZYZJE")
+		     END               AS "K0NCGZYZLJZJJE", 
+		     CASE 
+		        WHEN "G0ZBHBJ" IN('BN') THEN sum("K0NCGZYZJE")
+		     END               AS "K0NCGZYZBNJE",  
+		      CASE 
+		        WHEN "G0ZBHBJ" IN('BN') AND "G0ZCBJ" IN('GZ')  THEN sum("K0NCGZYZJE")
+		     END               AS "K0NCGZYZBNGZJE",        
+		      CASE 
+		        WHEN  "G0ZCBJ" IN('ZJ')  THEN sum("K0NCGZYZJE")
+		     END               AS "K0NCGZYZBNZJJE"          
+		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_TZ_1003_01"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+		     '${month}'),
+		     'PLACEHOLDER' = ('$$PR_GSDM$$',
+		     '${companyCode}')) 
+		GROUP BY 
+		     "G0GSDM",
+		     "G0GSJC",
+		     "G0GSOR",
+		     "G0ZBHBJ",
+		     "G0ZCBJ"
+		 )
+		 GROUP BY "G0GSJC","G0GSOR"
+		 ORDER BY "G0GSOR"
+          
+	 </select>
+	 
 	  
      
 </mapper>

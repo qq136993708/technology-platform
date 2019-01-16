@@ -680,10 +680,15 @@ public class DecisionFinancailProviderClient {
 		return json;
 	}
 	
-	  
 	
 	
-
+	
+	@ApiOperation(value = "现金日流量分析", notes = "现金日流量分析")
+	@RequestMapping(value = "/xjrllfx", method = RequestMethod.POST)
+	public LayuiTableData xjrllfx(@RequestBody LayuiTableParam param)throws Exception
+	{
+		return decisionFinancialService.getXjrllfx(param) ;
+	}
 }
 	
 	

@@ -80,12 +80,11 @@ layui.config({
       ,table = layui.table
       ,form = layui.form
       ,laydate = layui.laydate,
-	 /*  form.render(null, 'component-form-group');
-            laydate.render({
-               elem: '#year'
-               ,format: 'yyyy'
-               
-            }); */
+	 form.render(null, 'component-form-group');
+	  laydate.render({
+          elem: '#month'
+          ,format: 'yyyyMM'
+       });
 
 
 
@@ -132,22 +131,23 @@ layui.config({
     	
     	var index = layer.load(1, {
     		  shade: [0.1,'#fff'] 
-    		});
+    		}); 
     	
       //渲染
       table.render({
         elem: '#processdef-table',
-        url: '/more-dimension/zlsbqkmxfxb_data',
+        url: '/tzxmwcqktjb_data',
         method:"POST",
         where: {param: {
-        	      "zlms":$("#zlms").val(),
-        	      "zlbm":$("#zlbm").val()
+        	      "month":$("#month").val(),
+        	      "companyCode":$("#companyCode").val()
         	      
         	
                }},
-        limit: 15,
+        
         id: 'processdef-table',
-        height: commonDislodgeTable(),
+        height: "620px",
+        limit: 15,
         page: {
             groups: 5,
             limits: [15,30,45,60],
@@ -157,19 +157,24 @@ layui.config({
             theme: '#0F9EE0'
         },
         cols: [[
-        	{title:'序号',          type:'numbers', width: '4%'},
-            {field:'zlbm',          title:'专利号',        style:'cursor: pointer;',align: 'left', width: '150'},
-            {field:'zlms',           title:'专利名',        style:'cursor: pointer;',align: 'left', width: '250'},
-            {field:'gngw',        title:'国内国外',        style:'cursor: pointer;',align: 'left', width: '100'},
-            {field:'zlszg',        title:'国别代码',        style:'cursor: pointer;',align: 'left', width: '100'},
-            {field:'yxq',          title:'优先权号',        style:'cursor: pointer;',align: 'left', width: '150'},
-            {field:'dysqr',         title:'发明人',        style:'cursor: pointer;',align: 'left', width: '200'},
-            {field:'dyfmdw',        title:'申请人',     style:'cursor: pointer;',align: 'left', width: '200'}
+            {field:'g0XMBK',            title:'项目板块',        style:'cursor: pointer;',align: 'left', width: '150'},
+            {field:'g0XMLXMS',          title:'课题类型',        style:'cursor: pointer;',align: 'left', width: '100'},
+            {field:'g0GSJC',            title:'院所',        style:'cursor: pointer;',align: 'left', width: '100'},
+            {field:'k0ZTYSJE',          title:'计划总投资',        style:'cursor: pointer;',align: 'left', width: '100'},
+            {field:'k0LJGLFPHJECB',          title:'累计支出额',        style:'cursor: pointer;',align: 'left', width: '150'},
+            {field:'k0LJSJDJJE',        title:'预付余额',        style:'cursor: pointer;',align: 'left', width: '200'},
+            {field:'aDD1',              title:'累计投资完成额',     style:'cursor: pointer;',align: 'left', width: '200'},
+            {field:'k0LJYSJY',         title:'项目资金计划结余',     style:'cursor: pointer;',align: 'left', width: '200'},
+            {field:'k0BNYSJHJE',       title:'本年投资计划',     style:'cursor: pointer;',align: 'left', width: '200'},
+            {field:'k0BNGLFPHJECB',       title:'本年累计支出',     style:'cursor: pointer;',align: 'left', width: '200'},
+            {field:'k0BNSJDJJE',       title:'本年预付款',     style:'cursor: pointer;',align: 'left', width: '200'},
+            {field:'aDD2',             title:'本年投资完成额',     style:'cursor: pointer;',align: 'left', width: '200'},
+            {field:'k0BNYSJY',         title:'本年资金计划结余',     style:'cursor: pointer;',align: 'left', width: '200'}
             
             
         ]],
         done: function (res, curr, count) {
-            // 点击行联动选择框--单选
+           /*  // 点击行联动选择框--单选
             $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
             	var index=parseInt($(this).index()+1);
                 $('tr').removeClass('layui-table-click');
@@ -179,17 +184,46 @@ layui.config({
                 selectRowData=res.data[index-1];
             });
             
-            layer.close(index);
+            layer.close(index); */
+            layer.close(index); 
+        	 merge(res);
         }
       });
-    }
+      function merge(res) {
+          var data = res.data;
+          var mergeIndex = 0;//定位需要添加合并属性的行数
+          var mark = 1; //这里涉及到简单的运算，mark是计算每次需要合并的格子数
+          var columsName = ['g0XMBK','g0XMLXMS'];//需要合并的列名称
+          var columsIndex = [0,1];//需要合并的列索引值
+
+          for (var k = 0; k < columsName.length; k++) 
+          { //这里循环所有要合并的列
+              var trArr = $(".layui-table-body>.layui-table").find("tr");//所有行
+              for (var i = 1; i < res.data.length; i++) { //这里循环表格当前的数据
+                  var tdCurArr = trArr.eq(i).find("td").eq(columsIndex[k]);//获取当前行的当前列
+                  var tdPreArr = trArr.eq(mergeIndex).find("td").eq(columsIndex[k]);//获取相同列的第一列
+
+                  if (data[i][columsName[k]] === data[i-1][columsName[k]]) { //后一行的值与前一行的值做比较，相同就需要合并
+                      mark += 1;
+                      tdPreArr.each(function () {//相同列的第一列增加rowspan属性
+                          $(this).attr("rowspan", mark);
+                      });
+                      tdCurArr.each(function () {//当前行隐藏
+                          $(this).css("display", "none");
+                      });
+                  }else {
+                      mergeIndex = i;
+                      mark = 1;//一旦前后两行的值不一样了，那么需要合并的格子数mark就需要重新计算
+                  }
+              }
+              mergeIndex = 0;
+              mark = 1;
+          }
+      }
+      
+      
+}
    
-    
-    
-    function back()
-    {
-    	
-    }
     
    
    
