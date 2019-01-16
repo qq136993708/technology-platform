@@ -75,17 +75,20 @@ public class StpProjectItemJob implements Job, Serializable {
 					opi.setXmid(ktid);
 					opi.setDataId(UUID.randomUUID().toString().replaceAll("-", ""));
 					opi.setDefine8(cddw); //承担单位
-					opi.setFzdwbm(dwbm);
+					opi.setDefine9(dwbm);
 					opi.setCreateDate(new Date());
 					opi.setCreatePerson("newItem");
 					opi.setDefine3("项目管理系统");
 					insertData.add(opi);
 					
 					OutProjectPlan opp = new OutProjectPlan();
-					opp.setYsnd(nd);
+					opp.setYsnd(ysnd);
+					opp.setNd(nd);
 					opp.setYsje(jfhj);
 					opp.setXmid(ktid);
 					opp.setDefine8(cddw); //承担单位
+					opp.setDefine9(dwbm);
+					opp.setDefine4("项目管理系统");
 					planData.add(opp);
 					
 				}
@@ -95,7 +98,7 @@ public class StpProjectItemJob implements Job, Serializable {
 					outProjectService.insertProjectItemData(insertData, ndCon);
 					
 					// 修改当前年度的计划预算费用，没有的查询后插入
-					// outProjectPlanService.insertOutProjectPlanForYS(planData);
+					outProjectPlanService.insertOutProjectPlanForYS(planData);
 				}
 				
 				System.out.println("======" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "定时任务--定时获取项目管理系统的项目数据--保存到本地数据库-结束========="+culTotal);
