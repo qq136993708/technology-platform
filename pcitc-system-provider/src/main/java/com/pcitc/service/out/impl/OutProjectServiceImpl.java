@@ -206,12 +206,12 @@ public class OutProjectServiceImpl implements OutProjectService {
 
 		// 修改本年的预算，没有的查询原项目信息后，保存
 		for (int i = 0; i<list.size(); i++) {
-			
+
 			int temInt = this.updateOutProjectInfoForYS(list.get(i));
 
 		}
-		
-		//outProjectInfoMapper.insertOutProjectBatch(list);
+
+		// outProjectInfoMapper.insertOutProjectBatch(list);
 
 		return 1;
 	}
@@ -264,16 +264,24 @@ public class OutProjectServiceImpl implements OutProjectService {
 		// example.createCriteria().andNdEqualTo(nd);
 		// outProjectInfoMapper.deleteByExample(example);
 		/*
-		 * List<OutProjectInfo> insertData = new ArrayList<OutProjectInfo>(); //
-		 * 先更新，没有的批量插入 for (int i = 0; i<list.size(); i++) { int temInt =
+		 * // 先更新，没有的批量插入 for (int i = 0; i<list.size(); i++) { int temInt =
 		 * this.updateOutProjectInfo(list.get(i)); if (temInt==-1) {
 		 * insertData.add(list.get(i)); } }
 		 */
 
 		// System.out.println("===========新插入条数----------------"+insertData.size());
+
+		List<OutProjectInfo> insertData = new ArrayList<OutProjectInfo>();
+		for (int i = 0; i<list.size(); i++) {
+			int temInt = this.updateOutProjectInfo(list.get(i));
+			if (temInt==-1) {
+				insertData.add(list.get(i));
+			}
+		}
+
 		// 批量插入数据
-		if (list.size()>0) {
-			outProjectInfoMapper.insertOutProjectBatch(list);
+		if (insertData.size()>0) {
+			outProjectInfoMapper.insertOutProjectBatch(insertData);
 		}
 
 		return 1;
@@ -355,7 +363,7 @@ public class OutProjectServiceImpl implements OutProjectService {
 
 		criteria.andXmidEqualTo(opi.getXmid());
 		criteria.andDefine3EqualTo("项目管理系统");
-		criteria.andNdEqualTo(opi.getNd());
+		criteria.andYsndEqualTo(opi.getYsnd());
 		List<OutProjectInfo> returnList = outProjectInfoMapper.selectByExample(example);
 		if (returnList!=null&&returnList.size()>0) {
 			for (int j = 0; j<returnList.size(); j++) {
@@ -426,9 +434,9 @@ public class OutProjectServiceImpl implements OutProjectService {
 			}
 			return 0;
 		} else {
-			List<OutProjectInfo> insertData = new ArrayList<OutProjectInfo>();
+			/*List<OutProjectInfo> insertData = new ArrayList<OutProjectInfo>();
 			insertData.add(opi);
-			outProjectInfoMapper.insertOutProjectBatch(insertData);
+			outProjectInfoMapper.insertOutProjectBatch(insertData);*/
 			return -1;
 		}
 	}
@@ -518,14 +526,20 @@ public class OutProjectServiceImpl implements OutProjectService {
 			List<OutProjectInfo> insertList = outProjectInfoMapper.selectByExample(example1);
 			if (insertList!=null&&insertList.size()>0) {
 				OutProjectInfo insertOPI = insertList.get(0);
+				if (insertOPI.getDefine8()==null) {
+					// 原项目主数据，无用删除
+					OutProjectInfoExample example2 = new OutProjectInfoExample();
+					example2.createCriteria().andDataIdEqualTo(insertOPI.getDataId());
+					outProjectInfoMapper.deleteByExample(example2);
+				}
 				insertOPI.setYsnd(opi.getYsnd());
 				insertOPI.setYsje(opi.getYsje());
 				insertOPI.setDataId(UUID.randomUUID().toString().replaceAll("-", ""));
 				insertOPI.setCreateDate(new Date());
 				insertOPI.setCreatePerson("newItem");
 				insertOPI.setDefine8(opi.getDefine8());
+				insertOPI.setDefine9(opi.getDefine9());
 				insertOPI.setDefine3(opi.getDefine3());
-				insertOPI.setFzdwbm(opi.getFzdwbm());
 
 				List<OutProjectInfo> temList = new ArrayList<OutProjectInfo>();
 				temList.add(insertOPI);

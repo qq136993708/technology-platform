@@ -2608,7 +2608,7 @@
 	        </if>
 	        <!--add end-->
 			
-			group by out_project_info.xmid
+			group by xmid,ysnd
 			<if test="orderKey != null and orderKey != ''">
 				<if test="orderType != null and orderType != ''">
 					order by ${orderKey} ${orderType}
