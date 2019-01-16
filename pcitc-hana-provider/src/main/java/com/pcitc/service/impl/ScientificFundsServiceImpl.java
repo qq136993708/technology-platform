@@ -33,9 +33,6 @@ public class ScientificFundsServiceImpl implements IScientificFundsService {
   		int pageNum = param.getPage();
   		Page p=new Page(pageNum,pageSize);
 		int start=(pageNum-1)*p.getPageSize();
-  		String g0TXT50=(String)param.getParam().get("g0TXT50");
-  		String g0GSJC=(String)param.getParam().get("g0GSJC");
-  		String g0ZCMS=(String)param.getParam().get("g0ZCMS");
   		String month=(String)param.getParam().get("month");
   		String companyCode=(String)param.getParam().get("companyCode");
   		logger.info("===明细查询参数 param: "+JSONObject.toJSONString(param));
@@ -44,16 +41,11 @@ public class ScientificFundsServiceImpl implements IScientificFundsService {
   		map.put("pageSize", pageSize);
   		map.put("month", month);
   		map.put("companyCode", companyCode);
-  		map.put("g0TXT50", g0TXT50);
-  		map.put("g0ZCMS", g0ZCMS);
-  		map.put("g0GSJC", g0GSJC);
   		
-  		List<ScientificFunds> list = scientificFundsMapper.getList(map);
-  		Integer totalRecords = scientificFundsMapper.getCount(map);
-  		System.out.println(">>>>>>>>>查询分页结果"+totalRecords);
+  		List<ScientificFunds> list = scientificFundsMapper.getKtzjjfytjbData(map);
   		LayuiTableData data = new LayuiTableData();
   		data.setData(list);
-  		data.setCount(totalRecords);
+  		data.setCount(1000);
   	    return data;
   	}
 	 
@@ -68,9 +60,6 @@ public class ScientificFundsServiceImpl implements IScientificFundsService {
   		int pageNum = param.getPage();
   		Page p=new Page(pageNum,pageSize);
 		int start=(pageNum-1)*p.getPageSize();
-  		String g0TXT50=(String)param.getParam().get("g0TXT50");
-  		String g0GSJC=(String)param.getParam().get("g0GSJC");
-  		String g0ZCMS=(String)param.getParam().get("g0ZCMS");
   		String month=(String)param.getParam().get("month");
   		String companyCode=(String)param.getParam().get("companyCode");
   		logger.info("===明细查询参数 param: "+JSONObject.toJSONString(param));
@@ -79,16 +68,10 @@ public class ScientificFundsServiceImpl implements IScientificFundsService {
   		map.put("pageSize", pageSize);
   		map.put("month", month);
   		map.put("companyCode", companyCode);
-  		map.put("g0TXT50", g0TXT50);
-  		map.put("g0ZCMS", g0ZCMS);
-  		map.put("g0GSJC", g0GSJC);
-  		
-  		List<ScientificFunds> list = scientificFundsMapper.getList(map);
-  		Integer totalRecords = scientificFundsMapper.getCount(map);
-  		System.out.println(">>>>>>>>>查询分页结果"+totalRecords);
+  		List<ScientificFunds> list = scientificFundsMapper.getRgcbzctjbData(map);
   		LayuiTableData data = new LayuiTableData();
   		data.setData(list);
-  		data.setCount(totalRecords);
+  		data.setCount(1000);
   	    return data;
   	}
 	//原材料支出统计表
@@ -100,9 +83,6 @@ public class ScientificFundsServiceImpl implements IScientificFundsService {
   		int pageNum = param.getPage();
   		Page p=new Page(pageNum,pageSize);
 		int start=(pageNum-1)*p.getPageSize();
-  		String g0TXT50=(String)param.getParam().get("g0TXT50");
-  		String g0GSJC=(String)param.getParam().get("g0GSJC");
-  		String g0ZCMS=(String)param.getParam().get("g0ZCMS");
   		String month=(String)param.getParam().get("month");
   		String companyCode=(String)param.getParam().get("companyCode");
   		logger.info("===明细查询参数 param: "+JSONObject.toJSONString(param));
@@ -111,16 +91,11 @@ public class ScientificFundsServiceImpl implements IScientificFundsService {
   		map.put("pageSize", pageSize);
   		map.put("month", month);
   		map.put("companyCode", companyCode);
-  		map.put("g0TXT50", g0TXT50);
-  		map.put("g0ZCMS", g0ZCMS);
-  		map.put("g0GSJC", g0GSJC);
   		
-  		List<ScientificFunds> list = scientificFundsMapper.getList(map);
-  		Integer totalRecords = scientificFundsMapper.getCount(map);
-  		System.out.println(">>>>>>>>>查询分页结果"+totalRecords);
+  		List<ScientificFunds> list = scientificFundsMapper.getYclzctjbData(map);
   		LayuiTableData data = new LayuiTableData();
   		data.setData(list);
-  		data.setCount(totalRecords);
+  		data.setCount(1000);
   	    return data;
   	}
 	 
@@ -133,9 +108,6 @@ public class ScientificFundsServiceImpl implements IScientificFundsService {
 	  		int pageNum = param.getPage();
 	  		Page p=new Page(pageNum,pageSize);
 			int start=(pageNum-1)*p.getPageSize();
-	  		String g0TXT50=(String)param.getParam().get("g0TXT50");
-	  		String g0GSJC=(String)param.getParam().get("g0GSJC");
-	  		String g0ZCMS=(String)param.getParam().get("g0ZCMS");
 	  		String month=(String)param.getParam().get("month");
 	  		String companyCode=(String)param.getParam().get("companyCode");
 	  		logger.info("===明细查询参数 param: "+JSONObject.toJSONString(param));
@@ -144,16 +116,11 @@ public class ScientificFundsServiceImpl implements IScientificFundsService {
 	  		map.put("pageSize", pageSize);
 	  		map.put("month", month);
 	  		map.put("companyCode", companyCode);
-	  		map.put("g0TXT50", g0TXT50);
-	  		map.put("g0ZCMS", g0ZCMS);
-	  		map.put("g0GSJC", g0GSJC);
 	  		
-	  		List<ScientificFunds> list = scientificFundsMapper.getList(map);
-	  		Integer totalRecords = scientificFundsMapper.getCount(map);
-	  		System.out.println(">>>>>>>>>查询分页结果"+totalRecords);
+	  		List<ScientificFunds> list = scientificFundsMapper.getNhzctjbData(map);
 	  		LayuiTableData data = new LayuiTableData();
 	  		data.setData(list);
-	  		data.setCount(totalRecords);
+	  		data.setCount(1000);
 	  	    return data;
 	  	}
 			
@@ -168,9 +135,6 @@ public class ScientificFundsServiceImpl implements IScientificFundsService {
 	  		int pageNum = param.getPage();
 	  		Page p=new Page(pageNum,pageSize);
 			int start=(pageNum-1)*p.getPageSize();
-	  		String g0TXT50=(String)param.getParam().get("g0TXT50");
-	  		String g0GSJC=(String)param.getParam().get("g0GSJC");
-	  		String g0ZCMS=(String)param.getParam().get("g0ZCMS");
 	  		String month=(String)param.getParam().get("month");
 	  		String companyCode=(String)param.getParam().get("companyCode");
 	  		logger.info("===明细查询参数 param: "+JSONObject.toJSONString(param));
@@ -179,16 +143,11 @@ public class ScientificFundsServiceImpl implements IScientificFundsService {
 	  		map.put("pageSize", pageSize);
 	  		map.put("month", month);
 	  		map.put("companyCode", companyCode);
-	  		map.put("g0TXT50", g0TXT50);
-	  		map.put("g0ZCMS", g0ZCMS);
-	  		map.put("g0GSJC", g0GSJC);
 	  		
-	  		List<ScientificFunds> list = scientificFundsMapper.getList(map);
-	  		Integer totalRecords = scientificFundsMapper.getCount(map);
-	  		System.out.println(">>>>>>>>>查询分页结果"+totalRecords);
+	  		List<ScientificFunds> list = scientificFundsMapper.getXmzjlxfxData(map);
 	  		LayuiTableData data = new LayuiTableData();
 	  		data.setData(list);
-	  		data.setCount(totalRecords);
+	  		data.setCount(1000);
 	  	    return data;
 	  	}
 			

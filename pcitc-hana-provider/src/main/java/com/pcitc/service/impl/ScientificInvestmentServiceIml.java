@@ -48,11 +48,11 @@ public class ScientificInvestmentServiceIml implements IScientificInvestmentServ
   		map.put("companyCode", companyCode);
   		
   		List<ScientificInvestment> list = scientificInvestmentMapper.getTzxmwcqktjbDataList(map);
-  		Integer totalRecords = scientificInvestmentMapper.getTzxmwcqktjbDataCount(map);
-  		System.out.println(">>>>>>投资项目完成情况统计表>>>查询分页结果"+totalRecords);
+  		//Integer totalRecords = scientificInvestmentMapper.getTzxmwcqktjbDataCount(map);
+  		System.out.println(">>>>>>投资项目完成情况统计表>>>查询分页结果");
   		LayuiTableData data = new LayuiTableData();
   		data.setData(list);
-  		data.setCount(totalRecords);
+  		data.setCount(1000);
   	    return data;
   	}
 	
@@ -70,9 +70,6 @@ public class ScientificInvestmentServiceIml implements IScientificInvestmentServ
 	  		int pageNum = param.getPage();
 	  		Page p=new Page(pageNum,pageSize);
 			int start=(pageNum-1)*p.getPageSize();
-	  		String g0TXT50=(String)param.getParam().get("g0TXT50");
-	  		String g0GSJC=(String)param.getParam().get("g0GSJC");
-	  		String g0ZCMS=(String)param.getParam().get("g0ZCMS");
 	  		String month=(String)param.getParam().get("month");
 	  		String companyCode=(String)param.getParam().get("companyCode");
 	  		logger.info("===明细查询参数 param: "+JSONObject.toJSONString(param));
@@ -81,16 +78,13 @@ public class ScientificInvestmentServiceIml implements IScientificInvestmentServ
 	  		map.put("pageSize", pageSize);
 	  		map.put("month", month);
 	  		map.put("companyCode", companyCode);
-	  		map.put("g0TXT50", g0TXT50);
-	  		map.put("g0ZCMS", g0ZCMS);
-	  		map.put("g0GSJC", g0GSJC);
 	  		
 	  		List<ScientificInvestment> list = scientificInvestmentMapper.getTzxmcgjdtjbDataList(map);
-	  		Integer totalRecords = scientificInvestmentMapper.getTzxmcgjdtjbDataCount(map);
-	  		System.out.println(">>>>>>>投资项目采购进度统计表>>查询分页结果"+totalRecords);
+	  		
+	  		System.out.println(">>>>>>>投资项目采购进度统计表>>查询分页结果"+list.size());
 	  		LayuiTableData data = new LayuiTableData();
 	  		data.setData(list);
-	  		data.setCount(totalRecords);
+	  		data.setCount(1000);
 	  	    return data;
 	  	}
 		
@@ -107,9 +101,6 @@ public class ScientificInvestmentServiceIml implements IScientificInvestmentServ
 	  		int pageNum = param.getPage();
 	  		Page p=new Page(pageNum,pageSize);
 			int start=(pageNum-1)*p.getPageSize();
-	  		String g0TXT50=(String)param.getParam().get("g0TXT50");
-	  		String g0GSJC=(String)param.getParam().get("g0GSJC");
-	  		String g0ZCMS=(String)param.getParam().get("g0ZCMS");
 	  		String month=(String)param.getParam().get("month");
 	  		String companyCode=(String)param.getParam().get("companyCode");
 	  		logger.info("===明细查询参数 param: "+JSONObject.toJSONString(param));
@@ -118,16 +109,12 @@ public class ScientificInvestmentServiceIml implements IScientificInvestmentServ
 	  		map.put("pageSize", pageSize);
 	  		map.put("month", month);
 	  		map.put("companyCode", companyCode);
-	  		map.put("g0TXT50", g0TXT50);
-	  		map.put("g0ZCMS", g0ZCMS);
-	  		map.put("g0GSJC", g0GSJC);
 	  		
 	  		List<ScientificInvestment> list = scientificInvestmentMapper.getTzxmzcqkbDataList(map);
-	  		Integer totalRecords = scientificInvestmentMapper.getTzxmzcqkbDataCount(map);
-	  		System.out.println(">>>>>>>投资项目转出情况表>>查询分页结果"+totalRecords);
+	  		System.out.println(">>>>>>>投资项目转出情况表>>查询分页结果");
 	  		LayuiTableData data = new LayuiTableData();
 	  		data.setData(list);
-	  		data.setCount(totalRecords);
+	  		data.setCount(1000);
 	  	    return data;
 	  	}
 

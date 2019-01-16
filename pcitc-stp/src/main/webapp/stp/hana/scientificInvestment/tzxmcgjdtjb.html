@@ -4,468 +4,185 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+	<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/common.css">
-     <link rel="stylesheet" href="/common/css/echart-common.css">
+    <script src="/layuiadmin/layui/layui.js"></script>
 </head>
 <body>
 
-	<div class="content-body container">
-		<div style="text-align: center; font-weight: bold; margin: 10px;">投资项目采购进度按研究院分析</div>
-		<table class="layui-table">
-			<thead>
-				<tr>
-					<td>直属研究院</td>
-					<td>采购计划金额</td>
-					<td>实际采购金额</td>
-					<td>实际入库金额</td>
-					<td>未清预付款</td>
-					<td>发票金额</td>
-					<td>已清付款</td>
-					<td>未清付款</td>
-					<td>质保金</td>
-				</tr>
-				</thead>
-				<tbody>
-				<tr>
-					<td>总计</td>
-					<td>68200</td>
-					<td>57211</td>
-					<td>45309</td>
-					<td>17745</td>
-					<td>63600</td>
-					<td>51458</td>
-					<td>40745</td>
-					<td>18614</td>
-				</tr>
-				<tr>
-					<td>石勘院</td>
-					<td>13200</td>
-					<td>11220</td>
-					<td>9761</td>
-					<td>2544</td>
-					<td>6900</td>
-					<td>5313</td>
-					<td>4728</td>
-					<td>1672</td>
-				</tr>
-				<tr>
-					<td>物探院</td>
-					<td>8500</td>
-					<td>7395</td>
-					<td>5842</td>
-					<td>1913</td>
-					<td>13100</td>
-					<td>10087</td>
-					<td>7464</td>
-					<td>4452</td>
-				</tr>
-				<tr>
-					<td>工程院</td>
-					<td>5600</td>
-					<td>4256</td>
-					<td>3532</td>
-					<td>1529</td>
-					<td>9600</td>
-					<td>8544</td>
-					<td>6322</td>
-					<td>2556</td>
-				</tr>
-				<tr>
-					<td>石科院</td>
-					<td>13300</td>
-					<td>10241</td>
-					<td>7987</td>
-					<td>4462</td>
-					<td>4700</td>
-					<td>3619</td>
-					<td>2822</td>
-					<td>1651</td>
-				</tr>
-				<tr>
-					<td>抚研院</td>
-					<td>5000</td>
-					<td>3850</td>
-					<td>2849</td>
-					<td>1742</td>
-					<td>14100</td>
-					<td>11562</td>
-					<td>9365</td>
-					<td>4071</td>
-				</tr>
-				<tr>
-					<td>北化院</td>
-					<td>4900</td>
-					<td>4410</td>
-					<td>3439</td>
-					<td>1197</td>
-					<td>4300</td>
-					<td>3010</td>
-					<td>2227</td>
-					<td>1616</td>
-				</tr>
-				<tr>
-					<td>上海院</td>
-					<td>9100</td>
-					<td>8099</td>
-					<td>6479</td>
-					<td>2096</td>
-					<td>5800</td>
-					<td>4988</td>
-					<td>4389</td>
-					<td>1269</td>
-				</tr>
-				<tr>
-					<td>安工院</td>
-					<td>8600</td>
-					<td>7740</td>
-					<td>5418</td>
-					<td>2259</td>
-					<td>5100</td>
-					<td>4335</td>
-					<td>3424</td>
-					<td>1323</td>
-				</tr>
-				<tr></tr>
-			</tbody>
-		</table>
 
-
-
-
-		<div style="text-align: center; font-weight: bold; margin: 10px;">投资项目采购进度按课题多维分析</div>
-		<div style="width:1200px;">
-		<table class="layui-table">
-		<thead>
-				<tr>
-					<td>板块</td>
-					<td>课题类型</td>
-					<td>项目编号</td>
-					<td>项目名称</td>
-					<td>课题编号</td>
-					<td>课题描述</td>
-					<td>网络号</td>
-					<td>物料描述</td>
-					<td>采购申请编号</td>
-					<td>采购计划金额</td>
-					<td>采购订单号</td>
-					<td>实际采购金额</td>
-					<td>合同到货日期</td>
-					<td>供应商</td>
-					<td>实际入库金额</td>
-					<td>收货记帐日期</td>
-					<td>未清预付款</td>
-					<td>发票金额</td>
-					<td>已清付款</td>
-					<td>未清付款</td>
-					<td>物料编码</td>
-					<td>质保金</td>
-					<td>领料数量</td>
-					<td>领料价值</td>
-					<td>业务类型</td>
-					<td>CMIS合同号</td>
-				</tr>
-				</thead>
-					<tbody>
-				<tr>
-					<td rowspan="10">科研板块</td>
-					<td rowspan="3">国拨课题资本性支出</td>
-					<td>KSAE110002</td>
-					<td>某液压油研制</td>
-					<td>0</td>
-					<td>0</td>
-					<td>610200000000</td>
-					<td>6室购买小型溶剂脱沥青装置（2016ZH-02)</td>
-					<td>5.300013384E9</td>
-					<td>2850000.0</td>
-					<td>2.300004562E9</td>
-					<td>2826910.0</td>
-					<td>2017.05.05</td>
-					<td>迈瑞尔实验设备（上海）有限公司</td>
-					<td>2826910.0</td>
-					<td>2017.11.23</td>
-					<td>0.0</td>
-					<td>2826910.0</td>
-					<td>2685564.5</td>
-					<td>141345.5</td>
-					<td></td>
-					<td>0.0</td>
-					<td>1.0</td>
-					<td>2826910.0</td>
-					<td>物资</td>
-					<td></td>
-				</tr>
-				<tr>
-					<td>KSAE110003</td>
-					<td>某润滑脂的研制</td>
-					<td>0</td>
-					<td>0</td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td>0.0</td>
-					<td>2.700000539E9</td>
-					<td>214966.0</td>
-					<td>2016.12.07</td>
-					<td>北京航德正翔装饰有限公司</td>
-					<td>214966.0</td>
-					<td>2016.12.07</td>
-					<td>0.0</td>
-					<td>214966.0</td>
-					<td>203966.0</td>
-					<td>11000.0</td>
-					<td></td>
-					<td>0.0</td>
-					<td>1.0</td>
-					<td>214966.0</td>
-					<td>服务</td>
-					<td></td>
-				</tr>
-				<tr>
-					<td>KSAE110004</td>
-					<td>某润滑油的研制</td>
-					<td>0</td>
-					<td>0</td>
-					<td>610200000000</td>
-					<td>生物质催化萃取实验装置\304+304L</td>
-					<td>5.300013389E9</td>
-					<td>1500000.0</td>
-					<td>2.300008069E9</td>
-					<td>1400000.0</td>
-					<td>2017.05.27</td>
-					<td>天津市鹏翔科技有限公司</td>
-					<td>1400000.0</td>
-					<td>2018.01.29</td>
-					<td>0.0</td>
-					<td>910000.0</td>
-					<td>910000.0</td>
-					<td>0.0</td>
-					<td>383322000000000</td>
-					<td>-490000.0</td>
-					<td>1.0</td>
-					<td>1400000.0</td>
-					<td>物资</td>
-					<td></td>
-				</tr>
-				<tr>
-					<td rowspan="3">科研装备资本性支出</td>
-					<td>KSAE150003</td>
-					<td>炼油技术研发实验装置及配套仪器</td>
-					<td>0</td>
-					<td>0</td>
-					<td>610200000000</td>
-					<td>26室购买高温高压耐酸式合成反应装置（2016ZH-07）</td>
-					<td>5.300013386E9</td>
-					<td>750000.0</td>
-					<td>2.300007056E9</td>
-					<td>729512.0</td>
-					<td>2017.04.15</td>
-					<td>迈瑞尔实验设备（上海）有限公司</td>
-					<td>729512.0</td>
-					<td>2017.12.11</td>
-					<td>0.0</td>
-					<td>729512.0</td>
-					<td>693036.4</td>
-					<td>36475.6</td>
-					<td></td>
-					<td>0.0</td>
-					<td>1.0</td>
-					<td>729512.0</td>
-					<td>物资</td>
-					<td></td>
-				</tr>
-				<tr>
-					<td>KSAE150004</td>
-					<td>油品性能测试及台架评定设备</td>
-					<td>0</td>
-					<td>0</td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td>0.0</td>
-					<td>2.700000538E9</td>
-					<td>227587.0</td>
-					<td>2016.12.07</td>
-					<td>北京航德正翔装饰有限公司</td>
-					<td>226755.0</td>
-					<td>2016.12.07</td>
-					<td>0.0</td>
-					<td>226755.0</td>
-					<td>214755.0</td>
-					<td>12000.0</td>
-					<td></td>
-					<td>0.0</td>
-					<td>1.0</td>
-					<td>226755.0</td>
-					<td>服务</td>
-					<td></td>
-				</tr>
-				<tr>
-					<td>KSAE150005</td>
-					<td>多尺度计算化学反应工程平台建设</td>
-					<td>0</td>
-					<td>0</td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td>0.0</td>
-					<td>2.700000565E9</td>
-					<td>74728.0</td>
-					<td>2016.12.12</td>
-					<td>北京信诚天光电力安装有限公司</td>
-					<td>74728.0</td>
-					<td>2016.12.12</td>
-					<td>0.0</td>
-					<td>74728.0</td>
-					<td>70728.0</td>
-					<td>4000.0</td>
-					<td></td>
-					<td>0.0</td>
-					<td>1.0</td>
-					<td>74728.0</td>
-					<td>服务</td>
-					<td></td>
-				</tr>
-				<tr>
-					<td rowspan="2">科研配套建设</td>
-					<td>KSAE110001</td>
-					<td>石科院设施完善改造项目搬迁费(一期)</td>
-					<td>0</td>
-					<td>0</td>
-					<td>610200000000</td>
-					<td>26室购买高剪切式快速反应实验装置（2016ZH-05）</td>
-					<td>5.300013388E9</td>
-					<td>900000.0</td>
-					<td>2.300005675E9</td>
-					<td>600000.0</td>
-					<td>2017.03.31</td>
-					<td>迈瑞尔实验设备（上海）有限公司</td>
-					<td>600000.0</td>
-					<td>2017.12.14</td>
-					<td>0.0</td>
-					<td>600000.0</td>
-					<td>390000.0</td>
-					<td>210000.0</td>
-					<td></td>
-					<td>0.0</td>
-					<td>1.0</td>
-					<td>600000.0</td>
-					<td>物资</td>
-					<td></td>
-				</tr>
-				<tr>
-					<td>KSAE140005</td>
-					<td>石科院4050润滑油装置扩能改造</td>
-					<td>0</td>
-					<td>0</td>
-					<td>610200000000</td>
-					<td>凸轮泵\1～5m3/h 催化剂 -20～175℃</td>
-					<td>5.300102868E9</td>
-					<td>29000.0</td>
-					<td></td>
-					<td>0.0</td>
-					<td></td>
-					<td></td>
-					<td>0.0</td>
-					<td></td>
-					<td>0.0</td>
-					<td>0.0</td>
-					<td>0.0</td>
-					<td>0.0</td>
-					<td>231199000000000</td>
-					<td>0.0</td>
-					<td>0.0</td>
-					<td>0.0</td>
-					<td></td>
-					<td></td>
-				</tr>
-				<tr>
-					<td rowspan="2">一般措施</td>
-					<td>KPAE180001</td>
-					<td>兴普设备零购2018</td>
-					<td>0</td>
-					<td>0</td>
-					<td>610200000000</td>
-					<td>22室购买高压脂加氢反应评价装置（2016ZH-06）</td>
-					<td>5.300013387E9</td>
-					<td>1800000.0</td>
-					<td>2.300006508E9</td>
-					<td>1584208.0</td>
-					<td>2017.05.31</td>
-					<td>迈瑞尔实验设备（上海）有限公司</td>
-					<td>1584208.0</td>
-					<td>2017.11.07</td>
-					<td>0.0</td>
-					<td>1584208.0</td>
-					<td>1504997.6</td>
-					<td>79210.4</td>
-					<td></td>
-					<td>0.0</td>
-					<td>1.0</td>
-					<td>1584208.0</td>
-					<td>物资</td>
-					<td></td>
-				</tr>
-				<tr>
-					<td>KSAE160001</td>
-					<td>科研设备零购2016</td>
-					<td>0</td>
-					<td>0</td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td>0.0</td>
-					<td>2.700003233E9</td>
-					<td>97254.41</td>
-					<td>2017.09.04</td>
-					<td>中石化第四建设有限公司</td>
-					<td>63538.93</td>
-					<td>2017.09.05</td>
-					<td>0.0</td>
-					<td>63538.93</td>
-					<td>60538.93</td>
-					<td>3000.0</td>
-					<td></td>
-					<td>0.0</td>
-					<td>1.0</td>
-					<td>63538.93</td>
-					<td>服务</td>
-					<td></td>
-				</tr>
-			</tbody>
-		</table>
+<div class="searchBox">
+    <!--查询条件-->
+        <label class="dateInput">
+            <span>月份</span>
+            <input type="text" name="month" placeholder="请选择月份" title="月份" value="${month}" autocomplete="off" class="form-control" id="month">
+        </label>
+       <div class="layui-input-inline">
+         <select name="companyCode" id="companyCode" >
+              <#list companyCodeList as vo>
+              	 <#if vo.g0GSJC == '全部'>
+              	 	<option value="${vo.g0GSDM}"  selected="selected">${vo.g0GSJC}</option>
+              	 </#if>
+                 <#if vo.g0GSJC != '全部'>
+              	 	<option value="${vo.g0GSDM}">${vo.g0GSJC}</option>
+              	 </#if>
+               </#list>
+            </select>
+       </div>
+       
+       
+    <!--按钮组-->
+    <div class="btnGroup">
+        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="renderTable()" data-type="searchEvent">查询</button>
+    </div>
 </div>
 
-	</div>
-	<!--表格数据操作js-->
+
+
+<div class="tableBox">
+    <table id="processdef-table" class="layui-hide" lay-filter="tableEvent">
+</div>
+
+<script id="dateTpl" type="text/html"> {{formatTime(d.SQRI)}} </script>
+<script type="text/javascript">
+    // 时间格式化
+      function formatTime(d) {
+        if (d) {
+            var date = new Date();
+            date.setTime(d);
+            var y = date.getFullYear();
+            var m = date.getMonth() + 1;
+            m = m < 10 ? ('0' + m) : m;
+            var day = date.getDate();
+            day = day < 10 ? ("0" + day) : day;
+            var h = date.getHours();
+            h = h < 10 ? ("0" + h) : h;
+            var M = date.getMinutes();
+            M = M < 10 ? ("0" + M) : M;
+            var str = y + "-" + m + "-" + day + " " + h + ":" + M;
+            return str;
+        } else {
+            return '';
+        }
+    }
+</script>
+
+<!--表格数据操作js-->
 <script src="/common/js/jquery-1.11.3.min.js"></script>
-<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
-<script src="/common/js/layer-v3.1.1/layer.js"></script>
 <script>
-
-
 var table,selectRowData;
+var zlbm=$('#zlbm').val();
+
 layui.config({
     base: '/layuiadmin/module/modules/' //静态资源所在路径
-}).use(['jquery','form', 'laydate','table','laypage','layer'], function(){
-	  admin = layui.admin
-	  ,$ = layui.jquery
+}).use(['jquery','form', 'laydate','table','laypage'], function(){
+	  $ = layui.jquery
       ,table = layui.table
-      ,layer = layui.layer
-      ,laydate = layui.laydate
       ,form = layui.form
-      ,laypage = layui.laypage;
-	  form.render(null, 'component-form-group');
-            laydate.render({
-               elem: '#month'
-               ,format: 'yyyyMM'
+      ,laydate = layui.laydate,
+	 form.render(null, 'component-form-group');
+	  laydate.render({
+          elem: '#month'
+          ,format: 'yyyyMM'
+       });
+
+
+
+            
+            
+            //加载表格      
+     	     renderTable();
+     	     //移除表头的复选框,去掉全选
+     	     $(".layui-table-header table thead th input").remove();  
+
+        // 触发不同的按钮事件
+        var $ = layui.$, active = {
+           
+            
+        };
+        //监听排序
+        table.on('sort(model-table)', function(obj){
+            console.log(this, obj.field, obj.type)
+            //return;
+            //服务端排序
+            table.reload('model-table', {
+                initSort: obj,
+                page: {curr: 1}, //重新从第一页开始
+                where: { //重新请求服务端
+                    orderKey: obj.field, //排序字段
+                    orderType: obj.type //排序方式
+                }
             });
-});
+        });
+        //区别按钮属性
+        $('.layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
 
-var allCode="${allCode?default('')}";
-var allCode_text="全部院所";
-
+         
+        
+        
+    });
+    
+    
+    function renderTable()
+    {
+    	
+    	var index = layer.load(1, {
+    		  shade: [0.1,'#fff'] 
+    		}); 
+    	
+      //渲染
+      table.render({
+        elem: '#processdef-table',
+        url: '/tzxmcgjdtjb_data',
+        method:"POST",
+        where: {param: {
+        	      "month":$("#month").val(),
+        	      "companyCode":$("#companyCode").val()
+        	      
+        	
+               }},
+        
+        id: 'processdef-table',
+        cols: [[
+            {field:'g0GSJC',           title:'院所',           style:'cursor: pointer;',align: 'left', width: '11%'},
+            {field:'k0XMJHJE',         title:'采购计划金额',        style:'cursor: pointer;',align: 'left', width: '11%'},
+            {field:'k0LJGLFPHJECB',    title:'实际采购金额',        style:'cursor: pointer;',align: 'left', width: '11%'},
+            {field:'k0LJSJDJJE',       title:'实际入库金额',        style:'cursor: pointer;',align: 'left', width: '11%'},
+            {field:'aDD1',             title:'未清预付款',     style:'cursor: pointer;',align: 'left', width: '11%'},
+            {field:'k0LJYSJY',         title:'发票金额',     style:'cursor: pointer;',align: 'left', width: '11%'},
+            {field:'k0BNYSJHJE',       title:'已清付款',     style:'cursor: pointer;',align: 'left', width: '11%'},
+            {field:'k0BNGLFPHJECB',    title:'未清付款',     style:'cursor: pointer;',align: 'left', width: '11%'},
+            {field:'k0BNSJDJJE',       title:'质保金',      style:'cursor: pointer;',align: 'left', width: '12%'}
+            
+            
+        ]],
+        done: function (res, curr, count) {
+             // 点击行联动选择框--单选
+            $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+            	var index=parseInt($(this).index()+1);
+                $('tr').removeClass('layui-table-click');
+                $(this).addClass('layui-table-click');
+                $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                selectRowData=res.data[index-1];
+            });
+            
+            layer.close(index);
+        }
+      });
+      
+      
+      
+}
+   
+    
+   
+   
 
 </script>
+
 </body>
 </html>

@@ -46,24 +46,25 @@ public class ScientificInvestmentController {
 	
 	
 	
-	  //投资项目完成情况统计表
-	  @RequestMapping(method = RequestMethod.GET, value = "/si/tzxmwcqktjb")
-	  public String jtgszbkjjfys(HttpServletRequest request) throws Exception
-	  {
-		  SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
-		    HanaUtil.setSearchParaForUser(userInfo,restTemplate,httpHeaders,request);
-			
-			 
-	        return "stp/hana/scientificInvestment/tzxmwcqktjb";
-	  }
+			  //投资项目完成情况统计表
+			  @RequestMapping(method = RequestMethod.GET, value = "/si/tzxmwcqktjb")
+			  public String jtgszbkjjfys(HttpServletRequest request) throws Exception
+			  {
+				  SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
+				    HanaUtil.setSearchParaForUser(userInfo,restTemplate,httpHeaders,request);
+					
+					String month = HanaUtil.getCurrrent_Year_Moth();
+					request.setAttribute("month", month);
+					
+			        return "stp/hana/scientificInvestment/tzxmwcqktjb";
+			  }
 	  
-		// 三级表格
+		    // 三级表格
 			@RequestMapping(method = RequestMethod.POST, value = "/tzxmwcqktjb_data")
 			@ResponseBody
 			public String tzxmwcqktjb_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response)
 			{
 
-				
 				String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
 				String companyCode = CommonUtil.getParameter(request, "companyCode", HanaUtil.YJY_CODE_NOT_YINGKE);
 				System.out.println(">>>>>>>>>>>>>>>>>>>>>参数      month = "+month+" companyCode="+companyCode);
@@ -90,8 +91,13 @@ public class ScientificInvestmentController {
 	  @RequestMapping(method = RequestMethod.GET, value = "/si/tzxmcgjdtjb")
 	  public String tzxmcgjdtjb(HttpServletRequest request) throws Exception
 	  {
-		  SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
+		    SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
 			HanaUtil.setSearchParaForUser(userInfo,restTemplate,httpHeaders,request);
+			
+			String month = HanaUtil.getCurrrent_Year_Moth();
+			request.setAttribute("month", month);
+			
+			
 	        return "stp/hana/scientificInvestment/tzxmcgjdtjb";
 	  }
 	  
@@ -104,7 +110,7 @@ public class ScientificInvestmentController {
 
 	    	
 	    	String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
-			String companyCode = CommonUtil.getParameter(request, "companyCode", "");
+			String companyCode = CommonUtil.getParameter(request, "companyCode", HanaUtil.YJY_CODE_NOT_YINGKE);
 			System.out.println(">>>>>>>>>>>>>>>>>>>>>参数      month = "+month+" companyCode="+companyCode);
 			Map<String, Object> paramsMap = new HashMap<String, Object>();
 			paramsMap.put("month", month);
@@ -130,6 +136,10 @@ public class ScientificInvestmentController {
 	  {
 		  SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
 			HanaUtil.setSearchParaForUser(userInfo,restTemplate,httpHeaders,request);
+			
+			String month = HanaUtil.getCurrrent_Year_Moth();
+			request.setAttribute("month", month);
+			
 	        return "stp/hana/scientificInvestment/tzxmzcqkb";
 	  }
 	  
@@ -142,7 +152,7 @@ public class ScientificInvestmentController {
 
 		  
 		  String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
-			String companyCode = CommonUtil.getParameter(request, "companyCode", "");
+			String companyCode = CommonUtil.getParameter(request, "companyCode", HanaUtil.YJY_CODE_NOT_YINGKE);
 			System.out.println(">>>>>>>>>>>>>>>>>>>>>参数      month = "+month+" companyCode="+companyCode);
 			Map<String, Object> paramsMap = new HashMap<String, Object>();
 			paramsMap.put("month", month);

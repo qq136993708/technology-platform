@@ -2,7 +2,107 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.pcitc.mapper.financial.ScientificFundsMapper">
 	
-	  
+	   <resultMap id="scientificFundsResultMap" type="com.pcitc.base.hana.report.ScientificInvestment" >
+       <result column="G0GSDM"          property="g0GSDM"      jdbcType="VARCHAR" />
+       <result column="G0GSJC"          property="g0GSJC"      jdbcType="VARCHAR" />
+       <result column="G0PROJCODE"      property="g0PROJCODE"  jdbcType="VARCHAR" />
+       <result column="G0YEARXM"        property="g0YEARXM"    jdbcType="VARCHAR" />
+       <result column="G0PROJTXT"       property="g0PROJTXT"   jdbcType="VARCHAR" />
+       <result column="G0XMGLLX"        property="g0XMGLLX"    jdbcType="VARCHAR" />
+       <result column="G0XMGLLY"        property="g0XMGLLY"    jdbcType="VARCHAR" />
+       <result column="G0XMGLJB"        property="g0XMGLJB"    jdbcType="VARCHAR" />
+       <result column="G0XMLX"          property="g0XMLX"      jdbcType="VARCHAR" />
+       <result column="G0XMZT"          property="g0XMZT"      jdbcType="VARCHAR" />
+       <result column="G0XMZTMS"        property="g0XMZTMS"      jdbcType="VARCHAR" />
+       <result column="K0BNGLFPHJECB"   property="k0BNGLFPHJECB" jdbcType="DECIMAL" />
+       <result column="K0BNKYFPQCB"     property="k0BNKYFPQCB"   jdbcType="DECIMAL" />
+       <result column="K0BNJJCB"        property="k0BNJJCB"      jdbcType="DECIMAL" />
+       <result column="K0BNBL"          property="k0BNBL"        jdbcType="DECIMAL" />
+       <result column="K0SNLJJJCB"      property="k0SNLJJJCB"    jdbcType="DECIMAL" />
+       <result column="K0SNKYFPQCB"     property="k0SNKYFPQCB"   jdbcType="DECIMAL" />
+       <result column="K0SNJJCB"        property="k0SNJJCB"      jdbcType="DECIMAL" />
+       <result column="K0SNBL"          property="k0SNBL"        jdbcType="DECIMAL" />
+       <result column="K0TBZJ"          property="k0TBZJ"        jdbcType="DECIMAL" />
+       <result column="K0TBJJ"          property="k0TBJJ"        jdbcType="DECIMAL" />
+       <result column="K0TBBL"          property="k0TBBL"        jdbcType="DECIMAL" />
+       
+     </resultMap>
+     
+	
+     
+      <!-- 课题直间接费用统计表--> 
+	 <select id="getKtzjjfytjbData" resultMap="scientificFundsResultMap" parameterType="java.util.Map" >
+		SELECT
+		     "G0GSJC",
+		     ROUND(IFNULL(sum("K0BNGLFPHJECB")/10000,0),2)            AS "K0BNGLFPHJECB",   
+		     ROUND(IFNULL(sum("K0BNKYFPQCB"),0)/10000,2)              AS "K0BNKYFPQCB",
+		     ROUND(IFNULL(sum("K0BNJJCB"),0)/10000,2)                 AS "K0BNJJCB",
+		     CASE 
+		         WHEN  IFNULL(sum("K0BNJJCB"),0)=0 THEN 0
+		         ELSE   ROUND(IFNULL(sum("K0BNKYFPQCB")/10000,0)/IFNULL(sum("K0BNJJCB")/10000,0),4)            
+		     END                                       AS "K0BNBL",
+		     
+		     ROUND(IFNULL(sum("K0SNLJJJCB")/10000,0),2)               AS "K0SNLJJJCB",
+		     ROUND(IFNULL(sum("K0SNKYFPQCB")/10000,0),2)              AS "K0SNKYFPQCB",
+		     ROUND(IFNULL(sum("K0SNJJCB"),0)/10000,2)                 AS "K0SNJJCB",
+		      CASE 
+		         WHEN  IFNULL(sum("K0SNJJCB"),0)=0 THEN 0
+		         ELSE   ROUND(IFNULL(sum("K0SNKYFPQCB")/10000,0)/IFNULL(sum("K0SNJJCB")/10000,0),4)          
+		     END                                       AS "K0SNBL",   
+		      
+		     ROUND(IFNULL(IFNULL(sum("K0BNGLFPHJECB")/10000,0)-IFNULL(sum("K0SNLJJJCB")/10000,0),0),2)
+		                                               AS "K0TBZJ",  
+		     ROUND(IFNULL(IFNULL(sum("K0BNKYFPQCB")/10000,0)-IFNULL(sum("K0SNKYFPQCB")/10000,0),0),2)
+		                                               AS "K0TBZJ",
+		     ROUND(IFNULL(IFNULL(sum("K0BNJJCB")/10000,0)-IFNULL(sum("K0SNJJCB")/10000,0),0),2)
+		                                               AS "K0TBJJ",
+		     CASE 
+		         WHEN   IFNULL(sum("K0BNJJCB"),0)=0 OR IFNULL(sum("K0SNJJCB"),0)=0 THEN 0
+		         ELSE  ROUND(IFNULL(sum("K0BNKYFPQCB")/10000,0)/IFNULL(sum("K0BNJJCB")/10000,0),4) 
+		             - ROUND(IFNULL(sum("K0SNKYFPQCB")/10000,0)/IFNULL(sum("K0SNJJCB")/10000,0),4)           
+		     END                                        AS "K0TBBL"                                                                
+		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_CB_1014_01"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+		     '${month}'),
+		     'PLACEHOLDER' = ('$$PR_GSDM$$',
+		     '${companyCode}')) 
+		GROUP BY     "G0GSJC","G0GSOR"
+		order by "G0GSOR"
+     
+      SELECT
+			"G0XMBK",
+			"G0XMLXMS",
+			"G0GSJC",
+			
+	 </select>
+	 
+	 
+	  <!-- 人工成本支出统计表--> 
+      <select id="getRgcbzctjbData" resultMap="scientificFundsResultMap" parameterType="java.util.Map" >
+      
+      </select>
+      
+      
+      <!-- 原材料支出统计表--> 
+      <select id="getYclzctjbData" resultMap="scientificFundsResultMap" parameterType="java.util.Map" >
+      
+      </select>
+      
+      
+      <!-- 能耗支出统计表--> 
+      <select id="getNhzctjbData" resultMap="scientificFundsResultMap" parameterType="java.util.Map" >
+      
+      </select>
+      
+      
+      <!-- 项目资金流向分析--> 
+      <select id="getXmzjlxfxData" resultMap="scientificFundsResultMap" parameterType="java.util.Map" >
+      
+      </select>
+      
+         
+	
+	
+	
 	  
      
 </mapper>

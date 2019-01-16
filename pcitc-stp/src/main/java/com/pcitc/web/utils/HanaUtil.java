@@ -5605,6 +5605,21 @@ public static ChartBarLineSeries getKNOWLDGELevel2ChartBarLineSeries07(List<Know
 	
 	
 	
+	
+	public static String getCurrrent_Year_Moth() throws Exception {
+		Calendar cal = Calendar.getInstance();
+		int year = cal.get(Calendar.YEAR);
+		int month = cal.get(Calendar.MONTH) + 1;
+
+		String monthstr = String.format("%02d", month);
+
+		String str = "" + (year) + "" + monthstr;
+
+		System.out.println(">>>>>str=" + str);
+		return str;
+	}
+	
+	
 	public static String getCurrrentYear() throws Exception {
 		Calendar cal = Calendar.getInstance();
 		int year = cal.get(Calendar.YEAR);
@@ -5663,8 +5678,6 @@ public static ChartBarLineSeries getKNOWLDGELevel2ChartBarLineSeries07(List<Know
 		String month = HanaUtil.getCurrrentYearMoth();
 		request.setAttribute("month", month);
 	}*/
-	
-	
 	
 	
 	

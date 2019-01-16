@@ -1,5 +1,9 @@
 package com.pcitc.web.controller.hana;
 
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -19,6 +23,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.system.SysUser;
+import com.pcitc.base.util.CommonUtil;
+import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.JwtTokenUtil;
 import com.pcitc.web.utils.HanaUtil;
 
@@ -73,11 +79,31 @@ public class ScientificFundsContrller {
 	        return "stp/hana/scientificFunds/ktkyzjsydwfx";
 	  }
 	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
 	  //课题直间接费用统计表
 	  @RequestMapping(method = RequestMethod.GET, value = "/sf/ktzjjfytjb")
 	  public String ktzjjfytjb(HttpServletRequest request) throws Exception
 	  {
-		    
+		  SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
+			HanaUtil.setSearchParaForUser(userInfo,restTemplate,httpHeaders,request);
+			
+			String month = HanaUtil.getCurrrent_Year_Moth();
+			request.setAttribute("month", month);
 	        return "stp/hana/scientificFunds/ktzjjfytjb";
 	  }
 	  
@@ -86,6 +112,13 @@ public class ScientificFundsContrller {
 	public String ktzjjfytjb_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response)
 	{
 
+		String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+		String companyCode = CommonUtil.getParameter(request, "companyCode", HanaUtil.YJY_CODE_NOT_YINGKE);
+		System.out.println(">>>>>>>>>>>>>>>>>>>>>参数      month = "+month+" companyCode="+companyCode);
+		Map<String, Object> paramsMap = new HashMap<String, Object>();
+		paramsMap.put("month", month);
+		paramsMap.put("companyCode", companyCode);
+		
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(ktzjjfytjb_data, HttpMethod.POST, entity, LayuiTableData.class);
@@ -104,7 +137,11 @@ public class ScientificFundsContrller {
 	  @RequestMapping(method = RequestMethod.GET, value = "/sf/rgcbzctjb")
 	  public String rgcbzctjb(HttpServletRequest request) throws Exception
 	  {
-		    
+		  SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
+			HanaUtil.setSearchParaForUser(userInfo,restTemplate,httpHeaders,request);
+			
+			String month = HanaUtil.getCurrrent_Year_Moth();
+			request.setAttribute("month", month);
 	        return "stp/hana/scientificFunds/rgcbzctjb";
 	  }
 	  
@@ -113,6 +150,14 @@ public class ScientificFundsContrller {
 		public String rgcbzctjb_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response)
 		{
 
+			
+			String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+			String companyCode = CommonUtil.getParameter(request, "companyCode", HanaUtil.YJY_CODE_NOT_YINGKE);
+			System.out.println(">>>>>>>>>>>>>>>>>>>>>参数      month = "+month+" companyCode="+companyCode);
+			Map<String, Object> paramsMap = new HashMap<String, Object>();
+			paramsMap.put("month", month);
+			paramsMap.put("companyCode", companyCode);
+			
 			LayuiTableData layuiTableData = new LayuiTableData();
 			HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
 			ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(rgcbzctjb_data, HttpMethod.POST, entity, LayuiTableData.class);
@@ -131,7 +176,11 @@ public class ScientificFundsContrller {
 	  @RequestMapping(method = RequestMethod.GET, value = "/sf/yclzctjb")
 	  public String yclzctjb(HttpServletRequest request) throws Exception
 	  {
-		    
+		  SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
+			HanaUtil.setSearchParaForUser(userInfo,restTemplate,httpHeaders,request);
+			
+			String month = HanaUtil.getCurrrent_Year_Moth();
+			request.setAttribute("month", month);
 	        return "stp/hana/scientificFunds/yclzctjb";
 	  }
 	  @RequestMapping(method = RequestMethod.POST, value = "/yclzctjb_data")
@@ -139,6 +188,15 @@ public class ScientificFundsContrller {
 		public String yclzctjb_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response)
 		{
 
+		  
+		  String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+			String companyCode = CommonUtil.getParameter(request, "companyCode", HanaUtil.YJY_CODE_NOT_YINGKE);
+			System.out.println(">>>>>>>>>>>>>>>>>>>>>参数      month = "+month+" companyCode="+companyCode);
+			Map<String, Object> paramsMap = new HashMap<String, Object>();
+			paramsMap.put("month", month);
+			paramsMap.put("companyCode", companyCode);
+			
+			
 			LayuiTableData layuiTableData = new LayuiTableData();
 			HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
 			ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(yclzctjb_data, HttpMethod.POST, entity, LayuiTableData.class);
@@ -157,7 +215,11 @@ public class ScientificFundsContrller {
 	  @RequestMapping(method = RequestMethod.GET, value = "/sf/nhzctjb")
 	  public String nhzctjb(HttpServletRequest request) throws Exception
 	  {
-		    
+		  SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
+			HanaUtil.setSearchParaForUser(userInfo,restTemplate,httpHeaders,request);
+			
+			String month = HanaUtil.getCurrrent_Year_Moth();
+			request.setAttribute("month", month);
 	        return "stp/hana/scientificFunds/nhzctjb";
 	  }
 	  @RequestMapping(method = RequestMethod.POST, value = "/nhzctjb_data")
@@ -165,6 +227,15 @@ public class ScientificFundsContrller {
 		public String nhzctjb_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response)
 		{
 
+		  
+		    String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+			String companyCode = CommonUtil.getParameter(request, "companyCode", HanaUtil.YJY_CODE_NOT_YINGKE);
+			System.out.println(">>>>>>>>>>>>>>>>>>>>>参数      month = "+month+" companyCode="+companyCode);
+			Map<String, Object> paramsMap = new HashMap<String, Object>();
+			paramsMap.put("month", month);
+			paramsMap.put("companyCode", companyCode);
+			
+			
 			LayuiTableData layuiTableData = new LayuiTableData();
 			HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
 			ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(nhzctjb_data, HttpMethod.POST, entity, LayuiTableData.class);

@@ -157,20 +157,19 @@ layui.config({
             theme: '#0F9EE0'
         },
         cols: [[
-            {field:'g0XMBK',       title:'项目板块',        style:'cursor: pointer;',align: 'left', width: '150'},
-            {field:'g0XMLXMS',     title:'课题类型',        style:'cursor: pointer;',align: 'left', width: '100'},
-            {field:'g0PROJCODE',    title:'项目编号',        style:'cursor: pointer;',align: 'left', width: '100'},
-            {field:'g0PROJTXT',    title:'项目名称',        style:'cursor: pointer;',align: 'left', width: '250'},
-            {field:'zlszg',        title:'计划总投资',        style:'cursor: pointer;',align: 'left', width: '100'},
-            {field:'k0ZTYSJE',          title:'累计支出额',        style:'cursor: pointer;',align: 'left', width: '150'},
-            {field:'k0BNYSJY',        title:'预付余额',        style:'cursor: pointer;',align: 'left', width: '200'},
-            {field:'k0LJGLFPHJECB',       title:'累计投资完成额',     style:'cursor: pointer;',align: 'left', width: '200'},
-            {field:'k0BNYSJY',       title:'项目资金计划结余',     style:'cursor: pointer;',align: 'left', width: '200'},
-            {field:'k0BNYSJY',       title:'本年投资计划',     style:'cursor: pointer;',align: 'left', width: '200'},
-            {field:'k0BNYSJY',       title:'本年累计支出',     style:'cursor: pointer;',align: 'left', width: '200'},
-            {field:'k0BNYSJY',       title:'本年预付款',     style:'cursor: pointer;',align: 'left', width: '200'},
-            {field:'k0BNYSJY',       title:'本年投资完成额',     style:'cursor: pointer;',align: 'left', width: '200'},
-            {field:'k0BNYSJY',       title:'本年资金计划结余',     style:'cursor: pointer;',align: 'left', width: '200'}
+            {field:'g0XMBK',            title:'项目板块',        style:'cursor: pointer;',align: 'left', width: '150'},
+            {field:'g0XMLXMS',          title:'课题类型',        style:'cursor: pointer;',align: 'left', width: '100'},
+            {field:'g0GSJC',            title:'院所',        style:'cursor: pointer;',align: 'left', width: '100'},
+            {field:'k0ZTYSJE',          title:'计划总投资',        style:'cursor: pointer;',align: 'left', width: '100'},
+            {field:'k0LJGLFPHJECB',          title:'累计支出额',        style:'cursor: pointer;',align: 'left', width: '150'},
+            {field:'k0LJSJDJJE',        title:'预付余额',        style:'cursor: pointer;',align: 'left', width: '200'},
+            {field:'aDD1',              title:'累计投资完成额',     style:'cursor: pointer;',align: 'left', width: '200'},
+            {field:'k0LJYSJY',         title:'项目资金计划结余',     style:'cursor: pointer;',align: 'left', width: '200'},
+            {field:'k0BNYSJHJE',       title:'本年投资计划',     style:'cursor: pointer;',align: 'left', width: '200'},
+            {field:'k0BNGLFPHJECB',       title:'本年累计支出',     style:'cursor: pointer;',align: 'left', width: '200'},
+            {field:'k0BNSJDJJE',       title:'本年预付款',     style:'cursor: pointer;',align: 'left', width: '200'},
+            {field:'aDD2',             title:'本年投资完成额',     style:'cursor: pointer;',align: 'left', width: '200'},
+            {field:'k0BNYSJY',         title:'本年资金计划结余',     style:'cursor: pointer;',align: 'left', width: '200'}
             
             
         ]],
@@ -191,7 +190,6 @@ layui.config({
         }
       });
       function merge(res) {
-
           var data = res.data;
           var mergeIndex = 0;//定位需要添加合并属性的行数
           var mark = 1; //这里涉及到简单的运算，mark是计算每次需要合并的格子数

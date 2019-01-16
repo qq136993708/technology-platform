@@ -59,8 +59,8 @@
 
                         <div class="text-total" style="font-size: 13px;">
                             <span>年度预算总计:<span class="text-total-blue"    id="chart1_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>费用性实际签订:<span class="text-total-blue"   id="chart1_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
-                            <span>资本性实际签订:<span class="text-total-blue"   id="chart1_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>费用性科研投入:<span class="text-total-blue"   id="chart1_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>资本性科研投入:<span class="text-total-blue"   id="chart1_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                             <span>预算执行率:<span class="text-total-blue"      id="chart1_04"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                         </div>
                         <div  style="height:272px;width: 100%;" id="chart1"></div>
@@ -315,8 +315,8 @@ function setinvestmentCount(url)
 	        	           for(var i=0;i<list.length;i++)
 	        	           {
 	        	        	  var zysje=list[i].zysje/10000;//预算总计 
-	        	        	  var fyxsjje=list[i].fyxsjje/10000;//费用性实际签订
-	        	        	  var zbxsjje=list[i].zbxsjje/10000;//资本性实际签订
+	        	        	  var fyxsjje=list[i].fyxsjje/10000;//费用性科研投入
+	        	        	  var zbxsjje=list[i].zbxsjje/10000;//资本性科研投入
 	        	        	  // alert(fyxsjje);
 	        	        	  zysje_count=zysje_count+parseFloat(zysje);
 	        	        	  fyxsjje_count=fyxsjje_count+parseFloat(fyxsjje);
