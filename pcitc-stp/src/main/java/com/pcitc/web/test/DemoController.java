@@ -146,7 +146,7 @@ public class DemoController {
 			client.addHeaders(headerMap);
 
 			Map<String, String> paramMap = new HashMap<String, String>();
-			paramMap.put("sqlName", "ktxmndjf");
+			paramMap.put("sqlName", "fndktjfjh");
 			JsonObject jo = new JsonObject();
 			System.out.println(jo.toString());
 			jo.addProperty("ND", "2018");

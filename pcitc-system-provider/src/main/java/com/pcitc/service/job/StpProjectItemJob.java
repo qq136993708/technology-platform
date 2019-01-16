@@ -41,7 +41,7 @@ public class StpProjectItemJob implements Job, Serializable {
 		//List temList = outProjectService.getProjectItemList(map);
 		int culTotal = 0;
 		System.out.println("==========" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "定时获取项目管理系统的项目预算数据 ---开始=============");
-		String sqlName = "ktxmndjf";
+		String sqlName = "fndktjfjh";
 		
 		Calendar date = Calendar.getInstance();
 		String ndCon = String.valueOf(date.get(Calendar.YEAR));
@@ -60,18 +60,25 @@ public class StpProjectItemJob implements Job, Serializable {
 				for (int i = 0; i < jSONArray.size(); i++) {
 					JSONObject object = (JSONObject) jSONArray.get(i);
 					culTotal++;
-					String ktid = object.getString("ktid");
-					String nd = object.getString("nd");
-					String jfhj = object.getString("jfhj");
-					String cddw = object.getString("cddw");
+					String ktid = object.getString("XMID");
+					String ysnd = object.getString("ND");
+					String nd = object.getString("LXND"); //立项年度
+					String jfhj = object.getString("HJ_RMB");
+					String cddw = object.getString("DWMC");
+					String dwbm = object.getString("DWBM");
 					
 					
 					OutProjectInfo opi = new OutProjectInfo();
-					opi.setYsnd(nd);
+					opi.setYsnd(ysnd);
+					opi.setNd(nd);
 					opi.setYsje(jfhj);
 					opi.setXmid(ktid);
 					opi.setDataId(UUID.randomUUID().toString().replaceAll("-", ""));
 					opi.setDefine8(cddw); //承担单位
+					opi.setFzdwbm(dwbm);
+					opi.setCreateDate(new Date());
+					opi.setCreatePerson("newItem");
+					opi.setDefine3("项目管理系统");
 					insertData.add(opi);
 					
 					OutProjectPlan opp = new OutProjectPlan();
@@ -88,7 +95,7 @@ public class StpProjectItemJob implements Job, Serializable {
 					outProjectService.insertProjectItemData(insertData, ndCon);
 					
 					// 修改当前年度的计划预算费用，没有的查询后插入
-					outProjectPlanService.insertOutProjectPlanForYS(planData);
+					// outProjectPlanService.insertOutProjectPlanForYS(planData);
 				}
 				
 				System.out.println("======" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "定时任务--定时获取项目管理系统的项目数据--保存到本地数据库-结束========="+culTotal);
@@ -96,7 +103,7 @@ public class StpProjectItemJob implements Job, Serializable {
 			}
 			
 			
-			// 远程获取第二年数据 -----
+			/*// 远程获取第二年数据 -----
 			str = DataServiceUtil.getProjectData(sqlName, String.valueOf(Integer.parseInt(ndCon)+1));
 			System.out.println("======" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "定时获取项目管理系统的项目预算数据 返回 success第二年====="+String.valueOf(Integer.parseInt(ndCon)+1));
 			if (str != null) {
@@ -172,7 +179,7 @@ public class StpProjectItemJob implements Job, Serializable {
 				
 				System.out.println("======" + DateUtil.dateToStr(new Date(), DateUtil.FMT_SS) + "定时任务--定时获取项目管理系统的项目数据--保存到本地数据库-结束========="+culTotal);
 				// 统一调用存储过程，把数据中部分属性集中处理
-			}
+			}*/
 
 		} catch (Exception e) {
 			e.printStackTrace();

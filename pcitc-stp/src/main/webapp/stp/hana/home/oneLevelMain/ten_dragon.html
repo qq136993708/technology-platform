@@ -67,7 +67,7 @@
             <div class="layui-col-md6">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        <!--<span class="layui-time"></span>-->十条龙项目
+                        <span class="layui-time"></span>十条龙科技攻关项目
                     </div>
                     <div class="layui-card-body btn-function" >
                         <div class="text-total">
@@ -138,7 +138,7 @@
             <div class="layui-col-md12">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        <!--<span class="layui-time"></span>-->十条龙项目
+                        <span class="layui-time"></span>十条龙科技攻关项目
                     </div>
                     <div class="layui-row-main">
 
@@ -147,7 +147,7 @@
                 </div>
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        <!--<span class="layui-time"></span>-->重大项目
+                        <span class="layui-time"></span>重大项目
                     </div>
                     <div class="layui-row-main">
                         <table id="processdef_table"  lay-filter="tableEvent1"></table>
@@ -266,7 +266,6 @@
         echart2.on('click', function (params) {
 			var xName=params.name;
 			var legentName=params.seriesName;
-			xName = xName.replace(nd,"");
 			window.open("/one_level_main/ten_dragon_table?xmzt="+encodeURIComponent(xName)+"&nd="+nd);
 	    }); 
         

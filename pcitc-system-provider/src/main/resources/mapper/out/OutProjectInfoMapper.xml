@@ -2455,28 +2455,37 @@
   	
   	<!-- 获取详细的查询条件 -->
 	<select id="getProjectInfoSelectCondition" resultType="java.util.Map" parameterType="java.util.HashMap">
-		select 'define1' as showCode,define1 as showName from out_project_info
+		select 'define1' as showCode,define1 as showName 
+		from out_project_info
+		WHERE
+		define3='项目管理系统'
 		group by define1
 		union ALL
 		select 'define2',SUBSTR(define2 FROM 4) from out_project_info
-		where 
-		type_flag like '%研究院%'
+		WHERE
+		define3='项目管理系统' and type_flag like '%研究院%'
 		group by define2
 		
 		union ALL
 		
 		select 'type_flag',case when type_flag is null then '其他' else SUBSTR(type_flag FROM 2) end as type_flag
 		from out_project_info
+		WHERE
+		define3='项目管理系统'
 		group by type_flag
 		
 		union ALL
 		select 'zylb', case when zylb is null then '其他' else zylb end as zylb
 		from out_project_info
+		WHERE
+		define3='项目管理系统'
 		group by zylb
 		
 		union ALL
 		select 'zycmc', case when zycmc is null then '其他' else zycmc end as zycmc
 		from out_project_info
+		WHERE
+		define3='项目管理系统'
 		group by zycmc
 		
 	</select>
@@ -2516,23 +2525,23 @@
 	<!-- 分页显示项目数据数据,统计的第三级展示 -->
 	<select id="selectCommonProjectByCond" resultMap="BaseResultMap" parameterType="java.util.HashMap">
 		select out_project_info.define1,substr(out_project_info.define2 from 4) as define2,substr(out_project_info.type_flag from 2) as type_flag,
-			   out_project_info.xmmc,out_project_info.jf,out_project_info.ysje,out_project_info.ysnd,
+			   out_project_info.xmmc,out_project_info.jf,sum(out_project_info.ysje) as ysje,out_project_info.ysnd,
 			   out_project_info.project_property,out_project_info.fzdw,out_project_info.zylb,
 		       out_project_info.nd,out_project_info.hth,out_project_info.zycmc
 		from out_project_info
 		where
 			 out_project_info.project_type != '1'
-			 and out_project_info.project_property not like '%十条龙%'
+			 and define3 = '项目管理系统'
 			<if test="nd != null">
 				and out_project_info.nd = #{nd}
 			</if>
 			<if test="ysnd != null">
 				and out_project_info.ysnd = #{ysnd}
 			</if>
-			<if test="ktlx != null and ktlx == '新开' and nd != null">
+			<if test="ktlx != null and ktlx == '新开课题' and nd != null">
 				and out_project_info.ysnd = #{nd} and out_project_info.nd = #{nd} 
 			</if>
-			<if test="ktlx != null and ktlx == '结转' and nd != null">
+			<if test="ktlx != null and ktlx == '结转课题' and nd != null">
 				and out_project_info.ysnd = #{nd} and out_project_info.nd &lt; #{nd} 
 			</if>
 			<if test="hth != null">
@@ -2599,6 +2608,7 @@
 	        </if>
 	        <!--add end-->
 			
+			group by out_project_info.xmid
 			<if test="orderKey != null and orderKey != ''">
 				<if test="orderType != null and orderType != ''">
 					order by ${orderKey} ${orderType}
@@ -2606,6 +2616,9 @@
 				<if test="orderType == null or orderType == ''">
 					order by ${orderKey} desc
 				</if>
+			</if>
+			<if test="orderKey == null">
+				order by out_project_info.hth desc
 			</if>
 	</select>
 	

@@ -1195,10 +1195,10 @@
 			<if test="xmmc != null">
 				and tableA.xmmc like '%${xmmc}%'
 			</if>
-			<if test="ktlx != null and ktlx == '新开' and nd != null">
+			<if test="ktlx != null and ktlx == '新开课题' and nd != null">
 				and tableA.ysnd = #{nd} and tableA.nd = #{nd} 
 			</if>
-			<if test="ktlx != null and ktlx == '结转' and nd != null">
+			<if test="ktlx != null and ktlx == '结转课题' and nd != null">
 				and tableA.ysnd = #{nd} and tableA.nd &lt; #{nd} 
 			</if>
 			<if test="qdbz != null and qdbz == '已签订'">

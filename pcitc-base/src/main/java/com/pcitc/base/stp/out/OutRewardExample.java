@@ -58,6 +58,8 @@ public class OutRewardExample {
         return criteria;
     }
 
+
+
     public void clear() {
         oredCriteria.clear();
         orderByClause = null;
@@ -122,6 +124,24 @@ public class OutRewardExample {
 
         public Criteria andDataIdNotEqualTo(String value) {
             addCriterion("data_id <>", value, "dataId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrColumn(String value,String[] columns,String opt){
+            String sql = "";
+            String cal = "";
+            if ("like".equals(opt)){
+                cal="%";
+            }
+            int l = columns.length;
+            for (int i = 0; i < l; i++) {
+                if(i==0){
+                    sql = sql + columns[i]+" "+opt+" '"+cal+value+cal+"'";
+                }else {
+                    sql = sql + " or "+columns[i]+" "+opt+" '"+cal+value+cal+"'";
+                }
+            }
+            addCriterion("("+sql+")");
             return (Criteria) this;
         }
 

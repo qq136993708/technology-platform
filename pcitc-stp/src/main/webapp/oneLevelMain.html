@@ -201,6 +201,10 @@ var nd=$("#month").val().substring(4,0);
     layui.use([ 'carousel', 'form','jquery','publicMethods'], function(){
         var carousel = layui.carousel,$=layui.jquery,publicMethods=layui.publicMethods
             ,form = layui.form;
+        /*搜索*/
+        $(".layui-search .btn").click(function () {
+            window.open("fullSearch/search?keyword="+$(".layui-search input").val(),"_target");
+        });
         //图片轮播
         carousel.render({
             elem: '#test-carousel-img'

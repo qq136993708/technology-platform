@@ -38,19 +38,48 @@ public class SearchFullController extends BaseController {
     private static final String contract_dic = "http://pcitc-zuul/system-proxy/out-project-provider/select-condition/list";
 
     private static final String getAwardTable = "http://pcitc-zuul/system-proxy/search/getTableDataAchivement";
+    private static final String getTableDataReport = "http://pcitc-zuul/system-proxy/search/getTableDataReport";
+    private static final String getOutRewardTable = "http://pcitc-zuul/system-proxy/search/reward-list";
 
     private static final String search = "http://pcitc-zuul/system-proxy/search/search";
 
-
+    private static final String equipment_02 = "http://pcitc-zuul/hana-proxy/hana/home/get_home_KYZB_02";
 
 
 
     private static final String[] tabString = {"科研","成果"};
 
+    @RequestMapping(method = RequestMethod.GET, value = "/searchEquipment")
+    public String searchEquipment(HttpServletRequest request) throws Exception {
+        request.setAttribute("keyword", request.getParameter("keyword"));
+        SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
+        HanaUtil.setSearchParaForUser(userInfo,restTemplate,httpHeaders,request);
+        String unitCode=userInfo.getUnitCode();
+        request.setAttribute("unitCode", unitCode);
+
+        String year= HanaUtil.getCurrrentYear();
+        request.setAttribute("year", year);
+
+        request.setAttribute("YJY_CODE_NOT_YINGKE", HanaUtil.YJY_CODE_NOT_YINGKE);
+        return "stp/hana/home/search/query_equipment";
+    }
+
     @RequestMapping(method = RequestMethod.GET, value = "/searchIndex")
     public String searchIndex(HttpServletRequest request) throws Exception {
         request.setAttribute("keyword", request.getParameter("keyword"));
         return "stp/hana/home/search/search_index";
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/searchOutreward")
+    public String searchOutreward(HttpServletRequest request) throws Exception {
+        request.setAttribute("keyword", request.getParameter("keyword"));
+        return "stp/hana/home/search/query_outreward";
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/searchReport")
+    public String searchReport(HttpServletRequest request) throws Exception {
+        request.setAttribute("keyword", request.getParameter("keyword"));
+        return "stp/hana/home/search/query_report";
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/search")
@@ -59,12 +88,110 @@ public class SearchFullController extends BaseController {
         return "stp/hana/home/search/search";
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/getTableSearchEquipment")
+    @ResponseBody
+    public String equipment_02(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        PageResult pageResult = new PageResult();
+        String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+        String companyCode = CommonUtil.getParameter(request, "companyCode", "");
+        Map<String, Object> paramsMap = new HashMap<String, Object>();
+        paramsMap.put("month", month);
+        paramsMap.put("companyCode", companyCode);
+        String keyword = request.getParameter("keyword");
+        keyword = (keyword==null)?"":keyword;
+        JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+        HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+
+        ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(equipment_02, HttpMethod.POST, entity, JSONArray.class);
+        int statusCode = responseEntity.getStatusCodeValue();
+        if (statusCode == 200)
+        {
+            JSONArray jSONArray = responseEntity.getBody();
+            System.out.println(">>>>>>>>>>>>>>>equipment_02 " + jSONArray.toString());
+
+            List<H1AMKYSY100117> list = JSONObject.parseArray(jSONArray.toJSONString(), H1AMKYSY100117.class);
+            //List<String>  lista=HanaUtil.getduplicatexAxisByList(list,"g0ZCXLMS");
+            //List<TreeNode2>  chartCircleList=	HanaUtil.getChildChartH1AMKYSY100117(lista,list);
+
+            List<TreeNode2>  chartCircleList = new ArrayList<TreeNode2>();
+            String strKeyword ="";
+            for(int i = 0;i<list.size();i++)
+            {
+                H1AMKYSY100117 bean = list.get(i);
+                strKeyword = bean.getG0TXT50();
+                if(strKeyword.contains(keyword)){
+                    strKeyword = bean.getG0TXT50().replace(keyword,"<span style=\"color:red\">" + keyword + "</span>");
+                }else {
+                    continue;
+                }
+                TreeNode2 node = new TreeNode2();
+                node.setExtend01(bean.getG0ZCXLMS());//设备类型
+                node.setExtend02(bean.getG0GSJC());//直属研究院
+                node.setExtend03(strKeyword);//设备名称
+                node.setExtend04(bean.getG0ZBHND());//购置年度
+                node.setExtend05(bean.getG0NDJAR());//使用年限
+                node.setExtend06(bean.getG0NDSYN());//剩余年限
+
+                DecimalFormat decimalFormat=new DecimalFormat(".00");
+                node.setExtend07(bean.getG0NCGZYZJE());//购置金额(万元)
+                if(bean.getG0NCGZYZJE()!=null )
+                {
+                    node.setExtend07(decimalFormat.format(Double.valueOf(bean.getG0NCGZYZJE())/10000l));
+                }
+                node.setExtend08(bean.getG0LJZJJE());//折旧金额（万元）
+                if(bean.getG0LJZJJE()!=null )
+                {
+                    node.setExtend08(decimalFormat.format(Double.valueOf(bean.getG0LJZJJE())/10000l));
+                }
+                node.setExtend09("0");
+                if(bean.getG0NCGZYZJE()!=null && bean.getG0LJZJJE()!=null)
+                {
+                    Double rs = Double.valueOf(node.getExtend07())-Double.valueOf(node.getExtend08());
+                    node.setExtend09(decimalFormat.format(rs));
+                }
+                node.setExtend10(bean.getBl()+"%");//折旧率
+
+                chartCircleList.add(node);
+            }
+//            if(chartCircleList!=null&&chartCircleList.size()>0)
+//            {
+//                //把合计放到第一位置（查询结果在队列末尾）
+//                chartCircleList.set(0, chartCircleList.get(chartCircleList.size()-1));
+//                //移除最后位置的合计值
+//                chartCircleList.remove(chartCircleList.size()-1);
+//            }
+
+            pageResult.setData(chartCircleList);
+            pageResult.setCode(0);
+            pageResult.setCount(Long.valueOf(chartCircleList.size()));
+            pageResult.setLimit(1000);
+            pageResult.setPage(1l);
+
+        }
+
+
+        JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
+        //System.out.println(">>>>>>>>>>>>>>>equipment_02 " + resultObj.toString());
+        return resultObj.toString();
+    }
+
     @RequestMapping(method = RequestMethod.POST, value = "/getTableSearch")
     @ResponseBody
     public String getTableSearch(@ModelAttribute("param") LayuiTableParam param) {
         LayuiTableData layuiTableData = new LayuiTableData();
         HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
         ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(search, HttpMethod.POST, entity, LayuiTableData.class);
+        layuiTableData = responseEntity.getBody();
+        return JSONObject.toJSONString(layuiTableData);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/getTableDataReport")
+    @ResponseBody
+    public String getTableDataReport(@ModelAttribute("param") LayuiTableParam param) {
+        LayuiTableData layuiTableData = new LayuiTableData();
+        HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+        ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(getTableDataReport, HttpMethod.POST, entity, LayuiTableData.class);
         layuiTableData = responseEntity.getBody();
         return JSONObject.toJSONString(layuiTableData);
     }
@@ -83,6 +210,22 @@ public class SearchFullController extends BaseController {
         LayuiTableData layuiTableData = new LayuiTableData();
         HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
         ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(getAwardTable, HttpMethod.POST, entity, LayuiTableData.class);
+        int statusCode = responseEntity.getStatusCodeValue();
+        if (statusCode == 200) {
+            layuiTableData = responseEntity.getBody();
+        }
+        JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
+        return result.toString();
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/getTableDataOutReward")
+    @ResponseBody
+    public String getTableDataOutReward(@ModelAttribute("param") LayuiTableParam param) {
+
+        JSONObject tt = JSONObject.parseObject(JSONObject.toJSONString(param));
+        LayuiTableData layuiTableData = new LayuiTableData();
+        HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+        ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(getOutRewardTable, HttpMethod.POST, entity, LayuiTableData.class);
         int statusCode = responseEntity.getStatusCodeValue();
         if (statusCode == 200) {
             layuiTableData = responseEntity.getBody();
