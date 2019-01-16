@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/adminStp.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/mainStp.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/second.css" media="all">
+    <style>
+        .btn_details{background:url(/layuiadmin/layui/images/operation_03.png) 2px 4px #fff no-repeat;}
+        .btnMyBgImg:hover{background-size:inherit;background-position: 2px;}
+        .searchBox{background:none;}
+    </style>
+</head>
+<body>
+<div class="layui-fluid">
+
+    <input type="hidden" name="keyword"  value="${keyword}"   id="keyword">
+    <input type="hidden" name="companyCode"  value="${companyCode}"   id="companyCode">
+    <div class="" >
+        <div class="searchBox" hidden>
+            <label class="dateInput">
+                <span>年月</span>
+                <input type="text" name="month" placeholder="请选择年月" title="年月" value="${month}"  autocomplete="off" class="form-control" id="month">
+            </label>
+            <!--按钮组-->
+            <!--<div class="btnGroup">
+                <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg"
+                        onclick="search_Event()">查询</button>
+            </div>-->
+            <!--<div class="btnGroup">-->
+                <!--<button id="knowledge_table" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue  btnMyBgImg btn_details"-->
+                <!--&gt;详情</button>-->
+            <!--</div>-->
+            <div class="breadcrumb" hidden>
+                <a href="/index" target="_parent">首页 > </a><span>科研装备</span>
+            </div>
+        </div>
+        <div class="layui-row layui-col-space15" hidden>
+            <div class="layui-col-md12">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        <span class="layui-time"></span>单台价值大于500万科研装备数量
+                    </div>
+                    <div class="layui-row-main">
+                        <div class="text-total">
+                            <span>总计：<span class="text-total-blue" id="chart_title_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                        </div>
+                        <div class="main-chart" id="equipment_01_chart" style="height:280px;width: 100%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-row layui-col-space15">
+            <div class="layui-col-md12">
+                <div class="layui-card">
+                    <div class="layui-card-header">
+                        <span class="layui-time"></span>单台价值大于500万科研装备清单
+                        <span class="layui-title-right">单位：万元</span>
+                    </div>
+                    <div class="layui-row-main">
+                        <table id="processdef_table_02" class="layui-hide" lay-filter="processdef_table_02"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/common/js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+<!-- <script src="/common/js/layer-v3.1.1/layer.js"></script> -->
+<script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
+<script type="text/javascript" src="/plugins/echarts/walden.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
+<script type="text/javascript" src="/stp/hana/home/direct_depart/direct_common.js"></script>
+
+<script type="text/javascript">
+    var table,treeGridCom,util;
+    layui.config({
+        base: '/layuiadmin/lib/extend/'
+    }).extend({
+        treeGridCom:'treeGridCom'
+    }).use(['jquery','form', 'laydate','treeGridCom','table','laypage'], function(){
+        var $=layui.jquery;
+        treeGridCom = layui.treeGridCom;//很重要
+        layer=layui.layer;
+        laydate = layui.laydate;
+        form = layui.form;
+
+        table = layui.table;
+        util = layui.laytpl;
+
+
+        form.render(null, 'component-form-group');
+        laydate.render({
+            elem: '#month'
+            ,format: 'yyyyMM'
+            ,done: function(value, date, endDate){
+                $(".layui-time").html(date.year+"年"+date.month+"月");
+                search_Event();
+            }
+        });
+
+
+        renderTable();
+
+        var monthValY=$("#month").val().substring(4,0);
+        var monthValM=$("#month").val().substring(4);
+        $(".layui-time").html(monthValY+"年"+monthValM+"月");
+        $("#knowledge_table").click(function () {
+            window.open("/reportNew/reportPageStp?name=167305d0060_d4723a52");
+        });
+
+    });
+
+    function initEchart()
+    {
+
+
+        $("#chart_title_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+        var v_date=(new Date()).getTime();
+        var companyCode=$('#companyCode').val();
+        var yAxis= [
+            {
+                type: 'value',
+                name: '数量（台）',
+                min: 0,
+                //max:'dataMax',
+                position: 'left',
+                axisLabel: {
+                    formatter: '{value}'
+                }
+            }
+        ];
+        var chart1_url="/one_level_main/equipment_01?month="+$("#month").val()+"&v_date="+v_date+"&companyCode="+companyCode;
+        var color=["#78c34b"];
+        var echart1=load_single_bar(chart1_url,"equipment_01_chart","","",yAxis,color,70,null,function(data){
+            var total_count = 0;
+            console.log(data);
+            $.each(data.data.seriesDataList,function(index,dt){
+                total_count+=dt;
+            });
+            $("#chart_title_01").html(total_count+"（台）");
+        });
+        echart1.on('click', function (params) {
+            var xName=params.name;
+            var legentName=params.seriesName;
+            window.open("/reportNew/reportPageStp?name=167305d0060_d4723a52");
+
+        });
+
+    }
+
+    //初始化图形
+    // initEchart();
+    //查询
+    function search_Event()
+    {
+        // initEchart();
+        renderTable();
+    }
+    function renderTable(){
+        var month=$("#month").val();
+        var companyCode=$("#companyCode").val();
+        table.render({
+            elem: '#processdef_table_02' //表格容器
+            , url: '/fullSearch/getTableSearchEquipment?month='+month+"&companyCode="+companyCode+"&keyword="+$("#keyword").val()
+            , limit: 15 //每页默认显示的数量
+            , id: 'processdef_table_02'
+            , height: commonDislodgeTable()
+            , cols: [[
+                {field:'extend01',  title: '设备类型',width:'15%',edit:'text'},
+                {field:'extend02',  title:'直属研究院',width:'8%',  style:'cursor: pointer;',align: 'left'},
+                {field:'extend03',  title:'设备名称',width:'25%',  style:'cursor: pointer;',align: 'left'},
+                {field:'extend04',  title:'购置年度',width:'8%',  style:'cursor: pointer;',align: 'center'},
+                {field:'extend05',  title:'使用年限',  style:'cursor: pointer;',align: 'center',
+                    templet: function(d){
+                        return d.extend05.substr(1);
+                    }
+                },
+                {field:'extend06',  title:'剩余年限',  style:'cursor: pointer;',align: 'center'},
+                {field:'extend07',  title:'购置价值',  style:'cursor: pointer;',align: 'right',  templet: '<div>{{ layui.laytpl.milliFormat(d.extend07,2) }}</div>'},
+                {field:'extend08',  title:'累计折旧',  style:'cursor: pointer;',align: 'right',  templet: '<div>{{ layui.laytpl.milliFormat(d.extend08,2) }}</div>'},
+                {field:'extend09',  title:'资产净值',  style:'cursor: pointer;',align: 'right',  templet: '<div>{{ layui.laytpl.milliFormat(d.extend09,2) }}</div>'},
+                {field:'extend10',  title:'折旧率',  style:'cursor: pointer;',align: 'right'}
+            ]],
+            done: function(res, curr, count){
+                merge(res);
+                parent.$("#equipment").html(count);
+            }
+        });
+
+        function merge(res) {
+
+            var data = res.data;
+            var mergeIndex = 0;//定位需要添加合并属性的行数
+            var mark = 1; //这里涉及到简单的运算，mark是计算每次需要合并的格子数
+            var columsName = ['extend01','extend02'];//需要合并的列名称
+            var columsIndex = [0,1];//需要合并的列索引值
+
+            for (var k = 0; k < columsName.length; k++) { //这里循环所有要合并的列
+                var trArr = $(".layui-table-body>.layui-table").find("tr");//所有行
+                for (var i = 1; i < res.data.length; i++) { //这里循环表格当前的数据
+                    var tdCurArr = trArr.eq(i).find("td").eq(columsIndex[k]);//获取当前行的当前列
+                    var tdPreArr = trArr.eq(mergeIndex).find("td").eq(columsIndex[k]);//获取相同列的第一列
+
+                    if (data[i][columsName[k]] === data[i-1][columsName[k]]) { //后一行的值与前一行的值做比较，相同就需要合并
+                        mark += 1;
+                        tdPreArr.each(function () {//相同列的第一列增加rowspan属性
+                            $(this).attr("rowspan", mark);
+                        });
+                        tdCurArr.each(function () {//当前行隐藏
+                            $(this).css("display", "none");
+                        });
+                    }else {
+                        mergeIndex = i;
+                        mark = 1;//一旦前后两行的值不一样了，那么需要合并的格子数mark就需要重新计算
+                    }
+                }
+                mergeIndex = 0;
+                mark = 1;
+            }
+        }
+    }
+
+</script>
+</body>
+</html>
