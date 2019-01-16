@@ -69,15 +69,27 @@ public class FullSearchServiceImpl implements FullSearchService {
         param_common.setLimit(limit_scientific);
         param_common.setParam(param_public);
 
-        //科研
+        //科研课题
         LayuiTableData tableDataScientific = this.getTableDataScientific(param_common);
         List<?> scientificData = tableDataScientific.getData();
-        //成果
+        //科研成果
         LayuiTableData tableDataAchivementc = this.getTableDataAchivement(param_common);
         List<?> achivementcData = tableDataAchivementc.getData();
         //报表
         LayuiTableData tableDataReport = this.getTableDataReport(param_common);
         List<?> reportData = tableDataReport.getData();
+
+        //科技奖励
+        LayuiTableData tableDataOutReward = this.getOutRewardListPage(param_common);
+        List<?> outRewardData = tableDataOutReward.getData();
+
+        //科研装备
+
+        //技术族
+
+        //专家信息
+
+        //知识产权
 
         //汇总
         List list = new ArrayList<>();
@@ -102,6 +114,13 @@ public class FullSearchServiceImpl implements FullSearchService {
             total = total + 1;
             for (int i = 0; i < reportData.size(); i++) {
                 list.add(reportData.get(i));
+            }
+        }
+        if (outRewardData != null) {
+            tableDataOutReward.addPropertyToData("select_type","outReward");
+            total = total + 1;
+            for (int i = 0; i < outRewardData.size(); i++) {
+                list.add(outRewardData.get(i));
             }
         }
 
