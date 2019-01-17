@@ -1220,8 +1220,8 @@
 				select SUBSTR(tableA.DEFINE3 FROM 2) as define3, tableA.DEFINE3 as temOrder, zbxsjje, fyxsjje from (
 						select 
 							 case when out_project_info.type_flag is null then 'L其他' else out_project_info.type_flag end as DEFINE3,
-							 round(sum(case when out_project_info.xmlbbm='KYZB' then ysje else 0 end),4) as zbxsjje,
-							 round(sum(case when out_project_info.xmlbbm!='KYZB' then ysje else 0 end),4) as fyxsjje
+							 round(sum(yszbxje),4) as zbxsjje,
+							 round(sum(ysfyxje),4) as fyxsjje
 						from out_project_info 
 						WHERE
 							out_project_info.ysnd= '${nd}' 

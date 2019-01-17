@@ -434,6 +434,12 @@ public class OutProjectServiceImpl implements OutProjectService {
 			if (StrUtil.isNotBlank(opi.getYsje())) {
 				newOPI.setYsje(opi.getYsje());
 			}
+			if (StrUtil.isNotBlank(opi.getYsfyxje())) {
+				newOPI.setYsfyxje(opi.getYsfyxje());
+			}
+			if (StrUtil.isNotBlank(opi.getYszbxje())) {
+				newOPI.setYszbxje(opi.getYszbxje());
+			}
 			if (StrUtil.isNotBlank(opi.getYsnd())) {
 				newOPI.setYsnd(opi.getYsnd());
 			}
@@ -508,6 +514,8 @@ public class OutProjectServiceImpl implements OutProjectService {
 				insertOPI.setDefine8(opi.getDefine8());
 				insertOPI.setDefine9(opi.getDefine9());
 				insertOPI.setDefine3(opi.getDefine3());
+				insertOPI.setYsfyxje(opi.getYsfyxje());
+				insertOPI.setYszbxje(opi.getYszbxje());
 
 				List<OutProjectInfo> temList = new ArrayList<OutProjectInfo>();
 				temList.add(insertOPI);
