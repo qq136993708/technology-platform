@@ -2527,7 +2527,7 @@
 		select out_project_info.define1,substr(out_project_info.define2 from 4) as define2,substr(out_project_info.type_flag from 2) as type_flag,
 			   out_project_info.xmmc,out_project_info.jf,sum(out_project_info.ysje) as ysje,out_project_info.ysnd,
 			   out_project_info.project_property,out_project_info.fzdw,out_project_info.zylb,
-		       out_project_info.nd,out_project_info.hth,out_project_info.zycmc
+		       out_project_info.nd,out_project_info.define8,out_project_info.hth,out_project_info.zycmc
 		from out_project_info
 		where
 			 out_project_info.project_type != '1'

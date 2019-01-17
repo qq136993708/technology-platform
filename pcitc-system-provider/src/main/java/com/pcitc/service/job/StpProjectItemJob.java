@@ -45,7 +45,7 @@ public class StpProjectItemJob implements Job, Serializable {
 		
 		Calendar date = Calendar.getInstance();
 		String ndCon = String.valueOf(date.get(Calendar.YEAR));
-		ndCon = "2018";
+		ndCon = "2017";
 		String str = null;
 		try {
 			// 远程当年获取数据 -----
