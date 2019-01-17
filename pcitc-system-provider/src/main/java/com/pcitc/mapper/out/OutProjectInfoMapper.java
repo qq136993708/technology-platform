@@ -9,7 +9,6 @@ import org.apache.ibatis.annotations.Param;
 import com.pcitc.base.stp.out.OutProjectInfo;
 import com.pcitc.base.stp.out.OutProjectInfoExample;
 import com.pcitc.base.stp.out.OutProjectInfoWithBLOBs;
-import com.pcitc.base.stp.out.OutProjectPlan;
 
 public interface OutProjectInfoMapper {
     int countByExample(OutProjectInfoExample example);
@@ -40,7 +39,7 @@ public interface OutProjectInfoMapper {
 
     int updateByPrimaryKey(OutProjectInfo record);
     
-	public void insertOutProjectBatch(List<OutProjectInfo> list);
+    public void insertOutProjectBatch(List<OutProjectInfo> list);
 
 	public List<OutProjectInfo> selectProjectByCond(OutProjectInfo opi);
 	
@@ -299,26 +298,6 @@ public interface OutProjectInfoMapper {
      * 领导首页-十条龙，十条龙项目的详情
      */
 	public List getDragonProjectDetails(HashMap<String, Object> map);
-	
-	/**
-	 * 获取项目预算数据
-	 */
-	public List getProjectItemList(HashMap<String, String> map);
-	
-	/**
-	 * 批量插入项目预算数据
-	 */
-	public int insertProjectItemData(List<OutProjectInfo> list);
-	
-	/**
-	 * 删除年度项目预算数据
-	 */
-	public int deleteProjectItemByNd(String nd);
-	
-	/**
-	 * 删除国家项目预算数据
-	 */
-	public int deleteCountryProjectItemByDefind1(String define1);
 	
 	/**
 	 * 获取项目详情的查询维度（条件）

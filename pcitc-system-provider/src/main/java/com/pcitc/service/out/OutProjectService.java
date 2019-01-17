@@ -25,11 +25,6 @@ public interface OutProjectService {
 	public int insertProjectData(List<OutProjectInfo> list, String nd);
 	
 	/**
-	 * 批量插入项目预算数据
-	 */
-	public int insertProjectItemDataTest(List<OutProjectInfo> list, String nd);
-	
-	/**
      * 研究院首页计算装备和科研合同总数 
      */
 	public HashMap<String, String> getOutProjectInfoCountWithKYZB(HashMap<String, String> map);
@@ -48,19 +43,9 @@ public interface OutProjectService {
 	public int insertProjectItemData(List<OutProjectInfo> list, String nd);
 	
 	/**
-	 * 批量插入国家项目预算数据
-	 */
-	public int insertCountryProjectItemData(List<OutProjectInfo> list, String nd);
-	
-	/**
 	 * 获取项目数据
 	 */
 	public List<OutProjectInfo> getProjectList(HashMap<String, String> map);
-	
-	/**
-	 * 获取项目预算数据
-	 */
-	public List getProjectItemList(HashMap<String, String> map);
 	
 	/**
 	 * 分页显示项目

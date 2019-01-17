@@ -146,10 +146,10 @@ public class DemoController {
 			client.addHeaders(headerMap);
 
 			Map<String, String> paramMap = new HashMap<String, String>();
-			paramMap.put("sqlName", "SelectAllProjectFromPlanData");
+			paramMap.put("sqlName", "SelectAllProjectFromSinopecData2017");
 			JsonObject jo = new JsonObject();
 			System.out.println(jo.toString());
-			jo.addProperty("ND", "2017");
+			jo.addProperty("ND", "2018");
 			//jo.addProperty("ksrq", "2018-01-01");
 			//jo.addProperty("jzrq", "2018-02-05");
 

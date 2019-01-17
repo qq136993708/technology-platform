@@ -21,6 +21,10 @@ public class OutProjectInfo {
 
     private String ysxd;
 
+    private String yszbxje;
+
+    private String ysfyxje;
+
     private String ysje;
 
     private String jf;
@@ -131,6 +135,14 @@ public class OutProjectInfo {
 
     private String define9;
 
+    private String define10;
+
+    private String define11;
+
+    private String define12;
+
+    private String define13;
+
     public String getDataId() {
         return dataId;
     }
@@ -201,6 +213,22 @@ public class OutProjectInfo {
 
     public void setYsxd(String ysxd) {
         this.ysxd = ysxd;
+    }
+
+    public String getYszbxje() {
+        return yszbxje;
+    }
+
+    public void setYszbxje(String yszbxje) {
+        this.yszbxje = yszbxje;
+    }
+
+    public String getYsfyxje() {
+        return ysfyxje;
+    }
+
+    public void setYsfyxje(String ysfyxje) {
+        this.ysfyxje = ysfyxje;
     }
 
     public String getYsje() {
@@ -641,5 +669,37 @@ public class OutProjectInfo {
 
     public void setDefine9(String define9) {
         this.define9 = define9;
+    }
+
+    public String getDefine10() {
+        return define10;
+    }
+
+    public void setDefine10(String define10) {
+        this.define10 = define10;
+    }
+
+    public String getDefine11() {
+        return define11;
+    }
+
+    public void setDefine11(String define11) {
+        this.define11 = define11;
+    }
+
+    public String getDefine12() {
+        return define12;
+    }
+
+    public void setDefine12(String define12) {
+        this.define12 = define12;
+    }
+
+    public String getDefine13() {
+        return define13;
+    }
+
+    public void setDefine13(String define13) {
+        this.define13 = define13;
     }
 }
