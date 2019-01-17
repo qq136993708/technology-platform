@@ -188,15 +188,6 @@ public class OutProjectServiceImpl implements OutProjectService {
 	}
 
 	/**
-	 * 获取项目数据
-	 */
-	public List getProjectItemList(HashMap<String, String> map) {
-
-		List returnList = outProjectInfoMapper.getProjectItemList(map);
-		return returnList;
-	}
-
-	/**
 	 * 批量插入项目预算数据
 	 */
 	public int insertProjectItemData(List<OutProjectInfo> list, String nd) {
@@ -216,29 +207,6 @@ public class OutProjectServiceImpl implements OutProjectService {
 		return 1;
 	}
 
-	/**
-	 * 批量插入项目预算数据
-	 */
-	public int insertProjectItemDataTest(List<OutProjectInfo> list, String nd) {
-		// 删除年度预算，重新获取
-		// outProjectInfoMapper.deleteProjectItemByNd(nd);
-		// outProjectInfoMapper.insertProjectItemData(list);
-
-		outProjectInfoMapper.insertOutProjectBatch(list);
-
-		return 1;
-	}
-
-	/**
-	 * 批量插入国家项目预算数据
-	 */
-	public int insertCountryProjectItemData(List<OutProjectInfo> list, String nd) {
-
-		// 删除国家项目数据，重新生成
-		outProjectInfoMapper.deleteCountryProjectItemByDefind1("nd");
-		outProjectInfoMapper.insertProjectItemData(list);
-		return 1;
-	}
 
 	/**
 	 * 批量插入国家项目
