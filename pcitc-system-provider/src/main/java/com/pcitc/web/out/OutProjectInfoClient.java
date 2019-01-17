@@ -1724,47 +1724,6 @@ public class OutProjectInfoClient {
 		
 		List temList = outProjectService.getProjectTypeCountByTypeLD("2018");
 		
-		if (!JSON.toJSONString(temList).contains("新开课题")) {
-			HashMap<String, Object> temMap = new HashMap<String, Object>();
-			temMap.put("gjxmsl", 0);
-			temMap.put("zdzxxmsl", 0);
-			temMap.put("zdxmsl", 0);
-			temMap.put("qtsl", 0);
-			temMap.put("stlxmsl", 0);
-			temMap.put("zsl", 0);
-			
-			temMap.put("ktysl", 0);
-			temMap.put("wtysl", 0);
-			temMap.put("gcysl", 0);
-			temMap.put("skysl", 0);
-			temMap.put("dlysl", 0);
-			temMap.put("bhysl", 0);
-			temMap.put("shysl", 0);
-			temMap.put("agysl", 0);
-			temMap.put("project_scope", "新开课题");
-			temList.add(temMap);
-		}
-		if (!JSON.toJSONString(temList).contains("结转课题")) {
-			HashMap<String, Object> temMap = new HashMap<String, Object>();
-			temMap.put("gjxmsl", 0);
-			temMap.put("zdzxxmsl", 0);
-			temMap.put("zdxmsl", 0);
-			temMap.put("qtsl", 0);
-			temMap.put("stlxmsl", 0);
-			temMap.put("zsl", 0);
-			
-			temMap.put("ktysl", 0);
-			temMap.put("wtysl", 0);
-			temMap.put("gcysl", 0);
-			temMap.put("skysl", 0);
-			temMap.put("dlysl", 0);
-			temMap.put("bhysl", 0);
-			temMap.put("shysl", 0);
-			temMap.put("agysl", 0);
-			
-			temMap.put("project_scope", "结转课题");
-			temList.add(temMap);
-		}
 		System.out.println("===="+JSON.toJSONString(temList));
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
 		return json;
