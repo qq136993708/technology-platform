@@ -15,6 +15,10 @@ public class OutProjectPlan {
 
     private String ysnd;
 
+    private String ysfyxje;
+
+    private String yszbxje;
+
     private String ysje;
 
     private String jf;
@@ -100,25 +104,33 @@ public class OutProjectPlan {
     private String define8;
 
     private String define9;
+
+    private String define10;
+
+    private String define11;
+
+    private String define12;
+
+    private String define13;
     
     private String projectId;
     
     private String qdbz;
-    
-    public String getQdbz() {
-		return qdbz;
-	}
 
-	public void setQdbz(String qdbz) {
-		this.qdbz = qdbz;
-	}
-
-	public String getProjectId() {
+    public String getProjectId() {
 		return projectId;
 	}
 
 	public void setProjectId(String projectId) {
 		this.projectId = projectId;
+	}
+
+	public String getQdbz() {
+		return qdbz;
+	}
+
+	public void setQdbz(String qdbz) {
+		this.qdbz = qdbz;
 	}
 
 	public String getDataId() {
@@ -175,6 +187,22 @@ public class OutProjectPlan {
 
     public void setYsnd(String ysnd) {
         this.ysnd = ysnd;
+    }
+
+    public String getYsfyxje() {
+        return ysfyxje;
+    }
+
+    public void setYsfyxje(String ysfyxje) {
+        this.ysfyxje = ysfyxje;
+    }
+
+    public String getYszbxje() {
+        return yszbxje;
+    }
+
+    public void setYszbxje(String yszbxje) {
+        this.yszbxje = yszbxje;
     }
 
     public String getYsje() {
@@ -519,5 +547,37 @@ public class OutProjectPlan {
 
     public void setDefine9(String define9) {
         this.define9 = define9;
+    }
+
+    public String getDefine10() {
+        return define10;
+    }
+
+    public void setDefine10(String define10) {
+        this.define10 = define10;
+    }
+
+    public String getDefine11() {
+        return define11;
+    }
+
+    public void setDefine11(String define11) {
+        this.define11 = define11;
+    }
+
+    public String getDefine12() {
+        return define12;
+    }
+
+    public void setDefine12(String define12) {
+        this.define12 = define12;
+    }
+
+    public String getDefine13() {
+        return define13;
+    }
+
+    public void setDefine13(String define13) {
+        this.define13 = define13;
     }
 }
