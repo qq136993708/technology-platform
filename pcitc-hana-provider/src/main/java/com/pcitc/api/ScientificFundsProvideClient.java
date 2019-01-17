@@ -26,11 +26,48 @@ public class ScientificFundsProvideClient {
 	private ICommonService commonService;
 	
 	
-	@ApiOperation(value = "科技经费分析明细表", notes = "科技经费分析明细表")
-	@RequestMapping(value = "/tzxmwcqktjb_data", method = RequestMethod.POST)
-	public LayuiTableData getTzxmwcqktjbData(@RequestBody LayuiTableParam param)throws Exception
+	@ApiOperation(value = "课题直间接费用统计表", notes = "课题直间接费用统计表")
+	@RequestMapping(value = "/ktzjjfytjb", method = RequestMethod.POST)
+	public LayuiTableData ktzjjfytjb(@RequestBody LayuiTableParam param)throws Exception
 	{
-		return scientificFundsService.getTzxmwcqktjbData(param);
+		return scientificFundsService.getKtzjjfytjbData(param);
 	}
+	
+	
+	
+	
+	@ApiOperation(value = "人工成本支出统计表", notes = "人工成本支出统计表")
+	@RequestMapping(value = "/rgcbzctjb", method = RequestMethod.POST)
+	public LayuiTableData rgcbzctjb(@RequestBody LayuiTableParam param)throws Exception
+	{
+		return scientificFundsService.getRgcbzctjbData(param);
+	}
+	
+	
+	
+	@ApiOperation(value = "原材料支出统计表", notes = "原材料支出统计表")
+	@RequestMapping(value = "/yclzctjb", method = RequestMethod.POST)
+	public LayuiTableData yclzctjb(@RequestBody LayuiTableParam param)throws Exception
+	{
+		return scientificFundsService.getYclzctjbData(param);
+	}
+	
+	
+	@ApiOperation(value = "能耗支出统计表", notes = "能耗支出统计表")
+	@RequestMapping(value = "/nhzctjb", method = RequestMethod.POST)
+	public LayuiTableData nhzctjb(@RequestBody LayuiTableParam param)throws Exception
+	{
+		return scientificFundsService.getNhzctjbData(param);
+	}
+	
+	
+	
+	@ApiOperation(value = "项目资金流向分析", notes = "项目资金流向分析")
+	@RequestMapping(value = "/xmzjlxfx", method = RequestMethod.POST)
+	public LayuiTableData xmzjlxfx(@RequestBody LayuiTableParam param)throws Exception
+	{
+		return scientificFundsService.getXmzjlxfxData(param);
+	}
+	
 	
 }

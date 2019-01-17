@@ -3772,21 +3772,21 @@ public static ChartBarLineSeries getKNOWLDGELevel2ChartBarLineSeries07(List<Know
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
 		if (name.equals("zsjje")) {
 			chartBarLineSeries.setName("实际下达");
-			chartBarLineSeries.setStack("亿元");
+			
 			chartBarLineSeries.setyAxisIndex(0);
-			chartBarLineSeries.setItemStyle("{normal:{color:'#FF8849'}}");
+			
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
 		if (name.equals("wxdje")) {
 			chartBarLineSeries.setName("未下达");
-			chartBarLineSeries.setStack("亿元");
+			
 			chartBarLineSeries.setyAxisIndex(0);
-			chartBarLineSeries.setItemStyle("{normal:{color:'#FF8849'}}");
+			
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
 		if (name.equals("jeRate")) {
 			chartBarLineSeries.setName("投资完成率");
-			chartBarLineSeries.setStack("百分比");
+		
 			chartBarLineSeries.setyAxisIndex(1);
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_LINE);
 		}
@@ -3985,10 +3985,10 @@ public static ChartBarLineSeries getKNOWLDGELevel2ChartBarLineSeries07(List<Know
 			
 				String fyxsjje =String.valueOf(f03.getFyxsjje());
 				String zbxsjje =String.valueOf(f03.getZbxsjje());
-				
+				//System.out.println("==============fyxsjje:"+fyxsjje);
 					if (name.equals("fyxsjje")) {
 						
-						if(fyxsjje!=null)
+						if(fyxsjje!=null && !fyxsjje.equals("null")  && !fyxsjje.equals(""))
 						{
 							dataList.add(String.format("%.2f", Double.valueOf(fyxsjje)/10000));
 							
@@ -5605,6 +5605,21 @@ public static ChartBarLineSeries getKNOWLDGELevel2ChartBarLineSeries07(List<Know
 	
 	
 	
+	
+	public static String getCurrrent_Year_Moth() throws Exception {
+		Calendar cal = Calendar.getInstance();
+		int year = cal.get(Calendar.YEAR);
+		int month = cal.get(Calendar.MONTH) + 1;
+
+		String monthstr = String.format("%02d", month);
+
+		String str = "" + (year) + "" + monthstr;
+
+		System.out.println(">>>>>str=" + str);
+		return str;
+	}
+	
+	
 	public static String getCurrrentYear() throws Exception {
 		Calendar cal = Calendar.getInstance();
 		int year = cal.get(Calendar.YEAR);
@@ -5666,8 +5681,6 @@ public static ChartBarLineSeries getKNOWLDGELevel2ChartBarLineSeries07(List<Know
 	
 	
 	
-	
-	
 	public static void setSearchParaForUser( SysUser userInfo,RestTemplate restTemplate, HttpHeaders httpHeaders, HttpServletRequest request)
 			throws Exception {
 		
@@ -5712,6 +5725,9 @@ public static ChartBarLineSeries getKNOWLDGELevel2ChartBarLineSeries07(List<Know
 	 	    	companyCodeList.add(cc);
 	 	    }
 	 		request.setAttribute("companyCodeList", companyCodeList);
+	 		
+			
+	 		
 	 		request.setAttribute("allCode", sb.toString());
 	 		request.setAttribute("companyCode", sb.toString());
 	    }

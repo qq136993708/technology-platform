@@ -18,9 +18,6 @@ import io.swagger.annotations.ApiOperation;
 @RestController
 @RequestMapping("/hana/projectCost") 
 public class ProjectCostProvideClient {
-	
-	
-	
 
 	@Autowired
 	private IProjectCostService scientificFundsService;
@@ -29,12 +26,30 @@ public class ProjectCostProvideClient {
 	private ICommonService commonService;
 	
 	
-	@ApiOperation(value = "科技经费分析明细表", notes = "科技经费分析明细表")
-	@RequestMapping(value = "/tzxmwcqktjb_data", method = RequestMethod.POST)
-	public LayuiTableData getTzxmwcqktjbData(@RequestBody LayuiTableParam param)throws Exception
+	@ApiOperation(value = "科研投资统计表", notes = "科研投资统计表")
+	@RequestMapping(value = "/kytztjb", method = RequestMethod.POST)
+	public LayuiTableData kytztjb(@RequestBody LayuiTableParam param)throws Exception
 	{
-		return scientificFundsService.getTzxmwcqktjbData(param);
+		return scientificFundsService.getKytztjbData(param);
 	}
 	
 
+	
+	@ApiOperation(value = "科技经费统计表", notes = "科技经费统计表")
+	@RequestMapping(value = "/kjjftjb", method = RequestMethod.POST)
+	public LayuiTableData kjjftjb(@RequestBody LayuiTableParam param)throws Exception
+	{
+		return scientificFundsService.getKjjftjbData(param);
+	}
+	
+	
+	
+	
+	@ApiOperation(value = "横向课题全成本统计表", notes = "横向课题全成本统计表")
+	@RequestMapping(value = "/hxktqcbtjb", method = RequestMethod.POST)
+	public LayuiTableData hxktqcbtjb(@RequestBody LayuiTableParam param)throws Exception
+	{
+		return scientificFundsService.getHxktqcbtjbData(param);
+	}
+	
 }

@@ -45,7 +45,7 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 				insertData.add(list.get(i));
 			}
 		}
-		System.out.println("===========新插入条数----------------"+insertData.size());
+		System.out.println("===========新插入条数----------------"+list.size());
 		// 批量插入数据
 		if (insertData.size()>0) {
 			outProjectPlanMapper.insertOutProjectPlanBatch(insertData);
@@ -75,9 +75,6 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 
 				if (StrUtil.isNotBlank(opp.getYsje())) {
 					newOPI.setYsje(opp.getYsje());
-				}
-				if (StrUtil.isNotBlank(opp.getYsnd())) {
-					newOPI.setYsnd(opp.getYsnd());
 				}
 				if (StrUtil.isNotBlank(opp.getFwdx())) {
 					newOPI.setFwdx(opp.getFwdx());
@@ -156,9 +153,18 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 				List<OutProjectPlan> insertList = outProjectPlanMapper.selectByExample(example1);
 				if (insertList!=null&&insertList.size()>0) {
 					OutProjectPlan insertOPP = insertList.get(0);
+					
+					if (insertOPP.getDefine8()==null) {
+						// 原项目主数据，无用删除
+						OutProjectPlanExample example2 = new OutProjectPlanExample();
+						example2.createCriteria().andDataIdEqualTo(insertOPP.getDataId());
+						outProjectPlanMapper.deleteByExample(example2);
+					}
+					
 					insertOPP.setYsnd(opp.getYsnd());
 					insertOPP.setYsje(opp.getYsje());
 					insertOPP.setDefine8(opp.getDefine8());
+					insertOPP.setDefine9(opp.getDefine9());
 					insertOPP.setDataId(UUID.randomUUID().toString().replaceAll("-", ""));
 					outProjectPlanMapper.insert(insertOPP);
 				}

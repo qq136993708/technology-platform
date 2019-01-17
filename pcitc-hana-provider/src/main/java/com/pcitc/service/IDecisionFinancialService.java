@@ -114,6 +114,7 @@ public interface IDecisionFinancialService
 	  public List<DayCashFlow> getDayCashFlowReport(Map map)throws Exception;
 	  
 	  
+	  public LayuiTableData getXjrllfx(LayuiTableParam param)throws Exception;
 	  
 	  
       

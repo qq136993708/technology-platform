@@ -25,11 +25,29 @@ public class ScientificInvestmentClient {
 	private ICommonService commonService;
 	
 	
-	@ApiOperation(value = "科研仪器设备支出分析明细表", notes = "科研仪器设备支出分析明细表")
-	@RequestMapping(value = "/tzxmwcqktjb_data", method = RequestMethod.POST)
-	public LayuiTableData getTzxmwcqktjbData(@RequestBody LayuiTableParam param)throws Exception
+	@ApiOperation(value = "投资项目完成情况统计表", notes = "投资项目完成情况统计表")
+	@RequestMapping(value = "/tzxmwcqktjb", method = RequestMethod.POST)
+	public LayuiTableData tzxmwcqktjb(@RequestBody LayuiTableParam param)throws Exception
 	{
 		return decisionFinancialService.getTzxmwcqktjbData(param);
+	}
+	
+	
+	
+	@ApiOperation(value = "投资项目采购进度统计表", notes = "投资项目采购进度统计表")
+	@RequestMapping(value = "/tzxmcgjdtjb", method = RequestMethod.POST)
+	public LayuiTableData tzxmcgjdtjb(@RequestBody LayuiTableParam param)throws Exception
+	{
+		return decisionFinancialService.getTzxmcgjdtjbData(param);
+	}
+	
+	
+	
+	@ApiOperation(value = "投资项目转出情况表", notes = "投资项目转出情况表")
+	@RequestMapping(value = "/tzxmzcqkb", method = RequestMethod.POST)
+	public LayuiTableData tzxmzcqkb(@RequestBody LayuiTableParam param)throws Exception
+	{
+		return decisionFinancialService.getTzxmzcqkbData(param);
 	}
 	
 	
