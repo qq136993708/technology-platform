@@ -100,7 +100,7 @@
 	  <!-- 投资项目采购进度统计表--> 
 	  <select id="getTzxmcgjdtjbDataList" resultMap="brandConstructionPayResultMap" parameterType="java.util.Map" >
               SELECT
-					"G0GSJC","G0GSDM",
+					"G0GSJC",
 					round( sum("K0XMXQSL")/10000,2) AS "K0XMXQSL",
 					round( sum("K0XMJHSL")/10000,2) AS "K0XMJHSL",
 					round( sum("K0XMJHJE")/10000,2) AS "K0XMJHJE",
@@ -120,7 +120,7 @@
 					 '${month}'),
 					 'PLACEHOLDER' = ('$$PR_GSDM$$',
 					 '${companyCode}')) 
-				GROUP BY  "G0GSJC","G0GSDM","G0GSOR"
+				GROUP BY  "G0GSJC","G0GSOR"
 				ORDER BY  "G0GSOR"
 	 </select>
 	 

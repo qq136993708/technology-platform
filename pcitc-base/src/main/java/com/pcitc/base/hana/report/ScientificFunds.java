@@ -41,15 +41,299 @@ public class ScientificFunds implements Serializable{
 	    private BigDecimal k0TBZJ;
 	    private BigDecimal k0TBJJ;
 	    private BigDecimal k0TBBL;
+	    private BigDecimal k0TBZJ2;
+	    
+	    
+	    
+	    private BigDecimal k0BNCB_4;
+	    private BigDecimal k0BNCB_411;
+	    private BigDecimal k0BNCB_412;
+	    private BigDecimal k0BNCB_413;
+	    private BigDecimal k0BNCB_414;
+	    private BigDecimal k0BNCB_415;
+	    private BigDecimal k0BNCB_416;
+	    private BigDecimal k0BNCB_417;
+	    private BigDecimal k0BNCB_418;
+	    private BigDecimal k0BNCB_419;
+	    private BigDecimal k0BNCB_420;
+	    private BigDecimal k0BNCB_430;
+	    
+	    
+	    private BigDecimal k0SNCB_4;
+	    private BigDecimal k0SNCB_411;
+	    private BigDecimal k0SNCB_412;
+	    private BigDecimal k0SNCB_413;
+	    private BigDecimal k0SNCB_414;
+	    private BigDecimal k0SNCB_415;
+	    private BigDecimal k0SNCB_416;
+	    private BigDecimal k0SNCB_417;
+	    private BigDecimal k0SNCB_418;
+	    private BigDecimal k0SNCB_419;
+	    private BigDecimal k0SNCB_420;
+	    private BigDecimal k0SNCB_430;
+	    
+	    private BigDecimal k0TQCB_4;
+	    private BigDecimal k0TQCB_411;
+	    private BigDecimal k0TQCB_412;
+	    private BigDecimal k0TQCB_413;
+	    private BigDecimal k0TQCB_414;
+	    private BigDecimal k0TQCB_415;
+	    private BigDecimal k0TQCB_416;
+	    private BigDecimal k0TQCB_417;
+	    private BigDecimal k0TQCB_418;
+	    private BigDecimal k0TQCB_419;
+	    private BigDecimal k0TQCB_420;
+	    private BigDecimal k0TQCB_430;
+	    
+	    
+	    private BigDecimal k0BNCB;
+	    private BigDecimal k0SNCB;
+	    private BigDecimal k0TBCB;
 	    
 	    
 	    
 	    
 	    
-	    
-	    
-	    
-	    
+		public BigDecimal getK0BNCB() {
+			return k0BNCB;
+		}
+		public void setK0BNCB(BigDecimal k0bncb) {
+			k0BNCB = k0bncb;
+		}
+		public BigDecimal getK0SNCB() {
+			return k0SNCB;
+		}
+		public void setK0SNCB(BigDecimal k0sncb) {
+			k0SNCB = k0sncb;
+		}
+		public BigDecimal getK0TBCB() {
+			return k0TBCB;
+		}
+		public void setK0TBCB(BigDecimal k0tbcb) {
+			k0TBCB = k0tbcb;
+		}
+		public BigDecimal getK0BNCB_4() {
+			return k0BNCB_4;
+		}
+		public void setK0BNCB_4(BigDecimal k0bncb_4) {
+			k0BNCB_4 = k0bncb_4;
+		}
+		public BigDecimal getK0BNCB_411() {
+			return k0BNCB_411;
+		}
+		public void setK0BNCB_411(BigDecimal k0bncb_411) {
+			k0BNCB_411 = k0bncb_411;
+		}
+		public BigDecimal getK0BNCB_412() {
+			return k0BNCB_412;
+		}
+		public void setK0BNCB_412(BigDecimal k0bncb_412) {
+			k0BNCB_412 = k0bncb_412;
+		}
+		public BigDecimal getK0BNCB_413() {
+			return k0BNCB_413;
+		}
+		public void setK0BNCB_413(BigDecimal k0bncb_413) {
+			k0BNCB_413 = k0bncb_413;
+		}
+		public BigDecimal getK0BNCB_414() {
+			return k0BNCB_414;
+		}
+		public void setK0BNCB_414(BigDecimal k0bncb_414) {
+			k0BNCB_414 = k0bncb_414;
+		}
+		public BigDecimal getK0BNCB_415() {
+			return k0BNCB_415;
+		}
+		public void setK0BNCB_415(BigDecimal k0bncb_415) {
+			k0BNCB_415 = k0bncb_415;
+		}
+		public BigDecimal getK0BNCB_416() {
+			return k0BNCB_416;
+		}
+		public void setK0BNCB_416(BigDecimal k0bncb_416) {
+			k0BNCB_416 = k0bncb_416;
+		}
+		public BigDecimal getK0BNCB_417() {
+			return k0BNCB_417;
+		}
+		public void setK0BNCB_417(BigDecimal k0bncb_417) {
+			k0BNCB_417 = k0bncb_417;
+		}
+		public BigDecimal getK0BNCB_418() {
+			return k0BNCB_418;
+		}
+		public void setK0BNCB_418(BigDecimal k0bncb_418) {
+			k0BNCB_418 = k0bncb_418;
+		}
+		public BigDecimal getK0BNCB_419() {
+			return k0BNCB_419;
+		}
+		public void setK0BNCB_419(BigDecimal k0bncb_419) {
+			k0BNCB_419 = k0bncb_419;
+		}
+		public BigDecimal getK0BNCB_420() {
+			return k0BNCB_420;
+		}
+		public void setK0BNCB_420(BigDecimal k0bncb_420) {
+			k0BNCB_420 = k0bncb_420;
+		}
+		public BigDecimal getK0BNCB_430() {
+			return k0BNCB_430;
+		}
+		public void setK0BNCB_430(BigDecimal k0bncb_430) {
+			k0BNCB_430 = k0bncb_430;
+		}
+		public BigDecimal getK0SNCB_4() {
+			return k0SNCB_4;
+		}
+		public void setK0SNCB_4(BigDecimal k0sncb_4) {
+			k0SNCB_4 = k0sncb_4;
+		}
+		public BigDecimal getK0SNCB_411() {
+			return k0SNCB_411;
+		}
+		public void setK0SNCB_411(BigDecimal k0sncb_411) {
+			k0SNCB_411 = k0sncb_411;
+		}
+		public BigDecimal getK0SNCB_412() {
+			return k0SNCB_412;
+		}
+		public void setK0SNCB_412(BigDecimal k0sncb_412) {
+			k0SNCB_412 = k0sncb_412;
+		}
+		public BigDecimal getK0SNCB_413() {
+			return k0SNCB_413;
+		}
+		public void setK0SNCB_413(BigDecimal k0sncb_413) {
+			k0SNCB_413 = k0sncb_413;
+		}
+		public BigDecimal getK0SNCB_414() {
+			return k0SNCB_414;
+		}
+		public void setK0SNCB_414(BigDecimal k0sncb_414) {
+			k0SNCB_414 = k0sncb_414;
+		}
+		public BigDecimal getK0SNCB_415() {
+			return k0SNCB_415;
+		}
+		public void setK0SNCB_415(BigDecimal k0sncb_415) {
+			k0SNCB_415 = k0sncb_415;
+		}
+		public BigDecimal getK0SNCB_416() {
+			return k0SNCB_416;
+		}
+		public void setK0SNCB_416(BigDecimal k0sncb_416) {
+			k0SNCB_416 = k0sncb_416;
+		}
+		public BigDecimal getK0SNCB_417() {
+			return k0SNCB_417;
+		}
+		public void setK0SNCB_417(BigDecimal k0sncb_417) {
+			k0SNCB_417 = k0sncb_417;
+		}
+		public BigDecimal getK0SNCB_418() {
+			return k0SNCB_418;
+		}
+		public void setK0SNCB_418(BigDecimal k0sncb_418) {
+			k0SNCB_418 = k0sncb_418;
+		}
+		public BigDecimal getK0SNCB_419() {
+			return k0SNCB_419;
+		}
+		public void setK0SNCB_419(BigDecimal k0sncb_419) {
+			k0SNCB_419 = k0sncb_419;
+		}
+		public BigDecimal getK0SNCB_420() {
+			return k0SNCB_420;
+		}
+		public void setK0SNCB_420(BigDecimal k0sncb_420) {
+			k0SNCB_420 = k0sncb_420;
+		}
+		public BigDecimal getK0SNCB_430() {
+			return k0SNCB_430;
+		}
+		public void setK0SNCB_430(BigDecimal k0sncb_430) {
+			k0SNCB_430 = k0sncb_430;
+		}
+		public BigDecimal getK0TQCB_4() {
+			return k0TQCB_4;
+		}
+		public void setK0TQCB_4(BigDecimal k0tqcb_4) {
+			k0TQCB_4 = k0tqcb_4;
+		}
+		public BigDecimal getK0TQCB_411() {
+			return k0TQCB_411;
+		}
+		public void setK0TQCB_411(BigDecimal k0tqcb_411) {
+			k0TQCB_411 = k0tqcb_411;
+		}
+		public BigDecimal getK0TQCB_412() {
+			return k0TQCB_412;
+		}
+		public void setK0TQCB_412(BigDecimal k0tqcb_412) {
+			k0TQCB_412 = k0tqcb_412;
+		}
+		public BigDecimal getK0TQCB_413() {
+			return k0TQCB_413;
+		}
+		public void setK0TQCB_413(BigDecimal k0tqcb_413) {
+			k0TQCB_413 = k0tqcb_413;
+		}
+		public BigDecimal getK0TQCB_414() {
+			return k0TQCB_414;
+		}
+		public void setK0TQCB_414(BigDecimal k0tqcb_414) {
+			k0TQCB_414 = k0tqcb_414;
+		}
+		public BigDecimal getK0TQCB_415() {
+			return k0TQCB_415;
+		}
+		public void setK0TQCB_415(BigDecimal k0tqcb_415) {
+			k0TQCB_415 = k0tqcb_415;
+		}
+		public BigDecimal getK0TQCB_416() {
+			return k0TQCB_416;
+		}
+		public void setK0TQCB_416(BigDecimal k0tqcb_416) {
+			k0TQCB_416 = k0tqcb_416;
+		}
+		public BigDecimal getK0TQCB_417() {
+			return k0TQCB_417;
+		}
+		public void setK0TQCB_417(BigDecimal k0tqcb_417) {
+			k0TQCB_417 = k0tqcb_417;
+		}
+		public BigDecimal getK0TQCB_418() {
+			return k0TQCB_418;
+		}
+		public void setK0TQCB_418(BigDecimal k0tqcb_418) {
+			k0TQCB_418 = k0tqcb_418;
+		}
+		public BigDecimal getK0TQCB_419() {
+			return k0TQCB_419;
+		}
+		public void setK0TQCB_419(BigDecimal k0tqcb_419) {
+			k0TQCB_419 = k0tqcb_419;
+		}
+		public BigDecimal getK0TQCB_420() {
+			return k0TQCB_420;
+		}
+		public void setK0TQCB_420(BigDecimal k0tqcb_420) {
+			k0TQCB_420 = k0tqcb_420;
+		}
+		public BigDecimal getK0TQCB_430() {
+			return k0TQCB_430;
+		}
+		public void setK0TQCB_430(BigDecimal k0tqcb_430) {
+			k0TQCB_430 = k0tqcb_430;
+		}
+		public BigDecimal getK0TBZJ2() {
+			return k0TBZJ2;
+		}
+		public void setK0TBZJ2(BigDecimal k0tbzj2) {
+			k0TBZJ2 = k0tbzj2;
+		}
 		public BigDecimal getK0BNGLFPHJECB() {
 			return k0BNGLFPHJECB;
 		}

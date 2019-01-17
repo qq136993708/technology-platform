@@ -132,11 +132,11 @@ layui.config({
     	var index = layer.load(1, {
     		  shade: [0.1,'#fff'] 
     		}); 
-    	
+    	var v_date=(new Date()).getTime();
       //渲染
       table.render({
         elem: '#processdef-table',
-        url: '/tzxmcgjdtjb_data',
+        url: '/tzxmcgjdtjb_data?v_date='+v_date,
         method:"POST",
         where: {param: {
         	      "month":$("#month").val(),
@@ -149,13 +149,13 @@ layui.config({
         cols: [[
             {field:'g0GSJC',           title:'院所',           style:'cursor: pointer;',align: 'left', width: '11%'},
             {field:'k0XMJHJE',         title:'采购计划金额',        style:'cursor: pointer;',align: 'left', width: '11%'},
-            {field:'k0LJGLFPHJECB',    title:'实际采购金额',        style:'cursor: pointer;',align: 'left', width: '11%'},
-            {field:'k0LJSJDJJE',       title:'实际入库金额',        style:'cursor: pointer;',align: 'left', width: '11%'},
-            {field:'aDD1',             title:'未清预付款',     style:'cursor: pointer;',align: 'left', width: '11%'},
-            {field:'k0LJYSJY',         title:'发票金额',     style:'cursor: pointer;',align: 'left', width: '11%'},
-            {field:'k0BNYSJHJE',       title:'已清付款',     style:'cursor: pointer;',align: 'left', width: '11%'},
-            {field:'k0BNGLFPHJECB',    title:'未清付款',     style:'cursor: pointer;',align: 'left', width: '11%'},
-            {field:'k0BNSJDJJE',       title:'质保金',      style:'cursor: pointer;',align: 'left', width: '12%'}
+            {field:'k0XMDDJE',    title:'实际采购金额',        style:'cursor: pointer;',align: 'left', width: '11%'},
+            {field:'k0XMRKJE',       title:'实际入库金额',        style:'cursor: pointer;',align: 'left', width: '11%'},
+            {field:'k0XMYFWQJE',             title:'未清预付款',     style:'cursor: pointer;',align: 'left', width: '11%'},
+            {field:'k0XMFPJE',         title:'发票金额',     style:'cursor: pointer;',align: 'left', width: '11%'},
+            {field:'k0YQJE',       title:'已清付款',     style:'cursor: pointer;',align: 'left', width: '11%'},
+            {field:'k0WQJE',    title:'未清付款',     style:'cursor: pointer;',align: 'left', width: '11%'},
+            {field:'k0ZBJE',       title:'质保金',      style:'cursor: pointer;',align: 'left', width: '12%'}
             
             
         ]],

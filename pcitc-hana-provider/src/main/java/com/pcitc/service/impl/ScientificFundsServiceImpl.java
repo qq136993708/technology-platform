@@ -20,84 +20,41 @@ import com.pcitc.mapper.financial.ScientificFundsMapper;
 import com.pcitc.service.IScientificFundsService;
 @Service("scientificFundsService")
 @Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = Exception.class)
-
 public class ScientificFundsServiceImpl implements IScientificFundsService {
      private final static Logger logger = LoggerFactory.getLogger(DecisionFinancialServiceImpl.class);
      @Autowired
      private ScientificFundsMapper scientificFundsMapper;
-	 public LayuiTableData getKtzjjfytjbData(LayuiTableParam param)throws Exception
+     
+	 public List<ScientificFunds> getKtzjjfytjbData(Map  map)throws Exception
   	 {
-  		//每页显示条数
-  		int pageSize = param.getLimit();
-  		//从第多少条开始
-  		int pageNum = param.getPage();
-  		Page p=new Page(pageNum,pageSize);
-		int start=(pageNum-1)*p.getPageSize();
-  		String month=(String)param.getParam().get("month");
-  		String companyCode=(String)param.getParam().get("companyCode");
-  		logger.info("===明细查询参数 param: "+JSONObject.toJSONString(param));
-  		Map map=new HashMap();
-  		map.put("start", start);
-  		map.put("pageSize", pageSize);
-  		map.put("month", month);
-  		map.put("companyCode", companyCode);
-  		
   		List<ScientificFunds> list = scientificFundsMapper.getKtzjjfytjbData(map);
-  		LayuiTableData data = new LayuiTableData();
-  		data.setData(list);
-  		data.setCount(1000);
-  	    return data;
+  	    return list;
   	}
 	 
-	 
-	 
-	//人工成本支出统计表
-	 public LayuiTableData getRgcbzctjbData(LayuiTableParam param)throws Exception
+		//人工成本支出统计表
+	 public List<ScientificFunds> getRgcbzctjbData(Map  map)throws Exception
   	 {
-  		//每页显示条数
-  		int pageSize = param.getLimit();
-  		//从第多少条开始
-  		int pageNum = param.getPage();
-  		Page p=new Page(pageNum,pageSize);
-		int start=(pageNum-1)*p.getPageSize();
-  		String month=(String)param.getParam().get("month");
-  		String companyCode=(String)param.getParam().get("companyCode");
-  		logger.info("===明细查询参数 param: "+JSONObject.toJSONString(param));
-  		Map map=new HashMap();
-  		map.put("start", start);
-  		map.put("pageSize", pageSize);
-  		map.put("month", month);
-  		map.put("companyCode", companyCode);
   		List<ScientificFunds> list = scientificFundsMapper.getRgcbzctjbData(map);
-  		LayuiTableData data = new LayuiTableData();
-  		data.setData(list);
-  		data.setCount(1000);
-  	    return data;
+  	    return list;
   	}
-	//原材料支出统计表
-	 public LayuiTableData getYclzctjbData(LayuiTableParam param)throws Exception
+	 public List<ScientificFunds> getRgcbzctjbDataDetail(Map  map)throws Exception
   	 {
-  		//每页显示条数
-  		int pageSize = param.getLimit();
-  		//从第多少条开始
-  		int pageNum = param.getPage();
-  		Page p=new Page(pageNum,pageSize);
-		int start=(pageNum-1)*p.getPageSize();
-  		String month=(String)param.getParam().get("month");
-  		String companyCode=(String)param.getParam().get("companyCode");
-  		logger.info("===明细查询参数 param: "+JSONObject.toJSONString(param));
-  		Map map=new HashMap();
-  		map.put("start", start);
-  		map.put("pageSize", pageSize);
-  		map.put("month", month);
-  		map.put("companyCode", companyCode);
-  		
-  		List<ScientificFunds> list = scientificFundsMapper.getYclzctjbData(map);
-  		LayuiTableData data = new LayuiTableData();
-  		data.setData(list);
-  		data.setCount(1000);
-  	    return data;
+  		List<ScientificFunds> list = scientificFundsMapper.getRgcbzctjbDataDetail(map);
+  	    return list;
   	}
+	 
+	 
+	 
+	 
+	 
+	//原材料支出统计表
+	 public List<ScientificFunds> getYclzctjbData(Map  map)throws Exception
+  	 {
+  		List<ScientificFunds> list = scientificFundsMapper.getYclzctjbData(map);
+  	    return list;
+  	}
+	 
+	 
 	 
 	    //能耗支出统计表
 		 public LayuiTableData getNhzctjbData(LayuiTableParam param)throws Exception
