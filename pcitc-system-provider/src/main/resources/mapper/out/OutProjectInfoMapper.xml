@@ -1556,15 +1556,26 @@
 	<!-- 研究院首页计算装备和科研合同总数 -->
 	<select id="getOutProjectInfoCountWithKYZB" resultType="java.util.Map" parameterType="java.util.HashMap">
 		select 
+			count(*) as zsl,
         	sum(case when xmlbbm != 'KYZB' then 1 else 0 end) as projectCount, 
-			sum(case when xmlbbm = 'KYZB' then 1 else 0 end) as kyzbCount
-		from out_project_info
-		where 
-			project_property not like '%十条龙%' and out_project_info.ysnd = '${nd}' and
-			(project_type = '0' or project_type = '2') and out_project_info.project_property not like '%国家%'
-			<if test="typeFlag != null and typeFlag != ''">
-				and type_flag like '%${typeFlag}%'
-			</if>
+			sum(case when xmlbbm = 'KYZB' then 1 else 0 end) as kyzbCount,
+			sum(case when nd = '${nd}' then 1 else 0 end) as xkCount,
+			sum(case when nd &lt; '${nd}' then 1 else 0 end) as jzCount
+		from (
+			select xmlbbm,nd
+			from out_project_info
+			where 
+				out_project_info.ysnd = '${nd}' and project_type != '1' and out_project_info.define3 = '项目管理系统'
+				<if test="typeFlag != null and typeFlag != ''">
+					and type_flag like '%${typeFlag}%'
+				</if>
+				<if test="xmlbbm != null and xmlbbm == 'kyzb'">
+					and xmlbbm = 'KYZB'
+				</if>
+				<if test="xmlbbm != null and xmlbbm == 'fkyzb'">
+					and xmlbbm != 'KYZB'
+				</if>
+			GROUP BY xmid) tableA
 	</select>
 	
 	<!-- 首页计算十条龙及重大专项项目的总数量 -->
@@ -2049,11 +2060,11 @@
 		select
 		    sum(case when nd = '${nd}' then 1 else 0 end) as xksl,
 		    sum(case when nd != '${nd}' then 1 else 0 end) as xjsl,
-		    count(xmid) as zsl,
-		    round(count(DISTINCT xmid)/(select count(*) 
+		    count(DISTINCT xmid) as zsl,
+		    round(count(DISTINCT xmid)/(select count(DISTINCT xmid) 
 		    							from out_project_info 
 		    							where 
-		    								project_type != '1' and project_property not like '%十条龙%' and out_project_info.ysnd = '${nd}' and type_flag like '%直属研究院%'and out_project_info.project_property not like '%国家%'
+		    								project_type != '1' and out_project_info.define3 = '项目管理系统' and out_project_info.ysnd = '${nd}' and type_flag like '%直属研究院%' 
 		    								<if test="xmlbbm != null and xmlbbm == 'kyzb'">
 												 and xmlbbm ='KYZB'
 											</if>
@@ -2061,10 +2072,10 @@
 												 and xmlbbm !='KYZB'
 											</if>
 		    						)*100,4) zslRate,
-			round(sum(case when nd = '2018' then 1 else 0 end)/(select count(*) 
+			round(sum(case when nd = '${nd}' then 1 else 0 end)/(select count(DISTINCT xmid) 
 		    							from out_project_info 
 		    							where 
-		    								project_type != '1' and project_property not like '%十条龙%' and out_project_info.ysnd = '${nd}' and type_flag like '%直属研究院%' and out_project_info.project_property not like '%国家%'
+		    								project_type != '1' and out_project_info.define3 = '项目管理系统' and out_project_info.ysnd = '${nd}' and type_flag like '%直属研究院%' 
 		    								<if test="xmlbbm != null and xmlbbm == 'kyzb'">
 												 and xmlbbm ='KYZB'
 											</if>
@@ -2072,10 +2083,10 @@
 												 and xmlbbm !='KYZB'
 											</if>
 		    						)*100,4) xkRate,
-			round(sum(case when nd != '2018' then 1 else 0 end)/(select count(*) 
+			round(sum(case when nd != '${nd}' then 1 else 0 end)/(select count(DISTINCT xmid) 
 		    							from out_project_info 
 		    							where 
-		    								project_type != '1' and project_property not like '%十条龙%' and out_project_info.ysnd = '${nd}' and type_flag like '%直属研究院%' and out_project_info.project_property not like '%国家%'
+		    								project_type != '1' and out_project_info.define3 = '项目管理系统' and out_project_info.ysnd = '${nd}' and type_flag like '%直属研究院%' 
 		    								<if test="xmlbbm != null and xmlbbm == 'kyzb'">
 												 and xmlbbm ='KYZB'
 											</if>
@@ -2085,8 +2096,8 @@
 		    						)*100,4) xjRate,
 	    	SUBSTR(define2 FROM 4) define2
 		from out_project_info
-		where project_type != '1' and project_property not like '%十条龙%' and out_project_info.ysnd = '${nd}'  and
-			   type_flag like '%直属研究院%' and out_project_info.project_property not like '%国家%'
+		where project_type != '1' and out_project_info.ysnd = '${nd}'  and 
+			   type_flag like '%直属研究院%' and out_project_info.define3 = '项目管理系统' 
 			  <if test="xmlbbm != null and xmlbbm == 'kyzb'">
 				 and xmlbbm ='KYZB'
 			  </if>
