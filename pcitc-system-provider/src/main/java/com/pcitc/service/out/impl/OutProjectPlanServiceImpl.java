@@ -142,6 +142,12 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 					newOPP.setYsje(opp.getYsje());
 					outProjectPlanMapper.updateByPrimaryKey(newOPP);
 				}
+				if (StrUtil.isNotBlank(opp.getYsfyxje())) {
+					newOPP.setYsfyxje(opp.getYsfyxje());
+				}
+				if (StrUtil.isNotBlank(opp.getYszbxje())) {
+					newOPP.setYszbxje(opp.getYszbxje());
+				}
 			} else {
 				// 此项目此预算年度没有预算费用
 				OutProjectPlanExample example1 = new OutProjectPlanExample();
@@ -165,6 +171,8 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 					insertOPP.setYsje(opp.getYsje());
 					insertOPP.setDefine8(opp.getDefine8());
 					insertOPP.setDefine9(opp.getDefine9());
+					insertOPP.setYsfyxje(opp.getYsfyxje());
+					insertOPP.setYszbxje(opp.getYszbxje());
 					insertOPP.setDataId(UUID.randomUUID().toString().replaceAll("-", ""));
 					outProjectPlanMapper.insert(insertOPP);
 				}
