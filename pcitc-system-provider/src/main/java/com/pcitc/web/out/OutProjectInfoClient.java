@@ -161,9 +161,15 @@ public class OutProjectInfoClient {
 		if (temMap != null) {
 			retJson.put("projectCount", temMap.get("projectCount"));
 			retJson.put("kyzbCount", temMap.get("kyzbCount"));
+			retJson.put("zsl", temMap.get("zsl"));
+			retJson.put("xkCount", temMap.get("xkCount"));
+			retJson.put("jzCount", temMap.get("jzCount"));
 		} else {
 			retJson.put("projectCount", 0);
 			retJson.put("kyzbCount", 0);
+			retJson.put("zsl", 0);
+			retJson.put("xkCount", 0);
+			retJson.put("jzCount", 0);
 		}
 		return retJson;
     }
