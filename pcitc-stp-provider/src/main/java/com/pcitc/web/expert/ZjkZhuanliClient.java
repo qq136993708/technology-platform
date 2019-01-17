@@ -1,6 +1,7 @@
 package com.pcitc.web.expert;
 
 
+import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.expert.ZjkPatent;
 import com.pcitc.service.expert.ZjkZhuanliService;
@@ -120,7 +121,7 @@ public class ZjkZhuanliClient {
      */
     @ApiOperation(value = "查询专家-专利信息信息-分页查询", notes = "查询专家-专利信息信息-分页查询,Object")
     @RequestMapping(value = "/zjkzhuanli-provider/zjkzhuanli/zjkzhuanli-page")
-    public Object selectZjkZhuanliByPage(@RequestBody LayuiTableParam param) {
+    public LayuiTableData selectZjkZhuanliByPage(@RequestBody LayuiTableParam param) {
         return zjkZhuanliService.findZjkZhuanliByPage(param);
     }
 

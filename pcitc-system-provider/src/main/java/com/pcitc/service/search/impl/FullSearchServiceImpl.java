@@ -6,6 +6,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.expert.ZjkPatent;
 import com.pcitc.base.report.SysReportStp;
 import com.pcitc.base.report.SysReportStpExample;
 import com.pcitc.base.stp.out.*;
@@ -79,74 +80,85 @@ public class FullSearchServiceImpl implements FullSearchService {
 
         //科研课题
         LayuiTableData tableDataScientific = this.getTableDataScientific(param_common);
-        List<?> scientificData = tableDataScientific.getData();
+//        List<?> scientificData = tableDataScientific.getData();
         //科研成果
         LayuiTableData tableDataAchivementc = this.getTableDataAchivement(param_common);
-        List<?> achivementcData = tableDataAchivementc.getData();
+//        List<?> achivementcData = tableDataAchivementc.getData();
         //报表
         LayuiTableData tableDataReport = this.getTableDataReport(param_common);
-        List<?> reportData = tableDataReport.getData();
+//        List<?> reportData = tableDataReport.getData();
 
         //科技奖励
         LayuiTableData tableDataOutReward = this.getOutRewardListPage(param_common);
-        List<?> outRewardData = tableDataOutReward.getData();
+//        List<?> outRewardData = tableDataOutReward.getData();
 
         //科研装备
 
         //技术族
         LayuiTableData tableDataTech = tfmTypeService.findTfmTypeByPage(param_common);
-        List<?> TechData = tableDataTech.getData();
+//        List<?> TechData = tableDataTech.getData();
         //专家信息
-        LayuiTableData tableDataExpert = (LayuiTableData) zjkBaseInfoServiceClient.selectZjkBaseInfoByPage(param_common);
-        List<?> ExpertData = tableDataExpert.getData();
+        LayuiTableData tableDataExpert = zjkBaseInfoServiceClient.selectZjkBaseInfoByPage(param_common);
+//        List<?> ExpertData = tableDataExpert.getData();
         //知识产权
+        LayuiTableData tableDataPatent = zjkBaseInfoServiceClient.selectZjkZhuanliByPage(param_common);
 
         //汇总
         List list = new ArrayList<>();
         int total = 0;
 
-        if (achivementcData != null) {
+        if (tableDataAchivementc.getData() != null) {
             tableDataAchivementc.addPropertyToData("select_type","achivement");
             total = total + 1;
-            for (int i = 0; i < achivementcData.size(); i++) {
-                list.add(achivementcData.get(i));
+            for (int i = 0; i < tableDataAchivementc.getData().size(); i++) {
+                list.add(tableDataAchivementc.getData().get(i));
             }
         }
-        if (scientificData != null) {
+        if (tableDataScientific.getData() != null) {
             tableDataScientific.addPropertyToData("select_type","scientific");
             total = total + 1;
-            for (int i = 0; i < scientificData.size(); i++) {
-                list.add(scientificData.get(i));
+            for (int i = 0; i < tableDataScientific.getData().size(); i++) {
+                list.add(tableDataScientific.getData().get(i));
             }
         }
-        if (reportData != null) {
+        if (tableDataReport.getData() != null) {
             tableDataReport.addPropertyToData("select_type","report");
             total = total + 1;
-            for (int i = 0; i < reportData.size(); i++) {
-                list.add(reportData.get(i));
+            for (int i = 0; i < tableDataReport.getData().size(); i++) {
+                list.add(tableDataReport.getData().get(i));
             }
         }
-        if (outRewardData != null) {
+        if (tableDataOutReward.getData() != null) {
             tableDataOutReward.addPropertyToData("select_type","outReward");
             total = total + 1;
-            for (int i = 0; i < outRewardData.size(); i++) {
-                list.add(outRewardData.get(i));
+            for (int i = 0; i < tableDataOutReward.getData().size(); i++) {
+                list.add(tableDataOutReward.getData().get(i));
             }
         }
 
-        if (tableDataTech != null) {
+        if (tableDataTech.getData() != null) {
             tableDataTech.addPropertyToData("select_type","tech");
             total = total + 1;
-            for (int i = 0; i < TechData.size(); i++) {
-                list.add(TechData.get(i));
+            for (int i = 0; i < tableDataTech.getData().size(); i++) {
+                list.add(tableDataTech.getData().get(i));
             }
         }
 
-        if (tableDataExpert != null) {
-            tableDataExpert.addPropertyToData("select_type","expert");
+        List<Map<String,String>> zjkExpert = (List<Map<String, String>>) tableDataExpert.getData();
+        if (zjkExpert != null) {
             total = total + 1;
-            for (int i = 0; i < ExpertData.size(); i++) {
-                list.add(ExpertData.get(i));
+            for (int i = 0,j = zjkExpert.size(); i < j; i++) {
+                zjkExpert.get(i).put("select_type","expert");
+                list.add(zjkExpert.get(i));
+            }
+        }
+
+        List<Map<String,String>> zjkPatents = (List<Map<String, String>>) tableDataPatent.getData();
+        if (zjkPatents != null) {
+            total = total + 1;
+            for (int i = 0,j = zjkPatents.size(); i < j; i++) {
+                zjkPatents.get(i).put("select_type","patent");
+                list.add(zjkPatents.get(i));
             }
         }
 //        getTabList(param_common, total, list, limit);

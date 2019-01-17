@@ -1,5 +1,6 @@
 package com.pcitc.web.feign;
 
+import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.cloud.netflix.feign.FeignClient;
@@ -15,5 +16,10 @@ public interface ZjkBaseInfoServiceClient {
 
     @ApiOperation(value = "查询专家-基本信息信息-分页查询", notes = "查询专家-基本信息信息-分页查询,Object")
     @RequestMapping(value = "/zjkbaseinfo-provider/zjkbaseinfo/zjkbaseinfo-page")
-    public Object selectZjkBaseInfoByPage(@RequestBody LayuiTableParam param);
+    public LayuiTableData selectZjkBaseInfoByPage(@RequestBody LayuiTableParam param);
+
+    @ApiOperation(value = "查询专家-专利信息信息-分页查询", notes = "查询专家-专利信息信息-分页查询,Object")
+    @RequestMapping(value = "/zjkzhuanli-provider/zjkzhuanli/zjkzhuanli-page")
+    public LayuiTableData selectZjkZhuanliByPage(@RequestBody LayuiTableParam param);
+
 }

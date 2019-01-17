@@ -13,6 +13,7 @@ import com.pcitc.base.util.IdUtil;
 import com.pcitc.base.util.TreeNodeUtil;
 import com.pcitc.mapper.expert.TfmTypeMapper;
 import com.pcitc.service.expert.TfmTypeService;
+import com.pcitc.service.search.FullSearchService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -180,6 +181,9 @@ public class TfmTypeServiceImpl implements TfmTypeService {
 
     }
 
+    @Autowired
+    FullSearchService fullSearchService;
+
     /**
      * 根据条件分页搜索
      *
@@ -196,7 +200,12 @@ public class TfmTypeServiceImpl implements TfmTypeService {
         // 3、获取分页查询后的数据
         PageInfo<TfmType> pageInfo = new PageInfo<TfmType>(list);
         LayuiTableData data = new LayuiTableData();
-        data.setData(pageInfo.getList());
+        Object keywords = param.getParam().get("keyword");
+        if (keywords != null && !"".equals(keywords)) {
+            data.setData(fullSearchService.setKeyWordCss(pageInfo, keywords.toString()));
+        } else {
+            data.setData(pageInfo.getList());
+        }
         Long total = pageInfo.getTotal();
         data.setCount(total.intValue());
         return data;

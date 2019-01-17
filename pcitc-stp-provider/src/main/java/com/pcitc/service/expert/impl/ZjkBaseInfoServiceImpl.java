@@ -191,6 +191,12 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
 //            criteria2.andParentIdEqualTo(param.getParam().get("fileKind").toString());
 //            example.or(criteria2);
         //       }
+        LayuiTableData data = new LayuiTableData();
+        Object keywords = param.getParam().get("keyword");
+        if (keywords != null && !"".equals(keywords)) {
+            example.or().andExpertNameLike("%"+keywords+"%");
+            example.or().andUserDescLike("%"+keywords+"%");
+        }
         example.setOrderByClause("create_date desc");
         return this.findByExample(param, example);
 
