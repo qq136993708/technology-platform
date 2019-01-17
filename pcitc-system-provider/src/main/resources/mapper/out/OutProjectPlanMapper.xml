@@ -983,12 +983,11 @@
 		from (
 			select out_project_info.xmid as temId,out_project_plan.xmid,out_project_plan.DEFINE1,out_project_plan.PROJECT_SCOPE 
 			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and out_project_info.PROJECT_TYPE != '1' 
-																	and out_project_info.project_property not like '%十条龙%' and out_project_info.ND= '${nd}' 
-																	and out_project_info.project_property not like '%国家%')
+																	and out_project_info.define3 = '项目管理系统' and out_project_info.ND= '${nd}')
 			WHERE
 				out_project_plan.ND= '${nd}'
-				and (out_project_plan.PROJECT_TYPE= '0' or out_project_plan.PROJECT_TYPE= '2')
-				and out_project_plan.project_property not like '%国家%'
+				and out_project_plan.PROJECT_TYPE != '1'
+				and out_project_plan.define4 = '项目管理系统'
 				<if test="define3 != null and define3 != ''">
 					and out_project_plan.DEFINE3 like '%${define3}%'
 				</if>
@@ -1068,12 +1067,11 @@
 		from (
 			select out_project_info.xmid as temId,out_project_plan.xmid as xmid,out_project_plan.DEFINE1
 			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and out_project_info.PROJECT_TYPE != '1' 
-																	and out_project_info.project_property not like '%十条龙%' and out_project_info.ND= '${nd}' 
-																	and out_project_info.project_property not like '%国家%')
+																	and out_project_info.define3 = '项目管理系统' and out_project_info.ND= '${nd}')
 			WHERE
 				out_project_plan.ND= '${nd}' 
 				and out_project_plan.PROJECT_TYPE != '1'
-				and out_project_plan.project_property not like '%国家%'
+				and out_project_plan.define4 = '项目管理系统'
 				group by out_project_plan.xmid
 		) as tableB 
 		group by tableB.DEFINE1
@@ -1100,12 +1098,11 @@
 			select out_project_info.xmid as temId,out_project_plan.xmid as xmid,case when out_project_plan.DEFINE3 is null then 'J其他' else out_project_plan.DEFINE3 end as DEFINE3,
 						 out_project_plan.jf as jf1,out_project_plan.jf as jf2,out_project_plan.xmlbbm as xmlbbm1,out_project_info.xmlbbm as xmlbbm2
 			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and out_project_info.PROJECT_TYPE != '1' 
-																	and out_project_info.project_property not like '%十条龙%' and out_project_info.ND= '${nd}' 
-																	and out_project_info.project_property not like '%国家%')
+																	and out_project_info.define3 = '项目管理系统' and out_project_info.ND= '${nd}')
 			WHERE
 				out_project_plan.ND= '${nd}' 
 				and out_project_plan.PROJECT_TYPE != '1'
-				and out_project_plan.project_property not like '%国家%'
+				and out_project_plan.define4 = '项目管理系统'
 				group by out_project_plan.xmid
 		) as tableB  
 		group by tableB.DEFINE3
@@ -1126,18 +1123,20 @@
 			round(tableB.fyxsjje/out_tem_money_total.fyx_money *100, 4) fyxRate,
 			round((tableB.zbxsjje+tableB.fyxsjje)/(out_tem_money_total.zbx_money+out_tem_money_total.fyx_money) *100, 4) zRate
 			FROM (			
-			select SUBSTR(tableA.DEFINE3 FROM 2) as define3, zbxsjje, fyxsjje from (
+				select SUBSTR(tableA.DEFINE3 FROM 2) as define3, tableA.DEFINE3 as temOrder, zbxsjje, fyxsjje from (
 						select 
-									 case when out_project_info.type_flag is null then 'J其他' else out_project_info.type_flag end as DEFINE3,
-									 round(sum(case when out_project_info.xmlbbm='KYZB' then ysje else 0 end),4) as zbxsjje,
-									 round(sum(case when out_project_info.xmlbbm!='KYZB' then ysje else 0 end),4) as fyxsjje
+							 case when out_project_info.type_flag is null then 'L其他' else out_project_info.type_flag end as DEFINE3,
+							 round(sum(case when out_project_info.xmlbbm='KYZB' then ysje else 0 end),4) as zbxsjje,
+							 round(sum(case when out_project_info.xmlbbm!='KYZB' then ysje else 0 end),4) as fyxsjje
 						from out_project_info 
 						WHERE
 							out_project_info.ysnd= '${nd}' 
 							and out_project_info.PROJECT_TYPE != '1'
 							and define3='项目管理系统' and ysje is not null
-							group by out_project_info.type_flag) as tableA
-			ORDER BY tableA.DEFINE3) as tableB LEFT JOIN out_tem_money_total ON (tableB.define3 = out_tem_money_total.show_ali and out_tem_money_total.nd = '${nd}')
+							group by out_project_info.type_flag
+						) as tableA
+				) as tableB LEFT JOIN out_tem_money_total ON (tableB.define3 = out_tem_money_total.show_ali and out_tem_money_total.nd = '${nd}')
+			ORDER BY tableB.temOrder
 		) AS tableC
 	</select>
 	
@@ -1162,24 +1161,22 @@
 	
 	<!-- 项目计划数据，涉及项目预算、项目计划详情等相关的查询时调用 -->
 	<select id="selectProjectPlanByCond" resultType="com.pcitc.base.stp.out.OutProjectPlan" parameterType="java.util.HashMap">
-		select tableA.DEFINE1,tableA.DEFINE2,tableA.DEFINE3,
+		select tableA.DEFINE1,tableA.DEFINE2,tableA.DEFINE3,tableA.DEFINE8,
 			   tableA.XMMC,tableA.JF,tableA.YSJE,tableA.YSND,
 			   tableA.PROJECT_PROPERTY,tableA.PROJECT_SCOPE,tableA.FZDW,tableA.ZYLB,
 			   tableA.ND,tableA.HTH,tableA.ZYCMC,case when tableA.qdbz is null then '未签订' else '已签订' end as qdbz
 		from (
 			select out_project_plan.DEFINE1,SUBSTR(out_project_plan.DEFINE2 FROM 4) as DEFINE2,SUBSTR(out_project_plan.DEFINE3 FROM 2) as DEFINE3,
-				   out_project_plan.XMMC,out_project_plan.JF,out_project_plan.YSJE,out_project_plan.YSND,
+				   out_project_plan.XMID,out_project_plan.XMMC,out_project_plan.JF,out_project_plan.YSJE,out_project_plan.YSND,
 				   out_project_plan.PROJECT_PROPERTY,out_project_plan.PROJECT_SCOPE,out_project_plan.FZDW,out_project_plan.ZYLB,
-			       out_project_plan.ND,out_project_plan.HTH,out_project_plan.ZYCMC,out_project_info.xmid as qdbz
+			       out_project_plan.ND,out_project_plan.DEFINE8,out_project_plan.HTH,out_project_plan.ZYCMC,out_project_info.xmid as qdbz
 			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid 
-																and (out_project_info.PROJECT_TYPE= '0' or out_project_info.PROJECT_TYPE= '2') 
-																and out_project_info.project_property not like '%十条龙%' 
 																and out_project_plan.YSND= out_project_info.YSND 
-																and out_project_info.project_property not like '%国家%')	              
+																and out_project_info.PROJECT_TYPE != '1'
+																and out_project_info.define3 = '项目管理系统')	              
 			WHERE
-				   (out_project_plan.PROJECT_TYPE= '0' or out_project_plan.PROJECT_TYPE= '2')
-				   and out_project_plan.project_property not like '%国家%'
-				   and out_project_plan.project_property not like '%十条龙%'
+				   out_project_plan.PROJECT_TYPE != '1'
+				   and out_project_plan.define4 = '项目管理系统'
 				) as tableA
 		WHERE 
 			1 = 1
@@ -1253,6 +1250,7 @@
 				)
 			</if>
 			
+			GROUP BY tableA.XMID
 			<if test="orderKey != null and orderKey != ''">
 				<if test="orderType != null and orderType != ''">
 					order by ${orderKey} ${orderType}
@@ -1261,5 +1259,9 @@
 					order by ${orderKey} desc
 				</if>
 			</if>
+			<if test="orderKey == null">
+				order by tableA.hth desc
+			</if>
+			
 	</select>
 </mapper>
