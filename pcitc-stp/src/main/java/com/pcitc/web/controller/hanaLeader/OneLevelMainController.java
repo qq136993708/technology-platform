@@ -2321,8 +2321,8 @@ public class OneLevelMainController {
 												List<String>  xAxisDataList=HanaUtil.getduplicatexAxisByList(list,"define3");
 								         		barLine.setxAxisDataList(xAxisDataList);
 												List<String> legendDataList = new ArrayList<String>();
-												legendDataList.add("费用性实际下达");
-												legendDataList.add("资本性实际下达");
+												legendDataList.add("费用性科研投入");
+												legendDataList.add("资本性科研投入");
 												barLine.setxAxisDataList(xAxisDataList);
 												barLine.setLegendDataList(legendDataList);
 												
@@ -2515,9 +2515,9 @@ public class OneLevelMainController {
 												List<String>  xAxisDataList=HanaUtil.getduplicatexAxisByList(list,"define2");
 								         		barLine.setxAxisDataList(xAxisDataList);
 												List<String> legendDataList = new ArrayList<String>();
-												legendDataList.add("实际下达");
-												legendDataList.add("未签订");
-												legendDataList.add("投资完成率");
+												legendDataList.add("实际科研投入");
+												legendDataList.add("未执行");
+												legendDataList.add("预算执行率");
 												barLine.setxAxisDataList(xAxisDataList);
 												barLine.setLegendDataList(legendDataList);
 												// X轴数据

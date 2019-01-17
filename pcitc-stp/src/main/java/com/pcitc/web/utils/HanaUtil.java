@@ -3766,26 +3766,24 @@ public static ChartBarLineSeries getKNOWLDGELevel2ChartBarLineSeries07(List<Know
 	public static ChartBarLineSeries getinvestmentBarLineSeries2(List<BudgetMysql> list, String name) {
 
 		
-   	 
-    	
 		
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
 		if (name.equals("zsjje")) {
-			chartBarLineSeries.setName("实际下达");
+			chartBarLineSeries.setName("实际科研投入");
 			
 			chartBarLineSeries.setyAxisIndex(0);
 			
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
 		if (name.equals("wxdje")) {
-			chartBarLineSeries.setName("未下达");
+			chartBarLineSeries.setName("未执行");
 			
 			chartBarLineSeries.setyAxisIndex(0);
 			
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
 		if (name.equals("jeRate")) {
-			chartBarLineSeries.setName("投资完成率");
+			chartBarLineSeries.setName("预算执行率");
 		
 			chartBarLineSeries.setyAxisIndex(1);
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_LINE);
@@ -3844,7 +3842,7 @@ public static ChartBarLineSeries getKNOWLDGELevel2ChartBarLineSeries07(List<Know
 					
 						if(!jeRate.equals("0"))
 						{
-							 dataList.add(jeRate);
+							 dataList.add(String.format("%.2f", Double.valueOf(jeRate)));
 						}else
 						{
 							dataList.add(0);
@@ -3958,9 +3956,10 @@ public static ChartBarLineSeries getKNOWLDGELevel2ChartBarLineSeries07(List<Know
 	public static ChartBarLineSeries getinvestmentChartBarLineSeries(List<BudgetMysql> list, String name) {
 
 		
+		
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
 		if (name.equals("fyxsjje")) {
-			chartBarLineSeries.setName("费用性实际下达");
+			chartBarLineSeries.setName("费用性科研投入");
 			chartBarLineSeries.setStack("总量");
 			chartBarLineSeries.setAreaStyle(new Object());
 			chartBarLineSeries.setColor("#4a94eb");
@@ -3969,7 +3968,7 @@ public static ChartBarLineSeries getKNOWLDGELevel2ChartBarLineSeries07(List<Know
 			
 		}
 		if (name.equals("zbxsjje")) {
-			chartBarLineSeries.setName("资本性实际下达");
+			chartBarLineSeries.setName("资本性科研投入");
 			chartBarLineSeries.setStack("总量");
 			chartBarLineSeries.setAreaStyle(new Object());
 			chartBarLineSeries.setColor("#43bb7c");
