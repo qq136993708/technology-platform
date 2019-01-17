@@ -76,6 +76,12 @@ public class SearchFullController extends BaseController {
         return "stp/hana/home/search/query_outreward";
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/searchTfmType")
+    public String searchTfmType(HttpServletRequest request) throws Exception {
+        request.setAttribute("keyword", request.getParameter("keyword"));
+        return "stp/hana/home/search/query_tfmType";
+    }
+
     @RequestMapping(method = RequestMethod.GET, value = "/searchReport")
     public String searchReport(HttpServletRequest request) throws Exception {
         request.setAttribute("keyword", request.getParameter("keyword"));

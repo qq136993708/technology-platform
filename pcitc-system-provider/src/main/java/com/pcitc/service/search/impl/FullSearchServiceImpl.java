@@ -16,10 +16,12 @@ import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.mapper.out.OutAppraisalMapper;
 import com.pcitc.mapper.out.OutProjectInfoMapper;
 import com.pcitc.mapper.out.OutRewardMapper;
+import com.pcitc.service.expert.TfmTypeService;
 import com.pcitc.service.report.SysReportStpService;
 import com.pcitc.service.search.FullSearchService;
 import com.pcitc.service.system.SysFileService;
 import com.pcitc.utils.StringUtils;
+import com.pcitc.web.feign.ZjkBaseInfoServiceClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -42,6 +44,12 @@ public class FullSearchServiceImpl implements FullSearchService {
 
     @Autowired
     SysFileService sysFileService;
+
+   @Autowired
+    TfmTypeService tfmTypeService;
+
+   @Autowired
+    ZjkBaseInfoServiceClient zjkBaseInfoServiceClient;
 
     private static final String[] tabString = {"科研", "成果"};
 
@@ -86,9 +94,11 @@ public class FullSearchServiceImpl implements FullSearchService {
         //科研装备
 
         //技术族
-
+        LayuiTableData tableDataTech = tfmTypeService.findTfmTypeByPage(param_common);
+        List<?> TechData = tableDataTech.getData();
         //专家信息
-
+        LayuiTableData tableDataExpert = (LayuiTableData) zjkBaseInfoServiceClient.selectZjkBaseInfoByPage(param_common);
+        List<?> ExpertData = tableDataExpert.getData();
         //知识产权
 
         //汇总
@@ -124,6 +134,21 @@ public class FullSearchServiceImpl implements FullSearchService {
             }
         }
 
+        if (tableDataTech != null) {
+            tableDataTech.addPropertyToData("select_type","tech");
+            total = total + 1;
+            for (int i = 0; i < TechData.size(); i++) {
+                list.add(TechData.get(i));
+            }
+        }
+
+        if (tableDataExpert != null) {
+            tableDataExpert.addPropertyToData("select_type","expert");
+            total = total + 1;
+            for (int i = 0; i < ExpertData.size(); i++) {
+                list.add(ExpertData.get(i));
+            }
+        }
 //        getTabList(param_common, total, list, limit);
 
         //首页total，其他页取值
@@ -521,7 +546,7 @@ public class FullSearchServiceImpl implements FullSearchService {
         return data;
     }
 
-    private List<Map<String, Object>> setKeyWordCss(PageInfo<?> pageInfo, String keywords) {
+    public List<Map<String, Object>> setKeyWordCss(PageInfo<?> pageInfo, String keywords) {
         List<Map<String, Object>> maps = new ArrayList<>();
         for (int i = 0; i < pageInfo.getSize(); i++) {
             Object obj = pageInfo.getList().get(i);
