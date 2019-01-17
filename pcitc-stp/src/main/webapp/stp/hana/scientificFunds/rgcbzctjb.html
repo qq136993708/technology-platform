@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <script src="/layuiadmin/layui/layui.js"></script>
+</head>
+<body>
+<div class="searchBox">
+    <!--查询条件-->
+        <label class="dateInput">
+            <span>月份</span>
+            <input type="text" name="month" placeholder="请选择月份" title="月份" value="${month}" autocomplete="off" class="form-control" id="month">
+        </label>
+       <div class="layui-input-inline">
+         <select name="companyCode" id="companyCode" >
+              <#list companyCodeList as vo>
+              	 <#if vo.g0GSJC == '全部'>
+              	 	<option value="${vo.g0GSDM}"  selected="selected">${vo.g0GSJC}</option>
+              	 </#if>
+                 <#if vo.g0GSJC != '全部'>
+              	 	<option value="${vo.g0GSDM}">${vo.g0GSJC}</option>
+              	 </#if>
+               </#list>
+            </select>
+       </div>
+    <!--按钮组-->
+    <div class="btnGroup">
+     <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()" data-type="searchEvent">查询</button>
+    </div>
+</div>
+<div class="tableBox">
+    <table id="myTable" class="layui-table" lay-filter="myTable" >
+                 <thead>
+                  <tr>
+                      <th lay-data="{field:'g0GSJC', width:'7%'}" rowspan="2" >直属研究院</th>
+                      <th lay-data="{align:'center'}" colspan="12">本年</th>
+                      <th lay-data="{align:'center'}" colspan="12">同年</th>
+                      <th lay-data="{align:'center'}" colspan="12">同比</th>
+                  </tr>
+                  <tr>
+                      <th lay-data="{field:'k0BNCB_4', width:'5%',align:'right'}">总计</th>
+                      <th lay-data="{field:'k0BNCB_411', width:'5%',align:'right'}">工资</th>
+                      <th lay-data="{field:'k0BNCB_412', width:'5%',align:'right'}">社会保险费</th> 
+                      <th lay-data="{field:'k0BNCB_413', width:'5%',align:'right'}">其他保险费</th> 
+                      <th lay-data="{field:'k0BNCB_414', width:'5%',align:'right'}">福利费</th> 
+                      <th lay-data="{field:'k0BNCB_415', width:'5%',align:'right'}">教育经费</th> 
+                      <th lay-data="{field:'k0BNCB_416', width:'5%',align:'right'}">工会经费 </th> 
+                      <th lay-data="{field:'k0BNCB_417', width:'5%',align:'right'}">住房费用</th> 
+                      <th lay-data="{field:'k0BNCB_418', width:'5%',align:'right'}">劳务费用</th> 
+                      <th lay-data="{field:'k0BNCB_419', width:'5%',align:'right'}">非货币性福利</th> 
+                      <th lay-data="{field:'k0BNCB_420', width:'5%',align:'right'}">辞退福利 </th> 
+                      <th lay-data="{field:'k0BNCB_430', width:'5%',align:'right'}">其他</th>
+
+                      <th lay-data="{field:'k0SNCB_4', width:'5%',align:'right'}">总计</th>
+                      <th lay-data="{field:'k0SNCB_411', width:'5%',align:'right'}">工资</th>
+                      <th lay-data="{field:'k0SNCB_412', width:'5%',align:'right'}">社会保险费</th> 
+                      <th lay-data="{field:'k0SNCB_413', width:'5%',align:'right'}">其他保险费</th> 
+                      <th lay-data="{field:'k0SNCB_414', width:'5%',align:'right'}">福利费</th> 
+                      <th lay-data="{field:'k0SNCB_415', width:'5%',align:'right'}">教育经费</th> 
+                      <th lay-data="{field:'k0SNCB_416', width:'5%',align:'right'}">工会经费 </th> 
+                      <th lay-data="{field:'k0SNCB_417', width:'5%',align:'right'}">住房费用</th> 
+                      <th lay-data="{field:'k0SNCB_418', width:'5%',align:'right'}">劳务费用</th> 
+                      <th lay-data="{field:'k0SNCB_419', width:'5%',align:'right'}">非货币性福利</th> 
+                      <th lay-data="{field:'k0SNCB_420', width:'5%',align:'right'}">辞退福利 </th> 
+                      <th lay-data="{field:'k0SNCB_430', width:'5%',align:'right'}">其他</th>
+
+                      <th lay-data="{field:'k0TQCB_4', width:'5%',align:'right'}">总计</th>
+                      <th lay-data="{field:'k0TQCB_411', width:'5%',align:'right'}">工资</th>
+                      <th lay-data="{field:'k0TQCB_412', width:'5%',align:'right'}">社会保险费</th> 
+                      <th lay-data="{field:'k0TQCB_413', width:'5%',align:'right'}">其他保险费</th> 
+                      <th lay-data="{field:'k0TQCB_414', width:'5%',align:'right'}">福利费</th> 
+                      <th lay-data="{field:'k0TQCB_415', width:'5%',align:'right'}">教育经费</th> 
+                      <th lay-data="{field:'k0TQCB_416', width:'5%',align:'right'}">工会经费 </th> 
+                      <th lay-data="{field:'k0TQCB_417', width:'5%',align:'right'}">住房费用</th> 
+                      <th lay-data="{field:'k0TQCB_418', width:'5%',align:'right'}">劳务费用</th> 
+                      <th lay-data="{field:'k0TQCB_419', width:'5%',align:'right'}">非货币性福利</th> 
+                      <th lay-data="{field:'k0TQCB_420', width:'5%',align:'right'}">辞退福利 </th> 
+                      <th lay-data="{field:'k0TQCB_430', width:'5%',align:'right'}">其他</th>
+
+                  </tr>
+                 </thead>
+             </table>
+</div>
+
+
+
+
+
+
+<script id="dateTpl" type="text/html"> {{formatTime(d.SQRI)}} </script>
+<script type="text/javascript">
+    // 时间格式化
+      function formatTime(d) {
+        if (d) {
+            var date = new Date();
+            date.setTime(d);
+            var y = date.getFullYear();
+            var m = date.getMonth() + 1;
+            m = m < 10 ? ('0' + m) : m;
+            var day = date.getDate();
+            day = day < 10 ? ("0" + day) : day;
+            var h = date.getHours();
+            h = h < 10 ? ("0" + h) : h;
+            var M = date.getMinutes();
+            M = M < 10 ? ("0" + M) : M;
+            var str = y + "-" + m + "-" + day + " " + h + ":" + M;
+            return str;
+        } else {
+            return '';
+        }
+    }
+</script>
+
+<!--表格数据操作js-->
+<script src="/common/js/jquery-1.11.3.min.js"></script>
+<script>
+var table,selectRowData;
+var zlbm=$('#zlbm').val();
+
+layui.config({
+    base: '/layuiadmin/module/modules/' //静态资源所在路径
+}).use(['jquery','form', 'laydate','table','laypage'], function(){
+	  $ = layui.jquery
+      ,table = layui.table
+      ,form = layui.form
+      ,laydate = layui.laydate,
+	 form.render(null, 'component-form-group');
+	  laydate.render({
+          elem: '#month'
+          ,format: 'yyyyMM'
+          
+       });
+
+     	     myTable();
+     	     //移除表头的复选框,去掉全选
+     	     $(".layui-table-header table thead th input").remove();  
+
+        // 触发不同的按钮事件
+        var $ = layui.$, active = {
+           
+            
+        };
+        
+        
+
+        //监听行单击事件
+        table.on('row(myTable)', function(obj){
+            console.log(obj.tr) //得到当前行元素对象
+            console.log(obj.data) //得到当前行数据
+            //obj.del(); //删除当前行
+            //obj.update(fields) //修改当前行数据
+            selectRowData=obj.data;
+            myTable2(selectRowData.g0GSJC)
+	        
+        });
+        
+
+        
+    });
+    
+function search_Event()
+{
+	myTable();
+}
+
+
+function myTable()
+{
+	
+	 var month=$("#month").val();
+	 var companyCode=$("#companyCode").val();
+	 var v_date=(new Date()).getTime();
+	 var url= '/rgcbzctjb_data?month='+month+"&v_date="+v_date+"&companyCode="+companyCode;
+	    table.init('myTable', {
+			  url: url
+			  ,height:"405px"
+			  ,where: {} 
+			  
+			});
+	 
+}
+
+function myTable2(companyName)
+{
+	
+	 var month=$("#month").val();
+	 var v_date=(new Date()).getTime();
+	 var url= '/rgcbzctjb_data_detail?month='+month+"&v_date="+v_date+"&companyName="+companyName;
+	    table.init('myTable', {
+			  url: url
+			  ,height:"405px"
+			  ,where: {} 
+			  
+			});
+	 
+}   
+    
+   
+   
+
+</script>
+
+</body>
+</html>
