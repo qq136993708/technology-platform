@@ -1060,14 +1060,12 @@ public class DirectController {
     						{
     							zbxsl_rate =	HanaUtil.chufa2(zbxsjsl_count,zbxjhsl_count);
     						}
-    						
     						//System.out.println(">>>>>>>>>>>>>>fyxsl_rate: " + fyxsl_rate+" zbxsl_rate:"+zbxsl_rate);
     						map.put("fyxsl_rate", String.format("%.2f", Double.valueOf(fyxsl_rate))+"%");
     						map.put("zbxsl_rate",String.format("%.2f", Double.valueOf(zbxsl_rate))+"%");
     						result.setSuccess(true);
     						result.setData(map);
     					}
-    					
     					
     				}
     				
@@ -1156,10 +1154,11 @@ public class DirectController {
 				String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 				String type = CommonUtil.getParameter(request, "type", "" );
 				String typeFlag  = CommonUtil.getParameter(request, "typeFlag ", "研究院" );
+				String xmlbbm = CommonUtil.getParameter(request, "xmlbbm", "" );
 				Map<String, Object> paramsMap = new HashMap<String, Object>();
 				paramsMap.put("nd", nd);
 				paramsMap.put("typeFlag", typeFlag);
-				
+				paramsMap.put("xmlbbm", xmlbbm);
 				
 				JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 				HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);

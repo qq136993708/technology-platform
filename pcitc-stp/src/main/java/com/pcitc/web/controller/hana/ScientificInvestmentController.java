@@ -20,9 +20,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.common.PageResult;
+import com.pcitc.base.hana.report.BudgetMysql;
 import com.pcitc.base.hana.report.CompanyCode;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CommonUtil;
@@ -58,6 +61,16 @@ public class ScientificInvestmentController {
 					
 			        return "stp/hana/scientificInvestment/tzxmwcqktjb";
 			  }
+			  
+			  
+			  
+			  
+			  
+			  
+			
+				
+				
+				
 	  
 		    // 三级表格
 			@RequestMapping(method = RequestMethod.POST, value = "/tzxmwcqktjb_data")

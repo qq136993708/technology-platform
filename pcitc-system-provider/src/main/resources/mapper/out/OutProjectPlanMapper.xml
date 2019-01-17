@@ -9,6 +9,8 @@
     <result column="XMMC" property="xmmc" jdbcType="VARCHAR" />
     <result column="XMJB" property="xmjb" jdbcType="VARCHAR" />
     <result column="YSND" property="ysnd" jdbcType="VARCHAR" />
+    <result column="YSFYXJE" property="ysfyxje" jdbcType="VARCHAR" />
+    <result column="YSZBXJE" property="yszbxje" jdbcType="VARCHAR" />
     <result column="YSJE" property="ysje" jdbcType="VARCHAR" />
     <result column="JF" property="jf" jdbcType="VARCHAR" />
     <result column="FWDXBM" property="fwdxbm" jdbcType="VARCHAR" />
@@ -52,6 +54,10 @@
     <result column="DEFINE7" property="define7" jdbcType="VARCHAR" />
     <result column="DEFINE8" property="define8" jdbcType="VARCHAR" />
     <result column="DEFINE9" property="define9" jdbcType="VARCHAR" />
+    <result column="DEFINE10" property="define10" jdbcType="VARCHAR" />
+    <result column="DEFINE11" property="define11" jdbcType="VARCHAR" />
+    <result column="DEFINE12" property="define12" jdbcType="VARCHAR" />
+    <result column="DEFINE13" property="define13" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -112,11 +118,12 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    DATA_ID, XMID, ND, HTH, XMMC, XMJB, YSND, YSJE, JF, FWDXBM, FWDX, GSBMBM, GSBMMC, 
-    ZYCBM, ZYCMC, XMLBBM, XMLBMC, ZYLBBM, ZYLB, FZDWBM, FZDW, JTFZDWBM, JTFZDW, FZRYX, 
-    FZRDH, FZRXM, JSSXXM, JSSJ, KSSJ, YJSJ, ZYLY, ZYSX, SJID, LXBJ, YJNR, JDAP, YJMB, 
-    YJYJC, PROJECT_PROPERTY, PROJECT_SCOPE, PROJECT_TYPE, DEFINE1, DEFINE2, DEFINE3, 
-    DEFINE4, DEFINE5, DEFINE6, DEFINE7, DEFINE8, DEFINE9
+    DATA_ID, XMID, ND, HTH, XMMC, XMJB, YSND, YSFYXJE, YSZBXJE, YSJE, JF, FWDXBM, FWDX, 
+    GSBMBM, GSBMMC, ZYCBM, ZYCMC, XMLBBM, XMLBMC, ZYLBBM, ZYLB, FZDWBM, FZDW, JTFZDWBM, 
+    JTFZDW, FZRYX, FZRDH, FZRXM, JSSXXM, JSSJ, KSSJ, YJSJ, ZYLY, ZYSX, SJID, LXBJ, YJNR, 
+    JDAP, YJMB, YJYJC, PROJECT_PROPERTY, PROJECT_SCOPE, PROJECT_TYPE, DEFINE1, DEFINE2, 
+    DEFINE3, DEFINE4, DEFINE5, DEFINE6, DEFINE7, DEFINE8, DEFINE9, DEFINE10, DEFINE11, 
+    DEFINE12, DEFINE13
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.pcitc.base.stp.out.OutProjectPlanExample" >
     select
@@ -152,36 +159,40 @@
   <insert id="insert" parameterType="com.pcitc.base.stp.out.OutProjectPlan" >
     insert into out_project_plan (DATA_ID, XMID, ND, 
       HTH, XMMC, XMJB, YSND, 
-      YSJE, JF, FWDXBM, FWDX, 
-      GSBMBM, GSBMMC, ZYCBM, 
-      ZYCMC, XMLBBM, XMLBMC, 
-      ZYLBBM, ZYLB, FZDWBM, 
-      FZDW, JTFZDWBM, JTFZDW, 
-      FZRYX, FZRDH, FZRXM, 
-      JSSXXM, JSSJ, KSSJ, 
-      YJSJ, ZYLY, ZYSX, SJID, 
-      LXBJ, YJNR, JDAP, YJMB, 
-      YJYJC, PROJECT_PROPERTY, PROJECT_SCOPE, 
-      PROJECT_TYPE, DEFINE1, DEFINE2, 
-      DEFINE3, DEFINE4, DEFINE5, 
-      DEFINE6, DEFINE7, DEFINE8, 
-      DEFINE9)
+      YSFYXJE, YSZBXJE, YSJE, 
+      JF, FWDXBM, FWDX, GSBMBM, 
+      GSBMMC, ZYCBM, ZYCMC, 
+      XMLBBM, XMLBMC, ZYLBBM, 
+      ZYLB, FZDWBM, FZDW, 
+      JTFZDWBM, JTFZDW, FZRYX, 
+      FZRDH, FZRXM, JSSXXM, 
+      JSSJ, KSSJ, YJSJ, ZYLY, 
+      ZYSX, SJID, LXBJ, YJNR, 
+      JDAP, YJMB, YJYJC, 
+      PROJECT_PROPERTY, PROJECT_SCOPE, PROJECT_TYPE, 
+      DEFINE1, DEFINE2, DEFINE3, 
+      DEFINE4, DEFINE5, DEFINE6, 
+      DEFINE7, DEFINE8, DEFINE9, 
+      DEFINE10, DEFINE11, DEFINE12, 
+      DEFINE13)
     values (#{dataId,jdbcType=VARCHAR}, #{xmid,jdbcType=VARCHAR}, #{nd,jdbcType=VARCHAR}, 
       #{hth,jdbcType=VARCHAR}, #{xmmc,jdbcType=VARCHAR}, #{xmjb,jdbcType=VARCHAR}, #{ysnd,jdbcType=VARCHAR}, 
-      #{ysje,jdbcType=VARCHAR}, #{jf,jdbcType=VARCHAR}, #{fwdxbm,jdbcType=VARCHAR}, #{fwdx,jdbcType=VARCHAR}, 
-      #{gsbmbm,jdbcType=VARCHAR}, #{gsbmmc,jdbcType=VARCHAR}, #{zycbm,jdbcType=VARCHAR}, 
-      #{zycmc,jdbcType=VARCHAR}, #{xmlbbm,jdbcType=VARCHAR}, #{xmlbmc,jdbcType=VARCHAR}, 
-      #{zylbbm,jdbcType=VARCHAR}, #{zylb,jdbcType=VARCHAR}, #{fzdwbm,jdbcType=VARCHAR}, 
-      #{fzdw,jdbcType=VARCHAR}, #{jtfzdwbm,jdbcType=VARCHAR}, #{jtfzdw,jdbcType=VARCHAR}, 
-      #{fzryx,jdbcType=VARCHAR}, #{fzrdh,jdbcType=VARCHAR}, #{fzrxm,jdbcType=VARCHAR}, 
-      #{jssxxm,jdbcType=VARCHAR}, #{jssj,jdbcType=VARCHAR}, #{kssj,jdbcType=VARCHAR}, 
-      #{yjsj,jdbcType=VARCHAR}, #{zyly,jdbcType=VARCHAR}, #{zysx,jdbcType=VARCHAR}, #{sjid,jdbcType=VARCHAR}, 
-      #{lxbj,jdbcType=VARCHAR}, #{yjnr,jdbcType=VARCHAR}, #{jdap,jdbcType=VARCHAR}, #{yjmb,jdbcType=VARCHAR}, 
-      #{yjyjc,jdbcType=VARCHAR}, #{projectProperty,jdbcType=VARCHAR}, #{projectScope,jdbcType=VARCHAR}, 
-      #{projectType,jdbcType=VARCHAR}, #{define1,jdbcType=VARCHAR}, #{define2,jdbcType=VARCHAR}, 
-      #{define3,jdbcType=VARCHAR}, #{define4,jdbcType=VARCHAR}, #{define5,jdbcType=VARCHAR}, 
-      #{define6,jdbcType=VARCHAR}, #{define7,jdbcType=VARCHAR}, #{define8,jdbcType=VARCHAR}, 
-      #{define9,jdbcType=VARCHAR})
+      #{ysfyxje,jdbcType=VARCHAR}, #{yszbxje,jdbcType=VARCHAR}, #{ysje,jdbcType=VARCHAR}, 
+      #{jf,jdbcType=VARCHAR}, #{fwdxbm,jdbcType=VARCHAR}, #{fwdx,jdbcType=VARCHAR}, #{gsbmbm,jdbcType=VARCHAR}, 
+      #{gsbmmc,jdbcType=VARCHAR}, #{zycbm,jdbcType=VARCHAR}, #{zycmc,jdbcType=VARCHAR}, 
+      #{xmlbbm,jdbcType=VARCHAR}, #{xmlbmc,jdbcType=VARCHAR}, #{zylbbm,jdbcType=VARCHAR}, 
+      #{zylb,jdbcType=VARCHAR}, #{fzdwbm,jdbcType=VARCHAR}, #{fzdw,jdbcType=VARCHAR}, 
+      #{jtfzdwbm,jdbcType=VARCHAR}, #{jtfzdw,jdbcType=VARCHAR}, #{fzryx,jdbcType=VARCHAR}, 
+      #{fzrdh,jdbcType=VARCHAR}, #{fzrxm,jdbcType=VARCHAR}, #{jssxxm,jdbcType=VARCHAR}, 
+      #{jssj,jdbcType=VARCHAR}, #{kssj,jdbcType=VARCHAR}, #{yjsj,jdbcType=VARCHAR}, #{zyly,jdbcType=VARCHAR}, 
+      #{zysx,jdbcType=VARCHAR}, #{sjid,jdbcType=VARCHAR}, #{lxbj,jdbcType=VARCHAR}, #{yjnr,jdbcType=VARCHAR}, 
+      #{jdap,jdbcType=VARCHAR}, #{yjmb,jdbcType=VARCHAR}, #{yjyjc,jdbcType=VARCHAR}, 
+      #{projectProperty,jdbcType=VARCHAR}, #{projectScope,jdbcType=VARCHAR}, #{projectType,jdbcType=VARCHAR}, 
+      #{define1,jdbcType=VARCHAR}, #{define2,jdbcType=VARCHAR}, #{define3,jdbcType=VARCHAR}, 
+      #{define4,jdbcType=VARCHAR}, #{define5,jdbcType=VARCHAR}, #{define6,jdbcType=VARCHAR}, 
+      #{define7,jdbcType=VARCHAR}, #{define8,jdbcType=VARCHAR}, #{define9,jdbcType=VARCHAR}, 
+      #{define10,jdbcType=VARCHAR}, #{define11,jdbcType=VARCHAR}, #{define12,jdbcType=VARCHAR}, 
+      #{define13,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.pcitc.base.stp.out.OutProjectPlan" >
     insert into out_project_plan
@@ -206,6 +217,12 @@
       </if>
       <if test="ysnd != null" >
         YSND,
+      </if>
+      <if test="ysfyxje != null" >
+        YSFYXJE,
+      </if>
+      <if test="yszbxje != null" >
+        YSZBXJE,
       </if>
       <if test="ysje != null" >
         YSJE,
@@ -336,6 +353,18 @@
       <if test="define9 != null" >
         DEFINE9,
       </if>
+      <if test="define10 != null" >
+        DEFINE10,
+      </if>
+      <if test="define11 != null" >
+        DEFINE11,
+      </if>
+      <if test="define12 != null" >
+        DEFINE12,
+      </if>
+      <if test="define13 != null" >
+        DEFINE13,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="dataId != null" >
@@ -358,6 +387,12 @@
       </if>
       <if test="ysnd != null" >
         #{ysnd,jdbcType=VARCHAR},
+      </if>
+      <if test="ysfyxje != null" >
+        #{ysfyxje,jdbcType=VARCHAR},
+      </if>
+      <if test="yszbxje != null" >
+        #{yszbxje,jdbcType=VARCHAR},
       </if>
       <if test="ysje != null" >
         #{ysje,jdbcType=VARCHAR},
@@ -488,6 +523,18 @@
       <if test="define9 != null" >
         #{define9,jdbcType=VARCHAR},
       </if>
+      <if test="define10 != null" >
+        #{define10,jdbcType=VARCHAR},
+      </if>
+      <if test="define11 != null" >
+        #{define11,jdbcType=VARCHAR},
+      </if>
+      <if test="define12 != null" >
+        #{define12,jdbcType=VARCHAR},
+      </if>
+      <if test="define13 != null" >
+        #{define13,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.pcitc.base.stp.out.OutProjectPlanExample" resultType="java.lang.Integer" >
@@ -519,6 +566,12 @@
       </if>
       <if test="record.ysnd != null" >
         YSND = #{record.ysnd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ysfyxje != null" >
+        YSFYXJE = #{record.ysfyxje,jdbcType=VARCHAR},
+      </if>
+      <if test="record.yszbxje != null" >
+        YSZBXJE = #{record.yszbxje,jdbcType=VARCHAR},
       </if>
       <if test="record.ysje != null" >
         YSJE = #{record.ysje,jdbcType=VARCHAR},
@@ -649,6 +702,18 @@
       <if test="record.define9 != null" >
         DEFINE9 = #{record.define9,jdbcType=VARCHAR},
       </if>
+      <if test="record.define10 != null" >
+        DEFINE10 = #{record.define10,jdbcType=VARCHAR},
+      </if>
+      <if test="record.define11 != null" >
+        DEFINE11 = #{record.define11,jdbcType=VARCHAR},
+      </if>
+      <if test="record.define12 != null" >
+        DEFINE12 = #{record.define12,jdbcType=VARCHAR},
+      </if>
+      <if test="record.define13 != null" >
+        DEFINE13 = #{record.define13,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -663,6 +728,8 @@
       XMMC = #{record.xmmc,jdbcType=VARCHAR},
       XMJB = #{record.xmjb,jdbcType=VARCHAR},
       YSND = #{record.ysnd,jdbcType=VARCHAR},
+      YSFYXJE = #{record.ysfyxje,jdbcType=VARCHAR},
+      YSZBXJE = #{record.yszbxje,jdbcType=VARCHAR},
       YSJE = #{record.ysje,jdbcType=VARCHAR},
       JF = #{record.jf,jdbcType=VARCHAR},
       FWDXBM = #{record.fwdxbm,jdbcType=VARCHAR},
@@ -705,7 +772,11 @@
       DEFINE6 = #{record.define6,jdbcType=VARCHAR},
       DEFINE7 = #{record.define7,jdbcType=VARCHAR},
       DEFINE8 = #{record.define8,jdbcType=VARCHAR},
-      DEFINE9 = #{record.define9,jdbcType=VARCHAR}
+      DEFINE9 = #{record.define9,jdbcType=VARCHAR},
+      DEFINE10 = #{record.define10,jdbcType=VARCHAR},
+      DEFINE11 = #{record.define11,jdbcType=VARCHAR},
+      DEFINE12 = #{record.define12,jdbcType=VARCHAR},
+      DEFINE13 = #{record.define13,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -730,6 +801,12 @@
       </if>
       <if test="ysnd != null" >
         YSND = #{ysnd,jdbcType=VARCHAR},
+      </if>
+      <if test="ysfyxje != null" >
+        YSFYXJE = #{ysfyxje,jdbcType=VARCHAR},
+      </if>
+      <if test="yszbxje != null" >
+        YSZBXJE = #{yszbxje,jdbcType=VARCHAR},
       </if>
       <if test="ysje != null" >
         YSJE = #{ysje,jdbcType=VARCHAR},
@@ -860,6 +937,18 @@
       <if test="define9 != null" >
         DEFINE9 = #{define9,jdbcType=VARCHAR},
       </if>
+      <if test="define10 != null" >
+        DEFINE10 = #{define10,jdbcType=VARCHAR},
+      </if>
+      <if test="define11 != null" >
+        DEFINE11 = #{define11,jdbcType=VARCHAR},
+      </if>
+      <if test="define12 != null" >
+        DEFINE12 = #{define12,jdbcType=VARCHAR},
+      </if>
+      <if test="define13 != null" >
+        DEFINE13 = #{define13,jdbcType=VARCHAR},
+      </if>
     </set>
     where DATA_ID = #{dataId,jdbcType=VARCHAR}
   </update>
@@ -871,6 +960,8 @@
       XMMC = #{xmmc,jdbcType=VARCHAR},
       XMJB = #{xmjb,jdbcType=VARCHAR},
       YSND = #{ysnd,jdbcType=VARCHAR},
+      YSFYXJE = #{ysfyxje,jdbcType=VARCHAR},
+      YSZBXJE = #{yszbxje,jdbcType=VARCHAR},
       YSJE = #{ysje,jdbcType=VARCHAR},
       JF = #{jf,jdbcType=VARCHAR},
       FWDXBM = #{fwdxbm,jdbcType=VARCHAR},
@@ -913,7 +1004,11 @@
       DEFINE6 = #{define6,jdbcType=VARCHAR},
       DEFINE7 = #{define7,jdbcType=VARCHAR},
       DEFINE8 = #{define8,jdbcType=VARCHAR},
-      DEFINE9 = #{define9,jdbcType=VARCHAR}
+      DEFINE9 = #{define9,jdbcType=VARCHAR},
+      DEFINE10 = #{define10,jdbcType=VARCHAR},
+      DEFINE11 = #{define11,jdbcType=VARCHAR},
+      DEFINE12 = #{define12,jdbcType=VARCHAR},
+      DEFINE13 = #{define13,jdbcType=VARCHAR}
     where DATA_ID = #{dataId,jdbcType=VARCHAR}
   </update>
   
@@ -983,12 +1078,11 @@
 		from (
 			select out_project_info.xmid as temId,out_project_plan.xmid,out_project_plan.DEFINE1,out_project_plan.PROJECT_SCOPE 
 			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and out_project_info.PROJECT_TYPE != '1' 
-																	and out_project_info.project_property not like '%十条龙%' and out_project_info.ND= '${nd}' 
-																	and out_project_info.project_property not like '%国家%')
+																	and out_project_info.define3 = '项目管理系统' and out_project_info.ND= '${nd}')
 			WHERE
 				out_project_plan.ND= '${nd}'
-				and (out_project_plan.PROJECT_TYPE= '0' or out_project_plan.PROJECT_TYPE= '2')
-				and out_project_plan.project_property not like '%国家%'
+				and out_project_plan.PROJECT_TYPE != '1'
+				and out_project_plan.define4 = '项目管理系统'
 				<if test="define3 != null and define3 != ''">
 					and out_project_plan.DEFINE3 like '%${define3}%'
 				</if>
@@ -1009,12 +1103,11 @@
 		from (
 			select out_project_info.xmid as temId,out_project_plan.xmid as xmid,out_project_plan.DEFINE1,out_project_plan.DEFINE2,out_project_plan.jf as jf1,out_project_info.jf as jf2
 			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and out_project_info.PROJECT_TYPE != '1' 
-																	and out_project_info.project_property not like '%十条龙%' and out_project_info.ND= '${nd}' 
-																	and out_project_info.project_property not like '%国家%')
+																	and out_project_info.define3 = '项目管理系统' and out_project_info.ND= '${nd}')
 			WHERE
 				out_project_plan.ND= '${nd}' and out_project_plan.DEFINE3 like '%直属研究院%'
-				and (out_project_plan.PROJECT_TYPE= '0' or out_project_plan.PROJECT_TYPE= '2')
-				and out_project_plan.project_property not like '%国家%'
+				and out_project_plan.PROJECT_TYPE != '1'
+				and out_project_plan.define4 = '项目管理系统'
 				group by out_project_plan.xmid
 		) as tableB 
 		group by tableB.DEFINE2
@@ -1068,12 +1161,11 @@
 		from (
 			select out_project_info.xmid as temId,out_project_plan.xmid as xmid,out_project_plan.DEFINE1
 			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and out_project_info.PROJECT_TYPE != '1' 
-																	and out_project_info.project_property not like '%十条龙%' and out_project_info.ND= '${nd}' 
-																	and out_project_info.project_property not like '%国家%')
+																	and out_project_info.define3 = '项目管理系统' and out_project_info.ND= '${nd}')
 			WHERE
 				out_project_plan.ND= '${nd}' 
 				and out_project_plan.PROJECT_TYPE != '1'
-				and out_project_plan.project_property not like '%国家%'
+				and out_project_plan.define4 = '项目管理系统'
 				group by out_project_plan.xmid
 		) as tableB 
 		group by tableB.DEFINE1
@@ -1100,12 +1192,11 @@
 			select out_project_info.xmid as temId,out_project_plan.xmid as xmid,case when out_project_plan.DEFINE3 is null then 'J其他' else out_project_plan.DEFINE3 end as DEFINE3,
 						 out_project_plan.jf as jf1,out_project_plan.jf as jf2,out_project_plan.xmlbbm as xmlbbm1,out_project_info.xmlbbm as xmlbbm2
 			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid and out_project_info.PROJECT_TYPE != '1' 
-																	and out_project_info.project_property not like '%十条龙%' and out_project_info.ND= '${nd}' 
-																	and out_project_info.project_property not like '%国家%')
+																	and out_project_info.define3 = '项目管理系统' and out_project_info.ND= '${nd}')
 			WHERE
 				out_project_plan.ND= '${nd}' 
 				and out_project_plan.PROJECT_TYPE != '1'
-				and out_project_plan.project_property not like '%国家%'
+				and out_project_plan.define4 = '项目管理系统'
 				group by out_project_plan.xmid
 		) as tableB  
 		group by tableB.DEFINE3
@@ -1126,18 +1217,20 @@
 			round(tableB.fyxsjje/out_tem_money_total.fyx_money *100, 4) fyxRate,
 			round((tableB.zbxsjje+tableB.fyxsjje)/(out_tem_money_total.zbx_money+out_tem_money_total.fyx_money) *100, 4) zRate
 			FROM (			
-			select SUBSTR(tableA.DEFINE3 FROM 2) as define3, zbxsjje, fyxsjje from (
+				select SUBSTR(tableA.DEFINE3 FROM 2) as define3, tableA.DEFINE3 as temOrder, zbxsjje, fyxsjje from (
 						select 
-									 case when out_project_info.type_flag is null then 'J其他' else out_project_info.type_flag end as DEFINE3,
-									 round(sum(case when out_project_info.xmlbbm='KYZB' then ysje else 0 end),4) as zbxsjje,
-									 round(sum(case when out_project_info.xmlbbm!='KYZB' then ysje else 0 end),4) as fyxsjje
+							 case when out_project_info.type_flag is null then 'L其他' else out_project_info.type_flag end as DEFINE3,
+							 round(sum(case when out_project_info.xmlbbm='KYZB' then ysje else 0 end),4) as zbxsjje,
+							 round(sum(case when out_project_info.xmlbbm!='KYZB' then ysje else 0 end),4) as fyxsjje
 						from out_project_info 
 						WHERE
 							out_project_info.ysnd= '${nd}' 
 							and out_project_info.PROJECT_TYPE != '1'
 							and define3='项目管理系统' and ysje is not null
-							group by out_project_info.type_flag) as tableA
-			ORDER BY tableA.DEFINE3) as tableB LEFT JOIN out_tem_money_total ON (tableB.define3 = out_tem_money_total.show_ali and out_tem_money_total.nd = '${nd}')
+							group by out_project_info.type_flag
+						) as tableA
+				) as tableB LEFT JOIN out_tem_money_total ON (tableB.define3 = out_tem_money_total.show_ali and out_tem_money_total.nd = '${nd}')
+			ORDER BY tableB.temOrder
 		) AS tableC
 	</select>
 	
@@ -1162,24 +1255,22 @@
 	
 	<!-- 项目计划数据，涉及项目预算、项目计划详情等相关的查询时调用 -->
 	<select id="selectProjectPlanByCond" resultType="com.pcitc.base.stp.out.OutProjectPlan" parameterType="java.util.HashMap">
-		select tableA.DEFINE1,tableA.DEFINE2,tableA.DEFINE3,
+		select tableA.DEFINE1,tableA.DEFINE2,tableA.DEFINE3,GROUP_CONCAT(tableA.DEFINE8) as define8,
 			   tableA.XMMC,tableA.JF,tableA.YSJE,tableA.YSND,
 			   tableA.PROJECT_PROPERTY,tableA.PROJECT_SCOPE,tableA.FZDW,tableA.ZYLB,
 			   tableA.ND,tableA.HTH,tableA.ZYCMC,case when tableA.qdbz is null then '未签订' else '已签订' end as qdbz
 		from (
 			select out_project_plan.DEFINE1,SUBSTR(out_project_plan.DEFINE2 FROM 4) as DEFINE2,SUBSTR(out_project_plan.DEFINE3 FROM 2) as DEFINE3,
-				   out_project_plan.XMMC,out_project_plan.JF,out_project_plan.YSJE,out_project_plan.YSND,
+				   out_project_plan.XMID,out_project_plan.XMMC,out_project_plan.JF,out_project_plan.YSJE,out_project_plan.YSND,
 				   out_project_plan.PROJECT_PROPERTY,out_project_plan.PROJECT_SCOPE,out_project_plan.FZDW,out_project_plan.ZYLB,
-			       out_project_plan.ND,out_project_plan.HTH,out_project_plan.ZYCMC,out_project_info.xmid as qdbz
+			       out_project_plan.ND,out_project_plan.DEFINE8,out_project_plan.HTH,out_project_plan.ZYCMC,out_project_info.xmid as qdbz
 			from out_project_plan left join out_project_info on (out_project_plan.xmid = out_project_info.xmid 
-																and (out_project_info.PROJECT_TYPE= '0' or out_project_info.PROJECT_TYPE= '2') 
-																and out_project_info.project_property not like '%十条龙%' 
 																and out_project_plan.YSND= out_project_info.YSND 
-																and out_project_info.project_property not like '%国家%')	              
+																and out_project_info.PROJECT_TYPE != '1'
+																and out_project_info.define3 = '项目管理系统')	              
 			WHERE
-				   (out_project_plan.PROJECT_TYPE= '0' or out_project_plan.PROJECT_TYPE= '2')
-				   and out_project_plan.project_property not like '%国家%'
-				   and out_project_plan.project_property not like '%十条龙%'
+				   out_project_plan.PROJECT_TYPE != '1'
+				   and out_project_plan.define4 = '项目管理系统'
 				) as tableA
 		WHERE 
 			1 = 1
@@ -1253,6 +1344,7 @@
 				)
 			</if>
 			
+			GROUP BY tableA.XMID
 			<if test="orderKey != null and orderKey != ''">
 				<if test="orderType != null and orderType != ''">
 					order by ${orderKey} ${orderType}
@@ -1261,5 +1353,9 @@
 					order by ${orderKey} desc
 				</if>
 			</if>
+			<if test="orderKey == null">
+				order by tableA.hth desc
+			</if>
+			
 	</select>
 </mapper>
