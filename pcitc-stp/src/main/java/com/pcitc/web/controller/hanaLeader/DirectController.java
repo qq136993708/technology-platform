@@ -59,6 +59,9 @@ public class DirectController {
 	private static final String topic_01 = "http://pcitc-zuul/system-proxy/out-project-provider/ld/project-info/unit";
 	private static final String topic_02 = "http://pcitc-zuul/system-proxy/out-project-provider/project-info/new-old/lx";
 	private static final String topic_03 = "http://pcitc-zuul/system-proxy/out-project-provider/tech/type/project-info";
+	
+	private static final String topic_count = "http://pcitc-zuul/system-proxy/out-provider/kyzb/project-count";
+	
 	//合同
 	private static final String contract_01 = "http://pcitc-zuul/system-proxy/out-project-plna-provider/complete-rate/total";
 	private static final String contract_02 = "http://pcitc-zuul/system-proxy/out-project-plna-provider/complete-rate/old-new";
@@ -1454,6 +1457,59 @@ public class DirectController {
 		 				System.out.println(">>>>>>>>>>>>>>>topic_03 " + resultObj.toString());
 		 				return resultObj.toString();
 		 			}
+		            
+		            
+		            
+		            @RequestMapping(method = RequestMethod.GET, value = "/topic_equip_count")
+					@ResponseBody
+					public String topic_equip_count(HttpServletRequest request, HttpServletResponse response) throws Exception {
+                        String resault="";
+						Result result = new Result();
+						String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+						String type_flag = CommonUtil.getParameter(request, "type_flag", "研究院");
+						String xmlbbm = CommonUtil.getParameter(request, "xmlbbm", "");
+						Map<String, Object> paramsMap = new HashMap<String, Object>();
+						paramsMap.put("xmlbbm", xmlbbm);
+						paramsMap.put("nd", nd);
+						paramsMap.put("type_flag", type_flag);
+						JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+						HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+						if (!type_flag.equals(""))
+						{
+							ResponseEntity<JSONObject> responseEntity = restTemplate.exchange(topic_count, HttpMethod.POST, entity, JSONObject.class);
+							int statusCode = responseEntity.getStatusCodeValue();
+							if (statusCode == 200) 
+							{
+								
+								JSONObject jSONArray = responseEntity.getBody();
+								System.out.println(">>>>>>>>>>>>>>topic_equip_count jSONArray-> " + jSONArray.toString());
+								Integer projectCount =	jSONArray.getInteger("projectCount");
+								Integer kyzbCount =	jSONArray.getInteger("kyzbCount");
+								
+								Integer zsl =	jSONArray.getInteger("zsl");
+								Integer xkCount =	jSONArray.getInteger("xkCount");
+								Integer jzCount =	jSONArray.getInteger("jzCount");
+								Map map=new HashMap();
+								map.put("projectCount", projectCount);
+								map.put("kyzbCount", kyzbCount);
+								map.put("zsl", zsl);
+								map.put("xkCount", xkCount);
+								map.put("jzCount", jzCount);
+				         		result.setSuccess(true);
+								result.setData(map);
+							}
+							
+						} else
+						{
+							result.setSuccess(false);
+							result.setMessage("参数为空");
+						}
+						JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
+						resault=resultObj.toString();
+						System.out.println(">>>>>>topic_equip_count " + resultObj.toString());
+						return resault;
+					}
+					
 		 		
 		  
 		  /**=========================================科研装备课题=================================*/
