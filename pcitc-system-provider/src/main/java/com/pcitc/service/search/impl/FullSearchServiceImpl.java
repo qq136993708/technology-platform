@@ -6,20 +6,29 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.common.PageResult;
+import com.pcitc.base.common.TreeNode2;
+import com.pcitc.base.expert.ZjkPatent;
+import com.pcitc.base.hana.report.H1AMKYSY100117;
 import com.pcitc.base.report.SysReportStp;
 import com.pcitc.base.report.SysReportStpExample;
 import com.pcitc.base.stp.out.*;
 import com.pcitc.base.system.SysFile;
 import com.pcitc.base.system.SysFileVo;
+import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DataTableInfoVo;
+import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.mapper.out.OutAppraisalMapper;
 import com.pcitc.mapper.out.OutProjectInfoMapper;
 import com.pcitc.mapper.out.OutRewardMapper;
+import com.pcitc.service.expert.TfmTypeService;
 import com.pcitc.service.report.SysReportStpService;
 import com.pcitc.service.search.FullSearchService;
 import com.pcitc.service.system.SysFileService;
 import com.pcitc.utils.StringUtils;
+import com.pcitc.web.feign.HomeProviderClient;
+import com.pcitc.web.feign.ZjkBaseInfoServiceClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -31,6 +40,7 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.text.DecimalFormat;
 import java.util.*;
 
 @Service("fullSearchServiceImpl")
@@ -43,11 +53,20 @@ public class FullSearchServiceImpl implements FullSearchService {
     @Autowired
     SysFileService sysFileService;
 
+    @Autowired
+    TfmTypeService tfmTypeService;
+
+    @Autowired
+    ZjkBaseInfoServiceClient zjkBaseInfoServiceClient;
+
+    @Autowired
+    HomeProviderClient homeProviderClient;
+
     private static final String[] tabString = {"科研", "成果"};
 
     private static int limit_scientific = 1;
 
-    public LayuiTableData getTableSearch(LayuiTableParam param) {
+    public LayuiTableData getTableSearch(LayuiTableParam param) throws Exception {
         //公共
         int page = param.getPage();
         int limit = param.getLimit();
@@ -69,47 +88,112 @@ public class FullSearchServiceImpl implements FullSearchService {
         param_common.setLimit(limit_scientific);
         param_common.setParam(param_public);
 
-        //科研
+        //科研课题
         LayuiTableData tableDataScientific = this.getTableDataScientific(param_common);
-        List<?> scientificData = tableDataScientific.getData();
-        //成果
+//        List<?> scientificData = tableDataScientific.getData();
+        //科研成果
         LayuiTableData tableDataAchivementc = this.getTableDataAchivement(param_common);
-        List<?> achivementcData = tableDataAchivementc.getData();
+//        List<?> achivementcData = tableDataAchivementc.getData();
         //报表
         LayuiTableData tableDataReport = this.getTableDataReport(param_common);
-        List<?> reportData = tableDataReport.getData();
+//        List<?> reportData = tableDataReport.getData();
+
+        //科技奖励
+        LayuiTableData tableDataOutReward = this.getOutRewardListPage(param_common);
+//        List<?> outRewardData = tableDataOutReward.getData();
+
+        //科研装备
+        LayuiTableData tableDataEquipment = this.getEquipmentListPage(param_common);
+
+        //技术族
+        LayuiTableData tableDataTech = tfmTypeService.findTfmTypeByPage(param_common);
+//        List<?> TechData = tableDataTech.getData();
+        //专家信息
+        LayuiTableData tableDataExpert = zjkBaseInfoServiceClient.selectZjkBaseInfoByPage(param_common);
+//        List<?> ExpertData = tableDataExpert.getData();
+        //知识产权
+        LayuiTableData tableDataPatent = zjkBaseInfoServiceClient.selectZjkZhuanliByPage(param_common);
 
         //汇总
         List list = new ArrayList<>();
         int total = 0;
 
-        if (achivementcData != null) {
-            tableDataAchivementc.addPropertyToData("select_type","achivement");
+
+        List<TreeNode2> Equipment = (List<TreeNode2>) tableDataEquipment.getData();
+        if (Equipment != null&&Equipment.size()>0) {
             total = total + 1;
-            for (int i = 0; i < achivementcData.size(); i++) {
-                list.add(achivementcData.get(i));
-            }
-        }
-        if (scientificData != null) {
-            tableDataScientific.addPropertyToData("select_type","scientific");
-            total = total + 1;
-            for (int i = 0; i < scientificData.size(); i++) {
-                list.add(scientificData.get(i));
-            }
-        }
-        if (reportData != null) {
-            tableDataReport.addPropertyToData("select_type","report");
-            total = total + 1;
-            for (int i = 0; i < reportData.size(); i++) {
-                list.add(reportData.get(i));
+            for (int i = 0; i < Equipment.size(); i++) {
+                Equipment.get(i).setSelect_type("equipment");
+                list.add(Equipment.get(i));
             }
         }
 
+        List<Map<String, String>> Achivementc = (List<Map<String, String>>) tableDataAchivementc.getData();
+        if (Achivementc != null&&Achivementc.size()>0) {
+            total = total + 1;
+            for (int i = 0; i < Achivementc.size(); i++) {
+                Achivementc.get(i).put("select_type", "achivement");
+                list.add(Achivementc.get(i));
+            }
+        }
+
+        List<Map<String, String>> Scientific = (List<Map<String, String>>) tableDataScientific.getData();
+        if (Scientific != null&&Scientific.size()>0) {
+            total = total + 1;
+            for (int i = 0; i < Scientific.size(); i++) {
+                Scientific.get(i).put("select_type", "scientific");
+                list.add(Scientific.get(i));
+            }
+        }
+
+        List<Map<String, String>> Report = (List<Map<String, String>>) tableDataReport.getData();
+        if (Report != null&&Report.size()>0) {
+            total = total + 1;
+            for (int i = 0; i < Report.size(); i++) {
+                Report.get(i).put("select_type", "report");
+                list.add(Report.get(i));
+            }
+        }
+
+        List<Map<String, String>> OutReward = (List<Map<String, String>>) tableDataOutReward.getData();
+        if (OutReward != null&&OutReward.size()>0) {
+            total = total + 1;
+            for (int i = 0; i < OutReward.size(); i++) {
+                OutReward.get(i).put("select_type", "outReward");
+                list.add(OutReward.get(i));
+            }
+        }
+
+        List<Map<String, String>> zjkTech = (List<Map<String, String>>) tableDataTech.getData();
+        if (zjkTech != null&&zjkTech.size()>0) {
+            total = total + 1;
+            for (int i = 0; i < zjkTech.size(); i++) {
+                zjkTech.get(i).put("select_type", "tech");
+                list.add(zjkTech.get(i));
+            }
+        }
+
+        List<Map<String, String>> zjkExpert = (List<Map<String, String>>) tableDataExpert.getData();
+        if (zjkExpert != null&&zjkExpert.size()>0) {
+            total = total + 1;
+            for (int i = 0, j = zjkExpert.size(); i < j; i++) {
+                zjkExpert.get(i).put("select_type", "expert");
+                list.add(zjkExpert.get(i));
+            }
+        }
+
+        List<Map<String, String>> zjkPatents = (List<Map<String, String>>) tableDataPatent.getData();
+        if (zjkPatents != null&&zjkPatents.size()>0) {
+            total = total + 1;
+            for (int i = 0, j = zjkPatents.size(); i < j; i++) {
+                zjkPatents.get(i).put("select_type", "patent");
+                list.add(zjkPatents.get(i));
+            }
+        }
 //        getTabList(param_common, total, list, limit);
 
         //首页total，其他页取值
         msg = (page == 1) ? (total) : (tabsCount);
-        System.out.println(msg+"=============== " + (page == 1));
         LayuiTableData tableDataFile = new LayuiTableData();
         DataTableInfoVo dataTableInfoVo = new DataTableInfoVo();
 //        if (msg >= page * limit) {
@@ -146,7 +230,6 @@ public class FullSearchServiceImpl implements FullSearchService {
 //                    start_dis = (isShowFileAll) ? (file_limit + ((page - (msg / limit + msg % limit > 0 ? 1 : 0) - 1) * limit)) : (page - 1) * param.getLimit();
 //                }
 //                int limit_dis = (isShowFileAll) ? limit : file_limit;
-//                System.out.println("tabs数量 = " + msg + "   当前页数 = " + page + "    start = " + start_dis + "  limit = " + limit_dis);
 //                dataTableInfoVo.setiDisplayStart(start_dis);
 //                dataTableInfoVo.setiDisplayLength(limit_dis);
 //            } else {
@@ -160,7 +243,6 @@ public class FullSearchServiceImpl implements FullSearchService {
 //            vo.setDataTableInfoVo(dataTableInfoVo);
 //            try {
 //                JSONObject jsonObject = setFileFlag(vo);
-//                System.out.println(jsonObject);
 //                tableDataFile.setData((List<SysFile>) jsonObject.get("list"));
 //                tableDataFile.setCount(Integer.valueOf((jsonObject.get("totalCount") + "")));
 //            } catch (Exception e) {
@@ -180,10 +262,71 @@ public class FullSearchServiceImpl implements FullSearchService {
 //            }
 //        }
         //返回
+        System.out.println("total = " + total);
         tableData.setCount(total);
         tableData.setData(list);
         tableData.setMsg(msg + "");
         return tableData;
+    }
+
+    private LayuiTableData getEquipmentListPage(LayuiTableParam param_common) throws Exception {
+        JSONArray jSONArray = homeProviderClient.get_home_KYZB_02(JSONObject.toJSONString(param_common.getParam()));
+        Object keyword = param_common.getParam().get("keyword");
+        LayuiTableData layuiTableData = new LayuiTableData();
+
+        List<H1AMKYSY100117> list = JSONObject.parseArray(jSONArray.toJSONString(), H1AMKYSY100117.class);
+
+        List<TreeNode2> chartCircleList = new ArrayList<TreeNode2>();
+        List<TreeNode2> chartCircleListRed = new ArrayList<TreeNode2>();
+        String strKeyword = "";
+        for (int i = 0; i < list.size(); i++) {
+            H1AMKYSY100117 bean = list.get(i);
+
+            TreeNode2 node = new TreeNode2();
+            node.setExtend01(bean.getG0ZCXLMS());//设备类型
+            node.setExtend02(bean.getG0GSJC());//直属研究院
+            node.setExtend04(bean.getG0ZBHND());//购置年度
+            node.setExtend05(bean.getG0NDJAR());//使用年限
+            node.setExtend06(bean.getG0NDSYN());//剩余年限
+
+            DecimalFormat decimalFormat = new DecimalFormat(".00");
+            node.setExtend07(bean.getG0NCGZYZJE());//购置金额(万元)
+            if (bean.getG0NCGZYZJE() != null) {
+                node.setExtend07(decimalFormat.format(Double.valueOf(bean.getG0NCGZYZJE()) / 10000l));
+            }
+            node.setExtend08(bean.getG0LJZJJE());//折旧金额（万元）
+            if (bean.getG0LJZJJE() != null) {
+                node.setExtend08(decimalFormat.format(Double.valueOf(bean.getG0LJZJJE()) / 10000l));
+            }
+            node.setExtend09("0");
+            if (bean.getG0NCGZYZJE() != null && bean.getG0LJZJJE() != null) {
+                Double rs = Double.valueOf(node.getExtend07()) - Double.valueOf(node.getExtend08());
+                node.setExtend09(decimalFormat.format(rs));
+            }
+            node.setExtend10(bean.getBl() + "%");//折旧率
+            strKeyword = bean.getG0TXT50();
+            if (keyword != null && !"".equals(keyword) && strKeyword.contains(keyword.toString())) {
+                strKeyword = bean.getG0TXT50().replace(keyword.toString(), "<span style=\"color:red\">" + keyword + "</span>");
+                node.setExtend03(strKeyword);//设备名称
+                chartCircleListRed.add(node);
+            }else {
+                node.setExtend03(strKeyword);//设备名称
+                chartCircleList.add(node);
+            }
+        }
+        List<TreeNode2> resultList = new ArrayList<TreeNode2>();
+        if (keyword != null && !"".equals(keyword)){
+            if (chartCircleListRed.size()>0){
+                resultList.add(chartCircleListRed.get(0));
+            }
+            layuiTableData.setData(resultList);
+        }else {
+            if (chartCircleList.size()>0){
+                resultList.add(chartCircleList.get(0));
+            }
+            layuiTableData.setData(resultList);
+        }
+        return layuiTableData;
     }
 
     public JSONObject setFileFlag(SysFileVo vo) {
@@ -217,9 +360,9 @@ public class FullSearchServiceImpl implements FullSearchService {
 //            String[] strings = {"report_name","report_desc","report_module"};
 //            c.andOrColumn(keywords.toString(),strings,"like");
 //            c.andReportNameLike("%"+keywords.toString()+"%");
-            example.or().andReportNameLike("%"+keywords.toString()+"%");
-            example.or().andReportModuleLike("%"+keywords.toString()+"%");
-            example.or().andReportDescLike("%"+keywords.toString()+"%");
+            example.or().andReportNameLike("%" + keywords.toString() + "%");
+            example.or().andReportModuleLike("%" + keywords.toString() + "%");
+            example.or().andReportDescLike("%" + keywords.toString() + "%");
         }
 
         int pageSize = param.getLimit();
@@ -291,7 +434,6 @@ public class FullSearchServiceImpl implements FullSearchService {
         Map<String, Object> paraMap = param.getParam();
         PageHelper.startPage(param.getPage(), param.getLimit());
 
-
         OutRewardExample example = new OutRewardExample();
         OutRewardExample.Criteria criteria = example.createCriteria();
 
@@ -314,7 +456,6 @@ public class FullSearchServiceImpl implements FullSearchService {
 
         List<OutReward> list = outRewardMapper.selectByExample(example);
         PageInfo<OutReward> pageInfo = new PageInfo<OutReward>(list);
-        System.out.println(">>>>>>>>>查询分页结果" + pageInfo.getList().size());
 
         LayuiTableData data = new LayuiTableData();
 
@@ -502,7 +643,7 @@ public class FullSearchServiceImpl implements FullSearchService {
         return data;
     }
 
-    private List<Map<String, Object>> setKeyWordCss(PageInfo<?> pageInfo, String keywords) {
+    public List<Map<String, Object>> setKeyWordCss(PageInfo<?> pageInfo, String keywords) {
         List<Map<String, Object>> maps = new ArrayList<>();
         for (int i = 0; i < pageInfo.getSize(); i++) {
             Object obj = pageInfo.getList().get(i);
@@ -555,7 +696,6 @@ public class FullSearchServiceImpl implements FullSearchService {
             strings.removeIf(value -> value.equals("nd"));
             criteria.andNdEqualTo(paraMap.get("nd").toString());
         }
-        System.out.println("strings = " + strings);
         Object keywords = param.getParam().get("keyword");
         if (keywords != null && !"".equals(keywords)) {
             criteria.andOrColumn(keywords.toString(), strings.toArray(new String[strings.size()]), "like");
@@ -583,7 +723,7 @@ public class FullSearchServiceImpl implements FullSearchService {
         return data;
     }
 
-    private static String[] outreward = {"xmmc", "sbdw", "sbjz","xkfl","sbdj","rwly","jddw","psdj"};
+    private static String[] outreward = {"xmmc", "sbdw", "sbjz", "xkfl", "sbdj", "rwly", "jddw", "psdj"};
     private static String[] achievement = {"hth", "xmmc", "cgmc", "zy"};
     private static String[] info = {"xmmc", "xmjb", "ysnd", "yshf", "ysxd", "ysje", "jf", "fwdxbm", "fwdx", "zylbbm", "zylb", "fzdwbm", "fzdw", "jtfzdwbm", "jtfzdw", "fzryx", "fzrdh", "fzrxm", "lxrdh", "lxryx", "lxrxm", "jssxxm", "jssj", "kssj", "yjsj", "zyly", "zysx", "sjid", "status", "yjsjks", "yjsjjs", "xmlbbm", "xmlbmc", "gsbmmc", "gsbmbm", "zycmc", "zycbm", "type_flag", "define3", "define4", "define5", "define6", "define7", "define8", "define9"};
     private List<String> listInfo;

@@ -59,36 +59,36 @@ public class ZjkBaseInfoController extends BaseController {
     /**
      * 根据ID获取对象信息
      */
-    private static final String GET_INFO = "http://pplus-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/get-zjkbaseinfo/";
+    private static final String GET_INFO = "http://pcitc-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/get-zjkbaseinfo/";
     /**
      * 树形
      */
-    private static final String TREE_DATA = "http://pplus-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/tree-data";
+    private static final String TREE_DATA = "http://pcitc-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/tree-data";
     /**
      * 逻辑删除
      */
-    private static final String DEL = "http://pplus-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/del-zjkbaseinfo/";
+    private static final String DEL = "http://pcitc-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/del-zjkbaseinfo/";
     /**
      * 物理删除
      */
-    private static final String DEL_REAL = "http://pplus-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/del-zjkbaseinfo-real/";
+    private static final String DEL_REAL = "http://pcitc-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/del-zjkbaseinfo-real/";
 
     /**
      * 查询列表
      */
-    private static final String LIST = "http://pplus-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/zjkbaseinfo_list";
+    private static final String LIST = "http://pcitc-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/zjkbaseinfo_list";
     /**
      * 参数查询
      */
-    private static final String LISTPARAM = "http://pplus-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/zjkbaseinfo_list_param";
+    private static final String LISTPARAM = "http://pcitc-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/zjkbaseinfo_list_param";
     /**
      * 分页查询
      */
-    private static final String LISTPAGE = "http://pplus-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/zjkbaseinfo-page";
+    private static final String LISTPAGE = "http://pcitc-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/zjkbaseinfo-page";
     /**
      * 保存
      */
-    private static final String SAVE = "http://pplus-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/save_zjkbaseinfo";
+    private static final String SAVE = "http://pcitc-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/save_zjkbaseinfo";
 
 
     /**
@@ -189,7 +189,7 @@ public class ZjkBaseInfoController extends BaseController {
     @RequestMapping(value = "/toListPage", method = {RequestMethod.GET})
     @OperationFilter(modelName = "专家-基本信息", actionName = "跳转列表页toListPage")
     public String toListPage() {
-        return "pplus/expert/zjkBaseInfo_list";
+        return "stp/expert/zjkBaseInfo_list";
     }
 
     /**
