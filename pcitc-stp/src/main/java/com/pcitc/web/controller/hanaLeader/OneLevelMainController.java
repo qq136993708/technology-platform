@@ -2146,10 +2146,27 @@ public class OneLevelMainController {
 		}
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
 		System.out.println(">>>>>>>>>>>>>>dragon_03 " + resultObj.toString());
+		
 		return resultObj.toString();
 	}
-
-	// 重在集团
+	//按研究院查询十条龙项目总数
+	@RequestMapping(method = RequestMethod.POST, value = "/dragon_03_total")
+	@ResponseBody
+	public String getProjectByCountBarTotal(HttpServletRequest request, HttpServletResponse response) throws Exception
+	{
+		String nd = CommonUtil.getParameter(request, "nd", DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+		Map<String, Object> paramsMap = new HashMap<String, Object>();
+		//获取总数
+		paramsMap = new HashMap<String, Object>();
+		paramsMap.put("nd", nd);
+		paramsMap.put("type_flag", "研究院");
+		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(dragon_01, HttpMethod.POST, new HttpEntity<Map<String, Object>>(paramsMap, httpHeaders), JSONArray.class);
+		System.out.println(">>>>>>>>>>>>>>dragon_03-01 " + responseEntity.getBody().toString());
+		
+		
+		return  responseEntity.getBody().toString();
+	}
+	// 集团重大项目
 	@RequestMapping(method = RequestMethod.GET, value = "/getZdstlTable")
 	@ResponseBody
 	public String getZdstlTable(HttpServletRequest request, HttpServletResponse response) throws Exception

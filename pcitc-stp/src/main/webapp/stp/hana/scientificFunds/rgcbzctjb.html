@@ -30,9 +30,10 @@
     <!--按钮组-->
     <div class="btnGroup">
      <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()" data-type="searchEvent">查询</button>
-    </div>
+    </div><span style="float:right;margin-right:20px">(单位：万元)</<span>
 </div>
 <div class="tableBox">
+<h3 style="font-weight: bold;text-align: center;margin: 10px 0;" id="stp_table_title"><label id="ttt"></label>人工成本支出统计</h3>
     <table id="myTable" class="layui-table" lay-filter="myTable" >
                  <thead>
                   <tr>
@@ -84,10 +85,28 @@
                   </tr>
                  </thead>
              </table>
+             
+             
+             
+             
+             
+    
+             
 </div>
+<div class="tableBox">
+<table id="myTable2" class="layui-table" lay-filter="myTable2" >
+                 <thead>
+                  <tr>
+                      <th lay-data="{field:'g0FYXLMS', width:'20%',align:'left'}">项目</th>
+                      <th lay-data="{field:'k0BNCB', width:'10%',align:'right'}">本年累计分配</th>
+                      <th lay-data="{field:'k0SNCB', width:'10%',align:'right'}">本年累计分配</th>
+                      <th lay-data="{field:'k0TBCB', width:'10%',align:'right'}">同比成本</th> 
+                      <th lay-data="{field:'k0TBBL', width:'10%',align:'right'}">同比成本 比例</th> 
+                  </tr>
+                 </thead>
+             </table>
 
-
-
+</div>
 
 
 
@@ -119,13 +138,13 @@
 <script src="/common/js/jquery-1.11.3.min.js"></script>
 <script>
 var table,selectRowData;
-var zlbm=$('#zlbm').val();
-
+var table2,selectRowData2;
 layui.config({
     base: '/layuiadmin/module/modules/' //静态资源所在路径
 }).use(['jquery','form', 'laydate','table','laypage'], function(){
 	  $ = layui.jquery
       ,table = layui.table
+      ,table2 = layui.table
       ,form = layui.form
       ,laydate = layui.laydate,
 	 form.render(null, 'component-form-group');
@@ -170,7 +189,7 @@ function search_Event()
 
 function myTable()
 {
-	
+	layer.load(2);
 	 var month=$("#month").val();
 	 var companyCode=$("#companyCode").val();
 	 var v_date=(new Date()).getTime();
@@ -178,10 +197,9 @@ function myTable()
 	    table.init('myTable', {
 			  url: url
 			  ,height:"405px"
-			  ,where: {} 
-			  
+			  ,where: {},
+			  done: function (res, curr, count) {layer.closeAll('loading');}
 			});
-	 
 }
 
 function myTable2(companyName)
@@ -190,9 +208,8 @@ function myTable2(companyName)
 	 var month=$("#month").val();
 	 var v_date=(new Date()).getTime();
 	 var url= '/rgcbzctjb_data_detail?month='+month+"&v_date="+v_date+"&companyName="+companyName;
-	    table.init('myTable', {
+	 table2.init('myTable2', {
 			  url: url
-			  ,height:"405px"
 			  ,where: {} 
 			  
 			});
