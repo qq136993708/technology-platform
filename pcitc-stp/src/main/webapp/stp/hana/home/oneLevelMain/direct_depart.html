@@ -592,11 +592,11 @@
             		
             		var url=　encodeURIComponent("/one_level_main/count_table?define2="+xName+"&nd="+year+"&ysnd="+year);
                     window.open("/instituteIndex?url="+url);
-                    
-                    
-                      
                 });
             	
+            	//统计
+            	var set_topic_equ_count_count_url="/direct/topic_equip_count?type_flag=研究院&nd="+year+"&v_date="+v_date+"&xmlbbm=fkyzb";
+            	set_topic_equ_count(set_topic_equ_count_count_url);
             	
             	
              //直属研究院合同签订分析
@@ -707,12 +707,45 @@
         		window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
             });
         	
-        	
-        	
             	
        		}
         }
+        
 
+        function set_topic_equ_count(url) 
+        {
+           $.ajax({
+        	     type:"GET",
+        	     url: url,
+        	     dataType:"json",
+        	     timeout : 11000,
+        	     cache: false,
+        	     contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                 success:function(data,status)
+                 {    
+        	          if(data.success==true ||data.success=='true')
+        	          {
+        	        	  
+							
+							 var zsl=data.data.zsl;
+							 var xkCount=data.data.xkCount;
+							 var jzCount=data.data.jzCount;
+							 alert(jzCount);
+							 $("#topic_chart1_01").html(zsl+"个");
+	               	         $("#topic_chart1_02").html(xkCount+"个");
+	               	         $("#topic_chart1_03").html(jzCount+"个"); 
+               	        
+        	          } 
+        		   },
+        		   error:function()
+        		   {
+        		   },
+        		   complete: function (XMLHttpRequest, status) 
+        		   {
+        	       }
+        		  
+          });
+        } 
    
 
         
