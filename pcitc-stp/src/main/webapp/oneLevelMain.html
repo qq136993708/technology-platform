@@ -225,6 +225,24 @@ var nd=$("#month").val().substring(4,0);
                 //删除模块
                 $(".dele").click(function () {
                     $(this).parents("li").remove();
+                    var classT=0;
+                    if($("#moduleConfig li").eq(0).attr("class")=="layui-col-md6" && $("#moduleConfig li").eq(1).attr("class")=="layui-col-md6"){
+                        $("#moduleConfig li").eq(1).css("margin-top","0px");
+                    }
+                    $("#moduleConfig li").each(function () {
+                        var str=$(this).attr("class");
+                        classT+=parseInt(str.charAt(str.length-1));
+                        //alert(classT)
+                        if(classT>12){
+                            $("#moduleConfig li").eq($(this).index()).prevAll().css("margin-top","0px");
+                            $("#moduleConfig li").eq($(this).index()).css("margin-top","20px");
+                            $("#moduleConfig li").eq($(this).index()).nextAll().css("margin-top","20px");
+                            return false;
+                        }
+                        //alert(classT);
+                        //alert($(this).index())
+                    });
+
                 });
                 //领导讲话
                 $("#layui_leader").on("click",function () {
