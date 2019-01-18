@@ -35,7 +35,7 @@ public interface FullSearchService {
      * @param param
      * @return
      */
-    public LayuiTableData getTableSearch(LayuiTableParam param);
+    public LayuiTableData getTableSearch(LayuiTableParam param) throws Exception;
 
     /**
      * 设置文件标志bak10,file

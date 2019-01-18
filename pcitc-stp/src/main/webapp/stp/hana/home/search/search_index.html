@@ -16,7 +16,9 @@
 </head>
 <body>
 <input type="hidden" name="keyword"  value="${keyword}"  id="keyword">
-<input type="hidden" name="fileCount"  value="3"  id="fileCount"><!--当前页面实际显示数量-文件数量-->
+<input type="hidden" name="companyCode"  value="${companyCode}"   id="companyCode">
+<input type="hidden" name="month" placeholder="请选择年月" title="年月" value="${month}"  autocomplete="off" class="form-control" id="month">
+<input type="hidden" name="fileCount"  value=""  id="fileCount"><!--当前页面实际显示数量-文件数量-->
 <div class="tableBox">
     <table id="processdef-table" class="layui-hide" lay-filter="tableEvent"></table>
 </div>
@@ -101,14 +103,18 @@
             shade: [0.1,'#fff']
         });
 
+        var monthParam = $("#month").val();
+        var companyCodeParam = $("#companyCode").val();
         //渲染
         table.render({
             elem: '#processdef-table',
-            url: '/fullSearch/getTableSearch',
+            url: '/fullSearch/getTableSearch?month='+monthParam+"&companyCode="+companyCodeParam,
             method:"POST",
             where: {param: {
                     "keyword":$("#keyword").val(),
                     "fileCount":$("#fileCount").val(),
+                    "month":monthParam,
+                    "companyCode":$("#companyCode").val()
                 }},
             limit: 15,
             id: 'processdef-table',
@@ -128,7 +134,7 @@
             done: function (res, curr, count) {
                 console.log("综合"+count);
                 console.log(res.data);
-                parent.$("#index").html(res.data.length);
+                parent.$("#index").html(count);
                 $("#fileCount").val(res.msg);
                 layer.close(index);
             }
