@@ -55,33 +55,14 @@ public class ScientificFundsServiceImpl implements IScientificFundsService {
   	}
 	 
 	 
+	//能耗支出统计表
+	 public List<ScientificFunds> getNhzctjbData(Map  map)throws Exception
+  	 {
+  		List<ScientificFunds> list = scientificFundsMapper.getNhzctjbData(map);
+  	    return list;
+  	}
 	 
-	    //能耗支出统计表
-		 public LayuiTableData getNhzctjbData(LayuiTableParam param)throws Exception
-	  	 {
-	  		//每页显示条数
-	  		int pageSize = param.getLimit();
-	  		//从第多少条开始
-	  		int pageNum = param.getPage();
-	  		Page p=new Page(pageNum,pageSize);
-			int start=(pageNum-1)*p.getPageSize();
-	  		String month=(String)param.getParam().get("month");
-	  		String companyCode=(String)param.getParam().get("companyCode");
-	  		logger.info("===明细查询参数 param: "+JSONObject.toJSONString(param));
-	  		Map map=new HashMap();
-	  		map.put("start", start);
-	  		map.put("pageSize", pageSize);
-	  		map.put("month", month);
-	  		map.put("companyCode", companyCode);
-	  		
-	  		List<ScientificFunds> list = scientificFundsMapper.getNhzctjbData(map);
-	  		LayuiTableData data = new LayuiTableData();
-	  		data.setData(list);
-	  		data.setCount(1000);
-	  	    return data;
-	  	}
-			
-		 
+	 
 		 
 		//项目资金流向分析
 		 public LayuiTableData getXmzjlxfxData(LayuiTableParam param)throws Exception

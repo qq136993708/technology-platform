@@ -29,6 +29,7 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.PageResult;
 import com.pcitc.base.common.Result;
+import com.pcitc.base.hana.report.CompanyCode;
 import com.pcitc.base.hana.report.ScientificFunds;
 import com.pcitc.base.hana.report.TotalCostProjectPay01;
 import com.pcitc.base.system.SysUser;
@@ -217,8 +218,15 @@ public class ScientificFundsContrller {
 	    {
 		    PageResult pageResult = new PageResult();
 			String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
-			String companyCode = CommonUtil.getParameter(request, "companyCode", HanaUtil.YJY_CODE_NOT_YINGKE);
-			// System.out.println(">>>>>>>>>>>>>>>>>>>>rgcbzctjb_data_detail>参数      month = "+month+" companyCode="+companyCode);
+			String companyName = CommonUtil.getParameter(request, "companyName", HanaUtil.YJY_CODE_NOT_YINGKE);
+			List<CompanyCode> companyCodeList = HanaUtil.getCompanyCode(restTemplate, httpHeaders);
+			String companyCode =	HanaUtil.getCompanyCodeByName( companyCodeList,companyName);
+			if(companyCode.equals(""))
+			{
+				companyCode=HanaUtil.YJY_CODE_NOT_YINGKE;
+			}
+			 System.out.println(">>>>>>>>>>>>>>>>>>>>rgcbzctjb_data_detail>参数      month = "+month+" companyCode="+companyCode+" companyName="+companyName);
+			
 			Map<String, Object> paramsMap = new HashMap<String, Object>();
 			paramsMap.put("month", month);
 			paramsMap.put("companyCode", companyCode);
@@ -258,39 +266,50 @@ public class ScientificFundsContrller {
 	  @RequestMapping(method = RequestMethod.GET, value = "/sf/yclzctjb")
 	  public String yclzctjb(HttpServletRequest request) throws Exception
 	  {
-		  SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
+		    SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
 			HanaUtil.setSearchParaForUser(userInfo,restTemplate,httpHeaders,request);
 			
 			String month = HanaUtil.getCurrrent_Year_Moth();
 			request.setAttribute("month", month);
 	        return "stp/hana/scientificFunds/yclzctjb";
 	  }
-	  @RequestMapping(method = RequestMethod.POST, value = "/yclzctjb_data")
-		@ResponseBody
-		public String yclzctjb_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response)
-		{
+	  
+	  
+	  
+	  @RequestMapping(method = RequestMethod.GET, value = "/yclzctjb_data")
+			@ResponseBody
+			public String yclzctjb_data(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		  
-		  String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
-			String companyCode = CommonUtil.getParameter(request, "companyCode", HanaUtil.YJY_CODE_NOT_YINGKE);
-			System.out.println(">>>>>>>>>>>>>>>>>>>>>参数      month = "+month+" companyCode="+companyCode);
-			Map<String, Object> paramsMap = new HashMap<String, Object>();
-			paramsMap.put("month", month);
-			paramsMap.put("companyCode", companyCode);
-			
-			
-			LayuiTableData layuiTableData = new LayuiTableData();
-			HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
-			ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(yclzctjb_data, HttpMethod.POST, entity, LayuiTableData.class);
-			int statusCode = responseEntity.getStatusCodeValue();
-			if (statusCode == 200)
-			{
-				layuiTableData = responseEntity.getBody();
+			  PageResult pageResult = new PageResult();
+				String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+				String companyCode = CommonUtil.getParameter(request, "companyCode", HanaUtil.YJY_CODE_NOT_YINGKE);
+				// System.out.println(">>>>>>>>>>>>>>>>>>yclzctjb_data>>参数      month = "+month+" companyCode="+companyCode);
+				Map<String, Object> paramsMap = new HashMap<String, Object>();
+				paramsMap.put("month", month);
+				paramsMap.put("companyCode", companyCode);
+				JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+				HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+				if (!companyCode.equals("")) {
+					// 科研经费预算投入年度趋势分析
+					ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(yclzctjb_data, HttpMethod.POST, entity, JSONArray.class);
+					int statusCode = responseEntity.getStatusCodeValue();
+					if (statusCode == 200) {
+						JSONArray jSONArray = responseEntity.getBody();
+						List<ScientificFunds> list = JSONObject.parseArray(jSONArray.toJSONString(), ScientificFunds.class);
+						pageResult.setData(list);
+						pageResult.setCode(0);
+						pageResult.setCount(Long.valueOf(list.size()));
+						pageResult.setLimit(1000);
+						pageResult.setPage(1l);
+					}
+				} 
+				JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
+				System.out.println(">>>>>>>>>>>>>>>>>yclzctjb_data " + resultObj.toString());
+				return resultObj.toString();
+
 			}
-			JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-			System.out.println(">>>>>>>>>>>>>yclzctjb_data:" + result.toString());
-			return result.toString();
-		}
+	  
+	  
 	  
 	  
 	  //能耗支出统计表
@@ -304,32 +323,48 @@ public class ScientificFundsContrller {
 			request.setAttribute("month", month);
 	        return "stp/hana/scientificFunds/nhzctjb";
 	  }
-	  @RequestMapping(method = RequestMethod.POST, value = "/nhzctjb_data")
+	  
+	  
+	  
+	  
+	  @RequestMapping(method = RequestMethod.GET, value = "/nhzctjb_data")
 		@ResponseBody
-		public String nhzctjb_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response)
-		{
+		public String nhzctjb_data(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-		  
-		    String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+		  PageResult pageResult = new PageResult();
+			String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
 			String companyCode = CommonUtil.getParameter(request, "companyCode", HanaUtil.YJY_CODE_NOT_YINGKE);
-			System.out.println(">>>>>>>>>>>>>>>>>>>>>参数      month = "+month+" companyCode="+companyCode);
+			// System.out.println(">>>>>>nhzctjb_data>>>>>>>>>>>>yclzctjb_data>>参数      month = "+month+" companyCode="+companyCode);
 			Map<String, Object> paramsMap = new HashMap<String, Object>();
 			paramsMap.put("month", month);
 			paramsMap.put("companyCode", companyCode);
-			
-			
-			LayuiTableData layuiTableData = new LayuiTableData();
-			HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
-			ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(nhzctjb_data, HttpMethod.POST, entity, LayuiTableData.class);
-			int statusCode = responseEntity.getStatusCodeValue();
-			if (statusCode == 200)
-			{
-				layuiTableData = responseEntity.getBody();
-			}
-			JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-			System.out.println(">>>>>>>>>>>>>nhzctjb_data:" + result.toString());
-			return result.toString();
+			JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+			HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+			if (!companyCode.equals("")) {
+				// 科研经费预算投入年度趋势分析
+				ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(nhzctjb_data, HttpMethod.POST, entity, JSONArray.class);
+				int statusCode = responseEntity.getStatusCodeValue();
+				if (statusCode == 200) {
+					JSONArray jSONArray = responseEntity.getBody();
+					List<ScientificFunds> list = JSONObject.parseArray(jSONArray.toJSONString(), ScientificFunds.class);
+					pageResult.setData(list);
+					pageResult.setCode(0);
+					pageResult.setCount(Long.valueOf(list.size()));
+					pageResult.setLimit(1000);
+					pageResult.setPage(1l);
+				}
+			} 
+			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
+			System.out.println(">>>>>>>>>>>>>>>>>nhzctjb_data " + resultObj.toString());
+			return resultObj.toString();
+
 		}
+
+	  
+	  
+	  
+	  
+	  
 	  
 	  
 	  
