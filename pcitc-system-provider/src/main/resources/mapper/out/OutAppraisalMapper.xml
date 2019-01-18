@@ -637,7 +637,7 @@
 	</insert>
 
 	<select id="getOutAppraisalCount" resultType="java.lang.Integer" parameterType="java.util.HashMap">
-		select count(cgid) as cgid from out_appraisal
+		select count(distinct jdh) as cgid from out_appraisal
 		where 
 			define3 not like '%外部单位%'
 			<if test="nd != null and nd != ''">
