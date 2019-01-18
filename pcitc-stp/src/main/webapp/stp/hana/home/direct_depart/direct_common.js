@@ -207,7 +207,7 @@ var mutl_bar_down = {
 
 
 //barLineAjax返回DATA,指标在下方
-function load_mutl_bar_down(url,id,title,subtext,yAxis,width,color)
+function load_mutl_bar_down(url,id,title,subtext,yAxis,width,color,callback)
 {
 	var echartsobj = echarts.init(document.getElementById(id));
 	if(title!=null && title!='')
@@ -243,7 +243,7 @@ function load_mutl_bar_down(url,id,title,subtext,yAxis,width,color)
 	echartsobj.setOption(mutl_bar_down);
 	echartsobj.showLoading();
 	
-	echartsobj=barLineAjax_down(url,echartsobj, mutl_bar_down,id,width);
+	echartsobj=barLineAjax_down(url,echartsobj, mutl_bar_down,id,width,callback);
 	return echartsobj;
 }
 function load_mutl_bar_down_r(url,id,title,subtext,yAxis,rotate,width,color)
@@ -330,7 +330,7 @@ function load_mutl_bar_down_color(url,id,title,subtext,yAxis,color)
  return echartsobj;
 }
 
-function barLineAjax_down(url,  echartsobj, options,id,width) 
+function barLineAjax_down(url,  echartsobj, options,id,width,callback) 
 {
 	
    var legends=[];     
@@ -405,6 +405,10 @@ function barLineAjax_down(url,  echartsobj, options,id,width)
 	          } else
 	          {
 	        	 
+	          }
+	          if(callback)
+	          {
+	        	  callback(data);
 	          }
 		   },
 		   error:function()
