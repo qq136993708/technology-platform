@@ -252,7 +252,7 @@ function initEchart()
 
 
 
-	var chart1_url="/direct/equipment_01?type=1&nd="+nd+"&v_date="+v_date;
+	var chart1_url="/direct/equipment_01?type=1&nd="+nd+"&v_date="+v_date+"&xmlbbm=kyzb";
 	var echart1=load_mutl_bar_down_color(chart1_url,"equipment_chart1","","",yAxis);
 	echart1.on('click', function (params) {
 		var xName=params.name;
@@ -374,7 +374,7 @@ function renderTable2()
 	  var v_date=(new Date()).getTime();
 	  var tableOne=table.render({
 	  elem: '#processdef_table_02',
-	  url:'/direct/equipment_02?type=2&companyCode='+companyCode+'&v_date='+v_date+'&month='+month,
+	  url:'/direct/equipment_02?type=2&companyCode='+companyCode+'&v_date='+v_date+'&month='+month+"&xmlbbm=kyzb",
 	  method:"GET",
       height:295,
 	  where: {param: {"month":$("#month").val()}},
@@ -414,7 +414,7 @@ function myTable()
 	var month=$('#month').val();
 	var nd=month.substr(0,4);
 	var v_date=(new Date()).getTime();
-	var url= '/direct/equipment_01?type=2&v_date='+v_date+"&nd="+nd;
+	var url= '/direct/equipment_01?type=2&v_date='+v_date+"&nd="+nd+"&xmlbbm=kyzb";
     table.init('myTable', {
 		  url: url
 		  ,height:"298px"
