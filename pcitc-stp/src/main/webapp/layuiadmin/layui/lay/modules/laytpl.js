@@ -204,7 +204,7 @@ layui.define(['jquery'],function (e) {
             "            </div>" +
             "        </div>" +
             "    </div>";*/
-        var title='',abstract='',details='';
+        var title='',abstract='',details='',extend03="";
         console.log(d)
         if(d.cgmc!=undefined){
             title=d.cgmc;
@@ -212,6 +212,8 @@ layui.define(['jquery'],function (e) {
             title=d.xmmc;
         }else if(d.reportDesc!=undefined){
             title=d.reportDesc;
+        }else if(d.extend03!=undefined){
+            title=d.extend03;
         }
         html='<div class="layui-div layui-div-n">' +
             '        <a href="#">'+title+'</a>' +

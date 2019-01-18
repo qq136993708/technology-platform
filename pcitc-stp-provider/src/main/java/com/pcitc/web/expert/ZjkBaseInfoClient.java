@@ -141,7 +141,7 @@ public class ZjkBaseInfoClient {
      */
     @ApiOperation(value = "查询专家-基本信息信息-分页查询", notes = "查询专家-基本信息信息-分页查询,Object")
     @RequestMapping(value = "/zjkbaseinfo-provider/zjkbaseinfo/zjkbaseinfo-page")
-    public Object selectZjkBaseInfoByPage(@RequestBody LayuiTableParam param) {
+    public LayuiTableData selectZjkBaseInfoByPage(@RequestBody LayuiTableParam param) {
         return zjkBaseInfoService.findZjkBaseInfoByPage(param);
     }
 

@@ -63,7 +63,9 @@ public class StpProjectItemJob implements Job, Serializable {
 					String ktid = object.getString("XMID");
 					String ysnd = object.getString("ND");
 					String nd = object.getString("LXND"); //立项年度
-					String jfhj = object.getString("HJ_RMB");
+					String ysje = object.getString("HJ_RMB");
+					String zbje = object.getString("ZBBK_RMB");
+					String fyje = object.getString("FYBK_RMB");
 					String cddw = object.getString("DWMC");
 					String dwbm = object.getString("DWBM");
 					
@@ -71,7 +73,9 @@ public class StpProjectItemJob implements Job, Serializable {
 					OutProjectInfo opi = new OutProjectInfo();
 					opi.setYsnd(ysnd);
 					opi.setNd(nd);
-					opi.setYsje(jfhj);
+					opi.setYsje(ysje);
+					opi.setYszbxje(zbje);
+					opi.setYsfyxje(fyje);
 					opi.setXmid(ktid);
 					opi.setDataId(UUID.randomUUID().toString().replaceAll("-", ""));
 					opi.setDefine8(cddw); //承担单位
@@ -79,12 +83,15 @@ public class StpProjectItemJob implements Job, Serializable {
 					opi.setCreateDate(new Date());
 					opi.setCreatePerson("newItem");
 					opi.setDefine3("项目管理系统");
+					
 					insertData.add(opi);
 					
 					OutProjectPlan opp = new OutProjectPlan();
 					opp.setYsnd(ysnd);
 					opp.setNd(nd);
-					opp.setYsje(jfhj);
+					opp.setYsje(ysje);
+					opp.setYszbxje(zbje);
+					opp.setYsfyxje(fyje);
 					opp.setXmid(ktid);
 					opp.setDefine8(cddw); //承担单位
 					opp.setDefine9(dwbm);
