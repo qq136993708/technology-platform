@@ -2585,7 +2585,7 @@ public class OneLevelMainController {
 													legendDataList.add("实际投入金额");
 													legendDataList.add("新开投入金额");
 													legendDataList.add("结转投入金额");
-													barLine.setxAxisDataList(xAxisDataList);
+													
 													barLine.setLegendDataList(legendDataList);
 													// X轴数据
 													List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
@@ -2618,7 +2618,7 @@ public class OneLevelMainController {
 											result.setSuccess(false);
 											result.setMessage("参数为空");
 										}
-										System.out.println(">>>>>>>type="+type+">>>>>>>investment_02 " + resultObj.toString());
+										System.out.println(">>>>>>>type="+type+">>>>>>>investment_03 " + resultObj.toString());
 										return resultObj.toString();
 									}
 									
