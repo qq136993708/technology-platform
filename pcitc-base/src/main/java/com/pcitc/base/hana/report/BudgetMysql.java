@@ -67,12 +67,38 @@ public class BudgetMysql {
 	 
 	 private Object totalMoney;
 	 
+	 private Object ysje;
+	 private Object sjzje;
+	 private Object xkMoney;
+	 private Object jzMoney;
 	 
 	 
 	 
 	 
-	 
-	 
+	public Object getYsje() {
+		return ysje;
+	}
+	public void setYsje(Object ysje) {
+		this.ysje = ysje;
+	}
+	public Object getSjzje() {
+		return sjzje;
+	}
+	public void setSjzje(Object sjzje) {
+		this.sjzje = sjzje;
+	}
+	public Object getXkMoney() {
+		return xkMoney;
+	}
+	public void setXkMoney(Object xkMoney) {
+		this.xkMoney = xkMoney;
+	}
+	public Object getJzMoney() {
+		return jzMoney;
+	}
+	public void setJzMoney(Object jzMoney) {
+		this.jzMoney = jzMoney;
+	}
 	public Object getTotalMoney() {
 		return totalMoney;
 	}
