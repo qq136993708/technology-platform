@@ -491,8 +491,9 @@ textarea{ padding: 6px 10px; display: block;color: #555;background-color: #fff;b
 .layui-title-right{float: right;}
 /*选择器*/
 .selector{height: auto;overflow: hidden;margin: 10px 10px;}
+.selector a{font-size: 14px;color: #000;}
 .selector>div{line-height: 38px;border-bottom: 1px #e7e7e7 dashed;font-size: 14px;display: flex;}
-.selector>div .selector-left{color: #666;width: 110px;float: left;}
+.selector>div .selector-left{color: #666;width: 110px;float: left;font-size: 14px;}
 .selector>div .selector-right{float: left;width: 100%;}
 .selector>div ul li {float: left;height: 28px;line-height: 28px;margin: 5px 30px 5px 0;padding: 0 10px;}
 .selector>div.conditionNew{height: auto;}
