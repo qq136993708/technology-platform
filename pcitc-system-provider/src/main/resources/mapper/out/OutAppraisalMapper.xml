@@ -910,7 +910,7 @@
 	<select id="getAppraisalInfoByCompanyType" resultType="java.util.Map" parameterType="java.util.HashMap">
 		select tableA.sl,SUBSTR(tableA.define3 FROM 2) as define3 from (
 			select count(cgid) as sl, 
-				IFNULL(define3,'J其他') as define3
+				IFNULL(DISTINCT define3,'J其他') as define3
 			from out_appraisal
 			where 
 				nd='${nd}' and define3 not like '%外部单位%'

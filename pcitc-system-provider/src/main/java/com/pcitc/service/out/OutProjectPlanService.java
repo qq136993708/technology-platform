@@ -75,5 +75,9 @@ public interface OutProjectPlanService {
      */
 	public LayuiTableData selectProjectPlanByCond(LayuiTableParam param);
 	
+	/**
+     * 领导首页--科研投入--各个处室的新开结转情况
+     */
+	public List getPlanMoneyByDepartment(HashMap<String, String> map);
 	
 }
