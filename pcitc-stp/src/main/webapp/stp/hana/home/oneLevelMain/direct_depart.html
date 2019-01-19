@@ -581,22 +581,18 @@
                 ];
             	 
             	
-            	
-            	 
-            	
             	var chart1_url="/direct/topic_01?type=1&nd="+year+"&v_date="+v_date+"&xmlbbm=fkyzb";
             	var echart1=load_mutl_bar_down(chart1_url,"topic_chart1","","",yAxis);
             	echart1.on('click', function (params) {
             		var xName=params.name;
             		var legentName=params.seriesName;
-            		
-            		var url=　encodeURIComponent("/one_level_main/count_table?define2="+xName+"&nd="+year+"&ysnd="+year);
+            		var url=　encodeURIComponent("/one_level_main/count_table?define2="+xName+"&nd="+year+"&ysnd="+year+"&ktlx="+legentName);
                     window.open("/instituteIndex?url="+url);
-                    
-                    
-                      
                 });
             	
+            	//统计
+            	var set_topic_equ_count_count_url="/direct/topic_equip_count?typeFlag=研究院&nd="+year+"&v_date="+v_date+"&xmlbbm=fkyzb";
+            	set_topic_equ_count(set_topic_equ_count_count_url,"topic_chart1");
             	
             	
              //直属研究院合同签订分析
@@ -624,9 +620,16 @@
         		 var legentName=params.seriesName;
         		
         		 var nd=$("#year").val();
-                 var url=　encodeURIComponent("/one_level_main/count_table?define2="+xName+"&nd="+nd+"&ysnd="+nd);
+                 var url=　encodeURIComponent("/one_level_main/count_table?define2="+xName+"&nd="+nd+"&ysnd="+nd+"&ktlx="+legentName);
         	     window.open("/instituteIndex?url="+url);
              });
+        	//统计
+         	var set_topic_equ_count_count_url_02="/direct/topic_equip_count?typeFlag=研究院&nd="+year+"&v_date="+v_date+"&xmlbbm=kyzb";
+         	set_topic_equ_count(set_topic_equ_count_count_url_02,"direct_topic_chart3");
+         	
+         	
+         	
+         	
         	
          	//直属研究院科研设备数量分析
            	var chart4_url="/home/GET_getDzzk_bar?month="+month+"&v_date="+v_date+"&companyCode="+companyCode;
@@ -707,12 +710,53 @@
         		window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
             });
         	
-        	
-        	
             	
        		}
         }
+        
 
+        function set_topic_equ_count(url,id) 
+        {
+           $.ajax({
+        	     type:"GET",
+        	     url: url,
+        	     dataType:"json",
+        	     timeout : 11000,
+        	     cache: false,
+        	     contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                 success:function(data,status)
+                 {    
+        	          if(data.success==true ||data.success=='true')
+        	          {
+        	        	  
+							
+							 var zsl=data.data.zsl;
+							 var xkCount=data.data.xkCount;
+							 var jzCount=data.data.jzCount;
+							 if(id=='direct_topic_chart3')
+							 {
+								    $("#direct_topic_chart3_01").html(zsl+"个");
+							        $("#direct_topic_chart3_02").html(xkCount+"个");
+							        $("#direct_topic_chart3_03").html(jzCount+"个");
+							 }else
+							 {
+								 $("#topic_chart1_01").html(zsl+"个");
+		               	         $("#topic_chart1_02").html(xkCount+"个");
+		               	         $("#topic_chart1_03").html(jzCount+"个"); 
+							 }
+							 
+               	        
+        	          } 
+        		   },
+        		   error:function()
+        		   {
+        		   },
+        		   complete: function (XMLHttpRequest, status) 
+        		   {
+        	       }
+        		  
+          });
+        } 
    
 
         

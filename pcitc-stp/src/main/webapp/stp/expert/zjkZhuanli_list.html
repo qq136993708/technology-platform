@@ -13,33 +13,33 @@
 </head>
 <body>
 
-<div class="searchBox">
-    <!--查询条件-->
-    <label class="dateInput">
-                        </label>
-    <!--按钮组-->
-    <div class="btnGroup">
-        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询
-        </button>
-        <button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg"
-                data-type="resetEvent">重置
-        </button>
-    </div>
-</div>
-<div class="tableToolBox">
-    <div class="whiteLine"></div>
-    <div class="tableBtns">
-        <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"
-                data-type="addEvent">新增
-        </button>
-        <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"
-                data-type="editEvent">编辑
-        </button>
-        <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"
-                data-type="deleteEvent">删除
-        </button>
-    </div>
-</div>
+<!--<div class="searchBox">-->
+    <!--&lt;!&ndash;查询条件&ndash;&gt;-->
+    <!--<label class="dateInput">-->
+                        <!--</label>-->
+    <!--&lt;!&ndash;按钮组&ndash;&gt;-->
+    <!--<div class="btnGroup">-->
+        <!--<button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询-->
+        <!--</button>-->
+        <!--<button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg"-->
+                <!--data-type="resetEvent">重置-->
+        <!--</button>-->
+    <!--</div>-->
+<!--</div>-->
+<!--<div class="tableToolBox">-->
+    <!--<div class="whiteLine"></div>-->
+    <!--<div class="tableBtns">-->
+        <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"-->
+                <!--data-type="addEvent">新增-->
+        <!--</button>-->
+        <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"-->
+                <!--data-type="editEvent">编辑-->
+        <!--</button>-->
+        <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"-->
+                <!--data-type="deleteEvent">删除-->
+        <!--</button>-->
+    <!--</div>-->
+<!--</div>-->
 <table id="zjkZhuanliTableId" class="layui-hide" lay-filter="tableEvent"></table>
 
 <script>
@@ -72,88 +72,20 @@
                     {type: 'checkbox', event: 'changeEvents'},
                     {title: '序号', type: 'numbers'},
                         {
-                            field: "name",
+                            field: "patentName",
                             title: "专利名称", event: 'setActive', style: 'cursor: pointer;'
                         },
                         {
-                            field: "code",
+                            field: "patentCode",
                             title: "专利号", event: 'setActive', style: 'cursor: pointer;'
                         },
                         {
-                            field: "zt",
-                            title: "状态", event: 'setActive', style: 'cursor: pointer;'
+                            field: "patentDesc",
+                            title: "专利描述", event: 'setActive', style: 'cursor: pointer;'
                         },
                         {
-                            field: "chanquan",
-                            title: "知识产权", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "dataCode",
-                            title: "数据编码", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "sysFlag",
-                            title: "系统标识", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "dataOrder",
-                            title: "数据排序", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "status",
-                            title: "数据状态", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "delFlag",
-                            title: "是否删除", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "createDate",
-                            title: "创建日期", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "createUser",
-                            title: "创建用户", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "createUserName",
-                            title: "创建用户名称", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "updateDate",
-                            title: "修改日期", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "updateUser",
-                            title: "修改用户", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "updateUserName",
-                            title: "修改用户名称", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "bak1",
-                            title: "是否指派", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "bak2",
-                            title: "", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "bak3",
-                            title: "", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "bak4",
-                            title: "", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "bak5",
-                            title: "", event: 'setActive', style: 'cursor: pointer;'
-                        },
-                        {
-                            field: "bak6",
-                            title: "", event: 'setActive', style: 'cursor: pointer;'
+                            field: "patentKeys",
+                            title: "关键字", event: 'setActive', style: 'cursor: pointer;'
                         },
                 ]],
                 done: function (res, curr, count) {

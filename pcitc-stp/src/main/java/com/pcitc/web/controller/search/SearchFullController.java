@@ -67,13 +67,42 @@ public class SearchFullController extends BaseController {
     @RequestMapping(method = RequestMethod.GET, value = "/searchIndex")
     public String searchIndex(HttpServletRequest request) throws Exception {
         request.setAttribute("keyword", request.getParameter("keyword"));
+        //添加装备start
+        SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
+        HanaUtil.setSearchParaForUser(userInfo,restTemplate,httpHeaders,request);
+        String unitCode=userInfo.getUnitCode();
+        request.setAttribute("unitCode", unitCode);
+
+        String year= HanaUtil.getCurrrentYear();
+        request.setAttribute("year", year);
+
+        request.setAttribute("YJY_CODE_NOT_YINGKE", HanaUtil.YJY_CODE_NOT_YINGKE);
+        //添加装备end
         return "stp/hana/home/search/search_index";
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/searchExpert")
+    public String searchExpert(HttpServletRequest request) throws Exception {
+        request.setAttribute("keyword", request.getParameter("keyword"));
+        return "stp/hana/home/search/query_expert";
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/searchPatent")
+    public String searchPatent(HttpServletRequest request) throws Exception {
+        request.setAttribute("keyword", request.getParameter("keyword"));
+        return "stp/hana/home/search/query_patent";
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/searchOutreward")
     public String searchOutreward(HttpServletRequest request) throws Exception {
         request.setAttribute("keyword", request.getParameter("keyword"));
         return "stp/hana/home/search/query_outreward";
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/searchTfmType")
+    public String searchTfmType(HttpServletRequest request) throws Exception {
+        request.setAttribute("keyword", request.getParameter("keyword"));
+        return "stp/hana/home/search/query_tfmType";
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/searchReport")
@@ -179,6 +208,14 @@ public class SearchFullController extends BaseController {
     @RequestMapping(method = RequestMethod.POST, value = "/getTableSearch")
     @ResponseBody
     public String getTableSearch(@ModelAttribute("param") LayuiTableParam param) {
+
+        PageResult pageResult = new PageResult();
+        String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+        String companyCode = CommonUtil.getParameter(request, "companyCode", "");
+        Map<String, Object> paramsMap = new HashMap<String, Object>();
+        param.getParam().put("month", month);
+        param.getParam().put("companyCode", companyCode);
+
         LayuiTableData layuiTableData = new LayuiTableData();
         HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
         ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(search, HttpMethod.POST, entity, LayuiTableData.class);

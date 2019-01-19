@@ -59,36 +59,36 @@ public class ZjkZhuanliController extends BaseController {
     /**
      * 根据ID获取对象信息
      */
-    private static final String GET_INFO = "http://pplus-zuul/stp-proxy/zjkzhuanli-provider/zjkzhuanli/get-zjkzhuanli/";
+    private static final String GET_INFO = "http://pcitc-zuul/stp-proxy/zjkzhuanli-provider/zjkzhuanli/get-zjkzhuanli/";
     /**
      * 树形
      */
-    private static final String TREE_DATA = "http://pplus-zuul/stp-proxy/zjkzhuanli-provider/zjkzhuanli/tree-data";
+    private static final String TREE_DATA = "http://pcitc-zuul/stp-proxy/zjkzhuanli-provider/zjkzhuanli/tree-data";
     /**
      * 逻辑删除
      */
-    private static final String DEL = "http://pplus-zuul/stp-proxy/zjkzhuanli-provider/zjkzhuanli/del-zjkzhuanli/";
+    private static final String DEL = "http://pcitc-zuul/stp-proxy/zjkzhuanli-provider/zjkzhuanli/del-zjkzhuanli/";
     /**
      * 物理删除
      */
-    private static final String DEL_REAL = "http://pplus-zuul/stp-proxy/zjkzhuanli-provider/zjkzhuanli/del-zjkzhuanli-real/";
+    private static final String DEL_REAL = "http://pcitc-zuul/stp-proxy/zjkzhuanli-provider/zjkzhuanli/del-zjkzhuanli-real/";
 
     /**
      * 查询列表
      */
-    private static final String LIST = "http://pplus-zuul/stp-proxy/zjkzhuanli-provider/zjkzhuanli/zjkzhuanli_list";
+    private static final String LIST = "http://pcitc-zuul/stp-proxy/zjkzhuanli-provider/zjkzhuanli/zjkzhuanli_list";
     /**
      * 参数查询
      */
-    private static final String LISTPARAM = "http://pplus-zuul/stp-proxy/zjkzhuanli-provider/zjkzhuanli/zjkzhuanli_list_param";
+    private static final String LISTPARAM = "http://pcitc-zuul/stp-proxy/zjkzhuanli-provider/zjkzhuanli/zjkzhuanli_list_param";
     /**
      * 分页查询
      */
-    private static final String LISTPAGE = "http://pplus-zuul/stp-proxy/zjkzhuanli-provider/zjkzhuanli/zjkzhuanli-page";
+    private static final String LISTPAGE = "http://pcitc-zuul/stp-proxy/zjkzhuanli-provider/zjkzhuanli/zjkzhuanli-page";
     /**
      * 保存
      */
-    private static final String SAVE = "http://pplus-zuul/stp-proxy/zjkzhuanli-provider/zjkzhuanli/save_zjkzhuanli";
+    private static final String SAVE = "http://pcitc-zuul/stp-proxy/zjkzhuanli-provider/zjkzhuanli/save_zjkzhuanli";
 
 
     /**
@@ -177,7 +177,7 @@ public class ZjkZhuanliController extends BaseController {
     public String pageEdit(String id, Model model, String opt) {
         model.addAttribute("id", id);
         model.addAttribute("opt", opt);
-        return "pplus/expert/zjkZhuanli_edit";
+        return "stp/expert/zjkZhuanli_edit";
     }
 
 
@@ -189,7 +189,7 @@ public class ZjkZhuanliController extends BaseController {
     @RequestMapping(value = "/toListPage", method = {RequestMethod.GET})
     @OperationFilter(modelName = "专家-专利信息", actionName = "跳转列表页toListPage")
     public String toListPage() {
-        return "pplus/expert/zjkZhuanli_list";
+        return "stp/expert/zjkZhuanli_list";
     }
 
     /**

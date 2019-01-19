@@ -145,6 +145,9 @@
                 <li>图表<span id="report"></span></li>
                 <li>科技奖励<span id="outreward"></span></li>
                 <li>科研装备<span id="equipment"></span></li>
+                <li>技术族<span id="tech"></span></li>
+                <li>专家信息<span id="expert"></span></li>
+                <li>知识产权<span id="patent"></span></li>
             </ul>
 
             <div class="layui-tab-content">
@@ -165,6 +168,15 @@
                 </div>
                 <div class="layui-tab-item layui-tab-i">
                     <iframe id="ifroutequipment" src="" class="layui-iframe"></iframe>
+                </div>
+                <div class="layui-tab-item layui-tab-i">
+                    <iframe id="ifrtech" src="" class="layui-iframe"></iframe>
+                </div>
+                <div class="layui-tab-item layui-tab-i">
+                    <iframe id="ifrexpert" src="" class="layui-iframe"></iframe>
+                </div>
+                <div class="layui-tab-item layui-tab-i">
+                    <iframe id="ifrpatent" src="" class="layui-iframe"></iframe>
                 </div>
             </div>
         </div>
@@ -296,6 +308,9 @@
         $("#ifrreport").attr("src","/fullSearch/searchReport?keyword="+keyword);
         $("#ifroutreward").attr("src","/fullSearch/searchOutreward?keyword="+keyword);
         $("#ifroutequipment").attr("src","/fullSearch/searchEquipment?keyword="+keyword);
+        $("#ifrtech").attr("src","/fullSearch/searchTfmType?keyword="+keyword);
+        $("#ifrexpert").attr("src","/fullSearch/searchExpert?keyword="+keyword);
+        $("#ifrpatent").attr("src","/fullSearch/searchPatent?keyword="+keyword);
     }
 </script>
 </body>

@@ -207,7 +207,7 @@ var mutl_bar_down = {
 
 
 //barLineAjax返回DATA,指标在下方
-function load_mutl_bar_down(url,id,title,subtext,yAxis,width,color)
+function load_mutl_bar_down(url,id,title,subtext,yAxis,width,color,callback)
 {
 	var echartsobj = echarts.init(document.getElementById(id));
 	if(title!=null && title!='')
@@ -243,7 +243,7 @@ function load_mutl_bar_down(url,id,title,subtext,yAxis,width,color)
 	echartsobj.setOption(mutl_bar_down);
 	echartsobj.showLoading();
 	
-	echartsobj=barLineAjax_down(url,echartsobj, mutl_bar_down,id,width);
+	echartsobj=barLineAjax_down(url,echartsobj, mutl_bar_down,id,width,callback);
 	return echartsobj;
 }
 function load_mutl_bar_down_r(url,id,title,subtext,yAxis,rotate,width,color)
@@ -330,7 +330,7 @@ function load_mutl_bar_down_color(url,id,title,subtext,yAxis,color)
  return echartsobj;
 }
 
-function barLineAjax_down(url,  echartsobj, options,id,width) 
+function barLineAjax_down(url,  echartsobj, options,id,width,callback) 
 {
 	
    var legends=[];     
@@ -405,6 +405,10 @@ function barLineAjax_down(url,  echartsobj, options,id,width)
 	          } else
 	          {
 	        	 
+	          }
+	          if(callback)
+	          {
+	        	  callback(data);
 	          }
 		   },
 		   error:function()
@@ -556,17 +560,7 @@ function set_multi_graph_statistics(data,id)
 	}
 	
 	
-	//课题
-	if(id=='topic_chart1')
-	{
-		var xkCount_1=getDataCountForName(data,'新开课题');
-    	var jzCount_2=getDataCountForName(data,'结转课题');
-        var allCount_3=xkCount_1+jzCount_2;
-        
-        $("#topic_chart1_01").html(allCount_3+"个");
-        $("#topic_chart1_02").html(xkCount_1+"个");
-        $("#topic_chart1_03").html(jzCount_2+"个");
-	}
+	
 	if(id=='topic_chart4')
 	{
 		
@@ -639,16 +633,7 @@ function set_multi_graph_statistics(data,id)
         $("#direct_knowledge_chart1_02").html(xkCount_1+"个");
         $("#direct_knowledge_chart1_03").html(jzCount_2+"个");
 	}
-	if(id=='direct_topic_chart3')
-	{
-		var xkCount_1=getDataCountForName(data,'新开课题');
-    	var jzCount_2=getDataCountForName(data,'结转课题');
-        var allCount_3=xkCount_1+jzCount_2;
-        
-        $("#direct_topic_chart3_01").html(allCount_3+"个");
-        $("#direct_topic_chart3_02").html(xkCount_1+"个");
-        $("#direct_topic_chart3_03").html(jzCount_2+"个");
-	}
+	
 	
 	
 	if(id=='direct_contract_chart')

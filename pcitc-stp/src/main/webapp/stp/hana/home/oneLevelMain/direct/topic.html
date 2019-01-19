@@ -250,7 +250,7 @@ function initEchart()
 	    $("#topic_chart7_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
  
     
-		var chart1_url="/direct/topic_01?type=1&nd="+nd+"&v_date="+v_date+"&typeFlag=研究院";
+		var chart1_url="/direct/topic_01?type=1&nd="+nd+"&v_date="+v_date+"&typeFlag=研究院&xmlbbm=fkyzb";
 		var colorOne=["#3ec0c2","#55b6e9"];
 		var echart1=load_mutl_bar_down(chart1_url,"topic_chart1","","",yAxis,20,colorOne);
 		echart1.on('click', function (params) {
@@ -261,12 +261,13 @@ function initEchart()
 	        window.open("/instituteIndex?url="+url);
 	          
 	    });
+		//统计
+    	var set_topic_equ_count_count_url="/direct/topic_equip_count?typeFlag=研究院&nd="+nd+"&v_date="+v_date+"&xmlbbm=fkyzb";
+    	set_topic_equ_count(set_topic_equ_count_count_url);
 	
 	
 	
-	
-	
-	var chart4_url="/direct/topic_02?type=1&nd="+nd+"&v_date="+v_date+"&typeFlag=研究院";
+	var chart4_url="/direct/topic_02?type=1&nd="+nd+"&v_date="+v_date+"&typeFlag=研究院&xmlbbm=fkyzb";
     var colorT=["#ff9f7f","#f3d156"];
 	var echart4=load_mutl_bar_down(chart4_url,"topic_chart4","","",yAxis,20,colorT);
 	echart4.on('click', function (params) {
@@ -281,7 +282,7 @@ function initEchart()
 	
 	
 	
-	var chart6_url="/direct/topic_03?type=4&nd="+nd+"&v_date="+v_date+"&typeFlag=研究院";
+	var chart6_url="/direct/topic_03?type=4&nd="+nd+"&v_date="+v_date+"&typeFlag=研究院&xmlbbm=fkyzb";
     var colorTr=["#71d398","#96bfff"];
 	var echart6=load_mutl_bar_down(chart6_url,"topic_chart7","","","",50,colorTr);
 	echart6.on('click', function (params) {
@@ -298,6 +299,43 @@ function initEchart()
 	
 	
 }
+
+
+function set_topic_equ_count(url) 
+{
+   $.ajax({
+	     type:"GET",
+	     url: url,
+	     dataType:"json",
+	     timeout : 11000,
+	     cache: false,
+	     contentType: "application/x-www-form-urlencoded; charset=utf-8",
+         success:function(data,status)
+         {    
+	          if(data.success==true ||data.success=='true')
+	          {
+	        	  
+					
+					 var zsl=data.data.zsl;
+					 var xkCount=data.data.xkCount;
+					 var jzCount=data.data.jzCount;
+					 
+					 $("#topic_chart1_01").html(zsl+"个");
+           	         $("#topic_chart1_02").html(xkCount+"个");
+           	         $("#topic_chart1_03").html(jzCount+"个"); 
+	          } 
+		   },
+		   error:function()
+		   {
+		   },
+		   complete: function (XMLHttpRequest, status) 
+		   {
+	       }
+		  
+  });
+} 
+
+
 
 function topic_chart1(qdbz)
 {
@@ -327,7 +365,7 @@ function myTable()
 {
 	var v_date=(new Date()).getTime();
 	var nd=$('#year').val();
-	var chart1_url="/direct/topic_01?type=2&nd="+nd+"&v_date="+v_date+"&typeFlag=研究院";
+	var chart1_url="/direct/topic_01?type=2&nd="+nd+"&v_date="+v_date+"&typeFlag=研究院&xmlbbm=fkyzb";
 	
 	 table.init('myTable', {
 		 url: chart1_url 
@@ -346,7 +384,7 @@ function myTable2()
 {
 	var v_date=(new Date()).getTime();
 	var nd=$('#year').val();
-	var chart1_url="/direct/topic_02?type=2&nd="+nd+"&v_date="+v_date+"&typeFlag=研究院";
+	var chart1_url="/direct/topic_02?type=2&nd="+nd+"&v_date="+v_date+"&typeFlag=研究院&xmlbbm=fkyzb";
 	table.init('myTable2', {
 		url: chart1_url
 		  ,height:"298px"
