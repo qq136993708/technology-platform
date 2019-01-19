@@ -98,7 +98,7 @@
      </div>
 </div>
 
-<div class="tableBox" style="clear:both">
+<div class="tableRowspan" style="clear:both">
     <table id="processdef-table" class="layui-hide" lay-filter="tableEvent">
 </div>
 
@@ -307,14 +307,15 @@ layui.config({
         id: 'processdef-table',
         height: commonDislodgeTable(),
         cols: [[
-        	 {field:'showIndex',      title:'序号',style:'cursor: pointer;',align: 'center', width: '5%'},
-             {field:'xmmc',           title:'项目名称',style:'cursor: pointer;',align: 'left', width: '20%'},
+        	 {type:'numbers',      title:'序号',style:'cursor: pointer;',align: 'center', width: '5%'},
+             {field:'xmmc',           title:'项目名称',style:'cursor: pointer;',align: 'left', width: '15%'},
              {field:'zzdw',           title:'组长单位',style:'cursor: pointer;',align: 'left', width: '15%'},
+             {field:'fzzdw',           title:'副组长单位',style:'cursor: pointer;',align: 'left', width: '15%'},
              {field:'zydw',  		 title:'组员单位',style:'cursor: pointer;',align: 'left', width: '15%'},
-             {field:'xzdw',           title:'协作单位',style:'cursor: pointer;',align: 'left'},
+             {field:'xzdw',           title:'协作单位',style:'cursor: pointer;',align: 'left', width: '15%'},
              {field:'status',         title:'项目状态',style:'cursor: pointer;',align: 'center'},
              {field:'jdap',          title:'原因',style:'cursor: pointer;',align: 'left'},
-             {field:'xmlbmc',         title:'文档查询',style:'cursor: pointer;',align: 'center', width: '15%',
+             {field:'xmlbmc',         title:'文档查询',style:'cursor: pointer;',align: 'center', width: '10%',
              	 templet: function(d){
                       return "<a href='#'><img alt='第一次小组会议' src='/common/images/meeting_1.png'></a>&nbsp;&nbsp;&nbsp;&nbsp;"+
                       "<a href='#'><img alt='第二次小组会议' src='/common/images/meeting_2.png'></a>&nbsp;&nbsp;&nbsp;&nbsp;"+
@@ -350,7 +351,7 @@ layui.config({
                 $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
                 selectRowData=res.data[index-1];
             }); */
-            merge(res);
+            //merge(res);
             layer.close(index);
         }
       });
