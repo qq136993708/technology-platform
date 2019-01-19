@@ -282,14 +282,18 @@ function initEchart()
 
 		
 		var chart6_url="/one_level_main/investment_03?nd="+nd+"&v_date="+v_date+"&companyCode="+companyCode+"&type=1";
-        var colorNew=["#f4974a","#f3cc41","#95c740"];
-        var echart6=load_mutl_bar_down(chart6_url,"investment_chart6","","",yAxis3,30,colorNew);
+        var colorNew2=["#f4974a","#f3cc41","#95c740"];
+        var echart6=load_mutl_bar_down(chart6_url,"investment_chart6","","",yAxis3,8,colorNew2);
         echart6.on('click', function (params) {
             var xName=params.name;
             var legentName=params.seriesName;
-
-        });
+        }); 
         
+        
+        
+		
+		
+		
 		
 		
 		

@@ -72,9 +72,15 @@ public class BudgetMysql {
 	 private Object xkMoney;
 	 private Object jzMoney;
 	 
+	 private String zycmc;
 	 
 	 
-	 
+	public String getZycmc() {
+		return zycmc;
+	}
+	public void setZycmc(String zycmc) {
+		this.zycmc = zycmc;
+	}
 	public Object getYsje() {
 		return ysje;
 	}
