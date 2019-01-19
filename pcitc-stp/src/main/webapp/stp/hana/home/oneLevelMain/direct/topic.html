@@ -279,25 +279,16 @@ function initEchart()
     });
 	
 	
-	
-	
-	
 	var chart6_url="/direct/topic_03?type=4&nd="+nd+"&v_date="+v_date+"&typeFlag=研究院&xmlbbm=fkyzb";
     var colorTr=["#71d398","#96bfff"];
 	var echart6=load_mutl_bar_down(chart6_url,"topic_chart7","","","",50,colorTr);
 	echart6.on('click', function (params) {
-		var xName=params.name;
-		var legentName=params.seriesName;
-		
+		 var xName=params.name;
+		 var legentName=params.seriesName;
 		 var nd=$("#year").val();
          var url=　encodeURIComponent("/one_level_main/count_table?define5="+xName+"&nd="+nd+"&ysnd="+nd);
-	        window.open("/instituteIndex?url="+url);
-	        
-          
+	     window.open("/instituteIndex?url="+url);
     });
-	
-	
-	
 }
 
 
