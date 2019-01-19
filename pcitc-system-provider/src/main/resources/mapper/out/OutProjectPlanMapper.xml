@@ -1069,6 +1069,23 @@
 		group by tableB.DEFINE1,tableB.PROJECT_PROPERTY
 	</select>
 	
+	<!-- 领导首页--科研投入--各个处室的新开结转情况 -->
+	<select id="getPlanMoneyByDepartment" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select 
+			 zycmc,zycbm,
+				'1' as ysje,sum(ysje) as sjzje,
+				sum(case when ysnd = '${nd}' and nd = '${nd}' then ysje else 0 end) as xkMoney,
+				sum(case when ysnd = '${nd}' and nd &lt; '${nd}' then ysje else 0 end) as jzMoney
+		from out_project_info 
+		WHERE
+			out_project_info.ysnd= '${nd}' 
+			and out_project_info.PROJECT_TYPE != '1'
+			and define3='项目管理系统' 
+			group by out_project_info.zycmc
+			ORDER BY zycbm
+	</select>
+	
+	
 	<!-- 直属研究院二级页面（领导），总的签订率-->
 	<select id="getPlanTotalCompleteRate" resultType="java.util.Map" parameterType="java.util.HashMap">
 		select count(xmid) as zsl,

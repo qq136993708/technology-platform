@@ -80,4 +80,9 @@ public interface OutProjectPlanMapper {
      * 项目计划数据，涉及项目预算、项目计划详情等相关的查询时调用
      */
 	public List<OutProjectPlan> selectProjectPlanByCond(HashMap<String, Object> map);
+	
+	/**
+     * 领导首页--科研投入--各个处室的新开结转情况
+     */
+	public List getPlanMoneyByDepartment(HashMap<String, String> map);
 }

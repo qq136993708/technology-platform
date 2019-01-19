@@ -31,6 +31,14 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 	private OutProjectPlanMapper	outProjectPlanMapper;
 
 	private final static Logger		logger	= LoggerFactory.getLogger(OutProjectPlanServiceImpl.class);
+	
+	
+	/**
+     * 领导首页--科研投入--各个处室的新开结转情况
+     */
+	public List getPlanMoneyByDepartment(HashMap<String, String> map) {
+		return outProjectPlanMapper.getPlanMoneyByDepartment(map);
+	}
 
 	/**
 	 * 批量插入项目计划数据
