@@ -246,6 +246,62 @@ function load_mutl_bar_down(url,id,title,subtext,yAxis,width,color,callback)
 	echartsobj=barLineAjax_down(url,echartsobj, mutl_bar_down,id,width,callback);
 	return echartsobj;
 }
+function load_mutl_bar_down_rotate(url,id,title,subtext,yAxis,width,color,rotate,callback)
+{
+    var echartsobj = echarts.init(document.getElementById(id));
+    if(title!=null && title!='')
+    {
+        mutl_bar_down.title.text=title;
+    }
+    if(subtext!=null && subtext!='')
+    {
+        mutl_bar_down.title.subtext=subtext;
+    }
+    mutl_bar_down.grid={
+        top:"10.5%",
+        left: '0.5%',
+        right: '3%',
+        bottom: '10%',
+        containLabel: true
+    }
+    if(yAxis!=null && yAxis!='')
+    {
+        mutl_bar_down.yAxis=yAxis;
+    }
+    if(color!=undefined && color!=""){
+        mutl_bar_down.color=color;
+    }
+    mutl_bar_down.xAxis=[{
+        type: 'category',
+        axisLabel:{
+            interval:0,//0：全部显示，1：间隔为1显示对应类目，2：依次类推，（简单试一下就明白了，这样说是不是有点抽象）
+            rotate:0,//倾斜显示，-：顺时针旋转，+或不写：逆时针旋转
+        }
+    }];
+    if(rotate==undefined && rotate!=''){
+        mutl_bar_down.xAxis=[{
+            type: 'category',
+            axisLabel:{
+                interval:0,//0：全部显示，1：间隔为1显示对应类目，2：依次类推，（简单试一下就明白了，这样说是不是有点抽象）
+                rotate:0,//倾斜显示，-：顺时针旋转，+或不写：逆时针旋转
+            }
+        }]
+    }else {
+        mutl_bar_down.xAxis=[{
+            type: 'category',
+            axisLabel:{
+                interval:0,//0：全部显示，1：间隔为1显示对应类目，2：依次类推，（简单试一下就明白了，这样说是不是有点抽象）
+                rotate:30,//倾斜显示，-：顺时针旋转，+或不写：逆时针旋转
+            }
+        }]
+    }
+    echartsobj.clear();
+    echartsobj.setOption(mutl_bar_down);
+    echartsobj.showLoading();
+
+    echartsobj=barLineAjax_down_itemStyle(url,echartsobj, mutl_bar_down,id,width,callback);
+    return echartsobj;
+}
 function load_mutl_bar_down_r(url,id,title,subtext,yAxis,rotate,width,color)
 {
  var echartsobj = echarts.init(document.getElementById(id));
@@ -330,9 +386,9 @@ function load_mutl_bar_down_color(url,id,title,subtext,yAxis,color)
  return echartsobj;
 }
 
-function barLineAjax_down(url,  echartsobj, options,id,width,callback) 
+function barLineAjax_down(url,  echartsobj, options,id,width,callback)
 {
-	
+
    var legends=[];     
    var xAxisData=[];  
    var seriesData=[]; 
@@ -422,8 +478,98 @@ function barLineAjax_down(url,  echartsobj, options,id,width,callback)
   });
    return echartsobj;
    
-} 
+}
+function barLineAjax_down_itemStyle(url,  echartsobj, options,id,width,callback)
+{
 
+    var legends=[];
+    var xAxisData=[];
+    var seriesData=[];
+    var dataresutl;
+    $.ajax({
+        type:"GET",
+        url: url,
+        dataType:"json",
+        timeout : 11000,
+        cache: false,
+        contentType: "application/x-www-form-urlencoded; charset=utf-8",
+        success:function(data,status)
+        {
+            if(data.success==true ||data.success=='true')
+            {
+                echartsobj.hideLoading();
+                dataresutl=data.data;
+                set_multi_graph_statistics(dataresutl,id);
+                var legendDataList=data.data.legendDataList;
+                //挨个取出类别并填入类别数组
+                for(var i=0;i<legendDataList.length;i++)
+                {
+                    legends.push(legendDataList[i]);
+                }
+                var xAxisDataList=data.data.xAxisDataList;
+                for(var i=0;i<xAxisDataList.length;i++)
+                {
+
+                    xAxisData.push(xAxisDataList[i]);
+                }
+                var seriesList=data.data.seriesList;
+
+
+                var barWidth=20;
+                if(width!=undefined && width!="")
+                {
+                    barWidth=width
+                }
+
+                for(var i=0;i<seriesList.length;i++)
+                {
+
+                    seriesData.push({
+                        type: seriesList[i].type,
+                        name: seriesList[i].name,
+                        data: seriesList[i].data,
+                        stack: seriesList[i].stack,
+                        barWidth:barWidth
+                        ,yAxisIndex: seriesList[i].yAxisIndex
+
+                    });
+                }
+                //加载数据图表
+                echartsobj.setOption({
+                    legend: {
+                        data: legends
+                    },
+                    xAxis: [
+                        {
+                            type: 'category',
+                            data: xAxisData
+                        }
+                    ],
+                    series: seriesData
+                });
+
+
+            } else
+            {
+
+            }
+            if(callback)
+            {
+                callback(data);
+            }
+        },
+        error:function()
+        {
+        },
+        complete: function (XMLHttpRequest, status) {
+            if(status == 'timeout'){
+            }
+        }
+
+    });
+    return echartsobj;
+
+}
 //单
 function getSingleDataCountForName(data,strName)
 {
