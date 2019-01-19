@@ -204,7 +204,7 @@ layui.define(['jquery'],function (e) {
             "            </div>" +
             "        </div>" +
             "    </div>";*/
-        var title='',abstract='',details='',extend03="";
+        var title='',abstract='';
         console.log(d)
         if(d.cgmc!=undefined){
             title=d.cgmc;
@@ -214,15 +214,35 @@ layui.define(['jquery'],function (e) {
             title=d.reportDesc;
         }else if(d.extend03!=undefined){
             title=d.extend03;
+        }else if(d.patentName!=undefined){
+            title=d.patentName;
+        }else if(d.expertName!=undefined){
+            title=d.expertName;
+        }else if(d.typeName!=undefined){
+            title=d.typeName;
+        }
+        if(d.userDesc){
+            abstract=d.userDesc;
+        }else if(d.patentDesc){
+            abstract=d.patentDesc;
+        }else if(d.typeScope){
+            abstract=d.typeScope;
+        }else if(d.sbdw){
+            abstract=d.sbdw;
+        }else if(d.reportDesc){
+            abstract=d.reportDesc;
+        }else if(d.define8){
+            abstract=d.define8;
+        }else if(d.cgmc){
+            abstract=d.cgmc;
         }
         html='<div class="layui-div layui-div-n">' +
             '        <a href="#">'+title+'</a>' +
-            /*'        <div class="c-row c-gap-top-small">' +
+            '        <div class="c-row c-gap-top-small">' +
             '            <div class="c-span18 c-span-last">' +
-            '                <p>摘要：2018年直属研究院科研<em>预算</em></p>' +
-            '                <p>2018年直属研究院科研<em>预算</em></p>' +
+            '                <p>'+abstract+'</p>' +
             '            </div>' +
-            '        </div>' +*/
+            '        </div>' +
             '    </div>';
         return html;
     };
