@@ -516,11 +516,11 @@ textarea{ padding: 6px 10px; display: block;color: #555;background-color: #fff;b
 .layui-q>.layui-tab-title span{background: #fe0002;position: absolute;font-size: 14px;color: white;
     top: -5px;height: 18px;padding: 0 5px;line-height: 18px;border-radius: 6px;}
 .c-container{margin-top: 30px;}
-.layui-div>a{color: #1ea5bb;font-size: 16px;margin-bottom: 20px;display: inline-block;}
+.layui-div>a{color: #1ea5bb;font-size: 16px;display: inline-block;font-weight: bold;}
 .c-container em{font-style: normal;color: #fc3e3e;}
 .c-gap-top-small a,.c-span-last{display: inline-block;float: left;}
 .c-gap-top-small a img{border-radius: 6px;box-shadow: 0 0 3px #dadcde;width: 184px;
     border: 1px solid #dadcde;}
-.c-span-last{margin-left: 20px;height: 145px;}
+.c-span-last{}
 .stpSearchBox .seacrhBox input:-ms-input-placeholder{color: #e0e4e8;}
 .stpSearchBox .seacrhBox input::-webkit-input-placeholder{color: #e0e4e8;}
