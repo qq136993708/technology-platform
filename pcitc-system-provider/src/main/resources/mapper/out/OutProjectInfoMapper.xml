@@ -2410,10 +2410,10 @@
 	<!--  领导首页-十条龙，十条龙项目的详情 -->
 	<select id="getDragonProjectDetails" resultType="java.util.Map" parameterType="java.util.HashMap">
 		select tableA.*,
-		       GROUP_CONCAT(DISTINCT tableB.fzdw separator '<br>') as zzdw,
-			   GROUP_CONCAT(DISTINCT tableC.fzdw separator '<br>') as fzzdw,
-			   GROUP_CONCAT(DISTINCT tableD.fzdw separator '<br>') as xzdw,
-			   GROUP_CONCAT(DISTINCT tableE.fzdw separator '<br>') as zydw
+		       GROUP_CONCAT(DISTINCT tableB.fzdw separator '<![CDATA[<br>]]>') as zzdw,
+			   GROUP_CONCAT(DISTINCT tableC.fzdw separator '<![CDATA[<br>]]>') as fzzdw,
+			   GROUP_CONCAT(DISTINCT tableD.fzdw separator '<![CDATA[<br>]]>') as xzdw,
+			   GROUP_CONCAT(DISTINCT tableE.fzdw separator '<![CDATA[<br>]]>') as zydw
 		from (
 		select xmid,nd,xmmc,`status`,define6,jdap,hth
 				from out_project_info
