@@ -1069,7 +1069,7 @@
 		group by tableB.DEFINE1,tableB.PROJECT_PROPERTY
 	</select>
 	
-	<!-- 领导首页--科研投入--各个处室的新开结转情况 -->
+	<!-- 领导首页-科研投入-各个处室的新开结转情况 -->
 	<select id="getPlanMoneyByDepartment" resultType="java.util.Map" parameterType="java.util.HashMap">
 		select 
 			 zycmc,zycbm,
