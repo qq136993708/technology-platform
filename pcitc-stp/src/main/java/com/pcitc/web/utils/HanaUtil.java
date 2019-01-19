@@ -3828,7 +3828,7 @@ public static ChartBarLineSeries getinvestmentBarLineSeries3(List<BudgetMysql> l
 					
 					if(ysje!=null)
 					{
-						dataList.add(String.format("%.2f", Double.valueOf(String.valueOf(ysje))));
+						dataList.add(String.format("%.2f", Double.valueOf(String.valueOf(ysje))/10000));
 						
 					}else
 					{
@@ -3841,7 +3841,7 @@ public static ChartBarLineSeries getinvestmentBarLineSeries3(List<BudgetMysql> l
 					
 					if(!sjzje.equals("0"))
 					{
-						dataList.add(String.format("%.2f", Double.valueOf(String.valueOf(sjzje))));
+						dataList.add(String.format("%.2f", Double.valueOf(String.valueOf(sjzje))/10000));
 					}else
 					{
 						dataList.add(0);
@@ -3854,7 +3854,7 @@ public static ChartBarLineSeries getinvestmentBarLineSeries3(List<BudgetMysql> l
 				
 					if(!xkMoney.equals("0"))
 					{
-						 dataList.add(String.format("%.2f", Double.valueOf(String.valueOf(xkMoney))));
+						 dataList.add(String.format("%.2f", Double.valueOf(String.valueOf(xkMoney))/10000));
 					}else
 					{
 						dataList.add(0);
@@ -3866,7 +3866,7 @@ public static ChartBarLineSeries getinvestmentBarLineSeries3(List<BudgetMysql> l
 				
 					if(!jzMoney.equals("0"))
 					{
-						 dataList.add(String.format("%.2f", Double.valueOf(String.valueOf(jzMoney))));
+						 dataList.add(String.format("%.2f", Double.valueOf(String.valueOf(jzMoney))/10000));
 					}else
 					{
 						dataList.add(0);
