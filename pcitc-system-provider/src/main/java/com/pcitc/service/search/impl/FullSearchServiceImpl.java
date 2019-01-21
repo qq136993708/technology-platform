@@ -76,7 +76,7 @@ public class FullSearchServiceImpl implements FullSearchService {
         String keyword = (obj == null || "".equals(obj)) ? "" : obj.toString();
         int msg;
         int tabsCount = Integer.parseInt((tabCountObj == null || "".equals(tabCountObj)) ? "0" : tabCountObj.toString());//tab总数量  首页：0，其他页有值
-
+        System.out.println("tabsCount = " + tabsCount);
         LayuiTableData tableData = new LayuiTableData();
 
         //组装 tabs
@@ -132,8 +132,9 @@ public class FullSearchServiceImpl implements FullSearchService {
         if (Achivementc != null&&Achivementc.size()>0) {
             total = total + 1;
             for (int i = 0; i < Achivementc.size(); i++) {
-                Achivementc.get(i).put("select_type", "achivement");
-                list.add(Achivementc.get(i));
+                Map<String, Object> map = MyBeanUtils.transBean2Map(Achivementc.get(i));
+                map.put("select_type", "achivement");
+                list.add(map);
             }
         }
 
@@ -141,8 +142,9 @@ public class FullSearchServiceImpl implements FullSearchService {
         if (Scientific != null&&Scientific.size()>0) {
             total = total + 1;
             for (int i = 0; i < Scientific.size(); i++) {
-                Scientific.get(i).put("select_type", "scientific");
-                list.add(Scientific.get(i));
+                Map<String, Object> map = MyBeanUtils.transBean2Map(Scientific.get(i));
+                map.put("select_type", "scientific");
+                list.add(map);
             }
         }
 
@@ -150,8 +152,9 @@ public class FullSearchServiceImpl implements FullSearchService {
         if (Report != null&&Report.size()>0) {
             total = total + 1;
             for (int i = 0; i < Report.size(); i++) {
-                Report.get(i).put("select_type", "report");
-                list.add(Report.get(i));
+                Map<String, Object> map = MyBeanUtils.transBean2Map(Report.get(i));
+                map.put("select_type", "report");
+                list.add(map);
             }
         }
 
@@ -159,8 +162,9 @@ public class FullSearchServiceImpl implements FullSearchService {
         if (OutReward != null&&OutReward.size()>0) {
             total = total + 1;
             for (int i = 0; i < OutReward.size(); i++) {
-                OutReward.get(i).put("select_type", "outReward");
-                list.add(OutReward.get(i));
+                Map<String, Object> map = MyBeanUtils.transBean2Map(OutReward.get(i));
+                map.put("select_type", "outReward");
+                list.add(map);
             }
         }
 
@@ -168,8 +172,9 @@ public class FullSearchServiceImpl implements FullSearchService {
         if (zjkTech != null&&zjkTech.size()>0) {
             total = total + 1;
             for (int i = 0; i < zjkTech.size(); i++) {
-                zjkTech.get(i).put("select_type", "tech");
-                list.add(zjkTech.get(i));
+                Map<String, Object> map = MyBeanUtils.transBean2Map(zjkTech.get(i));
+                map.put("select_type", "tech");
+                list.add(map);
             }
         }
 
@@ -177,8 +182,9 @@ public class FullSearchServiceImpl implements FullSearchService {
         if (zjkExpert != null&&zjkExpert.size()>0) {
             total = total + 1;
             for (int i = 0, j = zjkExpert.size(); i < j; i++) {
-                zjkExpert.get(i).put("select_type", "expert");
-                list.add(zjkExpert.get(i));
+                Map<String, Object> map = MyBeanUtils.transBean2Map(zjkExpert.get(i));
+                map.put("select_type", "expert");
+                list.add(map);
             }
         }
 
@@ -186,8 +192,10 @@ public class FullSearchServiceImpl implements FullSearchService {
         if (zjkPatents != null&&zjkPatents.size()>0) {
             total = total + 1;
             for (int i = 0, j = zjkPatents.size(); i < j; i++) {
-                zjkPatents.get(i).put("select_type", "patent");
-                list.add(zjkPatents.get(i));
+                Map<String, Object> map = MyBeanUtils.transBean2Map(zjkPatents.get(i));
+                map.put("select_type", "patent");
+                list.add(map);
+
             }
         }
 //        getTabList(param_common, total, list, limit);
@@ -196,71 +204,71 @@ public class FullSearchServiceImpl implements FullSearchService {
         msg = (page == 1) ? (total) : (tabsCount);
         LayuiTableData tableDataFile = new LayuiTableData();
         DataTableInfoVo dataTableInfoVo = new DataTableInfoVo();
-//        if (msg >= page * limit) {
-//            dataTableInfoVo.setiDisplayStart(0);
-//            dataTableInfoVo.setiDisplayLength(1);
-//            SysFileVo vo = new SysFileVo();
-//            if (!"".equals(keyword)) {
-//                vo.setFileName(keyword);
-//            }
-//            vo.setDataTableInfoVo(dataTableInfoVo);
-//            try {
-//                JSONObject jsonObject = setFileFlag(vo);
-//                tableDataFile.setData((List<SysFile>) jsonObject.get("list"));
-//                tableDataFile.setCount(Integer.valueOf((jsonObject.get("totalCount") + "")));
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//            tableDataFile.addPropertyToData("select_type","file");
-//            List<?> fileData = tableDataFile.getData();
-//            if (fileData != null && fileData.size() > 0) {
-//                total = total + tableDataFile.getCount();
-//            }
-//        } else {
-//            boolean isShowFileAll = (page * limit - msg) >= limit;
-//            if (isShowFileAll) {
-//                list = new ArrayList();
-//            }
-//            int file_limit = limit - msg % limit;
-//            if (file_limit > 0) {
-//                int start_dis = 0;
-//                if (msg >= limit) {
-//                    start_dis = (isShowFileAll) ? (((page - (msg / limit + msg % limit > 0 ? 1 : 0)) * limit) - file_limit) : (page - 1) * param.getLimit();
-//                } else {
-//                    start_dis = (isShowFileAll) ? (file_limit + ((page - (msg / limit + msg % limit > 0 ? 1 : 0) - 1) * limit)) : (page - 1) * param.getLimit();
-//                }
-//                int limit_dis = (isShowFileAll) ? limit : file_limit;
-//                dataTableInfoVo.setiDisplayStart(start_dis);
-//                dataTableInfoVo.setiDisplayLength(limit_dis);
-//            } else {
-//                dataTableInfoVo.setiDisplayStart(0);
-//                dataTableInfoVo.setiDisplayLength(1);
-//            }
-//            SysFileVo vo = new SysFileVo();
-//            if (!"".equals(keyword)) {
-//                vo.setFileName(keyword);
-//            }
-//            vo.setDataTableInfoVo(dataTableInfoVo);
-//            try {
-//                JSONObject jsonObject = setFileFlag(vo);
-//                tableDataFile.setData((List<SysFile>) jsonObject.get("list"));
-//                tableDataFile.setCount(Integer.valueOf((jsonObject.get("totalCount") + "")));
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//
-//            tableDataFile.addPropertyToData("select_type","file");
-//            List<?> fileData = tableDataFile.getData();
-//            //只算>0;<0算total
-//            if (fileData != null && fileData.size() > 0) {
-//                if (file_limit > 0) {
-//                    for (int i = 0; i < fileData.size(); i++) {
-//                        list.add(fileData.get(i));
-//                    }
-//                }
-//                total = total + tableDataFile.getCount();
-//            }
-//        }
+        if (msg >= page * limit) {
+            dataTableInfoVo.setiDisplayStart(0);
+            dataTableInfoVo.setiDisplayLength(1);
+            SysFileVo vo = new SysFileVo();
+            if (!"".equals(keyword)) {
+                vo.setFileName(keyword);
+            }
+            vo.setDataTableInfoVo(dataTableInfoVo);
+            try {
+                JSONObject jsonObject = setFileFlag(vo);
+                tableDataFile.setData((List<SysFile>) jsonObject.get("list"));
+                tableDataFile.setCount(Integer.valueOf((jsonObject.get("totalCount") + "")));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            tableDataFile.addPropertyToData("select_type","file");
+            List<?> fileData = tableDataFile.getData();
+            if (fileData != null && fileData.size() > 0) {
+                total = total + tableDataFile.getCount();
+            }
+        } else {
+            boolean isShowFileAll = (page * limit - msg) >= limit;
+            if (isShowFileAll) {
+                list = new ArrayList();
+            }
+            int file_limit = limit - msg % limit;
+            if (file_limit > 0) {
+                int start_dis = 0;
+                if (msg >= limit) {
+                    start_dis = (isShowFileAll) ? (((page - (msg / limit + msg % limit > 0 ? 1 : 0)) * limit) - file_limit) : (page - 1) * param.getLimit();
+                } else {
+                    start_dis = (isShowFileAll) ? (file_limit + ((page - (msg / limit + msg % limit > 0 ? 1 : 0) - 1) * limit)) : (page - 1) * param.getLimit();
+                }
+                int limit_dis = (isShowFileAll) ? limit : file_limit;
+                dataTableInfoVo.setiDisplayStart(start_dis);
+                dataTableInfoVo.setiDisplayLength(limit_dis);
+            } else {
+                dataTableInfoVo.setiDisplayStart(0);
+                dataTableInfoVo.setiDisplayLength(1);
+            }
+            SysFileVo vo = new SysFileVo();
+            if (!"".equals(keyword)) {
+                vo.setFileName(keyword);
+            }
+            vo.setDataTableInfoVo(dataTableInfoVo);
+            try {
+                JSONObject jsonObject = setFileFlag(vo);
+                tableDataFile.setData((List<SysFile>) jsonObject.get("list"));
+                tableDataFile.setCount(Integer.valueOf((jsonObject.get("totalCount") + "")));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            tableDataFile.addPropertyToData("select_type","file");
+            List<?> fileData = tableDataFile.getData();
+            //只算>0;<0算total
+            if (fileData != null && fileData.size() > 0) {
+                if (file_limit > 0) {
+                    for (int i = 0; i < fileData.size(); i++) {
+                        list.add(fileData.get(i));
+                    }
+                }
+                total = total + tableDataFile.getCount();
+            }
+        }
         //返回
         System.out.println("total = " + total);
         tableData.setCount(total);

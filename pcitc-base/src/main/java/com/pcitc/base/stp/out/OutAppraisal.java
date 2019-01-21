@@ -1,8 +1,11 @@
 package com.pcitc.base.stp.out;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class OutAppraisal {
+public class OutAppraisal implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private String dataId;
 
     private String cgid;
