@@ -93,6 +93,12 @@ public class SearchFullController extends BaseController {
         return "stp/hana/home/search/query_patent";
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/searchFile")
+    public String searchFile(HttpServletRequest request) throws Exception {
+        request.setAttribute("keyword", request.getParameter("keyword"));
+        return "stp/hana/home/search/query_file";
+    }
+
     @RequestMapping(method = RequestMethod.GET, value = "/searchOutreward")
     public String searchOutreward(HttpServletRequest request) throws Exception {
         request.setAttribute("keyword", request.getParameter("keyword"));

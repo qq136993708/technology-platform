@@ -148,6 +148,7 @@
                 <li>技术族<span id="tech"></span></li>
                 <li>专家信息<span id="expert"></span></li>
                 <li>知识产权<span id="patent"></span></li>
+                <li>文档资料<span id="file"></span></li>
             </ul>
 
             <div class="layui-tab-content">
@@ -177,6 +178,9 @@
                 </div>
                 <div class="layui-tab-item layui-tab-i">
                     <iframe id="ifrpatent" src="" class="layui-iframe"></iframe>
+                </div>
+                <div class="layui-tab-item layui-tab-i">
+                    <iframe id="ifrfile" src="" class="layui-iframe"></iframe>
                 </div>
             </div>
         </div>
@@ -311,6 +315,7 @@
         $("#ifrtech").attr("src","/fullSearch/searchTfmType?keyword="+keyword);
         $("#ifrexpert").attr("src","/fullSearch/searchExpert?keyword="+keyword);
         $("#ifrpatent").attr("src","/fullSearch/searchPatent?keyword="+keyword);
+        $("#ifrfile").attr("src","/fullSearch/searchFile?keyword="+keyword);
     }
 </script>
 </body>

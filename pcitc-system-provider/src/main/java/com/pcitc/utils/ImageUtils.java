@@ -1,5 +1,6 @@
 package com.pcitc.utils;
 
+import com.pcitc.base.util.FileUtil;
 import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.geometry.Positions;
 
@@ -149,7 +150,6 @@ public class ImageUtils {
 //        }
 //    }
 
-
     /**
      * 指定大小进行缩放
      *
@@ -245,18 +245,41 @@ public class ImageUtils {
         }
     }
 
+    public static void batImage(String path) {
+        File file = new File(path);
+        if (!file.isDirectory()) {
+            return;
+        }
+        String[] tempList = file.list();
+        File temp = null;
+        for (int i = 0; i < tempList.length; i++) {
+            String fileName = path + File.separator + tempList[i];
+            System.out.println(fileName);
+            if (FileUtil.isImage(fileName)) {
+                temp = new File(fileName);
+//                getImgSizeNoScale(750,750,fileName,"C:\\Users\\Administrator\\Desktop\\新建文件夹" + File.separator + "750_"+tempList[i]);
+                getImgSizeNoScale(325,325,fileName,"C:\\Users\\Administrator\\Desktop\\新建文件夹" + File.separator + "325_"+tempList[i]);
+            }
+
+        }
+    }
+
     public static void main(String[] args) {
-        String strBefore = "D:\\files\\uploadPath\\file\\mobile.jpg";
-        String strback = "D:\\\\files\\\\uploadPath\\\\file\\\\getImgSize.jpg";
-        ImageUtils.getImgSize(200, 200, strBefore, strback);
 
+        String path = "E:\\doc\\书道\\20190118修改图片\\";
+        batImage(path);
 
-        strback = "D:\\files\\uploadPath\\file\\getImgScale.jpg";
-        ImageUtils.getImgScale(0.5f, strBefore, strback);
-
-        strback = "D:\\files\\uploadPath\\file\\getImgSizeNoScale.jpg";
-        ImageUtils.getImgSizeNoScale(200, 200, strBefore, strback);
-
+//
+//        String strBefore = "D:\\files\\uploadPath\\file\\mobile.jpg";
+//        String strback = "D:\\\\files\\\\uploadPath\\\\file\\\\getImgSize.jpg";
+//        ImageUtils.getImgSize(200, 200, strBefore, strback);
+//
+//
+//        strback = "D:\\files\\uploadPath\\file\\getImgScale.jpg";
+//        ImageUtils.getImgScale(0.5f, strBefore, strback);
+//
+//        strback = "D:\\files\\uploadPath\\file\\getImgSizeNoScale.jpg";
+//        ImageUtils.getImgSizeNoScale(200, 200, strBefore, strback);
 
 //        int n = 32;
 //        if ((n & (n - 1)) == 0) {
