@@ -1071,18 +1071,20 @@
 	
 	<!-- 领导首页-科研投入-各个处室的新开结转情况 -->
 	<select id="getPlanMoneyByDepartment" resultType="java.util.Map" parameterType="java.util.HashMap">
-		select 
-			 zycmc,zycbm,
-				'1' as ysje,sum(ysje) as sjzje,
+		select out_tem_money_decompose.cb as zycmc,out_tem_money_decompose.jfyszjys as ysje,
+			   out_tem_money_decompose.jfyszjlht as ysjzje,out_tem_money_decompose.jfyszjxq as ysxkje,
+			   IFNULL(tableA.sjzje,'0') as sjzje,IFNULL(tableA.xkMoney,'0') as xkMoney,IFNULL(tableA.jzMoney,'0') as jzMoney
+		from out_tem_money_decompose left join (
+			select 
+			    substr(define10,4) as define10,sum(ysje) as sjzje,
 				sum(case when ysnd = '${nd}' and nd = '${nd}' then ysje else 0 end) as xkMoney,
 				sum(case when ysnd = '${nd}' and nd &lt; '${nd}' then ysje else 0 end) as jzMoney
-		from out_project_info 
-		WHERE
-			out_project_info.ysnd= '${nd}' 
-			and out_project_info.PROJECT_TYPE != '1'
-			and define3='项目管理系统' 
-			group by out_project_info.zycmc
-			ORDER BY zycbm
+			from out_project_info 
+			WHERE
+				out_project_info.ysnd= '${nd}' 
+				and out_project_info.PROJECT_TYPE != '1'
+				and define3='项目管理系统' 
+				group by out_project_info.define10) as tableA ON (out_tem_money_decompose.cb = tableA.define10)
 	</select>
 	
 	

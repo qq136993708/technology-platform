@@ -137,6 +137,34 @@ public class StpProjectJob implements Job, Serializable {
 					opi.setGsbmmc(gsbmmc);
 					opi.setZycbm(zycbm);
 					opi.setZycmc(zycmc);
+					
+					if (zycmc != null) {
+						if (zycmc.equals("油田处")) {
+							opi.setDefine10("101油田处");
+						} else if (zycmc.equals("炼油处")) {
+							opi.setDefine10("102炼油处");
+						} else if (zycmc.equals("化工处")) {
+							opi.setDefine10("103化工处");
+						} else if (zycmc.equals("材料处")) {
+							opi.setDefine10("104材料处");
+						} else if (zycmc.equals("装备与储运处")) {
+							opi.setDefine10("105装储处");
+						} else if (zycmc.equals("计划处")) {
+							opi.setDefine10("106综合计划处");
+						} else if (zycmc.equals("技术监督处")) {
+							opi.setDefine10("107技术监督处");
+						} else if (zycmc.equals("三剂处")) {
+							opi.setDefine10("108三剂处");
+						} else if (zycmc.equals("知识产权处")) {
+							opi.setDefine10("109知识产权处");
+						} else if (zycmc.indexOf("供应协调处") > 0) {
+							opi.setDefine10("110物装部");
+						} else if (zycmc.indexOf("炼油事业部") > 0 || zycmc.equals("技术处")) {
+							opi.setDefine10("114炼油事业部（B2、C类）");
+						} else if (zycbm.indexOf("30130016") > 0) {
+							opi.setDefine10("115化工事业部（B2、C类）");
+						} 
+					}
 					opi.setXmlbbm(xmlbbm);
 					opi.setXmlbmc(xmlbmc);
 					if (sjid != null && Integer.parseInt(sjid) > 0) {
