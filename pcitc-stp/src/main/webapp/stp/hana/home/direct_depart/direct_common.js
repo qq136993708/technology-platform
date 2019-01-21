@@ -805,15 +805,10 @@ function set_multi_graph_statistics(data,id)
 	
 	if(id=='investment_chart6')
 	{
-		var jzCount_1=getDataCountForNameFloat(data,'预算金额');
-    	var jzCount_2=getDataCountForNameFloat(data,'实际投入金额');
-    	var jzCount_3=getDataCountForNameFloat(data,'新开投入金额');
-    	var jzCount_4=getDataCountForNameFloat(data,'结转投入金额');
-        
+		var jzCount_1=getDataCountForNameFloat(data,'预算新开金额');
+    	var jzCount_2=getDataCountForNameFloat(data,'实际新开金额');
         $("#investment_chart6_01").html(jzCount_1.toFixed(2)+"亿元");
         $("#investment_chart6_02").html(jzCount_2.toFixed(2)+"亿元");
-        $("#investment_chart6_03").html(jzCount_3.toFixed(2)+"亿元");
-        $("#investment_chart6_04").html(jzCount_4.toFixed(2)+"亿元");
 	}
 	
 	

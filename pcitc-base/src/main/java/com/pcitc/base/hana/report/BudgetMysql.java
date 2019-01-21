@@ -74,7 +74,18 @@ public class BudgetMysql {
 	 
 	 private String zycmc;
 	 
+	 private String ysxkje;
 	 
+	 
+	 
+	 
+	 
+	public String getYsxkje() {
+		return ysxkje;
+	}
+	public void setYsxkje(String ysxkje) {
+		this.ysxkje = ysxkje;
+	}
 	public String getZycmc() {
 		return zycmc;
 	}
