@@ -52,7 +52,7 @@
                 where: {param: {"bak4": $("#bak4").val()}},
                 limit: 15,
                 id: 'sysFileId',
-                height:commonDislodgeTable(),
+                height:parent.$("html").height()-220,
                 page: {
                     count: 500, //数据总数，从服务端得到
                     groups: 5,
