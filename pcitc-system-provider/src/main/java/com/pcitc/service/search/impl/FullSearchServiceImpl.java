@@ -205,7 +205,7 @@ public class FullSearchServiceImpl implements FullSearchService {
 //        msg = (page == 1) ? (total) : (tabsCount);
         LayuiTableData tableDataFile = new LayuiTableData();
         DataTableInfoVo dataTableInfoVo = new DataTableInfoVo();
-        if (msg >= page * limit) {
+   /*     if (msg >= page * limit) {
             dataTableInfoVo.setiDisplayStart(0);
             dataTableInfoVo.setiDisplayLength(1);
             SysFileVo vo = new SysFileVo();
@@ -269,7 +269,7 @@ public class FullSearchServiceImpl implements FullSearchService {
                 }
                 total = total + tableDataFile.getCount();
             }
-        }
+        }*/
         //返回
         System.out.println("total = " + total);
         tableData.setCount(total);

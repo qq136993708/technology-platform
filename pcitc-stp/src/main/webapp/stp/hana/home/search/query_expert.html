@@ -42,7 +42,9 @@
 <!--</div>-->
 <input type="hidden" name="keyword"  value="${keyword}"  id="keyword">
 
-<table id="zjkBaseInfoTableId" class="layui-hide" lay-filter="tableEvent"></table>
+<div style="margin-top: 20px;">
+    <table id="zjkBaseInfoTableId" class="layui-hide" lay-filter="tableEvent"></table>
+</div>
 
 <script>
     var selectRowData;
@@ -59,7 +61,7 @@
                 where: {param: {"keyword":$("#keyword").val()}},
                 limit: 15,
                 id: 'zjkBaseInfoTableId',
-                height: commonDislodgeTable(),
+                height: parent.$("html").height()-160,
                 page: {
                     count: 500, //数据总数，从服务端得到
                     groups: 5,

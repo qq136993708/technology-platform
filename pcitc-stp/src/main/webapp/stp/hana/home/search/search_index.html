@@ -105,9 +105,11 @@
         var index = layer.load(1, {
             shade: [0.1,'#fff']
         });
+
         var monthParam = $("#month").val();
         var companyCodeParam = $("#companyCode").val();
         var fileCount = $("#fileCount").val();
+        console.log("tab数量："+fileCount);
         //渲染
         table.render({
             elem: '#processdef-table',

@@ -470,6 +470,53 @@ layui.define(['jquery','form','table','laydate'],
                     });
                 }
             },
+            tableRenderH:function (elem,id,height,url,toolbar,cols,where,page,done) {
+                if(page==true){
+                    var page={
+                        count: 500 //数据总数，从服务端得到
+                        , groups: 5
+                        , limits: [param.selfRownum, 30, 45, 60]
+                        , layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'] //自定义分页布局
+                        , first: '首页' //不显示首页
+                        , last: '尾页' //不显示尾页
+                        , theme: '#0F9EE0'
+                    }
+                }else {
+                    var page=false;
+                }
+                if(toolbar){
+                    table.render({
+                        elem: '#'+elem //表格容器
+                        , url:url //请求的url地址
+                        , limit: param.selfRownum //每页默认显示的数量
+                        , id: id
+                        , where:where
+                        ,method:"POST"
+                        , height: parent.$("html").height()-height
+                        , page: page
+                        ,toolbar:{
+                            toolbar:"#test"
+                        }
+                        ,defaultToolbar:['filter','exports','print']
+                        , cols: [cols]
+                        , done: done
+                    });
+                }else {
+                    table.render({
+                        elem: '#'+elem //表格容器
+                        , url:url //请求的url地址
+                        , limit: param.selfRownum //每页默认显示的数量
+                        , id: id
+                        , where:where
+                        ,method:"POST"
+                        , height: parent.$("html").height()-height
+                        , page: page
+                        ,defaultToolbar:['filter','exports','print']
+                        , cols: [cols]
+                        , done: done
+                    });
+                }
+            },
             moduleConfigs:function (data) {
                 var param=data;
                 $.each(param, function( key, data ) {
