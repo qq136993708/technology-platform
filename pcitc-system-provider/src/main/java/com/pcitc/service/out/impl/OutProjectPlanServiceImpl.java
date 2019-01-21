@@ -148,7 +148,6 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 				OutProjectPlan newOPP = oppList.get(0);
 				if (StrUtil.isNotBlank(opp.getYsje())) {
 					newOPP.setYsje(opp.getYsje());
-					outProjectPlanMapper.updateByPrimaryKey(newOPP);
 				}
 				if (StrUtil.isNotBlank(opp.getYsfyxje())) {
 					newOPP.setYsfyxje(opp.getYsfyxje());
@@ -156,6 +155,7 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 				if (StrUtil.isNotBlank(opp.getYszbxje())) {
 					newOPP.setYszbxje(opp.getYszbxje());
 				}
+				outProjectPlanMapper.updateByPrimaryKey(newOPP);
 			} else {
 				// 此项目此预算年度没有预算费用
 				OutProjectPlanExample example1 = new OutProjectPlanExample();
