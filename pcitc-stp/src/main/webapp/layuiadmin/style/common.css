@@ -491,8 +491,9 @@ textarea{ padding: 6px 10px; display: block;color: #555;background-color: #fff;b
 .layui-title-right{float: right;}
 /*选择器*/
 .selector{height: auto;overflow: hidden;margin: 10px 10px;}
+.selector a{font-size: 14px;color: #000;}
 .selector>div{line-height: 38px;border-bottom: 1px #e7e7e7 dashed;font-size: 14px;display: flex;}
-.selector>div .selector-left{color: #666;width: 110px;float: left;}
+.selector>div .selector-left{color: #666;width: 110px;float: left;font-size: 14px;}
 .selector>div .selector-right{float: left;width: 100%;}
 .selector>div ul li {float: left;height: 28px;line-height: 28px;margin: 5px 30px 5px 0;padding: 0 10px;}
 .selector>div.conditionNew{height: auto;}
@@ -515,11 +516,11 @@ textarea{ padding: 6px 10px; display: block;color: #555;background-color: #fff;b
 .layui-q>.layui-tab-title span{background: #fe0002;position: absolute;font-size: 14px;color: white;
     top: -5px;height: 18px;padding: 0 5px;line-height: 18px;border-radius: 6px;}
 .c-container{margin-top: 30px;}
-.layui-div>a{color: #1ea5bb;font-size: 16px;margin-bottom: 20px;display: inline-block;}
+.layui-div>a{color: #1ea5bb;font-size: 16px;display: inline-block;font-weight: bold;}
 .c-container em{font-style: normal;color: #fc3e3e;}
 .c-gap-top-small a,.c-span-last{display: inline-block;float: left;}
 .c-gap-top-small a img{border-radius: 6px;box-shadow: 0 0 3px #dadcde;width: 184px;
     border: 1px solid #dadcde;}
-.c-span-last{margin-left: 20px;height: 145px;}
+.c-span-last{}
 .stpSearchBox .seacrhBox input:-ms-input-placeholder{color: #e0e4e8;}
 .stpSearchBox .seacrhBox input::-webkit-input-placeholder{color: #e0e4e8;}

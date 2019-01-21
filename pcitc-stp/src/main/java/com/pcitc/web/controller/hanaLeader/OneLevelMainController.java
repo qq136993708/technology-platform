@@ -101,35 +101,24 @@ public class OneLevelMainController {
 		private static final String dragon_count = "http://pcitc-zuul/system-proxy/out-provider/dragon/project-count";
 		private static final String getStlTable = "http://pcitc-zuul/system-proxy/out-project-provider/dragon/details";
 		private static final String dragon_search_con = "http://pcitc-zuul/system-proxy/out-project-provider/dragon/select-condition/list";
-		
 
 		//科研投入
 		private static final String investment_01 = "http://pcitc-zuul/system-proxy/out-project-plna-provider/money/complete-rate/company-type";
 		private static final String investment_02 = "http://pcitc-zuul/system-proxy/out-project-plna-provider/money/complete-rate/institute";
-		
 		private static final String investment_first_page_count = "http://pcitc-zuul/system-proxy/out-provider/project-money";
 		private static final String contract_count = "http://pcitc-zuul/system-proxy/out-provider/project-count";
-		
-		
-		
-		
+		private static final String investment_03 = "http://pcitc-zuul/system-proxy/out-project-plna-provider/plan-money/department";
 		
 		
 		//新闻
 		private static final String get_news = "http://pcitc-zuul/system-proxy/news-provider/select_news_main";
-		
 		private static final String common_table = "http://pcitc-zuul/system-proxy/out-project-plna-provider/project-plan/page/list";
-		private static final String ten_dragon_table_data = "http://pcitc-zuul/system-proxy/out-project-plna-provider/project-plan/page/list";
-		
 		private static final String count_table_data = "http://pcitc-zuul/system-proxy/out-project-provider/common-project/list";
-		
 		
 
 		//数量--成果
 	    private static final String achievement_table_dic = "http://pcitc-zuul/system-proxy/out-provider/appraisal/select-condition/list";
-				
 	   //数量--知识
-	    private static final String knowledge_table_data = "http://pcitc-zuul/system-proxy/out-project-provider/common-project/list";
 	    private static final String achievement_table_data = "http://pcitc-zuul/system-proxy/out-provider/project/appraisal-list";
 			
 	    
@@ -2558,6 +2547,78 @@ public class OneLevelMainController {
 										}
 										JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
 										System.out.println(">>>>>>>>>>>>>>investment_02 " + resultObj.toString());
+										return resultObj.toString();
+									}
+									
+									@RequestMapping(method = RequestMethod.GET, value = "/investment_03")
+									@ResponseBody
+									public String investment_03(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+										
+										JSONObject resultObj = null;
+										Result result = new Result();
+										PageResult pageResult = new PageResult();
+										ChartBarLineResultData barLine=new ChartBarLineResultData();
+										String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+										String companyCode = CommonUtil.getParameter(request, "companyCode", "");
+										String type = CommonUtil.getParameter(request, "type", "");
+										Map<String, Object> paramsMap = new HashMap<String, Object>();
+										paramsMap.put("nd", nd);
+										paramsMap.put("companyCode", companyCode);
+										JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+										HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+										if (!companyCode.equals(""))
+										{
+											ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(investment_03, HttpMethod.POST, entity, JSONArray.class);
+											int statusCode = responseEntity.getStatusCodeValue();
+											if (statusCode == 200) 
+											{
+												JSONArray jSONArray = responseEntity.getBody();
+												System.out.println(">>>>>>>>>>>>>>investment_03 jSONArray-> " + jSONArray.toString());
+												List<BudgetMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), BudgetMysql.class);
+												if(type.equals("1"))
+												{
+													List<String>  xAxisDataList=HanaUtil.getduplicatexAxisByList(list,"zycmc");
+									         		barLine.setxAxisDataList(xAxisDataList);
+													List<String> legendDataList = new ArrayList<String>();
+													legendDataList.add("预算金额");
+													legendDataList.add("实际投入金额");
+													legendDataList.add("新开投入金额");
+													legendDataList.add("结转投入金额");
+													
+													barLine.setLegendDataList(legendDataList);
+													// X轴数据
+													List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
+													ChartBarLineSeries s1 = HanaUtil.getinvestmentBarLineSeries3(list, "ysje");
+													ChartBarLineSeries s2 = HanaUtil.getinvestmentBarLineSeries3(list, "sjzje");
+													ChartBarLineSeries s3 = HanaUtil.getinvestmentBarLineSeries3(list, "xkMoney");
+													ChartBarLineSeries s4 = HanaUtil.getinvestmentBarLineSeries3(list, "jzMoney");
+													seriesList.add(s1);
+													seriesList.add(s2);
+													seriesList.add(s3);
+													seriesList.add(s4);
+													barLine.setSeriesList(seriesList);
+									         		result.setSuccess(true);
+													result.setData(barLine);
+													resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
+												}else
+												{
+													pageResult.setData(list);
+													pageResult.setCode(0);
+													pageResult.setCount(Long.valueOf(list.size()));
+													pageResult.setLimit(1000);
+													pageResult.setPage(1l);
+													resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
+												}
+												
+											}
+											
+										} else
+										{
+											result.setSuccess(false);
+											result.setMessage("参数为空");
+										}
+										System.out.println(">>>>>>>type="+type+">>>>>>>investment_03 " + resultObj.toString());
 										return resultObj.toString();
 									}
 									

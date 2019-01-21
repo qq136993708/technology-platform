@@ -909,7 +909,7 @@
 	<!--  领导首页-科研成果，直属院、分子公司等9个的成果情况 -->
 	<select id="getAppraisalInfoByCompanyType" resultType="java.util.Map" parameterType="java.util.HashMap">
 		select tableA.sl,SUBSTR(tableA.define3 FROM 2) as define3 from (
-			select count(cgid) as sl, 
+			select count(DISTINCT cgid) as sl, 
 				IFNULL(define3,'J其他') as define3
 			from out_appraisal
 			where 

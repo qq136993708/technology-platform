@@ -140,7 +140,7 @@
                     <div class="layui-card-header">
                         <span class="layui-time"></span>十条龙科技攻关项目
                     </div>
-                    <div class="layui-row-main">
+                    <div class="layui-row-main tableRowspan">
 
                         <table id="processdef_table_2" lay-filter="tableEvent"></table>
                     </div>
@@ -242,7 +242,7 @@
         echart1.on('click', function (params) {
 			var xName=params.name;
 			var legentName=params.seriesName;
-			window.open("/one_level_main/ten_dragon_table?xmfl="+encodeURIComponent(xName)+"&nd="+nd);
+			window.open("/instituteIndex?url=/one_level_main/ten_dragon_table?xmfl="+encodeURIComponent(xName)+"&nd="+nd);
 	    }); 
         
 
@@ -261,7 +261,7 @@
         echart2.on('click', function (params) {
 			var xName=params.name;
 			var legentName=params.seriesName;
-			window.open("/one_level_main/ten_dragon_table?xmzt="+encodeURIComponent(xName)+"&nd="+nd);
+			window.open("/instituteIndex?url=/one_level_main/ten_dragon_table?xmzt="+encodeURIComponent(xName)+"&nd="+nd);
 	    }); 
         
 
@@ -283,7 +283,7 @@
         echart7.on('click', function (params){
             var xName=params.name;
             var legentName=params.seriesName;
-            window.open("/one_level_main/ten_dragon_table?yjy="+encodeURIComponent(xName)+"&nd="+nd);
+            window.open("/instituteIndex?url=/one_level_main/ten_dragon_table?yjy="+encodeURIComponent(xName)+"&nd="+nd);
         });
 
     }
@@ -311,14 +311,15 @@
             id: 'processdef_table_2',
             height: commonDislodgeTable(),
             cols: [[
-                {field:'showIndex',      title:'序号',style:'cursor: pointer;',align: 'center', width: '5%'},
-                {field:'xmmc',           title:'项目名称',style:'cursor: pointer;',align: 'left', width: '20%'},
+                {type:'numbers',      title:'序号',style:'cursor: pointer;',align: 'center', width: '5%'},
+                {field:'xmmc',           title:'项目名称',style:'cursor: pointer;',align: 'left', width: '15%'},
                 {field:'zzdw',           title:'组长单位',style:'cursor: pointer;',align: 'left', width: '15%'},
+                {field:'fzzdw',           title:'副组长单位',style:'cursor: pointer;',align: 'left', width: '15%'},
                 {field:'zydw',  		 title:'组员单位',style:'cursor: pointer;',align: 'left', width: '15%'},
                 {field:'xzdw',           title:'协作单位',style:'cursor: pointer;',align: 'left'},
                 {field:'status',         title:'项目状态',style:'cursor: pointer;',align: 'center'},
                 {field:'jdap',          title:'原因',style:'cursor: pointer;',align: 'left'},
-                {field:'xmlbmc',         title:'文档查询',style:'cursor: pointer;',align: 'center', width: '15%',
+                {field:'xmlbmc',         title:'文档查询',style:'cursor: pointer;',align: 'center', width: '10%',
                 	 templet: function(d){
                          return "<a href='#'><img alt='第一次小组会议' src='/common/images/meeting_1.png'></a>&nbsp;&nbsp;&nbsp;&nbsp;"+
                          "<a href='#'><img alt='第二次小组会议' src='/common/images/meeting_2.png'></a>&nbsp;&nbsp;&nbsp;&nbsp;"+
@@ -328,7 +329,7 @@
                 }
             ]],
             done: function(res, curr, count){
-                merge(res);
+                //merge(res);
             }
         });
         function merge(res) {
