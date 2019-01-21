@@ -3791,25 +3791,17 @@ public static ChartBarLineSeries getKNOWLDGELevel2ChartBarLineSeries07(List<Know
 public static ChartBarLineSeries getinvestmentBarLineSeries3(List<BudgetMysql> list, String name)
 {
 
+	
+	
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
-		if (name.equals("ysje")) 
+		if (name.equals("ysxkje")) 
 		{
-			chartBarLineSeries.setName("预算金额");
+			chartBarLineSeries.setName("预算新开金额");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
-		if (name.equals("sjzje"))
+		if (name.equals("xkMoney"))
 		{
-			chartBarLineSeries.setName("实际投入金额");
-			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
-		}
-		if (name.equals("xkMoney")) 
-		{
-			chartBarLineSeries.setName("新开投入金额");
-			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
-		}
-		if (name.equals("jzMoney")) 
-		{
-			chartBarLineSeries.setName("结转投入金额");
+			chartBarLineSeries.setName("实际新开金额");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
 
@@ -3819,16 +3811,14 @@ public static ChartBarLineSeries getinvestmentBarLineSeries3(List<BudgetMysql> l
 			for (int i = 0; i < list.size(); i++) 
 			{
 				BudgetMysql f03 = list.get(i);
-				Object ysje=f03.getYsje();
-				Object sjzje=f03.getSjzje();
+				Object ysxkje=f03.getYsxkje();
 				Object xkMoney=f03.getXkMoney();
-				Object jzMoney=f03.getJzMoney();
-				if (name.equals("ysje"))
+				if (name.equals("ysxkje"))
 				{
 					
-					if(ysje!=null)
+					if(ysxkje!=null)
 					{
-						dataList.add(String.format("%.2f", Double.valueOf(String.valueOf(ysje))/10000));
+						dataList.add(String.format("%.2f", Double.valueOf(String.valueOf(ysxkje))/10000));
 						
 					}else
 					{
@@ -3836,42 +3826,19 @@ public static ChartBarLineSeries getinvestmentBarLineSeries3(List<BudgetMysql> l
 					}
 					
 				}
-				if (name.equals("sjzje")) 
-				{
-					
-					if(!sjzje.equals("0"))
-					{
-						dataList.add(String.format("%.2f", Double.valueOf(String.valueOf(sjzje))/10000));
-					}else
-					{
-						dataList.add(0);
-					}
-				}
-				
 				if (name.equals("xkMoney")) 
 				{
 					
-				
 					if(!xkMoney.equals("0"))
 					{
-						 dataList.add(String.format("%.2f", Double.valueOf(String.valueOf(xkMoney))/10000));
+						dataList.add(String.format("%.2f", Double.valueOf(String.valueOf(xkMoney))/10000));
 					}else
 					{
 						dataList.add(0);
 					}
 				}
-				if (name.equals("jzMoney")) 
-				{
-					
 				
-					if(!jzMoney.equals("0"))
-					{
-						 dataList.add(String.format("%.2f", Double.valueOf(String.valueOf(jzMoney))/10000));
-					}else
-					{
-						dataList.add(0);
-					}
-				}
+				
 			}
 			chartBarLineSeries.setData(dataList);
 		}
