@@ -90,7 +90,7 @@
                     }
             };
 
-            publicMethods.tableRender('sysReportStpTableId', 'sysReportStpTableId', '/fullSearch/getTableDataReport', false, cols, where, true, function (res, curr, count) {
+            publicMethods.tableRenderH('sysReportStpTableId', 'sysReportStpTableId',160, '/fullSearch/getTableDataReport', false, cols, where, true, function (res, curr, count) {
                 parent.$("#report").html(count);
                 console.log("report table");
                 console.log(res.data);

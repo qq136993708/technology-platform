@@ -186,7 +186,6 @@
         renderTable();
         //移除表头的复选框,去掉全选
         $(".layui-table-header table thead th input").remove();
-
         // 触发不同的按钮事件
         var $ = layui.$, active = {
         };
@@ -317,7 +316,7 @@
                 }},
             limit: 15,
             id: 'processdef-table',
-            height: commonDislodgeTable(),
+            height: parent.$("html").height()-400,
             page: {
                 groups: 5,
                 limits: [15,30,45,60],

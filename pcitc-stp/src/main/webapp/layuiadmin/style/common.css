@@ -512,7 +512,7 @@ textarea{ padding: 6px 10px; display: block;color: #555;background-color: #fff;b
     background: url("/layuiadmin/layui/images/icon-condition-db.png") no-repeat center left;}
 /*搜索结果页面*/
 .layui-iframe{height: 100%;width: 100%;border: none;}
-.layui-q>.layui-tab-title li{margin: 0 50px;    padding: 0;}
+.layui-q>.layui-tab-title li{margin: 0 44px;    padding: 0;}
 .layui-q>.layui-tab-title span{background: #fe0002;position: absolute;font-size: 14px;color: white;
     top: -5px;height: 18px;padding: 0 5px;line-height: 18px;border-radius: 6px;}
 .c-container{margin-top: 30px;}
