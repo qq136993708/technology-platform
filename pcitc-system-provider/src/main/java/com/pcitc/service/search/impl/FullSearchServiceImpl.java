@@ -123,17 +123,19 @@ public class FullSearchServiceImpl implements FullSearchService {
         if (Equipment != null&&Equipment.size()>0) {
             total = total + 1;
             for (int i = 0; i < Equipment.size(); i++) {
-                Equipment.get(i).setSelect_type("equipment");
+                Equipment.get(i).setSelect_type("科研装备");
+//                Equipment.get(i).setSelect_type("equipment");
                 list.add(Equipment.get(i));
             }
         }
 
-        List<Map<String, String>> Achivementc = (List<Map<String, String>>) tableDataAchivementc.getData();
+        List<?> Achivementc =  tableDataAchivementc.getData();
         if (Achivementc != null&&Achivementc.size()>0) {
             total = total + 1;
             for (int i = 0; i < Achivementc.size(); i++) {
-                Map<String, Object> map = MyBeanUtils.transBean2Map(Achivementc.get(i));
-                map.put("select_type", "achivement");
+                Map<String, Object> map = MyBeanUtils.java2Map(Achivementc.get(i));
+                map.put("select_type", "科技成果");
+//                map.put("select_type", "achivement");
                 list.add(map);
             }
         }
@@ -142,8 +144,9 @@ public class FullSearchServiceImpl implements FullSearchService {
         if (Scientific != null&&Scientific.size()>0) {
             total = total + 1;
             for (int i = 0; i < Scientific.size(); i++) {
-                Map<String, Object> map = MyBeanUtils.transBean2Map(Scientific.get(i));
-                map.put("select_type", "scientific");
+                Map<String, Object> map = MyBeanUtils.java2Map(Scientific.get(i));
+                map.put("select_type", "科研课题");
+//                map.put("select_type", "scientific");
                 list.add(map);
             }
         }
@@ -153,7 +156,8 @@ public class FullSearchServiceImpl implements FullSearchService {
             total = total + 1;
             for (int i = 0; i < Report.size(); i++) {
                 Map<String, Object> map = MyBeanUtils.transBean2Map(Report.get(i));
-                map.put("select_type", "report");
+                map.put("select_type", "图表");
+//                map.put("select_type", "report");
                 list.add(map);
             }
         }
@@ -163,7 +167,8 @@ public class FullSearchServiceImpl implements FullSearchService {
             total = total + 1;
             for (int i = 0; i < OutReward.size(); i++) {
                 Map<String, Object> map = MyBeanUtils.transBean2Map(OutReward.get(i));
-                map.put("select_type", "outReward");
+                map.put("select_type", "科技奖励");
+//                map.put("select_type", "outReward");
                 list.add(map);
             }
         }
@@ -173,7 +178,8 @@ public class FullSearchServiceImpl implements FullSearchService {
             total = total + 1;
             for (int i = 0; i < zjkTech.size(); i++) {
                 Map<String, Object> map = MyBeanUtils.transBean2Map(zjkTech.get(i));
-                map.put("select_type", "tech");
+                map.put("select_type", "技术族");
+//                map.put("select_type", "tech");
                 list.add(map);
             }
         }
@@ -182,8 +188,9 @@ public class FullSearchServiceImpl implements FullSearchService {
         if (zjkExpert != null&&zjkExpert.size()>0) {
             total = total + 1;
             for (int i = 0, j = zjkExpert.size(); i < j; i++) {
-                Map<String, Object> map = MyBeanUtils.transBean2Map(zjkExpert.get(i));
-                map.put("select_type", "expert");
+                Map<String, String> map = (zjkExpert.get(i));
+                map.put("select_type", "专家信息");
+//                map.put("select_type", "expert");
                 list.add(map);
             }
         }
@@ -192,8 +199,9 @@ public class FullSearchServiceImpl implements FullSearchService {
         if (zjkPatents != null&&zjkPatents.size()>0) {
             total = total + 1;
             for (int i = 0, j = zjkPatents.size(); i < j; i++) {
-                Map<String, Object> map = MyBeanUtils.transBean2Map(zjkPatents.get(i));
-                map.put("select_type", "patent");
+                Map<String, String> map = (zjkPatents.get(i));
+                map.put("select_type", "知识产权");
+//                map.put("select_type", "patent");
                 list.add(map);
 
             }
@@ -205,7 +213,7 @@ public class FullSearchServiceImpl implements FullSearchService {
 //        msg = (page == 1) ? (total) : (tabsCount);
         LayuiTableData tableDataFile = new LayuiTableData();
         DataTableInfoVo dataTableInfoVo = new DataTableInfoVo();
-   /*     if (msg >= page * limit) {
+        if (msg >= page * limit) {
             dataTableInfoVo.setiDisplayStart(0);
             dataTableInfoVo.setiDisplayLength(1);
             SysFileVo vo = new SysFileVo();
@@ -220,7 +228,8 @@ public class FullSearchServiceImpl implements FullSearchService {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            tableDataFile.addPropertyToData("select_type","file");
+            tableDataFile.addPropertyToData("select_type","文档资料");
+//            tableDataFile.addPropertyToData("select_type","file");
             List<?> fileData = tableDataFile.getData();
             if (fileData != null && fileData.size() > 0) {
                 total = total + tableDataFile.getCount();
@@ -258,7 +267,8 @@ public class FullSearchServiceImpl implements FullSearchService {
                 e.printStackTrace();
             }
 
-            tableDataFile.addPropertyToData("select_type","file");
+            tableDataFile.addPropertyToData("select_type","文档资料");
+//            tableDataFile.addPropertyToData("select_type","file");
             List<?> fileData = tableDataFile.getData();
             //只算>0;<0算total
             if (fileData != null && fileData.size() > 0) {
@@ -269,7 +279,7 @@ public class FullSearchServiceImpl implements FullSearchService {
                 }
                 total = total + tableDataFile.getCount();
             }
-        }*/
+        }
         //返回
         System.out.println("total = " + total);
         tableData.setCount(total);
