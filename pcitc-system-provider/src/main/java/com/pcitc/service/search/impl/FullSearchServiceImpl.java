@@ -201,7 +201,8 @@ public class FullSearchServiceImpl implements FullSearchService {
 //        getTabList(param_common, total, list, limit);
 
         //首页total，其他页取值
-        msg = (page == 1) ? (total) : (tabsCount);
+        msg = total;
+//        msg = (page == 1) ? (total) : (tabsCount);
         LayuiTableData tableDataFile = new LayuiTableData();
         DataTableInfoVo dataTableInfoVo = new DataTableInfoVo();
         if (msg >= page * limit) {
