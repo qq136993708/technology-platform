@@ -1085,6 +1085,8 @@
 				and out_project_info.PROJECT_TYPE != '1'
 				and define3='项目管理系统' 
 				group by out_project_info.define10) as tableA ON (out_tem_money_decompose.cb = tableA.define10)
+		where
+			out_tem_money_decompose.nd = '${nd}' 
 	</select>
 	
 	
