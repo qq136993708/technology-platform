@@ -203,16 +203,13 @@ public class MyBeanUtils extends BeanUtils {
         return map;
     }
 
- /*   public static void main(String[] args) {
-
-    }*/
-
+    /**
+     * javabean为true，返回java2Map，否则把javabean强制转义为map
+     * @param javaBean
+     * @return
+     */
     public static Map java2Map(Object javaBean) {
         Map map = transBean2Map(javaBean);
-        if (map.containsKey("empty")) {
-            return (Map) javaBean;
-        } else {
-            return map;
-        }
+        return map.containsKey("empty") ? (Map)javaBean : map;
     }
 }

@@ -66,8 +66,10 @@
                     {type: 'checkbox', event: 'changeEvents'},
                     {title: '序号', type: 'numbers'},
                     {field: 'fileName', title: '文件名称', event: 'setActive', style: 'cursor: pointer;'},
-                    {field: 'createUserId', title: '创建人', event: 'setActive', style: 'cursor: pointer;'},
-                    {field: 'createDateTime', title: '创建时间', event: 'setActive', style: 'cursor: pointer;'},
+                    // {field: 'createUserId', title: '创建人', event: 'setActive', style: 'cursor: pointer;'},
+                    {field: 'createDateTime', title: '创建时间', event: 'setActive', style: 'cursor: pointer;'
+                , templet:  '<div>{{ layui.laytpl.toDateString(d.createDateTime) }}</div>'
+        },
                     {field: 'fileSize', title: '文件大小(KB)', event: 'setActive', style: 'cursor: pointer;'},
                     {field: 'bak4', title: '详情', event: 'setActive', style: 'cursor: pointer;'}
                 ]],
