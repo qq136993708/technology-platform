@@ -28,10 +28,7 @@ public class ScientificFunds implements Serializable{
 	    private String g0GSJCL;//公司描述
 	    private String g0GSGP;//公司一级分类
 	    private String g0GSSP;//公司二级分类
-	    
 	    private String g0FYXLMS;
-	    
-	    
 	    
 	       	    	    	    
 	    private BigDecimal k0BNGLFPHJECB;
@@ -46,9 +43,6 @@ public class ScientificFunds implements Serializable{
 	    private BigDecimal k0TBJJ;
 	    private BigDecimal k0TBBL;
 	    private BigDecimal k0TBZJ2;
-	    
-	    
-	    
 	    private BigDecimal k0BNCB_4;
 	    private BigDecimal k0BNCB_411;
 	    private BigDecimal k0BNCB_412;
@@ -61,8 +55,6 @@ public class ScientificFunds implements Serializable{
 	    private BigDecimal k0BNCB_419;
 	    private BigDecimal k0BNCB_420;
 	    private BigDecimal k0BNCB_430;
-	    
-	    
 	    private BigDecimal k0SNCB_4;
 	    private BigDecimal k0SNCB_411;
 	    private BigDecimal k0SNCB_412;
@@ -75,7 +67,6 @@ public class ScientificFunds implements Serializable{
 	    private BigDecimal k0SNCB_419;
 	    private BigDecimal k0SNCB_420;
 	    private BigDecimal k0SNCB_430;
-	    
 	    private BigDecimal k0TQCB_4;
 	    private BigDecimal k0TQCB_411;
 	    private BigDecimal k0TQCB_412;
@@ -88,32 +79,21 @@ public class ScientificFunds implements Serializable{
 	    private BigDecimal k0TQCB_419;
 	    private BigDecimal k0TQCB_420;
 	    private BigDecimal k0TQCB_430;
-	    
-	    
 	    private BigDecimal k0BNCB;
 	    private BigDecimal k0SNCB;
 	    private BigDecimal k0TBCB;
-	    
 	    private BigDecimal k0BNCB_5;
 	    private BigDecimal k0BNCB_510;
 	    private BigDecimal k0BNCB_520;
-	    
-	    
 	    private BigDecimal k0SNCB_5;
 	    private BigDecimal k0SNCB_510;
 	    private BigDecimal k0SNCB_520;
-	    
-	    
 	    private BigDecimal k0TBCB_5;
 	    private BigDecimal k0TBCB_510;
 	    private BigDecimal k0TBCB_520;
-	    
-	    
 	    private BigDecimal k0TBBL_5;
 	    private BigDecimal k0TBBL_510;
 	    private BigDecimal k0TBBL_520;
-	    
-	    
 	    private BigDecimal k0BNCB_431;
 	    private BigDecimal k0BNCB_432;
 	    private BigDecimal k0BNCB_433;
@@ -124,9 +104,6 @@ public class ScientificFunds implements Serializable{
 	    private BigDecimal k0BNCB_444;
 	    private BigDecimal k0BNCB_445;
 	    private BigDecimal k0BNCB_446;
-	    
-	     
-	    
 	    private BigDecimal k0SNCB_431;
 	    private BigDecimal k0SNCB_432;
 	    private BigDecimal k0SNCB_433;
@@ -137,7 +114,6 @@ public class ScientificFunds implements Serializable{
 	    private BigDecimal k0SNCB_444;
 	    private BigDecimal k0SNCB_445;
 	    private BigDecimal k0SNCB_446;
-	    
 	    private BigDecimal k0TBCB_431;
 	    private BigDecimal k0TBCB_432;
 	    private BigDecimal k0TBCB_433;
@@ -150,7 +126,124 @@ public class ScientificFunds implements Serializable{
 	    private BigDecimal k0TBCB_446;
 	    
 	    
+	    private BigDecimal k0BNYSJHJE;
+	    private BigDecimal k0BNKYFPHCB;
+	    private BigDecimal k0BNGLFPHCB;
+	    private BigDecimal k0BNSJCNJE;
+	    private BigDecimal k0BNSJDJJE;
+	    private BigDecimal k0BNYSJY;
+	    private BigDecimal k0BNZJSYBL;
+	    private BigDecimal k0ZTYSJE;
+	    private BigDecimal k0LJKYFPQCB;
+	    private BigDecimal k0LJKYFPHCB;
+	    private BigDecimal k0LJGLFPHCB;
+	    private BigDecimal k0LJGLFPHJECB;
+	    private BigDecimal k0LJSJCNJE;
+	    private BigDecimal k0LJSJDJJE;
+	    private BigDecimal k0LJYSJY;
+	    private BigDecimal k0LJZJSYBL;
 	    
+	    
+	    
+	    
+	    
+	    
+		public BigDecimal getK0BNYSJHJE() {
+			return k0BNYSJHJE;
+		}
+		public void setK0BNYSJHJE(BigDecimal k0bnysjhje) {
+			k0BNYSJHJE = k0bnysjhje;
+		}
+		public BigDecimal getK0BNKYFPHCB() {
+			return k0BNKYFPHCB;
+		}
+		public void setK0BNKYFPHCB(BigDecimal k0bnkyfphcb) {
+			k0BNKYFPHCB = k0bnkyfphcb;
+		}
+		public BigDecimal getK0BNGLFPHCB() {
+			return k0BNGLFPHCB;
+		}
+		public void setK0BNGLFPHCB(BigDecimal k0bnglfphcb) {
+			k0BNGLFPHCB = k0bnglfphcb;
+		}
+		public BigDecimal getK0BNSJCNJE() {
+			return k0BNSJCNJE;
+		}
+		public void setK0BNSJCNJE(BigDecimal k0bnsjcnje) {
+			k0BNSJCNJE = k0bnsjcnje;
+		}
+		public BigDecimal getK0BNSJDJJE() {
+			return k0BNSJDJJE;
+		}
+		public void setK0BNSJDJJE(BigDecimal k0bnsjdjje) {
+			k0BNSJDJJE = k0bnsjdjje;
+		}
+		public BigDecimal getK0BNYSJY() {
+			return k0BNYSJY;
+		}
+		public void setK0BNYSJY(BigDecimal k0bnysjy) {
+			k0BNYSJY = k0bnysjy;
+		}
+		public BigDecimal getK0BNZJSYBL() {
+			return k0BNZJSYBL;
+		}
+		public void setK0BNZJSYBL(BigDecimal k0bnzjsybl) {
+			k0BNZJSYBL = k0bnzjsybl;
+		}
+		public BigDecimal getK0ZTYSJE() {
+			return k0ZTYSJE;
+		}
+		public void setK0ZTYSJE(BigDecimal k0ztysje) {
+			k0ZTYSJE = k0ztysje;
+		}
+		public BigDecimal getK0LJKYFPQCB() {
+			return k0LJKYFPQCB;
+		}
+		public void setK0LJKYFPQCB(BigDecimal k0ljkyfpqcb) {
+			k0LJKYFPQCB = k0ljkyfpqcb;
+		}
+		public BigDecimal getK0LJKYFPHCB() {
+			return k0LJKYFPHCB;
+		}
+		public void setK0LJKYFPHCB(BigDecimal k0ljkyfphcb) {
+			k0LJKYFPHCB = k0ljkyfphcb;
+		}
+		public BigDecimal getK0LJGLFPHCB() {
+			return k0LJGLFPHCB;
+		}
+		public void setK0LJGLFPHCB(BigDecimal k0ljglfphcb) {
+			k0LJGLFPHCB = k0ljglfphcb;
+		}
+		public BigDecimal getK0LJGLFPHJECB() {
+			return k0LJGLFPHJECB;
+		}
+		public void setK0LJGLFPHJECB(BigDecimal k0ljglfphjecb) {
+			k0LJGLFPHJECB = k0ljglfphjecb;
+		}
+		public BigDecimal getK0LJSJCNJE() {
+			return k0LJSJCNJE;
+		}
+		public void setK0LJSJCNJE(BigDecimal k0ljsjcnje) {
+			k0LJSJCNJE = k0ljsjcnje;
+		}
+		public BigDecimal getK0LJSJDJJE() {
+			return k0LJSJDJJE;
+		}
+		public void setK0LJSJDJJE(BigDecimal k0ljsjdjje) {
+			k0LJSJDJJE = k0ljsjdjje;
+		}
+		public BigDecimal getK0LJYSJY() {
+			return k0LJYSJY;
+		}
+		public void setK0LJYSJY(BigDecimal k0ljysjy) {
+			k0LJYSJY = k0ljysjy;
+		}
+		public BigDecimal getK0LJZJSYBL() {
+			return k0LJZJSYBL;
+		}
+		public void setK0LJZJSYBL(BigDecimal k0ljzjsybl) {
+			k0LJZJSYBL = k0ljzjsybl;
+		}
 		public BigDecimal getK0TBCB_431() {
 			return k0TBCB_431;
 		}
