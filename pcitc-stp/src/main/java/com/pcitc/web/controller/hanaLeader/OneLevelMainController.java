@@ -2581,22 +2581,16 @@ public class OneLevelMainController {
 													List<String>  xAxisDataList=HanaUtil.getduplicatexAxisByList(list,"zycmc");
 									         		barLine.setxAxisDataList(xAxisDataList);
 													List<String> legendDataList = new ArrayList<String>();
-													legendDataList.add("预算金额");
-													legendDataList.add("实际投入金额");
-													legendDataList.add("新开投入金额");
-													legendDataList.add("结转投入金额");
+													legendDataList.add("预算新开金额");
+													legendDataList.add("实际新开金额");
 													
 													barLine.setLegendDataList(legendDataList);
 													// X轴数据
 													List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
-													ChartBarLineSeries s1 = HanaUtil.getinvestmentBarLineSeries3(list, "ysje");
-													ChartBarLineSeries s2 = HanaUtil.getinvestmentBarLineSeries3(list, "sjzje");
-													ChartBarLineSeries s3 = HanaUtil.getinvestmentBarLineSeries3(list, "xkMoney");
-													ChartBarLineSeries s4 = HanaUtil.getinvestmentBarLineSeries3(list, "jzMoney");
+													ChartBarLineSeries s1 = HanaUtil.getinvestmentBarLineSeries3(list, "ysxkje");
+													ChartBarLineSeries s2 = HanaUtil.getinvestmentBarLineSeries3(list, "xkMoney");
 													seriesList.add(s1);
 													seriesList.add(s2);
-													seriesList.add(s3);
-													seriesList.add(s4);
 													barLine.setSeriesList(seriesList);
 									         		result.setSuccess(true);
 													result.setData(barLine);
