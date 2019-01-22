@@ -220,6 +220,8 @@ layui.define(['jquery'],function (e) {
             title=d.expertName;
         }else if(d.typeName!=undefined){
             title=d.typeName;
+        }else if(d.fileName!=undefined){
+            title=d.fileName;
         }
         if(d.userDesc){
             abstract=d.userDesc;
@@ -237,7 +239,7 @@ layui.define(['jquery'],function (e) {
             abstract=d.cgmc;
         }
         html='<div class="layui-div layui-div-n">' +
-            '        <a href="#">'+title+'</a>' +
+            '        <a href="#">'+title+'<span style="color: #1ea5bb"> _'+d.select_type+'</span></a>' +
             '        <div class="c-row c-gap-top-small">' +
             '            <div class="c-span18 c-span-last">' +
             '                <p>'+abstract+'</p>' +

@@ -5,6 +5,7 @@ import com.pcitc.base.common.DataEntity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import java.beans.Transient;
 import java.io.Serializable;
 
 /**
@@ -272,7 +273,16 @@ public class ZjkExpert extends DataEntity implements Serializable {
      * modify_user_disp - 修改人姓名
      */
     private String modifyUserDisp;
+    @Transient
+    public String getSelect_type() {
+        return select_type;
+    }
 
+    public void setSelect_type(String select_type) {
+        this.select_type = select_type;
+    }
+
+    private String select_type;
 
     public String getDataId() {
         return this.dataId;

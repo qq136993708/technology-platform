@@ -4,7 +4,9 @@ import com.pcitc.base.common.DataEntity;
 
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.beans.Transient;
 import java.io.Serializable;
 
 /**
@@ -197,6 +199,18 @@ public class ZjkPatent extends DataEntity implements Serializable {
      * modify_user - 修改人id
      */
     private String modifyUser;
+
+
+    @Transient
+    public String getSelect_type() {
+        return select_type;
+    }
+
+    public void setSelect_type(String select_type) {
+        this.select_type = select_type;
+    }
+
+    private String select_type;
 
 
     public String getDataId() {

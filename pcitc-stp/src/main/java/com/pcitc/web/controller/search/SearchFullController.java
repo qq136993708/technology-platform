@@ -218,10 +218,11 @@ public class SearchFullController extends BaseController {
         PageResult pageResult = new PageResult();
         String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
         String companyCode = CommonUtil.getParameter(request, "companyCode", "");
-        Map<String, Object> paramsMap = new HashMap<String, Object>();
         param.getParam().put("month", month);
         param.getParam().put("companyCode", companyCode);
+        param.getParam().put("fileCount", request.getParameter("fileCount"));
 
+        System.out.println("param.getParam().get(\"\") = " + param.getParam().get("fileCount"));
         LayuiTableData layuiTableData = new LayuiTableData();
         HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
         ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(search, HttpMethod.POST, entity, LayuiTableData.class);
