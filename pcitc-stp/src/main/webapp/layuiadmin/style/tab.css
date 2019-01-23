@@ -104,7 +104,7 @@ body{background-color: #f2f2f2;}
 .default-tag .layui-nav .layui-nav-item .layui-nav-child dd a:hover{color: #000;background: none;}
 .layui-card-header .layui-nav-child{top: 25px;min-width: 180px;border: 1px solid #cbe6ff;}
 .layui-card-header .layui-nav-child.mxstorelist{left:-100px;}
-.layui-card-header .layui-nav-child.mxlit{left: -330px;}
+.layui-card-header .layui-nav-child.mxlit{left: auto;right: 0;}
 .layui-card-header .layui-nav-child dd a:hover{background: none;}
 .plus-tag div{height: auto;overflow: hidden}
 .hotspot-mr,.hotspot-target-mr{height: 40px !important;overflow-y:scroll !important;width: 92%;margin: 0 auto;}
