@@ -1,5 +1,6 @@
 package com.pcitc.mapper.out;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -33,4 +34,14 @@ public interface OutRewardMapper {
     public void insertOutRewardBatch(List<OutReward> list);
     
     List<String> selectOutRewardYearList();
+    
+    /**
+	 * 辅助决策中心，科技奖励年度趋势分析, 近5年各类奖励类型的数量情况
+	 */
+	public List getRewardBySbjzWithFiveYear(HashMap<String, String> map);
+	
+	/**
+	 * 辅助决策中心，科技奖励年度趋势分析, 各个研究院的奖励情况
+	 */
+	public List getRewardInfoByYjy(HashMap<String, String> map);
 }

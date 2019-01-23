@@ -115,28 +115,6 @@ public class OutAppraisalInfoClient {
 		return json;
 	}
 	
-	@ApiOperation(value = "成果鉴定数量分析,按单位查询", notes = "参数是年度")
-	@RequestMapping(value = "/out-appraisal-provider/unit/result-count", method = RequestMethod.POST)
-	public JSONArray getAppraisalResultCountByUnit(@RequestBody HashMap<String, String> map) throws Exception {
-		logger.info("==================page getAppraisalResultCountByUnit===========================" + map);
-		
-		String nd = map.get("nd");
-		List temList = outAppraisalService.getResultInfoBySix(nd);
-		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
-		return json;
-	}
-	
-	@ApiOperation(value = "成果鉴定数量分析,按研究院查询", notes = "参数是年度")
-	@RequestMapping(value = "/out-appraisal-provider/institution/result-count", method = RequestMethod.POST)
-	public JSONArray getAppraisalResultCountByInstitution(@RequestBody HashMap<String, String> map) throws Exception {
-		logger.info("==================page getAppraisalResultCountByUnit===========================" + map);
-		
-		String nd = map.get("nd");
-		List temList = outAppraisalService.getResultInfoByEight(nd);
-		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
-		return json;
-	}
-	
 	@ApiOperation(value = "成果鉴定数量分析,按研究院查询", notes = "参数是年度")
 	@RequestMapping(value = "/out-appraisal-provider/institution/cg/info", method = RequestMethod.POST)
 	public JSONArray getAppraisalInfoByInstitute(@RequestBody HashMap<String, String> map) throws Exception {
@@ -148,6 +126,7 @@ public class OutAppraisalInfoClient {
 			temMap.put("sl", 0);
 			temMap.put("gyhsl", 0);
 			temMap.put("gysysl", 0);
+			temMap.put("qtsl", 0);
 			temMap.put("define1", "勘探院");
 			temList.add(0, temMap);
 		}
@@ -156,6 +135,7 @@ public class OutAppraisalInfoClient {
 			temMap.put("sl", 0);
 			temMap.put("gyhsl", 0);
 			temMap.put("gysysl", 0);
+			temMap.put("qtsl", 0);
 			temMap.put("define1", "物探院");
 			temList.add(1, temMap);
 		}
@@ -164,6 +144,7 @@ public class OutAppraisalInfoClient {
 			temMap.put("sl", 0);
 			temMap.put("gyhsl", 0);
 			temMap.put("gysysl", 0);
+			temMap.put("qtsl", 0);
 			temMap.put("define1", "工程院");
 			temList.add(2, temMap);
 		}
@@ -172,6 +153,7 @@ public class OutAppraisalInfoClient {
 			temMap.put("sl", 0);
 			temMap.put("gyhsl", 0);
 			temMap.put("gysysl", 0);
+			temMap.put("qtsl", 0);
 			temMap.put("define1", "石科院");
 			temList.add(3, temMap);
 		}
@@ -180,6 +162,7 @@ public class OutAppraisalInfoClient {
 			temMap.put("sl", 0);
 			temMap.put("gyhsl", 0);
 			temMap.put("gysysl", 0);
+			temMap.put("qtsl", 0);
 			temMap.put("define1", "大连院");
 			temList.add(4, temMap);
 		}
@@ -188,6 +171,7 @@ public class OutAppraisalInfoClient {
 			temMap.put("sl", 0);
 			temMap.put("gyhsl", 0);
 			temMap.put("gysysl", 0);
+			temMap.put("qtsl", 0);
 			temMap.put("define1", "北化院");
 			temList.add(5, temMap);
 		}
@@ -196,6 +180,7 @@ public class OutAppraisalInfoClient {
 			temMap.put("sl", 0);
 			temMap.put("gyhsl", 0);
 			temMap.put("gysysl", 0);
+			temMap.put("qtsl", 0);
 			temMap.put("define1", "上海院");
 			temList.add(6, temMap);
 		}
@@ -205,9 +190,21 @@ public class OutAppraisalInfoClient {
 			temMap.put("sl", 0);
 			temMap.put("gyhsl", 0);
 			temMap.put("gysysl", 0);
+			temMap.put("qtsl", 0);
 			temMap.put("define1", "安工院");
 			temList.add(7, temMap);
 		}
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		return json;
+	}
+	
+	@ApiOperation(value = "辅助决策分析，成果鉴定年度分析，近三年成果各专业分布", notes = "参数是年度")
+	@RequestMapping(value = "/out-appraisal-provider/institution/zy/three-year", method = RequestMethod.POST)
+	public JSONArray getAppraisalInfoByZyForThreeYear(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page getAppraisalInfoByZyForThreeYear===========================" + map);
+		
+		List temList = outAppraisalService.getAppraisalInfoByZyForThreeYear(map);
+		
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
 		return json;
 	}

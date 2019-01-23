@@ -1,5 +1,6 @@
 package com.pcitc.service.out.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,10 +25,10 @@ import com.pcitc.service.out.OutRewardService;
 public class OutRewardServiceImpl implements OutRewardService {
 
 	@Autowired
-	private OutRewardMapper outRewardMapper;
+	private OutRewardMapper		outRewardMapper;
 
-	private final static Logger logger = LoggerFactory.getLogger(OutRewardServiceImpl.class);
-	
+	private final static Logger	logger	= LoggerFactory.getLogger(OutRewardServiceImpl.class);
+
 	public LayuiTableData getOutRewardPage(LayuiTableParam param) {
 		Map<String, Object> paraMap = param.getParam();
 
@@ -40,7 +41,7 @@ public class OutRewardServiceImpl implements OutRewardService {
 
 		List<OutReward> list = outRewardMapper.selectByExample(example);
 		PageInfo<OutReward> pageInfo = new PageInfo<OutReward>(list);
-		System.out.println(">>>>>>>>>查询分页结果" + pageInfo.getList().size());
+		System.out.println(">>>>>>>>>查询分页结果"+pageInfo.getList().size());
 
 		LayuiTableData data = new LayuiTableData();
 		data.setData(pageInfo.getList());
@@ -58,20 +59,20 @@ public class OutRewardServiceImpl implements OutRewardService {
 		OutRewardExample example = new OutRewardExample();
 		OutRewardExample.Criteria criteria = example.createCriteria();
 
-		if (paraMap.get("xmbh") != null && !paraMap.get("xmbh").toString().equals("")) {
-			criteria.andXmbhLike("%" + paraMap.get("xmbh").toString() + "%");
+		if (paraMap.get("xmbh")!=null&&!paraMap.get("xmbh").toString().equals("")) {
+			criteria.andXmbhLike("%"+paraMap.get("xmbh").toString()+"%");
 		}
-		if (paraMap.get("nd") != null && !paraMap.get("nd").toString().equals("")) {
+		if (paraMap.get("nd")!=null&&!paraMap.get("nd").toString().equals("")) {
 			criteria.andNdEqualTo(paraMap.get("nd").toString());
 		}
-		if (paraMap.get("xmmc") != null && !paraMap.get("xmmc").toString().equals("")) {
-			criteria.andXmmcLike("%" + paraMap.get("xmmc").toString() + "%");
+		if (paraMap.get("xmmc")!=null&&!paraMap.get("xmmc").toString().equals("")) {
+			criteria.andXmmcLike("%"+paraMap.get("xmmc").toString()+"%");
 		}
 		example.setOrderByClause(" sbjz,sbdj asc ");
 
 		List<OutReward> list = outRewardMapper.selectByExample(example);
 		PageInfo<OutReward> pageInfo = new PageInfo<OutReward>(list);
-		System.out.println(">>>>>>>>>查询分页结果" + pageInfo.getList().size());
+		System.out.println(">>>>>>>>>查询分页结果"+pageInfo.getList().size());
 
 		LayuiTableData data = new LayuiTableData();
 		data.setData(pageInfo.getList());
@@ -91,8 +92,21 @@ public class OutRewardServiceImpl implements OutRewardService {
 	}
 
 	@Override
-	public List<String> selectOutRewardYearList() 
-	{
+	public List<String> selectOutRewardYearList() {
 		return outRewardMapper.selectOutRewardYearList();
+	}
+
+	/**
+	 * 辅助决策中心，科技奖励年度趋势分析, 近5年各类奖励类型的数量情况
+	 */
+	public List getRewardBySbjzWithFiveYear(HashMap<String, String> map) {
+		return outRewardMapper.getRewardBySbjzWithFiveYear(map);
+	}
+	
+	/**
+	 * 辅助决策中心，科技奖励年度趋势分析, 各个研究院的奖励情况
+	 */
+	public List getRewardInfoByYjy(HashMap<String, String> map) {
+		return outRewardMapper.getRewardInfoByYjy(map);
 	}
 }
