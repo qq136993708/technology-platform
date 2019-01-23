@@ -15,12 +15,25 @@
        <result column="DAY6"         property="dAY6"       jdbcType="VARCHAR" />
        <result column="DAY7"         property="dAY7"       jdbcType="VARCHAR" />
        <result column="G0GSOR"       property="g0GSOR"     jdbcType="VARCHAR" />
+       <result column="K0DAY1"          property="k0DAY1"        jdbcType="DECIMAL" />
+       <result column="K0DAY2"          property="k0DAY2"        jdbcType="DECIMAL" />
+       <result column="K0DAY3"          property="k0DAY3"        jdbcType="DECIMAL" />
+       <result column="K0DAY4"          property="k0DAY4"        jdbcType="DECIMAL" />
+       <result column="K0DAY5"          property="k0DAY5"        jdbcType="DECIMAL" />
+       <result column="K0DAY6"          property="k0DAY6"        jdbcType="DECIMAL" />
+       <result column="K0DAY7"          property="k0DAY7"        jdbcType="DECIMAL" />
+       
+       
+    
+    
+    
+    
      </resultMap>
      
 	 <select id="getDayCashFlowReport" resultMap="dayCashFlowResultMap" parameterType="java.util.Map" >
 	    SELECT
 			 "G0CALDAY",
-			  round( sum("K0XJYE")/10000,2)  AS "K0XJYE",
+			  round( sum("K0XJYE")/10000,2)  AS "K0XJYE"
 		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_ZH_1003_04"('PLACEHOLDER' = ('$$PR_CALDAY$$',
 			 '${month}'),
 			 'PLACEHOLDER' = ('$$PR_GSDM$$',
@@ -28,87 +41,21 @@
 		GROUP BY "G0CALDAY"
 	 </select>
 	 
-	  <select id="getDayCashFlowReport2" resultMap="dayCashFlowResultMap" parameterType="java.util.Map" >
-	    select 
-		   a."G0GSJC",
-		   b."G0GSOR",
-		sum(a.DAY1) as DAY1,
-		sum(a.DAY2) as DAY2,
-		sum(a.DAY3) as DAY3,
-		sum(a.DAY4) as DAY4,
-		sum(a.DAY5) as DAY5,
-		sum(a.DAY6) as DAY6,
-		sum(a.DAY7) as DAY7
-		from
-		(
-	       select 
-			   "G0GSJC",
-			sum(DAY1) as DAY1,
-			sum(DAY2) as DAY2,
-			sum(DAY3) as DAY3,
-			sum(DAY4) as DAY4,
-			sum(DAY5) as DAY5,
-			sum(DAY6) as DAY6,
-			sum(DAY7) as DAY7
-			from(
-				   select 
-				   "G0GSJC",
-				   case when "G0CALDAY" = LEFT(TO_CHAR(ADD_DAYS(TO_DATE(TO_CHAR(LEFT('${month}',8)),'YYYYMMDD'),0),'YYYYMMDD'),8) 
-				            then sum("K0XJYE")
-				   
-				   end  as DAY1,
-				    case when "G0CALDAY" = LEFT(TO_CHAR(ADD_DAYS(TO_DATE(TO_CHAR(LEFT('${month}',8)),'YYYYMMDD'),-1),'YYYYMMDD'),8) 
-				            then sum("K0XJYE")
-				   
-				   end  as DAY2,  
-				   case when "G0CALDAY" = LEFT(TO_CHAR(ADD_DAYS(TO_DATE(TO_CHAR(LEFT('${month}',8)),'YYYYMMDD'),-2),'YYYYMMDD'),8) 
-				            then sum("K0XJYE")
-				   
-				   end  as DAY3,
-				    case when "G0CALDAY" = LEFT(TO_CHAR(ADD_DAYS(TO_DATE(TO_CHAR(LEFT('${month}',8)),'YYYYMMDD'),-3),'YYYYMMDD'),8) 
-				            then sum("K0XJYE")
-				   
-				   end  as DAY4,     
-				   case when "G0CALDAY" = LEFT(TO_CHAR(ADD_DAYS(TO_DATE(TO_CHAR(LEFT('${month}',8)),'YYYYMMDD'),-4),'YYYYMMDD'),8) 
-				            then sum("K0XJYE")
-				   
-				   end  as DAY5,
-				    case when "G0CALDAY" = LEFT(TO_CHAR(ADD_DAYS(TO_DATE(TO_CHAR(LEFT('${month}',8)),'YYYYMMDD'),-5),'YYYYMMDD'),8) 
-				            then sum("K0XJYE")
-				   
-				   end  as DAY6,     
-				    case when "G0CALDAY" = LEFT(TO_CHAR(ADD_DAYS(TO_DATE(TO_CHAR(LEFT('${month}',8)),'YYYYMMDD'),-6),'YYYYMMDD'),8) 
-				            then sum("K0XJYE")
-				   end  as DAY7   
-					 from
-					 (
-					 <![CDATA[
-					 SELECT
-					    "G0CALDAY",
-					    "G0GSJC",
-					     sum("K0XJYE") AS "K0XJYE" 
-					FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_ZH_1003_04"('PLACEHOLDER' = ('$$PR_CALDAY$$',
-					     '${month}'),
-					     'PLACEHOLDER' = ('$$PR_GSDM$$',
-					     '${companyCode}')) 
-					     where "G0CALDAY" <= LEFT(TO_CHAR(ADD_DAYS(TO_DATE(TO_CHAR(LEFT('${month}',8)),'YYYYMMDD'),0),'YYYYMMDD'),8) 
-					                       and  "G0CALDAY" >= LEFT(TO_CHAR(ADD_DAYS(TO_DATE(TO_CHAR(LEFT('${month}',8)),'YYYYMMDD'),-7),'YYYYMMDD'),8)
-					GROUP BY "G0CALDAY","G0GSJC"
-					]]>
-					)group by "G0CALDAY","G0GSJC")
-					group by "G0GSJC"
-					) as a 
-			left join 
-			(
-			SELECT
-			     "G0GSJC",
-			     "G0GSOR"
-			FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_ZH_1000_03" 
-			order by "G0GSOR"
-			) as b
-			on a."G0GSJC" = b."G0GSJC"
-			group by a."G0GSJC",b."G0GSOR"
-			order by  b."G0GSOR"
+	<select id="getDayCashFlowReport2" resultMap="dayCashFlowResultMap" parameterType="java.util.Map" >
+	  SELECT
+			 "G0GSJC",
+			 round(sum("K0DAY1")/10000,2) AS "K0DAY1",
+			 round(sum("K0DAY2")/10000,2) AS "K0DAY2",
+			 round(sum("K0DAY3")/10000,2) AS "K0DAY3",
+			 round(sum("K0DAY4")/10000,2) AS "K0DAY4",
+			 round( sum("K0DAY5")/10000,2) AS "K0DAY5",
+			 round(sum("K0DAY6")/10000,2) AS "K0DAY6",
+			 round(sum("K0DAY7")/10000,2) AS "K0DAY7" 
+		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_ZH_1003_05"('PLACEHOLDER' = ('$$PR_CALDAY$$',
+			 '${month}'),
+			 'PLACEHOLDER' = ('$$PR_GSDM$$',
+			 '${companyCode}')) 
+		GROUP BY  "G0GSJC"
 	 </select>
 	 
 </mapper>

@@ -26,13 +26,11 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.ChartBarLineResultData;
 import com.pcitc.base.common.ChartBarLineSeries;
-import com.pcitc.base.common.ChartPieDataValue;
-import com.pcitc.base.common.ChartPieResultData;
+import com.pcitc.base.common.ChartSingleLineResultData;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
-import com.pcitc.base.hana.report.CompanyCode;
-import com.pcitc.base.hana.report.ScientificInstrumentPay;
+import com.pcitc.base.hana.report.DayCashFlow;
 import com.pcitc.base.hana.report.TotalCostProjectPay01;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CommonUtil;
@@ -50,6 +48,7 @@ public class FinanceController {
 	private RestTemplate restTemplate;
 	
 	private static final String getDayCashFlowReport = "http://pcitc-zuul/hana-proxy/hana/decision/financial/getDayCashFlowReport";
+	private static final String getDayCashFlowReport2 = "http://pcitc-zuul/hana-proxy/hana/decision/financial/getDayCashFlowReport2";
 	private static final String xjrllfx_data = "http://pcitc-zuul/hana-proxy/hana/decision/financial/xjrllfx";
 
 	
@@ -78,21 +77,97 @@ public class FinanceController {
 	  public String xjrllfx(HttpServletRequest request) throws Exception
 	  {
 		  
-		  SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
+		    SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
 		    HanaUtil.setSearchParaForUser(userInfo,restTemplate,httpHeaders,request);
 		    String month=CommonUtil.getParameter(request, "month", ""+DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
 		    List<String> list=HanaUtil.getDayListOfMonth(month);
-		    
-		    
 		    JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
 		    System.out.println(">>>>>json="+json);
 		    request.setAttribute("days", json.toJSONString());
+		    String day= DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY_DD);
+		    request.setAttribute("day", day);
 	        return "stp/hana/finance/xjrllfx";
 	  }
 	  
+	  @RequestMapping(method = RequestMethod.GET, value = "/getDayCashFlowReport01")
+		@ResponseBody
+		public String getDayCashFlowReport01(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	    	Result result = new Result();
+	    	String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+			String companyCode = CommonUtil.getParameter(request, "companyCode", "");
+			Map<String, Object> paramsMap = new HashMap<String, Object>();
+			paramsMap.put("month", month);
+			paramsMap.put("companyCode", companyCode);
+			JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+			HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+			ChartSingleLineResultData chartSingleLineResultData = new ChartSingleLineResultData();
+				ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(getDayCashFlowReport, HttpMethod.POST, entity, JSONArray.class);
+				int statusCode = responseEntity.getStatusCodeValue();
+				if (statusCode == 200) 
+				{
+					JSONArray jSONArray = responseEntity.getBody();
+					System.out.println(">>>>>>>>>>>>>>>getDayCashFlowReport01 jSONArray" + jSONArray.toString());
+					List<DayCashFlow> list = JSONObject.parseArray(jSONArray.toJSONString(), DayCashFlow.class);
+					List<String> xAxisDataList = new ArrayList<String>();
+					List<Object> seriesDataList = new ArrayList<Object>();
+					
+					for (int i = 0; i < list.size(); i++) {
+						DayCashFlow contract = (DayCashFlow) list.get(i);
+						String g0CALDAY = contract.getG0CALDAY();
+						Object k0XJYE =contract.getK0XJYE();
+						if(k0XJYE!=null && !k0XJYE.toString().equals("0"))
+						{
+							String str=String.format("%.2f", Double.valueOf(String.valueOf(k0XJYE)));
+							seriesDataList.add(str);
+							xAxisDataList.add(g0CALDAY);
+						}
+						
+						
+					}
+					chartSingleLineResultData.setxAxisDataList(xAxisDataList);
+					chartSingleLineResultData.setSeriesDataList(seriesDataList);
+					result.setSuccess(true);
+					result.setData(chartSingleLineResultData);
+				}
+				
+			
+			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
+			System.out.println(">>>>>>>>>>>>>>>getDayCashFlowReport01 " + resultObj.toString());
+			return resultObj.toString();
+		}
 	  
 	  
-	  @RequestMapping(method = RequestMethod.POST, value = "/xjrllfx_data")
+		@RequestMapping(method = RequestMethod.POST, value = "/getDayCashFlowReport2")
+		@ResponseBody
+		public String getDayCashFlowReport2(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response)
+		{
+
+			String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY_DD));
+			String companyCode = CommonUtil.getParameter(request, "companyCode", HanaUtil.YJY_CODE_NOT_YINGKE);
+			System.out.println(">>>>>>>>>>getDayCashFlowReport2>>>>>>>>>>>参数      month = "+month+" companyCode="+companyCode);
+			Map<String, Object> paramsMap = new HashMap<String, Object>();
+			paramsMap.put("month", month);
+			paramsMap.put("companyCode", companyCode);
+			
+			LayuiTableData layuiTableData = new LayuiTableData();
+			HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+			ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(getDayCashFlowReport2, HttpMethod.POST, entity, LayuiTableData.class);
+			int statusCode = responseEntity.getStatusCodeValue();
+			if (statusCode == 200)
+			{
+				layuiTableData = responseEntity.getBody();
+			}
+			JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
+			System.out.println(">>>>>>>>>>>>>getDayCashFlowReport2:" + result.toString());
+			return result.toString();
+		}
+	
+  
+		
+		
+		
+	  
+	    @RequestMapping(method = RequestMethod.POST, value = "/xjrllfx_data")
 		@ResponseBody
 		public String xjrllfx_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response)
 		{
@@ -156,7 +231,8 @@ public class FinanceController {
 			return resultObj.toString();
 
 		}
-	  
+	    
+	
 	  //现金流量月报分析
 	  @RequestMapping(method = RequestMethod.GET, value = "/finance/xjllybfx")
 	  public String xjllybfx(HttpServletRequest request) throws Exception
