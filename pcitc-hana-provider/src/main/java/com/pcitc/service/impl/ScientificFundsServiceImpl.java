@@ -63,7 +63,18 @@ public class ScientificFundsServiceImpl implements IScientificFundsService {
   	}
 	 
 	 
+	 
+	 
+	   //项目资金流向分析
+		 public List<ScientificFunds> getXmzjlxfxData(Map  map)throws Exception
+	  	 {
+	  		List<ScientificFunds> list = scientificFundsMapper.getXmzjlxfxData(map);
+	  	    return list;
+	  	}
 		 
+		 
+	 
+		 /*
 		//项目资金流向分析
 		 public LayuiTableData getXmzjlxfxData(LayuiTableParam param)throws Exception
 	  	 {
@@ -87,6 +98,6 @@ public class ScientificFundsServiceImpl implements IScientificFundsService {
 	  		data.setData(list);
 	  		data.setCount(1000);
 	  	    return data;
-	  	}
+	  	}*/
 			
 }
