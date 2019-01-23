@@ -1,6 +1,5 @@
 package com.pcitc.service.expert.impl;
 
-
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
@@ -31,7 +30,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
 import java.util.stream.Collectors;
-
 
 /**
  * <p>接口实现类</p>
@@ -118,7 +116,6 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
 
     @Override
     public int insert(ZjkExpert record) {
-        record.setId(IdUtil.createIdByTime());
         return zjkBaseInfoMapper.insert(record);
     }
 
@@ -194,14 +191,13 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
         LayuiTableData data = new LayuiTableData();
         Object keywords = param.getParam().get("keyword");
         if (keywords != null && !"".equals(keywords)) {
-            example.or().andExpertNameLike("%"+keywords+"%");
-            example.or().andUserDescLike("%"+keywords+"%");
+            example.or().andExpertNameLike("%" + keywords + "%");
+            example.or().andUserDescLike("%" + keywords + "%");
         }
         example.setOrderByClause("create_date desc");
         return this.findByExample(param, example);
 
     }
-
 
     public List<SysDictionary> getDicSon(String strParentCode) {
         List<SysDictionary> list = systemRemoteClient.getDictionaryListByParentCode(strParentCode);
@@ -318,6 +314,7 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
         }
         return maps;
     }
+
     /**
      * 树形菜单
      *
@@ -344,7 +341,6 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
 
         return orderNodes;
     }
-
 
     @Autowired
     ZjkPicService zjkPicService;
@@ -375,7 +371,6 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
             }
         }
 
-
         Map<String, Object> param = (Map<String, Object>) jsonObject.get("param");
 
         if (bak1 != null && bak2 != null) {
@@ -386,7 +381,6 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
         for (Map.Entry<String, Object> e : param.entrySet()) {
             sql = sql.replace("#{" + e.getKey() + "}", "'" + ((e.getValue() == null) ? "" : e.getValue()) + "'");
         }
-
 
         Map<String, Object> map = new HashMap<>();
         map.put("sqlval", sql);
@@ -533,6 +527,7 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
 
     //TO DO
     //专家参与项目与成果，专利关系，对应查询？专家与成果专利对应关系
+
     /**
      * 专家保存
      *
@@ -596,24 +591,24 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
         for (int i = 0, j = array.size(); i < j; i++) {
             JSONObject obj = (JSONObject) array.get(i);
             ZjkPatent record = new ZjkPatent();
-            record.setDataId(getObjString(obj.get("entityName")));                  //   entityName: hyzlknowledge  //固定值
-            record.setDataId(getObjString(obj.get("teptName")));                    //   teptName: 行业专利   //固定值
+//            record.setDataId(getObjString(obj.get("entityName")));                  //   entityName: hyzlknowledge  //固定值
+//            record.setDataId(getObjString(obj.get("teptName")));                    //   teptName: 行业专利   //固定值
             record.setDataId(getObjString(obj.get("id")));                          //   id: 专利id
-            record.setDataId(getObjString(obj.get("knowledgeName")));               //   knowledgeName: 专利名称
-            record.setDataId(getObjString(obj.get("applyDate")));                   //   applyDate: 申请时间
-            record.setDataId(getObjString(obj.get("noticeDate")));                  //   noticeDate: 公开时间
-            record.setDataId(getObjString(obj.get("patentHolder")));                //   patentHolder:专利申请人
-            record.setDataId(getObjString(obj.get("patentInventor")));              //   patentInventor:专利发明人
-            record.setDataId(getObjString(obj.get("rightsHolder")));                //   rightsHolder:专利权人
-            record.setDataId(getObjString(obj.get("termTags")));                    //   termTags:标签
-            record.setDataId(getObjString(obj.get("parentProjectId")));             //   parentProjectId: 所属项目id
-            record.setDataId(getObjString(obj.get("parentProjectName")));           //   parentProjectName:所属项目名称
-            record.setDataId(getObjString(obj.get("classifyId")));                  //   classifyId: 所属分类id
-            record.setDataId(getObjString(obj.get("classifyName")));                  //   classifyName: 所属分类名称
-            record.setDataId(getObjString(obj.get("nationCode")));                  //   nationCode: 国别
-            record.setDataId(getObjString(obj.get("companyName")));                 //   companyName: 所属公司
-            record.setDataId(getObjString(obj.get("patentBackground")));            //   patentBackground: 专利背景
-            record.setDataId(getObjString(obj.get("patentDescription")));           //   patentDescription: 专利描述
+            record.setPatentName(getObjString(obj.get("knowledgeName")));               //   knowledgeName: 专利名称
+            record.setApplyDate(getObjString(obj.get("applyDate")));                   //   applyDate: 申请时间
+            record.setPublicDate(getObjString(obj.get("noticeDate")));                  //   noticeDate: 公开时间
+            record.setApplyPeople(getObjString(obj.get("patentHolder")));                //   patentHolder:专利申请人
+            record.setInventPeopleName(getObjString(obj.get("patentInventor")));              //   patentInventor:专利发明人
+            record.setPatentePeopleName(getObjString(obj.get("rightsHolder")));                //   rightsHolder:专利权人
+            record.setPatentKeys(getObjString(obj.get("termTags")));                    //   termTags:标签
+            record.setOwnerProjectId(getObjString(obj.get("parentProjectId")));             //   parentProjectId: 所属项目id
+            record.setOwnerProjectName(getObjString(obj.get("parentProjectName")));           //   parentProjectName:所属项目名称
+            record.setOwnerTechType(getObjString(obj.get("classifyId")));                  //   classifyId: 所属分类id
+            record.setBak1(getObjString(obj.get("classifyName")));                  //   classifyName: 所属分类名称
+            record.setExpertNationality(getObjString(obj.get("nationCode")));                  //   nationCode: 国别
+            record.setCompany(getObjString(obj.get("companyName")));                 //   companyName: 所属公司
+            record.setPatenteBackground(getObjString(obj.get("patentBackground")));            //   patentBackground: 专利背景
+            record.setPatentDesc(getObjString(obj.get("patentDescription")));           //   patentDescription: 专利描述
             zjkZhuanliService.insert(record);
         }
         return jsonObject;
@@ -627,22 +622,22 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
         for (int i = 0, j = array.size(); i < j; i++) {
             JSONObject obj = (JSONObject) array.get(i);
             ZjkAchievement record = new ZjkAchievement();
-            record.setDataId(getObjString(obj.get("entityName")));            //       entityName: kycgknowledge//固定值
-            record.setDataId(getObjString(obj.get("teptName")));              //       teptName: 科研成果   //固定值        
-            record.setDataId(getObjString(obj.get("id")));                    //       id: 成果id                      
-            record.setDataId(getObjString(obj.get("knowledgeName")));         //       knowledgeName:成果名称            
-            record.setDataId(getObjString(obj.get("issuedate")));             //       issuedate:年度（日期）,             
-            record.setDataId(getObjString(obj.get("dutyunit")));              //       dutyunit:所属公司(机构）             
-            record.setDataId(getObjString(obj.get("reportclass")));           //       reportclass:成果类型              
-            record.setDataId(getObjString(obj.get("classify")));              //       classify:专业领域/行业领域(ID)        
-            record.setDataId(getObjString(obj.get("classifyName")));          //       classifyName :专业领域/行业领域(NAME) 
-            record.setDataId(getObjString(obj.get("level")));                 //       level:成果级别                    
-            record.setDataId(getObjString(obj.get("projectId")));             //       projectId : 所属项目（ID）          
-            record.setDataId(getObjString(obj.get("projectName")));           //       projectName:所属项目（NAME）        
-            record.setDataId(getObjString(obj.get("compact")));               //       compact	:所属合同               
-            record.setDataId(getObjString(obj.get("keyword")));               //       keyword	:成果标签（关键字）          
-            record.setDataId(getObjString(obj.get("reportwriter")));          //       reportwriter:负责人              
-            record.setDataId(getObjString(obj.get("description")));           //       description:成果描述  
+//            record.setDataId(getObjString(obj.get("entityName")));           //entityName: kycgknowledge//固定值
+//            record.setDataId(getObjString(obj.get("teptName")));             //teptName: 科研成果   //固定值
+            record.setDataId(getObjString(obj.get("id")));                   //id: 成果id
+            record.setAchievementName(getObjString(obj.get("knowledgeName")));        //knowledgeName:成果名称
+            record.setPublishDate(getObjString(obj.get("issuedate")));            //issuedate:年度（日期）,
+            record.setCompany(getObjString(obj.get("dutyunit")));             //dutyunit:所属公司(机构）
+            record.setAchievementType(getObjString(obj.get("reportclass")));          //reportclass:成果类型
+            record.setIndustryId(getObjString(obj.get("classify")));             //classify:专业领域/行业领域(ID)
+            record.setIndustryName(getObjString(obj.get("classifyName")));         //classifyName :专业领域/行业领域(NAME)
+            record.setAchievementLevel(getObjString(obj.get("level")));                //level:成果级别
+            record.setOwnerProjectId(getObjString(obj.get("projectId")));            //projectId : 所属项目（ID）
+            record.setOwnerProjectName(getObjString(obj.get("projectName")));          //projectName:所属项目（NAME）
+            record.setOwnerContractName(getObjString(obj.get("compact")));              //compact	:所属合同
+            record.setAchievementKeys(getObjString(obj.get("keyword")));              //keyword	:成果标签（关键字）
+            record.setFinishPeople(getObjString(obj.get("reportwriter")));         //reportwriter:负责人
+            record.setAchievementDesc(getObjString(obj.get("description")));          //description:成果描述
             zjkChengguoService.insert(record);
         }
         return jsonObject;
@@ -671,10 +666,6 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
 
     //obj to string
     public String getObjString(Object obj) {
-        if (obj == null || "".equals(obj)) {
-            return "";
-        } else {
-            return obj.toString();
-        }
+        return (obj == null || "".equals(obj))?"":obj.toString();
     }
 }
