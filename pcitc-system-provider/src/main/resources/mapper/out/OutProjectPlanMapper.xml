@@ -1083,7 +1083,7 @@
 			WHERE
 				out_project_info.ysnd= '${nd}' 
 				and out_project_info.PROJECT_TYPE != '1'
-				and define3='项目管理系统' and define2 not like '%休斯顿%' and define2 not like '%中东%' and define2 not like '%盈科%'
+				and define3='项目管理系统' and define2 not like '%休斯顿%' and define2 not like '%中东%' 
 				and ((hth like 'L%' or hth like 'J%') or (hth not like 'L%' and hth not like 'J%' and out_project_info.xmlbbm != 'KYZB'))
 				group by out_project_info.define10) as tableA ON (out_tem_money_decompose.cb = tableA.define10)
 		where

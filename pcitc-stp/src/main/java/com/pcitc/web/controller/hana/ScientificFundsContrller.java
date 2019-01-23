@@ -316,7 +316,7 @@ public class ScientificFundsContrller {
 	  @RequestMapping(method = RequestMethod.GET, value = "/sf/nhzctjb")
 	  public String nhzctjb(HttpServletRequest request) throws Exception
 	  {
-		  SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
+		    SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
 			HanaUtil.setSearchParaForUser(userInfo,restTemplate,httpHeaders,request);
 			
 			String month = HanaUtil.getCurrrent_Year_Moth();
@@ -373,27 +373,49 @@ public class ScientificFundsContrller {
 	  public String xmzjlxfx(HttpServletRequest request) throws Exception
 	  {
 		    
+		  
+		    SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
+			HanaUtil.setSearchParaForUser(userInfo,restTemplate,httpHeaders,request);
+			String month = HanaUtil.getCurrrent_Year_Moth();
+			request.setAttribute("month", month);
 	        return "stp/hana/scientificFunds/xmzjlxfx";
 	  }
 	  
 	  
-	  @RequestMapping(method = RequestMethod.POST, value = "/xmzjlxfx_data")
-		@ResponseBody
-		public String xmzjlxfx_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response)
-		{
+	  
+	     @RequestMapping(method = RequestMethod.GET, value = "/xmzjlxfx_data")
+		 @ResponseBody
+		 public String xmzjlxfx_data(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-			LayuiTableData layuiTableData = new LayuiTableData();
-			HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
-			ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(xmzjlxfx_data, HttpMethod.POST, entity, LayuiTableData.class);
-			int statusCode = responseEntity.getStatusCodeValue();
-			if (statusCode == 200)
+		    PageResult pageResult = new PageResult();
+			String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+			String companyCode = CommonUtil.getParameter(request, "companyCode", HanaUtil.YJY_CODE_NOT_YINGKE);
+			System.out.println(">>>>>>xmzjlxfx_data>>>>>>>>>>>>yclzctjb_data>>参数      month = "+month+" companyCode="+companyCode);
+			Map<String, Object> paramsMap = new HashMap<String, Object>();
+			paramsMap.put("month", month);
+			paramsMap.put("companyCode", companyCode);
+			JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+			HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+			if (!companyCode.equals(""))
 			{
-				layuiTableData = responseEntity.getBody();
-			}
-			JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-			System.out.println(">>>>>>>>>>>>>xmzjlxfx_data:" + result.toString());
-			return result.toString();
+				ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(xmzjlxfx_data, HttpMethod.POST, entity, JSONArray.class);
+				int statusCode = responseEntity.getStatusCodeValue();
+				if (statusCode == 200) {
+					JSONArray jSONArray = responseEntity.getBody();
+					List<ScientificFunds> list = JSONObject.parseArray(jSONArray.toJSONString(), ScientificFunds.class);
+					pageResult.setData(list);
+					pageResult.setCode(0);
+					pageResult.setCount(Long.valueOf(list.size()));
+					pageResult.setLimit(1000);
+					pageResult.setPage(1l);
+				}
+			} 
+			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(pageResult));
+			System.out.println(">>>>>>>>>>>>>>>>>xmzjlxfx_data " + resultObj.toString());
+			return resultObj.toString();
 		}
+
+	  
 	  
 	  
 	  //加计扣除模拟分析

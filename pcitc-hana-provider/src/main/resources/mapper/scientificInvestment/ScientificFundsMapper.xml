@@ -120,14 +120,24 @@
         <result column="K0TBCB_445"          property="k0TBCB_445"      jdbcType="DECIMAL" />
         <result column="K0TBCB_446"          property="k0TBCB_446"      jdbcType="DECIMAL" />
        
+        <result column="K0BNYSJHJE"           property="k0BNYSJHJE"       jdbcType="DECIMAL" />
+        <result column="K0BNKYFPHCB"          property="k0BNKYFPHCB"      jdbcType="DECIMAL" />
+        <result column="K0BNGLFPHCB"          property="k0BNGLFPHCB"      jdbcType="DECIMAL" />
+        <result column="K0BNSJCNJE"           property="k0BNSJCNJE"       jdbcType="DECIMAL" />
+        <result column="K0BNSJDJJE"           property="k0BNSJDJJE"       jdbcType="DECIMAL" />
+        <result column="K0BNYSJY"             property="k0BNYSJY"         jdbcType="DECIMAL" />
+        <result column="K0BNZJSYBL"           property="k0BNZJSYBL"       jdbcType="DECIMAL" />
+        <result column="K0ZTYSJE"             property="k0ZTYSJE"         jdbcType="DECIMAL" />
+        <result column="K0LJKYFPQCB"          property="k0LJKYFPQCB"      jdbcType="DECIMAL" />
+        <result column="K0LJKYFPHCB"          property="k0LJKYFPHCB"      jdbcType="DECIMAL" />
+        <result column="K0LJGLFPHCB"          property="k0LJGLFPHCB"      jdbcType="DECIMAL" />
+        <result column="K0LJGLFPHJECB"       property="k0LJGLFPHJECB"    jdbcType="DECIMAL" />
+        <result column="K0LJSJCNJE"          property="k0LJSJCNJE"       jdbcType="DECIMAL" />
+        <result column="K0LJSJDJJE"          property="k0LJSJDJJE"       jdbcType="DECIMAL" />
+        <result column="K0LJYSJY"            property="k0LJYSJY"         jdbcType="DECIMAL" />
+        <result column="K0LJZJSYBL"          property="k0LJZJSYBL"       jdbcType="DECIMAL" />
        
-       
-       
-       
-       
-       
-       
-       
+	    
        
        
        
@@ -625,7 +635,35 @@
       
       <!-- 项目资金流向分析--> 
       <select id="getXmzjlxfxData" resultMap="scientificFundsResultMap" parameterType="java.util.Map" >
-      
+          SELECT
+		     "G0GSJC",
+			     --本年
+			     0                         AS "K0BNYSJHJE",      --本年预算
+			     ROUND(IFNULL(sum("K0BNKYFPQCB"),0)/10000,2)        AS "K0BNKYFPQCB",     --科研分配前成本-本年
+			     ROUND(IFNULL(sum("K0BNKYFPHCB"),0)/10000,2)        AS "K0BNKYFPHCB",     --科研分配后成本-本年
+			     ROUND(IFNULL(sum("K0BNGLFPHCB"),0)/10000,2)        AS "K0BNGLFPHCB",     --管理分配后成本-本年
+			     ROUND(IFNULL(sum("K0BNGLFPHJECB"),0)/10000,2)      AS "K0BNGLFPHJECB",   --实际支出合计-本年
+			     ROUND(IFNULL(sum("K0BNSJCNJE"),0)/10000,2)         AS "K0BNSJCNJE",      --资金承诺-本年
+			     ROUND(IFNULL(sum("K0BNSJDJJE"),0)/10000,2)         AS "K0BNSJDJJE",      --定金-本年
+			     0                         AS "K0BNYSJY",          --资金结余-本年
+			     0                         AS "K0BNZJSYBL",      --资金使用%
+			    --累计
+			     0                         AS "K0ZTYSJE",        --总体预算 
+			     ROUND(IFNULL(sum("K0LJKYFPQCB"),0)/10000,2)        AS "K0LJKYFPQCB",     --科研分配前成本-累计
+			     ROUND(IFNULL(sum("K0LJKYFPHCB"),0)/10000,2)        AS "K0LJKYFPHCB",     --科研分配后成本-累计
+			     ROUND(IFNULL(sum("K0LJGLFPHCB"),0)/10000,2)        AS "K0LJGLFPHCB",     --管理分配后成本-累计
+			     ROUND(IFNULL(sum("K0LJGLFPHJECB"),0)/10000,2)      AS "K0LJGLFPHJECB",   --实际支出合计-累计
+			     ROUND(IFNULL(sum("K0LJSJCNJE"),0)/10000,2)         AS "K0LJSJCNJE",      --资金承诺-累计
+			     ROUND(IFNULL(sum("K0LJSJDJJE"),0)/10000,2)         AS "K0LJSJDJJE",      --定金-累计
+			     0                         AS "K0LJYSJY",          --资金结余-累计
+			     0                         AS "K0LJZJSYBL"       --资金使用%--累计
+			FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AS_KY_CB_1017_01"
+			(
+			'PLACEHOLDER' = ('$$PR_CALMONTH$$','${month}'),
+			'PLACEHOLDER' = ('$$PR_GSDM$$','${companyCode}')
+			) 
+		GROUP BY   "G0GSJC", "G0GSOR"
+		ORDER BY  "G0GSOR"
       </select>
 	
 	  
