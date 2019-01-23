@@ -1,4 +1,4 @@
-s<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
 	<meta charset="utf-8">
@@ -34,12 +34,13 @@ s<!DOCTYPE html>
     <!--按钮组-->
     <div class="btnGroup">
         <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="renderTable()" data-type="searchEvent">查询</button>
-    </div>
+    </div><span style="float:right;margin-right:20px">(单位：万元)</<span>
 </div>
 
 
 
 <div class="tableBox">
+<h3 style="font-weight: bold;text-align: center;margin: 10px 0;" id="stp_table_title"><label id="ttt"></label>项目资金流向分析</h3>
     <table id="processdef-table" class="layui-hide" lay-filter="tableEvent">
 </div>
 
@@ -120,9 +121,6 @@ layui.config({
             active[type] ? active[type].call(this) : '';
         });
 
-         
-        
-        
     });
     
     
@@ -143,24 +141,26 @@ layui.config({
                }},
         id: 'processdef-table',
         cols: [[
-            {field:'g0GSJC',               title:'牵头单位',            style:'cursor: pointer;',align: 'left', width: '15%'},
-            {field:'k0NCGZYZLJJE',         title:'项目',               style:'cursor: pointer;',align: 'left', width: '15%'},
-            {field:'k0NCGZYZLJGZJE',       title:'描述',               style:'cursor: pointer;',align: 'left', width: '15%'},
-            {field:'k0NCGZYZLJZJJE',       title:'累积批复预算',         style:'cursor: pointer;',align: 'left', width: '15%'},
-            {field:'k0NCGZYZBNJE',         title:'本年预算批复',          style:'cursor: pointer;',align: 'left', width: '15%'},
-            {field:'k0NCGZYZBNGZJE',       title:'科研分配前成本-本年',     style:'cursor: pointer;',align: 'left', width: '15%'},
-            {field:'k0NCGZYZBNZJJE',       title:'科研分配后成本-本年',     style:'cursor: pointer;',align: 'left', width: '10%'},
-            {field:'k0NCGZYZBNZJJE',       title:'管理分配后成本-本年',     style:'cursor: pointer;',align: 'left', width: '10%'},
-            {field:'k0NCGZYZBNZJJE',       title:'实际支出合计-本年',      style:'cursor: pointer;',align: 'left', width: '10%'},
-            {field:'k0NCGZYZBNZJJE',       title:'资金使用%-合计',        style:'cursor: pointer;',align: 'left', width: '10%'},
-            {field:'k0NCGZYZBNZJJE',       title:'资金结余-本年',         style:'cursor: pointer;',align: 'left', width: '10%'},
-            {field:'k0NCGZYZBNZJJE',       title:'科研分配前成本-累计',     style:'cursor: pointer;',align: 'left', width: '10%'},
-            {field:'k0NCGZYZBNZJJE',       title:'科研分配后成本-累计',     style:'cursor: pointer;',align: 'left', width: '10%'},
-            {field:'k0NCGZYZBNZJJE',       title:'管理分配后成本-累计',     style:'cursor: pointer;',align: 'left', width: '10%'},
-            {field:'k0NCGZYZBNZJJE',       title:'实际支出合计-累计',      style:'cursor: pointer;',align: 'left', width: '10%'},
-            {field:'k0NCGZYZBNZJJE',       title:'资金承诺',             style:'cursor: pointer;',align: 'left', width: '10%'},
-            {field:'k0NCGZYZBNZJJE',       title:'资金使用%-累计',        style:'cursor: pointer;',align: 'left', width: '10%'},
-            {field:'k0NCGZYZBNZJJE',       title:'资金结余',             style:'cursor: pointer;',align: 'left', width: '10%'}
+            {field:'g0GSJC',               title:'单位',            style:'cursor: pointer;',align: 'right', width: '6%'},
+            {field:'K0BNYSJHJE',            title:'本年预算',            style:'cursor: pointer;',align: 'right', width: '6%'},
+            {field:'k0BNKYFPQCB',           title:'科研分配前成本-本年',    style:'cursor: pointer;',align: 'right', width: '6%'},
+            {field:'k0BNKYFPHCB',          title:'科研分配后成本-本年',     style:'cursor: pointer;',align: 'right', width: '6%'},
+            {field:'k0BNGLFPHCB',          title:'管理分配后成本-本年',     style:'cursor: pointer;',align: 'right', width: '6%'},
+            {field:'k0BNGLFPHJECB',        title:'实际支出合计-本年',      style:'cursor: pointer;',align: 'right', width: '6%'},
+            {field:'k0BNSJCNJE',           title:'资金承诺-本年',         style:'cursor: pointer;',align: 'right', width: '6%'},
+            {field:'k0BNSJDJJE',           title:'定金-本年',            style:'cursor: pointer;',align: 'right', width: '6%'},
+            {field:'k0BNZJSYBL',           title:'资金使用%-合计',        style:'cursor: pointer;',align: 'right', width: '6%'},
+            {field:'k0BNYSJY',             title:'资金结余-本年',         style:'cursor: pointer;',align: 'right', width: '6%'},
+            
+            {field:'k0ZTYSJE',             title:'总体预算 ',             style:'cursor: pointer;',align: 'right', width: '6%'},
+            {field:'k0LJKYFPQCB',          title:'科研分配前成本-累计',      style:'cursor: pointer;',align: 'right', width: '6%'},
+            {field:'k0LJKYFPHCB',          title:'科研分配后成本-累计',      style:'cursor: pointer;',align: 'right', width: '6%'},
+            {field:'k0LJGLFPHCB',          title:'管理分配后成本-累计',      style:'cursor: pointer;',align: 'right', width: '6%'},
+            {field:'k0LJGLFPHJECB',        title:'实际支出合计-累计',        style:'cursor: pointer;',align: 'right', width: '6%'},
+            {field:'k0LJSJCNJE',           title:'资金承诺累计',            style:'cursor: pointer;',align: 'right', width: '6%'},
+            {field:'k0LJSJDJJE',           title:'定金-累计',              style:'cursor: pointer;',align: 'right', width: '6%'},
+            {field:'k0LJZJSYBL',           title:'资金使用%-累计',          style:'cursor: pointer;',align: 'right', width: '6%'},
+            {field:'k0LJYSJY',             title:'资金结余累计',            style:'cursor: pointer;',align: 'right', width: '6%'}
             
             
         ]],

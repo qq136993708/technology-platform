@@ -22,7 +22,7 @@ public interface IScientificFundsService {
 		//能耗支出统计表
 		public List<ScientificFunds> getNhzctjbData(Map param)throws Exception;
 		//项目资金流向分析
-		public LayuiTableData getXmzjlxfxData(LayuiTableParam param)throws Exception;
+		public List<ScientificFunds> getXmzjlxfxData(Map param)throws Exception;
 				
 		
 		

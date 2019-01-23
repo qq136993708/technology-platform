@@ -383,7 +383,8 @@ public class ScientificFundsContrller {
 	  
 	  
 	  
-	     @RequestMapping(method = RequestMethod.GET, value = "/xmzjlxfx_data")
+	  
+	     @RequestMapping(method = RequestMethod.POST, value = "/xmzjlxfx_data")
 		 @ResponseBody
 		 public String xmzjlxfx_data(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
