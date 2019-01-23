@@ -15,10 +15,22 @@ public class TotalCostProjectPay01 implements Serializable{
     private String g0XMGLJB;
     
     
+    private String g0CALDAY;
+    private String k0XJYE;
     
     
-    
-    
+	public String getG0CALDAY() {
+		return g0CALDAY;
+	}
+	public void setG0CALDAY(String g0calday) {
+		g0CALDAY = g0calday;
+	}
+	public String getK0XJYE() {
+		return k0XJYE;
+	}
+	public void setK0XJYE(String k0xjye) {
+		k0XJYE = k0xjye;
+	}
 	public String getG0XMGLLX() {
 		return g0XMGLLX;
 	}

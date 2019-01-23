@@ -14,6 +14,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.common.Page;
 import com.pcitc.base.hana.report.BrandConstructionPay;
 import com.pcitc.base.hana.report.DayCashFlow;
 import com.pcitc.base.hana.report.InvisibleCapitalDevelop;
@@ -21,6 +22,7 @@ import com.pcitc.base.hana.report.ScientificBaseBuildFee01;
 import com.pcitc.base.hana.report.ScientificBaseBuildFee02;
 import com.pcitc.base.hana.report.ScientificBaseBuildFee03;
 import com.pcitc.base.hana.report.ScientificInstrumentPay;
+import com.pcitc.base.hana.report.ScientificInvestment;
 import com.pcitc.base.hana.report.TopicDevelop;
 import com.pcitc.base.hana.report.TotalCostProjectPay01;
 import com.pcitc.base.hana.report.TotalCostProjectPay02;
@@ -679,6 +681,17 @@ public class DecisionFinancailProviderClient {
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
 		return json;
 	}
+	
+	
+	
+	@ApiOperation(value = "日现金流", notes = "日现金流")
+	@RequestMapping(value = "/getDayCashFlowReport2", method = RequestMethod.POST)
+	public LayuiTableData getDayCashFlowReport2(@RequestBody LayuiTableParam param)throws Exception
+	{
+		return decisionFinancialService.getDayCashFlowReport2(param) ;
+	}
+	
+	
 	
 	
 	

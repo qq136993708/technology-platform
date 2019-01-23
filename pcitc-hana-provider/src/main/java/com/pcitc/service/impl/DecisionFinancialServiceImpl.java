@@ -483,6 +483,37 @@ public class DecisionFinancialServiceImpl implements IDecisionFinancialService {
 			  return dayCashFlowMapper.getDayCashFlowReport(map);
 		  }
 		  
+		  public LayuiTableData getDayCashFlowReport2(LayuiTableParam param)throws Exception
+		  {
+			  
+		  		int pageSize = param.getLimit();
+		  		//从第多少条开始
+		  		//int pageStart = (param.getPage()-1)*pageSize;
+		  		//当前是第几页
+		  		int pageNum = param.getPage();
+		  		Page p=new Page(pageNum,pageSize);
+				int start=(pageNum-1)*p.getPageSize();
+		  		String month=(String)param.getParam().get("month");
+		  		String companyCode=(String)param.getParam().get("companyCode");
+		  		logger.info("===明细查询参数 param: "+JSONObject.toJSONString(param));
+		  		Map map=new HashMap();
+		  		map.put("start", start);
+		  		map.put("pageSize", pageSize);
+		  		map.put("month", month);
+		  		map.put("companyCode", companyCode);
+		  		
+		  		List<DayCashFlow> list = dayCashFlowMapper.getDayCashFlowReport2(map);
+		  		
+		  		System.out.println(">>>>>>>投资项目采购进度统计表>>查询分页结果"+list.size());
+		  		LayuiTableData data = new LayuiTableData();
+		  		data.setData(list);
+		  		data.setCount(1000);
+		  	    return data;
+		  	    
+		  	    
+		  }
+		  
+		  
 		  public LayuiTableData getXjrllfx(LayuiTableParam param)throws Exception
 	      {
 	    	    //每页显示条数
