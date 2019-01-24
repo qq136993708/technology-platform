@@ -14,11 +14,10 @@
 <div class="layui-fluid">
 	<div class="layui-main-oil">
 		<div class="searchBox">
-			<input type="hidden" name="days" value="${days}"  id="days">
 			<!--查询条件-->
 			<label class="dateInput">
-				<span>月份</span>
-				<input type="text" name="month" placeholder="请选择月份" title="月份" value="${month}" autocomplete="off" class="form-control" id="month">
+				<span>日期</span>
+				<input type="text" name="day" placeholder="请选择日期" title="日期" value="${day}" autocomplete="off" class="form-control" id="day">
 			</label>
 			<div class="layui-input-inline">
 				<select name="companyCode" id="companyCode" >
@@ -42,7 +41,7 @@
 	<div class="layui-col-sm12">
 		<div class="layui-card">
 			<div class="layui-card-header">
-				<span class="layui-time"></span>科研资金净现金余额30日统计表
+				<span class="layui-time"></span>(直属研究院)科研资金净现金余额30日统计表
 			</div>
 			<div class="layui-row-main">
 				<div class="main-chart" id="main1" style="height:280px;width: 100%;"></div>
@@ -58,122 +57,7 @@
 			</div>
 			<div class="layui-row-main">
 				<div class="main-chart">
-					<table class="layui-table">
-						<thead>
-						<tr>
-							<td>单位</td>
-							<td>2018/9/23</td>
-							<td>2018/9/24</td>
-							<td>2018/9/25</td>
-							<td>2018/9/26</td>
-							<td>2018/9/27</td>
-							<td>2018/9/28</td>
-							<td>2018/9/29</td>
-							<td>2018/9/23</td>
-						</tr>
-						</thead>
-						<tbody>
-						<tr>
-							<td>石勘院</td>
-							<td>440</td>
-							<td>310</td>
-							<td>380</td>
-							<td>390</td>
-							<td>570</td>
-							<td>530</td>
-							<td>540</td>
-							<td>390</td>
-						</tr>
-						<tr>
-							<td>物探院</td>
-							<td>330</td>
-							<td>560</td>
-							<td>480</td>
-							<td>550</td>
-							<td>490</td>
-							<td>390</td>
-							<td>520</td>
-							<td>570</td>
-						</tr>
-						<tr>
-							<td>工程院</td>
-							<td>410</td>
-							<td>520</td>
-							<td>550</td>
-							<td>430</td>
-							<td>300</td>
-							<td>370</td>
-							<td>380</td>
-							<td>520</td>
-						</tr>
-						<tr>
-							<td>石科院</td>
-							<td>440</td>
-							<td>430</td>
-							<td>460</td>
-							<td>330</td>
-							<td>530</td>
-							<td>600</td>
-							<td>550</td>
-							<td>470</td>
-						</tr>
-						<tr>
-							<td>抚研院</td>
-							<td>600</td>
-							<td>520</td>
-							<td>330</td>
-							<td>450</td>
-							<td>390</td>
-							<td>500</td>
-							<td>310</td>
-							<td>450</td>
-						</tr>
-						<tr>
-							<td>北化院</td>
-							<td>380</td>
-							<td>500</td>
-							<td>510</td>
-							<td>520</td>
-							<td>560</td>
-							<td>410</td>
-							<td>480</td>
-							<td>590</td>
-						</tr>
-						<tr>
-							<td>上海院</td>
-							<td>340</td>
-							<td>500</td>
-							<td>430</td>
-							<td>580</td>
-							<td>460</td>
-							<td>500</td>
-							<td>480</td>
-							<td>440</td>
-						</tr>
-						<tr>
-							<td>安工院</td>
-							<td>590</td>
-							<td>430</td>
-							<td>340</td>
-							<td>500</td>
-							<td>550</td>
-							<td>500</td>
-							<td>580</td>
-							<td>430</td>
-						</tr>
-						<tr>
-							<td>总计：</td>
-							<td>3530</td>
-							<td>3770</td>
-							<td>3480</td>
-							<td>3750</td>
-							<td>3850</td>
-							<td>3800</td>
-							<td>3840</td>
-							<td>3860</td>
-						</tr>
-						</tbody>
-					</table>
+					<table id="processdef-table" class="layui-hide" lay-filter="tableEvent">
 				</div>
 			</div>
 		</div>
@@ -181,162 +65,6 @@
 </div>
 </div>
 </div>
-<!--<div class="searchBox">
-<input type="hidden" name="days" value="${days}"  id="days">
-    &lt;!&ndash;查询条件&ndash;&gt;
-        <label class="dateInput">
-            <span>月份</span>
-            <input type="text" name="month" placeholder="请选择月份" title="月份" value="${month}" autocomplete="off" class="form-control" id="month">
-        </label>
-       <div class="layui-input-inline">
-         <select name="companyCode" id="companyCode" >
-              <#list companyCodeList as vo>
-              	 <#if vo.g0GSJC == '全部'>
-              	 	<option value="${vo.g0GSDM}"  selected="selected">${vo.g0GSJC}</option>
-              	 </#if>
-                 <#if vo.g0GSJC != '全部'>
-              	 	<option value="${vo.g0GSDM}">${vo.g0GSJC}</option>
-              	 </#if>
-               </#list>
-            </select>
-       </div>
-
-    &lt;!&ndash;按钮组&ndash;&gt;
-    <div class="btnGroup">
-        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()" data-type="searchEvent">查询</button>
-    </div>
-    <span class="unitBox">单位：万元</span>
-</div>-->
-<!--echarts-->
-<!--<div class="content-body container">
- <div class="one-chart-box" style="margin-top:10px">
-           <div class="layui-row echarts">
-             <div id="main1" style="width: 100%;height: 400px;"></div>
-           </div>
-         </div>
-		<div>
-		<div style="text-align: center; font-weight: bold; margin: 10px;">科研资金七日净现金余额统计表</div>
-			<table class="layui-table">
-				 <thead>
-					<tr>
-						<td>单位</td>
-						<td>2018/9/23</td>
-						<td>2018/9/24</td>
-						<td>2018/9/25</td>
-						<td>2018/9/26</td>
-						<td>2018/9/27</td>
-						<td>2018/9/28</td>
-						<td>2018/9/29</td>
-						<td>2018/9/23</td>
-					</tr>
-					</thead>
-					<tbody>
-					<tr>
-						<td>石勘院</td>
-						<td>440</td>
-						<td>310</td>
-						<td>380</td>
-						<td>390</td>
-						<td>570</td>
-						<td>530</td>
-						<td>540</td>
-						<td>390</td>
-					</tr>
-					<tr>
-						<td>物探院</td>
-						<td>330</td>
-						<td>560</td>
-						<td>480</td>
-						<td>550</td>
-						<td>490</td>
-						<td>390</td>
-						<td>520</td>
-						<td>570</td>
-					</tr>
-					<tr>
-						<td>工程院</td>
-						<td>410</td>
-						<td>520</td>
-						<td>550</td>
-						<td>430</td>
-						<td>300</td>
-						<td>370</td>
-						<td>380</td>
-						<td>520</td>
-					</tr>
-					<tr>
-						<td>石科院</td>
-						<td>440</td>
-						<td>430</td>
-						<td>460</td>
-						<td>330</td>
-						<td>530</td>
-						<td>600</td>
-						<td>550</td>
-						<td>470</td>
-					</tr>
-					<tr>
-						<td>抚研院</td>
-						<td>600</td>
-						<td>520</td>
-						<td>330</td>
-						<td>450</td>
-						<td>390</td>
-						<td>500</td>
-						<td>310</td>
-						<td>450</td>
-					</tr>
-					<tr>
-						<td>北化院</td>
-						<td>380</td>
-						<td>500</td>
-						<td>510</td>
-						<td>520</td>
-						<td>560</td>
-						<td>410</td>
-						<td>480</td>
-						<td>590</td>
-					</tr>
-					<tr>
-						<td>上海院</td>
-						<td>340</td>
-						<td>500</td>
-						<td>430</td>
-						<td>580</td>
-						<td>460</td>
-						<td>500</td>
-						<td>480</td>
-						<td>440</td>
-					</tr>
-					<tr>
-						<td>安工院</td>
-						<td>590</td>
-						<td>430</td>
-						<td>340</td>
-						<td>500</td>
-						<td>550</td>
-						<td>500</td>
-						<td>580</td>
-						<td>430</td>
-					</tr>
-					<tr>
-						<td>总计：</td>
-						<td>3530</td>
-						<td>3770</td>
-						<td>3480</td>
-						<td>3750</td>
-						<td>3850</td>
-						<td>3800</td>
-						<td>3840</td>
-						<td>3860</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-
-
-	</div>   -->
-
 
 
 <!--表格数据操作js-->
@@ -349,19 +77,24 @@
 <script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
 <script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
 <script type="text/javascript">
-
+var table;
     layui.config({
         base: '/layuiadmin/module/modules/'
     }).use(['jquery','form', 'laydate','table','laypage'], function(){
-        var $ = layui.jquery,table = layui.table,form = layui.form,laydate = layui.laydate;
-        var monthValY=$("#month").val().substring(4,0);
-        var monthValM=$("#month").val().substring(4);
-        $(".layui-time").html(monthValY+"年"+monthValM+"月");
+        var $ = layui.jquery,form = layui.form,laydate = layui.laydate;
+        table = layui.table;
+        
+        var yyyy=$("#day").val().substring(0,4);
+        var mm=$("#day").val().substring(4,6);
+        var dd=$("#day").val().substring(6,8);
+        $(".layui-time").html(yyyy+"年"+mm+"月"+dd+"日");
         form.render(null, 'component-form-group');
         laydate.render({
-            elem: '#month'
-            ,format: 'yyyyMM'
+            elem: '#day'
+            ,format: 'yyyyMMdd'
         });
+        
+        renderTable();
     });
 
 
@@ -371,24 +104,34 @@
         var allCode="${allCode?default('')}";
         var allCode_text="全部院所";
         var v_date=(new Date()).getTime();
-        var month=$('#month').val();
+        var day=$('#day').val();
         var companyCode=$('#companyCode').val();
-        var monthstr=getNowFormatDate($('#month').val());
-        var checkText=$("#companyCode").find("option:selected").text();
-        var monthValY=$("#month").val().substring(4,0);
-        var monthValM=$("#month").val().substring(4);
-        $(".layui-time").html(monthValY+"年"+monthValM+"月");
-        if(checkText=='全部')
-        {
-            checkText="全部院所";
-        }
-
-        var seriesData=['20000','22000','20300','50000','60000','20000','22000','20300','50000','60000','20000','22000','20300','50000','60000','20000','22000','20300','50000','60000','20000','22000','20300','50000','60000','20000','22000','20300','50000','60000'];
-        var xAxisData_1=	["20180801","20180802","20180803","20180804","20180805","20180806","20180807","20180808","20180809","20180810","20180811","20180812","20180813","20180814","20180815","20180816","20180817","20180818","20180819","20180820","20180821","20180822","20180823","20180824","20180825","20180826","20180827","20180828","20180829","20180830"];
-        load_single_line_tt("main1","",xAxisData_1,seriesData,'')
-
-
-
+        var yyyy=$("#day").val().substring(0,4);
+        var mm=$("#day").val().substring(4,6);
+        var dd=$("#day").val().substring(6,8);
+        $(".layui-time").html(yyyy+"年"+mm+"月"+dd+"日");
+       
+       var yAxis= [
+           {
+               type: 'value',
+               name: '万元',
+               position: 'left',
+               axisLabel: {
+                   formatter: '{value}'
+               }
+           }
+       ];
+        
+        
+        var chart2_url="/getDayCashFlowReport01?type=1&month="+day+"&v_date="+v_date+"&companyCode="+companyCode;
+        var echart2=load_single_line(chart2_url,"main1","","",yAxis);
+        echart2.on('click', function (params) {
+            var xName=params.name;
+            var legentName=params.seriesName;
+            //alert(xName+"------"+projectId);
+            //window.open("/one_level_main/common_table?define3="+xName+"&projectId="+projectId+"&nd="+nd+"&ysnd="+nd);
+        });
+        
 
 
 
@@ -403,12 +146,75 @@
 
 
 
-
+    
+    function renderTable()
+    {
+    	
+    	var index = layer.load(1, {
+    		  shade: [0.1,'#fff'] 
+    		}); 
+    	var day=$("#day").val();
+    	
+    	var yyyy=$("#day").val().substring(0,4);
+        var mm=$("#day").val().substring(4,6);
+        var dd=$("#day").val().substring(6,8);
+        var str=yyyy+"年"+mm+"月";
+        
+        
+      //渲染
+      table.render({
+        elem: '#processdef-table',
+        url: '/getDayCashFlowReport2',
+        method:"POST",
+        where: {param: {
+        	      "month":$("#day").val(),
+        	      "companyCode":$("#companyCode").val()
+        	      
+        	
+               }},
+        
+        id: 'processdef-table',
+        height: "620px",
+        limit: 15,
+       
+        cols: [[
+        	
+        	
+        	{field:'g0GSJC',            title:'研究院',                    style:'cursor: pointer;',align: 'center', width: '13%'},
+        	{field:'k0DAY1',            title:''+str+parseInt(dd)+"日",          style:'cursor: pointer;',align: 'right', width: '12%'},
+            {field:'k0DAY2',            title:''+str+(parseInt(dd)+1)+"日",        style:'cursor: pointer;',align: 'right', width: '12%'},
+            {field:'k0DAY3',            title:''+str+(parseInt(dd)+2)+"日",         style:'cursor: pointer;',align: 'right', width: '12%'},
+            {field:'k0DAY4',            title:''+str+(parseInt(dd)+3)+"日",        style:'cursor: pointer;',align: 'right', width: '12%'},
+            {field:'k0DAY5',            title:''+str+(parseInt(dd)+4)+"日",        style:'cursor: pointer;',align: 'right', width: '12%'},
+            {field:'k0DAY6',            title:''+str+(parseInt(dd)+5)+"日",        style:'cursor: pointer;',align: 'right', width: '12%'},
+            {field:'k0DAY7',            title:''+str+(parseInt(dd)+6)+"日",        style:'cursor: pointer;',align: 'right', width: '12%'}
+            
+            
+        ]],
+        done: function (res, curr, count) {
+             // 点击行联动选择框--单选
+            $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+            	var index=parseInt($(this).index()+1);
+                $('tr').removeClass('layui-table-click');
+                $(this).addClass('layui-table-click');
+                $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                selectRowData=res.data[index-1];
+            });
+            
+            layer.close(index); 
+        }
+      });
+      
+      
+}
+   
 
 
     function search_Event()
     {
         init();
+        renderTable();
     }
 
 

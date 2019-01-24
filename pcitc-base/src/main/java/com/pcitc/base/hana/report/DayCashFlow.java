@@ -1,6 +1,7 @@
 package com.pcitc.base.hana.report;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 public class DayCashFlow implements Serializable{
 
@@ -17,10 +18,58 @@ public class DayCashFlow implements Serializable{
     private String g0GSJC;
     private String g0GSOR;
     
+
+    private BigDecimal k0DAY1;
+    private BigDecimal k0DAY2;
+    private BigDecimal k0DAY3;
+    private BigDecimal k0DAY4;
+    private BigDecimal k0DAY5;
+    private BigDecimal k0DAY6;
+    private BigDecimal k0DAY7;  
     
     
-    
-    
+	public BigDecimal getK0DAY1() {
+		return k0DAY1;
+	}
+	public void setK0DAY1(BigDecimal k0day1) {
+		k0DAY1 = k0day1;
+	}
+	public BigDecimal getK0DAY2() {
+		return k0DAY2;
+	}
+	public void setK0DAY2(BigDecimal k0day2) {
+		k0DAY2 = k0day2;
+	}
+	public BigDecimal getK0DAY3() {
+		return k0DAY3;
+	}
+	public void setK0DAY3(BigDecimal k0day3) {
+		k0DAY3 = k0day3;
+	}
+	public BigDecimal getK0DAY4() {
+		return k0DAY4;
+	}
+	public void setK0DAY4(BigDecimal k0day4) {
+		k0DAY4 = k0day4;
+	}
+	public BigDecimal getK0DAY5() {
+		return k0DAY5;
+	}
+	public void setK0DAY5(BigDecimal k0day5) {
+		k0DAY5 = k0day5;
+	}
+	public BigDecimal getK0DAY6() {
+		return k0DAY6;
+	}
+	public void setK0DAY6(BigDecimal k0day6) {
+		k0DAY6 = k0day6;
+	}
+	public BigDecimal getK0DAY7() {
+		return k0DAY7;
+	}
+	public void setK0DAY7(BigDecimal k0day7) {
+		k0DAY7 = k0day7;
+	}
 	public String getG0GSOR() {
 		return g0GSOR;
 	}

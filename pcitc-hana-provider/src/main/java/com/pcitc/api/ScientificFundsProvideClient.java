@@ -130,12 +130,34 @@ public class ScientificFundsProvideClient {
 	
 	
 	
+	
+	
 	@ApiOperation(value = "项目资金流向分析", notes = "项目资金流向分析")
+	@RequestMapping(value = "/hana/scientific_funds/xmzjlxfx", method = RequestMethod.POST)
+	public JSONArray getXmzjlxfxData(@ApiParam(value="月份:month如201812,公司代码:companyCode",required=true)@RequestBody String paramsJson) throws Exception {
+		
+		System.out.println(" paramsJson=" + paramsJson);
+		JSONObject jo = JSONObject.parseObject(paramsJson);
+		String month = jo.getString("month");
+		String companyCode = jo.getString("companyCode");
+
+		Map map = new HashMap();
+		map.put("month", month);
+		map.put("companyCode", companyCode);
+		List<ScientificFunds> list = scientificFundsService.getXmzjlxfxData(map);
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
+		return json;
+	}
+	
+	
+	
+	
+	/*@ApiOperation(value = "项目资金流向分析", notes = "项目资金流向分析")
 	@RequestMapping(value = "/hana/scientific_funds/xmzjlxfx", method = RequestMethod.POST)
 	public LayuiTableData xmzjlxfx(@RequestBody LayuiTableParam param)throws Exception
 	{
 		return scientificFundsService.getXmzjlxfxData(param);
-	}
+	}*/
 	
 	
 }

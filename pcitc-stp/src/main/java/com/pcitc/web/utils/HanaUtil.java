@@ -670,7 +670,7 @@ public class HanaUtil {
 			for (int i = 0; i < companyCodeList.size(); i++)
 			{
 				CompanyCode companyCode = companyCodeList.get(i);
-				String notes = companyCode.getG0DMJC();// 表述
+				
 				String name = companyCode.getG0GSJC();
 				String code = companyCode.getG0GSDM();
 				//System.out.println(name+"="+companyName);

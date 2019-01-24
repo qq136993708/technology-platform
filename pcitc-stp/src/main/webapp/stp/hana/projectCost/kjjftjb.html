@@ -4,12 +4,11 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+	<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/common.css">
-     <link rel="stylesheet" href="/common/css/echart-common.css">
+    <script src="/layuiadmin/layui/layui.js"></script>
 </head>
 <body>
-
 <div class="searchBox">
     <!--查询条件-->
         <label class="dateInput">
@@ -28,374 +27,140 @@
                </#list>
             </select>
        </div>
-       
     <!--按钮组-->
     <div class="btnGroup">
-        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()" data-type="searchEvent">查询</button>
-    </div>
-    <span class="unitBox">单位：万元</span>
+     <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()" data-type="searchEvent">查询</button>
+    </div><span style="float:right;margin-right:20px">(单位：万元)</<span>
+</div>
+<div class="tableBox">
+    <h3 style="font-weight: bold;text-align: center;margin: 10px 0;" id="stp_table_title"><label id="ttt"></label>科技经费统计表</h3>
+    <table id="myTable" class="layui-table" lay-filter="myTable" >
+                 <thead>
+                  <tr>
+                      <th lay-data="{field:'g0GSJC', width:'8%'}" rowspan="2" >直属研究院</th>
+                      <th lay-data="{align:'center'}" colspan="7">累计</th>
+                      <th lay-data="{align:'center'}" colspan="7">本年</th>
+                  </tr>
+                  <tr>
+                      <th lay-data="{field:'k0ZTYSJE', width:'7%',align:'right'}">计划总投资</th>
+                      <th lay-data="{field:'k0LJGLFPHJECB',  width:'7%',align:'right'}">累计下达投资额 </th>
+                      <th lay-data="{field:'k0LJSJCNJE',    width:'7%',align:'right'}">承诺</th> 
+                      <th lay-data="{field:'k0LJSJDJJE',      width:'7%',align:'right'}">预付余额</th>
+                      <th lay-data="{field:'k0LJSJJE',    width:'7%',align:'right'}">累计投资完成额</th> 
+                      <th lay-data="{field:'k0LJYSJY',    width:'7%',align:'right'}">项目资金计划结余 </th> 
+                      <th lay-data="{field:'k0LJZJSYBL',    width:'7%',align:'right'}">资金使用% </th> 
+                      
+
+                      <th lay-data="{field:'k0BNYSJHJE', width:'7%',align:'right'}">本年投资计划 </th>
+                      <th lay-data="{field:'k0BNGLFPHJECB',  width:'7%',align:'right'}">本年累计支出</th>
+                      <th lay-data="{field:'k0BNSJCNJE',    width:'7%',align:'right'}">承诺</th> 
+                      <th lay-data="{field:'k0BNSJDJJE',      width:'7%',align:'right'}">本年预付款 </th>
+                      <th lay-data="{field:'k0BNSJJE',    width:'7%',align:'right'}">本年投资完成额</th> 
+                      <th lay-data="{field:'k0BNYSJY',    width:'7%',align:'right'}">本年资金计划结余 </th> 
+                      <th lay-data="{field:'k0BNZJSYBL',    width:'7%',align:'right'}">资金使用% </th> 
+                  </tr>
+                 </thead>
+             </table>
 </div>
 
-	<div class="content-body container">
-		<div style="text-align: center; font-weight: bold; margin: 10px;">费用性项目支出按直属研究院分析</div>
-		<table class="layui-table">
-		<thead>
-				<tr>
-					<td rowspan="2">直属研究院</td>
-					<td colspan="6">累计</td>
-					<td colspan="6">本年</td>
-				</tr>
-				<tr>
-					<td>预算总计</td>
-					<td>累计实际成本支出</td>
-					<td>项目承诺</td>
-					<td>累计预算占用</td>
-					<td>累计资金使用%</td>
-					<td>项目预算结余</td>
-					<td>本年预算</td>
-					<td>本年实际成本支出</td>
-					<td>项目本年承诺</td>
-					<td>本年预算占用</td>
-					<td>本年资金使用%</td>
-					<td>项目预算结余</td>
-				</tr>
-				</thead>
-					<tbody>
-				<tr>
-					<td>总计</td>
-					<td>93700</td>
-					<td>27765</td>
-					<td>4747</td>
-					<td>32512</td>
-					<td>0</td>
-					<td>61187</td>
-					<td>7120</td>
-					<td>2374</td>
-					<td>524</td>
-					<td>2899</td>
-					<td>0</td>
-					<td>4220</td>
-				</tr>
-				<tr>
-					<td>石勘院</td>
-					<td>12800</td>
-					<td>2944</td>
-					<td>706</td>
-					<td>3650</td>
-					<td>0</td>
-					<td>9149</td>
-					<td>1350</td>
-					<td>432</td>
-					<td>125</td>
-					<td>557</td>
-					<td>0</td>
-					<td>792</td>
-				</tr>
-				<tr>
-					<td>物探院</td>
-					<td>7900</td>
-					<td>1896</td>
-					<td>189</td>
-					<td>2085</td>
-					<td>0</td>
-					<td>5814</td>
-					<td>840</td>
-					<td>168</td>
-					<td>16</td>
-					<td>184</td>
-					<td>0</td>
-					<td>655</td>
-				</tr>
-				<tr>
-					<td>工程院</td>
-					<td>11400</td>
-					<td>2850</td>
-					<td>370</td>
-					<td>3220</td>
-					<td>0</td>
-					<td>8179</td>
-					<td>440</td>
-					<td>176</td>
-					<td>42</td>
-					<td>218</td>
-					<td>0</td>
-					<td>221</td>
-				</tr>
-				<tr>
-					<td>石科院</td>
-					<td>13100</td>
-					<td>2620</td>
-					<td>340</td>
-					<td>2960</td>
-					<td>0</td>
-					<td>10139</td>
-					<td>750</td>
-					<td>247</td>
-					<td>49</td>
-					<td>297</td>
-					<td>0</td>
-					<td>453</td>
-				</tr>
-				<tr>
-					<td>抚研院</td>
-					<td>10100</td>
-					<td>2020</td>
-					<td>565</td>
-					<td>2585</td>
-					<td>0</td>
-					<td>7514</td>
-					<td>820</td>
-					<td>410</td>
-					<td>82</td>
-					<td>492</td>
-					<td>0</td>
-					<td>328</td>
-				</tr>
-				<tr>
-					<td>北化院</td>
-					<td>11100</td>
-					<td>4662</td>
-					<td>699</td>
-					<td>5361</td>
-					<td>0</td>
-					<td>5738</td>
-					<td>1400</td>
-					<td>434</td>
-					<td>108</td>
-					<td>542</td>
-					<td>0</td>
-					<td>857</td>
-				</tr>
-				<tr>
-					<td>上海院</td>
-					<td>14000</td>
-					<td>5320</td>
-					<td>1330</td>
-					<td>6650</td>
-					<td>0</td>
-					<td>7350</td>
-					<td>580</td>
-					<td>197</td>
-					<td>19</td>
-					<td>216</td>
-					<td>0</td>
-					<td>363</td>
-				</tr>
-				<tr>
-					<td>安工院</td>
-					<td>13300</td>
-					<td>5453</td>
-					<td>545</td>
-					<td>5998</td>
-					<td>0</td>
-					<td>7301</td>
-					<td>940</td>
-					<td>310</td>
-					<td>80</td>
-					<td>390</td>
-					<td>0</td>
-					<td>549</td>
-				</tr>
-			</tbody>
-		</table>
+<script id="dateTpl" type="text/html"> {{formatTime(d.SQRI)}} </script>
+<script type="text/javascript">
+    // 时间格式化
+      function formatTime(d) {
+        if (d) {
+            var date = new Date();
+            date.setTime(d);
+            var y = date.getFullYear();
+            var m = date.getMonth() + 1;
+            m = m < 10 ? ('0' + m) : m;
+            var day = date.getDate();
+            day = day < 10 ? ("0" + day) : day;
+            var h = date.getHours();
+            h = h < 10 ? ("0" + h) : h;
+            var M = date.getMinutes();
+            M = M < 10 ? ("0" + M) : M;
+            var str = y + "-" + m + "-" + day + " " + h + ":" + M;
+            return str;
+        } else {
+            return '';
+        }
+    }
+</script>
 
-
-		<div style="text-align: center; font-weight: bold; margin: 10px;">费用性项目支出按专业类别分析</div>
-		<table class="layui-table">
-			<thead>
-				<tr>
-					<td rowspan="2">专业类别</td>
-					<td colspan="6">累计</td>
-					<td colspan="6">本年</td>
-				</tr>
-				<tr>
-					<td>预算总计</td>
-					<td>累计实际成本支出</td>
-					<td>项目承诺</td>
-					<td>累计预算占用</td>
-					<td>累计资金使用%</td>
-					<td>项目预算结余</td>
-					<td>本年预算</td>
-					<td>本年实际成本支出</td>
-					<td>项目本年承诺</td>
-					<td>本年预算占用</td>
-					<td>本年资金使用%</td>
-					<td>项目预算结余</td>
-				</tr>
-				</thead>
-				
-				<tbody>
-				<tr>
-					<td>总计</td>
-					<td>87900</td>
-					<td>32614</td>
-					<td>6115</td>
-					<td>38729</td>
-					<td>0</td>
-					<td>49170</td>
-					<td>9330</td>
-					<td>3401</td>
-					<td>716</td>
-					<td>4118</td>
-					<td>0</td>
-					<td>5211</td>
-				</tr>
-				<tr>
-					<td>油田处</td>
-					<td>9600</td>
-					<td>3264</td>
-					<td>685</td>
-					<td>3949</td>
-					<td>0</td>
-					<td>5650</td>
-					<td>920</td>
-					<td>248</td>
-					<td>72</td>
-					<td>320</td>
-					<td>0</td>
-					<td>599</td>
-				</tr>
-				<tr>
-					<td>炼油处</td>
-					<td>10800</td>
-					<td>4860</td>
-					<td>1360</td>
-					<td>6220</td>
-					<td>0</td>
-					<td>4579</td>
-					<td>590</td>
-					<td>295</td>
-					<td>64</td>
-					<td>359</td>
-					<td>0</td>
-					<td>230</td>
-				</tr>
-				<tr>
-					<td>化工处</td>
-					<td>9800</td>
-					<td>3724</td>
-					<td>595</td>
-					<td>4319</td>
-					<td>0</td>
-					<td>5480</td>
-					<td>920</td>
-					<td>248</td>
-					<td>24</td>
-					<td>273</td>
-					<td>0</td>
-					<td>646</td>
-				</tr>
-				<tr>
-					<td>合成材料处</td>
-					<td>8000</td>
-					<td>2240</td>
-					<td>268</td>
-					<td>2508</td>
-					<td>0</td>
-					<td>5491</td>
-					<td>570</td>
-					<td>233</td>
-					<td>23</td>
-					<td>257</td>
-					<td>0</td>
-					<td>312</td>
-				</tr>
-				<tr>
-					<td>装备储运处</td>
-					<td>7200</td>
-					<td>3240</td>
-					<td>648</td>
-					<td>3888</td>
-					<td>0</td>
-					<td>3312</td>
-					<td>1230</td>
-					<td>528</td>
-					<td>111</td>
-					<td>639</td>
-					<td>0</td>
-					<td>590</td>
-				</tr>
-				<tr>
-					<td>国际合作处</td>
-					<td>13900</td>
-					<td>2780</td>
-					<td>750</td>
-					<td>3530</td>
-					<td>0</td>
-					<td>10369</td>
-					<td>1090</td>
-					<td>512</td>
-					<td>117</td>
-					<td>630</td>
-					<td>0</td>
-					<td>459</td>
-				</tr>
-				<tr>
-					<td>三剂管理处</td>
-					<td>12600</td>
-					<td>5670</td>
-					<td>567</td>
-					<td>6237</td>
-					<td>0</td>
-					<td>6363</td>
-					<td>1060</td>
-					<td>318</td>
-					<td>60</td>
-					<td>378</td>
-					<td>0</td>
-					<td>681</td>
-				</tr>
-				<tr>
-					<td>知识产权处</td>
-					<td>5300</td>
-					<td>2385</td>
-					<td>381</td>
-					<td>2766</td>
-					<td>0</td>
-					<td>2533</td>
-					<td>1260</td>
-					<td>264</td>
-					<td>52</td>
-					<td>317</td>
-					<td>0</td>
-					<td>942</td>
-				</tr>
-			</tbody>
-		</table>
-
-		<div style="text-align: center; font-weight: bold; margin: 10px;">费用性项目支出按项目多维分析</div>
-		<table class="layui-table">
-	<tbody><tr><td rowspan="2">板块</td><td rowspan="2">课题类型</td><td rowspan="2">项目编号</td><td rowspan="2">项目名称</td><td colspan="6">累计</td><td colspan="6">本年</td><td> </td><td> </td></tr><tr><td>预算总计</td><td>累计实际成本支出</td><td>项目承诺</td><td>累计预算占用</td><td>累计资金使用%</td><td>项目预算结余</td><td>本年预算</td><td>本年实际成本支出</td><td>项目本年承诺</td><td>本年预算占用</td><td>本年资金使用%</td><td>项目预算结余</td><td> </td><td> </td></tr><tr><td rowspan="8">科研板块</td><td rowspan="2">国拨课题费用性支出</td><td>KSBE110001</td><td>某液压油研制</td><td>5600</td><td>2128</td><td>425</td><td>2553</td><td>0</td><td>3046</td><td>890</td><td>302</td><td>33</td><td>335</td><td>0</td><td>554</td><td> </td><td> </td></tr><tr><td>KSBE110002</td><td>某润滑脂的研制</td><td>14300</td><td>6721</td><td>672</td><td>7393</td><td>0</td><td>6906</td><td>1240</td><td>334</td><td>36</td><td>371</td><td>0</td><td>868</td><td> </td><td> </td></tr><tr><td rowspan="2">科研横向课题费用性支出</td><td>KSKYHX160017</td><td>RH2018F 发展部院控横向课题</td><td>14700</td><td>6321</td><td>1074</td><td>7395</td><td>0</td><td>7304</td><td>800</td><td>392</td><td>78</td><td>470</td><td>0</td><td>329</td><td> </td><td> </td></tr><tr><td>KSKYHX160019</td><td>科研处控制横向修理费</td><td>5600</td><td>1792</td><td>250</td><td>2042</td><td>0</td><td>3557</td><td>730</td><td>226</td><td>38</td><td>264</td><td>0</td><td>465</td><td> </td><td> </td></tr><tr><td rowspan="2">科研纵向课题费用性支出</td><td>KSKYXX160012</td><td>115095-19 GF-6汽油机油在丰田发动机台架上节能性的研究</td><td>7000</td><td>1960</td><td>568</td><td>2528</td><td>0</td><td>4471</td><td>900</td><td>279</td><td>44</td><td>323</td><td>0</td><td>576</td><td> </td><td> </td></tr><tr><td>KSKYXX160013</td><td>115101-1 中石化核磁共振原油快评方法开发</td><td>8200</td><td>2624</td><td>760</td><td>3384</td><td>0</td><td>4815</td><td>720</td><td>172</td><td>34</td><td>207</td><td>0</td><td>512</td><td> </td><td> </td></tr><tr><td rowspan="2">科研院控课题费用性支出</td><td>KSKYYK160063</td><td>国家重点实验室费用性支出</td><td>4500</td><td>1170</td><td>304</td><td>1474</td><td>0</td><td>3025</td><td>1270</td><td>355</td><td>67</td><td>423</td><td>0</td><td>846</td><td> </td><td> </td></tr><tr><td>KSKYYK170000</td><td>中试基地倒班宿舍及后勤综合楼投用</td><td>7900</td><td>3950</td><td>750</td><td>4700</td><td>0</td><td>3199</td><td>1100</td><td>385</td><td>80</td><td>465</td><td>0</td><td>634</td><td> </td><td> </td></tr><tr></tr></tbody></table>
-	</div>
-	<!--表格数据操作js-->
+<!--表格数据操作js-->
 <script src="/common/js/jquery-1.11.3.min.js"></script>
-<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
-<script src="/common/js/layer-v3.1.1/layer.js"></script>
 <script>
-
-
 var table,selectRowData;
+var zlbm=$('#zlbm').val();
+
 layui.config({
-    base: '/layuiadmin/module/modules/' //静态资源所在路径
-}).use(['jquery','form', 'laydate','table','laypage','layer'], function(){
-	  admin = layui.admin
-	  ,$ = layui.jquery
+    base: '/layuiadmin/' //静态资源所在路径
+}).extend({
+    index: 'lib/index' //主入口模块
+}).use(['index','jquery','form', 'laydate','table','laypage'], function(){
+	  $ = layui.jquery
       ,table = layui.table
-      ,layer = layui.layer
-      ,laydate = layui.laydate
       ,form = layui.form
-      ,laypage = layui.laypage;
-	  form.render(null, 'component-form-group');
-            laydate.render({
-               elem: '#month'
-               ,format: 'yyyyMM'
-            });
-});
+      ,laydate = layui.laydate,
+	 form.render(null, 'component-form-group');
+	  laydate.render({
+          elem: '#month'
+          ,format: 'yyyyMM'
+          
+       });
 
-var allCode="${allCode?default('')}";
-var allCode_text="全部院所";
+     	     myTable();
+     	     //移除表头的复选框,去掉全选
+     	     $(".layui-table-header table thead th input").remove();  
 
+        // 触发不同的按钮事件
+        var $ = layui.$, active = {
+           
+            
+        };
+
+        
+    });
+    
+function search_Event()
+{
+	myTable();
+}
+
+
+function myTable()
+{
+	layer.load(2);
+	 var month=$("#month").val();
+	 var companyCode=$("#companyCode").val();
+	 var v_date=(new Date()).getTime();
+	 var url= '/kjjftjb_data?month='+month+"&v_date="+v_date+"&companyCode="+companyCode;
+	 table.init('myTable', {
+			  url: url
+			  ,where: {} ,
+			  done: function (res, curr, count) {layer.closeAll('loading');}
+			  
+			});
+	 
+	    //监听行单击事件
+	    table.on('row(myTable)', function(obj){
+	        console.log(obj.tr) //得到当前行元素对象
+	        console.log(obj.data) //得到当前行数据
+	        var selectRowData=obj.data;
+	        parent.layui.index.openTabsPage("/to_kjjftjb_detail?month="+month+"&companyName="+selectRowData.g0GSJC, "科技经费");
+	        
+	    });
+	 
+	 
+	 
+}
+
+   
+    
+   
+   
 
 </script>
+
 </body>
 </html>
