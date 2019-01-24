@@ -559,7 +559,6 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
             record.setUserDesc(getObjString(obj.get("title")));                       //        title: 职称
             record.setSex(getObjString(obj.get("gender")));                           //        gender: 性别
             record.setExpertNationality(getObjString(obj.get("nationality")));        //        nationality: 国籍
-            record.setAgeBetween(record.getAge());
             this.insert(record);
         }
         return jsonObject;
@@ -638,6 +637,9 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
             record.setAchievementKeys(getObjString(obj.get("keyword")));              //keyword	:成果标签（关键字）
             record.setFinishPeople(getObjString(obj.get("reportwriter")));         //reportwriter:负责人
             record.setAchievementDesc(getObjString(obj.get("description")));          //description:成果描述
+            //TO DO
+//            record.setFinishPeopleIds(getObjString(obj.get("reportwriterIds")));        //        reportwriterIds: 负责人ID多个逗号分隔，待提供
+
             zjkChengguoService.insert(record);
         }
         return jsonObject;
