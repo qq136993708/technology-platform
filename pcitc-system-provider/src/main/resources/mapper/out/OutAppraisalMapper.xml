@@ -687,194 +687,43 @@
 	<select id="getResultInfoByZy" resultType="java.util.Map"
 		parameterType="java.lang.String">
 		select
-		sum(case when zy = 'A.石油勘探' then 1 else 0 end) as acount,
-		sum(case when zy = 'B.石油开发' then 1 else 0 end) as bcount,
-		sum(case when
-		zy = 'C.石油工程' then 1 else 0 end) as ccount,
-		sum(case when zy = 'D.石油炼制'
-		then 1 else 0 end) as dcount,
-		sum(case when zy = 'E.化工' then 1 else 0
-		end) as ecount,
-		sum(case when zy = 'F.化纤' then 1 else 0 end) as fcount,
-		sum(case when zy = 'G.装备与储运' then 1 else 0 end) as gcount,
-		sum(case
-		when zy = 'H.安全与环保' then 1 else 0 end) as hcount,
-		sum(case when zy =
-		'I.信息技术' then 1 else 0 end) as icount,
-		sum(case when zy = 'J.大型装备国产化'
-		then 1 else 0 end) as jcount,
-		sum(case when zy = 'K.其它' then 1 else 0
-		end) as kcount,jdjg
+			sum(case when zy = 'A.石油勘探' then 1 else 0 end) as acount,
+			sum(case when zy = 'B.石油开发' then 1 else 0 end) as bcount,
+			sum(case when zy = 'C.石油工程' then 1 else 0 end) as ccount,
+			sum(case when zy = 'D.石油炼制' then 1 else 0 end) as dcount,
+		    sum(case when zy = 'E.化工' then 1 else 0 end) as ecount,
+		    sum(case when zy = 'F.化纤' then 1 else 0 end) as fcount,
+		    sum(case when zy = 'G.装备与储运' then 1 else 0 end) as gcount,
+		    sum(case when zy = 'H.安全与环保' then 1 else 0 end) as hcount,
+		    sum(case when zy = 'I.信息技术' then 1 else 0 end) as icount,
+		    sum(case when zy = 'J.大型装备国产化' then 1 else 0 end) as jcount,
+		    sum(case when zy = 'K.其它' then 1 else 0 end) as kcount,jdjg
 		from out_appraisal
 		where
-		define3 not like '%外部单位%'
+			define3 not like '%外部单位%'
 		<if test="_parameter != null">
 			and nd = #{nd,jdbcType=VARCHAR}
 		</if>
 		group by jdjg
 	</select>
 
-	<select id="getResultInfoBySix" resultType="java.util.Map"
-		parameterType="java.lang.String">
-		select
-		count(*) mscount,
-		'研发中心' as unitType
-		from
-		out_appraisal
-		WHERE sqjddw
-		like '%中心%'
-		<if test="_parameter != null">
-			and nd = #{nd,jdbcType=VARCHAR}
-		</if>
-		union all
-		select
-		count(*) mscount,
-		'集团单位' as unitType
-		from out_appraisal
-		WHERE sqjddw like
-		'%集团%'
-		<if test="_parameter != null">
-			and nd = #{nd,jdbcType=VARCHAR}
-		</if>
-		union all
-		select
-		count(*) mscount,
-		'直属研究院' as unitType
-		from out_appraisal
-		WHERE sqjddw
-		like '%研究院%'
-		<if test="_parameter != null">
-			and nd = #{nd,jdbcType=VARCHAR}
-		</if>
-		union all
-		select
-		count(*) mscount,
-		'股份分公司' as unitType
-		from out_appraisal
-		WHERE sqjddw
-		like '%分公司%'
-		<if test="_parameter != null">
-			and nd = #{nd,jdbcType=VARCHAR}
-		</if>
-		union all
-		select
-		count(*) mscount,
-		'外部单位' as unitType
-		from out_appraisal
-		WHERE sqjddw like
-		'%大学%'
-		<if test="_parameter != null">
-			and nd = #{nd,jdbcType=VARCHAR}
-		</if>
-		union all
-		select
-		count(*) mscount,
-		'盈科' as unitType
-		from out_appraisal
-		WHERE sqjddw like
-		'%盈科%'
-		<if test="_parameter != null">
-			and nd = #{nd,jdbcType=VARCHAR}
-		</if>
-	</select>
 
-	<select id="getResultInfoByEight" resultType="java.util.Map"
-		parameterType="java.lang.String">
-		select
-		count(*) mscount,
-		'石科院' as unitType
-		from
-		out_appraisal
-		WHERE (sqjddw like '%中国石油化工股份有限公司石油化工科学研究院%')
-		<if test="_parameter != null">
-			and nd = #{nd,jdbcType=VARCHAR}
-		</if>
-		union all
-		select
-		count(*) mscount,
-		'北化院' as unitType
-		from out_appraisal
-		WHERE (sqjddw like
-		'%北京北化院石化设计院有限公司%' or sqjddw like '%中国石油化工股份有限公司北京化工研究院%')
-		<if test="_parameter != null">
-			and nd = #{nd,jdbcType=VARCHAR}
-		</if>
-		union all
-		select
-		count(*) mscount,
-		'大连院' as unitType
-		from out_appraisal
-		WHERE (sqjddw like
-		'%中国石油化工股份有限公司抚顺石油化工研究院%' or sqjddw like '%抚顺环科石油化工技术开发有限公司%')
-		<if test="_parameter != null">
-			and nd = #{nd,jdbcType=VARCHAR}
-		</if>
-		union all
-		select
-		count(*) mscount,
-		'上海院' as unitType
-		from out_appraisal
-		WHERE (sqjddw like
-		'%中国石油化工股份有限公司上海石油化工研究院%')
-		<if test="_parameter != null">
-			and nd = #{nd,jdbcType=VARCHAR}
-		</if>
-		union all
-		select
-		count(*) mscount,
-		'安工院' as unitType
-		from out_appraisal
-		WHERE (sqjddw like
-		'%中国石油化工股份有限公司青岛安全工程研究院%' or sqjddw like '%青岛中化阳光管理体系认证中心有限公司%')
-		<if test="_parameter != null">
-			and nd = #{nd,jdbcType=VARCHAR}
-		</if>
-		union all
-		select
-		count(*) mscount,
-		'勘探院' as unitType
-		from out_appraisal
-		WHERE (sqjddw like
-		'%中国石油化工股份有限公司石油勘探开发研究院%' or sqjddw like '%中国石油化工股份有限公司石油勘探开发研究院无锡石油%'
-		or sqjddw like '%中国石化集团资产经营管理有限公司合肥培训测试中心%' or sqjddw like
-		'%中国石化石油勘探开发研究院有限公司%')
-		<if test="_parameter != null">
-			and nd = #{nd,jdbcType=VARCHAR}
-		</if>
-		union all
-		select
-		count(*) mscount,
-		'物探院' as unitType
-		from out_appraisal
-		WHERE (sqjddw like
-		'%中国石油化工股份有限公司石油物探技术研究院%')
-		<if test="_parameter != null">
-			and nd = #{nd,jdbcType=VARCHAR}
-		</if>
-		union all
-		select
-		count(*) mscount,
-		'工程院' as unitType
-		from out_appraisal
-		WHERE (sqjddw like
-		'%中国石油化工股份有限公司石油工程技术研究院%')
-		<if test="_parameter != null">
-			and nd = #{nd,jdbcType=VARCHAR}
-		</if>
-
-	</select>
 	
 	<!--  领导二级页面，各个研究院的成果情况 -->
 	<select id="getAppraisalInfoByInstitute" resultType="java.util.Map" parameterType="java.util.HashMap">
 		select count(*) as sl, 
 			sum(case when cglx = 'A.工业化' then 1 else 0 end) as gyhsl,
 			sum(case when cglx = 'B.工业试验' then 1 else 0 end) as gysysl,
+			sum(case when cglx = 'C.其他' then 1 else 0 end) as qtsl,
 			SUBSTR(define1 FROM 4) define1 
 		from (
 				select define1,define3,cglx,jdh
 				from out_appraisal
 				where 
-					define3 like '%直属研究院%' and nd='${nd}' 
+					nd='${nd}'
+					<if test="define3 != null and define3 != ''">
+						and define3 like '%${define3}%'
+					</if>
 			  GROUP BY cgid
 		) as tableA
 		group by define1
@@ -891,6 +740,23 @@
 				and define1 is not null
 			</if>
 		group by cglx
+	</select>
+	
+	<!--  辅助决策分析，成果鉴定年度分析，近三年成果各专业分布 -->
+	<select id="getAppraisalInfoByZyForThreeYear" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select 
+			tableA.zy,
+			sum(case when tableA.nd = '${nd}' OR tableA.nd = '${nd}'-1 OR tableA.nd = '${nd}'-2 then sl else 0 end) as zsl,
+			sum(case when tableA.nd = '${nd}' then sl else 0 end) as  thisYearSl,
+			sum(case when tableA.nd = '${nd}'-1 then sl else 0 end) as  lastYearSl,
+			sum(case when tableA.nd = '${nd}'-2 then sl else 0 end) as  beforeYearSl
+		from (
+				select count(DISTINCT cgid) as sl, nd, case when zy is null then '其他' else zy end as zy 
+				from out_appraisal
+				where 
+					define3 not like '%外部单位%'
+				group by zy,nd) as tableA
+		group by tableA.zy
 	</select>
 	
 	<!--  领导二级页面，各种专业的成果情况 -->
@@ -921,7 +787,8 @@
 	
 	<!-- 分页显示项目的科研成果信息,统计的第三级展示 -->
 	<select id="getAppraisalInfoByCond" resultMap="BaseResultMap" parameterType="java.util.HashMap">
-		select nd,cgmc,sqjddw,sqdjh,startTime,endTime,cglx,zy,jdjg,hth,xmmc,substr(define1 from 4) as define1,substr(define3 from 2) as define3
+		select nd,cgmc,sqjddw,sqdjh,startTime,endTime,cglx,zy,jdjg,hth,xmmc,
+			   substr(define1 from 4) as define1,substr(define3 from 2) as define3
 		from out_appraisal
 		where
 			 define3 not like '%外部单位%' 

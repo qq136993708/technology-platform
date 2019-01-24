@@ -223,24 +223,6 @@ public class OutAppraisalServiceImpl implements OutAppraisalService {
 		return outAppraisalMapper.getResultInfoByZy(nd);
 	}
 	
-	/**
-     * @param nd
-     * @return
-     * 得到某个年度专利申请/授权数量按专利类型分组
-     */
-    public List getResultInfoBySix(String nd) {
-    	return outAppraisalMapper.getResultInfoBySix(nd);
-    }
-    
-    /**
-     * @param nd
-     * @return
-     * 得到某个年度专利申请/授权数量按专利类型分组
-     */
-    public List getResultInfoByEight(String nd) {
-    	return outAppraisalMapper.getResultInfoByEight(nd);
-    }
-    
     /**
      * 领导二级页面，各个研究院的成果情况, 每一行是一个院
      */
@@ -276,5 +258,10 @@ public class OutAppraisalServiceImpl implements OutAppraisalService {
 		return outAppraisalMapper.getAppraisalInfoSelectCondition(map);
 	}
 	
-	
+	/**
+	 * 辅助决策分析，成果鉴定年度分析，近三年成果各专业分布
+	 */
+	public List getAppraisalInfoByZyForThreeYear(HashMap<String, String> map) {
+		return outAppraisalMapper.getAppraisalInfoByZyForThreeYear(map);
+	}
 }
