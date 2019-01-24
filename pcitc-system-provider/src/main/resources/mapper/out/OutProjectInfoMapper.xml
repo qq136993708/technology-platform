@@ -2481,7 +2481,7 @@
 		
 		union ALL
 		
-		select 'type_flag',case when type_flag is null then '其他' else SUBSTR(type_flag FROM 2) end as type_flag
+		select 'type_flag',SUBSTR(type_flag FROM 2) as type_flag
 		from out_project_info
 		WHERE
 		define3='项目管理系统'
@@ -2495,11 +2495,11 @@
 		group by zylb
 		
 		union ALL
-		select 'zycmc', case when zycmc is null then '其他' else zycmc end as zycmc
+		select 'define10', SUBSTR(define10 FROM 4) as define10
 		from out_project_info
 		WHERE
 		define3='项目管理系统'
-		group by zycmc
+		group by define10
 		
 	</select>
 	
@@ -2540,6 +2540,7 @@
 		select out_project_info.define1,substr(out_project_info.define2 from 4) as define2,substr(out_project_info.type_flag from 2) as type_flag,
 			   out_project_info.xmmc,out_project_info.jf,sum(out_project_info.ysje) as ysje,out_project_info.ysnd,
 			   out_project_info.project_property,out_project_info.fzdw,out_project_info.zylb,
+			   substr(out_project_info.define10 from 4) as define10,
 		       out_project_info.nd,GROUP_CONCAT(out_project_info.define8) as define8,out_project_info.hth,out_project_info.zycmc
 		from out_project_info
 		where
@@ -2567,6 +2568,13 @@
 				and (
 				<foreach collection="define1" item="define1" index="index" separator=" or ">
 					out_project_info.define1 like '%${define1}%'
+				</foreach>
+				)
+			</if>
+			<if test="define10 != null">
+				and (
+				<foreach collection="define10" item="define10" index="index" separator=" or ">
+					out_project_info.define10 like '%${define10}%'
 				</foreach>
 				)
 			</if>
