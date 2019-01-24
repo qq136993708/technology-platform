@@ -321,31 +321,31 @@ public class OutAppraisalInfoClient {
 			temMap.put("define3", "集团单位");
 			temList.add(2, temMap);
 		}
-		
+		if (!JSON.toJSONString(temList).contains("资产单位")) {
+			HashMap<String, Object> temMap = new HashMap<String, Object>();
+			temMap.put("sl", 0);
+			temMap.put("define3", "资产单位");
+			temList.add(3, temMap);
+		}
+		if (!JSON.toJSONString(temList).contains("外部单位")) {
+			HashMap<String, Object> temMap = new HashMap<String, Object>();
+			temMap.put("sl", 0);
+			temMap.put("define3", "外部单位");
+			temList.add(4, temMap);
+		}
 		if (!JSON.toJSONString(temList).contains("休斯顿研发中心")) {
 			HashMap<String, Object> temMap = new HashMap<String, Object>();
 			temMap.put("sl", 0);
 			temMap.put("define3", "休斯顿研发中心");
-			temList.add(3, temMap);
+			temList.add(5, temMap);
 		}
 		if (!JSON.toJSONString(temList).contains("中东研发中心")) {
 			HashMap<String, Object> temMap = new HashMap<String, Object>();
 			temMap.put("sl", 0);
 			temMap.put("define3", "中东研发中心");
-			temList.add(4, temMap);
-		}
-		if (!JSON.toJSONString(temList).contains("集团公司")) {
-			HashMap<String, Object> temMap = new HashMap<String, Object>();
-			temMap.put("sl", 0);
-			temMap.put("define3", "集团公司");
-			temList.add(5, temMap);
-		}
-		if (!JSON.toJSONString(temList).contains("资产公司")) {
-			HashMap<String, Object> temMap = new HashMap<String, Object>();
-			temMap.put("sl", 0);
-			temMap.put("define3", "资产公司");
 			temList.add(6, temMap);
 		}
+		
 		if (!JSON.toJSONString(temList).contains("盈科")) {
 			HashMap<String, Object> temMap = new HashMap<String, Object>();
 			temMap.put("sl", 0);
