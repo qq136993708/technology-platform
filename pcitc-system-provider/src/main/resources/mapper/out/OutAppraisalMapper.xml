@@ -720,7 +720,7 @@
 				select define1,define3,cglx,jdh
 				from out_appraisal
 				where 
-					nd='${nd}'
+					nd='${nd}' and define1 is not null 
 					<if test="define3 != null and define3 != ''">
 						and define3 like '%${define3}%'
 					</if>
