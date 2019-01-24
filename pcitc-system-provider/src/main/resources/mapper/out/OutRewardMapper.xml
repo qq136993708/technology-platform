@@ -551,5 +551,40 @@
 	<select id="selectOutRewardYearList" resultType="java.lang.String">
     	SELECT DISTINCT nd from out_reward ORDER BY nd DESC
   	</select>
+  	
+  	<!-- 辅助决策中心，科技奖励年度趋势分析, 近5年各类奖励类型的数量情况 -->
+	<select id="getRewardBySbjzWithFiveYear" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select  sbjz,
+				sum(case when out_reward.nd &gt;= '${nd}'-4 and out_reward.nd &lt;= '${nd}' then 1 else 0 end) as  zsl,
+				sum(case when out_reward.nd = '${nd}' then 1 else 0 end) as  oneYearSl,
+				sum(case when out_reward.nd = '${nd}'-1 then 1 else 0 end) as  twoYearSl,
+				sum(case when out_reward.nd = '${nd}'-2 then 1 else 0 end) as  treeYearSl,
+				sum(case when out_reward.nd = '${nd}'-3 then 1 else 0 end) as  fourYearSl,
+				sum(case when out_reward.nd = '${nd}'-4 then 1 else 0 end) as  fiveYearSl,
+				sum(case when out_reward.nd = '${nd}' and xkfl = '石油炼制' then 1 else 0 end) as  sylzSl,
+				sum(case when out_reward.nd = '${nd}' and xkfl = '油气开发' then 1 else 0 end) as  yqkfSl,
+				sum(case when out_reward.nd = '${nd}' and xkfl = '化工化纤' then 1 else 0 end) as  hghqSl,
+				sum(case when out_reward.nd = '${nd}' and xkfl = '设备与安全环保' then 1 else 0 end) as  sbaqSl,
+				sum(case when out_reward.nd = '${nd}' and xkfl = '油气勘探' then 1 else 0 end) as  yqktSl,
+				sum(case when out_reward.nd = '${nd}' and xkfl = '信息与综合' then 1 else 0 end) as  xxzhSl,
+				sum(case when out_reward.nd = '${nd}' and psdj = '一等奖' then 1 else 0 end) as  ydjSl,
+				sum(case when out_reward.nd = '${nd}' and psdj = '二等奖' then 1 else 0 end) as  edjSl,
+				sum(case when out_reward.nd = '${nd}' and psdj = '三等奖' then 1 else 0 end) as  sdjSl
+		from out_reward
+		group by sbjz
+	</select>
+	
+	<!-- 辅助决策中心，科技奖励年度趋势分析, 各个研究院的奖励情况 -->
+	<select id="getRewardInfoByYjy" resultType="java.util.Map" parameterType="java.util.HashMap">
+		select  substr(define2,4) as define2,
+			  	count(*) as zsl,
+				sum(case when sbjz = '科技进步奖' then 1 else 0 end) as  kjjbjSl,
+				sum(case when sbjz = '技术发明奖' then 1 else 0 end) as  jsfmjSl,
+				sum(case when sbjz = '前瞻性基础性研究科学奖' then 1 else 0 end) as  yjkxSl
+		from out_reward
+		WHERE
+			define1 like '%研究院%' and nd = '${nd}'
+		group by define2
+	</select>
 	
 </mapper>

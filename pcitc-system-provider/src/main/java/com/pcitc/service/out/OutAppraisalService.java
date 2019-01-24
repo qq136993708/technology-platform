@@ -45,20 +45,6 @@ public interface OutAppraisalService {
     public List getResultInfoByZy(String nd);
     
     /**
-     * @param nd
-     * @return
-     * 得到某个年度专利申请/授权数量按专利类型分组
-     */
-    public List getResultInfoBySix(String nd);
-    
-    /**
-     * @param nd
-     * @return
-     * 得到某个年度专利申请/授权数量按专利类型分组
-     */
-    public List getResultInfoByEight(String nd);
-    
-    /**
      * 领导二级页面，各个研究院的成果情况, 每一行是一个院
      */
 	public List getAppraisalInfoByInstitute(HashMap<String, String> map);
@@ -83,5 +69,9 @@ public interface OutAppraisalService {
 	 */
 	public List getAppraisalInfoSelectCondition(HashMap<String, String> map);
 	
+	/**
+	 * 辅助决策分析，成果鉴定年度分析，近三年成果各专业分布
+	 */
+	public List getAppraisalInfoByZyForThreeYear(HashMap<String, String> map);
 	
 }

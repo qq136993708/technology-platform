@@ -1,5 +1,8 @@
 package com.pcitc.web.out;
 
+import java.util.HashMap;
+import java.util.List;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
@@ -12,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.stp.out.OutReward;
@@ -48,6 +53,26 @@ public class OutRewardClient {
 	@RequestMapping(value = "/out-provider/get-reward-list/{dataId}", method = RequestMethod.POST)
 	public OutReward getOutAppraisalShow(@PathVariable(value = "dataId", required = true) String dataId) throws Exception{
 		return outRewardService.getOutRewardShowById(dataId);
+	}
+	
+	@ApiOperation(value = "辅助决策中心，科技奖励年度趋势分析, 近5年各类奖励类型的数量情况", notes = "参数是年度")
+	@RequestMapping(value = "/out-reward-provider/sbjz/five-year/count", method = RequestMethod.POST)
+	public JSONArray getRewardBySbjzWithFiveYear(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page getRewardBySbjzWithFiveYear===========================" + map);
+		
+		List temList = outRewardService.getRewardBySbjzWithFiveYear(map);
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		return json;
+	}
+	
+	@ApiOperation(value = "辅助决策中心，科技奖励年度趋势分析, 各个研究院的奖励情况", notes = "参数是年度")
+	@RequestMapping(value = "/out-reward-provider/yjy/type/count", method = RequestMethod.POST)
+	public JSONArray getRewardInfoByYjy(@RequestBody HashMap<String, String> map) throws Exception {
+		logger.info("==================page getRewardInfoByYjy===========================" + map);
+		
+		List temList = outRewardService.getRewardInfoByYjy(map);
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
+		return json;
 	}
 	
 }
