@@ -956,7 +956,7 @@ var pcitcReport = pcitc.report = {
     },
     setExt: function () {
         console.log("setExt");
-        $("#stp_table_title").html(pcitcReport.date.replace("-", "年") + "月" + pcitcReport.tableTitle.config.name);
+        // $("#stp_table_title").html(pcitcReport.date.replace("-", "年") + "月" + pcitcReport.tableTitle.config.name);
     },
     getStoreModelList: function () {//ajax获取收藏内容
         $.ajax({

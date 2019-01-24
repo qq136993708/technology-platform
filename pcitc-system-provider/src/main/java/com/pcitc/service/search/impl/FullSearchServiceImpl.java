@@ -24,6 +24,7 @@ import com.pcitc.mapper.out.OutProjectInfoMapper;
 import com.pcitc.mapper.out.OutRewardMapper;
 import com.pcitc.service.expert.TfmTypeService;
 import com.pcitc.service.report.SysReportStpService;
+import com.pcitc.service.search.FullSearchAsycService;
 import com.pcitc.service.search.FullSearchService;
 import com.pcitc.service.system.SysFileService;
 import com.pcitc.utils.StringUtils;
@@ -42,6 +43,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.text.DecimalFormat;
 import java.util.*;
+import java.util.concurrent.Future;
 
 @Service("fullSearchServiceImpl")
 @Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = Exception.class)
@@ -62,11 +64,15 @@ public class FullSearchServiceImpl implements FullSearchService {
     @Autowired
     HomeProviderClient homeProviderClient;
 
+    @Autowired
+    FullSearchAsycService fullSearchAsycService;
+
     private static final String[] tabString = {"科研", "成果"};
 
     private static int limit_scientific = 1;
 
     public LayuiTableData getTableSearch(LayuiTableParam param) throws Exception {
+        long begin = System.currentTimeMillis();
         //公共
         int page = param.getPage();
         int limit = param.getLimit();
@@ -89,48 +95,42 @@ public class FullSearchServiceImpl implements FullSearchService {
         param_common.setParam(param_public);
 
         //科研课题
-        LayuiTableData tableDataScientific = this.getTableDataScientific(param_common);
+        Future<LayuiTableData> tableDataScientific = fullSearchAsycService.getTableDataScientific(param_common);
+//        LayuiTableData tableDataScientific = this.getTableDataScientific(param_common);
 //        List<?> scientificData = tableDataScientific.getData();
         //科研成果
-        LayuiTableData tableDataAchivementc = this.getTableDataAchivement(param_common);
+        Future<LayuiTableData> tableDataAchivementc = fullSearchAsycService.getTableDataAchivement(param_common);
+//        LayuiTableData tableDataAchivementc = this.getTableDataAchivement(param_common);
 //        List<?> achivementcData = tableDataAchivementc.getData();
+        System.out.println("3333333333333");
         //报表
-        LayuiTableData tableDataReport = this.getTableDataReport(param_common);
+        Future<LayuiTableData> tableDataReport = fullSearchAsycService.getTableDataReport(param_common);
 //        List<?> reportData = tableDataReport.getData();
 
         //科技奖励
-        LayuiTableData tableDataOutReward = this.getOutRewardListPage(param_common);
+        Future<LayuiTableData> tableDataOutReward = fullSearchAsycService.getOutRewardListPage(param_common);
 //        List<?> outRewardData = tableDataOutReward.getData();
 
         //科研装备
-        LayuiTableData tableDataEquipment = this.getEquipmentListPage(param_common);
+        Future<LayuiTableData> tableDataEquipment = fullSearchAsycService.getEquipmentListPage(param_common);
 
         //技术族
-        LayuiTableData tableDataTech = tfmTypeService.findTfmTypeByPage(param_common);
+        Future<LayuiTableData> tableDataTech = fullSearchAsycService.findTfmTypeByPage(param_common);
 //        List<?> TechData = tableDataTech.getData();
         //专家信息
-        LayuiTableData tableDataExpert = zjkBaseInfoServiceClient.selectZjkBaseInfoByPage(param_common);
+        Future<LayuiTableData> tableDataExpert = fullSearchAsycService.selectZjkBaseInfoByPage(param_common);
 //        List<?> ExpertData = tableDataExpert.getData();
         //知识产权
-        LayuiTableData tableDataPatent = zjkBaseInfoServiceClient.selectZjkZhuanliByPage(param_common);
+        Future<LayuiTableData> tableDataPatent = fullSearchAsycService.selectZjkZhuanliByPage(param_common);
 
         //汇总
         List list = new ArrayList<>();
         int total = 0;
+//        while (!(tableDataTech.isDone()&&tableDataExpert.isDone()&&tableDataPatent.isDone()&&tableDataAchivementc.isDone()&&tableDataScientific.isDone()&&tableDataReport.isDone()&&tableDataOutReward.isDone()&&tableDataEquipment.isDone())){
+//        }
 
-
-        List<TreeNode2> Equipment = (List<TreeNode2>) tableDataEquipment.getData();
-        if (Equipment != null&&Equipment.size()>0) {
-            total = total + 1;
-            for (int i = 0; i < Equipment.size(); i++) {
-                Equipment.get(i).setSelect_type("科研装备");
-//                Equipment.get(i).setSelect_type("equipment");
-                list.add(Equipment.get(i));
-            }
-        }
-
-        List<?> Achivementc =  tableDataAchivementc.getData();
-        if (Achivementc != null&&Achivementc.size()>0) {
+        List<?> Achivementc = (List<?>) tableDataAchivementc.get().getData();
+        if (Achivementc != null && Achivementc.size() > 0) {
             total = total + 1;
             for (int i = 0; i < Achivementc.size(); i++) {
                 Map<String, Object> map = MyBeanUtils.java2Map(Achivementc.get(i));
@@ -140,8 +140,8 @@ public class FullSearchServiceImpl implements FullSearchService {
             }
         }
 
-        List<Map<String, String>> Scientific = (List<Map<String, String>>) tableDataScientific.getData();
-        if (Scientific != null&&Scientific.size()>0) {
+        List<Map<String, String>> Scientific = (List<Map<String, String>>) tableDataScientific.get().getData();
+        if (Scientific != null && Scientific.size() > 0) {
             total = total + 1;
             for (int i = 0; i < Scientific.size(); i++) {
                 Map<String, Object> map = MyBeanUtils.java2Map(Scientific.get(i));
@@ -150,9 +150,8 @@ public class FullSearchServiceImpl implements FullSearchService {
                 list.add(map);
             }
         }
-
-        List<Map<String, String>> Report = (List<Map<String, String>>) tableDataReport.getData();
-        if (Report != null&&Report.size()>0) {
+        List<Map<String, String>> Report = (List<Map<String, String>>) tableDataReport.get().getData();
+        if (Report != null && Report.size() > 0) {
             total = total + 1;
             for (int i = 0; i < Report.size(); i++) {
                 Map<String, Object> map = MyBeanUtils.java2Map(Report.get(i));
@@ -161,9 +160,8 @@ public class FullSearchServiceImpl implements FullSearchService {
                 list.add(map);
             }
         }
-
-        List<Map<String, String>> OutReward = (List<Map<String, String>>) tableDataOutReward.getData();
-        if (OutReward != null&&OutReward.size()>0) {
+        List<Map<String, String>> OutReward = (List<Map<String, String>>) tableDataOutReward.get().getData();
+        if (OutReward != null && OutReward.size() > 0) {
             total = total + 1;
             for (int i = 0; i < OutReward.size(); i++) {
                 Map<String, Object> map = MyBeanUtils.java2Map(OutReward.get(i));
@@ -173,8 +171,10 @@ public class FullSearchServiceImpl implements FullSearchService {
             }
         }
 
-        List<Map<String, String>> zjkTech = (List<Map<String, String>>) tableDataTech.getData();
-        if (zjkTech != null&&zjkTech.size()>0) {
+        System.out.println("------------------结束-----------------------" + (System.currentTimeMillis() - begin));
+
+        List<Map<String, String>> zjkTech = (List<Map<String, String>>) tableDataTech.get().getData();
+        if (zjkTech != null && zjkTech.size() > 0) {
             total = total + 1;
             for (int i = 0; i < zjkTech.size(); i++) {
                 Map<String, Object> map = MyBeanUtils.java2Map(zjkTech.get(i));
@@ -184,8 +184,8 @@ public class FullSearchServiceImpl implements FullSearchService {
             }
         }
 
-        List<Map<String, String>> zjkExpert = (List<Map<String, String>>) tableDataExpert.getData();
-        if (zjkExpert != null&&zjkExpert.size()>0) {
+        List<Map<String, String>> zjkExpert = (List<Map<String, String>>) tableDataExpert.get().getData();
+        if (zjkExpert != null && zjkExpert.size() > 0) {
             total = total + 1;
             for (int i = 0, j = zjkExpert.size(); i < j; i++) {
                 Map<String, String> map = (zjkExpert.get(i));
@@ -195,8 +195,8 @@ public class FullSearchServiceImpl implements FullSearchService {
             }
         }
 
-        List<Map<String, String>> zjkPatents = (List<Map<String, String>>) tableDataPatent.getData();
-        if (zjkPatents != null&&zjkPatents.size()>0) {
+        List<Map<String, String>> zjkPatents = (List<Map<String, String>>) tableDataPatent.get().getData();
+        if (zjkPatents != null && zjkPatents.size() > 0) {
             total = total + 1;
             for (int i = 0, j = zjkPatents.size(); i < j; i++) {
                 Map<String, String> map = (zjkPatents.get(i));
@@ -206,9 +206,22 @@ public class FullSearchServiceImpl implements FullSearchService {
 
             }
         }
+
+        List<TreeNode2> Equipment = (List<TreeNode2>) tableDataEquipment.get().getData();
+        if (Equipment != null && Equipment.size() > 0) {
+            total = total + 1;
+            for (int i = 0; i < Equipment.size(); i++) {
+                Equipment.get(i).setSelect_type("科研装备");
+//                Equipment.get(i).setSelect_type("equipment");
+                list.add(Equipment.get(i));
+            }
+        }
+
 //        getTabList(param_common, total, list, limit);
 
         //首页total，其他页取值
+        System.out.println("------------------结束---文件开始--------------------" + (System.currentTimeMillis() - begin));
+
         msg = total;
 //        msg = (page == 1) ? (total) : (tabsCount);
         LayuiTableData tableDataFile = new LayuiTableData();
@@ -285,10 +298,11 @@ public class FullSearchServiceImpl implements FullSearchService {
         tableData.setCount(total);
         tableData.setData(list);
         tableData.setMsg(msg + "");
+        System.out.println("------------------结束---返回--------------------" + (System.currentTimeMillis() - begin));
         return tableData;
     }
 
-    private LayuiTableData getEquipmentListPage(LayuiTableParam param_common) throws Exception {
+    public LayuiTableData getEquipmentListPage(LayuiTableParam param_common) throws Exception {
         JSONArray jSONArray = homeProviderClient.get_home_KYZB_02(JSONObject.toJSONString(param_common.getParam()));
         Object keyword = param_common.getParam().get("keyword");
         LayuiTableData layuiTableData = new LayuiTableData();
@@ -328,19 +342,19 @@ public class FullSearchServiceImpl implements FullSearchService {
                 strKeyword = bean.getG0TXT50().replace(keyword.toString(), "<span style=\"color:red\">" + keyword + "</span>");
                 node.setExtend03(strKeyword);//设备名称
                 chartCircleListRed.add(node);
-            }else {
+            } else {
                 node.setExtend03(strKeyword);//设备名称
                 chartCircleList.add(node);
             }
         }
         List<TreeNode2> resultList = new ArrayList<TreeNode2>();
-        if (keyword != null && !"".equals(keyword)){
-            if (chartCircleListRed.size()>0){
+        if (keyword != null && !"".equals(keyword)) {
+            if (chartCircleListRed.size() > 0) {
                 resultList.add(chartCircleListRed.get(0));
             }
             layuiTableData.setData(resultList);
-        }else {
-            if (chartCircleList.size()>0){
+        } else {
+            if (chartCircleList.size() > 0) {
                 resultList.add(chartCircleList.get(0));
             }
             layuiTableData.setData(resultList);
@@ -490,6 +504,8 @@ public class FullSearchServiceImpl implements FullSearchService {
 
     @Override
     public LayuiTableData getTableDataScientific(LayuiTableParam param) {
+        System.out.println(" 异步1 ");
+
         // 每页显示条数
         int pageSize = param.getLimit();
         // 当前是第几页
@@ -690,6 +706,7 @@ public class FullSearchServiceImpl implements FullSearchService {
     public LayuiTableData getTableDataAchivement(LayuiTableParam param) {
         Map<String, Object> paraMap = param.getParam();
 
+        System.out.println(" 异步2 ");
         // 1、设置分页信息，包括当前页数和每页显示的总计数
         PageHelper.startPage(param.getPage(), param.getLimit());
         List<String> strings = getListInfo(achievement);
@@ -742,10 +759,10 @@ public class FullSearchServiceImpl implements FullSearchService {
         return data;
     }
 
-    private static String[] outreward = {"xmmc", "sbdw", "sbjz", "xkfl", "sbdj", "rwly", "jddw", "psdj"};
-    private static String[] achievement = {"hth", "xmmc", "cgmc", "zy"};
-    private static String[] info = {"xmmc", "xmjb", "ysnd", "yshf", "ysxd", "ysje", "jf", "fwdxbm", "fwdx", "zylbbm", "zylb", "fzdwbm", "fzdw", "jtfzdwbm", "jtfzdw", "fzryx", "fzrdh", "fzrxm", "lxrdh", "lxryx", "lxrxm", "jssxxm", "jssj", "kssj", "yjsj", "zyly", "zysx", "sjid", "status", "yjsjks", "yjsjjs", "xmlbbm", "xmlbmc", "gsbmmc", "gsbmbm", "zycmc", "zycbm", "type_flag", "define3", "define4", "define5", "define6", "define7", "define8", "define9"};
-    private List<String> listInfo;
+    public static String[] outreward = {"xmmc", "sbdw", "sbjz", "xkfl", "sbdj", "rwly", "jddw", "psdj"};
+    public static String[] achievement = {"hth", "xmmc", "cgmc", "zy"};
+    public static String[] info = {"xmmc", "xmjb", "ysnd", "yshf", "ysxd", "ysje", "jf", "fwdxbm", "fwdx", "zylbbm", "zylb", "fzdwbm", "fzdw", "jtfzdwbm", "jtfzdw", "fzryx", "fzrdh", "fzrxm", "lxrdh", "lxryx", "lxrxm", "jssxxm", "jssj", "kssj", "yjsj", "zyly", "zysx", "sjid", "status", "yjsjks", "yjsjjs", "xmlbbm", "xmlbmc", "gsbmmc", "gsbmbm", "zycmc", "zycbm", "type_flag", "define3", "define4", "define5", "define6", "define7", "define8", "define9"};
+    public List<String> listInfo;
 
     public static List<String> getListInfo(String[] array) {
         ArrayList<String> strings = new ArrayList<String>(Arrays.asList(array));

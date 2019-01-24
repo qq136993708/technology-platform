@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="/layuiadmin/layui/css/modules/formSelects-v4.css">
     <script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
     <script>
-        console.log("树形");
+        console.log("树形1");
         var isIndexFlag = false;
         var stroreId = '${storeId}';
         console.log("收藏或跳转");
@@ -116,9 +116,11 @@
 
                         <div class="time">
                             <label>
-                                <span>查询日期:</span>
-                                <div class="layui-form">
-                                    <!--<input type="radio" name="time"  value="按年份" title="按年份">-->
+                                <span hidden>查询日期:</span>
+                                <div class="layui-form" >
+                                    <!--20190122隐藏条件 start-->
+                                    <div hidden>
+                                    <input type="radio" name="time"  value="按年份" title="按年份" >
                                     <input type="radio" name="time" value="按月份" title="按月份" checked>
                                     <input type="text" class="layui-input layui-input-timeY layui-hide"
                                            id="test-laydate-type-year" placeholder="yyyy">
@@ -137,6 +139,9 @@
                                             </select>
                                         </div>
                                     </div>
+                                    </div>
+                                    <!--20190122隐藏条件 end-->
+
                                     <!--查询结束-->
                                     <div class="btnGroup">
                                         <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg"

@@ -167,30 +167,12 @@ public class ImageUtils {
          */
         try {
             Thumbnails.of(filePath)
-                    .size(width, height)
+                    .size(width, height).outputQuality(1f)
                     .toFile(newFilePath);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
-    /**
-     * 按照比例进行缩放
-     *
-     * @param scale
-     * @param filePath
-     * @param newFilePath
-     */
-    public static void getImgScale(double scale, String filePath, String newFilePath) {
-        try {
-            Thumbnails.of(filePath)
-                    .scale(scale).outputQuality(0.5f)
-                    .toFile(newFilePath);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     /**
      * 不按照比例，指定大小进行缩放
      *
@@ -209,6 +191,25 @@ public class ImageUtils {
             e.printStackTrace();
         }
     }
+
+    /**
+     * 按照比例进行缩放
+     *
+     * @param scale
+     * @param filePath
+     * @param newFilePath
+     */
+    public static void getImgScale(double scale, String filePath, String newFilePath) {
+        try {
+            Thumbnails.of(filePath)
+                    .scale(scale).outputQuality(1f)
+                    .toFile(newFilePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 
     /**
      * 旋转:正数：顺时针负数：逆时针
@@ -245,7 +246,10 @@ public class ImageUtils {
         }
     }
 
-    public static void batImage(String path) {
+    public static void batImage(String path,String newpath) {
+        if(!new File(newpath).exists()){
+            FileUtil.mkdir(newpath);
+        }
         File file = new File(path);
         if (!file.isDirectory()) {
             return;
@@ -257,8 +261,52 @@ public class ImageUtils {
             System.out.println(fileName);
             if (FileUtil.isImage(fileName)) {
                 temp = new File(fileName);
-//                getImgSizeNoScale(750,750,fileName,"C:\\Users\\Administrator\\Desktop\\新建文件夹" + File.separator + "750_"+tempList[i]);
-                getImgSizeNoScale(325,325,fileName,"C:\\Users\\Administrator\\Desktop\\新建文件夹" + File.separator + "325_"+tempList[i]);
+                getImgSizeNoScale(750,750,fileName,newpath + File.separator + "750_"+tempList[i]);
+                getImgSizeNoScale(325,325,fileName,newpath + File.separator + "325_"+tempList[i]);
+            }
+
+        }
+    }
+
+    public static void batImagegetImgScale(String path,String newpath) {
+        if(!new File(newpath).exists()){
+            FileUtil.mkdir(newpath);
+        }
+        File file = new File(path);
+        if (!file.isDirectory()) {
+            return;
+        }
+        String[] tempList = file.list();
+        File temp = null;
+        for (int i = 0; i < tempList.length; i++) {
+            String fileName = path + File.separator + tempList[i];
+            System.out.println(fileName);
+            if (FileUtil.isImage(fileName)) {
+                temp = new File(fileName);
+                getImgSize(750,750,fileName,newpath + File.separator + "750_"+tempList[i]);
+                getImgSize(325,325,fileName,newpath + File.separator + "325_"+tempList[i]);
+            }
+
+        }
+    }
+
+    public static void batgetImgScale(String path,String newpath) {
+        if(!new File(newpath).exists()){
+            FileUtil.mkdir(newpath);
+        }
+        File file = new File(path);
+        if (!file.isDirectory()) {
+            return;
+        }
+        String[] tempList = file.list();
+        File temp = null;
+        for (int i = 0; i < tempList.length; i++) {
+            String fileName = path + File.separator + tempList[i];
+            System.out.println(fileName);
+            if (FileUtil.isImage(fileName)) {
+                temp = new File(fileName);
+                getImgScale(0.8,fileName,newpath + File.separator + "750_"+tempList[i]);
+                getImgScale(0.8,fileName,newpath + File.separator + "325_"+tempList[i]);
             }
 
         }
@@ -266,9 +314,15 @@ public class ImageUtils {
 
     public static void main(String[] args) {
 
-        String path = "E:\\doc\\书道\\20190118修改图片\\";
-        batImage(path);
+        String path = "C:\\Users\\Administrator\\Desktop\\20190122\\";
+//        String newpath = "C:\\Users\\Administrator\\Desktop\\20190122样式一";
+//        batImage(path,newpath);
+        String newpath = "C:\\Users\\Administrator\\Desktop\\20190122样式二";
 
+        batImagegetImgScale(path,newpath);
+
+//        newpath = "C:\\Users\\Administrator\\Desktop\\20190122样式三";
+//        batgetImgScale(path,newpath);
 //
 //        String strBefore = "D:\\files\\uploadPath\\file\\mobile.jpg";
 //        String strback = "D:\\\\files\\\\uploadPath\\\\file\\\\getImgSize.jpg";

@@ -8,6 +8,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 /**
  * @author zhf
@@ -26,6 +27,7 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan
 @EnableFeignClients
 @EnableHystrix      //方便turbine进行监控
+@EnableAsync
 public class SystemProviderApplication {
 
     public static void main(String[] args) {
