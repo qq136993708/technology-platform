@@ -305,6 +305,15 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 			}
 			hashmap.put("define2", define2);
 		}
+		// 各个专业处
+		if (param.getParam().get("define10")!=null&&!StringUtils.isBlank(param.getParam().get("define10")+"")) {
+			List define10 = new ArrayList();
+			String[] temS = param.getParam().get("define10").toString().split(",");
+			for (int i = 0; i<temS.length; i++) {
+				define10.add(temS[i]);
+			}
+			hashmap.put("define10", define10);
+		}
 
 		// 国家项目、重大专项、重点项目、其他项目
 		if (param.getParam().get("project_property")!=null&&!StringUtils.isBlank(param.getParam().get("project_property")+"")) {

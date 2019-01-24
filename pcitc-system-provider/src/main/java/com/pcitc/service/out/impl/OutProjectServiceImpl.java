@@ -73,6 +73,16 @@ public class OutProjectServiceImpl implements OutProjectService {
 			}
 			hashmap.put("define1", define1);
 		}
+		
+		// 各个专业处
+		if (param.getParam().get("define10")!=null&&!StringUtils.isBlank(param.getParam().get("define10")+"")) {
+			List define10 = new ArrayList();
+			String[] temS = param.getParam().get("define10").toString().split(",");
+			for (int i = 0; i<temS.length; i++) {
+				define10.add(temS[i]);
+			}
+			hashmap.put("define10", define10);
+		}
 
 		// 8大院等细分结构
 		if (param.getParam().get("define2")!=null&&!StringUtils.isBlank(param.getParam().get("define2")+"")) {
@@ -139,7 +149,7 @@ public class OutProjectServiceImpl implements OutProjectService {
 			hashmap.put("nd", param.getParam().get("nd"));
 		}
 		System.out.println("1234>>>>>>>>>ysnd"+param.getParam().get("ysnd"));
-		System.out.println("1234>>>>>>>>>zycmc"+param.getParam().get("zycmc"));
+		System.out.println("1234>>>>>>>>>zycmc"+param.getParam().get("define10"));
 		System.out.println("1234>>>>>>>>>zylb"+param.getParam().get("zylb"));
 		System.out.println("1234>>>>>>>>>type_flag"+param.getParam().get("type_flag"));
 		System.out.println("1234>>>>>>>>>define1"+param.getParam().get("define1"));
