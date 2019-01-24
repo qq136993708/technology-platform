@@ -97,21 +97,27 @@ public class SKMController extends BaseController {
             //TO DO 1，keyword为空时，代表什么意思；2，from代表什么意思；3，项目名称代表什么意思
             String keyword = request.getParameter("keyword");
             ResponseEntity<ResultSKM> entity_count = restTemplate.getForEntity(SKM_patent_count + keyword, ResultSKM.class);
-            ResponseEntity<ResultSKM> forEntity = restTemplate.getForEntity(SKM_patent + "?Keyword=" + keyword + "&from=0", ResultSKM.class);
             //返回数量
             ResultSKM result_count = entity_count.getBody();
-            ResultSKM result_obj = forEntity.getBody();
-            if ("200".equals(result_count.getStatus())) {
+            int count = 0;
+            if (!"200".equals(result_count.getStatus())) {
                 result.setSuccess(false);
                 result.setMessage("调用专利总数量接口异常");
-            } else if ("200".equals(result_obj.getStatus())) {
-                result.setSuccess(false);
-                result.setMessage("调用专利接口异常");
             } else {
-                String resultCount = entity_count.getBody().getData().toString();
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("rs", JSONObject.toJSONString(result_obj));
-                ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(save_patent, HttpMethod.POST, new HttpEntity<JSONObject>(jsonObject, this.httpHeaders), JSONObject.class);
+                count = (int) result_count.data;
+                int page = count % 2000 > 0 ? (count / 2000 + 1) : count / 2000;
+                for (int i = 0; i < page; i++) {
+                    ResponseEntity<ResultSKM> forEntity = restTemplate.getForEntity(SKM_patent + "?Keyword=" + ((keyword==null||"".equals(keyword))?"":keyword) + "&from="+i, ResultSKM.class);
+                    ResultSKM result_obj = forEntity.getBody();
+                    if (!"200".equals(result_obj.getStatus())) {
+                        result.setSuccess(false);
+                        result.setMessage("调用专利接口异常");
+                    } else {
+                        JSONObject jsonObject = new JSONObject();
+                        jsonObject.put("rs", JSONObject.toJSONString(result_obj));
+                        ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(save_patent, HttpMethod.POST, new HttpEntity<JSONObject>(jsonObject, this.httpHeaders), JSONObject.class);
+                    }
+                }
             }
         } catch (Exception e) {
             result.setSuccess(false);
@@ -134,22 +140,28 @@ public class SKMController extends BaseController {
             //TO DO 1，keyword为空时，代表什么意思；2，from代表什么意思；3，项目名称代表什么意思
             String keyword = request.getParameter("keyword");
             ResponseEntity<ResultSKM> entity_count = restTemplate.getForEntity(SKM_achievement_count + keyword, ResultSKM.class);
-            ResponseEntity<ResultSKM> forEntity = restTemplate.getForEntity(SKM_achievement + "?Keyword=" + keyword + "&from=0", ResultSKM.class);
             //返回数量
             ResultSKM result_count = entity_count.getBody();
-            ResultSKM result_obj = forEntity.getBody();
-            if ("200".equals(result_count.getStatus())) {
+            int count = 0;
+            if (!"200".equals(result_count.getStatus())) {
                 result.setSuccess(false);
                 result.setMessage("调用成果总数量接口异常");
-            } else if ("200".equals(result_obj.getStatus())) {
-                result.setSuccess(false);
-                result.setMessage("调用成果接口异常");
             } else {
-                String resultCount = entity_count.getBody().getData().toString();
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("rs", JSONObject.toJSONString(result_obj));
-                ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(save_achievement, HttpMethod.POST, new HttpEntity<JSONObject>(jsonObject, this.httpHeaders), JSONObject.class);
-            }
+                count = (int) result_count.data;
+                int page = count % 2000 > 0 ? (count / 2000 + 1) : count / 2000;
+                for (int i = 0; i < page; i++) {
+                    ResponseEntity<ResultSKM> forEntity = restTemplate.getForEntity(SKM_achievement + "?Keyword=" + ((keyword==null||"".equals(keyword))?"":keyword) + "&from="+i, ResultSKM.class);
+                    ResultSKM result_obj = forEntity.getBody();
+                    if (!"200".equals(result_obj.getStatus())) {
+                        result.setSuccess(false);
+                        result.setMessage("调用成果接口异常");
+                    } else {
+                        JSONObject jsonObject = new JSONObject();
+                        jsonObject.put("rs", JSONObject.toJSONString(result_obj));
+                        ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(save_achievement, HttpMethod.POST, new HttpEntity<JSONObject>(jsonObject, this.httpHeaders), JSONObject.class);
+                    }
+                }
+          }
         } catch (Exception e) {
             result.setSuccess(false);
             result.setMessage("调用成果接口异常");
