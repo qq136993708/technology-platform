@@ -33,10 +33,44 @@ public class AchievementsAnalysis
 	private String sbzt;
 	private String psdj;
 	
+	private Integer zls;
+	
+	private Integer thisYearSl;
+	private Integer lastYearSl;
+	private Integer beforeYearSl;
 	
 	
 	
 	
+	
+	
+	
+	
+	
+	public Integer getThisYearSl() {
+		return thisYearSl;
+	}
+	public void setThisYearSl(Integer thisYearSl) {
+		this.thisYearSl = thisYearSl;
+	}
+	public Integer getLastYearSl() {
+		return lastYearSl;
+	}
+	public void setLastYearSl(Integer lastYearSl) {
+		this.lastYearSl = lastYearSl;
+	}
+	public Integer getBeforeYearSl() {
+		return beforeYearSl;
+	}
+	public void setBeforeYearSl(Integer beforeYearSl) {
+		this.beforeYearSl = beforeYearSl;
+	}
+	public Integer getZls() {
+		return zls;
+	}
+	public void setZls(Integer zls) {
+		this.zls = zls;
+	}
 	public String getDataId() {
 		return dataId;
 	}

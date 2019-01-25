@@ -29,6 +29,7 @@ import com.pcitc.base.common.Child;
 import com.pcitc.base.common.Child2;
 import com.pcitc.base.common.NameValue;
 import com.pcitc.base.common.TreeNode2;
+import com.pcitc.base.hana.report.AchievementsAnalysis;
 import com.pcitc.base.hana.report.Award;
 import com.pcitc.base.hana.report.BrandConstructionPay;
 import com.pcitc.base.hana.report.BudgetMysql;
@@ -4105,7 +4106,447 @@ public static ChartBarLineSeries getinvestmentBarLineSeries3(List<BudgetMysql> l
 		}
 		return chartBarLineSeries;
 	}
+	public static ChartBarLineSeries getAward_trend_analysis_01(List<Award> list, String name)throws Exception  {
+		
+		String year = HanaUtil.getCurrrentYear();
+		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
+		if (name.equals("oneYearSl")) {
+			chartBarLineSeries.setName(Integer.valueOf(year)+"");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		if (name.equals("twoYearSl")) {
+			chartBarLineSeries.setName((Integer.valueOf(year)-1)+"");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		if (name.equals("treeYearSl")) {
+			chartBarLineSeries.setName((Integer.valueOf(year)-2)+"");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		if (name.equals("fourYearSl")) {
+			chartBarLineSeries.setName((Integer.valueOf(year)-3)+"");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		if (name.equals("fiveYearSl")) {
+			chartBarLineSeries.setName((Integer.valueOf(year)-4)+"");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		List<Object> dataList = new ArrayList<Object>();
+		if (list != null && list.size() > 0) {
+			for (int i = 0; i < list.size(); i++) {
+				Award f03 = list.get(i);
+				Integer oneYearSl = (Integer)f03.getOneYearSl();
+				Integer twoYearSl =  (Integer)f03.getTwoYearSl();
+				Integer treeYearSl =  (Integer)f03.getTreeYearSl();
+				Integer fourYearSl =  (Integer)f03.getFourYearSl();
+				Integer fiveYearSl =  (Integer)f03.getFiveYearSl();
+					if (name.equals("oneYearSl")) {
+						
+						if(oneYearSl!=null)
+						{
+							dataList.add(oneYearSl);
+						}else
+						{
+							dataList.add(0);
+						}
+						
+						
+					}
+					if (name.equals("twoYearSl")) 
+					{
+						
+						if(twoYearSl!=null)
+						{
+							dataList.add(twoYearSl);
+						}else
+						{
+							dataList.add(0);
+						}
+					}
+					
+					
+					if (name.equals("treeYearSl")) 
+					{
+						
+						if(treeYearSl!=null)
+						{
+							dataList.add(treeYearSl);
+						}else
+						{
+							dataList.add(0);
+						}
+					}
+					
+					
+					
+					if (name.equals("fourYearSl")) 
+					{
+						
+						if(fourYearSl!=null)
+						{
+							dataList.add(fourYearSl);
+						}else
+						{
+							dataList.add(0);
+						}
+					}
+					
+					
+					
+					if (name.equals("fiveYearSl")) 
+					{
+						
+						if(fiveYearSl!=null)
+						{
+							dataList.add(fiveYearSl);
+						}else
+						{
+							dataList.add(0);
+						}
+					}
+					
+					
+				}
+
+				
+
+			chartBarLineSeries.setData(dataList);
+		}
+		return chartBarLineSeries;
+	}
 	
+	
+public static ChartBarLineSeries getAward_trend_analysis_03(List<Award> list, String name)throws Exception  {
+		
+	
+		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
+		if (name.equals("sylzSl")) {
+			chartBarLineSeries.setName("石油炼制");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		if (name.equals("yqkfSl")) {
+			chartBarLineSeries.setName("油气开发");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		if (name.equals("hghqSl")) {
+			chartBarLineSeries.setName("化工化纤");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		if (name.equals("sbaqSl")) {
+			chartBarLineSeries.setName("设备与安全环保");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		if (name.equals("yqktSl")) {
+			chartBarLineSeries.setName("油气勘探");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		if (name.equals("xxzhSl")) {
+			chartBarLineSeries.setName("信息与综合");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		List<Object> dataList = new ArrayList<Object>();
+		if (list != null && list.size() > 0) {
+			for (int i = 0; i < list.size(); i++) {
+				Award f03 = list.get(i);
+				Integer sylzSl = (Integer)f03.getSylzSl();
+				Integer yqkfSl =  (Integer)f03.getYqkfSl();
+				Integer hghqSl =  (Integer)f03.getHghqSl();
+				Integer sbaqSl =  (Integer)f03.getSbaqSl();
+				Integer yqktSl =  (Integer)f03.getYqktSl();
+				Integer xxzhSl =  (Integer)f03.getXxzhSl();
+					if (name.equals("sylzSl")) {
+						
+						if(sylzSl!=null)
+						{
+							dataList.add(sylzSl);
+						}else
+						{
+							dataList.add(0);
+						}
+						
+						
+					}
+					if (name.equals("yqkfSl")) 
+					{
+						
+						if(yqkfSl!=null)
+						{
+							dataList.add(yqkfSl);
+						}else
+						{
+							dataList.add(0);
+						}
+					}
+					
+					
+					if (name.equals("hghqSl")) 
+					{
+						
+						if(hghqSl!=null)
+						{
+							dataList.add(hghqSl);
+						}else
+						{
+							dataList.add(0);
+						}
+					}
+					
+					
+					
+					if (name.equals("sbaqSl")) 
+					{
+						
+						if(sbaqSl!=null)
+						{
+							dataList.add(sbaqSl);
+						}else
+						{
+							dataList.add(0);
+						}
+					}
+					
+					
+					
+					if (name.equals("yqktSl")) 
+					{
+						
+						if(yqktSl!=null)
+						{
+							dataList.add(yqktSl);
+						}else
+						{
+							dataList.add(0);
+						}
+					}
+					
+					if (name.equals("xxzhSl")) 
+					{
+						
+						if(xxzhSl!=null)
+						{
+							dataList.add(xxzhSl);
+						}else
+						{
+							dataList.add(0);
+						}
+					}
+				}
+
+				
+
+			chartBarLineSeries.setData(dataList);
+		}
+		return chartBarLineSeries;
+	}
+	
+
+	
+public static ChartBarLineSeries getAward_trend_analysis_02(List<Award> list, String name)throws Exception  {
+		
+		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
+		if (name.equals("kjjbjSl")) {
+			chartBarLineSeries.setName("科技进步奖");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		if (name.equals("jsfmjSl")) {
+			chartBarLineSeries.setName("技术发明奖");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		if (name.equals("yjkxSl")) {
+			chartBarLineSeries.setName("前瞻性基础性研究科学奖");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		List<Object> dataList = new ArrayList<Object>();
+		if (list != null && list.size() > 0) 
+		{
+			for (int i = 0; i < list.size(); i++) 
+			{
+				Award f03 = list.get(i);
+				Integer kjjbjSl = (Integer)f03.getKjjbjSl();
+				Integer jsfmjSl =  (Integer)f03.getJsfmjSl();
+				Integer yjkxSl =  (Integer)f03.getYjkxSl();
+					if (name.equals("kjjbjSl"))
+					{
+						
+						if(kjjbjSl!=null)
+						{
+							dataList.add(kjjbjSl);
+						}else
+						{
+							dataList.add(0);
+						}
+					}
+					if (name.equals("jsfmjSl")) 
+					{
+						
+						if(jsfmjSl!=null)
+						{
+							dataList.add(jsfmjSl);
+						}else
+						{
+							dataList.add(0);
+						}
+					}
+					
+					if (name.equals("yjkxSl")) 
+					{
+						
+						if(yjkxSl!=null)
+						{
+							dataList.add(yjkxSl);
+						}else
+						{
+							dataList.add(0);
+						}
+					}
+				}
+			chartBarLineSeries.setData(dataList);
+		}
+		return chartBarLineSeries;
+	}
+	
+
+	
+	public static ChartBarLineSeries getAchievements_trend_analysis_01(List<AchievementsAnalysis> list, String name) {
+
+		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
+		if (name.equals("thisYearSl")) {
+			chartBarLineSeries.setName("今年数量");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		if (name.equals("lastYearSl")) {
+			chartBarLineSeries.setName("去年数量");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		if (name.equals("beforeYearSl")) {
+			chartBarLineSeries.setName("前年数量");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+
+		List<Object> dataList = new ArrayList<Object>();
+		if (list != null && list.size() > 0) {
+			for (int i = 0; i < list.size(); i++) {
+				AchievementsAnalysis f03 = list.get(i);
+				Integer thisYearSl = (Integer)f03.getThisYearSl();
+				Integer lastYearSl =  (Integer)f03.getLastYearSl();
+				Integer beforeYearSl =  (Integer)f03.getBeforeYearSl();
+					if (name.equals("thisYearSl")) {
+						
+						if(thisYearSl!=null)
+						{
+							dataList.add(thisYearSl);
+						}else
+						{
+							dataList.add(0);
+						}
+						
+						
+					}
+					if (name.equals("lastYearSl")) 
+					{
+						
+						if(lastYearSl!=null)
+						{
+							dataList.add(lastYearSl);
+						}else
+						{
+							dataList.add(0);
+						}
+					}
+					
+					
+					if (name.equals("beforeYearSl")) 
+					{
+						
+						if(beforeYearSl!=null)
+						{
+							dataList.add(beforeYearSl);
+						}else
+						{
+							dataList.add(0);
+						}
+					}
+					
+					
+				}
+
+				
+
+			chartBarLineSeries.setData(dataList);
+		}
+		return chartBarLineSeries;
+	}
+	
+	
+	
+	public static ChartBarLineSeries getAchievements_trend_analysis_02(List<AchievementsAnalysis> list, String name) {
+
+		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
+		if (name.equals("gyhsl")) {
+			chartBarLineSeries.setName("今年数量");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		if (name.equals("gysysl")) {
+			chartBarLineSeries.setName("去年数量");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		if (name.equals("qtsl")) {
+			chartBarLineSeries.setName("前年数量");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+
+		List<Object> dataList = new ArrayList<Object>();
+		if (list != null && list.size() > 0) {
+			for (int i = 0; i < list.size(); i++) {
+				AchievementsAnalysis f03 = list.get(i);
+				Integer gyhsl = (Integer)f03.getGyhsl();
+				Integer gysysl =  (Integer)f03.getGysysl();
+				Integer qtsl =  (Integer)f03.getQtsl();
+					if (name.equals("thisYearSl")) {
+						
+						if(gyhsl!=null)
+						{
+							dataList.add(gyhsl);
+						}else
+						{
+							dataList.add(0);
+						}
+						
+						
+					}
+					if (name.equals("gysysl")) 
+					{
+						
+						if(gysysl!=null)
+						{
+							dataList.add(gysysl);
+						}else
+						{
+							dataList.add(0);
+						}
+					}
+					
+					
+					if (name.equals("qtsl")) 
+					{
+						
+						if(qtsl!=null)
+						{
+							dataList.add(qtsl);
+						}else
+						{
+							dataList.add(0);
+						}
+					}
+					
+					
+				}
+
+				
+
+			chartBarLineSeries.setData(dataList);
+		}
+		return chartBarLineSeries;
+	}
 	
 	
 	public static ChartBarLineSeries getTenDragonChartBarLineSeries(List<ProjectForMysql> list, String name) {

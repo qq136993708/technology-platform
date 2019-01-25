@@ -36,10 +36,166 @@ public class Award implements Serializable{
 	private  String hylxName;//行业领先
 	
 	private  String unitType;
+	private  String jdjg;
+	private  Integer zsl;
+	private  Integer oneYearSl;
+	private  Integer twoYearSl;
+	private  Integer treeYearSl;
+	private  Integer fourYearSl;
+	private  Integer fiveYearSl;
+	private  Integer sylzSl;
+	private  Integer yqkfSl;
+	private  Integer hghqSl;
+	private  Integer sbaqSl;
+	private  Integer yqktSl;
+	private  Integer xxzhSl;
+	private  Integer ydjSl;
+	private  Integer edjSl;
+	private  Integer sdjSl;
+	
+	private  String sbjz;
 	
 	
-	private  String jdjg;//
+	private  Integer zls;
 	
+	
+	private  Integer kjjbjSl;
+	private  Integer jsfmjSl;
+	private  Integer yjkxSl;
+	
+	
+	
+	private  String define2;
+	
+	
+	
+	
+	public Integer getKjjbjSl() {
+		return kjjbjSl;
+	}
+	public void setKjjbjSl(Integer kjjbjSl) {
+		this.kjjbjSl = kjjbjSl;
+	}
+	public Integer getJsfmjSl() {
+		return jsfmjSl;
+	}
+	public void setJsfmjSl(Integer jsfmjSl) {
+		this.jsfmjSl = jsfmjSl;
+	}
+	public Integer getYjkxSl() {
+		return yjkxSl;
+	}
+	public void setYjkxSl(Integer yjkxSl) {
+		this.yjkxSl = yjkxSl;
+	}
+	public String getDefine2() {
+		return define2;
+	}
+	public void setDefine2(String define2) {
+		this.define2 = define2;
+	}
+	public Integer getZls() {
+		return zls;
+	}
+	public void setZls(Integer zls) {
+		this.zls = zls;
+	}
+	public String getSbjz() {
+		return sbjz;
+	}
+	public void setSbjz(String sbjz) {
+		this.sbjz = sbjz;
+	}
+	public Integer getZsl() {
+		return zsl;
+	}
+	public void setZsl(Integer zsl) {
+		this.zsl = zsl;
+	}
+	public Integer getOneYearSl() {
+		return oneYearSl;
+	}
+	public void setOneYearSl(Integer oneYearSl) {
+		this.oneYearSl = oneYearSl;
+	}
+	public Integer getTwoYearSl() {
+		return twoYearSl;
+	}
+	public void setTwoYearSl(Integer twoYearSl) {
+		this.twoYearSl = twoYearSl;
+	}
+	public Integer getTreeYearSl() {
+		return treeYearSl;
+	}
+	public void setTreeYearSl(Integer treeYearSl) {
+		this.treeYearSl = treeYearSl;
+	}
+	public Integer getFourYearSl() {
+		return fourYearSl;
+	}
+	public void setFourYearSl(Integer fourYearSl) {
+		this.fourYearSl = fourYearSl;
+	}
+	public Integer getFiveYearSl() {
+		return fiveYearSl;
+	}
+	public void setFiveYearSl(Integer fiveYearSl) {
+		this.fiveYearSl = fiveYearSl;
+	}
+	public Integer getSylzSl() {
+		return sylzSl;
+	}
+	public void setSylzSl(Integer sylzSl) {
+		this.sylzSl = sylzSl;
+	}
+	public Integer getYqkfSl() {
+		return yqkfSl;
+	}
+	public void setYqkfSl(Integer yqkfSl) {
+		this.yqkfSl = yqkfSl;
+	}
+	public Integer getHghqSl() {
+		return hghqSl;
+	}
+	public void setHghqSl(Integer hghqSl) {
+		this.hghqSl = hghqSl;
+	}
+	public Integer getSbaqSl() {
+		return sbaqSl;
+	}
+	public void setSbaqSl(Integer sbaqSl) {
+		this.sbaqSl = sbaqSl;
+	}
+	public Integer getYqktSl() {
+		return yqktSl;
+	}
+	public void setYqktSl(Integer yqktSl) {
+		this.yqktSl = yqktSl;
+	}
+	public Integer getXxzhSl() {
+		return xxzhSl;
+	}
+	public void setXxzhSl(Integer xxzhSl) {
+		this.xxzhSl = xxzhSl;
+	}
+	public Integer getYdjSl() {
+		return ydjSl;
+	}
+	public void setYdjSl(Integer ydjSl) {
+		this.ydjSl = ydjSl;
+	}
+	public Integer getEdjSl() {
+		return edjSl;
+	}
+	public void setEdjSl(Integer edjSl) {
+		this.edjSl = edjSl;
+	}
+	public Integer getSdjSl() {
+		return sdjSl;
+	}
+	public void setSdjSl(Integer sdjSl) {
+		this.sdjSl = sdjSl;
+	}
 	public String getJdjg() {
 		return jdjg;
 	}
