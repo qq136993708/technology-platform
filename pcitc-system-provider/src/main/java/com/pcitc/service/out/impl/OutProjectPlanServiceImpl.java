@@ -324,6 +324,16 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 			}
 			hashmap.put("define11", define11);
 		}
+		
+		// 公司性质，和out_unit本质一致，公司本质的属性，和合同没关系
+		if (param.getParam().get("define12")!=null&&!StringUtils.isBlank(param.getParam().get("define12")+"")) {
+			List define12 = new ArrayList();
+			String[] temS = param.getParam().get("define12").toString().split(",");
+			for (int i = 0; i<temS.length; i++) {
+				define12.add(temS[i]);
+			}
+			hashmap.put("define12", define12);
+		}
 
 		// 国家项目、重大专项、重点项目、其他项目
 		if (param.getParam().get("project_property")!=null&&!StringUtils.isBlank(param.getParam().get("project_property")+"")) {
