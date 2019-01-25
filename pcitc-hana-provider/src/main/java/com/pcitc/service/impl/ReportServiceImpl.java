@@ -111,11 +111,13 @@ public class ReportServiceImpl implements ReportService {
                 map.put("order",strOrder.substring(0,strOrder.length()-2));
                 map.put("column",map.get("column").toString().substring(0,map.get("column").toString().length()-1));
             }
+            map.put("columnkosum", strColumnKoSum.replace("\"",""));
             list = reportMysqlMapper.getReportListStpDbAll(map);
         }else {
             list = reportMapper.getReportListNew(map);
         }
-
+        System.out.println(map.get("columnkosum"));
+        System.out.println(list);
         List<Map<String, String>> list2 = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {
             Map<String, Object> map1 = list.get(i);
