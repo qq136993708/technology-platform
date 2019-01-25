@@ -83,6 +83,16 @@ public class OutProjectServiceImpl implements OutProjectService {
 			}
 			hashmap.put("define10", define10);
 		}
+		
+		// 费用来源
+		if (param.getParam().get("define11")!=null&&!StringUtils.isBlank(param.getParam().get("define11")+"")) {
+			List define11 = new ArrayList();
+			String[] temS = param.getParam().get("define11").toString().split(",");
+			for (int i = 0; i<temS.length; i++) {
+				define11.add(temS[i]);
+			}
+			hashmap.put("define11", define11);
+		}
 
 		// 8大院等细分结构
 		if (param.getParam().get("define2")!=null&&!StringUtils.isBlank(param.getParam().get("define2")+"")) {

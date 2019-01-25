@@ -2471,34 +2471,42 @@
 		select 'define1' as showCode,define1 as showName 
 		from out_project_info
 		WHERE
-		define3='项目管理系统'
+			define3='项目管理系统'
 		group by define1
+		
 		union ALL
-		select 'define2',SUBSTR(define2 FROM 4) from out_project_info
+		select 'define2' as showCode,SUBSTR(define2 FROM 4) as showName
+		from out_project_info
 		WHERE
-		define3='项目管理系统' and type_flag like '%研究院%'
+			define3='项目管理系统' and type_flag like '%研究院%'
 		group by define2
 		
 		union ALL
-		
-		select 'type_flag',SUBSTR(type_flag FROM 2) as type_flag
+		select 'define11' as showCode,SUBSTR(define11 FROM 2) as showName
 		from out_project_info
 		WHERE
-		define3='项目管理系统'
+			define3='项目管理系统'
+		group by define11
+		
+		union ALL
+		select 'type_flag' as showCode,SUBSTR(type_flag FROM 2) as showName
+		from out_project_info
+		WHERE
+			define3='项目管理系统' and type_flag is not null
 		group by type_flag
 		
 		union ALL
-		select 'zylb', case when zylb is null then '其他' else zylb end as zylb
+		select 'zylb' as showCode, zylb as showName
 		from out_project_info
 		WHERE
-		define3='项目管理系统'
-		group by zylb
+			define3='项目管理系统' and zylb is not null
+		GROUP BY zylb
 		
 		union ALL
-		select 'define10', SUBSTR(define10 FROM 4) as define10
+		select 'define10' as showCode, SUBSTR(define10 FROM 4) as showName
 		from out_project_info
 		WHERE
-		define3='项目管理系统'
+			define3='项目管理系统'
 		group by define10
 		
 	</select>
@@ -2537,10 +2545,14 @@
 	
 	<!-- 分页显示项目数据数据,统计的第三级展示 -->
 	<select id="selectCommonProjectByCond" resultMap="BaseResultMap" parameterType="java.util.HashMap">
-		select out_project_info.define1,substr(out_project_info.define2 from 4) as define2,substr(out_project_info.type_flag from 2) as type_flag,
-			   out_project_info.xmmc,out_project_info.jf,sum(out_project_info.ysje) as ysje,out_project_info.ysnd,
+		select out_project_info.define1,substr(out_project_info.define2 from 4) as define2,
+			   substr(out_project_info.type_flag from 2) as type_flag,
+			   out_project_info.xmmc,out_project_info.ysnd,
+			   out_project_info.jf,sum(out_project_info.ysje) as ysje,
+			   sum(out_project_info.yszbxje) as yszbxje,sum(out_project_info.ysfyxje) as ysfyxje,
 			   out_project_info.project_property,out_project_info.fzdw,out_project_info.zylb,
 			   substr(out_project_info.define10 from 4) as define10,
+			   substr(out_project_info.define11 from 2) as define11,
 		       out_project_info.nd,GROUP_CONCAT(out_project_info.define8) as define8,out_project_info.hth,out_project_info.zycmc
 		from out_project_info
 		where
@@ -2575,6 +2587,13 @@
 				and (
 				<foreach collection="define10" item="define10" index="index" separator=" or ">
 					out_project_info.define10 like '%${define10}%'
+				</foreach>
+				)
+			</if>
+			<if test="define11 != null">
+				and (
+				<foreach collection="define11" item="define11" index="index" separator=" or ">
+					out_project_info.define11 like '%${define11}%'
 				</foreach>
 				)
 			</if>
