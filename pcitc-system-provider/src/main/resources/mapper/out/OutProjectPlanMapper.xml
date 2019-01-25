@@ -1076,18 +1076,17 @@
 			   IFNULL(tableA.sjzje,'0') as sjzje,IFNULL(tableA.xkMoney,'0') as xkMoney,IFNULL(tableA.jzMoney,'0') as jzMoney
 		from out_tem_money_decompose left join (
 			select 
-			    substr(define10,4) as define10,sum(ysje) as sjzje,
-				sum(case when ysnd = '${nd}' and nd = '${nd}' then ysje else 0 end) as xkMoney,
-				sum(case when ysnd = '${nd}' and nd &lt; '${nd}' then ysje else 0 end) as jzMoney
+			    substr(define10,4) as define10,sum(ysfyxje) as sjzje,
+				sum(case when ysnd = '${nd}' and nd = '${nd}' then ysfyxje else 0 end) as xkMoney,
+				sum(case when ysnd = '${nd}' and nd &lt; '${nd}' then ysfyxje else 0 end) as jzMoney
 			from out_project_info 
 			WHERE
 				out_project_info.ysnd= '${nd}' 
 				and out_project_info.PROJECT_TYPE != '1'
 				and define3='项目管理系统' and define2 not like '%休斯顿%' and define2 not like '%中东%' 
-				and ((hth like 'L%' or hth like 'J%') or (hth not like 'L%' and hth not like 'J%' and out_project_info.xmlbbm != 'KYZB'))
 				group by out_project_info.define10) as tableA ON (out_tem_money_decompose.cb = tableA.define10)
 		where
-			out_tem_money_decompose.nd = '${nd}' 
+			out_tem_money_decompose.nd = '${nd}' and cb not like '专项' and cb not like '机动'
 	</select>
 	
 	
@@ -1361,7 +1360,7 @@
 				</if>
 			</if>
 			<if test="orderKey == null">
-				order by tableA.hth desc
+				order by tableA.hth desc, tableA.define10
 			</if>
 			
 	</select>
