@@ -9,6 +9,18 @@
     <link rel="stylesheet" href="/layuiadmin/style/mainStp.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/common.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/second.css" media="all">
+    <style>
+        .layui-table-click,.layui-table-hover,.layui-table tbody tr:hover{background: none;}
+        .layui-table-header{display: none;}
+        .layui-table-view,.layui-table-page,.tableBox table tr td{border: none;}
+        .layui-table-body{margin-top: 20px;}
+        .layui-table-cell{height: auto;margin-bottom: 10px;}
+        p{width: 500px;height: auto;overflow: hidden;white-space: normal;/*text-overflow: ellipsis;*/
+            font-size: 13px;word-break:break-all;word-wrap:break-word;line-height: 20px;}
+        .layui-table-page{margin-bottom: 20px;}
+        .tableBox,.searchBox{width: 64%;margin: 0 auto;}
+        .searchBox{margin-top: 20px;}
+    </style>
 </head>
 <body>
 <input type="hidden" name="keyword"  value="${keyword}"   id="keyword">
@@ -28,8 +40,7 @@
     <!--&gt;详情</button>-->
     <!--</div>-->
 </div>
-
-<div style="margin-top: 20px;border-bottom: 1px solid #e6e6e6;">
+<div class="tableBox">
     <table id="processdef_table_02" class="layui-hide" lay-filter="processdef_table_02"></table>
 </div>
 
@@ -57,25 +68,20 @@
             , url: '/fullSearch/getTableSearchEquipment?month='+month+"&companyCode="+companyCode+"&keyword="+$("#keyword").val()
             , limit: 15 //每页默认显示的数量
             , id: 'processdef_table_02'
-            , height: parent.$("html").height()-160
-            , cols: [[
-                {field:'extend01',  title: '设备类型',width:'15%',edit:'text'},
-                {field:'extend02',  title:'直属研究院',width:'8%',  style:'cursor: pointer;',align: 'left'},
-                {field:'extend03',  title:'设备名称',width:'25%',  style:'cursor: pointer;',align: 'left'},
-                {field:'extend04',  title:'购置年度',width:'8%',  style:'cursor: pointer;',align: 'center'},
-                {field:'extend05',  title:'使用年限',  style:'cursor: pointer;',align: 'center',
-                    templet: function(d){
-                        return d.extend05.substr(1);
-                    }
-                },
-                {field:'extend06',  title:'剩余年限',  style:'cursor: pointer;',align: 'center'},
-                {field:'extend07',  title:'购置价值',  style:'cursor: pointer;',align: 'right',  templet: '<div>{{ layui.laytpl.milliFormat(d.extend07,2) }}</div>'},
-                {field:'extend08',  title:'累计折旧',  style:'cursor: pointer;',align: 'right',  templet: '<div>{{ layui.laytpl.milliFormat(d.extend08,2) }}</div>'},
-                {field:'extend09',  title:'资产净值',  style:'cursor: pointer;',align: 'right',  templet: '<div>{{ layui.laytpl.milliFormat(d.extend09,2) }}</div>'},
-                {field:'extend10',  title:'折旧率',  style:'cursor: pointer;',align: 'right'}
+            ,page: {
+                groups: 5,
+                limits: [15,30,45,60],
+                layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
+                first: '首页', //不显示首页
+                last: '尾页', //不显示尾页
+                theme: '#0F9EE0'
+            }
+            ,cols: [[
+                {field:'LAY_TABLE_INDEX',title:'年度',
+                    templet:  '<div>{{ layui.laytpl.search(d) }}</div>' },
             ]],
             done: function(res, curr, count){
-                merge(res);
+                //merge(res);
                 parent.$("#equipment").html(count);
             }
         });

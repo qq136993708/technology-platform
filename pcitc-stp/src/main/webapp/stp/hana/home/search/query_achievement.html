@@ -7,6 +7,19 @@
     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/common.css">
     <script src="/layuiadmin/layui/layui.js"></script>
+    <style>
+        .layui-table-click,.layui-table-hover,.layui-table tbody tr:hover{background: none;}
+        .layui-table-header{display: none;}
+        .layui-table-view,.layui-table-page,.tableBox table tr td{border: none;}
+        .layui-table-body{margin-top: 20px;}
+        .layui-table-cell{height: auto;margin-bottom: 10px;}
+        p{width: 500px;height: auto;overflow: hidden;white-space: normal;/*text-overflow: ellipsis;*/
+            font-size: 13px;word-break:break-all;word-wrap:break-word;line-height: 20px;}
+        .layui-table-body{margin-top: 0;}
+        .layui-table-page{margin-bottom: 20px;}
+        .tableBox,.searchBox{width: 64%;margin: 0 auto;}
+        .searchBox{margin-top: 20px;}
+    </style>
 </head>
 <body>
 <div class="searchBox">
@@ -150,7 +163,6 @@
                 }},
             limit: 15,
             id: 'processdef-table',
-            height: parent.$("html").height()-200,
             page: {
                 groups: 5,
                 limits: [15,30,45,60],
@@ -160,19 +172,8 @@
                 theme: '#0F9EE0'
             },
             cols: [[
-                {title:'序号',          type:'numbers', width: '4%'},
-                {field:'cgmc',          title:'名称',        style:'cursor: pointer;',align: 'left', width: '350'},
-                {field:'nd',           title:'年月',        style:'cursor: pointer;',align: 'left', width: '150'},
-                {field:'sqjddw',        title:'申请公司',        style:'cursor: pointer;',align: 'left', width: '250'},
-                {field:'cglx',        title:'公开号',        style:'cursor: pointer;',align: 'left', width: '150'},
-                {field:'zy',          title:'类型',        style:'cursor: pointer;',align: 'left', width: '150'},
-                {field:'jdh',         title:'号',        style:'cursor: pointer;',align: 'left', width: '150'},
-                {field:'sbzt',        title:'申请人',        style:'cursor: pointer;',align: 'left', width: '150'},
-                {field:'jdjg',        title:'分类',     style:'cursor: pointer;',align: 'left', width: '150'},
-                {field:'hth',         title:'hth',     style:'cursor: pointer;',align: 'left', width: '150'},
-                {field:'xmmc',         title:'说明',     style:'cursor: pointer;',align: 'left', width: '150'}
-
-
+                {field:'LAY_TABLE_INDEX',title:'年度',
+                    templet:  '<div>{{ layui.laytpl.search(d) }}</div>' },
             ]],
             done: function (res, curr, count) {
                 // 点击行联动选择框--单选
