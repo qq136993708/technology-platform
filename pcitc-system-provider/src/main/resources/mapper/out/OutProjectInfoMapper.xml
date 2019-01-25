@@ -2639,7 +2639,7 @@
 				</if>
 			</if>
 			<if test="orderKey == null">
-				order by out_project_info.hth desc
+				order by out_project_info.hth desc, out_project_info.define10
 			</if>
 	</select>
 	
