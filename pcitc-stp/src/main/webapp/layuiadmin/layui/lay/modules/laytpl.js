@@ -238,8 +238,12 @@ layui.define(['jquery'],function (e) {
         }else if(d.cgmc){
             abstract=d.cgmc;
         }
+        var select_type="";
+        if(!d.select_type=="undefined"){
+            var select_type="+"+d.select_type;
+        }
         html='<div class="layui-div layui-div-n">' +
-            '        <a href="#">'+title+'<span style="color: #1ea5bb"> _'+d.select_type+'</span></a>' +
+            '        <a href="#">'+title+'<span style="color: #1ea5bb"> '+select_type+'</span></a>' +
             '        <div class="c-row c-gap-top-small">' +
             '            <div class="c-span18 c-span-last">' +
             '                <p>'+abstract+'</p>' +

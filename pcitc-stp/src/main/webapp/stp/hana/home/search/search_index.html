@@ -15,6 +15,9 @@
         .layui-table-cell{height: auto;margin-bottom: 10px;}
         p{width: 500px;height: auto;overflow: hidden;white-space: normal;/*text-overflow: ellipsis;*/
             font-size: 13px;word-break:break-all;word-wrap:break-word;line-height: 20px;}
+        .layui-table-page{margin-bottom: 20px;}
+        .tableBox,.searchBox{width: 64%;margin: 0 auto;}
+        .searchBox{margin-top: 20px;}
     </style>
 </head>
 <body>
@@ -119,7 +122,6 @@
             where:where,
             limit: 15,
             id: 'processdef-table',
-            height: $(document).height(),
             page: {
                 groups: 5,
                 limits: [15,30,45,60],

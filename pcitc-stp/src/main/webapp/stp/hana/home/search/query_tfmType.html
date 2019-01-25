@@ -10,6 +10,19 @@
     <script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
     <script type="text/javascript" src="/common/js/base.js"></script>
+    <style>
+        .layui-table-click,.layui-table-hover,.layui-table tbody tr:hover{background: none;}
+        .layui-table-header{display: none;}
+        .layui-table-view,.layui-table-page,.tableBox table tr td{border: none;}
+        .layui-table-body{margin-top: 20px;}
+        .layui-table-cell{height: auto;margin-bottom: 10px;}
+        p{width: 500px;height: auto;overflow: hidden;white-space: normal;/*text-overflow: ellipsis;*/
+            font-size: 13px;word-break:break-all;word-wrap:break-word;line-height: 20px;}
+        .layui-table-body{margin-top: 0;}
+        .layui-table-page{margin-bottom: 20px;}
+        .tableBox,.searchBox{width: 64%;margin: 0 auto;}
+        .searchBox{margin-top: 20px;}
+    </style>
 </head>
 <body>
 
@@ -31,22 +44,11 @@
         <!--</button>-->
     <!--</div>-->
 </div>
-<div class="tableToolBox">
-    <div class="whiteLine"></div>
-    <!--<div class="tableBtns">-->
-        <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"-->
-                <!--data-type="addEvent">新增-->
-        <!--</button>-->
-        <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"-->
-                <!--data-type="editEvent">编辑-->
-        <!--</button>-->
-        <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"-->
-                <!--data-type="deleteEvent">删除-->
-        <!--</button>-->
-    <!--</div>-->
+<div class="tableBox">
+
+    <table id="tfmTypeTableId" class="layui-hide" lay-filter="tableEvent"></table>
 </div>
 <input type="hidden" name="keyword"  value="${keyword}"  id="keyword">
-<table id="tfmTypeTableId" class="layui-hide" lay-filter="tableEvent"></table>
 
 <script>
     var param = JSON.parse(window.localStorage.getItem("param"));
@@ -58,7 +60,7 @@
             publicMethods = layui.publicMethods,
             laypage = layui.laypage;
         var cols =
-            [
+            /*[
                 {type: 'checkbox', event: 'changeEvents', width: 55},
                 {title: '序号', type: 'numbers', width: 55},
                 // {
@@ -159,6 +161,9 @@
                 //     field: "directionInfo",
                 //     title: "发展情况", event: 'setActive', style: 'cursor: pointer;'
                 // },
+            ]*/[
+            {field:'LAY_TABLE_INDEX',title:'年度',
+                templet:  '<div>{{ layui.laytpl.search(d) }}</div>' },
             ];
 
         function renderTable() {
@@ -172,7 +177,7 @@
                     }
             };
 
-            publicMethods.tableRenderH('tfmTypeTableId', 'tfmTypeTableId',220, '/tfmType/getTableData', false, cols, where, true, function (res, curr, count) {
+            publicMethods.tableRenderH('tfmTypeTableId', 'tfmTypeTableId',"", '/tfmType/getTableData', false, cols, where, true, function (res, curr, count) {
                 parent.$("#tech").html(count);
                 $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
                     var index = parseInt($(this).index() + 1);

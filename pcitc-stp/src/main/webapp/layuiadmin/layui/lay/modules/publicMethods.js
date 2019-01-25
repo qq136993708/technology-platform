@@ -492,7 +492,6 @@ layui.define(['jquery','form','table','laydate'],
                         , id: id
                         , where:where
                         ,method:"POST"
-                        , height: parent.$("html").height()-height
                         , page: page
                         ,toolbar:{
                             toolbar:"#test"
@@ -509,7 +508,6 @@ layui.define(['jquery','form','table','laydate'],
                         , id: id
                         , where:where
                         ,method:"POST"
-                        , height: parent.$("html").height()-height
                         , page: page
                         ,defaultToolbar:['filter','exports','print']
                         , cols: [cols]

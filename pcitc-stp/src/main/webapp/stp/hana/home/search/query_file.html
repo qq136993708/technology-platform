@@ -13,6 +13,19 @@
     <script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.excheck.min.js"></script>
     <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
     <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+    <style>
+        .layui-table-click,.layui-table-hover,.layui-table tbody tr:hover{background: none;}
+        .layui-table-header{display: none;}
+        .layui-table-view,.layui-table-page,.tableBox table tr td{border: none;}
+        .layui-table-body{margin-top: 20px;}
+        .layui-table-cell{height: auto;margin-bottom: 10px;}
+        p{width: 500px;height: auto;overflow: hidden;white-space: normal;/*text-overflow: ellipsis;*/
+            font-size: 13px;word-break:break-all;word-wrap:break-word;line-height: 20px;}
+        .layui-table-body{margin-top: 0;}
+        .layui-table-page{margin-bottom: 20px;}
+        .tableBox,.searchBox{width: 64%;margin: 0 auto;}
+        .searchBox{margin-top: 20px;}
+    </style>
 </head>
 <body>
         <div class="searchBox">
@@ -31,13 +44,15 @@
                 <!--</button>-->
             </div>
         </div>
-        <div class="tableToolBox">
+        <!--<div class="tableToolBox">
             <div class="whiteLine"></div>
             <div class="tableBtns">
                 <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg " data-type="downloadEvent">下载</button>
             </div>
+        </div>-->
+        <div class="tableBox">
+            <table id="fileShowTable" class="layui-hide" lay-filter="tableEvent"></table>
         </div>
-        <table id="fileShowTable" class="layui-hide" lay-filter="tableEvent"></table>
 <a href="" target="_self" id="download"></a>
 
 <script>
@@ -52,7 +67,6 @@
                 where: {param: {"bak4": $("#bak4").val()}},
                 limit: 15,
                 id: 'sysFileId',
-                height:parent.$("html").height()-220,
                 page: {
                     count: 500, //数据总数，从服务端得到
                     groups: 5,
@@ -63,15 +77,8 @@
                     theme: '#0F9EE0'
                 },
                 cols: [[
-                    {type: 'checkbox', event: 'changeEvents'},
-                    {title: '序号', type: 'numbers'},
-                    {field: 'fileName', title: '文件名称', event: 'setActive', style: 'cursor: pointer;'},
-                    // {field: 'createUserId', title: '创建人', event: 'setActive', style: 'cursor: pointer;'},
-                    {field: 'createDateTime', title: '创建时间', event: 'setActive', style: 'cursor: pointer;'
-                , templet:  '<div>{{ layui.laytpl.toDateString(d.createDateTime) }}</div>'
-        },
-                    {field: 'fileSize', title: '文件大小(KB)', event: 'setActive', style: 'cursor: pointer;'},
-                    {field: 'bak4', title: '详情', event: 'setActive', style: 'cursor: pointer;'}
+                    {field:'createDateTime',title:'年度',
+                        templet:  '<div>{{ layui.laytpl.search(d) }}</div>' }
                 ]],
                 done: function (res, curr, count) {
                     parent.$("#file").html(count);
