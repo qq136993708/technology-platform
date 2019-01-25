@@ -76,10 +76,6 @@ public class OneLevelMainController {
 		private static final String contract_05 = "http://pcitc-zuul/system-proxy/out-project-plna-provider/contract-rate/details";
 		private static final String contract_dic = "http://pcitc-zuul/system-proxy/out-project-provider/select-condition/list";
 		
-		
-		
-		
-		
 		//科技成果
 		private static final String achievement_01 = "http://pcitc-zuul/system-proxy/out-appraisal-provider/institution/cg/info";
 		private static final String achievement_02 = "http://pcitc-zuul/system-proxy/out-appraisal-provider/cg/count/company-type";
@@ -90,8 +86,6 @@ public class OneLevelMainController {
 		//科研装备
 		private static final String equipment_01 = "http://pcitc-zuul/hana-proxy/hana/home/get_home_KYZB";
 		private static final String equipment_02 = "http://pcitc-zuul/hana-proxy/hana/home/get_home_KYZB_02";
-		
-		
 		
 		//十条龙
 		private static final String dragon_01 = "http://pcitc-zuul/system-proxy/out-project-provider/dragon/type/project-info";
@@ -108,7 +102,6 @@ public class OneLevelMainController {
 		private static final String investment_first_page_count = "http://pcitc-zuul/system-proxy/out-provider/project-money";
 		private static final String contract_count = "http://pcitc-zuul/system-proxy/out-provider/project-count";
 		private static final String investment_03 = "http://pcitc-zuul/system-proxy/out-project-plna-provider/plan-money/department";
-		
 		
 		//新闻
 		private static final String get_news = "http://pcitc-zuul/system-proxy/news-provider/select_news_main";
@@ -434,17 +427,18 @@ public class OneLevelMainController {
 				String project_property=CommonUtil.getParameter(request, "project_property", "");//国家项目、重大专项、重点项目、其他项目
 				String project_scope=CommonUtil.getParameter(request, "project_scope", "");//新开项目、续建项目、完工项目
 				String zylb=CommonUtil.getParameter(request, "zylb", "");//装备的各种技术类型
-				String zycmc=CommonUtil.getParameter(request, "zycmc", "");//各个处室
+				String define10=CommonUtil.getParameter(request, "define10", "");//各个处室
 				String define5=CommonUtil.getParameter(request, "define5", "");//技术分布
 				String ktlx=CommonUtil.getParameter(request, "ktlx", "");
+				String define11=CommonUtil.getParameter(request, "define11", "");//费用来源
+
 				
-				
-				
+				request.setAttribute("define11", define11);
 				request.setAttribute("ktlx", ktlx);
 				request.setAttribute("define5", define5);
 				request.setAttribute("nd", nd);
 				request.setAttribute("ysnd", ysnd);
-				request.setAttribute("zycmc", zycmc);
+				request.setAttribute("define10", define10);
 				request.setAttribute("xmmc", xmmc);
 				request.setAttribute("hth", hth);
 				request.setAttribute("define1", define1);
@@ -473,6 +467,7 @@ public class OneLevelMainController {
 					 List<String> type_flagList = new ArrayList<String>();
 					 List<String> zylbList = new ArrayList<String>();
 					 List<String> zycmcList = new ArrayList<String>();
+					 List<String> define11List = new ArrayList<String>();
 					 for (int i = 0; i < jSONArray.size(); i++)
 			         {
 						    Map  object = (Map) jSONArray.get(i);
@@ -498,10 +493,26 @@ public class OneLevelMainController {
 			                {
 			                	zylbList.add(showName);
 			                }
-			                if(showCode.equals("zycmc"))
+			                if(showCode.equals("define10"))
 			                {
-			                	zycmcList.add(showName);
+			                	
+			                	if(showName!=null && !showName.equals(""))
+			                	{
+			                		zycmcList.add(showName);
+			                	}
+			                	
 			                }
+			                
+			                if(showCode.equals("define11"))
+			                {
+			                	
+			                	if(showName!=null && !showName.equals(""))
+			                	{
+			                		define11List.add(showName);
+			                	}
+			                	
+			                }
+			                
 			                
 			          }
 					 
@@ -510,7 +521,7 @@ public class OneLevelMainController {
 					 request.setAttribute("type_flagList", type_flagList);
 					 request.setAttribute("zylbList", zylbList);
 					 request.setAttribute("zycmcList", zycmcList);
-					 
+					 request.setAttribute("define11List", define11List);
 					 
 					 List<String> ktlxList = new ArrayList<String>();
 					 ktlxList.add("新开课题");
@@ -661,18 +672,15 @@ public class OneLevelMainController {
 				String project_property=CommonUtil.getParameter(request, "project_property", "");//国家项目、重大专项、重点项目、其他项目
 				String project_scope=CommonUtil.getParameter(request, "project_scope", "");//新开项目、续建项目、完工项目
 				String zylb=CommonUtil.getParameter(request, "zylb", "");//装备的各种技术类型
-				String zycmc=CommonUtil.getParameter(request, "zycmc", "");//各个处室
-				
+				String define10=CommonUtil.getParameter(request, "define10", "");//各个处室
 				String qdbz=CommonUtil.getParameter(request, "qdbz", "");//签订标识
+                String define11=CommonUtil.getParameter(request, "define11", "");//费用来源
 				
+				request.setAttribute("define11", define11);
 				request.setAttribute("qdbz", qdbz);
-				
-				
 				request.setAttribute("nd", nd);
 				request.setAttribute("ysnd", ysnd);
-				
-				
-				request.setAttribute("zycmc", zycmc);
+				request.setAttribute("define10", define10);
 				request.setAttribute("xmmc", xmmc);
 				request.setAttribute("hth", hth);
 				request.setAttribute("define1", define1);
@@ -681,7 +689,6 @@ public class OneLevelMainController {
 				request.setAttribute("project_property", project_property);
 				request.setAttribute("project_scope", project_scope);
 				request.setAttribute("zylb", zylb);
-				
 				String projectId=CommonUtil.getParameter(request, "projectId", "");
 				request.setAttribute("projectId", projectId);
 				
@@ -696,11 +703,14 @@ public class OneLevelMainController {
 				if (statusCode == 200) 
 				{
 					 JSONArray jSONArray = responseEntity.getBody();
+					 System.out.println(">>>>>>>>>>>>>common_table jSONArray " + jSONArray.toString());
+					 
 					 List<String> define1List = new ArrayList<String>();
 					 List<String> define21List = new ArrayList<String>();//8大研究院 
 					 List<String> type_flagList = new ArrayList<String>();
 					 List<String> zylbList = new ArrayList<String>();
 					 List<String> zycmcList = new ArrayList<String>();
+					 List<String> define11List = new ArrayList<String>();
 					 for (int i = 0; i < jSONArray.size(); i++)
 			         {
 						    Map  object = (Map) jSONArray.get(i);
@@ -726,19 +736,30 @@ public class OneLevelMainController {
 			                {
 			                	zylbList.add(showName);
 			                }
-			                if(showCode.equals("zycmc"))
+			                if(showCode.equals("define10"))
 			                {
-			                	zycmcList.add(showName);
+			                	
+			                	if(showName!=null && !showName.equals(""))
+			                	{
+			                		zycmcList.add(showName);
+			                	}
+			                }
+			                if(showCode.equals("define11"))
+			                {
+			                	
+			                	if(showName!=null && !showName.equals(""))
+			                	{
+			                		define11List.add(showName);
+			                	}
 			                }
 			                
 			          }
-					 
 					 request.setAttribute("define1List", define1List);
 					 request.setAttribute("define21List", define21List);
 					 request.setAttribute("type_flagList", type_flagList);
 					 request.setAttribute("zylbList", zylbList);
 					 request.setAttribute("zycmcList", zycmcList);
-					 
+					 request.setAttribute("define11List", define11List);
 					 
 					 List<String> qdbzList = new ArrayList<String>();
 					 qdbzList.add("已签订");
@@ -1166,7 +1187,6 @@ public class OneLevelMainController {
 							}
 							if(type.equals("2"))
 							{
-								
 								
 								Map map2=new HashMap();
 								map2.put("name", "签订率");
@@ -2366,7 +2386,7 @@ public class OneLevelMainController {
 										paramsMap.put("companyCode", companyCode);
 										JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 										HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
-										if (!companyCode.equals(""))
+										if (!nd.equals(""))
 										{
 											ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(investment_01, HttpMethod.POST, entity, JSONArray.class);
 											int statusCode = responseEntity.getStatusCodeValue();

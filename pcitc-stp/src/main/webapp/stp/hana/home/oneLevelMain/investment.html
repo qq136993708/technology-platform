@@ -56,7 +56,6 @@
                        <span class="layui-time"></span>科研预算执行率
                     </div>
                     <div class="layui-card-body btn-function">
-
                         <div class="text-total" style="font-size: 13px;">
                             <span>年度预算总计:<span class="text-total-blue"    id="chart1_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                             <span>费用性科研投入:<span class="text-total-blue"   id="chart1_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
@@ -194,10 +193,10 @@ layui.config({
 
 function initEchart()
 {
-	 var companyCode=$("#companyCode").val();
-	 var v_date=(new Date()).getTime();
-	 var month=$('#year').val();
-	 var nd=$('#year').val();
+	  var companyCode=$("#companyCode").val();
+	  var v_date=(new Date()).getTime();
+	  var month=$('#year').val();
+	  var nd=$('#year').val();
 	 
 	  var  yAxis1= [
           {
@@ -212,7 +211,6 @@ function initEchart()
                }
           } 
       ];
-	  
 	  
 	  var  yAxis2= [
           {
@@ -306,7 +304,6 @@ function initEchart()
 	    });
 		var investment_02_count_url="/one_level_main/investment_02_count?nd="+nd+"&v_date="+v_date+"&companyCode="+companyCode;
 		setInvestment_02_count(investment_02_count_url);
-		
 }
 
 //初始化图形
@@ -340,6 +337,12 @@ function myTable()
 
 function setinvestmentCount(url) 
 {
+	
+	
+	$("#chart1_01").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+    $("#chart1_02").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+    $("#chart1_03").html('<img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt="">');
+    
 	
    $.ajax({
 	     type:"GET",

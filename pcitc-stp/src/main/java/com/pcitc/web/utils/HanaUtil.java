@@ -5774,6 +5774,9 @@ public static ChartBarLineSeries getinvestmentBarLineSeries3(List<BudgetMysql> l
 	    List<String> listCodes= userInfo.getInstituteCodes();
 	    List<String> listNames= userInfo.getInstituteNames();
 	    StringBuffer sb=new StringBuffer();
+	    
+	    System.out.println(">>>>>>>>>>>listCodes="+listCodes);
+	    
 	    if(listCodes==null || listCodes.size()==0)
 	    {
 	    	companyCodeList=getCompanyCodeDefault();
@@ -5783,6 +5786,8 @@ public static ChartBarLineSeries getinvestmentBarLineSeries3(List<BudgetMysql> l
 	 		
 	    }else
 	    {
+	    	
+	    	 System.out.println(">>>>>>>>>>>listCodessize ="+listCodes.size());
 	    	 for(int i=0;i<listCodes.size();i++)
 	 	    {
 	 	    	String code=listCodes.get(i);
@@ -5805,7 +5810,7 @@ public static ChartBarLineSeries getinvestmentBarLineSeries3(List<BudgetMysql> l
 	 	    	String name=listNames.get(i);
 	 	    	cc.setG0GSJC(name);
 	 	    	cc.setG0GSDM(code);
-	 	    	//System.out.println(">>>>>>>>>>>name="+name+" code="+code);
+	 	    	System.out.println(">>>>>>>>>>>name="+name+" code="+code);
 	 	    	companyCodeList.add(cc);
 	 	    }
 	 		request.setAttribute("companyCodeList", companyCodeList);
