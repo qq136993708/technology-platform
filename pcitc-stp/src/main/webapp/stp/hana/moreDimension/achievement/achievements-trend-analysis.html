@@ -16,8 +16,8 @@
         <div class="searchBox">
             <!--查询条件-->
             <label class="dateInput">
-                <span>月份</span>
-                <input type="text" name="month" placeholder="请选择月份" title="月份" value="${month}"  autocomplete="off" class="form-control" id="month">
+                <span>年份</span>
+                <input type="text" name="year" placeholder="请选择年份" title="年份" value="${year}"  autocomplete="off" class="form-control" id="year">
             </label>
             <div class="layui-input-inline">
                 <select name="companyCode" id="companyCode" >
@@ -122,81 +122,6 @@
         </div>
     </div>
 </div>
-<!--
-<div class="searchBox">
-    &lt;!&ndash;查询条件&ndash;&gt;
-        <label class="dateInput">
-            <span>月份</span>
-            <input type="text" name="month" placeholder="请选择月份" title="月份" value="${month}"  autocomplete="off" class="form-control" id="month">
-        </label>
-       <div class="layui-input-inline">
-         <select name="companyCode" id="companyCode" >
-              <#list companyCodeList as vo>
-              	 <#if vo.g0GSJC == '全部'>
-              	 	<option value="${vo.g0GSDM}"  selected="selected">${vo.g0GSJC}</option>
-              	 </#if>
-                 <#if vo.g0GSJC != '全部'>
-              	 	<option value="${vo.g0GSDM}">${vo.g0GSJC}</option>
-              	 </#if>
-               </#list>
-            </select>
-       </div>
-       <form class="layui-form layui-form1">
-            <div class="layui-input-inline">
-                <#list projectCodeList as vo>
-                   <input type="checkbox" name="like[write]" lay-skin="primary" title="${vo.g0XMGLLX}" checked="">
-                </#list>
-            </div>
-        </form>
-
-    &lt;!&ndash;按钮组&ndash;&gt;
-    <div class="btnGroup">
-        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="search_Event()" data-type="searchEvent">查询</button>
-    </div>
-    <span class="unitBox">单位：万元</span>
-</div>
--->
-
-
-<!--echarts-->
-<!--<div class="content-body container">
-       &lt;!&ndash;图表二比一布局&ndash;&gt;
-        <div class="layui-row two-one-box">
-            <div class="layui-col-xs8 layui-col-sm8 layui-col-md8 twoBox echarts">
-                <div id="main1" style="width: 100%;height: 400px;"></div>
-            </div>
-            <div class="layui-col-xs4 layui-col-sm4 layui-col-md4 oneBox echarts">
-                <div id="main2" style="width: 100%;height: 400px;"></div>
-            </div>
-        </div>
-
-         &lt;!&ndash;图表三等分布局&ndash;&gt;
-        <div class="three-charts-box" style="margin-top:10px">
-            <div class="layui-row">
-                <div class="layui-col-xs4 layui-col-sm4 layui-col-md4 echarts">
-                    <div id="main3" style="width: 100%;height: 400px;"></div>
-                </div>
-                <div class="layui-col-xs4 layui-col-sm4 layui-col-md4 echarts">
-                    <div id="main4" style="width: 100%;height: 400px;"></div>
-                </div>
-                <div class="layui-col-xs4 layui-col-sm4 layui-col-md4 echarts">
-                    <div id="main5" style="width: 100%;height: 400px;"></div>
-                </div>
-            </div>
-        </div>
-
-      &lt;!&ndash;图表二比一布局&ndash;&gt;
-        <div class="layui-row two-one-box">
-            <div class="layui-col-xs8 layui-col-sm8 layui-col-md8 twoBox echarts">
-                <div id="main6" style="width: 100%;height: 400px;"></div>
-            </div>
-            <div class="layui-col-xs4 layui-col-sm4 layui-col-md4 oneBox echarts">
-                <div id="main7" style="width: 100%;height: 400px;"></div>
-            </div>
-        </div>
-
-</div>-->
-<!--echarts end-->
 
 
 <!--表格数据操作js-->
@@ -219,12 +144,11 @@ layui.config({
       ,form = layui.form
       ,laydate = layui.laydate
 	  form.render(null, 'component-form-group');
-      var monthValY=$("#month").val().substring(4,0);
-      var monthValM=$("#month").val().substring(4);
-      $(".layui-time").html(monthValY+"年"+monthValM+"月");
+      var yearValY=$("#year").val();
+      $(".layui-time").html(yearValY+"年");
             laydate.render({
-               elem: '#month'
-               ,format: 'yyyyMM'
+               elem: '#year'
+               ,format: 'yyyy'
             });
 });
 
@@ -236,17 +160,9 @@ function init()
 		var allCode="${allCode?default('')}";
 		var allCode_text="全部院所";
 		var v_date=(new Date()).getTime();
-		var month=$('#month').val();
+		var year=$('#year').val();
 		var companyCode=$('#companyCode').val();
-		var monthstr=getNowFormatDate($('#month').val());
-		var checkText=$("#companyCode").find("option:selected").text();
-        var monthValY=$("#month").val().substring(4,0);
-        var monthValM=$("#month").val().substring(4);
-        $(".layui-time").html(monthValY+"年"+monthValM+"月");
-		if(checkText=='全部')
-		{
-			checkText="全部院所";
-		}
+	      $(".layui-time").html(year+"年");
 		
 		  var seriesData_1=[
 		        {

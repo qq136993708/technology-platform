@@ -49,28 +49,16 @@ public class ScientificInvestmentController {
 	
 	
 	
-			  //投资项目完成情况统计表
-			  @RequestMapping(method = RequestMethod.GET, value = "/si/tzxmwcqktjb")
-			  public String jtgszbkjjfys(HttpServletRequest request) throws Exception
-			  {
-				  SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
-				    HanaUtil.setSearchParaForUser(userInfo,restTemplate,httpHeaders,request);
-					
-					String month = HanaUtil.getCurrrent_Year_Moth();
-					request.setAttribute("month", month);
-					
-			        return "stp/hana/scientificInvestment/tzxmwcqktjb";
-			  }
-			  
-			  
-			  
-			  
-			  
-			  
-			
-				
-				
-				
+		   //投资项目完成情况统计表
+		   @RequestMapping(method = RequestMethod.GET, value = "/si/tzxmwcqktjb")
+		   public String jtgszbkjjfys(HttpServletRequest request) throws Exception
+		   {
+			    SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
+			    HanaUtil.setSearchParaForUser(userInfo,restTemplate,httpHeaders,request);
+				String month = HanaUtil.getCurrrent_Year_Moth();
+				request.setAttribute("month", month);
+		        return "stp/hana/scientificInvestment/tzxmwcqktjb";
+		   }
 	  
 		    // 三级表格
 			@RequestMapping(method = RequestMethod.POST, value = "/tzxmwcqktjb_data")
@@ -100,19 +88,16 @@ public class ScientificInvestmentController {
 
 			
 	  
-	  //投资项目采购进度统计表
-	  @RequestMapping(method = RequestMethod.GET, value = "/si/tzxmcgjdtjb")
-	  public String tzxmcgjdtjb(HttpServletRequest request) throws Exception
-	  {
-		    SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
-			HanaUtil.setSearchParaForUser(userInfo,restTemplate,httpHeaders,request);
-			
-			String month = HanaUtil.getCurrrent_Year_Moth();
-			request.setAttribute("month", month);
-			
-			
-	        return "stp/hana/scientificInvestment/tzxmcgjdtjb";
-	  }
+		  //投资项目采购进度统计表
+		  @RequestMapping(method = RequestMethod.GET, value = "/si/tzxmcgjdtjb")
+		  public String tzxmcgjdtjb(HttpServletRequest request) throws Exception
+		  {
+			    SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
+				HanaUtil.setSearchParaForUser(userInfo,restTemplate,httpHeaders,request);
+				String month = HanaUtil.getCurrrent_Year_Moth();
+				request.setAttribute("month", month);
+		        return "stp/hana/scientificInvestment/tzxmcgjdtjb";
+		  }
 	  
 	  
 	  
@@ -121,14 +106,12 @@ public class ScientificInvestmentController {
 		public String tzxmcgjdtjb_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response)
 		{
 
-	    	
 	    	String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
 			String companyCode = CommonUtil.getParameter(request, "companyCode", HanaUtil.YJY_CODE_NOT_YINGKE);
 			System.out.println(">>>>>>>>>>>>>>>>>>>>>参数      month = "+month+" companyCode="+companyCode);
 			Map<String, Object> paramsMap = new HashMap<String, Object>();
 			paramsMap.put("month", month);
 			paramsMap.put("companyCode", companyCode);
-			
 			LayuiTableData layuiTableData = new LayuiTableData();
 			HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
 			ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(tzxmcgjdtjb_data, HttpMethod.POST, entity, LayuiTableData.class);
@@ -147,41 +130,40 @@ public class ScientificInvestmentController {
 	  @RequestMapping(method = RequestMethod.GET, value = "/si/tzxmzcqkb")
 	  public String tzxmzcqkb(HttpServletRequest request) throws Exception
 	  {
-		  SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
+		    SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
 			HanaUtil.setSearchParaForUser(userInfo,restTemplate,httpHeaders,request);
 			
 			String month = HanaUtil.getCurrrent_Year_Moth();
 			request.setAttribute("month", month);
-			
 	        return "stp/hana/scientificInvestment/tzxmzcqkb";
 	  }
 	  
 	  
 	  
-	  @RequestMapping(method = RequestMethod.POST, value = "/tzxmzcqkb_data")
-		@ResponseBody
-		public String tzxmzcqkb_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response)
-		{
+    @RequestMapping(method = RequestMethod.POST, value = "/tzxmzcqkb_data")
+	@ResponseBody
+	public String tzxmzcqkb_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response)
+	{
 
-		  
-		  String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
-			String companyCode = CommonUtil.getParameter(request, "companyCode", HanaUtil.YJY_CODE_NOT_YINGKE);
-			System.out.println(">>>>>>>>>>>>>>>>>>>>>参数      month = "+month+" companyCode="+companyCode);
-			Map<String, Object> paramsMap = new HashMap<String, Object>();
-			paramsMap.put("month", month);
-			paramsMap.put("companyCode", companyCode);
-			LayuiTableData layuiTableData = new LayuiTableData();
-			HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
-			ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(tzxmzcqkb_data, HttpMethod.POST, entity, LayuiTableData.class);
-			int statusCode = responseEntity.getStatusCodeValue();
-			if (statusCode == 200)
-			{
-				layuiTableData = responseEntity.getBody();
-			}
-			JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-			System.out.println(">>>>>>>>>>>>>tzxmzcqkb_data:" + result.toString());
-			return result.toString();
+	    String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+		String companyCode = CommonUtil.getParameter(request, "companyCode", HanaUtil.YJY_CODE_NOT_YINGKE);
+		System.out.println(">>>>>>>>>>>>>>>>>>>>>参数      month = "+month+" companyCode="+companyCode);
+		Map<String, Object> paramsMap = new HashMap<String, Object>();
+		paramsMap.put("month", month);
+		paramsMap.put("companyCode", companyCode);
+		LayuiTableData layuiTableData = new LayuiTableData();
+		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(tzxmzcqkb_data, HttpMethod.POST, entity, LayuiTableData.class);
+		int statusCode = responseEntity.getStatusCodeValue();
+		if (statusCode == 200)
+		{
+			layuiTableData = responseEntity.getBody();
 		}
+		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
+		System.out.println(">>>>>>>>>>>>>tzxmzcqkb_data:" + result.toString());
+		return result.toString();
+		
+	}
 	  
 	  
 	  

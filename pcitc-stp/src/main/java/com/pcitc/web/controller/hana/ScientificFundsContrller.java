@@ -1,5 +1,6 @@
 package com.pcitc.web.controller.hana;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -25,11 +26,15 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.ChartBarLineResultData;
 import com.pcitc.base.common.ChartBarLineSeries;
+import com.pcitc.base.common.ChartPieDataValue;
+import com.pcitc.base.common.ChartPieResultData;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.PageResult;
 import com.pcitc.base.common.Result;
+import com.pcitc.base.hana.report.BudgetMysql;
 import com.pcitc.base.hana.report.CompanyCode;
+import com.pcitc.base.hana.report.Knowledge;
 import com.pcitc.base.hana.report.ScientificFunds;
 import com.pcitc.base.hana.report.TotalCostProjectPay01;
 import com.pcitc.base.system.SysUser;
@@ -54,7 +59,7 @@ public class ScientificFundsContrller {
 	private static final String yclzctjb_data = "http://pcitc-zuul/hana-proxy/hana/scientific_funds/yclzctjb";
 	private static final String nhzctjb_data = "http://pcitc-zuul/hana-proxy/hana/scientific_funds/nhzctjb";
 	private static final String xmzjlxfx_data = "http://pcitc-zuul/hana-proxy/hana/scientific_funds/xmzjlxfx";
-	
+	private static final String investment_02 = "http://pcitc-zuul/system-proxy/out-project-plna-provider/money/complete-rate/institute";
 	private static final String rgcbzctjb_data_detail = "http://pcitc-zuul/hana-proxy/hana/scientific_funds/rgcbzctjb_detail";
 	
 	
@@ -64,8 +69,67 @@ public class ScientificFundsContrller {
 	  {
 		    SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
 		    HanaUtil.setSearchParaForUser(userInfo,restTemplate,httpHeaders,request);
+		    
+		    String year = HanaUtil.getCurrrentYear();
+			request.setAttribute("year", year);
 	        return "stp/hana/scientificFunds/ndjfyshtqdjdfx";
 	  }
+	  
+	  
+	    @RequestMapping(method = RequestMethod.GET, value = "/ndjfyshtqdjdfx_data_01")
+		@ResponseBody
+		public String ndjfyshtqdjdfx_data_01(HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+			Result result = new Result();
+			String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+			Map<String, Object> paramsMap = new HashMap<String, Object>();
+			paramsMap.put("nd", nd);
+			JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+			HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+			if (!nd.equals(""))
+			{
+				ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(investment_02, HttpMethod.POST, entity, JSONArray.class);
+				int statusCode = responseEntity.getStatusCodeValue();
+				if (statusCode == 200) 
+				{
+					
+					JSONArray jSONArray = responseEntity.getBody();
+					System.out.println(">>>>>>>>>>>>>>ndjfyshtqdjdfx_data_01 jSONArray-> " + jSONArray.toString());
+					List<BudgetMysql> list = JSONObject.parseArray(jSONArray.toJSONString(), BudgetMysql.class);
+					ChartPieResultData pie = new ChartPieResultData();
+					List<ChartPieDataValue> dataList = new ArrayList<ChartPieDataValue>();
+					List<String> legendDataList = new ArrayList<String>();
+					for (int i = 0; i < list.size(); i++) {
+						BudgetMysql f2 = list.get(i);
+						String projectName = f2.getDefine2();
+						String value =((BigDecimal)f2.getZsjje()).toString();
+						value=String.format("%.2f", Double.valueOf(value)/10000);
+						legendDataList.add(projectName);
+						dataList.add(new ChartPieDataValue(value, projectName));
+					}
+					pie.setDataList(dataList);
+					pie.setLegendDataList(legendDataList);
+					result.setSuccess(true);
+					result.setData(pie);
+				}
+				
+			} else
+			{
+				result.setSuccess(false);
+				result.setMessage("参数为空");
+			}
+			JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
+			System.out.println(">>>>>>>>>>>>>>ndjfyshtqdjdfx_data_01 " + resultObj.toString());
+			return resultObj.toString();
+		}
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
 	  
 	  //年度预算合同签订差异多维分析
 	  @RequestMapping(method = RequestMethod.GET, value = "/sf/ndyshtqdcydwfx")
