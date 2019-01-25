@@ -31,6 +31,8 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.PageResult;
 import com.pcitc.base.common.Result;
+import com.pcitc.base.hana.report.AchievementsAnalysis;
+import com.pcitc.base.hana.report.Award;
 import com.pcitc.base.hana.report.Knowledge;
 import com.pcitc.base.hana.report.ProjectCode;
 import com.pcitc.base.system.SysUser;
@@ -69,6 +71,10 @@ public class MoreDimensionController extends BaseController
 	private static final String achievements_trend_analysis_02 = "http://pcitc-zuul/system-proxy/out-appraisal-provider/institution/cg/info";
 	
 	
+	
+	
+	private static final String reward_analysis_01 = "http://pcitc-zuul/system-proxy/out-reward-provider/sbjz/five-year/count";
+	private static final String reward_analysis_02 = "http://pcitc-zuul/system-proxy/out-reward-provider/yjy/type/count";
 	
 	
 	
@@ -375,8 +381,9 @@ public class MoreDimensionController extends BaseController
 	{
 		SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
 		HanaUtil.setSearchParaForUser(userInfo, restTemplate, httpHeaders, request);
-		List<ProjectCode> projectCodeList = HanaUtil.getProjectCode(restTemplate, httpHeaders);
-		request.setAttribute("projectCodeList", projectCodeList);
+		String year = HanaUtil.getCurrrentYear();
+		request.setAttribute("year", year);
+		
 		return "stp/hana/moreDimension/achievement/achievements-trend-analysis";
 	}
 	
@@ -402,27 +409,56 @@ public class MoreDimensionController extends BaseController
 				
 				JSONArray jSONArray = responseEntity.getBody();
 			    System.out.println(">>>>>>>>>>>>>>achievements_trend_analysis_01 jSONArray-> " + jSONArray.toString());
-				List<Knowledge> list = JSONObject.parseArray(jSONArray.toJSONString(), Knowledge.class);
-			
-				
-				ChartBarLineResultData barLine=new ChartBarLineResultData();
-				List<String>  xAxisDataList=HanaUtil.getduplicatexAxisByList(list,"define3");
-         		barLine.setxAxisDataList(xAxisDataList);
-         	
-         		
-         		List<String> legendDataList = new ArrayList<String>();
-				legendDataList.add("专利申请");
-				legendDataList.add("专利授权");
-				barLine.setLegendDataList(legendDataList);
-				// X轴数据
-				List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
-				ChartBarLineSeries s1 = HanaUtil.getKNOWLDGELevel2ChartBarLineSeries(list, "applyCount");
-				seriesList.add(s1);
-				ChartBarLineSeries s2 = HanaUtil.getKNOWLDGELevel2ChartBarLineSeries(list, "agreeCount");
-				seriesList.add(s2);
-				barLine.setSeriesList(seriesList);
-         		result.setSuccess(true);
-				result.setData(barLine);
+				List<AchievementsAnalysis> list = JSONObject.parseArray(jSONArray.toJSONString(), AchievementsAnalysis.class);
+				if(type.equals("1"))
+				{
+					ChartBarLineResultData barLine = new ChartBarLineResultData();
+					List<String> xAxisDataList = HanaUtil.getduplicatexAxisByList(list, "zy");
+					barLine.setxAxisDataList(xAxisDataList);
+
+					List<String> legendDataList = new ArrayList<String>();
+					legendDataList.add("今年数量");
+					legendDataList.add("去年数量");
+					legendDataList.add("前年数量");
+					barLine.setxAxisDataList(xAxisDataList);
+					barLine.setLegendDataList(legendDataList);
+					// X轴数据
+					List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
+					ChartBarLineSeries s1 = HanaUtil.getAchievements_trend_analysis_01(list, "thisYearSl");
+					ChartBarLineSeries s2 = HanaUtil.getAchievements_trend_analysis_01(list, "lastYearSl");
+					ChartBarLineSeries s3 = HanaUtil.getAchievements_trend_analysis_01(list, "beforeYearSl");
+					seriesList.add(s1);
+					seriesList.add(s2);
+					seriesList.add(s3);
+					barLine.setSeriesList(seriesList);
+					result.setSuccess(true);
+					result.setData(barLine);
+				}
+				if(type.equals("2"))
+				{
+					ChartPieResultData pie = new ChartPieResultData();
+					List<ChartPieDataValue> dataList = new ArrayList<ChartPieDataValue>();
+					List<String> legendDataList = new ArrayList<String>();
+					for (int i = 0; i < list.size(); i++) {
+						AchievementsAnalysis f2 = list.get(i);
+						String projectName = f2.getZy();
+						Integer value = f2.getZls();
+						int count=0;
+						if(value==null)
+						{
+							count=0;
+						}else
+						{
+							count=value.intValue();
+						}
+						legendDataList.add(projectName);
+						dataList.add(new ChartPieDataValue(count, projectName));
+					}
+					pie.setDataList(dataList);
+					pie.setLegendDataList(legendDataList);
+					result.setSuccess(true);
+					result.setData(pie);
+				}
 			}
 			
 		} else
@@ -436,6 +472,81 @@ public class MoreDimensionController extends BaseController
 	}
 	
 	
+	@RequestMapping(method = RequestMethod.GET, value = "/achievements_trend_analysis_02")
+	@ResponseBody
+	public String achievements_trend_analysis_02(HttpServletRequest request, HttpServletResponse response) throws Exception 
+	{
+		
+		Result result = new Result();
+		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+		String type = CommonUtil.getParameter(request, "type", "");
+		Map<String, Object> paramsMap = new HashMap<String, Object>();
+		paramsMap.put("nd", nd);
+		paramsMap.put("type", type);
+		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+		if (!nd.equals(""))
+		{
+			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(achievements_trend_analysis_02, HttpMethod.POST, entity, JSONArray.class);
+			int statusCode = responseEntity.getStatusCodeValue();
+			if (statusCode == 200) 
+			{
+				
+				JSONArray jSONArray = responseEntity.getBody();
+			    System.out.println(">>>>>>>>>>>>>>achievements_trend_analysis_02 jSONArray-> " + jSONArray.toString());
+				List<AchievementsAnalysis> list = JSONObject.parseArray(jSONArray.toJSONString(), AchievementsAnalysis.class);
+				if(type.equals("1"))
+				{
+					ChartBarLineResultData barLine = new ChartBarLineResultData();
+					List<String> xAxisDataList = HanaUtil.getduplicatexAxisByList(list, "define1");
+					barLine.setxAxisDataList(xAxisDataList);
+					List<String> legendDataList = new ArrayList<String>();
+					legendDataList.add("A.工业化");
+					legendDataList.add("B.工业试验");
+					legendDataList.add("C.其他");
+					barLine.setxAxisDataList(xAxisDataList);
+					barLine.setLegendDataList(legendDataList);
+					// X轴数据
+					List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
+					ChartBarLineSeries s1 = HanaUtil.getAchievements_trend_analysis_02(list, "gyhsl");
+					ChartBarLineSeries s2 = HanaUtil.getAchievements_trend_analysis_02(list, "gysysl");
+					ChartBarLineSeries s3 = HanaUtil.getAchievements_trend_analysis_02(list, "qtsl");
+					seriesList.add(s1);
+					seriesList.add(s2);
+					seriesList.add(s3);
+					barLine.setSeriesList(seriesList);
+					result.setSuccess(true);
+					result.setData(barLine);
+				}
+				if(type.equals("2"))
+				{
+					ChartPieResultData pie = new ChartPieResultData();
+					List<ChartPieDataValue> dataList = new ArrayList<ChartPieDataValue>();
+					List<String> legendDataList = new ArrayList<String>();
+					for (int i = 0; i < list.size(); i++) 
+					{
+						AchievementsAnalysis f2 = list.get(i);
+						String projectName = f2.getDefine1();
+						Integer value = f2.getSl();
+						legendDataList.add(projectName);
+						dataList.add(new ChartPieDataValue(value, projectName));
+					}
+					pie.setDataList(dataList);
+					pie.setLegendDataList(legendDataList);
+					result.setSuccess(true);
+					result.setData(pie);
+				}
+			}
+			
+		} else
+		{
+			result.setSuccess(false);
+			result.setMessage("参数为空");
+		}
+		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
+		System.out.println(">>>>>>>>>>>>>>achievements_trend_analysis_02 type= "+type+" : " + resultObj.toString());
+		return resultObj.toString();
+	}
 	
 
 	/**
@@ -484,10 +595,263 @@ public class MoreDimensionController extends BaseController
 
 		SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
 		HanaUtil.setSearchParaForUser(userInfo, restTemplate, httpHeaders, request);
-		List<ProjectCode> projectCodeList = HanaUtil.getProjectCode(restTemplate, httpHeaders);
-		request.setAttribute("projectCodeList", projectCodeList);
+		String year = HanaUtil.getCurrrentYear();
+		request.setAttribute("year", year);
 		return "stp/hana/moreDimension/science/science-trend-analysis";
 	}
+	
+	
+	
+	
+	
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/reward_analysis_01")
+	@ResponseBody
+	public String reward_analysis_01(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Result result = new Result();
+		
+		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+		String type = CommonUtil.getParameter(request, "type", "");
+		
+		Map<String, Object> paramsMap = new HashMap<String, Object>();
+		paramsMap.put("nd", nd);
+		paramsMap.put("type", type);
+		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+		if (!nd.equals(""))
+		{
+			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(reward_analysis_01, HttpMethod.POST, entity, JSONArray.class);
+			int statusCode = responseEntity.getStatusCodeValue();
+			if (statusCode == 200) 
+			{
+				
+				JSONArray jSONArray = responseEntity.getBody();
+			    System.out.println(">>>>>>>>>>>>>>reward_analysis_01 jSONArray-> " + jSONArray.toString());
+				List<Award> list = JSONObject.parseArray(jSONArray.toJSONString(), Award.class);
+				if(type.equals("1"))
+				{
+					ChartBarLineResultData barLine = new ChartBarLineResultData();
+					List<String> xAxisDataList = HanaUtil.getduplicatexAxisByList(list, "sbjz");
+					barLine.setxAxisDataList(xAxisDataList);
+					
+					String year = HanaUtil.getCurrrentYear();
+					List<String> legendDataList = new ArrayList<String>();
+					
+					legendDataList.add((Integer.valueOf(year)-4)+"");
+					legendDataList.add((Integer.valueOf(year)-3)+"");
+					legendDataList.add((Integer.valueOf(year)-2)+"");
+					legendDataList.add((Integer.valueOf(year)-1)+"");
+					legendDataList.add(Integer.valueOf(year)+"");
+					barLine.setxAxisDataList(xAxisDataList);
+					barLine.setLegendDataList(legendDataList);
+					// X轴数据
+					List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
+					
+					ChartBarLineSeries s1 = HanaUtil.getAward_trend_analysis_01(list, "fiveYearSl");
+					ChartBarLineSeries s2 = HanaUtil.getAward_trend_analysis_01(list, "fourYearSl");
+					ChartBarLineSeries s3 = HanaUtil.getAward_trend_analysis_01(list, "treeYearSl");
+					ChartBarLineSeries s4 = HanaUtil.getAward_trend_analysis_01(list, "twoYearSl");
+					ChartBarLineSeries s5 = HanaUtil.getAward_trend_analysis_01(list, "oneYearSl");
+					seriesList.add(s1);
+					seriesList.add(s2);
+					seriesList.add(s3);
+					seriesList.add(s4);
+					seriesList.add(s5);
+					barLine.setSeriesList(seriesList);
+					result.setSuccess(true);
+					result.setData(barLine);
+				}
+				if(type.equals("2"))
+				{
+					ChartPieResultData pie = new ChartPieResultData();
+					List<ChartPieDataValue> dataList = new ArrayList<ChartPieDataValue>();
+					List<String> legendDataList = new ArrayList<String>();
+					for (int i = 0; i < list.size(); i++) {
+						Award f2 = list.get(i);
+						String projectName = f2.getSbjz();
+						Integer value = f2.getZls();
+						/*int count=0;
+						if(value==null)
+						{
+							count=0;
+						}else
+						{
+							count=value.intValue();
+						}*/
+						legendDataList.add(projectName);
+						dataList.add(new ChartPieDataValue(value, projectName));
+					}
+					pie.setDataList(dataList);
+					pie.setLegendDataList(legendDataList);
+					result.setSuccess(true);
+					result.setData(pie);
+				}
+				
+				if(type.equals("3"))
+				{
+					ChartBarLineResultData barLine = new ChartBarLineResultData();
+					List<String> xAxisDataList = HanaUtil.getduplicatexAxisByList(list, "sbjz");
+					barLine.setxAxisDataList(xAxisDataList);
+					List<String> legendDataList = new ArrayList<String>();
+					legendDataList.add("石油炼制");
+					legendDataList.add("油气开发");
+					legendDataList.add("化工化纤");
+					legendDataList.add("设备与安全环保");
+					legendDataList.add("油气勘探");
+					legendDataList.add("信息与综合");
+					barLine.setxAxisDataList(xAxisDataList);
+					barLine.setLegendDataList(legendDataList);
+					// X轴数据
+					List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
+					ChartBarLineSeries s1 = HanaUtil.getAward_trend_analysis_03(list, "sylzSl");
+					ChartBarLineSeries s2 = HanaUtil.getAward_trend_analysis_03(list, "yqkfSl");
+					ChartBarLineSeries s3 = HanaUtil.getAward_trend_analysis_03(list, "hghqSl");
+					ChartBarLineSeries s4 = HanaUtil.getAward_trend_analysis_03(list, "sbaqSl");
+					ChartBarLineSeries s5 = HanaUtil.getAward_trend_analysis_03(list, "yqktSl");
+					ChartBarLineSeries s6 = HanaUtil.getAward_trend_analysis_03(list, "xxzhSl");
+					seriesList.add(s1);
+					seriesList.add(s2);
+					seriesList.add(s3);
+					seriesList.add(s4);
+					seriesList.add(s5);
+					seriesList.add(s6);
+					barLine.setSeriesList(seriesList);
+					result.setSuccess(true);
+					result.setData(barLine);
+				}
+				
+				if(type.equals("4"))
+				{
+					ChartBarLineResultData barLine = new ChartBarLineResultData();
+					List<String> xAxisDataList = HanaUtil.getduplicatexAxisByList(list, "sbjz");
+					barLine.setxAxisDataList(xAxisDataList);
+					
+					String year = HanaUtil.getCurrrentYear();
+					List<String> legendDataList = new ArrayList<String>();
+					
+					legendDataList.add((Integer.valueOf(year)-4)+"");
+					legendDataList.add((Integer.valueOf(year)-3)+"");
+					legendDataList.add((Integer.valueOf(year)-2)+"");
+					legendDataList.add((Integer.valueOf(year)-1)+"");
+					legendDataList.add(Integer.valueOf(year)+"");
+					barLine.setxAxisDataList(xAxisDataList);
+					barLine.setLegendDataList(legendDataList);
+					// X轴数据
+					List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
+					
+					ChartBarLineSeries s1 = HanaUtil.getAward_trend_analysis_01(list, "fiveYearSl");
+					ChartBarLineSeries s2 = HanaUtil.getAward_trend_analysis_01(list, "fourYearSl");
+					ChartBarLineSeries s3 = HanaUtil.getAward_trend_analysis_01(list, "treeYearSl");
+					ChartBarLineSeries s4 = HanaUtil.getAward_trend_analysis_01(list, "twoYearSl");
+					ChartBarLineSeries s5 = HanaUtil.getAward_trend_analysis_01(list, "oneYearSl");
+					seriesList.add(s1);
+					seriesList.add(s2);
+					seriesList.add(s3);
+					seriesList.add(s4);
+					seriesList.add(s5);
+					barLine.setSeriesList(seriesList);
+					result.setSuccess(true);
+					result.setData(barLine);
+				}
+				
+				
+			}
+			
+		} else
+		{
+			result.setSuccess(false);
+			result.setMessage("参数为空");
+		}
+		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
+		System.out.println(">>>>>>>>>>>>>>reward_analysis_01 type= "+type+" : " + resultObj.toString());
+		return resultObj.toString();
+	}
+	
+
+	@RequestMapping(method = RequestMethod.GET, value = "/reward_analysis_02")
+	@ResponseBody
+	public String reward_analysis_02(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		Result result = new Result();
+		
+		String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+		String type = CommonUtil.getParameter(request, "type", "");
+		
+		Map<String, Object> paramsMap = new HashMap<String, Object>();
+		paramsMap.put("nd", nd);
+		paramsMap.put("type", type);
+		JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+		HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+		if (!nd.equals(""))
+		{
+			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(reward_analysis_02, HttpMethod.POST, entity, JSONArray.class);
+			int statusCode = responseEntity.getStatusCodeValue();
+			if (statusCode == 200) 
+			{
+				
+				JSONArray jSONArray = responseEntity.getBody();
+			    System.out.println(">>>>>>>>>>>>>>reward_analysis_02 jSONArray-> " + jSONArray.toString());
+				List<Award> list = JSONObject.parseArray(jSONArray.toJSONString(), Award.class);
+				if(type.equals("1"))
+				{
+					ChartBarLineResultData barLine = new ChartBarLineResultData();
+					List<String> xAxisDataList = HanaUtil.getduplicatexAxisByList(list, "define2");
+					barLine.setxAxisDataList(xAxisDataList);
+					
+					String year = HanaUtil.getCurrrentYear();
+					List<String> legendDataList = new ArrayList<String>();
+					
+					legendDataList.add("科技进步奖");
+					legendDataList.add("技术发明奖");
+					legendDataList.add("前瞻性基础性研究科学奖");
+					barLine.setxAxisDataList(xAxisDataList);
+					barLine.setLegendDataList(legendDataList);
+					// X轴数据
+					List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
+					
+					ChartBarLineSeries s1 = HanaUtil.getAward_trend_analysis_02(list, "kjjbjSl");
+					ChartBarLineSeries s2 = HanaUtil.getAward_trend_analysis_02(list, "jsfmjSl");
+					ChartBarLineSeries s3 = HanaUtil.getAward_trend_analysis_02(list, "yjkxSl");
+					seriesList.add(s1);
+					seriesList.add(s2);
+					seriesList.add(s3);
+					barLine.setSeriesList(seriesList);
+					result.setSuccess(true);
+					result.setData(barLine);
+				}
+				if(type.equals("2"))
+				{
+					ChartPieResultData pie = new ChartPieResultData();
+					List<ChartPieDataValue> dataList = new ArrayList<ChartPieDataValue>();
+					List<String> legendDataList = new ArrayList<String>();
+					for (int i = 0; i < list.size(); i++) {
+						Award f2 = list.get(i);
+						String projectName = f2.getDefine2();
+						Integer value = f2.getZls();
+						
+						legendDataList.add(projectName);
+						dataList.add(new ChartPieDataValue(value, projectName));
+					}
+					pie.setDataList(dataList);
+					pie.setLegendDataList(legendDataList);
+					result.setSuccess(true);
+					result.setData(pie);
+				}
+			}
+			
+		} else
+		{
+			result.setSuccess(false);
+			result.setMessage("参数为空");
+		}
+		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
+		System.out.println(">>>>>>>>>>>>>>reward_analysis_02 type= "+type+" : " + resultObj.toString());
+		return resultObj.toString();
+	}
+	
+	
+	
+	
+	
 
 	/**
 	 * 科技奖励涉及项目分析

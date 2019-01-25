@@ -44,60 +44,36 @@
             </div>
             <span class="unitBox">单位：万元</span>
         </div>
+        
+        
+        
+        
+        
         <div class="layui-row layui-col-space10">
             <div class="layui-col-sm8">
-                <div class="layui-card">
+             <div class="layui-card">
                     <div class="layui-card-header">
-                        <span class="layui-time"></span>成果鉴定结论数量年趋势分析
+                        ${year}近三年专业类别成果鉴定结论数量分布
                     </div>
-                    <div class="layui-row-main">
-                        <div class="main-chart" id="main1" style="height:280px;width: 100%;"></div>
+                    <div class="layui-card-body btn-function">
+                        <div  style="height:280px;width: 100%;" id="topic_chart1"></div>
                     </div>
+                    
                 </div>
             </div>
             <div class="layui-col-sm4">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        <span class="layui-time"></span>成果鉴定结论数量按鉴定结论占比分
+                        <span class="layui-time"></span>近三年专业类别成果鉴定结论数量论占比分
                     </div>
                     <div class="layui-row-main">
-                        <div class="main-chart" id="main2" style="height:280px;width: 100%;"></div>
+                        <div class="main-chart" id="topic_chart2" style="height:280px;width: 100%;"></div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="layui-row layui-col-space10">
-            <div class="layui-col-sm4">
-                <div class="layui-card">
-                    <div class="layui-card-header">
-                        <span class="layui-time"></span>成果鉴定结论数量按成果类型占比分析
-                    </div>
-                    <div class="layui-row-main">
-                        <div class="main-chart" id="main3" style="height:280px;width: 100%;"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="layui-col-sm4">
-                <div class="layui-card">
-                    <div class="layui-card-header">
-                        <span class="layui-time"></span>成果鉴定结论数量按成果种类占比分析
-                    </div>
-                    <div class="layui-row-main">
-                        <div class="main-chart" id="main4" style="height:280px;width: 100%;"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="layui-col-sm4">
-                <div class="layui-card">
-                    <div class="layui-card-header">
-                        <span class="layui-time"></span>成果鉴定结论数量按专业类别占比分析
-                    </div>
-                    <div class="layui-row-main">
-                        <div class="main-chart" id="main5" style="height:280px;width: 100%;"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        
+        
         <div class="layui-row layui-col-space10">
             <div class="layui-col-sm8">
                 <div class="layui-card">
@@ -105,7 +81,7 @@
                         <span class="layui-time"></span>成果鉴定结论数量按研究院分布情况分析
                     </div>
                     <div class="layui-row-main">
-                        <div class="main-chart" id="main6" style="height:280px;width: 100%;"></div>
+                        <div class="main-chart" id="topic_chart3" style="height:280px;width: 100%;"></div>
                     </div>
                 </div>
             </div>
@@ -115,7 +91,7 @@
                         <span class="layui-time"></span>成果鉴定结论数量按研究院占比分析
                     </div>
                     <div class="layui-row-main">
-                        <div class="main-chart" id="main7" style="height:280px;width: 100%;"></div>
+                        <div class="main-chart" id="topic_chart4" style="height:280px;width: 100%;"></div>
                     </div>
                 </div>
             </div>
@@ -127,17 +103,16 @@
 <!--表格数据操作js-->
 <script src="/common/js/jquery-1.11.3.min.js"></script>
 <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
-<script src="/common/js/layer-v3.1.1/layer.js"></script>
 <script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
-<script type="text/javascript" src="/plugins/echarts/walden.js"></script>	
+<script type="text/javascript" src="/layuiadmin/modules/bmap.js"></script>
+<script type="text/javascript" src="/plugins/echarts/walden.js"></script>
 <script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
 <script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
-<script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>	
-
+<script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
+<script type="text/javascript" src="/stp/hana/home/direct_depart/direct_common.js"></script>
 <script type="text/javascript">
-
 layui.config({
-    base: '/layuiadmin/module/modules/' 
+	 base: '/layuiadmin/lib/extend/'
 }).use(['jquery','form', 'laydate','table','laypage'], function(){
 	  $ = layui.jquery
       ,table = layui.table
@@ -157,302 +132,77 @@ layui.config({
 function init()
 {
 	
-		var allCode="${allCode?default('')}";
-		var allCode_text="全部院所";
 		var v_date=(new Date()).getTime();
 		var year=$('#year').val();
 		var companyCode=$('#companyCode').val();
-	      $(".layui-time").html(year+"年");
-		
-		  var seriesData_1=[
-		        {
-  		            name:'2014',
-  		            type:'bar',
-  		            color: ['#37A2DA'],
-  		            data:[272, 44, 734, 734]
-  		        },
-  		        {
-  		            name:'2015',
-  		            type:'bar',
-  		            color: ['#67E0E3'],
-  		             data:[232, 414, 74, 734]
-  		        },
-  		        {
-  		            name:'2016',
-  		            type:'bar',
-  		          data:[22, 444, 74, 734]
-  		        },
-  		        {
-  		            name:'2017',
-  		            type:'bar',
-  		            data:[232, 424, 74, 734]
-  		        },
-  		        {
-  		            name:'2018',
-  		            type:'bar',
-  		            data:[252, 424, 514, 134]
-  		        }
-  		        
-  		    ];
-		  
-		  var yAxis=[
-		        {
-  		            type: 'value',
-  		            name: '金额（万元）',
-  		            min: 0,
-  		            max: 850,
-  		            interval: 200,
-  		            axisLabel: {
-  		                formatter: '{value}'
-  		            }
-  		        }
-  		    ];
-      var legends_1=['2014','2015','2016','2017','2018'];
-      var xAxisData_1= ["国际领先","国内领先","国际先进","国内先进"];
-      load_mutl_bar_tt("main1","",legends_1,xAxisData_1,yAxis,seriesData_1,"");
-		
-		
-      
-      
-  	
-		var legend_names_2=['国际领先','国际先进','国内领先','国内先进'];
-		var series_values_2=[
-			{value:135, name:'国际领先'},
-            {value:210, name:'国际先进'},
-            {value:210, name:'国内领先'},
-            {value:134, name:'国内先进'}
-		];
-		loadPie_tt('main2','',legend_names_2,series_values_2,"");
-		
-		
-		
-		
-		
-		
-		  var seriesData_3=[
-		        {
-		            name:'工业化',
-		            type:'bar',
-		            color: ['#37A2DA'],
-		            data:[272, 44, 734, 734]
-		        },
-		        {
-		            name:'工业试验',
-		            type:'bar',
-		            color: ['#67E0E3'],
-		             data:[232, 414, 74, 734]
-		        },
-		        {
-		            name:'中试',
-		            type:'bar',
-		          data:[22, 444, 74, 734]
-		        },
-		        {
-		            name:'小试',
-		            type:'bar',
-		            data:[232, 424, 74, 734]
-		        },
-		        {
-		            name:'探索',
-		            type:'bar',
-		            data:[252, 424, 514, 134]
-		        }
-		        
-		    ];
-		  
-		  var yAxis3=[
-		        {
-		            type: 'value',
-		            name: '金额（万元）',
-		            min: 0,
-		            max: 850,
-		            interval: 200,
-		            axisLabel: {
-		                formatter: '{value}'
-		            }
-		        }
-		    ];
-    var legends_3=['工业化','工业试验','中试','小试','探索'];
-    var xAxisData_3= ["国际领先","国内领先","国际先进","国内先进"];
-    load_mutl_bar_tt("main3","",legends_3,xAxisData_3,yAxis3,seriesData_3,"");
-    
-    
-    
-    
-    
-    
-    
-    var seriesData_4= [
-	        {
-		            name:'新方法',
-		            type:'bar',
-		            color: ['#37A2DA'],
-		            data:[272, 44, 734, 734]
-		        },
-		        {
-		            name:'新技术',
-		            type:'bar',
-		            color: ['#67E0E3'],
-		             data:[232, 414, 74, 734]
-		        },
-		        {
-		            name:'新产品',
-		            type:'bar',
-		          data:[22, 444, 74, 734]
-		        },
-		        {
-		            name:'新工艺',
-		            type:'bar',
-		            data:[232, 424, 74, 734]
-		        }
-		        
-		    ];
-  
-  var yAxis4=[
-        {
-            type: 'value',
-            name: '金额（万元）',
-            min: 0,
-            max: 850,
-            interval: 200,
-            axisLabel: {
-                formatter: '{value}'
-            }
-        }
-    ];
-   var legends_4=['新方法','新技术','新产品','新工艺'];
-   var xAxisData_4= ["国际领先","国内领先","国际先进","国内先进"];
-   load_mutl_bar_tt("main4","",legends_4,xAxisData_4,yAxis4,seriesData_4,"");
-   
-   
-   
+	    $(".layui-time").html(year+"年");
+	    
+	    
+	    
+	    
+	       var  yAxis= [
+	            {
+	            	 type: 'value',
+	                 name: '数量（个）',
+	                 position: 'left',
+	                 axisLabel: {
+	                     formatter: '{value}'
+	                 }
+	            }
+	        ];
+	        
+	       
+	       
 
-   var seriesData_5= [
-	        {
-		            name:'石油勘探',
-		            type:'bar',
-		            color: ['#37A2DA'],
-		            data:[272, 44, 734, 734]
-		        },
-		        {
-		            name:'石油开发',
-		            type:'bar',
-		            color: ['#67E0E3'],
-		             data:[232, 414, 74, 734]
-		        },
-		        {
-		            name:'化工技术',
-		            type:'bar',
-		          data:[22, 444, 74, 734]
-		        },
-		        {
-		            name:'公用技术',
-		            type:'bar',
-		            data:[232, 424, 74, 734]
-		        }
-		        
-		    ];
- 
- var yAxis5=[
-       {
-           type: 'value',
-           name: '金额（万元）',
-           min: 0,
-           max: 850,
-           interval: 200,
-           axisLabel: {
-               formatter: '{value}'
-           }
-       }
-   ];
-  var legends_5=['石油勘探','石油开发','化工技术','公用技术'];
-  var xAxisData_5= ["国际领先","国内领先","国际先进","国内先进"];
-  load_mutl_bar_tt("main5","",legends_5,xAxisData_5,yAxis5,seriesData_5,"");
-		
-    
-		
+    	var chart1_url="/more-dimension/achievements_trend_analysis_01?type=1&nd="+year+"&v_date="+v_date;
+    	var echart1=load_mutl_bar_down(chart1_url,"topic_chart1","","",yAxis);
+    	echart1.on('click', function (params) {
+    		var xName=params.name;
+    		var legentName=params.seriesName;
+    		var url=　encodeURIComponent("/one_level_main/count_table?define2="+xName+"&nd="+year+"&ysnd="+year+"&ktlx="+legentName);
+            window.open("/instituteIndex?url="+url);
+        });
+    	
+    	var url_8="/more-dimension/achievements_trend_analysis_01?type=2&nd="+year+"&v_date="+v_date;
+    	var echart8=loadPie_02(url_8,"topic_chart2","","");
+    	echart8.on('click', function (params) {
+    		var xName=params.name;
+    		var legentName=params.seriesName;
+    		window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
+        });
+    	
+    	
+    	
 
-  var seriesData_6=  [
-      {
-          name:'国际领先',
-          type:'bar',
-          color: ['#37A2DA'],
-          data:[22, 44, 74, 24,22, 44, 74, 24]
-      },
-      {
-          name:'国际先进',
-          type:'bar',
-          color: ['#67E0E3'],
-          data:[22, 24, 74, 54,22, 74, 74, 24]
-      },
-      {
-          name:'国内领先',
-          type:'bar',
-          data:[22, 24, 724, 54,22, 74, 74, 24]
-      },
-      {
-          name:'国内先进',
-          type:'bar',
-          data:[22, 24, 724, 54,22, 74, 734, 214]
-      }
-  ];
-
-var yAxis6=[
-      {
-          type: 'value',
-          name: '金额（万元）',
-          min: 0,
-          max: 850,
-          interval: 200,
-          axisLabel: {
-              formatter: '{value}'
-          }
-      }
-  ];
- var legends_6=['国际领先','国际先进','国内领先','国内先进'];
- var xAxisData_6= ['石勘院','物探院','工程院','石科院','抚研院','北化院','上海院','安工院'];
- load_mutl_bar_tt("main6","",legends_6,xAxisData_6,yAxis6,seriesData_6,"");
-		
-   
- 
- 
- 
-	
-	var legend_names_7=['石勘院','物探院','工程院','石科院','抚研院','北化院','上海院','安工院'];
-	var series_values_7=[
-		{value:135, name:'石勘院'},
-         {value:210, name:'物探院'},
-         {value:234, name:'其他流动资产'},
-         {value:175, name:'工程院'},
-         {value:403, name:'石科院'},
-         {value:123, name:'抚研院'},
-         {value:291, name:'北化院'},
-         {value:306, name:'上海院'},
-         {value:245, name:'安工院'}
-	];
-	loadPie_tt('main7','',legend_names_7,series_values_7,"");
-	
+    	var chart1_url="/more-dimension/achievements_trend_analysis_02?type=1&nd="+year+"&v_date="+v_date;
+    	var echart1=load_mutl_bar_down(chart1_url,"topic_chart3","","",yAxis);
+    	echart1.on('click', function (params) {
+    		var xName=params.name;
+    		var legentName=params.seriesName;
+    		var url=　encodeURIComponent("/one_level_main/count_table?define2="+xName+"&nd="+year+"&ysnd="+year+"&ktlx="+legentName);
+            window.open("/instituteIndex?url="+url);
+        });
+    	
+    	var url_8="/more-dimension/achievements_trend_analysis_02?type=2&nd="+year+"&v_date="+v_date;
+    	var echart8=loadPie_02(url_8,"topic_chart4","","");
+    	echart8.on('click', function (params) {
+    		var xName=params.name;
+    		var legentName=params.seriesName;
+    		window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
+        });
+    	
+    	
+    	
+    	
 			
 }		
 
 init();  
+function search_Event()
+{
+	init();
+}        
         
-        
-        
-        
-        
-        
-        
-        
-        
-
-        function search_Event()
-        {
-        	init();
-        }
-        
-            
-           
-    </script>
+</script>
 </body>
 </html>

@@ -431,8 +431,8 @@ public class OneLevelMainController {
 				String define5=CommonUtil.getParameter(request, "define5", "");//技术分布
 				String ktlx=CommonUtil.getParameter(request, "ktlx", "");
 				String define11=CommonUtil.getParameter(request, "define11", "");//费用来源
-
-				
+				String define12=CommonUtil.getParameter(request, "define12", "");//单位类别
+				request.setAttribute("define12", define12);
 				request.setAttribute("define11", define11);
 				request.setAttribute("ktlx", ktlx);
 				request.setAttribute("define5", define5);
@@ -468,6 +468,7 @@ public class OneLevelMainController {
 					 List<String> zylbList = new ArrayList<String>();
 					 List<String> zycmcList = new ArrayList<String>();
 					 List<String> define11List = new ArrayList<String>();
+					 List<String> define12List = new ArrayList<String>();
 					 for (int i = 0; i < jSONArray.size(); i++)
 			         {
 						    Map  object = (Map) jSONArray.get(i);
@@ -512,7 +513,15 @@ public class OneLevelMainController {
 			                	}
 			                	
 			                }
-			                
+			                if(showCode.equals("define12"))
+			                {
+			                	
+			                	if(showName!=null && !showName.equals(""))
+			                	{
+			                		define12List.add(showName);
+			                	}
+			                	
+			                }
 			                
 			          }
 					 
@@ -522,7 +531,7 @@ public class OneLevelMainController {
 					 request.setAttribute("zylbList", zylbList);
 					 request.setAttribute("zycmcList", zycmcList);
 					 request.setAttribute("define11List", define11List);
-					 
+					 request.setAttribute("define12List", define12List);
 					 List<String> ktlxList = new ArrayList<String>();
 					 ktlxList.add("新开课题");
 					 ktlxList.add("结转课题");
@@ -675,7 +684,9 @@ public class OneLevelMainController {
 				String define10=CommonUtil.getParameter(request, "define10", "");//各个处室
 				String qdbz=CommonUtil.getParameter(request, "qdbz", "");//签订标识
                 String define11=CommonUtil.getParameter(request, "define11", "");//费用来源
-				
+                String define12=CommonUtil.getParameter(request, "define12", "");//单位类别
+                
+				request.setAttribute("define12", define12);
 				request.setAttribute("define11", define11);
 				request.setAttribute("qdbz", qdbz);
 				request.setAttribute("nd", nd);
@@ -711,6 +722,7 @@ public class OneLevelMainController {
 					 List<String> zylbList = new ArrayList<String>();
 					 List<String> zycmcList = new ArrayList<String>();
 					 List<String> define11List = new ArrayList<String>();
+					 List<String> define12List = new ArrayList<String>();
 					 for (int i = 0; i < jSONArray.size(); i++)
 			         {
 						    Map  object = (Map) jSONArray.get(i);
@@ -753,6 +765,16 @@ public class OneLevelMainController {
 			                	}
 			                }
 			                
+			                if(showCode.equals("define12"))
+			                {
+			                	
+			                	if(showName!=null && !showName.equals(""))
+			                	{
+			                		define12List.add(showName);
+			                	}
+			                }
+			                
+			                
 			          }
 					 request.setAttribute("define1List", define1List);
 					 request.setAttribute("define21List", define21List);
@@ -760,7 +782,7 @@ public class OneLevelMainController {
 					 request.setAttribute("zylbList", zylbList);
 					 request.setAttribute("zycmcList", zycmcList);
 					 request.setAttribute("define11List", define11List);
-					 
+					 request.setAttribute("define12List", define12List);
 					 List<String> qdbzList = new ArrayList<String>();
 					 qdbzList.add("已签订");
 					 qdbzList.add("未签订");

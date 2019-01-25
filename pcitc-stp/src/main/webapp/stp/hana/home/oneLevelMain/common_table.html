@@ -35,7 +35,7 @@
     
     
     <div class="define11">
-        <div class="selector-left">费用来源：</div>
+        <div class="selector-left">经费来源：</div>
         <div class="selector-right">
             <ul>
                 <#list define11List as t> 
@@ -62,11 +62,12 @@
             </ul>
         </div>
     </div>
-    <div class="system">
-        <div class="selector-left">一级单位：</div>
+    
+    <div class="define12">
+        <div class="selector-left">单位类别：</div>
         <div class="selector-right">
             <ul>
-            <#list type_flagList as t> 
+               <#list define12List as t> 
 	                <li>
 	                    <a href="javascript:;">${t}</a>
 	                </li>
@@ -75,6 +76,8 @@
             </ul>
         </div>
     </div>
+    
+    
     <div class="specialty">
         <div class="selector-left">专业类别：</div>
         <div class="selector-right">
@@ -147,9 +150,9 @@
 <input type="hidden" name="zylb" value="${zylb}"  id="zylb">
 <!-- 已签订  未签订 -->
 <input type="hidden" name="qdbz" value="${qdbz}"  id="qdbz">
-<!-- 费用来源 -->
+<!-- 经费来源 -->
 <input type="hidden" name="define11"    value="${define11}"    id="define11">
-
+<input type="hidden" name="define12"    value="${define12}"    id="define12">
     
      <label class="dateInput">
         <span>项目名称</span>
@@ -261,8 +264,8 @@ layui.config({
 
             dele();
         });
-        $(".system ul li").each(function () {
-            var htmlA=$(this).find("a").html(),htmlT=$("#define3").val(),
+        $(".define12 ul li").each(function () {
+            var htmlA=$(this).find("a").html(),htmlT=$("#define12").val(),
                 htmlName=$(this).parents(".selector-right").prev().html();
             if(htmlA==htmlT && htmlA!=""){
                 $(this).addClass("layui-this");
@@ -273,6 +276,7 @@ layui.config({
 
             dele();
         });
+        
         $(".specialty ul li").each(function () {
             var htmlA=$(this).find("a").html(),htmlT=$("#zylb").val(),
                 htmlName=$(this).parents(".selector-right").prev().html();
@@ -386,7 +390,7 @@ layui.config({
     function renderTable()
     {
     	
-    	 var costSelectedItem="",instituteSelectedItem="",systemSelectedItem="",specialtySelectedItem="",specialtySelectedspecialt_chuItem="",specialtySelectedItem_qdbz="",define11SelectedItem="";
+    	 var costSelectedItem="",instituteSelectedItem="",systemSelectedItem="",specialtySelectedItem="",specialtySelectedspecialt_chuItem="",specialtySelectedItem_qdbz="",define11SelectedItem="",define12SelectedItem="";
          $(".cost ul li").each(function () {
              if($(this).attr("class")=="layui-this"){
                  costSelectedItem+=$(this).find("a").html()+',';
@@ -403,9 +407,9 @@ layui.config({
                  instituteSelectedItem+=$(this).find("a").html()+',';
              }
          });
-         $(".system ul li").each(function () {
+         $(".define12 ul li").each(function () {
              if($(this).attr("class")=="layui-this"){
-                 systemSelectedItem+=$(this).find("a").html()+',';
+            	 define12SelectedItem+=$(this).find("a").html()+',';
              }
          });
          $(".specialty ul li").each(function () {
@@ -428,7 +432,7 @@ layui.config({
          costSelectedItem=costSelectedItem.slice(0,costSelectedItem.length-1);//define1
          define11SelectedItem=define11SelectedItem.slice(0,define11SelectedItem.length-1);//define11
          instituteSelectedItem=instituteSelectedItem.slice(0,instituteSelectedItem.length-1);//define2  8大院等细分结构
-         systemSelectedItem=systemSelectedItem.slice(0,systemSelectedItem.length-1);//define3           直属研究院、分子公司、集团等9种类型
+         define12SelectedItem=define12SelectedItem.slice(0,define12SelectedItem.length-1);
          specialtySelectedItem=specialtySelectedItem.slice(0,specialtySelectedItem.length-1);//zylb     装备的各种技术类型
          specialtySelectedspecialt_chuItem=specialtySelectedspecialt_chuItem.slice(0,specialtySelectedspecialt_chuItem.length-1);//define10   专业处
          specialtySelectedItem_qdbz=specialtySelectedItem_qdbz.slice(0,specialtySelectedItem_qdbz.length-1);//qdbz     签订标示
@@ -451,7 +455,7 @@ layui.config({
         	      "define1":costSelectedItem,
         	      "define11":define11SelectedItem,
         	      "define2":instituteSelectedItem,
-        	      "type_flag":systemSelectedItem,
+        	      "define12":define12SelectedItem,
         	      "define10":specialtySelectedspecialt_chuItem,
         	      "zylb":specialtySelectedItem,
         	      "qdbz":specialtySelectedItem_qdbz,
@@ -483,11 +487,10 @@ layui.config({
             
             {field:'yszbxje',              title:'年度预算-资本性',        style:'cursor: pointer;',align: 'center', width: '150',sort : true},
             {field:'ysfyxje',              title:'年度预算-费用性',        style:'cursor: pointer;',align: 'center', width: '150',sort : true},
-            {field:'define11',           title:'费用来源',           style:'cursor: pointer;',align: 'center', width: '150',sort : true},
-            
+            {field:'define11',           title:'经费来源',           style:'cursor: pointer;',align: 'center', width: '150',sort : true},
+            {field:'define12',           title:'单位类别',           style:'cursor: pointer;',align: 'center', width: '150',sort : true},
       	  {field:'define1',           title:'资本/费用',           style:'cursor: pointer;',align: 'center', width: '150',sort : true},
       	  {field:'define2',           title:'二级单位名称',        style:'cursor: pointer;',align: 'left', width: '150',sort : true},
-      	  {field:'define3',           title:'一级单位名称',        style:'cursor: pointer;',align: 'left', width: '150',sort : true},
             {field:'zylb',              title:'专业类别',           style:'cursor: pointer;',align: 'left', width: '150',sort : true},
             {field:'fzdw',              title:'负责单位',           style:'cursor: pointer;',align: 'left', width: '150',sort : true},
             {field:'qdbz',              title:'签订标识',           style:'cursor: pointer;',align: 'left', width: '150',sort : true}
