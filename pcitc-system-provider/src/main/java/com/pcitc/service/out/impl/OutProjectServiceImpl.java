@@ -93,6 +93,16 @@ public class OutProjectServiceImpl implements OutProjectService {
 			}
 			hashmap.put("define11", define11);
 		}
+		
+		// 公司性质，和out_unit本质一致，公司本质的属性，和合同没关系
+		if (param.getParam().get("define12")!=null&&!StringUtils.isBlank(param.getParam().get("define12")+"")) {
+			List define12 = new ArrayList();
+			String[] temS = param.getParam().get("define12").toString().split(",");
+			for (int i = 0; i<temS.length; i++) {
+				define12.add(temS[i]);
+			}
+			hashmap.put("define12", define12);
+		}
 
 		// 8大院等细分结构
 		if (param.getParam().get("define2")!=null&&!StringUtils.isBlank(param.getParam().get("define2")+"")) {
