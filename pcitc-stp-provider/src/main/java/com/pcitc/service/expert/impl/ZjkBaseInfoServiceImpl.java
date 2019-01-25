@@ -538,6 +538,7 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
     public JSONObject SaveSKMExpert(JSONObject jsonObject) {
         //判断成功失败
         ResultSKM resultSKM = JSONObject.parseObject(jsonObject.get("rs").toString(), ResultSKM.class);
+        String from = jsonObject.get("from").toString();
         JSONArray array = (JSONArray) resultSKM.getData();
         for (int i = 0, j = array.size(); i < j; i++) {
             JSONObject obj = (JSONObject) array.get(i);
@@ -586,6 +587,8 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
     public JSONObject savePatent(JSONObject jsonObject) {
         //判断成功失败
         ResultSKM resultSKM = JSONObject.parseObject(jsonObject.get("rs").toString(), ResultSKM.class);
+        String from = jsonObject.get("from").toString();
+
         JSONArray array = (JSONArray) resultSKM.getData();
         for (int i = 0, j = array.size(); i < j; i++) {
             JSONObject obj = (JSONObject) array.get(i);
@@ -617,6 +620,7 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
     public JSONObject saveSKMAchievement(JSONObject jsonObject) {
         //判断成功失败
         ResultSKM resultSKM = JSONObject.parseObject(jsonObject.get("rs").toString(), ResultSKM.class);
+        String from = jsonObject.get("from").toString();
         JSONArray array = (JSONArray) resultSKM.getData();
         for (int i = 0, j = array.size(); i < j; i++) {
             JSONObject obj = (JSONObject) array.get(i);
@@ -633,7 +637,7 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
             record.setAchievementLevel(getObjString(obj.get("level")));                //level:成果级别
             record.setOwnerProjectId(getObjString(obj.get("projectId")));            //projectId : 所属项目（ID）
             record.setOwnerProjectName(getObjString(obj.get("projectName")));          //projectName:所属项目（NAME）
-            record.setOwnerContractName(getObjString(obj.get("compact")));              //compact	:所属合同
+            record.setOwnerContractName(getObjString(obj.get("compact")));              //compact	:所属合同l
             record.setAchievementKeys(getObjString(obj.get("keyword")));              //keyword	:成果标签（关键字）
             record.setFinishPeople(getObjString(obj.get("reportwriter")));         //reportwriter:负责人
             record.setAchievementDesc(getObjString(obj.get("description")));          //description:成果描述

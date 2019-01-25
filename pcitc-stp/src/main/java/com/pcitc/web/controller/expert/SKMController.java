@@ -57,6 +57,7 @@ public class SKMController extends BaseController {
     //知识分类
     private static final String save_type = "http://pcitc-zuul/stp-proxy/dataSKM-provider/dataSKM/saveType";
 
+    private static final int limit = 2000;
     /**
      * 知识分类接口
      *
@@ -105,7 +106,7 @@ public class SKMController extends BaseController {
                 result.setMessage("调用专利总数量接口异常");
             } else {
                 count = (int) result_count.data;
-                int page = count % 2000 > 0 ? (count / 2000 + 1) : count / 2000;
+                int page = count % limit > 0 ? (count / limit + 1) : count / limit;
                 for (int i = 0; i < page; i++) {
                     ResponseEntity<ResultSKM> forEntity = restTemplate.getForEntity(SKM_patent + "?Keyword=" + ((keyword==null||"".equals(keyword))?"":keyword) + "&from="+i, ResultSKM.class);
                     ResultSKM result_obj = forEntity.getBody();
@@ -115,6 +116,7 @@ public class SKMController extends BaseController {
                     } else {
                         JSONObject jsonObject = new JSONObject();
                         jsonObject.put("rs", JSONObject.toJSONString(result_obj));
+                        jsonObject.put("from", "SKM");
                         ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(save_patent, HttpMethod.POST, new HttpEntity<JSONObject>(jsonObject, this.httpHeaders), JSONObject.class);
                     }
                 }
@@ -148,7 +150,7 @@ public class SKMController extends BaseController {
                 result.setMessage("调用成果总数量接口异常");
             } else {
                 count = (int) result_count.data;
-                int page = count % 2000 > 0 ? (count / 2000 + 1) : count / 2000;
+                int page = count % limit > 0 ? (count / limit + 1) : count / limit;
                 for (int i = 0; i < page; i++) {
                     ResponseEntity<ResultSKM> forEntity = restTemplate.getForEntity(SKM_achievement + "?Keyword=" + ((keyword==null||"".equals(keyword))?"":keyword) + "&from="+i, ResultSKM.class);
                     ResultSKM result_obj = forEntity.getBody();
@@ -158,6 +160,7 @@ public class SKMController extends BaseController {
                     } else {
                         JSONObject jsonObject = new JSONObject();
                         jsonObject.put("rs", JSONObject.toJSONString(result_obj));
+                        jsonObject.put("from", "SKM");
                         ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(save_achievement, HttpMethod.POST, new HttpEntity<JSONObject>(jsonObject, this.httpHeaders), JSONObject.class);
                     }
                 }
@@ -188,6 +191,7 @@ public class SKMController extends BaseController {
             } else {
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("rs", JSONObject.toJSONString(resultSKM));
+                jsonObject.put("from", "SKM");
                 ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(save_Expert, HttpMethod.POST, new HttpEntity<JSONObject>(jsonObject, this.httpHeaders), JSONObject.class);
             }
         } catch (Exception e) {
