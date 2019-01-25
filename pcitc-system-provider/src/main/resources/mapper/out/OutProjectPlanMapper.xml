@@ -1076,9 +1076,9 @@
 			   IFNULL(tableA.sjzje,'0') as sjzje,IFNULL(tableA.xkMoney,'0') as xkMoney,IFNULL(tableA.jzMoney,'0') as jzMoney
 		from out_tem_money_decompose left join (
 			select 
-			    substr(define10,4) as define10,sum(ysje) as sjzje,
-				sum(case when ysnd = '${nd}' and nd = '${nd}' then ysje else 0 end) as xkMoney,
-				sum(case when ysnd = '${nd}' and nd &lt; '${nd}' then ysje else 0 end) as jzMoney
+			    substr(define10,4) as define10,sum(ysfyxje) as sjzje,
+				sum(case when ysnd = '${nd}' and nd = '${nd}' then ysfyxje else 0 end) as xkMoney,
+				sum(case when ysnd = '${nd}' and nd &lt; '${nd}' then ysfyxje else 0 end) as jzMoney
 			from out_project_info 
 			WHERE
 				out_project_info.ysnd= '${nd}' 
