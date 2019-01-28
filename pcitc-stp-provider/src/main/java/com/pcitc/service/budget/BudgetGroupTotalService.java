@@ -12,7 +12,7 @@ import com.pcitc.base.stp.budget.BudgetGroupTotalExample;
  * @author fb
  *
  */
-public interface BudGetGroupTotalService
+public interface BudgetGroupTotalService
 {
 	public BudgetGroupTotal selectBudgetGroupTotal(String dataId) throws Exception;
 

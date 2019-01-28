@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.fastjson.JSON;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
-import com.pcitc.service.budget.BudGetGroupTotalService;
+import com.pcitc.service.budget.BudgetGroupTotalService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -25,7 +25,7 @@ public class BudgetGroupTotalProviderClient
 
 	
 	@Autowired
-	private BudGetGroupTotalService budGetGroupTotalService;
+	private BudgetGroupTotalService budgetGroupTotalService;
 	
 	
 	@ApiOperation(value="预算检索",notes="按年检索年度集团预算总表信息。")
@@ -36,7 +36,7 @@ public class BudgetGroupTotalProviderClient
 		try
 		{
 			System.out.println(JSON.toJSONString(param));
-			LayuiTableData data = budGetGroupTotalService.selectBudgetGroupTotalPage(param);
+			LayuiTableData data = budgetGroupTotalService.selectBudgetGroupTotalPage(param);
 			System.out.println(JSON.toJSONString(data));
 		}
 		catch (Exception e)

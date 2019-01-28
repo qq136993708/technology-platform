@@ -117,9 +117,6 @@ public class HttpClientUtil
 		params.setLimit(10);
 		params.setPage(1);
 		
-		/*Map<String,String> params = new HashMap<String,String>();
-		params.put("func", "login");
-		params.put("params", "{login_id:13501152671,password:123456}");*/
 		
 		String rs = httpClientUtil.doPostBody(url,params,"UTF-8");
 		System.out.println(rs);

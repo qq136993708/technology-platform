@@ -14,11 +14,11 @@ import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.stp.budget.BudgetGroupTotal;
 import com.pcitc.base.stp.budget.BudgetGroupTotalExample;
 import com.pcitc.mapper.budget.BudgetGroupTotalMapper;
-import com.pcitc.service.budget.BudGetGroupTotalService;
+import com.pcitc.service.budget.BudgetGroupTotalService;
 
 @Service("budgetGroupTotalService")
 @Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = Exception.class)
-public class BudgetGroupTotalServiceImpl implements BudGetGroupTotalService
+public class BudgetGroupTotalServiceImpl implements BudgetGroupTotalService
 {
 
 	@Autowired
