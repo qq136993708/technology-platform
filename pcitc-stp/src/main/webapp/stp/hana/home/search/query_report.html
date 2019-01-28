@@ -10,6 +10,24 @@
     <script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
     <script type="text/javascript" src="/common/js/base.js"></script>
+    <style>
+        .layui-table-click,.layui-table-hover,.layui-table tbody tr:hover{background: none;}
+        .layui-table-header{display: none;}
+        .layui-table-view,.layui-table-page,.tableBox table tr td{border: none;}
+        .layui-table-body{margin-top: 20px;}
+        .layui-table-cell{height: auto;margin-bottom: 15px;}
+        p{width: 500px;height: auto;overflow: hidden;white-space: normal;/*text-overflow: ellipsis;*/
+            font-size: 13px;word-break:break-all;word-wrap:break-word;line-height: 20px;
+            margin-left: 10px;}
+        .layui-table-body{margin-top: 0;}
+        .layui-table-page{margin-bottom: 20px;}
+        .tableBox,.searchBox{width: 64%;margin: 15px auto 0;}
+        .searchBox{margin-top: 20px;}
+        .c-gap-top-small{    height: auto;overflow: hidden;padding-top: 8px;}
+        .layui-table img,.c-gap-top-small a, .c-span-last{min-width: 184px;}
+        .layui-div{height: auto;overflow: hidden;}
+        .layui-div>a{height: 14px;line-height: 14px;}
+    </style>
 </head>
 <body>
 
@@ -27,7 +45,7 @@
     &lt;!&ndash;</div>&ndash;&gt;
 </div>-->
 <input type="text" class="layui-hide" name="keyword"  value="${keyword}"  id="keyword">
-<div style="margin-top: 10px;">
+<div class="tableBox">
     <table id="sysReportStpTableId" class="layui-hide" lay-filter="tableEvent"></table>
 </div>
 
@@ -41,8 +59,9 @@
             publicMethods = layui.publicMethods,
             laypage = layui.laypage;
         var cols =
-            [
-                {type: 'checkbox', event: 'changeEvents', width: 55},
+            [ {field:'workOrderStatus',title:'状态',
+                templet:  '<div>{{ layui.laytpl.searchE(d) }}</div>' }
+                /*{type: 'checkbox', event: 'changeEvents', width: 55},
                 {title: '序号', type: 'numbers', width: 55},
                 // {
                 //     field: 'workOrderStatus',
@@ -77,7 +96,7 @@
                 {
                     field: "reportModule",
                     title: "所属模块", event: 'setActive', style: 'cursor: pointer;'
-                },
+                },*/
             ];
 
         function renderTable() {

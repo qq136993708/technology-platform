@@ -253,13 +253,13 @@ span{display: inline-block;}
 .layui-statistics span:nth-child(1){background-color: #79bf4d}
 .layui-statistics span:nth-child(2){background-color: #5fa3c8}
 .layui-statistics span:nth-child(3){background-color: #f4920b;margin-right: 0;}
-.search{width: 90%;margin: 30px auto;}
+.search{width: 62.3%;margin: 30px auto;}
 .search span{font-size: 16px; color: #666666;padding-left: 7px;}
 .search input{width: 150px;height: 28px;line-height: 28px;border: 1px solid #dddddd;color: #666666;margin:0 10px;
     text-indent: 6px;}
-.search a{padding-right: 15px;height: 29px;line-height: 29px;color: white;font-size: 16px;display: inline-block;cursor: pointer;
+.search a{padding-right: 15px;margin-left:10px;height: 29px;line-height: 29px;color: white;font-size: 16px;display: inline-block;cursor: pointer;
     text-indent: 40px;border-radius: 3px;background: url("/layuiadmin/layui/images/icon-search-z.png") no-repeat 10px center #00a3b5;}
-.layui-expert{border: 0;box-shadow: none;}
+.layui-expert{border: 0;box-shadow: none;padding: 0;}
 .layui-expert .layui-card{ border: 1px solid #e5e5e5;border-radius: 3px;height: auto;overflow: hidden;}
 .layui-expert .layui-card-header{background-color: #eeeeee;}
 .layui-expert .layui-col-md12 {margin-bottom: 0px;}
@@ -328,6 +328,15 @@ background: white;box-shadow: 0 0 5px #dadcde;}
 .work-two li:nth-child(3) a{background: url("/layuiadmin/layui/images/icon-gou.png") no-repeat;}
 .work-two li:nth-child(3) a:hover{background: url("/layuiadmin/layui/images/icon-gou-t.png") no-repeat;}
 
+
+.xm-select-parent .xm-select-title,.xm-select-parent .xm-select{min-height: 31px;}
+.xm-select-parent .xm-input{height: 31px;border: 1px solid #dddddd;padding-left: 10px;margin-left: 0;}
+.searchO{background: #f3f5f7;height: auto;overflow: hidden;margin: 40px 0 50px;}
+.searchOption{width: 82.4%;margin: 38px auto 0;}
+.searchOption a{padding: 0 24px; background: white;height: 38px;line-height: 38px;border-radius: 3px;
+    color: #222323;font-size: 16px;display: inline-block;margin-right: 15px;}
+.searchOption a:nth-child(1){margin-left: 0;}
+.searchOption a:hover,.searchOption a.layui-this{color: white;background: #17a2b8;}
 @media screen and (max-width: 1920px) {
     .work-report{padding: 18px 80px 17px;}
     .work-report ul li {width: 130px; height: 132px;float: left;margin-left: 70px;line-height: 159px;font-size: 18px;}
