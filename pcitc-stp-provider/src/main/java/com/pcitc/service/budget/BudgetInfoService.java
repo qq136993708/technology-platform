@@ -16,13 +16,13 @@ public interface BudgetInfoService
 {
 	public BudgetInfo selectBudgetInfo(String dataId) throws Exception;
 
-	public Integer updateBudgetInfo(BudgetInfo groupTotal)throws Exception;
+	public Integer updateBudgetInfo(BudgetInfo budgetInfo)throws Exception;
 
 	public int deleteBudgetInfo(String id)throws Exception;
 	
 	public List<BudgetInfo> selectBudgetInfoListByIds(List<String> list)throws Exception;
 
-	public Integer insertBudgetInfo(BudgetInfo BudgetInfo)throws Exception;
+	public Integer insertBudgetInfo(BudgetInfo budgetInfo)throws Exception;
 
 	public List<BudgetInfo> selectBudgetInfoList(BudgetInfoExample example)throws Exception;
 	

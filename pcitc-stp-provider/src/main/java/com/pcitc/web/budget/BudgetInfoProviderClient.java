@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.fastjson.JSON;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
-import com.pcitc.service.budget.BudgetGroupTotalService;
+import com.pcitc.base.stp.budget.BudgetInfo;
+import com.pcitc.service.budget.BudgetInfoService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -25,18 +26,18 @@ public class BudgetInfoProviderClient
 
 	
 	@Autowired
-	private BudgetGroupTotalService budgetGroupTotalService;
+	private BudgetInfoService budgetInfoService;
 	
 	
 	@ApiOperation(value="集团预算表",notes="按年检索年度集团预算表信息。")
-	@RequestMapping(value = "/stp-provider/budget/budget-grouptotal-info-list", method = RequestMethod.POST)
+	@RequestMapping(value = "/stp-provider/budget/budget-grouptotal-list", method = RequestMethod.POST)
 	public Object selectProjectPassAcceptList(@RequestBody LayuiTableParam param) 
 	{
-		logger.info("budget-group-total-list...");
+		logger.info("budget-grouptotal-info-list...");
 		try
 		{
 			System.out.println(JSON.toJSONString(param));
-			LayuiTableData data = budgetGroupTotalService.selectBudgetGroupTotalPage(param);
+			LayuiTableData data = budgetInfoService.selectBudgetInfoPage(param);
 			System.out.println(JSON.toJSONString(data));
 		}
 		catch (Exception e)
@@ -45,5 +46,40 @@ public class BudgetInfoProviderClient
 		}
 		return null;
 	}
-	
+	@ApiOperation(value="集团预算表",notes="保存集团年度预算表")
+	@RequestMapping(value = "/stp-provider/budget/budget-grouptotal-save", method = RequestMethod.POST)
+	public Object insertBudgetInfo(@RequestBody BudgetInfo info) 
+	{
+		logger.info("budget-grouptotal-info...");
+		Integer rs = 0;
+		try
+		{
+			System.out.println(JSON.toJSONString(info));
+			rs = budgetInfoService.insertBudgetInfo(info);
+			System.out.println(JSON.toJSONString(rs));
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return rs;
+	}
+	@ApiOperation(value="集团预算表",notes="更新集团年度预算表")
+	@RequestMapping(value = "/stp-provider/budget/budget-grouptotal-update", method = RequestMethod.POST)
+	public Object updBudgetInfo(@RequestBody BudgetInfo info) 
+	{
+		logger.info("budget-grouptotal-info...");
+		Integer rs = 0;
+		try
+		{
+			System.out.println(JSON.toJSONString(info));
+			rs = budgetInfoService.updateBudgetInfo(info);
+			System.out.println(JSON.toJSONString(rs));
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return rs;
+	}
 }
