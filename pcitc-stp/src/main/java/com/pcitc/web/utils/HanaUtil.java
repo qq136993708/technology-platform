@@ -6206,6 +6206,119 @@ public static ChartBarLineSeries getAward_trend_analysis_02(List<Award> list, St
 	
 	
 	
+	public static void setSearchParaForUser2( SysUser userInfo,RestTemplate restTemplate, HttpHeaders httpHeaders, HttpServletRequest request)
+			throws Exception {
+		
+	    
+		
+		List<CompanyCode> companyCodeList =new ArrayList<CompanyCode>();
+	    List<String> listCodes= userInfo.getInstituteCodes();
+	    List<String> listNames= userInfo.getInstituteNames();
+	    StringBuffer sb=new StringBuffer();
+	    
+	    System.out.println(">>>>>>>>>>>listCodes="+listCodes);
+	    
+	    if(listCodes==null || listCodes.size()==0)
+	    {
+	    	companyCodeList=getCompanyCodeDefault2();
+	    	request.setAttribute("companyCodeList", companyCodeList);
+	 		request.setAttribute("allCode", HanaUtil.YJY_CODE_NOT_YINGKE);
+	 		request.setAttribute("companyCode", HanaUtil.YJY_CODE_NOT_YINGKE);
+	 		
+	    }else
+	    {
+	    	
+	    	 System.out.println(">>>>>>>>>>>listCodessize ="+listCodes.size());
+	    	 for(int i=0;i<listCodes.size();i++)
+	 	    {
+	 	    	String code=listCodes.get(i);
+	 	    	if(i>0)
+	 	    	{
+	 	    		sb.append(",");
+	 	    	}
+	 	    	sb.append(code);
+	 	    }
+	 	    
+	 	    CompanyCode company_code=new CompanyCode();
+	 	    company_code.setG0GSDM(sb.toString());
+	 	    company_code.setG0GSJC("全部");
+	 	    company_code.setG0DMJC("ALL");
+	 	    companyCodeList.add(company_code);
+	 	    for(int i=0;i<listCodes.size();i++)
+	 	    {
+	 	    	CompanyCode cc=new CompanyCode();
+	 	    	String code=listCodes.get(i);
+	 	    	String name=listNames.get(i);
+	 	    	cc.setG0GSJC(name);
+	 	    	cc.setG0GSDM(code);
+	 	    	System.out.println(">>>>>>>>>>>name="+name+" code="+code);
+	 	    	companyCodeList.add(cc);
+	 	    }
+	 		request.setAttribute("companyCodeList", companyCodeList);
+	 		
+			
+	 		
+	 		request.setAttribute("allCode", sb.toString());
+	 		request.setAttribute("companyCode", sb.toString());
+	    }
+		
+		String month = HanaUtil.getCurrrentYearMoth();
+		request.setAttribute("month", month);
+	}
+	
+	private static List<CompanyCode> getCompanyCodeDefault2()
+	{
+		
+		
+		List<CompanyCode> companyCodeList =new ArrayList<CompanyCode>();
+		
+		
+		CompanyCode company_code_0=new CompanyCode();
+		company_code_0.setG0GSDM(HanaUtil.YJY_CODE_NOT_YINGKE);
+		company_code_0.setG0GSJC("全部");
+		company_code_0.setG0DMJC("ALL");
+		companyCodeList.add(company_code_0);
+		    
+		    
+	    CompanyCode company_code=new CompanyCode();
+	    company_code.setG0GSDM("1120,1123,1124,1127");
+	    company_code.setG0GSJC("勘探院");
+	    companyCodeList.add(company_code);
+	    
+	    CompanyCode company_code_02=new CompanyCode();
+	    company_code_02.setG0GSDM("1130");
+	    company_code_02.setG0GSJC("物探院");
+	    companyCodeList.add(company_code_02);
+	    CompanyCode company_code_03=new CompanyCode();
+	    company_code_03.setG0GSDM("4360");
+	    company_code_03.setG0GSJC("工程院");
+	    companyCodeList.add(company_code_03);
+	    CompanyCode company_code_04=new CompanyCode();
+	    company_code_04.setG0GSDM("1020");
+	    company_code_04.setG0GSJC("石科院");
+	    companyCodeList.add(company_code_04);
+	    CompanyCode company_code_05=new CompanyCode();
+	    company_code_05.setG0GSDM("1060,1061");
+	    company_code_05.setG0GSJC("大连院");
+	    companyCodeList.add(company_code_05);
+	    
+	    CompanyCode company_code_06=new CompanyCode();
+	    company_code_06.setG0GSDM("1040,1041");
+	    company_code_06.setG0GSJC("北化院");
+	    companyCodeList.add(company_code_06);
+	    CompanyCode company_code_07=new CompanyCode();
+	    company_code_07.setG0GSDM("1080");
+	    company_code_07.setG0GSJC("上海院");
+	    companyCodeList.add(company_code_07);
+	    CompanyCode company_code_08=new CompanyCode();
+	    company_code_08.setG0GSDM("1100,1101");
+	    company_code_08.setG0GSJC("安工院");
+	    companyCodeList.add(company_code_08);
+	    
+	    return companyCodeList;
+	    
+	}
+	
 	public static void setSearchParaForUser( SysUser userInfo,RestTemplate restTemplate, HttpHeaders httpHeaders, HttpServletRequest request)
 			throws Exception {
 		

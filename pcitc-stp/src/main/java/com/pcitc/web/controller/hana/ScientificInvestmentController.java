@@ -54,7 +54,7 @@ public class ScientificInvestmentController {
 		   public String jtgszbkjjfys(HttpServletRequest request) throws Exception
 		   {
 			    SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
-			    HanaUtil.setSearchParaForUser(userInfo,restTemplate,httpHeaders,request);
+			    HanaUtil.setSearchParaForUser2(userInfo,restTemplate,httpHeaders,request);
 				String month = HanaUtil.getCurrrent_Year_Moth();
 				request.setAttribute("month", month);
 		        return "stp/hana/scientificInvestment/tzxmwcqktjb";
@@ -93,7 +93,7 @@ public class ScientificInvestmentController {
 		  public String tzxmcgjdtjb(HttpServletRequest request) throws Exception
 		  {
 			    SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
-				HanaUtil.setSearchParaForUser(userInfo,restTemplate,httpHeaders,request);
+				HanaUtil.setSearchParaForUser2(userInfo,restTemplate,httpHeaders,request);
 				String month = HanaUtil.getCurrrent_Year_Moth();
 				request.setAttribute("month", month);
 		        return "stp/hana/scientificInvestment/tzxmcgjdtjb";
@@ -131,7 +131,7 @@ public class ScientificInvestmentController {
 	  public String tzxmzcqkb(HttpServletRequest request) throws Exception
 	  {
 		    SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
-			HanaUtil.setSearchParaForUser(userInfo,restTemplate,httpHeaders,request);
+			HanaUtil.setSearchParaForUser2(userInfo,restTemplate,httpHeaders,request);
 			
 			String month = HanaUtil.getCurrrent_Year_Moth();
 			request.setAttribute("month", month);
