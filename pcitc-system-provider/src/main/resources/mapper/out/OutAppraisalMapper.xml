@@ -785,7 +785,7 @@
 	
 	<!-- 分页显示项目的科研成果信息,统计的第三级展示 -->
 	<select id="getAppraisalInfoByCond" resultMap="BaseResultMap" parameterType="java.util.HashMap">
-		select nd,cgmc,sqjddw,sqdjh,startTime,endTime,cglx,zy,jdjg,hth,xmmc,
+		select nd,cgmc,sqjddw,sqdjh,jdh,startTime,endTime,cglx,zy,jdjg,hth,xmmc,
 			   substr(define1 from 4) as define1,substr(define3 from 2) as define3
 		from out_appraisal
 		where
