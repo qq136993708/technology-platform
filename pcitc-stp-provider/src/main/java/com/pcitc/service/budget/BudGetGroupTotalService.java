@@ -4,8 +4,8 @@ import java.util.List;
 
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
-import com.pcitc.base.stp.equipment.SreAssetAccount;
-import com.pcitc.base.stp.equipment.SreAssetAccountExample;
+import com.pcitc.base.stp.budget.BudgetGroupTotal;
+import com.pcitc.base.stp.budget.BudgetGroupTotalExample;
 
 /**
  * 集团预算总表业务
@@ -14,19 +14,17 @@ import com.pcitc.base.stp.equipment.SreAssetAccountExample;
  */
 public interface BudGetGroupTotalService
 {
-	/*public budgetGroupTotal selectBudgetGroupTotal(String dataId) throws Exception;*/
+	public BudgetGroupTotal selectBudgetGroupTotal(String dataId) throws Exception;
 
-	public Integer updateAssetAccount(SreAssetAccount record)throws Exception;
+	public Integer updateBudgetGroupTotal(BudgetGroupTotal groupTotal)throws Exception;
 
-	public int deleteAssetAccount(String id)throws Exception;
+	public int deleteBudgetGroupTotal(String id)throws Exception;
 	
-	public int batchDeleteAssetAccount(List<String> list)throws Exception;
-	
-	public List<SreAssetAccount> getAssetAccountListByIds(List<String> list)throws Exception;
+	public List<BudgetGroupTotal> selectBudgetGroupTotalListByIds(List<String> list)throws Exception;
 
-	public Integer insertAssetAccount(SreAssetAccount record)throws Exception;
+	public Integer insertBudgetGroupTotal(BudgetGroupTotal budgetGroupTotal)throws Exception;
 
-	public List<SreAssetAccount> getAssetAccountList(SreAssetAccountExample example)throws Exception;
+	public List<BudgetGroupTotal> selectBudgetGroupTotalList(BudgetGroupTotalExample example)throws Exception;
 	
-	public LayuiTableData getAssetAccountPage(LayuiTableParam param)throws Exception;
+	public LayuiTableData selectBudgetGroupTotalPage(LayuiTableParam param)throws Exception;
 }
