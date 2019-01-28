@@ -256,8 +256,20 @@
             {
             	 projectId="0";
             }
-          //alert(xName+"------"+projectId);
-            window.open("/one_level_main/common_table?define3="+xName+"&projectId="+projectId+"&nd="+nd+"&ysnd="+nd);
+           // alert(xName+"------"+projectId);
+            var define12="";
+            var define11="";
+            if(xName=='资产公司' || xName=='集团公司')
+            {
+            	define12=xName;
+            	define11=xName;
+
+            }else
+           	{
+            	define12=xName;
+            	define11="股份公司";
+           	}
+            window.open("/one_level_main/common_table?projectId="+projectId+"&nd="+nd+"&ysnd="+nd+"&define12="+define12+"&define11="+define11);
         });
 
 
@@ -287,7 +299,6 @@
             {
             	 projectId="0";
             }
-           
             window.open("/one_level_main/common_table?define2="+xName+"&projectId="+projectId+"&nd="+nd+"&ysnd="+nd);
         });
 
@@ -320,9 +331,6 @@
         renderTable();
         renderTable2();
     }
-
-
-
 
 
     function setGauge_count()
@@ -554,15 +562,9 @@
     	        }
     	    }); */
     }
-
-
-
-
-
     //重大项目
     function renderTable2()
     {
-
         var nd=$('#year').val();
         var tableOne=table.render({
             elem: '#processdef_table_02',
@@ -572,10 +574,10 @@
             limit: 15,
             id: 'processdef_table_02',
             cols: [[
-                {field:'define1',        title: '类型',    edit:'text'},
-                {field:'jhqds',            title:'计划签订数',style:'cursor: pointer;',align: 'right'},
-                {field:'sjqds',         title:'实际签订数',style:'cursor: pointer;',align: 'right'},
-                {field:'htqdl',          title:'签订率(%)',   style:'cursor: pointer;',align: 'right',templet:function(d){return d.htqdl+"%"}
+                {field:'define1',        title: '类型',     edit:'text'},
+                {field:'jhqds',          title:'计划签订数',  style:'cursor: pointer;',align: 'right'},
+                {field:'sjqds',          title:'实际签订数',  style:'cursor: pointer;',align: 'right'},
+                {field:'htqdl',          title:'签订率(%)',  style:'cursor: pointer;',align: 'right',templet:function(d){return d.htqdl+"%"}
                 }
             ]],
             done: function (res, curr, count) {
@@ -593,8 +595,11 @@
                 });
             }
         });
-
     }
+    
+    
+    
+    
 
 
 
