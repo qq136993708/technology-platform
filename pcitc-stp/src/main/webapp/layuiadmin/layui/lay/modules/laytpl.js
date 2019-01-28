@@ -252,6 +252,21 @@ layui.define(['jquery'],function (e) {
             '    </div>';
         return html;
     };
+    o.searchE = function(d){
+        console.log(d)
+        var html=" <div class='layui-div'>" +
+            "        <a href='"+d.reportUrl+"' target='_blank'>"+d.reportName+"</a>" +
+            "        <div class='c-row c-gap-top-small'>" +
+            "            <a href='"+d.reportUrl+"' target='_blank'>" +
+            "                <img src='/layuiadmin/layui/images/icon-seach-j.png' alt=''>" +
+            "            </a>" +
+            "            <div class='c-span18 c-span-last'>" +
+            "                <p>"+d.reportDesc+"</p>" +
+            "            </div>" +
+            "        </div>" +
+            "    </div>";
+        return html;
+    };
     o.milliFormat = function (number, decimals, dec_point, thousands_sep,roundtag) {
         /*
         * 参数说明：
