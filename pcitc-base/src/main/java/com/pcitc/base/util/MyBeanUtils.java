@@ -6,11 +6,14 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 
-import com.pcitc.base.common.LayuiTableData;
-import com.pcitc.base.stp.out.OutAppraisal;
-import com.pcitc.base.system.SysUserUnit;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
@@ -113,6 +116,7 @@ public class MyBeanUtils extends BeanUtils {
     public static void setDefaultModel(Object obj) {
         try {
             //基础数据
+        	setPropertyVal(obj, "dataId", IdUtil.createIdByTime());
             setPropertyVal(obj, "dataUuid", UUID.randomUUID().toString());
             setPropertyVal(obj, "delFlag", DelFlagEnum.STATUS_NORMAL.getCode());
             setPropertyVal(obj, "dataVersion", DataVersionEnum.DATA_VERSION_1_0.getVersion());
@@ -208,8 +212,9 @@ public class MyBeanUtils extends BeanUtils {
      * @param javaBean
      * @return
      */
-    public static Map java2Map(Object javaBean) {
-        Map map = transBean2Map(javaBean);
-        return map.containsKey("empty") ? (Map)javaBean : map;
+    @SuppressWarnings("unchecked")
+	public static Map<String,Object> java2Map(Object javaBean) {
+        Map<String,Object> map = transBean2Map(javaBean);
+        return map.containsKey("empty") ? (Map<String,Object>)javaBean : map;
     }
 }
