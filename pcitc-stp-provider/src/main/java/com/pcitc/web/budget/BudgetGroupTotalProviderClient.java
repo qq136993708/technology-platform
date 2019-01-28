@@ -35,6 +35,7 @@ public class BudgetGroupTotalProviderClient
 		logger.info("budget-group-total-list...");
 		try
 		{
+			System.out.println(JSON.toJSONString(param));
 			LayuiTableData data = budGetGroupTotalService.selectBudgetGroupTotalPage(param);
 			System.out.println(JSON.toJSONString(data));
 		}
