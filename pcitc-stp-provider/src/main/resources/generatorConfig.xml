@@ -38,7 +38,7 @@
 	   <sqlMapGenerator targetPackage="com.pcitc.mapper.budget" targetProject="pcitc-stp-provider" />
 	   <javaClientGenerator targetPackage="com.pcitc.mapper.budget" targetProject="pcitc-stp-provider" type="XMLMAPPER" />
 	   
-	   <table schema="pcitc-stp-provider" domainObjectName="budgetGroupTotal" tableName="out_tem_money_group_total" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"/>
+	   <table schema="pcitc-stp-provider" domainObjectName="BudgetGroupTotal" tableName="out_tem_money_group_total" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"/>
 	  
 	</context>
 </generatorConfiguration>

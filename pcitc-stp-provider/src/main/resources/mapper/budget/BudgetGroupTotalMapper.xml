@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.pcitc.mapper.budget.budgetGroupTotalMapper">
-  <resultMap id="BaseResultMap" type="com.pcitc.base.stp.budget.budgetGroupTotal">
+<mapper namespace="com.pcitc.mapper.budget.BudgetGroupTotalMapper">
+  <resultMap id="BaseResultMap" type="com.pcitc.base.stp.budget.BudgetGroupTotal">
     <id column="data_id" jdbcType="VARCHAR" property="dataId" />
     <result column="parent_data_id" jdbcType="VARCHAR" property="parentDataId" />
     <result column="nd" jdbcType="VARCHAR" property="nd" />
@@ -19,7 +19,7 @@
     <result column="zxjf" jdbcType="DOUBLE" property="zxjf" />
     <result column="total_money" jdbcType="DOUBLE" property="totalMoney" />
   </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.pcitc.base.stp.budget.budgetGroupTotal">
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.pcitc.base.stp.budget.BudgetGroupTotal">
     <result column="remark" jdbcType="LONGVARCHAR" property="remark" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -87,7 +87,7 @@
   <sql id="Blob_Column_List">
     remark
   </sql>
-  <select id="selectByExampleWithBLOBs" parameterType="com.pcitc.base.stp.budget.budgetGroupTotalExample" resultMap="ResultMapWithBLOBs">
+  <select id="selectByExampleWithBLOBs" parameterType="com.pcitc.base.stp.budget.BudgetGroupTotalExample" resultMap="ResultMapWithBLOBs">
     select
     <if test="distinct">
       distinct
@@ -104,7 +104,7 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByExample" parameterType="com.pcitc.base.stp.budget.budgetGroupTotalExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.pcitc.base.stp.budget.BudgetGroupTotalExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -131,13 +131,13 @@
     delete from out_tem_money_group_total
     where data_id = #{dataId,jdbcType=VARCHAR}
   </delete>
-  <delete id="deleteByExample" parameterType="com.pcitc.base.stp.budget.budgetGroupTotalExample">
+  <delete id="deleteByExample" parameterType="com.pcitc.base.stp.budget.BudgetGroupTotalExample">
     delete from out_tem_money_group_total
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.pcitc.base.stp.budget.budgetGroupTotal">
+  <insert id="insert" parameterType="com.pcitc.base.stp.budget.BudgetGroupTotal">
     insert into out_tem_money_group_total (data_id, parent_data_id, nd, 
       data_version, create_time, update_time, 
       creater_name, creater_id, no, 
@@ -151,7 +151,7 @@
       #{level,jdbcType=INTEGER}, #{xmjf,jdbcType=DOUBLE}, #{zxjf,jdbcType=DOUBLE}, #{totalMoney,jdbcType=DOUBLE}, 
       #{remark,jdbcType=LONGVARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.pcitc.base.stp.budget.budgetGroupTotal">
+  <insert id="insertSelective" parameterType="com.pcitc.base.stp.budget.BudgetGroupTotal">
     insert into out_tem_money_group_total
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="dataId != null">
@@ -260,7 +260,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.pcitc.base.stp.budget.budgetGroupTotalExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="com.pcitc.base.stp.budget.BudgetGroupTotalExample" resultType="java.lang.Long">
     select count(*) from out_tem_money_group_total
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -370,7 +370,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.stp.budget.budgetGroupTotal">
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.stp.budget.BudgetGroupTotal">
     update out_tem_money_group_total
     <set>
       <if test="parentDataId != null">
@@ -424,7 +424,7 @@
     </set>
     where data_id = #{dataId,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.pcitc.base.stp.budget.budgetGroupTotal">
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.pcitc.base.stp.budget.BudgetGroupTotal">
     update out_tem_money_group_total
     set parent_data_id = #{parentDataId,jdbcType=VARCHAR},
       nd = #{nd,jdbcType=VARCHAR},
@@ -444,7 +444,7 @@
       remark = #{remark,jdbcType=LONGVARCHAR}
     where data_id = #{dataId,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.budget.budgetGroupTotal">
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.budget.BudgetGroupTotal">
     update out_tem_money_group_total
     set parent_data_id = #{parentDataId,jdbcType=VARCHAR},
       nd = #{nd,jdbcType=VARCHAR},

@@ -3,14 +3,14 @@ package com.pcitc.base.stp.budget;
 import java.util.ArrayList;
 import java.util.List;
 
-public class budgetGroupTotalExample {
+public class BudgetGroupTotalExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public budgetGroupTotalExample() {
+    public BudgetGroupTotalExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 

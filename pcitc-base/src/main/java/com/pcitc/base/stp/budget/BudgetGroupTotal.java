@@ -1,6 +1,6 @@
 package com.pcitc.base.stp.budget;
 
-public class budgetGroupTotal {
+public class BudgetGroupTotal {
     private String dataId;
 
     private String parentDataId;
