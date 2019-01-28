@@ -26,5 +26,5 @@ public interface BudGetGroupTotalService
 
 	public List<BudgetGroupTotal> selectBudgetGroupTotalList(BudgetGroupTotalExample example)throws Exception;
 	
-	public LayuiTableData selectBudgetGroupTotalPage(LayuiTableParam param)throws Exception;
+	public LayuiTableData selectBudgetGroupTotalPage(LayuiTableParam param) throws Exception;
 }
