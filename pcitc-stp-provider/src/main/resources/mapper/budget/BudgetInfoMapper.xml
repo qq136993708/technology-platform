@@ -15,6 +15,7 @@
     <result column="del_flag" jdbcType="INTEGER" property="delFlag" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="append_files" jdbcType="VARCHAR" property="appendFiles" />
+    <result column="budget_money" jdbcType="DOUBLE" property="budgetMoney" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -76,7 +77,7 @@
   </sql>
   <sql id="Base_Column_List">
     data_id, nd, audit_status, budget_type, data_version, creater_id, creater_name, create_time, 
-    update_time, data_uuid, del_flag, remark, append_files
+    update_time, data_uuid, del_flag, remark, append_files, budget_money
   </sql>
   <select id="selectByExample" parameterType="com.pcitc.base.stp.budget.BudgetInfoExample" resultMap="BaseResultMap">
     select
@@ -114,12 +115,12 @@
       budget_type, data_version, creater_id, 
       creater_name, create_time, update_time, 
       data_uuid, del_flag, remark, 
-      append_files)
+      append_files, budget_money)
     values (#{dataId,jdbcType=VARCHAR}, #{nd,jdbcType=VARCHAR}, #{auditStatus,jdbcType=INTEGER}, 
       #{budgetType,jdbcType=INTEGER}, #{dataVersion,jdbcType=VARCHAR}, #{createrId,jdbcType=VARCHAR}, 
       #{createrName,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR}, #{updateTime,jdbcType=VARCHAR}, 
       #{dataUuid,jdbcType=VARCHAR}, #{delFlag,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, 
-      #{appendFiles,jdbcType=VARCHAR})
+      #{appendFiles,jdbcType=VARCHAR}, #{budgetMoney,jdbcType=DOUBLE})
   </insert>
   <insert id="insertSelective" parameterType="com.pcitc.base.stp.budget.BudgetInfo">
     insert into out_tem_budget_info
@@ -163,6 +164,9 @@
       <if test="appendFiles != null">
         append_files,
       </if>
+      <if test="budgetMoney != null">
+        budget_money,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="dataId != null">
@@ -203,6 +207,9 @@
       </if>
       <if test="appendFiles != null">
         #{appendFiles,jdbcType=VARCHAR},
+      </if>
+      <if test="budgetMoney != null">
+        #{budgetMoney,jdbcType=DOUBLE},
       </if>
     </trim>
   </insert>
@@ -254,6 +261,9 @@
       <if test="record.appendFiles != null">
         append_files = #{record.appendFiles,jdbcType=VARCHAR},
       </if>
+      <if test="record.budgetMoney != null">
+        budget_money = #{record.budgetMoney,jdbcType=DOUBLE},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -273,7 +283,8 @@
       data_uuid = #{record.dataUuid,jdbcType=VARCHAR},
       del_flag = #{record.delFlag,jdbcType=INTEGER},
       remark = #{record.remark,jdbcType=VARCHAR},
-      append_files = #{record.appendFiles,jdbcType=VARCHAR}
+      append_files = #{record.appendFiles,jdbcType=VARCHAR},
+      budget_money = #{record.budgetMoney,jdbcType=DOUBLE}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -317,6 +328,9 @@
       <if test="appendFiles != null">
         append_files = #{appendFiles,jdbcType=VARCHAR},
       </if>
+      <if test="budgetMoney != null">
+        budget_money = #{budgetMoney,jdbcType=DOUBLE},
+      </if>
     </set>
     where data_id = #{dataId,jdbcType=VARCHAR}
   </update>
@@ -333,7 +347,8 @@
       data_uuid = #{dataUuid,jdbcType=VARCHAR},
       del_flag = #{delFlag,jdbcType=INTEGER},
       remark = #{remark,jdbcType=VARCHAR},
-      append_files = #{appendFiles,jdbcType=VARCHAR}
+      append_files = #{appendFiles,jdbcType=VARCHAR},
+      budget_money = #{budgetMoney,jdbcType=DOUBLE}
     where data_id = #{dataId,jdbcType=VARCHAR}
   </update>
 </mapper>

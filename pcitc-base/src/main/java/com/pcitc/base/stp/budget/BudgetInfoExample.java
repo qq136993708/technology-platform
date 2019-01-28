@@ -983,6 +983,66 @@ public class BudgetInfoExample {
             addCriterion("append_files not between", value1, value2, "appendFiles");
             return (Criteria) this;
         }
+
+        public Criteria andBudgetMoneyIsNull() {
+            addCriterion("budget_money is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBudgetMoneyIsNotNull() {
+            addCriterion("budget_money is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBudgetMoneyEqualTo(Double value) {
+            addCriterion("budget_money =", value, "budgetMoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andBudgetMoneyNotEqualTo(Double value) {
+            addCriterion("budget_money <>", value, "budgetMoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andBudgetMoneyGreaterThan(Double value) {
+            addCriterion("budget_money >", value, "budgetMoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andBudgetMoneyGreaterThanOrEqualTo(Double value) {
+            addCriterion("budget_money >=", value, "budgetMoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andBudgetMoneyLessThan(Double value) {
+            addCriterion("budget_money <", value, "budgetMoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andBudgetMoneyLessThanOrEqualTo(Double value) {
+            addCriterion("budget_money <=", value, "budgetMoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andBudgetMoneyIn(List<Double> values) {
+            addCriterion("budget_money in", values, "budgetMoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andBudgetMoneyNotIn(List<Double> values) {
+            addCriterion("budget_money not in", values, "budgetMoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andBudgetMoneyBetween(Double value1, Double value2) {
+            addCriterion("budget_money between", value1, value2, "budgetMoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andBudgetMoneyNotBetween(Double value1, Double value2) {
+            addCriterion("budget_money not between", value1, value2, "budgetMoney");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

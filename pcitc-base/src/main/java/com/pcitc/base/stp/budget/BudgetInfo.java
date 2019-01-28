@@ -27,6 +27,8 @@ public class BudgetInfo {
 
     private String appendFiles;
 
+    private Double budgetMoney;
+
     public String getDataId() {
         return dataId;
     }
@@ -129,5 +131,13 @@ public class BudgetInfo {
 
     public void setAppendFiles(String appendFiles) {
         this.appendFiles = appendFiles;
+    }
+
+    public Double getBudgetMoney() {
+        return budgetMoney;
+    }
+
+    public void setBudgetMoney(Double budgetMoney) {
+        this.budgetMoney = budgetMoney;
     }
 }
