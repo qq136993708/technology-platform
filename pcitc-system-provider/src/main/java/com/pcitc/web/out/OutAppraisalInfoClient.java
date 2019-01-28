@@ -315,16 +315,16 @@ public class OutAppraisalInfoClient {
 			temMap.put("define3", "分子公司");
 			temList.add(1, temMap);
 		}
-		if (!JSON.toJSONString(temList).contains("集团单位")) {
+		if (!JSON.toJSONString(temList).contains("集团公司")) {
 			HashMap<String, Object> temMap = new HashMap<String, Object>();
 			temMap.put("sl", 0);
-			temMap.put("define3", "集团单位");
+			temMap.put("define3", "集团公司");
 			temList.add(2, temMap);
 		}
-		if (!JSON.toJSONString(temList).contains("资产单位")) {
+		if (!JSON.toJSONString(temList).contains("资产公司")) {
 			HashMap<String, Object> temMap = new HashMap<String, Object>();
 			temMap.put("sl", 0);
-			temMap.put("define3", "资产单位");
+			temMap.put("define3", "资产公司");
 			temList.add(3, temMap);
 		}
 		if (!JSON.toJSONString(temList).contains("外部单位")) {

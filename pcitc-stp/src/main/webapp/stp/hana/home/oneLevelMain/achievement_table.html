@@ -17,7 +17,7 @@
 <!--选择器-->
 <div class="selector">
     <div class="cost">
-        <div class="selector-left">二级单位：</div>
+        <div class="selector-left">研究院：</div>
         <div class="selector-right">
             <ul>
                 <#list define1List as t> 
@@ -29,7 +29,7 @@
         </div>
     </div>
     <div class="institute">
-        <div class="selector-left">一级单位：</div>
+        <div class="selector-left">单位类别：</div>
         <div class="selector-right">
             <ul>
                <#list define31List as t> 
@@ -302,8 +302,8 @@ layui.config({
                  specialtySelectedItem+=$(this).find("a").html()+',';
              }
          });
-         costSelectedItem=costSelectedItem.slice(0,costSelectedItem.length-1);//二级单位 define1
-         instituteSelectedItem=instituteSelectedItem.slice(0,instituteSelectedItem.length-1);//一级单位 define3
+         costSelectedItem=costSelectedItem.slice(0,costSelectedItem.length-1);//研究院 define1
+         instituteSelectedItem=instituteSelectedItem.slice(0,instituteSelectedItem.length-1);//单位类别 define3
          systemSelectedItem=systemSelectedItem.slice(0,systemSelectedItem.length-1);//cglx      成果类型
          specialtySelectedItem=specialtySelectedItem.slice(0,specialtySelectedItem.length-1);//zy
          
@@ -343,11 +343,11 @@ layui.config({
             {field:'hth',               title:'合同号',              style:'cursor: pointer;',align: 'left', width: '150',sort : true},
             {field:'cgmc',              title:'成果名称',             style:'cursor: pointer;',align: 'left', width: '350',sort : true},
             {field:'xmmc',              title:'项目名称',            style:'cursor: pointer;',align: 'left', width: '380',sort : true},
-            {field:'sqdjh',             title:'鉴定号',         style:'cursor: pointer;',align: 'center', width: '150',sort : true},
+            {field:'jdh',             title:'鉴定号',         style:'cursor: pointer;',align: 'center', width: '150',sort : true},
             {field:'jdjg',              title:'鉴定结果',        style:'cursor: pointer;',align: 'center', width: '150',sort : true},
       	    {field:'define1',           title:'二级单位',           style:'cursor: pointer;',align: 'left', width: '150',sort : true},
       	    {field:'zy',                title:'成果专业',        style:'cursor: pointer;',align: 'left', width: '150',sort : true},
-      	    {field:'define3',           title:'一级单位',        style:'cursor: pointer;',align: 'left', width: '150',sort : true},
+      	    {field:'define3',           title:'单位类别',        style:'cursor: pointer;',align: 'left', width: '150',sort : true},
             {field:'cglx',              title:'专业类别',           style:'cursor: pointer;',align: 'left', width: '150',sort : true},
             {field:'startTime',         title:'开始时间',           style:'cursor: pointer;',align: 'left', width: '150',sort : true},
             {field:'endTime',           title:'结束时间',           style:'cursor: pointer;',align: 'left', width: '150',sort : true}

@@ -721,9 +721,7 @@
 				from out_appraisal
 				where 
 					nd='${nd}' and define1 is not null 
-					<if test="define3 != null and define3 != ''">
-						and define3 like '%${define3}%'
-					</if>
+					and define3 like '%研究院%'
 			  GROUP BY cgid
 		) as tableA
 		group by define1
@@ -875,7 +873,7 @@
 		select 'define1',SUBSTR(define1 FROM 4) as showName
 		from out_appraisal
 		WHERE
-		define1 is not null and define1 not like '%科研经费%'
+		define1 is not null and define3 like '%研究院%'
 		group by define1
 
 		union ALL
