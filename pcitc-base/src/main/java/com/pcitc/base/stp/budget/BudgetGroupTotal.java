@@ -31,7 +31,7 @@ public class BudgetGroupTotal {
 
     private Double zxjf;
 
-    private Double totalMoney;
+    private String budgetInfoId;
 
     private String remark;
 
@@ -155,12 +155,12 @@ public class BudgetGroupTotal {
         this.zxjf = zxjf;
     }
 
-    public Double getTotalMoney() {
-        return totalMoney;
+    public String getBudgetInfoId() {
+        return budgetInfoId;
     }
 
-    public void setTotalMoney(Double totalMoney) {
-        this.totalMoney = totalMoney;
+    public void setBudgetInfoId(String budgetInfoId) {
+        this.budgetInfoId = budgetInfoId;
     }
 
     public String getRemark() {

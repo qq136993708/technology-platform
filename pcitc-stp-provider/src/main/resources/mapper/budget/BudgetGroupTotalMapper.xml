@@ -17,7 +17,7 @@
     <result column="level" jdbcType="INTEGER" property="level" />
     <result column="xmjf" jdbcType="DOUBLE" property="xmjf" />
     <result column="zxjf" jdbcType="DOUBLE" property="zxjf" />
-    <result column="total_money" jdbcType="DOUBLE" property="totalMoney" />
+    <result column="budget_info_id" jdbcType="VARCHAR" property="budgetInfoId" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.pcitc.base.stp.budget.BudgetGroupTotal">
     <result column="remark" jdbcType="LONGVARCHAR" property="remark" />
@@ -82,7 +82,7 @@
   </sql>
   <sql id="Base_Column_List">
     data_id, parent_data_id, nd, data_version, create_time, update_time, creater_name, 
-    creater_id, no, display_name, simple_name, display_code, level, xmjf, zxjf, total_money
+    creater_id, no, display_name, simple_name, display_code, level, xmjf, zxjf, budget_info_id
   </sql>
   <sql id="Blob_Column_List">
     remark
@@ -142,13 +142,13 @@
       data_version, create_time, update_time, 
       creater_name, creater_id, no, 
       display_name, simple_name, display_code, 
-      level, xmjf, zxjf, total_money, 
+      level, xmjf, zxjf, budget_info_id, 
       remark)
     values (#{dataId,jdbcType=VARCHAR}, #{parentDataId,jdbcType=VARCHAR}, #{nd,jdbcType=VARCHAR}, 
       #{dataVersion,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR}, #{updateTime,jdbcType=VARCHAR}, 
       #{createrName,jdbcType=VARCHAR}, #{createrId,jdbcType=VARCHAR}, #{no,jdbcType=INTEGER}, 
       #{displayName,jdbcType=VARCHAR}, #{simpleName,jdbcType=VARCHAR}, #{displayCode,jdbcType=VARCHAR}, 
-      #{level,jdbcType=INTEGER}, #{xmjf,jdbcType=DOUBLE}, #{zxjf,jdbcType=DOUBLE}, #{totalMoney,jdbcType=DOUBLE}, 
+      #{level,jdbcType=INTEGER}, #{xmjf,jdbcType=DOUBLE}, #{zxjf,jdbcType=DOUBLE}, #{budgetInfoId,jdbcType=VARCHAR}, 
       #{remark,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.pcitc.base.stp.budget.BudgetGroupTotal">
@@ -199,8 +199,8 @@
       <if test="zxjf != null">
         zxjf,
       </if>
-      <if test="totalMoney != null">
-        total_money,
+      <if test="budgetInfoId != null">
+        budget_info_id,
       </if>
       <if test="remark != null">
         remark,
@@ -252,8 +252,8 @@
       <if test="zxjf != null">
         #{zxjf,jdbcType=DOUBLE},
       </if>
-      <if test="totalMoney != null">
-        #{totalMoney,jdbcType=DOUBLE},
+      <if test="budgetInfoId != null">
+        #{budgetInfoId,jdbcType=VARCHAR},
       </if>
       <if test="remark != null">
         #{remark,jdbcType=LONGVARCHAR},
@@ -314,8 +314,8 @@
       <if test="record.zxjf != null">
         zxjf = #{record.zxjf,jdbcType=DOUBLE},
       </if>
-      <if test="record.totalMoney != null">
-        total_money = #{record.totalMoney,jdbcType=DOUBLE},
+      <if test="record.budgetInfoId != null">
+        budget_info_id = #{record.budgetInfoId,jdbcType=VARCHAR},
       </if>
       <if test="record.remark != null">
         remark = #{record.remark,jdbcType=LONGVARCHAR},
@@ -342,7 +342,7 @@
       level = #{record.level,jdbcType=INTEGER},
       xmjf = #{record.xmjf,jdbcType=DOUBLE},
       zxjf = #{record.zxjf,jdbcType=DOUBLE},
-      total_money = #{record.totalMoney,jdbcType=DOUBLE},
+      budget_info_id = #{record.budgetInfoId,jdbcType=VARCHAR},
       remark = #{record.remark,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -365,7 +365,7 @@
       level = #{record.level,jdbcType=INTEGER},
       xmjf = #{record.xmjf,jdbcType=DOUBLE},
       zxjf = #{record.zxjf,jdbcType=DOUBLE},
-      total_money = #{record.totalMoney,jdbcType=DOUBLE}
+      budget_info_id = #{record.budgetInfoId,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -415,8 +415,8 @@
       <if test="zxjf != null">
         zxjf = #{zxjf,jdbcType=DOUBLE},
       </if>
-      <if test="totalMoney != null">
-        total_money = #{totalMoney,jdbcType=DOUBLE},
+      <if test="budgetInfoId != null">
+        budget_info_id = #{budgetInfoId,jdbcType=VARCHAR},
       </if>
       <if test="remark != null">
         remark = #{remark,jdbcType=LONGVARCHAR},
@@ -440,7 +440,7 @@
       level = #{level,jdbcType=INTEGER},
       xmjf = #{xmjf,jdbcType=DOUBLE},
       zxjf = #{zxjf,jdbcType=DOUBLE},
-      total_money = #{totalMoney,jdbcType=DOUBLE},
+      budget_info_id = #{budgetInfoId,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=LONGVARCHAR}
     where data_id = #{dataId,jdbcType=VARCHAR}
   </update>
@@ -460,7 +460,7 @@
       level = #{level,jdbcType=INTEGER},
       xmjf = #{xmjf,jdbcType=DOUBLE},
       zxjf = #{zxjf,jdbcType=DOUBLE},
-      total_money = #{totalMoney,jdbcType=DOUBLE}
+      budget_info_id = #{budgetInfoId,jdbcType=VARCHAR}
     where data_id = #{dataId,jdbcType=VARCHAR}
   </update>
 </mapper>

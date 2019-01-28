@@ -1114,63 +1114,73 @@ public class BudgetGroupTotalExample {
             return (Criteria) this;
         }
 
-        public Criteria andTotalMoneyIsNull() {
-            addCriterion("total_money is null");
+        public Criteria andBudgetInfoIdIsNull() {
+            addCriterion("budget_info_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andTotalMoneyIsNotNull() {
-            addCriterion("total_money is not null");
+        public Criteria andBudgetInfoIdIsNotNull() {
+            addCriterion("budget_info_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andTotalMoneyEqualTo(Double value) {
-            addCriterion("total_money =", value, "totalMoney");
+        public Criteria andBudgetInfoIdEqualTo(String value) {
+            addCriterion("budget_info_id =", value, "budgetInfoId");
             return (Criteria) this;
         }
 
-        public Criteria andTotalMoneyNotEqualTo(Double value) {
-            addCriterion("total_money <>", value, "totalMoney");
+        public Criteria andBudgetInfoIdNotEqualTo(String value) {
+            addCriterion("budget_info_id <>", value, "budgetInfoId");
             return (Criteria) this;
         }
 
-        public Criteria andTotalMoneyGreaterThan(Double value) {
-            addCriterion("total_money >", value, "totalMoney");
+        public Criteria andBudgetInfoIdGreaterThan(String value) {
+            addCriterion("budget_info_id >", value, "budgetInfoId");
             return (Criteria) this;
         }
 
-        public Criteria andTotalMoneyGreaterThanOrEqualTo(Double value) {
-            addCriterion("total_money >=", value, "totalMoney");
+        public Criteria andBudgetInfoIdGreaterThanOrEqualTo(String value) {
+            addCriterion("budget_info_id >=", value, "budgetInfoId");
             return (Criteria) this;
         }
 
-        public Criteria andTotalMoneyLessThan(Double value) {
-            addCriterion("total_money <", value, "totalMoney");
+        public Criteria andBudgetInfoIdLessThan(String value) {
+            addCriterion("budget_info_id <", value, "budgetInfoId");
             return (Criteria) this;
         }
 
-        public Criteria andTotalMoneyLessThanOrEqualTo(Double value) {
-            addCriterion("total_money <=", value, "totalMoney");
+        public Criteria andBudgetInfoIdLessThanOrEqualTo(String value) {
+            addCriterion("budget_info_id <=", value, "budgetInfoId");
             return (Criteria) this;
         }
 
-        public Criteria andTotalMoneyIn(List<Double> values) {
-            addCriterion("total_money in", values, "totalMoney");
+        public Criteria andBudgetInfoIdLike(String value) {
+            addCriterion("budget_info_id like", value, "budgetInfoId");
             return (Criteria) this;
         }
 
-        public Criteria andTotalMoneyNotIn(List<Double> values) {
-            addCriterion("total_money not in", values, "totalMoney");
+        public Criteria andBudgetInfoIdNotLike(String value) {
+            addCriterion("budget_info_id not like", value, "budgetInfoId");
             return (Criteria) this;
         }
 
-        public Criteria andTotalMoneyBetween(Double value1, Double value2) {
-            addCriterion("total_money between", value1, value2, "totalMoney");
+        public Criteria andBudgetInfoIdIn(List<String> values) {
+            addCriterion("budget_info_id in", values, "budgetInfoId");
             return (Criteria) this;
         }
 
-        public Criteria andTotalMoneyNotBetween(Double value1, Double value2) {
-            addCriterion("total_money not between", value1, value2, "totalMoney");
+        public Criteria andBudgetInfoIdNotIn(List<String> values) {
+            addCriterion("budget_info_id not in", values, "budgetInfoId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBudgetInfoIdBetween(String value1, String value2) {
+            addCriterion("budget_info_id between", value1, value2, "budgetInfoId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBudgetInfoIdNotBetween(String value1, String value2) {
+            addCriterion("budget_info_id not between", value1, value2, "budgetInfoId");
             return (Criteria) this;
         }
     }
