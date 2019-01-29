@@ -331,7 +331,7 @@ background: white;box-shadow: 0 0 5px #dadcde;}
 
 .xm-select-parent .xm-select-title,.xm-select-parent .xm-select{min-height: 31px;}
 .xm-select-parent .xm-input{height: 31px;border: 1px solid #dddddd;padding-left: 10px;margin-left: 0;}
-.searchO{background: #f3f5f7;height: auto;overflow: hidden;margin: 40px 0 50px;}
+.searchH{background: #f3f5f7;height: auto;overflow: hidden;margin: 40px 0 50px;}
 .searchOption{width: 82.4%;margin: 38px auto 0;}
 .searchOption a{padding: 0 24px; background: white;height: 38px;line-height: 38px;border-radius: 3px;
     color: #222323;font-size: 16px;display: inline-block;margin-right: 15px;}
