@@ -11,8 +11,10 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.common.enums.DelFlagEnum;
 import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.stp.budget.BudgetInfoExample;
+import com.pcitc.common.BudgetInfoEnum;
 import com.pcitc.mapper.budget.BudgetInfoMapper;
 import com.pcitc.service.budget.BudgetInfoService;
 
@@ -40,10 +42,11 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 	@Override
 	public int deleteBudgetInfo(String id) throws Exception
 	{
-		BudgetInfo group = budgetInfoMapper.selectByPrimaryKey(id);
-		if(group != null) 
+		BudgetInfo info = budgetInfoMapper.selectByPrimaryKey(id);
+		if(info != null) 
 		{
-			return budgetInfoMapper.deleteByPrimaryKey(id);
+			info.setDelFlag(DelFlagEnum.STATUS_DEL.getCode());
+			return budgetInfoMapper.updateByPrimaryKey(info);
 		}
 		return 0;
 	}
@@ -73,6 +76,11 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 	public LayuiTableData selectBudgetInfoPage(LayuiTableParam param) throws Exception
 	{
 		BudgetInfoExample example = new BudgetInfoExample();
+		BudgetInfoExample.Criteria c = example.createCriteria();
+		c.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
+		c.andBudgetTypeEqualTo(BudgetInfoEnum.GROUP_TOTAL.getCode());
+		c.andNdEqualTo(param.getParam().get("nd").toString());
+		example.setOrderByClause("data_version");
 		return this.findByExample(param, example);
 	}
 	private LayuiTableData findByExample(LayuiTableParam param,BudgetInfoExample example) 

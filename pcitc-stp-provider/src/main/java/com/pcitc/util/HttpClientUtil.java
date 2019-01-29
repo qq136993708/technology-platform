@@ -2,6 +2,7 @@ package com.pcitc.util;
 
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -20,10 +21,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
 import com.alibaba.fastjson.JSON;
-import com.pcitc.base.stp.budget.BudgetInfo;
-import com.pcitc.base.util.MyBeanUtils;
-import com.pcitc.common.BudgetInfoEnum;
-import com.pcitc.common.WorkFlowStatusEnum;
+import com.pcitc.base.common.LayuiTableParam;
 /*
  * 利用HttpClient进行post请求的工具类
  */
@@ -116,19 +114,21 @@ public class HttpClientUtil
 	{
 		HttpClientUtil httpClientUtil = new HttpClientUtil();
 		String url = "http://localhost:8765/stp-provider/budget/budget-grouptotal-list";
-		/*LayuiTableParam params = new LayuiTableParam();
+		LayuiTableParam params = new LayuiTableParam();
 		params.setLimit(10);
-		params.setPage(1);*/
+		params.setPage(1);
+		Map<String,Object> param = new HashMap<String,Object>();
+		param.put("nd", "2019");
+		params.setParam(param);
 		
 		//创建集团单位预算表信息
-		url = "http://localhost:8765/stp-provider/budget/budget-grouptotal-save";
+		/*url = "http://localhost:8765/stp-provider/budget/budget-grouptotal-save";
 		BudgetInfo params = (BudgetInfo) MyBeanUtils.createDefaultModel(BudgetInfo.class);
 		params.setAuditStatus(WorkFlowStatusEnum.STATUS_WAITING.getCode());
 		params.setBudgetType(BudgetInfoEnum.GROUP_TOTAL.getCode());
-		params.setNd("2019");
+		params.setNd("2018");
 		params.setBudgetMoney(28000d);
-		params.setDataVersion("vs-2019-02");
-		
+		params.setDataVersion("vs-2018-02");*/
 		
 		String rs = httpClientUtil.doPostBody(url,params,"UTF-8");
 		System.out.println(rs);

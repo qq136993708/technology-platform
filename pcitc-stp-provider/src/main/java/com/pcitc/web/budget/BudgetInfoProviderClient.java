@@ -34,17 +34,19 @@ public class BudgetInfoProviderClient
 	public Object selectProjectPassAcceptList(@RequestBody LayuiTableParam param) 
 	{
 		logger.info("budget-grouptotal-info-list...");
+		LayuiTableData data = null;
 		try
 		{
 			System.out.println(JSON.toJSONString(param));
-			LayuiTableData data = budgetInfoService.selectBudgetInfoPage(param);
+			data = budgetInfoService.selectBudgetInfoPage(param);
 			System.out.println(JSON.toJSONString(data));
+			return data;
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
 		}
-		return null;
+		return data;
 	}
 	@ApiOperation(value="集团预算表",notes="保存集团年度预算表")
 	@RequestMapping(value = "/stp-provider/budget/budget-grouptotal-save", method = RequestMethod.POST)
