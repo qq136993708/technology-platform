@@ -256,19 +256,28 @@
             {
             	 projectId="0";
             }
-           // alert(xName+"------"+projectId);
+            // alert(xName+"------"+projectId);
             var define12="";
             var define11="";
             if(xName=='资产公司' || xName=='集团公司')
             {
+            	define12="";
+            	define11=xName;
+
+            }else if(xName=='资产单位' || xName=='集团单位')
+            {
+            	
+            	xName=xName.replace("单位","公司");
             	define12=xName;
             	define11=xName;
 
-            }else
+            }
+            else
            	{
             	define12=xName;
             	define11="股份公司";
            	}
+            
             window.open("/one_level_main/common_table?projectId="+projectId+"&nd="+nd+"&ysnd="+nd+"&define12="+define12+"&define11="+define11);
         });
 
