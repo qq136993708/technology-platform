@@ -380,7 +380,7 @@ public class MoreDimensionController extends BaseController
 	public String loopContractExecutionAchievements(HttpServletRequest request) throws Exception
 	{
 		SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
-		HanaUtil.setSearchParaForUser(userInfo, restTemplate, httpHeaders, request);
+		HanaUtil.setSearchParaForUser2(userInfo, restTemplate, httpHeaders, request);
 		String year = HanaUtil.getCurrrentYear();
 		request.setAttribute("year", year);
 		

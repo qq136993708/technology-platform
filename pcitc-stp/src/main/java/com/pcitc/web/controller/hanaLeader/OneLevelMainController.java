@@ -227,8 +227,8 @@ public class OneLevelMainController {
 				String nd=CommonUtil.getParameter(request, "nd", "");//项目名
 				String cglx=CommonUtil.getParameter(request, "cglx", "");//成果类型
 				String zy=CommonUtil.getParameter(request, "zy", "");//成果专业
-				String define3=CommonUtil.getParameter(request, "define3", "");//一级单位
-				String define1=CommonUtil.getParameter(request, "define1", "");//二级单位
+				String define3=CommonUtil.getParameter(request, "define3", "");//单位类别
+				String define1=CommonUtil.getParameter(request, "define1", "");//研究院
 				
 				request.setAttribute("nd", nd);
 				request.setAttribute("cglx", cglx);
@@ -324,8 +324,8 @@ public class OneLevelMainController {
 				String nd=CommonUtil.getParameter(request, "nd", "");//项目名
 				String cglx=CommonUtil.getParameter(request, "cglx", "");//成果类型
 				String zy=CommonUtil.getParameter(request, "zy", "");//成果专业
-				String define3=CommonUtil.getParameter(request, "define3", "");//一级单位
-				String define1=CommonUtil.getParameter(request, "define1", "");//二级单位
+				String define3=CommonUtil.getParameter(request, "define3", "");//单位类别
+				String define1=CommonUtil.getParameter(request, "define1", "");//研究院
 				
 				request.setAttribute("nd", nd);
 				request.setAttribute("cglx", cglx);

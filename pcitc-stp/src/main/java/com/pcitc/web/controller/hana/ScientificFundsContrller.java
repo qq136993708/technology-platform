@@ -68,7 +68,7 @@ public class ScientificFundsContrller {
 	  public String ndjfyshtqdjdfx(HttpServletRequest request) throws Exception
 	  {
 		    SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
-		    HanaUtil.setSearchParaForUser(userInfo,restTemplate,httpHeaders,request);
+		    HanaUtil.setSearchParaForUser2(userInfo,restTemplate,httpHeaders,request);
 		    
 		    String year = HanaUtil.getCurrrentYear();
 			request.setAttribute("year", year);
@@ -175,7 +175,7 @@ public class ScientificFundsContrller {
 	  public String ktzjjfytjb(HttpServletRequest request) throws Exception
 	  {
 		  SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
-			HanaUtil.setSearchParaForUser(userInfo,restTemplate,httpHeaders,request);
+			HanaUtil.setSearchParaForUser2(userInfo,restTemplate,httpHeaders,request);
 			
 			String month = HanaUtil.getCurrrent_Year_Moth();
 			request.setAttribute("month", month);
@@ -233,7 +233,7 @@ public class ScientificFundsContrller {
 	  public String rgcbzctjb(HttpServletRequest request) throws Exception
 	  {
 		  SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
-			HanaUtil.setSearchParaForUser(userInfo,restTemplate,httpHeaders,request);
+			HanaUtil.setSearchParaForUser2(userInfo,restTemplate,httpHeaders,request);
 			
 			String month = HanaUtil.getCurrrent_Year_Moth();
 			request.setAttribute("month", month);
@@ -331,7 +331,7 @@ public class ScientificFundsContrller {
 	  public String yclzctjb(HttpServletRequest request) throws Exception
 	  {
 		    SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
-			HanaUtil.setSearchParaForUser(userInfo,restTemplate,httpHeaders,request);
+			HanaUtil.setSearchParaForUser2(userInfo,restTemplate,httpHeaders,request);
 			
 			String month = HanaUtil.getCurrrent_Year_Moth();
 			request.setAttribute("month", month);
@@ -381,7 +381,7 @@ public class ScientificFundsContrller {
 	  public String nhzctjb(HttpServletRequest request) throws Exception
 	  {
 		    SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
-			HanaUtil.setSearchParaForUser(userInfo,restTemplate,httpHeaders,request);
+			HanaUtil.setSearchParaForUser2(userInfo,restTemplate,httpHeaders,request);
 			
 			String month = HanaUtil.getCurrrent_Year_Moth();
 			request.setAttribute("month", month);
@@ -439,7 +439,7 @@ public class ScientificFundsContrller {
 		    
 		  
 		    SysUser userInfo = JwtTokenUtil.getUserFromToken(this.httpHeaders);
-			HanaUtil.setSearchParaForUser(userInfo,restTemplate,httpHeaders,request);
+			HanaUtil.setSearchParaForUser2(userInfo,restTemplate,httpHeaders,request);
 			String month = HanaUtil.getCurrrent_Year_Moth();
 			request.setAttribute("month", month);
 	        return "stp/hana/scientificFunds/xmzjlxfx";

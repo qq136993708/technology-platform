@@ -13,13 +13,12 @@
 		</commentGenerator>
 		
 		<jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://10.246.94.11:3306/pcitc_stp" userId="root" password="root" />
-		
-		<javaModelGenerator targetPackage="com.pcitc.base.stp.IntlProject" targetProject="pcitc-base" />
-		<sqlMapGenerator targetPackage="com.pcitc.mapper.IntlProject" targetProject="pcitc-stp-provider" />
-		<javaClientGenerator targetPackage="com.pcitc.mapper.IntlProject" targetProject="pcitc-stp-provider" type="XMLMAPPER" />
-		
-		
-	   <!-- please don't delete this file  
+	   <!-- please don't delete this file 
+	   
+	   <javaModelGenerator targetPackage="com.pcitc.base.stp.IntlProject" targetProject="pcitc-base" />
+	   <sqlMapGenerator targetPackage="com.pcitc.mapper.IntlProject" targetProject="pcitc-stp-provider" />
+	   <javaClientGenerator targetPackage="com.pcitc.mapper.IntlProject" targetProject="pcitc-stp-provider" type="XMLMAPPER" />
+	    
 	   <table schema="pcitc-stp-provider" domainObjectName="IntlProjectContract" tableName="intl_project_contract" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"/>
 	   <table schema="pcitc-stp-provider" domainObjectName="IntlProjectApply" tableName="intl_project_apply" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"/>
 	   <table schema="pcitc-stp-provider" domainObjectName="IntlProjectApplyPlant" tableName="intl_project_apply_plant" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"/>
@@ -33,8 +32,17 @@
 	 
 	   <table schema="pcitc-stp-provider" domainObjectName="TechFamily" tableName="tfm_type" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"/>
 	   <table schema="pcitc-stp-provider" domainObjectName="IntlProjectPlant" tableName="intl_project_plant" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"/>
-	  	-->
-		<table schema="pcitc-stp-provider" domainObjectName="IntlProjectContract" tableName="intl_project_contract" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"/>
-	  
+	   <table schema="pcitc-stp-provider" domainObjectName="IntlProjectContract" tableName="intl_project_contract" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"/>
+	   -->
+	   <javaModelGenerator targetPackage="com.pcitc.base.stp.budget" targetProject="pcitc-base" />
+	   <sqlMapGenerator targetPackage="com.pcitc.mapper.budget" targetProject="pcitc-stp-provider" />
+	   <javaClientGenerator targetPackage="com.pcitc.mapper.budget" targetProject="pcitc-stp-provider" type="XMLMAPPER" />
+	    
+	  <!--  
+	   <table schema="pcitc-stp-provider" domainObjectName="BudgetGroupTotal" tableName="out_tem_money_group_total" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"/>
+	   <table schema="pcitc-stp-provider" domainObjectName="BudgetInfo" tableName="out_tem_budget_info" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"/>
+	  -->
+	  <table schema="pcitc-stp-provider" domainObjectName="BudgetGroupTotal" tableName="out_tem_money_group_total" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"/>
+	 
 	</context>
 </generatorConfiguration>
