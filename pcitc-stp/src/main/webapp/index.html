@@ -599,11 +599,11 @@
 					var pendingCount = data.pendingTaskCount;
 					if (pendingCount <= 0) {
 						$("#pendingCount").css("visibility", "hidden");
-						$("#mainIframe", parent.document.body).attr("src", "/stp/expert/pageExpertIndexNew.html")
+						$("#mainIframe", parent.document.body).attr("src", "/mainStp?taskCount=0")
 					} else {
 						$("#pendingCount").text(pendingCount);
 						$("#pendingCount").css("visibility", "visible");
-						$("#mainIframe", parent.document.body).attr("src", "/stp/expert/pageExpertIndexNew.html")
+						$("#mainIframe", parent.document.body).attr("src", "/mainStp?taskCount=" + pendingCount)
 					}
 				}
 			});
