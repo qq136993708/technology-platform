@@ -2,7 +2,6 @@ package com.pcitc.base.expert;
 
 import com.pcitc.base.common.DataEntity;
 
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.io.Serializable;
@@ -132,7 +131,6 @@ public class ZjkChoice extends DataEntity implements Serializable {
      * bak6 -
      */
     private String bak6;
-
 
     public String getId() {
         return this.id;
@@ -331,7 +329,6 @@ public class ZjkChoice extends DataEntity implements Serializable {
         }
 
         ZjkChoice other = (ZjkChoice) that;
-
 
         return
                 (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId())) &&

@@ -2,7 +2,6 @@ package com.pcitc.base.expert;
 
 import com.pcitc.base.common.DataEntity;
 
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -200,7 +199,6 @@ public class ZjkPatent extends DataEntity implements Serializable {
      */
     private String modifyUser;
 
-
     @Transient
     public String getSelect_type() {
         return select_type;
@@ -211,7 +209,6 @@ public class ZjkPatent extends DataEntity implements Serializable {
     }
 
     private String select_type;
-
 
     public String getDataId() {
         return this.dataId;
@@ -514,7 +511,6 @@ public class ZjkPatent extends DataEntity implements Serializable {
         }
 
         ZjkPatent other = (ZjkPatent) that;
-
 
         return
                 (this.getDataId() == null ? other.getDataId() == null : this.getDataId().equals(other.getDataId())) &&

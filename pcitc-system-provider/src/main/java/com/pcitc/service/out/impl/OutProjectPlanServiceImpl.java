@@ -314,7 +314,7 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 			}
 			hashmap.put("define10", define10);
 		}
-		
+
 		// 费用来源
 		if (param.getParam().get("define11")!=null&&!StringUtils.isBlank(param.getParam().get("define11")+"")) {
 			List define11 = new ArrayList();
@@ -324,7 +324,7 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 			}
 			hashmap.put("define11", define11);
 		}
-		
+
 		// 公司性质，和out_unit本质一致，公司本质的属性，和合同没关系
 		if (param.getParam().get("define12")!=null&&!StringUtils.isBlank(param.getParam().get("define12")+"")) {
 			List define12 = new ArrayList();
