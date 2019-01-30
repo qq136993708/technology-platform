@@ -76,7 +76,6 @@ public class BudgetGroupTotalServiceImpl implements BudgetGroupTotalService
 		BudgetGroupTotalExample example = new BudgetGroupTotalExample();
 		BudgetGroupTotalExample.Criteria c = example.createCriteria();
 		c.andBudgetInfoIdEqualTo(budgetInfoId);
-		
 		example.setOrderByClause("no");
 		return budgetGroupTotalMapper.selectByExample(example);
 	}
@@ -85,6 +84,9 @@ public class BudgetGroupTotalServiceImpl implements BudgetGroupTotalService
 	public LayuiTableData selectBudgetGroupTotalPage(LayuiTableParam param) throws Exception
 	{
 		BudgetGroupTotalExample example = new BudgetGroupTotalExample();
+		BudgetGroupTotalExample.Criteria c = example.createCriteria();
+		c.andBudgetInfoIdEqualTo(param.getParam().get("budget_info_id").toString());
+		
 		example.setOrderByClause("no");
 		return this.findByExample(param, example);
 	}

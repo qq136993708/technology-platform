@@ -1,5 +1,6 @@
 package com.pcitc.web.budget;
 
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -8,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
@@ -16,6 +16,8 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.stp.budget.BudgetGroupTotal;
 import com.pcitc.base.stp.budget.BudgetInfo;
+import com.pcitc.base.util.DateUtil;
+import com.pcitc.base.util.IdUtil;
 import com.pcitc.common.BudgetInfoEnum;
 import com.pcitc.service.budget.BudgetGroupTotalService;
 import com.pcitc.service.budget.BudgetInfoService;
@@ -37,44 +39,7 @@ public class BudgetGroupTotalProviderClient
 	@Autowired
 	private BudgetInfoService budgetInfoService;
 	
-	@ApiOperation(value="预算管理-集团预算Table",notes="按年检索年度集团预算表信息。")
-	@RequestMapping(value = "/stp-provider/budget/budget-info-grouptotal-table", method = RequestMethod.POST)
-	public Object selectBudgetInfoTable(@RequestBody LayuiTableParam param) 
-	{
-		logger.info("budget-grouptotal-info-list...");
-		LayuiTableData data = null;
-		try
-		{
-			System.out.println(JSON.toJSONString(param));
-			data = budgetInfoService.selectBudgetInfoPage(param);
-			System.out.println(JSON.toJSONString(data));
-			return data;
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-		return data;
-	}
-	@ApiOperation(value="预算管理-集团预算List",notes="按年检索年度集团预算表信息。")
-	@RequestMapping(value = "/stp-provider/budget/budget-info-grouptotal-list", method = RequestMethod.POST)
-	public Object selectBudgetInfoList(@RequestParam(value = "nd", required = true) String nd) 
-	{
-		logger.info("budget-grouptotal-info-list...");
-		List<BudgetInfo> data = null;
-		try
-		{
-			System.out.println(JSON.toJSONString(nd));
-			data = budgetInfoService.selectBudgetInfoList(nd,BudgetInfoEnum.GROUP_TOTAL.getCode());
-			System.out.println(JSON.toJSONString(data));
-			return data;
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-		return data;
-	}
+	
 	@ApiOperation(value="预算明细列表检索",notes="按年检索年度集团预算总表明细。")
 	@RequestMapping(value = "/stp-provider/budget/budget-grouptotal-items", method = RequestMethod.POST)
 	public Object selectGroupTotalItemList(@RequestBody LayuiTableParam param) 
@@ -113,15 +78,45 @@ public class BudgetGroupTotalProviderClient
 	}
 	@ApiOperation(value="预算管理-创建集团年度预算表",notes="创建集团年度预算空白表")
 	@RequestMapping(value = "/stp-provider/budget/budget-create-blank-grouptotal", method = RequestMethod.POST)
-	public Object createOrUpdateBudgetInfo(@RequestBody BudgetGroupTotal budgetGroupTotal) 
+	public Object createOrUpdateBudgetInfo(@RequestBody BudgetInfo info) 
 	{
 		logger.info("budget-create-blank-grouptotal...");
 		Integer rs = 0;
 		try
 		{
-			System.out.println(JSON.toJSONString(budgetGroupTotal.getNd()));
-			rs = budgetInfoService.createBlankBudgetInfo(budgetGroupTotal.getNd(), BudgetInfoEnum.GROUP_TOTAL.getCode());
-			System.out.println(JSON.toJSONString(rs));
+			System.out.println(JSON.toJSONString(info.getNd()));
+			BudgetInfo rsbean = budgetInfoService.createBlankBudgetInfo(info.getNd(), BudgetInfoEnum.GROUP_TOTAL.getCode());
+			System.out.println(JSON.toJSONString(rsbean));
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return rs;
+	}
+	@ApiOperation(value="预算管理-创建集团年度预算表",notes="根据模板创建集团年度预算表")
+	@RequestMapping(value = "/stp-provider/budget/budget-create-template-grouptotal", method = RequestMethod.POST)
+	public Object createOrUpdateBudgetInfoByHis(@RequestBody BudgetInfo info) 
+	{
+		logger.info("budget-create-blank-grouptotal...");
+		Integer rs = 0;
+		try
+		{
+			System.out.println(JSON.toJSONString(info.getNd()));
+			BudgetInfo newInfo = budgetInfoService.createBlankBudgetInfo(info.getNd(), BudgetInfoEnum.GROUP_TOTAL.getCode());
+			//获取模板数据
+			List<BudgetGroupTotal> templates = budgetGroupTotalService.selectBudgetInfoId(info.getDataId());
+			for(BudgetGroupTotal total:templates) 
+			{
+				total.setBudgetInfoId(info.getDataId());
+				total.setDataVersion(info.getDataVersion());
+				total.setDataId(IdUtil.createIdByTime());
+				total.setUpdateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
+				total.setCreateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
+				budgetGroupTotalService.saveOrUpdateBudgetGroupTotal(total);
+			}
+			
+			System.out.println(JSON.toJSONString(newInfo));
 		}
 		catch (Exception e)
 		{

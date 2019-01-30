@@ -69,5 +69,5 @@ public interface BudgetInfoService
 	 * @return
 	 * @throws Exception
 	 */
-	public Integer createBlankBudgetInfo(String nd,Integer budgetType);
+	public BudgetInfo createBlankBudgetInfo(String nd,Integer budgetType);
 }

@@ -82,6 +82,10 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 	@Override
 	public LayuiTableData selectBudgetInfoPage(LayuiTableParam param) throws Exception
 	{
+		if(param.getParam().get("nd")==null || param.getParam().get("budget_type") == null) 
+		{
+			return null;
+		}
 		BudgetInfoExample example = new BudgetInfoExample();
 		BudgetInfoExample.Criteria c = example.createCriteria();
 		c.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
@@ -112,7 +116,7 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 	}
 
 	@Override
-	public Integer createBlankBudgetInfo(String nd,Integer budgetType)
+	public BudgetInfo createBlankBudgetInfo(String nd,Integer budgetType)
 	{
 		BudgetInfo params = (BudgetInfo) MyBeanUtils.createDefaultModel(BudgetInfo.class);
 		params.setAuditStatus(WorkFlowStatusEnum.STATUS_WAITING.getCode());
@@ -121,7 +125,8 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 		params.setBudgetMoney(0d);
 		Integer size = budgetInfoMapper.selectByExample(new BudgetInfoExample()).size();
 		params.setDataVersion("vs-"+nd+"-"+budgetType+"-"+((1001+size)+"").substring(1));
-		return budgetInfoMapper.insert(params);
+		budgetInfoMapper.insert(params);
+		return params;
 	}
 
 }

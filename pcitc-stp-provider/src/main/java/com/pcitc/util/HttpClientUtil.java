@@ -127,23 +127,42 @@ public class HttpClientUtil
 		total.setNd("2019");
 		httpClientUtil.doPostBody(url,total,"UTF-8");
 		
+		
+		
 		//检索集团预算表
-		url = "http://localhost:8765/stp-provider/budget/budget-info-grouptotal-table";
+		url = "http://localhost:8765/stp-provider/budget/budget-info-list";
+		BudgetInfo infoparam = new BudgetInfo();
+		infoparam.setNd("2019");
+		infoparam.setBudgetType(BudgetInfoEnum.GROUP_TOTAL.getCode());
+		String rs = httpClientUtil.doPostBody(url,infoparam,"UTF-8");
+		System.out.println(rs);
+		
+		//检索集团预算表
+		url = "http://localhost:8765/stp-provider/budget/budget-info-table";
 		LayuiTableParam params = new LayuiTableParam();
-		params.setLimit(10);
+		params.setLimit(100);
 		params.setPage(1);
 		Map<String,Object> param = new HashMap<String,Object>();
 		param.put("nd", "2019");
 		param.put("budget_type", BudgetInfoEnum.GROUP_TOTAL.getCode());
 		params.setParam(param);
 		
+		
+		
+		
 		//测试创建集团数据
-		String rs = httpClientUtil.doPostBody(url,params,"UTF-8");
+		rs = httpClientUtil.doPostBody(url,params,"UTF-8");
 		JSONArray array = JSON.parseObject(rs).getJSONArray("data");
 		for(java.util.Iterator<?> iter = array.iterator();iter.hasNext();) 
 		{
 			BudgetInfo info = JSON.toJavaObject(JSON.parseObject(iter.next().toString()), BudgetInfo.class);
 			System.out.println(info.getDataId());
+			
+			//根据往年预算创建新预算表
+			url = "http://localhost:8765/stp-provider/budget/budget-create-template-grouptotal";
+			String newrs = httpClientUtil.doPostBody(url,info,"UTF-8");
+			System.out.println(newrs);
+			
 			
 			String [][] compnays = new String[][]{
 				{"1","石油工程技术服务公司","石油","物探、测井、钻井、开发工程技术"},
@@ -172,9 +191,11 @@ public class HttpClientUtil
 				groupTotal.setLevel(0);
 				
 				url = "http://localhost:8765/stp-provider/budget/budget-persistence-grouptotal-item";
-				httpClientUtil.doPostBody(url,groupTotal,"UTF-8");
+				//httpClientUtil.doPostBody(url,groupTotal,"UTF-8");
 			}
 		}
+		
+		
 		
 		/*//创建集团单位预算表信息（空白表）
 		url = "http://localhost:8765/stp-provider/budget/budget-create-blank-grouptotal";
