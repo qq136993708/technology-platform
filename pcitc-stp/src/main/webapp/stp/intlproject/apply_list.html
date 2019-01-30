@@ -83,6 +83,8 @@
 	                ,{field:'flowStartStatus',  title:'状态', style:'cursor: pointer;',align:"center"}
 	            ]],
 	            done: function (res, curr, count) {
+	            	/* var html="<tr style='height:60px;'><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>";
+	            	$('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").append(html); */
 	            	layer.close(lodingMsg);
 	                // 点击行联动选择框--单选
 	                $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
@@ -132,7 +134,6 @@
 	        renderfunc();
 		}
     	renderTable();
-
         //监听表格复选框选择
         table.on('checkbox(applyEvent)', function(obj){
             console.log(obj);

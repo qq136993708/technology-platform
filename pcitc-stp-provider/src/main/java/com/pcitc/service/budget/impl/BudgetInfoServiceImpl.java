@@ -11,8 +11,11 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.common.enums.DelFlagEnum;
 import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.stp.budget.BudgetInfoExample;
+import com.pcitc.base.util.MyBeanUtils;
+import com.pcitc.common.WorkFlowStatusEnum;
 import com.pcitc.mapper.budget.BudgetInfoMapper;
 import com.pcitc.service.budget.BudgetInfoService;
 
@@ -40,10 +43,11 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 	@Override
 	public int deleteBudgetInfo(String id) throws Exception
 	{
-		BudgetInfo group = budgetInfoMapper.selectByPrimaryKey(id);
-		if(group != null) 
+		BudgetInfo info = budgetInfoMapper.selectByPrimaryKey(id);
+		if(info != null) 
 		{
-			return budgetInfoMapper.deleteByPrimaryKey(id);
+			info.setDelFlag(DelFlagEnum.STATUS_DEL.getCode());
+			return budgetInfoMapper.updateByPrimaryKey(info);
 		}
 		return 0;
 	}
@@ -64,8 +68,14 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 	}
 
 	@Override
-	public List<BudgetInfo> selectBudgetInfoList(BudgetInfoExample example) throws Exception
+	public List<BudgetInfo> selectBudgetInfoList(String nd,Integer budgetType) throws Exception
 	{
+		BudgetInfoExample example = new BudgetInfoExample();
+		BudgetInfoExample.Criteria c = example.createCriteria();
+		c.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
+		c.andNdEqualTo(nd);
+		c.andBudgetTypeEqualTo(budgetType);
+		example.setOrderByClause("update_time DESC");
 		return budgetInfoMapper.selectByExample(example);
 	}
 
@@ -73,6 +83,11 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 	public LayuiTableData selectBudgetInfoPage(LayuiTableParam param) throws Exception
 	{
 		BudgetInfoExample example = new BudgetInfoExample();
+		BudgetInfoExample.Criteria c = example.createCriteria();
+		c.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
+		c.andBudgetTypeEqualTo(new Integer(param.getParam().get("budget_type").toString()));
+		c.andNdEqualTo(param.getParam().get("nd").toString());
+		example.setOrderByClause("data_version");
 		return this.findByExample(param, example);
 	}
 	private LayuiTableData findByExample(LayuiTableParam param,BudgetInfoExample example) 
@@ -94,6 +109,19 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 		Long total = pageInfo.getTotal();
 		data.setCount(total.intValue());
 		return data;
+	}
+
+	@Override
+	public Integer createBlankBudgetInfo(String nd,Integer budgetType)
+	{
+		BudgetInfo params = (BudgetInfo) MyBeanUtils.createDefaultModel(BudgetInfo.class);
+		params.setAuditStatus(WorkFlowStatusEnum.STATUS_WAITING.getCode());
+		params.setBudgetType(budgetType);
+		params.setNd(nd);
+		params.setBudgetMoney(0d);
+		Integer size = budgetInfoMapper.selectByExample(new BudgetInfoExample()).size();
+		params.setDataVersion("vs-"+nd+"-"+budgetType+"-"+((1001+size)+"").substring(1));
+		return budgetInfoMapper.insert(params);
 	}
 
 }

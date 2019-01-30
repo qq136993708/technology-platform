@@ -20,6 +20,7 @@ public class DateUtil {
 	public static String FMT_YYYY = "yyyy";
 	
 	public static String FMT_YYYY_DD = "yyyyMMdd";
+	public static String FMT_MDHMS = "MMddHHmmss";
 	
 
 	public static String dateToStr(Date date, String formatStyle) {

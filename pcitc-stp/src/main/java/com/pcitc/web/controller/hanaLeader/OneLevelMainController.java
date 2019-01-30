@@ -108,7 +108,11 @@ public class OneLevelMainController {
 		private static final String common_table = "http://pcitc-zuul/system-proxy/out-project-plna-provider/project-plan/page/list";
 		private static final String count_table_data = "http://pcitc-zuul/system-proxy/out-project-provider/common-project/list";
 		
-
+		private static final String country_table_data = "http://pcitc-zuul/system-proxy/out-project-provider/country-project/list";
+		
+		
+		
+		
 		//数量--成果
 	    private static final String achievement_table_dic = "http://pcitc-zuul/system-proxy/out-provider/appraisal/select-condition/list";
 	   //数量--知识
@@ -141,7 +145,7 @@ public class OneLevelMainController {
 				if (statusCode == 200) 
 				{
 					
-					   JSONObject jSONArray = responseEntity.getBody();
+					    JSONObject jSONArray = responseEntity.getBody();
 						System.out.println(">>>>>>>>>>>>>>investment_first_page_count jSONArray-> " + jSONArray.toString());
 						
 						String projectMoney =String.valueOf(jSONArray.getString("projectMoney"));
@@ -407,6 +411,164 @@ public class OneLevelMainController {
 	    /**=========================================================成果-详情  end==========================================================*/
     
 	    
+	    
+	    
+	    
+	    /**=======================================================国博--详情==========================================================*/
+
+		
+		
+	  		@RequestMapping(method = RequestMethod.GET, value = "/country_table")
+	  		  public String country_table(HttpServletRequest request) throws Exception
+	  		  {
+	  			 
+	  				
+	  				String nd=CommonUtil.getParameter(request, "nd", "");//项目名
+	  				String ysnd=CommonUtil.getParameter(request, "ysnd", "");//项目名
+	  				String xmmc=CommonUtil.getParameter(request, "xmmc", "");//项目名
+	  				String hth=CommonUtil.getParameter(request, "hth", "");//合同号
+	  				String define1=CommonUtil.getParameter(request, "define1", "");//资本性、费用性
+	  				String define2=CommonUtil.getParameter(request, "define2", "");//8大院等细分结构
+	  				String type_flag=CommonUtil.getParameter(request, "type_flag", "");//直属研究院、分子公司、集团等9种类型
+	  				String project_property=CommonUtil.getParameter(request, "project_property", "");//国家项目、重大专项、重点项目、其他项目
+	  				String project_scope=CommonUtil.getParameter(request, "project_scope", "");//新开项目、续建项目、完工项目
+	  				String zylb=CommonUtil.getParameter(request, "zylb", "");//装备的各种技术类型
+	  				String define10=CommonUtil.getParameter(request, "define10", "");//各个处室
+	  				String define5=CommonUtil.getParameter(request, "define5", "");//技术分布
+	  				String ktlx=CommonUtil.getParameter(request, "ktlx", "");
+	  				String define11=CommonUtil.getParameter(request, "define11", "");//费用来源
+	  				String define12=CommonUtil.getParameter(request, "define12", "");//单位类别
+	  				request.setAttribute("define12", define12);
+	  				request.setAttribute("define11", define11);
+	  				request.setAttribute("ktlx", ktlx);
+	  				request.setAttribute("define5", define5);
+	  				request.setAttribute("nd", nd);
+	  				request.setAttribute("ysnd", ysnd);
+	  				request.setAttribute("define10", define10);
+	  				request.setAttribute("xmmc", xmmc);
+	  				request.setAttribute("hth", hth);
+	  				request.setAttribute("define1", define1);
+	  				request.setAttribute("define2", define2);
+	  				request.setAttribute("type_flag", type_flag);
+	  				request.setAttribute("project_property", project_property);
+	  				request.setAttribute("project_scope", project_scope);
+	  				request.setAttribute("zylb", zylb);
+	  				
+	  				String projectId=CommonUtil.getParameter(request, "projectId", "");
+	  				request.setAttribute("projectId", projectId);
+	  				
+	  				
+	  				Map<String, Object> paramsMap = new HashMap<String, Object>();
+	  				paramsMap.put("nd", nd);
+	  				JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+	  				HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+	  				
+	  				ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(contract_dic, HttpMethod.POST, entity, JSONArray.class);
+	  				int statusCode = responseEntity.getStatusCodeValue();
+	  				if (statusCode == 200) 
+	  				{
+	  					 JSONArray jSONArray = responseEntity.getBody();
+	  					 List<String> define1List = new ArrayList<String>();
+	  					 List<String> define21List = new ArrayList<String>();//8大研究院 
+	  					 List<String> type_flagList = new ArrayList<String>();
+	  					 List<String> zylbList = new ArrayList<String>();
+	  					 List<String> zycmcList = new ArrayList<String>();
+	  					 List<String> define11List = new ArrayList<String>();
+	  					 List<String> define12List = new ArrayList<String>();
+	  					 for (int i = 0; i < jSONArray.size(); i++)
+	  			         {
+	  						    Map  object = (Map) jSONArray.get(i);
+	  			                String showCode= (String)object.get("showCode");
+	  			                String showName= (String)object.get("showName");
+	  			                if(showCode.equals("define1"))
+	  			                {
+	  			                	if(showName!=null && !showName.equals(""))
+	  			                	{
+	  			                		define1List.add(showName);
+	  			                	}
+	  			                
+	  			                }
+	  			                if(showCode.equals("define2"))
+	  			                {
+	  			                	define21List.add(showName);
+	  			                }
+	  			                if(showCode.equals("type_flag"))
+	  			                {
+	  			                	type_flagList.add(showName);
+	  			                }
+	  			                if(showCode.equals("zylb"))
+	  			                {
+	  			                	zylbList.add(showName);
+	  			                }
+	  			                if(showCode.equals("define10"))
+	  			                {
+	  			                	
+	  			                	if(showName!=null && !showName.equals(""))
+	  			                	{
+	  			                		zycmcList.add(showName);
+	  			                	}
+	  			                	
+	  			                }
+	  			                
+	  			                if(showCode.equals("define11"))
+	  			                {
+	  			                	
+	  			                	if(showName!=null && !showName.equals(""))
+	  			                	{
+	  			                		define11List.add(showName);
+	  			                	}
+	  			                	
+	  			                }
+	  			                if(showCode.equals("define12"))
+	  			                {
+	  			                	
+	  			                	if(showName!=null && !showName.equals(""))
+	  			                	{
+	  			                		define12List.add(showName);
+	  			                	}
+	  			                	
+	  			                }
+	  			                
+	  			          }
+	  					 
+	  					 request.setAttribute("define1List", define1List);
+	  					 request.setAttribute("define21List", define21List);
+	  					 request.setAttribute("type_flagList", type_flagList);
+	  					 request.setAttribute("zylbList", zylbList);
+	  					 request.setAttribute("zycmcList", zycmcList);
+	  					 request.setAttribute("define11List", define11List);
+	  					 request.setAttribute("define12List", define12List);
+	  					 List<String> ktlxList = new ArrayList<String>();
+	  					 ktlxList.add("新开课题");
+	  					 ktlxList.add("结转课题");
+	  					 request.setAttribute("ktlxList", ktlxList);
+	  				}
+	  		        return "stp/hana/home/oneLevelMain/country_table";
+	  		  }
+	  		
+	  		
+	  		
+		  	    //三级表格
+			    @RequestMapping(method = RequestMethod.POST, value = "/country_table_data")
+				@ResponseBody
+				public String country_table_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
+	
+			    	System.out.println(">>>>>>>>>>>>country_table_data>param:" + JSONObject.toJSONString(param));
+			    	
+					LayuiTableData layuiTableData = new LayuiTableData();
+					HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+					ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(country_table_data, HttpMethod.POST, entity, LayuiTableData.class);
+					int statusCode = responseEntity.getStatusCodeValue();
+					if (statusCode == 200) {
+						layuiTableData = responseEntity.getBody();
+					}
+					JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
+					System.out.println(">>>>>>>>>>>>>country_table_data:" + result.toString());
+					return result.toString();
+				}
+		    
+	  		 /**========================================================国博 end==========================================================*/
+
 		 
 	    /**========================================================数量--详情==========================================================*/
 
