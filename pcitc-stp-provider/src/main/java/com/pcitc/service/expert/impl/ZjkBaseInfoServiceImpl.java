@@ -10,10 +10,7 @@ import com.pcitc.base.common.enums.DelFlagEnum;
 import com.pcitc.base.expert.*;
 import com.pcitc.base.expert.ZjkExpertExample;
 import com.pcitc.base.system.SysDictionary;
-import com.pcitc.base.util.DateUtil;
-import com.pcitc.base.util.IdUtil;
-import com.pcitc.base.util.MyBeanUtils;
-import com.pcitc.base.util.TreeNodeUtil;
+import com.pcitc.base.util.*;
 import com.pcitc.config.SpringContextUtil;
 import com.pcitc.mapper.expert.ZjkExpertMapper;
 import com.pcitc.service.expert.*;
@@ -63,6 +60,17 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
     @Override
     public List<ZjkExpert> findZjkBaseInfoList(ZjkExpert record) throws Exception {
         return zjkBaseInfoMapper.findZjkExpertList(record);
+    }
+
+    @Override
+    public List<ZjkExpert> findZjkBaseInfoListRandom(ZjkExpert record) throws Exception {
+        List<ZjkExpert> zjkExpertreturnList = zjkBaseInfoMapper.findZjkExpertList(record);
+        int[] s = StrUtil.randomCommon(0,zjkExpertreturnList.size(),10);
+        List<ZjkExpert> experts = new ArrayList<>();
+        for (int i = 0; i < s.length; i++) {
+            experts.add(zjkExpertreturnList.get(s[i]));
+        }
+        return experts;
     }
 
     @Override
@@ -251,6 +259,7 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
         if (key != null && !"".equals(key)) {
             //获取成果人员id
             ZjkAchievementExample chengguoExample = new ZjkAchievementExample();
+            System.out.println("关键字 = " + Arrays.asList(key.toString().split(",")));
             chengguoExample.createCriteria().andAchievementKeysIn(Arrays.asList(key.toString().split(",")));
             List<ZjkAchievement> zjkChengguos = zjkChengguoService.selectByExample(chengguoExample);
             //添加人员id查询条件
@@ -261,6 +270,7 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
                 List<String> stringsSet = (List<String>) (List) Arrays.asList(set.toArray());
                 c.andDataIdIn(stringsSet);
             }
+            c.andOrColumn(key.toString(), new String[]{"expert_name", "email", "user_desc"}, "like");
         }
         example.setOrderByClause("create_date desc");
         return this.findByExample(param, example);
@@ -672,6 +682,6 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
 
     //obj to string
     public String getObjString(Object obj) {
-        return (obj == null || "".equals(obj))?"":obj.toString();
+        return (obj == null || "".equals(obj)) ? "" : obj.toString();
     }
 }
