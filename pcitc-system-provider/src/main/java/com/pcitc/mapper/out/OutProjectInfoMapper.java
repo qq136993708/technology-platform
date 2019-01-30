@@ -47,6 +47,11 @@ public interface OutProjectInfoMapper {
      * 分页显示项目数据数据,统计的第三级展示
      */
 	public List<OutProjectInfo> selectCommonProjectByCond(HashMap<String, Object> map);
+	
+	/**
+     * 分页显示项目数据数据,国拨项目统计的第三级展示
+     */
+	public List<OutProjectInfo> selectCountryProjectByCond(HashMap<String, Object> map);
 
 	/**
      * 首页科研项目数、装备项目数、总金额（预算）

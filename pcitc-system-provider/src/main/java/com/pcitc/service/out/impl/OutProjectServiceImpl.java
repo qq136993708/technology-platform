@@ -195,6 +195,82 @@ public class OutProjectServiceImpl implements OutProjectService {
 		data.setCount(total.intValue());
 		return data;
 	}
+	
+	/**
+	 * 分页显示项目数据数据,国拨项目统计的第三级展示
+	 */
+	public LayuiTableData selectCountryProjectByCond(LayuiTableParam param) {
+		// 每页显示条数
+		int pageSize = param.getLimit();
+		// 当前是第几页
+		int pageNum = param.getPage();
+		// 1、设置分页信息，包括当前页数和每页显示的总计数
+		PageHelper.startPage(pageNum, pageSize);
+
+		HashMap<String, Object> hashmap = new HashMap<String, Object>();
+		if (param.getOrderKey()!=null&&!StrUtil.isBlankOrNull(param.getOrderKey().toString())) {
+			// 排序，因为select后有关键字，自己手动在sql中调整。否则直接PageHelper.orderBy(param.getOrderKey().toString()
+			// + " " + param.getOrderType());
+			hashmap.put("orderKey", param.getOrderKey());
+			hashmap.put("orderType", param.getOrderType());
+		}
+		if (param.getParam().get("xmmc")!=null&&!StringUtils.isBlank(param.getParam().get("xmmc")+"")) {
+			hashmap.put("xmmc", param.getParam().get("xmmc"));
+		}
+
+		if (param.getParam().get("hth")!=null&&!StringUtils.isBlank(param.getParam().get("hth")+"")) {
+			hashmap.put("hth", param.getParam().get("hth"));
+		}
+		// 资本性、费用性
+		if (param.getParam().get("define1")!=null&&!StringUtils.isBlank(param.getParam().get("define1")+"")) {
+			List define1 = new ArrayList();
+			String[] temS = param.getParam().get("define1").toString().split(",");
+			for (int i = 0; i<temS.length; i++) {
+				define1.add(temS[i]);
+			}
+			hashmap.put("define1", define1);
+		}
+		
+		// 8大院等细分结构
+		if (param.getParam().get("define2")!=null&&!StringUtils.isBlank(param.getParam().get("define2")+"")) {
+			List define2 = new ArrayList();
+			String[] temS = param.getParam().get("define2").toString().split(",");
+			for (int i = 0; i<temS.length; i++) {
+				define2.add(temS[i]);
+			}
+			hashmap.put("define2", define2);
+		}
+
+		if (param.getParam().get("nd")!=null&&!StringUtils.isBlank(param.getParam().get("nd")+"")) {
+			hashmap.put("nd", param.getParam().get("nd"));
+		}
+		System.out.println("1234>>>>>>>>>ysnd"+param.getParam().get("ysnd"));
+		System.out.println("1234>>>>>>>>>zycmc"+param.getParam().get("define10"));
+		System.out.println("1234>>>>>>>>>zylb"+param.getParam().get("zylb"));
+		System.out.println("1234>>>>>>>>>type_flag"+param.getParam().get("type_flag"));
+		System.out.println("1234>>>>>>>>>define1"+param.getParam().get("define1"));
+		System.out.println("1234>>>>>>>>>define2"+param.getParam().get("define2"));
+
+		if (param.getParam().get("ysnd")!=null&&!StringUtils.isBlank(param.getParam().get("ysnd")+"")) {
+			hashmap.put("ysnd", param.getParam().get("ysnd"));
+		}
+
+		// 新开课题结转课题标志
+		if (param.getParam().get("ktlx")!=null&&!StringUtils.isBlank(param.getParam().get("ktlx")+"")) {
+			hashmap.put("ktlx", param.getParam().get("ktlx"));
+		}
+
+		List<OutProjectInfo> list = outProjectInfoMapper.selectCountryProjectByCond(hashmap);
+		System.out.println("1>>>>>>>>>查询分页结果"+list.size());
+		PageInfo<OutProjectInfo> pageInfo = new PageInfo<OutProjectInfo>(list);
+		System.out.println("2>>>>>>>>>查询分页结果"+pageInfo.getList().size());
+
+		LayuiTableData data = new LayuiTableData();
+		data.setData(pageInfo.getList());
+		Long total = pageInfo.getTotal();
+		data.setCount(total.intValue());
+		return data;
+	}
 
 	/**
 	 * 研究院首页计算装备和科研合同总数
