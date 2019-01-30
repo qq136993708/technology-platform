@@ -48,15 +48,15 @@ public class BudgetGroupTotalProviderClient
 		return data;
 	}
 	@ApiOperation(value="添加预算项",notes="添加集团预算总表项目明细。")
-	@RequestMapping(value = "/stp-provider/budget/budget-add-grouptotal-item", method = RequestMethod.POST)
-	public Object addGroupTotalItem(@RequestBody BudgetGroupTotal budgetGroupTotal) 
+	@RequestMapping(value = "/stp-provider/budget/budget-persistence-grouptotal-item", method = RequestMethod.POST)
+	public Object addOrUpdateGroupTotalItem(@RequestBody BudgetGroupTotal budgetGroupTotal) 
 	{
 		logger.info("add-budget-grouptotal-item...");
 		Integer rs = 0;
 		try
 		{
 			System.out.println(JSON.toJSONString(budgetGroupTotal));
-			rs = budgetGroupTotalService.insertBudgetGroupTotal(budgetGroupTotal);
+			rs = budgetGroupTotalService.saveOrUpdateBudgetGroupTotal(budgetGroupTotal);
 			System.out.println(JSON.toJSONString(rs));
 		}
 		catch (Exception e)
@@ -65,5 +65,5 @@ public class BudgetGroupTotalProviderClient
 		}
 		return rs;
 	}
-	
+
 }

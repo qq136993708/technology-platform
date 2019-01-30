@@ -22,9 +22,9 @@ public interface BudgetGroupTotalService
 	
 	public List<BudgetGroupTotal> selectBudgetGroupTotalListByIds(List<String> list)throws Exception;
 
-	public Integer insertBudgetGroupTotal(BudgetGroupTotal budgetGroupTotal)throws Exception;
+	public Integer saveOrUpdateBudgetGroupTotal(BudgetGroupTotal budgetGroupTotal)throws Exception;
 
-	public List<BudgetGroupTotal> selectBudgetGroupTotalList(BudgetGroupTotalExample example)throws Exception;
+	public List<BudgetGroupTotal> selectBudgetInfoId(String budgetId)throws Exception;
 	
 	public LayuiTableData selectBudgetGroupTotalPage(LayuiTableParam param) throws Exception;
 }

@@ -24,7 +24,7 @@ public interface BudgetInfoService
 
 	public Integer insertBudgetInfo(BudgetInfo budgetInfo)throws Exception;
 
-	public List<BudgetInfo> selectBudgetInfoList(BudgetInfoExample example)throws Exception;
+	public List<BudgetInfo> selectBudgetInfoList(String nd)throws Exception;
 	
 	public LayuiTableData selectBudgetInfoPage(LayuiTableParam param) throws Exception;
 }

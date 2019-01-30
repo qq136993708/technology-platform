@@ -67,8 +67,13 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 	}
 
 	@Override
-	public List<BudgetInfo> selectBudgetInfoList(BudgetInfoExample example) throws Exception
+	public List<BudgetInfo> selectBudgetInfoList(String nd) throws Exception
 	{
+		BudgetInfoExample example = new BudgetInfoExample();
+		BudgetInfoExample.Criteria c = example.createCriteria();
+		c.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
+		c.andNdEqualTo(nd);
+		example.setOrderByClause("update_time DESC");
 		return budgetInfoMapper.selectByExample(example);
 	}
 

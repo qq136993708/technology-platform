@@ -2,6 +2,7 @@ package com.pcitc.util;
 
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -21,7 +22,13 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.stp.budget.BudgetGroupTotal;
+import com.pcitc.base.stp.budget.BudgetInfo;
+import com.pcitc.base.util.DateUtil;
+import com.pcitc.base.util.HanyuPinyinHelper;
+import com.pcitc.base.util.MyBeanUtils;
 /*
  * 利用HttpClient进行post请求的工具类
  */
@@ -118,8 +125,49 @@ public class HttpClientUtil
 		params.setLimit(10);
 		params.setPage(1);
 		Map<String,Object> param = new HashMap<String,Object>();
-		param.put("nd", "2019");
+		param.put("nd", "2018");
 		params.setParam(param);
+		
+		//测试创建集团数据
+		String rs = httpClientUtil.doPostBody(url,params,"UTF-8");
+		JSONArray array = JSON.parseObject(rs).getJSONArray("data");
+		for(java.util.Iterator<?> iter = array.iterator();iter.hasNext();) 
+		{
+			BudgetInfo info = JSON.toJavaObject(JSON.parseObject(iter.next().toString()), BudgetInfo.class);
+			System.out.println(info.getDataId());
+			
+			String [][] compnays = new String[][]{
+				{"1","石油工程技术服务公司","石油","物探、测井、钻井、开发工程技术"},
+				{"2","石油机械公司","机械","石油勘探开发装备研发、制造"},
+				{"3","新星石油公司","其他","地热资源评价与利用技术"},
+				{"4","南化集团研究院","其他","钻井液等油田化学品开发、精细化工品开发"},
+				{"5","石油管理局（胜利、河南、中原等）","其他","污水处理等环保节能技术开发"},
+				{"6","炼化工程（集团）公司","其他","新能源、环保等石油化工工程技术开发"}
+			};
+			for(String [] compnay:compnays) {
+				BudgetGroupTotal groupTotal = (BudgetGroupTotal)MyBeanUtils.createDefaultModel(BudgetGroupTotal.class);
+				
+				groupTotal.setBudgetInfoId(info.getDataId());
+				groupTotal.setDataVersion(info.getDataVersion());
+				groupTotal.setCreateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
+				groupTotal.setNd(info.getNd());
+				groupTotal.setNo(new Integer(compnay[0]));
+				groupTotal.setParentDataId(null);
+				groupTotal.setUpdateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
+				groupTotal.setXmjf(0d);
+				groupTotal.setZxjf(0d);
+				groupTotal.setDisplayName(compnay[1]);
+				groupTotal.setSimpleName(compnay[2]);
+				groupTotal.setRemark(compnay[3]);
+				groupTotal.setDisplayCode(HanyuPinyinHelper.toPinyin(groupTotal.getSimpleName()));
+				groupTotal.setLevel(0);
+				
+				url = "http://localhost:8765/stp-provider/budget/budget-persistence-grouptotal-item";
+				httpClientUtil.doPostBody(url,groupTotal,"UTF-8");
+			}
+			
+		}
+		
 		
 		//创建集团单位预算表信息
 		/*url = "http://localhost:8765/stp-provider/budget/budget-grouptotal-save";
@@ -129,9 +177,6 @@ public class HttpClientUtil
 		params.setNd("2018");
 		params.setBudgetMoney(28000d);
 		params.setDataVersion("vs-2018-02");*/
-		
-		String rs = httpClientUtil.doPostBody(url,params,"UTF-8");
-		System.out.println(rs);
 		
 		
 	}
