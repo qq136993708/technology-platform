@@ -42,7 +42,6 @@
 	   <table schema="pcitc-stp-provider" domainObjectName="BudgetGroupTotal" tableName="out_tem_money_group_total" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"/>
 	   <table schema="pcitc-stp-provider" domainObjectName="BudgetInfo" tableName="out_tem_budget_info" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"/>
 	  -->
-	  <table schema="pcitc-stp-provider" domainObjectName="BudgetGroupTotal" tableName="out_tem_money_group_total" enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"/>
 	 
 	</context>
 </generatorConfiguration>

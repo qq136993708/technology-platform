@@ -13,6 +13,7 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.stp.budget.BudgetGroupTotal;
 import com.pcitc.base.stp.budget.BudgetGroupTotalExample;
+import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.mapper.budget.BudgetGroupTotalMapper;
 import com.pcitc.service.budget.BudgetGroupTotalService;
 
@@ -58,14 +59,25 @@ public class BudgetGroupTotalServiceImpl implements BudgetGroupTotalService
 	}
 
 	@Override
-	public Integer insertBudgetGroupTotal(BudgetGroupTotal budgetGroupTotal) throws Exception
+	public Integer saveOrUpdateBudgetGroupTotal(BudgetGroupTotal budgetGroupTotal) throws Exception
 	{
-		return budgetGroupTotalMapper.insert(budgetGroupTotal);
+		BudgetGroupTotal old = budgetGroupTotalMapper.selectByPrimaryKey(budgetGroupTotal.getDataId());
+		if(old == null) {
+			return budgetGroupTotalMapper.insert(budgetGroupTotal);
+		}else {
+			MyBeanUtils.copyProperties(budgetGroupTotal, old);
+			return budgetGroupTotalMapper.updateByPrimaryKey(old);
+		}
 	}
 
 	@Override
-	public List<BudgetGroupTotal> selectBudgetGroupTotalList(BudgetGroupTotalExample example) throws Exception
+	public List<BudgetGroupTotal> selectBudgetInfoId(String budgetInfoId) throws Exception
 	{
+		BudgetGroupTotalExample example = new BudgetGroupTotalExample();
+		BudgetGroupTotalExample.Criteria c = example.createCriteria();
+		c.andBudgetInfoIdEqualTo(budgetInfoId);
+		
+		example.setOrderByClause("no");
 		return budgetGroupTotalMapper.selectByExample(example);
 	}
 
@@ -73,6 +85,7 @@ public class BudgetGroupTotalServiceImpl implements BudgetGroupTotalService
 	public LayuiTableData selectBudgetGroupTotalPage(LayuiTableParam param) throws Exception
 	{
 		BudgetGroupTotalExample example = new BudgetGroupTotalExample();
+		example.setOrderByClause("no");
 		return this.findByExample(param, example);
 	}
 	private LayuiTableData findByExample(LayuiTableParam param,BudgetGroupTotalExample example) 
