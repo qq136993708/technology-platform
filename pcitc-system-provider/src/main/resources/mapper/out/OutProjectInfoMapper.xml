@@ -2678,6 +2678,66 @@
 	</select>
 	
 	
+	<!-- 分页显示项目数据数据,国拨项目统计的第三级展示 -->
+	<select id="selectCountryProjectByCond" resultMap="BaseResultMap" parameterType="java.util.HashMap">
+		select out_project_info.define1,substr(out_project_info.define2 from 4) as define2,
+			   substr(out_project_info.type_flag from 2) as type_flag,
+			   out_project_info.xmmc,out_project_info.ysnd,
+			   out_project_info.jf,sum(out_project_info.ysje) as ysje,
+			   out_project_info.fzdw,out_project_info.zylb,
+		       out_project_info.nd,
+		       out_project_info.hth
+		from out_project_info
+		where
+			 out_project_info.project_type != '1'
+			 and out_project_info.project_property = '国家项目'
+			<if test="nd != null">
+				and out_project_info.nd = #{nd}
+			</if>
+			<if test="ysnd != null">
+				and out_project_info.ysnd = #{ysnd}
+			</if>
+			<if test="ktlx != null and ktlx == '新开课题' and nd != null">
+				and out_project_info.ysnd = #{nd} and out_project_info.nd = #{nd} 
+			</if>
+			<if test="ktlx != null and ktlx == '结转课题' and nd != null">
+				and out_project_info.ysnd = #{nd} and out_project_info.nd &lt; #{nd} 
+			</if>
+			<if test="hth != null">
+				and out_project_info.hth like '%${hth}%'
+			</if>
+			<if test="xmmc != null">
+				and out_project_info.xmmc like '%${xmmc}%'
+			</if>
+			<if test="define1 != null">
+				and (
+				<foreach collection="define1" item="define1" index="index" separator=" or ">
+					out_project_info.define1 like '%${define1}%'
+				</foreach>
+				)
+			</if>
+			<if test="define2 != null">
+				and (
+				<foreach collection="define2" item="define2" index="index" separator=" or ">
+					out_project_info.define2 like '%${define2}%'
+				</foreach>
+				)
+			</if>
+			group by xmid,ysnd
+			<if test="orderKey != null and orderKey != ''">
+				<if test="orderType != null and orderType != ''">
+					order by ${orderKey} ${orderType}
+				</if>
+				<if test="orderType == null or orderType == ''">
+					order by ${orderKey} desc
+				</if>
+			</if>
+			<if test="orderKey == null">
+				order by out_project_info.hth desc, out_project_info.define2
+			</if>
+	</select>
+	
+	
   <!--首页查询start-->
   <select id="findOutProjectInfoList" parameterType="com.pcitc.base.stp.out.OutProjectInfo" resultMap="BaseResultMap">
     select
