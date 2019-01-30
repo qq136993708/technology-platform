@@ -1,17 +1,21 @@
 package com.pcitc.web.budget;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.stp.budget.BudgetGroupTotal;
+import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.common.BudgetInfoEnum;
 import com.pcitc.service.budget.BudgetGroupTotalService;
 import com.pcitc.service.budget.BudgetInfoService;
@@ -33,7 +37,44 @@ public class BudgetGroupTotalProviderClient
 	@Autowired
 	private BudgetInfoService budgetInfoService;
 	
-	
+	@ApiOperation(value="预算管理-集团预算Table",notes="按年检索年度集团预算表信息。")
+	@RequestMapping(value = "/stp-provider/budget/budget-info-grouptotal-table", method = RequestMethod.POST)
+	public Object selectBudgetInfoTable(@RequestBody LayuiTableParam param) 
+	{
+		logger.info("budget-grouptotal-info-list...");
+		LayuiTableData data = null;
+		try
+		{
+			System.out.println(JSON.toJSONString(param));
+			data = budgetInfoService.selectBudgetInfoPage(param);
+			System.out.println(JSON.toJSONString(data));
+			return data;
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return data;
+	}
+	@ApiOperation(value="预算管理-集团预算List",notes="按年检索年度集团预算表信息。")
+	@RequestMapping(value = "/stp-provider/budget/budget-info-grouptotal-list", method = RequestMethod.POST)
+	public Object selectBudgetInfoList(@RequestParam(value = "nd", required = true) String nd) 
+	{
+		logger.info("budget-grouptotal-info-list...");
+		List<BudgetInfo> data = null;
+		try
+		{
+			System.out.println(JSON.toJSONString(nd));
+			data = budgetInfoService.selectBudgetInfoList(nd,BudgetInfoEnum.GROUP_TOTAL.getCode());
+			System.out.println(JSON.toJSONString(data));
+			return data;
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return data;
+	}
 	@ApiOperation(value="预算明细列表检索",notes="按年检索年度集团预算总表明细。")
 	@RequestMapping(value = "/stp-provider/budget/budget-grouptotal-items", method = RequestMethod.POST)
 	public Object selectGroupTotalItemList(@RequestBody LayuiTableParam param) 

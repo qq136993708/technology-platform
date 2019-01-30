@@ -168,7 +168,7 @@ public class HttpClientUtil
 				groupTotal.setDisplayName(compnay[1]);
 				groupTotal.setSimpleName(compnay[2]);
 				groupTotal.setRemark(compnay[3]);
-				groupTotal.setDisplayCode(HanyuPinyinHelper.toPinyin(groupTotal.getSimpleName()));
+				groupTotal.setDisplayCode(HanyuPinyinHelper.toPinyin(groupTotal.getDisplayName()));
 				groupTotal.setLevel(0);
 				
 				url = "http://localhost:8765/stp-provider/budget/budget-persistence-grouptotal-item";
