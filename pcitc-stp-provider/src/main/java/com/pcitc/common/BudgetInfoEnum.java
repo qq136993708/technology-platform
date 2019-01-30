@@ -6,9 +6,9 @@ package com.pcitc.common;
  */
 public enum BudgetInfoEnum 
 {
-	GROUP_TOTAL(1,"预算表（集团公司）"),
-	ASSETS_TOTAL(2,"预算表（资产公司）"),
-	STOCK_TOTAL(3,"预算表（股份公司）");
+	GROUP_TOTAL(101,"预算表（集团公司）"),
+	ASSETS_TOTAL(102,"预算表（资产公司）"),
+	STOCK_TOTAL(103,"预算表（股份公司）");
 	
 	private BudgetInfoEnum(Integer code, String desc) {
 		this.code = code;

@@ -29,6 +29,7 @@ import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.HanyuPinyinHelper;
 import com.pcitc.base.util.MyBeanUtils;
+import com.pcitc.common.BudgetInfoEnum;
 /*
  * 利用HttpClient进行post请求的工具类
  */
@@ -120,12 +121,20 @@ public class HttpClientUtil
 	public static void main(String [] args) 
 	{
 		HttpClientUtil httpClientUtil = new HttpClientUtil();
-		String url = "http://localhost:8765/stp-provider/budget/budget-grouptotal-list";
+		//创建集团单位预算表信息（空白表）
+		String url = "http://localhost:8765/stp-provider/budget/budget-create-blank-grouptotal";
+		BudgetGroupTotal total = (BudgetGroupTotal)MyBeanUtils.createDefaultModel(BudgetGroupTotal.class);
+		total.setNd("2019");
+		httpClientUtil.doPostBody(url,total,"UTF-8");
+		
+		//检索集团预算表
+		url = "http://localhost:8765/stp-provider/budget/budget-info-grouptotal-table";
 		LayuiTableParam params = new LayuiTableParam();
 		params.setLimit(10);
 		params.setPage(1);
 		Map<String,Object> param = new HashMap<String,Object>();
-		param.put("nd", "2018");
+		param.put("nd", "2019");
+		param.put("budget_type", BudgetInfoEnum.GROUP_TOTAL.getCode());
 		params.setParam(param);
 		
 		//测试创建集团数据
@@ -165,12 +174,10 @@ public class HttpClientUtil
 				url = "http://localhost:8765/stp-provider/budget/budget-persistence-grouptotal-item";
 				httpClientUtil.doPostBody(url,groupTotal,"UTF-8");
 			}
-			
 		}
 		
-		
-		//创建集团单位预算表信息
-		/*url = "http://localhost:8765/stp-provider/budget/budget-grouptotal-save";
+		/*//创建集团单位预算表信息（空白表）
+		url = "http://localhost:8765/stp-provider/budget/budget-create-blank-grouptotal";
 		BudgetInfo params = (BudgetInfo) MyBeanUtils.createDefaultModel(BudgetInfo.class);
 		params.setAuditStatus(WorkFlowStatusEnum.STATUS_WAITING.getCode());
 		params.setBudgetType(BudgetInfoEnum.GROUP_TOTAL.getCode());

@@ -16,6 +16,7 @@ import com.alibaba.fastjson.JSON;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.stp.budget.BudgetInfo;
+import com.pcitc.common.BudgetInfoEnum;
 import com.pcitc.service.budget.BudgetInfoService;
 
 import io.swagger.annotations.Api;
@@ -61,7 +62,7 @@ public class BudgetInfoProviderClient
 		try
 		{
 			System.out.println(JSON.toJSONString(nd));
-			data = budgetInfoService.selectBudgetInfoList(nd);
+			data = budgetInfoService.selectBudgetInfoList(nd,BudgetInfoEnum.GROUP_TOTAL.getCode());
 			System.out.println(JSON.toJSONString(data));
 			return data;
 		}
@@ -90,24 +91,7 @@ public class BudgetInfoProviderClient
 		}
 		return rs;
 	}
-	@ApiOperation(value="预算管理-集团预算表",notes="创建集团年度预算表")
-	@RequestMapping(value = "/stp-provider/budget/budget-info-create-grouptotal", method = RequestMethod.POST)
-	public Object createOrUpdateBudgetInfo(@RequestBody BudgetInfo info) 
-	{
-		logger.info("saveorupdate-budget-grouptotal-info...");
-		Integer rs = 0;
-		try
-		{
-			System.out.println(JSON.toJSONString(info));
-			rs = budgetInfoService.insertBudgetInfo(info);
-			System.out.println(JSON.toJSONString(rs));
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-		return rs;
-	}
+
 	
 	@ApiOperation(value="预算管理-集团预算表",notes="更新集团年度预算表")
 	@RequestMapping(value = "/stp-provider/budget/budget-info-grouptotal-delete/{dataId}", method = RequestMethod.POST)

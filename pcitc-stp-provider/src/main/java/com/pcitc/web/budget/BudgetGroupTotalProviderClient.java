@@ -12,7 +12,9 @@ import com.alibaba.fastjson.JSON;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.stp.budget.BudgetGroupTotal;
+import com.pcitc.common.BudgetInfoEnum;
 import com.pcitc.service.budget.BudgetGroupTotalService;
+import com.pcitc.service.budget.BudgetInfoService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -27,6 +29,9 @@ public class BudgetGroupTotalProviderClient
 	
 	@Autowired
 	private BudgetGroupTotalService budgetGroupTotalService;
+	
+	@Autowired
+	private BudgetInfoService budgetInfoService;
 	
 	
 	@ApiOperation(value="预算明细列表检索",notes="按年检索年度集团预算总表明细。")
@@ -65,5 +70,22 @@ public class BudgetGroupTotalProviderClient
 		}
 		return rs;
 	}
-
+	@ApiOperation(value="预算管理-创建集团年度预算表",notes="创建集团年度预算空白表")
+	@RequestMapping(value = "/stp-provider/budget/budget-create-blank-grouptotal", method = RequestMethod.POST)
+	public Object createOrUpdateBudgetInfo(@RequestBody BudgetGroupTotal budgetGroupTotal) 
+	{
+		logger.info("budget-create-blank-grouptotal...");
+		Integer rs = 0;
+		try
+		{
+			System.out.println(JSON.toJSONString(budgetGroupTotal.getNd()));
+			rs = budgetInfoService.createBlankBudgetInfo(budgetGroupTotal.getNd(), BudgetInfoEnum.GROUP_TOTAL.getCode());
+			System.out.println(JSON.toJSONString(rs));
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return rs;
+	}
 }
