@@ -124,7 +124,7 @@ public class HttpClientUtil
 		//创建集团单位预算表信息（空白表）
 		String url = "http://localhost:8765/stp-provider/budget/budget-create-blank-grouptotal";
 		BudgetGroupTotal total = (BudgetGroupTotal)MyBeanUtils.createDefaultModel(BudgetGroupTotal.class);
-		total.setNd("2019");
+		total.setNd("2018");
 		httpClientUtil.doPostBody(url,total,"UTF-8");
 		
 		
@@ -143,11 +143,9 @@ public class HttpClientUtil
 		params.setLimit(100);
 		params.setPage(1);
 		Map<String,Object> param = new HashMap<String,Object>();
-		param.put("nd", "2019");
+		param.put("nd", "2018");
 		param.put("budget_type", BudgetInfoEnum.GROUP_TOTAL.getCode());
 		params.setParam(param);
-		
-		
 		
 		
 		//测试创建集团数据
@@ -191,7 +189,7 @@ public class HttpClientUtil
 				groupTotal.setLevel(0);
 				
 				url = "http://localhost:8765/stp-provider/budget/budget-persistence-grouptotal-item";
-				//httpClientUtil.doPostBody(url,groupTotal,"UTF-8");
+				httpClientUtil.doPostBody(url,groupTotal,"UTF-8");
 			}
 		}
 		

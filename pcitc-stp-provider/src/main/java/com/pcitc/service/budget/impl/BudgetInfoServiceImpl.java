@@ -123,7 +123,15 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 		params.setBudgetType(budgetType);
 		params.setNd(nd);
 		params.setBudgetMoney(0d);
-		Integer size = budgetInfoMapper.selectByExample(new BudgetInfoExample()).size();
+		
+		//检索已创建
+		BudgetInfoExample example = new BudgetInfoExample();
+		BudgetInfoExample.Criteria c = example.createCriteria();
+		c.andBudgetTypeEqualTo(budgetType);
+		c.andNdEqualTo(nd);
+		Integer size = budgetInfoMapper.selectByExample(example).size();
+		
+		
 		params.setDataVersion("vs-"+nd+"-"+budgetType+"-"+((1001+size)+"").substring(1));
 		budgetInfoMapper.insert(params);
 		return params;
