@@ -141,7 +141,7 @@ public class OneLevelMainController {
 				if (statusCode == 200) 
 				{
 					
-					   JSONObject jSONArray = responseEntity.getBody();
+					    JSONObject jSONArray = responseEntity.getBody();
 						System.out.println(">>>>>>>>>>>>>>investment_first_page_count jSONArray-> " + jSONArray.toString());
 						
 						String projectMoney =String.valueOf(jSONArray.getString("projectMoney"));
