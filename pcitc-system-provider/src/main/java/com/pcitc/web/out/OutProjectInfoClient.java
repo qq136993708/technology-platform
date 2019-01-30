@@ -55,6 +55,13 @@ public class OutProjectInfoClient {
 		return outProjectService.selectCommonProjectByCond(param);
 	}
 	
+	@ApiOperation(value = "分页显示项目数据数据,国拨课题统计的第三级展示", notes = "分页显示")
+	@RequestMapping(value = "/out-project-provider/country-project/list", method = RequestMethod.POST)
+	public LayuiTableData selectCountryProjectByCond(@RequestBody LayuiTableParam param) throws Exception {
+		logger.info("==================page selectCountryProjectByCond===========================" + param);
+		return outProjectService.selectCountryProjectByCond(param);
+	}
+	
 	@ApiOperation(value = "保存erp课题配置", notes = "删除当前页已有的，保存新选择的")
 	@RequestMapping(value = "/out-provider/config-erp-project", method = RequestMethod.POST)
 	public String saveErpProjectConfig(@RequestBody JSONObject json) throws Exception {
