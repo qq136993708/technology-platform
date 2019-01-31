@@ -247,7 +247,7 @@
            <div class="layui-col-md3">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        ${year}年直属研究院承担国家课题占比
+                        ${year}年直属研究院承担国家新开课题占比
                     </div>
                     <div class="layui-card-body btn-function">
                         <div  style="height:294px;width: 100%;" id="direct_kt_chart2"></div>
@@ -257,7 +257,7 @@
             <div class="layui-col-md3">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                      ${year}年直属研究院国家课题领域占比
+                      ${year}年直属研究院承担国家结转课题占比
                     </div>
                     <div class="layui-card-body btn-function">
                         <div  style="height:294px;width: 100%;" id="direct_kt_chart3"></div>
@@ -693,8 +693,8 @@
         		 
             });  
               
-        	
-        	var url_8="/direct/contry_01?type=2&nd="+year+"&v_date="+v_date+"&xmlbbm=fkyzb";
+        	//新开课题
+        	var url_8="/direct/contry_01?type=3&nd="+year+"&v_date="+v_date+"&xmlbbm=fkyzb";
         	var echart8=loadPie_02(url_8,"direct_kt_chart2","","");
         	echart8.on('click', function (params) {
         		var xName=params.name;
@@ -703,13 +703,13 @@
             });
         	
         	 
-        	 
-        	var url_9="/direct/contry_02?nd="+year+"&v_date="+v_date+"&xmlbbm=fkyzb";
+        	 //结转课题
+        	var url_9="/direct/contry_01?type=2&nd="+year+"&v_date="+v_date+"&xmlbbm=fkyzb";
         	var echart9=loadPie_02(url_9,"direct_kt_chart3","","");
         	echart9.on('click', function (params) {
         		var xName=params.name;
         		var legentName=params.seriesName;
-        		window.open("/reportNew/reportPageStp?name=1673442773d_74f124ab&jsonparam=g0_type_flag,g0_project_scope");
+        		window.open("/one_level_main/country_table?define2="+xName+"&nd="+year+"&ysnd="+year);
             });
         	
             	

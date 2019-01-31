@@ -1,7 +1,7 @@
 {
   "msg":"","code":0,
   "data":[
-    {"power":"18", "name":"领导讲话","color":"#f10033","img":"/layuiadmin/layui/images/icon-party.png","class":"layui-col-md3","id":"","spareId":null},
+    {"power":"18", "name":"国家科技政策","color":"#f10033","img":"/layuiadmin/layui/images/icon-party.png","class":"layui-col-md3","id":"","spareId":null},
     {"power":"21", "name":"科研投入","color":"#aaae44","img":"/layuiadmin/layui/images/textTopTwo.png","class":"layui-col-md3","id":"home_budget","spareId":"textTopTwo"},
     {"power":"31", "name":"科研装备","color":"#488c34","img":"/layuiadmin/layui/images/textTopThree.png","class":"layui-col-md3","id":"equipment","spareId":"equipment_id"},
     {"power":"41", "name":"科研人才","color":"#8d49e0","img":"/layuiadmin/layui/images/icon-personnel.png","class":"layui-col-md3","id":"","spareId":null},
