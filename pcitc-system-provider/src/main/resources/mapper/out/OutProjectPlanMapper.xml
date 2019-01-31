@@ -44,6 +44,10 @@
     <result column="YJYJC" property="yjyjc" jdbcType="VARCHAR" />
     <result column="PROJECT_PROPERTY" property="projectProperty" jdbcType="VARCHAR" />
     <result column="PROJECT_SCOPE" property="projectScope" jdbcType="VARCHAR" />
+    <result column="PROJECT_ID" property="projectId" jdbcType="VARCHAR" />
+    <result column="QDBZ" property="qdbz" jdbcType="VARCHAR" />
+    <result column="FZDWUNITCW" property="fzdwunitcw" jdbcType="VARCHAR" />
+    <result column="FZDWUNIT" property="fzdwunit" jdbcType="VARCHAR" />
     <result column="PROJECT_TYPE" property="projectType" jdbcType="VARCHAR" />
     <result column="DEFINE1" property="define1" jdbcType="VARCHAR" />
     <result column="DEFINE2" property="define2" jdbcType="VARCHAR" />
@@ -58,6 +62,12 @@
     <result column="DEFINE11" property="define11" jdbcType="VARCHAR" />
     <result column="DEFINE12" property="define12" jdbcType="VARCHAR" />
     <result column="DEFINE13" property="define13" jdbcType="VARCHAR" />
+    <result column="DEFINE14" property="define14" jdbcType="VARCHAR" />
+    <result column="DEFINE15" property="define15" jdbcType="VARCHAR" />
+    <result column="DEFINE16" property="define16" jdbcType="VARCHAR" />
+    <result column="DEFINE17" property="define17" jdbcType="VARCHAR" />
+    <result column="DEFINE18" property="define18" jdbcType="VARCHAR" />
+    <result column="DEFINE19" property="define19" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -121,9 +131,10 @@
     DATA_ID, XMID, ND, HTH, XMMC, XMJB, YSND, YSFYXJE, YSZBXJE, YSJE, JF, FWDXBM, FWDX, 
     GSBMBM, GSBMMC, ZYCBM, ZYCMC, XMLBBM, XMLBMC, ZYLBBM, ZYLB, FZDWBM, FZDW, JTFZDWBM, 
     JTFZDW, FZRYX, FZRDH, FZRXM, JSSXXM, JSSJ, KSSJ, YJSJ, ZYLY, ZYSX, SJID, LXBJ, YJNR, 
-    JDAP, YJMB, YJYJC, PROJECT_PROPERTY, PROJECT_SCOPE, PROJECT_TYPE, DEFINE1, DEFINE2, 
-    DEFINE3, DEFINE4, DEFINE5, DEFINE6, DEFINE7, DEFINE8, DEFINE9, DEFINE10, DEFINE11, 
-    DEFINE12, DEFINE13
+    JDAP, YJMB, YJYJC, PROJECT_PROPERTY, PROJECT_SCOPE, PROJECT_ID, QDBZ, FZDWUNITCW, 
+    FZDWUNIT, PROJECT_TYPE, DEFINE1, DEFINE2, DEFINE3, DEFINE4, DEFINE5, DEFINE6, DEFINE7, 
+    DEFINE8, DEFINE9, DEFINE10, DEFINE11, DEFINE12, DEFINE13, DEFINE14, DEFINE15, DEFINE16, 
+    DEFINE17, DEFINE18, DEFINE19
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.pcitc.base.stp.out.OutProjectPlanExample" >
     select
@@ -169,12 +180,15 @@
       JSSJ, KSSJ, YJSJ, ZYLY, 
       ZYSX, SJID, LXBJ, YJNR, 
       JDAP, YJMB, YJYJC, 
-      PROJECT_PROPERTY, PROJECT_SCOPE, PROJECT_TYPE, 
-      DEFINE1, DEFINE2, DEFINE3, 
-      DEFINE4, DEFINE5, DEFINE6, 
-      DEFINE7, DEFINE8, DEFINE9, 
-      DEFINE10, DEFINE11, DEFINE12, 
-      DEFINE13)
+      PROJECT_PROPERTY, PROJECT_SCOPE, PROJECT_ID, 
+      QDBZ, FZDWUNITCW, FZDWUNIT, 
+      PROJECT_TYPE, DEFINE1, DEFINE2, 
+      DEFINE3, DEFINE4, DEFINE5, 
+      DEFINE6, DEFINE7, DEFINE8, 
+      DEFINE9, DEFINE10, DEFINE11, 
+      DEFINE12, DEFINE13, DEFINE14, 
+      DEFINE15, DEFINE16, DEFINE17, 
+      DEFINE18, DEFINE19)
     values (#{dataId,jdbcType=VARCHAR}, #{xmid,jdbcType=VARCHAR}, #{nd,jdbcType=VARCHAR}, 
       #{hth,jdbcType=VARCHAR}, #{xmmc,jdbcType=VARCHAR}, #{xmjb,jdbcType=VARCHAR}, #{ysnd,jdbcType=VARCHAR}, 
       #{ysfyxje,jdbcType=VARCHAR}, #{yszbxje,jdbcType=VARCHAR}, #{ysje,jdbcType=VARCHAR}, 
@@ -187,12 +201,15 @@
       #{jssj,jdbcType=VARCHAR}, #{kssj,jdbcType=VARCHAR}, #{yjsj,jdbcType=VARCHAR}, #{zyly,jdbcType=VARCHAR}, 
       #{zysx,jdbcType=VARCHAR}, #{sjid,jdbcType=VARCHAR}, #{lxbj,jdbcType=VARCHAR}, #{yjnr,jdbcType=VARCHAR}, 
       #{jdap,jdbcType=VARCHAR}, #{yjmb,jdbcType=VARCHAR}, #{yjyjc,jdbcType=VARCHAR}, 
-      #{projectProperty,jdbcType=VARCHAR}, #{projectScope,jdbcType=VARCHAR}, #{projectType,jdbcType=VARCHAR}, 
-      #{define1,jdbcType=VARCHAR}, #{define2,jdbcType=VARCHAR}, #{define3,jdbcType=VARCHAR}, 
-      #{define4,jdbcType=VARCHAR}, #{define5,jdbcType=VARCHAR}, #{define6,jdbcType=VARCHAR}, 
-      #{define7,jdbcType=VARCHAR}, #{define8,jdbcType=VARCHAR}, #{define9,jdbcType=VARCHAR}, 
-      #{define10,jdbcType=VARCHAR}, #{define11,jdbcType=VARCHAR}, #{define12,jdbcType=VARCHAR}, 
-      #{define13,jdbcType=VARCHAR})
+      #{projectProperty,jdbcType=VARCHAR}, #{projectScope,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR}, 
+      #{qdbz,jdbcType=VARCHAR}, #{fzdwunitcw,jdbcType=VARCHAR}, #{fzdwunit,jdbcType=VARCHAR}, 
+      #{projectType,jdbcType=VARCHAR}, #{define1,jdbcType=VARCHAR}, #{define2,jdbcType=VARCHAR}, 
+      #{define3,jdbcType=VARCHAR}, #{define4,jdbcType=VARCHAR}, #{define5,jdbcType=VARCHAR}, 
+      #{define6,jdbcType=VARCHAR}, #{define7,jdbcType=VARCHAR}, #{define8,jdbcType=VARCHAR}, 
+      #{define9,jdbcType=VARCHAR}, #{define10,jdbcType=VARCHAR}, #{define11,jdbcType=VARCHAR}, 
+      #{define12,jdbcType=VARCHAR}, #{define13,jdbcType=VARCHAR}, #{define14,jdbcType=VARCHAR}, 
+      #{define15,jdbcType=VARCHAR}, #{define16,jdbcType=VARCHAR}, #{define17,jdbcType=VARCHAR}, 
+      #{define18,jdbcType=VARCHAR}, #{define19,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.pcitc.base.stp.out.OutProjectPlan" >
     insert into out_project_plan
@@ -323,6 +340,18 @@
       <if test="projectScope != null" >
         PROJECT_SCOPE,
       </if>
+      <if test="projectId != null" >
+        PROJECT_ID,
+      </if>
+      <if test="qdbz != null" >
+        QDBZ,
+      </if>
+      <if test="fzdwunitcw != null" >
+        FZDWUNITCW,
+      </if>
+      <if test="fzdwunit != null" >
+        FZDWUNIT,
+      </if>
       <if test="projectType != null" >
         PROJECT_TYPE,
       </if>
@@ -364,6 +393,24 @@
       </if>
       <if test="define13 != null" >
         DEFINE13,
+      </if>
+      <if test="define14 != null" >
+        DEFINE14,
+      </if>
+      <if test="define15 != null" >
+        DEFINE15,
+      </if>
+      <if test="define16 != null" >
+        DEFINE16,
+      </if>
+      <if test="define17 != null" >
+        DEFINE17,
+      </if>
+      <if test="define18 != null" >
+        DEFINE18,
+      </if>
+      <if test="define19 != null" >
+        DEFINE19,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -493,6 +540,18 @@
       <if test="projectScope != null" >
         #{projectScope,jdbcType=VARCHAR},
       </if>
+      <if test="projectId != null" >
+        #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="qdbz != null" >
+        #{qdbz,jdbcType=VARCHAR},
+      </if>
+      <if test="fzdwunitcw != null" >
+        #{fzdwunitcw,jdbcType=VARCHAR},
+      </if>
+      <if test="fzdwunit != null" >
+        #{fzdwunit,jdbcType=VARCHAR},
+      </if>
       <if test="projectType != null" >
         #{projectType,jdbcType=VARCHAR},
       </if>
@@ -534,6 +593,24 @@
       </if>
       <if test="define13 != null" >
         #{define13,jdbcType=VARCHAR},
+      </if>
+      <if test="define14 != null" >
+        #{define14,jdbcType=VARCHAR},
+      </if>
+      <if test="define15 != null" >
+        #{define15,jdbcType=VARCHAR},
+      </if>
+      <if test="define16 != null" >
+        #{define16,jdbcType=VARCHAR},
+      </if>
+      <if test="define17 != null" >
+        #{define17,jdbcType=VARCHAR},
+      </if>
+      <if test="define18 != null" >
+        #{define18,jdbcType=VARCHAR},
+      </if>
+      <if test="define19 != null" >
+        #{define19,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -672,6 +749,18 @@
       <if test="record.projectScope != null" >
         PROJECT_SCOPE = #{record.projectScope,jdbcType=VARCHAR},
       </if>
+      <if test="record.projectId != null" >
+        PROJECT_ID = #{record.projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.qdbz != null" >
+        QDBZ = #{record.qdbz,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fzdwunitcw != null" >
+        FZDWUNITCW = #{record.fzdwunitcw,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fzdwunit != null" >
+        FZDWUNIT = #{record.fzdwunit,jdbcType=VARCHAR},
+      </if>
       <if test="record.projectType != null" >
         PROJECT_TYPE = #{record.projectType,jdbcType=VARCHAR},
       </if>
@@ -713,6 +802,24 @@
       </if>
       <if test="record.define13 != null" >
         DEFINE13 = #{record.define13,jdbcType=VARCHAR},
+      </if>
+      <if test="record.define14 != null" >
+        DEFINE14 = #{record.define14,jdbcType=VARCHAR},
+      </if>
+      <if test="record.define15 != null" >
+        DEFINE15 = #{record.define15,jdbcType=VARCHAR},
+      </if>
+      <if test="record.define16 != null" >
+        DEFINE16 = #{record.define16,jdbcType=VARCHAR},
+      </if>
+      <if test="record.define17 != null" >
+        DEFINE17 = #{record.define17,jdbcType=VARCHAR},
+      </if>
+      <if test="record.define18 != null" >
+        DEFINE18 = #{record.define18,jdbcType=VARCHAR},
+      </if>
+      <if test="record.define19 != null" >
+        DEFINE19 = #{record.define19,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null" >
@@ -763,6 +870,10 @@
       YJYJC = #{record.yjyjc,jdbcType=VARCHAR},
       PROJECT_PROPERTY = #{record.projectProperty,jdbcType=VARCHAR},
       PROJECT_SCOPE = #{record.projectScope,jdbcType=VARCHAR},
+      PROJECT_ID = #{record.projectId,jdbcType=VARCHAR},
+      QDBZ = #{record.qdbz,jdbcType=VARCHAR},
+      FZDWUNITCW = #{record.fzdwunitcw,jdbcType=VARCHAR},
+      FZDWUNIT = #{record.fzdwunit,jdbcType=VARCHAR},
       PROJECT_TYPE = #{record.projectType,jdbcType=VARCHAR},
       DEFINE1 = #{record.define1,jdbcType=VARCHAR},
       DEFINE2 = #{record.define2,jdbcType=VARCHAR},
@@ -776,7 +887,13 @@
       DEFINE10 = #{record.define10,jdbcType=VARCHAR},
       DEFINE11 = #{record.define11,jdbcType=VARCHAR},
       DEFINE12 = #{record.define12,jdbcType=VARCHAR},
-      DEFINE13 = #{record.define13,jdbcType=VARCHAR}
+      DEFINE13 = #{record.define13,jdbcType=VARCHAR},
+      DEFINE14 = #{record.define14,jdbcType=VARCHAR},
+      DEFINE15 = #{record.define15,jdbcType=VARCHAR},
+      DEFINE16 = #{record.define16,jdbcType=VARCHAR},
+      DEFINE17 = #{record.define17,jdbcType=VARCHAR},
+      DEFINE18 = #{record.define18,jdbcType=VARCHAR},
+      DEFINE19 = #{record.define19,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -907,6 +1024,18 @@
       <if test="projectScope != null" >
         PROJECT_SCOPE = #{projectScope,jdbcType=VARCHAR},
       </if>
+      <if test="projectId != null" >
+        PROJECT_ID = #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="qdbz != null" >
+        QDBZ = #{qdbz,jdbcType=VARCHAR},
+      </if>
+      <if test="fzdwunitcw != null" >
+        FZDWUNITCW = #{fzdwunitcw,jdbcType=VARCHAR},
+      </if>
+      <if test="fzdwunit != null" >
+        FZDWUNIT = #{fzdwunit,jdbcType=VARCHAR},
+      </if>
       <if test="projectType != null" >
         PROJECT_TYPE = #{projectType,jdbcType=VARCHAR},
       </if>
@@ -948,6 +1077,24 @@
       </if>
       <if test="define13 != null" >
         DEFINE13 = #{define13,jdbcType=VARCHAR},
+      </if>
+      <if test="define14 != null" >
+        DEFINE14 = #{define14,jdbcType=VARCHAR},
+      </if>
+      <if test="define15 != null" >
+        DEFINE15 = #{define15,jdbcType=VARCHAR},
+      </if>
+      <if test="define16 != null" >
+        DEFINE16 = #{define16,jdbcType=VARCHAR},
+      </if>
+      <if test="define17 != null" >
+        DEFINE17 = #{define17,jdbcType=VARCHAR},
+      </if>
+      <if test="define18 != null" >
+        DEFINE18 = #{define18,jdbcType=VARCHAR},
+      </if>
+      <if test="define19 != null" >
+        DEFINE19 = #{define19,jdbcType=VARCHAR},
       </if>
     </set>
     where DATA_ID = #{dataId,jdbcType=VARCHAR}
@@ -995,6 +1142,10 @@
       YJYJC = #{yjyjc,jdbcType=VARCHAR},
       PROJECT_PROPERTY = #{projectProperty,jdbcType=VARCHAR},
       PROJECT_SCOPE = #{projectScope,jdbcType=VARCHAR},
+      PROJECT_ID = #{projectId,jdbcType=VARCHAR},
+      QDBZ = #{qdbz,jdbcType=VARCHAR},
+      FZDWUNITCW = #{fzdwunitcw,jdbcType=VARCHAR},
+      FZDWUNIT = #{fzdwunit,jdbcType=VARCHAR},
       PROJECT_TYPE = #{projectType,jdbcType=VARCHAR},
       DEFINE1 = #{define1,jdbcType=VARCHAR},
       DEFINE2 = #{define2,jdbcType=VARCHAR},
@@ -1008,7 +1159,13 @@
       DEFINE10 = #{define10,jdbcType=VARCHAR},
       DEFINE11 = #{define11,jdbcType=VARCHAR},
       DEFINE12 = #{define12,jdbcType=VARCHAR},
-      DEFINE13 = #{define13,jdbcType=VARCHAR}
+      DEFINE13 = #{define13,jdbcType=VARCHAR},
+      DEFINE14 = #{define14,jdbcType=VARCHAR},
+      DEFINE15 = #{define15,jdbcType=VARCHAR},
+      DEFINE16 = #{define16,jdbcType=VARCHAR},
+      DEFINE17 = #{define17,jdbcType=VARCHAR},
+      DEFINE18 = #{define18,jdbcType=VARCHAR},
+      DEFINE19 = #{define19,jdbcType=VARCHAR}
     where DATA_ID = #{dataId,jdbcType=VARCHAR}
   </update>
   
