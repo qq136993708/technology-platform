@@ -1426,6 +1426,8 @@
 				   SUBSTR(out_project_plan.DEFINE10 FROM 4) as DEFINE10,
 				   SUBSTR(out_project_plan.DEFINE11 FROM 2) as DEFINE11,
 				   SUBSTR(out_project_plan.DEFINE12 FROM 2) as DEFINE12,
+				   SUBSTR(out_project_plan.FZDWUNITCW FROM 4) as FZDWUNITCW,
+				   SUBSTR(out_project_plan.FZDWUNIT FROM 2) as FZDWUNIT,
 				   out_project_plan.XMID,out_project_plan.XMMC,out_project_plan.YSND,
 				   out_project_plan.JF,out_project_plan.YSJE,
 				   out_project_plan.YSZBXJE,out_project_plan.YSFYXJE,
@@ -1474,13 +1476,40 @@
 				</foreach>
 				)
 			</if>
-			<if test="define12 != null">
-				and (
-				<foreach collection="define12" item="define12" index="index" separator=" or ">
-					tableA.define12 like '%${define12}%'
-				</foreach>
-				)
+			<if test="fzdwflag != null and fzdwflag == '负责单位'">
+				<if test="define12 != null">
+					and (
+					<foreach collection="define12" item="define12" index="index" separator=" or ">
+						tableA.fzdwunit like '%${define12}%'
+					</foreach>
+					)
+				</if>
+				<if test="define2 != null">
+					and (
+					<foreach collection="define2" item="define2" index="index" separator=" or ">
+						tableA.fzdwunitcw like '%${define2}%'
+					</foreach>
+					)
+				</if>
 			</if>
+			
+			<if test="fzdwflag == null or fzdwflag == ''">
+				<if test="define12 != null">
+					and (
+					<foreach collection="define12" item="define12" index="index" separator=" or ">
+						tableA.define12 like '%${define12}%'
+					</foreach>
+					)
+				</if>
+				<if test="define2 != null">
+					and (
+					<foreach collection="define2" item="define2" index="index" separator=" or ">
+						tableA.define2 like '%${define2}%'
+					</foreach>
+					)
+				</if>
+			</if>
+			
 			<if test="define10 != null">
 				and (
 				<foreach collection="define10" item="define10" index="index" separator=" or ">
@@ -1495,13 +1524,7 @@
 				</foreach>
 				)
 			</if>
-			<if test="define2 != null">
-				and (
-				<foreach collection="define2" item="define2" index="index" separator=" or ">
-					tableA.define2 like '%${define2}%'
-				</foreach>
-				)
-			</if>
+			
 			<if test="project_property != null">
 				and (
 				<foreach collection="project_property" item="project_property" index="index" separator=" or ">
