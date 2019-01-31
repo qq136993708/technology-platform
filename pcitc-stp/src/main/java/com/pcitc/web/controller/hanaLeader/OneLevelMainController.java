@@ -2177,15 +2177,17 @@ public class OneLevelMainController {
 					String companyCode = CommonUtil.getParameter(request, "companyCode", HanaUtil.YJY_CODE_NOT_YINGKE);
 					
 					String companyName = CommonUtil.getParameter(request, "companyName", "");
+					String legentName = CommonUtil.getParameter(request, "legentName", "");
 					List<CompanyCode> companyCodeList = HanaUtil.getCompanyCode(restTemplate, httpHeaders);
 					companyCode = HanaUtil.getCompanyCodeByName(companyCodeList, companyName);
 					
-					
+					request.setAttribute("companyName", companyName);
 					
 					request.setAttribute("type", type);
 					request.setAttribute("month", month);
 					request.setAttribute("companyCode", companyCode);
-				
+					request.setAttribute("legentName", legentName);
+					
 			        return "stp/hana/home/oneLevelMain/equipment_detail";
 			  }
 		    

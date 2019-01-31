@@ -1228,7 +1228,7 @@
 		 <if test="pageSize != null and pageSize !=''">  limit ${pageSize} offset  ${start} </if>   
      </select>
      
-      <select id="get_home_KYZB_COUNT"  resultType="int" parameterType="java.util.Map" > 
+      <select id="get_home_kyzb_count"  resultType="int" parameterType="java.util.Map" > 
 		SELECT COUNT(*) FROM(
 		
 				   select

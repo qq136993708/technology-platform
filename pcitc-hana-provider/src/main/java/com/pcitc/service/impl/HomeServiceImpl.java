@@ -191,7 +191,7 @@ public class HomeServiceImpl implements IHomeService{
   		map.put("type", type);
   		map.put("companyCode", companyCode);
   		List<H1AMKYSY100117> list = homePageMapper.get_home_KYZB_detail(map);
-  		Integer totalRecords = homePageMapper.get_home_KYZB_COUNT(map);
+  		Integer totalRecords = homePageMapper.get_home_kyzb_count(map);
   		System.out.println(">>>>>>>表格："+totalRecords);
   		LayuiTableData data = new LayuiTableData();
   		data.setData(list);

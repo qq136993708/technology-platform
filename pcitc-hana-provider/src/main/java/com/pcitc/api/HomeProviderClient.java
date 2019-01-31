@@ -249,7 +249,7 @@ public class HomeProviderClient {
    		List<H1AMKYSY100117> list = homeService.get_home_KYZB(map);
    		
    		JSONArray json = JSON.parseArray(JSON.toJSONString(list));
-   		System.out.println(">>>>>>>>>>>>>>>>>get_home_KYZB " + json.toString());
+   		
    		return json;
    	}
     
@@ -289,7 +289,7 @@ public class HomeProviderClient {
    		List<H1AMKYSY100117> list = homeService.get_home_KYZB_02(map);
    		
    		JSONArray json = JSON.parseArray(JSON.toJSONString(list));
-   		System.out.println(">>>>>>>>>>>>>>>>>get_home_KYZB_02 " + json.toString());
+   		//System.out.println(">>>>>>>>>>>>>>>>>get_home_KYZB_02 " + json.toString());
    		return json;
    	}
     

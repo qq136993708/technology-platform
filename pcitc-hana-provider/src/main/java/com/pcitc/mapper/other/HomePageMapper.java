@@ -34,7 +34,7 @@ public interface HomePageMapper
      public  List<H1AMKYSY100117> get_home_KYZB_02(Map map);
      
      public  List<H1AMKYSY100117> get_home_KYZB_detail(Map map);
-     public Integer get_home_KYZB_COUNT(Map map);
+     public Integer get_home_kyzb_count(Map map);
      
      public  H1AMKYSY100117 get_home_KYZB_DETAIL_ALL_COUNT(Map map);
      

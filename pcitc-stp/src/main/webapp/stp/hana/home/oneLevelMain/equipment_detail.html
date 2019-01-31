@@ -18,7 +18,7 @@
 </div>
 
 <div class="tableBox" >
-<h3 style="font-weight: bold;text-align: center;margin: 10px 0;" id="stp_table_title"><label id="ttt"></label>${companyName}详情表(单位：万元)</h3>
+<h3 style="font-weight: bold;text-align: center;margin: 10px 0;" id="stp_table_title"><label id="ttt"></label>（${month}）&nbsp;&nbsp;${companyName}${legentName}设备</h3>
     <table id="processdef-table" class="layui-hide" lay-filter="tableEvent">
 </div>
 
@@ -133,15 +133,15 @@ layui.config({
             theme: '#0F9EE0'
         },
         cols: [[
-            {field:'g0ZCXLMS',            title:'项目板块',        style:'cursor: pointer;',align: 'center', width: '100'},
-            {field:'g0GSJC',              title:'课题类型',        style:'cursor: pointer;',align: 'center', width: '150'},
-            {field:'g0ZDXZCT',            title:'院所',        style:'cursor: pointer;',align: 'center', width: '100'},
-            {field:'g0TXT50',          title:'项目编号',        style:'cursor: pointer;',align: 'center', width: '100'},
-            {field:'g0ZBHND',          title:'项目名称',        style:'cursor: pointer;',align: 'right', width: '300'},
-            {field:'g0NDJAR',          title:'累计收入',        style:'cursor: pointer;',align: 'right', width: '100'},
-            {field:'g0NDSYN',          title:'计划总投资 ',        style:'cursor: pointer;',align: 'right', width: '100'},
-            {field:'g0NCGZYZJE',       title:'累计下达投资额 ',        style:'cursor: pointer;',align: 'right', width: '100'},
-            {field:'bl',               title:'承诺',        style:'cursor: pointer;',align: 'right', width: '100'}
+            {field:'g0ZCXLMS',         title:'设备类型',        style:'cursor: pointer;',align: 'center', width: '11%'},
+            {field:'g0GSJC',           title:'直属研究院',        style:'cursor: pointer;',align: 'center', width: '11%'},
+            {field:'g0ZDXZCT',         title:'资产类别描述',        style:'cursor: pointer;',align: 'left', width: '11%'},
+            {field:'g0TXT50',          title:'设备名称',        style:'cursor: pointer;',align: 'left', width: '11%'},
+            {field:'g0ZBHND',          title:'使用年限',        style:'cursor: pointer;',align: 'right', width: '11%'},
+            {field:'g0NDJAR',          title:'计划年使用期',        style:'cursor: pointer;',align: 'right', width: '11%'},
+            {field:'g0NDSYN',          title:'剩余年限 ',        style:'cursor: pointer;',align: 'right', width: '11%'},
+            {field:'g0NCGZYZJE',       title:'资产净值 ',        style:'cursor: pointer;',align: 'right', width: '11%'},
+            {field:'bl',               title:'折旧率',        style:'cursor: pointer;',align: 'right', width: '11%'}
             
             
         ]],
