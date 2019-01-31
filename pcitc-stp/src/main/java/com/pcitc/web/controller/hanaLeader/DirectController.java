@@ -554,6 +554,28 @@ public class DirectController {
 					}
 					
 					
+					
+					//gjxksl新开课题
+					if(type.equals("3") )
+					{
+						ChartPieResultData pie = new ChartPieResultData();
+						List<ChartPieDataValue> dataList = new ArrayList<ChartPieDataValue>();
+						List<String> legendDataList = new ArrayList<String>();
+						for (int i = 0; i < list.size(); i++) 
+						{
+							Knowledge f2 = list.get(i);
+							Integer applyCount = f2.getGjxksl();
+							
+							int value =Integer.valueOf(applyCount).intValue();
+							legendDataList.add(f2.getLx());
+							dataList.add(new ChartPieDataValue(value, f2.getDefine2()));
+						}
+						pie.setDataList(dataList);
+						pie.setLegendDataList(legendDataList);
+		         		result.setSuccess(true);
+						result.setData(pie);
+					}
+					
 				}
 				
 			} else
