@@ -42,6 +42,7 @@ import com.pcitc.base.common.Result;
 import com.pcitc.base.common.TreeNode2;
 import com.pcitc.base.hana.report.AchievementsAnalysis;
 import com.pcitc.base.hana.report.BudgetMysql;
+import com.pcitc.base.hana.report.CompanyCode;
 import com.pcitc.base.hana.report.Contract;
 import com.pcitc.base.hana.report.H1AMKYSY100117;
 import com.pcitc.base.hana.report.Knowledge;
@@ -59,8 +60,6 @@ import com.pcitc.web.utils.HanaUtil;
 @Controller
 @RequestMapping(value = "/one_level_main")
 public class OneLevelMainController {
-	
-	
 	
 	    //知识产权
 		private static final String knowledge_01 = "http://pcitc-zuul/system-proxy/out-patent-provider/lx/apply-agree";
@@ -86,6 +85,8 @@ public class OneLevelMainController {
 		//科研装备
 		private static final String equipment_01 = "http://pcitc-zuul/hana-proxy/hana/home/get_home_KYZB";
 		private static final String equipment_02 = "http://pcitc-zuul/hana-proxy/hana/home/get_home_KYZB_02";
+		private static final String equipment_03 = "http://pcitc-zuul/hana-proxy/hana/home/get_home_KYZB_detail";
+		private static final String equipment_04 = "http://pcitc-zuul/hana-proxy/hana/home/get_home_KYZB_DETAIL_ALL_COUNT";
 		
 		//十条龙
 		private static final String dragon_01 = "http://pcitc-zuul/system-proxy/out-project-provider/dragon/type/project-info";
@@ -109,9 +110,6 @@ public class OneLevelMainController {
 		private static final String count_table_data = "http://pcitc-zuul/system-proxy/out-project-provider/common-project/list";
 		
 		private static final String country_table_data = "http://pcitc-zuul/system-proxy/out-project-provider/country-project/list";
-		
-		
-		
 		
 		//数量--成果
 	    private static final String achievement_table_dic = "http://pcitc-zuul/system-proxy/out-provider/appraisal/select-condition/list";
@@ -594,6 +592,11 @@ public class OneLevelMainController {
 				String ktlx=CommonUtil.getParameter(request, "ktlx", "");
 				String define11=CommonUtil.getParameter(request, "define11", "");//费用来源
 				String define12=CommonUtil.getParameter(request, "define12", "");//单位类别
+				
+				
+				 
+				String fzdwflag=CommonUtil.getParameter(request, "fzdwflag", "承担单位");
+				request.setAttribute("fzdwflag", fzdwflag);
 				request.setAttribute("define12", define12);
 				request.setAttribute("define11", define11);
 				request.setAttribute("ktlx", ktlx);
@@ -847,7 +850,8 @@ public class OneLevelMainController {
 				String qdbz=CommonUtil.getParameter(request, "qdbz", "");//签订标识
                 String define11=CommonUtil.getParameter(request, "define11", "");//费用来源
                 String define12=CommonUtil.getParameter(request, "define12", "");//单位类别
-                
+                String fzdwflag=CommonUtil.getParameter(request, "fzdwflag", "承担单位");
+				request.setAttribute("fzdwflag", fzdwflag);
 				request.setAttribute("define12", define12);
 				request.setAttribute("define11", define11);
 				request.setAttribute("qdbz", qdbz);
@@ -2034,41 +2038,52 @@ public class OneLevelMainController {
 		    	Result result = new Result();
 				String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
 				String companyCode = CommonUtil.getParameter(request, "companyCode", "");
+				String type = CommonUtil.getParameter(request, "type", "");
 				Map<String, Object> paramsMap = new HashMap<String, Object>();
 				paramsMap.put("month", month);
 				paramsMap.put("companyCode", companyCode);
+				paramsMap.put("type", type);
 				JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 				HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
-				ChartSingleLineResultData chartSingleLineResultData = new ChartSingleLineResultData();
-					ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(equipment_01, HttpMethod.POST, entity, JSONArray.class);
-					int statusCode = responseEntity.getStatusCodeValue();
-					if (statusCode == 200) 
-					{
-						JSONArray jSONArray = responseEntity.getBody();
-						System.out.println(">>>>>>>>>>>>>>>equipment_01 jSONArray" + jSONArray.toString());
-						List<H1AMKYSY100117> list = JSONObject.parseArray(jSONArray.toJSONString(), H1AMKYSY100117.class);
-						List<String> xAxisDataList = new ArrayList<String>();
-						List<Object> seriesDataList = new ArrayList<Object>();
-						for (int i = 0; i < list.size(); i++) 
-						{
-							H1AMKYSY100117 contract = (H1AMKYSY100117) list.get(i);
-							String G0GSJC = contract.getG0GSJC();
-							Object G0SBSL =contract.getG0SBSL();
-							seriesDataList.add(Double.valueOf(String.valueOf(G0SBSL)).intValue());
-							xAxisDataList.add(G0GSJC);
-							
-						}
-						chartSingleLineResultData.setxAxisDataList(xAxisDataList);
-						chartSingleLineResultData.setSeriesDataList(seriesDataList);
-						result.setSuccess(true);
-						result.setData(chartSingleLineResultData);
-					}
+				ChartBarLineResultData barLine=new ChartBarLineResultData();
+				ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(equipment_01, HttpMethod.POST, entity, JSONArray.class);
+				int statusCode = responseEntity.getStatusCodeValue();
+				if (statusCode == 200) 
+				{
+					JSONArray jSONArray = responseEntity.getBody();
+					System.out.println(">>>>>>>>>>>>>>>equipment_01 jSONArray" + jSONArray.toString());
+					List<H1AMKYSY100117> list = JSONObject.parseArray(jSONArray.toJSONString(), H1AMKYSY100117.class);
+					List<String>  xAxisDataList=HanaUtil.getduplicatexAxisByList(list,"g0GSJC");
+	         		barLine.setxAxisDataList(xAxisDataList);
+					List<String> legendDataList = new ArrayList<String>();
+					legendDataList.add("500万以上");
+					legendDataList.add("300-500万");
+					legendDataList.add("100-300万");
+					legendDataList.add("100万以下");
+					barLine.setLegendDataList(legendDataList);
+					// X轴数据
+					List<ChartBarLineSeries> seriesList = new ArrayList<ChartBarLineSeries>();
+					ChartBarLineSeries s1 = HanaUtil.getH1AMKYSY100117Series(list, "g0SBSL9");
+					ChartBarLineSeries s2 = HanaUtil.getH1AMKYSY100117Series(list, "g0SBSL5");
+					ChartBarLineSeries s3 = HanaUtil.getH1AMKYSY100117Series(list, "g0SBSL3");
+					ChartBarLineSeries s4 = HanaUtil.getH1AMKYSY100117Series(list, "g0SBSL1");
+					seriesList.add(s1);
+					seriesList.add(s2);
+					seriesList.add(s3);
+					seriesList.add(s4);
+					barLine.setSeriesList(seriesList);
+					result.setSuccess(true);
+					result.setData(barLine);
+				}
 					
 				
 				JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
 				System.out.println(">>>>>>>>>>>>>>>equipment_01 " + resultObj.toString());
 				return resultObj.toString();
 			}
+		    
+		    
+		    
 		    
 		    
 		    @RequestMapping(method = RequestMethod.GET, value = "/equipment_02")
@@ -2146,7 +2161,87 @@ public class OneLevelMainController {
 				//System.out.println(">>>>>>>>>>>>>>>equipment_02 " + resultObj.toString());
 				return resultObj.toString();
 			}
+		    
+		    
+		    
+		    
+		    
+		    @RequestMapping(method = RequestMethod.GET, value = "/equipment_03_detail")
+			  public String equipment_03_detail(HttpServletRequest request) throws Exception
+			  {
+				 
+					String type=CommonUtil.getParameter(request, "type", "");
+					String month=CommonUtil.getParameter(request, "month", "");
+					
+					
+					String companyCode = CommonUtil.getParameter(request, "companyCode", HanaUtil.YJY_CODE_NOT_YINGKE);
+					
+					String companyName = CommonUtil.getParameter(request, "companyName", "");
+					String legentName = CommonUtil.getParameter(request, "legentName", "");
+					List<CompanyCode> companyCodeList = HanaUtil.getCompanyCode(restTemplate, httpHeaders);
+					companyCode = HanaUtil.getCompanyCodeByName(companyCodeList, companyName);
+					
+					request.setAttribute("companyName", companyName);
+					
+					request.setAttribute("type", type);
+					request.setAttribute("month", month);
+					request.setAttribute("companyCode", companyCode);
+					request.setAttribute("legentName", legentName);
+					
+			        return "stp/hana/home/oneLevelMain/equipment_detail";
+			  }
+		    
+		    
+		    
+		    @RequestMapping(method = RequestMethod.POST, value = "/equipment_03")
+			@ResponseBody
+			public String equipment_03(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
+
+				System.out.println("equipment_03 param=   " + JSONObject.toJSONString(param));
+				LayuiTableData layuiTableData = new LayuiTableData();
+				HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+				ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(equipment_03, HttpMethod.POST, entity, LayuiTableData.class);
+				int statusCode = responseEntity.getStatusCodeValue();
+				if (statusCode == 200) {
+					layuiTableData = responseEntity.getBody();
+				}
+				JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
+				System.out.println("equipment_03 result=   " + result.toJSONString());
+				return result.toString();
+			}
+		    
+		    
+		    
+		    
+		    @RequestMapping(method = RequestMethod.GET, value = "/equipment_04")
+			@ResponseBody
+			public String equipment_04(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		    	Result result = new Result();
+				String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+				String companyCode = CommonUtil.getParameter(request, "companyCode", "");
+				String type = CommonUtil.getParameter(request, "type", "");
+				Map<String, Object> paramsMap = new HashMap<String, Object>();
+				paramsMap.put("type", type);
+				paramsMap.put("month", month);
+				paramsMap.put("companyCode", companyCode);
+				JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+				HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+					ResponseEntity<JSONObject> responseEntity = restTemplate.exchange(equipment_04, HttpMethod.POST, entity, JSONObject.class);
+					int statusCode = responseEntity.getStatusCodeValue();
+					if (statusCode == 200) 
+					{
+						JSONObject jSONArray = responseEntity.getBody();
+						result.setSuccess(true);
+						result.setData(jSONArray.toString());
+					}
+					
 				
+				JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
+				System.out.println(">>>>>>>>>>>>>>>equipment_04 " + resultObj.toString());
+				return resultObj.toString();
+			}
+		    
+		    
 			/**=========================================科研装备 end===============================*/
 			
 		    
@@ -2785,8 +2880,8 @@ public class OneLevelMainController {
 													List<String>  xAxisDataList=HanaUtil.getduplicatexAxisByList(list,"zycmc");
 									         		barLine.setxAxisDataList(xAxisDataList);
 													List<String> legendDataList = new ArrayList<String>();
-													legendDataList.add("预算新开金额");
-													legendDataList.add("实际新开金额");
+													legendDataList.add("新开课题预算金额");
+													legendDataList.add("新开课题实际金额");
 													
 													barLine.setLegendDataList(legendDataList);
 													// X轴数据
