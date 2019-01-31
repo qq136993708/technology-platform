@@ -368,7 +368,7 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
         String javaCallBack = zjkPic.getCallBackClass();
 
         List<String> stringsDic = new ArrayList<>();
-        if (bak3 != null && bak3 != null) {
+        if (bak3 != null && !"".equals(bak3)) {
             if ("year".equals(bak3)) {
                 int nowDate = Integer.parseInt(DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
                 for (int i = 10; i > 0; i--) {
@@ -383,7 +383,7 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
 
         Map<String, Object> param = (Map<String, Object>) jsonObject.get("param");
 
-        if (bak1 != null && bak2 != null) {
+        if (bak1 != null &&!"".equals(bak1)&&!"".equals(bak2)&& bak2 != null) {
             Object o = SpringContextUtil.getBean(bak1);
             invokeMethod(o.getClass(), o, bak2, param);
         }
@@ -502,7 +502,7 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
 
         jsonObject.put("result", result);
 
-        if (javaCallBack != null) {
+        if (javaCallBack != null&&!"".equals(javaCallBack)) {
             String[] strings = javaCallBack.split("|");
             Object o = SpringContextUtil.getBean(strings[0]);
             invokeMethod(o.getClass(), o, strings[1], jsonObject);

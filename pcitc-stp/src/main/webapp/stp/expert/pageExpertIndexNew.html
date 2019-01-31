@@ -145,7 +145,7 @@
         <span>专利数量:${zlCount}</span>
     </div>-->
     <div class="searchH">
-        <div class="searchOption">
+        <div class="searchOption" style="text-align: center">
             <!--<a href="#">石油炼制</a>-->
             <!--<a href="#">石油化工</a>-->
             <!--<a href="#">公用技术</a>-->
@@ -200,10 +200,10 @@
         <div class="layui-col-md12">
             <div class="layui-card">
                 <div class="layui-card-header">
-                    按研究院统计专家数量统计图
+                    研究院统计专家数量
                 </div>
                 <div class="layui-row-main">
-                    <div class="main-chart" id="four" style="height:250px;width: 100%;"></div>
+                    <div class="main-chart" id="four" style="height:300px;width: 100%;"></div>
                 </div>
             </div>
         </div>
@@ -212,10 +212,10 @@
         <div class="layui-col-md12">
             <div class="layui-card">
                 <div class="layui-card-header">
-                    不同年龄段专家数量统计图
+                    年龄段专家数量
                 </div>
                 <div class="layui-row-main">
-                    <div class="main-chart" id="three" style="height:250px;width: 100%;"></div>
+                    <div class="main-chart" id="three" style="height:300px;width: 100%;"></div>
                 </div>
             </div>
         </div>
@@ -253,9 +253,8 @@
 <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
 <script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
 <script type="text/javascript" src="/plugins/echarts/walden.js"></script>
-<script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
-<script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
-<script type="text/javascript" src="/stp/hana/common/stp_common_force.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_strip.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_pie_rose.js"></script>
 
 
 <!--<div class="main-chart" id="four" style="height:280px;width: 100%;"></div>-->
@@ -298,7 +297,6 @@
             $(".xm-input").val("选择机构");
         });
         changeExpert();
-
     });
 
     //ajax获取专家数据
@@ -319,7 +317,7 @@
                 }
                 tempHtml += "            <div class=\"main-expert\">\n" +
                     "                <div class=\"expert-h\"></div>\n" +
-                    "                <div class=\"expert-i\"><img src=\"/stp/expert/img/" + zjkBaseInfo.expertName + ".jpg\" alt=\"\"></div>\n" +
+                    "                <div class=\"expert-i\"><img  height='110' src=\"/stp/expert/img/" + zjkBaseInfo.expertName + ".jpg\" alt=\"\"></div>\n" +
                     "                <!--<div class=\"expert-i\"><img src=\"/layuiadmin/layui/images/expert-img.png\" alt=\"\"></div>-->\n" +
                     "                <div class=\"expert-t\">" + zjkBaseInfo.expertName + "</div>\n" +
                     "                <div class=\"expert-s\">" + zjkBaseInfo.expertProfessinal + "</div>\n" +
@@ -392,11 +390,13 @@
         // });
         var three = "/expertController/picIndex?id=2&type=bar";
         var colorNew = ["#8fd101"];
-        var three = load_single_bar(three, "three", "", "", yAxis, colorNew, 80);
+        var three = load_single_bar(three, "three", "", "", yAxis, colorNew, 20);
 
-        var four = "/expertController/picIndex?id=3&type=bar";
+        var four = "/expertController/picIndex?id=6&type=bar";
         var color = ["#50cedc"];
-        var four = load_single_bar(four, "four", "", "", yAxis, color, 80);
+        // var four = load_single_bar(four, "four", "", "", yAxis, color, 20);
+        loadPie(four,'four',"","");
+
 
         /* var five = "/expertController/picIndex?id=4&hyly=hyly&type=bar";
          var five = load_single_bar(five, "five", "专家所在行业领域展示图", "", yAxis);*/
