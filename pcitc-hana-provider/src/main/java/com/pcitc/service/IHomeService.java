@@ -35,7 +35,8 @@ public interface IHomeService {
     public  List<H1AMKYSY100117> get_home_KYZB_02(Map map)throws Exception;
     public LayuiTableData getNdkyxmzlTble(LayuiTableParam param)throws Exception;
     
-    
+    public LayuiTableData get_home_KYZB_detail(LayuiTableParam param)throws Exception;
+    public  H1AMKYSY100117 get_home_KYZB_DETAIL_ALL_COUNT(Map map);
     //二级页面
     public List<H1AMKYSY100109> getNdkyxmzl(Map map)throws Exception;
     public List<H1AMKYSY100109> getNdkyxmzl02(Map map)throws Exception;
@@ -50,6 +51,9 @@ public interface IHomeService {
  	public List<H1AMKYSY100109>  getLevel2KYZB02Bar(Map map)throws Exception;
  	public List<H1AMKYSY100109>  getLevel2KYZB03Circle(Map map)throws Exception;
  	public LayuiTableData getKYZBTble(LayuiTableParam param)throws Exception;
+ 	
+ 	
+ 	
     
     //三级
     public LayuiTableData get_kyzb_table_data(LayuiTableParam param)throws Exception;

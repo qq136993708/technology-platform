@@ -33,6 +33,11 @@ public interface HomePageMapper
      public  List<H1AMKYSY100117> get_home_KYZB(Map map);
      public  List<H1AMKYSY100117> get_home_KYZB_02(Map map);
      
+     public  List<H1AMKYSY100117> get_home_KYZB_detail(Map map);
+     public Integer get_home_KYZB_COUNT(Map map);
+     
+     public  H1AMKYSY100117 get_home_KYZB_DETAIL_ALL_COUNT(Map map);
+     
      
      
      //二级页面
@@ -51,6 +56,8 @@ public interface HomePageMapper
 	 public List<H1AMKYSY100109> getListLevel2(Map map);
 	 
 	 public Integer getCountLevel2(Map map);
+	 
+	
 	 
 	 
 	 

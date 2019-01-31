@@ -42,7 +42,7 @@
             <div class="layui-col-md12">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        <span class="layui-time"></span>单台价值大于500万科研装备数量
+                        <span class="layui-time"></span>单台科研装备数量
                     </div>
                     <div class="layui-row-main">
                     	<div class="text-total">
@@ -107,7 +107,7 @@ layui.config({
     });
 
 
-    renderTable();
+   renderTable();
 
     var monthValY=$("#month").val().substring(4,0);
     var monthValM=$("#month").val().substring(4);
@@ -128,7 +128,7 @@ function initEchart()
 	var yAxis= [
         {
             type: 'value',
-            name: '数量（台）',
+            name: '数量',
             min: 0,
             //max:'dataMax',
             position: 'left',
@@ -137,22 +137,49 @@ function initEchart()
             }
         }
     ];
+	
+	
+	var yAxis2= [
+        {
+            type: 'value',
+            name: '数量（个）',
+            position: 'left',
+            axisLabel: {
+                formatter: '{value}'
+            }
+        }
+    ];
+	
+	
+	
+	
+
 	var chart1_url="/one_level_main/equipment_01?month="+$("#month").val()+"&v_date="+v_date+"&companyCode="+companyCode;
-	var color=["#78c34b"];
-	var echart1=load_single_bar(chart1_url,"equipment_01_chart","","",yAxis,color,70,null,function(data){
-		var total_count = 0;
-		console.log(data);
-		$.each(data.data.seriesDataList,function(index,dt){
-			total_count+=dt;
-		});
-		$("#chart_title_01").html(total_count+"（台）");
-	});
+	var echart1=load_mutl_bar_down(chart1_url,"equipment_01_chart","","",yAxis2);
 	echart1.on('click', function (params) {
 		var xName=params.name;
 		var legentName=params.seriesName;
-		window.open("/reportNew/reportPageStp?name=167305d0060_d4723a52");
-          
+		var type="";
+		if(legentName=='500万以上')
+		{
+			type="9";
+		}
+		if(legentName=='300-500万')
+		{
+			type="5";
+		}
+		if(legentName=='100-300万')
+		{
+			type="3";
+		}
+		if(legentName=='100万以下')
+		{
+			type="1";
+		}
+		var url=　encodeURIComponent("/one_level_main/equipment_03_detail?month="+$("#month").val()+"&companyName="+xName+"&type="+type);
+        window.open("/instituteIndex?url="+url);
     });
+	
 	
 }
 

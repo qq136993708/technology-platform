@@ -805,8 +805,8 @@ function set_multi_graph_statistics(data,id)
 	
 	if(id=='investment_chart6')
 	{
-		var jzCount_1=getDataCountForNameFloat(data,'预算新开金额');
-    	var jzCount_2=getDataCountForNameFloat(data,'实际新开金额');
+		var jzCount_1=getDataCountForNameFloat(data,'新开课题预算金额');
+    	var jzCount_2=getDataCountForNameFloat(data,'新开课题实际金额');
         $("#investment_chart6_01").html(jzCount_1.toFixed(2)+"亿元");
         $("#investment_chart6_02").html(jzCount_2.toFixed(2)+"亿元");
 	}
@@ -879,6 +879,16 @@ function set_multi_graph_statistics(data,id)
 	}
 	
 	
+	if(id=='equipment_01_chart')
+	{
+		
+		var xkCount_1=getDataCountForName(data,'500万以上');
+    	var jzCount_2=getDataCountForName(data,'300-500万');
+    	var jzCount_3=getDataCountForName(data,'100-300万');
+    	var jzCount_4=getDataCountForName(data,'100万以下');
+        var allCount=xkCount_1+jzCount_2+jzCount_3+jzCount_4;
+        $("#chart_title_01").html(allCount+"个");
+	}
 	
 	
 	/**=============================直属研究院 end===========================*/

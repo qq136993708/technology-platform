@@ -3787,22 +3787,125 @@ public static ChartBarLineSeries getKNOWLDGELevel2ChartBarLineSeries07(List<Know
 	}
 	
 	
+
+	
+ public static ChartBarLineSeries getH1AMKYSY100117Series(List<H1AMKYSY100117> list, String name)
+ {
+	
+		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
+		if (name.equals("g0SBSL9")) 
+		{
+			chartBarLineSeries.setName("500万以上");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		if (name.equals("g0SBSL5"))
+		{
+			chartBarLineSeries.setName("300-500万");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		
+		if (name.equals("g0SBSL3"))
+		{
+			chartBarLineSeries.setName("100-300万");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		
+		if (name.equals("g0SBSL1"))
+		{
+			chartBarLineSeries.setName("100万以下");
+			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
+		}
+		List<Object> dataList = new ArrayList<Object>();
+		if (list != null && list.size() > 0) 
+		{
+			for (int i = 0; i < list.size(); i++) 
+			{
+				H1AMKYSY100117 f03 = list.get(i);
+				Object g0SBSL9=f03.getG0SBSL9();
+				Object g0SBSL5=f03.getG0SBSL5();
+				Object g0SBSL3=f03.getG0SBSL3();
+				Object g0SBSL1=f03.getG0SBSL1();
+				if (name.equals("g0SBSL9"))
+				{
+					
+					if(g0SBSL9!=null)
+					{
+						dataList.add(String.format("%.0f", Double.valueOf(String.valueOf(g0SBSL9))));
+						
+					}else
+					{
+						dataList.add(0);
+					}
+					
+				}
+				if (name.equals("g0SBSL5"))
+				{
+					
+					if(g0SBSL5!=null)
+					{
+						dataList.add(String.format("%.0f", Double.valueOf(String.valueOf(g0SBSL5))));
+						
+					}else
+					{
+						dataList.add(0);
+					}
+					
+				}
+				
+				
+				if (name.equals("g0SBSL3"))
+				{
+					
+					if(g0SBSL3!=null)
+					{
+						dataList.add(String.format("%.0f", Double.valueOf(String.valueOf(g0SBSL3))));
+						
+					}else
+					{
+						dataList.add(0);
+					}
+					
+				}
+				
+				if (name.equals("g0SBSL1"))
+				{
+					
+					if(g0SBSL1!=null)
+					{
+						dataList.add(String.format("%.0f", Double.valueOf(String.valueOf(g0SBSL1))));
+						
+					}else
+					{
+						dataList.add(0);
+					}
+					
+				}
+				
+				
+			}
+			chartBarLineSeries.setData(dataList);
+		}
+		return chartBarLineSeries;
+	}
+	
+
+	
+
 	
 	
 public static ChartBarLineSeries getinvestmentBarLineSeries3(List<BudgetMysql> list, String name)
 {
 
 	
-	
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
 		if (name.equals("ysxkje")) 
 		{
-			chartBarLineSeries.setName("预算新开金额");
+			chartBarLineSeries.setName("新开课题预算金额");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
 		if (name.equals("xkMoney"))
 		{
-			chartBarLineSeries.setName("实际新开金额");
+			chartBarLineSeries.setName("新开课题实际金额");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_BAR);
 		}
 
@@ -4046,20 +4149,22 @@ public static ChartBarLineSeries getinvestmentBarLineSeries3(List<BudgetMysql> l
 		ChartBarLineSeries chartBarLineSeries = new ChartBarLineSeries();
 		if (name.equals("fyxsjje")) {
 			chartBarLineSeries.setName("费用性科研投入");
-			chartBarLineSeries.setStack("总量");
-			chartBarLineSeries.setAreaStyle(new Object());
-			chartBarLineSeries.setColor("#4a94eb");
+			//chartBarLineSeries.setStack("总量");
+			//chartBarLineSeries.setAreaStyle(new Object());
+			//chartBarLineSeries.setColor("#4a94eb");
+			//chartBarLineSeries.setyAxisIndex(0);
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_LINE);
-			chartBarLineSeries.setSmooth(true);
+			//chartBarLineSeries.setSmooth(true);
 			
 		}
 		if (name.equals("zbxsjje")) {
 			chartBarLineSeries.setName("资本性科研投入");
-			chartBarLineSeries.setStack("总量");
-			chartBarLineSeries.setAreaStyle(new Object());
-			chartBarLineSeries.setColor("#43bb7c");
+			//chartBarLineSeries.setyAxisIndex(1);
+			//chartBarLineSeries.setStack("总量");
+			//chartBarLineSeries.setAreaStyle(new Object());
+			//chartBarLineSeries.setColor("#43bb7c");
 			chartBarLineSeries.setType(HanaConstant.ECHARTS_TYPE_LINE);
-			chartBarLineSeries.setSmooth(true);
+			//chartBarLineSeries.setSmooth(true);
 		}
 		
 

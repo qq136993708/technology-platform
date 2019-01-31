@@ -1,6 +1,7 @@
 package com.pcitc.base.hana.report;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 public class H1AMKYSY100117 implements Serializable{
 	
@@ -51,6 +52,31 @@ public class H1AMKYSY100117 implements Serializable{
     private String g0NDSYN;
     
     
+    
+    
+    
+    private String g0SBSL5;
+    private String g0SBSL9;
+    
+    
+    
+    
+    
+    
+    
+    
+	public String getG0SBSL5() {
+		return g0SBSL5;
+	}
+	public void setG0SBSL5(String g0sbsl5) {
+		g0SBSL5 = g0sbsl5;
+	}
+	public String getG0SBSL9() {
+		return g0SBSL9;
+	}
+	public void setG0SBSL9(String g0sbsl9) {
+		g0SBSL9 = g0sbsl9;
+	}
 	public String getG0NDSYN() {
 		return g0NDSYN;
 	}

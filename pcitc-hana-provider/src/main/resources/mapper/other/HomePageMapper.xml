@@ -1121,20 +1121,177 @@
      
      
      <select id="get_home_KYZB" resultMap="H1AM_KY_SY_1001_17ResultMap" parameterType="java.util.Map" > 
-        SELECT
+     select 
 		     "G0GSJC",
-		     sum("G0SBSL") AS "G0SBSL"
-		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_SY_1001_18"
-		    (
-		    'PLACEHOLDER' = ('$$PR_CALMONTH$$','${month}'),
+		     ifnull(sum("G0SBSL"),0) as "G0SBSL",   --总数量    
+		     ifnull(sum("G0SBSL1"),0) as "G0SBSL1", --100万以下 
+		     ifnull(sum("G0SBSL3"),0) as "G0SBSL3", --300万以下 
+		     ifnull(sum("G0SBSL5"),0) as "G0SBSL5",--500万以下 
+		     ifnull(sum("G0SBSL9"),0) as "G0SBSL9"  --500万以上      
+		from
+		(
+		SELECT
+		     "G0GSJC",
+		     "G0GSOR",
+		     sum("G0SBSL") as "G0SBSL",
+		     case 
+		        when "G0SBFL"= '1' then sum("G0SBSL") --100万以下 
+		     end AS "G0SBSL1",
+		     case 
+		        when "G0SBFL"= '3' then sum("G0SBSL") --300万以下 
+		     end AS "G0SBSL3",  
+		     case 
+		        when "G0SBFL"= '5' then sum("G0SBSL") --500万以下 
+		     end AS "G0SBSL5",       
+		     case 
+		        when "G0SBFL"= '9' then sum("G0SBSL") --500万以下 
+		     end AS "G0SBSL9"         
+		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_SY_1001_18" ( 'PLACEHOLDER' = ('$$PR_CALMONTH$$',
+		    '${month}'),
 		     'PLACEHOLDER' = ('$$PR_GSDM$$',
-		     '${companyCode}')
-		     ) 
-		GROUP BY 
-		     "G0GSJC",
-		     "G0GSOR"
+		     '${companyCode}') ) 
+		GROUP BY "G0GSJC",
+		         "G0GSOR",
+		         "G0SBFL" 
+		)  
+		GROUP BY "G0GSJC",
+		         "G0GSOR"       
 		order by "G0GSOR"
      </select>
+     
+     
+     <sql id="SELECT_KYZB_detail">
+         select
+		     ifnull("G0ZCXLMS",
+		    '') as "G0ZCXLMS",
+		     ifnull("G0GSJC",
+		    '') as "G0GSJC",
+		     ifnull("G0ZDXZCT",
+		    '') as "G0ZDXZCT",
+		     ifnull("G0TXT50",
+		    '') as "G0TXT50",
+		     ifnull( "G0ZBHND",
+		    '') as "G0ZBHND",
+		     ifnull( "G0NDJAR",
+		    '') as "G0NDJAR",
+		     ifnull( "G0NDSYN",
+		    '') as "G0NDSYN",
+		     sum("G0NCGZYZJE") AS "G0NCGZYZJE",
+		     sum("G0LJZJJE") AS "G0LJZJJE",
+		     case when sum("G0NCGZYZJE")=0 
+		then 0 
+		else round (sum("G0LJZJJE") / sum("G0NCGZYZJE")*100 ,
+		    2) 
+		end as "bl" 
+		from ( SELECT
+		     "G0ZCXLMS",
+		     "G0GSJC",
+		     "G0ZDXZCT",
+		     "G0TXT50",
+		     "G0ZBHND",
+		     "G0NDJAR",
+		     "G0NDSYN",
+		     "G0GSOR",
+		     sum("G0NCGZYZJE") AS "G0NCGZYZJE",
+		     sum("G0LJZJJE") AS "G0LJZJJE",
+		     sum("K0BNZCJE") AS "K0BNZCJE",
+		     sum("G0BNGZYZJE") AS "G0BNGZYZJE" 
+		    FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_SY_1001_18"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+		     '${month}'),
+		     'PLACEHOLDER' = ('$$PR_GSDM$$',
+		     '${companyCode}')) 
+		     where "G0SBFL"= '${type}'  
+		    GROUP BY "G0ZCXLBM",
+		     "G0ZCXLMS",
+		     "G0GSJC",
+		     "G0ZDXZCT",
+		     "G0TXT50",
+		     "G0ZBHND",
+		     "G0NDJAR",
+		     "G0NDSYN",
+		     "G0GSOR" 
+		 ) 
+		GROUP BY "G0ZCXLMS",
+		     "G0GSJC",
+		     "G0ZDXZCT",
+		     "G0TXT50",
+		     "G0ZBHND",
+		     "G0NDJAR",
+		     "G0NDSYN" ,
+		     "G0GSOR" 
+		order by "G0ZCXLMS" desc,
+		    "G0GSOR" 
+     </sql>
+     
+     <select id="get_home_KYZB_detail" resultMap="H1AM_KY_SY_1001_17ResultMap" parameterType="java.util.Map" > 
+		 <include refid="SELECT_KYZB_detail"/>
+		 <if test="pageSize != null and pageSize !=''">  limit ${pageSize} offset  ${start} </if>   
+     </select>
+     
+      <select id="get_home_KYZB_COUNT"  resultType="int" parameterType="java.util.Map" > 
+		SELECT COUNT(*) FROM(
+		
+				   select
+				    COUNT(*)
+				from ( SELECT
+				     "G0ZCXLMS",
+				     "G0GSJC",
+				     "G0ZDXZCT",
+				     "G0TXT50",
+				     "G0ZBHND",
+				     "G0NDJAR",
+				     "G0NDSYN",
+				     "G0GSOR",
+				     sum("G0NCGZYZJE") AS "G0NCGZYZJE",
+				     sum("G0LJZJJE") AS "G0LJZJJE",
+				     sum("K0BNZCJE") AS "K0BNZCJE",
+				     sum("G0BNGZYZJE") AS "G0BNGZYZJE" 
+				    FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_SY_1001_18"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+				     '${month}'),
+				     'PLACEHOLDER' = ('$$PR_GSDM$$',
+				     '${companyCode}')) 
+				     where "G0SBFL"= '${type}'  
+				    GROUP BY "G0ZCXLBM",
+				     "G0ZCXLMS",
+				     "G0GSJC",
+				     "G0ZDXZCT",
+				     "G0TXT50",
+				     "G0ZBHND",
+				     "G0NDJAR",
+				     "G0NDSYN",
+				     "G0GSOR" 
+				 ) 
+				GROUP BY "G0ZCXLMS",
+				     "G0GSJC",
+				     "G0ZDXZCT",
+				     "G0TXT50",
+				     "G0ZBHND",
+				     "G0NDJAR",
+				     "G0NDSYN" ,
+				     "G0GSOR" 
+				order by "G0ZCXLMS" desc,
+				    "G0GSOR"
+				
+		)
+     </select>
+     
+     
+     
+     
+     <select id="get_home_KYZB_DETAIL_ALL_COUNT" resultMap="H1AM_KY_SY_1001_17ResultMap" parameterType="java.util.Map" > 
+		SELECT
+	     '总计'as "G0ZCXLMS",
+	     sum("G0NCGZYZJE") AS "G0NCGZYZJE",
+	     sum("G0LJZJJE") AS "G0LJZJJE",
+	     sum("K0BNZCJE") AS "K0BNZCJE",
+	     sum("G0BNGZYZJE") AS "G0BNGZYZJE" 
+	    FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_SY_1001_18"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
+	     '${month}'),
+	     'PLACEHOLDER' = ('$$PR_GSDM$$',
+	     '${companyCode}')) 
+	     where "G0SBFL"= '${type}'     --1:100万以下  3:300万以下  5:500万以下  9:500万以上
+     </select>
+     
      
      <select id="get_home_KYZB_02" resultMap="H1AM_KY_SY_1001_17ResultMap" parameterType="java.util.Map" > 
         select 
