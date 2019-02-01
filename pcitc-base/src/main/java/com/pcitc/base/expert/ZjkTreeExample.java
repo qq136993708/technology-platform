@@ -1,6 +1,5 @@
 package com.pcitc.base.expert;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -125,7 +124,6 @@ public class ZjkTreeExample {
             }
             criteria.add(new Criterion(condition, value1, value2));
         }
-
 
         public Criteria andDataIdIsNull() {
             addCriterion("data_id is null");

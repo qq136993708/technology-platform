@@ -319,22 +319,30 @@ public class SearchFullController extends BaseController {
     @RequestMapping(method = RequestMethod.GET, value = "/query_scientific")
     public String query_scientific(HttpServletRequest request) throws Exception {
 
-        //成果
+        request.setAttribute("keyword", request.getParameter("keyword"));
 
-        //科技
-        String nd = HanaUtil.getCurrrentYear();
+
+        String nd=CommonUtil.getParameter(request, "nd", "");//项目名
+        String ysnd=CommonUtil.getParameter(request, "ysnd", "");//项目名
+        String xmmc=CommonUtil.getParameter(request, "xmmc", "");//项目名
+        String hth=CommonUtil.getParameter(request, "hth", "");//合同号
+        String define1=CommonUtil.getParameter(request, "define1", "");//资本性、费用性
+        String define2=CommonUtil.getParameter(request, "define2", "");//8大院等细分结构
+        String define3=CommonUtil.getParameter(request, "define3", "");//直属研究院、分子公司、集团等9种类型
+        String project_property=CommonUtil.getParameter(request, "project_property", "");//国家项目、重大专项、重点项目、其他项目
+        String project_scope=CommonUtil.getParameter(request, "project_scope", "");//新开项目、续建项目、完工项目
+        String zylb=CommonUtil.getParameter(request, "zylb", "");//装备的各种技术类型
+        String define10=CommonUtil.getParameter(request, "define10", "");//各个处室
+        String qdbz=CommonUtil.getParameter(request, "qdbz", "");//签订标识
+        String define11=CommonUtil.getParameter(request, "define11", "");//费用来源
+        String define12=CommonUtil.getParameter(request, "define12", "");//单位类别
+
+        request.setAttribute("define12", define12);
+        request.setAttribute("define11", define11);
+        request.setAttribute("qdbz", qdbz);
         request.setAttribute("nd", nd);
-        String xmmc = CommonUtil.getParameter(request, "xmmc", "");//项目名
-        String hth = CommonUtil.getParameter(request, "hth", "");//合同号
-        String define1 = CommonUtil.getParameter(request, "define1", "");//资本性、费用性
-        String define2 = CommonUtil.getParameter(request, "define2", "");//8大院等细分结构
-        String define3 = CommonUtil.getParameter(request, "define3", "");//直属研究院、分子公司、集团等9种类型
-        String project_property = CommonUtil.getParameter(request, "project_property", "");//国家项目、重大专项、重点项目、其他项目
-        String project_scope = CommonUtil.getParameter(request, "project_scope", "");//新开项目、续建项目、完工项目
-        String zylb = CommonUtil.getParameter(request, "zylb", "");//装备的各种技术类型
-        String zycmc = CommonUtil.getParameter(request, "zycmc", "");//各个处室
-
-        request.setAttribute("zycmc", zycmc);
+        request.setAttribute("ysnd", ysnd);
+        request.setAttribute("define10", define10);
         request.setAttribute("xmmc", xmmc);
         request.setAttribute("hth", hth);
         request.setAttribute("define1", define1);
@@ -343,10 +351,9 @@ public class SearchFullController extends BaseController {
         request.setAttribute("project_property", project_property);
         request.setAttribute("project_scope", project_scope);
         request.setAttribute("zylb", zylb);
-        request.setAttribute("keyword", request.getParameter("keyword"));
-
-        String projectId = CommonUtil.getParameter(request, "projectId", "");
+        String projectId=CommonUtil.getParameter(request, "projectId", "");
         request.setAttribute("projectId", projectId);
+
 
         Map<String, Object> paramsMap = new HashMap<String, Object>();
         paramsMap.put("nd", nd);
@@ -355,33 +362,82 @@ public class SearchFullController extends BaseController {
 
         ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(contract_dic, HttpMethod.POST, entity, JSONArray.class);
         int statusCode = responseEntity.getStatusCodeValue();
-        if (statusCode == 200) {
+        if (statusCode == 200)
+        {
             JSONArray jSONArray = responseEntity.getBody();
+            System.out.println(">>>>>>>>>>>>>common_table jSONArray " + jSONArray.toString());
+
             List<String> define1List = new ArrayList<String>();
             List<String> define21List = new ArrayList<String>();//8大研究院
             List<String> type_flagList = new ArrayList<String>();
             List<String> zylbList = new ArrayList<String>();
-            for (int i = 0; i < jSONArray.size(); i++) {
-                Map object = (Map) jSONArray.get(i);
-                String showCode = (String) object.get("showCode");
-                String showName = (String) object.get("showName");
-                if (showCode.equals("define1")) {
-                    define1List.add(showName);
+            List<String> zycmcList = new ArrayList<String>();
+            List<String> define11List = new ArrayList<String>();
+            List<String> define12List = new ArrayList<String>();
+            for (int i = 0; i < jSONArray.size(); i++)
+            {
+                Map  object = (Map) jSONArray.get(i);
+                String showCode= (String)object.get("showCode");
+                String showName= (String)object.get("showName");
+                if(showCode.equals("define1"))
+                {
+                    if(showName!=null && !showName.equals(""))
+                    {
+                        define1List.add(showName);
+                    }
+
                 }
-                if (showCode.equals("define2")) {
+                if(showCode.equals("define2"))
+                {
                     define21List.add(showName);
                 }
-                if (showCode.equals("type_flag")) {
+                if(showCode.equals("type_flag"))
+                {
                     type_flagList.add(showName);
                 }
-                if (showCode.equals("zylb")) {
+                if(showCode.equals("zylb"))
+                {
                     zylbList.add(showName);
                 }
+                if(showCode.equals("define10"))
+                {
+
+                    if(showName!=null && !showName.equals(""))
+                    {
+                        zycmcList.add(showName);
+                    }
+                }
+                if(showCode.equals("define11"))
+                {
+
+                    if(showName!=null && !showName.equals(""))
+                    {
+                        define11List.add(showName);
+                    }
+                }
+
+                if(showCode.equals("define12"))
+                {
+
+                    if(showName!=null && !showName.equals(""))
+                    {
+                        define12List.add(showName);
+                    }
+                }
+
+
             }
             request.setAttribute("define1List", define1List);
             request.setAttribute("define21List", define21List);
             request.setAttribute("type_flagList", type_flagList);
             request.setAttribute("zylbList", zylbList);
+            request.setAttribute("zycmcList", zycmcList);
+            request.setAttribute("define11List", define11List);
+            request.setAttribute("define12List", define12List);
+            List<String> qdbzList = new ArrayList<String>();
+            qdbzList.add("已签订");
+            qdbzList.add("未签订");
+            request.setAttribute("qdbzList", qdbzList);
         }
         return "stp/hana/home/search/query_scientific";
     }
