@@ -16,21 +16,15 @@ public interface BudgetGroupTotalMapper {
 
     int insertSelective(BudgetGroupTotal record);
 
-    List<BudgetGroupTotal> selectByExampleWithBLOBs(BudgetGroupTotalExample example);
-
     List<BudgetGroupTotal> selectByExample(BudgetGroupTotalExample example);
 
     BudgetGroupTotal selectByPrimaryKey(String dataId);
 
     int updateByExampleSelective(@Param("record") BudgetGroupTotal record, @Param("example") BudgetGroupTotalExample example);
 
-    int updateByExampleWithBLOBs(@Param("record") BudgetGroupTotal record, @Param("example") BudgetGroupTotalExample example);
-
     int updateByExample(@Param("record") BudgetGroupTotal record, @Param("example") BudgetGroupTotalExample example);
 
     int updateByPrimaryKeySelective(BudgetGroupTotal record);
-
-    int updateByPrimaryKeyWithBLOBs(BudgetGroupTotal record);
 
     int updateByPrimaryKey(BudgetGroupTotal record);
 }

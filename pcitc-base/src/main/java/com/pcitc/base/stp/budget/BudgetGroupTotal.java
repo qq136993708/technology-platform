@@ -25,15 +25,17 @@ public class BudgetGroupTotal {
 
     private String displayCode;
 
+    private String simpleCode;
+
     private Integer level;
 
     private Double xmjf;
 
     private Double zxjf;
 
-    private String budgetInfoId;
-
     private String remark;
+
+    private String budgetInfoId;
 
     public String getDataId() {
         return dataId;
@@ -131,6 +133,14 @@ public class BudgetGroupTotal {
         this.displayCode = displayCode;
     }
 
+    public String getSimpleCode() {
+        return simpleCode;
+    }
+
+    public void setSimpleCode(String simpleCode) {
+        this.simpleCode = simpleCode;
+    }
+
     public Integer getLevel() {
         return level;
     }
@@ -155,19 +165,19 @@ public class BudgetGroupTotal {
         this.zxjf = zxjf;
     }
 
-    public String getBudgetInfoId() {
-        return budgetInfoId;
-    }
-
-    public void setBudgetInfoId(String budgetInfoId) {
-        this.budgetInfoId = budgetInfoId;
-    }
-
     public String getRemark() {
         return remark;
     }
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public String getBudgetInfoId() {
+        return budgetInfoId;
+    }
+
+    public void setBudgetInfoId(String budgetInfoId) {
+        this.budgetInfoId = budgetInfoId;
     }
 }

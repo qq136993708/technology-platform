@@ -30,18 +30,12 @@ import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.HanyuPinyinHelper;
 import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.common.BudgetInfoEnum;
+
 /*
  * 利用HttpClient进行post请求的工具类
  */
 public class HttpClientUtil 
 {
-	/**
-	 * 
-	 * @param url
-	 * @param map
-	 * @param charset
-	 * @return
-	 */
 	public String doPostFormData(String url,Map<String,String> map,String charset){
 		HttpClient httpClient = null;
 		HttpPost httpPost = null;
@@ -73,12 +67,6 @@ public class HttpClientUtil
 		}
 		return result;
 	}
-	/**
-	 * 
-	 * @param url
-	 * @param obj
-	 * @return
-	 */
 	public String doPostBody(String url, Object obj, String charset)
 	{
 		HttpClient httpClient = null;
@@ -123,8 +111,9 @@ public class HttpClientUtil
 		HttpClientUtil httpClientUtil = new HttpClientUtil();
 		//创建集团单位预算表信息（空白表）
 		String url = "http://localhost:8765/stp-provider/budget/budget-create-blank-grouptotal";
-		BudgetGroupTotal total = (BudgetGroupTotal)MyBeanUtils.createDefaultModel(BudgetGroupTotal.class);
+		BudgetInfo total = (BudgetInfo)MyBeanUtils.createDefaultModel(BudgetInfo.class);
 		total.setNd("2018");
+		total.setBudgetType(BudgetInfoEnum.GROUP_TOTAL.getCode());
 		httpClientUtil.doPostBody(url,total,"UTF-8");
 		
 		
@@ -132,7 +121,7 @@ public class HttpClientUtil
 		//检索集团预算表
 		url = "http://localhost:8765/stp-provider/budget/budget-info-list";
 		BudgetInfo infoparam = new BudgetInfo();
-		infoparam.setNd("2019");
+		infoparam.setNd("2018");
 		infoparam.setBudgetType(BudgetInfoEnum.GROUP_TOTAL.getCode());
 		String rs = httpClientUtil.doPostBody(url,infoparam,"UTF-8");
 		System.out.println(rs);
@@ -155,12 +144,6 @@ public class HttpClientUtil
 		{
 			BudgetInfo info = JSON.toJavaObject(JSON.parseObject(iter.next().toString()), BudgetInfo.class);
 			System.out.println(info.getDataId());
-			
-			//根据往年预算创建新预算表
-			url = "http://localhost:8765/stp-provider/budget/budget-create-template-grouptotal";
-			String newrs = httpClientUtil.doPostBody(url,info,"UTF-8");
-			System.out.println(newrs);
-			
 			
 			String [][] compnays = new String[][]{
 				{"1","石油工程技术服务公司","石油","物探、测井、钻井、开发工程技术"},
@@ -192,11 +175,21 @@ public class HttpClientUtil
 				httpClientUtil.doPostBody(url,groupTotal,"UTF-8");
 			}
 		}
+		//根据往年预算创建新预算表
+		/*for(java.util.Iterator<?> iter = array.iterator();iter.hasNext();) 
+		{
+			BudgetInfo info = JSON.toJavaObject(JSON.parseObject(iter.next().toString()), BudgetInfo.class);
+			System.out.println(info.getDataId());
+			
+			//根据往年预算创建新预算表
+			url = "http://localhost:8765/stp-provider/budget/budget-create-template-grouptotal";
+			String newrs = httpClientUtil.doPostBody(url,info,"UTF-8");
+			System.out.println(newrs);
+		}*/
 		
 		
-		
-		/*//创建集团单位预算表信息（空白表）
-		url = "http://localhost:8765/stp-provider/budget/budget-create-blank-grouptotal";
+		//创建集团单位预算表信息（空白表）
+		/*url = "http://localhost:8765/stp-provider/budget/budget-create-blank-grouptotal";
 		BudgetInfo params = (BudgetInfo) MyBeanUtils.createDefaultModel(BudgetInfo.class);
 		params.setAuditStatus(WorkFlowStatusEnum.STATUS_WAITING.getCode());
 		params.setBudgetType(BudgetInfoEnum.GROUP_TOTAL.getCode());

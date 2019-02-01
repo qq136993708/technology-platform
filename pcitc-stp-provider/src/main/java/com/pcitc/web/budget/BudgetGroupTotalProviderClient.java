@@ -18,7 +18,6 @@ import com.pcitc.base.stp.budget.BudgetGroupTotal;
 import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.IdUtil;
-import com.pcitc.common.BudgetInfoEnum;
 import com.pcitc.service.budget.BudgetGroupTotalService;
 import com.pcitc.service.budget.BudgetInfoService;
 
@@ -85,7 +84,7 @@ public class BudgetGroupTotalProviderClient
 		try
 		{
 			System.out.println(JSON.toJSONString(info.getNd()));
-			BudgetInfo rsbean = budgetInfoService.createBlankBudgetInfo(info.getNd(), BudgetInfoEnum.GROUP_TOTAL.getCode());
+			BudgetInfo rsbean = budgetInfoService.createBlankBudgetInfo(info.getNd(), info.getBudgetType());
 			System.out.println(JSON.toJSONString(rsbean));
 		}
 		catch (Exception e)
@@ -103,7 +102,7 @@ public class BudgetGroupTotalProviderClient
 		try
 		{
 			System.out.println(JSON.toJSONString(info.getNd()));
-			BudgetInfo newInfo = budgetInfoService.createBlankBudgetInfo(info.getNd(), BudgetInfoEnum.GROUP_TOTAL.getCode());
+			BudgetInfo newInfo = budgetInfoService.createBlankBudgetInfo(info.getNd(), info.getBudgetType());
 			//获取模板数据
 			List<BudgetGroupTotal> templates = budgetGroupTotalService.selectBudgetInfoId(info.getDataId());
 			for(BudgetGroupTotal total:templates) 
@@ -113,6 +112,7 @@ public class BudgetGroupTotalProviderClient
 				total.setDataId(IdUtil.createIdByTime());
 				total.setUpdateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
 				total.setCreateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
+				total.setRemark(info.getRemark());
 				budgetGroupTotalService.saveOrUpdateBudgetGroupTotal(total);
 			}
 			
