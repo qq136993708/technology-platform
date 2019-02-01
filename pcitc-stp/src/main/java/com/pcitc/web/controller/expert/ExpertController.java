@@ -54,6 +54,8 @@ public class ExpertController extends BaseController {
      */
     private static final String LIST = "http://pcitc-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/zjkbaseinfo_list";
 
+    private static final String LIST_RANDOM = "http://pcitc-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/zjkbaseinfo_list_random";
+
     private static final String LIST_EXAMPLE = "http://pcitc-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/zjkbaseinfo_list_example";
     /**
      * 参数查询
@@ -146,6 +148,30 @@ public class ExpertController extends BaseController {
 
         return "stp/expert/pageExpertIndex";
     }
+
+    @RequestMapping(value = "/expertIndexNew", method = RequestMethod.GET)
+    @OperationFilter(modelName = "专家-首页跳转", actionName = "首页跳转pageExpertIndex")
+    public String pageExpertIndexNew() {
+        //获取专家列表10条
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LIST_RANDOM, HttpMethod.POST, new HttpEntity<ZjkExpert>(new ZjkExpert(), this.httpHeaders), JSONObject.class);
+        JSONObject retJson = responseEntity.getBody();
+        List<ZjkExpert> list = (List<ZjkExpert>) retJson.get("list");
+        request.setAttribute("list",list);
+        return "stp/expert/pageExpertIndexNew";
+    }
+
+    @RequestMapping(value = "/expertIndexData", method = RequestMethod.POST)
+    @OperationFilter(modelName = "专家-查询专家", actionName = "查询专家")
+    @ResponseBody
+    public Object expertIndexData() {
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LIST_RANDOM, HttpMethod.POST, new HttpEntity<ZjkExpert>(new ZjkExpert(), this.httpHeaders), JSONObject.class);
+        JSONObject retJson = responseEntity.getBody();
+        List<ZjkExpert> list = (List<ZjkExpert>) retJson.get("list");
+        return list;
+    }
+
 
     /**
      * 跳转到查询页面

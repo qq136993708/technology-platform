@@ -2,7 +2,6 @@ package com.pcitc.base.expert;
 
 import com.pcitc.base.common.DataEntity;
 
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.io.Serializable;
@@ -77,7 +76,6 @@ public class TechFamilyType extends DataEntity implements Serializable {
      * audit_status - 审批状态
      */
     private String auditStatus;
-
 
     public String getDataId() {
         return this.dataId;
@@ -188,7 +186,6 @@ public class TechFamilyType extends DataEntity implements Serializable {
         }
 
         TechFamilyType other = (TechFamilyType) that;
-
 
         return
                 (this.getDataId() == null ? other.getDataId() == null : this.getDataId().equals(other.getDataId())) &&

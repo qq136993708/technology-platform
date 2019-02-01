@@ -1,6 +1,5 @@
 package com.pcitc.web.expert;
 
-
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
@@ -20,7 +19,6 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
-
 /**
  * <p>服务接口</p>
  * <p>Table: zjk_base_info - 专家-基本信息</p>
@@ -34,7 +32,6 @@ public class ZjkBaseInfoClient {
 
     @Autowired
     ZjkBaseInfoService zjkBaseInfoService;
-
 
     //参数查询
     @ApiOperation(value = "带参专家-基本信息查询列表", notes = "根据ID查询查询专家-基本信息信息,返回一个专家-基本信息的JSONObject对象")
@@ -63,128 +60,134 @@ public class ZjkBaseInfoClient {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return retJson;
-    }
-
-    @ApiOperation(value = "专家-基本信息查询列表", notes = "自定义对象(条件)查询专家-基本信息信息,返回存储在JSONObject对象中的专家-基本信息列表")
-    @RequestMapping(value = "/zjkbaseinfo-provider/zjkbaseinfo/zjkbaseinfo_list_example", method = RequestMethod.POST)
-    public JSONObject selectZjkBaseInfoListExample(@RequestBody JSONObject jsonObject) {
+            return retJson;
+        }
+    @ApiOperation(value = "专家-基本信息查询列表随机", notes = "自定义对象(条件)查询专家-基本信息信息,返回存储在JSONObject对象中的专家-基本信息列表")
+    @RequestMapping(value = "/zjkbaseinfo-provider/zjkbaseinfo/zjkbaseinfo_list_random", method = RequestMethod.POST)
+    public JSONObject selectZjkBaseInfoListRandom (@RequestBody ZjkExpert zjkBaseInfo){
         JSONObject retJson = new JSONObject();
         try {
-            ZjkExpertExample zjkBaseInfoExample = new ZjkExpertExample();
-            zjkBaseInfoExample.createCriteria().andExpertProfessionalFieldIn(Arrays.asList(jsonObject.get("strHyly").toString().split(",")));
-            List<ZjkExpert> list = zjkBaseInfoService.selectByExample(zjkBaseInfoExample);
+            List<ZjkExpert> list = zjkBaseInfoService.findZjkBaseInfoListRandom(zjkBaseInfo);
             retJson.put("list", list);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return retJson;
     }
-
-
-    @ApiOperation(value = "查询专家-基本信息树形详情信息", notes = "按ID查询专家-基本信息详情信息(带父ID),操作成功返回SysFileKind对象")
-    @RequestMapping(value = "/zjkbaseinfo-provider/zjkbaseinfo/get-zjkbaseinfo/{id}", method = RequestMethod.POST)
-    public ZjkExpert getZjkBaseInfoInfo(@PathVariable(value = "id", required = true) String id) {
-        try {
-            return zjkBaseInfoService.getZjkBaseInfoInfo(id);
-        } catch (Exception e) {
-            logger.error("[初始化信息失败：]", e);
+        @ApiOperation(value = "专家-基本信息查询列表", notes = "自定义对象(条件)查询专家-基本信息信息,返回存储在JSONObject对象中的专家-基本信息列表")
+        @RequestMapping(value = "/zjkbaseinfo-provider/zjkbaseinfo/zjkbaseinfo_list_example", method = RequestMethod.POST)
+        public JSONObject selectZjkBaseInfoListExample (@RequestBody JSONObject jsonObject){
+            JSONObject retJson = new JSONObject();
+            try {
+                ZjkExpertExample zjkBaseInfoExample = new ZjkExpertExample();
+                zjkBaseInfoExample.createCriteria().andExpertProfessionalFieldIn(Arrays.asList(jsonObject.get("strHyly").toString().split(",")));
+                List<ZjkExpert> list = zjkBaseInfoService.selectByExample(zjkBaseInfoExample);
+                retJson.put("list", list);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return retJson;
         }
-        return null;
-    }
 
-
-    /**
-     * 树形展示
-     *
-     * @return
-     * @throws Exception
-     */
-    @ApiOperation(value = "查询(树)专家-基本信息信息", notes = "查询(树)专家-基本信息信息,操作成功返回List<TreeNode>对象")
-    @RequestMapping(value = "/zjkbaseinfo-provider/zjkbaseinfo/tree-data")
-    @ResponseBody
-    public List selectObjectByTree() throws Exception {
-        return zjkBaseInfoService.selectObjectByTree();
-    }
-
-
-    /**
-     * 删除专家-基本信息-false
-     *
-     * @param zjkBaseInfocId
-     * @return
-     */
-    @ApiOperation(value = "伪删除专家-基本信息信息", notes = "按ID伪删除专家-基本信息信息,操作成功返回201")
-    @RequestMapping(value = "/zjkbaseinfo-provider/zjkbaseinfo/del-zjkbaseinfo/{zjkBaseInfoId}")
-    public Object deleteZjkBaseInfo(@PathVariable("zjkBaseInfoId") String zjkBaseInfocId) {
-        return zjkBaseInfoService.deleteZjkBaseInfo(zjkBaseInfocId);
-    }
-
-    /**
-     * 删除专家-基本信息-true
-     *
-     * @param zjkBaseInfocId
-     * @return
-     */
-    @ApiOperation(value = "删除专家-基本信息信息", notes = "按ID删除专家-基本信息信息,操作成功返回201")
-    @RequestMapping(value = "/zjkbaseinfo-provider/zjkbaseinfo/del-zjkbaseinfo-real/{zjkBaseInfoId}", method = RequestMethod.POST)
-    public Object deleteZjkBaseInfoReal(@PathVariable("zjkBaseInfoId") String zjkBaseInfocId) {
-        return zjkBaseInfoService.deleteZjkBaseInfoReal(zjkBaseInfocId);
-    }
-
-
-    /**
-     * 分页查询
-     *
-     * @param param
-     * @return
-     */
-    @ApiOperation(value = "查询专家-基本信息信息-分页查询", notes = "查询专家-基本信息信息-分页查询,Object")
-    @RequestMapping(value = "/zjkbaseinfo-provider/zjkbaseinfo/zjkbaseinfo-page")
-    public LayuiTableData selectZjkBaseInfoByPage(@RequestBody LayuiTableParam param) {
-        return zjkBaseInfoService.findZjkBaseInfoByPage(param);
-    }
-
-    /**
-     * 分页查询
-     *
-     * @param param
-     * @return
-     */
-    @ApiOperation(value = "查询专家-基本信息信息-分页查询", notes = "查询专家-基本信息信息-分页查询,Object")
-    @RequestMapping(value = "/zjkbaseinfo-provider/zjkbaseinfo/zjkbaseinfo-pageIndex")
-    public Object selectZjkBaseInfoByPageIndex(@RequestBody LayuiTableParam param) {
-        return zjkBaseInfoService.findZjkBaseInfoByPageIndex(param);
-    }
-
-    /**
-     * 保存
-     *
-     * @param zjkBaseInfo
-     * @return
-     */
-    @ApiOperation(value = "新增专家-基本信息信息", notes = "新增专家-基本信息信息,操作成功返回500")
-    @RequestMapping(value = "/zjkbaseinfo-provider/zjkbaseinfo/save_zjkbaseinfo", method = RequestMethod.POST)
-    public int updateOrInsertZjkBaseInfo(@RequestBody ZjkExpert zjkBaseInfo) {
-        try {
-            return zjkBaseInfoService.updateOrInsertZjkBaseInfo(zjkBaseInfo);
-        } catch (Exception e) {
-            logger.error("[保存信息失败：]", e);
+        @ApiOperation(value = "查询专家-基本信息树形详情信息", notes = "按ID查询专家-基本信息详情信息(带父ID),操作成功返回SysFileKind对象")
+        @RequestMapping(value = "/zjkbaseinfo-provider/zjkbaseinfo/get-zjkbaseinfo/{id}", method = RequestMethod.POST)
+        public ZjkExpert getZjkBaseInfoInfo (@PathVariable(value = "id", required = true) String id){
+            try {
+                return zjkBaseInfoService.getZjkBaseInfoInfo(id);
+            } catch (Exception e) {
+                logger.error("[初始化信息失败：]", e);
+            }
+            return null;
         }
-        return 500;
-    }
 
-    @ApiOperation(value = "首页-图形展示", notes = "图形展示,返回Result")
-    @RequestMapping(value = "/zjkbaseinfo-provider/zjkbaseinfo/echarts", method = RequestMethod.POST)
-    public JSONObject echarts(@RequestBody JSONObject jsonObject) {
-        JSONObject retJson = new JSONObject();
-        try {
-            retJson = zjkBaseInfoService.echarts(jsonObject);
-        } catch (Exception e) {
-            e.printStackTrace();
+        /**
+         * 树形展示
+         *
+         * @return
+         * @throws Exception
+         */
+        @ApiOperation(value = "查询(树)专家-基本信息信息", notes = "查询(树)专家-基本信息信息,操作成功返回List<TreeNode>对象")
+        @RequestMapping(value = "/zjkbaseinfo-provider/zjkbaseinfo/tree-data")
+        @ResponseBody
+        public List selectObjectByTree () throws Exception {
+            return zjkBaseInfoService.selectObjectByTree();
         }
-        return retJson;
+
+        /**
+         * 删除专家-基本信息-false
+         *
+         * @param zjkBaseInfocId
+         * @return
+         */
+        @ApiOperation(value = "伪删除专家-基本信息信息", notes = "按ID伪删除专家-基本信息信息,操作成功返回201")
+        @RequestMapping(value = "/zjkbaseinfo-provider/zjkbaseinfo/del-zjkbaseinfo/{zjkBaseInfoId}")
+        public Object deleteZjkBaseInfo (@PathVariable("zjkBaseInfoId") String zjkBaseInfocId){
+            return zjkBaseInfoService.deleteZjkBaseInfo(zjkBaseInfocId);
+        }
+
+        /**
+         * 删除专家-基本信息-true
+         *
+         * @param zjkBaseInfocId
+         * @return
+         */
+        @ApiOperation(value = "删除专家-基本信息信息", notes = "按ID删除专家-基本信息信息,操作成功返回201")
+        @RequestMapping(value = "/zjkbaseinfo-provider/zjkbaseinfo/del-zjkbaseinfo-real/{zjkBaseInfoId}", method = RequestMethod.POST)
+        public Object deleteZjkBaseInfoReal (@PathVariable("zjkBaseInfoId") String zjkBaseInfocId){
+            return zjkBaseInfoService.deleteZjkBaseInfoReal(zjkBaseInfocId);
+        }
+
+        /**
+         * 分页查询
+         *
+         * @param param
+         * @return
+         */
+        @ApiOperation(value = "查询专家-基本信息信息-分页查询", notes = "查询专家-基本信息信息-分页查询,Object")
+        @RequestMapping(value = "/zjkbaseinfo-provider/zjkbaseinfo/zjkbaseinfo-page")
+        public LayuiTableData selectZjkBaseInfoByPage (@RequestBody LayuiTableParam param){
+            return zjkBaseInfoService.findZjkBaseInfoByPage(param);
+        }
+
+        /**
+         * 分页查询
+         *
+         * @param param
+         * @return
+         */
+        @ApiOperation(value = "查询专家-基本信息信息-分页查询", notes = "查询专家-基本信息信息-分页查询,Object")
+        @RequestMapping(value = "/zjkbaseinfo-provider/zjkbaseinfo/zjkbaseinfo-pageIndex")
+        public Object selectZjkBaseInfoByPageIndex (@RequestBody LayuiTableParam param){
+            return zjkBaseInfoService.findZjkBaseInfoByPageIndex(param);
+        }
+
+        /**
+         * 保存
+         *
+         * @param zjkBaseInfo
+         * @return
+         */
+        @ApiOperation(value = "新增专家-基本信息信息", notes = "新增专家-基本信息信息,操作成功返回500")
+        @RequestMapping(value = "/zjkbaseinfo-provider/zjkbaseinfo/save_zjkbaseinfo", method = RequestMethod.POST)
+        public int updateOrInsertZjkBaseInfo (@RequestBody ZjkExpert zjkBaseInfo){
+            try {
+                return zjkBaseInfoService.updateOrInsertZjkBaseInfo(zjkBaseInfo);
+            } catch (Exception e) {
+                logger.error("[保存信息失败：]", e);
+            }
+            return 500;
+        }
+
+        @ApiOperation(value = "首页-图形展示", notes = "图形展示,返回Result")
+        @RequestMapping(value = "/zjkbaseinfo-provider/zjkbaseinfo/echarts", method = RequestMethod.POST)
+        public JSONObject echarts (@RequestBody JSONObject jsonObject){
+            JSONObject retJson = new JSONObject();
+            try {
+                retJson = zjkBaseInfoService.echarts(jsonObject);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return retJson;
+        }
+
     }
-
-
-}

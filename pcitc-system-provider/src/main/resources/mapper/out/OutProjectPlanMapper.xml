@@ -1493,7 +1493,7 @@
 				</if>
 			</if>
 			
-			<if test="fzdwflag == null or fzdwflag == ''">
+			<if test="fzdwflag == null or fzdwflag == '' or fzdwflag == '承担单位'">
 				<if test="define12 != null">
 					and (
 					<foreach collection="define12" item="define12" index="index" separator=" or ">

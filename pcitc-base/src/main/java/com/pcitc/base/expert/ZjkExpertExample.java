@@ -1,5 +1,6 @@
 package com.pcitc.base.expert;
 
+import com.pcitc.base.stp.out.OutAppraisalExample;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -126,6 +127,23 @@ public class ZjkExpertExample {
             criteria.add(new Criterion(condition, value1, value2));
         }
 
+        public Criteria andOrColumn(String value, String[] columns, String opt) {
+            String sql = "";
+            String cal = "";
+            if ("like".equals(opt)) {
+                cal = "%";
+            }
+            int l = columns.length;
+            for (int i = 0; i < l; i++) {
+                if (i == 0) {
+                    sql = sql + columns[i] + " " + opt + " '" + cal + value + cal + "'";
+                } else {
+                    sql = sql + " or " + columns[i] + " " + opt + " '" + cal + value + cal + "'";
+                }
+            }
+            addCriterion("(" + sql + ")");
+            return (Criteria) this;
+        }
 
         public Criteria andDataIdIsNull() {
             addCriterion("data_id is null");
