@@ -163,7 +163,7 @@
             <!--<span>机构</span>-->
             <input id="key" value="" onblur="changeUrl()" placeholder="输入查找关键字" style="width: 432px;
         border: 1px solid #dddddd;border-radius: 2px;padding-left: 10px;"/>
-            <div class="layui-select-more">
+            <div class="layui-select-more" style="display: none;">
                 <select id="jg" onchange="changeUrl()" onclick="changeUrl()" xm-select="jg" style="height: 30px;"></select>
             </div>
             <!--<span>专家姓名</span>
@@ -190,11 +190,12 @@
     <div class="main-content" id="main-content-end" style="margin-top: 20px;">
 
     </div>
+    <div class="main-button">
+        <button onclick="changeExpert()" style="cursor: pointer">换一批</button>
+    </div>
 </div>
 
-<div class="main-button">
-    <button onclick="changeExpert()">换一批</button>
-</div>
+
 <div class="main-e layui-row">
     <div class="layui-col-md6">
         <div class="layui-col-md12">
