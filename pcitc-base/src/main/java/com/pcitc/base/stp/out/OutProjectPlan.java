@@ -85,6 +85,14 @@ public class OutProjectPlan {
 
     private String projectScope;
 
+    private String projectId;
+
+    private String qdbz;
+
+    private String fzdwunitcw;
+
+    private String fzdwunit;
+
     private String projectType;
 
     private String define1;
@@ -112,28 +120,20 @@ public class OutProjectPlan {
     private String define12;
 
     private String define13;
-    
-    private String projectId;
-    
-    private String qdbz;
 
-    public String getProjectId() {
-		return projectId;
-	}
+    private String define14;
 
-	public void setProjectId(String projectId) {
-		this.projectId = projectId;
-	}
+    private String define15;
 
-	public String getQdbz() {
-		return qdbz;
-	}
+    private String define16;
 
-	public void setQdbz(String qdbz) {
-		this.qdbz = qdbz;
-	}
+    private String define17;
 
-	public String getDataId() {
+    private String define18;
+
+    private String define19;
+
+    public String getDataId() {
         return dataId;
     }
 
@@ -469,6 +469,38 @@ public class OutProjectPlan {
         this.projectScope = projectScope;
     }
 
+    public String getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(String projectId) {
+        this.projectId = projectId;
+    }
+
+    public String getQdbz() {
+        return qdbz;
+    }
+
+    public void setQdbz(String qdbz) {
+        this.qdbz = qdbz;
+    }
+
+    public String getFzdwunitcw() {
+        return fzdwunitcw;
+    }
+
+    public void setFzdwunitcw(String fzdwunitcw) {
+        this.fzdwunitcw = fzdwunitcw;
+    }
+
+    public String getFzdwunit() {
+        return fzdwunit;
+    }
+
+    public void setFzdwunit(String fzdwunit) {
+        this.fzdwunit = fzdwunit;
+    }
+
     public String getProjectType() {
         return projectType;
     }
@@ -579,5 +611,53 @@ public class OutProjectPlan {
 
     public void setDefine13(String define13) {
         this.define13 = define13;
+    }
+
+    public String getDefine14() {
+        return define14;
+    }
+
+    public void setDefine14(String define14) {
+        this.define14 = define14;
+    }
+
+    public String getDefine15() {
+        return define15;
+    }
+
+    public void setDefine15(String define15) {
+        this.define15 = define15;
+    }
+
+    public String getDefine16() {
+        return define16;
+    }
+
+    public void setDefine16(String define16) {
+        this.define16 = define16;
+    }
+
+    public String getDefine17() {
+        return define17;
+    }
+
+    public void setDefine17(String define17) {
+        this.define17 = define17;
+    }
+
+    public String getDefine18() {
+        return define18;
+    }
+
+    public void setDefine18(String define18) {
+        this.define18 = define18;
+    }
+
+    public String getDefine19() {
+        return define19;
+    }
+
+    public void setDefine19(String define19) {
+        this.define19 = define19;
     }
 }

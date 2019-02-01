@@ -60,6 +60,10 @@ public class OutProjectServiceImpl implements OutProjectService {
 		if (param.getParam().get("xmmc")!=null&&!StringUtils.isBlank(param.getParam().get("xmmc")+"")) {
 			hashmap.put("xmmc", param.getParam().get("xmmc"));
 		}
+		
+		if (param.getParam().get("fzdwflag")!=null&&!StringUtils.isBlank(param.getParam().get("fzdwflag")+"")) {
+			hashmap.put("fzdwflag", param.getParam().get("fzdwflag"));
+		}
 
 		if (param.getParam().get("hth")!=null&&!StringUtils.isBlank(param.getParam().get("hth")+"")) {
 			hashmap.put("hth", param.getParam().get("hth"));
