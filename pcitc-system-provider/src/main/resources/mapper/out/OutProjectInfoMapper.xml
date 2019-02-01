@@ -58,6 +58,8 @@
     <result column="gsbmbm" property="gsbmbm" jdbcType="VARCHAR" />
     <result column="zycmc" property="zycmc" jdbcType="VARCHAR" />
     <result column="zycbm" property="zycbm" jdbcType="VARCHAR" />
+    <result column="fzdwunitcw" property="fzdwunitcw" jdbcType="VARCHAR" />
+    <result column="fzdwunit" property="fzdwunit" jdbcType="VARCHAR" />
     <result column="type_flag" property="typeFlag" jdbcType="VARCHAR" />
     <result column="define1" property="define1" jdbcType="VARCHAR" />
     <result column="define2" property="define2" jdbcType="VARCHAR" />
@@ -72,6 +74,12 @@
     <result column="define11" property="define11" jdbcType="VARCHAR" />
     <result column="define12" property="define12" jdbcType="VARCHAR" />
     <result column="define13" property="define13" jdbcType="VARCHAR" />
+    <result column="define14" property="define14" jdbcType="VARCHAR" />
+    <result column="define15" property="define15" jdbcType="VARCHAR" />
+    <result column="define16" property="define16" jdbcType="VARCHAR" />
+    <result column="define17" property="define17" jdbcType="VARCHAR" />
+    <result column="define18" property="define18" jdbcType="VARCHAR" />
+    <result column="define19" property="define19" jdbcType="VARCHAR" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.pcitc.base.stp.out.OutProjectInfoWithBLOBs" extends="BaseResultMap" >
     <result column="lxbj" property="lxbj" jdbcType="LONGVARCHAR" />
@@ -143,9 +151,10 @@
     lxrdh, lxryx, lxrxm, jssxxm, jssj, kssj, yjsj, zyly, zysx, sjid, create_date, create_person, 
     status, update_date, project_id, parent_project_id, project_type, erp_project_code, 
     erp_project_name, project_scope, project_level, project_property, project_abc, project_source, 
-    yjsjks, yjsjjs, xmlbbm, xmlbmc, gsbmmc, gsbmbm, zycmc, zycbm, type_flag, define1, 
-    define2, define3, define4, define5, define6, define7, define8, define9, define10, 
-    define11, define12, define13
+    yjsjks, yjsjjs, xmlbbm, xmlbmc, gsbmmc, gsbmbm, zycmc, zycbm, fzdwunitcw, fzdwunit, 
+    type_flag, define1, define2, define3, define4, define5, define6, define7, define8, 
+    define9, define10, define11, define12, define13, define14, define15, define16, define17, 
+    define18, define19
   </sql>
   <sql id="Blob_Column_List" >
     lxbj, yjnr, jdap, yjmb
@@ -219,13 +228,15 @@
       project_source, yjsjks, yjsjjs, 
       xmlbbm, xmlbmc, gsbmmc, 
       gsbmbm, zycmc, zycbm, 
-      type_flag, define1, define2, 
-      define3, define4, define5, 
-      define6, define7, define8, 
-      define9, define10, define11, 
-      define12, define13, lxbj, 
-      yjnr, jdap, yjmb
-      )
+      fzdwunitcw, fzdwunit, type_flag, 
+      define1, define2, define3, 
+      define4, define5, define6, 
+      define7, define8, define9, 
+      define10, define11, define12, 
+      define13, define14, define15, 
+      define16, define17, define18, 
+      define19, lxbj, yjnr, 
+      jdap, yjmb)
     values (#{dataId,jdbcType=VARCHAR}, #{nd,jdbcType=VARCHAR}, #{xmid,jdbcType=VARCHAR}, 
       #{hth,jdbcType=VARCHAR}, #{xmmc,jdbcType=VARCHAR}, #{xmjb,jdbcType=VARCHAR}, #{ysnd,jdbcType=VARCHAR}, 
       #{yshf,jdbcType=VARCHAR}, #{ysxd,jdbcType=VARCHAR}, #{yszbxje,jdbcType=VARCHAR}, 
@@ -244,13 +255,15 @@
       #{projectSource,jdbcType=VARCHAR}, #{yjsjks,jdbcType=VARCHAR}, #{yjsjjs,jdbcType=VARCHAR}, 
       #{xmlbbm,jdbcType=VARCHAR}, #{xmlbmc,jdbcType=VARCHAR}, #{gsbmmc,jdbcType=VARCHAR}, 
       #{gsbmbm,jdbcType=VARCHAR}, #{zycmc,jdbcType=VARCHAR}, #{zycbm,jdbcType=VARCHAR}, 
-      #{typeFlag,jdbcType=VARCHAR}, #{define1,jdbcType=VARCHAR}, #{define2,jdbcType=VARCHAR}, 
-      #{define3,jdbcType=VARCHAR}, #{define4,jdbcType=VARCHAR}, #{define5,jdbcType=VARCHAR}, 
-      #{define6,jdbcType=VARCHAR}, #{define7,jdbcType=VARCHAR}, #{define8,jdbcType=VARCHAR}, 
-      #{define9,jdbcType=VARCHAR}, #{define10,jdbcType=VARCHAR}, #{define11,jdbcType=VARCHAR}, 
-      #{define12,jdbcType=VARCHAR}, #{define13,jdbcType=VARCHAR}, #{lxbj,jdbcType=LONGVARCHAR}, 
-      #{yjnr,jdbcType=LONGVARCHAR}, #{jdap,jdbcType=LONGVARCHAR}, #{yjmb,jdbcType=LONGVARCHAR}
-      )
+      #{fzdwunitcw,jdbcType=VARCHAR}, #{fzdwunit,jdbcType=VARCHAR}, #{typeFlag,jdbcType=VARCHAR}, 
+      #{define1,jdbcType=VARCHAR}, #{define2,jdbcType=VARCHAR}, #{define3,jdbcType=VARCHAR}, 
+      #{define4,jdbcType=VARCHAR}, #{define5,jdbcType=VARCHAR}, #{define6,jdbcType=VARCHAR}, 
+      #{define7,jdbcType=VARCHAR}, #{define8,jdbcType=VARCHAR}, #{define9,jdbcType=VARCHAR}, 
+      #{define10,jdbcType=VARCHAR}, #{define11,jdbcType=VARCHAR}, #{define12,jdbcType=VARCHAR}, 
+      #{define13,jdbcType=VARCHAR}, #{define14,jdbcType=VARCHAR}, #{define15,jdbcType=VARCHAR}, 
+      #{define16,jdbcType=VARCHAR}, #{define17,jdbcType=VARCHAR}, #{define18,jdbcType=VARCHAR}, 
+      #{define19,jdbcType=VARCHAR}, #{lxbj,jdbcType=LONGVARCHAR}, #{yjnr,jdbcType=LONGVARCHAR}, 
+      #{jdap,jdbcType=LONGVARCHAR}, #{yjmb,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.pcitc.base.stp.out.OutProjectInfoWithBLOBs" >
     insert into out_project_info
@@ -423,6 +436,12 @@
       <if test="zycbm != null" >
         zycbm,
       </if>
+      <if test="fzdwunitcw != null" >
+        fzdwunitcw,
+      </if>
+      <if test="fzdwunit != null" >
+        fzdwunit,
+      </if>
       <if test="typeFlag != null" >
         type_flag,
       </if>
@@ -464,6 +483,24 @@
       </if>
       <if test="define13 != null" >
         define13,
+      </if>
+      <if test="define14 != null" >
+        define14,
+      </if>
+      <if test="define15 != null" >
+        define15,
+      </if>
+      <if test="define16 != null" >
+        define16,
+      </if>
+      <if test="define17 != null" >
+        define17,
+      </if>
+      <if test="define18 != null" >
+        define18,
+      </if>
+      <if test="define19 != null" >
+        define19,
       </if>
       <if test="lxbj != null" >
         lxbj,
@@ -647,6 +684,12 @@
       <if test="zycbm != null" >
         #{zycbm,jdbcType=VARCHAR},
       </if>
+      <if test="fzdwunitcw != null" >
+        #{fzdwunitcw,jdbcType=VARCHAR},
+      </if>
+      <if test="fzdwunit != null" >
+        #{fzdwunit,jdbcType=VARCHAR},
+      </if>
       <if test="typeFlag != null" >
         #{typeFlag,jdbcType=VARCHAR},
       </if>
@@ -688,6 +731,24 @@
       </if>
       <if test="define13 != null" >
         #{define13,jdbcType=VARCHAR},
+      </if>
+      <if test="define14 != null" >
+        #{define14,jdbcType=VARCHAR},
+      </if>
+      <if test="define15 != null" >
+        #{define15,jdbcType=VARCHAR},
+      </if>
+      <if test="define16 != null" >
+        #{define16,jdbcType=VARCHAR},
+      </if>
+      <if test="define17 != null" >
+        #{define17,jdbcType=VARCHAR},
+      </if>
+      <if test="define18 != null" >
+        #{define18,jdbcType=VARCHAR},
+      </if>
+      <if test="define19 != null" >
+        #{define19,jdbcType=VARCHAR},
       </if>
       <if test="lxbj != null" >
         #{lxbj,jdbcType=LONGVARCHAR},
@@ -880,6 +941,12 @@
       <if test="record.zycbm != null" >
         zycbm = #{record.zycbm,jdbcType=VARCHAR},
       </if>
+      <if test="record.fzdwunitcw != null" >
+        fzdwunitcw = #{record.fzdwunitcw,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fzdwunit != null" >
+        fzdwunit = #{record.fzdwunit,jdbcType=VARCHAR},
+      </if>
       <if test="record.typeFlag != null" >
         type_flag = #{record.typeFlag,jdbcType=VARCHAR},
       </if>
@@ -921,6 +988,24 @@
       </if>
       <if test="record.define13 != null" >
         define13 = #{record.define13,jdbcType=VARCHAR},
+      </if>
+      <if test="record.define14 != null" >
+        define14 = #{record.define14,jdbcType=VARCHAR},
+      </if>
+      <if test="record.define15 != null" >
+        define15 = #{record.define15,jdbcType=VARCHAR},
+      </if>
+      <if test="record.define16 != null" >
+        define16 = #{record.define16,jdbcType=VARCHAR},
+      </if>
+      <if test="record.define17 != null" >
+        define17 = #{record.define17,jdbcType=VARCHAR},
+      </if>
+      <if test="record.define18 != null" >
+        define18 = #{record.define18,jdbcType=VARCHAR},
+      </if>
+      <if test="record.define19 != null" >
+        define19 = #{record.define19,jdbcType=VARCHAR},
       </if>
       <if test="record.lxbj != null" >
         lxbj = #{record.lxbj,jdbcType=LONGVARCHAR},
@@ -997,6 +1082,8 @@
       gsbmbm = #{record.gsbmbm,jdbcType=VARCHAR},
       zycmc = #{record.zycmc,jdbcType=VARCHAR},
       zycbm = #{record.zycbm,jdbcType=VARCHAR},
+      fzdwunitcw = #{record.fzdwunitcw,jdbcType=VARCHAR},
+      fzdwunit = #{record.fzdwunit,jdbcType=VARCHAR},
       type_flag = #{record.typeFlag,jdbcType=VARCHAR},
       define1 = #{record.define1,jdbcType=VARCHAR},
       define2 = #{record.define2,jdbcType=VARCHAR},
@@ -1011,6 +1098,12 @@
       define11 = #{record.define11,jdbcType=VARCHAR},
       define12 = #{record.define12,jdbcType=VARCHAR},
       define13 = #{record.define13,jdbcType=VARCHAR},
+      define14 = #{record.define14,jdbcType=VARCHAR},
+      define15 = #{record.define15,jdbcType=VARCHAR},
+      define16 = #{record.define16,jdbcType=VARCHAR},
+      define17 = #{record.define17,jdbcType=VARCHAR},
+      define18 = #{record.define18,jdbcType=VARCHAR},
+      define19 = #{record.define19,jdbcType=VARCHAR},
       lxbj = #{record.lxbj,jdbcType=LONGVARCHAR},
       yjnr = #{record.yjnr,jdbcType=LONGVARCHAR},
       jdap = #{record.jdap,jdbcType=LONGVARCHAR},
@@ -1077,6 +1170,8 @@
       gsbmbm = #{record.gsbmbm,jdbcType=VARCHAR},
       zycmc = #{record.zycmc,jdbcType=VARCHAR},
       zycbm = #{record.zycbm,jdbcType=VARCHAR},
+      fzdwunitcw = #{record.fzdwunitcw,jdbcType=VARCHAR},
+      fzdwunit = #{record.fzdwunit,jdbcType=VARCHAR},
       type_flag = #{record.typeFlag,jdbcType=VARCHAR},
       define1 = #{record.define1,jdbcType=VARCHAR},
       define2 = #{record.define2,jdbcType=VARCHAR},
@@ -1090,7 +1185,13 @@
       define10 = #{record.define10,jdbcType=VARCHAR},
       define11 = #{record.define11,jdbcType=VARCHAR},
       define12 = #{record.define12,jdbcType=VARCHAR},
-      define13 = #{record.define13,jdbcType=VARCHAR}
+      define13 = #{record.define13,jdbcType=VARCHAR},
+      define14 = #{record.define14,jdbcType=VARCHAR},
+      define15 = #{record.define15,jdbcType=VARCHAR},
+      define16 = #{record.define16,jdbcType=VARCHAR},
+      define17 = #{record.define17,jdbcType=VARCHAR},
+      define18 = #{record.define18,jdbcType=VARCHAR},
+      define19 = #{record.define19,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -1263,6 +1364,12 @@
       <if test="zycbm != null" >
         zycbm = #{zycbm,jdbcType=VARCHAR},
       </if>
+      <if test="fzdwunitcw != null" >
+        fzdwunitcw = #{fzdwunitcw,jdbcType=VARCHAR},
+      </if>
+      <if test="fzdwunit != null" >
+        fzdwunit = #{fzdwunit,jdbcType=VARCHAR},
+      </if>
       <if test="typeFlag != null" >
         type_flag = #{typeFlag,jdbcType=VARCHAR},
       </if>
@@ -1304,6 +1411,24 @@
       </if>
       <if test="define13 != null" >
         define13 = #{define13,jdbcType=VARCHAR},
+      </if>
+      <if test="define14 != null" >
+        define14 = #{define14,jdbcType=VARCHAR},
+      </if>
+      <if test="define15 != null" >
+        define15 = #{define15,jdbcType=VARCHAR},
+      </if>
+      <if test="define16 != null" >
+        define16 = #{define16,jdbcType=VARCHAR},
+      </if>
+      <if test="define17 != null" >
+        define17 = #{define17,jdbcType=VARCHAR},
+      </if>
+      <if test="define18 != null" >
+        define18 = #{define18,jdbcType=VARCHAR},
+      </if>
+      <if test="define19 != null" >
+        define19 = #{define19,jdbcType=VARCHAR},
       </if>
       <if test="lxbj != null" >
         lxbj = #{lxbj,jdbcType=LONGVARCHAR},
@@ -1377,6 +1502,8 @@
       gsbmbm = #{gsbmbm,jdbcType=VARCHAR},
       zycmc = #{zycmc,jdbcType=VARCHAR},
       zycbm = #{zycbm,jdbcType=VARCHAR},
+      fzdwunitcw = #{fzdwunitcw,jdbcType=VARCHAR},
+      fzdwunit = #{fzdwunit,jdbcType=VARCHAR},
       type_flag = #{typeFlag,jdbcType=VARCHAR},
       define1 = #{define1,jdbcType=VARCHAR},
       define2 = #{define2,jdbcType=VARCHAR},
@@ -1391,6 +1518,12 @@
       define11 = #{define11,jdbcType=VARCHAR},
       define12 = #{define12,jdbcType=VARCHAR},
       define13 = #{define13,jdbcType=VARCHAR},
+      define14 = #{define14,jdbcType=VARCHAR},
+      define15 = #{define15,jdbcType=VARCHAR},
+      define16 = #{define16,jdbcType=VARCHAR},
+      define17 = #{define17,jdbcType=VARCHAR},
+      define18 = #{define18,jdbcType=VARCHAR},
+      define19 = #{define19,jdbcType=VARCHAR},
       lxbj = #{lxbj,jdbcType=LONGVARCHAR},
       yjnr = #{yjnr,jdbcType=LONGVARCHAR},
       jdap = #{jdap,jdbcType=LONGVARCHAR},
@@ -1454,6 +1587,8 @@
       gsbmbm = #{gsbmbm,jdbcType=VARCHAR},
       zycmc = #{zycmc,jdbcType=VARCHAR},
       zycbm = #{zycbm,jdbcType=VARCHAR},
+      fzdwunitcw = #{fzdwunitcw,jdbcType=VARCHAR},
+      fzdwunit = #{fzdwunit,jdbcType=VARCHAR},
       type_flag = #{typeFlag,jdbcType=VARCHAR},
       define1 = #{define1,jdbcType=VARCHAR},
       define2 = #{define2,jdbcType=VARCHAR},
@@ -1467,7 +1602,13 @@
       define10 = #{define10,jdbcType=VARCHAR},
       define11 = #{define11,jdbcType=VARCHAR},
       define12 = #{define12,jdbcType=VARCHAR},
-      define13 = #{define13,jdbcType=VARCHAR}
+      define13 = #{define13,jdbcType=VARCHAR},
+      define14 = #{define14,jdbcType=VARCHAR},
+      define15 = #{define15,jdbcType=VARCHAR},
+      define16 = #{define16,jdbcType=VARCHAR},
+      define17 = #{define17,jdbcType=VARCHAR},
+      define18 = #{define18,jdbcType=VARCHAR},
+      define19 = #{define19,jdbcType=VARCHAR}
     where data_id = #{dataId,jdbcType=VARCHAR}
   </update>
   
@@ -2591,13 +2732,6 @@
 				</foreach>
 				)
 			</if>
-			<if test="define12 != null">
-				and (
-				<foreach collection="define12" item="define12" index="index" separator=" or ">
-					out_project_info.define12 like '%${define12}%'
-				</foreach>
-				)
-			</if>
 			<if test="define10 != null">
 				and (
 				<foreach collection="define10" item="define10" index="index" separator=" or ">
@@ -2612,12 +2746,38 @@
 				</foreach>
 				)
 			</if>
-			<if test="define2 != null">
-				and (
-				<foreach collection="define2" item="define2" index="index" separator=" or ">
-					out_project_info.define2 like '%${define2}%'
-				</foreach>
-				)
+			<if test="fzdwflag != null and fzdwflag == '牵头单位'">
+				<if test="define12 != null">
+					and (
+					<foreach collection="define12" item="define12" index="index" separator=" or ">
+						out_project_info.fzdwunit like '%${define12}%'
+					</foreach>
+					)
+				</if>
+				<if test="define2 != null">
+					and (
+					<foreach collection="define2" item="define2" index="index" separator=" or ">
+						out_project_info.fzdwunitcw like '%${define2}%'
+					</foreach>
+					)
+				</if>
+			</if>
+			
+			<if test="fzdwflag == null or fzdwflag == ''">
+				<if test="define12 != null">
+					and (
+					<foreach collection="define12" item="define12" index="index" separator=" or ">
+						out_project_info.define12 like '%${define12}%'
+					</foreach>
+					)
+				</if>
+				<if test="define2 != null">
+					and (
+					<foreach collection="define2" item="define2" index="index" separator=" or ">
+						out_project_info.define2 like '%${define2}%'
+					</foreach>
+					)
+				</if>
 			</if>
 			<if test="define5 != null">
 				and (

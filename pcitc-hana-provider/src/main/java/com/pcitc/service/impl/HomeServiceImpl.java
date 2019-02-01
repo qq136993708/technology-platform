@@ -123,6 +123,9 @@ public class HomeServiceImpl implements IHomeService{
     	return one;
     }
     
+   
+    
+    
     
     
     public List<H1AMKYSY100109> getH1AMKYSY100109Report(Map map)throws Exception
@@ -168,6 +171,40 @@ public class HomeServiceImpl implements IHomeService{
     
     
     
+    
+    
+    public LayuiTableData get_home_KYZB_detail(LayuiTableParam param)throws Exception
+    {
+    	//每页显示条数
+  		int pageSize = param.getLimit();
+  		int pageNum = param.getPage();
+  		Page p=new Page(pageNum,pageSize);
+		int start=(pageNum-1)*p.getPageSize();
+  		String month=(String)param.getParam().get("month");
+  		String type=(String)param.getParam().get("type");
+  		String companyCode=(String)param.getParam().get("companyCode");
+  		logger.info("=====表格 param: "+JSONObject.toJSONString(param));
+  		Map map=new HashMap();
+  		map.put("start", start);
+  		map.put("pageSize", pageSize);
+  		map.put("month", month);
+  		map.put("type", type);
+  		map.put("companyCode", companyCode);
+  		List<H1AMKYSY100117> list = homePageMapper.get_home_KYZB_detail(map);
+  		Integer totalRecords = homePageMapper.get_home_kyzb_count(map);
+  		System.out.println(">>>>>>>表格："+totalRecords);
+  		LayuiTableData data = new LayuiTableData();
+  		data.setData(list);
+  		data.setCount(totalRecords);
+  	    return data;
+    }
+    
+    public  H1AMKYSY100117 get_home_KYZB_DETAIL_ALL_COUNT(Map map)
+ 	 {
+ 		H1AMKYSY100117 list = homePageMapper.get_home_KYZB_DETAIL_ALL_COUNT(map);
+   	return list;
+ 	 }
+ 	
     
     
     public LayuiTableData getZhuanziTableList(LayuiTableParam param)throws Exception
@@ -371,8 +408,7 @@ public class HomeServiceImpl implements IHomeService{
   	
   	
   	
-  	
-  	
+  	 
   	
   	
 

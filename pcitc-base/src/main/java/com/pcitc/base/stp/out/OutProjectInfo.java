@@ -115,6 +115,10 @@ public class OutProjectInfo {
 
     private String zycbm;
 
+    private String fzdwunitcw;
+
+    private String fzdwunit;
+
     private String typeFlag;
 
     private String define1;
@@ -142,6 +146,18 @@ public class OutProjectInfo {
     private String define12;
 
     private String define13;
+
+    private String define14;
+
+    private String define15;
+
+    private String define16;
+
+    private String define17;
+
+    private String define18;
+
+    private String define19;
 
     public String getDataId() {
         return dataId;
@@ -591,6 +607,22 @@ public class OutProjectInfo {
         this.zycbm = zycbm;
     }
 
+    public String getFzdwunitcw() {
+        return fzdwunitcw;
+    }
+
+    public void setFzdwunitcw(String fzdwunitcw) {
+        this.fzdwunitcw = fzdwunitcw;
+    }
+
+    public String getFzdwunit() {
+        return fzdwunit;
+    }
+
+    public void setFzdwunit(String fzdwunit) {
+        this.fzdwunit = fzdwunit;
+    }
+
     public String getTypeFlag() {
         return typeFlag;
     }
@@ -701,5 +733,53 @@ public class OutProjectInfo {
 
     public void setDefine13(String define13) {
         this.define13 = define13;
+    }
+
+    public String getDefine14() {
+        return define14;
+    }
+
+    public void setDefine14(String define14) {
+        this.define14 = define14;
+    }
+
+    public String getDefine15() {
+        return define15;
+    }
+
+    public void setDefine15(String define15) {
+        this.define15 = define15;
+    }
+
+    public String getDefine16() {
+        return define16;
+    }
+
+    public void setDefine16(String define16) {
+        this.define16 = define16;
+    }
+
+    public String getDefine17() {
+        return define17;
+    }
+
+    public void setDefine17(String define17) {
+        this.define17 = define17;
+    }
+
+    public String getDefine18() {
+        return define18;
+    }
+
+    public void setDefine18(String define18) {
+        this.define18 = define18;
+    }
+
+    public String getDefine19() {
+        return define19;
+    }
+
+    public void setDefine19(String define19) {
+        this.define19 = define19;
     }
 }

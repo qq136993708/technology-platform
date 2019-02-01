@@ -167,6 +167,16 @@
          <span>预算年度</span>
          <input type="text" name="ysnd" placeholder="请选择预算年度" title="预算年度" value="${ysnd}"  autocomplete="off" class="form-control" id="ysnd">
      </label>
+     
+      <label class="dateInput">
+         <span>负责单位</span>
+         <input type="radio" name="fzdwflag" id="fzdwflag" value="承担单位"  <#if fzdwflag == '承担单位'>checked="checked"</#if> >承担单位
+         <input type="radio" name="fzdwflag" id="fzdwflag" value="牵头单位"  <#if fzdwflag == '牵头单位'>checked="checked"</#if> >牵头单位
+     </label>
+     
+     
+     
+     
      <!--按钮组-->
      <div class="btnGroup">
         <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg"  onclick="renderTable()">查询</button>
