@@ -14,13 +14,12 @@
     <result column="display_name" jdbcType="VARCHAR" property="displayName" />
     <result column="simple_name" jdbcType="VARCHAR" property="simpleName" />
     <result column="display_code" jdbcType="VARCHAR" property="displayCode" />
+    <result column="simple_code" jdbcType="VARCHAR" property="simpleCode" />
     <result column="level" jdbcType="INTEGER" property="level" />
     <result column="xmjf" jdbcType="DOUBLE" property="xmjf" />
     <result column="zxjf" jdbcType="DOUBLE" property="zxjf" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="budget_info_id" jdbcType="VARCHAR" property="budgetInfoId" />
-  </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.pcitc.base.stp.budget.BudgetGroupTotal">
-    <result column="remark" jdbcType="LONGVARCHAR" property="remark" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -82,28 +81,9 @@
   </sql>
   <sql id="Base_Column_List">
     data_id, parent_data_id, nd, data_version, create_time, update_time, creater_name, 
-    creater_id, no, display_name, simple_name, display_code, level, xmjf, zxjf, budget_info_id
+    creater_id, no, display_name, simple_name, display_code, simple_code, level, xmjf, 
+    zxjf, remark, budget_info_id
   </sql>
-  <sql id="Blob_Column_List">
-    remark
-  </sql>
-  <select id="selectByExampleWithBLOBs" parameterType="com.pcitc.base.stp.budget.BudgetGroupTotalExample" resultMap="ResultMapWithBLOBs">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    'true' as QUERYID,
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from out_tem_money_group_total
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-  </select>
   <select id="selectByExample" parameterType="com.pcitc.base.stp.budget.BudgetGroupTotalExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
@@ -119,11 +99,9 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from out_tem_money_group_total
     where data_id = #{dataId,jdbcType=VARCHAR}
   </select>
@@ -142,14 +120,16 @@
       data_version, create_time, update_time, 
       creater_name, creater_id, no, 
       display_name, simple_name, display_code, 
-      level, xmjf, zxjf, budget_info_id, 
-      remark)
+      simple_code, level, xmjf, 
+      zxjf, remark, budget_info_id
+      )
     values (#{dataId,jdbcType=VARCHAR}, #{parentDataId,jdbcType=VARCHAR}, #{nd,jdbcType=VARCHAR}, 
       #{dataVersion,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR}, #{updateTime,jdbcType=VARCHAR}, 
       #{createrName,jdbcType=VARCHAR}, #{createrId,jdbcType=VARCHAR}, #{no,jdbcType=INTEGER}, 
       #{displayName,jdbcType=VARCHAR}, #{simpleName,jdbcType=VARCHAR}, #{displayCode,jdbcType=VARCHAR}, 
-      #{level,jdbcType=INTEGER}, #{xmjf,jdbcType=DOUBLE}, #{zxjf,jdbcType=DOUBLE}, #{budgetInfoId,jdbcType=VARCHAR}, 
-      #{remark,jdbcType=LONGVARCHAR})
+      #{simpleCode,jdbcType=VARCHAR}, #{level,jdbcType=INTEGER}, #{xmjf,jdbcType=DOUBLE}, 
+      #{zxjf,jdbcType=DOUBLE}, #{remark,jdbcType=VARCHAR}, #{budgetInfoId,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.pcitc.base.stp.budget.BudgetGroupTotal">
     insert into out_tem_money_group_total
@@ -190,6 +170,9 @@
       <if test="displayCode != null">
         display_code,
       </if>
+      <if test="simpleCode != null">
+        simple_code,
+      </if>
       <if test="level != null">
         level,
       </if>
@@ -199,11 +182,11 @@
       <if test="zxjf != null">
         zxjf,
       </if>
-      <if test="budgetInfoId != null">
-        budget_info_id,
-      </if>
       <if test="remark != null">
         remark,
+      </if>
+      <if test="budgetInfoId != null">
+        budget_info_id,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -243,6 +226,9 @@
       <if test="displayCode != null">
         #{displayCode,jdbcType=VARCHAR},
       </if>
+      <if test="simpleCode != null">
+        #{simpleCode,jdbcType=VARCHAR},
+      </if>
       <if test="level != null">
         #{level,jdbcType=INTEGER},
       </if>
@@ -252,11 +238,11 @@
       <if test="zxjf != null">
         #{zxjf,jdbcType=DOUBLE},
       </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
       <if test="budgetInfoId != null">
         #{budgetInfoId,jdbcType=VARCHAR},
-      </if>
-      <if test="remark != null">
-        #{remark,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
@@ -305,6 +291,9 @@
       <if test="record.displayCode != null">
         display_code = #{record.displayCode,jdbcType=VARCHAR},
       </if>
+      <if test="record.simpleCode != null">
+        simple_code = #{record.simpleCode,jdbcType=VARCHAR},
+      </if>
       <if test="record.level != null">
         level = #{record.level,jdbcType=INTEGER},
       </if>
@@ -314,36 +303,13 @@
       <if test="record.zxjf != null">
         zxjf = #{record.zxjf,jdbcType=DOUBLE},
       </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
       <if test="record.budgetInfoId != null">
         budget_info_id = #{record.budgetInfoId,jdbcType=VARCHAR},
       </if>
-      <if test="record.remark != null">
-        remark = #{record.remark,jdbcType=LONGVARCHAR},
-      </if>
     </set>
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExampleWithBLOBs" parameterType="map">
-    update out_tem_money_group_total
-    set data_id = #{record.dataId,jdbcType=VARCHAR},
-      parent_data_id = #{record.parentDataId,jdbcType=VARCHAR},
-      nd = #{record.nd,jdbcType=VARCHAR},
-      data_version = #{record.dataVersion,jdbcType=VARCHAR},
-      create_time = #{record.createTime,jdbcType=VARCHAR},
-      update_time = #{record.updateTime,jdbcType=VARCHAR},
-      creater_name = #{record.createrName,jdbcType=VARCHAR},
-      creater_id = #{record.createrId,jdbcType=VARCHAR},
-      no = #{record.no,jdbcType=INTEGER},
-      display_name = #{record.displayName,jdbcType=VARCHAR},
-      simple_name = #{record.simpleName,jdbcType=VARCHAR},
-      display_code = #{record.displayCode,jdbcType=VARCHAR},
-      level = #{record.level,jdbcType=INTEGER},
-      xmjf = #{record.xmjf,jdbcType=DOUBLE},
-      zxjf = #{record.zxjf,jdbcType=DOUBLE},
-      budget_info_id = #{record.budgetInfoId,jdbcType=VARCHAR},
-      remark = #{record.remark,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -362,9 +328,11 @@
       display_name = #{record.displayName,jdbcType=VARCHAR},
       simple_name = #{record.simpleName,jdbcType=VARCHAR},
       display_code = #{record.displayCode,jdbcType=VARCHAR},
+      simple_code = #{record.simpleCode,jdbcType=VARCHAR},
       level = #{record.level,jdbcType=INTEGER},
       xmjf = #{record.xmjf,jdbcType=DOUBLE},
       zxjf = #{record.zxjf,jdbcType=DOUBLE},
+      remark = #{record.remark,jdbcType=VARCHAR},
       budget_info_id = #{record.budgetInfoId,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -406,6 +374,9 @@
       <if test="displayCode != null">
         display_code = #{displayCode,jdbcType=VARCHAR},
       </if>
+      <if test="simpleCode != null">
+        simple_code = #{simpleCode,jdbcType=VARCHAR},
+      </if>
       <if test="level != null">
         level = #{level,jdbcType=INTEGER},
       </if>
@@ -415,33 +386,13 @@
       <if test="zxjf != null">
         zxjf = #{zxjf,jdbcType=DOUBLE},
       </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
       <if test="budgetInfoId != null">
         budget_info_id = #{budgetInfoId,jdbcType=VARCHAR},
       </if>
-      <if test="remark != null">
-        remark = #{remark,jdbcType=LONGVARCHAR},
-      </if>
     </set>
-    where data_id = #{dataId,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.pcitc.base.stp.budget.BudgetGroupTotal">
-    update out_tem_money_group_total
-    set parent_data_id = #{parentDataId,jdbcType=VARCHAR},
-      nd = #{nd,jdbcType=VARCHAR},
-      data_version = #{dataVersion,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=VARCHAR},
-      update_time = #{updateTime,jdbcType=VARCHAR},
-      creater_name = #{createrName,jdbcType=VARCHAR},
-      creater_id = #{createrId,jdbcType=VARCHAR},
-      no = #{no,jdbcType=INTEGER},
-      display_name = #{displayName,jdbcType=VARCHAR},
-      simple_name = #{simpleName,jdbcType=VARCHAR},
-      display_code = #{displayCode,jdbcType=VARCHAR},
-      level = #{level,jdbcType=INTEGER},
-      xmjf = #{xmjf,jdbcType=DOUBLE},
-      zxjf = #{zxjf,jdbcType=DOUBLE},
-      budget_info_id = #{budgetInfoId,jdbcType=VARCHAR},
-      remark = #{remark,jdbcType=LONGVARCHAR}
     where data_id = #{dataId,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.budget.BudgetGroupTotal">
@@ -457,9 +408,11 @@
       display_name = #{displayName,jdbcType=VARCHAR},
       simple_name = #{simpleName,jdbcType=VARCHAR},
       display_code = #{displayCode,jdbcType=VARCHAR},
+      simple_code = #{simpleCode,jdbcType=VARCHAR},
       level = #{level,jdbcType=INTEGER},
       xmjf = #{xmjf,jdbcType=DOUBLE},
       zxjf = #{zxjf,jdbcType=DOUBLE},
+      remark = #{remark,jdbcType=VARCHAR},
       budget_info_id = #{budgetInfoId,jdbcType=VARCHAR}
     where data_id = #{dataId,jdbcType=VARCHAR}
   </update>
