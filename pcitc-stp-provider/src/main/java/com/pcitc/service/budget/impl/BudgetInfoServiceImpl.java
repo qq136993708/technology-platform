@@ -1,6 +1,7 @@
 package com.pcitc.service.budget.impl;
 
 import java.util.List;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -122,7 +123,9 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 		params.setAuditStatus(WorkFlowStatusEnum.STATUS_WAITING.getCode());
 		params.setBudgetType(budgetType);
 		params.setNd(nd);
-		params.setBudgetMoney(0d);
+		params.setBudgetMoney(Math.floor(new Random().nextDouble()*100000));
+		params.setCreaterId("1010001");
+		params.setCreaterName("刘美");
 		
 		//检索已创建
 		BudgetInfoExample example = new BudgetInfoExample();

@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Random;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -106,22 +107,21 @@ public class HttpClientUtil
 		}
 		return result;
 	}
-	public static void main(String [] args) 
+	private static void createByNd(String nd) 
 	{
 		HttpClientUtil httpClientUtil = new HttpClientUtil();
 		//创建集团单位预算表信息（空白表）
 		String url = "http://localhost:8765/stp-provider/budget/budget-create-blank-grouptotal";
 		BudgetInfo total = (BudgetInfo)MyBeanUtils.createDefaultModel(BudgetInfo.class);
-		total.setNd("2018");
+		total.setNd(nd);
 		total.setBudgetType(BudgetInfoEnum.GROUP_TOTAL.getCode());
-		httpClientUtil.doPostBody(url,total,"UTF-8");
-		
-		
-		
+		for(int i = 0;i<10;i++) {
+			httpClientUtil.doPostBody(url,total,"UTF-8");
+		}
 		//检索集团预算表
 		url = "http://localhost:8765/stp-provider/budget/budget-info-list";
 		BudgetInfo infoparam = new BudgetInfo();
-		infoparam.setNd("2018");
+		infoparam.setNd(nd);
 		infoparam.setBudgetType(BudgetInfoEnum.GROUP_TOTAL.getCode());
 		String rs = httpClientUtil.doPostBody(url,infoparam,"UTF-8");
 		System.out.println(rs);
@@ -132,7 +132,7 @@ public class HttpClientUtil
 		params.setLimit(100);
 		params.setPage(1);
 		Map<String,Object> param = new HashMap<String,Object>();
-		param.put("nd", "2018");
+		param.put("nd", nd);
 		param.put("budget_type", BudgetInfoEnum.GROUP_TOTAL.getCode());
 		params.setParam(param);
 		
@@ -153,7 +153,23 @@ public class HttpClientUtil
 				{"5","石油管理局（胜利、河南、中原等）","其他","污水处理等环保节能技术开发"},
 				{"6","炼化工程（集团）公司","其他","新能源、环保等石油化工工程技术开发"}
 			};
-			for(String [] compnay:compnays) {
+			List<Integer> ls = new ArrayList<Integer>();
+			Integer totalnumber = 0;
+			for(int i = 0;i<compnays.length;i++) {
+				Integer t = new Random().nextInt(10)+1;
+				totalnumber += t;
+				ls.add(t);
+			}
+			
+			
+			
+			for(int i = 0;i<compnays.length;i++) {
+				String [] compnay = compnays[i];
+				
+
+				Double tNmuber = Math.floor(ls.get(i)*1d/totalnumber*info.getBudgetMoney());
+				Double d = new Random().nextDouble();
+				
 				BudgetGroupTotal groupTotal = (BudgetGroupTotal)MyBeanUtils.createDefaultModel(BudgetGroupTotal.class);
 				
 				groupTotal.setBudgetInfoId(info.getDataId());
@@ -163,8 +179,8 @@ public class HttpClientUtil
 				groupTotal.setNo(new Integer(compnay[0]));
 				groupTotal.setParentDataId(null);
 				groupTotal.setUpdateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
-				groupTotal.setXmjf(0d);
-				groupTotal.setZxjf(0d);
+				groupTotal.setXmjf(Math.floor(tNmuber*d));
+				groupTotal.setZxjf(tNmuber-groupTotal.getXmjf());
 				groupTotal.setDisplayName(compnay[1]);
 				groupTotal.setSimpleName(compnay[2]);
 				groupTotal.setRemark(compnay[3]);
@@ -174,6 +190,13 @@ public class HttpClientUtil
 				url = "http://localhost:8765/stp-provider/budget/budget-persistence-grouptotal-item";
 				httpClientUtil.doPostBody(url,groupTotal,"UTF-8");
 			}
+		}
+	}
+	public static void main(String [] args) 
+	{
+		String [] nds = {"2015","2016","2017","2018","2019"} ;
+		for(String nd:nds) {
+			createByNd(nd);
 		}
 		//根据往年预算创建新预算表
 		/*for(java.util.Iterator<?> iter = array.iterator();iter.hasNext();) 
@@ -186,7 +209,6 @@ public class HttpClientUtil
 			String newrs = httpClientUtil.doPostBody(url,info,"UTF-8");
 			System.out.println(newrs);
 		}*/
-		
 		
 		//创建集团单位预算表信息（空白表）
 		/*url = "http://localhost:8765/stp-provider/budget/budget-create-blank-grouptotal";
