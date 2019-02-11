@@ -1,6 +1,6 @@
 package com.pcitc.util;
 
-import java.nio.charset.Charset;
+/*import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -30,14 +30,14 @@ import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.HanyuPinyinHelper;
 import com.pcitc.base.util.MyBeanUtils;
-import com.pcitc.common.BudgetInfoEnum;
+import com.pcitc.common.BudgetInfoEnum;*/
 
 /*
  * 利用HttpClient进行post请求的工具类
  */
 public class HttpClientUtil 
 {
-	public String doPostFormData(String url,Map<String,String> map,String charset){
+	/*public String doPostFormData(String url,Map<String,String> map,String charset){
 		HttpClient httpClient = null;
 		HttpPost httpPost = null;
 		String result = null;
@@ -191,12 +191,12 @@ public class HttpClientUtil
 				httpClientUtil.doPostBody(url,groupTotal,"UTF-8");
 			}
 		}
-	}
+	}*/
 	public static void main(String [] args) 
 	{
 		String [] nds = {"2015","2016","2017","2018","2019"} ;
 		for(String nd:nds) {
-			createByNd(nd);
+			//createByNd(nd);
 		}
 		//根据往年预算创建新预算表
 		/*for(java.util.Iterator<?> iter = array.iterator();iter.hasNext();) 
