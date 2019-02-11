@@ -212,7 +212,7 @@
             	$.each(curent_tabel_data,function(index,dt){
             		total_money += parseInt(dt.total);
             	});
-          		$("#surplusMoney").val(curent_budget_info.budgetMoney-total_money);
+          		$("#surplusMoney").val($("#budgetMoney").val()-total_money);
           	}
             initDataVersion();
             // 触发不同的按钮事件
