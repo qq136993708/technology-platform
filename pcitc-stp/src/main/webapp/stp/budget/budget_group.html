@@ -92,10 +92,10 @@
                 <thead>
                 <tr>
                 	<th lay-data="{type:'numbers', width: 45,totalRowText: '合计'}" rowspan="2">序号</th>
-                    <th lay-data="{field:'displayName', width: '20%'}" rowspan="2">承担单位</th>
-                    <th lay-data="{field:'remark', width: '16%'}" rowspan="2">研究方向</th>
-                    <th lay-data="{field:'email', width: '15%'}" rowspan="2">2018年科技经费预算完成</th>
-                    <th lay-data="{field:'score', width: '15%'}" rowspan="2">2019年科技经费合同计划金额</th>
+                    <th lay-data="{field:'displayName', width: '25%'}" rowspan="2">承担单位</th>
+                    <th lay-data="{field:'remark', width: '30%'}" rowspan="2">研究方向</th>
+                   <!--  <th lay-data="{field:'email', width: '15%'}" rowspan="2">2018年科技经费预算完成</th>
+                    <th lay-data="{field:'score', width: '15%'}" rowspan="2">2019年科技经费合同计划金额</th> -->
                     <th lay-data="{align:'center'}", colspan="3">2019年预算</th>
                 </tr>
                 <tr>
@@ -170,7 +170,6 @@
                 $(this).addClass('active');
                 $(this).siblings().removeClass('active');
             });
-
             //区别按钮属性
             $('.layui-btn').on('click', function () {
                 var type = $(this).data('type');
@@ -193,7 +192,9 @@
             	//预分配数
             	calculationSurplusMoney();
             });
-
+			$("#budgetMoney").on("keyup",function(){
+				calculationSurplusMoney();
+			});
           	//初始化数据版本
             function initDataVersion(){
                 publicMethods.ajaxPost("/budget/budget_group_info_list",{"nd":cu_date}, function (dt) {
@@ -203,7 +204,6 @@
                 		budget_info_map[data.dataId] = data;
                 		$("#data_version").append('<option value="'+data.dataId+'">'+data.dataVersion+'</option>');
                 	});
-                	console.log(budget_info_map);
     		   	});
             }
           	//计算剩余可分配数
@@ -212,14 +212,14 @@
             	$.each(curent_tabel_data,function(index,dt){
             		total_money += parseInt(dt.total);
             	});
-          		$("#surplusMoney").val($("#budgetMoney").val()-total_money);
+          		$("#surplusMoney").val(parseInt($("#budgetMoney").val())-total_money);
           	}
             initDataVersion();
             // 触发不同的按钮事件
             var $ = layui.$, active = {
                 addEvent: function () { //点击查询按钮
                     layer.open({
-                        title: '创建管理预算表'
+                        title: '集团公司经费预算编制管理'
                         , skin: 'layui-layer-lan'
                         , shadeClose: true
                         , type: 2
@@ -228,7 +228,7 @@
                         , maxmin: false
                         //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
                         , area: ['60%', '550px']
-                        , content: '/layui/budget_add.html'
+                        , content: '/budget/budget_group_add'
                     });
                 },
                 editEvent: function() {
@@ -242,7 +242,7 @@
                         , maxmin: false
                         //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
                         , area: ['60%', '624px']
-                        , content: '/layui/budget_edit.html'
+                        , content: '/budget/budget_group_edit'
                     });
                 }
             }
