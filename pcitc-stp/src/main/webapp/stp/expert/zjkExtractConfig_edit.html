@@ -17,28 +17,36 @@
         <input type="hidden" name="groupId">
         <div class="box-body">
             <input type="hidden" name="dataId" id="dataId"/>
-            <div class="layui-form-item">
-                <label class="layui-form-label">项目阶段ID<span class="must-fill">*</span></label>
-                <div class="layui-input-block">
-                    <input type="text" id="projectStageId" name="projectStageId" lay-verify="required" placeholder="请输入项目阶段ID" autocomplete="off" class="layui-input">
+
+            <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                <div class="layui-form-item">
+                    <label  class="layui-form-label">项目阶段<span class="must-fill"></span></label>
+                    <div class="layui-input-block">
+                        <select name="projectStageId" id="projectStageId"   lay-filter="projectStageId">
+                        </select>
+                    </div>
                 </div>
             </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">项目阶段名称<span class="must-fill">*</span></label>
-                <div class="layui-input-block">
-                    <input type="text" id="projectStageName" name="projectStageName" lay-verify="required" placeholder="请输入项目阶段名称" autocomplete="off" class="layui-input">
+            <!--<div class="layui-form-item">-->
+                <!--<label class="layui-form-label">项目阶段名称<span class="must-fill">*</span></label>-->
+                <!--<div class="layui-input-block">-->
+                    <!--<input type="text" id="projectStageName" name="projectStageName" lay-verify="required" placeholder="请输入项目阶段名称" autocomplete="off" class="layui-input">-->
+                <!--</div>-->
+            <!--</div>-->
+            <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                <div class="layui-form-item">
+                    <label  class="layui-form-label">专家职称<span class="must-fill"></span></label>
+                    <div class="layui-input-block">
+                        <select name="expertProfessional" id="expertProfessional"  lay-filter="expertProfessional">
+                        </select>
+                    </div>
                 </div>
             </div>
+
             <div class="layui-form-item">
-                <label class="layui-form-label">专家职称<span class="must-fill">*</span></label>
+                <label class="layui-form-label">被抽取次数/年<span class="must-fill">*</span></label>
                 <div class="layui-input-block">
-                    <input type="text" id="expertProfessional" name="expertProfessional" lay-verify="required" placeholder="请输入专家职称" autocomplete="off" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">一年内允许被抽取的次数<span class="must-fill">*</span></label>
-                <div class="layui-input-block">
-                    <input type="text" id="expertCount" name="expertCount" lay-verify="required" placeholder="请输入一年内允许被抽取的次数" autocomplete="off" class="layui-input">
+                    <input type="number" id="expertCount" name="expertCount" lay-verify="required" placeholder="请输入一年内允许被抽取的次数" autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
@@ -48,27 +56,29 @@
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">间隔时间<span class="must-fill">*</span></label>
+                <label class="layui-form-label">间隔时间(天)<span class="must-fill">*</span></label>
                 <div class="layui-input-block">
-                    <input type="text" id="intervalTime" name="intervalTime" lay-verify="required" placeholder="请输入间隔时间" autocomplete="off" class="layui-input">
+                    <input type="number" id="intervalTime" name="intervalTime" lay-verify="required" placeholder="请输入间隔时间" autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">在职抽取权重<span class="must-fill">*</span></label>
+                <label class="layui-form-label">在职抽取权重(%)<span class="must-fill">*</span></label>
                 <div class="layui-input-block">
-                    <input type="text" id="extractWeightIn" name="extractWeightIn" lay-verify="required" placeholder="请输入在职抽取权重" autocomplete="off" class="layui-input">
+                    <input type="number" id="extractWeightIn" name="extractWeightIn" lay-verify="required" placeholder="请输入在职抽取权重" autocomplete="off" class="layui-input">
                 </div>
             </div>
+            <!--<div class="layui-form-item">-->
+                <!--<label class="layui-form-label">离职抽取权重(%)<span class="must-fill">*</span></label>-->
+                <!--<div class="layui-input-block">-->
+                    <!--<input type="number" id="extractWeightOut" name="extractWeightOut" lay-verify="required" placeholder="请输入离职抽取权重" autocomplete="off" class="layui-input">-->
+                <!--</div>-->
+            <!--</div>-->
+
             <div class="layui-form-item">
-                <label class="layui-form-label">离职抽取权重<span class="must-fill">*</span></label>
+                <label class="layui-form-label">是否规避本院</label>
                 <div class="layui-input-block">
-                    <input type="text" id="extractWeightOut" name="extractWeightOut" lay-verify="required" placeholder="请输入离职抽取权重" autocomplete="off" class="layui-input">
-                </div>
-            </div>
-            <div class="layui-form-item">
-                <label class="layui-form-label">单位回避<span class="must-fill">*</span></label>
-                <div class="layui-input-block">
-                    <input type="text" id="companyAvoid" name="companyAvoid" lay-verify="required" placeholder="请输入单位回避" autocomplete="off" class="layui-input">
+                    <input type="radio" name="companyAvoid" value="ROOT_UNIVERSAL_WEHTHER_YES" title="是">
+                    <input type="radio" name="companyAvoid" value="ROOT_UNIVERSAL_WEHTHER_NO" title="否" checked>
                 </div>
             </div>
 
@@ -87,6 +97,26 @@
     if (id != "0") {
         $("#id").val(id);
     }
+    //项目
+    ajaxPost('/dictionary/list/ROOT_XTGL_XMJD', null, function (data, status) {
+        $.each(data,function(i,dt){
+            console.log(data[i]);
+            $("#projectStageId").append("<option value='"+data[i].code+"'>"+data[i].name+"</option>");
+        });
+    });
+    //专家职称
+    ajaxPost('/dictionary/list/ZJK_ZCXX', null, function (data, status) {
+        $.each(data,function(i,dt){
+            $("#expertProfessional").append("<option value='"+data[i].code+"'>"+data[i].name+"</option>");
+        });
+    });
+    //是否
+    // ajaxPost('/dictionary/list/ROOT_UNIVERSAL_WEHTHER', null, function (data, status) {
+    //     $.each(data,function(i,dt){
+    //         $("#companyAvoid").append("<option value='"+data[i].code+"'>"+data[i].name+"</option>");
+    //     });
+    // });
+
     layui.use(['jquery', 'form', 'laydate', 'table', 'layer', 'element'],
         function () {
             var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate, form = layui.form;
