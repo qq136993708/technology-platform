@@ -23,7 +23,12 @@ public class FlowProjectInfoServiceImpl implements FlowProjectInfoService {
 	 * @return
 	 * @throws Exception
 	 */
+	@Transactional
+    //@TxTransaction
 	public Integer batchInsertFlowProjectInfo(FlowProjectInfo flowProjectInfo) throws Exception {
+		System.out.println("start======测试事务-----------");
+		flowProjectInfoMapper.insert(flowProjectInfo);
+		System.out.println("end======测试事务-----------");
 		return 1;
 	}
 

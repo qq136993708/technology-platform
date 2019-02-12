@@ -16,7 +16,8 @@ import com.pcitc.base.stp.flow.FlowProjectInfo;
  * 4、如果需要自定义单个Feign配置，Feign的@Configuration注解的类不能与@ComponentScan 的包重叠
  * 默认支持注解：@RequestMapping、@RequestParam、@RequestHeader、@PathVariable
  */
-@FeignClient(value = "pcitc-stp-provider", fallback = FlowProjectHystric.class)
+//@FeignClient(value = "pcitc-stp-provider", fallback = FlowProjectHystric.class)
+@FeignClient(value = "pcitc-stp-provider")
 public interface FlowProjectRemoteClient {
 
 	
