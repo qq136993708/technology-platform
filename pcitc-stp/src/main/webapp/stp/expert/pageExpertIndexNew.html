@@ -44,7 +44,9 @@
         .main-content .expert-i {
             position: absolute;
             top: 28px;
-            left: 28%;
+            left: 0;
+            right:0;
+            margin: 0 auto;
             width: 130px;
             background: #fff;
             border-radius: 50%;
@@ -53,14 +55,14 @@
             text-align: center;
             vertical-align: middle;
             box-shadow: 0 0 10px #ebebeb;
+            overflow: hidden;
         }
 
         .main-content .expert-i img {
-            height: 100px;
+            height: 160px;
             padding-top: 11px;
             border-radius: 6px;
         }
-
         .main-content .expert-t {
             padding-top: 70px;
             text-align: center;
@@ -145,6 +147,23 @@
         }
         .searchH{height: 168px;overflow: auto;}
         .search{width: 51%;}
+        .layui-card{box-shadow: none;}
+        .layui-card-header{border: none;text-align: center;font-size: 24px;color: #000;
+            height: 80px;font-weight: normal;}
+        @media screen and (min-width: 1118px) {
+            .main-content,.main-e{ padding: 0 50px;}
+            .searchOption {width: 90.4%;}
+            .search {width: 76.6%;}
+        }
+        @media screen and (min-width: 1287px) {
+            .main-content,.main-e{ padding: 0 130px;}
+            .searchOption {width: 78.18%;}
+            .search {width: 67%;}
+        }
+        @media screen and (min-width: 1672px) {
+            .searchOption {width: 82.4%;}
+            .search {width: 51%;}
+        }
     </style>
 </head>
 <body>
@@ -211,7 +230,7 @@
     <div class="layui-col-md6">
         <div class="layui-col-md12">
             <div class="layui-card">
-                <div class="layui-card-header">
+                <div class="layui-card-header" style="text-align: center;border: none;">
                     研究院统计专家数量
                 </div>
                 <div class="layui-row-main">
@@ -284,7 +303,6 @@
     }).use(['index', 'form', 'jquery', 'publicMethods', 'formSelects'], function () {
         publicMethods = layui.publicMethods, formSelects = layui.formSelects;
         //行业领域
-
         publicMethods.ajaxPost("/pageCommon/dic/ZJK_XYLY", null, function (data) {
             var arr = [];
             var str = "";
@@ -447,11 +465,11 @@
         //     parent.layui.index.openTabsPage("/home_achievement/award_table?project_property="+xName, "科技成果明细");
         // });
         var three = "/expertController/picIndex?id=2&type=bar";
-        var colorNew = ["#8fd101"];
+        var colorNew = ["#f6b37f"];
         var three = load_single_bar(three, "three", "", "", yAxis, colorNew, 20);
 
         var four = "/expertController/picIndex?id=6&type=bar";
-        var color = ["#50cedc"];
+        var color = ["#c23531","#2f4554","#61a0a8","#d48265","#91c7ae","#749f83","#ca8622","#bda29a"];
         // var four = load_single_bar(four, "four", "", "", yAxis, color, 20);
         loadPie(four,'four',"","");
 
@@ -465,8 +483,8 @@
 
 </script>
 
-<script type="text/javascript" src="/plugins/echarts/echarts-all.js"></script>
-<!--<div class="main-chart" id="one" style="height:440px;width: 100%;"></div>-->
+<!--<script type="text/javascript" src="/plugins/echarts/echarts-all.js"></script>
+&lt;!&ndash;<div class="main-chart" id="one" style="height:440px;width: 100%;"></div>&ndash;&gt;
 <script>
     function relationPic() {
         var one = "/expertController/picIndex?id=5&type=force&expertId=1";
@@ -474,7 +492,7 @@
     }
 
     // relationPic();
-</script>
+</script>-->
 
 </body>
 </html>

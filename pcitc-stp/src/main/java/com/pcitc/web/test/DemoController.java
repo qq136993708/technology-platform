@@ -149,7 +149,7 @@ public class DemoController {
 			paramMap.put("sqlName", "SelectAllProjectFromSinopecData2017");
 			JsonObject jo = new JsonObject();
 			System.out.println(jo.toString());
-			jo.addProperty("ND", "2018");
+			jo.addProperty("nd", "2018");
 			//jo.addProperty("ksrq", "2018-01-01");
 			//jo.addProperty("jzrq", "2018-02-05");
 

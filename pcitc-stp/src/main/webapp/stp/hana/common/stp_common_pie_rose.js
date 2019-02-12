@@ -18,7 +18,7 @@ var optionpie = {
         },
         subtext:''
     },
-    color:['#87d359', '#70b1aa','#f3cc42','#e79579','#349bd1','#7e7fa5','#9799ec','#c3c784','#f4964a'],
+    color:["#c23531","#2f4554","#61a0a8","#d48265","#91c7ae","#749f83","#ca8622","#bda29a"],
     tooltip: {
         trigger: 'item',
         formatter: "{a} <br/>{b} : {c}  ({d}%)"
