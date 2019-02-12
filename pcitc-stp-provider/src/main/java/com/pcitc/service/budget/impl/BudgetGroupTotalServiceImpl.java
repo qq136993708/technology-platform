@@ -123,4 +123,20 @@ public class BudgetGroupTotalServiceImpl implements BudgetGroupTotalService
 		return data;
 	}
 
+	@Override
+	public int deleteBudgetGroupTotalByInfo(String budgetInfoId) throws Exception
+	{
+		BudgetGroupTotalExample example = new BudgetGroupTotalExample();
+		BudgetGroupTotalExample.Criteria c = example.createCriteria();
+		c.andBudgetInfoIdEqualTo(budgetInfoId);
+		List<BudgetGroupTotal> list = budgetGroupTotalMapper.selectByExample(example);
+		
+		Integer rs = 0;
+		for(BudgetGroupTotal group:list) 
+		{
+			rs += budgetGroupTotalMapper.deleteByPrimaryKey(group.getDataId());
+		}
+		return rs;
+	}
+
 }

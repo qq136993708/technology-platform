@@ -17,7 +17,7 @@ public interface BudgetGroupTotalService
 
 	public Integer updateBudgetGroupTotal(BudgetGroupTotal groupTotal)throws Exception;
 
-	public int deleteBudgetGroupTotal(String id)throws Exception;
+	public int deleteBudgetGroupTotal(String id) throws Exception;
 	
 	public List<BudgetGroupTotal> selectBudgetGroupTotalListByIds(List<String> list)throws Exception;
 
@@ -26,4 +26,11 @@ public interface BudgetGroupTotalService
 	public List<BudgetGroupTotal> selectBudgetInfoId(String budgetId)throws Exception;
 	
 	public LayuiTableData selectBudgetGroupTotalPage(LayuiTableParam param) throws Exception;
+	/**
+	 * 根据预算ID删除
+	 * @param infoId
+	 * @return
+	 * @throws Exception
+	 */
+	public int deleteBudgetGroupTotalByInfo(String budgetInfoId) throws Exception;
 }

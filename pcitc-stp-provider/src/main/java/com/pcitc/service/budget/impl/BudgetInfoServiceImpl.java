@@ -125,6 +125,7 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 		params.setNd(nd);
 		params.setBudgetMoney(Math.floor(new Random().nextDouble()*100000));
 		params.setCreaterId("1010001");
+		params.setDelFlag(DelFlagEnum.STATUS_NORMAL.getCode());
 		params.setCreaterName("刘美");
 		
 		//检索已创建
