@@ -1,0 +1,558 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pcitc.mapper.flow.FlowProjectInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.pcitc.base.stp.flow.FlowProjectInfo" >
+    <id column="data_id" property="dataId" jdbcType="VARCHAR" />
+    <result column="hth" property="hth" jdbcType="VARCHAR" />
+    <result column="xmid" property="xmid" jdbcType="VARCHAR" />
+    <result column="xmmc" property="xmmc" jdbcType="VARCHAR" />
+    <result column="nd" property="nd" jdbcType="VARCHAR" />
+    <result column="jf" property="jf" jdbcType="VARCHAR" />
+    <result column="bfjf" property="bfjf" jdbcType="VARCHAR" />
+    <result column="zcjf" property="zcjf" jdbcType="VARCHAR" />
+    <result column="fzdw" property="fzdw" jdbcType="VARCHAR" />
+    <result column="jtfzdw" property="jtfzdw" jdbcType="VARCHAR" />
+    <result column="fzrxm" property="fzrxm" jdbcType="VARCHAR" />
+    <result column="zylb" property="zylb" jdbcType="VARCHAR" />
+    <result column="kssj" property="kssj" jdbcType="VARCHAR" />
+    <result column="jssj" property="jssj" jdbcType="VARCHAR" />
+    <result column="fwdx" property="fwdx" jdbcType="VARCHAR" />
+    <result column="flow_status" property="flowStatus" jdbcType="VARCHAR" />
+    <result column="project_type" property="projectType" jdbcType="VARCHAR" />
+    <result column="create_user" property="createUser" jdbcType="VARCHAR" />
+    <result column="create_user_id" property="createUserId" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="VARCHAR" />
+    <result column="sts" property="sts" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="VARCHAR" />
+    <result column="update_user" property="updateUser" jdbcType="VARCHAR" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="flow_id" property="flowId" jdbcType="VARCHAR" />
+    <result column="flow_code" property="flowCode" jdbcType="VARCHAR" />
+    <result column="audit_status" property="auditStatus" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    data_id, hth, xmid, xmmc, nd, jf, bfjf, zcjf, fzdw, jtfzdw, fzrxm, zylb, kssj, jssj, 
+    fwdx, flow_status, project_type, create_user, create_user_id, create_date, sts, update_date, 
+    update_user, remarks, flow_id, flow_code, audit_status
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.pcitc.base.stp.flow.FlowProjectInfoExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from flow_project_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from flow_project_info
+    where data_id = #{dataId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from flow_project_info
+    where data_id = #{dataId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.pcitc.base.stp.flow.FlowProjectInfoExample" >
+    delete from flow_project_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.pcitc.base.stp.flow.FlowProjectInfo" >
+    insert into flow_project_info (data_id, hth, xmid, 
+      xmmc, nd, jf, bfjf, 
+      zcjf, fzdw, jtfzdw, 
+      fzrxm, zylb, kssj, 
+      jssj, fwdx, flow_status, 
+      project_type, create_user, create_user_id, 
+      create_date, sts, update_date, 
+      update_user, remarks, flow_id, 
+      flow_code, audit_status)
+    values (#{dataId,jdbcType=VARCHAR}, #{hth,jdbcType=VARCHAR}, #{xmid,jdbcType=VARCHAR}, 
+      #{xmmc,jdbcType=VARCHAR}, #{nd,jdbcType=VARCHAR}, #{jf,jdbcType=VARCHAR}, #{bfjf,jdbcType=VARCHAR}, 
+      #{zcjf,jdbcType=VARCHAR}, #{fzdw,jdbcType=VARCHAR}, #{jtfzdw,jdbcType=VARCHAR}, 
+      #{fzrxm,jdbcType=VARCHAR}, #{zylb,jdbcType=VARCHAR}, #{kssj,jdbcType=VARCHAR}, 
+      #{jssj,jdbcType=VARCHAR}, #{fwdx,jdbcType=VARCHAR}, #{flowStatus,jdbcType=VARCHAR}, 
+      #{projectType,jdbcType=VARCHAR}, #{createUser,jdbcType=VARCHAR}, #{createUserId,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=VARCHAR}, #{sts,jdbcType=VARCHAR}, #{updateDate,jdbcType=VARCHAR}, 
+      #{updateUser,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, #{flowId,jdbcType=VARCHAR}, 
+      #{flowCode,jdbcType=VARCHAR}, #{auditStatus,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pcitc.base.stp.flow.FlowProjectInfo" >
+    insert into flow_project_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="dataId != null" >
+        data_id,
+      </if>
+      <if test="hth != null" >
+        hth,
+      </if>
+      <if test="xmid != null" >
+        xmid,
+      </if>
+      <if test="xmmc != null" >
+        xmmc,
+      </if>
+      <if test="nd != null" >
+        nd,
+      </if>
+      <if test="jf != null" >
+        jf,
+      </if>
+      <if test="bfjf != null" >
+        bfjf,
+      </if>
+      <if test="zcjf != null" >
+        zcjf,
+      </if>
+      <if test="fzdw != null" >
+        fzdw,
+      </if>
+      <if test="jtfzdw != null" >
+        jtfzdw,
+      </if>
+      <if test="fzrxm != null" >
+        fzrxm,
+      </if>
+      <if test="zylb != null" >
+        zylb,
+      </if>
+      <if test="kssj != null" >
+        kssj,
+      </if>
+      <if test="jssj != null" >
+        jssj,
+      </if>
+      <if test="fwdx != null" >
+        fwdx,
+      </if>
+      <if test="flowStatus != null" >
+        flow_status,
+      </if>
+      <if test="projectType != null" >
+        project_type,
+      </if>
+      <if test="createUser != null" >
+        create_user,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="sts != null" >
+        sts,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="updateUser != null" >
+        update_user,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="flowId != null" >
+        flow_id,
+      </if>
+      <if test="flowCode != null" >
+        flow_code,
+      </if>
+      <if test="auditStatus != null" >
+        audit_status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="dataId != null" >
+        #{dataId,jdbcType=VARCHAR},
+      </if>
+      <if test="hth != null" >
+        #{hth,jdbcType=VARCHAR},
+      </if>
+      <if test="xmid != null" >
+        #{xmid,jdbcType=VARCHAR},
+      </if>
+      <if test="xmmc != null" >
+        #{xmmc,jdbcType=VARCHAR},
+      </if>
+      <if test="nd != null" >
+        #{nd,jdbcType=VARCHAR},
+      </if>
+      <if test="jf != null" >
+        #{jf,jdbcType=VARCHAR},
+      </if>
+      <if test="bfjf != null" >
+        #{bfjf,jdbcType=VARCHAR},
+      </if>
+      <if test="zcjf != null" >
+        #{zcjf,jdbcType=VARCHAR},
+      </if>
+      <if test="fzdw != null" >
+        #{fzdw,jdbcType=VARCHAR},
+      </if>
+      <if test="jtfzdw != null" >
+        #{jtfzdw,jdbcType=VARCHAR},
+      </if>
+      <if test="fzrxm != null" >
+        #{fzrxm,jdbcType=VARCHAR},
+      </if>
+      <if test="zylb != null" >
+        #{zylb,jdbcType=VARCHAR},
+      </if>
+      <if test="kssj != null" >
+        #{kssj,jdbcType=VARCHAR},
+      </if>
+      <if test="jssj != null" >
+        #{jssj,jdbcType=VARCHAR},
+      </if>
+      <if test="fwdx != null" >
+        #{fwdx,jdbcType=VARCHAR},
+      </if>
+      <if test="flowStatus != null" >
+        #{flowStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="projectType != null" >
+        #{projectType,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="sts != null" >
+        #{sts,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUser != null" >
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="flowId != null" >
+        #{flowId,jdbcType=VARCHAR},
+      </if>
+      <if test="flowCode != null" >
+        #{flowCode,jdbcType=VARCHAR},
+      </if>
+      <if test="auditStatus != null" >
+        #{auditStatus,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.pcitc.base.stp.flow.FlowProjectInfoExample" resultType="java.lang.Integer" >
+    select count(*) from flow_project_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update flow_project_info
+    <set >
+      <if test="record.dataId != null" >
+        data_id = #{record.dataId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hth != null" >
+        hth = #{record.hth,jdbcType=VARCHAR},
+      </if>
+      <if test="record.xmid != null" >
+        xmid = #{record.xmid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.xmmc != null" >
+        xmmc = #{record.xmmc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nd != null" >
+        nd = #{record.nd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jf != null" >
+        jf = #{record.jf,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bfjf != null" >
+        bfjf = #{record.bfjf,jdbcType=VARCHAR},
+      </if>
+      <if test="record.zcjf != null" >
+        zcjf = #{record.zcjf,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fzdw != null" >
+        fzdw = #{record.fzdw,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jtfzdw != null" >
+        jtfzdw = #{record.jtfzdw,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fzrxm != null" >
+        fzrxm = #{record.fzrxm,jdbcType=VARCHAR},
+      </if>
+      <if test="record.zylb != null" >
+        zylb = #{record.zylb,jdbcType=VARCHAR},
+      </if>
+      <if test="record.kssj != null" >
+        kssj = #{record.kssj,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jssj != null" >
+        jssj = #{record.jssj,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fwdx != null" >
+        fwdx = #{record.fwdx,jdbcType=VARCHAR},
+      </if>
+      <if test="record.flowStatus != null" >
+        flow_status = #{record.flowStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectType != null" >
+        project_type = #{record.projectType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createUser != null" >
+        create_user = #{record.createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createUserId != null" >
+        create_user_id = #{record.createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDate != null" >
+        create_date = #{record.createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sts != null" >
+        sts = #{record.sts,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateDate != null" >
+        update_date = #{record.updateDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateUser != null" >
+        update_user = #{record.updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remarks != null" >
+        remarks = #{record.remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="record.flowId != null" >
+        flow_id = #{record.flowId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.flowCode != null" >
+        flow_code = #{record.flowCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.auditStatus != null" >
+        audit_status = #{record.auditStatus,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update flow_project_info
+    set data_id = #{record.dataId,jdbcType=VARCHAR},
+      hth = #{record.hth,jdbcType=VARCHAR},
+      xmid = #{record.xmid,jdbcType=VARCHAR},
+      xmmc = #{record.xmmc,jdbcType=VARCHAR},
+      nd = #{record.nd,jdbcType=VARCHAR},
+      jf = #{record.jf,jdbcType=VARCHAR},
+      bfjf = #{record.bfjf,jdbcType=VARCHAR},
+      zcjf = #{record.zcjf,jdbcType=VARCHAR},
+      fzdw = #{record.fzdw,jdbcType=VARCHAR},
+      jtfzdw = #{record.jtfzdw,jdbcType=VARCHAR},
+      fzrxm = #{record.fzrxm,jdbcType=VARCHAR},
+      zylb = #{record.zylb,jdbcType=VARCHAR},
+      kssj = #{record.kssj,jdbcType=VARCHAR},
+      jssj = #{record.jssj,jdbcType=VARCHAR},
+      fwdx = #{record.fwdx,jdbcType=VARCHAR},
+      flow_status = #{record.flowStatus,jdbcType=VARCHAR},
+      project_type = #{record.projectType,jdbcType=VARCHAR},
+      create_user = #{record.createUser,jdbcType=VARCHAR},
+      create_user_id = #{record.createUserId,jdbcType=VARCHAR},
+      create_date = #{record.createDate,jdbcType=VARCHAR},
+      sts = #{record.sts,jdbcType=VARCHAR},
+      update_date = #{record.updateDate,jdbcType=VARCHAR},
+      update_user = #{record.updateUser,jdbcType=VARCHAR},
+      remarks = #{record.remarks,jdbcType=VARCHAR},
+      flow_id = #{record.flowId,jdbcType=VARCHAR},
+      flow_code = #{record.flowCode,jdbcType=VARCHAR},
+      audit_status = #{record.auditStatus,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.stp.flow.FlowProjectInfo" >
+    update flow_project_info
+    <set >
+      <if test="hth != null" >
+        hth = #{hth,jdbcType=VARCHAR},
+      </if>
+      <if test="xmid != null" >
+        xmid = #{xmid,jdbcType=VARCHAR},
+      </if>
+      <if test="xmmc != null" >
+        xmmc = #{xmmc,jdbcType=VARCHAR},
+      </if>
+      <if test="nd != null" >
+        nd = #{nd,jdbcType=VARCHAR},
+      </if>
+      <if test="jf != null" >
+        jf = #{jf,jdbcType=VARCHAR},
+      </if>
+      <if test="bfjf != null" >
+        bfjf = #{bfjf,jdbcType=VARCHAR},
+      </if>
+      <if test="zcjf != null" >
+        zcjf = #{zcjf,jdbcType=VARCHAR},
+      </if>
+      <if test="fzdw != null" >
+        fzdw = #{fzdw,jdbcType=VARCHAR},
+      </if>
+      <if test="jtfzdw != null" >
+        jtfzdw = #{jtfzdw,jdbcType=VARCHAR},
+      </if>
+      <if test="fzrxm != null" >
+        fzrxm = #{fzrxm,jdbcType=VARCHAR},
+      </if>
+      <if test="zylb != null" >
+        zylb = #{zylb,jdbcType=VARCHAR},
+      </if>
+      <if test="kssj != null" >
+        kssj = #{kssj,jdbcType=VARCHAR},
+      </if>
+      <if test="jssj != null" >
+        jssj = #{jssj,jdbcType=VARCHAR},
+      </if>
+      <if test="fwdx != null" >
+        fwdx = #{fwdx,jdbcType=VARCHAR},
+      </if>
+      <if test="flowStatus != null" >
+        flow_status = #{flowStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="projectType != null" >
+        project_type = #{projectType,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="sts != null" >
+        sts = #{sts,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUser != null" >
+        update_user = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="flowId != null" >
+        flow_id = #{flowId,jdbcType=VARCHAR},
+      </if>
+      <if test="flowCode != null" >
+        flow_code = #{flowCode,jdbcType=VARCHAR},
+      </if>
+      <if test="auditStatus != null" >
+        audit_status = #{auditStatus,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where data_id = #{dataId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.flow.FlowProjectInfo" >
+    update flow_project_info
+    set hth = #{hth,jdbcType=VARCHAR},
+      xmid = #{xmid,jdbcType=VARCHAR},
+      xmmc = #{xmmc,jdbcType=VARCHAR},
+      nd = #{nd,jdbcType=VARCHAR},
+      jf = #{jf,jdbcType=VARCHAR},
+      bfjf = #{bfjf,jdbcType=VARCHAR},
+      zcjf = #{zcjf,jdbcType=VARCHAR},
+      fzdw = #{fzdw,jdbcType=VARCHAR},
+      jtfzdw = #{jtfzdw,jdbcType=VARCHAR},
+      fzrxm = #{fzrxm,jdbcType=VARCHAR},
+      zylb = #{zylb,jdbcType=VARCHAR},
+      kssj = #{kssj,jdbcType=VARCHAR},
+      jssj = #{jssj,jdbcType=VARCHAR},
+      fwdx = #{fwdx,jdbcType=VARCHAR},
+      flow_status = #{flowStatus,jdbcType=VARCHAR},
+      project_type = #{projectType,jdbcType=VARCHAR},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      create_user_id = #{createUserId,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=VARCHAR},
+      sts = #{sts,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=VARCHAR},
+      update_user = #{updateUser,jdbcType=VARCHAR},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      flow_id = #{flowId,jdbcType=VARCHAR},
+      flow_code = #{flowCode,jdbcType=VARCHAR},
+      audit_status = #{auditStatus,jdbcType=VARCHAR}
+    where data_id = #{dataId,jdbcType=VARCHAR}
+  </update>
+</mapper>
