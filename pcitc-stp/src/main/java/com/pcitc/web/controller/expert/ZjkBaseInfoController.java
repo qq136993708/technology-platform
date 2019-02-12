@@ -177,7 +177,8 @@ public class ZjkBaseInfoController extends BaseController {
     public String pageEdit(String id, Model model, String opt) {
         model.addAttribute("id", id);
         model.addAttribute("opt", opt);
-        return "pplus/expert/zjkBaseInfo_edit";
+//        return "stp/expert/zjkBaseInfo_edit";
+        return "stp/expert/zjkExpert_edit";
     }
 
 

@@ -189,13 +189,24 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
         ZjkExpertExample example = new ZjkExpertExample();
         ZjkExpertExample.Criteria c = example.createCriteria();
 //        c.andStatusEqualTo("1");
-//        if(param.getParam().get("fileKind") !=null && !com.pcitc.common.StringUtils.isBlank(param.getParam().get("fileKind")+""))
-//        {
-        //   c.andIdLike("'%"+param.getParam().get("fileKind")+"%'");
-//            ZjkExpertExample.Criteria criteria2 = example.or();
-//            criteria2.andParentIdEqualTo(param.getParam().get("fileKind").toString());
-//            example.or(criteria2);
-        //       }
+
+        Object expertName = param.getParam().get("expertName");
+        if(!StrUtil.isObjectEmpty(expertName))
+        {
+           c.andExpertNameLike("%"+expertName+"%");
+        }
+        System.out.println("expertName = " + expertName);
+        Object email = param.getParam().get("email");
+        if(!StrUtil.isObjectEmpty(email))
+        {
+           c.andEmailLike("%"+email+"%");
+        }
+        Object company = param.getParam().get("company");
+        if(!StrUtil.isObjectEmpty(company))
+        {
+           c.andCompanyEqualTo(company.toString());
+        }
+
         LayuiTableData data = new LayuiTableData();
         Object keywords = param.getParam().get("keyword");
         if (keywords != null && !"".equals(keywords)) {

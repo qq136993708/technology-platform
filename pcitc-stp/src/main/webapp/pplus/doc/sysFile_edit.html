@@ -20,7 +20,7 @@
         <div class="box-body">
             <div class="layui-form-item">
                 <label class="layui-form-label">权限类型:</label>
-                <input type="hidden" class="form-control" name="parentId" id="parentId" placeholder="文件种类"/>
+                <input type="hidden"  name="parentId" id="parentId" />
                 <div class="layui-input-block">
                     <input class="layui-input" lay-filter="radioEvent" type="radio" name="bak1" value="private" title="私有" checked>
                     <input class="layui-input" lay-filter="radioEvent" type="radio" name="bak1" value="public" title="公共">
@@ -28,7 +28,7 @@
                 </div>
             </div>
             <div class="layui-form-item">
-                <input type="text" name="fileIds" id="fileIds" value="${bak2}">
+                <input type="hidden" name="fileIds" id="fileIds" value="${bak2}">
                 <div id="file_upload">
                 </div>
             </div>
@@ -93,14 +93,18 @@
                 var strTempFileIds = "";
                 console.log(pcitcFile2.fileIds);
                 var fileList = pcitcFile2.getFileResult(pcitcFile2.fileIds);
+                console.log("------fileList-----");
+                console.log(fileList);
                 for (var i = 0; i < fileList.list.length; i++) {
                     var file = fileList.list[i];
-                    console.log(file);
                     strTempFileIds=(strTempFileIds==""?file.id:(strTempFileIds+","+file.id));
                 }
+                console.log("-----------");
+                console.log(strTempFileIds);
                 data.field.bak2 = $("#fileIds").val();
                 data.field.fileIds = strTempFileIds;
                 ajaxPost("/sysfilekind/savesysFileKindUpload", data.field, function (dt, status) {
+                    console.log(data.field);
                     layer.msg("操作成功");
                     parent.reloadtable('sysFileId', null);
                     var index = parent.layer.getFrameIndex(window.name);

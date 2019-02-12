@@ -450,6 +450,7 @@ public class SysFileKindController extends BaseController {
 		record.setCreateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
 		record.setCreatePersonId(sysUserInfo.getUserId());
 		record.setCreatePersonName(sysUserInfo.getUserName());
+        System.out.println(record.getParentId());
 		ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(SAVEFile, HttpMethod.POST, new HttpEntity<SysFileKind>(record, this.httpHeaders), Integer.class);
 		Integer result = responseEntity.getBody();
 		return result;

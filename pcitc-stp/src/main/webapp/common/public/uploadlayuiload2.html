@@ -326,6 +326,8 @@
             , acceptMime: pcitcFile2.acceptMime
             , data: {
                 filedflag: pcitcFile2.filedflag
+                ,flag:"0"
+                ,formId:pcitcFile2.fileIds
             }
             , multiple: pcitcFile2.multiple
             , exts: pcitcFile2.ext
@@ -333,7 +335,7 @@
             , auto: pcitcFile2.auto
             , bindAction: '#testListAction2'
             ,before: function(obj){ //obj参数包含的信息，跟 choose回调完全一致。
-                if (pcitcFile.complete!=""){
+                if (pcitcFile2.complete!=""){
                     $("#testListAction").toggle();
                     $("#testListActionDisabled").toggle();
                 }
@@ -376,7 +378,7 @@
 
                     demoListView.append(tr);
                 });*/
-                if(pcitcFile.IEVersion()=="IE"  && fIEVersion==9){
+                if(pcitcFile2.IEVersion()=="IE"  && fIEVersion==9){
                         var objInputFile=$(".layui-upload-file");
                         objInputFile.select();
                         objInputFile.focus();
@@ -418,13 +420,13 @@
                             delete files[index]; //删除对应的文件
                             tr.remove();
                             uploadListIns.config.elem.next()[0].value = ''; //清空 input file 值，以免删除后出现同名文件不可选
-                            pcitcFile.tableSort();
+                            pcitcFile2.tableSort();
                         });
 
                         demoListView.append(tr);
                     });
                 }
-                pcitcFile.complete="1";
+                pcitcFile2.complete="1";
             }
             , done: function (res, index, upload) {
                 /*if (res.error == null) { //上传成功
@@ -444,9 +446,9 @@
                 } else {
                     this.error(index, upload);
                 }*/
-                if(pcitcFile.IEVersion()=="IE"  && fIEVersion==9){
-                        $('#'+pcitcFile.file_table_id).html("");
-                        pcitcFile.reloadTable();
+                if(pcitcFile2.IEVersion()=="IE"  && fIEVersion==9){
+                        $('#'+pcitcFile2.file_table_id).html("");
+                        pcitcFile2.reloadTable();
                 }else {
                     if (res.error == null) { //上传成功
                         console.log("-------------done------------" + index);
@@ -458,12 +460,12 @@
                         tds.eq(4).html('<span style="color: #5FB878;">上传成功</span>');
                         console.log("index:" + index);
                         console.log(($("#uploadTable tr").length - 2));
-                        tds.eq(5).html("<a class='layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg demo-delete' href=\"javascript:pcitcFile.deleteFile('" + res.list[0].id + "','" + ($("#uploadTable tr").length - 2) + "');\" id=\"" + res.list[0].id + "\">删除</a>" + '<a class=\'layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_import btnMyBgImg demo-delete\' href=\"/sysfile/download/' + res.list[0].id + '\">下载</a>');
+                        tds.eq(5).html("<a class='layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg demo-delete' href=\"javascript:pcitcFile2.deleteFile('" + res.list[0].id + "','" + ($("#uploadTable tr").length - 2) + "');\" id=\"" + res.list[0].id + "\">删除</a>" + '<a class=\'layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_import btnMyBgImg demo-delete\' href=\"/sysfile/download/' + res.list[0].id + '\">下载</a>');
                         //清空操作
                         delete this.files[index]; //删除文件队列已经上传成功的文件
-                        // var ids = $("#"+pcitcFile.fileIds).val();
+                        // var ids = $("#"+pcitcFile2.fileIds).val();
                         // ids = (ids == "" ? "" : (ids + ",")) + res.list[0].id;
-                        // $("#"+pcitcFile.fileIds).val(ids);
+                        // $("#"+pcitcFile2.fileIds).val(ids);
                         return;
                     } else {
                         this.error(index, upload);
@@ -471,7 +473,7 @@
                 }
             }
             , allDone: function (obj) {
-                pcitcFile.complete="1";
+                pcitcFile2.complete="1";
                 $("#testListAction").toggle();
                 $("#testListActionDisabled").toggle();
 
@@ -489,7 +491,7 @@
                 }
             }
             , error: function (index, upload) {
-                pcitcFile.complete="1";
+                pcitcFile2.complete="1";
                 console.log("----------error---------");
                 var tr = demoListView.find('tr#upload2-' + index)
                     , tds = tr.children();
