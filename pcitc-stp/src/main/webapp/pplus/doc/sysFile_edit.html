@@ -24,7 +24,7 @@
                 <div class="layui-input-block">
                     <input class="layui-input" lay-filter="radioEvent" type="radio" name="bak1" value="private" title="私有" checked>
                     <input class="layui-input" lay-filter="radioEvent" type="radio" name="bak1" value="public" title="公共">
-                    <input class="layui-input" lay-filter="radioEvent" type="radio" name="bak1" value="share" title="共享">
+                    <!--<input class="layui-input" lay-filter="radioEvent" type="radio" name="bak1" value="share" title="共享">-->
                 </div>
             </div>
             <div class="layui-form-item">
@@ -57,7 +57,7 @@
                     form.val("functiongroup-form", data);
                 });
             }
-            $("#file_upload").load('/common/public/uploadlayuiload2.html');
+            $("#file_upload").load('/common/public/uploadlayuiload_doc.html');
             /* 自定义验证规则  title 要验证的input的 lay-verify=""*/
             /* form.verify({
                 groupName : function(value,item) {
@@ -91,16 +91,15 @@
             form.on('submit(submitBtn)',function (data) {
                 //fileIds重新赋值:fileids
                 var strTempFileIds = "";
-                console.log(pcitcFile2.fileIds);
-                var fileList = pcitcFile2.getFileResult(pcitcFile2.fileIds);
-                console.log("------fileList-----");
-                console.log(fileList);
-                for (var i = 0; i < fileList.list.length; i++) {
-                    var file = fileList.list[i];
-                    strTempFileIds=(strTempFileIds==""?file.id:(strTempFileIds+","+file.id));
+                if (id!="0"){
+                    strTempFileIds = id;
+                } else {
+                    var fileList = pcitcFile2.getFileResult(pcitcFile2.fileIds);
+                    for (var i = 0; i < fileList.list.length; i++) {
+                        var file = fileList.list[i];
+                        strTempFileIds=(strTempFileIds==""?file.id:(strTempFileIds+","+file.id));
+                    }
                 }
-                console.log("-----------");
-                console.log(strTempFileIds);
                 data.field.bak2 = $("#fileIds").val();
                 data.field.fileIds = strTempFileIds;
                 ajaxPost("/sysfilekind/savesysFileKindUpload", data.field, function (dt, status) {

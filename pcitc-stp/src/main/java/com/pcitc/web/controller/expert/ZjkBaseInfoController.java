@@ -44,6 +44,7 @@ import org.springframework.stereotype.Controller;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * <p>控制类</p>
@@ -178,6 +179,7 @@ public class ZjkBaseInfoController extends BaseController {
         model.addAttribute("id", id);
         model.addAttribute("opt", opt);
 //        return "stp/expert/zjkBaseInfo_edit";
+        model.addAttribute("dataId", (id==null||"".equals(id))?UUID.randomUUID().toString().replace("-",""):id);
         return "stp/expert/zjkExpert_edit";
     }
 

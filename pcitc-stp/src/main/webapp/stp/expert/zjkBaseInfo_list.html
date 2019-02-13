@@ -206,6 +206,7 @@
                     layer.msg("请选择一条数据");
                     return;
                 }else {
+                    layer.msg(selectRowData.dataId);
                     openBaseWin("编辑", "/zjkBaseInfo/edit?id=" + selectRowData.dataId);
                 }
             }
