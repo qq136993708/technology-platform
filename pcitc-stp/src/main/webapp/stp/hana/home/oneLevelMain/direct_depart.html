@@ -429,7 +429,7 @@
         	        	  var xkCount_1=getDataCountForNameFloat(data.data,'新开课题');
         	          	  var jzCount_2=getDataCountForNameFloat(data.data,'结转课题');
         	              var allCount_3=xkCount_1+jzCount_2;
-        	              $("#pay_id").html(allCount_3.toFixed(2)+"<small>万元</small>");
+        	              $("#pay_id").html(allCount_3.toFixed(2)+"<small>亿元</small>");
         	          } 
         		   },
         		   error:function()
@@ -586,7 +586,7 @@
             	echart1.on('click', function (params) {
             		var xName=params.name;
             		var legentName=params.seriesName;
-            		var url=　encodeURIComponent("/one_level_main/count_table?define2="+xName+"&nd="+year+"&ysnd="+year+"&ktlx="+legentName);
+            		var url=　encodeURIComponent("/one_level_main/count_table?define2="+xName+"&nd="+year+"&ysnd="+year+"&ktlx="+legentName+"&define1=费用性");
                     window.open("/instituteIndex?url="+url);
                 });
             	
@@ -620,7 +620,7 @@
         		 var legentName=params.seriesName;
         		
         		 var nd=$("#year").val();
-                 var url=　encodeURIComponent("/one_level_main/count_table?define2="+xName+"&nd="+nd+"&ysnd="+nd+"&ktlx="+legentName);
+                 var url=　encodeURIComponent("/one_level_main/count_table?define2="+xName+"&nd="+nd+"&ysnd="+nd+"&ktlx="+legentName+"&define1=资本性");
         	     window.open("/instituteIndex?url="+url);
              });
         	//统计
