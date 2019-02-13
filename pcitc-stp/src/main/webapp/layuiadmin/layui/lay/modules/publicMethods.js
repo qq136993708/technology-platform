@@ -525,7 +525,7 @@ layui.define(['jquery','form','table','laydate'],
                             classDiv="layui-icon_p layui-icon_report";
                         }else if(data.name.length>6){
                             classDiv="layui-icon_p layui-icon_institute";
-                        }else if(data.name.length==4){
+                        }else if(data.name.length<=6){
                             classDiv="layui-leader";
                         }
                         if(data.name=="待办督办"){
