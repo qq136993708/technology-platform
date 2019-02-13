@@ -1,7 +1,9 @@
 package com.pcitc.web.budget;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -146,14 +148,26 @@ public class BudgetGroupTotalProviderClient
 			newInfo = budgetInfoService.createBlankBudgetInfo(info.getNd(),BudgetInfoEnum.GROUP_TOTAL.getCode());
 			//获取模板数据
 			List<BudgetGroupTotal> templates = budgetGroupTotalService.selectBudgetInfoId(info.getDataId());
+			Map<String,String> idRel = new HashMap<String,String>();//新老ID对照
 			for(BudgetGroupTotal total:templates) 
 			{
+				String newId = IdUtil.createIdByTime();
+				idRel.put(total.getDataId(), newId);
+				
 				total.setBudgetInfoId(newInfo.getDataId());
 				total.setDataVersion(newInfo.getDataVersion());
-				total.setDataId(IdUtil.createIdByTime());
+				total.setDataId(newId);
 				total.setUpdateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
 				total.setCreateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
 				budgetGroupTotalService.saveOrUpdateBudgetGroupTotal(total);
+			}
+			//处理二级预算单位
+			for(BudgetGroupTotal total:templates) 
+			{
+				if(total.getLevel()>0 && total.getParentDataId() != null) {
+					total.setParentDataId(idRel.get(total.getParentDataId()));
+					budgetGroupTotalService.updateBudgetGroupTotal(total);
+				}
 			}
 			newInfo.setBudgetMoney(oldInfo.getBudgetMoney());
 			budgetInfoService.updateBudgetInfo(newInfo);
