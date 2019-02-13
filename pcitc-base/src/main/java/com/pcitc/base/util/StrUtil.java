@@ -796,6 +796,12 @@ public class StrUtil {
         return false;
     }
 
+    public static boolean isObjectEmpty(Object str) {
+        if (str == null || "".equals(str) || "".equals(str.toString().trim()) || str.equals("null") || str.equals("undefined"))
+            return true;
+        return false;
+    }
+
 
     /**
      * 将浮点型小数转换为百分数，小数点后第三位四舍五入
