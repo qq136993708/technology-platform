@@ -1323,7 +1323,7 @@
 		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_SY_1001_18"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
 		     '${month}'),
 		     'PLACEHOLDER' = ('$$PR_GSDM$$',
-		     '${companyCode}')) 
+		     '${companyCode}'))  where G0SBFL='9'
 		GROUP BY 
 		     "G0ZCXLBM",
 		     "G0ZCXLMS",
@@ -1351,7 +1351,7 @@
 		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_SY_1001_18"('PLACEHOLDER' = ('$$PR_CALMONTH$$',
 		     '${month}'),
 		     'PLACEHOLDER' = ('$$PR_GSDM$$',
-		     '${companyCode}')) 
+		     '${companyCode}'))  where G0SBFL='9'
 		GROUP BY 
 		     "G0ZCXLBM",
 		     "G0ZCXLMS",

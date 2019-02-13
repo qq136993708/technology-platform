@@ -189,7 +189,6 @@ public class OneLevelMainController {
 				int statusCode = responseEntity.getStatusCodeValue();
 				if (statusCode == 200) 
 				{
-					
 					    JSONObject jSONArray = responseEntity.getBody();
 						System.out.println(">>>>>>>>>>>>>>contract_count jSONArray-> " + jSONArray.toString());
 						Integer projectCount =	jSONArray.getInteger("projectCount");
@@ -197,7 +196,6 @@ public class OneLevelMainController {
 						map.put("projectCount", projectCount);
 		         		result.setSuccess(true);
 						result.setData(map);
-					
 				}
 				
 			} else
@@ -785,7 +783,7 @@ public class OneLevelMainController {
 					 request.setAttribute("xmztList", xmztList);
 				}
 		        return "stp/hana/home/oneLevelMain/ten_dragon_table";
-		  }
+		}
 		 //十条龙三级表格
 	    @RequestMapping(method = RequestMethod.POST, value = "/ten_dragon_table_data")
 		@ResponseBody
