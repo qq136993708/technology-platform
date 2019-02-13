@@ -26,25 +26,45 @@ import com.pcitc.web.common.BudgetInfoEnum;
 @Controller
 public class BudgetGroupTotalController extends BaseController {
 
-	private static final String PROJECT_ACCEPT_PROCESS = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-info-list";
+	private static final String BUDGET_GROUPTOTAL_TABLE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-info-table";
+	private static final String BUDGET_GROUPTOTAL_LIST = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-info-list";
 	private static final String BUDGET_GROUPTOTAL_ITEMS = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-grouptotal-items";
 	
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_group_page")
 	public Object toBudgetGroupPage(HttpServletRequest request) throws IOException 
 	{
-		return "stp/budget/budget";
+		return "stp/budget/budget_group";
+	}
+	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_group_edit")
+	public Object toBudgetGroupEditPage(HttpServletRequest request) throws IOException 
+	{
+		return "stp/budget/budget_group_edit";
+	}
+	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_group_add")
+	public Object toBudgetGroupAddPage(HttpServletRequest request) throws IOException 
+	{
+		return "stp/budget/budget_group_add";
 	}
 	@RequestMapping(value = "/budget/budget_group_info_list", method = RequestMethod.POST)
 	@ResponseBody
 	public Object getBudgetGroupList(@ModelAttribute("info") BudgetInfo info,HttpServletRequest request) throws IOException 
 	{
 		info.setBudgetType(BudgetInfoEnum.GROUP_TOTAL.getCode());
-		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(PROJECT_ACCEPT_PROCESS, HttpMethod.POST, new HttpEntity<BudgetInfo>(info, this.httpHeaders), Object.class);
+		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_GROUPTOTAL_LIST, HttpMethod.POST, new HttpEntity<BudgetInfo>(info, this.httpHeaders), Object.class);
 		System.out.println(JSON.toJSON(responseEntity.getBody()).toString());
 		return JSON.toJSON(responseEntity.getBody()).toString();
 	}
-	@RequestMapping(value = "/budget/budget-grouptotal-items", method = RequestMethod.GET)
+	@RequestMapping(value = "/budget/budget_group_info_table", method = RequestMethod.POST)
+	@ResponseBody
+	public Object getBudgetGroupTable(@ModelAttribute("param") LayuiTableParam param,HttpServletRequest request) throws IOException 
+	{
+		param.getParam().put("budget_type", BudgetInfoEnum.GROUP_TOTAL.getCode());
+		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_GROUPTOTAL_TABLE, HttpMethod.POST, new HttpEntity<LayuiTableParam>(param, this.httpHeaders), Object.class);
+		System.out.println(JSON.toJSON(responseEntity.getBody()).toString());
+		return JSON.toJSON(responseEntity.getBody()).toString();
+	}
+	@RequestMapping(value = "/budget/budget-grouptotal-items", method = RequestMethod.POST)
 	@ResponseBody
 	public Object getBudgetGroupItems(@ModelAttribute("param") LayuiTableParam param,HttpServletRequest request) throws IOException 
 	{

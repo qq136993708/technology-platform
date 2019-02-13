@@ -34,7 +34,7 @@ layui.define(['jquery','form','table','laydate'],
                     //'access-token':getCookie("token")
                 };
                 if (params && typeof params == "object") {
-                    params = publicMet.deleteEmptyProp(params);
+                    //params = publicMet.deleteEmptyProp(params);
                 }
                 $.ajax({
                     type: 'post',
