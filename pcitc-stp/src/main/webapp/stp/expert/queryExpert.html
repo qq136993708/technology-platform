@@ -104,8 +104,10 @@
         publicMethods.ajaxPost("/pageCommon/dic/ZJK_XYLY",null,function (data) {
             $.each(data, function (index, item) {
                 var html = "";
+                console.log(hyly+"------------"+item.code);
+                // if(hyly==(item.code)){
                 if(hyly.indexOf(item.code)>-1){
-                    html="<input type='checkbox' checked title='"+item.name+"' value='"+item.code+"' lay-skin='primary'>"
+                    html="<input type   ='checkbox' checked title='"+item.name+"' value='"+item.code+"' lay-skin='primary'>"
                 }else {
                     html="<input type='checkbox' title='"+item.name+"' value='"+item.code+"' lay-skin='primary'>"
                 }

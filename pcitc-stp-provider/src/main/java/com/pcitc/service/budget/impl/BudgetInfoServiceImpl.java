@@ -1,6 +1,7 @@
 package com.pcitc.service.budget.impl;
 
 import java.util.List;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -82,6 +83,10 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 	@Override
 	public LayuiTableData selectBudgetInfoPage(LayuiTableParam param) throws Exception
 	{
+		if(param.getParam().get("nd")==null || param.getParam().get("budget_type") == null) 
+		{
+			return null;
+		}
 		BudgetInfoExample example = new BudgetInfoExample();
 		BudgetInfoExample.Criteria c = example.createCriteria();
 		c.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
@@ -112,16 +117,27 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 	}
 
 	@Override
-	public Integer createBlankBudgetInfo(String nd,Integer budgetType)
+	public BudgetInfo createBlankBudgetInfo(String nd,Integer budgetType)
 	{
 		BudgetInfo params = (BudgetInfo) MyBeanUtils.createDefaultModel(BudgetInfo.class);
 		params.setAuditStatus(WorkFlowStatusEnum.STATUS_WAITING.getCode());
 		params.setBudgetType(budgetType);
 		params.setNd(nd);
-		params.setBudgetMoney(0d);
-		Integer size = budgetInfoMapper.selectByExample(new BudgetInfoExample()).size();
+		params.setBudgetMoney(Math.floor(new Random().nextDouble()*100000));
+		params.setCreaterId("1010001");
+		params.setCreaterName("刘美");
+		
+		//检索已创建
+		BudgetInfoExample example = new BudgetInfoExample();
+		BudgetInfoExample.Criteria c = example.createCriteria();
+		c.andBudgetTypeEqualTo(budgetType);
+		c.andNdEqualTo(nd);
+		Integer size = budgetInfoMapper.selectByExample(example).size();
+		
+		
 		params.setDataVersion("vs-"+nd+"-"+budgetType+"-"+((1001+size)+"").substring(1));
-		return budgetInfoMapper.insert(params);
+		budgetInfoMapper.insert(params);
+		return params;
 	}
 
 }

@@ -2,7 +2,6 @@ package com.pcitc.base.expert;
 
 import com.pcitc.base.common.DataEntity;
 
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.io.Serializable;
@@ -182,7 +181,6 @@ public class ZjkAchievement extends DataEntity implements Serializable {
      * modify_user_disp - 修改人姓名
      */
     private String modifyUserDisp;
-
 
     public String getDataId() {
         return this.dataId;
@@ -461,7 +459,6 @@ public class ZjkAchievement extends DataEntity implements Serializable {
         }
 
         ZjkAchievement other = (ZjkAchievement) that;
-
 
         return
                 (this.getDataId() == null ? other.getDataId() == null : this.getDataId().equals(other.getDataId())) &&

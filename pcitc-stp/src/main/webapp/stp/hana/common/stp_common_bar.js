@@ -247,10 +247,10 @@ var mutl_bar = {
               x2: 30,
               y2: 40
 	    },
-	    color:['#6592b2', '#54b6e9','#70b1aa','#e8a791','#b5c26a','#d59981'],
+	    color:['#56a1d5', '#f4c83b','#70b1aa','#e8a791','#b5c26a','#d59981'],
         legend: {
             type: 'scroll',
-            top: 0,
+            bottom: 0,
             data:[]
         },
         xAxis: [
@@ -446,8 +446,9 @@ function load_mutl_bar_02(url,id,title,subtext,yAxis)
 	}
 
     mutl_bar.grid={
-        left: '0%',
-        right: '3%',
+	    top:"19%",
+        left: '2%',
+        right: '5%',
         bottom: '0',
         containLabel: true
 	}

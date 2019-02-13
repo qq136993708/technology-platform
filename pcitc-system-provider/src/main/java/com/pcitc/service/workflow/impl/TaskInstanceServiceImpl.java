@@ -28,6 +28,7 @@ import com.pcitc.base.workflow.SysTaskDelegateExample;
 import com.pcitc.mapper.system.SysDelegateMapper;
 import com.pcitc.mapper.system.SysTaskDelegateMapper;
 import com.pcitc.mapper.system.SysUserMapper;
+import com.pcitc.service.feign.stp.FlowProjectRemoteClient;
 import com.pcitc.service.workflow.TaskInstanceService;
 
 @Service("taskInstanceService")
@@ -44,8 +45,8 @@ public class TaskInstanceServiceImpl implements TaskInstanceService {
 	@Autowired
 	private SysUserMapper sysUserMapper;
 	
-	//@Autowired
-    //private HseRemoteClient hseRemoteClient;
+	@Autowired
+    private FlowProjectRemoteClient flowProjectRemoteClient;
 	
 	
 	/** 
@@ -217,13 +218,18 @@ public class TaskInstanceServiceImpl implements TaskInstanceService {
     //@TxTransaction(isStart=true)
 	@Override
     public Integer insertDelegate(SysDelegate delegate) {
-    	// 远程调用
-    	//Hse hse = new Hse();
-    	//hseRemoteClient.insertHse(hse);
+    	System.out.println("====start---");
     	
     	//新增委托单的时候，需要处理目前的已有待办任务
     	int returnInt = sysDelegateMapper.insert(delegate);
     	
+    	// 远程调用
+    	//FlowProjectInfo flowProjectInfo = new FlowProjectInfo();
+    	//flowProjectInfo.setDataId(UUID.randomUUID().toString().replaceAll("-", ""));
+    	//flowProjectRemoteClient.insertFlowProjectInfo(flowProjectInfo);
+    	
+    	//int i = 10/0;
+    	System.out.println("====end---");
     	return returnInt;
     }
     

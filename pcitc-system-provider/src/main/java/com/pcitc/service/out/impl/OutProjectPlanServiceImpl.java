@@ -318,7 +318,7 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 			}
 			hashmap.put("define10", define10);
 		}
-		
+
 		// 费用来源
 		if (param.getParam().get("define11")!=null&&!StringUtils.isBlank(param.getParam().get("define11")+"")) {
 			List define11 = new ArrayList();
@@ -328,7 +328,7 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 			}
 			hashmap.put("define11", define11);
 		}
-		
+
 		// 公司性质，和out_unit本质一致，公司本质的属性，和合同没关系
 		if (param.getParam().get("define12")!=null&&!StringUtils.isBlank(param.getParam().get("define12")+"")) {
 			List define12 = new ArrayList();
@@ -390,6 +390,7 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 		System.out.println("1234>>>>>>>>>define1"+param.getParam().get("define1"));
 		System.out.println("1234>>>>>>>>>define2"+param.getParam().get("define2"));
 		System.out.println("1234>>>>>>>>>qdbz"+param.getParam().get("qdbz"));
+		System.out.println("1234>>>>>>>>>fzdwflag"+param.getParam().get("fzdwflag"));
 
 		if (param.getParam().get("ysnd")!=null&&!StringUtils.isBlank(param.getParam().get("ysnd")+"")) {
 			hashmap.put("ysnd", param.getParam().get("ysnd"));

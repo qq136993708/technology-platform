@@ -1,24 +1,33 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>com.pcitc</groupId>
-    <artifactId>pcitc-parent</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-  </parent>
-  <artifactId>pcitc-stp-provider</artifactId>
-  <dependencies>
-  	<dependency>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.pcitc</groupId>
+		<artifactId>pcitc-parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>pcitc-stp-provider</artifactId>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>1.8</java.version>
+		<lcn.last.version>4.1.0</lcn.last.version>
+	</properties>
+	
+	<dependencies>
+		<dependency>
 			<groupId>com.pcitc</groupId>
 			<artifactId>pcitc-base</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 			<type>jar</type>
-	</dependency>
-	
-  		<dependency>
+		</dependency>
+
+		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-eureka</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-feign</artifactId>
@@ -53,20 +62,18 @@
 			<optional>false</optional>
 		</dependency>
 		<dependency>
-	        <groupId>org.springframework.boot</groupId>
-	        <artifactId>spring-boot-starter-mail</artifactId>
-	    </dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-configuration-processor</artifactId>
 			<optional>true</optional>
 		</dependency>
 		<!-- 解决事务问题，引入mq -->
-		<!-- <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-activemq</artifactId>
-        </dependency> -->
-		
+		<!-- <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-activemq</artifactId> 
+			</dependency> -->
+
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
@@ -81,7 +88,7 @@
 			<groupId>com.alibaba</groupId>
 			<artifactId>druid-spring-boot-starter</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-core</artifactId>
@@ -103,13 +110,10 @@
 			<groupId>com.github.pagehelper</groupId>
 			<artifactId>pagehelper-spring-boot-starter</artifactId>
 		</dependency>
-		
 
-		<!-- 安全权限认证 
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-security</artifactId>
-		</dependency>-->
+
+		<!-- 安全权限认证 <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-security</artifactId> 
+			</dependency> -->
 
 		<!-- 日志 -->
 		<dependency>
@@ -118,16 +122,16 @@
 		</dependency>
 		<!-- boot监控 -->
 		<dependency>
-		    <groupId>de.codecentric</groupId>
-		    <artifactId>spring-boot-admin-starter-client</artifactId>
+			<groupId>de.codecentric</groupId>
+			<artifactId>spring-boot-admin-starter-client</artifactId>
 		</dependency>
 		<dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        
-        <!--swagger -->
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<!--swagger -->
 		<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger2</artifactId>
@@ -136,8 +140,34 @@
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger-ui</artifactId>
 		</dependency>
-  </dependencies>
-  <build>
+
+		<!-- 事务lcn相关 -->
+		<!-- <dependency>
+			<groupId>com.codingapi</groupId>
+			<artifactId>transaction-springcloud</artifactId>
+			<version>${lcn.last.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>com.codingapi</groupId>
+			<artifactId>tx-plugins-db</artifactId>
+			<version>${lcn.last.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>*</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency> -->
+		<!-- 事务lcn相关 end -->
+		
+	</dependencies>
+	<build>
 		<finalName>pcitc-stp-provider</finalName>
 		<resources>
 			<resource>
@@ -192,5 +222,5 @@
 			</plugin>
 		</plugins>
 	</build>
-  
+
 </project>

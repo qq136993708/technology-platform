@@ -11,17 +11,21 @@
     <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
     <script type="text/javascript" src="/common/js/base.js"></script>
     <style>
-        .layui-table-click,.layui-table-hover,.layui-table tbody tr:hover{background: none;}
+
+        .tableBox,.searchBox{width: 76%;margin: 0 auto;}
+        .searchBox{padding-top: 20px;}
+        .tableBox{padding-bottom: 15px;}
+
+        /*放开*/
+        /*.layui-table-click,.layui-table-hover,.layui-table tbody tr:hover{background: none;}
         .layui-table-header{display: none;}
         .layui-table-view,.layui-table-page,.tableBox table tr td{border: none;}
         .layui-table-body{margin-top: 20px;}
         .layui-table-cell{height: auto;margin-bottom: 10px;}
-        p{width: 500px;height: auto;overflow: hidden;white-space: normal;/*text-overflow: ellipsis;*/
+        p{width: 500px;height: auto;overflow: hidden;white-space: normal;!*text-overflow: ellipsis;*!
             font-size: 13px;word-break:break-all;word-wrap:break-word;line-height: 20px;}
         .layui-table-body{margin-top: 0;}
-        .layui-table-page{margin-bottom: 20px;}
-        .tableBox,.searchBox{width: 64%;margin: 0 auto;}
-        .searchBox{margin-top: 20px;}
+        .layui-table-page{margin-bottom: 20px;}*/
     </style>
 </head>
 <body>
@@ -59,8 +63,10 @@
             layer = layui.layer,
             publicMethods = layui.publicMethods,
             laypage = layui.laypage;
+        /*cols第一个arr注释掉  第二个打开*/
+
         var cols =
-            /*[
+            [
                 {type: 'checkbox', event: 'changeEvents', width: 55},
                 {title: '序号', type: 'numbers', width: 55},
                 // {
@@ -161,10 +167,10 @@
                 //     field: "directionInfo",
                 //     title: "发展情况", event: 'setActive', style: 'cursor: pointer;'
                 // },
-            ]*/[
+            ]/*[
             {field:'LAY_TABLE_INDEX',title:'年度',
                 templet:  '<div>{{ layui.laytpl.search(d) }}</div>' },
-            ];
+            ]*/;
 
         function renderTable() {
 

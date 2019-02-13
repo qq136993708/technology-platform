@@ -116,8 +116,6 @@ public class ReportServiceImpl implements ReportService {
         }else {
             list = reportMapper.getReportListNew(map);
         }
-        System.out.println(map.get("columnkosum"));
-        System.out.println(list);
         List<Map<String, String>> list2 = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {
             Map<String, Object> map1 = list.get(i);

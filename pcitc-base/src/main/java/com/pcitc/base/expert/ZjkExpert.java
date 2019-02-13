@@ -2,7 +2,6 @@ package com.pcitc.base.expert;
 
 import com.pcitc.base.common.DataEntity;
 
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.beans.Transient;
@@ -273,6 +272,7 @@ public class ZjkExpert extends DataEntity implements Serializable {
      * modify_user_disp - 修改人姓名
      */
     private String modifyUserDisp;
+
     @Transient
     public String getSelect_type() {
         return select_type;
@@ -705,7 +705,6 @@ public class ZjkExpert extends DataEntity implements Serializable {
         }
 
         ZjkExpert other = (ZjkExpert) that;
-
 
         return
                 (this.getDataId() == null ? other.getDataId() == null : this.getDataId().equals(other.getDataId())) &&

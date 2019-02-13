@@ -12,33 +12,158 @@
     <script type="text/javascript" src="/common/js/base.js"></script>
     <style>
 
-        .main-content{display: flex;height: auto;overflow: hidden;padding: 0 130px;
+        .main-content {
+            display: flex;
+            height: auto;
+            overflow: hidden;
+            padding: 0 130px;
             justify-content: space-between;
-            }
-        .main-expert{position: relative;}
-        .main-content>div{width: 20%;float:left;margin-right: 20px;}
-        .main-content>div:last-child{margin-right: 0;}
-        .main-content .expert-h{background: #dee3e7;height: 94px;border-bottom: 1px solid #ebebeb;
-            border-radius: 4px 4px 0 0;}
-        .main-content .expert-i{position: absolute;top: 28px;left: 28%;}
-        .main-content .expert-i img{border-radius: 50%;box-shadow:0 0 10px #ebebeb }
-        .main-content .expert-t{padding-top: 40px;text-align: center;padding-bottom: 14px;font-size: 22px;color: #333333;}
-        .main-content .expert-s{text-align: center;font-size: 14px;color: #333333;padding-bottom: 10px;}
-        .main-content .expert-ab{padding: 0 10% 20px;text-indent: 2em;font-size: 14px;color: #888888;
-            line-height: 22px;}
-        .main-content .expert-p{text-align: center;padding-bottom: 20px;}
-        .main-content .expert-p a{padding:0 10px;font-size: 14px;color: #000000;border: 1px solid #dcdcdc;
-            border-radius: 3px;height: 30px;line-height: 30px;display: inline-block;}
-        .main-content .expert-a{border-top: 1px dashed  #ebebeb;border-bottom: 1px solid #ebebeb;height: 40px;
-            line-height: 40px;text-align: center;}
-        .main-content .expert-a a{font-size: 14px;color: #00a4b3;}
-        .main-content .expert-t,.main-content .expert-s,.main-content .expert-ab,.main-content .expert-p,
-        .main-content .expert-a{border-right: 1px solid #ebebeb;border-left: 1px solid #ebebeb;}
-        .main>h4{text-align: center;font-size: 24px;margin-bottom: 50px;}
-        .main-button{text-align: center;}
-        .main button{border: 1px solid #00a3b5;font-size: 16px; color: #00a3b5;padding: 0 30px;height: 36px;
-            line-height: 36px;margin: 50px auto;background: none;}
-        .main-e{padding: 0 130px;}
+        }
+
+        .main-expert {
+            position: relative;
+        }
+
+        .main-content > div {
+            width: 20%;
+            float: left;
+            margin-right: 20px;
+        }
+
+        .main-content > div:last-child {
+            margin-right: 0;
+        }
+
+        .main-content .expert-h {
+            background: #dee3e7;
+            height: 94px;
+            border-bottom: 1px solid #ebebeb;
+            border-radius: 4px 4px 0 0;
+        }
+
+        .main-content .expert-i {
+            position: absolute;
+            top: 28px;
+            left: 0;
+            right:0;
+            margin: 0 auto;
+            width: 130px;
+            background: #fff;
+            border-radius: 50%;
+            height: 130px;
+            display: table-cell;
+            text-align: center;
+            vertical-align: middle;
+            box-shadow: 0 0 10px #ebebeb;
+            overflow: hidden;
+        }
+
+        .main-content .expert-i img {
+            height: 160px;
+            padding-top: 11px;
+            border-radius: 6px;
+        }
+        .main-content .expert-t {
+            padding-top: 70px;
+            text-align: center;
+            padding-bottom: 14px;
+            font-size: 22px;
+            color: #333333;
+        }
+
+        .main-content .expert-s {
+            text-align: center;
+            font-size: 14px;
+            color: #333333;
+            padding-bottom: 10px;
+        }
+
+        .main-content .expert-ab {
+            padding: 0 10% 20px;
+            text-indent: 2em;
+            font-size: 14px;
+            color: #888888;
+            line-height: 22px;
+        }
+
+        .main-content .expert-p {
+            text-align: center;
+            padding-bottom: 20px;
+        }
+
+        .main-content .expert-p a {
+            padding: 0 10px;
+            font-size: 14px;
+            color: #000000;
+            border: 1px solid #dcdcdc;
+            border-radius: 3px;
+            height: 30px;
+            line-height: 30px;
+            display: inline-block;
+        }
+
+        .main-content .expert-a {
+            border-top: 1px dashed #ebebeb;
+            border-bottom: 1px solid #ebebeb;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+        }
+
+        .main-content .expert-a a {
+            font-size: 14px;
+            color: #00a4b3;
+        }
+
+        .main-content .expert-t, .main-content .expert-s, .main-content .expert-ab, .main-content .expert-p,
+        .main-content .expert-a {
+            border-right: 1px solid #ebebeb;
+            border-left: 1px solid #ebebeb;
+        }
+
+        .main > h4 {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 50px;
+        }
+
+        .main-button {
+            text-align: center;
+        }
+
+        .main button {
+            border: 1px solid #00a3b5;
+            font-size: 16px;
+            color: #00a3b5;
+            padding: 0 30px;
+            height: 36px;
+            line-height: 36px;
+            margin: 50px auto;
+            background: none;
+        }
+
+        .main-e {
+            padding: 0 130px;
+        }
+        .searchH{height: 168px;overflow: auto;}
+        .search{width: 51%;}
+        .layui-card{box-shadow: none;}
+        .layui-card-header{border: none;text-align: center;font-size: 24px;color: #000;
+            height: 80px;font-weight: normal;}
+        @media screen and (min-width: 1118px) {
+            .main-content,.main-e{ padding: 0 50px;}
+            .searchOption {width: 90.4%;}
+            .search {width: 76.6%;}
+        }
+        @media screen and (min-width: 1287px) {
+            .main-content,.main-e{ padding: 0 130px;}
+            .searchOption {width: 78.18%;}
+            .search {width: 67%;}
+        }
+        @media screen and (min-width: 1672px) {
+            .searchOption {width: 82.4%;}
+            .search {width: 51%;}
+        }
     </style>
 </head>
 <body>
@@ -50,27 +175,26 @@
         <span>专利数量:${zlCount}</span>
     </div>-->
     <div class="searchH">
-        <div class="searchOption">
-            <a href="#">勘探开发</a>
-            <a href="#">石油炼制</a>
-            <a href="#">石油化工</a>
-            <a href="#">公用技术</a>
-            <a href="#">合成材料</a>
-            <a href="#">装备与储运</a>
-            <a href="#">安全环保</a>
-            <a href="#">信息技术</a>
+        <div class="searchOption" style="text-align: center">
+            <!--<a href="#">石油炼制</a>-->
+            <!--<a href="#">石油化工</a>-->
+            <!--<a href="#">公用技术</a>-->
+            <!--<a href="#">合成材料</a>-->
+            <!--<a href="#">装备与储运</a>-->
+            <!--<a href="#">安全环保</a>-->
+            <!--<a href="#">信息技术</a>-->
         </div>
         <div class="search">
-            <!--<span>行业领域</span>
+            <span>行业领域</span>
             <div class="layui-select-more">
                 <select id="hyly" onchange="changeUrl()" onclick="changeUrl()" xm-select="hyly"></select>
-            </div>-->
+            </div>
 
             <!--<span>机构</span>-->
             <input id="key" value="" onblur="changeUrl()" placeholder="输入查找关键字" style="width: 432px;
         border: 1px solid #dddddd;border-radius: 2px;padding-left: 10px;"/>
-            <div class="layui-select-more">
-                <select id="jg" onchange="changeUrl()"  onclick="changeUrl()" xm-select="jg" style="height: 30px;"></select>
+            <div class="layui-select-more" style="display: none;">
+                <select id="jg" onchange="changeUrl()" onclick="changeUrl()" xm-select="jg" style="height: 30px;"></select>
             </div>
             <!--<span>专家姓名</span>
             <input id="zjmc" value="" onblur="changeUrl()"/>
@@ -80,170 +204,77 @@
             <!--<a lay-href="/expertController/selectBakList?status=1&addUserId=addUserId" target="_blank" lay-text="找专家">找专家</a>-->
         </div>
     </div>
-    <div class="main">
-        <h4>推荐专家</h4>
-        <div class="main-content">
-            <div class="main-expert">
-                <div class="expert-h"></div>
-                <div class="expert-i"><img src="/layuiadmin/layui/images/expert-img.png" alt=""></div>
-                <div class="expert-t">李专家</div>
-                <div class="expert-s">石油与天然气勘探专家</div>
-                <div class="expert-ab">人物简介曾任上海石化股份公司董事长、总经理，
-                    中国石化总公司副总经理，中国石化股份公司总裁、副董事长等职...</div>
-                <div class="expert-p">
-                    <a href="#">加入备选</a>
-                    <a href="#">加入对比</a>
+</div>
+
+
+<div class="main">
+    <h4>推荐专家</h4>
+    <!--<#if zjkBaseInfo_index==5>-->
+    <!--<div class="main-content" style="margin-top: 20px;">-->
+    <!--<#else>-->
+    <!--<div class="main-content">-->
+    <!--</#if>-->
+    <div class="main-content" id="main-content-first">
+
+    </div>
+    <div class="main-content" id="main-content-end" style="margin-top: 20px;">
+
+    </div>
+    <div class="main-button">
+        <button onclick="changeExpert()" style="cursor: pointer">换一批</button>
+    </div>
+</div>
+
+
+<div class="main-e layui-row">
+    <div class="layui-col-md6">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header" style="text-align: center;border: none;">
+                    研究院统计专家数量
                 </div>
-                <div class="expert-a"><a href="#">查看详情</a></div>
-            </div>
-            <div class="main-expert">
-                <div class="expert-h"></div>
-                <div class="expert-i"><img src="/layuiadmin/layui/images/expert-img.png" alt=""></div>
-                <div class="expert-t">李专家</div>
-                <div class="expert-s">石油与天然气勘探专家</div>
-                <div class="expert-ab">人物简介曾任上海石化股份公司董事长、总经理，
-                    中国石化总公司副总经理，中国石化股份公司总裁、副董事长等职...</div>
-                <div class="expert-p">
-                    <a href="#">加入备选</a>
-                    <a href="#">加入对比</a>
+                <div class="layui-row-main">
+                    <div class="main-chart" id="four" style="height:300px;width: 100%;"></div>
                 </div>
-                <div class="expert-a"><a href="#">查看详情</a></div>
             </div>
-            <div class="main-expert">
-                <div class="expert-h"></div>
-                <div class="expert-i"><img src="/layuiadmin/layui/images/expert-img.png" alt=""></div>
-                <div class="expert-t">李专家</div>
-                <div class="expert-s">石油与天然气勘探专家</div>
-                <div class="expert-ab">人物简介曾任上海石化股份公司董事长、总经理，
-                    中国石化总公司副总经理，中国石化股份公司总裁、副董事长等职...</div>
-                <div class="expert-p">
-                    <a href="#">加入备选</a>
-                    <a href="#">加入对比</a>
-                </div>
-                <div class="expert-a"><a href="#">查看详情</a></div>
-            </div>
-            <div class="main-expert">
-                <div class="expert-h"></div>
-                <div class="expert-i"><img src="/layuiadmin/layui/images/expert-img.png" alt=""></div>
-                <div class="expert-t">李专家</div>
-                <div class="expert-s">石油与天然气勘探专家</div>
-                <div class="expert-ab">人物简介曾任上海石化股份公司董事长、总经理，
-                    中国石化总公司副总经理，中国石化股份公司总裁、副董事长等职...</div>
-                <div class="expert-p">
-                    <a href="#">加入备选</a>
-                    <a href="#">加入对比</a>
-                </div>
-                <div class="expert-a"><a href="#">查看详情</a></div>
-            </div>
-            <div class="main-expert">
-                <div class="expert-h"></div>
-                <div class="expert-i"><img src="/layuiadmin/layui/images/expert-img.png" alt=""></div>
-                <div class="expert-t">李专家</div>
-                <div class="expert-s">石油与天然气勘探专家</div>
-                <div class="expert-ab">人物简介曾任上海石化股份公司董事长、总经理，
-                    中国石化总公司副总经理，中国石化股份公司总裁、副董事长等职...</div>
-                <div class="expert-p">
-                    <a href="#">加入备选</a>
-                    <a href="#">加入对比</a>
-                </div>
-                <div class="expert-a"><a href="#">查看详情</a></div>
-            </div>
-        </div>
-        <div class="main-content" style="margin-top: 20px;">
-            <div class="main-expert">
-                <div class="expert-h"></div>
-                <div class="expert-i"><img src="/layuiadmin/layui/images/expert-img.png" alt=""></div>
-                <div class="expert-t">李专家</div>
-                <div class="expert-s">石油与天然气勘探专家</div>
-                <div class="expert-ab">人物简介曾任上海石化股份公司董事长、总经理，
-                    中国石化总公司副总经理，中国石化股份公司总裁、副董事长等职...</div>
-                <div class="expert-p">
-                    <a href="#">加入备选</a>
-                    <a href="#">加入对比</a>
-                </div>
-                <div class="expert-a"><a href="#">查看详情</a></div>
-            </div>
-            <div class="main-expert">
-                <div class="expert-h"></div>
-                <div class="expert-i"><img src="/layuiadmin/layui/images/expert-img.png" alt=""></div>
-                <div class="expert-t">李专家</div>
-                <div class="expert-s">石油与天然气勘探专家</div>
-                <div class="expert-ab">人物简介曾任上海石化股份公司董事长、总经理，
-                    中国石化总公司副总经理，中国石化股份公司总裁、副董事长等职...</div>
-                <div class="expert-p">
-                    <a href="#">加入备选</a>
-                    <a href="#">加入对比</a>
-                </div>
-                <div class="expert-a"><a href="#">查看详情</a></div>
-            </div>
-            <div class="main-expert">
-                <div class="expert-h"></div>
-                <div class="expert-i"><img src="/layuiadmin/layui/images/expert-img.png" alt=""></div>
-                <div class="expert-t">李专家</div>
-                <div class="expert-s">石油与天然气勘探专家</div>
-                <div class="expert-ab">人物简介曾任上海石化股份公司董事长、总经理，
-                    中国石化总公司副总经理，中国石化股份公司总裁、副董事长等职...</div>
-                <div class="expert-p">
-                    <a href="#">加入备选</a>
-                    <a href="#">加入对比</a>
-                </div>
-                <div class="expert-a"><a href="#">查看详情</a></div>
-            </div>
-            <div class="main-expert">
-                <div class="expert-h"></div>
-                <div class="expert-i"><img src="/layuiadmin/layui/images/expert-img.png" alt=""></div>
-                <div class="expert-t">李专家</div>
-                <div class="expert-s">石油与天然气勘探专家</div>
-                <div class="expert-ab">人物简介曾任上海石化股份公司董事长、总经理，
-                    中国石化总公司副总经理，中国石化股份公司总裁、副董事长等职...</div>
-                <div class="expert-p">
-                    <a href="#">加入备选</a>
-                    <a href="#">加入对比</a>
-                </div>
-                <div class="expert-a"><a href="#">查看详情</a></div>
-            </div>
-            <div class="main-expert">
-                <div class="expert-h"></div>
-                <div class="expert-i"><img src="/layuiadmin/layui/images/expert-img.png" alt=""></div>
-                <div class="expert-t">李专家</div>
-                <div class="expert-s">石油与天然气勘探专家</div>
-                <div class="expert-ab">人物简介曾任上海石化股份公司董事长、总经理，
-                    中国石化总公司副总经理，中国石化股份公司总裁、副董事长等职...</div>
-                <div class="expert-p">
-                    <a href="#">加入备选</a>
-                    <a href="#">加入对比</a>
-                </div>
-                <div class="expert-a"><a href="#">查看详情</a></div>
-            </div>
-        </div>
-        <div class="main-button"><button>换一批</button></div>
-        <div class="main-e layui-row">
-            <div class="layui-col-md6">1</div>
-            <div class="layui-col-md6">1</div>
         </div>
     </div>
-    <!--<div class="layui-row layui-col-space15">
+    <div class="layui-col-md6">
         <div class="layui-col-md12">
             <div class="layui-card">
                 <div class="layui-card-header">
-                    按研究院统计专家数量统计图
+                    年龄段专家数量
                 </div>
                 <div class="layui-row-main">
-                    <div class="main-chart" id="four" style="height:250px;width: 100%;"></div>
+                    <div class="main-chart" id="three" style="height:300px;width: 100%;"></div>
                 </div>
             </div>
         </div>
-        <div class="layui-col-md12">
-            <div class="layui-card">
-                <div class="layui-card-header">
-                    不同年龄段专家数量统计图
-                </div>
-                <div class="layui-row-main">
-                    <div class="main-chart" id="three" style="height:250px;width: 100%;"></div>
-                </div>
-            </div>
-        </div>
-    </div>-->
+    </div>
+</div>
+</div>
+<!--<div class="layui-row layui-col-space15">-->
+    <!--<div class="layui-col-md12">-->
+        <!--<div class="layui-card">-->
+            <!--<div class="layui-card-header">-->
+                <!--按研究院统计专家数量统计图-->
+            <!--</div>-->
+            <!--<div class="layui-row-main">-->
+                <!--<div class="main-chart" id="four" style="height:250px;width: 100%;"></div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+    <!--<div class="layui-col-md12">-->
+        <!--<div class="layui-card">-->
+            <!--<div class="layui-card-header">-->
+                <!--不同年龄段专家数量统计图-->
+            <!--</div>-->
+            <!--<div class="layui-row-main">-->
+                <!--<div class="main-chart" id="three" style="height:250px;width: 100%;"></div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
 </div>
 <!--统计
 专家数量:${expertCount}
@@ -253,9 +284,8 @@
 <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
 <script type="text/javascript" src="/plugins/echarts/echarts.min.js"></script>
 <script type="text/javascript" src="/plugins/echarts/walden.js"></script>
-<script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
-<script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
-<script type="text/javascript" src="/stp/hana/common/stp_common_force.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_strip.js"></script>
+<script type="text/javascript" src="/stp/hana/common/stp_common_pie_rose.js"></script>
 
 
 <!--<div class="main-chart" id="four" style="height:280px;width: 100%;"></div>-->
@@ -265,24 +295,22 @@
 <div class="main-chart" id="five" style="height:280px;width: 100%;"></div>-->
 
 <script>
+    var publicMethods = "";
     layui.config({
         base: '../layuiadmin/' //静态资源所在路径
     }).extend({
         index: 'lib/index' //主入口模块
     }).use(['index', 'form', 'jquery', 'publicMethods', 'formSelects'], function () {
-        var publicMethods = layui.publicMethods, formSelects = layui.formSelects;
+        publicMethods = layui.publicMethods, formSelects = layui.formSelects;
         //行业领域
-
         publicMethods.ajaxPost("/pageCommon/dic/ZJK_XYLY", null, function (data) {
             var arr = [];
+            var str = "";
             $.each(data, function (index, item) {
-                console.log(data);
                 var obj = {"name": item.name, "value": item.code};
-                arr.push(obj)
+                str = str + "<a href=\"javascript:void(0);\" onclick=\"changeUrlHyly('" + item.code + "');\">" + item.name + "</a>";
             });
-            formSelects.data('hyly', 'local', {
-                arr: arr
-            });
+            $(".searchOption").append(str);
         });
         //研究院
         publicMethods.ajaxPost("/pageCommon/dic/ROOT_XTGL_ZSYJY", null, function (data) {
@@ -290,7 +318,6 @@
             $.each(data, function (index, item) {
                 if (index < 8) {
                     var obj = {"name": item.name, "value": item.code};
-                    console.log(obj)
                     arr.push(obj)
                 }
             });
@@ -299,12 +326,122 @@
             });
             $(".xm-input").val("选择机构");
         });
+        changeExpert();
     });
 
+    //ajax获取专家数据
+    function changeExpert() {
+        publicMethods.ajaxPost("/expertController/expertIndexData", null, function (data) {
+            var arr = [];
+            var tempHtml = "";
+            $("#main-content-first").html("");
+            $("#main-content-end").html("");
+            $.each(data, function (index, zjkBaseInfo) {
+                if (index == 5) {
+                    $("#main-content-first").append(tempHtml);
+                    tempHtml = "";
+                }
+                var professional = zjkBaseInfo.expertProfessinal;
+                professional =cutString(professional,15);
+                var userDesc = zjkBaseInfo.userDesc;
+                userDesc = cutString(userDesc,30);
+                tempHtml += "            <div class=\"main-expert\">\n" +
+                    "                <div class=\"expert-h\"></div>\n" +
+                    "                <div class=\"expert-i\"><img  height='110' src=\"/stp/expert/img/" + zjkBaseInfo.expertName + ".jpg\" alt=\"\"></div>\n" +
+                    "                <!--<div class=\"expert-i\"><img src=\"/layuiadmin/layui/images/expert-img.png\" alt=\"\"></div>-->\n" +
+                    "                <div class=\"expert-t\">" + zjkBaseInfo.expertName + "</div>\n" +
+                    "                <div class=\"expert-s\">" + professional + "</div>\n" +
+                    "                <div class=\"expert-ab\">" + userDesc + "</div>\n" +
+                    "                <div class=\"expert-p\">\n" +
+                    "                    <a href=\"javascript:void(0);\" onclick=\"addBx('" + zjkBaseInfo.dataId + "','" + zjkBaseInfo.company + "','" + zjkBaseInfo.companyName + "')\">加入备选</a>\n" +
+                    "                    <a href=\"javascript:void(0);\" onclick=\"addDb('" + zjkBaseInfo.dataId + "','" + zjkBaseInfo.company + "','" + zjkBaseInfo.companyName + "')\">加入对比</a>\n" +
+                    "                </div>\n" +
+                    "                <div class=\"expert-a\"><a href=\"javascript:;\" onclick=\"showDetail('" + zjkBaseInfo.dataId + "')\">查看详情</a></div>\n" +
+                    "            </div>";
+
+            });
+            $("#main-content-end").append(tempHtml);
+        });
+    }
+
+    function cutString(str, len) {
+
+        //length属性读出来的汉字长度为1
+
+        if(str.length*2 <= len) {
+
+            return str;
+
+        }
+
+        var strlen = 0;
+
+        var s = "";
+
+        for(var i = 0;i < str.length; i++) {
+
+            s = s + str.charAt(i);
+
+            if (str.charCodeAt(i) > 128) {
+
+                strlen = strlen + 2;
+
+                if(strlen >= len){
+
+                    return s.substring(0,s.length-1) + "...";
+
+                }
+
+            } else {
+
+                strlen = strlen + 1;
+
+                if(strlen >= len){
+
+                    return s.substring(0,s.length-2) + "...";
+
+                }
+
+            }
+
+        }
+
+        return s;
+
+    }
+
+    function changeUrlHyly(flag) {
+        $("#hrefExpert").attr("lay-href", "/expertController/queryExpert?" + "hyly=" + flag);
+        document.getElementById("hrefExpert").click();
+    }
+
     function changeUrl() {
-        var href = "hyly=" + layui.formSelects.value('hyly', 'valStr') + "&jg=" + layui.formSelects.value('jg', 'valStr') + "&zjmc=" + $("#zjmc").val() + "&key=" + $("#key").val();
-        console.log(href);
-        $("#hrefExpert").attr("lay-href",$("#hrefExpert").attr("lay-href")+"?"+href);
+        var href = "jg=" + layui.formSelects.value('jg', 'valStr') + "&key=" + $("#key").val();
+        $("#hrefExpert").attr("lay-href", "/expertController/queryExpert?" + href);
+    }
+
+
+    //加入备选
+    function addBx(dataId, company, companyName) {
+        var record = {};
+        record.zjId = dataId;
+        publicMethods.ajaxPost("/expertController/saveBak", record, function (data) {
+            layer.msg("操作成功");
+        });
+    }
+
+    function addDb(dataId, company, companyName) {
+        //加入对比
+        var record = {};
+        record.zjId = dataId;
+        publicMethods.ajaxPost("/expertController/addCompare", record, function (data) {
+            layer.msg("操作成功");
+        });
+    }
+
+    //专家详情
+    function showDetail(expertId) {
+        parent.layui.index.openTabsPage("/expertController/expertDetail?expertId=" + expertId, "专家详情");
     }
 
     function initEchart() {
@@ -328,12 +465,14 @@
         //     parent.layui.index.openTabsPage("/home_achievement/award_table?project_property="+xName, "科技成果明细");
         // });
         var three = "/expertController/picIndex?id=2&type=bar";
-        var colorNew = ["#8fd101"];
-        var three = load_single_bar(three, "three", "", "", yAxis, colorNew, 80);
+        var colorNew = ["#f6b37f"];
+        var three = load_single_bar(three, "three", "", "", yAxis, colorNew, 20);
 
-        var four = "/expertController/picIndex?id=3&type=bar";
-        var color = ["#50cedc"];
-        var four = load_single_bar(four, "four", "", "", yAxis, color, 80);
+        var four = "/expertController/picIndex?id=6&type=bar";
+        var color = ["#c23531","#2f4554","#61a0a8","#d48265","#91c7ae","#749f83","#ca8622","#bda29a"];
+        // var four = load_single_bar(four, "four", "", "", yAxis, color, 20);
+        loadPie(four,'four',"","");
+
 
         /* var five = "/expertController/picIndex?id=4&hyly=hyly&type=bar";
          var five = load_single_bar(five, "five", "专家所在行业领域展示图", "", yAxis);*/
@@ -344,8 +483,8 @@
 
 </script>
 
-<script type="text/javascript" src="/plugins/echarts/echarts-all.js"></script>
-<div class="main-chart" id="one" style="height:440px;width: 100%;"></div>
+<!--<script type="text/javascript" src="/plugins/echarts/echarts-all.js"></script>
+&lt;!&ndash;<div class="main-chart" id="one" style="height:440px;width: 100%;"></div>&ndash;&gt;
 <script>
     function relationPic() {
         var one = "/expertController/picIndex?id=5&type=force&expertId=1";
@@ -353,7 +492,7 @@
     }
 
     // relationPic();
-</script>
+</script>-->
 
 </body>
 </html>

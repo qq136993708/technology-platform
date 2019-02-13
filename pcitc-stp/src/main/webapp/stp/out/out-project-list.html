@@ -56,7 +56,7 @@
 
 	<!--表格数据操作js-->
 	<script>
-		var table, active, dateId, epc, selectRowData = '';
+		var table, active, dateId, xmid, erpProjectCode, selectRowData = '';
 		layui.use([ 'jquery', 'table', 'laydate', 'form', 'laypage', 'laytpl' ], function() {
 			table = layui.table, $ = layui.jquery, laydate = layui.laydate, laypage = layui.laypage, form = layui.form;
 
@@ -97,18 +97,28 @@
 						type : 'numbers'
 					}, {
 						field : 'nd',
-						title : '年度',
-						width : '8%',
+						title : '立项年度',
+						width : '6%',
 						style : 'cursor: pointer;'
 					}, {
 						field : 'hth',
 						title : '合同号',
-						width : '10%',
+						width : '8%',
 						style : 'cursor: pointer;'
+					}, {
+						field : 'jf',
+						title : '课题总额（万）',
+						width : '8%',
+						style : 'cursor: pointer;',
 					}, {
 						field : 'xmmc',
 						title : '项目名称',
 						width : '18%',
+						style : 'cursor: pointer;'
+					}, {
+						field : 'zylb',
+						title : '专业类别',
+						width : '8%',
 						style : 'cursor: pointer;'
 					}, {
 						field : 'fzdw',
@@ -116,48 +126,15 @@
 						width : '12%',
 						style : 'cursor: pointer;'
 					}, {
-						title : '课题类型',
+						field : 'define8',
+						title : '参与单位',
 						width : '12%',
-						style : 'cursor: pointer;',
-						templet: function (d) {
-	                        // 模板的实现方式也是多种多样，这里简单返回固定的
-	                        return '<select name="projectLevel" lay-filter="projectLevel" lay-verify="required" data-value="' + d.projectLevel + '" >\n' +
-	                            '        <option value="科研国拨项目">科研国拨项目</option>\n' +
-	                            '        <option value="科研横向课题">科研横向课题</option>\n' +
-	                            '        <option value="科研纵向课题">科研纵向课题</option>\n' +
-	                            '        <option value="科研院控课题">科研院控课题</option>\n' +
-	                            '   </select>';
-	                    }
-
+						style : 'cursor: pointer;'
 					}, {
-						title : '项目类型',
-						width : '12%',
-						style : 'cursor: pointer;',
-						templet: function (d) {
-	                        // 模板的实现方式也是多种多样，这里简单返回固定的
-	                        return '<select name="projectProperty" lay-filter="projectProperty" lay-verify="required" data-value="' + d.projectProperty + '" >\n' +
-	                            '        <option value="国家项目">国家项目</option>\n' +
-	                            '        <option value="重大专项">重大专项</option>\n' +
-	                            '        <option value="重点项目">重点项目</option>\n' +
-	                            '        <option value="十条龙项目">十条龙项目</option>\n' +
-	                            '        <option value="其他">其他</option>\n' +
-	                            '   </select>';
-	                    }
-
-					}, {
-						title : '项目来源',
-						width : '12%',
-						style : 'cursor: pointer;',
-						templet: function (d) {
-	                        // 模板的实现方式也是多种多样，这里简单返回固定的
-	                        return '<select name="projectSource" lay-filter="projectSource" lay-verify="required" data-value="' + d.projectSource + '" >\n' +
-	                            '        <option value="国家投入">国家投入</option>\n' +
-	                            '        <option value="企业项目">企业项目</option>\n' +
-	                            '        <option value="企业自筹">企业自筹</option>\n' +
-	                            '        <option value="石化总部">石化总部</option>\n' +
-	                            '   </select>';
-	                    }
-
+						field : 'erpProjectName',
+						title : '已匹配ERP',
+						width : '40%',
+						style : 'cursor: pointer;'
 					}, {
 						title : '管理级别',
 						width : '12%',
@@ -172,16 +149,7 @@
 	                            '   </select>';
 	                    }
 
-					}, {
-						field : 'jf',
-						title : '项目经费总额',
-						width : '15%',
-						style : 'cursor: pointer;',
-					}, {
-						field : 'epc',
-						title : '已匹配ERP',
-						style : 'cursor: pointer;'
-					}, ] ],
+					},  ] ],
 					done : function(res, curr, count) {
 						// 关闭等待刷新
 						layer.close(lodingMsg);
@@ -196,10 +164,10 @@
 							selectRowData = res.data[index - 1];
 						});
 						
-						// 刷新时，把当前选择行的epc更新, 供匹配时使用
+						// 刷新时，把当前选择行的erpProjectCode更新, 供匹配时使用
 						for(var i=0;i< res.data.length;i++){
 							if (dateId != '' && res.data[i].dataId==dateId) {
-								epc = res.data[i].epc;
+								erpProjectCode = res.data[i].erpProjectCode;
 							}
 	                    }
 						
@@ -231,12 +199,12 @@
 					active.searchEvent();
 				},
 				handleEvent : function() { //点击关联匹配按钮
-					if (typeof (selectRowData.dataId) == "undefined") {
+					if (typeof (selectRowData.xmid) == "undefined") {
 						layer.msg('请点击选择一行数据');
 					} else {
-						epc = selectRowData.epc;
-						dateId = selectRowData.dataId
-						var temUrl = "/out/erp-project-config/" + selectRowData.dataId;
+						erpProjectCode = selectRowData.erpProjectCode;
+						xmid = selectRowData.xmid
+						var temUrl = "/out/erp-project-config/" + selectRowData.xmid;
 						layer.open({
 							title : '课题匹配',
 							skin : 'layui-layer-lan',
@@ -298,49 +266,6 @@
 				});
 			});
 			
-			// 监听修改update到表格中
-	        form.on('select(projectLevel)', function (data) {
-	            var jsonstr = {
-						"dataId" : selectRowData.dataId,
-						"projectLevel" : data.value
-					};
-	            $.ajax({
-					type : "POST",
-					contentType : "application/json;charset=utf-8",
-					dataType : "json",
-					data : JSON.stringify(jsonstr),
-					url : "/out/update-project",
-					error : function(data) {
-						layer.msg('操作失败!');
-					},
-					success : function(data) {
-						layer.msg('操作成功!');
-					}
-				});
-	            // 其他的操作看需求 TODO
-	        });
-			
-	        form.on('select(projectProperty)', function (data) {
-	        	var jsonstr = {
-						"dataId" : selectRowData.dataId,
-						"projectProperty" : data.value
-					};
-	            $.ajax({
-					type : "POST",
-					contentType : "application/json;charset=utf-8",
-					dataType : "json",
-					data : JSON.stringify(jsonstr),
-					url : "/out/update-project",
-					error : function(data) {
-						layer.msg('操作失败!');
-					},
-					success : function(data) {
-						layer.msg('操作成功!');
-					}
-				});
-	            // 其他的操作看需求 TODO
-	        });
-	        
 	        form.on('select(projectAbc)', function (data) {
 	            var jsonstr = {
 						"dataId" : selectRowData.dataId,
@@ -362,27 +287,6 @@
 	            // 其他的操作看需求 TODO
 	        });
 	        
-	        form.on('select(projectSource)', function (data) {
-	            var jsonstr = {
-						"dataId" : selectRowData.dataId,
-						"projectSource" : data.value
-					};
-	            $.ajax({
-					type : "POST",
-					contentType : "application/json;charset=utf-8",
-					dataType : "json",
-					data : JSON.stringify(jsonstr),
-					url : "/out/update-project",
-					error : function(data) {
-						layer.msg('操作失败!');
-					},
-					success : function(data) {
-						layer.msg('操作成功!');
-					}
-				});
-	            // 其他的操作看需求 TODO
-	        });
-
 
 			//监听行双击事件
 			table.on('rowDouble(tableData)', function(obj) {

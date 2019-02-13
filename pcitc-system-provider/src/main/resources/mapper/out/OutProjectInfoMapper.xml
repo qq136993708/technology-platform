@@ -1704,12 +1704,16 @@
 		</foreach>
 	</insert>
 	
-	<select id="selectProjectByCond" resultMap="BaseResultMap"
-		parameterType="com.pcitc.base.stp.out.OutProjectInfo">
-		select out_project_info.*, group_concat(out_project_erp.erp_project_code) as epc
-		from out_project_info left join out_project_erp on (out_project_info.data_id = out_project_erp.opi_id)
+	<select id="selectProjectByCond" resultMap="BaseResultMap" parameterType="com.pcitc.base.stp.out.OutProjectInfo">
+		select out_project_info.data_id,out_project_info.hth,out_project_info.xmmc,
+			   out_project_info.nd,out_project_info.xmid,out_project_info.fzdw,
+			   out_project_info.jf,out_project_info.zylb,substr(out_project_info.define10, 4) as define10,
+			   group_concat(DISTINCT out_project_info.define8) as define8,
+			   group_concat(DISTINCT out_project_erp.erp_project_code) as erp_project_code,
+			   group_concat(DISTINCT out_project_erp.erp_project_name) as erp_project_name
+		from out_project_info left join out_project_erp on (out_project_info.xmid = out_project_erp.opi_id)
 		where
-		(out_project_info.project_type = '0' or out_project_info.project_type = '2')
+			out_project_info.define8 is not null and (out_project_info.project_type = '0' or out_project_info.project_type = '2')
 		<if test="nd != null">
 			and out_project_info.nd = #{nd,jdbcType=VARCHAR}
 		</if>
@@ -1744,7 +1748,8 @@
 		<if test="status != null">
 			and out_project_info.status = #{status,jdbcType=VARCHAR}
 		</if>
-		group by out_project_info.data_id
+		group by xmid
+		order by define10
 	</select>
 
 	<!-- 首页计算新开项目总数 -->
@@ -2763,7 +2768,7 @@
 				</if>
 			</if>
 			
-			<if test="fzdwflag == null or fzdwflag == ''">
+			<if test="fzdwflag == null or fzdwflag == '' or fzdwflag == '承担单位'">
 				<if test="define12 != null">
 					and (
 					<foreach collection="define12" item="define12" index="index" separator=" or ">

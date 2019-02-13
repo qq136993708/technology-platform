@@ -10,10 +10,7 @@ import com.pcitc.base.common.enums.DelFlagEnum;
 import com.pcitc.base.expert.*;
 import com.pcitc.base.expert.ZjkExpertExample;
 import com.pcitc.base.system.SysDictionary;
-import com.pcitc.base.util.DateUtil;
-import com.pcitc.base.util.IdUtil;
-import com.pcitc.base.util.MyBeanUtils;
-import com.pcitc.base.util.TreeNodeUtil;
+import com.pcitc.base.util.*;
 import com.pcitc.config.SpringContextUtil;
 import com.pcitc.mapper.expert.ZjkExpertMapper;
 import com.pcitc.service.expert.*;
@@ -63,6 +60,17 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
     @Override
     public List<ZjkExpert> findZjkBaseInfoList(ZjkExpert record) throws Exception {
         return zjkBaseInfoMapper.findZjkExpertList(record);
+    }
+
+    @Override
+    public List<ZjkExpert> findZjkBaseInfoListRandom(ZjkExpert record) throws Exception {
+        List<ZjkExpert> zjkExpertreturnList = zjkBaseInfoMapper.findZjkExpertList(record);
+        int[] s = StrUtil.randomCommon(0,zjkExpertreturnList.size(),10);
+        List<ZjkExpert> experts = new ArrayList<>();
+        for (int i = 0; i < s.length; i++) {
+            experts.add(zjkExpertreturnList.get(s[i]));
+        }
+        return experts;
     }
 
     @Override
@@ -181,13 +189,24 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
         ZjkExpertExample example = new ZjkExpertExample();
         ZjkExpertExample.Criteria c = example.createCriteria();
 //        c.andStatusEqualTo("1");
-//        if(param.getParam().get("fileKind") !=null && !com.pcitc.common.StringUtils.isBlank(param.getParam().get("fileKind")+""))
-//        {
-        //   c.andIdLike("'%"+param.getParam().get("fileKind")+"%'");
-//            ZjkExpertExample.Criteria criteria2 = example.or();
-//            criteria2.andParentIdEqualTo(param.getParam().get("fileKind").toString());
-//            example.or(criteria2);
-        //       }
+
+        Object expertName = param.getParam().get("expertName");
+        if(!StrUtil.isObjectEmpty(expertName))
+        {
+           c.andExpertNameLike("%"+expertName+"%");
+        }
+        System.out.println("expertName = " + expertName);
+        Object email = param.getParam().get("email");
+        if(!StrUtil.isObjectEmpty(email))
+        {
+           c.andEmailLike("%"+email+"%");
+        }
+        Object company = param.getParam().get("company");
+        if(!StrUtil.isObjectEmpty(company))
+        {
+           c.andCompanyEqualTo(company.toString());
+        }
+
         LayuiTableData data = new LayuiTableData();
         Object keywords = param.getParam().get("keyword");
         if (keywords != null && !"".equals(keywords)) {
@@ -251,6 +270,7 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
         if (key != null && !"".equals(key)) {
             //获取成果人员id
             ZjkAchievementExample chengguoExample = new ZjkAchievementExample();
+            System.out.println("关键字 = " + Arrays.asList(key.toString().split(",")));
             chengguoExample.createCriteria().andAchievementKeysIn(Arrays.asList(key.toString().split(",")));
             List<ZjkAchievement> zjkChengguos = zjkChengguoService.selectByExample(chengguoExample);
             //添加人员id查询条件
@@ -261,6 +281,7 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
                 List<String> stringsSet = (List<String>) (List) Arrays.asList(set.toArray());
                 c.andDataIdIn(stringsSet);
             }
+            c.andOrColumn(key.toString(), new String[]{"expert_name", "email", "user_desc"}, "like");
         }
         example.setOrderByClause("create_date desc");
         return this.findByExample(param, example);
@@ -358,7 +379,7 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
         String javaCallBack = zjkPic.getCallBackClass();
 
         List<String> stringsDic = new ArrayList<>();
-        if (bak3 != null && bak3 != null) {
+        if (bak3 != null && !"".equals(bak3)) {
             if ("year".equals(bak3)) {
                 int nowDate = Integer.parseInt(DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
                 for (int i = 10; i > 0; i--) {
@@ -373,7 +394,7 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
 
         Map<String, Object> param = (Map<String, Object>) jsonObject.get("param");
 
-        if (bak1 != null && bak2 != null) {
+        if (bak1 != null &&!"".equals(bak1)&&!"".equals(bak2)&& bak2 != null) {
             Object o = SpringContextUtil.getBean(bak1);
             invokeMethod(o.getClass(), o, bak2, param);
         }
@@ -492,7 +513,7 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
 
         jsonObject.put("result", result);
 
-        if (javaCallBack != null) {
+        if (javaCallBack != null&&!"".equals(javaCallBack)) {
             String[] strings = javaCallBack.split("|");
             Object o = SpringContextUtil.getBean(strings[0]);
             invokeMethod(o.getClass(), o, strings[1], jsonObject);
@@ -672,6 +693,6 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
 
     //obj to string
     public String getObjString(Object obj) {
-        return (obj == null || "".equals(obj))?"":obj.toString();
+        return (obj == null || "".equals(obj)) ? "" : obj.toString();
     }
 }

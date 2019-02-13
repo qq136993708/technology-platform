@@ -31,6 +31,8 @@ public interface ZjkBaseInfoService {
      */
     List<ZjkExpert> findZjkBaseInfoList(ZjkExpert record) throws Exception;
 
+    List<ZjkExpert> findZjkBaseInfoListRandom(ZjkExpert record) throws Exception;
+
     /**
      * 删除
      *

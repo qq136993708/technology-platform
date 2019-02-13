@@ -2,7 +2,6 @@ package com.pcitc.base.expert;
 
 import com.pcitc.base.common.DataEntity;
 
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.io.Serializable;
@@ -82,7 +81,6 @@ public class ZjkTree extends DataEntity implements Serializable {
      * modify_user - 修改人id
      */
     private String modifyUser;
-
 
     public String getDataId() {
         return this.dataId;
@@ -201,7 +199,6 @@ public class ZjkTree extends DataEntity implements Serializable {
         }
 
         ZjkTree other = (ZjkTree) that;
-
 
         return
                 (this.getDataId() == null ? other.getDataId() == null : this.getDataId().equals(other.getDataId())) &&

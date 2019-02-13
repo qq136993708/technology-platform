@@ -934,6 +934,76 @@ public class BudgetGroupTotalExample {
             return (Criteria) this;
         }
 
+        public Criteria andSimpleCodeIsNull() {
+            addCriterion("simple_code is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSimpleCodeIsNotNull() {
+            addCriterion("simple_code is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSimpleCodeEqualTo(String value) {
+            addCriterion("simple_code =", value, "simpleCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andSimpleCodeNotEqualTo(String value) {
+            addCriterion("simple_code <>", value, "simpleCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andSimpleCodeGreaterThan(String value) {
+            addCriterion("simple_code >", value, "simpleCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andSimpleCodeGreaterThanOrEqualTo(String value) {
+            addCriterion("simple_code >=", value, "simpleCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andSimpleCodeLessThan(String value) {
+            addCriterion("simple_code <", value, "simpleCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andSimpleCodeLessThanOrEqualTo(String value) {
+            addCriterion("simple_code <=", value, "simpleCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andSimpleCodeLike(String value) {
+            addCriterion("simple_code like", value, "simpleCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andSimpleCodeNotLike(String value) {
+            addCriterion("simple_code not like", value, "simpleCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andSimpleCodeIn(List<String> values) {
+            addCriterion("simple_code in", values, "simpleCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andSimpleCodeNotIn(List<String> values) {
+            addCriterion("simple_code not in", values, "simpleCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andSimpleCodeBetween(String value1, String value2) {
+            addCriterion("simple_code between", value1, value2, "simpleCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andSimpleCodeNotBetween(String value1, String value2) {
+            addCriterion("simple_code not between", value1, value2, "simpleCode");
+            return (Criteria) this;
+        }
+
         public Criteria andLevelIsNull() {
             addCriterion("level is null");
             return (Criteria) this;
@@ -1111,6 +1181,76 @@ public class BudgetGroupTotalExample {
 
         public Criteria andZxjfNotBetween(Double value1, Double value2) {
             addCriterion("zxjf not between", value1, value2, "zxjf");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkIsNull() {
+            addCriterion("remark is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkIsNotNull() {
+            addCriterion("remark is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkEqualTo(String value) {
+            addCriterion("remark =", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkNotEqualTo(String value) {
+            addCriterion("remark <>", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkGreaterThan(String value) {
+            addCriterion("remark >", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkGreaterThanOrEqualTo(String value) {
+            addCriterion("remark >=", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkLessThan(String value) {
+            addCriterion("remark <", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkLessThanOrEqualTo(String value) {
+            addCriterion("remark <=", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkLike(String value) {
+            addCriterion("remark like", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkNotLike(String value) {
+            addCriterion("remark not like", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkIn(List<String> values) {
+            addCriterion("remark in", values, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkNotIn(List<String> values) {
+            addCriterion("remark not in", values, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkBetween(String value1, String value2) {
+            addCriterion("remark between", value1, value2, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkNotBetween(String value1, String value2) {
+            addCriterion("remark not between", value1, value2, "remark");
             return (Criteria) this;
         }
 

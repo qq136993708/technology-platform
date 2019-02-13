@@ -1,6 +1,8 @@
 package com.pcitc.service.budget.impl;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -76,7 +78,6 @@ public class BudgetGroupTotalServiceImpl implements BudgetGroupTotalService
 		BudgetGroupTotalExample example = new BudgetGroupTotalExample();
 		BudgetGroupTotalExample.Criteria c = example.createCriteria();
 		c.andBudgetInfoIdEqualTo(budgetInfoId);
-		
 		example.setOrderByClause("no");
 		return budgetGroupTotalMapper.selectByExample(example);
 	}
@@ -85,8 +86,21 @@ public class BudgetGroupTotalServiceImpl implements BudgetGroupTotalService
 	public LayuiTableData selectBudgetGroupTotalPage(LayuiTableParam param) throws Exception
 	{
 		BudgetGroupTotalExample example = new BudgetGroupTotalExample();
+		BudgetGroupTotalExample.Criteria c = example.createCriteria();
+		c.andBudgetInfoIdEqualTo(param.getParam().get("budget_info_id").toString());
+		
 		example.setOrderByClause("no");
-		return this.findByExample(param, example);
+		//return this.findByExample(param, example);
+		LayuiTableData tabledata = this.findByExample(param, example);
+		List<Map<String,Object>> ls = new ArrayList<Map<String,Object>>();
+		for(java.util.Iterator<?> iter = tabledata.getData().iterator();iter.hasNext();) 
+		{
+			Map<String,Object> mp  = MyBeanUtils.transBean2Map(iter.next());
+			mp.put("total", new Double(mp.get("zxjf").toString())+new Double(mp.get("xmjf").toString()));
+			ls.add(mp);
+		}
+		tabledata.setData(ls);
+		return tabledata;
 	}
 	private LayuiTableData findByExample(LayuiTableParam param,BudgetGroupTotalExample example) 
 	{
