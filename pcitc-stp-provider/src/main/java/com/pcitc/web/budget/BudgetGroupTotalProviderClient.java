@@ -119,29 +119,31 @@ public class BudgetGroupTotalProviderClient
 	public Object createOrUpdateBudgetInfo(@RequestBody BudgetInfo info) 
 	{
 		logger.info("budget-create-blank-grouptotal...");
-		Integer rs = 0;
+		BudgetInfo rsbean = null;
 		try
 		{
 			System.out.println(JSON.toJSONString(info.getNd()));
-			BudgetInfo rsbean = budgetInfoService.createBlankBudgetInfo(info.getNd(), BudgetInfoEnum.GROUP_TOTAL.getCode());
+			rsbean = budgetInfoService.createBlankBudgetInfo(info.getNd(), BudgetInfoEnum.GROUP_TOTAL.getCode());
 			System.out.println(JSON.toJSONString(rsbean));
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
 		}
-		return rs;
+		return rsbean;
 	}
 	@ApiOperation(value="预算管理-创建集团年度预算表",notes="根据模板创建集团年度预算表")
 	@RequestMapping(value = "/stp-provider/budget/budget-create-template-grouptotal", method = RequestMethod.POST)
 	public Object createOrUpdateBudgetInfoByHis(@RequestBody BudgetInfo info) 
 	{
 		logger.info("budget-create-blank-grouptotal...");
-		Integer rs = 0;
+		BudgetInfo newInfo = null;
 		try
 		{
 			System.out.println(JSON.toJSONString(info.getNd()));
-			BudgetInfo newInfo = budgetInfoService.createBlankBudgetInfo(info.getNd(),BudgetInfoEnum.GROUP_TOTAL.getCode());
+			BudgetInfo oldInfo = budgetInfoService.selectBudgetInfo(info.getDataId());
+			
+			newInfo = budgetInfoService.createBlankBudgetInfo(info.getNd(),BudgetInfoEnum.GROUP_TOTAL.getCode());
 			//获取模板数据
 			List<BudgetGroupTotal> templates = budgetGroupTotalService.selectBudgetInfoId(info.getDataId());
 			for(BudgetGroupTotal total:templates) 
@@ -153,13 +155,15 @@ public class BudgetGroupTotalProviderClient
 				total.setCreateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
 				budgetGroupTotalService.saveOrUpdateBudgetGroupTotal(total);
 			}
+			newInfo.setBudgetMoney(oldInfo.getBudgetMoney());
+			budgetInfoService.updateBudgetInfo(newInfo);
 			System.out.println(JSON.toJSONString(newInfo));
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
 		}
-		return rs;
+		return newInfo;
 	}
 	@ApiOperation(value="预算管理-创建集团年度预算表",notes="删除集团年度预算空白表")
 	@RequestMapping(value = "/stp-provider/budget/budget-grouptotal-del", method = RequestMethod.POST)

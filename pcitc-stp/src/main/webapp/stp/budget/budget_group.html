@@ -48,7 +48,7 @@
                 </label>
             </div>
             <div class="tool-center">
-                <button class="layui-btn btn-decision active">编制预算</button>
+                <button class="layui-btn btn-decision active" data-type="addEvent">编制预算</button>
             </div>
             <div class="tool-right">
                 <button class="layui-btn layui-btn-sm btn-decision active">往年预算参考</button>
@@ -69,7 +69,7 @@
                 </label>
             </div>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg"
-                    data-type="addEvent">新增
+                    data-type="editEvent">新增
             </button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg"
                     data-type="editEvent">编辑
@@ -151,7 +151,7 @@
             });
 			//数据版本选择
             $("#data_version").on("change",function(e){
-            	curent_budget_info = budget_info_map[$("#data_version").val()]; 
+            	curent_budget_info = budget_info_map[$("#data_version").val()];
             	if(curent_budget_info){
             		$("#budgetMoney").val(curent_budget_info.budgetMoney);//可分配数
             		$("#creater_name").html(curent_budget_info.createrName);//创建人
@@ -196,7 +196,7 @@
 				calculationSurplusMoney();
 			});
           	//初始化数据版本
-            function initDataVersion(){
+            function initDataVersion(budget_id){
                 publicMethods.ajaxPost("/budget/budget_group_info_list",{"nd":cu_date}, function (dt) {
                 	$("#data_version").html('<option value="">---请选择预算版本---</option>');
                 	budget_info_map = {};
@@ -204,6 +204,10 @@
                 		budget_info_map[data.dataId] = data;
                 		$("#data_version").append('<option value="'+data.dataId+'">'+data.dataVersion+'</option>');
                 	});
+                	if(budget_id){
+                    	$("#data_version").val(budget_id);
+                    	$("#data_version").trigger("change");
+                    }
     		   	});
             }
           	//计算剩余可分配数
@@ -214,6 +218,8 @@
             	});
           		$("#surplusMoney").val(parseInt($("#budgetMoney").val())-total_money);
           	}
+          	//将方法转换为全局方法
+          	window.initDataVersion = initDataVersion;
             initDataVersion();
             // 触发不同的按钮事件
             var $ = layui.$, active = {
