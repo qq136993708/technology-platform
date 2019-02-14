@@ -6482,6 +6482,9 @@ public static ChartBarLineSeries getAward_trend_analysis_02(List<Award> list, St
 		
 		String month = HanaUtil.getCurrrentYearMoth();
 		request.setAttribute("month", month);
+		
+		String year = HanaUtil.getCurrrentYear();
+		request.setAttribute("year", year);
 	}
 	private static List<CompanyCode> getCompanyCodeDefault()
 	{

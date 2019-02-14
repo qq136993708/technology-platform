@@ -398,7 +398,7 @@ layui.config({
     });
 
     function dele() {
-        $(".conditionNew .dele").click(function () {
+        $(".conditionNew .dele a").click(function () {
             $(".conditionNew ul li").remove();
             $(".selector-right ul li").removeClass("layui-this");
             $(".conditionNew").addClass("layui-hide");
@@ -456,7 +456,7 @@ layui.config({
          
          $(".specialt_ktlx ul li").each(function () {
              if($(this).attr("class")=="layui-this"){
-            	 specialtySelectedspecialt_chuItem+=$(this).find("a").html()+',';
+            	 specialtySelectedspecialt_ktlx+=$(this).find("a").html()+',';
              }
          });
          

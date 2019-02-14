@@ -17,7 +17,6 @@ import com.pcitc.base.system.SysUser;
 public class JwtTokenUtil implements Serializable {
 
 	private static final long serialVersionUID = -3301605591108950415L;
-
 	private static final String CLAIM_KEY_USERNAME = "userName";
 	private static final String CLAIM_KEY_CREATED = "created";
 	private static final String CLAIM_KEY_EMAIL = "email";
