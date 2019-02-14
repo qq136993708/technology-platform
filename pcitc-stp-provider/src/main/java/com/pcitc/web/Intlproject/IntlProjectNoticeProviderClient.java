@@ -1,5 +1,8 @@
 package com.pcitc.web.Intlproject;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -25,12 +28,9 @@ import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.common.MailBean;
 import com.pcitc.common.WorkFlowStatusEnum;
+import com.pcitc.service.feign.SystemRemoteClient;
 import com.pcitc.service.intlproject.IntlProjectNoticeService;
 import com.pcitc.service.msg.MailSentService;
-import com.pcitc.web.feign.SystemRemoteClient;
-
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 
 @Api(value="通知管理接口",tags= {"国际合作-项目通知管理服务接口"})
 @RestController
