@@ -2187,6 +2187,8 @@ public class OneLevelMainController {
 					request.setAttribute("companyCode", companyCode);
 					request.setAttribute("legentName", legentName);
 					
+					String monthName=HanaUtil.getCurrrent_YearMoth();
+					request.setAttribute("monthName", monthName);
 			        return "stp/hana/home/oneLevelMain/equipment_detail";
 			  }
 		    
@@ -2605,7 +2607,7 @@ public class OneLevelMainController {
 										Result result = new Result();
 										ChartBarLineResultData barLine=new ChartBarLineResultData();
 										String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
-										String companyCode = CommonUtil.getParameter(request, "companyCode", "");
+										String companyCode = CommonUtil.getParameter(request, "companyCode", HanaUtil.YJY_CODE_NOT_YINGKE);
 										Map<String, Object> paramsMap = new HashMap<String, Object>();
 										paramsMap.put("nd", nd);
 										paramsMap.put("companyCode", companyCode);

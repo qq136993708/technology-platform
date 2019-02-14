@@ -18,7 +18,7 @@
 </div>
 
 <div class="tableBox" >
-<h3 style="font-weight: bold;text-align: center;margin: 10px 0;" id="stp_table_title"><label id="ttt"></label>（${month}）&nbsp;&nbsp;${companyName}${legentName}设备</h3>
+<h3 style="font-weight: bold;text-align: center;margin: 10px 0;" id="stp_table_title"><label id="ttt"></label>${monthName}&nbsp;${companyName}${legentName}设备</h3>
     <table id="processdef-table" class="layui-hide" lay-filter="tableEvent">
 </div>
 
@@ -140,8 +140,8 @@ layui.config({
             {field:'g0ZBHND',          title:'使用年限',        style:'cursor: pointer;',align: 'right', width: '11%'},
             {field:'g0NDJAR',          title:'计划年使用期',        style:'cursor: pointer;',align: 'right', width: '11%'},
             {field:'g0NDSYN',          title:'剩余年限 ',        style:'cursor: pointer;',align: 'right', width: '11%'},
-            {field:'g0NCGZYZJE',       title:'资产净值 ',        style:'cursor: pointer;',align: 'right', width: '11%'},
-            {field:'bl',               title:'折旧率',        style:'cursor: pointer;',align: 'right', width: '11%'}
+            {field:'g0NCGZYZJE',       title:'资产净值 ',        style:'cursor: pointer;',align: 'right', width: '11%' ,templet:function(d){return (d.g0NCGZYZJE)+""}},
+            {field:'bl',               title:'折旧率',         style:'cursor: pointer;',align: 'right',  width: '11%' ,templet:function(d){return d.bl+"%"}}
             
             
         ]],
