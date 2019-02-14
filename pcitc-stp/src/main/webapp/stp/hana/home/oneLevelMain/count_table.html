@@ -7,6 +7,9 @@
 	<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/common.css">
     <script src="/layuiadmin/layui/layui.js"></script>
+    <style>
+        .dateInput{font-size: 12px;}
+    </style>
 </head>
 <body>
 
@@ -166,21 +169,21 @@
         <input type="text" name="xmmc" title="项目名称" autocomplete="off" class="form-control" id="xmmc">
     </label>
     
-    <label class="dateInput">
+    <label class="dateInput dateInputP">
          <span>项目年度</span>
          <input type="text" name="nd" placeholder="请选择项目年度" title="项目年度" value="${nd}"  autocomplete="off" class="form-control" id="nd">
      </label>
-     <label class="dateInput">
+     <label class="dateInput dateInputP">
          <span>预算年度</span>
          <input type="text" name="ysnd" placeholder="请选择预算年度" title="预算年度" value="${ysnd}"  autocomplete="off" class="form-control" id="ysnd">
      </label>
-     
+
     <label class="dateInput">
          <span>负责单位</span>
          <input type="radio" name="fzdwflag" id="fzdwflag" value="承担单位"  <#if fzdwflag == '承担单位'>checked="checked"</#if> >承担单位
          <input type="radio" name="fzdwflag" id="fzdwflag" value="牵头单位"  <#if fzdwflag == '牵头单位'>checked="checked"</#if> >牵头单位
      </label>
-     
+
      
      <!--按钮组-->
      <div class="btnGroup">&nbsp;&nbsp;&nbsp;
@@ -332,6 +335,7 @@ layui.config({
                 htmlName=$(this).parents(".selector-right").prev().html();
             if(htmlA==htmlT && htmlA!=""){
                 $(this).addClass("layui-this");
+                $(".dateInputP").addClass("layui-hide");
                 $(".conditionNew").removeClass("layui-hide");
                 $(".conditionNew ul").append("<li>"+htmlName+"<a href='javascript:;'>"+htmlA+"</a></li>");
                 renderTable();
@@ -393,6 +397,11 @@ layui.config({
                     });
                 });
                 dele();
+            }
+            if($(".specialt_ktlx ul li.layui-this").length>0){
+                $(".dateInputP").addClass("layui-hide");
+            }else {
+                $(".dateInputP").removeClass("layui-hide");
             }
         });
     });
