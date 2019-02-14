@@ -872,7 +872,11 @@ public class SysFileServiceImpl implements SysFileService {
             sysFileExample.setOrderByClause("create_date_time desc");
             fileList = selectByExample(sysFileExample);
         }
-        return getPreivewSettings(fileList, request);
+        FileResult fileResult = new FileResult();
+        fileResult.setList(fileList);
+        fileResult.setFileIds(fileIds);
+        return fileResult;
+//        return getPreivewSettings(fileList, request);
     }
 
     public Object getFileFlag(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse

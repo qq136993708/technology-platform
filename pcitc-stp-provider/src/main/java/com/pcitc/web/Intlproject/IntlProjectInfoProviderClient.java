@@ -1,5 +1,8 @@
 package com.pcitc.web.Intlproject;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,11 +19,8 @@ import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.stp.IntlProject.IntlProjectInfo;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.workflow.WorkflowVo;
+import com.pcitc.service.feign.SystemRemoteClient;
 import com.pcitc.service.intlproject.IntlProjectInfoService;
-import com.pcitc.web.feign.SystemRemoteClient;
-
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 
 @Api(value="项目立项接口",tags= {"国际合作-项目立项操作服务接口"})
 @RestController
