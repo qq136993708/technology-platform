@@ -20,9 +20,9 @@ import com.pcitc.base.stp.IntlProject.IntlProjectPlant;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.common.MailBean;
+import com.pcitc.service.feign.SystemRemoteClient;
 import com.pcitc.service.intlproject.IntlProjectPlantService;
 import com.pcitc.service.msg.MailSentService;
-import com.pcitc.web.feign.SystemRemoteClient;
 
 @RestController
 public class IntlProjectPlantProviderClient 
