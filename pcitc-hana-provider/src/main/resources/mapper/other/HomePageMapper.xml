@@ -1192,6 +1192,7 @@
 		     "G0NDJAR",
 		     "G0NDSYN",
 		     "G0GSOR",
+		     "G0ANLN1",
 		     sum("G0NCGZYZJE") AS "G0NCGZYZJE",
 		     sum("G0LJZJJE") AS "G0LJZJJE",
 		     sum("K0BNZCJE") AS "K0BNZCJE",
@@ -1209,7 +1210,7 @@
 		     "G0ZBHND",
 		     "G0NDJAR",
 		     "G0NDSYN",
-		     "G0GSOR" 
+		     "G0GSOR"  ,"G0ANLN1"
 		 ) 
 		GROUP BY "G0ZCXLMS",
 		     "G0GSJC",
@@ -1218,7 +1219,7 @@
 		     "G0ZBHND",
 		     "G0NDJAR",
 		     "G0NDSYN" ,
-		     "G0GSOR" 
+		     "G0GSOR"  ,"G0ANLN1"
 		order by "G0ZCXLMS" desc,
 		    "G0GSOR" 
      </sql>
@@ -1242,6 +1243,7 @@
 				     "G0NDJAR",
 				     "G0NDSYN",
 				     "G0GSOR",
+				     "G0ANLN1",
 				     sum("G0NCGZYZJE") AS "G0NCGZYZJE",
 				     sum("G0LJZJJE") AS "G0LJZJJE",
 				     sum("K0BNZCJE") AS "K0BNZCJE",
@@ -1259,7 +1261,7 @@
 				     "G0ZBHND",
 				     "G0NDJAR",
 				     "G0NDSYN",
-				     "G0GSOR" 
+				     "G0GSOR"  ,"G0ANLN1"
 				 ) 
 				GROUP BY "G0ZCXLMS",
 				     "G0GSJC",
@@ -1268,7 +1270,7 @@
 				     "G0ZBHND",
 				     "G0NDJAR",
 				     "G0NDSYN" ,
-				     "G0GSOR" 
+				     "G0GSOR"  ,"G0ANLN1"
 				order by "G0ZCXLMS" desc,
 				    "G0GSOR"
 				

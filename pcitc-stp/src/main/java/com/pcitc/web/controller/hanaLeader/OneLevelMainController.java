@@ -2177,10 +2177,11 @@ public class OneLevelMainController {
 					String companyName = CommonUtil.getParameter(request, "companyName", "");
 					String legentName = CommonUtil.getParameter(request, "legentName", "");
 					List<CompanyCode> companyCodeList = HanaUtil.getCompanyCode(restTemplate, httpHeaders);
-					companyCode = HanaUtil.getCompanyCodeByName(companyCodeList, companyName);
-					
+					if(!companyName.equals(""))
+					{
+						companyCode = HanaUtil.getCompanyCodeByName(companyCodeList, companyName);
+					}
 					request.setAttribute("companyName", companyName);
-					
 					request.setAttribute("type", type);
 					request.setAttribute("month", month);
 					request.setAttribute("companyCode", companyCode);

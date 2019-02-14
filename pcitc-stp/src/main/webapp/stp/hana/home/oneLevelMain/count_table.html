@@ -7,6 +7,9 @@
 	<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/common.css">
     <script src="/layuiadmin/layui/layui.js"></script>
+    <style>
+        .dateInput{font-size: 12px;}
+    </style>
 </head>
 <body>
 
@@ -166,21 +169,21 @@
         <input type="text" name="xmmc" title="项目名称" autocomplete="off" class="form-control" id="xmmc">
     </label>
     
-    <label class="dateInput">
+    <label class="dateInput ">
          <span>项目年度</span>
          <input type="text" name="nd" placeholder="请选择项目年度" title="项目年度" value="${nd}"  autocomplete="off" class="form-control" id="nd">
      </label>
-     <label class="dateInput">
+     <label class="dateInput dateInputP">
          <span>预算年度</span>
          <input type="text" name="ysnd" placeholder="请选择预算年度" title="预算年度" value="${ysnd}"  autocomplete="off" class="form-control" id="ysnd">
      </label>
-     
+
     <label class="dateInput">
          <span>负责单位</span>
          <input type="radio" name="fzdwflag" id="fzdwflag" value="承担单位"  <#if fzdwflag == '承担单位'>checked="checked"</#if> >承担单位
          <input type="radio" name="fzdwflag" id="fzdwflag" value="牵头单位"  <#if fzdwflag == '牵头单位'>checked="checked"</#if> >牵头单位
      </label>
-     
+
      
      <!--按钮组-->
      <div class="btnGroup">&nbsp;&nbsp;&nbsp;
@@ -332,6 +335,8 @@ layui.config({
                 htmlName=$(this).parents(".selector-right").prev().html();
             if(htmlA==htmlT && htmlA!=""){
                 $(this).addClass("layui-this");
+                $(".dateInputP").addClass("layui-hide");
+                $("#ysnd").val("");
                 $(".conditionNew").removeClass("layui-hide");
                 $(".conditionNew ul").append("<li>"+htmlName+"<a href='javascript:;'>"+htmlA+"</a></li>");
                 renderTable();
@@ -393,6 +398,12 @@ layui.config({
                     });
                 });
                 dele();
+            }
+            if($(".specialt_ktlx ul li.layui-this").length>0){
+                $(".dateInputP").addClass("layui-hide");
+                $("#ysnd").val("");
+            }else {
+                $(".dateInputP").removeClass("layui-hide");
             }
         });
     });
@@ -511,21 +522,21 @@ layui.config({
         },
         cols: [[
         	{title:'序号',               type:'numbers', width: '4%'},
-      	  {field:'nd',                 title:'项目年度',             style:'cursor: pointer;',align: 'center', width: '150',sort : true},
-      	  {field:'ysnd',              title:'预算年度',             style:'cursor: pointer;',align: 'center', width: '150',sort : true},
-            {field:'hth',               title:'合同号',              style:'cursor: pointer;',align: 'center', width: '150',sort : true},
-            {field:'define10',             title:'专业处',             style:'cursor: pointer;',align: 'left', width: '150',sort : true},
+      	    {field:'nd',                title:'项目年度',            style:'cursor: pointer;',align: 'center', width: '150',sort : true},
+      	    {field:'ysnd',              title:'预算年度',            style:'cursor: pointer;',align: 'center', width: '150',sort : true},
+            {field:'hth',               title:'合同号',             style:'cursor: pointer;',align: 'center', width: '150',sort : true},
+            {field:'define10',          title:'专业处',             style:'cursor: pointer;',align: 'left', width: '150',sort : true},
             {field:'xmmc',              title:'项目名称',            style:'cursor: pointer;',align: 'left', width: '380',sort : true},
             {field:'jf',                title:'总额（万元）',         style:'cursor: pointer;',align: 'center', width: '150',sort : true},
-            {field:'ysje',              title:'年度预算（万元）',        style:'cursor: pointer;',align: 'center', width: '150',sort : true},
-            {field:'yszbxje',              title:'年度预算-资本性',        style:'cursor: pointer;',align: 'center', width: '150',sort : true},
-            {field:'ysfyxje',              title:'年度预算-费用性',        style:'cursor: pointer;',align: 'center', width: '150',sort : true},
-            {field:'define11',           title:'经费来源',           style:'cursor: pointer;',align: 'center', width: '150',sort : true},
-      	  {field:'define1',           title:'资本/费用',           style:'cursor: pointer;',align: 'center', width: '150',sort : true},
-      	  {field:'define2',           title:'二级单位名称',        style:'cursor: pointer;',align: 'left', width: '150',sort : true},
-      	  {field:'define12',           title:'单位类别',        style:'cursor: pointer;',align: 'left', width: '150',sort : true},
-            {field:'zylb',              title:'专业类别',           style:'cursor: pointer;',align: 'left', width: '150',sort : true},
-            {field:'fzdw',              title:'负责单位',           style:'cursor: pointer;',align: 'left', width: '150',sort : true}
+            {field:'ysje',              title:'年度预算（万元）',      style:'cursor: pointer;',align: 'center', width: '150',sort : true},
+            {field:'yszbxje',           title:'年度预算-资本性',       style:'cursor: pointer;',align: 'center', width: '150',sort : true},
+            {field:'ysfyxje',           title:'年度预算-费用性',       style:'cursor: pointer;',align: 'center', width: '150',sort : true},
+            {field:'define11',          title:'经费来源',            style:'cursor: pointer;',align: 'center', width: '150',sort : true},
+      	    {field:'define1',           title:'资本/费用',           style:'cursor: pointer;',align: 'center', width: '150',sort : true},
+      	    {field:'define2',           title:'二级单位名称',         style:'cursor: pointer;',align: 'left', width: '150',sort : true},
+      	    {field:'define12',          title:'单位类别',            style:'cursor: pointer;',align: 'left', width: '150',sort : true},
+            {field:'zylb',              title:'专业类别',            style:'cursor: pointer;',align: 'left', width: '150',sort : true},
+            {field:'fzdw',              title:'负责单位',            style:'cursor: pointer;',align: 'left', width: '150',sort : true}
          
             
         ]],
