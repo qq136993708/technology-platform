@@ -1,4 +1,4 @@
-package com.pcitc.web.feign;
+package com.pcitc.service.feign;
 
 import java.util.List;
 

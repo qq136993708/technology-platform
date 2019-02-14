@@ -1,14 +1,14 @@
-package com.pcitc.web.feign;
+package com.pcitc.service.feign;
 
 import java.util.List;
 
-import com.pcitc.base.system.SysDictionary;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.system.SysPost;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.workflow.WorkflowVo;
