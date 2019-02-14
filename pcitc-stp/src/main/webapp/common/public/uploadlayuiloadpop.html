@@ -375,7 +375,6 @@ pcitcFile.reloadTable();
                         objInputFile.select();
                         objInputFile.focus();
                         var urlText=document.selection.createRange().text;
-                        console.log(urlText)
                         var fileName=urlText.replace(/^.+?\\([^\\]+?)(\.[^\.\\]*?)?$/gi,"$1");
                         var tr = $(['<tr id="upload-' + 1 + '">'
                             , '<td style="display: none;"><input type="checkbox" class=\'fileTableCheck\' value=\'' + ($(".fileTableCheck").length * 1 + 1) + '\'></td>'
@@ -427,14 +426,11 @@ pcitcFile.reloadTable();
                 }else {
                     if (res.error == null) { //上传成功
                         console.log("-------------done------------" + index);
-                        console.log(res);
                         var tr = demoListView.find('tr#upload-' + index)
                             , tds = tr.children();
                         tr.attr("id", "upload-" + (tds.eq(1).html() * 1 - 1));
                         tds.eq(0).html('<input type="checkbox" class=\'fileTableCheck\' value=\'' + res.list[0].id + '\'>');
                         tds.eq(4).html('<span style="color: #5FB878;">上传成功</span>');
-                        console.log("index:" + index);
-                        console.log(($("#uploadTable tr").length - 2));
                         tds.eq(5).html("<a class='layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg demo-delete' href=\"javascript:pcitcFile.deleteFile('" + res.list[0].id + "','" + ($("#uploadTable tr").length - 2) + "');\" id=\"" + res.list[0].id + "\">删除</a>" + '<a class=\'layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_import btnMyBgImg demo-delete\' href=\"/sysfile/download/' + res.list[0].id + '\">下载</a>');
                         //清空操作
                         delete this.files[index]; //删除文件队列已经上传成功的文件
@@ -468,7 +464,6 @@ pcitcFile.reloadTable();
             }
             , error: function (index, upload) {
                 console.log("----------error---------");
-
                 pcitcFile.complete="";
                 var tr = demoListView.find('tr#upload-' + index)
                     , tds = tr.children();
