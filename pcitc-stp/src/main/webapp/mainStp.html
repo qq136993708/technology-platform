@@ -193,7 +193,7 @@
             <div class="layui-col-md6">
                 <div class="layui-card">
                     <div class="layui-card-header" title="包括新开和结转的所有资本性、费用性预算。科研投入是实际签订且当年预算分配的金额（暂时不包括新增基金、科技部、信息部、炼油军工、专项、机动等）。以股份公司（直属研究院、分子公司、资产单位、集团单位、休斯顿、中东、外部单位、盈科）、资产公司、集团公司为维度">
-                       <span class="layui-time"></span>科研预算执行率
+                       <span class="layui-time"></span>${year}年科研预算执行率
                     </div>
                     <div class="layui-card-body btn-function">
                         <div class="text-total" style="font-size: 13px;">
@@ -210,7 +210,7 @@
             <div class="layui-col-md6">
                 <div class="layui-card">
                     <div class="layui-card-header"   title="包括新开和结转的所有资本性、费用性预算。科研投入是实际签订且当年预算分配的金额（暂时不包括新增基金、科技部、信息部、炼油军工、专项、机动等）。以股份公司（直属研究院、分子公司、资产单位、集团单位、休斯顿、中东、外部单位、盈科）、资产公司、集团公司为维度">
-                       <span class="layui-time"></span>科研预算执行率（万元）
+                       <span class="layui-time"></span>${year}年科研预算执行率（万元）
                     </div>
                     <div class="layui-row-main" >
                         <table id="myTable" class="layui-table" lay-filter="myTable" >
@@ -241,16 +241,19 @@
             </div>
         </div>
         
-        
         <div class="layui-row layui-col-space15">
             <div class="layui-col-md12">
                 <div class="layui-card">
                     <div class="layui-card-header">
-                        <span class="layui-time"></span>单台科研装备数量
+                        <span class="layui-time"></span>${month}单台科研装备数量
                     </div>
                     <div class="layui-row-main">
                     	<div class="text-total">
-                        	<span>总计：<span class="text-total-blue" id="chart_title_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                        	<span>总计数量：<span class="text-total-blue"   style="cursor:pointer"    onclick="equipment_01_chart_2('','')"              id="equipment_01_chart_2_01"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                    	    <span>500万以上:<span class="text-total-blue"  style="cursor:pointer"   onclick="equipment_01_chart_2('9','500万以上')"   id="equipment_01_chart_2_02"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>300-500万:<span class="text-total-blue" style="cursor:pointer"  onclick="equipment_01_chart_2('5','300-500万')"  id="equipment_01_chart_2_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>100-300万:<span class="text-total-blue" style="cursor:pointer"  onclick="equipment_01_chart_2('3','100-300万')"  id="equipment_01_chart_2_04"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
+                            <span>100万以下:<span class="text-total-blue"  style="cursor:pointer"  onclick="equipment_01_chart_2('1','100万以下')"    id="equipment_01_chart_2_05"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                     	</div>
                         <div class="main-chart" id="equipment_01_chart" style="height:280px;width: 100%;"></div>
                     </div>
@@ -386,8 +389,22 @@
         }
     ];
             	
-            	var chart1_url="/one_level_main/equipment_01?month="+$("#month").val()+"&v_date="+v_date+"&companyCode="+companyCode;
-            	var echart1=load_mutl_bar_down(chart1_url,"equipment_01_chart","","",yAxis2);
+            	 var chart1_url="/one_level_main/equipment_01?month="+$("#month").val()+"&v_date="+v_date+"&companyCode="+companyCode;
+            	 var color=["#ea886d","#9799ec"];
+            	 var echart1=load_mutl_bar_down_f(chart1_url,"equipment_01_chart","","",yAxis2,30,color,function(data){
+            		
+            		var count_2=getDataCountForName_d(data.data,'500万以上');
+                	var count_3=getDataCountForName_d(data.data,'300-500万');
+                	var count_4=getDataCountForName_d(data.data,'100-300万');
+                	var count_5=getDataCountForName_d(data.data,'100万以下'); 
+        	        var allCount=count_2+count_3+count_4+count_5;
+        	       
+                    $("#equipment_01_chart_2_01").html(allCount+"个");
+                    $("#equipment_01_chart_2_02").html(count_2+"个");
+                    $("#equipment_01_chart_2_03").html(count_3+"个");
+                    $("#equipment_01_chart_2_04").html(count_4+"个");
+                    $("#equipment_01_chart_2_05").html(count_5+"个");
+            	});
             	echart1.on('click', function (params) {
             		var xName=params.name;
             		var legentName=params.seriesName;
@@ -418,11 +435,12 @@
         }
         
         
-        
-        
-        
-        
-        
+        function equipment_01_chart_2(type,legentName)
+        {
+        	
+        	var url=　encodeURIComponent("/one_level_main/equipment_03_detail?month="+$("#month").val()+"&type="+type+"&legentName="+legentName);
+            window.open("/instituteIndex?url="+url);
+        }
         //科研课题 projectCount、科研装备 kyzbCount
         function getCommonCount(month)
         {
@@ -832,7 +850,67 @@
             return parseFloat(xkCount);
                
         }
+ 		 
+ 		 
+
+        function getDataCountForName_t(data,strName)
+        {
+        	var list=data.seriesList;
+        	alert(list);
+            var xkCount=0;
+            if (typeof(list) == "undefined") 
+            { 
+            	
+            }else
+            {
+            	 for(var i=0;i<list.length;i++)
+ 	            {
+ 	            	var arr=list[i].data;
+ 	            	var name=list[i].name;
+ 	            	if(name==strName)
+ 	            	{
+ 	            		var name_count=0;
+ 	            		for(var j=0;j<arr.length;j++)
+ 	    	            {
+ 	            			name_count=name_count+parseInt(arr[j]);
+ 	    	            }
+ 	            		xkCount=name_count;
+ 	            	}
+ 	            } 
+ 	           
+            }   
+            return parseInt(xkCount);
+	           
+        }
         
+        
+      function getDataCountForName_d(data,strName)
+      {
+      	  var list=data.seriesList;
+      	//  alert(list);
+          var xkCount=0;
+          if (typeof(list) != "undefined") 
+          { 
+        	  for(var i=0;i<list.length;i++)
+              {
+              	var arr=list[i].data;
+              	var name=list[i].name;
+                //alert(name+"="+strName);
+              	if(name==strName)
+              	{
+              		  var name_count=0;
+              		  for(var j=0;j<arr.length;j++)
+                      {
+              			name_count=name_count+parseInt(arr[j]);
+                      }
+              		  xkCount=name_count;
+              	}
+              } 
+          }
+          return parseInt(xkCount);
+      }
+
+
      </script>
 </body>
 </html>
