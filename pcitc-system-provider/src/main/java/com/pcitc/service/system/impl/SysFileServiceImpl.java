@@ -1386,7 +1386,7 @@ public class SysFileServiceImpl implements SysFileService {
 //        sysFileMapper.deleteSysFileByDataId(map);
 
     }
-
+    
     public static void main(String[] args) {
         System.out.println(2/15);
         System.out.println(2/2);
@@ -1396,5 +1396,45 @@ public class SysFileServiceImpl implements SysFileService {
         System.out.println(2-1*15);
         System.out.println(18-1*15);
         System.out.println(18-2*15);
+    }
+    
+    /**
+     * 文档管理的查询方法，查询公共的和分享给自己文件
+     */
+    @Override
+    public LayuiTableData selectFileListForPublic(LayuiTableParam param) throws Exception {
+    	// 每页显示条数
+		int pageSize = param.getLimit();
+		// 当前是第几页
+		int pageNum = param.getPage();
+		// 1、设置分页信息，包括当前页数和每页显示的总计数
+		PageHelper.startPage(pageNum, pageSize);
+
+		HashMap<String, Object> hashmap = new HashMap<String, Object>();
+		if (param.getParam().get("fileKind")!=null&&!StringUtils.isBlank(param.getParam().get("fileKind")+"")) {
+			hashmap.put("fileKind", param.getParam().get("fileKind"));
+		}
+		
+		if (param.getParam().get("fileName")!=null&&!StringUtils.isBlank(param.getParam().get("fileName")+"")) {
+			hashmap.put("fileName", param.getParam().get("fileName"));
+		}
+
+		hashmap.put("userId", param.getParam().get("userId"));
+		
+		List<SysFile> list = sysFileMapper.selectFileListForPublic(hashmap);
+		System.out.println("1>>>>>>>>>查询分页结果"+list.size());
+		for (int i = 0; i < list.size(); i++) {
+			SysFile sf = list.get(i);
+			sf.setFileSize(String.valueOf(Math.round(Double.valueOf(sf.getFileSize()))/1024/1024)+"mb");
+		}
+		PageInfo<SysFile> pageInfo = new PageInfo<SysFile>(list);
+		
+		System.out.println("2>>>>>>>>>查询分页结果"+pageInfo.getList().size());
+
+		LayuiTableData data = new LayuiTableData();
+		data.setData(pageInfo.getList());
+		Long total = pageInfo.getTotal();
+		data.setCount(total.intValue());
+		return data;
     }
 }
