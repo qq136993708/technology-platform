@@ -78,6 +78,7 @@ public class BudgetGroupTotalServiceImpl implements BudgetGroupTotalService
 		BudgetGroupTotalExample example = new BudgetGroupTotalExample();
 		BudgetGroupTotalExample.Criteria c = example.createCriteria();
 		c.andBudgetInfoIdEqualTo(budgetInfoId);
+		c.andLevelEqualTo(0);//只显示第一级
 		example.setOrderByClause("no");
 		return budgetGroupTotalMapper.selectByExample(example);
 	}
@@ -88,7 +89,7 @@ public class BudgetGroupTotalServiceImpl implements BudgetGroupTotalService
 		BudgetGroupTotalExample example = new BudgetGroupTotalExample();
 		BudgetGroupTotalExample.Criteria c = example.createCriteria();
 		c.andBudgetInfoIdEqualTo(param.getParam().get("budget_info_id").toString());
-		
+		c.andLevelEqualTo(0);//只显示第一级
 		example.setOrderByClause("no");
 		//return this.findByExample(param, example);
 		LayuiTableData tabledata = this.findByExample(param, example);
@@ -137,6 +138,17 @@ public class BudgetGroupTotalServiceImpl implements BudgetGroupTotalService
 			rs += budgetGroupTotalMapper.deleteByPrimaryKey(group.getDataId());
 		}
 		return rs;
+	}
+
+	@Override
+	public List<BudgetGroupTotal> selectChildBudgetGroupTotal(String dataId)
+	{
+		BudgetGroupTotalExample example = new BudgetGroupTotalExample();
+		BudgetGroupTotalExample.Criteria c = example.createCriteria();
+		c.andParentDataIdEqualTo(dataId);
+		c.andLevelEqualTo(1);//只显示第二级
+		example.setOrderByClause("no");
+		return budgetGroupTotalMapper.selectByExample(example);
 	}
 
 }

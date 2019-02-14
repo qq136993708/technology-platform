@@ -8,6 +8,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,6 +21,7 @@ import com.pcitc.base.stp.budget.BudgetGroupTotal;
 import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.IdUtil;
+import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.common.BudgetInfoEnum;
 import com.pcitc.service.budget.BudgetGroupTotalService;
 import com.pcitc.service.budget.BudgetInfoService;
@@ -191,6 +193,59 @@ public class BudgetGroupTotalProviderClient
 			rs += budgetInfoService.deleteBudgetInfo(info.getDataId());
 			rs += budgetGroupTotalService.deleteBudgetGroupTotalByInfo(info.getDataId());
 			System.out.println(JSON.toJSONString(rs));
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return rs;
+	}
+	@ApiOperation(value="预算管理-检索年度预算项详情",notes="检索预算项包括子项详情")
+	@RequestMapping(value = "/stp-provider/budget/get-grouptotal-item/{itemId}", method = RequestMethod.POST)
+	public Object selectBudgetGroupTotalInfo(@PathVariable("itemId") String itemId) 
+	{
+		logger.info("budget-select-grouptotal...");
+		Map<String,Object> map = new HashMap<String,Object>();
+		try
+		{
+			System.out.println(JSON.toJSONString(itemId));
+			BudgetGroupTotal groupTotal = budgetGroupTotalService.selectBudgetGroupTotal(itemId);
+			if(groupTotal != null) {
+				List<BudgetGroupTotal> childGroups = budgetGroupTotalService.selectChildBudgetGroupTotal(itemId);
+				map  = MyBeanUtils.transBean2Map(groupTotal);
+				map.put("groups", childGroups);
+				System.out.println(JSON.toJSONString(map));
+			}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return map;
+	}
+	@ApiOperation(value="预算管理-保存年度预算项详情",notes="保存预算项包括子项详情")
+	@RequestMapping(value = "/stp-provider/budget/save-grouptotal-item", method = RequestMethod.POST)
+	public Object saveBudgetGroupTotalInfo(@RequestBody BudgetGroupTotal item) 
+	{
+		logger.info("budget-save-grouptotal...");
+		Integer rs = 0;
+		try
+		{
+			BudgetInfo info = budgetInfoService.selectBudgetInfo(item.getBudgetInfoId());
+			System.out.println(JSON.toJSONString(item));
+			BudgetGroupTotal groupTotal = budgetGroupTotalService.selectBudgetGroupTotal(item.getDataId());
+			if(groupTotal != null) {
+				MyBeanUtils.copyPropertiesIgnoreNull(item, groupTotal);
+				groupTotal.setUpdateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
+				rs += budgetGroupTotalService.updateBudgetGroupTotal(groupTotal);
+			}else {
+				item.setLevel(0);
+				item.setNd(info.getNd());
+				item.setCreateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
+				item.setUpdateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
+				item.setDataVersion(info.getDataVersion());
+				rs += budgetGroupTotalService.saveOrUpdateBudgetGroupTotal(item);
+			}
 		}
 		catch (Exception e)
 		{
