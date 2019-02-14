@@ -1709,7 +1709,8 @@
 			   out_project_info.nd,out_project_info.xmid,out_project_info.fzdw,
 			   out_project_info.jf,out_project_info.zylb,substr(out_project_info.define10, 4) as define10,
 			   group_concat(DISTINCT out_project_info.define8) as define8,
-			   group_concat(DISTINCT out_project_erp.erp_project_code) as erp_project_name
+			   group_concat(DISTINCT out_project_erp.erp_project_code) as erp_project_code,
+			   group_concat(DISTINCT out_project_erp.erp_project_name) as erp_project_name
 		from out_project_info left join out_project_erp on (out_project_info.xmid = out_project_erp.opi_id)
 		where
 			out_project_info.define8 is not null and (out_project_info.project_type = '0' or out_project_info.project_type = '2')

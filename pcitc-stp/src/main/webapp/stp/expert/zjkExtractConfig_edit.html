@@ -100,7 +100,6 @@
     //项目
     ajaxPost('/dictionary/list/ROOT_XTGL_XMJD', null, function (data, status) {
         $.each(data,function(i,dt){
-            console.log(data[i]);
             $("#projectStageId").append("<option value='"+data[i].code+"'>"+data[i].name+"</option>");
         });
     });

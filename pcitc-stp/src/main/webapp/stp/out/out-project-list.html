@@ -56,7 +56,7 @@
 
 	<!--表格数据操作js-->
 	<script>
-		var table, active, dateId, epc, selectRowData = '';
+		var table, active, dateId, xmid, erpProjectCode, selectRowData = '';
 		layui.use([ 'jquery', 'table', 'laydate', 'form', 'laypage', 'laytpl' ], function() {
 			table = layui.table, $ = layui.jquery, laydate = layui.laydate, laypage = layui.laypage, form = layui.form;
 
@@ -98,12 +98,12 @@
 					}, {
 						field : 'nd',
 						title : '立项年度',
-						width : '8%',
+						width : '6%',
 						style : 'cursor: pointer;'
 					}, {
 						field : 'hth',
 						title : '合同号',
-						width : '10%',
+						width : '8%',
 						style : 'cursor: pointer;'
 					}, {
 						field : 'jf',
@@ -131,6 +131,11 @@
 						width : '12%',
 						style : 'cursor: pointer;'
 					}, {
+						field : 'erpProjectName',
+						title : '已匹配ERP',
+						width : '40%',
+						style : 'cursor: pointer;'
+					}, {
 						title : '管理级别',
 						width : '12%',
 						style : 'cursor: pointer;',
@@ -144,11 +149,7 @@
 	                            '   </select>';
 	                    }
 
-					}, {
-						field : 'erp_project_name',
-						title : '已匹配ERP',
-						style : 'cursor: pointer;'
-					}, ] ],
+					},  ] ],
 					done : function(res, curr, count) {
 						// 关闭等待刷新
 						layer.close(lodingMsg);
@@ -163,10 +164,10 @@
 							selectRowData = res.data[index - 1];
 						});
 						
-						// 刷新时，把当前选择行的epc更新, 供匹配时使用
+						// 刷新时，把当前选择行的erpProjectCode更新, 供匹配时使用
 						for(var i=0;i< res.data.length;i++){
 							if (dateId != '' && res.data[i].dataId==dateId) {
-								epc = res.data[i].epc;
+								erpProjectCode = res.data[i].erpProjectCode;
 							}
 	                    }
 						
@@ -201,8 +202,8 @@
 					if (typeof (selectRowData.xmid) == "undefined") {
 						layer.msg('请点击选择一行数据');
 					} else {
-						epc = selectRowData.epc;
-						dateId = selectRowData.dataId
+						erpProjectCode = selectRowData.erpProjectCode;
+						xmid = selectRowData.xmid
 						var temUrl = "/out/erp-project-config/" + selectRowData.xmid;
 						layer.open({
 							title : '课题匹配',
