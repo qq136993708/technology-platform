@@ -189,7 +189,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">省<span class="must-fill"></span></label>
                         <div class="layui-input-block">
-                            <select name="province" lay-filter="province" id="province" onchange="cityAddress('')">
+                            <select name="province" lay-filter="province" id="province">
                                 <option value="" selected>请选择</option>
                             </select>
                         </div>
@@ -198,7 +198,7 @@
                         <div class="layui-form-item">
                             <label class="layui-form-label">市<span class="must-fill"></span></label>
                             <div class="layui-input-block">
-                                <select name="city" id="city" onchange="countryAddress('')" >
+                                <select name="city" lay-filter="city" id="city" onchange="countryAddress('')" >
                                     <option value="" selected>请选择</option>
                                 </select>
                             </div>
@@ -670,10 +670,48 @@
             });
             /*监听select框*/
             form.on('select(province)', function (data) {
-                console.log("下拉框");
-                cityAddress('');
+                $.ajax({
+                    contentType: 'application/json;charset=utf-8',
+                    async: false,
+                    type: "POST",
+                    url: "/sysAddress/list",
+                    data: JSON.stringify({"parentid": data.value}),
+                    dataType: "json",
+                    success: function (data) {
+                        console.log(data)
+                        $("#city").empty();
+                        $("#city").append("<option value=\"\" selected>请选择</option>");
+                        for (var i = 0; i < data.length; i++) {
+                            $("#city").append('<option value="' + data[i].dataId + '">' + data[i].cityname + '</option>');
+                        }
+                        form.render();
+                    },
+                    error: function (data) {
+                        alert(data.message);
+                    }
+                });
             });
-            form.render('select');
+            form.on('select(city)', function (data) {
+                $.ajax({
+                    contentType: 'application/json;charset=utf-8',
+                    async: false,
+                    type: "POST",
+                    url: "/sysAddress/list",
+                    data: JSON.stringify({"parentid": data.value}),
+                    dataType: "json",
+                    success: function (data) {
+                        $("#county").empty();
+                        $("#county").append("<option value=\"\" selected>请选择</option>");
+                        for (var i = 0; i < data.length; i++) {
+                            $("#county").append('<option value="' + data[i].dataId + '">' + data[i].cityname + '</option>');
+                        }
+                        form.render();
+                    },
+                    error: function (data) {
+                        alert(data.message);
+                    }
+                });
+            });
             /* 监听提交 */
             form.on('submit(submitBtn)', function (data) {
 
@@ -863,75 +901,6 @@
     }
 
     takeAddress();
-
-    //通过省id获取市
-    function cityAddress(id) {
-        console.log("city");
-        $("#city").html("");
-        $("#city").append("<option value=\"\" selected>请选择</option>");
-        if (id == "") {
-            id = $("#province").val();
-        }
-
-        $("#county").html("");
-        $("#county").append("<option value=\"\" selected>请选择</option>");
-
-        if (id == "") {
-            return;
-        }
-
-        $.ajax({
-            contentType: 'application/json;charset=utf-8',
-            async: false,
-            type: "POST",
-            url: "/sysAddress/list",
-            data: JSON.stringify({"parentid": id}),
-            dataType: "json",
-            success: function (data) {
-                for (var i = 0; i < data.length; i++) {
-                    if (global_hos.city == data[i].dataId) {
-                        $("#city").append('<option value="' + data[i].dataId + '" selected>' + data[i].cityname + '</option>');
-                        countryAddress(global_hos.city);//通过省id获取市列表
-                    } else {
-                        $("#city").append('<option value="' + data[i].dataId + '">' + data[i].cityname + '</option>');
-                    }
-                }
-            },
-            error: function (data) {
-                alert(data.message);
-            }
-        });
-    }
-
-    //通过市id获取县
-    function countryAddress(location_id) {
-        $("#county").html("");
-        $("#county").append("<option value=\"\" selected>请选择</option>");
-        if (location_id == "") {
-            location_id = $("#city").val();
-        }
-        $.ajax({
-            contentType: 'application/json;charset=utf-8',
-            async: false,
-            type: "POST",
-            url: "/sysAddress/list",
-            data: JSON.stringify({"parentid": location_id}),
-            dataType: "json",
-            success: function (data) {
-                for (var i = 0; i < data.length; i++) {
-                    if (global_hos.county == data[i].dataId) {
-                        $("#county").append('<option value="' + data[i].dataId + '" selected>' + data[i].cityname + '</option>');
-                    } else {
-                        $("#county").append('<option value="' + data[i].dataId + '">' + data[i].cityname + '</option>');
-                    }
-                }
-            },
-            error: function (data) {
-                alert(data.message);
-            }
-        });
-    }
-    //省市县-end
 </script>
 </body>
 </html>
