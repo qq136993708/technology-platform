@@ -640,6 +640,9 @@
                 ajaxPost("/zjkBaseInfo/getZjkBaseInfoInfo", {"id": id}, function (data) {
                     form.val("zjkExpert-form", data);
                     CKEDITOR.instances.userDesc.setData(data.userDesc);
+                    console.log(data);
+                    address("city",data.province,data.city);
+                    address("county",data.city,data.county);
                     form.render();
                     global_hos = data;//省市县定义全局变量
                 });
@@ -670,47 +673,16 @@
             });
             /*监听select框*/
             form.on('select(province)', function (data) {
-                $.ajax({
-                    contentType: 'application/json;charset=utf-8',
-                    async: false,
-                    type: "POST",
-                    url: "/sysAddress/list",
-                    data: JSON.stringify({"parentid": data.value}),
-                    dataType: "json",
-                    success: function (data) {
-                        console.log(data)
-                        $("#city").empty();
-                        $("#city").append("<option value=\"\" selected>请选择</option>");
-                        for (var i = 0; i < data.length; i++) {
-                            $("#city").append('<option value="' + data[i].dataId + '">' + data[i].cityname + '</option>');
-                        }
-                        form.render();
-                    },
-                    error: function (data) {
-                        alert(data.message);
-                    }
-                });
+                $("#city,#county").empty();
+                $("#city,#county").append("<option value=\"\" selected>请选择</option>");
+                address("city,county",data.value);
+                form.render();
             });
             form.on('select(city)', function (data) {
-                $.ajax({
-                    contentType: 'application/json;charset=utf-8',
-                    async: false,
-                    type: "POST",
-                    url: "/sysAddress/list",
-                    data: JSON.stringify({"parentid": data.value}),
-                    dataType: "json",
-                    success: function (data) {
-                        $("#county").empty();
-                        $("#county").append("<option value=\"\" selected>请选择</option>");
-                        for (var i = 0; i < data.length; i++) {
-                            $("#county").append('<option value="' + data[i].dataId + '">' + data[i].cityname + '</option>');
-                        }
-                        form.render();
-                    },
-                    error: function (data) {
-                        alert(data.message);
-                    }
-                });
+                $("#county").empty();
+                $("#county").append("<option value=\"\" selected>请选择</option>");
+                address("county",data.value);
+                form.render();
             });
             /* 监听提交 */
             form.on('submit(submitBtn)', function (data) {
@@ -899,7 +871,29 @@
             }
         });
     }
+    function address(id,value,code){
 
+        $.ajax({
+            contentType: 'application/json;charset=utf-8',
+            async: false,
+            type: "POST",
+            url: "/sysAddress/list",
+            data: JSON.stringify({"parentid": value}),
+            dataType: "json",
+            success: function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    if(code==data[i].dataId){
+                        $("#"+id).append('<option value="' + data[i].dataId + '" selected>' + data[i].cityname + '</option>');
+                    }else {
+                        $("#"+id).append('<option value="' + data[i].dataId + '" >' + data[i].cityname + '</option>');
+                    }
+                }
+            },
+            error: function (data) {
+                alert(data.message);
+            }
+        });
+    }
     takeAddress();
 </script>
 </body>
