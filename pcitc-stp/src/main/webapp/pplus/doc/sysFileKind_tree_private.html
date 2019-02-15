@@ -50,7 +50,7 @@
                 <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg" data-type="addEvent">新增</button>
                 <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg" data-type="editEvent">编辑</button>
                 <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="deleteEvent">删除</button>
-                <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg" data-type="shareEvent">共享设置</button>
+                <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg" data-type="shareEvent">分发</button>
             </div>
         </div>
         <table id="fileShowTable" class="layui-hide" lay-filter="tableEvent"></table>
@@ -98,20 +98,22 @@
     layui.use(['jquery', 'form', 'laydate', 'table', 'layer', 'element'], function () {
         var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate;
         table = layui.table;
-
+        
+     	// 查询是哪个菜单
+		var param = JSON.parse(window.localStorage.getItem("param"));
+     	
         function renderSysFileTable() {
             table.render({
                 elem: '#fileShowTable',
                 url: '/sysfile/getTableData',
                 method: "POST",
                 where: {param: {"fileName": "", "fileKind": parentId}},
-                limit: 15,
-                id: 'sysFileId',
-                height: commonDislodgeTable(),
-                page: {
-                    count: 500, //数据总数，从服务端得到
-                    groups: 5,
-                    limits: [15, 30, 45, 60],
+                limit : param.selfRownum,
+				id : 'sysFileId',
+				height : commonDislodgeTable(),
+				page : {
+					groups : 5,
+					limits : [ param.selfRownum, 15, 30, 45, 60 ],
                     layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
                     first: '首页', //不显示首页
                     last: '尾页', //不显示尾页
@@ -258,8 +260,6 @@
     私有
     {{# } else if(d.bak1 == 'public'){ }}
     公共
-    {{#  } else{ }}
-    共享
     {{#  } }}
 </script>
 </body>

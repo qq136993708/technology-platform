@@ -109,7 +109,7 @@ public interface SysFileService {
     int deleteSysFileReal(String menuId);
 
     List<TreeNode> selectObjectByTree();
-
+    
     /**
      * 条件查询模块列表
      *
@@ -345,4 +345,10 @@ public interface SysFileService {
      * @param dataId
      */
     public void deleteSysFileByDataId(String dataId);
+    
+    
+    /**
+     * 文档管理的查询方法，查询公共的和分享给自己文件
+     */
+    public LayuiTableData selectFileListForPublic(LayuiTableParam param) throws Exception;
 }

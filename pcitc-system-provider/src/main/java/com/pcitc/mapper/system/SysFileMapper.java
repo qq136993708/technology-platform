@@ -1,8 +1,11 @@
 package com.pcitc.mapper.system;
 
+import com.pcitc.base.common.LayuiTableData;
+import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.system.SysFile;
 import com.pcitc.base.system.SysFileExample;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -36,4 +39,9 @@ public interface SysFileMapper {
     void updateSysFileFlag(Map<String,String> map);
 
     void deleteSysFileByDataId(Map<String,String> map);
+    
+    /**
+     * 文档管理的查询方法，查询公共的和分享给自己文件
+     */
+    public List<SysFile> selectFileListForPublic(HashMap<String, Object> hashmap);
 }
