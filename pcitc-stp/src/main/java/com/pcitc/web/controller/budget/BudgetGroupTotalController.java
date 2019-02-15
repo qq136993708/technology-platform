@@ -1,6 +1,7 @@
 package com.pcitc.web.controller.budget;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -37,6 +38,8 @@ public class BudgetGroupTotalController extends BaseController {
 	private static final String BUDGET_GROUPTOTAL_DELETE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-grouptotal-del";
 	private static final String BUDGET_GROUPTOTAL_GET_ITEMS = "http://pcitc-zuul/stp-proxy/stp-provider/budget/get-grouptotal-item/";
 	private static final String BUDGET_GROUPTOTAL_SAVE_ITEMS = "http://pcitc-zuul/stp-proxy/stp-provider/budget/save-grouptotal-item";
+	private static final String BUDGET_GROUPTOTAL_COMPANY_ITEMS = "http://pcitc-zuul/stp-proxy/stp-provider/budget/search-group-company-items";
+	
 	
 	
 	
@@ -126,5 +129,13 @@ public class BudgetGroupTotalController extends BaseController {
 		} else {
 			return new Result(true);
 		}
+	}
+	
+	@RequestMapping(value = "/budget/search-group-company-items", method = RequestMethod.POST)
+	@ResponseBody
+	public Object searchBudgetGroupCompany(HttpServletRequest request) throws IOException 
+	{
+		ResponseEntity<?> responseEntity = this.restTemplate.exchange(BUDGET_GROUPTOTAL_COMPANY_ITEMS, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), List.class);
+		return responseEntity.getBody();
 	}
 }

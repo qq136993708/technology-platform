@@ -5,6 +5,7 @@ import java.util.List;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.stp.budget.BudgetGroupTotal;
+import com.pcitc.base.stp.out.OutUnit;
 
 /**
  * 集团预算总表业务
@@ -75,4 +76,8 @@ public interface BudgetGroupTotalService
 	 * @throws Exception
 	 */
 	public int deleteBudgetGroupTotalByInfo(String budgetInfoId) throws Exception;
+	/**
+	 * 查询所有集团单位
+	 */
+	public List<OutUnit> selectJtUnits();
 }

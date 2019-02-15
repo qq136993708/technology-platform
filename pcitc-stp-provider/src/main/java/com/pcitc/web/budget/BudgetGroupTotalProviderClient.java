@@ -19,6 +19,7 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.stp.budget.BudgetGroupTotal;
 import com.pcitc.base.stp.budget.BudgetInfo;
+import com.pcitc.base.stp.out.OutUnit;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.IdUtil;
 import com.pcitc.base.util.MyBeanUtils;
@@ -252,5 +253,21 @@ public class BudgetGroupTotalProviderClient
 			e.printStackTrace();
 		}
 		return rs;
+	}
+	@ApiOperation(value="预算管理-检索集团公司",notes="检索集团公司列表")
+	@RequestMapping(value = "/stp-provider/budget/search-group-company-items", method = RequestMethod.POST)
+	public Object selectBudgetGroupItems() 
+	{
+		logger.info("search-group-items...");
+		List<OutUnit> units = null;
+		try
+		{
+			units = budgetGroupTotalService.selectJtUnits();
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return units;
 	}
 }

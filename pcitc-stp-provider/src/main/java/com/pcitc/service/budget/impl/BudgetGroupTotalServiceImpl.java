@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -15,9 +17,11 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.stp.budget.BudgetGroupTotal;
 import com.pcitc.base.stp.budget.BudgetGroupTotalExample;
+import com.pcitc.base.stp.out.OutUnit;
 import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.mapper.budget.BudgetGroupTotalMapper;
 import com.pcitc.service.budget.BudgetGroupTotalService;
+import com.pcitc.service.feign.SystemRemoteClient;
 
 @Service("budgetGroupTotalService")
 @Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = Exception.class)
@@ -26,6 +30,9 @@ public class BudgetGroupTotalServiceImpl implements BudgetGroupTotalService
 
 	@Autowired
 	private BudgetGroupTotalMapper budgetGroupTotalMapper;
+	
+	@Resource
+	private SystemRemoteClient systemRemoteClient;
 	
 	@Override
 	public BudgetGroupTotal selectBudgetGroupTotal(String dataId) throws Exception
@@ -149,6 +156,13 @@ public class BudgetGroupTotalServiceImpl implements BudgetGroupTotalService
 		c.andLevelEqualTo(1);//只显示第二级
 		example.setOrderByClause("no");
 		return budgetGroupTotalMapper.selectByExample(example);
+	}
+
+	@Override
+	public List<OutUnit> selectJtUnits()
+	{
+		List<OutUnit> units = systemRemoteClient.selectProjectUnits("JTZS");
+		return units;
 	}
 
 }

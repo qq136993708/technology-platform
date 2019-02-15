@@ -41,9 +41,9 @@
                     <i class="layui-icon layui-icon-date"></i>
                 </label>
                 <label class="selectInput" style="margin-left: 20px;">
-                    <span>数据版本</span>
+                    <span>预算版本号</span>
                     <select id="data_version" name="data_version" lay-verify="" lay-filter="test">
-                        <option value="">---请选择数据版本---</option>
+                        <option value="">---请选择版本号---</option>
                     </select>
                 </label>
             </div>
@@ -199,7 +199,7 @@
           	//初始化数据版本
             function initDataVersion(budget_id){
                 publicMethods.ajaxPost("/budget/budget_group_info_list",{"nd":cu_date}, function (dt) {
-                	$("#data_version").html('<option value="">---请选择预算版本---</option>');
+                	$("#data_version").html('<option value="">---请选择版本号---</option>');
                 	budget_info_map = {};
                 	$.each(dt,function(index,data){
                 		budget_info_map[data.dataId] = data;

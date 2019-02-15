@@ -47,4 +47,34 @@ public class OutUnitServiceImpl implements OutUnitService {
 		
 		return 1;
 	}
+
+	@Override
+	public List<OutUnit> selectByDefine1(String define1)
+	{
+		OutUnitExample example = new OutUnitExample();
+		OutUnitExample.Criteria c = example.createCriteria();
+		c.andDefine1EqualTo(define1);
+		
+		return outUnitMapper.selectByExample(example);
+	}
+
+	@Override
+	public List<OutUnit> selectByDefine2(String define2)
+	{
+		OutUnitExample example = new OutUnitExample();
+		OutUnitExample.Criteria c = example.createCriteria();
+		c.andDefine2EqualTo(define2);
+		
+		return outUnitMapper.selectByExample(example);
+	}
+
+	@Override
+	public List<OutUnit> selectByDefine3(String define3)
+	{
+		OutUnitExample example = new OutUnitExample();
+		OutUnitExample.Criteria c = example.createCriteria();
+		c.andDefine3EqualTo(define3);
+		
+		return outUnitMapper.selectByExample(example);
+	}
 }
