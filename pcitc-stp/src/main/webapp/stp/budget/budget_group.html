@@ -41,14 +41,14 @@
                     <i class="layui-icon layui-icon-date"></i>
                 </label>
                 <label class="selectInput" style="margin-left: 20px;">
-                    <span>数据版本</span>
+                    <span>预算版本号</span>
                     <select id="data_version" name="data_version" lay-verify="" lay-filter="test">
-                        <option value="">---请选择数据版本---</option>
+                        <option value="">---请选择版本号---</option>
                     </select>
                 </label>
             </div>
             <div class="tool-center">
-                <button class="layui-btn btn-decision active">编制预算</button>
+                <button class="layui-btn btn-decision active" data-type="createEvent">编制预算</button>
             </div>
             <div class="tool-right">
                 <button class="layui-btn layui-btn-sm btn-decision active">往年预算参考</button>
@@ -88,9 +88,10 @@
             </button>
         </div>
         <div id="tableBox">
-            <table id="dataTable" class="layui-table" lay-filter="tableData" lay-data="{height: '400', url:'',totalRow: true}">
+            <table id="dataTable" class="layui-table" lay-filter="dataTable" lay-data="{ID:'dataTable',height: '400',limit:100, url:'',totalRow: true}">
                 <thead>
                 <tr>
+                	<th lay-data="{type:'checkbox'}" rowspan="2"></th>
                 	<th lay-data="{type:'numbers', width: 45,totalRowText: '合计'}" rowspan="2">序号</th>
                     <th lay-data="{field:'displayName', width: '25%'}" rowspan="2">承担单位</th>
                     <th lay-data="{field:'remark', width: '30%'}" rowspan="2">研究方向</th>
@@ -151,7 +152,7 @@
             });
 			//数据版本选择
             $("#data_version").on("change",function(e){
-            	curent_budget_info = budget_info_map[$("#data_version").val()]; 
+            	curent_budget_info = budget_info_map[$("#data_version").val()];
             	if(curent_budget_info){
             		$("#budgetMoney").val(curent_budget_info.budgetMoney);//可分配数
             		$("#creater_name").html(curent_budget_info.createrName);//创建人
@@ -175,7 +176,7 @@
                 var type = $(this).data('type');
                 active[type] ? active[type].call(this) : '';
             });
-            table.on('edit(tableData)', function(obj){ //注：edit是固定事件名，test是table原始容器的属性 lay-filter="对应的值"
+            table.on('edit(dataTable)', function(obj){ //注：edit是固定事件名，test是table原始容器的属性 lay-filter="对应的值"
             	$.each(curent_tabel_data,function(index,dt){
             		if(obj.data.dataId == dt.dataId){
             			if(obj.field=="xmjf"){
@@ -196,14 +197,18 @@
 				calculationSurplusMoney();
 			});
           	//初始化数据版本
-            function initDataVersion(){
+            function initDataVersion(budget_id){
                 publicMethods.ajaxPost("/budget/budget_group_info_list",{"nd":cu_date}, function (dt) {
-                	$("#data_version").html('<option value="">---请选择预算版本---</option>');
+                	$("#data_version").html('<option value="">---请选择版本号---</option>');
                 	budget_info_map = {};
                 	$.each(dt,function(index,data){
                 		budget_info_map[data.dataId] = data;
                 		$("#data_version").append('<option value="'+data.dataId+'">'+data.dataVersion+'</option>');
                 	});
+                	if(budget_id){
+                    	$("#data_version").val(budget_id);
+                    	$("#data_version").trigger("change");
+                    }
     		   	});
             }
           	//计算剩余可分配数
@@ -214,10 +219,12 @@
             	});
           		$("#surplusMoney").val(parseInt($("#budgetMoney").val())-total_money);
           	}
+          	//将方法转换为全局方法
+          	window.initDataVersion = initDataVersion;
             initDataVersion();
             // 触发不同的按钮事件
             var $ = layui.$, active = {
-                addEvent: function () { //点击查询按钮
+            	createEvent: function () { //点击查询按钮
                     layer.open({
                         title: '集团公司经费预算编制管理'
                         , skin: 'layui-layer-lan'
@@ -231,9 +238,10 @@
                         , content: '/budget/budget_group_add'
                     });
                 },
-                editEvent: function() {
-                    layer.open({
-                        title: '新增编制单位'
+                addEvent: function() {
+                	var url = '/budget/budget_group_edit?budgetInfoId='+curent_budget_info.dataId;
+                   	layer.open({
+                        title: '集团公司经费预算编制管理'
                         , skin: 'layui-layer-lan'
                         , shadeClose: true
                         , type: 2
@@ -242,7 +250,27 @@
                         , maxmin: false
                         //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
                         , area: ['60%', '624px']
-                        , content: '/budget/budget_group_edit'
+                        , content: url
+                    });
+                },
+                editEvent: function() {
+                	var selectdata = table.checkStatus('dataTable');
+                	if(selectdata.data.length<=0){
+                		parent.layer.alert("请选择需要编辑的行", {title : '提示'});
+                		return;
+                	}
+                	var url = '/budget/budget_group_edit?dataId='+selectdata.data[0].dataId+"&budgetInfoId="+curent_budget_info.dataId;
+                   	layer.open({
+                        title: '集团公司经费预算编制管理'
+                        , skin: 'layui-layer-lan'
+                        , shadeClose: true
+                        , type: 2
+                        , fixed: false
+                        //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                        , maxmin: false
+                        //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                        , area: ['60%', '624px']
+                        , content: url
                     });
                 }
             }
