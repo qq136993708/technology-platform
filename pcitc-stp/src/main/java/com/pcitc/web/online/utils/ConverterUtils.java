@@ -36,7 +36,7 @@ public class ConverterUtils {
         DefaultOfficeManagerConfiguration configuration = new DefaultOfficeManagerConfiguration();
         configuration.setOfficeHome(officeHome);
         configuration.setPortNumber(8100);
-        System.out.println("------------------"+officeManager.isRunning());
+        System.out.println("officeManager------------------"+officeManager);
         officeManager = configuration.buildOfficeManager();
         officeManager.start();
         // 设置任务执行超时为5分钟

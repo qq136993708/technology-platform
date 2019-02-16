@@ -1076,13 +1076,17 @@
     <select id="selectFileListForPublic" resultMap="BaseResultMap" parameterType="java.util.HashMap">
       select * from (
 		select sys_file.id,sys_file.file_name,sys_file.create_date_time,sys_file.file_size,sys_file.bak1,
-			   sys_file.file_kind,
+			   sys_file.version,sys_file.file_suffix,
 			   sys_user.user_disp as create_user_id,
-			   GROUP_CONCAT(DISTINCT tableA.area) as userIds
-		from sys_user,sys_file left join sys_file_share tableA on (sys_file.id = tableA.file_id and tableA.status = '1')
+			   sys_file_kind.kind_name as file_kind,
+			   GROUP_CONCAT(DISTINCT tableA.area) as userIds,
+			   GROUP_CONCAT(DISTINCT tableB.user_id) as authUserIds
+		from sys_user,sys_file_kind,sys_file left join sys_file_share tableA on (sys_file.id = tableA.file_id and tableA.status = '1')
+							   				 left join sys_file_kind_auth tableB on (sys_file.file_kind = tableB.file_kind_id)
 		where 
 			sys_file.is_del = '0'
 			and sys_user.user_id = sys_file.file_publish
+			and sys_file_kind.id = sys_file.file_kind
 			<if test="fileKind != null">
 				and sys_file.file_kind = #{fileKind}
 			</if>
@@ -1092,7 +1096,9 @@
 			group by sys_file.id
 		) temTable 
 	  where 
-		(bak1 = 'public' or (bak1 = 'private' and userIds like '%${userId}%'))
+		bak1 = 'public' or 
+		(bak1 = 'private' and userIds like '%${userId}%') or 
+		authUserIds like '%${userId}%'
 		
   	</select>
 
