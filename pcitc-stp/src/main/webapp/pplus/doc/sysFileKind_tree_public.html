@@ -15,7 +15,7 @@
 	<div class="treeTableContainer">
 		<div class="treeBox">
 			<div class="title-box">
-				<span>文档种类</span>
+				<span>文档分类</span>
 			</div>
 			<div class="layui-side-scroll">
 				<!-- 左侧子菜单 -->
@@ -39,6 +39,7 @@
 			<div class="tableToolBox">
 				<div class="whiteLine"></div>
 				<div class="tableBtns">
+					<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg " data-type="labelEvent">标签</button>
 					<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg " data-type="downloadEvent">下载</button>
 				</div>
 			</div>
@@ -48,7 +49,7 @@
 	<a href="" target="_self" id="download"></a>
 
 	<script>
-		var parentId = "xxxxxxxx";
+		var parentId = "";
 
 		function initTree() {
 			var zNodes;
@@ -92,11 +93,11 @@
 		layui.use([ 'jquery', 'form', 'laydate', 'table', 'layer', 'element' ], function() {
 			var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate;
 			table = layui.table;
-			
-			// 查询是哪个菜单
-			var param = JSON.parse(window.localStorage.getItem("param"));
 
 			function renderSysFileTable() {
+				// 查询是哪个菜单
+				var param = JSON.parse(window.localStorage.getItem("param"));
+				
 				table.render({
 					elem : '#fileShowTable',
 					url : '/file/common/data-list',
@@ -130,6 +131,11 @@
 						event : 'setActive',
 						style : 'cursor: pointer;'
 					}, {
+						field : 'fileKind',
+						title : '分类名称',
+						event : 'setActive',
+						style : 'cursor: pointer;'
+					}, {
 						field : 'createUserId',
 						title : '创建人',
 						event : 'setActive',
@@ -138,10 +144,16 @@
 						field : 'createDateTime',
 						title : '创建时间',
 						event : 'setActive',
-						style : 'cursor: pointer;'
+						style : 'cursor: pointer;',
+						templet : '<div>{{ layui.laytpl.toDateString(d.createTime) }}</div>'
 					}, {
 						field : 'fileSize',
-						title : '文档大小(KB)',
+						title : '文档大小(MB)',
+						event : 'setActive',
+						style : 'cursor: pointer;'
+					}, {
+						field : 'version',
+						title : '版本',
 						event : 'setActive',
 						style : 'cursor: pointer;'
 					} ] ],
@@ -224,6 +236,25 @@
 						layer.msg("文档有缺失！请联系管理员！");
 					}
 				},
+				labelEvent : function() {
+					var ids = active.getChecked();
+					if (ids == "") {
+						layer.msg("请选择文档");
+						return;
+					}
+					var flag;
+					ajaxPost("/sysfile/getFileFlag/", {
+						"id" : ids
+					}, function(data) {
+						flag = data;
+					});
+					if (flag) {
+						$("#download").attr("href", "/sysfile/download/" + ids);
+						document.getElementById("download").click();
+					} else {
+						layer.msg("文档有缺失！请联系管理员！");
+					}
+				},
 				getChecked : function() {
 					var ids = "";
 					var selectedData = active.getCheckData();
@@ -248,6 +279,25 @@
 					layer.msg(checkStatus.isAll ? '全选' : '未全选')
 				}
 			};
+			
+			
+			//监听行双击事件
+			table.on('rowDouble(tableEvent)', function(obj) {
+				var temUrl = "/onlinePreview?fileType="+obj.data.fileSuffix+"&fileId=" + obj.data.id;
+				layer.open({
+					title : '详情',
+					skin : 'layui-layer-lan',
+					shadeClose : true,
+					type : 2,
+					fixed : false,
+					//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+					maxmin : true,
+					//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+					area : [ '800px', '500px' ],
+					content : temUrl
+				});
+			});
+			
 			$('.layui-btn').on('click', function() {
 				var type = $(this).data('type');
 				active[type] ? active[type].call(this) : '';

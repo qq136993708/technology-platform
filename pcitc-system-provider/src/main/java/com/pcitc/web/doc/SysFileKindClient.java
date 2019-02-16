@@ -18,10 +18,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
+import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.TreeNode;
 import com.pcitc.base.common.enums.DataOperationStatusEnum;
 import com.pcitc.base.doc.SysFileKind;
+import com.pcitc.base.doc.SysFileKindAuth;
 import com.pcitc.service.doc.SysFileKindService;
 
 
@@ -116,40 +118,7 @@ public class SysFileKindClient {
     public List<TreeNode> selectObjectByTree(@RequestBody SysFileKind sysFileKind) throws Exception {
         return sysFileKindService.selectTrees();
     }
-//
-//    /**
-//     * 查询菜单相信信息-展示
-//     *
-//     * @param sysFileKindId
-//     * @return
-//     * @throws Exception
-//     */
-//    @RequestMapping(value = "/sysfilekind-provider/sysfilekind/get_sysfilekind/{sysFileKindId}")
-//    public SysFileKind selectSysFileKindByMenuId(@PathVariable(value = "sysFileKindId", required = true) String sysFileKindId) throws Exception {
-//        SysFileKind sysFileKind = sysFileKindService.selectByPrimaryKey(sysFileKindId);
-//        if ("".equals(sysFileKind.getParentId().trim())) {
-//            sysFileKind.setParentName("");
-//        } else {
-//        }
-//        SysFileKindExample sysFileKindExample = new SysFileKindExample();
-//        String strParentId = sysFileKindService.selectByExample(sysFileKindExample).get(0).getId();
-//        sysFileKind.setRootId(strParentId);
-//        return sysFileKind;
-//    }
-//
-//    /**
-//     * 更新菜单信息
-//     *
-//     * @param sysFileKind
-//     * @return
-//     */
-//    @RequestMapping(value = "/sysfilekind-provider/sysfilekind/update-sysfilekind")
-//    public Serializable updateSysFileKind(@RequestBody SysFileKind sysFileKind) {
-//        sysFileKindService.updateByPrimaryKey(sysFileKind);
-//        DataOperationStatusEnum status = DataOperationStatusEnum.UPD_OK;
-//        return status;
-//    }
-//
+
     /**
      * 删除菜单信息-false
      *
@@ -162,7 +131,7 @@ public class SysFileKindClient {
         DataOperationStatusEnum status = sysFileKindService.deleteSysFileKind(sysFileKindcId);
         return status;
     }
-//
+
     /**
      * 删除菜单信息-true
      *
@@ -175,19 +144,6 @@ public class SysFileKindClient {
         sysFileKindService.deleteSysFileKindReal(sysFileKindcId);
         return DataOperationStatusEnum.DEL_OK;
     }
-//
-//    /**
-//     * 增加菜单信息
-//     *
-//     * @param sysFileKind
-//     * @return
-//     */
-//    @RequestMapping(value = "/sysfilekind-provider/sysfilekind/add-sysfilekind", method = RequestMethod.POST)
-//    public SysFileKind insertSysFileKind(@RequestBody SysFileKind sysFileKind) {
-//        sysFileKind.setStatus("");
-//        return sysFileKindService.insertObject(sysFileKind);
-//    }
-//
 
     /**
      * 分页查询
@@ -206,6 +162,27 @@ public class SysFileKindClient {
     public int updateOrInsertSysFile(@RequestBody SysFileKind sysFileKind) {
         try {
             return sysFileKindService.updateOrInsertSysFile(sysFileKind);
+        } catch (Exception e) {
+            logger.error("[保存信息失败：]", e);
+        }
+        return 500;
+    }
+    
+    /**
+     * 文档分类进行权限分配的查询方法
+     */
+    @ApiOperation(value = "文档分类权限分配查询", notes = "按照人、组织机构、岗位进行区分")
+    @RequestMapping(value = "/sysfilekind-provider/sysfilekind/auth/user-list", method = RequestMethod.POST)
+    public LayuiTableData getSysFileKindUserListData(@RequestBody LayuiTableParam param) throws Exception {
+    	LayuiTableData tem = sysFileKindService.getSysFileKindUserListData(param);
+        return tem;
+    }
+    
+    @ApiOperation(value = "保存文档分类的用户权限", notes = "建立用户和文档分类的关联")
+    @RequestMapping(value = "/sysfilekind-provider/sysfilekind/auth/user/save", method = RequestMethod.POST)
+    public int saveFileKindAuthUser(@RequestBody SysFileKindAuth sysFileKindAuth) {
+        try {
+            return sysFileKindService.saveFileKindAuthUser(sysFileKindAuth);
         } catch (Exception e) {
             logger.error("[保存信息失败：]", e);
         }

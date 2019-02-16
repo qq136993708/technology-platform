@@ -9,6 +9,7 @@ import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.TreeNode;
 import com.pcitc.base.common.enums.DataOperationStatusEnum;
 import com.pcitc.base.doc.SysFileKind;
+import com.pcitc.base.doc.SysFileKindAuth;
 import com.pcitc.base.doc.SysFileKindExample;
 
 /**
@@ -80,4 +81,14 @@ public interface SysFileKindService {
     public List<TreeNode> selectTrees();
 
     public int updateOrInsertSysFile(SysFileKind sysFileKind);
+    
+    /**
+     * 文档分类权限分配查询
+     */
+    public LayuiTableData getSysFileKindUserListData(LayuiTableParam param);
+    
+    /**
+     * 删除当前页人员所有的已分配数据，插入新保存的用户(若干条)
+     */
+    public int saveFileKindAuthUser(SysFileKindAuth sysFileKindAuth);
 }
