@@ -132,21 +132,21 @@
 <script>
     window.viewObj = {
         tbData: [
-            {tempId: 1, name: '中国石化集团宁波技术研究院', plan: "", projectFund: "", specialFund : ""},
-            {tempId: 2, name: '中国石化集团四川维尼纶厂', plan: "", projectFund: "", specialFund: ""},
-            {tempId: 3, name: '机动(资金预留)', plan: "", projectFund: "", specialFund: ""}
+            {tempId: 1, displayName: '机动(资金预留)', plan: "", xmjf: "", zxjf: "",budgetInfoId:"${budgetInfoId}"}
         ]}
+    var budgetInfoId = "${budgetInfoId}";
     layui.use(['jquery', 'table', 'form','laydate', 'layer','publicMethods'], function () {
         var $ = layui.jquery, table = layui.table, form = layui.form,laydate = layui.laydate, layer = layui.layer,publicMethods=layui.publicMethods;
         var layTableId = "dataTable";
         //检索
 		publicMethods.ajaxPost("/budget/get-grouptotal-item/${dataId}",null, function (data) {
 			form.val("budget-form",data);
-			console.log(data);
+			//console.log(data);
+			//viewObj.tbData.push(data.group);
    		});
         //检索公司
         publicMethods.ajaxPost("/budget/search-group-company-items",null, function (data) {
-        	$("#company_list").html('<option value="">输入关键字</option>');
+        	$("#company_list").html('<option value="">请选择单位！</option>');
         	$.each(data,function(index,dt){
         		$("#company_list").append('<option value="'+dt.unitName+'">'+dt.unitName+'</option>');
         	});
@@ -159,11 +159,12 @@
             , id: layTableId
             , height: commonDislodgeTable() - 400
             , limit: 100
+            , totalRow: true
             , cols: [[
-                {field: 'name', title: '单位名称',edit:true, width: '30%'}
+                {field: 'displayName', title: '单位名称',edit:true, width: '30%',totalRowText: '合计'}
                 , {field: 'plan', title: '2019年计划', style: 'cursor: pointer;', width: '30%'}
-                , {field: 'projectFund', title: '科技项目经费预算', style: 'cursor: pointer;',edit:true, width: '15%'}
-                , {field: 'specialFund', title: '重点实验室专项经费', style: 'cursor: pointer;',edit:true, width: '15%'}
+                , {field: 'xmjf', title: '科技项目经费预算', style: 'cursor: pointer;',edit:true, width: '15%'}
+                , {field: 'zxjf', title: '重点实验室专项经费', style: 'cursor: pointer;',edit:true, width: '15%'}
                 , {title: '操作', style: 'cursor: pointer;', align: 'center', width: '10%', templet: function(){
                     return '<a href="#" lay-event="del" lay-id="\'+ d.tempId +\'">删除</a>'
                     }}
@@ -195,23 +196,24 @@
                     layer.msg("请选择单位！", { icon: 5 }); //提示
                     return;
                 }
-                var oldData = table.cache[layTableId];
-                var newRow = {tempId: new Date().valueOf(), name: conName, plan: "", projectFund: "", specialFund: ""};
-                oldData.push(newRow);
+                //var oldData = table.cache[layTableId];
+                var newRow = {tempId: new Date().valueOf(), displayName: conName, plan: "", xmjf: "0", zxjf: "0",budgetInfoId:budgetInfoId};
+                //oldData.push(newRow);
+                viewObj.tbData.push(newRow);
                 tableIns.reload({
-                    data : oldData
+                    data : viewObj.tbData
                 });
             },
             removeEmptyTableCache: function(){
-                var oldData = table.cache[layTableId];
-                for(var i=0, row; i < oldData.length; i++){
-                    row = oldData[i];
+                //var oldData = table.cache[layTableId];
+                for(var i=0, row; i < viewObj.tbData.length; i++){
+                    row = viewObj.tbData[i];
                     if(!row || !row.tempId){
-                        oldData.splice(i, 1);    //删除一项
+                    	viewObj.tbData.splice(i, 1);    //删除一项
                     }
                 }
                 tableIns.reload({
-                    data : oldData
+                    data : viewObj.tbData
                 });
             }
         };
@@ -237,9 +239,8 @@
             $(elem).prev("a[lay-event='type']").trigger("click");
         });
         function getTableData(){
-            var oldData = table.cache[layTableId];
-            for(var i=0, row; i < oldData.length; i++){
-                row = oldData[i];
+            for(var i=0, row; i < viewObj.tbData.length; i++){
+                row = viewObj.tbData[i];
                 if(!row.projectFund){
                     layer.msg("检查每一行，请填写项目经费！", { icon: 5 }); //提示
                     return;
@@ -247,19 +248,24 @@
                     layer.msg("检查每一行，请填写重点实验室专项经费！", { icon: 5 }); //提示
                     return;
                 }
-            }
-            return (JSON.stringify(table.cache[layTableId], null, 2))
+            } 
+            return JSON.stringify(viewObj.tbData);
         }
         // 点击保存按钮
         form.on('submit(saveEvent)', function(data){
             var formData = JSON.stringify(data.field);
             console.log("表单数据："+formData + '\n' +"表格数据:" + getTableData());
-            publicMethods.ajaxPost('save-grouptotal-item', data.field, function (data, status) {
+            publicMethods.ajaxPost('/budget/save-grouptotal-item', data.field, function (data, status) {
                 if (data.success) {
                 	parent.initDataVersion("${budgetInfoId}");
-                	
-                	var index = parent.layer.getFrameIndex(window.name);
-			       	parent.layer.close(index);
+                	console.log(viewObj.tbData);
+                	//保存子项
+                	publicMethods.ajaxPost('/budget/save-grouptotal-childitems', viewObj.tbData, function (dt, status) {
+                		
+                		
+                		var index = parent.layer.getFrameIndex(window.name);
+    			       	parent.layer.close(index);
+                	});
                 }else{
                 	parent.layer.alert("操作失败请重试", {
 						title : '信息'

@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.stp.budget.BudgetGroupTotal;
@@ -121,9 +123,23 @@ public class BudgetGroupTotalController extends BaseController {
 	}
 	@RequestMapping(value = "/budget/save-grouptotal-item", method = RequestMethod.POST)
 	@ResponseBody
-	public Object saveBudgetGroupInfo(@ModelAttribute("item") BudgetGroupTotal item,HttpServletRequest request) throws IOException 
+	public Object saveBudgetGroupTotalItem(@ModelAttribute("item") BudgetGroupTotal item,HttpServletRequest request) throws IOException 
 	{
 		ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(BUDGET_GROUPTOTAL_SAVE_ITEMS, HttpMethod.POST, new HttpEntity<BudgetGroupTotal>(item, this.httpHeaders), Integer.class);
+		if (responseEntity.getBody() == 0) {
+			return new Result(false);
+		} else {
+			return new Result(true);
+		}
+	}
+	
+	@RequestMapping(value = "/budget/save-grouptotal-childitems", method = RequestMethod.POST)
+	@ResponseBody
+	public Object saveBudgetChildGroupTotalItems(@RequestParam("items")String items,HttpServletRequest request) throws IOException 
+	{
+		JSONArray itemslist = JSON.parseArray(items);
+		System.out.println(JSON.toJSON(itemslist));
+		ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(BUDGET_GROUPTOTAL_SAVE_ITEMS, HttpMethod.POST, new HttpEntity<Object>(items, this.httpHeaders), Integer.class);
 		if (responseEntity.getBody() == 0) {
 			return new Result(false);
 		} else {
