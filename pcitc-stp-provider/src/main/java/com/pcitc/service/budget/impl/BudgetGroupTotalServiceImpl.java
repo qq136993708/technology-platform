@@ -15,6 +15,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.common.enums.DelFlagEnum;
 import com.pcitc.base.stp.budget.BudgetGroupTotal;
 import com.pcitc.base.stp.budget.BudgetGroupTotalExample;
 import com.pcitc.base.stp.out.OutUnit;
@@ -53,7 +54,8 @@ public class BudgetGroupTotalServiceImpl implements BudgetGroupTotalService
 		BudgetGroupTotal group = budgetGroupTotalMapper.selectByPrimaryKey(id);
 		if(group != null) 
 		{
-			return budgetGroupTotalMapper.deleteByPrimaryKey(id);
+			group.setDelFlag(DelFlagEnum.STATUS_DEL.getCode());
+			return budgetGroupTotalMapper.updateByPrimaryKey(group);
 		}
 		return 0;
 	}
@@ -63,6 +65,7 @@ public class BudgetGroupTotalServiceImpl implements BudgetGroupTotalService
 	{
 		BudgetGroupTotalExample example = new BudgetGroupTotalExample();
 		BudgetGroupTotalExample.Criteria c = example.createCriteria();
+		c.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
 		c.andDataIdIn(list);
 		return budgetGroupTotalMapper.selectByExample(example);
 	}
@@ -96,6 +99,7 @@ public class BudgetGroupTotalServiceImpl implements BudgetGroupTotalService
 		BudgetGroupTotalExample example = new BudgetGroupTotalExample();
 		BudgetGroupTotalExample.Criteria c = example.createCriteria();
 		c.andBudgetInfoIdEqualTo(param.getParam().get("budget_info_id").toString());
+		c.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
 		c.andLevelEqualTo(0);//只显示第一级
 		example.setOrderByClause("no");
 		//return this.findByExample(param, example);
@@ -142,7 +146,8 @@ public class BudgetGroupTotalServiceImpl implements BudgetGroupTotalService
 		Integer rs = 0;
 		for(BudgetGroupTotal group:list) 
 		{
-			rs += budgetGroupTotalMapper.deleteByPrimaryKey(group.getDataId());
+			group.setDelFlag(DelFlagEnum.STATUS_DEL.getCode());
+			rs += budgetGroupTotalMapper.updateByPrimaryKey(group);
 		}
 		return rs;
 	}
@@ -152,6 +157,7 @@ public class BudgetGroupTotalServiceImpl implements BudgetGroupTotalService
 	{
 		BudgetGroupTotalExample example = new BudgetGroupTotalExample();
 		BudgetGroupTotalExample.Criteria c = example.createCriteria();
+		c.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
 		c.andParentDataIdEqualTo(dataId);
 		c.andLevelEqualTo(1);//只显示第二级
 		example.setOrderByClause("no");

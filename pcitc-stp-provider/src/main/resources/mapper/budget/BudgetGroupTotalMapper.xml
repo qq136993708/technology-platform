@@ -20,6 +20,8 @@
     <result column="zxjf" jdbcType="DOUBLE" property="zxjf" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="budget_info_id" jdbcType="VARCHAR" property="budgetInfoId" />
+    <result column="del_flag" jdbcType="INTEGER" property="delFlag" />
+    <result column="append_files" jdbcType="VARCHAR" property="appendFiles" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -82,7 +84,7 @@
   <sql id="Base_Column_List">
     data_id, parent_data_id, nd, data_version, create_time, update_time, creater_name, 
     creater_id, no, display_name, simple_name, display_code, simple_code, level, xmjf, 
-    zxjf, remark, budget_info_id
+    zxjf, remark, budget_info_id, del_flag, append_files
   </sql>
   <select id="selectByExample" parameterType="com.pcitc.base.stp.budget.BudgetGroupTotalExample" resultMap="BaseResultMap">
     select
@@ -121,15 +123,15 @@
       creater_name, creater_id, no, 
       display_name, simple_name, display_code, 
       simple_code, level, xmjf, 
-      zxjf, remark, budget_info_id
-      )
+      zxjf, remark, budget_info_id, 
+      del_flag, append_files)
     values (#{dataId,jdbcType=VARCHAR}, #{parentDataId,jdbcType=VARCHAR}, #{nd,jdbcType=VARCHAR}, 
       #{dataVersion,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR}, #{updateTime,jdbcType=VARCHAR}, 
       #{createrName,jdbcType=VARCHAR}, #{createrId,jdbcType=VARCHAR}, #{no,jdbcType=INTEGER}, 
       #{displayName,jdbcType=VARCHAR}, #{simpleName,jdbcType=VARCHAR}, #{displayCode,jdbcType=VARCHAR}, 
       #{simpleCode,jdbcType=VARCHAR}, #{level,jdbcType=INTEGER}, #{xmjf,jdbcType=DOUBLE}, 
-      #{zxjf,jdbcType=DOUBLE}, #{remark,jdbcType=VARCHAR}, #{budgetInfoId,jdbcType=VARCHAR}
-      )
+      #{zxjf,jdbcType=DOUBLE}, #{remark,jdbcType=VARCHAR}, #{budgetInfoId,jdbcType=VARCHAR}, 
+      #{delFlag,jdbcType=INTEGER}, #{appendFiles,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.pcitc.base.stp.budget.BudgetGroupTotal">
     insert into out_tem_money_group_total
@@ -188,6 +190,12 @@
       <if test="budgetInfoId != null">
         budget_info_id,
       </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
+      <if test="appendFiles != null">
+        append_files,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="dataId != null">
@@ -243,6 +251,12 @@
       </if>
       <if test="budgetInfoId != null">
         #{budgetInfoId,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=INTEGER},
+      </if>
+      <if test="appendFiles != null">
+        #{appendFiles,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -309,6 +323,12 @@
       <if test="record.budgetInfoId != null">
         budget_info_id = #{record.budgetInfoId,jdbcType=VARCHAR},
       </if>
+      <if test="record.delFlag != null">
+        del_flag = #{record.delFlag,jdbcType=INTEGER},
+      </if>
+      <if test="record.appendFiles != null">
+        append_files = #{record.appendFiles,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -333,7 +353,9 @@
       xmjf = #{record.xmjf,jdbcType=DOUBLE},
       zxjf = #{record.zxjf,jdbcType=DOUBLE},
       remark = #{record.remark,jdbcType=VARCHAR},
-      budget_info_id = #{record.budgetInfoId,jdbcType=VARCHAR}
+      budget_info_id = #{record.budgetInfoId,jdbcType=VARCHAR},
+      del_flag = #{record.delFlag,jdbcType=INTEGER},
+      append_files = #{record.appendFiles,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -392,6 +414,12 @@
       <if test="budgetInfoId != null">
         budget_info_id = #{budgetInfoId,jdbcType=VARCHAR},
       </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag,jdbcType=INTEGER},
+      </if>
+      <if test="appendFiles != null">
+        append_files = #{appendFiles,jdbcType=VARCHAR},
+      </if>
     </set>
     where data_id = #{dataId,jdbcType=VARCHAR}
   </update>
@@ -413,7 +441,9 @@
       xmjf = #{xmjf,jdbcType=DOUBLE},
       zxjf = #{zxjf,jdbcType=DOUBLE},
       remark = #{remark,jdbcType=VARCHAR},
-      budget_info_id = #{budgetInfoId,jdbcType=VARCHAR}
+      budget_info_id = #{budgetInfoId,jdbcType=VARCHAR},
+      del_flag = #{delFlag,jdbcType=INTEGER},
+      append_files = #{appendFiles,jdbcType=VARCHAR}
     where data_id = #{dataId,jdbcType=VARCHAR}
   </update>
 </mapper>
