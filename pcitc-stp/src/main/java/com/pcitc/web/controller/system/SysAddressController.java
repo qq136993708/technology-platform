@@ -172,6 +172,9 @@ public class SysAddressController extends BaseController {
     public String pageEdit(String id, Model model, String opt) {
         model.addAttribute("id", id);
         model.addAttribute("opt", opt);
+        int depth = Integer.parseInt(request.getParameter("depth"));
+        request.setAttribute("depth",depth+1);
+        request.setAttribute("parentId",request.getParameter("parentId"));
         return "stp/system/sysAddress_edit";
     }
 
