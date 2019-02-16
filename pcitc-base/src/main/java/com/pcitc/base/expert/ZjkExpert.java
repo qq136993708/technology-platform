@@ -11,7 +11,7 @@ import java.io.Serializable;
  * <p>实体类</p>
  * <p>Table: zjk_expert - 专家-基本信息</p>
  *
- * @since 2018-12-28 09:30:51
+ * @since 2019-02-15 03:52:30
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ZjkExpert extends DataEntity implements Serializable {
@@ -69,7 +69,7 @@ public class ZjkExpert extends DataEntity implements Serializable {
     private String birthDate;
 
     /**
-     * industry_name - 专业领域名称
+     * industry_name - 行业领域名称
      */
     private String industryName;
 
@@ -272,6 +272,51 @@ public class ZjkExpert extends DataEntity implements Serializable {
      * modify_user_disp - 修改人姓名
      */
     private String modifyUserDisp;
+
+    /**
+     * form_code - 业务编码
+     */
+    private String formCode;
+
+    /**
+     * data_index - 序号
+     */
+    private String dataIndex;
+
+    /**
+     * status - 业务表单状态
+     */
+    private String status;
+
+    /**
+     * audit_status - 审批状态
+     */
+    private String auditStatus;
+
+    /**
+     * company_code - 公司代码
+     */
+    private String companyCode;
+
+    /**
+     * update_user - 修改人
+     */
+    private String updateUser;
+
+    /**
+     * update_date - 修改时间
+     */
+    private String updateDate;
+
+    /**
+     * project_id - 所属项目
+     */
+    private String projectId;
+
+    /**
+     * project_name - 项目名称
+     */
+    private String projectName;
 
     @Transient
     public String getSelect_type() {
@@ -692,6 +737,78 @@ public class ZjkExpert extends DataEntity implements Serializable {
         this.modifyUserDisp = modifyUserDisp;
     }
 
+    public String getFormCode() {
+        return this.formCode;
+    }
+
+    public void setFormCode(String formCode) {
+        this.formCode = formCode;
+    }
+
+    public String getDataIndex() {
+        return this.dataIndex;
+    }
+
+    public void setDataIndex(String dataIndex) {
+        this.dataIndex = dataIndex;
+    }
+
+    public String getStatus() {
+        return this.status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getAuditStatus() {
+        return this.auditStatus;
+    }
+
+    public void setAuditStatus(String auditStatus) {
+        this.auditStatus = auditStatus;
+    }
+
+    public String getCompanyCode() {
+        return this.companyCode;
+    }
+
+    public void setCompanyCode(String companyCode) {
+        this.companyCode = companyCode;
+    }
+
+    public String getUpdateUser() {
+        return this.updateUser;
+    }
+
+    public void setUpdateUser(String updateUser) {
+        this.updateUser = updateUser;
+    }
+
+    public String getUpdateDate() {
+        return this.updateDate;
+    }
+
+    public void setUpdateDate(String updateDate) {
+        this.updateDate = updateDate;
+    }
+
+    public String getProjectId() {
+        return this.projectId;
+    }
+
+    public void setProjectId(String projectId) {
+        this.projectId = projectId;
+    }
+
+    public String getProjectName() {
+        return this.projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -807,7 +924,25 @@ public class ZjkExpert extends DataEntity implements Serializable {
 
                         (this.getModifyUser() == null ? other.getModifyUser() == null : this.getModifyUser().equals(other.getModifyUser())) &&
 
-                        (this.getModifyUserDisp() == null ? other.getModifyUserDisp() == null : this.getModifyUserDisp().equals(other.getModifyUserDisp()));
+                        (this.getModifyUserDisp() == null ? other.getModifyUserDisp() == null : this.getModifyUserDisp().equals(other.getModifyUserDisp())) &&
+
+                        (this.getFormCode() == null ? other.getFormCode() == null : this.getFormCode().equals(other.getFormCode())) &&
+
+                        (this.getDataIndex() == null ? other.getDataIndex() == null : this.getDataIndex().equals(other.getDataIndex())) &&
+
+                        (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus())) &&
+
+                        (this.getAuditStatus() == null ? other.getAuditStatus() == null : this.getAuditStatus().equals(other.getAuditStatus())) &&
+
+                        (this.getCompanyCode() == null ? other.getCompanyCode() == null : this.getCompanyCode().equals(other.getCompanyCode())) &&
+
+                        (this.getUpdateUser() == null ? other.getUpdateUser() == null : this.getUpdateUser().equals(other.getUpdateUser())) &&
+
+                        (this.getUpdateDate() == null ? other.getUpdateDate() == null : this.getUpdateDate().equals(other.getUpdateDate())) &&
+
+                        (this.getProjectId() == null ? other.getProjectId() == null : this.getProjectId().equals(other.getProjectId())) &&
+
+                        (this.getProjectName() == null ? other.getProjectName() == null : this.getProjectName().equals(other.getProjectName()));
     }
 
     @Override
@@ -865,6 +1000,15 @@ public class ZjkExpert extends DataEntity implements Serializable {
         result = prime * result + ((getModifyDate() == null) ? 0 : getModifyDate().hashCode());
         result = prime * result + ((getModifyUser() == null) ? 0 : getModifyUser().hashCode());
         result = prime * result + ((getModifyUserDisp() == null) ? 0 : getModifyUserDisp().hashCode());
+        result = prime * result + ((getFormCode() == null) ? 0 : getFormCode().hashCode());
+        result = prime * result + ((getDataIndex() == null) ? 0 : getDataIndex().hashCode());
+        result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
+        result = prime * result + ((getAuditStatus() == null) ? 0 : getAuditStatus().hashCode());
+        result = prime * result + ((getCompanyCode() == null) ? 0 : getCompanyCode().hashCode());
+        result = prime * result + ((getUpdateUser() == null) ? 0 : getUpdateUser().hashCode());
+        result = prime * result + ((getUpdateDate() == null) ? 0 : getUpdateDate().hashCode());
+        result = prime * result + ((getProjectId() == null) ? 0 : getProjectId().hashCode());
+        result = prime * result + ((getProjectName() == null) ? 0 : getProjectName().hashCode());
         return result;
     }
 
@@ -925,6 +1069,15 @@ public class ZjkExpert extends DataEntity implements Serializable {
         sb.append(", modifyDate=").append(modifyDate);
         sb.append(", modifyUser=").append(modifyUser);
         sb.append(", modifyUserDisp=").append(modifyUserDisp);
+        sb.append(", formCode=").append(formCode);
+        sb.append(", dataIndex=").append(dataIndex);
+        sb.append(", status=").append(status);
+        sb.append(", auditStatus=").append(auditStatus);
+        sb.append(", companyCode=").append(companyCode);
+        sb.append(", updateUser=").append(updateUser);
+        sb.append(", updateDate=").append(updateDate);
+        sb.append(", projectId=").append(projectId);
+        sb.append(", projectName=").append(projectName);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
