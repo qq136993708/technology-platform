@@ -87,7 +87,7 @@
 						if (distinct) {
 							var data1 = {
 								"userId" : userShowTable[i].userId,
-								"userName" : userShowTable[i].userName,
+								"userName" : userShowTable[i].userDisp,
 								"unitName" : userShowTable[i].unitName
 							};
 							selectedData.push(data1);
@@ -176,7 +176,7 @@
 							if (distinct) {
 								var data1 = {
 									"userId" : res.data[id].userId,
-									"userName" : res.data[id].userName,
+									"userName" : res.data[id].userDisp,
 									"unitName" : res.data[id].unitName
 								};
 								selectedData.push(data1);

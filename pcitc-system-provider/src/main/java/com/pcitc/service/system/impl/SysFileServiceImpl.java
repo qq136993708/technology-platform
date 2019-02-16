@@ -1425,7 +1425,7 @@ public class SysFileServiceImpl implements SysFileService {
 		System.out.println("1>>>>>>>>>查询分页结果"+list.size());
 		for (int i = 0; i < list.size(); i++) {
 			SysFile sf = list.get(i);
-			sf.setFileSize(String.valueOf(Math.round(Double.valueOf(sf.getFileSize()))/1024/1024)+"mb");
+			sf.setFileSize(String.valueOf(Math.round(Double.valueOf(sf.getFileSize()))/1024/1024));
 		}
 		PageInfo<SysFile> pageInfo = new PageInfo<SysFile>(list);
 		

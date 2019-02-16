@@ -580,9 +580,8 @@
 		where user_id = #{userId,jdbcType=VARCHAR}
 	</update>
 
-	<select id="findUserByRoleCodes" resultMap="BaseResultMap"
-		parameterType="java.util.Map">
-		select sys_user.*,GROUP_CONCAT(sys_unit.unit_name) as unit_name
+	<select id="findUserByRoleCodes" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select sys_user.*,GROUP_CONCAT(sys_unit.unit_name) as unitName
 		from sys_user,sys_role,sys_user_role,sys_unit,sys_user_unit
 		where
 		sys_user_role.role_id = sys_role.role_id and
@@ -601,19 +600,18 @@
 		order by sys_user.user_id
 	</select>
 
-	<select id="findUserByGroupIdFromACT" resultType="java.lang.String"
-		parameterType="java.lang.String">
+	<select id="findUserByGroupIdFromACT" resultType="java.lang.String" parameterType="java.lang.String">
 		select USER_ID_
 		from act_id_membership
 		where
 		GROUP_ID_ = #{groupId,jdbcType=VARCHAR}
 	</select>
 
-	<select id="selectUserDetail" resultMap="BaseResultMap"
-		parameterType="java.util.Map">
-		select sys_user.*,GROUP_CONCAT(sys_unit.unit_name) as
-		unitName,GROUP_CONCAT(sys_unit.unit_code) as unitCode,
-		GROUP_CONCAT(sys_unit.unit_id) as unitId
+	<select id="selectUserDetail" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select sys_user.*,
+			   GROUP_CONCAT(sys_unit.unit_name) as unitName,
+			   GROUP_CONCAT(sys_unit.unit_code) as unitCode,
+			   GROUP_CONCAT(sys_unit.unit_id) as unitId
 		from sys_user,sys_unit,sys_user_unit
 		where
 		sys_user.user_id = sys_user_unit.user_id and

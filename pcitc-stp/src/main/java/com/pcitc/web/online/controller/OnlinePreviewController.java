@@ -57,9 +57,7 @@ public class OnlinePreviewController extends BaseController {
 		// 根据文件id，从后台获取文件流，根据文件类型，转换此文件流（生成对应类型的文件，用于前台显示）
 		String fileId = req.getParameter("fileId");
 		String fileType = req.getParameter("fileType");
-		// 测试值
-		fileId = "16537793944_8bd9a039";
-		fileType = "docx";
+		
 		String fileName = UUID.randomUUID().toString().replaceAll("-", "")+"."+fileType;
 		MultiValueMap<String, String> form = new LinkedMultiValueMap<>();
 		form.add("id", fileId);
@@ -102,6 +100,8 @@ public class OnlinePreviewController extends BaseController {
 		// 抽取文件并返回文件列表
 		String[] imgs = decodedUrl.split("\\|");
 		List imgurls = Arrays.asList(imgs);
+		System.out.println("decodedUrl======"+decodedUrl);
+		System.out.println("decodedCurrentUrl======"+decodedCurrentUrl);
 		model.addAttribute("imgurls", imgurls);
 		model.addAttribute("currentUrl", decodedCurrentUrl);
 		return "picture";
