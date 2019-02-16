@@ -97,7 +97,7 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
     @Override
     public List<ZjkExpert> findZjkBaseInfoListRandom(ZjkExpert record) throws Exception {
         List<ZjkExpert> zjkExpertreturnList = zjkBaseInfoMapper.findZjkExpertList(record);
-        int[] s = StrUtil.randomCommon(0,zjkExpertreturnList.size(),10);
+        int[] s = StrUtil.randomCommon(0, zjkExpertreturnList.size(), 10);
         List<ZjkExpert> experts = new ArrayList<>();
         for (int i = 0; i < s.length; i++) {
             experts.add(zjkExpertreturnList.get(s[i]));
@@ -224,20 +224,21 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
 //        c.andStatusEqualTo("1");
 
         Object expertName = param.getParam().get("expertName");
-        if(!StrUtil.isObjectEmpty(expertName))
-        {
-           c.andExpertNameLike("%"+expertName+"%");
+        if (!StrUtil.isObjectEmpty(expertName)) {
+            c.andExpertNameLike("%" + expertName + "%");
         }
-        System.out.println("expertName = " + expertName);
+
+        Object auditStatus = param.getParam().get("auditStatus");
+        if (!StrUtil.isObjectEmpty(auditStatus)) {
+            c.andAuditStatusEqualTo(auditStatus.toString());
+        }
         Object email = param.getParam().get("email");
-        if(!StrUtil.isObjectEmpty(email))
-        {
-           c.andEmailLike("%"+email+"%");
+        if (!StrUtil.isObjectEmpty(email)) {
+            c.andEmailLike("%" + email + "%");
         }
         Object company = param.getParam().get("company");
-        if(!StrUtil.isObjectEmpty(company))
-        {
-           c.andCompanyEqualTo(company.toString());
+        if (!StrUtil.isObjectEmpty(company)) {
+            c.andCompanyEqualTo(company.toString());
         }
 
         LayuiTableData data = new LayuiTableData();
@@ -427,7 +428,7 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
 
         Map<String, Object> param = (Map<String, Object>) jsonObject.get("param");
 
-        if (bak1 != null &&!"".equals(bak1)&&!"".equals(bak2)&& bak2 != null) {
+        if (bak1 != null && !"".equals(bak1) && !"".equals(bak2) && bak2 != null) {
             Object o = SpringContextUtil.getBean(bak1);
             invokeMethod(o.getClass(), o, bak2, param);
         }
@@ -546,7 +547,7 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
 
         jsonObject.put("result", result);
 
-        if (javaCallBack != null&&!"".equals(javaCallBack)) {
+        if (javaCallBack != null && !"".equals(javaCallBack)) {
             String[] strings = javaCallBack.split("|");
             Object o = SpringContextUtil.getBean(strings[0]);
             invokeMethod(o.getClass(), o, strings[1], jsonObject);
@@ -701,6 +702,22 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
             zjkChengguoService.insert(record);
         }
         return jsonObject;
+    }
+
+    @Override
+    public Object updateAuditStatus(String strDataId) {
+        try {
+            int index = strDataId.indexOf("_");
+            String dataId = strDataId.substring(0, index);
+            String flag = strDataId.substring(index + 1, strDataId.length());
+            ZjkExpert expert = zjkBaseInfoMapper.selectByPrimaryKey(dataId);
+            expert.setAuditStatus("agree".equals(flag) ? "2" : "3");
+            zjkBaseInfoMapper.updateByPrimaryKey(expert);
+            return Integer.parseInt(String.valueOf(DataOperationStatusEnum.DEL_OK));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Integer.parseInt(String.valueOf(DataOperationStatusEnum.DEL_DATA_ERROR));
+        }
     }
 
     public String ageBetween(String strAge) {

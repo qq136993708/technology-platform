@@ -217,4 +217,6 @@ public interface ZjkBaseInfoService {
     JSONObject savePatent(JSONObject jsonObject);
 
     JSONObject saveSKMAchievement(JSONObject jsonObject);
+
+    Object updateAuditStatus(String dataId);
 }

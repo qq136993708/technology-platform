@@ -7,6 +7,7 @@ import com.pcitc.base.common.Result;
 import com.pcitc.base.expert.ZjkExpert;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.web.utils.UserProfileAware;
 import com.pcitc.base.common.TreeNode;
 import com.pcitc.base.common.enums.DataOperationStatusEnum;
@@ -42,9 +43,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * <p>控制类</p>
@@ -69,6 +68,8 @@ public class ZjkBaseInfoController extends BaseController {
      * 逻辑删除
      */
     private static final String DEL = "http://pcitc-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/del-zjkbaseinfo/";
+
+    private static final String updateAuditStatus = "http://pcitc-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/updateAuditStatus/";
     /**
      * 物理删除
      */
@@ -137,6 +138,7 @@ public class ZjkBaseInfoController extends BaseController {
         HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
         ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(LISTPAGE, HttpMethod.POST, entity, LayuiTableData.class);
         LayuiTableData data = responseEntity.getBody();
+        System.out.println(JSON.toJSON(data).toString());
         return JSON.toJSON(data).toString();
     }
 
@@ -165,6 +167,76 @@ public class ZjkBaseInfoController extends BaseController {
         return result;
     }
 
+    // 流程启动接口,多步审批
+    @RequestMapping(value = "/workflow/start-flow2", method = RequestMethod.POST)
+    @ResponseBody
+    @OperationFilter(modelName = "系统管理", actionName = "启动工作流程（测试）")
+    public Result startFlow2(@RequestBody String param, HttpServletRequest request) {
+        System.out.println("=====/workflow/start-flow2");
+        JSONObject json = JSONObject.parseObject(param);
+        String businessId = json.getString("dataId");
+        WorkflowVo workflowVo = new WorkflowVo();
+        workflowVo.setBusinessId(businessId);
+        workflowVo.setProcessInstanceName("专家库注册");
+        workflowVo.setAuthenticatedUserId(sysUserInfo.getUserId());
+
+        // 不清楚此功能菜单要走的审批流程。可以通过菜单id（functionId），部门/组织ID（orgId），项目id（projectId）。其中菜单id必填（和ProcessDefineId两选一）
+        workflowVo.setFunctionId(json.getString("functionId"));
+        // workflowVo.setUnitId("");
+        // workflowVo.setProjectId("");
+
+        Map<String, Object> variables = new HashMap<String, Object>();
+
+        // 发起人之后的审批环节，如果是需要选择审批人的话，此处获取选择的userIds赋值给auditor变量
+        if (json.getString("userIds") != null && !json.getString("userIds").equals("")) {
+            String[] userIds = json.getString("userIds").split(",");
+            variables.put("auditor", Arrays.asList(userIds));
+        }
+
+        // 必须设置，统一流程待办任务中需要的业务详情
+        variables.put("auditDetailsPath", "/zjkBaseInfo/view/" + businessId);
+
+        // 流程完全审批通过时，调用的方法
+        variables.put("auditAgreeMethod", updateAuditStatus + "agree_"+businessId);
+
+        // 流程驳回时，调用的方法（可能驳回到第一步，也可能驳回到第1+n步
+        variables.put("auditRejectMethod", updateAuditStatus + "reject_"+businessId);
+
+        // 对流程中出现的多个判断条件，比如money>100等，需要把事先把money条件输入
+//        variables.put("money", 50); // 环节1需要用到
+//        variables.put("departmentCode", "1005"); // 环节2需要用到
+//        variables.put("companyCode", "2006"); // 环节n需要用到
+
+        workflowVo.setVariables(variables);
+        ResponseEntity<String> status = this.restTemplate.exchange(START_WORKFLOW_URL, HttpMethod.POST, new HttpEntity<WorkflowVo>(workflowVo, this.httpHeaders), String.class);
+        if (status.getBody() != null && status.getBody().equals("true")) {
+            System.out.println("=================启动成功");
+            return new Result(true, "启动成功");
+        } else {
+            System.out.println("=================启动失败");
+            return new Result(false, "启动失败");
+        }
+
+    }
+
+    /**
+     * 专家详情
+     *
+     * @param dataId
+     * @param model
+     * @return
+     */
+    @RequestMapping(method = RequestMethod.GET, value = "/view/{dataId}")
+    @OperationFilter(modelName = "专家-基本信息", actionName = "跳转编辑页面pageEdit")
+    public String pageView(@PathVariable("dataId") String dataId,Model model) {
+        model.addAttribute("id", dataId);
+        model.addAttribute("opt", "");
+        model.addAttribute("dataId", (dataId==null||"".equals(dataId))?UUID.randomUUID().toString().replace("-",""):dataId);
+        return "stp/expert/zjkExpert_view";
+    }
+
+    private static final String START_WORKFLOW_URL = "http://pcitc-zuul/system-proxy/workflow-provider/workflow/start";
+
 
     /**
      * 调整编辑页面-专家-基本信息
@@ -182,6 +254,8 @@ public class ZjkBaseInfoController extends BaseController {
         model.addAttribute("dataId", (id==null||"".equals(id))?UUID.randomUUID().toString().replace("-",""):id);
         return "stp/expert/zjkExpert_edit";
     }
+
+
 
 
     /**
@@ -235,6 +309,18 @@ public class ZjkBaseInfoController extends BaseController {
     @ResponseBody
     public Object delZjkBaseInfo() throws Exception {
         Integer rs = this.restTemplate.exchange(DEL + request.getParameter("id"), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class).getBody();
+        if (rs > 0) {
+            return new Result(true, "操作成功！");
+        } else {
+            return new Result(false, "保存失败请重试！");
+        }
+    }
+
+    @OperationFilter(modelName = "专家审批-基本信息", actionName = "根据ID更新专家审批状态-基本信息")
+    @RequestMapping(value = "/updateAuditStatus/{dataId}", method = RequestMethod.POST)
+    @ResponseBody
+    public Object updateAuditStatus(@PathVariable("dataId") String dataId) throws Exception {
+        Integer rs = this.restTemplate.exchange(updateAuditStatus + dataId, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class).getBody();
         if (rs > 0) {
             return new Result(true, "操作成功！");
         } else {

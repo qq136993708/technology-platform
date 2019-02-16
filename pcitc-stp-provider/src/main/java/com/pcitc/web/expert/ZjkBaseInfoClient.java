@@ -126,6 +126,18 @@ public class ZjkBaseInfoClient {
         }
 
         /**
+         * 删除专家-基本信息-false
+         *
+         * @param dataId
+         * @return
+         */
+        @ApiOperation(value = "更新专家审批状态-基本信息信息", notes = "按ID更新专家审批状态-基本信息信息,操作成功返回201")
+        @RequestMapping(value = "/zjkbaseinfo-provider/zjkbaseinfo/updateAuditStatus/{dataId}")
+        public Object updateAuditStatus (@PathVariable("zjkBaseInfoId") String dataId){
+            return zjkBaseInfoService.updateAuditStatus(dataId);
+        }
+
+        /**
          * 删除专家-基本信息-true
          *
          * @param zjkBaseInfocId
