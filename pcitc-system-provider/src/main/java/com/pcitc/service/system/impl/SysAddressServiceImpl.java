@@ -9,7 +9,6 @@ import com.pcitc.base.common.enums.DelFlagEnum;
 import com.pcitc.base.common.TreeNode;
 import com.pcitc.base.system.*;
 import com.pcitc.base.system.SysAddressExample;
-import com.pcitc.base.util.IdUtil;
 import com.pcitc.base.util.TreeNodeUtil;
 import com.pcitc.mapper.system.SysAddressMapper;
 import com.pcitc.service.system.SysAddressService;
@@ -45,7 +44,8 @@ public class SysAddressServiceImpl implements SysAddressService {
     @Override
     public int updateOrInsertSysAddress(SysAddress sysAddress) throws Exception {
         int result = 500;
-        if (sysAddress.getDataId() != null && sysAddress.getDataId() != null) {
+        SysAddress address = sysAddressMapper.selectByPrimaryKey(sysAddress.getDataId()+"");
+        if (address != null) {
             sysAddressMapper.updateByPrimaryKeySelective(sysAddress);
         } else {
             sysAddressMapper.insertSelective(sysAddress);
