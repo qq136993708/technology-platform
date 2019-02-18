@@ -717,6 +717,9 @@
                 var param = JSON.parse(window.localStorage.getItem("param"));
                 $("#functionId").attr("value", param.id);
                 formData.field.functionId = param.id;
+                console.log("提交审核");
+                console.log(formData.field.functionId);
+                console.log(formData.field);
                 workflow(formData);
 
                 return false;
@@ -1007,14 +1010,12 @@
     // 处理任务（启动流程）的方法，方法名固定，为了通用选择审批人员的弹出页面调用
     function handleTask(userIds) {
         $('#userIds').val(userIds);
-        alert(userIds);
+        console.log("handleTask userids:"+userIds);
         var data = $('#zjkExpert-form').serialize();//获取值
         data = decodeURIComponent(data, true);//防止中文乱码
-        alert(data);
         var json = DataDeal.formToJson(data);//转化为json
-        alert(json);
         // 获取functionId, 如果需要不同的项目走不同的流程、不同的部门走不同的流程的，把projectId、departmentId也赋值到form表单中
-        /* $.ajax({
+         $.ajax({
             type: 'POST',
             url: "/zjkBaseInfo/workflow/start-flow2",
             data: json,
@@ -1029,7 +1030,7 @@
                 parent.layer.close(index);
             }
 
-        }); */
+        });
     }
 </script>
 </body>

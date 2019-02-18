@@ -234,7 +234,6 @@ public class TaskController extends BaseController {
 	public Result completeTask(@PathVariable("taskId") String taskId, @RequestBody String param, HttpServletRequest request) {
 
 		JSONObject json = JSONObject.parseObject(param);
-		System.out.println("动态获取的前台页面审批意见======" + json.getString("agree"));
 		WorkflowVo workflowVo = new WorkflowVo();
 		workflowVo.setTaskId(taskId);
 
@@ -243,7 +242,10 @@ public class TaskController extends BaseController {
 		// 传递参数的不同，本次参数名是agree，之后统一在参数中设置
 		variables.put("agree", json.getString("agree"));
 		variables.put("comment", json.getString("auditRemarks"));
-
+		System.out.println("1审批======" + json.getString("userIds"));
+		System.out.println("2审批======" + json.getString("auditRemarks"));
+		System.out.println("3审批======" + json.getString("agree"));
+		System.out.println("4审批======" + taskId);
 		// 下一步的审批人。审批不通过时，退回到starter，通过画流程图时：开始节点和第一个节点的特定设置来自动完成
 		// 下一步的审批人，要么通过此次审批时选择，要么通过角色进行的配置。
 		if (json.getString("userIds") != null && !json.getString("userIds").equals("")) {
