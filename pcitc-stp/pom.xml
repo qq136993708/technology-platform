@@ -280,6 +280,15 @@
 					<include>**/*</include>
 				</includes>
 			</resource>
+			<resource>
+				<directory>src/main/java</directory>
+				<filtering>true</filtering>
+				<includes>
+					<include>**/*.xml</include>
+					<include>**/*.properties</include>
+					<include>**/keystore</include>
+				</includes>
+			</resource>
 		</resources>
 
 		<pluginManagement>
