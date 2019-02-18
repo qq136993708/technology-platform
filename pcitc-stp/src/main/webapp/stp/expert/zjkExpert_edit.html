@@ -706,14 +706,18 @@
                 saveFormData(data);
                 return false;
             });
+            var  formData = "";
             /* 监听提交 */
             form.on('submit(component-form-commit)', function (data) {
 
                 data.field.auditStatus = "1";
+                formData = data;
                 saveFormData(data);
 
-                data.field.functionId = JSON.parse(window.localStorage.getItem("param")).id;
-                workflow(data);
+                var param = JSON.parse(window.localStorage.getItem("param"));
+                $("#functionId").attr("value", param.id);
+                formData.field.functionId = param.id;
+                workflow(formData);
 
                 return false;
             });
