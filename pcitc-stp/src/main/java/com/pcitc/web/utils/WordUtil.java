@@ -85,7 +85,6 @@ public class WordUtil {
 		} finally {
 			if (in!=null) in.close();
 		}
-		// BASE64Encoder encoder = new BASE64Encoder();
-		return null;
+        return data != null ? java.util.Base64.getEncoder().encodeToString(data) : "";  
 	}
 }
