@@ -1,8 +1,6 @@
 package com.pcitc.web.test;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,10 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.google.gson.JsonObject;
-import com.pcitc.base.stp.out.OutProjectInfo;
+import com.pcitc.web.utils.RestfulHttpClient;
 
 @Controller
 public class DemoController {

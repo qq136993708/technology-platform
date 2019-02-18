@@ -1,4 +1,4 @@
-package com.pcitc.web.test;
+package com.pcitc.web.utils;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
