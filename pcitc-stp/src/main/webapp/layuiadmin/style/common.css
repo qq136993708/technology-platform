@@ -227,8 +227,9 @@ textarea{ padding: 6px 10px; display: block;color: #555;background-color: #fff;b
 .layui-form-checked[lay-skin=primary] i {border-color: #17a2b8;background-color: #17a2b8;}
 .layui-form-checked[lay-skin=primary] i :hover {border-color: #fff;background-color: #fff;}
 .layui-layer-lan .layui-layer-title {background: #17a2b8 !important;}
-.readOnlyBox{background: #F3F3F3 !important; box-shadow: inset 0 1px 1px rgba(0,0,0,.075);transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;}
-.readOnlyBox :focus{border-color: #e6e6e6;}
+.readOnlyBox,.layui-disabled{background: #F3F3F3 !important; box-shadow: inset 0 1px 1px rgba(0,0,0,.075);transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;}
+.readOnlyBox :focus,.layui-disabled:focus{border-color: #e6e6e6;}
+.layui-select-disabled .layui-disabled{border:1px solid #ccc !important;}
 .layui-form-onswitch {border-color: #17a2b8;background-color: #17a2b8;}
 .layui-form-checked span, .layui-form-checked:hover span {background: none;}
 .layui-form-checked i, .layui-form-checked:hover i {color: #17a2b8;}
