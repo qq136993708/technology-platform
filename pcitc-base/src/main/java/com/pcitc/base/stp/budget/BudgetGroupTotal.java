@@ -37,6 +37,10 @@ public class BudgetGroupTotal {
 
     private String budgetInfoId;
 
+    private Integer delFlag;
+
+    private String appendFiles;
+
     public String getDataId() {
         return dataId;
     }
@@ -179,5 +183,21 @@ public class BudgetGroupTotal {
 
     public void setBudgetInfoId(String budgetInfoId) {
         this.budgetInfoId = budgetInfoId;
+    }
+
+    public Integer getDelFlag() {
+        return delFlag;
+    }
+
+    public void setDelFlag(Integer delFlag) {
+        this.delFlag = delFlag;
+    }
+
+    public String getAppendFiles() {
+        return appendFiles;
+    }
+
+    public void setAppendFiles(String appendFiles) {
+        this.appendFiles = appendFiles;
     }
 }

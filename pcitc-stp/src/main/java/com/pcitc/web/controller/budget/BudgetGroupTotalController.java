@@ -1,7 +1,9 @@
 package com.pcitc.web.controller.budget;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -40,6 +42,7 @@ public class BudgetGroupTotalController extends BaseController {
 	private static final String BUDGET_GROUPTOTAL_DELETE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-grouptotal-del";
 	private static final String BUDGET_GROUPTOTAL_GET_ITEMS = "http://pcitc-zuul/stp-proxy/stp-provider/budget/get-grouptotal-item/";
 	private static final String BUDGET_GROUPTOTAL_SAVE_ITEMS = "http://pcitc-zuul/stp-proxy/stp-provider/budget/save-grouptotal-item";
+	private static final String BUDGET_GROUPTOTAL_SAVE_CHILDITEMS = "http://pcitc-zuul/stp-proxy/stp-provider/budget/save-grouptotal-childitems";
 	private static final String BUDGET_GROUPTOTAL_COMPANY_ITEMS = "http://pcitc-zuul/stp-proxy/stp-provider/budget/search-group-company-items";
 	
 	
@@ -135,11 +138,12 @@ public class BudgetGroupTotalController extends BaseController {
 	
 	@RequestMapping(value = "/budget/save-grouptotal-childitems", method = RequestMethod.POST)
 	@ResponseBody
-	public Object saveBudgetChildGroupTotalItems(@RequestParam("items")String items,HttpServletRequest request) throws IOException 
+	public Object saveBudgetChildGroupTotalItems(@RequestParam("items")String items,@RequestParam("item")String item,HttpServletRequest request) throws IOException 
 	{
-		JSONArray itemslist = JSON.parseArray(items);
-		System.out.println(JSON.toJSON(itemslist));
-		ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(BUDGET_GROUPTOTAL_SAVE_ITEMS, HttpMethod.POST, new HttpEntity<Object>(items, this.httpHeaders), Integer.class);
+		Map<String,Object> mapParam = new HashMap<String,Object>();
+		mapParam.put("items", JSON.parseArray(items).toString());
+		mapParam.put("item", JSON.parse(item).toString());
+		ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(BUDGET_GROUPTOTAL_SAVE_CHILDITEMS, HttpMethod.POST, new HttpEntity<Object>(mapParam, this.httpHeaders), Integer.class);
 		if (responseEntity.getBody() == 0) {
 			return new Result(false);
 		} else {

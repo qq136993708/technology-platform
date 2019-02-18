@@ -5,8 +5,7 @@ import com.pcitc.base.stp.budget.BudgetGroupTotalExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
-public interface BudgetGroupTotalMapper 
-{
+public interface BudgetGroupTotalMapper {
     long countByExample(BudgetGroupTotalExample example);
 
     int deleteByExample(BudgetGroupTotalExample example);

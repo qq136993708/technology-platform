@@ -130,19 +130,25 @@
     </div>
 </form>
 <script>
-    window.viewObj = {
-        tbData: [
-            {tempId: 1, displayName: '机动(资金预留)', plan: "", xmjf: "", zxjf: "",budgetInfoId:"${budgetInfoId}"}
-        ]}
+    window.viewObj = 
+    {
+        tbData: []
+    }
+    //{dataId:'10001',tempId: 1, displayName: '机动(资金预留)', level:1,plan: 0, xmjf: 0, zxjf: 0,parentDataId:"${dataId}",budgetInfoId:"${budgetInfoId}"}
     var budgetInfoId = "${budgetInfoId}";
+    var parentDataId = "${dataId}"
+    var parentInfo = null;
     layui.use(['jquery', 'table', 'form','laydate', 'layer','publicMethods'], function () {
         var $ = layui.jquery, table = layui.table, form = layui.form,laydate = layui.laydate, layer = layui.layer,publicMethods=layui.publicMethods;
         var layTableId = "dataTable";
         //检索
 		publicMethods.ajaxPost("/budget/get-grouptotal-item/${dataId}",null, function (data) {
 			form.val("budget-form",data);
-			//console.log(data);
-			//viewObj.tbData.push(data.group);
+			parentInfo = data;
+			$.each(data.groups,function(index,dt){
+				viewObj.tbData.push(dt);
+			});
+			//table.reload({data : viewObj.tbData});
    		});
         //检索公司
         publicMethods.ajaxPost("/budget/search-group-company-items",null, function (data) {
@@ -196,16 +202,13 @@
                     layer.msg("请选择单位！", { icon: 5 }); //提示
                     return;
                 }
-                //var oldData = table.cache[layTableId];
-                var newRow = {tempId: new Date().valueOf(), displayName: conName, plan: "", xmjf: "0", zxjf: "0",budgetInfoId:budgetInfoId};
-                //oldData.push(newRow);
+                var newRow = {dataId:0,tempId: new Date().valueOf(), displayName: conName, level:1,plan: 0, xmjf: 0, zxjf: 0,parentDataId:parentDataId,budgetInfoId:budgetInfoId};
                 viewObj.tbData.push(newRow);
                 tableIns.reload({
                     data : viewObj.tbData
                 });
             },
             removeEmptyTableCache: function(){
-                //var oldData = table.cache[layTableId];
                 for(var i=0, row; i < viewObj.tbData.length; i++){
                     row = viewObj.tbData[i];
                     if(!row || !row.tempId){
@@ -217,7 +220,6 @@
                 });
             }
         };
-
         //激活事件
         var activeByType = function (type, arg) {
             if(arguments.length === 2){
@@ -258,11 +260,9 @@
             publicMethods.ajaxPost('/budget/save-grouptotal-item', data.field, function (data, status) {
                 if (data.success) {
                 	parent.initDataVersion("${budgetInfoId}");
-                	console.log(viewObj.tbData);
+                	
                 	//保存子项
-                	publicMethods.ajaxPost('/budget/save-grouptotal-childitems', viewObj.tbData, function (dt, status) {
-                		
-                		
+                	publicMethods.ajaxPost('/budget/save-grouptotal-childitems', {"items":JSON.stringify(viewObj.tbData),"item":JSON.stringify(parentInfo)}, function (dt, status) {
                 		var index = parent.layer.getFrameIndex(window.name);
     			       	parent.layer.close(index);
                 	});

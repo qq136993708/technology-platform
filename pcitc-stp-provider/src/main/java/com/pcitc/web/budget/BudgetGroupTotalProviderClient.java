@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.fastjson.JSON;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.common.enums.DelFlagEnum;
 import com.pcitc.base.stp.budget.BudgetGroupTotal;
 import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.stp.out.OutUnit;
@@ -246,6 +247,44 @@ public class BudgetGroupTotalProviderClient
 				item.setUpdateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
 				item.setDataVersion(info.getDataVersion());
 				rs += budgetGroupTotalService.saveOrUpdateBudgetGroupTotal(item);
+			}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return rs;
+	}
+	@ApiOperation(value="预算管理-保存年度预算项详情",notes="保存预算项包括子项详情")
+	@RequestMapping(value = "/stp-provider/budget/save-grouptotal-childitems", method = RequestMethod.POST)
+	public Object saveBudgetGroupTotalChildItems(@RequestBody HashMap<String,Object> map) 
+	{
+		Integer rs = 0;
+		try
+		{
+			BudgetGroupTotal to = JSON.parseObject(map.get("item").toString(), BudgetGroupTotal.class);
+			//原有全部逻辑删除
+			List<BudgetGroupTotal> childlist = budgetGroupTotalService.selectChildBudgetGroupTotal(to.getDataId());
+			Map<String,BudgetGroupTotal> oldmap = new HashMap<String,BudgetGroupTotal>();
+			for(BudgetGroupTotal t:childlist){
+				budgetGroupTotalService.deleteBudgetGroupTotal(t.getDataId());
+				oldmap.put(t.getParentDataId()+t.getDisplayName(), t);
+			}
+			//有则更新，无责保存
+			List<BudgetGroupTotal> totals = JSON.parseArray(map.get("items").toString(), BudgetGroupTotal.class);
+			for(BudgetGroupTotal t:totals){
+				if(oldmap.containsKey(t.getParentDataId()+t.getDisplayName())){
+					MyBeanUtils.copyPropertiesIgnoreNull(t, oldmap.get(t.getDataId()));
+					budgetGroupTotalService.updateBudgetGroupTotal(oldmap.get(t.getDataId()));
+				}else{
+					t.setDataId(IdUtil.createIdByTime());
+					t.setDataVersion(to.getDataVersion());
+					t.setNd(to.getNd());
+					t.setCreateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
+					t.setUpdateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
+					t.setDelFlag(DelFlagEnum.STATUS_NORMAL.getCode());
+					budgetGroupTotalService.saveOrUpdateBudgetGroupTotal(t);
+				}
 			}
 		}
 		catch (Exception e)
