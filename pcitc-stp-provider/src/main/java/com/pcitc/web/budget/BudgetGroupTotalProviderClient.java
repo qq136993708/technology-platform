@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.fastjson.JSON;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.common.enums.DelFlagEnum;
 import com.pcitc.base.stp.budget.BudgetGroupTotal;
 import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.stp.out.OutUnit;
@@ -277,6 +278,11 @@ public class BudgetGroupTotalProviderClient
 					budgetGroupTotalService.updateBudgetGroupTotal(oldmap.get(t.getDataId()));
 				}else{
 					t.setDataId(IdUtil.createIdByTime());
+					t.setDataVersion(to.getDataVersion());
+					t.setNd(to.getNd());
+					t.setCreateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
+					t.setUpdateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
+					t.setDelFlag(DelFlagEnum.STATUS_NORMAL.getCode());
 					budgetGroupTotalService.saveOrUpdateBudgetGroupTotal(t);
 				}
 			}

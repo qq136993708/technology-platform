@@ -130,10 +130,11 @@
     </div>
 </form>
 <script>
-    window.viewObj = {
-        tbData: [
-            {dataId:'10001',tempId: 1, displayName: '机动(资金预留)', level:1,plan: 0, xmjf: 0, zxjf: 0,parentDataId:"${dataId}",budgetInfoId:"${budgetInfoId}"}
-        ]}
+    window.viewObj = 
+    {
+        tbData: []
+    }
+    //{dataId:'10001',tempId: 1, displayName: '机动(资金预留)', level:1,plan: 0, xmjf: 0, zxjf: 0,parentDataId:"${dataId}",budgetInfoId:"${budgetInfoId}"}
     var budgetInfoId = "${budgetInfoId}";
     var parentDataId = "${dataId}"
     var parentInfo = null;
@@ -144,8 +145,10 @@
 		publicMethods.ajaxPost("/budget/get-grouptotal-item/${dataId}",null, function (data) {
 			form.val("budget-form",data);
 			parentInfo = data;
-			//console.log(data);
-			//viewObj.tbData.push(data.group);
+			$.each(data.groups,function(index,dt){
+				viewObj.tbData.push(dt);
+			});
+			//table.reload({data : viewObj.tbData});
    		});
         //检索公司
         publicMethods.ajaxPost("/budget/search-group-company-items",null, function (data) {
