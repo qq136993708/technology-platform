@@ -32,6 +32,7 @@ public class WordUtil {
 
 			// 设置编码
 			configuration.setDefaultEncoding("UTF-8");
+			configuration.setClassicCompatible(true);
 
 			// ftl模板文件
 			File file = new File("src/main/resources/tem/ftl");

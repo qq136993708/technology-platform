@@ -35,12 +35,11 @@ public class TestJava2Word {
 			map.put("show2", "137"+i);
 			map.put("show3", "年龄"+i);
 			map.put("show4", System.currentTimeMillis());
-			map.put("show5", "金额10.5（万元）");
-			map.put("show6", "侧嗯嗯"+i);
-			map.put("show7", "33"+i);
 			newsList.add(map);
 		}
 		dataMap.put("myListData", newsList);
+		
+		dataMap.put("context", " DEBUG freemarker.cache - TemplateLoader.findTemplateSource DEBUG freemarker.cache - TemplateLoader.findTemplateSource DEBUG freemarker.cache - TemplateLoader.findTemplateSource DEBUG free DEBUG freemarker.cache - TemplateLoader.findTemplateSource DEBUG freemarker.cache - TemplateLoader.findTemplateSource DEBUG freemarker.cache - TemplateLoader.findTemplateSource DEBUG freemarker.cache - TemplateLoader.findTemplateSourcemarker.cache - TemplateLoader.findTemplateSource DEBUG freemarker.cache - TemplateLoader.findTemplateSource DEBUG freemarker.cache - TemplateLoader.findTemplateSource DEBUG freemarker.cache - TemplateLoader.findTemplateSource");
 
 		// 文件名称
 		String fileName = System.currentTimeMillis()+".doc";
