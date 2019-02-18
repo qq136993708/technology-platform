@@ -164,7 +164,7 @@ public interface ZjkBaseInfoService {
      * @param id
      * @return
      */
-    Integer deleteZjkBaseInfo(java.io.Serializable id);
+    Integer deleteZjkBaseInfo(String id);
 
     /**
      * @param param 分页查询
@@ -219,4 +219,6 @@ public interface ZjkBaseInfoService {
     JSONObject saveSKMAchievement(JSONObject jsonObject);
 
     Object updateAuditStatus(String dataId);
+
+    JSONObject updateExpertByType(ZjkExpert zjkBaseInfo);
 }

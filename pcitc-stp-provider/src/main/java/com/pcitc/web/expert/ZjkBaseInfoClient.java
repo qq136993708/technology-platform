@@ -62,6 +62,18 @@ public class ZjkBaseInfoClient {
         }
             return retJson;
         }
+
+    @ApiOperation(value = "专家-根据类型更新专家信息", notes = "根据类型更新专家信息-基本信息信息,返回JSONObject")
+    @RequestMapping(value = "/zjkbaseinfo-provider/zjkbaseinfo/updateExpertByType", method = RequestMethod.POST)
+    public JSONObject updateExpertByType(@RequestBody ZjkExpert zjkBaseInfo) {
+        JSONObject retJson = new JSONObject();
+        try {
+            zjkBaseInfoService.updateExpertByType(zjkBaseInfo);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+            return retJson;
+        }
     @ApiOperation(value = "专家-基本信息查询列表随机", notes = "自定义对象(条件)查询专家-基本信息信息,返回存储在JSONObject对象中的专家-基本信息列表")
     @RequestMapping(value = "/zjkbaseinfo-provider/zjkbaseinfo/zjkbaseinfo_list_random", method = RequestMethod.POST)
     public JSONObject selectZjkBaseInfoListRandom (@RequestBody ZjkExpert zjkBaseInfo){
