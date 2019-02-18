@@ -589,10 +589,25 @@
             order by ${iSortCol} ${sSortDir_0}
         </if>
     </select>
-    <!-- 查询树 -->
+    <!-- 查询文档分类树 -->
     <select id="selectTrees" resultType="com.pcitc.base.common.TreeNode">
-	  select id,parent_id as pid,parent_id as parentId,kind_name as name,kind_name as text,id as code
-        from sys_file_kind
-        where status = 1
+	  select id,parent_id as pid,parent_id as parentId,kind_name as name,
+	  		 kind_name as text,id as code,bak1 as nodePath
+      from sys_file_kind
+      where 
+      	status = 1
     </select>
+    
+    <!--文档分类权限分配查询-用户-->
+    <select id="getSysFileKindUserListData" resultType="com.pcitc.base.system.SysUser" parameterType="java.util.HashMap">
+      select sys_user.user_id as userId,sys_user.user_name as userName,sys_user.user_disp as userDisp,
+			 sys_file_kind_auth.user_id as userConfig1
+	  from sys_user left join sys_file_kind_auth on (sys_user.user_id = sys_file_kind_auth.user_id and sys_file_kind_auth.file_kind_id = #{fileKindId})
+	  where 
+		sys_user.user_delflag = '0'
+		<if test="userName != null">
+			and sys_user.user_disp like '%${userName}%'
+		</if>
+	  group by sys_user.user_id
+  	</select>
 </mapper>

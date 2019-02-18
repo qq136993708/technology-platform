@@ -1,13 +1,15 @@
 package com.pcitc.mapper.doc;
 
-import com.pcitc.base.common.TreeNode;
-import com.pcitc.base.doc.SysFileKind;
-import com.pcitc.base.doc.SysFileKindExample;
-
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
+
+import com.pcitc.base.common.TreeNode;
+import com.pcitc.base.doc.SysFileKind;
+import com.pcitc.base.doc.SysFileKindExample;
+import com.pcitc.base.system.SysUser;
 
 public interface SysFileKindMapper {
     long countByExample(SysFileKindExample example);
@@ -39,4 +41,6 @@ public interface SysFileKindMapper {
     List<SysFileKind> findSysFileKindList(SysFileKind record);
 
     List<TreeNode> selectTrees();
+    
+    List<SysUser> getSysFileKindUserListData(HashMap<String, Object> map);
 }

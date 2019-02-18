@@ -2,9 +2,13 @@ package com.pcitc.service.doc.impl;
 
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
-import com.pcitc.base.system.SysFileExample;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,9 +22,14 @@ import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.TreeNode;
 import com.pcitc.base.common.enums.DataOperationStatusEnum;
 import com.pcitc.base.doc.SysFileKind;
+import com.pcitc.base.doc.SysFileKindAuth;
+import com.pcitc.base.doc.SysFileKindAuthExample;
 import com.pcitc.base.doc.SysFileKindExample;
 import com.pcitc.base.system.SysFile;
+import com.pcitc.base.system.SysUser;
+import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.IdUtil;
+import com.pcitc.mapper.doc.SysFileKindAuthMapper;
 import com.pcitc.mapper.doc.SysFileKindMapper;
 import com.pcitc.service.doc.SysFileKindService;
 import com.pcitc.service.doc.SysFileShareService;
@@ -40,6 +49,9 @@ public class SysFileKindServiceImpl implements SysFileKindService {
 
     @Autowired
     private SysFileKindMapper sysFileKindMapper;
+    
+    @Autowired
+    private SysFileKindAuthMapper sysFileKindAuthMapper;
 
     public List<SysFileKind> findSysFileKindList(SysFileKind sysFileKind) {
         List<SysFileKind> record = sysFileKindMapper.findSysFileKindList(sysFileKind);
@@ -52,7 +64,8 @@ public class SysFileKindServiceImpl implements SysFileKindService {
         if (sysFileKind.getId() != null && sysFileKind.getId() != null) {
             sysFileKindMapper.updateByPrimaryKey(sysFileKind);
         } else {
-            sysFileKind.setId(IdUtil.createIdByTime());
+            sysFileKind.setId(UUID.randomUUID().toString().replaceAll("-", ""));
+            sysFileKind.setBak1(sysFileKind.getBak1()+sysFileKind.getId()+"@");
             sysFileKindMapper.insertSelective(sysFileKind);
         }
         result = 200;
@@ -204,24 +217,6 @@ public class SysFileKindServiceImpl implements SysFileKindService {
      */
     @Override
     public List<TreeNode> selectObjectByTree() {
-//        List<TreeNode> nodes = new ArrayList<TreeNode>();
-////        SysFileKindExample example = new SysFileKindExample();
-////        example.getOredCriteria().add(example.createCriteria().andStatusNotEqualTo(DataOperationStatusEnum.DEL_OK.getStatusCode().toString()));
-////        List<SysFileKind> records = sysFileKindMapper.selectByExample(example);
-////        for (SysFileKind record : records) {
-////            TreeNode node = new TreeNode();
-////            node.setId(record.getId());
-////            //            node.setLevelCode(record.getUnitLevel().toString());
-////            node.setParentId(record.getParentId());
-////            nodes.add(node);
-////        }
-////        //构建树形结构(从根节点开始的树形结构)
-////
-////        SysFileKindExample sysFileKindExample = new SysFileKindExample();
-////        String strParentId = sysFileKindMapper.selectByExample(sysFileKindExample).get(0).getId();
-////        List<TreeNode> orderNodes = TreeNodeUtil.getChildrenNode(strParentId, nodes);
-////
-////        return orderNodes;
         return null;
     }
 
@@ -277,6 +272,75 @@ public class SysFileKindServiceImpl implements SysFileKindService {
             sysFileService.updateByPrimaryKey(sysFile);
         }
         return result;
+    }
+    
+    /**
+     * 文档分类权限分配查询
+     */
+    public LayuiTableData getSysFileKindUserListData(LayuiTableParam param) {
+    	// 每页显示条数
+		int pageSize = param.getLimit();
+		// 当前是第几页
+		int pageNum = param.getPage();
+		// 1、设置分页信息，包括当前页数和每页显示的总计数
+		PageHelper.startPage(pageNum, pageSize);
+
+		HashMap<String, Object> hashmap = new HashMap<String, Object>();
+		if (param.getParam().get("userName")!=null&&!StringUtils.isBlank(param.getParam().get("userName")+"")) {
+			hashmap.put("userName", param.getParam().get("userName"));
+		}
+		
+		hashmap.put("fileKindId", param.getParam().get("fileKindId"));
+		
+		List<SysUser> list = sysFileKindMapper.getSysFileKindUserListData(hashmap);
+		
+		PageInfo<SysUser> pageInfo = new PageInfo<SysUser>(list);
+		
+		System.out.println("2>>>>>>>>>查询分页结果"+pageInfo.getList().size());
+
+		LayuiTableData data = new LayuiTableData();
+		data.setData(pageInfo.getList());
+		Long total = pageInfo.getTotal();
+		data.setCount(total.intValue());
+		return data;
+    }
+    
+    /**
+     * 删除当前页人员所有的已分配数据，插入新保存的用户(若干条)
+     */
+    public int saveFileKindAuthUser(SysFileKindAuth sysFileKindAuth) {
+    	// 删除当前页用户数据
+    	String pageUser = sysFileKindAuth.getBak1();
+    	List<String> userList = new ArrayList<String>();
+    	String[] userArr = pageUser.split("\\|");
+    	userList = Arrays.asList(userArr);
+    	
+    	SysFileKindAuthExample sfka = new SysFileKindAuthExample();
+    	SysFileKindAuthExample.Criteria cri = sfka.createCriteria();
+    	cri.andFileKindIdEqualTo(sysFileKindAuth.getFileKindId());
+    	cri.andUserIdIn(userList);
+    	sysFileKindAuthMapper.deleteByExample(sfka);
+    	
+    	// 保存新用户
+    	String newUser = sysFileKindAuth.getUserId();
+    	String[] newUserArr = newUser.split("\\|");
+    	for (int i = 0; i < newUserArr.length; i++) {
+    		SysFileKindAuth temSFKA = new SysFileKindAuth();
+    		temSFKA.setDataId(UUID.randomUUID().toString().replaceAll("-", ""));
+    		temSFKA.setFileKindId(sysFileKindAuth.getFileKindId());
+    		temSFKA.setUserId(newUserArr[i]);
+    		temSFKA.setSts("1");
+    		temSFKA.setAuditStatus("1");
+    		temSFKA.setUpdateDate(sysFileKindAuth.getUpdateDate());
+    		temSFKA.setUpdateUser(sysFileKindAuth.getUpdateUser());
+    		temSFKA.setCreateDate(sysFileKindAuth.getCreateDate());
+    		temSFKA.setCreateUserId(sysFileKindAuth.getCreateUserId());
+    		temSFKA.setCreateUser(sysFileKindAuth.getCreateUser());
+
+    		sysFileKindAuthMapper.insert(temSFKA);
+    	}
+    	
+    	return 1;
     }
 
 }

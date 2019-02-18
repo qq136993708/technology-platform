@@ -71,7 +71,7 @@ public class ActivityProviderClient {
 			page = Integer.parseInt(param.getPage().toString());
 		}
 		if (param.getParam().get("modelName") != null && !StrUtil.isBlankOrNull(param.getParam().get("modelName").toString())) {
-			modelName = "%" + modelName + "%";
+			modelName = "%" + param.getParam().get("modelName").toString() + "%";
 			mq = mq.modelNameLike(modelName);
 		}
 

@@ -15,13 +15,14 @@
 </head>
 <body>
 <div class="formBox">
-    <form id="functiongroup-form" name="functiongroup-form" lay-filter="functiongroup-form" class="form-horizontal layui-form">
+    <form id="fileKind-form" name="fileKind-form" lay-filter="fileKind-form" class="form-horizontal layui-form">
         <input type="hidden" name="groupId">
         <div class="box-body">
             <div class="layui-form-item">
                 <label class="layui-form-label">名称<span class="must-fill">*</span></label>
                 <div class="layui-input-block">
                     <input type="hidden"  name="parentId" id="parentId" />
+                    <input type="hidden"  name="bak1" id="bak1" />
                     <input type="hidden"  name="id" id="id" />
                     <input type="text" id="kindName" name="kindName" lay-verify="required" placeholder="请输入名称" autocomplete="off" class="layui-input">
                 </div>
@@ -63,18 +64,18 @@
 <script>
     var id="${id?default(0)}";
     var parentId = "${parentId?default(0)}";
-    console.log(parentId);
     if(parentId!=0){
         $("#parentId").val(parentId);
     }
+    $("#bak1").val("${bak1}");
     layui.use(['jquery','form','laydate','table', 'layer', 'element'],
         function() {
             var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate, form = layui.form;
-            form.render(null, 'functiongroup-form');
+            form.render(null, 'fileKind-form');
             //初始赋值 component-form-group 当前form的lay-filter
             if(id!="0"){
                 ajaxPost("/sysfilekind/getsysFileKindInfo",{"id":id},function(data){
-                    form.val("functiongroup-form", data);
+                    form.val("fileKind-form", data);
                 });
             }
             /* 自定义验证规则  title 要验证的input的 lay-verify=""*/
@@ -111,7 +112,7 @@
                 console.log(data.field);
                 ajaxPost("/sysfilekind/savesysFileKind", data.field, function(dt, status) {
                     layer.msg("操作成功");
-                    parent.reloadtable('sysFileId',null);
+                    parent.reloadtable('showTableId',null);
                     parent.initTree();
                     var index = parent.layer.getFrameIndex(window.name);
                     parent.layer.close(index);

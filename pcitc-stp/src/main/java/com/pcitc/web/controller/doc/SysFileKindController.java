@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -30,6 +31,7 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.enums.DataOperationStatusEnum;
 import com.pcitc.base.doc.SysFileKind;
+import com.pcitc.base.doc.SysFileKindAuth;
 import com.pcitc.base.system.SysFile;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.BaseController;
@@ -51,28 +53,31 @@ import com.pcitc.web.common.OperationFilter;
 @RequestMapping("sysfilekind")
 public class SysFileKindController extends BaseController {
 
-	private static final String	GET_INFO	= "http://pcitc-zuul/system-proxy/sysfilekind-provider/sysfilekind/get-sysfilekind/";
-	private static final String	TREE_DATA	= "http://pcitc-zuul/system-proxy/sysfilekind-provider/sysfilekind/tree-data";
-	private static final String	ADD			= "http://pcitc-zuul/system-proxy/sysfilekind-provider/sysfilekind/add-sysfilekind";
-	private static final String	UPDATE		= "http://pcitc-zuul/system-proxy/sysfilekind-provider/sysfilekind/update-sysfilekind";
-	private static final String	DEL			= "http://pcitc-zuul/system-proxy/sysfilekind-provider/sysfilekind/del-sysfilekind/";
-	private static final String	DEL_REAL	= "http://pcitc-zuul/system-proxy/sysfilekind-provider/sysfilekind/del-sysfilekind-real/";
+	private static final String	GET_INFO		= "http://pcitc-zuul/system-proxy/sysfilekind-provider/sysfilekind/get-sysfilekind/";
+	private static final String	TREE_DATA		= "http://pcitc-zuul/system-proxy/sysfilekind-provider/sysfilekind/tree-data";
+	private static final String	ADD				= "http://pcitc-zuul/system-proxy/sysfilekind-provider/sysfilekind/add-sysfilekind";
+	private static final String	UPDATE			= "http://pcitc-zuul/system-proxy/sysfilekind-provider/sysfilekind/update-sysfilekind";
+	private static final String	DEL				= "http://pcitc-zuul/system-proxy/sysfilekind-provider/sysfilekind/del-sysfilekind/";
+	private static final String	DEL_REAL		= "http://pcitc-zuul/system-proxy/sysfilekind-provider/sysfilekind/del-sysfilekind-real/";
 
 	/**
 	 * 标准增删改查
 	 */
-	private static final String	LIST		= "http://pcitc-zuul/system-proxy/sysfilekind-provider/sysfilekind/sysfilekind_list";
-	private static final String	LISTPARAM	= "http://pcitc-zuul/system-proxy/sysfilekind-provider/sysfilekind/sysfilekind_list_param";
+	private static final String	LIST			= "http://pcitc-zuul/system-proxy/sysfilekind-provider/sysfilekind/sysfilekind_list";
+	private static final String	LISTPARAM		= "http://pcitc-zuul/system-proxy/sysfilekind-provider/sysfilekind/sysfilekind_list_param";
 
-	private static final String	LISTPAGE	= "http://pcitc-zuul/system-proxy/sysfilekind-provider/sysfilekind/sysfilekind-page";
+	private static final String	LISTPAGE		= "http://pcitc-zuul/system-proxy/sysfilekind-provider/sysfilekind/sysfilekind-page";
 
-	private static final String	SAVE		= "http://pcitc-zuul/system-proxy/sysfilekind-provider/sysfilekind/save_sysfilekind";
+	private static final String	SAVE			= "http://pcitc-zuul/system-proxy/sysfilekind-provider/sysfilekind/save_sysfilekind";
 
-	private static final String	DELETE		= "http://pcitc-zuul/system-proxy/sysfilekind-provider/sysfilekind/delete_sysfilekind/";
+	private static final String	DELETE			= "http://pcitc-zuul/system-proxy/sysfilekind-provider/sysfilekind/delete_sysfilekind/";
 
-	private static final String	GET			= "http://pcitc-zuul/system-proxy/sysfilekind-provider/sysfilekind/get_sysfilekind/";
+	private static final String	GET				= "http://pcitc-zuul/system-proxy/sysfilekind-provider/sysfilekind/get_sysfilekind/";
 
-	private static final String	SAVEFile	= "http://pcitc-zuul/system-proxy/sysfilekind-provider/sysfilekind/save_file";
+	private static final String	SAVEFile		= "http://pcitc-zuul/system-proxy/sysfilekind-provider/sysfilekind/save_file";
+
+	private static final String	USER_AUTH_LIST	= "http://pcitc-zuul/system-proxy/sysfilekind-provider/sysfilekind/auth/user-list";
+	private static final String	USER_AUTH_SAVE	= "http://pcitc-zuul/system-proxy/sysfilekind-provider/sysfilekind/auth/user/save";
 
 	/**
 	 * -查询列表
@@ -127,23 +132,6 @@ public class SysFileKindController extends BaseController {
 	public Object getTableDataLayui(HttpServletRequest request) {
 		List<Object> aoData = null;
 		httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-		// //传递参数
-		// MultiValueMap<String, String> requestBody = new
-		// LinkedMultiValueMap<String, String>();
-		// requestBody.add("jsonStr", JSONArray.fromObject(aoData).toString());
-		// HttpEntity<MultiValueMap<String, String>> entity = new
-		// HttpEntity<MultiValueMap<String, String>>(requestBody,
-		// this.httpHeaders);
-		//
-		// ResponseEntity<net.sf.json.JSONObject> responseEntity =
-		// this.restTemplate.exchange(LISTPAGE, HttpMethod.POST, entity,
-		// net.sf.json.JSONObject.class);
-		// net.sf.json.JSONObject retJson = responseEntity.getBody();
-		// Long totalCount = retJson.get("totalCount") != null ?
-		// Long.parseLong(retJson.get("totalCount").toString()) : 0l;
-		// List<SysFileKind> list =
-		// JSONArray.toList(retJson.getJSONArray("list"), new SysFileKind(), new
-		// JsonConfig());
 		List<SysFile> list = new ArrayList<>();
 		SysFile sysFile = new SysFile();
 		sysFile.setId("1");
@@ -217,11 +205,13 @@ public class SysFileKindController extends BaseController {
 	 */
 	@RequestMapping(method = RequestMethod.GET, value = "/edit")
 	@OperationFilter(modelName = "", actionName = "跳转编辑页面pageEdit")
-	public String pageEdit(String id, Model model, String opt, String parentId) {
+	public String pageEdit(String id, Model model, String opt, String bak1, String parentId) {
 		request.setAttribute("userInfo", sysUserInfo);
 		request.setAttribute("createDate", DateUtil.format(new Date(), DateUtil.FMT_SS));
 		model.addAttribute("id", id);
 		model.addAttribute("opt", opt);
+		System.out.println("----------------"+bak1);
+		model.addAttribute("bak1", bak1); // 文档分类路径
 		model.addAttribute("parentId", parentId);
 		return "pplus/doc/sysFileKind_edit";
 	}
@@ -454,4 +444,45 @@ public class SysFileKindController extends BaseController {
 		return result;
 	}
 
+	/**
+	 * 初始化文件分配权限配置
+	 */
+	@RequestMapping(value = "/auth/ini-config")
+	public String iniSysFileKindAuthConfig(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		System.out.println("=====iniAddDelegate");
+
+		request.setAttribute("userInfo", sysUserInfo);
+		request.setAttribute("sysFileKindId", request.getParameter("sysFileKindId"));
+
+		return "pplus/doc/sysFileKind_auth";
+	}
+
+	/**
+	 * 文档分类的查询方法（用户）
+	 */
+	@RequestMapping(value = "/auth/user/list", method = RequestMethod.POST)
+	@ResponseBody
+	public Object getSysFileKindUserListData(@ModelAttribute("param") LayuiTableParam param) {
+
+		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
+		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(USER_AUTH_LIST, HttpMethod.POST, entity, LayuiTableData.class);
+		LayuiTableData data = responseEntity.getBody();
+		return JSON.toJSON(data).toString();
+	}
+
+	/**
+	 * 保存文档分类的权限配置，删除当前页人员所有的已分配数据，插入新保存的用户(若干条)
+	 */
+	@RequestMapping(value = "/auth/user/save")
+	@ResponseBody
+	public int saveFileKindAuthUser(SysFileKindAuth sysFileKindAuth) {
+		sysFileKindAuth.setUpdateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
+		sysFileKindAuth.setUpdateUser(sysUserInfo.getUserId());
+		sysFileKindAuth.setCreateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
+		sysFileKindAuth.setCreateUserId(sysUserInfo.getUserId());
+		sysFileKindAuth.setCreateUser(sysUserInfo.getUserName());
+		ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(USER_AUTH_SAVE, HttpMethod.POST, new HttpEntity<SysFileKindAuth>(sysFileKindAuth, this.httpHeaders), Integer.class);
+		Integer result = responseEntity.getBody();
+		return result;
+	}
 }
