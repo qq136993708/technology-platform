@@ -1,6 +1,8 @@
 package com.pcitc.web;
 
 import javax.servlet.MultipartConfigElement;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -10,8 +12,11 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletContainer;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
 import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.boot.web.servlet.ServletComponentScan;
+import org.springframework.boot.web.servlet.ServletContextInitializer;
+import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
@@ -19,6 +24,11 @@ import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.client.RestTemplate;
+
+import com.pcitc.web.interceptor.InitFilter;
+import com.sinopec.siam.agent.web.AccessEnforcer;
+import com.sinopec.siam.agent.web.SAMLProfileFilter;
+import com.sinopec.siam.provisioning.listener.ApplicationWatch;
 
 /**
  * @author zhf
@@ -29,7 +39,7 @@ import org.springframework.web.client.RestTemplate;
 @EnableEurekaClient
 @ServletComponentScan
 @EnableAutoConfiguration(exclude = DataSourceAutoConfiguration.class)
-@ComponentScan({"com.pcitc.web.feign", "com.pcitc.web.controller", "com.pcitc.web.common", "com.pcitc.web.config", "com.pcitc.web.activiti", "com.pcitc.web.socket","com.pcitc.web.interceptor","com.pcitc.web.utils"})
+@ComponentScan({"com.pcitc.web.feign", "com.pcitc.web.controller", "com.pcitc.web.online", "com.pcitc.web.common", "com.pcitc.web.config", "com.pcitc.web.activiti", "com.pcitc.web.socket","com.pcitc.web.interceptor","com.pcitc.web.utils"})
 @SpringBootApplication
 public class PplusApplication extends SpringBootServletInitializer {
 
@@ -80,7 +90,7 @@ public class PplusApplication extends SpringBootServletInitializer {
 		};
 	}
 	
-	/*@Bean
+	@Bean
 	public ServletContextInitializer contextInitializer() {
 	    return new ServletContextInitializer() {
 
@@ -130,7 +140,7 @@ public class PplusApplication extends SpringBootServletInitializer {
 		registration.setName("InitFilter");
 		registration.setOrder(1);
 		return registration;
-	}*/
+	}
 
 	// /**
 	// * 自定义RestTemplate
