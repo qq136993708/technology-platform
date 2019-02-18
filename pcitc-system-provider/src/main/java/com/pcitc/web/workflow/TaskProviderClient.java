@@ -655,6 +655,7 @@ public class TaskProviderClient {
 				// 流程结束
 				retJson.put("result", "1");
 				retJson.put("auditAgreeMethod", globalVar.get("auditAgreeMethod").toString());
+				return retJson;
 			}
 			retJson.put("result", "0");
 			return retJson;
