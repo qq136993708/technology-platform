@@ -140,6 +140,8 @@
             var budget_info_map=null;
             var curent_tabel_data = null;//当前表格数据
             var curent_budget_info = null;//当前报表
+            var selectRowData=null;
+            
             laydate.render({
                 elem: '#choose-year'
                 ,value: cu_date
@@ -150,6 +152,23 @@
                 }
             
             });
+            renderfunc = function removeHeaderCheckbox(){
+            	$(".layui-table-header table thead th i").remove();  //移除表头的复选框,去掉全选
+	        	
+	        	$('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+	              	  var index=parseInt($(this).index()+1);
+	                  $('tr').removeClass('layui-table-click');
+	                  $(this).addClass('layui-table-click');
+	                  $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+	                  $(this).find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+	                  
+	                  
+	            }); 
+	        }
+            
+          
+            
+	        renderfunc();
 			//数据版本选择
             $("#data_version").on("change",function(e){
             	curent_budget_info = budget_info_map[$("#data_version").val()];
@@ -161,6 +180,7 @@
             		publicMethods.ajaxPost("/budget/budget-grouptotal-items",{page:1,limit:10,param: {"nd":cu_date,"budget_info_id":curent_budget_info.dataId}}, function (data) {
 	                	curent_tabel_data = data.data;
 	                	table.reload('dataTable', {data: data.data});
+	                	renderfunc();
 	                	//预分配数
 	                	calculationSurplusMoney();
     		   		}); 
@@ -190,6 +210,7 @@
             	});
             	//刷新表格数据
             	table.reload('dataTable', {data: curent_tabel_data});
+            	renderfunc();
             	//预分配数
             	calculationSurplusMoney();
             });
@@ -254,12 +275,12 @@
                     });
                 },
                 editEvent: function() {
-                	var selectdata = table.checkStatus('dataTable');
-                	if(selectdata.data.length<=0){
+                	var selectIndex = $(".layui-form-checked").parents("tr").attr("data-index");
+                	if(!selectIndex){
                 		parent.layer.alert("请选择需要编辑的行", {title : '提示'});
                 		return;
                 	}
-                	var url = '/budget/budget_group_edit?dataId='+selectdata.data[0].dataId+"&budgetInfoId="+curent_budget_info.dataId;
+                	var url = '/budget/budget_group_edit?dataId='+curent_tabel_data[selectIndex].dataId+"&budgetInfoId="+curent_budget_info.dataId;
                    	layer.open({
                         title: '集团公司经费预算编制管理'
                         , skin: 'layui-layer-lan'
