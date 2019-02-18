@@ -133,7 +133,6 @@ public class ZjkBaseInfoController extends BaseController {
      */
     @RequestMapping(value = "/getTableData", method = RequestMethod.POST)
     @ResponseBody
-    @OperationFilter(modelName = "专家-基本信息", actionName = "分页查询getTableData")
     public Object getTableData(@ModelAttribute("param") LayuiTableParam param) {
         HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
         ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(LISTPAGE, HttpMethod.POST, entity, LayuiTableData.class);
@@ -197,10 +196,10 @@ public class ZjkBaseInfoController extends BaseController {
         variables.put("auditDetailsPath", "/zjkBaseInfo/view/" + businessId);
 
         // 流程完全审批通过时，调用的方法
-        variables.put("auditAgreeMethod", updateAuditStatus + "agree_"+businessId);
+        variables.put("auditAgreeMethod", "http://pcitc-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/updateAuditStatus?dataId="+"agree_"+businessId );
 
         // 流程驳回时，调用的方法（可能驳回到第一步，也可能驳回到第1+n步
-        variables.put("auditRejectMethod", updateAuditStatus + "reject_"+businessId);
+        variables.put("auditRejectMethod", "http://pcitc-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/updateAuditStatus?dataId="+"reject_"+businessId );
 
         // 对流程中出现的多个判断条件，比如money>100等，需要把事先把money条件输入
 //        variables.put("money", 50); // 环节1需要用到
@@ -317,9 +316,10 @@ public class ZjkBaseInfoController extends BaseController {
     }
 
     @OperationFilter(modelName = "专家审批-基本信息", actionName = "根据ID更新专家审批状态-基本信息")
-    @RequestMapping(value = "/updateAuditStatus/{dataId}", method = RequestMethod.POST)
+    @RequestMapping(value = "/updateAuditStatus/{dataId}", method = RequestMethod.GET)
     @ResponseBody
     public Object updateAuditStatus(@PathVariable("dataId") String dataId) throws Exception {
+        System.out.println("dataId = " + dataId);
         Integer rs = this.restTemplate.exchange(updateAuditStatus + dataId, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class).getBody();
         if (rs > 0) {
             return new Result(true, "操作成功！");

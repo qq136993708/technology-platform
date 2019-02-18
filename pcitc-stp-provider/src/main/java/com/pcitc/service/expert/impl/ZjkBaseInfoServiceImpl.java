@@ -708,15 +708,15 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
     public Object updateAuditStatus(String strDataId) {
         try {
             int index = strDataId.indexOf("_");
-            String dataId = strDataId.substring(0, index);
-            String flag = strDataId.substring(index + 1, strDataId.length());
-            ZjkExpert expert = zjkBaseInfoMapper.selectByPrimaryKey(dataId);
+            String  flag= strDataId.substring(0, index);
+            String  dataId= strDataId.substring(index + 1, strDataId.length());
+            ZjkExpert expert = this.selectByPrimaryKey(dataId);
             expert.setAuditStatus("agree".equals(flag) ? "2" : "3");
-            zjkBaseInfoMapper.updateByPrimaryKey(expert);
-            return Integer.parseInt(String.valueOf(DataOperationStatusEnum.DEL_OK));
+            this.updateByPrimaryKey(expert);
+            return Integer.parseInt(String.valueOf(DataOperationStatusEnum.DEL_OK.getStatusCode()));
         } catch (Exception e) {
             e.printStackTrace();
-            return Integer.parseInt(String.valueOf(DataOperationStatusEnum.DEL_DATA_ERROR));
+            return Integer.parseInt(String.valueOf(DataOperationStatusEnum.DEL_DATA_ERROR.getStatusCode()));
         }
     }
 
