@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.stp.budget.BudgetGroupTotal;
@@ -41,6 +40,7 @@ public class BudgetGroupTotalController extends BaseController {
 	private static final String BUDGET_GROUPTOTAL_CREATE_BYTEMPLATE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-create-template-grouptotal";
 	private static final String BUDGET_GROUPTOTAL_DELETE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-grouptotal-del";
 	private static final String BUDGET_GROUPTOTAL_GET_ITEMS = "http://pcitc-zuul/stp-proxy/stp-provider/budget/get-grouptotal-item/";
+	private static final String BUDGET_GROUPTOTAL_DEL_ITEMS = "http://pcitc-zuul/stp-proxy/stp-provider/budget/del-grouptotal-item/";
 	private static final String BUDGET_GROUPTOTAL_SAVE_ITEMS = "http://pcitc-zuul/stp-proxy/stp-provider/budget/save-grouptotal-item";
 	private static final String BUDGET_GROUPTOTAL_SAVE_CHILDITEMS = "http://pcitc-zuul/stp-proxy/stp-provider/budget/save-grouptotal-childitems";
 	private static final String BUDGET_GROUPTOTAL_COMPANY_ITEMS = "http://pcitc-zuul/stp-proxy/stp-provider/budget/search-group-company-items";
@@ -157,5 +157,16 @@ public class BudgetGroupTotalController extends BaseController {
 	{
 		ResponseEntity<?> responseEntity = this.restTemplate.exchange(BUDGET_GROUPTOTAL_COMPANY_ITEMS, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), List.class);
 		return responseEntity.getBody();
+	}
+	@RequestMapping(value = "/budget/del-group-item/{dataId}", method = RequestMethod.POST)
+	@ResponseBody
+	public Object deleteBudgetGroupItem(@PathVariable("dataId") String dataId,HttpServletRequest request) throws IOException 
+	{
+		ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(BUDGET_GROUPTOTAL_DEL_ITEMS+dataId, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class);
+		if (responseEntity.getBody() == 0) {
+			return new Result(false);
+		} else {
+			return new Result(true);
+		}
 	}
 }

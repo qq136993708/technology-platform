@@ -183,7 +183,7 @@ public class BudgetGroupTotalProviderClient
 		}
 		return newInfo;
 	}
-	@ApiOperation(value="预算管理-创建集团年度预算表",notes="删除集团年度预算空白表")
+	@ApiOperation(value="预算管理-创建集团年度预算表",notes="删除集团年度预算表")
 	@RequestMapping(value = "/stp-provider/budget/budget-grouptotal-del", method = RequestMethod.POST)
 	public Object deleteBudgetGroupTotalInfo(@RequestBody BudgetInfo info) 
 	{
@@ -242,6 +242,7 @@ public class BudgetGroupTotalProviderClient
 				rs += budgetGroupTotalService.updateBudgetGroupTotal(groupTotal);
 			}else {
 				item.setLevel(0);
+				item.setDelFlag(DelFlagEnum.STATUS_NORMAL.getCode());
 				item.setNd(info.getNd());
 				item.setCreateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
 				item.setUpdateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
@@ -309,4 +310,30 @@ public class BudgetGroupTotalProviderClient
 		}
 		return units;
 	}
+	@ApiOperation(value="预算管理-检索年度预算项详情",notes="检索预算项包括子项详情")
+	@RequestMapping(value = "/stp-provider/budget/del-grouptotal-item/{dataId}", method = RequestMethod.POST)
+	public Object deleteBudgetGroupTotalInfo(@PathVariable("dataId") String dataId) 
+	{
+		logger.info("budget-delete-grouptotal-item...");
+		Integer rs = 0;
+		try
+		{
+			BudgetGroupTotal groupTotal = budgetGroupTotalService.selectBudgetGroupTotal(dataId);
+			if(groupTotal != null) {
+				List<BudgetGroupTotal> childGroups = budgetGroupTotalService.selectChildBudgetGroupTotal(dataId);
+				for(BudgetGroupTotal total:childGroups) 
+				{
+					rs += budgetGroupTotalService.deleteBudgetGroupTotal(total.getDataId());
+				}
+				rs += budgetGroupTotalService.deleteBudgetGroupTotal(dataId);
+			}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return rs;
+	}
+	
+	
 }

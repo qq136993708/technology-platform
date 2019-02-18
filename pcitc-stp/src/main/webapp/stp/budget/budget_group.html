@@ -154,20 +154,15 @@
             });
             renderfunc = function removeHeaderCheckbox(){
             	$(".layui-table-header table thead th i").remove();  //移除表头的复选框,去掉全选
-	        	
+	        	//行单击选中事件绑定
 	        	$('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
 	              	  var index=parseInt($(this).index()+1);
 	                  $('tr').removeClass('layui-table-click');
 	                  $(this).addClass('layui-table-click');
 	                  $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
 	                  $(this).find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
-	                  
-	                  
 	            }); 
 	        }
-            
-          
-            
 	        renderfunc();
 			//数据版本选择
             $("#data_version").on("change",function(e){
@@ -293,6 +288,25 @@
                         , area: ['60%', '624px']
                         , content: url
                     });
+                },
+                deleteEvent:function(){
+                	var selectIndex = $(".layui-form-checked").parents("tr").attr("data-index");
+                	if(!selectIndex){
+                		parent.layer.alert("请选择需要删除的行", {title : '提示'});
+                		return;
+                	}
+                	layer.confirm('确定要删除吗？',{title:"删除确认"},function(index){
+    					layer.close(index);
+    					publicMethods.ajaxPost("/budget/del-group-item/"+curent_tabel_data[selectIndex].dataId, null, function (data) {
+    	                     if (data.success) {
+    	                    	 curent_tabel_data.splice(selectIndex,1);
+    	                    	 table.reload('dataTable', {data: curent_tabel_data});
+    	                     	 renderfunc();
+    	                     } else {
+    	                    	 layer.msg('操作异常，请重试!');
+    	                     }
+    	                });
+                	});
                 }
             }
         })
