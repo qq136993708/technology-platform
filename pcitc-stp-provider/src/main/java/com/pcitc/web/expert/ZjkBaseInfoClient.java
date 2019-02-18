@@ -132,8 +132,8 @@ public class ZjkBaseInfoClient {
          * @return
          */
         @ApiOperation(value = "更新专家审批状态-基本信息信息", notes = "按ID更新专家审批状态-基本信息信息,操作成功返回201")
-        @RequestMapping(value = "/zjkbaseinfo-provider/zjkbaseinfo/updateAuditStatus/{dataId}")
-        public Object updateAuditStatus (@PathVariable("zjkBaseInfoId") String dataId){
+        @RequestMapping(value = "/zjkbaseinfo-provider/zjkbaseinfo/updateAuditStatus")
+        public Object updateAuditStatus (@RequestParam(value = "dataId", required = true) String dataId){
             return zjkBaseInfoService.updateAuditStatus(dataId);
         }
 
