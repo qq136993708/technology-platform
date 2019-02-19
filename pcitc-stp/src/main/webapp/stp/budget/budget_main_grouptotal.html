@@ -51,7 +51,7 @@
                 <button class="layui-btn btn-decision active" data-type="createEvent">编制预算</button>
             </div>
             <div class="tool-right">
-                <button class="layui-btn layui-btn-sm btn-decision active">往年预算参考</button>
+                <button class="layui-btn layui-btn-sm btn-decision active" data-type="historyCompare">往年预算参考</button>
                 <button class="layui-btn layui-btn-sm btn-decision">历年参考数据</button>
             </div>
         </div>
@@ -92,7 +92,7 @@
                 <thead>
                 <tr>
                 	<th lay-data="{type:'checkbox'}" rowspan="2"></th>
-                	<th lay-data="{type:'numbers', width: 45,totalRowText: '合计'}" rowspan="2">序号</th>
+                	<th lay-data="{field:'no',align: 'center', width: 45,totalRowText: '合计'}" rowspan="2">序号</th>
                     <th lay-data="{field:'displayName', width: '25%'}" rowspan="2">承担单位</th>
                     <th lay-data="{field:'remark', width: '30%'}" rowspan="2">研究方向</th>
                    <!--  <th lay-data="{field:'email', width: '15%'}" rowspan="2">2018年科技经费预算完成</th>
@@ -252,11 +252,15 @@
                         , maxmin: false
                         //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
                         , area: ['60%', '550px']
-                        , content: '/budget/budget_group_add'
+                        , content: '/budget/budget_create_grouptotal'
                     });
                 },
                 addEvent: function() {
-                	var url = '/budget/budget_group_edit?budgetInfoId='+curent_budget_info.dataId;
+                	if($("#data_version").val()==""){
+                		parent.layer.alert("请选择预算版本", {title : '提示'});
+                		return;
+                	} 
+                	var url = '/budget/budget_edit_grouptotal?budgetInfoId='+curent_budget_info.dataId;
                    	layer.open({
                         title: '集团公司经费预算编制管理'
                         , skin: 'layui-layer-lan'
@@ -276,7 +280,7 @@
                 		parent.layer.alert("请选择需要编辑的行", {title : '提示'});
                 		return;
                 	}
-                	var url = '/budget/budget_group_edit?dataId='+curent_tabel_data[selectIndex].dataId+"&budgetInfoId="+curent_budget_info.dataId;
+                	var url = '/budget/budget_edit_grouptotal?dataId='+curent_tabel_data[selectIndex].dataId+"&budgetInfoId="+curent_budget_info.dataId;
                    	layer.open({
                         title: '集团公司经费预算编制管理'
                         , skin: 'layui-layer-lan'
@@ -343,6 +347,25 @@
                 		return;
                 	} 
                 	window.open("/budget/budget_download/grouptotal/"+curent_budget_info.dataId);
+                },historyCompare:function(){
+                	var selectIndex = $(".layui-form-checked").parents("tr").attr("data-index");
+                	if(!selectIndex){
+                		parent.layer.alert("请选择历史数据项", {title : '提示'});
+                		return;
+                	}
+                	var url = '/budget/budget_history_compare_grouptotal?dataId='+curent_tabel_data[selectIndex].dataId+"&budgetInfoId="+curent_budget_info.dataId;
+                   	layer.open({
+                        title: '集团公司经费预算编制管理-历史数据参考'
+                        , skin: 'layui-layer-lan'
+                        , shadeClose: true
+                        , type: 2
+                        , fixed: false
+                        //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                        , maxmin: false
+                        //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                        , area: ['60%', '500px']
+                        , content: url
+                    });                	
                 }
             }
         })
