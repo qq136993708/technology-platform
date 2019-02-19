@@ -41,7 +41,7 @@ public class FileUtils {
 	/*
 	 * @Autowired RedissonClient redissonClient;
 	 */
-	@Value("${uploaderPathTemp}")
+	@Value("${onlineFilePath}")
 	String			fileDir;
 
 	@Value("${converted.file.charset}")
