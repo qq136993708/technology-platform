@@ -35,13 +35,21 @@ public class TestJava2Word {
 			map.put("show2", "137"+i);
 			map.put("show3", "年龄"+i);
 			map.put("show4", System.currentTimeMillis());
-			map.put("show5", "金额10.5（万元）");
-			map.put("show6", "侧嗯嗯"+i);
-			map.put("show7", "33"+i);
 			newsList.add(map);
 		}
 		dataMap.put("myListData", newsList);
+		
+		dataMap.put("context", " DEBUG freemarker.cache - TemplateLoader.findTemplateSource DEBUG freemarker.cache - TemplateLoader.findTemplateSource DEBUG freemarker.cache - TemplateLoader.findTemplateSource DEBUG free DEBUG freemarker.cache - TemplateLoader.findTemplateSource DEBUG freemarker.cache - TemplateLoader.findTemplateSource DEBUG freemarker.cache - TemplateLoader.findTemplateSource DEBUG freemarker.cache - TemplateLoader.findTemplateSourcemarker.cache - TemplateLoader.findTemplateSource DEBUG freemarker.cache - TemplateLoader.findTemplateSource DEBUG freemarker.cache - TemplateLoader.findTemplateSource DEBUG freemarker.cache - TemplateLoader.findTemplateSource");
 
+		String myPic = "";  
+        try {  
+             myPic = WordUtil.getImageString("D://doc//20190218155218.jpg");  
+        } catch (IOException e) {  
+            // TODO Auto-generated catch block  
+            e.printStackTrace();  
+        }  
+         
+        dataMap.put("showPicture", myPic);  
 		// 文件名称
 		String fileName = System.currentTimeMillis()+".doc";
 

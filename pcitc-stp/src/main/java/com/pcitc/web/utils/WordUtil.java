@@ -32,6 +32,7 @@ public class WordUtil {
 
 			// 设置编码
 			configuration.setDefaultEncoding("UTF-8");
+			configuration.setClassicCompatible(true);
 
 			// ftl模板文件
 			File file = new File("src/main/resources/tem/ftl");
@@ -84,7 +85,6 @@ public class WordUtil {
 		} finally {
 			if (in!=null) in.close();
 		}
-		// BASE64Encoder encoder = new BASE64Encoder();
-		return null;
+        return data != null ? java.util.Base64.getEncoder().encodeToString(data) : "";  
 	}
 }
