@@ -252,11 +252,15 @@
                         , maxmin: false
                         //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
                         , area: ['60%', '550px']
-                        , content: '/budget/budget_group_add'
+                        , content: '/budget/budget_create_grouptotal'
                     });
                 },
                 addEvent: function() {
-                	var url = '/budget/budget_group_edit?budgetInfoId='+curent_budget_info.dataId;
+                	if($("#data_version").val()==""){
+                		parent.layer.alert("请选择预算版本", {title : '提示'});
+                		return;
+                	} 
+                	var url = '/budget/budget_edit_grouptotal?budgetInfoId='+curent_budget_info.dataId;
                    	layer.open({
                         title: '集团公司经费预算编制管理'
                         , skin: 'layui-layer-lan'
@@ -276,7 +280,7 @@
                 		parent.layer.alert("请选择需要编辑的行", {title : '提示'});
                 		return;
                 	}
-                	var url = '/budget/budget_group_edit?dataId='+curent_tabel_data[selectIndex].dataId+"&budgetInfoId="+curent_budget_info.dataId;
+                	var url = '/budget/budget_edit_grouptotal?dataId='+curent_tabel_data[selectIndex].dataId+"&budgetInfoId="+curent_budget_info.dataId;
                    	layer.open({
                         title: '集团公司经费预算编制管理'
                         , skin: 'layui-layer-lan'

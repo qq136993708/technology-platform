@@ -64,20 +64,20 @@ public class BudgetGroupTotalController extends BaseController {
 	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_group_page")
 	public Object toBudgetGroupPage(HttpServletRequest request) throws IOException 
 	{
-		return "stp/budget/budget_group";
+		return "stp/budget/budget_main_grouptotal";
 	}
-	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_group_edit")
+	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_edit_grouptotal")
 	public Object toBudgetGroupEditPage(HttpServletRequest request) throws IOException 
 	{
 		String dataId = request.getParameter("dataId");
 		request.setAttribute("dataId", dataId==null?IdUtil.createIdByTime():dataId);
 		request.setAttribute("budgetInfoId", request.getParameter("budgetInfoId"));
-		return "stp/budget/budget_group_edit";
+		return "stp/budget/budget_edit_grouptotal";
 	}
-	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_group_add")
+	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_create_grouptotal")
 	public Object toBudgetGroupAddPage(HttpServletRequest request) throws IOException 
 	{
-		return "stp/budget/budget_group_add";
+		return "stp/budget/budget_create_grouptotal";
 	}
 	@RequestMapping(value = "/budget/budget_group_info_list", method = RequestMethod.POST)
 	@ResponseBody
@@ -208,9 +208,9 @@ public class BudgetGroupTotalController extends BaseController {
 		ResponseEntity<Integer> infors = this.restTemplate.exchange(BUDGET_INFO_UPDATE, HttpMethod.POST, new HttpEntity<Object>(info, this.httpHeaders), Integer.class);
 		
 		if (infors.getBody() >= 0) {
-			return new Result(false);
-		} else {
 			return new Result(true);
+		} else {
+			return new Result(false);
 		}
 	}
 	@RequestMapping("/budget/budget_download/grouptotal/{dataId}")
