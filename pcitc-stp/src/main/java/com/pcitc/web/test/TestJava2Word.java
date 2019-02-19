@@ -41,6 +41,15 @@ public class TestJava2Word {
 		
 		dataMap.put("context", " DEBUG freemarker.cache - TemplateLoader.findTemplateSource DEBUG freemarker.cache - TemplateLoader.findTemplateSource DEBUG freemarker.cache - TemplateLoader.findTemplateSource DEBUG free DEBUG freemarker.cache - TemplateLoader.findTemplateSource DEBUG freemarker.cache - TemplateLoader.findTemplateSource DEBUG freemarker.cache - TemplateLoader.findTemplateSource DEBUG freemarker.cache - TemplateLoader.findTemplateSourcemarker.cache - TemplateLoader.findTemplateSource DEBUG freemarker.cache - TemplateLoader.findTemplateSource DEBUG freemarker.cache - TemplateLoader.findTemplateSource DEBUG freemarker.cache - TemplateLoader.findTemplateSource");
 
+		String myPic = "";  
+        try {  
+             myPic = WordUtil.getImageString("D://doc//20190218155218.jpg");  
+        } catch (IOException e) {  
+            // TODO Auto-generated catch block  
+            e.printStackTrace();  
+        }  
+         
+        dataMap.put("showPicture", myPic);  
 		// 文件名称
 		String fileName = System.currentTimeMillis()+".doc";
 
