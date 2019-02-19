@@ -25,7 +25,7 @@ import org.springframework.web.client.RestTemplate;
 @EnableEurekaClient
 @ServletComponentScan
 @EnableAutoConfiguration(exclude = DataSourceAutoConfiguration.class)
-@ComponentScan({"com.pcitc.web.feign", "com.pcitc.web.controller", "com.pcitc.web.common", "com.pcitc.web.config", "com.pcitc.web.activiti", "com.pcitc.web.socket","com.pcitc.web.interceptor","com.pcitc.web.utils"})
+@ComponentScan({"com.pcitc.web.feign", "com.pcitc.web.controller", "com.pcitc.web.online", "com.pcitc.web.common", "com.pcitc.web.config", "com.pcitc.web.activiti", "com.pcitc.web.socket","com.pcitc.web.interceptor","com.pcitc.web.utils"})
 @SpringBootApplication
 public class PplusApplication extends SpringBootServletInitializer {
 

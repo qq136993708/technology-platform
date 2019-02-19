@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class SimTextUtil {
-    @Value("${uploaderPathTemp}")
+    @Value("${onlineFilePath}")
     String fileDir;
     @Autowired
     DownloadUtils downloadUtils;
