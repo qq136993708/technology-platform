@@ -25,7 +25,7 @@ public class OfficeFilePreviewImpl implements FilePreview {
     @Autowired
     FileUtils fileUtils;
 
-    @Value("${uploaderPathTemp}")
+    @Value("${onlineFilePath}")
     String fileDir;
 
     @Autowired

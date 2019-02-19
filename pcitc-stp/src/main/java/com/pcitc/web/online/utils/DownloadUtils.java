@@ -13,7 +13,7 @@ import java.util.UUID;
 @Component
 public class DownloadUtils {
 
-    @Value("${uploaderPathTemp}")
+    @Value("${onlineFilePath}")
     String fileDir;
 
     /**
