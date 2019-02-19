@@ -20,7 +20,8 @@
             <thead>
             <tr>
                 <th lay-data="{field:'no',width: '10%', align:'center'}" rowspan="2">序号</th>
-                <th lay-data="{field:'displayName', width: '45%'}" rowspan="2">承担单位</th>
+                <th lay-data="{field:'dataVersion', width: '15%'}" rowspan="2">预算版本</th>
+                <th lay-data="{field:'displayName', width: '30%'}" rowspan="2">承担单位</th>
                 <th lay-data="{align:'center'}", colspan="3">2019年预算</th>
             </tr>
             <tr>
@@ -32,11 +33,12 @@
         </table>
     </div>
     <div class="bottom-table-box">
-        <table id="historyItemTable" class="layui-table" lay-filter="tableData" lay-data="{height: '350',limit:100}">
+        <table id="historyItemTable" class="layui-table" lay-filter="tableData" lay-data="{height: '250',limit:100}">
             <thead>
             <tr>
                 <th lay-data="{field:'nd', width: '10%', align:'center'}" rowspan="2">年度</th>
-                <th lay-data="{field:'displayName', width: '45%'}" rowspan="2">承担单位</th>
+                <th lay-data="{field:'dataVersion', width: '15%'}" rowspan="2">预算版本</th>
+                <th lay-data="{field:'displayName', width: '30%'}" rowspan="2">承担单位</th>
                 <th lay-data="{align:'center'}", colspan="3">历年预算</th>
             </tr>
             <tr>

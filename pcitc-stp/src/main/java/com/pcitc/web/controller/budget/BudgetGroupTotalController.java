@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSON;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
+import com.pcitc.base.common.enums.BudgetAuditStatusEnum;
 import com.pcitc.base.stp.budget.BudgetGroupTotal;
 import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.util.DateUtil;
@@ -215,7 +216,7 @@ public class BudgetGroupTotalController extends BaseController {
 	{
 		System.out.println(JSON.toJSONString(info));
 		info.setUpdateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
-		info.setAuditStatus(1);//审批状态
+		info.setAuditStatus(BudgetAuditStatusEnum.AUDIT_STATUS_START.getCode());//审批状态开始
 		ResponseEntity<Integer> infors = this.restTemplate.exchange(BUDGET_INFO_UPDATE, HttpMethod.POST, new HttpEntity<Object>(info, this.httpHeaders), Integer.class);
 		
 		if (infors.getBody() >= 0) {
