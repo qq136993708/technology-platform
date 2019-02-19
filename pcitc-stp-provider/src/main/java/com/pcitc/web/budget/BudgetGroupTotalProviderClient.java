@@ -205,7 +205,7 @@ public class BudgetGroupTotalProviderClient
 	}
 	@ApiOperation(value="集团公司预算-检索年度预算项详情",notes="检索预算项包括子项详情")
 	@RequestMapping(value = "/stp-provider/budget/get-grouptotal-item/{itemId}", method = RequestMethod.POST)
-	public Object selectBudgetGroupTotalInfo(@PathVariable("itemId") String itemId) 
+	public Object selectBudgetGroupTotalItem(@PathVariable("itemId") String itemId) 
 	{
 		logger.info("budget-select-grouptotal...");
 		Map<String,Object> map = new HashMap<String,Object>();
@@ -217,6 +217,7 @@ public class BudgetGroupTotalProviderClient
 				List<BudgetGroupTotal> childGroups = budgetGroupTotalService.selectChildBudgetGroupTotal(itemId);
 				map  = MyBeanUtils.transBean2Map(groupTotal);
 				map.put("groups", childGroups);
+				map.put("total", new Double(map.get("zxjf").toString())+new Double(map.get("xmjf").toString()));
 				System.out.println(JSON.toJSONString(map));
 			}
 		}
@@ -361,6 +362,26 @@ public class BudgetGroupTotalProviderClient
 		}
 		return rs;
 	}
-	
+	@ApiOperation(value="集团公司预算-检索年度预算项历史数据",notes="检索预算项历史数据列表不包括子项")
+	@RequestMapping(value = "/stp-provider/budget/search-grouptotal-history-items", method = RequestMethod.POST)
+	public Object selectBudgetGroupTotalItemHistory(@RequestBody BudgetGroupTotal item) 
+	{
+		List<Map<String,Object>> rsmap = new ArrayList<Map<String,Object>>();
+		try
+		{
+			List<BudgetGroupTotal> rs = budgetGroupTotalService.selectGroupTotalHistoryItems(item);
+			for(BudgetGroupTotal total:rs) {
+				Map<String,Object> map  = MyBeanUtils.transBean2Map(total);
+				map.put("total", new Double(map.get("zxjf").toString())+new Double(map.get("xmjf").toString()));
+				rsmap.add(map);
+			}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		System.out.println(JSON.toJSONString(rsmap));
+		return rsmap;
+	}
 	
 }

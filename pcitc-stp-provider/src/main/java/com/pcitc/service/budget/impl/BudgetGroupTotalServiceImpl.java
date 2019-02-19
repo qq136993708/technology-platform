@@ -171,4 +171,18 @@ public class BudgetGroupTotalServiceImpl implements BudgetGroupTotalService
 		return units;
 	}
 
+	@Override
+	public List<BudgetGroupTotal> selectGroupTotalHistoryItems(BudgetGroupTotal item) {
+		
+		
+		BudgetGroupTotalExample example = new BudgetGroupTotalExample();
+		BudgetGroupTotalExample.Criteria c = example.createCriteria();
+		c.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
+		c.andNdNotEqualTo(item.getNd());
+		c.andDisplayNameEqualTo(item.getDisplayName());
+		c.andLevelEqualTo(0);//只显示第1级
+		//example.setOrderByClause("nd");
+		return budgetGroupTotalMapper.selectByExample(example);
+	}
+
 }
