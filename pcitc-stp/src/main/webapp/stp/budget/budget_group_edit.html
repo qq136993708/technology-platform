@@ -257,11 +257,11 @@
         form.on('submit(saveEvent)', function(data){
             var formData = JSON.stringify(data.field);
             console.log("表单数据："+formData + '\n' +"表格数据:" + getTableData());
+            //保存预算项目
             publicMethods.ajaxPost('/budget/save-grouptotal-item', data.field, function (data, status) {
                 if (data.success) {
                 	parent.initDataVersion("${budgetInfoId}");
-                	
-                	//保存子项
+                	//保存预算项目子项
                 	publicMethods.ajaxPost('/budget/save-grouptotal-childitems', {"items":JSON.stringify(viewObj.tbData),"item":JSON.stringify(parentInfo)}, function (dt, status) {
                 		var index = parent.layer.getFrameIndex(window.name);
     			       	parent.layer.close(index);

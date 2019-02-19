@@ -41,9 +41,9 @@
                     <i class="layui-icon layui-icon-date"></i>
                 </label>
                 <label class="selectInput" style="margin-left: 20px;">
-                    <span>预算版本号</span>
+                    <span>预算版本</span>
                     <select id="data_version" name="data_version" lay-verify="" lay-filter="test">
-                        <option value="">---请选择版本号---</option>
+                        <option value="">---请选择版本---</option>
                     </select>
                 </label>
             </div>
@@ -81,7 +81,7 @@
                     data-type="saveEvent">保存
             </button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_submit btnMyBgImg"
-                    data-type="deleteEvent">提交
+                    data-type="submitEvent">提交
             </button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_export btnMyBgImg"
                     data-type="exportEvent">导出
@@ -154,20 +154,15 @@
             });
             renderfunc = function removeHeaderCheckbox(){
             	$(".layui-table-header table thead th i").remove();  //移除表头的复选框,去掉全选
-	        	
+	        	//行单击选中事件绑定
 	        	$('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
 	              	  var index=parseInt($(this).index()+1);
 	                  $('tr').removeClass('layui-table-click');
 	                  $(this).addClass('layui-table-click');
 	                  $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
 	                  $(this).find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
-	                  
-	                  
 	            }); 
 	        }
-            
-          
-            
 	        renderfunc();
 			//数据版本选择
             $("#data_version").on("change",function(e){
@@ -215,12 +210,13 @@
             	calculationSurplusMoney();
             });
 			$("#budgetMoney").on("keyup",function(){
+				curent_budget_info.budgetMoney = $("#budgetMoney").val();
 				calculationSurplusMoney();
 			});
           	//初始化数据版本
             function initDataVersion(budget_id){
                 publicMethods.ajaxPost("/budget/budget_group_info_list",{"nd":cu_date}, function (dt) {
-                	$("#data_version").html('<option value="">---请选择版本号---</option>');
+                	$("#data_version").html('<option value="">---请选择版本---</option>');
                 	budget_info_map = {};
                 	$.each(dt,function(index,data){
                 		budget_info_map[data.dataId] = data;
@@ -293,6 +289,60 @@
                         , area: ['60%', '624px']
                         , content: url
                     });
+                },
+                deleteEvent:function(){
+                	var selectIndex = $(".layui-form-checked").parents("tr").attr("data-index");
+                	if(!selectIndex){
+                		parent.layer.alert("请选择需要删除的行", {title : '提示'});
+                		return;
+                	}
+                	layer.confirm('确定要删除吗？',{title:"删除确认"},function(index){
+    					layer.close(index);
+    					publicMethods.ajaxPost("/budget/del-group-item/"+curent_tabel_data[selectIndex].dataId, null, function (data) {
+    	                     if (data.success) {
+    	                    	 curent_tabel_data.splice(selectIndex,1);
+    	                    	 table.reload('dataTable', {data: curent_tabel_data});
+    	                     	 renderfunc();
+    	                     	 calculationSurplusMoney();
+    	                     } else {
+    	                    	 layer.msg('操作异常，请重试!');
+    	                     }
+    	                });
+                	});
+                },
+                saveEvent:function(){
+                	if($("#data_version").val()==""){
+                		parent.layer.alert("请选择需要保存的预算版本", {title : '提示'});
+                		return;
+                	}                
+   					publicMethods.ajaxPost("/budget/save-grouptotal-items", {"info":JSON.stringify(curent_budget_info),"items":JSON.stringify(curent_tabel_data)}, function (data) {
+   	                     if (data.success) {    	                    	
+   	                    	 layer.msg('保存成功!');
+   	                     } else {
+   	                    	 layer.msg('操作异常，请重试!');
+   	                     }
+   	                });                	
+                },submitEvent:function(){
+                	if($("#data_version").val()==""){
+                		parent.layer.alert("请选择需要提交的预算版本", {title : '提示'});
+                		return;
+                	}  
+                	layer.confirm('提交后将不可再编辑！确定要提交审批吗？',{title:"提交确认"},function(index){
+    					layer.close(index);
+    					publicMethods.ajaxPost("/budget/submit-grouptotal", curent_budget_info, function (data) {
+    	                     if (data.success) {
+    	                    	 layer.msg('提交成功!');
+    	                     } else {
+    	                    	 layer.msg('操作异常，请重试!');
+    	                     }
+    	                });
+                	});
+                },exportEvent:function(){
+                	if($("#data_version").val()==""){
+                		parent.layer.alert("请选择需要导出的预算版本", {title : '提示'});
+                		return;
+                	} 
+                	window.open("/budget/budget_download/grouptotal/"+curent_budget_info.dataId);
                 }
             }
         })
