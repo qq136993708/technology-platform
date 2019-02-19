@@ -1,5 +1,6 @@
 package com.pcitc.web.budget;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -45,7 +46,7 @@ public class BudgetGroupTotalProviderClient
 	@Autowired
 	private BudgetInfoService budgetInfoService;
 	
-	@ApiOperation(value="预算管理-预算列表",notes="按年检索年度集团预算表信息。")
+	@ApiOperation(value="集团公司预算-预算列表",notes="按年检索年度集团预算表信息。")
 	@RequestMapping(value = "/stp-provider/budget/budget-grouptotal-info-list", method = RequestMethod.POST)
 	public Object selectBudgetGroupTotalInfoList(@RequestBody BudgetInfo info) 
 	{
@@ -64,7 +65,7 @@ public class BudgetGroupTotalProviderClient
 		}
 		return data;
 	}
-	@ApiOperation(value="预算管理-预算列表",notes="按年检索年度集团预算表信息。")
+	@ApiOperation(value="集团公司预算-预算列表",notes="按年检索年度集团预算表信息。")
 	@RequestMapping(value = "/stp-provider/budget/budget-grouptotal-info-table", method = RequestMethod.POST)
 	public Object selectBudgetGroupTotalInfoTable(@RequestBody LayuiTableParam param) 
 	{
@@ -120,7 +121,7 @@ public class BudgetGroupTotalProviderClient
 		}
 		return rs;
 	}
-	@ApiOperation(value="预算管理-创建集团年度预算表",notes="创建集团年度预算空白表")
+	@ApiOperation(value="集团公司预算-创建集团年度预算表",notes="创建集团年度预算空白表")
 	@RequestMapping(value = "/stp-provider/budget/budget-create-blank-grouptotal", method = RequestMethod.POST)
 	public Object createOrUpdateBudgetInfo(@RequestBody BudgetInfo info) 
 	{
@@ -138,7 +139,7 @@ public class BudgetGroupTotalProviderClient
 		}
 		return rsbean;
 	}
-	@ApiOperation(value="预算管理-创建集团年度预算表",notes="根据模板创建集团年度预算表")
+	@ApiOperation(value="集团公司预算-创建集团年度预算表",notes="根据模板创建集团年度预算表")
 	@RequestMapping(value = "/stp-provider/budget/budget-create-template-grouptotal", method = RequestMethod.POST)
 	public Object createOrUpdateBudgetInfoByHis(@RequestBody BudgetInfo info) 
 	{
@@ -183,7 +184,7 @@ public class BudgetGroupTotalProviderClient
 		}
 		return newInfo;
 	}
-	@ApiOperation(value="预算管理-创建集团年度预算表",notes="删除集团年度预算表")
+	@ApiOperation(value="集团公司预算-创建集团年度预算表",notes="删除集团年度预算表")
 	@RequestMapping(value = "/stp-provider/budget/budget-grouptotal-del", method = RequestMethod.POST)
 	public Object deleteBudgetGroupTotalInfo(@RequestBody BudgetInfo info) 
 	{
@@ -202,7 +203,7 @@ public class BudgetGroupTotalProviderClient
 		}
 		return rs;
 	}
-	@ApiOperation(value="预算管理-检索年度预算项详情",notes="检索预算项包括子项详情")
+	@ApiOperation(value="集团公司预算-检索年度预算项详情",notes="检索预算项包括子项详情")
 	@RequestMapping(value = "/stp-provider/budget/get-grouptotal-item/{itemId}", method = RequestMethod.POST)
 	public Object selectBudgetGroupTotalInfo(@PathVariable("itemId") String itemId) 
 	{
@@ -225,7 +226,7 @@ public class BudgetGroupTotalProviderClient
 		}
 		return map;
 	}
-	@ApiOperation(value="预算管理-保存年度预算项详情",notes="保存预算项包括子项详情")
+	@ApiOperation(value="集团公司预算-保存年度预算项详情",notes="保存预算项包括子项详情")
 	@RequestMapping(value = "/stp-provider/budget/save-grouptotal-item", method = RequestMethod.POST)
 	public Object saveBudgetGroupTotalInfo(@RequestBody BudgetGroupTotal item) 
 	{
@@ -256,7 +257,33 @@ public class BudgetGroupTotalProviderClient
 		}
 		return rs;
 	}
-	@ApiOperation(value="预算管理-保存年度预算项详情",notes="保存预算项包括子项详情")
+	@ApiOperation(value="集团公司预算-保存年度预算项详情",notes="保存预算项不包括子项")
+	@RequestMapping(value = "/stp-provider/budget/save-grouptotal-items", method = RequestMethod.POST)
+	public Object saveBudgetGroupTotalItems(@RequestBody List<BudgetGroupTotal> items) 
+	{
+		logger.info("budget-save-grouptotal-items...");
+		Integer rs = 0;
+		try
+		{
+			Map<String,BudgetGroupTotal> map = new HashMap<String,BudgetGroupTotal>();
+			for(BudgetGroupTotal item:items) {
+				map.put(item.getDataId(), item);
+			}
+			List<BudgetGroupTotal> totals = budgetGroupTotalService.selectBudgetGroupTotalListByIds(new ArrayList<String>(map.keySet()));
+			for(BudgetGroupTotal total:totals) {
+				BudgetGroupTotal maptotal = map.get(total.getDataId());
+				if(!JSON.toJSONString(maptotal).equals(JSON.toJSONString(total))) {
+					rs += budgetGroupTotalService.updateBudgetGroupTotal(maptotal);
+				}
+			}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return rs;
+	}
+	@ApiOperation(value="集团公司预算-保存年度预算项详情",notes="保存预算项包括子项详情")
 	@RequestMapping(value = "/stp-provider/budget/save-grouptotal-childitems", method = RequestMethod.POST)
 	public Object saveBudgetGroupTotalChildItems(@RequestBody HashMap<String,Object> map) 
 	{
@@ -294,7 +321,7 @@ public class BudgetGroupTotalProviderClient
 		}
 		return rs;
 	}
-	@ApiOperation(value="预算管理-检索集团公司",notes="检索集团公司列表")
+	@ApiOperation(value="集团公司预算-检索集团公司",notes="检索集团公司列表")
 	@RequestMapping(value = "/stp-provider/budget/search-group-company-items", method = RequestMethod.POST)
 	public Object selectBudgetGroupItems() 
 	{
@@ -310,7 +337,7 @@ public class BudgetGroupTotalProviderClient
 		}
 		return units;
 	}
-	@ApiOperation(value="预算管理-检索年度预算项详情",notes="检索预算项包括子项详情")
+	@ApiOperation(value="集团公司预算-检索年度预算项详情",notes="检索预算项包括子项详情")
 	@RequestMapping(value = "/stp-provider/budget/del-grouptotal-item/{dataId}", method = RequestMethod.POST)
 	public Object deleteBudgetGroupTotalInfo(@PathVariable("dataId") String dataId) 
 	{
