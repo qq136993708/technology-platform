@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pcitc.mapper.equipment.SreProjectSetupMapper" >
+  <resultMap id="BaseResultMap" type="com.pcitc.base.stp.equipment.SreProjectSetup" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="project_id" property="projectId" jdbcType="VARCHAR" />
+    <result column="reasons_setup" property="reasonsSetup" jdbcType="VARCHAR" />
+    <result column="scale_process_table" property="scaleProcessTable" jdbcType="VARCHAR" />
+    <result column="field_project" property="fieldProject" jdbcType="VARCHAR" />
+    <result column="plan_progress" property="planProgress" jdbcType="VARCHAR" />
+    <result column="benefit" property="benefit" jdbcType="VARCHAR" />
+    <result column="capital_fund_table" property="capitalFundTable" jdbcType="VARCHAR" />
+    <result column="project_funds_table" property="projectFundsTable" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="cover" property="cover" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, project_id, reasons_setup, scale_process_table, field_project, plan_progress, 
+    benefit, capital_fund_table, project_funds_table, create_time, cover
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.pcitc.base.stp.equipment.SreProjectSetupExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from sre_project_setup
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sre_project_setup
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sre_project_setup
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.pcitc.base.stp.equipment.SreProjectSetupExample" >
+    delete from sre_project_setup
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.pcitc.base.stp.equipment.SreProjectSetup" >
+    insert into sre_project_setup (id, project_id, reasons_setup, 
+      scale_process_table, field_project, plan_progress, 
+      benefit, capital_fund_table, project_funds_table, 
+      create_time, cover)
+    values (#{id,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR}, #{reasonsSetup,jdbcType=VARCHAR}, 
+      #{scaleProcessTable,jdbcType=VARCHAR}, #{fieldProject,jdbcType=VARCHAR}, #{planProgress,jdbcType=VARCHAR}, 
+      #{benefit,jdbcType=VARCHAR}, #{capitalFundTable,jdbcType=VARCHAR}, #{projectFundsTable,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{cover,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pcitc.base.stp.equipment.SreProjectSetup" >
+    insert into sre_project_setup
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="projectId != null" >
+        project_id,
+      </if>
+      <if test="reasonsSetup != null" >
+        reasons_setup,
+      </if>
+      <if test="scaleProcessTable != null" >
+        scale_process_table,
+      </if>
+      <if test="fieldProject != null" >
+        field_project,
+      </if>
+      <if test="planProgress != null" >
+        plan_progress,
+      </if>
+      <if test="benefit != null" >
+        benefit,
+      </if>
+      <if test="capitalFundTable != null" >
+        capital_fund_table,
+      </if>
+      <if test="projectFundsTable != null" >
+        project_funds_table,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="cover != null" >
+        cover,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null" >
+        #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="reasonsSetup != null" >
+        #{reasonsSetup,jdbcType=VARCHAR},
+      </if>
+      <if test="scaleProcessTable != null" >
+        #{scaleProcessTable,jdbcType=VARCHAR},
+      </if>
+      <if test="fieldProject != null" >
+        #{fieldProject,jdbcType=VARCHAR},
+      </if>
+      <if test="planProgress != null" >
+        #{planProgress,jdbcType=VARCHAR},
+      </if>
+      <if test="benefit != null" >
+        #{benefit,jdbcType=VARCHAR},
+      </if>
+      <if test="capitalFundTable != null" >
+        #{capitalFundTable,jdbcType=VARCHAR},
+      </if>
+      <if test="projectFundsTable != null" >
+        #{projectFundsTable,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cover != null" >
+        #{cover,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.pcitc.base.stp.equipment.SreProjectSetupExample" resultType="java.lang.Integer" >
+    select count(*) from sre_project_setup
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update sre_project_setup
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectId != null" >
+        project_id = #{record.projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reasonsSetup != null" >
+        reasons_setup = #{record.reasonsSetup,jdbcType=VARCHAR},
+      </if>
+      <if test="record.scaleProcessTable != null" >
+        scale_process_table = #{record.scaleProcessTable,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fieldProject != null" >
+        field_project = #{record.fieldProject,jdbcType=VARCHAR},
+      </if>
+      <if test="record.planProgress != null" >
+        plan_progress = #{record.planProgress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.benefit != null" >
+        benefit = #{record.benefit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.capitalFundTable != null" >
+        capital_fund_table = #{record.capitalFundTable,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectFundsTable != null" >
+        project_funds_table = #{record.projectFundsTable,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.cover != null" >
+        cover = #{record.cover,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update sre_project_setup
+    set id = #{record.id,jdbcType=VARCHAR},
+      project_id = #{record.projectId,jdbcType=VARCHAR},
+      reasons_setup = #{record.reasonsSetup,jdbcType=VARCHAR},
+      scale_process_table = #{record.scaleProcessTable,jdbcType=VARCHAR},
+      field_project = #{record.fieldProject,jdbcType=VARCHAR},
+      plan_progress = #{record.planProgress,jdbcType=VARCHAR},
+      benefit = #{record.benefit,jdbcType=VARCHAR},
+      capital_fund_table = #{record.capitalFundTable,jdbcType=VARCHAR},
+      project_funds_table = #{record.projectFundsTable,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      cover = #{record.cover,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.stp.equipment.SreProjectSetup" >
+    update sre_project_setup
+    <set >
+      <if test="projectId != null" >
+        project_id = #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="reasonsSetup != null" >
+        reasons_setup = #{reasonsSetup,jdbcType=VARCHAR},
+      </if>
+      <if test="scaleProcessTable != null" >
+        scale_process_table = #{scaleProcessTable,jdbcType=VARCHAR},
+      </if>
+      <if test="fieldProject != null" >
+        field_project = #{fieldProject,jdbcType=VARCHAR},
+      </if>
+      <if test="planProgress != null" >
+        plan_progress = #{planProgress,jdbcType=VARCHAR},
+      </if>
+      <if test="benefit != null" >
+        benefit = #{benefit,jdbcType=VARCHAR},
+      </if>
+      <if test="capitalFundTable != null" >
+        capital_fund_table = #{capitalFundTable,jdbcType=VARCHAR},
+      </if>
+      <if test="projectFundsTable != null" >
+        project_funds_table = #{projectFundsTable,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cover != null" >
+        cover = #{cover,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.equipment.SreProjectSetup" >
+    update sre_project_setup
+    set project_id = #{projectId,jdbcType=VARCHAR},
+      reasons_setup = #{reasonsSetup,jdbcType=VARCHAR},
+      scale_process_table = #{scaleProcessTable,jdbcType=VARCHAR},
+      field_project = #{fieldProject,jdbcType=VARCHAR},
+      plan_progress = #{planProgress,jdbcType=VARCHAR},
+      benefit = #{benefit,jdbcType=VARCHAR},
+      capital_fund_table = #{capitalFundTable,jdbcType=VARCHAR},
+      project_funds_table = #{projectFundsTable,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      cover = #{cover,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

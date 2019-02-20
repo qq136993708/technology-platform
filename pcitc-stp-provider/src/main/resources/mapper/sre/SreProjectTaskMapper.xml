@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pcitc.mapper.equipment.SreProjectTaskMapper" >
+  <resultMap id="BaseResultMap" type="com.pcitc.base.stp.equipment.SreProjectTask" >
+    <id column="task_id" property="taskId" jdbcType="VARCHAR" />
+    <result column="project_id" property="projectId" jdbcType="VARCHAR" />
+    <result column="create_user_id" property="createUserId" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="task_main_task_content" property="taskMainTaskContent" jdbcType="VARCHAR" />
+    <result column="task_content" property="taskContent" jdbcType="VARCHAR" />
+    <result column="task_assessment_content" property="taskAssessmentContent" jdbcType="VARCHAR" />
+    <result column="task_check_contents" property="taskCheckContents" jdbcType="VARCHAR" />
+    <result column="budget_table" property="budgetTable" jdbcType="VARCHAR" />
+    <result column="funds_sources_table" property="fundsSourcesTable" jdbcType="VARCHAR" />
+    <result column="project_funds_table" property="projectFundsTable" jdbcType="VARCHAR" />
+    <result column="project_notice" property="projectNotice" jdbcType="VARCHAR" />
+    <result column="notes" property="notes" jdbcType="VARCHAR" />
+    <result column="cover" property="cover" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    task_id, project_id, create_user_id, create_date, update_date, task_main_task_content, 
+    task_content, task_assessment_content, task_check_contents, budget_table, funds_sources_table, 
+    project_funds_table, project_notice, notes, cover
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.pcitc.base.stp.equipment.SreProjectTaskExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from sre_project_task
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sre_project_task
+    where task_id = #{taskId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sre_project_task
+    where task_id = #{taskId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.pcitc.base.stp.equipment.SreProjectTaskExample" >
+    delete from sre_project_task
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.pcitc.base.stp.equipment.SreProjectTask" >
+    insert into sre_project_task (task_id, project_id, create_user_id, 
+      create_date, update_date, task_main_task_content, 
+      task_content, task_assessment_content, task_check_contents, 
+      budget_table, funds_sources_table, project_funds_table, 
+      project_notice, notes, cover
+      )
+    values (#{taskId,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR}, #{createUserId,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, #{taskMainTaskContent,jdbcType=VARCHAR}, 
+      #{taskContent,jdbcType=VARCHAR}, #{taskAssessmentContent,jdbcType=VARCHAR}, #{taskCheckContents,jdbcType=VARCHAR}, 
+      #{budgetTable,jdbcType=VARCHAR}, #{fundsSourcesTable,jdbcType=VARCHAR}, #{projectFundsTable,jdbcType=VARCHAR}, 
+      #{projectNotice,jdbcType=VARCHAR}, #{notes,jdbcType=VARCHAR}, #{cover,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.pcitc.base.stp.equipment.SreProjectTask" >
+    insert into sre_project_task
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="taskId != null" >
+        task_id,
+      </if>
+      <if test="projectId != null" >
+        project_id,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="taskMainTaskContent != null" >
+        task_main_task_content,
+      </if>
+      <if test="taskContent != null" >
+        task_content,
+      </if>
+      <if test="taskAssessmentContent != null" >
+        task_assessment_content,
+      </if>
+      <if test="taskCheckContents != null" >
+        task_check_contents,
+      </if>
+      <if test="budgetTable != null" >
+        budget_table,
+      </if>
+      <if test="fundsSourcesTable != null" >
+        funds_sources_table,
+      </if>
+      <if test="projectFundsTable != null" >
+        project_funds_table,
+      </if>
+      <if test="projectNotice != null" >
+        project_notice,
+      </if>
+      <if test="notes != null" >
+        notes,
+      </if>
+      <if test="cover != null" >
+        cover,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="taskId != null" >
+        #{taskId,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null" >
+        #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="taskMainTaskContent != null" >
+        #{taskMainTaskContent,jdbcType=VARCHAR},
+      </if>
+      <if test="taskContent != null" >
+        #{taskContent,jdbcType=VARCHAR},
+      </if>
+      <if test="taskAssessmentContent != null" >
+        #{taskAssessmentContent,jdbcType=VARCHAR},
+      </if>
+      <if test="taskCheckContents != null" >
+        #{taskCheckContents,jdbcType=VARCHAR},
+      </if>
+      <if test="budgetTable != null" >
+        #{budgetTable,jdbcType=VARCHAR},
+      </if>
+      <if test="fundsSourcesTable != null" >
+        #{fundsSourcesTable,jdbcType=VARCHAR},
+      </if>
+      <if test="projectFundsTable != null" >
+        #{projectFundsTable,jdbcType=VARCHAR},
+      </if>
+      <if test="projectNotice != null" >
+        #{projectNotice,jdbcType=VARCHAR},
+      </if>
+      <if test="notes != null" >
+        #{notes,jdbcType=VARCHAR},
+      </if>
+      <if test="cover != null" >
+        #{cover,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.pcitc.base.stp.equipment.SreProjectTaskExample" resultType="java.lang.Integer" >
+    select count(*) from sre_project_task
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update sre_project_task
+    <set >
+      <if test="record.taskId != null" >
+        task_id = #{record.taskId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectId != null" >
+        project_id = #{record.projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createUserId != null" >
+        create_user_id = #{record.createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDate != null" >
+        create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateDate != null" >
+        update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.taskMainTaskContent != null" >
+        task_main_task_content = #{record.taskMainTaskContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.taskContent != null" >
+        task_content = #{record.taskContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.taskAssessmentContent != null" >
+        task_assessment_content = #{record.taskAssessmentContent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.taskCheckContents != null" >
+        task_check_contents = #{record.taskCheckContents,jdbcType=VARCHAR},
+      </if>
+      <if test="record.budgetTable != null" >
+        budget_table = #{record.budgetTable,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fundsSourcesTable != null" >
+        funds_sources_table = #{record.fundsSourcesTable,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectFundsTable != null" >
+        project_funds_table = #{record.projectFundsTable,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectNotice != null" >
+        project_notice = #{record.projectNotice,jdbcType=VARCHAR},
+      </if>
+      <if test="record.notes != null" >
+        notes = #{record.notes,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cover != null" >
+        cover = #{record.cover,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update sre_project_task
+    set task_id = #{record.taskId,jdbcType=VARCHAR},
+      project_id = #{record.projectId,jdbcType=VARCHAR},
+      create_user_id = #{record.createUserId,jdbcType=VARCHAR},
+      create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+      task_main_task_content = #{record.taskMainTaskContent,jdbcType=VARCHAR},
+      task_content = #{record.taskContent,jdbcType=VARCHAR},
+      task_assessment_content = #{record.taskAssessmentContent,jdbcType=VARCHAR},
+      task_check_contents = #{record.taskCheckContents,jdbcType=VARCHAR},
+      budget_table = #{record.budgetTable,jdbcType=VARCHAR},
+      funds_sources_table = #{record.fundsSourcesTable,jdbcType=VARCHAR},
+      project_funds_table = #{record.projectFundsTable,jdbcType=VARCHAR},
+      project_notice = #{record.projectNotice,jdbcType=VARCHAR},
+      notes = #{record.notes,jdbcType=VARCHAR},
+      cover = #{record.cover,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.stp.equipment.SreProjectTask" >
+    update sre_project_task
+    <set >
+      <if test="projectId != null" >
+        project_id = #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="taskMainTaskContent != null" >
+        task_main_task_content = #{taskMainTaskContent,jdbcType=VARCHAR},
+      </if>
+      <if test="taskContent != null" >
+        task_content = #{taskContent,jdbcType=VARCHAR},
+      </if>
+      <if test="taskAssessmentContent != null" >
+        task_assessment_content = #{taskAssessmentContent,jdbcType=VARCHAR},
+      </if>
+      <if test="taskCheckContents != null" >
+        task_check_contents = #{taskCheckContents,jdbcType=VARCHAR},
+      </if>
+      <if test="budgetTable != null" >
+        budget_table = #{budgetTable,jdbcType=VARCHAR},
+      </if>
+      <if test="fundsSourcesTable != null" >
+        funds_sources_table = #{fundsSourcesTable,jdbcType=VARCHAR},
+      </if>
+      <if test="projectFundsTable != null" >
+        project_funds_table = #{projectFundsTable,jdbcType=VARCHAR},
+      </if>
+      <if test="projectNotice != null" >
+        project_notice = #{projectNotice,jdbcType=VARCHAR},
+      </if>
+      <if test="notes != null" >
+        notes = #{notes,jdbcType=VARCHAR},
+      </if>
+      <if test="cover != null" >
+        cover = #{cover,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where task_id = #{taskId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.equipment.SreProjectTask" >
+    update sre_project_task
+    set project_id = #{projectId,jdbcType=VARCHAR},
+      create_user_id = #{createUserId,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      task_main_task_content = #{taskMainTaskContent,jdbcType=VARCHAR},
+      task_content = #{taskContent,jdbcType=VARCHAR},
+      task_assessment_content = #{taskAssessmentContent,jdbcType=VARCHAR},
+      task_check_contents = #{taskCheckContents,jdbcType=VARCHAR},
+      budget_table = #{budgetTable,jdbcType=VARCHAR},
+      funds_sources_table = #{fundsSourcesTable,jdbcType=VARCHAR},
+      project_funds_table = #{projectFundsTable,jdbcType=VARCHAR},
+      project_notice = #{projectNotice,jdbcType=VARCHAR},
+      notes = #{notes,jdbcType=VARCHAR},
+      cover = #{cover,jdbcType=VARCHAR}
+    where task_id = #{taskId,jdbcType=VARCHAR}
+  </update>
+</mapper>

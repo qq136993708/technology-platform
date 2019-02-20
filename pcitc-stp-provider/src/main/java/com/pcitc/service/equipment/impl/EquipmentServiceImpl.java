@@ -2,7 +2,6 @@ package com.pcitc.service.equipment.impl;
 
 import java.util.List;
 
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,16 +13,15 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
-import com.pcitc.base.common.PageResult;
 import com.pcitc.base.stp.equipment.SreEquipment;
 import com.pcitc.base.stp.equipment.SreEquipmentExample;
-import com.pcitc.base.stp.equipment.SreProjectBasic;
-import com.pcitc.base.stp.equipment.SreProjectBasicExample;
+import com.pcitc.base.stp.equipment.SreProject;
+import com.pcitc.base.stp.equipment.SreProjectExample;
 import com.pcitc.base.stp.equipment.SreTechMeeting;
 import com.pcitc.base.stp.equipment.SreTechMeetingExample;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.mapper.equipment.SreEquipmentMapper;
-import com.pcitc.mapper.equipment.SreProjectBasicMapper;
+import com.pcitc.mapper.equipment.SreProjectMapper;
 import com.pcitc.mapper.equipment.SreTechMeetingMapper;
 import com.pcitc.service.equipment.EquipmentService;
 @Service("equipmentService")
@@ -36,7 +34,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 	private SreEquipmentMapper sreEquipmentMapper;
 	
 	@Autowired
-	private SreProjectBasicMapper sreProjectBasicMapper;
+	private SreProjectMapper sreProjectMapper;
 	
 	@Autowired
 	private SreTechMeetingMapper sreTechMeetingMapper;
@@ -83,6 +81,18 @@ public class EquipmentServiceImpl implements EquipmentService {
 		return sreEquipmentMapper.selectByExample(example);
 	}
 	
+	private String getTableParam(LayuiTableParam param,String paramName,String defaultstr)
+	{
+		String resault="";
+		Object object=param.getParam().get(paramName);
+		if(object!=null)
+		{
+			resault=(String)object;
+		}
+		return resault;
+	}
+	
+	
 	public LayuiTableData getEquipmentPage(LayuiTableParam param)throws Exception
 	{
 		
@@ -95,9 +105,11 @@ public class EquipmentServiceImpl implements EquipmentService {
 		int pageNum = pageStart/pageSize + 1;
 		// 1、设置分页信息，包括当前页数和每页显示的总计数
 		PageHelper.startPage(pageNum, pageSize);
-		
-		String name=(String)param.getParam().get("name");
-		String equipmentIds=(String)param.getParam().get("equipmentIds");
+		String name=getTableParam(param,"name","");
+		String equipmentIds=getTableParam(param,"equipmentIds","");//(String)param.getParam().get("equipmentIds");
+		String auditStatus=getTableParam(param,"auditStatus","");//(String)param.getParam().get("auditStatus");
+		String applyDepartName=getTableParam(param,"applyDepartName","");//(String)param.getParam().get("applyDepartName");
+		String applyDepartCode=getTableParam(param,"applyDepartCode","");//(String)param.getParam().get("applyDepartCode");
 		
 		logger.info("================= pageNum: "+pageNum+"pageSize="+pageSize+"name="+name+" equipmentIds"+equipmentIds);
 		SreEquipmentExample example=new SreEquipmentExample();
@@ -108,7 +120,22 @@ public class EquipmentServiceImpl implements EquipmentService {
 			
 			criteria.andNameLike("%"+name+"%");
 		}
-		if(equipmentIds!=null && !equipmentIds.equals(""))
+		if(!applyDepartName.equals(""))
+		{
+			
+			criteria.andApplyDepartNameLike("%"+applyDepartName+"%");
+		}
+		if(!auditStatus.equals(""))
+		{
+			
+			criteria.andAuditStatusEqualTo(auditStatus);
+		}
+		if(!applyDepartCode.equals(""))
+		{
+			
+			criteria.andApplyDepartCodeEqualTo(applyDepartCode);
+		}
+		/*if(equipmentIds!=null && !equipmentIds.equals(""))
 		{
 			
 				List<String> list=CommonUtil.strToList(equipmentIds);
@@ -117,7 +144,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 				{
 					criteria.andEquipmentIdIn(list);
 				}
-		}
+		}*/
 		
 		List<SreEquipment> list = sreEquipmentMapper.selectByExample(example);
 		PageInfo<SreEquipment> pageInfo = new PageInfo<SreEquipment>(list);
@@ -132,36 +159,36 @@ public class EquipmentServiceImpl implements EquipmentService {
 	
 	/**===========================================项目==========================================*/
 
-	public SreProjectBasic selectProjectBasic(String id) throws Exception
+	public SreProject selectProjectBasic(String id) throws Exception
 	{
-		return sreProjectBasicMapper.selectByPrimaryKey(id);
+		return sreProjectMapper.selectByPrimaryKey(id);
 	}
 
-	public Integer updateProjectBasic(SreProjectBasic record)throws Exception
+	public Integer updateProjectBasic(SreProject record)throws Exception
 	{
-		return sreProjectBasicMapper.updateByPrimaryKey(record);
+		return sreProjectMapper.updateByPrimaryKey(record);
 	}
 
 	public int deleteProjectBasic(String id)throws Exception
 	{
-		return sreProjectBasicMapper.deleteByPrimaryKey(id);
+		return sreProjectMapper.deleteByPrimaryKey(id);
 	}
 
-	public Integer insertProjectBasic(SreProjectBasic record)throws Exception
+	public Integer insertProjectBasic(SreProject record)throws Exception
 	{
-		return sreProjectBasicMapper.insert(record);
+		return sreProjectMapper.insert(record);
 	}
 
-	public List<SreProjectBasic> getProjectBasicList(SreProjectBasicExample example)throws Exception
+	public List<SreProject> getProjectBasicList(SreProjectExample example)throws Exception
 	{
-		return sreProjectBasicMapper.selectByExample(example);
+		return sreProjectMapper.selectByExample(example);
 	}
 	public int batchDeleteProjectBasic(List<String> list)throws Exception
 	{
 
-		SreProjectBasicExample example = new SreProjectBasicExample();
+		SreProjectExample example = new SreProjectExample();
 		example.createCriteria().andProjectIdIn(list);
-		return sreProjectBasicMapper.deleteByExample(example);
+		return sreProjectMapper.deleteByExample(example);
 	}
 	
 	
@@ -183,8 +210,8 @@ public class EquipmentServiceImpl implements EquipmentService {
 		String status=(String)param.getParam().get("status");
 		
 		logger.info("================= pageNum: "+pageNum+"pageSize="+pageSize+"name="+name+" equipmentIds"+equipmentIds);
-		SreProjectBasicExample example=new SreProjectBasicExample();
-		SreProjectBasicExample.Criteria criteria = example.createCriteria();
+		SreProjectExample example=new SreProjectExample();
+		SreProjectExample.Criteria criteria = example.createCriteria();
 		example.setOrderByClause(" create_date desc ");
 		if(name!=null && !name.equals(""))
 		{
@@ -192,11 +219,6 @@ public class EquipmentServiceImpl implements EquipmentService {
 			criteria.andNameLike("%"+name+"%");
 		}
 		
-		if(status!=null && !status.equals(""))
-		{
-			
-			criteria.andStatusEqualTo(status);
-		}
 		
 		if(equipmentIds!=null && !equipmentIds.equals(""))
 		{
@@ -208,8 +230,8 @@ public class EquipmentServiceImpl implements EquipmentService {
 				}
 		}
 		
-		List<SreProjectBasic> list = sreProjectBasicMapper.selectByExample(example);
-		PageInfo<SreProjectBasic> pageInfo = new PageInfo<SreProjectBasic>(list);
+		List<SreProject> list = sreProjectMapper.selectByExample(example);
+		PageInfo<SreProject> pageInfo = new PageInfo<SreProject>(list);
 		System.out.println(">>>>>>>>>查询分页结果"+pageInfo.getList().size());
 		
 		LayuiTableData data = new LayuiTableData();

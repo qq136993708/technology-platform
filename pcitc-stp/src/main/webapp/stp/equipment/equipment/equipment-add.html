@@ -32,9 +32,9 @@
 	<form class="layui-form" name="form1" id="form1" action="" method="POST" lay-filter="component-form-group layui-container">
 		<input type="hidden"  name="equipmentId"     id="equipmentId" value="${equipmentId}">
 		<input type="hidden"  name="functionId"      id="functionId"  value=""   >
-		<input type="hidden"  name="userIds"         id="userIds"     value=""   >
-		<input type="hidden"  name="auditStatus"     id="auditStatus" value="0"  >
-		<input type="hidden"  name="type"            id="type"        value="${sreEquipment.type}"  >
+		<input type="hidden"  name="applyDepartCode"         id="applyDepartCode"     value="${applyDepartCode}"   >
+		<input type="hidden"  name="auditStatus"     id="auditStatus" value=""  >
+		<input type="hidden"  name="type"            id="type"        value=""  >
   
       <!-- 行有两个的情况 -->
       <div class="layui-row">
@@ -50,20 +50,20 @@
           <div class="layui-form-item">
             <label for="" class="layui-form-label">装备分类<span class="must-fill">*</span></label>
             <div class="layui-input-block">
-               <input class="layui-input" name="typeName" id="typeName" value="${sreEquipment.typeName}" onclick="chooseType()" readonly="readonly" lay-verify="required"  autocomplete="off" type="text">
+               <input class="layui-input" name="typeName" id="typeName" value="dd" onclick="chooseType()" readonly="readonly" lay-verify="required"  autocomplete="off" type="text">
             </div>
           </div>
         </div>
-        
       </div>
       
       
-       <div class="layui-row">
+      
+        <div class="layui-row">
         <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
           <div class="layui-form-item">
-            <label for="" class="layui-form-label">申报资金(万元)<span class="must-fill">*</span></label>
+            <label for="" class="layui-form-label">申报单价（万元）<span class="must-fill">*</span></label>
             <div class="layui-input-block">
-              <input class="layui-input" name="planMoney" id="planMoney" value="${sreEquipment.planMoney}"  onkeyup="clearNoNum(this)" lay-verify="required"  autocomplete="off" type="text">
+              <input class="layui-input" placeholder="￥" name="unitPrice" id="unitPrice" value="${sreEquipment.unitPrice}"  lay-verify="required"  autocomplete="off" type="text" onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')">
             </div>
           </div>
         </div>
@@ -71,37 +71,41 @@
           <div class="layui-form-item">
             <label for="" class="layui-form-label">申请数量<span class="must-fill">*</span></label>
             <div class="layui-input-block">
-               <input class="layui-input" name="applyAcount" id="applyAcount" value="${sreEquipment.applyAcount}"   lay-verify="required"  autocomplete="off" type="text">
+               <input class="layui-input" name="applyAcount" id="applyAcount" value="${sreEquipment.applyAcount}"   lay-verify="required"  autocomplete="off" type="text"  onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
             </div>
           </div>
         </div>
       </div>
       
+      
        <div class="layui-row">
         <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
           <div class="layui-form-item">
-            <label for="" class="layui-form-label">规格型号<span class="must-fill">*</span></label>
+            <label for="" class="layui-form-label">规格型号、参数<span class="must-fill">*</span></label>
             <div class="layui-input-block">
-              <input class="layui-input" name="typeModel" id="typeModel" value="${sreEquipment.typeModel}"   lay-verify="required"  autocomplete="off" type="text">
+              <input class="layui-input"  name="specification" id="specification" value="${sreEquipment.specification}"   lay-verify="required"  autocomplete="off" type="text" >
             </div>
           </div>
         </div>
         <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
           <div class="layui-form-item">
-            <label for="" class="layui-form-label"> 产地</label>
+            <label for="" class="layui-form-label">产地</label>
             <div class="layui-input-block">
-              <input class="layui-input" name="typeModel" id="typeModel" value="${sreEquipment.typeModel}"   lay-verify="required"  autocomplete="off" type="text">
+               <input class="layui-input" name="originPlace" id="originPlace"  value="${sreEquipment.originPlace}"    autocomplete="off" type="text">
             </div>
           </div>
         </div>
       </div>
+      
+      
+      
       
        <div class="layui-row">
         <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
           <div class="layui-form-item">
             <label for="" class="layui-form-label">推荐供应商</label>
             <div class="layui-input-block">
-              <input class="layui-input" name="typeModel" id="typeModel" value="${sreEquipment.typeModel}"   lay-verify="required"  autocomplete="off" type="text">
+              <input class="layui-input" name="supplierName" id="supplierName" value="${sreEquipment.supplierName}"     autocomplete="off" type="text">
             </div>
           </div>
         </div>
@@ -109,7 +113,7 @@
           <div class="layui-form-item">
             <label for="" class="layui-form-label">供应商联系人</label>
             <div class="layui-input-block">
-              <input class="layui-input" name="typeModel" id="typeModel" value="${sreEquipment.typeModel}"   lay-verify="required"  autocomplete="off" type="text">
+              <input class="layui-input" name="supplierLinkMan" id="supplierLinkMan" value="${sreEquipment.supplierLinkMan}"     autocomplete="off" type="text">
             </div>
           </div>
         </div>
@@ -120,7 +124,7 @@
           <div class="layui-form-item">
             <label for="" class="layui-form-label">供应商电话及Email</label>
             <div class="layui-input-block">
-              <input class="layui-input" name="typeModel" id="typeModel" value="${sreEquipment.typeModel}"   lay-verify="required"  autocomplete="off" type="text">
+              <input class="layui-input" name="supplierMobileEmail" id="supplierMobileEmail" value="${sreEquipment.supplierMobileEmail}"     autocomplete="off" type="text">
             </div>
           </div>
         </div>
@@ -128,19 +132,13 @@
       
        <!-- 文本域 -->
       <div class="layui-form-item layui-form-text" >
-        <label class="layui-form-label">主要功能与用途</label>
+        <label class="layui-form-label">主要功能与用途<span class="must-fill">*</span></label>
         <div class="layui-input-block">
-          <textarea placeholder="请输入内容" name="notes" id="notes" lay-verify="required"   class="layui-textarea">${sreEquipment.notes}</textarea>
+          <textarea placeholder="请输入内容" name="specialNotes" id="specialNotes" lay-verify="required"   class="layui-textarea">${sreEquipment.specialNotes}</textarea>
         </div>
       </div>
       
-      <!-- 文本域 -->
-      <div class="layui-form-item layui-form-text" >
-        <label class="layui-form-label">备注</label>
-        <div class="layui-input-block">
-          <textarea placeholder="请输入备注" name="specialNotes" id="specialNotes" lay-verify="required"   class="layui-textarea">${sreEquipment.specialNotes}</textarea>
-        </div>
-      </div>
+    
       
       
       
@@ -149,7 +147,7 @@
           <div class="layui-form-item">
             <label for="" class="layui-form-label">申报单位<span class="must-fill">*</span></label>
             <div class="layui-input-block">
-              <input class="layui-input" name="planMoney" id="planMoney" value=""  onkeyup="clearNoNum(this)" lay-verify="required"  autocomplete="off" type="text">
+              <input class="layui-input" name="applyDepartName" id="applyDepartName" value="${applyDepartName}"   lay-verify="required"  autocomplete="off" type="text">
             </div>
           </div>
         </div>
@@ -157,7 +155,7 @@
           <div class="layui-form-item">
             <label for="" class="layui-form-label">第一申报人<span class="must-fill">*</span></label>
             <div class="layui-input-block">
-               <input class="layui-input" name="applyAcount" id="applyAcount" value=""   lay-verify="required"  autocomplete="off" type="text">
+               <input class="layui-input" name="firstApplyUser" id="firstApplyUser" value="${firstApplyUser}"   lay-verify="required"  autocomplete="off" type="text">
             </div>
           </div>
         </div>
@@ -165,12 +163,31 @@
       
       
       
+       <div class="layui-form-item layui-form-text" >
+        <label class="layui-form-label">专家委员会投票数</label>
+        <div class="layui-input-block">
+         <input class="layui-input" name="voteCount" id="voteCount" value="${sreEquipment.voteCount}"  lay-verify="voteCount"  autocomplete="off" type="text" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+        </div>
+      </div>
+        
+      <!-- 文本域 -->
+      <div class="layui-form-item layui-form-text" >
+        <label class="layui-form-label">备注</label>
+        <div class="layui-input-block">
+          <textarea placeholder="请输入备注" name="notes" id="notes" lay-verify="required"   class="layui-textarea">${sreEquipment.notes}</textarea>
+        </div>
+      </div>
+      
+      
+      
 	  	<div class="form-bottom">
 	  		<div class="form-bottom-btns">
-	    		<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="" lay-filter="save">保存</button>
+	    		<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="sub" lay-filter="sub">保存</button>
           		<button type="button"class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" id="closeBtn">关闭</button>
 	  		</div>
 		</div>
+		
+		
 	</form>
   </div>
 </div>
@@ -216,8 +233,8 @@ layui.config({
               {
                   return '装备名称至少得5个字符啊';
               }
-          },
-          planMoney: [/(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/,'计划金额格试不正确'] 
+          }
+          //planMoney: [/(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/,'计划金额格试不正确'] 
          /*  ,pass: [/(.+){6,12}$/, '密码必须6到12位']
           ,content: function(value){
               layedit.sync(editIndex);
@@ -226,7 +243,7 @@ layui.config({
       
       
       
-    //开始日期
+      //开始日期
       var insStart = laydate.render({
           elem: '#beginYear'
           ,min: 0,type: 'year'
@@ -359,6 +376,7 @@ function chooseType()
 
 function ajaxOpt(url,formName,type,backurl,successMsg,failMsg)
 {
+	
 	 $.ajax({
   	     type:type,
   	     url: url,
