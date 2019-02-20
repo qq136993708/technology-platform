@@ -12,6 +12,17 @@ public enum BudgetAuditStatusEnum {
 		this.code = code;
 		this.desc = desc;
 	}
+	public static BudgetAuditStatusEnum getStatusByCode(Integer code)
+	{
+		for(BudgetAuditStatusEnum v:BudgetAuditStatusEnum.values()) 
+		{
+			if(v.getCode().equals(code)) 
+			{
+				return v;
+			}
+		}
+		return AUDIT_STATUS_NO_START;
+	}
 
 	private Integer code;
 	private String desc;

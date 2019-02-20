@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.fastjson.JSON;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.common.enums.BudgetAuditStatusEnum;
 import com.pcitc.base.common.enums.DelFlagEnum;
 import com.pcitc.base.stp.budget.BudgetGroupTotal;
 import com.pcitc.base.stp.budget.BudgetInfo;
@@ -51,19 +52,23 @@ public class BudgetGroupTotalProviderClient
 	public Object selectBudgetGroupTotalInfoList(@RequestBody BudgetInfo info) 
 	{
 		logger.info("budget-info-list...");
-		List<BudgetInfo> data = null;
+		List<Map<String,Object>> rsdata = new ArrayList<Map<String,Object>>();
 		try
 		{
-			System.out.println(JSON.toJSONString(info.getNd()));
-			data = budgetInfoService.selectBudgetInfoList(info.getNd(),BudgetInfoEnum.GROUP_TOTAL.getCode());
-			System.out.println(JSON.toJSONString(data));
-			return data;
+			
+			List<BudgetInfo> datalist = budgetInfoService.selectBudgetInfoList(info.getNd(),BudgetInfoEnum.GROUP_TOTAL.getCode());
+			System.out.println(JSON.toJSONString(datalist));
+			for(BudgetInfo dt:datalist) {
+				Map<String,Object> map = MyBeanUtils.transBean2Map(dt);
+				map.put("auditStatusDesc", BudgetAuditStatusEnum.getStatusByCode(dt.getAuditStatus()).getDesc());
+				rsdata.add(map);
+			}
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
 		}
-		return data;
+		return rsdata;
 	}
 	@ApiOperation(value="集团公司预算-预算列表",notes="按年检索年度集团预算表信息。")
 	@RequestMapping(value = "/stp-provider/budget/budget-grouptotal-info-table", method = RequestMethod.POST)

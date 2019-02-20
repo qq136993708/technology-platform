@@ -36,6 +36,7 @@ import com.pcitc.base.stp.budget.BudgetGroupTotal;
 import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.IdUtil;
+import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.web.common.BaseController;
 /**
  * 集团预算总表
@@ -234,9 +235,10 @@ public class BudgetGroupTotalController extends BaseController {
 		info.setUpdateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
 		info.setAuditStatus(BudgetAuditStatusEnum.AUDIT_STATUS_START.getCode());//审批状态开始
 		ResponseEntity<Integer> infors = this.restTemplate.exchange(BUDGET_INFO_UPDATE, HttpMethod.POST, new HttpEntity<Object>(info, this.httpHeaders), Integer.class);
-		
 		if (infors.getBody() >= 0) {
-			return new Result(true);
+			Map<String,Object> rsmap = MyBeanUtils.transBean2Map(info);
+			rsmap.put("auditStatusDesc", BudgetAuditStatusEnum.getStatusByCode(info.getAuditStatus()).getDesc());
+			return new Result(true,rsmap);
 		} else {
 			return new Result(false);
 		}

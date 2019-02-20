@@ -76,7 +76,7 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 		c.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
 		c.andNdEqualTo(nd);
 		c.andBudgetTypeEqualTo(budgetType);
-		example.setOrderByClause("update_time DESC");
+		example.setOrderByClause("data_version DESC");
 		return budgetInfoMapper.selectByExample(example);
 	}
 

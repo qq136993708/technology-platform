@@ -134,14 +134,13 @@
     </div>
 
     <script>
+	    var cu_date = "${nd}";
+	    var budget_info_map=null;
+	    var curent_tabel_data = null;//当前表格数据
+	    var curent_budget_info = null;//当前报表
+	    var selectRowData=null;
         layui.use(['jquery', 'table', 'laydate', 'layer','publicMethods'], function () {
-            var $ = layui.jquery, table = layui.table, laydate = layui.laydate, layer = layui.layer,publicMethods=layui.publicMethods;
-            var cu_date = "${nd}";
-            var budget_info_map=null;
-            var curent_tabel_data = null;//当前表格数据
-            var curent_budget_info = null;//当前报表
-            var selectRowData=null;
-            
+            var $ = layui.jquery, table = layui.table, laydate = layui.laydate, layer = layui.layer,publicMethods=layui.publicMethods;   
             laydate.render({
                 elem: '#choose-year'
                 ,value: cu_date
@@ -149,8 +148,7 @@
                 ,done:function (val, date, endDate) {
                 	cu_date = val;
                 	initDataVersion();
-                }
-            
+                }            
             });
             renderfunc = function removeHeaderCheckbox(){
             	$(".layui-table-header table thead th i").remove();  //移除表头的复选框,去掉全选
@@ -166,12 +164,14 @@
 	        renderfunc();
 			//数据版本选择
             $("#data_version").on("change",function(e){
-            	curent_budget_info = budget_info_map[$("#data_version").val()];
+            	curent_budget_info = budget_info_map[$("#data_version").val()];            	
             	if(curent_budget_info){
             		$("#budgetMoney").val(curent_budget_info.budgetMoney);//可分配数
             		$("#creater_name").html(curent_budget_info.createrName);//创建人
             		$("#create_time").html(curent_budget_info.createTime);//创建时间
             		$("#update_time").html(curent_budget_info.updateTime);//最后更新时间
+            		$("#info_status").html(curent_budget_info.auditStatusDesc);//状态
+            		
             		publicMethods.ajaxPost("/budget/budget-grouptotal-items",{page:1,limit:10,param: {"nd":cu_date,"budget_info_id":curent_budget_info.dataId}}, function (data) {
 	                	curent_tabel_data = data.data;
 	                	table.reload('dataTable', {data: data.data});
@@ -334,7 +334,9 @@
                 	layer.confirm('提交后将不可再编辑！确定要提交审批吗？',{title:"提交确认"},function(index){
     					layer.close(index);
     					publicMethods.ajaxPost("/budget/submit-grouptotal", curent_budget_info, function (data) {
-    	                     if (data.success) {
+    	                     if (data.success) {    	                    	 
+    	                    	 budget_info_map[data.data.dataVersion]=data.data; 
+    	                    	 $("#data_version").trigger("change");
     	                    	 layer.msg('提交成功!');
     	                     } else {
     	                    	 layer.msg('操作异常，请重试!');
