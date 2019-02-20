@@ -276,26 +276,16 @@
 			
 			<!--包含二进制的文件不能被处理-->
 			<resource>
-				<directory>src/main/resources</directory>
-				<filtering>true</filtering>
-				<excludes>
-                    <exclude>static/editor-app/**</exclude>
-                    <exclude>tem/**</exclude>
-                </excludes>
-			</resource>
-			<resource>
-				<directory>src/main/resources</directory>
+				<directory>src/main/resources/</directory>
 				<filtering>false</filtering>
 				<includes>
-                    <include>static/editor-app/**</include>
-                    <include>tem/**</include>
-                </includes>
+					<include>**/**</include>
+				</includes>
 			</resource>
-			
 			
 			<resource>
 				<directory>src/main/java/com/sinopec</directory>
-				<filtering>true</filtering>
+				<filtering>false</filtering>
 				<includes>
 					<include>**/**</include>
 				</includes>
