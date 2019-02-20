@@ -30,16 +30,16 @@
     var param = JSON.parse(window.localStorage.getItem("param"));
     var table, selectRowData, workOrderStatus;
     layui.config({
-        base : '../layuiadmin/' //静态资源所在路径
+        base: '../layuiadmin/' //静态资源所在路径
     }).extend({
-        index : 'lib/index' //主入口模块
-    }).use([ 'index','jquery', 'table', 'laypage', 'publicMethods','form'], function () {
+        index: 'lib/index' //主入口模块
+    }).use(['index', 'jquery', 'table', 'laypage', 'publicMethods', 'form'], function () {
         table = layui.table,
             $ = layui.jquery,
             layer = layui.layer,
             publicMethods = layui.publicMethods,
             laypage = layui.laypage;
-        var form=layui.form;
+        var form = layui.form;
         console.log("---------where--------------");
         var cols = [
             {type: 'checkbox', event: 'changeEvents', width: 55},
@@ -53,6 +53,14 @@
                 width: 120
             },
             {
+                field: "sex",
+                title: "性别", event: 'setActive', style: 'cursor: pointer;'
+            },
+            {
+                field: "age",
+                title: "年龄", event: 'setActive', style: 'cursor: pointer;', align: "right"
+            },
+            {
                 field: 'email',
                 title: '邮箱',
                 event: 'setActive',
@@ -60,28 +68,20 @@
                 style: 'cursor: pointer;',
                 width: 150,
             },
-            {field: 'companyName', title: '机构', event: 'setActive', style: 'cursor: pointer;', sort: true,},
-            // {field: 'workOrderType', title: '类型', event: 'setActive', style: 'cursor: pointer;', sort: true,},
             {
-                field: 'expertProfessionalFieldName',
-                title: '行业领域',
-                event: 'setActive',
-                style: 'cursor: pointer;',
-                align: 'center',
-                sort: true,
-            },
-            {field: 'expertProfessinal', title: '职称', event: 'setActive', style: 'cursor: pointer;', sort: true}
-            , {fixed: 'right', title: '查看', toolbar: '#showDetail', width: 150, align: 'center'}
+                field: "mobile",
+                title: "联系方式", event: 'setActive', style: 'cursor: pointer;'
+            }, {fixed: 'right', title: '查看', toolbar: '#showDetail', width: 150, align: 'center'}
         ];
 
         function renderTable() {
             var where = {
                 param: {
-                    "status":"0"
-                    ,"addUserId":"${addUserId}"
+                    "status": "0"
+                    , "addUserId": "${addUserId}"
                 }
             };
-            publicMethods.tableRender('expertTable', 'expertTable', '/expertController/bakTableData', false, cols, where,false, function (res, curr, count) {
+            publicMethods.tableRender('expertTable', 'expertTable', '/expertController/bakTableData', false, cols, where, false, function (res, curr, count) {
                 $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
                     var index = parseInt($(this).index() + 1);
                     $('tr').removeClass('layui-table-click');
@@ -90,6 +90,14 @@
                     $('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
                     selectRowData = res.data[index - 1];
                 });
+                var param = {
+                    data: res.data,//数据
+                    element: ".layui-table-body table",// 当前的表格元素
+                    column: 3,//列数 从0开始
+                    field: "sex",//当前数据的字段
+                    url: "/pageCommon/dic/ROOT_UNIVERSAL_XB"//接口
+                };
+                publicMethods.dataDictionary(param);
             });
         }
 
@@ -136,10 +144,10 @@
             }
         };
         //监听行工具事件
-        table.on('tool(tableEvent)', function(obj){
+        table.on('tool(tableEvent)', function (obj) {
             var data = obj.data;
-            if(obj.event === 'showDetail'){
-				parent.layui.index.openTabsPage("/expertController/expertDetail?expertId="+data.dataId, "专家详情");
+            if (obj.event === 'showDetail') {
+                parent.layui.index.openTabsPage("/expertController/expertDetail?expertId=" + data.dataId, "专家详情");
                 //window.open("/expertController/expertDetail?expertId="+data.id);
             }
         });
