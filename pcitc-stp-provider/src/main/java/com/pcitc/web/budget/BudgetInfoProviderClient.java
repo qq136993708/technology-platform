@@ -127,4 +127,20 @@ public class BudgetInfoProviderClient
 		}
 		return rs;
 	}
+	@ApiOperation(value="预算管理",notes="获得预算详情")
+	@RequestMapping(value = "/stp-provider/budget/budget-info-get/{dataId}", method = RequestMethod.POST)
+	public Object selectBudgetInfo(@PathVariable("dataId") String dataId) 
+	{
+		logger.info("delete-budget-info...");
+		BudgetInfo info = null;
+		try
+		{
+			info = budgetInfoService.selectBudgetInfo(dataId);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return info;
+	}
 }

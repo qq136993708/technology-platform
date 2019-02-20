@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ShedulerClean {
-    @Value("${uploaderPathTemp}")
+    @Value("${onlineFilePath}")
     String fileDir;
 
 //    @Scheduled(cron = "0 0 23 * * ?")   //每晚23点执行一次

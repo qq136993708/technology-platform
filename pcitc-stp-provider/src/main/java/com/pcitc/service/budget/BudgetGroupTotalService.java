@@ -80,4 +80,6 @@ public interface BudgetGroupTotalService
 	 * 查询所有集团单位
 	 */
 	public List<OutUnit> selectJtUnits();
+	
+	public List<BudgetGroupTotal> selectGroupTotalHistoryItems(BudgetGroupTotal item);
 }

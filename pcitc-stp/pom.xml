@@ -253,7 +253,7 @@
 		<!--<artifactId>jackson-module-parameter-names</artifactId> -->
 		<!--</dependency> -->
 
-		<!--文档在线查看-->
+		<!--文档在线查看 -->
 		<dependency>
 			<groupId>net.sourceforge.jchardet</groupId>
 			<artifactId>jchardet</artifactId>
@@ -263,33 +263,44 @@
 
 	<build>
 		<finalName>stp</finalName>
-		
-		<!-- <resources>
+
+		<resources>
 			<resource>
 				<directory>src/main/webapp</directory>
-				注意此次必须要放在此目录下才能被访问到
+				<!--注意此次必须要放在此目录下才能被访问到 -->
 				<targetPath>META-INF/resources</targetPath>
 				<includes>
 					<include>**/**</include>
 				</includes>
 			</resource>
+			
+			<!--包含二进制的文件不能被处理-->
 			<resource>
 				<directory>src/main/resources</directory>
 				<filtering>true</filtering>
-				<includes>
-					<include>**/*</include>
-				</includes>
+				<excludes>
+                    <exclude>static/editor-app/**</exclude>
+                    <exclude>tem/**</exclude>
+                </excludes>
 			</resource>
 			<resource>
-				<directory>src/main/java</directory>
+				<directory>src/main/resources</directory>
+				<filtering>false</filtering>
+				<includes>
+                    <include>static/editor-app/**</include>
+                    <include>tem/**</include>
+                </includes>
+			</resource>
+			
+			
+			<resource>
+				<directory>src/main/java/com/sinopec</directory>
 				<filtering>true</filtering>
 				<includes>
-					<include>**/*.xml</include>
-					<include>**/*.properties</include>
-					<include>**/keystore</include>
+					<include>**/**</include>
 				</includes>
 			</resource>
-		</resources> -->
+		</resources>
 
 		<pluginManagement>
 			<plugins>
