@@ -172,6 +172,12 @@ public class SysFileClient {
         sysFileService.downloadFile(id, request, response);
     }
 
+    @ApiOperation(value = "单文件下载", notes = "根据文件ID下载文件缩略图,返回字节流")
+    @RequestMapping(value = "/sysfile-provider/sysfile/viewPicThumbnail/{id}")
+    public void downloadFileViewPicThumbnail(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        sysFileService.downloadFileViewPicThumbnail(id, request, response);
+    }
+
     @ApiOperation(value = "文件是否存在查询", notes = "根据文件ID查询下载文件,返回状态")
     @RequestMapping(value = "/sysfile-provider/sysfile/showFlag/{id}")
     @ResponseBody

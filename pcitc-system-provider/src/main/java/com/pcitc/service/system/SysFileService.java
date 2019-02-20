@@ -235,6 +235,15 @@ public interface SysFileService {
     public void downloadFile(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws IOException;
 
     /**
+     * 单文件下载缩略图
+     * @param id
+     * @param request
+     * @param response
+     * @throws IOException
+     */
+    public void downloadFileViewPicThumbnail(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws IOException;
+
+    /**
      * 多文件下载
      *
      * @param id
