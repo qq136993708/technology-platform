@@ -26,7 +26,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		try {
-			System.out.println("123--------------"+request.getRequestURI());
+			//System.out.println("123--------------"+request.getRequestURI());
 			// 默认走这个格式，对于form等格式，自己在处理时特殊处理
 			httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);
 			String token = null;
@@ -40,7 +40,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 				}    
 				
 			} else {
-				System.out.println("cookies is not null ");
+				//System.out.println("cookies is not null ");
 				for (Cookie c : cookies) {
 					if ("token".equalsIgnoreCase(c.getName()) && !StringUtils.isBlank(c.getValue())) {
 						token = c.getValue();
@@ -49,7 +49,7 @@ public class TokenInterceptor implements HandlerInterceptor {
 				}
 			}
 			if (token != null) {
-				System.out.println("token is not null ");
+				//System.out.println("token is not null ");
 				httpHeaders.set("Authorization", "Bearer " + token);
 				sysUser = JwtTokenUtil.getUserFromTokenByValue(token);
 				
