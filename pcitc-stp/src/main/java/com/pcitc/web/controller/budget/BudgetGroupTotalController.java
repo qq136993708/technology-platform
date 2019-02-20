@@ -58,7 +58,7 @@ public class BudgetGroupTotalController extends BaseController {
 	private static final String BUDGET_GROUPTOTAL_SAVE_CHILDITEMS = "http://pcitc-zuul/stp-proxy/stp-provider/budget/save-grouptotal-childitems";
 	private static final String BUDGET_GROUPTOTAL_COMPANY_ITEMS = "http://pcitc-zuul/stp-proxy/stp-provider/budget/search-group-company-items";
 	private static final String BUDGET_GROUPTOTAL_HISTORY_ITEMS = "http://pcitc-zuul/stp-proxy/stp-provider/budget/search-grouptotal-history-items";
-	
+	private static final String BUDGET_GROUPTOTAL_FINAL_HISTORY_LIST = "http://pcitc-zuul/stp-proxy/stp-provider/budget/search-grouptotal-final-history-list";
 	
 	private static final String BUDGET_INFO_UPDATE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-info-update";
 	
@@ -67,6 +67,7 @@ public class BudgetGroupTotalController extends BaseController {
 	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_group_page")
 	public Object toBudgetGroupPage(HttpServletRequest request) throws IOException 
 	{
+		request.setAttribute("nd", DateUtil.format(new Date(), DateUtil.FMT_YYYY));
 		return "stp/budget/budget_main_grouptotal";
 	}
 	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_edit_grouptotal")
@@ -75,19 +76,34 @@ public class BudgetGroupTotalController extends BaseController {
 		String dataId = request.getParameter("dataId");
 		request.setAttribute("dataId", dataId==null?IdUtil.createIdByTime():dataId);
 		request.setAttribute("budgetInfoId", request.getParameter("budgetInfoId"));
+		request.setAttribute("nd", DateUtil.format(new Date(), DateUtil.FMT_YYYY));
 		return "stp/budget/budget_edit_grouptotal";
 	}
 	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_create_grouptotal")
 	public Object toBudgetGroupAddPage(HttpServletRequest request) throws IOException 
 	{
+		request.setAttribute("nd", DateUtil.format(new Date(), DateUtil.FMT_YYYY));
 		return "stp/budget/budget_create_grouptotal";
 	}
 	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_history_compare_grouptotal")
 	public Object toBudgetGroupTotalHistoryPage(HttpServletRequest request) throws IOException 
 	{
+		
 		request.setAttribute("dataId", request.getParameter("dataId"));
 		request.setAttribute("budgetInfoId", request.getParameter("budgetInfoId"));
+		request.setAttribute("nd", DateUtil.format(new Date(), DateUtil.FMT_YYYY));
 		return "stp/budget/budget_history_compare_grouptotal";
+	}
+	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_history_view_grouptotal")
+	public Object toBudgetGroupTotalHistoryViews(HttpServletRequest request) throws IOException 
+	{
+		//检索数据
+		ResponseEntity<?> infors = this.restTemplate.exchange(BUDGET_GROUPTOTAL_FINAL_HISTORY_LIST, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), List.class);
+		String budgetInfoId = request.getParameter("budgetInfoId");
+		request.setAttribute("budgetInfoId", budgetInfoId);
+		request.setAttribute("tb_datas", infors.getBody());
+		request.setAttribute("nd", DateUtil.format(new Date(), DateUtil.FMT_YYYY));
+		return "stp/budget/budget_history_view_grouptotal";
 	}
 	
 	@RequestMapping(value = "/budget/budget_group_info_list", method = RequestMethod.POST)
@@ -231,6 +247,14 @@ public class BudgetGroupTotalController extends BaseController {
 	{
 		//System.out.println(JSON.toJSONString(info));
 		ResponseEntity<?> infors = this.restTemplate.exchange(BUDGET_GROUPTOTAL_HISTORY_ITEMS, HttpMethod.POST, new HttpEntity<Object>(info, this.httpHeaders), List.class);
+		return infors.getBody();
+	}
+	@RequestMapping(value = "/budget/search-grouptotal-final-history-list", method = RequestMethod.POST)
+	@ResponseBody
+	public Object searchBudgetGroupTotalFinalHistoryList(HttpServletRequest request) throws IOException 
+	{
+		//System.out.println(JSON.toJSONString(info));
+		ResponseEntity<?> infors = this.restTemplate.exchange(BUDGET_GROUPTOTAL_FINAL_HISTORY_LIST, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), List.class);
 		return infors.getBody();
 	}
 	

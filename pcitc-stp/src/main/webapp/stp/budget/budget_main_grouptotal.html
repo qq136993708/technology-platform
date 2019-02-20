@@ -31,7 +31,7 @@
 <body>
     <div class="headline-box">
         <div class="headline-title" title="集团经费预算总表">
-            2019年集团总部科技经费预算(建议稿)
+            	${nd}年集团总部科技经费预算(建议稿)
         </div>
         <div class="headline-tool">
             <div class="tool-left">
@@ -51,8 +51,8 @@
                 <button class="layui-btn btn-decision active" data-type="createEvent">编制预算</button>
             </div>
             <div class="tool-right">
-                <button class="layui-btn layui-btn-sm btn-decision active" data-type="historyCompare">往年预算参考</button>
-                <button class="layui-btn layui-btn-sm btn-decision">历年参考数据</button>
+                <button class="layui-btn layui-btn-sm btn-decision" data-type="historyCompare">往年预算参考</button>
+                <button class="layui-btn layui-btn-sm btn-decision" data-type="historyView">历年参考数据</button>
             </div>
         </div>
     </div>
@@ -136,7 +136,7 @@
     <script>
         layui.use(['jquery', 'table', 'laydate', 'layer','publicMethods'], function () {
             var $ = layui.jquery, table = layui.table, laydate = layui.laydate, layer = layui.layer,publicMethods=layui.publicMethods;
-            var cu_date = "2018";
+            var cu_date = "${nd}";
             var budget_info_map=null;
             var curent_tabel_data = null;//当前表格数据
             var curent_budget_info = null;//当前报表
@@ -366,6 +366,20 @@
                         , area: ['60%', '500px']
                         , content: url
                     });                	
+                },historyView:function(){                	
+                	var url = '/budget/budget_history_view_grouptotal?budgetInfoId='+curent_budget_info.dataId;
+                   	layer.open({
+                        title: '集团公司经费预算编制管理-历史数据参考'
+                        , skin: 'layui-layer-lan'
+                        , shadeClose: true
+                        , type: 2
+                        , fixed: false
+                        //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                        , maxmin: false
+                        //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                        , area: ['60%', '500px']
+                        , content: url
+                    });         
                 }
             }
         })

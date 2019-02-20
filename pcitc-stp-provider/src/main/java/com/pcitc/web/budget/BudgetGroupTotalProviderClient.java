@@ -383,5 +383,27 @@ public class BudgetGroupTotalProviderClient
 		System.out.println(JSON.toJSONString(rsmap));
 		return rsmap;
 	}
+	@ApiOperation(value="集团公司预算-检索年度预算项历史数据",notes="检索预算项历史数据列表不包括子项")
+	@RequestMapping(value = "/stp-provider/budget/search-grouptotal-final-history-list", method = RequestMethod.POST)
+	public Object selectBudgetGroupFinalHistoryList() 
+	{
+		List<Map<String,Object>> rsmap = new ArrayList<Map<String,Object>>();
+		try
+		{
+			List<BudgetInfo> rs = budgetInfoService.selectFinalBudgetInfoList(BudgetInfoEnum.GROUP_TOTAL.getCode());
+			for(BudgetInfo info:rs) {
+				List<BudgetGroupTotal> totals = budgetGroupTotalService.selectBudgetInfoId(info.getDataId());
+				Map<String,Object> map  = MyBeanUtils.transBean2Map(info);
+				map.put("items", totals);
+				rsmap.add(map);
+			}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		System.out.println(JSON.toJSONString(rsmap));
+		return rsmap;
+	}
 	
 }

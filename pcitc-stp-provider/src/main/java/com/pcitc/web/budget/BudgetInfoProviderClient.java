@@ -50,7 +50,6 @@ public class BudgetInfoProviderClient
 		}
 		return data;
 	}
-
 	@ApiOperation(value="预算管理-预算列表",notes="按年检索年度预算表信息。")
 	@RequestMapping(value = "/stp-provider/budget/budget-info-table", method = RequestMethod.POST)
 	public Object selectBudgetInfoTable(@RequestBody LayuiTableParam param) 
