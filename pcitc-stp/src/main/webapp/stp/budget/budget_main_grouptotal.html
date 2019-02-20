@@ -368,7 +368,11 @@
                         , area: ['60%', '500px']
                         , content: url
                     });                	
-                },historyView:function(){                	
+                },historyView:function(){
+                	if($("#data_version").val()==""){
+                		parent.layer.alert("请选择预算版本", {title : '提示'});
+                		return;
+                	} 
                 	var url = '/budget/budget_history_view_grouptotal?budgetInfoId='+curent_budget_info.dataId;
                    	layer.open({
                         title: '集团公司经费预算编制管理-历史数据参考'
