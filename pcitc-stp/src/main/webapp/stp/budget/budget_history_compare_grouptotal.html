@@ -22,7 +22,7 @@
                 <th lay-data="{field:'no',width: '10%', align:'center'}" rowspan="2">序号</th>
                 <th lay-data="{field:'dataVersion', width: '15%'}" rowspan="2">预算版本</th>
                 <th lay-data="{field:'displayName', width: '30%'}" rowspan="2">承担单位</th>
-                <th lay-data="{align:'center'}", colspan="3">2019年预算</th>
+                <th lay-data="{align:'center'}", colspan="3"><span class="nd">${nd}</span>年预算</th>
             </tr>
             <tr>
                 <th lay-data="{field:'total', align: 'right'}">合计</th>
@@ -74,11 +74,13 @@
             var groupTotalInfo = null;
             //加载预算项
             publicMethods.ajaxPost("/budget/get-grouptotal-item/"+dataId,null, function (data) {
+            	$(".nd").html(data.nd);
             	groupTotalInfo = data;
             	viewObj.itemData.push(groupTotalInfo);
     			table.reload('itemTable',{
                     data:viewObj.itemData
                 });
+    			$(".nd").html("2020");
     			//加载历史
     			publicMethods.ajaxPost("/budget/search-grouptotal-history-items",groupTotalInfo, function (historydata) {
                 	$.each(historydata,function(index,dt){
