@@ -53,7 +53,7 @@ public class ConverterUtils {
 				System.out.println("进程.......-------------"+processString);
 				if (processString.contains("soffice")) {
 					// 关闭soffice进程的命令
-					String[] cmd ={"sh","-c","killall -9 "};
+					String[] cmd ={"sh","-c","kill -9 "};
 					process = Runtime.getRuntime().exec(cmd);
 					System.out.println("openoffice正常关闭.......");
 				}
