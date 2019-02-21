@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.fastjson.JSON;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.common.enums.BudgetAuditStatusEnum;
 import com.pcitc.base.common.enums.DelFlagEnum;
 import com.pcitc.base.stp.budget.BudgetGroupTotal;
 import com.pcitc.base.stp.budget.BudgetInfo;
@@ -51,19 +52,23 @@ public class BudgetGroupTotalProviderClient
 	public Object selectBudgetGroupTotalInfoList(@RequestBody BudgetInfo info) 
 	{
 		logger.info("budget-info-list...");
-		List<BudgetInfo> data = null;
+		List<Map<String,Object>> rsdata = new ArrayList<Map<String,Object>>();
 		try
 		{
-			System.out.println(JSON.toJSONString(info.getNd()));
-			data = budgetInfoService.selectBudgetInfoList(info.getNd(),BudgetInfoEnum.GROUP_TOTAL.getCode());
-			System.out.println(JSON.toJSONString(data));
-			return data;
+			
+			List<BudgetInfo> datalist = budgetInfoService.selectBudgetInfoList(info.getNd(),BudgetInfoEnum.GROUP_TOTAL.getCode());
+			System.out.println(JSON.toJSONString(datalist));
+			for(BudgetInfo dt:datalist) {
+				Map<String,Object> map = MyBeanUtils.transBean2Map(dt);
+				map.put("auditStatusDesc", BudgetAuditStatusEnum.getStatusByCode(dt.getAuditStatus()).getDesc());
+				rsdata.add(map);
+			}
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
 		}
-		return data;
+		return rsdata;
 	}
 	@ApiOperation(value="集团公司预算-预算列表",notes="按年检索年度集团预算表信息。")
 	@RequestMapping(value = "/stp-provider/budget/budget-grouptotal-info-table", method = RequestMethod.POST)
@@ -232,7 +237,7 @@ public class BudgetGroupTotalProviderClient
 	public Object saveBudgetGroupTotalInfo(@RequestBody BudgetGroupTotal item) 
 	{
 		logger.info("budget-save-grouptotal...");
-		Integer rs = 0;
+		BudgetGroupTotal rs = null;
 		try
 		{
 			BudgetInfo info = budgetInfoService.selectBudgetInfo(item.getBudgetInfoId());
@@ -241,7 +246,8 @@ public class BudgetGroupTotalProviderClient
 			if(groupTotal != null) {
 				MyBeanUtils.copyPropertiesIgnoreNull(item, groupTotal);
 				groupTotal.setUpdateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
-				rs += budgetGroupTotalService.updateBudgetGroupTotal(groupTotal);
+				budgetGroupTotalService.updateBudgetGroupTotal(groupTotal);
+				rs = groupTotal;
 			}else {
 				item.setLevel(0);
 				item.setDelFlag(DelFlagEnum.STATUS_NORMAL.getCode());
@@ -249,7 +255,8 @@ public class BudgetGroupTotalProviderClient
 				item.setCreateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
 				item.setUpdateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
 				item.setDataVersion(info.getDataVersion());
-				rs += budgetGroupTotalService.saveOrUpdateBudgetGroupTotal(item);
+				budgetGroupTotalService.saveOrUpdateBudgetGroupTotal(item);
+				rs = item;
 			}
 		}
 		catch (Exception e)
@@ -292,23 +299,29 @@ public class BudgetGroupTotalProviderClient
 		try
 		{
 			BudgetGroupTotal to = JSON.parseObject(map.get("item").toString(), BudgetGroupTotal.class);
-			//原有全部逻辑删除
-			List<BudgetGroupTotal> childlist = budgetGroupTotalService.selectChildBudgetGroupTotal(to.getDataId());
+			//原有全部逻辑删除（包括已删除的）
+			List<BudgetGroupTotal> childlist = budgetGroupTotalService.selectChildBudgetGroupTotalAll(to.getDataId());
 			Map<String,BudgetGroupTotal> oldmap = new HashMap<String,BudgetGroupTotal>();
 			for(BudgetGroupTotal t:childlist){
 				budgetGroupTotalService.deleteBudgetGroupTotal(t.getDataId());
-				oldmap.put(t.getParentDataId()+t.getDisplayName(), t);
+				oldmap.put(t.getDisplayName(), t);
 			}
 			//有则更新，无责保存
 			List<BudgetGroupTotal> totals = JSON.parseArray(map.get("items").toString(), BudgetGroupTotal.class);
 			for(BudgetGroupTotal t:totals){
-				if(oldmap.containsKey(t.getParentDataId()+t.getDisplayName())){
-					MyBeanUtils.copyPropertiesIgnoreNull(t, oldmap.get(t.getDataId()));
-					budgetGroupTotalService.updateBudgetGroupTotal(oldmap.get(t.getDataId()));
+				if(oldmap.containsKey(t.getDisplayName())){
+				
+					BudgetGroupTotal old = oldmap.get(t.getDisplayName());
+					old.setDelFlag(DelFlagEnum.STATUS_NORMAL.getCode());
+					old.setUpdateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
+					old.setXmjf(t.getXmjf());
+					old.setZxjf(t.getZxjf());
+					budgetGroupTotalService.updateBudgetGroupTotal(old);
 				}else{
 					t.setDataId(IdUtil.createIdByTime());
 					t.setDataVersion(to.getDataVersion());
 					t.setNd(to.getNd());
+					t.setLevel(1);
 					t.setCreateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
 					t.setUpdateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
 					t.setDelFlag(DelFlagEnum.STATUS_NORMAL.getCode());
@@ -373,6 +386,28 @@ public class BudgetGroupTotalProviderClient
 			for(BudgetGroupTotal total:rs) {
 				Map<String,Object> map  = MyBeanUtils.transBean2Map(total);
 				map.put("total", new Double(map.get("zxjf").toString())+new Double(map.get("xmjf").toString()));
+				rsmap.add(map);
+			}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		System.out.println(JSON.toJSONString(rsmap));
+		return rsmap;
+	}
+	@ApiOperation(value="集团公司预算-检索年度预算项历史数据",notes="检索预算项历史数据列表不包括子项")
+	@RequestMapping(value = "/stp-provider/budget/search-grouptotal-final-history-list", method = RequestMethod.POST)
+	public Object selectBudgetGroupFinalHistoryList() 
+	{
+		List<Map<String,Object>> rsmap = new ArrayList<Map<String,Object>>();
+		try
+		{
+			List<BudgetInfo> rs = budgetInfoService.selectFinalBudgetInfoList(BudgetInfoEnum.GROUP_TOTAL.getCode());
+			for(BudgetInfo info:rs) {
+				List<BudgetGroupTotal> totals = budgetGroupTotalService.selectBudgetInfoId(info.getDataId());
+				Map<String,Object> map  = MyBeanUtils.transBean2Map(info);
+				map.put("items", totals);
 				rsmap.add(map);
 			}
 		}

@@ -12,11 +12,11 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.common.enums.BudgetAuditStatusEnum;
 import com.pcitc.base.common.enums.DelFlagEnum;
 import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.stp.budget.BudgetInfoExample;
 import com.pcitc.base.util.MyBeanUtils;
-import com.pcitc.common.WorkFlowStatusEnum;
 import com.pcitc.mapper.budget.BudgetInfoMapper;
 import com.pcitc.service.budget.BudgetInfoService;
 
@@ -76,7 +76,7 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 		c.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
 		c.andNdEqualTo(nd);
 		c.andBudgetTypeEqualTo(budgetType);
-		example.setOrderByClause("update_time DESC");
+		example.setOrderByClause("data_version DESC");
 		return budgetInfoMapper.selectByExample(example);
 	}
 
@@ -120,7 +120,7 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 	public BudgetInfo createBlankBudgetInfo(String nd,Integer budgetType)
 	{
 		BudgetInfo params = (BudgetInfo) MyBeanUtils.createDefaultModel(BudgetInfo.class);
-		params.setAuditStatus(WorkFlowStatusEnum.STATUS_WAITING.getCode());
+		params.setAuditStatus(BudgetAuditStatusEnum.AUDIT_STATUS_NO_START.getCode());
 		params.setBudgetType(budgetType);
 		params.setNd(nd);
 		params.setBudgetMoney(Math.floor(new Random().nextDouble()*100000));
@@ -139,6 +139,17 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 		params.setDataVersion("vs-"+nd+"-"+budgetType+"-"+((1001+size)+"").substring(1));
 		budgetInfoMapper.insert(params);
 		return params;
+	}
+
+	@Override
+	public List<BudgetInfo> selectFinalBudgetInfoList(Integer budgetType) throws Exception {
+		BudgetInfoExample example = new BudgetInfoExample();
+		BudgetInfoExample.Criteria c = example.createCriteria();
+		c.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
+		c.andAuditStatusEqualTo(BudgetAuditStatusEnum.AUDIT_STATUS_FINAL.getCode());
+		c.andBudgetTypeEqualTo(budgetType);
+		example.setOrderByClause("nd DESC");
+		return budgetInfoMapper.selectByExample(example);
 	}
 
 }

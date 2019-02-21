@@ -31,7 +31,7 @@
 <body>
     <div class="headline-box">
         <div class="headline-title" title="集团经费预算总表">
-            2019年集团总部科技经费预算(建议稿)
+            	${nd}年集团总部科技经费预算(建议稿)
         </div>
         <div class="headline-tool">
             <div class="tool-left">
@@ -51,8 +51,8 @@
                 <button class="layui-btn btn-decision active" data-type="createEvent">编制预算</button>
             </div>
             <div class="tool-right">
-                <button class="layui-btn layui-btn-sm btn-decision active" data-type="historyCompare">往年预算参考</button>
-                <button class="layui-btn layui-btn-sm btn-decision">历年参考数据</button>
+                <button class="layui-btn layui-btn-sm btn-decision" data-type="historyCompare">往年预算参考</button>
+                <button class="layui-btn layui-btn-sm btn-decision" data-type="historyView">历年参考数据</button>
             </div>
         </div>
     </div>
@@ -97,7 +97,7 @@
                     <th lay-data="{field:'remark', width: '30%'}" rowspan="2">研究方向</th>
                    <!--  <th lay-data="{field:'email', width: '15%'}" rowspan="2">2018年科技经费预算完成</th>
                     <th lay-data="{field:'score', width: '15%'}" rowspan="2">2019年科技经费合同计划金额</th> -->
-                    <th lay-data="{align:'center'}", colspan="3">2019年预算</th>
+                    <th lay-data="{align:'center'}", colspan="3">${nd}年预算</th>
                 </tr>
                 <tr>
                     <th lay-data="{field:'total', width: '10%',align: 'right',totalRow: true}">合计</th>
@@ -126,22 +126,21 @@
         <p>备注及问题:</p>
         <ul>
             <li>1、先填入预分配数，开始分配时，每分配一项对应减少分配数额</li>
-            <li>2、表格编制状态包含：编制中、审核中、初审驳回、初审通过、最终稿 五种状态，审批完成则不可再编辑</li>
-            <li>3、预算按年度编制，编制年度可自定义</li>
+            <li>2、表格编制状态包含：编制中、审批中、初审驳回、审批通过、最终预算（预算可调整） 五种状态，审批完成则不可再编辑</li>
+            <li>3、预算按年度编制，编制年度可自定义，默认编制下一年度</li>
             <li>4、预算表创建时生成一个版本号，版本号规则：vs-年度-三位类别编码-三位顺序号</li>
-            <li>5、历年参照预算数据中的数据为该年最后一次审批通过的版本</li>
+            <li>5、历年参照预算数据中的数据为该年审批通过的预算版本</li>
         </ul>
     </div>
 
     <script>
+	    var cu_date = "${nd}";
+	    var budget_info_map=null;
+	    var curent_tabel_data = null;//当前表格数据
+	    var curent_budget_info = null;//当前报表
+	    var selectRowData=null;
         layui.use(['jquery', 'table', 'laydate', 'layer','publicMethods'], function () {
-            var $ = layui.jquery, table = layui.table, laydate = layui.laydate, layer = layui.layer,publicMethods=layui.publicMethods;
-            var cu_date = "2018";
-            var budget_info_map=null;
-            var curent_tabel_data = null;//当前表格数据
-            var curent_budget_info = null;//当前报表
-            var selectRowData=null;
-            
+            var $ = layui.jquery, table = layui.table, laydate = layui.laydate, layer = layui.layer,publicMethods=layui.publicMethods;   
             laydate.render({
                 elem: '#choose-year'
                 ,value: cu_date
@@ -149,8 +148,7 @@
                 ,done:function (val, date, endDate) {
                 	cu_date = val;
                 	initDataVersion();
-                }
-            
+                }            
             });
             renderfunc = function removeHeaderCheckbox(){
             	$(".layui-table-header table thead th i").remove();  //移除表头的复选框,去掉全选
@@ -166,12 +164,14 @@
 	        renderfunc();
 			//数据版本选择
             $("#data_version").on("change",function(e){
-            	curent_budget_info = budget_info_map[$("#data_version").val()];
+            	curent_budget_info = budget_info_map[$("#data_version").val()];            	
             	if(curent_budget_info){
             		$("#budgetMoney").val(curent_budget_info.budgetMoney);//可分配数
             		$("#creater_name").html(curent_budget_info.createrName);//创建人
             		$("#create_time").html(curent_budget_info.createTime);//创建时间
             		$("#update_time").html(curent_budget_info.updateTime);//最后更新时间
+            		$("#info_status").html(curent_budget_info.auditStatusDesc);//状态
+            		
             		publicMethods.ajaxPost("/budget/budget-grouptotal-items",{page:1,limit:10,param: {"nd":cu_date,"budget_info_id":curent_budget_info.dataId}}, function (data) {
 	                	curent_tabel_data = data.data;
 	                	table.reload('dataTable', {data: data.data});
@@ -334,7 +334,9 @@
                 	layer.confirm('提交后将不可再编辑！确定要提交审批吗？',{title:"提交确认"},function(index){
     					layer.close(index);
     					publicMethods.ajaxPost("/budget/submit-grouptotal", curent_budget_info, function (data) {
-    	                     if (data.success) {
+    	                     if (data.success) {    	                    	 
+    	                    	 budget_info_map[data.data.dataVersion]=data.data; 
+    	                    	 $("#data_version").trigger("change");
     	                    	 layer.msg('提交成功!');
     	                     } else {
     	                    	 layer.msg('操作异常，请重试!');
@@ -366,6 +368,24 @@
                         , area: ['60%', '500px']
                         , content: url
                     });                	
+                },historyView:function(){
+                	if($("#data_version").val()==""){
+                		parent.layer.alert("请选择预算版本", {title : '提示'});
+                		return;
+                	} 
+                	var url = '/budget/budget_history_view_grouptotal?budgetInfoId='+curent_budget_info.dataId;
+                   	layer.open({
+                        title: '集团公司经费预算编制管理-历史数据参考'
+                        , skin: 'layui-layer-lan'
+                        , shadeClose: true
+                        , type: 2
+                        , fixed: false
+                        //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                        , maxmin: false
+                        //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                        , area: ['60%', '500px']
+                        , content: url
+                    });         
                 }
             }
         })
