@@ -45,7 +45,7 @@
             position: absolute;
             top: 28px;
             left: 0;
-            right:0;
+            right: 0;
             margin: 0 auto;
             width: 130px;
             background: #fff;
@@ -63,6 +63,7 @@
             padding-top: 11px;
             border-radius: 6px;
         }
+
         .main-content .expert-t {
             padding-top: 70px;
             text-align: center;
@@ -145,24 +146,65 @@
         .main-e {
             padding: 0 130px;
         }
-        .searchH{height: 168px;overflow: auto;}
-        .search{width: 51%;}
-        .layui-card{box-shadow: none;}
-        .layui-card-header{border: none;text-align: center;font-size: 24px;color: #000;
-            height: 80px;font-weight: normal;}
+
+        .searchH {
+            height: 168px;
+            overflow: auto;
+        }
+
+        .search {
+            width: 51%;
+        }
+
+        .layui-card {
+            box-shadow: none;
+        }
+
+        .layui-card-header {
+            border: none;
+            text-align: center;
+            font-size: 24px;
+            color: #000;
+            height: 80px;
+            font-weight: normal;
+        }
+
         @media screen and (min-width: 1118px) {
-            .main-content,.main-e{ padding: 0 50px;}
-            .searchOption {width: 90.4%;}
-            .search {width: 76.6%;}
+            .main-content, .main-e {
+                padding: 0 50px;
+            }
+
+            .searchOption {
+                width: 90.4%;
+            }
+
+            .search {
+                width: 76.6%;
+            }
         }
+
         @media screen and (min-width: 1287px) {
-            .main-content,.main-e{ padding: 0 130px;}
-            .searchOption {width: 78.18%;}
-            .search {width: 67%;}
+            .main-content, .main-e {
+                padding: 0 130px;
+            }
+
+            .searchOption {
+                width: 78.18%;
+            }
+
+            .search {
+                width: 67%;
+            }
         }
+
         @media screen and (min-width: 1672px) {
-            .searchOption {width: 82.4%;}
-            .search {width: 51%;}
+            .searchOption {
+                width: 82.4%;
+            }
+
+            .search {
+                width: 51%;
+            }
         }
     </style>
 </head>
@@ -254,26 +296,26 @@
 </div>
 </div>
 <!--<div class="layui-row layui-col-space15">-->
-    <!--<div class="layui-col-md12">-->
-        <!--<div class="layui-card">-->
-            <!--<div class="layui-card-header">-->
-                <!--按研究院统计专家数量统计图-->
-            <!--</div>-->
-            <!--<div class="layui-row-main">-->
-                <!--<div class="main-chart" id="four" style="height:250px;width: 100%;"></div>-->
-            <!--</div>-->
-        <!--</div>-->
-    <!--</div>-->
-    <!--<div class="layui-col-md12">-->
-        <!--<div class="layui-card">-->
-            <!--<div class="layui-card-header">-->
-                <!--不同年龄段专家数量统计图-->
-            <!--</div>-->
-            <!--<div class="layui-row-main">-->
-                <!--<div class="main-chart" id="three" style="height:250px;width: 100%;"></div>-->
-            <!--</div>-->
-        <!--</div>-->
-    <!--</div>-->
+<!--<div class="layui-col-md12">-->
+<!--<div class="layui-card">-->
+<!--<div class="layui-card-header">-->
+<!--按研究院统计专家数量统计图-->
+<!--</div>-->
+<!--<div class="layui-row-main">-->
+<!--<div class="main-chart" id="four" style="height:250px;width: 100%;"></div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div class="layui-col-md12">-->
+<!--<div class="layui-card">-->
+<!--<div class="layui-card-header">-->
+<!--不同年龄段专家数量统计图-->
+<!--</div>-->
+<!--<div class="layui-row-main">-->
+<!--<div class="main-chart" id="three" style="height:250px;width: 100%;"></div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
 <!--</div>-->
 </div>
 <!--统计
@@ -330,6 +372,7 @@
     });
 
     //ajax获取专家数据
+    var dataIds = new Array();
     function changeExpert() {
         publicMethods.ajaxPost("/expertController/expertIndexData", null, function (data) {
             var arr = [];
@@ -341,13 +384,15 @@
                     $("#main-content-first").append(tempHtml);
                     tempHtml = "";
                 }
+                var dataId = zjkBaseInfo.dataId;
+                dataIds.push(dataId);
                 var professional = zjkBaseInfo.expertProfessinal;
-                professional =cutString(professional,15);
+                professional = cutString(professional, 15);
                 var userDesc = zjkBaseInfo.userDesc;
-                userDesc = cutString(userDesc,30);
+                userDesc = cutString(userDesc, 30);
                 tempHtml += "            <div class=\"main-expert\">\n" +
                     "                <div class=\"expert-h\"></div>\n" +
-                    "                <div class=\"expert-i\"><img  height='110' src=\"/stp/expert/img/" + zjkBaseInfo.expertName + ".jpg\" alt=\"\"></div>\n" +
+                    "                <div class=\"expert-i\"><img id='"+dataId+"'  height='110' src=\"/stp/expert/img/default.png\" alt=\"\"></div>\n" +
                     "                <!--<div class=\"expert-i\"><img src=\"/layuiadmin/layui/images/expert-img.png\" alt=\"\"></div>-->\n" +
                     "                <div class=\"expert-t\">" + zjkBaseInfo.expertName + "</div>\n" +
                     "                <div class=\"expert-s\">" + professional + "</div>\n" +
@@ -362,13 +407,74 @@
             });
             $("#main-content-end").append(tempHtml);
         });
+        loadImg();
+    }
+    
+    function loadImg() {
+        for (let i = 0; i < dataIds.length; i++) {
+            var imgBase = photoContent(dataIds[i]);
+            if(imgBase!=""){
+                $("#"+dataIds[i]).attr("src", imgBase);
+            }
+        }
     }
 
+    function photoContent(picId) {
+        var ret = getFileResult(picId);
+        if (ret != null && ret.list.length > 0) {
+            picId = ret.list[0].id;
+        }else{
+            return "";
+        }
+        var base64 = "";
+        $.ajax({
+            type: 'get',
+            dataType: 'text',
+            async: false,
+            url: '/sysfile/viewPicThumbnail/' + picId,
+            success: function (data) {
+                base64 = data;
+            },
+            error: function (e) {
+                alert("出错了");
+            }
+        });
+        return base64;
+    }
+    function getFileResult(fileIds) {
+        var ret = null;
+        ajaxFile("/sysfile/getFilesLayuiByFormId", {fileIds: fileIds}, function (result) {
+            ret = result;
+        });
+        return ret;
+    }
+    function ajaxFile(url, data, callback) {
+        var result = null;
+        jQuery.ajax({
+            type: 'post',
+            async: false,
+            url: url,
+            data: data,
+            dataType: 'json',
+            success: function (data, status) {
+                result = data;
+                if (callback) {
+                    callback.call(this, data, status);
+                }
+            },
+            error: function (err, err1, err2) {
+                console.log("ajaxPost发生异常，请仔细检查请求url是否正确");
+            }
+        });
+        return result;
+    }
     function cutString(str, len) {
 
         //length属性读出来的汉字长度为1
-
-        if(str.length*2 <= len) {
+        if (str == null) {
+            return "              ";
+        }
+        if (str.length * 2 <= len) {
 
             return str;
 
@@ -378,7 +484,7 @@
 
         var s = "";
 
-        for(var i = 0;i < str.length; i++) {
+        for (var i = 0; i < str.length; i++) {
 
             s = s + str.charAt(i);
 
@@ -386,9 +492,9 @@
 
                 strlen = strlen + 2;
 
-                if(strlen >= len){
+                if (strlen >= len) {
 
-                    return s.substring(0,s.length-1) + "...";
+                    return s.substring(0, s.length - 1) + "...";
 
                 }
 
@@ -396,9 +502,9 @@
 
                 strlen = strlen + 1;
 
-                if(strlen >= len){
+                if (strlen >= len) {
 
-                    return s.substring(0,s.length-2) + "...";
+                    return s.substring(0, s.length - 2) + "...";
 
                 }
 
@@ -469,9 +575,9 @@
         var three = load_single_bar(three, "three", "", "", yAxis, colorNew, 20);
 
         var four = "/expertController/picIndex?id=6&type=bar";
-        var color = ["#c23531","#2f4554","#61a0a8","#d48265","#91c7ae","#749f83","#ca8622","#bda29a"];
+        var color = ["#c23531", "#2f4554", "#61a0a8", "#d48265", "#91c7ae", "#749f83", "#ca8622", "#bda29a"];
         // var four = load_single_bar(four, "four", "", "", yAxis, color, 20);
-        loadPie(four,'four',"","");
+        loadPie(four, 'four', "", "");
 
 
         /* var five = "/expertController/picIndex?id=4&hyly=hyly&type=bar";

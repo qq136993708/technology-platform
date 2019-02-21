@@ -361,4 +361,6 @@ public interface OutProjectService {
      * 分页显示项目数据数据,国拨项目统计的第三级展示
      */
 	public LayuiTableData selectCountryProjectByCond(LayuiTableParam param);
+
+    LayuiTableData getOutProjectPageExpert(LayuiTableParam param);
 }

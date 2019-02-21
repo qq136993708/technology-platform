@@ -26,7 +26,7 @@
     <div class="layui-row layui-col-space15">
         <div class="layui-col-md5 layui-expert-div">
             <div class="layui-card">
-                <div class="layui-col-md4" style="border: 1px solid #ccc;"><img src="/stp/expert/img/${zjkBaseInfo.expertName}.jpg" style=" width: 100%;"></div>
+                <div class="layui-col-md4" style="border: 1px solid #ccc;"><img id="${zjkBaseInfo.dataId}" src="/stp/expert/img/default.png" style=" width: 100%;"></div>
                 <div class="layui-col-md8" style="padding-left: 30px;">
                     <p>${zjkBaseInfo.expertName}</p>
                     <span>参与评标累计项目总数量 <span class="red">${xmCount}</span>个</span>
@@ -381,6 +381,65 @@
     }
 
     relationPic();
+</script>
+<script>
+    loadImg();
+    function loadImg() {
+            var imgBase = photoContent(expertId);
+            if(imgBase!=""){
+                $("#"+expertId).attr("src", imgBase);
+            }
+    }
+
+    function photoContent(picId) {
+        var ret = getFileResult(picId);
+        if (ret != null && ret.list.length > 0) {
+            picId = ret.list[0].id;
+        }else{
+            return "";
+        }
+        var base64 = "";
+        $.ajax({
+            type: 'get',
+            dataType: 'text',
+            async: false,
+            url: '/sysfile/viewPicThumbnail/' + picId,
+            success: function (data) {
+                base64 = data;
+            },
+            error: function (e) {
+                alert("出错了");
+            }
+        });
+        return base64;
+    }
+    function getFileResult(fileIds) {
+        var ret = null;
+        ajaxFile("/sysfile/getFilesLayuiByFormId", {fileIds: fileIds}, function (result) {
+            ret = result;
+        });
+        return ret;
+    }
+    function ajaxFile(url, data, callback) {
+        var result = null;
+        jQuery.ajax({
+            type: 'post',
+            async: false,
+            url: url,
+            data: data,
+            dataType: 'json',
+            success: function (data, status) {
+                result = data;
+                if (callback) {
+                    callback.call(this, data, status);
+                }
+            },
+            error: function (err, err1, err2) {
+                console.log("ajaxPost发生异常，请仔细检查请求url是否正确");
+            }
+        });
+        return result;
+    }
 </script>
 </body>
 

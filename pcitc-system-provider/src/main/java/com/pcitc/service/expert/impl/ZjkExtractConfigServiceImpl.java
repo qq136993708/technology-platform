@@ -167,7 +167,7 @@ public class ZjkExtractConfigServiceImpl implements ZjkExtractConfigService {
 //            criteria2.andParentIdEqualTo(param.getParam().get("fileKind").toString());
 //            example.or(criteria2);
         //       }
-        example.setOrderByClause("create_date desc");
+//        example.setOrderByClause("create_date desc");
         return this.findByExample(param, example);
 
     }

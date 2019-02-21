@@ -69,7 +69,14 @@ public class ZjkBaseInfoController extends BaseController {
      */
     private static final String DEL = "http://pcitc-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/del-zjkbaseinfo/";
 
+    /**
+     * 更新审核状态
+     */
     private static final String updateAuditStatus = "http://pcitc-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/updateAuditStatus/";
+    /**
+     * 根据类型更新专家信息
+     */
+    private static final String updateExpertByType = "http://pcitc-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/updateExpertByType";
     /**
      * 物理删除
      */
@@ -263,9 +270,16 @@ public class ZjkBaseInfoController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/toListPage", method = {RequestMethod.GET})
-    @OperationFilter(modelName = "专家-基本信息", actionName = "跳转列表页toListPage")
+    @OperationFilter(modelName = "专家-基本信息列表跳转", actionName = "跳转列表页toListPage")
     public String toListPage() {
         return "stp/expert/zjkBaseInfo_list";
+    }
+
+    @RequestMapping(value = "/toListPageState", method = {RequestMethod.GET})
+    @OperationFilter(modelName = "专家-基本信息解冻跳转", actionName = "跳转列表页toListPageState")
+    public String toListPageState() {
+        request.setAttribute("state",request.getParameter("state"));
+        return "stp/expert/zjkBaseInfo_list_state";
     }
 
     /**
@@ -307,11 +321,37 @@ public class ZjkBaseInfoController extends BaseController {
     @RequestMapping(value = "/del", method = RequestMethod.POST)
     @ResponseBody
     public Object delZjkBaseInfo() throws Exception {
+        System.out.println("伪删除:"+request.getParameter("id"));
         Integer rs = this.restTemplate.exchange(DEL + request.getParameter("id"), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class).getBody();
         if (rs > 0) {
             return new Result(true, "操作成功！");
         } else {
             return new Result(false, "保存失败请重试！");
+        }
+    }
+
+    /**
+     *
+     * @param expert
+     * @return
+     */
+    @RequestMapping(value = "/updateExpertByType", method = RequestMethod.POST)
+    @ResponseBody
+    @OperationFilter(modelName = "专家-更新基本信息", actionName = "更新状态updateExpertByType")
+    public Result updateExpertByType(ZjkExpert expert) {
+//        httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+//        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        Result result = new Result();
+        try {
+            result.setSuccess(true);
+            result.setCode("200");
+            ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(updateExpertByType, HttpMethod.POST, new HttpEntity<ZjkExpert>(expert, this.httpHeaders), JSONObject.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setMessage("调用异常");
+            result.setSuccess(false);
+        }finally {
+            return result;
         }
     }
 
