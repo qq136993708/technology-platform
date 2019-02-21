@@ -167,6 +167,14 @@
                 width: 120
             },
             {
+                field: "sex",
+                title: "性别", event: 'setActive', style: 'cursor: pointer;'
+            },
+            {
+                field: "age",
+                title: "年龄", event: 'setActive', style: 'cursor: pointer;', align: "right"
+            },
+            {
                 field: 'email',
                 title: '邮箱',
                 event: 'setActive',
@@ -174,16 +182,10 @@
                 style: 'cursor: pointer;',
                 width: 150,
             },
-            {field: 'companyName', title: '机构', event: 'setActive', style: 'cursor: pointer;', sort: true,},
             {
-                field: 'expertProfessionalFieldName',
-                title: '行业领域',
-                event: 'setActive',
-                style: 'cursor: pointer;',
-                align: 'center',
-                sort: true,
-            },
-            {field: 'expertProfessinal', title: '职称', event: 'setActive', style: 'cursor: pointer;', sort: true}
+                field: "mobile",
+                title: "联系方式", event: 'setActive', style: 'cursor: pointer;'
+            }
             , {fixed: 'right', title: '查看', toolbar: '#showDetail', width: 150, align: 'center'}
         ];
 
@@ -225,7 +227,15 @@
                     $('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
                     selectRowData = res.data[index - 1];
                 });
-
+                //字典翻译
+                var param = {
+                    data: res.data,//数据
+                    element: ".layui-table-body table",// 当前的表格元素
+                    column: 3,//列数 从0开始
+                    field: "sex",//当前数据的字段
+                    url: "/pageCommon/dic/ROOT_UNIVERSAL_XB"//接口
+                };
+                publicMethods.dataDictionary(param);
                 // $(document).off("click").on("click", ".onClickImg", function () {
                 //     var dataId = $(this).attr("id");
                 //     //附件文件配置ID

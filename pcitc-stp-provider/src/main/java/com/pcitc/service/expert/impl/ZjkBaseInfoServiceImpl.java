@@ -204,16 +204,16 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
     }
 
     @Override
-    public Integer deleteZjkBaseInfo(Serializable zjkBaseInfoId) {
+    public Integer deleteZjkBaseInfo(String zjkBaseInfoId) {
         try {
             ZjkExpert record = zjkBaseInfoMapper.selectByPrimaryKey(zjkBaseInfoId.toString());
             if (record != null) {
-                record.setStatus(DelFlagEnum.STATUS_DEL.getCode() + "");
+                record.setDelFlag(1);
                 zjkBaseInfoMapper.updateByPrimaryKey(record);
             }
-            return Integer.parseInt(String.valueOf(DataOperationStatusEnum.DEL_OK));
+            return Integer.parseInt(String.valueOf(DataOperationStatusEnum.DEL_OK.getStatusCode()));
         } catch (Exception e) {
-            return Integer.parseInt(String.valueOf(DataOperationStatusEnum.DEL_DATA_ERROR));
+            return Integer.parseInt(String.valueOf(DataOperationStatusEnum.DEL_DATA_ERROR.getStatusCode()));
         }
     }
 
@@ -221,8 +221,8 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
     public LayuiTableData findZjkBaseInfoByPage(LayuiTableParam param) {
         ZjkExpertExample example = new ZjkExpertExample();
         ZjkExpertExample.Criteria c = example.createCriteria();
-//        c.andStatusEqualTo("1");
-
+        c.andStatusEqualTo("0");
+        c.andDelFlagEqualTo("0");
         Object expertName = param.getParam().get("expertName");
         if (!StrUtil.isObjectEmpty(expertName)) {
             c.andExpertNameLike("%" + expertName + "%");
@@ -231,6 +231,13 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
         Object auditStatus = param.getParam().get("auditStatus");
         if (!StrUtil.isObjectEmpty(auditStatus)) {
             c.andAuditStatusEqualTo(auditStatus.toString());
+        }
+
+        Object sysFlag = param.getParam().get("sysFlag");
+        if (!StrUtil.isObjectEmpty(sysFlag)) {
+            c.andSysFlagEqualTo(sysFlag.toString());
+        }else {
+            c.andSysFlagEqualTo("0");
         }
         Object email = param.getParam().get("email");
         if (!StrUtil.isObjectEmpty(email)) {
@@ -276,7 +283,9 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
 
         ZjkExpertExample example = new ZjkExpertExample();
         ZjkExpertExample.Criteria c = example.createCriteria();
-
+        c.andStatusEqualTo("0");
+        c.andSysFlagEqualTo("0");
+        c.andDelFlagEqualTo("0");
         if (hyly != null && !"".equals(hyly)) {
             c.andExpertProfessionalFieldIn(Arrays.asList(hyly.toString().split(",")));
 //            ZjkExpertExample.Criteria criteria2 = example.or();
@@ -708,8 +717,8 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
     public Object updateAuditStatus(String strDataId) {
         try {
             int index = strDataId.indexOf("_");
-            String  flag= strDataId.substring(0, index);
-            String  dataId= strDataId.substring(index + 1, strDataId.length());
+            String flag = strDataId.substring(0, index);
+            String dataId = strDataId.substring(index + 1, strDataId.length());
             ZjkExpert expert = this.selectByPrimaryKey(dataId);
             expert.setAuditStatus("agree".equals(flag) ? "2" : "3");
             this.updateByPrimaryKey(expert);
@@ -718,6 +727,23 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
             e.printStackTrace();
             return Integer.parseInt(String.valueOf(DataOperationStatusEnum.DEL_DATA_ERROR.getStatusCode()));
         }
+    }
+
+    @Override
+    public JSONObject updateExpertByType(ZjkExpert zjkBaseInfo) {
+        String bak1 = zjkBaseInfo.getBak1();
+        switch (bak1) {
+            case "1"://1冻结,正常0
+                ZjkExpert expert = this.selectByPrimaryKey(zjkBaseInfo.getDataId());
+                expert.setSysFlag(zjkBaseInfo.getSysFlag());
+                this.updateByPrimaryKey(expert);
+                break;
+            case "2":
+                break;
+            default:
+                break;
+        }
+        return new JSONObject();
     }
 
     public String ageBetween(String strAge) {

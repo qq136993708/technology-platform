@@ -841,7 +841,7 @@
             param.file_ids_value = $("input[name=dataId]").val();
 
             param.callback = "call_fun";//回调函数名称
-            param.file_opt_flag = "672ac41cf40c45c2a9e6d56ec323061b";//文件配置ID
+            param.file_opt_flag = "1cf7678a240c42299313322d904ca7f0";//文件配置ID
             param.file_edit_detail = "edit";//新增、修改用edit, 显示用detail
             var temUrl = "/sysFilePage/uploadFile?param=" + encodeURIComponent(JSON.stringify(param));
             publicMethods.openBaseWin("文件上传", temUrl, "90%", "80%");
@@ -942,7 +942,7 @@
             photofilePath = photoAttachId;
             if (photofilePath != null && photofilePath != "") {
                 var photoStream = photoContent(photofilePath);
-                $("#photoAttach").attr("src", photoStream)
+                $("#photoAttach").attr("src", photoStream);
                 $("#photoAttach").attr("title", "双击查看大图");
             }
         }
