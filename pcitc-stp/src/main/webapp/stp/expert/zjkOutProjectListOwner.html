@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/common.css">
     <script src="/layuiadmin/layui/layui.js"></script>
-    <script type="text/javascript" src="/common/js/base.js"></script>
 </head>
 
 <body>
@@ -80,7 +79,8 @@
                         "hth": $('#hth').val(),
                         "xmmc": $('#xmmc').val(),
                         "project_property": $("#project_property").val(),
-                        "functionCode": param.code
+                        "functionCode": param.code,
+                        "owner_state":"0"
                     }
                 },
                 limit: param.selfRownum,

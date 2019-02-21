@@ -2,6 +2,7 @@ package com.pcitc.service.feign;
 
 import java.util.List;
 
+import com.pcitc.base.expert.ZjkExtractConfig;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,4 +35,7 @@ public interface SystemRemoteClient {
     
     @RequestMapping(value = "/out-unit-provider/project-unit/list-bydefine2/{define2}", method = RequestMethod.POST)
 	public List<OutUnit> selectProjectUnits(@PathVariable("define2") String define2);
+
+    @RequestMapping(value = "/zjkextractconfig-provider/zjkextractconfig/get-zjkextractconfig/{id}", method = RequestMethod.POST)
+    public ZjkExtractConfig getZjkExtractConfigInfo(@PathVariable(value = "id", required = true) String id);
 }
