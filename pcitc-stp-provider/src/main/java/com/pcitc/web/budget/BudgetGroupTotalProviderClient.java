@@ -237,7 +237,7 @@ public class BudgetGroupTotalProviderClient
 	public Object saveBudgetGroupTotalInfo(@RequestBody BudgetGroupTotal item) 
 	{
 		logger.info("budget-save-grouptotal...");
-		Integer rs = 0;
+		BudgetGroupTotal rs = null;
 		try
 		{
 			BudgetInfo info = budgetInfoService.selectBudgetInfo(item.getBudgetInfoId());
@@ -246,7 +246,8 @@ public class BudgetGroupTotalProviderClient
 			if(groupTotal != null) {
 				MyBeanUtils.copyPropertiesIgnoreNull(item, groupTotal);
 				groupTotal.setUpdateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
-				rs += budgetGroupTotalService.updateBudgetGroupTotal(groupTotal);
+				budgetGroupTotalService.updateBudgetGroupTotal(groupTotal);
+				rs = groupTotal;
 			}else {
 				item.setLevel(0);
 				item.setDelFlag(DelFlagEnum.STATUS_NORMAL.getCode());
@@ -254,7 +255,8 @@ public class BudgetGroupTotalProviderClient
 				item.setCreateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
 				item.setUpdateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
 				item.setDataVersion(info.getDataVersion());
-				rs += budgetGroupTotalService.saveOrUpdateBudgetGroupTotal(item);
+				budgetGroupTotalService.saveOrUpdateBudgetGroupTotal(item);
+				rs = item;
 			}
 		}
 		catch (Exception e)

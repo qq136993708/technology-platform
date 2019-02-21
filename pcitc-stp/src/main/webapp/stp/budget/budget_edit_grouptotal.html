@@ -261,6 +261,7 @@
             publicMethods.ajaxPost('/budget/save-grouptotal-item', data.field, function (data, status) {
                 if (data.success) {
                 	parent.initDataVersion("${budgetInfoId}");
+                	parentInfo = data.data;
                 	//保存预算项目子项
                 	publicMethods.ajaxPost('/budget/save-grouptotal-childitems', {"items":JSON.stringify(viewObj.tbData),"item":JSON.stringify(parentInfo)}, function (dt, status) {
                 		var index = parent.layer.getFrameIndex(window.name);

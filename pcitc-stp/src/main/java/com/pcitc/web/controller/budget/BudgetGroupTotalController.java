@@ -170,11 +170,11 @@ public class BudgetGroupTotalController extends BaseController {
 	public Object saveBudgetGroupTotalItem(@ModelAttribute("item") BudgetGroupTotal item,HttpServletRequest request) throws IOException 
 	{
 		System.out.println(JSON.toJSONString(item));
-		ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(BUDGET_GROUPTOTAL_SAVE_ITEM, HttpMethod.POST, new HttpEntity<BudgetGroupTotal>(item, this.httpHeaders), Integer.class);
-		if (responseEntity.getBody() == 0) {
-			return new Result(false);
+		ResponseEntity<BudgetGroupTotal> rs = this.restTemplate.exchange(BUDGET_GROUPTOTAL_SAVE_ITEM, HttpMethod.POST, new HttpEntity<BudgetGroupTotal>(item, this.httpHeaders), BudgetGroupTotal.class);
+		if (rs.getBody() != null) {
+			return new Result(true,rs.getBody());
 		} else {
-			return new Result(true);
+			return new Result(false);
 		}
 	}
 	@RequestMapping(value = "/budget/save-grouptotal-items", method = RequestMethod.POST)
