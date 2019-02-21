@@ -173,7 +173,15 @@ public class BudgetGroupTotalServiceImpl implements BudgetGroupTotalService
 		example.setOrderByClause("no");
 		return budgetGroupTotalMapper.selectByExample(example);
 	}
-
+	@Override
+	public List<BudgetGroupTotal> selectChildBudgetGroupTotalAll(String dataId) {
+		BudgetGroupTotalExample example = new BudgetGroupTotalExample();
+		BudgetGroupTotalExample.Criteria c = example.createCriteria();
+		c.andParentDataIdEqualTo(dataId);
+		c.andLevelEqualTo(1);//只显示第二级
+		example.setOrderByClause("no");
+		return budgetGroupTotalMapper.selectByExample(example);
+	}
 	@Override
 	public List<OutUnit> selectJtUnits()
 	{
@@ -205,5 +213,7 @@ public class BudgetGroupTotalServiceImpl implements BudgetGroupTotalService
 		example.setOrderByClause("nd desc");
 		return budgetGroupTotalMapper.selectByExample(example);
 	}
+
+	
 
 }

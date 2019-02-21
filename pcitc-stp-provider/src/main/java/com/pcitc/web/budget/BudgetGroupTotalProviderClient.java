@@ -299,23 +299,29 @@ public class BudgetGroupTotalProviderClient
 		try
 		{
 			BudgetGroupTotal to = JSON.parseObject(map.get("item").toString(), BudgetGroupTotal.class);
-			//原有全部逻辑删除
-			List<BudgetGroupTotal> childlist = budgetGroupTotalService.selectChildBudgetGroupTotal(to.getDataId());
+			//原有全部逻辑删除（包括已删除的）
+			List<BudgetGroupTotal> childlist = budgetGroupTotalService.selectChildBudgetGroupTotalAll(to.getDataId());
 			Map<String,BudgetGroupTotal> oldmap = new HashMap<String,BudgetGroupTotal>();
 			for(BudgetGroupTotal t:childlist){
 				budgetGroupTotalService.deleteBudgetGroupTotal(t.getDataId());
-				oldmap.put(t.getParentDataId()+t.getDisplayName(), t);
+				oldmap.put(t.getDisplayName(), t);
 			}
 			//有则更新，无责保存
 			List<BudgetGroupTotal> totals = JSON.parseArray(map.get("items").toString(), BudgetGroupTotal.class);
 			for(BudgetGroupTotal t:totals){
-				if(oldmap.containsKey(t.getParentDataId()+t.getDisplayName())){
-					MyBeanUtils.copyPropertiesIgnoreNull(t, oldmap.get(t.getDataId()));
-					budgetGroupTotalService.updateBudgetGroupTotal(oldmap.get(t.getDataId()));
+				if(oldmap.containsKey(t.getDisplayName())){
+				
+					BudgetGroupTotal old = oldmap.get(t.getDisplayName());
+					old.setDelFlag(DelFlagEnum.STATUS_NORMAL.getCode());
+					old.setUpdateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
+					old.setXmjf(t.getXmjf());
+					old.setZxjf(t.getZxjf());
+					budgetGroupTotalService.updateBudgetGroupTotal(old);
 				}else{
 					t.setDataId(IdUtil.createIdByTime());
 					t.setDataVersion(to.getDataVersion());
 					t.setNd(to.getNd());
+					t.setLevel(1);
 					t.setCreateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
 					t.setUpdateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
 					t.setDelFlag(DelFlagEnum.STATUS_NORMAL.getCode());

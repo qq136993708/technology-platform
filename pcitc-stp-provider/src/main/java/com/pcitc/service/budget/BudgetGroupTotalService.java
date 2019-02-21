@@ -28,6 +28,12 @@ public interface BudgetGroupTotalService
 	 */
 	public List<BudgetGroupTotal> selectChildBudgetGroupTotal(String dataId);
 	/**
+	 * 查询当前预算项的所有子项(包含已删除)
+	 * @param dataId
+	 * @return
+	 */
+	public List<BudgetGroupTotal> selectChildBudgetGroupTotalAll(String dataId);
+	/**
 	 * 更新预算项
 	 * @param groupTotal
 	 * @return
