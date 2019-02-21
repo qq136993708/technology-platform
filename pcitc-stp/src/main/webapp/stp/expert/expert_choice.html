@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>表单</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <style>
+        .layui-tab-item {margin-top: 15px;}
+        .layui-tab-title .layui-this:after{height: 38px;}
+    </style>
+</head>
+<body>
+<div class="formBox">
+    <form class="layui-form" action="" lay-filter="component-form-group layui-container">
+        <div class="box-body">
+            <div class="layui-form-item">
+                <label class="layui-form-label">选项<!--<span class="must-fill">*</span>--></label>
+                <div class="layui-input-block">
+                    <input type="radio" name="option" value="项目计划" title="项目计划">
+                    <input type="radio" name="option" value="项目立项" title="项目立项">
+                    <input type="radio" name="option" value="过程管理" title="过程管理">
+                    <input type="radio" name="option" value="中期评估" title="中期评估">
+                    <input type="radio" name="option" value="项目结题验收" title="项目结题验收">
+                    <input type="radio" name="option" value="项目评议" title="项目评议">
+                    <input type="radio" name="option" value="成果鉴定" title="	成果鉴定">
+                    <input type="radio" name="option" value="奖励评审" title="奖励评审">
+                    <input type="radio" name="option" value="后评估" title="后评估">
+                </div>
+                <div class="layui-tab layui-tab-brief" style="margin-left: 84px;" lay-filter="component-tabs-brief">
+                    <ul class="layui-tab-title">
+                        <li class="layui-this">随机选取</li>
+                        <li class="">固定选取</li>
+                        <li class="">单位选取</li>
+                    </ul>
+                    <div class="layui-tab-content">
+                        <div class="layui-tab-item layui-show">
+                            table1
+                        </div>
+                        <div class="layui-tab-item">
+                            table2
+                        </div>
+                        <div class="layui-tab-item">
+                            table3
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script src="/layuiadmin/layui/layui.js"></script>
+<script>
+    layui.use([ 'jquery','form', 'laydate','table','element'], function () {
+        var $ = layui.jquery,element = layui.element,laydate = layui.laydate,
+            form = layui.tabletable = layui.table,table = layui.table;
+
+    });
+</script>
+</body>
+</html>
