@@ -18,6 +18,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -27,7 +29,6 @@ import java.util.stream.Collectors;
  *
  * @since 2018-12-08 04:10:36
  */
-
 
 @Controller
 @RequestMapping("expertController")
@@ -77,14 +78,11 @@ public class ExpertController extends BaseController {
     //专利
     private static final String LISTZL = "http://pcitc-zuul/stp-proxy/zjkzhuanli-provider/zjkzhuanli/zjkzhuanli_list";
 
-
     private static final String LIST_CG_TABLE = "http://pcitc-zuul/stp-proxy/zjkchengguo-provider/zjkchengguo/zjkchengguo-page";
 
     private static final String LIST_ZL_TABLE = "http://pcitc-zuul/stp-proxy/zjkzhuanli-provider/zjkzhuanli/zjkzhuanli-page";
 
-
     private static final String SAVECHOICE = "http://pcitc-zuul/stp-proxy/zjkchoice-provider/zjkchoice/save_zjkchoice_update";
-
 
     //备选查询
     private static final String LISTBAK = "http://pcitc-zuul/stp-proxy/zjkchoice-provider/zjkchoice/zjkchoice_list";
@@ -99,7 +97,6 @@ public class ExpertController extends BaseController {
     public String test() {
         return "stp/expert/eee";
     }
-
 
     /**
      * 查询专家总数量
@@ -157,7 +154,7 @@ public class ExpertController extends BaseController {
         ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LIST_RANDOM, HttpMethod.POST, new HttpEntity<ZjkExpert>(new ZjkExpert(), this.httpHeaders), JSONObject.class);
         JSONObject retJson = responseEntity.getBody();
         List<ZjkExpert> list = (List<ZjkExpert>) retJson.get("list");
-        request.setAttribute("list",list);
+        request.setAttribute("list", list);
         return "stp/expert/pageExpertIndexNew";
     }
 
@@ -171,7 +168,6 @@ public class ExpertController extends BaseController {
         List<ZjkExpert> list = (List<ZjkExpert>) retJson.get("list");
         return list;
     }
-
 
     /**
      * 跳转到查询页面
@@ -338,7 +334,6 @@ public class ExpertController extends BaseController {
         return JSON.toJSON(data).toString();
     }
 
-
     /**
      * 加入备选
      *
@@ -369,7 +364,6 @@ public class ExpertController extends BaseController {
         Integer result = responseEntity.getBody();
         return result;
     }
-
 
     /**
      * 加入对比
@@ -466,7 +460,7 @@ public class ExpertController extends BaseController {
     @OperationFilter(modelName = "备选专家-删除备选", actionName = "根据ID删除专家-删除备选专家")
     @RequestMapping(value = "/delBak", method = RequestMethod.POST)
     @ResponseBody
-    public Object delBak(){
+    public Object delBak() {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("addUserId", sysUserInfo.getUserId());//操作人ＩＤ
         jsonObject.put("expertId", request.getParameter("expertId"));//专家ｉｄ
@@ -535,5 +529,26 @@ public class ExpertController extends BaseController {
 //        return object.get("result");
         System.out.println("object = " + object.isEmpty());
         return JSONObject.parseObject(JSONObject.toJSONString(object.get("result"))).toString();
+    }
+
+    /*--------------------------------------项目开始-----------------------------*/
+    private static final String PROJECT_LIST_PAGE = "http://pcitc-zuul/system-proxy/out-provider/project-list-expert";
+
+    @RequestMapping(value = "/zjkOutProjectList")
+    public String iniOutProjectList() throws Exception {
+
+        return "/stp/expert/zjkOutProjectList";
+    }
+
+    @RequestMapping(value = "/outProjectList", method = RequestMethod.POST)
+    @ResponseBody
+    public Object outProjectList(@ModelAttribute("param") LayuiTableParam param) {
+
+        System.out.println("====expertController");
+        HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
+        ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(PROJECT_LIST_PAGE, HttpMethod.POST, entity, LayuiTableData.class);
+        LayuiTableData retJson = responseEntity.getBody();
+
+        return JSON.toJSON(retJson).toString();
     }
 }

@@ -29,15 +29,15 @@
 <div class="tableToolBox">
     <div class="whiteLine"></div>
     <div class="tableBtns">
-        <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"
-                data-type="addEvent">新增
-        </button>
+        <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"-->
+                <!--data-type="addEvent">新增-->
+        <!--</button>-->
         <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"
                 data-type="editEvent">编辑
         </button>
-        <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"
-                data-type="deleteEvent">删除
-        </button>
+        <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"-->
+                <!--data-type="deleteEvent">删除-->
+        <!--</button>-->
     </div>
 </div>
 <table id="zjkExtractConfigTableId" class="layui-hide" lay-filter="tableEvent"></table>
@@ -90,10 +90,10 @@
                     title: "允许被抽取的次数(年)", event: 'setActive', style: 'cursor: pointer;',
                     align:"right"
                 },
-                {
-                    field: "expertArea",
-                    title: "区域范围", event: 'setActive', style: 'cursor: pointer;'
-                },
+                // {
+                //     field: "expertArea",
+                //     title: "区域范围", event: 'setActive', style: 'cursor: pointer;'
+                // },
                 {
                     field: "intervalTime",
                     title: "间隔时间(天)", event: 'setActive', style: 'cursor: pointer;',align:"right"
@@ -155,7 +155,7 @@
                 var param={
                     data:res.data,//数据
                     element:".layui-table-body table",// 当前的表格元素
-                    column:8,//列数 从0开始
+                    column:7,//列数 从0开始
                     field:"companyAvoid",//当前数据的字段
                     url:"/pageCommon/dic/ROOT_UNIVERSAL_WEHTHER"//接口
                 };

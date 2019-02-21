@@ -98,6 +98,7 @@ public class SysFileController extends BaseController {
 	 * 下载
 	 */
 	private static final String download = "http://pcitc-zuul/system-proxy/sysfile-provider/sysfile/download/";
+	private static final String viewPicThumbnail = "http://pcitc-zuul/system-proxy/sysfile-provider/sysfile/viewPicThumbnail/";
 	private static final String downloads = "http://pcitc-zuul/system-proxy/sysfile-provider/sysfile/downloads/";
 	private static final String showFlag = "http://pcitc-zuul/system-proxy/sysfile-provider/sysfile/showFlag/";
 	/**
@@ -210,8 +211,18 @@ public class SysFileController extends BaseController {
 		byte[] bytes = responseEntity.getBody();
 		String picBase64 = "data:image/png;base64,";
 		return picBase64 + new sun.misc.BASE64Encoder().encode(bytes);
-
 	}
+
+    @RequestMapping(value = "/sysfile/viewPicThumbnail/{id}", method = RequestMethod.GET)
+    public String viewPicThumbnail(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        MultiValueMap<String, String> form = new LinkedMultiValueMap<>();
+        form.add("id", id);
+        HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(form, this.httpHeaders);
+        ResponseEntity<byte[]> responseEntity = this.restTemplate.postForEntity(((id.split("\\|").length > 1) ? viewPicThumbnail : viewPicThumbnail) + id, httpEntity, byte[].class);
+        byte[] bytes = responseEntity.getBody();
+        String picBase64 = "data:image/png;base64,";
+        return picBase64 + new sun.misc.BASE64Encoder().encode(bytes);
+    }
 
 	@RequestMapping(value = "/sysfile/viewPicByte/{id}", method = RequestMethod.GET)
 	public ResponseEntity<byte[]> viewPic2(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -236,7 +247,6 @@ public class SysFileController extends BaseController {
 		// this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 		this.httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 		MultiValueMap<String, String> form = new LinkedMultiValueMap<String, String>();
-		System.out.println("this.httpHeaders = " + this.httpHeaders);
 		form.add("fileIds", fileIds);
 		HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(form, httpHeaders);
 		ResponseEntity<FileResult> responseEntity = this.restTemplate.postForEntity(getFiles, httpEntity, FileResult.class);
@@ -264,7 +274,7 @@ public class SysFileController extends BaseController {
 	}
 
 	/**
-	 * 根据文件ID 获取文件
+	 * 根据dataId 获取文件
 	 *
 	 * @param fileIds
 	 * @param request

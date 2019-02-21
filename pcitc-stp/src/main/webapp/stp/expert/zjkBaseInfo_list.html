@@ -150,8 +150,8 @@
                         title: "邮箱", event: 'setActive', style: 'cursor: pointer;'
                     },
                     {
-                        field: "address",
-                        title: "地址", event: 'setActive', style: 'cursor: pointer;'
+                        field: "mobile",
+                        title: "联系方式", event: 'setActive', style: 'cursor: pointer;'
                     },
                     {
                         field: "expertProfessionalField",
@@ -312,12 +312,40 @@
                 } else {
                     layer.confirm('确定要删除吗?', {btn: ['确认', '取消'], title: "删除确认"}, function (index) {
                         layer.close(index);
-                        ajaxPost("/zjkBaseInfo/del-real", {"id": selectRowData.id}, function (data) {
-                            layer.msg("文件删除成功");
+                        ajaxPost("/zjkBaseInfo/del", {"id": selectRowData.dataId}, function (data) {
+                            layer.msg("操作成功");
                             loadtable();
                         });
                     });
                 }
+            }
+            ,
+            djEvent: function () { //冻结
+                if (typeof (selectRowData) == "undefined") {
+                    layer.msg("请选择一条数据");
+                    return;
+                }
+                layer.confirm('确定要执行冻结吗?', {btn: ['确认', '取消'], title: "删除确认"}, function (index) {
+                        layer.close(index);
+                        ajaxPost("/zjkBaseInfo/updateExpertByType", {"dataId": selectRowData.dataId,"bak1":"1","sysFlag":"1"}, function (data) {
+                            layer.msg("操作成功");
+                            loadtable();
+                        });
+                    });
+            }
+            ,
+            jdEvent: function () { //解冻
+                if (typeof (selectRowData) == "undefined") {
+                    layer.msg("请选择一条数据");
+                    return;
+                }
+                layer.confirm('确定要执行解冻吗?', {btn: ['确认', '取消'], title: "删除确认"}, function (index) {
+                    layer.close(index);
+                    ajaxPost("/zjkBaseInfo/updateExpertByType", {"dataId": selectRowData.dataId,"bak1":"1","sysFlag":"0"}, function (data) {
+                        layer.msg("操作成功");
+                        loadtable();
+                    });
+                });
             }
         };
         $('.layui-btn').on('click', function () {

@@ -277,7 +277,7 @@ public class OutProjectServiceImpl implements OutProjectService {
 		return data;
 	}
 
-	/**
+    /**
 	 * 研究院首页计算装备和科研合同总数
 	 */
 	public HashMap<String, String> getOutProjectInfoCountWithKYZB(HashMap<String, String> map) {
@@ -1040,4 +1040,73 @@ public class OutProjectServiceImpl implements OutProjectService {
 		return outProjectInfoMapper.getDragonProjectInfoSelectCondition(map);
 	}
 
+
+    @Override
+    public LayuiTableData getOutProjectPageExpert(LayuiTableParam param) {
+        // 每页显示条数
+        int pageSize = param.getLimit();
+        // 当前是第几页
+        int pageNum = param.getPage();
+        // 1、设置分页信息，包括当前页数和每页显示的总计数
+        PageHelper.startPage(pageNum, pageSize);
+
+        OutProjectInfo opi = new OutProjectInfo();
+        if (param.getParam().get("xmmc")!=null&&!StringUtils.isBlank(param.getParam().get("xmmc")+"")) {
+            opi.setXmmc((String) param.getParam().get("xmmc"));
+        }
+
+        if (param.getParam().get("hth")!=null&&!StringUtils.isBlank(param.getParam().get("hth")+"")) {
+            opi.setHth((String) param.getParam().get("hth"));
+        }
+        // 资本性、费用性
+        if (param.getParam().get("define1")!=null&&!StringUtils.isBlank(param.getParam().get("define1")+"")) {
+            opi.setDefine1((String) param.getParam().get("define1"));
+        }
+
+        // 8大院
+        if (param.getParam().get("define2")!=null&&!StringUtils.isBlank(param.getParam().get("define2")+"")) {
+            opi.setDefine2((String) param.getParam().get("define2"));
+        }
+
+        // 国家项目、重大专项、重点项目、其他项目
+        if (param.getParam().get("project_property")!=null&&!StringUtils.isBlank(param.getParam().get("project_property")+"")) {
+            opi.setProjectProperty((String) param.getParam().get("project_property"));
+        }
+
+        // 新开项目、续建项目、完工项目
+        if (param.getParam().get("project_scope")!=null&&!StringUtils.isBlank(param.getParam().get("project_scope")+"")) {
+            opi.setProjectScope((String) param.getParam().get("project_scope"));
+        }
+
+        // 直属研究院、分子公司、集团等9种类型
+        if (param.getParam().get("type_flag")!=null&&!StringUtils.isBlank(param.getParam().get("type_flag")+"")) {
+            opi.setTypeFlag((String) param.getParam().get("type_flag"));
+        }
+
+        // 装备的各种技术类型
+        if (param.getParam().get("zylb")!=null&&!StringUtils.isBlank(param.getParam().get("zylb")+"")) {
+            opi.setZylb((String) param.getParam().get("zylb"));
+        }
+
+        // 各个处室
+        if (param.getParam().get("zycmc")!=null&&!StringUtils.isBlank(param.getParam().get("zycmc")+"")) {
+            opi.setZycmc((String) param.getParam().get("zycmc"));
+        }
+
+        // 年度，暂时不用
+        if (param.getParam().get("nd")!=null&&!StringUtils.isBlank(param.getParam().get("nd")+"")) {
+            opi.setNd((String) param.getParam().get("nd"));
+        }
+
+        List<OutProjectInfo> list = outProjectInfoMapper.selectProjectByCond(opi);
+        System.out.println("1>>>>>>>>>查询分页结果"+list.size());
+        PageInfo<OutProjectInfo> pageInfo = new PageInfo<OutProjectInfo>(list);
+        System.out.println("2>>>>>>>>>查询分页结果"+pageInfo.getList().size());
+
+        LayuiTableData data = new LayuiTableData();
+        data.setData(pageInfo.getList());
+        Long total = pageInfo.getTotal();
+        data.setCount(total.intValue());
+        return data;
+    }
 }

@@ -21,6 +21,7 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.pcitc.utils.ImageUtils;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -630,25 +631,25 @@ public class SysFileServiceImpl implements SysFileService {
 //                            sysFile.setBak7((mobile_address==null||"".equals(mobile_address))?sysFile.getBak7():mobile_address);
 //                        }
 //                        sysFile.setBak7(mobile_address);
-//                        if ("jpg".equals(strSuffix) || "jpeg".equals(strSuffix)|| "png".equals(strSuffix)|| "bmp".equals(strSuffix)) {
-//                            //保存路径
-//                            sysFile.setPartImgPath(uploaderPath + strSavePath + File.separator + "img_"+savedName);
-//                            //压缩
-//                            String strImgType = sysFileConfig.getImgType();
-//                            String strImgDesc = sysFileConfig.getImgDesc();
-//                            if("0".equals(strImgType)){
-//                                String[] strImgTypeArray = strImgDesc.split(":");
-//                                ImageUtils.getImgSize(Integer.parseInt(strImgTypeArray[0]),Integer.parseInt(strImgTypeArray[1]),uploaderPath + strSavePath + File.separator + savedName,uploaderPath + strSavePath + File.separator + "img_"+savedName);
-//                            }else if("1".equals(strImgType)){
-//                                    strImgDesc = strImgDesc==null?"0.5":strImgDesc;
-//                                ImageUtils.getImgScale(Double.parseDouble(strImgDesc),uploaderPath + strSavePath + File.separator + savedName,uploaderPath + strSavePath + File.separator + "img_"+savedName);
-//                            }else if("2".equals(strImgType)){
-//                                String[] strImgTypeArray = strImgDesc.split(":");
-//                                ImageUtils.getImgSizeNoScale(Integer.parseInt(strImgTypeArray[0]),Integer.parseInt(strImgTypeArray[1]),uploaderPath + strSavePath + File.separator + savedName,uploaderPath + strSavePath + File.separator + "img_"+savedName);
-//                            }else {
-//                                ImageUtils.getImgScale(0.5f,uploaderPath + strSavePath + File.separator + savedName,uploaderPath + strSavePath + File.separator + "img_"+savedName);
-//                            }
-//                        }
+                        if ("jpg".equals(strSuffix) || "jpeg".equals(strSuffix)|| "png".equals(strSuffix)|| "bmp".equals(strSuffix)) {
+                            //保存路径
+                            sysFile.setPartImgPath(uploaderPath + strSavePath + File.separator + "img_"+savedName);
+                            //压缩
+                            String strImgType = sysFileConfig.getImgType();
+                            String strImgDesc = sysFileConfig.getImgDesc();
+                            if("0".equals(strImgType)){
+                                String[] strImgTypeArray = strImgDesc.split(":");
+                                ImageUtils.getImgSize(Integer.parseInt(strImgTypeArray[0]),Integer.parseInt(strImgTypeArray[1]),uploaderPath + strSavePath + File.separator + savedName,uploaderPath + strSavePath + File.separator + "img_"+savedName);
+                            }else if("1".equals(strImgType)){
+                                    strImgDesc = strImgDesc==null?"0.5":strImgDesc;
+                                ImageUtils.getImgScale(Double.parseDouble(strImgDesc),uploaderPath + strSavePath + File.separator + savedName,uploaderPath + strSavePath + File.separator + "img_"+savedName);
+                            }else if("2".equals(strImgType)){
+                                String[] strImgTypeArray = strImgDesc.split(":");
+                                ImageUtils.getImgSizeNoScale(Integer.parseInt(strImgTypeArray[0]),Integer.parseInt(strImgTypeArray[1]),uploaderPath + strSavePath + File.separator + savedName,uploaderPath + strSavePath + File.separator + "img_"+savedName);
+                            }else {
+                                ImageUtils.getImgScale(0.5f,uploaderPath + strSavePath + File.separator + savedName,uploaderPath + strSavePath + File.separator + "img_"+savedName);
+                            }
+                        }
                         insert(sysFile);
                     }
                     if ("DOCX".equals(strFileSuffix) || "DOC".equals(strFileSuffix) || "TXT".equals(strFileSuffix) || "XLS".equals(strFileSuffix) || "XLSX".equals(strFileSuffix) || "PDF".equals(strFileSuffix)) {
@@ -917,6 +918,49 @@ public class SysFileServiceImpl implements SysFileService {
     }
 
     public void downloadFile(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse
+            response) throws IOException {
+        SysFile sysfile = selectByPrimaryKey(id);
+        InputStream is = null;
+        OutputStream os = null;
+        File file = null;
+        try {
+            // PrintWriter out = response.getWriter();
+            if (sysfile != null)
+                file = new File(sysfile.getFilePath());
+            if (file != null && file.exists() && file.isFile()) {
+                long filelength = file.length();
+                is = new FileInputStream(file);
+                // 设置输出的格式
+                os = response.getOutputStream();
+                response.setContentType("application/x-msdownload");
+                response.setContentLength((int) filelength);
+                response.addHeader("Content-Disposition", "attachment; filename=\"" + new String(sysfile.getFileName().getBytes("GBK"),// 只有GBK才可以
+                        "iso8859-1") + "\"");
+                // 循环取出流中的数据
+                byte[] b = new byte[4096];
+                int len;
+                while ((len = is.read(b)) > 0) {
+                    os.write(b, 0, len);
+                }
+            } else {
+                response.getWriter().println("<script>");
+                response.getWriter().println(" modals.info('文件不存在!');");
+                response.getWriter().println("</script>");
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (is != null) {
+                is.close();
+            }
+            if (os != null) {
+                os.close();
+            }
+        }
+    }
+
+    public void downloadFileViewPicThumbnail(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse
             response) throws IOException {
         SysFile sysfile = selectByPrimaryKey(id);
         InputStream is = null;
