@@ -171,8 +171,8 @@
                 , {field: 'plan', title: '2019年计划', style: 'cursor: pointer;', width: '30%'}
                 , {field: 'xmjf', title: '科技项目经费预算', style: 'cursor: pointer;',edit:true, width: '15%'}
                 , {field: 'zxjf', title: '重点实验室专项经费', style: 'cursor: pointer;',edit:true, width: '15%'}
-                , {title: '操作', style: 'cursor: pointer;', align: 'center', width: '10%', templet: function(){
-                    return '<a href="#" lay-event="del" lay-id="\'+ d.tempId +\'">删除</a>'
+                , {title: '操作', style: 'cursor: pointer;', align: 'center', width: '10%', templet: function(d){
+                    return '<a href="#" lay-event="del" lay-id="'+ d.dataId +'">删除</a>';
                     }}
             ]]
         })
@@ -202,22 +202,24 @@
                     layer.msg("请选择单位！", { icon: 5 }); //提示
                     return;
                 }
-                var newRow = {dataId:0,tempId: new Date().valueOf(), displayName: conName, level:1,plan: 0, xmjf: 0, zxjf: 0,parentDataId:parentDataId,budgetInfoId:budgetInfoId};
+                var newRow = {dataId: new Date().valueOf(), displayName: conName,plan: 0, xmjf: 0, zxjf: 0,parentDataId:parentDataId,budgetInfoId:budgetInfoId};
                 viewObj.tbData.push(newRow);
                 tableIns.reload({
                     data : viewObj.tbData
                 });
             },
             removeEmptyTableCache: function(){
-                for(var i=0, row; i < viewObj.tbData.length; i++){
-                    row = viewObj.tbData[i];
-                    if(!row || !row.tempId){
-                    	viewObj.tbData.splice(i, 1);    //删除一项
-                    }
-                }
-                tableIns.reload({
-                    data : viewObj.tbData
-                });
+            	  var oldData = table.cache[layTableId];
+                  for(var i=0, row; i < oldData.length; i++){
+                      row = oldData[i];
+                      if(!row || !row.dataId){
+                          //oldData.splice(i, 1);    //删除一项
+                          viewObj.tbData.splice(i, 1);
+                      }
+                  }
+                  tableIns.reload({
+                	  data : viewObj.tbData
+                  });
             }
         };
         //激活事件
@@ -257,10 +259,12 @@
         form.on('submit(saveEvent)', function(data){
             var formData = JSON.stringify(data.field);
             console.log("表单数据："+formData + '\n' +"表格数据:" + getTableData());
+            var lodingMsg = layer.msg('处理中....');
             //保存预算项目
             publicMethods.ajaxPost('/budget/save-grouptotal-item', data.field, function (data, status) {
                 if (data.success) {
                 	parent.initDataVersion("${budgetInfoId}");
+                	parentInfo = data.data;
                 	//保存预算项目子项
                 	publicMethods.ajaxPost('/budget/save-grouptotal-childitems', {"items":JSON.stringify(viewObj.tbData),"item":JSON.stringify(parentInfo)}, function (dt, status) {
                 		var index = parent.layer.getFrameIndex(window.name);
@@ -272,6 +276,7 @@
 					});
 					return;
                 }
+                layer.close(lodingMsg);
             }); 
             //一定要加return false -- 2018.07.08
             return false;

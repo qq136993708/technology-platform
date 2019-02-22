@@ -25,6 +25,7 @@ import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.stp.budget.BudgetInfoExample;
 import com.pcitc.base.stp.out.OutUnit;
 import com.pcitc.base.util.MyBeanUtils;
+import com.pcitc.common.BudgetInfoEnum;
 import com.pcitc.mapper.budget.BudgetGroupTotalMapper;
 import com.pcitc.mapper.budget.BudgetInfoMapper;
 import com.pcitc.service.budget.BudgetGroupTotalService;
@@ -172,7 +173,15 @@ public class BudgetGroupTotalServiceImpl implements BudgetGroupTotalService
 		example.setOrderByClause("no");
 		return budgetGroupTotalMapper.selectByExample(example);
 	}
-
+	@Override
+	public List<BudgetGroupTotal> selectChildBudgetGroupTotalAll(String dataId) {
+		BudgetGroupTotalExample example = new BudgetGroupTotalExample();
+		BudgetGroupTotalExample.Criteria c = example.createCriteria();
+		c.andParentDataIdEqualTo(dataId);
+		c.andLevelEqualTo(1);//只显示第二级
+		example.setOrderByClause("no");
+		return budgetGroupTotalMapper.selectByExample(example);
+	}
 	@Override
 	public List<OutUnit> selectJtUnits()
 	{
@@ -185,8 +194,9 @@ public class BudgetGroupTotalServiceImpl implements BudgetGroupTotalService
 		//检索已通过审核的集团预算
 		BudgetInfoExample infoExample = new BudgetInfoExample();
 		BudgetInfoExample.Criteria infoc = infoExample.createCriteria();
-		infoc.andAuditStatusEqualTo(BudgetAuditStatusEnum.AUDIT_STATUS_PASS.getCode());
+		infoc.andAuditStatusEqualTo(BudgetAuditStatusEnum.AUDIT_STATUS_FINAL.getCode());
 		infoc.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
+		infoc.andBudgetTypeEqualTo(BudgetInfoEnum.GROUP_TOTAL.getCode());
 		List<BudgetInfo> infos = budgetInfoMapper.selectByExample(infoExample);
 		Set<String> ids = new HashSet<String>();
 		ids.add("xxxx");//避免为空
@@ -203,5 +213,7 @@ public class BudgetGroupTotalServiceImpl implements BudgetGroupTotalService
 		example.setOrderByClause("nd desc");
 		return budgetGroupTotalMapper.selectByExample(example);
 	}
+
+	
 
 }

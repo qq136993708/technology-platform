@@ -5,11 +5,23 @@ public enum BudgetAuditStatusEnum {
 	AUDIT_STATUS_NO_START(0,"编制中"),
 	AUDIT_STATUS_START(1,"审批中"),
 	AUDIT_STATUS_REFUSE(-1,"审批驳回"),
-	AUDIT_STATUS_PASS(2,"审批通过");
+	AUDIT_STATUS_PASS(2,"审批通过"),
+	AUDIT_STATUS_FINAL(3,"最终版本");
 	
 	private BudgetAuditStatusEnum(Integer code, String desc) {
 		this.code = code;
 		this.desc = desc;
+	}
+	public static BudgetAuditStatusEnum getStatusByCode(Integer code)
+	{
+		for(BudgetAuditStatusEnum v:BudgetAuditStatusEnum.values()) 
+		{
+			if(v.getCode().equals(code)) 
+			{
+				return v;
+			}
+		}
+		return AUDIT_STATUS_NO_START;
 	}
 
 	private Integer code;
