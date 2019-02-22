@@ -64,7 +64,7 @@ public class OutUnitServiceImpl implements OutUnitService {
 		OutUnitExample example = new OutUnitExample();
 		OutUnitExample.Criteria c = example.createCriteria();
 		c.andDefine2EqualTo(define2);
-		
+		example.setOrderByClause("unit_name");
 		return outUnitMapper.selectByExample(example);
 	}
 
