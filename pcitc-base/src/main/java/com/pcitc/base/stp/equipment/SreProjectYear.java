@@ -15,6 +15,8 @@ public class SreProjectYear {
 
     private BigDecimal subtotalMoney;
 
+    private String leadUnitName;
+
     public String getId() {
         return id;
     }
@@ -61,5 +63,13 @@ public class SreProjectYear {
 
     public void setSubtotalMoney(BigDecimal subtotalMoney) {
         this.subtotalMoney = subtotalMoney;
+    }
+
+    public String getLeadUnitName() {
+        return leadUnitName;
+    }
+
+    public void setLeadUnitName(String leadUnitName) {
+        this.leadUnitName = leadUnitName;
     }
 }

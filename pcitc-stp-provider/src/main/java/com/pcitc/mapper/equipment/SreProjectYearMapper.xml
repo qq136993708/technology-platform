@@ -8,6 +8,7 @@
     <result column="project_id" property="projectId" jdbcType="BIGINT" />
     <result column="cost_money" property="costMoney" jdbcType="DECIMAL" />
     <result column="subtotal_money" property="subtotalMoney" jdbcType="DECIMAL" />
+    <result column="lead_unit_name" property="leadUnitName" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -68,7 +69,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, year, capital_money, project_id, cost_money, subtotal_money
+    id, year, capital_money, project_id, cost_money, subtotal_money, lead_unit_name
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.pcitc.base.stp.equipment.SreProjectYearExample" >
     select
@@ -103,11 +104,11 @@
   </delete>
   <insert id="insert" parameterType="com.pcitc.base.stp.equipment.SreProjectYear" >
     insert into sre_project_year (id, year, capital_money, 
-      project_id, cost_money, subtotal_money
-      )
+      project_id, cost_money, subtotal_money, 
+      lead_unit_name)
     values (#{id,jdbcType=VARCHAR}, #{year,jdbcType=INTEGER}, #{capitalMoney,jdbcType=DECIMAL}, 
-      #{projectId,jdbcType=BIGINT}, #{costMoney,jdbcType=DECIMAL}, #{subtotalMoney,jdbcType=DECIMAL}
-      )
+      #{projectId,jdbcType=BIGINT}, #{costMoney,jdbcType=DECIMAL}, #{subtotalMoney,jdbcType=DECIMAL}, 
+      #{leadUnitName,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.pcitc.base.stp.equipment.SreProjectYear" >
     insert into sre_project_year
@@ -130,6 +131,9 @@
       <if test="subtotalMoney != null" >
         subtotal_money,
       </if>
+      <if test="leadUnitName != null" >
+        lead_unit_name,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -149,6 +153,9 @@
       </if>
       <if test="subtotalMoney != null" >
         #{subtotalMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="leadUnitName != null" >
+        #{leadUnitName,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -179,6 +186,9 @@
       <if test="record.subtotalMoney != null" >
         subtotal_money = #{record.subtotalMoney,jdbcType=DECIMAL},
       </if>
+      <if test="record.leadUnitName != null" >
+        lead_unit_name = #{record.leadUnitName,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -191,7 +201,8 @@
       capital_money = #{record.capitalMoney,jdbcType=DECIMAL},
       project_id = #{record.projectId,jdbcType=BIGINT},
       cost_money = #{record.costMoney,jdbcType=DECIMAL},
-      subtotal_money = #{record.subtotalMoney,jdbcType=DECIMAL}
+      subtotal_money = #{record.subtotalMoney,jdbcType=DECIMAL},
+      lead_unit_name = #{record.leadUnitName,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -214,6 +225,9 @@
       <if test="subtotalMoney != null" >
         subtotal_money = #{subtotalMoney,jdbcType=DECIMAL},
       </if>
+      <if test="leadUnitName != null" >
+        lead_unit_name = #{leadUnitName,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -223,7 +237,8 @@
       capital_money = #{capitalMoney,jdbcType=DECIMAL},
       project_id = #{projectId,jdbcType=BIGINT},
       cost_money = #{costMoney,jdbcType=DECIMAL},
-      subtotal_money = #{subtotalMoney,jdbcType=DECIMAL}
+      subtotal_money = #{subtotalMoney,jdbcType=DECIMAL},
+      lead_unit_name = #{leadUnitName,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

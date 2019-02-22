@@ -29,13 +29,13 @@
 			</div>
 		</div>
 	<div class="box-body">
-	<form class="layui-form" name="form1" id="form1" action="" method="POST" lay-filter="component-form-group layui-container">
-		<input type="hidden"  name="equipmentId"     id="equipmentId" value="${equipmentId}">
-		<input type="hidden"  name="functionId"      id="functionId"  value=""   >
-		<input type="hidden"  name="applyDepartCode"         id="applyDepartCode"     value="${applyDepartCode}"   >
-		<input type="hidden"  name="auditStatus"     id="auditStatus" value=""  >
-		<input type="hidden"  name="type"            id="type"        value=""  >
-  
+	<form class="layui-form"  name="form1" id="form1" action="" method="POST" lay-filter="component-form-group layui-container">
+		<input type="hidden"  name="equipmentId"     id="equipmentId"         value="${sreEquipment.equipmentId}">
+		<input type="hidden"  name="functionId"      id="functionId"          value=""   >
+		<input type="hidden"  name="applyDepartCode" id="applyDepartCode"     value="${applyDepartCode}" >
+		<input type="hidden"  name="auditStatus"     id="auditStatus"         value=""  >
+        <input type="hidden"  name="attachmentDoc"   id="attachmentDoc"       value="${attachmentDoc}">
+        
       <!-- 行有两个的情况 -->
       <div class="layui-row">
         <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
@@ -50,7 +50,10 @@
           <div class="layui-form-item">
             <label for="" class="layui-form-label">装备分类<span class="must-fill">*</span></label>
             <div class="layui-input-block">
-               <input class="layui-input" name="typeName" id="typeName" value="dd" onclick="chooseType()" readonly="readonly" lay-verify="required"  autocomplete="off" type="text">
+                <select name="type" id="ROOT_ZBGL_ZBFL" lay-verify="required"  lay-filter="type">
+		                	<option value="" selected="selected">请选择</option>
+		             	</select>
+		             	
             </div>
           </div>
         </div>
@@ -178,7 +181,10 @@
         </div>
       </div>
       
-      
+       <div class="layui-form-item">
+	      	 <label class="layui-form-label">附件</label>
+	         <div id="file_div" class="layui-input-block"></div>
+       </div>
       
 	  	<div class="form-bottom">
 	  		<div class="form-bottom-btns">
@@ -195,6 +201,12 @@
 <script src="/layuiadmin/layui/layui.js"></script>
 <script>
 var v_date=(new Date()).getTime();
+var file_ids = "attachmentDoc";
+//detail:详情，edit：编辑
+file_edit_detail = "edit";
+//统管理-附件管理-附件配置：页面标识
+file_opt_flag = "546f1237f09d4aa19e91721180253b48";
+
 var param=JSON.parse(window.localStorage.getItem("param"));
 var functionId=param.id;
 $('#functionId').val(functionId);
@@ -209,24 +221,40 @@ layui.config({
     base: 'layuicommon/module/modules/' //静态资源所在路径
 }).extend({
     index: 'layui/tableDemo' //主入口模块
-}).use(['form', 'laydate','table','layer'], function(){
-	  var admin = layui.admin
+}).use(['jquery','form', 'laydate','table','layer',"publicMethods"], function(){
+	  var $ = layui.jquery,
+	  admin = layui.admin
       ,element = layui.element
       ,layer = layui.layer
       ,laydate = layui.laydate
       ,form = layui.form;
-	  form.render(null, 'component-form-group');
-	  laydate.render({
-	      elem: '#LAY-component-form-group-date'
-	  });
-	  
-	  //初始赋值 component-form-group 当前form的lay-filter
-      form.val("component-form-group", {
-          "username": "" // "name": "value"
-          ,"sex": "女"
-      })
-      /* 自定义验证规则  title 要验证的input的 lay-verify=""*/
-      form.verify({
+	  var publicMethods=layui.publicMethods;
+	  var equipmentId = "${equipmentId?default(0)}";
+	  var type = "${sreEquipment.type?default('')}";
+	    //alert(type);
+	    //加载字典
+		var dicMap = ['ROOT_ZBGL_ZBFL'];
+		publicMethods.ajaxPost("/dictionary/map/getMapListDictionarys",{"parentCodes":JSON.stringify(dicMap)}, function (data) {
+			$.each(data,function(key,val){
+				$.each(val,function(i,dt){
+					var content='<option value="'+dt.code+'"';
+					if(dt.code==type)
+					{
+						content+=' selected="selected" ';
+					}
+					content+=' >'+dt.name+'</option>';
+					$("#"+key).append(content);
+					//$("#"+key).append('<option value="'+dt.code+'">'+dt.name+'</option>');
+				});
+			});
+	   	});
+		
+		  form.render();
+		//添加到form.render()之后
+	 	$("#file_div").load('/common/public/uploadlayuiload.html');
+		
+       /* 自定义验证规则  title 要验证的input的 lay-verify=""*/
+       form.verify({
     	  name: function(value)
     	  {
               if(value.length < 5)
@@ -234,15 +262,10 @@ layui.config({
                   return '装备名称至少得5个字符啊';
               }
           }
-          //planMoney: [/(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/,'计划金额格试不正确'] 
-         /*  ,pass: [/(.+){6,12}$/, '密码必须6到12位']
-          ,content: function(value){
-              layedit.sync(editIndex);
-          } */
       });
       
       
-      
+    
       //开始日期
       var insStart = laydate.render({
           elem: '#beginYear'
@@ -354,7 +377,7 @@ layui.config({
       
 });
 
-function chooseType()
+/* function chooseType()
 {
 	
 	var v_date = (new Date()).getTime();
@@ -369,7 +392,7 @@ function chooseType()
         area: ['500px', '400px'],
         content:  temUrl
     });
-}
+} */
 
 
 
@@ -428,39 +451,7 @@ function ajaxOpt(url,formName,type,backurl,successMsg,failMsg)
     }
 	
 	
-	function upload_File()
-	{
-		//接收文件值的实体属性
-		var file_ids = "attachmentDoc";
-		//新增、修改用edit, 显示用detail
-		var file_edit_detail = "edit";
-		//系统功能中文件配置的KEY
-		var file_opt_flag = "6ac70322815c44baa7a70cb16ddcb593";
-		//文件KEY--隐藏琙
-		var file_ids_value=$("#attachmentDoc").val();
-		//调用公共方法
-		uploadFile(file_ids,file_edit_detail,file_opt_flag,file_ids_value);
-	}
-    
-    
-	function uploadFile(file_ids,file_edit_detail,file_opt_flag,file_ids_value)
-	{ 
-		
-		var v_date=(new Date()).getTime();
-        var temUrl="/sre-equipment/uploadFile?file_edit_detail="+file_edit_detail+"&file_ids="+file_ids+"&file_opt_flag="+file_opt_flag+"&v_date="+v_date+"&file_ids_value="+file_ids_value;
-        layer.open({
-            title:'附件',
-            skin: 'layui-layer-lan',
-            shadeClose: true,
-            type: 2,
-            fixed: false,
-            //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-            maxmin: false,
-            //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-            area: ['700px', '400px'],
-            content:  temUrl
-        });
-    }
+	
     
     
 function clearNoNum(obj){ 

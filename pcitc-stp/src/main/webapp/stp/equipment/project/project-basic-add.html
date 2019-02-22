@@ -34,84 +34,51 @@
 		<div class="">
   			<table id="eqiu_table" class="layui-hide" lay-filter="tableEvent"></table>
   		</div>
-	<div class="box-body">
-  <form class="layui-form" name="form1" id="form1" action="" method="POST" lay-filter="component-form-group layui-container">
-  <input type="hidden" name="equipmentId" id="equipmentId" value="${equipmentId}">
-  <input type="hidden" name="projectId" id="projectId" value="${projectId}">
-  <input type="hidden" name="equipmentIds" id="equipmentIds" value="${sreProjectBasic.equipmentIds}">
-  <input  name="auditDoc" id="auditDoc"   value="${auditDoc}"  type="hidden">
-  <input  name="applyDoc" id="applyDoc"   value="${applyDoc}"  type="hidden">
-  <input  name="checkContentDoc"    id="checkContentDoc"   value="${checkContentDoc}"  type="hidden">
-  <input  name="taskDoc"            id="taskDoc"           value="${taskDoc}"  type="hidden">
+  <div class="box-body">
+  <form   class="layui-form" name="form1"         id="form1" action="" method="POST" lay-filter="component-form-group layui-container">
+  <input  type="hidden"         name="projectId"     id="projectId" value="${projectId}">
+  <input  type="hidden"         name="equipmentIds"  id="equipmentIds" value="${sreProjectBasic.equipmentIds}">
+  <input  name="documentDoc"    id="documentDoc"        value="${documentDoc}"  type="hidden">
   
   
+  
+    
       
-      
-        
-      <!--行有两个的情况-->
-      
-      <div class="layui-form-item layui-form-text" >
-        <label class="layui-form-label">课题名称</label>
-        <div class="layui-input-block">
-         <input class="layui-input" name="name" id="name" value="${sreProjectBasic.name}"  lay-verify="name"  autocomplete="off" type="text">
-        </div>
-      </div>
-      
-      <div class="layui-form-item layui-form-text" >
-        <label class="layui-form-label">课题开发及投资目标</label>
-        <div class="layui-input-block">
-          <textarea placeholder="请简述开发及投资目标，原则上不超过500字" name="notes" id="notes" lay-verify="required"   class="layui-textarea">${sreEquipment.notes}</textarea>
-        </div>
-      </div>
-      
-      
-      
-      <!-- <div class="layui-row">
+  
+      <div class="layui-row">
         <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
           <div class="layui-form-item">
             <label for="" class="layui-form-label">课题名称<span class="must-fill">*</span></label>
             <div class="layui-input-block">
-              <input class="layui-input" name="name" id="name" value="${sreProjectBasic.name}"  lay-verify="name"  autocomplete="off" type="text">
+              <input class="layui-input" name="name" id="name" value="${sreProjectBasic.name}"  lay-verify="required"  autocomplete="off" type="text">
             </div>
           </div>
         </div>
-         <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
           <div class="layui-form-item">
-            <label for="" class="layui-form-label">建设年限<span class="must-fill">*</span></label>
+            <label for="" class="layui-form-label">关键词<span class="must-fill">*</span></label>
             <div class="layui-input-block">
-                  <div class="layui-input-inline" style="float:left">
-		            <input type="text" class="layui-input" name="beginYear" id="beginYear" value="2019" style="width:80px;float:left" placeholder="开始年份">
-		             <div class="layui-form-mid" style="width:8px;float:left"> - </div>
-		            <input type="text" class="layui-input" id="endYear" name="endYear"   value="2020" style="width:80px;float:left" placeholder="结束年份">
-		          </div>
+              <input class="layui-input" name="keyWord" id="keyWord" value="${sreProjectBasic.keyWord}"  lay-verify="required"  autocomplete="off" type="text">
             </div>
           </div>
-        </div>
-      </div> -->
-      
-      
-      <div class="layui-form-item layui-form-text" >
-        <label class="layui-form-label">负责单位</label>
-        <div class="layui-input-block">
-         <input class="layui-input" name="name" id="name" value="${sreProjectBasic.name}"  lay-verify="name"  autocomplete="off" type="text">
         </div>
       </div>
-      
-      
+        
+     
        <div class="layui-row">
         <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
           <div class="layui-form-item">
-            <label for="" class="layui-form-label">项目负责人<span class="must-fill">*</span></label>
+            <label for="" class="layui-form-label">牵头单位<span class="must-fill">*</span></label>
             <div class="layui-input-block">
-              <input class="layui-input" name="projectType" id="projectType" value="${sreProjectBasic.projectType}"  lay-verify="required"  autocomplete="off" type="text">
+              <input class="layui-input" name="leadUnitName" id="leadUnitName" value="${sreProjectBasic.leadUnitName}"  lay-verify="required"  autocomplete="off" type="text">
             </div>
           </div>
         </div>
         <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
           <div class="layui-form-item">
-            <label for="" class="layui-form-label">职称<span class="must-fill">*</span></label>
+            <label for="" class="layui-form-label">参加单位<span class="must-fill">*</span></label>
             <div class="layui-input-block">
-              <input class="layui-input" name="projectType" id="projectType" value="${sreProjectBasic.projectType}"  lay-verify="required"  autocomplete="off" type="text">
+              <input class="layui-input" name="joinUnitName" id="joinUnitName" value="${sreProjectBasic.joinUnitName}"  lay-verify="required"  autocomplete="off" type="text">
             </div>
           </div>
         </div>
@@ -119,60 +86,56 @@
       
       
       
+       <div class="layui-form-item">
+	      	 <label class="layui-form-label">选择装备</label>
+	         <div class="layui-input-block">
+	         	<div class="tableBox">
+		         	<div class="tableToolBox">
+				        <div class="whiteLine"></div>
+				        <div  class="tableBtns">
+				            <a href="javascript:void(0)" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg" data-type="selectEvent">新增</a>
+				            <a href="javascript:void(0)" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="deleteEvent">删除</a>
+				        </div>
+				    </div>
+	         		<table id="join_apply_table" class="layui-hide"  lay-filter="JoinEvent"></table>
+	         	</div>
+	        </div>
+       	</div>
+       	
+      
+      
+        
         <div class="layui-form-item layui-form-text" >
-        <label class="layui-form-label">参与单位</label>
+        <label class="layui-form-label">委托单位</label>
         <div class="layui-input-block">
-         <input class="layui-input" name="name" id="name" value="${sreProjectBasic.name}"  lay-verify="name"  autocomplete="off" type="text">
+         <input class="layui-input" name="entrustUnitName" id="entrustUnitName" placeholder="中国石油化工股份有限公司" value="${sreProjectBasic.entrustUnitName}"  lay-verify="name"  autocomplete="off" type="text">
         </div>
       </div>
+    
       
       
-       <div class="layui-row">
-        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-          <div class="layui-form-item">
-            <label for="" class="layui-form-label">参与负责人<span class="must-fill">*</span></label>
-            <div class="layui-input-block">
-              <input class="layui-input" name="projectType" id="projectType" value="${sreProjectBasic.projectType}"  lay-verify="required"  autocomplete="off" type="text">
-            </div>
-          </div>
-        </div>
-        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-          <div class="layui-form-item">
-            <label for="" class="layui-form-label">职称<span class="must-fill">*</span></label>
-            <div class="layui-input-block">
-              <input class="layui-input" name="projectType" id="projectType" value="${sreProjectBasic.projectType}"  lay-verify="required"  autocomplete="off" type="text">
-            </div>
-          </div>
+      
+       <!--行有两个的情况-->
+      <div class="layui-form-item layui-form-text" >
+        <label class="layui-form-label">备注</label>
+        <div class="layui-input-block">
+          <textarea placeholder="请简述开发及投资目标，原则上不超过500字" name="remarks" id="remarks" lay-verify="required"   class="layui-textarea">${sreEquipment.remarks}</textarea>
         </div>
       </div>
-      
-      
-      
-      
-      
       
        <div class="layui-form-item layui-form-text" >
         <label class="layui-form-label">建设年限</label>
         <div class="layui-input-block">
            <div class="layui-input-inline" style="float:left">
-		            <input type="text" class="layui-input" name="beginYear" id="beginYear" value="2019" style="width:80px;float:left" placeholder="开始年份">
+		            <input type="text" class="layui-input" name="beginYear" id="beginYear" value="${beginYear}" style="width:80px;float:left" placeholder="开始年份">
 		             <div class="layui-form-mid" style="width:8px;float:left"> - </div>
-		            <input type="text" class="layui-input" id="endYear" name="endYear"   value="2020" style="width:80px;float:left" placeholder="结束年份">
-		          </div>
+		            <input type="text" class="layui-input" id="endYear" name="endYear"   value="${endYear}" style="width:80px;float:left" placeholder="结束年份">
+		    </div>
         </div>
       </div>
       
-        
-        <div class="layui-form-item layui-form-text" >
-        <label class="layui-form-label">资 金 来 源</label>
-        <div class="layui-input-block">
-         <select>
-               <option>总部拨付</option>
-             </select>
-        </div>
-      </div>
-      
-      
+     
+
       
        <div class="layui-form-item layui-form-text" >
         <label class="layui-form-label"></label>
@@ -229,71 +192,17 @@
      
       
       
+       <div class="layui-form-item">
+	      	 <label class="layui-form-label">附件</label>
+	         <div id="file_div" class="layui-input-block"></div>
+       </div>
       
       
       
       
       
       
-      <div class="layui-row">
-        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-          <div class="layui-form-item">
-            <label for="" class="layui-form-label">课题立项文件<span class="must-fill">*</span></label>
-            <div class="layui-input-block">
-               <button type="button" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_save" onclick="upload_File('${applyDoc}');">选择文件</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      
-      
-      <div  class="tableBtns" style="float:right">
-       <a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add" data-type="addEvent">添加装备</a>
-  </div>
-     <!--文本域-->
-      <div class="layui-form-item layui-form-text" >
-        <div class="layui-input-block">
-        
-         <table class="layui-table">
-             <thead>
-	             <tr>
-	                <td width="4%">序号</td>
-	                <td width="20%" >装备名称</td>
-	                <td width="8%" >申请数量</td>
-	                <td width="8%">申报资金(万元)</td>
-	                <td width="8%">申报单位</td>
-	                <td width="8%">第一申报人</td>
-	                <td width="8%" align="center">申请时间</td>
-	             </tr>
-            </thead>
-            <tbody>
-            <tr>
-	                <td>1</td>
-	                <td >数据服务器及磁盘阵列</td>
-	                <td>2</td>
-	                <td style="color:red">50</td>
-	                <td>无锡所</td>
-	                <td> 王xxx</td>
-	                <td align="center">2019-01-11</td>
-	             </tr>
-	             
-	             <tr>
-	                <td>1</td>
-	                <td >石油地质实验样品二微码</td>
-	                <td>3</td>
-	                <td style="color:red">50</td>
-	                <td >无锡所</td>
-	                <td> 王xxx</td>
-	                <td align="center">2019-01-11</td>
-	             </tr>
-	             
-            </tbody>
-             
-     </table>
-        
-        </div>
-      </div>
+     
       
       
       
@@ -372,6 +281,10 @@
       
       </div>
     <!--行结束-->
+    
+    
+    
+    
     <div class="form-bottom">
 	  		<div class="form-bottom-btns">
 	    		<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue"   lay-submit="" lay-filter="sub">保存</button>
@@ -379,24 +292,20 @@
           		<button type="button"class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" id="closeBtn">关闭</button>
 	  		</div>
 		</div>
-     <!-- <div class="row" style="margin-top:30px;">
-           <div class="col-sm-12" style="text-align:center">
-             <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue"   lay-submit="" lay-filter="sub">保存</button>
-             <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue"  lay-submit="" lay-filter="up">上报</button>
-           </div>
-     </div> -->
 </form>
 </div>
 </div>
 <script>
 var v_date=(new Date()).getTime();
+var file_ids = "documentDoc";
+//detail:详情，edit：编辑
+file_edit_detail = "edit";
+//统管理-附件管理-附件配置：页面标识
+file_opt_flag = "b3a52bbe7087419c80813d7716f37674";
+
 var equipmentIds=$("#equipmentIds").val();
 var table,selectRowData;
-layui.config({
-    //base: 'layuicommon/module/modules/' //静态资源所在路径
-}).extend({
-    index: 'layui/tableDemo' //主入口模块
-}).use(['form','table','laypage','layer','laydate','laytpl','jquery'], function(){
+layui.use(['form','table','laypage','layer','laydate','laytpl','jquery',"publicMethods"], function(){
 
 	  var admin = layui.admin
       element = layui.element
@@ -406,10 +315,46 @@ layui.config({
       ,laypage = layui.laypage
       ,$ = layui.jquery
       ,form = layui.form;
+	  var publicMethods=layui.publicMethods;
 	  form.render(null, 'component-form-group');
 	  laydate.render({
 	      elem: '#LAY-component-form-group-date'
 	  });
+	  
+	  //alert($("#equipmentIds").val());
+	  table.render({
+          elem: '#join_apply_table',
+          url: '/sre-equipment/list_by_quipment_ids',
+          limit: 15,
+          method:"POST",
+          where: {param:{"equipmentIds":$("#equipmentIds").val()}},
+      	  id: 'join_apply_table',
+          height: 200,
+          page: {first: '首页',last: '尾页',theme: '#0F9EE0'},
+          cols: [[
+          	 {type:'checkbox',event: 'changeEvents'}
+          	 ,{title:'序号', type:'numbers'},
+          	{field : 'auditStatus', title : '状态', style : 'cursor: pointer;', align : 'center', templet : '<div>{{ layui.laytpl.auditStatus_equipment(d.auditStatus) }}</div>', width : 55},
+            {field : 'name',     title : '装备名称', style : 'cursor: pointer;', align : 'center', width : '20%'},
+            {field : 'type',     title : '装备分类', style : 'cursor: pointer;', align : 'center', width : '10%'},
+            {field : 'unitPrice', title : '单价（万元）', style : 'cursor: pointer;', align : 'center', width : '10%'},
+            {field : 'applyAcount', title : '申请数量', style : 'cursor: pointer;', align : 'center', width : '10%'},
+            {field : 'allPrice', title : '总价¥（万元）', style : 'cursor: pointer;', align : 'center', width : '10%',templet:function(d){return '<span style="color:red">'+d.allPrice+'</span>'}},
+            {field : 'applyDepartName', title : '申报部门', style : 'cursor: pointer;', align : 'center', width : '10%'},
+            {field : 'firstApplyUser', title : '第一申报人', style : 'cursor: pointer;', align : 'center', width : '10%'}
+             
+          ]]
+      });
+  	//多行点击事件
+      $(document).on("click", ".layui-table-body table.layui-table tbody tr", function () {
+   	   	var checkCell = $(this).parent().find("tr[data-index=" + $(this).attr('data-index') + "]").find("td div.laytable-cell-checkbox div.layui-form-checkbox");
+           if (checkCell.length > 0) {
+               checkCell.click();
+           }
+      });
+  	
+  	
+	  
 	  
       /* 自定义验证规则  title 要验证的input的 lay-verify=""*/
       form.verify({
@@ -426,10 +371,10 @@ layui.config({
               layedit.sync(editIndex);
           } */
       });
-      if(equipmentIds!=null && equipmentIds!='')
+      /* if(equipmentIds!=null && equipmentIds!='')
       {
       	renderTable(equipmentIds);
-      } 
+      }  */
       
     //开始日期
       var insStart = laydate.render({
@@ -461,11 +406,29 @@ layui.config({
           active[type] ? active[type].call(this) : '';
       });
       var $ = layui.$, active = {
+    		  selectEvent: function(){ 
+	    			//var temUrl = "/intl_project/plant_edit_selectapply?equipmentIds="+$("#equipmentIds").val();
+	    			var temUrl = '/sre-project-basic/project_basic_add_selectapply?equipmentIds='+$("#equipmentIds").val();
+	                publicMethods.openBaseWin("选择装备",temUrl,"90%","80%");
+	    		
+	            },
+	            deleteEvent:function(){
+	            	layer.confirm('确定要移除吗？',{title:"移除确认"},function(index){
+						layer.close(index);
+		            	var check = table.checkStatus('join_apply_table');
+		            	var equipmentIds="";
+		            	for(var dt in check.data)
+		            	{
+		            		/* publicMethods.ajaxPost('/project/del-fromplant', {"equipmentIds":$("#equipmentIds").val(),"applyId":check.data[dt].applyId}, function (data, status) {
+		            			console.log("del...");
+			                }); */
+		            		equipmentIds+=check.data[dt].equipmentId;
+		            	}
+		            	$("#equipmentIds").val(equipmentIds);
+		            	table.reload("join_apply_table",{where: {param:{"equipmentIds":$("#equipmentIds").val()}}});
+	            	});
+	            } 
     		  
-              addEvent: function() { //点击查询按钮
-            	  add_Eventd();
-                 
-              }
       }
       /* 监听提交 */
       form.on('submit(sub)', function(data){
@@ -538,91 +501,35 @@ function ajaxOpt(url,formName,type,backurl,successMsg,failMsg)
 }
 
 
-
-
-var t;
-function add_Eventd()
+function renderTable(equipmentIds)
 {
-	t=layer.open({
-        title:'选择装备',
-        skin: 'layui-layer-lan',
-        shadeClose: true,
-        type: 2,
-        fixed: false,
-        //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-        maxmin: false,
-        //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-        area: ['60%', '80%'],
-        content:  '/sre-equipment/search-equipment?equipmentIds='+$("#equipmentIds").val()
-    });
-}
-
-
-function renderTable(id)
-{ 
-   //渲染
-   table.render({
-       elem: '#eqiu_table',
-       url: '/sre-equipment/list',
-       method:"POST",
-       where: {param: {"equipmentIds":id,"name":""}},
-       limit: 15,
-       height: commonDislodgeTable(),
-       id: 'eqiu_table',
-       cols: [[
-       	{type:'checkbox',event: 'changeEvents',width: '3%'},
-       	{title:'序号', type:'numbers', width: '4%'},
-           {field:'equipmentCode', title:'编号',        style:'cursor: pointer;',align: 'center'},
-           {field:'name',        title:'装备名称',     style:'cursor: pointer;',align: 'center'},
-           {field:'auditStatus', title:'流程状态',     style:'cursor: pointer;',align: 'center',templet: '#buttonTpl'},
-           {field:'meetingId',   title:'技术交流',     style:'cursor: pointer;',align: 'center'},
-           {field:'createDate',  title:'时间',        style:'cursor: pointer;',align: 'center',templet: '#dateTpl'}
-       ]],
-       done: function (res, curr, count) {
-           // 点击行联动选择框--单选
-           $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
-           	var index=parseInt($(this).index()+1);
-               $('tr').removeClass('layui-table-click');
-               $(this).addClass('layui-table-click');
-               $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
-               $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
-               selectRowData=res.data[index-1];
-           });
-       }
-   });
+	  table.render({
+          elem: '#join_apply_table',
+          url: '/sre-equipment/list_by_quipment_ids?equipmentIds='+equipmentIds,
+          limit: 15,
+          method:"GET",
+      	  id: 'join_apply_table',
+          height: 200,
+          page: {first: '首页',last: '尾页',theme: '#0F9EE0'},
+          cols: [[
+          	 {type:'checkbox',event: 'changeEvents'}
+          	 ,{title:'序号', type:'numbers'},
+          	{field : 'auditStatus', title : '状态', style : 'cursor: pointer;', align : 'center', templet : '<div>{{ layui.laytpl.auditStatus_equipment(d.auditStatus) }}</div>', width : 55},
+            {field : 'name',     title : '装备名称', style : 'cursor: pointer;', align : 'center', width : '20%'},
+            {field : 'type',     title : '装备分类', style : 'cursor: pointer;', align : 'center', width : '10%'},
+            {field : 'unitPrice', title : '单价（万元）', style : 'cursor: pointer;', align : 'center', width : '10%'},
+            {field : 'applyAcount', title : '申请数量', style : 'cursor: pointer;', align : 'center', width : '10%'},
+            {field : 'allPrice', title : '总价¥（万元）', style : 'cursor: pointer;', align : 'center', width : '10%',templet:function(d){return '<span style="color:red">'+d.allPrice+'</span>'}},
+            {field : 'applyDepartName', title : '申报部门', style : 'cursor: pointer;', align : 'center', width : '10%'},
+            {field : 'firstApplyUser', title : '第一申报人', style : 'cursor: pointer;', align : 'center', width : '10%'}
+             
+          ]]
+      });
 }
 
 
 
-function upload_File(name) {
-	
-    var param = {};
-    if(document.getElementById(name)){
-        param.file_id_name = name;
-        param.file_ids_value = $("#" + param.file_id_name).val();
-    }else {
-        param.file_ids_value = name;
-    }
-    param.callback = "call_fun";//回调函数名称
-    param.file_opt_flag = "4d79552ec98849f6b32da1af921df81e";//文件配置ID
-    param.file_edit_detail = "edit";//新增、修改用edit, 显示用detail
-    var temUrl = "/sysFilePage/uploadFile?param=" + encodeURIComponent(JSON.stringify(param));
-    openBaseWin("文件上传", temUrl);
-}
 
-function call_fun(data, param)
-{
-    //param:返回上面拼装的参数json字符串，data：json文件数组
-    console.log("-------------call_fun___________");
-    console.log(data);
-    console.log(param);
-    for (var key in data) 
-    {
-        //console.log(key);
-        // var obj_file = data[key];
-        //console.log("文件名称："+obj_file.fileName+"  文件大小："+obj_file.fileSize+"  文件路径:"+obj_file.filePath);
-    }
-}
 
 function showdialog() {
     openBaseWin("选择", "/sysfileshare/dialog_user_list");

@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.druid.support.json.JSONUtils;
@@ -37,6 +38,7 @@ import com.pcitc.base.hana.report.DicSupplyer;
 import com.pcitc.base.stp.equipment.SreEquipment;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CommonUtil;
+import com.pcitc.base.util.IdUtil;
 import com.pcitc.base.workflow.Constants;
 import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.web.common.BaseController;
@@ -300,6 +302,53 @@ public class EquipmentController extends BaseController {
 		return result.toString();
 	}
 
+	
+	
+	@RequestMapping(value = "/list_by_quipment_ids")
+	@ResponseBody
+	public String list_by_quipment_ids(HttpServletRequest request, HttpServletResponse response) {
+		LayuiTableData layuiTableData = new LayuiTableData();
+		ResponseEntity<List> responseEntity = null;
+		List returnlist = new ArrayList();
+		String ids = CommonUtil.getParameter(request, "equipmentIds", "");
+		System.out.println("--------equipmentIds=" + ids);
+		if (!ids.equals("")) 
+		{
+			String chkbox[] = ids.split(",");
+			System.out.println("--------ids=" + ids + " chkbox=" + chkbox.length);
+			if (chkbox != null && chkbox.length > 0)
+			{
+				List<String> list = Arrays.asList(chkbox);
+				/*List<Long> longList = new ArrayList();
+				if (list != null) {
+					for (int i = 0; i < list.size(); i++) 
+					{
+						String str = list.get(i);
+						longList.add(Long.valueOf(str));
+					}
+				}*/
+				JSONArray jsonObject = JSONArray.parseArray(JSON.toJSONString(list));
+				HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+				responseEntity = restTemplate.exchange(LIST_BY_IDS_URL, HttpMethod.POST, entity, List.class);
+				int statusCode = responseEntity.getStatusCodeValue();
+				if (statusCode == 200) 
+				{
+					returnlist = responseEntity.getBody();
+					logger.info("============远程返回  statusCode " + statusCode + "  list=" + list.size());
+					
+				}
+			}
+		}
+		layuiTableData.setData(returnlist);
+		layuiTableData.setCode(0);
+		layuiTableData.setCount(returnlist.size());
+		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
+		logger.info("============result" + result);
+		return result.toString();
+		
+	}
+	
+	
 	/**
 	 * 选择装备
 	 * 
@@ -327,14 +376,17 @@ public class EquipmentController extends BaseController {
 		ResponseEntity<List> responseEntity = null;
 		List returnlist = null;
 		String ids = CommonUtil.getParameter(request, "equipmentIds", "");
-		if (!ids.equals("")) {
+		if (!ids.equals("")) 
+		{
 			String chkbox[] = ids.split(",");
 			System.out.println("--------ids=" + ids + " chkbox=" + chkbox.length);
-			if (chkbox != null && chkbox.length > 0) {
+			if (chkbox != null && chkbox.length > 0)
+			{
 				List<String> list = Arrays.asList(chkbox);
 				List<Long> longList = new ArrayList();
 				if (list != null) {
-					for (int i = 0; i < list.size(); i++) {
+					for (int i = 0; i < list.size(); i++) 
+					{
 						String str = list.get(i);
 						longList.add(Long.valueOf(str));
 					}
@@ -345,8 +397,9 @@ public class EquipmentController extends BaseController {
 				int statusCode = responseEntity.getStatusCodeValue();
 				returnlist = responseEntity.getBody();
 				logger.info("============远程返回  statusCode " + statusCode + "  list=" + list.size());
-				if (statusCode == 200) {
-
+				if (statusCode == 200) 
+				{
+                    
 				}
 			}
 		}
@@ -355,6 +408,15 @@ public class EquipmentController extends BaseController {
 		return "/stp/equipment/equipment/iframe-equipment";
 	}
 
+	
+	
+	@RequestMapping(value = "/get_sreEquipment")
+	public Object get_sreEquipment(@RequestParam(value = "equipmentId", required = true) String equipmentId, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		System.out.println("equipmentId................." + equipmentId);
+		return this.restTemplate.exchange(GET_URL + equipmentId, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), SreEquipment.class).getBody();
+	}
+	
+	
 	/**
 	 * 增加
 	 * 
@@ -367,8 +429,9 @@ public class EquipmentController extends BaseController {
 	public String add(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		String applyDepartName = sysUserInfo.getUnitName();
-		String applyDepartCode = sysUserInfo.getUserUnit();
+		String applyDepartCode = sysUserInfo.getUnitCode();
 		String firstApplyUser=sysUserInfo.getUserDisp();
+		String attachmentDoc= IdUtil.createFileIdByTime();
 		
 		String equipmentId = CommonUtil.getParameter(request, "equipmentId", "");
 		request.setAttribute("equipmentId", equipmentId);
@@ -383,7 +446,9 @@ public class EquipmentController extends BaseController {
 			applyDepartName = sreEquipment.getApplyDepartName();
 			applyDepartCode = sreEquipment.getApplyDepartCode();
 			firstApplyUser=sreEquipment.getFirstApplyUser();
+			attachmentDoc=sreEquipment.getAttachmentDoc();
 		}
+		request.setAttribute("attachmentDoc", attachmentDoc);
 		request.setAttribute("applyDepartName", applyDepartName);
 		request.setAttribute("applyDepartCode", applyDepartCode);
 		request.setAttribute("firstApplyUser", firstApplyUser);
@@ -432,10 +497,11 @@ public class EquipmentController extends BaseController {
 		SreEquipment sreEquipment = null;
 		ResponseEntity<String> responseEntity = null;
 		// 判断是新增还是修改
-		if (equipmentId.equals("")) {
+		if (equipmentId.equals("")) 
+		{
 			sreEquipment = new SreEquipment();
 			sreEquipment.setCreateDate(new Date());
-			sreEquipment.setCreateUserId(sysUserInfo.getUserId());
+			sreEquipment.setCreateUserId(sysUserInfo.getUserName());
 			String code = CommonUtil.getTableCode("XTBM_0016", restTemplate, httpHeaders);
 			sreEquipment.setEquipmentCode(code);
 			String id = UUID.randomUUID().toString().replaceAll("-", "");

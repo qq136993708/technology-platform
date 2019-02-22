@@ -21,7 +21,7 @@
   <div class="formBox">
   <div class="box-body">
   <form class="layui-form" name="form1" id="form1" action="" method="POST" lay-filter="component-form-group layui-container">
-    
+     <input type="hidden" name="attachmentDoc" id="attachmentDoc" value="${sreEquipment.attachmentDoc}">
        <!-- 行有两个的情况 -->
       <div class="layui-row">
         <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
@@ -164,6 +164,12 @@
         </div>
       </div>
       
+       <div class="layui-form-item">
+	      	 <label class="layui-form-label">附件</label>
+	         <div id="file_div" class="layui-input-block"></div>
+       </div>
+      
+      
       <div class="form-bottom">
   	  	<div class="form-bottom-btns">
       		<button type="button"class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" id="closeBtn">关闭</button>
@@ -172,31 +178,67 @@
 </form>
 </div>
 </div>
-<script src="/common/js/jquery-1.11.3.min.js"></script>
-<script src="/layuiadmin/layui/layui.js"></script>
+<script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+	<script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
 <script>
 var v_date=(new Date()).getTime();
-layui.config({
-    base: 'layuicommon/module/modules/' //静态资源所在路径
-}).extend({
-    index: 'layui/tableDemo' //主入口模块
-}).use(['form', 'laydate','table','layer'], function(){
-	  var admin = layui.admin
-      ,element = layui.element
-      ,layer = layui.layer
-      ,laydate = layui.laydate
-      ,form = layui.form;
-	  form.render(null, 'component-form-group');
-	  laydate.render({
-	      elem: '#LAY-component-form-group-date'
-	  });
+
+var file_ids = "attachmentDoc";
+//detail:详情，edit：编辑
+file_edit_detail = "detail";
+//统管理-附件管理-附件配置：页面标识
+file_opt_flag = "546f1237f09d4aa19e91721180253b48";
+
+$(document).ready(function() {
+	layui.use([ 'jquery', 'form', 'laydate', 'table', 'layer', 'element',"publicMethods" ],
+			function() {
+				var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate;
+				var form = layui.form;
+				var publicMethods=layui.publicMethods;
+				//加载字典
+				var dicMap = ['GJXMGL_TZLX'];
+				publicMethods.ajaxPost("/dictionary/map/getMapListDictionarys",{"parentCodes":JSON.stringify(dicMap)}, function (data) {
+					$.each(data,function(key,val){
+						$.each(val,function(i,dt){
+							$("#"+key).append('<option value="'+dt.code+'">'+dt.name+'</option>');
+						});
+					});
+			   	});
+			 	
+			 	form.render();
+			 	//添加到form.render()之后
+			 	$("#file_div").load('/common/public/uploadlayuiload.html');
+				/* 自定义验证规则  title 要验证的input的 lay-verify=""*/
+				form.verify({
+				});
+				/* 监听提交 */
+				form.on('submit(submitBtn)', function(data) {
+					data.field.noticeContent = editor.getData();
+                    ajaxPost('/project/addorupd-notice', data.field, function (data, status) {
+                        if (data.success) {
+                        	parent.layui.table.reload('noticeTable',null);
+                        	parent.renderfunc();//隐藏全选按钮
+                        	var index = parent.layer.getFrameIndex(window.name);
+					       	parent.layer.close(index);
+                        }else{
+                        	parent.layer.alert(data.message, {
+								title : '信息'
+							});
+							return;
+                        }
+                    });
+					return false;
+				});
+		});
+	//关闭事件
+	$("#closeBtn").click(function () {
+	    var index = parent.layer.getFrameIndex(window.name);
+	    parent.layer.close(index);
+	})
 });
 
-//关闭事件
-$("#closeBtn").click(function () {
-    var index = parent.layer.getFrameIndex(window.name);
-    parent.layer.close(index);
-})
+
 </script>
 </body>
 </html>

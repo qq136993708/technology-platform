@@ -6,15 +6,13 @@ import java.util.Date;
 public class SreProject {
     private String projectId;
 
-    private String contractNo;
+    private String contractNum;
 
     private String name;
 
     private String remarks;
 
     private BigDecimal projectMoney;
-
-    private String applyOrganization;
 
     private String updateUserId;
 
@@ -44,7 +42,9 @@ public class SreProject {
 
     private String joinUnitName;
 
-    private String unitType;
+    private String entrustUnitName;
+
+    private String leadUnitType;
 
     private String professionalField;
 
@@ -60,6 +60,20 @@ public class SreProject {
 
     private String erpNum;
 
+    private String leadUnitCode;
+
+    private String joinUnitCode;
+
+    private String entrustUnitCode;
+
+    private String projectChargesCode;
+
+    private String projectChargesName;
+
+    private String leadLinkmansCode;
+
+    private String leadLinkmansName;
+
     public String getProjectId() {
         return projectId;
     }
@@ -68,12 +82,12 @@ public class SreProject {
         this.projectId = projectId;
     }
 
-    public String getContractNo() {
-        return contractNo;
+    public String getContractNum() {
+        return contractNum;
     }
 
-    public void setContractNo(String contractNo) {
-        this.contractNo = contractNo;
+    public void setContractNum(String contractNum) {
+        this.contractNum = contractNum;
     }
 
     public String getName() {
@@ -98,14 +112,6 @@ public class SreProject {
 
     public void setProjectMoney(BigDecimal projectMoney) {
         this.projectMoney = projectMoney;
-    }
-
-    public String getApplyOrganization() {
-        return applyOrganization;
-    }
-
-    public void setApplyOrganization(String applyOrganization) {
-        this.applyOrganization = applyOrganization;
     }
 
     public String getUpdateUserId() {
@@ -220,12 +226,20 @@ public class SreProject {
         this.joinUnitName = joinUnitName;
     }
 
-    public String getUnitType() {
-        return unitType;
+    public String getEntrustUnitName() {
+        return entrustUnitName;
     }
 
-    public void setUnitType(String unitType) {
-        this.unitType = unitType;
+    public void setEntrustUnitName(String entrustUnitName) {
+        this.entrustUnitName = entrustUnitName;
+    }
+
+    public String getLeadUnitType() {
+        return leadUnitType;
+    }
+
+    public void setLeadUnitType(String leadUnitType) {
+        this.leadUnitType = leadUnitType;
     }
 
     public String getProfessionalField() {
@@ -282,5 +296,61 @@ public class SreProject {
 
     public void setErpNum(String erpNum) {
         this.erpNum = erpNum;
+    }
+
+    public String getLeadUnitCode() {
+        return leadUnitCode;
+    }
+
+    public void setLeadUnitCode(String leadUnitCode) {
+        this.leadUnitCode = leadUnitCode;
+    }
+
+    public String getJoinUnitCode() {
+        return joinUnitCode;
+    }
+
+    public void setJoinUnitCode(String joinUnitCode) {
+        this.joinUnitCode = joinUnitCode;
+    }
+
+    public String getEntrustUnitCode() {
+        return entrustUnitCode;
+    }
+
+    public void setEntrustUnitCode(String entrustUnitCode) {
+        this.entrustUnitCode = entrustUnitCode;
+    }
+
+    public String getProjectChargesCode() {
+        return projectChargesCode;
+    }
+
+    public void setProjectChargesCode(String projectChargesCode) {
+        this.projectChargesCode = projectChargesCode;
+    }
+
+    public String getProjectChargesName() {
+        return projectChargesName;
+    }
+
+    public void setProjectChargesName(String projectChargesName) {
+        this.projectChargesName = projectChargesName;
+    }
+
+    public String getLeadLinkmansCode() {
+        return leadLinkmansCode;
+    }
+
+    public void setLeadLinkmansCode(String leadLinkmansCode) {
+        this.leadLinkmansCode = leadLinkmansCode;
+    }
+
+    public String getLeadLinkmansName() {
+        return leadLinkmansName;
+    }
+
+    public void setLeadLinkmansName(String leadLinkmansName) {
+        this.leadLinkmansName = leadLinkmansName;
     }
 }

@@ -474,6 +474,76 @@ public class SreProjectYearExample {
             addCriterion("subtotal_money not between", value1, value2, "subtotalMoney");
             return (Criteria) this;
         }
+
+        public Criteria andLeadUnitNameIsNull() {
+            addCriterion("lead_unit_name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeadUnitNameIsNotNull() {
+            addCriterion("lead_unit_name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeadUnitNameEqualTo(String value) {
+            addCriterion("lead_unit_name =", value, "leadUnitName");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeadUnitNameNotEqualTo(String value) {
+            addCriterion("lead_unit_name <>", value, "leadUnitName");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeadUnitNameGreaterThan(String value) {
+            addCriterion("lead_unit_name >", value, "leadUnitName");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeadUnitNameGreaterThanOrEqualTo(String value) {
+            addCriterion("lead_unit_name >=", value, "leadUnitName");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeadUnitNameLessThan(String value) {
+            addCriterion("lead_unit_name <", value, "leadUnitName");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeadUnitNameLessThanOrEqualTo(String value) {
+            addCriterion("lead_unit_name <=", value, "leadUnitName");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeadUnitNameLike(String value) {
+            addCriterion("lead_unit_name like", value, "leadUnitName");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeadUnitNameNotLike(String value) {
+            addCriterion("lead_unit_name not like", value, "leadUnitName");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeadUnitNameIn(List<String> values) {
+            addCriterion("lead_unit_name in", values, "leadUnitName");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeadUnitNameNotIn(List<String> values) {
+            addCriterion("lead_unit_name not in", values, "leadUnitName");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeadUnitNameBetween(String value1, String value2) {
+            addCriterion("lead_unit_name between", value1, value2, "leadUnitName");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeadUnitNameNotBetween(String value1, String value2) {
+            addCriterion("lead_unit_name not between", value1, value2, "leadUnitName");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {
