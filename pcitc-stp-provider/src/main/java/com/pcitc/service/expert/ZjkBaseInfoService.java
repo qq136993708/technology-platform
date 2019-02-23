@@ -221,4 +221,6 @@ public interface ZjkBaseInfoService {
     Object updateAuditStatus(String dataId);
 
     JSONObject updateExpertByType(ZjkExpert zjkBaseInfo);
+
+    LayuiTableData showExpertPageTableData(LayuiTableParam param);
 }
