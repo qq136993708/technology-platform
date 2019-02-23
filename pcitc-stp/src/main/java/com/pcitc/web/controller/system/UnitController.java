@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.druid.support.json.JSONUtils;
@@ -202,8 +203,9 @@ public class UnitController extends BaseController {
 
 	@RequestMapping(value = "/unit/ztree-unit-list")
 	@ResponseBody
-	public String getComboboxUnitTree(HttpServletRequest request) throws Exception {
-		ResponseEntity<String> responseEntity = restTemplate.exchange(UNIT_LIST_ZTREE_DATA, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), String.class);
+	public String getComboboxUnitTree(@RequestParam(value="name", required=false) String name,HttpServletRequest request) throws Exception {
+		System.out.println("name:"+name);
+		ResponseEntity<String> responseEntity = restTemplate.exchange(UNIT_LIST_ZTREE_DATA, HttpMethod.POST, new HttpEntity<Object>(name,this.httpHeaders), String.class);
 		System.out.println(responseEntity.getBody());
 		return responseEntity.getBody();
 
