@@ -585,6 +585,8 @@ public class ExpertController extends BaseController {
      */
     @RequestMapping(value = "/getUserChoicePage", method = RequestMethod.GET)
     public String getUserChoicePage() {
+        request.setAttribute("projectId",request.getParameter("projectId"));
+        request.setAttribute("projectName",request.getParameter("projectName"));
         return "stp/expert/expert_choice";
     }
 
@@ -593,6 +595,7 @@ public class ExpertController extends BaseController {
      * @return
      */
     @RequestMapping(value = "/getUserChoiceTableData", method = RequestMethod.POST)
+    @ResponseBody
     public String getUserChoiceTableData(@ModelAttribute("param") LayuiTableParam param) {
         HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
         ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(select_expert, HttpMethod.POST, entity, LayuiTableData.class);

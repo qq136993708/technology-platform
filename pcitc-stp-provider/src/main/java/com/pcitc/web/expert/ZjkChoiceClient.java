@@ -186,7 +186,7 @@ public class ZjkChoiceClient {
      */
     @ApiOperation(value = "查询专家-人员选择信息", notes = "查询专家-人员选择专家信息")
     @RequestMapping(value = "/zjkchoice-provider/zjkchoice/select_expert")
-    public Object getUserChoiceTableData(@RequestBody LayuiTableParam param) {
+    public LayuiTableData getUserChoiceTableData(@RequestBody LayuiTableParam param) {
         return zjkChoiceService.getUserChoiceTableData(param);
     }
 

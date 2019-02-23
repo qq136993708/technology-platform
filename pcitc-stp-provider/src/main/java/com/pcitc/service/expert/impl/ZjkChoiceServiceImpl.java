@@ -200,12 +200,12 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
 //        c.andStatusEqualTo("1");
         c.andStatusEqualTo(param.getParam().get("status").toString());
         Object adduserId = param.getParam().get("addUserId");
-        if(StrUtil.isObjectEmpty(adduserId)){
+        if(!StrUtil.isObjectEmpty(adduserId)){
             c.andAddUserIdEqualTo(adduserId.toString());
         }
 
         Object projectId = param.getParam().get("projectId");
-        if(StrUtil.isObjectEmpty(projectId)){
+        if(!StrUtil.isObjectEmpty(projectId)){
             c.andXmIdEqualTo(projectId.toString());
         }
         example.setOrderByClause("create_date desc");
@@ -285,16 +285,15 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
 
 
     @Override
-    public Object getUserChoiceTableData(LayuiTableParam param) {
+    public LayuiTableData getUserChoiceTableData(LayuiTableParam param) {
         LayuiTableData data = new LayuiTableData();
         Map<String, Object> map = param.getParam();
         String strProjectId = map.get("projectId").toString();//项目ID
         String strProjectConfigId = map.get("projectConfigId").toString();//项目阶段ID
         String strType = map.get("type").toString();//随机，固定，单位
-        String strCount = map.get("count").toString();//数量
 
         //获取项目配置内容
-        ZjkExtractConfig zjkExtractConfigInfo = systemRemoteClient.getZjkExtractConfigInfo(strProjectId);
+        ZjkExtractConfig zjkExtractConfigInfo = systemRemoteClient.getZjkExtractConfigInfo(strProjectConfigId);
         //根据配置，过滤专家列表
         String sql = "";
         ZjkExpertExample example = new ZjkExpertExample();
@@ -303,12 +302,12 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
         c.andSysFlagEqualTo("0");
         c.andDelFlagEqualTo("0");
         String expertProfessional = zjkExtractConfigInfo.getExpertProfessional();
-        if(StrUtil.isEmpty(expertProfessional)){
-            c.andExpertProfessionalFieldIn(Arrays.asList(expertProfessional.split(",")));
+        if(!StrUtil.isEmpty(expertProfessional)){
+//            c.andExpertProfessionalFieldIn(Arrays.asList(expertProfessional.split(",")));
         }
         String expertArea = zjkExtractConfigInfo.getExpertArea();
-        if(StrUtil.isEmpty(expertArea)){
-            c.andProvinceIn(Arrays.asList(expertArea.split(",")));
+        if(!StrUtil.isEmpty(expertArea)){
+//            c.andProvinceIn(Arrays.asList(expertArea.split(",")));
         }
 //        随机选取：根据选择的项目阶段、专家人数，通过系统随机选取与该阶段对应的专家。
 //        固定选取：按照阶段、技术领域、级别、职称等维度，直接在系统中选取专家。
@@ -317,6 +316,7 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
 
         //判断类型
         if ("suiji".equals(strType)){
+            String strCount = map.get("count").toString();//数量
             List<ZjkExpert> experts = zjkBaseInfoService.selectByExample(example);
             int[] s = StrUtil.randomCommon(0, experts.size(), Integer.parseInt(strCount));
             List<ZjkExpert> expertsData = new ArrayList<>();

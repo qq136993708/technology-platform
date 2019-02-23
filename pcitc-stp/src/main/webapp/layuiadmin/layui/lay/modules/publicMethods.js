@@ -424,6 +424,7 @@ layui.define(['jquery','form','table','laydate'],
                 });
             },
             tableRender:function (elem,id,url,toolbar,cols,where,page,done) {
+                console.log("111");
                 if(page==true){
                     var page={
                         count: 500 //数据总数，从服务端得到
@@ -455,6 +456,7 @@ layui.define(['jquery','form','table','laydate'],
                         , done: done
                     });
                 }else {
+                    console.log("111");
                     table.render({
                         elem: '#'+elem //表格容器
                         , url:url //请求的url地址
