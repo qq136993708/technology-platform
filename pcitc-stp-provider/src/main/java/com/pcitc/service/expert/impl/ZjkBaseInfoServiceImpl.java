@@ -223,6 +223,7 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
         ZjkExpertExample.Criteria c = example.createCriteria();
         c.andStatusEqualTo("0");
         c.andDelFlagEqualTo("0");
+        c.andSysFlagEqualTo("0");
         Object expertName = param.getParam().get("expertName");
         if (!StrUtil.isObjectEmpty(expertName)) {
             c.andExpertNameLike("%" + expertName + "%");
@@ -744,6 +745,22 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
                 break;
         }
         return new JSONObject();
+    }
+
+    /**
+     * 展示已选专家
+     * @param param
+     * @return
+     */
+    @Override
+    public LayuiTableData showExpertPageTableData(LayuiTableParam param) {
+        ZjkExpertExample example = new ZjkExpertExample();
+        ZjkExpertExample.Criteria c = example.createCriteria();
+        c.andStatusEqualTo("0");
+        c.andDelFlagEqualTo("0");
+        c.andSysFlagEqualTo("0");
+        example.setOrderByClause("create_date desc");
+        return this.findByExample(param, example);
     }
 
     public String ageBetween(String strAge) {

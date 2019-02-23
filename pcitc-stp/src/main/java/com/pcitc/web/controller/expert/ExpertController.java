@@ -92,6 +92,8 @@ public class ExpertController extends BaseController {
 
     //备选查询-table
     private static final String LISTBAKTABLE = "http://pcitc-zuul/stp-proxy/zjkchoice-provider/zjkchoice/zjkchoice-page";
+    //选择专家
+    private static final String select_expert = "http://pcitc-zuul/stp-proxy/zjkchoice-provider/zjkchoice/select_expert";
 
     @RequestMapping(value = "/test", method = RequestMethod.GET)
     public String test() {
@@ -534,10 +536,35 @@ public class ExpertController extends BaseController {
     /*--------------------------------------项目开始-----------------------------*/
     private static final String PROJECT_LIST_PAGE = "http://pcitc-zuul/system-proxy/out-provider/project-list-expert";
 
+    /**
+     * 已选专家页面跳转
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/showExpertPage")
+    public String showExpertPage() throws Exception {
+        request.setAttribute("projectId",request.getParameter("projectId"));
+        return "/stp/expert/showExpertPage";
+    }
+
+    /**
+     * 项目列表
+     * @return
+     * @throws Exception
+     */
     @RequestMapping(value = "/zjkOutProjectList")
     public String iniOutProjectList() throws Exception {
-
         return "/stp/expert/zjkOutProjectList";
+    }
+
+    /**
+     * 项目列表-研究院
+     * @return
+     * @throws Exception
+     */
+    @RequestMapping(value = "/zjkOutProjectListOwner")
+    public String zjkOutProjectListOwner() throws Exception {
+        return "/stp/expert/zjkOutProjectListOwner";
     }
 
     @RequestMapping(value = "/outProjectList", method = RequestMethod.POST)
@@ -550,5 +577,30 @@ public class ExpertController extends BaseController {
         LayuiTableData retJson = responseEntity.getBody();
 
         return JSON.toJSON(retJson).toString();
+    }
+
+    /**
+     * 页面跳转
+     * @return
+     */
+    @RequestMapping(value = "/getUserChoicePage", method = RequestMethod.GET)
+    public String getUserChoicePage() {
+        request.setAttribute("projectId",request.getParameter("projectId"));
+        request.setAttribute("projectName",request.getParameter("projectName"));
+        return "stp/expert/expert_choice";
+    }
+
+    /**
+     * 专家查询：随机
+     * @return
+     */
+    @RequestMapping(value = "/getUserChoiceTableData", method = RequestMethod.POST)
+    @ResponseBody
+    public String getUserChoiceTableData(@ModelAttribute("param") LayuiTableParam param) {
+        HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
+        ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(select_expert, HttpMethod.POST, entity, LayuiTableData.class);
+        LayuiTableData data = responseEntity.getBody();
+        return JSON.toJSON(data).toString();
+
     }
 }

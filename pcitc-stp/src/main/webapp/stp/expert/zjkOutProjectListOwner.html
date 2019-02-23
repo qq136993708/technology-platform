@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/common.css">
     <script src="/layuiadmin/layui/layui.js"></script>
-    <script type="text/javascript" src="/common/js/base.js"></script>
 </head>
 
 <body>
@@ -80,7 +79,8 @@
                         "hth": $('#hth').val(),
                         "xmmc": $('#xmmc').val(),
                         "project_property": $("#project_property").val(),
-                        "functionCode": param.code
+                        "functionCode": param.code,
+                        "owner_state":"0"
                     }
                 },
                 limit: param.selfRownum,
@@ -231,7 +231,7 @@
                 if (typeof (selectRowData.xmid) == "undefined") {
                     layer.msg('请点击选择一行数据');
                 } else {
-                    openBaseWin("专家选择", "/expertController/getUserChoicePage?projectId=" + selectRowData.xmid+"&projectName=");
+                    openBaseWin("专家选择", "/expertController/getUserChoicePage?projectId=" + selectRowData.xmid+"&projectName="+selectRowData.xmmc);
                 }
             }, showExpertEvent: function () { //查看已选专家
                 if (typeof (selectRowData.xmid) == "undefined") {
