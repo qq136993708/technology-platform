@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -16,6 +17,9 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -29,6 +33,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
+import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.BudgetAuditStatusEnum;
@@ -260,44 +265,66 @@ public class BudgetGroupTotalController extends BaseController {
 		return infors.getBody();
 	}
 	
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping("/budget/budget_download/grouptotal/{dataId}")
-	public void downBudgetGroupTotal(@PathVariable("dataId") String dataId,HttpServletResponse res) throws IOException {
-		
-		Map<String, Object> beanMap = new HashMap<String,Object>();//MyBeanUtils.transBean2Map(oldApply);
-		
+	public void downBudgetGroupTotal(@PathVariable("dataId") String dataId,HttpServletResponse res) throws IOException 
+	{
+		System.out.println("data:id --------- "+dataId);
+		LayuiTableParam param = new LayuiTableParam();
+		param.getParam().put("budget_info_id", dataId);
+		param.setLimit(100);
+		param.setPage(1);
+		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(BUDGET_GROUPTOTAL_ITEMS, HttpMethod.POST, new HttpEntity<LayuiTableParam>(param, this.httpHeaders), LayuiTableData.class);
+		LayuiTableData tabldata = responseEntity.getBody();
+		System.out.println(JSON.toJSONString(tabldata));
 		
 		URL path = this.getClass().getResource("/");
 		File f = new File(path.getPath() + "static/budget/budget_grouptotal_template.xlsx");
-
 		
 		//写入新文件
 		String newFilePath = path.getPath() + "static/budget/budget_grouptotal_"+System.currentTimeMillis()+".xlsx";
 		File outFile = new File(newFilePath);
-		   
-		processDataAndDownload(f,beanMap,outFile);
+		
+		processDataAndDownload(f,new ArrayList(tabldata.getData()),outFile);
 	    //下载文件
 		this.fileDownload(new File(newFilePath), res);
 	}
 	
 	private XSSFWorkbook workbook;
-	private void processDataAndDownload(File template,Map<String,Object> beanMap,File outFile) 
+	private XSSFSheet sheet;
+	private void processDataAndDownload(File template,List<Map<String,Object>> list,File outFile) 
 	{
 		try {
 			InputStream is = new FileInputStream(template);
 			workbook = new XSSFWorkbook(is);
-			/*List<IBodyElement> bodyElements = docx.getBodyElements();// 所有对象（段落+表格）
-			for (IBodyElement body : bodyElements) {
-				if (BodyElementType.TABLE.equals(body.getElementType())) {
-					List<XWPFTable> tables = body.getBody().getTables();
-					for (XWPFTable table : tables) {
-						for (XWPFTableRow row : table.getRows()) {
-							for (XWPFTableCell cell : row.getTableCells()) {
-								replaseText(beanMap,cell);
-							}
-						}
-					}
-				}
-			}*/
+			sheet = workbook.getSheetAt(0);
+			
+			//从第五行开始，第五行是测试数据
+			Row templateRow = sheet.getRow(4);
+			for(int i = 0;i<list.size();i++) {
+				
+				Integer no = (Integer)list.get(i).get("no");
+				String displayName = list.get(i).get("displayName").toString();
+				String remark = list.get(i).get("remark").toString();
+				Double total = (Double)list.get(i).get("total");
+				Double xmjf = (Double)list.get(i).get("xmjf");
+				Double zxjf = (Double)list.get(i).get("zxjf");
+				
+				sheet.getRow(i+4).createCell(0).setCellValue(no);
+				sheet.getRow(i+4).createCell(1).setCellValue(displayName);
+				sheet.getRow(i+4).createCell(2).setCellValue(remark);
+				sheet.getRow(i+4).createCell(3).setCellValue(total);
+				sheet.getRow(i+4).createCell(4).setCellValue(xmjf);
+				sheet.getRow(i+4).createCell(5).setCellValue(zxjf);
+				
+				
+				sheet.getRow(i+4).getCell(0).setCellStyle(templateRow.getCell(0).getCellStyle());
+			}
+			//汇总数据
+			
+			
+			
 			//写入新文件
 			FileOutputStream fos  = new FileOutputStream(outFile);
 			workbook.write(fos);
@@ -347,4 +374,29 @@ public class BudgetGroupTotalController extends BaseController {
 			}
 		}
 	}
+	/*private String readCell(Cell cell) 
+	{
+		String  cellVal = null;
+		switch (cell.getCellTypeEnum()) 
+		{
+	        case NUMERIC:
+	        	cellVal = cell.getNumericCellValue()+"";
+	            break;
+	        case STRING:
+	        	cellVal = cell.getStringCellValue();
+	            break;
+	        case FORMULA:
+	        	cellVal = cell.getRichStringCellValue().getString();
+	            break;
+	        case BLANK:
+	            break;
+	        case BOOLEAN:
+	            break;
+	        case ERROR:
+	            break;
+	        default:
+	            break;
+        }
+		return cellVal;
+	}*/
 }
