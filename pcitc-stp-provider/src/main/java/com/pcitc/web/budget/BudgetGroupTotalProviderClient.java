@@ -148,16 +148,16 @@ public class BudgetGroupTotalProviderClient
 	@RequestMapping(value = "/stp-provider/budget/budget-create-template-grouptotal", method = RequestMethod.POST)
 	public Object createOrUpdateBudgetInfoByHis(@RequestBody BudgetInfo info) 
 	{
-		logger.info("budget-create-blank-grouptotal...");
+		logger.info("budget-create-template-grouptotal...");
 		BudgetInfo newInfo = null;
 		try
 		{
-			System.out.println(JSON.toJSONString(info.getNd()));
+			//System.out.println(JSON.toJSONString(info.getNd()));
 			BudgetInfo oldInfo = budgetInfoService.selectBudgetInfo(info.getDataId());
 			
 			newInfo = budgetInfoService.createBlankBudgetInfo(info.getNd(),BudgetInfoEnum.GROUP_TOTAL.getCode());
 			//获取模板数据
-			List<BudgetGroupTotal> templates = budgetGroupTotalService.selectBudgetInfoId(info.getDataId());
+			List<BudgetGroupTotal> templates = budgetGroupTotalService.selectBudgetGroupTotalByInfoId(info.getDataId());
 			Map<String,String> idRel = new HashMap<String,String>();//新老ID对照
 			for(BudgetGroupTotal total:templates) 
 			{
@@ -172,6 +172,7 @@ public class BudgetGroupTotalProviderClient
 				budgetGroupTotalService.saveOrUpdateBudgetGroupTotal(total);
 			}
 			//处理二级预算单位
+			templates = budgetGroupTotalService.selectBudgetGroupTotalByInfoId(newInfo.getDataId());
 			for(BudgetGroupTotal total:templates) 
 			{
 				if(total.getLevel()>0 && total.getParentDataId() != null) {

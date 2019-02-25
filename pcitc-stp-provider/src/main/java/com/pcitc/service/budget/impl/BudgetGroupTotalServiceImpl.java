@@ -97,6 +97,7 @@ public class BudgetGroupTotalServiceImpl implements BudgetGroupTotalService
 	{
 		BudgetGroupTotalExample example = new BudgetGroupTotalExample();
 		BudgetGroupTotalExample.Criteria c = example.createCriteria();
+		c.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
 		c.andBudgetInfoIdEqualTo(budgetInfoId);
 		c.andLevelEqualTo(0);//只显示第一级
 		example.setOrderByClause("no");
@@ -211,6 +212,17 @@ public class BudgetGroupTotalServiceImpl implements BudgetGroupTotalService
 		c.andDisplayNameEqualTo(item.getDisplayName());
 		c.andLevelEqualTo(0);//只显示第1级
 		example.setOrderByClause("nd desc");
+		return budgetGroupTotalMapper.selectByExample(example);
+	}
+
+	@Override
+	public List<BudgetGroupTotal> selectBudgetGroupTotalByInfoId(String budgetId) throws Exception 
+	{
+		BudgetGroupTotalExample example = new BudgetGroupTotalExample();
+		BudgetGroupTotalExample.Criteria c = example.createCriteria();
+		c.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
+		c.andBudgetInfoIdEqualTo(budgetId);
+		example.setOrderByClause("no");
 		return budgetGroupTotalMapper.selectByExample(example);
 	}
 
