@@ -103,13 +103,23 @@
 			}
 		}
 	}
-	//检索
-	$("#searchUnitName").on("keyup",function(){
-		 ajaxPost("/unit/ztree-unit-list",{"name":$("#searchUnitName").val()},function(data){
+	//检索(改变事件)
+	$("#searchUnitName").on("change",function(){
+		ajaxPost("/unit/ztree-unit-list",{"name":$("#searchUnitName").val()},function(data){
+            unitNodes = data;
+            unitTree = $.fn.zTree.init($("#unitTree"), unitTreeSetting, unitNodes);
+     	});
+	});
+	//检索(键盘回车)
+	$(document).keyup(function (e) {
+	    if (e.keyCode == 13) {
+	    	ajaxPost("/unit/ztree-unit-list",{"name":$("#searchUnitName").val()},function(data){
 	            unitNodes = data;
 	            unitTree = $.fn.zTree.init($("#unitTree"), unitTreeSetting, unitNodes);
-	     });
+	     	});
+	    }
 	});
+	
     $(document).ready(function () {
     	//加载岗位类型字典
 		ajaxPost("/dictionary/list/ROOT_XTGL_GWLX", null, function (data) {
