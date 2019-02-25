@@ -27,4 +27,11 @@ public interface SreProjectMapper {
     int updateByPrimaryKeySelective(SreProject record);
 
     int updateByPrimaryKey(SreProject record);
+    
+    
+
+    List<SreProject> getListRelationList(SreProject record);
+    int getListRelationCount(SreProject record);
+    
+    
 }

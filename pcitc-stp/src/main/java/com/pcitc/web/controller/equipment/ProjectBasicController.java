@@ -78,6 +78,11 @@ public class ProjectBasicController extends BaseController {
 	@RequestMapping(value = "/list")
 	@ResponseBody
 	public String ajaxlist(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
+		
+		JSONObject parmamss = JSONObject.parseObject(JSONObject.toJSONString(param));
+		logger.info("============参数：" + parmamss.toString());
+		
+		
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(PAGE_URL, HttpMethod.POST, entity, LayuiTableData.class);
@@ -86,7 +91,7 @@ public class ProjectBasicController extends BaseController {
 			layuiTableData = responseEntity.getBody();
 		}
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-		logger.info("============result" + result);
+		logger.info("============查询结果：" + result);
 		return result.toString();
 	}
 

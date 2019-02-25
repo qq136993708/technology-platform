@@ -203,11 +203,14 @@ public class EquipmentServiceImpl implements EquipmentService {
 		// 1、设置分页信息，包括当前页数和每页显示的总计数
 		PageHelper.startPage(pageNum, pageSize);
 				
+		String name=getTableParam(param,"name","");
+		String equipmentIds=getTableParam(param,"equipmentIds","");
+		String auditStatus=getTableParam(param,"auditStatus","");
+		String setupYear=getTableParam(param,"setupYear","");
+		String keyWord=getTableParam(param,"keyWord","");
+		String leadUnitName=getTableParam(param,"leadUnitName","");
+		String leadUnitCode=getTableParam(param,"leadUnitCode","");
 		
-		String name=(String)param.getParam().get("name");
-		String equipmentIds=(String)param.getParam().get("equipmentIds");
-		
-		String status=(String)param.getParam().get("status");
 		
 		logger.info("================= pageNum: "+pageNum+"pageSize="+pageSize+"name="+name+" equipmentIds"+equipmentIds);
 		SreProjectExample example=new SreProjectExample();
@@ -218,17 +221,34 @@ public class EquipmentServiceImpl implements EquipmentService {
 			
 			criteria.andNameLike("%"+name+"%");
 		}
-		
-		
-		if(equipmentIds!=null && !equipmentIds.equals(""))
+		if(keyWord!=null && !keyWord.equals(""))
 		{
 			
-				List<String> list=CommonUtil.strToList(equipmentIds);
-				if(list!=null)
-				{
-					criteria.andProjectIdIn(list);
-				}
+			criteria.andKeyWordLike("%"+keyWord+"%");
 		}
+		if(!auditStatus.equals(""))
+		{
+			
+			criteria.andAuditStatusEqualTo(auditStatus);
+		}
+		if(!setupYear.equals(""))
+		{
+			
+			criteria.andSetupYearEqualTo(setupYear);
+		}
+		if(leadUnitName!=null && !leadUnitName.equals(""))
+		{
+			
+			criteria.andLeadUnitNameLike("%"+leadUnitName+"%");
+		}
+		
+		if(!leadUnitCode.equals(""))
+		{
+			
+			criteria.andLeadUnitCodeEqualTo(leadUnitCode);
+		}
+		
+		
 		
 		List<SreProject> list = sreProjectMapper.selectByExample(example);
 		PageInfo<SreProject> pageInfo = new PageInfo<SreProject>(list);

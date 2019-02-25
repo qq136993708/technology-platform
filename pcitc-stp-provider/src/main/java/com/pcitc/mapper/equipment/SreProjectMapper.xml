@@ -685,4 +685,33 @@
       lead_linkmans_name = #{leadLinkmansName,jdbcType=VARCHAR}
     where project_id = #{projectId,jdbcType=VARCHAR}
   </update>
+  
+  
+  <sql id="selectCondition">
+	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
+	     <if test="keyWord != null and keyWord  !='' ">               AND t.key_word like CONCAT('%',#{keyWord},'%')</if>
+	     <if test="name != null and name  !='' ">                     AND t.name like CONCAT('%',#{name},'%')</if>
+	     <if test="setupYear != null    and setupYear !=''  ">        AND t.setup_year = #{setupYear}</if>
+	     <if test="auditStatus != null    and auditStatus !=''  ">    AND t.audit_status = #{auditStatus}</if>
+	     <if test="leadUnitName != null  and leadUnitName  !='' ">    AND t.lead_unit_name like CONCAT('%',#{leadUnitName},'%')</if>
+	     <if test="leadUnitCode != null and leadUnitCode !=''  ">     AND t.lead_unit_code = #{leadUnitCode}</if>
+	 </trim>
+	</sql>
+   <select id="getListRelationList" resultMap="BaseResultMap" parameterType="com.pcitc.base.stp.equipment.SreProject" >
+     select * from sre_project t <include refid="selectCondition" />    
+     <choose>
+      <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
+      <otherwise>
+        ORDER BY  create_date desc
+      </otherwise>
+     </choose>
+     <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
+   </select>
+   
+   <select id="getListRelationCount" resultType="java.lang.Integer">
+      SELECT count(*) FROM sre_project t <include refid="selectCondition"/>
+    </select>
+  
+   
+   
 </mapper>

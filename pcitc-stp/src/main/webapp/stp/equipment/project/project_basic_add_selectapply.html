@@ -34,17 +34,25 @@
 	        	height: 200,
 	        	page: {first: '首页',last: '尾页',theme: '#0F9EE0'},
 	            cols: [[
-	            	 {type:'checkbox',event: 'changeEvents'}
-	             	 ,{title:'序号', type:'numbers'},
-	             	{field : 'auditStatus', title : '状态', style : 'cursor: pointer;', align : 'center', templet : '<div>{{ layui.laytpl.auditStatus_equipment(d.auditStatus) }}</div>', width : 55},
-	                {field : 'name',     title : '装备名称', style : 'cursor: pointer;', align : 'center', width : '20%'},
-	                {field : 'type',     title : '装备分类', style : 'cursor: pointer;', align : 'center', width : '10%'},
-	                {field : 'unitPrice', title : '单价（万元）', style : 'cursor: pointer;', align : 'center', width : '10%'},
-	                {field : 'applyAcount', title : '申请数量', style : 'cursor: pointer;', align : 'center', width : '10%'},
-	                {field : 'allPrice', title : '总价¥（万元）', style : 'cursor: pointer;', align : 'center', width : '10%',templet:function(d){return '<span style="color:red">'+d.allPrice+'</span>'}},
+	            	{type:'checkbox',event: 'changeEvents'}
+	             	,{title:'序号', type:'numbers'},
+	             	{field : 'auditStatus', title : '状态',    style : 'cursor: pointer;', align : 'center', templet : '<div>{{ layui.laytpl.auditStatus_equipment(d.auditStatus) }}</div>', width : 55},
+	                {field : 'name',        title : '装备名称', style : 'cursor: pointer;', align : 'center', width : '20%'},
+	                {field : 'type',        title : '装备分类', style : 'cursor: pointer;', align : 'center', width : '10%'},
+	                {field : 'unitPrice',   title : '单价（万元）', style : 'cursor: pointer;', align : 'center', width : '10%'},
+	                {field : 'applyAcount', title : '申请数量',    style : 'cursor: pointer;', align : 'center', width : '10%'},
+	                {field : 'allPrice',    title : '总价¥（万元）', style : 'cursor: pointer;', align : 'center', width : '10%',templet:function(d){return '<span style="color:red">'+d.allPrice+'</span>'}},
 	                {field : 'applyDepartName', title : '申报部门', style : 'cursor: pointer;', align : 'center', width : '10%'},
-	                {field : 'firstApplyUser', title : '第一申报人', style : 'cursor: pointer;', align : 'center', width : '10%'}
-	            ]]
+	                {field : 'firstApplyUser',  title : '第一申报人', style : 'cursor: pointer;', align : 'center', width : '10%'}
+	            ]],
+	            done: function (res, curr, count) {
+	            	var equipmentIds="";
+	            	for(var i;i<res.data.length;i++)
+	            	{
+	            		var equipmentId=res.data.equipmentId;
+	            	}
+	            	//alert(res.data.length);
+	            }
 	        });
 	    	//多行点击事件
 	        $(document).on("click", ".layui-table-body table.layui-table tbody tr", function () {
@@ -69,10 +77,7 @@
                 	var equipmentIds="";
                 	for(var dt in check.data)
                 	{
-                		/* publicMethods.ajaxPost('/project/add-toplant', {"equipmentIds":$("#equipmentIds").val(),"equipmentIds":check.data[dt].equipmentId}, function (data, status) {
-                			console.log("add...");
-                        }); */
-                		equipmentIds+=check.data[dt].equipmentId;
+                		equipmentIds=equipmentIds+check.data[dt].equipmentId+",";
                 	}
                 	$("#equipmentIds").val(equipmentIds);
                 	parent.document.getElementById("equipmentIds").value=equipmentIds;
@@ -82,7 +87,22 @@
                 //	parent.layui.table.reload("join_apply_table",{where: {param:{"equipmentIds":equipmentIds}}});
                 	var index = parent.layer.getFrameIndex(window.name);
     			    parent.layer.close(index); 
-                }
+                }, deleteEvent:function(){
+                	layer.confirm('确定要移除吗？',{title:"移除确认"},function(index){
+    					layer.close(index);
+    	            	var check = table.checkStatus('notjoin_apply_table');
+    	            	var equipmentIds=$("#equipmentIds").val();
+    	            	for(var dt in check.data)
+    	            	{
+    	            		var id=check.data[dt].equipmentId;
+    	            		
+    	            		equipmentIds=equipmentIds.replace(id,'');
+    	            	}
+    	            	$("#equipmentIds").val(equipmentIds);
+    	            	layui.table.reload("notjoin_apply_table",{where: {param:{"equipmentIds":equipmentIds}}});
+    	            	
+                	});
+                } 
         	}
         	$('.layui-btn').on('click', function(){
             	var type = $(this).data('type');
@@ -114,6 +134,7 @@
 	        <div class="whiteLine"></div>
 	        <div  class="tableBtns">
 	            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg" data-type="addEvent">新增</button>
+	            <a href="javascript:void(0)" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="deleteEvent">删除</a>
 	        </div>
 	    </div>
     	<table id="notjoin_apply_table" class="layui-hide"  lay-filter="userEvent"></table>
