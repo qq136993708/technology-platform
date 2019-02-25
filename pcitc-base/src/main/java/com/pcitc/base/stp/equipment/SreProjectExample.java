@@ -2525,6 +2525,76 @@ public class SreProjectExample {
             addCriterion("lead_linkmans_name not between", value1, value2, "leadLinkmansName");
             return (Criteria) this;
         }
+
+        public Criteria andYearFeeStrIsNull() {
+            addCriterion("year_fee_str is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andYearFeeStrIsNotNull() {
+            addCriterion("year_fee_str is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andYearFeeStrEqualTo(String value) {
+            addCriterion("year_fee_str =", value, "yearFeeStr");
+            return (Criteria) this;
+        }
+
+        public Criteria andYearFeeStrNotEqualTo(String value) {
+            addCriterion("year_fee_str <>", value, "yearFeeStr");
+            return (Criteria) this;
+        }
+
+        public Criteria andYearFeeStrGreaterThan(String value) {
+            addCriterion("year_fee_str >", value, "yearFeeStr");
+            return (Criteria) this;
+        }
+
+        public Criteria andYearFeeStrGreaterThanOrEqualTo(String value) {
+            addCriterion("year_fee_str >=", value, "yearFeeStr");
+            return (Criteria) this;
+        }
+
+        public Criteria andYearFeeStrLessThan(String value) {
+            addCriterion("year_fee_str <", value, "yearFeeStr");
+            return (Criteria) this;
+        }
+
+        public Criteria andYearFeeStrLessThanOrEqualTo(String value) {
+            addCriterion("year_fee_str <=", value, "yearFeeStr");
+            return (Criteria) this;
+        }
+
+        public Criteria andYearFeeStrLike(String value) {
+            addCriterion("year_fee_str like", value, "yearFeeStr");
+            return (Criteria) this;
+        }
+
+        public Criteria andYearFeeStrNotLike(String value) {
+            addCriterion("year_fee_str not like", value, "yearFeeStr");
+            return (Criteria) this;
+        }
+
+        public Criteria andYearFeeStrIn(List<String> values) {
+            addCriterion("year_fee_str in", values, "yearFeeStr");
+            return (Criteria) this;
+        }
+
+        public Criteria andYearFeeStrNotIn(List<String> values) {
+            addCriterion("year_fee_str not in", values, "yearFeeStr");
+            return (Criteria) this;
+        }
+
+        public Criteria andYearFeeStrBetween(String value1, String value2) {
+            addCriterion("year_fee_str between", value1, value2, "yearFeeStr");
+            return (Criteria) this;
+        }
+
+        public Criteria andYearFeeStrNotBetween(String value1, String value2) {
+            addCriterion("year_fee_str not between", value1, value2, "yearFeeStr");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

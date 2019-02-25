@@ -87,22 +87,7 @@
                 //	parent.layui.table.reload("join_apply_table",{where: {param:{"equipmentIds":equipmentIds}}});
                 	var index = parent.layer.getFrameIndex(window.name);
     			    parent.layer.close(index); 
-                }, deleteEvent:function(){
-                	layer.confirm('确定要移除吗？',{title:"移除确认"},function(index){
-    					layer.close(index);
-    	            	var check = table.checkStatus('notjoin_apply_table');
-    	            	var equipmentIds=$("#equipmentIds").val();
-    	            	for(var dt in check.data)
-    	            	{
-    	            		var id=check.data[dt].equipmentId;
-    	            		
-    	            		equipmentIds=equipmentIds.replace(id,'');
-    	            	}
-    	            	$("#equipmentIds").val(equipmentIds);
-    	            	layui.table.reload("notjoin_apply_table",{where: {param:{"equipmentIds":equipmentIds}}});
-    	            	
-                	});
-                } 
+                }
         	}
         	$('.layui-btn').on('click', function(){
             	var type = $(this).data('type');
@@ -130,17 +115,11 @@
     	</div>
 	</div>
 	<div class="tableBox">
-	    <div class="tableToolBox">
-	        <div class="whiteLine"></div>
-	        <div  class="tableBtns">
-	            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg" data-type="addEvent">新增</button>
-	            <a href="javascript:void(0)" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="deleteEvent">删除</a>
-	        </div>
-	    </div>
     	<table id="notjoin_apply_table" class="layui-hide"  lay-filter="userEvent"></table>
 	</div>
 	<div class="form-bottom">
       <div class="form-bottom-btns">
+         <a herf="javascript:void(0)" class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue"  data-type="addEvent" lay-filter="addEvent">提交</a>
       	<a herf="javascript:void(0)" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" lay-submit="" id="close" lay-filter="closeBtn">关闭</a>
       </div>
     </div>

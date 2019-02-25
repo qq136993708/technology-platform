@@ -175,6 +175,76 @@ public class SreProjectYearExample {
             return (Criteria) this;
         }
 
+        public Criteria andProjectIdIsNull() {
+            addCriterion("project_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectIdIsNotNull() {
+            addCriterion("project_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectIdEqualTo(String value) {
+            addCriterion("project_id =", value, "projectId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectIdNotEqualTo(String value) {
+            addCriterion("project_id <>", value, "projectId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectIdGreaterThan(String value) {
+            addCriterion("project_id >", value, "projectId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectIdGreaterThanOrEqualTo(String value) {
+            addCriterion("project_id >=", value, "projectId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectIdLessThan(String value) {
+            addCriterion("project_id <", value, "projectId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectIdLessThanOrEqualTo(String value) {
+            addCriterion("project_id <=", value, "projectId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectIdLike(String value) {
+            addCriterion("project_id like", value, "projectId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectIdNotLike(String value) {
+            addCriterion("project_id not like", value, "projectId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectIdIn(List<String> values) {
+            addCriterion("project_id in", values, "projectId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectIdNotIn(List<String> values) {
+            addCriterion("project_id not in", values, "projectId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectIdBetween(String value1, String value2) {
+            addCriterion("project_id between", value1, value2, "projectId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectIdNotBetween(String value1, String value2) {
+            addCriterion("project_id not between", value1, value2, "projectId");
+            return (Criteria) this;
+        }
+
         public Criteria andYearIsNull() {
             addCriterion("year is null");
             return (Criteria) this;
@@ -185,52 +255,62 @@ public class SreProjectYearExample {
             return (Criteria) this;
         }
 
-        public Criteria andYearEqualTo(Integer value) {
+        public Criteria andYearEqualTo(String value) {
             addCriterion("year =", value, "year");
             return (Criteria) this;
         }
 
-        public Criteria andYearNotEqualTo(Integer value) {
+        public Criteria andYearNotEqualTo(String value) {
             addCriterion("year <>", value, "year");
             return (Criteria) this;
         }
 
-        public Criteria andYearGreaterThan(Integer value) {
+        public Criteria andYearGreaterThan(String value) {
             addCriterion("year >", value, "year");
             return (Criteria) this;
         }
 
-        public Criteria andYearGreaterThanOrEqualTo(Integer value) {
+        public Criteria andYearGreaterThanOrEqualTo(String value) {
             addCriterion("year >=", value, "year");
             return (Criteria) this;
         }
 
-        public Criteria andYearLessThan(Integer value) {
+        public Criteria andYearLessThan(String value) {
             addCriterion("year <", value, "year");
             return (Criteria) this;
         }
 
-        public Criteria andYearLessThanOrEqualTo(Integer value) {
+        public Criteria andYearLessThanOrEqualTo(String value) {
             addCriterion("year <=", value, "year");
             return (Criteria) this;
         }
 
-        public Criteria andYearIn(List<Integer> values) {
+        public Criteria andYearLike(String value) {
+            addCriterion("year like", value, "year");
+            return (Criteria) this;
+        }
+
+        public Criteria andYearNotLike(String value) {
+            addCriterion("year not like", value, "year");
+            return (Criteria) this;
+        }
+
+        public Criteria andYearIn(List<String> values) {
             addCriterion("year in", values, "year");
             return (Criteria) this;
         }
 
-        public Criteria andYearNotIn(List<Integer> values) {
+        public Criteria andYearNotIn(List<String> values) {
             addCriterion("year not in", values, "year");
             return (Criteria) this;
         }
 
-        public Criteria andYearBetween(Integer value1, Integer value2) {
+        public Criteria andYearBetween(String value1, String value2) {
             addCriterion("year between", value1, value2, "year");
             return (Criteria) this;
         }
 
-        public Criteria andYearNotBetween(Integer value1, Integer value2) {
+        public Criteria andYearNotBetween(String value1, String value2) {
             addCriterion("year not between", value1, value2, "year");
             return (Criteria) this;
         }
@@ -292,66 +372,6 @@ public class SreProjectYearExample {
 
         public Criteria andCapitalMoneyNotBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("capital_money not between", value1, value2, "capitalMoney");
-            return (Criteria) this;
-        }
-
-        public Criteria andProjectIdIsNull() {
-            addCriterion("project_id is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andProjectIdIsNotNull() {
-            addCriterion("project_id is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andProjectIdEqualTo(Long value) {
-            addCriterion("project_id =", value, "projectId");
-            return (Criteria) this;
-        }
-
-        public Criteria andProjectIdNotEqualTo(Long value) {
-            addCriterion("project_id <>", value, "projectId");
-            return (Criteria) this;
-        }
-
-        public Criteria andProjectIdGreaterThan(Long value) {
-            addCriterion("project_id >", value, "projectId");
-            return (Criteria) this;
-        }
-
-        public Criteria andProjectIdGreaterThanOrEqualTo(Long value) {
-            addCriterion("project_id >=", value, "projectId");
-            return (Criteria) this;
-        }
-
-        public Criteria andProjectIdLessThan(Long value) {
-            addCriterion("project_id <", value, "projectId");
-            return (Criteria) this;
-        }
-
-        public Criteria andProjectIdLessThanOrEqualTo(Long value) {
-            addCriterion("project_id <=", value, "projectId");
-            return (Criteria) this;
-        }
-
-        public Criteria andProjectIdIn(List<Long> values) {
-            addCriterion("project_id in", values, "projectId");
-            return (Criteria) this;
-        }
-
-        public Criteria andProjectIdNotIn(List<Long> values) {
-            addCriterion("project_id not in", values, "projectId");
-            return (Criteria) this;
-        }
-
-        public Criteria andProjectIdBetween(Long value1, Long value2) {
-            addCriterion("project_id between", value1, value2, "projectId");
-            return (Criteria) this;
-        }
-
-        public Criteria andProjectIdNotBetween(Long value1, Long value2) {
-            addCriterion("project_id not between", value1, value2, "projectId");
             return (Criteria) this;
         }
 

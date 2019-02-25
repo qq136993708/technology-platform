@@ -5,11 +5,11 @@ import java.math.BigDecimal;
 public class SreProjectYear {
     private String id;
 
-    private Integer year;
+    private String projectId;
+
+    private String year;
 
     private BigDecimal capitalMoney;
-
-    private Long projectId;
 
     private BigDecimal costMoney;
 
@@ -25,11 +25,19 @@ public class SreProjectYear {
         this.id = id;
     }
 
-    public Integer getYear() {
+    public String getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(String projectId) {
+        this.projectId = projectId;
+    }
+
+    public String getYear() {
         return year;
     }
 
-    public void setYear(Integer year) {
+    public void setYear(String year) {
         this.year = year;
     }
 
@@ -39,14 +47,6 @@ public class SreProjectYear {
 
     public void setCapitalMoney(BigDecimal capitalMoney) {
         this.capitalMoney = capitalMoney;
-    }
-
-    public Long getProjectId() {
-        return projectId;
-    }
-
-    public void setProjectId(Long projectId) {
-        this.projectId = projectId;
     }
 
     public BigDecimal getCostMoney() {

@@ -17,11 +17,13 @@ import com.pcitc.base.stp.equipment.SreEquipment;
 import com.pcitc.base.stp.equipment.SreEquipmentExample;
 import com.pcitc.base.stp.equipment.SreProject;
 import com.pcitc.base.stp.equipment.SreProjectExample;
+import com.pcitc.base.stp.equipment.SreProjectYear;
+import com.pcitc.base.stp.equipment.SreProjectYearExample;
 import com.pcitc.base.stp.equipment.SreTechMeeting;
 import com.pcitc.base.stp.equipment.SreTechMeetingExample;
-import com.pcitc.base.util.CommonUtil;
 import com.pcitc.mapper.equipment.SreEquipmentMapper;
 import com.pcitc.mapper.equipment.SreProjectMapper;
+import com.pcitc.mapper.equipment.SreProjectYearMapper;
 import com.pcitc.mapper.equipment.SreTechMeetingMapper;
 import com.pcitc.service.equipment.EquipmentService;
 @Service("equipmentService")
@@ -38,6 +40,16 @@ public class EquipmentServiceImpl implements EquipmentService {
 	
 	@Autowired
 	private SreTechMeetingMapper sreTechMeetingMapper;
+	
+	@Autowired
+	private SreProjectYearMapper sreProjectYearMapper;
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	public SreEquipment selectEquipment(String id) throws Exception
@@ -263,6 +275,52 @@ public class EquipmentServiceImpl implements EquipmentService {
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	/**===========================================项目费用年==========================================*/
+
+	public SreProjectYear selectSreProjectYear(String id) throws Exception
+	{
+		return sreProjectYearMapper.selectByPrimaryKey(id);
+	}
+
+	public Integer updateSreProjectYear(SreProjectYear record)throws Exception
+	{
+		return sreProjectYearMapper.updateByPrimaryKey(record);
+	}
+
+	public int deleteSreProjectYear(String id)throws Exception
+	{
+		return sreProjectYearMapper.deleteByPrimaryKey(id);
+	}
+
+	public Integer insertSreProjectYear(SreProjectYear record)throws Exception
+	{
+		return sreProjectYearMapper.insert(record);
+	}
+
+	public List<SreProjectYear> getSreProjectYearList(SreProjectYearExample example)throws Exception
+	{
+		return sreProjectYearMapper.selectByExample(example);
+	}
+	
+	
+	public int deleteSreProjectYearExample(SreProjectYearExample example)throws Exception
+	{
+		return sreProjectYearMapper.deleteByExample(example);
+	}
+	
+	
 	/**===========================================技术交流==========================================*/
 
 	
@@ -344,6 +402,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 				data.setCount(total.intValue());
 			    return data;
 	}
+
 
 	
 	

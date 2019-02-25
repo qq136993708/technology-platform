@@ -1,6 +1,10 @@
 package com.pcitc.web.equipment;
 
+import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,13 +15,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSON;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.common.Result;
+import com.pcitc.base.common.WorkFlowStatusEnum;
 import com.pcitc.base.stp.equipment.SreEquipment;
 import com.pcitc.base.stp.equipment.SreProject;
+import com.pcitc.base.stp.equipment.SreProjectYear;
+import com.pcitc.base.stp.equipment.SreProjectYearExample;
 import com.pcitc.base.stp.equipment.SreTechMeeting;
+import com.pcitc.base.stp.equipment.SreTechMeetingExample;
+import com.pcitc.base.system.SysUser;
 import com.pcitc.base.workflow.Constants;
+import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.service.equipment.EquipmentService;
+import com.pcitc.service.feign.SystemRemoteClient;
+import com.pcitc.service.msg.MailSentService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -30,7 +44,13 @@ public class EquipmentProviderClient
 	@Autowired
     private EquipmentService equipmentService; 
 	
+   private final static String WORKFLOW_DEFINE_ID = "intl_notice:3:1117555";
 	
+	@Autowired
+	private MailSentService mailSentService;
+	
+	@Autowired
+	private SystemRemoteClient systemRemoteClient;
 	
 	@ApiOperation(value = "装备分页", notes = "装备分页")
 	@RequestMapping(value = "/sre-provider/equipment/page", method = RequestMethod.POST)
@@ -155,6 +175,28 @@ public class EquipmentProviderClient
 	public String insertSreProjectBasic(@RequestBody SreProject sreProjectBasic) throws Exception{
 		logger.info("====================add SreProjectBasic....========================");
 		Integer count= equipmentService.insertProjectBasic(sreProjectBasic);
+		
+		//再添加费用表
+		String yearFeeStr=sreProjectBasic.getYearFeeStr() ;
+		String array[]=yearFeeStr.split("#");
+		if(array!=null && array.length>0)
+		{
+			for(int i=0;i<array.length;i++)
+			{
+				String year=array[i];
+				String arr[]=year.split(",");
+				SreProjectYear sreProjectYear=new SreProjectYear();
+				String id = UUID.randomUUID().toString().replaceAll("-", "");
+				sreProjectYear.setId(id);
+				sreProjectYear.setProjectId(sreProjectBasic.getProjectId());
+				sreProjectYear.setYear(arr[0]);
+				sreProjectYear.setCostMoney(new BigDecimal(arr[1]));
+				sreProjectYear.setCapitalMoney(new BigDecimal(arr[2]));
+				sreProjectYear.setSubtotalMoney(new BigDecimal(arr[3]));
+				equipmentService.insertSreProjectYear(sreProjectYear);
+			}
+		}
+		
 		return sreProjectBasic.getProjectId();
 	}
 	
@@ -163,6 +205,32 @@ public class EquipmentProviderClient
 	@RequestMapping(value = "/sre-provider/project_basic/update", method = RequestMethod.POST)
 	public Integer updateSreProjectBasic(@RequestBody SreProject sreProjectBasic) throws Exception{
 		logger.info("==================update SreProjectBasic===========================");
+		
+		//先删除费用表
+		SreProjectYearExample sreProjectYearExample=new SreProjectYearExample();
+		SreProjectYearExample.Criteria criteria = sreProjectYearExample.createCriteria();
+		criteria.andProjectIdEqualTo(sreProjectBasic.getProjectId());
+		equipmentService.deleteSreProjectYearExample(sreProjectYearExample);
+		//再添加费用表
+		String yearFeeStr=sreProjectBasic.getYearFeeStr() ;
+		String array[]=yearFeeStr.split("#");
+		if(array!=null && array.length>0)
+		{
+			for(int i=0;i<array.length;i++)
+			{
+				String year=array[i];
+				String arr[]=year.split(",");
+				SreProjectYear sreProjectYear=new SreProjectYear();
+				String id = UUID.randomUUID().toString().replaceAll("-", "");
+				sreProjectYear.setId(id);
+				sreProjectYear.setProjectId(sreProjectBasic.getProjectId());
+				sreProjectYear.setYear(arr[0]);
+				sreProjectYear.setCostMoney(new BigDecimal(arr[1]));
+				sreProjectYear.setCapitalMoney(new BigDecimal(arr[2]));
+				sreProjectYear.setSubtotalMoney(new BigDecimal(arr[3]));
+				equipmentService.insertSreProjectYear(sreProjectYear);
+			}
+		}
 		return equipmentService.updateProjectBasic(sreProjectBasic);
 	}
 	
@@ -198,7 +266,50 @@ public class EquipmentProviderClient
 	}
 	
 	
-	
+	@ApiOperation(value="通知审批流程",notes="发起通知内容审批")
+	@RequestMapping(value = "/stp-provider/start_project_activity/{projectId}", method = RequestMethod.POST)
+	public Result startNoticeWorkFlow(@PathVariable("projectId") String projectId,@RequestBody WorkflowVo workflowVo) throws Exception 
+	{
+		SreProject notice = equipmentService.selectProjectBasic(projectId);
+		
+		//workflowVo.setAuthenticatedUserId("111");
+		workflowVo.setProcessDefineId(WORKFLOW_DEFINE_ID); 
+		workflowVo.setBusinessId(projectId);
+		workflowVo.setProcessInstanceName("通知审批："+notice.getName());
+		Map<String, Object> variables = new HashMap<String, Object>();  
+		//starter为必填项。流程图的第一个节点待办人变量必须为starter
+        variables.put("starter", workflowVo.getAuthenticatedUserId());
+        
+        //必须设置。流程中，需要的第二个节点的指派人；除starter外，所有待办人变量都指定为auditor(处长审批)
+        //处长审批 ZSH_JTZSZYC_GJHZC_CZ
+        List<SysUser> users = systemRemoteClient.selectUsersByPostCode("ZSH_JTZSZYC_GJHZC_CZ");
+        System.out.println("start userIds ... "+JSON.toJSONString(users));
+        variables.put("auditor", workflowVo.getAuthenticatedUserId());
+        if(users != null && users.size()>0) {
+        	variables.put("auditor", users.get(0).getUserId());
+        }
+        
+        //必须设置，统一流程待办任务中需要的业务详情
+        variables.put("auditDetailsPath", "/intl_project/notice_view?noticeId="+projectId);
+       
+        //流程完全审批通过时，调用的方法
+        variables.put("auditAgreeMethod", "http://pcitc-zuul/stp-proxy/stp-provider/project/callback-workflow-notice?noticeId="+projectId+"&workflow_status="+WorkFlowStatusEnum.STATUS_PASS.getCode());
+        
+        //流程驳回时，调用的方法（可能驳回到第一步，也可能驳回到第1+n步
+        variables.put("auditRejectMethod", "http://pcitc-zuul/stp-proxy/stp-provider/project/callback-workflow-notice?noticeId="+projectId+"&workflow_status="+WorkFlowStatusEnum.STATUS_RETURN.getCode());
+        
+        workflowVo.setVariables(variables);
+		String rs = systemRemoteClient.startWorkflowByProcessDefinitionId(workflowVo);
+		System.out.println("startwork  apply  rs...."+rs);
+		if("true".equals(rs)) 
+		{
+			notice.setAuditStatus(String.valueOf(Constants.FLOW_STATE_SAVE));
+			equipmentService.updateProjectBasic(notice);
+			return new Result(true,"操作成功!");
+		}else {
+			return new Result(false,rs);
+		}
+	}
 
 	
 	

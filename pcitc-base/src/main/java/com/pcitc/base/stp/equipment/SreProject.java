@@ -74,6 +74,8 @@ public class SreProject {
 
     private String leadLinkmansName;
 
+    private String yearFeeStr;
+
     public String getProjectId() {
         return projectId;
     }
@@ -352,5 +354,13 @@ public class SreProject {
 
     public void setLeadLinkmansName(String leadLinkmansName) {
         this.leadLinkmansName = leadLinkmansName;
+    }
+
+    public String getYearFeeStr() {
+        return yearFeeStr;
+    }
+
+    public void setYearFeeStr(String yearFeeStr) {
+        this.yearFeeStr = yearFeeStr;
     }
 }

@@ -37,6 +37,7 @@
     <result column="project_charges_name" property="projectChargesName" jdbcType="VARCHAR" />
     <result column="lead_linkmans_code" property="leadLinkmansCode" jdbcType="VARCHAR" />
     <result column="lead_linkmans_name" property="leadLinkmansName" jdbcType="VARCHAR" />
+    <result column="year_fee_str" property="yearFeeStr" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -103,7 +104,7 @@
     entrust_unit_name, lead_unit_type, professional_field, belong_department, professional_department, 
     project_type, professional, is_contract, erp_num, lead_unit_code, join_unit_code, 
     entrust_unit_code, project_charges_code, project_charges_name, lead_linkmans_code, 
-    lead_linkmans_name
+    lead_linkmans_name, year_fee_str
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.pcitc.base.stp.equipment.SreProjectExample" >
     select
@@ -148,7 +149,8 @@
       project_type, professional, is_contract, 
       erp_num, lead_unit_code, join_unit_code, 
       entrust_unit_code, project_charges_code, project_charges_name, 
-      lead_linkmans_code, lead_linkmans_name)
+      lead_linkmans_code, lead_linkmans_name, year_fee_str
+      )
     values (#{projectId,jdbcType=VARCHAR}, #{contractNum,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{remarks,jdbcType=VARCHAR}, #{projectMoney,jdbcType=DECIMAL}, #{updateUserId,jdbcType=VARCHAR}, 
       #{beginYear,jdbcType=VARCHAR}, #{endYear,jdbcType=VARCHAR}, #{equipmentIds,jdbcType=VARCHAR}, 
@@ -160,7 +162,8 @@
       #{projectType,jdbcType=VARCHAR}, #{professional,jdbcType=VARCHAR}, #{isContract,jdbcType=VARCHAR}, 
       #{erpNum,jdbcType=VARCHAR}, #{leadUnitCode,jdbcType=VARCHAR}, #{joinUnitCode,jdbcType=VARCHAR}, 
       #{entrustUnitCode,jdbcType=VARCHAR}, #{projectChargesCode,jdbcType=VARCHAR}, #{projectChargesName,jdbcType=VARCHAR}, 
-      #{leadLinkmansCode,jdbcType=VARCHAR}, #{leadLinkmansName,jdbcType=VARCHAR})
+      #{leadLinkmansCode,jdbcType=VARCHAR}, #{leadLinkmansName,jdbcType=VARCHAR}, #{yearFeeStr,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.pcitc.base.stp.equipment.SreProject" >
     insert into sre_project
@@ -270,6 +273,9 @@
       <if test="leadLinkmansName != null" >
         lead_linkmans_name,
       </if>
+      <if test="yearFeeStr != null" >
+        year_fee_str,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="projectId != null" >
@@ -376,6 +382,9 @@
       </if>
       <if test="leadLinkmansName != null" >
         #{leadLinkmansName,jdbcType=VARCHAR},
+      </if>
+      <if test="yearFeeStr != null" >
+        #{yearFeeStr,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -493,6 +502,9 @@
       <if test="record.leadLinkmansName != null" >
         lead_linkmans_name = #{record.leadLinkmansName,jdbcType=VARCHAR},
       </if>
+      <if test="record.yearFeeStr != null" >
+        year_fee_str = #{record.yearFeeStr,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -534,7 +546,8 @@
       project_charges_code = #{record.projectChargesCode,jdbcType=VARCHAR},
       project_charges_name = #{record.projectChargesName,jdbcType=VARCHAR},
       lead_linkmans_code = #{record.leadLinkmansCode,jdbcType=VARCHAR},
-      lead_linkmans_name = #{record.leadLinkmansName,jdbcType=VARCHAR}
+      lead_linkmans_name = #{record.leadLinkmansName,jdbcType=VARCHAR},
+      year_fee_str = #{record.yearFeeStr,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -644,6 +657,9 @@
       <if test="leadLinkmansName != null" >
         lead_linkmans_name = #{leadLinkmansName,jdbcType=VARCHAR},
       </if>
+      <if test="yearFeeStr != null" >
+        year_fee_str = #{yearFeeStr,jdbcType=VARCHAR},
+      </if>
     </set>
     where project_id = #{projectId,jdbcType=VARCHAR}
   </update>
@@ -682,36 +698,8 @@
       project_charges_code = #{projectChargesCode,jdbcType=VARCHAR},
       project_charges_name = #{projectChargesName,jdbcType=VARCHAR},
       lead_linkmans_code = #{leadLinkmansCode,jdbcType=VARCHAR},
-      lead_linkmans_name = #{leadLinkmansName,jdbcType=VARCHAR}
+      lead_linkmans_name = #{leadLinkmansName,jdbcType=VARCHAR},
+      year_fee_str = #{yearFeeStr,jdbcType=VARCHAR}
     where project_id = #{projectId,jdbcType=VARCHAR}
   </update>
-  
-  
-  <sql id="selectCondition">
-	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
-	     <if test="keyWord != null and keyWord  !='' ">               AND t.key_word like CONCAT('%',#{keyWord},'%')</if>
-	     <if test="name != null and name  !='' ">                     AND t.name like CONCAT('%',#{name},'%')</if>
-	     <if test="setupYear != null    and setupYear !=''  ">        AND t.setup_year = #{setupYear}</if>
-	     <if test="auditStatus != null    and auditStatus !=''  ">    AND t.audit_status = #{auditStatus}</if>
-	     <if test="leadUnitName != null  and leadUnitName  !='' ">    AND t.lead_unit_name like CONCAT('%',#{leadUnitName},'%')</if>
-	     <if test="leadUnitCode != null and leadUnitCode !=''  ">     AND t.lead_unit_code = #{leadUnitCode}</if>
-	 </trim>
-	</sql>
-   <select id="getListRelationList" resultMap="BaseResultMap" parameterType="com.pcitc.base.stp.equipment.SreProject" >
-     select * from sre_project t <include refid="selectCondition" />    
-     <choose>
-      <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
-      <otherwise>
-        ORDER BY  create_date desc
-      </otherwise>
-     </choose>
-     <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
-   </select>
-   
-   <select id="getListRelationCount" resultType="java.lang.Integer">
-      SELECT count(*) FROM sre_project t <include refid="selectCondition"/>
-    </select>
-  
-   
-   
 </mapper>

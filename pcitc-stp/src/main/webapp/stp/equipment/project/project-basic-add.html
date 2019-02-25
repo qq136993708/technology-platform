@@ -35,10 +35,11 @@
   			<table id="eqiu_table" class="layui-hide" lay-filter="tableEvent"></table>
   		</div>
   <div class="box-body">
-  <form   class="layui-form" name="form1"         id="form1" action="" method="POST" lay-filter="component-form-group layui-container">
+  <form   class="layui-form" name="form1"            id="form1" action="" method="POST" lay-filter="component-form-group layui-container">
   <input  type="hidden"         name="projectId"     id="projectId" value="${projectId}">
   <input  type="hidden"         name="equipmentIds"  id="equipmentIds" value="${sreProjectBasic.equipmentIds}">
-  <input  name="documentDoc"    id="documentDoc"        value="${documentDoc}"  type="hidden">
+  <input  name="documentDoc"    id="documentDoc"     value="${documentDoc}"  type="hidden">
+  <input  name="yearFeeStr" id="yearFeeStr"  value="${yearFeeStr}"  type="hidden">
   
   
   
@@ -94,7 +95,6 @@
 				        <div class="whiteLine"></div>
 				        <div  class="tableBtns">
 				            <a href="javascript:void(0)" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg" data-type="selectEvent">选择</a>
-				            <a href="javascript:void(0)" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="deleteEvent">删除</a>
 				        </div>
 				    </div>
 	         		<table id="join_apply_table" class="layui-hide"  lay-filter="JoinEvent"></table>
@@ -119,7 +119,7 @@
       <div class="layui-form-item layui-form-text" >
         <label class="layui-form-label">备注</label>
         <div class="layui-input-block">
-          <textarea placeholder="请简述开发及投资目标，原则上不超过500字" name="remarks" id="remarks"    class="layui-textarea">${sreEquipment.remarks}</textarea>
+          <textarea placeholder="请简述开发及投资目标，原则上不超过500字" name="remarks" id="remarks"    class="layui-textarea">${sreProjectBasic.remarks}</textarea>
         </div>
       </div>
       
@@ -127,9 +127,9 @@
         <label class="layui-form-label">建设年限</label>
         <div class="layui-input-block">
            <div class="layui-input-inline" style="float:left">
-		            <input type="text" class="layui-input" name="beginYear" id="beginYear" value="${beginYear}" style="width:80px;float:left" placeholder="开始年份">
+		            <input type="text" class="layui-input" name="beginYear" id="beginYear" value="${sreProjectBasic.beginYear}" style="width:80px;float:left" placeholder="开始年份">
 		             <div class="layui-form-mid" style="width:8px;float:left"> - </div>
-		            <input type="text" class="layui-input" id="endYear" name="endYear"   value="${endYear}" style="width:80px;float:left" placeholder="结束年份">
+		            <input type="text" class="layui-input" id="endYear" name="endYear"   value="${sreProjectBasic.endYear}" style="width:80px;float:left" placeholder="结束年份">
 		    </div>
         </div>
       </div>
@@ -141,10 +141,10 @@
             <table class="layui-table">
              <thead>
 	             <tr>
-	                <td width="20%" >年  度</td>
-	                <td width="8%" >费用性支出</td>
-	                <td width="8%">资本性支出</td>
-	                <td width="8%">合  计</td>
+	                <td width="20%">年  度</td>
+	                <td width="8%">费用性支出(万元)</td>
+	                <td width="8%">资本性支出(万元)</td>
+	                <td width="8%">小  计(万元)</td>
 	             </tr>
             </thead>
             <tbody>
@@ -193,8 +193,9 @@ var file_ids = "documentDoc";
 file_edit_detail = "edit";
 //统管理-附件管理-附件配置：页面标识
 file_opt_flag = "b3a52bbe7087419c80813d7716f37674";
-
+var param;
 var equipmentIds=$("#equipmentIds").val();
+var yearFeeStr= $("#yearFeeStr").val();
 var table,selectRowData;
 layui.use(['form','table','laypage','layer','laydate','laytpl','jquery',"publicMethods"], function(){
 
@@ -207,6 +208,7 @@ layui.use(['form','table','laypage','layer','laydate','laytpl','jquery',"publicM
       ,$ = layui.jquery
       ,form = layui.form;
 	  var publicMethods=layui.publicMethods;
+	  param=JSON.parse(window.localStorage.getItem("param"));
 	  form.render();
 	  laydate.render({
 	      elem: '#LAY-component-form-group-date'
@@ -215,9 +217,7 @@ layui.use(['form','table','laypage','layer','laydate','laytpl','jquery',"publicM
 	  var equipmentIds= $("#equipmentIds").val();
 	  renderTable(equipmentIds)
 	  
-	  
-	  
-	  publicMethods.createTable($("#beginYear").val(),$("#endYear").val(),"yearTr",2);
+	  publicMethods.createTable($("#beginYear").val(),$("#endYear").val(),"yearTr",2,yearFeeStr);
 	  
       
 
@@ -266,7 +266,7 @@ layui.use(['form','table','laypage','layer','laydate','laytpl','jquery',"publicM
               insStart.config.max = lay.extend({}, date, {
                   month: date.month - 1
               });
-              publicMethods.createTable($("#beginYear").val(),date.year,"yearTr",2);
+              publicMethods.createTable($("#beginYear").val(),date.year,"yearTr",2,yearFeeStr);
           }
       });
       $('.layui-btn').on('click', function () {
@@ -279,7 +279,7 @@ layui.use(['form','table','laypage','layer','laydate','laytpl','jquery',"publicM
 	    			var temUrl = '/sre-project-basic/project_basic_add_selectapply?equipmentIds='+$("#equipmentIds").val();
 	                publicMethods.openBaseWin("选择装备",temUrl,"90%","80%");
 	    		
-	            },
+	            }/* ,
 	            deleteEvent:function(){
 	            	layer.confirm('确定要移除吗？',{title:"移除确认"},function(index){
 						layer.close(index);
@@ -294,7 +294,7 @@ layui.use(['form','table','laypage','layer','laydate','laytpl','jquery',"publicM
 		            	$("#equipmentIds").val(equipmentIds);
 		            	renderTable(equipmentIds);
 	            	});
-	            } 
+	            }  */
     		  
       }
       /* 监听提交 */
@@ -303,6 +303,8 @@ layui.use(['form','table','laypage','layer','laydate','laytpl','jquery',"publicM
           /*parent.layer.alert(JSON.stringify(data.field), {
               title: '最终的提交信息'
           })*/
+          
+          $("#yearFeeStr").val(publicMethods.getVal("yearTr",4)); 
           var url="/sre-project-basic/save?v_date="+v_date+"&status=0";
           var backurl="/sre-project-basic/to-list?v_date="+v_date;
           ajaxOpt(url,"form1","POST",backurl,"保存成功","保存失败");
@@ -315,7 +317,7 @@ layui.use(['form','table','laypage','layer','laydate','laytpl','jquery',"publicM
           /*parent.layer.alert(JSON.stringify(data.field), {
               title: '最终的提交信息'
           })*/
-          var url="/sre-project-basic/save?v_date="+v_date+"&status=1";
+          var url="/sre-project-basic/save?v_date="+v_date+"&isWorkFlow=1&functionId="+param.id;
           var backurl="/sre-project-basic/to-list?v_date="+v_date;
           ajaxOpt(url,"form1","POST",backurl,"保存成功","保存失败");
           return false;
