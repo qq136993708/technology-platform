@@ -23,11 +23,13 @@
             <!--加操作按钮时去掉标题-->
             <!-- <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="deleteEvent">删除</button>-->
         </div>
-        <div class="left-side-tree">
+         <div class="left-side-tree">
+         	<input type="text" name="searchUnitName" id="searchUnitName" placeholder="名称检索" autocomplete="off" class="form-control">
             <div class="layui-side-scroll" style="width: 100%;">
                 <ul id="unitTree" class="ztree"></ul>
             </div>
         </div>
+        
     </div>
 
     <div class="twoTree-tableBox">
@@ -101,6 +103,13 @@
 			}
 		}
 	}
+	//检索
+	$("#searchUnitName").on("keyup",function(){
+		 ajaxPost("/unit/ztree-unit-list",{"name":$("#searchUnitName").val()},function(data){
+	            unitNodes = data;
+	            unitTree = $.fn.zTree.init($("#unitTree"), unitTreeSetting, unitNodes);
+	     });
+	});
     $(document).ready(function () {
     	//加载岗位类型字典
 		ajaxPost("/dictionary/list/ROOT_XTGL_GWLX", null, function (data) {
