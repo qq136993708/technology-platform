@@ -21,6 +21,7 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.pcitc.utils.ImageUtils;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -630,25 +631,25 @@ public class SysFileServiceImpl implements SysFileService {
 //                            sysFile.setBak7((mobile_address==null||"".equals(mobile_address))?sysFile.getBak7():mobile_address);
 //                        }
 //                        sysFile.setBak7(mobile_address);
-//                        if ("jpg".equals(strSuffix) || "jpeg".equals(strSuffix)|| "png".equals(strSuffix)|| "bmp".equals(strSuffix)) {
-//                            //保存路径
-//                            sysFile.setPartImgPath(uploaderPath + strSavePath + File.separator + "img_"+savedName);
-//                            //压缩
-//                            String strImgType = sysFileConfig.getImgType();
-//                            String strImgDesc = sysFileConfig.getImgDesc();
-//                            if("0".equals(strImgType)){
-//                                String[] strImgTypeArray = strImgDesc.split(":");
-//                                ImageUtils.getImgSize(Integer.parseInt(strImgTypeArray[0]),Integer.parseInt(strImgTypeArray[1]),uploaderPath + strSavePath + File.separator + savedName,uploaderPath + strSavePath + File.separator + "img_"+savedName);
-//                            }else if("1".equals(strImgType)){
-//                                    strImgDesc = strImgDesc==null?"0.5":strImgDesc;
-//                                ImageUtils.getImgScale(Double.parseDouble(strImgDesc),uploaderPath + strSavePath + File.separator + savedName,uploaderPath + strSavePath + File.separator + "img_"+savedName);
-//                            }else if("2".equals(strImgType)){
-//                                String[] strImgTypeArray = strImgDesc.split(":");
-//                                ImageUtils.getImgSizeNoScale(Integer.parseInt(strImgTypeArray[0]),Integer.parseInt(strImgTypeArray[1]),uploaderPath + strSavePath + File.separator + savedName,uploaderPath + strSavePath + File.separator + "img_"+savedName);
-//                            }else {
-//                                ImageUtils.getImgScale(0.5f,uploaderPath + strSavePath + File.separator + savedName,uploaderPath + strSavePath + File.separator + "img_"+savedName);
-//                            }
-//                        }
+                        if ("jpg".equals(strSuffix) || "jpeg".equals(strSuffix)|| "png".equals(strSuffix)|| "bmp".equals(strSuffix)) {
+                            //保存路径
+                            sysFile.setPartImgPath(uploaderPath + strSavePath + File.separator + "img_"+savedName);
+                            //压缩
+                            String strImgType = sysFileConfig.getImgType();
+                            String strImgDesc = sysFileConfig.getImgDesc();
+                            if("0".equals(strImgType)){
+                                String[] strImgTypeArray = strImgDesc.split(":");
+                                ImageUtils.getImgSize(Integer.parseInt(strImgTypeArray[0]),Integer.parseInt(strImgTypeArray[1]),uploaderPath + strSavePath + File.separator + savedName,uploaderPath + strSavePath + File.separator + "img_"+savedName);
+                            }else if("1".equals(strImgType)){
+                                    strImgDesc = strImgDesc==null?"0.5":strImgDesc;
+                                ImageUtils.getImgScale(Double.parseDouble(strImgDesc),uploaderPath + strSavePath + File.separator + savedName,uploaderPath + strSavePath + File.separator + "img_"+savedName);
+                            }else if("2".equals(strImgType)){
+                                String[] strImgTypeArray = strImgDesc.split(":");
+                                ImageUtils.getImgSizeNoScale(Integer.parseInt(strImgTypeArray[0]),Integer.parseInt(strImgTypeArray[1]),uploaderPath + strSavePath + File.separator + savedName,uploaderPath + strSavePath + File.separator + "img_"+savedName);
+                            }else {
+                                ImageUtils.getImgScale(0.5f,uploaderPath + strSavePath + File.separator + savedName,uploaderPath + strSavePath + File.separator + "img_"+savedName);
+                            }
+                        }
                         insert(sysFile);
                     }
                     if ("DOCX".equals(strFileSuffix) || "DOC".equals(strFileSuffix) || "TXT".equals(strFileSuffix) || "XLS".equals(strFileSuffix) || "XLSX".equals(strFileSuffix) || "PDF".equals(strFileSuffix)) {
@@ -917,6 +918,49 @@ public class SysFileServiceImpl implements SysFileService {
     }
 
     public void downloadFile(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse
+            response) throws IOException {
+        SysFile sysfile = selectByPrimaryKey(id);
+        InputStream is = null;
+        OutputStream os = null;
+        File file = null;
+        try {
+            // PrintWriter out = response.getWriter();
+            if (sysfile != null)
+                file = new File(sysfile.getFilePath());
+            if (file != null && file.exists() && file.isFile()) {
+                long filelength = file.length();
+                is = new FileInputStream(file);
+                // 设置输出的格式
+                os = response.getOutputStream();
+                response.setContentType("application/x-msdownload");
+                response.setContentLength((int) filelength);
+                response.addHeader("Content-Disposition", "attachment; filename=\"" + new String(sysfile.getFileName().getBytes("GBK"),// 只有GBK才可以
+                        "iso8859-1") + "\"");
+                // 循环取出流中的数据
+                byte[] b = new byte[4096];
+                int len;
+                while ((len = is.read(b)) > 0) {
+                    os.write(b, 0, len);
+                }
+            } else {
+                response.getWriter().println("<script>");
+                response.getWriter().println(" modals.info('文件不存在!');");
+                response.getWriter().println("</script>");
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (is != null) {
+                is.close();
+            }
+            if (os != null) {
+                os.close();
+            }
+        }
+    }
+
+    public void downloadFileViewPicThumbnail(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse
             response) throws IOException {
         SysFile sysfile = selectByPrimaryKey(id);
         InputStream is = null;
@@ -1386,7 +1430,7 @@ public class SysFileServiceImpl implements SysFileService {
 //        sysFileMapper.deleteSysFileByDataId(map);
 
     }
-
+    
     public static void main(String[] args) {
         System.out.println(2/15);
         System.out.println(2/2);
@@ -1396,5 +1440,45 @@ public class SysFileServiceImpl implements SysFileService {
         System.out.println(2-1*15);
         System.out.println(18-1*15);
         System.out.println(18-2*15);
+    }
+    
+    /**
+     * 文档管理的查询方法，查询公共的和分享给自己文件
+     */
+    @Override
+    public LayuiTableData selectFileListForPublic(LayuiTableParam param) throws Exception {
+    	// 每页显示条数
+		int pageSize = param.getLimit();
+		// 当前是第几页
+		int pageNum = param.getPage();
+		// 1、设置分页信息，包括当前页数和每页显示的总计数
+		PageHelper.startPage(pageNum, pageSize);
+
+		HashMap<String, Object> hashmap = new HashMap<String, Object>();
+		if (param.getParam().get("fileKind")!=null&&!StringUtils.isBlank(param.getParam().get("fileKind")+"")) {
+			hashmap.put("fileKind", param.getParam().get("fileKind"));
+		}
+		
+		if (param.getParam().get("fileName")!=null&&!StringUtils.isBlank(param.getParam().get("fileName")+"")) {
+			hashmap.put("fileName", param.getParam().get("fileName"));
+		}
+
+		hashmap.put("userId", param.getParam().get("userId"));
+		
+		List<SysFile> list = sysFileMapper.selectFileListForPublic(hashmap);
+		System.out.println("1>>>>>>>>>查询分页结果"+list.size());
+		for (int i = 0; i < list.size(); i++) {
+			SysFile sf = list.get(i);
+			sf.setFileSize(String.valueOf(Math.round(Double.valueOf(sf.getFileSize()))/1024/1024));
+		}
+		PageInfo<SysFile> pageInfo = new PageInfo<SysFile>(list);
+		
+		System.out.println("2>>>>>>>>>查询分页结果"+pageInfo.getList().size());
+
+		LayuiTableData data = new LayuiTableData();
+		data.setData(pageInfo.getList());
+		Long total = pageInfo.getTotal();
+		data.setCount(total.intValue());
+		return data;
     }
 }

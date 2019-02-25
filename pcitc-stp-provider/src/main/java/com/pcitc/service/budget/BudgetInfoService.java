@@ -70,4 +70,11 @@ public interface BudgetInfoService
 	 * @throws Exception
 	 */
 	public BudgetInfo createBlankBudgetInfo(String nd,Integer budgetType);
+	/**
+	 * 
+	 * @param budgetType
+	 * @return
+	 * @throws Exception
+	 */
+	public List<BudgetInfo> selectFinalBudgetInfoList(Integer budgetType)throws Exception;
 }

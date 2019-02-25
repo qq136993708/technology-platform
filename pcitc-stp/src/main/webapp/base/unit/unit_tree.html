@@ -31,7 +31,7 @@
 				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="deleteUnitEvent">删除</button>
 			</span>
 		</div>
-
+		<input type="text" name="searchUnitName" id="searchUnitName" placeholder="名称检索" autocomplete="off" class="form-control">
 		<div class="layui-side-scroll">
 			<!-- 左侧子菜单 -->
 			<ul id="unitTree" class="ztree"></ul>
@@ -229,10 +229,21 @@
 		//刷新机构数据
 		loadUnitInfo(unitId);
 	}
+	//检索(改变事件)
+	$("#searchUnitName").on("change",function(){
+		loadUnitTree();
+	});
+	//检索(键盘回车)
+	$(document).keyup(function (e) {
+	    if (e.keyCode == 13) {
+	    	loadUnitTree();
+	    }
+	});
+	
 	//从新加载树
 	function loadUnitTree(unitId)
 	{
-		ajaxPost("/unit/ztree-unit-list", null, function (dt) {
+		ajaxPost("/unit/ztree-unit-list", {"name":$("#searchUnitName").val()}, function (dt) {
 			zTreeObj = $.fn.zTree.init($("#unitTree"), setting, dt);
 			zTreeObj.expandAll(true);
 	    });

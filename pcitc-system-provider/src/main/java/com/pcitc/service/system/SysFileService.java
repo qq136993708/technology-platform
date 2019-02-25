@@ -109,7 +109,7 @@ public interface SysFileService {
     int deleteSysFileReal(String menuId);
 
     List<TreeNode> selectObjectByTree();
-
+    
     /**
      * 条件查询模块列表
      *
@@ -235,6 +235,15 @@ public interface SysFileService {
     public void downloadFile(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws IOException;
 
     /**
+     * 单文件下载缩略图
+     * @param id
+     * @param request
+     * @param response
+     * @throws IOException
+     */
+    public void downloadFileViewPicThumbnail(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws IOException;
+
+    /**
      * 多文件下载
      *
      * @param id
@@ -345,4 +354,10 @@ public interface SysFileService {
      * @param dataId
      */
     public void deleteSysFileByDataId(String dataId);
+    
+    
+    /**
+     * 文档管理的查询方法，查询公共的和分享给自己文件
+     */
+    public LayuiTableData selectFileListForPublic(LayuiTableParam param) throws Exception;
 }

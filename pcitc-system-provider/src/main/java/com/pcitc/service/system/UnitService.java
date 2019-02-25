@@ -142,7 +142,6 @@ public interface UnitService
 	 * @return
 	 */
 	String getUnitZTreeList(String parentCode);
-	
 	/**
 	 * 监理单位
 	 * @param param
@@ -156,5 +155,11 @@ public interface UnitService
 	 * @return
 	 */
 	public SysUnit seletUnitByCode(String code);
+	/**
+	 *  根据名称模糊匹配组织机构（包含当前组织机构的所有父节点，不包含子节点），ztree
+	 * @param unit
+	 * @return
+	 */
+	String getUnitZTreeListByName(String name);
 	
 }

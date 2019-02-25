@@ -348,9 +348,11 @@ public class UnitProviderClient
 	 */
 	@ApiOperation(value="获取组织机构树(ztree)",notes="根据机构信息，生成ztree组织机构树。")
 	@RequestMapping(value = "/unit-provider/unit/ztree-unit-list",method = RequestMethod.POST)
-	public String selectUnitForZTree() 
+	public String selectUnitForZTree(@RequestBody(required=false) String name) 
 	{
-		return unitService.getUnitZTreeList(null);
+		System.out.println("name............"+name);
+		//return unitService.getUnitZTreeList(null);
+		return unitService.getUnitZTreeListByName(name);
 	}
 	
 	@ApiOperation(value="获取监理单位列表",notes="获取监理单位列表")

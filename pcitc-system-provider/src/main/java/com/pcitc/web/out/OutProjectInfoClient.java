@@ -1918,5 +1918,11 @@ public class OutProjectInfoClient {
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(temList));
 		return json;
 	}
-	
+
+
+    @ApiOperation(value = "分页显示项目数据", notes = "分页显示项目数据")
+    @RequestMapping(value = "/out-provider/project-list-expert", method = RequestMethod.POST)
+    public LayuiTableData getOutProjectListPageExpert(@RequestBody LayuiTableParam param) throws Exception {
+        return outProjectService.getOutProjectPageExpert(param);
+    }
 }

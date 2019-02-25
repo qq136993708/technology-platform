@@ -1,8 +1,12 @@
 package com.pcitc.service.budget.impl;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
+import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,11 +17,19 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.common.enums.BudgetAuditStatusEnum;
+import com.pcitc.base.common.enums.DelFlagEnum;
 import com.pcitc.base.stp.budget.BudgetGroupTotal;
 import com.pcitc.base.stp.budget.BudgetGroupTotalExample;
+import com.pcitc.base.stp.budget.BudgetInfo;
+import com.pcitc.base.stp.budget.BudgetInfoExample;
+import com.pcitc.base.stp.out.OutUnit;
 import com.pcitc.base.util.MyBeanUtils;
+import com.pcitc.common.BudgetInfoEnum;
 import com.pcitc.mapper.budget.BudgetGroupTotalMapper;
+import com.pcitc.mapper.budget.BudgetInfoMapper;
 import com.pcitc.service.budget.BudgetGroupTotalService;
+import com.pcitc.service.feign.SystemRemoteClient;
 
 @Service("budgetGroupTotalService")
 @Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = Exception.class)
@@ -26,6 +38,12 @@ public class BudgetGroupTotalServiceImpl implements BudgetGroupTotalService
 
 	@Autowired
 	private BudgetGroupTotalMapper budgetGroupTotalMapper;
+	
+	@Autowired
+	private BudgetInfoMapper budgetInfoMapper;
+	
+	@Resource
+	private SystemRemoteClient systemRemoteClient;
 	
 	@Override
 	public BudgetGroupTotal selectBudgetGroupTotal(String dataId) throws Exception
@@ -46,7 +64,8 @@ public class BudgetGroupTotalServiceImpl implements BudgetGroupTotalService
 		BudgetGroupTotal group = budgetGroupTotalMapper.selectByPrimaryKey(id);
 		if(group != null) 
 		{
-			return budgetGroupTotalMapper.deleteByPrimaryKey(id);
+			group.setDelFlag(DelFlagEnum.STATUS_DEL.getCode());
+			return budgetGroupTotalMapper.updateByPrimaryKey(group);
 		}
 		return 0;
 	}
@@ -56,6 +75,7 @@ public class BudgetGroupTotalServiceImpl implements BudgetGroupTotalService
 	{
 		BudgetGroupTotalExample example = new BudgetGroupTotalExample();
 		BudgetGroupTotalExample.Criteria c = example.createCriteria();
+		c.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
 		c.andDataIdIn(list);
 		return budgetGroupTotalMapper.selectByExample(example);
 	}
@@ -77,7 +97,9 @@ public class BudgetGroupTotalServiceImpl implements BudgetGroupTotalService
 	{
 		BudgetGroupTotalExample example = new BudgetGroupTotalExample();
 		BudgetGroupTotalExample.Criteria c = example.createCriteria();
+		c.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
 		c.andBudgetInfoIdEqualTo(budgetInfoId);
+		c.andLevelEqualTo(0);//只显示第一级
 		example.setOrderByClause("no");
 		return budgetGroupTotalMapper.selectByExample(example);
 	}
@@ -88,7 +110,8 @@ public class BudgetGroupTotalServiceImpl implements BudgetGroupTotalService
 		BudgetGroupTotalExample example = new BudgetGroupTotalExample();
 		BudgetGroupTotalExample.Criteria c = example.createCriteria();
 		c.andBudgetInfoIdEqualTo(param.getParam().get("budget_info_id").toString());
-		
+		c.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
+		c.andLevelEqualTo(0);//只显示第一级
 		example.setOrderByClause("no");
 		//return this.findByExample(param, example);
 		LayuiTableData tabledata = this.findByExample(param, example);
@@ -122,5 +145,87 @@ public class BudgetGroupTotalServiceImpl implements BudgetGroupTotalService
 		data.setCount(total.intValue());
 		return data;
 	}
+
+	@Override
+	public int deleteBudgetGroupTotalByInfo(String budgetInfoId) throws Exception
+	{
+		BudgetGroupTotalExample example = new BudgetGroupTotalExample();
+		BudgetGroupTotalExample.Criteria c = example.createCriteria();
+		c.andBudgetInfoIdEqualTo(budgetInfoId);
+		List<BudgetGroupTotal> list = budgetGroupTotalMapper.selectByExample(example);
+		
+		Integer rs = 0;
+		for(BudgetGroupTotal group:list) 
+		{
+			group.setDelFlag(DelFlagEnum.STATUS_DEL.getCode());
+			rs += budgetGroupTotalMapper.updateByPrimaryKey(group);
+		}
+		return rs;
+	}
+
+	@Override
+	public List<BudgetGroupTotal> selectChildBudgetGroupTotal(String dataId)
+	{
+		BudgetGroupTotalExample example = new BudgetGroupTotalExample();
+		BudgetGroupTotalExample.Criteria c = example.createCriteria();
+		c.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
+		c.andParentDataIdEqualTo(dataId);
+		c.andLevelEqualTo(1);//只显示第二级
+		example.setOrderByClause("no");
+		return budgetGroupTotalMapper.selectByExample(example);
+	}
+	@Override
+	public List<BudgetGroupTotal> selectChildBudgetGroupTotalAll(String dataId) {
+		BudgetGroupTotalExample example = new BudgetGroupTotalExample();
+		BudgetGroupTotalExample.Criteria c = example.createCriteria();
+		c.andParentDataIdEqualTo(dataId);
+		c.andLevelEqualTo(1);//只显示第二级
+		example.setOrderByClause("no");
+		return budgetGroupTotalMapper.selectByExample(example);
+	}
+	@Override
+	public List<OutUnit> selectJtUnits()
+	{
+		List<OutUnit> units = systemRemoteClient.selectProjectUnits("JTZS");
+		return units;
+	}
+
+	@Override
+	public List<BudgetGroupTotal> selectGroupTotalHistoryItems(BudgetGroupTotal item) {
+		//检索已通过审核的集团预算
+		BudgetInfoExample infoExample = new BudgetInfoExample();
+		BudgetInfoExample.Criteria infoc = infoExample.createCriteria();
+		infoc.andAuditStatusEqualTo(BudgetAuditStatusEnum.AUDIT_STATUS_FINAL.getCode());
+		infoc.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
+		infoc.andBudgetTypeEqualTo(BudgetInfoEnum.GROUP_TOTAL.getCode());
+		List<BudgetInfo> infos = budgetInfoMapper.selectByExample(infoExample);
+		Set<String> ids = new HashSet<String>();
+		ids.add("xxxx");//避免为空
+		for(BudgetInfo info:infos) {
+			ids.add(info.getDataId());
+		}
+		BudgetGroupTotalExample example = new BudgetGroupTotalExample();
+		BudgetGroupTotalExample.Criteria c = example.createCriteria();
+		c.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
+		c.andBudgetInfoIdIn(new ArrayList<String>(ids));
+		c.andNdNotEqualTo(item.getNd());
+		c.andDisplayNameEqualTo(item.getDisplayName());
+		c.andLevelEqualTo(0);//只显示第1级
+		example.setOrderByClause("nd desc");
+		return budgetGroupTotalMapper.selectByExample(example);
+	}
+
+	@Override
+	public List<BudgetGroupTotal> selectBudgetGroupTotalByInfoId(String budgetId) throws Exception 
+	{
+		BudgetGroupTotalExample example = new BudgetGroupTotalExample();
+		BudgetGroupTotalExample.Criteria c = example.createCriteria();
+		c.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
+		c.andBudgetInfoIdEqualTo(budgetId);
+		example.setOrderByClause("no");
+		return budgetGroupTotalMapper.selectByExample(example);
+	}
+
+	
 
 }

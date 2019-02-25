@@ -162,7 +162,7 @@ public class MyBeanUtils extends BeanUtils {
                     try {
                         setter.invoke(obj, value);
                     } catch (Exception e) {
-                        System.out.println("transMap2Bean Error " + e);
+                        System.out.println("transMap2Bean Error " + e+key);
                     }
                 }
             }

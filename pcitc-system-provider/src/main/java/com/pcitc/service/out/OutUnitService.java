@@ -13,5 +13,20 @@ public interface OutUnitService {
 	 * 批量修改数据
 	 */
 	public int updateUnitDataBatch(List<OutUnit> list);
+	/**
+	 * 
+	 * @return
+	 */
+	public List<OutUnit> selectByDefine1(String define1);
+	/**
+	 * 
+	 * @return
+	 */
+	public List<OutUnit> selectByDefine2(String define2);
+	/**
+	 * 
+	 * @return
+	 */
+	public List<OutUnit> selectByDefine3(String define3);
 	
 }

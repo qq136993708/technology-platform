@@ -97,7 +97,7 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
     @Override
     public List<ZjkExpert> findZjkBaseInfoListRandom(ZjkExpert record) throws Exception {
         List<ZjkExpert> zjkExpertreturnList = zjkBaseInfoMapper.findZjkExpertList(record);
-        int[] s = StrUtil.randomCommon(0,zjkExpertreturnList.size(),10);
+        int[] s = StrUtil.randomCommon(0, zjkExpertreturnList.size(), 10);
         List<ZjkExpert> experts = new ArrayList<>();
         for (int i = 0; i < s.length; i++) {
             experts.add(zjkExpertreturnList.get(s[i]));
@@ -204,16 +204,16 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
     }
 
     @Override
-    public Integer deleteZjkBaseInfo(Serializable zjkBaseInfoId) {
+    public Integer deleteZjkBaseInfo(String zjkBaseInfoId) {
         try {
             ZjkExpert record = zjkBaseInfoMapper.selectByPrimaryKey(zjkBaseInfoId.toString());
             if (record != null) {
-                record.setStatus(DelFlagEnum.STATUS_DEL.getCode() + "");
+                record.setDelFlag(1);
                 zjkBaseInfoMapper.updateByPrimaryKey(record);
             }
-            return Integer.parseInt(String.valueOf(DataOperationStatusEnum.DEL_OK));
+            return Integer.parseInt(String.valueOf(DataOperationStatusEnum.DEL_OK.getStatusCode()));
         } catch (Exception e) {
-            return Integer.parseInt(String.valueOf(DataOperationStatusEnum.DEL_DATA_ERROR));
+            return Integer.parseInt(String.valueOf(DataOperationStatusEnum.DEL_DATA_ERROR.getStatusCode()));
         }
     }
 
@@ -221,23 +221,32 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
     public LayuiTableData findZjkBaseInfoByPage(LayuiTableParam param) {
         ZjkExpertExample example = new ZjkExpertExample();
         ZjkExpertExample.Criteria c = example.createCriteria();
-//        c.andStatusEqualTo("1");
-
+        c.andStatusEqualTo("0");
+        c.andDelFlagEqualTo("0");
+        c.andSysFlagEqualTo("0");
         Object expertName = param.getParam().get("expertName");
-        if(!StrUtil.isObjectEmpty(expertName))
-        {
-           c.andExpertNameLike("%"+expertName+"%");
+        if (!StrUtil.isObjectEmpty(expertName)) {
+            c.andExpertNameLike("%" + expertName + "%");
         }
-        System.out.println("expertName = " + expertName);
+
+        Object auditStatus = param.getParam().get("auditStatus");
+        if (!StrUtil.isObjectEmpty(auditStatus)) {
+            c.andAuditStatusEqualTo(auditStatus.toString());
+        }
+
+        Object sysFlag = param.getParam().get("sysFlag");
+        if (!StrUtil.isObjectEmpty(sysFlag)) {
+            c.andSysFlagEqualTo(sysFlag.toString());
+        }else {
+            c.andSysFlagEqualTo("0");
+        }
         Object email = param.getParam().get("email");
-        if(!StrUtil.isObjectEmpty(email))
-        {
-           c.andEmailLike("%"+email+"%");
+        if (!StrUtil.isObjectEmpty(email)) {
+            c.andEmailLike("%" + email + "%");
         }
         Object company = param.getParam().get("company");
-        if(!StrUtil.isObjectEmpty(company))
-        {
-           c.andCompanyEqualTo(company.toString());
+        if (!StrUtil.isObjectEmpty(company)) {
+            c.andCompanyEqualTo(company.toString());
         }
 
         LayuiTableData data = new LayuiTableData();
@@ -275,7 +284,9 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
 
         ZjkExpertExample example = new ZjkExpertExample();
         ZjkExpertExample.Criteria c = example.createCriteria();
-
+        c.andStatusEqualTo("0");
+        c.andSysFlagEqualTo("0");
+        c.andDelFlagEqualTo("0");
         if (hyly != null && !"".equals(hyly)) {
             c.andExpertProfessionalFieldIn(Arrays.asList(hyly.toString().split(",")));
 //            ZjkExpertExample.Criteria criteria2 = example.or();
@@ -427,7 +438,7 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
 
         Map<String, Object> param = (Map<String, Object>) jsonObject.get("param");
 
-        if (bak1 != null &&!"".equals(bak1)&&!"".equals(bak2)&& bak2 != null) {
+        if (bak1 != null && !"".equals(bak1) && !"".equals(bak2) && bak2 != null) {
             Object o = SpringContextUtil.getBean(bak1);
             invokeMethod(o.getClass(), o, bak2, param);
         }
@@ -546,7 +557,7 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
 
         jsonObject.put("result", result);
 
-        if (javaCallBack != null&&!"".equals(javaCallBack)) {
+        if (javaCallBack != null && !"".equals(javaCallBack)) {
             String[] strings = javaCallBack.split("|");
             Object o = SpringContextUtil.getBean(strings[0]);
             invokeMethod(o.getClass(), o, strings[1], jsonObject);
@@ -701,6 +712,55 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
             zjkChengguoService.insert(record);
         }
         return jsonObject;
+    }
+
+    @Override
+    public Object updateAuditStatus(String strDataId) {
+        try {
+            int index = strDataId.indexOf("_");
+            String flag = strDataId.substring(0, index);
+            String dataId = strDataId.substring(index + 1, strDataId.length());
+            ZjkExpert expert = this.selectByPrimaryKey(dataId);
+            expert.setAuditStatus("agree".equals(flag) ? "2" : "3");
+            this.updateByPrimaryKey(expert);
+            return Integer.parseInt(String.valueOf(DataOperationStatusEnum.DEL_OK.getStatusCode()));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Integer.parseInt(String.valueOf(DataOperationStatusEnum.DEL_DATA_ERROR.getStatusCode()));
+        }
+    }
+
+    @Override
+    public JSONObject updateExpertByType(ZjkExpert zjkBaseInfo) {
+        String bak1 = zjkBaseInfo.getBak1();
+        switch (bak1) {
+            case "1"://1冻结,正常0
+                ZjkExpert expert = this.selectByPrimaryKey(zjkBaseInfo.getDataId());
+                expert.setSysFlag(zjkBaseInfo.getSysFlag());
+                this.updateByPrimaryKey(expert);
+                break;
+            case "2":
+                break;
+            default:
+                break;
+        }
+        return new JSONObject();
+    }
+
+    /**
+     * 展示已选专家
+     * @param param
+     * @return
+     */
+    @Override
+    public LayuiTableData showExpertPageTableData(LayuiTableParam param) {
+        ZjkExpertExample example = new ZjkExpertExample();
+        ZjkExpertExample.Criteria c = example.createCriteria();
+        c.andStatusEqualTo("0");
+        c.andDelFlagEqualTo("0");
+        c.andSysFlagEqualTo("0");
+        example.setOrderByClause("create_date desc");
+        return this.findByExample(param, example);
     }
 
     public String ageBetween(String strAge) {

@@ -1,6 +1,5 @@
 package com.pcitc.service.expert.impl;
 
-
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -12,10 +11,12 @@ import com.pcitc.base.common.TreeNode;
 import com.pcitc.base.expert.*;
 import com.pcitc.base.expert.ZjkChoiceExample;
 import com.pcitc.base.util.IdUtil;
+import com.pcitc.base.util.StrUtil;
 import com.pcitc.base.util.TreeNodeUtil;
 import com.pcitc.mapper.expert.ZjkChoiceMapper;
 import com.pcitc.service.expert.ZjkBaseInfoService;
 import com.pcitc.service.expert.ZjkChoiceService;
+import com.pcitc.service.feign.SystemRemoteClient;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +26,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 
 /**
  * <p>接口实现类</p>
@@ -42,7 +43,6 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
 
     @Autowired
     private ZjkChoiceMapper zjkChoiceMapper;
-
 
     @Autowired
     private ZjkBaseInfoService zjkBaseInfoService;
@@ -193,20 +193,27 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
         }
     }
 
-
     @Override
     public LayuiTableData findZjkChoiceByPage(LayuiTableParam param) {
         ZjkChoiceExample example = new ZjkChoiceExample();
         ZjkChoiceExample.Criteria c = example.createCriteria();
 //        c.andStatusEqualTo("1");
         c.andStatusEqualTo(param.getParam().get("status").toString());
-        c.andAddUserIdEqualTo(param.getParam().get("addUserId").toString());
+        Object adduserId = param.getParam().get("addUserId");
+        if(!StrUtil.isObjectEmpty(adduserId)){
+            c.andAddUserIdEqualTo(adduserId.toString());
+        }
+
+        Object projectId = param.getParam().get("projectId");
+        if(!StrUtil.isObjectEmpty(projectId)){
+            c.andXmIdEqualTo(projectId.toString());
+        }
         example.setOrderByClause("create_date desc");
 
         List<ZjkChoice> zjkChoices = this.selectByExample(example);
-        if (zjkChoices==null||zjkChoices.size()==0){
+        if (zjkChoices == null || zjkChoices.size() == 0) {
             return new LayuiTableData();
-        }else {
+        } else {
 
             ZjkExpertExample ex = new ZjkExpertExample();
             List<String> strings = zjkChoices.stream().map(ZjkChoice::getZjId).collect(Collectors.toList());
@@ -270,5 +277,63 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
         List<TreeNode> orderNodes = TreeNodeUtil.getChildrenNode(strParentId, nodes);
 
         return orderNodes;
+    }
+
+
+    @Autowired
+    private SystemRemoteClient systemRemoteClient;
+
+
+    @Override
+    public LayuiTableData getUserChoiceTableData(LayuiTableParam param) {
+        LayuiTableData data = new LayuiTableData();
+        Map<String, Object> map = param.getParam();
+        String strProjectId = map.get("projectId").toString();//项目ID
+        String strProjectConfigId = map.get("projectConfigId").toString();//项目阶段ID
+        String strType = map.get("type").toString();//随机，固定，单位
+
+        //获取项目配置内容
+        ZjkExtractConfig zjkExtractConfigInfo = systemRemoteClient.getZjkExtractConfigInfo(strProjectConfigId);
+        //根据配置，过滤专家列表
+        String sql = "";
+        ZjkExpertExample example = new ZjkExpertExample();
+        ZjkExpertExample.Criteria c = example.createCriteria();
+        c.andStatusEqualTo("0");
+        c.andSysFlagEqualTo("0");
+        c.andDelFlagEqualTo("0");
+        String expertProfessional = zjkExtractConfigInfo.getExpertProfessional();
+        if(!StrUtil.isEmpty(expertProfessional)){
+//            c.andExpertProfessionalFieldIn(Arrays.asList(expertProfessional.split(",")));
+        }
+        String expertArea = zjkExtractConfigInfo.getExpertArea();
+        if(!StrUtil.isEmpty(expertArea)){
+//            c.andProvinceIn(Arrays.asList(expertArea.split(",")));
+        }
+//        随机选取：根据选择的项目阶段、专家人数，通过系统随机选取与该阶段对应的专家。
+//        固定选取：按照阶段、技术领域、级别、职称等维度，直接在系统中选取专家。
+//        单位选取：只选择某研究院，不指定具体专家，由研究院自行决定。
+//        根据抽取条件以及系统设定的抽取规则进行自动专家抽取，其中抽取规则包括在职/退休专家抽取频率、专家在一年内允许被抽取到的次数、间隔频率、抽取权重、单位回避等。
+
+        //判断类型
+        if ("suiji".equals(strType)){
+            String strCount = map.get("count").toString();//数量
+            List<ZjkExpert> experts = zjkBaseInfoService.selectByExample(example);
+            int[] s = StrUtil.randomCommon(0, experts.size(), Integer.parseInt(strCount));
+            List<ZjkExpert> expertsData = new ArrayList<>();
+            for (int i = 0; i < s.length; i++) {
+                expertsData.add(experts.get(s[i]));
+            }
+            data.setData(expertsData);
+        }else if ("guding".equals(strType)){
+            data = zjkBaseInfoService.findByExample(param,example);
+        }else {
+            Object expertId = map.get("expertId");
+            if(StrUtil.isObjectEmpty(expertId)){
+                c.andDataIdIn(Arrays.asList(expertId.toString().split(",")));
+            }
+            data = zjkBaseInfoService.findByExample(param,example);
+        }
+        //返回
+        return data;
     }
 }

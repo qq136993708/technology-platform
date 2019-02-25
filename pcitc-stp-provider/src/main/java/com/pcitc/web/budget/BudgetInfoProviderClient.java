@@ -50,7 +50,6 @@ public class BudgetInfoProviderClient
 		}
 		return data;
 	}
-
 	@ApiOperation(value="预算管理-预算列表",notes="按年检索年度预算表信息。")
 	@RequestMapping(value = "/stp-provider/budget/budget-info-table", method = RequestMethod.POST)
 	public Object selectBudgetInfoTable(@RequestBody LayuiTableParam param) 
@@ -126,5 +125,21 @@ public class BudgetInfoProviderClient
 			e.printStackTrace();
 		}
 		return rs;
+	}
+	@ApiOperation(value="预算管理",notes="获得预算详情")
+	@RequestMapping(value = "/stp-provider/budget/budget-info-get/{dataId}", method = RequestMethod.POST)
+	public Object selectBudgetInfo(@PathVariable("dataId") String dataId) 
+	{
+		logger.info("delete-budget-info...");
+		BudgetInfo info = null;
+		try
+		{
+			info = budgetInfoService.selectBudgetInfo(dataId);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return info;
 	}
 }

@@ -1,13 +1,10 @@
 package com.pcitc.web.system;
 
-import com.pcitc.base.util.DateUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -173,6 +170,12 @@ public class SysFileClient {
     @RequestMapping(value = "/sysfile-provider/sysfile/download/{id}")
     public void downloadFile(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws IOException {
         sysFileService.downloadFile(id, request, response);
+    }
+
+    @ApiOperation(value = "单文件下载", notes = "根据文件ID下载文件缩略图,返回字节流")
+    @RequestMapping(value = "/sysfile-provider/sysfile/viewPicThumbnail/{id}")
+    public void downloadFileViewPicThumbnail(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws IOException {
+        sysFileService.downloadFileViewPicThumbnail(id, request, response);
     }
 
     @ApiOperation(value = "文件是否存在查询", notes = "根据文件ID查询下载文件,返回状态")

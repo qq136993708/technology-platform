@@ -61,12 +61,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>org.springframework.boot</groupId>
-					<artifactId>spring-boot-starter-tomcat</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 
 		<!--aop支持 -->
@@ -87,15 +81,16 @@
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-tomcat</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
 
+		<!-- 
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>provided</scope>
+		</dependency>
 		<dependency>
 			<groupId>org.apache.tomcat.embed</groupId>
 			<artifactId>tomcat-embed-jasper</artifactId>
@@ -105,7 +100,7 @@
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
 			<scope>provided</scope>
-		</dependency>
+		</dependency> -->
 
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
@@ -253,7 +248,7 @@
 		<!--<artifactId>jackson-module-parameter-names</artifactId> -->
 		<!--</dependency> -->
 
-		<!--文档在线查看-->
+		<!--文档在线查看 -->
 		<dependency>
 			<groupId>net.sourceforge.jchardet</groupId>
 			<artifactId>jchardet</artifactId>
@@ -263,6 +258,34 @@
 
 	<build>
 		<finalName>stp</finalName>
+
+		<resources>
+			<resource>
+				<directory>src/main/webapp</directory>
+				<!--注意此次必须要放在此目录下才能被访问到 -->
+				<targetPath>META-INF/resources</targetPath>
+				<includes>
+					<include>**/**</include>
+				</includes>
+			</resource>
+			
+			<!--包含二进制的文件不能被处理-->
+			<resource>
+				<directory>src/main/resources/</directory>
+				<filtering>false</filtering>
+				<includes>
+					<include>**/**</include>
+				</includes>
+			</resource>
+			
+			<resource>
+				<directory>src/main/java/com/sinopec</directory>
+				<filtering>false</filtering>
+				<includes>
+					<include>**/**</include>
+				</includes>
+			</resource>
+		</resources>
 
 		<pluginManagement>
 			<plugins>

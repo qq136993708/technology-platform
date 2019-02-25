@@ -2,6 +2,8 @@ package com.pcitc.service.feign;
 
 import java.util.List;
 
+import com.pcitc.base.expert.ZjkExtractConfig;
+import com.pcitc.base.stp.out.OutUnit;
 import com.pcitc.base.system.SysDictionary;
 import org.springframework.stereotype.Component;
 
@@ -35,5 +37,17 @@ public class SystemHystric implements SystemRemoteClient {
 		getSysPostByCode("获取字典异常");
 		return null;
 	}
+
+	@Override
+	public List<OutUnit> selectProjectUnits(String define2)
+	{
+		System.out.println("执行断路器。。。。。。。。");
+		return null;
+	}
+
+    @Override
+    public ZjkExtractConfig getZjkExtractConfigInfo(String id) {
+        return null;
+    }
 
 }
