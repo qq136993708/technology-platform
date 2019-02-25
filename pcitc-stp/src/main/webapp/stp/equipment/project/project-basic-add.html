@@ -39,7 +39,7 @@
   <input  type="hidden"         name="projectId"     id="projectId" value="${projectId}">
   <input  type="hidden"         name="equipmentIds"  id="equipmentIds" value="${sreProjectBasic.equipmentIds}">
   <input  name="documentDoc"    id="documentDoc"     value="${documentDoc}"  type="hidden">
-  <input  name="yearFeeStr" id="yearFeeStr"  value="${yearFeeStr}"  type="hidden">
+  <input  name="yearFeeStr" id="yearFeeStr"  value="${sreProjectBasic.yearFeeStr}"  type="hidden">
   
   
   
@@ -127,9 +127,9 @@
         <label class="layui-form-label">建设年限</label>
         <div class="layui-input-block">
            <div class="layui-input-inline" style="float:left">
-		            <input type="text" class="layui-input" name="beginYear" id="beginYear" value="${sreProjectBasic.beginYear}" style="width:80px;float:left" placeholder="开始年份">
+		            <input type="text" class="layui-input" name="beginYear" id="beginYear" value="${beginYear}" style="width:80px;float:left" placeholder="开始年份">
 		             <div class="layui-form-mid" style="width:8px;float:left"> - </div>
-		            <input type="text" class="layui-input" id="endYear" name="endYear"   value="${sreProjectBasic.endYear}" style="width:80px;float:left" placeholder="结束年份">
+		            <input type="text" class="layui-input" id="endYear" name="endYear"   value="${endYear}" style="width:80px;float:left" placeholder="结束年份">
 		    </div>
         </div>
       </div>
@@ -303,11 +303,18 @@ layui.use(['form','table','laypage','layer','laydate','laytpl','jquery',"publicM
           /*parent.layer.alert(JSON.stringify(data.field), {
               title: '最终的提交信息'
           })*/
+          if(yearFeeStr==null || yearFeeStr=='')
+          {
+        	  layer.alert("建设年限为空");
+          }else
+       	  {
+       	     $("#yearFeeStr").val(publicMethods.getVal("yearTr",4)); 
+             var url="/sre-project-basic/save?v_date="+v_date+"&status=0";
+             var backurl="/sre-project-basic/to-list?v_date="+v_date;
+             ajaxOpt(url,"form1","POST",backurl,"保存成功","保存失败");
+       	  }
           
-          $("#yearFeeStr").val(publicMethods.getVal("yearTr",4)); 
-          var url="/sre-project-basic/save?v_date="+v_date+"&status=0";
-          var backurl="/sre-project-basic/to-list?v_date="+v_date;
-          ajaxOpt(url,"form1","POST",backurl,"保存成功","保存失败");
+         
           return false;
       });
       
