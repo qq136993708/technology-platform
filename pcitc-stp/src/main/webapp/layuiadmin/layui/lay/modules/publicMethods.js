@@ -627,6 +627,60 @@ layui.define(['jquery','form','table','laydate'],
                         parent.$("#moduleConfig li").eq(data.power).before(html);
                     }
                 }
+            },
+            /*随即生成多个tr*/
+            createTable:function(startYear,endYear,id,number){
+                $("#"+id+" table tbody").empty();
+                var yearIndex=(endYear-startYear)+1;
+                var tdN='',tdNC;
+                for(var n=0;n<number;n++){
+                    tdN+="<td><input class='td"+n+"'  type='text'/></td>";
+                    tdNC+="<td class='td"+n+"'></td>";
+                }
+                for(var i=0;i<yearIndex;i++){
+                    var tr="<tr><td>"+(parseInt(startYear)+parseInt(i))+"</td>" +tdN+ "<td></td></tr>";
+                    $("#"+id+" table tbody").append(tr);
+                }
+                var trTotal="<tr><td>合计</td>" +tdNC+ "<td></td></tr>";
+                $("#"+id+" table tbody").append(trTotal);
+                /*计算*/
+                $("input").change(function () {
+                    /*同行相加*/
+                    var colleagueInputL=$(this).parents("tr").find("input").length;
+                    var trInputC=0;
+                    for(var i=0;i<colleagueInputL;i++){
+                        if($(this).parents("tr").find("input").eq(i).val()==''){
+                            trInputC+=0;
+                        }else {
+                            trInputC+=parseInt($(this).parents("tr").find("input").eq(i).val());
+                        }
+                    }
+                    $(this).parents("tr").find("td:last").text(trInputC);
+                    /*同列相加*/
+                    var columnClass=$(this).attr("class");
+                    var columnTrL=$("#"+id+" table tbody tr").length;
+                    var columnC=0;
+                    for(var j=0;j<columnTrL-1;j++){
+                        var columnVal=$("#"+id+" table tbody tr").eq(j).find("."+columnClass).val();
+                        if(columnVal==''){
+                            columnC+=0;
+                        }else {
+                            columnC+=parseInt(columnVal);
+                        }
+                    }
+                    $("#"+id+" table tbody tr:last").find("."+columnClass).text(columnC);
+                    /*总行*/
+                    var totalInputL=$(this).parents("tbody").find("input").length;
+                    var totalC=0;
+                    for(var g=0;g<totalInputL;g++){
+                        if($(this).parents("tbody").find("input").eq(g).val()==''){
+                            totalC+=0;
+                        }else {
+                            totalC+=parseInt($(this).parents("tbody").find("input").eq(g).val());
+                        }
+                    }
+                    $("#"+id+" table tbody tr:last td:last").text(totalC);
+                });
             }
         };
         /**
