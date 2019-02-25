@@ -629,7 +629,7 @@ layui.define(['jquery','form','table','laydate'],
                 }
             },
             /*随即生成多个tr*/
-            createTable:function(startYear,endYear,id,number){
+            createTable:function(startYear,endYear,id,number,str){
                 $("#"+id+" table tbody").empty();
                 var yearIndex=(endYear-startYear)+1;
                 var tdN='',tdNC;

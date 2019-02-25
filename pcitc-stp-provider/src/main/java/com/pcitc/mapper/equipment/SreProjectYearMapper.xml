@@ -3,9 +3,9 @@
 <mapper namespace="com.pcitc.mapper.equipment.SreProjectYearMapper" >
   <resultMap id="BaseResultMap" type="com.pcitc.base.stp.equipment.SreProjectYear" >
     <id column="id" property="id" jdbcType="VARCHAR" />
-    <result column="year" property="year" jdbcType="INTEGER" />
+    <result column="project_id" property="projectId" jdbcType="VARCHAR" />
+    <result column="year" property="year" jdbcType="VARCHAR" />
     <result column="capital_money" property="capitalMoney" jdbcType="DECIMAL" />
-    <result column="project_id" property="projectId" jdbcType="BIGINT" />
     <result column="cost_money" property="costMoney" jdbcType="DECIMAL" />
     <result column="subtotal_money" property="subtotalMoney" jdbcType="DECIMAL" />
     <result column="lead_unit_name" property="leadUnitName" jdbcType="VARCHAR" />
@@ -69,7 +69,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, year, capital_money, project_id, cost_money, subtotal_money, lead_unit_name
+    id, project_id, year, capital_money, cost_money, subtotal_money, lead_unit_name
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.pcitc.base.stp.equipment.SreProjectYearExample" >
     select
@@ -103,11 +103,11 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.pcitc.base.stp.equipment.SreProjectYear" >
-    insert into sre_project_year (id, year, capital_money, 
-      project_id, cost_money, subtotal_money, 
+    insert into sre_project_year (id, project_id, year, 
+      capital_money, cost_money, subtotal_money, 
       lead_unit_name)
-    values (#{id,jdbcType=VARCHAR}, #{year,jdbcType=INTEGER}, #{capitalMoney,jdbcType=DECIMAL}, 
-      #{projectId,jdbcType=BIGINT}, #{costMoney,jdbcType=DECIMAL}, #{subtotalMoney,jdbcType=DECIMAL}, 
+    values (#{id,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR}, #{year,jdbcType=VARCHAR}, 
+      #{capitalMoney,jdbcType=DECIMAL}, #{costMoney,jdbcType=DECIMAL}, #{subtotalMoney,jdbcType=DECIMAL}, 
       #{leadUnitName,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.pcitc.base.stp.equipment.SreProjectYear" >
@@ -116,14 +116,14 @@
       <if test="id != null" >
         id,
       </if>
+      <if test="projectId != null" >
+        project_id,
+      </if>
       <if test="year != null" >
         year,
       </if>
       <if test="capitalMoney != null" >
         capital_money,
-      </if>
-      <if test="projectId != null" >
-        project_id,
       </if>
       <if test="costMoney != null" >
         cost_money,
@@ -139,14 +139,14 @@
       <if test="id != null" >
         #{id,jdbcType=VARCHAR},
       </if>
+      <if test="projectId != null" >
+        #{projectId,jdbcType=VARCHAR},
+      </if>
       <if test="year != null" >
-        #{year,jdbcType=INTEGER},
+        #{year,jdbcType=VARCHAR},
       </if>
       <if test="capitalMoney != null" >
         #{capitalMoney,jdbcType=DECIMAL},
-      </if>
-      <if test="projectId != null" >
-        #{projectId,jdbcType=BIGINT},
       </if>
       <if test="costMoney != null" >
         #{costMoney,jdbcType=DECIMAL},
@@ -171,14 +171,14 @@
       <if test="record.id != null" >
         id = #{record.id,jdbcType=VARCHAR},
       </if>
+      <if test="record.projectId != null" >
+        project_id = #{record.projectId,jdbcType=VARCHAR},
+      </if>
       <if test="record.year != null" >
-        year = #{record.year,jdbcType=INTEGER},
+        year = #{record.year,jdbcType=VARCHAR},
       </if>
       <if test="record.capitalMoney != null" >
         capital_money = #{record.capitalMoney,jdbcType=DECIMAL},
-      </if>
-      <if test="record.projectId != null" >
-        project_id = #{record.projectId,jdbcType=BIGINT},
       </if>
       <if test="record.costMoney != null" >
         cost_money = #{record.costMoney,jdbcType=DECIMAL},
@@ -197,9 +197,9 @@
   <update id="updateByExample" parameterType="map" >
     update sre_project_year
     set id = #{record.id,jdbcType=VARCHAR},
-      year = #{record.year,jdbcType=INTEGER},
+      project_id = #{record.projectId,jdbcType=VARCHAR},
+      year = #{record.year,jdbcType=VARCHAR},
       capital_money = #{record.capitalMoney,jdbcType=DECIMAL},
-      project_id = #{record.projectId,jdbcType=BIGINT},
       cost_money = #{record.costMoney,jdbcType=DECIMAL},
       subtotal_money = #{record.subtotalMoney,jdbcType=DECIMAL},
       lead_unit_name = #{record.leadUnitName,jdbcType=VARCHAR}
@@ -210,14 +210,14 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.stp.equipment.SreProjectYear" >
     update sre_project_year
     <set >
+      <if test="projectId != null" >
+        project_id = #{projectId,jdbcType=VARCHAR},
+      </if>
       <if test="year != null" >
-        year = #{year,jdbcType=INTEGER},
+        year = #{year,jdbcType=VARCHAR},
       </if>
       <if test="capitalMoney != null" >
         capital_money = #{capitalMoney,jdbcType=DECIMAL},
-      </if>
-      <if test="projectId != null" >
-        project_id = #{projectId,jdbcType=BIGINT},
       </if>
       <if test="costMoney != null" >
         cost_money = #{costMoney,jdbcType=DECIMAL},
@@ -233,9 +233,9 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.equipment.SreProjectYear" >
     update sre_project_year
-    set year = #{year,jdbcType=INTEGER},
+    set project_id = #{projectId,jdbcType=VARCHAR},
+      year = #{year,jdbcType=VARCHAR},
       capital_money = #{capitalMoney,jdbcType=DECIMAL},
-      project_id = #{projectId,jdbcType=BIGINT},
       cost_money = #{costMoney,jdbcType=DECIMAL},
       subtotal_money = #{subtotalMoney,jdbcType=DECIMAL},
       lead_unit_name = #{leadUnitName,jdbcType=VARCHAR}

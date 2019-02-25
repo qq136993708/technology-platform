@@ -8,6 +8,8 @@ import com.pcitc.base.stp.equipment.SreEquipment;
 import com.pcitc.base.stp.equipment.SreEquipmentExample;
 import com.pcitc.base.stp.equipment.SreProject;
 import com.pcitc.base.stp.equipment.SreProjectExample;
+import com.pcitc.base.stp.equipment.SreProjectYear;
+import com.pcitc.base.stp.equipment.SreProjectYearExample;
 import com.pcitc.base.stp.equipment.SreTechMeeting;
 import com.pcitc.base.stp.equipment.SreTechMeetingExample;
 
@@ -76,5 +78,32 @@ public interface EquipmentService {
 	
 	
 	public LayuiTableData getMeetingPage(LayuiTableParam param)throws Exception;
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	public SreProjectYear selectSreProjectYear(String id) throws Exception;
+
+	public Integer updateSreProjectYear(SreProjectYear record)throws Exception;
+
+	public int deleteSreProjectYear(String id)throws Exception;
+
+	public Integer insertSreProjectYear(SreProjectYear record)throws Exception;
+
+	public List<SreProjectYear> getSreProjectYearList(SreProjectYearExample example)throws Exception;
+	
+	
+	public int deleteSreProjectYearExample(SreProjectYearExample example)throws Exception;
 
 }
