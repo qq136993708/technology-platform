@@ -643,6 +643,22 @@ layui.define(['jquery','form','table','laydate'],
                 }
                 var trTotal="<tr><td>合计</td>" +tdNC+ "<td></td></tr>";
                 $("#"+id+" table tbody").append(trTotal);
+                if(str!=''){
+                    var strArr=str.split("#");
+                    var strArrC1=0,strArrC2=0,strArrC3=0;
+                    $.each(strArr,function (i, val) {
+                        var strArrC=strArr[i].split(",");
+                        $("#"+id+" table tbody tr:eq("+i+") td:eq(1) input").val(strArrC[1]);
+                        $("#"+id+" table tbody tr:eq("+i+") td:eq(2) input").val(strArrC[2]);
+                        $("#"+id+" table tbody tr:eq("+i+") td:eq(3)").html(strArrC[3]);
+                        strArrC1+=parseInt(strArrC[1]);
+                        strArrC2+=parseInt(strArrC[2]);
+                        strArrC3+=parseInt(strArrC[3]);
+                    });
+                    $("#"+id+" table tbody tr:last td:eq(1)").text(strArrC1);
+                    $("#"+id+" table tbody tr:last td:eq(2)").text(strArrC2);
+                    $("#"+id+" table tbody tr:last td:eq(3)").text(strArrC3);
+                }
                 /*计算*/
                 $("input").change(function () {
                     /*同行相加*/
