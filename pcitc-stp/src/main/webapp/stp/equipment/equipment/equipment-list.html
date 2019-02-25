@@ -12,11 +12,18 @@
 <body>
 
 <div class="searchBox">
+ <input type="hidden" name="auditStatus" id="auditStatus" value="${auditStatus}">
     <!--查询条件-->
     <label class="dateInput">
         <span>装备名称</span>
-        <input type="text" name="name" placeholder="请输入装备名称" title="装备名称" autocomplete="off" class="form-control" id="name">
+        <input type="text" name="name" id="name" placeholder="请输入装备名称" title="装备名称" autocomplete="off" class="form-control" >
     </label>
+     <label class="dateInput">
+        <span>申报部门</span>
+        <input type="text" name="applyDepartName" id="applyDepartName" placeholder="请输入申报部门" title="申报部门" autocomplete="off" class="form-control" >
+    </label>
+    
+    
     <!--按钮组-->
     <div class="btnGroup">
         <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>
@@ -29,6 +36,24 @@
 	<div class="tableToolBox">
         <div class="whiteLine"></div>
         <div  class="tableBtns">
+           <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"
+                    data-type="draftEvent">
+                <span class="btn-state btnYellow"></span>未关联课题
+            </button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"
+                    data-type="submitEvent">
+                <span class="btn-state btn-green"></span>已关联课题
+            </button>
+           <!--
+            <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"
+                    data-type="passEvent">
+                <span class="btn-state btn-blue"></span>通过
+            </button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"
+                    data-type="rejectEvent">
+                <span class="btn-state btn-yellow"></span>退回调整
+            </button>  
+            -->
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"     data-type="addEvent"  id="addEvent" > 新增</button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit"    data-type="editEvent"  id="editEvent" >编辑</button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" data-type="detailEvent" id="detailEvent" >详情</button>
@@ -37,57 +62,8 @@
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_delete"  data-type="acceptHareEvent" >硬件验收</button> -->
         </div>
     </div>
-    <!-- <table id="processdef-table" class="layui-hide" lay-filter="tableEvent"></table> -->
+    <table id="processdef-table" class="layui-hide" lay-filter="tableEvent"></table>
     
-     
-    <table class="layui-table">
-             <thead>
-	             <tr>
-	                <td width="3%">  </td>
-	                <td width="4%">序号</td>
-	                <td width="20%" >装备名称</td>
-	                <td width="8%" >申请数量</td>
-	                <td width="8%">申报资金(万元)</td>
-	                <td width="8%">申报单位</td>
-	                <td width="8%">第一申报人</td>
-	                <td width="8%" align="center">申请时间</td>
-	             </tr>
-            </thead>
-            <tbody>
-            <tr>
-		            <td>
-		            <div class="layui-table-cell laytable-cell-1-0-0 laytable-cell-checkbox">
-		            <div class="layui-unselect layui-form-checkbox" lay-skin="primary">
-		            <i class="layui-icon layui-icon-ok"></i></div></div>
-		            </td>
-	                <td>1</td>
-	                <td >数据服务器及磁盘阵列</td>
-	                <td>2</td>
-	                <td style="color:red">50</td>
-	                <td>无锡所</td>
-	                <td> 王xxx</td>
-	                <td align="center">2019-01-11</td>
-	             </tr>
-	             
-	             <tr>
-		            <td>
-		            <div class="layui-table-cell laytable-cell-1-0-0 laytable-cell-checkbox">
-		            <div class="layui-unselect layui-form-checkbox" lay-skin="primary">
-		            <i class="layui-icon layui-icon-ok"></i></div></div>
-		            </td>
-	                <td>1</td>
-	                <td >石油地质实验样品二微码</td>
-	                <td>3</td>
-	                <td style="color:red">50</td>
-	                <td >无锡所</td>
-	                <td> 王xxx</td>
-	                <td align="center">2019-01-11</td>
-	             </tr>
-	             
-            </tbody>
-             
-     </table>
-     
 </div>
 
 
@@ -132,14 +108,16 @@
 <script src="/common/js/jquery-1.11.3.min.js"></script>
 <script>
 var table,selectRowData;
+var publicMethods;
 var name=$('#name').val();
-    layui.use(['jquery','table','laypage','layer','laytpl'], function(){
+    layui.use(['jquery','table','laypage','layer','laytpl',"publicMethods"], function(){
            table = layui.table,
             $ = layui.jquery,
             layer = layui.layer,
             laypage = layui.laypage;
+           publicMethods=layui.publicMethods;
 	     //加载表格      
-	     //renderTable();
+	     renderTable();
 	     //移除表头的复选框,去掉全选
 	     $(".layui-table-header table thead th input").remove();  
          // 触发不同的按钮事件
@@ -150,6 +128,8 @@ var name=$('#name').val();
             },
             resetEvent: function() { //点击重置按钮
             	$('#name').val("");
+            	$('#applyDepartName').val("");
+            	$('#auditStatus').val("");
             },
             addEvent: function(){ //点击新增按钮
                 layer.open({
@@ -171,7 +151,7 @@ var name=$('#name').val();
             		layer.msg('请点击选择一行数据');
             	} else {
             		 var equipmentId=selectRowData.equipmentId;
-           		     var url="/sre-equipment/update?equipmentId="+equipmentId;
+           		     var url="/sre-equipment/add?equipmentId="+equipmentId;
            		     
            		  layer.open({
                       title:'装备-修改',
@@ -245,6 +225,22 @@ var name=$('#name').val();
                      });
             	}
             },
+            draftEvent: function(){ 
+            	$("#auditStatus").val("0");//0未审批(草稿), 1审批中(已提交)  2审批通过   3审批不通过
+            	renderTable();
+            },
+            submitEvent: function(){ 
+            	$("#auditStatus").val("1");
+            	renderTable();
+            },
+            passEvent: function(){ 
+            	$("#auditStatus").val("2");
+            	renderTable();
+            },
+            rejectEvent: function(){ 
+            	$("#auditStatus").val("3");
+            	renderTable();
+            },
             acceptHareEvent: function(){  //硬件验收
             	if (typeof(selectRowData.equipmentId) == "undefined") {
             		layer.msg('请点击选择一行数据');
@@ -303,7 +299,7 @@ var name=$('#name').val();
            elem: '#processdef-table',
            url: '/sre-equipment/list',
            method:"POST",
-           where: {param: {"name":$("#name").val(),"equipmentIds":""}},
+           where: {param: {"name":$("#name").val(),"auditStatus":$("#auditStatus").val(),"applyDepartName":$("#applyDepartName").val()}},
            limit: 15,
            id: 'processdef-table',
            height: commonDislodgeTable(),
@@ -318,12 +314,15 @@ var name=$('#name').val();
            cols: [[
            	   {type : 'checkbox', event : 'changeEvents', width : 55},
                {title : '序号', type : 'numbers', width : 55},
-               {field : 'auditStatus', title : '状态', style : 'cursor: pointer;', align : 'center', templet : '<div>{{ layui.laytpl.auditStatus1(d.auditStatus) }}</div>', width : 55},
-               {field : 'equipmentCode', title : '编号', style : 'cursor: pointer;', align : 'center', width : '20%'},
-               {field : 'name', title : '装备名称', style : 'cursor: pointer;', align : 'center', width : '15%'},
-               {field : 'planMoney', title : '计划金额(万元)', style : 'cursor: pointer;', align : 'center', width : '10%'},
+               {field : 'auditStatus', title : '状态', style : 'cursor: pointer;', align : 'center', templet : '<div>{{ layui.laytpl.auditStatus_equipment(d.auditStatus) }}</div>', width : 55},
+               {field : 'name',     title : '装备名称', style : 'cursor: pointer;', align : 'center', width : '20%'},
+               {field : 'type',     title : '装备分类', style : 'cursor: pointer;', align : 'center', width : '10%'},
+               {field : 'unitPrice', title : '单价（万元）', style : 'cursor: pointer;', align : 'center', width : '10%'},
                {field : 'applyAcount', title : '申请数量', style : 'cursor: pointer;', align : 'center', width : '10%'},
-               {field : 'createDate', title : '时间', style : 'cursor: pointer;', align : 'center', templet : '#dateTpl'},
+               {field : 'allPrice', title : '总价¥（万元）', style : 'cursor: pointer;', align : 'center', width : '10%',templet:function(d){return '<span style="color:red">'+d.allPrice+'</span>'}},
+               {field : 'applyDepartName', title : '申报部门', style : 'cursor: pointer;', align : 'center', width : '10%'},
+               {field : 'firstApplyUser', title : '第一申报人', style : 'cursor: pointer;', align : 'center', width : '10%'},
+               {field : 'createDate', title : '申请时间', style : 'cursor: pointer;', align : 'center',width : '10%', templet : '#dateTpl'},
                
            ]],
            done: function (res, curr, count) {
@@ -346,9 +345,21 @@ var name=$('#name').val();
                 	   $("#editEvent").attr("disabled",true);
                 	   $("#deleteEvent").attr("disabled",true);
                    }
-                   
-                   
+                  
                });
+               //项目分类，项目性质
+               var dicMap = ['ROOT_ZBGL_ZBFL'];
+               var dicVal = {};
+				publicMethods.ajaxPost("/dictionary/map/getMapListDictionarys",{"parentCodes":JSON.stringify(dicMap)}, function (data) {
+					$.each(data,function(key,val){
+						$.each(val,function(i,dt){
+							dicVal[dt.code] = dt.name;
+						});
+					});
+			   	}); 
+				$.each(res.data,function(i,dt){
+					$("tr[data-index='"+i+"'] td[data-field='type'] div").html(dicVal[res.data[i].type]); 
+			   	});
            }
        });
     }

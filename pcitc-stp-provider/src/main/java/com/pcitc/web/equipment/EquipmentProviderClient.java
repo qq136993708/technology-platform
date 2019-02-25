@@ -13,9 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
-import com.pcitc.base.common.PageResult;
 import com.pcitc.base.stp.equipment.SreEquipment;
-import com.pcitc.base.stp.equipment.SreProjectBasic;
+import com.pcitc.base.stp.equipment.SreProject;
 import com.pcitc.base.stp.equipment.SreTechMeeting;
 import com.pcitc.base.workflow.Constants;
 import com.pcitc.service.equipment.EquipmentService;
@@ -153,7 +152,7 @@ public class EquipmentProviderClient
 	
 	@ApiOperation(value = "增加项目统计", notes = "增加项目统计")
 	@RequestMapping(value = "/sre-provider/project_basic/add", method = RequestMethod.POST)
-	public String insertSreProjectBasic(@RequestBody SreProjectBasic sreProjectBasic) throws Exception{
+	public String insertSreProjectBasic(@RequestBody SreProject sreProjectBasic) throws Exception{
 		logger.info("====================add SreProjectBasic....========================");
 		Integer count= equipmentService.insertProjectBasic(sreProjectBasic);
 		return sreProjectBasic.getProjectId();
@@ -162,7 +161,7 @@ public class EquipmentProviderClient
 	
 	@ApiOperation(value = "修改项目统计", notes = "修改项目统计")
 	@RequestMapping(value = "/sre-provider/project_basic/update", method = RequestMethod.POST)
-	public Integer updateSreProjectBasic(@RequestBody SreProjectBasic sreProjectBasic) throws Exception{
+	public Integer updateSreProjectBasic(@RequestBody SreProject sreProjectBasic) throws Exception{
 		logger.info("==================update SreProjectBasic===========================");
 		return equipmentService.updateProjectBasic(sreProjectBasic);
 	}
@@ -178,8 +177,8 @@ public class EquipmentProviderClient
 	
 	@ApiOperation(value = "获取项目统计", notes = "根据ID获取项目统计")
 	@RequestMapping(value = "/sre-provider/project_basic/get/{id}", method = RequestMethod.GET)
-	public SreProjectBasic selectSreProjectBasicById(@PathVariable(value = "id", required = true) String id) throws Exception {
-		logger.info("===============================get SreProjectBasic id "+id+"===========");
+	public SreProject selectSreProjectById(@PathVariable(value = "id", required = true) String id) throws Exception {
+		logger.info("===============================get SreProject id "+id+"===========");
 		return equipmentService.selectProjectBasic(id) ;
 	}
 	
@@ -193,7 +192,7 @@ public class EquipmentProviderClient
 	 */
 	@ApiOperation(value = "删除项目统计", notes = "根据ID删除项目统计")
 	@RequestMapping(value = "/sre-provider/project_basic/batch-delete", method = RequestMethod.POST)
-	public int batchDeleteSreProjectBasic(@RequestBody List<String> list)throws Exception{
+	public int batchDeleteSreProject(@RequestBody List<String> list)throws Exception{
 		logger.info("=============================batch delete ProjectBasic =================");
 		return equipmentService.batchDeleteProjectBasic(list);
 	}

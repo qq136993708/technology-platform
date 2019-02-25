@@ -11,10 +11,10 @@
 <body>
 <div class="searchBox">
     <!--查询条件-->
-    
+    <input type="hidden" name="auditStatus" id="auditStatus" value="${auditStatus}">
     <label class="dateInput">
         <span>立项年度</span>
-        <input type="text" name="name" value="2019" placeholder="请输入立项年度" title="立项年度" autocomplete="off" class="form-control" id="name">
+        <input type="text" name="setupYear" value="" placeholder="请输入立项年度" title="立项年度" autocomplete="off" class="form-control" id="setupYear">
     </label>
     
     <label class="dateInput">
@@ -37,15 +37,15 @@
                 <span class="btn-state btnYellow"></span>未上报
             </button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"
-                    data-type="approvalEvent">
+                    data-type="submitEvent">
                 <span class="btn-state btn-green"></span>已上报
             </button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"
-                    data-type="approvedEvent">
+                    data-type="passEvent">
                 <span class="btn-state btn-blue"></span>通过
             </button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"
-                    data-type="approvedEvent">
+                    data-type="rejectEvent">
                 <span class="btn-state btn-yellow"></span>退回调整
             </button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add" data-type="addEvent">新增</button>
@@ -55,9 +55,9 @@
            <!--  <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_delete" data-type="addPlanEvent">添加计划</button> -->
         </div>
     </div>
-    <!-- <table id="processdef-table" class="layui-hide" lay-filter="tableEvent"></table> -->
+   <table id="processdef-table" class="layui-hide" lay-filter="processdef-table" ></table> 
     
-    <table class="layui-table">
+    <!--  <table class="layui-table">
              <thead>
 	             <tr>
 	             <td>
@@ -146,7 +146,7 @@
 	             </tr>
             </tbody>
              
-     </table>
+     </table> -->
      
 </div>
 <script id="dateTpl" type="text/html"> {{formatTime(d.createDate)}} </script>
@@ -191,26 +191,35 @@
 <script>
 var table,selectRowData;
 var name=$('#name').val();
-    layui.use(['jquery','table','laypage','form','layer','laytpl'], function(){
+    layui.use(['jquery','table','laypage','form','layer','laytpl','laydate'], function(){
            table = layui.table,
             $ = layui.jquery,
             layer = layui.layer,
+            laydate = layui.laydate,
             form = layui.form,
             laypage = layui.laypage;
            //加载表格      
-  	     //renderTable();
+  	    renderTable();
   	     //移除表头的复选框,去掉全选
   	     $(".layui-table-header table thead th input").remove();  
-  	     
   	     form.render();
+  	     
+  	     
+  	   var setupYear = laydate.render({
+           elem: '#setupYear'
+           ,type: 'year'
+       });
+  	   
+  	   
          // 触发不同的按钮事件
          var $ = layui.$, active = {
             searchEvent: function() { //点击查询按钮
             	 renderTable();
-               
             },
             resetEvent: function() { //点击重置按钮
             	$('#name').val("");
+            	$('#setupYear').val("");
+            	$('#auditStatus').val("");
             },
             addPlanEvent: function(){ //新增计划
             	if (typeof(selectRowData.projectId) == "undefined") {
@@ -324,6 +333,22 @@ var name=$('#name').val();
                      });
             	}
             
+            },
+            draftEvent: function(){ 
+            	$("#auditStatus").val("0");//0未审批(草稿), 1审批中(已提交)  2审批通过   3审批不通过
+            	renderTable();
+            },
+            submitEvent: function(){ 
+            	$("#auditStatus").val("1");
+            	renderTable();
+            },
+            passEvent: function(){ 
+            	$("#auditStatus").val("2");
+            	renderTable();
+            },
+            rejectEvent: function(){ 
+            	$("#auditStatus").val("3");
+            	renderTable();
             }
             
         };
@@ -357,7 +382,7 @@ var name=$('#name').val();
             elem: '#processdef-table',
             url: '/sre-project-basic/list',
             method:"POST",
-            where: {param: {"name":$("#name").val()}},
+            where: {param: {"name":$("#name").val(),"auditStatus":$("#auditStatus").val()}},
             limit: 15,	
             id: 'processdef-table',
             height: commonDislodgeTable(),
@@ -372,14 +397,13 @@ var name=$('#name').val();
             cols: [[
             	{type : 'checkbox', event : 'changeEvents', width : 55},
             	{title : '序号', type :'numbers', width : 55},
-                {field : 'status', title : '状态', style : 'cursor: pointer;', align: 'center', templet : '<div>{{ layui.laytpl.auditStatus_equipment(d.status) }}</div>', width : 55},
+                {field : 'status', title : '状态', style : 'cursor: pointer;', align: 'center', templet : '<div>{{ layui.laytpl.auditStatus_equipment(d.auditStatus) }}</div>', width : 55},
                 {field : 'name', title : '课题名称', style : 'cursor: pointer;', align: 'left'},
-                {field : 'remarks', title : '课题开发及投资目标', style : 'cursor: pointer;', align: 'left'},
                 {field : 'beginYear', title : '投资期限', style : 'cursor: pointer;', align: 'left'},
                 {field : 'applyMoney', title : '总经费(万元)', style : 'cursor: pointer;', align: 'left'},
                 {field : 'applyUnit', title : '承担单位', style : 'cursor: pointer;', align: 'left'},
                 {field : 'updateUserId', title : '委托方', style : 'cursor: pointer;', align: 'left'},
-                {field : 'createDate', title : '时间', style : 'cursor: pointer;', align: 'center', templet : '#dateTpl'},
+                {field : 'createDate', title : '上报时间', style : 'cursor: pointer;', align: 'center', templet : '#dateTpl'},
             ]],
             done: function (res, curr, count) {
                 // 点击行联动选择框--单选

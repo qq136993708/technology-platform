@@ -4,33 +4,31 @@
   <resultMap id="BaseResultMap" type="com.pcitc.base.stp.equipment.SreEquipment" >
     <id column="equipment_id" property="equipmentId" jdbcType="VARCHAR" />
     <result column="equipment_code" property="equipmentCode" jdbcType="VARCHAR" />
-    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="is_linked_project" property="isLinkedProject" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="type" property="type" jdbcType="VARCHAR" />
-    <result column="apply_order" property="applyOrder" jdbcType="VARCHAR" />
-    <result column="apply_money" property="applyMoney" jdbcType="DECIMAL" />
-    <result column="plan_money" property="planMoney" jdbcType="DECIMAL" />
-    <result column="prior_money" property="priorMoney" jdbcType="DECIMAL" />
+    <result column="unit_price" property="unitPrice" jdbcType="DECIMAL" />
+    <result column="all_price" property="allPrice" jdbcType="DECIMAL" />
     <result column="apply_acount" property="applyAcount" jdbcType="INTEGER" />
-    <result column="type_model" property="typeModel" jdbcType="VARCHAR" />
+    <result column="specification" property="specification" jdbcType="VARCHAR" />
     <result column="notes" property="notes" jdbcType="VARCHAR" />
-    <result column="supplier_id" property="supplierId" jdbcType="VARCHAR" />
-    <result column="report_id" property="reportId" jdbcType="VARCHAR" />
     <result column="special_notes" property="specialNotes" jdbcType="VARCHAR" />
     <result column="attachment_doc" property="attachmentDoc" jdbcType="VARCHAR" />
-    <result column="apply_depart" property="applyDepart" jdbcType="VARCHAR" />
-    <result column="apply_user" property="applyUser" jdbcType="VARCHAR" />
-    <result column="is_del" property="isDel" jdbcType="VARCHAR" />
+    <result column="apply_depart_name" property="applyDepartName" jdbcType="VARCHAR" />
+    <result column="apply_depart_code" property="applyDepartCode" jdbcType="VARCHAR" />
+    <result column="first_apply_user" property="firstApplyUser" jdbcType="VARCHAR" />
     <result column="create_user_id" property="createUserId" jdbcType="VARCHAR" />
     <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
     <result column="audit_status" property="auditStatus" jdbcType="VARCHAR" />
     <result column="update_user_id" property="updateUserId" jdbcType="VARCHAR" />
     <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
-    <result column="meeting_id" property="meetingId" jdbcType="BIGINT" />
-    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
-    <result column="key_word" property="keyWord" jdbcType="VARCHAR" />
-    <result column="begin_year" property="beginYear" jdbcType="VARCHAR" />
-    <result column="end_year" property="endYear" jdbcType="VARCHAR" />
+    <result column="erp_no" property="erpNo" jdbcType="VARCHAR" />
+    <result column="supplier_id" property="supplierId" jdbcType="VARCHAR" />
+    <result column="supplier_name" property="supplierName" jdbcType="VARCHAR" />
+    <result column="supplier_link_man" property="supplierLinkMan" jdbcType="VARCHAR" />
+    <result column="supplier_mobile_email" property="supplierMobileEmail" jdbcType="VARCHAR" />
+    <result column="origin_place" property="originPlace" jdbcType="VARCHAR" />
+    <result column="vote_count" property="voteCount" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -91,10 +89,11 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    equipment_id, equipment_code, status, name, type, apply_order, apply_money, plan_money, 
-    prior_money, apply_acount, type_model, notes, supplier_id, report_id, special_notes, 
-    attachment_doc, apply_depart, apply_user, is_del, create_user_id, create_date, audit_status, 
-    update_user_id, update_date, meeting_id, remarks, key_word, begin_year, end_year
+    equipment_id, equipment_code, is_linked_project, name, type, unit_price, all_price, 
+    apply_acount, specification, notes, special_notes, attachment_doc, apply_depart_name, 
+    apply_depart_code, first_apply_user, create_user_id, create_date, audit_status, update_user_id, 
+    update_date, erp_no, supplier_id, supplier_name, supplier_link_man, supplier_mobile_email, 
+    origin_place, vote_count
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.pcitc.base.stp.equipment.SreEquipmentExample" >
     select
@@ -127,29 +126,29 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.pcitc.base.stp.equipment.SreEquipment" useGeneratedKeys="true" keyProperty="equipmentId" >
-    insert into sre_equipment (equipment_id, equipment_code, status, 
-      name, type, apply_order, 
-      apply_money, plan_money, prior_money, 
-      apply_acount, type_model, notes, 
-      supplier_id, report_id, special_notes, 
-      attachment_doc, apply_depart, apply_user, 
-      is_del, create_user_id, create_date, 
-      audit_status, update_user_id, update_date, 
-      meeting_id, remarks, key_word, 
-      begin_year, end_year)
-    values (#{equipmentId,jdbcType=VARCHAR}, #{equipmentCode,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
-      #{name,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{applyOrder,jdbcType=VARCHAR}, 
-      #{applyMoney,jdbcType=DECIMAL}, #{planMoney,jdbcType=DECIMAL}, #{priorMoney,jdbcType=DECIMAL}, 
-      #{applyAcount,jdbcType=INTEGER}, #{typeModel,jdbcType=VARCHAR}, #{notes,jdbcType=VARCHAR}, 
-      #{supplierId,jdbcType=VARCHAR}, #{reportId,jdbcType=VARCHAR}, #{specialNotes,jdbcType=VARCHAR}, 
-      #{attachmentDoc,jdbcType=VARCHAR}, #{applyDepart,jdbcType=VARCHAR}, #{applyUser,jdbcType=VARCHAR}, 
-      #{isDel,jdbcType=VARCHAR}, #{createUserId,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
-      #{auditStatus,jdbcType=VARCHAR}, #{updateUserId,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, 
-      #{meetingId,jdbcType=BIGINT}, #{remarks,jdbcType=VARCHAR}, #{keyWord,jdbcType=VARCHAR}, 
-      #{beginYear,jdbcType=VARCHAR}, #{endYear,jdbcType=VARCHAR})
+  <insert id="insert" parameterType="com.pcitc.base.stp.equipment.SreEquipment" >
+    insert into sre_equipment (equipment_id, equipment_code, is_linked_project, 
+      name, type, unit_price, 
+      all_price, apply_acount, specification, 
+      notes, special_notes, attachment_doc, 
+      apply_depart_name, apply_depart_code, first_apply_user, 
+      create_user_id, create_date, audit_status, 
+      update_user_id, update_date, erp_no, 
+      supplier_id, supplier_name, supplier_link_man, 
+      supplier_mobile_email, origin_place, vote_count
+      )
+    values (#{equipmentId,jdbcType=VARCHAR}, #{equipmentCode,jdbcType=VARCHAR}, #{isLinkedProject,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{unitPrice,jdbcType=DECIMAL}, 
+      #{allPrice,jdbcType=DECIMAL}, #{applyAcount,jdbcType=INTEGER}, #{specification,jdbcType=VARCHAR}, 
+      #{notes,jdbcType=VARCHAR}, #{specialNotes,jdbcType=VARCHAR}, #{attachmentDoc,jdbcType=VARCHAR}, 
+      #{applyDepartName,jdbcType=VARCHAR}, #{applyDepartCode,jdbcType=VARCHAR}, #{firstApplyUser,jdbcType=VARCHAR}, 
+      #{createUserId,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{auditStatus,jdbcType=VARCHAR}, 
+      #{updateUserId,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, #{erpNo,jdbcType=VARCHAR}, 
+      #{supplierId,jdbcType=VARCHAR}, #{supplierName,jdbcType=VARCHAR}, #{supplierLinkMan,jdbcType=VARCHAR}, 
+      #{supplierMobileEmail,jdbcType=VARCHAR}, #{originPlace,jdbcType=VARCHAR}, #{voteCount,jdbcType=INTEGER}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="com.pcitc.base.stp.equipment.SreEquipment" useGeneratedKeys="true" keyProperty="equipmentId"  >
+  <insert id="insertSelective" parameterType="com.pcitc.base.stp.equipment.SreEquipment" >
     insert into sre_equipment
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="equipmentId != null" >
@@ -158,8 +157,8 @@
       <if test="equipmentCode != null" >
         equipment_code,
       </if>
-      <if test="status != null" >
-        status,
+      <if test="isLinkedProject != null" >
+        is_linked_project,
       </if>
       <if test="name != null" >
         name,
@@ -167,32 +166,20 @@
       <if test="type != null" >
         type,
       </if>
-      <if test="applyOrder != null" >
-        apply_order,
+      <if test="unitPrice != null" >
+        unit_price,
       </if>
-      <if test="applyMoney != null" >
-        apply_money,
-      </if>
-      <if test="planMoney != null" >
-        plan_money,
-      </if>
-      <if test="priorMoney != null" >
-        prior_money,
+      <if test="allPrice != null" >
+        all_price,
       </if>
       <if test="applyAcount != null" >
         apply_acount,
       </if>
-      <if test="typeModel != null" >
-        type_model,
+      <if test="specification != null" >
+        specification,
       </if>
       <if test="notes != null" >
         notes,
-      </if>
-      <if test="supplierId != null" >
-        supplier_id,
-      </if>
-      <if test="reportId != null" >
-        report_id,
       </if>
       <if test="specialNotes != null" >
         special_notes,
@@ -200,14 +187,14 @@
       <if test="attachmentDoc != null" >
         attachment_doc,
       </if>
-      <if test="applyDepart != null" >
-        apply_depart,
+      <if test="applyDepartName != null" >
+        apply_depart_name,
       </if>
-      <if test="applyUser != null" >
-        apply_user,
+      <if test="applyDepartCode != null" >
+        apply_depart_code,
       </if>
-      <if test="isDel != null" >
-        is_del,
+      <if test="firstApplyUser != null" >
+        first_apply_user,
       </if>
       <if test="createUserId != null" >
         create_user_id,
@@ -224,20 +211,26 @@
       <if test="updateDate != null" >
         update_date,
       </if>
-      <if test="meetingId != null" >
-        meeting_id,
+      <if test="erpNo != null" >
+        erp_no,
       </if>
-      <if test="remarks != null" >
-        remarks,
+      <if test="supplierId != null" >
+        supplier_id,
       </if>
-      <if test="keyWord != null" >
-        key_word,
+      <if test="supplierName != null" >
+        supplier_name,
       </if>
-      <if test="beginYear != null" >
-        begin_year,
+      <if test="supplierLinkMan != null" >
+        supplier_link_man,
       </if>
-      <if test="endYear != null" >
-        end_year,
+      <if test="supplierMobileEmail != null" >
+        supplier_mobile_email,
+      </if>
+      <if test="originPlace != null" >
+        origin_place,
+      </if>
+      <if test="voteCount != null" >
+        vote_count,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -247,8 +240,8 @@
       <if test="equipmentCode != null" >
         #{equipmentCode,jdbcType=VARCHAR},
       </if>
-      <if test="status != null" >
-        #{status,jdbcType=VARCHAR},
+      <if test="isLinkedProject != null" >
+        #{isLinkedProject,jdbcType=VARCHAR},
       </if>
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
@@ -256,32 +249,20 @@
       <if test="type != null" >
         #{type,jdbcType=VARCHAR},
       </if>
-      <if test="applyOrder != null" >
-        #{applyOrder,jdbcType=VARCHAR},
+      <if test="unitPrice != null" >
+        #{unitPrice,jdbcType=DECIMAL},
       </if>
-      <if test="applyMoney != null" >
-        #{applyMoney,jdbcType=DECIMAL},
-      </if>
-      <if test="planMoney != null" >
-        #{planMoney,jdbcType=DECIMAL},
-      </if>
-      <if test="priorMoney != null" >
-        #{priorMoney,jdbcType=DECIMAL},
+      <if test="allPrice != null" >
+        #{allPrice,jdbcType=DECIMAL},
       </if>
       <if test="applyAcount != null" >
         #{applyAcount,jdbcType=INTEGER},
       </if>
-      <if test="typeModel != null" >
-        #{typeModel,jdbcType=VARCHAR},
+      <if test="specification != null" >
+        #{specification,jdbcType=VARCHAR},
       </if>
       <if test="notes != null" >
         #{notes,jdbcType=VARCHAR},
-      </if>
-      <if test="supplierId != null" >
-        #{supplierId,jdbcType=VARCHAR},
-      </if>
-      <if test="reportId != null" >
-        #{reportId,jdbcType=VARCHAR},
       </if>
       <if test="specialNotes != null" >
         #{specialNotes,jdbcType=VARCHAR},
@@ -289,14 +270,14 @@
       <if test="attachmentDoc != null" >
         #{attachmentDoc,jdbcType=VARCHAR},
       </if>
-      <if test="applyDepart != null" >
-        #{applyDepart,jdbcType=VARCHAR},
+      <if test="applyDepartName != null" >
+        #{applyDepartName,jdbcType=VARCHAR},
       </if>
-      <if test="applyUser != null" >
-        #{applyUser,jdbcType=VARCHAR},
+      <if test="applyDepartCode != null" >
+        #{applyDepartCode,jdbcType=VARCHAR},
       </if>
-      <if test="isDel != null" >
-        #{isDel,jdbcType=VARCHAR},
+      <if test="firstApplyUser != null" >
+        #{firstApplyUser,jdbcType=VARCHAR},
       </if>
       <if test="createUserId != null" >
         #{createUserId,jdbcType=VARCHAR},
@@ -313,20 +294,26 @@
       <if test="updateDate != null" >
         #{updateDate,jdbcType=TIMESTAMP},
       </if>
-      <if test="meetingId != null" >
-        #{meetingId,jdbcType=BIGINT},
+      <if test="erpNo != null" >
+        #{erpNo,jdbcType=VARCHAR},
       </if>
-      <if test="remarks != null" >
-        #{remarks,jdbcType=VARCHAR},
+      <if test="supplierId != null" >
+        #{supplierId,jdbcType=VARCHAR},
       </if>
-      <if test="keyWord != null" >
-        #{keyWord,jdbcType=VARCHAR},
+      <if test="supplierName != null" >
+        #{supplierName,jdbcType=VARCHAR},
       </if>
-      <if test="beginYear != null" >
-        #{beginYear,jdbcType=VARCHAR},
+      <if test="supplierLinkMan != null" >
+        #{supplierLinkMan,jdbcType=VARCHAR},
       </if>
-      <if test="endYear != null" >
-        #{endYear,jdbcType=VARCHAR},
+      <if test="supplierMobileEmail != null" >
+        #{supplierMobileEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="originPlace != null" >
+        #{originPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="voteCount != null" >
+        #{voteCount,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -345,8 +332,8 @@
       <if test="record.equipmentCode != null" >
         equipment_code = #{record.equipmentCode,jdbcType=VARCHAR},
       </if>
-      <if test="record.status != null" >
-        status = #{record.status,jdbcType=VARCHAR},
+      <if test="record.isLinkedProject != null" >
+        is_linked_project = #{record.isLinkedProject,jdbcType=VARCHAR},
       </if>
       <if test="record.name != null" >
         name = #{record.name,jdbcType=VARCHAR},
@@ -354,32 +341,20 @@
       <if test="record.type != null" >
         type = #{record.type,jdbcType=VARCHAR},
       </if>
-      <if test="record.applyOrder != null" >
-        apply_order = #{record.applyOrder,jdbcType=VARCHAR},
+      <if test="record.unitPrice != null" >
+        unit_price = #{record.unitPrice,jdbcType=DECIMAL},
       </if>
-      <if test="record.applyMoney != null" >
-        apply_money = #{record.applyMoney,jdbcType=DECIMAL},
-      </if>
-      <if test="record.planMoney != null" >
-        plan_money = #{record.planMoney,jdbcType=DECIMAL},
-      </if>
-      <if test="record.priorMoney != null" >
-        prior_money = #{record.priorMoney,jdbcType=DECIMAL},
+      <if test="record.allPrice != null" >
+        all_price = #{record.allPrice,jdbcType=DECIMAL},
       </if>
       <if test="record.applyAcount != null" >
         apply_acount = #{record.applyAcount,jdbcType=INTEGER},
       </if>
-      <if test="record.typeModel != null" >
-        type_model = #{record.typeModel,jdbcType=VARCHAR},
+      <if test="record.specification != null" >
+        specification = #{record.specification,jdbcType=VARCHAR},
       </if>
       <if test="record.notes != null" >
         notes = #{record.notes,jdbcType=VARCHAR},
-      </if>
-      <if test="record.supplierId != null" >
-        supplier_id = #{record.supplierId,jdbcType=VARCHAR},
-      </if>
-      <if test="record.reportId != null" >
-        report_id = #{record.reportId,jdbcType=VARCHAR},
       </if>
       <if test="record.specialNotes != null" >
         special_notes = #{record.specialNotes,jdbcType=VARCHAR},
@@ -387,14 +362,14 @@
       <if test="record.attachmentDoc != null" >
         attachment_doc = #{record.attachmentDoc,jdbcType=VARCHAR},
       </if>
-      <if test="record.applyDepart != null" >
-        apply_depart = #{record.applyDepart,jdbcType=VARCHAR},
+      <if test="record.applyDepartName != null" >
+        apply_depart_name = #{record.applyDepartName,jdbcType=VARCHAR},
       </if>
-      <if test="record.applyUser != null" >
-        apply_user = #{record.applyUser,jdbcType=VARCHAR},
+      <if test="record.applyDepartCode != null" >
+        apply_depart_code = #{record.applyDepartCode,jdbcType=VARCHAR},
       </if>
-      <if test="record.isDel != null" >
-        is_del = #{record.isDel,jdbcType=VARCHAR},
+      <if test="record.firstApplyUser != null" >
+        first_apply_user = #{record.firstApplyUser,jdbcType=VARCHAR},
       </if>
       <if test="record.createUserId != null" >
         create_user_id = #{record.createUserId,jdbcType=VARCHAR},
@@ -411,20 +386,26 @@
       <if test="record.updateDate != null" >
         update_date = #{record.updateDate,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.meetingId != null" >
-        meeting_id = #{record.meetingId,jdbcType=BIGINT},
+      <if test="record.erpNo != null" >
+        erp_no = #{record.erpNo,jdbcType=VARCHAR},
       </if>
-      <if test="record.remarks != null" >
-        remarks = #{record.remarks,jdbcType=VARCHAR},
+      <if test="record.supplierId != null" >
+        supplier_id = #{record.supplierId,jdbcType=VARCHAR},
       </if>
-      <if test="record.keyWord != null" >
-        key_word = #{record.keyWord,jdbcType=VARCHAR},
+      <if test="record.supplierName != null" >
+        supplier_name = #{record.supplierName,jdbcType=VARCHAR},
       </if>
-      <if test="record.beginYear != null" >
-        begin_year = #{record.beginYear,jdbcType=VARCHAR},
+      <if test="record.supplierLinkMan != null" >
+        supplier_link_man = #{record.supplierLinkMan,jdbcType=VARCHAR},
       </if>
-      <if test="record.endYear != null" >
-        end_year = #{record.endYear,jdbcType=VARCHAR},
+      <if test="record.supplierMobileEmail != null" >
+        supplier_mobile_email = #{record.supplierMobileEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.originPlace != null" >
+        origin_place = #{record.originPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="record.voteCount != null" >
+        vote_count = #{record.voteCount,jdbcType=INTEGER},
       </if>
     </set>
     <if test="_parameter != null" >
@@ -435,33 +416,31 @@
     update sre_equipment
     set equipment_id = #{record.equipmentId,jdbcType=VARCHAR},
       equipment_code = #{record.equipmentCode,jdbcType=VARCHAR},
-      status = #{record.status,jdbcType=VARCHAR},
+      is_linked_project = #{record.isLinkedProject,jdbcType=VARCHAR},
       name = #{record.name,jdbcType=VARCHAR},
       type = #{record.type,jdbcType=VARCHAR},
-      apply_order = #{record.applyOrder,jdbcType=VARCHAR},
-      apply_money = #{record.applyMoney,jdbcType=DECIMAL},
-      plan_money = #{record.planMoney,jdbcType=DECIMAL},
-      prior_money = #{record.priorMoney,jdbcType=DECIMAL},
+      unit_price = #{record.unitPrice,jdbcType=DECIMAL},
+      all_price = #{record.allPrice,jdbcType=DECIMAL},
       apply_acount = #{record.applyAcount,jdbcType=INTEGER},
-      type_model = #{record.typeModel,jdbcType=VARCHAR},
+      specification = #{record.specification,jdbcType=VARCHAR},
       notes = #{record.notes,jdbcType=VARCHAR},
-      supplier_id = #{record.supplierId,jdbcType=VARCHAR},
-      report_id = #{record.reportId,jdbcType=VARCHAR},
       special_notes = #{record.specialNotes,jdbcType=VARCHAR},
       attachment_doc = #{record.attachmentDoc,jdbcType=VARCHAR},
-      apply_depart = #{record.applyDepart,jdbcType=VARCHAR},
-      apply_user = #{record.applyUser,jdbcType=VARCHAR},
-      is_del = #{record.isDel,jdbcType=VARCHAR},
+      apply_depart_name = #{record.applyDepartName,jdbcType=VARCHAR},
+      apply_depart_code = #{record.applyDepartCode,jdbcType=VARCHAR},
+      first_apply_user = #{record.firstApplyUser,jdbcType=VARCHAR},
       create_user_id = #{record.createUserId,jdbcType=VARCHAR},
       create_date = #{record.createDate,jdbcType=TIMESTAMP},
       audit_status = #{record.auditStatus,jdbcType=VARCHAR},
       update_user_id = #{record.updateUserId,jdbcType=VARCHAR},
       update_date = #{record.updateDate,jdbcType=TIMESTAMP},
-      meeting_id = #{record.meetingId,jdbcType=BIGINT},
-      remarks = #{record.remarks,jdbcType=VARCHAR},
-      key_word = #{record.keyWord,jdbcType=VARCHAR},
-      begin_year = #{record.beginYear,jdbcType=VARCHAR},
-      end_year = #{record.endYear,jdbcType=VARCHAR}
+      erp_no = #{record.erpNo,jdbcType=VARCHAR},
+      supplier_id = #{record.supplierId,jdbcType=VARCHAR},
+      supplier_name = #{record.supplierName,jdbcType=VARCHAR},
+      supplier_link_man = #{record.supplierLinkMan,jdbcType=VARCHAR},
+      supplier_mobile_email = #{record.supplierMobileEmail,jdbcType=VARCHAR},
+      origin_place = #{record.originPlace,jdbcType=VARCHAR},
+      vote_count = #{record.voteCount,jdbcType=INTEGER}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -472,8 +451,8 @@
       <if test="equipmentCode != null" >
         equipment_code = #{equipmentCode,jdbcType=VARCHAR},
       </if>
-      <if test="status != null" >
-        status = #{status,jdbcType=VARCHAR},
+      <if test="isLinkedProject != null" >
+        is_linked_project = #{isLinkedProject,jdbcType=VARCHAR},
       </if>
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
@@ -481,32 +460,20 @@
       <if test="type != null" >
         type = #{type,jdbcType=VARCHAR},
       </if>
-      <if test="applyOrder != null" >
-        apply_order = #{applyOrder,jdbcType=VARCHAR},
+      <if test="unitPrice != null" >
+        unit_price = #{unitPrice,jdbcType=DECIMAL},
       </if>
-      <if test="applyMoney != null" >
-        apply_money = #{applyMoney,jdbcType=DECIMAL},
-      </if>
-      <if test="planMoney != null" >
-        plan_money = #{planMoney,jdbcType=DECIMAL},
-      </if>
-      <if test="priorMoney != null" >
-        prior_money = #{priorMoney,jdbcType=DECIMAL},
+      <if test="allPrice != null" >
+        all_price = #{allPrice,jdbcType=DECIMAL},
       </if>
       <if test="applyAcount != null" >
         apply_acount = #{applyAcount,jdbcType=INTEGER},
       </if>
-      <if test="typeModel != null" >
-        type_model = #{typeModel,jdbcType=VARCHAR},
+      <if test="specification != null" >
+        specification = #{specification,jdbcType=VARCHAR},
       </if>
       <if test="notes != null" >
         notes = #{notes,jdbcType=VARCHAR},
-      </if>
-      <if test="supplierId != null" >
-        supplier_id = #{supplierId,jdbcType=VARCHAR},
-      </if>
-      <if test="reportId != null" >
-        report_id = #{reportId,jdbcType=VARCHAR},
       </if>
       <if test="specialNotes != null" >
         special_notes = #{specialNotes,jdbcType=VARCHAR},
@@ -514,14 +481,14 @@
       <if test="attachmentDoc != null" >
         attachment_doc = #{attachmentDoc,jdbcType=VARCHAR},
       </if>
-      <if test="applyDepart != null" >
-        apply_depart = #{applyDepart,jdbcType=VARCHAR},
+      <if test="applyDepartName != null" >
+        apply_depart_name = #{applyDepartName,jdbcType=VARCHAR},
       </if>
-      <if test="applyUser != null" >
-        apply_user = #{applyUser,jdbcType=VARCHAR},
+      <if test="applyDepartCode != null" >
+        apply_depart_code = #{applyDepartCode,jdbcType=VARCHAR},
       </if>
-      <if test="isDel != null" >
-        is_del = #{isDel,jdbcType=VARCHAR},
+      <if test="firstApplyUser != null" >
+        first_apply_user = #{firstApplyUser,jdbcType=VARCHAR},
       </if>
       <if test="createUserId != null" >
         create_user_id = #{createUserId,jdbcType=VARCHAR},
@@ -538,20 +505,26 @@
       <if test="updateDate != null" >
         update_date = #{updateDate,jdbcType=TIMESTAMP},
       </if>
-      <if test="meetingId != null" >
-        meeting_id = #{meetingId,jdbcType=BIGINT},
+      <if test="erpNo != null" >
+        erp_no = #{erpNo,jdbcType=VARCHAR},
       </if>
-      <if test="remarks != null" >
-        remarks = #{remarks,jdbcType=VARCHAR},
+      <if test="supplierId != null" >
+        supplier_id = #{supplierId,jdbcType=VARCHAR},
       </if>
-      <if test="keyWord != null" >
-        key_word = #{keyWord,jdbcType=VARCHAR},
+      <if test="supplierName != null" >
+        supplier_name = #{supplierName,jdbcType=VARCHAR},
       </if>
-      <if test="beginYear != null" >
-        begin_year = #{beginYear,jdbcType=VARCHAR},
+      <if test="supplierLinkMan != null" >
+        supplier_link_man = #{supplierLinkMan,jdbcType=VARCHAR},
       </if>
-      <if test="endYear != null" >
-        end_year = #{endYear,jdbcType=VARCHAR},
+      <if test="supplierMobileEmail != null" >
+        supplier_mobile_email = #{supplierMobileEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="originPlace != null" >
+        origin_place = #{originPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="voteCount != null" >
+        vote_count = #{voteCount,jdbcType=INTEGER},
       </if>
     </set>
     where equipment_id = #{equipmentId,jdbcType=VARCHAR}
@@ -559,33 +532,31 @@
   <update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.equipment.SreEquipment" >
     update sre_equipment
     set equipment_code = #{equipmentCode,jdbcType=VARCHAR},
-      status = #{status,jdbcType=VARCHAR},
+      is_linked_project = #{isLinkedProject,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
       type = #{type,jdbcType=VARCHAR},
-      apply_order = #{applyOrder,jdbcType=VARCHAR},
-      apply_money = #{applyMoney,jdbcType=DECIMAL},
-      plan_money = #{planMoney,jdbcType=DECIMAL},
-      prior_money = #{priorMoney,jdbcType=DECIMAL},
+      unit_price = #{unitPrice,jdbcType=DECIMAL},
+      all_price = #{allPrice,jdbcType=DECIMAL},
       apply_acount = #{applyAcount,jdbcType=INTEGER},
-      type_model = #{typeModel,jdbcType=VARCHAR},
+      specification = #{specification,jdbcType=VARCHAR},
       notes = #{notes,jdbcType=VARCHAR},
-      supplier_id = #{supplierId,jdbcType=VARCHAR},
-      report_id = #{reportId,jdbcType=VARCHAR},
       special_notes = #{specialNotes,jdbcType=VARCHAR},
       attachment_doc = #{attachmentDoc,jdbcType=VARCHAR},
-      apply_depart = #{applyDepart,jdbcType=VARCHAR},
-      apply_user = #{applyUser,jdbcType=VARCHAR},
-      is_del = #{isDel,jdbcType=VARCHAR},
+      apply_depart_name = #{applyDepartName,jdbcType=VARCHAR},
+      apply_depart_code = #{applyDepartCode,jdbcType=VARCHAR},
+      first_apply_user = #{firstApplyUser,jdbcType=VARCHAR},
       create_user_id = #{createUserId,jdbcType=VARCHAR},
       create_date = #{createDate,jdbcType=TIMESTAMP},
       audit_status = #{auditStatus,jdbcType=VARCHAR},
       update_user_id = #{updateUserId,jdbcType=VARCHAR},
       update_date = #{updateDate,jdbcType=TIMESTAMP},
-      meeting_id = #{meetingId,jdbcType=BIGINT},
-      remarks = #{remarks,jdbcType=VARCHAR},
-      key_word = #{keyWord,jdbcType=VARCHAR},
-      begin_year = #{beginYear,jdbcType=VARCHAR},
-      end_year = #{endYear,jdbcType=VARCHAR}
+      erp_no = #{erpNo,jdbcType=VARCHAR},
+      supplier_id = #{supplierId,jdbcType=VARCHAR},
+      supplier_name = #{supplierName,jdbcType=VARCHAR},
+      supplier_link_man = #{supplierLinkMan,jdbcType=VARCHAR},
+      supplier_mobile_email = #{supplierMobileEmail,jdbcType=VARCHAR},
+      origin_place = #{originPlace,jdbcType=VARCHAR},
+      vote_count = #{voteCount,jdbcType=INTEGER}
     where equipment_id = #{equipmentId,jdbcType=VARCHAR}
   </update>
 </mapper>

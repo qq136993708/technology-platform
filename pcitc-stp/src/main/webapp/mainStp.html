@@ -202,7 +202,7 @@
                             <span>资本性科研投入:<span class="text-total-blue"   id="chart1_03"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                             <span>预算执行率:<span class="text-total-blue"      id="chart1_04"><img class="loadingImg" src="/layuiadmin/layui/images/loadingImg04.gif" alt=""></span></span>
                         </div>
-                        <div  style="height:272px;width: 100%;" id="chart1"></div>
+                        <div  style="height:272px;width: 100%;" id="chart1_ys"></div>
                     </div>
                 </div>
             </div>
@@ -698,7 +698,7 @@
          
         var nd=$("#year").val(); 
         var v_date=(new Date()).getTime();
- 		var chart1_url="/one_level_main/investment_01?nd="+nd+"&v_date="+v_date+"&companyCode=";
+ 		var chart1_url_0="/one_level_main/investment_01?nd="+nd+"&v_date="+v_date+"&companyCode=";
  		var color=["#bee5d2","#6bdf9e"];
  		  var  yAxis4= [
  	          {
@@ -710,7 +710,7 @@
  	               }
  	          }
  	      ];
- 	    var echart=load_mutl_bar_down(chart1_url,"chart1","","",yAxis4,"");
+ 	    var echart=load_mutl_bar_down(chart1_url_0,"chart1_ys","","",yAxis4);
  		echart.on('click', function (params) {
  			var xName=params.name;//ysnd、type_flag（直属研究院、分子公司等）、define1（费用性、资本性）、define2 各个研究院名称
  			var legentName=params.seriesName;

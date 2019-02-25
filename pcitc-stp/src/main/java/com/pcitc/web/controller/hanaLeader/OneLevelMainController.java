@@ -145,11 +145,8 @@ public class OneLevelMainController {
 					
 					    JSONObject jSONArray = responseEntity.getBody();
 						System.out.println(">>>>>>>>>>>>>>investment_first_page_count jSONArray-> " + jSONArray.toString());
-						
 						String projectMoney =String.valueOf(jSONArray.getString("projectMoney"));
-		         		
 						projectMoney=String.format("%.2f", Double.valueOf(projectMoney));
-		         		
 						Map map=new HashMap();
 						map.put("projectMoney", projectMoney);
 		         		result.setSuccess(true);
@@ -220,7 +217,7 @@ public class OneLevelMainController {
 
 		
 		
-		@RequestMapping(method = RequestMethod.GET, value = "/knowledge_table")
+		  @RequestMapping(method = RequestMethod.GET, value = "/knowledge_table")
 		  public String knowledge_table(HttpServletRequest request) throws Exception
 		  {
 			 
@@ -1619,12 +1616,9 @@ public class OneLevelMainController {
 								pageResult.setLimit(1000);
 								pageResult.setPage(1l);
 							}
-							
-						
-						
 					}
 					
-				} else
+				}else
 				{
 					result.setSuccess(false);
 					result.setMessage("参数为空");
@@ -1641,7 +1635,6 @@ public class OneLevelMainController {
 					resault=resultObj.toString();
 					System.out.println(">>>>>>>>>>>>>>>contract_03 " + resultObj.toString());
 				}
-				
 				return resault;
 			}
           
@@ -1942,9 +1935,9 @@ public class OneLevelMainController {
 				int statusCode = responseEntity.getStatusCodeValue();
 				if (statusCode == 200) 
 				{
-					JSONArray jSONArray = responseEntity.getBody();
-					List<AchievementsAnalysis> list = JSONObject.parseArray(jSONArray.toJSONString(), AchievementsAnalysis.class);
-					System.out.println(">>>>>>>>>>>>>>achievement_03 jSONArray-> " + jSONArray.toString());
+						JSONArray jSONArray = responseEntity.getBody();
+						List<AchievementsAnalysis> list = JSONObject.parseArray(jSONArray.toJSONString(), AchievementsAnalysis.class);
+						System.out.println(">>>>>>>>>>>>>>achievement_03 jSONArray-> " + jSONArray.toString());
 					
 						ChartSingleLineResultData csr = new ChartSingleLineResultData();
 						//X轴数据
@@ -1989,8 +1982,7 @@ public class OneLevelMainController {
 			//获得科技成果的所有年限
 			@RequestMapping(method = RequestMethod.POST, value = "/achievement_05")
 			@ResponseBody
-			public String achievement_05(HttpServletRequest request,
-					HttpServletResponse response) {
+			public String achievement_05(HttpServletRequest request,HttpServletResponse response) {
 
 				System.out.println("achievement_05 param=   ");
 
@@ -2011,7 +2003,7 @@ public class OneLevelMainController {
 			
 			/**=========================================科研装备===============================*/
 			
-			@RequestMapping(method = RequestMethod.GET, value = "/equipment")
+			  @RequestMapping(method = RequestMethod.GET, value = "/equipment")
 			  public String equipment(HttpServletRequest request) throws Exception
 			  {
 				    
@@ -2187,6 +2179,8 @@ public class OneLevelMainController {
 					request.setAttribute("companyCode", companyCode);
 					request.setAttribute("legentName", legentName);
 					
+					String monthName=HanaUtil.getCurrrent_YearMoth();
+					request.setAttribute("monthName", monthName);
 			        return "stp/hana/home/oneLevelMain/equipment_detail";
 			  }
 		    
@@ -2225,16 +2219,14 @@ public class OneLevelMainController {
 				paramsMap.put("companyCode", companyCode);
 				JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
 				HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
-					ResponseEntity<JSONObject> responseEntity = restTemplate.exchange(equipment_04, HttpMethod.POST, entity, JSONObject.class);
-					int statusCode = responseEntity.getStatusCodeValue();
-					if (statusCode == 200) 
-					{
-						JSONObject jSONArray = responseEntity.getBody();
-						result.setSuccess(true);
-						result.setData(jSONArray.toString());
-					}
-					
-				
+				ResponseEntity<JSONObject> responseEntity = restTemplate.exchange(equipment_04, HttpMethod.POST, entity, JSONObject.class);
+				int statusCode = responseEntity.getStatusCodeValue();
+				if (statusCode == 200) 
+				{
+					JSONObject jSONArray = responseEntity.getBody();
+					result.setSuccess(true);
+					result.setData(jSONArray.toString());
+				}
 				JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
 				System.out.println(">>>>>>>>>>>>>>>equipment_04 " + resultObj.toString());
 				return resultObj.toString();
@@ -2605,7 +2597,7 @@ public class OneLevelMainController {
 										Result result = new Result();
 										ChartBarLineResultData barLine=new ChartBarLineResultData();
 										String nd = CommonUtil.getParameter(request, "nd", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
-										String companyCode = CommonUtil.getParameter(request, "companyCode", "");
+										String companyCode = CommonUtil.getParameter(request, "companyCode", HanaUtil.YJY_CODE_NOT_YINGKE);
 										Map<String, Object> paramsMap = new HashMap<String, Object>();
 										paramsMap.put("nd", nd);
 										paramsMap.put("companyCode", companyCode);
@@ -2998,14 +2990,14 @@ public class OneLevelMainController {
 									//新闻
 									@RequestMapping(method = RequestMethod.GET, value = "/get_news")
 									@ResponseBody
-									public String get_news(HttpServletRequest request, HttpServletResponse response) throws Exception {
-										Result result = new Result();
-										String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
-										Map<String, Object> paramsMap = new HashMap<String, Object>();
-										paramsMap.put("month", month);
-										JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
-										HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
-										
+									public String get_news(HttpServletRequest request, HttpServletResponse response) throws Exception 
+									{
+											Result result = new Result();
+											String month = CommonUtil.getParameter(request, "month", "" + DateUtil.dateToStr(new Date(), DateUtil.FMT_MM));
+											Map<String, Object> paramsMap = new HashMap<String, Object>();
+											paramsMap.put("month", month);
+											JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+											HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 											ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(get_news, HttpMethod.POST, entity, JSONArray.class);
 											int statusCode = responseEntity.getStatusCodeValue();
 											if (statusCode == 200) 

@@ -289,12 +289,14 @@
 		ajaxPost('/unit/ztree-unit-list', null, function(data,status) {
 			zNodes = data;//机构下拉树的数据
 			//参数： 参数1：div的id，参数2：isMultiple 是否多选(true或false), 参数3：不用动,参数4：setting
-			unitSelectTree = initSelectTree("userUnit",true, true, false,{ "Y": "ps", "N": "s" }) 
+			//unitSelectTree = initSelectTree("userUnit",true, true, false,{ "Y": "ps", "N": "p" }) 
+			unitSelectTree = initSelectTree("userUnit",true, true, false,{ "Y": "ps", "N": "p" }) 
 			initHideMenu();  //不加此方法则默认打开下拉树
 			
 			//处理机构数据，将机构数据中的父级关系去掉，树是一颗一级树
 			$.each(data,function(i,dt){
 				data[i].pId = 0;//指定一个不存在的父ID，把所有节点都变成根节点
+				
 				unitListNodes.push(data[i]);
 			});
 			//初始化岗位树
