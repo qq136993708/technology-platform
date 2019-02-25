@@ -681,7 +681,30 @@ layui.define(['jquery','form','table','laydate'],
                     }
                     $("#"+id+" table tbody tr:last td:last").text(totalC);
                 });
-            }
+            },
+            /*获取值*/
+            getVal:function (id,number) {
+                /*获取值*/
+                var columnTrL=$("#"+id+" table tbody tr").length;
+                var columnSC='';
+                $("#"+id+" table tbody tr").each(function (i) {
+                    if(i==columnTrL-1){
+                        return;
+                    }
+                    var columnS='';
+                    for(var k=0;k<number;k++){
+                        var tdElement=$("#"+id+" table tbody tr:eq("+i+") td").eq(k);
+                        if($(tdElement).find("input").length>0){
+                            columnS+=$(tdElement).find("input").val()+",";
+                        }else {
+                            columnS+=$(tdElement).html()+",";
+                        }
+                    }
+                    columnSC+=columnS.substring(0,columnS.length-1)+"#"
+                });
+                columnSC=columnSC.substring(0,columnSC.length-1);
+                return columnSC;
+            },
         };
         /**
          * 接口输出
