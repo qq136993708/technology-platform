@@ -226,23 +226,35 @@
 
 	<!-- 获取根节点 记得将根节点的isparent 设置成true -->
 	<select id="selectUintTreeByRootId" resultType="com.pcitc.base.common.TreeNode">
-		select unit_id as id,unit_name as name,unit_relation as pId ,unit_code as
-		code,'unit' as nodeType
-		from sys_unit where unit_id ='10001' and unit_delflag = 0
+		select unit_id as id,unit_name as name,unit_relation as pId ,
+			   unit_code as code,'unit' as nodeType
+		from sys_unit 
+		where 
+			unit_relation is null and unit_delflag = 0
 		order by unit_code
 	</select>
 
 
-	<!-- 获取集团的用户 -->
+	<!-- 获取根节点用户 -->
 	<select id="selectUserUnderRoot" resultType="com.pcitc.base.common.TreeNode">
-		select user_id as id,user_name as name,user_unit as pId ,'user' as nodeType
-		from sys_user where user_unit = '10001' and user_delflag = 0
+		select sys_user.user_id as id,sys_user.user_name as name,sys_user.user_unit as pId ,'user' as nodeType
+		from sys_user,sys_user_unit,sys_unit
+		where 
+			sys_user.user_id = sys_user_unit.user_id 
+			and sys_unit.unit_id = sys_user_unit.unit_id 
+			and sys_unit.unit_relation is null 
+			and sys_user.user_delflag = 0
+		group by sys_user.user_id
 	</select>
 
-	<!-- 获取集团的岗位 -->
+	<!-- 获取根节点岗位 -->
 	<select id="selectPostUnderRoot" resultType="com.pcitc.base.common.TreeNode">
-		select post_id as id,post_name as name,post_unit as pId,'post' as nodeType
-		from sys_post where post_unit='10001' and post_delflag = 0
+		select sys_post.post_id as id,sys_post.post_name as name,sys_post.post_unit as pId,'post' as nodeType
+		from sys_post,sys_unit
+		where 
+			sys_unit.unit_id = sys_post.post_unit
+  			and sys_unit.unit_relation is null
+			and sys_post.post_delflag = 0
 	</select>
 
 	<!-- 获取部门下的部门 -->
@@ -313,19 +325,19 @@
 	<!-- 初始化人员项目对应配置关系列表 （多对一回显） -->
 
 	<select id="selectUserPropertyList" resultType="com.pcitc.base.system.vo.SysUserPropertyVo">
-		SELECT p.project_id as projectId,project_name as
+		SELECT p.data_id as projectId,project_name as
 		projectName,project_code as projectCode,up.permission
-		from epms_project p LEFT JOIN sys_user_property up
-		on INSTR(up.data_id,CONCAT(',',p.project_id,','))&gt;0
+		from epms_project p LEFT JOIN sys_user_property up on up.data_id LIKE CONCAT('%,',p.data_id,',%') 
 		<if test="userId!=null and userId!=''.toString">
 			and up.user_id = #{userId}
 		</if>
 		<if test="dataType!=null and dataType!=''.toString">
-			and INSTR(up.data_type,#{dataType})&gt;0
+			and up.data_type = #{dataType}
 		</if>
 		<if test="projectName!= null and projectName!= ''.toString">
 			where p.project_name like '%${projectName}%'
 		</if>
+		group by p.data_id
 		order by p.project_code
 		<!-- <if test="iSortCol!=null and iSortCol!=''.toString()"> order by ${iSortCol} 
 			${sSortDir_0} </if> -->
@@ -335,18 +347,18 @@
 	<select id="selectUserPropertyUnitList" resultType="com.pcitc.base.system.vo.SysUserPropertyVo">
 		SELECT u.unit_id as projectId,u.unit_name as projectName,u.unit_code
 		as projectCode,up.permission
-		from sys_unit u LEFT JOIN sys_user_property up
-		on INSTR(up.data_id,CONCAT(',',u.unit_id,','))&gt;0
+		from sys_unit u LEFT JOIN sys_user_property up on up.data_id LIKE CONCAT('%,',u.unit_id,',%')
 		<if test="userId!=null and userId!=''.toString">
 			and up.user_id = #{userId}
 		</if>
 		<if test="dataType!=null and dataType!=''.toString">
-			and INSTR(up.data_type,#{dataType})&gt;0
+			and up.data_type = #{dataType}
 		</if>
-		where (1=1) and u.unit_delflag = 0
+		where u.unit_delflag = 0
 		<if test="projectName!= null and projectName!= ''.toString">
 			and u.unit_name like '%${projectName}%'
 		</if>
+		group by u.unit_id
 		order by u.unit_code
 		<!-- <if test="iSortCol!=null and iSortCol!=''.toString()"> order by ${iSortCol} 
 			${sSortDir_0} </if> -->
@@ -354,11 +366,9 @@
 
 	<!-- 一对一回显 -->
 	<select id="selectUserPropertyList1" resultType="com.pcitc.base.system.vo.SysUserPropertyVo">
-		select p.project_id as projectId,project_name as
+		select p.data_id as projectId,project_name as
 		projectName,project_code as projectCode,up.permission from
-		epms_project p
-		left join sys_user_property up on p.project_id =
-		up.data_id
+		epms_project p left join sys_user_property up on p.project_id = up.data_id
 		<if test="userId!=null and userId!=''.toString">
 			and up.user_id = #{userId}
 		</if>
@@ -406,16 +416,14 @@
 	<select id="selectUserPropertyUnitTree" resultType="com.pcitc.base.common.TreeNode">
 		SELECT u.unit_id as id,u.unit_name as name,u.unit_code as
 		code,u.unit_relation as pId,up.permission as text
-		from sys_unit u LEFT
-		JOIN sys_user_property up
-		on INSTR(up.data_id,CONCAT(',',u.unit_id,','))&gt;0
+		from sys_unit u LEFT JOIN sys_user_property up on up.data_id LIKE CONCAT('%,',u.unit_id,',%')
 		<if test="userId!=null and userId!=''.toString">
 			and up.user_id = #{userId}
 		</if>
 		<if test="dataType!=null and dataType!=''.toString">
-			and INSTR(up.data_type,#{dataType})&gt;0
+			and up.data_type = #{dataType}
 		</if>
-		where (1=1) and u.unit_delflag = 0
+		where u.unit_delflag = 0
 		<if test="projectName!= null and projectName!= ''.toString">
 			and u.unit_name like '%${projectName}%'
 		</if>
@@ -443,17 +451,19 @@
 
 	<!-- 所选部门下所有部门下的人 -->
 	<select id="selectUserByUnitCode" resultType="com.pcitc.base.common.TreeNode">
-		select u.user_disp as name,u.user_id as id
-		from sys_user u
-		left join sys_unit ut on INSTR(u.user_unit,CONCAT(ut.unit_id))&gt;0
-		where
-		ut.unit_code like '${parentCode}%' and user_delflag = 0
+		select sys_user.user_id as id,sys_user.user_disp as name
+		from sys_user,sys_user_unit,sys_unit
+		where 
+			sys_user.user_id = sys_user_unit.user_id 
+			and sys_unit.unit_id = sys_user_unit.unit_id 
+			and sys_unit.unit_relation is null 
+			and sys_user.user_delflag = 0
+			and sys_unit.unit_code like '${parentCode}%'
+		group by sys_user.user_id
 	</select>
 	<!-- 查询所有所选部门下所有岗位 -->
 	<select id="selectPostByUnitCode" resultType="com.pcitc.base.common.TreeNode">
-		select post_id as id,post_name as name from sys_post p
-		left join sys_unit ut
-		on INSTR(p.post_unit,CONCAT(ut.unit_id))&gt;0
+		select post_id as id,post_name as name from sys_post p left join sys_unit ut on INSTR(p.post_unit,CONCAT(ut.unit_id))&gt;-1
 		where ut.unit_code like
 		'${parentCode}%'
 	</select>
@@ -476,19 +486,18 @@
 	<select id="selectUserPropertyDicList" resultType="com.pcitc.base.system.vo.SysUserPropertyVo">
 		select DISTINCT dic.id as projectId,dic.name as projectName, dic.num_value as
 		projectCode ,up.permission as permission
-		from sys_dictionary dic
-		LEFT JOIN sys_user_property up
-		on INSTR(up.data_id,CONCAT(',',dic.num_value,','))&gt;0
+		from sys_dictionary dic LEFT JOIN sys_user_property up on up.data_id LIKE CONCAT('%,',dic.num_value,',%')
 		<if test="userId!=null and userId!=''.toString">
 			and up.user_id = #{userId}
 		</if>
 		<if test="dataType!=null and dataType!=''.toString">
-			and INSTR(up.data_type,#{dataType})&gt;0
+			and up.data_type = #{dataType}
 		</if>
 		where dic.parent_code = 'ROOT_XTGL_ZSYJY'
 		<if test="projectName!= null and projectName!= ''.toString">
 			and dic.name like '%${projectName}%'
 		</if>
+		group by dic.id
 		order by dic.num_value
 	</select>
 

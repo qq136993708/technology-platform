@@ -1,12 +1,12 @@
 package com.pcitc.web.controller.system;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -18,6 +18,7 @@ import com.alibaba.druid.support.json.JSONUtils;
 import com.alibaba.fastjson.JSON;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.system.SysUnit;
 import com.pcitc.base.system.SysUserProperty;
 import com.pcitc.base.system.vo.SysUserPropertyVo;
 import com.pcitc.web.common.BaseController;
@@ -39,9 +40,12 @@ public class SysUserPropertyController extends BaseController {
 
 	private static final String CHILD_BY_CHILD = "http://pcitc-zuul/system-proxy/userProperty-provider/child-by-child/";
 
+	private static final String UNIT_POST_CON_TREE = "http://pcitc-zuul/system-proxy/unit-provider/units-posts-users/tree";
+	
 	@ResponseBody
 	@RequestMapping(value = { "/getOrgTree" }, method = { RequestMethod.POST })
 	public String getOrgTree() {
+		System.out.println("----------getOrgTree");
 		ResponseEntity<List> responseEntity = restTemplate.exchange(FIRST_LEVEL_NODE, HttpMethod.POST, new HttpEntity<String>("", this.httpHeaders), List.class);
 		List treeNodes = responseEntity.getBody();
 		return JSONUtils.toJSONString(treeNodes);
@@ -57,11 +61,22 @@ public class SysUserPropertyController extends BaseController {
 	@RequestMapping(value = "/selectUserUnderOfUnitTree")
 	@ResponseBody
 	public String selectUserUnderOfUnitTree(HttpServletRequest request) throws Exception {
-		String parentId = request.getParameter("parentId");
-
-		ResponseEntity<List> responseEntity = restTemplate.exchange(LEVEL_NODE + parentId, HttpMethod.POST, new HttpEntity<String>("", this.httpHeaders), List.class);
+		String path = request.getContextPath();
+		SysUnit unit = new SysUnit();
+		ResponseEntity<List> responseEntity = restTemplate.exchange(UNIT_POST_CON_TREE, HttpMethod.POST, new HttpEntity<SysUnit>(unit, this.httpHeaders), List.class);
 		List treeNodes = responseEntity.getBody();
-		return JSONUtils.toJSONString(treeNodes);
+		for (int i = 0; i < treeNodes.size(); i++) {
+			Map temNode = (Map)treeNodes.get(i);
+			if (temNode.get("nodeType").equals("unit")) {
+				temNode.put("icon", path + "/image/house.png");
+			} else if (temNode.get("nodeType").equals("post")) {
+				temNode.put("icon", path + "/image/post.png");
+			} else if (temNode.get("nodeType").equals("user")) {
+				temNode.put("icon", path + "/image/humen.png");
+			}
+		}
+		//System.out.println("getUnitPostTreeByCond=====" + JSONUtils.toJSONString(treeNodes));
+		return JSONUtils.toJSONString(responseEntity.getBody());
 
 	}
 
@@ -95,34 +110,6 @@ public class SysUserPropertyController extends BaseController {
 		return "/base/property/user_property";
 	}
 
-	/*
-	 * @RequestMapping(value = "/getTableData", method = RequestMethod.POST)
-	 * 
-	 * @ResponseBody public Object getTableData(@RequestBody List<Object>
-	 * aoData,HttpServletRequest request) throws IOException {
-	 * httpHeaders.setContentType(MediaType.APPLICATION_JSON); String token =
-	 * request.getHeader("access-token");
-	 * this.httpHeaders.set("Authorization","Bearer "+token); DataTableInfoVo
-	 * tableInfo = DateTableUtil.getAllParam(aoData);
-	 * 
-	 * HttpEntity<DataTableInfoVo> entity = new
-	 * HttpEntity<DataTableInfoVo>(tableInfo, this.httpHeaders);
-	 * ResponseEntity<String> responseEntity =
-	 * this.restTemplate.exchange(PROPERTY_LIST, HttpMethod.POST, entity,
-	 * String.class); String result = responseEntity.getBody(); JSONObject
-	 * retJson = JSON.parseObject(result); DataTableParameter data = new
-	 * DataTableParameter(); if(retJson != null){ Long totalCount =
-	 * retJson.get("totalCount") != null?
-	 * Long.parseLong(retJson.get("totalCount").toString()):0l;
-	 * List<SysUserPropertyVo> propertyList =
-	 * JSON.parseArray(retJson.getJSONArray("list").toJSONString(),
-	 * SysUserPropertyVo.class); data.setAaData(propertyList); //要显示的总条数
-	 * data.setiTotalDisplayRecords(totalCount); //真实的总条数
-	 * data.setiTotalRecords(totalCount); }
-	 * 
-	 * 
-	 * return data; }
-	 */
 	/**
 	 * 显示列表
 	 * 
@@ -134,7 +121,6 @@ public class SysUserPropertyController extends BaseController {
 	@RequestMapping(value = "/getTableData")
 	@ResponseBody
 	public Object getTableData(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request) throws Exception {
-
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(PROPERTY_LIST, HttpMethod.POST, entity, LayuiTableData.class);
 		LayuiTableData result = responseEntity.getBody();
@@ -164,9 +150,9 @@ public class SysUserPropertyController extends BaseController {
 	@RequestMapping(value = "/child-by-child")
 	@ResponseBody
 	public String childByChild(HttpServletRequest request) throws Exception {
-		String parentId = request.getParameter("parentId");
+		String parentCode = request.getParameter("parentCode");
 
-		ResponseEntity<List> responseEntity = restTemplate.exchange(CHILD_BY_CHILD + parentId, HttpMethod.POST, new HttpEntity<String>("", this.httpHeaders), List.class);
+		ResponseEntity<List> responseEntity = restTemplate.exchange(CHILD_BY_CHILD + parentCode, HttpMethod.POST, new HttpEntity<String>("", this.httpHeaders), List.class);
 		List treeNodes = responseEntity.getBody();
 		return JSONUtils.toJSONString(treeNodes);
 

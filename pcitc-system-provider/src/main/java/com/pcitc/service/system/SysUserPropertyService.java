@@ -61,7 +61,7 @@ public interface SysUserPropertyService {
 	 * @return
 	 * @throws Exception
 	 */
-	List<TreeNode> selectChildByChild(String parentId) throws Exception;
+	List<TreeNode> selectChildByChild(String parentCode) throws Exception;
     
 	/**
 	 * @param dataTypes
