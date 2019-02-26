@@ -560,7 +560,9 @@
 					url : '/userProperty/saveUserPropertyList',
 					success : function(data) {
 						if (data != '500') {
-							layer.msg("操作成功")
+							layer.msg("操作成功");
+						} else {
+							layer.msg("后台保存出错！");
 						}
 					},
 					error : function(e) {
@@ -599,7 +601,6 @@
 					id : 'property1',
 					height : commonDislodgeTable(),
 					page : {
-						count : 500, //数据总数，从服务端得到
 						groups : 5,
 						limits : [ 15, 30, 45, 60 ],
 						layout : [ 'count', 'limit', 'prev', 'page', 'next', 'skip' ], //自定义分页布局
@@ -726,7 +727,9 @@
 					url : '/userProperty/saveUserPropertyList',
 					success : function(data) {
 						if (data != '500') {
-							layer.msg("操作成功")
+							layer.msg("操作成功");
+						} else {
+							layer.msg("后台保存出错！");
 						}
 					},
 					error : function(e) {
@@ -943,7 +946,9 @@
 					url : '/userProperty/saveUserPropertyList',
 					success : function(data) {
 						if (data != '500') {
-							layer.msg("操作成功")
+							layer.msg("操作成功");
+						} else {
+							layer.msg("后台保存出错！");
 						}
 					},
 					error : function(e) {
@@ -1112,7 +1117,9 @@
 					url : '/userProperty/saveUserPropertyList',
 					success : function(data) {
 						if (data != '500') {
-							layer.msg("操作成功")
+							layer.msg("操作成功");
+						} else {
+							layer.msg("后台保存出错！");
 						}
 					},
 					error : function(e) {

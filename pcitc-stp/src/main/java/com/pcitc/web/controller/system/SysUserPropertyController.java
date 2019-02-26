@@ -75,7 +75,7 @@ public class SysUserPropertyController extends BaseController {
 				temNode.put("icon", path + "/image/humen.png");
 			}
 		}
-		System.out.println("getUnitPostTreeByCond=====" + JSONUtils.toJSONString(treeNodes));
+		//System.out.println("getUnitPostTreeByCond=====" + JSONUtils.toJSONString(treeNodes));
 		return JSONUtils.toJSONString(responseEntity.getBody());
 
 	}
