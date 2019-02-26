@@ -651,9 +651,9 @@ layui.define(['jquery','form','table','laydate'],
                         $("#"+id+" table tbody tr:eq("+i+") td:eq(1) input").val(strArrC[1]);
                         $("#"+id+" table tbody tr:eq("+i+") td:eq(2) input").val(strArrC[2]);
                         $("#"+id+" table tbody tr:eq("+i+") td:eq(3)").html(strArrC[3]);
-                        strArrC1+=parseInt(strArrC[1]);
-                        strArrC2+=parseInt(strArrC[2]);
-                        strArrC3+=parseInt(strArrC[3]);
+                        strArrC1+=parseFloat(strArrC[1]);
+                        strArrC2+=parseFloat(strArrC[2]);
+                        strArrC3+=parseFloat(strArrC[3]);
                     });
                     $("#"+id+" table tbody tr:last td:eq(1)").text(strArrC1);
                     $("#"+id+" table tbody tr:last td:eq(2)").text(strArrC2);
@@ -668,7 +668,7 @@ layui.define(['jquery','form','table','laydate'],
                         if($(this).parents("tr").find("input").eq(i).val()==''){
                             trInputC+=0;
                         }else {
-                            trInputC+=parseInt($(this).parents("tr").find("input").eq(i).val());
+                            trInputC+=parseFloat($(this).parents("tr").find("input").eq(i).val());
                         }
                     }
                     $(this).parents("tr").find("td:last").text(trInputC);
@@ -681,7 +681,7 @@ layui.define(['jquery','form','table','laydate'],
                         if(columnVal==''){
                             columnC+=0;
                         }else {
-                            columnC+=parseInt(columnVal);
+                            columnC+=parseFloat(columnVal);
                         }
                     }
                     $("#"+id+" table tbody tr:last").find("."+columnClass).text(columnC);
@@ -692,7 +692,7 @@ layui.define(['jquery','form','table','laydate'],
                         if($(this).parents("tbody").find("input").eq(g).val()==''){
                             totalC+=0;
                         }else {
-                            totalC+=parseInt($(this).parents("tbody").find("input").eq(g).val());
+                            totalC+=parseFloat($(this).parents("tbody").find("input").eq(g).val());
                         }
                     }
                     $("#"+id+" table tbody tr:last td:last").text(totalC);
