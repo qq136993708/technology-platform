@@ -2,9 +2,10 @@ package com.pcitc.base.stp.equipment;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 public class SreProject {
-    private String projectId;
+    private String id;
 
     private String contractNum;
 
@@ -75,13 +76,37 @@ public class SreProject {
     private String leadLinkmansName;
 
     private String yearFeeStr;
+    
+    
+    
+    private List<SreEquipment> equipmentList;
+    private List<SreProjectYear> projectYearList;
+    
+    
+    
 
-    public String getProjectId() {
-        return projectId;
+    public List<SreEquipment> getEquipmentList() {
+		return equipmentList;
+	}
+
+	public void setEquipmentList(List<SreEquipment> equipmentList) {
+		this.equipmentList = equipmentList;
+	}
+
+	public List<SreProjectYear> getProjectYearList() {
+		return projectYearList;
+	}
+
+	public void setProjectYearList(List<SreProjectYear> projectYearList) {
+		this.projectYearList = projectYearList;
+	}
+
+	public String getId() {
+        return id;
     }
 
-    public void setProjectId(String projectId) {
-        this.projectId = projectId;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getContractNum() {

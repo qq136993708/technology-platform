@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.pcitc.mapper.equipment.SreProjectMapper" >
   <resultMap id="BaseResultMap" type="com.pcitc.base.stp.equipment.SreProject" >
-    <id column="project_id" property="projectId" jdbcType="VARCHAR" />
+    <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="contract_num" property="contractNum" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="remarks" property="remarks" jdbcType="VARCHAR" />
@@ -98,13 +98,13 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    project_id, contract_num, name, remarks, project_money, update_user_id, begin_year, 
-    end_year, equipment_ids, key_word, audit_status, project_leader, create_user_id, 
-    create_date, update_date, document_doc, setup_year, lead_unit_name, join_unit_name, 
-    entrust_unit_name, lead_unit_type, professional_field, belong_department, professional_department, 
-    project_type, professional, is_contract, erp_num, lead_unit_code, join_unit_code, 
-    entrust_unit_code, project_charges_code, project_charges_name, lead_linkmans_code, 
-    lead_linkmans_name, year_fee_str
+    id, contract_num, name, remarks, project_money, update_user_id, begin_year, end_year, 
+    equipment_ids, key_word, audit_status, project_leader, create_user_id, create_date, 
+    update_date, document_doc, setup_year, lead_unit_name, join_unit_name, entrust_unit_name, 
+    lead_unit_type, professional_field, belong_department, professional_department, project_type, 
+    professional, is_contract, erp_num, lead_unit_code, join_unit_code, entrust_unit_code, 
+    project_charges_code, project_charges_name, lead_linkmans_code, lead_linkmans_name, 
+    year_fee_str
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.pcitc.base.stp.equipment.SreProjectExample" >
     select
@@ -125,11 +125,11 @@
     select 
     <include refid="Base_Column_List" />
     from sre_project
-    where project_id = #{projectId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from sre_project
-    where project_id = #{projectId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
   </delete>
   <delete id="deleteByExample" parameterType="com.pcitc.base.stp.equipment.SreProjectExample" >
     delete from sre_project
@@ -138,7 +138,7 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.pcitc.base.stp.equipment.SreProject" >
-    insert into sre_project (project_id, contract_num, name, 
+    insert into sre_project (id, contract_num, name, 
       remarks, project_money, update_user_id, 
       begin_year, end_year, equipment_ids, 
       key_word, audit_status, project_leader, 
@@ -151,7 +151,7 @@
       entrust_unit_code, project_charges_code, project_charges_name, 
       lead_linkmans_code, lead_linkmans_name, year_fee_str
       )
-    values (#{projectId,jdbcType=VARCHAR}, #{contractNum,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=VARCHAR}, #{contractNum,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{remarks,jdbcType=VARCHAR}, #{projectMoney,jdbcType=DECIMAL}, #{updateUserId,jdbcType=VARCHAR}, 
       #{beginYear,jdbcType=VARCHAR}, #{endYear,jdbcType=VARCHAR}, #{equipmentIds,jdbcType=VARCHAR}, 
       #{keyWord,jdbcType=VARCHAR}, #{auditStatus,jdbcType=VARCHAR}, #{projectLeader,jdbcType=VARCHAR}, 
@@ -168,8 +168,8 @@
   <insert id="insertSelective" parameterType="com.pcitc.base.stp.equipment.SreProject" >
     insert into sre_project
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="projectId != null" >
-        project_id,
+      <if test="id != null" >
+        id,
       </if>
       <if test="contractNum != null" >
         contract_num,
@@ -278,8 +278,8 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="projectId != null" >
-        #{projectId,jdbcType=VARCHAR},
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
       </if>
       <if test="contractNum != null" >
         #{contractNum,jdbcType=VARCHAR},
@@ -397,8 +397,8 @@
   <update id="updateByExampleSelective" parameterType="map" >
     update sre_project
     <set >
-      <if test="record.projectId != null" >
-        project_id = #{record.projectId,jdbcType=VARCHAR},
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
       </if>
       <if test="record.contractNum != null" >
         contract_num = #{record.contractNum,jdbcType=VARCHAR},
@@ -512,7 +512,7 @@
   </update>
   <update id="updateByExample" parameterType="map" >
     update sre_project
-    set project_id = #{record.projectId,jdbcType=VARCHAR},
+    set id = #{record.id,jdbcType=VARCHAR},
       contract_num = #{record.contractNum,jdbcType=VARCHAR},
       name = #{record.name,jdbcType=VARCHAR},
       remarks = #{record.remarks,jdbcType=VARCHAR},
@@ -661,7 +661,7 @@
         year_fee_str = #{yearFeeStr,jdbcType=VARCHAR},
       </if>
     </set>
-    where project_id = #{projectId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.equipment.SreProject" >
     update sre_project
@@ -700,6 +700,41 @@
       lead_linkmans_code = #{leadLinkmansCode,jdbcType=VARCHAR},
       lead_linkmans_name = #{leadLinkmansName,jdbcType=VARCHAR},
       year_fee_str = #{yearFeeStr,jdbcType=VARCHAR}
-    where project_id = #{projectId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
   </update>
+  
+  
+  <sql id="selectCondition">
+	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
+	     <if test="keyWord != null and keyWord  !='' ">               AND t.key_word like CONCAT('%',#{keyWord},'%')</if>
+	     <if test="name != null and name  !='' ">                     AND t.name like CONCAT('%',#{name},'%')</if>
+	     <if test="setupYear != null    and setupYear !=''  ">        AND t.setup_year = #{setupYear}</if>
+	     <if test="auditStatus != null    and auditStatus !=''  ">    AND t.audit_status = #{auditStatus}</if>
+	     <if test="leadUnitName != null  and leadUnitName  !='' ">    AND t.lead_unit_name like CONCAT('%',#{leadUnitName},'%')</if>
+	     <if test="leadUnitCode != null and leadUnitCode !=''  ">     AND t.lead_unit_code = #{leadUnitCode}</if>
+	 </trim>
+	</sql>
+	
+	
+    
+    
+   <select id="getListRelationList" resultMap="BaseResultMap" parameterType="com.pcitc.base.stp.equipment.SreProject" >
+     select * from sre_project t <include refid="selectCondition" />    
+     <choose>
+      <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
+      <otherwise>
+        ORDER BY  create_date desc
+      </otherwise>
+     </choose>
+     <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
+   </select>
+   
+   <select id="getListRelationCount" resultType="java.lang.Integer">
+      SELECT count(*) FROM sre_project t <include refid="selectCondition"/>
+    </select>
+  
+  
+  
+  
+  
 </mapper>

@@ -335,6 +335,7 @@ var name=$('#name').val();
                    $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
                    selectRowData=res.data[index-1];
                    var auditStatus=selectRowData.auditStatus;
+                  
                    if(auditStatus=='0' || auditStatus=='3' )
                    {
                 	  
