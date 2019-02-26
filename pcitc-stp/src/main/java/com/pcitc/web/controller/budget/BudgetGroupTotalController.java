@@ -22,6 +22,7 @@ import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.http.HttpEntity;
@@ -339,7 +340,7 @@ public class BudgetGroupTotalController extends BaseController {
 				
 				Integer no = (Integer)list.get(i).get("no");
 				String displayName = list.get(i).get("displayName").toString();
-				String remark = list.get(i).get("remark").toString();
+				//String remark = list.get(i).get("remark").toString();
 				Double total = (Double)list.get(i).get("total");
 				Double xmjf = (Double)list.get(i).get("xmjf");
 				Double zxjf = (Double)list.get(i).get("zxjf");
@@ -350,29 +351,34 @@ public class BudgetGroupTotalController extends BaseController {
 				Row crow = sheet.getRow(i+4);
 				crow.createCell(0).setCellValue(no);
 				crow.createCell(1).setCellValue(displayName);
-				crow.createCell(2).setCellValue(remark);
-				crow.createCell(3).setCellValue(total);
-				crow.createCell(4).setCellValue(xmjf);
-				crow.createCell(5).setCellValue(zxjf);
+				//crow.createCell(2).setCellValue(remark);
+				crow.createCell(2).setCellValue(total);
+				crow.createCell(3).setCellValue(xmjf);
+				crow.createCell(4).setCellValue(zxjf);
 				
 				crow.getCell(0).setCellStyle(centerStyle);
 				crow.getCell(1).setCellStyle(leftCenterStyle);
-				crow.getCell(2).setCellStyle(leftCenterStyle);
+				//crow.getCell(2).setCellStyle(leftCenterStyle);
+				crow.getCell(2).setCellStyle(rightCenterStyle);
 				crow.getCell(3).setCellStyle(rightCenterStyle);
 				crow.getCell(4).setCellStyle(rightCenterStyle);
-				crow.getCell(5).setCellStyle(rightCenterStyle);
 			}
 			//汇总数据
 			Row totalrow =sheet.getRow(list.size()+4);
 			totalrow.createCell(0).setCellValue("合计");
-			totalrow.createCell(3).setCellValue(total_xmjf+total_zxjf);
-			totalrow.createCell(4).setCellValue(total_xmjf);
-			totalrow.createCell(5).setCellValue(total_zxjf);
+			totalrow.createCell(2).setCellValue(total_xmjf+total_zxjf);
+			totalrow.createCell(3).setCellValue(total_xmjf);
+			totalrow.createCell(4).setCellValue(total_zxjf);
 			//设置格式
 			totalrow.getCell(0).setCellStyle(centerStyle);
+			totalrow.getCell(1).setCellStyle(centerStyle);
+			totalrow.getCell(2).setCellStyle(rightCenterStyle);
 			totalrow.getCell(3).setCellStyle(rightCenterStyle);
 			totalrow.getCell(4).setCellStyle(rightCenterStyle);
-			totalrow.getCell(5).setCellStyle(rightCenterStyle);
+			
+			//合计单元格合并
+			sheet.addMergedRegion(new CellRangeAddress(list.size()+4,list.size()+4,0,1));
+			
 			
 			//写入新文件
 			FileOutputStream fos  = new FileOutputStream(outFile);
