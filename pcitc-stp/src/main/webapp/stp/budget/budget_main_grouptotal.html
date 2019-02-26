@@ -101,7 +101,7 @@
                 </tr>
                 <tr>
                     <th lay-data="{field:'total', width: '10%',align: 'right',totalRow: true}">合计</th>
-                    <th lay-data="{field:'xmjf', edit:true,align: 'right',totalRow: true}">科技项目经费预算</th>
+                    <th lay-data="{field:'xmjf', edit:true,align: 'right',totalRow: true}">项目经费</th>
                     <th lay-data="{field:'zxjf', edit:true,align: 'right',totalRow: true}">重点实验室专项经费</th>
                 </tr>
                 </thead>
@@ -267,7 +267,7 @@
             var $ = layui.$, active = {
             	createEvent: function () { //点击查询按钮
                     layer.open({
-                        title: '集团公司经费预算编制管理'
+                        title: cu_date+'集团公司经费预算编制管理-创建预算表'
                         , skin: 'layui-layer-lan'
                         , shadeClose: true
                         , type: 2
@@ -286,7 +286,7 @@
                 	} 
                 	var url = '/budget/budget_edit_grouptotal?budgetInfoId='+curent_budget_info.dataId;
                    	layer.open({
-                        title: '集团公司经费预算编制管理'
+                        title: cu_date+'集团公司经费预算编制管理-预算项新增'
                         , skin: 'layui-layer-lan'
                         , shadeClose: true
                         , type: 2
@@ -306,7 +306,7 @@
                 	}
                 	var url = '/budget/budget_edit_grouptotal?dataId='+curent_tabel_data[selectIndex].dataId+"&budgetInfoId="+curent_budget_info.dataId;
                    	layer.open({
-                        title: '集团公司经费预算编制管理'
+                        title: cu_date+'集团公司经费预算编制管理-预算项编辑'
                         , skin: 'layui-layer-lan'
                         , shadeClose: true
                         , type: 2
@@ -381,7 +381,7 @@
                 	}
                 	var url = '/budget/budget_history_compare_grouptotal?dataId='+curent_tabel_data[selectIndex].dataId+"&budgetInfoId="+curent_budget_info.dataId;
                    	layer.open({
-                        title: '集团公司经费预算编制管理-历史数据参考'
+                        title: '集团公司经费预算编制管理-往年预算参考'
                         , skin: 'layui-layer-lan'
                         , shadeClose: true
                         , type: 2
@@ -399,7 +399,7 @@
                 	} 
                 	var url = '/budget/budget_history_view_grouptotal?budgetInfoId='+curent_budget_info.dataId;
                    	layer.open({
-                        title: '集团公司经费预算编制管理-历史数据参考'
+                        title: '集团公司经费预算编制管理-历年参考数据'
                         , skin: 'layui-layer-lan'
                         , shadeClose: true
                         , type: 2

@@ -50,7 +50,7 @@
                 </div>
                 <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">编码<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">单位编码<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
                             <input type="text" id="displayCode" name="displayCode"  placeholder="" lay-verify="required" autocomplete="off" class="layui-input">
                         </div>
@@ -170,7 +170,7 @@
             , totalRow: true
             , cols: [[
                 {field: 'displayName', title: '单位名称',edit:true,totalRowText: '合计'}
-                , {field: 'plan', title: '2019年计划', align: 'right',style: 'cursor: pointer;', width: '15%'}
+                , {field: 'plan', title: '${nd}年计划', align: 'right',style: 'cursor: pointer;', width: '15%'}
                 , {field: 'xmjf', title: '科技项目经费预算', align: 'right',style: 'cursor: pointer;',edit:true, width: '15%'}
                 , {field: 'zxjf', title: '重点实验室专项经费', align: 'right',style: 'cursor: pointer;',edit:true, width: '15%'}
                 , {title: '操作', style: 'cursor: pointer;', align: 'center', width: '10%', templet: function(d){
