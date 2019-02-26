@@ -646,20 +646,25 @@
 	  from sys_unit u 
 	  where unit_delflag = 0 
 	  <if test="unitPath != null and unitPath !=''.toString">
-	   and unit_path like '${unitPath}%'
+	   	  and unit_path like '${unitPath}%'
 	  </if>
+	  
 	  union all 
-	  select sys_user.user_id as id, sys_user.user_disp as name, sys_user_unit.unit_id as pid, sys_user.user_name as code, 100, 'user' as nodeType
-	  from sys_user,sys_user_unit 
-	  where user_delflag = 0 and sys_user.user_id=sys_user_unit.user_id 
+	  select sys_user.user_id as id, sys_user.user_disp as name, sys_user_post.post_id as pid, sys_user.user_name as code, 100, 'user' as nodeType
+	  from sys_user,sys_user_unit,sys_user_post 
+	  where sys_user.user_delflag = 0 and sys_user.user_id = sys_user_post.user_id
+					and sys_user.user_id=sys_user_unit.user_id 
 	        and sys_user_unit.unit_id in (
 	  		  select t.unit_id
 			  from sys_unit t 
 			  where t.unit_delflag = 0 
-			  <if test="unitPath != null and unitPath !=''.toString">
-			   and t.unit_path like '${unitPath}%'
-			  </if>
+				  <if test="unitPath != null and unitPath !=''.toString">
+				      and unit_path like '${unitPath}%'
+				  </if>
+			 
 	  )
+	  GROUP BY sys_user.user_id
+	  
 	  union all 
 	  select post_id as id, post_name as name, post_unit as pid, post_code as code, sys_post.post_level as nodeLevel, 'post' as nodeType
 	  from sys_post 
@@ -668,7 +673,7 @@
 			  from sys_unit t 
 			  where unit_delflag = 0 
 			  <if test="unitPath != null and unitPath !=''.toString">
-			   and unit_path like '${unitPath}%'
+			      and unit_path like '${unitPath}%'
 			  </if>
 	  )
   </select>
@@ -682,4 +687,5 @@
   and unit_name like '%${unitName}%'
   </if>
   </select>
+  
 </mapper>
