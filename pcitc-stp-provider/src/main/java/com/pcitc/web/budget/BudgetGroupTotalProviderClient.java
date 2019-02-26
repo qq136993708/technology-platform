@@ -322,6 +322,7 @@ public class BudgetGroupTotalProviderClient
 					old.setUpdateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
 					old.setXmjf(t.getXmjf());
 					old.setZxjf(t.getZxjf());
+					old.setDisplayCode(t.getDisplayCode());
 					budgetGroupTotalService.updateBudgetGroupTotal(old);
 				}else{
 					t.setDataId(IdUtil.createIdByTime());

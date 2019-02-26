@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -293,9 +294,9 @@ public class BudgetGroupTotalController extends BaseController {
 		
 		URL path = this.getClass().getResource("/");
 		File f = new File(path.getPath() + "static/budget/budget_grouptotal_template.xlsx");
-		
-		//写入新文件
-		String newFilePath = path.getPath() + "static/budget/budget_grouptotal_"+System.currentTimeMillis()+".xlsx";
+		System.out.println(f.getAbsolutePath());
+		//写入新文件2019年集团公司总部科技经费预算
+		String newFilePath = path.getPath() + "static/budget/"+info.getNd()+"年集团公司总部科技经费预算（建议稿）_"+DateUtil.dateToStr(new Date(), "yyyyMMddHHmmss")+".xlsx";
 		File outFile = new File(newFilePath);
 		
 		processDataAndDownload(f,new ArrayList(tabldata.getData()),parammap,outFile);
@@ -366,6 +367,7 @@ public class BudgetGroupTotalController extends BaseController {
 			//汇总数据
 			Row totalrow =sheet.getRow(list.size()+4);
 			totalrow.createCell(0).setCellValue("合计");
+			totalrow.createCell(1).setCellValue("");
 			totalrow.createCell(2).setCellValue(total_xmjf+total_zxjf);
 			totalrow.createCell(3).setCellValue(total_xmjf);
 			totalrow.createCell(4).setCellValue(total_zxjf);
@@ -378,8 +380,6 @@ public class BudgetGroupTotalController extends BaseController {
 			
 			//合计单元格合并
 			sheet.addMergedRegion(new CellRangeAddress(list.size()+4,list.size()+4,0,1));
-			
-			
 			//写入新文件
 			FileOutputStream fos  = new FileOutputStream(outFile);
 			workbook.write(fos);
@@ -392,14 +392,15 @@ public class BudgetGroupTotalController extends BaseController {
 	}
 	private void fileDownload(File file,HttpServletResponse res) 
 	{
-        res.setHeader("content-type", "application/octet-stream");
-        res.setContentType("application/octet-stream");
-        res.setHeader("Content-Disposition", "attachment;filename=" + file.getName());
-     
         OutputStream out = null;
         InputStream in = null;
         try 
         {
+        	
+          res.setHeader("content-type", "application/octet-stream");
+          res.setContentType("application/octet-stream");
+          res.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(file.getName(), "UTF-8"));
+        	
           out = res.getOutputStream();
           in = new FileInputStream(file);
           

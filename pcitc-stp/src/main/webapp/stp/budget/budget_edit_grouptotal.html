@@ -138,6 +138,7 @@
     var budgetInfoId = "${budgetInfoId}";
     var parentDataId = "${dataId}";
     var parentInfo = null;
+    var company_map = {};
     layui.use(['jquery', 'table', 'form','laydate', 'layer','publicMethods'], function () {
         var $ = layui.jquery, table = layui.table, form = layui.form,laydate = layui.laydate, layer = layui.layer,publicMethods=layui.publicMethods;
         var layTableId = "dataTable";
@@ -154,7 +155,8 @@
         publicMethods.ajaxPost("/budget/search-group-company-items",null, function (data) {
         	$("#company_list").html('<option value="">请选择单位！</option>');
         	$.each(data,function(index,dt){
-        		$("#company_list").append('<option value="'+dt.unitName+'">'+dt.unitName+'</option>');
+        		company_map[dt.unitCode] = dt.unitName;
+        		$("#company_list").append('<option value="'+dt.unitCode+'">'+dt.unitName+'</option>');
         	});
         	form.render(); 
    		});
@@ -167,13 +169,13 @@
             , limit: 100
             , totalRow: true
             , cols: [[
-                {field: 'displayName', title: '单位名称',edit:true, width: '30%',totalRowText: '合计'}
-                , {field: 'plan', title: '2019年计划', style: 'cursor: pointer;', width: '30%'}
-                , {field: 'xmjf', title: '科技项目经费预算', style: 'cursor: pointer;',edit:true, width: '15%'}
-                , {field: 'zxjf', title: '重点实验室专项经费', style: 'cursor: pointer;',edit:true, width: '15%'}
+                {field: 'displayName', title: '单位名称',edit:true,totalRowText: '合计'}
+                , {field: 'plan', title: '2019年计划', align: 'right',style: 'cursor: pointer;', width: '15%'}
+                , {field: 'xmjf', title: '科技项目经费预算', align: 'right',style: 'cursor: pointer;',edit:true, width: '15%'}
+                , {field: 'zxjf', title: '重点实验室专项经费', align: 'right',style: 'cursor: pointer;',edit:true, width: '15%'}
                 , {title: '操作', style: 'cursor: pointer;', align: 'center', width: '10%', templet: function(d){
                     return '<a href="#" lay-event="del" lay-id="'+ d.dataId +'">删除</a>';
-                    }}
+                }}
             ]]
         })
 
@@ -189,20 +191,22 @@
                     break;
             }
         });
-        var conName;
+        var companyName;
+        var companyCode;
         // 监听select--如果需要通过select的形式进行选择
         form.on('select(search)', function(data){
             form.render('select', 'search'); //更新 lay-filter="search" 所在容器内的全部 select 状态
-            conName = data.value;
+            companyCode = data.value;
+            companyName = company_map[data.value];
         });
         //定义事件集合
         var active = {
             addRow: function(){	//添加一行
-                if(!conName){
+                if(!companyName){
                     layer.msg("请选择单位！", { icon: 5 }); //提示
                     return;
                 }
-                var newRow = {dataId: new Date().valueOf(), displayName: conName,plan: 0, xmjf: 0, zxjf: 0,parentDataId:parentDataId,budgetInfoId:budgetInfoId};
+                var newRow = {dataId: new Date().valueOf(),displayCode:companyCode, displayName: companyName,plan: 0, xmjf: 0, zxjf: 0,parentDataId:parentDataId,budgetInfoId:budgetInfoId};
                 viewObj.tbData.push(newRow);
                 tableIns.reload({
                     data : viewObj.tbData
@@ -265,6 +269,12 @@
                 if (data.success) {
                 	parent.initDataVersion("${budgetInfoId}");
                 	parentInfo = data.data;
+                	//保存前如果预算项中的名称被改变了，则ID将移除
+                	$.each(viewObj.tbData,function(index,dt){
+                		if(company_map[dt.displayCode] != dt.displayName){
+                			viewObj.tbData[index].displayCode = null;
+                		}
+                	});
                 	//保存预算项目子项
                 	publicMethods.ajaxPost('/budget/save-grouptotal-childitems', {"items":JSON.stringify(viewObj.tbData),"item":JSON.stringify(parentInfo)}, function (dt, status) {
                 		var index = parent.layer.getFrameIndex(window.name);

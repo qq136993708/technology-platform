@@ -31,7 +31,7 @@
 <body>
     <div class="headline-box">
         <div class="headline-title" title="集团经费预算总表">
-            	${nd}年集团总部科技经费预算(建议稿)
+            	<span class="nd">${nd}</span>年集团总部科技经费预算(建议稿)
         </div>
         <div class="headline-tool">
             <div class="tool-left">
@@ -94,10 +94,10 @@
                 	<th lay-data="{type:'checkbox'}" rowspan="2"></th>
                 	<th lay-data="{field:'no',align: 'center', width: 45,totalRowText: '合计'}" rowspan="2">序号</th>
                     <th lay-data="{field:'displayName', width: '25%'}" rowspan="2">承担单位</th>
-                    <th lay-data="{field:'remark', width: '30%'}" rowspan="2">研究方向</th>
-                   <!--  <th lay-data="{field:'email', width: '15%'}" rowspan="2">2018年科技经费预算完成</th>
-                    <th lay-data="{field:'score', width: '15%'}" rowspan="2">2019年科技经费合同计划金额</th> -->
-                    <th lay-data="{align:'center'}", colspan="3">${nd}年预算</th>
+                    <!-- <th lay-data="{field:'remark', width: '30%'}" rowspan="2">研究方向</th> -->
+                   	<th lay-data="{field:'email', width: '15%'}" rowspan="2">2018年科技经费预算完成</th>
+                    <th lay-data="{field:'score', width: '15%'}" rowspan="2">2019年科技经费合同计划金额</th>
+                    <th lay-data="{align:'center'}", colspan="3"><span>${nd}</span>年度经费预算</th>
                 </tr>
                 <tr>
                     <th lay-data="{field:'total', width: '10%',align: 'right',totalRow: true}">合计</th>
@@ -148,6 +148,10 @@
                 ,done:function (val, date, endDate) {
                 	cu_date = val;
                 	initDataVersion();
+                	$(".nd").html(cu_date);
+                	$('.layui-table-cell.laytable-cell-group').find('span').text(cu_date+"年度经费预算");
+                	$(".layui-table-header .layui-table").find('th').eq(3).find('span').text((cu_date-1)+"年科技经费预算完成");
+                	$(".layui-table-header .layui-table").find('th').eq(4).find('span').text(cu_date+"年科技经费合同计划金额");
                 }            
             });
             renderfunc = function removeHeaderCheckbox(){
