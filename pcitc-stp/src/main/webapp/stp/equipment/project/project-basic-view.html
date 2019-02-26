@@ -159,7 +159,6 @@ file_edit_detail = "detail";
 file_opt_flag = "b3a52bbe7087419c80813d7716f37674";
 var yearFeeStr= $("#yearFeeStr").val();
 var beginYear= $("#beginYear").val();
-alert(yearFeeStr);
 var v_date=(new Date()).getTime();
 var equipmentIds=$("#equipmentIds").val();
 var table,selectRowData;
@@ -191,7 +190,7 @@ layui.config({
 	 	$("#file_div").load('/common/public/uploadlayuiload.html');
 	
 	
-	 	publicMethods.createTable($("#beginYear").val(),$("#endYear").val(),"yearTr",2,yearFeeStr);
+	 	publicMethods.createTable($("#beginYear").val(),$("#endYear").val(),"yearTr",2,yearFeeStr,true);
       //关闭事件
       $("#closeBtn1").click(function () {
           var index = parent.layer.getFrameIndex(window.name);

@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()" media="all">
     <script src="/layuiadmin/layui/layui.js"></script>
+       <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
 </head>
 <body>
 <div class="searchBox">
@@ -274,6 +275,13 @@ var name=$('#name').val();
                 }
             });
         });
+      
+        //监听表格双击事件
+        table.on('rowDouble(processdef-table)', function(obj){
+        	var temUrl = '/sre-project-basic/get/'+obj.data.id;
+        	openFullWin("详情",temUrl);
+        });
+        
         //区别按钮属性
         $('.layui-btn').on('click', function(){
             var type = $(this).data('type');
@@ -306,7 +314,7 @@ var name=$('#name').val();
             	{title : '序号', type :'numbers', width : 55},
                 {field : 'status', title : '状态', style : 'cursor: pointer;', align: 'center', templet : '<div>{{ layui.laytpl.auditStatus_equipment(d.auditStatus) }}</div>', width : 55},
                 {field : 'name', title : '课题名称', style : 'cursor: pointer;', align: 'left'},
-                {field : 'beginYear', title : '投资期限', style : 'cursor: pointer;', align: 'center',templet:function(d){return '<div style="color:red">'+d.beginYear+'-'+d.endYear+'</div><br/><div style="color:red">'+d.beginYear+'</div>'}},
+                {field : 'beginYear', title : '投资期限', style : 'cursor: pointer;', align: 'center',templet:function(d){return '<div style="">'+d.beginYear+'-'+d.endYear+'</div><br/><div style="color:red">'+d.beginYear+'</div>'}},
                 {field : 'projectMoney', title : '总经费(万元)', style : 'cursor: pointer;', align: 'center',templet:function(d){return '<span style="color:red">'+d.projectMoney+'</span>'}},
                 {field : 'leadUnitName', title : '承担单位', style : 'cursor: pointer;', align: 'left'},
                 {field : 'entrustUnitName', title : '委托方', style : 'cursor: pointer;', align: 'left'},

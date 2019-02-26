@@ -6,7 +6,9 @@
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()" media="all">
+    <script src="/common/js/jquery-1.11.3.min.js"></script>
     <script src="/layuiadmin/layui/layui.js"></script>
+       <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
 </head>
 
 <body>
@@ -62,7 +64,7 @@
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_delete"  data-type="acceptHareEvent" >硬件验收</button> -->
         </div>
     </div>
-    <table id="processdef-table" class="layui-hide" lay-filter="tableEvent"></table>
+    <table id="processdef-table" class="layui-hide" lay-filter="processdef-table"></table>
     
 </div>
 
@@ -105,7 +107,7 @@
 </script>
 
 <!--表格数据操作js-->
-<script src="/common/js/jquery-1.11.3.min.js"></script>
+
 <script>
 var table,selectRowData;
 var publicMethods;
@@ -277,6 +279,16 @@ var name=$('#name').val();
                 }
             });
         });
+      
+        //监听表格双击事件
+        table.on('rowDouble(processdef-table)', function(obj){
+        	var temUrl = '/sre-equipment/get/'+obj.data.equipmentId;
+        	openFullWin("详情",temUrl);
+        });
+        
+        
+        
+        
         //区别按钮属性
         $('.layui-btn').on('click', function(){
             var type = $(this).data('type');

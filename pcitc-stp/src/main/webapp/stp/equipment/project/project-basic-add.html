@@ -494,17 +494,17 @@ function handleTask(userIds)
 	$('#userIds').val(userIds);
     var url="/sre-project-basic/save?v_date="+v_date+"&isWorkFlow=1&functionId="+param.id;
     var backurl="/sre-project-basic/to-list?v_date="+v_date;
-    ajaxOpt(url,"form1","POST",backurl,"保存成功","保存失败");
+    ajaxOpt(url,"form1","POST",backurl,"提交成功","提交失败");
 }
 
 
 
 
 
-
+/* 
 function showdialog() {
     openBaseWin("选择", "/sysfileshare/dialog_user_list");
-}
+} */
 
 function clearNoNum(obj){ 
     obj.value = obj.value.replace(/[^\d.]/g,"");  //清除“数字”和“.”以外的字符  
