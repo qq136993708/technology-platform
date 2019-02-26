@@ -17,8 +17,10 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.http.HttpEntity;
@@ -302,6 +304,25 @@ public class BudgetGroupTotalController extends BaseController {
 			
 			//从第五行开始，第五行是测试数据
 			Row templateRow = sheet.getRow(4);
+			Double total_xmjf = 0d;
+			Double total_zxjf = 0d;
+			
+			//水平，垂直居中
+			CellStyle centerStyle =workbook.createCellStyle();
+			centerStyle.cloneStyleFrom(templateRow.getCell(0).getCellStyle());
+			centerStyle.setAlignment(HorizontalAlignment.CENTER);
+			centerStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+			//水平居左，垂直居中
+			CellStyle leftCenterStyle =workbook.createCellStyle();
+			leftCenterStyle.cloneStyleFrom(templateRow.getCell(1).getCellStyle());
+			leftCenterStyle.setAlignment(HorizontalAlignment.LEFT);
+			leftCenterStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+			//水平居右，垂直居中
+			CellStyle rightCenterStyle =workbook.createCellStyle();
+			rightCenterStyle.cloneStyleFrom(templateRow.getCell(3).getCellStyle());
+			rightCenterStyle.setAlignment(HorizontalAlignment.RIGHT);
+			rightCenterStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+			
 			for(int i = 0;i<list.size();i++) {
 				
 				Integer no = (Integer)list.get(i).get("no");
@@ -310,20 +331,36 @@ public class BudgetGroupTotalController extends BaseController {
 				Double total = (Double)list.get(i).get("total");
 				Double xmjf = (Double)list.get(i).get("xmjf");
 				Double zxjf = (Double)list.get(i).get("zxjf");
-				
-				sheet.getRow(i+4).createCell(0).setCellValue(no);
-				sheet.getRow(i+4).createCell(1).setCellValue(displayName);
-				sheet.getRow(i+4).createCell(2).setCellValue(remark);
-				sheet.getRow(i+4).createCell(3).setCellValue(total);
-				sheet.getRow(i+4).createCell(4).setCellValue(xmjf);
-				sheet.getRow(i+4).createCell(5).setCellValue(zxjf);
+				total_xmjf += xmjf;
+				total_zxjf += zxjf;
 				
 				
-				sheet.getRow(i+4).getCell(0).setCellStyle(templateRow.getCell(0).getCellStyle());
+				Row crow = sheet.getRow(i+4);
+				crow.createCell(0).setCellValue(no);
+				crow.createCell(1).setCellValue(displayName);
+				crow.createCell(2).setCellValue(remark);
+				crow.createCell(3).setCellValue(total);
+				crow.createCell(4).setCellValue(xmjf);
+				crow.createCell(5).setCellValue(zxjf);
+				
+				crow.getCell(0).setCellStyle(centerStyle);
+				crow.getCell(1).setCellStyle(leftCenterStyle);
+				crow.getCell(2).setCellStyle(leftCenterStyle);
+				crow.getCell(3).setCellStyle(rightCenterStyle);
+				crow.getCell(4).setCellStyle(rightCenterStyle);
+				crow.getCell(5).setCellStyle(rightCenterStyle);
 			}
 			//汇总数据
-			
-			
+			Row totalrow =sheet.getRow(list.size()+4);
+			totalrow.createCell(0).setCellValue("总计");
+			totalrow.createCell(3).setCellValue(total_xmjf+total_zxjf);
+			totalrow.createCell(4).setCellValue(total_xmjf);
+			totalrow.createCell(5).setCellValue(total_zxjf);
+			//设置格式
+			totalrow.getCell(0).setCellStyle(centerStyle);
+			totalrow.getCell(3).setCellStyle(rightCenterStyle);
+			totalrow.getCell(4).setCellStyle(rightCenterStyle);
+			totalrow.getCell(5).setCellStyle(rightCenterStyle);
 			
 			//写入新文件
 			FileOutputStream fos  = new FileOutputStream(outFile);
