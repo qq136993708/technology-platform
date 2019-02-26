@@ -17,6 +17,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.Row;
@@ -285,6 +286,8 @@ public class BudgetGroupTotalController extends BaseController {
 		ResponseEntity<BudgetInfo> rs = this.restTemplate.exchange(BUDGET_GROUPTOTAL_INFO, HttpMethod.POST, new HttpEntity<String>(dataId, this.httpHeaders), BudgetInfo.class);
 		BudgetInfo info = rs.getBody();
 		
+		Map<String,String> parammap = new HashMap<String,String>();
+		parammap.put("nd", info.getNd());
 		
 		
 		URL path = this.getClass().getResource("/");
@@ -294,19 +297,22 @@ public class BudgetGroupTotalController extends BaseController {
 		String newFilePath = path.getPath() + "static/budget/budget_grouptotal_"+System.currentTimeMillis()+".xlsx";
 		File outFile = new File(newFilePath);
 		
-		processDataAndDownload(f,new ArrayList(tabldata.getData()),outFile);
+		processDataAndDownload(f,new ArrayList(tabldata.getData()),parammap,outFile);
 	    //下载文件
 		this.fileDownload(new File(newFilePath), res);
 	}
 	
 	private XSSFWorkbook workbook;
 	private XSSFSheet sheet;
-	private void processDataAndDownload(File template,List<Map<String,Object>> list,File outFile) 
+	private void processDataAndDownload(File template,List<Map<String,Object>> list,Map<String,String> param,File outFile) 
 	{
 		try {
 			InputStream is = new FileInputStream(template);
 			workbook = new XSSFWorkbook(is);
 			sheet = workbook.getSheetAt(0);
+			//处理标题 年度
+			String title = readCell(sheet.getRow(0).getCell(0));
+			sheet.getRow(0).getCell(0).setCellValue(title.replace("${nd}", param.get("nd")));
 			
 			//从第五行开始，第五行是测试数据
 			Row templateRow = sheet.getRow(4);
@@ -417,7 +423,7 @@ public class BudgetGroupTotalController extends BaseController {
 			}
 		}
 	}
-	/*private String readCell(Cell cell) 
+	private String readCell(Cell cell) 
 	{
 		String  cellVal = null;
 		switch (cell.getCellTypeEnum()) 
@@ -441,5 +447,5 @@ public class BudgetGroupTotalController extends BaseController {
 	            break;
         }
 		return cellVal;
-	}*/
+	}
 }
