@@ -148,10 +148,18 @@
                 ,done:function (val, date, endDate) {
                 	cu_date = val;
                 	initDataVersion();
+                	//初始化表格相关数据
                 	$(".nd").html(cu_date);
+                	table.reload('dataTable', {data: []});
                 	$('.layui-table-cell.laytable-cell-group').find('span').text(cu_date+"年度经费预算");
                 	$(".layui-table-header .layui-table").find('th').eq(3).find('span').text((cu_date-1)+"年科技经费预算完成");
                 	$(".layui-table-header .layui-table").find('th').eq(4).find('span').text(cu_date+"年科技经费合同计划金额");
+                	$("#budgetMoney").val(0);//可分配数
+                	$("#surplusMoney").val(0);//剩余可分配数
+            		$("#creater_name").html("");//创建人
+            		$("#create_time").html("");//创建时间
+            		$("#update_time").html("");//最后更新时间
+            		$("#info_status").html("");//状态
                 }            
             });
             renderfunc = function removeHeaderCheckbox(){
