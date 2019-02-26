@@ -8,9 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,9 +27,6 @@ import com.pcitc.service.system.SysUserPropertyService;
 @CacheConfig(cacheNames = "userPropertyCache")
 @Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = Exception.class)
 public class SysUserPropertyServiceImpl implements SysUserPropertyService {
-
-	@Autowired
-	private StringRedisTemplate stringRedisTemplate;
 
 	@Autowired
 	private RedisTemplate redisTemplate;
@@ -71,7 +66,7 @@ public class SysUserPropertyServiceImpl implements SysUserPropertyService {
 		return listOrg;
 	}
 
-	@CacheEvict(value = "userPropertyCache", allEntries = true, beforeInvocation = true)
+	//@CacheEvict(value = "userPropertyCache", allEntries = true, beforeInvocation = true)
 	@Override
 	public Integer bantchInsertRelation(List<SysUserProperty> list, String dataType, List<String> userIds, List<String> currentPageList, String dataIds) throws Exception {
 
@@ -120,12 +115,11 @@ public class SysUserPropertyServiceImpl implements SysUserPropertyService {
 					}
 				}
 			}
-
 		}
 
 		// 删除redis中的缓存,模糊匹配删除
-		String keys = "userProperty_";
-		redisTemplate.delete(redisTemplate.keys(keys + "*"));
+		//String keys = "userProperty_";
+		//redisTemplate.delete(redisTemplate.keys(keys + "*"));
 
 		result = 200;
 		return result;
