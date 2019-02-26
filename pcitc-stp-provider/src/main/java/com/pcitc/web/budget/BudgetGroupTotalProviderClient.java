@@ -90,9 +90,25 @@ public class BudgetGroupTotalProviderClient
 		}
 		return data;
 	}
-	@ApiOperation(value="集团公司预算-预算明细检索",notes="检索集团预算表明细信息。")
+	@ApiOperation(value="集团公司预算-预算表信息检索",notes="检索预算表信息")
+	@RequestMapping(value = "/stp-provider/budget/budget-grouptotal-info", method = RequestMethod.POST)
+	public Object selectGroupTotalInfo(@RequestBody String budgetInfoId) 
+	{
+		BudgetInfo info = null;
+		try
+		{
+			info = budgetInfoService.selectBudgetInfo(budgetInfoId);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return info;
+	}
+	
+	@ApiOperation(value="集团公司预算-预算明细检索",notes="检索集团预算表明细信息（分页列表）。")
 	@RequestMapping(value = "/stp-provider/budget/budget-grouptotal-items", method = RequestMethod.POST)
-	public Object selectGroupTotalItemList(@RequestBody LayuiTableParam param) 
+	public Object selectGroupTotalItemTable(@RequestBody LayuiTableParam param) 
 	{
 		logger.info("select-budget-grouptotal-items...");
 		LayuiTableData data = null;

@@ -55,6 +55,7 @@ public class BudgetGroupTotalController extends BaseController {
 
 	private static final String BUDGET_GROUPTOTAL_TABLE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-grouptotal-info-table";
 	private static final String BUDGET_GROUPTOTAL_LIST = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-grouptotal-info-list";	
+	private static final String BUDGET_GROUPTOTAL_INFO = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-grouptotal-info";	
 	private static final String BUDGET_GROUPTOTAL_ITEMS = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-grouptotal-items";
 	private static final String BUDGET_GROUPTOTAL_CREATE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-create-blank-grouptotal";
 	private static final String BUDGET_GROUPTOTAL_CREATE_BYTEMPLATE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-create-template-grouptotal";
@@ -220,6 +221,7 @@ public class BudgetGroupTotalController extends BaseController {
 	@ResponseBody
 	public Object searchBudgetGroupCompany(HttpServletRequest request) throws IOException 
 	{
+		//获取所有的集团公司
 		ResponseEntity<?> responseEntity = this.restTemplate.exchange(BUDGET_GROUPTOTAL_COMPANY_ITEMS, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), List.class);
 		return responseEntity.getBody();
 	}
@@ -272,7 +274,6 @@ public class BudgetGroupTotalController extends BaseController {
 	@RequestMapping("/budget/budget_download/grouptotal/{dataId}")
 	public void downBudgetGroupTotal(@PathVariable("dataId") String dataId,HttpServletResponse res) throws IOException 
 	{
-		System.out.println("data:id --------- "+dataId);
 		LayuiTableParam param = new LayuiTableParam();
 		param.getParam().put("budget_info_id", dataId);
 		param.setLimit(100);
@@ -280,6 +281,11 @@ public class BudgetGroupTotalController extends BaseController {
 		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(BUDGET_GROUPTOTAL_ITEMS, HttpMethod.POST, new HttpEntity<LayuiTableParam>(param, this.httpHeaders), LayuiTableData.class);
 		LayuiTableData tabldata = responseEntity.getBody();
 		System.out.println(JSON.toJSONString(tabldata));
+		
+		ResponseEntity<BudgetInfo> rs = this.restTemplate.exchange(BUDGET_GROUPTOTAL_INFO, HttpMethod.POST, new HttpEntity<String>(dataId, this.httpHeaders), BudgetInfo.class);
+		BudgetInfo info = rs.getBody();
+		
+		
 		
 		URL path = this.getClass().getResource("/");
 		File f = new File(path.getPath() + "static/budget/budget_grouptotal_template.xlsx");
@@ -352,7 +358,7 @@ public class BudgetGroupTotalController extends BaseController {
 			}
 			//汇总数据
 			Row totalrow =sheet.getRow(list.size()+4);
-			totalrow.createCell(0).setCellValue("总计");
+			totalrow.createCell(0).setCellValue("合计");
 			totalrow.createCell(3).setCellValue(total_xmjf+total_zxjf);
 			totalrow.createCell(4).setCellValue(total_xmjf);
 			totalrow.createCell(5).setCellValue(total_zxjf);
