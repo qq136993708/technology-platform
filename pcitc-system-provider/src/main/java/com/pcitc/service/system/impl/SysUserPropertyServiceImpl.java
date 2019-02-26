@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
@@ -44,6 +43,7 @@ public class SysUserPropertyServiceImpl implements SysUserPropertyService {
 	public List<TreeNode> selectUnitUserUnderOfRoot() throws Exception {
 		List<TreeNode> orgs = userPropertyDao.selectUintTreeByRootId();
 		orgs.forEach(obj -> obj.setIsParent(true));
+		orgs.forEach(obj -> obj.setOpen("true"));
 		return orgs;
 	}
 
@@ -51,24 +51,24 @@ public class SysUserPropertyServiceImpl implements SysUserPropertyService {
 	public List<TreeNode> selectUserUnderOfUnitTree(String parentId, HttpServletRequest request) throws Exception {
 		String path = request.getContextPath();
 		// 集团下子节点的部门
-		//List<TreeNode> listOrg = userPropertyDao.selectChildUnitByUnitId(parentId);
-		//listOrg.forEach(obj -> obj.setIsParent(true));
+		List<TreeNode> listOrg = userPropertyDao.selectChildUnitByUnitId(parentId);
+		listOrg.forEach(obj -> obj.setIsParent(true));
 
 		// 集团下子节点用户
-		//List<TreeNode> listUser = userPropertyDao.selectUserByUintId(parentId);
-		//listUser.forEach(obj -> obj.setIcon(path + "/image/humen.png"));
-		//listOrg.addAll(listUser);
+		List<TreeNode> listUser = userPropertyDao.selectUserByUintId(parentId);
+		listUser.forEach(obj -> obj.setIcon(path + "/image/humen.png"));
+		listOrg.addAll(listUser);
 		// 集团下子节点岗位
 		List<TreeNode> listPost = userPropertyDao.selectPostByUintId(parentId);
 		listPost.forEach(obj -> obj.setIsParent(true));
-		listPost.forEach(obj -> obj.setIcon(path + "/image/team.png"));
-		//listPost.addAll(listPost);
+		listPost.forEach(obj -> obj.setIcon(path + "/image/post.png"));
+		listOrg.addAll(listPost);
 
 		// 部门下岗位下人员
 		List<TreeNode> listPostUser = userPropertyDao.selectUserByPostId(parentId);
 		listPostUser.forEach(obj -> obj.setIcon(path + "/image/humen.png"));
-		listPost.addAll(listPostUser);
-		return listPost;
+		listOrg.addAll(listPostUser);
+		return listOrg;
 	}
 
 	@CacheEvict(value = "userPropertyCache", allEntries = true, beforeInvocation = true)
@@ -211,14 +211,14 @@ public class SysUserPropertyServiceImpl implements SysUserPropertyService {
 	}
 
 	@Override
-	public List<TreeNode> selectChildByChild(String parentId) throws Exception {
+	public List<TreeNode> selectChildByChild(String parentCode) throws Exception {
 		List<TreeNode> users = null;
 		List<TreeNode> listPost = null;
 		List<TreeNode> listPostUser = null;
-
-		users = userPropertyDao.selectUserByUnitCode(parentId);
-		listPost = userPropertyDao.selectPostByUnitCode(parentId);
-		listPostUser = userPropertyDao.selectPostUserByUnitCode(parentId);
+		System.out.println("=============------selectChildByChild----"+parentCode);
+		users = userPropertyDao.selectUserByUnitCode(parentCode);
+		listPost = userPropertyDao.selectPostByUnitCode(parentCode);
+		listPostUser = userPropertyDao.selectPostUserByUnitCode(parentCode);
 		users.addAll(listPost);
 		users.addAll(listPostUser);
 
