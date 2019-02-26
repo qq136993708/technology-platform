@@ -141,30 +141,13 @@ public class SysUserPropertyProviderClient {
 	 * @param parentId
 	 * @return
 	 */
-	@RequestMapping(value = "/userProperty-provider/child-by-child/{parentId}", method = RequestMethod.POST)
+	@RequestMapping(value = "/userProperty-provider/child-by-child/{parentCode}", method = RequestMethod.POST)
 	@ResponseBody
-	public List selectChildByChild(@PathVariable(value = "parentId", required = true) String parentId) {
+	public List selectChildByChild(@PathVariable(value = "parentCode", required = true) String parentCode) {
 		List<TreeNode> list = null;
 		
 		try {
-			list = userPropertyService.selectChildByChild(parentId);
-			/*慎用递归 严重卡慢
-			 * if(list != null && list.size()>0){
-				for (int i = 0; i < list.size(); i++) {
-					//人 直接加进去，岗位 加进去后查人 加进去，部门的话直接查人 加进去
-					if(list.get(i).getNodeType().equals("user")){
-						users.add(list.get(i));
-					}else if(list.get(i).getNodeType().equals("unit")){
-						selectChildByChild(list.get(i).getId(),users,request);
-					}else{
-						users.add(list.get(i));
-						selectChildByChild(list.get(i).getId(),users,request);
-					}
-				}
-			}else{
-				return users;
-			}
-			*/
+			list = userPropertyService.selectChildByChild(parentCode);
 		} catch (Exception e) {
 			logger.error("[人员配置-通过节点id递归查询用户失败：]", e);
 		}

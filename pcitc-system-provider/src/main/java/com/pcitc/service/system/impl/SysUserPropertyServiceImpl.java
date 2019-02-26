@@ -8,10 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,9 +29,6 @@ import com.pcitc.service.system.SysUserPropertyService;
 public class SysUserPropertyServiceImpl implements SysUserPropertyService {
 
 	@Autowired
-	private StringRedisTemplate stringRedisTemplate;
-
-	@Autowired
 	private RedisTemplate redisTemplate;
 
 	@Autowired
@@ -44,6 +38,7 @@ public class SysUserPropertyServiceImpl implements SysUserPropertyService {
 	public List<TreeNode> selectUnitUserUnderOfRoot() throws Exception {
 		List<TreeNode> orgs = userPropertyDao.selectUintTreeByRootId();
 		orgs.forEach(obj -> obj.setIsParent(true));
+		orgs.forEach(obj -> obj.setOpen("true"));
 		return orgs;
 	}
 
@@ -51,27 +46,27 @@ public class SysUserPropertyServiceImpl implements SysUserPropertyService {
 	public List<TreeNode> selectUserUnderOfUnitTree(String parentId, HttpServletRequest request) throws Exception {
 		String path = request.getContextPath();
 		// 集团下子节点的部门
-		//List<TreeNode> listOrg = userPropertyDao.selectChildUnitByUnitId(parentId);
-		//listOrg.forEach(obj -> obj.setIsParent(true));
+		List<TreeNode> listOrg = userPropertyDao.selectChildUnitByUnitId(parentId);
+		listOrg.forEach(obj -> obj.setIsParent(true));
 
 		// 集团下子节点用户
-		//List<TreeNode> listUser = userPropertyDao.selectUserByUintId(parentId);
-		//listUser.forEach(obj -> obj.setIcon(path + "/image/humen.png"));
-		//listOrg.addAll(listUser);
+		List<TreeNode> listUser = userPropertyDao.selectUserByUintId(parentId);
+		listUser.forEach(obj -> obj.setIcon(path + "/image/humen.png"));
+		listOrg.addAll(listUser);
 		// 集团下子节点岗位
 		List<TreeNode> listPost = userPropertyDao.selectPostByUintId(parentId);
 		listPost.forEach(obj -> obj.setIsParent(true));
-		listPost.forEach(obj -> obj.setIcon(path + "/image/team.png"));
-		//listPost.addAll(listPost);
+		listPost.forEach(obj -> obj.setIcon(path + "/image/post.png"));
+		listOrg.addAll(listPost);
 
 		// 部门下岗位下人员
 		List<TreeNode> listPostUser = userPropertyDao.selectUserByPostId(parentId);
 		listPostUser.forEach(obj -> obj.setIcon(path + "/image/humen.png"));
-		listPost.addAll(listPostUser);
-		return listPost;
+		listOrg.addAll(listPostUser);
+		return listOrg;
 	}
 
-	@CacheEvict(value = "userPropertyCache", allEntries = true, beforeInvocation = true)
+	//@CacheEvict(value = "userPropertyCache", allEntries = true, beforeInvocation = true)
 	@Override
 	public Integer bantchInsertRelation(List<SysUserProperty> list, String dataType, List<String> userIds, List<String> currentPageList, String dataIds) throws Exception {
 
@@ -79,14 +74,6 @@ public class SysUserPropertyServiceImpl implements SysUserPropertyService {
 		String dataId = null;
 		String dataTp = null;
 		// 删除当前页的数据 保存勾选的数据
-		// userPropertyDao.deleteByDataType(dataType,userIds);
-		// currentPageList.forEach( property ->
-		// userPropertyDao.deleteCurrentPage(property) );
-
-		/*
-		 * if(list!=null && list.size()>0){
-		 * userPropertyDao.bantchInsertRelation(list); }
-		 */
 		if (list != null && list.size() > 0) {
 			for (int i = 0; i < list.size(); i++) {
 				// 根据userId和dataType查询一下，如果有配置过 ，则获取其配置的信息，修改
@@ -103,10 +90,7 @@ public class SysUserPropertyServiceImpl implements SysUserPropertyService {
 					if (data != null) {
 						dataId = data.getDataId();
 						dataTp = data.getDataType();
-						/*
-						 * if(StrUtil.isNotBlank(dataTp)&&!dataTp.contains(dataType
-						 * )){ dataTp = dataTp + ","+dataType; }
-						 */
+						
 						if (dataId != null) {
 							// 如果数据库中有，则遍历当前页面的data_id,逐个替换，生成新的字符串dataId，最后拼接上要保存的dataId
 							// ，依次插入
@@ -131,12 +115,11 @@ public class SysUserPropertyServiceImpl implements SysUserPropertyService {
 					}
 				}
 			}
-
 		}
 
 		// 删除redis中的缓存,模糊匹配删除
-		String keys = "userProperty_";
-		redisTemplate.delete(redisTemplate.keys(keys + "*"));
+		//String keys = "userProperty_";
+		//redisTemplate.delete(redisTemplate.keys(keys + "*"));
 
 		result = 200;
 		return result;
@@ -211,14 +194,14 @@ public class SysUserPropertyServiceImpl implements SysUserPropertyService {
 	}
 
 	@Override
-	public List<TreeNode> selectChildByChild(String parentId) throws Exception {
+	public List<TreeNode> selectChildByChild(String parentCode) throws Exception {
 		List<TreeNode> users = null;
 		List<TreeNode> listPost = null;
 		List<TreeNode> listPostUser = null;
-
-		users = userPropertyDao.selectUserByUnitCode(parentId);
-		listPost = userPropertyDao.selectPostByUnitCode(parentId);
-		listPostUser = userPropertyDao.selectPostUserByUnitCode(parentId);
+		System.out.println("=============------selectChildByChild----"+parentCode);
+		users = userPropertyDao.selectUserByUnitCode(parentCode);
+		listPost = userPropertyDao.selectPostByUnitCode(parentCode);
+		listPostUser = userPropertyDao.selectPostUserByUnitCode(parentCode);
 		users.addAll(listPost);
 		users.addAll(listPostUser);
 

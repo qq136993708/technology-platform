@@ -629,13 +629,18 @@ layui.define(['jquery','form','table','laydate'],
                 }
             },
             /*随即生成多个tr*/
-            createTable:function(startYear,endYear,id,number,str){
+            createTable:function(startYear,endYear,id,number,str,edit){
                 $("#"+id+" table tbody").empty();
                 var yearIndex=(endYear-startYear)+1;
                 var tdN='',tdNC;
                 for(var n=0;n<number;n++){
-                    tdN+="<td><input class='td"+n+"'  type='text'/></td>";
-                    tdNC+="<td class='td"+n+"'></td>";
+                    if(edit!=null){
+                        tdN+="<td class='td"+n+"'></td>";
+                        tdNC+="<td class='td"+n+"'></td>";
+                    }else {
+                        tdN+="<td><input class='td"+n+"' value='0'  type='number'/></td>";
+                        tdNC+="<td class='td"+n+"'></td>";
+                    }
                 }
                 for(var i=0;i<yearIndex;i++){
                     var tr="<tr><td>"+(parseInt(startYear)+parseInt(i))+"</td>" +tdN+ "<td></td></tr>";
