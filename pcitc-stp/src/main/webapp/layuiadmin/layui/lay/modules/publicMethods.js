@@ -634,7 +634,7 @@ layui.define(['jquery','form','table','laydate'],
                 var yearIndex=(endYear-startYear)+1;
                 var tdN='',tdNC;
                 for(var n=0;n<number;n++){
-                    tdN+="<td><input class='td"+n+"'  type='text'/></td>";
+                    tdN+="<td><input class='td"+n+"' value='0'  type='number'/></td>";
                     tdNC+="<td class='td"+n+"'></td>";
                 }
                 for(var i=0;i<yearIndex;i++){
