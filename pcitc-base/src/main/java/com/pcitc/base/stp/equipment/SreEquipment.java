@@ -8,39 +8,31 @@ public class SreEquipment {
 
     private String equipmentCode;
 
-    private String status;
+    private String isLinkedProject;
 
     private String name;
 
     private String type;
 
-    private String applyOrder;
+    private BigDecimal unitPrice;
 
-    private BigDecimal applyMoney;
-
-    private BigDecimal planMoney;
-
-    private BigDecimal priorMoney;
+    private BigDecimal allPrice;
 
     private Integer applyAcount;
 
-    private String typeModel;
+    private String specification;
 
     private String notes;
-
-    private String supplierId;
-
-    private String reportId;
 
     private String specialNotes;
 
     private String attachmentDoc;
 
-    private String applyDepart;
+    private String applyDepartName;
 
-    private String applyUser;
+    private String applyDepartCode;
 
-    private String isDel;
+    private String firstApplyUser;
 
     private String createUserId;
 
@@ -52,15 +44,19 @@ public class SreEquipment {
 
     private Date updateDate;
 
-    private Long meetingId;
+    private String erpNo;
 
-    private String remarks;
+    private String supplierId;
 
-    private String keyWord;
+    private String supplierName;
 
-    private String beginYear;
+    private String supplierLinkMan;
 
-    private String endYear;
+    private String supplierMobileEmail;
+
+    private String originPlace;
+
+    private Integer voteCount;
 
     public String getEquipmentId() {
         return equipmentId;
@@ -78,12 +74,12 @@ public class SreEquipment {
         this.equipmentCode = equipmentCode;
     }
 
-    public String getStatus() {
-        return status;
+    public String getIsLinkedProject() {
+        return isLinkedProject;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setIsLinkedProject(String isLinkedProject) {
+        this.isLinkedProject = isLinkedProject;
     }
 
     public String getName() {
@@ -102,36 +98,20 @@ public class SreEquipment {
         this.type = type;
     }
 
-    public String getApplyOrder() {
-        return applyOrder;
+    public BigDecimal getUnitPrice() {
+        return unitPrice;
     }
 
-    public void setApplyOrder(String applyOrder) {
-        this.applyOrder = applyOrder;
+    public void setUnitPrice(BigDecimal unitPrice) {
+        this.unitPrice = unitPrice;
     }
 
-    public BigDecimal getApplyMoney() {
-        return applyMoney;
+    public BigDecimal getAllPrice() {
+        return allPrice;
     }
 
-    public void setApplyMoney(BigDecimal applyMoney) {
-        this.applyMoney = applyMoney;
-    }
-
-    public BigDecimal getPlanMoney() {
-        return planMoney;
-    }
-
-    public void setPlanMoney(BigDecimal planMoney) {
-        this.planMoney = planMoney;
-    }
-
-    public BigDecimal getPriorMoney() {
-        return priorMoney;
-    }
-
-    public void setPriorMoney(BigDecimal priorMoney) {
-        this.priorMoney = priorMoney;
+    public void setAllPrice(BigDecimal allPrice) {
+        this.allPrice = allPrice;
     }
 
     public Integer getApplyAcount() {
@@ -142,12 +122,12 @@ public class SreEquipment {
         this.applyAcount = applyAcount;
     }
 
-    public String getTypeModel() {
-        return typeModel;
+    public String getSpecification() {
+        return specification;
     }
 
-    public void setTypeModel(String typeModel) {
-        this.typeModel = typeModel;
+    public void setSpecification(String specification) {
+        this.specification = specification;
     }
 
     public String getNotes() {
@@ -156,22 +136,6 @@ public class SreEquipment {
 
     public void setNotes(String notes) {
         this.notes = notes;
-    }
-
-    public String getSupplierId() {
-        return supplierId;
-    }
-
-    public void setSupplierId(String supplierId) {
-        this.supplierId = supplierId;
-    }
-
-    public String getReportId() {
-        return reportId;
-    }
-
-    public void setReportId(String reportId) {
-        this.reportId = reportId;
     }
 
     public String getSpecialNotes() {
@@ -190,28 +154,28 @@ public class SreEquipment {
         this.attachmentDoc = attachmentDoc;
     }
 
-    public String getApplyDepart() {
-        return applyDepart;
+    public String getApplyDepartName() {
+        return applyDepartName;
     }
 
-    public void setApplyDepart(String applyDepart) {
-        this.applyDepart = applyDepart;
+    public void setApplyDepartName(String applyDepartName) {
+        this.applyDepartName = applyDepartName;
     }
 
-    public String getApplyUser() {
-        return applyUser;
+    public String getApplyDepartCode() {
+        return applyDepartCode;
     }
 
-    public void setApplyUser(String applyUser) {
-        this.applyUser = applyUser;
+    public void setApplyDepartCode(String applyDepartCode) {
+        this.applyDepartCode = applyDepartCode;
     }
 
-    public String getIsDel() {
-        return isDel;
+    public String getFirstApplyUser() {
+        return firstApplyUser;
     }
 
-    public void setIsDel(String isDel) {
-        this.isDel = isDel;
+    public void setFirstApplyUser(String firstApplyUser) {
+        this.firstApplyUser = firstApplyUser;
     }
 
     public String getCreateUserId() {
@@ -254,43 +218,59 @@ public class SreEquipment {
         this.updateDate = updateDate;
     }
 
-    public Long getMeetingId() {
-        return meetingId;
+    public String getErpNo() {
+        return erpNo;
     }
 
-    public void setMeetingId(Long meetingId) {
-        this.meetingId = meetingId;
+    public void setErpNo(String erpNo) {
+        this.erpNo = erpNo;
     }
 
-    public String getRemarks() {
-        return remarks;
+    public String getSupplierId() {
+        return supplierId;
     }
 
-    public void setRemarks(String remarks) {
-        this.remarks = remarks;
+    public void setSupplierId(String supplierId) {
+        this.supplierId = supplierId;
     }
 
-    public String getKeyWord() {
-        return keyWord;
+    public String getSupplierName() {
+        return supplierName;
     }
 
-    public void setKeyWord(String keyWord) {
-        this.keyWord = keyWord;
+    public void setSupplierName(String supplierName) {
+        this.supplierName = supplierName;
     }
 
-    public String getBeginYear() {
-        return beginYear;
+    public String getSupplierLinkMan() {
+        return supplierLinkMan;
     }
 
-    public void setBeginYear(String beginYear) {
-        this.beginYear = beginYear;
+    public void setSupplierLinkMan(String supplierLinkMan) {
+        this.supplierLinkMan = supplierLinkMan;
     }
 
-    public String getEndYear() {
-        return endYear;
+    public String getSupplierMobileEmail() {
+        return supplierMobileEmail;
     }
 
-    public void setEndYear(String endYear) {
-        this.endYear = endYear;
+    public void setSupplierMobileEmail(String supplierMobileEmail) {
+        this.supplierMobileEmail = supplierMobileEmail;
+    }
+
+    public String getOriginPlace() {
+        return originPlace;
+    }
+
+    public void setOriginPlace(String originPlace) {
+        this.originPlace = originPlace;
+    }
+
+    public Integer getVoteCount() {
+        return voteCount;
+    }
+
+    public void setVoteCount(Integer voteCount) {
+        this.voteCount = voteCount;
     }
 }

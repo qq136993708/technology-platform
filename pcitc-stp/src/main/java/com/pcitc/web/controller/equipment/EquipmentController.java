@@ -22,12 +22,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.druid.support.json.JSONUtils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.pcitc.base.common.Constant;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
@@ -36,6 +38,7 @@ import com.pcitc.base.hana.report.DicSupplyer;
 import com.pcitc.base.stp.equipment.SreEquipment;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CommonUtil;
+import com.pcitc.base.util.IdUtil;
 import com.pcitc.base.workflow.Constants;
 import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.web.common.BaseController;
@@ -299,6 +302,53 @@ public class EquipmentController extends BaseController {
 		return result.toString();
 	}
 
+	
+	
+	@RequestMapping(value = "/list_by_quipment_ids")
+	@ResponseBody
+	public String list_by_quipment_ids(HttpServletRequest request, HttpServletResponse response) {
+		LayuiTableData layuiTableData = new LayuiTableData();
+		ResponseEntity<List> responseEntity = null;
+		List returnlist = new ArrayList();
+		String ids = CommonUtil.getParameter(request, "equipmentIds", "");
+		System.out.println("--------equipmentIds=" + ids);
+		if (!ids.equals("")) 
+		{
+			String chkbox[] = ids.split(",");
+			System.out.println("--------ids=" + ids + " chkbox=" + chkbox.length);
+			if (chkbox != null && chkbox.length > 0)
+			{
+				List<String> list = Arrays.asList(chkbox);
+				/*List<Long> longList = new ArrayList();
+				if (list != null) {
+					for (int i = 0; i < list.size(); i++) 
+					{
+						String str = list.get(i);
+						longList.add(Long.valueOf(str));
+					}
+				}*/
+				JSONArray jsonObject = JSONArray.parseArray(JSON.toJSONString(list));
+				HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+				responseEntity = restTemplate.exchange(LIST_BY_IDS_URL, HttpMethod.POST, entity, List.class);
+				int statusCode = responseEntity.getStatusCodeValue();
+				if (statusCode == 200) 
+				{
+					returnlist = responseEntity.getBody();
+					logger.info("============远程返回  statusCode " + statusCode + "  list=" + list.size());
+					
+				}
+			}
+		}
+		layuiTableData.setData(returnlist);
+		layuiTableData.setCode(0);
+		layuiTableData.setCount(returnlist.size());
+		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
+		logger.info("============result" + result);
+		return result.toString();
+		
+	}
+	
+	
 	/**
 	 * 选择装备
 	 * 
@@ -326,14 +376,17 @@ public class EquipmentController extends BaseController {
 		ResponseEntity<List> responseEntity = null;
 		List returnlist = null;
 		String ids = CommonUtil.getParameter(request, "equipmentIds", "");
-		if (!ids.equals("")) {
+		if (!ids.equals("")) 
+		{
 			String chkbox[] = ids.split(",");
 			System.out.println("--------ids=" + ids + " chkbox=" + chkbox.length);
-			if (chkbox != null && chkbox.length > 0) {
+			if (chkbox != null && chkbox.length > 0)
+			{
 				List<String> list = Arrays.asList(chkbox);
 				List<Long> longList = new ArrayList();
 				if (list != null) {
-					for (int i = 0; i < list.size(); i++) {
+					for (int i = 0; i < list.size(); i++) 
+					{
 						String str = list.get(i);
 						longList.add(Long.valueOf(str));
 					}
@@ -344,8 +397,9 @@ public class EquipmentController extends BaseController {
 				int statusCode = responseEntity.getStatusCodeValue();
 				returnlist = responseEntity.getBody();
 				logger.info("============远程返回  statusCode " + statusCode + "  list=" + list.size());
-				if (statusCode == 200) {
-
+				if (statusCode == 200) 
+				{
+                    
 				}
 			}
 		}
@@ -354,6 +408,15 @@ public class EquipmentController extends BaseController {
 		return "/stp/equipment/equipment/iframe-equipment";
 	}
 
+	
+	
+	@RequestMapping(value = "/get_sreEquipment")
+	public Object get_sreEquipment(@RequestParam(value = "equipmentId", required = true) String equipmentId, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		System.out.println("equipmentId................." + equipmentId);
+		return this.restTemplate.exchange(GET_URL + equipmentId, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), SreEquipment.class).getBody();
+	}
+	
+	
 	/**
 	 * 增加
 	 * 
@@ -365,6 +428,30 @@ public class EquipmentController extends BaseController {
 	@RequestMapping(method = RequestMethod.GET, value = "/add")
 	public String add(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
+		String applyDepartName = sysUserInfo.getUnitName();
+		String applyDepartCode = sysUserInfo.getUnitCode();
+		String firstApplyUser=sysUserInfo.getUserDisp();
+		String attachmentDoc= IdUtil.createFileIdByTime();
+		
+		String equipmentId = CommonUtil.getParameter(request, "equipmentId", "");
+		request.setAttribute("equipmentId", equipmentId);
+		if(!equipmentId.equals(""))
+		{
+			ResponseEntity<SreEquipment> responseEntity = this.restTemplate.exchange(GET_URL + equipmentId, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreEquipment.class);
+			int statusCode = responseEntity.getStatusCodeValue();
+			logger.info("============远程返回  statusCode " + statusCode);
+			SreEquipment sreEquipment = responseEntity.getBody();
+			request.setAttribute("sreEquipment", sreEquipment);
+			
+			applyDepartName = sreEquipment.getApplyDepartName();
+			applyDepartCode = sreEquipment.getApplyDepartCode();
+			firstApplyUser=sreEquipment.getFirstApplyUser();
+			attachmentDoc=sreEquipment.getAttachmentDoc();
+		}
+		request.setAttribute("attachmentDoc", attachmentDoc);
+		request.setAttribute("applyDepartName", applyDepartName);
+		request.setAttribute("applyDepartCode", applyDepartCode);
+		request.setAttribute("firstApplyUser", firstApplyUser);
 		return "/stp/equipment/equipment/equipment-add";
 	}
 
@@ -381,43 +468,50 @@ public class EquipmentController extends BaseController {
 
 		Result resultsDate = new Result();
 		String name = CommonUtil.getParameter(request, "name", "");
-		String equipmentIds = CommonUtil.getParameter(request, "equipmentIds", "");
-		String planMoney = CommonUtil.getParameter(request, "planMoney", "");
 		// 业务ID
 		String equipmentId = CommonUtil.getParameter(request, "equipmentId", "");
-		String keyWord = CommonUtil.getParameter(request, "keyWord", "");
+		String firstApplyUser = CommonUtil.getParameter(request, "firstApplyUser", "");
 		String specialNotes = CommonUtil.getParameter(request, "specialNotes", "");
 		String notes = CommonUtil.getParameter(request, "notes", "");
 		String applyAcount = CommonUtil.getParameter(request, "applyAcount", "");
 		String type = CommonUtil.getParameter(request, "type", "");
-		String beginYear = CommonUtil.getParameter(request, "beginYear", "");
-		String endYear = CommonUtil.getParameter(request, "endYear", "");
-		String typeModel = CommonUtil.getParameter(request, "typeModel", "");
-
+		
+		String unitPrice = CommonUtil.getParameter(request, "unitPrice", "");
 		String attachmentDoc = CommonUtil.getParameter(request, "attachmentDoc", "");
-
+		String specification = CommonUtil.getParameter(request, "specification", "");
+		String voteCount =     CommonUtil.getParameter(request, "voteCount", "1");
+		String supplierLinkMan = CommonUtil.getParameter(request, "supplierLinkMan", "");
+		String supplierMobileEmail = CommonUtil.getParameter(request, "supplierMobileEmail", "");
+		String supplierName =        CommonUtil.getParameter(request, "supplierName", "");
+		String erpNo =        CommonUtil.getParameter(request, "erpNo", "");
+		
+		String applyDepartName =        CommonUtil.getParameter(request, "applyDepartName", "");
+		String applyDepartCode =        CommonUtil.getParameter(request, "applyDepartCode", "");
+		String originPlace =        CommonUtil.getParameter(request, "originPlace", "");
+		
+		
+		
 		// 流程状态-是保存还是提交
-		String auditStatus = CommonUtil.getParameter(request, "auditStatus", "0");
+		String auditStatus = CommonUtil.getParameter(request, "auditStatus", Constant.AUDIT_STATUS_DRAFT);
 		String userIds = CommonUtil.getParameter(request, "userIds", "");
 		SreEquipment sreEquipment = null;
 		ResponseEntity<String> responseEntity = null;
 		// 判断是新增还是修改
-		if (equipmentId.equals("")) {
+		if (equipmentId.equals("")) 
+		{
 			sreEquipment = new SreEquipment();
 			sreEquipment.setCreateDate(new Date());
-			sreEquipment.setIsDel("0");
-			sreEquipment.setCreateUserId(sysUserInfo.getUserId());
+			sreEquipment.setCreateUserId(sysUserInfo.getUserName());
 			String code = CommonUtil.getTableCode("XTBM_0016", restTemplate, httpHeaders);
 			sreEquipment.setEquipmentCode(code);
 			String id = UUID.randomUUID().toString().replaceAll("-", "");
 			System.out.println("---------------UUID-id:" + id);
 			sreEquipment.setEquipmentId(id);
 			sreEquipment.setAttachmentDoc(attachmentDoc);
-			String unitName = sysUserInfo.getUnitName();
-			String userUnit = sysUserInfo.getUserUnit();
-			sreEquipment.setApplyDepart(userUnit);
-
-			System.out.println("---------------userUnit:" + userUnit + " unitName=" + unitName + " UserId=" + sysUserInfo.getUserId());
+			sreEquipment.setApplyDepartName(applyDepartName);
+			sreEquipment.setApplyDepartCode(applyDepartCode);
+			sreEquipment.setIsLinkedProject("0");
+			System.out.println("---------------applyDepartCode:" + applyDepartCode + " applyDepartCode=" + applyDepartCode + " UserId=" + sysUserInfo.getUserId());
 
 		} else {
 			ResponseEntity<SreEquipment> se = this.restTemplate.exchange(GET_URL + equipmentId, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreEquipment.class);
@@ -425,17 +519,25 @@ public class EquipmentController extends BaseController {
 		}
 		// 流程状态
 		sreEquipment.setAuditStatus(String.valueOf(auditStatus));
-		sreEquipment.setPlanMoney(new BigDecimal(planMoney));
-		// sreEquipment.setApplyMoney(Long.parseLong(applyMoney));
 		sreEquipment.setName(name);
 		sreEquipment.setApplyAcount(Integer.valueOf(applyAcount));
 		sreEquipment.setNotes(notes);
-		sreEquipment.setKeyWord(keyWord);
 		sreEquipment.setSpecialNotes(specialNotes);
-		sreEquipment.setBeginYear(beginYear);
-		sreEquipment.setEndYear(endYear);
 		sreEquipment.setType(type);
-		sreEquipment.setTypeModel(typeModel);
+		sreEquipment.setAllPrice((new BigDecimal(unitPrice)).multiply(new BigDecimal(applyAcount)));
+		sreEquipment.setUnitPrice(new BigDecimal(unitPrice));
+		sreEquipment.setErpNo(erpNo);
+		sreEquipment.setFirstApplyUser(firstApplyUser);
+		sreEquipment.setNotes(notes);
+		sreEquipment.setSpecialNotes(specialNotes);
+		sreEquipment.setSpecification(specification);
+		sreEquipment.setAttachmentDoc(attachmentDoc);
+		sreEquipment.setVoteCount(Integer.valueOf(voteCount));
+		sreEquipment.setSupplierLinkMan(supplierLinkMan);
+		sreEquipment.setSupplierMobileEmail(supplierMobileEmail);
+		sreEquipment.setSupplierName(supplierName);
+		sreEquipment.setFirstApplyUser(firstApplyUser);
+		sreEquipment.setOriginPlace(originPlace);
 		// 判断是新增还是修改
 		if (equipmentId.equals("")) {
 			responseEntity = this.restTemplate.exchange(ADD_URL, HttpMethod.POST, new HttpEntity<SreEquipment>(sreEquipment, this.httpHeaders), String.class);
@@ -446,10 +548,13 @@ public class EquipmentController extends BaseController {
 		// 返回结果代码
 		int statusCode = responseEntity.getStatusCodeValue();
 		System.out.println(">>>>>>>>>>>>>>>>>>>返回  statusCode=" + statusCode);
-		if (statusCode == 200) {
-			if (auditStatus.equals("0")) {
+		if (statusCode == 200) 
+		{
+			if (auditStatus.equals("0")) 
+			{
 				resultsDate = new Result(true, RequestProcessStatusEnum.OK.getStatusDesc());
-			} else if (auditStatus.equals("1")) {
+			} else if (auditStatus.equals("1")) 
+			{
 				String dataId = "";
 				if (equipmentId.equals("")) {
 					dataId = responseEntity.getBody();

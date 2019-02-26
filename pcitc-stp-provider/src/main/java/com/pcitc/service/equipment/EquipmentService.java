@@ -4,11 +4,12 @@ import java.util.List;
 
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
-import com.pcitc.base.common.PageResult;
 import com.pcitc.base.stp.equipment.SreEquipment;
 import com.pcitc.base.stp.equipment.SreEquipmentExample;
-import com.pcitc.base.stp.equipment.SreProjectBasic;
-import com.pcitc.base.stp.equipment.SreProjectBasicExample;
+import com.pcitc.base.stp.equipment.SreProject;
+import com.pcitc.base.stp.equipment.SreProjectExample;
+import com.pcitc.base.stp.equipment.SreProjectYear;
+import com.pcitc.base.stp.equipment.SreProjectYearExample;
 import com.pcitc.base.stp.equipment.SreTechMeeting;
 import com.pcitc.base.stp.equipment.SreTechMeetingExample;
 
@@ -39,15 +40,15 @@ public interface EquipmentService {
 	/**===========================================项目==========================================*/
 	
 	
-	public SreProjectBasic selectProjectBasic(String id) throws Exception;
+	public SreProject selectProjectBasic(String id) throws Exception;
 
-	public Integer updateProjectBasic(SreProjectBasic record)throws Exception;
+	public Integer updateProjectBasic(SreProject record)throws Exception;
 
 	public int deleteProjectBasic(String id)throws Exception;
 
-	public Integer insertProjectBasic(SreProjectBasic record)throws Exception;
+	public Integer insertProjectBasic(SreProject record)throws Exception;
 
-	public List<SreProjectBasic> getProjectBasicList(SreProjectBasicExample example)throws Exception;
+	public List<SreProject> getProjectBasicList(SreProjectExample example)throws Exception;
 	
 	public int batchDeleteProjectBasic(List<String> list)throws Exception;
 	
@@ -77,5 +78,32 @@ public interface EquipmentService {
 	
 	
 	public LayuiTableData getMeetingPage(LayuiTableParam param)throws Exception;
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	public SreProjectYear selectSreProjectYear(String id) throws Exception;
+
+	public Integer updateSreProjectYear(SreProjectYear record)throws Exception;
+
+	public int deleteSreProjectYear(String id)throws Exception;
+
+	public Integer insertSreProjectYear(SreProjectYear record)throws Exception;
+
+	public List<SreProjectYear> getSreProjectYearList(SreProjectYearExample example)throws Exception;
+	
+	
+	public int deleteSreProjectYearExample(SreProjectYearExample example)throws Exception;
 
 }

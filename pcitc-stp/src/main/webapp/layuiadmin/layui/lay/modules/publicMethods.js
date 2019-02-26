@@ -627,7 +627,100 @@ layui.define(['jquery','form','table','laydate'],
                         parent.$("#moduleConfig li").eq(data.power).before(html);
                     }
                 }
-            }
+            },
+            /*随即生成多个tr*/
+            createTable:function(startYear,endYear,id,number,str){
+                $("#"+id+" table tbody").empty();
+                var yearIndex=(endYear-startYear)+1;
+                var tdN='',tdNC;
+                for(var n=0;n<number;n++){
+                    tdN+="<td><input class='td"+n+"' value='0'  type='number'/></td>";
+                    tdNC+="<td class='td"+n+"'></td>";
+                }
+                for(var i=0;i<yearIndex;i++){
+                    var tr="<tr><td>"+(parseInt(startYear)+parseInt(i))+"</td>" +tdN+ "<td></td></tr>";
+                    $("#"+id+" table tbody").append(tr);
+                }
+                var trTotal="<tr><td>合计</td>" +tdNC+ "<td></td></tr>";
+                $("#"+id+" table tbody").append(trTotal);
+                if(str!=''){
+                    var strArr=str.split("#");
+                    var strArrC1=0,strArrC2=0,strArrC3=0;
+                    $.each(strArr,function (i, val) {
+                        var strArrC=strArr[i].split(",");
+                        $("#"+id+" table tbody tr:eq("+i+") td:eq(1) input").val(strArrC[1]);
+                        $("#"+id+" table tbody tr:eq("+i+") td:eq(2) input").val(strArrC[2]);
+                        $("#"+id+" table tbody tr:eq("+i+") td:eq(3)").html(strArrC[3]);
+                        strArrC1+=parseFloat(strArrC[1]);
+                        strArrC2+=parseFloat(strArrC[2]);
+                        strArrC3+=parseFloat(strArrC[3]);
+                    });
+                    $("#"+id+" table tbody tr:last td:eq(1)").text(strArrC1);
+                    $("#"+id+" table tbody tr:last td:eq(2)").text(strArrC2);
+                    $("#"+id+" table tbody tr:last td:eq(3)").text(strArrC3);
+                }
+                /*计算*/
+                $("input").change(function () {
+                    /*同行相加*/
+                    var colleagueInputL=$(this).parents("tr").find("input").length;
+                    var trInputC=0;
+                    for(var i=0;i<colleagueInputL;i++){
+                        if($(this).parents("tr").find("input").eq(i).val()==''){
+                            trInputC+=0;
+                        }else {
+                            trInputC+=parseFloat($(this).parents("tr").find("input").eq(i).val());
+                        }
+                    }
+                    $(this).parents("tr").find("td:last").text(trInputC);
+                    /*同列相加*/
+                    var columnClass=$(this).attr("class");
+                    var columnTrL=$("#"+id+" table tbody tr").length;
+                    var columnC=0;
+                    for(var j=0;j<columnTrL-1;j++){
+                        var columnVal=$("#"+id+" table tbody tr").eq(j).find("."+columnClass).val();
+                        if(columnVal==''){
+                            columnC+=0;
+                        }else {
+                            columnC+=parseFloat(columnVal);
+                        }
+                    }
+                    $("#"+id+" table tbody tr:last").find("."+columnClass).text(columnC);
+                    /*总行*/
+                    var totalInputL=$(this).parents("tbody").find("input").length;
+                    var totalC=0;
+                    for(var g=0;g<totalInputL;g++){
+                        if($(this).parents("tbody").find("input").eq(g).val()==''){
+                            totalC+=0;
+                        }else {
+                            totalC+=parseFloat($(this).parents("tbody").find("input").eq(g).val());
+                        }
+                    }
+                    $("#"+id+" table tbody tr:last td:last").text(totalC);
+                });
+            },
+            /*获取值*/
+            getVal:function (id,number) {
+                /*获取值*/
+                var columnTrL=$("#"+id+" table tbody tr").length;
+                var columnSC='';
+                $("#"+id+" table tbody tr").each(function (i) {
+                    if(i==columnTrL-1){
+                        return;
+                    }
+                    var columnS='';
+                    for(var k=0;k<number;k++){
+                        var tdElement=$("#"+id+" table tbody tr:eq("+i+") td").eq(k);
+                        if($(tdElement).find("input").length>0){
+                            columnS+=$(tdElement).find("input").val()+",";
+                        }else {
+                            columnS+=$(tdElement).html()+",";
+                        }
+                    }
+                    columnSC+=columnS.substring(0,columnS.length-1)+"#"
+                });
+                columnSC=columnSC.substring(0,columnSC.length-1);
+                return columnSC;
+            },
         };
         /**
          * 接口输出
