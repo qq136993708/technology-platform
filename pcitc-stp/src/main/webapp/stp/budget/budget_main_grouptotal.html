@@ -147,19 +147,9 @@
                 ,type: 'year'
                 ,done:function (val, date, endDate) {
                 	cu_date = val;
-                	initDataVersion();
-                	//初始化表格相关数据
-                	$(".nd").html(cu_date);
-                	table.reload('dataTable', {data: []});
-                	$('.layui-table-cell.laytable-cell-group').find('span').text(cu_date+"年度经费预算");
-                	$(".layui-table-header .layui-table").find('th').eq(3).find('span').text((cu_date-1)+"年科技经费预算完成");
-                	$(".layui-table-header .layui-table").find('th').eq(4).find('span').text(cu_date+"年科技经费合同计划金额");
-                	$("#budgetMoney").val(0);//可分配数
-                	$("#surplusMoney").val(0);//剩余可分配数
-            		$("#creater_name").html("");//创建人
-            		$("#create_time").html("");//创建时间
-            		$("#update_time").html("");//最后更新时间
-            		$("#info_status").html("");//状态
+                	initDataVersion();//初始化预算版本
+                	initEmptyData();//空数据初始化
+                	initDateView();//初始化时间显示相关
                 }            
             });
             renderfunc = function removeHeaderCheckbox(){
@@ -190,9 +180,31 @@
 	                	renderfunc();
 	                	//预分配数
 	                	calculationSurplusMoney();
+	                	initDateView();
     		   		}); 
+            	}else{
+            		initEmptyData();
+            		initDateView();
             	}
             });
+			//空数据初始化
+			function initEmptyData()
+			{
+				table.reload('dataTable', {data: []});
+				$("#budgetMoney").val(0);//可分配数
+            	$("#surplusMoney").val(0);//剩余可分配数
+        		$("#creater_name").html("");//创建人
+        		$("#create_time").html("");//创建时间
+        		$("#update_time").html("");//最后更新时间
+        		$("#info_status").html("");//状态
+			}
+			//初始化时间选择
+			function initDateView(){
+				$(".nd").html(cu_date);
+            	$('.layui-table-cell.laytable-cell-group').find('span').text(cu_date+"年度经费预算");
+            	$(".layui-table-header .layui-table").find('th').eq(3).find('span').text((cu_date-1)+"年科技经费预算完成");
+            	$(".layui-table-header .layui-table").find('th').eq(4).find('span').text(cu_date+"年科技经费合同计划金额");
+			}
             // 点击按钮时激活
             $('.tableBtns').children('button').on('click',function(){
                 $(this).addClass('active');
