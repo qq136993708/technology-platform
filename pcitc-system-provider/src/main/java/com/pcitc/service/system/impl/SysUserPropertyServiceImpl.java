@@ -79,14 +79,6 @@ public class SysUserPropertyServiceImpl implements SysUserPropertyService {
 		String dataId = null;
 		String dataTp = null;
 		// 删除当前页的数据 保存勾选的数据
-		// userPropertyDao.deleteByDataType(dataType,userIds);
-		// currentPageList.forEach( property ->
-		// userPropertyDao.deleteCurrentPage(property) );
-
-		/*
-		 * if(list!=null && list.size()>0){
-		 * userPropertyDao.bantchInsertRelation(list); }
-		 */
 		if (list != null && list.size() > 0) {
 			for (int i = 0; i < list.size(); i++) {
 				// 根据userId和dataType查询一下，如果有配置过 ，则获取其配置的信息，修改
@@ -103,10 +95,7 @@ public class SysUserPropertyServiceImpl implements SysUserPropertyService {
 					if (data != null) {
 						dataId = data.getDataId();
 						dataTp = data.getDataType();
-						/*
-						 * if(StrUtil.isNotBlank(dataTp)&&!dataTp.contains(dataType
-						 * )){ dataTp = dataTp + ","+dataType; }
-						 */
+						
 						if (dataId != null) {
 							// 如果数据库中有，则遍历当前页面的data_id,逐个替换，生成新的字符串dataId，最后拼接上要保存的dataId
 							// ，依次插入
