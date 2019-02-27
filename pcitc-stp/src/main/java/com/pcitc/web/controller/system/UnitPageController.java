@@ -1,10 +1,13 @@
 package com.pcitc.web.controller.system;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.pcitc.base.util.CommonUtil;
 
 @Controller
 @RequestMapping(value = "/unit")
@@ -22,4 +25,13 @@ public class UnitPageController
 		request.setAttribute("parentUnitId", request.getParameter("parentUnitId"));
         return "base/unit/edit_unit";
     }
+	
+	@RequestMapping(value = "/chooseUnit", method = RequestMethod.GET)
+	public String chooseUnit( HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		//回调函数名
+		String funcName = CommonUtil.getParameter(request, "funcName", "");
+		request.setAttribute("funcName", funcName);
+		return "base/unit/chooseUnit";
+	}
 }

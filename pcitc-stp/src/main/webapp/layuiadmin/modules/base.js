@@ -661,3 +661,24 @@ var getFunctionParam = function () {
     // var functionId = param.id;
     // var iframeId = param.code;
 }
+
+
+
+
+function chooseUnit(choose_leadUnitName_callback) 
+{
+	v_date=(new Date()).getTime();
+	var temUrl="/unit/chooseUnit?v_date="+v_date+"&funcName="+choose_leadUnitName_callback;//funcName(unitId,unitName) 选择机构后的回调方法名(自定义 ),回调方法里面有两个参数，unitId是机构ID,unitName是机构名
+	layer.open({
+	   title:'选择机构',
+	   skin: 'layui-layer-lan',
+	   shadeClose: true,
+	   type: 2,
+	   fixed: false,
+	   //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+	   maxmin: true,
+	   //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+	   area: ['500px', '500px'],
+	   content:  temUrl
+	});
+}
