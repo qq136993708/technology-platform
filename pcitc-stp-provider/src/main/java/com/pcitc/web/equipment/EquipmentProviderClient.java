@@ -188,7 +188,7 @@ public class EquipmentProviderClient
 				SreProjectYear sreProjectYear=new SreProjectYear();
 				String id = UUID.randomUUID().toString().replaceAll("-", "");
 				sreProjectYear.setId(id);
-				sreProjectYear.setProjectId(sreProjectBasic.getProjectId());
+				sreProjectYear.setProjectId(sreProjectBasic.getId());
 				sreProjectYear.setYear(arr[0]);
 				sreProjectYear.setCostMoney(new BigDecimal(arr[1]));
 				sreProjectYear.setCapitalMoney(new BigDecimal(arr[2]));
@@ -197,7 +197,7 @@ public class EquipmentProviderClient
 			}
 		}
 		
-		return sreProjectBasic.getProjectId();
+		return sreProjectBasic.getId();
 	}
 	
 	
@@ -209,7 +209,7 @@ public class EquipmentProviderClient
 		//先删除费用表
 		SreProjectYearExample sreProjectYearExample=new SreProjectYearExample();
 		SreProjectYearExample.Criteria criteria = sreProjectYearExample.createCriteria();
-		criteria.andProjectIdEqualTo(sreProjectBasic.getProjectId());
+		criteria.andProjectIdEqualTo(sreProjectBasic.getId());
 		equipmentService.deleteSreProjectYearExample(sreProjectYearExample);
 		//再添加费用表
 		String yearFeeStr=sreProjectBasic.getYearFeeStr() ;
@@ -223,7 +223,7 @@ public class EquipmentProviderClient
 				SreProjectYear sreProjectYear=new SreProjectYear();
 				String id = UUID.randomUUID().toString().replaceAll("-", "");
 				sreProjectYear.setId(id);
-				sreProjectYear.setProjectId(sreProjectBasic.getProjectId());
+				sreProjectYear.setProjectId(sreProjectBasic.getId());
 				sreProjectYear.setYear(arr[0]);
 				sreProjectYear.setCostMoney(new BigDecimal(arr[1]));
 				sreProjectYear.setCapitalMoney(new BigDecimal(arr[2]));
@@ -266,55 +266,40 @@ public class EquipmentProviderClient
 	}
 	
 	
-	@ApiOperation(value="通知审批流程",notes="发起通知内容审批")
-	@RequestMapping(value = "/stp-provider/start_project_activity/{projectId}", method = RequestMethod.POST)
-	public Result startNoticeWorkFlow(@PathVariable("projectId") String projectId,@RequestBody WorkflowVo workflowVo) throws Exception 
-	{
-		SreProject notice = equipmentService.selectProjectBasic(projectId);
+	
+	
+	
+	
+	
+	/**
+	 * @param jsonStr
+	 * @return
+	 * 业务系统处理驳回后业务
+	 */
+	@RequestMapping(value = "/sre-provider/project/task/reject/{id}", method = RequestMethod.POST)
+	public Integer taskRejectSreProject(@PathVariable(value = "id", required = true) String id)throws Exception {
 		
-		//workflowVo.setAuthenticatedUserId("111");
-		workflowVo.setProcessDefineId(WORKFLOW_DEFINE_ID); 
-		workflowVo.setBusinessId(projectId);
-		workflowVo.setProcessInstanceName("通知审批："+notice.getName());
-		Map<String, Object> variables = new HashMap<String, Object>();  
-		//starter为必填项。流程图的第一个节点待办人变量必须为starter
-        variables.put("starter", workflowVo.getAuthenticatedUserId());
-        
-        //必须设置。流程中，需要的第二个节点的指派人；除starter外，所有待办人变量都指定为auditor(处长审批)
-        //处长审批 ZSH_JTZSZYC_GJHZC_CZ
-        List<SysUser> users = systemRemoteClient.selectUsersByPostCode("ZSH_JTZSZYC_GJHZC_CZ");
-        System.out.println("start userIds ... "+JSON.toJSONString(users));
-        variables.put("auditor", workflowVo.getAuthenticatedUserId());
-        if(users != null && users.size()>0) {
-        	variables.put("auditor", users.get(0).getUserId());
-        }
-        
-        //必须设置，统一流程待办任务中需要的业务详情
-        variables.put("auditDetailsPath", "/intl_project/notice_view?noticeId="+projectId);
-       
-        //流程完全审批通过时，调用的方法
-        variables.put("auditAgreeMethod", "http://pcitc-zuul/stp-proxy/stp-provider/project/callback-workflow-notice?noticeId="+projectId+"&workflow_status="+WorkFlowStatusEnum.STATUS_PASS.getCode());
-        
-        //流程驳回时，调用的方法（可能驳回到第一步，也可能驳回到第1+n步
-        variables.put("auditRejectMethod", "http://pcitc-zuul/stp-proxy/stp-provider/project/callback-workflow-notice?noticeId="+projectId+"&workflow_status="+WorkFlowStatusEnum.STATUS_RETURN.getCode());
-        
-        workflowVo.setVariables(variables);
-		String rs = systemRemoteClient.startWorkflowByProcessDefinitionId(workflowVo);
-		System.out.println("startwork  apply  rs...."+rs);
-		if("true".equals(rs)) 
-		{
-			notice.setAuditStatus(String.valueOf(Constants.FLOW_STATE_SAVE));
-			equipmentService.updateProjectBasic(notice);
-			return new Result(true,"操作成功!");
-		}else {
-			return new Result(false,rs);
-		}
+		SreProject sreProject=equipmentService.selectProjectBasic(id);
+		sreProject.setAuditStatus(String.valueOf(Constants.FLOW_STATE_SAVE));
+		int count=equipmentService.updateProjectBasic(sreProject);
+		System.out.println("======业务系统处理--驳回 --后业务======="+id);
+		return count;
 	}
-
 	
-	
-	
-	
+	/**
+	 * @param jsonStr
+	 * @return
+	 * 业务系统处理审批流程都同意后业务
+	 */
+	@RequestMapping(value = "/sre-provider/project/task/agree/{id}", method = RequestMethod.POST)
+	public Integer taskAgreeSreProject(@PathVariable(value = "id", required = true) String id)throws Exception {
+		
+		SreProject sreProject=equipmentService.selectProjectBasic(id);
+		sreProject.setAuditStatus(String.valueOf(Constants.FLOW_STATE_DONE));
+		int count=equipmentService.updateProjectBasic(sreProject);
+		System.out.println("======业务系统处理审批流程都 --同意 --后业务======="+id);
+		return count;
+	}
 	
 	
 	

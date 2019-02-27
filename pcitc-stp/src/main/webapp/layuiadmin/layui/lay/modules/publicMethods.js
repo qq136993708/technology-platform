@@ -638,7 +638,11 @@ layui.define(['jquery','form','table','laydate'],
                         tdN+="<td class='td"+n+"'></td>";
                         tdNC+="<td class='td"+n+"'></td>";
                     }else {
-                        tdN+="<td><input class='td"+n+"' value='0'  type='number'/></td>";
+                        if(n==1){
+                            tdN+="<td><input class='td"+n+"' value=''  type='number' lay-verify='validateNumber'/></td>";
+                        }else {
+                            tdN+="<td><input class='td"+n+"' value='0'  type='number'/></td>";
+                        }
                         tdNC+="<td class='td"+n+"'></td>";
                     }
                 }

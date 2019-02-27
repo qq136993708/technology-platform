@@ -64,14 +64,13 @@ public class ProjectBasicController extends BaseController {
 	private static final String LIST_EQUIPMENT_BY_IDS = "http://pcitc-zuul/stp-proxy/sre-provider/equipment/list-by-ids/";
 
 	// 流程操作--同意
-	private static final String AUDIT_AGREE_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_basic/task/agree/";
+	private static final String AUDIT_AGREE_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project/task/agree/";
 	// 流程操作--拒绝
-	private static final String AUDIT_REJECT_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_basic/task/reject/";
+	private static final String AUDIT_REJECT_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project/task/reject/";
 	
-	private static final String get_user_bypostcode = "http://pcitc-zuul/stp-proxy/pcitc-system-provider/user-provider/user/get-user-bypostcode/";
+	private static final String get_user_bypostcode = "http://pcitc-zuul/system-proxy/user-provider/user/get-user-bypostcode/";
 	
-	private final static String WORKFLOW_DEFINE_ID = "intl_notice:3:1117555";
-	private final static String process_define_id4 = "oneSelectAuditProcess:1:367511";
+	private final static String process_define_id4 = "equitmentApplyProcess:1:1172522";
 	
 	
 	private static final String PROJECT_WORKFLOW_URL = "http://pcitc-zuul/stp-proxy/stp-provider/start_project_activity/";
@@ -128,15 +127,15 @@ public class ProjectBasicController extends BaseController {
 		String documentDoc= IdUtil.createFileIdByTime();
 		String beginYear=EquipmentUtils.getCurrrentYear();
 		String endYear=String.valueOf(Integer.valueOf(beginYear).intValue()+1);
-		String projectId = CommonUtil.getParameter(request, "projectId", "");
-		request.setAttribute("projectId", projectId);
-		if(!projectId.equals(""))
+		String id = CommonUtil.getParameter(request, "id", "");
+		request.setAttribute("id", id);
+		if(!id.equals(""))
 		{
-			ResponseEntity<SreProject> responseEntity = this.restTemplate.exchange(GET_URL + projectId, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreProject.class);
+			ResponseEntity<SreProject> responseEntity = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreProject.class);
 			int statusCode = responseEntity.getStatusCodeValue();
-			logger.info("============远程返回  statusCode " + statusCode);
+		
 			SreProject sreEquipment = responseEntity.getBody();
-			request.setAttribute("sreEquipment", sreEquipment);
+			request.setAttribute("sreProjectBasic", sreEquipment);
 			
 			leadUnitName = sreEquipment.getLeadUnitName();
 			leadUnitCode = sreEquipment.getLeadUnitCode();
@@ -153,7 +152,7 @@ public class ProjectBasicController extends BaseController {
 		
 		request.setAttribute("endYear", endYear);
 		request.setAttribute("beginYear", beginYear);
-		
+		logger.info("============远程返回  beginYear " + beginYear);
 		return "/stp/equipment/project/project-basic-add";
 	}
 	
@@ -184,7 +183,7 @@ public class ProjectBasicController extends BaseController {
 		Result resultsDate = new Result();
 		String name = CommonUtil.getParameter(request, "name", "");
 		// 业务ID
-		String projectId = CommonUtil.getParameter(request, "projectId", "");
+		String id = CommonUtil.getParameter(request, "id", "");
 		// 流程状态-是保存还是提交
 		String auditStatus = CommonUtil.getParameter(request, "auditStatus", Constant.AUDIT_STATUS_DRAFT);
 		String userIds = CommonUtil.getParameter(request, "userIds", "");
@@ -206,7 +205,6 @@ public class ProjectBasicController extends BaseController {
 		String professionalDepartment = CommonUtil.getParameter(request, "professionalDepartment", "");
 		String projectChargesName = CommonUtil.getParameter(request, "projectChargesName", "");
 		String projectChargesCode = CommonUtil.getParameter(request, "projectChargesCode", "");
-		String projectMoney = CommonUtil.getParameter(request, "projectMoney", "");
 		String contractNum = CommonUtil.getParameter(request, "contractNum", "");
 		String setupYear = CommonUtil.getParameter(request, "setupYear", "");
 		String leadUnitName = CommonUtil.getParameter(request, "leadUnitName", "");
@@ -220,25 +218,36 @@ public class ProjectBasicController extends BaseController {
 		SreProject sreProjectBasic = null;
 		ResponseEntity<String> responseEntity = null;
 		// 判断是新增还是修改
-		if (projectId.equals("")) 
+		if (id.equals("")) 
 		{
 			sreProjectBasic = new SreProject();
 			sreProjectBasic.setCreateDate(new Date());
 			sreProjectBasic.setCreateUserId(sysUserInfo.getUserId());
 			//String code = CommonUtil.getTableCode("XTBM_0032", restTemplate, httpHeaders);
-			String id = UUID.randomUUID().toString().replaceAll("-", "");
-			sreProjectBasic.setProjectId(id);
+			String idv = UUID.randomUUID().toString().replaceAll("-", "");
+			sreProjectBasic.setId(idv);
 			sreProjectBasic.setAuditStatus(auditStatus);
 		} else 
 		{
-			ResponseEntity<SreProject> se = this.restTemplate.exchange(GET_URL + projectId, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreProject.class);
+			ResponseEntity<SreProject> se = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreProject.class);
 			sreProjectBasic = se.getBody();
 		}
 		// 流程状态
 		sreProjectBasic.setAuditStatus(auditStatus);
-		if (!projectMoney.equals("")) 
+		BigDecimal projectMoney=BigDecimal.ZERO;
+		if (!yearFeeStr.equals("")) //2019,55,5,60#2020,553,5,558
 		{
-			sreProjectBasic.setProjectMoney(new BigDecimal(projectMoney));
+			String array[]=yearFeeStr.split("#");
+			if(array!=null && array.length>0)
+			{
+				for(int i=0;i<array.length;i++)
+				{
+					String year=array[i];
+					String arr[]=year.split(",");
+					projectMoney=projectMoney.add(new BigDecimal(arr[3]));
+				}
+			}
+			sreProjectBasic.setProjectMoney(projectMoney);
 		}
 		sreProjectBasic.setYearFeeStr(yearFeeStr); 
 		sreProjectBasic.setDocumentDoc(documentDoc); 
@@ -268,8 +277,10 @@ public class ProjectBasicController extends BaseController {
 		sreProjectBasic.setLeadUnitCode(leadUnitCode);
 		sreProjectBasic.setEntrustUnitCode(entrustUnitCode);
 		sreProjectBasic.setEntrustUnitName(entrustUnitName);
+		
+		
 		// 判断是新增还是修改
-		if (projectId.equals("")) 
+		if (id.equals("")) 
 		{
 			responseEntity = this.restTemplate.exchange(ADD_URL, HttpMethod.POST, new HttpEntity<SreProject>(sreProjectBasic, this.httpHeaders), String.class);
 
@@ -283,7 +294,7 @@ public class ProjectBasicController extends BaseController {
 			//如果是提交
 			if(isWorkFlow.equals("1"))
 			{
-				String dataId = sreProjectBasic.getProjectId();
+				String dataId = sreProjectBasic.getId();
 				// 处理流程相关信息
 				boolean flowFlag = dealProjectWorkFlow(dataId, functionId,sysUserInfo, "计划上报:"+sreProjectBasic.getName(), userIds, httpHeaders);
 				if (flowFlag == true)
@@ -309,11 +320,6 @@ public class ProjectBasicController extends BaseController {
 	}
 	
 	
-	
-	
-	
-	
-	
 
 	/**
 	 * 加入流程信息
@@ -322,25 +328,25 @@ public class ProjectBasicController extends BaseController {
 	 * @param instanceName
 	 * @param sysUser
 	 */
-	private boolean dealProjectWorkFlow(String projectId,String functionId, SysUser sysUser, String instanceName, String userIds, HttpHeaders httpHeaders)
+	private boolean dealProjectWorkFlow(String id,String functionId, SysUser sysUser, String instanceName, String userIds, HttpHeaders httpHeaders)
 	{
 		WorkflowVo workflowVo = new WorkflowVo();
-		workflowVo.setBusinessId(String.valueOf(projectId));
+		workflowVo.setBusinessId(String.valueOf(id));
 		workflowVo.setProcessInstanceName(instanceName);
 		workflowVo.setAuthenticatedUserId(sysUser.getUserId());
 		workflowVo.setAuditUserIds(sysUser.getUserId());
 		// process_define_id和functionId，两种方式二选一
 		// 清楚知道自己要走的流程定义id
-		workflowVo.setProcessDefineId(WORKFLOW_DEFINE_ID);
-		// 不清楚此功能菜单要走的审批流程。可以通过菜单id（functionId），部门/组织ID（orgId），项目id（projectId）。其中菜单id必填（和ProcessDefineId两选一）
+		workflowVo.setProcessDefineId(process_define_id4);
+		// 不清楚此功能菜单要走的审批流程。可以通过菜单id（functionId），部门/组织ID（orgId），项目id（id）。其中菜单id必填（和ProcessDefineId两选一）
 		workflowVo.setFunctionId(functionId);
 		workflowVo.setProjectId("");
 		Map<String, Object> variables = new HashMap<String, Object>();
-		variables.put("starter", workflowVo.getAuthenticatedUserId());
+		//variables.put("starter", workflowVo.getAuthenticatedUserId());
 		
 		 //必须设置。流程中，需要的第二个节点的指派人；除starter外，所有待办人变量都指定为auditor(处长审批)
         //处长审批 ZSH_JTZSZYC_GJHZC_CZ
-		ResponseEntity<List> responseEntity = this.restTemplate.exchange(get_user_bypostcode + "ZSH_JTZSZYC_GJHZC_CZ", HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), List.class);
+		/*ResponseEntity<List> responseEntity = this.restTemplate.exchange(get_user_bypostcode + "ZSH_JTZSZYC_GJHZC_CZ", HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), List.class);
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode == 200)
 		{
@@ -352,29 +358,25 @@ public class ProjectBasicController extends BaseController {
 	        	variables.put("auditor", users.get(0).getUserId());
 	        }
 	        
-		}
-        
+		}*/
 		// 发起人之后的审批环节，如果是需要选择审批人的话，此处获取选择的userIds赋值给auditor变量
-		/*if (userIds != null && !userIds.equals("")) 
+		if (userIds != null && !userIds.equals("")) 
 		{
 			String[] userIdsArr = userIds.split(",");
 			variables.put("auditor", Arrays.asList(userIdsArr));
-		}*/
+		}
 		// 必须设置，统一流程待办任务中需要的业务详情
-		variables.put("auditDetailsPath", "/sre-equipment/get/" + projectId);
-
+		variables.put("auditDetailsPath", "/sre-project-basic/get/" + id);
 		// 流程完全审批通过时，调用的方法
-		variables.put("auditAgreeMethod", AUDIT_AGREE_URL + projectId);
-
+		variables.put("auditAgreeMethod", AUDIT_AGREE_URL + id);
 		// 流程驳回时，调用的方法（可能驳回到第一步，也可能驳回到第1+n步
-		variables.put("auditRejectMethod", AUDIT_REJECT_URL + projectId);
-
+		variables.put("auditRejectMethod", AUDIT_REJECT_URL + id);
 		workflowVo.setVariables(variables);
 		ResponseEntity<String> status = this.restTemplate.exchange(Constants.START_WORKFLOW_URL, HttpMethod.POST, new HttpEntity<WorkflowVo>(workflowVo, httpHeaders), String.class);
 		if (status.getBody() != null && status.getBody().equals("true"))
 		{
 			System.out.println("=================流程启动成功");
-			SreProject	sreProject = this.getSreProject(projectId);
+			SreProject	sreProject = this.getSreProject(id);
 			sreProject.setAuditStatus(Constant.AUDIT_STATUS_SUBMIT);
 			this.updateSreProject(sreProject);
 			return true;
@@ -400,10 +402,10 @@ public class ProjectBasicController extends BaseController {
 	}
 	
 	
-	private SreProject getSreProject(String projectId)
+	private SreProject getSreProject(String id)
 	{
 		SreProject	sreProjectBasic = null;
-		ResponseEntity<SreProject> responseEntity = this.restTemplate.exchange(GET_URL + projectId, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreProject.class);
+		ResponseEntity<SreProject> responseEntity = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreProject.class);
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode == 200)
 		{
@@ -413,50 +415,10 @@ public class ProjectBasicController extends BaseController {
 	}
 	
 	
-	
-	
-	
-	//保存的前提下启动流程
-		@RequestMapping(value = "/start-workflow")
-		public Object startProjectPlantWorkflow(@RequestParam(value = "projectId", required = true) String projectId,
-				@RequestParam(value = "functionId", required = true) String functionId,
-				HttpServletRequest request, HttpServletResponse response) throws Exception 
-		{
-			WorkflowVo vo = new WorkflowVo();
-			vo.setAuditUserIds(this.getUserProfile().getUserId());
-			vo.setFunctionId(functionId);
-			vo.setAuthenticatedUserId(this.getUserProfile().getUserId());
-			HttpEntity<WorkflowVo> entity = new HttpEntity<WorkflowVo>(vo, this.httpHeaders);
-			Result rs = this.restTemplate.exchange(PROJECT_WORKFLOW_URL + projectId, HttpMethod.POST, entity, Result.class).getBody();
-			return rs;
-		}
-		
+	    
 		
 
-	/**
-	 * 修改
-	 * 
-	 * @param request
-	 * @param response
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value = "/update")
-	public String update(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String projectId = CommonUtil.getParameter(request, "projectId", "");
-		System.out.println(">>>>>>>>>>>>>>>>>>>projectId  " + projectId);
-		request.setAttribute("projectId", projectId);
-		ResponseEntity<SreProject> responseEntity = this.restTemplate.exchange(GET_URL + projectId, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreProject.class);
-		int statusCode = responseEntity.getStatusCodeValue();
-		if (statusCode == 200) {
-			logger.info("============远程返回  statusCode " + statusCode);
-			SreProject sreProjectBasic = responseEntity.getBody();
-			request.setAttribute("sreProjectBasic", sreProjectBasic);
-			String documentDoc = sreProjectBasic.getDocumentDoc();
-			request.setAttribute("documentDoc", documentDoc);
-		}
-		return "/stp/equipment/project/project-basic-add";
-	}
+	
 
 	/**
 	 * 删除
@@ -487,13 +449,13 @@ public class ProjectBasicController extends BaseController {
 		return null;
 	}
 
-	@RequestMapping(value = "/pass-back/{projectId}")
-	public String passBackOPT(@PathVariable("projectId") String projectId, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	@RequestMapping(value = "/pass-back/{id}")
+	public String passBackOPT(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		Result resultsDate = new Result();
 		String status = CommonUtil.getParameter(request, "status", "");
 		String checkMoney = CommonUtil.getParameter(request, "checkMoney", "");
-		ResponseEntity<SreProject> responseEntity = this.restTemplate.exchange(GET_URL + projectId, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreProject.class);
+		ResponseEntity<SreProject> responseEntity = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreProject.class);
 		int statusCode = responseEntity.getStatusCodeValue();
 		logger.info("============远程返回  statusCode " + statusCode);
 		SreProject sreProjectBasic = responseEntity.getBody();
@@ -568,14 +530,31 @@ public class ProjectBasicController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
-	public String get(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public String get(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception 
+	{
 		ResponseEntity<SreProject> responseEntity = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreProject.class);
 		int statusCode = responseEntity.getStatusCodeValue();
 		logger.info("============远程返回  statusCode " + statusCode);
 		SreProject sreProjectBasic = responseEntity.getBody();
 		request.setAttribute("sreProjectBasic", sreProjectBasic);
-		String applyDoc = sreProjectBasic.getDocumentDoc();
-		request.setAttribute("applyDoc", applyDoc);
+		
+		
+		
+		String leadUnitName = sreProjectBasic.getLeadUnitName();
+		String leadUnitCode = sreProjectBasic.getLeadUnitCode();
+		String createUserId= sreProjectBasic.getCreateUserId();
+		String documentDoc=sreProjectBasic.getDocumentDoc();
+		String beginYear		= sreProjectBasic.getBeginYear();
+		String endYear		= sreProjectBasic.getEndYear();
+	
+		request.setAttribute("documentDoc", documentDoc);
+		request.setAttribute("leadUnitName", leadUnitName);
+		request.setAttribute("leadUnitCode", leadUnitCode);
+		request.setAttribute("createUserId", createUserId);
+		request.setAttribute("endYear", endYear);
+		request.setAttribute("beginYear", beginYear);
+	
+	
 		return "/stp/equipment/project/project-basic-view";
 	}
 	
