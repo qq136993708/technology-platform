@@ -305,6 +305,13 @@ layui.use(['form','table','laypage','layer','laydate','laytpl','jquery',"publicM
 	            }  */
     		  
       }
+    form.verify({
+        validateNumber:function(value, item){
+            if(value<=0 || value>2000){
+                return '请填写正确的值';
+            }
+        }
+    });
       /* 监听提交 */
       form.on('submit(sub)', function(data){
           //JSON.stringify(data.field)  提交信息json格式
