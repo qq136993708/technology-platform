@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
 
     <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+    <script type="text/javascript" src="/plugins/ckeditor/ckeditor.js"></script>
     <script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="/common/js/base.js"></script>
 </head>
@@ -15,7 +16,7 @@
 <div class="formBox">
     <form id="zjkComplaint-form" name="zjkComplaint-form" lay-filter="zjkComplaint-form" class="form-horizontal layui-form">
         <input type="hidden" name="groupId">
-        <div class="box-body">
+        <div class="layui-row">
             <input type="hidden" name="dataId" id="dataId"/>
             <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                 <div class="layui-form-item">
@@ -24,10 +25,10 @@
                         <input type="text" id="zjkName" name="zjkName" lay-verify="required" placeholder="请输入专家名称" autocomplete="off" class="layui-input">
                     </div>
                 </div>
-        </div>
+            </div>
 
 
-        </div>
+
         <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
             <div class="layui-form-item">
                 <label class="layui-form-label">项目名称<span class="must-fill">*</span></label>
@@ -36,9 +37,7 @@
                 </div>
             </div>
         </div>
-
-
-</div>
+        </div>
 <div class="layui-row">
 
     <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
@@ -50,7 +49,6 @@
             </div>
         </div>
     </div>
-    <div class="layui-row">
 
         <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
             <div class="layui-form-item">
@@ -61,6 +59,8 @@
                 </div>
             </div>
         </div>
+</div>
+
         <div class="layui-row">
 
             <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
@@ -71,39 +71,44 @@
                     </div>
                 </div>
             </div>
-            <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-                <div class="layui-form-item">
-                    <label class="layui-form-label">投诉内容<span class="must-fill">*</span></label>
-                    <div class="layui-input-block">
-                        <input type="text" id="complaintDesc" name="complaintDesc" lay-verify="required" placeholder="请输入投诉内容" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-            </div>
+
 
 
         </div>
         <div class="layui-row">
-
-            <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+            <div class="layui-form-item layui-form-text">
                 <div class="layui-form-item">
-                    <label class="layui-form-label">是否处理<span class="must-fill">*</span></label>
+                    <label class="layui-form-label">投诉内容<span class="must-fill">*</span></label>
                     <div class="layui-input-block">
-                        <select name="isComplet" id="isComplet" lay-filter="isComplet">
-                        </select>
+                        <textarea name="complaintDesc" id="complaintDesc" class="ckeditor"></textarea>
                     </div>
                 </div>
             </div>
-            <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-                <div class="layui-form-item">
-                    <label class="layui-form-label">处理结果<span class="must-fill">*</span></label>
-                    <div class="layui-input-block">
-                        <input type="text" id="doDesc" name="doDesc" lay-verify="required" placeholder="请输入处理结果" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-            </div>
-
-
         </div>
+
+
+        <!--<div class="layui-row">-->
+
+            <!--<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">-->
+                <!--<div class="layui-form-item">-->
+                    <!--<label class="layui-form-label">是否处理<span class="must-fill">*</span></label>-->
+                    <!--<div class="layui-input-block">-->
+                        <!--<select name="isComplet" id="isComplet" lay-filter="isComplet">-->
+                        <!--</select>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">-->
+                <!--<div class="layui-form-item">-->
+                    <!--<label class="layui-form-label">处理结果<span class="must-fill">*</span></label>-->
+                    <!--<div class="layui-input-block">-->
+                        <!--<input type="text" id="doDesc" name="doDesc" lay-verify="required" placeholder="请输入处理结果" autocomplete="off" class="layui-input">-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>-->
+
+
+        <!--</div>-->
 
         <div class="form-bottom">
             <div class="form-bottom-btns">
@@ -148,6 +153,7 @@
             if (id != "0") {
                 ajaxPost("/zjkComplaint/getZjkComplaintInfo", {"id": id}, function (data) {
                     form.val("zjkComplaint-form", data);
+                    CKEDITOR.instances.complaintDesc.setData(data.complaintDesc);
                 });
             }
             /* 自定义验证规则  title 要验证的input的 lay-verify=""*/
@@ -181,11 +187,12 @@
             });
             /* 监听提交 */
             form.on('submit(submitBtn)', function (data) {
+                data.field.complaintDesc=CKEDITOR.instances.complaintDesc.getData();
                 ajaxPost("/zjkComplaint/saveZjkComplaint", data.field, function (dt, status) {
                     layer.msg("操作成功");
                     parent.layui.table.reload('zjkComplaintTableId', {where: {param: {}}});
                     var index = parent.layer.getFrameIndex(window.name);
-                    parent.layer.close(index);
+                    // parent.layer.close(index);
                 });
                 return false;
             });

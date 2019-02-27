@@ -27,25 +27,24 @@
                title="项目名称" autocomplete="off"
                class="form-control" id="xmNameName">
         <span>项目阶段</span>
-        <input type="text" name="xmSteps" id="xmSteps"
-               placeholder="请输入项目阶段"
-               title="项目阶段" autocomplete="off"
-               class="form-control" id="xmStepsName">
-        <span>投诉类型</span>
-        <input type="text" name="complaintType" id="complaintType"
-               placeholder="请输入投诉类型"
-               title="投诉类型" autocomplete="off"
-               class="form-control" id="complaintTypeName">
-        <span>投诉人名称</span>
-        <input type="text" name="complaintUserName" id="complaintUserName"
-               placeholder="请输入投诉人名称"
-               title="投诉人名称" autocomplete="off"
-               class="form-control" id="complaintUserNameName">
-        <span>是否处理</span>
-        <input type="text" name="isComplet" id="isComplet"
-               placeholder="请输入是否处理"
-               title="是否处理" autocomplete="off"
-               class="form-control" id="isCompletName">
+        <select name="xmSteps" id="xmSteps" lay-filter="xmSteps">
+            <option value="">请选择</option>
+        </select>
+        <!--<span>投诉类型</span>-->
+        <!--<input type="text" name="complaintType" id="complaintType"-->
+               <!--placeholder="请输入投诉类型"-->
+               <!--title="投诉类型" autocomplete="off"-->
+               <!--class="form-control" id="complaintTypeName">-->
+        <!--<span>投诉人名称</span>-->
+        <!--<input type="text" name="complaintUserName" id="complaintUserName"-->
+               <!--placeholder="请输入投诉人名称"-->
+               <!--title="投诉人名称" autocomplete="off"-->
+               <!--class="form-control" id="complaintUserNameName">-->
+        <!--<span>是否处理</span>-->
+        <!--<input type="text" name="isComplet" id="isComplet"-->
+               <!--placeholder="请输入是否处理"-->
+               <!--title="是否处理" autocomplete="off"-->
+               <!--class="form-control" id="isCompletName">-->
     </label>
     <!--按钮组-->
     <div class="btnGroup">
@@ -65,9 +64,9 @@
         <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"
                 data-type="editEvent">编辑
         </button>
-        <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"
-                data-type="detailEvent">查看
-        </button>
+        <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"-->
+                <!--data-type="detailEvent">查看-->
+        <!--</button>-->
         <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"
                 data-type="deleteEvent">删除
         </button>
@@ -76,6 +75,11 @@
 <table id="zjkComplaintTableId" class="layui-hide" lay-filter="tableEvent"></table>
 
 <script>
+    ajaxPost('/dictionary/list/ROOT_XTGL_XMJD', null, function (data, status) {
+        $.each(data, function (i, dt) {
+            $("#xmSteps").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
+        });
+    });
     var param = JSON.parse(window.localStorage.getItem("param"));
     var table, selectRowData, workOrderStatus;
     layui.use(['jquery', 'form', 'laydate', 'table', 'layer', 'publicMethods', 'element'], function () {
@@ -88,31 +92,31 @@
             [
                 {type: 'checkbox', event: 'changeEvents', width: 55},
                 {title: '序号', type: 'numbers', width: 55},
-                {
-                    field: 'workOrderStatus',
-                    title: '状态',
-                    event: 'setActive',
-                    align: 'center',
-                    style: 'cursor: pointer;',
-                    templet: '<div>{{ layui.laytpl.auditStatus(d.workOrderStatus) }}</div>',
-                    width: 55
-                },
-                {
-                    field: 'attachment',
-                    title: '附件',
-                    event: 'setActive',
-                    align: 'center',
-                    style: 'cursor: pointer;',
-                    width: 55,
-                    templet: '<div>{{ layui.laytpl.attToPic(d) }}</div>'
-                },
+                // {
+                //     field: 'workOrderStatus',
+                //     title: '状态',
+                //     event: 'setActive',
+                //     align: 'center',
+                //     style: 'cursor: pointer;',
+                //     templet: '<div>{{ layui.laytpl.auditStatus(d.workOrderStatus) }}</div>',
+                //     width: 55
+                // },
+                // {
+                //     field: 'attachment',
+                //     title: '附件',
+                //     event: 'setActive',
+                //     align: 'center',
+                //     style: 'cursor: pointer;',
+                //     width: 55,
+                //     templet: '<div>{{ layui.laytpl.attToPic(d) }}</div>'
+                // },
                 {
                     field: "zjkName",
-                    title: "专家名称", event: 'setActive', style: 'cursor: pointer;'
+                    title: "被投诉专家名称", event: 'setActive', style: 'cursor: pointer;'
                 },
                 {
                     field: "xmName",
-                    title: "项目名称", event: 'setActive', style: 'cursor: pointer;'
+                    title: "所属项目", event: 'setActive', style: 'cursor: pointer;'
                 },
                 {
                     field: "xmSteps",
@@ -126,18 +130,18 @@
                     field: "complaintUserName",
                     title: "投诉人名称", event: 'setActive', style: 'cursor: pointer;'
                 },
-                {
-                    field: "complaintDesc",
-                    title: "投诉内容", event: 'setActive', style: 'cursor: pointer;'
-                },
-                {
-                    field: "isComplet",
-                    title: "是否处理", event: 'setActive', style: 'cursor: pointer;'
-                },
-                {
-                    field: "doDesc",
-                    title: "处理结果", event: 'setActive', style: 'cursor: pointer;'
-                },
+                // {
+                //     field: "complaintDesc",
+                //     title: "投诉内容", event: 'setActive', style: 'cursor: pointer;'
+                // },
+                // {
+                //     field: "isComplet",
+                //     title: "是否处理", event: 'setActive', style: 'cursor: pointer;'
+                // },
+                // {
+                //     field: "doDesc",
+                //     title: "处理结果", event: 'setActive', style: 'cursor: pointer;'
+                // },
             ];
 
         function renderTable() {
@@ -147,11 +151,10 @@
                     {
                         "zjkName": $("input[name=zjkName]").val(),
                         "xmName": $("input[name=xmName]").val(),
-                        "xmSteps": $("input[name=xmSteps]").val(),
+                        "xmSteps": $("#xmSteps").val(),
                         "complaintType": $("input[name=complaintType]").val(),
                         "complaintUserName": $("input[name=complaintUserName]").val(),
                         "isComplet": $("input[name=isComplet]").val(),
-                        "workOrderStatus": workOrderStatus
                     }
             };
 
@@ -180,38 +183,38 @@
                 var param = {
                     data: res.data,//数据
                     element: ".layui-table-body table",// 当前的表格元素
-                    column: 3,//列数 从0开始
+                    column: 4,//列数 从0开始
                     field: "xmSteps",//当前数据的字段
                     url: "/pageCommon/dic/ROOT_XTGL_XMJD"//接口
                 };
                 publicMethods.dataDictionary(param);
 
-                var param = {
-                    data: res.data,//数据
-                    element: ".layui-table-body table",// 当前的表格元素
-                    column: 3,//列数 从0开始
-                    field: "isComplete",//当前数据的字段
-                    url: "/pageCommon/dic/ROOT_UNIVERSAL_WEHTHER"//接口
-                };
-                publicMethods.dataDictionary(param);
+                // var param = {
+                //     data: res.data,//数据
+                //     element: ".layui-table-body table",// 当前的表格元素
+                //     column: 3,//列数 从0开始
+                //     field: "isComplete",//当前数据的字段
+                //     url: "/pageCommon/dic/ROOT_UNIVERSAL_WEHTHER"//接口
+                // };
+                // publicMethods.dataDictionary(param);
 
                 var param = {
                     data: res.data,//数据
                     element: ".layui-table-body table",// 当前的表格元素
-                    column: 3,//列数 从0开始
+                    column: 5,//列数 从0开始
                     field: "complaintType",//当前数据的字段
                     url: "/pageCommon/dic/ZJK_TSLX"//接口
                 };
                 publicMethods.dataDictionary(param);
 
-                var param = {
-                    data: res.data,//数据
-                    element: ".layui-table-body table",// 当前的表格元素
-                    column: 3,//列数 从0开始
-                    field: "isComplet",//当前数据的字段
-                    url: "/pageCommon/dic/ROOT_UNIVERSAL_WEHTHER"//接口
-                };
-                publicMethods.dataDictionary(param);
+                // var param = {
+                //     data: res.data,//数据
+                //     element: ".layui-table-body table",// 当前的表格元素
+                //     column: 3,//列数 从0开始
+                //     field: "isComplet",//当前数据的字段
+                //     url: "/pageCommon/dic/ROOT_UNIVERSAL_WEHTHER"//接口
+                // };
+                // publicMethods.dataDictionary(param);
 
             });
         }
@@ -268,7 +271,7 @@
             editEvent: function () {  //点击编辑按钮
                 var id;
                 if (selectRowData != undefined) {
-                    if (selectRowData.workOrderStatus == '0') {
+                    // if (selectRowData.workOrderStatus == '0') {
                         id = selectRowData.dataId;
                         layer.open({
                             title: param.name + '-编辑',
@@ -282,10 +285,10 @@
                             area: ['70%', '90%'],
                             content: "/zjkComplaint/edit?id=" + selectRowData.dataId
                         });
-                    } else {
-                        layer.msg('只可操作未下发的数据');
-                        return;
-                    }
+                    // } else {
+                    //     layer.msg('只可操作未下发的数据');
+                    //     return;
+                    // }
                 } else {
                     layer.msg('请选择一条数据');
                     return;
@@ -317,7 +320,7 @@
             deleteEvent: function () { //点击删除按钮
                 var id;
                 if (selectRowData != undefined) {
-                    if (selectRowData.workOrderStatus == '0') {
+                    // if (selectRowData.workOrderStatus == '0') {
                         id = selectRowData.dataId;
                         layer.confirm('确认要删除选中的条数据吗？', {icon: 3, btn: ['确定', '取消']}, function (index) {
                             layer.close(index);
@@ -339,10 +342,10 @@
                                 }
                             });
                         });
-                    } else {
-                        layer.msg('当前记录已经提交,不能进行删除操作！');
-                        return;
-                    }
+                    // } else {
+                    //     layer.msg('当前记录已经提交,不能进行删除操作！');
+                    //     return;
+                    // }
                 } else {
                     layer.msg('请选择一条数据');
                     return;

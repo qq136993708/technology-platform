@@ -194,4 +194,6 @@ public interface ZjkChoiceService {
     public List<ZjkExpert> findZjkBaseInofList(List<String> ids);
 
     LayuiTableData getUserChoiceTableData(LayuiTableParam param);
+
+    public LayuiTableData findZjkChoiceByPageChoice(LayuiTableParam param);
 }
