@@ -47,7 +47,7 @@ public class BudgetGroupTotalProviderClient
 	@Autowired
 	private BudgetInfoService budgetInfoService;
 	
-	@ApiOperation(value="集团公司预算-预算列表",notes="按年检索年度集团预算表信息。")
+	@ApiOperation(value="集团公司预算-预算列表",notes="按年检索年度集团预算表列表信息。")
 	@RequestMapping(value = "/stp-provider/budget/budget-grouptotal-info-list", method = RequestMethod.POST)
 	public Object selectBudgetGroupTotalInfoList(@RequestBody BudgetInfo info) 
 	{
@@ -70,7 +70,7 @@ public class BudgetGroupTotalProviderClient
 		}
 		return rsdata;
 	}
-	@ApiOperation(value="集团公司预算-预算列表",notes="按年检索年度集团预算表信息。")
+	@ApiOperation(value="集团公司预算-预算列表",notes="按年分页检索年度集团预算表列表信息。")
 	@RequestMapping(value = "/stp-provider/budget/budget-grouptotal-info-table", method = RequestMethod.POST)
 	public Object selectBudgetGroupTotalInfoTable(@RequestBody LayuiTableParam param) 
 	{
@@ -90,17 +90,31 @@ public class BudgetGroupTotalProviderClient
 		}
 		return data;
 	}
-	@ApiOperation(value="预算明细列表检索",notes="按年检索年度集团预算总表明细。")
+	@ApiOperation(value="集团公司预算-预算表信息检索",notes="检索预算表信息")
+	@RequestMapping(value = "/stp-provider/budget/budget-grouptotal-info", method = RequestMethod.POST)
+	public Object selectGroupTotalInfo(@RequestBody String budgetInfoId) 
+	{
+		BudgetInfo info = null;
+		try
+		{
+			info = budgetInfoService.selectBudgetInfo(budgetInfoId);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return info;
+	}
+	
+	@ApiOperation(value="集团公司预算-预算明细检索",notes="检索集团预算表明细信息（分页列表）。")
 	@RequestMapping(value = "/stp-provider/budget/budget-grouptotal-items", method = RequestMethod.POST)
-	public Object selectGroupTotalItemList(@RequestBody LayuiTableParam param) 
+	public Object selectGroupTotalItemTable(@RequestBody LayuiTableParam param) 
 	{
 		logger.info("select-budget-grouptotal-items...");
 		LayuiTableData data = null;
 		try
 		{
-			System.out.println(JSON.toJSONString(param));
 			data = budgetGroupTotalService.selectBudgetGroupTotalPage(param);
-			System.out.println(JSON.toJSONString(data));
 		}
 		catch (Exception e)
 		{
@@ -108,7 +122,7 @@ public class BudgetGroupTotalProviderClient
 		}
 		return data;
 	}
-	@ApiOperation(value="添加预算项",notes="添加集团预算总表项目明细。")
+	@ApiOperation(value="集团公司预算-持久化预算项",notes="添加或更新集团预算表项目。")
 	@RequestMapping(value = "/stp-provider/budget/budget-persistence-grouptotal-item", method = RequestMethod.POST)
 	public Object addOrUpdateGroupTotalItem(@RequestBody BudgetGroupTotal budgetGroupTotal) 
 	{
@@ -116,9 +130,7 @@ public class BudgetGroupTotalProviderClient
 		Integer rs = 0;
 		try
 		{
-			System.out.println(JSON.toJSONString(budgetGroupTotal));
 			rs = budgetGroupTotalService.saveOrUpdateBudgetGroupTotal(budgetGroupTotal);
-			System.out.println(JSON.toJSONString(rs));
 		}
 		catch (Exception e)
 		{
@@ -126,7 +138,7 @@ public class BudgetGroupTotalProviderClient
 		}
 		return rs;
 	}
-	@ApiOperation(value="集团公司预算-创建集团年度预算表",notes="创建集团年度预算空白表")
+	@ApiOperation(value="集团公司预算-创建集团年度预算",notes="创建集团年度预算空白预算表")
 	@RequestMapping(value = "/stp-provider/budget/budget-create-blank-grouptotal", method = RequestMethod.POST)
 	public Object createOrUpdateBudgetInfo(@RequestBody BudgetInfo info) 
 	{
@@ -134,9 +146,7 @@ public class BudgetGroupTotalProviderClient
 		BudgetInfo rsbean = null;
 		try
 		{
-			System.out.println(JSON.toJSONString(info.getNd()));
 			rsbean = budgetInfoService.createBlankBudgetInfo(info.getNd(), BudgetInfoEnum.GROUP_TOTAL.getCode());
-			System.out.println(JSON.toJSONString(rsbean));
 		}
 		catch (Exception e)
 		{
@@ -190,7 +200,7 @@ public class BudgetGroupTotalProviderClient
 		}
 		return newInfo;
 	}
-	@ApiOperation(value="集团公司预算-创建集团年度预算表",notes="删除集团年度预算表")
+	@ApiOperation(value="集团公司预算-删除集团年度预算",notes="删除集团年度预算表（逻辑删除）")
 	@RequestMapping(value = "/stp-provider/budget/budget-grouptotal-del", method = RequestMethod.POST)
 	public Object deleteBudgetGroupTotalInfo(@RequestBody BudgetInfo info) 
 	{
@@ -198,10 +208,8 @@ public class BudgetGroupTotalProviderClient
 		Integer rs = 0;
 		try
 		{
-			System.out.println(JSON.toJSONString(info.getNd()));
 			rs += budgetInfoService.deleteBudgetInfo(info.getDataId());
 			rs += budgetGroupTotalService.deleteBudgetGroupTotalByInfo(info.getDataId());
-			System.out.println(JSON.toJSONString(rs));
 		}
 		catch (Exception e)
 		{
@@ -209,7 +217,7 @@ public class BudgetGroupTotalProviderClient
 		}
 		return rs;
 	}
-	@ApiOperation(value="集团公司预算-检索年度预算项详情",notes="检索预算项包括子项详情")
+	@ApiOperation(value="集团公司预算-检索预算项详情",notes="检索预算项详情包括子项详情")
 	@RequestMapping(value = "/stp-provider/budget/get-grouptotal-item/{itemId}", method = RequestMethod.POST)
 	public Object selectBudgetGroupTotalItem(@PathVariable("itemId") String itemId) 
 	{
@@ -217,14 +225,12 @@ public class BudgetGroupTotalProviderClient
 		Map<String,Object> map = new HashMap<String,Object>();
 		try
 		{
-			System.out.println(JSON.toJSONString(itemId));
 			BudgetGroupTotal groupTotal = budgetGroupTotalService.selectBudgetGroupTotal(itemId);
 			if(groupTotal != null) {
 				List<BudgetGroupTotal> childGroups = budgetGroupTotalService.selectChildBudgetGroupTotal(itemId);
 				map  = MyBeanUtils.transBean2Map(groupTotal);
 				map.put("groups", childGroups);
 				map.put("total", new Double(map.get("zxjf").toString())+new Double(map.get("xmjf").toString()));
-				System.out.println(JSON.toJSONString(map));
 			}
 		}
 		catch (Exception e)
@@ -242,7 +248,6 @@ public class BudgetGroupTotalProviderClient
 		try
 		{
 			BudgetInfo info = budgetInfoService.selectBudgetInfo(item.getBudgetInfoId());
-			System.out.println(JSON.toJSONString(item));
 			BudgetGroupTotal groupTotal = budgetGroupTotalService.selectBudgetGroupTotal(item.getDataId());
 			if(groupTotal != null) {
 				MyBeanUtils.copyPropertiesIgnoreNull(item, groupTotal);
@@ -317,6 +322,7 @@ public class BudgetGroupTotalProviderClient
 					old.setUpdateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
 					old.setXmjf(t.getXmjf());
 					old.setZxjf(t.getZxjf());
+					old.setDisplayCode(t.getDisplayCode());
 					budgetGroupTotalService.updateBudgetGroupTotal(old);
 				}else{
 					t.setDataId(IdUtil.createIdByTime());
@@ -352,7 +358,7 @@ public class BudgetGroupTotalProviderClient
 		}
 		return units;
 	}
-	@ApiOperation(value="集团公司预算-检索年度预算项详情",notes="检索预算项包括子项详情")
+	@ApiOperation(value="集团公司预算-删除预算项详情",notes="删除集团预算项包括子项详情")
 	@RequestMapping(value = "/stp-provider/budget/del-grouptotal-item/{dataId}", method = RequestMethod.POST)
 	public Object deleteBudgetGroupTotalInfo(@PathVariable("dataId") String dataId) 
 	{
@@ -376,7 +382,7 @@ public class BudgetGroupTotalProviderClient
 		}
 		return rs;
 	}
-	@ApiOperation(value="集团公司预算-检索年度预算项历史数据",notes="检索预算项历史数据列表不包括子项")
+	@ApiOperation(value="集团公司预算-检索预算项历史数据",notes="检索预算项历史数据列表不包括子项")
 	@RequestMapping(value = "/stp-provider/budget/search-grouptotal-history-items", method = RequestMethod.POST)
 	public Object selectBudgetGroupTotalItemHistory(@RequestBody BudgetGroupTotal item) 
 	{
@@ -394,10 +400,9 @@ public class BudgetGroupTotalProviderClient
 		{
 			e.printStackTrace();
 		}
-		System.out.println(JSON.toJSONString(rsmap));
 		return rsmap;
 	}
-	@ApiOperation(value="集团公司预算-检索年度预算项历史数据",notes="检索预算项历史数据列表不包括子项")
+	@ApiOperation(value="集团公司预算-检索预算项历年数据",notes="检索预算项历年数据列表不包括子项")
 	@RequestMapping(value = "/stp-provider/budget/search-grouptotal-final-history-list", method = RequestMethod.POST)
 	public Object selectBudgetGroupFinalHistoryList() 
 	{
@@ -416,7 +421,6 @@ public class BudgetGroupTotalProviderClient
 		{
 			e.printStackTrace();
 		}
-		System.out.println(JSON.toJSONString(rsmap));
 		return rsmap;
 	}
 	

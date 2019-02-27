@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
+import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -16,6 +18,13 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.VerticalAlignment;
+import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -29,6 +38,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
+import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.BudgetAuditStatusEnum;
@@ -48,6 +58,7 @@ public class BudgetGroupTotalController extends BaseController {
 
 	private static final String BUDGET_GROUPTOTAL_TABLE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-grouptotal-info-table";
 	private static final String BUDGET_GROUPTOTAL_LIST = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-grouptotal-info-list";	
+	private static final String BUDGET_GROUPTOTAL_INFO = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-grouptotal-info";	
 	private static final String BUDGET_GROUPTOTAL_ITEMS = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-grouptotal-items";
 	private static final String BUDGET_GROUPTOTAL_CREATE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-create-blank-grouptotal";
 	private static final String BUDGET_GROUPTOTAL_CREATE_BYTEMPLATE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-create-template-grouptotal";
@@ -213,6 +224,7 @@ public class BudgetGroupTotalController extends BaseController {
 	@ResponseBody
 	public Object searchBudgetGroupCompany(HttpServletRequest request) throws IOException 
 	{
+		//获取所有的集团公司
 		ResponseEntity<?> responseEntity = this.restTemplate.exchange(BUDGET_GROUPTOTAL_COMPANY_ITEMS, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), List.class);
 		return responseEntity.getBody();
 	}
@@ -260,44 +272,114 @@ public class BudgetGroupTotalController extends BaseController {
 		return infors.getBody();
 	}
 	
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping("/budget/budget_download/grouptotal/{dataId}")
-	public void downBudgetGroupTotal(@PathVariable("dataId") String dataId,HttpServletResponse res) throws IOException {
+	public void downBudgetGroupTotal(@PathVariable("dataId") String dataId,HttpServletResponse res) throws IOException 
+	{
+		LayuiTableParam param = new LayuiTableParam();
+		param.getParam().put("budget_info_id", dataId);
+		param.setLimit(100);
+		param.setPage(1);
+		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(BUDGET_GROUPTOTAL_ITEMS, HttpMethod.POST, new HttpEntity<LayuiTableParam>(param, this.httpHeaders), LayuiTableData.class);
+		LayuiTableData tabldata = responseEntity.getBody();
+		System.out.println(JSON.toJSONString(tabldata));
 		
-		Map<String, Object> beanMap = new HashMap<String,Object>();//MyBeanUtils.transBean2Map(oldApply);
+		ResponseEntity<BudgetInfo> rs = this.restTemplate.exchange(BUDGET_GROUPTOTAL_INFO, HttpMethod.POST, new HttpEntity<String>(dataId, this.httpHeaders), BudgetInfo.class);
+		BudgetInfo info = rs.getBody();
+		
+		Map<String,String> parammap = new HashMap<String,String>();
+		parammap.put("nd", info.getNd());
 		
 		
 		URL path = this.getClass().getResource("/");
 		File f = new File(path.getPath() + "static/budget/budget_grouptotal_template.xlsx");
-
-		
-		//写入新文件
-		String newFilePath = path.getPath() + "static/budget/budget_grouptotal_"+System.currentTimeMillis()+".xlsx";
+		System.out.println(f.getAbsolutePath());
+		//写入新文件2019年集团公司总部科技经费预算
+		String newFilePath = path.getPath() + "static/budget/"+info.getNd()+"年集团公司总部科技经费预算（建议稿）_"+DateUtil.dateToStr(new Date(), "yyyyMMddHHmmss")+".xlsx";
 		File outFile = new File(newFilePath);
-		   
-		processDataAndDownload(f,beanMap,outFile);
+		
+		processDataAndDownload(f,new ArrayList(tabldata.getData()),parammap,outFile);
 	    //下载文件
 		this.fileDownload(new File(newFilePath), res);
 	}
 	
 	private XSSFWorkbook workbook;
-	private void processDataAndDownload(File template,Map<String,Object> beanMap,File outFile) 
+	private XSSFSheet sheet;
+	private void processDataAndDownload(File template,List<Map<String,Object>> list,Map<String,String> param,File outFile) 
 	{
 		try {
 			InputStream is = new FileInputStream(template);
 			workbook = new XSSFWorkbook(is);
-			/*List<IBodyElement> bodyElements = docx.getBodyElements();// 所有对象（段落+表格）
-			for (IBodyElement body : bodyElements) {
-				if (BodyElementType.TABLE.equals(body.getElementType())) {
-					List<XWPFTable> tables = body.getBody().getTables();
-					for (XWPFTable table : tables) {
-						for (XWPFTableRow row : table.getRows()) {
-							for (XWPFTableCell cell : row.getTableCells()) {
-								replaseText(beanMap,cell);
-							}
-						}
-					}
-				}
-			}*/
+			sheet = workbook.getSheetAt(0);
+			//处理标题 年度
+			String title = readCell(sheet.getRow(0).getCell(0));
+			sheet.getRow(0).getCell(0).setCellValue(title.replace("${nd}", param.get("nd")));
+			
+			//从第五行开始，第五行是测试数据
+			Row templateRow = sheet.getRow(4);
+			Double total_xmjf = 0d;
+			Double total_zxjf = 0d;
+			
+			//水平，垂直居中
+			CellStyle centerStyle =workbook.createCellStyle();
+			centerStyle.cloneStyleFrom(templateRow.getCell(0).getCellStyle());
+			centerStyle.setAlignment(HorizontalAlignment.CENTER);
+			centerStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+			//水平居左，垂直居中
+			CellStyle leftCenterStyle =workbook.createCellStyle();
+			leftCenterStyle.cloneStyleFrom(templateRow.getCell(1).getCellStyle());
+			leftCenterStyle.setAlignment(HorizontalAlignment.LEFT);
+			leftCenterStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+			//水平居右，垂直居中
+			CellStyle rightCenterStyle =workbook.createCellStyle();
+			rightCenterStyle.cloneStyleFrom(templateRow.getCell(3).getCellStyle());
+			rightCenterStyle.setAlignment(HorizontalAlignment.RIGHT);
+			rightCenterStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+			
+			for(int i = 0;i<list.size();i++) {
+				
+				Integer no = (Integer)list.get(i).get("no");
+				String displayName = list.get(i).get("displayName").toString();
+				//String remark = list.get(i).get("remark").toString();
+				Double total = (Double)list.get(i).get("total");
+				Double xmjf = (Double)list.get(i).get("xmjf");
+				Double zxjf = (Double)list.get(i).get("zxjf");
+				total_xmjf += xmjf;
+				total_zxjf += zxjf;
+				
+				
+				Row crow = sheet.getRow(i+4);
+				crow.createCell(0).setCellValue(no);
+				crow.createCell(1).setCellValue(displayName);
+				//crow.createCell(2).setCellValue(remark);
+				crow.createCell(2).setCellValue(total);
+				crow.createCell(3).setCellValue(xmjf);
+				crow.createCell(4).setCellValue(zxjf);
+				
+				crow.getCell(0).setCellStyle(centerStyle);
+				crow.getCell(1).setCellStyle(leftCenterStyle);
+				//crow.getCell(2).setCellStyle(leftCenterStyle);
+				crow.getCell(2).setCellStyle(rightCenterStyle);
+				crow.getCell(3).setCellStyle(rightCenterStyle);
+				crow.getCell(4).setCellStyle(rightCenterStyle);
+			}
+			//汇总数据
+			Row totalrow =sheet.getRow(list.size()+4);
+			totalrow.createCell(0).setCellValue("合计");
+			totalrow.createCell(1).setCellValue("");
+			totalrow.createCell(2).setCellValue(total_xmjf+total_zxjf);
+			totalrow.createCell(3).setCellValue(total_xmjf);
+			totalrow.createCell(4).setCellValue(total_zxjf);
+			//设置格式
+			totalrow.getCell(0).setCellStyle(centerStyle);
+			totalrow.getCell(1).setCellStyle(centerStyle);
+			totalrow.getCell(2).setCellStyle(rightCenterStyle);
+			totalrow.getCell(3).setCellStyle(rightCenterStyle);
+			totalrow.getCell(4).setCellStyle(rightCenterStyle);
+			
+			//合计单元格合并
+			sheet.addMergedRegion(new CellRangeAddress(list.size()+4,list.size()+4,0,1));
 			//写入新文件
 			FileOutputStream fos  = new FileOutputStream(outFile);
 			workbook.write(fos);
@@ -310,14 +392,15 @@ public class BudgetGroupTotalController extends BaseController {
 	}
 	private void fileDownload(File file,HttpServletResponse res) 
 	{
-        res.setHeader("content-type", "application/octet-stream");
-        res.setContentType("application/octet-stream");
-        res.setHeader("Content-Disposition", "attachment;filename=" + file.getName());
-     
         OutputStream out = null;
         InputStream in = null;
         try 
         {
+        	
+          res.setHeader("content-type", "application/octet-stream");
+          res.setContentType("application/octet-stream");
+          res.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(file.getName(), "UTF-8"));
+        	
           out = res.getOutputStream();
           in = new FileInputStream(file);
           
@@ -346,5 +429,30 @@ public class BudgetGroupTotalController extends BaseController {
 				e.printStackTrace();
 			}
 		}
+	}
+	private String readCell(Cell cell) 
+	{
+		String  cellVal = null;
+		switch (cell.getCellTypeEnum()) 
+		{
+	        case NUMERIC:
+	        	cellVal = cell.getNumericCellValue()+"";
+	            break;
+	        case STRING:
+	        	cellVal = cell.getStringCellValue();
+	            break;
+	        case FORMULA:
+	        	cellVal = cell.getRichStringCellValue().getString();
+	            break;
+	        case BLANK:
+	            break;
+	        case BOOLEAN:
+	            break;
+	        case ERROR:
+	            break;
+	        default:
+	            break;
+        }
+		return cellVal;
 	}
 }

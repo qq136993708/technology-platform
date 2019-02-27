@@ -31,7 +31,7 @@
 <body>
     <div class="headline-box">
         <div class="headline-title" title="集团经费预算总表">
-            	${nd}年集团总部科技经费预算(建议稿)
+            	<span class="nd">${nd}</span>年集团总部科技经费预算(建议稿)
         </div>
         <div class="headline-tool">
             <div class="tool-left">
@@ -94,14 +94,14 @@
                 	<th lay-data="{type:'checkbox'}" rowspan="2"></th>
                 	<th lay-data="{field:'no',align: 'center', width: 45,totalRowText: '合计'}" rowspan="2">序号</th>
                     <th lay-data="{field:'displayName', width: '25%'}" rowspan="2">承担单位</th>
-                    <th lay-data="{field:'remark', width: '30%'}" rowspan="2">研究方向</th>
-                   <!--  <th lay-data="{field:'email', width: '15%'}" rowspan="2">2018年科技经费预算完成</th>
-                    <th lay-data="{field:'score', width: '15%'}" rowspan="2">2019年科技经费合同计划金额</th> -->
-                    <th lay-data="{align:'center'}", colspan="3">${nd}年预算</th>
+                    <!-- <th lay-data="{field:'remark', width: '30%'}" rowspan="2">研究方向</th> -->
+                   	<th lay-data="{field:'last_year_end',align: 'right', width: '15%',totalRow: true}" rowspan="2">2018年科技经费预算完成</th>
+                    <th lay-data="{field:'plan_money',align: 'right', width: '15%',totalRow: true}" rowspan="2">2019年科技经费合同计划金额</th>
+                    <th lay-data="{align:'center'}", colspan="3"><span>${nd}</span>年度经费预算</th>
                 </tr>
                 <tr>
                     <th lay-data="{field:'total', width: '10%',align: 'right',totalRow: true}">合计</th>
-                    <th lay-data="{field:'xmjf', edit:true,align: 'right',totalRow: true}">科技项目经费预算</th>
+                    <th lay-data="{field:'xmjf', edit:true,align: 'right',totalRow: true}">项目经费</th>
                     <th lay-data="{field:'zxjf', edit:true,align: 'right',totalRow: true}">重点实验室专项经费</th>
                 </tr>
                 </thead>
@@ -147,7 +147,9 @@
                 ,type: 'year'
                 ,done:function (val, date, endDate) {
                 	cu_date = val;
-                	initDataVersion();
+                	initDataVersion();//初始化预算版本
+                	initEmptyData();//空数据初始化
+                	initDateView();//初始化时间显示相关
                 }            
             });
             renderfunc = function removeHeaderCheckbox(){
@@ -178,9 +180,31 @@
 	                	renderfunc();
 	                	//预分配数
 	                	calculationSurplusMoney();
+	                	initDateView();
     		   		}); 
+            	}else{
+            		initEmptyData();
+            		initDateView();
             	}
             });
+			//空数据初始化
+			function initEmptyData()
+			{
+				table.reload('dataTable', {data: []});
+				$("#budgetMoney").val(0);//可分配数
+            	$("#surplusMoney").val(0);//剩余可分配数
+        		$("#creater_name").html("");//创建人
+        		$("#create_time").html("");//创建时间
+        		$("#update_time").html("");//最后更新时间
+        		$("#info_status").html("");//状态
+			}
+			//初始化时间选择
+			function initDateView(){
+				$(".nd").html(cu_date);
+            	$('.layui-table-cell.laytable-cell-group').find('span').text(cu_date+"年度经费预算");
+            	$(".layui-table-header .layui-table").find('th').eq(3).find('span').text((cu_date-1)+"年科技经费预算完成");
+            	$(".layui-table-header .layui-table").find('th').eq(4).find('span').text(cu_date+"年科技经费合同计划金额");
+			}
             // 点击按钮时激活
             $('.tableBtns').children('button').on('click',function(){
                 $(this).addClass('active');
@@ -243,7 +267,7 @@
             var $ = layui.$, active = {
             	createEvent: function () { //点击查询按钮
                     layer.open({
-                        title: '集团公司经费预算编制管理'
+                        title: cu_date+'集团公司经费预算编制管理-创建预算表'
                         , skin: 'layui-layer-lan'
                         , shadeClose: true
                         , type: 2
@@ -262,7 +286,7 @@
                 	} 
                 	var url = '/budget/budget_edit_grouptotal?budgetInfoId='+curent_budget_info.dataId;
                    	layer.open({
-                        title: '集团公司经费预算编制管理'
+                        title: cu_date+'集团公司经费预算编制管理-预算项新增'
                         , skin: 'layui-layer-lan'
                         , shadeClose: true
                         , type: 2
@@ -282,7 +306,7 @@
                 	}
                 	var url = '/budget/budget_edit_grouptotal?dataId='+curent_tabel_data[selectIndex].dataId+"&budgetInfoId="+curent_budget_info.dataId;
                    	layer.open({
-                        title: '集团公司经费预算编制管理'
+                        title: cu_date+'集团公司经费预算编制管理-预算项编辑'
                         , skin: 'layui-layer-lan'
                         , shadeClose: true
                         , type: 2
@@ -357,7 +381,7 @@
                 	}
                 	var url = '/budget/budget_history_compare_grouptotal?dataId='+curent_tabel_data[selectIndex].dataId+"&budgetInfoId="+curent_budget_info.dataId;
                    	layer.open({
-                        title: '集团公司经费预算编制管理-历史数据参考'
+                        title: '集团公司经费预算编制管理-往年预算参考'
                         , skin: 'layui-layer-lan'
                         , shadeClose: true
                         , type: 2
@@ -375,7 +399,7 @@
                 	} 
                 	var url = '/budget/budget_history_view_grouptotal?budgetInfoId='+curent_budget_info.dataId;
                    	layer.open({
-                        title: '集团公司经费预算编制管理-历史数据参考'
+                        title: '集团公司经费预算编制管理-历年参考数据'
                         , skin: 'layui-layer-lan'
                         , shadeClose: true
                         , type: 2

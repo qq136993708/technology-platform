@@ -122,33 +122,6 @@ public class SysFunctionController extends BaseController {
 	}
 
 	/**
-	 * 根据层级获取树 adminlte
-	 * 
-	 * @param request
-	 * @return
-	 * @throws Exception
-	 */
-	/*
-	 * @RequestMapping(value = "/getTreeByLevel")
-	 * 
-	 * @ResponseBody public String getTreeByLevel(HttpServletRequest request)
-	 * throws Exception {
-	 * System.out.println("========================getTreeByLevel"); String
-	 * token = request.getHeader("access-token");
-	 * httpHeaders.set("Authorization", "Bearer " + token);
-	 * httpHeaders.setContentType(MediaType.APPLICATION_JSON); String levelCode
-	 * = request.getParameter("levelCode"); SysFunction function = new
-	 * SysFunction(); function.setLevelCode(levelCode == null ?
-	 * null:Integer.valueOf(levelCode)); ResponseEntity<List> responseEntity =
-	 * restTemplate.exchange(LEVEL_NODE , HttpMethod.POST, new
-	 * HttpEntity<SysFunction>(function,this.httpHeaders), List.class); List
-	 * treeNodes = responseEntity.getBody(); return
-	 * JSONUtils.toJSONString(treeNodes);
-	 * 
-	 * }
-	 */
-
-	/**
 	 * 根据层级获取树,ztree
 	 * 
 	 * @param request

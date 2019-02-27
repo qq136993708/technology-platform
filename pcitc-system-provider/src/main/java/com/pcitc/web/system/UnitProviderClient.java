@@ -75,18 +75,12 @@ public class UnitProviderClient
 	@ApiOperation(value="检索机构(树)有人员有岗位",notes="查询某种条件下的组织机构节点，有组织机构和人员、岗位。")
 	@RequestMapping(value = "/unit-provider/units-posts-users/tree", method = RequestMethod.POST)
 	public List<TreeNode> selectTreeNodeWithUnitAndPostAndUser(@RequestBody SysUnit unit) {
-		String unitCode = unit.getUnitCode();
-		if (unitCode == null) {
-			// 动态设置根节点，之后从数据库中动态查询获得
-			unit.setUnitPath("1001");
-		}
-		
 		List<TreeNode> list = unitService.getUnitTreeAndPostAndUserCond(unit);
 		
 		for (int i = 0; i < list.size(); i++) {
 			TreeNode tree = list.get(i);
 			// 前几层默认打开
-			if (tree.getLevelCode()<2) {
+			if (tree.getLevelCode()<1) {
 				tree.setOpen("true");
 			} else {
 				tree.setOpen("false");
