@@ -35,13 +35,13 @@
   			<table id="eqiu_table" class="layui-hide" lay-filter="tableEvent"></table>
   		</div>
   <div class="box-body">
-  <form   class="layui-form" name="form1"            id="form1" action="" method="POST" lay-filter="component-form-group layui-container">
-  <input  type="hidden"         name="projectId"     id="projectId" value="${projectId}">
-  <input  type="hidden"         name="equipmentIds"  id="equipmentIds" value="${sreProjectBasic.equipmentIds}">
-  <input  name="documentDoc"    id="documentDoc"     value="${documentDoc}"  type="hidden">
-  <input  name="yearFeeStr" id="yearFeeStr"  value="${yearFeeStr}"  type="hidden">
-  
-  
+  <form   class="layui-form"    name="form1"     id="form1" action="" method="POST" lay-filter="component-form-group layui-container">
+  <input  name="id"      id="id"       value="${id}"                    type="hidden" >
+  <input  name="equipmentIds"   id="equipmentIds"    value="${sreProjectBasic.equipmentIds}" type="hidden"  >
+  <input  name="documentDoc"    id="documentDoc"     value="${documentDoc}"                  type="hidden">
+  <input  name="yearFeeStr"     id="yearFeeStr"      value="${sreProjectBasic.yearFeeStr}"   type="hidden">
+  <input  name="functionId"     id="functionId"      type="hidden">
+  <input  name="userIds"        id="userIds"         type="hidden">
   
     
       
@@ -127,9 +127,9 @@
         <label class="layui-form-label">建设年限</label>
         <div class="layui-input-block">
            <div class="layui-input-inline" style="float:left">
-		            <input type="text" class="layui-input" name="beginYear" id="beginYear" value="${sreProjectBasic.beginYear}" style="width:80px;float:left" placeholder="开始年份">
+		            <input type="text" class="layui-input" name="beginYear" id="beginYear" value="${beginYear}" style="width:80px;float:left" placeholder="开始年份">
 		             <div class="layui-form-mid" style="width:8px;float:left"> - </div>
-		            <input type="text" class="layui-input" id="endYear" name="endYear"   value="${sreProjectBasic.endYear}" style="width:80px;float:left" placeholder="结束年份">
+		            <input type="text" class="layui-input" id="endYear" name="endYear"   value="${endYear}" style="width:80px;float:left" placeholder="结束年份">
 		    </div>
         </div>
       </div>
@@ -187,15 +187,24 @@
 </div>
 </div>
 <script>
+var param=JSON.parse(window.localStorage.getItem("param"));
+var functionId=param.id;
+$('#functionId').val(functionId);
+var roleCodes = "";
+var unitCodes = "";
+var postCodes = "";
+
+
 var v_date=(new Date()).getTime();
 var file_ids = "documentDoc";
 //detail:详情，edit：编辑
 file_edit_detail = "edit";
 //统管理-附件管理-附件配置：页面标识
 file_opt_flag = "b3a52bbe7087419c80813d7716f37674";
-var param;
 var equipmentIds=$("#equipmentIds").val();
 var yearFeeStr= $("#yearFeeStr").val();
+var beginYear= $("#beginYear").val();
+
 var table,selectRowData;
 layui.use(['form','table','laypage','layer','laydate','laytpl','jquery',"publicMethods"], function(){
 
@@ -208,7 +217,6 @@ layui.use(['form','table','laypage','layer','laydate','laytpl','jquery',"publicM
       ,$ = layui.jquery
       ,form = layui.form;
 	  var publicMethods=layui.publicMethods;
-	  param=JSON.parse(window.localStorage.getItem("param"));
 	  form.render();
 	  laydate.render({
 	      elem: '#LAY-component-form-group-date'
@@ -303,11 +311,19 @@ layui.use(['form','table','laypage','layer','laydate','laytpl','jquery',"publicM
           /*parent.layer.alert(JSON.stringify(data.field), {
               title: '最终的提交信息'
           })*/
-          
           $("#yearFeeStr").val(publicMethods.getVal("yearTr",4)); 
-          var url="/sre-project-basic/save?v_date="+v_date+"&status=0";
-          var backurl="/sre-project-basic/to-list?v_date="+v_date;
-          ajaxOpt(url,"form1","POST",backurl,"保存成功","保存失败");
+          var yearFee_Str= $("#yearFeeStr").val();
+          if(yearFee_Str==null || yearFee_Str=='')
+          {
+        	  layer.alert("建设年限为空");
+          }else
+       	  {
+             var url="/sre-project-basic/save?v_date="+v_date+"&status=0";
+             var backurl="/sre-project-basic/to-list?v_date="+v_date;
+             ajaxOpt(url,"form1","POST",backurl,"保存成功","保存失败");
+       	  }
+          
+         
           return false;
       });
       
@@ -317,9 +333,15 @@ layui.use(['form','table','laypage','layer','laydate','laytpl','jquery',"publicM
           /*parent.layer.alert(JSON.stringify(data.field), {
               title: '最终的提交信息'
           })*/
-          var url="/sre-project-basic/save?v_date="+v_date+"&isWorkFlow=1&functionId="+param.id;
-          var backurl="/sre-project-basic/to-list?v_date="+v_date;
-          ajaxOpt(url,"form1","POST",backurl,"保存成功","保存失败");
+          $("#yearFeeStr").val(publicMethods.getVal("yearTr",4)); 
+          var yearFee_Str= $("#yearFeeStr").val();
+          if(yearFee_Str==null || yearFee_Str=='')
+          {
+        	  layer.alert("建设年限为空");
+          }else
+       	  {
+        	  dealFlow(data);
+       	  }
           return false;
       });
       
@@ -396,13 +418,94 @@ function renderTable(equipmentIds)
       });
 }
 
+var index_close;
 
-
-
-
-function showdialog() {
-    openBaseWin("选择", "/sysfileshare/dialog_user_list");
+function dealFlow(data) 
+{
+	
+	
+	 $.ajax({
+         type : 'POST',
+         url : "/workflow/start/audit-type",
+         contentType: "application/json;charset=UTF-8",
+         data : JSON.stringify(data.field),
+         //json中有functionId（projectId、departmentId等）用来区别processDefine的属性
+         success : function(data) 
+         {
+      	   if (data.code == 'role')
+      	   {
+          		// 按角色选择，获取下一步审批人信息,选择完审批人后，调用：handleTask(userIds)方法
+          		// roleCodes，参数名必须一致，方便公共弹出页面调用
+          		   roleCodes = data.data;  // 弹出页面的隐藏的查询条件
+          		  var temUrl="/task/deal/users/ini";
+                  layer.open({
+                      title:'选择审批人',
+                      skin: 'layui-layer-lan',
+                      shadeClose: true,
+                      type: 2,
+                      fixed: false,
+                      //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                      maxmin: true,
+                      //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                      area: ['800px', '550px'],
+                      content:  temUrl
+                  });
+          	} else if (data.code == 'unit' || data.code == 'post') 
+          	{
+          		// 按部门/岗位选择，获取下一步审批人信息,选择完审批人后，调用：handleTask(userIds)方法
+          		// unitCodes、postCodes，参数名必须一致，方便公共弹出页面调用
+	          		if (data.code == 'unit') 
+	          		{
+	          			unitCodes = data.data;  // 弹出页面的隐藏的查询条件
+	          		} else 
+	          		{
+	          			postCodes = data.data;  // 弹出页面的隐藏的查询条件
+	          		}
+          		
+          		   var temUrl="/task/deal/user/unit/ini";
+                   layer.open({
+                      title:'选择审批人',
+                      skin: 'layui-layer-lan',
+                      shadeClose: true,
+                      type: 2,
+                      fixed: false,
+                      //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                      maxmin: true,
+                      //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                      area: ['800px', '550px'],
+                      content:  temUrl
+                  });
+          	} else if (data.code == 'int') 
+          	{
+          		layer.msg('启动参数不足');
+          	} else if (data.code == 'con') 
+          	{
+          		layer.msg('请给此功能菜单配置流程');
+          	} else if (data.code == 'exist') 
+          	{
+          		layer.msg('工作流部署异常，请联系管理员');
+          	} else 
+          	{
+          		// 直接处理此任务
+          		handleTask('');
+          	}
+         },
+         error : function(msg) {//请求失败处理函数  
+        }
+     });
 }
+
+//处理任务（启动流程）的方法，方法名固定，为了通用选择审批人员的弹出页面调用
+function handleTask(userIds) 
+{
+	$('#userIds').val(userIds);
+    var url="/sre-project-basic/save?v_date="+v_date+"&isWorkFlow=1&functionId="+param.id;
+    var backurl="/sre-project-basic/to-list?v_date="+v_date;
+   
+    ajaxOpt(url,"form1","POST",backurl,"提交成功","提交失败");
+    
+}
+
 
 function clearNoNum(obj){ 
     obj.value = obj.value.replace(/[^\d.]/g,"");  //清除“数字”和“.”以外的字符  

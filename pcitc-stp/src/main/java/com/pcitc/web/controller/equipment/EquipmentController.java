@@ -319,14 +319,6 @@ public class EquipmentController extends BaseController {
 			if (chkbox != null && chkbox.length > 0)
 			{
 				List<String> list = Arrays.asList(chkbox);
-				/*List<Long> longList = new ArrayList();
-				if (list != null) {
-					for (int i = 0; i < list.size(); i++) 
-					{
-						String str = list.get(i);
-						longList.add(Long.valueOf(str));
-					}
-				}*/
 				JSONArray jsonObject = JSONArray.parseArray(JSON.toJSONString(list));
 				HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
 				responseEntity = restTemplate.exchange(LIST_BY_IDS_URL, HttpMethod.POST, entity, List.class);

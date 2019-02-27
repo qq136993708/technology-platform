@@ -268,7 +268,7 @@ public class TaskController extends BaseController {
 				this.restTemplate.exchange(status.getBody().get("auditAgreeMethod").toString(), HttpMethod.POST, new HttpEntity<Object>(httpHeaders), Integer.class).getBody();
 
 			}
-			if (status.getBody().equals("2")) {
+			if (status.getBody().get("result").equals("2")) {
 				// 驳回，调用各个业务的审批驳回后的业务处理方法
 				System.out.println("====auditRejectMethod===============" + status.getBody().get("auditRejectMethod").toString());
 				this.restTemplate.exchange(status.getBody().get("auditRejectMethod").toString(), HttpMethod.POST, new HttpEntity<Object>(httpHeaders), Integer.class).getBody();
