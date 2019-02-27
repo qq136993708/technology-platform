@@ -194,11 +194,45 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
     }
 
     @Override
+    public LayuiTableData findZjkChoiceByPageChoice(LayuiTableParam param) {
+        ZjkChoiceExample example = new ZjkChoiceExample();
+        ZjkChoiceExample.Criteria c = example.createCriteria();
+//        c.andStatusEqualTo("1");
+
+        c.andStatusEqualTo(param.getParam().get("status").toString());
+
+        Object adduserId = param.getParam().get("addUserId");
+        if(!StrUtil.isObjectEmpty(adduserId)){
+            c.andAddUserIdEqualTo(adduserId.toString());
+        }
+
+        Object projectId = param.getParam().get("projectId");
+        if(!StrUtil.isObjectEmpty(projectId)){
+            c.andXmIdEqualTo(projectId.toString());
+        }
+
+        Object xmName = param.getParam().get("xmName");
+        if(!StrUtil.isObjectEmpty(projectId)){
+            c.andXmNameEqualTo(xmName.toString());
+        }
+//        Object xmName = param.getParam().get("xmName");
+//        if(!StrUtil.isObjectEmpty(projectId)){
+//            c.andXmNameEqualTo(xmName.toString());
+//        }
+
+        example.setOrderByClause("create_date desc");
+        return this.findByExample(param, example);
+
+    }
+
+    @Override
     public LayuiTableData findZjkChoiceByPage(LayuiTableParam param) {
         ZjkChoiceExample example = new ZjkChoiceExample();
         ZjkChoiceExample.Criteria c = example.createCriteria();
 //        c.andStatusEqualTo("1");
+
         c.andStatusEqualTo(param.getParam().get("status").toString());
+
         Object adduserId = param.getParam().get("addUserId");
         if(!StrUtil.isObjectEmpty(adduserId)){
             c.andAddUserIdEqualTo(adduserId.toString());
