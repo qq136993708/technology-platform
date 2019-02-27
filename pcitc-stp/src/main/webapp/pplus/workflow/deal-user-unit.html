@@ -49,7 +49,7 @@
 	</div>
 	<div class="form-bottom">
 		<div class="form-bottom-btns">
-			<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="" data-type="selectEvent">确定</button>
+			<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" id="selectEvent" lay-submit="" data-type="selectEvent">确定</button>
 			<button type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" id="cancel">取消</button>
 		</div>
 	</div>
@@ -59,6 +59,7 @@
 	<!--</div>-->
 	<!--树js-->
 	<script type="text/javascript">
+	var index_close;
 		var zNodes;
 		var treeId;
 		var treeName;
@@ -220,9 +221,13 @@
 							userIds = selectedData[0].userId;
 						}
 					}
+				
+					index_close = layer.load(0); //添加laoding,0-2两种方式
 					parent.handleTask(userIds);
 
 					var index = parent.layer.getFrameIndex(window.name);
+					layer.close(index_close);    //返回数据关闭loading
+					
 					parent.layer.close(index);
 					return false;
 				}

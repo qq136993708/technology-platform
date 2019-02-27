@@ -318,7 +318,6 @@ layui.use(['form','table','laypage','layer','laydate','laytpl','jquery',"publicM
         	  layer.alert("建设年限为空");
           }else
        	  {
-       	   
              var url="/sre-project-basic/save?v_date="+v_date+"&status=0";
              var backurl="/sre-project-basic/to-list?v_date="+v_date;
              ajaxOpt(url,"form1","POST",backurl,"保存成功","保存失败");
@@ -419,7 +418,7 @@ function renderTable(equipmentIds)
       });
 }
 
-
+var index_close;
 
 function dealFlow(data) 
 {
@@ -431,12 +430,14 @@ function dealFlow(data)
          contentType: "application/json;charset=UTF-8",
          data : JSON.stringify(data.field),
          //json中有functionId（projectId、departmentId等）用来区别processDefine的属性
-         success : function(data) {
-      	   if (data.code == 'role') {
+         success : function(data) 
+         {
+      	   if (data.code == 'role')
+      	   {
           		// 按角色选择，获取下一步审批人信息,选择完审批人后，调用：handleTask(userIds)方法
           		// roleCodes，参数名必须一致，方便公共弹出页面调用
-          		roleCodes = data.data;  // 弹出页面的隐藏的查询条件
-          		var temUrl="/task/deal/users/ini";
+          		   roleCodes = data.data;  // 弹出页面的隐藏的查询条件
+          		  var temUrl="/task/deal/users/ini";
                   layer.open({
                       title:'选择审批人',
                       skin: 'layui-layer-lan',
@@ -449,17 +450,20 @@ function dealFlow(data)
                       area: ['800px', '550px'],
                       content:  temUrl
                   });
-          	} else if (data.code == 'unit' || data.code == 'post') {
+          	} else if (data.code == 'unit' || data.code == 'post') 
+          	{
           		// 按部门/岗位选择，获取下一步审批人信息,选择完审批人后，调用：handleTask(userIds)方法
           		// unitCodes、postCodes，参数名必须一致，方便公共弹出页面调用
-          		if (data.code == 'unit') {
-          			unitCodes = data.data;  // 弹出页面的隐藏的查询条件
-          		} else {
-          			postCodes = data.data;  // 弹出页面的隐藏的查询条件
-          		}
+	          		if (data.code == 'unit') 
+	          		{
+	          			unitCodes = data.data;  // 弹出页面的隐藏的查询条件
+	          		} else 
+	          		{
+	          			postCodes = data.data;  // 弹出页面的隐藏的查询条件
+	          		}
           		
-          		var temUrl="/task/deal/user/unit/ini";
-                  layer.open({
+          		   var temUrl="/task/deal/user/unit/ini";
+                   layer.open({
                       title:'选择审批人',
                       skin: 'layui-layer-lan',
                       shadeClose: true,
@@ -471,13 +475,17 @@ function dealFlow(data)
                       area: ['800px', '550px'],
                       content:  temUrl
                   });
-          	} else if (data.code == 'int') {
+          	} else if (data.code == 'int') 
+          	{
           		layer.msg('启动参数不足');
-          	} else if (data.code == 'con') {
+          	} else if (data.code == 'con') 
+          	{
           		layer.msg('请给此功能菜单配置流程');
-          	} else if (data.code == 'exist') {
+          	} else if (data.code == 'exist') 
+          	{
           		layer.msg('工作流部署异常，请联系管理员');
-          	} else {
+          	} else 
+          	{
           		// 直接处理此任务
           		handleTask('');
           	}
@@ -490,21 +498,14 @@ function dealFlow(data)
 //处理任务（启动流程）的方法，方法名固定，为了通用选择审批人员的弹出页面调用
 function handleTask(userIds) 
 {
-	
 	$('#userIds').val(userIds);
     var url="/sre-project-basic/save?v_date="+v_date+"&isWorkFlow=1&functionId="+param.id;
     var backurl="/sre-project-basic/to-list?v_date="+v_date;
+   
     ajaxOpt(url,"form1","POST",backurl,"提交成功","提交失败");
+    
 }
 
-
-
-
-
-/* 
-function showdialog() {
-    openBaseWin("选择", "/sysfileshare/dialog_user_list");
-} */
 
 function clearNoNum(obj){ 
     obj.value = obj.value.replace(/[^\d.]/g,"");  //清除“数字”和“.”以外的字符  

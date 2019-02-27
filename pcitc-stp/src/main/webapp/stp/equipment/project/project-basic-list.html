@@ -33,6 +33,11 @@
 	<div class="tableToolBox">
         <div class="whiteLine"></div>
         <div  class="tableBtns">
+        
+            <button id="allData" class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue active btnMyBgImg" data-type="allEvent">
+					<span class="btn-state btn-all-ryg"></span>
+					全部
+				</button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"
                     data-type="draftEvent">
                 <span class="btn-state btnYellow"></span>未上报
@@ -242,8 +247,12 @@ var name=$('#name').val();
             	}
             
             },
+            allEvent: function(){ 
+            	$("#auditStatus").val("");
+            	renderTable();
+            },
             draftEvent: function(){ 
-            	$("#auditStatus").val("0");//0未审批(草稿), 1审批中(已提交)  2审批通过   3审批不通过
+            	$("#auditStatus").val("0");//0未审批(草稿), 1审批中(已提交)  2审批通过   0审批不通过
             	renderTable();
             },
             submitEvent: function(){ 
@@ -255,7 +264,7 @@ var name=$('#name').val();
             	renderTable();
             },
             rejectEvent: function(){ 
-            	$("#auditStatus").val("3");
+            	$("#auditStatus").val("0");
             	renderTable();
             }
             
