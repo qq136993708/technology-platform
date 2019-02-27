@@ -10,7 +10,7 @@ public interface SreProjectMapper {
 
     int deleteByExample(SreProjectExample example);
 
-    int deleteByPrimaryKey(String projectId);
+    int deleteByPrimaryKey(String id);
 
     int insert(SreProject record);
 
@@ -18,7 +18,7 @@ public interface SreProjectMapper {
 
     List<SreProject> selectByExample(SreProjectExample example);
 
-    SreProject selectByPrimaryKey(String projectId);
+    SreProject selectByPrimaryKey(String id);
 
     int updateByExampleSelective(@Param("record") SreProject record, @Param("example") SreProjectExample example);
 

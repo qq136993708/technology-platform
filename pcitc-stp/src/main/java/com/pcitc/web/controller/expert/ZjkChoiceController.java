@@ -59,36 +59,36 @@ public class ZjkChoiceController extends BaseController {
     /**
      * 根据ID获取对象信息
      */
-    private static final String GET_INFO = "http://pplus-zuul/stp-proxy/zjkchoice-provider/zjkchoice/get-zjkchoice/";
+    private static final String GET_INFO = "http://pcitc-zuul/stp-proxy/zjkchoice-provider/zjkchoice/get-zjkchoice/";
     /**
      * 树形
      */
-    private static final String TREE_DATA = "http://pplus-zuul/stp-proxy/zjkchoice-provider/zjkchoice/tree-data";
+    private static final String TREE_DATA = "http://pcitc-zuul/stp-proxy/zjkchoice-provider/zjkchoice/tree-data";
     /**
      * 逻辑删除
      */
-    private static final String DEL = "http://pplus-zuul/stp-proxy/zjkchoice-provider/zjkchoice/del-zjkchoice/";
+    private static final String DEL = "http://pcitc-zuul/stp-proxy/zjkchoice-provider/zjkchoice/del-zjkchoice/";
     /**
      * 物理删除
      */
-    private static final String DEL_REAL = "http://pplus-zuul/stp-proxy/zjkchoice-provider/zjkchoice/del-zjkchoice-real/";
+    private static final String DEL_REAL = "http://pcitc-zuul/stp-proxy/zjkchoice-provider/zjkchoice/del-zjkchoice-real/";
 
     /**
      * 查询列表
      */
-    private static final String LIST = "http://pplus-zuul/stp-proxy/zjkchoice-provider/zjkchoice/zjkchoice_list";
+    private static final String LIST = "http://pcitc-zuul/stp-proxy/zjkchoice-provider/zjkchoice/zjkchoice_list";
     /**
      * 参数查询
      */
-    private static final String LISTPARAM = "http://pplus-zuul/stp-proxy/zjkchoice-provider/zjkchoice/zjkchoice_list_param";
+    private static final String LISTPARAM = "http://pcitc-zuul/stp-proxy/zjkchoice-provider/zjkchoice/zjkchoice_list_param";
     /**
      * 分页查询
      */
-    private static final String LISTPAGE = "http://pplus-zuul/stp-proxy/zjkchoice-provider/zjkchoice/zjkchoice-page";
+    private static final String LISTPAGE = "http://pcitc-zuul/stp-proxy/zjkchoice-provider/zjkchoice/zjkchoice-page";
     /**
      * 保存
      */
-    private static final String SAVE = "http://pplus-zuul/stp-proxy/zjkchoice-provider/zjkchoice/save_zjkchoice";
+    private static final String SAVE = "http://pcitc-zuul/stp-proxy/zjkchoice-provider/zjkchoice/save_zjkchoice";
 
 
     /**
@@ -189,7 +189,7 @@ public class ZjkChoiceController extends BaseController {
     @RequestMapping(value = "/toListPage", method = {RequestMethod.GET})
     @OperationFilter(modelName = "专家-人员选择", actionName = "跳转列表页toListPage")
     public String toListPage() {
-        return "pplus/expert/zjkChoice_list";
+        return "stp/expert/zjkChoice_list";
     }
 
     /**

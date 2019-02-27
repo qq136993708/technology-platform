@@ -39,17 +39,19 @@
                         </div>
                     </div>
 
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">年龄<span class="must-fill">*</span></label>
-                        <div class="layui-input-block">
-                            <input type="number" id="age" name="age" lay-verify="required" placeholder="请输入年龄" autocomplete="off" class="layui-input">
-                        </div>
-                    </div>
+
 
                     <div class="layui-form-item">
                         <label class="layui-form-label">出生日期<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <input type="text" id="birthDate" name="birthDate" lay-verify="required" class="layui-input" placeholder="yyyy-MM-dd">
+                            <input type="text" id="birthDate" name="birthDate" lay-verify="required" onblur="calAge()" class="layui-input " placeholder="yyyy-MM-dd">
+                        </div>
+                    </div>
+
+                    <div class="layui-form-item" style="display: none">
+                        <label class="layui-form-label">年龄<span class="must-fill"></span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="age" name="age" placeholder="请输入年龄" autocomplete="off"  class="layui-input">
                         </div>
                     </div>
 
@@ -116,7 +118,7 @@
             <div class="layui-row">
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label class="layui-form-label">证件类型<span class="must-fill">*</span></label>
+                        <label class="layui-form-label">证件类型<span class="must-fill"></span></label>
                         <div class="layui-input-block">
                             <select id="cardType" name="cardType"></select>
                         </div>
@@ -125,9 +127,9 @@
 
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label class="layui-form-label">证件号码<span class="must-fill">*</span></label>
+                        <label class="layui-form-label">证件号码<span class="must-fill"></span></label>
                         <div class="layui-input-block">
-                            <input type="text" id="cardId" name="cardId" lay-verify="required" placeholder="请输入证件号码" autocomplete="off" class="layui-input">
+                            <input type="text" id="cardId" name="cardId"  placeholder="请输入证件号码" autocomplete="off" class="layui-input">
                         </div>
                     </div>
                 </div>
@@ -222,9 +224,9 @@
 
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label class="layui-form-label">详细地址<span class="must-fill">*</span></label>
+                        <label class="layui-form-label">详细地址<span class="must-fill"></span></label>
                         <div class="layui-input-block">
-                            <input type="text" id="address" name="address" lay-verify="required" placeholder="请输入居住地地址" autocomplete="off" class="layui-input">
+                            <input type="text" id="address" name="address"  placeholder="请输入居住地地址" autocomplete="off" class="layui-input">
                         </div>
                     </div>
                 </div>
@@ -790,7 +792,8 @@
             }
 
             function saveFormData(data) {
-                var age = $("#age").val();
+                var age = calAge($("#birthDate").val());
+                $("#age").val(age);
                 var ageBetween = "";
                 if (age > 20 && age <= 30) {
                     ageBetween = "20-30";
@@ -807,7 +810,9 @@
                 } else {
                     ageBetween = "80-200";
                 }
+                data.field.age = age;
                 data.field.ageBetween = ageBetween;
+                data.field.userDesc=CKEDITOR.instances.userDesc.getData();
                 console.log("-------提交数据---------");
                 console.log(data.field);
                 ajaxPost("/zjkBaseInfo/saveZjkBaseInfo", data.field, function (dt, status) {
@@ -828,6 +833,17 @@
                 parent.layer.close(index);
             })
         });
+
+    function calAge(str){
+        var   r   =   str.match(/^(\d{1,4})(-|\/)(\d{1,2})\2(\d{1,2})$/);
+        if(r==null)return   false;
+        var   d=   new   Date(r[1],   r[3]-1,   r[4]);
+        if   (d.getFullYear()==r[1]&&(d.getMonth()+1)==r[3]&&d.getDate()==r[4])
+        {
+            var   Y   =   new   Date().getFullYear();
+            return ((Y-r[1]));
+        }
+    }
 
     //附件上传-start
     $('#upload_File_photoAttach').click(function () {

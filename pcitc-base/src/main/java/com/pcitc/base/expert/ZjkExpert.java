@@ -11,12 +11,23 @@ import java.io.Serializable;
  * <p>实体类</p>
  * <p>Table: zjk_expert - 专家-基本信息</p>
  *
- * @since 2019-02-15 03:52:30
+ * @since 2019-02-27 09:14:44
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ZjkExpert extends DataEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    @Transient
+    public String getSelect_type() {
+        return select_type;
+    }
+
+    public void setSelect_type(String select_type) {
+        this.select_type = select_type;
+    }
+
+    private String select_type;
 
     /**
      * data_id -
@@ -39,7 +50,7 @@ public class ZjkExpert extends DataEntity implements Serializable {
     private String companyName;
 
     /**
-     * company - 所属组织
+     * company - 机构ID
      */
     private String company;
 
@@ -229,7 +240,7 @@ public class ZjkExpert extends DataEntity implements Serializable {
     private String expertNationality;
 
     /**
-     * sys_flag - 状态位
+     * sys_flag - 0：正常；1：冻结
      */
     private String sysFlag;
 
@@ -284,7 +295,7 @@ public class ZjkExpert extends DataEntity implements Serializable {
     private String dataIndex;
 
     /**
-     * status - 业务表单状态
+     * status - 是否删除
      */
     private String status;
 
@@ -318,16 +329,55 @@ public class ZjkExpert extends DataEntity implements Serializable {
      */
     private String projectName;
 
-    @Transient
-    public String getSelect_type() {
-        return select_type;
-    }
+    /**
+     * year - 年度
+     */
+    private String year;
 
-    public void setSelect_type(String select_type) {
-        this.select_type = select_type;
-    }
+    /**
+     * political_face - 政治面貌
+     */
+    private String politicalFace;
 
-    private String select_type;
+    /**
+     * nation - 民族
+     */
+    private String nation;
+
+    /**
+     * unit_belongs - 所属单位
+     */
+    private String unitBelongs;
+
+    /**
+     * professional_and_time - 从事专业和时间
+     */
+    private String professionalAndTime;
+
+    /**
+     * administrative_duties - 行政职务
+     */
+    private String administrativeDuties;
+
+    /**
+     * technical_positiion - 专业技术职务
+     */
+    private String technicalPositiion;
+
+    /**
+     * awards_title - 获得奖励和称号
+     */
+    private String awardsTitle;
+
+    /**
+     * brief_desc - 主要业绩简述
+     */
+    private String briefDesc;
+
+    /**
+     * place_origin - 籍贯
+     */
+    private String placeOrigin;
 
     public String getDataId() {
         return this.dataId;
@@ -809,6 +859,86 @@ public class ZjkExpert extends DataEntity implements Serializable {
         this.projectName = projectName;
     }
 
+    public String getYear() {
+        return this.year;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
+    }
+
+    public String getPoliticalFace() {
+        return this.politicalFace;
+    }
+
+    public void setPoliticalFace(String politicalFace) {
+        this.politicalFace = politicalFace;
+    }
+
+    public String getNation() {
+        return this.nation;
+    }
+
+    public void setNation(String nation) {
+        this.nation = nation;
+    }
+
+    public String getUnitBelongs() {
+        return this.unitBelongs;
+    }
+
+    public void setUnitBelongs(String unitBelongs) {
+        this.unitBelongs = unitBelongs;
+    }
+
+    public String getProfessionalAndTime() {
+        return this.professionalAndTime;
+    }
+
+    public void setProfessionalAndTime(String professionalAndTime) {
+        this.professionalAndTime = professionalAndTime;
+    }
+
+    public String getAdministrativeDuties() {
+        return this.administrativeDuties;
+    }
+
+    public void setAdministrativeDuties(String administrativeDuties) {
+        this.administrativeDuties = administrativeDuties;
+    }
+
+    public String getTechnicalPositiion() {
+        return this.technicalPositiion;
+    }
+
+    public void setTechnicalPositiion(String technicalPositiion) {
+        this.technicalPositiion = technicalPositiion;
+    }
+
+    public String getAwardsTitle() {
+        return this.awardsTitle;
+    }
+
+    public void setAwardsTitle(String awardsTitle) {
+        this.awardsTitle = awardsTitle;
+    }
+
+    public String getBriefDesc() {
+        return this.briefDesc;
+    }
+
+    public void setBriefDesc(String briefDesc) {
+        this.briefDesc = briefDesc;
+    }
+
+    public String getPlaceOrigin() {
+        return this.placeOrigin;
+    }
+
+    public void setPlaceOrigin(String placeOrigin) {
+        this.placeOrigin = placeOrigin;
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -942,7 +1072,27 @@ public class ZjkExpert extends DataEntity implements Serializable {
 
                         (this.getProjectId() == null ? other.getProjectId() == null : this.getProjectId().equals(other.getProjectId())) &&
 
-                        (this.getProjectName() == null ? other.getProjectName() == null : this.getProjectName().equals(other.getProjectName()));
+                        (this.getProjectName() == null ? other.getProjectName() == null : this.getProjectName().equals(other.getProjectName())) &&
+
+                        (this.getYear() == null ? other.getYear() == null : this.getYear().equals(other.getYear())) &&
+
+                        (this.getPoliticalFace() == null ? other.getPoliticalFace() == null : this.getPoliticalFace().equals(other.getPoliticalFace())) &&
+
+                        (this.getNation() == null ? other.getNation() == null : this.getNation().equals(other.getNation())) &&
+
+                        (this.getUnitBelongs() == null ? other.getUnitBelongs() == null : this.getUnitBelongs().equals(other.getUnitBelongs())) &&
+
+                        (this.getProfessionalAndTime() == null ? other.getProfessionalAndTime() == null : this.getProfessionalAndTime().equals(other.getProfessionalAndTime())) &&
+
+                        (this.getAdministrativeDuties() == null ? other.getAdministrativeDuties() == null : this.getAdministrativeDuties().equals(other.getAdministrativeDuties())) &&
+
+                        (this.getTechnicalPositiion() == null ? other.getTechnicalPositiion() == null : this.getTechnicalPositiion().equals(other.getTechnicalPositiion())) &&
+
+                        (this.getAwardsTitle() == null ? other.getAwardsTitle() == null : this.getAwardsTitle().equals(other.getAwardsTitle())) &&
+
+                        (this.getBriefDesc() == null ? other.getBriefDesc() == null : this.getBriefDesc().equals(other.getBriefDesc())) &&
+
+                        (this.getPlaceOrigin() == null ? other.getPlaceOrigin() == null : this.getPlaceOrigin().equals(other.getPlaceOrigin()));
     }
 
     @Override
@@ -1009,6 +1159,16 @@ public class ZjkExpert extends DataEntity implements Serializable {
         result = prime * result + ((getUpdateDate() == null) ? 0 : getUpdateDate().hashCode());
         result = prime * result + ((getProjectId() == null) ? 0 : getProjectId().hashCode());
         result = prime * result + ((getProjectName() == null) ? 0 : getProjectName().hashCode());
+        result = prime * result + ((getYear() == null) ? 0 : getYear().hashCode());
+        result = prime * result + ((getPoliticalFace() == null) ? 0 : getPoliticalFace().hashCode());
+        result = prime * result + ((getNation() == null) ? 0 : getNation().hashCode());
+        result = prime * result + ((getUnitBelongs() == null) ? 0 : getUnitBelongs().hashCode());
+        result = prime * result + ((getProfessionalAndTime() == null) ? 0 : getProfessionalAndTime().hashCode());
+        result = prime * result + ((getAdministrativeDuties() == null) ? 0 : getAdministrativeDuties().hashCode());
+        result = prime * result + ((getTechnicalPositiion() == null) ? 0 : getTechnicalPositiion().hashCode());
+        result = prime * result + ((getAwardsTitle() == null) ? 0 : getAwardsTitle().hashCode());
+        result = prime * result + ((getBriefDesc() == null) ? 0 : getBriefDesc().hashCode());
+        result = prime * result + ((getPlaceOrigin() == null) ? 0 : getPlaceOrigin().hashCode());
         return result;
     }
 
@@ -1078,6 +1238,16 @@ public class ZjkExpert extends DataEntity implements Serializable {
         sb.append(", updateDate=").append(updateDate);
         sb.append(", projectId=").append(projectId);
         sb.append(", projectName=").append(projectName);
+        sb.append(", year=").append(year);
+        sb.append(", politicalFace=").append(politicalFace);
+        sb.append(", nation=").append(nation);
+        sb.append(", unitBelongs=").append(unitBelongs);
+        sb.append(", professionalAndTime=").append(professionalAndTime);
+        sb.append(", administrativeDuties=").append(administrativeDuties);
+        sb.append(", technicalPositiion=").append(technicalPositiion);
+        sb.append(", awardsTitle=").append(awardsTitle);
+        sb.append(", briefDesc=").append(briefDesc);
+        sb.append(", placeOrigin=").append(placeOrigin);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

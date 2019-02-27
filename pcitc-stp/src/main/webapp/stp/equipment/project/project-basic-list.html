@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()" media="all">
     <script src="/layuiadmin/layui/layui.js"></script>
+       <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
 </head>
 <body>
 <div class="searchBox">
@@ -32,6 +33,11 @@
 	<div class="tableToolBox">
         <div class="whiteLine"></div>
         <div  class="tableBtns">
+        
+            <button id="allData" class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue active btnMyBgImg" data-type="allEvent">
+					<span class="btn-state btn-all-ryg"></span>
+					全部
+				</button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"
                     data-type="draftEvent">
                 <span class="btn-state btnYellow"></span>未上报
@@ -49,105 +55,12 @@
                 <span class="btn-state btn-yellow"></span>退回调整
             </button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add" data-type="addEvent">新增</button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit" data-type="editEvent">编辑</button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" data-type="detailEvent">详情</button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_delete" data-type="deleteEvent">删除</button>
-           <!--  <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_delete" data-type="addPlanEvent">添加计划</button> -->
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit" id="editEvent" data-type="editEvent">编辑</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" id="detailEvent" data-type="detailEvent">详情</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_delete"  id="deleteEvent" data-type="deleteEvent">删除</button>
         </div>
     </div>
    <table id="processdef-table" class="layui-hide" lay-filter="processdef-table" ></table> 
-    
-    <!--  <table class="layui-table">
-             <thead>
-	             <tr>
-	             <td>
-	              </td>
-	                <td width="4%">序号</td>
-	                <td width="6%" align="center">状态</td>
-	                <td width="6%"  align="center">立项年度</td>
-	                <td width="15%" >课题名称</td>
-	                <td width="8%">投资期限</td>
-	                <td width="8%">总经费(万元)</td>
-	                <td width="8%">2019年经费(万元)</td>
-	                <td width="8%">2020年经费(万元)</td>
-	                <td width="10%">承担单位</td>
-	                <td width="15%">委托方</td>
-	                <td width="8%" align="center">申请时间</td>
-	             </tr>
-            </thead>
-            <tbody>
-            <tr>
-		            <td>
-		            <div class="layui-table-cell laytable-cell-1-0-0 laytable-cell-checkbox">
-		            <div class="layui-unselect layui-form-checkbox" lay-skin="primary">
-		            <i class="layui-icon layui-icon-ok"></i></div></div>
-		            </td>
-	                <td>1</td>
-	                <td>
-	                <span class='fontStateColor btnYellow'></span>
-	                </td>
-	                <td align="center">2019</td>
-	                <td>主机房及数据中心硬件配套2019标</td>
-	                <td>2019-2020</td>
-	                <td style="color:red">1600</td>
-	                <td> 1000</td>
-                     <td>
-                            600
-                     </td>
-	                <td>XXXX开发研究院</td>
-	                <td>中国石油化工股份有限公司</td>
-	                <td align="center">2019-01-11</td>
-	             </tr>
-	             
-	             <tr>
-		            <td>
-		            <div class="layui-table-cell laytable-cell-1-0-0 laytable-cell-checkbox">
-		            <div class="layui-unselect layui-form-checkbox" lay-skin="primary">
-		            <i class="layui-icon layui-icon-ok"></i></div></div>
-		            </td>
-	                <td>1</td>
-	                <td>
-	                <span class='fontStateColor btnYellow'></span>
-	                </td>
-	                <td align="center">2019</td>
-	                <td>日常科研装备更新2019</td>
-	                <td>2019-2020</td>
-	                <td style="color:red">1000</td>
-	                <td> 500</td>
-                     <td>
-                            500
-                     </td>
-	                <td>XXXX开发研究院</td>
-	                <td>中国石油化工股份有限公司</td>
-	                <td align="center">2019-01-11</td>
-	             </tr>
-	             
-	             <tr>
-		            <td>
-		            <div class="layui-table-cell laytable-cell-1-0-0 laytable-cell-checkbox">
-		            <div class="layui-unselect layui-form-checkbox" lay-skin="primary">
-		            <i class="layui-icon layui-icon-ok"></i></div></div>
-		            </td>
-	                <td>1</td>
-	                <td>
-	                <span class='fontStateColor btnYellow'></span>
-	                </td>
-	                <td align="center">2019</td>
-	                <td>地震资料处理解释系统硬件配套</td>
-	                <td>2019-2020</td>
-	                <td style="color:red">1600</td>
-	                <td> 1000</td>
-                     <td>
-                            600
-                     </td>
-	                <td>XXXX开发研究院</td>
-	                <td>中国石油化工股份有限公司</td>
-	                <td align="center">2019-01-11</td>
-	             </tr>
-            </tbody>
-             
-     </table> -->
-     
 </div>
 <script id="dateTpl" type="text/html"> {{formatTime(d.createDate)}} </script>
 <script type="text/javascript">
@@ -185,14 +98,17 @@
             <button class="layui-btn layui-btn-primary layui-btn-xs">未上报</button>
           {{#  } }}
 </script>
-
 <!--表格数据操作js-->
 <script src="/common/js/jquery-1.11.3.min.js"></script>
 <script>
+var param=JSON.parse(window.localStorage.getItem("param"));
+var functionId=param.id;
+$('#functionId').val(functionId);
+
 var table,selectRowData;
 var name=$('#name').val();
     layui.use(['jquery','table','laypage','form','layer','laytpl','laydate'], function(){
-           table = layui.table,
+            table = layui.table,
             $ = layui.jquery,
             layer = layui.layer,
             laydate = layui.laydate,
@@ -222,11 +138,11 @@ var name=$('#name').val();
             	$('#auditStatus').val("");
             },
             addPlanEvent: function(){ //新增计划
-            	if (typeof(selectRowData.projectId) == "undefined") {
+            	if (typeof(selectRowData.id) == "undefined") {
             		layer.msg('请点击选择一行数据');
             	} else {
             		
-            		 var projectId=selectRowData.projectId;
+            		 var id=selectRowData.id;
 	                 layer.open({
 	                    title:'新增技术交流',
 	                    skin: 'layui-layer-lan',
@@ -237,13 +153,11 @@ var name=$('#name').val();
 	                    maxmin: false,
 	                    //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
 	                    area: ['60%', '80%'],
-	                    content:  '/sre-meeting/add?projectId='+projectId
+	                    content:  '/sre-meeting/add?id='+id
 	                   });
             	}
             },
             addEvent: function(){ //点击新增按钮
-            	
-            
             		 layer.open({
                          title:'计划上报-新增',
                          skin: 'layui-layer-lan',
@@ -256,16 +170,15 @@ var name=$('#name').val();
                          area: ['70%','90%'],
                          content:  '/sre-project-basic/add'
                      });
-               
                  
             }
             ,editEvent: function(){  //点击编辑按钮
             	
-            	if (typeof(selectRowData.projectId) == "undefined") {
+            	if (typeof(selectRowData.id) == "undefined") {
             		layer.msg('请点击选择一行数据');
             	} else {
-            		 var projectId=selectRowData.projectId;
-           		     var url="/sre-project-basic/update?projectId="+projectId;
+            		 var id=selectRowData.id;
+           		     var url="/sre-project-basic/add?id="+id;
            		     var status=selectRowData.status;
            		     if(status=='1' || status=='3')
            		     {
@@ -290,13 +203,13 @@ var name=$('#name').val();
                
             },deleteEvent: function(){  //点击删除按钮
                  console.log('点击了删除按钮')
-                 if (typeof(selectRowData.projectId) == "undefined") 
+                 if (typeof(selectRowData.id) == "undefined") 
                  {
             		layer.msg('请点击选择一行数据');
             	 } else 
             	 {
-            		  var projectId=selectRowData.projectId;
-           		      var url="/sre-project-basic/delete/"+projectId;
+            		  var id=selectRowData.id;
+           		      var url="/sre-project-basic/delete/"+id;
            		     var status=selectRowData.status;
          		     if(status=='1' || status=='3')
          		     {
@@ -314,11 +227,11 @@ var name=$('#name').val();
               
             },
             detailEvent: function(){  //点击详情按钮
-            	if (typeof(selectRowData.projectId) == "undefined") {
+            	if (typeof(selectRowData.id) == "undefined") {
             		layer.msg('请点击选择一行数据');
             	} else {
-            		 var projectId=selectRowData.projectId;
-            		 var temUrl="/sre-project-basic/get/" + projectId;
+            		 var id=selectRowData.id;
+            		 var temUrl="/sre-project-basic/get/" + id;
             		 layer.open({
                          title:'详情',
                          skin: 'layui-layer-lan',
@@ -334,8 +247,12 @@ var name=$('#name').val();
             	}
             
             },
+            allEvent: function(){ 
+            	$("#auditStatus").val("");
+            	renderTable();
+            },
             draftEvent: function(){ 
-            	$("#auditStatus").val("0");//0未审批(草稿), 1审批中(已提交)  2审批通过   3审批不通过
+            	$("#auditStatus").val("0");//0未审批(草稿), 1审批中(已提交)  2审批通过   0审批不通过
             	renderTable();
             },
             submitEvent: function(){ 
@@ -347,7 +264,7 @@ var name=$('#name').val();
             	renderTable();
             },
             rejectEvent: function(){ 
-            	$("#auditStatus").val("3");
+            	$("#auditStatus").val("0");
             	renderTable();
             }
             
@@ -367,6 +284,13 @@ var name=$('#name').val();
                 }
             });
         });
+      
+        //监听表格双击事件
+        table.on('rowDouble(processdef-table)', function(obj){
+        	var temUrl = '/sre-project-basic/get/'+obj.data.id;
+        	openFullWin("详情",temUrl);
+        });
+        
         //区别按钮属性
         $('.layui-btn').on('click', function(){
             var type = $(this).data('type');
@@ -399,10 +323,10 @@ var name=$('#name').val();
             	{title : '序号', type :'numbers', width : 55},
                 {field : 'status', title : '状态', style : 'cursor: pointer;', align: 'center', templet : '<div>{{ layui.laytpl.auditStatus_equipment(d.auditStatus) }}</div>', width : 55},
                 {field : 'name', title : '课题名称', style : 'cursor: pointer;', align: 'left'},
-                {field : 'beginYear', title : '投资期限', style : 'cursor: pointer;', align: 'left'},
-                {field : 'applyMoney', title : '总经费(万元)', style : 'cursor: pointer;', align: 'left'},
-                {field : 'applyUnit', title : '承担单位', style : 'cursor: pointer;', align: 'left'},
-                {field : 'updateUserId', title : '委托方', style : 'cursor: pointer;', align: 'left'},
+                {field : 'beginYear', title : '投资期限', style : 'cursor: pointer;', align: 'center',templet:function(d){return '<div style="">'+d.beginYear+'-'+d.endYear+'</div><br/><div style="color:red">'+d.beginYear+'</div>'}},
+                {field : 'projectMoney', title : '总经费(万元)', style : 'cursor: pointer;', align: 'center',templet:function(d){return '<span style="color:red">'+d.projectMoney+'</span>'}},
+                {field : 'leadUnitName', title : '承担单位', style : 'cursor: pointer;', align: 'left'},
+                {field : 'entrustUnitName', title : '委托方', style : 'cursor: pointer;', align: 'left'},
                 {field : 'createDate', title : '上报时间', style : 'cursor: pointer;', align: 'center', templet : '#dateTpl'},
             ]],
             done: function (res, curr, count) {
@@ -414,6 +338,17 @@ var name=$('#name').val();
                     $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
                     $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
                     selectRowData=res.data[index-1];
+                    var auditStatus=selectRowData.auditStatus;
+                    //alert(auditStatus);
+                    if(auditStatus=='0' || auditStatus=='3' )
+                    {
+                 	   $("#editEvent").attr("disabled",false);
+                 	   $("#deleteEvent").attr("disabled",false);
+                    }else if(auditStatus=='1' || auditStatus=='2')
+                    {
+                 	   $("#editEvent").attr("disabled",true);
+                 	   $("#deleteEvent").attr("disabled",true);
+                    }
                 });
             }
         });

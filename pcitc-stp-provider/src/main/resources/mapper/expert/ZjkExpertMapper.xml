@@ -65,6 +65,16 @@
         <result column="update_date" jdbcType="VARCHAR" property="updateDate"/>
         <result column="project_id" jdbcType="VARCHAR" property="projectId"/>
         <result column="project_name" jdbcType="VARCHAR" property="projectName"/>
+        <result column="year" jdbcType="VARCHAR" property="year"/>
+        <result column="political_face" jdbcType="VARCHAR" property="politicalFace"/>
+        <result column="nation" jdbcType="VARCHAR" property="nation"/>
+        <result column="unit_belongs" jdbcType="VARCHAR" property="unitBelongs"/>
+        <result column="professional_and_time" jdbcType="VARCHAR" property="professionalAndTime"/>
+        <result column="administrative_duties" jdbcType="VARCHAR" property="administrativeDuties"/>
+        <result column="technical_positiion" jdbcType="VARCHAR" property="technicalPositiion"/>
+        <result column="awards_title" jdbcType="LONGVARCHAR" property="awardsTitle"/>
+        <result column="brief_desc" jdbcType="LONGVARCHAR" property="briefDesc"/>
+        <result column="place_origin" jdbcType="VARCHAR" property="placeOrigin"/>
     </resultMap>
     <sql id="Example_Where_Clause">
         <where>
@@ -184,7 +194,17 @@
         update_user,
         update_date,
         project_id,
-        project_name
+        project_name,
+        year,
+        political_face,
+        nation,
+        unit_belongs,
+        professional_and_time,
+        administrative_duties,
+        technical_positiion,
+        awards_title,
+        brief_desc,
+        place_origin
 </sql>
 
     <select id="selectByExample" parameterType="com.pcitc.base.expert.ZjkExpertExample" resultMap="BaseResultMap">
@@ -286,7 +306,17 @@
             update_user,
             update_date,
             project_id,
-            project_name
+            project_name,
+            year,
+            political_face,
+            nation,
+            unit_belongs,
+            professional_and_time,
+            administrative_duties,
+            technical_positiion,
+            awards_title,
+            brief_desc,
+            place_origin
         )
         values (
 
@@ -349,7 +379,17 @@
     #{updateUser,jdbcType=VARCHAR},
     #{updateDate,jdbcType=VARCHAR},
     #{projectId,jdbcType=VARCHAR},
-    #{projectName,jdbcType=VARCHAR}
+    #{projectName,jdbcType=VARCHAR},
+    #{year,jdbcType=VARCHAR},
+    #{politicalFace,jdbcType=VARCHAR},
+    #{nation,jdbcType=VARCHAR},
+    #{unitBelongs,jdbcType=VARCHAR},
+    #{professionalAndTime,jdbcType=VARCHAR},
+    #{administrativeDuties,jdbcType=VARCHAR},
+    #{technicalPositiion,jdbcType=VARCHAR},
+    #{awardsTitle,jdbcType=LONGVARCHAR},
+    #{briefDesc,jdbcType=LONGVARCHAR},
+    #{placeOrigin,jdbcType=VARCHAR}
         )
     </insert>
     <insert id="insertSelective" parameterType="com.pcitc.base.expert.ZjkExpert">
@@ -534,7 +574,37 @@
                 project_id,
             </if>
             <if test="projectName != null">
-                project_name
+                project_name,
+            </if>
+            <if test="year != null">
+                year,
+            </if>
+            <if test="politicalFace != null">
+                political_face,
+            </if>
+            <if test="nation != null">
+                nation,
+            </if>
+            <if test="unitBelongs != null">
+                unit_belongs,
+            </if>
+            <if test="professionalAndTime != null">
+                professional_and_time,
+            </if>
+            <if test="administrativeDuties != null">
+                administrative_duties,
+            </if>
+            <if test="technicalPositiion != null">
+                technical_positiion,
+            </if>
+            <if test="awardsTitle != null">
+                awards_title,
+            </if>
+            <if test="briefDesc != null">
+                brief_desc,
+            </if>
+            <if test="placeOrigin != null">
+                place_origin
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -718,7 +788,37 @@
                 #{projectId ,jdbcType=VARCHAR},
             </if>
             <if test="projectName != null">
-                #{projectName ,jdbcType=VARCHAR}
+                #{projectName ,jdbcType=VARCHAR},
+            </if>
+            <if test="year != null">
+                #{year ,jdbcType=VARCHAR},
+            </if>
+            <if test="politicalFace != null">
+                #{politicalFace ,jdbcType=VARCHAR},
+            </if>
+            <if test="nation != null">
+                #{nation ,jdbcType=VARCHAR},
+            </if>
+            <if test="unitBelongs != null">
+                #{unitBelongs ,jdbcType=VARCHAR},
+            </if>
+            <if test="professionalAndTime != null">
+                #{professionalAndTime ,jdbcType=VARCHAR},
+            </if>
+            <if test="administrativeDuties != null">
+                #{administrativeDuties ,jdbcType=VARCHAR},
+            </if>
+            <if test="technicalPositiion != null">
+                #{technicalPositiion ,jdbcType=VARCHAR},
+            </if>
+            <if test="awardsTitle != null">
+                #{awardsTitle ,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="briefDesc != null">
+                #{briefDesc ,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="placeOrigin != null">
+                #{placeOrigin ,jdbcType=VARCHAR}
             </if>
         </trim>
     </insert>
@@ -910,7 +1010,37 @@
                 project_id=#{record.projectId,jdbcType=VARCHAR},
             </if>
             <if test="record.projectName != null">
-                project_name=#{record.projectName,jdbcType=VARCHAR}
+                project_name=#{record.projectName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.year != null">
+                year=#{record.year,jdbcType=VARCHAR},
+            </if>
+            <if test="record.politicalFace != null">
+                political_face=#{record.politicalFace,jdbcType=VARCHAR},
+            </if>
+            <if test="record.nation != null">
+                nation=#{record.nation,jdbcType=VARCHAR},
+            </if>
+            <if test="record.unitBelongs != null">
+                unit_belongs=#{record.unitBelongs,jdbcType=VARCHAR},
+            </if>
+            <if test="record.professionalAndTime != null">
+                professional_and_time=#{record.professionalAndTime,jdbcType=VARCHAR},
+            </if>
+            <if test="record.administrativeDuties != null">
+                administrative_duties=#{record.administrativeDuties,jdbcType=VARCHAR},
+            </if>
+            <if test="record.technicalPositiion != null">
+                technical_positiion=#{record.technicalPositiion,jdbcType=VARCHAR},
+            </if>
+            <if test="record.awardsTitle != null">
+                awards_title=#{record.awardsTitle,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="record.briefDesc != null">
+                brief_desc=#{record.briefDesc,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="record.placeOrigin != null">
+                place_origin=#{record.placeOrigin,jdbcType=VARCHAR}
             </if>
 
         </set>
@@ -980,7 +1110,17 @@
         update_user=#{record.updateUser,jdbcType=VARCHAR},
         update_date=#{record.updateDate,jdbcType=VARCHAR},
         project_id=#{record.projectId,jdbcType=VARCHAR},
-        project_name=#{record.projectName,jdbcType=VARCHAR}
+        project_name=#{record.projectName,jdbcType=VARCHAR},
+        year=#{record.year,jdbcType=VARCHAR},
+        political_face=#{record.politicalFace,jdbcType=VARCHAR},
+        nation=#{record.nation,jdbcType=VARCHAR},
+        unit_belongs=#{record.unitBelongs,jdbcType=VARCHAR},
+        professional_and_time=#{record.professionalAndTime,jdbcType=VARCHAR},
+        administrative_duties=#{record.administrativeDuties,jdbcType=VARCHAR},
+        technical_positiion=#{record.technicalPositiion,jdbcType=VARCHAR},
+        awards_title=#{record.awardsTitle,jdbcType=LONGVARCHAR},
+        brief_desc=#{record.briefDesc,jdbcType=LONGVARCHAR},
+        place_origin=#{record.placeOrigin,jdbcType=VARCHAR}
         <if test="_parameter != null">
             <include refid="Update_By_Example_Where_Clause"/>
         </if>
@@ -1164,7 +1304,37 @@
                 project_id=#{projectId ,jdbcType=VARCHAR},
             </if>
             <if test="projectName != null">
-                project_name=#{projectName ,jdbcType=VARCHAR}
+                project_name=#{projectName ,jdbcType=VARCHAR},
+            </if>
+            <if test="year != null">
+                year=#{year ,jdbcType=VARCHAR},
+            </if>
+            <if test="politicalFace != null">
+                political_face=#{politicalFace ,jdbcType=VARCHAR},
+            </if>
+            <if test="nation != null">
+                nation=#{nation ,jdbcType=VARCHAR},
+            </if>
+            <if test="unitBelongs != null">
+                unit_belongs=#{unitBelongs ,jdbcType=VARCHAR},
+            </if>
+            <if test="professionalAndTime != null">
+                professional_and_time=#{professionalAndTime ,jdbcType=VARCHAR},
+            </if>
+            <if test="administrativeDuties != null">
+                administrative_duties=#{administrativeDuties ,jdbcType=VARCHAR},
+            </if>
+            <if test="technicalPositiion != null">
+                technical_positiion=#{technicalPositiion ,jdbcType=VARCHAR},
+            </if>
+            <if test="awardsTitle != null">
+                awards_title=#{awardsTitle ,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="briefDesc != null">
+                brief_desc=#{briefDesc ,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="placeOrigin != null">
+                place_origin=#{placeOrigin ,jdbcType=VARCHAR}
             </if>
         </set>
         where data_id = #{dataId,jdbcType=VARCHAR}
@@ -1230,7 +1400,17 @@
             update_user=#{updateUser,jdbcType=VARCHAR},
             update_date=#{updateDate,jdbcType=VARCHAR},
             project_id=#{projectId,jdbcType=VARCHAR},
-            project_name=#{projectName,jdbcType=VARCHAR}
+            project_name=#{projectName,jdbcType=VARCHAR},
+            year=#{year,jdbcType=VARCHAR},
+            political_face=#{politicalFace,jdbcType=VARCHAR},
+            nation=#{nation,jdbcType=VARCHAR},
+            unit_belongs=#{unitBelongs,jdbcType=VARCHAR},
+            professional_and_time=#{professionalAndTime,jdbcType=VARCHAR},
+            administrative_duties=#{administrativeDuties,jdbcType=VARCHAR},
+            technical_positiion=#{technicalPositiion,jdbcType=VARCHAR},
+            awards_title=#{awardsTitle,jdbcType=LONGVARCHAR},
+            brief_desc=#{briefDesc,jdbcType=LONGVARCHAR},
+            place_origin=#{placeOrigin,jdbcType=VARCHAR}
         where data_id = #{dataId,jdbcType=VARCHAR}
     </update>
     <!-- 分页查询 -->
@@ -1296,7 +1476,17 @@
         update_user,
         update_date,
         project_id,
-        project_name
+        project_name,
+        year,
+        political_face,
+        nation,
+        unit_belongs,
+        professional_and_time,
+        administrative_duties,
+        technical_positiion,
+        awards_title,
+        brief_desc,
+        place_origin
         from zjk_expert
         where 1=1
         <if test="dataId!=null and dataId!=''.toString()">
@@ -1479,6 +1669,36 @@
         <if test="projectName!=null and projectName!=''.toString()">
             and project_name like '%${projectName}%'
         </if>
+        <if test="year!=null and year!=''.toString()">
+            and year like '%${year}%'
+        </if>
+        <if test="politicalFace!=null and politicalFace!=''.toString()">
+            and political_face like '%${politicalFace}%'
+        </if>
+        <if test="nation!=null and nation!=''.toString()">
+            and nation like '%${nation}%'
+        </if>
+        <if test="unitBelongs!=null and unitBelongs!=''.toString()">
+            and unit_belongs like '%${unitBelongs}%'
+        </if>
+        <if test="professionalAndTime!=null and professionalAndTime!=''.toString()">
+            and professional_and_time like '%${professionalAndTime}%'
+        </if>
+        <if test="administrativeDuties!=null and administrativeDuties!=''.toString()">
+            and administrative_duties like '%${administrativeDuties}%'
+        </if>
+        <if test="technicalPositiion!=null and technicalPositiion!=''.toString()">
+            and technical_positiion like '%${technicalPositiion}%'
+        </if>
+        <if test="awardsTitle!=null and awardsTitle!=''.toString()">
+            and awards_title like '%${awardsTitle}%'
+        </if>
+        <if test="briefDesc!=null and briefDesc!=''.toString()">
+            and brief_desc like '%${briefDesc}%'
+        </if>
+        <if test="placeOrigin!=null and placeOrigin!=''.toString()">
+            and place_origin like '%${placeOrigin}%'
+        </if>
 
         <if test="iSortCol!=null and iSortCol!=''.toString()">
             order by ${iSortCol} ${sSortDir_0}
@@ -1546,7 +1766,17 @@
         update_user,
         update_date,
         project_id,
-        project_name
+        project_name,
+        year,
+        political_face,
+        nation,
+        unit_belongs,
+        professional_and_time,
+        administrative_duties,
+        technical_positiion,
+        awards_title,
+        brief_desc,
+        place_origin
         from zjk_expert
         where 1=1
         <if test="dataId!=null">
@@ -1728,6 +1958,36 @@
         </if>
         <if test="projectName!=null">
             and project_name = #{projectName,jdbcType=VARCHAR}
+        </if>
+        <if test="year!=null">
+            and year = #{year,jdbcType=VARCHAR}
+        </if>
+        <if test="politicalFace!=null">
+            and political_face = #{politicalFace,jdbcType=VARCHAR}
+        </if>
+        <if test="nation!=null">
+            and nation = #{nation,jdbcType=VARCHAR}
+        </if>
+        <if test="unitBelongs!=null">
+            and unit_belongs = #{unitBelongs,jdbcType=VARCHAR}
+        </if>
+        <if test="professionalAndTime!=null">
+            and professional_and_time = #{professionalAndTime,jdbcType=VARCHAR}
+        </if>
+        <if test="administrativeDuties!=null">
+            and administrative_duties = #{administrativeDuties,jdbcType=VARCHAR}
+        </if>
+        <if test="technicalPositiion!=null">
+            and technical_positiion = #{technicalPositiion,jdbcType=VARCHAR}
+        </if>
+        <if test="awardsTitle!=null">
+            and awards_title = #{awardsTitle,jdbcType=VARCHAR}
+        </if>
+        <if test="briefDesc!=null">
+            and brief_desc = #{briefDesc,jdbcType=VARCHAR}
+        </if>
+        <if test="placeOrigin!=null">
+            and place_origin = #{placeOrigin,jdbcType=VARCHAR}
         </if>
 
         <if test="iSortCol!=null and iSortCol!=''.toString()">

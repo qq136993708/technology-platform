@@ -199,7 +199,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 	{
 
 		SreProjectExample example = new SreProjectExample();
-		example.createCriteria().andProjectIdIn(list);
+		example.createCriteria().andIdIn(list);
 		return sreProjectMapper.deleteByExample(example);
 	}
 	
