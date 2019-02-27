@@ -8,6 +8,8 @@ import com.pcitc.base.stp.equipment.SreEquipment;
 import com.pcitc.base.stp.equipment.SreEquipmentExample;
 import com.pcitc.base.stp.equipment.SreProject;
 import com.pcitc.base.stp.equipment.SreProjectExample;
+import com.pcitc.base.stp.equipment.SreProjectTask;
+import com.pcitc.base.stp.equipment.SreProjectTaskExample;
 import com.pcitc.base.stp.equipment.SreProjectYear;
 import com.pcitc.base.stp.equipment.SreProjectYearExample;
 import com.pcitc.base.stp.equipment.SreTechMeeting;
@@ -52,11 +54,37 @@ public interface EquipmentService {
 	
 	public int batchDeleteProjectBasic(List<String> list)throws Exception;
 	
-	
-	
-	
-	
 	public LayuiTableData getProjectBasicPage(LayuiTableParam param)throws Exception;
+	
+	
+	
+
+	/**==========================================任务书==========================================*/
+	
+	
+	public SreProjectTask selectSreProjectTask(String id) throws Exception;
+
+	public Integer updateSreProjectTask(SreProjectTask record)throws Exception;
+
+	public int deleteSreProjectTask(String id)throws Exception;
+
+	public Integer insertSreProjectTask(SreProjectTask record)throws Exception;
+
+	public List<SreProjectTask> getSreProjectTaskList(SreProjectTaskExample example)throws Exception;
+	
+	public int batchDeleteSreProjectTask(List<String> list)throws Exception;
+	
+	public LayuiTableData getSreProjectTaskPage(LayuiTableParam param)throws Exception;
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
    /**===========================================技术交流==========================================*/

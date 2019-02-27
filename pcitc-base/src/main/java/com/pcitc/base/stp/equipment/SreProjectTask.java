@@ -33,6 +33,10 @@ public class SreProjectTask {
 
     private String cover;
 
+    private String contractNum;
+
+    private String auditStatus;
+
     public String getTaskId() {
         return taskId;
     }
@@ -151,5 +155,21 @@ public class SreProjectTask {
 
     public void setCover(String cover) {
         this.cover = cover;
+    }
+
+    public String getContractNum() {
+        return contractNum;
+    }
+
+    public void setContractNum(String contractNum) {
+        this.contractNum = contractNum;
+    }
+
+    public String getAuditStatus() {
+        return auditStatus;
+    }
+
+    public void setAuditStatus(String auditStatus) {
+        this.auditStatus = auditStatus;
     }
 }

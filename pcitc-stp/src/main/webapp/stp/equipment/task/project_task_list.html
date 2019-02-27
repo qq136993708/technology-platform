@@ -58,7 +58,9 @@
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit" id="editEvent" data-type="editEvent">编辑</button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" id="detailEvent" data-type="detailEvent">详情</button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_delete"  id="deleteEvent" data-type="deleteEvent">删除</button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"  id="taskEvent" data-type="taskEvent">填写任务书</button>
+            
+            
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_task"  id="taskEvent" data-type="taskEvent">删除</button>
         </div>
     </div>
    <table id="processdef-table" class="layui-hide" lay-filter="processdef-table" ></table> 
@@ -139,11 +141,11 @@ var name=$('#name').val();
             	$('#auditStatus').val("");
             },
             addPlanEvent: function(){ //新增计划
-            	if (typeof(selectRowData.id) == "undefined") {
+            	if (typeof(selectRowData.taskId) == "undefined") {
             		layer.msg('请点击选择一行数据');
             	} else {
             		
-            		 var id=selectRowData.id;
+            		 var id=selectRowData.taskId;
 	                 layer.open({
 	                    title:'新增技术交流',
 	                    skin: 'layui-layer-lan',
@@ -154,7 +156,7 @@ var name=$('#name').val();
 	                    maxmin: false,
 	                    //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
 	                    area: ['60%', '80%'],
-	                    content:  '/sre-meeting/add?id='+id
+	                    content:  '/sre-meeting/add?id='+taskId
 	                   });
             	}
             },
@@ -169,17 +171,17 @@ var name=$('#name').val();
                          maxmin: false,
                          //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
                          area: ['70%','90%'],
-                         content:  '/sre-project-basic/add'
+                         content:  '/sre_project_task/add'
                      });
                  
             }
             ,editEvent: function(){  //点击编辑按钮
             	
-            	if (typeof(selectRowData.id) == "undefined") {
+            	if (typeof(selectRowData.taskId) == "undefined") {
             		layer.msg('请点击选择一行数据');
             	} else {
-            		 var id=selectRowData.id;
-           		     var url="/sre-project-basic/add?id="+id;
+            		 var id=selectRowData.taskId;
+           		     var url="/sre_project_task/add?id="+taskId;
            		     var status=selectRowData.status;
            		     if(status=='1' || status=='3')
            		     {
@@ -204,13 +206,13 @@ var name=$('#name').val();
                
             },deleteEvent: function(){  //点击删除按钮
                  console.log('点击了删除按钮')
-                 if (typeof(selectRowData.id) == "undefined") 
+                 if (typeof(selectRowData.taskId) == "undefined") 
                  {
             		layer.msg('请点击选择一行数据');
             	 } else 
             	 {
-            		  var id=selectRowData.id;
-           		      var url="/sre-project-basic/delete/"+id;
+            		  var id=selectRowData.taskId;
+           		      var url="/sre_project_task/delete/"+taskId;
            		     var status=selectRowData.status;
          		     if(status=='1' || status=='3')
          		     {
@@ -228,11 +230,11 @@ var name=$('#name').val();
               
             },
             detailEvent: function(){  //点击详情按钮
-            	if (typeof(selectRowData.id) == "undefined") {
+            	if (typeof(selectRowData.taskId) == "undefined") {
             		layer.msg('请点击选择一行数据');
             	} else {
-            		 var id=selectRowData.id;
-            		 var temUrl="/sre-project-basic/get/" + id;
+            		 var id=selectRowData.taskId;
+            		 var temUrl="/sre_project_task/get/" + taskId;
             		 layer.open({
                          title:'详情',
                          skin: 'layui-layer-lan',
@@ -249,22 +251,13 @@ var name=$('#name').val();
             
             },
             taskEvent: function(){  //点击详情按钮
-            	
-            	if (typeof(selectRowData.id) == "undefined") 
+            	if (typeof(selectRowData.taskId) == "undefined") 
             	{
             		layer.msg('请点击选择一行数据');
-            	}
-            	else 
+            	}else 
             	{
-            		
-            		 var auditStatus=selectRowData.auditStatus;
-            		 if(auditStatus!='2')
-           			 {
-            			 layer.msg('审核通过后才能填写任务书');
-            			 return;
-           			 }
-            		 var id=selectRowData.id;
-            		 var temUrl="/sre_project_task/add?projectId" + id;
+            		 var id=selectRowData.taskId;
+            		 var temUrl="/sre_project_task/get/" + taskId;
             		 location.href=temUrl;
             	}
             },
@@ -306,7 +299,7 @@ var name=$('#name').val();
         });
         //监听表格双击事件
         table.on('rowDouble(processdef-table)', function(obj){
-        	var temUrl = '/sre-project-basic/get/'+obj.data.id;
+        	var temUrl = '/sre_project_task/get/'+obj.data.id;
         	openFullWin("详情",temUrl);
         });
         
@@ -323,7 +316,7 @@ var name=$('#name').val();
     	//渲染
         table.render({
             elem: '#processdef-table',
-            url: '/sre-project-basic/list',
+            url: '/sre_project_task/list',
             method:"POST",
             where: {param: {"name":$("#name").val(),"auditStatus":$("#auditStatus").val()}},
             limit: 15,	

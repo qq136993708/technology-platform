@@ -26,18 +26,15 @@
 		<div class="formBox">
 			<div class="tableToolBox">
 				<div class="tableBtns">
-					<div class="tableTitle">基本信息<span class="red">（标*号为必填项）</span>
+					<div class="tableTitle">填写任务书<span class="red">（标*号为必填项）</span>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="">
-  			<table id="eqiu_table" class="layui-hide" lay-filter="tableEvent"></table>
-  		</div>
   <div class="box-body">
   <form   class="layui-form"    name="form1"     id="form1" action="" method="POST" lay-filter="component-form-group layui-container">
-  <input  name="id"      id="id"       value="${id}"                    type="hidden" >
-  <input  name="equipmentIds"   id="equipmentIds"    value="${sreProjectBasic.equipmentIds}" type="hidden"  >
+  <input  name="taskId"         id="taskId"          value="${taskId}"                       type="hidden" >
+  <input  name="projectId"      id="projectId"       value="${projectId}" type="hidden"  >
   <input  name="documentDoc"    id="documentDoc"     value="${documentDoc}"                  type="hidden">
   <input  name="yearFeeStr"     id="yearFeeStr"      value="${sreProjectBasic.yearFeeStr}"   type="hidden">
   <input  name="functionId"     id="functionId"      type="hidden">
@@ -46,98 +43,113 @@
   <input  name="joinUnitCode"        id="joinUnitCode"       value="${sreProjectBasic.joinUnitCode}"     type="hidden">
   <input  name="entrustUnitCode"     id="entrustUnitCode"    value="${sreProjectBasic.entrustUnitCode}"   type="hidden">
   
-      <div class="layui-row">
-        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-          <div class="layui-form-item">
-            <label for="" class="layui-form-label">课题名称<span class="must-fill">*</span></label>
-            <div class="layui-input-block">
-              <input class="layui-input" name="name" id="name" value="${sreProjectBasic.name}"  lay-verify="required"  autocomplete="off" type="text">
-            </div>
-          </div>
-        </div>
-        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-          <div class="layui-form-item">
-            <label for="" class="layui-form-label">关键词</label>
-            <div class="layui-input-block">
-              <input class="layui-input" name="keyWord" id="keyWord" value="${sreProjectBasic.keyWord}"   autocomplete="off" type="text">
-            </div>
-          </div>
-        </div>
-      </div>
-        
-     
-       <div class="layui-row">
-        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-          <div class="layui-form-item">
-            <label for="" class="layui-form-label">牵头单位<span class="must-fill">*</span></label>
-            <div class="layui-input-block">
-              <input class="layui-input" name="leadUnitName" id="leadUnitName" placeholder="请选择" onclick="chooseUnit('choose_leadUnitName_callback')" value="${sreProjectBasic.leadUnitName}"  lay-verify="required"  autocomplete="off" type="text">
-            </div>
-          </div>
-        </div>
-        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-          <div class="layui-form-item">
-            <label for="" class="layui-form-label">参加单位<span class="must-fill">*</span></label>
-            <div class="layui-input-block">
-              <input class="layui-input" name="joinUnitName" id="joinUnitName" placeholder="请选择" onclick="chooseUnit('choose_joinUnitName_callback')" value="${sreProjectBasic.joinUnitName}"  lay-verify="required"  autocomplete="off" type="text">
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      
-      
-       <div class="layui-form-item">
-	      	 <label class="layui-form-label">选择装备<span class="must-fill">*</span></label>
-	         <div class="layui-input-block">
-	         	<div class="tableBox">
-		         	<div class="tableToolBox">
-				        <div class="whiteLine"></div>
-				        <div  class="tableBtns">
-				            <a href="javascript:void(0)" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg" data-type="selectEvent">选择</a>
-				        </div>
-				    </div>
-	         		<table id="join_apply_table" class="layui-hide"  lay-filter="JoinEvent"></table>
-	         	</div>
-	        </div>
-       	</div>
-       	
-      
-      
-        
-        <div class="layui-form-item layui-form-text" >
-        <label class="layui-form-label">委托单位<span class="must-fill">*</span></label>
-        <div class="layui-input-block">
-         <input class="layui-input" name="entrustUnitName" id="entrustUnitName" onclick="chooseUnit('choose_entrustUnitName_callback')" placeholder="请选择" value="${sreProjectBasic.entrustUnitName}"  lay-verify="required"  autocomplete="off" type="text">
-        </div>
-      </div>
-    
-      
-      
-      
-       <!--行有两个的情况-->
+  <input  name="taskMainTaskContent"       id="taskMainTaskContent"      value="${sreProjectBasic.entrustUnitCode}"        type="hidden">
+  <input  name="taskContent"               id="taskContent"              value="${sreProjectBasic.taskContent}"            type="hidden">
+  <input  name="taskAssessmentContent"     id="taskAssessmentContent"    value="${sreProjectBasic.taskAssessmentContent}"   type="hidden">
+  <input  name="taskCheckContents"         id="taskCheckContents"     value="${sreProjectBasic.taskCheckContents}"   type="hidden">
+  <input  name="budgetTable"               id="budgetTable"           value="${sreProjectBasic.budgetTable}"         type="hidden">
+  <input  name="fundsSourcesTable"         id="fundsSourcesTable"     value="${sreProjectBasic.fundsSourcesTable}"   type="hidden">
+  <input  name="projectFundsTable"         id="projectFundsTable"     value="${sreProjectBasic.projectFundsTable}"   type="hidden">
+  
+  
+   
       <div class="layui-form-item layui-form-text" >
-        <label class="layui-form-label">备注</label>
+        <label class="layui-form-label">课题名称</label>
         <div class="layui-input-block">
-          <textarea placeholder="请简述开发及投资目标，原则上不超过500字" name="remarks" id="remarks"    class="layui-textarea">${sreProjectBasic.remarks}</textarea>
+         <input class="layui-input readOnlyBox" name="name" id="name" readonly="readonly" value="${sreProjectBasic.name}"     autocomplete="off" type="text">
+        </div>
+      </div>
+      <div class="layui-form-item layui-form-text" >
+        <label class="layui-form-label">目标和主要任务<span class="must-fill">*</span></label>
+        <div class="layui-input-block">
+          <textarea placeholder="请简述目标和主要任务，原则上不超过500字" name="remarks" id="remarks"    class="layui-textarea">${sreProjectBasic.remarks}</textarea>
         </div>
       </div>
       
-       <div class="layui-form-item layui-form-text" >
-        <label class="layui-form-label">建设年限</label>
-        <div class="layui-input-block">
-           <div class="layui-input-inline" style="float:left">
-		            <input type="text" class="layui-input" name="beginYear" id="beginYear" value="${beginYear}" style="width:80px;float:left" placeholder="开始年份">
-		             <div class="layui-form-mid" style="width:8px;float:left"> - </div>
-		            <input type="text" class="layui-input" id="endYear" name="endYear"   value="${endYear}" style="width:80px;float:left" placeholder="结束年份">
-		    </div>
+      <div class="layui-form-item layui-form-text" >
+        <label class="layui-form-label">项目内容和主要图表<span class="must-fill">*</span></label>
+        <div class="layui-input-block" id="task_content">
+            <table class="layui-table">
+             <thead>
+	             <tr>
+	                <td width="20%">编号</td>
+	                <td width="8%">单项设备名称</td>
+	                <td width="8%">单项设备立项背景</td>
+	                <td width="8%">经费</td>
+	                <td width="8%">备注</td>
+	             </tr>
+            </thead><tbody></tbody>
+          </table>
         </div>
       </div>
       
       
+      
+      
+      <div class="layui-form-item layui-form-text" >
+        <label class="layui-form-label">计划进度和考核目标<span class="must-fill">*</span></label>
+        <div class="layui-input-block" id="task_assessment_content">
+            <table class="layui-table">
+             <thead>
+	             <tr>
+	                <td width="20%">进度安排</td>
+	                <td width="8%">考核目标</td>
+	                <td width="8%">备注</td>
+	             </tr>
+            </thead><tbody></tbody>
+          </table>
+        </div>
+      </div>
+      
+      
+      
+      
+      <div class="layui-form-item layui-form-text" >
+        <label class="layui-form-label">应提交验收的内容<span class="must-fill">*</span></label>
+        <div class="layui-input-block">
+          
+        </div>
+      </div>
+      
+      
+
        <div class="layui-form-item layui-form-text" >
+        <label class="layui-form-label">资金概算表<span class="must-fill">*</span></label>
+        <div class="layui-input-block" id="budget_table">
+            <table class="layui-table">
+             <thead>
+	             <tr>
+	                <td width="20%">类别</td>
+	                <td width="8%">项目</td>
+	                <td width="8%">台套</td>
+	                <td width="8%">预算金额</td>
+	                <td width="8%">备注</td>
+	             </tr>
+            </thead><tbody></tbody>
+          </table>
+        </div>
+      </div>
+     <div class="layui-form-item layui-form-text" >
+        <label class="layui-form-label">资金来源表<span class="must-fill">*</span></label>
+        <div class="layui-input-block" id="funds_sources_table">
+            <table class="layui-table">
+             <thead>
+	             <tr>
+	                <td width="20%">来源</td>
+	                <td width="8%">国家拨款</td>
+	                <td width="8%">总部拨付</td>
+	                <td width="8%">负责单位自筹</td>
+	                <td width="8%">其它</td>
+	                <td width="8%">合计</td>
+	             </tr>
+            </thead><tbody></tbody>
+          </table>
+        </div>
+      </div>
+      
+     <div class="layui-form-item layui-form-text" >
         <label class="layui-form-label"></label>
-        <div class="layui-input-block" id="yearTr">
+        <div class="layui-input-block" id="project_funds_table">
             <table class="layui-table">
              <thead>
 	             <tr>
@@ -155,17 +167,17 @@
       
       
       
+      <div class="layui-form-item layui-form-text" >
+        <label class="layui-form-label">其他</label>
+        <div class="layui-input-block">
+          <textarea name="remarks" id="remarks"    class="layui-textarea">${sreProjectBasic.remarks}</textarea>
+        </div>
+      </div>
       
       
-      
+       
       
      
-      
-      
-       <div class="layui-form-item">
-	      	 <label class="layui-form-label">附件</label>
-	         <div id="file_div" class="layui-input-block"></div>
-       </div>
       
       
       
@@ -284,7 +296,7 @@ layui.use(['form','table','laypage','layer','laydate','laytpl','jquery',"publicM
       var $ = layui.$, active = {
     		  selectEvent: function(){ 
 	    			//var temUrl = "/intl_project/plant_edit_selectapply?equipmentIds="+$("#equipmentIds").val();
-	    			var temUrl = '/sre-project-basic/project_basic_add_selectapply?equipmentIds='+$("#equipmentIds").val();
+	    			var temUrl = '/sre_project_task/project_basic_add_selectapply?equipmentIds='+$("#equipmentIds").val();
 	                publicMethods.openBaseWin("选择装备",temUrl,"90%","80%");
 	    		
 	            }/* ,
@@ -325,8 +337,8 @@ layui.use(['form','table','laypage','layer','laydate','laytpl','jquery',"publicM
         	  layer.alert("建设年限为空");
           }else
        	  {
-             var url="/sre-project-basic/save?v_date="+v_date+"&status=0";
-             var backurl="/sre-project-basic/to-list?v_date="+v_date;
+             var url="/sre_project_task/save?v_date="+v_date+"&status=0";
+             var backurl="/sre_project_task/to-list?v_date="+v_date;
              ajaxOpt(url,"form1","POST",backurl,"保存成功","保存失败");
        	  }
           
@@ -506,8 +518,8 @@ function dealFlow(data)
 function handleTask(userIds) 
 {
 	$('#userIds').val(userIds);
-    var url="/sre-project-basic/save?v_date="+v_date+"&isWorkFlow=1&functionId="+param.id;
-    var backurl="/sre-project-basic/to-list?v_date="+v_date;
+    var url="/sre_project_task/save?v_date="+v_date+"&isWorkFlow=1&functionId="+param.id;
+    var backurl="/sre_project_task/to-list?v_date="+v_date;
    
     ajaxOpt(url,"form1","POST",backurl,"提交成功","提交失败");
     
