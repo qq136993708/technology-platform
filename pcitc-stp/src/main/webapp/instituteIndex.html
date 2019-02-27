@@ -156,6 +156,9 @@
 			var $ = layui.jquery;
 			var windowHref=window.location.href.split("=");
             document.getElementById("mainIframe").src=url;//windowHref[1];
+			if(JSON.stringify(windowHref).indexOf("personnel")>0){
+			    $("#LAY_app_body").addClass("layui-personnel");
+			}
 			/*导航宽度*/
 			var layuiHeaderWidth = parseInt($(".layui-header").width());
 			var layuiHeaderUlActualWidth = 0, DValue = 0, ulLiNumber = 0;

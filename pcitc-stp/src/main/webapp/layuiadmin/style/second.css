@@ -8,6 +8,9 @@ h3{font-size: 18px;/*font-weight: bold;*/color: #000000;height: 30px;line-height
 .layui-row-text{text-align: right;font-size: 14px;color: #000000;width: 57% !important;}
 .layui-row-text span{display: inline-block;margin-right: 10px;height: 30px;line-height: 30px;}
 .layui-row-text span:last-child{margin: 0;}
+.text-total {text-align: center;}
+.text-total span{color: #000;padding: 0 2px;}
+.text-total .text-total-blue{color: #53b7e8;}
 /*.layui-row-text span small{color: #de111a;font-size: 14px;}
 .layui-row-text span:first-child small.green{color: #28a745;font-size: 14px;}*/
 .layui-laydate .layui-this{background-color: #00a3b5 !important;}
@@ -355,3 +358,40 @@ background: white;box-shadow: 0 0 5px #dadcde;}
     .work-two{padding-left: 70px;}
     .layui-tab-content{height: 364px}
 }
+
+/*科研人才*/
+.layui-personnel{padding: 0!important;}
+.layui-main-personnel{padding: 0 80px 60px;}
+.layui-main-personnel:nth-child(2){padding: 0 72px 60px;}
+.layui-main-personnel:nth-child(2n){background: #f6f7fa;}
+.layui-main-personnel h4{font-size: 30px;color: #000000;text-align: center;line-height: 130px;
+    background:url("/layuiadmin/layui/images/icon-personnel-2.png") no-repeat center bottom; }
+.layui-main-personnel .academician h4{
+    background:url("/layuiadmin/layui/images/icon-personnel-1.png") no-repeat center bottom; }
+.layui-main-personnel .distribution h4{background: none;}
+.layui-main-personnel p{font-size: 14px;color: #a5a7a7;text-align: center;line-height: 50px;}
+.academician ul li{float: left;width: 20%;}
+.academician ul li>div{margin: 9px; border: 2px solid #cccccc;border-radius: 6px;
+    background: url("/layuiadmin/layui/images/icon-left-up.png") no-repeat left top,
+    url("/layuiadmin/layui/images/icon-right-up.png") no-repeat right top,
+    url("/layuiadmin/layui/images/icon-left-dw.png") no-repeat left bottom,
+    url("/layuiadmin/layui/images/icon-right-dw.png") no-repeat right bottom;
+    background-color:#f6f7fa;height: auto;}
+.expert-i{margin: 20px auto 10px;width: 110px;background: #fff;border-radius: 50%;border: 1px solid #cccccc;
+    height: 110px;text-align: center;vertical-align: middle;overflow: hidden;}
+.expert-t{text-align: center;padding-bottom: 14px;font-size: 22px;color: #000000;}
+.expert-s{text-align: center;font-size: 14px;color: #000;padding-bottom: 25px;}
+.expert-ab {padding: 0 6% 20px;text-indent: 2em;font-size: 14px;
+    height: 140px;color: #696a75;line-height: 22px;}
+.expert-a{text-align: center;}
+.expert-a a {font-size: 15px;color: #000000;line-height: 34px;height: 34px;border: 2px solid #cccccc;
+    padding: 0 20px;display: inline-block;border-radius: 20px;margin: 30px auto 20px;}
+.layui-expert{
+    background: url("/layuiadmin/layui/images/icon-left-up.png") no-repeat left top,
+    url("/layuiadmin/layui/images/icon-right-up.png") no-repeat right top,
+    url("/layuiadmin/layui/images/icon-left-dw.png") no-repeat left bottom,
+    url("/layuiadmin/layui/images/icon-right-dw.png") no-repeat right bottom;padding: 50px;
+    border: 2px solid #cccccc;border-radius: 6px;height: auto;
+    overflow: hidden;
+}
+.layui-expert ul li{float: left;width: 6.5%;line-height: 50px;height: 50px;}
