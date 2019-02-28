@@ -214,6 +214,12 @@ public class ZjkChoiceController extends BaseController {
         return "stp/expert/zjkChoice_list";
     }
 
+    @RequestMapping(value = "/toListPagePj", method = {RequestMethod.GET})
+    @OperationFilter(modelName = "专家-人员选择", actionName = "跳转列表页toListPagePj")
+    public String toListPagePj() {
+        return "stp/expert/zjkChoice_list_pj";
+    }
+
     /**
      * 根据ID查询对象信息
      *
