@@ -139,8 +139,11 @@
 			<artifactId>spring-boot-starter-activemq</artifactId>
 		</dependency>
 
-		<!-- 安全权限认证 <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-security</artifactId> 
-			</dependency> -->
+		<!-- 安全权限认证 
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>-->
 
 		<!-- 自动重新编译 热部署 -->
 		<dependency>
@@ -364,29 +367,13 @@
 		</dependency>
 
 		<!-- 事务lcn相关 -->
-		<!-- <dependency>
-			<groupId>com.codingapi</groupId>
-			<artifactId>transaction-springcloud</artifactId>
-			<version>${lcn.last.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>*</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>com.codingapi</groupId>
-			<artifactId>tx-plugins-db</artifactId>
-			<version>${lcn.last.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>*</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency> -->
-		<!-- 事务lcn相关 end-->
+		<!-- <dependency> <groupId>com.codingapi</groupId> <artifactId>transaction-springcloud</artifactId> 
+			<version>${lcn.last.version}</version> <exclusions> <exclusion> <groupId>org.slf4j</groupId> 
+			<artifactId>*</artifactId> </exclusion> </exclusions> </dependency> <dependency> 
+			<groupId>com.codingapi</groupId> <artifactId>tx-plugins-db</artifactId> <version>${lcn.last.version}</version> 
+			<exclusions> <exclusion> <groupId>org.slf4j</groupId> <artifactId>*</artifactId> 
+			</exclusion> </exclusions> </dependency> -->
+		<!-- 事务lcn相关 end -->
 
 	</dependencies>
 
