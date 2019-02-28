@@ -38,6 +38,7 @@ import com.pcitc.base.common.enums.RequestProcessStatusEnum;
 import com.pcitc.base.stp.IntlProject.IntlProjectNotice;
 import com.pcitc.base.stp.equipment.SreProject;
 import com.pcitc.base.system.SysUser;
+import com.pcitc.base.util.CodeUtil;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.IdUtil;
@@ -223,7 +224,7 @@ public class ProjectBasicController extends BaseController {
 			sreProjectBasic = new SreProject();
 			sreProjectBasic.setCreateDate(new Date());
 			sreProjectBasic.setCreateUserId(sysUserInfo.getUserId());
-			//String code = CommonUtil.getTableCode("XTBM_0032", restTemplate, httpHeaders);
+			String code = CodeUtil.getCode("XTBM_0032", restTemplate, httpHeaders);
 			String idv = UUID.randomUUID().toString().replaceAll("-", "");
 			sreProjectBasic.setId(idv);
 			sreProjectBasic.setAuditStatus(auditStatus);

@@ -9,18 +9,21 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import com.pcitc.base.common.enums.DataOperationStatusEnum;
+import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.system.SysFile;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.Constant;
 import com.pcitc.base.common.FileResult;
 import com.pcitc.base.common.LayuiTableData;
@@ -196,6 +199,17 @@ public class CommonUtil {
 		return "请更换CodeUtil(xx,xx,xx)获取编码";
 
 	}
+	
+	public static List<SysDictionary> getDictionaryByParentCode(String parentCode,RestTemplate restTemplate,HttpHeaders httpHeaders)throws Exception
+	{
+		    String DIC_ENCODE_CREATE = "http://pcitc-zuul/system-proxy/dictionary-provider/dictionary/";
+		    List<SysDictionary>  list=restTemplate.exchange(DIC_ENCODE_CREATE + parentCode, HttpMethod.POST, new HttpEntity<Object>(httpHeaders), List.class).getBody();
+		    return list;
+
+	}
+	
+	
+	
 
 	/**
 	 * 文件上传回调更新文件标志
