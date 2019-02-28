@@ -17,12 +17,15 @@ import com.pcitc.base.stp.equipment.SreEquipment;
 import com.pcitc.base.stp.equipment.SreEquipmentExample;
 import com.pcitc.base.stp.equipment.SreProject;
 import com.pcitc.base.stp.equipment.SreProjectExample;
+import com.pcitc.base.stp.equipment.SreProjectTask;
+import com.pcitc.base.stp.equipment.SreProjectTaskExample;
 import com.pcitc.base.stp.equipment.SreProjectYear;
 import com.pcitc.base.stp.equipment.SreProjectYearExample;
 import com.pcitc.base.stp.equipment.SreTechMeeting;
 import com.pcitc.base.stp.equipment.SreTechMeetingExample;
 import com.pcitc.mapper.equipment.SreEquipmentMapper;
 import com.pcitc.mapper.equipment.SreProjectMapper;
+import com.pcitc.mapper.equipment.SreProjectTaskMapper;
 import com.pcitc.mapper.equipment.SreProjectYearMapper;
 import com.pcitc.mapper.equipment.SreTechMeetingMapper;
 import com.pcitc.service.equipment.EquipmentService;
@@ -44,6 +47,8 @@ public class EquipmentServiceImpl implements EquipmentService {
 	@Autowired
 	private SreProjectYearMapper sreProjectYearMapper;
 	
+	@Autowired
+	private SreProjectTaskMapper sreProjectTaskMapper;
 	
 	
 	
@@ -169,7 +174,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 	}
 	
 	
-	/**===========================================项目==========================================*/
+	/**===========================================计划==========================================*/
 
 	public SreProject selectProjectBasic(String id) throws Exception
 	{
@@ -277,6 +282,84 @@ public class EquipmentServiceImpl implements EquipmentService {
 	
 	
 	
+	
+	
+
+	/**===========================================任务书=========================================*/
+
+	public SreProjectTask selectSreProjectTask(String id) throws Exception
+	{
+		return sreProjectTaskMapper.selectByPrimaryKey(id);
+	}
+
+	public Integer updateSreProjectTask(SreProjectTask record)throws Exception
+	{
+		return sreProjectTaskMapper.updateByPrimaryKey(record);
+	}
+
+	public int deleteSreProjectTask(String id)throws Exception
+	{
+		return sreProjectTaskMapper.deleteByPrimaryKey(id);
+	}
+
+	public Integer insertSreProjectTask(SreProjectTask record)throws Exception
+	{
+		return sreProjectTaskMapper.insert(record);
+	}
+
+	public List<SreProjectTask> getSreProjectTaskList(SreProjectTaskExample example)throws Exception
+	{
+		return sreProjectTaskMapper.selectByExample(example);
+	}
+	public int batchDeleteSreProjectTask(List<String> list)throws Exception
+	{
+
+		SreProjectTaskExample example = new SreProjectTaskExample();
+		example.createCriteria().andTaskIdIn(list);
+		return sreProjectTaskMapper.deleteByExample(example);
+	}
+	
+	
+	public LayuiTableData getSreProjectTaskPage(LayuiTableParam param)throws Exception
+	{
+        //每页显示条数
+		int pageSize = param.getLimit();
+		//从第多少条开始
+		int pageStart = (param.getPage()-1)*pageSize;
+		//当前是第几页
+		int pageNum = pageStart/pageSize + 1;
+		// 1、设置分页信息，包括当前页数和每页显示的总计数
+		PageHelper.startPage(pageNum, pageSize);
+				
+		String name=getTableParam(param,"name","");
+		String projectId=getTableParam(param,"projectId","");
+		String auditStatus=getTableParam(param,"auditStatus","");
+		String contractNum=getTableParam(param,"contractNum","");
+		
+		
+		logger.info("================= pageNum: "+pageNum+"pageSize="+pageSize+"contractNum="+contractNum+" auditStatus"+auditStatus);
+		SreProjectTaskExample example=new SreProjectTaskExample();
+		SreProjectTaskExample.Criteria criteria = example.createCriteria();
+		example.setOrderByClause(" create_date desc ");
+		
+		if(!projectId.equals(""))
+		{
+			criteria.andProjectIdEqualTo(projectId);
+		}
+		if(!contractNum.equals(""))
+		{
+			criteria.andContractNumEqualTo(contractNum);
+		}
+		List<SreProjectTask> list = sreProjectTaskMapper.selectByExample(example);
+		PageInfo<SreProjectTask> pageInfo = new PageInfo<SreProjectTask>(list);
+		System.out.println(">>>>>>>>>任务书查询分页结果"+pageInfo.getList().size());
+		
+		LayuiTableData data = new LayuiTableData();
+		data.setData(pageInfo.getList());
+		Long total = pageInfo.getTotal();
+		data.setCount(total.intValue());
+	    return data;
+	}
 	
 	
 	
