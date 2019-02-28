@@ -194,7 +194,12 @@ public class AdminController extends BaseController {
 		requestBody.add("username", rsUser.getUserName());
 		requestBody.add("password", rsUser.getUserPassword());
 		HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<MultiValueMap<String, String>>(requestBody, this.httpHeaders);
-
+		
+		System.out.println("httpHeaders-----------"+this.httpHeaders);
+		System.out.println("httpHeaders-----------"+this.httpHeaders.size());
+		System.out.println("httpHeaders-----------"+rsUser);
+		System.out.println("httpHeaders-----------"+rsUser.getUserName());
+		System.out.println("httpHeaders-----------"+rsUser.getUserPassword());
 		ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LOGIN_URL, HttpMethod.POST, entity, JSONObject.class);
 		JSONObject retJson = responseEntity.getBody();
 
