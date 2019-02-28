@@ -212,13 +212,13 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
         }
 
         Object xmName = param.getParam().get("xmName");
-        if(!StrUtil.isObjectEmpty(projectId)){
+        if(!StrUtil.isObjectEmpty(xmName)){
             c.andXmNameEqualTo(xmName.toString());
         }
-//        Object xmName = param.getParam().get("xmName");
-//        if(!StrUtil.isObjectEmpty(projectId)){
-//            c.andXmNameEqualTo(xmName.toString());
-//        }
+        Object bak1 = param.getParam().get("bak1");
+        if(!StrUtil.isObjectEmpty(bak1)){
+            c.andBak1EqualTo(bak1.toString());
+        }
 
         example.setOrderByClause("create_date desc");
         return this.findByExample(param, example);
