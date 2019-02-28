@@ -58,9 +58,7 @@
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit" id="editEvent" data-type="editEvent">编辑</button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" id="detailEvent" data-type="detailEvent">详情</button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_delete"  id="deleteEvent" data-type="deleteEvent">删除</button>
-            
-            
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_task"  id="taskEvent" data-type="taskEvent">删除</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"  id="createWordEvent" data-type="createWordEvent">生成WORD文档</button>
         </div>
     </div>
    <table id="processdef-table" class="layui-hide" lay-filter="processdef-table" ></table> 
@@ -145,7 +143,7 @@ var name=$('#name').val();
             		layer.msg('请点击选择一行数据');
             	} else {
             		
-            		 var id=selectRowData.taskId;
+            		 var taskId=selectRowData.taskId;
 	                 layer.open({
 	                    title:'新增技术交流',
 	                    skin: 'layui-layer-lan',
@@ -156,7 +154,7 @@ var name=$('#name').val();
 	                    maxmin: false,
 	                    //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
 	                    area: ['60%', '80%'],
-	                    content:  '/sre-meeting/add?id='+taskId
+	                    content:  '/sre-meeting/add?taskId='+taskId
 	                   });
             	}
             },
@@ -180,8 +178,8 @@ var name=$('#name').val();
             	if (typeof(selectRowData.taskId) == "undefined") {
             		layer.msg('请点击选择一行数据');
             	} else {
-            		 var id=selectRowData.taskId;
-           		     var url="/sre_project_task/add?id="+taskId;
+            		 var taskId=selectRowData.taskId;
+           		     var url="/sre_project_task/add?taskId="+taskId;
            		     var status=selectRowData.status;
            		     if(status=='1' || status=='3')
            		     {
@@ -211,7 +209,7 @@ var name=$('#name').val();
             		layer.msg('请点击选择一行数据');
             	 } else 
             	 {
-            		  var id=selectRowData.taskId;
+            		  var taskId=selectRowData.taskId;
            		      var url="/sre_project_task/delete/"+taskId;
            		     var status=selectRowData.status;
          		     if(status=='1' || status=='3')
@@ -233,7 +231,7 @@ var name=$('#name').val();
             	if (typeof(selectRowData.taskId) == "undefined") {
             		layer.msg('请点击选择一行数据');
             	} else {
-            		 var id=selectRowData.taskId;
+            		 var taskId=selectRowData.taskId;
             		 var temUrl="/sre_project_task/get/" + taskId;
             		 layer.open({
                          title:'详情',
@@ -250,15 +248,15 @@ var name=$('#name').val();
             	}
             
             },
-            taskEvent: function(){  //点击详情按钮
+            createWordEvent: function(){  //点击详情按钮
             	if (typeof(selectRowData.taskId) == "undefined") 
             	{
             		layer.msg('请点击选择一行数据');
             	}else 
             	{
-            		 var id=selectRowData.taskId;
-            		 var temUrl="/sre_project_task/get/" + taskId;
-            		 location.href=temUrl;
+            		 var taskId=selectRowData.taskId;
+            		 var temUrl="/sre_project_task/createWord/" + taskId;
+            		 ajaxDeleteCreateWord(url,"GET","生成WORD成功","生成WORD失败");
             	}
             },
             allEvent: function(){ 
@@ -408,7 +406,42 @@ var name=$('#name').val();
       });
     } 
    
-   
+    function ajaxDeleteCreateWord(url,type,successMsg,failMsg)
+    {
+    	 $.ajax({
+      	     type:type,
+      	     url: url,
+      	     dataType:"json",
+      	     async: false, 
+      	     cache: false,
+      	     contentType: "application/x-www-form-urlencoded; charset=utf-8",
+             success:function(data,status)
+             {    
+    	          
+            	  if(data.success==true ||data.success=='true')
+    	          {
+    	        	  layer.alert(
+    	        			  successMsg, 
+    	                      {icon: 1,closeBtn: 0 },
+    	                      function () 
+    	                      {
+    	                    	  
+    	                    	   layer.closeAll();
+    	                      });
+    	       	   
+    	          } else
+    	          {
+    	        	 layer.alert("操作失败");
+    	          }
+    	     
+    		   },
+    		   error:function()
+    		   {
+    		    	layer.alert("网络访问错误");
+    		   }
+        
+      });
+    } 
 
 </script>
 
