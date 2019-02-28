@@ -857,3 +857,5 @@ display: inline-block;vertical-align: top;margin: 6px 10px 0 0;}
     background: #002142 url(/layuiadmin/layui/images/icon-collection.png) center 18px no-repeat;}
 .layui-leader .layui-index{text-align: left;}
 .layui-leader .layui-header .layui-layout-right{width: 430px;}
+/*人才*/
+.layui-leader  .layui-personnel{margin: 0;left: 0;top: 54px;}
