@@ -601,9 +601,11 @@
     <!--文档分类权限分配查询-用户-->
     <select id="getSysFileKindUserListData" resultType="com.pcitc.base.system.SysUser" parameterType="java.util.HashMap">
       select sys_user.user_id as userId,sys_user.user_name as userName,sys_user.user_disp as userDisp,
-			 sys_file_kind_auth.user_id as userConfig1
-	  from sys_user left join sys_file_kind_auth on (sys_user.user_id = sys_file_kind_auth.user_id and sys_file_kind_auth.file_kind_id = #{fileKindId})
+			 GROUP_CONCAT(DISTINCT sys_unit.unit_name) as unitName,sys_file_kind_auth.user_id as userConfig1
+	  from sys_user_unit,sys_unit,sys_user left join sys_file_kind_auth on (sys_user.user_id = sys_file_kind_auth.user_id and sys_file_kind_auth.file_kind_id = #{fileKindId})
 	  where 
+	  	sys_user_unit.unit_id = sys_unit.unit_id and 
+	  	sys_user_unit.user_id = sys_user.user_id and
 		sys_user.user_delflag = '0'
 		<if test="userName != null">
 			and sys_user.user_disp like '%${userName}%'
