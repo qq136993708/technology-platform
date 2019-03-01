@@ -1,6 +1,7 @@
 package com.pcitc.web.budget;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -503,32 +504,45 @@ public class BudgetGroupTotalProviderClient
 		return rsmap;
 	}
 	@ApiOperation(value="集团公司预算-获取计划参考数据",notes="检索集团公司年度计划金额")
-	@RequestMapping(value = "/stp-provider/budget/search-grouptotal-plan-projects", method = RequestMethod.POST)
-	public Object selectBudgetGroupItemPlanProjects(@RequestBody Map<String,Object> params) 
+	@RequestMapping(value = "/stp-provider/budget/select-grouptotal-compare-plan", method = RequestMethod.POST)
+	public Object selectBudgetGroupItemComparePlan(@RequestBody Map<String,Object> params) 
 	{
-		LayuiTableData data = null;
-		Map<String,Object> rsmap = new HashMap<String,Object>();
-		try
+		String nd = params.get("nd").toString();
+		String code = params.get("code").toString();
+		List<OutProjectPlan> plans = new ArrayList<OutProjectPlan>();
+		try 
 		{
-			LayuiTableParam param = new LayuiTableParam();
+			Set<String> codes = new HashSet<String>(Arrays.asList(new String [] {code}));
+			Map<String,List<OutProjectPlan>> planMap = budgetGroupTotalService.selectComparePlanData(codes,nd);
 			
-			Map<String, Object> p = new HashMap<String,Object>();
-			p.put("ysnd", params.get("ysnd"));
-			p.put("define9", params.get("compnay_codes"));
-			param.setLimit(1000);
-			param.setPage(1);
-			param.setParam(p);
-			data = this.systemRemoteClient.selectProjectPlanByCond(param);
-			for(java.util.Iterator<?> iter = data.getData().iterator();iter.hasNext();) {
-				OutProjectInfo info = (OutProjectInfo)iter.next();
-				rsmap.put(info.getDefine9(), info.getYsje());
+			List<OutProjectPlan> rs = planMap.get(code);
+			if(rs != null && rs.size() >0 ) {
+				plans.addAll(rs);
 			}
-			System.out.println(JSON.toJSONString(data));
+			
+		} catch (Exception e1) {
+			e1.printStackTrace();
 		}
-		catch (Exception e)
+		return plans;
+	}
+	@ApiOperation(value="集团公司预算-获取计划参考数据",notes="检索集团公司年度计划金额")
+	@RequestMapping(value = "/stp-provider/budget/select-grouptotal-compare-project", method = RequestMethod.POST)
+	public Object selectBudgetGroupItemCompareProject(@RequestBody Map<String,Object> params) 
+	{
+		String nd = params.get("nd").toString();
+		String code = params.get("code").toString();
+		List<OutProjectInfo> plans = new ArrayList<OutProjectInfo>();
+		try 
 		{
-			e.printStackTrace();
+			Set<String> codes = new HashSet<String>(Arrays.asList(new String [] {code}));
+			Map<String,List<OutProjectInfo>> planMap = budgetGroupTotalService.selectCompareProjectInfoData(codes,nd);
+			List<OutProjectInfo> rs = planMap.get(code);
+			if(rs != null && rs.size() >0 ) {
+				plans.addAll(rs);
+			}
+		} catch (Exception e1) {
+			e1.printStackTrace();
 		}
-		return rsmap;
+		return plans;
 	}
 }
