@@ -2,6 +2,8 @@ package com.pcitc.service.feign;
 
 import java.util.List;
 
+import com.pcitc.base.common.LayuiTableData;
+import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.expert.ZjkExtractConfig;
 import com.pcitc.base.stp.out.OutUnit;
 import com.pcitc.base.system.SysDictionary;
@@ -49,5 +51,15 @@ public class SystemHystric implements SystemRemoteClient {
     public ZjkExtractConfig getZjkExtractConfigInfo(String id) {
         return null;
     }
+
+	@Override
+	public LayuiTableData selectProjectPlanByCond(LayuiTableParam param) {
+		return null;
+	}
+
+	@Override
+	public LayuiTableData selectCommonProjectByCond(LayuiTableParam param) {
+		return null;
+	}
 
 }

@@ -2,13 +2,15 @@ package com.pcitc.service.feign;
 
 import java.util.List;
 
-import com.pcitc.base.expert.ZjkExtractConfig;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.pcitc.base.common.LayuiTableData;
+import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.expert.ZjkExtractConfig;
 import com.pcitc.base.stp.out.OutUnit;
 import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.system.SysPost;
@@ -38,4 +40,20 @@ public interface SystemRemoteClient {
 
     @RequestMapping(value = "/zjkextractconfig-provider/zjkextractconfig/get-zjkextractconfig/{id}", method = RequestMethod.POST)
     public ZjkExtractConfig getZjkExtractConfigInfo(@PathVariable(value = "id", required = true) String id);
+   
+	/**
+	 * 获取项目计划数据
+	 * @param param
+	 * @return
+	 * @throws Exception
+	 */
+    @RequestMapping(value = "/out-project-plna-provider/project-plan/page/list", method = RequestMethod.POST)
+	public LayuiTableData selectProjectPlanByCond(@RequestBody LayuiTableParam param);
+    /**
+     * 获取项目实际完成金额数据
+     * @param param
+     * @return
+     */
+	@RequestMapping(value = "/out-project-provider/common-project/list", method = RequestMethod.POST)
+	public LayuiTableData selectCommonProjectByCond(@RequestBody LayuiTableParam param);
 }
