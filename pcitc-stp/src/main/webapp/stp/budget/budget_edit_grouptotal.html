@@ -170,15 +170,27 @@
             , totalRow: true
             , cols: [[
                 {field: 'displayName', title: '单位名称',edit:true,totalRowText: '合计'}
-                , {field: 'plan', title: '${nd}年计划', align: 'right',style: 'cursor: pointer;', width: '15%'}
+                , {field: 'last_year_end', title: '${nd}预算完成', align: 'right',style: 'cursor: pointer;', width: '15%'}
+                , {field: 'plan_money', title: '${nd}合同计划', align: 'right',style: 'cursor: pointer;', width: '15%'}
                 , {field: 'xmjf', title: '科技项目经费预算', align: 'right',style: 'cursor: pointer;',edit:true, width: '15%'}
                 , {field: 'zxjf', title: '重点实验室专项经费', align: 'right',style: 'cursor: pointer;',edit:true, width: '15%'}
                 , {title: '操作', style: 'cursor: pointer;', align: 'center', width: '10%', templet: function(d){
                     return '<a href="#" lay-event="del" lay-id="'+ d.dataId +'">删除</a>';
                 }}
             ]]
+            ,done: function (res, curr, count) {
+            	 $.each(res.data,function(i,dt){
+            		  publicMethods.ajaxPost('/budget/select-grouptotal-compare-project',{"nd":dt.nd,"code":dt.displayCode}, function (data, status) {
+            			  console.log(data);
+            			  //$("tr[data-index='"+i+"'] td[data-field='last_year_end'] div").html(0);
+            		  });
+            		  publicMethods.ajaxPost('/budget/select-grouptotal-compare-plan',{"nd":dt.nd,"code":dt.displayCode}, function (data, status) {
+            			  console.log(data);
+            			  //$("tr[data-index='"+i+"'] td[data-field='plan_money'] div").html(0);
+            		  });
+            	 });
+            }
         })
-
         table.on('tool(dataTable)', function (obj) {
             var data = obj.data, event = obj.event, tr = obj.tr; //获得当前行 tr 的DOM对象;
             switch(event){
