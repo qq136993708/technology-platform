@@ -174,12 +174,12 @@ var name=$('#name').val();
                  
             }
             ,editEvent: function(){  //点击编辑按钮
-            	
             	if (typeof(selectRowData.taskId) == "undefined") {
             		layer.msg('请点击选择一行数据');
             	} else {
             		 var taskId=selectRowData.taskId;
-           		     var url="/sre_project_task/add?taskId="+taskId;
+            		 var topicId=selectRowData.topicId;
+           		     var url="/sre_project_task/add?taskId="+taskId+"&topicId="+topicId;
            		     var status=selectRowData.status;
            		     if(status=='1' || status=='3')
            		     {
@@ -332,11 +332,11 @@ var name=$('#name').val();
             	{type : 'checkbox', event : 'changeEvents', width : 55},
             	{title : '序号', type :'numbers', width : 55},
                 {field : 'status', title : '状态', style : 'cursor: pointer;', align: 'center', templet : '<div>{{ layui.laytpl.auditStatus_equipment(d.auditStatus) }}</div>', width : 55},
-                {field : 'name', title : '课题名称', style : 'cursor: pointer;', align: 'left'},
-                {field : 'beginYear', title : '投资期限', style : 'cursor: pointer;', align: 'center',templet:function(d){return '<div style="">'+d.beginYear+'-'+d.endYear+'</div><br/><div style="color:red">'+d.beginYear+'</div>'}},
+                {field : 'projectName', title : '课题名称', style : 'cursor: pointer;', align: 'left'},
                 {field : 'projectMoney', title : '总经费(万元)', style : 'cursor: pointer;', align: 'center',templet:function(d){return '<span style="color:red">'+d.projectMoney+'</span>'}},
                 {field : 'leadUnitName', title : '承担单位', style : 'cursor: pointer;', align: 'left'},
-                {field : 'entrustUnitName', title : '委托方', style : 'cursor: pointer;', align: 'left'},
+                {field : 'applyUnitName', title : '申报单位', style : 'cursor: pointer;', align: 'left'},
+                {field : 'createUserName', title : '申报人', style : 'cursor: pointer;', align: 'left'},
                 {field : 'createDate', title : '上报时间', style : 'cursor: pointer;', align: 'center', templet : '#dateTpl'},
             ]],
             done: function (res, curr, count) {
