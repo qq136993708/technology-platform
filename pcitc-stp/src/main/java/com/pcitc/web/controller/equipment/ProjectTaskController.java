@@ -178,7 +178,6 @@ public class ProjectTaskController extends BaseController {
 	public String saveOrUpdate(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		Result resultsDate = new Result();
-		String name = CommonUtil.getParameter(request, "name", "");
 		// 业务ID
 		String taskId = CommonUtil.getParameter(request, "taskId", "");
 		// 流程状态-是保存还是提交
@@ -194,13 +193,24 @@ public class ProjectTaskController extends BaseController {
 		String taskMainTaskContent = CommonUtil.getParameter(request, "taskMainTaskContent", "");
 		String taskContent = CommonUtil.getParameter(request, "taskContent", "");
 		String isWorkFlow = CommonUtil.getParameter(request, "isWorkFlow", "0");
-		String taskCheckContents = CommonUtil.getParameter(request, "taskCheckContents", "");
+	
 		String taskAssessmentContent = CommonUtil.getParameter(request, "taskAssessmentContent", "");
 		String functionId = CommonUtil.getParameter(request, "functionId", "");
 		String projectId = CommonUtil.getParameter(request, "projectId", "");
 		
-		
-		
+		StringBuffer taskCheckContents = new StringBuffer();
+		String arr[]=request.getParameterValues("taskCheckContents");
+		if(arr!=null && arr.length>0)
+		{
+			for(int i=0;i<arr.length;i++)
+			{
+				if(i>0)
+				{
+					taskCheckContents.append(",");
+				}
+				taskCheckContents.append(arr[i]);
+			}
+		}
 		SreProjectTask sreProjectBasic = null;
 		ResponseEntity<String> responseEntity = null;
 		// 判断是新增还是修改
@@ -220,7 +230,7 @@ public class ProjectTaskController extends BaseController {
 		}
 		// 流程状态
 		sreProjectBasic.setAuditStatus(auditStatus);
-		BigDecimal projectMoney=BigDecimal.ZERO;
+		//BigDecimal projectMoney=BigDecimal.ZERO;
 		/*if (!yearFeeStr.equals("")) //2019,55,5,60#2020,553,5,558
 		{
 			String array[]=yearFeeStr.split("#");
@@ -245,7 +255,7 @@ public class ProjectTaskController extends BaseController {
 		sreProjectBasic.setProjectNotice(projectNotice);
 		sreProjectBasic.setTaskMainTaskContent(taskMainTaskContent);
 		sreProjectBasic.setTaskContent(taskContent);
-		sreProjectBasic.setTaskCheckContents(taskCheckContents);
+		sreProjectBasic.setTaskCheckContents(taskCheckContents.toString());
 		sreProjectBasic.setTaskAssessmentContent(taskAssessmentContent);
 		
 		// 判断是新增还是修改
