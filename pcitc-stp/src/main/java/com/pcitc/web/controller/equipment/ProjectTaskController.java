@@ -213,12 +213,14 @@ public class ProjectTaskController extends BaseController {
 		}
 		SreProjectTask sreProjectBasic = null;
 		ResponseEntity<String> responseEntity = null;
+		
 		// 判断是新增还是修改
 		if (taskId.equals("")) 
 		{
 			sreProjectBasic = new SreProjectTask();
 			sreProjectBasic.setCreateDate(new Date());
 			sreProjectBasic.setCreateUserId(sysUserInfo.getUserId());
+			sreProjectBasic.setCreateUserName(sysUserInfo.getUserDisp());
 			//String code = CommonUtil.getTableCode("XTBM_0032", restTemplate, httpHeaders);
 			String idv = UUID.randomUUID().toString().replaceAll("-", "");
 			sreProjectBasic.setTaskId(idv);
@@ -245,6 +247,17 @@ public class ProjectTaskController extends BaseController {
 			}
 			
 		}*/
+		
+		SreProject sreProject=this.getSreProject(projectId);
+		if(sreProject!=null)
+		{
+			sreProjectBasic.setProjectName(sreProject.getName());
+			sreProjectBasic.setJoinUnitCode(sreProject.getJoinUnitCode());
+			sreProjectBasic.setJoinUnitName(sreProject.getJoinUnitName());
+			sreProjectBasic.setLeadUnitCode(sreProject.getLeadUnitCode());
+			sreProjectBasic.setLeadUnitName(sreProject.getLeadUnitName());
+			sreProjectBasic.setProjectMoney(sreProject.getProjectMoney());
+		}
 		sreProjectBasic.setProjectId(projectId);
 		sreProjectBasic.setContractNum(contractNum);
 		sreProjectBasic.setBudgetTable(budgetTable);
@@ -257,6 +270,9 @@ public class ProjectTaskController extends BaseController {
 		sreProjectBasic.setTaskContent(taskContent);
 		sreProjectBasic.setTaskCheckContents(taskCheckContents.toString());
 		sreProjectBasic.setTaskAssessmentContent(taskAssessmentContent);
+		sreProjectBasic.setApplyUnitCode(sysUserInfo.getUnitCode());
+		sreProjectBasic.setApplyUnitName(sysUserInfo.getUnitName());
+		
 		
 		// 判断是新增还是修改
 		if (taskId.equals("")) 
