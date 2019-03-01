@@ -290,7 +290,11 @@ public class SysFileKindServiceImpl implements SysFileKindService {
 			hashmap.put("userName", param.getParam().get("userName"));
 		}
 		
-		hashmap.put("fileKindId", param.getParam().get("fileKindId"));
+		if (param.getParam().get("fileKindId")!=null&&!StringUtils.isBlank(param.getParam().get("fileKindId")+"")) {
+			hashmap.put("fileKindId", param.getParam().get("fileKindId"));
+		} else {
+			hashmap.put("fileKindId", "0");
+		}
 		
 		List<SysUser> list = sysFileKindMapper.getSysFileKindUserListData(hashmap);
 		

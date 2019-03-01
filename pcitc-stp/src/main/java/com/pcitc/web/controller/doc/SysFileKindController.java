@@ -449,7 +449,7 @@ public class SysFileKindController extends BaseController {
 	 */
 	@RequestMapping(value = "/auth/ini-config")
 	public String iniSysFileKindAuthConfig(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		System.out.println("=====iniAddDelegate");
+		System.out.println("=====iniSysFileKindAuthConfig");
 
 		request.setAttribute("userInfo", sysUserInfo);
 		request.setAttribute("sysFileKindId", request.getParameter("sysFileKindId"));

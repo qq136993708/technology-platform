@@ -1414,14 +1414,15 @@
 	<!-- 项目计划数据，涉及项目预算、项目计划详情等相关的查询时调用 -->
 	<select id="selectProjectPlanByCond" resultType="com.pcitc.base.stp.out.OutProjectPlan" parameterType="java.util.HashMap">
 		select tableA.DEFINE1,tableA.DEFINE2,tableA.DEFINE3,GROUP_CONCAT(tableA.DEFINE8) as define8,
-			   tableA.DEFINE10,tableA.DEFINE11,tableA.DEFINE12,tableA.XMMC,tableA.YSND,
+			   tableA.DEFINE9,tableA.DEFINE10,tableA.DEFINE11,tableA.DEFINE12,tableA.XMMC,tableA.YSND,
 			   tableA.JF,sum(tableA.YSJE) as YSJE,
 			   sum(tableA.YSZBXJE) as YSZBXJE,sum(tableA.YSFYXJE) as YSFYXJE,
 			   tableA.PROJECT_PROPERTY,tableA.PROJECT_SCOPE,tableA.FZDW,tableA.ZYLB,
 			   tableA.ND,tableA.HTH,tableA.ZYCMC,
 			   case when tableA.qdbz is null then '未签订' else '已签订' end as qdbz
 		from (
-			select out_project_plan.DEFINE1,SUBSTR(out_project_plan.DEFINE2 FROM 4) as DEFINE2,
+			select out_project_plan.DEFINE1,out_project_plan.DEFINE9,
+				   SUBSTR(out_project_plan.DEFINE2 FROM 4) as DEFINE2,
 				   SUBSTR(out_project_plan.DEFINE3 FROM 2) as DEFINE3,
 				   SUBSTR(out_project_plan.DEFINE10 FROM 4) as DEFINE10,
 				   SUBSTR(out_project_plan.DEFINE11 FROM 2) as DEFINE11,
@@ -1514,6 +1515,13 @@
 				and (
 				<foreach collection="define10" item="define10" index="index" separator=" or ">
 					tableA.define10 like '%${define10}%'
+				</foreach>
+				)
+			</if>
+			<if test="define9 != null">
+				and (
+				<foreach collection="define9" item="define9" index="index" separator=" or ">
+					tableA.define9 like '%${define9}%'
 				</foreach>
 				)
 			</if>
