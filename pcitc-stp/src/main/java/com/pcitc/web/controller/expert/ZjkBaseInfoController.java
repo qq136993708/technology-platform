@@ -298,6 +298,12 @@ public class ZjkBaseInfoController extends BaseController {
         return "stp/expert/zjkBaseInfo_list_state";
     }
 
+    @RequestMapping(value = "/toListPageSelect", method = {RequestMethod.GET})
+    public String toListPageSelect() {
+        request.setAttribute("state",request.getParameter("state"));
+        return "stp/expert/zjkBaseInfo_list_select";
+    }
+
     /**
      * 根据ID查询对象信息
      *
