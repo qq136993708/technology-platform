@@ -309,6 +309,15 @@ public class OutProjectPlanServiceImpl implements OutProjectPlanService {
 			}
 			hashmap.put("define2", define2);
 		}
+		// 承担单位的code
+		if (param.getParam().get("define9")!=null&&!StringUtils.isBlank(param.getParam().get("define9")+"")) {
+			List define9 = new ArrayList();
+			String[] temS = param.getParam().get("define9").toString().split(",");
+			for (int i = 0; i<temS.length; i++) {
+				define9.add(temS[i]);
+			}
+			hashmap.put("define9", define9);
+		}
 		// 各个专业处
 		if (param.getParam().get("define10")!=null&&!StringUtils.isBlank(param.getParam().get("define10")+"")) {
 			List define10 = new ArrayList();

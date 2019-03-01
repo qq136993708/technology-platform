@@ -2698,7 +2698,8 @@
 	
 	<!-- 分页显示项目数据数据,统计的第三级展示 -->
 	<select id="selectCommonProjectByCond" resultMap="BaseResultMap" parameterType="java.util.HashMap">
-		select out_project_info.define1,substr(out_project_info.define2 from 4) as define2,
+		select out_project_info.define1,out_project_info.define9,
+			   substr(out_project_info.define2 from 4) as define2,
 			   substr(out_project_info.type_flag from 2) as type_flag,
 			   out_project_info.xmmc,out_project_info.ysnd,
 			   out_project_info.jf,sum(out_project_info.ysje) as ysje,
@@ -2734,6 +2735,13 @@
 				and (
 				<foreach collection="define1" item="define1" index="index" separator=" or ">
 					out_project_info.define1 like '%${define1}%'
+				</foreach>
+				)
+			</if>
+			<if test="define9 != null">
+				and (
+				<foreach collection="define9" item="define9" index="index" separator=" or ">
+					out_project_info.define9 like '%${define9}%'
 				</foreach>
 				)
 			</if>
