@@ -377,16 +377,16 @@ background: white;box-shadow: 0 0 5px #dadcde;}
     url("/layuiadmin/layui/images/icon-left-dw.png") no-repeat left bottom,
     url("/layuiadmin/layui/images/icon-right-dw.png") no-repeat right bottom;
     background-color:#f6f7fa;height: auto;}
-.expert-i{margin: 20px auto 10px;width: 110px;background: #fff;border-radius: 50%;border: 1px solid #cccccc;
+.layui-personnel .expert-i{margin: 20px auto 10px;width: 110px;background: #fff;border-radius: 50%;border: 1px solid #cccccc;
     height: 110px;text-align: center;vertical-align: middle;overflow: hidden;}
-.expert-t{text-align: center;padding-bottom: 14px;font-size: 22px;color: #000000;}
-.expert-s{text-align: center;font-size: 14px;color: #000;padding-bottom: 25px;}
-.expert-ab {padding: 0 6% 20px;text-indent: 2em;font-size: 14px;
+.layui-personnel .expert-t{text-align: center;padding-bottom: 14px;font-size: 22px;color: #000000;}
+.layui-personnel .expert-s{text-align: center;font-size: 14px;color: #000;padding-bottom: 25px;}
+.layui-personnel .expert-ab {padding: 0 6% 20px;text-indent: 2em;font-size: 14px;
     height: 140px;color: #696a75;line-height: 22px;}
-.expert-a{text-align: center;}
-.expert-a a {font-size: 15px;color: #000000;line-height: 34px;height: 34px;border: 2px solid #cccccc;
+.layui-personnel .expert-a{text-align: center;}
+.layui-personnel .expert-a a {font-size: 15px;color: #000000;line-height: 34px;height: 34px;border: 2px solid #cccccc;
     padding: 0 20px;display: inline-block;border-radius: 20px;margin: 30px auto 20px;}
-.layui-expert{
+.layui-personnel .layui-expert{
     background: url("/layuiadmin/layui/images/icon-left-up.png") no-repeat left top,
     url("/layuiadmin/layui/images/icon-right-up.png") no-repeat right top,
     url("/layuiadmin/layui/images/icon-left-dw.png") no-repeat left bottom,
@@ -394,4 +394,4 @@ background: white;box-shadow: 0 0 5px #dadcde;}
     border: 2px solid #cccccc;border-radius: 6px;height: auto;
     overflow: hidden;
 }
-.layui-expert ul li{float: left;width: 6.5%;line-height: 50px;height: 50px;}
+.layui-personnel .layui-expert ul li{float: left;width: 6.5%;line-height: 50px;height: 50px;}

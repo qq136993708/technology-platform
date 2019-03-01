@@ -265,7 +265,9 @@ var name=$('#name').val();
            			 }
             		 var id=selectRowData.id;
             		 var temUrl="/sre_project_task/add?projectId=" + id;
-            		 location.href=temUrl;
+            		 
+            		 parent.layui.index.openTabsPage(temUrl, "装备管理");
+            		 
             	}
             },
             allEvent: function(){ 
