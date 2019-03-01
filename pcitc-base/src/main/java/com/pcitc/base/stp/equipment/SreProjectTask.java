@@ -6,7 +6,9 @@ import java.util.Date;
 public class SreProjectTask {
     private String taskId;
 
-    private String projectId;
+    private String topicId;
+
+    private String topicName;
 
     private String createUserId;
 
@@ -40,8 +42,6 @@ public class SreProjectTask {
 
     private String auditStatus;
 
-    private String projectName;
-
     private String applyUnitName;
 
     private String applyUnitCode;
@@ -64,12 +64,20 @@ public class SreProjectTask {
         this.taskId = taskId;
     }
 
-    public String getProjectId() {
-        return projectId;
+    public String getTopicId() {
+        return topicId;
     }
 
-    public void setProjectId(String projectId) {
-        this.projectId = projectId;
+    public void setTopicId(String topicId) {
+        this.topicId = topicId;
+    }
+
+    public String getTopicName() {
+        return topicName;
+    }
+
+    public void setTopicName(String topicName) {
+        this.topicName = topicName;
     }
 
     public String getCreateUserId() {
@@ -198,14 +206,6 @@ public class SreProjectTask {
 
     public void setAuditStatus(String auditStatus) {
         this.auditStatus = auditStatus;
-    }
-
-    public String getProjectName() {
-        return projectName;
-    }
-
-    public void setProjectName(String projectName) {
-        this.projectName = projectName;
     }
 
     public String getApplyUnitName() {
