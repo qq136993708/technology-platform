@@ -123,9 +123,9 @@
                 <table class="layui-table">
                     <thead>
                     <tr>
-                        <td width="20%">编号</td>
-                        <td width="8%">单项设备名称</td>
-                        <td width="8%">单项设备立项背景</td>
+                        <td width="6%">编号</td>
+                        <td width="20%">单项设备名称</td>
+                        <td width="20%">单项设备立项背景</td>
                         <td width="8%">经费</td>
                         <td width="8%">备注</td>
                         <td width="8%">删除</td>
@@ -327,8 +327,9 @@
         {
         	$.each(taskArr.split("|"), function (i, val) {
                 var taskVal = val.split("#");
-                var tr = "<tr><td>" + taskVal[0] + "</td><td><input type='text' value='" + taskVal[1] + "'/> </td>" +
-                    "<td><input type='text' value='" + taskVal[2] + "'/> " +
+                var tr = "<tr><td>" + taskVal[0] + "</td>" +
+                    "<td><textarea placeholder='请输入内容'  rows='2' cols='20' style='width: 90%;'>" + taskVal[1] + "</textarea>  </td>" +
+                    "<td><textarea placeholder='请输入内容'  rows='2' cols='20' style='width: 90%;'>" + taskVal[2] + "</textarea>   " +
                     "</td><td><input type='number' value='" + taskVal[3] + "'/> </td>" +
                     "<td><input type='text' value='" + taskVal[4] + "'/> </td>" +
                     "<td><a href='javascript:;' class='dele'>删除</a></td></tr>";
@@ -346,8 +347,8 @@
                 var assessmentVal = val.split("#");
                 var date='<input type="text" class="layui-input test-laydate-range-month" value="'+assessmentVal[0]+'" placeholder=" - ">'
                 var tr = "<tr><td>" + date + "</td>" +
-                    "<td><input type='text' value='"+assessmentVal[1]+"'/> </td>" +
-                    "<td><input type='text' value='"+assessmentVal[2]+"'/> </td>" +
+                    "<td><textarea placeholder='请输入内容'  rows='2' cols='20' style='width: 90%;'>" + assessmentVal[1] + "</textarea>  </td>" +
+                    "<td><textarea placeholder='请输入内容'  rows='2' cols='20' style='width: 90%;'>" + assessmentVal[2] + "</textarea>/td>" +
                     "<td><a href='javascript:;' class='dele'>删除</a></td></tr>";
                 addTr("task_assessment_content", tr);
                 lay('.test-laydate-range-month').each(function() {
@@ -410,8 +411,8 @@
         var $ =layui.$, active = {
             taskAddEvent: function () {
                 var n = $("#task_content table tbody tr").length + 1;
-                var tr = "<tr><td>" + n + "</td><td><input type='text' value=''/> </td>" +
-                    "<td><input type='text' value=''/> </td><td><input type='number' value=''/> </td>" +
+                var tr = "<tr><td>" + n + "</td><td><textarea placeholder='请输入内容'  rows='2' style='width: 90%;'></textarea> </td>" +
+                    "<td><textarea placeholder='请输入内容'  rows='2' cols='20' style='width: 90%;'></textarea> </td><td><input type='number' value=''/> </td>" +
                     "<td><input type='text' value=''/> </td>" +
                     "<td><a href='javascript:;' class='dele'>删除</a></td></tr>";
                 addTr("task_content", tr);
@@ -420,8 +421,8 @@
             assessmentAddEvent:function(){
                 var date='<input type="text" class="layui-input test-laydate-range-month"  placeholder=" - ">'
                 var tr = "<tr><td>" + date + "</td>" +
-                    "<td><input type='text' value=''/> </td>" +
-                    "<td><input type='text' value=''/> </td>" +
+                    "<td><textarea placeholder='请输入内容'  rows='2' cols='20' style='width: 90%;'></textarea> </td>" +
+                    "<td><textarea placeholder='请输入内容'  rows='2' cols='20' style='width: 90%;'></textarea> </td>" +
                     "<td><a href='javascript:;' class='dele'>删除</a></td></tr>";
                 addTr("task_assessment_content", tr);
                 dele()
@@ -484,7 +485,7 @@
             var  budget_table =getData("budget_table", 5);
             var  funds_sources_table =getData("funds_sources_table", 6);
             
-           // alert(task_content);
+            //alert(task_content);
            // return;
             if (task_content == null || task_content == '') 
             {
@@ -708,7 +709,9 @@
                 var tdElement = $("#" + id + " table tbody tr:eq(" + i + ") td").eq(k);
                 if ($(tdElement).find("input").length > 0) {
                     columnS += $(tdElement).find("input").val() + "#";
-                } else {
+                } else if ($(tdElement).find("textarea").length > 0) {
+                    columnS += $(tdElement).find("textarea").val() + "#";
+                }else {
                     columnS += $(tdElement).html() + "#";
                 }
             }
