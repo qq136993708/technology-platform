@@ -113,11 +113,11 @@ public class ProjectTaskController extends BaseController {
 		
 		String taskId = CommonUtil.getParameter(request, "taskId", "");
 		request.setAttribute("taskId", taskId);
-		String projectId = CommonUtil.getParameter(request, "projectId", "");
-		request.setAttribute("projectId", projectId);
-		if(!projectId.equals(""))
+		String topicId = CommonUtil.getParameter(request, "topicId", "");
+		request.setAttribute("topicId", topicId);
+		if(!topicId.equals(""))
 		{
-			SreProject sreProject=getSreProject(projectId);
+			SreProject sreProject=getSreProject(topicId);
 			request.setAttribute("sreProject", sreProject);
 		}
 		if(!taskId.equals(""))
@@ -127,10 +127,10 @@ public class ProjectTaskController extends BaseController {
 		
 			SreProjectTask sreProjectTask = responseEntity.getBody();
 			request.setAttribute("sreProjectTask", sreProjectTask);
-			projectId=sreProjectTask.getProjectId();
-			if(!projectId.equals(""))
+			topicId=sreProjectTask.getTopicId();
+			if(!topicId.equals(""))
 			{
-				SreProject sreProject=getSreProject(projectId);
+				SreProject sreProject=getSreProject(topicId);
 				request.setAttribute("sreProject", sreProject);
 			}
 		}
@@ -196,7 +196,7 @@ public class ProjectTaskController extends BaseController {
 	
 		String taskAssessmentContent = CommonUtil.getParameter(request, "taskAssessmentContent", "");
 		String functionId = CommonUtil.getParameter(request, "functionId", "");
-		String projectId = CommonUtil.getParameter(request, "projectId", "");
+		String topicId = CommonUtil.getParameter(request, "topicId", "");
 		
 		StringBuffer taskCheckContents = new StringBuffer();
 		String arr[]=request.getParameterValues("taskCheckContents");
@@ -248,23 +248,24 @@ public class ProjectTaskController extends BaseController {
 			
 		}*/
 		
-		SreProject sreProject=this.getSreProject(projectId);
+		SreProject sreProject=this.getSreProject(topicId);
 		if(sreProject!=null)
 		{
-			sreProjectBasic.setProjectName(sreProject.getName());
+			sreProjectBasic.setTopicName(sreProject.getName());
 			sreProjectBasic.setJoinUnitCode(sreProject.getJoinUnitCode());
 			sreProjectBasic.setJoinUnitName(sreProject.getJoinUnitName());
 			sreProjectBasic.setLeadUnitCode(sreProject.getLeadUnitCode());
 			sreProjectBasic.setLeadUnitName(sreProject.getLeadUnitName());
 			sreProjectBasic.setProjectMoney(sreProject.getProjectMoney());
+			sreProjectBasic.setProjectFundsTable(sreProject.getYearFeeStr());
 		}
-		sreProjectBasic.setProjectId(projectId);
+		sreProjectBasic.setTopicId(topicId); 
 		sreProjectBasic.setContractNum(contractNum);
 		sreProjectBasic.setBudgetTable(budgetTable);
 		sreProjectBasic.setContractNum(contractNum);
 		sreProjectBasic.setFundsSourcesTable(fundsSourcesTable);
 		sreProjectBasic.setNotes(notes);
-		sreProjectBasic.setProjectFundsTable(projectFundsTable);
+		
 		sreProjectBasic.setProjectNotice(projectNotice);
 		sreProjectBasic.setTaskMainTaskContent(taskMainTaskContent);
 		sreProjectBasic.setTaskContent(taskContent);
@@ -361,7 +362,7 @@ public class ProjectTaskController extends BaseController {
 			variables.put("auditor", Arrays.asList(userIdsArr));
 		}
 		// 必须设置，统一流程待办任务中需要的业务详情
-		variables.put("auditDetailsPath", "/sre-project-basic/get/" + id);
+		variables.put("auditDetailsPath", "/sre_project_task/get/" + id);
 		// 流程完全审批通过时，调用的方法
 		variables.put("auditAgreeMethod", AUDIT_AGREE_URL + id);
 		// 流程驳回时，调用的方法（可能驳回到第一步，也可能驳回到第1+n步
@@ -538,7 +539,7 @@ public class ProjectTaskController extends BaseController {
 	{
 		SreProjectTask sreProjectTask=this.getSreProjectTask(id);
 		SreProject sreProject=null;
-		String projectId=sreProjectTask.getProjectId();
+		String projectId=sreProjectTask.getTopicId();
 		if(!projectId.equals(""))
 		{
 			sreProject=getSreProject(projectId);

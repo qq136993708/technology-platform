@@ -332,7 +332,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 		PageHelper.startPage(pageNum, pageSize);
 				
 		String name=getTableParam(param,"name","");
-		String projectId=getTableParam(param,"projectId","");
+		String topicId=getTableParam(param,"topicId","");
 		String auditStatus=getTableParam(param,"auditStatus","");
 		String contractNum=getTableParam(param,"contractNum","");
 		
@@ -342,9 +342,9 @@ public class EquipmentServiceImpl implements EquipmentService {
 		SreProjectTaskExample.Criteria criteria = example.createCriteria();
 		example.setOrderByClause(" create_date desc ");
 		
-		if(!projectId.equals(""))
+		if(!topicId.equals(""))
 		{
-			criteria.andProjectIdEqualTo(projectId);
+			criteria.andTopicIdEqualTo(topicId);
 		}
 		if(!contractNum.equals(""))
 		{
