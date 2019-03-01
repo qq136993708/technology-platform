@@ -1,5 +1,7 @@
 package com.pcitc.web.controller.equipment;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -34,13 +36,14 @@ import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.RequestProcessStatusEnum;
 import com.pcitc.base.stp.equipment.SreProject;
 import com.pcitc.base.stp.equipment.SreProjectTask;
+import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CommonUtil;
-import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.IdUtil;
 import com.pcitc.base.workflow.Constants;
 import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.web.common.BaseController;
+import com.pcitc.web.utils.WordUtil;
 
 @Controller
 @RequestMapping(value = "/sre_project_task")
@@ -60,7 +63,7 @@ public class ProjectTaskController extends BaseController {
 	
 	private final static String process_define_id4 = "equitmentApplyProcess:1:1172522";
 	
-	
+	private static final String GET_PROJECT_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_basic/get/";
 
 
 	@RequestMapping(value = "/to_list")
@@ -117,7 +120,6 @@ public class ProjectTaskController extends BaseController {
 			SreProject sreProject=getSreProject(projectId);
 			request.setAttribute("sreProject", sreProject);
 		}
-		
 		if(!taskId.equals(""))
 		{
 			ResponseEntity<SreProjectTask> responseEntity = this.restTemplate.exchange(GET_URL + taskId, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreProjectTask.class);
@@ -125,20 +127,26 @@ public class ProjectTaskController extends BaseController {
 		
 			SreProjectTask sreProjectTask = responseEntity.getBody();
 			request.setAttribute("sreProjectTask", sreProjectTask);
-			
+			projectId=sreProjectTask.getProjectId();
+			if(!projectId.equals(""))
+			{
+				SreProject sreProject=getSreProject(projectId);
+				request.setAttribute("sreProject", sreProject);
+			}
 		}
 		request.setAttribute("documentDoc", documentDoc);
 		request.setAttribute("leadUnitName", leadUnitName);
 		request.setAttribute("leadUnitCode", leadUnitCode);
 		request.setAttribute("createUserId", createUserId);
-		
+		List<SysDictionary>  dicList= CommonUtil.getDictionaryByParentCode("ROOT_ZBGL_YTJYSDNR", restTemplate, httpHeaders);
+		request.setAttribute("dicList", dicList);
 		return "/stp/equipment/task/project_task_add";
 	}
 	
 	private SreProject getSreProject(String id)
 	{
 		SreProject	sreProjectBasic = null;
-		ResponseEntity<SreProject> responseEntity = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreProject.class);
+		ResponseEntity<SreProject> responseEntity = this.restTemplate.exchange(GET_PROJECT_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreProject.class);
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode == 200)
 		{
@@ -189,7 +197,7 @@ public class ProjectTaskController extends BaseController {
 		String taskCheckContents = CommonUtil.getParameter(request, "taskCheckContents", "");
 		String taskAssessmentContent = CommonUtil.getParameter(request, "taskAssessmentContent", "");
 		String functionId = CommonUtil.getParameter(request, "functionId", "");
-		
+		String projectId = CommonUtil.getParameter(request, "projectId", "");
 		
 		
 		
@@ -227,7 +235,7 @@ public class ProjectTaskController extends BaseController {
 			}
 			
 		}*/
-		
+		sreProjectBasic.setProjectId(projectId);
 		sreProjectBasic.setContractNum(contractNum);
 		sreProjectBasic.setBudgetTable(budgetTable);
 		sreProjectBasic.setContractNum(contractNum);
@@ -474,8 +482,81 @@ public class ProjectTaskController extends BaseController {
 		return "/stp/equipment/task/project_task_view";
 	}
 	
+
 	
 	
+	
+	@RequestMapping(value = "/createWord/{id}", method = RequestMethod.GET)
+	public String createWordv(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception 
+	{
+		Result resultsDate = new Result();
+		String fileName=createWord(id);
+		if (!fileName.equals("")) {
+			resultsDate = new Result(true);
+		} else {
+			resultsDate = new Result(false, "生成文件失败！");
+		}
+		response.setContentType("text/html;charset=UTF-8");
+		PrintWriter out = response.getWriter();
+		JSONObject ob = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
+		out.println(ob.toString());
+		out.flush();
+		out.close();
+		return null;
+	}
+	
+	
+	
+	//生成word文档
+	private String  createWord(String id)
+	{
+		SreProjectTask sreProjectTask=this.getSreProjectTask(id);
+		SreProject sreProject=null;
+		String projectId=sreProjectTask.getProjectId();
+		if(!projectId.equals(""))
+		{
+			sreProject=getSreProject(projectId);
+		}
+		
+		Map<String, Object> dataMap = new HashMap<String, Object>();
+		/** 组装数据 */
+		dataMap.put("titleName", "测试标题");
+		dataMap.put("userName", "张海峰");
+		dataMap.put("userCode", "1001");
+
+		// 文件路径
+		String filePath = "D://doc";
+
+		/*List<Map<String, Object>> newsList = new ArrayList<Map<String, Object>>();
+		for (int i = 1; i<=10; i++) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("show1", "测试"+i);
+			map.put("show2", "137"+i);
+			map.put("show3", "年龄"+i);
+			map.put("show4", System.currentTimeMillis());
+			newsList.add(map);
+		}
+		dataMap.put("myListData", newsList);*/
+		
+		dataMap.put("taskMainTaskContent", sreProjectTask.getTaskMainTaskContent());
+
+	   /*String myPic = "";  
+        try {  
+             myPic = WordUtil.getImageString("D://doc//20190218155218.jpg");  
+        } catch (IOException e) {  
+            e.printStackTrace();  
+        }  
+         
+        dataMap.put("showPicture", myPic);  */
+		
+		
+		// 文件名称
+		String fileName = System.currentTimeMillis()+".doc";
+
+		/** 生成word */
+		WordUtil.createWord(dataMap, "task.ftl", filePath, fileName);
+		return filePath+File.separator+fileName;
+	}
 	
 	
 	

@@ -1,564 +1,717 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
-  <meta name="renderer" content="webkit">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="format-detection" content="telephone=no">
-  <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
-  <!--[if lt IE 9]>
-  <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
-  <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
-  <![endif]-->
-  <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
-  <link rel="stylesheet" href="/layuiadmin/style/common.css">
-  <script src="/common/js/jquery-1.11.3.min.js"></script>
-  
-  <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
-  <script type="text/javascript" src="/layuiadmin/modules/base.js?aa=a"></script>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <script src="/common/js/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+    <script type="text/javascript" src="/layuiadmin/modules/base.js?aa=a"></script>
+    <style>
+        .layui-form-label {
+            width: 120px;
+        }
+
+        .layui-input-block {
+            margin-left: 145px;
+        }
+
+        .layui-row {
+            margin-bottom: 15px;
+        }
+
+        .tableBox table tr td, .formBoxBody table tr td {
+            border: 1px solid #e6e6e6;
+            height: 24px;
+            line-height: 24px;
+        }
+
+        .tableBox table tr td input {
+            width: 88%;
+            box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+            height: 20px;
+            padding: 6px 12px;
+            font-size: 12px;
+            line-height: 1.42857143;
+            color: #555;
+            background-color: #fff;
+            background-image: none;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+        .layui-input, .layui-select{
+            height: 34px !important;
+            width: 30% !important;
+        }
+        .layui-select-title input{width: 100% !important;}
+    </style>
 </head>
 <body>
-  <div class="layer-box">
-	<form id="planForm" class="layui-form" action="" lay-filter="component-form-group layui-container"></form>
-		<div class="formBox">
-			<div class="tableToolBox">
-				<div class="tableBtns">
-					<div class="tableTitle">填写任务书<span class="red">（标*号为必填项）</span>
-					</div>
-				</div>
-			</div>
-		</div>
-  <div class="box-body">
-  <form   class="layui-form"    name="form1"     id="form1" action="" method="POST" lay-filter="component-form-group layui-container">
-  <input  name="taskId"         id="taskId"          value="${taskId}"                       type="hidden" >
-  <input  name="projectId"      id="projectId"       value="${projectId}" type="hidden"  >
-  <input  name="documentDoc"    id="documentDoc"     value="${documentDoc}"                  type="hidden">
-  <input  name="yearFeeStr"     id="yearFeeStr"      value="${sreProjectBasic.yearFeeStr}"   type="hidden">
-  <input  name="functionId"     id="functionId"      type="hidden">
-  <input  name="userIds"        id="userIds"         type="hidden">
-  <input  name="leadUnitCode"        id="leadUnitCode"       value="${sreProjectBasic.leadUnitCode}"      type="hidden">
-  <input  name="joinUnitCode"        id="joinUnitCode"       value="${sreProjectBasic.joinUnitCode}"     type="hidden">
-  <input  name="entrustUnitCode"     id="entrustUnitCode"    value="${sreProjectBasic.entrustUnitCode}"   type="hidden">
-  
-  <input  name="taskMainTaskContent"       id="taskMainTaskContent"      value="${sreProjectBasic.entrustUnitCode}"        type="hidden">
-  <input  name="taskContent"               id="taskContent"              value="${sreProjectBasic.taskContent}"            type="hidden">
-  <input  name="taskAssessmentContent"     id="taskAssessmentContent"    value="${sreProjectBasic.taskAssessmentContent}"   type="hidden">
-  <input  name="taskCheckContents"         id="taskCheckContents"     value="${sreProjectBasic.taskCheckContents}"   type="hidden">
-  <input  name="budgetTable"               id="budgetTable"           value="${sreProjectBasic.budgetTable}"         type="hidden">
-  <input  name="fundsSourcesTable"         id="fundsSourcesTable"     value="${sreProjectBasic.fundsSourcesTable}"   type="hidden">
-  <input  name="projectFundsTable"         id="projectFundsTable"     value="${sreProjectBasic.projectFundsTable}"   type="hidden">
-  
-  
-   
-      <div class="layui-form-item layui-form-text" >
-        <label class="layui-form-label">课题名称</label>
-        <div class="layui-input-block">
-         <input class="layui-input readOnlyBox" name="name" id="name" readonly="readonly" value="${sreProjectBasic.name}"     autocomplete="off" type="text">
+<div class="layer-box">
+    <form class="layui-form" name="form1" id="form1" action="" method="POST"
+          lay-filter="component-form-group layui-container">
+        <div class="formBox">
+            <div class="tableToolBox">
+                <div class="tableBtns">
+                    <div class="tableTitle">填写任务书<span class="red">（标*号为必填项）</span>
+                    </div>
+                </div>
+            </div>
+            <div class="box-body">
+                <input name="taskId" id="taskId" value="${taskId}" type="hidden">
+                <input name="projectId" id="projectId" value="${projectId}" type="hidden">
+                <input name="documentDoc" id="documentDoc" value="${documentDoc}" type="hidden">
+                <input name="yearFeeStr" id="yearFeeStr" value="${sreProjectBasic.yearFeeStr}" type="hidden">
+                <input name="functionId" id="functionId" type="hidden">
+                <input name="userIds" id="userIds" type="hidden">
+                <input name="leadUnitCode" id="leadUnitCode" value="${sreProjectBasic.leadUnitCode}" type="hidden">
+                <input name="joinUnitCode" id="joinUnitCode" value="${sreProjectBasic.joinUnitCode}" type="hidden">
+               
+              <input  name="taskContent"               id="taskContent"              value="${sreProjectTask.taskContent}"            type="hidden">
+			  <input  name="taskAssessmentContent"     id="taskAssessmentContent"    value="${sreProjectTask.taskAssessmentContent}"   type="hidden">
+			  <input  name="budgetTable"               id="budgetTable"           value="${sreProjectTask.budgetTable}"         type="hidden">
+			  <input  name="fundsSourcesTable"         id="fundsSourcesTable"     value="${sreProjectTask.fundsSourcesTable}"   type="hidden">
+			  <input  name="projectFundsTable"         id="projectFundsTable"     value="${sreProjectTask.projectFundsTable}"   type="hidden">
+
+
+                <div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label">课题名称</label>
+                    <div class="layui-input-block">
+                        <input class="layui-input readOnlyBox" name="name" id="name" readonly="readonly"
+                               value="${sreProjectBasic.name}" autocomplete="off" type="text">
+                    </div>
+                </div>
+               <div class="layui-form-item layui-form-text" >
+		        <label class="layui-form-label">目标和主要任务<span class="must-fill">*</span></label>
+		        <div class="layui-input-block">
+		          <textarea placeholder="请简述目标和主要任务，原则上不超过500字" name="taskMainTaskContent" id="taskMainTaskContent"    class="layui-textarea">${sreProjectTask.taskMainTaskContent}</textarea>
+		        </div>
+		      </div>
+
+
+                <div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label">其他</label>
+                    <div class="layui-input-block">
+                        <textarea name="remarks" id="remarks"
+                                  class="layui-textarea">${sreProjectBasic.remarks}</textarea>
+                    </div>
+                </div>
+               
+
+            </div>
         </div>
-      </div>
-      <div class="layui-form-item layui-form-text" >
-        <label class="layui-form-label">目标和主要任务<span class="must-fill">*</span></label>
-        <div class="layui-input-block">
-          <textarea placeholder="请简述目标和主要任务，原则上不超过500字" name="remarks" id="remarks"    class="layui-textarea">${sreProjectBasic.remarks}</textarea>
-        </div>
-      </div>
-      
-      <div class="layui-form-item layui-form-text" >
-        <label class="layui-form-label">项目内容和主要图表<span class="must-fill">*</span></label>
-        <div class="layui-input-block" id="task_content">
-            <table class="layui-table">
-             <thead>
-	             <tr>
-	                <td width="20%">编号</td>
-	                <td width="8%">单项设备名称</td>
-	                <td width="8%">单项设备立项背景</td>
-	                <td width="8%">经费</td>
-	                <td width="8%">备注</td>
-	             </tr>
-            </thead><tbody></tbody>
-          </table>
-        </div>
-      </div>
-      
-      
-      
-      
-      <div class="layui-form-item layui-form-text" >
-        <label class="layui-form-label">计划进度和考核目标<span class="must-fill">*</span></label>
-        <div class="layui-input-block" id="task_assessment_content">
-            <table class="layui-table">
-             <thead>
-	             <tr>
-	                <td width="20%">进度安排</td>
-	                <td width="8%">考核目标</td>
-	                <td width="8%">备注</td>
-	             </tr>
-            </thead><tbody></tbody>
-          </table>
-        </div>
-      </div>
-      
-      
-      
-      
+        <div class="tableBox">
+            <div class="layui-row" id="task_content">
+                <div class="tableToolBox">
+                    <div class="tableTitle">项目内容和主要图表 </div>
+                    <div class="tableBtns">
+                        <a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg"
+                           data-type="taskAddEvent">新增
+                        </a>
+                    </div>
+                </div>
+                <table class="layui-table">
+                    <thead>
+                    <tr>
+                        <td width="20%">编号</td>
+                        <td width="8%">单项设备名称</td>
+                        <td width="8%">单项设备立项背景</td>
+                        <td width="8%">经费</td>
+                        <td width="8%">备注</td>
+                        <td width="8%">删除</td>
+                    </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <div class="layui-row" id="task_assessment_content">
+                <div class="tableToolBox">
+                    <div class="tableTitle">
+                        计划进度和考核目标
+                    </div>
+                    <div class="tableBtns">
+                        <a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg"
+                           data-type="assessmentAddEvent">新增
+                        </a>
+                    </div>
+                </div>
+                <table class="layui-table">
+                    <thead>
+                    <tr>
+                        <td width="20%">进度安排</td>
+                        <td width="8%">考核目标</td>
+                        <td width="8%">备注</td>
+                        <td width="8%">删除</td>
+                    </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+
+          
       <div class="layui-form-item layui-form-text" >
         <label class="layui-form-label">应提交验收的内容<span class="must-fill">*</span></label>
         <div class="layui-input-block">
-          
+           <#list dicList as vo> 
+               <input type="checkbox" name="taskCheckContents" lay-skin="primary" title="${vo.name}" value="${vo.code}">
+           </#list>
+           
         </div>
       </div>
-      
-      
 
-       <div class="layui-form-item layui-form-text" >
-        <label class="layui-form-label">资金概算表<span class="must-fill">*</span></label>
-        <div class="layui-input-block" id="budget_table">
-            <table class="layui-table">
-             <thead>
-	             <tr>
-	                <td width="20%">类别</td>
-	                <td width="8%">项目</td>
-	                <td width="8%">台套</td>
-	                <td width="8%">预算金额</td>
-	                <td width="8%">备注</td>
-	             </tr>
-            </thead><tbody></tbody>
-          </table>
+            <div class="layui-row" id="budget_table">
+                <div class="tableToolBox">
+                    <div class="tableTitle">
+                        资金概算表
+                    </div>
+                    <div class="tableBtns">
+                        <a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg"
+                           data-type="budgetAddEvent">新增
+                        </a>
+                    </div>
+                </div>
+                <table class="layui-table">
+                    <thead>
+                    <tr>
+                        <td width="20%">类别</td>
+                        <td width="8%">项目</td>
+                        <td width="8%">台套</td>
+                        <td width="8%">预算金额</td>
+                        <td width="8%">备注</td>
+                        <td width="8%">删除</td>
+                    </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <div class="layui-row" id="funds_sources_table">
+                <div class="tableToolBox">
+                    <div class="tableTitle">
+                        资金来源表
+                    </div>
+                    <div class="tableBtns">
+                        <a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg"
+                           data-type="fundsAddEvent">新增
+                        </a>
+                    </div>
+                </div>
+                <table class="layui-table">
+                    <thead>
+                    <tr>
+                        <td width="20%">来源</td>
+                        <td width="8%">国家拨款(万)</td>
+                        <td width="8%">总部拨付(万)</td>
+                        <td width="8%">负责单位自筹(万)</td>
+                        <td width="8%">其它(万)</td>
+                        <td width="8%">合计(万)</td>
+                        <td width="8%">删除</td>
+                    </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <div class="layui-row" id="project_funds_table">
+                <div class="tableToolBox">
+                    <div class="tableTitle">
+
+                    </div>
+                    <div class="tableBtns">
+
+                    </div>
+                </div>
+                <table class="layui-table">
+                    <thead>
+                    <tr>
+                        <td width="20%">年 度</td>
+                        <td width="8%">费用性支出(万元)</td>
+                        <td width="8%">资本性支出(万元)</td>
+                        <td width="8%">小 计(万元)</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
         </div>
-      </div>
-     <div class="layui-form-item layui-form-text" >
-        <label class="layui-form-label">资金来源表<span class="must-fill">*</span></label>
-        <div class="layui-input-block" id="funds_sources_table">
-            <table class="layui-table">
-             <thead>
-	             <tr>
-	                <td width="20%">来源</td>
-	                <td width="8%">国家拨款</td>
-	                <td width="8%">总部拨付</td>
-	                <td width="8%">负责单位自筹</td>
-	                <td width="8%">其它</td>
-	                <td width="8%">合计</td>
-	             </tr>
-            </thead><tbody></tbody>
-          </table>
+        <div class="form-bottom">
+            <div class="form-bottom-btns">
+                <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue"
+                        lay-submit="" lay-filter="sub">保存
+                </button>
+                <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue"
+                        lay-submit="" lay-filter="up">上报
+                </button>
+                <button type="button"
+                        class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white"
+                        id="closeBtn">关闭
+                </button>
+            </div>
         </div>
-      </div>
-      
-     <div class="layui-form-item layui-form-text" >
-        <label class="layui-form-label"></label>
-        <div class="layui-input-block" id="project_funds_table">
-            <table class="layui-table">
-             <thead>
-	             <tr>
-	                <td width="20%">年  度</td>
-	                <td width="8%">费用性支出(万元)</td>
-	                <td width="8%">资本性支出(万元)</td>
-	                <td width="8%">小  计(万元)</td>
-	             </tr>
-            </thead>
-            <tbody>
-            </tbody>
-          </table>
-        </div>
-      </div>
-      
-      
-      
-      <div class="layui-form-item layui-form-text" >
-        <label class="layui-form-label">其他</label>
-        <div class="layui-input-block">
-          <textarea name="remarks" id="remarks"    class="layui-textarea">${sreProjectBasic.remarks}</textarea>
-        </div>
-      </div>
-      
-      
-       
-      
-     
-      
-      
-      
-      
-      
-      
-     
-      
-    
-    
-    <div class="form-bottom">
-	  		<div class="form-bottom-btns">
-	    		<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue"   lay-submit="" lay-filter="sub">保存</button>
-             	<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue"  lay-submit="" lay-filter="up">上报</button>
-          		<button type="button"class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" id="closeBtn">关闭</button>
-	  		</div>
-		</div>
-</form>
-</div>
+    </form>
 </div>
 <script>
-var param=JSON.parse(window.localStorage.getItem("param"));
-var functionId=param.id;
-$('#functionId').val(functionId);
-var roleCodes = "";
-var unitCodes = "";
-var postCodes = "";
+    var param = JSON.parse(window.localStorage.getItem("param"));
+    var functionId = param.id;
+    $('#functionId').val(functionId);
+    var roleCodes = "";
+    var unitCodes = "";
+    var postCodes = "";
+    var v_date = (new Date()).getTime();
+    var file_ids = "documentDoc";
+    //detail:详情，edit：编辑
+    file_edit_detail = "edit";
+    //统管理-附件管理-附件配置：页面标识
+    file_opt_flag = "b3a52bbe7087419c80813d7716f37674";
+    var equipmentIds = $("#equipmentIds").val();
+    var yearFeeStr = $("#yearFeeStr").val();
+    var beginYear = $("#beginYear").val();
+    var table, selectRowData;
+    layui.use(['form', 'table', 'laypage', 'layer', 'laydate', 'laytpl', 'jquery', "publicMethods"], function () {
+        var admin = layui.admin
+        element = layui.element
+            , table = layui.table
+            , layer = layui.layer
+            , laydate = layui.laydate
+            , laypage = layui.laypage
+            , $ = layui.jquery
+            , form = layui.form;
+        var publicMethods = layui.publicMethods;
+        form.render();
+        laydate.render({
+            elem: '#LAY-component-form-group-date'
+        });
+        var equipmentIds = $("#equipmentIds").val();
+        renderTable(equipmentIds)
+        publicMethods.createTable($("#beginYear").val(), $("#endYear").val(), "yearTr", 2, yearFeeStr);
+        //添加到form.render()之后
+        $("#file_div").load('/common/public/uploadlayuiload.html');
+        /* 自定义验证规则  title 要验证的input的 lay-verify=""*/
+        form.verify({
+        	taskMainTaskContent: function (value) {
+                if (value.length < 5) {
+                    return '目标和主要任务至少得10个字符';
+                }
+            },
+            planMoney: [/(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/, '计划金额格试不正确']
+            /*  ,pass: [/(.+){6,12}$/, '密码必须6到12位']
+             ,content: function(value){
+                 layedit.sync(editIndex);
+             } */
+        });
+        $('.layui-btn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+        
+        /*项目内容和主要图表编辑显示*/
+        //var taskArr = "1#2#3#4#5|2#9#8#7#6";
+        var taskArr = $("#taskContent").val();
+        $.each(taskArr.split("|"), function (i, val) {
+            var taskVal = val.split("#");
+            var tr = "<tr><td>" + taskVal[0] + "</td><td><input type='text' value='" + taskVal[1] + "'/> </td>" +
+                "<td><input type='text' value='" + taskVal[2] + "'/> " +
+                "</td><td><input type='number' value='" + taskVal[3] + "'/> </td>" +
+                "<td><input type='text' value='" + taskVal[4] + "'/> </td>" +
+                "<td><a href='javascript:;' class='dele'>删除</a></td></tr>";
+            addTr("task_content", tr);
+        });
+        /*计划进度和考核目标*/
+        //var assessmentArr="2019-10 - 2019-11#w#w|2019-12 - 2019-12#f#f";
+        var assessmentArr = $("#taskAssessmentContent").val();
+        $.each(assessmentArr.split("|"), function (i, val) {
+            var assessmentVal = val.split("#");
+            var date='<input type="text" class="layui-input test-laydate-range-month" value="'+assessmentVal[0]+'" placeholder=" - ">'
+            var tr = "<tr><td>" + date + "</td>" +
+                "<td><input type='text' value='"+assessmentVal[1]+"'/> </td>" +
+                "<td><input type='text' value='"+assessmentVal[2]+"'/> </td>" +
+                "<td><a href='javascript:;' class='dele'>删除</a></td></tr>";
+            addTr("task_assessment_content", tr);
+            lay('.test-laydate-range-month').each(function() {
+                laydate.render({
+                    elem : this
+                    ,type: 'month'
+                    ,range: true
+                });
+            });
+        });
+        /*资金概算表*/
+        //var budgetArr="资本性#d#3#3#4|资本性#d#3#3#4";
+        var budgetArr = $("#budgetTable").val();
+        $.each(budgetArr.split("|"), function (i, val) {
+            var budgetVal = val.split("#");
 
+            if(budgetVal[0]=="资本性"){
 
-var v_date=(new Date()).getTime();
-var file_ids = "documentDoc";
-//detail:详情，edit：编辑
-file_edit_detail = "edit";
-//统管理-附件管理-附件配置：页面标识
-file_opt_flag = "b3a52bbe7087419c80813d7716f37674";
-var equipmentIds=$("#equipmentIds").val();
-var yearFeeStr= $("#yearFeeStr").val();
-var beginYear= $("#beginYear").val();
+                var selectH='<select>' +
+                    '<option value="资本性" selected = "selected" >资本性</option><option value="费用性">费用性</option></select>'
+            }else {
+                var selectH='<select>' +
+                    '<option value="资本性">资本性</option><option value="费用性" selected = "selected" >费用性</option></select>'
 
-var table,selectRowData;
-layui.use(['form','table','laypage','layer','laydate','laytpl','jquery',"publicMethods"], function(){
-
-	  var admin = layui.admin
-      element = layui.element
-      ,table = layui.table
-      ,layer = layui.layer
-      ,laydate = layui.laydate
-      ,laypage = layui.laypage
-      ,$ = layui.jquery
-      ,form = layui.form;
-	  var publicMethods=layui.publicMethods;
-	  form.render();
-	  laydate.render({
-	      elem: '#LAY-component-form-group-date'
-	  });
-	  
-	  var equipmentIds= $("#equipmentIds").val();
-	  renderTable(equipmentIds)
-	  
-	  publicMethods.createTable($("#beginYear").val(),$("#endYear").val(),"yearTr",2,yearFeeStr);
-	  
-      
-
-
-	  //添加到form.render()之后
-	 	$("#file_div").load('/common/public/uploadlayuiload.html');
-	  
-	  
-      /* 自定义验证规则  title 要验证的input的 lay-verify=""*/
-      form.verify({
-    	  name: function(value)
-    	  {
-              if(value.length < 5)
-              {
-                  return '装备名称至少得5个字符啊';
-              }
-          },
-          planMoney: [/(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/,'计划金额格试不正确'] 
-         /*  ,pass: [/(.+){6,12}$/, '密码必须6到12位']
-          ,content: function(value){
-              layedit.sync(editIndex);
-          } */
-      });
-     
-      
-    //开始日期
-      var insStart = laydate.render({
-          elem: '#beginYear'
-          ,min: 0,type: 'year'
-          ,done: function(value, date){
-              //更新结束日期的最小日期
-              insEnd.config.min = lay.extend({}, date, {
-                  month: date.month - 1
-              });
-              //自动弹出结束日期的选择器
-              insEnd.config.elem[0].focus();
-          }
-      });
-
-      //结束日期
-      var insEnd = laydate.render({
-          elem: '#endYear'
-          ,min: 0,type: 'year'
-          ,done: function(value, date){
-              //更新开始日期的最大日期
-              insStart.config.max = lay.extend({}, date, {
-                  month: date.month - 1
-              });
-              publicMethods.createTable($("#beginYear").val(),date.year,"yearTr",2,yearFeeStr);
-          }
-      });
-      $('.layui-btn').on('click', function () {
-          var type = $(this).data('type');
-          active[type] ? active[type].call(this) : '';
-      });
-      var $ = layui.$, active = {
-    		  selectEvent: function(){ 
-	    			//var temUrl = "/intl_project/plant_edit_selectapply?equipmentIds="+$("#equipmentIds").val();
-	    			var temUrl = '/sre_project_task/project_basic_add_selectapply?equipmentIds='+$("#equipmentIds").val();
-	                publicMethods.openBaseWin("选择装备",temUrl,"90%","80%");
-	    		
-	            }/* ,
-	            deleteEvent:function(){
-	            	layer.confirm('确定要移除吗？',{title:"移除确认"},function(index){
-						layer.close(index);
-		            	var check = table.checkStatus('join_apply_table');
-		            	var equipmentIds=$("#equipmentIds").val();
-		            	for(var dt in check.data)
-		            	{
-		            		var id=check.data[dt].equipmentId;
-		            		
-		            		equipmentIds=equipmentIds.replace(id,'');
-		            	}
-		            	$("#equipmentIds").val(equipmentIds);
-		            	renderTable(equipmentIds);
-	            	});
-	            }  */
-    		  
-      }
-    form.verify({
-        validateNumber:function(value, item){
-            if(value<=0 || value>2000){
-                return '请填写正确的值';
             }
+            var tr = "<tr><td>" + selectH + "</td>" +
+                "<td><input type='text' value='"+budgetVal[1]+"'/> </td>" +
+                "<td><input type='number' value='"+budgetVal[2]+"'/> </td>" +
+                "<td><input type='number' value='"+budgetVal[3]+"'/> </td>" +
+                "<td><input type='text' value='"+budgetVal[4]+"'/> </td>" +
+                "<td><a href='javascript:;' class='dele'>删除</a></td></tr>";
+            addTr("budget_table", tr);
+            form.render();
+        });
+        /*资金来源表*/
+        //var fundsArr="1#77#34#34#34#324|2#88#66#45#34#412";
+        var fundsArr = $("#fundsSourcesTable").val();
+        $.each(fundsArr.split("|"), function (i, val) {
+            var fundsVal = val.split("#");
+            var tr = "<tr><td> <input type='text' value='"+fundsVal[0]+"'/></td>" +
+                "<td><input type='number' class='fundsNumber' value='"+fundsVal[1]+"'/> </td>" +
+                "<td><input type='number' class='fundsNumber'  value='"+fundsVal[2]+"'/> </td>" +
+                "<td><input type='number' class='fundsNumber' value='"+fundsVal[3]+"'/> </td>" +
+                "<td><input type='number' class='fundsNumber'  value='"+fundsVal[4]+"'/> </td>" +
+                "<td>"+fundsVal[5]+"</td>" +
+                "<td><a href='javascript:;' class='dele'>删除</a></td></tr>";
+            addTr("funds_sources_table", tr);
+        });
+        dele();
+        var $ =layui.$, active = {
+            taskAddEvent: function () {
+                var n = $("#task_content table tbody tr").length + 1;
+                var tr = "<tr><td>" + n + "</td><td><input type='text' value=''/> </td>" +
+                    "<td><input type='text' value=''/> </td><td><input type='number' value=''/> </td>" +
+                    "<td><input type='text' value=''/> </td>" +
+                    "<td><a href='javascript:;' class='dele'>删除</a></td></tr>";
+                addTr("task_content", tr);
+                dele()
+            },
+            assessmentAddEvent:function(){
+                var date='<input type="text" class="layui-input test-laydate-range-month"  placeholder=" - ">'
+                var tr = "<tr><td>" + date + "</td>" +
+                    "<td><input type='text' value=''/> </td>" +
+                    "<td><input type='text' value=''/> </td>" +
+                    "<td><a href='javascript:;' class='dele'>删除</a></td></tr>";
+                addTr("task_assessment_content", tr);
+                dele()
+                lay('.test-laydate-range-month').each(function() {
+                    laydate.render({
+                        elem : this
+                        ,type: 'month'
+                        ,range: true
+                    });
+                });
+            },
+            budgetAddEvent:function(){
+                var selectH='<select>' +
+                    '<option value="资本性">资本性</option><option value="费用性">费用性</option></select>'
+                var tr = "<tr><td>" + selectH + "</td>" +
+                    "<td><input type='text' value=''/> </td>" +
+                    "<td><input type='number' value=''/> </td>" +
+                    "<td><input type='number' value=''/> </td>" +
+                    "<td><input type='text' value=''/> </td>" +
+                    "<td><a href='javascript:;' class='dele'>删除</a></td></tr>";
+                addTr("budget_table", tr);
+                dele()
+                form.render();
+            },
+            fundsAddEvent:function(){
+                var tr = "<tr><td> <input type='text' value=''/></td>" +
+                    "<td><input type='number' class='fundsNumber' value='0'/> </td>" +
+                    "<td><input type='number' class='fundsNumber'  value='0'/> </td>" +
+                    "<td><input type='number' class='fundsNumber' value='0'/> </td>" +
+                    "<td><input type='number' class='fundsNumber'  value='0'/> </td>" +
+                    "<td></td>" +
+                    "<td><a href='javascript:;' class='dele'>删除</a></td></tr>";
+                addTr("funds_sources_table", tr);
+                dele()
+                $(".fundsNumber").change(function () {
+                    var numberC=0;
+                    $(".fundsNumber").each(function (i, val) {
+                        numberC+=parseFloat($(val).val())
+                    });
+                    $(this).parents("tr").find("td").eq(5).text(numberC)
+                });
+            }
+
         }
+        form.verify({
+            validateNumber: function (value, item) {
+                if (value <= 0 || value > 2000) {
+                    return '请填写正确的值';
+                }
+            }
+        });
+        /* 监听提交 */
+        form.on('submit(sub)', function (data) {
+            //JSON.stringify(data.field)  提交信息json格式
+            /*parent.layer.alert(JSON.stringify(data.field), {
+                title: '最终的提交信息'
+            })*/
+            var  task_content =getData("task_content", 4);
+            var  task_assessment_content =getData("task_assessment_content", 3);
+            var  budget_table =getData("budget_table", 5);
+            var  funds_sources_table =getData("funds_sources_table", 6);
+            
+            
+            
+            
+            if (task_content == null || task_content == '') 
+            {
+                layer.alert("项目内容和主要图表为空");
+            }else if (task_assessment_content == null || task_assessment_content == '') 
+            {
+                layer.alert("计划进度和考核目标为空");
+            }else{
+            	
+            	 $("#taskContent").val(task_content)
+            	 $("#taskAssessmentContent").val(task_assessment_content)
+            	 var url="/sre_project_task/save?v_date="+v_date+"&status=0";
+                 var backurl="/sre_project_task/to_list?v_date="+v_date;
+                 ajaxOpt(url,"form1","POST",backurl,"保存成功","保存失败");
+            }
+            return false;
+        });
+        /* 监听提交 */
+        form.on('submit(up)', function (data) {
+            //JSON.stringify(data.field)  提交信息json格式
+            /*parent.layer.alert(JSON.stringify(data.field), {
+                title: '最终的提交信息'
+            })*/
+            $("#yearFeeStr").val(publicMethods.getVal("yearTr", 4));
+            var yearFee_Str = $("#yearFeeStr").val();
+            if (yearFee_Str == null || yearFee_Str == '') {
+                layer.alert("建设年限为空");
+            } else {
+            	dealFlow(data);
+            }
+            return false;
+        });
     });
-      /* 监听提交 */
-      form.on('submit(sub)', function(data){
-          //JSON.stringify(data.field)  提交信息json格式
-          /*parent.layer.alert(JSON.stringify(data.field), {
-              title: '最终的提交信息'
-          })*/
-          $("#yearFeeStr").val(publicMethods.getVal("yearTr",4)); 
-          var yearFee_Str= $("#yearFeeStr").val();
-          if(yearFee_Str==null || yearFee_Str=='')
-          {
-        	  layer.alert("建设年限为空");
-          }else
-       	  {
-             var url="/sre_project_task/save?v_date="+v_date+"&status=0";
-             var backurl="/sre_project_task/to-list?v_date="+v_date;
-             ajaxOpt(url,"form1","POST",backurl,"保存成功","保存失败");
-       	  }
-          
-         
-          return false;
-      });
-      
-      /* 监听提交 */
-      form.on('submit(up)', function(data){
-          //JSON.stringify(data.field)  提交信息json格式
-          /*parent.layer.alert(JSON.stringify(data.field), {
-              title: '最终的提交信息'
-          })*/
-          $("#yearFeeStr").val(publicMethods.getVal("yearTr",4)); 
-          var yearFee_Str= $("#yearFeeStr").val();
-          if(yearFee_Str==null || yearFee_Str=='')
-          {
-        	  layer.alert("建设年限为空");
-          }else
-       	  {
-        	  dealFlow(data);
-       	  }
-          return false;
-      });
-      
-});
+
+    function ajaxOpt(url, formName, type, backurl, successMsg, failMsg) {
+        $("#equipmentIds").val($("#equipmentIds").val());
+        $.ajax({
+            type: type,
+            url: url,
+            dataType: "json",
+            data: $("#" + formName).serialize(),
+            async: false,
+            cache: false,
+            contentType: "application/x-www-form-urlencoded; charset=utf-8",
+            success: function (data, status) {
+                if (data.success == true || data.success == 'true') {
+                    layer.alert(
+                        successMsg,
+                        {icon: 1, closeBtn: 0},
+                        function () {
+                            var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+                            parent.layer.close(index);  // 关闭layer
+                            parent.location.href = backurl;
+                        });
+                } else {
+                    layer.alert(failMsg);
+                }
+            },
+            error: function () {
+                layer.alert("网络访问错误");
+            }
+        });
+    }
+
+    function renderTable(equipmentIds) {
+        $("#equipmentIds").val(equipmentIds);
+        table.render({
+            elem: '#join_apply_table',
+            url: '/sre-equipment/list_by_quipment_ids?equipmentIds=' + equipmentIds,
+            limit: 15,
+            method: "GET",
+            id: 'join_apply_table',
+            height: 200,
+            page: {first: '首页', last: '尾页', theme: '#0F9EE0'},
+            cols: [[
+                {type: 'checkbox', event: 'changeEvents'}
+                , {title: '序号', type: 'numbers'},
+                {
+                    field: 'auditStatus',
+                    title: '状态',
+                    style: 'cursor: pointer;',
+                    align: 'center',
+                    templet: '<div>{{ layui.laytpl.auditStatus_equipment(d.auditStatus) }}</div>',
+                    width: 55
+                },
+                {field: 'name', title: '装备名称', style: 'cursor: pointer;', align: 'center', width: '20%'},
+                {field: 'type', title: '装备分类', style: 'cursor: pointer;', align: 'center', width: '10%'},
+                {field: 'unitPrice', title: '单价（万元）', style: 'cursor: pointer;', align: 'center', width: '10%'},
+                {field: 'applyAcount', title: '申请数量', style: 'cursor: pointer;', align: 'center', width: '10%'},
+                {
+                    field: 'allPrice',
+                    title: '总价￥（万元）',
+                    style: 'cursor: pointer;',
+                    align: 'center',
+                    width: '10%',
+                    templet: function (d) {
+                        return '<span style="color:red">' + d.allPrice + '</span>'
+                    }
+                },
+                {field: 'applyDepartName', title: '申报部门', style: 'cursor: pointer;', align: 'center', width: '10%'},
+                {field: 'firstApplyUser', title: '第一申报人', style: 'cursor: pointer;', align: 'center', width: '10%'}
+
+            ]]
+        });
+    }
+
+    var index_close;
 
 
+    function dealFlow(data) 
+    {
+    	
+    	
+    	 $.ajax({
+             type : 'POST',
+             url : "/workflow/start/audit-type",
+             contentType: "application/json;charset=UTF-8",
+             data : JSON.stringify(data.field),
+             //json中有functionId（projectId、departmentId等）用来区别processDefine的属性
+             success : function(data) 
+             {
+          	   if (data.code == 'role')
+          	   {
+              		// 按角色选择，获取下一步审批人信息,选择完审批人后，调用：handleTask(userIds)方法
+              		// roleCodes，参数名必须一致，方便公共弹出页面调用
+              		   roleCodes = data.data;  // 弹出页面的隐藏的查询条件
+              		  var temUrl="/task/deal/users/ini";
+                      layer.open({
+                          title:'选择审批人',
+                          skin: 'layui-layer-lan',
+                          shadeClose: true,
+                          type: 2,
+                          fixed: false,
+                          //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                          maxmin: true,
+                          //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                          area: ['800px', '550px'],
+                          content:  temUrl
+                      });
+              	} else if (data.code == 'unit' || data.code == 'post') 
+              	{
+              		// 按部门/岗位选择，获取下一步审批人信息,选择完审批人后，调用：handleTask(userIds)方法
+              		// unitCodes、postCodes，参数名必须一致，方便公共弹出页面调用
+    	          		if (data.code == 'unit') 
+    	          		{
+    	          			unitCodes = data.data;  // 弹出页面的隐藏的查询条件
+    	          		} else 
+    	          		{
+    	          			postCodes = data.data;  // 弹出页面的隐藏的查询条件
+    	          		}
+              		
+              		   var temUrl="/task/deal/user/unit/ini";
+                       layer.open({
+                          title:'选择审批人',
+                          skin: 'layui-layer-lan',
+                          shadeClose: true,
+                          type: 2,
+                          fixed: false,
+                          //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                          maxmin: true,
+                          //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                          area: ['800px', '550px'],
+                          content:  temUrl
+                      });
+              	} else if (data.code == 'int') 
+              	{
+              		layer.msg('启动参数不足');
+              	} else if (data.code == 'con') 
+              	{
+              		layer.msg('请给此功能菜单配置流程');
+              	} else if (data.code == 'exist') 
+              	{
+              		layer.msg('工作流部署异常，请联系管理员');
+              	} else 
+              	{
+              		// 直接处理此任务
+              		handleTask('');
+              	}
+             },
+             error : function(msg) {//请求失败处理函数  
+            }
+         });
+    }
 
-function ajaxOpt(url,formName,type,backurl,successMsg,failMsg)
-{
-	$("#equipmentIds").val($("#equipmentIds").val());
-	 $.ajax({
-  	     type:type,
-  	     url: url,
-  	     dataType:"json",
-  	     data:$("#"+formName).serialize(),
-  	     async: false, 
-  	     cache: false,
-  	     contentType: "application/x-www-form-urlencoded; charset=utf-8",
-         success:function(data,status)
-         {    
-    	  
-	          if(data.success==true ||data.success=='true')
-	          {
+  //处理任务（启动流程）的方法，方法名固定，为了通用选择审批人员的弹出页面调用
+    function handleTask(userIds) 
+    {
+    	$('#userIds').val(userIds);
+        var url="/sre_project_task/save?v_date="+v_date+"&isWorkFlow=1&functionId="+param.id;
+        var backurl="/sre_project_task/to_list?v_date="+v_date;
+        ajaxOpt(url,"form1","POST",backurl,"提交成功","提交失败");
+        
+    }
 
-	        	  
-	        	          layer.alert(
-	        			  successMsg, 
-	                      {icon: 1,closeBtn: 0 },
-	                      function () 
-	                      {
-	                    	  var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
-	                          parent.layer.close(index);  // 关闭layer
-	                    	  parent.location.href=backurl;
-	                      });
-	        	  
-	          } else
-	          {
-	        	 layer.alert(failMsg);
-	          }
-	     
-		   },
-		   error:function()
-		   {
-		    	layer.alert("网络访问错误");
-		   }
-    
-  });
-}
 
-function renderTable(equipmentIds)
-{
-	  $("#equipmentIds").val(equipmentIds);
-	  table.render({
-          elem: '#join_apply_table',
-          url: '/sre-equipment/list_by_quipment_ids?equipmentIds='+equipmentIds,
-          limit: 15,
-          method:"GET",
-      	  id: 'join_apply_table',
-          height: 200,
-          page: {first: '首页',last: '尾页',theme: '#0F9EE0'},
-          cols: [[
-          	 {type:'checkbox',event: 'changeEvents'}
-          	 ,{title:'序号', type:'numbers'},
-          	{field : 'auditStatus', title : '状态', style : 'cursor: pointer;', align : 'center', templet : '<div>{{ layui.laytpl.auditStatus_equipment(d.auditStatus) }}</div>', width : 55},
-            {field : 'name',     title : '装备名称', style : 'cursor: pointer;', align : 'center', width : '20%'},
-            {field : 'type',     title : '装备分类', style : 'cursor: pointer;', align : 'center', width : '10%'},
-            {field : 'unitPrice', title : '单价（万元）', style : 'cursor: pointer;', align : 'center', width : '10%'},
-            {field : 'applyAcount', title : '申请数量', style : 'cursor: pointer;', align : 'center', width : '10%'},
-            {field : 'allPrice', title : '总价¥（万元）', style : 'cursor: pointer;', align : 'center', width : '10%',templet:function(d){return '<span style="color:red">'+d.allPrice+'</span>'}},
-            {field : 'applyDepartName', title : '申报部门', style : 'cursor: pointer;', align : 'center', width : '10%'},
-            {field : 'firstApplyUser', title : '第一申报人', style : 'cursor: pointer;', align : 'center', width : '10%'}
-             
-          ]]
-      });
-}
-
-var index_close;
-
-function dealFlow(data) 
-{
-	
-	
-	 $.ajax({
-         type : 'POST',
-         url : "/workflow/start/audit-type",
-         contentType: "application/json;charset=UTF-8",
-         data : JSON.stringify(data.field),
-         //json中有functionId（projectId、departmentId等）用来区别processDefine的属性
-         success : function(data) 
-         {
-      	   if (data.code == 'role')
-      	   {
-          		// 按角色选择，获取下一步审批人信息,选择完审批人后，调用：handleTask(userIds)方法
-          		// roleCodes，参数名必须一致，方便公共弹出页面调用
-          		   roleCodes = data.data;  // 弹出页面的隐藏的查询条件
-          		  var temUrl="/task/deal/users/ini";
-                  layer.open({
-                      title:'选择审批人',
-                      skin: 'layui-layer-lan',
-                      shadeClose: true,
-                      type: 2,
-                      fixed: false,
-                      //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                      maxmin: true,
-                      //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                      area: ['800px', '550px'],
-                      content:  temUrl
-                  });
-          	} else if (data.code == 'unit' || data.code == 'post') 
-          	{
-          		// 按部门/岗位选择，获取下一步审批人信息,选择完审批人后，调用：handleTask(userIds)方法
-          		// unitCodes、postCodes，参数名必须一致，方便公共弹出页面调用
-	          		if (data.code == 'unit') 
-	          		{
-	          			unitCodes = data.data;  // 弹出页面的隐藏的查询条件
-	          		} else 
-	          		{
-	          			postCodes = data.data;  // 弹出页面的隐藏的查询条件
-	          		}
-          		
-          		   var temUrl="/task/deal/user/unit/ini";
-                   layer.open({
-                      title:'选择审批人',
-                      skin: 'layui-layer-lan',
-                      shadeClose: true,
-                      type: 2,
-                      fixed: false,
-                      //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                      maxmin: true,
-                      //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                      area: ['800px', '550px'],
-                      content:  temUrl
-                  });
-          	} else if (data.code == 'int') 
-          	{
-          		layer.msg('启动参数不足');
-          	} else if (data.code == 'con') 
-          	{
-          		layer.msg('请给此功能菜单配置流程');
-          	} else if (data.code == 'exist') 
-          	{
-          		layer.msg('工作流部署异常，请联系管理员');
-          	} else 
-          	{
-          		// 直接处理此任务
-          		handleTask('');
-          	}
-         },
-         error : function(msg) {//请求失败处理函数  
+    function clearNoNum(obj) {
+        obj.value = obj.value.replace(/[^\d.]/g, "");  //清除“数字”和“.”以外的字符
+        obj.value = obj.value.replace(/\.{2,}/g, "."); //只保留第一个. 清除多余的
+        obj.value = obj.value.replace(".", "$#$").replace(/\./g, "").replace("$#$", ".");
+        obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3');//只能输入两个小数
+        if (obj.value.indexOf(".") < 0 && obj.value != "") {//以上已经过滤，此处控制的是如果没有小数点，首位不能为类似于 01、02的金额
+            obj.value = parseFloat(obj.value);
         }
-     });
-}
+    }
 
-//处理任务（启动流程）的方法，方法名固定，为了通用选择审批人员的弹出页面调用
-function handleTask(userIds) 
-{
-	$('#userIds').val(userIds);
-    var url="/sre_project_task/save?v_date="+v_date+"&isWorkFlow=1&functionId="+param.id;
-    var backurl="/sre_project_task/to-list?v_date="+v_date;
-   
-    ajaxOpt(url,"form1","POST",backurl,"提交成功","提交失败");
-    
-}
-
-
-//参加单位
-function choose_joinUnitName_callback(unitId,unitName) 
-{
-	$("#joinUnitName").val(unitName);
-	$("#joinUnitCode").val(unitId);
-}
-function choose_entrustUnitName_callback(unitId,unitName) 
-{
-	$("#entrustUnitName").val(unitName);
-	$("#entrustUnitCode").val(unitId);
-}
-
-function choose_leadUnitName_callback(unitId,unitName) 
-{
-	$("#leadUnitName").val(unitName);
-	$("#leadUnitCode").val(unitId);
-}
-
-function clearNoNum(obj){ 
-    obj.value = obj.value.replace(/[^\d.]/g,"");  //清除“数字”和“.”以外的字符  
-    obj.value = obj.value.replace(/\.{2,}/g,"."); //只保留第一个. 清除多余的  
-    obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$","."); 
-    obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3');//只能输入两个小数  
-    if(obj.value.indexOf(".")< 0 && obj.value !=""){//以上已经过滤，此处控制的是如果没有小数点，首位不能为类似于 01、02的金额 
-        obj.value= parseFloat(obj.value); 
-    } 
-}
-
-//关闭事件
-$("#closeBtn").click(function () {
-    var index = parent.layer.getFrameIndex(window.name);
-    parent.layer.close(index);
-})
+    /*添加行*/
+    function addTr(id, tr) {
+        $("#" + id + " table tbody").append(tr);
+    }
+    /*获取值*/
+    function getData(id, number) {
+        /*获取值*/
+        var columnTrL = $("#" + id + " table tbody tr").length;
+        var columnSC = '';
+        $("#" + id + " table tbody tr").each(function (i) {
+            var columnS = '';
+            for (var k = 0; k < number; k++) {
+                var tdElement = $("#" + id + " table tbody tr:eq(" + i + ") td").eq(k);
+                if ($(tdElement).find("input").length > 0) {
+                    columnS += $(tdElement).find("input").val() + "#";
+                } else {
+                    columnS += $(tdElement).html() + "#";
+                }
+            }
+            columnSC += columnS.substring(0, columnS.length - 1) + "|"
+        });
+        columnSC = columnSC.substring(0, columnSC.length - 1);
+        return columnSC;
+    }
+    /*删除行*/
+    function dele(){
+        $(".dele").click(function () {
+            if($(this).parents(".layui-row").attr("id")=="task_content"){
+                $(this).parents("tr").remove();
+                $("#task_content table tbody tr").each(function (i, val) {
+                    $(val).find("td:first").text(i+1)
+                });
+                return;
+            }
+            $(this).parents("tr").remove();
+        });
+    }
+    //关闭事件
+    $("#closeBtn").click(function () {
+        var index = parent.layer.getFrameIndex(window.name);
+        parent.layer.close(index);
+    })
 </script>
 </body>
 </html>
