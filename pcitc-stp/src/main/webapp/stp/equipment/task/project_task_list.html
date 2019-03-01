@@ -256,7 +256,7 @@ var name=$('#name').val();
             	{
             		 var taskId=selectRowData.taskId;
             		 var temUrl="/sre_project_task/createWord/" + taskId;
-            		 ajaxDeleteCreateWord(url,"GET","生成WORD成功","生成WORD失败");
+            		 ajaxDeleteCreateWord(temUrl,"GET","生成WORD成功","生成WORD失败");
             	}
             },
             allEvent: function(){ 

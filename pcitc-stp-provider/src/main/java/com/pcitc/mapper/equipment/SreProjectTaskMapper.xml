@@ -5,6 +5,7 @@
     <id column="task_id" property="taskId" jdbcType="VARCHAR" />
     <result column="project_id" property="projectId" jdbcType="VARCHAR" />
     <result column="create_user_id" property="createUserId" jdbcType="VARCHAR" />
+    <result column="create_user_name" property="createUserName" jdbcType="VARCHAR" />
     <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
     <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
     <result column="task_main_task_content" property="taskMainTaskContent" jdbcType="VARCHAR" />
@@ -19,6 +20,14 @@
     <result column="cover" property="cover" jdbcType="VARCHAR" />
     <result column="contract_num" property="contractNum" jdbcType="VARCHAR" />
     <result column="audit_status" property="auditStatus" jdbcType="VARCHAR" />
+    <result column="project_name" property="projectName" jdbcType="VARCHAR" />
+    <result column="apply_unit_name" property="applyUnitName" jdbcType="VARCHAR" />
+    <result column="apply_unit_code" property="applyUnitCode" jdbcType="VARCHAR" />
+    <result column="lead_unit_name" property="leadUnitName" jdbcType="VARCHAR" />
+    <result column="join_unit_name" property="joinUnitName" jdbcType="VARCHAR" />
+    <result column="lead_unit_code" property="leadUnitCode" jdbcType="VARCHAR" />
+    <result column="join_unit_code" property="joinUnitCode" jdbcType="VARCHAR" />
+    <result column="project_money" property="projectMoney" jdbcType="DECIMAL" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -79,9 +88,11 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    task_id, project_id, create_user_id, create_date, update_date, task_main_task_content, 
-    task_content, task_assessment_content, task_check_contents, budget_table, funds_sources_table, 
-    project_funds_table, project_notice, notes, cover, contract_num, audit_status
+    task_id, project_id, create_user_id, create_user_name, create_date, update_date, 
+    task_main_task_content, task_content, task_assessment_content, task_check_contents, 
+    budget_table, funds_sources_table, project_funds_table, project_notice, notes, cover, 
+    contract_num, audit_status, project_name, apply_unit_name, apply_unit_code, lead_unit_name, 
+    join_unit_name, lead_unit_code, join_unit_code, project_money
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.pcitc.base.stp.equipment.SreProjectTaskExample" >
     select
@@ -116,17 +127,23 @@
   </delete>
   <insert id="insert" parameterType="com.pcitc.base.stp.equipment.SreProjectTask" >
     insert into sre_project_task (task_id, project_id, create_user_id, 
-      create_date, update_date, task_main_task_content, 
-      task_content, task_assessment_content, task_check_contents, 
-      budget_table, funds_sources_table, project_funds_table, 
-      project_notice, notes, cover, 
-      contract_num, audit_status)
+      create_user_name, create_date, update_date, 
+      task_main_task_content, task_content, task_assessment_content, 
+      task_check_contents, budget_table, funds_sources_table, 
+      project_funds_table, project_notice, notes, 
+      cover, contract_num, audit_status, 
+      project_name, apply_unit_name, apply_unit_code, 
+      lead_unit_name, join_unit_name, lead_unit_code, 
+      join_unit_code, project_money)
     values (#{taskId,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR}, #{createUserId,jdbcType=VARCHAR}, 
-      #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, #{taskMainTaskContent,jdbcType=VARCHAR}, 
-      #{taskContent,jdbcType=VARCHAR}, #{taskAssessmentContent,jdbcType=VARCHAR}, #{taskCheckContents,jdbcType=VARCHAR}, 
-      #{budgetTable,jdbcType=VARCHAR}, #{fundsSourcesTable,jdbcType=VARCHAR}, #{projectFundsTable,jdbcType=VARCHAR}, 
-      #{projectNotice,jdbcType=VARCHAR}, #{notes,jdbcType=VARCHAR}, #{cover,jdbcType=VARCHAR}, 
-      #{contractNum,jdbcType=VARCHAR}, #{auditStatus,jdbcType=VARCHAR})
+      #{createUserName,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, 
+      #{taskMainTaskContent,jdbcType=VARCHAR}, #{taskContent,jdbcType=VARCHAR}, #{taskAssessmentContent,jdbcType=VARCHAR}, 
+      #{taskCheckContents,jdbcType=VARCHAR}, #{budgetTable,jdbcType=VARCHAR}, #{fundsSourcesTable,jdbcType=VARCHAR}, 
+      #{projectFundsTable,jdbcType=VARCHAR}, #{projectNotice,jdbcType=VARCHAR}, #{notes,jdbcType=VARCHAR}, 
+      #{cover,jdbcType=VARCHAR}, #{contractNum,jdbcType=VARCHAR}, #{auditStatus,jdbcType=VARCHAR}, 
+      #{projectName,jdbcType=VARCHAR}, #{applyUnitName,jdbcType=VARCHAR}, #{applyUnitCode,jdbcType=VARCHAR}, 
+      #{leadUnitName,jdbcType=VARCHAR}, #{joinUnitName,jdbcType=VARCHAR}, #{leadUnitCode,jdbcType=VARCHAR}, 
+      #{joinUnitCode,jdbcType=VARCHAR}, #{projectMoney,jdbcType=DECIMAL})
   </insert>
   <insert id="insertSelective" parameterType="com.pcitc.base.stp.equipment.SreProjectTask" >
     insert into sre_project_task
@@ -139,6 +156,9 @@
       </if>
       <if test="createUserId != null" >
         create_user_id,
+      </if>
+      <if test="createUserName != null" >
+        create_user_name,
       </if>
       <if test="createDate != null" >
         create_date,
@@ -182,6 +202,30 @@
       <if test="auditStatus != null" >
         audit_status,
       </if>
+      <if test="projectName != null" >
+        project_name,
+      </if>
+      <if test="applyUnitName != null" >
+        apply_unit_name,
+      </if>
+      <if test="applyUnitCode != null" >
+        apply_unit_code,
+      </if>
+      <if test="leadUnitName != null" >
+        lead_unit_name,
+      </if>
+      <if test="joinUnitName != null" >
+        join_unit_name,
+      </if>
+      <if test="leadUnitCode != null" >
+        lead_unit_code,
+      </if>
+      <if test="joinUnitCode != null" >
+        join_unit_code,
+      </if>
+      <if test="projectMoney != null" >
+        project_money,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="taskId != null" >
@@ -192,6 +236,9 @@
       </if>
       <if test="createUserId != null" >
         #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserName != null" >
+        #{createUserName,jdbcType=VARCHAR},
       </if>
       <if test="createDate != null" >
         #{createDate,jdbcType=TIMESTAMP},
@@ -235,6 +282,30 @@
       <if test="auditStatus != null" >
         #{auditStatus,jdbcType=VARCHAR},
       </if>
+      <if test="projectName != null" >
+        #{projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="applyUnitName != null" >
+        #{applyUnitName,jdbcType=VARCHAR},
+      </if>
+      <if test="applyUnitCode != null" >
+        #{applyUnitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="leadUnitName != null" >
+        #{leadUnitName,jdbcType=VARCHAR},
+      </if>
+      <if test="joinUnitName != null" >
+        #{joinUnitName,jdbcType=VARCHAR},
+      </if>
+      <if test="leadUnitCode != null" >
+        #{leadUnitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="joinUnitCode != null" >
+        #{joinUnitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="projectMoney != null" >
+        #{projectMoney,jdbcType=DECIMAL},
+      </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.pcitc.base.stp.equipment.SreProjectTaskExample" resultType="java.lang.Integer" >
@@ -254,6 +325,9 @@
       </if>
       <if test="record.createUserId != null" >
         create_user_id = #{record.createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createUserName != null" >
+        create_user_name = #{record.createUserName,jdbcType=VARCHAR},
       </if>
       <if test="record.createDate != null" >
         create_date = #{record.createDate,jdbcType=TIMESTAMP},
@@ -297,6 +371,30 @@
       <if test="record.auditStatus != null" >
         audit_status = #{record.auditStatus,jdbcType=VARCHAR},
       </if>
+      <if test="record.projectName != null" >
+        project_name = #{record.projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.applyUnitName != null" >
+        apply_unit_name = #{record.applyUnitName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.applyUnitCode != null" >
+        apply_unit_code = #{record.applyUnitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.leadUnitName != null" >
+        lead_unit_name = #{record.leadUnitName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.joinUnitName != null" >
+        join_unit_name = #{record.joinUnitName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.leadUnitCode != null" >
+        lead_unit_code = #{record.leadUnitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.joinUnitCode != null" >
+        join_unit_code = #{record.joinUnitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectMoney != null" >
+        project_money = #{record.projectMoney,jdbcType=DECIMAL},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -307,6 +405,7 @@
     set task_id = #{record.taskId,jdbcType=VARCHAR},
       project_id = #{record.projectId,jdbcType=VARCHAR},
       create_user_id = #{record.createUserId,jdbcType=VARCHAR},
+      create_user_name = #{record.createUserName,jdbcType=VARCHAR},
       create_date = #{record.createDate,jdbcType=TIMESTAMP},
       update_date = #{record.updateDate,jdbcType=TIMESTAMP},
       task_main_task_content = #{record.taskMainTaskContent,jdbcType=VARCHAR},
@@ -320,7 +419,15 @@
       notes = #{record.notes,jdbcType=VARCHAR},
       cover = #{record.cover,jdbcType=VARCHAR},
       contract_num = #{record.contractNum,jdbcType=VARCHAR},
-      audit_status = #{record.auditStatus,jdbcType=VARCHAR}
+      audit_status = #{record.auditStatus,jdbcType=VARCHAR},
+      project_name = #{record.projectName,jdbcType=VARCHAR},
+      apply_unit_name = #{record.applyUnitName,jdbcType=VARCHAR},
+      apply_unit_code = #{record.applyUnitCode,jdbcType=VARCHAR},
+      lead_unit_name = #{record.leadUnitName,jdbcType=VARCHAR},
+      join_unit_name = #{record.joinUnitName,jdbcType=VARCHAR},
+      lead_unit_code = #{record.leadUnitCode,jdbcType=VARCHAR},
+      join_unit_code = #{record.joinUnitCode,jdbcType=VARCHAR},
+      project_money = #{record.projectMoney,jdbcType=DECIMAL}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -333,6 +440,9 @@
       </if>
       <if test="createUserId != null" >
         create_user_id = #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserName != null" >
+        create_user_name = #{createUserName,jdbcType=VARCHAR},
       </if>
       <if test="createDate != null" >
         create_date = #{createDate,jdbcType=TIMESTAMP},
@@ -376,6 +486,30 @@
       <if test="auditStatus != null" >
         audit_status = #{auditStatus,jdbcType=VARCHAR},
       </if>
+      <if test="projectName != null" >
+        project_name = #{projectName,jdbcType=VARCHAR},
+      </if>
+      <if test="applyUnitName != null" >
+        apply_unit_name = #{applyUnitName,jdbcType=VARCHAR},
+      </if>
+      <if test="applyUnitCode != null" >
+        apply_unit_code = #{applyUnitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="leadUnitName != null" >
+        lead_unit_name = #{leadUnitName,jdbcType=VARCHAR},
+      </if>
+      <if test="joinUnitName != null" >
+        join_unit_name = #{joinUnitName,jdbcType=VARCHAR},
+      </if>
+      <if test="leadUnitCode != null" >
+        lead_unit_code = #{leadUnitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="joinUnitCode != null" >
+        join_unit_code = #{joinUnitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="projectMoney != null" >
+        project_money = #{projectMoney,jdbcType=DECIMAL},
+      </if>
     </set>
     where task_id = #{taskId,jdbcType=VARCHAR}
   </update>
@@ -383,6 +517,7 @@
     update sre_project_task
     set project_id = #{projectId,jdbcType=VARCHAR},
       create_user_id = #{createUserId,jdbcType=VARCHAR},
+      create_user_name = #{createUserName,jdbcType=VARCHAR},
       create_date = #{createDate,jdbcType=TIMESTAMP},
       update_date = #{updateDate,jdbcType=TIMESTAMP},
       task_main_task_content = #{taskMainTaskContent,jdbcType=VARCHAR},
@@ -396,7 +531,15 @@
       notes = #{notes,jdbcType=VARCHAR},
       cover = #{cover,jdbcType=VARCHAR},
       contract_num = #{contractNum,jdbcType=VARCHAR},
-      audit_status = #{auditStatus,jdbcType=VARCHAR}
+      audit_status = #{auditStatus,jdbcType=VARCHAR},
+      project_name = #{projectName,jdbcType=VARCHAR},
+      apply_unit_name = #{applyUnitName,jdbcType=VARCHAR},
+      apply_unit_code = #{applyUnitCode,jdbcType=VARCHAR},
+      lead_unit_name = #{leadUnitName,jdbcType=VARCHAR},
+      join_unit_name = #{joinUnitName,jdbcType=VARCHAR},
+      lead_unit_code = #{leadUnitCode,jdbcType=VARCHAR},
+      join_unit_code = #{joinUnitCode,jdbcType=VARCHAR},
+      project_money = #{projectMoney,jdbcType=DECIMAL}
     where task_id = #{taskId,jdbcType=VARCHAR}
   </update>
 </mapper>

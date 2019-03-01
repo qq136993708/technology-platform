@@ -1,5 +1,6 @@
 package com.pcitc.base.stp.equipment;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class SreProjectTask {
@@ -8,6 +9,8 @@ public class SreProjectTask {
     private String projectId;
 
     private String createUserId;
+
+    private String createUserName;
 
     private Date createDate;
 
@@ -37,6 +40,22 @@ public class SreProjectTask {
 
     private String auditStatus;
 
+    private String projectName;
+
+    private String applyUnitName;
+
+    private String applyUnitCode;
+
+    private String leadUnitName;
+
+    private String joinUnitName;
+
+    private String leadUnitCode;
+
+    private String joinUnitCode;
+
+    private BigDecimal projectMoney;
+
     public String getTaskId() {
         return taskId;
     }
@@ -59,6 +78,14 @@ public class SreProjectTask {
 
     public void setCreateUserId(String createUserId) {
         this.createUserId = createUserId;
+    }
+
+    public String getCreateUserName() {
+        return createUserName;
+    }
+
+    public void setCreateUserName(String createUserName) {
+        this.createUserName = createUserName;
     }
 
     public Date getCreateDate() {
@@ -171,5 +198,69 @@ public class SreProjectTask {
 
     public void setAuditStatus(String auditStatus) {
         this.auditStatus = auditStatus;
+    }
+
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
+
+    public String getApplyUnitName() {
+        return applyUnitName;
+    }
+
+    public void setApplyUnitName(String applyUnitName) {
+        this.applyUnitName = applyUnitName;
+    }
+
+    public String getApplyUnitCode() {
+        return applyUnitCode;
+    }
+
+    public void setApplyUnitCode(String applyUnitCode) {
+        this.applyUnitCode = applyUnitCode;
+    }
+
+    public String getLeadUnitName() {
+        return leadUnitName;
+    }
+
+    public void setLeadUnitName(String leadUnitName) {
+        this.leadUnitName = leadUnitName;
+    }
+
+    public String getJoinUnitName() {
+        return joinUnitName;
+    }
+
+    public void setJoinUnitName(String joinUnitName) {
+        this.joinUnitName = joinUnitName;
+    }
+
+    public String getLeadUnitCode() {
+        return leadUnitCode;
+    }
+
+    public void setLeadUnitCode(String leadUnitCode) {
+        this.leadUnitCode = leadUnitCode;
+    }
+
+    public String getJoinUnitCode() {
+        return joinUnitCode;
+    }
+
+    public void setJoinUnitCode(String joinUnitCode) {
+        this.joinUnitCode = joinUnitCode;
+    }
+
+    public BigDecimal getProjectMoney() {
+        return projectMoney;
+    }
+
+    public void setProjectMoney(BigDecimal projectMoney) {
+        this.projectMoney = projectMoney;
     }
 }

@@ -2,7 +2,6 @@ package com.pcitc.base.stp.equipment;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
 
 public class SreProject {
     private String id;
@@ -29,11 +28,13 @@ public class SreProject {
 
     private String projectLeader;
 
-    private String createUserId;
-
     private Date createDate;
 
     private Date updateDate;
+
+    private String createUserId;
+
+    private String createUserName;
 
     private String documentDoc;
 
@@ -76,32 +77,12 @@ public class SreProject {
     private String leadLinkmansName;
 
     private String yearFeeStr;
-    
-    
-    
-    private List<SreEquipment> equipmentList;
-    private List<SreProjectYear> projectYearList;
-    
-    
-    
 
-    public List<SreEquipment> getEquipmentList() {
-		return equipmentList;
-	}
+    private String applyUnitName;
 
-	public void setEquipmentList(List<SreEquipment> equipmentList) {
-		this.equipmentList = equipmentList;
-	}
+    private String applyUnitCode;
 
-	public List<SreProjectYear> getProjectYearList() {
-		return projectYearList;
-	}
-
-	public void setProjectYearList(List<SreProjectYear> projectYearList) {
-		this.projectYearList = projectYearList;
-	}
-
-	public String getId() {
+    public String getId() {
         return id;
     }
 
@@ -197,14 +178,6 @@ public class SreProject {
         this.projectLeader = projectLeader;
     }
 
-    public String getCreateUserId() {
-        return createUserId;
-    }
-
-    public void setCreateUserId(String createUserId) {
-        this.createUserId = createUserId;
-    }
-
     public Date getCreateDate() {
         return createDate;
     }
@@ -219,6 +192,22 @@ public class SreProject {
 
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
+    }
+
+    public String getCreateUserId() {
+        return createUserId;
+    }
+
+    public void setCreateUserId(String createUserId) {
+        this.createUserId = createUserId;
+    }
+
+    public String getCreateUserName() {
+        return createUserName;
+    }
+
+    public void setCreateUserName(String createUserName) {
+        this.createUserName = createUserName;
     }
 
     public String getDocumentDoc() {
@@ -387,5 +376,21 @@ public class SreProject {
 
     public void setYearFeeStr(String yearFeeStr) {
         this.yearFeeStr = yearFeeStr;
+    }
+
+    public String getApplyUnitName() {
+        return applyUnitName;
+    }
+
+    public void setApplyUnitName(String applyUnitName) {
+        this.applyUnitName = applyUnitName;
+    }
+
+    public String getApplyUnitCode() {
+        return applyUnitCode;
+    }
+
+    public void setApplyUnitCode(String applyUnitCode) {
+        this.applyUnitCode = applyUnitCode;
     }
 }
