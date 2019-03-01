@@ -78,18 +78,17 @@
                 <input name="leadUnitCode" id="leadUnitCode" value="${sreProjectBasic.leadUnitCode}" type="hidden">
                 <input name="joinUnitCode" id="joinUnitCode" value="${sreProjectBasic.joinUnitCode}" type="hidden">
                
-              <input  name="taskContent"               id="taskContent"              value="${sreProjectTask.taskContent}"            type="hidden">
-			  <input  name="taskAssessmentContent"     id="taskAssessmentContent"    value="${sreProjectTask.taskAssessmentContent}"   type="hidden">
-			  <input  name="budgetTable"               id="budgetTable"           value="${sreProjectTask.budgetTable}"         type="hidden">
-			  <input  name="fundsSourcesTable"         id="fundsSourcesTable"     value="${sreProjectTask.fundsSourcesTable}"   type="hidden">
-			  <input  name="projectFundsTable"         id="projectFundsTable"     value="${sreProjectTask.projectFundsTable}"   type="hidden">
+               <input  name="taskContent"               id="taskContent"              value="${sreProjectTask.taskContent}"            type="hidden">
+			   <input  name="taskAssessmentContent"     id="taskAssessmentContent"    value="${sreProjectTask.taskAssessmentContent}"   type="hidden">
+			   <input  name="budgetTable"               id="budgetTable"           value="${sreProjectTask.budgetTable}"         type="hidden">
+			   <input  name="fundsSourcesTable"         id="fundsSourcesTable"     value="${sreProjectTask.fundsSourcesTable}"   type="hidden">
+			   <input  name="projectFundsTable"         id="projectFundsTable"     value="${sreProjectTask.projectFundsTable}"   type="hidden">
 
 
                 <div class="layui-form-item layui-form-text">
                     <label class="layui-form-label">课题名称</label>
                     <div class="layui-input-block">
-                        <input class="layui-input readOnlyBox" name="name" id="name" readonly="readonly"
-                               value="${sreProjectBasic.name}" autocomplete="off" type="text">
+                        <input class="layui-input readOnlyBox" name="name" id="name" readonly="readonly" value="${sreProject.name}" autocomplete="off" type="text">
                     </div>
                 </div>
                <div class="layui-form-item layui-form-text" >
@@ -103,8 +102,8 @@
                 <div class="layui-form-item layui-form-text">
                     <label class="layui-form-label">其他</label>
                     <div class="layui-input-block">
-                        <textarea name="remarks" id="remarks"
-                                  class="layui-textarea">${sreProjectBasic.remarks}</textarea>
+                        <textarea name="notes" id="notes"
+                                  class="layui-textarea">${sreProjectTask.notes}</textarea>
                     </div>
                 </div>
                
@@ -165,7 +164,15 @@
         <label class="layui-form-label">应提交验收的内容<span class="must-fill">*</span></label>
         <div class="layui-input-block">
            <#list dicList as vo> 
-               <input type="checkbox" name="taskCheckContents" lay-skin="primary" title="${vo.name}" value="${vo.code}">
+               <input type="checkbox" name="taskCheckContents"  lay-skin="primary" title="${vo.name}"
+               
+                 <#list "${sreProjectTask.taskCheckContents}"?split(",") as itemValue>
+                         <#if itemValue == vo.code>checked="checked"  </#if>
+                     </#list>
+               
+                value="${vo.code}">
+                     
+
            </#list>
            
         </div>
@@ -173,12 +180,9 @@
 
             <div class="layui-row" id="budget_table">
                 <div class="tableToolBox">
-                    <div class="tableTitle">
-                        资金概算表
-                    </div>
+                    <div class="tableTitle">资金概算表</div>
                     <div class="tableBtns">
-                        <a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg"
-                           data-type="budgetAddEvent">新增
+                        <a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg" data-type="budgetAddEvent">新增
                         </a>
                     </div>
                 </div>
@@ -275,9 +279,9 @@
     file_edit_detail = "edit";
     //统管理-附件管理-附件配置：页面标识
     file_opt_flag = "b3a52bbe7087419c80813d7716f37674";
-    var equipmentIds = $("#equipmentIds").val();
+   /// var equipmentIds = $("#equipmentIds").val();
     var yearFeeStr = $("#yearFeeStr").val();
-    var beginYear = $("#beginYear").val();
+   // var beginYear = $("#beginYear").val();
     var table, selectRowData;
     layui.use(['form', 'table', 'laypage', 'layer', 'laydate', 'laytpl', 'jquery', "publicMethods"], function () {
         var admin = layui.admin
@@ -293,9 +297,9 @@
         laydate.render({
             elem: '#LAY-component-form-group-date'
         });
-        var equipmentIds = $("#equipmentIds").val();
-        renderTable(equipmentIds)
-        publicMethods.createTable($("#beginYear").val(), $("#endYear").val(), "yearTr", 2, yearFeeStr);
+       // var equipmentIds = $("#equipmentIds").val();
+       // renderTable(equipmentIds)
+       // publicMethods.createTable($("#beginYear").val(), $("#endYear").val(), "yearTr", 2, yearFeeStr);
         //添加到form.render()之后
         $("#file_div").load('/common/public/uploadlayuiload.html');
         /* 自定义验证规则  title 要验证的input的 lay-verify=""*/
@@ -319,72 +323,89 @@
         /*项目内容和主要图表编辑显示*/
         //var taskArr = "1#2#3#4#5|2#9#8#7#6";
         var taskArr = $("#taskContent").val();
-        $.each(taskArr.split("|"), function (i, val) {
-            var taskVal = val.split("#");
-            var tr = "<tr><td>" + taskVal[0] + "</td><td><input type='text' value='" + taskVal[1] + "'/> </td>" +
-                "<td><input type='text' value='" + taskVal[2] + "'/> " +
-                "</td><td><input type='number' value='" + taskVal[3] + "'/> </td>" +
-                "<td><input type='text' value='" + taskVal[4] + "'/> </td>" +
-                "<td><a href='javascript:;' class='dele'>删除</a></td></tr>";
-            addTr("task_content", tr);
-        });
+        if(taskArr!='')
+        {
+        	$.each(taskArr.split("|"), function (i, val) {
+                var taskVal = val.split("#");
+                var tr = "<tr><td>" + taskVal[0] + "</td><td><input type='text' value='" + taskVal[1] + "'/> </td>" +
+                    "<td><input type='text' value='" + taskVal[2] + "'/> " +
+                    "</td><td><input type='number' value='" + taskVal[3] + "'/> </td>" +
+                    "<td><input type='text' value='" + taskVal[4] + "'/> </td>" +
+                    "<td><a href='javascript:;' class='dele'>删除</a></td></tr>";
+                addTr("task_content", tr);
+            });
+        }
+        
+        
         /*计划进度和考核目标*/
         //var assessmentArr="2019-10 - 2019-11#w#w|2019-12 - 2019-12#f#f";
         var assessmentArr = $("#taskAssessmentContent").val();
-        $.each(assessmentArr.split("|"), function (i, val) {
-            var assessmentVal = val.split("#");
-            var date='<input type="text" class="layui-input test-laydate-range-month" value="'+assessmentVal[0]+'" placeholder=" - ">'
-            var tr = "<tr><td>" + date + "</td>" +
-                "<td><input type='text' value='"+assessmentVal[1]+"'/> </td>" +
-                "<td><input type='text' value='"+assessmentVal[2]+"'/> </td>" +
-                "<td><a href='javascript:;' class='dele'>删除</a></td></tr>";
-            addTr("task_assessment_content", tr);
-            lay('.test-laydate-range-month').each(function() {
-                laydate.render({
-                    elem : this
-                    ,type: 'month'
-                    ,range: true
+        if(assessmentArr!='')
+        {
+        	$.each(assessmentArr.split("|"), function (i, val) {
+                var assessmentVal = val.split("#");
+                var date='<input type="text" class="layui-input test-laydate-range-month" value="'+assessmentVal[0]+'" placeholder=" - ">'
+                var tr = "<tr><td>" + date + "</td>" +
+                    "<td><input type='text' value='"+assessmentVal[1]+"'/> </td>" +
+                    "<td><input type='text' value='"+assessmentVal[2]+"'/> </td>" +
+                    "<td><a href='javascript:;' class='dele'>删除</a></td></tr>";
+                addTr("task_assessment_content", tr);
+                lay('.test-laydate-range-month').each(function() {
+                    laydate.render({
+                        elem : this
+                        ,type: 'month'
+                        ,range: true
+                    });
                 });
             });
-        });
+        }
+        
         /*资金概算表*/
         //var budgetArr="资本性#d#3#3#4|资本性#d#3#3#4";
         var budgetArr = $("#budgetTable").val();
-        $.each(budgetArr.split("|"), function (i, val) {
-            var budgetVal = val.split("#");
+        if(budgetArr!='')
+        {
+        	$.each(budgetArr.split("|"), function (i, val) {
+                var budgetVal = val.split("#");
 
-            if(budgetVal[0]=="资本性"){
+                if(budgetVal[0]=="资本性"){
 
-                var selectH='<select>' +
-                    '<option value="资本性" selected = "selected" >资本性</option><option value="费用性">费用性</option></select>'
-            }else {
-                var selectH='<select>' +
-                    '<option value="资本性">资本性</option><option value="费用性" selected = "selected" >费用性</option></select>'
+                    var selectH='<select>' +
+                        '<option value="资本性" selected = "selected" >资本性</option><option value="费用性">费用性</option></select>'
+                }else {
+                    var selectH='<select>' +
+                        '<option value="资本性">资本性</option><option value="费用性" selected = "selected" >费用性</option></select>'
 
-            }
-            var tr = "<tr><td>" + selectH + "</td>" +
-                "<td><input type='text' value='"+budgetVal[1]+"'/> </td>" +
-                "<td><input type='number' value='"+budgetVal[2]+"'/> </td>" +
-                "<td><input type='number' value='"+budgetVal[3]+"'/> </td>" +
-                "<td><input type='text' value='"+budgetVal[4]+"'/> </td>" +
-                "<td><a href='javascript:;' class='dele'>删除</a></td></tr>";
-            addTr("budget_table", tr);
-            form.render();
-        });
+                }
+                var tr = "<tr><td>" + selectH + "</td>" +
+                    "<td><input type='text' value='"+budgetVal[1]+"'/> </td>" +
+                    "<td><input type='number' value='"+budgetVal[2]+"'/> </td>" +
+                    "<td><input type='number' value='"+budgetVal[3]+"'/> </td>" +
+                    "<td><input type='text' value='"+budgetVal[4]+"'/> </td>" +
+                    "<td><a href='javascript:;' class='dele'>删除</a></td></tr>";
+                addTr("budget_table", tr);
+                form.render();
+            });
+        }
+        
         /*资金来源表*/
         //var fundsArr="1#77#34#34#34#324|2#88#66#45#34#412";
         var fundsArr = $("#fundsSourcesTable").val();
-        $.each(fundsArr.split("|"), function (i, val) {
-            var fundsVal = val.split("#");
-            var tr = "<tr><td> <input type='text' value='"+fundsVal[0]+"'/></td>" +
-                "<td><input type='number' class='fundsNumber' value='"+fundsVal[1]+"'/> </td>" +
-                "<td><input type='number' class='fundsNumber'  value='"+fundsVal[2]+"'/> </td>" +
-                "<td><input type='number' class='fundsNumber' value='"+fundsVal[3]+"'/> </td>" +
-                "<td><input type='number' class='fundsNumber'  value='"+fundsVal[4]+"'/> </td>" +
-                "<td>"+fundsVal[5]+"</td>" +
-                "<td><a href='javascript:;' class='dele'>删除</a></td></tr>";
-            addTr("funds_sources_table", tr);
-        });
+        if(fundsArr!='')
+        {
+        	$.each(fundsArr.split("|"), function (i, val) {
+                var fundsVal = val.split("#");
+                var tr = "<tr><td> <input type='text' value='"+fundsVal[0]+"'/></td>" +
+                    "<td><input type='number' class='fundsNumber' value='"+fundsVal[1]+"'/> </td>" +
+                    "<td><input type='number' class='fundsNumber'  value='"+fundsVal[2]+"'/> </td>" +
+                    "<td><input type='number' class='fundsNumber' value='"+fundsVal[3]+"'/> </td>" +
+                    "<td><input type='number' class='fundsNumber'  value='"+fundsVal[4]+"'/> </td>" +
+                    "<td>"+fundsVal[5]+"</td>" +
+                    "<td><a href='javascript:;' class='dele'>删除</a></td></tr>";
+                addTr("funds_sources_table", tr);
+            });
+        }
+        
         dele();
         var $ =layui.$, active = {
             taskAddEvent: function () {
@@ -458,14 +479,13 @@
             /*parent.layer.alert(JSON.stringify(data.field), {
                 title: '最终的提交信息'
             })*/
-            var  task_content =getData("task_content", 4);
+            var  task_content =getData("task_content", 5);
             var  task_assessment_content =getData("task_assessment_content", 3);
             var  budget_table =getData("budget_table", 5);
             var  funds_sources_table =getData("funds_sources_table", 6);
             
-            
-            
-            
+           // alert(task_content);
+           // return;
             if (task_content == null || task_content == '') 
             {
                 layer.alert("项目内容和主要图表为空");
@@ -476,6 +496,9 @@
             	
             	 $("#taskContent").val(task_content)
             	 $("#taskAssessmentContent").val(task_assessment_content)
+            	 $("#budgetTable").val(budget_table)
+            	 $("#fundsSourcesTable").val(funds_sources_table)
+            	   
             	 var url="/sre_project_task/save?v_date="+v_date+"&status=0";
                  var backurl="/sre_project_task/to_list?v_date="+v_date;
                  ajaxOpt(url,"form1","POST",backurl,"保存成功","保存失败");
@@ -500,7 +523,7 @@
     });
 
     function ajaxOpt(url, formName, type, backurl, successMsg, failMsg) {
-        $("#equipmentIds").val($("#equipmentIds").val());
+       // $("#equipmentIds").val($("#equipmentIds").val());
         $.ajax({
             type: type,
             url: url,
@@ -530,7 +553,7 @@
     }
 
     function renderTable(equipmentIds) {
-        $("#equipmentIds").val(equipmentIds);
+       // $("#equipmentIds").val(equipmentIds);
         table.render({
             elem: '#join_apply_table',
             url: '/sre-equipment/list_by_quipment_ids?equipmentIds=' + equipmentIds,
