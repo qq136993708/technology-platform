@@ -140,6 +140,8 @@ public class AdminController extends BaseController {
 					uAccount = ssoPrincipal.getAppAccount()[0];
 					System.out.println("uAccount ==========" + uAccount);
 					System.out.println("获取rsUser----------");
+					System.out.println("0httpHeaders-----------"+httpHeaders);
+					System.out.println("0httpHeaders-----------"+httpHeaders.size());
 					ResponseEntity<SysUser> rsEntity = this.restTemplate.exchange(GET_USER_INFO_IP + uAccount, HttpMethod.GET, new HttpEntity<Object>(httpHeaders), SysUser.class);
 					rsUser = rsEntity.getBody();
 					if (rsUser != null) {
@@ -194,7 +196,12 @@ public class AdminController extends BaseController {
 		requestBody.add("username", rsUser.getUserName());
 		requestBody.add("password", rsUser.getUserPassword());
 		HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<MultiValueMap<String, String>>(requestBody, this.httpHeaders);
-
+		
+		System.out.println("1httpHeaders-----------"+this.httpHeaders);
+		System.out.println("2httpHeaders-----------"+this.httpHeaders.size());
+		System.out.println("3httpHeaders-----------"+rsUser);
+		System.out.println("4httpHeaders-----------"+rsUser.getUserName());
+		System.out.println("5httpHeaders-----------"+rsUser.getUserPassword());
 		ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LOGIN_URL, HttpMethod.POST, entity, JSONObject.class);
 		JSONObject retJson = responseEntity.getBody();
 

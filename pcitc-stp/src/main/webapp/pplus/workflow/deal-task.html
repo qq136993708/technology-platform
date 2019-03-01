@@ -86,6 +86,9 @@
 
 	<script>
 		//var auditDetailsPath = "${auditDetailsPath?default('')}";
+		  
+
+		
 		var taskId = "${taskId?default(0)}";
 		var id = "${id?default(0)}";
 
@@ -98,9 +101,29 @@
 			var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate, form = layui.form;
 
 			form.render(null, 'dealTaskForm');
-
-			var iframeHeight = $("#detailsInfo").contents().find("html").outerHeight(true);
-			$("#detailsInfo").css("height", iframeHeight);
+			
+			//延迟加载，加载后计算业务详情页面的高度
+			var $iFrame = $("#detailsInfo");
+			var index_close; //添加laoding,0-2两种方式
+			if ($iFrame[0].attachEvent) {
+				//alert("加载中");
+				index_close = layer.load(1);
+				$iFrame[0].attachEvent("onload", function() { // IE
+					//alert("加载完毕1");
+					var iframeHeight = $("#detailsInfo").contents().find("html").outerHeight(true);
+					$("#detailsInfo").css("height", iframeHeight);
+					layer.close(index_close);
+				});
+			} else {
+				//alert("加载中");
+				index_close = layer.load(1);
+				$iFrame[0].onload = function() { // 非IE
+					//alert("加载完毕2");
+					var iframeHeight = $("#detailsInfo").contents().find("html").outerHeight(true);
+					$("#detailsInfo").css("height", iframeHeight);
+					layer.close(index_close);
+				};
+			}
 
 			laydate.render({
 				elem : '#auditDate',
@@ -236,6 +259,9 @@
 				}
 			});
 		}
+		
+		
+		
 	</script>
 </body>
 </html>

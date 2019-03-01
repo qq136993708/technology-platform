@@ -1134,6 +1134,146 @@ public class SreProjectTaskExample {
             addCriterion("cover not between", value1, value2, "cover");
             return (Criteria) this;
         }
+
+        public Criteria andContractNumIsNull() {
+            addCriterion("contract_num is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNumIsNotNull() {
+            addCriterion("contract_num is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNumEqualTo(String value) {
+            addCriterion("contract_num =", value, "contractNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNumNotEqualTo(String value) {
+            addCriterion("contract_num <>", value, "contractNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNumGreaterThan(String value) {
+            addCriterion("contract_num >", value, "contractNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNumGreaterThanOrEqualTo(String value) {
+            addCriterion("contract_num >=", value, "contractNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNumLessThan(String value) {
+            addCriterion("contract_num <", value, "contractNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNumLessThanOrEqualTo(String value) {
+            addCriterion("contract_num <=", value, "contractNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNumLike(String value) {
+            addCriterion("contract_num like", value, "contractNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNumNotLike(String value) {
+            addCriterion("contract_num not like", value, "contractNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNumIn(List<String> values) {
+            addCriterion("contract_num in", values, "contractNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNumNotIn(List<String> values) {
+            addCriterion("contract_num not in", values, "contractNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNumBetween(String value1, String value2) {
+            addCriterion("contract_num between", value1, value2, "contractNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNumNotBetween(String value1, String value2) {
+            addCriterion("contract_num not between", value1, value2, "contractNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditStatusIsNull() {
+            addCriterion("audit_status is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditStatusIsNotNull() {
+            addCriterion("audit_status is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditStatusEqualTo(String value) {
+            addCriterion("audit_status =", value, "auditStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditStatusNotEqualTo(String value) {
+            addCriterion("audit_status <>", value, "auditStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditStatusGreaterThan(String value) {
+            addCriterion("audit_status >", value, "auditStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditStatusGreaterThanOrEqualTo(String value) {
+            addCriterion("audit_status >=", value, "auditStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditStatusLessThan(String value) {
+            addCriterion("audit_status <", value, "auditStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditStatusLessThanOrEqualTo(String value) {
+            addCriterion("audit_status <=", value, "auditStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditStatusLike(String value) {
+            addCriterion("audit_status like", value, "auditStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditStatusNotLike(String value) {
+            addCriterion("audit_status not like", value, "auditStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditStatusIn(List<String> values) {
+            addCriterion("audit_status in", values, "auditStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditStatusNotIn(List<String> values) {
+            addCriterion("audit_status not in", values, "auditStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditStatusBetween(String value1, String value2) {
+            addCriterion("audit_status between", value1, value2, "auditStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andAuditStatusNotBetween(String value1, String value2) {
+            addCriterion("audit_status not between", value1, value2, "auditStatus");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

@@ -17,6 +17,8 @@
     <result column="project_notice" property="projectNotice" jdbcType="VARCHAR" />
     <result column="notes" property="notes" jdbcType="VARCHAR" />
     <result column="cover" property="cover" jdbcType="VARCHAR" />
+    <result column="contract_num" property="contractNum" jdbcType="VARCHAR" />
+    <result column="audit_status" property="auditStatus" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -79,7 +81,7 @@
   <sql id="Base_Column_List" >
     task_id, project_id, create_user_id, create_date, update_date, task_main_task_content, 
     task_content, task_assessment_content, task_check_contents, budget_table, funds_sources_table, 
-    project_funds_table, project_notice, notes, cover
+    project_funds_table, project_notice, notes, cover, contract_num, audit_status
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.pcitc.base.stp.equipment.SreProjectTaskExample" >
     select
@@ -117,14 +119,14 @@
       create_date, update_date, task_main_task_content, 
       task_content, task_assessment_content, task_check_contents, 
       budget_table, funds_sources_table, project_funds_table, 
-      project_notice, notes, cover
-      )
+      project_notice, notes, cover, 
+      contract_num, audit_status)
     values (#{taskId,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR}, #{createUserId,jdbcType=VARCHAR}, 
       #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, #{taskMainTaskContent,jdbcType=VARCHAR}, 
       #{taskContent,jdbcType=VARCHAR}, #{taskAssessmentContent,jdbcType=VARCHAR}, #{taskCheckContents,jdbcType=VARCHAR}, 
       #{budgetTable,jdbcType=VARCHAR}, #{fundsSourcesTable,jdbcType=VARCHAR}, #{projectFundsTable,jdbcType=VARCHAR}, 
-      #{projectNotice,jdbcType=VARCHAR}, #{notes,jdbcType=VARCHAR}, #{cover,jdbcType=VARCHAR}
-      )
+      #{projectNotice,jdbcType=VARCHAR}, #{notes,jdbcType=VARCHAR}, #{cover,jdbcType=VARCHAR}, 
+      #{contractNum,jdbcType=VARCHAR}, #{auditStatus,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.pcitc.base.stp.equipment.SreProjectTask" >
     insert into sre_project_task
@@ -174,6 +176,12 @@
       <if test="cover != null" >
         cover,
       </if>
+      <if test="contractNum != null" >
+        contract_num,
+      </if>
+      <if test="auditStatus != null" >
+        audit_status,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="taskId != null" >
@@ -220,6 +228,12 @@
       </if>
       <if test="cover != null" >
         #{cover,jdbcType=VARCHAR},
+      </if>
+      <if test="contractNum != null" >
+        #{contractNum,jdbcType=VARCHAR},
+      </if>
+      <if test="auditStatus != null" >
+        #{auditStatus,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -277,6 +291,12 @@
       <if test="record.cover != null" >
         cover = #{record.cover,jdbcType=VARCHAR},
       </if>
+      <if test="record.contractNum != null" >
+        contract_num = #{record.contractNum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.auditStatus != null" >
+        audit_status = #{record.auditStatus,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -298,7 +318,9 @@
       project_funds_table = #{record.projectFundsTable,jdbcType=VARCHAR},
       project_notice = #{record.projectNotice,jdbcType=VARCHAR},
       notes = #{record.notes,jdbcType=VARCHAR},
-      cover = #{record.cover,jdbcType=VARCHAR}
+      cover = #{record.cover,jdbcType=VARCHAR},
+      contract_num = #{record.contractNum,jdbcType=VARCHAR},
+      audit_status = #{record.auditStatus,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -348,6 +370,12 @@
       <if test="cover != null" >
         cover = #{cover,jdbcType=VARCHAR},
       </if>
+      <if test="contractNum != null" >
+        contract_num = #{contractNum,jdbcType=VARCHAR},
+      </if>
+      <if test="auditStatus != null" >
+        audit_status = #{auditStatus,jdbcType=VARCHAR},
+      </if>
     </set>
     where task_id = #{taskId,jdbcType=VARCHAR}
   </update>
@@ -366,7 +394,9 @@
       project_funds_table = #{projectFundsTable,jdbcType=VARCHAR},
       project_notice = #{projectNotice,jdbcType=VARCHAR},
       notes = #{notes,jdbcType=VARCHAR},
-      cover = #{cover,jdbcType=VARCHAR}
+      cover = #{cover,jdbcType=VARCHAR},
+      contract_num = #{contractNum,jdbcType=VARCHAR},
+      audit_status = #{auditStatus,jdbcType=VARCHAR}
     where task_id = #{taskId,jdbcType=VARCHAR}
   </update>
 </mapper>

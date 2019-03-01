@@ -1,9 +1,7 @@
 package com.pcitc.web.equipment;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -15,20 +13,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alibaba.fastjson.JSON;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
-import com.pcitc.base.common.Result;
-import com.pcitc.base.common.WorkFlowStatusEnum;
 import com.pcitc.base.stp.equipment.SreEquipment;
 import com.pcitc.base.stp.equipment.SreProject;
+import com.pcitc.base.stp.equipment.SreProjectTask;
 import com.pcitc.base.stp.equipment.SreProjectYear;
 import com.pcitc.base.stp.equipment.SreProjectYearExample;
 import com.pcitc.base.stp.equipment.SreTechMeeting;
-import com.pcitc.base.stp.equipment.SreTechMeetingExample;
-import com.pcitc.base.system.SysUser;
 import com.pcitc.base.workflow.Constants;
-import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.service.equipment.EquipmentService;
 import com.pcitc.service.feign.SystemRemoteClient;
 import com.pcitc.service.msg.MailSentService;
@@ -161,8 +154,9 @@ public class EquipmentProviderClient
 	
 	
 	
-	/**===============================================项目===================================================*/
-	@ApiOperation(value = "项目统计列表", notes = "项目统计列表")
+	/**===============================================计划上报===================================================*/
+	
+	@ApiOperation(value = "计划上报统计列表", notes = "计划上报统计列表")
 	@RequestMapping(value = "/sre-provider/project_basic/page", method = RequestMethod.POST)
 	public LayuiTableData getSreProjectBasicList(@RequestBody LayuiTableParam paramsJson)throws Exception
 	{
@@ -170,7 +164,7 @@ public class EquipmentProviderClient
 		return equipmentService.getProjectBasicPage(paramsJson);
 	}
 	
-	@ApiOperation(value = "增加项目统计", notes = "增加项目统计")
+	@ApiOperation(value = "增加计划上报", notes = "增加计划上报")
 	@RequestMapping(value = "/sre-provider/project_basic/add", method = RequestMethod.POST)
 	public String insertSreProjectBasic(@RequestBody SreProject sreProjectBasic) throws Exception{
 		logger.info("====================add SreProjectBasic....========================");
@@ -268,9 +262,6 @@ public class EquipmentProviderClient
 	
 	
 	
-	
-	
-	
 	/**
 	 * @param jsonStr
 	 * @return
@@ -303,6 +294,104 @@ public class EquipmentProviderClient
 	
 	
 	
+	
+	
+	
+	
+
+	
+	/**===============================================任务书===================================================*/
+	
+	@ApiOperation(value = "任务书统计列表", notes = "任务书统计列表")
+	@RequestMapping(value = "/sre-provider/project_task/page", method = RequestMethod.POST)
+	public LayuiTableData getSreProjecTaskList(@RequestBody LayuiTableParam paramsJson)throws Exception
+	{
+		logger.info("==================page SreSreProjectTask==========================="+paramsJson);
+		return equipmentService.getSreProjectTaskPage(paramsJson);
+	}
+	
+	@ApiOperation(value = "增加任务书", notes = "增加任务书")
+	@RequestMapping(value = "/sre-provider/project_task/add", method = RequestMethod.POST)
+	public String insertSreSreProjectTask(@RequestBody SreProjectTask sreProjectTask) throws Exception{
+		logger.info("====================add SreProjectTask....========================");
+		Integer count= equipmentService.insertSreProjectTask(sreProjectTask);
+		
+		return sreProjectTask.getTaskId();
+	}
+	
+	
+	@ApiOperation(value = "修改任务书", notes = "修改任务书")
+	@RequestMapping(value = "/sre-provider/project_task/update", method = RequestMethod.POST)
+	public Integer updateSreSreProjectTask(@RequestBody SreProjectTask sreSreProjectTask) throws Exception{
+		logger.info("==================update SreSreProjectTask===========================");
+		
+		
+		return equipmentService.updateSreProjectTask(sreSreProjectTask);
+	}
+	
+	
+	@ApiOperation(value = "删除任务书", notes = "删除任务书")
+	@RequestMapping(value = "/sre-provider/project_task/delete/{id}", method = RequestMethod.POST)
+	public int deleteSreSreProjectTask(@PathVariable("id") String id)throws Exception{
+		logger.info("=============================delete SreSreProjectTask=================");
+		return equipmentService.deleteSreProjectTask(id) ;
+	}
+	
+	
+	@ApiOperation(value = "获取任务书", notes = "根据ID获取任务书")
+	@RequestMapping(value = "/sre-provider/project_task/get/{id}", method = RequestMethod.GET)
+	public SreProjectTask selectSreProjectTaskById(@PathVariable(value = "id", required = true) String id) throws Exception {
+		logger.info("===============================get SreProject id "+id+"===========");
+		return equipmentService.selectSreProjectTask(id) ;
+	}
+	
+	
+	
+	/**
+	 * 批量删除任务书
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+	@ApiOperation(value = "删除任务书", notes = "根据ID删除任务书")
+	@RequestMapping(value = "/sre-provider/project_task/batch-delete", method = RequestMethod.POST)
+	public int batchDeleteSreProjectTask(@RequestBody List<String> list)throws Exception{
+		logger.info("=============================batch delete SreProjectTask =================");
+		return equipmentService.batchDeleteSreProjectTask(list);
+	}
+	
+	
+	
+	
+	/**任务书
+	 * @param jsonStr
+	 * @return
+	 * 业务系统处理驳回后业务
+	 */
+	@RequestMapping(value = "/sre-provider/project_task/task/reject/{id}", method = RequestMethod.POST)
+	public Integer taskRejectSreProjectTask(@PathVariable(value = "id", required = true) String id)throws Exception {
+		
+		SreProjectTask sreProject=equipmentService.selectSreProjectTask(id);
+		sreProject.setAuditStatus(String.valueOf(Constants.FLOW_STATE_SAVE));
+		int count=equipmentService.updateSreProjectTask(sreProject);
+		System.out.println("======业务系统处理--驳回 --后业务======="+id);
+		return count;
+	}
+	
+	/**任务书
+	 * @param jsonStr
+	 * @return
+	 * 业务系统处理审批流程都同意后业务
+	 */
+	@RequestMapping(value = "/sre-provider/project_task/task/agree/{id}", method = RequestMethod.POST)
+	public Integer taskAgreeSreProjectTask(@PathVariable(value = "id", required = true) String id)throws Exception {
+		
+		SreProjectTask sreProject=equipmentService.selectSreProjectTask(id);
+		sreProject.setAuditStatus(String.valueOf(Constants.FLOW_STATE_DONE));
+		int count=equipmentService.updateSreProjectTask(sreProject);
+		System.out.println("======业务系统处理审批流程都 --同意 --后业务======="+id);
+		return count;
+	}
 	
 	
 	

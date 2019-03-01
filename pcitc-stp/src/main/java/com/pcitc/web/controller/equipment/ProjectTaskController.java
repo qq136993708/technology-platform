@@ -1,5 +1,7 @@
 package com.pcitc.web.controller.equipment;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -13,7 +15,6 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.tomcat.util.bcel.Const;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -23,7 +24,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
@@ -33,58 +33,42 @@ import com.pcitc.base.common.Constant;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
-import com.pcitc.base.common.WorkFlowStatusEnum;
 import com.pcitc.base.common.enums.RequestProcessStatusEnum;
-import com.pcitc.base.stp.IntlProject.IntlProjectNotice;
 import com.pcitc.base.stp.equipment.SreProject;
+import com.pcitc.base.stp.equipment.SreProjectTask;
+import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.system.SysUser;
-import com.pcitc.base.util.CodeUtil;
 import com.pcitc.base.util.CommonUtil;
-import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.IdUtil;
 import com.pcitc.base.workflow.Constants;
 import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.web.common.BaseController;
-import com.pcitc.web.utils.EquipmentUtils;
+import com.pcitc.web.utils.WordUtil;
 
 @Controller
-@RequestMapping(value = "/sre-project-basic")
-public class ProjectBasicController extends BaseController {
+@RequestMapping(value = "/sre_project_task")
+public class ProjectTaskController extends BaseController {
 
-	/*
-	 * 1、可以直接通过注册的服务名来访问，来实现访问和负载。不过如果用zuul的话， 要用zuul的服务名和实际访问的服务名一起
-	 * 2、pplus本身是一个微服务，属于微服务之间的调用，可以直接用名称，不用ip.（注意启动类中的注解）
-	 */
 
-	private static final String PAGE_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_basic/page";
-	private static final String ADD_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_basic/add";
-	private static final String UPDATE_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_basic/update";
-	private static final String DEL_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_basic/delete/";
-	private static final String BATCH_DEL_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_basic/batch-delete/";
-	private static final String GET_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_basic/get/";
-	private static final String LIST_EQUIPMENT_BY_IDS = "http://pcitc-zuul/stp-proxy/sre-provider/equipment/list-by-ids/";
-
+	private static final String PAGE_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_task/page";
+	private static final String ADD_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_task/add";
+	private static final String UPDATE_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_task/update";
+	private static final String DEL_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_task/delete/";
+	private static final String BATCH_DEL_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_task/batch-delete/";
+	private static final String GET_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_task/get/";
 	// 流程操作--同意
-	private static final String AUDIT_AGREE_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project/task/agree/";
+	private static final String AUDIT_AGREE_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_task/task/agree/";
 	// 流程操作--拒绝
-	private static final String AUDIT_REJECT_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project/task/reject/";
-	
-	private static final String get_user_bypostcode = "http://pcitc-zuul/system-proxy/user-provider/user/get-user-bypostcode/";
+	private static final String AUDIT_REJECT_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_task/task/reject/";
 	
 	private final static String process_define_id4 = "equitmentApplyProcess:1:1172522";
 	
-	
-	private static final String PROJECT_WORKFLOW_URL = "http://pcitc-zuul/stp-proxy/stp-provider/start_project_activity/";
+	private static final String GET_PROJECT_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_basic/get/";
 
 
-	@RequestMapping(value = "/to-audit-list")
-	public String auditlist(HttpServletRequest request, HttpServletResponse response) {
-		return "/stp/equipment/project/audit-list";
-	}
-
-	@RequestMapping(value = "/to-list")
+	@RequestMapping(value = "/to_list")
 	public String list(HttpServletRequest request, HttpServletResponse response) {
-		return "/stp/equipment/project/project-basic-list";
+		return "/stp/equipment/task/project_task_list";
 	}
 
 	@RequestMapping(value = "/list")
@@ -126,38 +110,50 @@ public class ProjectBasicController extends BaseController {
 		String createUserName=sysUserInfo.getUserDisp();
 		String createUserId=sysUserInfo.getUserName();
 		String documentDoc= IdUtil.createFileIdByTime();
-		String beginYear=EquipmentUtils.getCurrrentYear();
-		String endYear=String.valueOf(Integer.valueOf(beginYear).intValue()+1);
-		String id = CommonUtil.getParameter(request, "id", "");
-		request.setAttribute("id", id);
-		if(!id.equals(""))
+		
+		String taskId = CommonUtil.getParameter(request, "taskId", "");
+		request.setAttribute("taskId", taskId);
+		String projectId = CommonUtil.getParameter(request, "projectId", "");
+		request.setAttribute("projectId", projectId);
+		if(!projectId.equals(""))
 		{
-			ResponseEntity<SreProject> responseEntity = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreProject.class);
+			SreProject sreProject=getSreProject(projectId);
+			request.setAttribute("sreProject", sreProject);
+		}
+		if(!taskId.equals(""))
+		{
+			ResponseEntity<SreProjectTask> responseEntity = this.restTemplate.exchange(GET_URL + taskId, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreProjectTask.class);
 			int statusCode = responseEntity.getStatusCodeValue();
 		
-			SreProject sreEquipment = responseEntity.getBody();
-			request.setAttribute("sreProjectBasic", sreEquipment);
-			
-			leadUnitName = sreEquipment.getLeadUnitName();
-			leadUnitCode = sreEquipment.getLeadUnitCode();
-			createUserId= sreEquipment.getCreateUserId();
-			documentDoc=sreEquipment.getDocumentDoc();
-			beginYear		= sreEquipment.getBeginYear();
-			endYear		= sreEquipment.getEndYear();
+			SreProjectTask sreProjectTask = responseEntity.getBody();
+			request.setAttribute("sreProjectTask", sreProjectTask);
+			projectId=sreProjectTask.getProjectId();
+			if(!projectId.equals(""))
+			{
+				SreProject sreProject=getSreProject(projectId);
+				request.setAttribute("sreProject", sreProject);
+			}
 		}
 		request.setAttribute("documentDoc", documentDoc);
 		request.setAttribute("leadUnitName", leadUnitName);
 		request.setAttribute("leadUnitCode", leadUnitCode);
 		request.setAttribute("createUserId", createUserId);
-		
-		
-		request.setAttribute("endYear", endYear);
-		request.setAttribute("beginYear", beginYear);
-		logger.info("============远程返回  beginYear " + beginYear);
-		return "/stp/equipment/project/project-basic-add";
+		List<SysDictionary>  dicList= CommonUtil.getDictionaryByParentCode("ROOT_ZBGL_YTJYSDNR", restTemplate, httpHeaders);
+		request.setAttribute("dicList", dicList);
+		return "/stp/equipment/task/project_task_add";
 	}
 	
-	
+	private SreProject getSreProject(String id)
+	{
+		SreProject	sreProjectBasic = null;
+		ResponseEntity<SreProject> responseEntity = this.restTemplate.exchange(GET_PROJECT_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreProject.class);
+		int statusCode = responseEntity.getStatusCodeValue();
+		if (statusCode == 200)
+		{
+			sreProjectBasic = responseEntity.getBody();
+		}
+		return sreProjectBasic;
+	}
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/project_basic_add_selectapply")
 	private String project_basic_add_selectapply(HttpServletRequest request) 
@@ -165,7 +161,7 @@ public class ProjectBasicController extends BaseController {
 		String plantId = request.getParameter("equipmentIds");
 		request.setAttribute("equipmentIds", plantId==null?IdUtil.createIdByTime():plantId);
 		
-		return "/stp/equipment/project/project_basic_add_selectapply";
+		return "/stp/equipment/task/project_basic_add_selectapply";
 		
     }
 	
@@ -184,59 +180,48 @@ public class ProjectBasicController extends BaseController {
 		Result resultsDate = new Result();
 		String name = CommonUtil.getParameter(request, "name", "");
 		// 业务ID
-		String id = CommonUtil.getParameter(request, "id", "");
+		String taskId = CommonUtil.getParameter(request, "taskId", "");
 		// 流程状态-是保存还是提交
 		String auditStatus = CommonUtil.getParameter(request, "auditStatus", Constant.AUDIT_STATUS_DRAFT);
 		String userIds = CommonUtil.getParameter(request, "userIds", "");
-		String equipmentIds = CommonUtil.getParameter(request, "equipmentIds", "");
-		String remarks = CommonUtil.getParameter(request, "remarks", "");
-		String beginYear = CommonUtil.getParameter(request, "beginYear", "");
-		String endYear = CommonUtil.getParameter(request, "endYear", "");
-		String projectType = CommonUtil.getParameter(request, "projectType", "");
-		String keyWord = CommonUtil.getParameter(request, "keyWord", "");
-		String projectLeader = CommonUtil.getParameter(request, "projectLeader", "");
-		String erpNum = CommonUtil.getParameter(request, "erpNum", "");
-		String documentDoc = CommonUtil.getParameter(request, "documentDoc", "");
-		String joinUnitName = CommonUtil.getParameter(request, "joinUnitName", "");
-		String joinUnitCode = CommonUtil.getParameter(request, "joinUnitCode", "");
-		String leadLinkmansName = CommonUtil.getParameter(request, "leadLinkmansName", "");
-		String leadLinkmansCode = CommonUtil.getParameter(request, "leadLinkmansCode", "");
-		String leadUnitType = CommonUtil.getParameter(request, "leadUnitType", "");
-		String professional = CommonUtil.getParameter(request, "professional", "");
-		String professionalDepartment = CommonUtil.getParameter(request, "professionalDepartment", "");
-		String projectChargesName = CommonUtil.getParameter(request, "projectChargesName", "");
-		String projectChargesCode = CommonUtil.getParameter(request, "projectChargesCode", "");
+		String budgetTable = CommonUtil.getParameter(request, "budgetTable", "");
+		String fundsSourcesTable = CommonUtil.getParameter(request, "fundsSourcesTable", "");
+		String notes = CommonUtil.getParameter(request, "notes", "");
 		String contractNum = CommonUtil.getParameter(request, "contractNum", "");
-		String setupYear = CommonUtil.getParameter(request, "setupYear", "");
+		String projectFundsTable = CommonUtil.getParameter(request, "projectFundsTable", "");
 		String leadUnitName = CommonUtil.getParameter(request, "leadUnitName", "");
-		String leadUnitCode = CommonUtil.getParameter(request, "leadUnitCode", "");
-		String entrustUnitCode = CommonUtil.getParameter(request, "entrustUnitCode", "");
-		String entrustUnitName = CommonUtil.getParameter(request, "entrustUnitName", "");
+		String projectNotice = CommonUtil.getParameter(request, "projectNotice", "");
+		String taskMainTaskContent = CommonUtil.getParameter(request, "taskMainTaskContent", "");
+		String taskContent = CommonUtil.getParameter(request, "taskContent", "");
 		String isWorkFlow = CommonUtil.getParameter(request, "isWorkFlow", "0");
+		String taskCheckContents = CommonUtil.getParameter(request, "taskCheckContents", "");
+		String taskAssessmentContent = CommonUtil.getParameter(request, "taskAssessmentContent", "");
 		String functionId = CommonUtil.getParameter(request, "functionId", "");
-		String yearFeeStr = CommonUtil.getParameter(request, "yearFeeStr", "");
+		String projectId = CommonUtil.getParameter(request, "projectId", "");
 		
-		SreProject sreProjectBasic = null;
+		
+		
+		SreProjectTask sreProjectBasic = null;
 		ResponseEntity<String> responseEntity = null;
 		// 判断是新增还是修改
-		if (id.equals("")) 
+		if (taskId.equals("")) 
 		{
-			sreProjectBasic = new SreProject();
+			sreProjectBasic = new SreProjectTask();
 			sreProjectBasic.setCreateDate(new Date());
 			sreProjectBasic.setCreateUserId(sysUserInfo.getUserId());
-			String code = CodeUtil.getCode("XTBM_0032", restTemplate, httpHeaders);
+			//String code = CommonUtil.getTableCode("XTBM_0032", restTemplate, httpHeaders);
 			String idv = UUID.randomUUID().toString().replaceAll("-", "");
-			sreProjectBasic.setId(idv);
+			sreProjectBasic.setTaskId(idv);
 			sreProjectBasic.setAuditStatus(auditStatus);
 		} else 
 		{
-			ResponseEntity<SreProject> se = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreProject.class);
+			ResponseEntity<SreProjectTask> se = this.restTemplate.exchange(GET_URL + taskId, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreProjectTask.class);
 			sreProjectBasic = se.getBody();
 		}
 		// 流程状态
 		sreProjectBasic.setAuditStatus(auditStatus);
 		BigDecimal projectMoney=BigDecimal.ZERO;
-		if (!yearFeeStr.equals("")) //2019,55,5,60#2020,553,5,558
+		/*if (!yearFeeStr.equals("")) //2019,55,5,60#2020,553,5,558
 		{
 			String array[]=yearFeeStr.split("#");
 			if(array!=null && array.length>0)
@@ -248,45 +233,28 @@ public class ProjectBasicController extends BaseController {
 					projectMoney=projectMoney.add(new BigDecimal(arr[3]));
 				}
 			}
-			sreProjectBasic.setProjectMoney(projectMoney);
-		}
-		sreProjectBasic.setYearFeeStr(yearFeeStr); 
-		sreProjectBasic.setDocumentDoc(documentDoc); 
-		sreProjectBasic.setName(name);
-		sreProjectBasic.setEquipmentIds(equipmentIds);
-		sreProjectBasic.setSetupYear(DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
-		sreProjectBasic.setRemarks(remarks);
-		sreProjectBasic.setBeginYear(beginYear);
-		sreProjectBasic.setEndYear(endYear);
-		sreProjectBasic.setKeyWord(keyWord);
-		sreProjectBasic.setProjectType(projectType);
-		sreProjectBasic.setProjectLeader(projectLeader);
-		sreProjectBasic.setJoinUnitName(joinUnitName);
-		sreProjectBasic.setJoinUnitCode(joinUnitCode);
-		sreProjectBasic.setLeadLinkmansName(leadLinkmansName);
-		sreProjectBasic.setLeadLinkmansCode(leadLinkmansCode);
-		sreProjectBasic.setLeadUnitType(leadUnitType);
-		sreProjectBasic.setErpNum(erpNum);
-		sreProjectBasic.setProfessional(professional);
-		sreProjectBasic.setProfessionalDepartment(professionalDepartment);
-		sreProjectBasic.setProjectChargesName(projectChargesName);
-		sreProjectBasic.setProjectChargesCode(projectChargesCode);
-		sreProjectBasic.setIsContract("0");
+			
+		}*/
+		sreProjectBasic.setProjectId(projectId);
 		sreProjectBasic.setContractNum(contractNum);
-		sreProjectBasic.setSetupYear(setupYear);
-		sreProjectBasic.setLeadUnitName(leadUnitName);
-		sreProjectBasic.setLeadUnitCode(leadUnitCode);
-		sreProjectBasic.setEntrustUnitCode(entrustUnitCode);
-		sreProjectBasic.setEntrustUnitName(entrustUnitName);
-		
+		sreProjectBasic.setBudgetTable(budgetTable);
+		sreProjectBasic.setContractNum(contractNum);
+		sreProjectBasic.setFundsSourcesTable(fundsSourcesTable);
+		sreProjectBasic.setNotes(notes);
+		sreProjectBasic.setProjectFundsTable(projectFundsTable);
+		sreProjectBasic.setProjectNotice(projectNotice);
+		sreProjectBasic.setTaskMainTaskContent(taskMainTaskContent);
+		sreProjectBasic.setTaskContent(taskContent);
+		sreProjectBasic.setTaskCheckContents(taskCheckContents);
+		sreProjectBasic.setTaskAssessmentContent(taskAssessmentContent);
 		
 		// 判断是新增还是修改
-		if (id.equals("")) 
+		if (taskId.equals("")) 
 		{
-			responseEntity = this.restTemplate.exchange(ADD_URL, HttpMethod.POST, new HttpEntity<SreProject>(sreProjectBasic, this.httpHeaders), String.class);
+			responseEntity = this.restTemplate.exchange(ADD_URL, HttpMethod.POST, new HttpEntity<SreProjectTask>(sreProjectBasic, this.httpHeaders), String.class);
 
 		} else {
-			responseEntity = this.restTemplate.exchange(UPDATE_URL, HttpMethod.POST, new HttpEntity<SreProject>(sreProjectBasic, this.httpHeaders), String.class);
+			responseEntity = this.restTemplate.exchange(UPDATE_URL, HttpMethod.POST, new HttpEntity<SreProjectTask>(sreProjectBasic, this.httpHeaders), String.class);
 		}
 		// 返回结果代码
 		int statusCode = responseEntity.getStatusCodeValue();
@@ -295,9 +263,9 @@ public class ProjectBasicController extends BaseController {
 			//如果是提交
 			if(isWorkFlow.equals("1"))
 			{
-				String dataId = sreProjectBasic.getId();
+				String dataId = sreProjectBasic.getTaskId();
 				// 处理流程相关信息
-				boolean flowFlag = dealProjectWorkFlow(dataId, functionId,sysUserInfo, "计划上报:"+sreProjectBasic.getName(), userIds, httpHeaders);
+				boolean flowFlag = dealProjectWorkFlow(dataId, functionId,sysUserInfo, "任务书:"+sreProjectBasic.getTaskId(), userIds, httpHeaders);
 				if (flowFlag == true)
 				{
 					resultsDate = new Result(true, RequestProcessStatusEnum.OK.getStatusDesc());
@@ -377,7 +345,7 @@ public class ProjectBasicController extends BaseController {
 		if (status.getBody() != null && status.getBody().equals("true"))
 		{
 			System.out.println("=================流程启动成功");
-			SreProject	sreProject = this.getSreProject(id);
+			SreProjectTask	sreProject = this.getSreProjectTask(id);
 			sreProject.setAuditStatus(Constant.AUDIT_STATUS_SUBMIT);
 			this.updateSreProject(sreProject);
 			return true;
@@ -390,10 +358,10 @@ public class ProjectBasicController extends BaseController {
 	
 	
 	
-	private String updateSreProject(SreProject sreProject)
+	private String updateSreProject(SreProjectTask sreProject)
 	{
 		String str="";
-		ResponseEntity<String> responseEntity =this.restTemplate.exchange(UPDATE_URL, HttpMethod.POST, new HttpEntity<SreProject>(sreProject, this.httpHeaders), String.class);
+		ResponseEntity<String> responseEntity =this.restTemplate.exchange(UPDATE_URL, HttpMethod.POST, new HttpEntity<SreProjectTask>(sreProject, this.httpHeaders), String.class);
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode == 200)
 		{
@@ -403,10 +371,10 @@ public class ProjectBasicController extends BaseController {
 	}
 	
 	
-	private SreProject getSreProject(String id)
+	private SreProjectTask getSreProjectTask(String id)
 	{
-		SreProject	sreProjectBasic = null;
-		ResponseEntity<SreProject> responseEntity = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreProject.class);
+		SreProjectTask	sreProjectBasic = null;
+		ResponseEntity<SreProjectTask> responseEntity = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreProjectTask.class);
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode == 200)
 		{
@@ -450,35 +418,7 @@ public class ProjectBasicController extends BaseController {
 		return null;
 	}
 
-	@RequestMapping(value = "/pass-back/{id}")
-	public String passBackOPT(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-		Result resultsDate = new Result();
-		String status = CommonUtil.getParameter(request, "status", "");
-		String checkMoney = CommonUtil.getParameter(request, "checkMoney", "");
-		ResponseEntity<SreProject> responseEntity = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreProject.class);
-		int statusCode = responseEntity.getStatusCodeValue();
-		logger.info("============远程返回  statusCode " + statusCode);
-		SreProject sreProjectBasic = responseEntity.getBody();
-		if (!checkMoney.equals("")) {
-			sreProjectBasic.setProjectMoney(new BigDecimal(checkMoney));
-		}
-		ResponseEntity<Integer> responseE = this.restTemplate.exchange(UPDATE_URL, HttpMethod.POST, new HttpEntity<SreProject>(sreProjectBasic, this.httpHeaders), Integer.class);
-		// 返回结果代码
-		int status_Code = responseE.getStatusCodeValue();
-		if (responseE.getBody() > 0) {
-			resultsDate = new Result(true);
-		} else {
-			resultsDate = new Result(false, "操作失败，请联系系统管理员！");
-		}
-		response.setContentType("text/html;charset=UTF-8");
-		PrintWriter out = response.getWriter();
-		JSONObject ob = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
-		out.println(ob.toString());
-		out.flush();
-		out.close();
-		return null;
-	}
+	
 
 	@RequestMapping(value = "/bacth-delete")
 	public String deleteBatch(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -533,45 +473,89 @@ public class ProjectBasicController extends BaseController {
 	@RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
 	public String get(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception 
 	{
-		ResponseEntity<SreProject> responseEntity = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreProject.class);
+		ResponseEntity<SreProjectTask> responseEntity = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreProjectTask.class);
 		int statusCode = responseEntity.getStatusCodeValue();
 		logger.info("============远程返回  statusCode " + statusCode);
-		SreProject sreProjectBasic = responseEntity.getBody();
-		request.setAttribute("sreProjectBasic", sreProjectBasic);
+		SreProjectTask sreProjectTask = responseEntity.getBody();
+		request.setAttribute("sreProjectTask", sreProjectTask);
 		
-		
-		
-		String leadUnitName = sreProjectBasic.getLeadUnitName();
-		String leadUnitCode = sreProjectBasic.getLeadUnitCode();
-		String createUserId= sreProjectBasic.getCreateUserId();
-		String documentDoc=sreProjectBasic.getDocumentDoc();
-		String beginYear		= sreProjectBasic.getBeginYear();
-		String endYear		= sreProjectBasic.getEndYear();
+		return "/stp/equipment/task/project_task_view";
+	}
 	
-		request.setAttribute("documentDoc", documentDoc);
-		request.setAttribute("leadUnitName", leadUnitName);
-		request.setAttribute("leadUnitCode", leadUnitCode);
-		request.setAttribute("createUserId", createUserId);
-		request.setAttribute("endYear", endYear);
-		request.setAttribute("beginYear", beginYear);
+
 	
 	
-		return "/stp/equipment/project/project-basic-view";
+	
+	@RequestMapping(value = "/createWord/{id}", method = RequestMethod.GET)
+	public String createWordv(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception 
+	{
+		Result resultsDate = new Result();
+		String fileName=createWord(id);
+		if (!fileName.equals("")) {
+			resultsDate = new Result(true);
+		} else {
+			resultsDate = new Result(false, "生成文件失败！");
+		}
+		response.setContentType("text/html;charset=UTF-8");
+		PrintWriter out = response.getWriter();
+		JSONObject ob = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
+		out.println(ob.toString());
+		out.flush();
+		out.close();
+		return null;
 	}
 	
 	
 	
-	//计划审核
-	@RequestMapping(value = "/audit", method = RequestMethod.GET)
-	public String audit( HttpServletRequest request, HttpServletResponse response) throws Exception {
+	//生成word文档
+	private String  createWord(String id)
+	{
+		SreProjectTask sreProjectTask=this.getSreProjectTask(id);
+		SreProject sreProject=null;
+		String projectId=sreProjectTask.getProjectId();
+		if(!projectId.equals(""))
+		{
+			sreProject=getSreProject(projectId);
+		}
+		
+		Map<String, Object> dataMap = new HashMap<String, Object>();
+		/** 组装数据 */
+		dataMap.put("titleName", "测试标题");
+		dataMap.put("userName", "张海峰");
+		dataMap.put("userCode", "1001");
 
-		return "/stp/equipment/project/audit";
-	}
-	
-	@RequestMapping(value = "/audit_look", method = RequestMethod.GET)
-	public String audit_look( HttpServletRequest request, HttpServletResponse response) throws Exception {
+		// 文件路径
+		String filePath = "D://doc";
 
-		return "/stp/equipment/project/audit_look";
+		/*List<Map<String, Object>> newsList = new ArrayList<Map<String, Object>>();
+		for (int i = 1; i<=10; i++) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("show1", "测试"+i);
+			map.put("show2", "137"+i);
+			map.put("show3", "年龄"+i);
+			map.put("show4", System.currentTimeMillis());
+			newsList.add(map);
+		}
+		dataMap.put("myListData", newsList);*/
+		
+		dataMap.put("taskMainTaskContent", sreProjectTask.getTaskMainTaskContent());
+
+	   /*String myPic = "";  
+        try {  
+             myPic = WordUtil.getImageString("D://doc//20190218155218.jpg");  
+        } catch (IOException e) {  
+            e.printStackTrace();  
+        }  
+         
+        dataMap.put("showPicture", myPic);  */
+		
+		
+		// 文件名称
+		String fileName = System.currentTimeMillis()+".doc";
+
+		/** 生成word */
+		WordUtil.createWord(dataMap, "task.ftl", filePath, fileName);
+		return filePath+File.separator+fileName;
 	}
 	
 	
