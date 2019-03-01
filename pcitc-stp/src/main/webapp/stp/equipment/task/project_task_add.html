@@ -72,7 +72,7 @@
                 <input name="taskId" id="taskId" value="${taskId}" type="hidden">
                 <input name="projectId" id="projectId" value="${projectId}" type="hidden">
                 <input name="documentDoc" id="documentDoc" value="${documentDoc}" type="hidden">
-                <input name="yearFeeStr" id="yearFeeStr" value="${sreProject.yearFeeStr}" type="hidden">
+                <input name="yearFeeStr" id="yearFeeStr" value="${sreProjectBasic.yearFeeStr}" type="hidden">
                 <input name="functionId" id="functionId" type="hidden">
                 <input name="userIds" id="userIds" type="hidden">
                 <input name="leadUnitCode" id="leadUnitCode" value="${sreProjectBasic.leadUnitCode}" type="hidden">
@@ -83,9 +83,6 @@
 			   <input  name="budgetTable"               id="budgetTable"           value="${sreProjectTask.budgetTable}"         type="hidden">
 			   <input  name="fundsSourcesTable"         id="fundsSourcesTable"     value="${sreProjectTask.fundsSourcesTable}"   type="hidden">
 			   <input  name="projectFundsTable"         id="projectFundsTable"     value="${sreProjectTask.projectFundsTable}"   type="hidden">
-
-
-
 
 
                 <div class="layui-form-item layui-form-text">
@@ -152,9 +149,9 @@
                     <thead>
                     <tr>
                         <td width="20%">进度安排</td>
-                        <td width="20%">考核目标</td>
-                        <td width="20%">备注</td>
-                        <td width="20%">删除</td>
+                        <td width="8%">考核目标</td>
+                        <td width="8%">备注</td>
+                        <td width="8%">删除</td>
                     </tr>
                     </thead>
                     <tbody></tbody>
@@ -195,7 +192,7 @@
                         <td width="20%">类别</td>
                         <td width="8%">项目</td>
                         <td width="8%">台套</td>
-                        <td width="8%">预算金额（万元）</td>
+                        <td width="8%">预算金额</td>
                         <td width="8%">备注</td>
                         <td width="8%">删除</td>
                     </tr>
@@ -232,8 +229,11 @@
             </div>
             <div class="layui-row" id="project_funds_table">
                 <div class="tableToolBox">
-                    <div class="tableTitle">项目资金安排</div>
+                    <div class="tableTitle">
+
+                    </div>
                     <div class="tableBtns">
+
                     </div>
                 </div>
                 <table class="layui-table">
@@ -250,11 +250,6 @@
                 </table>
             </div>
         </div>
-        
-        
-      
-      
-      
         <div class="form-bottom">
             <div class="form-bottom-btns">
                 <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue"
@@ -324,10 +319,6 @@
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
         });
-        alert(yearFeeStr);
-        publicMethods.createTable('','',"project_funds_table",2,yearFeeStr,true);
-        
-        
         
         /*项目内容和主要图表编辑显示*/
         //var taskArr = "1#2#3#4#5|2#9#8#7#6";
@@ -357,7 +348,7 @@
                 var date='<input type="text" class="layui-input test-laydate-range-month" value="'+assessmentVal[0]+'" placeholder=" - ">'
                 var tr = "<tr><td>" + date + "</td>" +
                     "<td><textarea placeholder='请输入内容'  rows='2' cols='20' style='width: 90%;'>" + assessmentVal[1] + "</textarea>  </td>" +
-                    "<td><textarea placeholder='请输入内容'  rows='2' cols='20' style='width: 90%;'>" + assessmentVal[2] + "</textarea></td>" +
+                    "<td><textarea placeholder='请输入内容'  rows='2' cols='20' style='width: 90%;'>" + assessmentVal[2] + "</textarea>/td>" +
                     "<td><a href='javascript:;' class='dele'>删除</a></td></tr>";
                 addTr("task_assessment_content", tr);
                 lay('.test-laydate-range-month').each(function() {
@@ -419,7 +410,7 @@
         dele();
         var $ =layui.$, active = {
             taskAddEvent: function () {
-            	var n = $("#task_content table tbody tr").length + 1;
+                var n = $("#task_content table tbody tr").length + 1;
                 var tr = "<tr><td>" + n + "</td><td><textarea placeholder='请输入内容'  rows='2' style='width: 90%;'></textarea> </td>" +
                     "<td><textarea placeholder='请输入内容'  rows='2' cols='20' style='width: 90%;'></textarea> </td><td><input type='number' value=''/> </td>" +
                     "<td><input type='text' value=''/> </td>" +
@@ -494,7 +485,7 @@
             var  budget_table =getData("budget_table", 5);
             var  funds_sources_table =getData("funds_sources_table", 6);
             
-           // alert(task_content);
+            //alert(task_content);
            // return;
             if (task_content == null || task_content == '') 
             {
