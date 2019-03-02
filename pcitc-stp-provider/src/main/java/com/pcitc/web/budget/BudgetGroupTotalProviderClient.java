@@ -308,8 +308,16 @@ public class BudgetGroupTotalProviderClient
 			BudgetGroupTotal groupTotal = budgetGroupTotalService.selectBudgetGroupTotal(itemId);
 			if(groupTotal != null) {
 				List<BudgetGroupTotal> childGroups = budgetGroupTotalService.selectChildBudgetGroupTotal(itemId);
+				List<Map<String,Object>> groupMaps = new ArrayList<Map<String,Object>>();
+				for(BudgetGroupTotal total:childGroups) {
+					Map<String,Object> mp = MyBeanUtils.transBean2Map(total);
+					map.put("last_year_end", 0);
+					map.put("plan_money", 0);
+					groupMaps.add(mp);
+				}
+				
 				map  = MyBeanUtils.transBean2Map(groupTotal);
-				map.put("groups", childGroups);
+				map.put("groups", groupMaps);
 				map.put("total", new Double(map.get("zxjf").toString())+new Double(map.get("xmjf").toString()));
 			}
 		}
