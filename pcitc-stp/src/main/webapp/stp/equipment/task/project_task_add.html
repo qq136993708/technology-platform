@@ -15,9 +15,8 @@
     <![endif]-->
     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/common.css">
-    <script src="/common/js/jquery-1.11.3.min.js"></script>
+ 
     <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
-    <script type="text/javascript" src="/layuiadmin/modules/base.js?aa=a"></script>
     <style>
         .layui-form-label {
             width: 120px;
@@ -52,7 +51,7 @@
         }
         .layui-input, .layui-select{
             height: 34px !important;
-            width: 30% !important;
+            width: 80% !important;
         }
         .layui-select-title input{width: 100% !important;}
     </style>
@@ -70,26 +69,27 @@
             </div>
             <div class="box-body">
                 <input name="taskId" id="taskId" value="${taskId}" type="hidden">
-                <input name="projectId" id="projectId" value="${projectId}" type="hidden">
+                <input name="topicId" id="topicId" value="${topicId}" type="hidden">
                 <input name="documentDoc" id="documentDoc" value="${documentDoc}" type="hidden">
-                <input name="yearFeeStr" id="yearFeeStr" value="${sreProjectBasic.yearFeeStr}" type="hidden">
-                <input name="functionId" id="functionId" type="hidden">
+                <input name="projectFundsTable" id="projectFundsTable" value="${sreProjectTask.projectFundsTable}" type="hidden">
+                <input name="functionId" id="functionId" value="${functionId}" type="hidden">
                 <input name="userIds" id="userIds" type="hidden">
                 <input name="leadUnitCode" id="leadUnitCode" value="${sreProjectBasic.leadUnitCode}" type="hidden">
                 <input name="joinUnitCode" id="joinUnitCode" value="${sreProjectBasic.joinUnitCode}" type="hidden">
                
-              <input  name="taskContent"               id="taskContent"              value="${sreProjectTask.taskContent}"            type="hidden">
-			  <input  name="taskAssessmentContent"     id="taskAssessmentContent"    value="${sreProjectTask.taskAssessmentContent}"   type="hidden">
-			  <input  name="budgetTable"               id="budgetTable"           value="${sreProjectTask.budgetTable}"         type="hidden">
-			  <input  name="fundsSourcesTable"         id="fundsSourcesTable"     value="${sreProjectTask.fundsSourcesTable}"   type="hidden">
-			  <input  name="projectFundsTable"         id="projectFundsTable"     value="${sreProjectTask.projectFundsTable}"   type="hidden">
+               <input  name="taskContent"               id="taskContent"              value="${sreProjectTask.taskContent}"            type="hidden">
+			   <input  name="taskAssessmentContent"     id="taskAssessmentContent"    value="${sreProjectTask.taskAssessmentContent}"   type="hidden">
+			   <input  name="budgetTable"               id="budgetTable"           value="${sreProjectTask.budgetTable}"         type="hidden">
+			   <input  name="fundsSourcesTable"         id="fundsSourcesTable"     value="${sreProjectTask.fundsSourcesTable}"   type="hidden">
+
+
+
 
 
                 <div class="layui-form-item layui-form-text">
                     <label class="layui-form-label">课题名称</label>
                     <div class="layui-input-block">
-                        <input class="layui-input readOnlyBox" name="name" id="name" readonly="readonly"
-                               value="${sreProjectBasic.name}" autocomplete="off" type="text">
+                        <input class="layui-input readOnlyBox" name="name" id="name" readonly="readonly" value="${sreProject.name}" autocomplete="off" type="text">
                     </div>
                 </div>
                <div class="layui-form-item layui-form-text" >
@@ -103,8 +103,8 @@
                 <div class="layui-form-item layui-form-text">
                     <label class="layui-form-label">其他</label>
                     <div class="layui-input-block">
-                        <textarea name="remarks" id="remarks"
-                                  class="layui-textarea">${sreProjectBasic.remarks}</textarea>
+                        <textarea name="notes" id="notes"
+                                  class="layui-textarea">${sreProjectTask.notes}</textarea>
                     </div>
                 </div>
                
@@ -124,12 +124,12 @@
                 <table class="layui-table">
                     <thead>
                     <tr>
-                        <td width="20%">编号</td>
-                        <td width="8%">单项设备名称</td>
-                        <td width="8%">单项设备立项背景</td>
+                        <td width="4%">编号</td>
+                        <td width="20%">单项设备名称</td>
+                        <td width="28%">单项设备立项背景</td>
                         <td width="8%">经费</td>
                         <td width="8%">备注</td>
-                        <td width="8%">删除</td>
+                        <td width="3%">删除</td>
                     </tr>
                     </thead>
                     <tbody></tbody>
@@ -149,10 +149,10 @@
                 <table class="layui-table">
                     <thead>
                     <tr>
-                        <td width="20%">进度安排</td>
-                        <td width="8%">考核目标</td>
-                        <td width="8%">备注</td>
-                        <td width="8%">删除</td>
+                        <td width="10%">进度安排</td>
+                        <td width="20%">考核目标</td>
+                        <td width="20%">备注</td>
+                        <td width="3%">删除</td>
                     </tr>
                     </thead>
                     <tbody></tbody>
@@ -165,7 +165,15 @@
         <label class="layui-form-label">应提交验收的内容<span class="must-fill">*</span></label>
         <div class="layui-input-block">
            <#list dicList as vo> 
-               <input type="checkbox" name="taskCheckContents" lay-skin="primary" title="${vo.name}" value="${vo.code}">
+               <input type="checkbox" name="taskCheckContents"  lay-skin="primary" title="${vo.name}"
+               
+                 <#list "${sreProjectTask.taskCheckContents}"?split(",") as itemValue>
+                         <#if itemValue == vo.code>checked="checked"  </#if>
+                     </#list>
+               
+                value="${vo.code}">
+                     
+
            </#list>
            
         </div>
@@ -173,12 +181,9 @@
 
             <div class="layui-row" id="budget_table">
                 <div class="tableToolBox">
-                    <div class="tableTitle">
-                        资金概算表
-                    </div>
+                    <div class="tableTitle">资金概算表</div>
                     <div class="tableBtns">
-                        <a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg"
-                           data-type="budgetAddEvent">新增
+                        <a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg" data-type="budgetAddEvent">新增
                         </a>
                     </div>
                 </div>
@@ -188,7 +193,7 @@
                         <td width="20%">类别</td>
                         <td width="8%">项目</td>
                         <td width="8%">台套</td>
-                        <td width="8%">预算金额</td>
+                        <td width="8%">预算金额（万元）</td>
                         <td width="8%">备注</td>
                         <td width="8%">删除</td>
                     </tr>
@@ -225,11 +230,8 @@
             </div>
             <div class="layui-row" id="project_funds_table">
                 <div class="tableToolBox">
-                    <div class="tableTitle">
-
-                    </div>
+                    <div class="tableTitle">项目资金安排</div>
                     <div class="tableBtns">
-
                     </div>
                 </div>
                 <table class="layui-table">
@@ -246,6 +248,11 @@
                 </table>
             </div>
         </div>
+        
+        
+      
+      
+      
         <div class="form-bottom">
             <div class="form-bottom-btns">
                 <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue"
@@ -262,10 +269,13 @@
         </div>
     </form>
 </div>
+   <script src="/common/js/jquery-1.11.3.min.js"></script>
 <script>
     var param = JSON.parse(window.localStorage.getItem("param"));
     var functionId = param.id;
     $('#functionId').val(functionId);
+    alert(functionId);
+    
     var roleCodes = "";
     var unitCodes = "";
     var postCodes = "";
@@ -275,9 +285,11 @@
     file_edit_detail = "edit";
     //统管理-附件管理-附件配置：页面标识
     file_opt_flag = "b3a52bbe7087419c80813d7716f37674";
-    var equipmentIds = $("#equipmentIds").val();
-    var yearFeeStr = $("#yearFeeStr").val();
-    var beginYear = $("#beginYear").val();
+   /// var equipmentIds = $("#equipmentIds").val();
+    var projectFundsTable = $("#projectFundsTable").val();
+   
+    
+   // var beginYear = $("#beginYear").val();
     var table, selectRowData;
     layui.use(['form', 'table', 'laypage', 'layer', 'laydate', 'laytpl', 'jquery', "publicMethods"], function () {
         var admin = layui.admin
@@ -293,9 +305,9 @@
         laydate.render({
             elem: '#LAY-component-form-group-date'
         });
-        var equipmentIds = $("#equipmentIds").val();
-        renderTable(equipmentIds)
-        publicMethods.createTable($("#beginYear").val(), $("#endYear").val(), "yearTr", 2, yearFeeStr);
+       // var equipmentIds = $("#equipmentIds").val();
+       // renderTable(equipmentIds)
+       // publicMethods.createTable($("#beginYear").val(), $("#endYear").val(), "yearTr", 2, projectFundsTable);
         //添加到form.render()之后
         $("#file_div").load('/common/public/uploadlayuiload.html');
         /* 自定义验证规则  title 要验证的input的 lay-verify=""*/
@@ -315,98 +327,128 @@
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
         });
+     
+        publicMethods.createTable('','',"project_funds_table",2,projectFundsTable,true);
+        
+        
         
         /*项目内容和主要图表编辑显示*/
         //var taskArr = "1#2#3#4#5|2#9#8#7#6";
         var taskArr = $("#taskContent").val();
-        $.each(taskArr.split("|"), function (i, val) {
-            var taskVal = val.split("#");
-            var tr = "<tr><td>" + taskVal[0] + "</td><td><input type='text' value='" + taskVal[1] + "'/> </td>" +
-                "<td><input type='text' value='" + taskVal[2] + "'/> " +
-                "</td><td><input type='number' value='" + taskVal[3] + "'/> </td>" +
-                "<td><input type='text' value='" + taskVal[4] + "'/> </td>" +
-                "<td><a href='javascript:;' class='dele'>删除</a></td></tr>";
-            addTr("task_content", tr);
-        });
+        if(taskArr!='')
+        {
+        	$.each(taskArr.split("|"), function (i, val) {
+                var taskVal = val.split("#");
+                var tr = "<tr><td>" + taskVal[0] + "</td>" +
+                    "<td><textarea lay-verify='specialCharacters' placeholder='请输入内容'  rows='4' cols='20' style='width: 90%;'>" + taskVal[1] + "</textarea>  </td>" +
+                    "<td><textarea lay-verify='specialCharacters' placeholder='请输入内容'  rows='4' cols='20' style='width: 90%;'>" + taskVal[2] + "</textarea>   " +
+                    "</td><td><input type='number' value='" + taskVal[3] + "'/> </td>" +
+                    "<td><input lay-verify='specialCharacters' type='text' value='" + taskVal[4] + "'/> </td>" +
+                    "<td><a href='javascript:;' class='dele'>删除</a></td></tr>";
+                addTr("task_content", tr);
+                formVerify();
+            });
+        }
+        
+        
         /*计划进度和考核目标*/
         //var assessmentArr="2019-10 - 2019-11#w#w|2019-12 - 2019-12#f#f";
         var assessmentArr = $("#taskAssessmentContent").val();
-        $.each(assessmentArr.split("|"), function (i, val) {
-            var assessmentVal = val.split("#");
-            var date='<input type="text" class="layui-input test-laydate-range-month" value="'+assessmentVal[0]+'" placeholder=" - ">'
-            var tr = "<tr><td>" + date + "</td>" +
-                "<td><input type='text' value='"+assessmentVal[1]+"'/> </td>" +
-                "<td><input type='text' value='"+assessmentVal[2]+"'/> </td>" +
-                "<td><a href='javascript:;' class='dele'>删除</a></td></tr>";
-            addTr("task_assessment_content", tr);
-            lay('.test-laydate-range-month').each(function() {
-                laydate.render({
-                    elem : this
-                    ,type: 'month'
-                    ,range: true
-                });
-            });
-        });
-        /*资金概算表*/
-        //var budgetArr="资本性#d#3#3#4|资本性#d#3#3#4";
-        var budgetArr = $("#budgetTable").val();
-        $.each(budgetArr.split("|"), function (i, val) {
-            var budgetVal = val.split("#");
-
-            if(budgetVal[0]=="资本性"){
-
-                var selectH='<select>' +
-                    '<option value="资本性" selected = "selected" >资本性</option><option value="费用性">费用性</option></select>'
-            }else {
-                var selectH='<select>' +
-                    '<option value="资本性">资本性</option><option value="费用性" selected = "selected" >费用性</option></select>'
-
-            }
-            var tr = "<tr><td>" + selectH + "</td>" +
-                "<td><input type='text' value='"+budgetVal[1]+"'/> </td>" +
-                "<td><input type='number' value='"+budgetVal[2]+"'/> </td>" +
-                "<td><input type='number' value='"+budgetVal[3]+"'/> </td>" +
-                "<td><input type='text' value='"+budgetVal[4]+"'/> </td>" +
-                "<td><a href='javascript:;' class='dele'>删除</a></td></tr>";
-            addTr("budget_table", tr);
-            form.render();
-        });
-        /*资金来源表*/
-        //var fundsArr="1#77#34#34#34#324|2#88#66#45#34#412";
-        var fundsArr = $("#fundsSourcesTable").val();
-        $.each(fundsArr.split("|"), function (i, val) {
-            var fundsVal = val.split("#");
-            var tr = "<tr><td> <input type='text' value='"+fundsVal[0]+"'/></td>" +
-                "<td><input type='number' class='fundsNumber' value='"+fundsVal[1]+"'/> </td>" +
-                "<td><input type='number' class='fundsNumber'  value='"+fundsVal[2]+"'/> </td>" +
-                "<td><input type='number' class='fundsNumber' value='"+fundsVal[3]+"'/> </td>" +
-                "<td><input type='number' class='fundsNumber'  value='"+fundsVal[4]+"'/> </td>" +
-                "<td>"+fundsVal[5]+"</td>" +
-                "<td><a href='javascript:;' class='dele'>删除</a></td></tr>";
-            addTr("funds_sources_table", tr);
-        });
-        dele();
-        var $ =layui.$, active = {
-            taskAddEvent: function () {
-                var n = $("#task_content table tbody tr").length + 1;
-                var tr = "<tr><td>" + n + "</td><td><input type='text' value=''/> </td>" +
-                    "<td><input type='text' value=''/> </td><td><input type='number' value=''/> </td>" +
-                    "<td><input type='text' value=''/> </td>" +
-                    "<td><a href='javascript:;' class='dele'>删除</a></td></tr>";
-                addTr("task_content", tr);
-                dele()
-            },
-            assessmentAddEvent:function(){
-                var date='<input type="text" class="layui-input test-laydate-range-month"  placeholder=" - ">'
+        if(assessmentArr!='')
+        {
+        	$.each(assessmentArr.split("|"), function (i, val) {
+                var assessmentVal = val.split("#");
+                var date='<input type="text" class="layui-input test-laydate-range-month" value="'+assessmentVal[0]+'" placeholder=" - ">'
                 var tr = "<tr><td>" + date + "</td>" +
-                    "<td><input type='text' value=''/> </td>" +
-                    "<td><input type='text' value=''/> </td>" +
+                    "<td><textarea lay-verify='specialCharacters'  placeholder='请输入内容'  rows='4' cols='20' style='width: 90%;'>" + assessmentVal[1] + "</textarea>  </td>" +
+                    "<td><textarea lay-verify='specialCharacters' placeholder='请输入内容'  rows='4' cols='20' style='width: 90%;'>" + assessmentVal[2] + "</textarea></td>" +
                     "<td><a href='javascript:;' class='dele'>删除</a></td></tr>";
                 addTr("task_assessment_content", tr);
-                dele()
+                formVerify();
                 lay('.test-laydate-range-month').each(function() {
                     laydate.render({
                         elem : this
+                        ,format: 'yyyy年MM月'
+                        ,type: 'month'
+                        ,range: true
+                    });
+                });
+            });
+        }
+        
+        /*资金概算表*/
+        //var budgetArr="资本性#d#3#3#4|资本性#d#3#3#4";
+        var budgetArr = $("#budgetTable").val();
+        if(budgetArr!='')
+        {
+        	$.each(budgetArr.split("|"), function (i, val) {
+                var budgetVal = val.split("#");
+
+                if(budgetVal[0]=="资本性"){
+
+                    var selectH='<select>' +
+                        '<option value="资本性" selected = "selected" >资本性</option><option value="费用性">费用性</option></select>'
+                }else {
+                    var selectH='<select>' +
+                        '<option value="资本性">资本性</option><option value="费用性" selected = "selected" >费用性</option></select>'
+
+                }
+                var tr = "<tr><td>" + selectH + "</td>" +
+                    "<td><input lay-verify='specialCharacters' type='text' value='"+budgetVal[1]+"'/> </td>" +
+                    "<td><input type='number' value='"+budgetVal[2]+"'/> </td>" +
+                    "<td><input type='number' value='"+budgetVal[3]+"'/> </td>" +
+                    "<td><input lay-verify='specialCharacters' type='text' value='"+budgetVal[4]+"'/> </td>" +
+                    "<td><a href='javascript:;' class='dele'>删除</a></td></tr>";
+                addTr("budget_table", tr);
+                formVerify();
+                form.render();
+            });
+        }
+        
+        /*资金来源表*/
+        //var fundsArr="1#77#34#34#34#324|2#88#66#45#34#412";
+        var fundsArr = $("#fundsSourcesTable").val();
+        if(fundsArr!='')
+        {
+        	$.each(fundsArr.split("|"), function (i, val) {
+                var fundsVal = val.split("#");
+                var tr = "<tr><td> <input lay-verify='specialCharacters' type='text' value='"+fundsVal[0]+"'/></td>" +
+                    "<td><input type='number' class='fundsNumber' value='"+fundsVal[1]+"'/> </td>" +
+                    "<td><input type='number' class='fundsNumber'  value='"+fundsVal[2]+"'/> </td>" +
+                    "<td><input type='number' class='fundsNumber' value='"+fundsVal[3]+"'/> </td>" +
+                    "<td><input type='number' class='fundsNumber'  value='"+fundsVal[4]+"'/> </td>" +
+                    "<td>"+fundsVal[5]+"</td>" +
+                    "<td><a href='javascript:;' class='dele'>删除</a></td></tr>";
+                addTr("funds_sources_table", tr);
+                formVerify();
+            });
+        }
+        
+        dele();
+        var $ =layui.$, active = {
+            taskAddEvent: function () {
+            	var n = $("#task_content table tbody tr").length + 1;
+                var tr = "<tr><td>" + n + "</td><td><textarea lay-verify='specialCharacters'  placeholder='请输入内容'  rows='3' style='width: 90%;'></textarea> </td>" +
+                    "<td><textarea  lay-verify='specialCharacters' placeholder='请输入内容'  rows='3' cols='20' style='width: 90%;'></textarea> </td><td><input type='number' value=''/> </td>" +
+                    "<td><input lay-verify='specialCharacters' type='text' value=''/> </td>" +
+                    "<td><a href='javascript:;' class='dele'>删除</a></td></tr>";
+                addTr("task_content", tr);
+                dele();
+                formVerify();
+            },
+            assessmentAddEvent:function(){
+                var date='<input type="text" class="layui-input test-laydate-range-month"   placeholder=" - ">'
+                var tr = "<tr><td>" + date + "</td>" +
+                    "<td><textarea lay-verify='specialCharacters' placeholder='请输入内容'  rows='4' cols='20' style='width: 90%;'></textarea> </td>" +
+                    "<td><textarea lay-verify='specialCharacters' placeholder='请输入内容'  rows='4' cols='20' style='width: 90%;'></textarea> </td>" +
+                    "<td><a href='javascript:;' class='dele'>删除</a></td></tr>";
+                addTr("task_assessment_content", tr);
+                dele();
+                formVerify();
+                lay('.test-laydate-range-month').each(function() {
+                    laydate.render({
+                        elem : this
+                        ,format: 'yyyy年MM月'
                         ,type: 'month'
                         ,range: true
                     });
@@ -416,17 +458,18 @@
                 var selectH='<select>' +
                     '<option value="资本性">资本性</option><option value="费用性">费用性</option></select>'
                 var tr = "<tr><td>" + selectH + "</td>" +
-                    "<td><input type='text' value=''/> </td>" +
+                    "<td><input lay-verify='specialCharacters' type='text' value=''/> </td>" +
                     "<td><input type='number' value=''/> </td>" +
                     "<td><input type='number' value=''/> </td>" +
-                    "<td><input type='text' value=''/> </td>" +
+                    "<td><input lay-verify='specialCharacters' type='text' value=''/> </td>" +
                     "<td><a href='javascript:;' class='dele'>删除</a></td></tr>";
                 addTr("budget_table", tr);
-                dele()
+                dele();
+                formVerify();
                 form.render();
             },
             fundsAddEvent:function(){
-                var tr = "<tr><td> <input type='text' value=''/></td>" +
+                var tr = "<tr><td> <input lay-verify='specialCharacters' type='text' value=''/></td>" +
                     "<td><input type='number' class='fundsNumber' value='0'/> </td>" +
                     "<td><input type='number' class='fundsNumber'  value='0'/> </td>" +
                     "<td><input type='number' class='fundsNumber' value='0'/> </td>" +
@@ -434,7 +477,8 @@
                     "<td></td>" +
                     "<td><a href='javascript:;' class='dele'>删除</a></td></tr>";
                 addTr("funds_sources_table", tr);
-                dele()
+                dele();
+                formVerify();
                 $(".fundsNumber").change(function () {
                     var numberC=0;
                     $(".fundsNumber").each(function (i, val) {
@@ -445,26 +489,17 @@
             }
 
         }
-        form.verify({
-            validateNumber: function (value, item) {
-                if (value <= 0 || value > 2000) {
-                    return '请填写正确的值';
-                }
-            }
-        });
+      
         /* 监听提交 */
         form.on('submit(sub)', function (data) {
             //JSON.stringify(data.field)  提交信息json格式
             /*parent.layer.alert(JSON.stringify(data.field), {
                 title: '最终的提交信息'
             })*/
-            var  task_content =getData("task_content", 4);
+            var  task_content =getData("task_content", 5);
             var  task_assessment_content =getData("task_assessment_content", 3);
             var  budget_table =getData("budget_table", 5);
             var  funds_sources_table =getData("funds_sources_table", 6);
-            
-            
-            
             
             if (task_content == null || task_content == '') 
             {
@@ -476,6 +511,9 @@
             	
             	 $("#taskContent").val(task_content)
             	 $("#taskAssessmentContent").val(task_assessment_content)
+            	 $("#budgetTable").val(budget_table)
+            	 $("#fundsSourcesTable").val(funds_sources_table)
+            	   
             	 var url="/sre_project_task/save?v_date="+v_date+"&status=0";
                  var backurl="/sre_project_task/to_list?v_date="+v_date;
                  ajaxOpt(url,"form1","POST",backurl,"保存成功","保存失败");
@@ -488,19 +526,42 @@
             /*parent.layer.alert(JSON.stringify(data.field), {
                 title: '最终的提交信息'
             })*/
-            $("#yearFeeStr").val(publicMethods.getVal("yearTr", 4));
-            var yearFee_Str = $("#yearFeeStr").val();
-            if (yearFee_Str == null || yearFee_Str == '') {
-                layer.alert("建设年限为空");
-            } else {
+            var  task_content =getData("task_content", 5);
+            var  task_assessment_content =getData("task_assessment_content", 3);
+            var  budget_table =getData("budget_table", 5);
+            var  funds_sources_table =getData("funds_sources_table", 6);
+            
+            if (task_content == null || task_content == '') 
+            {
+                layer.alert("项目内容和主要图表为空");
+            }else if (task_assessment_content == null || task_assessment_content == '') 
+            {
+                layer.alert("计划进度和考核目标为空");
+            }else{
             	dealFlow(data);
             }
             return false;
         });
     });
+    
+    function formVerify(){
+    	form.verify({
+            validateNumber: function (value, item) {
+                if (value <= 0 || value > 2000) {
+                    return '请填写正确的值';
+                }
+            },
+            specialCharacters:function (value, item) {
+            	
+                if(value.indexOf("#")>=0 || value.indexOf("|")>=0){
+                    return "不能填写#与|两个字符。";
+                }
+            }
+        });
+    }
 
     function ajaxOpt(url, formName, type, backurl, successMsg, failMsg) {
-        $("#equipmentIds").val($("#equipmentIds").val());
+       // $("#equipmentIds").val($("#equipmentIds").val());
         $.ajax({
             type: type,
             url: url,
@@ -530,7 +591,7 @@
     }
 
     function renderTable(equipmentIds) {
-        $("#equipmentIds").val(equipmentIds);
+       // $("#equipmentIds").val(equipmentIds);
         table.render({
             elem: '#join_apply_table',
             url: '/sre-equipment/list_by_quipment_ids?equipmentIds=' + equipmentIds,
@@ -685,7 +746,9 @@
                 var tdElement = $("#" + id + " table tbody tr:eq(" + i + ") td").eq(k);
                 if ($(tdElement).find("input").length > 0) {
                     columnS += $(tdElement).find("input").val() + "#";
-                } else {
+                } else if ($(tdElement).find("textarea").length > 0) {
+                    columnS += $(tdElement).find("textarea").val() + "#";
+                }else {
                     columnS += $(tdElement).html() + "#";
                 }
             }

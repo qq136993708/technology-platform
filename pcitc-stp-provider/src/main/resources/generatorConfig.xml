@@ -13,7 +13,7 @@
 		<javaModelGenerator  targetPackage="com.pcitc.base.stp.equipment" targetProject="pcitc-base" />
 		<sqlMapGenerator     targetPackage="com.pcitc.mapper.equipment"   targetProject="pcitc-stp-provider" />
 		<javaClientGenerator targetPackage="com.pcitc.mapper.equipment"   targetProject="pcitc-stp-provider" type="XMLMAPPER" />
-	    
+	
 	    <table schema="pcitc-stp-provider"  tableName="sre_project_task"         domainObjectName="SreProjectTask"        enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true"></table>
 	
 	</context>

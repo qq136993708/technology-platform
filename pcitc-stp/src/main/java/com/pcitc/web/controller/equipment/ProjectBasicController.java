@@ -224,6 +224,7 @@ public class ProjectBasicController extends BaseController {
 			sreProjectBasic = new SreProject();
 			sreProjectBasic.setCreateDate(new Date());
 			sreProjectBasic.setCreateUserId(sysUserInfo.getUserId());
+			sreProjectBasic.setCreateUserName(sysUserInfo.getUserDisp());
 			String code = CodeUtil.getCode("XTBM_0032", restTemplate, httpHeaders);
 			String idv = UUID.randomUUID().toString().replaceAll("-", "");
 			sreProjectBasic.setId(idv);
@@ -278,6 +279,10 @@ public class ProjectBasicController extends BaseController {
 		sreProjectBasic.setLeadUnitCode(leadUnitCode);
 		sreProjectBasic.setEntrustUnitCode(entrustUnitCode);
 		sreProjectBasic.setEntrustUnitName(entrustUnitName);
+		sreProjectBasic.setApplyUnitCode(sysUserInfo.getUnitCode());
+		sreProjectBasic.setApplyUnitName(sysUserInfo.getUnitName());
+		
+		
 		
 		
 		// 判断是新增还是修改

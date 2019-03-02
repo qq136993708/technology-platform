@@ -1,10 +1,14 @@
 package com.pcitc.service.budget;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.stp.budget.BudgetGroupTotal;
+import com.pcitc.base.stp.out.OutProjectInfo;
+import com.pcitc.base.stp.out.OutProjectPlan;
 import com.pcitc.base.stp.out.OutUnit;
 
 /**
@@ -90,9 +94,28 @@ public interface BudgetGroupTotalService
 	 */
 	public int deleteBudgetGroupTotalByInfo(String budgetInfoId) throws Exception;
 	/**
-	 * 查询所有集团单位
+	 * 
+	 * @param item
+	 * @return
 	 */
-	public List<OutUnit> selectJtUnits();
-	
 	public List<BudgetGroupTotal> selectGroupTotalHistoryItems(BudgetGroupTotal item);
+	/**
+	 * 检索集团公司
+	 * @return
+	 */
+	public List<OutUnit> selectGroupCompnays();
+	/**
+	 * 获取计划参考数据
+	 * @param budgetInfoId
+	 * @param nd
+	 * @return
+	 */
+	public Map<String,List<OutProjectPlan>> selectComparePlanData(Set<String> codes,String nd);
+	/**
+	 * 获取项目参考数据（上年完成）
+	 * @param budgetInfoId
+	 * @param nd
+	 * @return
+	 */
+	public Map<String,List<OutProjectInfo>> selectCompareProjectInfoData(Set<String> codes,String nd);
 }

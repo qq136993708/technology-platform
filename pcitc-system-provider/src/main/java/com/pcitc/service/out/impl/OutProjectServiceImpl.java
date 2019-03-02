@@ -117,6 +117,16 @@ public class OutProjectServiceImpl implements OutProjectService {
 			}
 			hashmap.put("define2", define2);
 		}
+		
+		// 承担单位的code
+		if (param.getParam().get("define9")!=null&&!StringUtils.isBlank(param.getParam().get("define9")+"")) {
+			List define9 = new ArrayList();
+			String[] temS = param.getParam().get("define9").toString().split(",");
+			for (int i = 0; i<temS.length; i++) {
+				define9.add(temS[i]);
+			}
+			hashmap.put("define9", define9);
+		}
 
 		// 基础研究技术/油气勘探技术等技术
 		if (param.getParam().get("define5")!=null&&!StringUtils.isBlank(param.getParam().get("define5")+"")) {

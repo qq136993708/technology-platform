@@ -113,11 +113,11 @@ public class ProjectTaskController extends BaseController {
 		
 		String taskId = CommonUtil.getParameter(request, "taskId", "");
 		request.setAttribute("taskId", taskId);
-		String projectId = CommonUtil.getParameter(request, "projectId", "");
-		request.setAttribute("projectId", projectId);
-		if(!projectId.equals(""))
+		String topicId = CommonUtil.getParameter(request, "topicId", "");
+		request.setAttribute("topicId", topicId);
+		if(!topicId.equals(""))
 		{
-			SreProject sreProject=getSreProject(projectId);
+			SreProject sreProject=getSreProject(topicId);
 			request.setAttribute("sreProject", sreProject);
 		}
 		if(!taskId.equals(""))
@@ -127,10 +127,10 @@ public class ProjectTaskController extends BaseController {
 		
 			SreProjectTask sreProjectTask = responseEntity.getBody();
 			request.setAttribute("sreProjectTask", sreProjectTask);
-			projectId=sreProjectTask.getProjectId();
-			if(!projectId.equals(""))
+			topicId=sreProjectTask.getTopicId();
+			if(!topicId.equals(""))
 			{
-				SreProject sreProject=getSreProject(projectId);
+				SreProject sreProject=getSreProject(topicId);
 				request.setAttribute("sreProject", sreProject);
 			}
 		}
@@ -178,7 +178,6 @@ public class ProjectTaskController extends BaseController {
 	public String saveOrUpdate(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		Result resultsDate = new Result();
-		String name = CommonUtil.getParameter(request, "name", "");
 		// 业务ID
 		String taskId = CommonUtil.getParameter(request, "taskId", "");
 		// 流程状态-是保存还是提交
@@ -194,21 +193,34 @@ public class ProjectTaskController extends BaseController {
 		String taskMainTaskContent = CommonUtil.getParameter(request, "taskMainTaskContent", "");
 		String taskContent = CommonUtil.getParameter(request, "taskContent", "");
 		String isWorkFlow = CommonUtil.getParameter(request, "isWorkFlow", "0");
-		String taskCheckContents = CommonUtil.getParameter(request, "taskCheckContents", "");
+	
 		String taskAssessmentContent = CommonUtil.getParameter(request, "taskAssessmentContent", "");
 		String functionId = CommonUtil.getParameter(request, "functionId", "");
-		String projectId = CommonUtil.getParameter(request, "projectId", "");
+		String topicId = CommonUtil.getParameter(request, "topicId", "");
 		
-		
-		
+		StringBuffer taskCheckContents = new StringBuffer();
+		String arr[]=request.getParameterValues("taskCheckContents");
+		if(arr!=null && arr.length>0)
+		{
+			for(int i=0;i<arr.length;i++)
+			{
+				if(i>0)
+				{
+					taskCheckContents.append(",");
+				}
+				taskCheckContents.append(arr[i]);
+			}
+		}
 		SreProjectTask sreProjectBasic = null;
 		ResponseEntity<String> responseEntity = null;
+		
 		// 判断是新增还是修改
 		if (taskId.equals("")) 
 		{
 			sreProjectBasic = new SreProjectTask();
 			sreProjectBasic.setCreateDate(new Date());
 			sreProjectBasic.setCreateUserId(sysUserInfo.getUserId());
+			sreProjectBasic.setCreateUserName(sysUserInfo.getUserDisp());
 			//String code = CommonUtil.getTableCode("XTBM_0032", restTemplate, httpHeaders);
 			String idv = UUID.randomUUID().toString().replaceAll("-", "");
 			sreProjectBasic.setTaskId(idv);
@@ -220,7 +232,7 @@ public class ProjectTaskController extends BaseController {
 		}
 		// 流程状态
 		sreProjectBasic.setAuditStatus(auditStatus);
-		BigDecimal projectMoney=BigDecimal.ZERO;
+		//BigDecimal projectMoney=BigDecimal.ZERO;
 		/*if (!yearFeeStr.equals("")) //2019,55,5,60#2020,553,5,558
 		{
 			String array[]=yearFeeStr.split("#");
@@ -235,18 +247,33 @@ public class ProjectTaskController extends BaseController {
 			}
 			
 		}*/
-		sreProjectBasic.setProjectId(projectId);
+		
+		SreProject sreProject=this.getSreProject(topicId);
+		if(sreProject!=null)
+		{
+			sreProjectBasic.setTopicName(sreProject.getName());
+			sreProjectBasic.setJoinUnitCode(sreProject.getJoinUnitCode());
+			sreProjectBasic.setJoinUnitName(sreProject.getJoinUnitName());
+			sreProjectBasic.setLeadUnitCode(sreProject.getLeadUnitCode());
+			sreProjectBasic.setLeadUnitName(sreProject.getLeadUnitName());
+			sreProjectBasic.setProjectMoney(sreProject.getProjectMoney());
+			sreProjectBasic.setProjectFundsTable(sreProject.getYearFeeStr());
+		}
+		sreProjectBasic.setTopicId(topicId); 
 		sreProjectBasic.setContractNum(contractNum);
 		sreProjectBasic.setBudgetTable(budgetTable);
 		sreProjectBasic.setContractNum(contractNum);
 		sreProjectBasic.setFundsSourcesTable(fundsSourcesTable);
 		sreProjectBasic.setNotes(notes);
-		sreProjectBasic.setProjectFundsTable(projectFundsTable);
+		
 		sreProjectBasic.setProjectNotice(projectNotice);
 		sreProjectBasic.setTaskMainTaskContent(taskMainTaskContent);
 		sreProjectBasic.setTaskContent(taskContent);
-		sreProjectBasic.setTaskCheckContents(taskCheckContents);
+		sreProjectBasic.setTaskCheckContents(taskCheckContents.toString());
 		sreProjectBasic.setTaskAssessmentContent(taskAssessmentContent);
+		sreProjectBasic.setApplyUnitCode(sysUserInfo.getUnitCode());
+		sreProjectBasic.setApplyUnitName(sysUserInfo.getUnitName());
+		
 		
 		// 判断是新增还是修改
 		if (taskId.equals("")) 
@@ -335,7 +362,7 @@ public class ProjectTaskController extends BaseController {
 			variables.put("auditor", Arrays.asList(userIdsArr));
 		}
 		// 必须设置，统一流程待办任务中需要的业务详情
-		variables.put("auditDetailsPath", "/sre-project-basic/get/" + id);
+		variables.put("auditDetailsPath", "/sre_project_task/get/" + id);
 		// 流程完全审批通过时，调用的方法
 		variables.put("auditAgreeMethod", AUDIT_AGREE_URL + id);
 		// 流程驳回时，调用的方法（可能驳回到第一步，也可能驳回到第1+n步
@@ -512,7 +539,7 @@ public class ProjectTaskController extends BaseController {
 	{
 		SreProjectTask sreProjectTask=this.getSreProjectTask(id);
 		SreProject sreProject=null;
-		String projectId=sreProjectTask.getProjectId();
+		String projectId=sreProjectTask.getTopicId();
 		if(!projectId.equals(""))
 		{
 			sreProject=getSreProject(projectId);

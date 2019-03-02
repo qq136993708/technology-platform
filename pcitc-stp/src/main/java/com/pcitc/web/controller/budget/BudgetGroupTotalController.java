@@ -71,6 +71,8 @@ public class BudgetGroupTotalController extends BaseController {
 	private static final String BUDGET_GROUPTOTAL_COMPANY_ITEMS = "http://pcitc-zuul/stp-proxy/stp-provider/budget/search-group-company-items";
 	private static final String BUDGET_GROUPTOTAL_HISTORY_ITEMS = "http://pcitc-zuul/stp-proxy/stp-provider/budget/search-grouptotal-history-items";
 	private static final String BUDGET_GROUPTOTAL_FINAL_HISTORY_LIST = "http://pcitc-zuul/stp-proxy/stp-provider/budget/search-grouptotal-final-history-list";
+	private static final String BUDGET_GROUPTOTAL_COMPARE_PLAN = "http://pcitc-zuul/stp-proxy/stp-provider/budget/select-grouptotal-compare-plan";
+	private static final String BUDGET_GROUPTOTAL_COMPARE_PROJECT = "http://pcitc-zuul/stp-proxy/stp-provider/budget/select-grouptotal-compare-project";
 	
 	private static final String BUDGET_INFO_UPDATE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-info-update";
 	
@@ -273,6 +275,35 @@ public class BudgetGroupTotalController extends BaseController {
 	}
 	
 	
+	@RequestMapping(value = "/budget/select-grouptotal-compare-plan", method = RequestMethod.POST)
+	@ResponseBody
+	public Object selectBudgetGroupTotalComparePlan(@RequestParam("nd")String nd,@RequestParam("code")String code,HttpServletRequest request) throws IOException 
+	{
+		System.out.println("plan............"+nd+"------"+code);
+		Map<String,Object> param = new HashMap<String,Object>();
+		param.put("nd", nd);
+		param.put("code", code);
+		//System.out.println(JSON.toJSONString(info));
+		ResponseEntity<?> infors = this.restTemplate.exchange(BUDGET_GROUPTOTAL_COMPARE_PLAN, HttpMethod.POST, new HttpEntity<Object>(param,this.httpHeaders), List.class);
+		System.out.println(JSON.toJSONString(infors.getBody()));
+		return infors.getBody();
+	}
+	
+	@RequestMapping(value = "/budget/select-grouptotal-compare-project", method = RequestMethod.POST)
+	@ResponseBody
+	public Object selectBudgetGroupTotalCompareProject(@RequestParam("nd")String nd,@RequestParam("code")String code,HttpServletRequest request) throws IOException 
+	{
+		System.out.println("plan............"+nd+"------"+code);
+		Map<String,Object> param = new HashMap<String,Object>();
+		param.put("nd", nd);
+		param.put("code", code);
+		//System.out.println(JSON.toJSONString(info));
+		ResponseEntity<?> infors = this.restTemplate.exchange(BUDGET_GROUPTOTAL_COMPARE_PROJECT, HttpMethod.POST, new HttpEntity<Object>(param,this.httpHeaders), List.class);
+		System.out.println(JSON.toJSONString(infors.getBody()));
+		return infors.getBody();
+	}
+	
+	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping("/budget/budget_download/grouptotal/{dataId}")
 	public void downBudgetGroupTotal(@PathVariable("dataId") String dataId,HttpServletResponse res) throws IOException 
@@ -303,6 +334,8 @@ public class BudgetGroupTotalController extends BaseController {
 	    //下载文件
 		this.fileDownload(new File(newFilePath), res);
 	}
+	
+	
 	
 	private XSSFWorkbook workbook;
 	private XSSFSheet sheet;

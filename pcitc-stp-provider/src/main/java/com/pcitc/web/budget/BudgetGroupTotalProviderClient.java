@@ -1,11 +1,17 @@
 package com.pcitc.web.budget;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import javax.annotation.Resource;
+
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +28,8 @@ import com.pcitc.base.common.enums.BudgetAuditStatusEnum;
 import com.pcitc.base.common.enums.DelFlagEnum;
 import com.pcitc.base.stp.budget.BudgetGroupTotal;
 import com.pcitc.base.stp.budget.BudgetInfo;
+import com.pcitc.base.stp.out.OutProjectInfo;
+import com.pcitc.base.stp.out.OutProjectPlan;
 import com.pcitc.base.stp.out.OutUnit;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.IdUtil;
@@ -29,6 +37,7 @@ import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.common.BudgetInfoEnum;
 import com.pcitc.service.budget.BudgetGroupTotalService;
 import com.pcitc.service.budget.BudgetInfoService;
+import com.pcitc.service.feign.SystemRemoteClient;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -46,6 +55,9 @@ public class BudgetGroupTotalProviderClient
 	
 	@Autowired
 	private BudgetInfoService budgetInfoService;
+	
+	@Resource
+	private SystemRemoteClient systemRemoteClient;
 	
 	@ApiOperation(value="集团公司预算-预算列表",notes="按年检索年度集团预算表列表信息。")
 	@RequestMapping(value = "/stp-provider/budget/budget-grouptotal-info-list", method = RequestMethod.POST)
@@ -115,6 +127,73 @@ public class BudgetGroupTotalProviderClient
 		try
 		{
 			data = budgetGroupTotalService.selectBudgetGroupTotalPage(param);
+			//获取二级机构的计划数据
+			List<BudgetGroupTotal> totals = budgetGroupTotalService.selectBudgetGroupTotalByInfoId(param.getParam().get("budget_info_id").toString());
+			//map<dataId,Set<displayCode>>
+			Map<String,Set<String>> itemMap = new HashMap<String,Set<String>>();
+			Set<String> codes = new HashSet<String>();
+			for(BudgetGroupTotal total:totals) {
+				if(total.getLevel() > 0) {
+					if(StringUtils.isNotBlank(total.getDisplayCode())) {
+						codes.add(total.getDisplayCode());
+					}
+				}else {
+					//一级item下包含的二级item列表
+					itemMap.put(total.getDataId(), new HashSet<String>());
+					for(BudgetGroupTotal t:totals) {
+						if(t.getParentDataId() != null && t.getParentDataId().equals(total.getDataId())) {
+							if(StringUtils.isNotBlank(t.getDisplayCode())) {
+								itemMap.get(total.getDataId()).add(t.getDisplayCode());
+							}
+						}
+					}
+				}
+			}
+			String nd = param.getParam().get("nd").toString();
+			//处理计划数据
+			Map<String,List<OutProjectPlan>> planMap = budgetGroupTotalService.selectComparePlanData(codes,nd);
+			for(java.util.Iterator<?> iter = data.getData().iterator();iter.hasNext();) {
+				Map<String,Object> map = (Map<String,Object>)iter.next();
+				String dataId = map.get("dataId").toString();
+				if(itemMap.get(dataId) != null && itemMap.get(dataId).size()>0) {
+					Double ysjes = 0d;
+					Set<String> codeset = itemMap.get(dataId);
+					for(String code:codeset) 
+					{
+						List<OutProjectPlan> plans = planMap.get(code);
+						if(plans != null && plans.size()>0) {
+							for(OutProjectPlan plan:plans) {
+								ysjes += new Double(plan.getYsje());
+							}
+						}
+					}
+					map.put("plan_money", ysjes.intValue());
+				}else {
+					map.put("plan_money", "无");
+				}
+			}
+			//处理项目完成金额
+			Map<String,List<OutProjectInfo>> projectMap = budgetGroupTotalService.selectCompareProjectInfoData(codes,(new Integer(nd)-1)+"");
+			for(java.util.Iterator<?> iter = data.getData().iterator();iter.hasNext();) {
+				Map<String,Object> map = (Map<String,Object>)iter.next();
+				String dataId = map.get("dataId").toString();
+				if(itemMap.get(dataId) != null && itemMap.get(dataId).size()>0) {
+					Double jhjes = 0d;
+					Set<String> codeset = itemMap.get(dataId);
+					for(String code:codeset) 
+					{
+						List<OutProjectInfo> plans = projectMap.get(code);
+						if(plans != null && plans.size()>0) {
+							for(OutProjectInfo plan:plans) {
+								jhjes += new Double(plan.getYsje());
+							}
+						}
+					}
+					map.put("last_year_end", jhjes.intValue());
+				}else {
+					map.put("last_year_end", "无");
+				}
+			}
 		}
 		catch (Exception e)
 		{
@@ -122,6 +201,7 @@ public class BudgetGroupTotalProviderClient
 		}
 		return data;
 	}
+	
 	@ApiOperation(value="集团公司预算-持久化预算项",notes="添加或更新集团预算表项目。")
 	@RequestMapping(value = "/stp-provider/budget/budget-persistence-grouptotal-item", method = RequestMethod.POST)
 	public Object addOrUpdateGroupTotalItem(@RequestBody BudgetGroupTotal budgetGroupTotal) 
@@ -350,7 +430,7 @@ public class BudgetGroupTotalProviderClient
 		List<OutUnit> units = null;
 		try
 		{
-			units = budgetGroupTotalService.selectJtUnits();
+			units = budgetGroupTotalService.selectGroupCompnays();
 		}
 		catch (Exception e)
 		{
@@ -423,5 +503,46 @@ public class BudgetGroupTotalProviderClient
 		}
 		return rsmap;
 	}
-	
+	@ApiOperation(value="集团公司预算-获取计划参考数据",notes="检索集团公司年度计划金额")
+	@RequestMapping(value = "/stp-provider/budget/select-grouptotal-compare-plan", method = RequestMethod.POST)
+	public Object selectBudgetGroupItemComparePlan(@RequestBody Map<String,Object> params) 
+	{
+		String nd = params.get("nd").toString();
+		String code = params.get("code").toString();
+		List<OutProjectPlan> plans = new ArrayList<OutProjectPlan>();
+		try 
+		{
+			Set<String> codes = new HashSet<String>(Arrays.asList(new String [] {code}));
+			Map<String,List<OutProjectPlan>> planMap = budgetGroupTotalService.selectComparePlanData(codes,nd);
+			
+			List<OutProjectPlan> rs = planMap.get(code);
+			if(rs != null && rs.size() >0 ) {
+				plans.addAll(rs);
+			}
+			
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+		return plans;
+	}
+	@ApiOperation(value="集团公司预算-获取计划参考数据",notes="检索集团公司年度计划金额")
+	@RequestMapping(value = "/stp-provider/budget/select-grouptotal-compare-project", method = RequestMethod.POST)
+	public Object selectBudgetGroupItemCompareProject(@RequestBody Map<String,Object> params) 
+	{
+		String nd = params.get("nd").toString();
+		String code = params.get("code").toString();
+		List<OutProjectInfo> plans = new ArrayList<OutProjectInfo>();
+		try 
+		{
+			Set<String> codes = new HashSet<String>(Arrays.asList(new String [] {code}));
+			Map<String,List<OutProjectInfo>> planMap = budgetGroupTotalService.selectCompareProjectInfoData(codes,nd);
+			List<OutProjectInfo> rs = planMap.get(code);
+			if(rs != null && rs.size() >0 ) {
+				plans.addAll(rs);
+			}
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+		return plans;
+	}
 }
