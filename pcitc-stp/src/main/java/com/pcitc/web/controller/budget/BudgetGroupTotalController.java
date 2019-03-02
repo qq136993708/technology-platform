@@ -278,9 +278,12 @@ public class BudgetGroupTotalController extends BaseController {
 	
 	@RequestMapping(value = "/budget/select-grouptotal-compare-plan", method = RequestMethod.POST)
 	@ResponseBody
-	public Object selectBudgetGroupTotalComparePlan(@RequestParam("nd")String nd,@RequestParam("code")String code,HttpServletRequest request) throws IOException 
+	public Object selectBudgetGroupTotalComparePlan(@RequestParam(value="nd",required = false)String nd,@RequestParam(value="code",required = false)String code,HttpServletRequest request) throws IOException 
 	{
-		//System.out.println("plan............"+nd+"------"+code);
+		System.out.println("plan............"+nd+"------"+code);
+		if(nd == null || code == null) {
+			return new ArrayList<Object>();
+		}
 		Map<String,Object> param = new HashMap<String,Object>();
 		param.put("nd", nd);
 		param.put("code", code);
@@ -292,9 +295,12 @@ public class BudgetGroupTotalController extends BaseController {
 	
 	@RequestMapping(value = "/budget/select-grouptotal-compare-project", method = RequestMethod.POST)
 	@ResponseBody
-	public Object selectBudgetGroupTotalCompareProject(@RequestParam("nd")String nd,@RequestParam("code")String code,HttpServletRequest request) throws IOException 
+	public Object selectBudgetGroupTotalCompareProject(@RequestParam(value="nd",required = false)String nd,@RequestParam(value="code",required = false)String code,HttpServletRequest request) throws IOException 
 	{
-		//System.out.println("plan............"+nd+"------"+code);
+		System.out.println("plan............"+nd+"------"+code);
+		if(nd == null || code == null) {
+			return new ArrayList<Object>();
+		}
 		Map<String,Object> param = new HashMap<String,Object>();
 		param.put("nd", nd);
 		param.put("code", code);
