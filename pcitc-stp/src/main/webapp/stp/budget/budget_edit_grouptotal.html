@@ -19,6 +19,7 @@
 <form action="" id="budget-form" name="budget-form" lay-filter="budget-form" class="layui-form">
 	<input type="hidden" name="budgetInfoId" value="${budgetInfoId}">
 	<input type="hidden" name="dataId" value="${dataId}">
+	<input type="hidden" name="nd" id="nd" value="${nd}">
     <div class="con-box">
         <div class="formBox">
             <div class="layui-row">
@@ -171,7 +172,7 @@
             , cols: [[
                 {field: 'displayName', title: '单位名称',edit:true,totalRowText: '合计'}
                 , {field: 'last_year_end', title: '${nd}预算完成', align: 'right',style: 'cursor: pointer;', width: '15%'}
-                , {field: 'plan_money', title: '${nd}合同计划', align: 'right',style: 'cursor: pointer;', width: '15%'}
+                , {field: 'plan_money', title: '${nd}计划金额', align: 'right',style: 'cursor: pointer;', width: '15%'}
                 , {field: 'xmjf', title: '科技项目经费预算', align: 'right',style: 'cursor: pointer;',edit:true, width: '15%'}
                 , {field: 'zxjf', title: '重点实验室专项经费', align: 'right',style: 'cursor: pointer;',edit:true, width: '15%'}
                 , {title: '操作', style: 'cursor: pointer;', align: 'center', width: '10%', templet: function(d){
@@ -179,14 +180,27 @@
                 }}
             ]]
             ,done: function (res, curr, count) {
+            	 var ysnd = parseInt($("#nd").val());
+            	 $(".layui-table-header .layui-table").find('th').eq(1).find('span').text((ysnd-1)+"预算完成");
+            	 $(".layui-table-header .layui-table").find('th').eq(2).find('span').text(ysnd+"计划金额");
             	 $.each(res.data,function(i,dt){
-            		  publicMethods.ajaxPost('/budget/select-grouptotal-compare-project',{"nd":dt.nd,"code":dt.displayCode}, function (data, status) {
-            			  console.log(data);
-            			  //$("tr[data-index='"+i+"'] td[data-field='last_year_end'] div").html(0);
+            		  publicMethods.ajaxPost('/budget/select-grouptotal-compare-project',{"nd":ysnd-1,"code":dt.displayCode}, function (data, status) {
+            			  var ysje = 0;
+            			  $.each(data,function(index,d){
+            				 ysje += parseInt(d.ysje); 
+            			  });
+            			  //console.log(ysje);
+            			  //console.log(data);
+            			  $("tr[data-index='"+i+"'] td[data-field='last_year_end'] div").html(ysje);
             		  });
-            		  publicMethods.ajaxPost('/budget/select-grouptotal-compare-plan',{"nd":dt.nd,"code":dt.displayCode}, function (data, status) {
-            			  console.log(data);
-            			  //$("tr[data-index='"+i+"'] td[data-field='plan_money'] div").html(0);
+            		  publicMethods.ajaxPost('/budget/select-grouptotal-compare-plan',{"nd":ysnd,"code":dt.displayCode}, function (data, status) {
+            			  var ysje = 0;
+            			  $.each(data,function(index,d){
+            				 ysje += parseInt(d.ysje); 
+            			  });
+            			  //console.log(ysje);
+            			  //console.log(data);
+            			  $("tr[data-index='"+i+"'] td[data-field='plan_money'] div").html(ysje);
             		  });
             	 });
             }

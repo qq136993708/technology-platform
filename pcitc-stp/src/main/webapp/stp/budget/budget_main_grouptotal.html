@@ -284,7 +284,7 @@
                 		parent.layer.alert("请选择预算版本", {title : '提示'});
                 		return;
                 	} 
-                	var url = '/budget/budget_edit_grouptotal?budgetInfoId='+curent_budget_info.dataId;
+                	var url = '/budget/budget_edit_grouptotal?budgetInfoId='+curent_budget_info.dataId+'&nd='+cu_date;
                    	layer.open({
                         title: cu_date+'集团公司经费预算编制管理-预算项新增'
                         , skin: 'layui-layer-lan'
@@ -304,7 +304,7 @@
                 		parent.layer.alert("请选择需要编辑的行", {title : '提示'});
                 		return;
                 	}
-                	var url = '/budget/budget_edit_grouptotal?dataId='+curent_tabel_data[selectIndex].dataId+"&budgetInfoId="+curent_budget_info.dataId;
+                	var url = '/budget/budget_edit_grouptotal?dataId='+curent_tabel_data[selectIndex].dataId+"&budgetInfoId="+curent_budget_info.dataId+"&nd="+cu_date;
                    	layer.open({
                         title: cu_date+'集团公司经费预算编制管理-预算项编辑'
                         , skin: 'layui-layer-lan'

@@ -88,9 +88,10 @@ public class BudgetGroupTotalController extends BaseController {
 	public Object toBudgetGroupEditPage(HttpServletRequest request) throws IOException 
 	{
 		String dataId = request.getParameter("dataId");
+		String nd = request.getParameter("nd");
 		request.setAttribute("dataId", dataId==null?IdUtil.createIdByTime():dataId);
 		request.setAttribute("budgetInfoId", request.getParameter("budgetInfoId"));
-		request.setAttribute("nd", DateUtil.format(new Date(), DateUtil.FMT_YYYY));
+		request.setAttribute("nd", nd ==null?DateUtil.format(new Date(), DateUtil.FMT_YYYY):nd);
 		return "stp/budget/budget_edit_grouptotal";
 	}
 	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_create_grouptotal")
@@ -279,13 +280,13 @@ public class BudgetGroupTotalController extends BaseController {
 	@ResponseBody
 	public Object selectBudgetGroupTotalComparePlan(@RequestParam("nd")String nd,@RequestParam("code")String code,HttpServletRequest request) throws IOException 
 	{
-		System.out.println("plan............"+nd+"------"+code);
+		//System.out.println("plan............"+nd+"------"+code);
 		Map<String,Object> param = new HashMap<String,Object>();
 		param.put("nd", nd);
 		param.put("code", code);
 		//System.out.println(JSON.toJSONString(info));
 		ResponseEntity<?> infors = this.restTemplate.exchange(BUDGET_GROUPTOTAL_COMPARE_PLAN, HttpMethod.POST, new HttpEntity<Object>(param,this.httpHeaders), List.class);
-		System.out.println(JSON.toJSONString(infors.getBody()));
+		//System.out.println(JSON.toJSONString(infors.getBody()));
 		return infors.getBody();
 	}
 	
@@ -293,13 +294,13 @@ public class BudgetGroupTotalController extends BaseController {
 	@ResponseBody
 	public Object selectBudgetGroupTotalCompareProject(@RequestParam("nd")String nd,@RequestParam("code")String code,HttpServletRequest request) throws IOException 
 	{
-		System.out.println("plan............"+nd+"------"+code);
+		//System.out.println("plan............"+nd+"------"+code);
 		Map<String,Object> param = new HashMap<String,Object>();
 		param.put("nd", nd);
 		param.put("code", code);
 		//System.out.println(JSON.toJSONString(info));
 		ResponseEntity<?> infors = this.restTemplate.exchange(BUDGET_GROUPTOTAL_COMPARE_PROJECT, HttpMethod.POST, new HttpEntity<Object>(param,this.httpHeaders), List.class);
-		System.out.println(JSON.toJSONString(infors.getBody()));
+		//System.out.println(JSON.toJSONString(infors.getBody()));
 		return infors.getBody();
 	}
 	
@@ -314,7 +315,7 @@ public class BudgetGroupTotalController extends BaseController {
 		param.setPage(1);
 		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(BUDGET_GROUPTOTAL_ITEMS, HttpMethod.POST, new HttpEntity<LayuiTableParam>(param, this.httpHeaders), LayuiTableData.class);
 		LayuiTableData tabldata = responseEntity.getBody();
-		System.out.println(JSON.toJSONString(tabldata));
+		//System.out.println(JSON.toJSONString(tabldata));
 		
 		ResponseEntity<BudgetInfo> rs = this.restTemplate.exchange(BUDGET_GROUPTOTAL_INFO, HttpMethod.POST, new HttpEntity<String>(dataId, this.httpHeaders), BudgetInfo.class);
 		BudgetInfo info = rs.getBody();
@@ -325,7 +326,7 @@ public class BudgetGroupTotalController extends BaseController {
 		
 		URL path = this.getClass().getResource("/");
 		File f = new File(path.getPath() + "static/budget/budget_grouptotal_template.xlsx");
-		System.out.println(f.getAbsolutePath());
+		//System.out.println(f.getAbsolutePath());
 		//写入新文件2019年集团公司总部科技经费预算
 		String newFilePath = path.getPath() + "static/budget/"+info.getNd()+"年集团公司总部科技经费预算（建议稿）_"+DateUtil.dateToStr(new Date(), "yyyyMMddHHmmss")+".xlsx";
 		File outFile = new File(newFilePath);
