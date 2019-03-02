@@ -240,15 +240,12 @@
                 var newRow = {dataId: new Date().valueOf(),displayCode:companyCode, displayName: companyName,last_year_end:0,plan_money: 0, xmjf: 0, zxjf: 0,parentDataId:parentDataId,budgetInfoId:budgetInfoId};
                 selectItemProjectMoney(parseInt($("#nd").val())-1,companyCode,function(ysje){
                 	newRow.last_year_end = ysje;
-                	console.log(ysje);
-                	tableIns.reload({data : viewObj.tbData});
 				});
 				selectItemPlanMoney($("#nd").val(),companyCode,function(ysje){
 					newRow.plan_money = ysje;
-					console.log(ysje);
-					tableIns.reload({data : viewObj.tbData});
 				});
                	viewObj.tbData.push(newRow);
+               	tableIns.reload({data : viewObj.tbData});
             },
             removeEmptyTableCache: function(){
             	  var oldData = table.cache[layTableId];
