@@ -172,6 +172,11 @@ public class ZjkBaseInfoClient {
         public LayuiTableData selectZjkBaseInfoByPage (@RequestBody LayuiTableParam param){
             return zjkBaseInfoService.findZjkBaseInfoByPage(param);
         }
+        @ApiOperation(value = "查询专家-基本信息信息-分页查询", notes = "查询专家-基本信息信息-分页查询,Object")
+        @RequestMapping(value = "/zjkbaseinfo-provider/zjkbaseinfo/zjkbaseinfo-page-count")
+        public LayuiTableData selectZjkBaseInfoByPageCount(@RequestBody LayuiTableParam param){
+            return zjkBaseInfoService.findZjkBaseInfoByPageCount(param);
+        }
 
         @ApiOperation(value = "查询专家-基本信息信息-分页查询", notes = "查询专家-基本信息信息-分页查询,Object")
         @RequestMapping(value = "/zjkbaseinfo-provider/zjkbaseinfo/showExpertPageTableData")
