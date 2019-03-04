@@ -140,7 +140,8 @@
 	    var curent_budget_info = null;//当前报表
 	    var selectRowData=null;
         layui.use(['jquery', 'table', 'laydate', 'layer','publicMethods'], function () {
-            var $ = layui.jquery, table = layui.table, laydate = layui.laydate, layer = layui.layer,publicMethods=layui.publicMethods;   
+            var $ = layui.jquery, table = layui.table, laydate = layui.laydate, layer = layui.layer,publicMethods=layui.publicMethods; 
+            var param = JSON.parse(window.localStorage.getItem("param"));
             laydate.render({
                 elem: '#choose-year'
                 ,value: cu_date
@@ -357,13 +358,14 @@
                 	}  
                 	layer.confirm('提交后将不可再编辑！确定要提交审批吗？',{title:"提交确认"},function(index){
     					layer.close(index);
-    					publicMethods.ajaxPost("/budget/submit-grouptotal", curent_budget_info, function (data) {
+    					publicMethods.ajaxPost("/budget/start-budget-grouptotal-activity", {"budgetInfoId":curent_budget_info.dataId,"functionId":param.id}, function (data) {
     	                     if (data.success) {    	                    	 
     	                    	 budget_info_map[data.data.dataVersion]=data.data; 
     	                    	 $("#data_version").trigger("change");
     	                    	 layer.msg('提交成功!');
     	                     } else {
-    	                    	 layer.msg('操作异常，请重试!');
+    	                    	 layer.msg(data.message);
+    	                    	 
     	                     }
     	                });
                 	});

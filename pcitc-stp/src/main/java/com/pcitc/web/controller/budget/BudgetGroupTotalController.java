@@ -47,6 +47,7 @@ import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.IdUtil;
 import com.pcitc.base.util.MyBeanUtils;
+import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.web.common.BaseController;
 /**
  * 集团预算总表
@@ -75,7 +76,8 @@ public class BudgetGroupTotalController extends BaseController {
 	private static final String BUDGET_GROUPTOTAL_COMPARE_PROJECT = "http://pcitc-zuul/stp-proxy/stp-provider/budget/select-grouptotal-compare-project";
 	
 	private static final String BUDGET_INFO_UPDATE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-info-update";
-	
+	private static final String BUDGET_INFO_GET = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-info-get/";
+	private static final String PROJECT_NOTICE_WORKFLOW_URL = "http://pcitc-zuul/stp-proxy/stp-provider/budget/start-budget-grouptotal-activity/";
 	
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_group_page")
@@ -242,21 +244,33 @@ public class BudgetGroupTotalController extends BaseController {
 			return new Result(true);
 		}
 	}
-	@RequestMapping(value = "/budget/submit-grouptotal", method = RequestMethod.POST)
+	@RequestMapping(value = "/budget/start-budget-grouptotal-activity", method = RequestMethod.POST)
 	@ResponseBody
-	public Object submitBudgetGroupTotal(@ModelAttribute("info") BudgetInfo info,HttpServletRequest request) throws IOException 
+	public Object submitBudgetGroupTotal(@RequestParam(value = "budgetInfoId", required = true) String budgetInfoId,
+			@RequestParam(value = "functionId", required = true) String functionId,HttpServletRequest request) throws IOException 
 	{
-		//System.out.println(JSON.toJSONString(info));
+		System.out.println("start-budget-grouptotal-activity-----------------");
+		WorkflowVo vo = new WorkflowVo();
+		vo.setAuditUserIds(this.getUserProfile().getUserId());
+		vo.setFunctionId(functionId);
+		vo.setAuthenticatedUserId(this.getUserProfile().getUserId());
+		HttpEntity<WorkflowVo> entity = new HttpEntity<WorkflowVo>(vo, this.httpHeaders);
+		Result startRs = this.restTemplate.exchange(PROJECT_NOTICE_WORKFLOW_URL + budgetInfoId, HttpMethod.POST, entity, Result.class).getBody();
+		
+		ResponseEntity<BudgetInfo> getRs = this.restTemplate.exchange(BUDGET_INFO_GET+budgetInfoId, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), BudgetInfo.class);
+		BudgetInfo info =getRs.getBody();// JSON.toJavaObject(JSON.parseObject(getRs.getBody().toString()), BudgetInfo.class);
+		
+		System.out.println(JSON.toJSONString(info));
 		info.setUpdateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
 		info.setAuditStatus(BudgetAuditStatusEnum.AUDIT_STATUS_START.getCode());//审批状态开始
-		ResponseEntity<Integer> infors = this.restTemplate.exchange(BUDGET_INFO_UPDATE, HttpMethod.POST, new HttpEntity<Object>(info, this.httpHeaders), Integer.class);
-		if (infors.getBody() >= 0) {
+		ResponseEntity<Integer> upRs = this.restTemplate.exchange(BUDGET_INFO_UPDATE, HttpMethod.POST, new HttpEntity<Object>(info, this.httpHeaders), Integer.class);
+		if (upRs.getBody() >= 0) {
 			Map<String,Object> rsmap = MyBeanUtils.transBean2Map(info);
 			rsmap.put("auditStatusDesc", BudgetAuditStatusEnum.getStatusByCode(info.getAuditStatus()).getDesc());
-			return new Result(true,rsmap);
-		} else {
-			return new Result(false);
-		}
+			startRs.setData(rsmap);
+		} 
+		
+		return startRs;
 	}
 	@RequestMapping(value = "/budget/search-grouptotal-history-items", method = RequestMethod.POST)
 	@ResponseBody
@@ -309,7 +323,19 @@ public class BudgetGroupTotalController extends BaseController {
 		//System.out.println(JSON.toJSONString(infors.getBody()));
 		return infors.getBody();
 	}
-	
+	/*@RequestMapping(value = "/budget/start-budget-grouptotal-activity")
+	public Object startBudgetGrouptotatlWorkflow(@RequestParam(value = "budget", required = true) String noticeId,
+			@RequestParam(value = "functionId", required = true) String functionId,
+			HttpServletRequest request, HttpServletResponse response) throws Exception 
+	{
+		WorkflowVo vo = new WorkflowVo();
+		vo.setAuditUserIds(this.getUserProfile().getUserId());
+		vo.setFunctionId(functionId);
+		vo.setAuthenticatedUserId(this.getUserProfile().getUserId());
+		HttpEntity<WorkflowVo> entity = new HttpEntity<WorkflowVo>(vo, this.httpHeaders);
+		Result rs = this.restTemplate.exchange(PROJECT_NOTICE_WORKFLOW_URL + noticeId, HttpMethod.POST, entity, Result.class).getBody();
+		return rs;
+	}*/
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping("/budget/budget_download/grouptotal/{dataId}")
