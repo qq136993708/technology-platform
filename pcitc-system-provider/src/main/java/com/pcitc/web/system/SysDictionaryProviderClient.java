@@ -180,6 +180,7 @@ public class SysDictionaryProviderClient {
 		List<SysDictionary> dictionary = null;
 		try {
 			dictionary = dictionaryService.getDictionaryListByParentCode(parentCode);
+			logger.info("=============数据字典-根据父编码获取子集"+dictionary.size()); 
 		} catch (Exception e) {
 			logger.error("[数据字典-根据父编码获取子集失败：]", e);
 		}

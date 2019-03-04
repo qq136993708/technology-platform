@@ -537,52 +537,226 @@ public class ProjectTaskController extends BaseController {
 	//生成word文档
 	private String  createWord(String id)
 	{
-		SreProjectTask sreProjectTask=this.getSreProjectTask(id);
-		SreProject sreProject=null;
-		String projectId=sreProjectTask.getTopicId();
-		if(!projectId.equals(""))
-		{
-			sreProject=getSreProject(projectId);
-		}
 		
-		Map<String, Object> dataMap = new HashMap<String, Object>();
-		/** 组装数据 */
-		dataMap.put("titleName", "测试标题");
-		dataMap.put("userName", "张海峰");
-		dataMap.put("userCode", "1001");
-
+		String  resutl="";
 		// 文件路径
 		String filePath = "D://doc";
-
-		/*List<Map<String, Object>> newsList = new ArrayList<Map<String, Object>>();
-		for (int i = 1; i<=10; i++) {
-			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("show1", "测试"+i);
-			map.put("show2", "137"+i);
-			map.put("show3", "年龄"+i);
-			map.put("show4", System.currentTimeMillis());
-			newsList.add(map);
-		}
-		dataMap.put("myListData", newsList);*/
-		
-		dataMap.put("taskMainTaskContent", sreProjectTask.getTaskMainTaskContent());
-
-	   /*String myPic = "";  
-        try {  
-             myPic = WordUtil.getImageString("D://doc//20190218155218.jpg");  
-        } catch (IOException e) {  
-            e.printStackTrace();  
-        }  
-         
-        dataMap.put("showPicture", myPic);  */
-		
-		
+				
 		// 文件名称
-		String fileName = System.currentTimeMillis()+".doc";
+		String fileName;
+		try {
+			SreProjectTask sreProjectTask=this.getSreProjectTask(id);
+			String taskCheckContents=sreProjectTask.getTaskCheckContents();
+			SreProject sreProject=null;
+			String projectId=sreProjectTask.getTopicId();
+			if(!projectId.equals(""))
+			{
+				sreProject=getSreProject(projectId);
+			}
+			
+			Map<String, Object> dataMap = new HashMap<String, Object>();
+			/** 组装数据 */
+			dataMap.put("name", sreProject.getName());//项目名称
+			dataMap.put("leadUnitName", sreProject.getLeadUnitName());//乙方
+			dataMap.put("taskMainTaskContent", sreProjectTask.getTaskMainTaskContent());//项目目标
+			
+			//项目内容和主要图表
+			Float hj_tc=0f;
+			List<Map<String, Object>> taskContentList = new ArrayList<Map<String, Object>>();
+			String taskContentStr=sreProjectTask.getTaskContent();
+			String taskContent_arr[]=taskContentStr.split("\\|");
+			if(taskContent_arr!=null && taskContent_arr.length>0)
+			{
+			   for(int i=0;i<taskContent_arr.length;i++)
+			   {
+				   String str=taskContent_arr[i];
+				   if(str!=null && !str.equals(""))
+				   {
+					   String temp[]=str.split("#");
+					   Map<String, Object> map = new HashMap<String, Object>();
+					   String taskContent1=temp[0];
+					   String taskContent2=temp[1];
+					   String taskContent3=temp[2];
+					   String taskContent4=temp[3];
+					   hj_tc=hj_tc.floatValue()+Float.valueOf(taskContent4.trim()).floatValue();
+					   String taskContent5=temp[4];
+					   map.put("taskContent1", taskContent1);
+					   map.put("taskContent2", taskContent2);
+					   map.put("taskContent3", taskContent3);
+					   map.put("taskContent4", taskContent4);
+					   map.put("taskContent5", taskContent5);
+					   taskContentList.add(map);
+					   
+				   }
+			   }
+			}
+			dataMap.put("taskContentList", taskContentList);
+			int taskContentListCount=taskContentList.size();
+			dataMap.put("taskContentListCount", taskContentListCount);//项目内容和主要图表-数量
+			dataMap.put("hj_tc", hj_tc);//项目内容和主要图表-经费合计
+			//计划进度和考核目标
+			List<Map<String, Object>> taskAssessmentList = new ArrayList<Map<String, Object>>();
+			String taskAssessmenStr=sreProjectTask.getTaskAssessmentContent();
+			String taskAssessmenStr_arr[]=taskAssessmenStr.split("\\|");//多行
+			if(taskAssessmenStr_arr!=null && taskAssessmenStr_arr.length>0)
+			{
+			   for(int i=0;i<taskAssessmenStr_arr.length;i++)
+			   {
+				   String str=taskAssessmenStr_arr[i];
+				   if(str!=null && !str.equals(""))
+				   {
+					   String temp[]=str.split("#");
+					   Map<String, Object> map = new HashMap<String, Object>();
+					   String taskContent1=temp[0];
+					   String taskContent2=temp[1];
+					   String taskContent3=temp[2];
+					   map.put("ta1", taskContent1);
+					   map.put("ta2", taskContent2);
+					   map.put("ta3", taskContent3);
+					   taskAssessmentList.add(map);
+					   
+				   }
+			   }
+			}
+			dataMap.put("taskAssessmentList", taskAssessmentList);
+			
+			///预计资金来源表
+			List<Map<String, Object>> fundsSourcesTableList = new ArrayList<Map<String, Object>>();
+			String fundsSourcesTableStr=sreProjectTask.getFundsSourcesTable();
+			String fundsSourcesTableStr_arr[]=fundsSourcesTableStr.split("\\|");//多行
+			if(fundsSourcesTableStr_arr!=null && fundsSourcesTableStr_arr.length>0)
+			{
+			   for(int i=0;i<fundsSourcesTableStr_arr.length;i++)
+			   {
+				   String str=fundsSourcesTableStr_arr[i];
+				   if(str!=null && !str.equals(""))
+				   {
+					   String temp[]=str.split("#");
+					   Map<String, Object> map = new HashMap<String, Object>();
+					   String taskContent1=temp[0];
+					   String taskContent2=temp[1];
+					   String taskContent3=temp[2];
+					   String taskContent4=temp[3];
+					   String taskContent5=temp[4];
+					  // String taskContent6=temp[5];
+					   
+					   map.put("ft1", taskContent1);
+					   map.put("ft2", taskContent2);
+					   map.put("ft3", taskContent3);
+					   map.put("ft4", taskContent4);
+					   map.put("ft5", taskContent5);
+					  // map.put("ft6", taskContent6);
+					   fundsSourcesTableList.add(map);
+					   
+				   }
+			   }
+			}
+			dataMap.put("fundsSourcesTableList", fundsSourcesTableList);
+			
+			//项目资金安排
+			List<Map<String, Object>> projectFundsTableList = new ArrayList<Map<String, Object>>();
+			String projectFundsTableStr=sreProjectTask.getProjectFundsTable();
+			String projectFundsTableStr_arr[]=projectFundsTableStr.split("#");//多行
+			Float hj_pt2=0f;
+			Float hj_pt3=0f;
+			Float hj_pt4=0f;
+			if(projectFundsTableStr_arr!=null && projectFundsTableStr_arr.length>0)
+			{
+			   for(int i=0;i<projectFundsTableStr_arr.length;i++)
+			   {
+				   String str=projectFundsTableStr_arr[i];
+				 System.out.println("----------项目资金安排--str: "+str);
+				   if(str!=null && !str.equals(""))
+				   {
+					   String temp[]=str.split(",");
+					   Map<String, Object> map = new HashMap<String, Object>();
+					   String pt1=temp[0];
+					   String pt2=temp[1].trim();
+					   Float fp2faot= Float.parseFloat(pt2);
+					   hj_pt2=hj_pt2.floatValue()+fp2faot.floatValue();
+					   String pt3=temp[2].trim();
+					   Float fp3faot= Float.parseFloat(pt2);
+					   hj_pt3=hj_pt3.floatValue()+fp3faot.floatValue();
+					   
+					   String pt4=temp[3].trim();
+					   
+					   Float fp4faot= Float.parseFloat(pt2);
+					   hj_pt4=hj_pt4.floatValue()+fp4faot.floatValue();
+					   
+					   
+					   map.put("pt1", pt1);
+					   map.put("pt2", pt2);
+					   map.put("pt3", pt3);
+					   map.put("pt4", pt4);
+					   projectFundsTableList.add(map);
+					   
+				   }
+			   }
+			}
+			
+			Map<String, Object> map_temp_pt = new HashMap<String, Object>();
+			map_temp_pt.put("pt1", "合  计");
+			map_temp_pt.put("pt2", hj_pt2);
+			map_temp_pt.put("pt3", hj_pt3);
+			map_temp_pt.put("pt4", hj_pt4);
+			projectFundsTableList.add(map_temp_pt);
+			dataMap.put("projectFundsTableList", projectFundsTableList);
+			
+			
+			//应提交验收的内容
+			List<Map<String, Object>> taskCheckContentsList = new ArrayList<Map<String, Object>>();
+			List<SysDictionary>  dicList= CommonUtil.getDictionaryByParentCode("ROOT_ZBGL_YTJYSDNR", restTemplate, httpHeaders);
+			JSONArray jSONArray= JSONArray.parseArray(JSON.toJSONString(dicList));
+			List<SysDictionary> list = JSONObject.parseArray(jSONArray.toJSONString(), SysDictionary.class);
+			if(list!=null && list.size()>0)
+			{
+				
+				System.out.println("----------应提交验收的内容: "+jSONArray.toString());
+				for(int i=0;i<list.size();i++)
+				{
+					 SysDictionary  sysDictionary=list.get(i);
+					 String code=sysDictionary.getCode();
+					 Map<String, Object> map = new HashMap<String, Object>();
+					 map.put("tct1", i+1);
+					 map.put("tct2", sysDictionary.getName());
+					 String tct3="□";
+					 String str_arr[]=taskCheckContents.split(",");
+					 if(str_arr!=null)
+					 {
+						 for(int j=0;j<str_arr.length;j++)
+						 {
+							 String temp_code=str_arr[j];
+							 if(temp_code.equals(code))
+							 {
+								 tct3="√";
+							 }
+						 }
+					 }
+					 map.put("tct3",tct3);
+					 taskCheckContentsList.add(map);
+				}
+			}
+			
+			dataMap.put("taskCheckContentsList", taskCheckContentsList);
+           /*String myPic = "";  
+			try {  
+			     myPic = WordUtil.getImageString("D://doc//20190218155218.jpg");  
+			} catch (IOException e) {  
+			    e.printStackTrace();  
+			}  
+			 
+			dataMap.put("showPicture", myPic);  */
+			
+			
+			fileName = System.currentTimeMillis()+".doc";
 
-		/** 生成word */
-		WordUtil.createWord(dataMap, "task.ftl", filePath, fileName);
-		return filePath+File.separator+fileName;
+			/** 生成word */
+			WordUtil.createWord(dataMap, "task.ftl", filePath, fileName);
+			resutl=filePath+File.separator+fileName;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return resutl;
 	}
 	
 	
