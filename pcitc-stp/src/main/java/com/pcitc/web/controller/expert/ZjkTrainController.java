@@ -4,7 +4,7 @@ import com.alibaba.druid.support.json.JSONUtils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.Result;
-import com.pcitc.base.expert.ZjkComplaint;
+import com.pcitc.base.expert.ZjkTrain;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.web.utils.UserProfileAware;
@@ -48,61 +48,61 @@ import java.util.UUID;
 
 /**
  * <p>控制类</p>
- * <p>Table: zjk_complaint - 专家-投诉管理</p>
+ * <p>Table: zjk_train - 专家培训</p>
  *
- * @since 2019-02-26 10:33:37
+ * @since 2019-03-01 09:34:09
  */
 
 @Controller
-@RequestMapping("zjkComplaint")
-public class ZjkComplaintController extends BaseController {
+@RequestMapping("zjkTrain")
+public class ZjkTrainController extends BaseController {
     /**
      * 根据ID获取对象信息
      */
-    private static final String GET_INFO = "http://pcitc-zuul/stp-proxy/zjkcomplaint-provider/zjkcomplaint/get-zjkcomplaint/";
+    private static final String GET_INFO = "http://pcitc-zuul/stp-proxy/zjktrain-provider/zjktrain/get-zjktrain/";
     /**
      * 树形
      */
-    private static final String TREE_DATA = "http://pcitc-zuul/stp-proxy/zjkcomplaint-provider/zjkcomplaint/tree-data";
+    private static final String TREE_DATA = "http://pcitc-zuul/stp-proxy/zjktrain-provider/zjktrain/tree-data";
     /**
      * 逻辑删除
      */
-    private static final String DEL = "http://pcitc-zuul/stp-proxy/zjkcomplaint-provider/zjkcomplaint/del-zjkcomplaint/";
+    private static final String DEL = "http://pcitc-zuul/stp-proxy/zjktrain-provider/zjktrain/del-zjktrain/";
     /**
      * 物理删除
      */
-    private static final String DEL_REAL = "http://pcitc-zuul/stp-proxy/zjkcomplaint-provider/zjkcomplaint/del-zjkcomplaint-real/";
+    private static final String DEL_REAL = "http://pcitc-zuul/stp-proxy/zjktrain-provider/zjktrain/del-zjktrain-real/";
 
     /**
      * 查询列表
      */
-    private static final String LIST = "http://pcitc-zuul/stp-proxy/zjkcomplaint-provider/zjkcomplaint/zjkcomplaint_list";
+    private static final String LIST = "http://pcitc-zuul/stp-proxy/zjktrain-provider/zjktrain/zjktrain_list";
     /**
      * 参数查询
      */
-    private static final String LISTPARAM = "http://pcitc-zuul/stp-proxy/zjkcomplaint-provider/zjkcomplaint/zjkcomplaint_list_param";
+    private static final String LISTPARAM = "http://pcitc-zuul/stp-proxy/zjktrain-provider/zjktrain/zjktrain_list_param";
     /**
      * 分页查询
      */
-    private static final String LISTPAGE = "http://pcitc-zuul/stp-proxy/zjkcomplaint-provider/zjkcomplaint/zjkcomplaint-page";
+    private static final String LISTPAGE = "http://pcitc-zuul/stp-proxy/zjktrain-provider/zjktrain/zjktrain-page";
     /**
      * 保存
      */
-    private static final String SAVE = "http://pcitc-zuul/stp-proxy/zjkcomplaint-provider/zjkcomplaint/save_zjkcomplaint";
+    private static final String SAVE = "http://pcitc-zuul/stp-proxy/zjktrain-provider/zjktrain/save_zjktrain";
 
     /**
-     * 专家-投诉管理-查询列表
+     * 专家培训-查询列表
      *
-     * @param zjkComplaint
+     * @param zjkTrain
      * @return
      */
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ResponseBody
-    public Object getList(@RequestBody ZjkComplaint zjkComplaint) {
+    public Object getList(@RequestBody ZjkTrain zjkTrain) {
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LIST, HttpMethod.POST, new HttpEntity<ZjkComplaint>(zjkComplaint, this.httpHeaders), JSONObject.class);
+        ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LIST, HttpMethod.POST, new HttpEntity<ZjkTrain>(zjkTrain, this.httpHeaders), JSONObject.class);
         JSONObject retJson = responseEntity.getBody();
-        List<ZjkComplaint> list = (List<ZjkComplaint>) retJson.get("list");
+        List<ZjkTrain> list = (List<ZjkTrain>) retJson.get("list");
         return list;
     }
 
@@ -115,12 +115,12 @@ public class ZjkComplaintController extends BaseController {
         HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<MultiValueMap<String, String>>(requestBody, this.httpHeaders);
         ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LISTPARAM, HttpMethod.POST, entity, JSONObject.class);
         JSONObject retJson = responseEntity.getBody();
-        List<ZjkComplaint> list = (List<ZjkComplaint>) retJson.get("list");
+        List<ZjkTrain> list = (List<ZjkTrain>) retJson.get("list");
         return list;
     }
 
     /**
-     * 专家-投诉管理-分页查询
+     * 专家培训-分页查询
      *
      * @param param
      * @return
@@ -135,15 +135,15 @@ public class ZjkComplaintController extends BaseController {
     }
 
     /**
-     * 保存-专家-投诉管理
+     * 保存-专家培训
      *
      * @param record
      * @return
      */
-    @RequestMapping(value = "/saveZjkComplaint")
+    @RequestMapping(value = "/saveZjkTrain")
     @ResponseBody
-    @OperationFilter(modelName = "专家-投诉管理", actionName = "保存saveRecord")
-    public int saveRecord(ZjkComplaint record) {
+    @OperationFilter(modelName = "专家培训", actionName = "保存saveRecord")
+    public int saveRecord(ZjkTrain record) {
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         if (record.getId() == null || "".equals(record.getId())) {
             record.setCreateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
@@ -155,69 +155,50 @@ public class ZjkComplaintController extends BaseController {
             record.setUpdatePersonName(sysUserInfo.getUserName());
         }
         record.setStatus("0");
-        ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(SAVE, HttpMethod.POST, new HttpEntity<ZjkComplaint>(record, this.httpHeaders), Integer.class);
+        ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(SAVE, HttpMethod.POST, new HttpEntity<ZjkTrain>(record, this.httpHeaders), Integer.class);
         Integer result = responseEntity.getBody();
         return result;
     }
 
     /**
-     * 编辑页面-专家-投诉管理
+     * 编辑页面-专家培训
      *
      * @param id
      * @param model
      * @return
      */
     @RequestMapping(method = RequestMethod.GET, value = "/edit")
-    @OperationFilter(modelName = "专家-投诉管理", actionName = "跳转编辑页面pageEdit")
+    @OperationFilter(modelName = "专家培训", actionName = "跳转编辑页面pageEdit")
     public String pageEdit(String id, Model model, String opt) {
         model.addAttribute("id", id);
         model.addAttribute("opt", opt);
-        return "stp/expert/zjkComplaint_edit";
+        return "stp/expert/zjkTrain_edit";
     }
 
     /**
-     * 投诉
-     * @param id
-     * @param model
-     * @param opt
-     * @return
-     */
-    @RequestMapping(method = RequestMethod.GET, value = "/editts")
-    @OperationFilter(modelName = "专家-投诉管理", actionName = "跳转编辑页面pageEditts")
-    public String pageEditts(String id, Model model, String opt) {
-        model.addAttribute("id", id);
-        model.addAttribute("opt", opt);
-        model.addAttribute("xmid", request.getParameter("xmid"));
-        model.addAttribute("xmmc", request.getParameter("xmmc"));
-        model.addAttribute("zjid", request.getParameter("zjid"));
-        model.addAttribute("zjmc", request.getParameter("zjmc"));
-        model.addAttribute("xmjd", request.getParameter("xmjd"));
-        return "stp/expert/zjkComplaint_editts";
-    }
-    /**
-     * 详情页面-专家-投诉管理
+     * 详情页面-专家培训
      *
      * @param model
      * @return
      */
     @RequestMapping(method = RequestMethod.GET, value = "/view/{dataId}")
-    @OperationFilter(modelName = "专家-投诉管理", actionName = "跳转详情页面pageView")
+    @OperationFilter(modelName = "专家培训", actionName = "跳转详情页面pageView")
     public String pageView(@PathVariable("dataId") String dataId, Model model) {
         model.addAttribute("id", dataId);
         model.addAttribute("opt", "");
         model.addAttribute("dataId", (dataId == null || "".equals(dataId)) ? UUID.randomUUID().toString().replace("-", "") : dataId);
-        return "stp/expert/zjkComplaint_view";
+        return "stp/expert/zjkTrain_view";
     }
 
     /**
-     * 跳转至专家-投诉管理列表页面
+     * 跳转至专家培训列表页面
      *
      * @return
      */
     @RequestMapping(value = "/toListPage", method = {RequestMethod.GET})
-    @OperationFilter(modelName = "专家-投诉管理", actionName = "跳转列表页toListPage")
+    @OperationFilter(modelName = "专家培训", actionName = "跳转列表页toListPage")
     public String toListPage() {
-        return "stp/expert/zjkComplaint_list";
+        return "stp/expert/zjkTrain_list";
     }
 
     /**
@@ -226,37 +207,37 @@ public class ZjkComplaintController extends BaseController {
      * @param request
      * @return
      */
-    @RequestMapping(value = "/getZjkComplaintInfo")
-    @OperationFilter(modelName = "专家-投诉管理", actionName = "根据ID查询对象信息getzjkComplaintInfo")
+    @RequestMapping(value = "/getZjkTrainInfo")
+    @OperationFilter(modelName = "专家培训", actionName = "根据ID查询对象信息getzjkTrainInfo")
     @ResponseBody
-    public Object getzjkComplaintInfo(HttpServletRequest request) {
+    public Object getzjkTrainInfo(HttpServletRequest request) {
         String id = request.getParameter("id");
-        ResponseEntity<ZjkComplaint> responseEntity = this.restTemplate.exchange(GET_INFO + id, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), ZjkComplaint.class);
-        ZjkComplaint news = responseEntity.getBody();
+        ResponseEntity<ZjkTrain> responseEntity = this.restTemplate.exchange(GET_INFO + id, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), ZjkTrain.class);
+        ZjkTrain news = responseEntity.getBody();
         return news;
     }
 
     @RequestMapping(value = "/tree-data")
     @ResponseBody
-    @OperationFilter(modelName = "专家-投诉管理", actionName = "树形查询getZjkComplaintTreeData()")
-    public Object getZjkComplaintTreeData() throws Exception {
+    @OperationFilter(modelName = "专家培训", actionName = "树形查询getZjkTrainTreeData()")
+    public Object getZjkTrainTreeData() throws Exception {
         TreeNode node = this.restTemplate.exchange(TREE_DATA, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), TreeNode.class).getBody();
         return node;
     }
 
     @RequestMapping(value = "/tree-datas")
-    @OperationFilter(modelName = "专家-投诉管理", actionName = "树形查询getZjkComplaintTreeData()")
+    @OperationFilter(modelName = "专家培训", actionName = "树形查询getZjkTrainTreeData()")
     @ResponseBody
-    public String getZjkComplaintTreeDatas(HttpServletRequest request) throws Exception {
+    public String getZjkTrainTreeDatas(HttpServletRequest request) throws Exception {
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         List list = this.restTemplate.exchange(TREE_DATA, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), List.class).getBody();
         return JSONUtils.toJSONString(list);
     }
 
-    @OperationFilter(modelName = "删除专家-投诉管理", actionName = "根据ID删除专家-投诉管理")
+    @OperationFilter(modelName = "删除专家培训", actionName = "根据ID删除专家培训")
     @RequestMapping(value = "/del", method = RequestMethod.POST)
     @ResponseBody
-    public Object delZjkComplaint() throws Exception {
+    public Object delZjkTrain() throws Exception {
         Integer rs = this.restTemplate.exchange(DEL + request.getParameter("id"), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class).getBody();
         if (rs > 0) {
             return new Result(true, "操作成功！");
@@ -265,10 +246,10 @@ public class ZjkComplaintController extends BaseController {
         }
     }
 
-    @OperationFilter(modelName = "物理删除专家-投诉管理", actionName = "根据ID物理删除专家-投诉管理")
+    @OperationFilter(modelName = "物理删除专家培训", actionName = "根据ID物理删除专家培训")
     @RequestMapping(value = "/del-real", method = RequestMethod.POST)
     @ResponseBody
-    public Object delZjkComplaintReal() throws Exception {
+    public Object delZjkTrainReal() throws Exception {
         Integer rs = this.restTemplate.exchange(DEL_REAL + request.getParameter("id"), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class).getBody();
         if (rs > 0) {
             return new Result(true, "操作成功！");

@@ -13,9 +13,9 @@
 </head>
 <body>
 
-<div class="searchBox">
+<div class="searchBox ">
     <!--查询条件-->
-    <label class="dateInput">
+    <label class="dateInput selectInput">
         <span>专家名称</span>
         <input type="text" name="zjkName" id="zjkName"
                placeholder="请输入专家名称"
@@ -58,11 +58,11 @@
 <div class="tableToolBox">
     <div class="whiteLine"></div>
     <div class="tableBtns">
+        <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"-->
+                <!--data-type="addEvent">新增-->
+        <!--</button>-->
         <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"
-                data-type="addEvent">新增
-        </button>
-        <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"
-                data-type="editEvent">编辑
+                data-type="editEvent">处理投诉
         </button>
         <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"-->
                 <!--data-type="detailEvent">查看-->
@@ -134,10 +134,10 @@
                 //     field: "complaintDesc",
                 //     title: "投诉内容", event: 'setActive', style: 'cursor: pointer;'
                 // },
-                // {
-                //     field: "isComplet",
-                //     title: "是否处理", event: 'setActive', style: 'cursor: pointer;'
-                // },
+                {
+                    field: "isComplet",
+                    title: "是否处理", event: 'setActive', style: 'cursor: pointer;'
+                },
                 // {
                 //     field: "doDesc",
                 //     title: "处理结果", event: 'setActive', style: 'cursor: pointer;'
@@ -207,14 +207,14 @@
                 };
                 publicMethods.dataDictionary(param);
 
-                // var param = {
-                //     data: res.data,//数据
-                //     element: ".layui-table-body table",// 当前的表格元素
-                //     column: 3,//列数 从0开始
-                //     field: "isComplet",//当前数据的字段
-                //     url: "/pageCommon/dic/ROOT_UNIVERSAL_WEHTHER"//接口
-                // };
-                // publicMethods.dataDictionary(param);
+                var param = {
+                    data: res.data,//数据
+                    element: ".layui-table-body table",// 当前的表格元素
+                    column: 7,//列数 从0开始
+                    field: "isComplet",//当前数据的字段
+                    url: "/pageCommon/dic/ROOT_UNIVERSAL_WEHTHER"//接口
+                };
+                publicMethods.dataDictionary(param);
 
             });
         }
@@ -274,7 +274,7 @@
                     // if (selectRowData.workOrderStatus == '0') {
                         id = selectRowData.dataId;
                         layer.open({
-                            title: param.name + '-编辑',
+                            title: param.name + '-处理投诉',
                             skin: 'layui-layer-lan',
                             shadeClose: false,
                             type: 2,

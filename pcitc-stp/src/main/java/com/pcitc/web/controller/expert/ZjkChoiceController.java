@@ -85,6 +85,7 @@ public class ZjkChoiceController extends BaseController {
      * 分页查询
      */
     private static final String LISTPAGE = "http://pcitc-zuul/stp-proxy/zjkchoice-provider/zjkchoice/zjkchoice-page";
+    private static final String LISTPAGE_choice = "http://pcitc-zuul/stp-proxy/zjkchoice-provider/zjkchoice/zjkchoice-page-choice";
     /**
      * 保存
      */
@@ -140,6 +141,20 @@ public class ZjkChoiceController extends BaseController {
     }
 
     /**
+     * 项目查询
+     * @param param
+     * @return
+     */
+    @RequestMapping(value = "/getTableDatachoice", method = RequestMethod.POST)
+    @ResponseBody
+    public Object getTableDatachoice(@ModelAttribute("param") LayuiTableParam param) {
+        HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
+        ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(LISTPAGE_choice, HttpMethod.POST, entity, LayuiTableData.class);
+        LayuiTableData data = responseEntity.getBody();
+        return JSON.toJSON(data).toString();
+    }
+
+    /**
      * 保存-专家-人员选择
      *
      * @param record
@@ -177,9 +192,16 @@ public class ZjkChoiceController extends BaseController {
     public String pageEdit(String id, Model model, String opt) {
         model.addAttribute("id", id);
         model.addAttribute("opt", opt);
-        return "pplus/expert/zjkChoice_edit";
+        return "stp/expert/zjkChoice_edit";
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/view")
+    @OperationFilter(modelName = "专家-人员选择", actionName = "跳转编辑页面pageEdit")
+    public String pageView(String id, Model model, String opt) {
+        model.addAttribute("id", id);
+        model.addAttribute("opt", opt);
+        return "stp/expert/zjkChoice_view";
+    }
 
     /**
      * 跳转至专家-人员选择列表页面
@@ -190,6 +212,12 @@ public class ZjkChoiceController extends BaseController {
     @OperationFilter(modelName = "专家-人员选择", actionName = "跳转列表页toListPage")
     public String toListPage() {
         return "stp/expert/zjkChoice_list";
+    }
+
+    @RequestMapping(value = "/toListPagePj", method = {RequestMethod.GET})
+    @OperationFilter(modelName = "专家-人员选择", actionName = "跳转列表页toListPagePj")
+    public String toListPagePj() {
+        return "stp/expert/zjkChoice_list_pj";
     }
 
     /**

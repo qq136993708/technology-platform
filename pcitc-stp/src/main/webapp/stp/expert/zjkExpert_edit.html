@@ -6,11 +6,14 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
     <link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/ztree/css/metroStyle/metroStyle.css">
 
     <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
     <script type="text/javascript" src="/plugins/ckeditor/ckeditor.js"></script>
     <script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="/common/js/base.js"></script>
+    <script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.all.js"></script>
+    <script type="text/javascript" src="/layuiadmin/modules/selectTree.js"></script>
 </head>
 <body>
 <div class="formBox">
@@ -76,7 +79,7 @@
                                 class="must-fill">*</span></label>
                     </div>
                     <div class="layui-form-item">
-                        <div class="photo_box" id="upload_File_photoAttach" style="margin: 30px auto;"><img id="photoAttach" src=""
+                        <div class="photo_box" id="upload_File_photoAttach" style="margin: 0px auto 10px;"><img id="photoAttach" src=""
                                                                                                             title="点击上传免冠照片" alt=""
                                                                                                             height="100%" width="140"></div>
                     </div>
@@ -145,11 +148,15 @@
                 <!--</div>-->
                 <!--</div>-->
                 <!--</div>-->
+
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
                         <label class="layui-form-label">机构<span class="must-fill">*</span></label>
-                        <div class="layui-input-block">
-                            <select name="company" id="company" lay-filter="company"></select>
+                        <!--<div class="layui-input-block">-->
+                            <!--<select name="company" id="company" lay-filter="company"></select>-->
+                        <!--</div>-->
+                        <div class=" layui-input-block">
+                            <div id="companyDiv" class="layui-form-select select-tree"></div>
                         </div>
                     </div>
                 </div>
@@ -583,13 +590,13 @@
 
     var global_hos = {};//省市县定义全局变量
 
-    ajaxPost('/dictionary/list/ROOT_XTGL_ZSYJY', null, function (data, status) {
-        $.each(data, function (i, dt) {
-            if (i < 8) {
-                $("#company").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
-            }
-        });
-    });
+    // ajaxPost('/dictionary/list/ROOT_XTGL_ZSYJY', null, function (data, status) {
+    //     $.each(data, function (i, dt) {
+    //         if (i < 8) {
+    //             $("#company").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
+    //         }
+    //     });
+    // });
     ajaxPost('/dictionary/list/ZJK_ZCXX', null, function (data, status) {
         $.each(data, function (i, dt) {
             $("#expertProfessinal").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
@@ -661,6 +668,7 @@
                     global_hos = data;
                     //地址-结束
                     form.render();
+                    $("#companyDivShow").val(data.companyName);
                 });
             }
             /* 自定义验证规则  title 要验证的input的 lay-verify=""*/
@@ -813,6 +821,9 @@
                 data.field.age = age;
                 data.field.ageBetween = ageBetween;
                 data.field.userDesc=CKEDITOR.instances.userDesc.getData();
+                data.field.company =$("#companyDivValue").val();
+                data.field.companyName =$("#companyDivName").val();
+
                 console.log("-------提交数据---------");
                 console.log(data.field);
                 ajaxPost("/zjkBaseInfo/saveZjkBaseInfo", data.field, function (dt, status) {
@@ -822,7 +833,7 @@
                         layer.msg("操作成功");
                         parent.layui.table.reload('zjkBaseInfoTableId', {where: {param: {}}});
                         var index = parent.layer.getFrameIndex(window.name);
-                        parent.layer.close(index);
+                        // parent.layer.close(index);
                     }
 
                 });
@@ -1048,6 +1059,42 @@
 
         });
     }
+</script>
+<script>
+
+    var zNodes;
+    $(function() {
+        $.ajax({
+            url : "/unit/ztree-unit-list",//这个就是请求地址对应sAjaxSource
+            type : 'get',
+            headers : {
+                'Content-Type' : 'application/json',
+            },
+            dataType : 'json',
+            async : false,
+            success : function(data) {
+                zNodes = data;
+            },
+            error : function(msg) {
+                layer.msg(msg);
+            }
+        });
+    });
+    // 下拉树初始化
+    $(document).ready(function() {
+        /*
+         * initSelectTree参数：
+         * 参数1：div的id，
+         * 参数2：isMultiple 是否多选(true或false),
+         * 参数3：是否显示连接线(true或false),
+         * 参数4：是否显示图标(true或false),
+         *
+         */
+        initSelectTree("companyDiv", false, true, false);
+        initHideMenu(); //不加此方法则默认打开下拉树
+
+    });
+
 </script>
 </body>
 </html>
