@@ -7,12 +7,13 @@
     <link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()">
     <script src="/layuiadmin/layui/layui.js"></script>
     <style>
-        .con-box{margin: 40px auto;margin-bottom: 0;margin-right: 50px;}
+        .con-box{margin: 5px auto;margin-bottom: 0;margin-right: 50px;}
         .layui-form-label {width: 108px !important;}
         .layui-input-block {margin-left: 129px !important;}
         .btn-line {height: 36px;line-height: 36px;}
         .btn-line a{float: left;margin-left: 20px;}
         .layui-btn-sm {padding: 0 14px;}
+        .layui-textarea {min-height: 50px;}
     </style>
 </head>
 <body>
@@ -191,7 +192,7 @@
             elem: '#dataTable' //表格容器
             , data: viewObj.tbData //请求的url地址
             , id: layTableId
-            , height: commonDislodgeTable() - 400
+            , height: 200
             , limit: 100
             , totalRow: true
             , cols: [[
