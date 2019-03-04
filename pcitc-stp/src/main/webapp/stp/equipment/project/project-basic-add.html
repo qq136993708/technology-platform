@@ -64,7 +64,57 @@
           </div>
         </div>
       </div>
-        
+         
+      <!--行有两个的情况-->
+      <div class="layui-form-item layui-form-text" >
+        <label class="layui-form-label">课题开发及投资目标</label>
+        <div class="layui-input-block">
+          <textarea placeholder="请简述开发及投资目标，原则上不超过500字" name="remarks" id="remarks"    class="layui-textarea">${sreProjectBasic.remarks}</textarea>
+        </div>
+      </div>
+      
+       <div class="layui-form-item layui-form-text" >
+        <label class="layui-form-label">建设年限</label>
+        <div class="layui-input-block">
+           <div class="layui-input-inline" style="float:left">
+		            <input type="text" class="layui-input" name="beginYear" id="beginYear" value="${beginYear}" style="width:80px;float:left" placeholder="开始年份">
+		             <div class="layui-form-mid" style="width:8px;float:left"> - </div>
+		            <input type="text" class="layui-input" id="endYear" name="endYear"   value="${endYear}" style="width:80px;float:left" placeholder="结束年份">
+		    </div>
+        </div>
+      </div>
+      <div class="layui-form-item layui-form-text" >
+        <label class="layui-form-label"></label>
+        <div class="layui-input-block" id="yearTr">
+            <table class="layui-table">
+             <thead>
+	             <tr>
+	                <td width="20%">年  度</td>
+	                <td width="8%">费用性支出(万元)</td>
+	                <td width="8%">资本性支出(万元)</td>
+	                <td width="8%">小  计(万元)</td>
+	             </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+       </div>
+      
+       <div class="layui-form-item">
+	      	 <label class="layui-form-label">选择装备<span class="must-fill">*</span></label>
+	         <div class="layui-input-block">
+	         	<div class="tableBox">
+		         	<div class="tableToolBox">
+				        <div class="whiteLine"></div>
+				        <div  class="tableBtns">
+				            <a href="javascript:void(0)" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg" data-type="selectEvent">选择</a>
+				        </div>
+				    </div>
+	         		<table id="join_apply_table" class="layui-hide"  lay-filter="JoinEvent"></table>
+	         	</div>
+	        </div>
+       	</div>
+      
      
        <div class="layui-row">
         <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
@@ -87,20 +137,7 @@
       
       
       
-       <div class="layui-form-item">
-	      	 <label class="layui-form-label">选择装备<span class="must-fill">*</span></label>
-	         <div class="layui-input-block">
-	         	<div class="tableBox">
-		         	<div class="tableToolBox">
-				        <div class="whiteLine"></div>
-				        <div  class="tableBtns">
-				            <a href="javascript:void(0)" class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg" data-type="selectEvent">选择</a>
-				        </div>
-				    </div>
-	         		<table id="join_apply_table" class="layui-hide"  lay-filter="JoinEvent"></table>
-	         	</div>
-	        </div>
-       	</div>
+      
        	
       
       
@@ -114,44 +151,12 @@
     
       
       
-      
-       <!--行有两个的情况-->
-      <div class="layui-form-item layui-form-text" >
-        <label class="layui-form-label">备注</label>
-        <div class="layui-input-block">
-          <textarea placeholder="请简述开发及投资目标，原则上不超过500字" name="remarks" id="remarks"    class="layui-textarea">${sreProjectBasic.remarks}</textarea>
-        </div>
-      </div>
-      
-       <div class="layui-form-item layui-form-text" >
-        <label class="layui-form-label">建设年限</label>
-        <div class="layui-input-block">
-           <div class="layui-input-inline" style="float:left">
-		            <input type="text" class="layui-input" name="beginYear" id="beginYear" value="${beginYear}" style="width:80px;float:left" placeholder="开始年份">
-		             <div class="layui-form-mid" style="width:8px;float:left"> - </div>
-		            <input type="text" class="layui-input" id="endYear" name="endYear"   value="${endYear}" style="width:80px;float:left" placeholder="结束年份">
-		    </div>
-        </div>
-      </div>
+     
       
       
-       <div class="layui-form-item layui-form-text" >
-        <label class="layui-form-label"></label>
-        <div class="layui-input-block" id="yearTr">
-            <table class="layui-table">
-             <thead>
-	             <tr>
-	                <td width="20%">年  度</td>
-	                <td width="8%">费用性支出(万元)</td>
-	                <td width="8%">资本性支出(万元)</td>
-	                <td width="8%">小  计(万元)</td>
-	             </tr>
-            </thead>
-            <tbody>
-            </tbody>
-          </table>
-        </div>
-      </div>
+      
+      
+       
       
       
       
@@ -308,7 +313,7 @@ layui.use(['form','table','laypage','layer','laydate','laytpl','jquery',"publicM
     form.verify({
         validateNumber:function(value, item){
             if(value<=0 || value>2000){
-                return '请填写正确的值';
+                return '费用不能大于2000万';
             }
         }
     });
@@ -407,18 +412,17 @@ function renderTable(equipmentIds)
           limit: 15,
           method:"GET",
       	  id: 'join_apply_table',
-          height: 200,
-          page: {first: '首页',last: '尾页',theme: '#0F9EE0'},
+          height: 300,
+          //page: {first: '首页',last: '尾页',theme: '#0F9EE0'},
           cols: [[
-          	 {type:'checkbox',event: 'changeEvents'}
-          	 ,{title:'序号', type:'numbers'},
-          	{field : 'auditStatus', title : '状态', style : 'cursor: pointer;', align : 'center', templet : '<div>{{ layui.laytpl.auditStatus_equipment(d.auditStatus) }}</div>', width : 55},
-            {field : 'name',     title : '装备名称', style : 'cursor: pointer;', align : 'center', width : '20%'},
+          	
+          	{title:'序号', type:'numbers'},
+            {field : 'name',     title : '装备名称', style : 'cursor: pointer;', align : 'center', width : '30%'},
             {field : 'type',     title : '装备分类', style : 'cursor: pointer;', align : 'center', width : '10%'},
             {field : 'unitPrice', title : '单价（万元）', style : 'cursor: pointer;', align : 'center', width : '10%'},
             {field : 'applyAcount', title : '申请数量', style : 'cursor: pointer;', align : 'center', width : '10%'},
             {field : 'allPrice', title : '总价￥（万元）', style : 'cursor: pointer;', align : 'center', width : '10%',templet:function(d){return '<span style="color:red">'+d.allPrice+'</span>'}},
-            {field : 'applyDepartName', title : '申报部门', style : 'cursor: pointer;', align : 'center', width : '10%'},
+            {field : 'applyDepartName', title : '申报部门', style : 'cursor: pointer;', align : 'center', width : '16%'},
             {field : 'firstApplyUser', title : '第一申报人', style : 'cursor: pointer;', align : 'center', width : '10%'}
              
           ]]
