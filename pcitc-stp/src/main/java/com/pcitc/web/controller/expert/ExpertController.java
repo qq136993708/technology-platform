@@ -148,6 +148,18 @@ public class ExpertController extends BaseController {
         return "stp/expert/pageExpertIndex";
     }
 
+    @RequestMapping(value = "/expertIndexNewImg", method = RequestMethod.GET)
+    @OperationFilter(modelName = "专家-首页跳转", actionName = "首页跳转pageExpertIndex")
+    public String expertIndexNewImg() {
+        //获取专家列表10条
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LIST_RANDOM, HttpMethod.POST, new HttpEntity<ZjkExpert>(new ZjkExpert(), this.httpHeaders), JSONObject.class);
+        JSONObject retJson = responseEntity.getBody();
+        List<ZjkExpert> list = (List<ZjkExpert>) retJson.get("list");
+        request.setAttribute("list", list);
+        return "stp/expert/expertIndexNewImg";
+    }
+
     @RequestMapping(value = "/expertIndexNew", method = RequestMethod.GET)
     @OperationFilter(modelName = "专家-首页跳转", actionName = "首页跳转pageExpertIndex")
     public String pageExpertIndexNew() {

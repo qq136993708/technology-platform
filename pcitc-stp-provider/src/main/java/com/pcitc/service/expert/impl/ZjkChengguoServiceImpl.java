@@ -181,7 +181,7 @@ public class ZjkChengguoServiceImpl implements ZjkChengguoService {
      * @param example
      * @return
      */
-    private LayuiTableData findByExample(LayuiTableParam param, ZjkAchievementExample example) {
+    public LayuiTableData findByExample(LayuiTableParam param, ZjkAchievementExample example) {
         int pageSize = param.getLimit();
         int pageStart = (param.getPage() - 1) * pageSize;
         int pageNum = pageStart / pageSize + 1;

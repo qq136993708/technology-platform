@@ -81,22 +81,18 @@
       </div>
       
       
-       <div class="layui-row">
-        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-          <div class="layui-form-item">
-            <label for="" class="layui-form-label">规格型号、参数<span class="must-fill">*</span></label>
-            <div class="layui-input-block">
-              <input class="layui-input"  name="specification" id="specification" value="${sreEquipment.specification}"   lay-verify="required"  autocomplete="off" type="text" >
-            </div>
-          </div>
+      <div class="layui-form-item layui-form-text" >
+        <label for="" class="layui-form-label">规格型号、参数<span class="must-fill">*</span></label>
+        <div class="layui-input-block">
+          <textarea placeholder="请输入规格型号、参数" name="specification" id="specification" lay-verify="required"   class="layui-textarea">${sreEquipment.specification}</textarea>
         </div>
-        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-          <div class="layui-form-item">
-            <label for="" class="layui-form-label">产地</label>
-            <div class="layui-input-block">
-               <input class="layui-input" name="originPlace" id="originPlace"  value="${sreEquipment.originPlace}"    autocomplete="off" type="text">
-            </div>
-          </div>
+      </div>
+      
+       <!-- 文本域 -->
+      <div class="layui-form-item layui-form-text" >
+        <label class="layui-form-label">主要功能与用途<span class="must-fill">*</span></label>
+        <div class="layui-input-block">
+          <textarea placeholder="请输入内容" name="specialNotes" id="specialNotes" lay-verify="required"   class="layui-textarea">${sreEquipment.specialNotes}</textarea>
         </div>
       </div>
       
@@ -131,15 +127,17 @@
             </div>
           </div>
         </div>
-      </div>
-      
-       <!-- 文本域 -->
-      <div class="layui-form-item layui-form-text" >
-        <label class="layui-form-label">主要功能与用途<span class="must-fill">*</span></label>
-        <div class="layui-input-block">
-          <textarea placeholder="请输入内容" name="specialNotes" id="specialNotes" lay-verify="required"   class="layui-textarea">${sreEquipment.specialNotes}</textarea>
+        
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label for="" class="layui-form-label">产地</label>
+            <div class="layui-input-block">
+               <input class="layui-input" name="originPlace" id="originPlace"  value="${sreEquipment.originPlace}"    autocomplete="off" type="text">
+            </div>
+          </div>
         </div>
       </div>
+      
       
     
       
@@ -177,7 +175,7 @@
       <div class="layui-form-item layui-form-text" >
         <label class="layui-form-label">备注</label>
         <div class="layui-input-block">
-          <textarea placeholder="请输入备注" name="notes" id="notes" lay-verify="required"   class="layui-textarea">${sreEquipment.notes}</textarea>
+          <textarea placeholder="请输入备注" name="notes" id="notes"   class="layui-textarea">${sreEquipment.notes}</textarea>
         </div>
       </div>
       

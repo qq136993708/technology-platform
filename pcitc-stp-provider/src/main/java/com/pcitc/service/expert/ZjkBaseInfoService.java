@@ -223,4 +223,6 @@ public interface ZjkBaseInfoService {
     JSONObject updateExpertByType(ZjkExpert zjkBaseInfo);
 
     LayuiTableData showExpertPageTableData(LayuiTableParam param);
+
+    LayuiTableData findZjkBaseInfoByPageCount(LayuiTableParam param);
 }

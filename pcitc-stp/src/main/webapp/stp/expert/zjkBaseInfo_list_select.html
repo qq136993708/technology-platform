@@ -16,8 +16,8 @@
 <div class="searchBox">
     <!--查询条件-->
     <label class="dateInput">
-        <input type="hidden" id="auditStatus" name="auditStatus" value="2">
-        <input type="hidden" id="state" name="state" value="${state}">
+        <input type="hidden" id="auditStatus" name="auditStatus" value="1">
+        <input type="hidden" id="state" name="state" value="0">
         <span>专家姓名</span>
         <input type="text" id="expertName" name="expertName" placeholder="请输入专家姓名" title="专家姓名" autocomplete="off" class="form-control">
     </label>
@@ -48,40 +48,34 @@
     <div class="whiteLine"></div>
     <div class="tableBtns">
         <!--<button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"-->
-                <!--data-type="all">-->
-            <!--<span class="btn-state btn-all"></span>全部-->
+        <!--data-type="all">-->
+        <!--<span class="btn-state btn-all"></span>全部-->
         <!--</button>-->
         <!--<button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"-->
-                <!--data-type="draft">-->
-            <!--<span class="btn-state btn-yellow"></span>草稿-->
+        <!--data-type="draft">-->
+        <!--<span class="btn-state btn-yellow"></span>草稿-->
         <!--</button>-->
         <!--<button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"-->
-                <!--data-type="approval">-->
-            <!--<span class="btn-state btn-green"></span>审批中-->
+        <!--data-type="approval">-->
+        <!--<span class="btn-state btn-green"></span>审批中-->
         <!--</button>-->
         <!--<button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"-->
-                <!--data-type="approved">-->
-            <!--<span class="btn-state btn-blue"></span>已审批-->
+        <!--data-type="approved">-->
+        <!--<span class="btn-state btn-blue"></span>已审批-->
         <!--</button>-->
         <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"-->
-                <!--data-type="addEvent">新增-->
+        <!--data-type="addEvent">新增-->
         <!--</button>-->
         <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"-->
-                <!--data-type="editEvent">编辑-->
+        <!--data-type="editEvent">编辑-->
         <!--</button>-->
 
         <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"-->
-                <!--data-type="deleteEvent">删除-->
+        <!--data-type="deleteEvent">删除-->
         <!--</button>-->
 
-        <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" id="dj"
-                data-type="djEvent">冻结
-        </button>
         <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" id="jd"
-                data-type="jdEvent">解冻
-        </button>
-        <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"
-                data-type="viewEvent">查看
+                data-type="okEvent">确定
         </button>
 
     </div>
@@ -89,12 +83,7 @@
 <table id="zjkBaseInfoTableId" class="layui-hide" lay-filter="tableEvent"></table>
 
 <script>
-    var state= $("#state").val();
-    if(state =="0"){
-        $("#jd").hide();
-    }else {
-        $("#dj").hide();
-    }
+    var state = $("#state").val();
 
     //项目
     ajaxPost('/dictionary/list/ROOT_XTGL_ZSYJY', null, function (data, status) {
@@ -114,7 +103,7 @@
 
         function loadtable() {
             console.log("----查询-----");
-            var where = {"expertName": $("#expertName").val(), "email": $("#email").val(), "company": $("#company option:selected").val(), "auditStatus": $("#auditStatus").val(),"sysFlag":$("#state").val()};
+            var where = {"expertName": $("#expertName").val(), "email": $("#email").val(), "company": $("#company option:selected").val(), "auditStatus": $("#auditStatus").val(), "sysFlag": $("#state").val()};
             console.log(where);
             table.render({
                 elem: '#zjkBaseInfoTableId',
@@ -309,6 +298,18 @@
                         openFullWin("编辑", "/zjkBaseInfo/edit?id=" + selectRowData.dataId);
                     }
                 }
+            }, okEvent: function () {
+                //点击编辑按钮
+                if (!selectRowData) {
+                    layer.msg('请点击选择一行数据!');
+                    return;
+                }
+                var objSelected = {};
+                // objSelected.userId = selectRowData.userId;
+                // objSelected.userDisp = selectRowData.userDisp;
+                parent.setWelder(selectRowData);
+                var index = parent.layer.getFrameIndex(window.name);
+                parent.layer.close(index);
             }
             , viewEvent: function () { //点击编辑按钮
                 if (typeof (selectRowData) == "undefined") {
@@ -343,12 +344,12 @@
                     return;
                 }
                 layer.confirm('确定要执行冻结吗?', {btn: ['确认', '取消'], title: "删除确认"}, function (index) {
-                        layer.close(index);
-                        ajaxPost("/zjkBaseInfo/updateExpertByType", {"dataId": selectRowData.dataId,"bak1":"1","sysFlag":"1"}, function (data) {
-                            layer.msg("操作成功");
-                            loadtable();
-                        });
+                    layer.close(index);
+                    ajaxPost("/zjkBaseInfo/updateExpertByType", {"dataId": selectRowData.dataId, "bak1": "1", "sysFlag": "1"}, function (data) {
+                        layer.msg("操作成功");
+                        loadtable();
                     });
+                });
             }
             ,
             jdEvent: function () { //解冻
@@ -358,7 +359,7 @@
                 }
                 layer.confirm('确定要执行解冻吗?', {btn: ['确认', '取消'], title: "删除确认"}, function (index) {
                     layer.close(index);
-                    ajaxPost("/zjkBaseInfo/updateExpertByType", {"dataId": selectRowData.dataId,"bak1":"1","sysFlag":"0"}, function (data) {
+                    ajaxPost("/zjkBaseInfo/updateExpertByType", {"dataId": selectRowData.dataId, "bak1": "1", "sysFlag": "0"}, function (data) {
                         layer.msg("操作成功");
                         loadtable();
                     });

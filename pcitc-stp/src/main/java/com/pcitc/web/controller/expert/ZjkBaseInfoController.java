@@ -94,6 +94,7 @@ public class ZjkBaseInfoController extends BaseController {
      * 分页查询
      */
     private static final String LISTPAGE = "http://pcitc-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/zjkbaseinfo-page";
+    private static final String LISTPAGECount = "http://pcitc-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/zjkbaseinfo-page-count";
     private static final String showExpertPageTableData = "http://pcitc-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/showExpertPageTableData";
     /**
      * 保存
@@ -148,7 +149,15 @@ public class ZjkBaseInfoController extends BaseController {
         System.out.println(JSON.toJSON(data).toString());
         return JSON.toJSON(data).toString();
     }
-
+    @RequestMapping(value = "/getTableDataCount", method = RequestMethod.POST)
+    @ResponseBody
+    public Object getTableDataCount(@ModelAttribute("param") LayuiTableParam param) {
+        HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
+        ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(LISTPAGECount, HttpMethod.POST, entity, LayuiTableData.class);
+        LayuiTableData data = responseEntity.getBody();
+        System.out.println(JSON.toJSON(data).toString());
+        return JSON.toJSON(data).toString();
+    }
     /**
      * 查看已选专家列表
      * @param param
@@ -296,6 +305,18 @@ public class ZjkBaseInfoController extends BaseController {
     public String toListPageState() {
         request.setAttribute("state",request.getParameter("state"));
         return "stp/expert/zjkBaseInfo_list_state";
+    }
+
+    @RequestMapping(value = "/toListPageSelect", method = {RequestMethod.GET})
+    public String toListPageSelect() {
+        request.setAttribute("state",request.getParameter("state"));
+        return "stp/expert/zjkBaseInfo_list_select";
+    }
+
+    @RequestMapping(value = "/toListPageCount", method = {RequestMethod.GET})
+    public String toListPageCount() {
+        request.setAttribute("state",request.getParameter("state"));
+        return "stp/expert/zjkBaseInfo_list_count";
     }
 
     /**
