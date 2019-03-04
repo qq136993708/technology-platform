@@ -19,11 +19,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.BudgetAuditStatusEnum;
 import com.pcitc.base.common.enums.DelFlagEnum;
 import com.pcitc.base.stp.budget.BudgetGroupTotal;
@@ -31,9 +33,11 @@ import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.stp.out.OutProjectInfo;
 import com.pcitc.base.stp.out.OutProjectPlan;
 import com.pcitc.base.stp.out.OutUnit;
+import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.IdUtil;
 import com.pcitc.base.util.MyBeanUtils;
+import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.common.BudgetInfoEnum;
 import com.pcitc.service.budget.BudgetGroupTotalService;
 import com.pcitc.service.budget.BudgetInfoService;
@@ -48,7 +52,7 @@ public class BudgetGroupTotalProviderClient
 {
 	
 	private final static Logger logger = LoggerFactory.getLogger(BudgetGroupTotalProviderClient.class);
-
+	private final static String WORKFLOW_DEFINE_ID = "xxxx:x:xxxxx";
 	
 	@Autowired
 	private BudgetGroupTotalService budgetGroupTotalService;
@@ -308,8 +312,16 @@ public class BudgetGroupTotalProviderClient
 			BudgetGroupTotal groupTotal = budgetGroupTotalService.selectBudgetGroupTotal(itemId);
 			if(groupTotal != null) {
 				List<BudgetGroupTotal> childGroups = budgetGroupTotalService.selectChildBudgetGroupTotal(itemId);
+				List<Map<String,Object>> groupMaps = new ArrayList<Map<String,Object>>();
+				for(BudgetGroupTotal total:childGroups) {
+					Map<String,Object> mp = MyBeanUtils.transBean2Map(total);
+					map.put("last_year_end", 0);
+					map.put("plan_money", 0);
+					groupMaps.add(mp);
+				}
+				
 				map  = MyBeanUtils.transBean2Map(groupTotal);
-				map.put("groups", childGroups);
+				map.put("groups", groupMaps);
 				map.put("total", new Double(map.get("zxjf").toString())+new Double(map.get("xmjf").toString()));
 			}
 		}
@@ -545,4 +557,81 @@ public class BudgetGroupTotalProviderClient
 		}
 		return plans;
 	}
+	@ApiOperation(value="集团公司预算-集团预算审批",notes="发起集团预算表审批")
+	@RequestMapping(value = "/stp-provider/budget/start-budget-grouptotal-activity/{budgetInfoId}", method = RequestMethod.POST)
+	public Object startBudgetGroupTotalActivity(@PathVariable("budgetInfoId") String budgetInfoId,@RequestBody WorkflowVo workflowVo) 
+	{
+		
+		BudgetInfo info = null;
+		try {
+			info = budgetInfoService.selectBudgetInfo(budgetInfoId);
+		
+			//如果审批已发起则不能再次发起(只有编制中，获取审批驳回可再发起)
+			if(!(BudgetAuditStatusEnum.AUDIT_STATUS_NO_START.getCode().equals(info.getAuditStatus()) || BudgetAuditStatusEnum.AUDIT_STATUS_REFUSE.getCode().equals(info.getAuditStatus())))
+			{
+				return new Result(false,"审批中或者已完成审批不可重复发起！");
+			}
+			//workflowVo.setAuthenticatedUserId("111");
+			workflowVo.setProcessDefineId(WORKFLOW_DEFINE_ID); 
+			workflowVo.setBusinessId(info.getDataId());
+			workflowVo.setProcessInstanceName("集团预算表审批："+info.getDataVersion());
+			Map<String, Object> variables = new HashMap<String, Object>();  
+			//starter为必填项。流程图的第一个节点待办人变量必须为starter
+	        variables.put("starter", workflowVo.getAuthenticatedUserId());
+	        
+	        //必须设置。流程中，需要的第二个节点的指派人；除starter外，所有待办人变量都指定为auditor(处长审批)
+	        //处长审批 ZSH_JTZSZYC_GJHZC_CZ
+	        List<SysUser> users = systemRemoteClient.selectUsersByPostCode("ZSH_JTZSZYC_GJHZC_CZ");
+	        System.out.println("start userIds ... "+JSON.toJSONString(users));
+	        variables.put("auditor", workflowVo.getAuthenticatedUserId());
+	        if(users != null && users.size()>0) {
+	        	variables.put("auditor", users.get(0).getUserId());
+	        }
+	        //必须设置，统一流程待办任务中需要的业务详情
+	        variables.put("auditDetailsPath", "/budget/notice_view?noticeId="+info.getDataId());
+	        //流程完全审批通过时，调用的方法（通过版本即为当前预算最终版本）
+	        variables.put("auditAgreeMethod", "http://pcitc-zuul/stp-proxy/stp-provider/budget/callback-workflow-grouptotal-notice?budgetId="+info.getDataId()+"&workflow_status="+BudgetAuditStatusEnum.AUDIT_STATUS_FINAL.getCode());
+	        //流程驳回时，调用的方法（可能驳回到第一步，也可能驳回到第1+n步
+	        variables.put("auditRejectMethod", "http://pcitc-zuul/stp-proxy/stp-provider/budget/callback-workflow-grouptotal-notice?budgetId="+info.getDataId()+"&workflow_status="+BudgetAuditStatusEnum.AUDIT_STATUS_REFUSE.getCode());
+	        
+	        workflowVo.setVariables(variables);
+			String rs = systemRemoteClient.startWorkflowByProcessDefinitionId(workflowVo);
+			System.out.println("startwork  rs...."+rs);
+			if("true".equals(rs)) 
+			{
+				info.setAuditStatus(BudgetAuditStatusEnum.AUDIT_STATUS_START.getCode());
+				budgetInfoService.updateBudgetInfo(info);
+				return new Result(true,"操作成功!");
+			}else {
+				return new Result(false,rs);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new Result(false);
+	}
+	@ApiOperation(value="集团公司预算-审批流程回调通知",notes="审批结果回调通知")
+	@RequestMapping(value = "/stp-provider/budget/callback-workflow-grouptotal-notice")
+	public Object callBackProjectNoticeWorkflow(@RequestParam(value = "budgetId", required = true) String budgetId,
+			@RequestParam(value = "workflow_status", required = true) Integer workflow_status) throws Exception 
+	{
+		if(budgetId != null) {
+			BudgetInfo info = budgetInfoService.selectBudgetInfo(budgetId);
+			if(info != null) {
+				//将当年的其他值设置为审批通过
+				List<BudgetInfo> infos = budgetInfoService.selectBudgetInfoList(info.getNd(), info.getBudgetType());
+				for(BudgetInfo i:infos) {
+					//最终版本只有一个，多次审批后以最后一次审批为准
+					if(BudgetAuditStatusEnum.AUDIT_STATUS_FINAL.getCode().equals(i.getAuditStatus())) {
+						i.setAuditStatus(BudgetAuditStatusEnum.AUDIT_STATUS_PASS.getCode());
+						budgetInfoService.updateBudgetInfo(i);
+					}
+				}
+				info.setAuditStatus(workflow_status);
+				budgetInfoService.updateBudgetInfo(info);
+			}
+		}
+		return null;
+	}
+	
 }
