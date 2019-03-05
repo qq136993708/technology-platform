@@ -194,6 +194,7 @@ public class ExpertController extends BaseController {
 
         request.setAttribute("hyly", request.getParameter("hyly"));
         request.setAttribute("jg", request.getParameter("jg"));
+        request.setAttribute("jgshow", request.getParameter("jgshow"));
         request.setAttribute("zjmc", request.getParameter("zjmc"));
         request.setAttribute("key", request.getParameter("key"));
         request.setAttribute("nld", request.getParameter("nld"));
