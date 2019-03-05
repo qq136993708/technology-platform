@@ -110,16 +110,16 @@
     </div>
     <div class="content-box">
         <div class="items">
-            状态: <span id="info_status">编制中</span>
+            状态: <span id="info_status" style="color: red">编制中</span>
         </div>
         <div class="items">
-            创建人: <span id="creater_name">刘美</span>
+            创建人: <span id="creater_name" style="color: red">刘美</span>
         </div>
         <div class="items">
-            创建日期: <span id="create_time">2019-01-20 09:01:00</span>
+            创建日期: <span id="create_time" style="color: red">2019-01-20 09:01:00</span>
         </div>
         <div class="items">
-            最后更新: <span id="update_time">2019-01-24 18:05:01</span>
+            最后更新: <span id="update_time" style="color: red">2019-01-24 18:05:01</span>
         </div>
     </div>
     <div class="doc-box">
@@ -140,7 +140,8 @@
 	    var curent_budget_info = null;//当前报表
 	    var selectRowData=null;
         layui.use(['jquery', 'table', 'laydate', 'layer','publicMethods'], function () {
-            var $ = layui.jquery, table = layui.table, laydate = layui.laydate, layer = layui.layer,publicMethods=layui.publicMethods;   
+            var $ = layui.jquery, table = layui.table, laydate = layui.laydate, layer = layui.layer,publicMethods=layui.publicMethods; 
+            var param = JSON.parse(window.localStorage.getItem("param"));
             laydate.render({
                 elem: '#choose-year'
                 ,value: cu_date
@@ -275,7 +276,7 @@
                         //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
                         , maxmin: false
                         //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                        , area: ['60%', '550px']
+                        , area: ['80%', '90%']
                         , content: '/budget/budget_create_grouptotal'
                     });
                 },
@@ -284,7 +285,7 @@
                 		parent.layer.alert("请选择预算版本", {title : '提示'});
                 		return;
                 	} 
-                	var url = '/budget/budget_edit_grouptotal?budgetInfoId='+curent_budget_info.dataId;
+                	var url = '/budget/budget_edit_grouptotal?budgetInfoId='+curent_budget_info.dataId+'&nd='+cu_date;
                    	layer.open({
                         title: cu_date+'集团公司经费预算编制管理-预算项新增'
                         , skin: 'layui-layer-lan'
@@ -294,7 +295,7 @@
                         //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
                         , maxmin: false
                         //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                        , area: ['60%', '624px']
+                        , area: ['80%', '90%']
                         , content: url
                     });
                 },
@@ -304,7 +305,7 @@
                 		parent.layer.alert("请选择需要编辑的行", {title : '提示'});
                 		return;
                 	}
-                	var url = '/budget/budget_edit_grouptotal?dataId='+curent_tabel_data[selectIndex].dataId+"&budgetInfoId="+curent_budget_info.dataId;
+                	var url = '/budget/budget_edit_grouptotal?dataId='+curent_tabel_data[selectIndex].dataId+"&budgetInfoId="+curent_budget_info.dataId+"&nd="+cu_date;
                    	layer.open({
                         title: cu_date+'集团公司经费预算编制管理-预算项编辑'
                         , skin: 'layui-layer-lan'
@@ -314,7 +315,7 @@
                         //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
                         , maxmin: false
                         //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                        , area: ['60%', '624px']
+                        , area: ['80%', '90%']
                         , content: url
                     });
                 },
@@ -357,13 +358,14 @@
                 	}  
                 	layer.confirm('提交后将不可再编辑！确定要提交审批吗？',{title:"提交确认"},function(index){
     					layer.close(index);
-    					publicMethods.ajaxPost("/budget/submit-grouptotal", curent_budget_info, function (data) {
+    					publicMethods.ajaxPost("/budget/start-budget-grouptotal-activity", {"budgetInfoId":curent_budget_info.dataId,"functionId":param.id}, function (data) {
     	                     if (data.success) {    	                    	 
     	                    	 budget_info_map[data.data.dataVersion]=data.data; 
     	                    	 $("#data_version").trigger("change");
     	                    	 layer.msg('提交成功!');
     	                     } else {
-    	                    	 layer.msg('操作异常，请重试!');
+    	                    	 layer.msg(data.message);
+    	                    	 
     	                     }
     	                });
                 	});
@@ -389,7 +391,7 @@
                         //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
                         , maxmin: false
                         //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                        , area: ['60%', '500px']
+                        , area: ['80%', '90%']
                         , content: url
                     });                	
                 },historyView:function(){
@@ -407,7 +409,7 @@
                         //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
                         , maxmin: false
                         //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                        , area: ['60%', '500px']
+                        , area: ['80%', '90%']
                         , content: url
                     });         
                 }

@@ -130,7 +130,7 @@ public class BudgetInfoProviderClient
 	@RequestMapping(value = "/stp-provider/budget/budget-info-get/{dataId}", method = RequestMethod.POST)
 	public Object selectBudgetInfo(@PathVariable("dataId") String dataId) 
 	{
-		logger.info("delete-budget-info...");
+		logger.info("get-budget-info...");
 		BudgetInfo info = null;
 		try
 		{
