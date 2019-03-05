@@ -6,10 +6,14 @@
     <link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
     <link rel="stylesheet" href="/layuiadmin/layui/css/modules/formSelects-v4.css">
     <link rel="stylesheet" type="text/css" href="/layuiadmin/style/second.css">
-    <script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/ztree/css/metroStyle/metroStyle.css">
     <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
-    <script type="text/javascript" src="/layuiadmin/layui/lay/modules/publicMethods.js"></script>
+    <script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
+
     <script type="text/javascript" src="/common/js/base.js"></script>
+
+
     <style>
 
         .main-content {
@@ -73,6 +77,7 @@
         }
 
         .main-content .expert-s {
+            height:19px;
             text-align: center;
             font-size: 14px;
             color: #333333;
@@ -149,7 +154,7 @@
 
         .searchH {
             height: 168px;
-            overflow: auto;
+            /*overflow: auto;*/
         }
 
         .search {
@@ -227,12 +232,18 @@
             <!--<a href="#">信息技术</a>-->
         </div>
         <div class="search">
-            <span>行业领域</span>
-            <div class="layui-select-more">
-                <select id="hyly" onchange="changeUrl()" onclick="changeUrl()" xm-select="hyly"></select>
-            </div>
+            <!--<span></span>-->
+            <!--<div class="layui-select-more">-->
+                <!--<select id="hyly" onchange="changeUrl()" onclick="changeUrl()" xm-select="hyly"></select>-->
+            <!--</div>-->
 
             <!--<span>机构</span>-->
+
+            <div class=" layui-input-block">
+                <div id="companyDiv1" class="layui-form-select select-tree"></div>
+            </div>
+
+
             <input id="key" value="" onblur="changeUrl()" placeholder="输入查找关键字" style="width: 432px;
         border: 1px solid #dddddd;border-radius: 2px;padding-left: 10px;"/>
             <div class="layui-select-more" style="display: none;">
@@ -328,6 +339,9 @@
 <script type="text/javascript" src="/plugins/echarts/walden.js"></script>
 <script type="text/javascript" src="/stp/hana/common/stp_common_strip.js"></script>
 <script type="text/javascript" src="/stp/hana/common/stp_common_pie_rose.js"></script>
+
+
+
 
 
 <!--<div class="main-chart" id="four" style="height:280px;width: 100%;"></div>-->
@@ -436,7 +450,7 @@
                 base64 = data;
             },
             error: function (e) {
-                alert("出错了");
+                console.log("出错了");
             }
         });
         return base64;
@@ -505,15 +519,10 @@
                 if (strlen >= len) {
 
                     return s.substring(0, s.length - 2) + "...";
-
                 }
-
             }
-
         }
-
         return s;
-
     }
 
     function changeUrlHyly(flag) {
@@ -522,7 +531,9 @@
     }
 
     function changeUrl() {
-        var href = "jg=" + layui.formSelects.value('jg', 'valStr') + "&key=" + $("#key").val();
+        var href = "jg=" + $("#companyDiv1Value").val() + "&key=" + $("#key").val()+"&jgshow="+$("#companyDiv1Show").val();
+        console.log(href);
+        // var href = "jg=" + layui.formSelects.value('jg', 'valStr') + "&key=" + $("#key").val();
         $("#hrefExpert").attr("lay-href", "/expertController/queryExpert?" + href);
     }
 
@@ -588,7 +599,43 @@
 
 
 </script>
+<script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.all.js"></script>
+<script type="text/javascript" src="/layuiadmin/modules/selectTree.js?v=131"></script>
+<script type="text/javascript">
+    var zNodes;
+    // 下拉树初始化
+    $(document).ready(function() {
+        $.ajax({
+            url : "/unit/ztree-unit-list",//这个就是请求地址对应sAjaxSource
+            type : 'get',
+            headers : {
+                'Content-Type' : 'application/json',
+            },
+            dataType : 'json',
+            async : false,
+            success : function(data) {
+                zNodes = data;
+            },
+            error : function(msg) {
+                layer.msg(msg);
+            }
+        });
+        /*
+         * initSelectTree参数：
+         * 参数1：div的id，
+         * 参数2：isMultiple 是否多选(true或false),
+         * 参数3：是否显示连接线(true或false),
+         * 参数4：是否显示图标(true或false),
+         *
+         */
+        initSelectTree("companyDiv1", true, true, false);
+        initHideMenu(); //不加此方法则默认打开下拉树
 
+    });
+    function selectTreeCallFun(treeNode, zTree) {
+        changeUrl();
+    }
+</script>
 <!--<script type="text/javascript" src="/plugins/echarts/echarts-all.js"></script>
 &lt;!&ndash;<div class="main-chart" id="one" style="height:440px;width: 100%;"></div>&ndash;&gt;
 <script>
