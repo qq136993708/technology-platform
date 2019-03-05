@@ -4,9 +4,7 @@
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
     <link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
-    <link rel="stylesheet" href="/layuiadmin/layui/css/modules/formSelects-v4.css">
     <link rel="stylesheet" type="text/css" href="/layuiadmin/style/second.css">
-
     <link rel="stylesheet" type="text/css" href="/layuiadmin/ztree/css/metroStyle/metroStyle.css">
     <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
     <script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
@@ -173,7 +171,9 @@
             height: 80px;
             font-weight: normal;
         }
-
+        .select-tree{
+            width: 300px;float: left;margin-right: 15px;
+        }
         @media screen and (min-width: 1118px) {
             .main-content, .main-e {
                 padding: 0 50px;
@@ -211,6 +211,7 @@
                 width: 51%;
             }
         }
+        .search .selectTreeBox input{width: 300px;margin-left: 0;}
     </style>
 </head>
 <body>
@@ -231,21 +232,22 @@
             <!--<a href="#">安全环保</a>-->
             <!--<a href="#">信息技术</a>-->
         </div>
-        <div class="search">
+        <div class="search formBox">
             <!--<span></span>-->
             <!--<div class="layui-select-more">-->
                 <!--<select id="hyly" onchange="changeUrl()" onclick="changeUrl()" xm-select="hyly"></select>-->
             <!--</div>-->
 
             <!--<span>机构</span>-->
+                <div class="selectTreeBox" style="position: relative;">
 
-            <div class=" layui-input-block">
-                <div id="companyDiv1" class="layui-form-select select-tree"></div>
-            </div>
+                    <div id="companyDiv1" class="layui-form-select select-tree"></div>
+                </div>
 
-
-            <input id="key" value="" onblur="changeUrl()" placeholder="输入查找关键字" style="width: 432px;
+                <input id="key" value="" onblur="changeUrl()" placeholder="输入查找关键字" style="width: 398px;
         border: 1px solid #dddddd;border-radius: 2px;padding-left: 10px;"/>
+
+
             <div class="layui-select-more" style="display: none;">
                 <select id="jg" onchange="changeUrl()" onclick="changeUrl()" xm-select="jg" style="height: 30px;"></select>
             </div>
