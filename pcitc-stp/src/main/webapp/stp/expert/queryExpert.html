@@ -9,11 +9,16 @@
     <script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
     <script type="text/javascript" src="/common/js/base.js"></script>
+    <style>
+        .searchYard{margin-bottom: 10px;}
+        .searchYard #searchYardDiv{ width: 50%;}
+        .layui-edge{display: none;}
+    </style>
 </head>
 <body>
 <div class="layui-main-oil layui-search">
     <form action="" class="layui-form">
-        <div class="searchIpnut">
+        <div class="searchIpnut formBox">
             <div class="searchF">
                 <p>是否规避本院</p>
                 <input type="checkbox" title="规避本院" value="${gbcode}" lay-skin='primary'>
@@ -21,8 +26,11 @@
             <div class="searchIndustry">
                 <p>行业领域</p>
             </div>
-            <div class="searchYard" id="searchYardDiv">
-            <p>机构</p>
+            <div class="searchYard" >
+                <p>机构</p>
+                <div class="selectTreeBox" style="position: relative;margin-top: 10px;">
+                    <div id="searchYardDiv"></div>
+                </div>
             </div>
             <div class="searchAge">
                 <p>年龄段信息</p>
