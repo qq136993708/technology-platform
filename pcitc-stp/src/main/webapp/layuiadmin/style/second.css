@@ -363,7 +363,7 @@ background: white;box-shadow: 0 0 5px #dadcde;}
 .layui-personnel{padding: 0!important;}
 .layui-main-personnel{padding: 0 80px 60px;}
 .layui-main-personnel:nth-child(2){padding: 0 72px 60px;}
-.layui-main-personnel:nth-child(2n){background: #f6f7fa;}
+.layui-main-personnel:nth-child(2n){background: #fafbd3;}
 .layui-main-personnel h4{font-size: 30px;color: #000000;text-align: center;line-height: 130px;
     background:url("/layuiadmin/layui/images/icon-personnel-2.png") no-repeat center bottom; }
 .layui-main-personnel .academician h4{
@@ -371,12 +371,12 @@ background: white;box-shadow: 0 0 5px #dadcde;}
 .layui-main-personnel .distribution h4{background: none;}
 .layui-main-personnel p{font-size: 14px;color: #a5a7a7;text-align: center;line-height: 50px;}
 .academician ul li{float: left;width: 20%;}
-.academician ul li>div{margin: 9px; border: 2px solid #cccccc;border-radius: 6px;
-    background: url("/layuiadmin/layui/images/icon-left-up.png") no-repeat left top,
-    url("/layuiadmin/layui/images/icon-right-up.png") no-repeat right top,
-    url("/layuiadmin/layui/images/icon-left-dw.png") no-repeat left bottom,
-    url("/layuiadmin/layui/images/icon-right-dw.png") no-repeat right bottom;
-    background-color:#f6f7fa;height: auto;}
+.academician ul li>div{margin: 9px; border: 2px solid #caa638;border-radius: 6px;
+    background: url("/layuiadmin/layui/images/icon-left-up.png") no-repeat 1px 1px,
+    url("/layuiadmin/layui/images/icon-right-up.png") no-repeat 99% 1px,
+    url("/layuiadmin/layui/images/icon-left-dw.png") no-repeat 1px 99.5%,
+    url("/layuiadmin/layui/images/icon-right-dw.png") no-repeat 99% 99.5%;
+    height: auto;}
 .layui-personnel .expert-i{margin: 20px auto 10px;width: 110px;background: #fff;border-radius: 50%;border: 1px solid #cccccc;
     height: 110px;text-align: center;vertical-align: middle;overflow: hidden;}
 .layui-personnel .expert-t{text-align: center;padding-bottom: 14px;font-size: 22px;color: #000000;}
@@ -384,14 +384,14 @@ background: white;box-shadow: 0 0 5px #dadcde;}
 .layui-personnel .expert-ab {padding: 0 6% 20px;text-indent: 2em;font-size: 14px;
     height: 140px;color: #696a75;line-height: 22px;}
 .layui-personnel .expert-a{text-align: center;}
-.layui-personnel .expert-a a {font-size: 15px;color: #000000;line-height: 34px;height: 34px;border: 2px solid #cccccc;
+.layui-personnel .expert-a a {font-size: 15px;color: #000000;line-height: 34px;height: 34px;border: 2px solid #caa638;
     padding: 0 20px;display: inline-block;border-radius: 20px;margin: 30px auto 20px;}
 .layui-personnel .layui-expert{
-    background: url("/layuiadmin/layui/images/icon-left-up.png") no-repeat left top,
-    url("/layuiadmin/layui/images/icon-right-up.png") no-repeat right top,
-    url("/layuiadmin/layui/images/icon-left-dw.png") no-repeat left bottom,
-    url("/layuiadmin/layui/images/icon-right-dw.png") no-repeat right bottom;padding: 50px;
-    border: 2px solid #cccccc;border-radius: 6px;height: auto;
+    background: url("/layuiadmin/layui/images/icon-left-up.png") no-repeat 1px 1%,
+    url("/layuiadmin/layui/images/icon-right-up.png") no-repeat 99.9% 1%,
+    url("/layuiadmin/layui/images/icon-left-dw.png") no-repeat 1px 99%,
+    url("/layuiadmin/layui/images/icon-right-dw.png") no-repeat 99.9% 99%;padding: 50px;
+    border: 2px solid #caa638;border-radius: 6px;height: auto;
     overflow: hidden;
 }
 .layui-personnel .layui-expert ul li{float: left;width: 6.5%;line-height: 50px;height: 50px;}
