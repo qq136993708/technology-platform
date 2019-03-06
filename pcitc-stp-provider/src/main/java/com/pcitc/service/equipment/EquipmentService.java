@@ -54,8 +54,7 @@ public interface EquipmentService {
 	
 	public int batchDeleteProjectBasic(List<String> list)throws Exception;
 	
-	public LayuiTableData getProjectBasicPage(LayuiTableParam param)throws Exception;
-	
+	public LayuiTableData getProjectPage(LayuiTableParam param)throws Exception;
 	
 	
 

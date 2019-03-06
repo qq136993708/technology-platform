@@ -145,7 +145,7 @@
         <div class="layui-form-item layui-form-text" >
         <label class="layui-form-label">委托单位<span class="must-fill">*</span></label>
         <div class="layui-input-block">
-         <input class="layui-input" name="entrustUnitName" id="entrustUnitName" onclick="chooseUnit('choose_entrustUnitName_callback')" placeholder="请选择" value="${sreProjectBasic.entrustUnitName}"  lay-verify="required"  autocomplete="off" type="text">
+         <input class="layui-input" name="belongDepartmentName" id="belongDepartmentName" onclick="chooseUnit('choose_belongDepartmentName_callback')" placeholder="请选择" value="${sreProjectBasic.entrustUnitName}"  lay-verify="required"  autocomplete="off" type="text">
         </div>
       </div>
     
@@ -524,10 +524,10 @@ function choose_joinUnitName_callback(unitId,unitName)
 	$("#joinUnitName").val(unitName);
 	$("#joinUnitCode").val(unitId);
 }
-function choose_entrustUnitName_callback(unitId,unitName) 
+function choose_belongDepartmentName_callback(unitId,unitName) 
 {
-	$("#entrustUnitName").val(unitName);
-	$("#entrustUnitCode").val(unitId);
+	$("#belongDepartmentName").val(unitName);
+	$("#belongDepartmentCode").val(unitId);
 }
 
 function choose_leadUnitName_callback(unitId,unitName) 

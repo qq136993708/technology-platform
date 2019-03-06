@@ -100,13 +100,13 @@
 		      </div>
 
 
-                <div class="layui-form-item layui-form-text">
+               <!--  <div class="layui-form-item layui-form-text">
                     <label class="layui-form-label">其他</label>
                     <div class="layui-input-block">
                         <textarea name="notes" id="notes"
                                   class="layui-textarea">${sreProjectTask.notes}</textarea>
                     </div>
-                </div>
+                </div> -->
                
 
             </div>
@@ -150,8 +150,9 @@
                     <thead>
                     <tr>
                         <td width="10%">进度安排</td>
-                        <td width="20%">考核目标</td>
-                        <td width="20%">备注</td>
+                        <td width="15%">考核目标</td>
+                        <td width="15%">考核目标</td>
+                        <td width="15%">备注</td>
                         <td width="3%">删除</td>
                     </tr>
                     </thead>
@@ -161,23 +162,26 @@
 
 
           
-      <div class="layui-form-item layui-form-text" >
-        <label class="layui-form-label">应提交验收的内容<span class="must-fill">*</span></label>
-        <div class="layui-input-block">
-           <#list dicList as vo> 
-               <input type="checkbox" name="taskCheckContents"  lay-skin="primary" title="${vo.name}"
-               
-                 <#list "${sreProjectTask.taskCheckContents}"?split(",") as itemValue>
+          
+            <div class="layui-row" id="budget_table">
+                <div class="tableToolBox">
+                    <div class="tableTitle">应提交验收的内容<span class="must-fill">*</span></div>
+                    <div class="tableBtns">
+                        <a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg" data-type="budgetAddEvent">新增
+                        </a>
+                    </div>
+                </div>
+                <div style="padding:10px">
+                    <#list dicList as vo> 
+                    <input style="width:100px;margin:5px" type="checkbox" name="taskCheckContents"  lay-skin="primary" title="${vo.name}"
+                    <#list "${sreProjectTask.taskCheckContents}"?split(",") as itemValue>
                          <#if itemValue == vo.code>checked="checked"  </#if>
-                     </#list>
-               
-                value="${vo.code}">
-                     
-
-           </#list>
-           
-        </div>
-      </div>
+                     </#list> value="${vo.code}">
+                    </#list>
+                </div>
+            </div>
+            
+            
 
             <div class="layui-row" id="budget_table">
                 <div class="tableToolBox">
@@ -274,7 +278,7 @@
     var param = JSON.parse(window.localStorage.getItem("param"));
     var functionId = param.id;
     $('#functionId').val(functionId);
-    alert(functionId);
+    
     
     var roleCodes = "";
     var unitCodes = "";
@@ -285,11 +289,13 @@
     file_edit_detail = "edit";
     //统管理-附件管理-附件配置：页面标识
     file_opt_flag = "b3a52bbe7087419c80813d7716f37674";
-   /// var equipmentIds = $("#equipmentIds").val();
+    /// var equipmentIds = $("#equipmentIds").val();
     var projectFundsTable = $("#projectFundsTable").val();
-   
-    
-   // var beginYear = $("#beginYear").val();
+    //alert(projectFundsTable);
+    var arrSelect=["静止设备","机械设备","仪器","自控仪表","计算机及外围设备",
+        "计算机软件","备品、配件","土建","配套工程","设计费","安装费","其它","小计"];
+    var arrSelectF=["会议费","差旅费","试车、试用费","外事费","外协费","其它费","小计"];
+    // var beginYear = $("#beginYear").val();
     var table, selectRowData;
     layui.use(['form', 'table', 'laypage', 'layer', 'laydate', 'laytpl', 'jquery', "publicMethods"], function () {
         var admin = layui.admin
@@ -327,7 +333,6 @@
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
         });
-     
         publicMethods.createTable('','',"project_funds_table",2,projectFundsTable,true);
         
         
@@ -343,7 +348,7 @@
                     "<td><textarea lay-verify='specialCharacters' placeholder='请输入内容'  rows='4' cols='20' style='width: 90%;'>" + taskVal[1] + "</textarea>  </td>" +
                     "<td><textarea lay-verify='specialCharacters' placeholder='请输入内容'  rows='4' cols='20' style='width: 90%;'>" + taskVal[2] + "</textarea>   " +
                     "</td><td><input type='number' value='" + taskVal[3] + "'/> </td>" +
-                    "<td><input lay-verify='specialCharacters' type='text' value='" + taskVal[4] + "'/> </td>" +
+                    "<td><textarea lay-verify='specialCharacters' placeholder='请输入内容'  rows='4' cols='20' style='width: 90%;'>" + taskVal[4] + "</textarea></td>" +
                     "<td><a href='javascript:;' class='dele'>删除</a></td></tr>";
                 addTr("task_content", tr);
                 formVerify();
@@ -362,6 +367,7 @@
                 var tr = "<tr><td>" + date + "</td>" +
                     "<td><textarea lay-verify='specialCharacters'  placeholder='请输入内容'  rows='4' cols='20' style='width: 90%;'>" + assessmentVal[1] + "</textarea>  </td>" +
                     "<td><textarea lay-verify='specialCharacters' placeholder='请输入内容'  rows='4' cols='20' style='width: 90%;'>" + assessmentVal[2] + "</textarea></td>" +
+                    "<td><textarea lay-verify='specialCharacters' placeholder='请输入内容'  rows='4' cols='20' style='width: 90%;'>" + assessmentVal[3] + "</textarea></td>" +
                     "<td><a href='javascript:;' class='dele'>删除</a></td></tr>";
                 addTr("task_assessment_content", tr);
                 formVerify();
@@ -377,29 +383,43 @@
         }
         
         /*资金概算表*/
-        //var budgetArr="资本性#d#3#3#4|资本性#d#3#3#4";
+        //var budgetArr="资本性#自控仪表#3#3#4|费用性#试车、试用费#3#3#4|资本性#自控仪表#3#3#4";
         var budgetArr = $("#budgetTable").val();
         if(budgetArr!='')
         {
         	$.each(budgetArr.split("|"), function (i, val) {
                 var budgetVal = val.split("#");
-
-                if(budgetVal[0]=="资本性"){
-
-                    var selectH='<select>' +
-                        '<option value="资本性" selected = "selected" >资本性</option><option value="费用性">费用性</option></select>'
-                }else {
-                    var selectH='<select>' +
-                        '<option value="资本性">资本性</option><option value="费用性" selected = "selected" >费用性</option></select>'
-
-                }
-                var tr = "<tr><td>" + selectH + "</td>" +
-                    "<td><input lay-verify='specialCharacters' type='text' value='"+budgetVal[1]+"'/> </td>" +
+                var tr = "<tr><td><select class='selectZF' lay-filter='selectZF'></td>" +
+                    "<td><select class='zbx'></select></td>" +
                     "<td><input type='number' value='"+budgetVal[2]+"'/> </td>" +
                     "<td><input type='number' value='"+budgetVal[3]+"'/> </td>" +
                     "<td><input lay-verify='specialCharacters' type='text' value='"+budgetVal[4]+"'/> </td>" +
                     "<td><a href='javascript:;' class='dele'>删除</a></td></tr>";
                 addTr("budget_table", tr);
+                if(budgetVal[0]=="资本性"){
+                    var selectH= '<option value="资本性" selected = "selected" >资本性</option><option value="费用性">费用性</option>';
+                    $("#budget_table table tbody tr:eq("+i+") td .selectZF").append(selectH);
+                    $("#budget_table table tbody tr:eq("+i+") td .zbx").empty();
+                    selectHtml(arrSelect,budgetVal[1],$("#budget_table table tbody tr:eq("+i+") td .zbx"));
+                    form.render("select");
+                }else {
+                    var selectH= '<option value="资本性">资本性</option><option value="费用性" selected = "selected" >费用性</option>';
+                    $("#budget_table table tbody tr:eq("+i+") td .selectZF").append(selectH);
+                    $("#budget_table table tbody tr:eq("+i+") td .zbx").empty();
+                    selectHtml(arrSelectF,budgetVal[1],$("#budget_table table tbody tr:eq("+i+") td .zbx"));
+                    form.render("select");
+                }
+                form.on('select(selectZF)', function(data){
+                    if(data.value=='资本性'){
+                        $(data.elem).parents("tr").find(".zbx").empty();
+                        selectHtml(arrSelect,'',$(data.elem).parents("tr").find(".zbx"));
+                        form.render("select");
+                    }else {
+                        $(data.elem).parents("tr").find(".zbx").empty();
+                        selectHtml(arrSelectF,'',$(data.elem).parents("tr").find(".zbx"));
+                        form.render("select");
+                    }
+                });
                 formVerify();
                 form.render();
             });
@@ -429,7 +449,7 @@
             taskAddEvent: function () {
             	var n = $("#task_content table tbody tr").length + 1;
                 var tr = "<tr><td>" + n + "</td><td><textarea lay-verify='specialCharacters'  placeholder='请输入内容'  rows='3' style='width: 90%;'></textarea> </td>" +
-                    "<td><textarea  lay-verify='specialCharacters' placeholder='请输入内容'  rows='3' cols='20' style='width: 90%;'></textarea> </td><td><input type='number' value=''/> </td>" +
+                    "<td><textarea  lay-verify='specialCharacters' placeholder='请输入内容'  rows='3' cols='20' style='width: 90%;'></textarea> </td><td><input type='number' value='0'/> </td>" +
                     "<td><input lay-verify='specialCharacters' type='text' value=''/> </td>" +
                     "<td><a href='javascript:;' class='dele'>删除</a></td></tr>";
                 addTr("task_content", tr);
@@ -439,6 +459,7 @@
             assessmentAddEvent:function(){
                 var date='<input type="text" class="layui-input test-laydate-range-month"   placeholder=" - ">'
                 var tr = "<tr><td>" + date + "</td>" +
+                    "<td><textarea lay-verify='specialCharacters' placeholder='请输入内容'  rows='4' cols='20' style='width: 90%;'></textarea> </td>" +
                     "<td><textarea lay-verify='specialCharacters' placeholder='请输入内容'  rows='4' cols='20' style='width: 90%;'></textarea> </td>" +
                     "<td><textarea lay-verify='specialCharacters' placeholder='请输入内容'  rows='4' cols='20' style='width: 90%;'></textarea> </td>" +
                     "<td><a href='javascript:;' class='dele'>删除</a></td></tr>";
@@ -455,15 +476,27 @@
                 });
             },
             budgetAddEvent:function(){
-                var selectH='<select>' +
+                var selectH='<select class="selectZF" lay-filter="selectZF">' +
                     '<option value="资本性">资本性</option><option value="费用性">费用性</option></select>'
                 var tr = "<tr><td>" + selectH + "</td>" +
-                    "<td><input lay-verify='specialCharacters' type='text' value=''/> </td>" +
-                    "<td><input type='number' value=''/> </td>" +
-                    "<td><input type='number' value=''/> </td>" +
+                    "<td><select class='zbx'></select> </td>" +
+                    "<td><input type='number' value='0'/> </td>" +
+                    "<td><input type='number' value='0'/> </td>" +
                     "<td><input lay-verify='specialCharacters' type='text' value=''/> </td>" +
                     "<td><a href='javascript:;' class='dele'>删除</a></td></tr>";
                 addTr("budget_table", tr);
+                selectHtml(arrSelect,'',$(".zbx"));
+                form.on('select(selectZF)', function(data){
+                    if(data.value=='资本性'){
+                        $(data.elem).parents("tr").find(".zbx").empty();
+                        selectHtml(arrSelect,'',$(data.elem).parents("tr").find(".zbx"));
+                        form.render("select");
+                    }else {
+                        $(data.elem).parents("tr").find(".zbx").empty();
+                        selectHtml(arrSelectF,'',$(data.elem).parents("tr").find(".zbx"));
+                        form.render("select");
+                    }
+                });
                 dele();
                 formVerify();
                 form.render();
@@ -527,10 +560,10 @@
                 title: '最终的提交信息'
             })*/
             var  task_content =getData("task_content", 5);
-            var  task_assessment_content =getData("task_assessment_content", 3);
+            var  task_assessment_content =getData("task_assessment_content", 4);
             var  budget_table =getData("budget_table", 5);
             var  funds_sources_table =getData("funds_sources_table", 6);
-            
+
             if (task_content == null || task_content == '') 
             {
                 layer.alert("项目内容和主要图表为空");
@@ -745,9 +778,17 @@
             for (var k = 0; k < number; k++) {
                 var tdElement = $("#" + id + " table tbody tr:eq(" + i + ") td").eq(k);
                 if ($(tdElement).find("input").length > 0) {
-                    columnS += $(tdElement).find("input").val() + "#";
+                    if($(tdElement).find("input").val()==''){
+                        columnS += null + "#";
+                    }else {
+                        columnS += $(tdElement).find("input").val() + "#";
+                    }
                 } else if ($(tdElement).find("textarea").length > 0) {
-                    columnS += $(tdElement).find("textarea").val() + "#";
+                    if($(tdElement).find("textarea").val()==''){
+                        columnS += null + "#";
+                    }else {
+                        columnS += $(tdElement).find("textarea").val() + "#";
+                    }
                 }else {
                     columnS += $(tdElement).html() + "#";
                 }
@@ -769,6 +810,23 @@
             }
             $(this).parents("tr").remove();
         });
+    }
+    /*select*/
+    function selectHtml(arr,value,id){
+        if(value==""){
+            $.each(arr,function (i, val) {
+                id.append("<option value='"+val+"'>"+val+"</option>");
+            });
+        }else {
+            $.each(arr,function (i, val) {
+                if(value==val){
+                    id.append("<option value='"+val+"'  selected = 'selected' >"+val+"</option>");
+                }else {
+                    id.append("<option value='"+val+"'>"+val+"</option>");
+                }
+            });
+        }
+
     }
     //关闭事件
     $("#closeBtn").click(function () {

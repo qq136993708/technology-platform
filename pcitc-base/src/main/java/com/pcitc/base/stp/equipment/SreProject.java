@@ -50,9 +50,13 @@ public class SreProject {
 
     private String professionalField;
 
-    private String belongDepartment;
+    private String belongDepartmentName;
 
-    private String professionalDepartment;
+    private String belongDepartmentCode;
+
+    private String professionalDepartName;
+
+    private String professionalDepartCode;
 
     private String projectType;
 
@@ -81,6 +85,10 @@ public class SreProject {
     private String applyUnitName;
 
     private String applyUnitCode;
+
+    private String taskWriteUserNames;
+
+    private String taskWriteUsersIds;
 
     public String getId() {
         return id;
@@ -266,20 +274,36 @@ public class SreProject {
         this.professionalField = professionalField;
     }
 
-    public String getBelongDepartment() {
-        return belongDepartment;
+    public String getBelongDepartmentName() {
+        return belongDepartmentName;
     }
 
-    public void setBelongDepartment(String belongDepartment) {
-        this.belongDepartment = belongDepartment;
+    public void setBelongDepartmentName(String belongDepartmentName) {
+        this.belongDepartmentName = belongDepartmentName;
     }
 
-    public String getProfessionalDepartment() {
-        return professionalDepartment;
+    public String getBelongDepartmentCode() {
+        return belongDepartmentCode;
     }
 
-    public void setProfessionalDepartment(String professionalDepartment) {
-        this.professionalDepartment = professionalDepartment;
+    public void setBelongDepartmentCode(String belongDepartmentCode) {
+        this.belongDepartmentCode = belongDepartmentCode;
+    }
+
+    public String getProfessionalDepartName() {
+        return professionalDepartName;
+    }
+
+    public void setProfessionalDepartName(String professionalDepartName) {
+        this.professionalDepartName = professionalDepartName;
+    }
+
+    public String getProfessionalDepartCode() {
+        return professionalDepartCode;
+    }
+
+    public void setProfessionalDepartCode(String professionalDepartCode) {
+        this.professionalDepartCode = professionalDepartCode;
     }
 
     public String getProjectType() {
@@ -392,5 +416,21 @@ public class SreProject {
 
     public void setApplyUnitCode(String applyUnitCode) {
         this.applyUnitCode = applyUnitCode;
+    }
+
+    public String getTaskWriteUserNames() {
+        return taskWriteUserNames;
+    }
+
+    public void setTaskWriteUserNames(String taskWriteUserNames) {
+        this.taskWriteUserNames = taskWriteUserNames;
+    }
+
+    public String getTaskWriteUsersIds() {
+        return taskWriteUsersIds;
+    }
+
+    public void setTaskWriteUsersIds(String taskWriteUsersIds) {
+        this.taskWriteUsersIds = taskWriteUsersIds;
     }
 }

@@ -2,7 +2,11 @@ package com.pcitc.mapper.equipment;
 
 import com.pcitc.base.stp.equipment.SreEquipment;
 import com.pcitc.base.stp.equipment.SreEquipmentExample;
+import com.pcitc.base.stp.equipment.SreProject;
+
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface SreEquipmentMapper {
@@ -27,4 +31,6 @@ public interface SreEquipmentMapper {
     int updateByPrimaryKeySelective(SreEquipment record);
 
     int updateByPrimaryKey(SreEquipment record);
+    List<SreEquipment> getList(Map  map);
+    int getCount(Map map);
 }

@@ -1,6 +1,8 @@
 package com.pcitc.service.equipment.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
@@ -113,7 +116,6 @@ public class EquipmentServiceImpl implements EquipmentService {
 	public LayuiTableData getEquipmentPage(LayuiTableParam param)throws Exception
 	{
 		
-		
 		//每页显示条数
 		int pageSize = param.getLimit();
 		//从第多少条开始
@@ -123,47 +125,42 @@ public class EquipmentServiceImpl implements EquipmentService {
 		// 1、设置分页信息，包括当前页数和每页显示的总计数
 		PageHelper.startPage(pageNum, pageSize);
 		String name=getTableParam(param,"name","");
-		String equipmentIds=getTableParam(param,"equipmentIds","");//(String)param.getParam().get("equipmentIds");
-		String auditStatus=getTableParam(param,"auditStatus","");//(String)param.getParam().get("auditStatus");
-		String applyDepartName=getTableParam(param,"applyDepartName","");//(String)param.getParam().get("applyDepartName");
-		String applyDepartCode=getTableParam(param,"applyDepartCode","");//(String)param.getParam().get("applyDepartCode");
+		String equipmentIds=getTableParam(param,"equipmentIds","");
+		String auditStatus=getTableParam(param,"auditStatus","");
+		String applyDepartName=getTableParam(param,"applyDepartName","");
+		String applyDepartCode=getTableParam(param,"applyDepartCode","");
+		Map map=new HashMap();
+		map.put("name", name);
+		map.put("equipmentIds", equipmentIds);
+		map.put("auditStatus", auditStatus);
 		
-		logger.info("================= pageNum: "+pageNum+"pageSize="+pageSize+"name="+name+" equipmentIds"+equipmentIds);
-		SreEquipmentExample example=new SreEquipmentExample();
-		SreEquipmentExample.Criteria criteria = example.createCriteria();
-		example.setOrderByClause(" create_date desc ");
-		if(!name.equals(""))
-		{
-			
-			criteria.andNameLike("%"+name+"%");
-		}
-		if(!applyDepartName.equals(""))
-		{
-			
-			criteria.andApplyDepartNameLike("%"+applyDepartName+"%");
-		}
-		if(!auditStatus.equals(""))
-		{
-			
-			criteria.andAuditStatusEqualTo(auditStatus);
-		}
+		map.put("applyDepartName", applyDepartName);
+		
+		
+		System.out.println(">>>>>>>>applyDepartCode="+applyDepartCode);
+		StringBuffer applyUnitCodeStr=new StringBuffer();
 		if(!applyDepartCode.equals(""))
 		{
-			
-			criteria.andApplyDepartCodeEqualTo(applyDepartCode);
-		}
-		/*if(equipmentIds!=null && !equipmentIds.equals(""))
-		{
-			
-				List<String> list=CommonUtil.strToList(equipmentIds);
-				logger.info("================= equipmentIds list: "+list.size());
-				if(list!=null)
+			applyUnitCodeStr.append(" (");
+			String arr[]=applyDepartCode.split(",");
+			for(int i=0;i<arr.length;i++)
+			{
+				if(i>0)
 				{
-					criteria.andEquipmentIdIn(list);
+					applyUnitCodeStr.append(" OR FIND_IN_SET('"+arr[i]+"', t.`apply_depart_code`)");
+				}else
+				{
+					applyUnitCodeStr.append("FIND_IN_SET('"+arr[i]+"', t.`apply_depart_code`)");
 				}
-		}*/
+				
+			}
+			applyUnitCodeStr.append(" )");
+		}
 		
-		List<SreEquipment> list = sreEquipmentMapper.selectByExample(example);
+		map.put("sqlStr", applyUnitCodeStr.toString());
+		
+		
+		List<SreEquipment> list = sreEquipmentMapper.getList(map);
 		PageInfo<SreEquipment> pageInfo = new PageInfo<SreEquipment>(list);
 		System.out.println(">>>>>>>>>查询分页结果"+pageInfo.getList().size());
 		LayuiTableData data = new LayuiTableData();
@@ -209,8 +206,12 @@ public class EquipmentServiceImpl implements EquipmentService {
 	}
 	
 	
-	public LayuiTableData getProjectBasicPage(LayuiTableParam param)throws Exception
+	//自定义
+	public LayuiTableData getProjectPage(LayuiTableParam param)throws Exception
 	{
+		
+		JSONObject parmamss = JSONObject.parseObject(JSONObject.toJSONString(param));
+		logger.info("============参数：" + parmamss.toString());
         //每页显示条数
 		int pageSize = param.getLimit();
 		//从第多少条开始
@@ -227,47 +228,48 @@ public class EquipmentServiceImpl implements EquipmentService {
 		String keyWord=getTableParam(param,"keyWord","");
 		String leadUnitName=getTableParam(param,"leadUnitName","");
 		String leadUnitCode=getTableParam(param,"leadUnitCode","");
+		String applyUnitName=getTableParam(param,"applyUnitName","");
+		String applyUnitCode=getTableParam(param,"applyUnitCode","");
+		String joinUnitName=getTableParam(param,"joinUnitName","");
+		String joinUnitCode=getTableParam(param,"joinUnitCode","");
 		
+		Map map=new HashMap();
+		map.put("name", name);
+		map.put("equipmentIds", equipmentIds);
+		map.put("auditStatus", auditStatus);
+		map.put("setupYear", setupYear);
+		map.put("keyWord", keyWord);
+		map.put("leadUnitName", leadUnitName);
+		map.put("leadUnitCode", leadUnitCode);
 		
-		logger.info("================= pageNum: "+pageNum+"pageSize="+pageSize+"name="+name+" equipmentIds"+equipmentIds);
-		SreProjectExample example=new SreProjectExample();
-		SreProjectExample.Criteria criteria = example.createCriteria();
-		example.setOrderByClause(" create_date desc ");
-		if(name!=null && !name.equals(""))
-		{
-			
-			criteria.andNameLike("%"+name+"%");
-		}
-		if(keyWord!=null && !keyWord.equals(""))
-		{
-			
-			criteria.andKeyWordLike("%"+keyWord+"%");
-		}
-		if(!auditStatus.equals(""))
-		{
-			
-			criteria.andAuditStatusEqualTo(auditStatus);
-		}
-		if(!setupYear.equals(""))
-		{
-			
-			criteria.andSetupYearEqualTo(setupYear);
-		}
-		if(leadUnitName!=null && !leadUnitName.equals(""))
-		{
-			
-			criteria.andLeadUnitNameLike("%"+leadUnitName+"%");
-		}
+		map.put("applyUnitName", applyUnitName);
 		
-		if(!leadUnitCode.equals(""))
+		map.put("joinUnitName", joinUnitName);
+		map.put("joinUnitCode", joinUnitCode);
+		
+		System.out.println(">>>>>>>>applyUnitCode="+applyUnitCode);
+		StringBuffer applyUnitCodeStr=new StringBuffer();
+		if(!applyUnitCode.equals(""))
 		{
-			
-			criteria.andLeadUnitCodeEqualTo(leadUnitCode);
+			applyUnitCodeStr.append(" (");
+			String arr[]=applyUnitCode.split(",");
+			for(int i=0;i<arr.length;i++)
+			{
+				if(i>0)
+				{
+					applyUnitCodeStr.append(" OR FIND_IN_SET('"+arr[i]+"', t.`apply_unit_code`)");
+				}else
+				{
+					applyUnitCodeStr.append("FIND_IN_SET('"+arr[i]+"', t.`apply_unit_code`)");
+				}
+				
+			}
+			applyUnitCodeStr.append(" )");
 		}
 		
-		
-		
-		List<SreProject> list = sreProjectMapper.selectByExample(example);
+		map.put("sqlStr", applyUnitCodeStr.toString());
+		System.out.println(">>>>>>>>sqlstr"+applyUnitCodeStr.toString());
+		List<SreProject> list = sreProjectMapper.getList(map);
 		PageInfo<SreProject> pageInfo = new PageInfo<SreProject>(list);
 		System.out.println(">>>>>>>>>查询分页结果"+pageInfo.getList().size());
 		
@@ -331,28 +333,55 @@ public class EquipmentServiceImpl implements EquipmentService {
 		// 1、设置分页信息，包括当前页数和每页显示的总计数
 		PageHelper.startPage(pageNum, pageSize);
 				
-		String name=getTableParam(param,"name","");
+		String topicName=getTableParam(param,"topicName","");
 		String topicId=getTableParam(param,"topicId","");
 		String auditStatus=getTableParam(param,"auditStatus","");
 		String contractNum=getTableParam(param,"contractNum","");
+		String leadUnitName=getTableParam(param,"leadUnitName","");
+		String leadUnitCode=getTableParam(param,"leadUnitCode","");
+		String applyUnitName=getTableParam(param,"applyUnitName","");
+		String applyUnitCode=getTableParam(param,"applyUnitCode","");
+		String joinUnitName=getTableParam(param,"joinUnitName","");
+		String joinUnitCode=getTableParam(param,"joinUnitCode","");
 		
 		
-		logger.info("================= pageNum: "+pageNum+"pageSize="+pageSize+"contractNum="+contractNum+" auditStatus"+auditStatus);
-		SreProjectTaskExample example=new SreProjectTaskExample();
-		SreProjectTaskExample.Criteria criteria = example.createCriteria();
-		example.setOrderByClause(" create_date desc ");
-		
-		if(!topicId.equals(""))
+		Map map=new HashMap();
+		map.put("topicName", topicName);
+		map.put("auditStatus", auditStatus);
+		map.put("leadUnitName", leadUnitName);
+		map.put("leadUnitCode", leadUnitCode);
+		map.put("applyUnitName", applyUnitName);
+		map.put("joinUnitName", joinUnitName);
+		map.put("joinUnitCode", joinUnitCode);
+		map.put("topicId", topicId);
+		map.put("contractNum", contractNum);
+		System.out.println(">>>>>>>>applyUnitCode="+applyUnitCode);
+		StringBuffer applyUnitCodeStr=new StringBuffer();
+		if(!applyUnitCode.equals(""))
 		{
-			criteria.andTopicIdEqualTo(topicId);
+			applyUnitCodeStr.append(" (");
+			String arr[]=applyUnitCode.split(",");
+			for(int i=0;i<arr.length;i++)
+			{
+				if(i>0)
+				{
+					applyUnitCodeStr.append(" OR FIND_IN_SET('"+arr[i]+"', t.`apply_unit_code`)");
+				}else
+				{
+					applyUnitCodeStr.append("FIND_IN_SET('"+arr[i]+"', t.`apply_unit_code`)");
+				}
+				
+			}
+			applyUnitCodeStr.append(" )");
 		}
-		if(!contractNum.equals(""))
-		{
-			criteria.andContractNumEqualTo(contractNum);
-		}
-		List<SreProjectTask> list = sreProjectTaskMapper.selectByExample(example);
+		
+		map.put("sqlStr", applyUnitCodeStr.toString());
+		System.out.println(">>>>>>>>sqlstr"+applyUnitCodeStr.toString());
+		
+		
+		List<SreProjectTask> list = sreProjectTaskMapper.getList(map);
 		PageInfo<SreProjectTask> pageInfo = new PageInfo<SreProjectTask>(list);
-		System.out.println(">>>>>>>>>任务书查询分页结果"+pageInfo.getList().size());
+		System.out.println(">>>>>>>>>任务书查询分页结果 "+pageInfo.getList().size());
 		
 		LayuiTableData data = new LayuiTableData();
 		data.setData(pageInfo.getList());

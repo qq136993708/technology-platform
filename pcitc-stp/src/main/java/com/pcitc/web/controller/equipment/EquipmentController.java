@@ -290,6 +290,11 @@ public class EquipmentController extends BaseController {
 	@RequestMapping(value = "/list")
 	@ResponseBody
 	public String ajaxlist(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
+		
+		String applyDepartCode=sysUserInfo.getUnitCode();
+		param.getParam().put("applyDepartCode", applyDepartCode);
+		
+		
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(PAGE_URL, HttpMethod.POST, entity, LayuiTableData.class);

@@ -658,6 +658,7 @@ layui.define(['jquery','form','table','laydate'],
                     $.each(strArr,function (i, val) {
                         var strArrC=strArr[i].split(",");
                         if(edit!=null){
+                            $("#"+id+" table tbody tr:eq("+i+") td:eq(0)").html(strArrC[0]);
                             $("#"+id+" table tbody tr:eq("+i+") td:eq(1)").html(strArrC[1]);
                             $("#"+id+" table tbody tr:eq("+i+") td:eq(2)").html(strArrC[2]);
                             $("#"+id+" table tbody tr:eq("+i+") td:eq(3)").html(strArrC[3]);
