@@ -369,6 +369,7 @@ background: white;box-shadow: 0 0 5px #dadcde;}
 .layui-main-personnel .academician h4{
     background:url("/layuiadmin/layui/images/icon-personnel-1.png") no-repeat center bottom; }
 .layui-main-personnel .distribution h4{background: none;}
+.distribution img{width: 100%;}
 .layui-main-personnel p{font-size: 14px;color: #a5a7a7;text-align: center;line-height: 50px;}
 .academician ul li{float: left;width: 20%;}
 .academician ul li>div{margin: 9px; border: 2px solid #caa638;border-radius: 6px;
