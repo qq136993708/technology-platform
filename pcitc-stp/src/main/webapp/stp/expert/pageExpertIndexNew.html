@@ -151,12 +151,13 @@
         }
 
         .searchH {
-            height: 168px;
+            height: 174px;
             /*overflow: auto;*/
         }
-
+        .formBox{padding-top: 0;}
         .search {
             width: 51%;
+            margin: 24px auto 0px;
         }
 
         .layui-card {
@@ -174,8 +175,6 @@
         .select-tree{
             width: 300px;float: left;margin-right: 15px;
         }
-
-        .ztree a{text-indent: 0;}
         @media screen and (min-width: 1118px) {
             .main-content, .main-e {
                 padding: 0 50px;
@@ -192,7 +191,7 @@
 
         @media screen and (min-width: 1287px) {
             .main-content, .main-e {
-                padding: 0 130px;
+                padding: 0 80px;
             }
 
             .searchOption {
@@ -210,10 +209,17 @@
             }
 
             .search {
-                width: 51%;
+                width: 52%;
             }
         }
         .search .selectTreeBox input{width: 300px;margin-left: 0;}
+        .search input{height: 36px;line-height: 36px;border-radius: 3px;margin: 0;  padding: 0px 10px;}
+        .search a{height: 37px;line-height: 37px; position: relative;
+            top: 1px;}
+        .layui-form-select .layui-input{margin-right: 18px;}
+        .layui-select-title{padding-top: 1px;}
+        .layui-select-title input{box-shadow: none;transition:none;height: 37px;line-height: 37px;
+            font-size: 16px;    padding: 0px 10px;}
     </style>
 </head>
 <body>
@@ -226,6 +232,10 @@
     </div>-->
     <div class="searchH">
         <div class="searchOption" style="text-align: center">
+
+            <#list dictionarys as item>
+           <a href="javascript:void(0);" onclick="changeUrlHyly('${item.code}');">${item.name}</a>
+        </#list>
             <!--<a href="#">石油炼制</a>-->
             <!--<a href="#">石油化工</a>-->
             <!--<a href="#">公用技术</a>-->
@@ -233,7 +243,7 @@
             <!--<a href="#">装备与储运</a>-->
             <!--<a href="#">安全环保</a>-->
             <!--<a href="#">信息技术</a>-->
-        </div>
+</div>
         <div class="search formBox">
             <!--<span></span>-->
             <!--<div class="layui-select-more">-->
@@ -272,9 +282,44 @@
     <!--<div class="main-content">-->
     <!--</#if>-->
     <div class="main-content" id="main-content-first">
-
+        <#list expert as vo>
+        <#if vo_index<5>
+        <div class="main-expert">
+            <div class="expert-h"></div>
+            <div class="expert-i"><img id="${vo.dataId}" height="110" src="/stp/expert/img/default.png" alt=""></div>
+            <!--<div class="expert-i"><img src="/layuiadmin/layui/images/expert-img.png" alt=""></div>-->
+            <div class="expert-t">${vo.expertName}</div>
+            <div class="expert-s">${vo.professional}</div>
+            <div class="expert-ab"><p>${vo.userDesc}</p></div>
+            <div class="expert-p">
+                <a href="javascript:void(0);" onclick="addBx('${vo.dataId}','${vo.company}','${vo.companyName}')">加入备选</a>
+                <a href="javascript:void(0);" onclick="addDb('${vo.dataId}','${vo.company}','${vo.companyName}')">加入对比</a>
+            </div>
+            <div class="expert-a"><a href="javascript:;" onclick="showDetail('${vo.dataId}')">查看详情</a></div>
+        </div>
+    </#if>
+</#list>
     </div>
     <div class="main-content" id="main-content-end" style="margin-top: 20px;">
+        <#list expert as vo>
+        <#if vo_index<5>
+        <#else>
+        <div class="main-expert">
+            <div class="expert-h"></div>
+            <div class="expert-i"><img id="${vo.dataId}" height="110" src="/stp/expert/img/default.png" alt=""></div>
+            <!--<div class="expert-i"><img src="/layuiadmin/layui/images/expert-img.png" alt=""></div>-->
+            <div class="expert-t">${vo.expertName}</div>
+            <div class="expert-s">${vo.professional}</div>
+            <div class="expert-ab"><p>${vo.userDesc}</p></div>
+            <div class="expert-p">
+                <a href="javascript:void(0);" onclick="addBx('${vo.dataId}','${vo.company}','${vo.companyName}')">加入备选</a>
+                <a href="javascript:void(0);" onclick="addDb('${vo.dataId}','${vo.company}','${vo.companyName}')">加入对比</a>
+            </div>
+            <div class="expert-a"><a href="javascript:;" onclick="showDetail('${vo.dataId}')">查看详情</a></div>
+        </div>
+    </#if>
+</#list>
+
 
     </div>
     <div class="main-button">
@@ -355,38 +400,49 @@
 <div class="main-chart" id="five" style="height:280px;width: 100%;"></div>-->
 
 <script>
+    // var str = "";
+    // for (var i = 0; i < dictionarys.length; i++) {
+    //     var item = dictionarys[i];
+    //     var obj = {"name": item.name, "value": item.code};
+    //     str = str + "<a href=\"javascript:void(0);\" onclick=\"changeUrlHyly('" + item.code + "');\">" + item.name + "</a>";
+    // }
+    // $(".searchOption").append(str);
+
+
     var publicMethods = "";
     layui.config({
         base: '../layuiadmin/' //静态资源所在路径
     }).extend({
-        index: 'lib/index' //主入口模块
-    }).use(['index', 'form', 'jquery', 'publicMethods', 'formSelects'], function () {
+        index: 'lib/index' //主入口模块, 'formSelects'
+    }).use(['index', 'form', 'jquery', 'publicMethods'], function () {
         publicMethods = layui.publicMethods, formSelects = layui.formSelects;
         //行业领域
-        publicMethods.ajaxPost("/pageCommon/dic/ZJK_XYLY", null, function (data) {
-            var arr = [];
-            var str = "";
-            $.each(data, function (index, item) {
-                var obj = {"name": item.name, "value": item.code};
-                str = str + "<a href=\"javascript:void(0);\" onclick=\"changeUrlHyly('" + item.code + "');\">" + item.name + "</a>";
-            });
-            $(".searchOption").append(str);
-        });
+        // publicMethods.ajaxPost("/pageCommon/dic/ZJK_XYLY", null, function (data) {
+        //     var arr = [];
+        //     var str = "";
+        //     $.each(data, function (index, item) {
+        //         var obj = {"name": item.name, "value": item.code};
+        //         str = str + "<a href=\"javascript:void(0);\" onclick=\"changeUrlHyly('" + item.code + "');\">" + item.name + "</a>";
+        //     });
+        //     $(".searchOption").append(str);
+        // });
+
+
         //研究院
-        publicMethods.ajaxPost("/pageCommon/dic/ROOT_XTGL_ZSYJY", null, function (data) {
-            var arr = [];
-            $.each(data, function (index, item) {
-                if (index < 8) {
-                    var obj = {"name": item.name, "value": item.code};
-                    arr.push(obj)
-                }
-            });
-            formSelects.data('jg', 'local', {
-                arr: arr
-            });
-            $(".xm-input").val("选择机构");
-        });
-        changeExpert();
+        // publicMethods.ajaxPost("/pageCommon/dic/ROOT_XTGL_ZSYJY", null, function (data) {
+        //     var arr = [];
+        //     $.each(data, function (index, item) {
+        //         if (index < 8) {
+        //             var obj = {"name": item.name, "value": item.code};
+        //             arr.push(obj)
+        //         }
+        //     });
+        //     formSelects.data('jg', 'local', {
+        //         arr: arr
+        //     });
+        //     $(".xm-input").val("选择机构");
+        // });
+        // changeExpert();
     });
 
     //ajax获取专家数据
@@ -425,7 +481,7 @@
             });
             $("#main-content-end").append(tempHtml);
         });
-        loadImg();
+        // loadImg();
     }
     
     function loadImg() {
@@ -487,41 +543,25 @@
         return result;
     }
     function cutString(str, len) {
-
         //length属性读出来的汉字长度为1
         if (str == null) {
             return "              ";
         }
         if (str.length * 2 <= len) {
-
             return str;
-
         }
-
         var strlen = 0;
-
         var s = "";
-
         for (var i = 0; i < str.length; i++) {
-
             s = s + str.charAt(i);
-
             if (str.charCodeAt(i) > 128) {
-
                 strlen = strlen + 2;
-
                 if (strlen >= len) {
-
                     return s.substring(0, s.length - 1) + "...";
-
                 }
-
             } else {
-
                 strlen = strlen + 1;
-
                 if (strlen >= len) {
-
                     return s.substring(0, s.length - 2) + "...";
                 }
             }
@@ -606,24 +646,24 @@
 <script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.all.js"></script>
 <script type="text/javascript" src="/layuiadmin/modules/selectTree.js?v=131"></script>
 <script type="text/javascript">
-    var zNodes;
-    // 下拉树初始化
+    var zNodes = JSON.parse('${agent}');
+    // // 下拉树初始化
     $(document).ready(function() {
-        $.ajax({
-            url : "/unit/ztree-unit-list",//这个就是请求地址对应sAjaxSource
-            type : 'get',
-            headers : {
-                'Content-Type' : 'application/json',
-            },
-            dataType : 'json',
-            async : false,
-            success : function(data) {
-                zNodes = data;
-            },
-            error : function(msg) {
-                layer.msg(msg);
-            }
-        });
+    //     $.ajax({
+    //         url : "/unit/ztree-unit-list",//这个就是请求地址对应sAjaxSource
+    //         type : 'get',
+    //         headers : {
+    //             'Content-Type' : 'application/json',
+    //         },
+    //         dataType : 'json',
+    //         async : false,
+    //         success : function(data) {
+    //             zNodes = data;
+    //         },
+    //         error : function(msg) {
+    //             layer.msg(msg);
+    //         }
+    //     });
         /*
          * initSelectTree参数：
          * 参数1：div的id，

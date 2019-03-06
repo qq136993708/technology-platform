@@ -5,7 +5,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.*;
 import com.pcitc.base.expert.*;
-import com.pcitc.base.hana.report.AchievementsAnalysis;
+import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.ReverseSqlResult;
 import com.pcitc.web.common.BaseController;
@@ -56,6 +56,8 @@ public class ExpertController extends BaseController {
     private static final String LIST = "http://pcitc-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/zjkbaseinfo_list";
 
     private static final String LIST_RANDOM = "http://pcitc-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/zjkbaseinfo_list_random";
+
+    private static final String LIST_index = "http://pcitc-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/zjkbaseinfo_list_index";
 
     private static final String LIST_EXAMPLE = "http://pcitc-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/zjkbaseinfo_list_example";
     /**
@@ -164,13 +166,35 @@ public class ExpertController extends BaseController {
     @OperationFilter(modelName = "专家-首页跳转", actionName = "首页跳转pageExpertIndex")
     public String pageExpertIndexNew() {
         //获取专家列表10条
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LIST_RANDOM, HttpMethod.POST, new HttpEntity<ZjkExpert>(new ZjkExpert(), this.httpHeaders), JSONObject.class);
+//        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+//        ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LIST_RANDOM, HttpMethod.POST, new HttpEntity<ZjkExpert>(new ZjkExpert(), this.httpHeaders), JSONObject.class);
+//        JSONObject retJson = responseEntity.getBody();
+//        List<ZjkExpert> list = (List<ZjkExpert>) retJson.get("list");
+//        request.setAttribute("list", list);
+
+        //ajax获取专家数据
+        ZjkExpert expert = new ZjkExpert();
+//        expert.setSelect_type("ZJK_XYLY");
+        ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LIST_RANDOM, HttpMethod.POST, new HttpEntity<ZjkExpert>(expert, this.httpHeaders), JSONObject.class);
         JSONObject retJson = responseEntity.getBody();
         List<ZjkExpert> list = (List<ZjkExpert>) retJson.get("list");
-        request.setAttribute("list", list);
+        request.setAttribute("expert",list);
+
+        //机构
+        ResponseEntity<String> responseEntityJg = restTemplate.exchange(UNIT_LIST_ZTREE_DATA, HttpMethod.POST, new HttpEntity<Object>("",this.httpHeaders), String.class);
+        System.out.println(responseEntityJg.getBody());
+        request.setAttribute("agent",responseEntityJg.getBody());
+
+        //行业领域
+        List<SysDictionary> dictionarys = this.restTemplate.exchange(DICTIONARY_LIST+"ZJK_XYLY", HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), List.class).getBody();
+
+        request.setAttribute("dictionarys",dictionarys);
+//        request.setAttribute("dictionarys",JSON.toJSONString(dictionarys));
         return "stp/expert/pageExpertIndexNew";
     }
+
+    private static final String DICTIONARY_LIST = "http://pcitc-zuul/system-proxy/dictionary-provider/dictionary/";
+    private static final String UNIT_LIST_ZTREE_DATA = "http://pcitc-zuul/system-proxy/unit-provider/unit/ztree-unit-list";
 
     @RequestMapping(value = "/expertIndexData", method = RequestMethod.POST)
     @OperationFilter(modelName = "专家-查询专家", actionName = "查询专家")
