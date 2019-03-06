@@ -59,36 +59,36 @@ public class ZjkChengguoController extends BaseController {
     /**
      * 根据ID获取对象信息
      */
-    private static final String GET_INFO = "http://pplus-zuul/stp-proxy/zjkchengguo-provider/zjkchengguo/get-zjkchengguo/";
+    private static final String GET_INFO = "http://pcitc-zuul/stp-proxy/zjkchengguo-provider/zjkchengguo/get-zjkchengguo/";
     /**
      * 树形
      */
-    private static final String TREE_DATA = "http://pplus-zuul/stp-proxy/zjkchengguo-provider/zjkchengguo/tree-data";
+    private static final String TREE_DATA = "http://pcitc-zuul/stp-proxy/zjkchengguo-provider/zjkchengguo/tree-data";
     /**
      * 逻辑删除
      */
-    private static final String DEL = "http://pplus-zuul/stp-proxy/zjkchengguo-provider/zjkchengguo/del-zjkchengguo/";
+    private static final String DEL = "http://pcitc-zuul/stp-proxy/zjkchengguo-provider/zjkchengguo/del-zjkchengguo/";
     /**
      * 物理删除
      */
-    private static final String DEL_REAL = "http://pplus-zuul/stp-proxy/zjkchengguo-provider/zjkchengguo/del-zjkchengguo-real/";
+    private static final String DEL_REAL = "http://pcitc-zuul/stp-proxy/zjkchengguo-provider/zjkchengguo/del-zjkchengguo-real/";
 
     /**
      * 查询列表
      */
-    private static final String LIST = "http://pplus-zuul/stp-proxy/zjkchengguo-provider/zjkchengguo/zjkchengguo_list";
+    private static final String LIST = "http://pcitc-zuul/stp-proxy/zjkchengguo-provider/zjkchengguo/zjkchengguo_list";
     /**
      * 参数查询
      */
-    private static final String LISTPARAM = "http://pplus-zuul/stp-proxy/zjkchengguo-provider/zjkchengguo/zjkchengguo_list_param";
+    private static final String LISTPARAM = "http://pcitc-zuul/stp-proxy/zjkchengguo-provider/zjkchengguo/zjkchengguo_list_param";
     /**
      * 分页查询
      */
-    private static final String LISTPAGE = "http://pplus-zuul/stp-proxy/zjkchengguo-provider/zjkchengguo/zjkchengguo-page";
+    private static final String LISTPAGE = "http://pcitc-zuul/stp-proxy/zjkchengguo-provider/zjkchengguo/zjkchengguo-page";
     /**
      * 保存
      */
-    private static final String SAVE = "http://pplus-zuul/stp-proxy/zjkchengguo-provider/zjkchengguo/save_zjkchengguo";
+    private static final String SAVE = "http://pcitc-zuul/stp-proxy/zjkchengguo-provider/zjkchengguo/save_zjkchengguo";
 
 
     /**

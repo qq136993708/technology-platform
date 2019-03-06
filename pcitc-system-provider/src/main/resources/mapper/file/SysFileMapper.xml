@@ -1076,13 +1076,15 @@
     <select id="selectFileListForPublic" resultMap="BaseResultMap" parameterType="java.util.HashMap">
       select * from (
 		select sys_file.id,sys_file.file_name,sys_file.create_date_time,sys_file.file_size,sys_file.bak1,
-			   sys_file.version,sys_file.file_suffix,
+			   sys_file.version,sys_file.create_user_id as bak3,sys_file.file_suffix,
 			   sys_user.user_disp as create_user_id,
 			   sys_file_kind.kind_name as file_kind,
 			   GROUP_CONCAT(DISTINCT tableA.area) as userIds,
-			   GROUP_CONCAT(DISTINCT tableB.user_id) as authUserIds
+			   GROUP_CONCAT(DISTINCT tableB.user_id) as authUserIds,
+			   GROUP_CONCAT(DISTINCT tableC.bak1) as bak4
 		from sys_user,sys_file_kind,sys_file left join sys_file_share tableA on (sys_file.id = tableA.file_id and tableA.status = '1')
 							   				 left join sys_file_kind_auth tableB on (sys_file.file_kind = tableB.file_kind_id)
+							   				 left join sys_file_collect tableC on (sys_file.id = tableC.file_id and tableC.create_person_id = '${userId}')
 		where 
 			sys_file.is_del = '0'
 			and sys_user.user_id = sys_file.file_publish
@@ -1096,9 +1098,46 @@
 			group by sys_file.id
 		) temTable 
 	  where 
-		bak1 = 'public' or 
+	    (bak1 = 'public' or 
 		(bak1 = 'private' and userIds like '%${userId}%') or 
-		authUserIds like '%${userId}%'
+		(bak1 = 'private' and bak3 like '%${userId}%') or 
+		authUserIds like '%${userId}%')
+		
+		<if test="collectFlag != null">
+				and temTable.bak4 is not null
+		</if>
+	  order by create_date_time desc
+		
+  	</select>
+  	
+  	<!--文档收藏的查询方法-->
+    <select id="selectFileListForCollect" resultMap="BaseResultMap" parameterType="java.util.HashMap">
+		select sys_file.id,sys_file.file_name,sys_file.create_date_time,sys_file.file_size,sys_file.bak1,
+			   sys_file.version,sys_file.create_user_id as bak3,sys_file.file_suffix,
+			   sys_file_kind.kind_name as file_kind
+		from sys_file_kind,sys_file_collect left join sys_file on (sys_file_collect.file_id = sys_file.id)
+		where 
+			sys_file_kind.id = sys_file_collect.file_kind
+			and sys_file_collect.create_person_id = '${userId}'
+			<if test="fileKind != null">
+				and sys_file_collect.file_kind = #{fileKind}
+			</if>
+			group by sys_file_collect.file_id
+  	</select>
+  	
+  	<!--复制文件数据到sys_file_version中-->
+    <select id="copySysFile" parameterType="java.lang.String">
+      insert into sys_file_version select * from sys_file where id = #{fileId,jdbcType=VARCHAR}
+  	</select>
+  	
+  	<!--获取文件历史版本信息-->
+    <select id="selectFileHistoryList" resultMap="BaseResultMap" parameterType="java.util.HashMap">
+      select * from sys_file_version
+      where 
+      	1 = 1
+      		<if test="fileId != null">
+				and sys_file_version.id = #{fileId}
+			</if>
 		
   	</select>
 

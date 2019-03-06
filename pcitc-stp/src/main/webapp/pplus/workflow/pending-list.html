@@ -54,6 +54,8 @@
 
 	<!--表格数据操作js-->
 	<script>
+	
+		var functionId = "${functionId}";
 		var table, active, selectRowData = '';
 		layui.use([ 'jquery', 'table', 'laydate', 'laypage', 'laytpl', 'laydate' ], function() {
 			table = layui.table, $ = layui.jquery, laydate = layui.laydate, laypage = layui.laypage, laydate = layui.laydate;
@@ -74,7 +76,8 @@
 						param : {
 							"taskName" : taskName,
 							"dateFlag" : dateFlag,
-							"functionCode" : param.code
+							
+		"functionId" : functionId
 						}
 					},
 					limit : param.selfRownum,
@@ -102,12 +105,12 @@
 						width : 55,
 						style : 'cursor: pointer;',
 						align : 'center',
-						templet: function(d){
+						templet : function(d) {
 							var auditDate = new Date(d.auditDate);
 							var nowDate = new Date();
-							if ((nowDate.getTime() - auditDate.getTime()) < 86400000*3 ) {
+							if ((nowDate.getTime() - auditDate.getTime()) < 86400000 * 3) {
 								return '<img src="/layuiadmin/layui/images/Red_Ball.png">';
-							} else if ((nowDate.getTime() - auditDate.getTime()) > 86400000*3 && (nowDate.getTime() - auditDate.getTime()) < 86400000*7) {
+							} else if ((nowDate.getTime() - auditDate.getTime()) > 86400000 * 3 && (nowDate.getTime() - auditDate.getTime()) < 86400000 * 7) {
 								return '<img src="/layuiadmin/layui/images/Yellow_Ball.png">';
 							} else {
 								return '<img src="/layuiadmin/layui/images/Green_Ball.png">';
@@ -172,7 +175,7 @@
 						});
 					}
 				});
-                $(".layui-table-header table thead th input").remove(); //移除表头的复选框,去掉全选
+				$(".layui-table-header table thead th input").remove(); //移除表头的复选框,去掉全选
 			}
 			renderTable();
 

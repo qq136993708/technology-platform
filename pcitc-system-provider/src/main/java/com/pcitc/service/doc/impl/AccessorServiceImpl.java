@@ -1,7 +1,5 @@
 package com.pcitc.service.doc.impl;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.pcitc.es.builder.BooleanCondtionBuilder;
 import com.pcitc.es.builder.QueryBuilderCondition;
 import com.pcitc.es.clientmanager.ClientFactoryBuilder;

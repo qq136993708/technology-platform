@@ -1462,14 +1462,14 @@ public class SysFileServiceImpl implements SysFileService {
 		if (param.getParam().get("fileName")!=null&&!StringUtils.isBlank(param.getParam().get("fileName")+"")) {
 			hashmap.put("fileName", param.getParam().get("fileName"));
 		}
-
+		
 		hashmap.put("userId", param.getParam().get("userId"));
 		
 		List<SysFile> list = sysFileMapper.selectFileListForPublic(hashmap);
 		System.out.println("1>>>>>>>>>查询分页结果"+list.size());
 		for (int i = 0; i < list.size(); i++) {
 			SysFile sf = list.get(i);
-			sf.setFileSize(String.valueOf(Math.round(Double.valueOf(sf.getFileSize()))/1024/1024));
+			sf.setFileSize(String.valueOf(Math.round(Double.valueOf(sf.getFileSize()))/1024));
 		}
 		PageInfo<SysFile> pageInfo = new PageInfo<SysFile>(list);
 		
@@ -1480,5 +1480,96 @@ public class SysFileServiceImpl implements SysFileService {
 		Long total = pageInfo.getTotal();
 		data.setCount(total.intValue());
 		return data;
+    }
+    
+    /**
+     * 文档收藏的查询方法
+     */
+    @Override
+    public LayuiTableData selectFileListForCollect(LayuiTableParam param) {
+    	// 每页显示条数
+		int pageSize = param.getLimit();
+		// 当前是第几页
+		int pageNum = param.getPage();
+		// 1、设置分页信息，包括当前页数和每页显示的总计数
+		PageHelper.startPage(pageNum, pageSize);
+
+		HashMap<String, Object> hashmap = new HashMap<String, Object>();
+		if (param.getParam().get("fileKind")!=null&&!StringUtils.isBlank(param.getParam().get("fileKind")+"")) {
+			hashmap.put("fileKind", param.getParam().get("fileKind"));
+		}
+		
+		if (param.getParam().get("fileName")!=null&&!StringUtils.isBlank(param.getParam().get("fileName")+"")) {
+			hashmap.put("fileName", param.getParam().get("fileName"));
+		}
+		
+		if (param.getParam().get("collectFlag")!=null&&!StringUtils.isBlank(param.getParam().get("collectFlag")+"")) {
+			hashmap.put("collectFlag", param.getParam().get("collectFlag"));
+		}
+
+		hashmap.put("userId", param.getParam().get("userId"));
+		
+		List<SysFile> list = sysFileMapper.selectFileListForCollect(hashmap);
+		System.out.println("1>>>>>>>>>查询分页结果"+list.size());
+		for (int i = 0; i < list.size(); i++) {
+			SysFile sf = list.get(i);
+			sf.setFileSize(String.valueOf(Math.round(Double.valueOf(sf.getFileSize()))/1024));
+		}
+		PageInfo<SysFile> pageInfo = new PageInfo<SysFile>(list);
+		
+		System.out.println("2>>>>>>>>>查询分页结果"+pageInfo.getList().size());
+
+		LayuiTableData data = new LayuiTableData();
+		data.setData(pageInfo.getList());
+		Long total = pageInfo.getTotal();
+		data.setCount(total.intValue());
+		return data;
+    }
+    
+    /**
+     * 复制文件数据到sys_file_version中
+     */
+    public int copySysFile(String fileId) {
+    	sysFileMapper.copySysFile(fileId);
+    	return 1;
+    }
+    
+    /**
+     * 获取文件历史版本信息
+     */
+    public LayuiTableData selectFileHistoryList(LayuiTableParam param) {
+    	
+    	// 每页显示条数
+		int pageSize = param.getLimit();
+		// 当前是第几页
+		int pageNum = param.getPage();
+		// 1、设置分页信息，包括当前页数和每页显示的总计数
+		PageHelper.startPage(pageNum, pageSize);
+
+		HashMap<String, Object> hashmap = new HashMap<String, Object>();
+		if (param.getParam().get("fileId")!=null&&!StringUtils.isBlank(param.getParam().get("fileId")+"")) {
+			hashmap.put("fileId", param.getParam().get("fileId"));
+		}
+		
+		if (param.getParam().get("fileName")!=null&&!StringUtils.isBlank(param.getParam().get("fileName")+"")) {
+			hashmap.put("fileName", param.getParam().get("fileName"));
+		}
+
+		List<SysFile> list = sysFileMapper.selectFileHistoryList(hashmap);
+		System.out.println("1>>>>>>>>>查询分页结果"+list.size());
+		for (int i = 0; i < list.size(); i++) {
+			SysFile sf = list.get(i);
+			sf.setFileSize(String.valueOf(Math.round(Double.valueOf(sf.getFileSize()))/1024));
+		}
+		PageInfo<SysFile> pageInfo = new PageInfo<SysFile>(list);
+		
+		System.out.println("2>>>>>>>>>查询分页结果"+pageInfo.getList().size());
+
+		LayuiTableData data = new LayuiTableData();
+		data.setData(pageInfo.getList());
+		Long total = pageInfo.getTotal();
+		data.setCount(total.intValue());
+		return data;
+    	
     }
 }

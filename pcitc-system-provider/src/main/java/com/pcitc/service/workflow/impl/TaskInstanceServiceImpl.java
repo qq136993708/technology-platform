@@ -1,6 +1,7 @@
 package com.pcitc.service.workflow.impl;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -23,12 +24,14 @@ import com.pcitc.base.util.StrUtil;
 import com.pcitc.base.workflow.SysDelegate;
 import com.pcitc.base.workflow.SysDelegateExample;
 import com.pcitc.base.workflow.SysDelegateExample.Criteria;
+import com.pcitc.base.workflow.SysFunctionProdef;
+import com.pcitc.base.workflow.SysFunctionProdefExample;
 import com.pcitc.base.workflow.SysTaskDelegate;
 import com.pcitc.base.workflow.SysTaskDelegateExample;
 import com.pcitc.mapper.system.SysDelegateMapper;
+import com.pcitc.mapper.system.SysFunctionProdefMapper;
 import com.pcitc.mapper.system.SysTaskDelegateMapper;
 import com.pcitc.mapper.system.SysUserMapper;
-import com.pcitc.service.feign.stp.FlowProjectRemoteClient;
 import com.pcitc.service.workflow.TaskInstanceService;
 
 @Service("taskInstanceService")
@@ -46,9 +49,27 @@ public class TaskInstanceServiceImpl implements TaskInstanceService {
 	private SysUserMapper sysUserMapper;
 	
 	@Autowired
-    private FlowProjectRemoteClient flowProjectRemoteClient;
+	private SysFunctionProdefMapper sysFunctionProdefMapper;
 	
+	//@Autowired
+    //private HseRemoteClient hseRemoteClient;
 	
+	/**
+     * 获取流程定义信息
+     */
+    public List<SysFunctionProdef> getProcessDefineInfo(HashMap<String, String> hashmap) {
+		SysFunctionProdefExample example = new SysFunctionProdefExample();
+		com.pcitc.base.workflow.SysFunctionProdefExample.Criteria cri = example.createCriteria();
+		cri.andStatusEqualTo("1");
+		if (hashmap.get("functionId") != null && !hashmap.get("functionId").equals("")) {
+			cri.andFunctionIdEqualTo(hashmap.get("functionId").toString());
+			System.out.println("========"+hashmap.get("functionId").toString());
+		}
+		List<SysFunctionProdef> list = sysFunctionProdefMapper.selectByExample(example);
+		
+		return list;
+    }
+    
 	/** 
     * @author zhf
     * @date 2018年5月13日 下午5:50:31 
@@ -218,18 +239,13 @@ public class TaskInstanceServiceImpl implements TaskInstanceService {
     //@TxTransaction(isStart=true)
 	@Override
     public Integer insertDelegate(SysDelegate delegate) {
-    	System.out.println("====start---");
+    	// 远程调用
+    	//Hse hse = new Hse();
+    	//hseRemoteClient.insertHse(hse);
     	
     	//新增委托单的时候，需要处理目前的已有待办任务
     	int returnInt = sysDelegateMapper.insert(delegate);
     	
-    	// 远程调用
-    	//FlowProjectInfo flowProjectInfo = new FlowProjectInfo();
-    	//flowProjectInfo.setDataId(UUID.randomUUID().toString().replaceAll("-", ""));
-    	//flowProjectRemoteClient.insertFlowProjectInfo(flowProjectInfo);
-    	
-    	//int i = 10/0;
-    	System.out.println("====end---");
     	return returnInt;
     }
     
