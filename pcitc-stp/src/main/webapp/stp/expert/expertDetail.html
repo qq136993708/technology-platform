@@ -386,7 +386,9 @@
     loadImg();
     function loadImg() {
             var imgBase = photoContent(expertId);
-            if(imgBase!=""){
+            console.log("图片");
+            console.log(imgBase);
+            if(imgBase!=""&&imaBase!="data:image/png;base64,PHNjcmlwdD4NCiBtb2RhbHMuaW5mbygnPz8/Pz8hJyk7DQo8L3NjcmlwdD4NCg=="){
                 $("#"+expertId).attr("src", imgBase);
             }
     }
