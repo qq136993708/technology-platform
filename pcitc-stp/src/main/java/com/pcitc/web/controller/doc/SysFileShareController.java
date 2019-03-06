@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +25,8 @@ import com.alibaba.druid.support.json.JSONUtils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.pcitc.base.common.LayuiTableData;
+import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.TreeNode;
 import com.pcitc.base.common.enums.DataOperationStatusEnum;
 import com.pcitc.base.doc.SysFileShare;
@@ -69,6 +72,8 @@ public class SysFileShareController extends BaseController {
 	private static final String DELETE = "http://pcitc-zuul/system-proxy/sysfileshare-provider/sysfileshare/delete_sysfileshare/";
 
 	private static final String GET = "http://pcitc-zuul/system-proxy/sysfileshare-provider/sysfileshare/get_sysfileshare/";
+	
+	private static final String HISTORY_LIST = "http://pcitc-zuul/system-proxy/sysfileshare-provider/sysfileshare/file/history/list";
 
 	/**
 	 * 文件分享信息-查询列表
@@ -310,6 +315,26 @@ public class SysFileShareController extends BaseController {
 		model.addAttribute("opt", opt);
 		model.addAttribute("fieldId", fieldId);
 		return "pplus/doc/dialog_user_list";
+	}
+	
+	/**
+	 * 文档的历史版本
+	 */
+	@RequestMapping(method = RequestMethod.GET, value = "/file/history")
+	public String fileHistoryList(Model model, String fileId) {
+		model.addAttribute("fileId", fileId);
+		return "pplus/doc/file_history_list";
+	}
+	
+	@RequestMapping(value = "/file/history/data", method = RequestMethod.POST)
+	@ResponseBody
+	public Object getFileHistoryDataList(@ModelAttribute("param") LayuiTableParam param) {
+		System.out.println("====getFileHistoryDataList---");
+		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
+		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(HISTORY_LIST, HttpMethod.POST, entity, LayuiTableData.class);
+		LayuiTableData retJson = responseEntity.getBody();
+
+		return JSON.toJSON(retJson).toString();
 	}
 
 	// @RequestMapping(method = RequestMethod.GET, value =

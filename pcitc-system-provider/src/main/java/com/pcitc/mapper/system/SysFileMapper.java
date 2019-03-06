@@ -44,4 +44,19 @@ public interface SysFileMapper {
      * 文档管理的查询方法，查询公共的和分享给自己文件
      */
     public List<SysFile> selectFileListForPublic(HashMap<String, Object> hashmap);
+    
+    /**
+     * 文档收藏的查询方法
+     */
+    public List<SysFile> selectFileListForCollect(HashMap<String, Object> hashmap);
+    
+    /**
+     * 复制文件数据到sys_file_version中
+     */
+    public void copySysFile(String fileId);
+    
+    /**
+     * 获取文件历史版本信息
+     */
+    public List<SysFile> selectFileHistoryList(HashMap<String, Object> hashmap);
 }

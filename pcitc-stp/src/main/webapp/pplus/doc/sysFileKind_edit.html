@@ -22,7 +22,7 @@
                 <label class="layui-form-label">名称<span class="must-fill">*</span></label>
                 <div class="layui-input-block">
                     <input type="hidden"  name="parentId" id="parentId" />
-                    <input type="hidden"  name="bak1" id="bak1" />
+                    <input type="hidden"  name="other" id="other" />
                     <input type="hidden"  name="id" id="id" />
                     <input type="text" id="kindName" name="kindName" lay-verify="required" placeholder="请输入名称" autocomplete="off" class="layui-input">
                 </div>
@@ -67,7 +67,7 @@
     if(parentId!=0){
         $("#parentId").val(parentId);
     }
-    $("#bak1").val("${bak1}");
+    $("#other").val("${other?default('public')}");
     layui.use(['jquery','form','laydate','table', 'layer', 'element'],
         function() {
             var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate, form = layui.form;

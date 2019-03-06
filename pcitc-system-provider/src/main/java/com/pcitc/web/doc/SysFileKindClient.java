@@ -5,6 +5,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -116,9 +117,45 @@ public class SysFileKindClient {
     @ApiOperation(value = "查询(树)文件种类信息", notes = "查询(树)文件种类信息,操作成功返回List<TreeNode>对象")
     @RequestMapping(value = "/sysfilekind-provider/sysfilekind/tree-data")
     public List<TreeNode> selectObjectByTree(@RequestBody SysFileKind sysFileKind) throws Exception {
-        return sysFileKindService.selectTrees();
+    	// 只查询公共的文档分类
+    	HashMap<String, Object> map = new HashMap<String, Object>();
+    	map.put("other", sysFileKind.getOther());
+        return sysFileKindService.selectTrees(map);
     }
-
+//
+//    /**
+//     * 查询菜单相信信息-展示
+//     *
+//     * @param sysFileKindId
+//     * @return
+//     * @throws Exception
+//     */
+//    @RequestMapping(value = "/sysfilekind-provider/sysfilekind/get_sysfilekind/{sysFileKindId}")
+//    public SysFileKind selectSysFileKindByMenuId(@PathVariable(value = "sysFileKindId", required = true) String sysFileKindId) throws Exception {
+//        SysFileKind sysFileKind = sysFileKindService.selectByPrimaryKey(sysFileKindId);
+//        if ("".equals(sysFileKind.getParentId().trim())) {
+//            sysFileKind.setParentName("");
+//        } else {
+//        }
+//        SysFileKindExample sysFileKindExample = new SysFileKindExample();
+//        String strParentId = sysFileKindService.selectByExample(sysFileKindExample).get(0).getId();
+//        sysFileKind.setRootId(strParentId);
+//        return sysFileKind;
+//    }
+//
+//    /**
+//     * 更新菜单信息
+//     *
+//     * @param sysFileKind
+//     * @return
+//     */
+//    @RequestMapping(value = "/sysfilekind-provider/sysfilekind/update-sysfilekind")
+//    public Serializable updateSysFileKind(@RequestBody SysFileKind sysFileKind) {
+//        sysFileKindService.updateByPrimaryKey(sysFileKind);
+//        DataOperationStatusEnum status = DataOperationStatusEnum.UPD_OK;
+//        return status;
+//    }
+//
     /**
      * 删除菜单信息-false
      *
@@ -131,7 +168,7 @@ public class SysFileKindClient {
         DataOperationStatusEnum status = sysFileKindService.deleteSysFileKind(sysFileKindcId);
         return status;
     }
-
+//
     /**
      * 删除菜单信息-true
      *
@@ -144,6 +181,19 @@ public class SysFileKindClient {
         sysFileKindService.deleteSysFileKindReal(sysFileKindcId);
         return DataOperationStatusEnum.DEL_OK;
     }
+//
+//    /**
+//     * 增加菜单信息
+//     *
+//     * @param sysFileKind
+//     * @return
+//     */
+//    @RequestMapping(value = "/sysfilekind-provider/sysfilekind/add-sysfilekind", method = RequestMethod.POST)
+//    public SysFileKind insertSysFileKind(@RequestBody SysFileKind sysFileKind) {
+//        sysFileKind.setStatus("");
+//        return sysFileKindService.insertObject(sysFileKind);
+//    }
+//
 
     /**
      * 分页查询

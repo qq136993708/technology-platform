@@ -67,6 +67,35 @@ public class SysFileCollectController extends BaseController {
 	private static final String DELETE = "http://pcitc-zuul/system-proxy/sysfilecollect-provider/sysfilecollect/delete_sysfilecollect/";
 
 	private static final String GET = "http://pcitc-zuul/system-proxy/sysfilecollect-provider/sysfilecollect/get_sysfilecollect/";
+	
+	
+	/**
+	 * 初始化弹出文件收藏功能，显示个人的文件夹
+	 *
+	 * @return
+	 */
+	@RequestMapping(value = { "/ini-file-collect" }, method = { RequestMethod.GET })
+	public String iniSysFileCollect(HttpServletRequest request) {
+		request.setAttribute("fileIds", request.getParameter("fileIds"));
+		return "pplus/doc/sysFile_collect";
+	}
+	
+	/**
+	 * 保存-文件收藏
+	 * record.fileIds、fileKind有多个，后台处理
+	 */
+	@RequestMapping(value = "/savesysFileCollect")
+	@ResponseBody
+	@OperationFilter(modelName = "文档管理", actionName = "文档收藏")
+	public int saveRecord(SysFileCollect record) {
+		record.setCreateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
+		record.setCreatePersonId(sysUserInfo.getUserId());
+		record.setCreatePersonName(sysUserInfo.getUserName());
+		record.setStatus("1");
+		ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(SAVE, HttpMethod.POST, new HttpEntity<SysFileCollect>(record, this.httpHeaders), Integer.class);
+		Integer result = responseEntity.getBody();
+		return result;
+	}
 
 	/**
 	 * 文件收藏-查询列表
@@ -128,30 +157,6 @@ public class SysFileCollectController extends BaseController {
 		return data;
 	}
 
-	/**
-	 * 保存-文件收藏
-	 *
-	 * @param record
-	 * @return
-	 */
-	@RequestMapping(value = "/savesysFileCollect")
-	@ResponseBody
-	@OperationFilter(modelName = "文件收藏", actionName = "保存saveRecord")
-	public int saveRecord(SysFileCollect record) {
-		if (record.getId() == null || "".equals(record.getId())) {
-			record.setCreateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
-			record.setCreatePersonId(sysUserInfo.getUserId());
-			record.setCreatePersonName(sysUserInfo.getUserName());
-		} else {
-			record.setUpdateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
-			record.setUpdatePersonId(sysUserInfo.getUserId());
-			record.setUpdatePersonName(sysUserInfo.getUserName());
-		}
-		record.setStatus("1");
-		ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(SAVE, HttpMethod.POST, new HttpEntity<SysFileCollect>(record, this.httpHeaders), Integer.class);
-		Integer result = responseEntity.getBody();
-		return result;
-	}
 
 	/**
 	 * 删除-文件收藏
