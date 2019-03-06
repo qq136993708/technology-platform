@@ -38,15 +38,18 @@
 <div class="tableToolBox">
     <div class="whiteLine"></div>
     <div class="tableBtns">
+        <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"-->
+        <!--data-type="addEvent">新增-->
+        <!--</button>-->
         <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"
-                data-type="addEvent">新增
+                data-type="tsEvent">投诉
         </button>
-        <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"
-                data-type="editEvent">编辑
-        </button>
-        <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"
-                data-type="deleteEvent">删除
-        </button>
+        <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"-->
+                <!--data-type="viewEvent">查看-->
+        <!--</button>-->
+        <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"-->
+        <!--data-type="deleteEvent">删除-->
+        <!--</button>-->
     </div>
 </div>
 <table id="zjkChoiceTableId" class="layui-hide" lay-filter="tableEvent"></table>
@@ -64,11 +67,13 @@
         table = layui.table;
 
         function loadtable() {
+            var where = {param: {"status": "2", "bak1": document.getElementById("bak1").value, "xmName": $("#xmName").val()}};
+            console.log(where);
             table.render({
                 elem: '#zjkChoiceTableId',
-                url: '/zjkChoice/getTableData',
+                url: '/zjkChoice/getTableDatachoice',
                 method: "POST",
-                where: {param: {"status":"2"}},
+                where: where,
                 limit: 15,
                 id: 'zjkChoiceTableId',
                 height: commonDislodgeTable(),
@@ -209,10 +214,7 @@
         var $ = layui.$, active = {
             searchEvent: function () { //点击查询按钮
                 table.reload('zjkChoiceTableId', {
-                    where: {
-                        param:
-                            {}
-                    }
+                    where: {param: {"status": "2", "bak1": document.getElementById("bak1").value, "xmName": $("#xmName").val()}}
                 })
             },
             resetEvent: function () { //点击查询按钮
@@ -248,6 +250,23 @@
                     return;
                 } else {
                     openBaseWin("编辑", "/zjkChoice/edit?id=" + selectRowData.id);
+                }
+            }
+            , tsEvent: function () { //点击编辑按钮
+                if (typeof (selectRowData) == "undefined") {
+                    layer.msg("请选择一条数据");
+                    return;
+                } else {
+                    openBaseWin("投诉", "/zjkComplaint/editts?id=" + selectRowData.id+"&xmmc="+selectRowData.xmName+"&xmid="+selectRowData.xmId+"&zjid="+selectRowData.zjId+"&zjmc="+selectRowData.bak2+"&xmjd="+selectRowData.bak1);
+                }
+            }
+            ,
+            viewEvent: function () { //点击编辑按钮
+                if (typeof (selectRowData) == "undefined") {
+                    layer.msg("请选择一条数据");
+                    return;
+                } else {
+                    openBaseWin("查看", "/zjkChoice/edit?id=" + selectRowData.id);
                 }
             }
             ,

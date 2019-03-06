@@ -5,14 +5,20 @@
     <link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
     <link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
     <link rel="stylesheet" type="text/css" href="/layuiadmin/style/second.css">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/ztree/css/metroStyle/metroStyle.css">
     <script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
     <script type="text/javascript" src="/common/js/base.js"></script>
+    <style>
+        .searchYard{margin-bottom: 10px;}
+        .searchYard #searchYardDiv{ width: 50%;}
+        .layui-edge{display: none;}
+    </style>
 </head>
 <body>
 <div class="layui-main-oil layui-search">
     <form action="" class="layui-form">
-        <div class="searchIpnut">
+        <div class="searchIpnut formBox">
             <div class="searchF">
                 <p>是否规避本院</p>
                 <input type="checkbox" title="规避本院" value="${gbcode}" lay-skin='primary'>
@@ -20,8 +26,11 @@
             <div class="searchIndustry">
                 <p>行业领域</p>
             </div>
-            <div class="searchYard">
-                <p>研究院</p>
+            <div class="searchYard" >
+                <p>机构</p>
+                <div class="selectTreeBox" style="position: relative;margin-top: 10px;">
+                    <div id="searchYardDiv"></div>
+                </div>
             </div>
             <div class="searchAge">
                 <p>年龄段信息</p>
@@ -60,8 +69,6 @@
 </div>
 
 
-
-
 <script type="text/html" id="showDetail">
     <a class="details" lay-event="showDetail">查看详情</a>
 </script>
@@ -74,82 +81,82 @@
     var zc = "${zc}";
     var gb = "${gb}";
     var gbcode = "${gbcode}";
-
+    var selectedTreeIds ="${jg}";
     console.log(hyly);
-    console.log(jg);
+    console.log("机构："+jg);
     console.log(zjmc);
     console.log(key);
     console.log(nld);
     console.log(zc);
-    console.log("规避:"+gbcode);
+    console.log("规避:" + gbcode);
 </script>
 <script>
     var param = JSON.parse(window.localStorage.getItem("param"));
     var table, selectRowData, workOrderStatus;
     layui.config({
-        base : '../layuiadmin/' //静态资源所在路径
+        base: '../layuiadmin/' //静态资源所在路径
     }).extend({
-        index : 'lib/index' //主入口模块
-    }).use([ 'index','jquery', 'table', 'laypage', 'publicMethods','form'], function () {
+        index: 'lib/index' //主入口模块
+    }).use(['index', 'jquery', 'table', 'laypage', 'publicMethods', 'form'], function () {
         table = layui.table,
             $ = layui.jquery,
             layer = layui.layer,
             publicMethods = layui.publicMethods,
             laypage = layui.laypage;
-        var form=layui.form;
+        var form = layui.form;
         // {param: {"equipmentUse":$("#equipmentUse").val()}},
         console.log("---------where--------------");
         /*查询条件*/
         //行业领域
-        publicMethods.ajaxPost("/pageCommon/dic/ZJK_XYLY",null,function (data) {
+        publicMethods.ajaxPost("/pageCommon/dic/ZJK_XYLY", null, function (data) {
             $.each(data, function (index, item) {
                 var html = "";
-                console.log(hyly+"------------"+item.code);
+                console.log(hyly + "------------" + item.code);
                 // if(hyly==(item.code)){
-                if(hyly.indexOf(item.code)>-1){
-                    html="<input type   ='checkbox' checked title='"+item.name+"' value='"+item.code+"' lay-skin='primary'>"
-                }else {
-                    html="<input type='checkbox' title='"+item.name+"' value='"+item.code+"' lay-skin='primary'>"
+                if (hyly.indexOf(item.code) > -1) {
+                    html = "<input type   ='checkbox' checked title='" + item.name + "' value='" + item.code + "' lay-skin='primary'>"
+                } else {
+                    html = "<input type='checkbox' title='" + item.name + "' value='" + item.code + "' lay-skin='primary'>"
                 }
                 $(".searchIndustry").append(html);
             })
         });
         //研究院
-        publicMethods.ajaxPost("/pageCommon/dic/ROOT_XTGL_ZSYJY",null,function (data) {
-            $.each(data, function (index, item) {
-                if(index<8){
-                    var html="";
-                    if(jg.indexOf(item.code)>-1){
-                        html = "<input type='checkbox' checked title='"+item.name+"' value='"+item.code+"' lay-skin='primary'>";
-                    }else {
-                        html = "<input type='checkbox' title='"+item.name+"' value='"+item.code+"' lay-skin='primary'>";
-                    }
-                    $(".searchYard").append(html);
-                }
-            })
-        });
+        // publicMethods.ajaxPost("/pageCommon/dic/ROOT_XTGL_ZSYJY", null, function (data) {
+        //     $.each(data, function (index, item) {
+        //         if (index < 8) {
+        //             var html = "";
+        //             if (jg.indexOf(item.code) > -1) {
+        //                 html = "<input type='checkbox' checked title='" + item.name + "' value='" + item.code + "' lay-skin='primary'>";
+        //             } else {
+        //                 html = "<input type='checkbox' title='" + item.name + "' value='" + item.code + "' lay-skin='primary'>";
+        //             }
+        //             $(".searchYard").append(html);
+        //         }
+        //     })
+        // });
         //年龄段信息
-        publicMethods.ajaxPost("/pageCommon/dic/ZJK_NLDXX",null,function (data) {
+        publicMethods.ajaxPost("/pageCommon/dic/ZJK_NLDXX", null, function (data) {
             $.each(data, function (index, item) {
                 // console.log(item.code+"----"+item.name);
-                var html="";
-                if(nld.indexOf(item.code)>-1){
-                    html="<input type='checkbox' checked title='"+item.name+"' value='"+item.code+"' lay-skin='primary'>"
-                }else{
-                    html="<input type='checkbox' title='"+item.name+"' value='"+item.code+"' lay-skin='primary'>"
+                var html = "";
+                if (nld.indexOf(item.code) > -1) {
+                    html = "<input type='checkbox' checked title='" + item.name + "' value='" + item.code + "' lay-skin='primary'>"
+                } else {
+                    html = "<input type='checkbox' title='" + item.name + "' value='" + item.code + "' lay-skin='primary'>"
                 }
                 $(".searchAge").append(html);
             })
         });
         //职称信息
-        publicMethods.ajaxPost("/pageCommon/dic/ZJK_ZCXX",null,function (data) {
+        publicMethods.ajaxPost("/pageCommon/dic/ZJK_ZCXX", null, function (data) {
             $.each(data, function (index, item) {
                 // console.log(item.code+"----"+item.name);
-                var html="";
-                if(zc.indexOf(item.code)>-1){
-                    html="<input type='checkbox' checked title='"+item.name+"' value='"+item.code+"' lay-skin='primary'>"
-                }else{
-                    html="<input type='checkbox' title='"+item.name+"' value='"+item.code+"' lay-skin='primary'>"
+                var html = "";
+                if (zc.indexOf(item.code) > -1) {
+                    html = "<input type='checkbox' checked title='" + item.name + "' value='" + item.code + "' lay-skin='primary'>"
+                } else {
+                    html = "<input type='checkbox' title='" + item.name + "' value='" + item.code + "' lay-skin='primary'>"
                 }
                 $(".searchTitle").append(html);
             })
@@ -168,7 +175,7 @@
             },
             {
                 field: "sex",
-                title: "性别", event: 'setActive', style: 'cursor: pointer;'
+                title: "性别", event: 'setActive', style: 'cursor: pointer;',width: 120
             },
             {
                 field: "age",
@@ -190,20 +197,27 @@
         ];
 
         function renderTable() {
-            var arrIndustry =[],arrYard=[],arrAge=[],arrTitle=[],gbStr="";
-            $(".searchIndustry input:checkbox:checked").each(function(i){
+            var arrIndustry = [], arrYard = [], arrAge = [], arrTitle = [], gbStr = "";
+            $(".searchIndustry input:checkbox:checked").each(function (i) {
                 arrIndustry[i] = $(this).val();
             });
-            $(".searchYard input:checkbox:checked").each(function(i){
-                arrYard[i] = $(this).val();
-            });
-            $(".searchAge input:checkbox:checked").each(function(i){
+            // $(".searchYard input:checkbox:checked").each(function (i) {
+            //     arrYard[i] = $(this).val();
+            // });
+            if(jg!=""){
+                arrYard= jg.split(",");
+                jg = "";
+            }else {
+                arrYard = $("#searchYardDivValue").val().split(",");
+            }
+            // arrYard = selectedTreeIds.split(",");
+            $(".searchAge input:checkbox:checked").each(function (i) {
                 arrAge[i] = $(this).val();
             });
-            $(".searchTitle input:checkbox:checked").each(function(i){
+            $(".searchTitle input:checkbox:checked").each(function (i) {
                 arrTitle[i] = $(this).val();
             });
-            $(".searchF input:checkbox:checked").each(function(i){
+            $(".searchF input:checkbox:checked").each(function (i) {
                 gbStr = $(this).val();
             });
             //data.field.like = arrIndustry.join(",");//将数组合并成字符串
@@ -213,12 +227,12 @@
                     jg: arrYard.join(","),
                     zjmc: $("#zjmc").val(),
                     key: $("#key").val(),
-                    nld:arrAge.join(","),
+                    nld: arrAge.join(","),
                     zc: arrTitle.join(","),
                     gb: gbStr
                 }
             };
-            publicMethods.tableRender('expertTable', 'expertTable', '/expertController/queryIndex', false, cols, where,true, function (res, curr, count) {
+            publicMethods.tableRender('expertTable', 'expertTable', '/expertController/queryIndex', false, cols, where, true, function (res, curr, count) {
                 $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
                     var index = parseInt($(this).index() + 1);
                     $('tr').removeClass('layui-table-click');
@@ -227,6 +241,7 @@
                     $('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
                     selectRowData = res.data[index - 1];
                 });
+
                 //字典翻译
                 var param = {
                     data: res.data,//数据
@@ -295,10 +310,10 @@
             }
         };
         //监听行工具事件
-        table.on('tool(tableEvent)', function(obj){
+        table.on('tool(tableEvent)', function (obj) {
             var data = obj.data;
-            if(obj.event === 'showDetail'){
-				parent.layui.index.openTabsPage("/expertController/expertDetail?expertId="+data.dataId, "专家详情");
+            if (obj.event === 'showDetail') {
+                parent.layui.index.openTabsPage("/expertController/expertDetail?expertId=" + data.dataId, "专家详情");
                 //window.open("/expertController/expertDetail?expertId="+data.id);
             }
         });
@@ -347,6 +362,54 @@
             parent.layui.index.openTabsPage("/expertController/bakTablePage", "查看备选");
         });
     });
+
+
+</script>
+<script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.all.js"></script>
+<script type="text/javascript" src="/layuiadmin/modules/selectTree.js?v=132"></script>
+<script type="text/javascript">
+    var zNodes;
+    // 下拉树初始化
+    $(document).ready(function() {
+        $.ajax({
+            url : "/unit/ztree-unit-list",//这个就是请求地址对应sAjaxSource
+            type : 'get',
+            headers : {
+                'Content-Type' : 'application/json',
+            },
+            dataType : 'json',
+            async : false,
+            success : function(data) {
+                zNodes = data;
+            },
+            error : function(msg) {
+                layer.msg(msg);
+            }
+        });
+        /*
+         * initSelectTree参数：
+         * 参数1：div的id，
+         * 参数2：isMultiple 是否多选(true或false),
+         * 参数3：是否显示连接线(true或false),
+         * 参数4：是否显示图标(true或false),
+         *
+         */
+        initSelectTree("searchYardDiv", true, true, false);
+        initHideMenu(); //不加此方法则默认打开下拉树
+        // $("#searchYardDivShow").val("${jgshow}");
+    });
+    // function selectTreeCallFun(treeNode, zTree) {
+    //     console.log("回调");
+    //     console.log(treeNode.id);
+    //     console.log(treeNode.name);
+    //     console.log(zTree.getCheckedNodes());
+    //     console.log(zTree.getSelectedNodes());
+    //     console.log($("#searchYardDivShow").val());
+    //     console.log($("#searchYardDivValue").val());
+    //     selectedTreeIds = treeNode.id;
+    //     // $("#searchYardDivShow").val(treeNode.name);
+    //
+    // }
 </script>
 </body>
 

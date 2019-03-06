@@ -132,10 +132,10 @@ public class WorkflowController extends BaseController {
 		variables.put("auditDetailsPath", "/task/test/details/" + businessId);
 
 		// 流程完全审批通过时，调用的方法
-		variables.put("auditAgreeMethod", "http://pplus-zuul/system-proxy/workflow-provider/task/agree/" + businessId);
+		variables.put("auditAgreeMethod", "http://pcitc-zuul/system-proxy/workflow-provider/task/agree/" + businessId);
 
 		// 流程驳回时，调用的方法（可能驳回到第一步，也可能驳回到第1+n步
-		variables.put("auditRejectMethod", "http://pplus-zuul/system-proxy/workflow-provider/task/reject/" + businessId);
+		variables.put("auditRejectMethod", "http://pcitc-zuul/system-proxy/workflow-provider/task/reject/" + businessId);
 
 		// 对流程中出现的多个判断条件，比如money>100等，需要把事先把money条件输入
 		variables.put("money", 50); // 环节1需要用到

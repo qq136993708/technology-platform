@@ -1,5 +1,6 @@
 package com.pcitc.service.budget.impl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -16,6 +17,7 @@ import com.pcitc.base.common.enums.BudgetAuditStatusEnum;
 import com.pcitc.base.common.enums.DelFlagEnum;
 import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.stp.budget.BudgetInfoExample;
+import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.mapper.budget.BudgetInfoMapper;
 import com.pcitc.service.budget.BudgetInfoService;
@@ -37,7 +39,7 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 	@Override
 	public Integer updateBudgetInfo(BudgetInfo groupTotal) throws Exception
 	{
-		
+		groupTotal.setUpdateTime(DateUtil.dateToStr(new Date(),DateUtil.FMT_SS));
 		return budgetInfoMapper.updateByPrimaryKey(groupTotal);
 	}
 

@@ -1,5 +1,6 @@
 package com.pcitc.service.workflow;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
@@ -8,6 +9,7 @@ import org.activiti.engine.task.IdentityLink;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.workflow.SysDelegate;
+import com.pcitc.base.workflow.SysFunctionProdef;
 import com.pcitc.base.workflow.SysTaskDelegate;
 
 public interface TaskInstanceService {
@@ -75,6 +77,11 @@ public interface TaskInstanceService {
     * 获取某个委托单委托后，所产生的所有的任务（可能有些任务已经处理了）
     */
     public List<SysTaskDelegate> getDelegateHistoryTask(String delegateId);
+    
+    /**
+     * 获取流程定义信息
+     */
+    public List<SysFunctionProdef> getProcessDefineInfo(HashMap<String, String> hashmap);
     
     
 	

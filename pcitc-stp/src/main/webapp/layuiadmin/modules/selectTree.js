@@ -98,6 +98,15 @@ function onClick(event, treeId, treeNode) {
     	$("input[name=wbsId]").val(treeNode.id);
     	refreshTable(treeNode.id);
     }
+
+    try {
+        var fun = (eval("selectTreeCallFun"));
+        if (fun) {
+            fun.call(this, treeNode, zTree);
+        }
+    } catch (e) {
+    }
+
 }
 
 function onCheck(event, treeId, treeNode) {
@@ -185,6 +194,7 @@ function zTreeNode(id,pId,name)
 function autoCheck(id,arry)
 {
     var zTree = $.fn.zTree.getZTreeObj(id);
+
     var nodes = zTree.getNodes();
     // console.log(nodes)
     // console.log(zNodes)

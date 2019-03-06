@@ -18,7 +18,7 @@
 <div class="treeTableContainer">
     <div class="treeBox">
         <div class="title-box">
-            <span>文件种类</span>
+            <span>文档分类</span>
         </div>
         <div class="layui-side-scroll">
             <!-- 左侧子菜单 -->
@@ -30,9 +30,9 @@
         <div class="searchBox">
             <!--查询条件-->
             <label class="dateInput">
-                <span>文件名称</span>
-                <input type="text" name="fileName" id="fileName" placeholder="文件名称"
-                       title="文件名称" autocomplete="off"
+                <span>文档名称</span>
+                <input type="text" name="fileName" id="fileName" placeholder="文档名称"
+                       title="文档名称" autocomplete="off"
                        class="form-control" id="name">
             </label>
             <!--按钮组-->
@@ -51,6 +51,7 @@
                 <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg" data-type="editEvent">编辑</button>
                 <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="deleteEvent">删除</button>
                 <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg" data-type="shareEvent">分发</button>
+                <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg" data-type="historyEvent">历史版本</button>
             </div>
         </div>
         <table id="fileShowTable" class="layui-hide" lay-filter="tableEvent"></table>
@@ -122,10 +123,10 @@
                 cols: [[
                     {type: 'checkbox', event: 'changeEvents'},
                     {title: '序号', type: 'numbers'},
-                    {field: 'fileName', title: '文件名称', event: 'setActive', style: 'cursor: pointer;'},
+                    {field: 'fileName', title: '文档名称', event: 'setActive', style: 'cursor: pointer;'},
                     {field: 'bak2', title: '创建人', event: 'setActive', style: 'cursor: pointer;'},
                     {field: 'createDateTime', title: '创建时间', event: 'setActive', style: 'cursor: pointer;'},
-                    {field: 'fileSize', title: '文件大小(KB)', event: 'setActive', style: 'cursor: pointer;',align:'right'},
+                    {field: 'fileSize', title: '文档大小(KB)', event: 'setActive', style: 'cursor: pointer;',align:'right'},
                     // {field: 'bak3', title: '是否分享', event: 'setActive', style: 'cursor: pointer;'},
                     {field: 'bak1', title: '权限', event: 'setActive', style: 'cursor: pointer;', templet: '#powerShow'}
                 ]],
@@ -179,7 +180,7 @@
             downloadEvent: function () {
                 var ids = active.getChecked();
                 if (ids == "") {
-                    layer.msg("请选择文件");
+                    layer.msg("请选择文档");
                     return;
                 }
                 var flag;
@@ -190,18 +191,18 @@
                 	 $("#download").attr("href", "/sysfile/download/" + ids);
                 	 document.getElementById("download").click();
                 }else{
-                	layer.msg("文件有缺失！请联系管理员！");
+                	layer.msg("文档有缺失！请联系管理员！");
                 }
                 //document.getElementById("download").click();
             },
             deleteEvent: function () {
                 var ids = active.getChecked();
                 if (ids == "") {
-                    layer.msg("请选择文件");
+                    layer.msg("请选择文档");
                     return;
                 }
                 ajaxPost("/sysfile/delete", {"id": ids}, function (data) {
-                    layer.msg("文件删除成功");
+                    layer.msg("文档删除成功");
                 });
                 active.searchEvent();
             }, getChecked: function () {
@@ -229,7 +230,12 @@
                 layer.msg(checkStatus.isAll ? '全选' : '未全选')
             },
             addEvent: function () {
-                openBaseWin("新增", "/sysfilekind/editUpload?opt=edit&parentId="+parentId);
+            	if (parentId != 'xxxxxxxx') {
+            		openBaseWin("新增", "/sysfilekind/editUpload?opt=edit&parentId="+parentId);
+            	} else {
+            		layer.msg("请选择文档分类");
+            	}
+                
             },
             editEvent: function () {
                 var ids = active.getCheckData();
@@ -247,6 +253,14 @@
                     return;
                 }
                 openBaseWin("选择", "/sysfileshare/dialog_user_list?opt="+parentId+"&id=" + ids[0].id+"&fieldId="+ids[0].id);
+            },
+            historyEvent: function () {
+                var ids = active.getCheckData();
+                if(ids.length>1||ids.length==0){
+                    layer.msg("请选择一条数据");
+                    return;
+                }
+                openBaseWin("选择", "/sysfileshare/file/history?fileId=" + ids[0].id);
             }
         };
         

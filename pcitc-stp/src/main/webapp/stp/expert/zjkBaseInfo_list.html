@@ -26,12 +26,12 @@
         <input type="text" id="email" name="email" placeholder="请输入邮箱" title="邮箱" autocomplete="off" class="form-control">
     </label>
 
-    <label class="selectInput">
-        <span>所属机构</span>
-        <select name="company" id="company" lay-filter="projectStageId">
-            <option value="">请选择</option>
-        </select>
-    </label>
+    <!--<label class="selectInput">-->
+        <!--<span>所属机构</span>-->
+        <!--<select name="company" id="company" lay-filter="projectStageId">-->
+            <!--<option value="">请选择</option>-->
+        <!--</select>-->
+    <!--</label>-->
 
 
     <!--按钮组-->
@@ -162,7 +162,7 @@
                         title: "职称", event: 'setActive', style: 'cursor: pointer;'
                     },
                     {
-                        field: "company",
+                        field: "companyName",
                         title: "所属机构", event: 'setActive', style: 'cursor: pointer;'
                     }
                 ]],
@@ -200,14 +200,14 @@
                         url: "/pageCommon/dic/ZJK_ZCXX"//接口
                     };
                     publicMethods.dataDictionary(param);
-                    var param = {
-                        data: res.data,//数据
-                        element: ".layui-table-body table",// 当前的表格元素
-                        column: 11,//列数 从0开始
-                        field: "company",//当前数据的字段
-                        url: "/pageCommon/dic/ROOT_XTGL_ZSYJY"//接口
-                    };
-                    publicMethods.dataDictionary(param);
+                    // var param = {
+                    //     data: res.data,//数据
+                    //     element: ".layui-table-body table",// 当前的表格元素
+                    //     column: 11,//列数 从0开始
+                    //     field: "company",//当前数据的字段
+                    //     url: "/pageCommon/dic/ROOT_XTGL_ZSYJY"//接口
+                    // };
+                    // publicMethods.dataDictionary(param);
                 }
             });
             //移除表头的复选框,去掉全选

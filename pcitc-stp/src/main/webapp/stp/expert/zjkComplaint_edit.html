@@ -87,28 +87,29 @@
         </div>
 
 
-        <!--<div class="layui-row">-->
+        <div class="layui-row">
 
-            <!--<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">-->
-                <!--<div class="layui-form-item">-->
-                    <!--<label class="layui-form-label">是否处理<span class="must-fill">*</span></label>-->
-                    <!--<div class="layui-input-block">-->
-                        <!--<select name="isComplet" id="isComplet" lay-filter="isComplet">-->
-                        <!--</select>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-            <!--<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">-->
-                <!--<div class="layui-form-item">-->
-                    <!--<label class="layui-form-label">处理结果<span class="must-fill">*</span></label>-->
-                    <!--<div class="layui-input-block">-->
-                        <!--<input type="text" id="doDesc" name="doDesc" lay-verify="required" placeholder="请输入处理结果" autocomplete="off" class="layui-input">-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
+            <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">是否处理<span class="must-fill">*</span></label>
+                    <div class="layui-input-block">
+                        <select name="isComplet" id="isComplet" lay-filter="isComplet">
+                            <option value="">请选择</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">处理结果<span class="must-fill">*</span></label>
+                    <div class="layui-input-block">
+                        <textarea name="doDesc" id="doDesc" class="ckeditor"></textarea>
+                    </div>
+                </div>
+            </div>
 
 
-        <!--</div>-->
+        </div>
 
         <div class="form-bottom">
             <div class="form-bottom-btns">
@@ -154,6 +155,7 @@
                 ajaxPost("/zjkComplaint/getZjkComplaintInfo", {"id": id}, function (data) {
                     form.val("zjkComplaint-form", data);
                     CKEDITOR.instances.complaintDesc.setData(data.complaintDesc);
+                    CKEDITOR.instances.doDesc.setData(data.doDesc);
                 });
             }
             /* 自定义验证规则  title 要验证的input的 lay-verify=""*/
@@ -188,11 +190,12 @@
             /* 监听提交 */
             form.on('submit(submitBtn)', function (data) {
                 data.field.complaintDesc=CKEDITOR.instances.complaintDesc.getData();
+                data.field.doDesc=CKEDITOR.instances.doDesc.getData();
                 ajaxPost("/zjkComplaint/saveZjkComplaint", data.field, function (dt, status) {
                     layer.msg("操作成功");
                     parent.layui.table.reload('zjkComplaintTableId', {where: {param: {}}});
                     var index = parent.layer.getFrameIndex(window.name);
-                    // parent.layer.close(index);
+                    parent.layer.close(index);
                 });
                 return false;
             });

@@ -176,9 +176,27 @@ public class ZjkComplaintController extends BaseController {
     }
 
     /**
+     * 投诉
+     * @param id
+     * @param model
+     * @param opt
+     * @return
+     */
+    @RequestMapping(method = RequestMethod.GET, value = "/editts")
+    @OperationFilter(modelName = "专家-投诉管理", actionName = "跳转编辑页面pageEditts")
+    public String pageEditts(String id, Model model, String opt) {
+        model.addAttribute("id", id);
+        model.addAttribute("opt", opt);
+        model.addAttribute("xmid", request.getParameter("xmid"));
+        model.addAttribute("xmmc", request.getParameter("xmmc"));
+        model.addAttribute("zjid", request.getParameter("zjid"));
+        model.addAttribute("zjmc", request.getParameter("zjmc"));
+        model.addAttribute("xmjd", request.getParameter("xmjd"));
+        return "stp/expert/zjkComplaint_editts";
+    }
+    /**
      * 详情页面-专家-投诉管理
      *
-     * @param id
      * @param model
      * @return
      */

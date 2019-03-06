@@ -7,18 +7,20 @@
     <link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()">
     <script src="/layuiadmin/layui/layui.js"></script>
     <style>
-        .con-box{margin: 40px auto;margin-bottom: 0;margin-right: 50px;}
+        .con-box{margin: 5px auto;margin-bottom: 0;margin-right: 50px;}
         .layui-form-label {width: 108px !important;}
         .layui-input-block {margin-left: 129px !important;}
         .btn-line {height: 36px;line-height: 36px;}
         .btn-line a{float: left;margin-left: 20px;}
         .layui-btn-sm {padding: 0 14px;}
+        .layui-textarea {min-height: 50px;}
     </style>
 </head>
 <body>
 <form action="" id="budget-form" name="budget-form" lay-filter="budget-form" class="layui-form">
 	<input type="hidden" name="budgetInfoId" value="${budgetInfoId}">
 	<input type="hidden" name="dataId" value="${dataId}">
+	<input type="hidden" name="nd" id="nd" value="${nd}">
     <div class="con-box">
         <div class="formBox">
             <div class="layui-row">
@@ -142,11 +144,36 @@
     layui.use(['jquery', 'table', 'form','laydate', 'layer','publicMethods'], function () {
         var $ = layui.jquery, table = layui.table, form = layui.form,laydate = layui.laydate, layer = layui.layer,publicMethods=layui.publicMethods;
         var layTableId = "dataTable";
-        //检索
+        //检索年度金额完成情况
+        function selectItemProjectMoney(nd,displayCode,callback){
+        	publicMethods.ajaxPost('/budget/select-grouptotal-compare-project',{"nd":nd,"code":displayCode}, function (data, status) {
+   			  var ysje = 0;
+   			  $.each(data,function(index,d){
+   				 ysje += parseInt(d.ysje); 
+   			  });
+   			  callback(ysje);
+   		  	});
+        }
+        //检索年度计划情况
+        function selectItemPlanMoney(nd,displayCode,callback){
+        	publicMethods.ajaxPost('/budget/select-grouptotal-compare-plan',{"nd":nd,"code":displayCode}, function (data, status) {
+   			  var ysje = 0;
+   			  $.each(data,function(index,d){
+   				 ysje += parseInt(d.ysje); 
+   			  });
+   			  callback(ysje);
+   		  	});
+        }
 		publicMethods.ajaxPost("/budget/get-grouptotal-item/${dataId}",null, function (data) {
 			form.val("budget-form",data);
 			parentInfo = data;
 			$.each(data.groups,function(index,dt){
+				selectItemProjectMoney(parseInt(dt.nd)-1,dt.displayCode,function(ysje){
+					dt.last_year_end = ysje;
+				});
+				selectItemPlanMoney(dt.nd,dt.displayCode,function(ysje){
+					dt.plan_money = ysje;
+				});
 				viewObj.tbData.push(dt);
 			});
 			//table.reload({data : viewObj.tbData});
@@ -165,20 +192,25 @@
             elem: '#dataTable' //表格容器
             , data: viewObj.tbData //请求的url地址
             , id: layTableId
-            , height: commonDislodgeTable() - 400
+            , height: 200
             , limit: 100
             , totalRow: true
             , cols: [[
                 {field: 'displayName', title: '单位名称',edit:true,totalRowText: '合计'}
-                , {field: 'plan', title: '${nd}年计划', align: 'right',style: 'cursor: pointer;', width: '15%'}
-                , {field: 'xmjf', title: '科技项目经费预算', align: 'right',style: 'cursor: pointer;',edit:true, width: '15%'}
-                , {field: 'zxjf', title: '重点实验室专项经费', align: 'right',style: 'cursor: pointer;',edit:true, width: '15%'}
+                , {field: 'last_year_end', title: '${nd}预算完成', align: 'right',style: 'cursor: pointer;', width: '15%',totalRow: true}
+                , {field: 'plan_money', title: '${nd}计划金额', align: 'right',style: 'cursor: pointer;', width: '15%',totalRow: true}
+                , {field: 'xmjf', title: '科技项目经费预算', align: 'right',style: 'cursor: pointer;',edit:true, width: '15%',totalRow: true}
+                , {field: 'zxjf', title: '重点实验室专项经费', align: 'right',style: 'cursor: pointer;',edit:true, width: '15%',totalRow: true}
                 , {title: '操作', style: 'cursor: pointer;', align: 'center', width: '10%', templet: function(d){
                     return '<a href="#" lay-event="del" lay-id="'+ d.dataId +'">删除</a>';
                 }}
             ]]
+            ,done: function (res, curr, count) {
+            	 var ysnd = parseInt($("#nd").val());
+            	 $(".layui-table-header .layui-table").find('th').eq(1).find('span').text((ysnd-1)+"预算完成");
+            	 $(".layui-table-header .layui-table").find('th').eq(2).find('span').text(ysnd+"计划金额");
+            }
         })
-
         table.on('tool(dataTable)', function (obj) {
             var data = obj.data, event = obj.event, tr = obj.tr; //获得当前行 tr 的DOM对象;
             switch(event){
@@ -206,11 +238,15 @@
                     layer.msg("请选择单位！", { icon: 5 }); //提示
                     return;
                 }
-                var newRow = {dataId: new Date().valueOf(),displayCode:companyCode, displayName: companyName,plan: 0, xmjf: 0, zxjf: 0,parentDataId:parentDataId,budgetInfoId:budgetInfoId};
-                viewObj.tbData.push(newRow);
-                tableIns.reload({
-                    data : viewObj.tbData
-                });
+                var newRow = {dataId: new Date().valueOf(),displayCode:companyCode, displayName: companyName,last_year_end:0,plan_money: 0, xmjf: 0, zxjf: 0,parentDataId:parentDataId,budgetInfoId:budgetInfoId};
+                selectItemProjectMoney(parseInt($("#nd").val())-1,companyCode,function(ysje){
+                	newRow.last_year_end = ysje;
+				});
+				selectItemPlanMoney($("#nd").val(),companyCode,function(ysje){
+					newRow.plan_money = ysje;
+				});
+               	viewObj.tbData.push(newRow);
+               	tableIns.reload({data : viewObj.tbData});
             },
             removeEmptyTableCache: function(){
             	  var oldData = table.cache[layTableId];

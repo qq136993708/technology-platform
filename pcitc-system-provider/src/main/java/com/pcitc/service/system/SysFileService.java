@@ -360,4 +360,19 @@ public interface SysFileService {
      * 文档管理的查询方法，查询公共的和分享给自己文件
      */
     public LayuiTableData selectFileListForPublic(LayuiTableParam param) throws Exception;
+    
+    /**
+     * 复制文件数据到sys_file_version中
+     */
+    public int copySysFile(String fileId);
+    
+    /**
+     * 获取文件历史版本信息
+     */
+    public LayuiTableData selectFileHistoryList(LayuiTableParam param);
+    
+    /**
+     * 文档收藏的查询方法
+     */
+    public LayuiTableData selectFileListForCollect(LayuiTableParam param);
 }

@@ -40,7 +40,7 @@ public interface SysFileKindMapper {
 
     List<SysFileKind> findSysFileKindList(SysFileKind record);
 
-    List<TreeNode> selectTrees();
+    List<TreeNode> selectTrees(HashMap<String, Object> map);
     
     List<SysUser> getSysFileKindUserListData(HashMap<String, Object> map);
 }

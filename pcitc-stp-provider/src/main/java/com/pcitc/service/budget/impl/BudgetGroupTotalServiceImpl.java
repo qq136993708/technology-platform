@@ -1,6 +1,7 @@
 package com.pcitc.service.budget.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
@@ -23,6 +25,8 @@ import com.pcitc.base.stp.budget.BudgetGroupTotal;
 import com.pcitc.base.stp.budget.BudgetGroupTotalExample;
 import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.stp.budget.BudgetInfoExample;
+import com.pcitc.base.stp.out.OutProjectInfo;
+import com.pcitc.base.stp.out.OutProjectPlan;
 import com.pcitc.base.stp.out.OutUnit;
 import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.common.BudgetInfoEnum;
@@ -185,12 +189,6 @@ public class BudgetGroupTotalServiceImpl implements BudgetGroupTotalService
 		example.setOrderByClause("no");
 		return budgetGroupTotalMapper.selectByExample(example);
 	}
-	@Override
-	public List<OutUnit> selectJtUnits()
-	{
-		List<OutUnit> units = systemRemoteClient.selectProjectUnits("JTZS");
-		return units;
-	}
 
 	@Override
 	public List<BudgetGroupTotal> selectGroupTotalHistoryItems(BudgetGroupTotal item) {
@@ -227,7 +225,67 @@ public class BudgetGroupTotalServiceImpl implements BudgetGroupTotalService
 		example.setOrderByClause("no");
 		return budgetGroupTotalMapper.selectByExample(example);
 	}
+	@Override
+	public List<OutUnit> selectGroupCompnays() {
+		return systemRemoteClient.selectProjectUnits("JTZS");
+	}
+	@Override
+	public Map<String, List<OutProjectPlan>> selectComparePlanData(Set<String> codes, String nd) {
+		StringBuffer sb = new StringBuffer();
+		for (String code : codes) {
+			sb.append(code + ",");
+		}
+		String codesStr = sb.toString().substring(0, sb.length() - 1);
 
-	
+		LayuiTableParam layuiParam = new LayuiTableParam();
+		Map<String, Object> p = new HashMap<String, Object>();
+		p.put("ysnd", nd);
+		p.put("define9", codesStr);
+		layuiParam.setLimit(1000);
+		layuiParam.setPage(1);
+		layuiParam.setParam(p);
 
+		LayuiTableData dt = systemRemoteClient.selectProjectPlanByCond(layuiParam);
+		Map<String, List<OutProjectPlan>> rs = new HashMap<String,List<OutProjectPlan>>();
+		for (java.util.Iterator<?> iter = dt.getData().iterator(); iter.hasNext();) {
+			String planStr = JSON.toJSON(iter.next()).toString();
+			OutProjectPlan plan = JSON.toJavaObject(JSON.parseObject(planStr), OutProjectPlan.class);
+
+			if(!rs.containsKey(plan.getDefine9())) {
+				rs.put(plan.getDefine9(), new ArrayList<OutProjectPlan>());
+			}
+			rs.get(plan.getDefine9()).add(plan);
+		}
+		return rs;
+	}
+
+	@Override
+	public Map<String, List<OutProjectInfo>> selectCompareProjectInfoData(Set<String> codes, String nd) {
+		StringBuffer sb = new StringBuffer();
+		for (String code : codes) {
+			sb.append(code + ",");
+		}
+		String codesStr = sb.toString().substring(0, sb.length() - 1);
+
+		LayuiTableParam layuiParam = new LayuiTableParam();
+		Map<String, Object> p = new HashMap<String, Object>();
+		p.put("ysnd", nd);
+		p.put("define9", codesStr);
+		layuiParam.setLimit(1000);
+		layuiParam.setPage(1);
+		layuiParam.setParam(p);
+
+		LayuiTableData dt = systemRemoteClient.selectCommonProjectByCond(layuiParam);
+		Map<String, List<OutProjectInfo>> rs = new HashMap<String,List<OutProjectInfo>>();
+		for (java.util.Iterator<?> iter = dt.getData().iterator(); iter.hasNext();) {
+			String planStr = JSON.toJSON(iter.next()).toString();
+			OutProjectInfo plan = JSON.toJavaObject(JSON.parseObject(planStr), OutProjectInfo.class);
+
+			if(!rs.containsKey(plan.getDefine9())) {
+				rs.put(plan.getDefine9(), new ArrayList<OutProjectInfo>());
+			}
+			rs.get(plan.getDefine9()).add(plan);
+		}
+		return rs;
+	}
 }

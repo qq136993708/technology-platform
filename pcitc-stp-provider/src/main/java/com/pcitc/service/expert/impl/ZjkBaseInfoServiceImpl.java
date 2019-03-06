@@ -11,10 +11,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
+import com.pcitc.base.expert.*;
+import com.pcitc.mapper.expert.*;
+import com.pcitc.service.expert.*;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,25 +44,12 @@ import com.pcitc.base.common.ResultSKM;
 import com.pcitc.base.common.TreeNode;
 import com.pcitc.base.common.enums.DataOperationStatusEnum;
 import com.pcitc.base.common.enums.DelFlagEnum;
-import com.pcitc.base.expert.TechFamilyType;
-import com.pcitc.base.expert.ZjkAchievement;
-import com.pcitc.base.expert.ZjkAchievementExample;
-import com.pcitc.base.expert.ZjkExpert;
-import com.pcitc.base.expert.ZjkExpertExample;
-import com.pcitc.base.expert.ZjkPatent;
-import com.pcitc.base.expert.ZjkPic;
 import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.base.util.StrUtil;
 import com.pcitc.base.util.TreeNodeUtil;
 import com.pcitc.config.SpringContextUtil;
-import com.pcitc.mapper.expert.ZjkExpertMapper;
-import com.pcitc.service.expert.TechFamilyTypeService;
-import com.pcitc.service.expert.ZjkBaseInfoService;
-import com.pcitc.service.expert.ZjkChengguoService;
-import com.pcitc.service.expert.ZjkPicService;
-import com.pcitc.service.expert.ZjkZhuanliService;
 import com.pcitc.service.feign.SystemRemoteClient;
 
 /**
@@ -100,7 +92,19 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
         int[] s = StrUtil.randomCommon(0, zjkExpertreturnList.size(), 10);
         List<ZjkExpert> experts = new ArrayList<>();
         for (int i = 0; i < s.length; i++) {
-            experts.add(zjkExpertreturnList.get(s[i]));
+            ZjkExpert e = zjkExpertreturnList.get(s[i]);
+            String userDesc = e.getUserDesc();
+            if(!StrUtil.isEmpty(userDesc)){
+                if (userDesc.length()>30){
+                    userDesc  = userDesc.substring(0,30)+"...";
+                }else {
+                    userDesc = userDesc+"...";
+                }
+            }else {
+                e.setUserDesc("待完善...");
+            }
+            e.setUserDesc(userDesc);
+            experts.add(e);
         }
         return experts;
     }
@@ -237,7 +241,7 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
         Object sysFlag = param.getParam().get("sysFlag");
         if (!StrUtil.isObjectEmpty(sysFlag)) {
             c.andSysFlagEqualTo(sysFlag.toString());
-        }else {
+        } else {
             c.andSysFlagEqualTo("0");
         }
         Object email = param.getParam().get("email");
@@ -749,6 +753,7 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
 
     /**
      * 展示已选专家
+     *
      * @param param
      * @return
      */
@@ -761,6 +766,96 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
         c.andSysFlagEqualTo("0");
         example.setOrderByClause("create_date desc");
         return this.findByExample(param, example);
+    }
+
+    @Autowired
+    private ZjkAchievementMapper zjkChengguoMapper;
+    @Autowired
+    private ZjkPatentMapper zjkPatentMapper;
+    @Autowired
+    private ZjkChoiceMapper zjkChoiceMapper;
+    @Autowired
+    private ZjkComplaintMapper zjkComplaintMapper;
+
+    @Override
+    public LayuiTableData findZjkBaseInfoByPageCount(LayuiTableParam param) {
+        ZjkExpertExample example = new ZjkExpertExample();
+        ZjkExpertExample.Criteria c = example.createCriteria();
+        c.andStatusEqualTo("0");
+        c.andDelFlagEqualTo("0");
+        c.andSysFlagEqualTo("0");
+        Object expertName = param.getParam().get("expertName");
+        if (!StrUtil.isObjectEmpty(expertName)) {
+            c.andExpertNameLike("%" + expertName + "%");
+        }
+
+        Object auditStatus = param.getParam().get("auditStatus");
+        if (!StrUtil.isObjectEmpty(auditStatus)) {
+            c.andAuditStatusEqualTo(auditStatus.toString());
+        }
+
+        Object sysFlag = param.getParam().get("sysFlag");
+        if (!StrUtil.isObjectEmpty(sysFlag)) {
+            c.andSysFlagEqualTo(sysFlag.toString());
+        } else {
+            c.andSysFlagEqualTo("0");
+        }
+        Object email = param.getParam().get("email");
+        if (!StrUtil.isObjectEmpty(email)) {
+            c.andEmailLike("%" + email + "%");
+        }
+        Object company = param.getParam().get("company");
+        if (!StrUtil.isObjectEmpty(company)) {
+            c.andCompanyEqualTo(company.toString());
+        }
+
+        LayuiTableData data = new LayuiTableData();
+        Object keywords = param.getParam().get("keyword");
+        if (keywords != null && !"".equals(keywords)) {
+            example.or().andExpertNameLike("%" + keywords + "%");
+            example.or().andUserDescLike("%" + keywords + "%");
+        }
+        example.setOrderByClause("create_date desc");
+
+        //查询专家数量
+        data = this.findByExample(param, example);
+        List<ZjkExpert> experts = (List<ZjkExpert>) data.getData();
+        List ids = experts.stream().map(ZjkExpert::getDataId).distinct().collect(Collectors.toList());
+        //查询专家成果数量
+        ZjkAchievementExample zjkAchievementExample = new ZjkAchievementExample();
+        zjkAchievementExample.createCriteria().andExpertIdIn(ids);
+        List<ZjkAchievement> zjkAchievements = zjkChengguoMapper.selectByExample(zjkAchievementExample);
+        Map<String, Long> a_count = zjkAchievements.stream().collect(Collectors.groupingBy(ZjkAchievement::getExpertId, Collectors.counting()));
+        //查询专家专利数量
+        ZjkPatentExample zjkPatentExample = new ZjkPatentExample();
+        zjkPatentExample.createCriteria().andExpertIdIn(ids);
+        List<ZjkPatent> zjkPatentExamples = zjkPatentMapper.selectByExample(zjkPatentExample);
+        Map<String, Long> patent_count = zjkPatentExamples.stream().collect(Collectors.groupingBy(ZjkPatent::getExpertId, Collectors.counting()));
+
+        //参与项目数量
+        ZjkChoiceExample zjkChoiceExample = new ZjkChoiceExample();
+        zjkChoiceExample.createCriteria().andZjIdIn(ids);
+        zjkChoiceExample.createCriteria().andStatusEqualTo("2");
+        List<ZjkChoice> zjkChoices = zjkChoiceMapper.selectByExample(zjkChoiceExample);
+        Map<String, Long> choice_count = zjkChoices.stream().collect(Collectors.groupingBy(ZjkChoice::getZjId, Collectors.counting()));
+        //被投诉次数
+        ZjkComplaintExample zjkComplaintExample = new ZjkComplaintExample();
+        zjkComplaintExample.createCriteria().andZjkIdIn(ids);
+        zjkComplaintExample.createCriteria().andStatusEqualTo("2");
+        List<ZjkComplaint> zjkComplaints = zjkComplaintMapper.selectByExample(zjkComplaintExample);
+        Map<String, Long> complaint_count = zjkComplaints.stream().collect(Collectors.groupingBy(ZjkComplaint::getZjkId, Collectors.counting()));
+
+        for (int i = 0, j = experts.size(); i < j; i++) {
+            ZjkExpert expert = experts.get(i);
+            String eId = expert.getDataId();
+            expert.setAchievementCount(StrUtil.objectToString(a_count.get(eId), "0"));
+            expert.setPatentCount(StrUtil.objectToString(patent_count.get(eId), "0"));
+            expert.setProjectCount(StrUtil.objectToString(choice_count.get(eId), "0"));
+            expert.setBak1(StrUtil.objectToString(complaint_count.get(eId), "0"));
+        }
+
+        data.setData(experts);
+        return data;
     }
 
     public String ageBetween(String strAge) {
