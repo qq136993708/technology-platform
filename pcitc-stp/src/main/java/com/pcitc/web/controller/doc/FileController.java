@@ -24,6 +24,7 @@ import com.pcitc.web.common.BaseController;
 public class FileController extends BaseController {
 
 	private static final String commonFileList = "http://pcitc-zuul/system-proxy/file-common-provider/files/common/data-list";
+	private static final String collectFileList = "http://pcitc-zuul/system-proxy/file-common-provider/files/collect/data-list";
 	
 	/**
 	 * 
@@ -37,6 +38,27 @@ public class FileController extends BaseController {
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(commonFileList, HttpMethod.POST, entity, LayuiTableData.class);
+		int statusCode = responseEntity.getStatusCodeValue();
+		if (statusCode == 200) {
+			layuiTableData = responseEntity.getBody();
+		}
+		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
+		System.out.println(">>>>>>>>>>>>>country_table_data:" + result.toString());
+		return result.toString();
+	}
+	
+	/**
+	 * 
+	 * 查询收藏的文件信息
+	 */
+	@RequestMapping(value = "/file/collect/data-list", method = RequestMethod.POST)
+	@ResponseBody
+	public String getFileCollectList(@ModelAttribute("param") LayuiTableParam param) throws IOException {
+		
+		param.getParam().put("userId", sysUserInfo.getUserId());
+		LayuiTableData layuiTableData = new LayuiTableData();
+		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(collectFileList, HttpMethod.POST, entity, LayuiTableData.class);
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode == 200) {
 			layuiTableData = responseEntity.getBody();

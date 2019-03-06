@@ -70,6 +70,16 @@ public class SysFileCommonClient {
     	LayuiTableData tem = sysFileService.selectFileListForPublic(param);
         return tem;
     }
+    
+    /**
+     * 查询收藏的文件信息
+     */
+    @ApiOperation(value = "查询收藏的文件信息", notes = "个人收藏，文件可能不存在")
+    @RequestMapping(value = "/file-common-provider/files/collect/data-list", method = RequestMethod.POST)
+    public LayuiTableData selectFileListForCollect(@RequestBody LayuiTableParam param) throws Exception {
+    	LayuiTableData tem = sysFileService.selectFileListForCollect(param);
+        return tem;
+    }
 
 
 }

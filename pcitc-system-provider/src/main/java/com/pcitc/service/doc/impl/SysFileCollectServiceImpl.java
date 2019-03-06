@@ -21,12 +21,14 @@ import com.pcitc.base.common.enums.DataOperationStatusEnum;
 import com.pcitc.base.common.enums.DelFlagEnum;
 import com.pcitc.base.doc.SysFileCollect;
 import com.pcitc.base.doc.SysFileCollectExample;
+import com.pcitc.base.system.SysFile;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.IdUtil;
 import com.pcitc.base.util.JsonUtil;
 import com.pcitc.base.util.TreeNodeUtil;
 import com.pcitc.mapper.doc.SysFileCollectMapper;
 import com.pcitc.service.doc.SysFileCollectService;
+import com.pcitc.service.system.SysFileService;
 
 
 /**
@@ -41,6 +43,9 @@ public class SysFileCollectServiceImpl implements SysFileCollectService {
 
     @Autowired
     private SysFileCollectMapper sysFileCollectMapper;
+    
+    @Autowired
+    private SysFileService sysFileService;
 
     public List<SysFileCollect> findSysFileCollectList(SysFileCollect sysFileCollect) {
         List<SysFileCollect> record = sysFileCollectMapper.findSysFileCollectList(sysFileCollect);
@@ -66,8 +71,11 @@ public class SysFileCollectServiceImpl implements SysFileCollectService {
         		SysFileCollect sfc = new SysFileCollect();
         		sfc.setId(UUID.randomUUID().toString().replaceAll("-", ""));
         		sfc.setFileId(temFileId);
+        		// 保存文件名称（原文件可能删除）
+        		SysFile sysFile = sysFileService.selectByPrimaryKey(temFileId);
         		sfc.setFileKind(fileKind[j]);
         		sfc.setBak1(bak1[j]);
+        		sfc.setBak2(sysFile.getFileName());
         		sfc.setCreateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
         		sfc.setCreatePersonId(sysFileCollect.getCreatePersonId());
         		sysFileCollectMapper.insertSelective(sfc);
