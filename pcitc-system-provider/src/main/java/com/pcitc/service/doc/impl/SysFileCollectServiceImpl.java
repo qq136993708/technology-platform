@@ -3,8 +3,10 @@ package com.pcitc.service.doc.impl;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +21,14 @@ import com.pcitc.base.common.enums.DataOperationStatusEnum;
 import com.pcitc.base.common.enums.DelFlagEnum;
 import com.pcitc.base.doc.SysFileCollect;
 import com.pcitc.base.doc.SysFileCollectExample;
+import com.pcitc.base.system.SysFile;
+import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.IdUtil;
 import com.pcitc.base.util.JsonUtil;
 import com.pcitc.base.util.TreeNodeUtil;
 import com.pcitc.mapper.doc.SysFileCollectMapper;
 import com.pcitc.service.doc.SysFileCollectService;
+import com.pcitc.service.system.SysFileService;
 
 
 /**
@@ -38,6 +43,9 @@ public class SysFileCollectServiceImpl implements SysFileCollectService {
 
     @Autowired
     private SysFileCollectMapper sysFileCollectMapper;
+    
+    @Autowired
+    private SysFileService sysFileService;
 
     public List<SysFileCollect> findSysFileCollectList(SysFileCollect sysFileCollect) {
         List<SysFileCollect> record = sysFileCollectMapper.findSysFileCollectList(sysFileCollect);
@@ -47,11 +55,31 @@ public class SysFileCollectServiceImpl implements SysFileCollectService {
     @Override
     public int updateOrInsertSysFileCollect(SysFileCollect sysFileCollect) throws Exception {
         int result = 500;
-        if (sysFileCollect.getId() != null && sysFileCollect.getId() != null) {
-            sysFileCollectMapper.updateByPrimaryKey(sysFileCollect);
-        } else {
-            sysFileCollect.setId(IdUtil.createIdByTime());
-            sysFileCollectMapper.insertSelective(sysFileCollect);
+        String fileIds = sysFileCollect.getFileId();
+        String fileKinds = sysFileCollect.getFileKind();
+        String bak1s = sysFileCollect.getBak1();
+        String[] fileId = fileIds.split(",");
+        
+        for (int i = 0; i < fileId.length; i++) {
+        	String temFileId = fileId[i];
+        	String[] fileKind = fileKinds.split(",");
+        	String[] bak1 = bak1s.split(",");
+        	// 先把此文件之前配置的收藏记录
+        	sysFileCollectMapper.deleteObjByParam(temFileId);
+        	
+        	for (int j = 0; j < fileKind.length; j++) {
+        		SysFileCollect sfc = new SysFileCollect();
+        		sfc.setId(UUID.randomUUID().toString().replaceAll("-", ""));
+        		sfc.setFileId(temFileId);
+        		// 保存文件名称（原文件可能删除）
+        		SysFile sysFile = sysFileService.selectByPrimaryKey(temFileId);
+        		sfc.setFileKind(fileKind[j]);
+        		sfc.setBak1(bak1[j]);
+        		sfc.setBak2(sysFile.getFileName());
+        		sfc.setCreateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
+        		sfc.setCreatePersonId(sysFileCollect.getCreatePersonId());
+        		sysFileCollectMapper.insertSelective(sfc);
+        	}
         }
         result = 200;
         return result;

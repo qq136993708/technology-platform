@@ -4,7 +4,6 @@ package com.pcitc.service.doc.impl;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
@@ -27,7 +26,6 @@ import com.pcitc.base.doc.SysFileKindAuthExample;
 import com.pcitc.base.doc.SysFileKindExample;
 import com.pcitc.base.system.SysFile;
 import com.pcitc.base.system.SysUser;
-import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.IdUtil;
 import com.pcitc.mapper.doc.SysFileKindAuthMapper;
 import com.pcitc.mapper.doc.SysFileKindMapper;
@@ -52,6 +50,12 @@ public class SysFileKindServiceImpl implements SysFileKindService {
     
     @Autowired
     private SysFileKindAuthMapper sysFileKindAuthMapper;
+    
+    @Autowired
+    private SysFileService sysFileService;
+    
+    @Autowired
+    private SysFileShareService sysFileShareService;
 
     public List<SysFileKind> findSysFileKindList(SysFileKind sysFileKind) {
         List<SysFileKind> record = sysFileKindMapper.findSysFileKindList(sysFileKind);
@@ -65,7 +69,6 @@ public class SysFileKindServiceImpl implements SysFileKindService {
             sysFileKindMapper.updateByPrimaryKey(sysFileKind);
         } else {
             sysFileKind.setId(UUID.randomUUID().toString().replaceAll("-", ""));
-            sysFileKind.setBak1(sysFileKind.getBak1()+sysFileKind.getId()+"@");
             sysFileKindMapper.insertSelective(sysFileKind);
         }
         result = 200;
@@ -220,10 +223,10 @@ public class SysFileKindServiceImpl implements SysFileKindService {
         return null;
     }
 
-    public List<TreeNode> selectTrees() {
+    public List<TreeNode> selectTrees(HashMap<String, Object> map) {
         List<TreeNode> list = null;
         try {
-            list = sysFileKindMapper.selectTrees();
+            list = sysFileKindMapper.selectTrees(map);
             for (int i = 0; i < list.size(); i++) {
                 TreeNode tree = list.get(i);
                 if (tree.getLevelCode() < 10) {
@@ -232,17 +235,11 @@ public class SysFileKindServiceImpl implements SysFileKindService {
                     tree.setOpen("false");
                 }
             }
-//            list = TreeNodeUtil.getChildrenNode("1", sysFileKindMapper.selectTrees());
         } catch (Exception e) {
             e.printStackTrace();
         }
         return list;
     }
-
-    @Autowired
-    SysFileService sysFileService;
-    @Autowired
-    SysFileShareService sysFileShareService;
 
     @Override
     public int updateOrInsertSysFile(SysFileKind sysFileKind) {
@@ -256,20 +253,42 @@ public class SysFileKindServiceImpl implements SysFileKindService {
         for (int i = 0, j = arrayFields.length; i < j; i++) {
 
             SysFile sysFile = sysFileService.selectByPrimaryKey(arrayFields[i]);
-            try {
-                if ("private".equals(sysFile.getBak1()) || "public".equals(sysFile.getBak1())) {
-                    sysFileShareService.deleteObjByParam(arrayFields[i]);
-                    sysFile.setBak3("");
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
 
             sysFile.setBak1(sysFileKind.getBak1());
             sysFile.setFilePublish(sysFileKind.getCreatePersonId());
             sysFile.setFileKind(sysFileKind.getParentId());
             sysFile.setBak2(sysFileKind.getCreatePersonName());
-            sysFileService.updateByPrimaryKey(sysFile);
+            sysFile.setVersion(sysFileKind.getVersion());
+            sysFile.setBak10(sysFileKind.getBak10());
+            
+            if (sysFileKind.getBak2() != null && !sysFileKind.getBak2().equals("0")) {
+            	// 文件的修改操作
+            	SysFile iniFile = sysFileService.selectByPrimaryKey(sysFileKind.getBak2());
+            	// 把初始的文件当做老版本保存起来
+            	
+            	System.out.println("======复制老文件------"+sysFileKind.getBak2());
+            	sysFileService.copySysFile(sysFileKind.getBak2());
+            	System.out.println("======复制完毕------"+sysFileKind.getBak2());
+            	// 修改初始文件
+            	iniFile = sysFile;
+            	iniFile.setId(sysFileKind.getBak2());
+            	iniFile.setBak1(sysFileKind.getBak1());
+            	iniFile.setFilePublish(sysFileKind.getCreatePersonId());
+                iniFile.setFileKind(sysFileKind.getParentId());
+                iniFile.setBak2(sysFileKind.getCreatePersonName());
+                iniFile.setVersion(sysFileKind.getVersion());
+                iniFile.setBak10(sysFileKind.getBak10());
+                sysFileService.updateByPrimaryKey(iniFile);
+                
+                // 删除新上传文件
+                if (!arrayFields[i].equals(sysFileKind.getBak2())) {
+                	sysFileService.deleteByPrimaryKey(arrayFields[i]);
+                } 
+                
+            } else {
+            	sysFileService.updateByPrimaryKey(sysFile);
+            }
+            
         }
         return result;
     }

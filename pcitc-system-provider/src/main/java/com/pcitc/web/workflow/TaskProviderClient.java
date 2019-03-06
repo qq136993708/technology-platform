@@ -226,7 +226,7 @@ public class TaskProviderClient {
 		int limit = 15;
 		int page = 1;
 		String taskName = null;
-
+		Date now1 = new Date();
 		String userId = param.getParam().get("userId").toString();
 		TaskQuery query = taskService.createTaskQuery().taskCandidateOrAssigned(userId);
 		if (param.getLimit() != null && !StrUtil.isBlankOrNull(param.getLimit().toString())) {
@@ -239,6 +239,20 @@ public class TaskProviderClient {
 			taskName = "%" + param.getParam().get("taskName").toString() + "%";
 			query = query.taskNameLike(taskName);
 		}
+		
+		if (param.getParam().get("functionId") != null && !StrUtil.isBlankOrNull(param.getParam().get("functionId").toString())) {
+			// 只查询某个菜单（功能点）的具体待办任务
+			HashMap<String, String> hashmap = new HashMap<String, String>();
+			hashmap.put("functionId", param.getParam().get("functionId").toString());
+			List<SysFunctionProdef> proList = taskInstanceService.getProcessDefineInfo(hashmap);
+			if (proList != null && proList.size() > 0) {
+				String[] temKeys = proList.get(0).getProdefId().split(":");
+				query = query.processDefinitionKey(temKeys[0]);
+			}
+		}
+		
+		
+		
 		if (param.getParam().get("dateFlag") != null && !StrUtil.isBlankOrNull(param.getParam().get("dateFlag").toString())) {
 			
 			if (param.getParam().get("dateFlag").toString().equals("3")) {
@@ -251,7 +265,6 @@ public class TaskProviderClient {
 			if (param.getParam().get("dateFlag").toString().equals("8")) {
 				query.taskCreatedBefore(DateUtil.dateAdd(new Date(), -7));
 			}
-			
 		}
 		
 		if (param.getOrderKey() != null && !StrUtil.isBlankOrNull(param.getOrderKey().toString())) {
@@ -319,8 +332,6 @@ public class TaskProviderClient {
 				// 过滤掉非用户任务
 				if (!historicActivityInstance.getActivityType().equals("userTask"))
 					continue;
-				System.out.println("1historicActivityInstance=================" + historicActivityInstance);
-				System.out.println("2historicActivityInstance=================" + historicActivityInstance.getTaskId());
 				if (historicActivityInstance.getTaskId() != null) {
 					// 获取审批意见、审批时间
 					List<Comment> comments = taskService.getTaskComments(historicActivityInstance.getTaskId());
@@ -354,7 +365,8 @@ public class TaskProviderClient {
 		LayuiTableData data = new LayuiTableData();
 		data.setData(voList);
 		data.setCount((int) count);
-
+		Date now2 = new Date();
+		System.out.println("====总用时-------------"+(now2.getTime()-now1.getTime()));
 		return data;
 	}
 
@@ -421,6 +433,17 @@ public class TaskProviderClient {
 			}
 			if (param.getParam().get("dateFlag").toString().equals("8")) {
 				query.taskCreatedBefore(DateUtil.dateAdd(new Date(), -7));
+			}
+		}
+		
+		if (param.getParam().get("functionId") != null && !StrUtil.isBlankOrNull(param.getParam().get("functionId").toString())) {
+			// 只查询某个菜单（功能点）的具体待办任务
+			HashMap<String, String> hashmap = new HashMap<String, String>();
+			hashmap.put("functionId", param.getParam().get("functionId").toString());
+			List<SysFunctionProdef> proList = taskInstanceService.getProcessDefineInfo(hashmap);
+			if (proList != null && proList.size() > 0) {
+				String[] temKeys = proList.get(0).getProdefId().split(":");
+				query = query.processDefinitionKey(temKeys[0]);
 			}
 		}
 
@@ -491,6 +514,17 @@ public class TaskProviderClient {
 		if (param.getParam().get("processName") != null && !StrUtil.isBlankOrNull(param.getParam().get("processName").toString())) {
 			processName = "%" + param.getParam().get("processName").toString() + "%";
 			query = query.processDefinitionNameLike(processName);
+		}
+		
+		if (param.getParam().get("functionId") != null && !StrUtil.isBlankOrNull(param.getParam().get("functionId").toString())) {
+			// 只查询某个菜单（功能点）的具体待办任务
+			HashMap<String, String> hashmap = new HashMap<String, String>();
+			hashmap.put("functionId", param.getParam().get("functionId").toString());
+			List<SysFunctionProdef> proList = taskInstanceService.getProcessDefineInfo(hashmap);
+			if (proList != null && proList.size() > 0) {
+				String[] temKeys = proList.get(0).getProdefId().split(":");
+				query = query.processDefinitionKey(temKeys[0]);
+			}
 		}
 		
 		// List<HistoricTaskInstance> taskInstances =

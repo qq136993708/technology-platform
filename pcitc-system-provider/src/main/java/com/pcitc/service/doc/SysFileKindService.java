@@ -1,5 +1,6 @@
 package com.pcitc.service.doc;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -78,7 +79,7 @@ public interface SysFileKindService {
      *
      * @return
      */
-    public List<TreeNode> selectTrees();
+    public List<TreeNode> selectTrees(HashMap<String, Object> map);
 
     public int updateOrInsertSysFile(SysFileKind sysFileKind);
     

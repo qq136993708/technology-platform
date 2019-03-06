@@ -590,12 +590,18 @@
         </if>
     </select>
     <!-- 查询文档分类树 -->
-    <select id="selectTrees" resultType="com.pcitc.base.common.TreeNode">
+    <select id="selectTrees" resultType="com.pcitc.base.common.TreeNode" parameterType="java.util.HashMap">
 	  select id,parent_id as pid,parent_id as parentId,kind_name as name,
 	  		 kind_name as text,id as code,bak1 as nodePath
       from sys_file_kind
       where 
       	status = 1
+      	<if test="other != null">
+			and sys_file_kind.other = '${other}'
+		</if>
+		<if test="createPersonId != null">
+			and sys_file_kind.create_person_id = '${createPersonId}'
+		</if>
     </select>
     
     <!--文档分类权限分配查询-用户-->

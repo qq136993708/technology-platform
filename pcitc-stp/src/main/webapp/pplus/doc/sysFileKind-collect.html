@@ -18,7 +18,11 @@
 	<div class="treeTableContainer">
 		<div class="treeBox">
 			<div class="title-box">
-				<span>文档分类</span>
+				<span>
+					<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg thirdBtn" data-type="addEvent">新增</button>
+					<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg" data-type="editEvent">编辑</button>
+					<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="deleteEvent">删除</button>
+				</span>
 			</div>
 			<div class="layui-side-scroll">
 				<!-- 左侧子菜单 -->
@@ -27,13 +31,21 @@
 		</div>
 
 		<div class="treeTableBox">
+			<div class="searchBox">
+				<!--查询条件-->
+				<label class="dateInput"> <span>文档名称</span> <input type="text" name="fileName" id="fileName" placeholder="文档名称" title="文档名称" autocomplete="off" class="form-control" id="name">
+				</label>
+				<!--按钮组-->
+				<div class="btnGroup">
+					<button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>
+					<button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg" data-type="resetEvent">重置</button>
+				</div>
+			</div>
 			<div class="tableToolBox">
 				<div class="whiteLine"></div>
 				<div class="tableBtns">
-					<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="addEvent">新增</button>
-					<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="editEvent">编辑</button>
-					<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="deleteEvent">删除</button>
-					<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="authEvent">权限</button>
+					<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="downloadEvent">下载</button>
+					<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="editEvent1">查看</button>
 				</div>
 			</div>
 			<table id="fileShowTable" class="layui-hide" lay-filter="tableEvent"></table>
@@ -42,11 +54,12 @@
 	<a href="" target="_self" id="download"></a>
 
 	<script>
-		var parentId = "xxxxxxxx";
+		var parentId = "";
+		var nodeTreeId = "";
 
 		function initTree() {
 			var zNodes;
-			ajaxPost("/sysfilekind/sysfilekind/tree-data", null, function(data) {
+			ajaxPost("/sysfilekind/collect/tree-data", null, function(data) {
 				zNodes = data;
 			});
 			var setting = {
@@ -66,38 +79,29 @@
 		initTree();
 
 		function onClickMenu(event, treeId, treeNode, clickFlag) {
-			parentId = treeNode.id;
-			reloadtable();
-			$(".layui-table-header table thead th input").remove();
+			parentId = treeNode.pId;
+			nodeTreeId = treeNode.id;
+			active.searchEvent();
 		}
 
-		$(".layui-table-header table thead th input").remove(); //移除表头的复选框,去掉全选
-		function reloadtable() {
-			table.reload('showTableId', {
-				where : {
-					param : {
-						"fileKind" : parentId
-					}
-				}
-			});
-		}
-		
-		
-		var selectRowData;
+		var active;
 		layui.use([ 'jquery', 'form', 'laydate', 'table', 'layer', 'element' ], function() {
 			var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate;
 			table = layui.table;
-			function renderSysFileTable() {
+			
+			function renderTable() {
+				var lodingMsg = layer.msg('数据加载中....');
 				// 查询是哪个菜单
 				var param = JSON.parse(window.localStorage.getItem("param"));
 
 				table.render({
 					elem : '#fileShowTable',
-					url : '/sysfilekind/getTableData',
+					url : '/file/collect/data-list',
 					method : "POST",
 					where : {
 						param : {
-							"fileKind" : parentId
+							"fileName" : $("#fileName").val(),
+							"fileKind" : nodeTreeId
 						}
 					},
 					limit : param.selfRownum,
@@ -118,81 +122,90 @@
 						title : '序号',
 						type : 'numbers'
 					}, {
-						field : 'kindName',
-						title : '名称',
+						field : 'fileName',
+						title : '文档名称',
 						event : 'setActive',
 						style : 'cursor: pointer;'
 					}, {
-						field : 'createPersonName',
-						title : '创建人名称',
+						field : 'fileKind',
+						title : '收藏分类名称',
 						event : 'setActive',
 						style : 'cursor: pointer;'
 					}, {
-						field : 'createDate',
-						title : '创建时间',
+						field : 'createDateTime',
+						title : '收藏时间',
 						event : 'setActive',
-						style : 'cursor: pointer;'
+						style : 'cursor: pointer;',
+						templet : '<div>{{ layui.laytpl.toDateString(d.createTime) }}</div>'
 					}, {
-						field : 'updatePersonName',
-						title : '修改人名称',
+						field : 'bak4',
+						title : '原文档状态',
 						event : 'setActive',
-						style : 'cursor: pointer;'
-					}, {
-						field : 'updateDate',
-						title : '修改时间',
-						event : 'setActive',
-						style : 'cursor: pointer;'
-					}, {
-						field : 'ramarks',
-						title : '说明',
-						event : 'setActive',
-						style : 'cursor: pointer;'
-					}, ] ],
+						style : 'cursor: pointer;',
+						templet : function(d) {
+							var auditDate = new Date(d.bak4);
+							var nowDate = new Date();
+							if (d.bak4 != '') {
+								return '正常';
+							} else {
+								return '已删除';
+							}
+						}
+					} ] ],
 					done : function(res, curr, count) {
-						$('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function() {
-							var index = parseInt($(this).index() + 1);
-							$(this).parent().find('tr').removeClass('layui-table-click');
-							$(this).addClass('layui-table-click');
-							$(this).parent().children('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
-							$(this).children("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
-							selectRowData = res.data[index - 1];
+						// 关闭等待刷新
+						layer.close(lodingMsg);
+
+						$(document).on("click", ".layui-table-body table.layui-table tbody tr", function() {
+							var index = $(this).attr('data-index');
+							var tableBox = $(this).parents('.layui-table-box');
+							//存在固定列
+							if (tableBox.find(".layui-table-fixed.layui-table-fixed-l").length > 0) {
+								tableDiv = tableBox.find(".layui-table-fixed.layui-table-fixed-l");
+							} else {
+								tableDiv = tableBox.find(".layui-table-body.layui-table-main");
+							}
+							var checkCell = tableDiv.find("tr[data-index=" + index + "]").find("td div.laytable-cell-checkbox div.layui-form-checkbox I");
+							if (checkCell.length > 0) {
+								checkCell.click();
+							}
+						});
+						$(document).on("click", "td div.laytable-cell-checkbox div.layui-form-checkbox", function(e) {
+							e.stopPropagation();
 						});
 					}
 				});
-				//移除表头的复选框,去掉全选
-				$(".layui-table-header table thead th input").remove();
 			}
-
-			renderSysFileTable();
+			
+			renderTable();
 			// 触发不同的按钮事件
-			var $ = layui.$, active = {
+			var $ = layui.$;
+			active = {
 				searchEvent : function() { //点击查询按钮
-					table.reload('showTableId', {
-						where : {
-							param : {
-								"fileKind" : parentId
-							}
-						}
-					});
+					renderTable();
 				},
 				resetEvent : function() { //点击查询按钮
 					$("#fileName").val("");
-					table.reload('showTableId', {
-						where : {
-							param : {
-								"fileKind" : parentId
-							}
-						}
-					});
+					renderTable();
 				},
 				downloadEvent : function() {
 					var ids = active.getChecked();
 					if (ids == "") {
-						layer.msg("请选择文件");
+						layer.msg("请选择文档");
 						return;
 					}
-					$("#download").attr("href", "/sysfile/download/" + ids);
-					document.getElementById("download").click();
+					var flag;
+					ajaxPost("/sysfile/getFileFlag/", {
+						"id" : ids
+					}, function(data) {
+						flag = data;
+					});
+					if (flag) {
+						$("#download").attr("href", "/sysfile/download/" + ids);
+						document.getElementById("download").click();
+					} else {
+						layer.msg("文档有缺失！请联系管理员！");
+					}
 				},
 				getChecked : function() {//多选
 					var ids = "";
@@ -218,7 +231,7 @@
 					layer.msg(checkStatus.isAll ? '全选' : '未全选')
 				},
 				addEvent : function() { //点击新增按钮
-					var temUrl = "/sysfilekind/edit?opt=edit&parentId=" + parentId;
+					var temUrl = "/sysfilekind/edit?opt=edit&other=self&parentId=" + nodeTreeId;
 					layer.open({
 						title : '新增',
 						skin : 'layui-layer-lan',
@@ -236,11 +249,11 @@
 					});
 				},
 				editEvent : function() { //点击编辑按钮
-					if (!selectRowData) {
-						layer.msg('请点击选择一行数据');
+					if (nodeTreeId == '') {
+						layer.msg('请点击选择收藏分类数据');
 						return;
 					}
-					var temUrl = "/sysfilekind/edit?opt=edit&id=" + selectRowData.id + "&parentId=" + parentId;
+					var temUrl = "/sysfilekind/edit?opt=edit&other=self&id=" + nodeTreeId + "&parentId=" + parentId;
 					layer.open({
 						title : '编辑',
 						skin : 'layui-layer-lan',
@@ -260,31 +273,20 @@
 					});
 				},
 				deleteEvent : function() { //点击删除按钮
-					if (!selectRowData) {
-						layer.msg('请点击选择一行数据');
-						return;
-					}
 					layer.confirm('确定要删除吗?', {
 						btn : [ '确认', '取消' ],
 						title : "删除确认"
 					}, function(index) {
 						layer.close(index);
-						var flag = ajaxPost("/sysfilekind/sysfilekind/del?sysFileKindId=" + selectRowData.id, {
-							"sysFileKindId" : selectRowData.id
+						var flag = ajaxPost("/sysfilekind/sysfilekind/del?sysFileKindId=" + nodeTreeId, {
+							"sysFileKindId" : nodeTreeId
 						}, function(data) {
 							initTree();
 							reloadtable();
 						});
 						layer.msg(flag == "DEL_OK" ? "删除成功" : "删除失败！请删除此节点下子节点后再执行此操作！");
 					});
-				},
-				authEvent: function () {
-					if (!selectRowData) {
-						layer.msg('请点击选择一行数据');
-						return;
-					}
-	                openBaseWin("文档分类权限配置", "/sysfilekind/auth/ini-config?sysFileKindId="+selectRowData.id);
-	            }
+				}
 			};
 			$('.layui-btn').on('click', function() {
 				var type = $(this).data('type');

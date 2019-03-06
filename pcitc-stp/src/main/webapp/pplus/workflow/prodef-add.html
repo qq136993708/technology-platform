@@ -88,7 +88,7 @@
 						<div class="layui-form-item">
 							<label for="" class="layui-form-label">创建人</label>
 							<div class="layui-input-block">
-								<input class="layui-input readOnlyBox" id="createPersonName" name="createPersonName" lay-verify="createPersonName" type="text" value="${userInfo.userName}" disabled>
+								<input class="layui-input readOnlyBox" id="createPersonName" name="createPersonName" lay-verify="required" type="text" value="${userInfo.userName}" disabled>
 								<input id="createPersonId" name="createPersonId" type="hidden" value="${userInfo.userId}">
 							</div>
 						</div>
@@ -97,7 +97,7 @@
 						<div class="layui-form-item">
 							<label for="" class="layui-form-label">创建时间</label>
 							<div class="layui-input-block">
-								<input type="text" name="createDate" id="createDate" lay-verify="createDate" class="layui-input readOnlyBox" disabled>
+								<input type="text" name="createDate" id="createDate" lay-verify="required" class="layui-input readOnlyBox" disabled>
 							</div>
 						</div>
 					</div>
@@ -151,9 +151,7 @@
 			/* 自定义验证规则  title 要验证的input的 lay-verify=""*/
 			form.verify({
 				prodefId : function(value) {
-					if (value.length == '') {
-						return '需要选择流程定义';
-					}
+					if (value.length == '') { return '需要选择流程定义'; }
 				}
 			});
 

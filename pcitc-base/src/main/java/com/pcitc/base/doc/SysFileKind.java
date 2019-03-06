@@ -97,9 +97,50 @@ public class SysFileKind extends DataEntity implements Serializable {
      * bak2 -
      */
     private String bak2;
+    
+    
+    private String iniId;
+    
+    private String version;
+    
+    private String bak10;
+    
+    private String bak9;
 
+    
+    public String getIniId() {
+		return iniId;
+	}
 
-    public String getId() {
+	public void setIniId(String iniId) {
+		this.iniId = iniId;
+	}
+
+	public String getVersion() {
+		return version;
+	}
+
+	public void setVersion(String version) {
+		this.version = version;
+	}
+
+	public String getBak10() {
+		return bak10;
+	}
+
+	public void setBak10(String bak10) {
+		this.bak10 = bak10;
+	}
+
+	public String getBak9() {
+		return bak9;
+	}
+
+	public void setBak9(String bak9) {
+		this.bak9 = bak9;
+	}
+
+	public String getId() {
         return this.id;
     }
 

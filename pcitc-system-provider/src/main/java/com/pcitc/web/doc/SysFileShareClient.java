@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
+import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.doc.SysFileShare;
 import com.pcitc.service.doc.SysFileShareService;
+import com.pcitc.service.system.SysFileService;
 
 
 /**
@@ -34,6 +36,9 @@ public class SysFileShareClient {
 
     @Autowired
     SysFileShareService sysFileShareService;
+    
+    @Autowired
+    SysFileService sysFileService;
 
 
     //参数查询
@@ -108,6 +113,20 @@ public class SysFileShareClient {
         }
         return null;
     }
+    
+    /**
+	 * 获取文件历史版本
+	 * 
+	 * @author zhf
+	 * @date 2019年3月3日 下午2:09:43
+	 */
+	@ApiOperation(value = "获取文件历史版本信息", notes = "查询sys_file_version表，无主键")
+	@RequestMapping(value = "/sysfileshare-provider/sysfileshare/file/history/list", method = RequestMethod.POST)
+	public Object selectFileHistoryList(@RequestBody LayuiTableParam param) {
+		// System.out.println("1selectDelegateByPage==============查询的是某个人的委托单，不是所有人的委托单");
+		Object tem = sysFileService.selectFileHistoryList(param);
+		return tem;
+	}
 
 //
 //    /**

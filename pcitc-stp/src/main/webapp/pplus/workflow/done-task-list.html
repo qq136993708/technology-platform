@@ -12,10 +12,8 @@
 <body>
 	<div class="searchBox">
 		<!--查询条件-->
-		<label class="dateInput">
-			<span>流程名称</span>
-			<input type="hidden" id="dateFlag" name="dateFlag" value="7">
-			<input type="text" name="processName" placeholder="请输入流程名称" title="流程名称" autocomplete="off" class="form-control" id="processName">
+		<label class="dateInput"> <span>流程名称</span> <input type="hidden" id="dateFlag" name="dateFlag" value="7"> <input type="text" name="processName"
+			placeholder="请输入流程名称" title="流程名称" autocomplete="off" class="form-control" id="processName">
 		</label>
 		<!--按钮组-->
 		<div class="btnGroup">
@@ -29,20 +27,16 @@
 			<div class="whiteLine"></div>
 			<div class="tableBtns">
 				<button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg" data-type="allEvent">
-					<span class="btn-state btn-all"></span>
-					全部
+					<span class="btn-state btn-all"></span> 全部
 				</button>
 				<button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg" data-type="threeEvent">
-					<span class="btn-state btn-blue"></span>
-					三天内
+					<span class="btn-state btn-blue"></span> 三天内
 				</button>
 				<button id="weekData" class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue active btnMyBgImg" data-type="weekEvent">
-					<span class="btn-state btn-maize"></span>
-					一周内
+					<span class="btn-state btn-maize"></span> 一周内
 				</button>
 				<button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg" data-type="monthEvent">
-					<span class="btn-state btn-yellow"></span>
-					一周以上
+					<span class="btn-state btn-yellow"></span> 一周以上
 				</button>
 
 				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" data-type="detailEvent">查看</button>
@@ -53,6 +47,7 @@
 
 	<!--表格数据操作js-->
 	<script>
+		var functionId = "${functionId}";
 		var table, active, selectRowData = '';
 		layui.use([ 'jquery', 'table', 'laypage', 'laytpl', 'laydate' ], function() {
 			table = layui.table, $ = layui.jquery, laypage = layui.laypage, laydate = layui.laydate;
@@ -71,7 +66,7 @@
 						param : {
 							"processName" : processName,
 							"dateFlag" : dateFlag,
-							"functionCode" : param.code
+							"functionId" : functionId
 						}
 					},
 					limit : param.selfRownum,
@@ -99,12 +94,12 @@
 						width : 55,
 						style : 'cursor: pointer;',
 						align : 'center',
-						templet: function(d){
+						templet : function(d) {
 							var crTime = new Date(d.createTime);
 							var nowDate = new Date();
-							if ((nowDate.getTime() - crTime.getTime()) < 86400000*3 ) {
+							if ((nowDate.getTime() - crTime.getTime()) < 86400000 * 3) {
 								return '<img src="/layuiadmin/layui/images/Red_Ball.png">';
-							} else if ((nowDate.getTime() - crTime.getTime()) > 86400000*3 && (nowDate.getTime() - crTime.getTime()) < 86400000*7) {
+							} else if ((nowDate.getTime() - crTime.getTime()) > 86400000 * 3 && (nowDate.getTime() - crTime.getTime()) < 86400000 * 7) {
 								return '<img src="/layuiadmin/layui/images/Yellow_Ball.png">';
 							} else {
 								return '<img src="/layuiadmin/layui/images/Green_Ball.png">';
