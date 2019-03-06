@@ -112,7 +112,7 @@
                 console.log(data.field);
                 ajaxPost("/sysfilekind/savesysFileKind", data.field, function(dt, status) {
                     layer.msg("操作成功");
-                    parent.reloadtable('showTableId',null);
+                    parent.active.searchEvent();
                     parent.initTree();
                     var index = parent.layer.getFrameIndex(window.name);
                     parent.layer.close(index);

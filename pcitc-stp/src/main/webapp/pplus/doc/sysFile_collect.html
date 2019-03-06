@@ -86,11 +86,9 @@
 		            selectedCollectKind = (selectedCollectKind == "" ? nodes[i].id : (selectedCollectKind + "," + nodes[i].id));
 		            bak1 = (bak1 == "" ? nodes[i].name : (bak1 + "," + nodes[i].name));
 		        }
-		        alert(fileIds);
 		        data.field.fileId = fileIds;
 		        data.field.fileKind = selectedCollectKind;
 		        data.field.bak1 = bak1;
-		        alert(selectedCollectKind);
 		        $.ajax({
 					url : "/sysfilecollect/savesysFileCollect",
 					type : 'POST',

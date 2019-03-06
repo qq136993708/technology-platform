@@ -1112,15 +1112,21 @@
   	
   	<!--文档收藏的查询方法-->
     <select id="selectFileListForCollect" resultMap="BaseResultMap" parameterType="java.util.HashMap">
-		select sys_file.id,sys_file.file_name,sys_file.create_date_time,sys_file.file_size,sys_file.bak1,
-			   sys_file.version,sys_file.create_user_id as bak3,sys_file.file_suffix,
-			   sys_file_kind.kind_name as file_kind
+		select sys_file_collect.file_id as id,
+			   sys_file_collect.bak2 as file_name,
+			   sys_file_kind.kind_name as file_kind,
+			   sys_file_kind.create_date as create_date_time,
+			   GROUP_CONCAT(DISTINCT sys_file.id) as bak4
 		from sys_file_kind,sys_file_collect left join sys_file on (sys_file_collect.file_id = sys_file.id)
 		where 
 			sys_file_kind.id = sys_file_collect.file_kind
 			and sys_file_collect.create_person_id = '${userId}'
+			and sys_file_kind.other = 'self'
 			<if test="fileKind != null">
 				and sys_file_collect.file_kind = #{fileKind}
+			</if>
+			<if test="fileName != null">
+				and sys_file_collect.bak2 like '%${fileName}%'
 			</if>
 			group by sys_file_collect.file_id
   	</select>

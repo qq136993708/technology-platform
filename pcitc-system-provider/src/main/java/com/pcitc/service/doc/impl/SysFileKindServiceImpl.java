@@ -50,6 +50,12 @@ public class SysFileKindServiceImpl implements SysFileKindService {
     
     @Autowired
     private SysFileKindAuthMapper sysFileKindAuthMapper;
+    
+    @Autowired
+    private SysFileService sysFileService;
+    
+    @Autowired
+    private SysFileShareService sysFileShareService;
 
     public List<SysFileKind> findSysFileKindList(SysFileKind sysFileKind) {
         List<SysFileKind> record = sysFileKindMapper.findSysFileKindList(sysFileKind);
@@ -234,11 +240,6 @@ public class SysFileKindServiceImpl implements SysFileKindService {
         }
         return list;
     }
-
-    @Autowired
-    SysFileService sysFileService;
-    @Autowired
-    SysFileShareService sysFileShareService;
 
     @Override
     public int updateOrInsertSysFile(SysFileKind sysFileKind) {
