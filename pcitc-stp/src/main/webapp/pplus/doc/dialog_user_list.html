@@ -51,7 +51,7 @@
 			form = layui.form;
 			table = layui.table;
 
-			function renderSysFileTable() {
+			function renderTable() {
 				table.render({
 					elem : '#fileShowTable',
 					url : '/sysfilekind/auth/user/list',
@@ -117,7 +117,7 @@
 				e.stopPropagation();
 			});
 
-			renderSysFileTable();
+			renderTable();
 			// 触发不同的按钮事件
 			var $ = layui.$, active = {
 				searchEvent : function() { //点击查询按钮

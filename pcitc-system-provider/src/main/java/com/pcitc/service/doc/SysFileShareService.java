@@ -1,8 +1,13 @@
 package com.pcitc.service.doc;
 
+import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.ibatis.annotations.Param;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.TreeNode;
@@ -78,5 +83,22 @@ public interface SysFileShareService {
      * @param strFileId
      */
     public void deleteObjByParam(String strFileId);
+    
+    /**
+     * 替换sysFIle，保存进历史版本
+     * @param versionUUID
+     * @return
+     */
+    public int replaceSysFile(String versionUUID);
+    
+    /**
+	 * 历史版本文档下载
+	 */
+	public void downloadFiles(@PathVariable("versionUUID") String versionUUID, HttpServletRequest request, HttpServletResponse response) throws IOException;
+	
+    /**
+	 * 历史版本文档下载
+	 */
+	public void downloadFile(@PathVariable("versionUUID") String versionUUID, HttpServletRequest request, HttpServletResponse response) throws IOException;
 
 }
