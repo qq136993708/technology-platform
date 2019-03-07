@@ -10,12 +10,18 @@
 		<javaTypeResolver>
           <property name="forceBigDecimals" value="true" />
         </javaTypeResolver>
-		<javaModelGenerator  targetPackage="com.pcitc.base.doc" targetProject="pcitc-base" />
-		<sqlMapGenerator     targetPackage="com.pcitc.mapper.doc"   targetProject="pcitc-system-provider" />
-		<javaClientGenerator targetPackage="com.pcitc.mapper.doc"   targetProject="pcitc-system-provider" type="XMLMAPPER" />
-	    
-	    <table schema="pcitc-system-provider" domainObjectName="SysFileKindAuth"  tableName="sys_file_kind_auth"  enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
-	    </table>
+			<javaModelGenerator  targetPackage="com.pcitc.base.stp.equipment" targetProject="pcitc-base" />
+		<sqlMapGenerator     targetPackage="com.pcitc.mapper.equipment"   targetProject="pcitc-stp-provider" />
+		<javaClientGenerator targetPackage="com.pcitc.mapper.equipment"   targetProject="pcitc-stp-provider" type="XMLMAPPER" />
+	   
+	   
+	   <table schema="pcitc-stp-provider" tableName="sre_tech_meeting" domainObjectName="SreTechMeeting"
+			enableCountByExample="false" 
+			enableUpdateByExample="false"
+			enableDeleteByExample="false" 
+			enableSelectByExample="false"
+			selectByExampleQueryId="false">
+		</table>
 	
 	</context>
 </generatorConfiguration>
