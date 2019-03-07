@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
 <generatorConfiguration>
-	<classPathEntry location="D:\java\workspace\workspace_findworker\slxj\WebRoot\WEB-INF\lib\mysql-connector-java-5.1.7-bin.jar" />
+	<classPathEntry location="D:\eclipse64workplace\mpbw\WebContent\WEB-INF\lib\mysql-connector-java-5.1.20-bin.jar" />
 	<context id="context1">
         <commentGenerator>
 			<property name="suppressAllComments" value="true" />
@@ -10,20 +10,12 @@
 		<javaTypeResolver>
           <property name="forceBigDecimals" value="true" />
         </javaTypeResolver>
-		<javaModelGenerator  targetPackage="com.pcitc.base.stp.equipment" targetProject="pcitc-base" />
-		<sqlMapGenerator     targetPackage="com.pcitc.mapper.equipment"   targetProject="pcitc-stp-provider" />
-		<javaClientGenerator targetPackage="com.pcitc.mapper.equipment"   targetProject="pcitc-stp-provider" type="XMLMAPPER" />
-	   
-	   
-	   <table schema="pcitc-stp-provider" tableName="sre_tech_meeting" domainObjectName="SreTechMeeting"
-			enableCountByExample="false" 
-			enableUpdateByExample="false"
-			enableDeleteByExample="false" 
-			enableSelectByExample="false"
-			selectByExampleQueryId="false">
-		</table>
-		
-		
+		<javaModelGenerator  targetPackage="com.pcitc.base.doc" targetProject="pcitc-base" />
+		<sqlMapGenerator     targetPackage="com.pcitc.mapper.doc"   targetProject="pcitc-system-provider" />
+		<javaClientGenerator targetPackage="com.pcitc.mapper.doc"   targetProject="pcitc-system-provider" type="XMLMAPPER" />
+	    
+	    <table schema="pcitc-system-provider" domainObjectName="SysFileKindAuth"  tableName="sys_file_kind_auth"  enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
+	    </table>
 	
 	</context>
 </generatorConfiguration>
