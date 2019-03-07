@@ -5,13 +5,15 @@ import java.util.Date;
 public class SreTechMeeting {
     private String meetingId;
 
-    private String meetingCode;
+    private String title;
 
     private Date meetingDate;
 
     private String meetingPlace;
 
     private String meetingEmcee;
+
+    private String joinUsers;
 
     private String meetingContent;
 
@@ -21,15 +23,23 @@ public class SreTechMeeting {
 
     private String createUserId;
 
+    private String createUserName;
+
     private Date updateDate;
 
     private String updateUserId;
 
-    private String projectId;
-
     private String status;
 
-    private String remarks;
+    private String remark;
+
+    private String equitmentId;
+
+    private String projectId;
+
+    private String createDepartName;
+
+    private String createDepartCode;
 
     public String getMeetingId() {
         return meetingId;
@@ -39,12 +49,12 @@ public class SreTechMeeting {
         this.meetingId = meetingId;
     }
 
-    public String getMeetingCode() {
-        return meetingCode;
+    public String getTitle() {
+        return title;
     }
 
-    public void setMeetingCode(String meetingCode) {
-        this.meetingCode = meetingCode;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public Date getMeetingDate() {
@@ -69,6 +79,14 @@ public class SreTechMeeting {
 
     public void setMeetingEmcee(String meetingEmcee) {
         this.meetingEmcee = meetingEmcee;
+    }
+
+    public String getJoinUsers() {
+        return joinUsers;
+    }
+
+    public void setJoinUsers(String joinUsers) {
+        this.joinUsers = joinUsers;
     }
 
     public String getMeetingContent() {
@@ -103,6 +121,14 @@ public class SreTechMeeting {
         this.createUserId = createUserId;
     }
 
+    public String getCreateUserName() {
+        return createUserName;
+    }
+
+    public void setCreateUserName(String createUserName) {
+        this.createUserName = createUserName;
+    }
+
     public Date getUpdateDate() {
         return updateDate;
     }
@@ -119,14 +145,6 @@ public class SreTechMeeting {
         this.updateUserId = updateUserId;
     }
 
-    public String getProjectId() {
-        return projectId;
-    }
-
-    public void setProjectId(String projectId) {
-        this.projectId = projectId;
-    }
-
     public String getStatus() {
         return status;
     }
@@ -135,11 +153,43 @@ public class SreTechMeeting {
         this.status = status;
     }
 
-    public String getRemarks() {
-        return remarks;
+    public String getRemark() {
+        return remark;
     }
 
-    public void setRemarks(String remarks) {
-        this.remarks = remarks;
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public String getEquitmentId() {
+        return equitmentId;
+    }
+
+    public void setEquitmentId(String equitmentId) {
+        this.equitmentId = equitmentId;
+    }
+
+    public String getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(String projectId) {
+        this.projectId = projectId;
+    }
+
+    public String getCreateDepartName() {
+        return createDepartName;
+    }
+
+    public void setCreateDepartName(String createDepartName) {
+        this.createDepartName = createDepartName;
+    }
+
+    public String getCreateDepartCode() {
+        return createDepartCode;
+    }
+
+    public void setCreateDepartCode(String createDepartCode) {
+        this.createDepartCode = createDepartCode;
     }
 }

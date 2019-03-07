@@ -25,7 +25,6 @@ import com.pcitc.base.stp.equipment.SreProjectTaskExample;
 import com.pcitc.base.stp.equipment.SreProjectYear;
 import com.pcitc.base.stp.equipment.SreProjectYearExample;
 import com.pcitc.base.stp.equipment.SreTechMeeting;
-import com.pcitc.base.stp.equipment.SreTechMeetingExample;
 import com.pcitc.mapper.equipment.SreEquipmentMapper;
 import com.pcitc.mapper.equipment.SreProjectMapper;
 import com.pcitc.mapper.equipment.SreProjectTaskMapper;
@@ -452,35 +451,20 @@ public class EquipmentServiceImpl implements EquipmentService {
 	}
 	
 	
-	public int batchDeleteMeeting(List<String> list)throws Exception
-	{
-
-		SreTechMeetingExample example = new SreTechMeetingExample();
-		example.createCriteria().andProjectIdIn(list);
-		return sreTechMeetingMapper.deleteByExample(example);
-	}
 	
-	public List<SreTechMeeting> getMeetingListByIds(List<String> list)throws Exception
-	{
-		SreTechMeetingExample example = new SreTechMeetingExample();
-		example.createCriteria().andMeetingIdIn(list);
-		return sreTechMeetingMapper.selectByExample(example);
-	}
 
 	public Integer insertMeeting(SreTechMeeting record)throws Exception
 	{
 		return sreTechMeetingMapper.insert(record);
 	}
 
-	public List<SreTechMeeting> getMeetingList(SreTechMeetingExample example)throws Exception
-	{
-		return sreTechMeetingMapper.selectByExample(example);
-	}
 	
 	
 	public LayuiTableData getMeetingPage(LayuiTableParam param)throws Exception
 	{
-		     //每页显示条数
+		
+		
+		  //每页显示条数
 				int pageSize = param.getLimit();
 				//从第多少条开始
 				int pageStart = (param.getPage()-1)*pageSize;
@@ -489,29 +473,21 @@ public class EquipmentServiceImpl implements EquipmentService {
 				// 1、设置分页信息，包括当前页数和每页显示的总计数
 				PageHelper.startPage(pageNum, pageSize);
 						
+				String title=getTableParam(param,"title","");
 				
-				String name=(String)param.getParam().get("name");
-				String equipmentIds=(String)param.getParam().get("equipmentIds");
+				Map map=new HashMap();
+				map.put("title", title);
 				
-				logger.info("================= pageNum: "+pageNum+"pageSize="+pageSize+"name="+name+" equipmentIds"+equipmentIds);
-				SreTechMeetingExample example=new SreTechMeetingExample();
-				SreTechMeetingExample.Criteria criteria = example.createCriteria();
-				example.setOrderByClause(" create_date desc ");
-				/*if(!name.equals(""))
-				{
-					
-					criteria.andNameLike("%"+name+"%");
-				}
-				*/
 				
-				List<SreTechMeeting> list = sreTechMeetingMapper.selectByExample(example);
+				List<SreTechMeeting> list = sreTechMeetingMapper.getList(map);
 				PageInfo<SreTechMeeting> pageInfo = new PageInfo<SreTechMeeting>(list);
-				System.out.println(">>>>>>>>>查询分页结果"+pageInfo.getList().size());
+				System.out.println(">>>>>>>>>任务书查询分页结果 "+pageInfo.getList().size());
 				
 				LayuiTableData data = new LayuiTableData();
 				data.setData(pageInfo.getList());
 				Long total = pageInfo.getTotal();
 				data.setCount(total.intValue());
+				
 			    return data;
 	}
 

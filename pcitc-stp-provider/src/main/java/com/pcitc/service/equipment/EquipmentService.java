@@ -13,7 +13,6 @@ import com.pcitc.base.stp.equipment.SreProjectTaskExample;
 import com.pcitc.base.stp.equipment.SreProjectYear;
 import com.pcitc.base.stp.equipment.SreProjectYearExample;
 import com.pcitc.base.stp.equipment.SreTechMeeting;
-import com.pcitc.base.stp.equipment.SreTechMeetingExample;
 
 public interface EquipmentService {
 	
@@ -96,12 +95,9 @@ public interface EquipmentService {
 
 	public Integer insertMeeting(SreTechMeeting record)throws Exception;
 
-	public List<SreTechMeeting> getMeetingList(SreTechMeetingExample example)throws Exception;
 	
 	
-	public int batchDeleteMeeting(List<String> list)throws Exception;
 	
-	public List<SreTechMeeting> getMeetingListByIds(List<String> list)throws Exception;
 	
 	
 	public LayuiTableData getMeetingPage(LayuiTableParam param)throws Exception;

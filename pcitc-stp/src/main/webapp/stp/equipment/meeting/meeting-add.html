@@ -32,6 +32,12 @@
       <form class="layui-form" name="form1" id="form1" action="" method="POST" lay-filter="component-form-group layui-container">
          <input type="hidden" name="meetingId" id="meetingId" value="${sreTechMeeting.meetingId}">
          <div class="layui-form-item">
+	        <label class="layui-form-label">会议主题<span class="must-fill">*</span></label>
+	        <div class="layui-input-block">
+	         <input class="layui-input"  id="title" name="title" lay-verify="required" value="${sreTechMeeting.title}"  type="text">
+           </div>
+	     </div>
+         <div class="layui-form-item">
 	        <label class="layui-form-label">会议时间<span class="must-fill">*</span></label>
 	        <div class="layui-input-block">
 	         <input class="layui-input" name="meetingDate" id="meetingDate"  readonly="readonly" value="${(sreTechMeeting.meetingDate?string('yyyy-MM-dd HH:mm:ss'))!}" lay-verify="datetime" lay-verify="required"  autocomplete="off" type="text">
@@ -44,23 +50,34 @@
            </div>
 	     </div>
          <div class="layui-form-item">
-	        <label class="layui-form-label">主持人<span class="must-fill">*</span></label>
+	        <label class="layui-form-label">主持人</label>
 	        <div class="layui-input-block">
-	        <input class="layui-input" id="meetingEmcee" name="meetingEmcee" lay-verify="required"   value="${sreTechMeeting.meetingEmcee}"  type="text">
+	        <input class="layui-input" id="meetingEmcee" name="meetingEmcee"    value="${sreTechMeeting.meetingEmcee}"  type="text">
           </div>
 	     </div>
-         <div class="layui-form-item">
-	        <label class="layui-form-label">备注</label>
+	     <div class="layui-form-item">
+	        <label class="layui-form-label">参会人员</label>
 	        <div class="layui-input-block">
-	        <input class="layui-input" id="remarks" name="remarks" lay-verify="required"   value="${sreTechMeeting.remarks}"  type="text">
+	        <input class="layui-input" id="joinUsers" name="joinUsers"  value="${sreTechMeeting.joinUsers}"  type="text">
           </div>
 	     </div>
+         
         <div class="layui-form-item">
 	        <label class="layui-form-label">会议内容<span class="must-fill">*</span></label>
 	        <div class="layui-input-block">
-	        <input class="layui-input" id="meetingContent" name="meetingContent" lay-verify="required"   value="${sreTechMeeting.meetingContent}"  type="text">
+	        <textarea placeholder="请输入会议内容" name="meetingContent" id="meetingContent" lay-verify="required"   class="layui-textarea">${sreTechMeeting.meetingContent}</textarea>
           </div>
 	     </div>
+	     
+	     
+	     <div class="layui-form-item">
+	        <label class="layui-form-label">备注</label>
+	        <div class="layui-input-block">
+	        <textarea  name="remark" id="remark" lay-verify="required"   class="layui-textarea">${sreTechMeeting.remark}</textarea>
+          </div>
+	     </div>
+	     
+	     
      <!--行结束-->
      <div class="form-bottom">
   		<div class="form-bottom-btns">

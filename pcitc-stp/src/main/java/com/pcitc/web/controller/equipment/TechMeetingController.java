@@ -49,7 +49,6 @@ public class TechMeetingController extends BaseController {
 	private static final String UPDATE_URL = "http://pcitc-zuul/stp-proxy/sre-provider/meeting/update";
 	private static final String DEL_URL = "http://pcitc-zuul/stp-proxy/sre-provider/meeting/delete/";
 	private static final String GET_URL = "http://pcitc-zuul/stp-proxy/sre-provider/meeting/get/";
-	private static final String GET_URL_EQUIPMENT = "http://pcitc-zuul/stp-proxy/sre-provider/equipment/get/";
 	private static final String BATCH_DEL_URL = "http://pcitc-zuul/stp-proxy/sre-provider/meeting/batch-delete/";
 
 	@RequestMapping(value = "/to-list")
@@ -139,42 +138,41 @@ public class TechMeetingController extends BaseController {
 	public String saveOrUpdate(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		Result resultsDate = new Result();
-		// String equipmentId=CommonUtil.getParameter(request, "equipmentId",
-		// "");
 		String meetingPlace = CommonUtil.getParameter(request, "meetingPlace", "");
 		String meetingContent = CommonUtil.getParameter(request, "meetingContent", "");
-		String remarks = CommonUtil.getParameter(request, "remarks", "");
+		String remark = CommonUtil.getParameter(request, "remark", "");
 		String meetingEmcee = CommonUtil.getParameter(request, "meetingEmcee", "");
 		String status = CommonUtil.getParameter(request, "status", "");
 		String meetingDate = CommonUtil.getParameter(request, "meetingDate", "");
-		// 业务ID
 		String meetingId = CommonUtil.getParameter(request, "meetingId", "");
-		// 流程状态-是保存还是提交
+		String title = CommonUtil.getParameter(request, "title", "");
+		String joinUsers = CommonUtil.getParameter(request, "joinUsers", "");
+		String projectId = CommonUtil.getParameter(request, "projectId", "");
+		String equipmentId = CommonUtil.getParameter(request, "equipmentId", "");
+		
 		SreTechMeeting sreTechMeeting = null;
-		// 判断是新增还是修改
-		if (meetingId.equals("")) {
+		if (meetingId.equals("")) 
+		{
 			sreTechMeeting = new SreTechMeeting();
 			sreTechMeeting.setCreateDate(new Date());
 			sreTechMeeting.setCreateUserId(sysUserInfo.getUserId());
-			String code = CommonUtil.getTableCode("XTBM_0035", restTemplate, httpHeaders);
-			sreTechMeeting.setMeetingCode(code);
+			sreTechMeeting.setCreateUserName(sysUserInfo.getUserDisp());
 			String id = UUID.randomUUID().toString().replaceAll("-", "");
-			System.out.println("---------------UUID-id:" + id);
 			sreTechMeeting.setMeetingId(id);
+			sreTechMeeting.setCreateDepartCode(sysUserInfo.getUnitCode());
+			sreTechMeeting.setCreateDepartName(sysUserInfo.getUnitName());
 		} else {
 			ResponseEntity<SreTechMeeting> se = this.restTemplate.exchange(GET_URL + meetingId, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreTechMeeting.class);
 			sreTechMeeting = se.getBody();
 		}
-		// 流程状态
 		sreTechMeeting.setMeetingContent(meetingContent);
 		sreTechMeeting.setMeetingPlace(meetingPlace);
-		sreTechMeeting.setRemarks(remarks);
+		sreTechMeeting.setRemark(remark);
 		sreTechMeeting.setMeetingDate(DateUtil.strToDate(meetingDate, DateUtil.FMT_SS));
-		/*
-		 * if(!equipmentId.equals("")) {
-		 * sreTechMeeting.setEquipmentId(Long.valueOf(equipmentId)); }
-		 */
-
+		sreTechMeeting.setTitle(title);
+		sreTechMeeting.setJoinUsers(joinUsers);
+		sreTechMeeting.setEquitmentId(equipmentId); 
+		sreTechMeeting.setProjectId(projectId);
 		sreTechMeeting.setMeetingEmcee(meetingEmcee);
 		sreTechMeeting.setStatus(status);
 		// 判断是新增还是修改
