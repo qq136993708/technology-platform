@@ -1,5 +1,6 @@
 package com.pcitc.service.expert.impl;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -16,6 +17,8 @@ import com.pcitc.base.util.TreeNodeUtil;
 import com.pcitc.mapper.expert.ZjkChoiceMapper;
 import com.pcitc.service.expert.ZjkBaseInfoService;
 import com.pcitc.service.expert.ZjkChoiceService;
+import com.pcitc.service.expert.ZjkMsgConfigService;
+import com.pcitc.service.expert.ZjkMsgService;
 import com.pcitc.service.feign.SystemRemoteClient;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.annotations.Param;
@@ -370,4 +373,42 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
         //返回
         return data;
     }
+
+    public int updateOrInsertZjkChoiceUpdateBat(JSONObject jsonObject){
+        //取值
+        List<ZjkChoice> zjkChoice = JSONObject.parseArray((jsonObject.getString("list")),ZjkChoice.class);
+        String projectSteps =zjkChoice.get(0).getBak1();
+
+                //删除
+        ZjkChoiceExample example = new ZjkChoiceExample();
+        ZjkChoiceExample.Criteria c = example.createCriteria();
+        c.andStatusEqualTo("2");
+        c.andXmIdEqualTo(zjkChoice.get(0).getXmId());
+        c.andBak1EqualTo(projectSteps);
+        this.deleteByExample(example);
+        //新增
+        int j = zjkChoice.size();
+        for (int i = 0; i < j; i++) {
+            this.insert(zjkChoice.get(i));
+        }
+        //查询项目阶段提醒方式
+        ZjkMsgConfigExample configExample = new ZjkMsgConfigExample();
+        configExample.createCriteria().andProjectStepsEqualTo(projectSteps);
+        List<ZjkMsgConfig> zjkMsgConfigs = configService.selectByExample(configExample);
+        String type = zjkMsgConfigs.get(0).getMsgType();//消息类型
+        //TO DO 插入专家通知
+        for (int i = 0; i < j; i++) {
+            ZjkMsg msg = new ZjkMsg();
+            zjkMsgService.insert(msg);
+        }
+
+        //发送消息
+
+        //返回
+        return 200;
+    }
+    @Autowired
+    private ZjkMsgService zjkMsgService;
+    @Autowired
+    private ZjkMsgConfigService configService;
 }

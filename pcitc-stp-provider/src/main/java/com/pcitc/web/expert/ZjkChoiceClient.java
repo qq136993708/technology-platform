@@ -127,6 +127,7 @@ public class ZjkChoiceClient {
     public Object selectZjkChoiceByPage(@RequestBody LayuiTableParam param) {
         return zjkChoiceService.findZjkChoiceByPage(param);
     }
+
     @ApiOperation(value = "查询专家-人员选择信息-分页查询", notes = "查询专家-人员选择信息-分页查询,Object")
     @RequestMapping(value = "/zjkchoice-provider/zjkchoice/zjkchoice-page-choice")
     public Object selectZjkChoiceByPageChoice(@RequestBody LayuiTableParam param) {
@@ -161,6 +162,17 @@ public class ZjkChoiceClient {
     public int updateOrInsertZjkChoiceUpdate(@RequestBody ZjkChoice zjkChoice) {
         try {
             return zjkChoiceService.updateOrInsertZjkChoiceUpdate(zjkChoice);
+        } catch (Exception e) {
+            logger.error("[保存信息失败：]", e);
+        }
+        return 500;
+    }
+
+    @ApiOperation(value = "新增专家-人员选择信息", notes = "新增专家-人员选择信息,操作成功返回500")
+    @RequestMapping(value = "/zjkchoice-provider/zjkchoice/save_zjkchoice_bat", method = RequestMethod.POST)
+    public int updateOrInsertZjkChoiceUpdateBat(@RequestBody JSONObject jsonObject) {
+        try {
+            return zjkChoiceService.updateOrInsertZjkChoiceUpdateBat(jsonObject);
         } catch (Exception e) {
             logger.error("[保存信息失败：]", e);
         }

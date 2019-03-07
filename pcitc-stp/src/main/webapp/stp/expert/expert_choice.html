@@ -6,10 +6,16 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
     <script src="/layuiadmin/layui/layui.js"></script>
     <style>
-        .layui-tab-item {margin-top: 15px;}
-        .layui-tab-title .layui-this:after{height: 38px;}
+        .layui-tab-item {
+            margin-top: 15px;
+        }
+
+        .layui-tab-title .layui-this:after {
+            height: 38px;
+        }
     </style>
 </head>
 <body>
@@ -17,10 +23,10 @@
     <form class="layui-form" action="" lay-filter="component-form-group layui-container">
         <div class="box-body">
             <div class="layui-form-item">
-                <label class="layui-form-label">选项<!--<span class="must-fill">*</span>--></label>
+                <label class="layui-form-label">项目阶段<!--<span class="must-fill">*</span>--></label>
                 <div class="layui-input-block">
                     <input type="radio" name="option" value="ROOT_XTGL_XMJD_XMJH" title="项目计划">
-                    <input type="radio" name="option" value="ROOT_XTGL_XMJD_XMLX" title="项目立项">
+                    <input type="radio" name="option" value="ROOT_XTGL_XMJD_XMLX" title="项目立项" checked>
                     <input type="radio" name="option" value="ROOT_XTGL_XMJD_GCGL" title="过程管理">
                     <input type="radio" name="option" value="ROOT_XTGL_XMJD_ZQPG" title="中期评估">
                     <input type="radio" name="option" value="ROOT_XTGL_XMJD_XMJTYS" title="项目结题验收">
@@ -29,22 +35,28 @@
                     <input type="radio" name="option" value="ROOT_XTGL_XMJD_JLPS" title="奖励评审">
                     <input type="radio" name="option" value="ROOT_XTGL_XMJD_HPG" title="后评估">
                 </div>
+                <div>
+                    <input type="hidden" id="count" name="count" value="10"/>
+                    <input type="hidden" id="stype" name="stype" value="suiji"/>
+                </div>
                 <div class="layui-tab layui-tab-brief" style="margin-left: 84px;" lay-filter="component-tabs-brief">
                     <ul class="layui-tab-title">
-                        <li class="layui-this">随机选取</li>
-                        <li class="">固定选取</li>
-                        <li class="">单位选取</li>
+                        <li class="layui-this" onclick="changeStype('suiji');">随机选取</li>
+                        <li class="" onclick="changeStype('guding');">固定选取</li>
+                        <li class="" onclick="changeStype('dw');">单位选取</li>
                     </ul>
                     <div class="layui-tab-content">
                         <div class="layui-tab-item layui-show">
-                            加入对比,加入备选,加入项目,加入zjk_project_expert,类型,加入人,
+                            <!--加入对比,加入备选,加入项目,加入zjk_project_expert,类型,加入人,-->
+                            <input type="button" value="换一批" onclick="renderTable()">
+                            <input type="button" value="确定" onclick="okEvent()">
                             <table id="expertTable" class="layui-hide" lay-filter="expertTable"></table>
                         </div>
                         <div class="layui-tab-item">
-                            加入对比,加入备选,加入项目,加入zjk_project_expert,类型,加入人,
+                            <!--加入对比,加入备选,加入项目,加入zjk_project_expert,类型,加入人,-->
                         </div>
                         <div class="layui-tab-item">
-                            加入对比,加入备选,加入项目,加入zjk_project_expert,类型,加入人,单位代码，
+                            <!--加入对比,加入备选,加入项目,加入zjk_project_expert,类型,加入人,单位代码，-->
                         </div>
                     </div>
                 </div>
@@ -52,40 +64,94 @@
         </div>
     </form>
 </div>
-<script src="/layuiadmin/layui/layui.js"></script>
 <script>
-    var table,selectRowData = '';
-    layui.use(['jquery', 'table', 'laydate', 'form', 'laytpl','element','publicMethods'], function () {
-        table = layui.table;
-        var $ = layui.jquery, laydate = layui.laydate,  form = layui.element,element = layui.element,publicMethods = layui.publicMethods;
-        function renderTable() {
-        var param = JSON.parse(window.localStorage.getItem("param"));
-        //渲染
-        table.render({
-            elem: '#expertTable',
-            url: '/expertController/getUserChoiceTableData',
-            method: "POST",
-            where: {
-                param: {
-                    "projectId":"${projectId}"
-                    ,"type":"suiji"
-                    ,"count":"10"
-                    ,"projectConfigId":"168db5b7282_7ed760ca"
-                    // ,"projectConfigId":$("#projectConfigId").val()
+    var projectName = "${projectName}";
+    var projectId = "${projectId}";
+
+    console.log("项目名称："+projectName);
+
+    function okEvent() {
+        console.log(projectName);
+        //点击编辑按钮
+        if (!selectRowData) {
+            layer.msg('请选择数据!');
+            return;
+        }
+
+        //获取选中人员信息
+        var stype = $("#stype").val();
+        var plist = [];
+        if (stype == "suiji") {
+            for (let i = 0; i < selectRowData.length; i++) {
+                var p = {};
+                var obj = selectRowData[i];
+                p.xmId = projectId;
+                p.xmName = projectName;
+                p.companyId = obj.company;
+                p.companyName = obj.companyName;
+                p.status="2";
+                p.zjId = obj.dataId;
+                p.bak1 = $('input[name="option"]:checked').val();
+                p.bak2 = obj.expertName;
+                plist.push(p);
+            }
+            console.log("----------------");
+            console.log(plist);
+            //保存
+            $.ajax({
+                type: 'post',
+                dataType: 'json',
+                data: {'param': JSON.stringify(plist)},
+                url: '/expertController/addChoiceList',
+                success: function (data) {
+                    if (data == 200) {
+                        // var index = parent.layer.getFrameIndex(window.name);
+                        // parent.layer.close(index);
+                        // parent.layer.msg("提交成功");
+                        // parent.layui.table.reload('tableList', {});
+                    }
+                },
+                error: function (e) {
+                    modals.info("出错了");
+                    console.log(e);
                 }
-            },
-            limit: param.selfRownum,
-            id: 'expertTable',
-            height: commonDislodgeTable(),
-            page: {
-                groups: 5,
-                limits: [param.selfRownum, 15, 30, 45, 60],
-                layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
-                first: '首页', //不显示首页
-                last: '尾页', //不显示尾页
-                theme: '#0F9EE0'
-            },
-            cols:[[
+            });
+        } else if (stype == "guding") {
+
+        } else {
+
+        }
+
+        // var index = parent.layer.getFrameIndex(window.name);
+        // parent.layer.close(index);
+
+    }
+    //zhuan huan
+    var map = {};
+    map['ROOT_XTGL_XMJD_XMLX'] = '168db5b7282_7ed760ca';
+    map['ROOT_XTGL_XMJD_GCGL'] = '168db5c06bd_115645c8';
+    map['ROOT_XTGL_XMJD_ZQPG'] = '168db5c66f6_f2f6721a';
+    map['ROOT_XTGL_XMJD_XMJTYS'] = '168db5cbc8e_f151d7be';
+    map['ROOT_XTGL_XMJD_XMPY'] = '168db5cf6a8_f950855c';
+    map['ROOT_XTGL_XMJD_CGJD'] = '168db5d4304_2340f4b6';
+    map['ROOT_XTGL_XMJD_JLPS'] = '168db5d7ba1_76333085';
+    map['ROOT_XTGL_XMJD_HPG'] = '168db5dce51_717a9115';
+    map['ROOT_XTGL_XMJD_XMJH'] = '168db68869f_f8e49a82';
+
+    //改变状态
+    function changeStype(f) {
+        $("#stype").val(f);
+    }
+
+    var table, selectRowData = '';
+    layui.use(['jquery', 'table', 'laydate', 'form', 'laytpl', 'element', 'publicMethods'], function () {
+        table = layui.table;
+        var $ = layui.jquery, laydate = layui.laydate, form = layui.element, element = layui.element, publicMethods = layui.publicMethods;
+
+        function renderTable() {
+            var param = JSON.parse(window.localStorage.getItem("param"));
+            //渲染
+            var cols = [
                 {type: 'checkbox', event: 'changeEvents', width: 55},
                 {title: '序号', type: 'numbers', width: 55},
                 {
@@ -112,24 +178,26 @@
                     style: 'cursor: pointer;',
                     width: 150,
                 },
-                {
-                    field: "mobile",
-                    title: "联系方式", event: 'setActive', style: 'cursor: pointer;'
-                }, {fixed: 'right', title: '查看', toolbar: '#showDetail', width: 150, align: 'center'}
-            ]],
-            done: function (res, curr, count) {
-                console.log("---------res.data-----------");
-                console.log(res.data);
-                // 点击行联动选择框--单选
+                {field: "mobile",title: "联系方式", event: 'setActive', style: 'cursor: pointer;'},
+                // {fixed: 'right', title: '查看', toolbar: '#showDetail', width: 150, align: 'center'}
+            ];
+            var where = {param:{
+                    "projectId": "${projectId}"
+                    , "type": $("#stype").val()
+                    , "count": $("#count").val()
+                    , "projectConfigId":"168db5b7282_7ed760ca"// map[$('input[name="option"]:checked').val()]// "168db5b7282_7ed760ca"
+                    // ,"projectConfigId":$("#projectConfigId").val()
+                }};
+            publicMethods.tableRender('expertTable', 'expertTable', '/expertController/getUserChoiceTableData', false, cols, where, false, function (res, curr, count) {
                 $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
                     var index = parseInt($(this).index() + 1);
                     $('tr').removeClass('layui-table-click');
                     $(this).addClass('layui-table-click');
                     $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
                     $('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
-                    selectRowData = res.data[index - 1];
+                    selectRowData = res.data;
+                    // selectRowData = res.data[index - 1];
                 });
-
                 var param = {
                     data: res.data,//数据
                     element: ".layui-table-body table",// 当前的表格元素
@@ -138,9 +206,8 @@
                     url: "/pageCommon/dic/ROOT_UNIVERSAL_XB"//接口
                 };
                 publicMethods.dataDictionary(param);
-            }
-        });
-    }
+            });
+        }
 
         renderTable();
         window.renderTable = renderTable;
@@ -159,7 +226,6 @@
         //** 搜索框宽度随着内容自适应End
         $("#searchEvent").click(function () {
             renderTable();
-
         });
         // 触发不同的按钮事件
         var $ = layui.$, active = {
