@@ -6,7 +6,9 @@
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 	<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/common.css">
+     <script src="/common/js/jquery-1.11.3.min.js"></script>
     <script src="/layuiadmin/layui/layui.js"></script>
+       <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
 </head>
 
 <body>
@@ -14,13 +16,12 @@
 <div class="searchBox">
     <!--查询条件-->
     <label class="dateInput">
-        <span>会议地点</span>
-        <input type="text" name="meetingPlace" placeholder="请输入会议地点" title="会议地点" autocomplete="off" class="form-control" id="meetingPlace">
+        <span>会议主题</span>
+        <input type="text" name="title" placeholder="请输入会议主题" title="会议主题" autocomplete="off" class="form-control" id="title">
     </label>
     <!--按钮组-->
     <div class="btnGroup">
         <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>
-        <button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg" data-type="resetEvent">重置</button>
     </div>
 </div>
 
@@ -35,7 +36,7 @@
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_delete" data-type="deleteEvent">删除</button>
         </div>
     </div>
-    <table id="processdef-table" class="layui-hide" lay-filter="tableEvent"></table>
+    <table id="processdef-table" class="layui-hide" lay-filter="processdef-table"></table>
 </div>
 
 
@@ -63,11 +64,8 @@
     }
 </script>
 
-<!--表格数据操作js-->
-<script src="/common/js/jquery-1.11.3.min.js"></script>
 <script>
 var table,selectRowData;
-var meetingPlace=$('#meetingPlace').val();
     layui.use(['jquery','table','laypage','layer','laytpl'], function(){
            table = layui.table,
             $ = layui.jquery,
@@ -75,6 +73,9 @@ var meetingPlace=$('#meetingPlace').val();
             laypage = layui.laypage;
 	     //加载表格      
 	     renderTable();
+	     
+	     
+	     
 	     //移除表头的复选框,去掉全选
 	     $(".layui-table-header table thead th input").remove();  
          // 触发不同的按钮事件
@@ -82,9 +83,6 @@ var meetingPlace=$('#meetingPlace').val();
             searchEvent: function() { //点击查询按钮
             	renderTable();
                
-            },
-            resetEvent: function() { //点击重置按钮
-            	$('#meetingPlace').val("");
             },
             addEvent: function(){ //点击新增按钮
                 layer.open({
@@ -184,7 +182,24 @@ var meetingPlace=$('#meetingPlace').val();
             active[type] ? active[type].call(this) : '';
         });
 
-         
+      //监听表格双击事件
+        table.on('rowDouble(processdef-table)', function(obj){
+        	var temUrl = '/sre-meeting/get/'+obj.data.meetingId;
+        	//openFullWin("详情",temUrl);
+   		 layer.open({
+                title:'详情',
+                skin: 'layui-layer-lan',
+                shadeClose: true,
+                type: 2,
+                fixed: false,
+                //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                maxmin: false,
+                //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                 area: ['70%', '90%'],
+                content:  temUrl
+            });
+   		 
+        });
         
         
     });
@@ -200,7 +215,7 @@ var meetingPlace=$('#meetingPlace').val();
            elem: '#processdef-table',
            url: '/sre-meeting/list',
            method:"POST",
-           where: {param: {"meetingPlace":$("#meetingPlace").val()}},
+           where: {param: {"title":$("#title").val()}},
            limit: 15,
            id: 'processdef-table',
            height: commonDislodgeTable(),
@@ -215,10 +230,12 @@ var meetingPlace=$('#meetingPlace').val();
            cols: [[
 	           	{type : 'checkbox', event: 'changeEvents', width : 55},
 	           	{title : '序号', type : 'numbers', width : 55},
-	            {field : 'meetingCode', title : '编号', style : 'cursor: pointer;', align : 'center'},
-	            {field : 'meetingPlace', title : '地点', style : 'cursor: pointer;', align : 'center'},
-	            {field : 'meetingEmcee', title : '主持人', style : 'cursor: pointer;', align : 'center'},
-	            {field : 'meetingDate', title : '时间', style : 'cursor: pointer;', align : 'center', templet : '#dateTpl'}
+	            {field : 'title',        title : '会议主题', style : 'cursor: pointer;', align : 'center',width:'33%'},
+	            {field : 'meetingPlace', title : '会议地点', style : 'cursor: pointer;', align : 'center',width:'10%'},
+	            {field : 'meetingEmcee', title : '主持人', style : 'cursor: pointer;', align : 'center',width:'10%'},
+	            {field : 'createDepartName', title : '会议发起单位', style : 'cursor: pointer;', align : 'center',width:'20%'},
+	            {field : 'createUserName', title : '会议发起人', style : 'cursor: pointer;', align : 'center',width:'10%'},
+	            {field : 'meetingDate', title : '会议开始时间', style : 'cursor: pointer;', align : 'center', templet : '#dateTpl',width:'10%'}
            ]],
            done: function (res, curr, count) {
                // 点击行联动选择框--单选

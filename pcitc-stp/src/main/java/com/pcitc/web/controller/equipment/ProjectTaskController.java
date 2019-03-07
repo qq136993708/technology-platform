@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
@@ -65,6 +66,40 @@ public class ProjectTaskController extends BaseController {
 	
 	private static final String GET_PROJECT_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_basic/get/";
 
+	
+	
+	//任务安排
+	@RequestMapping(value = "/arrange_list")
+	public String arrange_list(HttpServletRequest request, HttpServletResponse response) {
+		return "/stp/equipment/task/arrange_list";
+	}
+	
+	//任务填写
+	@RequestMapping(value = "/write_list")
+	public String write_list(HttpServletRequest request, HttpServletResponse response) {
+		return "/stp/equipment/task/write_list";
+	}
+	
+	
+	//任务上报
+	@RequestMapping(value = "/apply_list")
+	public String apply_list(HttpServletRequest request, HttpServletResponse response) {
+		return "/stp/equipment/task/apply_list";
+	}
+		
+	//任务审核
+	@RequestMapping(value = "/audit_list")
+	public String audit_list(HttpServletRequest request, HttpServletResponse response) {
+		return "/stp/equipment/task/audit_list";
+	}
+	//任务对接--生成合同号
+	@RequestMapping(value = "/join_list")
+	public String join_list(HttpServletRequest request, HttpServletResponse response) {
+		return "/stp/equipment/task/join_list";
+	}		
+	
+	
+	
 
 	@RequestMapping(value = "/to_list")
 	public String list(HttpServletRequest request, HttpServletResponse response) {
@@ -78,6 +113,8 @@ public class ProjectTaskController extends BaseController {
 		JSONObject parmamss = JSONObject.parseObject(JSONObject.toJSONString(param));
 		logger.info("============参数：" + parmamss.toString());
 		
+		String applyUnitCode=sysUserInfo.getUnitCode();
+		param.getParam().put("applyUnitCode", applyUnitCode);
 		
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
@@ -187,8 +224,6 @@ public class ProjectTaskController extends BaseController {
 		String fundsSourcesTable = CommonUtil.getParameter(request, "fundsSourcesTable", "");
 		String notes = CommonUtil.getParameter(request, "notes", "");
 		String contractNum = CommonUtil.getParameter(request, "contractNum", "");
-		String projectFundsTable = CommonUtil.getParameter(request, "projectFundsTable", "");
-		String leadUnitName = CommonUtil.getParameter(request, "leadUnitName", "");
 		String projectNotice = CommonUtil.getParameter(request, "projectNotice", "");
 		String taskMainTaskContent = CommonUtil.getParameter(request, "taskMainTaskContent", "");
 		String taskContent = CommonUtil.getParameter(request, "taskContent", "");
@@ -258,6 +293,11 @@ public class ProjectTaskController extends BaseController {
 			sreProjectBasic.setLeadUnitName(sreProject.getLeadUnitName());
 			sreProjectBasic.setProjectMoney(sreProject.getProjectMoney());
 			sreProjectBasic.setProjectFundsTable(sreProject.getYearFeeStr());
+			sreProjectBasic.setBelongDepartmentCode(sreProject.getBelongDepartmentCode());
+			sreProjectBasic.setBelongDepartmentName(sreProject.getBelongDepartmentName());
+			sreProjectBasic.setProfessionalDepartCode(sreProject.getProfessionalDepartCode());
+			sreProjectBasic.setProfessionalDepartName(sreProject.getProfessionalDepartName());
+			sreProjectBasic.setSetupYear(sreProject.getSetupYear());
 		}
 		sreProjectBasic.setTopicId(topicId); 
 		sreProjectBasic.setContractNum(contractNum);
@@ -381,6 +421,30 @@ public class ProjectTaskController extends BaseController {
 			System.out.println("=================流程启动失败");
 			return false;
 		}
+	}
+	
+	
+	
+	@RequestMapping(value = "/start_workflow")
+	public Object startProjectPlantWorkflow(HttpServletRequest request, HttpServletResponse response) throws Exception 
+	{
+		
+		String taskId = CommonUtil.getParameter(request, "taskId", "");
+		String functionId = CommonUtil.getParameter(request, "functionId", "");
+		String userIds = CommonUtil.getParameter(request, "userIds", "");
+		
+		Result resultsDate = new Result();
+		SreProjectTask sreProjectTask=this.getSreProjectTask(taskId);
+		SreProject sreProject=this.getSreProject(sreProjectTask.getTopicId());
+		boolean flowFlag = dealProjectWorkFlow(taskId, functionId,sysUserInfo, "任务书->"+sreProject.getName(), userIds, httpHeaders);
+		if (flowFlag == true)
+		{
+			resultsDate = new Result(true, RequestProcessStatusEnum.OK.getStatusDesc());
+		} else 
+		{
+			resultsDate = new Result(false, RequestProcessStatusEnum.SERVER_BUSY.getStatusDesc());
+		}
+		return resultsDate;
 	}
 	
 	
@@ -573,18 +637,19 @@ public class ProjectTaskController extends BaseController {
 				   if(str!=null && !str.equals(""))
 				   {
 					   String temp[]=str.split("#");
+					   System.out.println("----length--"+temp.length);
 					   Map<String, Object> map = new HashMap<String, Object>();
-					   String taskContent1=temp[0];
-					   String taskContent2=temp[1];
-					   String taskContent3=temp[2];
-					   String taskContent4=temp[3];
+					   String taskContent1=temp[0].trim();
+					   String taskContent2=temp[1].trim();
+					   String taskContent3=temp[2].trim();
+					   String taskContent4=temp[3].trim();
 					   hj_tc=hj_tc.floatValue()+Float.valueOf(taskContent4.trim()).floatValue();
 					   String taskContent5=temp[4];
-					   map.put("taskContent1", taskContent1);
-					   map.put("taskContent2", taskContent2);
-					   map.put("taskContent3", taskContent3);
-					   map.put("taskContent4", taskContent4);
-					   map.put("taskContent5", taskContent5);
+					   map.put("taskc1", taskContent1);
+					   map.put("taskc2", taskContent2);
+					   map.put("taskc3", taskContent3);
+					   map.put("taskc4", taskContent4);
+					   map.put("taskc5", taskContent5);
 					   taskContentList.add(map);
 					   
 				   }
@@ -594,6 +659,10 @@ public class ProjectTaskController extends BaseController {
 			int taskContentListCount=taskContentList.size();
 			dataMap.put("taskContentListCount", taskContentListCount);//项目内容和主要图表-数量
 			dataMap.put("hj_tc", hj_tc);//项目内容和主要图表-经费合计
+			JSONArray taskContentList_jSONArray= JSONArray.parseArray(JSON.toJSONString(taskContentList));
+			System.out.println("---------项目内容和主要图表    源: "+taskContentStr);
+			System.out.println("---------项目内容和主要图表 FTL: "+taskContentList_jSONArray.toString());
+			
 			//计划进度和考核目标
 			List<Map<String, Object>> taskAssessmentList = new ArrayList<Map<String, Object>>();
 			String taskAssessmenStr=sreProjectTask.getTaskAssessmentContent();
@@ -607,9 +676,9 @@ public class ProjectTaskController extends BaseController {
 				   {
 					   String temp[]=str.split("#");
 					   Map<String, Object> map = new HashMap<String, Object>();
-					   String taskContent1=temp[0];
-					   String taskContent2=temp[1];
-					   String taskContent3=temp[2];
+					   String taskContent1=temp[0].trim();
+					   String taskContent2=temp[1].trim();
+					   String taskContent3=temp[2].trim();
 					   map.put("ta1", taskContent1);
 					   map.put("ta2", taskContent2);
 					   map.put("ta3", taskContent3);
@@ -619,89 +688,9 @@ public class ProjectTaskController extends BaseController {
 			   }
 			}
 			dataMap.put("taskAssessmentList", taskAssessmentList);
-			
-			///预计资金来源表
-			List<Map<String, Object>> fundsSourcesTableList = new ArrayList<Map<String, Object>>();
-			String fundsSourcesTableStr=sreProjectTask.getFundsSourcesTable();
-			String fundsSourcesTableStr_arr[]=fundsSourcesTableStr.split("\\|");//多行
-			if(fundsSourcesTableStr_arr!=null && fundsSourcesTableStr_arr.length>0)
-			{
-			   for(int i=0;i<fundsSourcesTableStr_arr.length;i++)
-			   {
-				   String str=fundsSourcesTableStr_arr[i];
-				   if(str!=null && !str.equals(""))
-				   {
-					   String temp[]=str.split("#");
-					   Map<String, Object> map = new HashMap<String, Object>();
-					   String taskContent1=temp[0];
-					   String taskContent2=temp[1];
-					   String taskContent3=temp[2];
-					   String taskContent4=temp[3];
-					   String taskContent5=temp[4];
-					  // String taskContent6=temp[5];
-					   
-					   map.put("ft1", taskContent1);
-					   map.put("ft2", taskContent2);
-					   map.put("ft3", taskContent3);
-					   map.put("ft4", taskContent4);
-					   map.put("ft5", taskContent5);
-					  // map.put("ft6", taskContent6);
-					   fundsSourcesTableList.add(map);
-					   
-				   }
-			   }
-			}
-			dataMap.put("fundsSourcesTableList", fundsSourcesTableList);
-			
-			//项目资金安排
-			List<Map<String, Object>> projectFundsTableList = new ArrayList<Map<String, Object>>();
-			String projectFundsTableStr=sreProjectTask.getProjectFundsTable();
-			String projectFundsTableStr_arr[]=projectFundsTableStr.split("#");//多行
-			Float hj_pt2=0f;
-			Float hj_pt3=0f;
-			Float hj_pt4=0f;
-			if(projectFundsTableStr_arr!=null && projectFundsTableStr_arr.length>0)
-			{
-			   for(int i=0;i<projectFundsTableStr_arr.length;i++)
-			   {
-				   String str=projectFundsTableStr_arr[i];
-				 System.out.println("----------项目资金安排--str: "+str);
-				   if(str!=null && !str.equals(""))
-				   {
-					   String temp[]=str.split(",");
-					   Map<String, Object> map = new HashMap<String, Object>();
-					   String pt1=temp[0];
-					   String pt2=temp[1].trim();
-					   Float fp2faot= Float.parseFloat(pt2);
-					   hj_pt2=hj_pt2.floatValue()+fp2faot.floatValue();
-					   String pt3=temp[2].trim();
-					   Float fp3faot= Float.parseFloat(pt2);
-					   hj_pt3=hj_pt3.floatValue()+fp3faot.floatValue();
-					   
-					   String pt4=temp[3].trim();
-					   
-					   Float fp4faot= Float.parseFloat(pt2);
-					   hj_pt4=hj_pt4.floatValue()+fp4faot.floatValue();
-					   
-					   
-					   map.put("pt1", pt1);
-					   map.put("pt2", pt2);
-					   map.put("pt3", pt3);
-					   map.put("pt4", pt4);
-					   projectFundsTableList.add(map);
-					   
-				   }
-			   }
-			}
-			
-			Map<String, Object> map_temp_pt = new HashMap<String, Object>();
-			map_temp_pt.put("pt1", "合  计");
-			map_temp_pt.put("pt2", hj_pt2);
-			map_temp_pt.put("pt3", hj_pt3);
-			map_temp_pt.put("pt4", hj_pt4);
-			projectFundsTableList.add(map_temp_pt);
-			dataMap.put("projectFundsTableList", projectFundsTableList);
-			
+			System.out.println("---------计划进度和考核目标    源: "+taskAssessmenStr);
+			JSONArray taskAssessmentList_jSONArray= JSONArray.parseArray(JSON.toJSONString(taskAssessmentList));
+			System.out.println("---------计划进度和考核目标 FTL: "+taskAssessmentList_jSONArray.toString());
 			
 			//应提交验收的内容
 			List<Map<String, Object>> taskCheckContentsList = new ArrayList<Map<String, Object>>();
@@ -736,8 +725,163 @@ public class ProjectTaskController extends BaseController {
 					 taskCheckContentsList.add(map);
 				}
 			}
-			
 			dataMap.put("taskCheckContentsList", taskCheckContentsList);
+			
+			System.out.println("---------应提交验收的内容    源: "+taskCheckContents);
+			JSONArray taskCheckContentsList_jSONArray= JSONArray.parseArray(JSON.toJSONString(taskCheckContentsList));
+			System.out.println("---------应提交验收的内容  FTL: "+taskCheckContentsList_jSONArray.toString());
+			
+			
+			
+			//资金概算表
+			List<Map<String, Object>> budgetTableStrList_zb = new ArrayList<Map<String, Object>>();
+			List<Map<String, Object>> budgetTableStrList_fy= new ArrayList<Map<String, Object>>();
+			String budgetTableStr=sreProjectTask.getBudgetTable();
+			String budgetTableStrList_arr[]=budgetTableStr.split("\\|");//多行
+			Float budgetTable_hj=0f;
+			if(budgetTableStrList_arr!=null && budgetTableStrList_arr.length>0)
+			{
+			   for(int i=0;i<budgetTableStrList_arr.length;i++)
+			   {
+				   String str=budgetTableStrList_arr[i];
+				   if(str!=null && !str.equals(""))
+				   {
+					   String temp[]=str.split("#");
+					   Map<String, Object> map = new HashMap<String, Object>();
+					   String content1=temp[0];
+					   
+					   String zj1=temp[1].trim();
+					   String zj2=temp[2].trim();
+					   String zj3=temp[3].trim();
+					   String zj4=temp[4].trim();
+					   map.put("zj1", zj1);
+					   map.put("zj2", zj2);
+					   map.put("zj3", zj3);
+					   map.put("zj4", zj4);
+					   Float fp3faot= Float.parseFloat(zj3);
+					   budgetTable_hj=budgetTable_hj.floatValue()+fp3faot.floatValue();
+					  
+					   if(content1.equals("资本性"))
+					   {
+						   budgetTableStrList_zb.add(map);
+					   }
+					   if(content1.equals("费用性"))
+					   {
+						   budgetTableStrList_fy.add(map);
+					   }
+				   }
+			   }
+			}
+			dataMap.put("budgetTableStrList_zb", budgetTableStrList_zb);
+			dataMap.put("budgetTableStrList_fy", budgetTableStrList_fy);
+			dataMap.put("budgetTable_hj", budgetTable_hj);
+			
+			System.out.println("---------资金概算表----  源: "+budgetTableStr);
+			JSONArray budgetTableStrList_zb_jSONArray= JSONArray.parseArray(JSON.toJSONString(budgetTableStrList_zb));
+			System.out.println("---------资金概算表--资本性  FTL: "+budgetTableStrList_zb_jSONArray.toString());
+			JSONArray budgetTableStrList_fy_jSONArray= JSONArray.parseArray(JSON.toJSONString(budgetTableStrList_fy));
+			System.out.println("---------资金概算表--费用性   FTL: "+budgetTableStrList_fy_jSONArray.toString());
+			
+			
+			///预计资金来源表
+			List<Map<String, Object>> fundsSourcesTableList = new ArrayList<Map<String, Object>>();
+			String fundsSourcesTableStr=sreProjectTask.getFundsSourcesTable();
+			String fundsSourcesTableStr_arr[]=fundsSourcesTableStr.split("\\|");//多行
+			if(fundsSourcesTableStr_arr!=null && fundsSourcesTableStr_arr.length>0)
+			{
+			   for(int i=0;i<fundsSourcesTableStr_arr.length;i++)
+			   {
+				   String str=fundsSourcesTableStr_arr[i];
+				   if(str!=null && !str.equals(""))
+				   {
+					   String temp[]=str.split("#");
+					   Map<String, Object> map = new HashMap<String, Object>();
+					   String taskContent1=temp[0].trim();
+					   String taskContent2=temp[1].trim();
+					   String taskContent3=temp[2].trim();
+					   String taskContent4=temp[3].trim();
+					   String taskContent5=temp[4].trim();
+					  // String taskContent6=temp[5];
+					   
+					   map.put("ft1", taskContent1);
+					   map.put("ft2", taskContent2);
+					   map.put("ft3", taskContent3);
+					   map.put("ft4", taskContent4);
+					   map.put("ft5", taskContent5);
+					  // map.put("ft6", taskContent6);
+					   Float ft6=Float.parseFloat(taskContent2)+Float.parseFloat(taskContent3)+Float.parseFloat(taskContent4)+Float.parseFloat(taskContent5);
+					   map.put("ft6", ft6);
+					   fundsSourcesTableList.add(map);
+					   
+				   }
+			   }
+			}
+			dataMap.put("fundsSourcesTableList", fundsSourcesTableList);
+			
+			
+			System.out.println("---------预计资金来源表 （源）: "+fundsSourcesTableStr);
+			JSONArray fundsSourcesTableList_jSONArray= JSONArray.parseArray(JSON.toJSONString(fundsSourcesTableList));
+			System.out.println("---------预计资金来源表 （FTL） : "+fundsSourcesTableList_jSONArray.toString());
+			
+			
+			
+			
+			//项目资金安排
+			List<Map<String, Object>> projectFundsTableList = new ArrayList<Map<String, Object>>();
+			String projectFundsTableStr=sreProjectTask.getProjectFundsTable();
+			String projectFundsTableStr_arr[]=projectFundsTableStr.split("#");//多行
+			double hj_pt2=0l;
+			double hj_pt3=0l;
+			double hj_pt4=0l;
+			if(projectFundsTableStr_arr!=null && projectFundsTableStr_arr.length>0)
+			{
+			   for(int i=0;i<projectFundsTableStr_arr.length;i++)
+			   {
+				   String str=projectFundsTableStr_arr[i];
+				   System.out.println("----------项目资金安排--str: "+str);
+				   if(str!=null && !str.equals(""))
+				   {
+					   String temp[]=str.split(",");
+					   Map<String, Object> map = new HashMap<String, Object>();
+					   String pt1=temp[0];
+					   String pt2=temp[1].trim();
+					   double pt2_double= Double.valueOf(pt2).doubleValue();
+					   hj_pt2=hj_pt2+pt2_double;
+					   String pt3=temp[2].trim();
+					   double pt3_double= Double.valueOf(pt3).doubleValue();
+					   hj_pt3=hj_pt3+pt3_double;
+					   String pt4=temp[3].trim();
+					   double pt34_double= Double.valueOf(pt4).doubleValue();
+					   hj_pt4=hj_pt4+pt34_double;
+					   map.put("pt1", pt1);
+					   map.put("pt2", pt2);
+					   map.put("pt3", pt3);
+					   map.put("pt4", pt4);
+					   projectFundsTableList.add(map);
+					   
+				   }
+			   }
+			}
+			
+			Map<String, Object> map_temp_pt = new HashMap<String, Object>();
+			map_temp_pt.put("pt1", "合  计");
+			map_temp_pt.put("pt2", hj_pt2);
+			map_temp_pt.put("pt3", hj_pt3);
+			map_temp_pt.put("pt4", hj_pt4);
+			System.out.println("==========hj_pt2"+hj_pt2+"pt3="+hj_pt3);
+			projectFundsTableList.add(map_temp_pt);
+			dataMap.put("projectFundsTableList", projectFundsTableList);
+			
+			System.out.println("---------项目资金安排 （源）: "+projectFundsTableStr);
+			JSONArray projectFundsTableList_jSONArray= JSONArray.parseArray(JSON.toJSONString(projectFundsTableList));
+			System.out.println("---------项目资金安排（FTL） : "+projectFundsTableList_jSONArray.toString());
+			
+			
+			
+			
+			
+			
+			
            /*String myPic = "";  
 			try {  
 			     myPic = WordUtil.getImageString("D://doc//20190218155218.jpg");  
@@ -751,8 +895,11 @@ public class ProjectTaskController extends BaseController {
 			fileName = System.currentTimeMillis()+".doc";
 
 			/** 生成word */
-			WordUtil.createWord(dataMap, "task.ftl", filePath, fileName);
-			resutl=filePath+File.separator+fileName;
+			boolean flage=WordUtil.createWord(dataMap, "task.ftl", filePath, fileName);
+			if(flage==true)
+			{
+				resutl=filePath+File.separator+fileName;
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

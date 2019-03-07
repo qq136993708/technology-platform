@@ -92,8 +92,9 @@ public class ProjectBasicController extends BaseController {
 	public String ajaxlist(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 		
 		JSONObject parmamss = JSONObject.parseObject(JSONObject.toJSONString(param));
-		logger.info("============参数：" + parmamss.toString());
 		
+		String applyUnitCode=sysUserInfo.getUnitCode();
+		param.getParam().put("applyUnitCode", applyUnitCode);
 		
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
@@ -203,7 +204,6 @@ public class ProjectBasicController extends BaseController {
 		String leadLinkmansCode = CommonUtil.getParameter(request, "leadLinkmansCode", "");
 		String leadUnitType = CommonUtil.getParameter(request, "leadUnitType", "");
 		String professional = CommonUtil.getParameter(request, "professional", "");
-		String professionalDepartment = CommonUtil.getParameter(request, "professionalDepartment", "");
 		String projectChargesName = CommonUtil.getParameter(request, "projectChargesName", "");
 		String projectChargesCode = CommonUtil.getParameter(request, "projectChargesCode", "");
 		String contractNum = CommonUtil.getParameter(request, "contractNum", "");
@@ -215,6 +215,16 @@ public class ProjectBasicController extends BaseController {
 		String isWorkFlow = CommonUtil.getParameter(request, "isWorkFlow", "0");
 		String functionId = CommonUtil.getParameter(request, "functionId", "");
 		String yearFeeStr = CommonUtil.getParameter(request, "yearFeeStr", "");
+		
+		String belongDepartmentName = CommonUtil.getParameter(request, "belongDepartmentName", "");
+		String belongDepartmentCode = CommonUtil.getParameter(request, "belongDepartmentCode", "");
+		String professionalDepartName = CommonUtil.getParameter(request, "professionalDepartName", "");
+		String professionalDepartCode = CommonUtil.getParameter(request, "professionalDepartCode", "");
+		String taskWriteUserNames = CommonUtil.getParameter(request, "taskWriteUserNames", "");
+		String taskWriteUsersIds = CommonUtil.getParameter(request, "taskWriteUsersIds", "");
+		
+		
+		
 		
 		SreProject sreProjectBasic = null;
 		ResponseEntity<String> responseEntity = null;
@@ -269,7 +279,10 @@ public class ProjectBasicController extends BaseController {
 		sreProjectBasic.setLeadUnitType(leadUnitType);
 		sreProjectBasic.setErpNum(erpNum);
 		sreProjectBasic.setProfessional(professional);
-		sreProjectBasic.setProfessionalDepartment(professionalDepartment);
+		sreProjectBasic.setBelongDepartmentName(belongDepartmentName); 
+		sreProjectBasic.setBelongDepartmentCode(belongDepartmentCode);
+		sreProjectBasic.setProfessionalDepartName(professionalDepartName);
+		sreProjectBasic.setProfessionalDepartCode(professionalDepartCode);
 		sreProjectBasic.setProjectChargesName(projectChargesName);
 		sreProjectBasic.setProjectChargesCode(projectChargesCode);
 		sreProjectBasic.setIsContract("0");
@@ -281,9 +294,8 @@ public class ProjectBasicController extends BaseController {
 		sreProjectBasic.setEntrustUnitName(entrustUnitName);
 		sreProjectBasic.setApplyUnitCode(sysUserInfo.getUnitCode());
 		sreProjectBasic.setApplyUnitName(sysUserInfo.getUnitName());
-		
-		
-		
+		sreProjectBasic.setTaskWriteUserNames(taskWriteUserNames);
+		sreProjectBasic.setTaskWriteUsersIds(taskWriteUsersIds);
 		
 		// 判断是新增还是修改
 		if (id.equals("")) 
