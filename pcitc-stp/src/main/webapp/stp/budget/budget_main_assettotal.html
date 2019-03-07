@@ -90,20 +90,14 @@
         <div id="tableBox">
             <table id="dataTable" class="layui-table" lay-filter="dataTable" lay-data="{ID:'dataTable',height: '400',limit:100, url:'',totalRow: true}">
                 <thead>
-                <tr>
-                	<th lay-data="{type:'checkbox'}" rowspan="2"></th>
-                	<th lay-data="{field:'no',align: 'center', width: 45,totalRowText: '合计'}" rowspan="2">序号</th>
-                    <th lay-data="{field:'displayName', width: '25%'}" rowspan="2">承担单位</th>
-                    <!-- <th lay-data="{field:'remark', width: '30%'}" rowspan="2">研究方向</th> -->
-                   	<th lay-data="{field:'last_year_end',align: 'right', width: '15%',totalRow: true}" rowspan="2">2018年科技经费预算完成</th>
-                    <th lay-data="{field:'plan_money',align: 'right', width: '15%',totalRow: true}" rowspan="2">2019年科技经费合同计划金额</th>
-                    <th lay-data="{align:'center'}", colspan="3"><span>${nd}</span>年度经费预算</th>
-                </tr>
-                <tr>
-                    <th lay-data="{field:'total', width: '10%',align: 'right',totalRow: true}">合计</th>
-                    <th lay-data="{field:'xmjf', edit:true,align: 'right',totalRow: true}">项目经费</th>
-                    <th lay-data="{field:'zxjf', edit:true,align: 'right',totalRow: true}">重点实验室专项经费</th>
-                </tr>
+	                <tr>
+	                	<th lay-data="{type:'checkbox'}"></th>
+	                	<th lay-data="{field:'no',align: 'center', width: 45,totalRowText: '合计'}">序号</th>
+	                    <th lay-data="{field:'displayName', width: '25%'}">预算部门</th>
+	                    <th lay-data="{field:'remark', width: '30%'}">描述</th>
+	                   	<th lay-data="{field:'last_year_end',align: 'right',totalRow: true}">2018年科技经费预计完成</th>
+	                    <th lay-data="{field:'jfys',align: 'right',totalRow: true}">2019年科技经费预算</th>
+	                </tr>
                 </thead>
             </table>
         </div>
@@ -123,7 +117,11 @@
         </div>
     </div>
     <div class="doc-box">
-        <p>备注及问题:</p>
+     	<p>备注</p>
+        <ul>
+            <li>1、预算由资产公司和化工事业部提出。该预算表分别报送资产公司和化工事业部</li>
+        </ul>
+        <p>操作说明:</p>
         <ul>
             <li>1、先填入预分配数，开始分配时，每分配一项对应减少分配数额</li>
             <li>2、表格编制状态包含：编制中、审批中、初审驳回、审批通过、最终预算（预算可调整） 五种状态，审批完成则不可再编辑</li>
@@ -202,9 +200,9 @@
 			//初始化时间选择
 			function initDateView(){
 				$(".nd").html(cu_date);
-            	$('.layui-table-cell.laytable-cell-group').find('span').text(cu_date+"年度经费预算");
-            	$(".layui-table-header .layui-table").find('th').eq(3).find('span').text((cu_date-1)+"年科技经费预算完成");
-            	$(".layui-table-header .layui-table").find('th').eq(4).find('span').text(cu_date+"年科技经费合同计划金额");
+            	//$('.layui-table-cell.laytable-cell-group').find('span').text(cu_date+"年度经费预算");
+            	$(".layui-table-header .layui-table").find('th').eq(4).find('span').text((cu_date-1)+"年科技经费预计完成");
+            	$(".layui-table-header .layui-table").find('th').eq(5).find('span').text(cu_date+"年科技经费预算");
 			}
             // 点击按钮时激活
             $('.tableBtns').children('button').on('click',function(){
