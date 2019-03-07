@@ -1124,63 +1124,63 @@ public class BudgetAssetTotalExample {
             return (Criteria) this;
         }
 
-        public Criteria andJfysIsNull() {
-            addCriterion("jfys is null");
+        public Criteria andXmjfIsNull() {
+            addCriterion("xmjf is null");
             return (Criteria) this;
         }
 
-        public Criteria andJfysIsNotNull() {
-            addCriterion("jfys is not null");
+        public Criteria andXmjfIsNotNull() {
+            addCriterion("xmjf is not null");
             return (Criteria) this;
         }
 
-        public Criteria andJfysEqualTo(Double value) {
-            addCriterion("jfys =", value, "jfys");
+        public Criteria andXmjfEqualTo(Double value) {
+            addCriterion("xmjf =", value, "xmjf");
             return (Criteria) this;
         }
 
-        public Criteria andJfysNotEqualTo(Double value) {
-            addCriterion("jfys <>", value, "jfys");
+        public Criteria andXmjfNotEqualTo(Double value) {
+            addCriterion("xmjf <>", value, "xmjf");
             return (Criteria) this;
         }
 
-        public Criteria andJfysGreaterThan(Double value) {
-            addCriterion("jfys >", value, "jfys");
+        public Criteria andXmjfGreaterThan(Double value) {
+            addCriterion("xmjf >", value, "xmjf");
             return (Criteria) this;
         }
 
-        public Criteria andJfysGreaterThanOrEqualTo(Double value) {
-            addCriterion("jfys >=", value, "jfys");
+        public Criteria andXmjfGreaterThanOrEqualTo(Double value) {
+            addCriterion("xmjf >=", value, "xmjf");
             return (Criteria) this;
         }
 
-        public Criteria andJfysLessThan(Double value) {
-            addCriterion("jfys <", value, "jfys");
+        public Criteria andXmjfLessThan(Double value) {
+            addCriterion("xmjf <", value, "xmjf");
             return (Criteria) this;
         }
 
-        public Criteria andJfysLessThanOrEqualTo(Double value) {
-            addCriterion("jfys <=", value, "jfys");
+        public Criteria andXmjfLessThanOrEqualTo(Double value) {
+            addCriterion("xmjf <=", value, "xmjf");
             return (Criteria) this;
         }
 
-        public Criteria andJfysIn(List<Double> values) {
-            addCriterion("jfys in", values, "jfys");
+        public Criteria andXmjfIn(List<Double> values) {
+            addCriterion("xmjf in", values, "xmjf");
             return (Criteria) this;
         }
 
-        public Criteria andJfysNotIn(List<Double> values) {
-            addCriterion("jfys not in", values, "jfys");
+        public Criteria andXmjfNotIn(List<Double> values) {
+            addCriterion("xmjf not in", values, "xmjf");
             return (Criteria) this;
         }
 
-        public Criteria andJfysBetween(Double value1, Double value2) {
-            addCriterion("jfys between", value1, value2, "jfys");
+        public Criteria andXmjfBetween(Double value1, Double value2) {
+            addCriterion("xmjf between", value1, value2, "xmjf");
             return (Criteria) this;
         }
 
-        public Criteria andJfysNotBetween(Double value1, Double value2) {
-            addCriterion("jfys not between", value1, value2, "jfys");
+        public Criteria andXmjfNotBetween(Double value1, Double value2) {
+            addCriterion("xmjf not between", value1, value2, "xmjf");
             return (Criteria) this;
         }
 

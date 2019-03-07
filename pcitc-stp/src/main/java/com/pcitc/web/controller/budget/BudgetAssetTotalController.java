@@ -69,7 +69,7 @@ public class BudgetAssetTotalController extends BaseController {
 	private static final String BUDGET_ASSETTOTAL_SAVE_ITEM = "http://pcitc-zuul/stp-proxy/stp-provider/budget/save-assettotal-item";
 	private static final String BUDGET_ASSETTOTAL_SAVE_ITEMS = "http://pcitc-zuul/stp-proxy/stp-provider/budget/save-assettotal-items";
 	private static final String BUDGET_ASSETTOTAL_SAVE_CHILDITEMS = "http://pcitc-zuul/stp-proxy/stp-provider/budget/save-assettotal-childitems";
-	private static final String BUDGET_ASSETTOTAL_COMPANY_ITEMS = "http://pcitc-zuul/stp-proxy/stp-provider/budget/search-group-company-items";
+	private static final String BUDGET_ASSETTOTAL_COMPANY_ITEMS = "http://pcitc-zuul/stp-proxy/stp-provider/budget/search-asset-company-items";
 	private static final String BUDGET_ASSETTOTAL_HISTORY_ITEMS = "http://pcitc-zuul/stp-proxy/stp-provider/budget/search-assettotal-history-items";
 	private static final String BUDGET_ASSETTOTAL_FINAL_HISTORY_LIST = "http://pcitc-zuul/stp-proxy/stp-provider/budget/search-assettotal-final-history-list";
 	private static final String BUDGET_ASSETTOTAL_COMPARE_PLAN = "http://pcitc-zuul/stp-proxy/stp-provider/budget/select-assettotal-compare-plan";
@@ -151,6 +151,9 @@ public class BudgetAssetTotalController extends BaseController {
 	@ResponseBody
 	public Object createBudgetAssetInfo(@ModelAttribute("info") BudgetInfo info,HttpServletRequest request) throws IOException 
 	{
+		
+		info.setCreaterId(this.getUserProfile().getUserId());
+		info.setCreaterName(this.getUserProfile().getUserDisp());
 		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_ASSETTOTAL_CREATE, HttpMethod.POST, new HttpEntity<BudgetInfo>(info, this.httpHeaders), Object.class);
 		//System.out.println(JSON.toJSON(responseEntity.getBody()).toString());
 		return JSON.toJSON(responseEntity.getBody()).toString();
@@ -160,6 +163,8 @@ public class BudgetAssetTotalController extends BaseController {
 	@ResponseBody
 	public Object createBudgetAssetInfoByTemplate(@ModelAttribute("info") BudgetInfo info,HttpServletRequest request) throws IOException 
 	{
+		info.setCreaterId(this.getUserProfile().getUserId());
+		info.setCreaterName(this.getUserProfile().getUserDisp());
 		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_ASSETTOTAL_CREATE_BYTEMPLATE, HttpMethod.POST, new HttpEntity<BudgetInfo>(info, this.httpHeaders), Object.class);
 		//System.out.println(JSON.toJSON(responseEntity.getBody()).toString());
 		return JSON.toJSON(responseEntity.getBody()).toString();

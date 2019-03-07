@@ -34,14 +34,14 @@
                 </div>
                 <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">承担单位<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">预算部门<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
                             <input type="text" name="displayName" id="displayName" placeholder="" lay-verify="required" autocomplete="off" class="layui-input">
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="layui-row">
+            <!-- <div class="layui-row">
                 <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
                         <label for="" class="layui-form-label">单位简称<span class="must-fill">*</span></label>
@@ -58,7 +58,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
             <div class="layui-row">
                 <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
@@ -70,19 +70,9 @@
                 </div>
                 <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">重点实验室专项经费<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">备注<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <input type="text" id="zxjf" name="zxjf"  placeholder="" lay-verify="required" autocomplete="off" class="layui-input">
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="layui-row">
-                <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
-                    <div class="layui-form-item">
-                        <label for="" class="layui-form-label">备注</label>
-                        <div class="layui-input-block">
-                            <textarea placeholder=""  id="remark" name="remark" class="layui-textarea"></textarea>
+                         	<textarea placeholder=""  id="remark" name="remark" class="layui-textarea"></textarea>
                         </div>
                     </div>
                 </div>
@@ -146,7 +136,7 @@
         var layTableId = "dataTable";
         //检索年度金额完成情况
         function selectItemProjectMoney(nd,displayCode,callback){
-        	publicMethods.ajaxPost('/budget/select-grouptotal-compare-project',{"nd":nd,"code":displayCode}, function (data, status) {
+        	publicMethods.ajaxPost('/budget/select-assettotal-compare-project',{"nd":nd,"code":displayCode}, function (data, status) {
    			  var ysje = 0;
    			  $.each(data,function(index,d){
    				 ysje += parseInt(d.ysje); 
@@ -156,7 +146,7 @@
         }
         //检索年度计划情况
         function selectItemPlanMoney(nd,displayCode,callback){
-        	publicMethods.ajaxPost('/budget/select-grouptotal-compare-plan',{"nd":nd,"code":displayCode}, function (data, status) {
+        	publicMethods.ajaxPost('/budget/select-assettotal-compare-plan',{"nd":nd,"code":displayCode}, function (data, status) {
    			  var ysje = 0;
    			  $.each(data,function(index,d){
    				 ysje += parseInt(d.ysje); 
@@ -164,7 +154,7 @@
    			  callback(ysje);
    		  	});
         }
-		publicMethods.ajaxPost("/budget/get-grouptotal-item/${dataId}",null, function (data) {
+		publicMethods.ajaxPost("/budget/get-assettotal-item/${dataId}",null, function (data) {
 			form.val("budget-form",data);
 			parentInfo = data;
 			$.each(data.groups,function(index,dt){
@@ -179,7 +169,7 @@
 			//table.reload({data : viewObj.tbData});
    		});
         //检索公司
-        publicMethods.ajaxPost("/budget/search-group-company-items",null, function (data) {
+        publicMethods.ajaxPost("/budget/search-asset-company-items",null, function (data) {
         	$("#company_list").html('<option value="">请选择单位！</option>');
         	$.each(data,function(index,dt){
         		company_map[dt.unitCode] = dt.unitName;
@@ -200,7 +190,6 @@
                 , {field: 'last_year_end', title: '${nd}预算完成', align: 'right',style: 'cursor: pointer;', width: '15%',totalRow: true}
                 , {field: 'plan_money', title: '${nd}计划金额', align: 'right',style: 'cursor: pointer;', width: '15%',totalRow: true}
                 , {field: 'xmjf', title: '科技项目经费预算', align: 'right',style: 'cursor: pointer;',edit:true, width: '15%',totalRow: true}
-                , {field: 'zxjf', title: '重点实验室专项经费', align: 'right',style: 'cursor: pointer;',edit:true, width: '15%',totalRow: true}
                 , {title: '操作', style: 'cursor: pointer;', align: 'center', width: '10%', templet: function(d){
                     return '<a href="#" lay-event="del" lay-id="'+ d.dataId +'">删除</a>';
                 }}
@@ -301,7 +290,7 @@
             console.log("表单数据："+formData + '\n' +"表格数据:" + getTableData());
             var lodingMsg = layer.msg('处理中....');
             //保存预算项目
-            publicMethods.ajaxPost('/budget/save-grouptotal-item', data.field, function (data, status) {
+            publicMethods.ajaxPost('/budget/save-assettotal-item', data.field, function (data, status) {
                 if (data.success) {
                 	parent.initDataVersion("${budgetInfoId}");
                 	parentInfo = data.data;
@@ -312,7 +301,7 @@
                 		}
                 	});
                 	//保存预算项目子项
-                	publicMethods.ajaxPost('/budget/save-grouptotal-childitems', {"items":JSON.stringify(viewObj.tbData),"item":JSON.stringify(parentInfo)}, function (dt, status) {
+                	publicMethods.ajaxPost('/budget/save-assettotal-childitems', {"items":JSON.stringify(viewObj.tbData),"item":JSON.stringify(parentInfo)}, function (dt, status) {
                 		var index = parent.layer.getFrameIndex(window.name);
     			       	parent.layer.close(index);
                 	});

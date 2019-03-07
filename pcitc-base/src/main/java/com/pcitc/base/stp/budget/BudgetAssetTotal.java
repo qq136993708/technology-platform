@@ -31,7 +31,7 @@ public class BudgetAssetTotal {
 
     private Double yswc;
 
-    private Double jfys;
+    private Double xmjf;
 
     private String budgetInfoId;
 
@@ -161,12 +161,12 @@ public class BudgetAssetTotal {
         this.yswc = yswc;
     }
 
-    public Double getJfys() {
-        return jfys;
+    public Double getXmjf() {
+        return xmjf;
     }
 
-    public void setJfys(Double jfys) {
-        this.jfys = jfys;
+    public void setXmjf(Double xmjf) {
+        this.xmjf = xmjf;
     }
 
     public String getBudgetInfoId() {

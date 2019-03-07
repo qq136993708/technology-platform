@@ -90,20 +90,14 @@
         <div id="tableBox">
             <table id="dataTable" class="layui-table" lay-filter="dataTable" lay-data="{ID:'dataTable',height: '400',limit:100, url:'',totalRow: true}">
                 <thead>
-                <tr>
-                	<th lay-data="{type:'checkbox'}" rowspan="2"></th>
-                	<th lay-data="{field:'no',align: 'center', width: 45,totalRowText: '合计'}" rowspan="2">序号</th>
-                    <th lay-data="{field:'displayName', width: '25%'}" rowspan="2">承担单位</th>
-                    <!-- <th lay-data="{field:'remark', width: '30%'}" rowspan="2">研究方向</th> -->
-                   	<th lay-data="{field:'last_year_end',align: 'right', width: '15%',totalRow: true}" rowspan="2">2018年科技经费预算完成</th>
-                    <th lay-data="{field:'plan_money',align: 'right', width: '15%',totalRow: true}" rowspan="2">2019年科技经费合同计划金额</th>
-                    <th lay-data="{align:'center'}", colspan="3"><span>${nd}</span>年度经费预算</th>
-                </tr>
-                <tr>
-                    <th lay-data="{field:'total', width: '10%',align: 'right',totalRow: true}">合计</th>
-                    <th lay-data="{field:'xmjf', edit:true,align: 'right',totalRow: true}">项目经费</th>
-                    <th lay-data="{field:'zxjf', edit:true,align: 'right',totalRow: true}">重点实验室专项经费</th>
-                </tr>
+	                <tr>
+	                	<th lay-data="{type:'checkbox'}"></th>
+	                	<th lay-data="{field:'no',align: 'center', width: 45,totalRowText: '合计'}">序号</th>
+	                    <th lay-data="{field:'displayName', width: '25%'}">预算部门</th>
+	                    <th lay-data="{field:'remark', width: '30%'}">描述</th>
+	                   	<th lay-data="{field:'last_year_end',align: 'right',totalRow: true}">2018年科技经费预计完成</th>
+	                    <th lay-data="{field:'xmjf',align: 'right',totalRow: true}">2019年科技经费预算</th>
+	                </tr>
                 </thead>
             </table>
         </div>
@@ -123,7 +117,11 @@
         </div>
     </div>
     <div class="doc-box">
-        <p>备注及问题:</p>
+     	<p>备注</p>
+        <ul>
+            <li>1、预算由资产公司和化工事业部提出。该预算表分别报送资产公司和化工事业部</li>
+        </ul>
+        <p>操作说明:</p>
         <ul>
             <li>1、先填入预分配数，开始分配时，每分配一项对应减少分配数额</li>
             <li>2、表格编制状态包含：编制中、审批中、初审驳回、审批通过、最终预算（预算可调整） 五种状态，审批完成则不可再编辑</li>
@@ -175,7 +173,7 @@
             		$("#update_time").html(curent_budget_info.updateTime);//最后更新时间
             		$("#info_status").html(curent_budget_info.auditStatusDesc);//状态
             		
-            		publicMethods.ajaxPost("/budget/budget-grouptotal-items",{page:1,limit:10,param: {"nd":cu_date,"budget_info_id":curent_budget_info.dataId}}, function (data) {
+            		publicMethods.ajaxPost("/budget/budget-assettotal-items",{page:1,limit:10,param: {"nd":cu_date,"budget_info_id":curent_budget_info.dataId}}, function (data) {
 	                	curent_tabel_data = data.data;
 	                	table.reload('dataTable', {data: data.data});
 	                	renderfunc();
@@ -202,9 +200,9 @@
 			//初始化时间选择
 			function initDateView(){
 				$(".nd").html(cu_date);
-            	$('.layui-table-cell.laytable-cell-group').find('span').text(cu_date+"年度经费预算");
-            	$(".layui-table-header .layui-table").find('th').eq(3).find('span').text((cu_date-1)+"年科技经费预算完成");
-            	$(".layui-table-header .layui-table").find('th').eq(4).find('span').text(cu_date+"年科技经费合同计划金额");
+            	//$('.layui-table-cell.laytable-cell-group').find('span').text(cu_date+"年度经费预算");
+            	$(".layui-table-header .layui-table").find('th').eq(4).find('span').text((cu_date-1)+"年科技经费预计完成");
+            	$(".layui-table-header .layui-table").find('th').eq(5).find('span').text(cu_date+"年科技经费预算");
 			}
             // 点击按钮时激活
             $('.tableBtns').children('button').on('click',function(){
@@ -240,7 +238,7 @@
 			});
           	//初始化数据版本
             function initDataVersion(budget_id){
-                publicMethods.ajaxPost("/budget/budget_group_info_list",{"nd":cu_date}, function (dt) {
+                publicMethods.ajaxPost("/budget/budget_asset_info_list",{"nd":cu_date}, function (dt) {
                 	$("#data_version").html('<option value="">---请选择版本---</option>');
                 	budget_info_map = {};
                 	$.each(dt,function(index,data){
@@ -268,7 +266,7 @@
             var $ = layui.$, active = {
             	createEvent: function () { //点击查询按钮
                     layer.open({
-                        title: cu_date+'集团公司经费预算编制管理-创建预算表'
+                        title: cu_date+'资产公司经费预算编制管理-创建预算表'
                         , skin: 'layui-layer-lan'
                         , shadeClose: true
                         , type: 2
@@ -277,7 +275,7 @@
                         , maxmin: false
                         //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
                         , area: ['80%', '90%']
-                        , content: '/budget/budget_create_grouptotal'
+                        , content: '/budget/budget_create_assettotal'
                     });
                 },
                 addEvent: function() {
@@ -285,9 +283,9 @@
                 		parent.layer.alert("请选择预算版本", {title : '提示'});
                 		return;
                 	} 
-                	var url = '/budget/budget_edit_grouptotal?budgetInfoId='+curent_budget_info.dataId+'&nd='+cu_date;
+                	var url = '/budget/budget_edit_assettotal?budgetInfoId='+curent_budget_info.dataId+'&nd='+cu_date;
                    	layer.open({
-                        title: cu_date+'集团公司经费预算编制管理-预算项新增'
+                        title: cu_date+'资产公司经费预算编制管理-预算项新增'
                         , skin: 'layui-layer-lan'
                         , shadeClose: true
                         , type: 2
@@ -305,9 +303,9 @@
                 		parent.layer.alert("请选择需要编辑的行", {title : '提示'});
                 		return;
                 	}
-                	var url = '/budget/budget_edit_grouptotal?dataId='+curent_tabel_data[selectIndex].dataId+"&budgetInfoId="+curent_budget_info.dataId+"&nd="+cu_date;
+                	var url = '/budget/budget_edit_assettotal?dataId='+curent_tabel_data[selectIndex].dataId+"&budgetInfoId="+curent_budget_info.dataId+"&nd="+cu_date;
                    	layer.open({
-                        title: cu_date+'集团公司经费预算编制管理-预算项编辑'
+                        title: cu_date+'资产公司经费预算编制管理-预算项编辑'
                         , skin: 'layui-layer-lan'
                         , shadeClose: true
                         , type: 2
@@ -327,7 +325,7 @@
                 	}
                 	layer.confirm('确定要删除吗？',{title:"删除确认"},function(index){
     					layer.close(index);
-    					publicMethods.ajaxPost("/budget/del-group-item/"+curent_tabel_data[selectIndex].dataId, null, function (data) {
+    					publicMethods.ajaxPost("/budget/del-asset-item/"+curent_tabel_data[selectIndex].dataId, null, function (data) {
     	                     if (data.success) {
     	                    	 curent_tabel_data.splice(selectIndex,1);
     	                    	 table.reload('dataTable', {data: curent_tabel_data});
@@ -344,7 +342,7 @@
                 		parent.layer.alert("请选择需要保存的预算版本", {title : '提示'});
                 		return;
                 	}                
-   					publicMethods.ajaxPost("/budget/save-grouptotal-items", {"info":JSON.stringify(curent_budget_info),"items":JSON.stringify(curent_tabel_data)}, function (data) {
+   					publicMethods.ajaxPost("/budget/save-assettotal-items", {"info":JSON.stringify(curent_budget_info),"items":JSON.stringify(curent_tabel_data)}, function (data) {
    	                     if (data.success) {    	                    	
    	                    	 layer.msg('保存成功!');
    	                     } else {
@@ -358,7 +356,7 @@
                 	}  
                 	layer.confirm('提交后将不可再编辑！确定要提交审批吗？',{title:"提交确认"},function(index){
     					layer.close(index);
-    					publicMethods.ajaxPost("/budget/start-budget-grouptotal-activity", {"budgetInfoId":curent_budget_info.dataId,"functionId":param.id}, function (data) {
+    					publicMethods.ajaxPost("/budget/start-budget-assettotal-activity", {"budgetInfoId":curent_budget_info.dataId,"functionId":param.id}, function (data) {
     	                     if (data.success) {    	                    	 
     	                    	 budget_info_map[data.data.dataVersion]=data.data; 
     	                    	 $("#data_version").trigger("change");
@@ -374,16 +372,16 @@
                 		parent.layer.alert("请选择需要导出的预算版本", {title : '提示'});
                 		return;
                 	} 
-                	window.open("/budget/budget_download/grouptotal/"+curent_budget_info.dataId);
+                	window.open("/budget/budget_download/assettotal/"+curent_budget_info.dataId);
                 },historyCompare:function(){
                 	var selectIndex = $(".layui-form-checked").parents("tr").attr("data-index");
                 	if(!selectIndex){
                 		parent.layer.alert("请选择历史数据项", {title : '提示'});
                 		return;
                 	}
-                	var url = '/budget/budget_history_compare_grouptotal?dataId='+curent_tabel_data[selectIndex].dataId+"&budgetInfoId="+curent_budget_info.dataId;
+                	var url = '/budget/budget_history_compare_assettotal?dataId='+curent_tabel_data[selectIndex].dataId+"&budgetInfoId="+curent_budget_info.dataId;
                    	layer.open({
-                        title: '集团公司经费预算编制管理-往年预算参考'
+                        title: '资产公司经费预算编制管理-往年预算参考'
                         , skin: 'layui-layer-lan'
                         , shadeClose: true
                         , type: 2
@@ -399,9 +397,9 @@
                 		parent.layer.alert("请选择预算版本", {title : '提示'});
                 		return;
                 	} 
-                	var url = '/budget/budget_history_view_grouptotal?budgetInfoId='+curent_budget_info.dataId;
+                	var url = '/budget/budget_history_view_assettotal?budgetInfoId='+curent_budget_info.dataId;
                    	layer.open({
-                        title: '集团公司经费预算编制管理-历年参考数据'
+                        title: '资产公司经费预算编制管理-历年参考数据'
                         , skin: 'layui-layer-lan'
                         , shadeClose: true
                         , type: 2
