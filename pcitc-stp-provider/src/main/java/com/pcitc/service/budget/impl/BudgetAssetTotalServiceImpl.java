@@ -123,7 +123,7 @@ public class BudgetAssetTotalServiceImpl implements BudgetAssetTotalService
 		for(java.util.Iterator<?> iter = tabledata.getData().iterator();iter.hasNext();) 
 		{
 			Map<String,Object> mp  = MyBeanUtils.transBean2Map(iter.next());
-			mp.put("total", new Double(mp.get("zxjf").toString())+new Double(mp.get("xmjf").toString()));
+			mp.put("total", new Double(mp.get("xmjf").toString()));
 			mp.put("plan_money", 0);
 			mp.put("last_year_end", 0);
 			ls.add(mp);
