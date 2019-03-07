@@ -1,8 +1,11 @@
 package com.pcitc.mapper.equipment;
 
+import com.pcitc.base.stp.equipment.SreEquipment;
 import com.pcitc.base.stp.equipment.SreProjectTask;
 import com.pcitc.base.stp.equipment.SreProjectTaskExample;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface SreProjectTaskMapper {
@@ -27,4 +30,9 @@ public interface SreProjectTaskMapper {
     int updateByPrimaryKeySelective(SreProjectTask record);
 
     int updateByPrimaryKey(SreProjectTask record);
+    
+    
+    List<SreProjectTask> getList(Map  map);
+    int getCount(Map map);
+    
 }

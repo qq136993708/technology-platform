@@ -6616,12 +6616,20 @@ public static ChartBarLineSeries getAward_trend_analysis_02(List<Award> list, St
 		return f1*100;
 	}
 	
-	/*public static void main(String[] args) {
+	public static void main(String[] args) {
 		
-		DecimalFormat df=new DecimalFormat("0.0000");
+		/*DecimalFormat df=new DecimalFormat("0.0000");
 		double f1 = new BigDecimal((float)2466/2565).setScale(4, BigDecimal.ROUND_HALF_UP).doubleValue();
-		System.out.println(chufa2(2466,2565) );
+		System.out.println(chufa2(2466,2565) );*/
+		String str="00000,100401001";
+		String saaa[]=str.split(",");
+		System.out.println("------------------"+saaa.length);
 		
-	}*/
+		
+		
+		
+		
+		
+	}
 
 }

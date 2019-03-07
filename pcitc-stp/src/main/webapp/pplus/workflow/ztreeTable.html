@@ -27,23 +27,19 @@
 }
 
 .icon_view {
-	background: url(/layuiadmin/layui/images/operation_72.png) no-repeat
-		center;
+	background: url(/layuiadmin/layui/images/operation_72.png) no-repeat center;
 }
 
 .icon_edit {
-	background: url(/layuiadmin/layui/images/operation_75.png) no-repeat
-		center;
+	background: url(/layuiadmin/layui/images/operation_75.png) no-repeat center;
 }
 
 .icon_add {
-	background: url(/layuiadmin/layui/images/operation_78.png) no-repeat
-		center;
+	background: url(/layuiadmin/layui/images/operation_78.png) no-repeat center;
 }
 
 .icon_del {
-	background: url(/layuiadmin/layui/images/operation_76.png) no-repeat
-		center;
+	background: url(/layuiadmin/layui/images/operation_76.png) no-repeat center;
 }
 
 /*end--按钮*/
@@ -180,21 +176,19 @@
 		function onClickMenu(event, treeId, treeNode, clickFlag) {
 		}
 
-		$(document).ready(
-				function() {
-					$.fn.zTree.init($("#dataTree"), setting, zTreeNodes);
+		$(document).ready(function() {
+			$.fn.zTree.init($("#dataTree"), setting, zTreeNodes);
 
-					//添加表头
-					var li_head = ' <li class="head"><a><div class="diy">名称</div><div class="diy">联系人</div><div class="diy">主管行业</div>'
-							+ '<div class="diy">联系方式</div><div class="diy">操作</div></a></li>';
-					var rows = $("#dataTree").find('li');
-					if (rows.length > 0) {
-						rows.eq(0).before(li_head)
-					} else {
-						$("#dataTree").append(li_head);
-						//$("#dataTree").append('<li ><div style="text-align: center;line-height: 30px;" >无符合条件数据</div></li>')
-					}
-				});
+			//添加表头
+			var li_head = ' <li class="head"><a><div class="diy">名称</div><div class="diy">联系人</div><div class="diy">主管行业</div>' + '<div class="diy">联系方式</div><div class="diy">操作</div></a></li>';
+			var rows = $("#dataTree").find('li');
+			if (rows.length > 0) {
+				rows.eq(0).before(li_head)
+			} else {
+				$("#dataTree").append(li_head);
+				//$("#dataTree").append('<li ><div style="text-align: center;line-height: 30px;" >无符合条件数据</div></li>')
+			}
+		});
 
 		/**
 		 * 自定义DOM节点

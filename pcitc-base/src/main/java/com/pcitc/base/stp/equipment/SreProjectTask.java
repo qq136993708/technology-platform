@@ -56,6 +56,16 @@ public class SreProjectTask {
 
     private BigDecimal projectMoney;
 
+    private String belongDepartmentName;
+
+    private String belongDepartmentCode;
+
+    private String professionalDepartName;
+
+    private String professionalDepartCode;
+
+    private String setupYear;
+
     public String getTaskId() {
         return taskId;
     }
@@ -262,5 +272,45 @@ public class SreProjectTask {
 
     public void setProjectMoney(BigDecimal projectMoney) {
         this.projectMoney = projectMoney;
+    }
+
+    public String getBelongDepartmentName() {
+        return belongDepartmentName;
+    }
+
+    public void setBelongDepartmentName(String belongDepartmentName) {
+        this.belongDepartmentName = belongDepartmentName;
+    }
+
+    public String getBelongDepartmentCode() {
+        return belongDepartmentCode;
+    }
+
+    public void setBelongDepartmentCode(String belongDepartmentCode) {
+        this.belongDepartmentCode = belongDepartmentCode;
+    }
+
+    public String getProfessionalDepartName() {
+        return professionalDepartName;
+    }
+
+    public void setProfessionalDepartName(String professionalDepartName) {
+        this.professionalDepartName = professionalDepartName;
+    }
+
+    public String getProfessionalDepartCode() {
+        return professionalDepartCode;
+    }
+
+    public void setProfessionalDepartCode(String professionalDepartCode) {
+        this.professionalDepartCode = professionalDepartCode;
+    }
+
+    public String getSetupYear() {
+        return setupYear;
+    }
+
+    public void setSetupYear(String setupYear) {
+        this.setupYear = setupYear;
     }
 }

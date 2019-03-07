@@ -22,6 +22,13 @@
   <div class="box-body">
       <form class="layui-form" name="form1" id="form1" action="" method="POST" lay-filter="component-form-group layui-container">
          <input type="hidden" name="meetingId" id="meetingId" value="${sreTechMeeting.meetingId}">
+         
+          <div class="layui-form-item">
+	        <label class="layui-form-label">会议主题<span class="must-fill">*</span></label>
+	        <div class="layui-input-block">
+	         <input class="layui-input readOnlyBox"  id="title" name="title" lay-verify="required" value="${sreTechMeeting.title}"  type="text">
+           </div>
+	     </div>
          <div class="layui-form-item">
 	        <label class="layui-form-label">会议时间</label>
 	        <div class="layui-input-block">
@@ -40,18 +47,28 @@
 	        <input class="layui-input readOnlyBox" id="meetingEmcee" name="meetingEmcee" readonly="readonly"   value="${sreTechMeeting.meetingEmcee}"  type="text">
           </div>
 	     </div>
+	     
+	     <div class="layui-form-item">
+	        <label class="layui-form-label">参会人员</label>
+	        <div class="layui-input-block">
+	        <input class="layui-input readOnlyBox" id="joinUsers" name="joinUsers"  value="${sreTechMeeting.joinUsers}"  type="text">
+          </div>
+	     </div>
+	      <div class="layui-form-item">
+	        <label class="layui-form-label">会议内容</label>
+	        <div class="layui-input-block">
+	        <textarea  name="meetingContent" id="meetingContent"  class="layui-textarea readOnlyBox">${sreTechMeeting.meetingContent}</textarea>
+          </div>
+	     </div>
+	     
         <div class="layui-form-item">
 	        <label class="layui-form-label">备注</label>
 	        <div class="layui-input-block">
-	        <input class="layui-input readOnlyBox" id="remarks" name="remarks" readonly="readonly"   value="${sreTechMeeting.remarks}"  type="text">
+	        <textarea  name="remark" id="remark" readonly="readonly"    class="layui-textarea readOnlyBox">${sreTechMeeting.remark}</textarea>
+	        
           </div>
 	     </div>
-        <div class="layui-form-item">
-	        <label class="layui-form-label">会议内容</label>
-	        <div class="layui-input-block">
-	        <input class="layui-input readOnlyBox" id="meetingContent" name="meetingContent"    value="${sreTechMeeting.meetingContent}"  type="text">
-          </div>
-	     </div>
+       
 	     <div class="form-bottom">
 	  	  	<div class="form-bottom-btns">
 	      		<button type="button"class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" id="closeBtn">关闭</button>

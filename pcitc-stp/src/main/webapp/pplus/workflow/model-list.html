@@ -183,7 +183,7 @@
 						layer.msg('请点击选择一行数据');
 					} else {
 						$.ajax({
-							url : '/activiti-model/delete/' + selectRowData.id,//这个就是请求地址对应sAjaxSource
+							url : '/activiti-model/delete/' + selectRowData.id,
 							type : 'post',
 							dataType : 'json',
 							headers : {
@@ -194,8 +194,12 @@
 
 							},
 							success : function(data) { //请求成功后处理函数。
-								layer.msg('操作成功！');
-								active.searchEvent();
+								if (data.success) {
+									active.searchEvent();
+									layer.msg('操作成功！');
+								} else {
+									layer.msg('操作失败！');
+								}
 							}
 						});
 					}
@@ -207,7 +211,7 @@
 							layer.msg('请点击选择一行数据');
 						} else {
 							$.ajax({
-								url : '/activiti-model/deploy/' + selectRowData.id,//这个就是请求地址对应sAjaxSource
+								url : '/activiti-model/deploy/' + selectRowData.id,
 								type : 'post',
 								dataType : 'json',
 								headers : {
@@ -218,8 +222,8 @@
 								},
 								success : function(data) { //请求成功后处理函数。
 									if (data.success) {
-										layer.msg('操作成功！');
 										active.searchEvent();
+										layer.msg('操作成功！');
 									} else {
 										layer.msg('操作失败！');
 									}

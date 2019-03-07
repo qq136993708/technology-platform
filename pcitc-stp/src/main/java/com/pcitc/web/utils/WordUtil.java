@@ -25,7 +25,8 @@ public class WordUtil {
 	 *            生成的文件名称
 	 */
 	@SuppressWarnings("unchecked")
-	public static void createWord(Map dataMap, String templateName, String filePath, String fileName) {
+	public static boolean createWord(Map dataMap, String templateName, String filePath, String fileName) {
+		boolean flag=true;
 		try {
 			// 创建配置实例
 			Configuration configuration = new Configuration();
@@ -60,9 +61,10 @@ public class WordUtil {
 			out.flush();
 			out.close();
 		} catch (Exception e) {
+			flag=true;
 			e.printStackTrace();
 		}
-
+        return flag;
 	}
 
 	/**

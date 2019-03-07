@@ -1686,143 +1686,283 @@ public class SreProjectExample {
             return (Criteria) this;
         }
 
-        public Criteria andBelongDepartmentIsNull() {
-            addCriterion("belong_department is null");
+        public Criteria andBelongDepartmentNameIsNull() {
+            addCriterion("belong_department_name is null");
             return (Criteria) this;
         }
 
-        public Criteria andBelongDepartmentIsNotNull() {
-            addCriterion("belong_department is not null");
+        public Criteria andBelongDepartmentNameIsNotNull() {
+            addCriterion("belong_department_name is not null");
             return (Criteria) this;
         }
 
-        public Criteria andBelongDepartmentEqualTo(String value) {
-            addCriterion("belong_department =", value, "belongDepartment");
+        public Criteria andBelongDepartmentNameEqualTo(String value) {
+            addCriterion("belong_department_name =", value, "belongDepartmentName");
             return (Criteria) this;
         }
 
-        public Criteria andBelongDepartmentNotEqualTo(String value) {
-            addCriterion("belong_department <>", value, "belongDepartment");
+        public Criteria andBelongDepartmentNameNotEqualTo(String value) {
+            addCriterion("belong_department_name <>", value, "belongDepartmentName");
             return (Criteria) this;
         }
 
-        public Criteria andBelongDepartmentGreaterThan(String value) {
-            addCriterion("belong_department >", value, "belongDepartment");
+        public Criteria andBelongDepartmentNameGreaterThan(String value) {
+            addCriterion("belong_department_name >", value, "belongDepartmentName");
             return (Criteria) this;
         }
 
-        public Criteria andBelongDepartmentGreaterThanOrEqualTo(String value) {
-            addCriterion("belong_department >=", value, "belongDepartment");
+        public Criteria andBelongDepartmentNameGreaterThanOrEqualTo(String value) {
+            addCriterion("belong_department_name >=", value, "belongDepartmentName");
             return (Criteria) this;
         }
 
-        public Criteria andBelongDepartmentLessThan(String value) {
-            addCriterion("belong_department <", value, "belongDepartment");
+        public Criteria andBelongDepartmentNameLessThan(String value) {
+            addCriterion("belong_department_name <", value, "belongDepartmentName");
             return (Criteria) this;
         }
 
-        public Criteria andBelongDepartmentLessThanOrEqualTo(String value) {
-            addCriterion("belong_department <=", value, "belongDepartment");
+        public Criteria andBelongDepartmentNameLessThanOrEqualTo(String value) {
+            addCriterion("belong_department_name <=", value, "belongDepartmentName");
             return (Criteria) this;
         }
 
-        public Criteria andBelongDepartmentLike(String value) {
-            addCriterion("belong_department like", value, "belongDepartment");
+        public Criteria andBelongDepartmentNameLike(String value) {
+            addCriterion("belong_department_name like", value, "belongDepartmentName");
             return (Criteria) this;
         }
 
-        public Criteria andBelongDepartmentNotLike(String value) {
-            addCriterion("belong_department not like", value, "belongDepartment");
+        public Criteria andBelongDepartmentNameNotLike(String value) {
+            addCriterion("belong_department_name not like", value, "belongDepartmentName");
             return (Criteria) this;
         }
 
-        public Criteria andBelongDepartmentIn(List<String> values) {
-            addCriterion("belong_department in", values, "belongDepartment");
+        public Criteria andBelongDepartmentNameIn(List<String> values) {
+            addCriterion("belong_department_name in", values, "belongDepartmentName");
             return (Criteria) this;
         }
 
-        public Criteria andBelongDepartmentNotIn(List<String> values) {
-            addCriterion("belong_department not in", values, "belongDepartment");
+        public Criteria andBelongDepartmentNameNotIn(List<String> values) {
+            addCriterion("belong_department_name not in", values, "belongDepartmentName");
             return (Criteria) this;
         }
 
-        public Criteria andBelongDepartmentBetween(String value1, String value2) {
-            addCriterion("belong_department between", value1, value2, "belongDepartment");
+        public Criteria andBelongDepartmentNameBetween(String value1, String value2) {
+            addCriterion("belong_department_name between", value1, value2, "belongDepartmentName");
             return (Criteria) this;
         }
 
-        public Criteria andBelongDepartmentNotBetween(String value1, String value2) {
-            addCriterion("belong_department not between", value1, value2, "belongDepartment");
+        public Criteria andBelongDepartmentNameNotBetween(String value1, String value2) {
+            addCriterion("belong_department_name not between", value1, value2, "belongDepartmentName");
             return (Criteria) this;
         }
 
-        public Criteria andProfessionalDepartmentIsNull() {
-            addCriterion("professional_department is null");
+        public Criteria andBelongDepartmentCodeIsNull() {
+            addCriterion("belong_department_code is null");
             return (Criteria) this;
         }
 
-        public Criteria andProfessionalDepartmentIsNotNull() {
-            addCriterion("professional_department is not null");
+        public Criteria andBelongDepartmentCodeIsNotNull() {
+            addCriterion("belong_department_code is not null");
             return (Criteria) this;
         }
 
-        public Criteria andProfessionalDepartmentEqualTo(String value) {
-            addCriterion("professional_department =", value, "professionalDepartment");
+        public Criteria andBelongDepartmentCodeEqualTo(String value) {
+            addCriterion("belong_department_code =", value, "belongDepartmentCode");
             return (Criteria) this;
         }
 
-        public Criteria andProfessionalDepartmentNotEqualTo(String value) {
-            addCriterion("professional_department <>", value, "professionalDepartment");
+        public Criteria andBelongDepartmentCodeNotEqualTo(String value) {
+            addCriterion("belong_department_code <>", value, "belongDepartmentCode");
             return (Criteria) this;
         }
 
-        public Criteria andProfessionalDepartmentGreaterThan(String value) {
-            addCriterion("professional_department >", value, "professionalDepartment");
+        public Criteria andBelongDepartmentCodeGreaterThan(String value) {
+            addCriterion("belong_department_code >", value, "belongDepartmentCode");
             return (Criteria) this;
         }
 
-        public Criteria andProfessionalDepartmentGreaterThanOrEqualTo(String value) {
-            addCriterion("professional_department >=", value, "professionalDepartment");
+        public Criteria andBelongDepartmentCodeGreaterThanOrEqualTo(String value) {
+            addCriterion("belong_department_code >=", value, "belongDepartmentCode");
             return (Criteria) this;
         }
 
-        public Criteria andProfessionalDepartmentLessThan(String value) {
-            addCriterion("professional_department <", value, "professionalDepartment");
+        public Criteria andBelongDepartmentCodeLessThan(String value) {
+            addCriterion("belong_department_code <", value, "belongDepartmentCode");
             return (Criteria) this;
         }
 
-        public Criteria andProfessionalDepartmentLessThanOrEqualTo(String value) {
-            addCriterion("professional_department <=", value, "professionalDepartment");
+        public Criteria andBelongDepartmentCodeLessThanOrEqualTo(String value) {
+            addCriterion("belong_department_code <=", value, "belongDepartmentCode");
             return (Criteria) this;
         }
 
-        public Criteria andProfessionalDepartmentLike(String value) {
-            addCriterion("professional_department like", value, "professionalDepartment");
+        public Criteria andBelongDepartmentCodeLike(String value) {
+            addCriterion("belong_department_code like", value, "belongDepartmentCode");
             return (Criteria) this;
         }
 
-        public Criteria andProfessionalDepartmentNotLike(String value) {
-            addCriterion("professional_department not like", value, "professionalDepartment");
+        public Criteria andBelongDepartmentCodeNotLike(String value) {
+            addCriterion("belong_department_code not like", value, "belongDepartmentCode");
             return (Criteria) this;
         }
 
-        public Criteria andProfessionalDepartmentIn(List<String> values) {
-            addCriterion("professional_department in", values, "professionalDepartment");
+        public Criteria andBelongDepartmentCodeIn(List<String> values) {
+            addCriterion("belong_department_code in", values, "belongDepartmentCode");
             return (Criteria) this;
         }
 
-        public Criteria andProfessionalDepartmentNotIn(List<String> values) {
-            addCriterion("professional_department not in", values, "professionalDepartment");
+        public Criteria andBelongDepartmentCodeNotIn(List<String> values) {
+            addCriterion("belong_department_code not in", values, "belongDepartmentCode");
             return (Criteria) this;
         }
 
-        public Criteria andProfessionalDepartmentBetween(String value1, String value2) {
-            addCriterion("professional_department between", value1, value2, "professionalDepartment");
+        public Criteria andBelongDepartmentCodeBetween(String value1, String value2) {
+            addCriterion("belong_department_code between", value1, value2, "belongDepartmentCode");
             return (Criteria) this;
         }
 
-        public Criteria andProfessionalDepartmentNotBetween(String value1, String value2) {
-            addCriterion("professional_department not between", value1, value2, "professionalDepartment");
+        public Criteria andBelongDepartmentCodeNotBetween(String value1, String value2) {
+            addCriterion("belong_department_code not between", value1, value2, "belongDepartmentCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andProfessionalDepartNameIsNull() {
+            addCriterion("professional_depart_name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProfessionalDepartNameIsNotNull() {
+            addCriterion("professional_depart_name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProfessionalDepartNameEqualTo(String value) {
+            addCriterion("professional_depart_name =", value, "professionalDepartName");
+            return (Criteria) this;
+        }
+
+        public Criteria andProfessionalDepartNameNotEqualTo(String value) {
+            addCriterion("professional_depart_name <>", value, "professionalDepartName");
+            return (Criteria) this;
+        }
+
+        public Criteria andProfessionalDepartNameGreaterThan(String value) {
+            addCriterion("professional_depart_name >", value, "professionalDepartName");
+            return (Criteria) this;
+        }
+
+        public Criteria andProfessionalDepartNameGreaterThanOrEqualTo(String value) {
+            addCriterion("professional_depart_name >=", value, "professionalDepartName");
+            return (Criteria) this;
+        }
+
+        public Criteria andProfessionalDepartNameLessThan(String value) {
+            addCriterion("professional_depart_name <", value, "professionalDepartName");
+            return (Criteria) this;
+        }
+
+        public Criteria andProfessionalDepartNameLessThanOrEqualTo(String value) {
+            addCriterion("professional_depart_name <=", value, "professionalDepartName");
+            return (Criteria) this;
+        }
+
+        public Criteria andProfessionalDepartNameLike(String value) {
+            addCriterion("professional_depart_name like", value, "professionalDepartName");
+            return (Criteria) this;
+        }
+
+        public Criteria andProfessionalDepartNameNotLike(String value) {
+            addCriterion("professional_depart_name not like", value, "professionalDepartName");
+            return (Criteria) this;
+        }
+
+        public Criteria andProfessionalDepartNameIn(List<String> values) {
+            addCriterion("professional_depart_name in", values, "professionalDepartName");
+            return (Criteria) this;
+        }
+
+        public Criteria andProfessionalDepartNameNotIn(List<String> values) {
+            addCriterion("professional_depart_name not in", values, "professionalDepartName");
+            return (Criteria) this;
+        }
+
+        public Criteria andProfessionalDepartNameBetween(String value1, String value2) {
+            addCriterion("professional_depart_name between", value1, value2, "professionalDepartName");
+            return (Criteria) this;
+        }
+
+        public Criteria andProfessionalDepartNameNotBetween(String value1, String value2) {
+            addCriterion("professional_depart_name not between", value1, value2, "professionalDepartName");
+            return (Criteria) this;
+        }
+
+        public Criteria andProfessionalDepartCodeIsNull() {
+            addCriterion("professional_depart_code is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProfessionalDepartCodeIsNotNull() {
+            addCriterion("professional_depart_code is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProfessionalDepartCodeEqualTo(String value) {
+            addCriterion("professional_depart_code =", value, "professionalDepartCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andProfessionalDepartCodeNotEqualTo(String value) {
+            addCriterion("professional_depart_code <>", value, "professionalDepartCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andProfessionalDepartCodeGreaterThan(String value) {
+            addCriterion("professional_depart_code >", value, "professionalDepartCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andProfessionalDepartCodeGreaterThanOrEqualTo(String value) {
+            addCriterion("professional_depart_code >=", value, "professionalDepartCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andProfessionalDepartCodeLessThan(String value) {
+            addCriterion("professional_depart_code <", value, "professionalDepartCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andProfessionalDepartCodeLessThanOrEqualTo(String value) {
+            addCriterion("professional_depart_code <=", value, "professionalDepartCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andProfessionalDepartCodeLike(String value) {
+            addCriterion("professional_depart_code like", value, "professionalDepartCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andProfessionalDepartCodeNotLike(String value) {
+            addCriterion("professional_depart_code not like", value, "professionalDepartCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andProfessionalDepartCodeIn(List<String> values) {
+            addCriterion("professional_depart_code in", values, "professionalDepartCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andProfessionalDepartCodeNotIn(List<String> values) {
+            addCriterion("professional_depart_code not in", values, "professionalDepartCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andProfessionalDepartCodeBetween(String value1, String value2) {
+            addCriterion("professional_depart_code between", value1, value2, "professionalDepartCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andProfessionalDepartCodeNotBetween(String value1, String value2) {
+            addCriterion("professional_depart_code not between", value1, value2, "professionalDepartCode");
             return (Criteria) this;
         }
 
@@ -2803,6 +2943,146 @@ public class SreProjectExample {
 
         public Criteria andApplyUnitCodeNotBetween(String value1, String value2) {
             addCriterion("apply_unit_code not between", value1, value2, "applyUnitCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskWriteUserNamesIsNull() {
+            addCriterion("task_write_user_names is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskWriteUserNamesIsNotNull() {
+            addCriterion("task_write_user_names is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskWriteUserNamesEqualTo(String value) {
+            addCriterion("task_write_user_names =", value, "taskWriteUserNames");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskWriteUserNamesNotEqualTo(String value) {
+            addCriterion("task_write_user_names <>", value, "taskWriteUserNames");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskWriteUserNamesGreaterThan(String value) {
+            addCriterion("task_write_user_names >", value, "taskWriteUserNames");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskWriteUserNamesGreaterThanOrEqualTo(String value) {
+            addCriterion("task_write_user_names >=", value, "taskWriteUserNames");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskWriteUserNamesLessThan(String value) {
+            addCriterion("task_write_user_names <", value, "taskWriteUserNames");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskWriteUserNamesLessThanOrEqualTo(String value) {
+            addCriterion("task_write_user_names <=", value, "taskWriteUserNames");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskWriteUserNamesLike(String value) {
+            addCriterion("task_write_user_names like", value, "taskWriteUserNames");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskWriteUserNamesNotLike(String value) {
+            addCriterion("task_write_user_names not like", value, "taskWriteUserNames");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskWriteUserNamesIn(List<String> values) {
+            addCriterion("task_write_user_names in", values, "taskWriteUserNames");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskWriteUserNamesNotIn(List<String> values) {
+            addCriterion("task_write_user_names not in", values, "taskWriteUserNames");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskWriteUserNamesBetween(String value1, String value2) {
+            addCriterion("task_write_user_names between", value1, value2, "taskWriteUserNames");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskWriteUserNamesNotBetween(String value1, String value2) {
+            addCriterion("task_write_user_names not between", value1, value2, "taskWriteUserNames");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskWriteUsersIdsIsNull() {
+            addCriterion("task_write_users_ids is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskWriteUsersIdsIsNotNull() {
+            addCriterion("task_write_users_ids is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskWriteUsersIdsEqualTo(String value) {
+            addCriterion("task_write_users_ids =", value, "taskWriteUsersIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskWriteUsersIdsNotEqualTo(String value) {
+            addCriterion("task_write_users_ids <>", value, "taskWriteUsersIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskWriteUsersIdsGreaterThan(String value) {
+            addCriterion("task_write_users_ids >", value, "taskWriteUsersIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskWriteUsersIdsGreaterThanOrEqualTo(String value) {
+            addCriterion("task_write_users_ids >=", value, "taskWriteUsersIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskWriteUsersIdsLessThan(String value) {
+            addCriterion("task_write_users_ids <", value, "taskWriteUsersIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskWriteUsersIdsLessThanOrEqualTo(String value) {
+            addCriterion("task_write_users_ids <=", value, "taskWriteUsersIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskWriteUsersIdsLike(String value) {
+            addCriterion("task_write_users_ids like", value, "taskWriteUsersIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskWriteUsersIdsNotLike(String value) {
+            addCriterion("task_write_users_ids not like", value, "taskWriteUsersIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskWriteUsersIdsIn(List<String> values) {
+            addCriterion("task_write_users_ids in", values, "taskWriteUsersIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskWriteUsersIdsNotIn(List<String> values) {
+            addCriterion("task_write_users_ids not in", values, "taskWriteUsersIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskWriteUsersIdsBetween(String value1, String value2) {
+            addCriterion("task_write_users_ids between", value1, value2, "taskWriteUsersIds");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskWriteUsersIdsNotBetween(String value1, String value2) {
+            addCriterion("task_write_users_ids not between", value1, value2, "taskWriteUsersIds");
             return (Criteria) this;
         }
     }

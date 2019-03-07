@@ -94,7 +94,7 @@
         var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate;
         table = layui.table;
 
-        function renderSysFileTable() {
+        function renderTable() {
             table.render({
                 elem: '#fileShowTable',
                 url: '/sysfile/getTableData',
@@ -153,7 +153,7 @@
             e.stopPropagation();
         });
 
-        renderSysFileTable();
+        renderTable();
         // 触发不同的按钮事件
         var $ = layui.$, active = {
             searchEvent: function () { //点击查询按钮
