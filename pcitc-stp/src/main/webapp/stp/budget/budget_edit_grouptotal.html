@@ -12,8 +12,8 @@
         .layui-input-block {margin-left: 129px !important;}
         .btn-line {height: 36px;line-height: 36px;}
         .btn-line a{float: left;margin-left: 20px;}
-        .layui-btn-sm {padding: 0 14px;}
         .layui-textarea {min-height: 50px;}
+        
     </style>
 </head>
 <body>
@@ -112,9 +112,14 @@
                     <div class="layui-form-item">
                         <label for="" class="layui-form-label">单位明细<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
+	                        
+                            <div class="tableToolBox">
+					            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg" data-type="addEvent">新增</button>
+					        </div>
                             <div id="tableBox">
                                 <table id="dataTable" class="layui-hide" lay-filter="dataTable"></table>
                             </div>
+	                        
                         </div>
                     </div>
                 </div>
