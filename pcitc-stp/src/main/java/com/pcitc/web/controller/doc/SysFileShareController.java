@@ -74,6 +74,8 @@ public class SysFileShareController extends BaseController {
 	private static final String GET = "http://pcitc-zuul/system-proxy/sysfileshare-provider/sysfileshare/get_sysfileshare/";
 	
 	private static final String HISTORY_LIST = "http://pcitc-zuul/system-proxy/sysfileshare-provider/sysfileshare/file/history/list";
+	
+	private static final String REPLACE_FILE = "http://pcitc-zuul/system-proxy/sysfileshare-provider/sysfileshare/replace/";
 
 	/**
 	 * 文件分享信息-查询列表
@@ -309,7 +311,6 @@ public class SysFileShareController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(method = RequestMethod.GET, value = "/dialog_user_list")
-	@OperationFilter(modelName = "文件分享信息", actionName = "跳转用户选择列表页面dialog_user_list")
 	public String pageDialogUserList(String id, Model model, String opt, String fieldId) {
 		model.addAttribute("id", id);
 		model.addAttribute("opt", opt);
@@ -336,12 +337,20 @@ public class SysFileShareController extends BaseController {
 
 		return JSON.toJSON(retJson).toString();
 	}
-
-	// @RequestMapping(method = RequestMethod.GET, value =
-	// "/page_layui_tree_list")
-	// @OperationFilter(modelName = "测试layui", actionName =
-	// "跳转用户选择列表页面dialog_user_list")
-	// public String pageDialogUserList() {
-	// return "pplus/doc/dialog_user_list";
-	// }
+	
+	/**
+	 * 查询文件分享信息信息
+	 *
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/file/replace/{versionUUID}")
+	@ResponseBody
+	@OperationFilter(modelName = "文档管理", actionName = "替换文档版本")
+	public String replaceSysFileVersion(@PathVariable String versionUUID) throws Exception {
+		Integer reValue = this.restTemplate.exchange(REPLACE_FILE + versionUUID, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class).getBody();
+		return String.valueOf(reValue);
+	}
+	
 }

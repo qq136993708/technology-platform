@@ -28,9 +28,20 @@
 			<button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg" data-type="resetEvent">重置</button>
 		</div>
 	</div>
-	<table id="fileShowTable" class="layui-hide" lay-filter="tableEvent"></table>
+	
+	<div class="tableBox">
+		<div class="tableToolBox">
+			<div class="whiteLine"></div>
+			<div class="tableBtns">
+				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_update" data-type="replaceEvent">替换</button>
+				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_import" data-type="downloadEvent">下载</button>
+			</div>
+		</div>
+		<table id="fileShowTable" class="layui-hide" lay-filter="tableEvent"></table>
+	</div>
+	
 
-	<a href="" target="_self" id="download"></a>
+	<a href="" target="_self" id="historyDownload"></a>
 
 	<script>
 		layui.use([ 'jquery', 'form', 'laydate', 'table', 'layer', 'element' ], function() {
@@ -38,7 +49,7 @@
 			form = layui.form;
 			table = layui.table;
 
-			function renderSysFileTable() {
+			function renderTable() {
 				table.render({
 					elem : '#fileShowTable',
 					url : '/sysfileshare/file/history/data',
@@ -121,35 +132,56 @@
 				e.stopPropagation();
 			});
 
-			renderSysFileTable();
+			renderTable();
 			// 触发不同的按钮事件
 			var $ = layui.$, active = {
-				searchEvent : function() { //点击查询按钮
-					table.reload('sysFileId', {
-						where : {
-							param : {
-								"fileId" : $("#fileId").val(),
-								"fileName" : $("#fileName").val()
-							}
-						}
+				searchEvent : function() { 
+					renderTable();
+				},
+				resetEvent : function() { 
+					$("#fileName").val("");
+					renderTable();
+				},
+				replaceEvent : function() { 
+					var selectedData = active.getCheckData();
+					if (selectedData.length != 1) {
+						// 只能选择一个文件进行替换
+						layer.msg('选择一个文件进行替换！');
+						return false;
+					}
+					
+					var versionUUID = selectedData[0].bak3;
+					//获取此版本信息，替换正在生效的版本
+					layer.confirm('确定要替换吗?替换后，原版本保存进历史版本中！', {
+						btn : [ '确认', '取消' ],
+						title : "替换确认"
+					}, function(index) {
+						var temUrl = "/sysfileshare/file/replace/" + versionUUID;
+						ajaxPost(temUrl, {
+							"fileId" : ""
+						}, function(data) {
+							layer.msg('操作成功！');
+							parent.active.resetEvent();
+							var index = parent.layer.getFrameIndex(window.name);
+							parent.layer.close(index);
+						});
 					});
 				},
-				resetEvent : function() { //点击查询按钮
-					$("#userName").val("");
-					table.reload('sysFileId', {
-						where : {
-							param : {
-								"fileId" : $("#fileId").val(),
-								"fileName" : ""
-							}
-						}
-					});
+				
+				downloadEvent : function() {
+					var ids = active.getChecked();
+					if (ids == "") {
+						layer.msg("请选择文档");
+						return;
+					}
+					$("#historyDownload").attr("href", "/file/version/download/" + ids);
+					document.getElementById("historyDownload").click();
 				},
 				getChecked : function() {
 					var ids = "";
 					var selectedData = active.getCheckData();
 					for (var i = 0; i < selectedData.length; i++) {
-						ids = (ids == "" ? selectedData[i].id : (ids + "|" + selectedData[i].id));
+						ids = (ids == "" ? selectedData[i].bak3 : (ids + "|" + selectedData[i].bak3));
 					}
 					if (typeof (ids) == "undefined") {
 						ids = "";

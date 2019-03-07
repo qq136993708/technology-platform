@@ -34,6 +34,7 @@ public class ProcessDefController extends BaseController {
 
 	private static final String PROCESS_DEFINE_LIST = "http://pcitc-zuul/system-proxy/modeler-provider/process/define/list";
 	private static final String PROCESS_DEFINE_STATE = "http://pcitc-zuul/system-proxy/modeler-provider/process/define/state";
+	private static final String PROCESS_DEFINE_DEL = "http://pcitc-zuul/system-proxy/modeler-provider/process/define/delete";
 	private static final String PROCESS_DEFINE_IMAGE = "http://pcitc-zuul/system-proxy/modeler-provider/process/show";
 
 	@RequestMapping(value = "/activiti-def/processdef/list/ini")
@@ -84,6 +85,16 @@ public class ProcessDefController extends BaseController {
 	 * new Result(true, pdId, "成功删除"); } catch (Exception e) { return new
 	 * Result(false, pdId, "删除失败，该流程定义已经关联了正在执行的流程"); } }
 	 */
+	@RequestMapping(value = "/activiti-def/delete/{processDefinitionId}", method = RequestMethod.POST)
+	@ResponseBody
+	@OperationFilter(modelName = "系统管理", actionName = "修改工作流定义状态")
+	public Result deleteProcessDefine(@PathVariable("processDefinitionId") String processDefinitionId) {
+		WorkflowVo workflowVo = new WorkflowVo();
+		workflowVo.setProcessDefineId(processDefinitionId);
+		ResponseEntity<Result> resultRes = this.restTemplate.exchange(PROCESS_DEFINE_DEL, HttpMethod.POST, new HttpEntity<WorkflowVo>(workflowVo, this.httpHeaders), Result.class);
+		System.out.println("deleteModel=====" + resultRes.getBody());
+		return resultRes.getBody();
+	}
 
 	@RequestMapping(value = "/activiti-def/update/{state}/{processDefinitionId}", method = RequestMethod.POST)
 	@ResponseBody
