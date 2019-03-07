@@ -42,10 +42,10 @@
 	  <input  name="yearFeeStr"     id="yearFeeStr"      value="${sreProjectBasic.yearFeeStr}"   type="hidden">
 	  <input  name="functionId"     id="functionId"      type="hidden">
 	  <input  name="userIds"        id="userIds"         type="hidden">
-	  <input  name="leadUnitCode"        id="leadUnitCode"       value="${sreProjectBasic.leadUnitCode}"      type="hidden">
-	  <input  name="joinUnitCode"        id="joinUnitCode"       value="${sreProjectBasic.joinUnitCode}"     type="hidden">
-	  <input  name="entrustUnitCode"     id="entrustUnitCode"    value="${sreProjectBasic.entrustUnitCode}"   type="hidden">
-  
+	  <input  name="leadUnitCode"         id="leadUnitCode"            value="${sreProjectBasic.leadUnitCode}"      type="hidden">
+	  <input  name="joinUnitCode"         id="joinUnitCode"            value="${sreProjectBasic.joinUnitCode}"     type="hidden">
+	  <input  name="entrustUnitCode"      id="entrustUnitCode"         value="${sreProjectBasic.entrustUnitCode}"   type="hidden">
+      <input  name="belongDepartmentCode" id="belongDepartmentCode"    value="${sreProjectBasic.belongDepartmentCode}"   type="hidden">
       <div class="layui-row">
         <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
           <div class="layui-form-item">
@@ -67,14 +67,14 @@
          
       <!--行有两个的情况-->
       <div class="layui-form-item layui-form-text" >
-        <label class="layui-form-label">课题开发及投资目标</label>
+        <label class="layui-form-label">课题开发及投资目标<span class="must-fill">*</span></label>
         <div class="layui-input-block">
-          <textarea placeholder="请简述开发及投资目标，原则上不超过500字" name="remarks" id="remarks"    class="layui-textarea">${sreProjectBasic.remarks}</textarea>
+          <textarea placeholder="请简述开发及投资目标，原则上不超过500字" name="remarks" id="remarks"  lay-verify="required"   class="layui-textarea">${sreProjectBasic.remarks}</textarea>
         </div>
       </div>
       
        <div class="layui-form-item layui-form-text" >
-        <label class="layui-form-label">建设年限</label>
+        <label class="layui-form-label">建设年限<span class="must-fill">*</span></label>
         <div class="layui-input-block">
            <div class="layui-input-inline" style="float:left">
 		            <input type="text" class="layui-input" name="beginYear" id="beginYear" value="${beginYear}" style="width:80px;float:left" placeholder="开始年份">
@@ -145,7 +145,7 @@
         <div class="layui-form-item layui-form-text" >
         <label class="layui-form-label">归属部门<span class="must-fill">*</span></label>
         <div class="layui-input-block">
-         <input class="layui-input" name="belongDepartmentName" id="belongDepartmentName" onclick="chooseUnit('choose_belongDepartmentName_callback')" placeholder="请选择" value="${sreProjectBasic.entrustUnitName}"  lay-verify="required"  autocomplete="off" type="text">
+         <input class="layui-input" name="belongDepartmentName" id="belongDepartmentName" onclick="chooseUnit('choose_belongDepartmentName_callback')" placeholder="请选择" value="${sreProjectBasic.belongDepartmentName}"  lay-verify="required"  autocomplete="off" type="text">
         </div>
       </div>
     
