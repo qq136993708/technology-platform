@@ -230,7 +230,8 @@ public class BudgetAssetTotalProviderClient
 		BudgetInfo rsbean = null;
 		try
 		{
-			rsbean = budgetInfoService.createBlankBudgetInfo(info.getNd(), BudgetInfoEnum.ASSETS_TOTAL.getCode());
+			info.setBudgetType(BudgetInfoEnum.ASSETS_TOTAL.getCode());
+			rsbean = budgetInfoService.createBlankBudgetInfo(info);
 		}
 		catch (Exception e)
 		{
@@ -249,7 +250,8 @@ public class BudgetAssetTotalProviderClient
 			//System.out.println(JSON.toJSONString(info.getNd()));
 			BudgetInfo oldInfo = budgetInfoService.selectBudgetInfo(info.getDataId());
 			
-			newInfo = budgetInfoService.createBlankBudgetInfo(info.getNd(),BudgetInfoEnum.GROUP_TOTAL.getCode());
+			
+			newInfo = budgetInfoService.createBlankBudgetInfo(oldInfo);
 			//获取模板数据
 			List<BudgetAssetTotal> templates = budgetAssetTotalService.selectBudgetAssetTotalByInfoId(info.getDataId());
 			Map<String,String> idRel = new HashMap<String,String>();//新老ID对照
