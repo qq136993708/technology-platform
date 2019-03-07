@@ -230,7 +230,7 @@ public class BudgetAssetTotalProviderClient
 		BudgetInfo rsbean = null;
 		try
 		{
-			rsbean = budgetInfoService.createBlankBudgetInfo(info.getNd(), BudgetInfoEnum.GROUP_TOTAL.getCode());
+			rsbean = budgetInfoService.createBlankBudgetInfo(info.getNd(), BudgetInfoEnum.ASSETS_TOTAL.getCode());
 		}
 		catch (Exception e)
 		{
