@@ -42,10 +42,10 @@
 	  <input  name="yearFeeStr"     id="yearFeeStr"      value="${sreProjectBasic.yearFeeStr}"   type="hidden">
 	  <input  name="functionId"     id="functionId"      type="hidden">
 	  <input  name="userIds"        id="userIds"         type="hidden">
-	  <input  name="leadUnitCode"        id="leadUnitCode"       value="${sreProjectBasic.leadUnitCode}"      type="hidden">
-	  <input  name="joinUnitCode"        id="joinUnitCode"       value="${sreProjectBasic.joinUnitCode}"     type="hidden">
-	  <input  name="entrustUnitCode"     id="entrustUnitCode"    value="${sreProjectBasic.entrustUnitCode}"   type="hidden">
-  
+	  <input  name="leadUnitCode"         id="leadUnitCode"            value="${sreProjectBasic.leadUnitCode}"      type="hidden">
+	  <input  name="joinUnitCode"         id="joinUnitCode"            value="${sreProjectBasic.joinUnitCode}"     type="hidden">
+	  <input  name="entrustUnitCode"      id="entrustUnitCode"         value="${sreProjectBasic.entrustUnitCode}"   type="hidden">
+      <input  name="belongDepartmentCode" id="belongDepartmentCode"    value="${sreProjectBasic.belongDepartmentCode}"   type="hidden">
       <div class="layui-row">
         <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
           <div class="layui-form-item">
@@ -67,14 +67,14 @@
          
       <!--行有两个的情况-->
       <div class="layui-form-item layui-form-text" >
-        <label class="layui-form-label">课题开发及投资目标</label>
+        <label class="layui-form-label">课题开发及投资目标<span class="must-fill">*</span></label>
         <div class="layui-input-block">
-          <textarea placeholder="请简述开发及投资目标，原则上不超过500字" name="remarks" id="remarks"    class="layui-textarea">${sreProjectBasic.remarks}</textarea>
+          <textarea placeholder="请简述开发及投资目标，原则上不超过500字" name="remarks" id="remarks"  lay-verify="required"   class="layui-textarea">${sreProjectBasic.remarks}</textarea>
         </div>
       </div>
       
        <div class="layui-form-item layui-form-text" >
-        <label class="layui-form-label">建设年限</label>
+        <label class="layui-form-label">建设年限<span class="must-fill">*</span></label>
         <div class="layui-input-block">
            <div class="layui-input-inline" style="float:left">
 		            <input type="text" class="layui-input" name="beginYear" id="beginYear" value="${beginYear}" style="width:80px;float:left" placeholder="开始年份">
@@ -143,9 +143,9 @@
       
         
         <div class="layui-form-item layui-form-text" >
-        <label class="layui-form-label">委托单位<span class="must-fill">*</span></label>
+        <label class="layui-form-label">归属部门<span class="must-fill">*</span></label>
         <div class="layui-input-block">
-         <input class="layui-input" name="entrustUnitName" id="entrustUnitName" onclick="chooseUnit('choose_entrustUnitName_callback')" placeholder="请选择" value="${sreProjectBasic.entrustUnitName}"  lay-verify="required"  autocomplete="off" type="text">
+         <input class="layui-input" name="belongDepartmentName" id="belongDepartmentName" onclick="chooseUnit('choose_belongDepartmentName_callback')" placeholder="请选择" value="${sreProjectBasic.belongDepartmentName}"  lay-verify="required"  autocomplete="off" type="text">
         </div>
       </div>
     
@@ -192,6 +192,7 @@
 </div>
 </div>
 <script>
+var publicMethods;
 var param=JSON.parse(window.localStorage.getItem("param"));
 var functionId=param.id;
 $('#functionId').val(functionId);
@@ -221,7 +222,7 @@ layui.use(['form','table','laypage','layer','laydate','laytpl','jquery',"publicM
       ,laypage = layui.laypage
       ,$ = layui.jquery
       ,form = layui.form;
-	  var publicMethods=layui.publicMethods;
+	  publicMethods=layui.publicMethods;
 	  form.render();
 	  laydate.render({
 	      elem: '#LAY-component-form-group-date'
@@ -425,7 +426,24 @@ function renderTable(equipmentIds)
             {field : 'applyDepartName', title : '申报部门', style : 'cursor: pointer;', align : 'center', width : '16%'},
             {field : 'firstApplyUser', title : '第一申报人', style : 'cursor: pointer;', align : 'center', width : '10%'}
              
-          ]]
+          ]],
+          done: function (res, curr, count) {
+          	
+          	//项目分类，项目性质
+              var dicMap = ['ROOT_ZBGL_ZBFL'];
+              var dicVal = {};
+				publicMethods.ajaxPost("/dictionary/map/getMapListDictionarys",{"parentCodes":JSON.stringify(dicMap)}, function (data) {
+					$.each(data,function(key,val){
+						$.each(val,function(i,dt){
+							dicVal[dt.code] = dt.name;
+						});
+					});
+			   	}); 
+				$.each(res.data,function(i,dt){
+					$("tr[data-index='"+i+"'] td[data-field='type'] div").html(dicVal[res.data[i].type]); 
+			   	});
+				
+          }
       });
 }
 
@@ -524,10 +542,10 @@ function choose_joinUnitName_callback(unitId,unitName)
 	$("#joinUnitName").val(unitName);
 	$("#joinUnitCode").val(unitId);
 }
-function choose_entrustUnitName_callback(unitId,unitName) 
+function choose_belongDepartmentName_callback(unitId,unitName) 
 {
-	$("#entrustUnitName").val(unitName);
-	$("#entrustUnitCode").val(unitId);
+	$("#belongDepartmentName").val(unitName);
+	$("#belongDepartmentCode").val(unitId);
 }
 
 function choose_leadUnitName_callback(unitId,unitName) 

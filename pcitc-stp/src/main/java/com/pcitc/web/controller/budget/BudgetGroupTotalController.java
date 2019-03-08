@@ -80,7 +80,7 @@ public class BudgetGroupTotalController extends BaseController {
 	private static final String PROJECT_NOTICE_WORKFLOW_URL = "http://pcitc-zuul/stp-proxy/stp-provider/budget/start-budget-grouptotal-activity/";
 	
 	
-	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_group_page")
+	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_main_grouptotal")
 	public Object toBudgetGroupPage(HttpServletRequest request) throws IOException 
 	{
 		request.setAttribute("nd", DateUtil.format(new Date(), DateUtil.FMT_YYYY));
@@ -151,6 +151,8 @@ public class BudgetGroupTotalController extends BaseController {
 	@ResponseBody
 	public Object createBudgetGroupInfo(@ModelAttribute("info") BudgetInfo info,HttpServletRequest request) throws IOException 
 	{
+		info.setCreaterId(this.getUserProfile().getUserId());
+		info.setCreaterName(this.getUserProfile().getUserDisp());
 		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_GROUPTOTAL_CREATE, HttpMethod.POST, new HttpEntity<BudgetInfo>(info, this.httpHeaders), Object.class);
 		//System.out.println(JSON.toJSON(responseEntity.getBody()).toString());
 		return JSON.toJSON(responseEntity.getBody()).toString();
@@ -160,6 +162,8 @@ public class BudgetGroupTotalController extends BaseController {
 	@ResponseBody
 	public Object createBudgetGroupInfoByTemplate(@ModelAttribute("info") BudgetInfo info,HttpServletRequest request) throws IOException 
 	{
+		info.setCreaterId(this.getUserProfile().getUserId());
+		info.setCreaterName(this.getUserProfile().getUserDisp());
 		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_GROUPTOTAL_CREATE_BYTEMPLATE, HttpMethod.POST, new HttpEntity<BudgetInfo>(info, this.httpHeaders), Object.class);
 		//System.out.println(JSON.toJSON(responseEntity.getBody()).toString());
 		return JSON.toJSON(responseEntity.getBody()).toString();

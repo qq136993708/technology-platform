@@ -6,6 +6,7 @@ package com.pcitc.common;
  */
 public enum BudgetInfoEnum 
 {
+	TOTAL(100,"预算总表（集团、资产、股份）"),
 	GROUP_TOTAL(101,"预算表（集团公司）"),
 	ASSETS_TOTAL(102,"预算表（资产公司）"),
 	STOCK_TOTAL(103,"预算表（股份公司）");

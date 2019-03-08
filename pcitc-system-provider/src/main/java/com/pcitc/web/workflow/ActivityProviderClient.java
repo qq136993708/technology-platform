@@ -75,7 +75,7 @@ public class ActivityProviderClient {
 			mq = mq.modelNameLike(modelName);
 		}
 
-		List<Model> resultList = mq.listPage(limit * (page - 1), limit);
+		List<Model> resultList = mq.orderByLastUpdateTime().desc().listPage(limit * (page - 1), limit);
 		LayuiTableData data = new LayuiTableData();
 		data.setData(resultList);
 		data.setCount((int) mq.count());

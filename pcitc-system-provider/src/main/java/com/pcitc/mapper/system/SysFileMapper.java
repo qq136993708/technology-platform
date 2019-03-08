@@ -1,15 +1,15 @@
 package com.pcitc.mapper.system;
 
-import com.pcitc.base.common.LayuiTableData;
-import com.pcitc.base.common.LayuiTableParam;
-import com.pcitc.base.system.SysFile;
-import com.pcitc.base.system.SysFileExample;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
+
+import com.pcitc.base.common.LayuiTableData;
+import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.system.SysFile;
+import com.pcitc.base.system.SysFileExample;
 
 public interface SysFileMapper {
     long countByExample(SysFileExample example);
@@ -53,7 +53,7 @@ public interface SysFileMapper {
     /**
      * 复制文件数据到sys_file_version中
      */
-    public void copySysFile(String fileId);
+    public void copySysFile(SysFile record);
     
     /**
      * 获取文件历史版本信息

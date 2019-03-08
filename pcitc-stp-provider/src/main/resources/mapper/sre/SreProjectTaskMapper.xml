@@ -28,6 +28,11 @@
     <result column="lead_unit_code" property="leadUnitCode" jdbcType="VARCHAR" />
     <result column="join_unit_code" property="joinUnitCode" jdbcType="VARCHAR" />
     <result column="project_money" property="projectMoney" jdbcType="DECIMAL" />
+    <result column="belong_department_name" property="belongDepartmentName" jdbcType="VARCHAR" />
+    <result column="belong_department_code" property="belongDepartmentCode" jdbcType="VARCHAR" />
+    <result column="professional_depart_name" property="professionalDepartName" jdbcType="VARCHAR" />
+    <result column="professional_depart_code" property="professionalDepartCode" jdbcType="VARCHAR" />
+    <result column="setup_year" property="setupYear" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -92,7 +97,8 @@
     task_main_task_content, task_content, task_assessment_content, task_check_contents, 
     budget_table, funds_sources_table, project_funds_table, project_notice, notes, cover, 
     contract_num, audit_status, apply_unit_name, apply_unit_code, lead_unit_name, join_unit_name, 
-    lead_unit_code, join_unit_code, project_money
+    lead_unit_code, join_unit_code, project_money, belong_department_name, belong_department_code, 
+    professional_depart_name, professional_depart_code, setup_year
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.pcitc.base.stp.equipment.SreProjectTaskExample" >
     select
@@ -134,8 +140,10 @@
       project_notice, notes, cover, 
       contract_num, audit_status, apply_unit_name, 
       apply_unit_code, lead_unit_name, join_unit_name, 
-      lead_unit_code, join_unit_code, project_money
-      )
+      lead_unit_code, join_unit_code, project_money, 
+      belong_department_name, belong_department_code, 
+      professional_depart_name, professional_depart_code, 
+      setup_year)
     values (#{taskId,jdbcType=VARCHAR}, #{topicId,jdbcType=VARCHAR}, #{topicName,jdbcType=VARCHAR}, 
       #{createUserId,jdbcType=VARCHAR}, #{createUserName,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
       #{updateDate,jdbcType=TIMESTAMP}, #{taskMainTaskContent,jdbcType=VARCHAR}, #{taskContent,jdbcType=VARCHAR}, 
@@ -144,8 +152,10 @@
       #{projectNotice,jdbcType=VARCHAR}, #{notes,jdbcType=VARCHAR}, #{cover,jdbcType=VARCHAR}, 
       #{contractNum,jdbcType=VARCHAR}, #{auditStatus,jdbcType=VARCHAR}, #{applyUnitName,jdbcType=VARCHAR}, 
       #{applyUnitCode,jdbcType=VARCHAR}, #{leadUnitName,jdbcType=VARCHAR}, #{joinUnitName,jdbcType=VARCHAR}, 
-      #{leadUnitCode,jdbcType=VARCHAR}, #{joinUnitCode,jdbcType=VARCHAR}, #{projectMoney,jdbcType=DECIMAL}
-      )
+      #{leadUnitCode,jdbcType=VARCHAR}, #{joinUnitCode,jdbcType=VARCHAR}, #{projectMoney,jdbcType=DECIMAL}, 
+      #{belongDepartmentName,jdbcType=VARCHAR}, #{belongDepartmentCode,jdbcType=VARCHAR}, 
+      #{professionalDepartName,jdbcType=VARCHAR}, #{professionalDepartCode,jdbcType=VARCHAR}, 
+      #{setupYear,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.pcitc.base.stp.equipment.SreProjectTask" >
     insert into sre_project_task
@@ -228,6 +238,21 @@
       <if test="projectMoney != null" >
         project_money,
       </if>
+      <if test="belongDepartmentName != null" >
+        belong_department_name,
+      </if>
+      <if test="belongDepartmentCode != null" >
+        belong_department_code,
+      </if>
+      <if test="professionalDepartName != null" >
+        professional_depart_name,
+      </if>
+      <if test="professionalDepartCode != null" >
+        professional_depart_code,
+      </if>
+      <if test="setupYear != null" >
+        setup_year,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="taskId != null" >
@@ -307,6 +332,21 @@
       </if>
       <if test="projectMoney != null" >
         #{projectMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="belongDepartmentName != null" >
+        #{belongDepartmentName,jdbcType=VARCHAR},
+      </if>
+      <if test="belongDepartmentCode != null" >
+        #{belongDepartmentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="professionalDepartName != null" >
+        #{professionalDepartName,jdbcType=VARCHAR},
+      </if>
+      <if test="professionalDepartCode != null" >
+        #{professionalDepartCode,jdbcType=VARCHAR},
+      </if>
+      <if test="setupYear != null" >
+        #{setupYear,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -397,6 +437,21 @@
       <if test="record.projectMoney != null" >
         project_money = #{record.projectMoney,jdbcType=DECIMAL},
       </if>
+      <if test="record.belongDepartmentName != null" >
+        belong_department_name = #{record.belongDepartmentName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.belongDepartmentCode != null" >
+        belong_department_code = #{record.belongDepartmentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.professionalDepartName != null" >
+        professional_depart_name = #{record.professionalDepartName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.professionalDepartCode != null" >
+        professional_depart_code = #{record.professionalDepartCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.setupYear != null" >
+        setup_year = #{record.setupYear,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -429,7 +484,12 @@
       join_unit_name = #{record.joinUnitName,jdbcType=VARCHAR},
       lead_unit_code = #{record.leadUnitCode,jdbcType=VARCHAR},
       join_unit_code = #{record.joinUnitCode,jdbcType=VARCHAR},
-      project_money = #{record.projectMoney,jdbcType=DECIMAL}
+      project_money = #{record.projectMoney,jdbcType=DECIMAL},
+      belong_department_name = #{record.belongDepartmentName,jdbcType=VARCHAR},
+      belong_department_code = #{record.belongDepartmentCode,jdbcType=VARCHAR},
+      professional_depart_name = #{record.professionalDepartName,jdbcType=VARCHAR},
+      professional_depart_code = #{record.professionalDepartCode,jdbcType=VARCHAR},
+      setup_year = #{record.setupYear,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -512,6 +572,21 @@
       <if test="projectMoney != null" >
         project_money = #{projectMoney,jdbcType=DECIMAL},
       </if>
+      <if test="belongDepartmentName != null" >
+        belong_department_name = #{belongDepartmentName,jdbcType=VARCHAR},
+      </if>
+      <if test="belongDepartmentCode != null" >
+        belong_department_code = #{belongDepartmentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="professionalDepartName != null" >
+        professional_depart_name = #{professionalDepartName,jdbcType=VARCHAR},
+      </if>
+      <if test="professionalDepartCode != null" >
+        professional_depart_code = #{professionalDepartCode,jdbcType=VARCHAR},
+      </if>
+      <if test="setupYear != null" >
+        setup_year = #{setupYear,jdbcType=VARCHAR},
+      </if>
     </set>
     where task_id = #{taskId,jdbcType=VARCHAR}
   </update>
@@ -541,7 +616,61 @@
       join_unit_name = #{joinUnitName,jdbcType=VARCHAR},
       lead_unit_code = #{leadUnitCode,jdbcType=VARCHAR},
       join_unit_code = #{joinUnitCode,jdbcType=VARCHAR},
-      project_money = #{projectMoney,jdbcType=DECIMAL}
+      project_money = #{projectMoney,jdbcType=DECIMAL},
+      belong_department_name = #{belongDepartmentName,jdbcType=VARCHAR},
+      belong_department_code = #{belongDepartmentCode,jdbcType=VARCHAR},
+      professional_depart_name = #{professionalDepartName,jdbcType=VARCHAR},
+      professional_depart_code = #{professionalDepartCode,jdbcType=VARCHAR},
+      setup_year = #{setupYear,jdbcType=VARCHAR}
     where task_id = #{taskId,jdbcType=VARCHAR}
   </update>
+  
+  
+  
+  
+  
+  <sql id="selectCondition">
+	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
+	     <if test="keyWord != null and keyWord  !='' ">               AND t.key_word like CONCAT('%',#{keyWord},'%')</if>
+	     <if test="topicName != null and topicName  !='' ">                     AND t.topic_name like CONCAT('%',#{topicName},'%')</if>
+	     <if test="setupYear != null       and setupYear !=''  ">     AND t.setup_year = #{setupYear}</if>
+	     <if test="auditStatus != null     and auditStatus !=''  ">   AND t.audit_status = #{auditStatus}</if>
+	     <if test="leadLinkmansName != null              and leadLinkmansName  !='' ">   AND t.lead_linkmans_name    like CONCAT('%',#{leadLinkmansName},'%')</if>
+	     <if test="leadUnitName != null              and leadUnitName  !='' ">            AND t.lead_unit_name    like CONCAT('%',#{leadUnitName},'%')</if>
+	     <if test="joinUnitName != null              and joinUnitName  !='' ">            AND t.join_unit_name    like CONCAT('%',#{joinUnitName},'%')</if>
+	     <if test="entrustUnitName != null           and entrustUnitName  !='' ">         AND t.entrust_unit_name like CONCAT('%',#{entrustUnitName},'%')</if>
+	     <if test="belongDepartmentName != null      and belongDepartmentName  !='' ">    AND t.belong_department_name like CONCAT('%',#{belongDepartmentName},'%')</if>
+	     <if test="professionalDepartName != null    and professionalDepartName  !='' ">  AND t.professional_depart_name like CONCAT('%',#{professionalDepartName},'%')</if>
+	     
+	     <if test="leadUnitCode != null        and leadUnitCode !=''  ">       AND t.lead_unit_code = #{leadUnitCode}</if>
+	     <if test="joinUnitCode != null        and joinUnitCode !=''  ">       AND t.join_unit_code = #{joinUnitCode}</if>
+	     <if test="entrustUnitCode != null     and entrustUnitCode !=''  ">    AND t.entrust_unit_code = #{entrustUnitCode}</if>
+	     <if test="professionalDepartCode != null   and professionalDepartCode !=''  ">   AND t.professional_depart_code = #{professionalDepartCode}</if>
+	     <if test="belongDepartmentCode != null     and belongDepartmentCode !=''  ">     AND t.belong_department_code = #{belongDepartmentCode}</if>
+	     <if test="contractNum != null              and contractNum !=''  ">     AND t.contract_num = #{contractNum}</if>
+	      <if test="topicId != null       and topicId !=''  ">     AND t.topic_id = #{topicId}</if>
+	     
+	     <if test="sqlStr != null   and sqlStr !='' ">       AND ${sqlStr}</if>
+	 </trim>
+	</sql>
+	
+	
+	 
+    
+   <select id="getList" resultMap="BaseResultMap" parameterType="Map" >
+     select * from sre_project_task t <include refid="selectCondition" />    
+     <choose>
+      <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
+      <otherwise>
+        ORDER BY  create_date desc
+      </otherwise>
+     </choose>
+     <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
+   </select>
+   
+    <select id="getCount" resultType="java.lang.Integer" parameterType="Map" >
+      SELECT count(*) FROM sre_project_task t <include refid="selectCondition"/>
+    </select>
+    
+    
 </mapper>

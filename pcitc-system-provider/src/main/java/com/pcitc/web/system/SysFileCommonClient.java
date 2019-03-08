@@ -3,10 +3,16 @@ package com.pcitc.web.system;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
+import java.io.IOException;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.es.clientmanager.ClientFactoryBuilder;
-import com.pcitc.mapper.system.SysFileMapper;
 import com.pcitc.service.doc.AccessorService;
 import com.pcitc.service.doc.IndexAccessorService;
 import com.pcitc.service.doc.SysFileShareService;
@@ -42,9 +47,6 @@ public class SysFileCommonClient {
 
     @Autowired
     SysFileShareService sysFileShareService;
-
-    @Autowired
-    SysFileMapper sysFileMapper;
 
     @Autowired
     private IndexAccessorService indexAccessorService;
@@ -79,6 +81,18 @@ public class SysFileCommonClient {
     public LayuiTableData selectFileListForCollect(@RequestBody LayuiTableParam param) throws Exception {
     	LayuiTableData tem = sysFileService.selectFileListForCollect(param);
         return tem;
+    }
+    
+    @ApiOperation(value = "多文件下载", notes = "历史版本下载,返回字节流")
+    @RequestMapping(value = "/file-common-provider/version/downloads/{versionUUID}")
+    public void downloadFiles(@PathVariable("versionUUID") String versionUUID, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    	sysFileShareService.downloadFiles(versionUUID, request, response);
+    }
+
+    @ApiOperation(value = "单文件下载", notes = "历史版本下载,返回字节流")
+    @RequestMapping(value = "/file-common-provider/version/download/{versionUUID}")
+    public void downloadFile(@PathVariable("versionUUID") String versionUUID, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    	sysFileShareService.downloadFile(versionUUID, request, response);
     }
 
 

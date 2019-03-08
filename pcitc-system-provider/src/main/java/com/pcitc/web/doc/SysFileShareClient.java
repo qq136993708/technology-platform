@@ -102,7 +102,7 @@ public class SysFileShareClient {
         }
         return 500;
     }
-
+    
     @ApiOperation(value = "查询文件分享树形详情信息", notes = "按ID查询文件分享详情信息(带父ID),操作成功返回SysFileCollect对象")
     @RequestMapping(value = "/sysfileshare-provider/sysfileshare/get-sysfileshare/{id}", method = RequestMethod.POST)
     public SysFileShare getSysFileShareInfo(@PathVariable(value = "id", required = true) String id) {
@@ -127,106 +127,16 @@ public class SysFileShareClient {
 		Object tem = sysFileService.selectFileHistoryList(param);
 		return tem;
 	}
-
-//
-//    /**
-//     * 获取菜单---节点树形展示
-//     *
-//     * @return
-//     * @throws Exception
-//     */
-//    @RequestMapping(value = "/sysfileshare-provider/sysfileshare/tree-data")
-//    @ResponseBody
-//    public List selectObjectByTree() throws Exception {
-//        return sysFileShareService.selectObjectByTree();
-//    }
-//
-//    /**
-//     * 查询菜单相信信息-展示
-//     *
-//     * @param sysFileShareId
-//     * @return
-//     * @throws Exception
-//     */
-//    @RequestMapping(value = "/sysfileshare-provider/sysfileshare/get_sysfileshare/{sysFileShareId}")
-//    public SysFileShare selectSysFileShareByMenuId(@PathVariable(value = "sysFileShareId", required = true) String sysFileShareId) throws Exception {
-//        SysFileShare sysFileShare = sysFileShareService.selectByPrimaryKey(sysFileShareId);
-//        if ("".equals(sysFileShare.getParentId().trim())) {
-//            sysFileShare.setParentName("");
-//        } else {
-//        }
-//        SysFileShareExample sysFileShareExample = new SysFileShareExample();
-//        String strParentId = sysFileShareService.selectByExample(sysFileShareExample).get(0).getId();
-//        sysFileShare.setRootId(strParentId);
-//        return sysFileShare;
-//    }
-//
-//    /**
-//     * 更新菜单信息
-//     *
-//     * @param sysFileShare
-//     * @return
-//     */
-//    @RequestMapping(value = "/sysfileshare-provider/sysfileshare/update-sysfileshare")
-//    public Serializable updateSysFileShare(@RequestBody SysFileShare sysFileShare) {
-//        sysFileShareService.updateByPrimaryKey(sysFileShare);
-//        DataOperationStatusEnum status = DataOperationStatusEnum.UPD_OK;
-//        return status;
-//    }
-//
-//    /**
-//     * 删除菜单信息-false
-//     *
-//     * @param sysFileSharecId
-//     * @return
-//     */
-//    @RequestMapping(value = "/sysfileshare-provider/sysfileshare/del-sysfileshare/{sysFileShareId}")
-//    public Serializable deleteSysFileShare(@PathVariable("sysFileShareId") String sysFileSharecId) {
-//        DataOperationStatusEnum status = sysFileShareService.deleteSysFileShare(sysFileSharecId);
-//        return status;
-//    }
-//
-//    /**
-//     * 删除菜单信息-true
-//     *
-//     * @param sysFileSharecId
-//     * @return
-//     */
-//    @RequestMapping(value = "/sysfileshare-provider/sysfileshare/del-sysfileshare-real/{sysFileShareId}", method = RequestMethod.POST)
-//    public Serializable deleteSysFileShareReal(@PathVariable("sysFileShareId") String sysFileSharecId) {
-//        sysFileShareService.deleteSysFileShareReal(sysFileSharecId);
-//        return DataOperationStatusEnum.DEL_OK;
-//    }
-//
-//    /**
-//     * 增加菜单信息
-//     *
-//     * @param sysFileShare
-//     * @return
-//     */
-//    @RequestMapping(value = "/sysfileshare-provider/sysfileshare/add-sysfileshare", method = RequestMethod.POST)
-//    public SysFileShare insertSysFileShare(@RequestBody SysFileShare sysFileShare) {
-//        sysFileShare.setStatus("");
-//        return sysFileShareService.insertObject(sysFileShare);
-//    }
-//
-//    /**
-//     * 分页查询
-//     *
-//     * @param jsonStr
-//     * @return
-//     */
-//    @RequestMapping(value = "/sysfileshare-provider/sysfileshare/sysfileshare-page")
-//    public JSONObject selectSysFileShareByPage(@RequestParam(value = "jsonStr", required = false) String jsonStr) {
-//        PageInfo<SysFileShare> pageInfo = null;
-//        try {
-//            pageInfo = sysFileShareService.findSysFileShareByPage(jsonStr);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        JSONObject retJson = new JSONObject();
-//        retJson.put("totalCount", pageInfo.getTotal());
-//        retJson.put("list", pageInfo.getList());
-//        return retJson;
-//    }
+	
+	
+	@ApiOperation(value = "文件版本替换", notes = "文件名称可能有变化")
+    @RequestMapping(value = "/sysfileshare-provider/sysfileshare/replace/{versionUUID}", method = RequestMethod.POST)
+    public int replaceSysFile(@PathVariable(value = "versionUUID", required = true) String versionUUID) {
+        try {
+            return sysFileShareService.replaceSysFile(versionUUID);
+        } catch (Exception e) {
+            logger.error("[删除信息失败：]", e);
+        }
+        return 500;
+    }
 }

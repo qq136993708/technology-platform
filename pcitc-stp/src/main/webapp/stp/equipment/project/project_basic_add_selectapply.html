@@ -18,10 +18,11 @@
 <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
 
 <script type="text/javascript">
+var publicMethods;
     $(document).ready(function() {
     	layui.use([ 'jquery', 'form', 'laydate', 'table', 'layer', 'element','publicMethods' ],function() {
  			var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate;
- 			var publicMethods=layui.publicMethods;
+ 			publicMethods=layui.publicMethods;
  			var form = layui.form;
  			var table = layui.table;
 	    	table.render({
@@ -52,6 +53,21 @@
 	            		var equipmentId=res.data.equipmentId;
 	            	}
 	            	//alert(res.data.length);
+	            	
+	            	//项目分类，项目性质
+	                var dicMap = ['ROOT_ZBGL_ZBFL'];
+	                var dicVal = {};
+	 				publicMethods.ajaxPost("/dictionary/map/getMapListDictionarys",{"parentCodes":JSON.stringify(dicMap)}, function (data) {
+	 					$.each(data,function(key,val){
+	 						$.each(val,function(i,dt){
+	 							dicVal[dt.code] = dt.name;
+	 						});
+	 					});
+	 			   	}); 
+	 				$.each(res.data,function(i,dt){
+	 					$("tr[data-index='"+i+"'] td[data-field='type'] div").html(dicVal[res.data[i].type]); 
+	 			   	});
+	 				
 	            }
 	        });
 	    	//多行点击事件
@@ -119,7 +135,7 @@
 	</div>
 	<div class="form-bottom">
       <div class="form-bottom-btns">
-         <a herf="javascript:void(0)" class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue"  data-type="addEvent" lay-filter="addEvent">提交</a>
+         <a herf="javascript:void(0)" class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue"  data-type="addEvent" lay-filter="addEvent">确定</a>
       	<a herf="javascript:void(0)" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" lay-submit="" id="close" lay-filter="closeBtn">关闭</a>
       </div>
     </div>

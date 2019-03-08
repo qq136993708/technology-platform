@@ -21,7 +21,6 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.pcitc.utils.ImageUtils;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -69,6 +68,7 @@ import com.pcitc.service.doc.SysFileShareService;
 import com.pcitc.service.system.SysFileConfigService;
 import com.pcitc.service.system.SysFileService;
 import com.pcitc.service.system.SysFunctionService;
+import com.pcitc.utils.ImageUtils;
 import com.pcitc.utils.StringUtils;
 
 //import com.pcitc.service.system.SysSerialService;
@@ -846,6 +846,7 @@ public class SysFileServiceImpl implements SysFileService {
             sysFileExample.setOrderByClause("create_date_time desc");
             fileList = this.selectByExample(sysFileExample);
         }
+        
         //添加坐标
         for (int i = 0; i < fileList.size(); i++) {
             String strLongLat = fileList.get(i).getBak8();
@@ -877,6 +878,7 @@ public class SysFileServiceImpl implements SysFileService {
         fileResult.setList(fileList);
         fileResult.setFileIds(fileIds);
         return fileResult;
+        //20190213修改返回对象
 //        return getPreivewSettings(fileList, request);
     }
 
@@ -1431,17 +1433,6 @@ public class SysFileServiceImpl implements SysFileService {
 
     }
     
-    public static void main(String[] args) {
-        System.out.println(2/15);
-        System.out.println(2/2);
-        System.out.println(2%15);
-        System.out.println(18%15);
-        System.out.println(32%15);
-        System.out.println(2-1*15);
-        System.out.println(18-1*15);
-        System.out.println(18-2*15);
-    }
-    
     /**
      * 文档管理的查询方法，查询公共的和分享给自己文件
      */
@@ -1521,8 +1512,8 @@ public class SysFileServiceImpl implements SysFileService {
     /**
      * 复制文件数据到sys_file_version中
      */
-    public int copySysFile(String fileId) {
-    	sysFileMapper.copySysFile(fileId);
+    public int copySysFile(SysFile sysFile) {
+    	sysFileMapper.copySysFile(sysFile);
     	return 1;
     }
     

@@ -87,7 +87,7 @@
 		layui.use([ 'jquery', 'form', 'laydate', 'table', 'layer', 'element' ], function() {
 			var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate;
 			table = layui.table;
-			function renderSysFileTable() {
+			function renderTable() {
 				// 查询是哪个菜单
 				var param = JSON.parse(window.localStorage.getItem("param"));
 
@@ -163,7 +163,7 @@
 				$(".layui-table-header table thead th input").remove();
 			}
 
-			renderSysFileTable();
+			renderTable();
 			// 触发不同的按钮事件
 			var $ = layui.$, active = {
 				searchEvent : function() { //点击查询按钮

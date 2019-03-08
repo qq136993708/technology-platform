@@ -1132,9 +1132,81 @@
   	</select>
   	
   	<!--复制文件数据到sys_file_version中-->
-    <select id="copySysFile" parameterType="java.lang.String">
-      insert into sys_file_version select * from sys_file where id = #{fileId,jdbcType=VARCHAR}
-  	</select>
+  	<insert id="copySysFile" parameterType="com.pcitc.base.system.SysFile">
+        insert into sys_file_version (
+            id,
+            create_date_time,
+            deleted,
+            update_date_time,
+            version,
+            create_user_id,
+            file_name,
+            file_path,
+            file_size,
+            form_id,
+            saved_name,
+            file_md,
+            file_suffix,
+            start_time,
+            end_time,
+            file_publish,
+            file_pwd,
+            bak1,
+            bak2,
+            bak3,
+            bak4,
+            file_kind,
+            es_id,
+            is_del,
+            exp_date,
+            dataId,
+            flag,
+            bak5,
+            bak6,
+            bak7,
+            bak8,
+            part_img_path,
+            bak9,
+            bak10
+        )
+        values (
+
+    #{id,jdbcType=VARCHAR},
+    #{createDateTime,jdbcType=VARCHAR},
+    #{deleted,jdbcType=VARCHAR},
+    #{updateDateTime,jdbcType=VARCHAR},
+    #{version,jdbcType=VARCHAR},
+    #{createUserId,jdbcType=VARCHAR},
+    #{fileName,jdbcType=VARCHAR},
+    #{filePath,jdbcType=VARCHAR},
+    #{fileSize,jdbcType=VARCHAR},
+    #{formId,jdbcType=VARCHAR},
+    #{savedName,jdbcType=VARCHAR},
+    #{fileMd,jdbcType=VARCHAR},
+    #{fileSuffix,jdbcType=VARCHAR},
+    #{startTime,jdbcType=VARCHAR},
+    #{endTime,jdbcType=VARCHAR},
+    #{filePublish,jdbcType=VARCHAR},
+    #{filePwd,jdbcType=VARCHAR},
+    #{bak1,jdbcType=VARCHAR},
+    #{bak2,jdbcType=VARCHAR},
+    #{bak3,jdbcType=VARCHAR},
+    #{bak4,jdbcType=VARCHAR},
+    #{fileKind,jdbcType=VARCHAR},
+    #{esId,jdbcType=INTEGER},
+    #{isDel,jdbcType=VARCHAR},
+    #{expDate,jdbcType=VARCHAR},
+    #{dataid,jdbcType=VARCHAR},
+    #{flag,jdbcType=VARCHAR},
+    #{bak5,jdbcType=VARCHAR},
+    #{bak6,jdbcType=VARCHAR},
+    #{bak7,jdbcType=VARCHAR},
+    #{bak8,jdbcType=VARCHAR},
+    #{partImgPath,jdbcType=VARCHAR},
+    #{bak9,jdbcType=VARCHAR},
+    #{bak10,jdbcType=VARCHAR}
+        )
+    </insert>
   	
   	<!--获取文件历史版本信息-->
     <select id="selectFileHistoryList" resultMap="BaseResultMap" parameterType="java.util.HashMap">
@@ -1143,6 +1215,9 @@
       	1 = 1
       		<if test="fileId != null">
 				and sys_file_version.id = #{fileId}
+			</if>
+			<if test="bak3 != null">
+				and sys_file_version.bak3 = #{bak3}
 			</if>
 		
   	</select>

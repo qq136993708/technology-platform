@@ -63,7 +63,7 @@ public class WorkflowController extends BaseController {
 	@ResponseBody
 	public Object processAuditFlag(@RequestBody String param, HttpServletRequest request) throws Exception {
 		JSONObject reJson = JSONObject.parseObject(param);
-		System.out.println("1===================audit-type=reJson" + reJson.toString());
+
 		// param中有functionId（projectId、departmentId等属性）
 		HttpEntity<JSONObject> entity = new HttpEntity<JSONObject>(reJson, this.httpHeaders);
 

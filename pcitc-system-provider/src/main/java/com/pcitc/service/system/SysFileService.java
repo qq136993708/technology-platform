@@ -109,7 +109,7 @@ public interface SysFileService {
     int deleteSysFileReal(String menuId);
 
     List<TreeNode> selectObjectByTree();
-    
+
     /**
      * 条件查询模块列表
      *
@@ -355,7 +355,6 @@ public interface SysFileService {
      */
     public void deleteSysFileByDataId(String dataId);
     
-    
     /**
      * 文档管理的查询方法，查询公共的和分享给自己文件
      */
@@ -364,7 +363,7 @@ public interface SysFileService {
     /**
      * 复制文件数据到sys_file_version中
      */
-    public int copySysFile(String fileId);
+    public int copySysFile(SysFile sysFile);
     
     /**
      * 获取文件历史版本信息

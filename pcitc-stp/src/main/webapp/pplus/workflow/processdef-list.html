@@ -31,8 +31,9 @@
 			<div class="whiteLine"></div>
 			<div class="tableBtns">
 				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" data-type="detailEvent">查看</button>
-				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" data-type="activeEvent">激活</button>
-				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" data-type="suspendEvent">挂起</button>
+				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_deploy" data-type="activeEvent">激活</button>
+				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_deploy" data-type="suspendEvent">挂起</button>
+				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_delete" data-type="deleteEvent">删除</button>
 			</div>
 		</div>
 		<table id="processdef-table" class="layui-hide" lay-filter="tableData"></table>
@@ -93,18 +94,24 @@
 					}, {
 						field : 'name',
 						title : '流程名称',
-						width : '22%',
+						width : '25%',
 						style : 'cursor: pointer;'
 					}, {
 						field : 'key',
 						title : '流程key',
-						width : '15%',
+						width : '12%',
 						style : 'cursor: pointer;'
 					}, {
 						field : 'version',
-						title : '流程版本号',
-						width : '10%',
+						title : '版本号',
+						width : '5%',
 						style : 'cursor: pointer;'
+					}, {
+						field : 'createDate',
+						title : '部署时间',
+						width : '11%',
+						style : 'cursor: pointer;',
+						templet : '<div>{{ layui.laytpl.toDateString(d.createDate) }}</div>',
 					}, {
 						field : 'deploymentId',
 						title : '部署ID',
@@ -184,8 +191,12 @@
 
 							},
 							success : function(data) { //请求成功后处理函数。
-								layer.msg('操作成功！');
-								active.searchEvent();
+								if (data.success) {
+									active.searchEvent();
+									layer.msg('操作成功！');
+								} else {
+									layer.msg('操作失败！');
+								}
 							}
 						});
 					}
@@ -208,8 +219,38 @@
 
 							},
 							success : function(data) { //请求成功后处理函数。
-								layer.msg('操作成功！');
-								active.searchEvent();
+								if (data.success) {
+									active.searchEvent();
+									layer.msg('操作成功！');
+								} else {
+									layer.msg('操作失败！');
+								}
+							}
+						});
+					}
+				},
+				deleteEvent : function() { //点击删除按钮
+					if (typeof (selectRowData.id) == "undefined") {
+						layer.msg('请点击选择一行数据');
+					} else {
+						$.ajax({
+							url : '/activiti-def/delete/' + selectRowData.id,
+							type : 'post',
+							dataType : 'json',
+							headers : {
+								'Content-Type' : 'application/json',
+							},
+							error : function() {//请求失败处理函数  
+								layer.msg('操作失败！');
+
+							},
+							success : function(data) { //请求成功后处理函数。
+								if (data.success) {
+									active.searchEvent();
+									layer.msg('操作成功！');
+								} else {
+									layer.msg('操作失败！');
+								}
 							}
 						});
 					}
