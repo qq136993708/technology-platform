@@ -26,6 +26,7 @@ import com.alibaba.fastjson.JSON;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
+import com.pcitc.base.common.TreeNode;
 import com.pcitc.base.common.enums.BudgetAuditStatusEnum;
 import com.pcitc.base.common.enums.DelFlagEnum;
 import com.pcitc.base.stp.budget.BudgetAssetTotal;
@@ -438,7 +439,7 @@ public class BudgetAssetTotalProviderClient
 	}
 	@ApiOperation(value="资产公司预算-检索集团公司",notes="检索集团公司列表")
 	@RequestMapping(value = "/stp-provider/budget/search-asset-company-items", method = RequestMethod.POST)
-	public Object selectBudgetGroupItems() 
+	public Object selectBudgetGroupCompanyItems() 
 	{
 		logger.info("search-group-items...");
 		List<OutUnit> units = null;
@@ -451,6 +452,30 @@ public class BudgetAssetTotalProviderClient
 			e.printStackTrace();
 		}
 		return units;
+	}
+	@ApiOperation(value="资产公司预算-检索集团公司",notes="检索集团公司树")
+	@RequestMapping(value = "/stp-provider/budget/search-asset-company-tree", method = RequestMethod.POST)
+	public Object selectBudgetGroupCompanyTree() 
+	{
+		logger.info("search-group-items...");
+		List<TreeNode> nodes = new ArrayList<TreeNode>();
+		try
+		{
+			List<OutUnit> units = budgetAssetTotalService.selectAssetCompnays();
+			for(OutUnit unit:units) {
+				TreeNode node = new TreeNode();
+				node.setId(unit.getUnitCode());
+				node.setpId(unit.getParentCode());
+				node.setCode(unit.getUnitCode());
+				node.setName(unit.getUnitName());
+				nodes.add(node);
+			}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return nodes;
 	}
 	@ApiOperation(value="资产公司预算-删除预算项详情",notes="删除资产预算项包括子项详情")
 	@RequestMapping(value = "/stp-provider/budget/del-assettotal-item/{dataId}", method = RequestMethod.POST)

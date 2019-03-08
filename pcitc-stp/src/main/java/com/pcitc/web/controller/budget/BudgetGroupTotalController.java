@@ -70,6 +70,8 @@ public class BudgetGroupTotalController extends BaseController {
 	private static final String BUDGET_GROUPTOTAL_SAVE_ITEMS = "http://pcitc-zuul/stp-proxy/stp-provider/budget/save-grouptotal-items";
 	private static final String BUDGET_GROUPTOTAL_SAVE_CHILDITEMS = "http://pcitc-zuul/stp-proxy/stp-provider/budget/save-grouptotal-childitems";
 	private static final String BUDGET_GROUPTOTAL_COMPANY_ITEMS = "http://pcitc-zuul/stp-proxy/stp-provider/budget/search-group-company-items";
+	private static final String BUDGET_GROUPTOTAL_COMPANY_TREE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/search-group-company-tree";
+	
 	private static final String BUDGET_GROUPTOTAL_HISTORY_ITEMS = "http://pcitc-zuul/stp-proxy/stp-provider/budget/search-grouptotal-history-items";
 	private static final String BUDGET_GROUPTOTAL_FINAL_HISTORY_LIST = "http://pcitc-zuul/stp-proxy/stp-provider/budget/search-grouptotal-final-history-list";
 	private static final String BUDGET_GROUPTOTAL_COMPARE_PLAN = "http://pcitc-zuul/stp-proxy/stp-provider/budget/select-grouptotal-compare-plan";
@@ -231,12 +233,22 @@ public class BudgetGroupTotalController extends BaseController {
 	
 	@RequestMapping(value = "/budget/search-group-company-items", method = RequestMethod.POST)
 	@ResponseBody
-	public Object searchBudgetGroupCompany(HttpServletRequest request) throws IOException 
+	public Object searchBudgetGroupCompanyItems(HttpServletRequest request) throws IOException 
 	{
 		//获取所有的集团公司
 		ResponseEntity<?> responseEntity = this.restTemplate.exchange(BUDGET_GROUPTOTAL_COMPANY_ITEMS, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), List.class);
 		return responseEntity.getBody();
 	}
+	@RequestMapping(value = "/budget/search-group-company-tree", method = RequestMethod.POST)
+	@ResponseBody
+	public Object searchBudgetGroupCompanyTree(HttpServletRequest request) throws IOException 
+	{
+		//获取所有的集团公司
+		ResponseEntity<?> responseEntity = this.restTemplate.exchange(BUDGET_GROUPTOTAL_COMPANY_TREE, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), List.class);
+		//System.out.println(JSON.toJSONString(responseEntity.getBody()));
+		return responseEntity.getBody();
+	}
+	
 	@RequestMapping(value = "/budget/del-group-item/{dataId}", method = RequestMethod.POST)
 	@ResponseBody
 	public Object deleteBudgetGroupItem(@PathVariable("dataId") String dataId,HttpServletRequest request) throws IOException 

@@ -26,6 +26,7 @@ import com.alibaba.fastjson.JSON;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
+import com.pcitc.base.common.TreeNode;
 import com.pcitc.base.common.enums.BudgetAuditStatusEnum;
 import com.pcitc.base.common.enums.DelFlagEnum;
 import com.pcitc.base.stp.budget.BudgetGroupTotal;
@@ -37,6 +38,7 @@ import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.IdUtil;
 import com.pcitc.base.util.MyBeanUtils;
+import com.pcitc.base.util.TreeNodeUtil;
 import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.common.BudgetInfoEnum;
 import com.pcitc.service.budget.BudgetGroupTotalService;
@@ -437,7 +439,7 @@ public class BudgetGroupTotalProviderClient
 	}
 	@ApiOperation(value="集团公司预算-检索集团公司",notes="检索集团公司列表")
 	@RequestMapping(value = "/stp-provider/budget/search-group-company-items", method = RequestMethod.POST)
-	public Object selectBudgetGroupItems() 
+	public Object selectBudgetGroupCompanyItems() 
 	{
 		logger.info("search-group-items...");
 		List<OutUnit> units = null;
@@ -450,6 +452,31 @@ public class BudgetGroupTotalProviderClient
 			e.printStackTrace();
 		}
 		return units;
+	}
+	@ApiOperation(value="集团公司预算-检索集团公司",notes="检索集团公司树")
+	@RequestMapping(value = "/stp-provider/budget/search-group-company-tree", method = RequestMethod.POST)
+	public Object selectBudgetGroupCompanyTree() 
+	{
+		//logger.info("search-group-tree...");
+		List<TreeNode> nodes = new ArrayList<TreeNode>();
+		try
+		{
+			List<OutUnit> units = budgetGroupTotalService.selectGroupCompnays();
+			for(OutUnit unit:units) {
+				TreeNode node = new TreeNode();
+				node.setId(unit.getUnitCode());
+				node.setpId(unit.getParentCode());
+				node.setName(unit.getUnitName());
+				nodes.add(node);
+			}
+			//TreeNodeUtil.getfatherNode(nodes, "00000");
+			System.out.println(JSON.toJSONString(nodes));
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return nodes;
 	}
 	@ApiOperation(value="集团公司预算-删除预算项详情",notes="删除集团预算项包括子项详情")
 	@RequestMapping(value = "/stp-provider/budget/del-grouptotal-item/{dataId}", method = RequestMethod.POST)

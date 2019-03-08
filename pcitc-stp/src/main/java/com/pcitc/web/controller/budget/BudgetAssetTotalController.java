@@ -70,6 +70,7 @@ public class BudgetAssetTotalController extends BaseController {
 	private static final String BUDGET_ASSETTOTAL_SAVE_ITEMS = "http://pcitc-zuul/stp-proxy/stp-provider/budget/save-assettotal-items";
 	private static final String BUDGET_ASSETTOTAL_SAVE_CHILDITEMS = "http://pcitc-zuul/stp-proxy/stp-provider/budget/save-assettotal-childitems";
 	private static final String BUDGET_ASSETTOTAL_COMPANY_ITEMS = "http://pcitc-zuul/stp-proxy/stp-provider/budget/search-asset-company-items";
+	private static final String BUDGET_ASSETTOTAL_COMPANY_TREE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/search-asset-company-tree";
 	private static final String BUDGET_ASSETTOTAL_HISTORY_ITEMS = "http://pcitc-zuul/stp-proxy/stp-provider/budget/search-assettotal-history-items";
 	private static final String BUDGET_ASSETTOTAL_FINAL_HISTORY_LIST = "http://pcitc-zuul/stp-proxy/stp-provider/budget/search-assettotal-final-history-list";
 	private static final String BUDGET_ASSETTOTAL_COMPARE_PLAN = "http://pcitc-zuul/stp-proxy/stp-provider/budget/select-assettotal-compare-plan";
@@ -232,10 +233,18 @@ public class BudgetAssetTotalController extends BaseController {
 	
 	@RequestMapping(value = "/budget/search-asset-company-items", method = RequestMethod.POST)
 	@ResponseBody
-	public Object searchBudgetAssetCompany(HttpServletRequest request) throws IOException 
+	public Object searchBudgetAssetCompanyItems(HttpServletRequest request) throws IOException 
 	{
 		//获取所有的集团公司
 		ResponseEntity<?> responseEntity = this.restTemplate.exchange(BUDGET_ASSETTOTAL_COMPANY_ITEMS, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), List.class);
+		return responseEntity.getBody();
+	}
+	@RequestMapping(value = "/budget/search-asset-company-tree", method = RequestMethod.POST)
+	@ResponseBody
+	public Object searchBudgetAssetCompanyTree(HttpServletRequest request) throws IOException 
+	{
+		//获取所有的集团公司
+		ResponseEntity<?> responseEntity = this.restTemplate.exchange(BUDGET_ASSETTOTAL_COMPANY_TREE, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), List.class);
 		return responseEntity.getBody();
 	}
 	@RequestMapping(value = "/budget/del-asset-item/{dataId}", method = RequestMethod.POST)

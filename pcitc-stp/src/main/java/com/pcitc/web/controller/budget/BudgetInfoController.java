@@ -33,4 +33,10 @@ public class BudgetInfoController extends BaseController
 		//System.out.println(JSON.toJSON(responseEntity.getBody()).toString());
 		return JSON.toJSON(responseEntity.getBody()).toString();
 	}
+	@RequestMapping(method = RequestMethod.GET, value = "/budget/unit_select_tree")
+	public Object toBudgetAssetSelectUnit(HttpServletRequest request) throws IOException 
+	{
+		request.setAttribute("company", request.getParameter("company"));
+		return "stp/budget/unit_select_tree";
+	}
 }
