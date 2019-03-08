@@ -71,56 +71,57 @@
     console.log("项目名称："+projectName);
 
     function okEvent() {
-        console.log(projectName);
+        console.log("ok");
+        console.log(active.getCheckData());
+        // console.log(selectRowData);
         //点击编辑按钮
         if (!selectRowData) {
             layer.msg('请选择数据!');
             return;
         }
-
         //获取选中人员信息
-        var stype = $("#stype").val();
-        var plist = [];
-        if (stype == "suiji") {
-            for (let i = 0; i < selectRowData.length; i++) {
-                var p = {};
-                var obj = selectRowData[i];
-                p.xmId = projectId;
-                p.xmName = projectName;
-                p.companyId = obj.company;
-                p.companyName = obj.companyName;
-                p.status="2";
-                p.zjId = obj.dataId;
-                p.bak1 = $('input[name="option"]:checked').val();
-                p.bak2 = obj.expertName;
-                plist.push(p);
-            }
-            console.log("----------------");
-            console.log(plist);
-            //保存
-            $.ajax({
-                type: 'post',
-                dataType: 'json',
-                data: {'param': JSON.stringify(plist)},
-                url: '/expertController/addChoiceList',
-                success: function (data) {
-                    if (data == 200) {
-                        // var index = parent.layer.getFrameIndex(window.name);
-                        // parent.layer.close(index);
-                        // parent.layer.msg("提交成功");
-                        // parent.layui.table.reload('tableList', {});
-                    }
-                },
-                error: function (e) {
-                    modals.info("出错了");
-                    console.log(e);
-                }
-            });
-        } else if (stype == "guding") {
-
-        } else {
-
-        }
+        // var stype = $("#stype").val();
+        // var plist = [];
+        // if (stype == "suiji") {
+        //     for (let i = 0; i < selectRowData.length; i++) {
+        //         var p = {};
+        //         var obj = selectRowData[i];
+        //         p.xmId = projectId;
+        //         p.xmName = projectName;
+        //         p.companyId = obj.company;
+        //         p.companyName = obj.companyName;
+        //         p.status="2";
+        //         p.zjId = obj.dataId;
+        //         p.bak1 = $('input[name="option"]:checked').val();
+        //         p.bak2 = obj.expertName;
+        //         plist.push(p);
+        //     }
+        //     console.log("----------------");
+        //     console.log(plist);
+        //     //保存
+        //     $.ajax({
+        //         type: 'post',
+        //         dataType: 'json',
+        //         data: {'param': JSON.stringify(plist)},
+        //         url: '/expertController/addChoiceList',
+        //         success: function (data) {
+        //             if (data == 200) {
+        //                 // var index = parent.layer.getFrameIndex(window.name);
+        //                 // parent.layer.close(index);
+        //                 // parent.layer.msg("提交成功");
+        //                 // parent.layui.table.reload('expertTable', {});
+        //             }
+        //         },
+        //         error: function (e) {
+        //             modals.info("出错了");
+        //             console.log(e);
+        //         }
+        //     });
+        // } else if (stype == "guding") {
+        //
+        // } else {
+        //
+        // }
 
         // var index = parent.layer.getFrameIndex(window.name);
         // parent.layer.close(index);
@@ -143,7 +144,7 @@
         $("#stype").val(f);
     }
 
-    var table, selectRowData = '';
+    var table, selectRowData = '',active;
     layui.use(['jquery', 'table', 'laydate', 'form', 'laytpl', 'element', 'publicMethods'], function () {
         table = layui.table;
         var $ = layui.jquery, laydate = layui.laydate, form = layui.element, element = layui.element, publicMethods = layui.publicMethods;
@@ -189,15 +190,15 @@
                     // ,"projectConfigId":$("#projectConfigId").val()
                 }};
             publicMethods.tableRender('expertTable', 'expertTable', '/expertController/getUserChoiceTableData', false, cols, where, false, function (res, curr, count) {
-                $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
-                    var index = parseInt($(this).index() + 1);
-                    $('tr').removeClass('layui-table-click');
-                    $(this).addClass('layui-table-click');
-                    $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
-                    $('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
-                    selectRowData = res.data;
+                // $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
+                    // var index = parseInt($(this).index() + 1);
+                    // $('tr').removeClass('layui-table-click');
+                    // $(this).addClass('layui-table-click');
+                    // $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                    // $('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                    // selectRowData = res.data;
                     // selectRowData = res.data[index - 1];
-                });
+                // });
                 var param = {
                     data: res.data,//数据
                     element: ".layui-table-body table",// 当前的表格元素
@@ -208,6 +209,24 @@
                 publicMethods.dataDictionary(param);
             });
         }
+
+        $(document).on("click", ".layui-table-body table.layui-table tbody tr", function () {
+            var index = $(this).attr('data-index');
+            var tableBox = $(this).parents('.layui-table-box');
+            //存在固定列
+            if (tableBox.find(".layui-table-fixed.layui-table-fixed-l").length > 0) {
+                tableDiv = tableBox.find(".layui-table-fixed.layui-table-fixed-l");
+            } else {
+                tableDiv = tableBox.find(".layui-table-body.layui-table-main");
+            }
+            var checkCell = tableDiv.find("tr[data-index=" + index + "]").find("td div.laytable-cell-checkbox div.layui-form-checkbox I");
+            if (checkCell.length > 0) {
+                checkCell.click();
+            }
+        });
+        $(document).on("click", "td div.laytable-cell-checkbox div.layui-form-checkbox", function (e) {
+            e.stopPropagation();
+        });
 
         renderTable();
         window.renderTable = renderTable;
@@ -228,7 +247,8 @@
             renderTable();
         });
         // 触发不同的按钮事件
-        var $ = layui.$, active = {
+        var $ = layui.$;
+        active = {
             searchEvent: function () { //点击查询按钮
                 renderTable();
             },
@@ -236,17 +256,17 @@
                 $('#workOrderName').val("");
             },
             getCheckData: function () { //获取选中数据
-                var checkStatus = table.checkStatus('tableList')
+                var checkStatus = table.checkStatus('expertTable')
                     , data = checkStatus.data;
                 layer.alert(JSON.stringify(data));
             },
             getCheckLength: function () { //获取选中数目
-                var checkStatus = table.checkStatus('tableList')
+                var checkStatus = table.checkStatus('expertTable')
                     , data = checkStatus.data;
                 layer.msg('选中了：' + data.length + ' 个');
             },
             isAll: function () { //验证是否全选
-                var checkStatus = table.checkStatus('tableList');
+                var checkStatus = table.checkStatus('expertTable');
                 layer.msg(checkStatus.isAll ? '全选' : '未全选')
             }
         };
@@ -263,7 +283,7 @@
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
         });
-        $(".layui-table-header table thead th input").remove();
+        // $(".layui-table-header table thead th input").remove();
         /*加入备选*/
 
         //选择

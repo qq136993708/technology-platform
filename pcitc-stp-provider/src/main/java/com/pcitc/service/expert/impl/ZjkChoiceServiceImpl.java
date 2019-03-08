@@ -205,21 +205,21 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
         c.andStatusEqualTo(param.getParam().get("status").toString());
 
         Object adduserId = param.getParam().get("addUserId");
-        if(!StrUtil.isObjectEmpty(adduserId)){
+        if (!StrUtil.isObjectEmpty(adduserId)) {
             c.andAddUserIdEqualTo(adduserId.toString());
         }
 
         Object projectId = param.getParam().get("projectId");
-        if(!StrUtil.isObjectEmpty(projectId)){
+        if (!StrUtil.isObjectEmpty(projectId)) {
             c.andXmIdEqualTo(projectId.toString());
         }
 
         Object xmName = param.getParam().get("xmName");
-        if(!StrUtil.isObjectEmpty(xmName)){
+        if (!StrUtil.isObjectEmpty(xmName)) {
             c.andXmNameEqualTo(xmName.toString());
         }
         Object bak1 = param.getParam().get("bak1");
-        if(!StrUtil.isObjectEmpty(bak1)){
+        if (!StrUtil.isObjectEmpty(bak1)) {
             c.andBak1EqualTo(bak1.toString());
         }
 
@@ -237,12 +237,12 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
         c.andStatusEqualTo(param.getParam().get("status").toString());
 
         Object adduserId = param.getParam().get("addUserId");
-        if(!StrUtil.isObjectEmpty(adduserId)){
+        if (!StrUtil.isObjectEmpty(adduserId)) {
             c.andAddUserIdEqualTo(adduserId.toString());
         }
 
         Object projectId = param.getParam().get("projectId");
-        if(!StrUtil.isObjectEmpty(projectId)){
+        if (!StrUtil.isObjectEmpty(projectId)) {
             c.andXmIdEqualTo(projectId.toString());
         }
         example.setOrderByClause("create_date desc");
@@ -316,10 +316,8 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
         return orderNodes;
     }
 
-
     @Autowired
     private SystemRemoteClient systemRemoteClient;
-
 
     @Override
     public LayuiTableData getUserChoiceTableData(LayuiTableParam param) {
@@ -339,11 +337,11 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
         c.andSysFlagEqualTo("0");
         c.andDelFlagEqualTo("0");
         String expertProfessional = zjkExtractConfigInfo.getExpertProfessional();
-        if(!StrUtil.isEmpty(expertProfessional)){
+        if (!StrUtil.isEmpty(expertProfessional)) {
 //            c.andExpertProfessionalFieldIn(Arrays.asList(expertProfessional.split(",")));
         }
         String expertArea = zjkExtractConfigInfo.getExpertArea();
-        if(!StrUtil.isEmpty(expertArea)){
+        if (!StrUtil.isEmpty(expertArea)) {
 //            c.andProvinceIn(Arrays.asList(expertArea.split(",")));
         }
 //        随机选取：根据选择的项目阶段、专家人数，通过系统随机选取与该阶段对应的专家。
@@ -352,7 +350,7 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
 //        根据抽取条件以及系统设定的抽取规则进行自动专家抽取，其中抽取规则包括在职/退休专家抽取频率、专家在一年内允许被抽取到的次数、间隔频率、抽取权重、单位回避等。
 
         //判断类型
-        if ("suiji".equals(strType)){
+        if ("suiji".equals(strType)) {
             String strCount = map.get("count").toString();//数量
             List<ZjkExpert> experts = zjkBaseInfoService.selectByExample(example);
             int[] s = StrUtil.randomCommon(0, experts.size(), Integer.parseInt(strCount));
@@ -361,29 +359,30 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
                 expertsData.add(experts.get(s[i]));
             }
             data.setData(expertsData);
-        }else if ("guding".equals(strType)){
-            data = zjkBaseInfoService.findByExample(param,example);
-        }else {
+        } else if ("guding".equals(strType)) {
+            data = zjkBaseInfoService.findByExample(param, example);
+        } else {
             Object expertId = map.get("expertId");
-            if(StrUtil.isObjectEmpty(expertId)){
+            if (StrUtil.isObjectEmpty(expertId)) {
                 c.andDataIdIn(Arrays.asList(expertId.toString().split(",")));
             }
-            data = zjkBaseInfoService.findByExample(param,example);
+            data = zjkBaseInfoService.findByExample(param, example);
         }
         //返回
         return data;
     }
 
-    public int updateOrInsertZjkChoiceUpdateBat(JSONObject jsonObject){
+    public int updateOrInsertZjkChoiceUpdateBat(JSONObject jsonObject) {
         //取值
-        List<ZjkChoice> zjkChoice = JSONObject.parseArray((jsonObject.getString("list")),ZjkChoice.class);
-        String projectSteps =zjkChoice.get(0).getBak1();
-
-                //删除
+        List<ZjkChoice> zjkChoice = JSONObject.parseArray((jsonObject.getString("list")), ZjkChoice.class);
+        String projectSteps = zjkChoice.get(0).getBak1();
+        String projectId = zjkChoice.get(0).getXmId();
+        String projectName = zjkChoice.get(0).getXmName();
+        //删除
         ZjkChoiceExample example = new ZjkChoiceExample();
         ZjkChoiceExample.Criteria c = example.createCriteria();
         c.andStatusEqualTo("2");
-        c.andXmIdEqualTo(zjkChoice.get(0).getXmId());
+        c.andXmIdEqualTo(projectId);
         c.andBak1EqualTo(projectSteps);
         this.deleteByExample(example);
         //新增
@@ -399,14 +398,24 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
         //TO DO 插入专家通知
         for (int i = 0; i < j; i++) {
             ZjkMsg msg = new ZjkMsg();
+            msg.setProjectId(projectId);
+            msg.setProjectName(projectName);
+            msg.setXmId(projectId);
+            msg.setXmName(projectName);
+            msg.setXmSteps(projectSteps);
+            msg.setIsComplete("ROOT_UNIVERSAL_WEHTHER_NO");
+            msg.setCompleteType(type);
+            msg.setZjkId(zjkChoice.get(i).getZjId());
+            msg.setZjkName(zjkChoice.get(i).getBak2());
+            msg.setSysFlag("0");
             zjkMsgService.insert(msg);
         }
-
         //发送消息
 
         //返回
         return 200;
     }
+
     @Autowired
     private ZjkMsgService zjkMsgService;
     @Autowired
