@@ -594,6 +594,7 @@ public class SysFileServiceImpl implements SysFileService {
                         File serverFile = new File(filePath);
                         //将文件写入到服务器
                         String strSuffix = filename.substring(filename.lastIndexOf(".") + 1);
+                        strFileSuffix = strSuffix.toUpperCase();
                         FileUtil.copyInputStreamToFile(file.getInputStream(), serverFile);
                         sysFile = new SysFile();
                         sysFile.setId(uuid);
@@ -652,6 +653,7 @@ public class SysFileServiceImpl implements SysFileService {
                         }
                         insert(sysFile);
                     }
+                    System.out.println("文档类型："+strFileSuffix);
                     if ("DOCX".equals(strFileSuffix) || "DOC".equals(strFileSuffix) || "TXT".equals(strFileSuffix) || "XLS".equals(strFileSuffix) || "XLSX".equals(strFileSuffix) || "PDF".equals(strFileSuffix)) {
                         fileToEs(sysFile);
                     }
@@ -731,6 +733,7 @@ public class SysFileServiceImpl implements SysFileService {
 //            sysFile.setBak4(new String(buffer, "utf-8"));
             accessor.add(sysFile);
         } catch (Exception e) {
+            e.printStackTrace();
             System.out.println("文件写入ES异常");
 //            e.printStackTrace();
         } finally {
@@ -1373,6 +1376,7 @@ public class SysFileServiceImpl implements SysFileService {
                     //TODO :2018/06/25:save - es
                     //es-start
                     String strFileSuffix = sysFile.getFileSuffix().toUpperCase();
+                    System.out.println("文档类型："+strFileSuffix);
                     if ("DOCX".equals(strFileSuffix) || "DOC".equals(strFileSuffix) || "TXT".equals(strFileSuffix) || "XLS".equals(strFileSuffix) || "XLSX".equals(strFileSuffix) || "PDF".equals(strFileSuffix)) {
                         fileToEs(sysFile);
                     }
