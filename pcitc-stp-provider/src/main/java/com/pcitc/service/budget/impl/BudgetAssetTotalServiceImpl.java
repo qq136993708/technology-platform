@@ -229,7 +229,7 @@ public class BudgetAssetTotalServiceImpl implements BudgetAssetTotalService
 	}
 	@Override
 	public List<OutUnit> selectAssetCompnays() {
-		return systemRemoteClient.selectProjectUnits("JTZS");
+		return systemRemoteClient.selectProjectUnits("ZCGS");
 	}
 	@Override
 	public Map<String, List<OutProjectPlan>> selectComparePlanData(Set<String> codes, String nd) {

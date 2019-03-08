@@ -143,9 +143,22 @@
     var parentDataId = "${dataId}";
     var parentInfo = null;
     var company_map = {};
+    var table;
+    function addUnitToTable(compnay){
+    	var newRow = {dataId: new Date().valueOf(),displayCode:compnay.id, displayName: name,last_year_end:0,plan_money: 0, xmjf: 0, zxjf: 0,parentDataId:parentDataId,budgetInfoId:budgetInfoId};
+       /*  selectItemProjectMoney(parseInt($("#nd").val())-1,companyCode,function(ysje){
+        	newRow.last_year_end = ysje;
+		});
+		selectItemPlanMoney($("#nd").val(),companyCode,function(ysje){
+			newRow.plan_money = ysje;
+		}); */
+       	viewObj.tbData.push(newRow);
+		table.reload({data : viewObj.tbData});
+    }
     layui.use(['jquery', 'table', 'form','laydate', 'layer','publicMethods'], function () {
-        var $ = layui.jquery, table = layui.table, form = layui.form,laydate = layui.laydate, layer = layui.layer,publicMethods=layui.publicMethods;
+        var $ = layui.jquery,  form = layui.form,laydate = layui.laydate, layer = layui.layer,publicMethods=layui.publicMethods;
         var layTableId = "dataTable";
+        table = layui.table;
         //检索年度金额完成情况
         function selectItemProjectMoney(nd,displayCode,callback){
         	publicMethods.ajaxPost('/budget/select-grouptotal-compare-project',{"nd":nd,"code":displayCode}, function (data, status) {
@@ -156,6 +169,7 @@
    			  callback(ysje);
    		  	});
         }
+        
         //检索年度计划情况
         function selectItemPlanMoney(nd,displayCode,callback){
         	publicMethods.ajaxPost('/budget/select-grouptotal-compare-plan',{"nd":nd,"code":displayCode}, function (data, status) {
@@ -190,7 +204,7 @@
         	form.render(); 
    		});
         //渲染
-        var tableIns = table.render({
+        table.render({
             elem: '#dataTable' //表格容器
             , data: viewObj.tbData //请求的url地址
             , id: layTableId
@@ -248,7 +262,7 @@
 					newRow.plan_money = ysje;
 				});
                	viewObj.tbData.push(newRow);
-               	tableIns.reload({data : viewObj.tbData});
+               	table.reload({data : viewObj.tbData});
             },
             removeEmptyTableCache: function(){
             	  var oldData = table.cache[layTableId];
@@ -259,7 +273,7 @@
                           viewObj.tbData.splice(i, 1);
                       }
                   }
-                  tableIns.reload({
+                  table.reload({
                 	  data : viewObj.tbData
                   });
             },addEvent:function(){
