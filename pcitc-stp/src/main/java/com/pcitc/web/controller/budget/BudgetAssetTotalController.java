@@ -144,7 +144,7 @@ public class BudgetAssetTotalController extends BaseController {
 	public Object getBudgetAssetItems(@ModelAttribute("param") LayuiTableParam param,HttpServletRequest request) throws IOException 
 	{
 		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_ASSETTOTAL_ITEMS, HttpMethod.POST, new HttpEntity<LayuiTableParam>(param, this.httpHeaders), Object.class);
-		//System.out.println(JSON.toJSON(responseEntity.getBody()).toString());
+		System.out.println(JSON.toJSON(responseEntity.getBody()));
 		return JSON.toJSON(responseEntity.getBody()).toString();
 	}
 	@RequestMapping(value = "/budget/budget-assettotal-create", method = RequestMethod.POST)

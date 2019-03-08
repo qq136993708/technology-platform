@@ -324,7 +324,7 @@ public class BudgetAssetTotalProviderClient
 				
 				map  = MyBeanUtils.transBean2Map(groupTotal);
 				map.put("groups", groupMaps);
-				map.put("total", new Double(map.get("zxjf").toString())+new Double(map.get("xmjf").toString()));
+				map.put("total", new Double(map.get("yjwc").toString())+new Double(map.get("xmjf").toString()));
 			}
 		}
 		catch (Exception e)

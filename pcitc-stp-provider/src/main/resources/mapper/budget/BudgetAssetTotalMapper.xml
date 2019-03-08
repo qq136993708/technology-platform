@@ -18,12 +18,10 @@
     <result column="level" jdbcType="INTEGER" property="level" />
     <result column="yjwc" jdbcType="DOUBLE" property="yjwc" />
     <result column="xmjf" jdbcType="DOUBLE" property="xmjf" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="budget_info_id" jdbcType="VARCHAR" property="budgetInfoId" />
     <result column="del_flag" jdbcType="INTEGER" property="delFlag" />
     <result column="append_files" jdbcType="VARCHAR" property="appendFiles" />
-  </resultMap>
-  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.pcitc.base.stp.budget.BudgetAssetTotal">
-    <result column="remark" jdbcType="LONGVARCHAR" property="remark" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -86,28 +84,8 @@
   <sql id="Base_Column_List">
     data_id, parent_data_id, nd, data_version, create_time, update_time, creater_name, 
     creater_id, no, display_name, simple_name, display_code, simple_code, level, yjwc, 
-    xmjf, budget_info_id, del_flag, append_files
+    xmjf, remark, budget_info_id, del_flag, append_files
   </sql>
-  <sql id="Blob_Column_List">
-    remark
-  </sql>
-  <select id="selectByExampleWithBLOBs" parameterType="com.pcitc.base.stp.budget.BudgetAssetTotalExample" resultMap="ResultMapWithBLOBs">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    'true' as QUERYID,
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from out_tem_money_asset_total
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-  </select>
   <select id="selectByExample" parameterType="com.pcitc.base.stp.budget.BudgetAssetTotalExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
@@ -123,11 +101,9 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from out_tem_money_asset_total
     where data_id = #{dataId,jdbcType=VARCHAR}
   </select>
@@ -147,15 +123,15 @@
       creater_name, creater_id, no, 
       display_name, simple_name, display_code, 
       simple_code, level, yjwc, 
-      xmjf, budget_info_id, del_flag, 
-      append_files, remark)
+      xmjf, remark, budget_info_id, 
+      del_flag, append_files)
     values (#{dataId,jdbcType=VARCHAR}, #{parentDataId,jdbcType=VARCHAR}, #{nd,jdbcType=VARCHAR}, 
       #{dataVersion,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR}, #{updateTime,jdbcType=VARCHAR}, 
       #{createrName,jdbcType=VARCHAR}, #{createrId,jdbcType=VARCHAR}, #{no,jdbcType=INTEGER}, 
       #{displayName,jdbcType=VARCHAR}, #{simpleName,jdbcType=VARCHAR}, #{displayCode,jdbcType=VARCHAR}, 
       #{simpleCode,jdbcType=VARCHAR}, #{level,jdbcType=INTEGER}, #{yjwc,jdbcType=DOUBLE}, 
-      #{xmjf,jdbcType=DOUBLE}, #{budgetInfoId,jdbcType=VARCHAR}, #{delFlag,jdbcType=INTEGER}, 
-      #{appendFiles,jdbcType=VARCHAR}, #{remark,jdbcType=LONGVARCHAR})
+      #{xmjf,jdbcType=DOUBLE}, #{remark,jdbcType=VARCHAR}, #{budgetInfoId,jdbcType=VARCHAR}, 
+      #{delFlag,jdbcType=INTEGER}, #{appendFiles,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.pcitc.base.stp.budget.BudgetAssetTotal">
     insert into out_tem_money_asset_total
@@ -208,6 +184,9 @@
       <if test="xmjf != null">
         xmjf,
       </if>
+      <if test="remark != null">
+        remark,
+      </if>
       <if test="budgetInfoId != null">
         budget_info_id,
       </if>
@@ -216,9 +195,6 @@
       </if>
       <if test="appendFiles != null">
         append_files,
-      </if>
-      <if test="remark != null">
-        remark,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -270,6 +246,9 @@
       <if test="xmjf != null">
         #{xmjf,jdbcType=DOUBLE},
       </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
       <if test="budgetInfoId != null">
         #{budgetInfoId,jdbcType=VARCHAR},
       </if>
@@ -278,9 +257,6 @@
       </if>
       <if test="appendFiles != null">
         #{appendFiles,jdbcType=VARCHAR},
-      </if>
-      <if test="remark != null">
-        #{remark,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
@@ -341,6 +317,9 @@
       <if test="record.xmjf != null">
         xmjf = #{record.xmjf,jdbcType=DOUBLE},
       </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
       <if test="record.budgetInfoId != null">
         budget_info_id = #{record.budgetInfoId,jdbcType=VARCHAR},
       </if>
@@ -350,36 +329,7 @@
       <if test="record.appendFiles != null">
         append_files = #{record.appendFiles,jdbcType=VARCHAR},
       </if>
-      <if test="record.remark != null">
-        remark = #{record.remark,jdbcType=LONGVARCHAR},
-      </if>
     </set>
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExampleWithBLOBs" parameterType="map">
-    update out_tem_money_asset_total
-    set data_id = #{record.dataId,jdbcType=VARCHAR},
-      parent_data_id = #{record.parentDataId,jdbcType=VARCHAR},
-      nd = #{record.nd,jdbcType=VARCHAR},
-      data_version = #{record.dataVersion,jdbcType=VARCHAR},
-      create_time = #{record.createTime,jdbcType=VARCHAR},
-      update_time = #{record.updateTime,jdbcType=VARCHAR},
-      creater_name = #{record.createrName,jdbcType=VARCHAR},
-      creater_id = #{record.createrId,jdbcType=VARCHAR},
-      no = #{record.no,jdbcType=INTEGER},
-      display_name = #{record.displayName,jdbcType=VARCHAR},
-      simple_name = #{record.simpleName,jdbcType=VARCHAR},
-      display_code = #{record.displayCode,jdbcType=VARCHAR},
-      simple_code = #{record.simpleCode,jdbcType=VARCHAR},
-      level = #{record.level,jdbcType=INTEGER},
-      yjwc = #{record.yjwc,jdbcType=DOUBLE},
-      xmjf = #{record.xmjf,jdbcType=DOUBLE},
-      budget_info_id = #{record.budgetInfoId,jdbcType=VARCHAR},
-      del_flag = #{record.delFlag,jdbcType=INTEGER},
-      append_files = #{record.appendFiles,jdbcType=VARCHAR},
-      remark = #{record.remark,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -402,6 +352,7 @@
       level = #{record.level,jdbcType=INTEGER},
       yjwc = #{record.yjwc,jdbcType=DOUBLE},
       xmjf = #{record.xmjf,jdbcType=DOUBLE},
+      remark = #{record.remark,jdbcType=VARCHAR},
       budget_info_id = #{record.budgetInfoId,jdbcType=VARCHAR},
       del_flag = #{record.delFlag,jdbcType=INTEGER},
       append_files = #{record.appendFiles,jdbcType=VARCHAR}
@@ -457,6 +408,9 @@
       <if test="xmjf != null">
         xmjf = #{xmjf,jdbcType=DOUBLE},
       </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
       <if test="budgetInfoId != null">
         budget_info_id = #{budgetInfoId,jdbcType=VARCHAR},
       </if>
@@ -466,33 +420,7 @@
       <if test="appendFiles != null">
         append_files = #{appendFiles,jdbcType=VARCHAR},
       </if>
-      <if test="remark != null">
-        remark = #{remark,jdbcType=LONGVARCHAR},
-      </if>
     </set>
-    where data_id = #{dataId,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.pcitc.base.stp.budget.BudgetAssetTotal">
-    update out_tem_money_asset_total
-    set parent_data_id = #{parentDataId,jdbcType=VARCHAR},
-      nd = #{nd,jdbcType=VARCHAR},
-      data_version = #{dataVersion,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=VARCHAR},
-      update_time = #{updateTime,jdbcType=VARCHAR},
-      creater_name = #{createrName,jdbcType=VARCHAR},
-      creater_id = #{createrId,jdbcType=VARCHAR},
-      no = #{no,jdbcType=INTEGER},
-      display_name = #{displayName,jdbcType=VARCHAR},
-      simple_name = #{simpleName,jdbcType=VARCHAR},
-      display_code = #{displayCode,jdbcType=VARCHAR},
-      simple_code = #{simpleCode,jdbcType=VARCHAR},
-      level = #{level,jdbcType=INTEGER},
-      yjwc = #{yjwc,jdbcType=DOUBLE},
-      xmjf = #{xmjf,jdbcType=DOUBLE},
-      budget_info_id = #{budgetInfoId,jdbcType=VARCHAR},
-      del_flag = #{delFlag,jdbcType=INTEGER},
-      append_files = #{appendFiles,jdbcType=VARCHAR},
-      remark = #{remark,jdbcType=LONGVARCHAR}
     where data_id = #{dataId,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.budget.BudgetAssetTotal">
@@ -512,6 +440,7 @@
       level = #{level,jdbcType=INTEGER},
       yjwc = #{yjwc,jdbcType=DOUBLE},
       xmjf = #{xmjf,jdbcType=DOUBLE},
+      remark = #{remark,jdbcType=VARCHAR},
       budget_info_id = #{budgetInfoId,jdbcType=VARCHAR},
       del_flag = #{delFlag,jdbcType=INTEGER},
       append_files = #{appendFiles,jdbcType=VARCHAR}
