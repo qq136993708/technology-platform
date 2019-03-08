@@ -12,6 +12,10 @@
 </head>
 <body>
 <div class="searchBox">
+<input  name="functionId"       id="functionId"                                    type="hidden">
+<input  name="applyUnitCode"    id="applyUnitCode"     value="${applyUnitCode}"    type="hidden">
+<input  name="leadUnitCode"     id="leadUnitCode"      value="${leadUnitCode}"    type="hidden">
+<input  name="joinUnitCode"     id="joinUnitCode"      value="${joinUnitCode}"    type="hidden">
     <!--查询条件-->
     <label class="dateInput">
         <span>立项年度</span>
@@ -22,6 +26,12 @@
         <span>任务名称</span>
         <input type="text" name="topicName" placeholder="请输入任务名称" title="任务名称" autocomplete="off" class="form-control" id="topicName">
     </label>
+    
+     <label class="dateInput">
+        <span>承建单位</span>
+        <input type="text" name="leadUnitName" placeholder="选择承建单位" title="承建单位" onclick="chooseUnit('choose_leadUnitName_callback')" autocomplete="off" class="form-control" id="leadUnitName">
+     </label>
+    
     
     <!--按钮组-->
     <div class="btnGroup">
@@ -310,6 +320,13 @@ var name=$('#name').val();
         
       });
     } 
+    
+
+    function choose_leadUnitName_callback(unitId,unitName) 
+    {
+    	$("#leadUnitName").val(unitName);
+    	$("#leadUnitCode").val(unitId);
+    }
 
 </script>
 

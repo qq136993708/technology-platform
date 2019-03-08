@@ -13,6 +13,7 @@
 <div class="searchBox">
     <!--查询条件-->
     <input type="hidden" name="auditStatus" id="auditStatus" value="${auditStatus}">
+    <input type="hidden" name="taskWriteUsersIds"      id="taskWriteUsersIds" value="${userId}">
     
     <label class="dateInput">
         <span>课题名称</span>
@@ -114,7 +115,7 @@ var name=$('#name').val();
             },
              taskEvent: function(){  //点击详情按钮
             	
-            	if (typeof(selectRowData.id) == "undefined") 
+            	if (typeof(selectRowData) == "undefined") 
             	{
             		layer.msg('请点击选择一行数据');
             	}
@@ -181,7 +182,7 @@ var name=$('#name').val();
             elem: '#processdef-table',
             url: '/sre-project-basic/list',
             method:"POST",
-            where: {param: {"name":$("#name").val(),"auditStatus":"2"}},
+            where: {param: {"name":$("#name").val(),"auditStatus":"2","taskWriteUsersIds":$("#taskWriteUsersIds").val()}},
             limit: 15,	
             id: 'processdef-table',
             height: commonDislodgeTable(),

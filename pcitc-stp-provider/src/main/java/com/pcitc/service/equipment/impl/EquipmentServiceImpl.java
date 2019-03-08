@@ -231,7 +231,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 		String applyUnitCode=getTableParam(param,"applyUnitCode","");
 		String joinUnitName=getTableParam(param,"joinUnitName","");
 		String joinUnitCode=getTableParam(param,"joinUnitCode","");
-		
+		String taskWriteUsersIds=getTableParam(param,"taskWriteUsersIds","");
 		Map map=new HashMap();
 		map.put("name", name);
 		map.put("equipmentIds", equipmentIds);
@@ -245,7 +245,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 		
 		map.put("joinUnitName", joinUnitName);
 		map.put("joinUnitCode", joinUnitCode);
-		
+		map.put("taskWriteUsersIds", taskWriteUsersIds);
 		System.out.println(">>>>>>>>applyUnitCode="+applyUnitCode);
 		StringBuffer applyUnitCodeStr=new StringBuffer();
 		if(!applyUnitCode.equals(""))
