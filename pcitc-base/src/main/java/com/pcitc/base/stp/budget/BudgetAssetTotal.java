@@ -29,17 +29,17 @@ public class BudgetAssetTotal {
 
     private Integer level;
 
-    private Double yswc;
+    private Double yjwc;
 
     private Double xmjf;
+
+    private String remark;
 
     private String budgetInfoId;
 
     private Integer delFlag;
 
     private String appendFiles;
-
-    private String remark;
 
     public String getDataId() {
         return dataId;
@@ -153,12 +153,12 @@ public class BudgetAssetTotal {
         this.level = level;
     }
 
-    public Double getYswc() {
-        return yswc;
+    public Double getYjwc() {
+        return yjwc;
     }
 
-    public void setYswc(Double yswc) {
-        this.yswc = yswc;
+    public void setYjwc(Double yjwc) {
+        this.yjwc = yjwc;
     }
 
     public Double getXmjf() {
@@ -167,6 +167,14 @@ public class BudgetAssetTotal {
 
     public void setXmjf(Double xmjf) {
         this.xmjf = xmjf;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 
     public String getBudgetInfoId() {
@@ -191,13 +199,5 @@ public class BudgetAssetTotal {
 
     public void setAppendFiles(String appendFiles) {
         this.appendFiles = appendFiles;
-    }
-
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark;
     }
 }

@@ -93,10 +93,12 @@
 	                <tr>
 	                	<th lay-data="{type:'checkbox'}"></th>
 	                	<th lay-data="{field:'no',align: 'center', width: 45,totalRowText: '合计'}">序号</th>
-	                    <th lay-data="{field:'displayName', width: '25%'}">预算部门</th>
+	                    <th lay-data="{field:'displayName', width: '20%'}">预算部门</th>
 	                    <th lay-data="{field:'remark', width: '30%'}">描述</th>
-	                   	<th lay-data="{field:'last_year_end',align: 'right',totalRow: true}">2018年科技经费预计完成</th>
-	                    <th lay-data="{field:'xmjf',align: 'right',totalRow: true}">2019年科技经费预算</th>
+	                   	<th lay-data="{field:'last_year_end',align: 'right',totalRow: true}">2018年科技经费完成</th>
+	                   	<th lay-data="{field:'plan_money',align: 'right',totalRow: true}">2019年科技经费计划</th>
+	                    <th lay-data="{field:'yjwc', edit:true,align: 'right',totalRow: true}">2018年预计完成</th>
+	                    <th lay-data="{field:'xmjf', edit:true,align: 'right',totalRow: true}">2019年经费预算</th>	                    
 	                </tr>
                 </thead>
             </table>
@@ -219,11 +221,11 @@
             		if(obj.data.dataId == dt.dataId){
             			if(obj.field=="xmjf"){
             				dt.xmjf = obj.value;
-            			}else if(obj.field=="zxjf")
+            			}else if(obj.field=="yjwc")
             			{
-            				dt.zxjf = obj.value;
+            				dt.yjwc = obj.value;
             			}
-            			dt.total = parseInt(dt.xmjf)+parseInt(dt.zxjf);
+            			dt.total = parseInt(dt.xmjf)+parseInt(dt.yjwc);
             		}
             	});
             	//刷新表格数据

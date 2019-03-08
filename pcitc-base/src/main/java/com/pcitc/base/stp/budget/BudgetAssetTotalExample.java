@@ -1064,63 +1064,63 @@ public class BudgetAssetTotalExample {
             return (Criteria) this;
         }
 
-        public Criteria andYswcIsNull() {
-            addCriterion("yswc is null");
+        public Criteria andYjwcIsNull() {
+            addCriterion("yjwc is null");
             return (Criteria) this;
         }
 
-        public Criteria andYswcIsNotNull() {
-            addCriterion("yswc is not null");
+        public Criteria andYjwcIsNotNull() {
+            addCriterion("yjwc is not null");
             return (Criteria) this;
         }
 
-        public Criteria andYswcEqualTo(Double value) {
-            addCriterion("yswc =", value, "yswc");
+        public Criteria andYjwcEqualTo(Double value) {
+            addCriterion("yjwc =", value, "yjwc");
             return (Criteria) this;
         }
 
-        public Criteria andYswcNotEqualTo(Double value) {
-            addCriterion("yswc <>", value, "yswc");
+        public Criteria andYjwcNotEqualTo(Double value) {
+            addCriterion("yjwc <>", value, "yjwc");
             return (Criteria) this;
         }
 
-        public Criteria andYswcGreaterThan(Double value) {
-            addCriterion("yswc >", value, "yswc");
+        public Criteria andYjwcGreaterThan(Double value) {
+            addCriterion("yjwc >", value, "yjwc");
             return (Criteria) this;
         }
 
-        public Criteria andYswcGreaterThanOrEqualTo(Double value) {
-            addCriterion("yswc >=", value, "yswc");
+        public Criteria andYjwcGreaterThanOrEqualTo(Double value) {
+            addCriterion("yjwc >=", value, "yjwc");
             return (Criteria) this;
         }
 
-        public Criteria andYswcLessThan(Double value) {
-            addCriterion("yswc <", value, "yswc");
+        public Criteria andYjwcLessThan(Double value) {
+            addCriterion("yjwc <", value, "yjwc");
             return (Criteria) this;
         }
 
-        public Criteria andYswcLessThanOrEqualTo(Double value) {
-            addCriterion("yswc <=", value, "yswc");
+        public Criteria andYjwcLessThanOrEqualTo(Double value) {
+            addCriterion("yjwc <=", value, "yjwc");
             return (Criteria) this;
         }
 
-        public Criteria andYswcIn(List<Double> values) {
-            addCriterion("yswc in", values, "yswc");
+        public Criteria andYjwcIn(List<Double> values) {
+            addCriterion("yjwc in", values, "yjwc");
             return (Criteria) this;
         }
 
-        public Criteria andYswcNotIn(List<Double> values) {
-            addCriterion("yswc not in", values, "yswc");
+        public Criteria andYjwcNotIn(List<Double> values) {
+            addCriterion("yjwc not in", values, "yjwc");
             return (Criteria) this;
         }
 
-        public Criteria andYswcBetween(Double value1, Double value2) {
-            addCriterion("yswc between", value1, value2, "yswc");
+        public Criteria andYjwcBetween(Double value1, Double value2) {
+            addCriterion("yjwc between", value1, value2, "yjwc");
             return (Criteria) this;
         }
 
-        public Criteria andYswcNotBetween(Double value1, Double value2) {
-            addCriterion("yswc not between", value1, value2, "yswc");
+        public Criteria andYjwcNotBetween(Double value1, Double value2) {
+            addCriterion("yjwc not between", value1, value2, "yjwc");
             return (Criteria) this;
         }
 
@@ -1181,6 +1181,76 @@ public class BudgetAssetTotalExample {
 
         public Criteria andXmjfNotBetween(Double value1, Double value2) {
             addCriterion("xmjf not between", value1, value2, "xmjf");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkIsNull() {
+            addCriterion("remark is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkIsNotNull() {
+            addCriterion("remark is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkEqualTo(String value) {
+            addCriterion("remark =", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkNotEqualTo(String value) {
+            addCriterion("remark <>", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkGreaterThan(String value) {
+            addCriterion("remark >", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkGreaterThanOrEqualTo(String value) {
+            addCriterion("remark >=", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkLessThan(String value) {
+            addCriterion("remark <", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkLessThanOrEqualTo(String value) {
+            addCriterion("remark <=", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkLike(String value) {
+            addCriterion("remark like", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkNotLike(String value) {
+            addCriterion("remark not like", value, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkIn(List<String> values) {
+            addCriterion("remark in", values, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkNotIn(List<String> values) {
+            addCriterion("remark not in", values, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkBetween(String value1, String value2) {
+            addCriterion("remark between", value1, value2, "remark");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemarkNotBetween(String value1, String value2) {
+            addCriterion("remark not between", value1, value2, "remark");
             return (Criteria) this;
         }
 

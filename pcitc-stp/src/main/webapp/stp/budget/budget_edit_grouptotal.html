@@ -112,9 +112,8 @@
                     <div class="layui-form-item">
                         <label for="" class="layui-form-label">单位明细<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-	                        
                             <div class="tableToolBox">
-					            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg" data-type="addEvent">新增</button>
+					            <a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg" data-type="addEvent">新增</a>
 					        </div>
                             <div id="tableBox">
                                 <table id="dataTable" class="layui-hide" lay-filter="dataTable"></table>
@@ -129,9 +128,7 @@
     <div class="form-bottom">
         <div class="form-bottom-btns">
             <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit lay-filter="saveEvent">保存</button>
-            <button type="button"
-                    class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white"
-                    id="cancel">取消
+            <button type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" id="cancel">取消
             </button>
         </div>
     </div>
@@ -265,7 +262,21 @@
                   tableIns.reload({
                 	  data : viewObj.tbData
                   });
+            },addEvent:function(){
+            	layer.open({
+                    title: '检索公司信息'
+                    , skin: 'layui-layer-lan'
+                    , shadeClose: true
+                    , type: 2
+                    , fixed: false
+                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                    , maxmin: false
+                    //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                    , area: ['80%', '90%']
+                    , content: "/budget/unit_select_tree?company=search-group-company-tree"
+                });      
             }
+            
         };
         //激活事件
         var activeByType = function (type, arg) {
