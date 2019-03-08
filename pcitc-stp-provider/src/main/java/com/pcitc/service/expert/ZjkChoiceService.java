@@ -1,5 +1,6 @@
 package com.pcitc.service.expert;
 
+import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.enums.DataOperationStatusEnum;
@@ -196,4 +197,6 @@ public interface ZjkChoiceService {
     LayuiTableData getUserChoiceTableData(LayuiTableParam param);
 
     public LayuiTableData findZjkChoiceByPageChoice(LayuiTableParam param);
+
+    public int updateOrInsertZjkChoiceUpdateBat(JSONObject jsonObject);
 }

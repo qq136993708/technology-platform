@@ -50,9 +50,9 @@
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" data-type="detailEvent">项目详情</button>
             <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit" data-type="handleEvent">课题匹配</button>-->
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit" data-type="expertEvent">选择专家</button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit" data-type="dbEvent">查看对比</button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit" data-type="bxEvent">查看备选</button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" data-type="showExpertEvent">查看已选</button>
+            <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit" data-type="dbEvent">查看对比</button>-->
+            <!--<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit" data-type="bxEvent">查看备选</button>-->
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" data-type="showExpertEvent">已选专家</button>
         </div>
     </div>
     <table id="showTable" class="layui-table" lay-filter="tableData"></table>
@@ -231,7 +231,7 @@
                 if (typeof (selectRowData.xmid) == "undefined") {
                     layer.msg('请点击选择一行数据');
                 } else {
-                    openBaseWin("专家选择", "/expertController/getUserChoicePage?projectId=" + selectRowData.xmid+"&projectName=");
+                    openBaseWin("专家选择", "/expertController/getUserChoicePage?projectId=" + selectRowData.xmid+"&projectName="+selectRowData.xmmc);
                 }
             }, showExpertEvent: function () { //查看已选专家
                 if (typeof (selectRowData.xmid) == "undefined") {
