@@ -29,7 +29,7 @@ public class BudgetAssetTotal {
 
     private Integer level;
 
-    private Double yswc;
+    private Double yjwc;
 
     private Double xmjf;
 
@@ -153,12 +153,12 @@ public class BudgetAssetTotal {
         this.level = level;
     }
 
-    public Double getYswc() {
-        return yswc;
+    public Double getYjwc() {
+        return yjwc;
     }
 
-    public void setYswc(Double yswc) {
-        this.yswc = yswc;
+    public void setYjwc(Double yjwc) {
+        this.yjwc = yjwc;
     }
 
     public Double getXmjf() {

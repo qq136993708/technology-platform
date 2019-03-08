@@ -16,7 +16,7 @@
     <result column="display_code" jdbcType="VARCHAR" property="displayCode" />
     <result column="simple_code" jdbcType="VARCHAR" property="simpleCode" />
     <result column="level" jdbcType="INTEGER" property="level" />
-    <result column="yswc" jdbcType="DOUBLE" property="yswc" />
+    <result column="yjwc" jdbcType="DOUBLE" property="yjwc" />
     <result column="xmjf" jdbcType="DOUBLE" property="xmjf" />
     <result column="budget_info_id" jdbcType="VARCHAR" property="budgetInfoId" />
     <result column="del_flag" jdbcType="INTEGER" property="delFlag" />
@@ -85,7 +85,7 @@
   </sql>
   <sql id="Base_Column_List">
     data_id, parent_data_id, nd, data_version, create_time, update_time, creater_name, 
-    creater_id, no, display_name, simple_name, display_code, simple_code, level, yswc, 
+    creater_id, no, display_name, simple_name, display_code, simple_code, level, yjwc, 
     xmjf, budget_info_id, del_flag, append_files
   </sql>
   <sql id="Blob_Column_List">
@@ -146,14 +146,14 @@
       data_version, create_time, update_time, 
       creater_name, creater_id, no, 
       display_name, simple_name, display_code, 
-      simple_code, level, yswc, 
+      simple_code, level, yjwc, 
       xmjf, budget_info_id, del_flag, 
       append_files, remark)
     values (#{dataId,jdbcType=VARCHAR}, #{parentDataId,jdbcType=VARCHAR}, #{nd,jdbcType=VARCHAR}, 
       #{dataVersion,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR}, #{updateTime,jdbcType=VARCHAR}, 
       #{createrName,jdbcType=VARCHAR}, #{createrId,jdbcType=VARCHAR}, #{no,jdbcType=INTEGER}, 
       #{displayName,jdbcType=VARCHAR}, #{simpleName,jdbcType=VARCHAR}, #{displayCode,jdbcType=VARCHAR}, 
-      #{simpleCode,jdbcType=VARCHAR}, #{level,jdbcType=INTEGER}, #{yswc,jdbcType=DOUBLE}, 
+      #{simpleCode,jdbcType=VARCHAR}, #{level,jdbcType=INTEGER}, #{yjwc,jdbcType=DOUBLE}, 
       #{xmjf,jdbcType=DOUBLE}, #{budgetInfoId,jdbcType=VARCHAR}, #{delFlag,jdbcType=INTEGER}, 
       #{appendFiles,jdbcType=VARCHAR}, #{remark,jdbcType=LONGVARCHAR})
   </insert>
@@ -202,8 +202,8 @@
       <if test="level != null">
         level,
       </if>
-      <if test="yswc != null">
-        yswc,
+      <if test="yjwc != null">
+        yjwc,
       </if>
       <if test="xmjf != null">
         xmjf,
@@ -264,8 +264,8 @@
       <if test="level != null">
         #{level,jdbcType=INTEGER},
       </if>
-      <if test="yswc != null">
-        #{yswc,jdbcType=DOUBLE},
+      <if test="yjwc != null">
+        #{yjwc,jdbcType=DOUBLE},
       </if>
       <if test="xmjf != null">
         #{xmjf,jdbcType=DOUBLE},
@@ -335,8 +335,8 @@
       <if test="record.level != null">
         level = #{record.level,jdbcType=INTEGER},
       </if>
-      <if test="record.yswc != null">
-        yswc = #{record.yswc,jdbcType=DOUBLE},
+      <if test="record.yjwc != null">
+        yjwc = #{record.yjwc,jdbcType=DOUBLE},
       </if>
       <if test="record.xmjf != null">
         xmjf = #{record.xmjf,jdbcType=DOUBLE},
@@ -374,7 +374,7 @@
       display_code = #{record.displayCode,jdbcType=VARCHAR},
       simple_code = #{record.simpleCode,jdbcType=VARCHAR},
       level = #{record.level,jdbcType=INTEGER},
-      yswc = #{record.yswc,jdbcType=DOUBLE},
+      yjwc = #{record.yjwc,jdbcType=DOUBLE},
       xmjf = #{record.xmjf,jdbcType=DOUBLE},
       budget_info_id = #{record.budgetInfoId,jdbcType=VARCHAR},
       del_flag = #{record.delFlag,jdbcType=INTEGER},
@@ -400,7 +400,7 @@
       display_code = #{record.displayCode,jdbcType=VARCHAR},
       simple_code = #{record.simpleCode,jdbcType=VARCHAR},
       level = #{record.level,jdbcType=INTEGER},
-      yswc = #{record.yswc,jdbcType=DOUBLE},
+      yjwc = #{record.yjwc,jdbcType=DOUBLE},
       xmjf = #{record.xmjf,jdbcType=DOUBLE},
       budget_info_id = #{record.budgetInfoId,jdbcType=VARCHAR},
       del_flag = #{record.delFlag,jdbcType=INTEGER},
@@ -451,8 +451,8 @@
       <if test="level != null">
         level = #{level,jdbcType=INTEGER},
       </if>
-      <if test="yswc != null">
-        yswc = #{yswc,jdbcType=DOUBLE},
+      <if test="yjwc != null">
+        yjwc = #{yjwc,jdbcType=DOUBLE},
       </if>
       <if test="xmjf != null">
         xmjf = #{xmjf,jdbcType=DOUBLE},
@@ -487,7 +487,7 @@
       display_code = #{displayCode,jdbcType=VARCHAR},
       simple_code = #{simpleCode,jdbcType=VARCHAR},
       level = #{level,jdbcType=INTEGER},
-      yswc = #{yswc,jdbcType=DOUBLE},
+      yjwc = #{yjwc,jdbcType=DOUBLE},
       xmjf = #{xmjf,jdbcType=DOUBLE},
       budget_info_id = #{budgetInfoId,jdbcType=VARCHAR},
       del_flag = #{delFlag,jdbcType=INTEGER},
@@ -510,7 +510,7 @@
       display_code = #{displayCode,jdbcType=VARCHAR},
       simple_code = #{simpleCode,jdbcType=VARCHAR},
       level = #{level,jdbcType=INTEGER},
-      yswc = #{yswc,jdbcType=DOUBLE},
+      yjwc = #{yjwc,jdbcType=DOUBLE},
       xmjf = #{xmjf,jdbcType=DOUBLE},
       budget_info_id = #{budgetInfoId,jdbcType=VARCHAR},
       del_flag = #{delFlag,jdbcType=INTEGER},
