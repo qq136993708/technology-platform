@@ -666,9 +666,9 @@ layui.define(['jquery','form','table','laydate'],
                             $("#"+id+" table tbody tr:eq("+i+") td:eq(2) input").val(strArrC[2]);
                             $("#"+id+" table tbody tr:eq("+i+") td:eq(3)").html(strArrC[3]);
                         }
-                        strArrC1+=parseFloat(strArrC[1]).toFixed(2);
-                        strArrC2+=parseFloat(strArrC[2]).toFixed(2);
-                        strArrC3+=parseFloat(strArrC[3]).toFixed(2);
+                        strArrC1+=parseFloat(strArrC[1]);
+                        strArrC2+=parseFloat(strArrC[2]);
+                        strArrC3+=parseFloat(strArrC[3]);
                     });
                     $("#"+id+" table tbody tr:last td:eq(1)").text(strArrC1);
                     $("#"+id+" table tbody tr:last td:eq(2)").text(strArrC2);

@@ -77,6 +77,9 @@ public class ProjectTaskController extends BaseController {
 	//任务填写
 	@RequestMapping(value = "/write_list")
 	public String write_list(HttpServletRequest request, HttpServletResponse response) {
+		
+		String userId=sysUserInfo.getUserId();
+		request.setAttribute("userId", userId);
 		return "/stp/equipment/task/write_list";
 	}
 	
@@ -84,6 +87,9 @@ public class ProjectTaskController extends BaseController {
 	//任务上报
 	@RequestMapping(value = "/apply_list")
 	public String apply_list(HttpServletRequest request, HttpServletResponse response) {
+		
+		String applyUnitCode=sysUserInfo.getUnitCode();
+		request.setAttribute("leadUnitCode", applyUnitCode);
 		return "/stp/equipment/task/apply_list";
 	}
 		
@@ -113,8 +119,7 @@ public class ProjectTaskController extends BaseController {
 		JSONObject parmamss = JSONObject.parseObject(JSONObject.toJSONString(param));
 		logger.info("============参数：" + parmamss.toString());
 		
-		String applyUnitCode=sysUserInfo.getUnitCode();
-		param.getParam().put("applyUnitCode", applyUnitCode);
+		
 		
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);

@@ -14,7 +14,10 @@
 <form action=""  name="form1" id="form1" action="" method="POST">
 <input  name="functionId"     id="functionId"      type="hidden">
 <input  name="userIds"        id="userIds"         type="hidden">
-<input  name="taskId"         id="taskId"              type="hidden" >
+<input  name="taskId"         id="taskId"          type="hidden" >
+<input  name="leadUnitCode"   id="leadUnitCode"    value="${leadUnitCode}"        type="hidden" >
+
+
 </form>
     <!--查询条件-->
     <input type="hidden" name="auditStatus" id="auditStatus" value="${auditStatus}">
@@ -149,6 +152,7 @@ var name=$('#name').val();
             	} else 
             	{
             		var taskId=selectRowData.taskId;
+            		$('#taskId').val(taskId);
             		var auditStatus=selectRowData.auditStatus;
             		if(auditStatus!=='0')
            			{
@@ -527,6 +531,7 @@ var name=$('#name').val();
     function handleTask(userIds) 
     {
     	$('#userIds').val(userIds);
+    	var v_date=(new Date()).getTime();
         var url="/sre_project_task/start_workflow?v_date="+v_date;
         var backurl="/sre_project_task/apply_list?v_date="+v_date;
         ajaxOpt(url,"form1","POST",backurl,"提交成功","提交失败");

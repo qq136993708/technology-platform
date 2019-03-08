@@ -34,4 +34,12 @@ public class UnitPageController
 		request.setAttribute("funcName", funcName);
 		return "base/unit/chooseUnit";
 	}
+	
+	
+	@RequestMapping(value = "/choose_unit_users", method = RequestMethod.GET)
+	public String choose_unit_users( HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		return "base/unit/choose_unit_users";
+	}
+	
 }
