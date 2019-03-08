@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>左树右表</title>
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/ztree/css/metroStyle/metroStyle.css">
+
+    <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+    <script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.core.js"></script>
+    <script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.excheck.min.js"></script>
+    <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+</head>
+<style>
+    .rowForm {
+        height: 226px;
+        border-top: 1px solid #e6e6e6;
+        padding-right: 30px;
+    }
+
+    .layui-textarea {
+        min-height: 28px;
+    }
+
+    .treeBox {
+        height: 100%;
+        top: 0;
+    }
+
+    .layui-input, .layui-select {
+        height: 28px;
+    }
+
+    .layui-input-block {
+        min-height: 28px;
+    }
+</style>
+<body>
+<div class="treeTableContainer">
+    <div class="treeBox">
+        <div class="title-box title-btns">组织机构
+        </div>
+        <div class="layui-side-scroll">
+         <input type="text" name="searchUnitName" id="searchUnitName" placeholder="机构名称" autocomplete="off" class="form-control"> 
+         <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="loadUnitTree('')"  >查询</button>
+         <ul id="unitTree" class="ztree"></ul>
+        </div>
+    </div>
+    <div class="treeTableBox" style="margin-top: 10px;">
+        <div class="tableToolBox"></div>
+        <table id="tableData" class="layui-hide" lay-filter="tableData"></table>
+    </div>
+    <div class="form-bottom">
+       <div class="form-bottom-btns">
+           <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue"
+            lay-filter="component-form-demo1" id="sureBtn" data-type="transmit">确定
+       		</button>
+           <button type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white"
+                   id="closeBtn">关闭
+           </button>
+       </div>
+	</div>
+</div>
+<script type="text/javascript">
+    var unitId, zTreeObj, table, form, unitType = {}, postType = {}, selectRowData;
+    var dParam = {};
+    var setting =
+    {
+        //check: { enable: true, chkStyle: "radio", radioType: "level" },//单选按钮
+        data: {simpleData: {enable: true}},
+        callback: {onClick: onClickMenu}
+    };
+    //单击选择
+    function onClickMenu(event, treeId, treeNode, clickFlag) {
+        unitId = treeNode.id;
+        dParam = {param: {"unitId": unitId}};
+        renderTable();
+    }
+    //从新加载树
+    function loadUnitTree(unitId) {
+        ajaxPost("/unit/ztree-unit-list", {"name":$("#searchUnitName").val()}, function (dt) {
+            zTreeObj = $.fn.zTree.init($("#unitTree"), setting, dt);
+            zTreeObj.expandAll(true);
+        });
+        //如果指定某个节点，则选中出发选中事件
+        if (unitId) {
+            var node = zTreeObj.getNodeByParam("id", unitId);
+            if (node) {
+                //参数 1是否单独选中（追加选中true，单独选中false） 2滚动到可视区域（是false，否true）
+                zTreeObj.selectNode(node, false, true);
+            }
+        }
+    }
+    
+  
+  
+    //初始化树型结构
+    $(document).ready(function () {
+        //初始机构类型
+        ajaxPost("/dictionary/list/ROOT_XTGL_JGLX", null, function (data) {
+            $.each(data, function (i, dt) {
+                unitType[data[i].code] = data[i].name;
+            });
+        });
+        //加载机构树
+        loadUnitTree();
+    });
+    layui.use(['jquery', 'form', 'laydate', 'table', 'layer', 'element'], function () {
+        var $ = layui.jquery, element = layui.element, layer = layui.layer;
+        table = layui.table;
+        form = layui.form;
+        form.render();
+        window.renderTable = function () {
+            var lodingMsg = layer.msg('数据加载中....');
+            var param = JSON.parse(window.localStorage.getItem("param"));
+            table.render({
+                elem: '#tableData',
+                url: '/user/querySysUserListByPage',
+                method: "POST",
+                where: dParam,
+                limit: param.selfRownum,
+                id: 'tableData',
+                height: commonDislodgeTable()-20,
+                page: {
+                    groups: 5,
+                    limits: [param.selfRownum, 30, 45, 60],
+                    layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
+                    first: '首页', //不显示首页
+                    last: '尾页', //不显示尾页
+                    theme: '#0F9EE0'
+                },
+                cols: [[
+                    {type: 'checkbox'},
+                    {title: '序号', type: 'numbers'},
+                    {field: 'userDisp', title: '人员名称', style: 'cursor:pointer;'},
+                    {field: 'userId', title: '人员ID', style: 'cursor:pointer;'}
+                ]],
+                done: function (res, curr, count) {
+                    layer.close(lodingMsg);
+                    $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+  	                	var index=parseInt($(this).index()+1);
+  	                    $('tr').removeClass('layui-table-click');
+  	                    $(this).addClass('layui-table-click');
+  	                    $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+  	                    $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+  	                    selectRowData=res.data[index-1];
+  	                });
+                }
+            });
+        }
+        renderTable();
+        var $ = layui.$, active = {
+	        transmit: function() { //点击重置按钮
+	        	if (typeof(selectRowData) == "undefined"){
+           			layer.msg('请点击选择一行数据');
+               	} else{
+               	 var userDisp=selectRowData.userDisp;
+                 var userId=selectRowData.userId;
+                 
+                 layer.confirm('选择人员：'+userDisp, { btn: ['确定','取消']}, function(){
+                	 var index = parent.layer.getFrameIndex(window.name);
+                     parent.layer.close(index);
+                		parent.setSelectUnitUser(userDisp,userId);
+                	 
+     			}, function(){
+     			 
+     			});
+                 
+               		
+               	}
+        	},
+    	};
+        //区别按钮属性
+        $('.layui-btn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+        $(".layui-table-header table thead th input").remove();
+        
+        
+        
+        $('.layui-btn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+    });
+</script>
+</body>
+</html>

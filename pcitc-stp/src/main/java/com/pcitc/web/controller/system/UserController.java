@@ -51,6 +51,9 @@ public class UserController extends BaseController {
 	private static final String USER_LIST_PAGE_URL = "http://pcitc-zuul/system-proxy/user-provider/user/user-list";
 	private static final String USER_DEL_URL = "http://pcitc-zuul/system-proxy/user-provider/user/delete-user/";
 	private static final String USER_UNIQUE_CHECK_URL = "http://pcitc-zuul/system-proxy/user-provider/user/user-validate";
+	
+	private static final String QUERY_SYS_USER_LIST_BY_PAGE = "http://pcitc-zuul/system-proxy/user-provider/user/querySysUserListByPage/";
+
 	// private static final String USER_GET_BY_UNIT =
 	// "http://pcitc-zuul/system-proxy/user-provider/user/get-user-by-unit";
 	private static final String USER_DELUSERS = "http://pcitc-zuul/system-proxy/user-provider/user/delete-users";
@@ -419,4 +422,19 @@ public class UserController extends BaseController {
 			return new Result(true, "密码修改成功！");
 		}
 	}
+	
+	
+	
+	@RequestMapping(value = "/user/querySysUserListByPage", method = RequestMethod.POST)
+	@ResponseBody
+	public Object querySysUserListByPage(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request) throws IOException {
+		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
+	    ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(QUERY_SYS_USER_LIST_BY_PAGE, HttpMethod.POST, entity, LayuiTableData.class);
+	    LayuiTableData result = responseEntity.getBody();
+	    JSONObject retJson = (JSONObject) JSON.toJSON(result);
+		return retJson;
+	}
+
+	
+	
 }
