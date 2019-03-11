@@ -360,6 +360,27 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
             }
             data.setData(expertsData);
         } else if ("guding".equals(strType)) {
+
+            Object expertName = param.getParam().get("expertName");
+            if (!StrUtil.isObjectEmpty(expertName)) {
+                c.andExpertNameLike("%" + expertName + "%");
+            }
+
+            Object expertProfessinal = param.getParam().get("expertProfessinal");
+            if (!StrUtil.isObjectEmpty(expertProfessinal)) {
+                c.andExpertProfessinalEqualTo(expertProfessinal.toString());
+            }
+
+            Object expertProfessionalField = param.getParam().get("expertProfessionalField");
+            if (!StrUtil.isObjectEmpty(expertProfessionalField)) {
+                c.andExpertProfessionalFieldEqualTo(expertProfessionalField.toString());
+            }
+
+            Object email = param.getParam().get("email");
+            if (!StrUtil.isObjectEmpty(email)) {
+                c.andEmailLike("%" + email + "%");
+            }
+
             data = zjkBaseInfoService.findByExample(param, example);
         } else {
             Object expertId = map.get("expertId");
