@@ -91,8 +91,6 @@ public class ProjectBasicController extends BaseController {
 	@ResponseBody
 	public String ajaxlist(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 		
-		JSONObject parmamss = JSONObject.parseObject(JSONObject.toJSONString(param));
-		
 		String applyUnitCode=sysUserInfo.getUnitCode();
 		param.getParam().put("applyUnitCode", applyUnitCode);
 		
@@ -108,6 +106,8 @@ public class ProjectBasicController extends BaseController {
 		return result.toString();
 	}
 
+	
+	
 	/**
 	 * 增加
 	 * 
@@ -328,6 +328,39 @@ public class ProjectBasicController extends BaseController {
 			resultsDate = new Result(false, RequestProcessStatusEnum.SERVER_BUSY.getStatusDesc());
 		}
 
+		response.setContentType("text/html;charset=UTF-8");
+		PrintWriter out = response.getWriter();
+		JSONObject ob = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
+		out.println(ob.toString());
+		out.flush();
+		out.close();
+		return null;
+	}
+	
+	
+	
+	
+	@RequestMapping(method = RequestMethod.POST, value = "/update")
+	public String update(HttpServletRequest request, HttpServletResponse response) throws Exception 
+	{
+		
+		Result resultsDate = new Result();
+		String id = CommonUtil.getParameter(request, "id", "");
+		String taskWriteUserNames = CommonUtil.getParameter(request, "taskWriteUserNames", "");
+		String taskWriteUsersIds = CommonUtil.getParameter(request, "taskWriteUsersIds", "");
+		logger.info("============远程返回  id " + id+" taskWriteUserNames="+taskWriteUserNames+"  taskWriteUsersIds="+taskWriteUsersIds);
+		
+		SreProject sreProject=this.getSreProject(id);
+		sreProject.setTaskWriteUserNames(taskWriteUserNames);
+		sreProject.setTaskWriteUsersIds(taskWriteUsersIds);
+		String str=this.updateSreProject(sreProject);
+		if(!str.equals(""))
+		{
+			resultsDate = new Result(true, RequestProcessStatusEnum.OK.getStatusDesc());
+		}else
+		{
+			resultsDate = new Result(false, RequestProcessStatusEnum.NETWORK_ERROR.getStatusDesc());
+		}
 		response.setContentType("text/html;charset=UTF-8");
 		PrintWriter out = response.getWriter();
 		JSONObject ob = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));

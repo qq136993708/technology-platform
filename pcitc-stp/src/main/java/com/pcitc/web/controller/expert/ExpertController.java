@@ -10,7 +10,6 @@ import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.ReverseSqlResult;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.OperationFilter;
-import com.pcitc.web.utils.HanaUtil;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -18,8 +17,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -85,6 +82,8 @@ public class ExpertController extends BaseController {
     private static final String LIST_ZL_TABLE = "http://pcitc-zuul/stp-proxy/zjkzhuanli-provider/zjkzhuanli/zjkzhuanli-page";
 
     private static final String SAVECHOICE = "http://pcitc-zuul/stp-proxy/zjkchoice-provider/zjkchoice/save_zjkchoice_update";
+
+    private static final String SAVECHOICE_BAT = "http://pcitc-zuul/stp-proxy/zjkchoice-provider/zjkchoice/save_zjkchoice_bat";
 
     //备选查询
     private static final String LISTBAK = "http://pcitc-zuul/stp-proxy/zjkchoice-provider/zjkchoice/zjkchoice_list";
@@ -178,17 +177,17 @@ public class ExpertController extends BaseController {
         ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LIST_RANDOM, HttpMethod.POST, new HttpEntity<ZjkExpert>(expert, this.httpHeaders), JSONObject.class);
         JSONObject retJson = responseEntity.getBody();
         List<ZjkExpert> list = (List<ZjkExpert>) retJson.get("list");
-        request.setAttribute("expert",list);
+        request.setAttribute("expert", list);
 
         //机构
-        ResponseEntity<String> responseEntityJg = restTemplate.exchange(UNIT_LIST_ZTREE_DATA, HttpMethod.POST, new HttpEntity<Object>("",this.httpHeaders), String.class);
+        ResponseEntity<String> responseEntityJg = restTemplate.exchange(UNIT_LIST_ZTREE_DATA, HttpMethod.POST, new HttpEntity<Object>("", this.httpHeaders), String.class);
         System.out.println(responseEntityJg.getBody());
-        request.setAttribute("agent",responseEntityJg.getBody());
+        request.setAttribute("agent", responseEntityJg.getBody());
 
         //行业领域
-        List<SysDictionary> dictionarys = this.restTemplate.exchange(DICTIONARY_LIST+"ZJK_XYLY", HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), List.class).getBody();
+        List<SysDictionary> dictionarys = this.restTemplate.exchange(DICTIONARY_LIST + "ZJK_XYLY", HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), List.class).getBody();
 
-        request.setAttribute("dictionarys",dictionarys);
+        request.setAttribute("dictionarys", dictionarys);
 //        request.setAttribute("dictionarys",JSON.toJSONString(dictionarys));
         return "stp/expert/pageExpertIndexNew";
     }
@@ -462,6 +461,33 @@ public class ExpertController extends BaseController {
         return result;
     }
 
+    @RequestMapping(value = "/addChoiceList")
+    @ResponseBody
+    public int addChoiceList() {
+        String param = request.getParameter("param");
+        JSONArray array =JSON.parseArray(param);
+        List<ZjkChoice> zjkChoices = new ArrayList<>();
+        for (int i = 0,j = array.size(); i < j; i++) {
+            ZjkChoice record = JSONObject.toJavaObject((JSON) array.get(i), ZjkChoice.class);
+            record.setAddUserId(sysUserInfo.getUserId());
+            record.setYear(DateUtil.format(new Date(), DateUtil.FMT_YYYY));
+            record.setCreateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
+            record.setCreateUser(sysUserInfo.getUserId());
+            record.setCreateUserName(sysUserInfo.getUserName());
+            record.setUpdateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
+            record.setUpdateUser(sysUserInfo.getUserId());
+            zjkChoices.add(record);
+        }
+        System.out.println(JSONObject.toJSON(zjkChoices).toString());
+
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        JSONObject object = new JSONObject();
+        object.put("list",JSONArray.toJSONString(zjkChoices));
+        ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(SAVECHOICE_BAT, HttpMethod.POST, new HttpEntity<JSONObject>(object, this.httpHeaders), Integer.class);
+        Integer result = responseEntity.getBody();
+        return result;
+    }
+
     /**
      * 备选查询
      *
@@ -566,7 +592,6 @@ public class ExpertController extends BaseController {
 //        System.out.println(object);
 
 //        return object.get("result");
-        System.out.println("object = " + object.isEmpty());
         return JSONObject.parseObject(JSONObject.toJSONString(object.get("result"))).toString();
     }
 
@@ -575,17 +600,19 @@ public class ExpertController extends BaseController {
 
     /**
      * 已选专家页面跳转
+     *
      * @return
      * @throws Exception
      */
     @RequestMapping(value = "/showExpertPage")
     public String showExpertPage() throws Exception {
-        request.setAttribute("projectId",request.getParameter("projectId"));
+        request.setAttribute("projectId", request.getParameter("projectId"));
         return "/stp/expert/showExpertPage";
     }
 
     /**
      * 项目列表
+     *
      * @return
      * @throws Exception
      */
@@ -596,6 +623,7 @@ public class ExpertController extends BaseController {
 
     /**
      * 项目列表-研究院
+     *
      * @return
      * @throws Exception
      */
@@ -618,17 +646,19 @@ public class ExpertController extends BaseController {
 
     /**
      * 页面跳转
+     *
      * @return
      */
     @RequestMapping(value = "/getUserChoicePage", method = RequestMethod.GET)
     public String getUserChoicePage() {
-        request.setAttribute("projectId",request.getParameter("projectId"));
-        request.setAttribute("projectName",request.getParameter("projectName"));
+        request.setAttribute("projectId", request.getParameter("projectId"));
+        request.setAttribute("projectName", request.getParameter("projectName"));
         return "stp/expert/expert_choice";
     }
 
     /**
      * 专家查询：随机
+     *
      * @return
      */
     @RequestMapping(value = "/getUserChoiceTableData", method = RequestMethod.POST)

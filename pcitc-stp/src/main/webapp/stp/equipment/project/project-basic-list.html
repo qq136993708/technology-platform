@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()" media="all">
     <script src="/layuiadmin/layui/layui.js"></script>
-       <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+    <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
 </head>
 <body>
 <div class="searchBox">
@@ -138,26 +138,7 @@ var name=$('#name').val();
             	$('#setupYear').val("");
             	$('#auditStatus').val("");
             },
-            addPlanEvent: function(){ //新增计划
-            	if (typeof(selectRowData.id) == "undefined") {
-            		layer.msg('请点击选择一行数据');
-            	} else {
-            		
-            		 var id=selectRowData.id;
-	                 layer.open({
-	                    title:'新增技术交流',
-	                    skin: 'layui-layer-lan',
-	                    shadeClose: true,
-	                    type: 2,
-	                    fixed: false,
-	                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-	                    maxmin: false,
-	                    //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-	                    area: ['60%', '80%'],
-	                    content:  '/sre-meeting/add?id='+id
-	                   });
-            	}
-            },
+            
             addEvent: function(){ //点击新增按钮
             		 layer.open({
                          title:'计划上报-新增',
@@ -175,9 +156,9 @@ var name=$('#name').val();
             }
             ,editEvent: function(){  //点击编辑按钮
             	
-            	if (typeof(selectRowData.id) == "undefined") {
-            		layer.msg('请点击选择一行数据');
-            	} else {
+            	if (typeof(selectRowData) == "undefined"){
+           			layer.msg('请点击选择一行数据');
+               	} else {
             		 var id=selectRowData.id;
            		     var url="/sre-project-basic/add?id="+id;
            		     var status=selectRowData.status;
@@ -204,7 +185,7 @@ var name=$('#name').val();
                
             },deleteEvent: function(){  //点击删除按钮
                  console.log('点击了删除按钮')
-                 if (typeof(selectRowData.id) == "undefined") 
+                 if (typeof(selectRowData) == "undefined") 
                  {
             		layer.msg('请点击选择一行数据');
             	 } else 
@@ -228,7 +209,7 @@ var name=$('#name').val();
               
             },
             detailEvent: function(){  //点击详情按钮
-            	if (typeof(selectRowData.id) == "undefined") {
+            	if (typeof(selectRowData) == "undefined") {
             		layer.msg('请点击选择一行数据');
             	} else {
             		 var id=selectRowData.id;
@@ -250,7 +231,7 @@ var name=$('#name').val();
             },
             taskEvent: function(){  //点击详情按钮
             	
-            	if (typeof(selectRowData.id) == "undefined") 
+            	if (typeof(selectRowData) == "undefined") 
             	{
             		layer.msg('请点击选择一行数据');
             	}

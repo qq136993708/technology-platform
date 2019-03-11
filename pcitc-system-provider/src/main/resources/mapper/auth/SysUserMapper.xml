@@ -627,4 +627,33 @@
 		</if>
 		group by sys_user.user_id
 	</select>
+	
+	
+	
+	
+	
+	<select id="querySysUserListByPage" resultMap="BaseResultMap">
+		select 
+		<include refid="Base_Column_List" />
+			from sys_user where user_delflag = '0' 
+		<if test="userDisp != null and userDisp != ''">
+			and user_disp like '%${userDisp}%' 
+		</if>
+		<if test="userUnit != null and userUnit != ''">
+			and user_unit = #{userUnit} 
+		</if>
+			order by user_disp desc 
+   </select>
+   <select id="countByQuerySysUserList" resultType="java.lang.Long">
+		select count(*) from sys_user where user_delflag = '0'  
+    	<if test="userDisp != null and userDisp != ''">
+			and user_disp like '%${userDisp}%' 
+		</if>
+		<if test="userUnit != null and userUnit != ''">
+			and user_unit = #{userUnit} 
+		</if>
+  </select>
+	
+	
+	
 </mapper>

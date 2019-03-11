@@ -36,6 +36,7 @@
                 layedit: "modules/layedit",
                 form: "modules/form",
                 upload: "modules/upload",
+                upload2: "modules/upload2",
                 tree: "modules/tree",
                 table: "modules/table",
                 element: "modules/element",

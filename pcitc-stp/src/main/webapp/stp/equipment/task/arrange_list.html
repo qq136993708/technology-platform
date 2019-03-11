@@ -7,12 +7,22 @@
     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()" media="all">
     <script src="/layuiadmin/layui/layui.js"></script>
-       <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+    <script src="/common/js/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
 </head>
 <body>
 <div class="searchBox">
     <!--查询条件-->
-    <input type="hidden" name="auditStatus" id="auditStatus" value="${auditStatus}">
+    <form action="" name="form1"  id="form1" >
+       <input type="hidden" name="taskWriteUserNames" id="taskWriteUserNames" >
+       <input type="hidden" name="taskWriteUsersIds" id="taskWriteUsersIds" >
+       <input type="hidden" name="id" id="id" >
+    </form>
+     <form action="" name="form2"  id="form2" >
+       <input type="hidden" name="auditStatus" id="auditStatus" value="${auditStatus}">
+       <input type="hidden" name="functionId" id="functionId" >
+     </form>
+    
     
     <label class="dateInput">
         <span>课题名称</span>
@@ -72,12 +82,20 @@
           {{#  } }}
 </script>
 <!--表格数据操作js-->
-<script src="/common/js/jquery-1.11.3.min.js"></script>
+
 <script>
 var publicMethods;
 var param=JSON.parse(window.localStorage.getItem("param"));
 var functionId=param.id;
 $('#functionId').val(functionId);
+
+
+var roleCodes = "";
+var unitCodes = "";
+var postCodes = "";
+
+
+
 
 var table,selectRowData;
 var name=$('#name').val();
@@ -112,7 +130,7 @@ var name=$('#name').val();
             },
              taskEvent: function(){  //点击详情按钮
             	
-            	if (typeof(selectRowData.id) == "undefined") 
+            	if (typeof(selectRowData) == "undefined") 
             	{
             		layer.msg('请点击选择一行数据');
             	}
@@ -126,9 +144,10 @@ var name=$('#name').val();
             			 return;
            			 }
             		 var id=selectRowData.id;
-            		 var temUrl="/sre_project_task/add?topicId=" + id;
+            		 $("#id").val(id);
+            		 var temUrl="/unit/choose_unit_users";
             		 layer.open({
-	                      title:'编辑',
+	                      title:'选择人员',
 	                      skin: 'layui-layer-lan',
 	                      shadeClose: true,
 	                      type: 2,
@@ -238,12 +257,13 @@ var name=$('#name').val();
     backurl:操作成功后返回地址
     successMsg：成功提示
     failMsg：失败提示 */
-    function ajaxDeleteOpt(url,type,successMsg,failMsg)
+    function ajaxOpt(url,type,successMsg,failMsg)
     {
     	 $.ajax({
       	     type:type,
       	     url: url,
       	     dataType:"json",
+      	   data:$("#form1").serialize(),
       	     async: false, 
       	     cache: false,
       	     contentType: "application/x-www-form-urlencoded; charset=utf-8",
@@ -275,43 +295,18 @@ var name=$('#name').val();
       });
     } 
    
-    function ajaxDeleteCreateWord(url,type,successMsg,failMsg)
-    {
-    	 $.ajax({
-      	     type:type,
-      	     url: url,
-      	     dataType:"json",
-      	     async: false, 
-      	     cache: false,
-      	     contentType: "application/x-www-form-urlencoded; charset=utf-8",
-             success:function(data,status)
-             {    
-    	          
-            	  if(data.success==true ||data.success=='true')
-    	          {
-    	        	  layer.alert(
-    	        			  successMsg, 
-    	                      {icon: 1,closeBtn: 0 },
-    	                      function () 
-    	                      {
-    	                    	  
-    	                    	   layer.closeAll();
-    	                      });
-    	       	   
-    	          } else
-    	          {
-    	        	 layer.alert("操作失败");
-    	          }
-    	     
-    		   },
-    		   error:function()
-    		   {
-    		    	layer.alert("网络访问错误");
-    		   }
-        
-      });
-    } 
 
+    
+    function setSelectUnitUser(taskWriteUserNames,taskWriteUsersIds)
+    {
+    	//alert(taskWriteUserNames);
+    	 $("#taskWriteUserNames").val(taskWriteUserNames);
+    	 $("#taskWriteUsersIds").val(taskWriteUsersIds);
+    	 var url="/sre-project-basic/update";
+    	 ajaxOpt(url,"POST","人员安排成功","安排失败");
+    }
+    
+    
 </script>
 
 </body>
