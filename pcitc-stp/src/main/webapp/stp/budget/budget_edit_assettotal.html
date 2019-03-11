@@ -62,7 +62,7 @@
             <div class="layui-row">
                 <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">2017年预计完成<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">上年预计完成<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
                             <input class="layui-input" id="yjwc" name="yjwc" placeholder="" lay-verify="required" autocomplete="off" type="text">
                         </div>
@@ -70,7 +70,7 @@
                 </div>
                 <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">2018年经费预算<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">本年经费预算<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
                          	<input type="text" id="xmjf" name="xmjf"  placeholder="" lay-verify="required" autocomplete="off" class="layui-input">
                         </div>
@@ -211,8 +211,8 @@
             , totalRow: true
             , cols: [[
                 {field: 'displayName', title: '单位名称',edit:true,totalRowText: '合计'}
-                , {field: 'last_year_end', title: '${nd}预算完成', align: 'right',style: 'cursor: pointer;', width: '15%',totalRow: true}
-                , {field: 'plan_money', title: '${nd}计划金额', align: 'right',style: 'cursor: pointer;', width: '15%',totalRow: true}
+                , {field: 'last_year_end', title: '实际完成', align: 'right',style: 'cursor: pointer;', width: '15%',totalRow: true}
+                , {field: 'plan_money', title: '计划金额', align: 'right',style: 'cursor: pointer;', width: '15%',totalRow: true}
                 , {field: 'yjwc', title: '预计完成', align: 'right',style: 'cursor: pointer;',edit:true, width: '15%',totalRow: true}
                 , {field: 'xmjf', title: '经费预算', align: 'right',style: 'cursor: pointer;',edit:true, width: '15%',totalRow: true}
                 , {title: '操作', style: 'cursor: pointer;', align: 'center', width: '10%', templet: function(d){
@@ -221,8 +221,10 @@
             ]]
             ,done: function (res, curr, count) {
             	 var ysnd = parseInt($("#nd").val());
-            	 $(".layui-table-header .layui-table").find('th').eq(1).find('span').text((ysnd-1)+"预算完成");
+            	 $(".layui-table-header .layui-table").find('th').eq(1).find('span').text((ysnd-1)+"实际完成");
             	 $(".layui-table-header .layui-table").find('th').eq(2).find('span').text(ysnd+"计划金额");
+            	 $(".layui-table-header .layui-table").find('th').eq(3).find('span').text((ysnd-1)+"预计完成");
+            	 $(".layui-table-header .layui-table").find('th').eq(4).find('span').text(ysnd+"经费预算");
             }
         })
         table.on('tool(dataTable)', function (obj) {
