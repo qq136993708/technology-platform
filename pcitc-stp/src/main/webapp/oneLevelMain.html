@@ -223,27 +223,7 @@ var nd=$("#month").val().substring(4,0);
             success: function (data, status) {
                 publicMethods.moduleConfigs(data.data);
                 //删除模块
-                $(".dele").click(function () {
-                    $(this).parents("li").remove();
-                    var classT=0;
-                    if($("#moduleConfig li").eq(0).attr("class")=="layui-col-md6" && $("#moduleConfig li").eq(1).attr("class")=="layui-col-md6"){
-                        $("#moduleConfig li").eq(1).css("margin-top","0px");
-                    }
-                    $("#moduleConfig li").each(function () {
-                        var str=$(this).attr("class");
-                        classT+=parseInt(str.charAt(str.length-1));
-                        //alert(classT)
-                        if(classT>12){
-                            $("#moduleConfig li").eq($(this).index()).prevAll().css("margin-top","0px");
-                            $("#moduleConfig li").eq($(this).index()).css("margin-top","20px");
-                            $("#moduleConfig li").eq($(this).index()).nextAll().css("margin-top","20px");
-                            return false;
-                        }
-                        //alert(classT);
-                        //alert($(this).index())
-                    });
 
-                });
                 //领导讲话
                 $("#layui_leader").on("click",function () {
                     window.open("/instituteIndex?url="+"/layui/leader_speech.html","_target");
@@ -286,10 +266,13 @@ var nd=$("#month").val().substring(4,0);
                 });
 	            init();
                 $("#textBottomTwo").html("48");
-                $("#layui-add").click(function() {
-                    var temUrl = "/moduleConfig.html";
-                    publicMethods.openBaseWin("模块配置", temUrl, "50%", "80%")
-                });
+                window.addLast=function () {
+                    $("#layui-add").click(function() {
+                        var temUrl = "/moduleConfig.html";
+                        publicMethods.openBaseWin("模块配置", temUrl, "50%", "80%")
+                    });
+                }
+                addLast();
                 var fooU = document.getElementById("moduleConfig");
                 Sortable.create(fooU, {draggable:'.item',disabled: false});
             },
