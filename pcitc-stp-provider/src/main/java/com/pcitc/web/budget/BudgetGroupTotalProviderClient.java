@@ -533,7 +533,14 @@ public class BudgetGroupTotalProviderClient
 			for(BudgetInfo info:rs) {
 				List<BudgetGroupTotal> totals = budgetGroupTotalService.selectBudgetInfoId(info.getDataId());
 				Map<String,Object> map  = MyBeanUtils.transBean2Map(info);
-				map.put("items", totals);
+				
+				List<Map<String,Object>> items = new ArrayList<Map<String,Object>>();
+				for(BudgetGroupTotal total:totals) {
+					Map<String,Object> mp  = MyBeanUtils.transBean2Map(total);
+					mp.put("total", new Double(mp.get("zxjf").toString())+new Double(mp.get("xmjf").toString()));
+					items.add(mp);
+				}
+				map.put("items", items);
 				rsmap.add(map);
 			}
 		}
