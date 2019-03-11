@@ -23,35 +23,35 @@
         <div class="selectedProject">
             <p class="title">项目管理</p>
             <div class="option">
-                <p>重大项目及十条龙</p>
-                <p>科研合同</p>
-                <p>重点实验室</p>
-                <p>国际合作</p>
-                <p>科研投入</p>
-                <p>科研装备</p>
+                <!--<p>重大项目及十条龙<span></span></p>-->
+                <p>科研合同<span></span></p>
+                <p>重点实验室<span></span></p>
+                <p>国际合作<span></span></p>
+                <p>科研投入<span></span></p>
+                <p>科研装备<span></span></p>
             </div>
         </div>
         <div class="selectedTechnical">
             <p class="title">经费管理</p>
             <div class="option">
-                <p>科研投入</p>
+                <p>科研投入<span></span></p>
             </div>
         </div>
         <div class="selectedTechnical">
             <p class="title">技术管理</p>
             <div class="option">
-                <p>标准化</p>
+                <p>标准化<span></span></p>
             </div>
         </div>
         <div class="selectedItegrated">
             <p class="title">综合管理</p>
             <div class="option">
-                <p>领导讲话</p>
-                <p>科研人才</p>
-                <p>直属研究院</p>
-                <p>待办督办</p>
-                <p>科技成果</p>
-                <p>知识产权</p>
+                <p>领导讲话<span></span></p>
+                <p>科研人才<span></span></p>
+                <p>直属研究院<span></span></p>
+                <!--<p>待办督办<span></span></p>-->
+                <p>科技成果<span></span></p>
+                <p>知识产权<span></span></p>
             </div>
         </div>
     </div>
@@ -117,6 +117,8 @@
                 {"power":"3", "name":"科研装备","color":"#488c34","img":"/layuiadmin/layui/images/textTopThree.png","class":"layui-col-md3","id":"equipment","spareId":"K0BNGLFPHJECB_t"};
             publicMethods.moduleConfig(data);
         });*/
+
+        dele();
        $(".module").css("height",parent.$(".layui-layer-content").height()-61+"px");
         $(".unselected .option p").click(function () {
             if($(this).attr("class")!="layui-this"){
@@ -124,16 +126,7 @@
                 var html=$(this).html();
                 $(this).addClass("layui-this");
                 $(".selected>div").eq(index).find(".option").append("<p>"+html+"<span></span></p>");
-                $(".option p span").click(function () {
-                    var indexS=$(this).parents(".option").parent().index();
-                    var htmlS=$(this).parent().text();
-                    $(this).parent().remove();
-                    $(".unselected>div").eq(indexS).find(".option p").each(function () {
-                        if(htmlS.indexOf($(this).html())!= -1){
-                            $(this).removeClass("layui-this");
-                        }
-                    });
-                });
+                dele();
             }
         });
         $("#confirm").click(function () {
@@ -153,11 +146,30 @@
                     $.each(selectedOP,function (index,d) {
                         $.each(data.data,function (index,dt) {
                             if(dt.name==d){
-                                publicMethods.moduleConfig(dt)
+                                publicMethods.moduleConfig(dt);
                             }
                         });
                     })
-
+                    if(parent.$("#moduleConfig li").length<16){
+                        var htmlA="<li class='layui-col-md3'>" +
+                            "           <div class='layui-col-md' id='layui-add'>" +
+                            "               <div class='layui-add'>" +
+                            "                   <img src='/layuiadmin/layui/images/icon-puls.png'/>" +
+                            "               </div>" +
+                            "           </div>" +
+                            "      </li>";
+                        parent.$("#moduleConfig").append(htmlA);
+                    }else {
+                        var htmlA="<li class='layui-col-md3'>" +
+                            "           <div class='layui-col-md' id='layui-add'>" +
+                            "               <div class='layui-add'>" +
+                            "                   <img src='/layuiadmin/layui/images/icon-puls.png'/>" +
+                            "               </div>" +
+                            "           </div>" +
+                            "      </li>";
+                        parent.$(".layui-row-special ul").append(htmlA);
+                    }
+                    parent.addLast();
                     //publicMethods.moduleConfigs(data.data);
                 },
                 error : function(err, err1, err2) {
@@ -171,6 +183,18 @@
             var index = parent.layer.getFrameIndex(window.name);
             parent.layer.close(index);
         });
+        function dele() {
+            $(".option p span").click(function () {
+                var indexS=$(this).parents(".option").parent().index();
+                var htmlS=$(this).parent().text();
+                $(this).parent().remove();
+                $(".unselected>div").eq(indexS).find(".option p").each(function () {
+                    if(htmlS.indexOf($(this).html())!= -1){
+                        $(this).removeClass("layui-this");
+                    }
+                });
+            });
+        }
     });
 </script>
 </body>
