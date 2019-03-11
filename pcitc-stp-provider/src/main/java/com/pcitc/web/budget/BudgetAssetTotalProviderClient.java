@@ -511,7 +511,7 @@ public class BudgetAssetTotalProviderClient
 			List<BudgetAssetTotal> rs = budgetAssetTotalService.selectAssetTotalHistoryItems(item);
 			for(BudgetAssetTotal total:rs) {
 				Map<String,Object> map  = MyBeanUtils.transBean2Map(total);
-				map.put("total", new Double(map.get("zxjf").toString())+new Double(map.get("xmjf").toString()));
+				map.put("total", new Double(map.get("yjwc").toString())+new Double(map.get("xmjf").toString()));
 				rsmap.add(map);
 			}
 		}
