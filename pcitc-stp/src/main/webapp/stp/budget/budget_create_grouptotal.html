@@ -62,13 +62,14 @@
 	layui.use(['jquery', 'table', 'laydate', 'layer','publicMethods'], function () {
 		var $ = layui.jquery, table = layui.table, laydate = layui.laydate, layer = layui.layer,publicMethods=layui.publicMethods;
 		var cu_date = "${nd}";
+		var select_date ="${nd}";
 		var curent_tabel_data = null;
 	 	laydate.render({
            	elem: '#choose-year'
            	,value: cu_date
            	,type: 'year'
            	,done:function (val, date, endDate) {
-            		cu_date = val;
+           		select_date = val;
             		reloadTable();
             }
 	 	});
@@ -94,7 +95,7 @@
         });
 	    function reloadTable()
 	    {
-	    	publicMethods.ajaxPost("/budget/budget_group_info_table",{page:1,limit:100,param: {"nd":cu_date}}, function (data) {
+	    	publicMethods.ajaxPost("/budget/budget_group_info_table",{page:1,limit:100,param: {"nd":select_date}}, function (data) {
 	        	curent_tabel_data = data.data;
 	        	table.reload('dataTable', {data: data.data});
 	        	//处理下拉框

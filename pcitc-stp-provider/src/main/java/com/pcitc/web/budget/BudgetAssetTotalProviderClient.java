@@ -253,6 +253,13 @@ public class BudgetAssetTotalProviderClient
 			
 			
 			newInfo = budgetInfoService.createBlankBudgetInfo(oldInfo);
+			
+			newInfo.setBudgetMoney(oldInfo.getBudgetMoney());
+			newInfo.setNd(info.getNd());
+			newInfo.setCreaterId(info.getCreaterId());
+			newInfo.setCreaterName(info.getCreaterName());
+			
+			budgetInfoService.updateBudgetInfo(newInfo);
 			//获取模板数据
 			List<BudgetAssetTotal> templates = budgetAssetTotalService.selectBudgetAssetTotalByInfoId(info.getDataId());
 			Map<String,String> idRel = new HashMap<String,String>();//新老ID对照
@@ -263,6 +270,7 @@ public class BudgetAssetTotalProviderClient
 				
 				total.setBudgetInfoId(newInfo.getDataId());
 				total.setDataVersion(newInfo.getDataVersion());
+				total.setNd(newInfo.getNd());
 				total.setDataId(newId);
 				total.setUpdateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
 				total.setCreateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
@@ -277,9 +285,6 @@ public class BudgetAssetTotalProviderClient
 					budgetAssetTotalService.updateBudgetAssetTotal(total);
 				}
 			}
-			newInfo.setBudgetMoney(oldInfo.getBudgetMoney());
-			budgetInfoService.updateBudgetInfo(newInfo);
-			System.out.println(JSON.toJSONString(newInfo));
 		}
 		catch (Exception e)
 		{
