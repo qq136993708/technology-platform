@@ -233,7 +233,7 @@ public class BudgetGroupTotalProviderClient
 		try
 		{
 			info.setBudgetType(BudgetInfoEnum.GROUP_TOTAL.getCode());
-			rsbean = budgetInfoService.createBlankBudgetInfo(info);
+			rsbean = budgetInfoService.createBlankBudgetInfo(info.getNd(),info);
 		}
 		catch (Exception e)
 		{
@@ -252,7 +252,7 @@ public class BudgetGroupTotalProviderClient
 			//System.out.println(JSON.toJSONString(info.getNd()));
 			BudgetInfo oldInfo = budgetInfoService.selectBudgetInfo(info.getDataId());
 			
-			newInfo = budgetInfoService.createBlankBudgetInfo(oldInfo);
+			newInfo = budgetInfoService.createBlankBudgetInfo(info.getNd(),oldInfo);
 			
 			newInfo.setBudgetMoney(oldInfo.getBudgetMoney());
 			newInfo.setNd(info.getNd());

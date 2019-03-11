@@ -232,7 +232,7 @@ public class BudgetAssetTotalProviderClient
 		try
 		{
 			info.setBudgetType(BudgetInfoEnum.ASSETS_TOTAL.getCode());
-			rsbean = budgetInfoService.createBlankBudgetInfo(info);
+			rsbean = budgetInfoService.createBlankBudgetInfo(info.getNd(),info);
 		}
 		catch (Exception e)
 		{
@@ -252,7 +252,7 @@ public class BudgetAssetTotalProviderClient
 			BudgetInfo oldInfo = budgetInfoService.selectBudgetInfo(info.getDataId());
 			
 			
-			newInfo = budgetInfoService.createBlankBudgetInfo(oldInfo);
+			newInfo = budgetInfoService.createBlankBudgetInfo(info.getNd(),oldInfo);
 			
 			newInfo.setBudgetMoney(oldInfo.getBudgetMoney());
 			newInfo.setNd(info.getNd());
