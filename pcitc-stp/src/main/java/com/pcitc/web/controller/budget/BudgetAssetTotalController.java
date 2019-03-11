@@ -119,7 +119,7 @@ public class BudgetAssetTotalController extends BaseController {
 		String budgetInfoId = request.getParameter("budgetInfoId");
 		request.setAttribute("budgetInfoId", budgetInfoId);
 		request.setAttribute("tb_datas", infors.getBody());
-		request.setAttribute("nd", DateUtil.format(new Date(), DateUtil.FMT_YYYY));
+		//request.setAttribute("nd", DateUtil.format(new Date(), DateUtil.FMT_YYYY));
 		return "stp/budget/budget_history_view_assettotal";
 	}
 	

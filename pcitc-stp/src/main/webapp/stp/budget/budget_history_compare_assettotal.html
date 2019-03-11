@@ -20,10 +20,11 @@
             <thead>
 	            <tr>
 	            	<th lay-data="{field:'nd',align: 'center', width: 100}">年度</th>
+	            	<th lay-data="{field:'dataVersion', width: '15%'}">预算版本</th>
 	                <th lay-data="{field:'displayName', width: '20%'}">预算部门</th>
 	                <th lay-data="{field:'remark', width: '25%'}">描述</th>
-	               	<th lay-data="{field:'last_year_end',align: 'right'}">2018年科技经费完成</th>
-	               	<th lay-data="{field:'plan_money',align: 'right'}">2019年科技经费计划</th>
+	               	<!-- <th lay-data="{field:'last_year_end',align: 'right'}">2018年科技经费完成</th>
+	               	<th lay-data="{field:'plan_money',align: 'right'}">2019年科技经费计划</th> -->
 	                <th lay-data="{field:'yjwc', edit:true,align: 'right'}">2018年预计完成</th>
 	                <th lay-data="{field:'xmjf', edit:true,align: 'right'}">2019年经费预算</th>	   
 	            </tr>
@@ -35,10 +36,11 @@
             <thead>
 	            <tr>
 	            	<th lay-data="{field:'nd',align: 'center', width: 100}">年度</th>
+	            	<th lay-data="{field:'dataVersion', width: '15%'}">预算版本</th>
 	              	<th lay-data="{field:'displayName', width: '20%'}">预算部门</th>
 	              	<th lay-data="{field:'remark', width: '25%'}">描述</th>
-	             	<th lay-data="{field:'last_year_end',align: 'right'}">2018年科技经费完成</th>
-	             	<th lay-data="{field:'plan_money',align: 'right'}">2019年科技经费计划</th>
+	             <!-- 	<th lay-data="{field:'last_year_end',align: 'right'}">2018年科技经费完成</th>
+	             	<th lay-data="{field:'plan_money',align: 'right'}">2019年科技经费计划</th> -->
 	              	<th lay-data="{field:'yjwc', edit:true,align: 'right'}">2018年预计完成</th>
 	              	<th lay-data="{field:'xmjf', edit:true,align: 'right'}">2019年经费预算</th>
 	            </tr>
@@ -76,7 +78,6 @@
     			table.reload('itemTable',{
                     data:viewObj.itemData
                 });
-    			$(".nd").html("2020");
     			//加载历史
     			publicMethods.ajaxPost("/budget/search-assettotal-history-items",groupTotalInfo, function (historydata) {
                 	$.each(historydata,function(index,dt){
@@ -86,6 +87,10 @@
                         data:viewObj.historyItemData
                     });
            		});
+    			$("div[lay-id='itemTable'] .layui-table-header .layui-table").find('th').eq(4).find('span').text((data.nd-1)+"年预计完成");
+            	$("div[lay-id='itemTable'] .layui-table-header .layui-table").find('th').eq(5).find('span').text(data.nd+"年经费预算");
+    			$("div[lay-id='historyItemTable'] .layui-table-header .layui-table").find('th').eq(4).find('span').text((data.nd-1)+"年预计完成");
+            	$("div[lay-id='historyItemTable'] .layui-table-header .layui-table").find('th').eq(5).find('span').text(data.nd+"年经费预算");
        		});
             //预算项编辑事件监听
             table.on('edit(itemTable)', function(obj){ 

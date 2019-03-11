@@ -19,17 +19,16 @@
 	    <div class="bottom-table-box">
 	        <table id="${tb.dataId}" class="layui-table" lay-filter="${tb.dataId}" lay-data="{height: '200',limit:100}">
 	            <thead>
-	            <tr>
-	                <th lay-data="{field:'no', width: '10%', align:'center'}" rowspan="2">序号</th>
-	                <th lay-data="{field:'dataVersion', width: '15%'}" rowspan="2">预算版本</th>
-	                <th lay-data="{field:'displayName', width: '30%'}" rowspan="2">承担单位</th>
-	                <th lay-data="{align:'center'}", colspan="3">${tb.nd}年预算</th>
-	            </tr>
-	            <tr>
-	                <th lay-data="{field:'total', align: 'right'}">合计</th>
-	                <th lay-data="{field:'xmjf', width: '15%',align:'right'}">项目经费</th>
-	                <th lay-data="{field:'zxjf', width: '15%',align:'right'}">重点实验室专项经费</th>
-	            </tr>
+	                <tr>
+	                	<th lay-data="{field:'no', width: '10%', align:'center'}" rowspan="2">序号</th>
+	                	<th lay-data="{field:'displayName', width: '15%'}" rowspan="2">预算部门</th>
+	                	<th lay-data="{field:'remark', width: '30%'}" rowspan="2">描述</th>
+	                	<th lay-data="{align:'center'}", colspan="2">${tb.nd}年预算</th>
+		            </tr>
+		            <tr>
+		                <th lay-data="{field:'yjwc', align:'right'}">预计完成</th>
+		                <th lay-data="{field:'xmjf', align:'right'}">经费预算</th>
+		            </tr>
 	            </thead>
 	        </table>
 	    </div>
@@ -47,7 +46,7 @@
     <script>
         layui.use(['jquery', 'table', 'laydate', 'layer','publicMethods'], function () {
             var $ = layui.jquery, table = layui.table, laydate = layui.laydate, layer = layui.layer,publicMethods=layui.publicMethods;
-            publicMethods.ajaxPost("/budget/search-grouptotal-final-history-list",null, function (data) {
+            publicMethods.ajaxPost("/budget/search-assettotal-final-history-list",null, function (data) {
             	$.each(data,function(index,dt){
        				table.reload(dt.dataId, {data: dt.items});
        			});
