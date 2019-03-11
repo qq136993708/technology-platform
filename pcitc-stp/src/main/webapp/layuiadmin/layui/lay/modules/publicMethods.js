@@ -583,6 +583,7 @@ layui.define(['jquery','form','table','laydate'],
                     "           </div>" +
                     "      </li>";
                 $("#moduleConfig").append(html);
+                publicMet.deleTr();
             },
             moduleConfig:function (data) {
                 var spareId=data.spareId;
@@ -592,41 +593,111 @@ layui.define(['jquery','form','table','laydate'],
                 }else {
 
                 }
+                var colorList = ["#14ea28","#14eae7","#2314ea","#ea14bf","#ea1465",
+                    "#ea6f14","#99490f","#8AC007","#CCC007","#FFAD5C"];
+                for(var i=0;i<colorList.length;i++){
+                    var colorIndex = Math.floor(Math.random()*colorList.length);
+                    var color = colorList[colorIndex];
+                }
+                /*function getColorByRandom(colorList){
+                    var colorIndex = Math.floor(Math.random()*colorList.length);
+                    var color = colorList[colorIndex];
+                    colorList.splice(colorIndex,1);
+                    return color;
+                }*/
+                parent.parent.$("#moduleConfig #layui-add").parent().remove();
+                parent.$(".layui-row-special ul #layui-add").parent().remove();
                 if(data.power==""|| data.power==null || parseInt(data.power)>13){
                     if(spareId==null || spareId==""){
                         var html="<li class='"+data.class+"' data-power='"+data.power+"'>" +
-                            "       <div class='layui-text-icon "+classDiv+"' style='background:"+data.color+" url("+data.img+") center center no-repeat;' id='"+data.id+"'>" +
+                            "       <div class='layui-text-icon "+classDiv+"' style='background:"+color+" /*url("+data.img+") center center no-repeat;*/' id='"+data.id+"'>" +
                             "           <p>"+data.name+"</p>" +
                             "           <img src='/layuiadmin/layui/images/level-close.png' class='dele'>"
                             "      </div></li>";
-                        parent.$(".layui-row-special ul").append(html);
+                        publicMet.moduleConfigAdd(html);
                     }else {
                         var html="<li class='"+data.class+"' data-power='"+data.power+"'>" +
-                            "       <div class='layui-text-icon' style='background:"+data.color+" url("+data.img+") center center no-repeat;' id='"+data.id+"'>" +
+                            "       <div class='layui-text-icon' style='background:"+color+" /*url("+data.img+") center center no-repeat;*/' id='"+data.id+"'>" +
                             "           <p>"+data.name+"</p>" +
                             "           <span id='"+data.spareId+"'><img class='loadingImg' src='/layuiadmin/layui/images/loadingImg04.gif'></span>" +
                             "           <img src='/layuiadmin/layui/images/level-close.png' class='dele'>"
                             "      </div></li>";
-                        parent.$(".layui-row-special ul").append(html);
+                        publicMet.moduleConfigAdd(html);
                     }
                 }else {
                     if(spareId==null || spareId==""){
                         var html="<li class='"+data.class+"' data-power='"+data.power+"'>" +
-                            "       <div class='layui-text-icon "+classDiv+"' style='background:"+data.color+" url("+data.img+") center center no-repeat;' id='"+data.id+"'>" +
+                            "       <div class='layui-text-icon "+classDiv+"' style='background:"+color+"/* url("+data.img+") center center no-repeat;*/' id='"+data.id+"'>" +
                             "           <p>"+data.name+"</p>" +
                             "           <img src='/layuiadmin/layui/images/level-close.png' class='dele'>"
                         "      </div></li>";
-                        parent.$("#moduleConfig li").eq(data.power).before(html);
+                        publicMet.moduleConfigAdd(html);
                     }else {
                         var html="<li class='"+data.class+"' data-power='"+data.power+"'>" +
-                            "       <div class='layui-text-icon' style='background:"+data.color+" url("+data.img+") center center no-repeat;' id='"+data.id+"'>" +
+                            "       <div class='layui-text-icon' style='background:"+color+"/* url("+data.img+") center center no-repeat;*/' id='"+data.id+"'>" +
                             "           <p>"+data.name+"</p>" +
                             "           <span id='"+data.spareId+"'><img class='loadingImg' src='/layuiadmin/layui/images/loadingImg04.gif'></span>" +
                             "           <img src='/layuiadmin/layui/images/level-close.png' class='dele'>"
                         "      </div></li>";
-                        parent.$("#moduleConfig li").eq(data.power).before(html);
+                        publicMet.moduleConfigAdd(html);
+
                     }
                 }
+                publicMet.deleTrP();
+            },
+            moduleConfigAdd:function(html){
+                if(parent.$("#moduleConfig li").length<16){
+                    parent.$("#moduleConfig").append(html);
+                }else {
+                    parent.$(".layui-row-special ul").append(html);
+                }
+
+            },
+            deleTr:function(){
+                $(".dele").click(function () {
+                    $(this).parents("li").remove();
+                    var classT=0;
+                    if($("#moduleConfig li").eq(0).attr("class")=="layui-col-md6" && $("#moduleConfig li").eq(1).attr("class")=="layui-col-md6"){
+                        $("#moduleConfig li").eq(1).css("margin-top","0px");
+                    }
+                    $("#moduleConfig li").each(function () {
+                        var str=$(this).attr("class");
+                        classT+=parseInt(str.charAt(str.length-1));
+                        //alert(classT)
+                        if(classT>12){
+                            $("#moduleConfig li").eq($(this).index()).prevAll().css("margin-top","0px");
+                            $("#moduleConfig li").eq($(this).index()).css("margin-top","20px");
+                            $("#moduleConfig li").eq($(this).index()).nextAll().css("margin-top","20px");
+                            return false;
+                        }
+                        //alert(classT);
+                        //alert($(this).index())
+                    });
+
+                });
+            },
+            deleTrP:function(){
+                parent.$(".dele").click(function () {
+                    $(this).parents("li").remove();
+                    var classT=0;
+                    if($("#moduleConfig li").eq(0).attr("class")=="layui-col-md6" && $("#moduleConfig li").eq(1).attr("class")=="layui-col-md6"){
+                        $("#moduleConfig li").eq(1).css("margin-top","0px");
+                    }
+                    $("#moduleConfig li").each(function () {
+                        var str=$(this).attr("class");
+                        classT+=parseInt(str.charAt(str.length-1));
+                        //alert(classT)
+                        if(classT>12){
+                            $("#moduleConfig li").eq($(this).index()).prevAll().css("margin-top","0px");
+                            $("#moduleConfig li").eq($(this).index()).css("margin-top","20px");
+                            $("#moduleConfig li").eq($(this).index()).nextAll().css("margin-top","20px");
+                            return false;
+                        }
+                        //alert(classT);
+                        //alert($(this).index())
+                    });
+
+                });
             },
             /*随即生成多个tr*/
             createTable:function(startYear,endYear,id,number,str,edit){
@@ -666,9 +737,9 @@ layui.define(['jquery','form','table','laydate'],
                             $("#"+id+" table tbody tr:eq("+i+") td:eq(2) input").val(strArrC[2]);
                             $("#"+id+" table tbody tr:eq("+i+") td:eq(3)").html(strArrC[3]);
                         }
-                        strArrC1+=parseFloat(strArrC[1]).toFixed(2);
-                        strArrC2+=parseFloat(strArrC[2]).toFixed(2);
-                        strArrC3+=parseFloat(strArrC[3]).toFixed(2);
+                        strArrC1+=parseFloat(strArrC[1]);
+                        strArrC2+=parseFloat(strArrC[2]);
+                        strArrC3+=parseFloat(strArrC[3]);
                     });
                     $("#"+id+" table tbody tr:last td:eq(1)").text(strArrC1);
                     $("#"+id+" table tbody tr:last td:eq(2)").text(strArrC2);

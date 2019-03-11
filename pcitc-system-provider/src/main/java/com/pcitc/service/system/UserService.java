@@ -92,5 +92,11 @@ public interface UserService {
 	 * 查询用户信息，包含所属部门，多部门以“，”分开显示
 	 */
 	public JSONObject selectUserDetail(Map<String,Object> paramMap);
+	
+	
+	
+	public LayuiTableData querySysUserListByPage(LayuiTableParam param);
+
+	
 
 }

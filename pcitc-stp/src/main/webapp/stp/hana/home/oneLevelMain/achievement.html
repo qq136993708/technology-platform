@@ -417,6 +417,17 @@ function renderTable(nd){
             mergeIndex = 0;
             mark = 1;
         }
+        $(".layui-table-body>.layui-table").find("tr").each(function (i, val) {
+            var trRS=$(this).find("td:eq(1)").attr("rowspan");
+            if (trRS==undefined){
+                return;
+            } else {
+                if(trRS>13){
+                    $(this).find("td:eq(1)").css("position","relative");
+                    $(this).find("td:eq(1) div").css({"position":"absolute","top":"288px"});
+                }
+            }
+        });
     }
 }
 

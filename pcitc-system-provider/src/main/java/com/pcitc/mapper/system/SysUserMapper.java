@@ -51,4 +51,11 @@ public interface SysUserMapper {
 	 * 根据角色编码（多个），获取所属人员
 	 */
 	public List<SysUser> selectUserDetail(Map<String,Object> paramMap);
+	
+	
+	List<SysUser> querySysUserListByPage(SysUser vo);
+
+	Long countByQuerySysUserList(SysUser vo);
+
+	
 }

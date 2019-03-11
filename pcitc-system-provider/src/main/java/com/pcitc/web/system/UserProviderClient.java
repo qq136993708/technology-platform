@@ -182,4 +182,19 @@ public class UserProviderClient {
 		System.out.println("2后台selectUserDetail==========="+retJson);
 		return retJson;
 	}
+	
+	
+	
+	@ApiOperation(value = "查看用户列表")
+	@RequestMapping(value = "/user-provider/user/querySysUserListByPage",method = RequestMethod.POST)
+	public LayuiTableData querySysUserListByPage(@RequestBody LayuiTableParam param) {
+		LayuiTableData data = null;
+		try {
+			data = userService.querySysUserListByPage(param);
+		} catch (Exception e) {
+			logger.error("[用户管理-查询用户列表失败：]", e);
+		}
+		return data;
+	}
+	
 }
