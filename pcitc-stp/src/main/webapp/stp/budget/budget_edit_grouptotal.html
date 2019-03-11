@@ -237,6 +237,20 @@
                     break;
             }
         });
+      	//刷新表格数据
+        table.on('edit(dataTable)', function(obj){
+        	$.each(viewObj.tbData,function(index,dt){
+        		if(obj.data.dataId == dt.dataId){
+        			if(obj.field=="xmjf"){
+        				dt.xmjf = obj.value;
+        			}else if(obj.field=="zxjf")
+        			{
+        				dt.zxjf = obj.value;
+        			}
+        		}
+        	});
+        	table.reload('dataTable', {data: viewObj.tbData});
+        });
         var companyName;
         var companyCode;
         // 监听select--如果需要通过select的形式进行选择
