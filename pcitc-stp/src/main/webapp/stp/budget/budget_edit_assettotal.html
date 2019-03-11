@@ -11,9 +11,9 @@
         .layui-form-label {width: 108px !important;}
         .layui-input-block {margin-left: 129px !important;}
         .btn-line {height: 36px;line-height: 36px;}
-        .btn-line a{float: left;margin-left: 20px;}
-        .layui-btn-sm {padding: 0 14px;}
+        .btn-line a{float: left;margin-left: 20px;}       
         .layui-textarea {min-height: 50px;}
+        
     </style>
 </head>
 <body>
@@ -62,7 +62,7 @@
             <div class="layui-row">
                 <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">2017年预计完成<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">上年预计完成<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
                             <input class="layui-input" id="yjwc" name="yjwc" placeholder="" lay-verify="required" autocomplete="off" type="text">
                         </div>
@@ -70,7 +70,7 @@
                 </div>
                 <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">2018年经费预算<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">本年经费预算<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
                          	<input type="text" id="xmjf" name="xmjf"  placeholder="" lay-verify="required" autocomplete="off" class="layui-input">
                         </div>
@@ -87,7 +87,7 @@
                     </div>
                 </div>
             </div>
-            <div class="layui-row">
+            <!-- <div class="layui-row">
                 <div class="layui-col-xs10 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
                         <label for="" class="layui-form-label">搜索单位<span class="must-fill"></span></label>
@@ -106,12 +106,15 @@
                 <div class="btn-line">
                     <a class="layui-btn layui-btn-sm btn-decision" data-type="addRow">添加</a>
                 </div>
-            </div>
+            </div> -->
             <div class="layui-row">
                 <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
                     <div class="layui-form-item">
                         <label for="" class="layui-form-label">单位明细<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
+                            <div class="tableToolBox">
+					            <a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg" data-type="addEvent">新增</a>
+					        </div>
                             <div id="tableBox">
                                 <table id="dataTable" class="layui-hide" lay-filter="dataTable"></table>
                             </div>
@@ -139,13 +142,14 @@
     //{dataId:'10001',tempId: 1, displayName: '机动(资金预留)', level:1,plan: 0, xmjf: 0, zxjf: 0,parentDataId:"${dataId}",budgetInfoId:"${budgetInfoId}"}
     var budgetInfoId = "${budgetInfoId}";
     var parentDataId = "${dataId}";
+    var nd = "${nd}";
     var parentInfo = null;
     var company_map = {};
     layui.use(['jquery', 'table', 'form','laydate', 'layer','publicMethods'], function () {
         var $ = layui.jquery, table = layui.table, form = layui.form,laydate = layui.laydate, layer = layui.layer,publicMethods=layui.publicMethods;
         var layTableId = "dataTable";
         //检索年度金额完成情况
-        function selectItemProjectMoney(nd,displayCode,callback){
+        window.selectItemProjectMoney = function(nd,displayCode,callback){
         	publicMethods.ajaxPost('/budget/select-assettotal-compare-project',{"nd":nd,"code":displayCode}, function (data, status) {
    			  var ysje = 0;
    			  $.each(data,function(index,d){
@@ -155,7 +159,7 @@
    		  	});
         }
         //检索年度计划情况
-        function selectItemPlanMoney(nd,displayCode,callback){
+        window.selectItemPlanMoney = function(nd,displayCode,callback){
         	publicMethods.ajaxPost('/budget/select-assettotal-compare-plan',{"nd":nd,"code":displayCode}, function (data, status) {
    			  var ysje = 0;
    			  $.each(data,function(index,d){
@@ -163,6 +167,16 @@
    			  });
    			  callback(ysje);
    		  	});
+        }
+        window.createTableData = function(node){
+        	var newRow = {dataId: new Date().valueOf(),displayCode:node.id, displayName: node.name,last_year_end:0,plan_money: 0, xmjf: 0, zxjf: 0,parentDataId:parentDataId,budgetInfoId:budgetInfoId};
+        	selectItemProjectMoney(parseInt(nd)-1,node.id,function(ysje){
+            	newRow.last_year_end = ysje;
+    		});
+    		selectItemPlanMoney(nd,node.id,function(ysje){
+    			newRow.plan_money = ysje;
+    		});  
+           	viewObj.tbData.push(newRow);
         }
 		publicMethods.ajaxPost("/budget/get-assettotal-item/${dataId}",null, function (data) {
 			form.val("budget-form",data);
@@ -179,14 +193,14 @@
 			//table.reload({data : viewObj.tbData});
    		});
         //检索公司
-        publicMethods.ajaxPost("/budget/search-asset-company-items",null, function (data) {
-        	$("#company_list").html('<option value="">请选择单位！</option>');
+      	publicMethods.ajaxPost("/budget/search-asset-company-items",null, function (data) {
+        	//$("#company_list").html('<option value="">请选择单位！</option>');
         	$.each(data,function(index,dt){
         		company_map[dt.unitCode] = dt.unitName;
-        		$("#company_list").append('<option value="'+dt.unitCode+'">'+dt.unitName+'</option>');
+        		//$("#company_list").append('<option value="'+dt.unitCode+'">'+dt.unitName+'</option>');
         	});
         	form.render(); 
-   		});
+   		}); 
         //渲染
         var tableIns = table.render({
             elem: '#dataTable' //表格容器
@@ -197,8 +211,8 @@
             , totalRow: true
             , cols: [[
                 {field: 'displayName', title: '单位名称',edit:true,totalRowText: '合计'}
-                , {field: 'last_year_end', title: '${nd}预算完成', align: 'right',style: 'cursor: pointer;', width: '15%',totalRow: true}
-                , {field: 'plan_money', title: '${nd}计划金额', align: 'right',style: 'cursor: pointer;', width: '15%',totalRow: true}
+                , {field: 'last_year_end', title: '实际完成', align: 'right',style: 'cursor: pointer;', width: '15%',totalRow: true}
+                , {field: 'plan_money', title: '计划金额', align: 'right',style: 'cursor: pointer;', width: '15%',totalRow: true}
                 , {field: 'yjwc', title: '预计完成', align: 'right',style: 'cursor: pointer;',edit:true, width: '15%',totalRow: true}
                 , {field: 'xmjf', title: '经费预算', align: 'right',style: 'cursor: pointer;',edit:true, width: '15%',totalRow: true}
                 , {title: '操作', style: 'cursor: pointer;', align: 'center', width: '10%', templet: function(d){
@@ -207,8 +221,10 @@
             ]]
             ,done: function (res, curr, count) {
             	 var ysnd = parseInt($("#nd").val());
-            	 $(".layui-table-header .layui-table").find('th').eq(1).find('span').text((ysnd-1)+"预算完成");
+            	 $(".layui-table-header .layui-table").find('th').eq(1).find('span').text((ysnd-1)+"实际完成");
             	 $(".layui-table-header .layui-table").find('th').eq(2).find('span').text(ysnd+"计划金额");
+            	 $(".layui-table-header .layui-table").find('th').eq(3).find('span').text((ysnd-1)+"预计完成");
+            	 $(".layui-table-header .layui-table").find('th').eq(4).find('span').text(ysnd+"经费预算");
             }
         })
         table.on('tool(dataTable)', function (obj) {
@@ -222,6 +238,20 @@
                     });
                     break;
             }
+        });
+      	//刷新表格数据
+        table.on('edit(dataTable)', function(obj){
+        	$.each(viewObj.tbData,function(index,dt){
+        		if(obj.data.dataId == dt.dataId){
+        			if(obj.field=="xmjf"){
+        				dt.xmjf = obj.value;
+        			}else if(obj.field=="yjwc")
+        			{
+        				dt.yjwc = obj.value;
+        			}
+        		}
+        	});
+        	table.reload('dataTable', {data: viewObj.tbData});
         });
         var companyName;
         var companyCode;
@@ -260,6 +290,19 @@
                   tableIns.reload({
                 	  data : viewObj.tbData
                   });
+            },addEvent:function(){
+            	layer.open({
+                    title: '检索公司信息'
+                    , skin: 'layui-layer-lan'
+                    , shadeClose: true
+                    , type: 2
+                    , fixed: false
+                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                    , maxmin: false
+                    //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                    , area: ['80%', '90%']
+                    , content: "/budget/unit_select_tree?company=search-asset-company-tree"
+                });      
             }
         };
         //激活事件
@@ -298,7 +341,7 @@
         // 点击保存按钮
         form.on('submit(saveEvent)', function(data){
             var formData = JSON.stringify(data.field);
-            console.log("表单数据："+formData + '\n' +"表格数据:" + getTableData());
+            //console.log("表单数据："+formData + '\n' +"表格数据:" + getTableData());
             var lodingMsg = layer.msg('处理中....');
             //保存预算项目
             publicMethods.ajaxPost('/budget/save-assettotal-item', data.field, function (data, status) {

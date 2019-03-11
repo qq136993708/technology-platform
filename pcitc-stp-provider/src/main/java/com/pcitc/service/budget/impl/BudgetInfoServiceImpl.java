@@ -118,12 +118,12 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 	}
 
 	@Override
-	public BudgetInfo createBlankBudgetInfo(BudgetInfo info)
+	public BudgetInfo createBlankBudgetInfo(String nd,BudgetInfo info)
 	{
 		BudgetInfo params = (BudgetInfo) MyBeanUtils.createDefaultModel(BudgetInfo.class);
 		params.setAuditStatus(BudgetAuditStatusEnum.AUDIT_STATUS_NO_START.getCode());
 		params.setBudgetType(info.getBudgetType());
-		params.setNd(info.getNd());
+		params.setNd(nd);
 		params.setBudgetMoney(0d);
 		params.setCreaterId(info.getCreaterId());
 		params.setDelFlag(DelFlagEnum.STATUS_NORMAL.getCode());
@@ -133,11 +133,11 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 		BudgetInfoExample example = new BudgetInfoExample();
 		BudgetInfoExample.Criteria c = example.createCriteria();
 		c.andBudgetTypeEqualTo(info.getBudgetType());
-		c.andNdEqualTo(info.getNd());
+		c.andNdEqualTo(nd);
 		Integer size = budgetInfoMapper.selectByExample(example).size();
 		
 		
-		params.setDataVersion("vs-"+info.getNd()+"-"+info.getBudgetType()+"-"+((1001+size)+"").substring(1));
+		params.setDataVersion("vs-"+nd+"-"+info.getBudgetType()+"-"+((1001+size)+"").substring(1));
 		budgetInfoMapper.insert(params);
 		return params;
 	}
