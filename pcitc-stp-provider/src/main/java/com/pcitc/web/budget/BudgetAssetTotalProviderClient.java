@@ -415,8 +415,8 @@ public class BudgetAssetTotalProviderClient
 					BudgetAssetTotal old = oldmap.get(t.getDisplayName());
 					old.setDelFlag(DelFlagEnum.STATUS_NORMAL.getCode());
 					old.setUpdateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
-					//old.setXmjf(t.getXmjf());
-					//old.setZxjf(t.getZxjf());
+					old.setXmjf(t.getXmjf());
+					old.setYjwc(t.getYjwc());
 					old.setDisplayCode(t.getDisplayCode());
 					budgetAssetTotalService.updateBudgetAssetTotal(old);
 				}else{
