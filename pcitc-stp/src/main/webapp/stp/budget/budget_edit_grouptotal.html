@@ -324,7 +324,7 @@
         // 点击保存按钮
         form.on('submit(saveEvent)', function(data){
             var formData = JSON.stringify(data.field);
-            console.log("表单数据："+formData + '\n' +"表格数据:" + getTableData());
+            //console.log("表单数据："+formData + '\n' +"表格数据:" + getTableData());
             var lodingMsg = layer.msg('处理中....');
             //保存预算项目
             publicMethods.ajaxPost('/budget/save-grouptotal-item', data.field, function (data, status) {

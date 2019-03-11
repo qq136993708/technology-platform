@@ -170,8 +170,6 @@
         }
         window.createTableData = function(node){
         	var newRow = {dataId: new Date().valueOf(),displayCode:node.id, displayName: node.name,last_year_end:0,plan_money: 0, xmjf: 0, zxjf: 0,parentDataId:parentDataId,budgetInfoId:budgetInfoId};
-          	console.log("add...............");
-          	console.log(newRow);
         	selectItemProjectMoney(parseInt(nd)-1,node.id,function(ysje){
             	newRow.last_year_end = ysje;
     		});
@@ -192,8 +190,6 @@
 				});
 				viewObj.tbData.push(dt);
 			});
-			console.log("load table data......");
-			console.log(viewObj.tbData);
 			//table.reload({data : viewObj.tbData});
    		});
         //检索公司
@@ -329,7 +325,7 @@
         // 点击保存按钮
         form.on('submit(saveEvent)', function(data){
             var formData = JSON.stringify(data.field);
-            console.log("表单数据："+formData + '\n' +"表格数据:" + getTableData());
+            //console.log("表单数据："+formData + '\n' +"表格数据:" + getTableData());
             var lodingMsg = layer.msg('处理中....');
             //保存预算项目
             publicMethods.ajaxPost('/budget/save-assettotal-item', data.field, function (data, status) {
@@ -342,8 +338,6 @@
                 			viewObj.tbData[index].displayCode = null;
                 		}
                 	});
-                	console.log("save....");
-                	console.log(JSON.stringify(viewObj.tbData));
                 	//保存预算项目子项
                 	publicMethods.ajaxPost('/budget/save-assettotal-childitems', {"items":JSON.stringify(viewObj.tbData),"item":JSON.stringify(parentInfo)}, function (dt, status) {
                 		var index = parent.layer.getFrameIndex(window.name);
