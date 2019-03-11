@@ -42,6 +42,7 @@
         	var $ = layui.jquery, table = layui.table, laydate = layui.laydate, layer = layui.layer,publicMethods=layui.publicMethods; 
             var zTreeObj,treeData,sTreeObj,nodes,treeDataMap={};
             var searchTreeData = [];
+            var company_type = "${company}";
         	var setting = 
         	{
         		check: { enable: true, chkStyle: "radio", radioType: "all" },//单选按钮
@@ -60,7 +61,7 @@
                 }
                 console.log(n)//获取选中节点的值  */
         	}
-            publicMethods.ajaxPost("/budget/search-group-company-tree",null, function (dt) {
+            publicMethods.ajaxPost("/budget/"+company_type,null, function (dt) {
             	treeData = dt;
             	$.each(dt,function(index,d){
             		treeDataMap[d.id]=d;

@@ -193,14 +193,14 @@
 			//table.reload({data : viewObj.tbData});
    		});
         //检索公司
-       /*  publicMethods.ajaxPost("/budget/search-group-company-items",null, function (data) {
-        	$("#company_list").html('<option value="">请选择单位！</option>');
+       publicMethods.ajaxPost("/budget/search-group-company-items",null, function (data) {
+        	//$("#company_list").html('<option value="">请选择单位！</option>');
         	$.each(data,function(index,dt){
         		company_map[dt.unitCode] = dt.unitName;
-        		$("#company_list").append('<option value="'+dt.unitCode+'">'+dt.unitName+'</option>');
+        		//$("#company_list").append('<option value="'+dt.unitCode+'">'+dt.unitName+'</option>');
         	});
         	form.render(); 
-   		}); */
+   		});
         //渲染
         table.render({
             elem: '#dataTable' //表格容器

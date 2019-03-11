@@ -170,7 +170,9 @@
         }
         window.createTableData = function(node){
         	var newRow = {dataId: new Date().valueOf(),displayCode:node.id, displayName: node.name,last_year_end:0,plan_money: 0, xmjf: 0, zxjf: 0,parentDataId:parentDataId,budgetInfoId:budgetInfoId};
-          	selectItemProjectMoney(parseInt(nd)-1,node.id,function(ysje){
+          	console.log("add...............");
+          	console.log(newRow);
+        	selectItemProjectMoney(parseInt(nd)-1,node.id,function(ysje){
             	newRow.last_year_end = ysje;
     		});
     		selectItemPlanMoney(nd,node.id,function(ysje){
@@ -190,17 +192,19 @@
 				});
 				viewObj.tbData.push(dt);
 			});
+			console.log("load table data......");
+			console.log(viewObj.tbData);
 			//table.reload({data : viewObj.tbData});
    		});
         //检索公司
-      	/* publicMethods.ajaxPost("/budget/search-asset-company-items",null, function (data) {
-        	$("#company_list").html('<option value="">请选择单位！</option>');
+      	publicMethods.ajaxPost("/budget/search-asset-company-items",null, function (data) {
+        	//$("#company_list").html('<option value="">请选择单位！</option>');
         	$.each(data,function(index,dt){
         		company_map[dt.unitCode] = dt.unitName;
-        		$("#company_list").append('<option value="'+dt.unitCode+'">'+dt.unitName+'</option>');
+        		//$("#company_list").append('<option value="'+dt.unitCode+'">'+dt.unitName+'</option>');
         	});
         	form.render(); 
-   		}); */
+   		}); 
         //渲染
         var tableIns = table.render({
             elem: '#dataTable' //表格容器
@@ -285,7 +289,7 @@
                     , maxmin: false
                     //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
                     , area: ['80%', '90%']
-                    , content: "/budget/unit_select_tree?company=search-group-company-tree"
+                    , content: "/budget/unit_select_tree?company=search-asset-company-tree"
                 });      
             }
         };
@@ -338,6 +342,8 @@
                 			viewObj.tbData[index].displayCode = null;
                 		}
                 	});
+                	console.log("save....");
+                	console.log(JSON.stringify(viewObj.tbData));
                 	//保存预算项目子项
                 	publicMethods.ajaxPost('/budget/save-assettotal-childitems', {"items":JSON.stringify(viewObj.tbData),"item":JSON.stringify(parentInfo)}, function (dt, status) {
                 		var index = parent.layer.getFrameIndex(window.name);
