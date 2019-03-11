@@ -16,36 +16,32 @@
 <div class="con-box">
     <p class="table-title">&nbsp;&nbsp;</p>
     <div class="margin-bot30">
-        <table id="itemTable" class="layui-table" lay-filter="itemTable" lay-data="{height: '100'}">
+        <table id="itemTable" class="layui-table" lay-filter="itemTable" lay-data="{limit:100}">
             <thead>
-            <tr>
-                <th lay-data="{field:'nd',width: '10%', align:'center'}" rowspan="2">年度</th>
-                <th lay-data="{field:'dataVersion', width: '15%'}" rowspan="2">预算版本</th>
-                <th lay-data="{field:'displayName', width: '30%'}" rowspan="2">承担单位</th>
-                <th lay-data="{align:'center'}", colspan="3">年度经费预算</th>
-            </tr>
-            <tr>
-                <th lay-data="{field:'total', align: 'right'}">合计</th>
-                <th lay-data="{field:'xmjf', width: '15%',edit: true,align:'right'}">项目经费</th>
-                <th lay-data="{field:'zxjf', width: '15%',edit: true,align:'right'}">重点实验室专项经费</th>
-            </tr>
+	            <tr>
+	            	<th lay-data="{field:'nd',align: 'center', width: 100}">年度</th>
+	                <th lay-data="{field:'displayName', width: '20%'}">预算部门</th>
+	                <th lay-data="{field:'remark', width: '25%'}">描述</th>
+	               	<th lay-data="{field:'last_year_end',align: 'right'}">2018年科技经费完成</th>
+	               	<th lay-data="{field:'plan_money',align: 'right'}">2019年科技经费计划</th>
+	                <th lay-data="{field:'yjwc', edit:true,align: 'right'}">2018年预计完成</th>
+	                <th lay-data="{field:'xmjf', edit:true,align: 'right'}">2019年经费预算</th>	   
+	            </tr>
             </thead>
         </table>
     </div>
     <div class="bottom-table-box">
         <table id="historyItemTable" class="layui-table" lay-filter="historyItemTable" lay-data="{height: '250',limit:100}">
             <thead>
-            <tr>
-                <th lay-data="{field:'nd', width: '10%', align:'center'}" rowspan="2">年度</th>
-                <th lay-data="{field:'dataVersion', width: '15%'}" rowspan="2">预算版本</th>
-                <th lay-data="{field:'displayName', width: '30%'}" rowspan="2">承担单位</th>
-                <th lay-data="{align:'center'}", colspan="3">历年预算</th>
-            </tr>
-            <tr>
-                <th lay-data="{field:'total', align: 'right'}">合计</th>
-                <th lay-data="{field:'xmjf', width: '15%',align:'right'}">项目经费</th>
-                <th lay-data="{field:'zxjf', width: '15%',align:'right'}">重点实验室专项经费</th>
-            </tr>
+	            <tr>
+	            	<th lay-data="{field:'nd',align: 'center', width: 100}">年度</th>
+	              	<th lay-data="{field:'displayName', width: '20%'}">预算部门</th>
+	              	<th lay-data="{field:'remark', width: '25%'}">描述</th>
+	             	<th lay-data="{field:'last_year_end',align: 'right'}">2018年科技经费完成</th>
+	             	<th lay-data="{field:'plan_money',align: 'right'}">2019年科技经费计划</th>
+	              	<th lay-data="{field:'yjwc', edit:true,align: 'right'}">2018年预计完成</th>
+	              	<th lay-data="{field:'xmjf', edit:true,align: 'right'}">2019年经费预算</th>
+	            </tr>
             </thead>
         </table>
     </div>
@@ -73,7 +69,7 @@
             var dataId = "${dataId}";
             var groupTotalInfo = null;
             //加载预算项
-            publicMethods.ajaxPost("/budget/get-grouptotal-item/"+dataId,null, function (data) {
+            publicMethods.ajaxPost("/budget/get-assettotal-item/"+dataId,null, function (data) {
             	$(".nd").html(data.nd);
             	groupTotalInfo = data;
             	viewObj.itemData.push(groupTotalInfo);
@@ -82,7 +78,7 @@
                 });
     			$(".nd").html("2020");
     			//加载历史
-    			publicMethods.ajaxPost("/budget/search-grouptotal-history-items",groupTotalInfo, function (historydata) {
+    			publicMethods.ajaxPost("/budget/search-assettotal-history-items",groupTotalInfo, function (historydata) {
                 	$.each(historydata,function(index,dt){
                 		viewObj.historyItemData.push(dt);
                 	});
@@ -97,11 +93,10 @@
             		if(obj.data.dataId == dt.dataId){
             			if(obj.field=="xmjf"){
             				dt.xmjf = obj.value;
-            			}else if(obj.field=="zxjf")
+            			}else if(obj.field=="yjwc")
             			{
-            				dt.zxjf = obj.value;
+            				dt.yjwc = obj.value;
             			}
-            			dt.total = parseInt(dt.xmjf)+parseInt(dt.zxjf);
             		}
             	});
             	//刷新表格数据
