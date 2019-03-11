@@ -87,7 +87,7 @@
                     </div>
                 </div>
             </div>
-            <div class="layui-row">
+            <!-- <div class="layui-row">
                 <div class="layui-col-xs10 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
                         <label for="" class="layui-form-label">搜索单位<span class="must-fill"></span></label>
@@ -106,7 +106,7 @@
                 <div class="btn-line">
                     <a class="layui-btn layui-btn-sm btn-decision" data-type="addRow">添加</a>
                 </div>
-            </div>
+            </div> -->
             <div class="layui-row">
                 <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
                     <div class="layui-form-item">
@@ -141,26 +141,14 @@
     //{dataId:'10001',tempId: 1, displayName: '机动(资金预留)', level:1,plan: 0, xmjf: 0, zxjf: 0,parentDataId:"${dataId}",budgetInfoId:"${budgetInfoId}"}
     var budgetInfoId = "${budgetInfoId}";
     var parentDataId = "${dataId}";
+    var nd = "${nd}";
     var parentInfo = null;
     var company_map = {};
-    var table;
-    function addUnitToTable(compnay){
-    	var newRow = {dataId: new Date().valueOf(),displayCode:compnay.id, displayName: name,last_year_end:0,plan_money: 0, xmjf: 0, zxjf: 0,parentDataId:parentDataId,budgetInfoId:budgetInfoId};
-       /*  selectItemProjectMoney(parseInt($("#nd").val())-1,companyCode,function(ysje){
-        	newRow.last_year_end = ysje;
-		});
-		selectItemPlanMoney($("#nd").val(),companyCode,function(ysje){
-			newRow.plan_money = ysje;
-		}); */
-       	viewObj.tbData.push(newRow);
-		table.reload({data : viewObj.tbData});
-    }
-    layui.use(['jquery', 'table', 'form','laydate', 'layer','publicMethods'], function () {
-        var $ = layui.jquery,  form = layui.form,laydate = layui.laydate, layer = layui.layer,publicMethods=layui.publicMethods;
+   layui.use(['jquery', 'table', 'form','laydate', 'layer','publicMethods'], function () {
+        var $ = layui.jquery,form = layui.form,table = layui.table,laydate = layui.laydate,layer = layui.layer,publicMethods=layui.publicMethods;
         var layTableId = "dataTable";
-        table = layui.table;
         //检索年度金额完成情况
-        function selectItemProjectMoney(nd,displayCode,callback){
+        window.selectItemProjectMoney = function(nd,displayCode,callback){
         	publicMethods.ajaxPost('/budget/select-grouptotal-compare-project',{"nd":nd,"code":displayCode}, function (data, status) {
    			  var ysje = 0;
    			  $.each(data,function(index,d){
@@ -169,9 +157,8 @@
    			  callback(ysje);
    		  	});
         }
-        
         //检索年度计划情况
-        function selectItemPlanMoney(nd,displayCode,callback){
+        window.selectItemPlanMoney = function(nd,displayCode,callback){
         	publicMethods.ajaxPost('/budget/select-grouptotal-compare-plan',{"nd":nd,"code":displayCode}, function (data, status) {
    			  var ysje = 0;
    			  $.each(data,function(index,d){
@@ -179,6 +166,17 @@
    			  });
    			  callback(ysje);
    		  	});
+        }
+        //添加一行
+        window.createTableData = function(node){
+        	var newRow = {dataId: new Date().valueOf(),displayCode:node.id, displayName: node.name,last_year_end:0,plan_money: 0, xmjf: 0, zxjf: 0,parentDataId:parentDataId,budgetInfoId:budgetInfoId};
+          	selectItemProjectMoney(parseInt(nd)-1,node.id,function(ysje){
+            	newRow.last_year_end = ysje;
+    		});
+    		selectItemPlanMoney(nd,node.id,function(ysje){
+    			newRow.plan_money = ysje;
+    		});  
+           	viewObj.tbData.push(newRow);
         }
 		publicMethods.ajaxPost("/budget/get-grouptotal-item/${dataId}",null, function (data) {
 			form.val("budget-form",data);
@@ -195,14 +193,14 @@
 			//table.reload({data : viewObj.tbData});
    		});
         //检索公司
-        publicMethods.ajaxPost("/budget/search-group-company-items",null, function (data) {
+       /*  publicMethods.ajaxPost("/budget/search-group-company-items",null, function (data) {
         	$("#company_list").html('<option value="">请选择单位！</option>');
         	$.each(data,function(index,dt){
         		company_map[dt.unitCode] = dt.unitName;
         		$("#company_list").append('<option value="'+dt.unitCode+'">'+dt.unitName+'</option>');
         	});
         	form.render(); 
-   		});
+   		}); */
         //渲染
         table.render({
             elem: '#dataTable' //表格容器
@@ -262,7 +260,7 @@
 					newRow.plan_money = ysje;
 				});
                	viewObj.tbData.push(newRow);
-               	table.reload({data : viewObj.tbData});
+               	table.reload("dataTable",{data : viewObj.tbData});
             },
             removeEmptyTableCache: function(){
             	  var oldData = table.cache[layTableId];
@@ -273,9 +271,7 @@
                           viewObj.tbData.splice(i, 1);
                       }
                   }
-                  table.reload({
-                	  data : viewObj.tbData
-                  });
+                  table.reload("dataTable",{data : viewObj.tbData});
             },addEvent:function(){
             	layer.open({
                     title: '检索公司信息'

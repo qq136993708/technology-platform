@@ -93,7 +93,9 @@
             $('#sub').click(function(){
             	var nodes = zTreeObj.getCheckedNodes();
             	if(nodes.length >0){
-            		parent.addUnitToTable(nodes[0]);
+					//添加数据
+            		parent.createTableData(nodes[0]);
+            		parent.layui.table.reload('dataTable', {data : parent.viewObj.tbData});
             	}
             	var index = parent.layer.getFrameIndex(window.name);
                 parent.layer.close(index);
