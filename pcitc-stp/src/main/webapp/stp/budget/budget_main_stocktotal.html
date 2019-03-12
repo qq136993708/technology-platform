@@ -94,8 +94,8 @@
                 	<th lay-data="{type:'checkbox'}" rowspan="2"></th>
                 	<th lay-data="{field:'no',align: 'center', width: 45,totalRowText: '合计'}" rowspan="2">序号</th>
                     <th lay-data="{field:'displayName', width: '20%'}" rowspan="2">单位</th>
-                   	<th lay-data="{field:'last_year_end',align: 'right', width: '15%',totalRow: true}" rowspan="2">2018年预算完成</th>
-                    <th lay-data="{field:'plan_money',align: 'right', width: '15%',totalRow: true}" rowspan="2">2019年计划金额</th>
+                   	<th lay-data="{field:'last_year_end',align: 'right', width: '15%'}" rowspan="2">2018年预算完成</th>
+                    <th lay-data="{field:'plan_money',align: 'right', width: '15%'}" rowspan="2">2019年计划金额</th>
                     <th lay-data="{align:'center'}", colspan="3"><span>${nd}</span>年科技经费预计完成</th>
                     <th lay-data="{align:'center'}", colspan="3"><span>${nd}</span>年科技经费预算</th>
                 </tr>
@@ -185,8 +185,10 @@
 	                		dt.yjwcTotal = parseInt(dt.yjwcZbx)+parseInt(dt.yjwcFyx);
 	                		dt.xmjfTotal = parseInt(dt.xmjfZbx)+parseInt(dt.xmjfFyx);
 	                	});
-	                	table.reload('dataTable', {data: data.data});
-	                	renderfunc();
+	                	
+	                	reloadDataAndTableFormart(data.data);
+	                	//table.reload('dataTable', {data: data.data});
+	                	//renderfunc();
 	                	calculationSurplusMoney();//预分配数
 	                	initDateView();
     		   		}); 
@@ -198,7 +200,8 @@
 			//空数据初始化
 			function initEmptyData()
 			{
-				table.reload('dataTable', {data: []});
+				//table.reload('dataTable', {data: []});
+				reloadDataAndTableFormart();
 				$("#budgetMoney").val(0);//可分配数
             	$("#surplusMoney").val(0);//剩余可分配数
         		$("#creater_name").html("");//创建人
@@ -213,6 +216,19 @@
             	$(".layui-table-header .layui-table").find("tr").eq(0).find('th').eq(4).find('span').text(cu_date+"年计划金额");
             	$(".layui-table-header .layui-table").find("tr").eq(0).find('th').eq(5).find('span').text((cu_date-1)+"年科技经费预计完成");
             	$(".layui-table-header .layui-table").find("tr").eq(0).find('th').eq(6).find('span').text(cu_date+"年科技经费预算");
+			}
+			function reloadDataAndTableFormart(data)
+			{
+				var table_data = data?data:[];
+				table.reload('dataTable', {data:table_data});
+				renderfunc();
+				//二级预算项居右，序号为空
+				$.each(table_data,function(index,dt){
+					var align = dt.level == 0?"left":"right";
+					var no = dt.level == 0?dt.no:"";
+					$(".layui-table-body").find("tr").eq(index).find('td').eq(2).attr("align",align);
+					$(".layui-table-body").find("tr").eq(index).find('td').eq(1).find("div").html(no);
+				});
 			}
             // 点击按钮时激活
             $('.tableBtns').children('button').on('click',function(){
@@ -244,8 +260,9 @@
             		}
             	});
             	//刷新表格数据
-            	table.reload('dataTable', {data: curent_tabel_data});
-            	renderfunc();
+            	//table.reload('dataTable', {data: curent_tabel_data});
+            	reloadDataAndTableFormart(curent_tabel_data);
+            	//renderfunc();
             	//预分配数
             	calculationSurplusMoney();
             });
@@ -347,8 +364,10 @@
     					publicMethods.ajaxPost("/budget/del-stock-item/"+curent_tabel_data[selectIndex].dataId, null, function (data) {
     	                     if (data.success) {
     	                    	 curent_tabel_data.splice(selectIndex,1);
-    	                    	 table.reload('dataTable', {data: curent_tabel_data});
-    	                     	 renderfunc();
+    	                    	 
+    	                    	 reloadDataAndTableFormart(curent_tabel_data);
+    	                    	 //table.reload('dataTable', {data: curent_tabel_data});
+    	                     	 //renderfunc();
     	                     	 calculationSurplusMoney();
     	                     } else {
     	                    	 layer.msg('操作异常，请重试!');
