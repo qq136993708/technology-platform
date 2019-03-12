@@ -21,8 +21,8 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.enums.BudgetAuditStatusEnum;
 import com.pcitc.base.common.enums.DelFlagEnum;
-import com.pcitc.base.stp.budget.BudgetGroupTotal;
-import com.pcitc.base.stp.budget.BudgetGroupTotalExample;
+import com.pcitc.base.stp.budget.BudgetStockTotal;
+import com.pcitc.base.stp.budget.BudgetStockTotalExample;
 import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.stp.budget.BudgetInfoExample;
 import com.pcitc.base.stp.out.OutProjectInfo;
@@ -30,18 +30,18 @@ import com.pcitc.base.stp.out.OutProjectPlan;
 import com.pcitc.base.stp.out.OutUnit;
 import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.common.BudgetInfoEnum;
-import com.pcitc.mapper.budget.BudgetGroupTotalMapper;
+import com.pcitc.mapper.budget.BudgetStockTotalMapper;
 import com.pcitc.mapper.budget.BudgetInfoMapper;
-import com.pcitc.service.budget.BudgetGroupTotalService;
+import com.pcitc.service.budget.BudgetStockTotalService;
 import com.pcitc.service.feign.SystemRemoteClient;
 
-@Service("budgetGroupTotalService")
+@Service("budgetStockTotalService")
 @Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = Exception.class)
-public class BudgetGroupTotalServiceImpl implements BudgetGroupTotalService
+public class BudgetStockTotalServiceImpl implements BudgetStockTotalService
 {
 
 	@Autowired
-	private BudgetGroupTotalMapper budgetGroupTotalMapper;
+	private BudgetStockTotalMapper budgetStockTotalMapper;
 	
 	@Autowired
 	private BudgetInfoMapper budgetInfoMapper;
@@ -50,88 +50,88 @@ public class BudgetGroupTotalServiceImpl implements BudgetGroupTotalService
 	private SystemRemoteClient systemRemoteClient;
 	
 	@Override
-	public BudgetGroupTotal selectBudgetGroupTotal(String dataId) throws Exception
+	public BudgetStockTotal selectBudgetStockTotal(String dataId) throws Exception
 	{
-		return budgetGroupTotalMapper.selectByPrimaryKey(dataId);
+		return budgetStockTotalMapper.selectByPrimaryKey(dataId);
 	}
 
 	@Override
-	public Integer updateBudgetGroupTotal(BudgetGroupTotal groupTotal) throws Exception
+	public Integer updateBudgetStockTotal(BudgetStockTotal groupTotal) throws Exception
 	{
 		
-		return budgetGroupTotalMapper.updateByPrimaryKey(groupTotal);
+		return budgetStockTotalMapper.updateByPrimaryKey(groupTotal);
 	}
 
 	@Override
-	public int deleteBudgetGroupTotal(String id) throws Exception
+	public int deleteBudgetStockTotal(String id) throws Exception
 	{
-		BudgetGroupTotal group = budgetGroupTotalMapper.selectByPrimaryKey(id);
+		BudgetStockTotal group = budgetStockTotalMapper.selectByPrimaryKey(id);
 		if(group != null) 
 		{
 			group.setDelFlag(DelFlagEnum.STATUS_DEL.getCode());
-			return budgetGroupTotalMapper.updateByPrimaryKey(group);
+			return budgetStockTotalMapper.updateByPrimaryKey(group);
 		}
 		return 0;
 	}
 
 	@Override
-	public List<BudgetGroupTotal> selectBudgetGroupTotalListByIds(List<String> list) throws Exception
+	public List<BudgetStockTotal> selectBudgetStockTotalListByIds(List<String> list) throws Exception
 	{
-		BudgetGroupTotalExample example = new BudgetGroupTotalExample();
-		BudgetGroupTotalExample.Criteria c = example.createCriteria();
+		BudgetStockTotalExample example = new BudgetStockTotalExample();
+		BudgetStockTotalExample.Criteria c = example.createCriteria();
 		c.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
 		c.andDataIdIn(list);
-		return budgetGroupTotalMapper.selectByExample(example);
+		return budgetStockTotalMapper.selectByExample(example);
 	}
 
 	@Override
-	public Integer saveOrUpdateBudgetGroupTotal(BudgetGroupTotal budgetGroupTotal) throws Exception
+	public Integer saveOrUpdateBudgetStockTotal(BudgetStockTotal budgetGroupTotal) throws Exception
 	{
-		BudgetGroupTotal old = budgetGroupTotalMapper.selectByPrimaryKey(budgetGroupTotal.getDataId());
+		BudgetStockTotal old = budgetStockTotalMapper.selectByPrimaryKey(budgetGroupTotal.getDataId());
 		if(old == null) {
-			return budgetGroupTotalMapper.insert(budgetGroupTotal);
+			return budgetStockTotalMapper.insert(budgetGroupTotal);
 		}else {
 			MyBeanUtils.copyProperties(budgetGroupTotal, old);
-			return budgetGroupTotalMapper.updateByPrimaryKey(old);
+			return budgetStockTotalMapper.updateByPrimaryKey(old);
 		}
 	}
 
 	@Override
-	public List<BudgetGroupTotal> selectBudgetInfoId(String budgetInfoId) throws Exception
+	public List<BudgetStockTotal> selectBudgetInfoId(String budgetInfoId) throws Exception
 	{
-		BudgetGroupTotalExample example = new BudgetGroupTotalExample();
-		BudgetGroupTotalExample.Criteria c = example.createCriteria();
+		BudgetStockTotalExample example = new BudgetStockTotalExample();
+		BudgetStockTotalExample.Criteria c = example.createCriteria();
 		c.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
 		c.andBudgetInfoIdEqualTo(budgetInfoId);
 		c.andLevelEqualTo(0);//只显示第一级
 		example.setOrderByClause("no");
-		return budgetGroupTotalMapper.selectByExample(example);
+		return budgetStockTotalMapper.selectByExample(example);
 	}
 
 	@Override
-	public LayuiTableData selectBudgetGroupTotalPage(LayuiTableParam param) throws Exception
+	public LayuiTableData selectBudgetStockTotalPage(LayuiTableParam param) throws Exception
 	{
-		BudgetGroupTotalExample example = new BudgetGroupTotalExample();
-		BudgetGroupTotalExample.Criteria c = example.createCriteria();
+		BudgetStockTotalExample example = new BudgetStockTotalExample();
+		BudgetStockTotalExample.Criteria c = example.createCriteria();
 		c.andBudgetInfoIdEqualTo(param.getParam().get("budget_info_id").toString());
 		c.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
-		c.andLevelEqualTo(0);//只显示第一级
+		//c.andLevelEqualTo(0);//只显示第一级
 		example.setOrderByClause("no");
 		//return this.findByExample(param, example);
 		LayuiTableData tabledata = this.findByExample(param, example);
+		
 		List<Map<String,Object>> ls = new ArrayList<Map<String,Object>>();
 		for(java.util.Iterator<?> iter = tabledata.getData().iterator();iter.hasNext();) 
 		{
 			Map<String,Object> mp  = MyBeanUtils.transBean2Map(iter.next());
-			mp.put("total", new Double(mp.get("zxjf").toString())+new Double(mp.get("xmjf").toString()));
-			mp.put("plan_money", 0);
-			mp.put("last_year_end", 0);
+			mp.put("plan_money", "无");
+			mp.put("last_year_end", "无");
 			ls.add(mp);
 		}
 		tabledata.setData(ls);
 		return tabledata;
 	}
-	private LayuiTableData findByExample(LayuiTableParam param,BudgetGroupTotalExample example) 
+	private LayuiTableData findByExample(LayuiTableParam param,BudgetStockTotalExample example) 
 	{
 		//每页显示条数
 		int pageSize = param.getLimit();
@@ -142,9 +142,9 @@ public class BudgetGroupTotalServiceImpl implements BudgetGroupTotalService
 		// 1、设置分页信息，包括当前页数和每页显示的总计数
 		PageHelper.startPage(pageNum, pageSize);
 		
-		List<BudgetGroupTotal> list = budgetGroupTotalMapper.selectByExample(example);
+		List<BudgetStockTotal> list = budgetStockTotalMapper.selectByExample(example);
 		// 3、获取分页查询后的数据
-		PageInfo<BudgetGroupTotal> pageInfo= new PageInfo<BudgetGroupTotal>(list);
+		PageInfo<BudgetStockTotal> pageInfo= new PageInfo<BudgetStockTotal>(list);
 		LayuiTableData data = new LayuiTableData();
 		data.setData(pageInfo.getList());
 		Long total = pageInfo.getTotal();
@@ -153,81 +153,81 @@ public class BudgetGroupTotalServiceImpl implements BudgetGroupTotalService
 	}
 
 	@Override
-	public int deleteBudgetGroupTotalByInfo(String budgetInfoId) throws Exception
+	public int deleteBudgetStockTotalByInfo(String budgetInfoId) throws Exception
 	{
-		BudgetGroupTotalExample example = new BudgetGroupTotalExample();
-		BudgetGroupTotalExample.Criteria c = example.createCriteria();
+		BudgetStockTotalExample example = new BudgetStockTotalExample();
+		BudgetStockTotalExample.Criteria c = example.createCriteria();
 		c.andBudgetInfoIdEqualTo(budgetInfoId);
-		List<BudgetGroupTotal> list = budgetGroupTotalMapper.selectByExample(example);
+		List<BudgetStockTotal> list = budgetStockTotalMapper.selectByExample(example);
 		
 		Integer rs = 0;
-		for(BudgetGroupTotal group:list) 
+		for(BudgetStockTotal group:list) 
 		{
 			group.setDelFlag(DelFlagEnum.STATUS_DEL.getCode());
-			rs += budgetGroupTotalMapper.updateByPrimaryKey(group);
+			rs += budgetStockTotalMapper.updateByPrimaryKey(group);
 		}
 		return rs;
 	}
 
 	@Override
-	public List<BudgetGroupTotal> selectChildBudgetGroupTotal(String dataId)
+	public List<BudgetStockTotal> selectChildBudgetStockTotal(String dataId)
 	{
-		BudgetGroupTotalExample example = new BudgetGroupTotalExample();
-		BudgetGroupTotalExample.Criteria c = example.createCriteria();
+		BudgetStockTotalExample example = new BudgetStockTotalExample();
+		BudgetStockTotalExample.Criteria c = example.createCriteria();
 		c.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
 		c.andParentDataIdEqualTo(dataId);
 		c.andLevelEqualTo(1);//只显示第二级
 		example.setOrderByClause("no");
-		return budgetGroupTotalMapper.selectByExample(example);
+		return budgetStockTotalMapper.selectByExample(example);
 	}
 	@Override
-	public List<BudgetGroupTotal> selectChildBudgetGroupTotalAll(String dataId) {
-		BudgetGroupTotalExample example = new BudgetGroupTotalExample();
-		BudgetGroupTotalExample.Criteria c = example.createCriteria();
+	public List<BudgetStockTotal> selectChildBudgetStockTotalAll(String dataId) {
+		BudgetStockTotalExample example = new BudgetStockTotalExample();
+		BudgetStockTotalExample.Criteria c = example.createCriteria();
 		c.andParentDataIdEqualTo(dataId);
 		c.andLevelEqualTo(1);//只显示第二级
 		example.setOrderByClause("no");
-		return budgetGroupTotalMapper.selectByExample(example);
+		return budgetStockTotalMapper.selectByExample(example);
 	}
 
 	@Override
-	public List<BudgetGroupTotal> selectGroupTotalHistoryItems(BudgetGroupTotal item) {
-		//检索已通过审核的集团预算
+	public List<BudgetStockTotal> selectStockTotalHistoryItems(BudgetStockTotal item) {
+		//检索已通过审核的资产预算
 		BudgetInfoExample infoExample = new BudgetInfoExample();
 		BudgetInfoExample.Criteria infoc = infoExample.createCriteria();
 		infoc.andAuditStatusEqualTo(BudgetAuditStatusEnum.AUDIT_STATUS_FINAL.getCode());
 		infoc.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
-		infoc.andBudgetTypeEqualTo(BudgetInfoEnum.GROUP_TOTAL.getCode());
+		infoc.andBudgetTypeEqualTo(BudgetInfoEnum.ASSETS_TOTAL.getCode());
 		List<BudgetInfo> infos = budgetInfoMapper.selectByExample(infoExample);
 		Set<String> ids = new HashSet<String>();
 		ids.add("xxxx");//避免为空
 		for(BudgetInfo info:infos) {
 			ids.add(info.getDataId());
 		}
-		BudgetGroupTotalExample example = new BudgetGroupTotalExample();
-		BudgetGroupTotalExample.Criteria c = example.createCriteria();
+		BudgetStockTotalExample example = new BudgetStockTotalExample();
+		BudgetStockTotalExample.Criteria c = example.createCriteria();
 		c.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
 		c.andBudgetInfoIdIn(new ArrayList<String>(ids));
 		c.andNdNotEqualTo(item.getNd());
 		c.andDisplayNameEqualTo(item.getDisplayName());
 		c.andLevelEqualTo(0);//只显示第1级
 		example.setOrderByClause("nd desc");
-		return budgetGroupTotalMapper.selectByExample(example);
+		return budgetStockTotalMapper.selectByExample(example);
 	}
 
 	@Override
-	public List<BudgetGroupTotal> selectBudgetGroupTotalByInfoId(String budgetId) throws Exception 
+	public List<BudgetStockTotal> selectBudgetStockTotalByInfoId(String budgetId) throws Exception 
 	{
-		BudgetGroupTotalExample example = new BudgetGroupTotalExample();
-		BudgetGroupTotalExample.Criteria c = example.createCriteria();
+		BudgetStockTotalExample example = new BudgetStockTotalExample();
+		BudgetStockTotalExample.Criteria c = example.createCriteria();
 		c.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
 		c.andBudgetInfoIdEqualTo(budgetId);
 		example.setOrderByClause("no");
-		return budgetGroupTotalMapper.selectByExample(example);
+		return budgetStockTotalMapper.selectByExample(example);
 	}
 	@Override
-	public List<OutUnit> selectGroupCompnays() {
-		return systemRemoteClient.selectProjectUnits("JTZS");
+	public List<OutUnit> selectStockCompnays() {
+		return systemRemoteClient.selectProjectUnits("ZCGS");
 	}
 	@Override
 	public Map<String, List<OutProjectPlan>> selectComparePlanData(Set<String> codes, String nd) {
@@ -238,7 +238,6 @@ public class BudgetGroupTotalServiceImpl implements BudgetGroupTotalService
 		for (String code : codes) {
 			sb.append(code + ",");
 		}
-
 		LayuiTableParam layuiParam = new LayuiTableParam();
 		Map<String, Object> p = new HashMap<String, Object>();
 		p.put("ysnd", nd);
@@ -270,7 +269,6 @@ public class BudgetGroupTotalServiceImpl implements BudgetGroupTotalService
 		for (String code : codes) {
 			sb.append(code + ",");
 		}
-
 		LayuiTableParam layuiParam = new LayuiTableParam();
 		Map<String, Object> p = new HashMap<String, Object>();
 		p.put("ysnd", nd);
