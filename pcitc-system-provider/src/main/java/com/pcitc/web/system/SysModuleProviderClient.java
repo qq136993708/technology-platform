@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.system.SysModule;
-import com.pcitc.base.system.SysModuleVo;
 import com.pcitc.service.system.SysModuleService;
 
 @Api(value = "SysModule-API",description = "模块管理相关的接口")
@@ -28,7 +27,7 @@ public class SysModuleProviderClient {
 
 	@ApiOperation(value = "查询模块列表", notes = "传入json格式的模块实体属性")
 	@RequestMapping(value = "/sysModule-provider/sysModule_list",method = RequestMethod.POST)
-	public String selectSysModuleByPage(@RequestBody SysModuleVo vo) {
+	public String selectSysModuleByPage(@RequestBody SysModule vo) {
 		JSONObject tem = null;
 		try {
 			tem = sysModuleService.selectSysModuleList(vo);

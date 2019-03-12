@@ -12,7 +12,6 @@ import com.github.pagehelper.PageInfo;
 import com.pcitc.base.system.SysModule;
 import com.pcitc.base.system.SysModuleExample;
 import com.pcitc.base.system.SysModuleExample.Criteria;
-import com.pcitc.base.system.SysModuleVo;
 import com.pcitc.mapper.system.SysModuleMapper;
 import com.pcitc.service.system.SysModuleService;
 import com.pcitc.utils.StringUtils;
@@ -23,7 +22,7 @@ public class SysModuleServiceImpl implements SysModuleService {
 	private SysModuleMapper sysModuleMapper;
 
 	@Override
-	public JSONObject selectSysModuleList(SysModuleVo vo) throws Exception {
+	public JSONObject selectSysModuleList(SysModule vo) throws Exception {
 		// 每页显示条数
 		int pageSize = Integer.parseInt(vo.getLimit());
 		// 当前是第几页
