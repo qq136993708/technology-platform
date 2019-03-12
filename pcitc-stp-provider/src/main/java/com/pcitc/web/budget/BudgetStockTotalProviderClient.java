@@ -74,7 +74,6 @@ public class BudgetStockTotalProviderClient
 		{
 			
 			List<BudgetInfo> datalist = budgetInfoService.selectBudgetInfoList(info.getNd(),BudgetInfoEnum.STOCK_TOTAL.getCode());
-			System.out.println(JSON.toJSONString(datalist));
 			for(BudgetInfo dt:datalist) {
 				Map<String,Object> map = MyBeanUtils.transBean2Map(dt);
 				map.put("auditStatusDesc", BudgetAuditStatusEnum.getStatusByCode(dt.getAuditStatus()).getDesc());
@@ -95,10 +94,8 @@ public class BudgetStockTotalProviderClient
 		LayuiTableData data = null;
 		try
 		{
-			System.out.println(JSON.toJSONString(param));
 			param.getParam().put("budget_type", BudgetInfoEnum.STOCK_TOTAL.getCode());
 			data = budgetInfoService.selectBudgetInfoPage(param);
-			System.out.println(JSON.toJSONString(data));
 			return data;
 		}
 		catch (Exception e)

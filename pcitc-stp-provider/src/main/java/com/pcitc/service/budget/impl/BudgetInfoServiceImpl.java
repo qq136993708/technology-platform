@@ -1,7 +1,9 @@
 package com.pcitc.service.budget.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -94,7 +96,15 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 		c.andBudgetTypeEqualTo(new Integer(param.getParam().get("budget_type").toString()));
 		c.andNdEqualTo(param.getParam().get("nd").toString());
 		example.setOrderByClause("data_version");
-		return this.findByExample(param, example);
+		LayuiTableData data = this.findByExample(param, example);
+		List<Map<String,Object>> mapdata = new ArrayList<Map<String,Object>>();
+		for(java.util.Iterator<?> iter = data.getData().iterator();iter.hasNext();) {
+			Map<String,Object> map = MyBeanUtils.transBean2Map(iter.next());
+			map.put("status", BudgetAuditStatusEnum.getStatusByCode((Integer)map.get("auditStatus")).getDesc());
+			mapdata.add(map);
+		}
+		data.setData(mapdata);
+		return data;
 	}
 	private LayuiTableData findByExample(LayuiTableParam param,BudgetInfoExample example) 
 	{

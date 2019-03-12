@@ -95,10 +95,8 @@ public class BudgetAssetTotalProviderClient
 		LayuiTableData data = null;
 		try
 		{
-			System.out.println(JSON.toJSONString(param));
 			param.getParam().put("budget_type", BudgetInfoEnum.ASSETS_TOTAL.getCode());
 			data = budgetInfoService.selectBudgetInfoPage(param);
-			System.out.println(JSON.toJSONString(data));
 			return data;
 		}
 		catch (Exception e)
