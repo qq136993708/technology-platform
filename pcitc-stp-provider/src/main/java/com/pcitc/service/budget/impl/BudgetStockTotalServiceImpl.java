@@ -119,15 +119,13 @@ public class BudgetStockTotalServiceImpl implements BudgetStockTotalService
 		example.setOrderByClause("no");
 		//return this.findByExample(param, example);
 		LayuiTableData tabledata = this.findByExample(param, example);
-		System.out.println(JSON.toJSONString(tabledata));
 		
 		List<Map<String,Object>> ls = new ArrayList<Map<String,Object>>();
 		for(java.util.Iterator<?> iter = tabledata.getData().iterator();iter.hasNext();) 
 		{
 			Map<String,Object> mp  = MyBeanUtils.transBean2Map(iter.next());
-			mp.put("total", new Double(mp.get("yjwc").toString()) + new Double(mp.get("xmjf").toString()));
-			mp.put("plan_money", 0);
-			mp.put("last_year_end", 0);
+			mp.put("plan_money", "无");
+			mp.put("last_year_end", "无");
 			ls.add(mp);
 		}
 		tabledata.setData(ls);
@@ -233,16 +231,17 @@ public class BudgetStockTotalServiceImpl implements BudgetStockTotalService
 	}
 	@Override
 	public Map<String, List<OutProjectPlan>> selectComparePlanData(Set<String> codes, String nd) {
+		if(codes == null || codes.size() == 0) {
+			return new HashMap<String,List<OutProjectPlan>>();
+		}
 		StringBuffer sb = new StringBuffer();
 		for (String code : codes) {
 			sb.append(code + ",");
 		}
-		String codesStr = sb.toString().substring(0, sb.length() - 1);
-
 		LayuiTableParam layuiParam = new LayuiTableParam();
 		Map<String, Object> p = new HashMap<String, Object>();
 		p.put("ysnd", nd);
-		p.put("define9", codesStr);
+		p.put("define9", sb.toString().substring(0, sb.length() - 1));
 		layuiParam.setLimit(1000);
 		layuiParam.setPage(1);
 		layuiParam.setParam(p);
@@ -263,16 +262,17 @@ public class BudgetStockTotalServiceImpl implements BudgetStockTotalService
 
 	@Override
 	public Map<String, List<OutProjectInfo>> selectCompareProjectInfoData(Set<String> codes, String nd) {
+		if(codes == null || codes.size() == 0) {
+			return new HashMap<String,List<OutProjectInfo>>();
+		}
 		StringBuffer sb = new StringBuffer();
 		for (String code : codes) {
 			sb.append(code + ",");
 		}
-		String codesStr = sb.toString().substring(0, sb.length() - 1);
-
 		LayuiTableParam layuiParam = new LayuiTableParam();
 		Map<String, Object> p = new HashMap<String, Object>();
 		p.put("ysnd", nd);
-		p.put("define9", codesStr);
+		p.put("define9", sb.toString().substring(0, sb.length() - 1));
 		layuiParam.setLimit(1000);
 		layuiParam.setPage(1);
 		layuiParam.setParam(p);

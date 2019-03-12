@@ -93,16 +93,19 @@
                 <tr>
                 	<th lay-data="{type:'checkbox'}" rowspan="2"></th>
                 	<th lay-data="{field:'no',align: 'center', width: 45,totalRowText: '合计'}" rowspan="2">序号</th>
-                    <th lay-data="{field:'displayName', width: '25%'}" rowspan="2">承担单位</th>
-                    <!-- <th lay-data="{field:'remark', width: '30%'}" rowspan="2">研究方向</th> -->
-                   	<th lay-data="{field:'last_year_end',align: 'right', width: '15%',totalRow: true}" rowspan="2">2018年科技经费预算完成</th>
-                    <th lay-data="{field:'plan_money',align: 'right', width: '15%',totalRow: true}" rowspan="2">2019年科技经费合同计划金额</th>
-                    <th lay-data="{align:'center'}", colspan="3"><span>${nd}</span>年度经费预算</th>
+                    <th lay-data="{field:'displayName', width: '20%'}" rowspan="2">单位</th>
+                   	<th lay-data="{field:'last_year_end',align: 'right', width: '15%',totalRow: true}" rowspan="2">2018年预算完成</th>
+                    <th lay-data="{field:'plan_money',align: 'right', width: '15%',totalRow: true}" rowspan="2">2019年计划金额</th>
+                    <th lay-data="{align:'center'}", colspan="3"><span>${nd}</span>年科技经费预计完成</th>
+                    <th lay-data="{align:'center'}", colspan="3"><span>${nd}</span>年科技经费预算</th>
                 </tr>
                 <tr>
-                    <th lay-data="{field:'total', width: '10%',align: 'right',totalRow: true}">合计</th>
-                    <th lay-data="{field:'xmjf', edit:true,align: 'right',totalRow: true}">项目经费</th>
-                    <th lay-data="{field:'zxjf', edit:true,align: 'right',totalRow: true}">重点实验室专项经费</th>
+                    <th lay-data="{field:'yjwcTotal',align: 'right',totalRow: true}">合计</th>
+                    <th lay-data="{field:'yjwcZbx', edit:true,align: 'right',totalRow: true}">资本性</th>
+                    <th lay-data="{field:'yjwcFyx', edit:true,align: 'right',totalRow: true}">费用性</th>
+                    <th lay-data="{field:'xmjfTotal',align: 'right',totalRow: true}">合计</th>
+                    <th lay-data="{field:'xmjfZbx', edit:true,align: 'right',totalRow: true}">资本性</th>
+                    <th lay-data="{field:'xmjfFyx', edit:true,align: 'right',totalRow: true}">费用性</th>
                 </tr>
                 </thead>
             </table>
@@ -177,10 +180,14 @@
             		
             		publicMethods.ajaxPost("/budget/budget-stocktotal-items",{page:1,limit:10,param: {"nd":cu_date,"budget_info_id":curent_budget_info.dataId}}, function (data) {
 	                	curent_tabel_data = data.data;
+	                	//求和
+	                	$.each(curent_tabel_data,function(index,dt){
+	                		dt.yjwcTotal = parseInt(dt.yjwcZbx)+parseInt(dt.yjwcFyx);
+	                		dt.xmjfTotal = parseInt(dt.xmjfZbx)+parseInt(dt.xmjfFyx);
+	                	});
 	                	table.reload('dataTable', {data: data.data});
 	                	renderfunc();
-	                	//预分配数
-	                	calculationSurplusMoney();
+	                	calculationSurplusMoney();//预分配数
 	                	initDateView();
     		   		}); 
             	}else{
@@ -202,9 +209,10 @@
 			//初始化时间选择
 			function initDateView(){
 				$(".nd").html(cu_date);
-            	$('.layui-table-cell .laytable-cell-group').find('span').text(cu_date+"年度经费预算");
-            	$(".layui-table-header .layui-table").find('th').eq(3).find('span').text((cu_date-1)+"年科技经费预算完成");
-            	$(".layui-table-header .layui-table").find('th').eq(4).find('span').text(cu_date+"年科技经费合同计划金额");
+            	$(".layui-table-header .layui-table").find("tr").eq(0).find('th').eq(3).find('span').text((cu_date-1)+"年预算完成");
+            	$(".layui-table-header .layui-table").find("tr").eq(0).find('th').eq(4).find('span').text(cu_date+"年计划金额");
+            	$(".layui-table-header .layui-table").find("tr").eq(0).find('th').eq(5).find('span').text((cu_date-1)+"年科技经费预计完成");
+            	$(".layui-table-header .layui-table").find("tr").eq(0).find('th').eq(6).find('span').text(cu_date+"年科技经费预算");
 			}
             // 点击按钮时激活
             $('.tableBtns').children('button').on('click',function(){
@@ -217,15 +225,22 @@
                 active[type] ? active[type].call(this) : '';
             });
             table.on('edit(dataTable)', function(obj){ //注：edit是固定事件名，test是table原始容器的属性 lay-filter="对应的值"
+            	if(obj.data.level ==1){//如果
+            	}
             	$.each(curent_tabel_data,function(index,dt){
+            		//计算行合计
             		if(obj.data.dataId == dt.dataId){
-            			if(obj.field=="xmjf"){
-            				dt.xmjf = obj.value;
-            			}else if(obj.field=="zxjf")
-            			{
-            				dt.zxjf = obj.value;
+            			if(obj.field=="yjwcZbx"){
+            				dt.yjwcZbx = obj.value;
+            			}else if(obj.field=="yjwcFyx"){
+            				dt.yjwcFyx = obj.value;
+            			}else if(obj.field=="xmjfFyx"){
+            				dt.xmjfFyx = obj.value;
+            			}else if(obj.field=="xmjfZbx"){
+            				dt.xmjfZbx = obj.value;
             			}
-            			dt.total = parseInt(dt.xmjf)+parseInt(dt.zxjf);
+            			dt.yjwcTotal = parseInt(dt.yjwcZbx)+parseInt(dt.yjwcFyx);
+            			dt.xmjfTotal = parseInt(dt.xmjfZbx)+parseInt(dt.xmjfFyx);
             		}
             	});
             	//刷新表格数据
@@ -257,7 +272,9 @@
           	function calculationSurplusMoney(){
             	var total_money = 0;
             	$.each(curent_tabel_data,function(index,dt){
-            		total_money += parseInt(dt.total);
+            		if(dt.level == 0){
+            			total_money += parseInt(dt.xmjfTotal);
+            		}
             	});
           		$("#surplusMoney").val(parseInt($("#budgetMoney").val())-total_money);
           	}
