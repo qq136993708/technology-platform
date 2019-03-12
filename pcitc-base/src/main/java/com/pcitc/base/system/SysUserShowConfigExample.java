@@ -874,6 +874,76 @@ public class SysUserShowConfigExample {
             return (Criteria) this;
         }
 
+        public Criteria andShowNameIsNull() {
+            addCriterion("show_name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andShowNameIsNotNull() {
+            addCriterion("show_name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andShowNameEqualTo(String value) {
+            addCriterion("show_name =", value, "showName");
+            return (Criteria) this;
+        }
+
+        public Criteria andShowNameNotEqualTo(String value) {
+            addCriterion("show_name <>", value, "showName");
+            return (Criteria) this;
+        }
+
+        public Criteria andShowNameGreaterThan(String value) {
+            addCriterion("show_name >", value, "showName");
+            return (Criteria) this;
+        }
+
+        public Criteria andShowNameGreaterThanOrEqualTo(String value) {
+            addCriterion("show_name >=", value, "showName");
+            return (Criteria) this;
+        }
+
+        public Criteria andShowNameLessThan(String value) {
+            addCriterion("show_name <", value, "showName");
+            return (Criteria) this;
+        }
+
+        public Criteria andShowNameLessThanOrEqualTo(String value) {
+            addCriterion("show_name <=", value, "showName");
+            return (Criteria) this;
+        }
+
+        public Criteria andShowNameLike(String value) {
+            addCriterion("show_name like", value, "showName");
+            return (Criteria) this;
+        }
+
+        public Criteria andShowNameNotLike(String value) {
+            addCriterion("show_name not like", value, "showName");
+            return (Criteria) this;
+        }
+
+        public Criteria andShowNameIn(List<String> values) {
+            addCriterion("show_name in", values, "showName");
+            return (Criteria) this;
+        }
+
+        public Criteria andShowNameNotIn(List<String> values) {
+            addCriterion("show_name not in", values, "showName");
+            return (Criteria) this;
+        }
+
+        public Criteria andShowNameBetween(String value1, String value2) {
+            addCriterion("show_name between", value1, value2, "showName");
+            return (Criteria) this;
+        }
+
+        public Criteria andShowNameNotBetween(String value1, String value2) {
+            addCriterion("show_name not between", value1, value2, "showName");
+            return (Criteria) this;
+        }
+
         public Criteria andModuleIdIsNull() {
             addCriterion("module_id is null");
             return (Criteria) this;

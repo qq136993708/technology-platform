@@ -15,7 +15,7 @@
 		<sqlMapGenerator     targetPackage="com.pcitc.mapper.system"   targetProject="pcitc-system-provider" />
 		<javaClientGenerator targetPackage="com.pcitc.mapper.system"   targetProject="pcitc-system-provider" type="XMLMAPPER" />
 	    
-	    <table schema="pcitc-system-provider" domainObjectName="SysUserShowConfig"  tableName="sys_user_show_config"  enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
+	    <table schema="pcitc-system-provider" domainObjectName="SysModule"  tableName="sys_module"  enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
 	    </table>
 	
 	</context>

@@ -1,5 +1,7 @@
 package com.pcitc.web.system;
 
+import io.swagger.annotations.ApiOperation;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.system.SysConfig;
-import com.pcitc.base.system.SysModule;
-import com.pcitc.base.system.SysRestfulapi;
 import com.pcitc.service.system.SysConfigService;
-
-import io.swagger.annotations.ApiOperation;
 
 //@Api(value = "Task-API",description = "任务相关的接口")
 @RestController
@@ -85,4 +83,18 @@ public class SysConfigClient {
 		rInt = rInt + sysConfigService.deleteSysConfig(sysconfig);
 		return rInt;
 	}
+	
+	/**
+	* @author zhf
+	* 领导的显示配置功能（统计、业务功能）
+	*/
+	@ApiOperation(value = "领导的显示配置功能", notes = "显示统计、业务功能")
+	@RequestMapping(value = "/sysconfig-provider/user/show/config/{userId}", method = RequestMethod.POST)
+	public Object selectUserShowConfigList(@PathVariable(value = "userId", required = true) String userId) {
+		System.out.println("selectUserShowConfigList==============领导的显示配置功能");
+		Object tem = sysConfigService.selectUserShowConfigList(userId);
+		return tem;
+	}
+	
+	
 }

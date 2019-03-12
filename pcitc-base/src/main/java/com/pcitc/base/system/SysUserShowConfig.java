@@ -23,6 +23,8 @@ public class SysUserShowConfig {
 
     private String configUserId;
 
+    private String showName;
+
     private String moduleId;
 
     private String functionId;
@@ -125,6 +127,14 @@ public class SysUserShowConfig {
 
     public void setConfigUserId(String configUserId) {
         this.configUserId = configUserId;
+    }
+
+    public String getShowName() {
+        return showName;
+    }
+
+    public void setShowName(String showName) {
+        this.showName = showName;
     }
 
     public String getModuleId() {

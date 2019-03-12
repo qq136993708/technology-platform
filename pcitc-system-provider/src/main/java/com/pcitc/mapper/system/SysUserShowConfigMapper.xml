@@ -13,6 +13,7 @@
     <result column="config_code" property="configCode" jdbcType="VARCHAR" />
     <result column="audit_status" property="auditStatus" jdbcType="VARCHAR" />
     <result column="config_user_id" property="configUserId" jdbcType="VARCHAR" />
+    <result column="show_name" property="showName" jdbcType="VARCHAR" />
     <result column="module_id" property="moduleId" jdbcType="VARCHAR" />
     <result column="function_id" property="functionId" jdbcType="VARCHAR" />
     <result column="show_url" property="showUrl" jdbcType="VARCHAR" />
@@ -82,8 +83,8 @@
   </sql>
   <sql id="Base_Column_List" >
     data_id, create_user, create_user_id, create_date, sts, update_date, update_user, 
-    remarks, config_code, audit_status, config_user_id, module_id, function_id, show_url, 
-    show_mode, config_level, bak1, bak2, bak3
+    remarks, config_code, audit_status, config_user_id, show_name, module_id, function_id, 
+    show_url, show_mode, config_level, bak1, bak2, bak3
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.pcitc.base.system.SysUserShowConfigExample" >
     select
@@ -110,17 +111,17 @@
     insert into sys_user_show_config (data_id, create_user, create_user_id, 
       create_date, sts, update_date, 
       update_user, remarks, config_code, 
-      audit_status, config_user_id, module_id, 
-      function_id, show_url, show_mode, 
-      config_level, bak1, bak2, 
-      bak3)
+      audit_status, config_user_id, show_name, 
+      module_id, function_id, show_url, 
+      show_mode, config_level, bak1, 
+      bak2, bak3)
     values (#{dataId,jdbcType=VARCHAR}, #{createUser,jdbcType=VARCHAR}, #{createUserId,jdbcType=VARCHAR}, 
       #{createDate,jdbcType=VARCHAR}, #{sts,jdbcType=VARCHAR}, #{updateDate,jdbcType=VARCHAR}, 
       #{updateUser,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, #{configCode,jdbcType=VARCHAR}, 
-      #{auditStatus,jdbcType=VARCHAR}, #{configUserId,jdbcType=VARCHAR}, #{moduleId,jdbcType=VARCHAR}, 
-      #{functionId,jdbcType=VARCHAR}, #{showUrl,jdbcType=VARCHAR}, #{showMode,jdbcType=VARCHAR}, 
-      #{configLevel,jdbcType=VARCHAR}, #{bak1,jdbcType=VARCHAR}, #{bak2,jdbcType=VARCHAR}, 
-      #{bak3,jdbcType=VARCHAR})
+      #{auditStatus,jdbcType=VARCHAR}, #{configUserId,jdbcType=VARCHAR}, #{showName,jdbcType=VARCHAR}, 
+      #{moduleId,jdbcType=VARCHAR}, #{functionId,jdbcType=VARCHAR}, #{showUrl,jdbcType=VARCHAR}, 
+      #{showMode,jdbcType=VARCHAR}, #{configLevel,jdbcType=VARCHAR}, #{bak1,jdbcType=VARCHAR}, 
+      #{bak2,jdbcType=VARCHAR}, #{bak3,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.pcitc.base.system.SysUserShowConfig" >
     insert into sys_user_show_config
@@ -157,6 +158,9 @@
       </if>
       <if test="configUserId != null" >
         config_user_id,
+      </if>
+      <if test="showName != null" >
+        show_name,
       </if>
       <if test="moduleId != null" >
         module_id,
@@ -216,6 +220,9 @@
       </if>
       <if test="configUserId != null" >
         #{configUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="showName != null" >
+        #{showName,jdbcType=VARCHAR},
       </if>
       <if test="moduleId != null" >
         #{moduleId,jdbcType=VARCHAR},
@@ -285,6 +292,9 @@
       <if test="record.configUserId != null" >
         config_user_id = #{record.configUserId,jdbcType=VARCHAR},
       </if>
+      <if test="record.showName != null" >
+        show_name = #{record.showName,jdbcType=VARCHAR},
+      </if>
       <if test="record.moduleId != null" >
         module_id = #{record.moduleId,jdbcType=VARCHAR},
       </if>
@@ -327,6 +337,7 @@
       config_code = #{record.configCode,jdbcType=VARCHAR},
       audit_status = #{record.auditStatus,jdbcType=VARCHAR},
       config_user_id = #{record.configUserId,jdbcType=VARCHAR},
+      show_name = #{record.showName,jdbcType=VARCHAR},
       module_id = #{record.moduleId,jdbcType=VARCHAR},
       function_id = #{record.functionId,jdbcType=VARCHAR},
       show_url = #{record.showUrl,jdbcType=VARCHAR},
