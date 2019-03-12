@@ -118,7 +118,7 @@ line-height: 60px;font-size: 22px;}
 .selectOption div:nth-child(3) .option p{background-color: #47a2d7;}
 .selectOption div:nth-child(4) .option p{background-color: #f09151;}
 .selectOption .option p span{background: url("/layuiadmin/layui/images/icon-level-dele.png") no-repeat;
-    width: 22px;height: 22px;display: inline-block;position: absolute;top: -2px;}
+    width: 22px;height: 22px;display: inline-block;position: absolute;top: -5px;right: -5px;}
 .selectOption .option p span:hover{background: url("/layuiadmin/layui/images/icon-level-dele-h.png") no-repeat;}
 .moduleB .form-bottom-btns{text-align: center;height: 60px;border-top: 1px solid #eae9f5;width: 100%;position: fixed;
     left: 0;bottom: 0;background-color: white;}
