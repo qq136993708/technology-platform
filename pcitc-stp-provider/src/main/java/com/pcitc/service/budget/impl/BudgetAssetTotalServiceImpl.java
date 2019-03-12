@@ -233,16 +233,18 @@ public class BudgetAssetTotalServiceImpl implements BudgetAssetTotalService
 	}
 	@Override
 	public Map<String, List<OutProjectPlan>> selectComparePlanData(Set<String> codes, String nd) {
+		if(codes == null || codes.size() == 0) {
+			return new HashMap<String,List<OutProjectPlan>>();
+		}
+		
 		StringBuffer sb = new StringBuffer();
 		for (String code : codes) {
 			sb.append(code + ",");
 		}
-		String codesStr = sb.toString().substring(0, sb.length() - 1);
-
 		LayuiTableParam layuiParam = new LayuiTableParam();
 		Map<String, Object> p = new HashMap<String, Object>();
 		p.put("ysnd", nd);
-		p.put("define9", codesStr);
+		p.put("define9", sb.toString().substring(0, sb.length() - 1));
 		layuiParam.setLimit(1000);
 		layuiParam.setPage(1);
 		layuiParam.setParam(p);
@@ -263,16 +265,17 @@ public class BudgetAssetTotalServiceImpl implements BudgetAssetTotalService
 
 	@Override
 	public Map<String, List<OutProjectInfo>> selectCompareProjectInfoData(Set<String> codes, String nd) {
+		if(codes == null || codes.size() == 0) {
+			return new HashMap<String,List<OutProjectInfo>>();
+		}
 		StringBuffer sb = new StringBuffer();
 		for (String code : codes) {
 			sb.append(code + ",");
 		}
-		String codesStr = sb.toString().substring(0, sb.length() - 1);
-
 		LayuiTableParam layuiParam = new LayuiTableParam();
 		Map<String, Object> p = new HashMap<String, Object>();
 		p.put("ysnd", nd);
-		p.put("define9", codesStr);
+		p.put("define9", sb.toString().substring(0, sb.length() - 1));
 		layuiParam.setLimit(1000);
 		layuiParam.setPage(1);
 		layuiParam.setParam(p);
