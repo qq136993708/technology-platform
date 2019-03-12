@@ -232,7 +232,7 @@ public class BudgetAssetTotalProviderClient
 		try
 		{
 			info.setBudgetType(BudgetInfoEnum.ASSETS_TOTAL.getCode());
-			rsbean = budgetInfoService.createBlankBudgetInfo(info);
+			rsbean = budgetInfoService.createBlankBudgetInfo(info.getNd(),info);
 		}
 		catch (Exception e)
 		{
@@ -252,7 +252,14 @@ public class BudgetAssetTotalProviderClient
 			BudgetInfo oldInfo = budgetInfoService.selectBudgetInfo(info.getDataId());
 			
 			
-			newInfo = budgetInfoService.createBlankBudgetInfo(oldInfo);
+			newInfo = budgetInfoService.createBlankBudgetInfo(info.getNd(),oldInfo);
+			
+			newInfo.setBudgetMoney(oldInfo.getBudgetMoney());
+			newInfo.setNd(info.getNd());
+			newInfo.setCreaterId(info.getCreaterId());
+			newInfo.setCreaterName(info.getCreaterName());
+			
+			budgetInfoService.updateBudgetInfo(newInfo);
 			//获取模板数据
 			List<BudgetAssetTotal> templates = budgetAssetTotalService.selectBudgetAssetTotalByInfoId(info.getDataId());
 			Map<String,String> idRel = new HashMap<String,String>();//新老ID对照
@@ -263,6 +270,7 @@ public class BudgetAssetTotalProviderClient
 				
 				total.setBudgetInfoId(newInfo.getDataId());
 				total.setDataVersion(newInfo.getDataVersion());
+				total.setNd(newInfo.getNd());
 				total.setDataId(newId);
 				total.setUpdateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
 				total.setCreateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
@@ -277,9 +285,6 @@ public class BudgetAssetTotalProviderClient
 					budgetAssetTotalService.updateBudgetAssetTotal(total);
 				}
 			}
-			newInfo.setBudgetMoney(oldInfo.getBudgetMoney());
-			budgetInfoService.updateBudgetInfo(newInfo);
-			System.out.println(JSON.toJSONString(newInfo));
 		}
 		catch (Exception e)
 		{
@@ -415,8 +420,8 @@ public class BudgetAssetTotalProviderClient
 					BudgetAssetTotal old = oldmap.get(t.getDisplayName());
 					old.setDelFlag(DelFlagEnum.STATUS_NORMAL.getCode());
 					old.setUpdateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
-					//old.setXmjf(t.getXmjf());
-					//old.setZxjf(t.getZxjf());
+					old.setXmjf(t.getXmjf());
+					old.setYjwc(t.getYjwc());
 					old.setDisplayCode(t.getDisplayCode());
 					budgetAssetTotalService.updateBudgetAssetTotal(old);
 				}else{
@@ -511,7 +516,7 @@ public class BudgetAssetTotalProviderClient
 			List<BudgetAssetTotal> rs = budgetAssetTotalService.selectAssetTotalHistoryItems(item);
 			for(BudgetAssetTotal total:rs) {
 				Map<String,Object> map  = MyBeanUtils.transBean2Map(total);
-				map.put("total", new Double(map.get("zxjf").toString())+new Double(map.get("xmjf").toString()));
+				map.put("total", new Double(map.get("yjwc").toString())+new Double(map.get("xmjf").toString()));
 				rsmap.add(map);
 			}
 		}

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.Cookie;
@@ -24,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.ChartBarLineResultData;
@@ -32,7 +32,9 @@ import com.pcitc.base.common.Result;
 import com.pcitc.base.hana.report.HanaConstant;
 import com.pcitc.base.system.SysCollect;
 import com.pcitc.base.system.SysFunction;
+import com.pcitc.base.system.SysModule;
 import com.pcitc.base.system.SysUser;
+import com.pcitc.base.system.SysUserShowConfig;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.MD5Util;
 import com.pcitc.web.common.BaseController;
@@ -75,6 +77,11 @@ public class AdminController extends BaseController {
 	// 收藏菜单
 	private static final String COLLECT_FUNCTION = "http://pcitc-zuul/system-proxy/syscollect-provider/sys_collect/add";
 
+	// 系统统计功能模块列表
+	private static final String MODULE_LIST = "http://pcitc-zuul/system-proxy/sysModule-provider/sysModule_list";
+	
+	// 系统统计功能模块列表
+	private static final String USER_SHOW_LIST = "http://pcitc-zuul/system-proxy/sysconfig-provider/user/show/config/";
 	/**
 	 * 科技平台统一身份认证首页
 	 * 
@@ -985,6 +992,86 @@ public class AdminController extends BaseController {
 		JSONObject resultObj = JSONObject.parseObject(JSONObject.toJSONString(result));
 		System.out.println(">>>>>>>>>>>>>>>年度科研项目总览 " + resultObj.toString());
 		return resultObj.toString();
+	}
+	
+	
+	/**
+	 * 领导页面初始化配置功能
+	 */
+	@RequestMapping(value = "/user/show/config")
+	public String iniUserShowConfig(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		System.out.println("进入iniUserShowConfig....");
+		// 查询已配置的显示功能模块，空的时候，默认给所有的统计模块
+		ResponseEntity<JSONArray> showEntity = this.restTemplate.exchange(USER_SHOW_LIST + sysUserInfo.getUserId(), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), JSONArray.class);
+		JSONArray showJson = showEntity.getBody();
+		List<SysUserShowConfig> showList = JSONObject.parseArray(showJson.toJSONString(), SysUserShowConfig.class);
+		
+		List<SysUserShowConfig> show1List = new ArrayList<SysUserShowConfig>();
+		List<SysUserShowConfig> show2List = new ArrayList<SysUserShowConfig>();
+		
+		for (SysUserShowConfig sysUserShowConfig : showList) {
+			if (sysUserShowConfig.getModuleId() != null && !sysUserShowConfig.getModuleId().equals("")) {
+				show1List.add(sysUserShowConfig);
+			}
+			
+			if (sysUserShowConfig.getFunctionId() != null && !sysUserShowConfig.getFunctionId().equals("")) {
+				show2List.add(sysUserShowConfig);
+			}
+		}
+		
+		// 查询本人已有的统计模块(系统级原有)
+		SysModule vo = new SysModule();
+		vo.setPage("1");
+		vo.setLimit("100");
+		HttpEntity<SysModule> entity = new HttpEntity<SysModule>(vo, this.httpHeaders);
+		ResponseEntity<String> responseEntity = this.restTemplate.exchange(MODULE_LIST, HttpMethod.POST, entity, String.class);
+		String result = responseEntity.getBody();
+		JSONObject config1Json = JSONObject.parseObject(result);
+		List<SysModule> config1List = new ArrayList<SysModule>();
+		if (config1Json != null) {
+			config1List = JSONObject.parseArray(config1Json.getJSONArray("list").toJSONString(), SysModule.class);
+			// 去除已经配置统计模块
+			for (int i = 0; i < config1List.size(); i++) {
+				for (SysUserShowConfig sysUserShowConfig : show1List) {
+					if (sysUserShowConfig.getModuleId() != null && sysUserShowConfig.getModuleId().equals(config1List.get(i).getId())) {
+						config1List.remove(i);
+						i--;
+						break;
+					}
+				}
+			}
+		}
+		
+		// 查询本人已有的业务功能模块
+		SysUser userDetails = this.restTemplate.exchange(USER_DETAILS_URL + sysUserInfo.getUserId(), HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SysUser.class).getBody();
+		List<SysFunction> funList = userDetails.getFunList();
+		
+		List<SysFunction> config2List = new ArrayList<SysFunction>();
+		if (funList != null) {
+			for (SysFunction sysfun : funList) {
+				if (sysfun.getUrl() != null && !sysfun.getUrl().equals("#")) {
+					config2List.add(sysfun);
+				}
+			}
+		}
+		// 去除已经配置业务功能模块
+		for (int i = 0; i < config2List.size(); i++) {
+			for (SysUserShowConfig sysUserShowConfig : show2List) {
+				if (sysUserShowConfig.getFunctionId() != null && sysUserShowConfig.getFunctionId().equals(config2List.get(i).getId())) {
+					config2List.remove(i);
+					i--;
+					break;
+				}
+			}
+		}
+		
+		request.setAttribute("show1List", show1List);
+		request.setAttribute("show2List", show2List);
+		
+		request.setAttribute("config1List", config1List);
+		request.setAttribute("config2List", config2List);
+
+		return "/base/system/user_show_config";
 	}
 
 }

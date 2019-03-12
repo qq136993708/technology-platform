@@ -69,7 +69,7 @@ public interface BudgetInfoService
 	 * @return
 	 * @throws Exception
 	 */
-	public BudgetInfo createBlankBudgetInfo(BudgetInfo info);
+	public BudgetInfo createBlankBudgetInfo(String nd,BudgetInfo info);
 	/**
 	 * 
 	 * @param budgetType

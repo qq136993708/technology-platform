@@ -94,8 +94,8 @@
 	                	<th lay-data="{type:'checkbox'}"></th>
 	                	<th lay-data="{field:'no',align: 'center', width: 45,totalRowText: '合计'}">序号</th>
 	                    <th lay-data="{field:'displayName', width: '20%'}">预算部门</th>
-	                    <th lay-data="{field:'remark', width: '30%'}">描述</th>
-	                   	<th lay-data="{field:'last_year_end',align: 'right',totalRow: true}">2018年科技经费完成</th>
+	                    <th lay-data="{field:'remark', width: '25%'}">描述</th>
+	                   	<th lay-data="{field:'last_year_end',align: 'right',totalRow: true}">2018年科技实际完成</th>
 	                   	<th lay-data="{field:'plan_money',align: 'right',totalRow: true}">2019年科技经费计划</th>
 	                    <th lay-data="{field:'yjwc', edit:true,align: 'right',totalRow: true}">2018年预计完成</th>
 	                    <th lay-data="{field:'xmjf', edit:true,align: 'right',totalRow: true}">2019年经费预算</th>	                    
@@ -119,10 +119,6 @@
         </div>
     </div>
     <div class="doc-box">
-     	<p>备注</p>
-        <ul>
-            <li>1、预算由资产公司和化工事业部提出。该预算表分别报送资产公司和化工事业部</li>
-        </ul>
         <p>操作说明:</p>
         <ul>
             <li>1、先填入预分配数，开始分配时，每分配一项对应减少分配数额</li>
@@ -130,6 +126,10 @@
             <li>3、预算按年度编制，编制年度可自定义，默认编制下一年度</li>
             <li>4、预算表创建时生成一个版本号，版本号规则：vs-年度-三位类别编码-三位顺序号</li>
             <li>5、历年参照预算数据中的数据为该年审批通过的预算版本</li>
+        </ul>
+        <p>备注</p>
+        <ul>
+            <li>1、预算由资产公司和化工事业部提出。该预算表分别报送资产公司和化工事业部</li>
         </ul>
     </div>
 
@@ -203,8 +203,10 @@
 			function initDateView(){
 				$(".nd").html(cu_date);
             	//$('.layui-table-cell.laytable-cell-group').find('span').text(cu_date+"年度经费预算");
-            	$(".layui-table-header .layui-table").find('th').eq(4).find('span').text((cu_date-1)+"年科技经费预计完成");
-            	$(".layui-table-header .layui-table").find('th').eq(5).find('span').text(cu_date+"年科技经费预算");
+            	$(".layui-table-header .layui-table").find('th').eq(4).find('span').text((cu_date-1)+"年科技实际完成");
+            	$(".layui-table-header .layui-table").find('th').eq(5).find('span').text(cu_date+"年科技经费计划");
+            	$(".layui-table-header .layui-table").find('th').eq(6).find('span').text((cu_date-1)+"年预计完成");
+            	$(".layui-table-header .layui-table").find('th').eq(7).find('span').text(cu_date+"年经费预算");
 			}
             // 点击按钮时激活
             $('.tableBtns').children('button').on('click',function(){
@@ -257,7 +259,7 @@
           	function calculationSurplusMoney(){
             	var total_money = 0;
             	$.each(curent_tabel_data,function(index,dt){
-            		total_money += parseInt(dt.total);
+            		total_money += parseInt(dt.xmjf);
             	});
           		$("#surplusMoney").val(parseInt($("#budgetMoney").val())-total_money);
           	}
@@ -277,7 +279,7 @@
                         , maxmin: false
                         //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
                         , area: ['80%', '90%']
-                        , content: '/budget/budget_create_assettotal'
+                        , content: '/budget/budget_create_assettotal?nd='+cu_date
                     });
                 },
                 addEvent: function() {
