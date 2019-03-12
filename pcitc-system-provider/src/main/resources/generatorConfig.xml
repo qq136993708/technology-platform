@@ -3,6 +3,7 @@
 <generatorConfiguration>
 	<classPathEntry location="D:\eclipse64workplace\mpbw\WebContent\WEB-INF\lib\mysql-connector-java-5.1.20-bin.jar" />
 	<context id="context1">
+		<property name="javaFileEncoding" value="UTF-8"/>
         <commentGenerator>
 			<property name="suppressAllComments" value="true" />
 		</commentGenerator>
@@ -10,11 +11,11 @@
 		<javaTypeResolver>
           <property name="forceBigDecimals" value="true" />
         </javaTypeResolver>
-		<javaModelGenerator  targetPackage="com.pcitc.base.doc" targetProject="pcitc-base" />
-		<sqlMapGenerator     targetPackage="com.pcitc.mapper.doc"   targetProject="pcitc-system-provider" />
-		<javaClientGenerator targetPackage="com.pcitc.mapper.doc"   targetProject="pcitc-system-provider" type="XMLMAPPER" />
+		<javaModelGenerator  targetPackage="com.pcitc.base.system" targetProject="pcitc-base" />
+		<sqlMapGenerator     targetPackage="com.pcitc.mapper.system"   targetProject="pcitc-system-provider" />
+		<javaClientGenerator targetPackage="com.pcitc.mapper.system"   targetProject="pcitc-system-provider" type="XMLMAPPER" />
 	    
-	    <table schema="pcitc-system-provider" domainObjectName="SysFileKindAuth"  tableName="sys_file_kind_auth"  enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
+	    <table schema="pcitc-system-provider" domainObjectName="SysModule"  tableName="sys_module"  enableCountByExample="true" enableUpdateByExample="true" enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
 	    </table>
 	
 	</context>

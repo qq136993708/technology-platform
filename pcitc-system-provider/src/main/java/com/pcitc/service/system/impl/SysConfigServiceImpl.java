@@ -1,5 +1,6 @@
 package com.pcitc.service.system.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -13,10 +14,14 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.system.SysConfig;
 import com.pcitc.base.system.SysConfigExample;
-import com.pcitc.base.system.SysModule;
-import com.pcitc.base.system.SysRestfulapi;
 import com.pcitc.base.system.SysConfigExample.Criteria;
+import com.pcitc.base.system.SysModule;
+import com.pcitc.base.system.SysModuleExample;
+import com.pcitc.base.system.SysUserShowConfig;
+import com.pcitc.base.system.SysUserShowConfigExample;
 import com.pcitc.mapper.system.SysConfigMapper;
+import com.pcitc.mapper.system.SysModuleMapper;
+import com.pcitc.mapper.system.SysUserShowConfigMapper;
 import com.pcitc.service.system.SysConfigService;
 
 @Service("sysConfigService")
@@ -25,6 +30,12 @@ public class SysConfigServiceImpl implements SysConfigService {
 
 	@Autowired
 	private SysConfigMapper sysConfigMapper;
+	
+	@Autowired
+	private SysUserShowConfigMapper sysUserShowConfigMapper;
+	
+	@Autowired
+	private SysModuleMapper sysModuleMapper;
 	
 	public LayuiTableData selectConfigByPage(LayuiTableParam param) {
 		Map<String,Object> paraMap = param.getParam();
@@ -103,5 +114,35 @@ public class SysConfigServiceImpl implements SysConfigService {
 		int rInt = sysConfigMapper.updateByPrimaryKey(oldSysConfig);
 		System.out.println("--------------------------------状态 : " + oldSysConfig.getStatus());
 		return rInt;
+	}
+	
+	/** 
+	 * @author zhf
+	 * 领导的显示配置功能
+	 */
+	public List selectUserShowConfigList(String userId) {
+		SysUserShowConfigExample SUSCExample = new SysUserShowConfigExample();
+		
+		com.pcitc.base.system.SysUserShowConfigExample.Criteria SUSCCri = SUSCExample.createCriteria();
+		SUSCCri.andConfigUserIdEqualTo(userId);
+		List<SysUserShowConfig> returnList = new ArrayList<SysUserShowConfig>();
+		
+		returnList = sysUserShowConfigMapper.selectByExample(SUSCExample);
+		
+		if (returnList.size() == 0) {
+			//如果list为空，说明此人没有配置过显示模块，走默认的统计模块显示，功能模块默认为空
+			SysModuleExample SMExample = new SysModuleExample();
+			com.pcitc.base.system.SysModuleExample.Criteria SMCri = SMExample.createCriteria();
+			List<SysModule> list = sysModuleMapper.selectByExample(SMExample);
+			for (int i = 0; i < list.size(); i++) {
+				SysUserShowConfig temObject = new SysUserShowConfig();
+				temObject.setShowName(list.get(i).getModuleName());
+				temObject.setShowUrl(list.get(i).getModuleUrl());
+				temObject.setModuleId(list.get(i).getId());
+				returnList.add(temObject);
+			}
+		}
+		
+		return returnList;
 	}
 }

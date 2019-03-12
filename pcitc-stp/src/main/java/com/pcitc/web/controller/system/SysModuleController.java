@@ -1,14 +1,13 @@
 package com.pcitc.web.controller.system;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.pcitc.base.system.SysModule;
-import com.pcitc.base.system.SysModuleVo;
-import com.pcitc.web.common.BaseController;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,9 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.List;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.pcitc.base.system.SysModule;
+import com.pcitc.web.common.BaseController;
 
 @Controller
 @RequestMapping("sysModule")
@@ -66,7 +66,7 @@ public class SysModuleController extends BaseController {
 	@RequestMapping(value = "/getSysModuleList", method = RequestMethod.POST)
 	@ResponseBody
 	public Object getSysModuleList(HttpServletRequest request) {
-		SysModuleVo vo = new SysModuleVo();
+		SysModule vo = new SysModule();
 		String page = request.getParameter("page"); // 起始索引
 		String limit = request.getParameter("limit"); // 每页显示的行数
 		String sysModuleName = request.getParameter("sysModuleName");
@@ -79,7 +79,7 @@ public class SysModuleController extends BaseController {
 		if (StringUtils.isNotEmpty(sysModuleCode)) {
 			vo.setModuleName(sysModuleCode);
 		}
-		HttpEntity<SysModuleVo> entity = new HttpEntity<SysModuleVo>(vo, this.httpHeaders);
+		HttpEntity<SysModule> entity = new HttpEntity<SysModule>(vo, this.httpHeaders);
 		ResponseEntity<String> responseEntity = this.restTemplate.exchange(MODULE_LIST, HttpMethod.POST, entity, String.class);
 		String result = responseEntity.getBody();
 		JSONObject retJson = com.alibaba.fastjson.JSONObject.parseObject(result);

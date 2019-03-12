@@ -1,12 +1,12 @@
 package com.pcitc.mapper.system;
 
-import java.util.List;
-import org.apache.ibatis.annotations.Param;
 import com.pcitc.base.system.SysModule;
 import com.pcitc.base.system.SysModuleExample;
+import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
 public interface SysModuleMapper {
-    long countByExample(SysModuleExample example);
+    int countByExample(SysModuleExample example);
 
     int deleteByExample(SysModuleExample example);
 
