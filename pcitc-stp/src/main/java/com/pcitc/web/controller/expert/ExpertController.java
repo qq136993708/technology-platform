@@ -478,7 +478,6 @@ public class ExpertController extends BaseController {
             record.setUpdateUser(sysUserInfo.getUserId());
             zjkChoices.add(record);
         }
-        System.out.println(JSONObject.toJSON(zjkChoices).toString());
 
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         JSONObject object = new JSONObject();

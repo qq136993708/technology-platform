@@ -6,6 +6,7 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/ztree/css/metroStyle/metroStyle.css">
     <script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
     <script src="/layuiadmin/layui/layui.js"></script>
     <script type="text/javascript" src="/common/js/base.js"></script>
@@ -19,12 +20,10 @@
         }
 
         .layui-btn-blue {
-            margin-bottom: 10px;
+            margin-bottom: 7px;
+            margin-left: 10px;
         }
 
-        .layui-tab-item {
-            text-align: right;
-        }
 
         .searchBox {
             height: auto !important;
@@ -36,11 +35,15 @@
             width: 15%;
             display: inline-block;
             margin-right: 10px;
+            position: relative;
         }
 
         .btnGroup input {
             margin-bottom: 0px;
         }
+        .box-body{margin-bottom: 10px;}
+        .layui-select-title input,.dateInput input{height: 26px;}
+        .layui-form-select dl{top:26px;}
     </style>
 </head>
 <body>
@@ -48,7 +51,7 @@
     <form class="layui-form" action="" lay-filter="component-form-group layui-container">
         <div class="box-body">
             <div class="layui-form-item">
-                <label class="layui-form-label">项目阶段<!--<span class="must-fill">*</span>--></label>
+                <label class="layui-form-label">项目阶段</label>
                 <div class="layui-input-block">
                     <input type="radio" name="option" value="ROOT_XTGL_XMJD_XMJH" title="项目计划">
                     <input type="radio" name="option" value="ROOT_XTGL_XMJD_XMLX" title="项目立项" checked>
@@ -60,83 +63,113 @@
                     <input type="radio" name="option" value="ROOT_XTGL_XMJD_JLPS" title="奖励评审">
                     <input type="radio" name="option" value="ROOT_XTGL_XMJD_HPG" title="后评估">
                 </div>
-                <div>
-                    <input type="hidden" id="stype" name="stype" value="suiji"/>
+            </div>
+            <div class="layui-row">
+                <div class="layui-col-xs3 layui-col-sm3 layui-col-md3">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">评审日期</label>
+                        <div class="layui-input-block">
+                            <input type="date" id="bak4" class="layui-input garlic-auto-save" name="bak4" data-format="yyyy-MM-dd"/>
+                        </div>
+                    </div>
                 </div>
-                <div class="layui-tab layui-tab-brief" style="margin-left: 84px;" lay-filter="component-tabs-brief">
-                    <ul class="layui-tab-title">
-                        <li class="layui-this" onclick="changeStype('suiji');">随机选取</li>
-                        <li class="" onclick="changeStype('guding');">固定选取</li>
-                        <!--<li class="" onclick="changeStype('dw');">单位选取</li>-->
-                    </ul>
-                    <div class="layui-tab-content">
-                        <div class="layui-tab-item layui-show">
-                            <!--加入对比,加入备选,加入项目,加入zjk_project_expert,类型,加入人,-->
-                            <!--查询条件-->
-                            <label class="dateInput">
-                                <span>技术领域</span>
-                                <select name="expertProfessinalSj" id="expertProfessinalSj" lay-filter="expertProfessinalSj">
-                                    <option value="">请选择</option>
-                                </select>
-                                <span>人数</span>
-                                <input type="number" id="count" name="count" title="专家姓名" value="10" autocomplete="off" class="form-control">
-                            </label>
-                            <input type="button" class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" value="换一批" onclick="renderTable()">
-                            <input type="button" value="确定" class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" onclick="okEvent()">
-                            <table id="expertTable" class="layui-hide" lay-filter="expertTable"></table>
-                        </div>
-                        <div class="layui-tab-item">
-                            <div class="searchBox">
-                                <!--查询条件-->
-                                <label class="dateInput">
-                                    <span>技术领域</span>
-                                    <select name="expertProfessinal" id="expertProfessinal" lay-filter="expertProfessinal">
-                                        <option value="">请选择</option>
-                                    </select>
-                                    <span>职称</span>
-                                    <select name="expertProfessionalField" id="expertProfessionalField" lay-filter="expertProfessionalField">
-                                        <option value="">请选择</option>
-                                    </select>
-
-                                    <!--<span>专家姓名</span>-->
-                                    <!--<input type="text" id="expertName" name="expertName" placeholder="请输入专家姓名" title="专家姓名" autocomplete="off" class="form-control">-->
-                                </label>
-
-                                <!--<label class="dateInput">-->
-
-                                <!--<span>邮箱</span>-->
-                                <!--<input type="text" id="email" name="email" placeholder="请输入邮箱" title="邮箱" autocomplete="off" class="form-control">-->
-                                <!--</label>-->
-                                <!--按钮组-->
-                                <div class="btnGroup">
-                                    <input type="button" value="查询" class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="searchGd()">
-                                    <input type="button" value="确定" class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" onclick="okEvent()">
-                                </div>
-                            </div>
-                            <table id="expertTableGd" class="layui-hide" lay-filter="expertTableGd"></table>
-                            <!--加入对比,加入备选,加入项目,加入zjk_project_expert,类型,加入人,-->
-                        </div>
-                        <div class="layui-tab-item">
-                            <input type="button" value="确定" class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" onclick="okEvent()">
-                            <table id="expertTableDw" class="layui-hide" lay-filter="expertTableDw"></table>
-                            <!--加入对比,加入备选,加入项目,加入zjk_project_expert,类型,加入人,单位代码，-->
+                <div class="layui-col-xs3 layui-col-sm3 layui-col-md3">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">联系方式</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="bak5" class="layui-input garlic-auto-save" name="bak5" value=""/>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </form>
+        <div>
+            <input type="hidden" id="stype" name="stype" value="suiji"/>
+        </div>
+        <div class="layui-tab layui-tab-brief" style="margin:0 auto;width: 90%;" lay-filter="component-tabs-brief">
+            <ul class="layui-tab-title">
+                <li class="layui-this" onclick="changeStype('suiji');">随机选取</li>
+                <li class="" onclick="changeStype('guding');">固定选取</li>
+                <!--<li class="" onclick="changeStype('dw');">单位选取</li>-->
+            </ul>
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <!--加入对比,加入备选,加入项目,加入zjk_project_expert,类型,加入人,-->
+                    <!--查询条件-->
+                    <label class="dateInput">
+                        <span>机构</span>
+                        <div class="layui-form-select select-tree">
+                            <div id="companyDiv" ></div>
+                        </div>
+                        <span>技术领域</span>
+                        <select name="expertProfessionalFieldsj" id="expertProfessionalFieldsj" lay-filter="expertProfessionalFieldsj">
+                            <option value="">请选择</option>
+                        </select>
+                        <span>人数</span>
+                        <input type="number" id="count" name="count" title="专家姓名" value="10"
+                               autocomplete="off" class="layui-input" style="    width: 10%;display: inline-block;">
+                    </label>
+                    <input type="button" class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" value="换一批" onclick="renderTable()">
+                    <input type="button" value="确定" class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" onclick="okEvent()">
+                    <div style="height: 10px;"></div>
+                    <table id="expertTable" class="layui-hide" lay-filter="expertTable"></table>
+                </div>
+                <div class="layui-tab-item">
+                    <div class="searchBox">
+                        <!--查询条件-->
+                        <label class="dateInput">
+                            <span>机构</span>
+                            <div  class="layui-form-select select-tree">
+                                <div id="company1Div"></div>
+                            </div>
+                            <span>职称</span>
+                            <select name="expertProfessinal" id="expertProfessinal" lay-filter="expertProfessinal">
+                                <option value="">请选择</option>
+                            </select>
+                            <span>技术领域</span>
+                            <select name="expertProfessionalField" id="expertProfessionalField" lay-filter="expertProfessionalField">
+                                <option value="">请选择</option>
+                            </select>
+
+                            <!--<span>专家姓名</span>-->
+                            <!--<input type="text" id="expertName" name="expertName" placeholder="请输入专家姓名" title="专家姓名" autocomplete="off" class="form-control">-->
+                        </label>
+
+                        <!--<label class="dateInput">-->
+
+                        <!--<span>邮箱</span>-->
+                        <!--<input type="text" id="email" name="email" placeholder="请输入邮箱" title="邮箱" autocomplete="off" class="form-control">-->
+                        <!--</label>-->
+                        <!--按钮组-->
+                        <div class="btnGroup">
+                            <input type="button" value="查询" class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="searchGd()">
+                            <input type="button" value="确定" class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" onclick="okEvent()">
+                        </div>
+                    </div>
+                    <table id="expertTableGd" class="layui-hide" lay-filter="expertTableGd"></table>
+                    <!--加入对比,加入备选,加入项目,加入zjk_project_expert,类型,加入人,-->
+                </div>
+                <div class="layui-tab-item">
+                    <input type="button" value="确定" class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" onclick="okEvent()">
+                    <table id="expertTableDw" class="layui-hide" lay-filter="expertTableDw"></table>
+                    <!--加入对比,加入备选,加入项目,加入zjk_project_expert,类型,加入人,单位代码，-->
+                </div>
+            </div>
+        </div>
+</div>
+</div>
+</form>
 </div>
 <script>
     ajaxPost('/dictionary/list/ZJK_ZYFL', null, function (data, status) {//专业领域
         $.each(data, function (i, dt) {
-            $("#expertProfessinal").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
-            $("#expertProfessinalSj").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
+            $("#expertProfessionalFieldsj").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
+            $("#expertProfessionalField").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
         });
     });
     ajaxPost('/dictionary/list/ZJK_ZCXX', null, function (data, status) {//职称
         $.each(data, function (i, dt) {
-            $("#expertProfessionalField").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
+            $("#expertProfessinal").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
         });
     });
 </script>
@@ -154,6 +187,10 @@
         //     return;
         // }
         //获取选中人员信息
+        var bak4 = $("#bak4").val();
+        var bak5 = $("#bak5").val();
+
+
         var stype = $("#stype").val();
         var plist = [];
         if (stype == "suiji") {
@@ -174,6 +211,10 @@
                 p.zjId = obj.dataId;
                 p.bak1 = $('input[name="option"]:checked').val();
                 p.bak2 = obj.expertName;
+                // p.bak3 = "635447170@qq.com";
+                p.bak3 = obj.email;
+                p.bak4 = bak4;
+                p.bak5 = bak5;
                 plist.push(p);
             }
         } else if (stype == "guding") {
@@ -194,6 +235,10 @@
                 p.zjId = obj.dataId;
                 p.bak1 = $('input[name="option"]:checked').val();
                 p.bak2 = obj.expertName;
+                // p.bak3 = "635447170@qq.com";
+                p.bak3 = obj.email;
+                p.bak4 = bak4;
+                p.bak5 = bak5;
                 plist.push(p);
             }
         } else {
@@ -288,10 +333,11 @@
         function renderTable() {
             var where = {
                 param: {
-                    "expertProfessinal": $("#expertProfessinalSj").val(),
+                    "expertProfessinal": $("#expertProfessionalFieldsj").val(),
                     "projectId": "${projectId}"
                     , "type": $("#stype").val()
                     , "count": $("#count").val()
+                    , "company": $("#companyDivValue").val()
                     , "projectConfigId": map[$('input[name="option"]:checked').val()]// map[$('input[name="option"]:checked').val()]// "168db5b7282_7ed760ca"
                     // ,"projectConfigId":$("#projectConfigId").val()
                 }
@@ -315,6 +361,7 @@
                     "expertProfessionalField": $("#expertProfessionalField").val(),
                     "projectId": "${projectId}"
                     , "type": "guding"
+                    , "company": $("#company1DivValue").val()
                     , "count": $("#count").val()
                     , "projectConfigId": map[$('input[name="option"]:checked').val()]// map[$('input[name="option"]:checked').val()]// "168db5b7282_7ed760ca"
                     // ,"projectConfigId":$("#projectConfigId").val()
@@ -427,6 +474,42 @@
                 layer.msg("操作成功");
             });
         });
+    });
+</script>
+<script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.all.js"></script>
+<script type="text/javascript" src="/layuiadmin/modules/selectTree.js"></script>
+<script>
+    var zNodes;
+    $(function () {
+        $.ajax({
+            url: "/unit/ztree-unit-list",//这个就是请求地址对应sAjaxSource
+            type: 'get',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            dataType: 'json',
+            async: false,
+            success: function (data) {
+                zNodes = data;
+            },
+            error: function (msg) {
+                layer.msg(msg);
+            }
+        });
+    });
+    // 下拉树初始化
+    $(document).ready(function () {
+        /*
+         * initSelectTree参数：
+         * 参数1：div的id，
+         * 参数2：isMultiple 是否多选(true或false),
+         * 参数3：是否显示连接线(true或false),
+         * 参数4：是否显示图标(true或false),
+         *
+         */
+        initSelectTree("companyDiv", false, true, false);
+        initSelectTree("company1Div", false, true, false);
+        initHideMenu(); //不加此方法则默认打开下拉树
     });
 </script>
 </body>
