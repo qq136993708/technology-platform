@@ -65,7 +65,7 @@
             <div class="layui-row">
                 <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">上年预计完成<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label"><span class="nd"></span>年预计完成<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
                             <input class="layui-input" id="yjwc" name="yjwc" placeholder="" lay-verify="required" autocomplete="off" type="text">
                         </div>
@@ -73,7 +73,7 @@
                 </div>
                 <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">本年经费预算<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">${nd}年经费预算<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
                          	<input type="text" id="xmjf" name="xmjf"  placeholder="" lay-verify="required" autocomplete="off" class="layui-input">
                         </div>
@@ -151,6 +151,7 @@
     layui.use(['jquery', 'table', 'form','laydate', 'layer','publicMethods'], function () {
         var $ = layui.jquery, table = layui.table, form = layui.form,laydate = layui.laydate, layer = layui.layer,publicMethods=layui.publicMethods;
         var layTableId = "dataTable";
+        $(".nd").html(parseInt(nd)-1)
         //检索年度金额完成情况
         window.selectItemProjectMoney = function(nd,displayCode,callback){
         	publicMethods.ajaxPost('/budget/select-assettotal-compare-project',{"nd":nd,"code":displayCode}, function (data, status) {
