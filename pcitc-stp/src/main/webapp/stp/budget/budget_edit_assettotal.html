@@ -230,10 +230,10 @@
             ]]
             ,done: function (res, curr, count) {
             	 var ysnd = parseInt($("#nd").val());
-            	 $(".layui-table-header .layui-table").find('th').eq(1).find('span').text((ysnd-1)+"实际完成");
-            	 $(".layui-table-header .layui-table").find('th').eq(2).find('span').text(ysnd+"计划金额");
-            	 $(".layui-table-header .layui-table").find('th').eq(3).find('span').text((ysnd-1)+"预计完成");
-            	 $(".layui-table-header .layui-table").find('th').eq(4).find('span').text(ysnd+"经费预算");
+            	 $(".layui-table-header .layui-table").find('th').eq(1).find('span').text((ysnd-1)+"年实际完成");
+            	 $(".layui-table-header .layui-table").find('th').eq(2).find('span').text(ysnd+"年经费计划");
+            	 $(".layui-table-header .layui-table").find('th').eq(3).find('span').text((ysnd-1)+"年预计完成");
+            	 $(".layui-table-header .layui-table").find('th').eq(4).find('span').text(ysnd+"年经费预算");
             }
         })
         table.on('tool(dataTable)', function (obj) {
