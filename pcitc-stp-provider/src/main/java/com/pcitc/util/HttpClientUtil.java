@@ -1,6 +1,9 @@
 package com.pcitc.util;
 
-/*import java.nio.charset.Charset;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -10,6 +13,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -21,23 +25,28 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.stp.budget.BudgetGroupTotal;
 import com.pcitc.base.stp.budget.BudgetInfo;
+import com.pcitc.base.stp.budget.BudgetStockTotal;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.HanyuPinyinHelper;
 import com.pcitc.base.util.MyBeanUtils;
-import com.pcitc.common.BudgetInfoEnum;*/
+import com.pcitc.common.BudgetInfoEnum;
 
 /*
  * 利用HttpClient进行post请求的工具类
  */
 public class HttpClientUtil 
 {
-	/*public String doPostFormData(String url,Map<String,String> map,String charset){
+	public String doPostFormData(String url,Map<String,String> map,String charset){
 		HttpClient httpClient = null;
 		HttpPost httpPost = null;
 		String result = null;
@@ -107,23 +116,22 @@ public class HttpClientUtil
 		}
 		return result;
 	}
-	private static void createByNd(String nd) 
+	public void createByNd(String nd) 
 	{
-		HttpClientUtil httpClientUtil = new HttpClientUtil();
 		//创建集团单位预算表信息（空白表）
 		String url = "http://localhost:8765/stp-provider/budget/budget-create-blank-grouptotal";
 		BudgetInfo total = (BudgetInfo)MyBeanUtils.createDefaultModel(BudgetInfo.class);
 		total.setNd(nd);
 		total.setBudgetType(BudgetInfoEnum.GROUP_TOTAL.getCode());
 		for(int i = 0;i<10;i++) {
-			httpClientUtil.doPostBody(url,total,"UTF-8");
+			doPostBody(url,total,"UTF-8");
 		}
 		//检索集团预算表
 		url = "http://localhost:8765/stp-provider/budget/budget-info-list";
 		BudgetInfo infoparam = new BudgetInfo();
 		infoparam.setNd(nd);
 		infoparam.setBudgetType(BudgetInfoEnum.GROUP_TOTAL.getCode());
-		String rs = httpClientUtil.doPostBody(url,infoparam,"UTF-8");
+		String rs = doPostBody(url,infoparam,"UTF-8");
 		System.out.println(rs);
 		
 		//检索集团预算表
@@ -138,7 +146,7 @@ public class HttpClientUtil
 		
 		
 		//测试创建集团数据
-		rs = httpClientUtil.doPostBody(url,params,"UTF-8");
+		rs = doPostBody(url,params,"UTF-8");
 		JSONArray array = JSON.parseObject(rs).getJSONArray("data");
 		for(java.util.Iterator<?> iter = array.iterator();iter.hasNext();) 
 		{
@@ -188,16 +196,95 @@ public class HttpClientUtil
 				groupTotal.setLevel(0);
 				
 				url = "http://localhost:8765/stp-provider/budget/budget-persistence-grouptotal-item";
-				httpClientUtil.doPostBody(url,groupTotal,"UTF-8");
+				doPostBody(url,groupTotal,"UTF-8");
 			}
 		}
-	}*/
+	}
+	/**
+	 * 生成集团公司测试数据
+	 */
+	public void crateStockTotalTestData() 
+	{
+		String url = "http://localhost:8765/stp-provider/budget/save-stocktotal-item";
+		XSSFWorkbook workbook;
+		XSSFSheet sheet;
+		try 
+		{
+			InputStream is = new FileInputStream(new File("D:\\test_data.xlsx"));
+			workbook = new XSSFWorkbook(is);
+			sheet = workbook.getSheetAt(0);
+			BudgetStockTotal pstock = new BudgetStockTotal();
+			for(java.util.Iterator<Row> iter = sheet.iterator();iter.hasNext();) {
+				Row row = iter.next();
+				BudgetStockTotal stock = (BudgetStockTotal)MyBeanUtils.createDefaultModel(BudgetStockTotal.class);
+				Integer no = StringUtils.isBlank(readCell(row.getCell(0)))?0:new Double(readCell(row.getCell(0))).intValue();
+				stock.setNo(no);
+				stock.setDisplayName(readCell(row.getCell(1)));
+				stock.setYjwcTotal(new Double(readCell(row.getCell(2))));
+				stock.setYjwcZbx(new Double(readCell(row.getCell(3))));
+				stock.setYjwcFyx(new Double(readCell(row.getCell(4))));
+				stock.setXmjfTotal(new Double(readCell(row.getCell(5))));
+				stock.setXmjfZbx(new Double(readCell(row.getCell(6))));
+				stock.setXmjfFyx(new Double(readCell(row.getCell(7))));
+				stock.setBudgetInfoId("1696fb68578_8f0b353e");
+				stock.setParentDataId(pstock.getDataId());
+				stock.setLevel(1);
+				if(no >0) {
+					stock.setLevel(0);
+					stock.setParentDataId(null);
+				}
+				
+				String rs = doPostBody(url,stock,"UTF-8");
+				BudgetStockTotal rsstock = JSON.toJavaObject(JSON.parseObject(rs), BudgetStockTotal.class);
+				if(rsstock.getNo() >0) {
+					pstock = rsstock;
+				}
+				
+			}
+			
+		} 
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+		}
+	}
+	private String readCell(Cell cell) 
+	{
+		String  cellVal = null;
+		switch (cell.getCellTypeEnum()) 
+		{
+	        case NUMERIC:
+	        	cellVal = cell.getNumericCellValue()+"";
+	            break;
+	        case STRING:
+	        	cellVal = cell.getStringCellValue();
+	            break;
+	        case FORMULA:
+	        	cellVal = cell.getRichStringCellValue().getString();
+	            break;
+	        case BLANK:
+	            break;
+	        case BOOLEAN:
+	            break;
+	        case ERROR:
+	            break;
+	        default:
+	            break;
+        }
+		return cellVal;
+	}
 	public static void main(String [] args) 
 	{
+		HttpClientUtil httpClientUtil = new HttpClientUtil();
+		httpClientUtil.crateStockTotalTestData();
+		
+		/*HttpClientUtil httpClientUtil = new HttpClientUtil();
 		String [] nds = {"2015","2016","2017","2018","2019"} ;
+		String url = "";
 		for(String nd:nds) {
-			//createByNd(nd);
-		}
+			httpClientUtil.createByNd(nd);
+		}*/
+		
 		//根据往年预算创建新预算表
 		/*for(java.util.Iterator<?> iter = array.iterator();iter.hasNext();) 
 		{

@@ -129,73 +129,8 @@ public class BudgetStockTotalProviderClient
 		try
 		{
 			data = budgetStockTotalService.selectBudgetStockTotalPage(param);
-			//获取二级机构的计划数据
-			List<BudgetStockTotal> totals = budgetStockTotalService.selectBudgetStockTotalByInfoId(param.getParam().get("budget_info_id").toString());
-			//map<dataId,Set<displayCode>>
-			Map<String,Set<String>> itemMap = new HashMap<String,Set<String>>();
-			Set<String> codes = new HashSet<String>();
-			for(BudgetStockTotal total:totals) {
-				if(total.getLevel() > 0) {
-					if(StringUtils.isNotBlank(total.getDisplayCode())) {
-						codes.add(total.getDisplayCode());
-					}
-				}else {
-					//一级item下包含的二级item列表
-					itemMap.put(total.getDataId(), new HashSet<String>());
-					for(BudgetStockTotal t:totals) {
-						if(t.getParentDataId() != null && t.getParentDataId().equals(total.getDataId())) {
-							if(StringUtils.isNotBlank(t.getDisplayCode())) {
-								itemMap.get(total.getDataId()).add(t.getDisplayCode());
-							}
-						}
-					}
-				}
-			}
-			String nd = param.getParam().get("nd").toString();
-			//处理计划数据
-			Map<String,List<OutProjectPlan>> planMap = budgetStockTotalService.selectComparePlanData(codes,nd);
-			for(java.util.Iterator<?> iter = data.getData().iterator();iter.hasNext();) {
-				Map<String,Object> map = (Map<String,Object>)iter.next();
-				String dataId = map.get("dataId").toString();
-				if(itemMap.get(dataId) != null && itemMap.get(dataId).size()>0) {
-					Double ysjes = 0d;
-					Set<String> codeset = itemMap.get(dataId);
-					for(String code:codeset) 
-					{
-						List<OutProjectPlan> plans = planMap.get(code);
-						if(plans != null && plans.size()>0) {
-							for(OutProjectPlan plan:plans) {
-								ysjes += new Double(plan.getYsje());
-							}
-						}
-					}
-					map.put("plan_money", ysjes.intValue());
-				}else {
-					map.put("plan_money", "无");
-				}
-			}
-			//处理项目完成金额
-			Map<String,List<OutProjectInfo>> projectMap = budgetStockTotalService.selectCompareProjectInfoData(codes,(new Integer(nd)-1)+"");
-			for(java.util.Iterator<?> iter = data.getData().iterator();iter.hasNext();) {
-				Map<String,Object> map = (Map<String,Object>)iter.next();
-				String dataId = map.get("dataId").toString();
-				if(itemMap.get(dataId) != null && itemMap.get(dataId).size()>0) {
-					Double jhjes = 0d;
-					Set<String> codeset = itemMap.get(dataId);
-					for(String code:codeset) 
-					{
-						List<OutProjectInfo> plans = projectMap.get(code);
-						if(plans != null && plans.size()>0) {
-							for(OutProjectInfo plan:plans) {
-								jhjes += new Double(plan.getYsje());
-							}
-						}
-					}
-					map.put("last_year_end", jhjes.intValue());
-				}else {
-					map.put("last_year_end", "无");
-				}
-			}
+
+			System.out.println(JSON.toJSONString(data));
 		}
 		catch (Exception e)
 		{
@@ -352,7 +287,7 @@ public class BudgetStockTotalProviderClient
 				budgetStockTotalService.updateBudgetStockTotal(groupTotal);
 				rs = groupTotal;
 			}else {
-				item.setLevel(0);
+				//item.setLevel(0);
 				item.setDelFlag(DelFlagEnum.STATUS_NORMAL.getCode());
 				item.setNd(info.getNd());
 				item.setCreateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));

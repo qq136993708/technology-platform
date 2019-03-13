@@ -115,11 +115,8 @@ public class BudgetAssetTotalServiceImpl implements BudgetAssetTotalService
 		BudgetAssetTotalExample.Criteria c = example.createCriteria();
 		c.andBudgetInfoIdEqualTo(param.getParam().get("budget_info_id").toString());
 		c.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
-		c.andLevelEqualTo(0);//只显示第一级
 		example.setOrderByClause("no");
-		//return this.findByExample(param, example);
 		LayuiTableData tabledata = this.findByExample(param, example);
-		System.out.println(JSON.toJSONString(tabledata));
 		
 		List<Map<String,Object>> ls = new ArrayList<Map<String,Object>>();
 		for(java.util.Iterator<?> iter = tabledata.getData().iterator();iter.hasNext();) 

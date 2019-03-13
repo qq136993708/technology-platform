@@ -175,7 +175,7 @@
             		$("#update_time").html(curent_budget_info.updateTime);//最后更新时间
             		$("#info_status").html(curent_budget_info.auditStatusDesc);//状态
             		
-            		publicMethods.ajaxPost("/budget/budget-assettotal-items",{page:1,limit:10,param: {"nd":cu_date,"budget_info_id":curent_budget_info.dataId}}, function (data) {
+            		publicMethods.ajaxPost("/budget/budget-assettotal-items",{page:1,limit:100,param: {"nd":cu_date,"budget_info_id":curent_budget_info.dataId}}, function (data) {
 	                	curent_tabel_data = data.data;
 	                	table.reload('dataTable', {data: data.data});
 	                	renderfunc();

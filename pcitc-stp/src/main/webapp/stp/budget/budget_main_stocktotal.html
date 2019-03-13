@@ -93,7 +93,7 @@
                 <tr>
                 	<th lay-data="{type:'checkbox'}" rowspan="2"></th>
                 	<th lay-data="{field:'no',align: 'center', width: 45,totalRowText: '合计'}" rowspan="2">序号</th>
-                    <th lay-data="{field:'displayName', width: '20%'}" rowspan="2">单位</th>
+                    <th lay-data="{field:'displayName', width: '20%'}" rowspan="2">类别</th>
                    	<th lay-data="{field:'last_year_end',align: 'right', width: '15%'}" rowspan="2">2018年预算完成</th>
                     <th lay-data="{field:'plan_money',align: 'right', width: '15%'}" rowspan="2">2019年计划金额</th>
                     <th lay-data="{align:'center'}", colspan="3"><span>${nd}</span>年科技经费预计完成</th>
@@ -178,7 +178,7 @@
             		$("#update_time").html(curent_budget_info.updateTime);//最后更新时间
             		$("#info_status").html(curent_budget_info.auditStatusDesc);//状态
             		
-            		publicMethods.ajaxPost("/budget/budget-stocktotal-items",{page:1,limit:10,param: {"nd":cu_date,"budget_info_id":curent_budget_info.dataId}}, function (data) {
+            		publicMethods.ajaxPost("/budget/budget-stocktotal-items",{page:1,limit:100,param: {"nd":cu_date,"budget_info_id":curent_budget_info.dataId}}, function (data) {
 	                	curent_tabel_data = data.data;
 	                	//求和
 	                	$.each(curent_tabel_data,function(index,dt){
