@@ -6,6 +6,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.*;
 import com.pcitc.base.expert.*;
 import com.pcitc.base.system.SysDictionary;
+import com.pcitc.base.system.SysUnit;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.ReverseSqlResult;
 import com.pcitc.web.common.BaseController;
@@ -596,6 +597,8 @@ public class ExpertController extends BaseController {
 
     /*--------------------------------------项目开始-----------------------------*/
     private static final String PROJECT_LIST_PAGE = "http://pcitc-zuul/system-proxy/out-provider/project-list-expert";
+    //机构查询
+    private static final String UNIT_GET_UNIT = "http://pcitc-zuul/system-proxy/unit-provider/unit/get-unit/";
 
     /**
      * 已选专家页面跳转
@@ -652,6 +655,8 @@ public class ExpertController extends BaseController {
     public String getUserChoicePage() {
         request.setAttribute("projectId", request.getParameter("projectId"));
         request.setAttribute("projectName", request.getParameter("projectName"));
+        request.setAttribute("unitCode", request.getParameter("unitCode"));
+        SysUnit unit = this.restTemplate.exchange(UNIT_GET_UNIT + request.getParameter("unitId"), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), SysUnit.class).getBody();
         return "stp/expert/expert_choice";
     }
 

@@ -469,6 +469,7 @@ public class UnitServiceImpl implements UnitService {
 			node.setId(unit.getUnitId());
 			node.setpId(unit.getUnitRelation());
 			node.setName(unit.getUnitName());
+			node.setText(unit.getUnitCode());
 			nodes.add(node);
 		}
 		return JSONArray.toJSONString(nodes);

@@ -176,6 +176,7 @@
 <script>
     var projectName = "${projectName}";
     var projectId = "${projectId}";
+    var unitCode = "${unitCode}";
     console.log("项目名称：" + projectName);
 
     function okEvent() {
@@ -263,8 +264,8 @@
                 console.log(e);
             }
         });
-        // var index = parent.layer.getFrameIndex(window.name);
-        // parent.layer.close(index);
+        var index = parent.layer.getFrameIndex(window.name);
+        parent.layer.close(index);
 
     }
 
@@ -337,6 +338,7 @@
                     "projectId": "${projectId}"
                     , "type": $("#stype").val()
                     , "count": $("#count").val()
+                    ,"unitId": unitCodeVal
                     , "company": $("#companyDivValue").val()
                     , "projectConfigId": map[$('input[name="option"]:checked').val()]// map[$('input[name="option"]:checked').val()]// "168db5b7282_7ed760ca"
                     // ,"projectConfigId":$("#projectConfigId").val()
@@ -360,6 +362,7 @@
                     "expertProfessinal": $("#expertProfessinal").val(),
                     "expertProfessionalField": $("#expertProfessionalField").val(),
                     "projectId": "${projectId}"
+                        ,"unitId": unitCodeVal
                     , "type": "guding"
                     , "company": $("#company1DivValue").val()
                     , "count": $("#count").val()
@@ -480,6 +483,7 @@
 <script type="text/javascript" src="/layuiadmin/modules/selectTree.js"></script>
 <script>
     var zNodes;
+    var unitCodeVal = "";
     $(function () {
         $.ajax({
             url: "/unit/ztree-unit-list",//这个就是请求地址对应sAjaxSource
@@ -491,12 +495,20 @@
             async: false,
             success: function (data) {
                 zNodes = data;
+                console.log("------x------");
+                console.log(zNodes);
+                for (var i = 0,z_leng = zNodes.length; i <z_leng ; i++) {
+                    if (unitCode==zNodes[i].text){
+                        unitCodeVal = zNodes[i].id;
+                    }
+                }
             },
             error: function (msg) {
                 layer.msg(msg);
             }
         });
     });
+
     // 下拉树初始化
     $(document).ready(function () {
         /*
