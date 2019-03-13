@@ -327,7 +327,7 @@ public class BudgetStockTotalProviderClient
 				
 				map  = MyBeanUtils.transBean2Map(groupTotal);
 				map.put("groups", groupMaps);
-				map.put("total", new Double(map.get("yjwc").toString())+new Double(map.get("xmjf").toString()));
+				//map.put("total", new Double(map.get("yjwc").toString())+new Double(map.get("xmjf").toString()));
 			}
 		}
 		catch (Exception e)
@@ -517,7 +517,7 @@ public class BudgetStockTotalProviderClient
 			List<BudgetStockTotal> rs = budgetStockTotalService.selectStockTotalHistoryItems(item);
 			for(BudgetStockTotal total:rs) {
 				Map<String,Object> map  = MyBeanUtils.transBean2Map(total);
-				map.put("total", new Double(map.get("yjwc").toString())+new Double(map.get("xmjf").toString()));
+				//map.put("total", new Double(map.get("yjwc").toString())+new Double(map.get("xmjf").toString()));
 				rsmap.add(map);
 			}
 		}
@@ -665,6 +665,36 @@ public class BudgetStockTotalProviderClient
 			}
 		}
 		return null;
+	}
+	@ApiOperation(value="股份公司预算-检索预算项",notes="检索预算项树形数据")
+	@RequestMapping(value = "/stp-provider/budget/search-stockitem-tree")
+	public Object searchStockitemTree(@RequestBody String budgetId) throws Exception 
+	{
+		List<TreeNode> nodes = new ArrayList<TreeNode>();
+		try
+		{
+			TreeNode root = new TreeNode();
+			root.setId("root");
+			root.setName("一级预算项");
+			nodes.add(root);
+			
+			
+			List<BudgetStockTotal> totals = budgetStockTotalService.selectBudgetInfoId(budgetId);
+			for(BudgetStockTotal total:totals) {
+				TreeNode node = new TreeNode();
+				node.setId(total.getDataId());
+				node.setpId(root.getId());
+				node.setName(total.getDisplayName());
+				nodes.add(node);
+			}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return nodes;
+		
+		
 	}
 	
 }

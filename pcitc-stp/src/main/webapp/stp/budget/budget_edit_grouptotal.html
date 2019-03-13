@@ -37,6 +37,7 @@
                         <label for="" class="layui-form-label">承担单位<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
                             <input type="text" name="displayName" id="displayName" placeholder="" lay-verify="required" autocomplete="off" class="layui-input">
+                        	<input type="hidden" id="displayCode" name="displayCode">
                         </div>
                     </div>
                 </div>
@@ -44,17 +45,20 @@
             <div class="layui-row">
                 <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">单位简称<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">分类<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <input class="layui-input" id="simpleName" name="simpleName" placeholder="" lay-verify="required" autocomplete="off" type="text">
+                        		<select name="simpleCode" id="simpleCode" lay-verify="required"  lay-filter="simpleCode">
+									<option value="">请选择</option>
+								</select>
+								<input type="hidden" id="simpleName" name="simpleName"> 
                         </div>
                     </div>
                 </div>
                 <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">单位编码<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">备注<span class="must-fill"></span></label>
                         <div class="layui-input-block">
-                            <input type="text" id="displayCode" name="displayCode"  placeholder="" lay-verify="required" autocomplete="off" class="layui-input">
+                            <input type="text" id="remark" name="remark"  placeholder="" autocomplete="off" class="layui-input">
                         </div>
                     </div>
                 </div>
@@ -77,7 +81,7 @@
                     </div>
                 </div>
             </div>
-            <div class="layui-row">
+            <!-- <div class="layui-row">
                 <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
                     <div class="layui-form-item">
                         <label for="" class="layui-form-label">备注</label>
@@ -86,7 +90,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
             <!-- <div class="layui-row">
                 <div class="layui-col-xs10 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
@@ -178,6 +182,12 @@
     		});  
            	viewObj.tbData.push(newRow);
         }
+        //集团分类编码字典 ROOT_JFYS_JTDWFL
+        publicMethods.ajaxPost('/dictionary/list/ROOT_JFYS_JTDWFL', null, function (data, status) { 
+	    	$.each(data,function(i,dt){
+	    		$("#simpleCode").append("<option value='"+data[i].code+"'>"+data[i].name+"</option>");
+	    	});
+	    });
 		publicMethods.ajaxPost("/budget/get-grouptotal-item/${dataId}",null, function (data) {
 			form.val("budget-form",data);
 			parentInfo = data;
@@ -213,7 +223,7 @@
                 {field: 'displayName', title: '单位名称',edit:true,totalRowText: '合计'}
                 , {field: 'last_year_end', title: '${nd}预算完成', align: 'right',style: 'cursor: pointer;', width: '15%',totalRow: true}
                 , {field: 'plan_money', title: '${nd}计划金额', align: 'right',style: 'cursor: pointer;', width: '15%',totalRow: true}
-                , {field: 'xmjf', title: '科技项目经费预算', align: 'right',style: 'cursor: pointer;',edit:true, width: '15%',totalRow: true}
+                , {field: 'xmjf', title: '项目经费', align: 'right',style: 'cursor: pointer;',edit:true, width: '15%',totalRow: true}
                 , {field: 'zxjf', title: '重点实验室专项经费', align: 'right',style: 'cursor: pointer;',edit:true, width: '15%',totalRow: true}
                 , {title: '操作', style: 'cursor: pointer;', align: 'center', width: '10%', templet: function(d){
                     return '<a href="#" lay-event="del" lay-id="'+ d.dataId +'">删除</a>';

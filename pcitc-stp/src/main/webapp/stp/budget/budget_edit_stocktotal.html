@@ -52,9 +52,12 @@
                 </div>
                 <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">单位编码<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">上级单位<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <input type="text" id="displayCode" name="displayCode"  placeholder="" lay-verify="required" autocomplete="off" class="layui-input">
+								<div class="selectTreeBox">
+									<div id="unitSelectTree" class="layui-form-select select-tree"></div>
+								</div>
+								<input type="hidden" id="displayCode" name="displayCode"> 
                         </div>
                     </div>
                 </div>
@@ -163,9 +166,10 @@
     var nd = "${nd}";
     var parentInfo = null;
     var company_map = {};
-    layui.use(['jquery', 'table', 'form','laydate', 'layer','publicMethods'], function () {
-        var $ = layui.jquery, table = layui.table, form = layui.form,laydate = layui.laydate, layer = layui.layer,publicMethods=layui.publicMethods;
+    layui.use(['jquery', 'table', 'form','laydate', 'layer','publicMethods','selectTree'], function () {
+        var $ = layui.jquery, table = layui.table, form = layui.form,laydate = layui.laydate, layer = layui.layer,publicMethods=layui.publicMethods,selectTree=layui.selectTree;
         var layTableId = "dataTable";
+        var unitSelectTree;
         //检索年度金额完成情况
         window.selectItemProjectMoney = function(nd,displayCode,callback){
         	publicMethods.ajaxPost('/budget/select-stocktotal-compare-project',{"nd":nd,"code":displayCode}, function (data, status) {
@@ -196,6 +200,15 @@
     		});  
            	viewObj.tbData.push(newRow);
         }
+        //初始化级别选择
+        publicMethods.ajaxPost("/budget/search-stockitem-tree",{"dataId":budgetInfoId}, function(data,status){
+        	selectTree.initSelectTree("unitSelectTree", false, true, true, true,data);
+        	selectTree.initHideMenu();
+        	//$("#unitSelectTreeShow").attr("title","tiddddddddtle");
+    		//$("#unitSelectTreeShow").attr("value","vadddddddddlue");
+    		
+   		});  
+        
 		publicMethods.ajaxPost("/budget/get-stocktotal-item/${dataId}",null, function (data) {
 			form.val("budget-form",data);
 			parentInfo = data;
@@ -208,7 +221,12 @@
 				});
 				viewObj.tbData.push(dt);
 			});
-			//table.reload({data : viewObj.tbData});
+			if(data.)
+			console.log("data.........");
+			console.log(data);
+    		//form.render();
+			//unitSelectTree = initSelectTree("unitSelectTree",true, true, false,{ "Y": "", "N": "" })
+			//unitSelectTree.initSelectTree("unitSelectTree", true, true, true, false,zNodes);
    		});
         //检索公司
       	publicMethods.ajaxPost("/budget/search-stock-company-items",null, function (data) {
@@ -217,8 +235,10 @@
         		company_map[dt.unitCode] = dt.unitName;
         		//$("#company_list").append('<option value="'+dt.unitCode+'">'+dt.unitName+'</option>');
         	});
-        	form.render(); 
+        	form.render();
    		}); 
+        
+      	
         //渲染
         var tableIns = table.render({
             elem: '#dataTable' //表格容器
