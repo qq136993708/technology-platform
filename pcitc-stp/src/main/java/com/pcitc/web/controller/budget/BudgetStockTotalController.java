@@ -78,7 +78,7 @@ public class BudgetStockTotalController extends BaseController {
 	private static final String BUDGET_INFO_UPDATE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-info-update";
 	private static final String BUDGET_INFO_GET = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-info-get/";
 	private static final String PROJECT_NOTICE_WORKFLOW_URL = "http://pcitc-zuul/stp-proxy/stp-provider/budget/start-budget-stocktotal-activity/";
-	
+	private static final String BUDGET_STOCKTOTAL_ITEM_TREE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/search-stockitem-tree";
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_main_stocktotal")
 	public Object toBudgetStockPage(HttpServletRequest request) throws IOException 
@@ -337,19 +337,14 @@ public class BudgetStockTotalController extends BaseController {
 		//System.out.println(JSON.toJSONString(infors.getBody()));
 		return infors.getBody();
 	}
-	/*@RequestMapping(value = "/budget/start-budget-grouptotal-activity")
-	public Object startBudgetGrouptotatlWorkflow(@RequestParam(value = "budget", required = true) String noticeId,
-			@RequestParam(value = "functionId", required = true) String functionId,
-			HttpServletRequest request, HttpServletResponse response) throws Exception 
+	@RequestMapping(value = "/budget/search-stockitem-tree", method = RequestMethod.POST)
+	@ResponseBody
+	public Object searchStockitemTree(@RequestParam(value="dataId",required = false)String dataId,HttpServletRequest request, HttpServletResponse response) throws Exception 
 	{
-		WorkflowVo vo = new WorkflowVo();
-		vo.setAuditUserIds(this.getUserProfile().getUserId());
-		vo.setFunctionId(functionId);
-		vo.setAuthenticatedUserId(this.getUserProfile().getUserId());
-		HttpEntity<WorkflowVo> entity = new HttpEntity<WorkflowVo>(vo, this.httpHeaders);
-		Result rs = this.restTemplate.exchange(PROJECT_NOTICE_WORKFLOW_URL + noticeId, HttpMethod.POST, entity, Result.class).getBody();
-		return rs;
-	}*/
+		ResponseEntity<?> infors = this.restTemplate.exchange(BUDGET_STOCKTOTAL_ITEM_TREE, HttpMethod.POST, new HttpEntity<Object>(dataId,this.httpHeaders), Object.class);
+		//System.out.println(JSON.toJSONString(infors.getBody()));
+		return infors.getBody();
+	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@RequestMapping("/budget/budget_download/stocktotal/{dataId}")
