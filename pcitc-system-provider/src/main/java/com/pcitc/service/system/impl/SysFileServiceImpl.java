@@ -1461,14 +1461,12 @@ public class SysFileServiceImpl implements SysFileService {
 		hashmap.put("userId", param.getParam().get("userId"));
 		
 		List<SysFile> list = sysFileMapper.selectFileListForPublic(hashmap);
-		System.out.println("1>>>>>>>>>查询分页结果"+list.size());
 		for (int i = 0; i < list.size(); i++) {
 			SysFile sf = list.get(i);
 			sf.setFileSize(String.valueOf(Math.round(Double.valueOf(sf.getFileSize()))/1024));
 		}
 		PageInfo<SysFile> pageInfo = new PageInfo<SysFile>(list);
 		
-		System.out.println("2>>>>>>>>>查询分页结果"+pageInfo.getList().size());
 
 		LayuiTableData data = new LayuiTableData();
 		data.setData(pageInfo.getList());
@@ -1501,10 +1499,8 @@ public class SysFileServiceImpl implements SysFileService {
 		hashmap.put("userId", param.getParam().get("userId"));
 		
 		List<SysFile> list = sysFileMapper.selectFileListForCollect(hashmap);
-		System.out.println("1>>>>>>>>>查询分页结果"+list.size());
 		PageInfo<SysFile> pageInfo = new PageInfo<SysFile>(list);
 		
-		System.out.println("2>>>>>>>>>查询分页结果"+pageInfo.getList().size());
 
 		LayuiTableData data = new LayuiTableData();
 		data.setData(pageInfo.getList());
@@ -1543,14 +1539,12 @@ public class SysFileServiceImpl implements SysFileService {
 		}
 
 		List<SysFile> list = sysFileMapper.selectFileHistoryList(hashmap);
-		System.out.println("1>>>>>>>>>查询分页结果"+list.size());
 		for (int i = 0; i < list.size(); i++) {
 			SysFile sf = list.get(i);
 			sf.setFileSize(String.valueOf(Math.round(Double.valueOf(sf.getFileSize()))/1024));
 		}
 		PageInfo<SysFile> pageInfo = new PageInfo<SysFile>(list);
 		
-		System.out.println("2>>>>>>>>>查询分页结果"+pageInfo.getList().size());
 
 		LayuiTableData data = new LayuiTableData();
 		data.setData(pageInfo.getList());
