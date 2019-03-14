@@ -240,11 +240,9 @@
                 var type = $(this).data('type');
                 active[type] ? active[type].call(this) : '';
             });
-            table.on('edit(dataTable)', function(obj){ //注：edit是固定事件名，test是table原始容器的属性 lay-filter="对应的值"
-            	if(obj.data.level ==1){//如果
-            	}
+            table.on('edit(dataTable)', function(obj){
+            	var yjwcZbx=yjwcFyx=xmjfFyx=xmjfZbx=0;
             	$.each(curent_tabel_data,function(index,dt){
-            		//计算行合计
             		if(obj.data.dataId == dt.dataId){
             			if(obj.field=="yjwcZbx"){
             				dt.yjwcZbx = obj.value;
@@ -258,11 +256,30 @@
             			dt.yjwcTotal = parseInt(dt.yjwcZbx)+parseInt(dt.yjwcFyx);
             			dt.xmjfTotal = parseInt(dt.xmjfZbx)+parseInt(dt.xmjfFyx);
             		}
+            		//如果是二级节点，则同时要更新求和数
+            		if(obj.data.level == 1 && obj.data.parentDataId == dt.parentDataId){
+            			yjwcZbx+=parseInt(dt.yjwcZbx);
+            			yjwcFyx+=parseInt(dt.yjwcFyx);
+            			xmjfFyx+=parseInt(dt.xmjfFyx);
+            			xmjfZbx+=parseInt(dt.xmjfZbx);
+            		}
             	});
+            	//如果是二级节点，则同时要更新求和数
+            	if(obj.data.level == 1)
+            	{
+            		$.each(curent_tabel_data,function(index,dt){
+            			if(dt.dataId==obj.data.parentDataId){
+            				dt.yjwcZbx=yjwcZbx;
+            				dt.yjwcFyx=yjwcFyx;
+            				dt.yjwcTotal=yjwcZbx+yjwcFyx;
+            				dt.xmjfFyx=xmjfFyx;
+            				dt.xmjfZbx=xmjfZbx;
+            				dt.xmjfTotal=xmjfFyx+xmjfZbx;
+            			}
+            		});
+            	}
             	//刷新表格数据
-            	//table.reload('dataTable', {data: curent_tabel_data});
             	reloadDataAndTableFormart(curent_tabel_data);
-            	//renderfunc();
             	//预分配数
             	calculationSurplusMoney();
             });
@@ -285,7 +302,7 @@
                     }
     		   	});
             }
-          	//计算剩余可分配数
+          	//计算剩余可分配数,计算合计数
           	function calculationSurplusMoney(){
             	var total_money = 0;
             	$.each(curent_tabel_data,function(index,dt){
@@ -294,6 +311,26 @@
             		}
             	});
           		$("#surplusMoney").val(parseInt($("#budgetMoney").val())-total_money);
+          		//5,6,7,8,9,10行 以汇总计算
+          		var t3=t4=t5=t6=t7=t8=t9=t10=0;
+          		$.each(curent_tabel_data,function(index,dt){
+          			if(dt.level == 0){
+          				t3 += parseInt(dt.last_year_end);
+          				t4 += parseInt(dt.plan_money);
+          				t5 += parseInt(dt.yjwcTotal);
+          				t6 += parseInt(dt.yjwcZbx);
+          				t7 += parseInt(dt.yjwcFyx);
+          				t8 += parseInt(dt.xmjfTotal);
+          				t9 += parseInt(dt.xmjfZbx);
+          				t10 += parseInt(dt.xmjfFyx);
+          			}
+          		});
+          		$(".layui-table-total").find("tr").find('td').eq(5).find("div").html(t5);
+      			$(".layui-table-total").find("tr").find('td').eq(6).find("div").html(t6);
+      			$(".layui-table-total").find("tr").find('td').eq(7).find("div").html(t7);
+      			$(".layui-table-total").find("tr").find('td').eq(8).find("div").html(t8);
+      			$(".layui-table-total").find("tr").find('td').eq(9).find("div").html(t9);
+      			$(".layui-table-total").find("tr").find('td').eq(10).find("div").html(t10);
           	}
           	//将方法转换为全局方法
           	window.initDataVersion = initDataVersion;
