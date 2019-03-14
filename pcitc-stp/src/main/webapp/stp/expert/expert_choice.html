@@ -93,7 +93,7 @@
                 <!--<li class="" onclick="changeStype('dw');">单位选取</li>-->
             </ul>
             <div class="layui-tab-content">
-                <div class="layui-tab-item layui-show">
+                <div id="qq" class="layui-tab-item layui-show">
                     <!--加入对比,加入备选,加入项目,加入zjk_project_expert,类型,加入人,-->
                     <!--查询条件-->
                     <label class="dateInput">
@@ -114,7 +114,7 @@
                     <div style="height: 10px;"></div>
                     <table id="expertTable" class="layui-hide" lay-filter="expertTable"></table>
                 </div>
-                <div class="layui-tab-item">
+                <div id="ww" class="layui-tab-item">
                     <div class="searchBox">
                         <!--查询条件-->
                         <label class="dateInput">
@@ -149,7 +149,7 @@
                     <table id="expertTableGd" class="layui-hide" lay-filter="expertTableGd"></table>
                     <!--加入对比,加入备选,加入项目,加入zjk_project_expert,类型,加入人,-->
                 </div>
-                <div class="layui-tab-item">
+                <div id="ee" class="layui-tab-item">
                     <input type="button" value="确定" class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" onclick="okEvent()">
                     <table id="expertTableDw" class="layui-hide" lay-filter="expertTableDw"></table>
                     <!--加入对比,加入备选,加入项目,加入zjk_project_expert,类型,加入人,单位代码，-->
@@ -177,11 +177,8 @@
     var projectName = "${projectName}";
     var projectId = "${projectId}";
     var unitCode = "${unitCode}";
-    console.log("项目名称：" + projectName);
 
     function okEvent() {
-        console.log("ok");
-        // console.log(selectRowData);
         //点击编辑按钮
         // if (!selectRowData) {
         //     layer.msg('请选择数据!');
@@ -196,7 +193,6 @@
         var plist = [];
         if (stype == "suiji") {
             var sel = active.getCheckData('expertTable');
-            console.log(sel);
             if (!sel || sel.length == 0) {
                 layer.msg('请选择数据!');
                 return;
@@ -220,7 +216,6 @@
             }
         } else if (stype == "guding") {
             var sel = active.getCheckData('expertTableGd');
-            console.log(sel);
             if (!sel || sel.length == 0) {
                 layer.msg('请选择数据!');
                 return;
@@ -261,7 +256,6 @@
             },
             error: function (e) {
                 modals.info("出错了");
-                console.log(e);
             }
         });
         var index = parent.layer.getFrameIndex(window.name);
@@ -347,7 +341,7 @@
             publicMethods.tableRender('expertTable', 'expertTable', '/expertController/getUserChoiceTableData', false, cols, where, false, function (res, curr, count) {
                 var param = {
                     data: res.data,//数据
-                    element: ".layui-table-body table",// 当前的表格元素
+                    element: "#qq .layui-table-body table",// 当前的表格元素
                     column: 3,//列数 从0开始
                     field: "sex",//当前数据的字段
                     url: "/pageCommon/dic/ROOT_UNIVERSAL_XB"//接口
@@ -373,7 +367,7 @@
             publicMethods.tableRender('expertTableGd', 'expertTableGd', '/expertController/getUserChoiceTableData', false, cols, where, true, function (res, curr, count) {
                 var param = {
                     data: res.data,//数据
-                    element: ".layui-table-body table",// 当前的表格元素
+                    element: "#ww .layui-table-body table",// 当前的表格元素
                     column: 3,//列数 从0开始
                     field: "sex",//当前数据的字段
                     url: "/pageCommon/dic/ROOT_UNIVERSAL_XB"//接口
@@ -410,10 +404,8 @@
             //propertychange监听input里面的字符变化,属性改变事件
             $('.form-control').bind('input propertychange', function () {
                 var $this = $(this);
-                console.log($this);
                 var text_length = $this.val().length;//获取当前文本框的长度
                 var current_width = parseInt(text_length) * 12;//该16是改变前的宽度除以当前字符串的长度,算出每个字符的长度
-                console.log(current_width)
                 $this.css("width", current_width + "px");
             });
         })
@@ -473,7 +465,6 @@
             // record.companyName = selectRowData.companyName;
             record.zjId = selectRowData.dataId;
             publicMethods.ajaxPost("/expertController/addChoice", record, function (data) {
-                console.log(data);
                 layer.msg("操作成功");
             });
         });
@@ -495,8 +486,6 @@
             async: false,
             success: function (data) {
                 zNodes = data;
-                console.log("------x------");
-                console.log(zNodes);
                 for (var i = 0,z_leng = zNodes.length; i <z_leng ; i++) {
                     if (unitCode==zNodes[i].text){
                         unitCodeVal = zNodes[i].id;
