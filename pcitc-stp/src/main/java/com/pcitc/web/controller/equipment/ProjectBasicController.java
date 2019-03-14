@@ -13,7 +13,6 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.tomcat.util.bcel.Const;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -23,7 +22,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
@@ -33,9 +31,7 @@ import com.pcitc.base.common.Constant;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
-import com.pcitc.base.common.WorkFlowStatusEnum;
 import com.pcitc.base.common.enums.RequestProcessStatusEnum;
-import com.pcitc.base.stp.IntlProject.IntlProjectNotice;
 import com.pcitc.base.stp.equipment.SreProject;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CodeUtil;
@@ -120,8 +116,6 @@ public class ProjectBasicController extends BaseController {
 	public String add(HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
 
-		
-		
 		String leadUnitName = sysUserInfo.getUnitName();
 		String leadUnitCode = sysUserInfo.getUnitCode();
 		String createUserName=sysUserInfo.getUserDisp();
@@ -150,8 +144,6 @@ public class ProjectBasicController extends BaseController {
 		request.setAttribute("leadUnitName", leadUnitName);
 		request.setAttribute("leadUnitCode", leadUnitCode);
 		request.setAttribute("createUserId", createUserId);
-		
-		
 		request.setAttribute("endYear", endYear);
 		request.setAttribute("beginYear", beginYear);
 		logger.info("============远程返回  beginYear " + beginYear);
@@ -170,6 +162,38 @@ public class ProjectBasicController extends BaseController {
 		
     }
 	
+	
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/chooseProject")
+	private String chooseProject(HttpServletRequest request) 
+	{
+		
+		
+		String taskWriteUsersIds=sysUserInfo.getUserId();
+		
+		//String taskWriteUsersIds = request.getParameter("taskWriteUsersIds");
+		request.setAttribute("taskWriteUsersIds",taskWriteUsersIds);
+		String topicId = request.getParameter("topicId");
+		request.setAttribute("topicId",topicId);
+		return "/stp/equipment/task/chooseProject";
+    }
+	
+	@RequestMapping(value = "/chooseProject_data")
+	@ResponseBody
+	public String chooseProject_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
+		
+		
+		LayuiTableData layuiTableData = new LayuiTableData();
+		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(PAGE_URL, HttpMethod.POST, entity, LayuiTableData.class);
+		int statusCode = responseEntity.getStatusCodeValue();
+		if (statusCode == 200) {
+			layuiTableData = responseEntity.getBody();
+		}
+		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
+		logger.info("============查询结果：" + result);
+		return result.toString();
+	}
 
 	/**
 	 * 保存-更新操作
@@ -182,6 +206,20 @@ public class ProjectBasicController extends BaseController {
 	@RequestMapping(method = RequestMethod.POST, value = "/save")
 	public String saveOrUpdate(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
+		Result resultsDate = dealSaveUpdate(request);
+		response.setContentType("text/html;charset=UTF-8");
+		PrintWriter out = response.getWriter();
+		JSONObject ob = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
+		out.println(ob.toString());
+		out.flush();
+		out.close();
+		return null;
+	}
+	
+	
+	private Result dealSaveUpdate(HttpServletRequest request)
+	{
+		
 		Result resultsDate = new Result();
 		String name = CommonUtil.getParameter(request, "name", "");
 		// 业务ID
@@ -222,8 +260,6 @@ public class ProjectBasicController extends BaseController {
 		String professionalDepartCode = CommonUtil.getParameter(request, "professionalDepartCode", "");
 		String taskWriteUserNames = CommonUtil.getParameter(request, "taskWriteUserNames", "");
 		String taskWriteUsersIds = CommonUtil.getParameter(request, "taskWriteUsersIds", "");
-		
-		
 		
 		
 		SreProject sreProjectBasic = null;
@@ -296,6 +332,7 @@ public class ProjectBasicController extends BaseController {
 		sreProjectBasic.setApplyUnitName(sysUserInfo.getUnitName());
 		sreProjectBasic.setTaskWriteUserNames(taskWriteUserNames);
 		sreProjectBasic.setTaskWriteUsersIds(taskWriteUsersIds);
+		sreProjectBasic.setSetupYear(DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 		
 		// 判断是新增还是修改
 		if (id.equals("")) 
@@ -327,14 +364,7 @@ public class ProjectBasicController extends BaseController {
 		{
 			resultsDate = new Result(false, RequestProcessStatusEnum.SERVER_BUSY.getStatusDesc());
 		}
-
-		response.setContentType("text/html;charset=UTF-8");
-		PrintWriter out = response.getWriter();
-		JSONObject ob = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
-		out.println(ob.toString());
-		out.flush();
-		out.close();
-		return null;
+		return resultsDate;
 	}
 	
 	
@@ -350,10 +380,12 @@ public class ProjectBasicController extends BaseController {
 		String taskWriteUsersIds = CommonUtil.getParameter(request, "taskWriteUsersIds", "");
 		logger.info("============远程返回  id " + id+" taskWriteUserNames="+taskWriteUserNames+"  taskWriteUsersIds="+taskWriteUsersIds);
 		
-		SreProject sreProject=this.getSreProject(id);
+		SreProject sreProject=EquipmentUtils.getSreProject(id, restTemplate, httpHeaders);
 		sreProject.setTaskWriteUserNames(taskWriteUserNames);
 		sreProject.setTaskWriteUsersIds(taskWriteUsersIds);
-		String str=this.updateSreProject(sreProject);
+		String str=EquipmentUtils.updateSreProject(sreProject, restTemplate, httpHeaders);
+		
+		
 		if(!str.equals(""))
 		{
 			resultsDate = new Result(true, RequestProcessStatusEnum.OK.getStatusDesc());
@@ -427,9 +459,9 @@ public class ProjectBasicController extends BaseController {
 		if (status.getBody() != null && status.getBody().equals("true"))
 		{
 			System.out.println("=================流程启动成功");
-			SreProject	sreProject = this.getSreProject(id);
+			SreProject sreProject=EquipmentUtils.getSreProject(id, restTemplate, httpHeaders);
 			sreProject.setAuditStatus(Constant.AUDIT_STATUS_SUBMIT);
-			this.updateSreProject(sreProject);
+			EquipmentUtils.updateSreProject(sreProject, restTemplate, httpHeaders);
 			return true;
 		} else
 		{
@@ -440,30 +472,8 @@ public class ProjectBasicController extends BaseController {
 	
 	
 	
-	private String updateSreProject(SreProject sreProject)
-	{
-		String str="";
-		ResponseEntity<String> responseEntity =this.restTemplate.exchange(UPDATE_URL, HttpMethod.POST, new HttpEntity<SreProject>(sreProject, this.httpHeaders), String.class);
-		int statusCode = responseEntity.getStatusCodeValue();
-		if (statusCode == 200)
-		{
-			str = responseEntity.getBody();
-		}
-		return str;
-	}
 	
 	
-	private SreProject getSreProject(String id)
-	{
-		SreProject	sreProjectBasic = null;
-		ResponseEntity<SreProject> responseEntity = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreProject.class);
-		int statusCode = responseEntity.getStatusCodeValue();
-		if (statusCode == 200)
-		{
-			sreProjectBasic = responseEntity.getBody();
-		}
-		return sreProjectBasic;
-	}
 	
 	
 	    

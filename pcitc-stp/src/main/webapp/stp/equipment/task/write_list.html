@@ -12,12 +12,40 @@
 <body>
 <div class="searchBox">
     <!--查询条件-->
-    <input type="hidden" name="auditStatus" id="auditStatus" value="${auditStatus}">
-    <input type="hidden" name="taskWriteUsersIds"      id="taskWriteUsersIds" value="${userId}">
+    <input type="hidden" name="createUserId"      id="createUserId" value="${userId}">
+    
+    
+     <label class="dateInput">
+        <span>立项年度</span>
+        <input type="text" name="setupYear" value="" placeholder="请输入立项年度" title="立项年度" autocomplete="off" class="form-control" id="setupYear">
+    </label>
+    
     
     <label class="dateInput">
-        <span>课题名称</span>
-        <input type="text" name="name" placeholder="请输入课题名称" title="课题名称" autocomplete="off" class="form-control" id="name">
+        <span>任务书名称</span>
+        <input type="text" name="topicName" placeholder="请输入任务书名称" title="任务书名称" autocomplete="off" class="form-control" id="topicName">
+    </label>
+    
+    
+    
+    <label class="dateInput">
+         <span>院内审核</span>
+         <select name="innerAuditStatus" id="innerAuditStatus"  style="width:200px" >
+             <option value="" >--请选择--</option>
+             <#list dicList as vo> 
+		          <option value="${vo.numValue}"  >${vo.name}</option>
+		      </#list>
+		 </select>
+    </label>
+    
+    <label class="dateInput">
+         <span>总部审核</span>
+         <select name="auditStatus" id="auditStatus"  style="width:200px" >
+             <option value="" >--请选择--</option>
+             <#list dicList as vo> 
+		          <option value="${vo.numValue}"  >${vo.name}</option>
+		      </#list>
+		 </select>
     </label>
     
     <!--按钮组-->
@@ -30,13 +58,15 @@
 	<div class="tableToolBox">
         <div class="whiteLine"></div>
         <div  class="tableBtns">
-        
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"  id="taskEvent" data-type="taskEvent">填写任务书</button>
+            <button  class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"  id="addTaskEvent" data-type="addTaskEvent">新增任务书</button>
+            <button  class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"  id="updateTaskEvent" data-type="updateTaskEvent">修改任务书</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_delete"  id="deleteEvent" data-type="deleteEvent">删除任务书/立项报告</button>
         </div>
     </div>
    <table id="processdef-table" class="layui-hide" lay-filter="processdef-table" ></table> 
 </div>
 <script id="dateTpl" type="text/html"> {{formatTime(d.createDate)}} </script>
+<script id="setupId" type="text/html"> {{setupId(d.setupId)}} </script>
 <script type="text/javascript">
     // 时间格式化
     function formatTime(d) {
@@ -58,16 +88,91 @@
             return '';
         }
     }
+    
+    function setupId(setupId) 
+    {
+        if (setupId==null || setupId=='') 
+        {
+            return '<button onclick="" class="layui-btn layui-btn-primary  layui-btn-xs">未填写</button>';
+        } else 
+        {
+            return '<a onclick="view_setupId(\''+setupId+'\')" class="layui-btn layui-btn-warm layui-btn-xs">已填写</a>';
+        }
+    }
+    
+    function view_isWriteTask(isWriteTask) 
+    {
+    	 var temUrl="/sre_project_task/get/" + isWriteTask;
+		 layer.open({
+             title:'任务书详情',
+             skin: 'layui-layer-lan',
+             shadeClose: true,
+             type: 2,
+             fixed: false,
+             maxmin: false,
+             area: ['70%', '90%'],
+             content:  temUrl
+         });
+    }
+    
+    
+    function view_setupId(setupId) 
+    {
+    	 var temUrl="/sre_project_setup/get/" + setupId;
+		 layer.open({
+            title:'立项报告详情',
+            skin: 'layui-layer-lan',
+            shadeClose: true,
+            type: 2,
+            fixed: false,
+            maxmin: false,
+            area: ['70%', '90%'],
+            content:  temUrl
+        });
+    }
+    function view_project(id) 
+    {
+    	 var temUrl="/sre-project-basic/get/" + id;
+		 layer.open({
+            title:'计划课题详情',
+            skin: 'layui-layer-lan',
+            shadeClose: true,
+            type: 2,
+            fixed: false,
+            maxmin: false,
+            area: ['70%', '90%'],
+            content:  temUrl
+        });
+    }
+    
+    
+    
+    
 </script>
-<script type="text/html" id="buttonTpl">
-          {{#  if(d.status == '0'){ }}
-            <button class="layui-btn layui-btn-warm layui-btn-xs">未上报</button>
-          {{#  } else if(d.status == '1'){ }}
+
+
+<script type="text/html" id="innerAuditStatus_tepm">
+          {{#  if(d.innerAuditStatus == '0'){ }}
+            <button class="layui-btn layui-btn-primary layui-btn-xs">未上报</button>
+          {{#  } else if(d.innerAuditStatus == '1'){ }}
             <button class="layui-btn  layui-btn-xs">已上报</button>
-          {{#  } else if(d.status == '2'){ }}
-            <button class="layui-btn layui-btn-normal layui-btn-xs">退回调整</button>
-           {{#  } else if(d.status == '3'){ }}
-            <button class="layui-btn layui-btn-danger layui-btn-xs">通过</button>
+          {{#  } else if(d.innerAuditStatus == '2'){ }}
+            <button class="layui-btn layui-btn-normal layui-btn-xs">已通过</button>
+           {{#  } else if(d.innerAuditStatus == '3'){ }}
+            <button class="layui-btn layui-btn-danger layui-btn-xs">已退回</button>
+          {{#  } else{ }}
+            <button class="layui-btn layui-btn-primary layui-btn-xs">未上报</button>
+          {{#  } }}
+</script>
+<script type="text/html" id="auditStatus_tepm">
+          {{#  if(d.auditStatus == '0'){ }}
+            <button class="layui-btn layui-btn-primary layui-btn-xs">未上报</button>
+          {{#  } else if(d.auditStatus == '1'){ }}
+            <button class="layui-btn  layui-btn-xs">已上报</button>
+          {{#  } else if(d.auditStatus == '2'){ }}
+            <button class="layui-btn layui-btn-normal layui-btn-xs">已通过</button>
+           {{#  } else if(d.auditStatus == '3'){ }}
+            <button class="layui-btn layui-btn-danger layui-btn-xs">已退回</button>
           {{#  } else{ }}
             <button class="layui-btn layui-btn-primary layui-btn-xs">未上报</button>
           {{#  } }}
@@ -112,8 +217,59 @@ var name=$('#name').val();
             	$('#name').val("");
             	$('#setupYear').val("");
             	$('#auditStatus').val("");
+            	$('#innerAuditStatus').val("");
             },
-             taskEvent: function(){  //点击详情按钮
+            deleteEvent: function(){  //点击删除按钮
+                 console.log('点击了删除按钮')
+                 if (typeof(selectRowData) == "undefined") 
+                 {
+            		layer.msg('请点击选择一行数据');
+            	 } else 
+            	 {
+            		 
+            		 var auditStatus=selectRowData.auditStatus;
+            		 var innerAuditStatus=selectRowData.innerAuditStatus;
+            		 if(innerAuditStatus!='0')
+           			 {
+            			 layer.msg('院内审核中...，不能删除');
+            			 return;
+           			 }else if(auditStatus!='0')
+           			 {
+            			 layer.msg('总部审核中...，不能删除');
+            			 return;
+           			 }
+            		 
+            		  var taskId=selectRowData.taskId;
+           		      var url="/sre_project_task/delete/"+taskId;
+         		     
+	           		  layer.confirm('确定要删除吗？', { btn: ['确定','取消']}, function(){
+	         				 ajaxDeleteOpt(url,"post","删除成功","删除失败");
+	         			}, function(){
+	         			 
+	         			});
+            	}
+            
+              
+            },
+            addTaskEvent: function(){  //点击详情按钮
+            	
+            		 var temUrl="/sre_project_task/add";
+            		 layer.open({
+	                      title:'增加任务书',
+	                      skin: 'layui-layer-lan',
+	                      shadeClose: true,
+	                      type: 2,
+	                      fixed: false,
+	                      //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+	                      maxmin: false,
+	                      //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+	                      area: ['70%', '90%'],
+	                      content:  temUrl
+	                 });
+            		 
+            	
+            },
+            updateTaskEvent: function(){  //点击详情按钮
             	
             	if (typeof(selectRowData) == "undefined") 
             	{
@@ -123,15 +279,22 @@ var name=$('#name').val();
             	{
             		
             		 var auditStatus=selectRowData.auditStatus;
-            		 if(auditStatus!='2')
+            		 var innerAuditStatus=selectRowData.innerAuditStatus;
+            		 if(innerAuditStatus!='0')
            			 {
-            			 layer.msg('审核通过后才能填写任务书');
+            			 layer.msg('院内审核中...，不能修改');
+            			 return;
+           			 }else if(auditStatus!='0')
+           			 {
+            			 layer.msg('总部审核中...，不能修改');
             			 return;
            			 }
-            		 var id=selectRowData.id;
-            		 var temUrl="/sre_project_task/add?topicId=" + id;
+            		 
+            		 var taskId=selectRowData.taskId;
+            		 var topicId=selectRowData.topicId;
+            		 var temUrl="/sre_project_task/add?topicId=" + topicId+"&taskId="+taskId;
             		 layer.open({
-	                      title:'编辑',
+	                      title:'修改任务书',
 	                      skin: 'layui-layer-lan',
 	                      shadeClose: true,
 	                      type: 2,
@@ -162,10 +325,10 @@ var name=$('#name').val();
             });
         });
         //监听表格双击事件
-        table.on('rowDouble(processdef-table)', function(obj){
+        /* table.on('rowDouble(processdef-table)', function(obj){
         	var temUrl = '/sre_project_task/get/'+obj.data.id;
         	openFullWin("详情",temUrl);
-        });
+        }); */
         
         //区别按钮属性
         $('.layui-btn').on('click', function(){
@@ -180,9 +343,9 @@ var name=$('#name').val();
     	//渲染
         table.render({
             elem: '#processdef-table',
-            url: '/sre-project-basic/list',
+            url: '/sre_project_task/list',
             method:"POST",
-            where: {param: {"name":$("#name").val(),"auditStatus":"2","taskWriteUsersIds":$("#taskWriteUsersIds").val()}},
+            where: {param: {"topicName":$("#topicName").val(),"auditStatus":$("#auditStatus").val(),"setupYear":$("#setupYear").val(),"createUserId":$("#createUserId").val(),"innerAuditStatus":$("#innerAuditStatus").val()}},
             limit: 15,	
             id: 'processdef-table',
             height: commonDislodgeTable(),
@@ -197,15 +360,16 @@ var name=$('#name').val();
             cols: [[
             	{type : 'checkbox', event : 'changeEvents', width : 55},
             	{title : '序号', type :'numbers', width : 55},
-                {field : 'name', title : '课题名称', style : 'cursor: pointer;', align: 'left'},
-                {field : 'projectMoney',  title : '总经费(万元)', style : 'cursor: pointer;', align: 'center',templet:function(d){return '<span style="color:red">'+d.projectMoney+'</span>'}},
-                {field : 'leadUnitName',  title : '承担单位', style : 'cursor: pointer;', align: 'left'},
-                {field : 'belongDepartmentName', title : '归属部门', style : 'cursor: pointer;', align: 'left'},
-                {field : 'applyUnitName', title : '申报单位', style : 'cursor: pointer;', align: 'left'},
-                {field : 'createUserName', title : '申报人', style : 'cursor: pointer;', align: 'left'},
-                {field : 'createDate',     title : '上报时间', style : 'cursor: pointer;', align: 'center', templet : '#dateTpl'},
-                {field : 'auditStatus',    title : '状态',        style : 'cursor: pointer;', align: 'center', width : 100},
-                {field : 'taskWriteUserNames',     title : '填写人', style : 'cursor: pointer;', align: 'center'}
+            	{field : 'innerAuditStatus',    title : '院内审核状态',   style : 'cursor: pointer;', align: 'center', width : 100,templet : '#innerAuditStatus_tepm'},
+            	{field : 'auditStatus',    title : '总部审核状态',        style : 'cursor: pointer;', align: 'center', width : 100,templet : '#auditStatus_tepm'},
+            	{field : 'topicName',      title : '课题', style :  'cursor: pointer;', align: 'left',templet:function(d){return '<span onclick="view_project(\''+d.topicId+'\')" style="color:#17a2b8">'+d.topicName+'</span>'}},
+                {field : 'topicName',      title : '任务书', style : 'cursor: pointer;', align: 'left',templet:function(d){return '<span onclick="view_isWriteTask(\''+d.taskId+'\')" style="color:#17a2b8">'+d.topicName+'</span>'}},
+                {field : 'setupId',   title : '立项报告否', style : 'cursor: pointer;', align: 'center',templet : '#setupId'},
+                {field : 'setupYear',      title : '立项年份', style : 'cursor: pointer;', align: 'center'},
+                {field : 'projectMoney',   title : '总经费(万元)', style : 'cursor: pointer;', align: 'center',templet:function(d){return '<span style="color:red">'+d.projectMoney+'</span>'}},
+                {field : 'leadUnitName',   title : '承担单位', style : 'cursor: pointer;', align: 'left'},
+                {field : 'createDate',     title : '任务书填写时间', style : 'cursor: pointer;', align: 'center', templet : '#dateTpl'},
+                {field : 'createUserName', title : '任务书填写人', style : 'cursor: pointer;', align: 'center'}
             ]],
             done: function (res, curr, count) {
                 // 点击行联动选择框--单选
@@ -231,8 +395,7 @@ var name=$('#name').val();
                 
                 
                 
-              //项目分类，项目性质
-                var dicMap = ['ROOT_UNIVERSAL_LCZT'];
+               /*  var dicMap = ['ROOT_UNIVERSAL_LCZT'];
                 var dicVal = {};
  				publicMethods.ajaxPost("/dictionary/map/getMapListDictionarys",{"parentCodes":JSON.stringify(dicMap)}, function (data) {
  					$.each(data,function(key,val){
@@ -243,7 +406,7 @@ var name=$('#name').val();
  			   	}); 
  				$.each(res.data,function(i,dt){
  					$("tr[data-index='"+i+"'] td[data-field='auditStatus'] div").html(dicVal[res.data[i].auditStatus]); 
- 			   	});
+ 			   	}); */
  				
  				
             }

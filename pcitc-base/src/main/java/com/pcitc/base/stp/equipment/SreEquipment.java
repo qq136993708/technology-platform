@@ -58,6 +58,14 @@ public class SreEquipment {
 
     private Integer voteCount;
 
+    private String secondSupplierId;
+
+    private String secondSupplierName;
+
+    private String secondSupplierLinkMan;
+
+    private String secondSupplierMobileEmail;
+
     public String getEquipmentId() {
         return equipmentId;
     }
@@ -272,5 +280,37 @@ public class SreEquipment {
 
     public void setVoteCount(Integer voteCount) {
         this.voteCount = voteCount;
+    }
+
+    public String getSecondSupplierId() {
+        return secondSupplierId;
+    }
+
+    public void setSecondSupplierId(String secondSupplierId) {
+        this.secondSupplierId = secondSupplierId;
+    }
+
+    public String getSecondSupplierName() {
+        return secondSupplierName;
+    }
+
+    public void setSecondSupplierName(String secondSupplierName) {
+        this.secondSupplierName = secondSupplierName;
+    }
+
+    public String getSecondSupplierLinkMan() {
+        return secondSupplierLinkMan;
+    }
+
+    public void setSecondSupplierLinkMan(String secondSupplierLinkMan) {
+        this.secondSupplierLinkMan = secondSupplierLinkMan;
+    }
+
+    public String getSecondSupplierMobileEmail() {
+        return secondSupplierMobileEmail;
+    }
+
+    public void setSecondSupplierMobileEmail(String secondSupplierMobileEmail) {
+        this.secondSupplierMobileEmail = secondSupplierMobileEmail;
     }
 }

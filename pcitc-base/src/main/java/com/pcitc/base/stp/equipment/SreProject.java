@@ -48,7 +48,9 @@ public class SreProject {
 
     private String leadUnitType;
 
-    private String professionalField;
+    private String professionalFieldName;
+
+    private String professionalFieldCode;
 
     private String belongDepartmentName;
 
@@ -82,6 +84,8 @@ public class SreProject {
 
     private String yearFeeStr;
 
+    private String yearFeeStrJoinUnit;
+
     private String applyUnitName;
 
     private String applyUnitCode;
@@ -89,8 +93,13 @@ public class SreProject {
     private String taskWriteUserNames;
 
     private String taskWriteUsersIds;
+    
+    
+    
+    
+    
 
-    public String getId() {
+	public String getId() {
         return id;
     }
 
@@ -266,12 +275,20 @@ public class SreProject {
         this.leadUnitType = leadUnitType;
     }
 
-    public String getProfessionalField() {
-        return professionalField;
+    public String getProfessionalFieldName() {
+        return professionalFieldName;
     }
 
-    public void setProfessionalField(String professionalField) {
-        this.professionalField = professionalField;
+    public void setProfessionalFieldName(String professionalFieldName) {
+        this.professionalFieldName = professionalFieldName;
+    }
+
+    public String getProfessionalFieldCode() {
+        return professionalFieldCode;
+    }
+
+    public void setProfessionalFieldCode(String professionalFieldCode) {
+        this.professionalFieldCode = professionalFieldCode;
     }
 
     public String getBelongDepartmentName() {
@@ -400,6 +417,14 @@ public class SreProject {
 
     public void setYearFeeStr(String yearFeeStr) {
         this.yearFeeStr = yearFeeStr;
+    }
+
+    public String getYearFeeStrJoinUnit() {
+        return yearFeeStrJoinUnit;
+    }
+
+    public void setYearFeeStrJoinUnit(String yearFeeStrJoinUnit) {
+        this.yearFeeStrJoinUnit = yearFeeStrJoinUnit;
     }
 
     public String getApplyUnitName() {

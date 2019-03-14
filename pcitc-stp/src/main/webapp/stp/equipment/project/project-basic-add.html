@@ -73,7 +73,21 @@
         </div>
       </div>
       
-       <div class="layui-form-item layui-form-text" >
+       
+      
+      
+      <div class="layui-row">
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label for="" class="layui-form-label">牵头单位<span class="must-fill">*</span></label>
+            <div class="layui-input-block">
+              <input class="layui-input" name="leadUnitName" id="leadUnitName"  value="${leadUnitName}"  lay-verify="required"  autocomplete="off" type="text">
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="layui-form-item layui-form-text" >
         <label class="layui-form-label">建设年限<span class="must-fill">*</span></label>
         <div class="layui-input-block">
            <div class="layui-input-inline" style="float:left">
@@ -99,6 +113,21 @@
           </table>
         </div>
        </div>
+       
+       
+       
+        <div class="layui-row">
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label for="" class="layui-form-label">参加单位<span class="must-fill">*</span></label>
+            <div class="layui-input-block">
+              <input class="layui-input" name="joinUnitName" id="joinUnitName" placeholder="请选择" onclick="chooseUnit('choose_joinUnitName_callback')" value="${sreProjectBasic.joinUnitName}"  lay-verify="required"  autocomplete="off" type="text">
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      
       
        <div class="layui-form-item">
 	      	 <label class="layui-form-label">选择装备<span class="must-fill">*</span></label>
@@ -116,24 +145,7 @@
        	</div>
       
      
-       <div class="layui-row">
-        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-          <div class="layui-form-item">
-            <label for="" class="layui-form-label">牵头单位<span class="must-fill">*</span></label>
-            <div class="layui-input-block">
-              <input class="layui-input" name="leadUnitName" id="leadUnitName" placeholder="请选择" onclick="chooseUnit('choose_leadUnitName_callback')" value="${sreProjectBasic.leadUnitName}"  lay-verify="required"  autocomplete="off" type="text">
-            </div>
-          </div>
-        </div>
-        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-          <div class="layui-form-item">
-            <label for="" class="layui-form-label">参加单位<span class="must-fill">*</span></label>
-            <div class="layui-input-block">
-              <input class="layui-input" name="joinUnitName" id="joinUnitName" placeholder="请选择" onclick="chooseUnit('choose_joinUnitName_callback')" value="${sreProjectBasic.joinUnitName}"  lay-verify="required"  autocomplete="off" type="text">
-            </div>
-          </div>
-        </div>
-      </div>
+       
       
       
       
