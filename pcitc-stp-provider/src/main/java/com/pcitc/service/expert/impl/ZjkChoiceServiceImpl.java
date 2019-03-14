@@ -15,7 +15,6 @@ import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.IdUtil;
 import com.pcitc.base.util.StrUtil;
 import com.pcitc.base.util.TreeNodeUtil;
-import com.pcitc.common.MailBean;
 import com.pcitc.mapper.expert.ZjkChoiceMapper;
 import com.pcitc.service.expert.ZjkBaseInfoService;
 import com.pcitc.service.expert.ZjkChoiceService;
@@ -23,7 +22,7 @@ import com.pcitc.service.expert.ZjkMsgConfigService;
 import com.pcitc.service.expert.ZjkMsgService;
 import com.pcitc.service.feign.SystemRemoteClient;
 import com.pcitc.service.msg.MailSentService;
-import org.apache.commons.lang3.StringUtils;
+import com.pcitc.util.mail.MailSenderInfo;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -480,14 +479,13 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
 //            List<String> emails = zjkChoice.stream().map(ZjkChoice::getBak3).collect(Collectors.toList());
             for (int i = 0; i < j; i++) {
                 ZjkChoice obj = zjkChoice.get(i);
-                MailBean m = new MailBean();
-                m.setMailTitle("邀请参与项目评审");
-                m.setMailTo(obj.getBak3());
-                m.setMailContent("尊敬的" + obj.getBak2() + "你好：<br>&nbsp;nbsp;nbsp;nbsp;项目'" + obj.getXmName() + "'特邀您进行进行评审，评审日期:" + obj.getBak4() + "请及时回复是否能准时参加！！！联系方式：" + obj.getBak5() + "<br>&nbsp;&nbsp;&nbsp;&nbsp;谢谢");
-                System.out.println(m.getMailContent());
-                //                mailSentService.sentMail(m);
+                MailSenderInfo m = new MailSenderInfo();
+                m.setToAddress(new String[]{"635447170@qq.com"});
+//                m.setToAddress(new String[]{obj.getBak3()});
+                m.setContent("尊敬的" + obj.getBak2() + "你好：<br>项目'" + obj.getXmName() + "'特邀您进行进行评审，评审日期:" + obj.getBak4() + "请及时回复是否能准时参加！！！联系方式：" + obj.getBak5() + "<br>&nbsp;&nbsp;&nbsp;&nbsp;谢谢");
+                m.setSubject("项目评审邀请");
+               mailSentService.sendMail(m);
             }
-
         } catch (Exception e) {
         }
         //返回
