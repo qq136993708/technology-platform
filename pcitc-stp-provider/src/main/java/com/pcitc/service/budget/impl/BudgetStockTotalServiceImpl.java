@@ -1,6 +1,7 @@
 package com.pcitc.service.budget.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -21,17 +22,17 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.enums.BudgetAuditStatusEnum;
 import com.pcitc.base.common.enums.DelFlagEnum;
-import com.pcitc.base.stp.budget.BudgetStockTotal;
-import com.pcitc.base.stp.budget.BudgetStockTotalExample;
 import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.stp.budget.BudgetInfoExample;
+import com.pcitc.base.stp.budget.BudgetStockTotal;
+import com.pcitc.base.stp.budget.BudgetStockTotalExample;
 import com.pcitc.base.stp.out.OutProjectInfo;
 import com.pcitc.base.stp.out.OutProjectPlan;
 import com.pcitc.base.stp.out.OutUnit;
 import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.common.BudgetInfoEnum;
-import com.pcitc.mapper.budget.BudgetStockTotalMapper;
 import com.pcitc.mapper.budget.BudgetInfoMapper;
+import com.pcitc.mapper.budget.BudgetStockTotalMapper;
 import com.pcitc.service.budget.BudgetStockTotalService;
 import com.pcitc.service.feign.SystemRemoteClient;
 
@@ -119,7 +120,14 @@ public class BudgetStockTotalServiceImpl implements BudgetStockTotalService
 		example.setOrderByClause("no");
 		//return this.findByExample(param, example);
 		LayuiTableData tabledata = this.findByExample(param, example);
-		
+		Collections.sort(tabledata.getData(), new java.util.Comparator<Object>() {
+			@Override
+			public int compare(Object o1, Object o2) {
+				BudgetStockTotal t1 = (BudgetStockTotal)o1;
+				BudgetStockTotal t2 = (BudgetStockTotal)o2;
+				return t1.getLevel()-t2.getLevel();
+			}
+		});
 		List<Map<String,Object>> ls = new ArrayList<Map<String,Object>>();
 		for(java.util.Iterator<?> iter = tabledata.getData().iterator();iter.hasNext();) 
 		{

@@ -221,8 +221,8 @@
             , totalRow: true
             , cols: [[
                 {field: 'displayName', title: '单位名称',edit:true,totalRowText: '合计'}
-                , {field: 'last_year_end', title: '${nd}预算完成', align: 'right',style: 'cursor: pointer;', width: '15%',totalRow: true}
-                , {field: 'plan_money', title: '${nd}计划金额', align: 'right',style: 'cursor: pointer;', width: '15%',totalRow: true}
+                , {field: 'last_year_end', title: '${nd}实际完成', align: 'right',style: 'cursor: pointer;', width: '15%',totalRow: true}
+                , {field: 'plan_money', title: '${nd}合同计划', align: 'right',style: 'cursor: pointer;', width: '15%',totalRow: true}
                 , {field: 'xmjf', title: '项目经费', align: 'right',style: 'cursor: pointer;',edit:true, width: '15%',totalRow: true}
                 , {field: 'zxjf', title: '重点实验室专项经费', align: 'right',style: 'cursor: pointer;',edit:true, width: '15%',totalRow: true}
                 , {title: '操作', style: 'cursor: pointer;', align: 'center', width: '10%', templet: function(d){
@@ -231,8 +231,8 @@
             ]]
             ,done: function (res, curr, count) {
             	 var ysnd = parseInt($("#nd").val());
-            	 $(".layui-table-header .layui-table").find('th').eq(1).find('span').text((ysnd-1)+"预算完成");
-            	 $(".layui-table-header .layui-table").find('th').eq(2).find('span').text(ysnd+"计划金额");
+            	 $(".layui-table-header .layui-table").find('th').eq(1).find('span').text((ysnd-1)+"实际完成");
+            	 $(".layui-table-header .layui-table").find('th').eq(2).find('span').text(ysnd+"合同计划");
             }
         })
         table.on('tool(dataTable)', function (obj) {

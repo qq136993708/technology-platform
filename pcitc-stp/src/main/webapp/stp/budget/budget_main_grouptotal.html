@@ -95,8 +95,8 @@
                 	<th lay-data="{field:'no',align: 'center', width: 45,totalRowText: '合计'}" rowspan="2">序号</th>
                     <th lay-data="{field:'displayName', width: '25%'}" rowspan="2">承担单位</th>
                     <!-- <th lay-data="{field:'remark', width: '30%'}" rowspan="2">研究方向</th> -->
-                   	<th lay-data="{field:'last_year_end',align: 'right', width: '15%',totalRow: true}" rowspan="2">2018年科技经费预算完成</th>
-                    <th lay-data="{field:'plan_money',align: 'right', width: '15%',totalRow: true}" rowspan="2">2019年科技经费合同计划金额</th>
+                   	<th lay-data="{field:'last_year_end',align: 'right', width: '15%',totalRow: true}" rowspan="2">2018年实际完成</th>
+                    <th lay-data="{field:'plan_money',align: 'right', width: '15%',totalRow: true}" rowspan="2">2019年合同计划</th>
                     <th lay-data="{align:'center'}", colspan="3"><span>${nd}</span>年度经费预算</th>
                 </tr>
                 <tr>
@@ -203,8 +203,8 @@
 			function initDateView(){
 				$(".nd").html(cu_date);
             	$('.layui-table-cell .laytable-cell-group').find('span').text(cu_date+"年度经费预算");
-            	$(".layui-table-header .layui-table").find('th').eq(3).find('span').text((cu_date-1)+"年科技经费预算完成");
-            	$(".layui-table-header .layui-table").find('th').eq(4).find('span').text(cu_date+"年科技经费合同计划金额");
+            	$(".layui-table-header .layui-table").find('th').eq(3).find('span').text((cu_date-1)+"年实际完成");
+            	$(".layui-table-header .layui-table").find('th').eq(4).find('span').text(cu_date+"年合同计划");
 			}
             // 点击按钮时激活
             $('.tableBtns').children('button').on('click',function(){
