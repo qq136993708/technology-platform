@@ -180,15 +180,12 @@
             		
             		publicMethods.ajaxPost("/budget/budget-stocktotal-items",{page:1,limit:100,param: {"nd":cu_date,"budget_info_id":curent_budget_info.dataId}}, function (data) {
 	                	curent_tabel_data = data.data;
-	                	//求和
+	                	console.log(curent_tabel_data);
 	                	$.each(curent_tabel_data,function(index,dt){
 	                		dt.yjwcTotal = parseInt(dt.yjwcZbx)+parseInt(dt.yjwcFyx);
 	                		dt.xmjfTotal = parseInt(dt.xmjfZbx)+parseInt(dt.xmjfFyx);
 	                	});
-	                	
 	                	reloadDataAndTableFormart(data.data);
-	                	//table.reload('dataTable', {data: data.data});
-	                	//renderfunc();
 	                	calculationSurplusMoney();//预分配数
 	                	initDateView();
     		   		}); 
@@ -288,7 +285,7 @@
 				calculationSurplusMoney();
 			});
           	//初始化数据版本
-            function initDataVersion(budget_id){
+            window.initDataVersion = function(budget_id){
                 publicMethods.ajaxPost("/budget/budget_stock_info_list",{"nd":cu_date}, function (dt) {
                 	$("#data_version").html('<option value="">---请选择版本---</option>');
                 	budget_info_map = {};
@@ -332,8 +329,6 @@
       			$(".layui-table-total").find("tr").find('td').eq(9).find("div").html(t9);
       			$(".layui-table-total").find("tr").find('td').eq(10).find("div").html(t10);
           	}
-          	//将方法转换为全局方法
-          	window.initDataVersion = initDataVersion;
             initDataVersion();
             // 触发不同的按钮事件
             var $ = layui.$, active = {

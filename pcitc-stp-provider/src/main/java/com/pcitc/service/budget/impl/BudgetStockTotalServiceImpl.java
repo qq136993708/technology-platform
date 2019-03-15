@@ -136,7 +136,7 @@ public class BudgetStockTotalServiceImpl implements BudgetStockTotalService
 				//添加子项
 				for(java.util.Iterator<?> siter = tabledata.getData().iterator();siter.hasNext();) {
 					BudgetStockTotal sstock = (BudgetStockTotal)siter.next();
-					if(stock.getDataId().equals(sstock.getParentDataId())) {
+					if(sstock.getLevel()==1 && stock.getDataId().equals(sstock.getParentDataId())) {
 						ls.add(MyBeanUtils.transBean2Map(sstock));
 					}
 				}

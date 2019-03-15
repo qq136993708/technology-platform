@@ -54,10 +54,9 @@
                     <div class="layui-form-item">
                         <label for="" class="layui-form-label">上级单位<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-								<div class="selectTreeBox">
-									<div id="unitSelectTree" class="layui-form-select select-tree"></div>
-								</div>
-								<input type="hidden" id="displayCode" name="displayCode"> 
+							<div class="selectTreeBox">
+								<div id="parentDataId" class="layui-form-select select-tree"></div>
+							</div>
                         </div>
                     </div>
                 </div>
@@ -166,6 +165,7 @@
     var nd = "${nd}";
     var parentInfo = null;
     var company_map = {};
+    var unit_map = {};
     layui.use(['jquery', 'table', 'form','laydate', 'layer','publicMethods','selectTree'], function () {
         var $ = layui.jquery, table = layui.table, form = layui.form,laydate = layui.laydate, layer = layui.layer,publicMethods=layui.publicMethods,selectTree=layui.selectTree;
         var layTableId = "dataTable";
@@ -202,11 +202,12 @@
         }
         //初始化级别选择
         publicMethods.ajaxPost("/budget/search-stockitem-tree",{"dataId":budgetInfoId}, function(data,status){
-        	selectTree.initSelectTree("unitSelectTree", false, true, true, true,data);
+        	selectTree.initSelectTree("parentDataId", false, true, true, true,data);
         	selectTree.initHideMenu();
-        	//$("#unitSelectTreeShow").attr("title","tiddddddddtle");
-    		//$("#unitSelectTreeShow").attr("value","vadddddddddlue");
-    		
+        	$.each(data,function(index,dt){
+        		unit_map[dt.id]=dt.name;
+        	});
+        	
    		});  
         
 		publicMethods.ajaxPost("/budget/get-stocktotal-item/${dataId}",null, function (data) {
@@ -221,12 +222,11 @@
 				});
 				viewObj.tbData.push(dt);
 			});
-			//if(data.)
-			console.log("data.........");
-			console.log(data);
-    		//form.render();
-			//unitSelectTree = initSelectTree("unitSelectTree",true, true, false,{ "Y": "", "N": "" })
-			//unitSelectTree.initSelectTree("unitSelectTree", true, true, true, false,zNodes);
+			if(data.parentDataId){
+				$("#parentDataId").val(data.parentDataId);
+				$("#parentDataIdShow").attr("title",unit_map[data.parentDataId]);
+	    		$("#parentDataIdShow").attr("value",unit_map[data.parentDataId]);
+			}
    		});
         //检索公司
       	publicMethods.ajaxPost("/budget/search-stock-company-items",null, function (data) {
@@ -265,6 +265,14 @@
             	 $(".layui-table-header .layui-table").find('th').eq(4).find('span').text(ysnd+"经费预算");
             }
         })
+        form.verify({
+        	parentDataId:function(value,item){
+				if(value=='' || value==null || value == "undefined")
+				{
+					return "请选择上级单位!";
+				}
+			}
+        });
         table.on('tool(dataTable)', function (obj) {
             var data = obj.data, event = obj.event, tr = obj.tr; //获得当前行 tr 的DOM对象;
             switch(event){
@@ -381,7 +389,7 @@
             var formData = JSON.stringify(data.field);
             //console.log("表单数据："+formData + '\n' +"表格数据:" + getTableData());
             var lodingMsg = layer.msg('处理中....');
-            //保存预算项目
+            data.field.parentDataId = $("#parentDataIdValue").val();
             publicMethods.ajaxPost('/budget/save-stocktotal-item', data.field, function (data, status) {
                 if (data.success) {
                 	parent.initDataVersion("${budgetInfoId}");
