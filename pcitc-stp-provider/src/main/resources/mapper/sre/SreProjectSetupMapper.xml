@@ -2,306 +2,537 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.pcitc.mapper.equipment.SreProjectSetupMapper" >
   <resultMap id="BaseResultMap" type="com.pcitc.base.stp.equipment.SreProjectSetup" >
-    <id column="id" property="id" jdbcType="VARCHAR" />
-    <result column="project_id" property="projectId" jdbcType="VARCHAR" />
-    <result column="reasons_setup" property="reasonsSetup" jdbcType="VARCHAR" />
-    <result column="scale_process_table" property="scaleProcessTable" jdbcType="VARCHAR" />
-    <result column="field_project" property="fieldProject" jdbcType="VARCHAR" />
-    <result column="plan_progress" property="planProgress" jdbcType="VARCHAR" />
-    <result column="benefit" property="benefit" jdbcType="VARCHAR" />
-    <result column="capital_fund_table" property="capitalFundTable" jdbcType="VARCHAR" />
-    <result column="project_funds_table" property="projectFundsTable" jdbcType="VARCHAR" />
-    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-    <result column="cover" property="cover" jdbcType="VARCHAR" />
+    <id column="setup_id" property="setupId" jdbcType="VARCHAR" />
+    <result column="topic_id" property="topicId" jdbcType="VARCHAR" />
+    <result column="topic_name" property="topicName" jdbcType="VARCHAR" />
+    <result column="create_user_id" property="createUserId" jdbcType="VARCHAR" />
+    <result column="create_user_name" property="createUserName" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="setup_reasons" property="setupReasons" jdbcType="VARCHAR" />
+    <result column="main_table" property="mainTable" jdbcType="VARCHAR" />
+    <result column="facilities" property="facilities" jdbcType="VARCHAR" />
+    <result column="project_progress" property="projectProgress" jdbcType="VARCHAR" />
+    <result column="user_effect" property="userEffect" jdbcType="VARCHAR" />
+    <result column="budget_table" property="budgetTable" jdbcType="VARCHAR" />
+    <result column="sources_table" property="sourcesTable" jdbcType="VARCHAR" />
+    <result column="funds_table" property="fundsTable" jdbcType="VARCHAR" />
+    <result column="year_fee_str_join_unit" property="yearFeeStrJoinUnit" jdbcType="VARCHAR" />
+    <result column="notice" property="notice" jdbcType="VARCHAR" />
+    <result column="notes" property="notes" jdbcType="VARCHAR" />
+    <result column="contract_num" property="contractNum" jdbcType="VARCHAR" />
+    <result column="audit_status" property="auditStatus" jdbcType="VARCHAR" />
+    <result column="apply_unit_name" property="applyUnitName" jdbcType="VARCHAR" />
+    <result column="apply_unit_code" property="applyUnitCode" jdbcType="VARCHAR" />
+    <result column="join_unit_name" property="joinUnitName" jdbcType="VARCHAR" />
+    <result column="lead_unit_code" property="leadUnitCode" jdbcType="VARCHAR" />
+    <result column="join_unit_code" property="joinUnitCode" jdbcType="VARCHAR" />
+    <result column="project_money" property="projectMoney" jdbcType="DECIMAL" />
+    <result column="belong_department_name" property="belongDepartmentName" jdbcType="VARCHAR" />
+    <result column="belong_department_code" property="belongDepartmentCode" jdbcType="VARCHAR" />
+    <result column="professional_depart_name" property="professionalDepartName" jdbcType="VARCHAR" />
+    <result column="professional_depart_code" property="professionalDepartCode" jdbcType="VARCHAR" />
+    <result column="setup_year" property="setupYear" jdbcType="VARCHAR" />
+    <result column="begin_project_month" property="beginProjectMonth" jdbcType="VARCHAR" />
+    <result column="end_project_month" property="endProjectMonth" jdbcType="VARCHAR" />
+    <result column="projec_charge_user_name" property="projecChargeUserName" jdbcType="VARCHAR" />
+    <result column="projec_charge_user_id" property="projecChargeUserId" jdbcType="VARCHAR" />
+    <result column="projec_charge_user_title" property="projecChargeUserTitle" jdbcType="VARCHAR" />
+    <result column="task_id" property="taskId" jdbcType="VARCHAR" />
+    <result column="lead_unit_name" property="leadUnitName" jdbcType="VARCHAR" />
+    
   </resultMap>
-  <sql id="Example_Where_Clause" >
-    <where >
-      <foreach collection="oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue" >
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue" >
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue" >
-                  and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Update_By_Example_Where_Clause" >
-    <where >
-      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue" >
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue" >
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue" >
-                  and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
   <sql id="Base_Column_List" >
-    id, project_id, reasons_setup, scale_process_table, field_project, plan_progress, 
-    benefit, capital_fund_table, project_funds_table, create_time, cover
+    setup_id, topic_id, topic_name, create_user_id, create_user_name, create_date, update_date, 
+    setup_reasons, main_table, facilities, project_progress, user_effect, budget_table, 
+    sources_table, funds_table, year_fee_str_join_unit, notice, notes, contract_num, 
+    audit_status, apply_unit_name, apply_unit_code, join_unit_name, lead_unit_code, join_unit_code, 
+    project_money, belong_department_name, belong_department_code, professional_depart_name, 
+    professional_depart_code, setup_year, begin_project_month, end_project_month, projec_charge_user_name, 
+    projec_charge_user_id, projec_charge_user_title,task_id,lead_unit_name
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.pcitc.base.stp.equipment.SreProjectSetupExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    'true' as QUERYID,
-    <include refid="Base_Column_List" />
-    from sre_project_setup
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-  </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
     from sre_project_setup
-    where id = #{id,jdbcType=VARCHAR}
+    where setup_id = #{setupId,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from sre_project_setup
-    where id = #{id,jdbcType=VARCHAR}
-  </delete>
-  <delete id="deleteByExample" parameterType="com.pcitc.base.stp.equipment.SreProjectSetupExample" >
-    delete from sre_project_setup
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
+    where setup_id = #{setupId,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.pcitc.base.stp.equipment.SreProjectSetup" >
-    insert into sre_project_setup (id, project_id, reasons_setup, 
-      scale_process_table, field_project, plan_progress, 
-      benefit, capital_fund_table, project_funds_table, 
-      create_time, cover)
-    values (#{id,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR}, #{reasonsSetup,jdbcType=VARCHAR}, 
-      #{scaleProcessTable,jdbcType=VARCHAR}, #{fieldProject,jdbcType=VARCHAR}, #{planProgress,jdbcType=VARCHAR}, 
-      #{benefit,jdbcType=VARCHAR}, #{capitalFundTable,jdbcType=VARCHAR}, #{projectFundsTable,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{cover,jdbcType=VARCHAR})
+    insert into sre_project_setup (setup_id, topic_id, topic_name, 
+      create_user_id, create_user_name, create_date, 
+      update_date, setup_reasons, main_table, 
+      facilities, project_progress, user_effect, 
+      budget_table, sources_table, funds_table, 
+      year_fee_str_join_unit, notice, notes, 
+      contract_num, audit_status, apply_unit_name, 
+      apply_unit_code, join_unit_name, lead_unit_code, 
+      join_unit_code, project_money, belong_department_name, 
+      belong_department_code, professional_depart_name, 
+      professional_depart_code, setup_year, begin_project_month, 
+      end_project_month, projec_charge_user_name, 
+      projec_charge_user_id, projec_charge_user_title, 
+      lead_unit_name,task_id)
+    values (#{setupId,jdbcType=VARCHAR}, #{topicId,jdbcType=VARCHAR}, #{topicName,jdbcType=VARCHAR}, 
+      #{createUserId,jdbcType=VARCHAR}, #{createUserName,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{updateDate,jdbcType=TIMESTAMP}, #{setupReasons,jdbcType=VARCHAR}, #{mainTable,jdbcType=VARCHAR}, 
+      #{facilities,jdbcType=VARCHAR}, #{projectProgress,jdbcType=VARCHAR}, #{userEffect,jdbcType=VARCHAR}, 
+      #{budgetTable,jdbcType=VARCHAR}, #{sourcesTable,jdbcType=VARCHAR}, #{fundsTable,jdbcType=VARCHAR}, 
+      #{yearFeeStrJoinUnit,jdbcType=VARCHAR}, #{notice,jdbcType=VARCHAR}, #{notes,jdbcType=VARCHAR}, 
+      #{contractNum,jdbcType=VARCHAR}, #{auditStatus,jdbcType=VARCHAR}, #{applyUnitName,jdbcType=VARCHAR}, 
+      #{applyUnitCode,jdbcType=VARCHAR}, #{joinUnitName,jdbcType=VARCHAR}, #{leadUnitCode,jdbcType=VARCHAR}, 
+      #{joinUnitCode,jdbcType=VARCHAR}, #{projectMoney,jdbcType=DECIMAL}, #{belongDepartmentName,jdbcType=VARCHAR}, 
+      #{belongDepartmentCode,jdbcType=VARCHAR}, #{professionalDepartName,jdbcType=VARCHAR}, 
+      #{professionalDepartCode,jdbcType=VARCHAR}, #{setupYear,jdbcType=VARCHAR}, #{beginProjectMonth,jdbcType=VARCHAR}, 
+      #{endProjectMonth,jdbcType=VARCHAR}, #{projecChargeUserName,jdbcType=VARCHAR}, 
+      #{projecChargeUserId,jdbcType=VARCHAR}, #{projecChargeUserTitle,jdbcType=VARCHAR}, 
+      #{leadUnitName,jdbcType=VARCHAR}, #{taskId,jdbcType=VARCHAR}
+      
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.pcitc.base.stp.equipment.SreProjectSetup" >
     insert into sre_project_setup
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
+      <if test="setupId != null" >
+        setup_id,
       </if>
-      <if test="projectId != null" >
-        project_id,
+      <if test="topicId != null" >
+        topic_id,
       </if>
-      <if test="reasonsSetup != null" >
-        reasons_setup,
+      <if test="topicName != null" >
+        topic_name,
       </if>
-      <if test="scaleProcessTable != null" >
-        scale_process_table,
+      <if test="createUserId != null" >
+        create_user_id,
       </if>
-      <if test="fieldProject != null" >
-        field_project,
+      <if test="createUserName != null" >
+        create_user_name,
       </if>
-      <if test="planProgress != null" >
-        plan_progress,
+      <if test="createDate != null" >
+        create_date,
       </if>
-      <if test="benefit != null" >
-        benefit,
+      <if test="updateDate != null" >
+        update_date,
       </if>
-      <if test="capitalFundTable != null" >
-        capital_fund_table,
+      <if test="setupReasons != null" >
+        setup_reasons,
       </if>
-      <if test="projectFundsTable != null" >
-        project_funds_table,
+      <if test="mainTable != null" >
+        main_table,
       </if>
-      <if test="createTime != null" >
-        create_time,
+      <if test="facilities != null" >
+        facilities,
       </if>
-      <if test="cover != null" >
-        cover,
+      <if test="projectProgress != null" >
+        project_progress,
       </if>
+      <if test="userEffect != null" >
+        user_effect,
+      </if>
+      <if test="budgetTable != null" >
+        budget_table,
+      </if>
+      <if test="sourcesTable != null" >
+        sources_table,
+      </if>
+      <if test="fundsTable != null" >
+        funds_table,
+      </if>
+      <if test="yearFeeStrJoinUnit != null" >
+        year_fee_str_join_unit,
+      </if>
+      <if test="notice != null" >
+        notice,
+      </if>
+      <if test="notes != null" >
+        notes,
+      </if>
+      <if test="contractNum != null" >
+        contract_num,
+      </if>
+      <if test="auditStatus != null" >
+        audit_status,
+      </if>
+      <if test="applyUnitName != null" >
+        apply_unit_name,
+      </if>
+      <if test="applyUnitCode != null" >
+        apply_unit_code,
+      </if>
+      <if test="joinUnitName != null" >
+        join_unit_name,
+      </if>
+      <if test="leadUnitCode != null" >
+        lead_unit_code,
+      </if>
+      <if test="joinUnitCode != null" >
+        join_unit_code,
+      </if>
+      <if test="projectMoney != null" >
+        project_money,
+      </if>
+      <if test="belongDepartmentName != null" >
+        belong_department_name,
+      </if>
+      <if test="belongDepartmentCode != null" >
+        belong_department_code,
+      </if>
+      <if test="professionalDepartName != null" >
+        professional_depart_name,
+      </if>
+      <if test="professionalDepartCode != null" >
+        professional_depart_code,
+      </if>
+      <if test="setupYear != null" >
+        setup_year,
+      </if>
+      <if test="beginProjectMonth != null" >
+        begin_project_month,
+      </if>
+      <if test="endProjectMonth != null" >
+        end_project_month,
+      </if>
+      <if test="projecChargeUserName != null" >
+        projec_charge_user_name,
+      </if>
+      <if test="projecChargeUserId != null" >
+        projec_charge_user_id,
+      </if>
+      <if test="projecChargeUserTitle != null" >
+        projec_charge_user_title,
+      </if>
+      <if test="leadUnitName != null" >
+        lead_unit_name,
+      </if>
+      <if test="taskId != null" >
+        task_id,
+      </if>
+    
+    
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=VARCHAR},
+      <if test="setupId != null" >
+        #{setupId,jdbcType=VARCHAR},
       </if>
-      <if test="projectId != null" >
-        #{projectId,jdbcType=VARCHAR},
+      <if test="topicId != null" >
+        #{topicId,jdbcType=VARCHAR},
       </if>
-      <if test="reasonsSetup != null" >
-        #{reasonsSetup,jdbcType=VARCHAR},
+      <if test="topicName != null" >
+        #{topicName,jdbcType=VARCHAR},
       </if>
-      <if test="scaleProcessTable != null" >
-        #{scaleProcessTable,jdbcType=VARCHAR},
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=VARCHAR},
       </if>
-      <if test="fieldProject != null" >
-        #{fieldProject,jdbcType=VARCHAR},
+      <if test="createUserName != null" >
+        #{createUserName,jdbcType=VARCHAR},
       </if>
-      <if test="planProgress != null" >
-        #{planProgress,jdbcType=VARCHAR},
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
       </if>
-      <if test="benefit != null" >
-        #{benefit,jdbcType=VARCHAR},
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
       </if>
-      <if test="capitalFundTable != null" >
-        #{capitalFundTable,jdbcType=VARCHAR},
+      <if test="setupReasons != null" >
+        #{setupReasons,jdbcType=VARCHAR},
       </if>
-      <if test="projectFundsTable != null" >
-        #{projectFundsTable,jdbcType=VARCHAR},
+      <if test="mainTable != null" >
+        #{mainTable,jdbcType=VARCHAR},
       </if>
-      <if test="createTime != null" >
-        #{createTime,jdbcType=TIMESTAMP},
+      <if test="facilities != null" >
+        #{facilities,jdbcType=VARCHAR},
       </if>
-      <if test="cover != null" >
-        #{cover,jdbcType=VARCHAR},
+      <if test="projectProgress != null" >
+        #{projectProgress,jdbcType=VARCHAR},
       </if>
+      <if test="userEffect != null" >
+        #{userEffect,jdbcType=VARCHAR},
+      </if>
+      <if test="budgetTable != null" >
+        #{budgetTable,jdbcType=VARCHAR},
+      </if>
+      <if test="sourcesTable != null" >
+        #{sourcesTable,jdbcType=VARCHAR},
+      </if>
+      <if test="fundsTable != null" >
+        #{fundsTable,jdbcType=VARCHAR},
+      </if>
+      <if test="yearFeeStrJoinUnit != null" >
+        #{yearFeeStrJoinUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="notice != null" >
+        #{notice,jdbcType=VARCHAR},
+      </if>
+      <if test="notes != null" >
+        #{notes,jdbcType=VARCHAR},
+      </if>
+      <if test="contractNum != null" >
+        #{contractNum,jdbcType=VARCHAR},
+      </if>
+      <if test="auditStatus != null" >
+        #{auditStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="applyUnitName != null" >
+        #{applyUnitName,jdbcType=VARCHAR},
+      </if>
+      <if test="applyUnitCode != null" >
+        #{applyUnitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="joinUnitName != null" >
+        #{joinUnitName,jdbcType=VARCHAR},
+      </if>
+      <if test="leadUnitCode != null" >
+        #{leadUnitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="joinUnitCode != null" >
+        #{joinUnitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="projectMoney != null" >
+        #{projectMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="belongDepartmentName != null" >
+        #{belongDepartmentName,jdbcType=VARCHAR},
+      </if>
+      <if test="belongDepartmentCode != null" >
+        #{belongDepartmentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="professionalDepartName != null" >
+        #{professionalDepartName,jdbcType=VARCHAR},
+      </if>
+      <if test="professionalDepartCode != null" >
+        #{professionalDepartCode,jdbcType=VARCHAR},
+      </if>
+      <if test="setupYear != null" >
+        #{setupYear,jdbcType=VARCHAR},
+      </if>
+      <if test="beginProjectMonth != null" >
+        #{beginProjectMonth,jdbcType=VARCHAR},
+      </if>
+      <if test="endProjectMonth != null" >
+        #{endProjectMonth,jdbcType=VARCHAR},
+      </if>
+      <if test="projecChargeUserName != null" >
+        #{projecChargeUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="projecChargeUserId != null" >
+        #{projecChargeUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="projecChargeUserTitle != null" >
+        #{projecChargeUserTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="leadUnitName != null" >
+        #{leadUnitName,jdbcType=VARCHAR},
+      </if>
+      <if test="taskId != null" >
+        #{taskId,jdbcType=VARCHAR},
+      </if>
+      
+      
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.pcitc.base.stp.equipment.SreProjectSetupExample" resultType="java.lang.Integer" >
-    select count(*) from sre_project_setup
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
-  <update id="updateByExampleSelective" parameterType="map" >
-    update sre_project_setup
-    <set >
-      <if test="record.id != null" >
-        id = #{record.id,jdbcType=VARCHAR},
-      </if>
-      <if test="record.projectId != null" >
-        project_id = #{record.projectId,jdbcType=VARCHAR},
-      </if>
-      <if test="record.reasonsSetup != null" >
-        reasons_setup = #{record.reasonsSetup,jdbcType=VARCHAR},
-      </if>
-      <if test="record.scaleProcessTable != null" >
-        scale_process_table = #{record.scaleProcessTable,jdbcType=VARCHAR},
-      </if>
-      <if test="record.fieldProject != null" >
-        field_project = #{record.fieldProject,jdbcType=VARCHAR},
-      </if>
-      <if test="record.planProgress != null" >
-        plan_progress = #{record.planProgress,jdbcType=VARCHAR},
-      </if>
-      <if test="record.benefit != null" >
-        benefit = #{record.benefit,jdbcType=VARCHAR},
-      </if>
-      <if test="record.capitalFundTable != null" >
-        capital_fund_table = #{record.capitalFundTable,jdbcType=VARCHAR},
-      </if>
-      <if test="record.projectFundsTable != null" >
-        project_funds_table = #{record.projectFundsTable,jdbcType=VARCHAR},
-      </if>
-      <if test="record.createTime != null" >
-        create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.cover != null" >
-        cover = #{record.cover,jdbcType=VARCHAR},
-      </if>
-    </set>
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExample" parameterType="map" >
-    update sre_project_setup
-    set id = #{record.id,jdbcType=VARCHAR},
-      project_id = #{record.projectId,jdbcType=VARCHAR},
-      reasons_setup = #{record.reasonsSetup,jdbcType=VARCHAR},
-      scale_process_table = #{record.scaleProcessTable,jdbcType=VARCHAR},
-      field_project = #{record.fieldProject,jdbcType=VARCHAR},
-      plan_progress = #{record.planProgress,jdbcType=VARCHAR},
-      benefit = #{record.benefit,jdbcType=VARCHAR},
-      capital_fund_table = #{record.capitalFundTable,jdbcType=VARCHAR},
-      project_funds_table = #{record.projectFundsTable,jdbcType=VARCHAR},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      cover = #{record.cover,jdbcType=VARCHAR}
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
   <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.stp.equipment.SreProjectSetup" >
     update sre_project_setup
     <set >
-      <if test="projectId != null" >
-        project_id = #{projectId,jdbcType=VARCHAR},
+      <if test="topicId != null" >
+        topic_id = #{topicId,jdbcType=VARCHAR},
       </if>
-      <if test="reasonsSetup != null" >
-        reasons_setup = #{reasonsSetup,jdbcType=VARCHAR},
+      <if test="topicName != null" >
+        topic_name = #{topicName,jdbcType=VARCHAR},
       </if>
-      <if test="scaleProcessTable != null" >
-        scale_process_table = #{scaleProcessTable,jdbcType=VARCHAR},
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=VARCHAR},
       </if>
-      <if test="fieldProject != null" >
-        field_project = #{fieldProject,jdbcType=VARCHAR},
+      <if test="createUserName != null" >
+        create_user_name = #{createUserName,jdbcType=VARCHAR},
       </if>
-      <if test="planProgress != null" >
-        plan_progress = #{planProgress,jdbcType=VARCHAR},
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
       </if>
-      <if test="benefit != null" >
-        benefit = #{benefit,jdbcType=VARCHAR},
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
       </if>
-      <if test="capitalFundTable != null" >
-        capital_fund_table = #{capitalFundTable,jdbcType=VARCHAR},
+      <if test="setupReasons != null" >
+        setup_reasons = #{setupReasons,jdbcType=VARCHAR},
       </if>
-      <if test="projectFundsTable != null" >
-        project_funds_table = #{projectFundsTable,jdbcType=VARCHAR},
+      <if test="mainTable != null" >
+        main_table = #{mainTable,jdbcType=VARCHAR},
       </if>
-      <if test="createTime != null" >
-        create_time = #{createTime,jdbcType=TIMESTAMP},
+      <if test="facilities != null" >
+        facilities = #{facilities,jdbcType=VARCHAR},
       </if>
-      <if test="cover != null" >
-        cover = #{cover,jdbcType=VARCHAR},
+      <if test="projectProgress != null" >
+        project_progress = #{projectProgress,jdbcType=VARCHAR},
       </if>
+      <if test="userEffect != null" >
+        user_effect = #{userEffect,jdbcType=VARCHAR},
+      </if>
+      <if test="budgetTable != null" >
+        budget_table = #{budgetTable,jdbcType=VARCHAR},
+      </if>
+      <if test="sourcesTable != null" >
+        sources_table = #{sourcesTable,jdbcType=VARCHAR},
+      </if>
+      <if test="fundsTable != null" >
+        funds_table = #{fundsTable,jdbcType=VARCHAR},
+      </if>
+      <if test="yearFeeStrJoinUnit != null" >
+        year_fee_str_join_unit = #{yearFeeStrJoinUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="notice != null" >
+        notice = #{notice,jdbcType=VARCHAR},
+      </if>
+      <if test="notes != null" >
+        notes = #{notes,jdbcType=VARCHAR},
+      </if>
+      <if test="contractNum != null" >
+        contract_num = #{contractNum,jdbcType=VARCHAR},
+      </if>
+      <if test="auditStatus != null" >
+        audit_status = #{auditStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="applyUnitName != null" >
+        apply_unit_name = #{applyUnitName,jdbcType=VARCHAR},
+      </if>
+      <if test="applyUnitCode != null" >
+        apply_unit_code = #{applyUnitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="joinUnitName != null" >
+        join_unit_name = #{joinUnitName,jdbcType=VARCHAR},
+      </if>
+      <if test="leadUnitCode != null" >
+        lead_unit_code = #{leadUnitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="joinUnitCode != null" >
+        join_unit_code = #{joinUnitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="projectMoney != null" >
+        project_money = #{projectMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="belongDepartmentName != null" >
+        belong_department_name = #{belongDepartmentName,jdbcType=VARCHAR},
+      </if>
+      <if test="belongDepartmentCode != null" >
+        belong_department_code = #{belongDepartmentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="professionalDepartName != null" >
+        professional_depart_name = #{professionalDepartName,jdbcType=VARCHAR},
+      </if>
+      <if test="professionalDepartCode != null" >
+        professional_depart_code = #{professionalDepartCode,jdbcType=VARCHAR},
+      </if>
+      <if test="setupYear != null" >
+        setup_year = #{setupYear,jdbcType=VARCHAR},
+      </if>
+      <if test="beginProjectMonth != null" >
+        begin_project_month = #{beginProjectMonth,jdbcType=VARCHAR},
+      </if>
+      <if test="endProjectMonth != null" >
+        end_project_month = #{endProjectMonth,jdbcType=VARCHAR},
+      </if>
+      <if test="projecChargeUserName != null" >
+        projec_charge_user_name = #{projecChargeUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="projecChargeUserId != null" >
+        projec_charge_user_id = #{projecChargeUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="projecChargeUserTitle != null" >
+        projec_charge_user_title = #{projecChargeUserTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="leadUnitName != null" >
+        lead_unit_name = #{leadUnitName,jdbcType=VARCHAR},
+      </if>
+      <if test="taskId != null" >
+        task_id = #{taskId,jdbcType=VARCHAR},
+      </if>
+      
     </set>
-    where id = #{id,jdbcType=VARCHAR}
+    where setup_id = #{setupId,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.equipment.SreProjectSetup" >
     update sre_project_setup
-    set project_id = #{projectId,jdbcType=VARCHAR},
-      reasons_setup = #{reasonsSetup,jdbcType=VARCHAR},
-      scale_process_table = #{scaleProcessTable,jdbcType=VARCHAR},
-      field_project = #{fieldProject,jdbcType=VARCHAR},
-      plan_progress = #{planProgress,jdbcType=VARCHAR},
-      benefit = #{benefit,jdbcType=VARCHAR},
-      capital_fund_table = #{capitalFundTable,jdbcType=VARCHAR},
-      project_funds_table = #{projectFundsTable,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      cover = #{cover,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=VARCHAR}
+    set topic_id = #{topicId,jdbcType=VARCHAR},
+      topic_name = #{topicName,jdbcType=VARCHAR},
+      create_user_id = #{createUserId,jdbcType=VARCHAR},
+      create_user_name = #{createUserName,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      task_id = #{taskId,jdbcType=VARCHAR},
+      setup_reasons = #{setupReasons,jdbcType=VARCHAR},
+      main_table = #{mainTable,jdbcType=VARCHAR},
+      facilities = #{facilities,jdbcType=VARCHAR},
+      project_progress = #{projectProgress,jdbcType=VARCHAR},
+      user_effect = #{userEffect,jdbcType=VARCHAR},
+      budget_table = #{budgetTable,jdbcType=VARCHAR},
+      sources_table = #{sourcesTable,jdbcType=VARCHAR},
+      funds_table = #{fundsTable,jdbcType=VARCHAR},
+      year_fee_str_join_unit = #{yearFeeStrJoinUnit,jdbcType=VARCHAR},
+      notice = #{notice,jdbcType=VARCHAR},
+      notes = #{notes,jdbcType=VARCHAR},
+      contract_num = #{contractNum,jdbcType=VARCHAR},
+      audit_status = #{auditStatus,jdbcType=VARCHAR},
+      apply_unit_name = #{applyUnitName,jdbcType=VARCHAR},
+      apply_unit_code = #{applyUnitCode,jdbcType=VARCHAR},
+      join_unit_name = #{joinUnitName,jdbcType=VARCHAR},
+      lead_unit_code = #{leadUnitCode,jdbcType=VARCHAR},
+      join_unit_code = #{joinUnitCode,jdbcType=VARCHAR},
+      project_money = #{projectMoney,jdbcType=DECIMAL},
+      belong_department_name = #{belongDepartmentName,jdbcType=VARCHAR},
+      belong_department_code = #{belongDepartmentCode,jdbcType=VARCHAR},
+      professional_depart_name = #{professionalDepartName,jdbcType=VARCHAR},
+      professional_depart_code = #{professionalDepartCode,jdbcType=VARCHAR},
+      setup_year = #{setupYear,jdbcType=VARCHAR},
+      begin_project_month = #{beginProjectMonth,jdbcType=VARCHAR},
+      end_project_month = #{endProjectMonth,jdbcType=VARCHAR},
+      projec_charge_user_name = #{projecChargeUserName,jdbcType=VARCHAR},
+      projec_charge_user_id = #{projecChargeUserId,jdbcType=VARCHAR},
+      lead_unit_name = #{leadUnitName,jdbcType=VARCHAR},
+      projec_charge_user_title = #{projecChargeUserTitle,jdbcType=VARCHAR}
+    where setup_id = #{setupId,jdbcType=VARCHAR}
   </update>
+  
+  
+  
+  
+  
+  
+  <sql id="selectCondition">
+	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
+	     <if test="auditStatus != null     and auditStatus !=''  ">   AND t.audit_status = #{auditStatus}</if>
+	     <if test="leadLinkmansName != null              and leadLinkmansName  !='' ">   AND t.lead_linkmans_name    like CONCAT('%',#{leadLinkmansName},'%')</if>
+	     <if test="leadUnitName != null              and leadUnitName  !='' ">            AND t.lead_unit_name    like CONCAT('%',#{leadUnitName},'%')</if>
+	     <if test="joinUnitName != null              and joinUnitName  !='' ">            AND t.join_unit_name    like CONCAT('%',#{joinUnitName},'%')</if>
+	     <if test="entrustUnitName != null           and entrustUnitName  !='' ">         AND t.entrust_unit_name like CONCAT('%',#{entrustUnitName},'%')</if>
+	     <if test="belongDepartmentName != null      and belongDepartmentName  !='' ">    AND t.belong_department_name like CONCAT('%',#{belongDepartmentName},'%')</if>
+	     <if test="professionalDepartName != null    and professionalDepartName  !='' ">  AND t.professional_depart_name like CONCAT('%',#{professionalDepartName},'%')</if>
+	     
+	     <if test="leadUnitCode != null        and leadUnitCode !=''  ">       AND t.lead_unit_code = #{leadUnitCode}</if>
+	     <if test="joinUnitCode != null        and joinUnitCode !=''  ">       AND t.join_unit_code = #{joinUnitCode}</if>
+	     <if test="professionalDepartCode != null   and professionalDepartCode !=''  ">   AND t.professional_depart_code = #{professionalDepartCode}</if>
+	     <if test="belongDepartmentCode != null     and belongDepartmentCode !=''  ">     AND t.belong_department_code = #{belongDepartmentCode}</if>
+	     <if test="contractNum != null              and contractNum !=''  ">     AND t.contract_num = #{contractNum}</if>
+	      <if test="topicId != null       and topicId !=''  ">     AND t.topic_id = #{topicId}</if>
+	      <if test="taskId != null       and taskId !=''  ">       AND t.task_id = #{taskId}</if>
+	     <if test="sqlStr != null   and sqlStr !='' ">             AND ${sqlStr}</if>
+	 </trim>
+	</sql>
+	 
+    
+   <select id="getList" resultMap="BaseResultMap" parameterType="Map" >
+     select * from sre_project_setup t <include refid="selectCondition" />    
+     <choose>
+      <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
+      <otherwise>
+        ORDER BY  create_date desc
+      </otherwise>
+     </choose>
+     <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
+   </select>
+   
+    <select id="getCount" resultType="java.lang.Integer" parameterType="Map" >
+      SELECT count(*) FROM sre_project_setup t <include refid="selectCondition"/>
+    </select>
+    
+    
 </mapper>

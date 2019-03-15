@@ -32,6 +32,8 @@ public class SreProjectTask {
 
     private String projectFundsTable;
 
+    private String yearFeeStrJoinUnit;
+
     private String projectNotice;
 
     private String notes;
@@ -45,8 +47,6 @@ public class SreProjectTask {
     private String applyUnitName;
 
     private String applyUnitCode;
-
-    private String leadUnitName;
 
     private String joinUnitName;
 
@@ -66,7 +66,32 @@ public class SreProjectTask {
 
     private String setupYear;
 
-    public String getTaskId() {
+    private String beginProjectMonth;
+
+    private String endProjectMonth;
+
+    private String innerAuditStatus;
+
+    private String professionalFieldCode;
+
+    private String professionalFieldName;
+
+    private String leadUnitName;
+    
+    
+    private String setupId;
+    
+    
+
+    public String getSetupId() {
+		return setupId;
+	}
+
+	public void setSetupId(String setupId) {
+		this.setupId = setupId;
+	}
+
+	public String getTaskId() {
         return taskId;
     }
 
@@ -178,6 +203,14 @@ public class SreProjectTask {
         this.projectFundsTable = projectFundsTable;
     }
 
+    public String getYearFeeStrJoinUnit() {
+        return yearFeeStrJoinUnit;
+    }
+
+    public void setYearFeeStrJoinUnit(String yearFeeStrJoinUnit) {
+        this.yearFeeStrJoinUnit = yearFeeStrJoinUnit;
+    }
+
     public String getProjectNotice() {
         return projectNotice;
     }
@@ -232,14 +265,6 @@ public class SreProjectTask {
 
     public void setApplyUnitCode(String applyUnitCode) {
         this.applyUnitCode = applyUnitCode;
-    }
-
-    public String getLeadUnitName() {
-        return leadUnitName;
-    }
-
-    public void setLeadUnitName(String leadUnitName) {
-        this.leadUnitName = leadUnitName;
     }
 
     public String getJoinUnitName() {
@@ -312,5 +337,53 @@ public class SreProjectTask {
 
     public void setSetupYear(String setupYear) {
         this.setupYear = setupYear;
+    }
+
+    public String getBeginProjectMonth() {
+        return beginProjectMonth;
+    }
+
+    public void setBeginProjectMonth(String beginProjectMonth) {
+        this.beginProjectMonth = beginProjectMonth;
+    }
+
+    public String getEndProjectMonth() {
+        return endProjectMonth;
+    }
+
+    public void setEndProjectMonth(String endProjectMonth) {
+        this.endProjectMonth = endProjectMonth;
+    }
+
+    public String getInnerAuditStatus() {
+        return innerAuditStatus;
+    }
+
+    public void setInnerAuditStatus(String innerAuditStatus) {
+        this.innerAuditStatus = innerAuditStatus;
+    }
+
+    public String getProfessionalFieldCode() {
+        return professionalFieldCode;
+    }
+
+    public void setProfessionalFieldCode(String professionalFieldCode) {
+        this.professionalFieldCode = professionalFieldCode;
+    }
+
+    public String getProfessionalFieldName() {
+        return professionalFieldName;
+    }
+
+    public void setProfessionalFieldName(String professionalFieldName) {
+        this.professionalFieldName = professionalFieldName;
+    }
+
+    public String getLeadUnitName() {
+        return leadUnitName;
+    }
+
+    public void setLeadUnitName(String leadUnitName) {
+        this.leadUnitName = leadUnitName;
     }
 }

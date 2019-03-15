@@ -797,7 +797,11 @@ layui.define(['jquery','form','table','laydate'],
                     for(var k=0;k<number;k++){
                         var tdElement=$("#"+id+" table tbody tr:eq("+i+") td").eq(k);
                         if($(tdElement).find("input").length>0){
-                            columnS+=$(tdElement).find("input").val()+",";
+                            if($(tdElement).find("input").val()==''){
+                                columnS+=null;
+                            }else {
+                                columnS+=$(tdElement).find("input").val()+",";
+                            }
                         }else {
                             columnS+=$(tdElement).html()+",";
                         }

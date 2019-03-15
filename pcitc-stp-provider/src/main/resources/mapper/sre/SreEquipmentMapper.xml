@@ -29,87 +29,19 @@
     <result column="supplier_mobile_email" property="supplierMobileEmail" jdbcType="VARCHAR" />
     <result column="origin_place" property="originPlace" jdbcType="VARCHAR" />
     <result column="vote_count" property="voteCount" jdbcType="INTEGER" />
+    <result column="second_supplier_id" property="secondSupplierId" jdbcType="VARCHAR" />
+    <result column="second_supplier_name" property="secondSupplierName" jdbcType="VARCHAR" />
+    <result column="second_supplier_link_man" property="secondSupplierLinkMan" jdbcType="VARCHAR" />
+    <result column="second_supplier_mobile_email" property="secondSupplierMobileEmail" jdbcType="VARCHAR" />
   </resultMap>
-  <sql id="Example_Where_Clause" >
-    <where >
-      <foreach collection="oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue" >
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue" >
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue" >
-                  and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Update_By_Example_Where_Clause" >
-    <where >
-      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue" >
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue" >
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue" >
-                  and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
   <sql id="Base_Column_List" >
     equipment_id, equipment_code, is_linked_project, name, type, unit_price, all_price, 
     apply_acount, specification, notes, special_notes, attachment_doc, apply_depart_name, 
     apply_depart_code, first_apply_user, create_user_id, create_date, audit_status, update_user_id, 
     update_date, erp_no, supplier_id, supplier_name, supplier_link_man, supplier_mobile_email, 
-    origin_place, vote_count
+    origin_place, vote_count, second_supplier_id, second_supplier_name, second_supplier_link_man, 
+    second_supplier_mobile_email
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.pcitc.base.stp.equipment.SreEquipmentExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    'true' as QUERYID,
-    <include refid="Base_Column_List" />
-    from sre_equipment
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-  </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
@@ -120,12 +52,6 @@
     delete from sre_equipment
     where equipment_id = #{equipmentId,jdbcType=VARCHAR}
   </delete>
-  <delete id="deleteByExample" parameterType="com.pcitc.base.stp.equipment.SreEquipmentExample" >
-    delete from sre_equipment
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </delete>
   <insert id="insert" parameterType="com.pcitc.base.stp.equipment.SreEquipment" >
     insert into sre_equipment (equipment_id, equipment_code, is_linked_project, 
       name, type, unit_price, 
@@ -135,8 +61,9 @@
       create_user_id, create_date, audit_status, 
       update_user_id, update_date, erp_no, 
       supplier_id, supplier_name, supplier_link_man, 
-      supplier_mobile_email, origin_place, vote_count
-      )
+      supplier_mobile_email, origin_place, vote_count, 
+      second_supplier_id, second_supplier_name, second_supplier_link_man, 
+      second_supplier_mobile_email)
     values (#{equipmentId,jdbcType=VARCHAR}, #{equipmentCode,jdbcType=VARCHAR}, #{isLinkedProject,jdbcType=VARCHAR}, 
       #{name,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{unitPrice,jdbcType=DECIMAL}, 
       #{allPrice,jdbcType=DECIMAL}, #{applyAcount,jdbcType=INTEGER}, #{specification,jdbcType=VARCHAR}, 
@@ -145,8 +72,9 @@
       #{createUserId,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{auditStatus,jdbcType=VARCHAR}, 
       #{updateUserId,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, #{erpNo,jdbcType=VARCHAR}, 
       #{supplierId,jdbcType=VARCHAR}, #{supplierName,jdbcType=VARCHAR}, #{supplierLinkMan,jdbcType=VARCHAR}, 
-      #{supplierMobileEmail,jdbcType=VARCHAR}, #{originPlace,jdbcType=VARCHAR}, #{voteCount,jdbcType=INTEGER}
-      )
+      #{supplierMobileEmail,jdbcType=VARCHAR}, #{originPlace,jdbcType=VARCHAR}, #{voteCount,jdbcType=INTEGER}, 
+      #{secondSupplierId,jdbcType=VARCHAR}, #{secondSupplierName,jdbcType=VARCHAR}, #{secondSupplierLinkMan,jdbcType=VARCHAR}, 
+      #{secondSupplierMobileEmail,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.pcitc.base.stp.equipment.SreEquipment" >
     insert into sre_equipment
@@ -232,6 +160,18 @@
       <if test="voteCount != null" >
         vote_count,
       </if>
+      <if test="secondSupplierId != null" >
+        second_supplier_id,
+      </if>
+      <if test="secondSupplierName != null" >
+        second_supplier_name,
+      </if>
+      <if test="secondSupplierLinkMan != null" >
+        second_supplier_link_man,
+      </if>
+      <if test="secondSupplierMobileEmail != null" >
+        second_supplier_mobile_email,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="equipmentId != null" >
@@ -315,136 +255,20 @@
       <if test="voteCount != null" >
         #{voteCount,jdbcType=INTEGER},
       </if>
+      <if test="secondSupplierId != null" >
+        #{secondSupplierId,jdbcType=VARCHAR},
+      </if>
+      <if test="secondSupplierName != null" >
+        #{secondSupplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="secondSupplierLinkMan != null" >
+        #{secondSupplierLinkMan,jdbcType=VARCHAR},
+      </if>
+      <if test="secondSupplierMobileEmail != null" >
+        #{secondSupplierMobileEmail,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.pcitc.base.stp.equipment.SreEquipmentExample" resultType="java.lang.Integer" >
-    select count(*) from sre_equipment
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
-  <update id="updateByExampleSelective" parameterType="map" >
-    update sre_equipment
-    <set >
-      <if test="record.equipmentId != null" >
-        equipment_id = #{record.equipmentId,jdbcType=VARCHAR},
-      </if>
-      <if test="record.equipmentCode != null" >
-        equipment_code = #{record.equipmentCode,jdbcType=VARCHAR},
-      </if>
-      <if test="record.isLinkedProject != null" >
-        is_linked_project = #{record.isLinkedProject,jdbcType=VARCHAR},
-      </if>
-      <if test="record.name != null" >
-        name = #{record.name,jdbcType=VARCHAR},
-      </if>
-      <if test="record.type != null" >
-        type = #{record.type,jdbcType=VARCHAR},
-      </if>
-      <if test="record.unitPrice != null" >
-        unit_price = #{record.unitPrice,jdbcType=DECIMAL},
-      </if>
-      <if test="record.allPrice != null" >
-        all_price = #{record.allPrice,jdbcType=DECIMAL},
-      </if>
-      <if test="record.applyAcount != null" >
-        apply_acount = #{record.applyAcount,jdbcType=INTEGER},
-      </if>
-      <if test="record.specification != null" >
-        specification = #{record.specification,jdbcType=VARCHAR},
-      </if>
-      <if test="record.notes != null" >
-        notes = #{record.notes,jdbcType=VARCHAR},
-      </if>
-      <if test="record.specialNotes != null" >
-        special_notes = #{record.specialNotes,jdbcType=VARCHAR},
-      </if>
-      <if test="record.attachmentDoc != null" >
-        attachment_doc = #{record.attachmentDoc,jdbcType=VARCHAR},
-      </if>
-      <if test="record.applyDepartName != null" >
-        apply_depart_name = #{record.applyDepartName,jdbcType=VARCHAR},
-      </if>
-      <if test="record.applyDepartCode != null" >
-        apply_depart_code = #{record.applyDepartCode,jdbcType=VARCHAR},
-      </if>
-      <if test="record.firstApplyUser != null" >
-        first_apply_user = #{record.firstApplyUser,jdbcType=VARCHAR},
-      </if>
-      <if test="record.createUserId != null" >
-        create_user_id = #{record.createUserId,jdbcType=VARCHAR},
-      </if>
-      <if test="record.createDate != null" >
-        create_date = #{record.createDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.auditStatus != null" >
-        audit_status = #{record.auditStatus,jdbcType=VARCHAR},
-      </if>
-      <if test="record.updateUserId != null" >
-        update_user_id = #{record.updateUserId,jdbcType=VARCHAR},
-      </if>
-      <if test="record.updateDate != null" >
-        update_date = #{record.updateDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.erpNo != null" >
-        erp_no = #{record.erpNo,jdbcType=VARCHAR},
-      </if>
-      <if test="record.supplierId != null" >
-        supplier_id = #{record.supplierId,jdbcType=VARCHAR},
-      </if>
-      <if test="record.supplierName != null" >
-        supplier_name = #{record.supplierName,jdbcType=VARCHAR},
-      </if>
-      <if test="record.supplierLinkMan != null" >
-        supplier_link_man = #{record.supplierLinkMan,jdbcType=VARCHAR},
-      </if>
-      <if test="record.supplierMobileEmail != null" >
-        supplier_mobile_email = #{record.supplierMobileEmail,jdbcType=VARCHAR},
-      </if>
-      <if test="record.originPlace != null" >
-        origin_place = #{record.originPlace,jdbcType=VARCHAR},
-      </if>
-      <if test="record.voteCount != null" >
-        vote_count = #{record.voteCount,jdbcType=INTEGER},
-      </if>
-    </set>
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExample" parameterType="map" >
-    update sre_equipment
-    set equipment_id = #{record.equipmentId,jdbcType=VARCHAR},
-      equipment_code = #{record.equipmentCode,jdbcType=VARCHAR},
-      is_linked_project = #{record.isLinkedProject,jdbcType=VARCHAR},
-      name = #{record.name,jdbcType=VARCHAR},
-      type = #{record.type,jdbcType=VARCHAR},
-      unit_price = #{record.unitPrice,jdbcType=DECIMAL},
-      all_price = #{record.allPrice,jdbcType=DECIMAL},
-      apply_acount = #{record.applyAcount,jdbcType=INTEGER},
-      specification = #{record.specification,jdbcType=VARCHAR},
-      notes = #{record.notes,jdbcType=VARCHAR},
-      special_notes = #{record.specialNotes,jdbcType=VARCHAR},
-      attachment_doc = #{record.attachmentDoc,jdbcType=VARCHAR},
-      apply_depart_name = #{record.applyDepartName,jdbcType=VARCHAR},
-      apply_depart_code = #{record.applyDepartCode,jdbcType=VARCHAR},
-      first_apply_user = #{record.firstApplyUser,jdbcType=VARCHAR},
-      create_user_id = #{record.createUserId,jdbcType=VARCHAR},
-      create_date = #{record.createDate,jdbcType=TIMESTAMP},
-      audit_status = #{record.auditStatus,jdbcType=VARCHAR},
-      update_user_id = #{record.updateUserId,jdbcType=VARCHAR},
-      update_date = #{record.updateDate,jdbcType=TIMESTAMP},
-      erp_no = #{record.erpNo,jdbcType=VARCHAR},
-      supplier_id = #{record.supplierId,jdbcType=VARCHAR},
-      supplier_name = #{record.supplierName,jdbcType=VARCHAR},
-      supplier_link_man = #{record.supplierLinkMan,jdbcType=VARCHAR},
-      supplier_mobile_email = #{record.supplierMobileEmail,jdbcType=VARCHAR},
-      origin_place = #{record.originPlace,jdbcType=VARCHAR},
-      vote_count = #{record.voteCount,jdbcType=INTEGER}
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
   <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.stp.equipment.SreEquipment" >
     update sre_equipment
     <set >
@@ -526,6 +350,18 @@
       <if test="voteCount != null" >
         vote_count = #{voteCount,jdbcType=INTEGER},
       </if>
+      <if test="secondSupplierId != null" >
+        second_supplier_id = #{secondSupplierId,jdbcType=VARCHAR},
+      </if>
+      <if test="secondSupplierName != null" >
+        second_supplier_name = #{secondSupplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="secondSupplierLinkMan != null" >
+        second_supplier_link_man = #{secondSupplierLinkMan,jdbcType=VARCHAR},
+      </if>
+      <if test="secondSupplierMobileEmail != null" >
+        second_supplier_mobile_email = #{secondSupplierMobileEmail,jdbcType=VARCHAR},
+      </if>
     </set>
     where equipment_id = #{equipmentId,jdbcType=VARCHAR}
   </update>
@@ -556,7 +392,11 @@
       supplier_link_man = #{supplierLinkMan,jdbcType=VARCHAR},
       supplier_mobile_email = #{supplierMobileEmail,jdbcType=VARCHAR},
       origin_place = #{originPlace,jdbcType=VARCHAR},
-      vote_count = #{voteCount,jdbcType=INTEGER}
+      vote_count = #{voteCount,jdbcType=INTEGER},
+      second_supplier_id = #{secondSupplierId,jdbcType=VARCHAR},
+      second_supplier_name = #{secondSupplierName,jdbcType=VARCHAR},
+      second_supplier_link_man = #{secondSupplierLinkMan,jdbcType=VARCHAR},
+      second_supplier_mobile_email = #{secondSupplierMobileEmail,jdbcType=VARCHAR}
     where equipment_id = #{equipmentId,jdbcType=VARCHAR}
   </update>
   
@@ -593,6 +433,15 @@
     </select>
   
   
-    
-    
+  
+  
+    <select id="getEquipmentListByIds" resultMap="BaseResultMap"  >
+      select * from sre_equipment t where  t.equipment_id in
+      <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+       </foreach>
+     </select>
+     
+     
+  
 </mapper>

@@ -70,6 +70,7 @@
             <div class="box-body">
                 <input name="taskId" id="taskId" value="${taskId}" type="hidden">
                 <input name="topicId" id="topicId" value="${topicId}" type="hidden">
+                <input name="taskWriteUsersIds" id="taskWriteUsersIds" value="${taskWriteUsersIds}" type="hidden">
                 <input name="documentDoc" id="documentDoc" value="${documentDoc}" type="hidden">
                 <input name="projectFundsTable" id="projectFundsTable" value="${sreProjectTask.projectFundsTable}" type="hidden">
                 <input name="functionId" id="functionId" value="${functionId}" type="hidden">
@@ -89,7 +90,7 @@
                 <div class="layui-form-item layui-form-text">
                     <label class="layui-form-label">课题名称</label>
                     <div class="layui-input-block">
-                        <input class="layui-input readOnlyBox" name="name" id="name" readonly="readonly" value="${sreProject.name}" autocomplete="off" type="text">
+                        <input class="layui-input" name="name" id="name" readonly="readonly" onclick="chooseProject('${topicId}')"   value="${sreProject.name}" autocomplete="off" type="text">
                     </div>
                 </div>
                <div class="layui-form-item layui-form-text" >
@@ -259,14 +260,12 @@
       
         <div class="form-bottom">
             <div class="form-bottom-btns">
-                <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue"
+                <!-- <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue"
                         lay-submit="" lay-filter="sub">保存
+                </button> -->
+                <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="" lay-filter="up">下一步-》立项报告
                 </button>
-                <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue"
-                        lay-submit="" lay-filter="up">上报
-                </button>
-                <button type="button"
-                        class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white"
+                <button type="button"  class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white"
                         id="closeBtn">关闭
                 </button>
             </div>
@@ -278,7 +277,7 @@
     var param = JSON.parse(window.localStorage.getItem("param"));
     var functionId = param.id;
     $('#functionId').val(functionId);
-    
+    var publicMethods;
     
     var roleCodes = "";
     var unitCodes = "";
@@ -306,7 +305,7 @@
             , laypage = layui.laypage
             , $ = layui.jquery
             , form = layui.form;
-        var publicMethods = layui.publicMethods;
+        publicMethods = layui.publicMethods;
         form.render();
         laydate.render({
             elem: '#LAY-component-form-group-date'
@@ -334,6 +333,11 @@
             active[type] ? active[type].call(this) : '';
         });
         publicMethods.createTable('','',"project_funds_table",2,projectFundsTable,true);
+        
+        
+        
+        
+      
         
         
         
@@ -523,42 +527,8 @@
 
         }
       
-        /* 监听提交 */
-        form.on('submit(sub)', function (data) {
-            //JSON.stringify(data.field)  提交信息json格式
-            /*parent.layer.alert(JSON.stringify(data.field), {
-                title: '最终的提交信息'
-            })*/
-            var  task_content =getData("task_content", 5);
-            var  task_assessment_content =getData("task_assessment_content", 3);
-            var  budget_table =getData("budget_table", 5);
-            var  funds_sources_table =getData("funds_sources_table", 6);
-            
-            if (task_content == null || task_content == '') 
-            {
-                layer.alert("项目内容和主要图表为空");
-            }else if (task_assessment_content == null || task_assessment_content == '') 
-            {
-                layer.alert("计划进度和考核目标为空");
-            }else{
-            	
-            	 $("#taskContent").val(task_content)
-            	 $("#taskAssessmentContent").val(task_assessment_content)
-            	 $("#budgetTable").val(budget_table)
-            	 $("#fundsSourcesTable").val(funds_sources_table)
-            	   
-            	 var url="/sre_project_task/save?v_date="+v_date+"&status=0";
-                 var backurl="/sre_project_task/to_list?v_date="+v_date;
-                 ajaxOpt(url,"form1","POST",backurl,"保存成功","保存失败");
-            }
-            return false;
-        });
-        /* 监听提交 */
         form.on('submit(up)', function (data) {
-            //JSON.stringify(data.field)  提交信息json格式
-            /*parent.layer.alert(JSON.stringify(data.field), {
-                title: '最终的提交信息'
-            })*/
+           
             var  task_content =getData("task_content", 5);
             var  task_assessment_content =getData("task_assessment_content", 4);
             var  budget_table =getData("budget_table", 5);
@@ -571,7 +541,15 @@
             {
                 layer.alert("计划进度和考核目标为空");
             }else{
-            	dealFlow(data);
+            	 $("#taskContent").val(task_content)
+            	 $("#taskAssessmentContent").val(task_assessment_content)
+            	 $("#budgetTable").val(budget_table)
+            	 $("#fundsSourcesTable").val(funds_sources_table)
+            	   
+            	 var topicId=$("#topicId").val();
+            	 var url="/sre_project_task/save?v_date="+v_date+"&status=0";
+                 var backurl="/sre_project_setup/add?v_date="+v_date+"&topicId="+topicId;
+                 ajaxOpt(url,"form1","POST",backurl,"保存成功","保存失败");
             }
             return false;
         });
@@ -594,7 +572,6 @@
     }
 
     function ajaxOpt(url, formName, type, backurl, successMsg, failMsg) {
-       // $("#equipmentIds").val($("#equipmentIds").val());
         $.ajax({
             type: type,
             url: url,
@@ -604,14 +581,33 @@
             cache: false,
             contentType: "application/x-www-form-urlencoded; charset=utf-8",
             success: function (data, status) {
-                if (data.success == true || data.success == 'true') {
+                if (data.success == true || data.success == 'true') 
+                {
+                	var taskId=data.data;
+                	backurl=backurl+"&taskId="+taskId;
                     layer.alert(
                         successMsg,
                         {icon: 1, closeBtn: 0},
                         function () {
                             var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
                             parent.layer.close(index);  // 关闭layer
-                            parent.location.href = backurl;
+                            
+                            
+                            
+                            parent.layer.open({
+      	                      title:'填写立项报告',
+      	                      skin: 'layui-layer-lan',
+      	                      shadeClose: true,
+      	                      type: 2,
+      	                      fixed: false,
+      	                      //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+      	                      maxmin: false,
+      	                      //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+      	                      area: ['70%', '90%'],
+      	                      content:  backurl
+      	                 });
+                            
+                           // parent.location.href = backurl;
                         });
                 } else {
                     layer.alert(failMsg);
@@ -668,90 +664,7 @@
     var index_close;
 
 
-    function dealFlow(data) 
-    {
-    	
-    	
-    	 $.ajax({
-             type : 'POST',
-             url : "/workflow/start/audit-type",
-             contentType: "application/json;charset=UTF-8",
-             data : JSON.stringify(data.field),
-             //json中有functionId（projectId、departmentId等）用来区别processDefine的属性
-             success : function(data) 
-             {
-          	   if (data.code == 'role')
-          	   {
-              		// 按角色选择，获取下一步审批人信息,选择完审批人后，调用：handleTask(userIds)方法
-              		// roleCodes，参数名必须一致，方便公共弹出页面调用
-              		   roleCodes = data.data;  // 弹出页面的隐藏的查询条件
-              		  var temUrl="/task/deal/users/ini";
-                      layer.open({
-                          title:'选择审批人',
-                          skin: 'layui-layer-lan',
-                          shadeClose: true,
-                          type: 2,
-                          fixed: false,
-                          //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                          maxmin: true,
-                          //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                          area: ['800px', '550px'],
-                          content:  temUrl
-                      });
-              	} else if (data.code == 'unit' || data.code == 'post') 
-              	{
-              		// 按部门/岗位选择，获取下一步审批人信息,选择完审批人后，调用：handleTask(userIds)方法
-              		// unitCodes、postCodes，参数名必须一致，方便公共弹出页面调用
-    	          		if (data.code == 'unit') 
-    	          		{
-    	          			unitCodes = data.data;  // 弹出页面的隐藏的查询条件
-    	          		} else 
-    	          		{
-    	          			postCodes = data.data;  // 弹出页面的隐藏的查询条件
-    	          		}
-              		
-              		   var temUrl="/task/deal/user/unit/ini";
-                       layer.open({
-                          title:'选择审批人',
-                          skin: 'layui-layer-lan',
-                          shadeClose: true,
-                          type: 2,
-                          fixed: false,
-                          //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                          maxmin: true,
-                          //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                          area: ['800px', '550px'],
-                          content:  temUrl
-                      });
-              	} else if (data.code == 'int') 
-              	{
-              		layer.msg('启动参数不足');
-              	} else if (data.code == 'con') 
-              	{
-              		layer.msg('请给此功能菜单配置流程');
-              	} else if (data.code == 'exist') 
-              	{
-              		layer.msg('工作流部署异常，请联系管理员');
-              	} else 
-              	{
-              		// 直接处理此任务
-              		handleTask('');
-              	}
-             },
-             error : function(msg) {//请求失败处理函数  
-            }
-         });
-    }
-
-  //处理任务（启动流程）的方法，方法名固定，为了通用选择审批人员的弹出页面调用
-    function handleTask(userIds) 
-    {
-    	$('#userIds').val(userIds);
-        var url="/sre_project_task/save?v_date="+v_date+"&isWorkFlow=1&functionId="+param.id;
-        var backurl="/sre_project_task/to_list?v_date="+v_date;
-        ajaxOpt(url,"form1","POST",backurl,"提交成功","提交失败");
-        
-    }
+  
 
 
     function clearNoNum(obj) {
@@ -833,6 +746,17 @@
         var index = parent.layer.getFrameIndex(window.name);
         parent.layer.close(index);
     })
+    
+    
+    
+    function chooseProject(id)
+    {
+    	var temUrl = '/sre-project-basic/chooseProject?taskWriteUsersIds='+$("#taskWriteUsersIds").val()+"&id="+id;
+        publicMethods.openBaseWin("选择课题",temUrl,"90%","80%");
+    }
+    
+    
+      
 </script>
 </body>
 </html>
