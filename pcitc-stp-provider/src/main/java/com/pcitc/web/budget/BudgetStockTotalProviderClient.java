@@ -11,7 +11,6 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -609,16 +608,16 @@ public class BudgetStockTotalProviderClient
 		try
 		{
 			TreeNode root = new TreeNode();
-			root.setId("root");
-			root.setName("一级预算项");
+			root.setId("1001");
+			root.setLevelCode(-1);
+			root.setName("股份公司");
 			nodes.add(root);
-			
-			
 			List<BudgetStockTotal> totals = budgetStockTotalService.selectBudgetInfoId(budgetId);
 			for(BudgetStockTotal total:totals) {
 				TreeNode node = new TreeNode();
 				node.setId(total.getDataId());
 				node.setpId(root.getId());
+				node.setLevelCode(0);
 				node.setName(total.getDisplayName());
 				nodes.add(node);
 			}
