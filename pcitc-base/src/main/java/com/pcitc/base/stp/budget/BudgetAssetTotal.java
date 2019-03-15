@@ -29,9 +29,15 @@ public class BudgetAssetTotal {
 
     private Integer level;
 
+    private Double total;
+
     private Double yjwc;
 
     private Double xmjf;
+
+    private Integer itemType;
+
+    private String companyCode;
 
     private String remark;
 
@@ -153,6 +159,14 @@ public class BudgetAssetTotal {
         this.level = level;
     }
 
+    public Double getTotal() {
+        return total;
+    }
+
+    public void setTotal(Double total) {
+        this.total = total;
+    }
+
     public Double getYjwc() {
         return yjwc;
     }
@@ -167,6 +181,22 @@ public class BudgetAssetTotal {
 
     public void setXmjf(Double xmjf) {
         this.xmjf = xmjf;
+    }
+
+    public Integer getItemType() {
+        return itemType;
+    }
+
+    public void setItemType(Integer itemType) {
+        this.itemType = itemType;
+    }
+
+    public String getCompanyCode() {
+        return companyCode;
+    }
+
+    public void setCompanyCode(String companyCode) {
+        this.companyCode = companyCode;
     }
 
     public String getRemark() {

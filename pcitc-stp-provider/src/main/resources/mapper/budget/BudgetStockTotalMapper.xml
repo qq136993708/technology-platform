@@ -22,6 +22,8 @@
     <result column="yjwc_zbx" jdbcType="DOUBLE" property="yjwcZbx" />
     <result column="yjwc_fyx" jdbcType="DOUBLE" property="yjwcFyx" />
     <result column="yjwc_total" jdbcType="DOUBLE" property="yjwcTotal" />
+    <result column="item_type" jdbcType="INTEGER" property="itemType" />
+    <result column="company_code" jdbcType="VARCHAR" property="companyCode" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="budget_info_id" jdbcType="VARCHAR" property="budgetInfoId" />
     <result column="del_flag" jdbcType="INTEGER" property="delFlag" />
@@ -88,8 +90,8 @@
   <sql id="Base_Column_List">
     data_id, parent_data_id, nd, data_version, create_time, update_time, creater_name, 
     creater_id, no, display_name, simple_name, display_code, simple_code, level, xmjf_zbx, 
-    xmjf_fyx, xmjf_total, yjwc_zbx, yjwc_fyx, yjwc_total, remark, budget_info_id, del_flag, 
-    append_files
+    xmjf_fyx, xmjf_total, yjwc_zbx, yjwc_fyx, yjwc_total, item_type, company_code, remark, 
+    budget_info_id, del_flag, append_files
   </sql>
   <select id="selectByExample" parameterType="com.pcitc.base.stp.budget.BudgetStockTotalExample" resultMap="BaseResultMap">
     select
@@ -129,18 +131,18 @@
       display_name, simple_name, display_code, 
       simple_code, level, xmjf_zbx, 
       xmjf_fyx, xmjf_total, yjwc_zbx, 
-      yjwc_fyx, yjwc_total, remark, 
-      budget_info_id, del_flag, append_files
-      )
+      yjwc_fyx, yjwc_total, item_type, 
+      company_code, remark, budget_info_id, 
+      del_flag, append_files)
     values (#{dataId,jdbcType=VARCHAR}, #{parentDataId,jdbcType=VARCHAR}, #{nd,jdbcType=VARCHAR}, 
       #{dataVersion,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR}, #{updateTime,jdbcType=VARCHAR}, 
       #{createrName,jdbcType=VARCHAR}, #{createrId,jdbcType=VARCHAR}, #{no,jdbcType=INTEGER}, 
       #{displayName,jdbcType=VARCHAR}, #{simpleName,jdbcType=VARCHAR}, #{displayCode,jdbcType=VARCHAR}, 
       #{simpleCode,jdbcType=VARCHAR}, #{level,jdbcType=INTEGER}, #{xmjfZbx,jdbcType=DOUBLE}, 
       #{xmjfFyx,jdbcType=DOUBLE}, #{xmjfTotal,jdbcType=DOUBLE}, #{yjwcZbx,jdbcType=DOUBLE}, 
-      #{yjwcFyx,jdbcType=DOUBLE}, #{yjwcTotal,jdbcType=DOUBLE}, #{remark,jdbcType=VARCHAR}, 
-      #{budgetInfoId,jdbcType=VARCHAR}, #{delFlag,jdbcType=INTEGER}, #{appendFiles,jdbcType=VARCHAR}
-      )
+      #{yjwcFyx,jdbcType=DOUBLE}, #{yjwcTotal,jdbcType=DOUBLE}, #{itemType,jdbcType=INTEGER}, 
+      #{companyCode,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{budgetInfoId,jdbcType=VARCHAR}, 
+      #{delFlag,jdbcType=INTEGER}, #{appendFiles,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.pcitc.base.stp.budget.BudgetStockTotal">
     insert into out_tem_money_stock_total
@@ -204,6 +206,12 @@
       </if>
       <if test="yjwcTotal != null">
         yjwc_total,
+      </if>
+      <if test="itemType != null">
+        item_type,
+      </if>
+      <if test="companyCode != null">
+        company_code,
       </if>
       <if test="remark != null">
         remark,
@@ -278,6 +286,12 @@
       </if>
       <if test="yjwcTotal != null">
         #{yjwcTotal,jdbcType=DOUBLE},
+      </if>
+      <if test="itemType != null">
+        #{itemType,jdbcType=INTEGER},
+      </if>
+      <if test="companyCode != null">
+        #{companyCode,jdbcType=VARCHAR},
       </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
@@ -362,6 +376,12 @@
       <if test="record.yjwcTotal != null">
         yjwc_total = #{record.yjwcTotal,jdbcType=DOUBLE},
       </if>
+      <if test="record.itemType != null">
+        item_type = #{record.itemType,jdbcType=INTEGER},
+      </if>
+      <if test="record.companyCode != null">
+        company_code = #{record.companyCode,jdbcType=VARCHAR},
+      </if>
       <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
       </if>
@@ -401,6 +421,8 @@
       yjwc_zbx = #{record.yjwcZbx,jdbcType=DOUBLE},
       yjwc_fyx = #{record.yjwcFyx,jdbcType=DOUBLE},
       yjwc_total = #{record.yjwcTotal,jdbcType=DOUBLE},
+      item_type = #{record.itemType,jdbcType=INTEGER},
+      company_code = #{record.companyCode,jdbcType=VARCHAR},
       remark = #{record.remark,jdbcType=VARCHAR},
       budget_info_id = #{record.budgetInfoId,jdbcType=VARCHAR},
       del_flag = #{record.delFlag,jdbcType=INTEGER},
@@ -469,6 +491,12 @@
       <if test="yjwcTotal != null">
         yjwc_total = #{yjwcTotal,jdbcType=DOUBLE},
       </if>
+      <if test="itemType != null">
+        item_type = #{itemType,jdbcType=INTEGER},
+      </if>
+      <if test="companyCode != null">
+        company_code = #{companyCode,jdbcType=VARCHAR},
+      </if>
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
       </if>
@@ -505,6 +533,8 @@
       yjwc_zbx = #{yjwcZbx,jdbcType=DOUBLE},
       yjwc_fyx = #{yjwcFyx,jdbcType=DOUBLE},
       yjwc_total = #{yjwcTotal,jdbcType=DOUBLE},
+      item_type = #{itemType,jdbcType=INTEGER},
+      company_code = #{companyCode,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},
       budget_info_id = #{budgetInfoId,jdbcType=VARCHAR},
       del_flag = #{delFlag,jdbcType=INTEGER},
