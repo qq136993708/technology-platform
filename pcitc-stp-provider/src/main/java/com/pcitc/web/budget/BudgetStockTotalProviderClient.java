@@ -275,32 +275,31 @@ public class BudgetStockTotalProviderClient
 	public Object saveBudgetStockTotalInfo(@RequestBody BudgetStockTotal item) 
 	{
 		logger.info("budget-save-stocktotal...");
-		BudgetStockTotal rs = null;
+		BudgetStockTotal stock = null;
 		try
 		{
 			BudgetInfo info = budgetInfoService.selectBudgetInfo(item.getBudgetInfoId());
-			BudgetStockTotal groupTotal = budgetStockTotalService.selectBudgetStockTotal(item.getDataId());
-			if(groupTotal != null) {
-				MyBeanUtils.copyPropertiesIgnoreNull(item, groupTotal);
-				groupTotal.setUpdateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
-				budgetStockTotalService.updateBudgetStockTotal(groupTotal);
-				rs = groupTotal;
+			stock = budgetStockTotalService.selectBudgetStockTotal(item.getDataId());
+			if(stock != null) {
+				MyBeanUtils.copyPropertiesIgnoreNull(item, stock);
+				stock.setUpdateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
+				budgetStockTotalService.updateBudgetStockTotal(stock);
 			}else {
-				//item.setLevel(0);
-				item.setDelFlag(DelFlagEnum.STATUS_NORMAL.getCode());
-				item.setNd(info.getNd());
-				item.setCreateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
-				item.setUpdateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
-				item.setDataVersion(info.getDataVersion());
-				budgetStockTotalService.saveOrUpdateBudgetStockTotal(item);
-				rs = item;
+				stock = (BudgetStockTotal)MyBeanUtils.createDefaultModel(BudgetStockTotal.class);
+				MyBeanUtils.copyPropertiesIgnoreNull(item, stock);
+				stock.setDelFlag(DelFlagEnum.STATUS_NORMAL.getCode());
+				stock.setNd(info.getNd());
+				stock.setCreateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
+				stock.setUpdateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
+				stock.setDataVersion(info.getDataVersion());
+				budgetStockTotalService.saveOrUpdateBudgetStockTotal(stock);
 			}
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
 		}
-		return rs;
+		return stock;
 	}
 	@ApiOperation(value="股份公司预算-保存年度预算项详情",notes="保存预算项不包括子项")
 	@RequestMapping(value = "/stp-provider/budget/save-stocktotal-items", method = RequestMethod.POST)
@@ -608,7 +607,7 @@ public class BudgetStockTotalProviderClient
 		try
 		{
 			TreeNode root = new TreeNode();
-			root.setId("1001");
+			root.setId("0");
 			root.setLevelCode(-1);
 			root.setName("股份公司");
 			nodes.add(root);

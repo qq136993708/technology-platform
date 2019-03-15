@@ -33,6 +33,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.common.enums.BudgetItemTypeEnum;
 import com.pcitc.base.stp.budget.BudgetGroupTotal;
 import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.stp.budget.BudgetStockTotal;
@@ -201,11 +202,24 @@ public class HttpClientUtil
 		}
 	}
 	/**
-	 * 生成集团公司测试数据
+	 * 使用测试数据生成股份公司数据
+	 * 
 	 */
 	public void crateStockTotalTestData() 
 	{
-		String url = "http://localhost:8765/stp-provider/budget/save-stocktotal-item";
+		//创建预算表
+		String url = "http://localhost:8765/stp-provider/budget/budget-create-blank-stocktotal";
+		BudgetInfo info = (BudgetInfo)MyBeanUtils.createDefaultModel(BudgetInfo.class);
+		info.setBudgetType(BudgetInfoEnum.STOCK_TOTAL.getCode());
+		info.setCreaterId("163a05ad6df_3df71106");
+		info.setCreaterName("冯波");
+		info.setNd("2015");
+		String rs = doPostBody(url,info,"UTF-8");
+		BudgetInfo newInfo = JSON.toJavaObject(JSON.parseObject(rs), BudgetInfo.class);
+		
+		
+		//导入预算表数据
+		url = "http://localhost:8765/stp-provider/budget/save-stocktotal-item";
 		XSSFWorkbook workbook;
 		XSSFSheet sheet;
 		try 
@@ -226,15 +240,16 @@ public class HttpClientUtil
 				stock.setXmjfTotal(new Double(readCell(row.getCell(5))));
 				stock.setXmjfZbx(new Double(readCell(row.getCell(6))));
 				stock.setXmjfFyx(new Double(readCell(row.getCell(7))));
-				stock.setBudgetInfoId("1696fb68578_8f0b353e");
+				stock.setBudgetInfoId(newInfo.getDataId());
 				stock.setParentDataId(pstock.getDataId());
+				stock.setItemType(BudgetItemTypeEnum.BUDGET_ITEM_PROJECT.getCode());
 				stock.setLevel(1);
-				if(no >0) {
+				if(no > 0) {
 					stock.setLevel(0);
-					stock.setParentDataId(null);
+					stock.setParentDataId("0");
 				}
 				
-				String rs = doPostBody(url,stock,"UTF-8");
+				rs = doPostBody(url,stock,"UTF-8");
 				BudgetStockTotal rsstock = JSON.toJavaObject(JSON.parseObject(rs), BudgetStockTotal.class);
 				if(rsstock.getNo() >0) {
 					pstock = rsstock;
