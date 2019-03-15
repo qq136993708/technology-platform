@@ -69,4 +69,7 @@ public interface SysUserPropertyService {
 	 * 查询某人在某个dataType下管理的数据
 	 */
 	public List<SysUserProperty> selectUserPropertyByUserIdAndDataType(String userId, String dataType);
+	
+	
+	public SysUserProperty getSysUserProperty(String userId, String dataType);
 }
