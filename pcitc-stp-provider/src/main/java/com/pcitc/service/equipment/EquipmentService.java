@@ -5,11 +5,9 @@ import java.util.List;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.stp.equipment.SreEquipment;
-import com.pcitc.base.stp.equipment.SreEquipmentExample;
 import com.pcitc.base.stp.equipment.SreProject;
-import com.pcitc.base.stp.equipment.SreProjectExample;
+import com.pcitc.base.stp.equipment.SreProjectSetup;
 import com.pcitc.base.stp.equipment.SreProjectTask;
-import com.pcitc.base.stp.equipment.SreProjectTaskExample;
 import com.pcitc.base.stp.equipment.SreProjectYear;
 import com.pcitc.base.stp.equipment.SreProjectYearExample;
 import com.pcitc.base.stp.equipment.SreTechMeeting;
@@ -28,11 +26,11 @@ public interface EquipmentService {
 
 	public Integer insertEquipment(SreEquipment record)throws Exception;
 
-	public List<SreEquipment> getEquipmentList(SreEquipmentExample example)throws Exception;
+	//public List<SreEquipment> getEquipmentList(SreEquipmentExample example)throws Exception;
 	
 	public LayuiTableData getEquipmentPage(LayuiTableParam param)throws Exception;
 	
-	public int batchDeleteEquipment(List<String> list)throws Exception;
+	//public int batchDeleteEquipment(List<String> list)throws Exception;
 	
 	public List<SreEquipment> getEquipmentListByIds(List<String> list)throws Exception;
 	
@@ -49,9 +47,9 @@ public interface EquipmentService {
 
 	public Integer insertProjectBasic(SreProject record)throws Exception;
 
-	public List<SreProject> getProjectBasicList(SreProjectExample example)throws Exception;
+	//public List<SreProject> getProjectBasicList(SreProjectExample example)throws Exception;
 	
-	public int batchDeleteProjectBasic(List<String> list)throws Exception;
+	//public int batchDeleteProjectBasic(List<String> list)throws Exception;
 	
 	public LayuiTableData getProjectPage(LayuiTableParam param)throws Exception;
 	
@@ -68,15 +66,27 @@ public interface EquipmentService {
 
 	public Integer insertSreProjectTask(SreProjectTask record)throws Exception;
 
-	public List<SreProjectTask> getSreProjectTaskList(SreProjectTaskExample example)throws Exception;
+	//public List<SreProjectTask> getSreProjectTaskList(SreProjectTaskExample example)throws Exception;
 	
-	public int batchDeleteSreProjectTask(List<String> list)throws Exception;
+	//public int batchDeleteSreProjectTask(List<String> list)throws Exception;
 	
 	public LayuiTableData getSreProjectTaskPage(LayuiTableParam param)throws Exception;
 	
 	
 	
 	
+/**=========================================立项报告==========================================*/
+	
+	
+	public SreProjectSetup selectSreProjectSetup(String id) throws Exception;
+
+	public Integer updateSreProjectSetup(SreProjectSetup record)throws Exception;
+
+	public int deleteSreProjectSetup(String id)throws Exception;
+
+	public Integer insertSreProjectSetup(SreProjectSetup record)throws Exception;
+	
+	public LayuiTableData getSreProjectSetupPage(LayuiTableParam param)throws Exception;
 	
 	
 	

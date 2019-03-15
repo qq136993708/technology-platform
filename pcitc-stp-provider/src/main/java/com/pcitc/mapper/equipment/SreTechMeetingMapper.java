@@ -3,7 +3,6 @@ package com.pcitc.mapper.equipment;
 import java.util.List;
 import java.util.Map;
 
-import com.pcitc.base.stp.equipment.SreProject;
 import com.pcitc.base.stp.equipment.SreTechMeeting;
 
 public interface SreTechMeetingMapper {
