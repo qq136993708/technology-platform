@@ -12,6 +12,7 @@ import com.pcitc.base.stp.equipment.SreEquipment;
 import com.pcitc.base.stp.equipment.SreProject;
 import com.pcitc.base.stp.equipment.SreProjectSetup;
 import com.pcitc.base.stp.equipment.SreProjectTask;
+import com.pcitc.base.system.SysUserProperty;
 
 public class EquipmentUtils {
 	
@@ -36,6 +37,11 @@ public class EquipmentUtils {
 	private static final String UPDATE_URL_SETUP = "http://pcitc-zuul/stp-proxy/sre-provider/project_setup/update";
 	private static final String DEL_URL_SETUP = "http://pcitc-zuul/stp-proxy/sre-provider/project_setup/delete/";
 	
+	
+	
+     private static final String GET_USERPROPERTY = "http://pcitc-zuul/system-proxy/userProperty-provider/getSysUserProperty/";
+	
+
 	
 	
 	public static String getCurrrentYear() throws Exception {
@@ -69,7 +75,17 @@ public class EquipmentUtils {
 	
 	
 	
-	
+	public static SysUserProperty getSysUserProperty(String userId,String dataType,RestTemplate restTemplate,HttpHeaders httpHeaders)
+	{
+		SysUserProperty	SysUserProperty = null;
+		ResponseEntity<SysUserProperty> responseEntity = restTemplate.exchange(GET_USERPROPERTY + userId+"/"+dataType, HttpMethod.GET, new HttpEntity<Object>(httpHeaders), SysUserProperty.class);
+		int statusCode = responseEntity.getStatusCodeValue();
+		if (statusCode == 200)
+		{
+			SysUserProperty = responseEntity.getBody();
+		}
+		return SysUserProperty;
+	}
 	
 	
 	public static SreEquipment getSreEquipment(String id,RestTemplate restTemplate,HttpHeaders httpHeaders)

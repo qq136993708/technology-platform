@@ -153,5 +153,17 @@ public class SysUserPropertyProviderClient {
 		}
 		return list;
 	}
+	
+	
+	
+	
+	@RequestMapping(value = "/userProperty-provider/getSysUserProperty/{userId}/{dataType}", method = RequestMethod.GET)
+	public SysUserProperty getSysUserProperty(@PathVariable(value = "userId", required = true) String userId, @PathVariable(value = "dataType", required = true) String dataType) throws Exception {
+		System.out.println("=getSysUserProperty+++++++==="+userId+"========="+dataType);
+		SysUserProperty sysUserProperty  = userPropertyService.getSysUserProperty(userId, dataType);
+		return sysUserProperty;
+	}
+	
+	
 
 }

@@ -221,5 +221,17 @@ public class SysUserPropertyServiceImpl implements SysUserPropertyService {
 		List<SysUserProperty> list = userPropertyDao.selectUserPropertyByUserAndType(paramMap);
 		return list;
 	}
+	
+	
+	public SysUserProperty getSysUserProperty(String userId, String dataType)
+	{
+
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("userId", userId);
+		paramMap.put("dataType", dataType);
+		SysUserProperty sysUserProperty = userPropertyDao.getSysUserProperty(paramMap);
+		
+		return sysUserProperty;
+	}
 
 }

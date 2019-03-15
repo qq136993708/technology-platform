@@ -3,6 +3,7 @@ package com.pcitc.mapper.common;
 import java.util.List;
 import java.util.Map;
 
+import com.pcitc.base.hana.report.DicSupplyer;
 import com.pcitc.base.hana.report.H1AMKYZH100006;
 
 public interface CommonMapper {
@@ -33,8 +34,16 @@ public interface CommonMapper {
     public<DicAssetType> List  getDicAssetTypeList();
     
     
+    
     // 供应商
     public<DicSupplyer> List  getDicSupplyerList(DicSupplyer dicSupplyer);
+    
+    
+    
+    public<DicSupplyer> List  getDicSupplyerList_table(Map map);
+    int  getDicSupplyCount(Map map);
+    
+    
     
     // 项目类型--项目项目来源--项目级别
     public<DicSupplyer> List  getCodeH1AM_KY_ZH_1000_06(Map map);
@@ -42,6 +51,9 @@ public interface CommonMapper {
     
     
     public List<H1AMKYZH100006>  getCodeDicBase();
+    
+    
+    
     
     
     
