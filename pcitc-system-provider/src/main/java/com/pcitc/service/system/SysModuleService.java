@@ -2,7 +2,6 @@ package com.pcitc.service.system;
 
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.system.SysModule;
-import com.pcitc.base.system.SysModuleVo;
 
 /**
  * @author ms 功能模块管理逻辑层
@@ -15,7 +14,7 @@ public interface SysModuleService {
 	 * @return
 	 * @throws Exception
 	 */
-	JSONObject selectSysModuleList(SysModuleVo vo) throws Exception;
+	JSONObject selectSysModuleList(SysModule vo) throws Exception;
 	
 	/**
 	 * 新增或修改模块

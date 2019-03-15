@@ -17,18 +17,18 @@
     <#list tb_datas as tb>
 	    <p class="table-title">&nbsp;&nbsp;</p>
 	    <div class="bottom-table-box">
-	        <table id="${tb.dataId}" class="layui-table" lay-filter="${tb.dataId}" lay-data="{height: '200',limit:100}">
+	        <table id="${tb.dataId}" class="layui-table" lay-filter="${tb.dataId}" lay-data="{height: '200',limit:100,totalRow: true}">
 	            <thead>
 	            <tr>
-	                <th lay-data="{field:'no', width: '10%', align:'center'}" rowspan="2">序号</th>
+	                <th lay-data="{field:'no', width: '10%', align:'center',totalRowText: '合计'}" rowspan="2">序号</th>
 	                <th lay-data="{field:'dataVersion', width: '15%'}" rowspan="2">预算版本</th>
 	                <th lay-data="{field:'displayName', width: '30%'}" rowspan="2">承担单位</th>
 	                <th lay-data="{align:'center'}", colspan="3">${tb.nd}年预算</th>
 	            </tr>
 	            <tr>
-	                <th lay-data="{field:'total', align: 'right'}">合计</th>
-	                <th lay-data="{field:'xmjf', width: '15%',align:'right'}">项目经费</th>
-	                <th lay-data="{field:'zxjf', width: '15%',align:'right'}">重点实验室专项经费</th>
+	                <th lay-data="{field:'total', align: 'right',totalRow: true}">合计</th>
+	                <th lay-data="{field:'xmjf', width: '15%',align:'right',totalRow: true}">项目经费</th>
+	                <th lay-data="{field:'zxjf', width: '15%',align:'right',totalRow: true}">重点实验室专项经费</th>
 	            </tr>
 	            </thead>
 	        </table>
@@ -49,6 +49,10 @@
             var $ = layui.jquery, table = layui.table, laydate = layui.laydate, layer = layui.layer,publicMethods=layui.publicMethods;
             publicMethods.ajaxPost("/budget/search-grouptotal-final-history-list",null, function (data) {
             	$.each(data,function(index,dt){
+            		//计算合计
+            		$.each(dt.items,function(index,d){
+            			dt.total = parseInt(dt.xmjf)+parseInt(dt.zxjf);
+            		});
        				table.reload(dt.dataId, {data: dt.items});
        			});
  		   	});

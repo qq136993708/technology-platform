@@ -126,6 +126,7 @@
 <script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
 <script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
 <script type="text/javascript" src="/stp/hana/common/stp_common_pie.js"></script>
+<script type="text/javascript" src="/layuiadmin/javascript/jquery.mousewheel.min.js"></script>
 
 <script type="text/javascript">
 
@@ -175,7 +176,7 @@ layui.config({
     var len_fzlc  = $(".duty_gd ul li").length;
     var index_fzlc = 0;
     var fzlcWidth = $(".duty_gd ul li").width();
-
+    mouseWhell();
     //li点击
     $("ul > li").on("click",function () {
         index_fzlc=$(this).index();
@@ -183,6 +184,7 @@ layui.config({
         $(".duty_gd ul").stop(true,false).animate({top: -92*index_fzlc},500);
         //加载表格
         renderTable($(".layui-this").html());
+        mouseWhell();
         //$(".duty_content>div").eq(index_fzlc).fadeIn(700).siblings().hide();
     });
     //往左按钮
@@ -197,6 +199,7 @@ layui.config({
         $(".duty_gd ul").stop(true,false).animate({top: -92*index_fzlc},500);
         //$(".duty_content>div").eq(index_fzlc).fadeIn(700).siblings().hide();
         renderTable($(".layui-this").html());
+        mouseWhell();
     });
     //往右按钮
     $(".pre_next").on("click",function () {
@@ -210,11 +213,52 @@ layui.config({
         $(".duty_gd ul").stop(true,false).animate({top: -92*index_fzlc},500);
         //$(".duty_content>div").eq(index_fzlc).fadeIn(700).siblings().hide();
         renderTable($(".layui-this").html());
+        mouseWhell();
     });
     //renderTable();
+    
 });
 
+function mouseWhell() {
+    $('.layui-table').mousewheel(function(event, delta) {
+        var dir = delta > 0 ? 'Up' : 'Down';
+        if (dir == 'Up') {
+            //alert('向上滚动');
+            //alert($(this).position().top)
+            var top=(Math.abs($(this).position().top)/3)+10;
+            $(".layui-table-body>.layui-table").find("tr").each(function (i, val) {
+                var trRS=$(this).find("td:eq(1)").attr("rowspan");
+                if (trRS==undefined){
+                    return;
+                } else {
+                    if(trRS>13){
+                        $(this).find("td:eq(1)").css("position","relative");
+                        $(this).find("td:eq(1) div").css({"position":"absolute","top":top+"px"});
+                    }
+                }
+            });
+        } else {
+            //alert('向下滚动');
+            //alert((Math.abs($(this).position().top))/4+10)
+            var top=(Math.abs($(this).position().top))+10;
+            $(".layui-table-body>.layui-table").find("tr").each(function (i, val) {
+                var trRS=$(this).find("td:eq(1)").attr("rowspan");
+                if (trRS==undefined){
+                    return;
+                } else {
+                    if(trRS>13){
+                        $(this).find("td:eq(1)").css("position","relative");
+                        $(this).find("td:eq(1) div").css({"position":"absolute","top":top+"px"});
+                    }
+                }
+            });
+        }
+        //return false;
+    });
+}
+function positionTop() {
 
+}
 function initEchart()
 {
 
@@ -417,6 +461,17 @@ function renderTable(nd){
             mergeIndex = 0;
             mark = 1;
         }
+        $(".layui-table-body>.layui-table").find("tr").each(function (i, val) {
+            var trRS=$(this).find("td:eq(1)").attr("rowspan");
+            if (trRS==undefined){
+                return;
+            } else {
+                if(trRS>13){
+                    $(this).find("td:eq(1)").css("position","relative");
+                    $(this).find("td:eq(1) div").css({"position":"absolute","top":"0"});
+                }
+            }
+        });
     }
 }
 

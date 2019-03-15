@@ -194,12 +194,12 @@ public class BudgetAssetTotalServiceImpl implements BudgetAssetTotalService
 
 	@Override
 	public List<BudgetAssetTotal> selectAssetTotalHistoryItems(BudgetAssetTotal item) {
-		//检索已通过审核的集团预算
+		//检索已通过审核的资产预算
 		BudgetInfoExample infoExample = new BudgetInfoExample();
 		BudgetInfoExample.Criteria infoc = infoExample.createCriteria();
 		infoc.andAuditStatusEqualTo(BudgetAuditStatusEnum.AUDIT_STATUS_FINAL.getCode());
 		infoc.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
-		infoc.andBudgetTypeEqualTo(BudgetInfoEnum.GROUP_TOTAL.getCode());
+		infoc.andBudgetTypeEqualTo(BudgetInfoEnum.ASSETS_TOTAL.getCode());
 		List<BudgetInfo> infos = budgetInfoMapper.selectByExample(infoExample);
 		Set<String> ids = new HashSet<String>();
 		ids.add("xxxx");//避免为空
@@ -229,20 +229,22 @@ public class BudgetAssetTotalServiceImpl implements BudgetAssetTotalService
 	}
 	@Override
 	public List<OutUnit> selectAssetCompnays() {
-		return systemRemoteClient.selectProjectUnits("JTZS");
+		return systemRemoteClient.selectProjectUnits("ZCGS");
 	}
 	@Override
 	public Map<String, List<OutProjectPlan>> selectComparePlanData(Set<String> codes, String nd) {
+		if(codes == null || codes.size() == 0) {
+			return new HashMap<String,List<OutProjectPlan>>();
+		}
+		
 		StringBuffer sb = new StringBuffer();
 		for (String code : codes) {
 			sb.append(code + ",");
 		}
-		String codesStr = sb.toString().substring(0, sb.length() - 1);
-
 		LayuiTableParam layuiParam = new LayuiTableParam();
 		Map<String, Object> p = new HashMap<String, Object>();
 		p.put("ysnd", nd);
-		p.put("define9", codesStr);
+		p.put("define9", sb.toString().substring(0, sb.length() - 1));
 		layuiParam.setLimit(1000);
 		layuiParam.setPage(1);
 		layuiParam.setParam(p);
@@ -263,16 +265,17 @@ public class BudgetAssetTotalServiceImpl implements BudgetAssetTotalService
 
 	@Override
 	public Map<String, List<OutProjectInfo>> selectCompareProjectInfoData(Set<String> codes, String nd) {
+		if(codes == null || codes.size() == 0) {
+			return new HashMap<String,List<OutProjectInfo>>();
+		}
 		StringBuffer sb = new StringBuffer();
 		for (String code : codes) {
 			sb.append(code + ",");
 		}
-		String codesStr = sb.toString().substring(0, sb.length() - 1);
-
 		LayuiTableParam layuiParam = new LayuiTableParam();
 		Map<String, Object> p = new HashMap<String, Object>();
 		p.put("ysnd", nd);
-		p.put("define9", codesStr);
+		p.put("define9", sb.toString().substring(0, sb.length() - 1));
 		layuiParam.setLimit(1000);
 		layuiParam.setPage(1);
 		layuiParam.setParam(p);

@@ -61,14 +61,15 @@
 	
 	layui.use(['jquery', 'table', 'laydate', 'layer','publicMethods'], function () {
 		var $ = layui.jquery, table = layui.table, laydate = layui.laydate, layer = layui.layer,publicMethods=layui.publicMethods;
-		var cu_date = "${nd}";
+		var cu_date = "${nd}";//预算年度
+		var select_data = "${nd}";//当前操作年度
 		var curent_tabel_data = null;
 	 	laydate.render({
            	elem: '#choose-year'
            	,value: cu_date
            	,type: 'year'
            	,done:function (val, date, endDate) {
-            		cu_date = val;
+           		select_data = val;
             		reloadTable();
             }
 	 	});
@@ -83,7 +84,7 @@
                 , {field: 'createrName', title: '创建人', style: 'cursor: pointer;'}
                 , {field: 'createTime', title: '创建时间', style: 'cursor: pointer;',align: 'center'}
                 , {field: 'updateTime', title: '更改时间', style: 'cursor: pointer;',align: 'center'}
-                , {field: 'score', title: '状态', style: 'cursor: pointer;',align: 'center'}
+                , {field: 'status', title: '状态', style: 'cursor: pointer;',align: 'center'}
                 , {field: 'score', title: '操作', style: 'cursor: pointer;',align: 'center',
                 	 templet: function(d){
                 		 return '<a href="javascript:void(0)" lay-event="del" lay-id="\'+  d.dataId +\'">删除</a>';
@@ -94,7 +95,7 @@
         });
 	    function reloadTable()
 	    {
-	    	publicMethods.ajaxPost("/budget/budget_asset_info_table",{page:1,limit:100,param: {"nd":cu_date}}, function (data) {
+	    	publicMethods.ajaxPost("/budget/budget_asset_info_table",{page:1,limit:100,param: {"nd":select_data}}, function (data) {
 	        	curent_tabel_data = data.data;
 	        	table.reload('dataTable', {data: data.data});
 	        	//处理下拉框

@@ -16,8 +16,8 @@
 #99afbf;width: 45px;height: 35px;border: none;cursor: pointer;
     position: absolute;top: 37px;right: 19px;}
 /*common*/
-.layui-left{width: 42%;float: left;}
-.layui-right{float: right;width: 56.5%;}
+.layui-left{width: 41.4%;float: left;}
+.layui-right{float: right;width: 57%;}
 .layui-right ul li:nth-child(5),.layui-right ul li:nth-child(6),.layui-right ul li:nth-child(7),
 .layui-right ul li:nth-child(8),.layui-right ul li:nth-child(9),.layui-right ul li:nth-child(10),
 .layui-right ul li:nth-child(11),.layui-right ul li:nth-child(12),.layui-right ul li:nth-child(13),
@@ -31,7 +31,7 @@
 .layui-text-icon p{ height:50px;line-height:80px;margin-bottom:10px;font-size: 26px;}
 .layui-row-special ul {width: 100%;}
 .layui-row-special ul li {margin-right: 20px;margin-bottom: 20px}
-.layui-row-special .layui-col-md3{width: 13.05%;}
+.layui-row-special .layui-col-md3{width: 12.78%;}
 .layui-row-special .layui-col-md6{width: 26.1%;}
 /*图片*/
 .layui-row-pic{height: 277px;}
@@ -111,14 +111,14 @@ line-height: 60px;font-size: 22px;}
 .module .selectOption .title{width: 90px;float: left;font-size: 18px;margin-top: 14px;}
 .module .selectOption .option{float: left;width: 100%;position: relative;}
 .selectOption .option p{height: 36px;line-height: 36px;color: #fff;font-size: 16px;padding: 0 15px;margin: 8px;
-    float: left;cursor: pointer;}
+    float: left;cursor: pointer;position: relative;}
 .selectOption div:nth-child(1) .option p{background-color: #78bf4c;}
 
 .selectOption div:nth-child(2) .option p{background-color: #c4b439;}
 .selectOption div:nth-child(3) .option p{background-color: #47a2d7;}
 .selectOption div:nth-child(4) .option p{background-color: #f09151;}
 .selectOption .option p span{background: url("/layuiadmin/layui/images/icon-level-dele.png") no-repeat;
-    width: 22px;height: 22px;display: inline-block;position: absolute;top: -2px;}
+    width: 22px;height: 22px;display: inline-block;position: absolute;top: -5px;right: -5px;}
 .selectOption .option p span:hover{background: url("/layuiadmin/layui/images/icon-level-dele-h.png") no-repeat;}
 .moduleB .form-bottom-btns{text-align: center;height: 60px;border-top: 1px solid #eae9f5;width: 100%;position: fixed;
     left: 0;bottom: 0;background-color: white;}

@@ -1,10 +1,10 @@
 package com.pcitc.service.system;
 
+import java.util.List;
+
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.system.SysConfig;
-import com.pcitc.base.system.SysModule;
-import com.pcitc.base.system.SysRestfulapi;
 
 public interface SysConfigService {
 
@@ -37,4 +37,10 @@ public interface SysConfigService {
      * 删除配置
      */
     public Integer deleteSysConfig(SysConfig sysconfig);
+    
+    /** 
+	 * @author zhf
+	 * 领导的显示配置功能
+	 */
+	public List selectUserShowConfigList(String userId);
 }

@@ -95,10 +95,8 @@ public class BudgetAssetTotalProviderClient
 		LayuiTableData data = null;
 		try
 		{
-			System.out.println(JSON.toJSONString(param));
 			param.getParam().put("budget_type", BudgetInfoEnum.ASSETS_TOTAL.getCode());
 			data = budgetInfoService.selectBudgetInfoPage(param);
-			System.out.println(JSON.toJSONString(data));
 			return data;
 		}
 		catch (Exception e)
@@ -109,7 +107,7 @@ public class BudgetAssetTotalProviderClient
 	}
 	@ApiOperation(value="资产公司预算-预算表信息检索",notes="检索预算表信息")
 	@RequestMapping(value = "/stp-provider/budget/budget-assettotal-info", method = RequestMethod.POST)
-	public Object selectGroupTotalInfo(@RequestBody String budgetInfoId) 
+	public Object selectAssetTotalInfo(@RequestBody String budgetInfoId) 
 	{
 		BudgetInfo info = null;
 		try
@@ -125,7 +123,7 @@ public class BudgetAssetTotalProviderClient
 	
 	@ApiOperation(value="资产公司预算-预算明细检索",notes="检索资产预算表明细信息（分页列表）。")
 	@RequestMapping(value = "/stp-provider/budget/budget-assettotal-items", method = RequestMethod.POST)
-	public Object selectGroupTotalItemTable(@RequestBody LayuiTableParam param) 
+	public Object selectAssetTotalItemTable(@RequestBody LayuiTableParam param) 
 	{
 		logger.info("select-budget-assettotal-items...");
 		LayuiTableData data = null;
@@ -209,13 +207,13 @@ public class BudgetAssetTotalProviderClient
 	
 	@ApiOperation(value="资产公司预算-持久化预算项",notes="添加或更新资产预算表项目。")
 	@RequestMapping(value = "/stp-provider/budget/budget-persistence-assettotal-item", method = RequestMethod.POST)
-	public Object addOrUpdateGroupTotalItem(@RequestBody BudgetAssetTotal budgetGroupTotal) 
+	public Object addOrUpdateAssetTotalItem(@RequestBody BudgetAssetTotal budgetAssetTotal) 
 	{
 		logger.info("add-budget-assettotal-item...");
 		Integer rs = 0;
 		try
 		{
-			rs = budgetAssetTotalService.saveOrUpdateBudgetAssetTotal(budgetGroupTotal);
+			rs = budgetAssetTotalService.saveOrUpdateBudgetAssetTotal(budgetAssetTotal);
 		}
 		catch (Exception e)
 		{
@@ -223,7 +221,7 @@ public class BudgetAssetTotalProviderClient
 		}
 		return rs;
 	}
-	@ApiOperation(value="资产公司预算-创建集团年度预算",notes="创建集团年度预算空白预算表")
+	@ApiOperation(value="资产公司预算-创建资产年度预算",notes="创建资产年度预算空白预算表")
 	@RequestMapping(value = "/stp-provider/budget/budget-create-blank-assettotal", method = RequestMethod.POST)
 	public Object createOrUpdateBudgetInfo(@RequestBody BudgetInfo info) 
 	{
@@ -232,7 +230,7 @@ public class BudgetAssetTotalProviderClient
 		try
 		{
 			info.setBudgetType(BudgetInfoEnum.ASSETS_TOTAL.getCode());
-			rsbean = budgetInfoService.createBlankBudgetInfo(info);
+			rsbean = budgetInfoService.createBlankBudgetInfo(info.getNd(),info);
 		}
 		catch (Exception e)
 		{
@@ -240,7 +238,7 @@ public class BudgetAssetTotalProviderClient
 		}
 		return rsbean;
 	}
-	@ApiOperation(value="资产公司预算-创建集团年度预算表",notes="根据模板创建集团年度预算表")
+	@ApiOperation(value="资产公司预算-创建资产年度预算表",notes="根据模板创建资产年度预算表")
 	@RequestMapping(value = "/stp-provider/budget/budget-create-template-assettotal", method = RequestMethod.POST)
 	public Object createOrUpdateBudgetInfoByHis(@RequestBody BudgetInfo info) 
 	{
@@ -252,7 +250,14 @@ public class BudgetAssetTotalProviderClient
 			BudgetInfo oldInfo = budgetInfoService.selectBudgetInfo(info.getDataId());
 			
 			
-			newInfo = budgetInfoService.createBlankBudgetInfo(oldInfo);
+			newInfo = budgetInfoService.createBlankBudgetInfo(info.getNd(),oldInfo);
+			
+			newInfo.setBudgetMoney(oldInfo.getBudgetMoney());
+			newInfo.setNd(info.getNd());
+			newInfo.setCreaterId(info.getCreaterId());
+			newInfo.setCreaterName(info.getCreaterName());
+			
+			budgetInfoService.updateBudgetInfo(newInfo);
 			//获取模板数据
 			List<BudgetAssetTotal> templates = budgetAssetTotalService.selectBudgetAssetTotalByInfoId(info.getDataId());
 			Map<String,String> idRel = new HashMap<String,String>();//新老ID对照
@@ -263,6 +268,7 @@ public class BudgetAssetTotalProviderClient
 				
 				total.setBudgetInfoId(newInfo.getDataId());
 				total.setDataVersion(newInfo.getDataVersion());
+				total.setNd(newInfo.getNd());
 				total.setDataId(newId);
 				total.setUpdateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
 				total.setCreateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
@@ -277,9 +283,6 @@ public class BudgetAssetTotalProviderClient
 					budgetAssetTotalService.updateBudgetAssetTotal(total);
 				}
 			}
-			newInfo.setBudgetMoney(oldInfo.getBudgetMoney());
-			budgetInfoService.updateBudgetInfo(newInfo);
-			System.out.println(JSON.toJSONString(newInfo));
 		}
 		catch (Exception e)
 		{
@@ -287,7 +290,7 @@ public class BudgetAssetTotalProviderClient
 		}
 		return newInfo;
 	}
-	@ApiOperation(value="资产公司预算-删除集团年度预算",notes="删除集团年度预算表（逻辑删除）")
+	@ApiOperation(value="资产公司预算-删除资产年度预算",notes="删除资产年度预算表（逻辑删除）")
 	@RequestMapping(value = "/stp-provider/budget/budget-assettotal-del", method = RequestMethod.POST)
 	public Object deleteBudgetAssetTotalInfo(@RequestBody BudgetInfo info) 
 	{
@@ -314,9 +317,9 @@ public class BudgetAssetTotalProviderClient
 		{
 			BudgetAssetTotal groupTotal = budgetAssetTotalService.selectBudgetAssetTotal(itemId);
 			if(groupTotal != null) {
-				List<BudgetAssetTotal> childGroups = budgetAssetTotalService.selectChildBudgetAssetTotal(itemId);
+				List<BudgetAssetTotal> childAssets = budgetAssetTotalService.selectChildBudgetAssetTotal(itemId);
 				List<Map<String,Object>> groupMaps = new ArrayList<Map<String,Object>>();
-				for(BudgetAssetTotal total:childGroups) {
+				for(BudgetAssetTotal total:childAssets) {
 					Map<String,Object> mp = MyBeanUtils.transBean2Map(total);
 					map.put("last_year_end", 0);
 					map.put("plan_money", 0);
@@ -415,8 +418,8 @@ public class BudgetAssetTotalProviderClient
 					BudgetAssetTotal old = oldmap.get(t.getDisplayName());
 					old.setDelFlag(DelFlagEnum.STATUS_NORMAL.getCode());
 					old.setUpdateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
-					//old.setXmjf(t.getXmjf());
-					//old.setZxjf(t.getZxjf());
+					old.setXmjf(t.getXmjf());
+					old.setYjwc(t.getYjwc());
 					old.setDisplayCode(t.getDisplayCode());
 					budgetAssetTotalService.updateBudgetAssetTotal(old);
 				}else{
@@ -437,9 +440,9 @@ public class BudgetAssetTotalProviderClient
 		}
 		return rs;
 	}
-	@ApiOperation(value="资产公司预算-检索集团公司",notes="检索集团公司列表")
+	@ApiOperation(value="资产公司预算-检索资产公司",notes="检索资产公司列表")
 	@RequestMapping(value = "/stp-provider/budget/search-asset-company-items", method = RequestMethod.POST)
-	public Object selectBudgetGroupCompanyItems() 
+	public Object selectBudgetAssetCompanyItems() 
 	{
 		logger.info("search-group-items...");
 		List<OutUnit> units = null;
@@ -453,9 +456,9 @@ public class BudgetAssetTotalProviderClient
 		}
 		return units;
 	}
-	@ApiOperation(value="资产公司预算-检索集团公司",notes="检索集团公司树")
+	@ApiOperation(value="资产公司预算-检索资产公司",notes="检索资产公司树")
 	@RequestMapping(value = "/stp-provider/budget/search-asset-company-tree", method = RequestMethod.POST)
-	public Object selectBudgetGroupCompanyTree() 
+	public Object selectBudgetAssetCompanyTree() 
 	{
 		logger.info("search-group-items...");
 		List<TreeNode> nodes = new ArrayList<TreeNode>();
@@ -487,8 +490,8 @@ public class BudgetAssetTotalProviderClient
 		{
 			BudgetAssetTotal groupTotal = budgetAssetTotalService.selectBudgetAssetTotal(dataId);
 			if(groupTotal != null) {
-				List<BudgetAssetTotal> childGroups = budgetAssetTotalService.selectChildBudgetAssetTotal(dataId);
-				for(BudgetAssetTotal total:childGroups) 
+				List<BudgetAssetTotal> childAssets = budgetAssetTotalService.selectChildBudgetAssetTotal(dataId);
+				for(BudgetAssetTotal total:childAssets) 
 				{
 					rs += budgetAssetTotalService.deleteBudgetAssetTotal(total.getDataId());
 				}
@@ -511,7 +514,7 @@ public class BudgetAssetTotalProviderClient
 			List<BudgetAssetTotal> rs = budgetAssetTotalService.selectAssetTotalHistoryItems(item);
 			for(BudgetAssetTotal total:rs) {
 				Map<String,Object> map  = MyBeanUtils.transBean2Map(total);
-				map.put("total", new Double(map.get("zxjf").toString())+new Double(map.get("xmjf").toString()));
+				map.put("total", new Double(map.get("yjwc").toString())+new Double(map.get("xmjf").toString()));
 				rsmap.add(map);
 			}
 		}
@@ -542,7 +545,7 @@ public class BudgetAssetTotalProviderClient
 		}
 		return rsmap;
 	}
-	@ApiOperation(value="资产公司预算-获取计划参考数据",notes="检索集团公司年度计划金额")
+	@ApiOperation(value="资产公司预算-获取计划参考数据",notes="检索资产公司年度计划金额")
 	@RequestMapping(value = "/stp-provider/budget/select-assettotal-compare-plan", method = RequestMethod.POST)
 	public Object selectBudgetAssetItemComparePlan(@RequestBody Map<String,Object> params) 
 	{
@@ -564,9 +567,9 @@ public class BudgetAssetTotalProviderClient
 		}
 		return plans;
 	}
-	@ApiOperation(value="资产公司预算-获取计划参考数据",notes="检索集团公司年度计划金额")
+	@ApiOperation(value="资产公司预算-获取计划参考数据",notes="检索资产公司年度计划金额")
 	@RequestMapping(value = "/stp-provider/budget/select-assettotal-compare-project", method = RequestMethod.POST)
-	public Object selectBudgetGroupItemCompareProject(@RequestBody Map<String,Object> params) 
+	public Object selectBudgetAssetItemCompareProject(@RequestBody Map<String,Object> params) 
 	{
 		String nd = params.get("nd").toString();
 		String code = params.get("code").toString();

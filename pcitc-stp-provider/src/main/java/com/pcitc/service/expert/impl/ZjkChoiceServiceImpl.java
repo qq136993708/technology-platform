@@ -11,15 +11,18 @@ import com.pcitc.base.common.enums.DelFlagEnum;
 import com.pcitc.base.common.TreeNode;
 import com.pcitc.base.expert.*;
 import com.pcitc.base.expert.ZjkChoiceExample;
+import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.IdUtil;
 import com.pcitc.base.util.StrUtil;
 import com.pcitc.base.util.TreeNodeUtil;
+import com.pcitc.common.MailBean;
 import com.pcitc.mapper.expert.ZjkChoiceMapper;
 import com.pcitc.service.expert.ZjkBaseInfoService;
 import com.pcitc.service.expert.ZjkChoiceService;
 import com.pcitc.service.expert.ZjkMsgConfigService;
 import com.pcitc.service.expert.ZjkMsgService;
 import com.pcitc.service.feign.SystemRemoteClient;
+import com.pcitc.service.msg.MailSentService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,10 +31,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -319,6 +319,9 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
     @Autowired
     private SystemRemoteClient systemRemoteClient;
 
+    @Autowired
+    private MailSentService mailSentService;
+
     @Override
     public LayuiTableData getUserChoiceTableData(LayuiTableParam param) {
         LayuiTableData data = new LayuiTableData();
@@ -326,6 +329,7 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
         String strProjectId = map.get("projectId").toString();//项目ID
         String strProjectConfigId = map.get("projectConfigId").toString();//项目阶段ID
         String strType = map.get("type").toString();//随机，固定，单位
+        String unitId = map.get("unitId").toString();//机构id
 
         //获取项目配置内容
         ZjkExtractConfig zjkExtractConfigInfo = systemRemoteClient.getZjkExtractConfigInfo(strProjectConfigId);
@@ -336,30 +340,89 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
         c.andStatusEqualTo("0");
         c.andSysFlagEqualTo("0");
         c.andDelFlagEqualTo("0");
+        c.andAuditStatusEqualTo("2");
+        //专家职称
         String expertProfessional = zjkExtractConfigInfo.getExpertProfessional();
         if (!StrUtil.isEmpty(expertProfessional)) {
-//            c.andExpertProfessionalFieldIn(Arrays.asList(expertProfessional.split(",")));
+            c.andExpertProfessinalIn(Arrays.asList(expertProfessional.split(",")));
         }
+        //抽取次数
+        String expertCount = zjkExtractConfigInfo.getExpertCount();
+        if (!"0".equals(expertCount)){
+            ZjkMsgExample zjkMsgExample = new ZjkMsgExample();
+            ZjkMsgExample.Criteria criteria = zjkMsgExample.createCriteria();
+            criteria.andIsCompleteEqualTo("ROOT_UNIVERSAL_WEHTHER_YES");
+            criteria.andStatusEqualTo(DateUtil.dateToStr(new Date(),DateUtil.FMT_YYYY));
+            List<ZjkMsg> zjkMsgs = zjkMsgService.selectByExample(zjkMsgExample);
+            Map<String, Long> collect = zjkMsgs.stream().collect(Collectors.groupingBy(ZjkMsg::getZjkId, Collectors.counting()));
+            List<String> expertStrings = new ArrayList<>();
+            for (Map.Entry<String,Long> entry:collect.entrySet()){
+                if (entry.getValue()>Long.valueOf(expertCount)){
+                    expertStrings.add(entry.getKey());
+                }
+            }
+            if (expertStrings.size()>0){
+                c.andDataIdNotIn(expertStrings);
+            }
+        }
+        //区域范围
         String expertArea = zjkExtractConfigInfo.getExpertArea();
         if (!StrUtil.isEmpty(expertArea)) {
 //            c.andProvinceIn(Arrays.asList(expertArea.split(",")));
         }
-//        随机选取：根据选择的项目阶段、专家人数，通过系统随机选取与该阶段对应的专家。
-//        固定选取：按照阶段、技术领域、级别、职称等维度，直接在系统中选取专家。
-//        单位选取：只选择某研究院，不指定具体专家，由研究院自行决定。
-//        根据抽取条件以及系统设定的抽取规则进行自动专家抽取，其中抽取规则包括在职/退休专家抽取频率、专家在一年内允许被抽取到的次数、间隔频率、抽取权重、单位回避等。
-
+        //规避本院
+        String companyAvoid = zjkExtractConfigInfo.getCompanyAvoid();
+        if ("ROOT_UNIVERSAL_WEHTHER_YES".equals(companyAvoid)){
+            c.andCompanyNotEqualTo(unitId);
+        }
+        //抽取人数不够的时候,给出提示,人数要凑够
         //判断类型
         if ("suiji".equals(strType)) {
             String strCount = map.get("count").toString();//数量
             List<ZjkExpert> experts = zjkBaseInfoService.selectByExample(example);
-            int[] s = StrUtil.randomCommon(0, experts.size(), Integer.parseInt(strCount));
-            List<ZjkExpert> expertsData = new ArrayList<>();
-            for (int i = 0; i < s.length; i++) {
-                expertsData.add(experts.get(s[i]));
+            int count = Integer.parseInt(strCount);
+
+            //专家数量>取值，正常操作
+            if (experts.size() > count) {
+                int[] s = StrUtil.randomCommon(0, experts.size(), count);
+                List<ZjkExpert> expertsData = new ArrayList<>();
+                for (int i = 0; i < count; i++) {
+                    expertsData.add(experts.get(s[i]));
+                }
+                data.setData(expertsData);
             }
-            data.setData(expertsData);
+            //专家数量<取值,取专家数据
+            else {
+                data.setData(experts);
+            }
+
         } else if ("guding".equals(strType)) {
+
+            Object expertName = param.getParam().get("expertName");
+            if (!StrUtil.isObjectEmpty(expertName)) {
+                c.andExpertNameLike("%" + expertName + "%");
+            }
+
+            Object expertProfessinal = param.getParam().get("expertProfessinal");
+            if (!StrUtil.isObjectEmpty(expertProfessinal)) {
+                c.andExpertProfessinalEqualTo(expertProfessinal.toString());
+            }
+
+            Object expertProfessionalField = param.getParam().get("expertProfessionalField");
+            if (!StrUtil.isObjectEmpty(expertProfessionalField)) {
+                c.andExpertProfessionalFieldEqualTo(expertProfessionalField.toString());
+            }
+
+            Object email = param.getParam().get("email");
+            if (!StrUtil.isObjectEmpty(email)) {
+                c.andEmailLike("%" + email + "%");
+            }
+
+            Object company = param.getParam().get("company");
+            if (!StrUtil.isObjectEmpty(company)) {
+                c.andCompanyEqualTo(company.toString());
+            }
+
             data = zjkBaseInfoService.findByExample(param, example);
         } else {
             Object expertId = map.get("expertId");
@@ -404,14 +467,29 @@ public class ZjkChoiceServiceImpl implements ZjkChoiceService {
             msg.setXmName(projectName);
             msg.setXmSteps(projectSteps);
             msg.setIsComplete("ROOT_UNIVERSAL_WEHTHER_NO");
+            msg.setSysFlag("ROOT_UNIVERSAL_WEHTHER_NO");
             msg.setCompleteType(type);
             msg.setZjkId(zjkChoice.get(i).getZjId());
             msg.setZjkName(zjkChoice.get(i).getBak2());
-            msg.setSysFlag("0");
+            msg.setStatus(DateUtil.dateToStr(new Date(),DateUtil.FMT_YYYY));
+            msg.setCreateDate(DateUtil.dateToStr(new Date(),DateUtil.FMT_DD));
             zjkMsgService.insert(msg);
         }
         //发送消息
+        try {
+//            List<String> emails = zjkChoice.stream().map(ZjkChoice::getBak3).collect(Collectors.toList());
+            for (int i = 0; i < j; i++) {
+                ZjkChoice obj = zjkChoice.get(i);
+                MailBean m = new MailBean();
+                m.setMailTitle("邀请参与项目评审");
+                m.setMailTo(obj.getBak3());
+                m.setMailContent("尊敬的" + obj.getBak2() + "你好：<br>&nbsp;nbsp;nbsp;nbsp;项目'" + obj.getXmName() + "'特邀您进行进行评审，评审日期:" + obj.getBak4() + "请及时回复是否能准时参加！！！联系方式：" + obj.getBak5() + "<br>&nbsp;&nbsp;&nbsp;&nbsp;谢谢");
+                System.out.println(m.getMailContent());
+                //                mailSentService.sentMail(m);
+            }
 
+        } catch (Exception e) {
+        }
         //返回
         return 200;
     }

@@ -1,7 +1,9 @@
 package com.pcitc.service.budget.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -94,7 +96,15 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 		c.andBudgetTypeEqualTo(new Integer(param.getParam().get("budget_type").toString()));
 		c.andNdEqualTo(param.getParam().get("nd").toString());
 		example.setOrderByClause("data_version");
-		return this.findByExample(param, example);
+		LayuiTableData data = this.findByExample(param, example);
+		List<Map<String,Object>> mapdata = new ArrayList<Map<String,Object>>();
+		for(java.util.Iterator<?> iter = data.getData().iterator();iter.hasNext();) {
+			Map<String,Object> map = MyBeanUtils.transBean2Map(iter.next());
+			map.put("status", BudgetAuditStatusEnum.getStatusByCode((Integer)map.get("auditStatus")).getDesc());
+			mapdata.add(map);
+		}
+		data.setData(mapdata);
+		return data;
 	}
 	private LayuiTableData findByExample(LayuiTableParam param,BudgetInfoExample example) 
 	{
@@ -118,12 +128,12 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 	}
 
 	@Override
-	public BudgetInfo createBlankBudgetInfo(BudgetInfo info)
+	public BudgetInfo createBlankBudgetInfo(String nd,BudgetInfo info)
 	{
 		BudgetInfo params = (BudgetInfo) MyBeanUtils.createDefaultModel(BudgetInfo.class);
 		params.setAuditStatus(BudgetAuditStatusEnum.AUDIT_STATUS_NO_START.getCode());
 		params.setBudgetType(info.getBudgetType());
-		params.setNd(info.getNd());
+		params.setNd(nd);
 		params.setBudgetMoney(0d);
 		params.setCreaterId(info.getCreaterId());
 		params.setDelFlag(DelFlagEnum.STATUS_NORMAL.getCode());
@@ -133,11 +143,11 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 		BudgetInfoExample example = new BudgetInfoExample();
 		BudgetInfoExample.Criteria c = example.createCriteria();
 		c.andBudgetTypeEqualTo(info.getBudgetType());
-		c.andNdEqualTo(info.getNd());
+		c.andNdEqualTo(nd);
 		Integer size = budgetInfoMapper.selectByExample(example).size();
 		
 		
-		params.setDataVersion("vs-"+info.getNd()+"-"+info.getBudgetType()+"-"+((1001+size)+"").substring(1));
+		params.setDataVersion("vs-"+nd+"-"+info.getBudgetType()+"-"+((1001+size)+"").substring(1));
 		budgetInfoMapper.insert(params);
 		return params;
 	}

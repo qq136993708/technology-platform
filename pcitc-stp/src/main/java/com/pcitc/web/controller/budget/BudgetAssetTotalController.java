@@ -23,7 +23,6 @@ import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
-import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.http.HttpEntity;
@@ -100,7 +99,8 @@ public class BudgetAssetTotalController extends BaseController {
 	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_create_assettotal")
 	public Object toBudgetAssetAddPage(HttpServletRequest request) throws IOException 
 	{
-		request.setAttribute("nd", DateUtil.format(new Date(), DateUtil.FMT_YYYY));
+		//request.setAttribute("nd", DateUtil.format(new Date(), DateUtil.FMT_YYYY));
+		request.setAttribute("nd", request.getParameter("nd"));
 		return "stp/budget/budget_create_assettotal";
 	}
 	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_history_compare_assettotal")
@@ -120,7 +120,7 @@ public class BudgetAssetTotalController extends BaseController {
 		String budgetInfoId = request.getParameter("budgetInfoId");
 		request.setAttribute("budgetInfoId", budgetInfoId);
 		request.setAttribute("tb_datas", infors.getBody());
-		request.setAttribute("nd", DateUtil.format(new Date(), DateUtil.FMT_YYYY));
+		//request.setAttribute("nd", DateUtil.format(new Date(), DateUtil.FMT_YYYY));
 		return "stp/budget/budget_history_view_assettotal";
 	}
 	
@@ -392,14 +392,17 @@ public class BudgetAssetTotalController extends BaseController {
 			InputStream is = new FileInputStream(template);
 			workbook = new XSSFWorkbook(is);
 			sheet = workbook.getSheetAt(0);
+			
+			Integer nd = Integer.parseInt(param.get("nd"));
 			//处理标题 年度
 			String title = readCell(sheet.getRow(0).getCell(0));
-			sheet.getRow(0).getCell(0).setCellValue(title.replace("${nd}", param.get("nd")));
-			
-			//从第五行开始，第五行是测试数据
-			Row templateRow = sheet.getRow(4);
-			Double total_xmjf = 0d;
-			Double total_zxjf = 0d;
+			String itemTitleYjwc = readCell(sheet.getRow(2).getCell(3));
+			String itemTitleXmjf = readCell(sheet.getRow(2).getCell(4));
+			sheet.getRow(0).getCell(0).setCellValue(title.replace("${nd}", nd.toString()));
+			sheet.getRow(2).getCell(3).setCellValue(itemTitleYjwc.replace("${yd}", new Integer(nd-1).toString()));
+			sheet.getRow(2).getCell(4).setCellValue(itemTitleXmjf.replace("${nd}", nd.toString()));
+			//从第四行开始，第四行是测试数据
+			Row templateRow = sheet.getRow(3);
 			
 			//水平，垂直居中
 			CellStyle centerStyle =workbook.createCellStyle();
@@ -421,45 +424,30 @@ public class BudgetAssetTotalController extends BaseController {
 				
 				Integer no = (Integer)list.get(i).get("no");
 				String displayName = list.get(i).get("displayName").toString();
-				//String remark = list.get(i).get("remark").toString();
-				Double total = (Double)list.get(i).get("total");
+				String remark = list.get(i).get("remark").toString();
+				//Double total = (Double)list.get(i).get("total");
 				Double xmjf = (Double)list.get(i).get("xmjf");
-				Double zxjf = (Double)list.get(i).get("zxjf");
-				total_xmjf += xmjf;
-				total_zxjf += zxjf;
+				Double yjwc = (Double)list.get(i).get("yjwc");
 				
 				
-				Row crow = sheet.getRow(i+4);
+				
+				Row crow = sheet.getRow(i+3);
 				crow.createCell(0).setCellValue(no);
 				crow.createCell(1).setCellValue(displayName);
-				//crow.createCell(2).setCellValue(remark);
-				crow.createCell(2).setCellValue(total);
-				crow.createCell(3).setCellValue(xmjf);
-				crow.createCell(4).setCellValue(zxjf);
+				crow.createCell(2).setCellValue(remark);
+				//crow.createCell(2).setCellValue(total);
+				crow.createCell(3).setCellValue(yjwc);
+				crow.createCell(4).setCellValue(xmjf);
 				
 				crow.getCell(0).setCellStyle(centerStyle);
 				crow.getCell(1).setCellStyle(leftCenterStyle);
 				//crow.getCell(2).setCellStyle(leftCenterStyle);
-				crow.getCell(2).setCellStyle(rightCenterStyle);
+				crow.getCell(2).setCellStyle(leftCenterStyle);
 				crow.getCell(3).setCellStyle(rightCenterStyle);
 				crow.getCell(4).setCellStyle(rightCenterStyle);
 			}
-			//汇总数据
-			Row totalrow =sheet.getRow(list.size()+4);
-			totalrow.createCell(0).setCellValue("合计");
-			totalrow.createCell(1).setCellValue("");
-			totalrow.createCell(2).setCellValue(total_xmjf+total_zxjf);
-			totalrow.createCell(3).setCellValue(total_xmjf);
-			totalrow.createCell(4).setCellValue(total_zxjf);
-			//设置格式
-			totalrow.getCell(0).setCellStyle(centerStyle);
-			totalrow.getCell(1).setCellStyle(centerStyle);
-			totalrow.getCell(2).setCellStyle(rightCenterStyle);
-			totalrow.getCell(3).setCellStyle(rightCenterStyle);
-			totalrow.getCell(4).setCellStyle(rightCenterStyle);
-			
 			//合计单元格合并
-			sheet.addMergedRegion(new CellRangeAddress(list.size()+4,list.size()+4,0,1));
+			//sheet.addMergedRegion(new CellRangeAddress(list.size()+4,list.size()+4,0,1));
 			//写入新文件
 			FileOutputStream fos  = new FileOutputStream(outFile);
 			workbook.write(fos);

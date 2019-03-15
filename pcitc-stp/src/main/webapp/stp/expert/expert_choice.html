@@ -6,8 +6,10 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/ztree/css/metroStyle/metroStyle.css">
     <script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
     <script src="/layuiadmin/layui/layui.js"></script>
+    <script type="text/javascript" src="/common/js/base.js"></script>
     <style>
         .layui-tab-item {
             margin-top: 15px;
@@ -16,6 +18,32 @@
         .layui-tab-title .layui-this:after {
             height: 38px;
         }
+
+        .layui-btn-blue {
+            margin-bottom: 7px;
+            margin-left: 10px;
+        }
+
+
+        .searchBox {
+            height: auto !important;
+            text-align: left;
+            margin-bottom: 10px;
+        }
+
+        .layui-form-select {
+            width: 15%;
+            display: inline-block;
+            margin-right: 10px;
+            position: relative;
+        }
+
+        .btnGroup input {
+            margin-bottom: 0px;
+        }
+        .box-body{margin-bottom: 10px;}
+        .layui-select-title input,.dateInput input{height: 26px;}
+        .layui-form-select dl{top:26px;}
     </style>
 </head>
 <body>
@@ -23,7 +51,7 @@
     <form class="layui-form" action="" lay-filter="component-form-group layui-container">
         <div class="box-body">
             <div class="layui-form-item">
-                <label class="layui-form-label">项目阶段<!--<span class="must-fill">*</span>--></label>
+                <label class="layui-form-label">项目阶段</label>
                 <div class="layui-input-block">
                     <input type="radio" name="option" value="ROOT_XTGL_XMJD_XMJH" title="项目计划">
                     <input type="radio" name="option" value="ROOT_XTGL_XMJD_XMLX" title="项目立项" checked>
@@ -35,98 +63,206 @@
                     <input type="radio" name="option" value="ROOT_XTGL_XMJD_JLPS" title="奖励评审">
                     <input type="radio" name="option" value="ROOT_XTGL_XMJD_HPG" title="后评估">
                 </div>
-                <div>
-                    <input type="hidden" id="count" name="count" value="10"/>
-                    <input type="hidden" id="stype" name="stype" value="suiji"/>
+            </div>
+            <div class="layui-row">
+                <div class="layui-col-xs3 layui-col-sm3 layui-col-md3">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">评审日期</label>
+                        <div class="layui-input-block">
+                            <input type="date" id="bak4" class="layui-input garlic-auto-save" name="bak4" data-format="yyyy-MM-dd"/>
+                        </div>
+                    </div>
                 </div>
-                <div class="layui-tab layui-tab-brief" style="margin-left: 84px;" lay-filter="component-tabs-brief">
-                    <ul class="layui-tab-title">
-                        <li class="layui-this" onclick="changeStype('suiji');">随机选取</li>
-                        <li class="" onclick="changeStype('guding');">固定选取</li>
-                        <li class="" onclick="changeStype('dw');">单位选取</li>
-                    </ul>
-                    <div class="layui-tab-content">
-                        <div class="layui-tab-item layui-show">
-                            <!--加入对比,加入备选,加入项目,加入zjk_project_expert,类型,加入人,-->
-                            <input type="button" value="换一批" onclick="renderTable()">
-                            <input type="button" value="确定" onclick="okEvent()">
-                            <table id="expertTable" class="layui-hide" lay-filter="expertTable"></table>
-                        </div>
-                        <div class="layui-tab-item">
-                            <!--加入对比,加入备选,加入项目,加入zjk_project_expert,类型,加入人,-->
-                        </div>
-                        <div class="layui-tab-item">
-                            <!--加入对比,加入备选,加入项目,加入zjk_project_expert,类型,加入人,单位代码，-->
+                <div class="layui-col-xs3 layui-col-sm3 layui-col-md3">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">联系方式</label>
+                        <div class="layui-input-block">
+                            <input type="text" id="bak5" class="layui-input garlic-auto-save" name="bak5" value=""/>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </form>
+        <div>
+            <input type="hidden" id="stype" name="stype" value="suiji"/>
+        </div>
+        <div class="layui-tab layui-tab-brief" style="margin:0 auto;width: 90%;" lay-filter="component-tabs-brief">
+            <ul class="layui-tab-title">
+                <li class="layui-this" onclick="changeStype('suiji');">随机选取</li>
+                <li class="" onclick="changeStype('guding');">固定选取</li>
+                <!--<li class="" onclick="changeStype('dw');">单位选取</li>-->
+            </ul>
+            <div class="layui-tab-content">
+                <div id="qq" class="layui-tab-item layui-show">
+                    <!--加入对比,加入备选,加入项目,加入zjk_project_expert,类型,加入人,-->
+                    <!--查询条件-->
+                    <label class="dateInput">
+                        <span>机构</span>
+                        <div class="layui-form-select select-tree">
+                            <div id="companyDiv" ></div>
+                        </div>
+                        <span>技术领域</span>
+                        <select name="expertProfessionalFieldsj" id="expertProfessionalFieldsj" lay-filter="expertProfessionalFieldsj">
+                            <option value="">请选择</option>
+                        </select>
+                        <span>人数</span>
+                        <input type="number" id="count" name="count" title="专家姓名" value="10"
+                               autocomplete="off" class="layui-input" style="    width: 10%;display: inline-block;">
+                    </label>
+                    <input type="button" class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" value="换一批" onclick="renderTable()">
+                    <input type="button" value="确定" class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" onclick="okEvent()">
+                    <div style="height: 10px;"></div>
+                    <table id="expertTable" class="layui-hide" lay-filter="expertTable"></table>
+                </div>
+                <div id="ww" class="layui-tab-item">
+                    <div class="searchBox">
+                        <!--查询条件-->
+                        <label class="dateInput">
+                            <span>机构</span>
+                            <div  class="layui-form-select select-tree">
+                                <div id="company1Div"></div>
+                            </div>
+                            <span>职称</span>
+                            <select name="expertProfessinal" id="expertProfessinal" lay-filter="expertProfessinal">
+                                <option value="">请选择</option>
+                            </select>
+                            <span>技术领域</span>
+                            <select name="expertProfessionalField" id="expertProfessionalField" lay-filter="expertProfessionalField">
+                                <option value="">请选择</option>
+                            </select>
+
+                            <!--<span>专家姓名</span>-->
+                            <!--<input type="text" id="expertName" name="expertName" placeholder="请输入专家姓名" title="专家姓名" autocomplete="off" class="form-control">-->
+                        </label>
+
+                        <!--<label class="dateInput">-->
+
+                        <!--<span>邮箱</span>-->
+                        <!--<input type="text" id="email" name="email" placeholder="请输入邮箱" title="邮箱" autocomplete="off" class="form-control">-->
+                        <!--</label>-->
+                        <!--按钮组-->
+                        <div class="btnGroup">
+                            <input type="button" value="查询" class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" onclick="searchGd()">
+                            <input type="button" value="确定" class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" onclick="okEvent()">
+                        </div>
+                    </div>
+                    <table id="expertTableGd" class="layui-hide" lay-filter="expertTableGd"></table>
+                    <!--加入对比,加入备选,加入项目,加入zjk_project_expert,类型,加入人,-->
+                </div>
+                <div id="ee" class="layui-tab-item">
+                    <input type="button" value="确定" class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" onclick="okEvent()">
+                    <table id="expertTableDw" class="layui-hide" lay-filter="expertTableDw"></table>
+                    <!--加入对比,加入备选,加入项目,加入zjk_project_expert,类型,加入人,单位代码，-->
+                </div>
+            </div>
+        </div>
 </div>
+</div>
+</form>
+</div>
+<script>
+    ajaxPost('/dictionary/list/ZJK_ZYFL', null, function (data, status) {//专业领域
+        $.each(data, function (i, dt) {
+            $("#expertProfessionalFieldsj").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
+            $("#expertProfessionalField").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
+        });
+    });
+    ajaxPost('/dictionary/list/ZJK_ZCXX', null, function (data, status) {//职称
+        $.each(data, function (i, dt) {
+            $("#expertProfessinal").append("<option value='" + data[i].code + "'>" + data[i].name + "</option>");
+        });
+    });
+</script>
 <script>
     var projectName = "${projectName}";
     var projectId = "${projectId}";
-
-    console.log("项目名称："+projectName);
+    var unitCode = "${unitCode}";
 
     function okEvent() {
-        console.log("ok");
-        console.log(active.getCheckData());
-        // console.log(selectRowData);
         //点击编辑按钮
-        if (!selectRowData) {
-            layer.msg('请选择数据!');
-            return;
-        }
-        //获取选中人员信息
-        // var stype = $("#stype").val();
-        // var plist = [];
-        // if (stype == "suiji") {
-        //     for (let i = 0; i < selectRowData.length; i++) {
-        //         var p = {};
-        //         var obj = selectRowData[i];
-        //         p.xmId = projectId;
-        //         p.xmName = projectName;
-        //         p.companyId = obj.company;
-        //         p.companyName = obj.companyName;
-        //         p.status="2";
-        //         p.zjId = obj.dataId;
-        //         p.bak1 = $('input[name="option"]:checked').val();
-        //         p.bak2 = obj.expertName;
-        //         plist.push(p);
-        //     }
-        //     console.log("----------------");
-        //     console.log(plist);
-        //     //保存
-        //     $.ajax({
-        //         type: 'post',
-        //         dataType: 'json',
-        //         data: {'param': JSON.stringify(plist)},
-        //         url: '/expertController/addChoiceList',
-        //         success: function (data) {
-        //             if (data == 200) {
-        //                 // var index = parent.layer.getFrameIndex(window.name);
-        //                 // parent.layer.close(index);
-        //                 // parent.layer.msg("提交成功");
-        //                 // parent.layui.table.reload('expertTable', {});
-        //             }
-        //         },
-        //         error: function (e) {
-        //             modals.info("出错了");
-        //             console.log(e);
-        //         }
-        //     });
-        // } else if (stype == "guding") {
-        //
-        // } else {
-        //
+        // if (!selectRowData) {
+        //     layer.msg('请选择数据!');
+        //     return;
         // }
+        //获取选中人员信息
+        var bak4 = $("#bak4").val();
+        var bak5 = $("#bak5").val();
 
-        // var index = parent.layer.getFrameIndex(window.name);
-        // parent.layer.close(index);
+
+        var stype = $("#stype").val();
+        var plist = [];
+        if (stype == "suiji") {
+            var sel = active.getCheckData('expertTable');
+            if (!sel || sel.length == 0) {
+                layer.msg('请选择数据!');
+                return;
+            }
+            for (let i = 0; i < sel.length; i++) {
+                var p = {};
+                var obj = sel[i];
+                p.xmId = projectId;
+                p.xmName = projectName;
+                p.companyId = obj.company;
+                p.companyName = obj.companyName;
+                p.status = "2";
+                p.zjId = obj.dataId;
+                p.bak1 = $('input[name="option"]:checked').val();
+                p.bak2 = obj.expertName;
+                // p.bak3 = "635447170@qq.com";
+                p.bak3 = obj.email;
+                p.bak4 = bak4;
+                p.bak5 = bak5;
+                plist.push(p);
+            }
+        } else if (stype == "guding") {
+            var sel = active.getCheckData('expertTableGd');
+            if (!sel || sel.length == 0) {
+                layer.msg('请选择数据!');
+                return;
+            }
+            for (let i = 0; i < sel.length; i++) {
+                var p = {};
+                var obj = sel[i];
+                p.xmId = projectId;
+                p.xmName = projectName;
+                p.companyId = obj.company;
+                p.companyName = obj.companyName;
+                p.status = "2";
+                p.zjId = obj.dataId;
+                p.bak1 = $('input[name="option"]:checked').val();
+                p.bak2 = obj.expertName;
+                // p.bak3 = "635447170@qq.com";
+                p.bak3 = obj.email;
+                p.bak4 = bak4;
+                p.bak5 = bak5;
+                plist.push(p);
+            }
+        } else {
+
+        }
+        //保存
+        $.ajax({
+            type: 'post',
+            dataType: 'json',
+            data: {'param': JSON.stringify(plist)},
+            url: '/expertController/addChoiceList',
+            success: function (data) {
+                if (data == 200) {
+                    // var index = parent.layer.getFrameIndex(window.name);
+                    // parent.layer.close(index);
+                    // parent.layer.msg("提交成功");
+                    // parent.layui.table.reload('expertTable', {});
+                }
+            },
+            error: function (e) {
+                modals.info("出错了");
+            }
+        });
+        var index = parent.layer.getFrameIndex(window.name);
+        parent.layer.close(index);
 
     }
+
     //zhuan huan
     var map = {};
     map['ROOT_XTGL_XMJD_XMLX'] = '168db5b7282_7ed760ca';
@@ -142,66 +278,96 @@
     //改变状态
     function changeStype(f) {
         $("#stype").val(f);
+        // if ((f=="suiji")){
+        //     renderTable()
+        // }else if(f == "guding"){
+        //     renderTableGd();
+        // }
     }
 
-    var table, selectRowData = '',active;
+    function searchGd() {
+        renderTableGd();
+    }
+
+    var table, selectRowData = '', active;
     layui.use(['jquery', 'table', 'laydate', 'form', 'laytpl', 'element', 'publicMethods'], function () {
         table = layui.table;
         var $ = layui.jquery, laydate = layui.laydate, form = layui.element, element = layui.element, publicMethods = layui.publicMethods;
+        var param = JSON.parse(window.localStorage.getItem("param"));
+        var cols = [
+            {type: 'checkbox', event: 'changeEvents', width: 55},
+            {title: '序号', type: 'numbers', width: 55},
+            {
+                field: 'expertName',
+                title: '姓名',
+                event: 'setActive',
+                align: 'left',
+                style: 'cursor: pointer;',
+                width: 120
+            },
+            {
+                field: "sex",
+                title: "性别", event: 'setActive', style: 'cursor: pointer;'
+            },
+            {
+                field: "age",
+                title: "年龄", event: 'setActive', style: 'cursor: pointer;', align: "right"
+            },
+            {
+                field: 'email',
+                title: '邮箱',
+                event: 'setActive',
+                align: 'left',
+                style: 'cursor: pointer;',
+                width: 150,
+            },
+            {field: "mobile", title: "联系方式", event: 'setActive', style: 'cursor: pointer;'},
+            // {fixed: 'right', title: '查看', toolbar: '#showDetail', width: 150, align: 'center'}
+        ];
 
         function renderTable() {
-            var param = JSON.parse(window.localStorage.getItem("param"));
-            //渲染
-            var cols = [
-                {type: 'checkbox', event: 'changeEvents', width: 55},
-                {title: '序号', type: 'numbers', width: 55},
-                {
-                    field: 'expertName',
-                    title: '姓名',
-                    event: 'setActive',
-                    align: 'left',
-                    style: 'cursor: pointer;',
-                    width: 120
-                },
-                {
-                    field: "sex",
-                    title: "性别", event: 'setActive', style: 'cursor: pointer;'
-                },
-                {
-                    field: "age",
-                    title: "年龄", event: 'setActive', style: 'cursor: pointer;', align: "right"
-                },
-                {
-                    field: 'email',
-                    title: '邮箱',
-                    event: 'setActive',
-                    align: 'left',
-                    style: 'cursor: pointer;',
-                    width: 150,
-                },
-                {field: "mobile",title: "联系方式", event: 'setActive', style: 'cursor: pointer;'},
-                // {fixed: 'right', title: '查看', toolbar: '#showDetail', width: 150, align: 'center'}
-            ];
-            var where = {param:{
+            var where = {
+                param: {
+                    "expertProfessinal": $("#expertProfessionalFieldsj").val(),
                     "projectId": "${projectId}"
                     , "type": $("#stype").val()
                     , "count": $("#count").val()
-                    , "projectConfigId":"168db5b7282_7ed760ca"// map[$('input[name="option"]:checked').val()]// "168db5b7282_7ed760ca"
+                    ,"unitId": unitCodeVal
+                    , "company": $("#companyDivValue").val()
+                    , "projectConfigId": map[$('input[name="option"]:checked').val()]// map[$('input[name="option"]:checked').val()]// "168db5b7282_7ed760ca"
                     // ,"projectConfigId":$("#projectConfigId").val()
-                }};
+                }
+            };
             publicMethods.tableRender('expertTable', 'expertTable', '/expertController/getUserChoiceTableData', false, cols, where, false, function (res, curr, count) {
-                // $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
-                    // var index = parseInt($(this).index() + 1);
-                    // $('tr').removeClass('layui-table-click');
-                    // $(this).addClass('layui-table-click');
-                    // $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
-                    // $('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
-                    // selectRowData = res.data;
-                    // selectRowData = res.data[index - 1];
-                // });
                 var param = {
                     data: res.data,//数据
-                    element: ".layui-table-body table",// 当前的表格元素
+                    element: "#qq .layui-table-body table",// 当前的表格元素
+                    column: 3,//列数 从0开始
+                    field: "sex",//当前数据的字段
+                    url: "/pageCommon/dic/ROOT_UNIVERSAL_XB"//接口
+                };
+                publicMethods.dataDictionary(param);
+            });
+        }
+
+        function renderTableGd() {
+            var where = {
+                param: {
+                    "expertProfessinal": $("#expertProfessinal").val(),
+                    "expertProfessionalField": $("#expertProfessionalField").val(),
+                    "projectId": "${projectId}"
+                        ,"unitId": unitCodeVal
+                    , "type": "guding"
+                    , "company": $("#company1DivValue").val()
+                    , "count": $("#count").val()
+                    , "projectConfigId": map[$('input[name="option"]:checked').val()]// map[$('input[name="option"]:checked').val()]// "168db5b7282_7ed760ca"
+                    // ,"projectConfigId":$("#projectConfigId").val()
+                }
+            };
+            publicMethods.tableRender('expertTableGd', 'expertTableGd', '/expertController/getUserChoiceTableData', false, cols, where, true, function (res, curr, count) {
+                var param = {
+                    data: res.data,//数据
+                    element: "#ww .layui-table-body table",// 当前的表格元素
                     column: 3,//列数 从0开始
                     field: "sex",//当前数据的字段
                     url: "/pageCommon/dic/ROOT_UNIVERSAL_XB"//接口
@@ -229,16 +395,17 @@
         });
 
         renderTable();
+        renderTableGd();
         window.renderTable = renderTable;
+        window.renderTableGd = renderTableGd;
+
         // ** 搜索框宽度随着内容自适应 加到公用js中
         $(function () {
             //propertychange监听input里面的字符变化,属性改变事件
             $('.form-control').bind('input propertychange', function () {
                 var $this = $(this);
-                console.log($this);
                 var text_length = $this.val().length;//获取当前文本框的长度
                 var current_width = parseInt(text_length) * 12;//该16是改变前的宽度除以当前字符串的长度,算出每个字符的长度
-                console.log(current_width)
                 $this.css("width", current_width + "px");
             });
         })
@@ -255,10 +422,11 @@
             resetEvent: function () { //点击重置按钮
                 $('#workOrderName').val("");
             },
-            getCheckData: function () { //获取选中数据
-                var checkStatus = table.checkStatus('expertTable')
+            getCheckData: function (tableId) { //获取选中数据
+                var checkStatus = table.checkStatus(tableId)
                     , data = checkStatus.data;
-                layer.alert(JSON.stringify(data));
+                return data;
+                // layer.alert(JSON.stringify(data));
             },
             getCheckLength: function () { //获取选中数目
                 var checkStatus = table.checkStatus('expertTable')
@@ -297,10 +465,52 @@
             // record.companyName = selectRowData.companyName;
             record.zjId = selectRowData.dataId;
             publicMethods.ajaxPost("/expertController/addChoice", record, function (data) {
-                console.log(data);
                 layer.msg("操作成功");
             });
         });
+    });
+</script>
+<script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.all.js"></script>
+<script type="text/javascript" src="/layuiadmin/modules/selectTree.js"></script>
+<script>
+    var zNodes;
+    var unitCodeVal = "";
+    $(function () {
+        $.ajax({
+            url: "/unit/ztree-unit-list",//这个就是请求地址对应sAjaxSource
+            type: 'get',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            dataType: 'json',
+            async: false,
+            success: function (data) {
+                zNodes = data;
+                for (var i = 0,z_leng = zNodes.length; i <z_leng ; i++) {
+                    if (unitCode==zNodes[i].text){
+                        unitCodeVal = zNodes[i].id;
+                    }
+                }
+            },
+            error: function (msg) {
+                layer.msg(msg);
+            }
+        });
+    });
+
+    // 下拉树初始化
+    $(document).ready(function () {
+        /*
+         * initSelectTree参数：
+         * 参数1：div的id，
+         * 参数2：isMultiple 是否多选(true或false),
+         * 参数3：是否显示连接线(true或false),
+         * 参数4：是否显示图标(true或false),
+         *
+         */
+        initSelectTree("companyDiv", false, true, false);
+        initSelectTree("company1Div", false, true, false);
+        initHideMenu(); //不加此方法则默认打开下拉树
     });
 </script>
 </body>

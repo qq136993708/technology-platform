@@ -40,8 +40,9 @@
     <script type="text/javascript">
         layui.use(['jquery','jqZtreeCore','table','laydate','layer','publicMethods'], function () {
         	var $ = layui.jquery, table = layui.table, laydate = layui.laydate, layer = layui.layer,publicMethods=layui.publicMethods; 
-            var zTreeObj,unitCode,treeData,sTreeObj,nodes,treeDataMap={};
+            var zTreeObj,treeData,sTreeObj,nodes,treeDataMap={};
             var searchTreeData = [];
+            var company_type = "${company}";
         	var setting = 
         	{
         		check: { enable: true, chkStyle: "radio", radioType: "all" },//单选按钮
@@ -49,18 +50,18 @@
         	    callback: {onClick: onClickMenu}
         	};
         	function onClickMenu(event,treeId,treeNode,clickFlag) {
-        		
-        		unitCode = treeNode.id;
         		zTreeObj.checkNode(treeNode);
-        		
-        		var n = "";
+        		/* if(treeNode.checked){
+        			parent.addUnitToTable(treeNode);
+        		} */
+        		/* var n = "";
         		nodes=zTreeObj.getCheckedNodes(true);
                 for(var i=0;i<nodes.length;i++){
                     n+=nodes[i].name + ",";
                 }
-                console.log(n)//获取选中节点的值 
+                console.log(n)//获取选中节点的值  */
         	}
-            publicMethods.ajaxPost("/budget/search-group-company-tree",null, function (dt) {
+            publicMethods.ajaxPost("/budget/"+company_type,null, function (dt) {
             	treeData = dt;
             	$.each(dt,function(index,d){
             		treeDataMap[d.id]=d;
@@ -91,8 +92,14 @@
         	});
             // 点击重置按钮时清空勾选的状态
             $('#sub').click(function(){
-            	  var index = parent.layer.getFrameIndex(window.name);
-                  parent.layer.close(index);
+            	var nodes = zTreeObj.getCheckedNodes();
+            	if(nodes.length >0){
+					//添加数据
+            		parent.createTableData(nodes[0]);
+            		parent.layui.table.reload('dataTable', {data : parent.viewObj.tbData});
+            	}
+            	var index = parent.layer.getFrameIndex(window.name);
+                parent.layer.close(index);
             });
             $('#cancel').click(function(){
           	  var index = parent.layer.getFrameIndex(window.name);

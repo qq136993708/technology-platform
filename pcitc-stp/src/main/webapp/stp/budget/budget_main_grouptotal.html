@@ -110,16 +110,16 @@
     </div>
     <div class="content-box">
         <div class="items">
-            状态: <span id="info_status" style="color: red">编制中</span>
+            状态: <span id="info_status" style="color: red">&nbsp;</span>
         </div>
         <div class="items">
-            创建人: <span id="creater_name" style="color: red">刘美</span>
+            创建人: <span id="creater_name" style="color: red">&nbsp;</span>
         </div>
         <div class="items">
-            创建日期: <span id="create_time" style="color: red">2019-01-20 09:01:00</span>
+            创建日期: <span id="create_time" style="color: red">&nbsp;</span>
         </div>
         <div class="items">
-            最后更新: <span id="update_time" style="color: red">2019-01-24 18:05:01</span>
+            最后更新: <span id="update_time" style="color: red">&nbsp;</span>
         </div>
     </div>
     <div class="doc-box">
@@ -202,7 +202,7 @@
 			//初始化时间选择
 			function initDateView(){
 				$(".nd").html(cu_date);
-            	$('.layui-table-cell.laytable-cell-group').find('span').text(cu_date+"年度经费预算");
+            	$('.layui-table-cell .laytable-cell-group').find('span').text(cu_date+"年度经费预算");
             	$(".layui-table-header .layui-table").find('th').eq(3).find('span').text((cu_date-1)+"年科技经费预算完成");
             	$(".layui-table-header .layui-table").find('th').eq(4).find('span').text(cu_date+"年科技经费合同计划金额");
 			}
@@ -277,7 +277,7 @@
                         , maxmin: false
                         //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
                         , area: ['80%', '90%']
-                        , content: '/budget/budget_create_grouptotal'
+                        , content: '/budget/budget_create_grouptotal?nd='+cu_date
                     });
                 },
                 addEvent: function() {

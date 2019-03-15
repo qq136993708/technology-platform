@@ -96,10 +96,8 @@ public class BudgetGroupTotalProviderClient
 		LayuiTableData data = null;
 		try
 		{
-			System.out.println(JSON.toJSONString(param));
 			param.getParam().put("budget_type", BudgetInfoEnum.GROUP_TOTAL.getCode());
 			data = budgetInfoService.selectBudgetInfoPage(param);
-			System.out.println(JSON.toJSONString(data));
 			return data;
 		}
 		catch (Exception e)
@@ -233,7 +231,7 @@ public class BudgetGroupTotalProviderClient
 		try
 		{
 			info.setBudgetType(BudgetInfoEnum.GROUP_TOTAL.getCode());
-			rsbean = budgetInfoService.createBlankBudgetInfo(info);
+			rsbean = budgetInfoService.createBlankBudgetInfo(info.getNd(),info);
 		}
 		catch (Exception e)
 		{
@@ -252,7 +250,15 @@ public class BudgetGroupTotalProviderClient
 			//System.out.println(JSON.toJSONString(info.getNd()));
 			BudgetInfo oldInfo = budgetInfoService.selectBudgetInfo(info.getDataId());
 			
-			newInfo = budgetInfoService.createBlankBudgetInfo(oldInfo);
+			newInfo = budgetInfoService.createBlankBudgetInfo(info.getNd(),oldInfo);
+			
+			newInfo.setBudgetMoney(oldInfo.getBudgetMoney());
+			newInfo.setNd(info.getNd());
+			newInfo.setCreaterId(info.getCreaterId());
+			newInfo.setCreaterName(info.getCreaterName());
+			
+			budgetInfoService.updateBudgetInfo(newInfo);
+			
 			//获取模板数据
 			List<BudgetGroupTotal> templates = budgetGroupTotalService.selectBudgetGroupTotalByInfoId(info.getDataId());
 			Map<String,String> idRel = new HashMap<String,String>();//新老ID对照
@@ -263,6 +269,7 @@ public class BudgetGroupTotalProviderClient
 				
 				total.setBudgetInfoId(newInfo.getDataId());
 				total.setDataVersion(newInfo.getDataVersion());
+				total.setNd(newInfo.getNd());
 				total.setDataId(newId);
 				total.setUpdateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
 				total.setCreateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
@@ -277,9 +284,6 @@ public class BudgetGroupTotalProviderClient
 					budgetGroupTotalService.updateBudgetGroupTotal(total);
 				}
 			}
-			newInfo.setBudgetMoney(oldInfo.getBudgetMoney());
-			budgetInfoService.updateBudgetInfo(newInfo);
-			System.out.println(JSON.toJSONString(newInfo));
 		}
 		catch (Exception e)
 		{
@@ -533,7 +537,14 @@ public class BudgetGroupTotalProviderClient
 			for(BudgetInfo info:rs) {
 				List<BudgetGroupTotal> totals = budgetGroupTotalService.selectBudgetInfoId(info.getDataId());
 				Map<String,Object> map  = MyBeanUtils.transBean2Map(info);
-				map.put("items", totals);
+				
+				List<Map<String,Object>> items = new ArrayList<Map<String,Object>>();
+				for(BudgetGroupTotal total:totals) {
+					Map<String,Object> mp  = MyBeanUtils.transBean2Map(total);
+					mp.put("total", new Double(mp.get("zxjf").toString())+new Double(mp.get("xmjf").toString()));
+					items.add(mp);
+				}
+				map.put("items", items);
 				rsmap.add(map);
 			}
 		}
