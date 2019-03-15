@@ -176,6 +176,8 @@ public class EquipmentUtils {
 		String str="";
 		ResponseEntity<String> responseEntity =restTemplate.exchange(UPDATE_URL_TASK, HttpMethod.POST, new HttpEntity<SreProjectTask>(sreProjectTask, httpHeaders), String.class);
 		int statusCode = responseEntity.getStatusCodeValue();
+		
+		
 		if (statusCode == 200)
 		{
 			str = responseEntity.getBody();

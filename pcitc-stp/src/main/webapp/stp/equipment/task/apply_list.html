@@ -322,14 +322,13 @@ var name=$('#name').val();
                 {field : 'topicName',     title : '课题名称',    style : 'cursor: pointer;', align: 'center',templet:function(d){return '<span onclick="view_project(\''+d.topicId+'\')" style="color:#17a2b8">查看</span>'}},
                 {field : 'topicName',     title : '任务书名称', style : 'cursor: pointer;', align: 'center',templet:function(d){return '<span   onclick="view_isWriteTask(\''+d.taskId+'\')" style="color: #17a2b8">'+d.topicName+'</span>'}},
                 {field : 'isWriteSetup',  title : '立项报告否填写', style : 'cursor: pointer;', align: 'center',templet:function(d){return '<span   onclick="view_isWriteSetup(\''+d.setupId+'\')" style="color: #17a2b8">查看</span>'}},
-                
+                {field : 'contractNum', title : '合同号', style : 'cursor: pointer;', align: 'center'},
                 {field : 'setupYear', title : '立项年份', style : 'cursor: pointer;', align: 'center'},
                 {field : 'projectMoney', title : '总经费(万元)', style : 'cursor: pointer;', align: 'center',templet:function(d){return '<span style="color:red">'+d.projectMoney+'</span>'}},
                 {field : 'leadUnitName', title : '承担单位', style : 'cursor: pointer;', align: 'left'},
                 {field : 'applyUnitName', title : '申报单位', style : 'cursor: pointer;', align: 'left'},
                 {field : 'createUserName', title : '申报人', style : 'cursor: pointer;', align: 'left'},
-                {field : 'createDate', title : '任务书填写时间', style : 'cursor: pointer;', align: 'center', templet : '#dateTpl'},
-                {field : 'createUserName', title : '任务书填写人', style : 'cursor: pointer;', align: 'center'}
+                {field : 'createDate', title : '任务书填写时间', style : 'cursor: pointer;', align: 'center', templet : '#dateTpl'}
             ]],
             done: function (res, curr, count) {
                 // 点击行联动选择框--单选

@@ -90,7 +90,7 @@
       entrust_unit_code, project_charges_code, project_charges_name, 
       lead_linkmans_code, lead_linkmans_name, year_fee_str, 
       year_fee_str_join_unit, apply_unit_name, apply_unit_code, 
-      task_write_user_names, task_write_users_ids,is_write_setup,is_write_task)
+      task_write_user_names, task_write_users_ids)
     values (#{id,jdbcType=VARCHAR}, #{contractNum,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{remarks,jdbcType=VARCHAR}, #{projectMoney,jdbcType=DECIMAL}, #{updateUserId,jdbcType=VARCHAR}, 
       #{beginYear,jdbcType=VARCHAR}, #{endYear,jdbcType=VARCHAR}, #{equipmentIds,jdbcType=VARCHAR}, 

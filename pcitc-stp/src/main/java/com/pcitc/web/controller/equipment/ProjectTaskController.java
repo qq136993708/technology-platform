@@ -129,6 +129,8 @@ public class ProjectTaskController extends BaseController {
 	//任务对接--生成合同号
 	@RequestMapping(value = "/join_list")
 	public String join_list(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		List<SysDictionary>  dicList= CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_LCZT", restTemplate, httpHeaders);
+		request.setAttribute("dicList", dicList);
 		return "/stp/equipment/task/join_list";
 	}		
 	
@@ -137,6 +139,8 @@ public class ProjectTaskController extends BaseController {
 
 	@RequestMapping(value = "/to_list")
 	public String list(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		List<SysDictionary>  dicList= CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_LCZT", restTemplate, httpHeaders);
+		request.setAttribute("dicList", dicList);
 		return "/stp/equipment/task/project_task_list";
 	}
 
@@ -458,21 +462,7 @@ public class ProjectTaskController extends BaseController {
 	}
 	
 	
-
 	
-	
-	
-	private String updateSreProject(SreProject sreProject)
-	{
-		String str="";
-		ResponseEntity<String> responseEntity =this.restTemplate.exchange(UPDATE_URL_PROJECT, HttpMethod.POST, new HttpEntity<SreProject>(sreProject, this.httpHeaders), String.class);
-		int statusCode = responseEntity.getStatusCodeValue();
-		if (statusCode == 200)
-		{
-			str = responseEntity.getBody();
-		}
-		return str;
-	}
 	
 
 	/**
@@ -613,6 +603,7 @@ public class ProjectTaskController extends BaseController {
 	
 	//内部确认流程
 	@RequestMapping(value = "/start_confirm_workflow")
+	@ResponseBody
 	public Object start_confirm_workflow(HttpServletRequest request, HttpServletResponse response) throws Exception 
 	{
 		
@@ -641,6 +632,7 @@ public class ProjectTaskController extends BaseController {
 	
 	//部门审核流程
 	@RequestMapping(value = "/start_workflow")
+	@ResponseBody
 	public Object startProjectPlantWorkflow(HttpServletRequest request, HttpServletResponse response) throws Exception 
 	{
 		
@@ -665,17 +657,23 @@ public class ProjectTaskController extends BaseController {
 	
 	//生成合同号
 	@RequestMapping(value = "/create_num")
+	@ResponseBody
 	public Object create_num(HttpServletRequest request, HttpServletResponse response) throws Exception 
 	{
 		
 		String taskId = CommonUtil.getParameter(request, "taskId", "");
-		String contractNum = CodeUtil.getCode("XTBM_0048", restTemplate, httpHeaders);
+		String contractNum = CodeUtil.getCode("XTBM_0072", restTemplate, httpHeaders);
+		contractNum=contractNum.replace("-", "");//52019001
+		
+		String oneStr=contractNum.substring(0, 1);
+		String towStr=contractNum.substring(3, 8);
+		String num=oneStr+towStr;
 		
 		Result resultsDate = new Result();
 		SreProjectTask sreProjectTask =EquipmentUtils.getSreProjectTask(taskId,restTemplate,httpHeaders);
-		sreProjectTask.setContractNum(contractNum);
+		sreProjectTask.setContractNum(num);
 		String str=EquipmentUtils.updateSreProjectTask(sreProjectTask,restTemplate,httpHeaders);
-		if (str!=null)
+		if (!str.equals(""))
 		{
 			resultsDate = new Result(true, RequestProcessStatusEnum.OK.getStatusDesc());
 		} else 
@@ -803,6 +801,7 @@ public class ProjectTaskController extends BaseController {
 	
 	
 	@RequestMapping(value = "/createWord/{id}", method = RequestMethod.GET)
+	@ResponseBody
 	public String createWordv(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception 
 	{
 		Result resultsDate = new Result();

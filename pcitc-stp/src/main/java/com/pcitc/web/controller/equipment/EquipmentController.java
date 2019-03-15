@@ -35,10 +35,12 @@ import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.RequestProcessStatusEnum;
 import com.pcitc.base.hana.report.DicSupplyer;
+import com.pcitc.base.hana.report.ScientificCashFlow03;
 import com.pcitc.base.stp.equipment.SreEquipment;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.IdUtil;
+import com.pcitc.base.util.ResultsDate;
 import com.pcitc.base.workflow.Constants;
 import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.web.common.BaseController;
@@ -58,6 +60,8 @@ public class EquipmentController extends BaseController {
 	private static final String DEL_URL = "http://pcitc-zuul/stp-proxy/sre-provider/equipment/delete/";
 	private static final String BATCH_DEL_URL = "http://pcitc-zuul/stp-proxy/sre-provider/equipment/batch-delete/";
 	private static final String LIST_BY_IDS_URL = "http://pcitc-zuul/stp-proxy/sre-provider/equipment/list-by-ids/";
+	private static final String LIST_BY_IDS_URL_JSON = "http://pcitc-zuul/stp-proxy/sre-provider/equipment/get_json_by_ids/";
+	
 	public static final String GET_URL = "http://pcitc-zuul/stp-proxy/sre-provider/equipment/get/";
 	// 流程操作--同意
 	private static final String AUDIT_AGREE_URL = "http://pcitc-zuul/stp-proxy/sre-provider/equipment/task/agree/";
@@ -346,6 +350,53 @@ public class EquipmentController extends BaseController {
 	}
 	
 	
+	
+	//所选装备总金额
+	@RequestMapping(value = "/get_money_by_ids")
+	@ResponseBody
+	public String list_by_ids(HttpServletRequest request, HttpServletResponse response) 
+	{
+		Result resultsDate = new Result();
+		String ids = CommonUtil.getParameter(request, "equipmentIds", "");
+		BigDecimal resultMoney=BigDecimal.ZERO;
+		if (!ids.equals("")) 
+		{
+			String chkbox[] = ids.split(",");
+			if (chkbox != null && chkbox.length > 0)
+			{
+				List<String> list = Arrays.asList(chkbox);
+				JSONArray jsonObject = JSONArray.parseArray(JSON.toJSONString(list));
+				HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+				ResponseEntity<JSONArray> response_Entity = restTemplate.exchange(LIST_BY_IDS_URL, HttpMethod.POST, entity, JSONArray.class);
+				int statusCode = response_Entity.getStatusCodeValue();
+				if (statusCode == 200) 
+				{
+					
+					JSONArray array = response_Entity.getBody();
+					List<SreEquipment> returnlist = JSONObject.parseArray(array.toJSONString(), SreEquipment.class);
+					logger.info("============远程返回  list=" + list.size());
+					if(returnlist!=null && returnlist.size()>0)
+					{
+						for(int i=0;i<returnlist.size();i++)
+						{
+							SreEquipment sreEquipment=(SreEquipment)returnlist.get(i);
+							BigDecimal price=sreEquipment.getAllPrice();
+							resultMoney=resultMoney.add(price);
+							resultsDate.setData(resultMoney);
+							resultsDate.setSuccess(true);
+						}
+					}
+				}
+			}
+		}
+		
+		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
+		logger.info("============result" + result);
+		return result.toString();
+		
+	}
+	
+	
 	/**
 	 * 选择装备
 	 * 
@@ -361,49 +412,7 @@ public class EquipmentController extends BaseController {
 		return "/stp/equipment/equipment/equipment-search";
 	}
 
-	/**
-	 * 选择装备
-	 * 
-	 * @param request
-	 * @param response
-	 * @return
-	 */
-	@RequestMapping(value = "/iframe-equipment")
-	public String iframeEquipment(HttpServletRequest request, HttpServletResponse response) {
-		ResponseEntity<List> responseEntity = null;
-		List returnlist = null;
-		String ids = CommonUtil.getParameter(request, "equipmentIds", "");
-		if (!ids.equals("")) 
-		{
-			String chkbox[] = ids.split(",");
-			System.out.println("--------ids=" + ids + " chkbox=" + chkbox.length);
-			if (chkbox != null && chkbox.length > 0)
-			{
-				List<String> list = Arrays.asList(chkbox);
-				List<Long> longList = new ArrayList();
-				if (list != null) {
-					for (int i = 0; i < list.size(); i++) 
-					{
-						String str = list.get(i);
-						longList.add(Long.valueOf(str));
-					}
-				}
-				JSONArray jsonObject = JSONArray.parseArray(JSON.toJSONString(longList));
-				HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
-				responseEntity = restTemplate.exchange(LIST_BY_IDS_URL, HttpMethod.POST, entity, List.class);
-				int statusCode = responseEntity.getStatusCodeValue();
-				returnlist = responseEntity.getBody();
-				logger.info("============远程返回  statusCode " + statusCode + "  list=" + list.size());
-				if (statusCode == 200) 
-				{
-                    
-				}
-			}
-		}
-
-		request.setAttribute("list", returnlist);
-		return "/stp/equipment/equipment/iframe-equipment";
-	}
+	
 
 	
 	

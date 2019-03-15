@@ -104,6 +104,9 @@ public class ProjectBasicController extends BaseController {
 
 	
 	
+	
+	
+	
 	/**
 	 * 增加
 	 * 
@@ -204,6 +207,7 @@ public class ProjectBasicController extends BaseController {
 	 * @throws Exception
 	 */
 	@RequestMapping(method = RequestMethod.POST, value = "/save")
+	@ResponseBody
 	public String saveOrUpdate(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		Result resultsDate = dealSaveUpdate(request);
@@ -371,6 +375,7 @@ public class ProjectBasicController extends BaseController {
 	
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/update")
+	@ResponseBody
 	public String update(HttpServletRequest request, HttpServletResponse response) throws Exception 
 	{
 		
