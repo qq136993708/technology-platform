@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()" media="all">
     <script src="/common/js/jquery-1.11.3.min.js"></script>
     <script src="/layuiadmin/layui/layui.js"></script>
-       <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+    <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
 </head>
 <body>
 <div class="searchBox">
@@ -31,6 +31,9 @@
         <span>承建单位</span>
         <input type="text" name="leadUnitName" placeholder="选择承建单位" title="承建单位" onclick="chooseUnit('choose_leadUnitName_callback')" autocomplete="off" class="form-control" id="leadUnitName">
      </label>
+     
+    
+    
     
     
     <!--按钮组-->
@@ -43,13 +46,106 @@
 	<div class="tableToolBox">
         <div class="whiteLine"></div>
         <div  class="tableBtns">
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit" id="editEvent" data-type="editEvent">生成合同号</button>
-              <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" id="detailEvent" data-type="detailEvent">详情</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit" id="createEvent" data-type="createEvent">生成合同号</button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"  id="createWordEvent" data-type="createWordEvent">生成WORD文档</button>
         </div>
     </div>
    <table id="processdef-table" class="layui-hide" lay-filter="processdef-table" ></table> 
 </div>
+<script type="text/html" id="innerAuditStatus_temp">
+          {{#  if(d.innerAuditStatus == '0'){ }}
+            <button class="layui-btn layui-btn-primary layui-btn-xs">未上报</button>
+          {{#  } else if(d.innerAuditStatus == '1'){ }}
+            <button class="layui-btn  layui-btn-xs">已上报</button>
+          {{#  } else if(d.innerAuditStatus == '2'){ }}
+            <button class="layui-btn layui-btn-normal layui-btn-xs">已通过</button>
+           {{#  } else if(d.innerAuditStatus == '3'){ }}
+            <button class="layui-btn layui-btn-danger layui-btn-xs">已退回</button>
+          {{#  } else{ }}
+            <button class="layui-btn layui-btn-primary layui-btn-xs">未上报</button>
+          {{#  } }}
+</script>
+<script type="text/html" id="auditStatus_tepm">
+          {{#  if(d.auditStatus == '0'){ }}
+            <button class="layui-btn layui-btn-primary layui-btn-xs">未上报</button>
+          {{#  } else if(d.auditStatus == '1'){ }}
+            <button class="layui-btn  layui-btn-xs">已上报</button>
+          {{#  } else if(d.auditStatus == '2'){ }}
+            <button class="layui-btn layui-btn-normal layui-btn-xs">已通过</button>
+           {{#  } else if(d.auditStatus == '3'){ }}
+            <button class="layui-btn layui-btn-danger layui-btn-xs">已退回</button>
+          {{#  } else{ }}
+            <button class="layui-btn layui-btn-primary layui-btn-xs">未上报</button>
+          {{#  } }}
+</script>
+
+<script id="dateTpl" type="text/html"> {{formatTime(d.createDate)}} </script>
+<script type="text/javascript">
+// 时间格式化
+function formatTime(d) {
+    if (d) {
+        var date = new Date();
+        date.setTime(d);
+        var y = date.getFullYear();
+        var m = date.getMonth() + 1;
+        m = m < 10 ? ('0' + m) : m;
+        var day = date.getDate();
+        day = day < 10 ? ("0" + day) : day;
+        var h = date.getHours();
+        h = h < 10 ? ("0" + h) : h;
+        var M = date.getMinutes();
+        M = M < 10 ? ("0" + M) : M;
+        var str = y + "-" + m + "-" + day + " " + h + ":" + M;
+        return str;
+    } else {
+        return '';
+    }
+}
+function view_isWriteTask(isWriteTask) 
+{
+	 var temUrl="/sre_project_task/get/" + isWriteTask;
+	 layer.open({
+         title:'任务书详情',
+         skin: 'layui-layer-lan',
+         shadeClose: true,
+         type: 2,
+         fixed: false,
+         maxmin: false,
+         area: ['70%', '90%'],
+         content:  temUrl
+     });
+}
+
+
+function view_isWriteSetup(isWriteSetup) 
+{
+	 var temUrl="/sre_project_setup/get/" + isWriteSetup;
+	 layer.open({
+        title:'立项报告详情',
+        skin: 'layui-layer-lan',
+        shadeClose: true,
+        type: 2,
+        fixed: false,
+        maxmin: false,
+        area: ['70%', '90%'],
+        content:  temUrl
+    });
+}
+function view_project(id) 
+{
+	 var temUrl="/sre-project-basic/get/" + id;
+	 layer.open({
+        title:'课题详情',
+        skin: 'layui-layer-lan',
+        shadeClose: true,
+        type: 2,
+        fixed: false,
+        maxmin: false,
+        area: ['70%', '90%'],
+        content:  temUrl
+    });
+}
+</script>
 <!--表格数据操作js-->
 <script>
 var publicMethods;
@@ -83,64 +179,36 @@ var name=$('#name').val();
             	 renderTable();
             },
             resetEvent: function() { //点击重置按钮
-            	$('#name').val("");
+            	$('#topicName').val("");
+            	$('#leadUnitName').val("");
+            	$('#leadUnitCode').val("");
             	$('#setupYear').val("");
+            	
             }
-            ,editEvent: function(){  //点击编辑按钮
-            	if (typeof(selectRowData.taskId) == "undefined") {
-            		layer.msg('请点击选择一行数据');
+            ,createEvent: function(){  //点击编辑按钮
+            	if (typeof(selectRowData) == "undefined") {
+            		layer.alert('请点击选择一个任务书');
             	} else {
             		 var taskId=selectRowData.taskId;
             		 var topicId=selectRowData.topicId;
-           		     var url="/sre_project_task/add?taskId="+taskId+"&topicId="+topicId;
-           		     var status=selectRowData.status;
-           		     if(status=='1' || status=='3')
-           		     {
-           		    	layer.msg('上报中或审核通过，不能修改');
-           		    	return;
-           		     }
-           		     
-	           		 layer.open({
-	                      title:'编辑',
-	                      skin: 'layui-layer-lan',
-	                      shadeClose: true,
-	                      type: 2,
-	                      fixed: false,
-	                      //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-	                      maxmin: false,
-	                      //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-	                      area: ['70%', '90%'],
-	                      content:  url
-	                 });
-           		  
+            		 var contractNum=selectRowData.contractNum;
+            		 if(contractNum!=null && contractNum!='')
+            	     {
+            			 layer.alert('合同号已生成,不能重复生成');
+            	     }else
+           	    	 {
+            	    	     var url="/sre_project_task/create_num?taskId="+taskId;
+                		     ajaxDeleteCreateWord(url,"GET","生成合同号成功","生成合同号失败");
+           	    	 }
+           		 
+           		   
             	}
                
             },
-            detailEvent: function(){  //点击详情按钮
-            	if (typeof(selectRowData.taskId) == "undefined") {
-            		layer.msg('请点击选择一行数据');
-            	} else {
-            		 var taskId=selectRowData.taskId;
-            		 var temUrl="/sre_project_task/get/" + taskId;
-            		 layer.open({
-                         title:'详情',
-                         skin: 'layui-layer-lan',
-                         shadeClose: true,
-                         type: 2,
-                         fixed: false,
-                         //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                         maxmin: false,
-                         //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                         area: ['70%', '90%'],
-                         content:  temUrl
-                     });
-            	}
-            
-            },
             createWordEvent: function(){  //点击详情按钮
-            	if (typeof(selectRowData.taskId) == "undefined") 
+            	if (typeof(selectRowData) == "undefined") 
             	{
-            		layer.msg('请点击选择一行数据');
+            		layer.alert('请点击选择一个任务书');
             	}else 
             	{
             		 var taskId=selectRowData.taskId;
@@ -185,7 +253,7 @@ var name=$('#name').val();
             elem: '#processdef-table',
             url: '/sre_project_task/list',
             method:"POST",
-            where: {param: {"topicName":$("#topicName").val(),"auditStatus":"2"}},
+            where: {param: {"topicName":$("#topicName").val(),"auditStatus":"2","leadUnitCode":$("#leadUnitCode").val()}},
             limit: 15,	
             id: 'processdef-table',
             height: commonDislodgeTable(),
@@ -200,16 +268,18 @@ var name=$('#name').val();
             cols: [[
             	{type : 'checkbox', event : 'changeEvents', width : 55},
             	{title : '序号', type :'numbers', width : 55},
-               
-                {field : 'topicName',      title : '任务书名称', style : 'cursor: pointer;', align: 'left'},
+            	{field : 'contractNum', title : '合同号', style : 'cursor: pointer;', align: 'center'},
+            	{field : 'auditStatus',    title : '总部审核状态',        style : 'cursor: pointer;', align: 'center', width : 100,templet : '#auditStatus_tepm'},
+                {field : 'topicName',     title : '课题名称',      style : 'cursor: pointer;', align: 'center',templet:function(d){return '<span onclick="view_project(\''+d.topicId+'\')" style="color:#17a2b8">查看</span>'}},
+                {field : 'topicName',     title : '任务书',     style : 'cursor: pointer;', align: 'center',templet:function(d){return '<span   onclick="view_isWriteTask(\''+d.taskId+'\')" style="color: #17a2b8">'+d.topicName+'</span>'}},
+                {field : 'isWriteSetup',  title : '立项报告',  style : 'cursor: pointer;', align: 'center',templet:function(d){return '<span   onclick="view_isWriteSetup(\''+d.setupId+'\')" style="color: #17a2b8">查看</span>'}},
+                {field : 'setupYear',      title : '立项年份', style : 'cursor: pointer;', align: 'center'},
                 {field : 'projectMoney',   title : '总经费(万元)', style : 'cursor: pointer;', align: 'center',templet:function(d){return '<span style="color:red">'+d.projectMoney+'</span>'}},
                 {field : 'leadUnitName',   title : '承担单位',    style : 'cursor: pointer;', align: 'left'},
                 {field : 'belongDepartmentName', title : '归属部门', style : 'cursor: pointer;', align: 'left'},
                 {field : 'applyUnitName',  title : '申报单位',    style : 'cursor: pointer;', align: 'left'},
                 {field : 'createUserName', title : '申报人',      style : 'cursor: pointer;', align: 'left'},
-                {field : 'createDate',     title : '上报时间',     style : 'cursor: pointer;', align: 'center', templet : '#dateTpl'},
-                {field : 'auditStatus',    title : '状态',        style : 'cursor: pointer;', align: 'center', width : 100},
-                {field : 'createDate', title : '填写人', style : 'cursor: pointer;', align: 'center',templet:function(d){return '<span style="color:red">'+d.createDate+'</span>'}}
+                {field : 'createDate',     title : '上报时间',     style : 'cursor: pointer;', align: 'center', templet : '#dateTpl'}
             ]],
             done: function (res, curr, count) {
                 // 点击行联动选择框--单选
@@ -223,19 +293,6 @@ var name=$('#name').val();
                 });
                 
                 
-                //项目分类，项目性质
-                var dicMap = ['ROOT_UNIVERSAL_LCZT'];
-                var dicVal = {};
- 				publicMethods.ajaxPost("/dictionary/map/getMapListDictionarys",{"parentCodes":JSON.stringify(dicMap)}, function (data) {
- 					$.each(data,function(key,val){
- 						$.each(val,function(i,dt){
- 							dicVal[dt.numValue] = dt.name;
- 						});
- 					});
- 			   	}); 
- 				$.each(res.data,function(i,dt){
- 					$("tr[data-index='"+i+"'] td[data-field='auditStatus'] div").html(dicVal[res.data[i].auditStatus]); 
- 			   	});
  				
  				
             }
@@ -303,7 +360,7 @@ var name=$('#name').val();
     	                      {icon: 1,closeBtn: 0 },
     	                      function () 
     	                      {
-    	                    	  
+    	                    	   renderTable();
     	                    	   layer.closeAll();
     	                      });
     	       	   
@@ -320,6 +377,11 @@ var name=$('#name').val();
         
       });
     } 
+    
+    
+    
+    
+   
     
 
     function choose_leadUnitName_callback(unitId,unitName) 

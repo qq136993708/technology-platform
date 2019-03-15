@@ -1,7 +1,9 @@
 package com.pcitc.web.equipment;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -13,10 +15,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.hana.report.ScientificCashFlow03;
 import com.pcitc.base.stp.equipment.SreEquipment;
 import com.pcitc.base.stp.equipment.SreProject;
+import com.pcitc.base.stp.equipment.SreProjectSetup;
 import com.pcitc.base.stp.equipment.SreProjectTask;
 import com.pcitc.base.stp.equipment.SreProjectYear;
 import com.pcitc.base.stp.equipment.SreProjectYearExample;
@@ -28,6 +35,7 @@ import com.pcitc.service.msg.MailSentService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 @Api(value = "Equipment-API",tags = {"装备、项目统计相关的接口"})
 @RestController
 public class EquipmentProviderClient 
@@ -82,12 +90,12 @@ public class EquipmentProviderClient
 	 * @return
 	 * @throws Exception
 	 */
-	@ApiOperation(value = "删除装备", notes = "删除装备")
+	/*@ApiOperation(value = "删除装备", notes = "删除装备")
 	@RequestMapping(value = "/sre-provider/equipment/batch-delete", method = RequestMethod.POST)
 	public int batchDelete(@RequestBody List<String> list)throws Exception{
 		logger.info("=============================batch delete SreEquipment=================");
 		return equipmentService.batchDeleteEquipment(list);
-	}
+	}*/
 	
 	
 	
@@ -138,17 +146,22 @@ public class EquipmentProviderClient
 	 * @return
 	 * @throws Exception
 	 */
-	@ApiOperation(value = "批量获取装备", notes = "根据IDS批量获取装备")
+	@ApiOperation(value = "批量获取装备", notes = "根据IDS批量获取装备，返回LIST")
 	@RequestMapping(value = "/sre-provider/equipment/list-by-ids", method = RequestMethod.POST)
-	public List getlistEquipemntids(@RequestBody List<String> list)throws Exception{
+	public List<SreEquipment> getlistEquipemntids(@RequestBody List<String> list)throws Exception{
 		logger.info("=============================list-by-ids Equipemnt =================");
 		return equipmentService.getEquipmentListByIds(list);
 	}
 	
 	
-	
-	
-	
+	@ApiOperation(value = "批量获取装备", notes = "根据IDS批量获取装备，返回json格式")
+	@RequestMapping(value = "/sre-provider/equipment/get_json_by_ids", method = RequestMethod.POST)
+	public JSONArray getlistEquipemntidsjSON(@RequestBody List<String> list)throws Exception{
+		logger.info("============================get_json_by_ids Equipemnt =================");
+		List<SreEquipment> listSreEquipment= equipmentService.getEquipmentListByIds(list);
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(listSreEquipment));
+		return json;
+	}
 	
 	
 	
@@ -248,18 +261,7 @@ public class EquipmentProviderClient
 	
 	
 	
-	/**
-	 * 批量删除
-	 * @param id
-	 * @return
-	 * @throws Exception
-	 */
-	@ApiOperation(value = "删除项目统计", notes = "根据ID删除项目统计")
-	@RequestMapping(value = "/sre-provider/project_basic/batch-delete", method = RequestMethod.POST)
-	public int batchDeleteSreProject(@RequestBody List<String> list)throws Exception{
-		logger.info("=============================batch delete ProjectBasic =================");
-		return equipmentService.batchDeleteProjectBasic(list);
-	}
+	
 	
 	
 	
@@ -348,27 +350,8 @@ public class EquipmentProviderClient
 	}
 	
 	
-	
 	/**
-	 * 批量删除任务书
-	 * @param id
-	 * @return
-	 * @throws Exception
-	 */
-	@ApiOperation(value = "删除任务书", notes = "根据ID删除任务书")
-	@RequestMapping(value = "/sre-provider/project_task/batch-delete", method = RequestMethod.POST)
-	public int batchDeleteSreProjectTask(@RequestBody List<String> list)throws Exception{
-		logger.info("=============================batch delete SreProjectTask =================");
-		return equipmentService.batchDeleteSreProjectTask(list);
-	}
-	
-	
-	
-	
-	/**任务书
-	 * @param jsonStr
-	 * @return
-	 * 业务系统处理驳回后业务
+	 * 任务书--总部审核流程--驳回后业务
 	 */
 	@RequestMapping(value = "/sre-provider/project_task/task/reject/{id}", method = RequestMethod.POST)
 	public Integer taskRejectSreProjectTask(@PathVariable(value = "id", required = true) String id)throws Exception {
@@ -380,10 +363,8 @@ public class EquipmentProviderClient
 		return count;
 	}
 	
-	/**任务书
-	 * @param jsonStr
-	 * @return
-	 * 业务系统处理审批流程都同意后业务
+	/**
+	 * 任务书--总部审核流程--同意后业务
 	 */
 	@RequestMapping(value = "/sre-provider/project_task/task/agree/{id}", method = RequestMethod.POST)
 	public Integer taskAgreeSreProjectTask(@PathVariable(value = "id", required = true) String id)throws Exception {
@@ -397,9 +378,79 @@ public class EquipmentProviderClient
 	
 	
 	
+	/**
+	 * 任务书--内部审核流程--驳回后业务
+	 */
+	@RequestMapping(value = "/sre-provider/project_task/task/reject_inner/{id}", method = RequestMethod.POST)
+	public Integer taskRejectSreProjectTaskInner(@PathVariable(value = "id", required = true) String id)throws Exception {
+		
+		SreProjectTask sreProject=equipmentService.selectSreProjectTask(id);
+		sreProject.setInnerAuditStatus(String.valueOf(Constants.FLOW_STATE_SAVE)); 
+		int count=equipmentService.updateSreProjectTask(sreProject);
+		System.out.println("======业务系统处理--驳回 --后业务======="+id);
+		return count;
+	}
+	
+	/**
+	 * 任务书--内部审核流程--同意后业务
+	 */
+	@RequestMapping(value = "/sre-provider/project_task/task/agree_inner/{id}", method = RequestMethod.POST)
+	public Integer taskAgreeSreProjectTaskInner(@PathVariable(value = "id", required = true) String id)throws Exception {
+		
+		SreProjectTask sreProject=equipmentService.selectSreProjectTask(id);
+		sreProject.setInnerAuditStatus(String.valueOf(Constants.FLOW_STATE_DONE));
+		int count=equipmentService.updateSreProjectTask(sreProject);
+		System.out.println("======业务系统处理审批流程都 --同意 --后业务======="+id);
+		return count;
+	}
+	
+
+
+	
+	/**===============================================立项报告===================================================*/
+	
+	@ApiOperation(value = "立项报告统计列表", notes = "立项报告统计列表")
+	@RequestMapping(value = "/sre-provider/project_setup/page", method = RequestMethod.POST)
+	public LayuiTableData getSreProjectSetupPage(@RequestBody LayuiTableParam paramsJson)throws Exception
+	{
+		logger.info("==================page SreSreProjectSetup==========================="+paramsJson);
+		return equipmentService.getSreProjectSetupPage(paramsJson);
+	}
+	
+	@ApiOperation(value = "增加立项报告", notes = "增加立项报告")
+	@RequestMapping(value = "/sre-provider/project_setup/add", method = RequestMethod.POST)
+	public String insertSreSreProjectSetup(@RequestBody SreProjectSetup sreProjectSetup) throws Exception{
+		logger.info("====================add SreProjectSetup....========================");
+		Integer count= equipmentService.insertSreProjectSetup(sreProjectSetup);
+		
+		return sreProjectSetup.getSetupId();
+	}
 	
 	
+	@ApiOperation(value = "修改立项报告", notes = "修改立项报告")
+	@RequestMapping(value = "/sre-provider/project_setup/update", method = RequestMethod.POST)
+	public Integer updateSreSreProjectSetup(@RequestBody SreProjectSetup sreSreProjectSetup) throws Exception{
+		logger.info("==================update SreSreProjectSetup===========================");
+		
+		
+		return equipmentService.updateSreProjectSetup(sreSreProjectSetup);
+	}
 	
+	
+	@ApiOperation(value = "删除立项报告", notes = "删除立项报告")
+	@RequestMapping(value = "/sre-provider/project_setup/delete/{id}", method = RequestMethod.POST)
+	public int deleteSreSreProjectSetup(@PathVariable("id") String id)throws Exception{
+		logger.info("=============================delete SreSreProjectSetup=================");
+		return equipmentService.deleteSreProjectSetup(id) ;
+	}
+	
+	
+	@ApiOperation(value = "获取立项报告", notes = "根据ID获取立项报告")
+	@RequestMapping(value = "/sre-provider/project_setup/get/{id}", method = RequestMethod.GET)
+	public SreProjectSetup selectSreProjectSetupById(@PathVariable(value = "id", required = true) String id) throws Exception {
+		logger.info("===============================get SreProject id "+id+"===========");
+		return equipmentService.selectSreProjectSetup(id) ;
+	}
 	
 	
 	

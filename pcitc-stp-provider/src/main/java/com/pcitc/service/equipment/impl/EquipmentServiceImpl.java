@@ -17,16 +17,15 @@ import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.stp.equipment.SreEquipment;
-import com.pcitc.base.stp.equipment.SreEquipmentExample;
 import com.pcitc.base.stp.equipment.SreProject;
-import com.pcitc.base.stp.equipment.SreProjectExample;
+import com.pcitc.base.stp.equipment.SreProjectSetup;
 import com.pcitc.base.stp.equipment.SreProjectTask;
-import com.pcitc.base.stp.equipment.SreProjectTaskExample;
 import com.pcitc.base.stp.equipment.SreProjectYear;
 import com.pcitc.base.stp.equipment.SreProjectYearExample;
 import com.pcitc.base.stp.equipment.SreTechMeeting;
 import com.pcitc.mapper.equipment.SreEquipmentMapper;
 import com.pcitc.mapper.equipment.SreProjectMapper;
+import com.pcitc.mapper.equipment.SreProjectSetupMapper;
 import com.pcitc.mapper.equipment.SreProjectTaskMapper;
 import com.pcitc.mapper.equipment.SreProjectYearMapper;
 import com.pcitc.mapper.equipment.SreTechMeetingMapper;
@@ -52,7 +51,8 @@ public class EquipmentServiceImpl implements EquipmentService {
 	@Autowired
 	private SreProjectTaskMapper sreProjectTaskMapper;
 	
-	
+	@Autowired
+	private SreProjectSetupMapper sreProjectSetupMapper;
 	
 	
 	
@@ -75,19 +75,10 @@ public class EquipmentServiceImpl implements EquipmentService {
 	}
 	
 	
-	public int batchDeleteEquipment(List<String> list)throws Exception
-	{
-
-		SreEquipmentExample example = new SreEquipmentExample();
-		example.createCriteria().andEquipmentIdIn(list);
-		return sreEquipmentMapper.deleteByExample(example);
-	}
 	
 	public List<SreEquipment> getEquipmentListByIds(List<String> list)throws Exception
 	{
-		SreEquipmentExample example = new SreEquipmentExample();
-		example.createCriteria().andEquipmentIdIn(list);
-		return sreEquipmentMapper.selectByExample(example);
+		return sreEquipmentMapper.getEquipmentListByIds(list);
 	}
 
 	public Integer insertEquipment(SreEquipment record)throws Exception
@@ -95,10 +86,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 		return sreEquipmentMapper.insert(record);
 	}
 
-	public List<SreEquipment> getEquipmentList(SreEquipmentExample example)throws Exception
-	{
-		return sreEquipmentMapper.selectByExample(example);
-	}
+	
 	
 	private String getTableParam(LayuiTableParam param,String paramName,String defaultstr)
 	{
@@ -192,17 +180,8 @@ public class EquipmentServiceImpl implements EquipmentService {
 		return sreProjectMapper.insert(record);
 	}
 
-	public List<SreProject> getProjectBasicList(SreProjectExample example)throws Exception
-	{
-		return sreProjectMapper.selectByExample(example);
-	}
-	public int batchDeleteProjectBasic(List<String> list)throws Exception
-	{
-
-		SreProjectExample example = new SreProjectExample();
-		example.createCriteria().andIdIn(list);
-		return sreProjectMapper.deleteByExample(example);
-	}
+	
+	
 	
 	
 	//自定义
@@ -232,6 +211,15 @@ public class EquipmentServiceImpl implements EquipmentService {
 		String joinUnitName=getTableParam(param,"joinUnitName","");
 		String joinUnitCode=getTableParam(param,"joinUnitCode","");
 		String taskWriteUsersIds=getTableParam(param,"taskWriteUsersIds","");
+		
+		
+		String createUserId=getTableParam(param,"createUserId","");
+		String createUserName=getTableParam(param,"createUserName","");
+		String professionalFieldCode=getTableParam(param,"professionalFieldCode","");
+		String professionalFieldName=getTableParam(param,"professionalFieldName","");
+		String setupId=getTableParam(param,"setupId","");
+		String taskId=getTableParam(param,"taskId","");
+		
 		Map map=new HashMap();
 		map.put("name", name);
 		map.put("equipmentIds", equipmentIds);
@@ -240,12 +228,18 @@ public class EquipmentServiceImpl implements EquipmentService {
 		map.put("keyWord", keyWord);
 		map.put("leadUnitName", leadUnitName);
 		map.put("leadUnitCode", leadUnitCode);
-		
 		map.put("applyUnitName", applyUnitName);
-		
 		map.put("joinUnitName", joinUnitName);
 		map.put("joinUnitCode", joinUnitCode);
 		map.put("taskWriteUsersIds", taskWriteUsersIds);
+		
+		map.put("createUserId", createUserId);
+		map.put("createUserName", createUserName);
+		map.put("professionalFieldCode", professionalFieldCode);
+		map.put("professionalFieldName", professionalFieldName);
+		map.put("setupId", setupId);
+		map.put("taskId", taskId);
+		
 		System.out.println(">>>>>>>>applyUnitCode="+applyUnitCode);
 		StringBuffer applyUnitCodeStr=new StringBuffer();
 		if(!applyUnitCode.equals(""))
@@ -308,20 +302,135 @@ public class EquipmentServiceImpl implements EquipmentService {
 		return sreProjectTaskMapper.insert(record);
 	}
 
-	public List<SreProjectTask> getSreProjectTaskList(SreProjectTaskExample example)throws Exception
-	{
-		return sreProjectTaskMapper.selectByExample(example);
-	}
-	public int batchDeleteSreProjectTask(List<String> list)throws Exception
-	{
 
-		SreProjectTaskExample example = new SreProjectTaskExample();
-		example.createCriteria().andTaskIdIn(list);
-		return sreProjectTaskMapper.deleteByExample(example);
-	}
 	
 	
 	public LayuiTableData getSreProjectTaskPage(LayuiTableParam param)throws Exception
+	{
+        //每页显示条数
+		int pageSize = param.getLimit();
+		//从第多少条开始
+		int pageStart = (param.getPage()-1)*pageSize;
+		//当前是第几页
+		int pageNum = pageStart/pageSize + 1;
+		// 1、设置分页信息，包括当前页数和每页显示的总计数
+		PageHelper.startPage(pageNum, pageSize);
+				
+		String topicName=getTableParam(param,"topicName","");
+		String topicId=getTableParam(param,"topicId","");
+		String auditStatus=getTableParam(param,"auditStatus","");
+		String contractNum=getTableParam(param,"contractNum","");
+		String leadUnitName=getTableParam(param,"leadUnitName","");
+		String leadUnitCode=getTableParam(param,"leadUnitCode","");
+		String applyUnitName=getTableParam(param,"applyUnitName","");
+		String applyUnitCode=getTableParam(param,"applyUnitCode","");
+		String joinUnitName=getTableParam(param,"joinUnitName","");
+		String joinUnitCode=getTableParam(param,"joinUnitCode","");
+		String innerAuditStatus=getTableParam(param,"innerAuditStatus","");
+		String setupYear=getTableParam(param,"setupYear","");
+		String taskId=getTableParam(param,"taskId","");
+		
+		
+		String createUserId=getTableParam(param,"createUserId","");
+		String createUserName=getTableParam(param,"createUserName","");
+		String professionalFieldCode=getTableParam(param,"professionalFieldCode","");
+		String professionalFieldName=getTableParam(param,"professionalFieldName","");
+		String setupId=getTableParam(param,"setupId","");
+		
+		
+		
+		Map map=new HashMap();
+		map.put("topicName", topicName);
+		map.put("auditStatus", auditStatus);
+		map.put("leadUnitName", leadUnitName);
+		map.put("leadUnitCode", leadUnitCode);
+		map.put("applyUnitName", applyUnitName);
+		map.put("joinUnitName", joinUnitName);
+		map.put("joinUnitCode", joinUnitCode);
+		map.put("taskId", taskId);
+		map.put("setupYear", setupYear);
+		map.put("topicId", topicId);
+		map.put("contractNum", contractNum);
+		map.put("innerAuditStatus", innerAuditStatus);
+		map.put("createUserId", createUserId);
+		map.put("createUserName", createUserName);
+		map.put("professionalFieldCode", professionalFieldCode);
+		map.put("professionalFieldName", professionalFieldName);
+		map.put("setupId", setupId);
+		
+		
+		System.out.println(">>>>>>>>applyUnitCode="+applyUnitCode);
+		StringBuffer applyUnitCodeStr=new StringBuffer();
+		if(!applyUnitCode.equals(""))
+		{
+			applyUnitCodeStr.append(" (");
+			String arr[]=applyUnitCode.split(",");
+			for(int i=0;i<arr.length;i++)
+			{
+				if(i>0)
+				{
+					applyUnitCodeStr.append(" OR FIND_IN_SET('"+arr[i]+"', t.`apply_unit_code`)");
+				}else
+				{
+					applyUnitCodeStr.append("FIND_IN_SET('"+arr[i]+"', t.`apply_unit_code`)");
+				}
+				
+			}
+			applyUnitCodeStr.append(" )");
+		}
+		
+		
+		
+		
+		map.put("sqlStr", applyUnitCodeStr.toString());
+		System.out.println(">>>>>>>>sqlstr"+applyUnitCodeStr.toString());
+		
+		
+		List<SreProjectTask> list = sreProjectTaskMapper.getList(map);
+		PageInfo<SreProjectTask> pageInfo = new PageInfo<SreProjectTask>(list);
+		System.out.println(">>>>>>>>>任务书查询分页结果 "+pageInfo.getList().size());
+		
+		LayuiTableData data = new LayuiTableData();
+		data.setData(pageInfo.getList());
+		Long total = pageInfo.getTotal();
+		data.setCount(total.intValue());
+	    return data;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+
+	/**===========================================立项报告=======================================*/
+
+	public SreProjectSetup selectSreProjectSetup(String id) throws Exception
+	{
+		return sreProjectSetupMapper.selectByPrimaryKey(id);
+	}
+
+	public Integer updateSreProjectSetup(SreProjectSetup record)throws Exception
+	{
+		return sreProjectSetupMapper.updateByPrimaryKey(record);
+	}
+
+	public int deleteSreProjectSetup(String id)throws Exception
+	{
+		return sreProjectSetupMapper.deleteByPrimaryKey(id);
+	}
+
+	public Integer insertSreProjectSetup(SreProjectSetup record)throws Exception
+	{
+		return sreProjectSetupMapper.insert(record);
+	}
+
+	
+	public LayuiTableData getSreProjectSetupPage(LayuiTableParam param)throws Exception
 	{
         //每页显示条数
 		int pageSize = param.getLimit();
@@ -378,8 +487,8 @@ public class EquipmentServiceImpl implements EquipmentService {
 		System.out.println(">>>>>>>>sqlstr"+applyUnitCodeStr.toString());
 		
 		
-		List<SreProjectTask> list = sreProjectTaskMapper.getList(map);
-		PageInfo<SreProjectTask> pageInfo = new PageInfo<SreProjectTask>(list);
+		List<SreProjectSetup> list = sreProjectSetupMapper.getList(map);
+		PageInfo<SreProjectSetup> pageInfo = new PageInfo<SreProjectSetup>(list);
 		System.out.println(">>>>>>>>>任务书查询分页结果 "+pageInfo.getList().size());
 		
 		LayuiTableData data = new LayuiTableData();
@@ -388,8 +497,6 @@ public class EquipmentServiceImpl implements EquipmentService {
 		data.setCount(total.intValue());
 	    return data;
 	}
-	
-	
 	
 	
 	
@@ -490,6 +597,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 				
 			    return data;
 	}
+
 
 
 	
