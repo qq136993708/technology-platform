@@ -44,17 +44,20 @@
             <div class="layui-row">
                 <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">部门简称<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">分类<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <input class="layui-input" id="simpleName" name="simpleName" placeholder="" lay-verify="required" autocomplete="off" type="text">
+                            <select name="simpleCode" id="simpleCode" lay-verify="required"  lay-filter="simpleCode">
+								<option value="">请选择</option>
+							</select>
+							<input type="hidden" id="simpleName" name="simpleName">
                         </div>
                     </div>
                 </div>
                 <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">部门编码<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">描述<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <input type="text" id="displayCode" name="displayCode"  placeholder="" lay-verify="required" autocomplete="off" class="layui-input">
+                            <input type="text" id="remark" name="remark"  placeholder="" autocomplete="off" class="layui-input">
                         </div>
                     </div>
                 </div>
@@ -62,7 +65,7 @@
             <div class="layui-row">
                 <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">上年预计完成<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label"><span class="nd"></span>年预计完成<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
                             <input class="layui-input" id="yjwc" name="yjwc" placeholder="" lay-verify="required" autocomplete="off" type="text">
                         </div>
@@ -70,14 +73,14 @@
                 </div>
                 <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">本年经费预算<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">${nd}年经费预算<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
                          	<input type="text" id="xmjf" name="xmjf"  placeholder="" lay-verify="required" autocomplete="off" class="layui-input">
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="layui-row">
+           <!--  <div class="layui-row">
                 <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
                     <div class="layui-form-item">
                         <label for="" class="layui-form-label">备注</label>
@@ -86,7 +89,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
             <!-- <div class="layui-row">
                 <div class="layui-col-xs10 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
@@ -148,6 +151,7 @@
     layui.use(['jquery', 'table', 'form','laydate', 'layer','publicMethods'], function () {
         var $ = layui.jquery, table = layui.table, form = layui.form,laydate = layui.laydate, layer = layui.layer,publicMethods=layui.publicMethods;
         var layTableId = "dataTable";
+        $(".nd").html(parseInt(nd)-1)
         //检索年度金额完成情况
         window.selectItemProjectMoney = function(nd,displayCode,callback){
         	publicMethods.ajaxPost('/budget/select-assettotal-compare-project',{"nd":nd,"code":displayCode}, function (data, status) {
@@ -178,6 +182,12 @@
     		});  
            	viewObj.tbData.push(newRow);
         }
+      	//资产分类编码字典 ROOT_JFYS_JTDWFL
+        publicMethods.ajaxPost('/dictionary/list/ROOT_JFYS_ZCDWFL', null, function (data, status) { 
+	    	$.each(data,function(i,dt){
+	    		$("#simpleCode").append("<option value='"+data[i].code+"'>"+data[i].name+"</option>");
+	    	});
+	    });
 		publicMethods.ajaxPost("/budget/get-assettotal-item/${dataId}",null, function (data) {
 			form.val("budget-form",data);
 			parentInfo = data;
@@ -221,10 +231,10 @@
             ]]
             ,done: function (res, curr, count) {
             	 var ysnd = parseInt($("#nd").val());
-            	 $(".layui-table-header .layui-table").find('th').eq(1).find('span').text((ysnd-1)+"实际完成");
-            	 $(".layui-table-header .layui-table").find('th').eq(2).find('span').text(ysnd+"计划金额");
-            	 $(".layui-table-header .layui-table").find('th').eq(3).find('span').text((ysnd-1)+"预计完成");
-            	 $(".layui-table-header .layui-table").find('th').eq(4).find('span').text(ysnd+"经费预算");
+            	 $(".layui-table-header .layui-table").find('th').eq(1).find('span').text((ysnd-1)+"年实际完成");
+            	 $(".layui-table-header .layui-table").find('th').eq(2).find('span').text(ysnd+"年经费计划");
+            	 $(".layui-table-header .layui-table").find('th').eq(3).find('span').text((ysnd-1)+"年预计完成");
+            	 $(".layui-table-header .layui-table").find('th').eq(4).find('span').text(ysnd+"年经费预算");
             }
         })
         table.on('tool(dataTable)', function (obj) {

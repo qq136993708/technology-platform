@@ -1424,6 +1424,136 @@ public class BudgetStockTotalExample {
             return (Criteria) this;
         }
 
+        public Criteria andItemTypeIsNull() {
+            addCriterion("item_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemTypeIsNotNull() {
+            addCriterion("item_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemTypeEqualTo(Integer value) {
+            addCriterion("item_type =", value, "itemType");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemTypeNotEqualTo(Integer value) {
+            addCriterion("item_type <>", value, "itemType");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemTypeGreaterThan(Integer value) {
+            addCriterion("item_type >", value, "itemType");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemTypeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("item_type >=", value, "itemType");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemTypeLessThan(Integer value) {
+            addCriterion("item_type <", value, "itemType");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemTypeLessThanOrEqualTo(Integer value) {
+            addCriterion("item_type <=", value, "itemType");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemTypeIn(List<Integer> values) {
+            addCriterion("item_type in", values, "itemType");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemTypeNotIn(List<Integer> values) {
+            addCriterion("item_type not in", values, "itemType");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemTypeBetween(Integer value1, Integer value2) {
+            addCriterion("item_type between", value1, value2, "itemType");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemTypeNotBetween(Integer value1, Integer value2) {
+            addCriterion("item_type not between", value1, value2, "itemType");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompanyCodeIsNull() {
+            addCriterion("company_code is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompanyCodeIsNotNull() {
+            addCriterion("company_code is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompanyCodeEqualTo(String value) {
+            addCriterion("company_code =", value, "companyCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompanyCodeNotEqualTo(String value) {
+            addCriterion("company_code <>", value, "companyCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompanyCodeGreaterThan(String value) {
+            addCriterion("company_code >", value, "companyCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompanyCodeGreaterThanOrEqualTo(String value) {
+            addCriterion("company_code >=", value, "companyCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompanyCodeLessThan(String value) {
+            addCriterion("company_code <", value, "companyCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompanyCodeLessThanOrEqualTo(String value) {
+            addCriterion("company_code <=", value, "companyCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompanyCodeLike(String value) {
+            addCriterion("company_code like", value, "companyCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompanyCodeNotLike(String value) {
+            addCriterion("company_code not like", value, "companyCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompanyCodeIn(List<String> values) {
+            addCriterion("company_code in", values, "companyCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompanyCodeNotIn(List<String> values) {
+            addCriterion("company_code not in", values, "companyCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompanyCodeBetween(String value1, String value2) {
+            addCriterion("company_code between", value1, value2, "companyCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompanyCodeNotBetween(String value1, String value2) {
+            addCriterion("company_code not between", value1, value2, "companyCode");
+            return (Criteria) this;
+        }
+
         public Criteria andRemarkIsNull() {
             addCriterion("remark is null");
             return (Criteria) this;
