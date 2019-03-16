@@ -418,6 +418,9 @@ public class BudgetStockTotalController extends BaseController {
 			rightCenterStyle.setAlignment(HorizontalAlignment.RIGHT);
 			rightCenterStyle.setVerticalAlignment(VerticalAlignment.CENTER);
 			
+			//合计
+			//Row totalRow = sheet.getRow(4);
+			
 			for(int i = 0;i<list.size();i++) {
 				
 				Integer no = (Integer)list.get(i).get("no");
