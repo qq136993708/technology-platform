@@ -29,9 +29,15 @@ public class BudgetGroupTotal {
 
     private Integer level;
 
+    private Double total;
+
     private Double xmjf;
 
     private Double zxjf;
+
+    private Integer itemType;
+
+    private String companyCode;
 
     private String remark;
 
@@ -153,6 +159,14 @@ public class BudgetGroupTotal {
         this.level = level;
     }
 
+    public Double getTotal() {
+        return total;
+    }
+
+    public void setTotal(Double total) {
+        this.total = total;
+    }
+
     public Double getXmjf() {
         return xmjf;
     }
@@ -167,6 +181,22 @@ public class BudgetGroupTotal {
 
     public void setZxjf(Double zxjf) {
         this.zxjf = zxjf;
+    }
+
+    public Integer getItemType() {
+        return itemType;
+    }
+
+    public void setItemType(Integer itemType) {
+        this.itemType = itemType;
+    }
+
+    public String getCompanyCode() {
+        return companyCode;
+    }
+
+    public void setCompanyCode(String companyCode) {
+        this.companyCode = companyCode;
     }
 
     public String getRemark() {

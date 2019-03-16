@@ -17,7 +17,7 @@
     </style>
 </head>
 <body>
-<form action="" id="budget-form" name="budget-form" lay-filter="budget-form" class="layui-form">
+<form action="" id="stock-form" lay-filter="stock-form" class="layui-form">
 	<input type="hidden" name="budgetInfoId" value="${budgetInfoId}">
 	<input type="hidden" name="dataId" value="${dataId}">
 	<input type="hidden" name="nd" id="nd" value="${nd}">
@@ -34,7 +34,7 @@
                 </div>
                 <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">单位<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">类别<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
                             <input type="text" name="displayName" id="displayName" placeholder="" lay-verify="required" autocomplete="off" class="layui-input">
                         </div>
@@ -44,7 +44,7 @@
             <div class="layui-row">
                 <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">单位简称<span class="must-fill">*</span></label>
+                        <label for="" class="layui-form-label">类别简称<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
                             <input class="layui-input" id="simpleName" name="simpleName" placeholder="" lay-verify="required" autocomplete="off" type="text">
                         </div>
@@ -54,10 +54,9 @@
                     <div class="layui-form-item">
                         <label for="" class="layui-form-label">上级单位<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-								<div class="selectTreeBox">
-									<div id="unitSelectTree" class="layui-form-select select-tree"></div>
-								</div>
-								<input type="hidden" id="displayCode" name="displayCode"> 
+							<div class="selectTreeBox">
+								<div id="parentDataId" class="layui-form-select select-tree"></div>
+							</div>
                         </div>
                     </div>
                 </div>
@@ -166,6 +165,8 @@
     var nd = "${nd}";
     var parentInfo = null;
     var company_map = {};
+    var unit_map = {};
+    var unitTree;
     layui.use(['jquery', 'table', 'form','laydate', 'layer','publicMethods','selectTree'], function () {
         var $ = layui.jquery, table = layui.table, form = layui.form,laydate = layui.laydate, layer = layui.layer,publicMethods=layui.publicMethods,selectTree=layui.selectTree;
         var layTableId = "dataTable";
@@ -202,15 +203,20 @@
         }
         //初始化级别选择
         publicMethods.ajaxPost("/budget/search-stockitem-tree",{"dataId":budgetInfoId}, function(data,status){
-        	selectTree.initSelectTree("unitSelectTree", false, true, true, true,data);
+        	unitTree = selectTree.initSelectTree("parentDataId", false, true, true, true,data);
         	selectTree.initHideMenu();
-        	//$("#unitSelectTreeShow").attr("title","tiddddddddtle");
-    		//$("#unitSelectTreeShow").attr("value","vadddddddddlue");
-    		
+        	$.each(data,function(index,dt){
+        		unit_map[dt.id]=dt.name;
+        	});
    		});  
         
 		publicMethods.ajaxPost("/budget/get-stocktotal-item/${dataId}",null, function (data) {
-			form.val("budget-form",data);
+			if(data.parentDataId){
+				$("input[id='parentDataId']").attr("value",data.parentDataId);				
+				$("#parentDataIdShow").attr("title",unit_map[data.parentDataId]);
+	    		$("#parentDataIdShow").attr("value",unit_map[data.parentDataId]);
+			}
+			form.val("stock-form",data);
 			parentInfo = data;
 			$.each(data.groups,function(index,dt){
 				selectItemProjectMoney(parseInt(dt.nd)-1,dt.displayCode,function(ysje){
@@ -221,12 +227,6 @@
 				});
 				viewObj.tbData.push(dt);
 			});
-			if(data.)
-			console.log("data.........");
-			console.log(data);
-    		//form.render();
-			//unitSelectTree = initSelectTree("unitSelectTree",true, true, false,{ "Y": "", "N": "" })
-			//unitSelectTree.initSelectTree("unitSelectTree", true, true, true, false,zNodes);
    		});
         //检索公司
       	publicMethods.ajaxPost("/budget/search-stock-company-items",null, function (data) {
@@ -265,6 +265,14 @@
             	 $(".layui-table-header .layui-table").find('th').eq(4).find('span').text(ysnd+"经费预算");
             }
         })
+        form.verify({
+        	parentDataId:function(value,item){
+				if(value=='' || value==null || value == "undefined")
+				{
+					return "请选择上级单位!";
+				}
+			}
+        });
         table.on('tool(dataTable)', function (obj) {
             var data = obj.data, event = obj.event, tr = obj.tr; //获得当前行 tr 的DOM对象;
             switch(event){
@@ -379,9 +387,9 @@
         // 点击保存按钮
         form.on('submit(saveEvent)', function(data){
             var formData = JSON.stringify(data.field);
-            //console.log("表单数据："+formData + '\n' +"表格数据:" + getTableData());
+            //console.log("表单数据："+formData);
             var lodingMsg = layer.msg('处理中....');
-            //保存预算项目
+            data.field.parentDataId = $("input[name='parentDataId']").attr("value");
             publicMethods.ajaxPost('/budget/save-stocktotal-item', data.field, function (data, status) {
                 if (data.success) {
                 	parent.initDataVersion("${budgetInfoId}");

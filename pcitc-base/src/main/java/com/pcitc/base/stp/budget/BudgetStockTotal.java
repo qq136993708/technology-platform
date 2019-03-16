@@ -41,6 +41,10 @@ public class BudgetStockTotal {
 
     private Double yjwcTotal;
 
+    private Integer itemType;
+
+    private String companyCode;
+
     private String remark;
 
     private String budgetInfoId;
@@ -207,6 +211,22 @@ public class BudgetStockTotal {
 
     public void setYjwcTotal(Double yjwcTotal) {
         this.yjwcTotal = yjwcTotal;
+    }
+
+    public Integer getItemType() {
+        return itemType;
+    }
+
+    public void setItemType(Integer itemType) {
+        this.itemType = itemType;
+    }
+
+    public String getCompanyCode() {
+        return companyCode;
+    }
+
+    public void setCompanyCode(String companyCode) {
+        this.companyCode = companyCode;
     }
 
     public String getRemark() {

@@ -1,5 +1,7 @@
 package com.pcitc.service.impl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -8,8 +10,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.common.Page;
 import com.pcitc.base.hana.report.CompanyCode;
+import com.pcitc.base.hana.report.DicSupplyer;
 import com.pcitc.base.hana.report.H1AMKYZH100006;
 import com.pcitc.base.hana.report.ProjectCode;
 import com.pcitc.mapper.common.CommonMapper;
@@ -83,6 +88,64 @@ public class CommonServiceImpl implements ICommonService {
        return list;
    }
    
+   public LayuiTableData getDicSupplyerList_table(LayuiTableParam param)throws Exception
+   {
+	    //每页显示条数
+ 		int pageSize = param.getLimit();
+ 		int pageNum = param.getPage();
+ 		Page p=new Page(pageNum,pageSize);
+		int start=(pageNum-1)*p.getPageSize();
+ 		String g0NAME1=(String)param.getParam().get("g0NAME1");
+ 		String g0MCOD3=(String)param.getParam().get("g0MCOD3");
+ 		String g0GSDM=(String)param.getParam().get("g0GSDM");
+ 		List<String> list=null;
+ 		if(g0GSDM!=null)
+ 		{
+ 			String arr[]=g0GSDM.split(",");
+ 	 		if(arr!=null)
+ 	 		{
+ 	 			list=new ArrayList<String>();
+ 	 			for(int i=0;i<arr.length;i++)
+ 	 			{
+ 	 				String str=arr[i];
+ 	 				if(str!=null && !str.equals(""))
+ 	 				{
+ 	 					list.add(str);
+ 	 				}
+ 	 			}
+ 	 		}
+ 		}
+ 		StringBuffer stringBuffer=new StringBuffer();
+ 		if(list!=null && list.size()>0)
+ 		{
+ 			stringBuffer.append(" and G0GSDM in (");
+ 			for(int i=0;i<list.size();i++)
+ 			{
+ 				String str=list.get(i);
+ 				if(i>0)
+ 				{
+ 					stringBuffer.append(",");
+ 				}
+ 				stringBuffer.append("'").append(str).append("'");
+ 			}
+ 			stringBuffer.append(")");
+ 		}
+ 		
+ 		Map map=new HashMap();
+ 		map.put("start", start);
+ 		map.put("pageSize", pageSize);
+ 		map.put("g0NAME1", g0NAME1);
+ 		map.put("g0MCOD3", g0MCOD3);
+ 		map.put("sqlStr", stringBuffer.toString());
+ 		List<DicSupplyer> listDicSupplyer = commonMapper.getDicSupplyerList_table(map);
+ 		Integer totalRecords = commonMapper.getDicSupplyCount(map);
+ 		System.out.println(">>>>>>>表格："+totalRecords);
+ 		LayuiTableData data = new LayuiTableData();
+ 		data.setData(listDicSupplyer);
+ 		data.setCount(totalRecords);
+ 	    return data;
+   }
+   
    // 项目类型--项目项目来源--项目级别
    public List<ProjectCode>  getCodeH1AM_KY_ZH_1000_06(Map map)throws Exception
    {
@@ -98,6 +161,8 @@ public class CommonServiceImpl implements ICommonService {
 	   List<H1AMKYZH100006> list = commonMapper.getCodeDicBase();
        return list;
    }
+   
+   
    
 
 	// erp中的课题，分页查询

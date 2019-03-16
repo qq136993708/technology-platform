@@ -95,8 +95,8 @@
 	                	<th lay-data="{field:'no',align: 'center', width: 45,totalRowText: '合计'}">序号</th>
 	                    <th lay-data="{field:'displayName', width: '20%'}">预算部门</th>
 	                    <th lay-data="{field:'remark', width: '25%'}">描述</th>
-	                   	<th lay-data="{field:'last_year_end',align: 'right',totalRow: true}">2018年科技实际完成</th>
-	                   	<th lay-data="{field:'plan_money',align: 'right',totalRow: true}">2019年科技经费计划</th>
+	                   	<th lay-data="{field:'last_year_end',align: 'right',totalRow: true}">2018年实际完成</th>
+	                   	<th lay-data="{field:'plan_money',align: 'right',totalRow: true}">2019年经费计划</th>
 	                    <th lay-data="{field:'yjwc', edit:true,align: 'right',totalRow: true}">2018年预计完成</th>
 	                    <th lay-data="{field:'xmjf', edit:true,align: 'right',totalRow: true}">2019年经费预算</th>	                    
 	                </tr>
@@ -175,7 +175,7 @@
             		$("#update_time").html(curent_budget_info.updateTime);//最后更新时间
             		$("#info_status").html(curent_budget_info.auditStatusDesc);//状态
             		
-            		publicMethods.ajaxPost("/budget/budget-assettotal-items",{page:1,limit:10,param: {"nd":cu_date,"budget_info_id":curent_budget_info.dataId}}, function (data) {
+            		publicMethods.ajaxPost("/budget/budget-assettotal-items",{page:1,limit:100,param: {"nd":cu_date,"budget_info_id":curent_budget_info.dataId}}, function (data) {
 	                	curent_tabel_data = data.data;
 	                	table.reload('dataTable', {data: data.data});
 	                	renderfunc();
@@ -203,8 +203,8 @@
 			function initDateView(){
 				$(".nd").html(cu_date);
             	//$('.layui-table-cell.laytable-cell-group').find('span').text(cu_date+"年度经费预算");
-            	$(".layui-table-header .layui-table").find('th').eq(4).find('span').text((cu_date-1)+"年科技实际完成");
-            	$(".layui-table-header .layui-table").find('th').eq(5).find('span').text(cu_date+"年科技经费计划");
+            	$(".layui-table-header .layui-table").find('th').eq(4).find('span').text((cu_date-1)+"年实际完成");
+            	$(".layui-table-header .layui-table").find('th').eq(5).find('span').text(cu_date+"年经费计划");
             	$(".layui-table-header .layui-table").find('th').eq(6).find('span').text((cu_date-1)+"年预计完成");
             	$(".layui-table-header .layui-table").find('th').eq(7).find('span').text(cu_date+"年经费预算");
 			}

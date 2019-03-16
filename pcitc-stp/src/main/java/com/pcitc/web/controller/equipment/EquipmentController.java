@@ -18,6 +18,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,12 +40,16 @@ import com.pcitc.base.hana.report.DicSupplyer;
 import com.pcitc.base.hana.report.ScientificCashFlow03;
 import com.pcitc.base.stp.equipment.SreEquipment;
 import com.pcitc.base.system.SysUser;
+import com.pcitc.base.system.SysUserProperty;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.IdUtil;
+import com.pcitc.base.util.JsonUtil;
 import com.pcitc.base.util.ResultsDate;
 import com.pcitc.base.workflow.Constants;
 import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.web.common.BaseController;
+import com.pcitc.web.common.JwtTokenUtil;
+import com.pcitc.web.utils.EquipmentUtils;
 
 @Controller
 @RequestMapping(value = "/sre-equipment")
@@ -72,6 +78,10 @@ public class EquipmentController extends BaseController {
 	// 公司代码
 	private static final String GET_DIC_ASSET_TYPE = "http://pcitc-zuul/hana-proxy/hana/common/dic/asset_type";
 	private static final String GET_DIC_SUPPLYER = "http://pcitc-zuul/hana-proxy/hana/common/dic/supplyer";
+	
+	
+	private static final String chooseBusiness_data = "http://pcitc-zuul/hana-proxy/hana/common/dic/supplyer_table";
+	
 
 	
 	@RequestMapping(value = "/guihua")
@@ -240,6 +250,26 @@ public class EquipmentController extends BaseController {
 		System.out.println("=============treeNodes:" + treeNodes);
 		return treeNodes.toString();
 	}
+	
+	
+	//判断有没有数据权限
+	@RequestMapping(value = "/checkSysUserProperty")
+	@ResponseBody
+	public String checkSysUserProperty(HttpServletRequest request, HttpServletResponse response) 
+	{
+		Result resultsDate = new Result();
+		SysUserProperty sysUserProperty=EquipmentUtils.getSysUserProperty(sysUserInfo.getUserId(), "G0DSM", restTemplate, httpHeaders);
+		if(sysUserProperty!=null)
+		{
+			resultsDate.setSuccess(true);
+		}else
+		{
+			resultsDate.setSuccess(false);
+		}
+		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
+		return result.toString();
+	}
+	
 
 	/**
 	 * 选择供应商
@@ -250,18 +280,54 @@ public class EquipmentController extends BaseController {
 	 */
 	@RequestMapping(value = "/to-choose-chooseBusiness")
 	public String tochooseBusiness(HttpServletRequest request, HttpServletResponse response) {
+		
+		SysUserProperty sysUserProperty=EquipmentUtils.getSysUserProperty(sysUserInfo.getUserId(), "G0DSM", restTemplate, httpHeaders);
+		String g0GSDM=sysUserProperty.getDataId();
+		request.setAttribute("g0GSDM", g0GSDM);
 		return "/stp/equipment/equipment/chooseBusiness";
 	}
+	
 
 	@RequestMapping(value = "/chooseBusiness")
 	@ResponseBody
 	public String chooseBusiness(HttpServletRequest request) throws Exception {
+		
+		String name = CommonUtil.getParameter(request, "name", "");
+		String cityName = CommonUtil.getParameter(request, "cityName", "");
+		String companyCode = CommonUtil.getParameter(request, "companyCode", "");
+		
 		DicSupplyer function = new DicSupplyer();
-
+		
+		function.setG0GSDM(companyCode);
+		function.setG0NAME1(name);
+		function.setG0MCOD3(cityName);
+		
+		
 		ResponseEntity<List> responseEntity = restTemplate.exchange(GET_DIC_SUPPLYER, HttpMethod.POST, new HttpEntity<DicSupplyer>(function, this.httpHeaders), List.class);
 		List treeNodes = responseEntity.getBody();
 		return JSONUtils.toJSONString(treeNodes);
 	}
+	
+	
+	
+	   @RequestMapping( value = "/chooseBusiness_data")
+		@ResponseBody
+		public String chooseBusiness_data(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
+
+			System.out.println("equipment_03 param=   " + JSONObject.toJSONString(param));
+			LayuiTableData layuiTableData = new LayuiTableData();
+			HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+			ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(chooseBusiness_data, HttpMethod.POST, entity, LayuiTableData.class);
+			int statusCode = responseEntity.getStatusCodeValue();
+			if (statusCode == 200) {
+				layuiTableData = responseEntity.getBody();
+			}
+			JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
+			System.out.println("chooseBusiness_data result=   " + result.toJSONString());
+			return result.toString();
+		}
+	 
+	 
 
 	@RequestMapping(value = "/uploadFile")
 	public String uploadFile(HttpServletRequest request, HttpServletResponse response) {
@@ -764,5 +830,30 @@ public class EquipmentController extends BaseController {
 		request.setAttribute("sreEquipment", sreEquipment);
 		return "/stp/equipment/equipment/equipment-view";
 	}
+	
+	
+	
+	/*private String aa()
+	{
+		MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<String, String>();
+		Map<String,Object> paramMap = new HashMap<String,Object>();
+		paramMap.put("userId", sysUserInfo.getUserId());
+	    requestBody.add("jsonStr", JsonUtil.parseMapToJson(paramMap));
+	    HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<MultiValueMap<String, String>>(requestBody, this.httpHeaders);
+	    ResponseEntity<JSONArray> responseEntity = this.restTemplate.exchange(USER_DATA_FILTER_URL+sysUserInfo.getUserId()+"/"+inPro.getParam().get("functionCode"), HttpMethod.POST, entity, JSONArray.class);
+	    JSONArray retJson = responseEntity.getBody();
+	    if (retJson != null) {
+	    	List<SysUserProperty> supList = JSONArray.parseArray(retJson.toString(), SysUserProperty.class);
+	    	
+	    	System.out.println("此人此功能配置的控制数据 : " + inPro.getParam().get("functionCode"));
+    	    for (SysUserProperty supVO : supList) {
+        	    if (inPro !=null && inPro.getParam().get(supVO.getDataType()) == null) {
+        	    	System.out.println(supVO.getDataType()+"========自动加入的控制数据key-value================"+supVO.getDataId());
+        	    	inPro.getParam().put(supVO.getDataType(), supVO.getDataId());
+        		}
+    	    }
+    	    args[0] = inPro;
+	    }
+	}*/
 
 }

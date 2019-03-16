@@ -125,6 +125,8 @@ public interface SysUserPropertyMapper {
 	 * 查询某个人在某些数据控制属性上的具体控制数据内容
 	 */
 	public List<SysUserProperty> selectUserPropertyByUserAndType(Map<String,Object> paramMap);
+	public SysUserProperty getSysUserProperty(Map<String,Object> paramMap);
+	
 	
 	/**
 	 * 根据userId 获取 data_id 长串
