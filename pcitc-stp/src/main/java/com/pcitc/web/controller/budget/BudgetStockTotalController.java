@@ -391,13 +391,16 @@ public class BudgetStockTotalController extends BaseController {
 			Integer nd = Integer.parseInt(param.get("nd"));
 			//处理标题 年度
 			String title = readCell(sheet.getRow(0).getCell(0));
-			String itemTitleYjwc = readCell(sheet.getRow(2).getCell(3));
-			String itemTitleXmjf = readCell(sheet.getRow(2).getCell(4));
+			String itemTitleJfys = readCell(sheet.getRow(2).getCell(2));
+			String itemTitleYjwc = readCell(sheet.getRow(2).getCell(5));
+			String itemTitleXmjf = readCell(sheet.getRow(2).getCell(8));
+			
 			sheet.getRow(0).getCell(0).setCellValue(title.replace("${nd}", nd.toString()));
-			sheet.getRow(2).getCell(3).setCellValue(itemTitleYjwc.replace("${yd}", new Integer(nd-1).toString()));
-			sheet.getRow(2).getCell(4).setCellValue(itemTitleXmjf.replace("${nd}", nd.toString()));
-			//从第四行开始，第四行是测试数据
-			Row templateRow = sheet.getRow(3);
+			sheet.getRow(2).getCell(2).setCellValue(itemTitleJfys.replace("${yd}", new Integer(nd-1).toString()));
+			sheet.getRow(2).getCell(5).setCellValue(itemTitleYjwc.replace("${yd}", new Integer(nd-1).toString()));
+			sheet.getRow(2).getCell(8).setCellValue(itemTitleXmjf.replace("${nd}", nd.toString()));
+			//从第四行开始，第五行是汇总数据
+			Row templateRow = sheet.getRow(4);
 			
 			//水平，垂直居中
 			CellStyle centerStyle =workbook.createCellStyle();
@@ -415,31 +418,61 @@ public class BudgetStockTotalController extends BaseController {
 			rightCenterStyle.setAlignment(HorizontalAlignment.RIGHT);
 			rightCenterStyle.setVerticalAlignment(VerticalAlignment.CENTER);
 			
+			//合计
+			//Row totalRow = sheet.getRow(4);
+			
 			for(int i = 0;i<list.size();i++) {
 				
 				Integer no = (Integer)list.get(i).get("no");
 				String displayName = list.get(i).get("displayName").toString();
-				String remark = list.get(i).get("remark").toString();
-				//Double total = (Double)list.get(i).get("total");
-				Double xmjf = (Double)list.get(i).get("xmjf");
-				Double yjwc = (Double)list.get(i).get("yjwc");
+				Integer level = (Integer)list.get(i).get("level");
 				
 				
+				String l_hj = "无";
+				String l_zbx = "无";
+				String l_fyx = "无";
+				Double yjwcTotal = (Double)list.get(i).get("yjwcTotal");
+				Double yjwcZbx = (Double)list.get(i).get("yjwcZbx");
+				Double yjwcFyx = (Double)list.get(i).get("yjwcFyx");
+				Double xmjfTotal = (Double)list.get(i).get("xmjfTotal");
+				Double xmjfZbx = (Double)list.get(i).get("xmjfZbx");
+				Double xmjfFyx = (Double)list.get(i).get("xmjfFyx");
 				
-				Row crow = sheet.getRow(i+3);
-				crow.createCell(0).setCellValue(no);
+				
+				Row crow = sheet.getRow(i+4);
+				if(level == 0) {
+					crow.createCell(0).setCellValue(no);
+				}else {
+					crow.createCell(0).setCellValue("");
+				}
 				crow.createCell(1).setCellValue(displayName);
-				crow.createCell(2).setCellValue(remark);
-				//crow.createCell(2).setCellValue(total);
-				crow.createCell(3).setCellValue(yjwc);
-				crow.createCell(4).setCellValue(xmjf);
+				crow.createCell(2).setCellValue(l_hj);
+				crow.createCell(3).setCellValue(l_zbx);
+				crow.createCell(4).setCellValue(l_fyx);
+				crow.createCell(5).setCellValue(yjwcTotal);
+				crow.createCell(6).setCellValue(yjwcZbx);
+				crow.createCell(7).setCellValue(yjwcFyx);
+				crow.createCell(8).setCellValue(xmjfTotal);
+				crow.createCell(9).setCellValue(xmjfZbx);
+				crow.createCell(10).setCellValue(xmjfFyx);
+				
+				
 				
 				crow.getCell(0).setCellStyle(centerStyle);
-				crow.getCell(1).setCellStyle(leftCenterStyle);
-				//crow.getCell(2).setCellStyle(leftCenterStyle);
-				crow.getCell(2).setCellStyle(leftCenterStyle);
+				if(level == 0) {
+					crow.getCell(1).setCellStyle(leftCenterStyle);
+				}else {
+					crow.getCell(1).setCellStyle(rightCenterStyle);
+				}
+				crow.getCell(2).setCellStyle(rightCenterStyle);
 				crow.getCell(3).setCellStyle(rightCenterStyle);
 				crow.getCell(4).setCellStyle(rightCenterStyle);
+				crow.getCell(5).setCellStyle(rightCenterStyle);
+				crow.getCell(6).setCellStyle(rightCenterStyle);
+				crow.getCell(7).setCellStyle(rightCenterStyle);
+				crow.getCell(8).setCellStyle(rightCenterStyle);
+				crow.getCell(9).setCellStyle(rightCenterStyle);
+				crow.getCell(10).setCellStyle(rightCenterStyle);
 			}
 			//合计单元格合并
 			//sheet.addMergedRegion(new CellRangeAddress(list.size()+4,list.size()+4,0,1));
