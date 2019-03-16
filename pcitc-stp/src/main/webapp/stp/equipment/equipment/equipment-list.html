@@ -15,14 +15,14 @@
 
 <div class="searchBox">
  <input type="hidden" name="auditStatus" id="auditStatus" value="${auditStatus}">
+ <input type="hidden" name="applyDepartCode" id="applyDepartCode" value="${applyDepartCode}">
+ 
+ 
+ 
     <!--查询条件-->
     <label class="dateInput">
         <span>装备名称</span>
         <input type="text" name="name" id="name" placeholder="请输入装备名称" title="装备名称" autocomplete="off" class="form-control" >
-    </label>
-     <label class="dateInput">
-        <span>申报部门</span>
-        <input type="text" name="applyDepartName" id="applyDepartName" placeholder="请输入申报部门" title="申报部门" autocomplete="off" class="form-control" >
     </label>
     
     
@@ -130,7 +130,6 @@ var name=$('#name').val();
             },
             resetEvent: function() { //点击重置按钮
             	$('#name').val("");
-            	$('#applyDepartName').val("");
             	$('#auditStatus').val("");
             },
             addEvent: function(){ //点击新增按钮
@@ -311,7 +310,7 @@ var name=$('#name').val();
            elem: '#processdef-table',
            url: '/sre-equipment/list',
            method:"POST",
-           where: {param: {"name":$("#name").val(),"auditStatus":$("#auditStatus").val(),"applyDepartName":$("#applyDepartName").val()}},
+           where: {param: {"name":$("#name").val(),"auditStatus":$("#auditStatus").val(),"applyDepartCode":$("#applyDepartCode").val()}},
            limit: 15,
            id: 'processdef-table',
            height: commonDislodgeTable(),
@@ -327,7 +326,7 @@ var name=$('#name').val();
            	   {type : 'checkbox', event : 'changeEvents', width : 55},
                {title : '序号', type : 'numbers', width : 55},
                {field : 'auditStatus', title : '状态', style : 'cursor: pointer;', align : 'center', templet : '<div>{{ layui.laytpl.auditStatus_equipment(d.auditStatus) }}</div>', width : 55},
-               {field : 'name',     title : '装备名称', style : 'cursor: pointer;', align : 'center', width : '20%'},
+               {field : 'name',     title : '装备名称', style : 'cursor: pointer;', align : 'left', width : '20%'},
                {field : 'type',     title : '装备分类', style : 'cursor: pointer;', align : 'center', width : '10%'},
                {field : 'unitPrice', title : '单价（万元）', style : 'cursor: pointer;', align : 'center', width : '10%'},
                {field : 'applyAcount', title : '申请数量', style : 'cursor: pointer;', align : 'center', width : '10%'},
