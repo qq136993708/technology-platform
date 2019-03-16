@@ -13,7 +13,6 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -24,7 +23,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.client.RestTemplate;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
@@ -36,6 +34,7 @@ import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.RequestProcessStatusEnum;
 import com.pcitc.base.stp.equipment.SreProject;
 import com.pcitc.base.stp.equipment.SreProjectTask;
+import com.pcitc.base.stp.equipment.UnitField;
 import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CodeUtil;
@@ -89,7 +88,9 @@ public class ProjectTaskController extends BaseController {
 	
 	//任务安排
 	@RequestMapping(value = "/arrange_list")
-	public String arrange_list(HttpServletRequest request, HttpServletResponse response) {
+	public String arrange_list(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		List<UnitField>  unitFieldList= CommonUtil.getUnitNameList(restTemplate, httpHeaders);
+		request.setAttribute("unitFieldList", unitFieldList);
 		return "/stp/equipment/task/arrange_list";
 	}
 	
@@ -102,7 +103,8 @@ public class ProjectTaskController extends BaseController {
 		
 		List<SysDictionary>  dicList= CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_LCZT", restTemplate, httpHeaders);
 		request.setAttribute("dicList", dicList);
-		
+		List<UnitField>  unitFieldList= CommonUtil.getUnitNameList(restTemplate, httpHeaders);
+		request.setAttribute("unitFieldList", unitFieldList);
 		return "/stp/equipment/task/write_list";
 	}
 	
@@ -117,7 +119,8 @@ public class ProjectTaskController extends BaseController {
 		List<SysDictionary>  dicList= CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_LCZT", restTemplate, httpHeaders);
 		request.setAttribute("dicList", dicList);
 		
-		
+		List<UnitField>  unitFieldList= CommonUtil.getUnitNameList(restTemplate, httpHeaders);
+		request.setAttribute("unitFieldList", unitFieldList);
 		return "/stp/equipment/task/apply_list";
 	}
 		
@@ -131,6 +134,13 @@ public class ProjectTaskController extends BaseController {
 	public String join_list(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		List<SysDictionary>  dicList= CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_LCZT", restTemplate, httpHeaders);
 		request.setAttribute("dicList", dicList);
+		
+		
+		List<UnitField>  unitFieldList= CommonUtil.getUnitNameList(restTemplate, httpHeaders);
+		request.setAttribute("unitFieldList", unitFieldList);
+	
+		
+		
 		return "/stp/equipment/task/join_list";
 	}		
 	

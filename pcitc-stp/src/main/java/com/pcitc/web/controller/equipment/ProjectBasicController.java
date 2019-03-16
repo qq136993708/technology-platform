@@ -33,6 +33,7 @@ import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.RequestProcessStatusEnum;
 import com.pcitc.base.stp.equipment.SreProject;
+import com.pcitc.base.stp.equipment.UnitField;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CodeUtil;
 import com.pcitc.base.util.CommonUtil;
@@ -79,7 +80,10 @@ public class ProjectBasicController extends BaseController {
 	}
 
 	@RequestMapping(value = "/to-list")
-	public String list(HttpServletRequest request, HttpServletResponse response) {
+	public String list(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		
+		List<UnitField>  unitFieldList= CommonUtil.getUnitNameList(restTemplate, httpHeaders);
+		request.setAttribute("unitFieldList", unitFieldList);
 		return "/stp/equipment/project/project-basic-list";
 	}
 
@@ -150,6 +154,12 @@ public class ProjectBasicController extends BaseController {
 		request.setAttribute("endYear", endYear);
 		request.setAttribute("beginYear", beginYear);
 		logger.info("============远程返回  beginYear " + beginYear);
+		
+		
+		List<UnitField>  unitFieldList= CommonUtil.getUnitNameList(restTemplate, httpHeaders);
+		request.setAttribute("unitFieldList", unitFieldList);
+	
+		
 		return "/stp/equipment/project/project-basic-add";
 	}
 	
@@ -264,8 +274,8 @@ public class ProjectBasicController extends BaseController {
 		String professionalDepartCode = CommonUtil.getParameter(request, "professionalDepartCode", "");
 		String taskWriteUserNames = CommonUtil.getParameter(request, "taskWriteUserNames", "");
 		String taskWriteUsersIds = CommonUtil.getParameter(request, "taskWriteUsersIds", "");
-		
-		
+		String professionalFieldName = CommonUtil.getParameter(request, "professionalFieldName", "");
+		String professionalFieldCode = CommonUtil.getParameter(request, "professionalFieldCode", "");
 		SreProject sreProjectBasic = null;
 		ResponseEntity<String> responseEntity = null;
 		// 判断是新增还是修改
@@ -301,6 +311,8 @@ public class ProjectBasicController extends BaseController {
 			}
 			sreProjectBasic.setProjectMoney(projectMoney);
 		}
+		sreProjectBasic.setProfessionalFieldCode(professionalFieldCode);
+		sreProjectBasic.setProfessionalFieldName(professionalFieldName);
 		sreProjectBasic.setYearFeeStr(yearFeeStr); 
 		sreProjectBasic.setDocumentDoc(documentDoc); 
 		sreProjectBasic.setName(name);

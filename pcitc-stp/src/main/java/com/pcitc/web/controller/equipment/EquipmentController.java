@@ -347,6 +347,8 @@ public class EquipmentController extends BaseController {
 
 	@RequestMapping(value = "/to-list")
 	public String list(HttpServletRequest request, HttpServletResponse response) {
+		String applyDepartCode=sysUserInfo.getUnitCode();
+		request.setAttribute("applyDepartCode", applyDepartCode);
 		return "/stp/equipment/equipment/equipment-list";
 	}
 
@@ -361,8 +363,7 @@ public class EquipmentController extends BaseController {
 	@ResponseBody
 	public String ajaxlist(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 		
-		String applyDepartCode=sysUserInfo.getUnitCode();
-		param.getParam().put("applyDepartCode", applyDepartCode);
+		
 		
 		
 		LayuiTableData layuiTableData = new LayuiTableData();
