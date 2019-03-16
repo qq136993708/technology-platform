@@ -6,6 +6,7 @@
 	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()" media="all">
+    <script src="/common/js/jquery-1.11.3.min.js"></script>
     <script src="/layuiadmin/layui/layui.js"></script>
     <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
 </head>
@@ -22,6 +23,28 @@
         <span>课题名称</span>
         <input type="text" name="name" placeholder="请输入课题名称" title="课题名称" autocomplete="off" class="form-control" id="name">
     </label>
+    
+    <label class="dateInput">
+         <span>部门</span>
+         <select name="belongDepartmentName" id="belongDepartmentName"  onchange="getDepartNameByUnitName(this.value)" style="width:200px" >
+             <option value="" >--请选择部门--</option>
+             <#list unitFieldList as vo> 
+		          <option value="${vo.unitName}"  >${vo.unitName}</option>
+		      </#list>
+		 </select>
+     </label>
+    
+     <label class="dateInput">
+         <span>专业处</span>
+         <select id="professionalDepartName" name="professionalDepartName" onchange="getProfessionalNameListByUnitNameAndDept(this.value)" style="width:200px"></select>
+     </label>
+    
+      <label class="dateInput">
+         <span>专业领域</span>
+         <select id="professionalFieldName" name="professionalFieldName" style="width:200px"></select>
+     </label>
+     
+     
     
     <!--按钮组-->
     <div class="btnGroup">
@@ -86,21 +109,78 @@
         }
     }
 </script>
-<script type="text/html" id="buttonTpl">
-          {{#  if(d.status == '0'){ }}
-            <button class="layui-btn layui-btn-warm layui-btn-xs">未上报</button>
-          {{#  } else if(d.status == '1'){ }}
-            <button class="layui-btn  layui-btn-xs">已上报</button>
-          {{#  } else if(d.status == '2'){ }}
-            <button class="layui-btn layui-btn-normal layui-btn-xs">退回调整</button>
-           {{#  } else if(d.status == '3'){ }}
-            <button class="layui-btn layui-btn-danger layui-btn-xs">通过</button>
-          {{#  } else{ }}
-            <button class="layui-btn layui-btn-primary layui-btn-xs">未上报</button>
-          {{#  } }}
+<script type="text/javascript">
+
+getDepartNameByUnitName($("#belongDepartmentName").val());
+function getDepartNameByUnitName(belongDepartmentName)
+{
+	 $("#belongDepartmentName").val(belongDepartmentName);
+	 $("#professionalDepartName").empty();
+	 var v_date=(new Date()).getTime();
+	 $.ajax({
+			url : "/unitField/getDepartmentNameListByUnitName?v_date="+v_date+"&unitName="+belongDepartmentName,
+			type : "post",
+			async: false,
+			dataType : "json",
+			success : function(data) 
+			{
+				$("#professionalDepartName").append("<option value=''>--请选择--</option>");
+				$.each(data, function(i, el) 
+				{
+					$("#professionalDepartName").append('<option value="'+ el.departmentName +'">' + el.departmentName+ '</option>');
+					/* if(cityId==el.departmentName)
+					{
+						$("#professionalDepartName ").val(departmentName);  
+					} */
+	  			  	
+				});
+			},
+			error : function() 
+			{
+				alert("发生未知错误 ,请重新操作.");
+			}
+		});
+	 
+	 
+	 getProfessionalNameListByUnitNameAndDept(belongDepartmentName);
+}
+
+
+
+
+
+
+
+function getProfessionalNameListByUnitNameAndDept(professionalDepartName)
+{
+	
+	 var belongDepartmentName= $("#belongDepartmentName").val();
+	 $("#professionalFieldName").empty();
+	 var v_date=(new Date()).getTime();
+	 $.ajax({
+			url : "/unitField/getProfessionalNameListByUnitNameAndDept?v_date="+v_date+"&unitName="+belongDepartmentName+"&departmentName="+professionalDepartName,
+			type : "post",
+			async: false,
+			dataType : "json",
+			success : function(data) 
+			{
+				$("#professionalFieldName").append("<option value=''>--请选择--</option>");
+				$.each(data, function(i, el) 
+				{
+					$("#professionalFieldName").append('<option value="'+ el.professionalFieldName +'">' + el.professionalFieldName+ '</option>');
+	  			  	
+				});
+			},
+			error : function() 
+			{
+				alert("发生未知错误 ,请重新操作.");
+			}
+		});
+}
+
 </script>
 <!--表格数据操作js-->
-<script src="/common/js/jquery-1.11.3.min.js"></script>
+
 <script>
 var param=JSON.parse(window.localStorage.getItem("param"));
 var functionId=param.id;
@@ -308,7 +388,7 @@ var name=$('#name').val();
             elem: '#processdef-table',
             url: '/sre-project-basic/list',
             method:"POST",
-            where: {param: {"name":$("#name").val(),"auditStatus":$("#auditStatus").val(),"setupYear":$("#setupYear").val()}},
+            where: {param: {"name":$("#name").val(),"auditStatus":$("#auditStatus").val(),"setupYear":$("#setupYear").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"professionalDepartName":$("#professionalDepartName").val(),"professionalFieldName":$("#professionalFieldName").val()}},
             limit: 15,	
             id: 'processdef-table',
             height: commonDislodgeTable(),

@@ -1,6 +1,7 @@
 package com.pcitc.service.msg;
 
 import com.pcitc.common.MailBean;
+import com.pcitc.util.mail.MailSenderInfo;
 
 /**
  * 邮件发送
@@ -21,4 +22,7 @@ public interface MailSentService
 	 * @return
 	 */
 	Integer sentAppendFileMail(MailBean mailbean);
+
+	boolean sendMail(MailSenderInfo mailSenderInfo);
+
 }

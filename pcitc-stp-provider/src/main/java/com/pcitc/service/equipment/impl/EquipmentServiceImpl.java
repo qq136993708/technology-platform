@@ -220,7 +220,15 @@ public class EquipmentServiceImpl implements EquipmentService {
 		String setupId=getTableParam(param,"setupId","");
 		String taskId=getTableParam(param,"taskId","");
 		
+		String belongDepartmentName=getTableParam(param,"belongDepartmentName","");
+		String professionalDepartName=getTableParam(param,"professionalDepartName","");
+		
+		
+		
+		
 		Map map=new HashMap();
+		map.put("belongDepartmentName", belongDepartmentName);
+		map.put("professionalDepartName", professionalDepartName);
 		map.put("name", name);
 		map.put("equipmentIds", equipmentIds);
 		map.put("auditStatus", auditStatus);
@@ -337,9 +345,14 @@ public class EquipmentServiceImpl implements EquipmentService {
 		String professionalFieldName=getTableParam(param,"professionalFieldName","");
 		String setupId=getTableParam(param,"setupId","");
 		
+		String belongDepartmentName=getTableParam(param,"belongDepartmentName","");
+		String professionalDepartName=getTableParam(param,"professionalDepartName","");
+		
 		
 		
 		Map map=new HashMap();
+		map.put("belongDepartmentName", belongDepartmentName);
+		map.put("professionalDepartName", professionalDepartName);
 		map.put("topicName", topicName);
 		map.put("auditStatus", auditStatus);
 		map.put("leadUnitName", leadUnitName);

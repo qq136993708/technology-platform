@@ -18,7 +18,6 @@
     <script src="/common/js/jquery-1.11.3.min.js"></script>
 
     <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
-    <script type="text/javascript" src="/layuiadmin/modules/base.js?aa=a"></script>
 </head>
 <body>
 <div class="layer-box">
@@ -153,7 +152,7 @@
                     </div>
                 </div>
 
-
+<!-- 
                 <div class="layui-form-item layui-form-text">
                     <label class="layui-form-label">归属部门<span class="must-fill">*</span></label>
                     <div class="layui-input-block">
@@ -162,7 +161,43 @@
                                value="${sreProjectBasic.belongDepartmentName}" lay-verify="required" autocomplete="off"
                                type="text">
                     </div>
+                </div> -->
+                
+                
+                
+                <div class="layui-row">
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                       <label class="layui-form-label">归属部门<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                        <select name="belongDepartmentName" id="belongDepartmentName"  onchange="getDepartNameByUnitName(this.value)" style="width:200px" >
+				             <option value="" >--请选择部门--</option>
+				             <#list unitFieldList as vo> 
+						          <option value="${vo.unitName}"  >${vo.unitName}</option>
+						      </#list>
+						 </select>
+                        </div>
+                    </div>
                 </div>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">专业处</label>
+                        <div class="layui-input-block">
+                           <select id="professionalDepartName" name="professionalDepartName" onchange="getProfessionalNameListByUnitNameAndDept(this.value)" style="width:200px"></select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">专业领域</label>
+                        <div class="layui-input-block">
+                        <select id="professionalFieldName" name="professionalFieldName"  style="width:200px"></select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
 
 
                 <div class="layui-form-item">
@@ -189,6 +224,72 @@
         </form>
     </div>
 </div>
+<script type="text/javascript">
+
+getDepartNameByUnitName($("#belongDepartmentName").val());
+function getDepartNameByUnitName(belongDepartmentName)
+{
+	
+	 $("#belongDepartmentName").val(belongDepartmentName);
+	 $("#professionalDepartName").empty();
+	
+	 var v_date=(new Date()).getTime();
+	 $.ajax({
+			url : "/unitField/getDepartmentNameListByUnitName?v_date="+v_date+"&unitName="+belongDepartmentName,
+			type : "post",
+			async: false,
+			dataType : "json",
+			success : function(data) 
+			{
+				$("#professionalDepartName").append("<option value=''>--请选择--</option>");
+				$.each(data, function(i, el) 
+				{
+					$("#professionalDepartName").append('<option value="'+ el.departmentName +'">' + el.departmentName+ '</option>');
+					/* if(cityId==el.departmentName)
+					{
+						$("#professionalDepartName ").val(departmentName);  
+					} */
+	  			  	
+				});
+			},
+			error : function() 
+			{
+				alert("发生未知错误 ,请重新操作.");
+			}
+		});
+	 
+	 
+	 getProfessionalNameListByUnitNameAndDept(belongDepartmentName);
+}
+
+
+function getProfessionalNameListByUnitNameAndDept(professionalDepartName)
+{
+	
+	 var belongDepartmentName= $("#belongDepartmentName").val();
+	 $("#professionalFieldName").empty();
+	 var v_date=(new Date()).getTime();
+	 $.ajax({
+			url : "/unitField/getProfessionalNameListByUnitNameAndDept?v_date="+v_date+"&unitName="+belongDepartmentName+"&departmentName="+professionalDepartName,
+			type : "post",
+			async: false,
+			dataType : "json",
+			success : function(data) 
+			{
+				$("#professionalFieldName").append("<option value=''>--请选择--</option>");
+				$.each(data, function(i, el) 
+				{
+					$("#professionalFieldName").append('<option value="'+ el.professionalFieldName +'">' + el.professionalFieldName+ '</option>');
+	  			  	
+				});
+			},
+			error : function() 
+			{
+				alert("发生未知错误 ,请重新操作.");
+			}
+		});
+}
+</script>
 <script>
     var publicMethods;
     var param = JSON.parse(window.localStorage.getItem("param"));
@@ -197,7 +298,6 @@
     var roleCodes = "";
     var unitCodes = "";
     var postCodes = "";
-
 
     var v_date = (new Date()).getTime();
     var file_ids = "documentDoc";
@@ -669,6 +769,9 @@
         });
         return flag;
     }
+    
+    
+    
 </script>
 </body>
 </html>

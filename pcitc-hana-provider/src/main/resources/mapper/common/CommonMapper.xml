@@ -129,9 +129,9 @@
      
       <sql id="selectConditionDicSupplyer">
 	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
-	     <if test="G0NAME1 != null   and G0NAME1  !='' ">         AND t.G0NAME1 like  CONCAT('%',#{g0NAME1},'%')</if>
-	     <if test="G0MCOD3 != null   and G0MCOD3  !='' ">         AND t.G0MCOD3 like  CONCAT('%',#{g0MCOD3},'%')</if>
-	     <if test="G0GSDM != null    and G0GSDM   !='' ">         AND t.G0GSDM = #{g0GSDM}</if>
+	     <if test="g0NAME1 != null   and g0NAME1  !='' ">         AND G0NAME1 like '%${g0NAME1}%' </if>
+	     <if test="g0MCOD3 != null   and g0MCOD3  !='' ">         AND G0MCOD3 like '%${g0MCOD3}%'  </if>
+	     <if test="sqlStr != null   and sqlStr !='' ">        ${sqlStr}</if>
 	 </trim>
 	</sql>
 	<select id="getDicSupplyerList" resultMap="dicSupplyerResultMap" parameterType="com.pcitc.base.hana.report.DicSupplyer">
@@ -147,6 +147,41 @@
 		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_ZH_1000_05" 
 		<include refid="selectConditionDicSupplyer" /> 
 	 </select>
+	 
+	 
+	 <select id="getDicSupplyerList_table" resultMap="dicSupplyerResultMap"  parameterType="java.util.Map" >
+	     SELECT
+		 distinct
+			 "G0LAND1",
+			 "G0MCOD3",
+			 "G0SORTL",
+			 "G0LIFNR",
+			 "G0NAME1",
+			 "G0KTOKK",
+			 "G0GSDM"
+		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_ZH_1000_05" 
+		<include refid="selectConditionDicSupplyer" /> 
+		<if test="pageSize != null and pageSize !=''">  limit ${pageSize} offset  ${start} </if>   
+	 </select>
+	 
+	 
+	  <select id="getDicSupplyCount" resultType="int" parameterType="java.util.Map"  >
+	  SELECT COUNT(*) FROM(
+	     SELECT
+		 distinct
+			 "G0LAND1",
+			 "G0MCOD3",
+			 "G0SORTL",
+			 "G0LIFNR",
+			 "G0NAME1",
+			 "G0KTOKK",
+			 "G0GSDM"
+		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_ZH_1000_05" 
+		<include refid="selectConditionDicSupplyer" /> 
+		)
+	 </select>
+	 
+	 
 	 
 	 
 	 

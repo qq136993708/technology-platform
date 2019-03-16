@@ -104,7 +104,7 @@
           <div class="layui-form-item">
             <label for="" class="layui-form-label">推荐供应商</label>
             <div class="layui-input-block">
-              <input class="layui-input" name="supplierName" id="supplierName" value="${sreEquipment.supplierName}"     autocomplete="off" type="text">
+              <input class="layui-input" name="supplierName" id="supplierName" value="${sreEquipment.supplierName}" onclick="chooseBusiness_data()"    autocomplete="off" type="text">
             </div>
           </div>
         </div>
@@ -368,22 +368,58 @@ layui.config({
       
 });
 
-/* function chooseType()
+ function chooseBusiness_data()
 {
-	
+	 var flag= checkSysUserProperty();
+	 if(flag==false)
+     {
+		 layer.alert("请先到“系统管理”中配置直属研究院数据");
+		 return;
+	 }
 	var v_date = (new Date()).getTime();
-	var temUrl="/sre-equipment/to-chooseType?v_date="+v_date;
+	var temUrl="/sre-equipment/to-choose-chooseBusiness?v_date="+v_date;
     layer.open({
-        title:'选择资产分类',
+        title:'选择供应商',
         skin: 'layui-layer-lan',
         shadeClose: true,
         type: 2,
         fixed: false,
         maxmin: true,
-        area: ['500px', '400px'],
+        area: ['700px', '500px'],
         content:  temUrl
     });
-} */
+} 
+
+
+
+
+
+function checkSysUserProperty()
+{
+	var flag=false;
+	var v_date = (new Date()).getTime();
+	var temUrl="/sre-equipment/checkSysUserProperty?v_date="+v_date; 
+	 $.ajax({
+  	     type: 'GET',
+  	     url: temUrl,
+  	     dataType:"json",
+  	     async: false, 
+  	     cache: false,
+  	     contentType: "application/x-www-form-urlencoded; charset=utf-8",
+         success:function(data,status)
+         {    
+    	  
+	          if(data.success==true ||data.success=='true')
+	          {
+	        	  flag=true;
+	        	  
+	          }
+	     
+		   }
+    
+  });
+ return flag;
+}
 
 
 

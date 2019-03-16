@@ -8,26 +8,24 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.pcitc.base.common.enums.DataOperationStatusEnum;
-import com.pcitc.base.system.SysDictionary;
-import com.pcitc.base.system.SysFile;
-
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.Constant;
 import com.pcitc.base.common.FileResult;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.Page;
+import com.pcitc.base.common.enums.DataOperationStatusEnum;
+import com.pcitc.base.stp.equipment.UnitField;
+import com.pcitc.base.system.SysDictionary;
+import com.pcitc.base.system.SysFile;
 
 public class CommonUtil {
 
@@ -208,6 +206,13 @@ public class CommonUtil {
 
 	}
 	
+	public static List<UnitField> getUnitNameList(RestTemplate restTemplate,HttpHeaders httpHeaders)throws Exception
+	{
+		    String getUnitNameList= "http://pcitc-zuul/stp-proxy/stp_unitField/getUnitNameList";
+		    List<UnitField>  list=restTemplate.exchange(getUnitNameList , HttpMethod.GET, new HttpEntity<Object>(httpHeaders), List.class).getBody();
+		    return list;
+
+	}
 	
 	
 

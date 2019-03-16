@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pcitc.mapper.equipment.UnitFieldMapper" >
+  <resultMap id="BaseResultMap" type="com.pcitc.base.stp.equipment.UnitField" >
+    <id column="data_id" property="dataId" jdbcType="VARCHAR" />
+    <result column="create_user_name" property="createUserName" jdbcType="VARCHAR" />
+    <result column="create_user_id" property="createUserId" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="audit_sts" property="auditSts" jdbcType="VARCHAR" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="data_code" property="dataCode" jdbcType="VARCHAR" />
+    <result column="unit_name" property="unitName" jdbcType="VARCHAR" />
+    <result column="unit_code" property="unitCode" jdbcType="VARCHAR" />
+    <result column="department_name" property="departmentName" jdbcType="VARCHAR" />
+    <result column="department_code" property="departmentCode" jdbcType="VARCHAR" />
+    <result column="professional_field_name" property="professionalFieldName" jdbcType="VARCHAR" />
+    <result column="classify_name" property="classifyName" jdbcType="VARCHAR" />
+    <result column="show_order" property="showOrder" jdbcType="VARCHAR" />
+    <result column="bak1" property="bak1" jdbcType="VARCHAR" />
+    <result column="bak2" property="bak2" jdbcType="VARCHAR" />
+    <result column="bak3" property="bak3" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    data_id, create_user_name, create_user_id, create_date, status, audit_sts, remarks, 
+    data_code, unit_name, unit_code, department_name, department_code, professional_field_name, 
+    classify_name, show_order, bak1, bak2, bak3
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from stp_unit_field
+    where data_id = #{dataId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from stp_unit_field
+    where data_id = #{dataId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.pcitc.base.stp.equipment.UnitField" >
+    insert into stp_unit_field (data_id, create_user_name, create_user_id, 
+      create_date, status, audit_sts, 
+      remarks, data_code, unit_name, 
+      unit_code, department_name, department_code, 
+      professional_field_name, classify_name, show_order, 
+      bak1, bak2, bak3)
+    values (#{dataId,jdbcType=VARCHAR}, #{createUserName,jdbcType=VARCHAR}, #{createUserId,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{auditSts,jdbcType=VARCHAR}, 
+      #{remarks,jdbcType=VARCHAR}, #{dataCode,jdbcType=VARCHAR}, #{unitName,jdbcType=VARCHAR}, 
+      #{unitCode,jdbcType=VARCHAR}, #{departmentName,jdbcType=VARCHAR}, #{departmentCode,jdbcType=VARCHAR}, 
+      #{professionalFieldName,jdbcType=VARCHAR}, #{classifyName,jdbcType=VARCHAR}, #{showOrder,jdbcType=VARCHAR}, 
+      #{bak1,jdbcType=VARCHAR}, #{bak2,jdbcType=VARCHAR}, #{bak3,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pcitc.base.stp.equipment.UnitField" >
+    insert into stp_unit_field
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="dataId != null" >
+        data_id,
+      </if>
+      <if test="createUserName != null" >
+        create_user_name,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="auditSts != null" >
+        audit_sts,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="dataCode != null" >
+        data_code,
+      </if>
+      <if test="unitName != null" >
+        unit_name,
+      </if>
+      <if test="unitCode != null" >
+        unit_code,
+      </if>
+      <if test="departmentName != null" >
+        department_name,
+      </if>
+      <if test="departmentCode != null" >
+        department_code,
+      </if>
+      <if test="professionalFieldName != null" >
+        professional_field_name,
+      </if>
+      <if test="classifyName != null" >
+        classify_name,
+      </if>
+      <if test="showOrder != null" >
+        show_order,
+      </if>
+      <if test="bak1 != null" >
+        bak1,
+      </if>
+      <if test="bak2 != null" >
+        bak2,
+      </if>
+      <if test="bak3 != null" >
+        bak3,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="dataId != null" >
+        #{dataId,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserName != null" >
+        #{createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="auditSts != null" >
+        #{auditSts,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="dataCode != null" >
+        #{dataCode,jdbcType=VARCHAR},
+      </if>
+      <if test="unitName != null" >
+        #{unitName,jdbcType=VARCHAR},
+      </if>
+      <if test="unitCode != null" >
+        #{unitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="departmentName != null" >
+        #{departmentName,jdbcType=VARCHAR},
+      </if>
+      <if test="departmentCode != null" >
+        #{departmentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="professionalFieldName != null" >
+        #{professionalFieldName,jdbcType=VARCHAR},
+      </if>
+      <if test="classifyName != null" >
+        #{classifyName,jdbcType=VARCHAR},
+      </if>
+      <if test="showOrder != null" >
+        #{showOrder,jdbcType=VARCHAR},
+      </if>
+      <if test="bak1 != null" >
+        #{bak1,jdbcType=VARCHAR},
+      </if>
+      <if test="bak2 != null" >
+        #{bak2,jdbcType=VARCHAR},
+      </if>
+      <if test="bak3 != null" >
+        #{bak3,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.stp.equipment.UnitField" >
+    update stp_unit_field
+    <set >
+      <if test="createUserName != null" >
+        create_user_name = #{createUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="auditSts != null" >
+        audit_sts = #{auditSts,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="dataCode != null" >
+        data_code = #{dataCode,jdbcType=VARCHAR},
+      </if>
+      <if test="unitName != null" >
+        unit_name = #{unitName,jdbcType=VARCHAR},
+      </if>
+      <if test="unitCode != null" >
+        unit_code = #{unitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="departmentName != null" >
+        department_name = #{departmentName,jdbcType=VARCHAR},
+      </if>
+      <if test="departmentCode != null" >
+        department_code = #{departmentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="professionalFieldName != null" >
+        professional_field_name = #{professionalFieldName,jdbcType=VARCHAR},
+      </if>
+      <if test="classifyName != null" >
+        classify_name = #{classifyName,jdbcType=VARCHAR},
+      </if>
+      <if test="showOrder != null" >
+        show_order = #{showOrder,jdbcType=VARCHAR},
+      </if>
+      <if test="bak1 != null" >
+        bak1 = #{bak1,jdbcType=VARCHAR},
+      </if>
+      <if test="bak2 != null" >
+        bak2 = #{bak2,jdbcType=VARCHAR},
+      </if>
+      <if test="bak3 != null" >
+        bak3 = #{bak3,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where data_id = #{dataId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.equipment.UnitField" >
+    update stp_unit_field
+    set create_user_name = #{createUserName,jdbcType=VARCHAR},
+      create_user_id = #{createUserId,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      audit_sts = #{auditSts,jdbcType=VARCHAR},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      data_code = #{dataCode,jdbcType=VARCHAR},
+      unit_name = #{unitName,jdbcType=VARCHAR},
+      unit_code = #{unitCode,jdbcType=VARCHAR},
+      department_name = #{departmentName,jdbcType=VARCHAR},
+      department_code = #{departmentCode,jdbcType=VARCHAR},
+      professional_field_name = #{professionalFieldName,jdbcType=VARCHAR},
+      classify_name = #{classifyName,jdbcType=VARCHAR},
+      show_order = #{showOrder,jdbcType=VARCHAR},
+      bak1 = #{bak1,jdbcType=VARCHAR},
+      bak2 = #{bak2,jdbcType=VARCHAR},
+      bak3 = #{bak3,jdbcType=VARCHAR}
+    where data_id = #{dataId,jdbcType=VARCHAR}
+  </update>
+  
+    <sql id="selectCondition">
+	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
+	     <if test="departmentName != null and departmentName  !='' ">  AND t.department_name like CONCAT('%',#{departmentName},'%')</if>
+	     <if test="unitName != null and unitName  !='' ">              AND t.unit_name like CONCAT('%',#{unitName},'%')</if>
+	     <if test="professionalFieldName != null and professionalFieldName  !='' "> AND t.professional_field_name like CONCAT('%',#{professionalFieldName},'%')</if>
+	     <if test="unitCode != null           and unitCode !=''  ">         AND t.unit_code = #{unitCode}</if>
+	     <if test="departmentCode != null     and departmentCode !=''  ">   AND t.department_code = #{departmentCode}</if>
+	     <if test="sqlStr != null   and sqlStr !='' ">      AND  ${sqlStr}</if>
+	 </trim>
+	</sql>
+    
+   <select id="getList" resultMap="BaseResultMap" parameterType="Map" >
+     select * from stp_unit_field t <include refid="selectCondition" />    
+     <choose>
+      <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
+      <otherwise>
+        ORDER BY  create_date desc
+      </otherwise>
+     </choose>
+     <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
+   </select>
+   
+    <select id="getCount" resultType="java.lang.Integer" parameterType="Map" >
+      SELECT count(*) FROM stp_unit_field t <include refid="selectCondition"/>
+    </select>
+  
+  
+   <select id="getUnitNameList" resultMap="BaseResultMap" >
+     SELECT t.unit_code,t.unit_name FROM stp_unit_field t GROUP BY t.unit_code, t.unit_name
+   </select>
+     
+    <select id="getDepartmentNameListByUnitName" resultMap="BaseResultMap" parameterType="Map">
+      SELECT t.department_code,department_name FROM stp_unit_field t WHERE t.unit_name=#{unitName} GROUP BY t.department_code,t.department_name
+    </select>
+    
+    
+    <select id="getProfessionalNameListByUnitNameAndDept" resultMap="BaseResultMap" parameterType="Map">
+     SELECT professional_field_name FROM stp_unit_field t WHERE t.unit_name=#{unitName} AND  t.department_name=#{departmentName} GROUP BY professional_field_name
+    </select>
+    
+    
+     
+     
+</mapper>

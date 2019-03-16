@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.pcitc.base.common.LayuiTableData;
+import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.hana.report.CompanyCode;
 import com.pcitc.base.hana.report.DicAssetType;
 import com.pcitc.base.hana.report.DicSupplyer;
@@ -137,6 +139,20 @@ public class CommonProviderClient {
 	
 	
 	
+	
+	@ApiOperation(value = "获取供应商", notes = "报表名称:项目主数据-供应商 ")
+	@RequestMapping(value = "/dic/supplyer_table", method = RequestMethod.POST)
+   	public LayuiTableData getDicSupplyerList_table(@RequestBody LayuiTableParam param)throws Exception
+   	{
+    	System.out.println("getDicSupplyerList_table param=" + param);
+   		return commonService.getDicSupplyerList_table(param);
+   	}
+	
+	
+	
+	
+	
+	
 	/**
 	 * 报表名称:项目主数据-科研公司代码   报表编码: H1AM_KY_ZH_1000_06
 	 *
@@ -174,6 +190,7 @@ public class CommonProviderClient {
 		JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
 		return json;
 	}
+	
 	
 
 }
