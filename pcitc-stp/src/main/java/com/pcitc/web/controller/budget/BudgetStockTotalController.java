@@ -65,6 +65,7 @@ public class BudgetStockTotalController extends BaseController {
 	private static final String BUDGET_STOCKTOTAL_CREATE_BYTEMPLATE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-create-template-stocktotal";
 	private static final String BUDGET_STOCKTOTAL_DELETE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-stocktotal-del";
 	private static final String BUDGET_STOCKTOTAL_GET_ITEM = "http://pcitc-zuul/stp-proxy/stp-provider/budget/get-stocktotal-item/";
+	private static final String BUDGET_STOCKTOTAL_GET_ITEM_COMPANY = "http://pcitc-zuul/stp-proxy/stp-provider/budget/get-stocktotal-item-company/";
 	private static final String BUDGET_STOCKTOTAL_DEL_ITEMS = "http://pcitc-zuul/stp-proxy/stp-provider/budget/del-stocktotal-item/";
 	private static final String BUDGET_STOCKTOTAL_SAVE_ITEM = "http://pcitc-zuul/stp-proxy/stp-provider/budget/save-stocktotal-item";
 	private static final String BUDGET_STOCKTOTAL_SAVE_ITEMS = "http://pcitc-zuul/stp-proxy/stp-provider/budget/save-stocktotal-items";
@@ -185,6 +186,14 @@ public class BudgetStockTotalController extends BaseController {
 	public Object selectBudgetStockTotalItem(@PathVariable("dataId") String dataId,HttpServletRequest request) throws IOException 
 	{
 		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_STOCKTOTAL_GET_ITEM+dataId, HttpMethod.POST, new HttpEntity<Object>(dataId, this.httpHeaders), Object.class);
+		//System.out.println(JSON.toJSON(responseEntity.getBody()).toString());
+		return JSON.toJSON(responseEntity.getBody()).toString();
+	}
+	@RequestMapping(value = "/budget/get-stocktotal-item-company/{dataId}", method = RequestMethod.POST)
+	@ResponseBody
+	public Object selectBudgetStockTotalItemCompany(@PathVariable("dataId") String dataId,HttpServletRequest request) throws IOException 
+	{
+		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_STOCKTOTAL_GET_ITEM_COMPANY+dataId, HttpMethod.POST, new HttpEntity<Object>(dataId, this.httpHeaders), Object.class);
 		//System.out.println(JSON.toJSON(responseEntity.getBody()).toString());
 		return JSON.toJSON(responseEntity.getBody()).toString();
 	}

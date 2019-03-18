@@ -21,6 +21,7 @@ import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.enums.BudgetAuditStatusEnum;
+import com.pcitc.base.common.enums.BudgetItemTypeEnum;
 import com.pcitc.base.common.enums.DelFlagEnum;
 import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.stp.budget.BudgetInfoExample;
@@ -198,6 +199,16 @@ public class BudgetStockTotalServiceImpl implements BudgetStockTotalService
 		c.andParentDataIdEqualTo(dataId);
 		c.andLevelEqualTo(1);//只显示第二级
 		example.setOrderByClause("no");
+		return budgetStockTotalMapper.selectByExample(example);
+	}
+	@Override
+	public List<BudgetStockTotal> selectBudgetStockTotalCompanyItem(String dataId)
+	{
+		BudgetStockTotalExample example = new BudgetStockTotalExample();
+		BudgetStockTotalExample.Criteria c = example.createCriteria();
+		c.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
+		c.andParentDataIdEqualTo(dataId);
+		c.andItemTypeEqualTo(BudgetItemTypeEnum.BUDGET_ITEM_COMPANY.getCode());
 		return budgetStockTotalMapper.selectByExample(example);
 	}
 	@Override
