@@ -12,6 +12,38 @@ public class DicSupplyer implements Serializable{
 	 private String g0NAME1;//名称
 	 private String g0KTOKK;//
 	 private String g0GSDM;//
+	 
+	 
+	 private String g0GSJC;
+	 private String g0ADRNR;
+	 private String g0TELF1;
+	 private String g0TELFX;
+	 
+	 
+	public String getG0GSJC() {
+		return g0GSJC;
+	}
+	public void setG0GSJC(String g0gsjc) {
+		g0GSJC = g0gsjc;
+	}
+	public String getG0ADRNR() {
+		return g0ADRNR;
+	}
+	public void setG0ADRNR(String g0adrnr) {
+		g0ADRNR = g0adrnr;
+	}
+	public String getG0TELF1() {
+		return g0TELF1;
+	}
+	public void setG0TELF1(String g0telf1) {
+		g0TELF1 = g0telf1;
+	}
+	public String getG0TELFX() {
+		return g0TELFX;
+	}
+	public void setG0TELFX(String g0telfx) {
+		g0TELFX = g0telfx;
+	}
 	public String getG0LAND1() {
 		return g0LAND1;
 	}

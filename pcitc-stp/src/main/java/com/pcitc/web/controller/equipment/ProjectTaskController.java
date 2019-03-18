@@ -71,7 +71,7 @@ public class ProjectTaskController extends BaseController {
 		
 	
 	// 总部门审核
-	private final static String PROCESS_DEFINE_ID_TASK_FLOAT = "equitmentApplyProcess:1:1172522";
+	private final static String PROCESS_DEFINE_ID_TASK_FLOAT = "equipment_task_apply1:2:1217559";
 	// 内部审核
 	private final static String PROCESS_DEFINE_ID_CONFIRM_FLOAT = "equitmentApplyProcess:1:1172522";
 	
@@ -188,6 +188,9 @@ public class ProjectTaskController extends BaseController {
 		
 		List<SysDictionary>  dicList= CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_LCZT", restTemplate, httpHeaders);
 		request.setAttribute("dicList", dicList);
+
+		List<UnitField>  unitFieldList= CommonUtil.getUnitNameList(restTemplate, httpHeaders);
+		request.setAttribute("unitFieldList", unitFieldList);
 		return "/stp/equipment/task/confirm_list";
 	}
 	
@@ -411,6 +414,8 @@ public class ProjectTaskController extends BaseController {
 			sreProjectBasic.setBelongDepartmentName(sreProject.getBelongDepartmentName());
 			sreProjectBasic.setProfessionalDepartCode(sreProject.getProfessionalDepartCode());
 			sreProjectBasic.setProfessionalDepartName(sreProject.getProfessionalDepartName());
+			sreProjectBasic.setProfessionalFieldName(sreProject.getProfessionalFieldName());
+			sreProjectBasic.setProfessionalFieldCode(sreProject.getProfessionalFieldCode());
 		}
 		sreProjectBasic.setTopicId(topicId); 
 		sreProjectBasic.setContractNum(contractNum);
@@ -444,19 +449,6 @@ public class ProjectTaskController extends BaseController {
 			String dataId = sreProjectBasic.getTaskId();
 			resultsDate.setData(dataId);
 			resultsDate.setSuccess(true);
-			//如果是提交
-			/*if(isWorkFlow.equals("1"))
-			{
-				// 处理流程相关信息
-				boolean flowFlag = dealProjectWorkFlow(dataId, functionId,sysUserInfo, "任务书:"+sreProjectBasic.getTaskId(), userIds, httpHeaders);
-				if (flowFlag == true)
-				{
-					resultsDate = new Result(true, RequestProcessStatusEnum.OK.getStatusDesc());
-				} else 
-				{
-					resultsDate = new Result(false, RequestProcessStatusEnum.SERVER_BUSY.getStatusDesc());
-				}
-			}*/
 		} else 
 		{
 			resultsDate = new Result(false, RequestProcessStatusEnum.SERVER_BUSY.getStatusDesc());

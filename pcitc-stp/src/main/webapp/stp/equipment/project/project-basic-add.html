@@ -148,11 +148,11 @@
                     <div class="layui-input-block" style="margin-bottom: 10px;">
                         <input class="layui-input" name="joinUnitName" id="joinUnitName"
                                onclick="chooseUnitMulti('choose_joinUnitName_callback')" placeholder="请选择"
-                               value="${sreProjectBasic.joinUnitName}" lay-verify="required" autocomplete="off" type="text">
+                               value="${sreProjectBasic.joinUnitName}"  autocomplete="off" type="text">
                     </div>
                 </div>
 
-<!-- 
+              <!-- 
                 <div class="layui-form-item layui-form-text">
                     <label class="layui-form-label">归属部门<span class="must-fill">*</span></label>
                     <div class="layui-input-block">
@@ -170,20 +170,22 @@
                     <div class="layui-form-item">
                        <label class="layui-form-label">归属部门<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                        <select name="belongDepartmentName" id="belongDepartmentName"  onchange="getDepartNameByUnitName(this.value)" style="width:200px" >
+                        <select name="belongDepartmentName" id="belongDepartmentName"  lay-filter="getDepartNameByUnitName"   style="width:200px" >
 				             <option value="" >--请选择部门--</option>
 				             <#list unitFieldList as vo> 
-						          <option value="${vo.unitName}"  >${vo.unitName}</option>
+						          <option  value="${vo.unitName}"  <#if vo.unitName == sreProjectBasic.belongDepartmentName> selected="selected" </#if> >${vo.unitName}</option>
 						      </#list>
 						 </select>
                         </div>
                     </div>
                 </div>
+                
+                
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
                         <label for="" class="layui-form-label">专业处</label>
                         <div class="layui-input-block">
-                           <select id="professionalDepartName" name="professionalDepartName" onchange="getProfessionalNameListByUnitNameAndDept(this.value)" style="width:200px"></select>
+                           <select id="professionalDepartName" name="professionalDepartName" lay-filter="getProfessionalNameListByUnitNameAndDept"  style="width:200px"></select>
                         </div>
                     </div>
                 </div>
@@ -226,79 +228,19 @@
 </div>
 <script type="text/javascript">
 
-getDepartNameByUnitName($("#belongDepartmentName").val());
-function getDepartNameByUnitName(belongDepartmentName)
-{
-	
-	 $("#belongDepartmentName").val(belongDepartmentName);
-	 $("#professionalDepartName").empty();
-	
-	 var v_date=(new Date()).getTime();
-	 $.ajax({
-			url : "/unitField/getDepartmentNameListByUnitName?v_date="+v_date+"&unitName="+belongDepartmentName,
-			type : "post",
-			async: false,
-			dataType : "json",
-			success : function(data) 
-			{
-				$("#professionalDepartName").append("<option value=''>--请选择--</option>");
-				$.each(data, function(i, el) 
-				{
-					$("#professionalDepartName").append('<option value="'+ el.departmentName +'">' + el.departmentName+ '</option>');
-					/* if(cityId==el.departmentName)
-					{
-						$("#professionalDepartName ").val(departmentName);  
-					} */
-	  			  	
-				});
-			},
-			error : function() 
-			{
-				alert("发生未知错误 ,请重新操作.");
-			}
-		});
-	 
-	 
-	 getProfessionalNameListByUnitNameAndDept(belongDepartmentName);
-}
-
-
-function getProfessionalNameListByUnitNameAndDept(professionalDepartName)
-{
-	
-	 var belongDepartmentName= $("#belongDepartmentName").val();
-	 $("#professionalFieldName").empty();
-	 var v_date=(new Date()).getTime();
-	 $.ajax({
-			url : "/unitField/getProfessionalNameListByUnitNameAndDept?v_date="+v_date+"&unitName="+belongDepartmentName+"&departmentName="+professionalDepartName,
-			type : "post",
-			async: false,
-			dataType : "json",
-			success : function(data) 
-			{
-				$("#professionalFieldName").append("<option value=''>--请选择--</option>");
-				$.each(data, function(i, el) 
-				{
-					$("#professionalFieldName").append('<option value="'+ el.professionalFieldName +'">' + el.professionalFieldName+ '</option>');
-	  			  	
-				});
-			},
-			error : function() 
-			{
-				alert("发生未知错误 ,请重新操作.");
-			}
-		});
-}
 </script>
 <script>
     var publicMethods;
+    var form;
     var param = JSON.parse(window.localStorage.getItem("param"));
     var functionId = param.id;
     $('#functionId').val(functionId);
     var roleCodes = "";
     var unitCodes = "";
     var postCodes = "";
-
+    var belongDepartmentName="${sreProjectBasic.belongDepartmentName?default('')}";
+    var professionalDepartName="${sreProjectBasic.professionalDepartName?default('')}";
+    var professionalFieldName="${sreProjectBasic.professionalFieldName?default('')}";
     var v_date = (new Date()).getTime();
     var file_ids = "documentDoc";
     //detail:详情，edit：编辑
@@ -318,13 +260,102 @@ function getProfessionalNameListByUnitNameAndDept(professionalDepartName)
             , layer = layui.layer
             , laydate = layui.laydate
             , laypage = layui.laypage
-            , $ = layui.jquery
-            , form = layui.form;
+            , $ = layui.jquery;
+          
+        form = layui.form;
         publicMethods = layui.publicMethods;
         form.render();
         laydate.render({
             elem: '#LAY-component-form-group-date'
         });
+        
+        
+        
+        form.on('select(getDepartNameByUnitName)',function(data){ 
+        	getDepartNameByUnitName(data.value);
+        })
+        
+         form.on('select(getProfessionalNameListByUnitNameAndDept)',function(data){ 
+        	 getProfessionalNameListByUnitNameAndDept(data.value);
+        })
+        
+        
+			getDepartNameByUnitName($("#belongDepartmentName").val());
+			function getDepartNameByUnitName(belongDepartmentName)
+			{
+				 $("#belongDepartmentName").val(belongDepartmentName);
+				 $("#professionalDepartName").empty();
+				
+				 var v_date=(new Date()).getTime();
+				 $.ajax({
+						url : "/unitField/getDepartmentNameListByUnitName?v_date="+v_date+"&unitName="+belongDepartmentName,
+						type : "post",
+						async: false,
+						dataType : "json",
+						success : function(data) 
+						{
+							$("#professionalDepartName").append("<option value=''>--请选择--</option>");
+							$.each(data, function(i, el) 
+							{
+								var content='<option value="'+ el.departmentName +'" ';
+								if(professionalDepartName==el.departmentName)
+								{
+									content+=' selected="selected" '; 
+								}  
+								content+=' >' + el.departmentName+ '</option>';
+								$("#professionalDepartName").append(content);
+								
+							});
+							form.render('select');
+						},
+						error : function() 
+						{
+							alert("发生未知错误 ,请重新操作.");
+						}
+					});
+				 
+				 
+				  
+			        
+				getProfessionalNameListByUnitNameAndDept(professionalDepartName);
+			}
+			
+			
+			function getProfessionalNameListByUnitNameAndDept(professionalDepartName)
+			{
+				 var belongDepartmentName= $("#belongDepartmentName").val();
+				 $("#professionalFieldName").empty();
+				 var v_date=(new Date()).getTime();
+				 $.ajax({
+						url : "/unitField/getProfessionalNameListByUnitNameAndDept?v_date="+v_date+"&unitName="+belongDepartmentName+"&departmentName="+professionalDepartName,
+						type : "post",
+						async: false,
+						dataType : "json",
+						success : function(data) 
+						{
+							$("#professionalFieldName").append("<option value=''>--请选择--</option>");
+							
+							$.each(data, function(i, el) 
+							{
+								var content='<option value="'+ el.professionalFieldName +'" ';
+								if(professionalFieldName==el.professionalFieldName)
+								{
+									content+=' selected="selected" '; 
+								}  
+								content+=' >' + el.professionalFieldName+ '</option>';
+								
+								$("#professionalFieldName").append(content);
+							});
+							form.render('select');
+						},
+						error : function() 
+						{
+							alert("发生未知错误 ,请重新操作.");
+						}
+					});
+			}
+        
+        
 
         var equipmentIds = $("#equipmentIds").val();
         renderTable(equipmentIds)
@@ -499,19 +530,9 @@ function getProfessionalNameListByUnitNameAndDept(professionalDepartName)
                 }
             });
         }
-       /* $("#add").click(function(){
-            var arrJ = $("#joinUnitName").val().split(",");
-            var arrId=$("#joinUnitCode").val().split(",");
-            var participatingUnitsCode='';
-            $.each(arrJ, function (i, val) {
-                var year=$("#beginYear").val()+"-"+$("#endYear").val();
-                var name=arrJ[i],id=arrId[i];
-                participatingUnitsCode+=year+","+name+","+id+"#"+publicMethods.getVal("yearTr"+i, 4)+";"
-            });
-            $("#participatingUnitsCode").val(participatingUnitsCode.substring(0,participatingUnitsCode.length-1));
-        });*/
+       
         /* 监听提交 */
-        form.on('submit(up)', function (data) {
+        form.on('submit(sub)', function (data) {
             //JSON.stringify(data.field)  提交信息json格式
             /*parent.layer.alert(JSON.stringify(data.field), {
                 title: '最终的提交信息'
@@ -528,10 +549,14 @@ function getProfessionalNameListByUnitNameAndDept(professionalDepartName)
             $("#participatingUnitsCode").val(participatingUnitsCode.substring(0,participatingUnitsCode.length-1));
             $("#yearFeeStr").val(publicMethods.getVal("yearTr", 4));
             var yearFee_Str = $("#yearFeeStr").val();
-            if (yearFee_Str == null || yearFee_Str == '') {
+            if (yearFee_Str == null || yearFee_Str == '') 
+            {
                 layer.alert("建设年限为空");
-            } else {
-                dealFlow(data);
+            } else 
+            {
+                var url="/sre-project-basic/save?v_date="+v_date;
+                var backurl="/sre-project-basic/to-list?v_date="+v_date;
+                ajaxOpt(url,"form1","POST",backurl,"保存成功","保存失败");
             }
             return false;
         });
@@ -630,80 +655,7 @@ function getProfessionalNameListByUnitNameAndDept(professionalDepartName)
 
     var index_close;
 
-    function dealFlow(data) {
-
-
-        $.ajax({
-            type: 'POST',
-            url: "/workflow/start/audit-type",
-            contentType: "application/json;charset=UTF-8",
-            data: JSON.stringify(data.field),
-            //json中有functionId（projectId、departmentId等）用来区别processDefine的属性
-            success: function (data) {
-                if (data.code == 'role') {
-                    // 按角色选择，获取下一步审批人信息,选择完审批人后，调用：handleTask(userIds)方法
-                    // roleCodes，参数名必须一致，方便公共弹出页面调用
-                    roleCodes = data.data;  // 弹出页面的隐藏的查询条件
-                    var temUrl = "/task/deal/users/ini";
-                    layer.open({
-                        title: '选择审批人',
-                        skin: 'layui-layer-lan',
-                        shadeClose: true,
-                        type: 2,
-                        fixed: false,
-                        //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                        maxmin: true,
-                        //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                        area: ['800px', '550px'],
-                        content: temUrl
-                    });
-                } else if (data.code == 'unit' || data.code == 'post') {
-                    // 按部门/岗位选择，获取下一步审批人信息,选择完审批人后，调用：handleTask(userIds)方法
-                    // unitCodes、postCodes，参数名必须一致，方便公共弹出页面调用
-                    if (data.code == 'unit') {
-                        unitCodes = data.data;  // 弹出页面的隐藏的查询条件
-                    } else {
-                        postCodes = data.data;  // 弹出页面的隐藏的查询条件
-                    }
-                    alert(postCodes);
-                    var temUrl = "/task/deal/user/unit/ini";
-                    layer.open({
-                        title: '选择审批人',
-                        skin: 'layui-layer-lan',
-                        shadeClose: true,
-                        type: 2,
-                        fixed: false,
-                        //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                        maxmin: true,
-                        //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                        area: ['800px', '550px'],
-                        content: temUrl
-                    });
-                } else if (data.code == 'int') {
-                    layer.msg('启动参数不足');
-                } else if (data.code == 'con') {
-                    layer.msg('请给此功能菜单配置流程');
-                } else if (data.code == 'exist') {
-                    layer.msg('工作流部署异常，请联系管理员');
-                } else {
-                    // 直接处理此任务
-                    handleTask('');
-                }
-            },
-            error: function (msg) {//请求失败处理函数
-            }
-        });
-    }
-
-    //处理任务（启动流程）的方法，方法名固定，为了通用选择审批人员的弹出页面调用
-    function handleTask(userIds) {
-        $('#userIds').val(userIds);
-        var url = "/sre-project-basic/save?v_date=" + v_date + "&isWorkFlow=1&functionId=" + param.id;
-        var backurl = "/sre-project-basic/to-list?v_date=" + v_date;
-
-        ajaxOpt(url, "form1", "POST", backurl, "提交成功", "提交失败");
-
-    }
+ 
 
 
     //参加单位--多个
