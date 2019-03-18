@@ -21,6 +21,19 @@ public class LayuiTableParam {
 
 	private String orderType;
 
+	public LayuiTableParam() 
+	{
+		super();
+	}
+	
+	
+	public LayuiTableParam(Integer page, Integer limit) {
+		super();
+		this.page = page;
+		this.limit = limit;
+	}
+
+
 	public String getOrderClause() {
 		List<LayuiTableSortParam> orders = this.getSortList();
 		if (orders.size() == 0) {

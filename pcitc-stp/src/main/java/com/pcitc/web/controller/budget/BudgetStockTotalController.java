@@ -23,6 +23,7 @@ import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.http.HttpEntity;
@@ -41,8 +42,8 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.BudgetAuditStatusEnum;
-import com.pcitc.base.stp.budget.BudgetStockTotal;
 import com.pcitc.base.stp.budget.BudgetInfo;
+import com.pcitc.base.stp.budget.BudgetStockTotal;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.IdUtil;
 import com.pcitc.base.util.MyBeanUtils;
@@ -64,6 +65,7 @@ public class BudgetStockTotalController extends BaseController {
 	private static final String BUDGET_STOCKTOTAL_CREATE_BYTEMPLATE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-create-template-stocktotal";
 	private static final String BUDGET_STOCKTOTAL_DELETE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-stocktotal-del";
 	private static final String BUDGET_STOCKTOTAL_GET_ITEM = "http://pcitc-zuul/stp-proxy/stp-provider/budget/get-stocktotal-item/";
+	private static final String BUDGET_STOCKTOTAL_GET_ITEM_COMPANY = "http://pcitc-zuul/stp-proxy/stp-provider/budget/get-stocktotal-item-company/";
 	private static final String BUDGET_STOCKTOTAL_DEL_ITEMS = "http://pcitc-zuul/stp-proxy/stp-provider/budget/del-stocktotal-item/";
 	private static final String BUDGET_STOCKTOTAL_SAVE_ITEM = "http://pcitc-zuul/stp-proxy/stp-provider/budget/save-stocktotal-item";
 	private static final String BUDGET_STOCKTOTAL_SAVE_ITEMS = "http://pcitc-zuul/stp-proxy/stp-provider/budget/save-stocktotal-items";
@@ -184,6 +186,14 @@ public class BudgetStockTotalController extends BaseController {
 	public Object selectBudgetStockTotalItem(@PathVariable("dataId") String dataId,HttpServletRequest request) throws IOException 
 	{
 		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_STOCKTOTAL_GET_ITEM+dataId, HttpMethod.POST, new HttpEntity<Object>(dataId, this.httpHeaders), Object.class);
+		//System.out.println(JSON.toJSON(responseEntity.getBody()).toString());
+		return JSON.toJSON(responseEntity.getBody()).toString();
+	}
+	@RequestMapping(value = "/budget/get-stocktotal-item-company/{dataId}", method = RequestMethod.POST)
+	@ResponseBody
+	public Object selectBudgetStockTotalItemCompany(@PathVariable("dataId") String dataId,HttpServletRequest request) throws IOException 
+	{
+		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_STOCKTOTAL_GET_ITEM_COMPANY+dataId, HttpMethod.POST, new HttpEntity<Object>(dataId, this.httpHeaders), Object.class);
 		//System.out.println(JSON.toJSON(responseEntity.getBody()).toString());
 		return JSON.toJSON(responseEntity.getBody()).toString();
 	}
@@ -419,8 +429,25 @@ public class BudgetStockTotalController extends BaseController {
 			rightCenterStyle.setVerticalAlignment(VerticalAlignment.CENTER);
 			
 			//合计
-			//Row totalRow = sheet.getRow(4);
+			Row totalRow = sheet.getRow(4);
+			totalRow.createCell(0).setCellValue("");
+			totalRow.createCell(1).setCellValue("");
+			totalRow.createCell(2).setCellValue("");
+			totalRow.createCell(3).setCellValue("");
+			totalRow.createCell(4).setCellValue("");
+			totalRow.createCell(5).setCellValue("");
+			totalRow.createCell(6).setCellValue("");
+			totalRow.createCell(7).setCellValue("");
+			totalRow.createCell(8).setCellValue("");
+			totalRow.createCell(9).setCellValue("");
+			totalRow.createCell(10).setCellValue("");
 			
+			Double allYjwcTotal = 0d;
+			Double allYjwcZbx = 0d;
+			Double allYjwcFyx = 0d;
+			Double allXmjfTotal = 0d;
+			Double allXmjfZbx = 0d;
+			Double allXmjfFyx = 0d;
 			for(int i = 0;i<list.size();i++) {
 				
 				Integer no = (Integer)list.get(i).get("no");
@@ -437,9 +464,14 @@ public class BudgetStockTotalController extends BaseController {
 				Double xmjfTotal = (Double)list.get(i).get("xmjfTotal");
 				Double xmjfZbx = (Double)list.get(i).get("xmjfZbx");
 				Double xmjfFyx = (Double)list.get(i).get("xmjfFyx");
+				allYjwcTotal += yjwcTotal;
+				allYjwcZbx += yjwcZbx;
+				allYjwcFyx += yjwcFyx;
+				allXmjfTotal += xmjfTotal;
+				allXmjfZbx += xmjfZbx;
+				allXmjfFyx += xmjfFyx;
 				
-				
-				Row crow = sheet.getRow(i+4);
+				Row crow = sheet.getRow(i+5);
 				if(level == 0) {
 					crow.createCell(0).setCellValue(no);
 				}else {
@@ -474,8 +506,32 @@ public class BudgetStockTotalController extends BaseController {
 				crow.getCell(9).setCellStyle(rightCenterStyle);
 				crow.getCell(10).setCellStyle(rightCenterStyle);
 			}
+			totalRow.getCell(0).setCellValue("合计");
+			totalRow.getCell(1).setCellValue("");
+			totalRow.getCell(2).setCellValue("无");
+			totalRow.getCell(3).setCellValue("无");
+			totalRow.getCell(4).setCellValue("无");
+			totalRow.getCell(5).setCellValue(allYjwcTotal);
+			totalRow.getCell(6).setCellValue(allYjwcZbx);
+			totalRow.getCell(7).setCellValue(allYjwcFyx);
+			totalRow.getCell(8).setCellValue(allXmjfTotal);
+			totalRow.getCell(9).setCellValue(allXmjfZbx);
+			totalRow.getCell(10).setCellValue(allXmjfFyx);
+			
+			totalRow.getCell(0).setCellStyle(centerStyle);
+			totalRow.getCell(1).setCellStyle(centerStyle);
+			totalRow.getCell(2).setCellStyle(rightCenterStyle);
+			totalRow.getCell(3).setCellStyle(rightCenterStyle);
+			totalRow.getCell(4).setCellStyle(rightCenterStyle);
+			totalRow.getCell(5).setCellStyle(rightCenterStyle);
+			totalRow.getCell(6).setCellStyle(rightCenterStyle);
+			totalRow.getCell(7).setCellStyle(rightCenterStyle);
+			totalRow.getCell(8).setCellStyle(rightCenterStyle);
+			totalRow.getCell(9).setCellStyle(rightCenterStyle);
+			totalRow.getCell(10).setCellStyle(rightCenterStyle);
+			
 			//合计单元格合并
-			//sheet.addMergedRegion(new CellRangeAddress(list.size()+4,list.size()+4,0,1));
+			sheet.addMergedRegion(new CellRangeAddress(4,4,0,1));
 			//写入新文件
 			FileOutputStream fos  = new FileOutputStream(outFile);
 			workbook.write(fos);
