@@ -469,11 +469,17 @@ public class BudgetStockTotalProviderClient
 		{
 			List<BudgetInfo> rs = budgetInfoService.selectFinalBudgetInfoList(BudgetInfoEnum.STOCK_TOTAL.getCode());
 			for(BudgetInfo info:rs) {
-				List<BudgetStockTotal> totals = budgetStockTotalService.selectBudgetInfoId(info.getDataId());
+				LayuiTableParam param = new LayuiTableParam(1,100);
+				param.getParam().put("budget_info_id",info.getDataId());
+				LayuiTableData rsdata = budgetStockTotalService.selectBudgetStockTotalPage(param);
+				
+				//List<BudgetStockTotal> totals = budgetStockTotalService.selectBudgetStockTotalByInfoId(info.getDataId());
 				Map<String,Object> map  = MyBeanUtils.transBean2Map(info);
-				map.put("items", totals);
+				map.put("items", rsdata.getData());
 				rsmap.add(map);
 			}
+			System.out.println("-----");
+			System.out.println(JSON.toJSONString(rsmap));
 		}
 		catch (Exception e)
 		{
