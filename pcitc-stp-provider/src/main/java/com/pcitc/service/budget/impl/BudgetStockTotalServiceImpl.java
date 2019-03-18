@@ -217,7 +217,7 @@ public class BudgetStockTotalServiceImpl implements BudgetStockTotalService
 		BudgetInfoExample.Criteria infoc = infoExample.createCriteria();
 		infoc.andAuditStatusEqualTo(BudgetAuditStatusEnum.AUDIT_STATUS_FINAL.getCode());
 		infoc.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
-		infoc.andBudgetTypeEqualTo(BudgetInfoEnum.ASSETS_TOTAL.getCode());
+		infoc.andBudgetTypeEqualTo(BudgetInfoEnum.STOCK_TOTAL.getCode());
 		List<BudgetInfo> infos = budgetInfoMapper.selectByExample(infoExample);
 		Set<String> ids = new HashSet<String>();
 		ids.add("xxxx");//避免为空
@@ -230,7 +230,6 @@ public class BudgetStockTotalServiceImpl implements BudgetStockTotalService
 		c.andBudgetInfoIdIn(new ArrayList<String>(ids));
 		c.andNdNotEqualTo(item.getNd());
 		c.andDisplayNameEqualTo(item.getDisplayName());
-		c.andLevelEqualTo(0);//只显示第1级
 		example.setOrderByClause("nd desc");
 		return budgetStockTotalMapper.selectByExample(example);
 	}
