@@ -225,4 +225,6 @@ public interface ZjkBaseInfoService {
     LayuiTableData showExpertPageTableData(LayuiTableParam param);
 
     LayuiTableData findZjkBaseInfoByPageCount(LayuiTableParam param);
+
+    JSONObject findZjkBaseInfoListImg(ZjkExpert zjkBaseInfo);
 }
