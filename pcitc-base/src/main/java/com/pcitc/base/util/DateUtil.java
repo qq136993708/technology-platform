@@ -22,6 +22,9 @@ public class DateUtil {
 	public static String FMT_YYYY_DD = "yyyyMMdd";
 	public static String FMT_MDHMS = "MMddHHmmss";
 	
+	
+	public static String FMT_SSS_02 = "yyyy-MM-dd-HH-mm-ss-SSS";
+	
 
 	public static String dateToStr(Date date, String formatStyle) {
 		String str = "";
