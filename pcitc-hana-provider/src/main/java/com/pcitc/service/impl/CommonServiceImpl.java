@@ -98,7 +98,7 @@ public class CommonServiceImpl implements ICommonService {
  		String g0NAME1=(String)param.getParam().get("g0NAME1");
  		String g0MCOD3=(String)param.getParam().get("g0MCOD3");
  		String g0GSDM=(String)param.getParam().get("g0GSDM");
- 		List<String> list=null;
+ 		/*List<String> list=null;
  		if(g0GSDM!=null)
  		{
  			String arr[]=g0GSDM.split(",");
@@ -130,13 +130,13 @@ public class CommonServiceImpl implements ICommonService {
  			}
  			stringBuffer.append(")");
  		}
- 		
+ 		*/
  		Map map=new HashMap();
  		map.put("start", start);
  		map.put("pageSize", pageSize);
  		map.put("g0NAME1", g0NAME1);
  		map.put("g0MCOD3", g0MCOD3);
- 		map.put("sqlStr", stringBuffer.toString());
+ 		map.put("companyCode", g0GSDM);
  		List<DicSupplyer> listDicSupplyer = commonMapper.getDicSupplyerList_table(map);
  		Integer totalRecords = commonMapper.getDicSupplyCount(map);
  		System.out.println(">>>>>>>表格："+totalRecords);
