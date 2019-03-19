@@ -4,6 +4,7 @@ package com.pcitc.service.doc.impl;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
@@ -26,6 +27,7 @@ import com.pcitc.base.doc.SysFileKindAuthExample;
 import com.pcitc.base.doc.SysFileKindExample;
 import com.pcitc.base.system.SysFile;
 import com.pcitc.base.system.SysUser;
+import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.IdUtil;
 import com.pcitc.mapper.doc.SysFileKindAuthMapper;
 import com.pcitc.mapper.doc.SysFileKindMapper;
@@ -278,6 +280,8 @@ public class SysFileKindServiceImpl implements SysFileKindService {
                 iniFile.setBak3(UUID.randomUUID().toString().replaceAll("-", ""));
                 iniFile.setVersion(sysFileKind.getVersion());
                 iniFile.setBak10(sysFileKind.getBak10());
+                iniFile.setCreateDateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
+                
                 sysFileMapper.updateByPrimaryKey(iniFile);
                 
                 
@@ -295,6 +299,7 @@ public class SysFileKindServiceImpl implements SysFileKindService {
                 sysFile.setBak2(sysFileKind.getCreatePersonName());
                 sysFile.setVersion(sysFileKind.getVersion());
                 sysFile.setBak10(sysFileKind.getBak10());
+                
             	sysFileMapper.updateByPrimaryKey(sysFile);
             }
             

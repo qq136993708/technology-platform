@@ -32,6 +32,7 @@ import com.pcitc.base.common.enums.DelFlagEnum;
 import com.pcitc.base.doc.SysFileShare;
 import com.pcitc.base.doc.SysFileShareExample;
 import com.pcitc.base.system.SysFile;
+import com.pcitc.base.system.SysUnit;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.FileUtil;
 import com.pcitc.base.util.IdUtil;
@@ -40,7 +41,6 @@ import com.pcitc.base.util.TreeNodeUtil;
 import com.pcitc.mapper.doc.SysFileShareMapper;
 import com.pcitc.mapper.system.SysFileMapper;
 import com.pcitc.service.doc.SysFileShareService;
-import com.pcitc.service.system.SysFileService;
 
 /**
  * <p>接口实现类</p>
@@ -83,6 +83,7 @@ public class SysFileShareServiceImpl implements SysFileShareService {
 				sysFileShare.setArea(arrayArea[j]);
 				sysFileShare.setBak1(arraybak1[j]);
 				sysFileShare.setFileId(arrayField[i]);
+				sysFileShare.setCreateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
 				insert(sysFileShare);
 			}
 		}
@@ -414,5 +415,13 @@ public class SysFileShareServiceImpl implements SysFileShareService {
 			}
 		}
 
+	}
+	
+	/**
+	 * 查询某种条件下的组织机构节点，有组织机构和人员、岗位
+	 * 包含文件已分享信息
+	 */
+	public List<TreeNode> getUnitTreeAndPostAndUserCond(SysUnit unit) {
+		return sysFileShareMapper.getUnitTreeAndPostAndUserCond(unit);
 	}
 }
