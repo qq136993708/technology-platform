@@ -611,6 +611,7 @@
 		select sys_user.*,
 			   GROUP_CONCAT(sys_unit.unit_name) as unitName,
 			   GROUP_CONCAT(sys_unit.unit_code) as unitCode,
+			   GROUP_CONCAT(sys_unit.unit_path) as unitPath,
 			   GROUP_CONCAT(sys_unit.unit_id) as unitId
 		from sys_user,sys_unit,sys_user_unit
 		where
