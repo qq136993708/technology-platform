@@ -16,36 +16,37 @@
 <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
 </head>
 <body>
-
-	<!-- 拓展(树) -->
-	<div class="tableToolBox">
-		<div class="tableTitle">
-			<label class="dateInput"> <span>部门名称</span> <input type="text" name="unitName" placeholder="请输入部门名称" title="部门名称" autocomplete="off" class="form-control" id="unitName">
-			</label>
-			<!--按钮组-->
-			<div class="btnGroup">
-				<button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent2" onclick="filterSearch(document.getElementById('unitName').value);">查询
-				</button>
-				<button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg" onclick="filterSearch('');">重置</button>
-			</div>
-		</div>
-	</div>
-	<div class="layui-side-scroll" style="height: 98%; border: 1px solid #e6e6e6; border-top: 0;">
-		<ul id="orgTree" class="ztree"></ul>
-	</div>
-	<div class="formBox">
-		<form id="functiongroup-form" name="functiongroup-form" lay-filter="functiongroup-form" class="form-horizontal layui-form">
-			<input type="hidden" name="fileId" id="fileId" value="${id?default(0)}" /> <input type="hidden" name="stype" id="stype" value="${opt?default(0)}" /> <input type="hidden"
-				name="area" id="area" /> <input type="hidden" name="bak1" id="bak1" />
-			<div class="form-bottom">
-				<div class="form-bottom-btns">
-					<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" data-type="ok" lay-submit="" lay-filter="submitBtnTree">保存</button>
-					<button type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" id="closeBtn" data-type="close">取消</button>
+	<div class="onlyTree_container">
+		<div class="treeBox search">
+			<div class="title-box">
+				<label class="dateInput"> <span>部门名称</span> <input type="text" name="unitName" placeholder="请输入部门名称" title="部门名称" autocomplete="off" class="form-control" id="unitName">
+				</label>
+				<!--按钮组-->
+				<div class="btnGroup">
+					<button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent2" onclick="filterSearch(document.getElementById('unitName').value);">查询
+					</button>
+					<button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg" onclick="filterSearch('');">重置</button>
 				</div>
 			</div>
-		</form>
-	</div>
+			<div class="layui-side-scroll">
+				<!-- 拓展(树) -->
+				<ul id="orgTree" class="ztree"></ul>
+			</div>
+		</div>
 
+		<div class="formBox">
+			<form id="functiongroup-form" name="functiongroup-form" lay-filter="functiongroup-form" class="form-horizontal layui-form">
+				<input type="hidden" name="fileId" id="fileId" value="${id?default(0)}" /> <input type="hidden" name="stype" id="stype" value="${opt?default(0)}" /> <input type="hidden"
+					name="area" id="area" /> <input type="hidden" name="bak1" id="bak1" />
+				<div class="form-bottom">
+					<div class="form-bottom-btns">
+						<button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" data-type="ok" lay-submit="" lay-filter="submitBtnTree">保存</button>
+						<button type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" id="closeBtn" data-type="close">取消</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
 	<script>
 		// 组织机构的方式
 		var orgTree;

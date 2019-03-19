@@ -194,9 +194,12 @@ public class UserServiceImpl implements UserService {
 	// @Cacheable(key = "'userDetails_'+#userId", value = "userCache")
 	public SysUser selectUserDetailsByUserId(String userId) throws Exception {
 		SysUser user = userMapper.selectByPrimaryKey(userId);
-		System.out.println("======第一次登录获取，之后redis接管------------");
+		System.out.println(user+"======selectUserDetailsByUserId------------"+userId);
+		
 		// 此人有哪些菜单权限，每个菜单对应的数据控制项
 		List<SysFunction> funList = functionMapper.selectFuntionByUserId(userId);
+		
+		System.out.println("======funList------------"+funList);
 		user.setFunList(funList);
 		
 		// 此人收藏的菜单
