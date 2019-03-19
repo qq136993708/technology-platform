@@ -77,4 +77,11 @@ public interface BudgetInfoService
 	 * @throws Exception
 	 */
 	public List<BudgetInfo> selectFinalBudgetInfoList(Integer budgetType)throws Exception;
+	/**
+	 * 获取年度最终预算表
+	 * @param nd
+	 * @param budgetType
+	 * @return
+	 */
+	public BudgetInfo selectFinalBudget(String nd,Integer budgetType);
 }
