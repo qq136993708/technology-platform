@@ -17,6 +17,9 @@
 <input  name="userIds"        id="userIds"         type="hidden">
 <input  name="taskId"         id="taskId"          type="hidden" >
 <input  name="leadUnitCode"   id="leadUnitCode"    value="${leadUnitCode}"        type="hidden" >
+<input  name="applyUnitCode"  id="applyUnitCode"    value="${applyUnitCode}"        type="hidden" >
+
+
 
 
 </form>
@@ -321,11 +324,11 @@ var name=$('#name').val();
             		var setupId=selectRowData.setupId;
             		if(setupId==null || setupId=='')
             		{
-             			 layer.msg('任务的立项报告没有填写');
+             			 layer.alert('立项报告没有填写，不能上报');
              			 return;
             		}else if(innerAuditStatus!='0')
            			{
-            			 layer.msg('院内审核中...，');
+            			 layer.alert('院内确认已经提交，不能重复提交');
             			 return;
            			}else
            			{
@@ -460,14 +463,6 @@ var name=$('#name').val();
                     $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
                     selectRowData=res.data[index-1];
                     var innerAuditStatus=selectRowData.innerAuditStatus;
-                    if(innerAuditStatus=='0' || innerAuditStatus=='3' )
-                    {
-                    	 $("#confirmEvent").attr("disabled",false);
-                    }else if(innerAuditStatus=='1' || innerAuditStatus=='2')
-                    {
-                    	
-                    	 $("#confirmEvent").attr("disabled",true);
-                    }
                     
                 });
             }
