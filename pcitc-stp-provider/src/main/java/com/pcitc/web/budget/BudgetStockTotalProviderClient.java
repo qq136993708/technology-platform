@@ -27,6 +27,7 @@ import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.TreeNode;
 import com.pcitc.base.common.enums.BudgetAuditStatusEnum;
+import com.pcitc.base.common.enums.BudgetItemTypeEnum;
 import com.pcitc.base.common.enums.DelFlagEnum;
 import com.pcitc.base.stp.budget.BudgetStockTotal;
 import com.pcitc.base.stp.budget.BudgetInfo;
@@ -154,6 +155,7 @@ public class BudgetStockTotalProviderClient
 		}
 		return rs;
 	}
+	
 	@ApiOperation(value="股份公司预算-创建股份年度预算",notes="创建股份年度预算空白预算表")
 	@RequestMapping(value = "/stp-provider/budget/budget-create-blank-stocktotal", method = RequestMethod.POST)
 	public Object createOrUpdateBudgetInfo(@RequestBody BudgetInfo info) 
@@ -227,7 +229,7 @@ public class BudgetStockTotalProviderClient
 	@RequestMapping(value = "/stp-provider/budget/budget-stocktotal-del", method = RequestMethod.POST)
 	public Object deleteBudgetStockTotalInfo(@RequestBody BudgetInfo info) 
 	{
-		logger.info("budget-delete-stocktotal...");
+		logger.info("budget-stocktotal-del...");
 		Integer rs = 0;
 		try
 		{
@@ -244,7 +246,7 @@ public class BudgetStockTotalProviderClient
 	@RequestMapping(value = "/stp-provider/budget/get-stocktotal-item/{itemId}", method = RequestMethod.POST)
 	public Object selectBudgetStockTotalItem(@PathVariable("itemId") String itemId) 
 	{
-		logger.info("budget-select-stocktotal...");
+		logger.info("get-stocktotal-item...");
 		Map<String,Object> map = new HashMap<String,Object>();
 		try
 		{
@@ -262,6 +264,34 @@ public class BudgetStockTotalProviderClient
 				map  = MyBeanUtils.transBean2Map(groupTotal);
 				map.put("groups", groupMaps);
 				//map.put("total", new Double(map.get("yjwc").toString())+new Double(map.get("xmjf").toString()));
+			}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return map;
+	}
+	@ApiOperation(value="股份公司预算-检索预算项详情",notes="检索预算项详情包括子项详情")
+	@RequestMapping(value = "/stp-provider/budget/get-stocktotal-item-company/{itemId}", method = RequestMethod.POST)
+	public Object selectBudgetStockTotalCompanyItem(@PathVariable("itemId") String itemId) 
+	{
+		logger.info("get-stocktotal-item-company...");
+		Map<String,Object> map = new HashMap<String,Object>();
+		try
+		{
+			BudgetStockTotal groupTotal = budgetStockTotalService.selectBudgetStockTotal(itemId);
+			if(groupTotal != null) {
+				List<BudgetStockTotal> childStocks = budgetStockTotalService.selectBudgetStockTotalCompanyItem(itemId);
+				List<Map<String,Object>> groupMaps = new ArrayList<Map<String,Object>>();
+				for(BudgetStockTotal total:childStocks) {
+					Map<String,Object> mp = MyBeanUtils.transBean2Map(total);
+					map.put("last_year_end", "无");
+					map.put("plan_money", "无");
+					groupMaps.add(mp);
+				}
+				map  = MyBeanUtils.transBean2Map(groupTotal);
+				map.put("groups", groupMaps);
 			}
 		}
 		catch (Exception e)
@@ -362,7 +392,8 @@ public class BudgetStockTotalProviderClient
 					t.setDataId(IdUtil.createIdByTime());
 					t.setDataVersion(to.getDataVersion());
 					t.setNd(to.getNd());
-					t.setLevel(1);
+					t.setLevel(to.getLevel()+1);
+					t.setItemType(BudgetItemTypeEnum.BUDGET_ITEM_COMPANY.getCode());
 					t.setCreateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
 					t.setUpdateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
 					t.setDelFlag(DelFlagEnum.STATUS_NORMAL.getCode());
@@ -469,11 +500,17 @@ public class BudgetStockTotalProviderClient
 		{
 			List<BudgetInfo> rs = budgetInfoService.selectFinalBudgetInfoList(BudgetInfoEnum.STOCK_TOTAL.getCode());
 			for(BudgetInfo info:rs) {
-				List<BudgetStockTotal> totals = budgetStockTotalService.selectBudgetInfoId(info.getDataId());
+				LayuiTableParam param = new LayuiTableParam(1,100);
+				param.getParam().put("budget_info_id",info.getDataId());
+				LayuiTableData rsdata = budgetStockTotalService.selectBudgetStockTotalPage(param);
+				
+				//List<BudgetStockTotal> totals = budgetStockTotalService.selectBudgetStockTotalByInfoId(info.getDataId());
 				Map<String,Object> map  = MyBeanUtils.transBean2Map(info);
-				map.put("items", totals);
+				map.put("items", rsdata.getData());
 				rsmap.add(map);
 			}
+			System.out.println("-----");
+			System.out.println(JSON.toJSONString(rsmap));
 		}
 		catch (Exception e)
 		{

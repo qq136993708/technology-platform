@@ -313,9 +313,14 @@ var name=$('#name').val();
             		var taskId=selectRowData.taskId;
             		$('#taskId').val(taskId);
             		var auditStatus=selectRowData.auditStatus;
-            		if(auditStatus!=='0')
+            		var innerAuditStatus=selectRowData.innerAuditStatus;
+            		if(innerAuditStatus!=='2')
            			{
-            			 layer.msg('请选择未上报的任务');
+            			 layer.alert('院内审核未通过,不能上报');
+            			 return;
+           			}else if(auditStatus!=='0')
+           			{
+            			 layer.alert('请选择未上报的任务');
             			 return;
            			}else
            			{
@@ -411,7 +416,7 @@ var name=$('#name').val();
             cols: [[
             	{type : 'checkbox', event : 'changeEvents', width : 55},
             	{title : '序号', type :'numbers', width : 55},
-            	{field : 'innerAuditStatus',    title : '院内审核状态',   style : 'cursor: pointer;', align: 'center', width : 100,templet : '#innerAuditStatus_temp'},
+            	{field : 'innerAuditStatus',    title : '院内确认状态',   style : 'cursor: pointer;', align: 'center', width : 100,templet : '#innerAuditStatus_temp'},
             	{field : 'auditStatus',    title : '总部审核状态',        style : 'cursor: pointer;', align: 'center', width : 100,templet : '#auditStatus_tepm'},
             	
             	
@@ -422,6 +427,9 @@ var name=$('#name').val();
                 {field : 'setupYear', title : '立项年份', style : 'cursor: pointer;', align: 'center'},
                 {field : 'projectMoney', title : '总经费(万元)', style : 'cursor: pointer;', align: 'center',templet:function(d){return '<span style="color:red">'+d.projectMoney+'</span>'}},
                 {field : 'leadUnitName', title : '承担单位', style : 'cursor: pointer;', align: 'left'},
+                {field : 'belongDepartmentName',   title : '归属部门', style : 'cursor: pointer;', align: 'left'},
+                {field : 'professionalDepartName', title : '专业处',  style : 'cursor: pointer;', align: 'left'},
+                {field : 'professionalFieldName',  title : '专业领域', style : 'cursor: pointer;', align: 'left'},
                 {field : 'applyUnitName', title : '申报单位', style : 'cursor: pointer;', align: 'left'},
                 {field : 'createUserName', title : '申报人', style : 'cursor: pointer;', align: 'left'},
                 {field : 'createDate', title : '任务书填写时间', style : 'cursor: pointer;', align: 'center', templet : '#dateTpl'}
@@ -437,17 +445,6 @@ var name=$('#name').val();
                     selectRowData=res.data[index-1];
                     var auditStatus=selectRowData.auditStatus;
                     //alert(auditStatus);
-                    if(auditStatus=='0' || auditStatus=='3' )
-                    {
-                 	   $("#editEvent").attr("disabled",false);
-                 	   $("#deleteEvent").attr("disabled",false);
-                    }else if(auditStatus=='1' || auditStatus=='2')
-                    {
-                 	   $("#editEvent").attr("disabled",true);
-                 	   $("#deleteEvent").attr("disabled",true);
-                 	  $("#applyEvent").attr("disabled",true);
-                 	  
-                    }
                 });
                 
                 

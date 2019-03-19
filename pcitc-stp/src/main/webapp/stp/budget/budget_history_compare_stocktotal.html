@@ -19,14 +19,19 @@
         <table id="itemTable" class="layui-table" lay-filter="itemTable" lay-data="{limit:100}">
             <thead>
 	            <tr>
-	            	<th lay-data="{field:'nd',align: 'center', width: 100}">年度</th>
-	            	<th lay-data="{field:'dataVersion', width: '15%'}">预算版本</th>
-	                <th lay-data="{field:'displayName', width: '20%'}">预算部门</th>
-	                <th lay-data="{field:'remark', width: '25%'}">描述</th>
-	               	<!-- <th lay-data="{field:'last_year_end',align: 'right'}">2018年科技经费完成</th>
-	               	<th lay-data="{field:'plan_money',align: 'right'}">2019年科技经费计划</th> -->
-	                <th lay-data="{field:'yjwc', edit:true,align: 'right'}">预计完成</th>
-	                <th lay-data="{field:'xmjf', edit:true,align: 'right'}">经费预算</th>	   
+	            	<th lay-data="{field:'nd',align: 'center', width: 100}" rowspan="2">年度</th>
+	            	<th lay-data="{field:'dataVersion', width: '15%'}" rowspan="2">预算版本</th>
+	                <th lay-data="{field:'displayName', width: '20%'}" rowspan="2">类别</th>
+	                <th lay-data="{align:'center'}" colspan="3">预计完成</th>
+	                <th lay-data="{align:'center'}" colspan="3">经费预算</th>
+	            </tr>
+	            <tr>
+	                <th lay-data="{field:'yjwcTotal', align: 'right'}">合计</th>
+	                <th lay-data="{field:'yjwcZbx', edit: true,align:'right'}">资本性</th>
+	                <th lay-data="{field:'yjwcFyx', edit: true,align:'right'}">费用性</th>
+	                <th lay-data="{field:'xmjfTotal', align: 'right'}">合计</th>
+	                <th lay-data="{field:'xmjfZbx', edit: true,align:'right'}">资本性</th>
+	                <th lay-data="{field:'xmjfFyx', edit: true,align:'right'}">费用性</th>
 	            </tr>
             </thead>
         </table>
@@ -35,14 +40,19 @@
         <table id="historyItemTable" class="layui-table" lay-filter="historyItemTable" lay-data="{height: '250',limit:100}">
             <thead>
 	            <tr>
-	            	<th lay-data="{field:'nd',align: 'center', width: 100}">年度</th>
-	            	<th lay-data="{field:'dataVersion', width: '15%'}">预算版本</th>
-	              	<th lay-data="{field:'displayName', width: '20%'}">预算部门</th>
-	              	<th lay-data="{field:'remark', width: '25%'}">描述</th>
-	             <!-- 	<th lay-data="{field:'last_year_end',align: 'right'}">2018年科技经费完成</th>
-	             	<th lay-data="{field:'plan_money',align: 'right'}">2019年科技经费计划</th> -->
-	              	<th lay-data="{field:'yjwc', edit:true,align: 'right'}">预计完成</th>
-	              	<th lay-data="{field:'xmjf', edit:true,align: 'right'}">经费预算</th>
+	            	<th lay-data="{field:'nd',align: 'center', width: 100}" rowspan="2">年度</th>
+	            	<th lay-data="{field:'dataVersion', width: '15%'}" rowspan="2">预算版本</th>
+	                <th lay-data="{field:'displayName', width: '20%'}" rowspan="2">类别</th>
+	                <th lay-data="{align:'center'}" colspan="3">预计完成</th>
+	                <th lay-data="{align:'center'}" colspan="3">经费预算</th>
+	            </tr>
+	            <tr>
+	                <th lay-data="{field:'yjwcTotal', align: 'right'}">合计</th>
+	                <th lay-data="{field:'yjwcZbx', align:'right'}">资本性</th>
+	                <th lay-data="{field:'yjwcFyx', align:'right'}">费用性</th>
+	                <th lay-data="{field:'xmjfTotal', align: 'right'}">合计</th>
+	                <th lay-data="{field:'xmjfZbx', align:'right'}">资本性</th>
+	                <th lay-data="{field:'xmjfFyx', align:'right'}">费用性</th>
 	            </tr>
             </thead>
         </table>
@@ -71,7 +81,7 @@
             var dataId = "${dataId}";
             var groupTotalInfo = null;
             //加载预算项
-            publicMethods.ajaxPost("/budget/get-assettotal-item/"+dataId,null, function (data) {
+            publicMethods.ajaxPost("/budget/get-stocktotal-item/"+dataId,null, function (data) {
             	$(".nd").html(data.nd);
             	groupTotalInfo = data;
             	viewObj.itemData.push(groupTotalInfo);
@@ -79,7 +89,7 @@
                     data:viewObj.itemData
                 });
     			//加载历史
-    			publicMethods.ajaxPost("/budget/search-assettotal-history-items",groupTotalInfo, function (historydata) {
+    			publicMethods.ajaxPost("/budget/search-stocktotal-history-items",groupTotalInfo, function (historydata) {
                 	$.each(historydata,function(index,dt){
                 		viewObj.historyItemData.push(dt);
                 	});
@@ -87,21 +97,22 @@
                         data:viewObj.historyItemData
                     });
            		});
-    			/* $("div[lay-id='itemTable'] .layui-table-header .layui-table").find('th').eq(4).find('span').text((data.nd-1)+"年预计完成");
-            	$("div[lay-id='itemTable'] .layui-table-header .layui-table").find('th').eq(5).find('span').text(data.nd+"年经费预算");
-    			$("div[lay-id='historyItemTable'] .layui-table-header .layui-table").find('th').eq(4).find('span').text((data.nd-1)+"年预计完成");
-            	$("div[lay-id='historyItemTable'] .layui-table-header .layui-table").find('th').eq(5).find('span').text(data.nd+"年经费预算"); */
        		});
             //预算项编辑事件监听
             table.on('edit(itemTable)', function(obj){ 
             	$.each(viewObj.itemData,function(index,dt){
             		if(obj.data.dataId == dt.dataId){
-            			if(obj.field=="xmjf"){
-            				dt.xmjf = obj.value;
-            			}else if(obj.field=="yjwc")
-            			{
-            				dt.yjwc = obj.value;
+            			if(obj.field=="yjwcZbx"){
+            				dt.yjwcZbx = obj.value;
+            			}else if(obj.field=="yjwcFyx"){
+            				dt.yjwcFyx = obj.value;
+            			}else if(obj.field=="xmjfFyx"){
+            				dt.xmjfFyx = obj.value;
+            			}else if(obj.field=="xmjfZbx"){
+            				dt.xmjfZbx = obj.value;
             			}
+            			dt.yjwcTotal = parseInt(dt.yjwcZbx)+parseInt(dt.yjwcFyx);
+            			dt.xmjfTotal = parseInt(dt.xmjfZbx)+parseInt(dt.xmjfFyx);
             		}
             	});
             	//刷新表格数据
@@ -113,7 +124,7 @@
             });
             var $ = layui.$, active = {
            		saveEvent: function () {
-           			publicMethods.ajaxPost('/budget/save-assettotal-item', viewObj.itemData[0], function (data, status) {
+           			publicMethods.ajaxPost('/budget/save-stocktotal-item', viewObj.itemData[0], function (data, status) {
        	                if (data.success) {
        	                	parent.initDataVersion("${budgetInfoId}");
        	                	var index = parent.layer.getFrameIndex(window.name);

@@ -221,10 +221,10 @@
             , totalRow: true
             , cols: [[
                 {field: 'displayName', title: '单位名称',edit:true,totalRowText: '合计'}
-                , {field: 'last_year_end', title: '实际完成', align: 'right',style: 'cursor: pointer;', width: '15%',totalRow: true}
-                , {field: 'plan_money', title: '计划金额', align: 'right',style: 'cursor: pointer;', width: '15%',totalRow: true}
-                , {field: 'yjwc', title: '预计完成', align: 'right',style: 'cursor: pointer;',edit:true, width: '15%',totalRow: true}
-                , {field: 'xmjf', title: '经费预算', align: 'right',style: 'cursor: pointer;',edit:true, width: '15%',totalRow: true}
+                , {field: 'last_year_end', title: '实际完成', align: 'right',style: 'cursor: pointer;', width: '25%',totalRow: true}
+                , {field: 'plan_money', title: '计划金额', align: 'right',style: 'cursor: pointer;', width: '25%',totalRow: true}
+                //, {field: 'yjwc', title: '预计完成', align: 'right',style: 'cursor: pointer;',edit:true, width: '15%',totalRow: true}
+                //, {field: 'xmjf', title: '经费预算', align: 'right',style: 'cursor: pointer;',edit:true, width: '15%',totalRow: true}
                 , {title: '操作', style: 'cursor: pointer;', align: 'center', width: '10%', templet: function(d){
                     return '<a href="#" lay-event="del" lay-id="'+ d.dataId +'">删除</a>';
                 }}
@@ -233,8 +233,8 @@
             	 var ysnd = parseInt($("#nd").val());
             	 $(".layui-table-header .layui-table").find('th').eq(1).find('span').text((ysnd-1)+"年实际完成");
             	 $(".layui-table-header .layui-table").find('th').eq(2).find('span').text(ysnd+"年经费计划");
-            	 $(".layui-table-header .layui-table").find('th').eq(3).find('span').text((ysnd-1)+"年预计完成");
-            	 $(".layui-table-header .layui-table").find('th').eq(4).find('span').text(ysnd+"年经费预算");
+            	 //$(".layui-table-header .layui-table").find('th').eq(3).find('span').text((ysnd-1)+"年预计完成");
+            	 //$(".layui-table-header .layui-table").find('th').eq(4).find('span').text(ysnd+"年经费预算");
             }
         })
         table.on('tool(dataTable)', function (obj) {

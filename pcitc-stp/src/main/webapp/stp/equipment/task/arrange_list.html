@@ -34,6 +34,28 @@
         <input type="text" name="name" placeholder="请输入课题名称" title="课题名称" autocomplete="off" class="form-control" id="name">
     </label>
     
+    
+     <label class="dateInput">
+         <span>归属部门</span>
+         <select name="belongDepartmentName" id="belongDepartmentName"  onchange="getDepartNameByUnitName(this.value)" style="width:200px" >
+             <option value="" >--请选择归属部门--</option>
+             <#list unitFieldList as vo> 
+		          <option value="${vo.unitName}"  >${vo.unitName}</option>
+		      </#list>
+		 </select>
+     </label>
+    
+     <label class="dateInput">
+         <span>专业处</span>
+         <select id="professionalDepartName" name="professionalDepartName" onchange="getProfessionalNameListByUnitNameAndDept(this.value)" style="width:200px"></select>
+     </label>
+    
+      <label class="dateInput">
+         <span>专业领域</span>
+         <select id="professionalFieldName" name="professionalFieldName" style="width:200px"></select>
+     </label>
+     
+    
     <!--按钮组-->
     <div class="btnGroup">
         <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>
@@ -73,18 +95,75 @@
         }
     }
 </script>
-<script type="text/html" id="buttonTpl">
-          {{#  if(d.status == '0'){ }}
-            <button class="layui-btn layui-btn-warm layui-btn-xs">未上报</button>
-          {{#  } else if(d.status == '1'){ }}
-            <button class="layui-btn  layui-btn-xs">已上报</button>
-          {{#  } else if(d.status == '2'){ }}
-            <button class="layui-btn layui-btn-normal layui-btn-xs">退回调整</button>
-           {{#  } else if(d.status == '3'){ }}
-            <button class="layui-btn layui-btn-danger layui-btn-xs">通过</button>
-          {{#  } else{ }}
-            <button class="layui-btn layui-btn-primary layui-btn-xs">未上报</button>
-          {{#  } }}
+<script type="text/javascript">
+
+getDepartNameByUnitName($("#belongDepartmentName").val());
+function getDepartNameByUnitName(belongDepartmentName)
+{
+	 $("#belongDepartmentName").val(belongDepartmentName);
+	 $("#professionalDepartName").empty();
+	 var v_date=(new Date()).getTime();
+	 $.ajax({
+			url : "/unitField/getDepartmentNameListByUnitName?v_date="+v_date+"&unitName="+belongDepartmentName,
+			type : "post",
+			async: false,
+			dataType : "json",
+			success : function(data) 
+			{
+				$("#professionalDepartName").append("<option value=''>--请选择--</option>");
+				$.each(data, function(i, el) 
+				{
+					$("#professionalDepartName").append('<option value="'+ el.departmentName +'">' + el.departmentName+ '</option>');
+					/* if(cityId==el.departmentName)
+					{
+						$("#professionalDepartName ").val(departmentName);  
+					} */
+	  			  	
+				});
+			},
+			error : function() 
+			{
+				alert("发生未知错误 ,请重新操作.");
+			}
+		});
+	 
+	 
+	 getProfessionalNameListByUnitNameAndDept(belongDepartmentName);
+}
+
+
+
+
+
+
+
+function getProfessionalNameListByUnitNameAndDept(professionalDepartName)
+{
+	
+	 var belongDepartmentName= $("#belongDepartmentName").val();
+	 $("#professionalFieldName").empty();
+	 var v_date=(new Date()).getTime();
+	 $.ajax({
+			url : "/unitField/getProfessionalNameListByUnitNameAndDept?v_date="+v_date+"&unitName="+belongDepartmentName+"&departmentName="+professionalDepartName,
+			type : "post",
+			async: false,
+			dataType : "json",
+			success : function(data) 
+			{
+				$("#professionalFieldName").append("<option value=''>--请选择--</option>");
+				$.each(data, function(i, el) 
+				{
+					$("#professionalFieldName").append('<option value="'+ el.professionalFieldName +'">' + el.professionalFieldName+ '</option>');
+	  			  	
+				});
+			},
+			error : function() 
+			{
+				alert("发生未知错误 ,请重新操作.");
+			}
+		});
+}
+
 </script>
 <!--表格数据操作js-->
 
@@ -139,7 +218,7 @@ var name=$('#name').val();
             	
             	if (typeof(selectRowData) == "undefined") 
             	{
-            		layer.msg('请点击选择一行数据');
+            		layer.alert('请选择一个课题');
             	}
             	else 
             	{
@@ -205,7 +284,7 @@ var name=$('#name').val();
             elem: '#processdef-table',
             url: '/sre-project-basic/list',
             method:"POST",
-            where: {param: {"name":$("#name").val(),"auditStatus":"2","setupYear":$("#setupYear").val()}},
+            where: {param: {"name":$("#name").val(),"auditStatus":"2","setupYear":$("#setupYear").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"professionalDepartName":$("#professionalDepartName").val(),"professionalFieldName":$("#professionalFieldName").val()}},
             limit: 15,	
             id: 'processdef-table',
             height: commonDislodgeTable(),
@@ -228,6 +307,9 @@ var name=$('#name').val();
                 {field : 'createDate', title : '上报时间', style : 'cursor: pointer;', align: 'center', templet : '#dateTpl'},
                 {field : 'contractNum', title : '合同号', style : 'cursor: pointer;', align: 'center'},
                 {field : 'auditStatus',    title : '课题状态',        style : 'cursor: pointer;', align: 'center', width : 100},
+                {field : 'belongDepartmentName', title : '归属部门', style : 'cursor: pointer;', align: 'left'},
+                {field : 'professionalDepartName', title : '专业处', style : 'cursor: pointer;', align: 'left'},
+                {field : 'professionalFieldName',  title : '专业领域', style : 'cursor: pointer;', align: 'left'},
                 {field : 'taskWriteUserNames', title : '任务填写人', style : 'cursor: pointer;', align: 'center',templet:function(d){return '<span style="color:red">'+d.taskWriteUserNames+'</span>'}}
             ]],
             done: function (res, curr, count) {

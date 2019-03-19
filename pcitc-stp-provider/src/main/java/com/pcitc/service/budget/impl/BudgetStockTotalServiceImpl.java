@@ -21,6 +21,7 @@ import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.enums.BudgetAuditStatusEnum;
+import com.pcitc.base.common.enums.BudgetItemTypeEnum;
 import com.pcitc.base.common.enums.DelFlagEnum;
 import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.stp.budget.BudgetInfoExample;
@@ -201,6 +202,16 @@ public class BudgetStockTotalServiceImpl implements BudgetStockTotalService
 		return budgetStockTotalMapper.selectByExample(example);
 	}
 	@Override
+	public List<BudgetStockTotal> selectBudgetStockTotalCompanyItem(String dataId)
+	{
+		BudgetStockTotalExample example = new BudgetStockTotalExample();
+		BudgetStockTotalExample.Criteria c = example.createCriteria();
+		c.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
+		c.andParentDataIdEqualTo(dataId);
+		c.andItemTypeEqualTo(BudgetItemTypeEnum.BUDGET_ITEM_COMPANY.getCode());
+		return budgetStockTotalMapper.selectByExample(example);
+	}
+	@Override
 	public List<BudgetStockTotal> selectChildBudgetStockTotalAll(String dataId) {
 		BudgetStockTotalExample example = new BudgetStockTotalExample();
 		BudgetStockTotalExample.Criteria c = example.createCriteria();
@@ -217,7 +228,7 @@ public class BudgetStockTotalServiceImpl implements BudgetStockTotalService
 		BudgetInfoExample.Criteria infoc = infoExample.createCriteria();
 		infoc.andAuditStatusEqualTo(BudgetAuditStatusEnum.AUDIT_STATUS_FINAL.getCode());
 		infoc.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
-		infoc.andBudgetTypeEqualTo(BudgetInfoEnum.ASSETS_TOTAL.getCode());
+		infoc.andBudgetTypeEqualTo(BudgetInfoEnum.STOCK_TOTAL.getCode());
 		List<BudgetInfo> infos = budgetInfoMapper.selectByExample(infoExample);
 		Set<String> ids = new HashSet<String>();
 		ids.add("xxxx");//避免为空
@@ -230,7 +241,6 @@ public class BudgetStockTotalServiceImpl implements BudgetStockTotalService
 		c.andBudgetInfoIdIn(new ArrayList<String>(ids));
 		c.andNdNotEqualTo(item.getNd());
 		c.andDisplayNameEqualTo(item.getDisplayName());
-		c.andLevelEqualTo(0);//只显示第1级
 		example.setOrderByClause("nd desc");
 		return budgetStockTotalMapper.selectByExample(example);
 	}

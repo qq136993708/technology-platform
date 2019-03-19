@@ -125,6 +125,10 @@
        <result column="G0LIFNR"  property="g0LIFNR" jdbcType="VARCHAR" />
        <result column="G0NAME1"  property="g0NAME1" jdbcType="VARCHAR" />
        <result column="G0GSDM"   property="g0GSDM"  jdbcType="VARCHAR" />
+       <result column="G0GSJC"   property="g0GSJC"  jdbcType="VARCHAR" />
+       <result column="G0ADRNR"  property="g0ADRNR"  jdbcType="VARCHAR" />
+       <result column="G0TELF1"  property="g0TELF1"  jdbcType="VARCHAR" />
+       <result column="G0TELFX"  property="g0TELFX"  jdbcType="VARCHAR" />
      </resultMap>
      
       <sql id="selectConditionDicSupplyer">
@@ -150,16 +154,31 @@
 	 
 	 
 	 <select id="getDicSupplyerList_table" resultMap="dicSupplyerResultMap"  parameterType="java.util.Map" >
-	     SELECT
-		 distinct
-			 "G0LAND1",
-			 "G0MCOD3",
-			 "G0SORTL",
-			 "G0LIFNR",
-			 "G0NAME1",
-			 "G0KTOKK",
-			 "G0GSDM"
-		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_ZH_1000_05" 
+	 SELECT
+		 "G0LAND1",
+		 "G0MCOD3",
+		 "G0SORTL",
+		 "G0LIFNR",
+		 "G0NAME1",
+		 "G0KTOKK",
+		 "G0GSDM",
+		 "G0GSJC",
+		 "G0ADRNR",
+		 "G0TELF1",
+		 "G0TELFX"
+	FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_ZH_1000_05"('PLACEHOLDER' = ('$$PR_GSDM$$',
+		 '${companyCode}'))  where "G0KTOKK" not in ('SK97','SK98')
+	GROUP BY "G0LAND1",
+		 "G0MCOD3",
+		 "G0SORTL",
+		 "G0LIFNR",
+		 "G0NAME1",
+		 "G0KTOKK",
+		 "G0GSDM",
+		 "G0GSJC",
+		 "G0ADRNR",
+		 "G0TELF1",
+		 "G0TELFX"
 		<include refid="selectConditionDicSupplyer" /> 
 		<if test="pageSize != null and pageSize !=''">  limit ${pageSize} offset  ${start} </if>   
 	 </select>
@@ -167,16 +186,31 @@
 	 
 	  <select id="getDicSupplyCount" resultType="int" parameterType="java.util.Map"  >
 	  SELECT COUNT(*) FROM(
-	     SELECT
-		 distinct
-			 "G0LAND1",
-			 "G0MCOD3",
-			 "G0SORTL",
-			 "G0LIFNR",
-			 "G0NAME1",
-			 "G0KTOKK",
-			 "G0GSDM"
-		FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_ZH_1000_05" 
+	      SELECT
+		 "G0LAND1",
+		 "G0MCOD3",
+		 "G0SORTL",
+		 "G0LIFNR",
+		 "G0NAME1",
+		 "G0KTOKK",
+		 "G0GSDM",
+		 "G0GSJC",
+		 "G0ADRNR",
+		 "G0TELF1",
+		 "G0TELFX"
+	FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_ZH_1000_05"('PLACEHOLDER' = ('$$PR_GSDM$$',
+		 '${companyCode}'))  where "G0KTOKK" not in ('SK97','SK98')
+	GROUP BY "G0LAND1",
+		 "G0MCOD3",
+		 "G0SORTL",
+		 "G0LIFNR",
+		 "G0NAME1",
+		 "G0KTOKK",
+		 "G0GSDM",
+		 "G0GSJC",
+		 "G0ADRNR",
+		 "G0TELF1",
+		 "G0TELFX"
 		<include refid="selectConditionDicSupplyer" /> 
 		)
 	 </select>
