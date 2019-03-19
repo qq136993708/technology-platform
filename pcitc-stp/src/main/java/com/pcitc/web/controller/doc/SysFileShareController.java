@@ -52,34 +52,34 @@ import com.pcitc.web.common.OperationFilter;
 @RequestMapping("sysfileshare")
 public class SysFileShareController extends BaseController {
 
-	private static final String GET_INFO = "http://pplus-zuul/system-proxy/sysfileshare-provider/sysfileshare/get-sysfileshare/";
-	private static final String TREE_DATA = "http://pplus-zuul/system-proxy/sysfileshare-provider/sysfileshare/tree-data";
-	private static final String ADD = "http://pplus-zuul/system-proxy/sysfileshare-provider/sysfileshare/add-sysfileshare";
-	private static final String UPDATE = "http://pplus-zuul/system-proxy/sysfileshare-provider/sysfileshare/update-sysfileshare";
-	private static final String DEL = "http://pplus-zuul/system-proxy/sysfileshare-provider/sysfileshare/del-sysfileshare/";
-	private static final String DEL_REAL = "http://pplus-zuul/system-proxy/sysfileshare-provider/sysfileshare/del-sysfileshare-real/";
+	private static final String GET_INFO = "http://pcitc-zuul/system-proxy/sysfileshare-provider/sysfileshare/get-sysfileshare/";
+	private static final String TREE_DATA = "http://pcitc-zuul/system-proxy/sysfileshare-provider/sysfileshare/tree-data";
+	private static final String ADD = "http://pcitc-zuul/system-proxy/sysfileshare-provider/sysfileshare/add-sysfileshare";
+	private static final String UPDATE = "http://pcitc-zuul/system-proxy/sysfileshare-provider/sysfileshare/update-sysfileshare";
+	private static final String DEL = "http://pcitc-zuul/system-proxy/sysfileshare-provider/sysfileshare/del-sysfileshare/";
+	private static final String DEL_REAL = "http://pcitc-zuul/system-proxy/sysfileshare-provider/sysfileshare/del-sysfileshare-real/";
 
 	/**
 	 * 标准增删改查
 	 */
-	private static final String LIST = "http://pplus-zuul/system-proxy/sysfileshare-provider/sysfileshare/sysfileshare_list";
-	private static final String LISTPARAM = "http://pplus-zuul/system-proxy/sysfileshare-provider/sysfileshare/sysfileshare_list_param";
+	private static final String LIST = "http://pcitc-zuul/system-proxy/sysfileshare-provider/sysfileshare/sysfileshare_list";
+	private static final String LISTPARAM = "http://pcitc-zuul/system-proxy/sysfileshare-provider/sysfileshare/sysfileshare_list_param";
 
-	private static final String LISTPAGE = "http://pplus-zuul/system-proxy/sysfileshare-provider/sysfileshare/sysfileshare-page";
+	private static final String LISTPAGE = "http://pcitc-zuul/system-proxy/sysfileshare-provider/sysfileshare/sysfileshare-page";
 
-	private static final String SAVE = "http://pplus-zuul/system-proxy/sysfileshare-provider/sysfileshare/save_sysfileshare";
+	private static final String SAVE = "http://pcitc-zuul/system-proxy/sysfileshare-provider/sysfileshare/save_sysfileshare";
 
-	private static final String SAVE_FILE = "http://pplus-zuul/system-proxy/sysfileshare-provider/sysfileshare/save_sysfileshare_file";
+	private static final String SAVE_FILE = "http://pcitc-zuul/system-proxy/sysfileshare-provider/sysfileshare/save_sysfileshare_file";
 
-	private static final String DELETE = "http://pplus-zuul/system-proxy/sysfileshare-provider/sysfileshare/delete_sysfileshare/";
+	private static final String DELETE = "http://pcitc-zuul/system-proxy/sysfileshare-provider/sysfileshare/delete_sysfileshare/";
 
-	private static final String GET = "http://pplus-zuul/system-proxy/sysfileshare-provider/sysfileshare/get_sysfileshare/";
+	private static final String GET = "http://pcitc-zuul/system-proxy/sysfileshare-provider/sysfileshare/get_sysfileshare/";
 	
-	private static final String HISTORY_LIST = "http://pplus-zuul/system-proxy/sysfileshare-provider/sysfileshare/file/history/list";
+	private static final String HISTORY_LIST = "http://pcitc-zuul/system-proxy/sysfileshare-provider/sysfileshare/file/history/list";
 	
-	private static final String REPLACE_FILE = "http://pplus-zuul/system-proxy/sysfileshare-provider/sysfileshare/replace/";
+	private static final String REPLACE_FILE = "http://pcitc-zuul/system-proxy/sysfileshare-provider/sysfileshare/replace/";
 	
-	private static final String UNIT_POST_USER_TREE = "http://pplus-zuul/system-proxy/sysfileshare-provider/units-posts-users/tree";
+	private static final String UNIT_POST_USER_TREE = "http://pcitc-zuul/system-proxy/sysfileshare-provider/units-posts-users/tree";
 
 	/**
 	 * 文件分享信息-查询列表
