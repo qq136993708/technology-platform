@@ -69,6 +69,7 @@ public class SysUser {
 	private String unitName;
 	private String unitCode;
 	private String unitId;
+	private String unitPath;
 
 	// 本人管理哪些院所
 	private String manageInstituteCode;
@@ -80,7 +81,14 @@ public class SysUser {
 	private List<String> instituteCodes;
 	private List<String> instituteNames;
 
-	
+	public String getUnitPath() {
+		return unitPath;
+	}
+
+	public void setUnitPath(String unitPath) {
+		this.unitPath = unitPath;
+	}
+
 	public List<String> getRoles() {
 		return roles;
 	}

@@ -60,14 +60,12 @@ public class ProjectBasicController extends BaseController {
 	private static final String DEL_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_basic/delete/";
 	private static final String BATCH_DEL_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_basic/batch-delete/";
 	private static final String GET_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_basic/get/";
-	private static final String LIST_EQUIPMENT_BY_IDS = "http://pcitc-zuul/stp-proxy/sre-provider/equipment/list-by-ids/";
 
 	// 流程操作--同意
 	private static final String AUDIT_AGREE_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project/task/agree/";
 	// 流程操作--拒绝
 	private static final String AUDIT_REJECT_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project/task/reject/";
 	
-	private static final String get_user_bypostcode = "http://pcitc-zuul/system-proxy/user-provider/user/get-user-bypostcode/";
 	
 	private final static String process_define_id4 = "equitmentApplyProcess:1:1172522";
 	
@@ -75,16 +73,13 @@ public class ProjectBasicController extends BaseController {
 	private static final String PROJECT_WORKFLOW_URL = "http://pcitc-zuul/stp-proxy/stp-provider/start_project_activity/";
 
 
-	@RequestMapping(value = "/to-audit-list")
-	public String auditlist(HttpServletRequest request, HttpServletResponse response) {
-		return "/stp/equipment/project/audit-list";
-	}
-
 	@RequestMapping(value = "/to-list")
 	public String list(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		
 		List<UnitField>  unitFieldList= CommonUtil.getUnitNameList(restTemplate, httpHeaders);
 		request.setAttribute("unitFieldList", unitFieldList);
+		String applyUnitCode=sysUserInfo.getUnitCode();
+		request.setAttribute("applyUnitCode", applyUnitCode);
 		return "/stp/equipment/project/project-basic-list";
 	}
 
@@ -92,8 +87,6 @@ public class ProjectBasicController extends BaseController {
 	@ResponseBody
 	public String ajaxlist(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 		
-		String applyUnitCode=sysUserInfo.getUnitCode();
-		param.getParam().put("applyUnitCode", applyUnitCode);
 		
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
@@ -166,26 +159,13 @@ public class ProjectBasicController extends BaseController {
 	
 	
 	
-	@RequestMapping(method = RequestMethod.GET, value = "/project_basic_add_selectapply")
-	private String project_basic_add_selectapply(HttpServletRequest request) 
-	{
-		String plantId = request.getParameter("equipmentIds");
-		request.setAttribute("equipmentIds", plantId==null?IdUtil.createIdByTime():plantId);
-		
-		return "/stp/equipment/project/project_basic_add_selectapply";
-		
-    }
-	
 	
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/chooseProject")
 	private String chooseProject(HttpServletRequest request) 
 	{
 		
-		
 		String taskWriteUsersIds=sysUserInfo.getUserId();
-		
-		//String taskWriteUsersIds = request.getParameter("taskWriteUsersIds");
 		request.setAttribute("taskWriteUsersIds",taskWriteUsersIds);
 		String topicId = request.getParameter("topicId");
 		request.setAttribute("topicId",topicId);
@@ -659,18 +639,6 @@ public class ProjectBasicController extends BaseController {
 	
 	
 	
-	//计划审核
-	@RequestMapping(value = "/audit", method = RequestMethod.GET)
-	public String audit( HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-		return "/stp/equipment/project/audit";
-	}
-	
-	@RequestMapping(value = "/audit_look", method = RequestMethod.GET)
-	public String audit_look( HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-		return "/stp/equipment/project/audit_look";
-	}
 	
 	
 	

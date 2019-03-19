@@ -22,7 +22,7 @@
   <div class="box-body">
       <form class="layui-form" name="form1" id="form1" action="" method="POST" lay-filter="component-form-group layui-container">
          <input type="hidden" name="meetingId" id="meetingId" value="${sreTechMeeting.meetingId}">
-         
+         <input type="hidden" name="meetingDoc" id="meetingDoc" value="${sreTechMeeting.meetingDoc}">
           <div class="layui-form-item">
 	        <label class="layui-form-label">会议主题<span class="must-fill">*</span></label>
 	        <div class="layui-input-block">
@@ -60,7 +60,11 @@
 	        <textarea  name="meetingContent" id="meetingContent"  class="layui-textarea readOnlyBox">${sreTechMeeting.meetingContent}</textarea>
           </div>
 	     </div>
-	     
+	      <div class="layui-form-item">
+	      	 <label class="layui-form-label">附件</label>
+	         <div id="file_div" class="layui-input-block"></div>
+       </div>
+      
         <div class="layui-form-item">
 	        <label class="layui-form-label">备注</label>
 	        <div class="layui-input-block">
@@ -83,6 +87,15 @@
 <script type="text/javascript" >
 var v_date=(new Date()).getTime();
 var meetingId="${meetingId?default('')}";
+
+var file_ids = "meetingDoc";
+//detail:详情，edit：编辑
+file_edit_detail = "detail";
+//统管理-附件管理-附件配置：页面标识
+file_opt_flag = "8e538fffc6834548ad8850fc391f903f";
+//添加到form.render()之后
+$("#file_div").load('/common/public/uploadlayuiload.html');
+
 layui.config({
     base: 'layuicommon/module/modules/' //静态资源所在路径
 }).extend({

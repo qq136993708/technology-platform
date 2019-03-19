@@ -19,6 +19,7 @@
 </head>
 <body>
 <div class="layer-box">
+ <input type="hidden"  name="meetingDoc"   id="meetingDoc"       value="${meetingDoc}">
 	<form id="planForm" class="layui-form" action="" lay-filter="component-form-group layui-container"></form>
 		<div class="formBox">
 			<div class="tableToolBox">
@@ -69,7 +70,10 @@
           </div>
 	     </div>
 	     
-	     
+	      <div class="layui-form-item">
+	      	 <label class="layui-form-label">附件</label>
+	         <div id="file_div" class="layui-input-block"></div>
+       </div>
 	     <div class="layui-form-item">
 	        <label class="layui-form-label">备注</label>
 	        <div class="layui-input-block">
@@ -94,6 +98,13 @@
 <script type="text/javascript" >
 var v_date=(new Date()).getTime();
 var meetingId="${meetingId?default('')}";
+var file_ids = "meetingDoc";
+//detail:详情，edit：编辑
+file_edit_detail = "edit";
+//统管理-附件管理-附件配置：页面标识
+file_opt_flag = "8e538fffc6834548ad8850fc391f903f";
+
+
 layui.config({
     base: 'layuicommon/module/modules/' //静态资源所在路径
 }).extend({
@@ -114,6 +125,11 @@ layui.config({
           elem: '#meetingDate'
           ,type: 'datetime'
       });
+	  
+    //添加到form.render()之后
+	 	$("#file_div").load('/common/public/uploadlayuiload.html');
+    
+    
       /* 自定义验证规则  title 要验证的input的 lay-verify=""*/
       form.verify({
     	  meetingPlace: function(value)

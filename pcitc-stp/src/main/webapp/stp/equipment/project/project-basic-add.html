@@ -213,9 +213,6 @@
                         <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue"
                                 lay-submit="" lay-filter="sub">保存
                         </button>
-                        <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue"
-                                lay-submit="" lay-filter="up">上报
-                        </button>
                         <button type="button"
                                 class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white"
                                 id="closeBtn">关闭
@@ -415,7 +412,7 @@
         var $ = layui.$, active = {
             selectEvent: function () {
                 //var temUrl = "/intl_project/plant_edit_selectapply?equipmentIds="+$("#equipmentIds").val();
-                var temUrl = '/sre-project-basic/project_basic_add_selectapply?equipmentIds=' + $("#equipmentIds").val();
+                var temUrl = '/sre-equipment/chooseEquipmentByUser?equipmentIds=' + $("#equipmentIds").val();
                 publicMethods.openBaseWin("选择装备", temUrl, "90%", "80%");
 
             }/* ,
@@ -606,7 +603,7 @@
         $("#equipmentIds").val(equipmentIds);
         table.render({
             elem: '#join_apply_table',
-            url: '/sre-equipment/list_by_quipment_ids?equipmentIds=' + equipmentIds,
+            url: '/sre-equipment/chooseEquipmentByIds?equipmentIds=' + equipmentIds,
             limit: 15,
             method: "GET",
             id: 'join_apply_table',

@@ -231,7 +231,7 @@ function renderTable(equipmentIds)
 	  $("#equipmentIds").val(equipmentIds);
 	  table.render({
           elem: '#join_apply_table',
-          url: '/sre-equipment/list_by_quipment_ids?equipmentIds='+equipmentIds,
+          url: '/sre-equipment/chooseEquipmentByIds?equipmentIds='+equipmentIds,
         //  limit: 15,
           method:"GET",
       	  id: 'join_apply_table',

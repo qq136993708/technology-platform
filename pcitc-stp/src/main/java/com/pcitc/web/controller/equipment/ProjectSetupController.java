@@ -152,16 +152,6 @@ public class ProjectSetupController extends BaseController {
 	
 
 	
-	@RequestMapping(method = RequestMethod.GET, value = "/project_basic_add_selectapply")
-	private String project_basic_add_selectapply(HttpServletRequest request) 
-	{
-		String plantId = request.getParameter("equipmentIds");
-		request.setAttribute("equipmentIds", plantId==null?IdUtil.createIdByTime():plantId);
-		
-		return "/stp/equipment/task/project_basic_add_selectapply";
-		
-    }
-	
 
 	/**
 	 * 保存-更新操作

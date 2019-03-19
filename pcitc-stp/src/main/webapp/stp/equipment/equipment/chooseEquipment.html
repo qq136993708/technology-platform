@@ -16,7 +16,29 @@
 <script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
 <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
-
+<script id="dateTpl" type="text/html"> {{formatTime(d.createDate)}} </script>
+<script type="text/javascript">
+    // 时间格式化
+    function formatTime(d) {
+        if (d) {
+            var date = new Date();
+            date.setTime(d);
+            var y = date.getFullYear();
+            var m = date.getMonth() + 1;
+            m = m < 10 ? ('0' + m) : m;
+            var day = date.getDate();
+            day = day < 10 ? ("0" + day) : day;
+            var h = date.getHours();
+            h = h < 10 ? ("0" + h) : h;
+            var M = date.getMinutes();
+            M = M < 10 ? ("0" + M) : M;
+            var str = y + "-" + m + "-" + day + " " + h + ":" + M;
+            return str;
+        } else {
+            return '';
+        }
+    }
+</script>
 <script type="text/javascript">
 var publicMethods;
     $(document).ready(function() {
@@ -30,21 +52,22 @@ var publicMethods;
 	            url: '/sre-equipment/list',
 	            limit: 15,
 	            method:"POST",
-	            where: {param:{"equipmentIds":$("#equipmentIds").val(),"applyName":$("#applyName").val()}},
+	            where: {param:{"equipmentIds":$("#equipmentIds").val(),"applyName":$("#applyName").val(),"applyDepartCode":$("#applyDepartCode").val()}},
 	        	id: 'notjoin_apply_table',
-	        	height: 200,
+	        	height: 360,
 	        	page: {first: '首页',last: '尾页',theme: '#0F9EE0'},
 	            cols: [[
 	            	{type:'checkbox',event: 'changeEvents'}
 	             	,{title:'序号', type:'numbers'},
 	             	{field : 'auditStatus', title : '状态',    style : 'cursor: pointer;', align : 'center', templet : '<div>{{ layui.laytpl.auditStatus_equipment(d.auditStatus) }}</div>', width : 55},
-	                {field : 'name',        title : '装备名称', style : 'cursor: pointer;', align : 'center', width : '20%'},
+	                {field : 'name',        title : '装备名称', style : 'cursor: pointer;', align : 'left', width : '20%'},
 	                {field : 'type',        title : '装备分类', style : 'cursor: pointer;', align : 'center', width : '10%'},
 	                {field : 'unitPrice',   title : '单价（万元）', style : 'cursor: pointer;', align : 'center', width : '10%'},
 	                {field : 'applyAcount', title : '申请数量',    style : 'cursor: pointer;', align : 'center', width : '10%'},
 	                {field : 'allPrice',    title : '总价¥（万元）', style : 'cursor: pointer;', align : 'center', width : '10%',templet:function(d){return '<span style="color:red">'+d.allPrice+'</span>'}},
-	                {field : 'applyDepartName', title : '申报部门', style : 'cursor: pointer;', align : 'center', width : '10%'},
-	                {field : 'firstApplyUser',  title : '第一申报人', style : 'cursor: pointer;', align : 'center', width : '10%'}
+	                {field : 'applyDepartName', title : '申报部门', style : 'cursor: pointer;', align : 'left', width : '30%'},
+	                {field : 'firstApplyUser',  title : '第一申报人', style : 'cursor: pointer;', align : 'left', width : '10%'},
+	                {field : 'createDate',  title : '申报时间', style : 'cursor: pointer;', align : 'left', width : '15%', templet : '#dateTpl'}
 	            ]],
 	            done: function (res, curr, count) {
 	            	var equipmentIds="";
@@ -86,7 +109,8 @@ var publicMethods;
                 },
                 addEvent:function(){
                 	var check = table.checkStatus('notjoin_apply_table');
-                	if(check.data.length == 0){
+                	if(check.data.length == 0)
+                	{
                 		layer.msg('请点击选择装备数据!');
                 		return;
                 	}
@@ -97,10 +121,8 @@ var publicMethods;
                 	}
                 	$("#equipmentIds").val(equipmentIds);
                 	parent.document.getElementById("equipmentIds").value=equipmentIds;
-
-
                 	parent.renderTable(equipmentIds);
-                //	parent.layui.table.reload("join_apply_table",{where: {param:{"equipmentIds":equipmentIds}}});
+                    //parent.layui.table.reload("join_apply_table",{where: {param:{"equipmentIds":equipmentIds}}});
                 	var index = parent.layer.getFrameIndex(window.name);
     			    parent.layer.close(index); 
                 }
@@ -120,6 +142,7 @@ var publicMethods;
 <body>
 <div class="formBox">
 	<input type="hidden" name="equipmentIds" id="equipmentIds" value="${equipmentIds}">
+	<input type="hidden" name="applyDepartCode" id="applyDepartCode" value="${applyDepartCode}">
 	<div class="searchBox">
 		<label class="dateInput">
         	<span>装备名称</span>

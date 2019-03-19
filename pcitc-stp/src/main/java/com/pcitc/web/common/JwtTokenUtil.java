@@ -27,6 +27,7 @@ public class JwtTokenUtil implements Serializable {
 	private static final String CLAIM_KEY_UNITNAME = "unitName";
 	private static final String CLAIM_KEY_UNITCODE = "unitCode";
 	private static final String CLAIM_KEY_UNITID = "unitId";
+	private static final String CLAIM_KEY_UNITPATH = "unitPath";
 	private static final String CLAIM_KEY_ROLELIST = "roleList";
 	private static final String CLAIM_KEY_FUNCTIONLIST = "functionList";
 	private static final String INSTITUTE_CODE = "instituteCodes";
@@ -66,6 +67,7 @@ public class JwtTokenUtil implements Serializable {
 			user.setUnitName(claims.get(CLAIM_KEY_UNITNAME) != null ? claims.get(CLAIM_KEY_UNITNAME).toString() : null);
 			user.setUnitCode(claims.get(CLAIM_KEY_UNITCODE) != null ? claims.get(CLAIM_KEY_UNITCODE).toString() : null);
 			user.setUnitId(claims.get(CLAIM_KEY_UNITID) != null ? claims.get(CLAIM_KEY_UNITID).toString() : null);
+			user.setUnitPath(claims.get(CLAIM_KEY_UNITPATH) != null ? claims.get(CLAIM_KEY_UNITPATH).toString() : null);
 			user.setFunList(claims.get(CLAIM_KEY_FUNCTIONLIST) != null ? (List<SysFunction>)claims.get(CLAIM_KEY_FUNCTIONLIST) : null);
 			user.setInstituteCodes(claims.get(INSTITUTE_CODE) != null ? (List<String>)claims.get(INSTITUTE_CODE) : null);
 			user.setInstituteNames(claims.get(INSTITUTE_NAME) != null ? (List<String>)claims.get(INSTITUTE_NAME) : null);
@@ -98,6 +100,7 @@ public class JwtTokenUtil implements Serializable {
 			user.setUnitName(claims.get(CLAIM_KEY_UNITNAME) != null ? claims.get(CLAIM_KEY_UNITNAME).toString() : null);
 			user.setUnitCode(claims.get(CLAIM_KEY_UNITCODE) != null ? claims.get(CLAIM_KEY_UNITCODE).toString() : null);
 			user.setUnitId(claims.get(CLAIM_KEY_UNITID) != null ? claims.get(CLAIM_KEY_UNITID).toString() : null);
+			user.setUnitPath(claims.get(CLAIM_KEY_UNITPATH) != null ? claims.get(CLAIM_KEY_UNITPATH).toString() : null);
 			user.setRoles(claims.get(CLAIM_KEY_ROLELIST) != null ? (List<String>)claims.get(CLAIM_KEY_ROLELIST) : null);
 			user.setFunList(claims.get(CLAIM_KEY_FUNCTIONLIST) != null ? (List<SysFunction>)claims.get(CLAIM_KEY_FUNCTIONLIST) : null);
 			user.setInstituteCodes(claims.get(INSTITUTE_CODE) != null ? (List<String>)claims.get(INSTITUTE_CODE) : null);
