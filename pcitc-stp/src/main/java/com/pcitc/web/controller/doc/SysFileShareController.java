@@ -2,6 +2,7 @@ package com.pcitc.web.controller.doc;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -30,6 +31,7 @@ import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.TreeNode;
 import com.pcitc.base.common.enums.DataOperationStatusEnum;
 import com.pcitc.base.doc.SysFileShare;
+import com.pcitc.base.system.SysUnit;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.DataTableParameter;
@@ -76,6 +78,8 @@ public class SysFileShareController extends BaseController {
 	private static final String HISTORY_LIST = "http://pcitc-zuul/system-proxy/sysfileshare-provider/sysfileshare/file/history/list";
 	
 	private static final String REPLACE_FILE = "http://pcitc-zuul/system-proxy/sysfileshare-provider/sysfileshare/replace/";
+	
+	private static final String UNIT_POST_USER_TREE = "http://pcitc-zuul/system-proxy/sysfileshare-provider/units-posts-users/tree";
 
 	/**
 	 * 文件分享信息-查询列表
@@ -351,6 +355,36 @@ public class SysFileShareController extends BaseController {
 	public String replaceSysFileVersion(@PathVariable String versionUUID) throws Exception {
 		Integer reValue = this.restTemplate.exchange(REPLACE_FILE + versionUUID, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class).getBody();
 		return String.valueOf(reValue);
+	}
+	
+	/**
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 *             根据查询条件查询树形结构，包含组织机构、用户、岗位
+	 */
+	@RequestMapping(value = "/file/units-posts-users/tree")
+	@ResponseBody
+	public String getUnitPostUserTree(HttpServletRequest request) throws Exception {
+		String path = request.getContextPath();
+		SysUnit unit = new SysUnit();
+		unit.setsSearch(request.getParameter("fileId"));
+		ResponseEntity<List> responseEntity = restTemplate.exchange(UNIT_POST_USER_TREE, HttpMethod.POST, new HttpEntity<SysUnit>(unit, this.httpHeaders), List.class);
+		
+		List treeNodes = responseEntity.getBody();
+		for (int i = 0; i < treeNodes.size(); i++) {
+			Map temNode = (Map)treeNodes.get(i);
+			if (temNode.get("nodeType").equals("unit")) {
+				temNode.put("icon", path + "/image/house.png");
+			} else if (temNode.get("nodeType").equals("post")) {
+				temNode.put("icon", path + "/image/post.png");
+			} else if (temNode.get("nodeType").equals("user")) {
+				temNode.put("icon", path + "/image/humen.png");
+			}
+		}
+		//System.out.println("getUnitPostTreeByCond=====" + JSONUtils.toJSONString(treeNodes));
+		return JSONUtils.toJSONString(responseEntity.getBody());
+
 	}
 	
 }

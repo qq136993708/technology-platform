@@ -1,6 +1,12 @@
 package com.pcitc.web.controller.equipment;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -71,7 +77,7 @@ public class ProjectTaskController extends BaseController {
 		
 	
 	// 总部门审核
-	private final static String PROCESS_DEFINE_ID_TASK_FLOAT = "equitmentApplyProcess:1:1172522";
+	private final static String PROCESS_DEFINE_ID_TASK_FLOAT = "equipment_task_apply1:2:1217559";
 	// 内部审核
 	private final static String PROCESS_DEFINE_ID_CONFIRM_FLOAT = "equitmentApplyProcess:1:1172522";
 	
@@ -83,6 +89,11 @@ public class ProjectTaskController extends BaseController {
 	private static final String GET_URL_PROJECT = "http://pcitc-zuul/stp-proxy/sre-provider/project_basic/get/";
 	private static final String UPDATE_URL_TASK = "http://pcitc-zuul/stp-proxy/sre-provider/project_task/update";
 	private static final String UPDATE_URL_PROJECT = "http://pcitc-zuul/stp-proxy/sre-provider/project_basic/update";
+	//临时导出文件目录
+	private static final String TEMP_FILE_PATH = "src/main/resources/tem/";
+	
+	
+	
 	
 	
 	
@@ -188,6 +199,9 @@ public class ProjectTaskController extends BaseController {
 		
 		List<SysDictionary>  dicList= CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_LCZT", restTemplate, httpHeaders);
 		request.setAttribute("dicList", dicList);
+
+		List<UnitField>  unitFieldList= CommonUtil.getUnitNameList(restTemplate, httpHeaders);
+		request.setAttribute("unitFieldList", unitFieldList);
 		return "/stp/equipment/task/confirm_list";
 	}
 	
@@ -411,6 +425,8 @@ public class ProjectTaskController extends BaseController {
 			sreProjectBasic.setBelongDepartmentName(sreProject.getBelongDepartmentName());
 			sreProjectBasic.setProfessionalDepartCode(sreProject.getProfessionalDepartCode());
 			sreProjectBasic.setProfessionalDepartName(sreProject.getProfessionalDepartName());
+			sreProjectBasic.setProfessionalFieldName(sreProject.getProfessionalFieldName());
+			sreProjectBasic.setProfessionalFieldCode(sreProject.getProfessionalFieldCode());
 		}
 		sreProjectBasic.setTopicId(topicId); 
 		sreProjectBasic.setContractNum(contractNum);
@@ -444,19 +460,6 @@ public class ProjectTaskController extends BaseController {
 			String dataId = sreProjectBasic.getTaskId();
 			resultsDate.setData(dataId);
 			resultsDate.setSuccess(true);
-			//如果是提交
-			/*if(isWorkFlow.equals("1"))
-			{
-				// 处理流程相关信息
-				boolean flowFlag = dealProjectWorkFlow(dataId, functionId,sysUserInfo, "任务书:"+sreProjectBasic.getTaskId(), userIds, httpHeaders);
-				if (flowFlag == true)
-				{
-					resultsDate = new Result(true, RequestProcessStatusEnum.OK.getStatusDesc());
-				} else 
-				{
-					resultsDate = new Result(false, RequestProcessStatusEnum.SERVER_BUSY.getStatusDesc());
-				}
-			}*/
 		} else 
 		{
 			resultsDate = new Result(false, RequestProcessStatusEnum.SERVER_BUSY.getStatusDesc());
@@ -815,30 +818,33 @@ public class ProjectTaskController extends BaseController {
 	public String createWordv(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception 
 	{
 		Result resultsDate = new Result();
-		String fileName=createWord(id);
-		if (!fileName.equals("")) {
+		String fileName=createWord(id,response);
+		if (!fileName.equals("")) 
+		{
 			resultsDate = new Result(true);
+			download(TEMP_FILE_PATH+fileName, response);
+			deleteFile(TEMP_FILE_PATH+fileName);
 		} else {
 			resultsDate = new Result(false, "生成文件失败！");
 		}
-		response.setContentType("text/html;charset=UTF-8");
+		/*response.setContentType("text/html;charset=UTF-8");
 		PrintWriter out = response.getWriter();
 		JSONObject ob = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
 		out.println(ob.toString());
 		out.flush();
-		out.close();
+		out.close();*/
 		return null;
 	}
 	
 	
 	
 	//生成word文档
-	private String  createWord(String id)
+	private String  createWord(String id, HttpServletResponse response)
 	{
 		
 		String  resutl="";
 		// 文件路径
-		String filePath = "D://doc";
+		String filePath = TEMP_FILE_PATH;
 				
 		// 文件名称
 		String fileName;
@@ -1119,24 +1125,16 @@ public class ProjectTaskController extends BaseController {
 			
 			
 			
-			
-           /*String myPic = "";  
-			try {  
-			     myPic = WordUtil.getImageString("D://doc//20190218155218.jpg");  
-			} catch (IOException e) {  
-			    e.printStackTrace();  
-			}  
-			 
-			dataMap.put("showPicture", myPic);  */
+		
 			
 			
-			fileName = System.currentTimeMillis()+".doc";
+			fileName =DateUtil.dateToStr(new Date(), DateUtil.FMT_SSS_02)+".doc";
 
 			/** 生成word */
 			boolean flage=WordUtil.createWord(dataMap, "task.ftl", filePath, fileName);
 			if(flage==true)
 			{
-				resutl=filePath+File.separator+fileName;
+				resutl=fileName;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1146,5 +1144,62 @@ public class ProjectTaskController extends BaseController {
 	
 	
 	
+	
+	
+	public HttpServletResponse download(String path, HttpServletResponse response) 
+	{
+        try {
+            // path是指欲下载的文件的路径。
+            File file = new File(path);
+            // 取得文件名。
+            String filename = file.getName();
+            // 取得文件的后缀名。
+            String ext = filename.substring(filename.lastIndexOf(".") + 1).toUpperCase();
+
+            // 以流的形式下载文件。
+            InputStream fis = new BufferedInputStream(new FileInputStream(path));
+            byte[] buffer = new byte[fis.available()];
+            fis.read(buffer);
+            fis.close();
+            // 清空response
+            response.reset();
+            // 设置response的Header
+            response.addHeader("Content-Disposition", "attachment;filename=" + new String(filename.getBytes()));
+            response.addHeader("Content-Length", "" + file.length());
+            OutputStream toClient = new BufferedOutputStream(response.getOutputStream());
+            response.setContentType("application/octet-stream");
+            toClient.write(buffer);
+            toClient.flush();
+            toClient.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return response;
+    }
+	
+	
+	
+	
+	 public  boolean deleteFile(String fileName)
+	 {
+	        File file = new File(fileName);
+	        // 如果文件路径所对应的文件存在，并且是一个文件，则直接删除
+	        if (file.exists() && file.isFile())
+	        {
+	            if (file.delete())
+	            {
+	                System.out.println("删除单个文件" + fileName + "成功！");
+	                return true;
+	            } else 
+	            {
+	                System.out.println("删除单个文件" + fileName + "失败！");
+	                return false;
+	            }
+	        } else 
+	        {
+	            System.out.println("删除单个文件失败：" + fileName + "不存在！");
+	            return false;
+	        }
+	    }
 
 }

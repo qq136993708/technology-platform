@@ -37,9 +37,13 @@ var publicMethods;
 	            cols: [[
 	            	{type:'checkbox',event: 'changeEvents'}
 	             	,{title:'序号', type:'numbers'},
-	                {field : 'g0NAME1',        title : '供应商名称', style : 'cursor: pointer;', align : 'left', width : '50%'},
-	                {field : 'g0MCOD3',        title : '所在城市',   style : 'cursor: pointer;', align : 'center', width : '20%'},
-	                {field : 'g0GSDM',         title : '所属单位', style : 'cursor: pointer;', align : 'center', width : '10%'}
+	             	 {field : 'g0LIFNR',        title : '供应商ID', style : 'cursor: pointer;', align : 'left', width : '10%'},
+	                {field : 'g0NAME1',        title : '供应商名称', style : 'cursor: pointer;', align : 'left', width : '20%'},
+	                {field : 'g0MCOD3',        title : '所在城市',   style : 'cursor: pointer;', align : 'center', width : '10%'},
+	                {field : 'g0GSJC',         title : '所属单位', style : 'cursor: pointer;', align : 'center', width : '10%'},
+	                {field : 'g0TELF1',         title : '电话', style : 'cursor: pointer;', align : 'center', width : '10%'},
+	                {field : 'g0TELFX',         title : '传真', style : 'cursor: pointer;', align : 'center', width : '10%'},
+	                {field : 'g0ADRNR',         title : '地址', style : 'cursor: pointer;', align : 'center', width : '20%'}
 	            ]],
 	            done: function (res, curr, count) {
 	 				
@@ -71,6 +75,7 @@ var publicMethods;
                 		g0NAMEs=g0NAMEs+check.data[dt].g0NAME1+",";
                 	}
                 	$("#g0NAMEs").val(g0NAMEs);
+                	alert(g0NAMEs);
                 	parent.document.getElementById("g0NAMEs").value=g0NAMEs;
 
 

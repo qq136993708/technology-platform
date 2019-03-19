@@ -44,7 +44,7 @@ public class WordUtil {
 			Template template = configuration.getTemplate(templateName);
 
 			// 输出文件
-			File outFile = new File(filePath+File.separator+fileName);
+			File outFile = new File(filePath+fileName);
 
 			// 如果输出目标文件夹不存在，则创建
 			if (!outFile.getParentFile().exists()) {
@@ -61,7 +61,7 @@ public class WordUtil {
 			out.flush();
 			out.close();
 		} catch (Exception e) {
-			flag=true;
+			flag=false;
 			e.printStackTrace();
 		}
         return flag;

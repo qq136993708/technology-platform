@@ -300,7 +300,8 @@ var name=$('#name').val();
             	{
             		 var taskId=selectRowData.taskId;
             		 var temUrl="/sre_project_task/createWord/" + taskId;
-            		 ajaxDeleteCreateWord(temUrl,"GET","生成WORD成功","生成WORD失败");
+            		// ajaxDeleteCreateWord(temUrl,"GET","生成WORD成功","生成WORD失败");
+            		 location.href=temUrl;
             	}
             }
             
@@ -364,6 +365,8 @@ var name=$('#name').val();
                 {field : 'projectMoney',   title : '总经费(万元)', style : 'cursor: pointer;', align: 'center',templet:function(d){return '<span style="color:red">'+d.projectMoney+'</span>'}},
                 {field : 'leadUnitName',   title : '承担单位',    style : 'cursor: pointer;', align: 'left'},
                 {field : 'belongDepartmentName', title : '归属部门', style : 'cursor: pointer;', align: 'left'},
+                {field : 'professionalDepartName', title : '专业处',  style : 'cursor: pointer;', align: 'left'},
+                {field : 'professionalFieldName',  title : '专业领域', style : 'cursor: pointer;', align: 'left'},
                 {field : 'applyUnitName',  title : '申报单位',    style : 'cursor: pointer;', align: 'left'},
                 {field : 'createUserName', title : '申报人',      style : 'cursor: pointer;', align: 'left'},
                 {field : 'createDate',     title : '上报时间',     style : 'cursor: pointer;', align: 'center', templet : '#dateTpl'}

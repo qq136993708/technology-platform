@@ -416,7 +416,6 @@ public class SysFileKindController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = { "/toListPageEsEdit" }, method = { RequestMethod.GET })
-	@OperationFilter(modelName = "", actionName = "跳转录入页toListPageEsEdit")
 	public String toListPageEsEdit() {
 		response.addHeader("P3P", "CP=CAO PSA OUR");
 		return "pplus/doc/sysFileKind_tree_es";

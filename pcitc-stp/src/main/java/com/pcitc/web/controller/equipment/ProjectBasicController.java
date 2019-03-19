@@ -33,6 +33,7 @@ import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.RequestProcessStatusEnum;
 import com.pcitc.base.stp.equipment.SreProject;
+import com.pcitc.base.stp.equipment.SreProjectTask;
 import com.pcitc.base.stp.equipment.UnitField;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CodeUtil;
@@ -366,15 +367,9 @@ public class ProjectBasicController extends BaseController {
 			if(isWorkFlow.equals("1"))
 			{
 				String dataId = sreProjectBasic.getId();
-				// 处理流程相关信息
-				boolean flowFlag = dealProjectWorkFlow(dataId, functionId,sysUserInfo, "计划上报:"+sreProjectBasic.getName(), userIds, httpHeaders);
-				if (flowFlag == true)
-				{
-					resultsDate = new Result(true, RequestProcessStatusEnum.OK.getStatusDesc());
-				} else 
-				{
-					resultsDate = new Result(false, RequestProcessStatusEnum.SERVER_BUSY.getStatusDesc());
-				}
+				resultsDate.setData(dataId);
+				resultsDate.setSuccess(true);
+				
 			}
 		} else 
 		{
@@ -419,6 +414,32 @@ public class ProjectBasicController extends BaseController {
 		return null;
 	}
 	
+	
+	
+	
+	//部门审核流程
+	@RequestMapping(value = "/start_workflow")
+	@ResponseBody
+	public Object start_workflow(HttpServletRequest request, HttpServletResponse response) throws Exception 
+	{
+		
+		String id = CommonUtil.getParameter(request, "id", "");
+		String functionId = CommonUtil.getParameter(request, "functionId", "");
+		String userIds = CommonUtil.getParameter(request, "userIds", "");
+		System.out.println("============start_workflow userIds="+userIds+" functionId="+functionId+" id="+id);
+		Result resultsDate = new Result();
+		SreProject sreProject=EquipmentUtils.getSreProject(id,restTemplate,httpHeaders);
+		
+		boolean flowFlag = dealProjectWorkFlow(id, functionId,sysUserInfo, "计划上报->"+sreProject.getName(), userIds, httpHeaders);
+		if (flowFlag == true)
+		{
+			resultsDate = new Result(true, RequestProcessStatusEnum.OK.getStatusDesc());
+		} else 
+		{
+			resultsDate = new Result(false, RequestProcessStatusEnum.SERVER_BUSY.getStatusDesc());
+		}
+		return resultsDate;
+	}
 	
 
 	/**
