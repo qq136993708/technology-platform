@@ -35,6 +35,7 @@ import com.pcitc.base.common.enums.RequestProcessStatusEnum;
 import com.pcitc.base.stp.equipment.SreProject;
 import com.pcitc.base.stp.equipment.SreProjectTask;
 import com.pcitc.base.stp.equipment.UnitField;
+import com.pcitc.base.system.SysUnit;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CodeUtil;
 import com.pcitc.base.util.CommonUtil;
@@ -212,7 +213,7 @@ public class ProjectBasicController extends BaseController {
 	}
 	
 	
-	private Result dealSaveUpdate(HttpServletRequest request)
+	private Result dealSaveUpdate(HttpServletRequest request)throws Exception
 	{
 		
 		Result resultsDate = new Result();
@@ -257,6 +258,25 @@ public class ProjectBasicController extends BaseController {
 		String taskWriteUsersIds = CommonUtil.getParameter(request, "taskWriteUsersIds", "");
 		String professionalFieldName = CommonUtil.getParameter(request, "professionalFieldName", "");
 		String professionalFieldCode = CommonUtil.getParameter(request, "professionalFieldCode", "");
+		
+		String unitPathIds =   CommonUtil.getParameter(request, "unitPathIds",sysUserInfo.getUnitPath());
+		String unitPathNames = CommonUtil.getParameter(request, "unitPathNames", sysUserInfo.getUnitName());
+		
+		String parentUnitPathIds ="";
+		String parentUnitPathNames =  "";
+		if(!unitPathIds.equals(""))
+		{
+			if(unitPathIds.length()>4)
+			{
+				parentUnitPathIds=unitPathIds.substring(0, unitPathIds.length()-4);
+				SysUnit sysUnit=EquipmentUtils.getUnitByUnitPath(parentUnitPathIds, restTemplate, httpHeaders);
+				if(sysUnit!=null)
+				{
+					parentUnitPathNames = sysUnit.getUnitName();
+				}
+			}
+		}
+		
 		SreProject sreProjectBasic = null;
 		ResponseEntity<String> responseEntity = null;
 		// 判断是新增还是修改
@@ -292,6 +312,12 @@ public class ProjectBasicController extends BaseController {
 			}
 			sreProjectBasic.setProjectMoney(projectMoney);
 		}
+		
+		
+		sreProjectBasic.setUnitPathIds(unitPathIds);
+		sreProjectBasic.setUnitPathNames(unitPathNames);
+		sreProjectBasic.setParentUnitPathIds(parentUnitPathIds); 
+		sreProjectBasic.setParentUnitPathNames(parentUnitPathNames); 
 		sreProjectBasic.setProfessionalFieldCode(professionalFieldCode);
 		sreProjectBasic.setProfessionalFieldName(professionalFieldName);
 		sreProjectBasic.setYearFeeStr(yearFeeStr); 

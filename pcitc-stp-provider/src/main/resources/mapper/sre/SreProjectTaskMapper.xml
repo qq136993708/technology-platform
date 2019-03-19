@@ -42,8 +42,18 @@
     <result column="lead_unit_name" property="leadUnitName" jdbcType="VARCHAR" />
      <result column="unit_path_ids"   property="unitPathIds"   jdbcType="VARCHAR" />
     <result column="unit_path_names" property="unitPathNames" jdbcType="VARCHAR" />
-    <result column="parent_unit_name" property="parentUnitName" jdbcType="VARCHAR" />
-    <result column="parent_unit_code" property="parentUnitCode" jdbcType="VARCHAR" />
+    <result column="parent_unit_path_names" property="parentUnitPathNames" jdbcType="VARCHAR" />
+    <result column="parent_unit_path_ids" property="parentUnitPathIds" jdbcType="VARCHAR" />
+    <result column="create_unit_name" property="createUnitName" jdbcType="VARCHAR" />
+    <result column="create_unit_code" property="createUnitCode" jdbcType="VARCHAR" />
+    
+    
+    <result column="apply_unit_path_code"    property="applyUnitPathCode" jdbcType="VARCHAR" />
+    <result column="parent_apply_unit_path_code" property="parentApplyUnitPathCode" jdbcType="VARCHAR" />
+    <result column="parent_apply_unit_path_name" property="parentApplyUnitPathName" jdbcType="VARCHAR" />
+    
+    
+    
     
   </resultMap>
   <sql id="Base_Column_List" >
@@ -54,7 +64,9 @@
     lead_unit_code, join_unit_code, project_money, belong_department_name, belong_department_code, 
     professional_depart_name, professional_depart_code, setup_year, begin_project_month, 
     end_project_month, inner_audit_status, professional_field_code, professional_field_name,setup_id,lead_unit_name,
-    unit_path_ids,unit_path_names,parent_unit_name,parent_unit_code
+    unit_path_ids,unit_path_names,parent_unit_path_names,parent_unit_path_ids,create_unit_name,create_unit_code,
+    apply_unit_path_code,parent_apply_unit_path_code,parent_apply_unit_path_name
+    
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -80,7 +92,9 @@
       professional_depart_name, professional_depart_code, 
       setup_year, begin_project_month, end_project_month, 
       inner_audit_status, professional_field_code, 
-      professional_field_name, lead_unit_name,setup_id,unit_path_ids,unit_path_names,parent_unit_name,parent_unit_code
+      professional_field_name, lead_unit_name,setup_id,unit_path_ids,
+      unit_path_names,parent_unit_path_names,parent_unit_path_ids,create_unit_name,create_unit_code,
+      apply_unit_path_code,parent_apply_unit_path_code,parent_apply_unit_path_name
       )
     values (#{taskId,jdbcType=VARCHAR}, #{topicId,jdbcType=VARCHAR}, #{topicName,jdbcType=VARCHAR}, 
       #{createUserId,jdbcType=VARCHAR}, #{createUserName,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
@@ -99,8 +113,13 @@
       , #{setupId,jdbcType=VARCHAR}
        ,#{unitPathIds,jdbcType=VARCHAR}
       ,#{unitPathNames,jdbcType=VARCHAR}
-      ,#{parentUnitName,jdbcType=VARCHAR}
-      ,#{parentUnitCode,jdbcType=VARCHAR}
+      ,#{parentUnitPathNames,jdbcType=VARCHAR}
+      ,#{parentUnitPathIds,jdbcType=VARCHAR}
+       ,#{createUnitName,jdbcType=VARCHAR}
+      ,#{createUnitCode,jdbcType=VARCHAR}
+      ,#{applyUnitPathCode,jdbcType=VARCHAR}
+      ,#{parentApplyUnitPathCode,jdbcType=VARCHAR}
+      ,#{parentApplyUnitPathName,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.pcitc.base.stp.equipment.SreProjectTask" >
@@ -220,19 +239,40 @@
       <if test="setupId != null" >
         setup_id,
       </if>
-      
-        <if test="unitPathIds != null" >
+       <if test="unitPathIds != null" >
         unit_path_ids,
       </if>
       <if test="unitPathNames != null" >
         unit_path_names,
       </if>
-       <if test="parentUnitName != null" >
-        parent_unit_name,
+       <if test="parentUnitPathNames != null" >
+        parent_unit_path_names,
       </if>
-      <if test="parentUnitCode != null" >
-        parent_unit_code,
+      <if test="parentUnitPathIds != null" >
+        parent_unit_path_ids,
       </if>
+      <if test="createUnitName != null" >
+        create_unit_name,
+      </if>
+      <if test="createUnitCode != null" >
+        create_unit_code,
+      </if>
+      <if test="applyUnitPathCode != null" >
+        apply_unit_path_code,
+      </if>
+      <if test="parentApplyUnitPathCode != null" >
+        parent_apply_unit_path_code,
+      </if>
+      <if test="parentApplyUnitPathName != null" >
+        parent_apply_unit_path_name,
+      </if>
+      
+      
+      
+      
+    
+      
+    
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="taskId != null" >
@@ -355,12 +395,35 @@
       <if test="unitPathNames != null" >
         #{unitPathNames,jdbcType=VARCHAR},
       </if>
-       <if test="parentUnitName != null" >
-        #{parentUnitName,jdbcType=VARCHAR},
+       <if test="parentUnitPathNames != null" >
+        #{parentUnitPathNames,jdbcType=VARCHAR},
       </if>
-       <if test="parentUnitCode != null" >
-        #{parentUnitCode,jdbcType=VARCHAR},
+       <if test="parentUnitPathIds != null" >
+        #{parentUnitPathIds,jdbcType=VARCHAR},
       </if>
+      <if test="createUnitName != null" >
+        #{createUnitName,jdbcType=VARCHAR},
+      </if>
+      <if test="createUnitCode != null" >
+        #{createUnitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="applyUnitPathCode != null" >
+        #{applyUnitPathCode,jdbcType=VARCHAR},
+      </if>
+      <if test="parentApplyUnitPathCode != null" >
+        #{parentApplyUnitPathCode,jdbcType=VARCHAR},
+      </if>
+      <if test="parentApplyUnitPathName != null" >
+        #{parentApplyUnitPathName,jdbcType=VARCHAR},
+      </if>
+      
+      
+      
+      
+      
+      
+    
+    
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.stp.equipment.SreProjectTask" >
@@ -483,12 +546,29 @@
        <if test="unitPathNames != null" >
         unit_path_names = #{unitPathNames,jdbcType=VARCHAR},
       </if>
-       <if test="parentUnitName != null" >
-        parent_unit_name = #{parentUnitName,jdbcType=VARCHAR},
+       <if test="parentUnitPathNames != null" >
+        parent_unit_path_names = #{parentUnitPathNames,jdbcType=VARCHAR},
       </if>
-      <if test="parentUnitCode != null" >
-        parent_unit_code = #{parentUnitCode,jdbcType=VARCHAR},
+      <if test="parentUnitPathIds != null" >
+        parent_unit_path_ids = #{parentUnitPathIds,jdbcType=VARCHAR},
       </if>
+      <if test="createUnitName != null" >
+        create_unit_name = #{createUnitName,jdbcType=VARCHAR},
+      </if>
+      <if test="createUnitCode != null" >
+        create_unit_code = #{createUnitCode,jdbcType=VARCHAR},
+      </if>
+      <if test="applyUnitPathCode != null" >
+        apply_unit_path_code = #{applyUnitPathCode,jdbcType=VARCHAR},
+      </if>
+      <if test="parentApplyUnitPathCode != null" >
+        parent_apply_unit_path_code = #{parentApplyUnitPathCode,jdbcType=VARCHAR},
+      </if>
+      <if test="parentApplyUnitPathName != null" >
+        parent_apply_unit_path_name = #{parentApplyUnitPathName,jdbcType=VARCHAR},
+      </if>
+      
+    
     </set>
     where task_id = #{taskId,jdbcType=VARCHAR}
   </update>
@@ -498,6 +578,14 @@
       topic_name = #{topicName,jdbcType=VARCHAR},
       create_user_id = #{createUserId,jdbcType=VARCHAR},
       create_user_name = #{createUserName,jdbcType=VARCHAR},
+      create_unit_name = #{createUnitName,jdbcType=VARCHAR},
+      create_unit_code = #{createUnitCode,jdbcType=VARCHAR},
+      
+      apply_unit_path_code = #{applyUnitPathCode,jdbcType=VARCHAR},
+      parent_apply_unit_path_code = #{parentApplyUnitPathCode,jdbcType=VARCHAR},
+      parent_apply_unit_path_name = #{parentApplyUnitPathName,jdbcType=VARCHAR},
+      
+      
       create_date = #{createDate,jdbcType=TIMESTAMP},
       update_date = #{updateDate,jdbcType=TIMESTAMP},
       setup_id = #{setupId,jdbcType=VARCHAR},
@@ -525,8 +613,8 @@
       professional_depart_name = #{professionalDepartName,jdbcType=VARCHAR},
       professional_depart_code = #{professionalDepartCode,jdbcType=VARCHAR},
       setup_year = #{setupYear,jdbcType=VARCHAR},
-      parent_unit_name = #{parentUnitName,jdbcType=VARCHAR},
-      parent_unit_code = #{parentUnitCode,jdbcType=VARCHAR},
+      parent_unit_path_names = #{parentUnitPathNames,jdbcType=VARCHAR},
+      parent_unit_path_ids = #{parentUnitPathIds,jdbcType=VARCHAR},
       unit_path_ids = #{unitPathIds,jdbcType=VARCHAR},
       unit_path_names = #{unitPathNames,jdbcType=VARCHAR},
       begin_project_month = #{beginProjectMonth,jdbcType=VARCHAR},
@@ -568,7 +656,8 @@
 	     <if test="professionalFieldCode != null       and professionalFieldCode !=''  ">     AND t.professional_field_code = #{professionalFieldCode}</if>
 	     <if test="professionalFieldName != null       and professionalFieldName !=''  ">     AND t.professional_field_name like CONCAT('%',#{professionalFieldName},'%')  </if>
 	     
-	     
+	     <if test="parentApplyUnitPathCode != null       and parentApplyUnitPathCode !=''  ">     AND t.parent_apply_unit_path_code = #{parentApplyUnitPathCode}</if>
+	     <if test="createUserId != null       and createUserId !=''  ">     AND t.create_user_id = #{createUserId}</if>
 	     
 	     <if test="sqlStr != null   and sqlStr !='' ">       AND ${sqlStr}</if>
 	 </trim>
