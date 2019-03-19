@@ -61,7 +61,6 @@ public class ProjectTaskController extends BaseController {
 	private static final String PAGE_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_task/page";
 	private static final String ADD_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_task/add";
 	private static final String UPDATE_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_task/update";
-	private static final String DEL_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_task/delete/";
 	private static final String BATCH_DEL_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_task/batch-delete/";
 	private static final String GET_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_task/get/";
 	// 总部门审核--流程操作--同意
@@ -69,31 +68,16 @@ public class ProjectTaskController extends BaseController {
 	// 总部门审核--流程操作--拒绝
 	private static final String AUDIT_REJECT_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_task/task/reject/";
 	
-	
 	// 内部审核--流程操作--同意
 	private static final String AUDIT_AGREE_URL_INNER = "http://pcitc-zuul/stp-proxy/sre-provider/project_task/task/agree_inner/";
 	// 内部审核--流程操作--拒绝
 	private static final String AUDIT_REJECT_URL_INNER = "http://pcitc-zuul/stp-proxy/sre-provider/project_task/task/reject_inner/";
-		
-	
 	// 总部门审核
 	private final static String PROCESS_DEFINE_ID_TASK_FLOAT = "equipment_task_apply1:2:1217559";
 	// 内部审核
 	private final static String PROCESS_DEFINE_ID_CONFIRM_FLOAT = "equitmentApplyProcess:1:1172522";
-	
-	private static final String GET_PROJECT_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_basic/get/";
-
-	
-	
-	private static final String GET_URL_TASK = "http://pcitc-zuul/stp-proxy/sre-provider/project_task/get/";
-	private static final String GET_URL_PROJECT = "http://pcitc-zuul/stp-proxy/sre-provider/project_basic/get/";
-	private static final String UPDATE_URL_TASK = "http://pcitc-zuul/stp-proxy/sre-provider/project_task/update";
-	private static final String UPDATE_URL_PROJECT = "http://pcitc-zuul/stp-proxy/sre-provider/project_basic/update";
 	//临时导出文件目录
 	private static final String TEMP_FILE_PATH = "src/main/resources/tem/";
-	
-	
-	
 	
 	
 	
@@ -102,6 +86,10 @@ public class ProjectTaskController extends BaseController {
 	public String arrange_list(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		List<UnitField>  unitFieldList= CommonUtil.getUnitNameList(restTemplate, httpHeaders);
 		request.setAttribute("unitFieldList", unitFieldList);
+		
+		
+		String applyUnitCode=sysUserInfo.getUnitCode();
+		request.setAttribute("applyUnitCode", applyUnitCode);
 		return "/stp/equipment/task/arrange_list";
 	}
 	
@@ -145,17 +133,11 @@ public class ProjectTaskController extends BaseController {
 	public String join_list(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		List<SysDictionary>  dicList= CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_LCZT", restTemplate, httpHeaders);
 		request.setAttribute("dicList", dicList);
-		
-		
 		List<UnitField>  unitFieldList= CommonUtil.getUnitNameList(restTemplate, httpHeaders);
 		request.setAttribute("unitFieldList", unitFieldList);
-	
-		
 		
 		return "/stp/equipment/task/join_list";
 	}		
-	
-	
 	
 
 	@RequestMapping(value = "/to_list")
@@ -202,6 +184,11 @@ public class ProjectTaskController extends BaseController {
 
 		List<UnitField>  unitFieldList= CommonUtil.getUnitNameList(restTemplate, httpHeaders);
 		request.setAttribute("unitFieldList", unitFieldList);
+		
+		String applyUnitCode=sysUserInfo.getUnitCode();
+		request.setAttribute("applyUnitCode", applyUnitCode);
+		
+		
 		return "/stp/equipment/task/confirm_list";
 	}
 	
@@ -303,28 +290,6 @@ public class ProjectTaskController extends BaseController {
 	
 	
 	
-	/*private SreProject getSreProject(String id)
-	{
-		SreProject	sreProjectBasic = null;
-		ResponseEntity<SreProject> responseEntity = this.restTemplate.exchange(GET_PROJECT_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreProject.class);
-		int statusCode = responseEntity.getStatusCodeValue();
-		if (statusCode == 200)
-		{
-			sreProjectBasic = responseEntity.getBody();
-		}
-		return sreProjectBasic;
-	}*/
-	
-	@RequestMapping(method = RequestMethod.GET, value = "/project_basic_add_selectapply")
-	private String project_basic_add_selectapply(HttpServletRequest request) 
-	{
-		String plantId = request.getParameter("equipmentIds");
-		request.setAttribute("equipmentIds", plantId==null?IdUtil.createIdByTime():plantId);
-		
-		return "/stp/equipment/task/project_basic_add_selectapply";
-		
-    }
-	
 
 	/**
 	 * 保存-更新操作
@@ -343,7 +308,6 @@ public class ProjectTaskController extends BaseController {
 		// 流程状态-是保存还是提交
 		String innerAuditStatus = CommonUtil.getParameter(request, "innerAuditStatus", Constant.AUDIT_STATUS_DRAFT);
 		String auditStatus = CommonUtil.getParameter(request, "auditStatus", Constant.AUDIT_STATUS_DRAFT);
-		String userIds = CommonUtil.getParameter(request, "userIds", "");
 		String budgetTable = CommonUtil.getParameter(request, "budgetTable", "");
 		String fundsSourcesTable = CommonUtil.getParameter(request, "fundsSourcesTable", "");
 		String notes = CommonUtil.getParameter(request, "notes", "");
@@ -351,15 +315,12 @@ public class ProjectTaskController extends BaseController {
 		String projectNotice = CommonUtil.getParameter(request, "projectNotice", "");
 		String taskMainTaskContent = CommonUtil.getParameter(request, "taskMainTaskContent", "");
 		String taskContent = CommonUtil.getParameter(request, "taskContent", "");
-		
-	
 		String taskAssessmentContent = CommonUtil.getParameter(request, "taskAssessmentContent", "");
-		String functionId = CommonUtil.getParameter(request, "functionId", "");
 		String topicId = CommonUtil.getParameter(request, "topicId", "");
-		
+		String beginProjectMonth = CommonUtil.getParameter(request, "beginProjectMonth", "");
+		String endProjectMonth = CommonUtil.getParameter(request, "endProjectMonth", "");
 		StringBuffer taskCheckContents = new StringBuffer();
 		String arr[]=request.getParameterValues("taskCheckContents");
-		
 		System.out.println("----------------------topicId="+topicId);
 		if(arr!=null && arr.length>0)
 		{
@@ -434,7 +395,6 @@ public class ProjectTaskController extends BaseController {
 		sreProjectBasic.setContractNum(contractNum);
 		sreProjectBasic.setFundsSourcesTable(fundsSourcesTable);
 		sreProjectBasic.setNotes(notes);
-		
 		sreProjectBasic.setProjectNotice(projectNotice);
 		sreProjectBasic.setTaskMainTaskContent(taskMainTaskContent);
 		sreProjectBasic.setTaskContent(taskContent);
@@ -442,7 +402,8 @@ public class ProjectTaskController extends BaseController {
 		sreProjectBasic.setTaskAssessmentContent(taskAssessmentContent);
 		sreProjectBasic.setApplyUnitCode(sysUserInfo.getUnitCode());
 		sreProjectBasic.setApplyUnitName(sysUserInfo.getUnitName());
-		
+		sreProjectBasic.setBeginProjectMonth(beginProjectMonth);
+		sreProjectBasic.setEndProjectMonth(endProjectMonth);
 		
 		// 判断是新增还是修改
 		if (taskId.equals("")) 
@@ -811,6 +772,64 @@ public class ProjectTaskController extends BaseController {
 	
 
 	
+     //生成签字盖章模板
+	@RequestMapping(value = "/createQianEvent/{id}", method = RequestMethod.GET)
+	@ResponseBody
+	public String createQianEvent(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception 
+	{
+		Result resultsDate = new Result();
+		String fileName=createTaskSignWord( id,"task_sign.ftl",  response);
+		if (!fileName.equals("")) 
+		{
+			resultsDate = new Result(true);
+			download(TEMP_FILE_PATH+fileName, response);
+			deleteFile(TEMP_FILE_PATH+fileName);
+		} else {
+			resultsDate = new Result(false, "生成文件失败！");
+		}
+		return null;
+	}
+	 //生成word文档--任务书签字盖章页
+	private String  createTaskSignWord(String id,String ftlName, HttpServletResponse response)
+	{
+		
+		String  resutl="";
+		// 文件路径
+		String filePath = TEMP_FILE_PATH;
+		// 文件名称
+		String fileName =DateUtil.dateToStr(new Date(), DateUtil.FMT_SSS_02)+".doc";
+		try {
+			
+			SreProjectTask task =EquipmentUtils.getSreProjectTask(id,restTemplate,httpHeaders);
+			SreProject sreProject=null;
+			String projectId=task.getTopicId();
+			String topicName="";
+			String contractNum="";
+			String dateMonthDay="";
+			if(!projectId.equals(""))
+			{
+				
+				sreProject=EquipmentUtils.getSreProject(projectId,restTemplate,httpHeaders);
+				topicName=sreProject.getName();
+			}
+			contractNum=task.getContractNum();
+			dateMonthDay=DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY_DD_ZN);
+			Map<String, Object> dataMap = new HashMap<String, Object>();
+			/** 组装数据 */
+			dataMap.put("topicName", topicName);//项目名称
+			dataMap.put("contractNum", contractNum);//合同号
+			dataMap.put("dateMonthDay", dateMonthDay);
+			/** 生成word */
+			boolean flage=WordUtil.createWord(dataMap, ftlName, filePath, fileName);
+			if(flage==true)
+			{
+				resutl=fileName;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return resutl;
+	}
 	
 	
 	@RequestMapping(value = "/createWord/{id}", method = RequestMethod.GET)
@@ -835,6 +854,10 @@ public class ProjectTaskController extends BaseController {
 		out.close();*/
 		return null;
 	}
+	
+	
+	
+	
 	
 	
 	
@@ -1002,7 +1025,9 @@ public class ProjectTaskController extends BaseController {
 					   map.put("zj2", zj2);
 					   map.put("zj3", zj3);
 					   map.put("zj4", zj4);
+					   System.out.println("---------zj3  源: "+zj3);
 					   Float fp3faot= Float.parseFloat(zj3);
+						System.out.println("---------fp3faot  源: "+fp3faot.toString());
 					   budgetTable_hj=budgetTable_hj.floatValue()+fp3faot.floatValue();
 					  
 					   if(content1.equals("资本性"))
@@ -1146,6 +1171,9 @@ public class ProjectTaskController extends BaseController {
 	
 	
 	
+	   
+	
+	
 	public HttpServletResponse download(String path, HttpServletResponse response) 
 	{
         try {
@@ -1164,6 +1192,7 @@ public class ProjectTaskController extends BaseController {
             // 清空response
             response.reset();
             // 设置response的Header
+            response.setCharacterEncoding("UTF-8");
             response.addHeader("Content-Disposition", "attachment;filename=" + new String(filename.getBytes()));
             response.addHeader("Content-Length", "" + file.length());
             OutputStream toClient = new BufferedOutputStream(response.getOutputStream());
