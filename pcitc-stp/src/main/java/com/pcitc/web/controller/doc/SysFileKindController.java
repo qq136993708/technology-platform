@@ -53,32 +53,32 @@ import com.pcitc.web.common.OperationFilter;
 @RequestMapping("sysfilekind")
 public class SysFileKindController extends BaseController {
 
-	private static final String GET_INFO = "http://pcitc-zuul/system-proxy/sysfilekind-provider/sysfilekind/get-sysfilekind/";
+	private static final String GET_INFO = "http://pplus-zuul/system-proxy/sysfilekind-provider/sysfilekind/get-sysfilekind/";
 	// 只显示维护的文档分类（没有个人收藏）
-	private static final String TREE_DATA = "http://pcitc-zuul/system-proxy/sysfilekind-provider/sysfilekind/tree-data";
-	private static final String ADD = "http://pcitc-zuul/system-proxy/sysfilekind-provider/sysfilekind/add-sysfilekind";
-	private static final String UPDATE = "http://pcitc-zuul/system-proxy/sysfilekind-provider/sysfilekind/update-sysfilekind";
-	private static final String DEL = "http://pcitc-zuul/system-proxy/sysfilekind-provider/sysfilekind/del-sysfilekind/";
-	private static final String DEL_REAL = "http://pcitc-zuul/system-proxy/sysfilekind-provider/sysfilekind/del-sysfilekind-real/";
+	private static final String TREE_DATA = "http://pplus-zuul/system-proxy/sysfilekind-provider/sysfilekind/tree-data";
+	private static final String ADD = "http://pplus-zuul/system-proxy/sysfilekind-provider/sysfilekind/add-sysfilekind";
+	private static final String UPDATE = "http://pplus-zuul/system-proxy/sysfilekind-provider/sysfilekind/update-sysfilekind";
+	private static final String DEL = "http://pplus-zuul/system-proxy/sysfilekind-provider/sysfilekind/del-sysfilekind/";
+	private static final String DEL_REAL = "http://pplus-zuul/system-proxy/sysfilekind-provider/sysfilekind/del-sysfilekind-real/";
 
 	/**
 	 * 标准增删改查
 	 */
-	private static final String LIST = "http://pcitc-zuul/system-proxy/sysfilekind-provider/sysfilekind/sysfilekind_list";
-	private static final String LISTPARAM = "http://pcitc-zuul/system-proxy/sysfilekind-provider/sysfilekind/sysfilekind_list_param";
+	private static final String LIST = "http://pplus-zuul/system-proxy/sysfilekind-provider/sysfilekind/sysfilekind_list";
+	private static final String LISTPARAM = "http://pplus-zuul/system-proxy/sysfilekind-provider/sysfilekind/sysfilekind_list_param";
 
-	private static final String LISTPAGE = "http://pcitc-zuul/system-proxy/sysfilekind-provider/sysfilekind/sysfilekind-page";
+	private static final String LISTPAGE = "http://pplus-zuul/system-proxy/sysfilekind-provider/sysfilekind/sysfilekind-page";
 
-	private static final String SAVE_FILE_KIND = "http://pcitc-zuul/system-proxy/sysfilekind-provider/sysfilekind/save_sysfilekind";
+	private static final String SAVE_FILE_KIND = "http://pplus-zuul/system-proxy/sysfilekind-provider/sysfilekind/save_sysfilekind";
 
-	private static final String DELETE = "http://pcitc-zuul/system-proxy/sysfilekind-provider/sysfilekind/delete_sysfilekind/";
+	private static final String DELETE = "http://pplus-zuul/system-proxy/sysfilekind-provider/sysfilekind/delete_sysfilekind/";
 
-	private static final String GET = "http://pcitc-zuul/system-proxy/sysfilekind-provider/sysfilekind/get_sysfilekind/";
+	private static final String GET = "http://pplus-zuul/system-proxy/sysfilekind-provider/sysfilekind/get_sysfilekind/";
 
-	private static final String SAVEFile = "http://pcitc-zuul/system-proxy/sysfilekind-provider/sysfilekind/save_file";
+	private static final String SAVEFile = "http://pplus-zuul/system-proxy/sysfilekind-provider/sysfilekind/save_file";
 
-	private static final String USER_AUTH_LIST = "http://pcitc-zuul/system-proxy/sysfilekind-provider/sysfilekind/auth/user-list";
-	private static final String USER_AUTH_SAVE = "http://pcitc-zuul/system-proxy/sysfilekind-provider/sysfilekind/auth/user/save";
+	private static final String USER_AUTH_LIST = "http://pplus-zuul/system-proxy/sysfilekind-provider/sysfilekind/auth/user-list";
+	private static final String USER_AUTH_SAVE = "http://pplus-zuul/system-proxy/sysfilekind-provider/sysfilekind/auth/user/save";
 
 	/**
 	 * -查询列表
@@ -416,7 +416,6 @@ public class SysFileKindController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = { "/toListPageEsEdit" }, method = { RequestMethod.GET })
-	@OperationFilter(modelName = "", actionName = "跳转录入页toListPageEsEdit")
 	public String toListPageEsEdit() {
 		response.addHeader("P3P", "CP=CAO PSA OUR");
 		return "pplus/doc/sysFileKind_tree_es";

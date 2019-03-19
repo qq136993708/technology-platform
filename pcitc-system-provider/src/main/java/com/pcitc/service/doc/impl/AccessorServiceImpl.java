@@ -41,9 +41,10 @@ public class AccessorServiceImpl implements AccessorService {
     public AccessorServiceImpl() {
         try {
             if (client == null) {
-            	new ClientFactoryBuilder.Config().setConfigPath("elasticsearch.properties").initConfig(true);
+            	//new ClientFactoryBuilder.Config().setConfigPath("elasticsearch.properties").initConfig(true);
                 client = ClientFactoryBuilder.getClient();
             }
+            System.out.println("AccessorServiceImpl client get========== "+client);
         } catch (Exception e) {
             System.out.println("AccessorServiceImpl:client:null:连接异常 ");
 //            e.printStackTrace();

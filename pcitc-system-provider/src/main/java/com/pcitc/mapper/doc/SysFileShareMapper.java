@@ -1,7 +1,9 @@
 package com.pcitc.mapper.doc;
 
+import com.pcitc.base.common.TreeNode;
 import com.pcitc.base.doc.SysFileShare;
 import com.pcitc.base.doc.SysFileShareExample;
+import com.pcitc.base.system.SysUnit;
 
 import java.util.List;
 import java.util.Map;
@@ -40,5 +42,12 @@ public interface SysFileShareMapper {
     void deleteObj(SysFileShare record);
 
     void deleteObjByParam(String fileId);
+    
+    
+    /**
+	 * 查询某种条件下的组织机构节点，有组织机构和人员、岗位
+	 * 包含文件已分享信息
+	 */
+	List<TreeNode> getUnitTreeAndPostAndUserCond(SysUnit unit);
 
 }

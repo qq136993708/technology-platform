@@ -45,6 +45,81 @@ public class TreeNode {
     
     private String children;
     
+    private String _parentId;
+    
+    private String state;
+    
+    private String expand;
+    
+    //一级计划（wbs内码、计划开始、计划完成、计划工期、估算权重、百分比权重）
+    private String innerCode;
+    
+    private String planStart;
+    
+    private String planEnd;
+    
+    private String planDuration;
+    
+    private String estimatedWeight;
+    
+    private String percentageWeight;
+    
+    private String wbsInnercode;
+    
+    private String bak1;
+    
+    private String bak2;
+    
+    private String bak3;
+    
+	public String getBak1() {
+		return bak1;
+	}
+
+	public void setBak1(String bak1) {
+		this.bak1 = bak1;
+	}
+
+	public String getBak2() {
+		return bak2;
+	}
+
+	public void setBak2(String bak2) {
+		this.bak2 = bak2;
+	}
+
+	public String getBak3() {
+		return bak3;
+	}
+
+	public void setBak3(String bak3) {
+		this.bak3 = bak3;
+	}
+
+	public String getExpand() {
+		return expand;
+	}
+
+	public void setExpand(String expand) {
+		this.expand = expand;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public String get_parentId() {
+		return _parentId;
+	}
+
+	public void set_parentId(String _parentId) {
+		this._parentId = _parentId;
+	}
+
 	public String getChildren() {
 		return children;
 	}
@@ -207,10 +282,62 @@ public class TreeNode {
 		this.code = code;
 	}
 	
-	
-    
-    
-    
-    
+	public String getInnerCode() {
+		return innerCode;
+	}
 
+	public void setInnerCode(String innerCode) {
+		this.innerCode = innerCode;
+	}
+
+	public String getPlanStart() {
+		return planStart;
+	}
+
+	public void setPlanStart(String planStart) {
+		this.planStart = planStart;
+	}
+
+	public String getPlanEnd() {
+		return planEnd;
+	}
+
+	public void setPlanEnd(String planEnd) {
+		this.planEnd = planEnd;
+	}
+
+	public String getPlanDuration() {
+		return planDuration;
+	}
+
+	public void setPlanDuration(String planDuration) {
+		this.planDuration = planDuration;
+	}
+
+	public String getEstimatedWeight() {
+		return estimatedWeight;
+	}
+
+	public void setEstimatedWeight(String estimatedWeight) {
+		this.estimatedWeight = estimatedWeight;
+	}
+
+	public String getPercentageWeight() {
+		return percentageWeight;
+	}
+
+	public void setPercentageWeight(String percentageWeight) {
+		this.percentageWeight = percentageWeight;
+	}
+
+	public String getWbsInnercode() {
+		return wbsInnercode;
+	}
+
+	public void setWbsInnercode(String wbsInnercode) {
+		this.wbsInnercode = wbsInnercode;
+	}
+	
+	
+	
 }

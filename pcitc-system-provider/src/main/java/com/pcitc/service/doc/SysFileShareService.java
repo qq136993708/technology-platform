@@ -14,6 +14,7 @@ import com.pcitc.base.common.TreeNode;
 import com.pcitc.base.common.enums.DataOperationStatusEnum;
 import com.pcitc.base.doc.SysFileShare;
 import com.pcitc.base.doc.SysFileShareExample;
+import com.pcitc.base.system.SysUnit;
 
 /**
  * <p>接口类</p>
@@ -100,5 +101,11 @@ public interface SysFileShareService {
 	 * 历史版本文档下载
 	 */
 	public void downloadFile(@PathVariable("versionUUID") String versionUUID, HttpServletRequest request, HttpServletResponse response) throws IOException;
+	
+	/**
+	 * 查询某种条件下的组织机构节点，有组织机构和人员、岗位
+	 * 包含文件已分享信息
+	 */
+	List<TreeNode> getUnitTreeAndPostAndUserCond(SysUnit unit);
 
 }
