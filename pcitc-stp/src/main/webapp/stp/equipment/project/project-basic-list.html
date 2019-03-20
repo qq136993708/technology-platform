@@ -17,6 +17,10 @@
 <input  name="userIds"        id="userIds"         type="hidden">
 <input  name="id"         id="id"          type="hidden" >
 <input type="hidden" name="applyUnitCode" id="applyUnitCode" value="${applyUnitCode}">
+<input type="hidden" name="parentUnitPathIds" id="parentUnitPathIds" value="${parentUnitPathIds}">
+
+
+
 </form>
 
     <!--查询条件-->
@@ -31,9 +35,9 @@
         <input type="text" name="name" placeholder="请输入课题名称" title="课题名称" autocomplete="off" class="form-control" id="name">
     </label>
     
-    <label class="dateInput">
+     <label class="dateInput">
          <span>归属部门</span>
-         <select name="belongDepartmentName" id="belongDepartmentName"  onchange="getDepartNameByUnitName(this.value)" style="width:200px" >
+         <select name="belongDepartmentName" id="belongDepartmentName"  onchange="getDepartNameByUnitName(this.value)" style="width:180px" >
              <option value="" >--请选择归属部门--</option>
              <#list unitFieldList as vo> 
 		          <option value="${vo.unitName}"  >${vo.unitName}</option>
@@ -43,12 +47,12 @@
     
      <label class="dateInput">
          <span>专业处</span>
-         <select id="professionalDepartName" name="professionalDepartName" onchange="getProfessionalNameListByUnitNameAndDept(this.value)" style="width:200px"></select>
+         <select id="professionalDepartName" name="professionalDepartName" onchange="getProfessionalNameListByUnitNameAndDept(this.value)" style="width:180px"></select>
      </label>
     
       <label class="dateInput">
          <span>专业领域</span>
-         <select id="professionalFieldName" name="professionalFieldName" style="width:200px"></select>
+         <select id="professionalFieldName" name="professionalFieldName" style="width:180px"></select>
      </label>
      
      
@@ -405,7 +409,7 @@ var name=$('#name').val();
             elem: '#processdef-table',
             url: '/sre-project-basic/list',
             method:"POST",
-            where: {param: {"name":$("#name").val(),"auditStatus":$("#auditStatus").val(),"setupYear":$("#setupYear").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"professionalDepartName":$("#professionalDepartName").val(),"professionalFieldName":$("#professionalFieldName").val(),"applyUnitCode":$("#applyUnitCode").val()}},
+            where: {param: {"name":$("#name").val(),"auditStatus":$("#auditStatus").val(),"setupYear":$("#setupYear").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"professionalDepartName":$("#professionalDepartName").val(),"professionalFieldName":$("#professionalFieldName").val(),"applyUnitCode":$("#applyUnitCode").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
             limit: 15,	
             id: 'processdef-table',
             height: commonDislodgeTable(),
@@ -420,15 +424,17 @@ var name=$('#name').val();
             cols: [[
             	{type : 'checkbox', event : 'changeEvents', width : 55},
             	{title : '序号', type :'numbers', width : 55},
-                {field : 'status',         title : '状态',        style : 'cursor: pointer;', align: 'center', templet : '<div>{{ layui.laytpl.auditStatus_equipment(d.auditStatus) }}</div>', width : 55},
-                {field : 'name',           title : '课题名称',     style : 'cursor: pointer;', align: 'left',templet:function(d){return '<span style="color:#17a2b8">'+d.name+'</span>'}},
-                {field : 'beginYear',      title : '投资期限',     style : 'cursor: pointer;', align: 'center',templet:function(d){return '<div style="">'+d.beginYear+'-'+d.endYear+'</div><br/><div style="color:red">'+d.beginYear+'</div>'}},
-                {field : 'projectMoney',   title : '总经费(万元)',  style : 'cursor: pointer;', align: 'center',templet:function(d){return '<span style="color:red">'+d.projectMoney+'</span>'}},
-                {field : 'leadUnitName',   title : '承担单位',      style : 'cursor: pointer;', align: 'left'},
-                {field : 'belongDepartmentName',   title : '归属部门', style : 'cursor: pointer;', align: 'left'},
-                {field : 'professionalDepartName', title : '专业处',  style : 'cursor: pointer;', align: 'left'},
-                {field : 'professionalFieldName',  title : '专业领域', style : 'cursor: pointer;', align: 'left'},
-                {field : 'createDate',             title : '上报时间', style : 'cursor: pointer;', align: 'center', templet : '#dateTpl'}
+                {field : 'status',         title : '状态',            style : 'cursor: pointer;', align: 'center', width : '10%', templet : '<div>{{ layui.laytpl.auditStatus_equipment(d.auditStatus) }}</div>', width : 55},
+                {field : 'name',           title : '课题名称',         style : 'cursor: pointer;', align: 'left',    width : '20%',templet:function(d){return '<span style="color:#17a2b8">'+d.name+'</span>'}},
+                {field : 'beginYear',      title : '投资期限',         style : 'cursor: pointer;', align: 'center',  width : '10%',templet:function(d){return '<div style="">'+d.beginYear+'-'+d.endYear+'</div><br/><div style="color:red">'+d.beginYear+'</div>'}},
+                {field : 'projectMoney',   title : '总经费(万元)',      style : 'cursor: pointer;', align: 'center',  width : '10%',templet:function(d){return '<span style="color:red">'+d.projectMoney+'</span>'}},
+                {field : 'leadUnitName',   title : '承担单位',         style : 'cursor: pointer;', align: 'left', width : '20%'},
+                {field : 'belongDepartmentName',   title : '归属部门', style : 'cursor: pointer;', align: 'left', width : '10%'},
+                {field : 'professionalDepartName', title : '专业处',  style : 'cursor: pointer;', align: 'left', width : '10%'},
+                {field : 'professionalFieldName',  title : '专业领域', style : 'cursor: pointer;', align: 'left', width : '10%'},
+                {field : 'parentUnitPathNames',    title : '上报单位', style : 'cursor: pointer;', align: 'left', width : '20%'},
+                {field : 'applyUnitName',          title : '上报部门', style : 'cursor: pointer;', align: 'left', width : '10%'},
+                {field : 'createDate',             title : '上报时间', style : 'cursor: pointer;', align: 'center', templet : '#dateTpl', width : '10%'}
             ]],
             done: function (res, curr, count) {
                 // 点击行联动选择框--单选

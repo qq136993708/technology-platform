@@ -16,7 +16,7 @@
 <div class="searchBox">
  <input type="hidden" name="auditStatus" id="auditStatus" value="${auditStatus}">
  <input type="hidden" name="applyDepartCode" id="applyDepartCode" value="${applyDepartCode}">
- 
+ <input type="hidden" name="parentUnitPathIds" id="parentUnitPathIds" value="${parentUnitPathIds}">
  
  
     <!--查询条件-->
@@ -310,7 +310,7 @@ var name=$('#name').val();
            elem: '#processdef-table',
            url: '/sre-equipment/list',
            method:"POST",
-           where: {param: {"name":$("#name").val(),"auditStatus":$("#auditStatus").val(),"applyDepartCode":$("#applyDepartCode").val()}},
+           where: {param: {"name":$("#name").val(),"auditStatus":$("#auditStatus").val(),"applyDepartCode":$("#applyDepartCode").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
            limit: 15,
            id: 'processdef-table',
            height: commonDislodgeTable(),
@@ -331,8 +331,9 @@ var name=$('#name').val();
                {field : 'unitPrice', title : '单价（万元）', style : 'cursor: pointer;', align : 'center', width : '10%'},
                {field : 'applyAcount', title : '申请数量', style : 'cursor: pointer;', align : 'center', width : '10%'},
                {field : 'allPrice', title : '总价¥（万元）', style : 'cursor: pointer;', align : 'center', width : '10%',templet:function(d){return '<span style="color:red">'+d.allPrice+'</span>'}},
-               {field : 'applyDepartName', title : '申报部门', style : 'cursor: pointer;', align : 'center', width : '10%'},
-               {field : 'firstApplyUser', title : '第一申报人', style : 'cursor: pointer;', align : 'center', width : '10%'},
+               {field : 'parentUnitPathNames', title : '申报单位', style : 'cursor: pointer;', align : 'left', width : '20%'},
+               {field : 'applyDepartName', title : '申报部门', style : 'cursor: pointer;', align : 'left', width : '20%'},
+               {field : 'firstApplyUser', title : '第一申报人', style : 'cursor: pointer;', align : 'left', width : '10%'},
                {field : 'createDate', title : '申请时间', style : 'cursor: pointer;', align : 'center',width : '10%', templet : '#dateTpl'},
                
            ]],

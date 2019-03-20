@@ -1,9 +1,7 @@
 package com.pcitc.web.equipment;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -17,10 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
-import com.pcitc.base.hana.report.ScientificCashFlow03;
 import com.pcitc.base.stp.equipment.SreEquipment;
 import com.pcitc.base.stp.equipment.SreProject;
 import com.pcitc.base.stp.equipment.SreProjectSetup;
@@ -28,14 +24,15 @@ import com.pcitc.base.stp.equipment.SreProjectTask;
 import com.pcitc.base.stp.equipment.SreProjectYear;
 import com.pcitc.base.stp.equipment.SreProjectYearExample;
 import com.pcitc.base.stp.equipment.SreTechMeeting;
+import com.pcitc.base.system.SysUser;
 import com.pcitc.base.workflow.Constants;
+import com.pcitc.common.MailBean;
 import com.pcitc.service.equipment.EquipmentService;
 import com.pcitc.service.feign.SystemRemoteClient;
 import com.pcitc.service.msg.MailSentService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 @Api(value = "Equipment-API",tags = {"装备、项目统计相关的接口"})
 @RestController
 public class EquipmentProviderClient 
@@ -260,7 +257,15 @@ public class EquipmentProviderClient
 	}
 	
 	
-	
+	//工作流审批通过后回调通知相关人员
+	@ApiOperation(value="任务书填写邮件通知",notes="任务书填写，下发邮件通知。")
+	@RequestMapping(value = "/stp-provider/project_basic/mail", method = RequestMethod.POST)
+	public Integer sentSreProjectTaskMail(@RequestBody SreProject sreProject) throws Exception
+	{
+		logger.info("sent notice....");
+		mailSentService.sentMail(new MailBean(sreProject.getEmail(),"科技管理平台-装备管理-任务书填写","您好，课题："+sreProject.getName()+"，需要您填写任务书，请到科技管理平台-装备管理-任务书管理-任务书 菜单中填写"));
+		return 1;
+	}
 	
 	
 	
@@ -404,7 +409,7 @@ public class EquipmentProviderClient
 		return count;
 	}
 	
-
+	
 
 	
 	/**===============================================立项报告===================================================*/

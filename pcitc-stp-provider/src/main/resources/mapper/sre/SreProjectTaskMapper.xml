@@ -46,11 +46,11 @@
     <result column="parent_unit_path_ids" property="parentUnitPathIds" jdbcType="VARCHAR" />
     <result column="create_unit_name" property="createUnitName" jdbcType="VARCHAR" />
     <result column="create_unit_code" property="createUnitCode" jdbcType="VARCHAR" />
-    
-    
     <result column="apply_unit_path_code"    property="applyUnitPathCode" jdbcType="VARCHAR" />
     <result column="parent_apply_unit_path_code" property="parentApplyUnitPathCode" jdbcType="VARCHAR" />
     <result column="parent_apply_unit_path_name" property="parentApplyUnitPathName" jdbcType="VARCHAR" />
+    <result column="apply_user_id" property="applyUserId" jdbcType="VARCHAR" />
+    <result column="apply_user_name" property="applyUserName" jdbcType="VARCHAR" />
     
     
     
@@ -65,7 +65,7 @@
     professional_depart_name, professional_depart_code, setup_year, begin_project_month, 
     end_project_month, inner_audit_status, professional_field_code, professional_field_name,setup_id,lead_unit_name,
     unit_path_ids,unit_path_names,parent_unit_path_names,parent_unit_path_ids,create_unit_name,create_unit_code,
-    apply_unit_path_code,parent_apply_unit_path_code,parent_apply_unit_path_name
+    apply_unit_path_code,parent_apply_unit_path_code,parent_apply_unit_path_name,apply_user_id,apply_user_name
     
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
@@ -94,7 +94,7 @@
       inner_audit_status, professional_field_code, 
       professional_field_name, lead_unit_name,setup_id,unit_path_ids,
       unit_path_names,parent_unit_path_names,parent_unit_path_ids,create_unit_name,create_unit_code,
-      apply_unit_path_code,parent_apply_unit_path_code,parent_apply_unit_path_name
+      apply_unit_path_code,parent_apply_unit_path_code,parent_apply_unit_path_name,apply_user_id,apply_user_name
       )
     values (#{taskId,jdbcType=VARCHAR}, #{topicId,jdbcType=VARCHAR}, #{topicName,jdbcType=VARCHAR}, 
       #{createUserId,jdbcType=VARCHAR}, #{createUserName,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
@@ -120,8 +120,14 @@
       ,#{applyUnitPathCode,jdbcType=VARCHAR}
       ,#{parentApplyUnitPathCode,jdbcType=VARCHAR}
       ,#{parentApplyUnitPathName,jdbcType=VARCHAR}
+       ,#{applyUserId,jdbcType=VARCHAR}
+      ,#{applyUserName,jdbcType=VARCHAR}
       )
   </insert>
+  
+ 
+    
+    
   <insert id="insertSelective" parameterType="com.pcitc.base.stp.equipment.SreProjectTask" >
     insert into sre_project_task
     <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -266,11 +272,14 @@
       <if test="parentApplyUnitPathName != null" >
         parent_apply_unit_path_name,
       </if>
+      <if test="applyUserId != null" >
+        apply_user_id,
+      </if>
+      <if test="applyUserName != null" >
+        apply_user_name,
+      </if>
       
-      
-      
-      
-    
+     
       
     
     </trim>
@@ -416,11 +425,12 @@
       <if test="parentApplyUnitPathName != null" >
         #{parentApplyUnitPathName,jdbcType=VARCHAR},
       </if>
-      
-      
-      
-      
-      
+      <if test="applyUserId != null" >
+        #{applyUserId,jdbcType=VARCHAR},
+      </if>
+       <if test="applyUserName != null" >
+        #{applyUserName,jdbcType=VARCHAR},
+      </if>
       
     
     
@@ -567,7 +577,14 @@
       <if test="parentApplyUnitPathName != null" >
         parent_apply_unit_path_name = #{parentApplyUnitPathName,jdbcType=VARCHAR},
       </if>
-      
+      <if test="applyUserId != null" >
+        apply_user_id = #{applyUserId,jdbcType=VARCHAR},
+      </if>
+       <if test="applyUserName != null" >
+        apply_user_name = #{applyUserName,jdbcType=VARCHAR},
+      </if>
+    
+     
     
     </set>
     where task_id = #{taskId,jdbcType=VARCHAR}
@@ -580,12 +597,11 @@
       create_user_name = #{createUserName,jdbcType=VARCHAR},
       create_unit_name = #{createUnitName,jdbcType=VARCHAR},
       create_unit_code = #{createUnitCode,jdbcType=VARCHAR},
-      
       apply_unit_path_code = #{applyUnitPathCode,jdbcType=VARCHAR},
       parent_apply_unit_path_code = #{parentApplyUnitPathCode,jdbcType=VARCHAR},
       parent_apply_unit_path_name = #{parentApplyUnitPathName,jdbcType=VARCHAR},
-      
-      
+      apply_user_id = #{applyUserId,jdbcType=VARCHAR},
+      apply_user_name = #{applyUserName,jdbcType=VARCHAR},
       create_date = #{createDate,jdbcType=TIMESTAMP},
       update_date = #{updateDate,jdbcType=TIMESTAMP},
       setup_id = #{setupId,jdbcType=VARCHAR},
@@ -651,13 +667,16 @@
 	     <if test="topicId != null       and topicId !=''  ">     AND t.topic_id = #{topicId}</if>
 	     <if test="setupId != null       and setupId !=''  ">     AND t.setup_id = #{setupId}</if>
 	     <if test="innerAuditStatus != null       and innerAuditStatus !=''  ">     AND t.inner_audit_status = #{innerAuditStatus}</if>
-	     
 	     <if test="createUserId != null       and createUserId !=''  ">     AND t.create_user_id = #{createUserId}</if>
 	     <if test="professionalFieldCode != null       and professionalFieldCode !=''  ">     AND t.professional_field_code = #{professionalFieldCode}</if>
 	     <if test="professionalFieldName != null       and professionalFieldName !=''  ">     AND t.professional_field_name like CONCAT('%',#{professionalFieldName},'%')  </if>
-	     
 	     <if test="parentApplyUnitPathCode != null       and parentApplyUnitPathCode !=''  ">     AND t.parent_apply_unit_path_code = #{parentApplyUnitPathCode}</if>
-	     <if test="createUserId != null       and createUserId !=''  ">     AND t.create_user_id = #{createUserId}</if>
+	     <if test="createUserId != null       and createUserId !=''  ">               AND t.create_user_id = #{createUserId}</if>
+	     <if test="unitPathIds != null             and unitPathIds !=''  ">           AND t.unit_path_ids = #{unitPathIds}</if>
+	     <if test="parentUnitPathIds != null       and parentUnitPathIds !=''  ">     AND t.parent_unit_path_ids = #{parentUnitPathIds}</if>
+	     <if test="createUserId != null       and createUserId !=''  ">               AND t.create_user_id = #{createUserId}</if>
+	     <if test="applyUserId != null        and applyUserId !=''  ">                AND t.apply_user_id = #{applyUserId}</if>
+	     <if test="applyUserName != null       and applyUserName !=''  ">             AND t.apply_user_name = #{applyUserName}</if>
 	     
 	     <if test="sqlStr != null   and sqlStr !='' ">       AND ${sqlStr}</if>
 	 </trim>

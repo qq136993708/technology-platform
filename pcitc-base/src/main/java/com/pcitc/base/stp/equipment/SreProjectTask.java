@@ -92,12 +92,28 @@ public class SreProjectTask {
     private String parentApplyUnitPathName;
     
     
-    
-    
+    private String applyUserId;
+    private String applyUserName;
     
     
 
-    public String getApplyUnitPathCode() {
+    public String getApplyUserId() {
+		return applyUserId;
+	}
+
+	public void setApplyUserId(String applyUserId) {
+		this.applyUserId = applyUserId;
+	}
+
+	public String getApplyUserName() {
+		return applyUserName;
+	}
+
+	public void setApplyUserName(String applyUserName) {
+		this.applyUserName = applyUserName;
+	}
+
+	public String getApplyUnitPathCode() {
 		return applyUnitPathCode;
 	}
 

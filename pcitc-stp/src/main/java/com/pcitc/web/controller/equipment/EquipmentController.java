@@ -341,8 +341,23 @@ public class EquipmentController extends BaseController {
 
 	@RequestMapping(value = "/to-list")
 	public String list(HttpServletRequest request, HttpServletResponse response) {
-		String applyDepartCode=sysUserInfo.getUnitCode();
-		request.setAttribute("applyDepartCode", applyDepartCode);
+		//String applyDepartCode=sysUserInfo.getUnitCode();
+		//request.setAttribute("applyDepartCode", applyDepartCode);
+		
+		
+		String	parentUnitPathIds="";
+		String unitPathIds =   sysUserInfo.getUnitPath();
+		if(!unitPathIds.equals(""))
+		{
+			if(unitPathIds.length()>4)
+			{
+				parentUnitPathIds=unitPathIds.substring(0, unitPathIds.length()-4);
+				
+			}
+		}
+		request.setAttribute("parentUnitPathIds", parentUnitPathIds);
+		
+		
 		return "/stp/equipment/equipment/equipment-list";
 	}
 
@@ -376,8 +391,21 @@ public class EquipmentController extends BaseController {
 	{
 		String equipmentIds = request.getParameter("equipmentIds");
 		request.setAttribute("equipmentIds", equipmentIds);
-        String applyDepartCode=sysUserInfo.getUnitCode();
-		request.setAttribute("applyDepartCode", applyDepartCode);
+        //String applyDepartCode=sysUserInfo.getUnitCode();
+		//request.setAttribute("applyDepartCode", applyDepartCode);
+		
+		String	parentUnitPathIds="";
+		String unitPathIds =   sysUserInfo.getUnitPath();
+		if(!unitPathIds.equals(""))
+		{
+			if(unitPathIds.length()>4)
+			{
+				parentUnitPathIds=unitPathIds.substring(0, unitPathIds.length()-4);
+				
+			}
+		}
+		request.setAttribute("parentUnitPathIds", parentUnitPathIds);
+		
 		return "/stp/equipment/equipment/chooseEquipment";
 		
     }
@@ -504,6 +532,25 @@ public class EquipmentController extends BaseController {
 		String applyDepartCode = sysUserInfo.getUnitCode();
 		String firstApplyUser=sysUserInfo.getUserDisp();
 		String attachmentDoc= IdUtil.createFileIdByTime();
+		
+		/*String applyDepartName =  "";
+		String applyDepartCode =  "";
+		String unitPathIds =   sysUserInfo.getUnitPath();
+		if(!unitPathIds.equals(""))
+		{
+			if(unitPathIds.length()>4)
+			{
+				String	parentUnitPathIds=unitPathIds.substring(0, unitPathIds.length()-4);
+				SysUnit sysUnit=EquipmentUtils.getUnitByUnitPath(parentUnitPathIds, restTemplate, httpHeaders);
+				if(sysUnit!=null)
+				{
+					applyDepartName = sysUnit.getUnitName();
+					applyDepartCode =sysUnit.getUnitCode();
+				}
+			}
+		}*/
+		
+		
 		
 		String equipmentId = CommonUtil.getParameter(request, "equipmentId", "");
 		request.setAttribute("equipmentId", equipmentId);
