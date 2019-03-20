@@ -199,26 +199,174 @@
             
             
 
-            <div class="layui-row" id="budget_table">
+            <div class="layui-row" id="budget_tableNew">
                 <div class="tableToolBox">
                     <div class="tableTitle">资金概算表</div>
-                    <div class="tableBtns">
-                        <a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg" data-type="budgetAddEvent">新增
-                        </a>
-                    </div>
+                    <p id="queding">确定</p>
                 </div>
                 <table class="layui-table">
                     <thead>
                     <tr>
-                        <td width="20%">类别</td>
-                        <td width="8%">项目</td>
-                        <td width="8%">台套</td>
-                        <td width="8%">预算金额（万元）</td>
-                        <td width="8%">备注</td>
-                        <td width="8%">删除</td>
+                        <td width="15%">支出类别</td>
+                        <td>项目</td>
+                        <td>台套</td>
+                        <td>预算金额（万元）</td>
+                        <td>备注</td>
                     </tr>
                     </thead>
-                    <tbody></tbody>
+                    <tbody>
+                        <tr class="capital">
+                            <td rowspan="13">资本性支出</td>
+                            <td>静止设备</td>
+                            <td><input type="number" value="0"></td>
+                            <td><input type="number" value="0"></td>
+                            <td></td>
+                        </tr>
+                        <tr class="capital">
+                            <td class="layui-hide"></td>
+                            <td>机械设备</td>
+                            <td><input type="number" value="0"></td>
+                            <td><input type="number" value="0"></td>
+                            <td></td>
+                        </tr>
+                        <tr class="capital">
+                            <td class="layui-hide"></td>
+                            <td>仪器</td>
+                            <td><input type="number" value="0"></td>
+                            <td><input type="number" value="0"></td>
+                            <td></td>
+                        </tr>
+                        <tr class="capital">
+                            <td class="layui-hide"></td>
+                            <td>自控仪表</td>
+                            <td><input type="number" value="0"></td>
+                            <td><input type="number" value="0"></td>
+                            <td></td>
+                        </tr>
+                        <tr class="capital">
+                            <td class="layui-hide"></td>
+                            <td>计算机及外围设备</td>
+                            <td><input type="number" value="0"></td>
+                            <td><input type="number" value="0"></td>
+                            <td></td>
+                        </tr>
+                        <tr class="capital">
+                            <td class="layui-hide"></td>
+                            <td>计算机软件</td>
+                            <td><input type="number" value="0"></td>
+                            <td><input type="number" value="0"></td>
+                            <td></td>
+                        </tr>
+                        <tr class="capital">
+                            <td class="layui-hide"></td>
+                            <td>备品、配件</td>
+                            <td><input type="number" value="0"></td>
+                            <td><input type="number" value="0"></td>
+                            <td></td>
+                        </tr>
+                        <tr class="capital">
+                            <td class="layui-hide"></td>
+                            <td>土建</td>
+                            <td><input type="number" value="0"></td>
+                            <td><input type="number" value="0"></td>
+                            <td></td>
+                        </tr>
+                        <tr class="capital">
+                            <td class="layui-hide"></td>
+                            <td>配套工程</td>
+                            <td><input type="number" value="0"></td>
+                            <td><input type="number" value="0"></td>
+                            <td></td>
+                        </tr>
+                        <tr class="capital">
+                            <td class="layui-hide"></td>
+                            <td>设计费</td>
+                            <td><input type="number" value="0"></td>
+                            <td><input type="number" value="0"></td>
+                            <td></td>
+                        </tr>
+                        <tr class="capital">
+                            <td class="layui-hide"></td>
+                            <td>安装费</td>
+                            <td><input type="number" value="0"></td>
+                            <td><input type="number" value="0"></td>
+                            <td></td>
+                        </tr>
+
+                        <tr class="capital">
+                            <td class="layui-hide"></td>
+                            <td>其它</td>
+                            <td><input type="number" value="0"></td>
+                            <td><input type="number" value="0"></td>
+                            <td></td>
+                        </tr>
+
+                        <tr class="capitalT">
+                            <td class="layui-hide"></td>
+                            <td>小计</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+
+
+                        <tr class="cost">
+                            <td rowspan="7">费用性支出</td>
+                            <td>会议费</td>
+                            <td><input type="number" value="0"></td>
+                            <td><input type="number" value="0"></td>
+                            <td></td>
+                        </tr>
+                        <tr class="cost">
+                            <td class="layui-hide"></td>
+                            <td>差旅费</td>
+                            <td><input type="number" value="0"></td>
+                            <td><input type="number" value="0"></td>
+                            <td></td>
+                        </tr>
+                        <tr class="cost">
+                            <td class="layui-hide"></td>
+                            <td>试车、试用费</td>
+                            <td><input type="number" value="0"></td>
+                            <td><input type="number" value="0"></td>
+                            <td></td>
+                        </tr>
+                        <tr class="cost">
+                            <td class="layui-hide"></td>
+                            <td>外事费</td>
+                            <td><input type="number" value="0"></td>
+                            <td><input type="number" value="0"></td>
+                            <td></td>
+                        </tr>
+                        <tr class="cost">
+                            <td class="layui-hide"></td>
+                            <td>外协费</td>
+                            <td><input type="number" value="0"></td>
+                            <td><input type="number" value="0"></td>
+                            <td></td>
+                        </tr>
+                        <tr class="cost">
+                            <td class="layui-hide"></td>
+                            <td>其它费</td>
+                            <td><input type="number" value="0"></td>
+                            <td><input type="number" value="0"></td>
+                            <td></td>
+                        </tr>
+                        <tr class="costT">
+                            <td class="layui-hide"></td>
+                            <td>小计</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>合计</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
                 </table>
             </div>
 
@@ -435,42 +583,75 @@
         var budgetArr = $("#budgetTable").val();
         if(budgetArr!='')
         {
+            $("#budget_tableNew table tbody").empty();
         	$.each(budgetArr.split("|"), function (i, val) {
                 var budgetVal = val.split("#");
-                var tr = "<tr><td><select class='selectZF' lay-filter='selectZF'></td>" +
-                    "<td><select class='zbx'></select></td>" +
-                    "<td><input type='number' value='"+budgetVal[2]+"'/> </td>" +
-                    "<td><input type='number' value='"+budgetVal[3]+"'/> </td>" +
-                    "<td><input lay-verify='specialCharacters' type='text' value='"+budgetVal[4]+"'/> </td>" +
-                    "<td><a href='javascript:;' class='dele'>删除</a></td></tr>";
-                addTr("budget_table", tr);
-                if(budgetVal[0]=="资本性"){
-                    var selectH= '<option value="资本性" selected = "selected" >资本性</option><option value="费用性">费用性</option>';
-                    $("#budget_table table tbody tr:eq("+i+") td .selectZF").append(selectH);
-                    $("#budget_table table tbody tr:eq("+i+") td .zbx").empty();
-                    selectHtml(arrSelect,budgetVal[1],$("#budget_table table tbody tr:eq("+i+") td .zbx"));
-                    form.render("select");
-                }else {
-                    var selectH= '<option value="资本性">资本性</option><option value="费用性" selected = "selected" >费用性</option>';
-                    $("#budget_table table tbody tr:eq("+i+") td .selectZF").append(selectH);
-                    $("#budget_table table tbody tr:eq("+i+") td .zbx").empty();
-                    selectHtml(arrSelectF,budgetVal[1],$("#budget_table table tbody tr:eq("+i+") td .zbx"));
-                    form.render("select");
-                }
-                form.on('select(selectZF)', function(data){
-                    if(data.value=='资本性'){
-                        $(data.elem).parents("tr").find(".zbx").empty();
-                        selectHtml(arrSelect,'',$(data.elem).parents("tr").find(".zbx"));
-                        form.render("select");
+                if(budgetVal[0]=="资本性支出"){
+                    if(i==0){
+                        var html='<tr class="capital">' +
+                            '        <td rowspan="13">'+budgetVal[0]+'</td>' +
+                            '        <td>'+budgetVal[1]+'</td>' +
+                            '        <td><input type="number" value="'+budgetVal[2]+'"></td>' +
+                            '        <td><input type="number" value="'+budgetVal[3]+'"></td>' +
+                            '        <td>'+budgetVal[4]+'</td>' +
+                            '     </tr>'
+                    }else if(budgetVal[1]=="小计"){
+                        var html='<tr class="capitalT">' +
+                            '        <td class="layui-hide"></td>' +
+                            '        <td>'+budgetVal[1]+'</td>' +
+                            '        <td>'+budgetVal[2]+'</td>' +
+                            '        <td>'+budgetVal[3]+'</td>' +
+                            '        <td>'+budgetVal[4]+'</td>' +
+                            '     </tr>'
                     }else {
-                        $(data.elem).parents("tr").find(".zbx").empty();
-                        selectHtml(arrSelectF,'',$(data.elem).parents("tr").find(".zbx"));
-                        form.render("select");
+                        var html='<tr class="capital">' +
+                            '        <td class="layui-hide"></td>' +
+                            '        <td>'+budgetVal[1]+'</td>' +
+                            '        <td><input type="number" value="'+budgetVal[2]+'"></td>' +
+                            '        <td><input type="number" value="'+budgetVal[3]+'"></td>' +
+                            '        <td>'+budgetVal[4]+'</td>' +
+                            '     </tr>'
                     }
-                });
-                formVerify();
-                form.render();
+                }else {
+                    if(i==13){
+                        var html='<tr class="cost">' +
+                            '        <td rowspan="7">'+budgetVal[0]+'</td>' +
+                            '        <td>'+budgetVal[1]+'</td>' +
+                            '        <td><input type="number" value="'+budgetVal[2]+'"></td>' +
+                            '        <td><input type="number" value="'+budgetVal[3]+'"></td>' +
+                            '        <td>'+budgetVal[4]+'</td>' +
+                            '     </tr>'
+                    }else if(budgetVal[1]=="小计"){
+                        var html='<tr class="costT">' +
+                            '        <td class="layui-hide"></td>' +
+                            '        <td>'+budgetVal[1]+'</td>' +
+                            '        <td>'+budgetVal[2]+'</td>' +
+                            '        <td>'+budgetVal[3]+'</td>' +
+                            '        <td>'+budgetVal[4]+'</td>' +
+                            '     </tr>'
+                    }else {
+                        var html='<tr class="cost">' +
+                            '        <td class="layui-hide"></td>' +
+                            '        <td>'+budgetVal[1]+'</td>' +
+                            '        <td><input type="number" value="'+budgetVal[2]+'"></td>' +
+                            '        <td><input type="number" value="'+budgetVal[3]+'"></td>' +
+                            '        <td>'+budgetVal[4]+'</td>' +
+                            '     </tr>'
+                    }
+                }
+                $("#budget_tableNew table tbody").append(html);
             });
+        	var htmlT=$("#budget_tableNew table tbody tr:eq(12) td:eq(2)").text()+$("#budget_tableNew table tbody tr:eq(12) td:eq(19)").text();
+            var htmlTr=$("#budget_tableNew table tbody tr:eq(12) td:eq(3)").text()+$("#budget_tableNew table tbody tr:eq(12) td:eq(19)").text();
+            var htmlF=$("#budget_tableNew table tbody tr:eq(12) td:eq(4)").text()+$("#budget_tableNew table tbody tr:eq(12) td:eq(19)").text();
+        	var html='<tr>' +
+                '       <td></td>' +
+                '        <td>合计</td>' +
+                '        <td>'+htmlT+'</td>' +
+                '        <td>'+htmlTr+'</td>' +
+                '        <td>'+htmlTr+'</td>' +
+                '      </tr>';
+            $("#budget_tableNew table tbody").append(html);
         }
         
         /*资金来源表*/
@@ -523,7 +704,7 @@
                     });
                 });
             },
-            budgetAddEvent:function(){
+            /*budgetAddEvent:function(){
                 var selectH='<select class="selectZF" lay-filter="selectZF">' +
                     '<option value="资本性">资本性</option><option value="费用性">费用性</option></select>'
                 var tr = "<tr><td>" + selectH + "</td>" +
@@ -548,7 +729,7 @@
                 dele();
                 formVerify();
                 form.render();
-            },
+            },*/
             fundsAddEvent:function(){
                 var tr = "<tr><td> <input lay-verify='specialCharacters' type='text' value=''/></td>" +
                     "<td><input type='number' class='fundsNumber' value='0'/> </td>" +
@@ -570,12 +751,35 @@
             }
 
         }
-      
+        /*获取资金*/
+        var budget_table='',budget_tableTr="",budget_tableTrTd='';
+        var columnTrL=$("#budget_tableNew table tbody tr");
+        for(var j=0;j<columnTrL.length-1;j++){
+            if($(columnTrL).eq(j).attr("class")=="capital"){
+                budget_tableTrTd="资本性支出#"
+            }else if($(columnTrL).eq(j).attr("class")=="cost"){
+                budget_tableTrTd="费用性支出#"
+            }
+            if($(columnTrL).eq(j).find("td").eq(2).find("input").val()==undefined){
+                var columnTrL2=$(columnTrL).eq(j).find("td").eq(2).text()==''? 0+"#":$(columnTrL).eq(j).find("td").eq(2).text()+"#";
+            }else {
+                var columnTrL2=$(columnTrL).eq(j).find("td").eq(2).find("input").val()+"#";
+            }
+            if($(columnTrL).eq(j).find("td").eq(3).find("input").val()==undefined){
+                var columnTrL3=$(columnTrL).eq(j).find("td").eq(3).text()==''? 0+"#":$(columnTrL).eq(j).find("td").eq(3).text()+"#";
+            }else {
+                var columnTrL3=$(columnTrL).eq(j).find("td").eq(3).find("input").val()+"#";
+            }
+            var columnTrL1=$(columnTrL).eq(j).find("td").eq(1).text()+"#";
+            var columnTrL4=$(columnTrL).eq(j).find("td").eq(4).text()==''? 0:$(columnTrL).eq(j).find("td").eq(4).text();
+            budget_tableTr=budget_tableTrTd+columnTrL1+columnTrL2+columnTrL3+columnTrL4;
+            budget_table+=budget_tableTr+"|"
+        }
         form.on('submit(up)', function (data) {
            
             var  task_content =getData("task_content", 5);
             var  task_assessment_content =getData("task_assessment_content", 4);
-            var  budget_table =getData("budget_table", 5);
+            //var  budget_table =getData("budget_table", 5);
             var  funds_sources_table =getData("funds_sources_table", 6);
 
             if (task_content == null || task_content == '') 
@@ -587,7 +791,7 @@
             }else{
             	 $("#taskContent").val(task_content)
             	 $("#taskAssessmentContent").val(task_assessment_content)
-            	 $("#budgetTable").val(budget_table)
+            	 $("#budgetTable").val(budget_table.substring(0, budget_table.length - 1));
             	 $("#fundsSourcesTable").val(funds_sources_table)
             	   
             	 var topicId=$("#topicId").val();
@@ -596,6 +800,37 @@
                  ajaxOpt(url,"form1","POST",backurl,"保存成功","保存失败");
             }
             return false;
+        });
+        /*计算*/
+        $("#budget_tableNew input").off("change").on("change",function () {
+            /*同行相乘*/
+            var colleagueInputL=$(this).parents("tr").find("input").length;
+            var trInputO=$(this).parents("tr").find("input").eq(0).val()==0 ? 0:$(this).parents("tr").find("input").eq(0).val();
+            var trInputT=$(this).parents("tr").find("input").eq(1).val()==0 ? 0:$(this).parents("tr").find("input").eq(1).val();
+            var trInputC=trInputO*trInputT;
+            $(this).parents("tr").find("td:last").text(trInputC.toFixed(2));
+            /*同列相加*/
+            var columnTrL=$("#budget_tableNew table tbody tr");
+            var capitalLO=0,capitalLT=0,costLO=0,costLT=0;
+            for(var j=0;j<columnTrL.length-1;j++){
+                console.log($(columnTrL).eq(j).attr("class"))
+                if($(columnTrL).eq(j).attr("class")=="capital"){
+                    capitalLO+=parseInt($(columnTrL).eq(j).find("input").eq(0).val());
+                    capitalLT+=parseInt($(columnTrL).eq(j).find("input").eq(1).val());
+                }else if($(columnTrL).eq(j).attr("class")=="cost"){
+                    costLO+=parseInt($(columnTrL).eq(j).find("input").eq(0).val());
+                    costLT+=parseInt($(columnTrL).eq(j).find("input").eq(1).val());
+                }
+            }
+            $(columnTrL).eq(12).find("td").eq(2).html(parseInt(capitalLO).toFixed(2));
+            $(columnTrL).eq(12).find("td").eq(3).html(parseInt(capitalLT).toFixed(2));
+            $(columnTrL).eq(12).find("td").eq(4).html((parseInt(capitalLO)*parseInt(capitalLT)).toFixed(2));
+            $(columnTrL).eq(19).find("td").eq(2).html(parseInt(costLO).toFixed(2));
+            $(columnTrL).eq(19).find("td").eq(3).html(parseInt(costLT).toFixed(2));
+            $(columnTrL).eq(19).find("td").eq(4).html((parseInt(costLO)*parseInt(costLT)).toFixed(2));
+            $(columnTrL).eq(20).find("td").eq(2).html((parseInt(costLO)+parseInt(capitalLO)).toFixed(2));
+            $(columnTrL).eq(20).find("td").eq(3).html((parseInt(costLT)+parseInt(capitalLT)).toFixed(2));
+            $(columnTrL).eq(20).find("td").eq(4).html((parseInt(costLO)*parseInt(costLT)+parseInt(capitalLO)*parseInt(capitalLT)).toFixed(2));
         });
     });
     
