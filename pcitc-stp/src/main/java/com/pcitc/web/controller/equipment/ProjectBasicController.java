@@ -118,8 +118,26 @@ public class ProjectBasicController extends BaseController {
 	public String add(HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
 
-		String leadUnitName = sysUserInfo.getUnitName();
-		String leadUnitCode = sysUserInfo.getUnitCode();
+		
+		
+		String leadUnitName =  "";
+		String leadUnitCode =  "";
+		String unitPathIds =   sysUserInfo.getUnitPath();
+		if(!unitPathIds.equals(""))
+		{
+			if(unitPathIds.length()>4)
+			{
+				String	parentUnitPathIds=unitPathIds.substring(0, unitPathIds.length()-4);
+				SysUnit sysUnit=EquipmentUtils.getUnitByUnitPath(parentUnitPathIds, restTemplate, httpHeaders);
+				if(sysUnit!=null)
+				{
+					leadUnitName = sysUnit.getUnitName();
+					leadUnitCode =sysUnit.getUnitCode();
+				}
+			}
+		}
+		
+		
 		String createUserName=sysUserInfo.getUserDisp();
 		String createUserId=sysUserInfo.getUserName();
 		String documentDoc= IdUtil.createFileIdByTime();
@@ -149,10 +167,13 @@ public class ProjectBasicController extends BaseController {
 		request.setAttribute("endYear", endYear);
 		request.setAttribute("beginYear", beginYear);
 		logger.info("============远程返回  beginYear " + beginYear);
-		
-		
 		List<UnitField>  unitFieldList= CommonUtil.getUnitNameList(restTemplate, httpHeaders);
 		request.setAttribute("unitFieldList", unitFieldList);
+		
+		
+		
+		
+		
 	
 		
 		return "/stp/equipment/project/project-basic-add";
