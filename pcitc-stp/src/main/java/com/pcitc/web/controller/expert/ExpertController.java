@@ -156,6 +156,10 @@ public class ExpertController extends BaseController {
     @OperationFilter(modelName = "首页图形展示", actionName = "首页图形展示indexPicTwo")
     public Object indexPicImg() {
         ZjkExpert expert = new ZjkExpert();
+        String hyly = request.getParameter("hyly");
+        if (hyly!= null&&!"".equals(hyly)){
+            expert.setExpertProfessionalField(hyly);
+        }
         ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LIST_RANDOM_IMG, HttpMethod.POST, new HttpEntity<ZjkExpert>(expert, this.httpHeaders), JSONObject.class);
 //        JSONObject object =responseEntity.getBody() ;
 //        Result result = (Result) retJson.get("results");

@@ -220,51 +220,24 @@
 </head>
 <body>
 <div class="layui-main-oil layui-expert">
-    <!--<div class="layui-statistics">
-        <span>机构数量:${jlCount}</span>
-        <span>专家数量:${expertCount}</span>
-        <span>成果数量:${cgCount}</span>
-        <span>专利数量:${zlCount}</span>
-    </div>-->
     <div class="searchH">
         <div class="searchOption" style="text-align: center">
+            <a href="javascript:void(0);" onclick="changeUrlHyly('');">全部</a>
             <#list dictionarys as item>
                 <a href="javascript:void(0);" onclick="changeUrlHyly('${item.code}');">${item.name}</a>
             </#list>
-        <!--<a href="#">石油炼制</a>-->
-        <!--<a href="#">石油化工</a>-->
-        <!--<a href="#">公用技术</a>-->
-        <!--<a href="#">合成材料</a>-->
-        <!--<a href="#">装备与储运</a>-->
-        <!--<a href="#">安全环保</a>-->
-        <!--<a href="#">信息技术</a>-->
     </div>
-    <div class="search formBox">
-        <!--<span></span>-->
-        <!--<div class="layui-select-more">-->
-        <!--<select id="hyly" onchange="changeUrl()" onclick="changeUrl()" xm-select="hyly"></select>-->
+    <!--<div class="search formBox">-->
+        <!--<div class="selectTreeBox" style="position: relative;">-->
+            <!--<div id="companyDiv" class="layui-form-select select-tree"></div>-->
         <!--</div>-->
-
-        <!--<span>机构</span>-->
-        <div class="selectTreeBox" style="position: relative;">
-
-            <div id="companyDiv" class="layui-form-select select-tree"></div>
-        </div>
-
-        <input id="key" value="" onblur="changeUrl()" placeholder="输入查找关键字" style="width: 398px;
-        border: 1px solid #dddddd;border-radius: 2px;padding-left: 10px;"/>
-
-
-        <div class="layui-select-more" style="display: none;">
-            <select id="jg" onchange="changeUrl()" onclick="changeUrl()" xm-select="jg" style="height: 30px;"></select>
-        </div>
-        <!--<span>专家姓名</span>
-        <input id="zjmc" value="" onblur="changeUrl()"/>
-        <span>关键字</span>-->
-        <!--<a href="/expertController/queryExpert" target="_blank">找专家</a>-->
-        <a lay-href="/expertController/queryExpert" target="_blank" id="hrefExpert" lay-text="找专家">找专家</a>
-        <!--<a lay-href="/expertController/selectBakList?status=1&addUserId=addUserId" target="_blank" lay-text="找专家">找专家</a>-->
-    </div>
+        <!--<input id="key" value="" onblur="changeUrl()" placeholder="输入查找关键字" style="width: 398px;-->
+        <!--border: 1px solid #dddddd;border-radius: 2px;padding-left: 10px;"/>-->
+        <!--<div class="layui-select-more" style="display: none;">-->
+            <!--<select id="jg" onchange="changeUrl()" onclick="changeUrl()" xm-select="jg" style="height: 30px;"></select>-->
+        <!--</div>-->
+        <!--<a lay-href="/expertController/queryExpert" target="_blank" id="hrefExpert" lay-text="找专家">找专家</a>-->
+    <!--</div>-->
 </div>
 <div class="layui-row">
     <div class="layui-row-main layui-col-xs6 layui-col-sm6 layui-col-md6">
@@ -305,15 +278,15 @@
 <script type="text/javascript" src="/stp/hana/common/stp_common_line.js"></script>
 <script type="text/javascript" src="/stp/hana/common/stp_common_bar.js"></script>
 <script type="text/javascript" src="/stp/hana/common/stp_common_force.js"></script>
-
 <script type="text/javascript" src="/plugins/echarts/echarts-all.js"></script>
-
 <script>
-    function relationPic() {
-        load_single_forces("/expertController/picIndexImg", "one", "专家画像", "", "", "", 10);
+    function changeUrlHyly(hyly) {
+        relationPic(hyly);
     }
-
-    relationPic();
+    function relationPic(hyly) {
+        load_single_forces("/expertController/picIndexImg?hyly="+hyly, "one", "专家画像", "", "", "", 10);
+    }
+    relationPic('');
 </script>
 </body>
 

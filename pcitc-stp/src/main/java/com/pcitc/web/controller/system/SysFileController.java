@@ -184,21 +184,19 @@ public class SysFileController extends BaseController {
     @ResponseBody
     public FileResult uploadMultipleFileLayui(@RequestParam(value = "file", required = false) MultipartFile[] files, HttpServletRequest request, HttpServletResponse response) throws IOException {
         FileResult result = null;
-        String param = request.getParameter("param");
-        JSONArray jsonArray = JSONArray.parseArray(param);
         try {
             List<SysFile> fileList = new ArrayList<>();
             for (int i = 0; i < files.length; i++) {
+                /** 转换文件 */
                 MultipartFile file = files[i];
                 String tempFileName = file.getOriginalFilename();
                 if (tempFileName.indexOf("\\") > -1) {
                     tempFileName = tempFileName.substring(tempFileName.lastIndexOf("\\") + 1, tempFileName.length());
                 }
-                JSONObject jsonObjects  = (JSONObject) jsonArray.get(i);
-                jsonObjects.put("flag",request.getParameter("flag"));
                 String uuid = IdUtil.createIdByTime();
-//                sysFileFeignClient.uploadFileSaveLayui(file, request, response, tempFileName, request.getParameter("filedflag"), "userid", uuid, request.getParameter("formId"), jsonObjects.toJSONString());
-                sysFileFeignClient.uploadFileSaveLayui(file, request, response, tempFileName, request.getParameter("filedflag"), sysUserInfo.getUserId(), uuid, request.getParameter("formId"), jsonObjects.toJSONString());
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("flag",request.getParameter("flag"));
+                sysFileFeignClient.uploadFileSaveLayui(file, request, response, tempFileName, request.getParameter("filedflag"), sysUserInfo.getUserId(), uuid, request.getParameter("formId"), jsonObject.toJSONString());
                 SysFile sysFile = this.restTemplate.exchange(GET + uuid, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), SysFile.class).getBody();
                 fileList.add(sysFile);
             }
@@ -257,13 +255,6 @@ public class SysFileController extends BaseController {
     @ResponseBody
     public FileResult uploadMultipleFileLayuiIE(@RequestParam(value = "file", required = false) MultipartFile[] files, HttpServletRequest request, HttpServletResponse response) throws IOException {
         FileResult result = null;
-        String param = request.getParameter("param");
-        String flag = request.getParameter("flag");
-        System.out.println("param = " + param);
-        JSONArray jsonArray = new JSONArray();
-        if(param!=null&&!"".equals(param)){
-            jsonArray = JSONArray.parseArray(param);
-        }
         try {
             List<SysFile> fileList = new ArrayList<>();
             for (int i = 0; i < files.length; i++) {
@@ -273,10 +264,10 @@ public class SysFileController extends BaseController {
                 if (tempFileName.indexOf("\\") > -1) {
                     tempFileName = tempFileName.substring(tempFileName.lastIndexOf("\\") + 1, tempFileName.length());
                 }
-                JSONObject jsonObjects  = (jsonArray.size()==0)?(new JSONObject()):(JSONObject) jsonArray.get(i);
-                jsonObjects.put("flag",flag);
                 String uuid = IdUtil.createIdByTime();
-                sysFileFeignClient.uploadFileSaveLayui(file, request, response, tempFileName, request.getParameter("filedflag"), sysUserInfo.getUserId(), uuid, request.getParameter("formId"), jsonObjects.toJSONString());
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("flag",request.getParameter("flag"));
+                sysFileFeignClient.uploadFileSaveLayui(file, request, response, tempFileName, request.getParameter("filedflag"), sysUserInfo.getUserId(), uuid, request.getParameter("formId"), jsonObject.toJSONString());
                 SysFile sysFile = this.restTemplate.exchange(GET + uuid, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), SysFile.class).getBody();
                 fileList.add(sysFile);
             }
@@ -287,6 +278,37 @@ public class SysFileController extends BaseController {
         }
         response.addHeader("Access-Control-Allow-Origin", "*");
         return result;
+        //        FileResult result = null;
+//        String param = request.getParameter("param");
+//        String flag = request.getParameter("flag");
+//        System.out.println("param = " + param);
+//        JSONArray jsonArray = new JSONArray();
+//        if(param!=null&&!"".equals(param)){
+//            jsonArray = JSONArray.parseArray(param);
+//        }
+//        try {
+//            List<SysFile> fileList = new ArrayList<>();
+//            for (int i = 0; i < files.length; i++) {
+//                /** 转换文件 */
+//                MultipartFile file = files[i];
+//                String tempFileName = file.getOriginalFilename();
+//                if (tempFileName.indexOf("\\") > -1) {
+//                    tempFileName = tempFileName.substring(tempFileName.lastIndexOf("\\") + 1, tempFileName.length());
+//                }
+//                JSONObject jsonObjects  = (jsonArray.size()==0)?(new JSONObject()):(JSONObject) jsonArray.get(i);
+//                jsonObjects.put("flag",flag);
+//                String uuid = IdUtil.createIdByTime();
+//                sysFileFeignClient.uploadFileSaveLayui(file, request, response, tempFileName, request.getParameter("filedflag"), sysUserInfo.getUserId(), uuid, request.getParameter("formId"), jsonObjects.toJSONString());
+//                SysFile sysFile = this.restTemplate.exchange(GET + uuid, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), SysFile.class).getBody();
+//                fileList.add(sysFile);
+//            }
+//            result = new FileResult();
+//            result.setList(fileList);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        response.addHeader("Access-Control-Allow-Origin", "*");
+//        return result;
     }
 
     @RequestMapping(value = "/sysfile/download/{id}", method = RequestMethod.GET, produces = MediaType.MULTIPART_FORM_DATA_VALUE)

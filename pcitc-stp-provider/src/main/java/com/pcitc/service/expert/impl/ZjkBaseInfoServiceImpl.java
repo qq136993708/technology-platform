@@ -91,8 +91,9 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
         List<ZjkExpert> zjkExpertreturnList = zjkBaseInfoMapper.findZjkExpertList(record);
         int[] s = StrUtil.randomCommon(0, zjkExpertreturnList.size(), 10);
         List<ZjkExpert> experts = new ArrayList<>();
-        for (int i = 0; i < s.length; i++) {
-            ZjkExpert e = zjkExpertreturnList.get(s[i]);
+        int len = (s==null)?zjkExpertreturnList.size():s.length;
+        for (int i = 0; i < len; i++) {
+            ZjkExpert e = (s==null)?zjkExpertreturnList.get(i):zjkExpertreturnList.get(s[i]);
             String userDesc = e.getUserDesc();
             if (!StrUtil.isEmpty(userDesc)) {
                 if (userDesc.length() > 30) {
@@ -573,7 +574,7 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
     public JSONObject findZjkBaseInfoListImg(ZjkExpert zjkBaseInfo) {
         JSONObject object = new JSONObject();
         try {
-            String column_show = "expertProfessinal,college,expertProfessionalField,unitBelongs,professionalAndTime,administrativeDuties,technicalPositiion,";
+            String column_show = "expertProfessinal,college,expertProfessionalFieldName,unitBelongs,professionalAndTime,administrativeDuties,technicalPositiion,";
             List<Result> results = new ArrayList<>();
             List<ZjkExpert> experts = this.findZjkBaseInfoListRandom(zjkBaseInfo);
             int length = experts.size() > 10 ? 10 : experts.size();
