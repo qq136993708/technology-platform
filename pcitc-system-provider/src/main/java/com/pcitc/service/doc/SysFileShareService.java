@@ -106,6 +106,6 @@ public interface SysFileShareService {
 	 * 查询某种条件下的组织机构节点，有组织机构和人员、岗位
 	 * 包含文件已分享信息
 	 */
-	List<TreeNode> getUnitTreeAndPostAndUserCond(SysUnit unit);
+	public List<TreeNode> getUnitTreeAndPostAndUserCond(SysUnit unit);
 
 }

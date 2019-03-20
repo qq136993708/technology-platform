@@ -25,6 +25,7 @@ import com.pcitc.base.common.TreeNode;
 import com.pcitc.base.common.enums.DataOperationStatusEnum;
 import com.pcitc.base.doc.SysFileKind;
 import com.pcitc.base.doc.SysFileKindAuth;
+import com.pcitc.base.system.SysUnit;
 import com.pcitc.service.doc.SysFileKindService;
 
 
@@ -238,4 +239,25 @@ public class SysFileKindClient {
         }
         return 500;
     }
+    
+    /**
+	 * 查询某种条件下的组织机构节点，有组织机构和人员、岗位
+	 * 已配置功能权限的默认勾选
+	 */
+	@ApiOperation(value="组织机构和人员、岗位",notes="文档分类已配置的默认勾选")
+	@RequestMapping(value = "/sysfilekind-provider/sysfilekind/units-posts-users/tree", method = RequestMethod.POST)
+	public List<TreeNode> selectTreeNodeWithUnitAndPostAndUser(@RequestBody SysUnit unit) {
+		List<TreeNode> list = sysFileKindService.getUnitTreeAndPostAndUserCond(unit);
+		
+		for (int i = 0; i < list.size(); i++) {
+			TreeNode tree = list.get(i);
+			// 前几层默认打开
+			if (tree.getLevelCode()<2) {
+				tree.setOpen("true");
+			} else {
+				tree.setOpen("false");
+			}
+		}
+		return list;
+	}
 }

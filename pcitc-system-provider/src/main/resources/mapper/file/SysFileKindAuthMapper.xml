@@ -446,4 +446,34 @@
       bak4 = #{bak4,jdbcType=VARCHAR}
     where data_id = #{dataId,jdbcType=VARCHAR}
   </update>
+  
+  	<!-- 组织机构树所有节点, 有组织机构和人员、岗位.sSearch文档分类中已配置的用户权限 -->
+    <select id="getUnitTreeAndPostAndUserCond" parameterType="com.pcitc.base.system.SysUnit" resultType="com.pcitc.base.common.TreeNode">
+		  select u.unit_id as id, u.unit_name as name,u.unit_relation as pid,u.unit_code as code, u.unit_level as levelCode, 'unit' as nodeType, '1' as bak1
+		  from sys_unit u 
+		  where unit_delflag = 0 
+		  
+		  union all 
+		  select sys_user.user_id as id, sys_user.user_disp as name, sys_user_post.post_id as pid, sys_user.user_name as code, 100, 'user' as nodeType, isnull(sys_file_kind_auth.user_id) as bak1
+		  from sys_user_unit,sys_user_post,sys_user left join sys_file_kind_auth on 
+		  													(sys_user.user_id = sys_file_kind_auth.user_id and
+		  													 sys_file_kind_auth.file_kind_id = #{sSearch,jdbcType=VARCHAR})
+		  where sys_user.user_delflag = 0 and sys_user.user_id = sys_user_post.user_id
+						and sys_user.user_id=sys_user_unit.user_id 
+		        and sys_user_unit.unit_id in (
+		  		  select t.unit_id
+				  from sys_unit t 
+				  where t.unit_delflag = 0 
+		  )
+		  GROUP BY sys_user.user_id
+		  
+		  union all 
+		  select post_id as id, post_name as name, post_unit as pid, post_code as code, sys_post.post_level as nodeLevel, 'post' as nodeType, '1' as bak1
+		  from sys_post 
+		  where post_delflag = 0 and post_unit in (
+		  		  select t.unit_id
+				  from sys_unit t 
+				  where unit_delflag = 0 
+		  )
+    </select>
 </mapper>
