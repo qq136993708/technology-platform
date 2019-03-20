@@ -33,8 +33,8 @@ import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.RequestProcessStatusEnum;
 import com.pcitc.base.stp.equipment.SreProject;
-import com.pcitc.base.stp.equipment.SreProjectTask;
 import com.pcitc.base.stp.equipment.UnitField;
+import com.pcitc.base.system.SysUnit;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CodeUtil;
 import com.pcitc.base.util.CommonUtil;
@@ -78,8 +78,23 @@ public class ProjectBasicController extends BaseController {
 		
 		List<UnitField>  unitFieldList= CommonUtil.getUnitNameList(restTemplate, httpHeaders);
 		request.setAttribute("unitFieldList", unitFieldList);
-		String applyUnitCode=sysUserInfo.getUnitCode();
-		request.setAttribute("applyUnitCode", applyUnitCode);
+		//String applyUnitCode=sysUserInfo.getUnitCode();
+		//request.setAttribute("applyUnitCode", applyUnitCode);
+		
+		
+
+		String	parentUnitPathIds="";
+		String unitPathIds =   sysUserInfo.getUnitPath();
+		if(!unitPathIds.equals(""))
+		{
+			if(unitPathIds.length()>4)
+			{
+				parentUnitPathIds=unitPathIds.substring(0, unitPathIds.length()-4);
+				
+			}
+		}
+		request.setAttribute("parentUnitPathIds", parentUnitPathIds);
+		
 		return "/stp/equipment/project/project-basic-list";
 	}
 
@@ -117,8 +132,26 @@ public class ProjectBasicController extends BaseController {
 	public String add(HttpServletRequest request, HttpServletResponse response) throws Exception
 	{
 
-		String leadUnitName = sysUserInfo.getUnitName();
-		String leadUnitCode = sysUserInfo.getUnitCode();
+		
+		
+		String leadUnitName =  "";
+		String leadUnitCode =  "";
+		String unitPathIds =   sysUserInfo.getUnitPath();
+		if(!unitPathIds.equals(""))
+		{
+			if(unitPathIds.length()>4)
+			{
+				String	parentUnitPathIds=unitPathIds.substring(0, unitPathIds.length()-4);
+				SysUnit sysUnit=EquipmentUtils.getUnitByUnitPath(parentUnitPathIds, restTemplate, httpHeaders);
+				if(sysUnit!=null)
+				{
+					leadUnitName = sysUnit.getUnitName();
+					leadUnitCode =sysUnit.getUnitCode();
+				}
+			}
+		}
+		
+		
 		String createUserName=sysUserInfo.getUserDisp();
 		String createUserId=sysUserInfo.getUserName();
 		String documentDoc= IdUtil.createFileIdByTime();
@@ -148,10 +181,13 @@ public class ProjectBasicController extends BaseController {
 		request.setAttribute("endYear", endYear);
 		request.setAttribute("beginYear", beginYear);
 		logger.info("============远程返回  beginYear " + beginYear);
-		
-		
 		List<UnitField>  unitFieldList= CommonUtil.getUnitNameList(restTemplate, httpHeaders);
 		request.setAttribute("unitFieldList", unitFieldList);
+		
+		
+		
+		
+		
 	
 		
 		return "/stp/equipment/project/project-basic-add";
@@ -212,7 +248,7 @@ public class ProjectBasicController extends BaseController {
 	}
 	
 	
-	private Result dealSaveUpdate(HttpServletRequest request)
+	private Result dealSaveUpdate(HttpServletRequest request)throws Exception
 	{
 		
 		Result resultsDate = new Result();
@@ -257,6 +293,25 @@ public class ProjectBasicController extends BaseController {
 		String taskWriteUsersIds = CommonUtil.getParameter(request, "taskWriteUsersIds", "");
 		String professionalFieldName = CommonUtil.getParameter(request, "professionalFieldName", "");
 		String professionalFieldCode = CommonUtil.getParameter(request, "professionalFieldCode", "");
+		
+		String unitPathIds =   CommonUtil.getParameter(request, "unitPathIds",sysUserInfo.getUnitPath());
+		String unitPathNames = CommonUtil.getParameter(request, "unitPathNames", sysUserInfo.getUnitName());
+		
+		String parentUnitPathIds ="";
+		String parentUnitPathNames =  "";
+		if(!unitPathIds.equals(""))
+		{
+			if(unitPathIds.length()>4)
+			{
+				parentUnitPathIds=unitPathIds.substring(0, unitPathIds.length()-4);
+				SysUnit sysUnit=EquipmentUtils.getUnitByUnitPath(parentUnitPathIds, restTemplate, httpHeaders);
+				if(sysUnit!=null)
+				{
+					parentUnitPathNames = sysUnit.getUnitName();
+				}
+			}
+		}
+		
 		SreProject sreProjectBasic = null;
 		ResponseEntity<String> responseEntity = null;
 		// 判断是新增还是修改
@@ -292,6 +347,12 @@ public class ProjectBasicController extends BaseController {
 			}
 			sreProjectBasic.setProjectMoney(projectMoney);
 		}
+		
+		
+		sreProjectBasic.setUnitPathIds(unitPathIds);
+		sreProjectBasic.setUnitPathNames(unitPathNames);
+		sreProjectBasic.setParentUnitPathIds(parentUnitPathIds); 
+		sreProjectBasic.setParentUnitPathNames(parentUnitPathNames); 
 		sreProjectBasic.setProfessionalFieldCode(professionalFieldCode);
 		sreProjectBasic.setProfessionalFieldName(professionalFieldName);
 		sreProjectBasic.setYearFeeStr(yearFeeStr); 
@@ -381,10 +442,61 @@ public class ProjectBasicController extends BaseController {
 		if(!str.equals(""))
 		{
 			resultsDate = new Result(true, RequestProcessStatusEnum.OK.getStatusDesc());
+			//发邮件：
+			SysUser sysUser=	EquipmentUtils.getSysUser(taskWriteUsersIds, restTemplate, httpHeaders);
+			if(sysUser!=null)
+			{
+				String mail=sysUser.getUserMail();
+				if(mail!=null && !mail.equals(""))
+				{
+					sreProject.setEmail(mail);
+					EquipmentUtils.sentSreProjectTaskMail(id, sreProject, restTemplate, httpHeaders);
+				}
+			}
+			
+			
 		}else
 		{
 			resultsDate = new Result(false, RequestProcessStatusEnum.NETWORK_ERROR.getStatusDesc());
 		}
+		response.setContentType("text/html;charset=UTF-8");
+		PrintWriter out = response.getWriter();
+		JSONObject ob = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
+		out.println(ob.toString());
+		out.flush();
+		out.close();
+		return null;
+	}
+	
+	
+	
+	
+	//给填写人发邮件
+	@RequestMapping(method = RequestMethod.POST, value = "/sentSreProjectTaskMail")
+	@ResponseBody
+	public String sentSreProjectTaskMail(HttpServletRequest request, HttpServletResponse response) throws Exception 
+	{
+		
+		Result resultsDate = new Result(false, RequestProcessStatusEnum.NETWORK_ERROR.getStatusDesc());
+		String id = CommonUtil.getParameter(request, "id", "");
+		SreProject sreProject=EquipmentUtils.getSreProject(id, restTemplate, httpHeaders);
+		//发邮件：
+		SysUser sysUser=	EquipmentUtils.getSysUser(sreProject.getTaskWriteUsersIds(), restTemplate, httpHeaders);
+		if(sysUser!=null)
+		{
+			String mail=sysUser.getUserMail();
+			if(mail!=null && !mail.equals(""))
+			{
+				sreProject.setEmail("281722797@qq.com");
+				int count=EquipmentUtils.sentSreProjectTaskMail(id, sreProject, restTemplate, httpHeaders);
+				if(count>0)
+				{
+					resultsDate = new Result(true, RequestProcessStatusEnum.OK.getStatusDesc());
+				}
+				
+			}
+		}
+		
 		response.setContentType("text/html;charset=UTF-8");
 		PrintWriter out = response.getWriter();
 		JSONObject ob = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));

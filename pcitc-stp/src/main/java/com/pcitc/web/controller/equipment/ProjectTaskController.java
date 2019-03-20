@@ -42,6 +42,7 @@ import com.pcitc.base.stp.equipment.SreProject;
 import com.pcitc.base.stp.equipment.SreProjectTask;
 import com.pcitc.base.stp.equipment.UnitField;
 import com.pcitc.base.system.SysDictionary;
+import com.pcitc.base.system.SysUnit;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CodeUtil;
 import com.pcitc.base.util.CommonUtil;
@@ -112,14 +113,28 @@ public class ProjectTaskController extends BaseController {
 	@RequestMapping(value = "/apply_list")
 	public String apply_list(HttpServletRequest request, HttpServletResponse response)throws Exception {
 		
-		String applyUnitCode=sysUserInfo.getUnitCode();
-		request.setAttribute("leadUnitCode", applyUnitCode);
+		
 		
 		List<SysDictionary>  dicList= CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_LCZT", restTemplate, httpHeaders);
 		request.setAttribute("dicList", dicList);
 		
 		List<UnitField>  unitFieldList= CommonUtil.getUnitNameList(restTemplate, httpHeaders);
 		request.setAttribute("unitFieldList", unitFieldList);
+		
+		
+		String	parentUnitPathIds="";
+		String unitPathIds =   sysUserInfo.getUnitPath();
+		if(!unitPathIds.equals(""))
+		{
+			if(unitPathIds.length()>4)
+			{
+				parentUnitPathIds=unitPathIds.substring(0, unitPathIds.length()-4);
+				
+			}
+		}
+		request.setAttribute("parentUnitPathIds", parentUnitPathIds);
+		
+		
 		return "/stp/equipment/task/apply_list";
 	}
 		
@@ -135,6 +150,17 @@ public class ProjectTaskController extends BaseController {
 		request.setAttribute("dicList", dicList);
 		List<UnitField>  unitFieldList= CommonUtil.getUnitNameList(restTemplate, httpHeaders);
 		request.setAttribute("unitFieldList", unitFieldList);
+		String	parentUnitPathIds="";
+		String unitPathIds =   sysUserInfo.getUnitPath();
+		if(!unitPathIds.equals(""))
+		{
+			if(unitPathIds.length()>4)
+			{
+				parentUnitPathIds=unitPathIds.substring(0, unitPathIds.length()-4);
+				
+			}
+		}
+		request.setAttribute("parentUnitPathIds", parentUnitPathIds);
 		
 		return "/stp/equipment/task/join_list";
 	}		
@@ -185,10 +211,18 @@ public class ProjectTaskController extends BaseController {
 		List<UnitField>  unitFieldList= CommonUtil.getUnitNameList(restTemplate, httpHeaders);
 		request.setAttribute("unitFieldList", unitFieldList);
 		
-		String applyUnitCode=sysUserInfo.getUnitCode();
-		request.setAttribute("applyUnitCode", applyUnitCode);
 		
-		
+		String	parentUnitPathIds="";
+		String unitPathIds =   sysUserInfo.getUnitPath();
+		if(!unitPathIds.equals(""))
+		{
+			if(unitPathIds.length()>4)
+			{
+				parentUnitPathIds=unitPathIds.substring(0, unitPathIds.length()-4);
+				
+			}
+		}
+		request.setAttribute("parentUnitPathIds", parentUnitPathIds);
 		return "/stp/equipment/task/confirm_list";
 	}
 	
@@ -321,6 +355,25 @@ public class ProjectTaskController extends BaseController {
 		String endProjectMonth = CommonUtil.getParameter(request, "endProjectMonth", "");
 		StringBuffer taskCheckContents = new StringBuffer();
 		String arr[]=request.getParameterValues("taskCheckContents");
+		
+		String unitPathIds =   CommonUtil.getParameter(request, "unitPathIds",sysUserInfo.getUnitPath());
+		String unitPathNames = CommonUtil.getParameter(request, "unitPathNames", sysUserInfo.getUnitName());
+		String parentUnitPathIds ="";
+		String parentUnitPathNames =  "";
+		if(!unitPathIds.equals(""))
+		{
+			if(unitPathIds.length()>4)
+			{
+				parentUnitPathIds=unitPathIds.substring(0, unitPathIds.length()-4);
+				SysUnit sysUnit=EquipmentUtils.getUnitByUnitPath(parentUnitPathIds, restTemplate, httpHeaders);
+				if(sysUnit!=null)
+				{
+					parentUnitPathNames = sysUnit.getUnitName();
+				}
+			}
+		}
+		
+		
 		System.out.println("----------------------topicId="+topicId);
 		if(arr!=null && arr.length>0)
 		{
@@ -341,9 +394,9 @@ public class ProjectTaskController extends BaseController {
 		{
 			sreProjectBasic = new SreProjectTask();
 			sreProjectBasic.setCreateDate(new Date());
+			//创建人
 			sreProjectBasic.setCreateUserId(sysUserInfo.getUserId());
 			sreProjectBasic.setCreateUserName(sysUserInfo.getUserDisp());
-			//String code = CommonUtil.getTableCode("XTBM_0032", restTemplate, httpHeaders);
 			String idv = UUID.randomUUID().toString().replaceAll("-", "");
 			sreProjectBasic.setTaskId(idv);
 			sreProjectBasic.setAuditStatus(auditStatus);
@@ -400,10 +453,16 @@ public class ProjectTaskController extends BaseController {
 		sreProjectBasic.setTaskContent(taskContent);
 		sreProjectBasic.setTaskCheckContents(taskCheckContents.toString());
 		sreProjectBasic.setTaskAssessmentContent(taskAssessmentContent);
-		sreProjectBasic.setApplyUnitCode(sysUserInfo.getUnitCode());
-		sreProjectBasic.setApplyUnitName(sysUserInfo.getUnitName());
 		sreProjectBasic.setBeginProjectMonth(beginProjectMonth);
 		sreProjectBasic.setEndProjectMonth(endProjectMonth);
+		
+		sreProjectBasic.setCreateUnitCode(sysUserInfo.getUnitCode());
+		sreProjectBasic.setCreateUnitName(sysUserInfo.getUnitName());
+		sreProjectBasic.setParentUnitPathIds(parentUnitPathIds);
+		sreProjectBasic.setParentUnitPathNames(parentUnitPathNames); 
+		sreProjectBasic.setUnitPathIds(unitPathIds);
+		sreProjectBasic.setUnitPathNames(unitPathNames);
+		
 		
 		// 判断是新增还是修改
 		if (taskId.equals("")) 
@@ -446,8 +505,13 @@ public class ProjectTaskController extends BaseController {
 	 * @param instanceName
 	 * @param sysUser
 	 */
-	private boolean dealProjectWorkFlow(String id,String functionId, SysUser sysUser, String instanceName, String userIds, HttpHeaders httpHeaders)
+	private boolean dealProjectWorkFlow(HttpServletRequest request,String id,String functionId, SysUser sysUser, String instanceName, String userIds, HttpHeaders httpHeaders)throws Exception
 	{
+		
+		
+		
+		
+		
 		WorkflowVo workflowVo = new WorkflowVo();
 		workflowVo.setBusinessId(String.valueOf(id));
 		workflowVo.setProcessInstanceName(instanceName);
@@ -496,6 +560,32 @@ public class ProjectTaskController extends BaseController {
 			System.out.println("=================流程启动成功");
 			SreProjectTask sreProject =EquipmentUtils.getSreProjectTask(id,restTemplate,httpHeaders);
 			sreProject.setAuditStatus(Constant.AUDIT_STATUS_SUBMIT);
+			sreProject.setApplyUnitCode(sysUserInfo.getUnitCode());
+			sreProject.setApplyUnitName(sysUserInfo.getUnitName());
+			
+			String unitPathIds =   sysUserInfo.getUnitPath();
+			sreProject.setApplyUnitPathCode(unitPathIds);
+			
+			String parentApplyUnitPathCode ="";
+			String parentApplyUnitPathName =  "";
+			if(!unitPathIds.equals(""))
+			{
+				if(unitPathIds.length()>4)
+				{
+					parentApplyUnitPathCode=unitPathIds.substring(0, unitPathIds.length()-4);
+					SysUnit sysUnit=EquipmentUtils.getUnitByUnitPath(parentApplyUnitPathCode, restTemplate, httpHeaders);
+					if(sysUnit!=null)
+					{
+						parentApplyUnitPathName = sysUnit.getUnitName();
+					}
+				}
+			}
+			sreProject.setParentApplyUnitPathCode(parentApplyUnitPathCode);
+			sreProject.setParentApplyUnitPathName(parentApplyUnitPathName);
+			
+			
+			sreProject.setApplyUserId(sysUser.getUserId());
+			sreProject.setApplyUserName(sysUser.getUserDisp());
 			
 			String str=EquipmentUtils.updateSreProjectTask(sreProject,restTemplate,httpHeaders);
 			return true;
@@ -505,7 +595,6 @@ public class ProjectTaskController extends BaseController {
 			return false;
 		}
 	}
-	
 	
 	
 	/**
@@ -618,7 +707,7 @@ public class ProjectTaskController extends BaseController {
 		SreProjectTask sreProjectTask =EquipmentUtils.getSreProjectTask(taskId,restTemplate,httpHeaders);
 		SreProject sreProject=EquipmentUtils.getSreProject(sreProjectTask.getTopicId(),restTemplate,httpHeaders);
 		
-		boolean flowFlag = dealProjectWorkFlow(taskId, functionId,sysUserInfo, "任务书->"+sreProject.getName(), userIds, httpHeaders);
+		boolean flowFlag = dealProjectWorkFlow(request,taskId, functionId,sysUserInfo, "任务书->"+sreProject.getName(), userIds, httpHeaders);
 		if (flowFlag == true)
 		{
 			resultsDate = new Result(true, RequestProcessStatusEnum.OK.getStatusDesc());

@@ -94,13 +94,13 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
         for (int i = 0; i < s.length; i++) {
             ZjkExpert e = zjkExpertreturnList.get(s[i]);
             String userDesc = e.getUserDesc();
-            if(!StrUtil.isEmpty(userDesc)){
-                if (userDesc.length()>30){
-                    userDesc  = userDesc.substring(0,30)+"...";
-                }else {
-                    userDesc = userDesc+"...";
+            if (!StrUtil.isEmpty(userDesc)) {
+                if (userDesc.length() > 30) {
+                    userDesc = userDesc.substring(0, 30) + "...";
+                } else {
+                    userDesc = userDesc + "...";
                 }
-            }else {
+            } else {
                 e.setUserDesc("待完善...");
             }
             e.setUserDesc(userDesc);
@@ -567,6 +567,70 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
         }
 
         return jsonObject;
+    }
+
+    @Override
+    public JSONObject findZjkBaseInfoListImg(ZjkExpert zjkBaseInfo) {
+        JSONObject object = new JSONObject();
+        try {
+            String column_show = "expertProfessinal,college,expertProfessionalField,unitBelongs,professionalAndTime,administrativeDuties,technicalPositiion,";
+            List<Result> results = new ArrayList<>();
+            List<ZjkExpert> experts = this.findZjkBaseInfoListRandom(zjkBaseInfo);
+            int length = experts.size() > 10 ? 10 : experts.size();
+            for (int ind = 0; ind < length; ind++) {
+                Result result = new Result();
+                ZjkExpert e = experts.get(ind);
+                Map<String, Object> maps = MyBeanUtils.transBean2Map(e);
+                //组装数据
+                ChartForceResultData force = new ChartForceResultData();
+                List<ChartForceDataNode> nodes = new ArrayList<ChartForceDataNode>();
+
+                List<ChartForceDataLink> links = new ArrayList<ChartForceDataLink>();
+
+                List<ChartForceCategories> categories = new ArrayList<ChartForceCategories>();
+
+                List<String> legendDataList = new ArrayList<String>();
+
+                String firstName = e.getExpertName();
+                Object object_first_val = e.getDataId();
+                String firstValue = object_first_val == null ? "" : object_first_val.toString();
+
+                nodes.add(new ChartForceDataNode(0, firstName, firstValue, firstName));
+                System.out.println(column_show);
+                for (Map.Entry<String, Object> entry : maps.entrySet()) {
+                    Object val = entry.getValue();
+                    if (val==null){
+                        continue;
+                    }
+                    if (column_show.indexOf(entry.getKey()+",")<0){
+                        continue;
+                    }
+                    String name = val.toString();
+                    categories.add(new ChartForceCategories(name));
+                    String value = entry.getValue().toString();
+//                for (int j = 0; j < names.length; j++) {
+//                    nodes.add(new ChartForceDataNode(i + 1, names[j], value, names[j]));
+//                    links.add(new ChartForceDataLink(names[j], firstName, i + 1, names[j]));
+//                    links.add(new ChartForceDataLink(names[j], firstName, i + 1, names[j]));
+//                    legendDataList.add(names[j]);
+//                }
+                    nodes.add(new ChartForceDataNode(ind + 1, name, value, name));
+                    links.add(new ChartForceDataLink(name, firstName, ind + 1, name));
+                    legendDataList.add(name);
+                }
+                force.setLegendDataList(legendDataList);
+                force.setCategories(categories);
+                force.setNodes(nodes);
+                force.setLinks(links);
+                result.setSuccess(true);
+                result.setData(force);
+                results.add(result);
+            }
+            object.put("results", results);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return object;
     }
 
     public Map<String, Object> getResult(Map<String, Object> param) {

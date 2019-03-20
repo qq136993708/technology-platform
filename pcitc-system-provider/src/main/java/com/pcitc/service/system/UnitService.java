@@ -162,4 +162,7 @@ public interface UnitService
 	 */
 	String getUnitZTreeListByName(String name);
 	
+	public SysUnit getUnitByUnitPath(String unitPath);
+	
+	
 }

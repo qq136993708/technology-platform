@@ -2,16 +2,26 @@ package com.pcitc.web.utils;
 
 import java.util.Calendar;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
 import com.pcitc.base.stp.equipment.SreEquipment;
 import com.pcitc.base.stp.equipment.SreProject;
 import com.pcitc.base.stp.equipment.SreProjectSetup;
 import com.pcitc.base.stp.equipment.SreProjectTask;
+import com.pcitc.base.system.SysUnit;
+import com.pcitc.base.system.SysUser;
 import com.pcitc.base.system.SysUserProperty;
 
 public class EquipmentUtils {
@@ -25,8 +35,8 @@ public class EquipmentUtils {
 
 	private static final String GET_URL_PROJECT = "http://pcitc-zuul/stp-proxy/sre-provider/project_basic/get/";
 	private static final String UPDATE_URL_PROJECT = "http://pcitc-zuul/stp-proxy/sre-provider/project_basic/update";
-	private static final String DEL_URL_PROJECT = "http://pcitc-zuul/stp-proxy/sre-provider/project_basic/delete/";
-	
+	private static final String DEL_URL_PROJECT =    "http://pcitc-zuul/stp-proxy/sre-provider/project_basic/delete/";
+	private static final  String SEND_TASK_URL =     "http://pcitc-zuul/stp-proxy/sre-provider/project_basic/mail";
 	
 	private static final String GET_URL_TASK = "http://pcitc-zuul/stp-proxy/sre-provider/project_task/get/";
 	private static final String UPDATE_URL_TASK = "http://pcitc-zuul/stp-proxy/sre-provider/project_task/update";
@@ -42,7 +52,12 @@ public class EquipmentUtils {
      private static final String GET_USERPROPERTY = "http://pcitc-zuul/system-proxy/userProperty-provider/getSysUserProperty/";
 	
 
-	
+     private static final String USER_GET_URL = "http://pcitc-zuul/system-proxy/user-provider/user/get-user/";
+     
+     
+   
+     
+     
 	
 	public static String getCurrrentYear() throws Exception {
 		Calendar cal = Calendar.getInstance();
@@ -247,8 +262,47 @@ public class EquipmentUtils {
 		return str;
 	}
 	
+	public static Integer sentSreProjectTaskMail(String id ,SreProject sreProject ,RestTemplate restTemplate,HttpHeaders httpHeaders)
+	{
+		
+		Integer str=0;
+		ResponseEntity<Integer> responseEntity =restTemplate.exchange(SEND_TASK_URL, HttpMethod.POST, new HttpEntity<SreProject>(sreProject, httpHeaders), Integer.class);
+		int statusCode = responseEntity.getStatusCodeValue();
+		if (statusCode == 200)
+		{
+			str = responseEntity.getBody();
+		}
+		return str;
+	}
 	
 	
+	public static SysUser getSysUser(String userId,RestTemplate restTemplate,HttpHeaders httpHeaders)throws Exception
+	{
+		
+		SysUser sysUser = null;
+		ResponseEntity<SysUser> responseEntity = restTemplate.exchange(USER_GET_URL + userId, HttpMethod.GET, new HttpEntity<Object>(httpHeaders), SysUser.class);
+		int statusCode = responseEntity.getStatusCodeValue();
+		if (statusCode == 200)
+		{
+			sysUser = responseEntity.getBody();
+		}
+		return sysUser;
+	}
+	
+	
+	public static SysUnit getUnitByUnitPath(String unitPath,RestTemplate restTemplate,HttpHeaders httpHeaders) throws Exception
+	{
+		 String UNIT_GET_UNIT = "http://pcitc-zuul/system-proxy/unit-provider/unit/getUnitByUnitPath/";
+		 SysUnit unit = restTemplate.exchange(UNIT_GET_UNIT + unitPath, HttpMethod.POST, new HttpEntity<Object>(httpHeaders), SysUnit.class).getBody();
+		 return unit;
+	}
+	
+	
+	/*public static void main(String[] args) {
+		String ssr="02140001";
+		ssr=ssr.substring(0, ssr.length()-4);
+		System.out.println("ssr="+ssr);
+	}*/
 	
 
 }
