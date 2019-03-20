@@ -36,8 +36,8 @@
     
     <result column="unit_path_ids"   property="unitPathIds"   jdbcType="VARCHAR" />
     <result column="unit_path_names" property="unitPathNames" jdbcType="VARCHAR" />
-    <result column="parent_unit_name" property="parentUnitName" jdbcType="VARCHAR" />
-    <result column="parent_unit_code" property="parentUnitCode" jdbcType="VARCHAR" />
+    <result column="parent_unit_path_names" property="parentUnitPathNames" jdbcType="VARCHAR" />
+    <result column="parent_unit_path_ids" property="parentUnitPathIds" jdbcType="VARCHAR" />
     
   </resultMap>
   <sql id="Base_Column_List" >
@@ -46,7 +46,7 @@
     apply_depart_code, first_apply_user, create_user_id, create_date, audit_status, update_user_id, 
     update_date, erp_no, supplier_id, supplier_name, supplier_link_man, supplier_mobile_email, 
     origin_place, vote_count, second_supplier_id, second_supplier_name, second_supplier_link_man, 
-    second_supplier_mobile_email,unit_path_ids,unit_path_names,parent_unit_name,parent_unit_code
+    second_supplier_mobile_email,unit_path_ids,unit_path_names,parent_unit_path_names,parent_unit_path_ids
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -69,7 +69,7 @@
       supplier_id, supplier_name, supplier_link_man, 
       supplier_mobile_email, origin_place, vote_count, 
       second_supplier_id, second_supplier_name, second_supplier_link_man, 
-      second_supplier_mobile_email,unit_path_ids,unit_path_names,parent_unit_name,parent_unit_code)
+      second_supplier_mobile_email,unit_path_ids,unit_path_names,parent_unit_path_names,parent_unit_path_ids)
     values (#{equipmentId,jdbcType=VARCHAR}, #{equipmentCode,jdbcType=VARCHAR}, #{isLinkedProject,jdbcType=VARCHAR}, 
       #{name,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{unitPrice,jdbcType=DECIMAL}, 
       #{allPrice,jdbcType=DECIMAL}, #{applyAcount,jdbcType=INTEGER}, #{specification,jdbcType=VARCHAR}, 
@@ -83,8 +83,8 @@
       #{secondSupplierMobileEmail,jdbcType=VARCHAR}
       ,#{unitPathIds,jdbcType=VARCHAR}
       ,#{unitPathNames,jdbcType=VARCHAR}
-      ,#{parentUnitName,jdbcType=VARCHAR}
-      ,#{parentUnitCode,jdbcType=VARCHAR}
+      ,#{parentUnitPathNames,jdbcType=VARCHAR}
+      ,#{parentUnitPathIds,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.pcitc.base.stp.equipment.SreEquipment" >
@@ -189,11 +189,11 @@
       <if test="unitPathNames != null" >
         unit_path_names,
       </if>
-      <if test="parentUnitName != null" >
-        parent_unit_name,
+      <if test="parentUnitPathNames != null" >
+        parent_unit_path_names,
       </if>
-      <if test="parentUnitCode != null" >
-        parent_unit_code,
+      <if test="parentUnitPathIds != null" >
+        parent_unit_path_ids,
       </if>
       
       
@@ -302,11 +302,11 @@
       </if>
       
       
-       <if test="parentUnitName != null" >
-        #{parentUnitName,jdbcType=VARCHAR},
+       <if test="parentUnitPathNames != null" >
+        #{parentUnitPathNames,jdbcType=VARCHAR},
       </if>
-       <if test="parentUnitCode != null" >
-        #{parentUnitCode,jdbcType=VARCHAR},
+       <if test="parentUnitPathIds != null" >
+        #{parentUnitPathIds,jdbcType=VARCHAR},
       </if>
       
       
@@ -413,11 +413,11 @@
         unit_path_names = #{unitPathNames,jdbcType=VARCHAR},
       </if>
       
-      <if test="parentUnitName != null" >
-        parent_unit_name = #{parentUnitName,jdbcType=VARCHAR},
+      <if test="parentUnitPathNames != null" >
+        parent_unit_path_names = #{parentUnitPathNames,jdbcType=VARCHAR},
       </if>
-      <if test="parentUnitCode != null" >
-        parent_unit_code = #{parentUnitCode,jdbcType=VARCHAR},
+      <if test="parentUnitPathIds != null" >
+        parent_unit_path_ids = #{parentUnitPathIds,jdbcType=VARCHAR},
       </if>
       
     </set>
@@ -434,8 +434,8 @@
       apply_acount = #{applyAcount,jdbcType=INTEGER},
       specification = #{specification,jdbcType=VARCHAR},
       
-      parent_unit_name = #{parentUnitName,jdbcType=VARCHAR},
-      parent_unit_code = #{parentUnitCode,jdbcType=VARCHAR},
+      parent_unit_path_names = #{parentUnitPathNames,jdbcType=VARCHAR},
+      parent_unit_path_ids = #{parentUnitPathIds,jdbcType=VARCHAR},
       
       
       notes = #{notes,jdbcType=VARCHAR},

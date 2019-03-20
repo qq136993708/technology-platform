@@ -78,15 +78,82 @@ public class SreProjectTask {
 
     private String leadUnitName;
     
-    
     private String setupId;
     private String unitPathIds;
     private String unitPathNames;
-    private String parentUnitName;
-    private String parentUnitCode;
+    private String parentUnitPathNames;
+    private String parentUnitPathIds;
+    private String createUnitName;
+    private String createUnitCode;
+    
+    
+    private String applyUnitPathCode;
+    private String parentApplyUnitPathCode;
+    private String parentApplyUnitPathName;
+    
+    
+    
+    
+    
     
 
-    public String getUnitPathIds() {
+    public String getApplyUnitPathCode() {
+		return applyUnitPathCode;
+	}
+
+	public void setApplyUnitPathCode(String applyUnitPathCode) {
+		this.applyUnitPathCode = applyUnitPathCode;
+	}
+
+	public String getParentApplyUnitPathCode() {
+		return parentApplyUnitPathCode;
+	}
+
+	public void setParentApplyUnitPathCode(String parentApplyUnitPathCode) {
+		this.parentApplyUnitPathCode = parentApplyUnitPathCode;
+	}
+
+	public String getParentApplyUnitPathName() {
+		return parentApplyUnitPathName;
+	}
+
+	public void setParentApplyUnitPathName(String parentApplyUnitPathName) {
+		this.parentApplyUnitPathName = parentApplyUnitPathName;
+	}
+
+	public String getParentUnitPathNames() {
+		return parentUnitPathNames;
+	}
+
+	public void setParentUnitPathNames(String parentUnitPathNames) {
+		this.parentUnitPathNames = parentUnitPathNames;
+	}
+
+	public String getParentUnitPathIds() {
+		return parentUnitPathIds;
+	}
+
+	public void setParentUnitPathIds(String parentUnitPathIds) {
+		this.parentUnitPathIds = parentUnitPathIds;
+	}
+
+	public String getCreateUnitName() {
+		return createUnitName;
+	}
+
+	public void setCreateUnitName(String createUnitName) {
+		this.createUnitName = createUnitName;
+	}
+
+	public String getCreateUnitCode() {
+		return createUnitCode;
+	}
+
+	public void setCreateUnitCode(String createUnitCode) {
+		this.createUnitCode = createUnitCode;
+	}
+
+	public String getUnitPathIds() {
 		return unitPathIds;
 	}
 
@@ -102,21 +169,7 @@ public class SreProjectTask {
 		this.unitPathNames = unitPathNames;
 	}
 
-	public String getParentUnitName() {
-		return parentUnitName;
-	}
-
-	public void setParentUnitName(String parentUnitName) {
-		this.parentUnitName = parentUnitName;
-	}
-
-	public String getParentUnitCode() {
-		return parentUnitCode;
-	}
-
-	public void setParentUnitCode(String parentUnitCode) {
-		this.parentUnitCode = parentUnitCode;
-	}
+	
 
 	public String getSetupId() {
 		return setupId;

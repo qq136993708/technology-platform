@@ -6,12 +6,16 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
 import com.pcitc.base.stp.equipment.SreEquipment;
 import com.pcitc.base.stp.equipment.SreProject;
 import com.pcitc.base.stp.equipment.SreProjectSetup;
 import com.pcitc.base.stp.equipment.SreProjectTask;
+import com.pcitc.base.system.SysUnit;
 import com.pcitc.base.system.SysUserProperty;
 
 public class EquipmentUtils {
@@ -248,7 +252,19 @@ public class EquipmentUtils {
 	}
 	
 	
+	public static SysUnit getUnitByUnitPath(String unitPath,RestTemplate restTemplate,HttpHeaders httpHeaders) throws Exception
+	{
+		 String UNIT_GET_UNIT = "http://pcitc-zuul/system-proxy/unit-provider/unit/getUnitByUnitPath/";
+		 SysUnit unit = restTemplate.exchange(UNIT_GET_UNIT + unitPath, HttpMethod.POST, new HttpEntity<Object>(httpHeaders), SysUnit.class).getBody();
+		 return unit;
+	}
 	
+	
+	/*public static void main(String[] args) {
+		String ssr="02140001";
+		ssr=ssr.substring(0, ssr.length()-4);
+		System.out.println("ssr="+ssr);
+	}*/
 	
 
 }

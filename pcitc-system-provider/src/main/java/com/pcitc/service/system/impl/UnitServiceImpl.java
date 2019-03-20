@@ -419,6 +419,19 @@ public class UnitServiceImpl implements UnitService {
 		}
 		return null;
 	}
+	
+	public SysUnit getUnitByUnitPath(String unitPath)
+	{
+		SysUnitExample example = new SysUnitExample();
+		SysUnitExample.Criteria cr = example.createCriteria();
+		cr.andUnitPathEqualTo(unitPath) ;
+		List<SysUnit> units = unitMapper.selectByExample(example);
+		if(units != null && units.size()>0) {
+			return units.get(0);
+		}
+		return null;
+	}
+	
 
 	@Override
 	public String getUnitZTreeListByName(String name) {

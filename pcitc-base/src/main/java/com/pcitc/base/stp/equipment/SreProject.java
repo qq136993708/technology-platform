@@ -97,10 +97,26 @@ public class SreProject {
     
     private String unitPathIds;
     private String unitPathNames;
-    private String parentUnitName;
-    private String parentUnitCode;
+    private String parentUnitPathNames;
+    private String parentUnitPathIds;
     
     
+
+	public String getParentUnitPathNames() {
+		return parentUnitPathNames;
+	}
+
+	public void setParentUnitPathNames(String parentUnitPathNames) {
+		this.parentUnitPathNames = parentUnitPathNames;
+	}
+
+	public String getParentUnitPathIds() {
+		return parentUnitPathIds;
+	}
+
+	public void setParentUnitPathIds(String parentUnitPathIds) {
+		this.parentUnitPathIds = parentUnitPathIds;
+	}
 
 	public String getUnitPathIds() {
 		return unitPathIds;
@@ -118,21 +134,7 @@ public class SreProject {
 		this.unitPathNames = unitPathNames;
 	}
 
-	public String getParentUnitName() {
-		return parentUnitName;
-	}
-
-	public void setParentUnitName(String parentUnitName) {
-		this.parentUnitName = parentUnitName;
-	}
-
-	public String getParentUnitCode() {
-		return parentUnitCode;
-	}
-
-	public void setParentUnitCode(String parentUnitCode) {
-		this.parentUnitCode = parentUnitCode;
-	}
+	
 
 	public String getId() {
         return id;
