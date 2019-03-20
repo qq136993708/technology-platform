@@ -648,7 +648,7 @@ public class BudgetStockTotalProviderClient
 			root.setLevelCode(-1);
 			root.setName("股份公司");
 			nodes.add(root);
-			List<BudgetStockTotal> totals = budgetStockTotalService.selectBudgetInfoId(budgetId);
+			List<BudgetStockTotal> totals = budgetStockTotalService.selectItemsByBudgetId(budgetId);
 			for(BudgetStockTotal total:totals) {
 				TreeNode node = new TreeNode();
 				node.setId(total.getDataId());

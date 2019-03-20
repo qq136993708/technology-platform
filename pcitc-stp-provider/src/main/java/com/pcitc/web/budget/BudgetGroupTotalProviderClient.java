@@ -534,7 +534,7 @@ public class BudgetGroupTotalProviderClient
 		{
 			List<BudgetInfo> rs = budgetInfoService.selectFinalBudgetInfoList(BudgetInfoEnum.GROUP_TOTAL.getCode());
 			for(BudgetInfo info:rs) {
-				List<BudgetGroupTotal> totals = budgetGroupTotalService.selectBudgetInfoId(info.getDataId());
+				List<BudgetGroupTotal> totals = budgetGroupTotalService.selectItemsByBudgetId(info.getDataId());
 				Map<String,Object> map  = MyBeanUtils.transBean2Map(info);
 				
 				List<Map<String,Object>> items = new ArrayList<Map<String,Object>>();

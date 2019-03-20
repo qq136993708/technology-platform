@@ -97,7 +97,7 @@ public class BudgetGroupTotalServiceImpl implements BudgetGroupTotalService
 	}
 
 	@Override
-	public List<BudgetGroupTotal> selectBudgetInfoId(String budgetInfoId) throws Exception
+	public List<BudgetGroupTotal> selectItemsByBudgetId(String budgetInfoId) throws Exception
 	{
 		BudgetGroupTotalExample example = new BudgetGroupTotalExample();
 		BudgetGroupTotalExample.Criteria c = example.createCriteria();

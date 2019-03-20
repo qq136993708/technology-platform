@@ -533,7 +533,7 @@ public class BudgetAssetTotalProviderClient
 		{
 			List<BudgetInfo> rs = budgetInfoService.selectFinalBudgetInfoList(BudgetInfoEnum.ASSETS_TOTAL.getCode());
 			for(BudgetInfo info:rs) {
-				List<BudgetAssetTotal> totals = budgetAssetTotalService.selectBudgetInfoId(info.getDataId());
+				List<BudgetAssetTotal> totals = budgetAssetTotalService.selectItemsByBudgetId(info.getDataId());
 				Map<String,Object> map  = MyBeanUtils.transBean2Map(info);
 				map.put("items", totals);
 				rsmap.add(map);
@@ -663,5 +663,19 @@ public class BudgetAssetTotalProviderClient
 		}
 		return null;
 	}
-	
+	@ApiOperation(value="资产公司预算-获取指定年度最终预算表",notes="获取指定年度最终预算表信息及列表")
+	@RequestMapping(value = "/stp-provider/budget/callback-workflow-assettotal-notice")
+	public Object selectFinalAssetTotalInfo(@RequestParam(value = "nd", required = true) String nd) throws Exception 
+	{
+		BudgetInfo info = budgetInfoService.selectFinalBudget(nd, BudgetInfoEnum.ASSETS_TOTAL.getCode());
+		Map<String,Object> rsmap = new HashMap<String,Object>();
+		if(info != null) {
+			rsmap = MyBeanUtils.transBean2Map(info);
+			List<BudgetAssetTotal> totals = budgetAssetTotalService.selectItemsByBudgetId(info.getDataId());
+			for(BudgetAssetTotal total:totals) {
+				
+			}
+		}
+		return rsmap;
+	}
 }
