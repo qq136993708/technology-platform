@@ -29,8 +29,8 @@ import com.pcitc.base.common.TreeNode;
 import com.pcitc.base.common.enums.BudgetAuditStatusEnum;
 import com.pcitc.base.common.enums.BudgetItemTypeEnum;
 import com.pcitc.base.common.enums.DelFlagEnum;
-import com.pcitc.base.stp.budget.BudgetStockTotal;
 import com.pcitc.base.stp.budget.BudgetInfo;
+import com.pcitc.base.stp.budget.BudgetStockTotal;
 import com.pcitc.base.stp.out.OutProjectInfo;
 import com.pcitc.base.stp.out.OutProjectPlan;
 import com.pcitc.base.stp.out.OutUnit;
@@ -40,8 +40,8 @@ import com.pcitc.base.util.IdUtil;
 import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.common.BudgetInfoEnum;
-import com.pcitc.service.budget.BudgetStockTotalService;
 import com.pcitc.service.budget.BudgetInfoService;
+import com.pcitc.service.budget.BudgetStockTotalService;
 import com.pcitc.service.feign.SystemRemoteClient;
 
 import io.swagger.annotations.Api;
@@ -318,7 +318,9 @@ public class BudgetStockTotalProviderClient
 				stock = (BudgetStockTotal)MyBeanUtils.createDefaultModel(BudgetStockTotal.class);
 				MyBeanUtils.copyPropertiesIgnoreNull(item, stock);
 				stock.setDelFlag(DelFlagEnum.STATUS_NORMAL.getCode());
+				stock.setItemType(BudgetItemTypeEnum.BUDGET_ITEM_PROJECT.getCode());
 				stock.setNd(info.getNd());
+				stock.setLevel("0".equals(stock.getParentDataId())?0:1);//
 				stock.setCreateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
 				stock.setUpdateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
 				stock.setDataVersion(info.getDataVersion());
@@ -366,7 +368,7 @@ public class BudgetStockTotalProviderClient
 		{
 			BudgetStockTotal to = JSON.parseObject(map.get("item").toString(), BudgetStockTotal.class);
 			//原有全部逻辑删除（包括已删除的）
-			List<BudgetStockTotal> childlist = budgetStockTotalService.selectChildBudgetStockTotalAll(to.getDataId());
+			List<BudgetStockTotal> childlist = budgetStockTotalService.selectBudgetStockTotalCompanyItem(to.getDataId());
 			Map<String,BudgetStockTotal> oldmap = new HashMap<String,BudgetStockTotal>();
 			for(BudgetStockTotal t:childlist){
 				budgetStockTotalService.deleteBudgetStockTotal(t.getDataId());
@@ -648,8 +650,12 @@ public class BudgetStockTotalProviderClient
 			root.setLevelCode(-1);
 			root.setName("股份公司");
 			nodes.add(root);
-			List<BudgetStockTotal> totals = budgetStockTotalService.selectBudgetInfoId(budgetId);
+			List<BudgetStockTotal> totals = budgetStockTotalService.selectItemsByBudgetId(budgetId);
 			for(BudgetStockTotal total:totals) {
+				//只显示一级
+				if(total.getLevel()>0) {
+					continue;
+				}
 				TreeNode node = new TreeNode();
 				node.setId(total.getDataId());
 				node.setpId(root.getId());
@@ -663,8 +669,26 @@ public class BudgetStockTotalProviderClient
 			e.printStackTrace();
 		}
 		return nodes;
-		
-		
 	}
-	
+	@ApiOperation(value="股份公司预算-获取指定年度最终预算表",notes="获取指定年度最终预算表信息及列表")
+	@RequestMapping(value = "/stp-provider/budget/get-final-stocktotal", method = RequestMethod.POST)
+	public Object selectFinalStockTotalInfo(@RequestBody String nd) throws Exception 
+	{
+		BudgetInfo info = budgetInfoService.selectFinalBudget(nd, BudgetInfoEnum.STOCK_TOTAL.getCode());
+		Map<String,Object> rsmap = new HashMap<String,Object>();
+		if(info != null) {
+			rsmap = MyBeanUtils.transBean2Map(info);
+			List<BudgetStockTotal> totals = budgetStockTotalService.selectItemsByBudgetId(info.getDataId());
+			Double items_total = 0d;
+			for(BudgetStockTotal total:totals) {
+				items_total += total.getXmjfTotal();
+			}
+			rsmap.put("items", totals);
+			rsmap.put("items_total", items_total);
+		}else {
+			rsmap.put("items", new ArrayList<BudgetStockTotal>());
+			rsmap.put("items_total", 0);
+		}
+		return rsmap;
+	}
 }
