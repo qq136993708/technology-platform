@@ -18,6 +18,8 @@
 <input  name="userIds"        id="userIds"         type="hidden">
 <input  name="taskId"         id="taskId"          type="hidden" >
 <input  name="leadUnitCode"   id="leadUnitCode"    value="${leadUnitCode}"        type="hidden" >
+<input  name="parentUnitPathIds"   id="parentUnitPathIds"    value="${parentUnitPathIds}"        type="hidden" >
+
 </form>
 
     <!--查询条件-->
@@ -419,7 +421,7 @@ var name=$('#name').val();
             elem: '#processdef-table',
             url: '/sre_project_task/list',
             method:"POST",
-            where: {param: {"topicName":$("#topicName").val(),"auditStatus":$("#auditStatus").val(),"innerAuditStatus":$("#innerAuditStatus").val(),"setupYear":$("#setupYear").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"professionalDepartName":$("#professionalDepartName").val(),"professionalFieldName":$("#professionalFieldName").val()}},
+            where: {param: {"topicName":$("#topicName").val(),"auditStatus":$("#auditStatus").val(),"innerAuditStatus":$("#innerAuditStatus").val(),"setupYear":$("#setupYear").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"professionalDepartName":$("#professionalDepartName").val(),"professionalFieldName":$("#professionalFieldName").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
             limit: 15,	
             id: 'processdef-table',
             height: commonDislodgeTable(),
@@ -434,23 +436,27 @@ var name=$('#name').val();
             cols: [[
             	{type : 'checkbox', event : 'changeEvents', width : 55},
             	{title : '序号', type :'numbers', width : 55},
-            	{field : 'innerAuditStatus',    title : '院内确认状态',   style : 'cursor: pointer;', align: 'center', width : 100,templet : '#innerAuditStatus_temp'},
-            	{field : 'auditStatus',    title : '总部审核状态',        style : 'cursor: pointer;', align: 'center', width : 100,templet : '#auditStatus_tepm'},
-            	
-            	
-                {field : 'topicName',     title : '课题名称',    style : 'cursor: pointer;', align: 'center',templet:function(d){return '<span onclick="view_project(\''+d.topicId+'\')" style="color:#17a2b8">查看</span>'}},
-                {field : 'topicName',     title : '任务书名称', style : 'cursor: pointer;', align: 'left',templet:function(d){return '<span   onclick="view_isWriteTask(\''+d.taskId+'\')" style="color: #17a2b8">'+d.topicName+'</span>'}},
-                {field : 'isWriteSetup',  title : '立项报告否填写', style : 'cursor: pointer;', align: 'center',templet:function(d){return '<span   onclick="view_isWriteSetup(\''+d.setupId+'\')" style="color: #17a2b8">查看</span>'}},
-                {field : 'contractNum', title : '合同号', style : 'cursor: pointer;', align: 'center'},
-                {field : 'setupYear', title : '立项年份', style : 'cursor: pointer;', align: 'center'},
-                {field : 'projectMoney', title : '总经费(万元)', style : 'cursor: pointer;', align: 'center',templet:function(d){return '<span style="color:red">'+d.projectMoney+'</span>'}},
-                {field : 'leadUnitName', title : '承担单位', style : 'cursor: pointer;', align: 'left'},
-                {field : 'belongDepartmentName',   title : '归属部门', style : 'cursor: pointer;', align: 'left'},
-                {field : 'professionalDepartName', title : '专业处',  style : 'cursor: pointer;', align: 'left'},
-                {field : 'professionalFieldName',  title : '专业领域', style : 'cursor: pointer;', align: 'left'},
-                {field : 'applyUnitName', title : '申报单位', style : 'cursor: pointer;', align: 'left'},
-                {field : 'createUserName', title : '申报人', style : 'cursor: pointer;', align: 'left'},
-                {field : 'createDate', title : '任务书填写时间', style : 'cursor: pointer;', align: 'center', templet : '#dateTpl'}
+            	{field : 'innerAuditStatus',    title : '院内确认状态',   style : 'cursor: pointer;', align: 'center', width : '10%', width : 100,templet : '#innerAuditStatus_temp'},
+            	{field : 'auditStatus',    title : '总部审核状态',        style : 'cursor: pointer;', align: 'center', width : '10%', width : 100,templet : '#auditStatus_tepm'},
+                {field : 'topicName',     title : '课题名称',    style : 'cursor: pointer;', align: 'center', width : '10%',templet:function(d){return '<span onclick="view_project(\''+d.topicId+'\')" style="color:#17a2b8">查看</span>'}},
+                {field : 'topicName',     title : '任务书名称', style : 'cursor: pointer;', align: 'left', width : '10%',templet:function(d){return '<span   onclick="view_isWriteTask(\''+d.taskId+'\')" style="color: #17a2b8">'+d.topicName+'</span>'}},
+                {field : 'isWriteSetup',  title : '立项报告否填写', style : 'cursor: pointer;', align: 'center', width : '10%',templet:function(d){return '<span   onclick="view_isWriteSetup(\''+d.setupId+'\')" style="color: #17a2b8">查看</span>'}},
+                {field : 'contractNum', title : '合同号', style : 'cursor: pointer;', align: 'center', width : '10%'},
+                {field : 'setupYear', title : '立项年份', style : 'cursor: pointer;', align: 'center', width : '10%'},
+                {field : 'projectMoney', title : '总经费(万元)', style : 'cursor: pointer;', align: 'center', width : '10%',templet:function(d){return '<span style="color:red">'+d.projectMoney+'</span>'}},
+                {field : 'leadUnitName', title : '承担单位', style : 'cursor: pointer;', align: 'left', width : '20%'},
+                {field : 'belongDepartmentName',   title : '归属部门', style : 'cursor: pointer;', align: 'left', width : '10%'},
+                {field : 'professionalDepartName', title : '专业处',  style : 'cursor: pointer;', align: 'left', width : '10%'},
+                {field : 'professionalFieldName',  title : '专业领域', style : 'cursor: pointer;', align: 'left', width : '10%'},
+                {field : 'applyUnitName', title : '申报单位', style : 'cursor: pointer;', align: 'left', width : '10%'},
+                
+                {field : 'parentUnitPathNames',    title : '填写单位', style : 'cursor: pointer;', align: 'left', width : '20%'},
+                {field : 'createUnitName',         title : '填写部门', style : 'cursor: pointer;', align: 'left', width : '10%'},
+                {field : 'createUserName',         title : '填写人', style : 'cursor: pointer;', align: 'left', width : '10%'},
+                {field : 'createDate',             title : '任务书填写时间', style : 'cursor: pointer;', align: 'center', width : '10%', templet : '#dateTpl'},
+                {field : 'parentApplyUnitPathName',   title : '上报单位',  style : 'cursor: pointer;', align: 'left', width : '20%'},
+                {field : 'applyUnitName',             title : '上报部门',  style : 'cursor: pointer;', align: 'left', width : '10%'},
+                {field : 'applyUserName',             title : '上报人',    style : 'cursor: pointer;', align: 'left', width : '10%'}
             ]],
             done: function (res, curr, count) {
                 // 点击行联动选择框--单选
@@ -683,9 +689,8 @@ var name=$('#name').val();
     	                      {icon: 1,closeBtn: 0 },
     	                      function () 
     	                      {
-    	                    	  var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
-    	                          parent.layer.close(index);  // 关闭layer
-    	                    	  parent.location.href=backurl;
+    	                    	  renderTable();
+   	                    	      layer.closeAll();
     	                      });
     	        	  
     	          } else

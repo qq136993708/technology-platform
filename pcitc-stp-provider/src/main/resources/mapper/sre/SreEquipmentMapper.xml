@@ -473,6 +473,8 @@
 	     <if test="setupYear != null       and setupYear !=''  ">     AND t.setup_year = #{setupYear}</if>
 	     <if test="auditStatus != null     and auditStatus !=''  ">   AND t.audit_status = #{auditStatus}</if>
 	     <if test="applyDepartCode != null        and applyDepartCode !=''  ">       AND t.apply_depart_code = #{applyDepartCode}</if>
+	     <if test="unitPathIds != null             and unitPathIds !=''  ">           AND t.unit_path_ids = #{unitPathIds}</if>
+	     <if test="parentUnitPathIds != null       and parentUnitPathIds !=''  ">     AND t.parent_unit_path_ids = #{parentUnitPathIds}</if>
 	     <if test="sqlStr != null   and sqlStr !='' ">      AND  ${sqlStr}</if>
 	 </trim>
 	</sql>

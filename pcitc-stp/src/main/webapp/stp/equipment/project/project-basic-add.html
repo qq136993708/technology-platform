@@ -42,7 +42,7 @@
             <input name="yearFeeStr" id="yearFeeStr" value="${sreProjectBasic.yearFeeStr}" type="hidden">
             <input name="functionId" id="functionId" type="hidden">
             <input name="userIds" id="userIds" type="hidden">
-            <input name="leadUnitCode" id="leadUnitCode" value="${sreProjectBasic.leadUnitCode}" type="hidden">
+              <input name="leadUnitCode" id="leadUnitCode" value="${leadUnitCode}" type="hidden">
             <input name="joinUnitCode" id="joinUnitCode" value="${sreProjectBasic.joinUnitCode}" type="hidden">
             <input name="entrustUnitCode" id="entrustUnitCode" value="${sreProjectBasic.entrustUnitCode}" type="hidden">
             <input name="belongDepartmentCode" id="belongDepartmentCode" value="${sreProjectBasic.belongDepartmentCode}"
@@ -630,8 +630,9 @@
                         return '<span style="color:red">' + d.allPrice + '</span>'
                     }
                 },
-                {field: 'applyDepartName', title: '申报部门', style: 'cursor: pointer;', align: 'center', width: '16%'},
-                {field: 'firstApplyUser', title: '第一申报人', style: 'cursor: pointer;', align: 'center', width: '10%'}
+                {field : 'parentUnitPathNames', title : '申报单位', style : 'cursor: pointer;', align : 'left', width : '30%'},
+                {field : 'applyDepartName', title : '申报部门', style : 'cursor: pointer;', align : 'left', width : '20%'},
+                {field: 'firstApplyUser', title: '申报人', style: 'cursor: pointer;', align: 'center', width: '10%'}
 
             ]],
             done: function (res, curr, count) {

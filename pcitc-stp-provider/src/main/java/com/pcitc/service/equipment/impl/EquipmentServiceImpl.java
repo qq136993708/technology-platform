@@ -116,13 +116,16 @@ public class EquipmentServiceImpl implements EquipmentService {
 		String auditStatus=getTableParam(param,"auditStatus","");
 		String applyDepartName=getTableParam(param,"applyDepartName","");
 		String applyDepartCode=getTableParam(param,"applyDepartCode","");
+		String unitPathIds=getTableParam(param,"unitPathIds","");
+		String parentUnitPathIds=getTableParam(param,"parentUnitPathIds","");
+		
 		Map map=new HashMap();
 		map.put("name", name);
 		map.put("equipmentIds", equipmentIds);
 		map.put("auditStatus", auditStatus);
-		
 		map.put("applyDepartName", applyDepartName);
-		
+		map.put("unitPathIds", unitPathIds);
+		map.put("parentUnitPathIds", parentUnitPathIds);
 		
 		System.out.println(">>>>>>>>applyDepartCode="+applyDepartCode);
 		StringBuffer applyUnitCodeStr=new StringBuffer();
@@ -223,8 +226,8 @@ public class EquipmentServiceImpl implements EquipmentService {
 		String belongDepartmentName=getTableParam(param,"belongDepartmentName","");
 		String professionalDepartName=getTableParam(param,"professionalDepartName","");
 		
-		
-		
+		String unitPathIds=getTableParam(param,"unitPathIds","");
+		String parentUnitPathIds=getTableParam(param,"parentUnitPathIds","");
 		
 		Map map=new HashMap();
 		map.put("belongDepartmentName", belongDepartmentName);
@@ -247,7 +250,8 @@ public class EquipmentServiceImpl implements EquipmentService {
 		map.put("professionalFieldName", professionalFieldName);
 		map.put("setupId", setupId);
 		map.put("taskId", taskId);
-		
+		map.put("unitPathIds", unitPathIds);
+		map.put("parentUnitPathIds", parentUnitPathIds);
 		System.out.println(">>>>>>>>applyUnitCode="+applyUnitCode);
 		StringBuffer applyUnitCodeStr=new StringBuffer();
 		if(!applyUnitCode.equals(""))
@@ -269,6 +273,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 		}
 		
 		map.put("sqlStr", applyUnitCodeStr.toString());
+		
 		System.out.println(">>>>>>>>sqlstr"+applyUnitCodeStr.toString());
 		List<SreProject> list = sreProjectMapper.getList(map);
 		PageInfo<SreProject> pageInfo = new PageInfo<SreProject>(list);
@@ -347,6 +352,8 @@ public class EquipmentServiceImpl implements EquipmentService {
 		
 		String belongDepartmentName=getTableParam(param,"belongDepartmentName","");
 		String professionalDepartName=getTableParam(param,"professionalDepartName","");
+		String unitPathIds=getTableParam(param,"unitPathIds","");
+		String parentUnitPathIds=getTableParam(param,"parentUnitPathIds","");
 		
 		
 		
@@ -370,7 +377,8 @@ public class EquipmentServiceImpl implements EquipmentService {
 		map.put("professionalFieldCode", professionalFieldCode);
 		map.put("professionalFieldName", professionalFieldName);
 		map.put("setupId", setupId);
-		
+		map.put("unitPathIds", unitPathIds);
+		map.put("parentUnitPathIds", parentUnitPathIds);
 		
 		System.out.println(">>>>>>>>applyUnitCode="+applyUnitCode);
 		StringBuffer applyUnitCodeStr=new StringBuffer();
