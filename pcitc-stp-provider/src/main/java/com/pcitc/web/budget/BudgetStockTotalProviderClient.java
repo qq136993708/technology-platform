@@ -685,6 +685,9 @@ public class BudgetStockTotalProviderClient
 			}
 			rsmap.put("items", totals);
 			rsmap.put("items_total", items_total);
+		}else {
+			rsmap.put("items", new ArrayList<BudgetStockTotal>());
+			rsmap.put("items_total", 0);
 		}
 		return rsmap;
 	}

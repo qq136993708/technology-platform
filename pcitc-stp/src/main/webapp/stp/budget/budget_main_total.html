@@ -94,7 +94,6 @@
                 ,type: 'year'
                 ,done:function (val, date, endDate) {
                 	cu_date = val;
-                	initDataVersion();//初始化预算版本
                 	initEmptyData();//空数据初始化
                 	loadData();//初始化数据
                 	initDateView();//初始化时间显示相关
@@ -169,7 +168,6 @@
 			//空数据初始化
 			function initEmptyData()
 			{
-				reloadDataAndTableFormart();
 				$("#budgetGroupMoney").text(0);
 				$("#budgetAssetMoney").text(0);
             	$("#budgetStockMoney").text(0);

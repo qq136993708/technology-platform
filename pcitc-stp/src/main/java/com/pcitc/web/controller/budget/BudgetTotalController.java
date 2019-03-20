@@ -20,10 +20,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.http.HttpEntity;
@@ -34,18 +37,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
-import com.pcitc.base.common.LayuiTableData;
-import com.pcitc.base.common.LayuiTableParam;
-import com.pcitc.base.common.Result;
-import com.pcitc.base.common.enums.BudgetAuditStatusEnum;
+import com.alibaba.fastjson.JSONArray;
+import com.pcitc.base.stp.budget.BudgetAssetTotal;
+import com.pcitc.base.stp.budget.BudgetGroupTotal;
 import com.pcitc.base.stp.budget.BudgetInfo;
+import com.pcitc.base.stp.budget.BudgetStockTotal;
 import com.pcitc.base.util.DateUtil;
-import com.pcitc.base.util.MyBeanUtils;
-import com.pcitc.base.workflow.WorkflowVo;
 import com.pcitc.web.common.BaseController;
 /**
  * 预算总表
@@ -100,29 +100,74 @@ public class BudgetTotalController extends BaseController {
 	@RequestMapping("/budget/budget_download/total/{nd}")
 	public void downBudgetTotal(@PathVariable("nd") String nd,HttpServletResponse res) throws IOException 
 	{
-		LayuiTableParam param = new LayuiTableParam();
-		param.getParam().put("nd", nd);
-		param.setLimit(100);
-		param.setPage(1);
-		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(BUDGET_TOTAL_ITEMS, HttpMethod.POST, new HttpEntity<LayuiTableParam>(param, this.httpHeaders), LayuiTableData.class);
-		LayuiTableData tabldata = responseEntity.getBody();
-		//System.out.println(JSON.toJSONString(tabldata));
+		List<Map<String,Object>> data = new ArrayList<Map<String,Object>>();
 		
-		ResponseEntity<BudgetInfo> rs = this.restTemplate.exchange(BUDGET_TOTAL_INFO, HttpMethod.POST, new HttpEntity<String>(nd, this.httpHeaders), BudgetInfo.class);
-		BudgetInfo info = rs.getBody();
 		
-		Map<String,String> parammap = new HashMap<String,String>();
-		parammap.put("nd", info.getNd());
+		ResponseEntity<Map> responseEntity = this.restTemplate.exchange(PROJECT_TOTAL_FINAL_STOCK, HttpMethod.POST, new HttpEntity<String>(nd, this.httpHeaders), Map.class);
+		Map stockMap = responseEntity.getBody();
+		Object json = JSON.toJSON(stockMap.get("items"));
+		JSONArray array = JSON.parseArray(json.toString());
+		for(java.util.Iterator<Object> iter = array.iterator();iter.hasNext();) {
+			BudgetStockTotal total = JSON.toJavaObject(JSON.parseObject(iter.next().toString()), BudgetStockTotal.class);
+			Map<String,Object> map = new HashMap<String,Object>();
+			map.put("total", total.getXmjfTotal());
+			map.put("zbx", total.getXmjfZbx());
+			map.put("fyx", total.getXmjfFyx());
+			map.put("no", total.getNo());
+			map.put("displayName", total.getDisplayName());
+			map.put("level", total.getLevel());
+			
+			data.add(map);
+		}
 		
+		
+		responseEntity = this.restTemplate.exchange(PROJECT_TOTAL_FINAL_GROUP, HttpMethod.POST, new HttpEntity<String>(nd, this.httpHeaders), Map.class);
+		Map groupMap = responseEntity.getBody();
+		json = JSON.toJSON(groupMap.get("items"));
+		array = JSON.parseArray(json.toString());
+		Double fyx=0d;
+		for(java.util.Iterator<Object> iter = array.iterator();iter.hasNext();) {
+			BudgetGroupTotal group = JSON.toJavaObject(JSON.parseObject(iter.next().toString()), BudgetGroupTotal.class);
+			fyx += group.getXmjf()+group.getZxjf();
+		}
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("total", fyx);
+		map.put("zbx", 0d);
+		map.put("fyx", fyx);
+		map.put("no", 0);
+		map.put("displayName", "二、集团公司合计");
+		map.put("level", -1);
+		
+		data.add(map);
+		
+		
+		responseEntity = this.restTemplate.exchange(PROJECT_TOTAL_FINAL_ASSET, HttpMethod.POST, new HttpEntity<String>(nd, this.httpHeaders), Map.class);
+		Map assetMap = responseEntity.getBody();
+		json = JSON.toJSON(assetMap.get("items"));
+		array = JSON.parseArray(json.toString());
+		fyx=0d;
+		for(java.util.Iterator<Object> iter = array.iterator();iter.hasNext();) {
+			BudgetAssetTotal asset = JSON.toJavaObject(JSON.parseObject(iter.next().toString()), BudgetAssetTotal.class);
+			fyx += asset.getXmjf();
+		}
+		map = new HashMap<String,Object>();
+		map.put("total", fyx);
+		map.put("zbx", 0d);
+		map.put("fyx", fyx);
+		map.put("no", 0);
+		map.put("displayName", "三、股份公司合计");
+		map.put("level", -1);
+		
+		data.add(map);
 		
 		URL path = this.getClass().getResource("/");
 		File f = new File(path.getPath() + "static/budget/budget_total_template.xlsx");
 		//System.out.println(f.getAbsolutePath());
 		//写入新文件2019年集团公司总部科技经费预算
-		String newFilePath = path.getPath() + "static/budget/"+info.getNd()+"年股份公司总部科技经费预算（调整稿）_"+DateUtil.dateToStr(new Date(), "yyyyMMddHHmmss")+".xlsx";
+		String newFilePath = path.getPath() + "static/budget/"+nd+"年总部科技经费预算（调整稿）_"+DateUtil.dateToStr(new Date(), "yyyyMMddHHmmss")+".xlsx";
 		File outFile = new File(newFilePath);
 		
-		processDataAndDownload(f,new ArrayList(tabldata.getData()),parammap,outFile);
+		processDataAndDownload(f,new ArrayList(data),nd,outFile);
 	    //下载文件
 		this.fileDownload(new File(newFilePath), res);
 	}
@@ -131,24 +176,20 @@ public class BudgetTotalController extends BaseController {
 	
 	private XSSFWorkbook workbook;
 	private XSSFSheet sheet;
-	private void processDataAndDownload(File template,List<Map<String,Object>> list,Map<String,String> param,File outFile) 
+	private void processDataAndDownload(File template,List<Map<String,Object>> list,String ndStr,File outFile) 
 	{
 		try {
 			InputStream is = new FileInputStream(template);
 			workbook = new XSSFWorkbook(is);
 			sheet = workbook.getSheetAt(0);
 			
-			Integer nd = Integer.parseInt(param.get("nd"));
 			//处理标题 年度
 			String title = readCell(sheet.getRow(0).getCell(0));
 			String itemTitleJfys = readCell(sheet.getRow(2).getCell(2));
-			String itemTitleYjwc = readCell(sheet.getRow(2).getCell(5));
-			String itemTitleXmjf = readCell(sheet.getRow(2).getCell(8));
 			
-			sheet.getRow(0).getCell(0).setCellValue(title.replace("${nd}", nd.toString()));
-			sheet.getRow(2).getCell(2).setCellValue(itemTitleJfys.replace("${yd}", new Integer(nd-1).toString()));
-			sheet.getRow(2).getCell(5).setCellValue(itemTitleYjwc.replace("${yd}", new Integer(nd-1).toString()));
-			sheet.getRow(2).getCell(8).setCellValue(itemTitleXmjf.replace("${nd}", nd.toString()));
+			sheet.getRow(0).getCell(0).setCellValue(title.replace("${nd}", ndStr));
+			sheet.getRow(2).getCell(2).setCellValue(itemTitleJfys.replace("${nd}",ndStr));
+			
 			//从第四行开始，第五行是汇总数据
 			Row templateRow = sheet.getRow(4);
 			
@@ -175,41 +216,27 @@ public class BudgetTotalController extends BaseController {
 			totalRow.createCell(2).setCellValue("");
 			totalRow.createCell(3).setCellValue("");
 			totalRow.createCell(4).setCellValue("");
-			totalRow.createCell(5).setCellValue("");
-			totalRow.createCell(6).setCellValue("");
-			totalRow.createCell(7).setCellValue("");
-			totalRow.createCell(8).setCellValue("");
-			totalRow.createCell(9).setCellValue("");
-			totalRow.createCell(10).setCellValue("");
 			
-			Double allYjwcTotal = 0d;
-			Double allYjwcZbx = 0d;
-			Double allYjwcFyx = 0d;
-			Double allXmjfTotal = 0d;
-			Double allXmjfZbx = 0d;
-			Double allXmjfFyx = 0d;
+			
+			
+			Double stock_total = 0d;
+			Double stock_zbx = 0d;
+			Double stock_fyx = 0d;
 			for(int i = 0;i<list.size();i++) {
 				
 				Integer no = (Integer)list.get(i).get("no");
 				String displayName = list.get(i).get("displayName").toString();
 				Integer level = (Integer)list.get(i).get("level");
+				Double total = (Double)list.get(i).get("total");
+				Double zbx = (Double)list.get(i).get("zbx");
+				Double fyx = (Double)list.get(i).get("fyx");
+			
+				if(level==0) {//只求集团总数
+					stock_total += total;
+					stock_zbx += zbx;
+					stock_fyx += fyx;
+				}
 				
-				
-				String l_hj = "无";
-				String l_zbx = "无";
-				String l_fyx = "无";
-				Double yjwcTotal = (Double)list.get(i).get("yjwcTotal");
-				Double yjwcZbx = (Double)list.get(i).get("yjwcZbx");
-				Double yjwcFyx = (Double)list.get(i).get("yjwcFyx");
-				Double xmjfTotal = (Double)list.get(i).get("xmjfTotal");
-				Double xmjfZbx = (Double)list.get(i).get("xmjfZbx");
-				Double xmjfFyx = (Double)list.get(i).get("xmjfFyx");
-				allYjwcTotal += yjwcTotal;
-				allYjwcZbx += yjwcZbx;
-				allYjwcFyx += yjwcFyx;
-				allXmjfTotal += xmjfTotal;
-				allXmjfZbx += xmjfZbx;
-				allXmjfFyx += xmjfFyx;
 				
 				Row crow = sheet.getRow(i+5);
 				if(level == 0) {
@@ -218,15 +245,9 @@ public class BudgetTotalController extends BaseController {
 					crow.createCell(0).setCellValue("");
 				}
 				crow.createCell(1).setCellValue(displayName);
-				crow.createCell(2).setCellValue(l_hj);
-				crow.createCell(3).setCellValue(l_zbx);
-				crow.createCell(4).setCellValue(l_fyx);
-				crow.createCell(5).setCellValue(yjwcTotal);
-				crow.createCell(6).setCellValue(yjwcZbx);
-				crow.createCell(7).setCellValue(yjwcFyx);
-				crow.createCell(8).setCellValue(xmjfTotal);
-				crow.createCell(9).setCellValue(xmjfZbx);
-				crow.createCell(10).setCellValue(xmjfFyx);
+				crow.createCell(2).setCellValue(total);
+				crow.createCell(3).setCellValue(zbx);
+				crow.createCell(4).setCellValue(fyx);
 				
 				
 				
@@ -239,39 +260,47 @@ public class BudgetTotalController extends BaseController {
 				crow.getCell(2).setCellStyle(rightCenterStyle);
 				crow.getCell(3).setCellStyle(rightCenterStyle);
 				crow.getCell(4).setCellStyle(rightCenterStyle);
-				crow.getCell(5).setCellStyle(rightCenterStyle);
-				crow.getCell(6).setCellStyle(rightCenterStyle);
-				crow.getCell(7).setCellStyle(rightCenterStyle);
-				crow.getCell(8).setCellStyle(rightCenterStyle);
-				crow.getCell(9).setCellStyle(rightCenterStyle);
-				crow.getCell(10).setCellStyle(rightCenterStyle);
+				
 			}
-			totalRow.getCell(0).setCellValue("合计");
+			totalRow.getCell(0).setCellValue("一、股份公司合计");
 			totalRow.getCell(1).setCellValue("");
-			totalRow.getCell(2).setCellValue("无");
-			totalRow.getCell(3).setCellValue("无");
-			totalRow.getCell(4).setCellValue("无");
-			totalRow.getCell(5).setCellValue(allYjwcTotal);
-			totalRow.getCell(6).setCellValue(allYjwcZbx);
-			totalRow.getCell(7).setCellValue(allYjwcFyx);
-			totalRow.getCell(8).setCellValue(allXmjfTotal);
-			totalRow.getCell(9).setCellValue(allXmjfZbx);
-			totalRow.getCell(10).setCellValue(allXmjfFyx);
+			totalRow.getCell(2).setCellValue(stock_fyx+stock_zbx);
+			totalRow.getCell(3).setCellValue(stock_zbx);
+			totalRow.getCell(4).setCellValue(stock_fyx);
 			
-			totalRow.getCell(0).setCellStyle(centerStyle);
-			totalRow.getCell(1).setCellStyle(centerStyle);
-			totalRow.getCell(2).setCellStyle(rightCenterStyle);
-			totalRow.getCell(3).setCellStyle(rightCenterStyle);
-			totalRow.getCell(4).setCellStyle(rightCenterStyle);
-			totalRow.getCell(5).setCellStyle(rightCenterStyle);
-			totalRow.getCell(6).setCellStyle(rightCenterStyle);
-			totalRow.getCell(7).setCellStyle(rightCenterStyle);
-			totalRow.getCell(8).setCellStyle(rightCenterStyle);
-			totalRow.getCell(9).setCellStyle(rightCenterStyle);
-			totalRow.getCell(10).setCellStyle(rightCenterStyle);
 			
+			
+			sheet.getRow(list.size()+3).getCell(0).setCellValue("二、集团公司合计");
+			sheet.getRow(list.size()+4).getCell(0).setCellValue("三、资产公司合计");
 			//合计单元格合并
 			sheet.addMergedRegion(new CellRangeAddress(4,4,0,1));
+			sheet.addMergedRegion(new CellRangeAddress(list.size()+3,list.size()+3,0,1));
+			sheet.addMergedRegion(new CellRangeAddress(list.size()+4,list.size()+4,0,1));
+			//设置背景色
+			//cs.setFillPattern(XSSFCellStyle.FINE_DOTS );
+			//cs.setFillBackgroundXSSFColor(IndexedColors.RED.getIndex());
+			Integer [] color_rows = new Integer[]{4,list.size()+3,list.size()+4};
+			
+			XSSFCellStyle yellCellCenter = workbook.createCellStyle();
+			yellCellCenter.cloneStyleFrom(centerStyle);
+			yellCellCenter.setFillForegroundColor(IndexedColors.YELLOW.getIndex());
+			yellCellCenter.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+			
+			XSSFCellStyle yellCellRight = workbook.createCellStyle();
+			yellCellRight.cloneStyleFrom(rightCenterStyle);
+			yellCellRight.setFillForegroundColor(IndexedColors.YELLOW.getIndex());
+			yellCellRight.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+			
+			
+			
+			for(Integer row:color_rows) {
+				sheet.getRow(row).getCell(0).setCellStyle(yellCellCenter);
+				sheet.getRow(row).getCell(1).setCellStyle(yellCellCenter);
+				sheet.getRow(row).getCell(2).setCellStyle(yellCellRight);
+				sheet.getRow(row).getCell(3).setCellStyle(yellCellRight);
+				sheet.getRow(row).getCell(4).setCellStyle(yellCellRight);
+			}
+			
 			//写入新文件
 			FileOutputStream fos  = new FileOutputStream(outFile);
 			workbook.write(fos);

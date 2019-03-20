@@ -32,6 +32,7 @@ import com.pcitc.base.common.enums.DelFlagEnum;
 import com.pcitc.base.stp.budget.BudgetAssetTotal;
 import com.pcitc.base.stp.budget.BudgetGroupTotal;
 import com.pcitc.base.stp.budget.BudgetInfo;
+import com.pcitc.base.stp.budget.BudgetStockTotal;
 import com.pcitc.base.stp.out.OutProjectInfo;
 import com.pcitc.base.stp.out.OutProjectPlan;
 import com.pcitc.base.stp.out.OutUnit;
@@ -687,6 +688,9 @@ public class BudgetGroupTotalProviderClient
 			}
 			rsmap.put("items", totals);
 			rsmap.put("items_total", items_total);
+		}else {
+			rsmap.put("items", new ArrayList<BudgetGroupTotal>());
+			rsmap.put("items_total", 0);
 		}
 		return rsmap;
 	}
