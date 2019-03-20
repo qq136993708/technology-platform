@@ -54,6 +54,7 @@ public class ExpertController extends BaseController {
     private static final String LIST = "http://pcitc-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/zjkbaseinfo_list";
 
     private static final String LIST_RANDOM = "http://pcitc-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/zjkbaseinfo_list_random";
+    private static final String LIST_RANDOM_IMG = "http://pcitc-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/zjkbaseinfo_list_img";
 
     private static final String LIST_index = "http://pcitc-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/zjkbaseinfo_list_index";
 
@@ -150,17 +151,35 @@ public class ExpertController extends BaseController {
         return "stp/expert/pageExpertIndex";
     }
 
+    @RequestMapping(value = "/picIndexImg", method = RequestMethod.GET)
+    @ResponseBody
+    @OperationFilter(modelName = "首页图形展示", actionName = "首页图形展示indexPicTwo")
+    public Object indexPicImg() {
+        ZjkExpert expert = new ZjkExpert();
+        ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LIST_RANDOM_IMG, HttpMethod.POST, new HttpEntity<ZjkExpert>(expert, this.httpHeaders), JSONObject.class);
+//        JSONObject object =responseEntity.getBody() ;
+//        Result result = (Result) retJson.get("results");
+//        request.setAttribute("results", result.getData());
+//        return object.get("result");
+        return JSONArray.toJSONString(responseEntity.getBody().get("results"));
+//        return JSONObject.parseObject(JSONObject.toJSONString(responseEntity.getBody().get("results"))).toString();
+    }
+
     @RequestMapping(value = "/expertIndexNewImg", method = RequestMethod.GET)
     @OperationFilter(modelName = "专家-首页跳转", actionName = "首页跳转pageExpertIndex")
     public String expertIndexNewImg() {
+        //根据条件查询
+        //调用
+        //放入request
         //获取专家列表10条
         //ajax获取专家数据
-        ZjkExpert expert = new ZjkExpert();
-//        expert.setSelect_type("ZJK_XYLY");
-        ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LIST_RANDOM, HttpMethod.POST, new HttpEntity<ZjkExpert>(expert, this.httpHeaders), JSONObject.class);
-        JSONObject retJson = responseEntity.getBody();
-        List<ZjkExpert> list = (List<ZjkExpert>) retJson.get("list");
-        request.setAttribute("expert", list);
+//        ZjkExpert expert = new ZjkExpert();
+////        expert.setSelect_type("ZJK_XYLY");
+//        ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LIST_RANDOM_IMG, HttpMethod.POST, new HttpEntity<ZjkExpert>(expert, this.httpHeaders), JSONObject.class);
+//
+//        JSONObject retJson = responseEntity.getBody();
+//        Result result = (Result) retJson.get("results");
+//        request.setAttribute("results", result.getData());
 
         //机构
         ResponseEntity<String> responseEntityJg = restTemplate.exchange(UNIT_LIST_ZTREE_DATA, HttpMethod.POST, new HttpEntity<Object>("", this.httpHeaders), String.class);
@@ -171,6 +190,7 @@ public class ExpertController extends BaseController {
         List<SysDictionary> dictionarys = this.restTemplate.exchange(DICTIONARY_LIST + "ZJK_XYLY", HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), List.class).getBody();
 
         request.setAttribute("dictionarys", dictionarys);
+
         return "stp/expert/expertIndexNewImg";
     }
 
@@ -478,9 +498,9 @@ public class ExpertController extends BaseController {
     @ResponseBody
     public int addChoiceList() {
         String param = request.getParameter("param");
-        JSONArray array =JSON.parseArray(param);
+        JSONArray array = JSON.parseArray(param);
         List<ZjkChoice> zjkChoices = new ArrayList<>();
-        for (int i = 0,j = array.size(); i < j; i++) {
+        for (int i = 0, j = array.size(); i < j; i++) {
             ZjkChoice record = JSONObject.toJavaObject((JSON) array.get(i), ZjkChoice.class);
             record.setAddUserId(sysUserInfo.getUserId());
             record.setYear(DateUtil.format(new Date(), DateUtil.FMT_YYYY));
@@ -494,7 +514,7 @@ public class ExpertController extends BaseController {
 
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         JSONObject object = new JSONObject();
-        object.put("list",JSONArray.toJSONString(zjkChoices));
+        object.put("list", JSONArray.toJSONString(zjkChoices));
         ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(SAVECHOICE_BAT, HttpMethod.POST, new HttpEntity<JSONObject>(object, this.httpHeaders), Integer.class);
         Integer result = responseEntity.getBody();
         return result;
