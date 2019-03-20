@@ -671,8 +671,8 @@ public class BudgetStockTotalProviderClient
 		return nodes;
 	}
 	@ApiOperation(value="股份公司预算-获取指定年度最终预算表",notes="获取指定年度最终预算表信息及列表")
-	@RequestMapping(value = "/stp-provider/budget/get-final-stocktotal")
-	public Object selectFinalStockTotalInfo(@RequestParam(value = "nd", required = true) String nd) throws Exception 
+	@RequestMapping(value = "/stp-provider/budget/get-final-stocktotal", method = RequestMethod.POST)
+	public Object selectFinalStockTotalInfo(@RequestBody String nd) throws Exception 
 	{
 		BudgetInfo info = budgetInfoService.selectFinalBudget(nd, BudgetInfoEnum.ASSETS_TOTAL.getCode());
 		Map<String,Object> rsmap = new HashMap<String,Object>();

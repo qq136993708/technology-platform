@@ -673,8 +673,8 @@ public class BudgetGroupTotalProviderClient
 		return null;
 	}
 	@ApiOperation(value="集团公司预算-获取指定年度最终预算表",notes="获取指定年度最终预算表信息及列表")
-	@RequestMapping(value = "/stp-provider/budget/get-final-grouptotal")
-	public Object selectFinalGroupTotalInfo(@RequestParam(value = "nd", required = true) String nd) throws Exception 
+	@RequestMapping(value = "/stp-provider/budget/get-final-grouptotal", method = RequestMethod.POST)
+	public Object selectFinalGroupTotalInfo(@RequestBody String nd) throws Exception 
 	{
 		BudgetInfo info = budgetInfoService.selectFinalBudget(nd, BudgetInfoEnum.ASSETS_TOTAL.getCode());
 		Map<String,Object> rsmap = new HashMap<String,Object>();

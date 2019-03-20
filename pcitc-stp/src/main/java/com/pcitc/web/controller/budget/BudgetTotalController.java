@@ -64,13 +64,7 @@ public class BudgetTotalController extends BaseController {
 	private static final String BUDGET_TOTAL_DELETE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-total-del";
 	private static final String BUDGET_TOTAL_GET_ITEM = "http://pcitc-zuul/stp-proxy/stp-provider/budget/get-total-item/";
 	private static final String BUDGET_TOTAL_GET_ITEM_COMPANY = "http://pcitc-zuul/stp-proxy/stp-provider/budget/get-total-item-company/";
-	//private static final String BUDGET_TOTAL_DEL_ITEMS = "http://pcitc-zuul/stp-proxy/stp-provider/budget/del-total-item/";
-	//private static final String BUDGET_TOTAL_SAVE_ITEM = "http://pcitc-zuul/stp-proxy/stp-provider/budget/save-total-item";
-	//private static final String BUDGET_TOTAL_SAVE_ITEMS = "http://pcitc-zuul/stp-proxy/stp-provider/budget/save-total-items";
 	private static final String BUDGET_TOTAL_SAVE_CHILDITEMS = "http://pcitc-zuul/stp-proxy/stp-provider/budget/save-total-childitems";
-	//private static final String BUDGET_TOTAL_COMPANY_ITEMS = "http://pcitc-zuul/stp-proxy/stp-provider/budget/search-stock-company-items";
-	//private static final String BUDGET_TOTAL_COMPANY_TREE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/search-stock-company-tree";
-	//private static final String BUDGET_TOTAL_HISTORY_ITEMS = "http://pcitc-zuul/stp-proxy/stp-provider/budget/search-total-history-items";
 	private static final String BUDGET_TOTAL_FINAL_HISTORY_LIST = "http://pcitc-zuul/stp-proxy/stp-provider/budget/search-total-final-history-list";
 	private static final String BUDGET_TOTAL_COMPARE_PLAN = "http://pcitc-zuul/stp-proxy/stp-provider/budget/select-total-compare-plan";
 	private static final String BUDGET_TOTAL_COMPARE_PROJECT = "http://pcitc-zuul/stp-proxy/stp-provider/budget/select-total-compare-project";
@@ -78,7 +72,11 @@ public class BudgetTotalController extends BaseController {
 	private static final String BUDGET_INFO_UPDATE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-info-update";
 	private static final String BUDGET_INFO_GET = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-info-get/";
 	private static final String PROJECT_NOTICE_WORKFLOW_URL = "http://pcitc-zuul/stp-proxy/stp-provider/budget/start-budget-total-activity/";
-	//private static final String BUDGET_TOTAL_ITEM_TREE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/search-stockitem-tree";
+	
+	
+	private static final String PROJECT_TOTAL_FINAL_GROUP = "http://pcitc-zuul/stp-proxy/stp-provider/budget/get-final-grouptotal";
+	private static final String PROJECT_TOTAL_FINAL_ASSET = "http://pcitc-zuul/stp-proxy/stp-provider/budget/get-final-assettotal";
+	private static final String PROJECT_TOTAL_FINAL_STOCK = "http://pcitc-zuul/stp-proxy/stp-provider/budget/get-final-stocktotal";
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_main_total")
 	public Object toBudgetPage(HttpServletRequest request) throws IOException 
@@ -87,9 +85,7 @@ public class BudgetTotalController extends BaseController {
 		return "stp/budget/budget_main_total";
 	}
 	
-	
-	
-	@RequestMapping(value = "/budget/budget_total_info_list", method = RequestMethod.POST)
+	@RequestMapping(value = "/budget/get_budget_total_info_list", method = RequestMethod.POST)
 	@ResponseBody
 	public Object getBudgetList(@ModelAttribute("info") BudgetInfo info,HttpServletRequest request) throws IOException 
 	{
@@ -97,6 +93,28 @@ public class BudgetTotalController extends BaseController {
 		//System.out.println(JSON.toJSON(responseEntity.getBody()).toString());
 		return JSON.toJSON(responseEntity.getBody()).toString();
 	}
+	
+	
+	
+	
+	
+	@RequestMapping(value = "/budget/budget-total-final", method = RequestMethod.POST)
+	@ResponseBody
+	public Object getFinalBudgetGroupAssetStockList(@ModelAttribute("info") BudgetInfo info,HttpServletRequest request) throws IOException 
+	{
+		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(PROJECT_TOTAL_FINAL_GROUP, HttpMethod.POST, new HttpEntity<BudgetInfo>(info, this.httpHeaders), Object.class);
+		System.out.println(responseEntity.getBody());
+		responseEntity = this.restTemplate.exchange(PROJECT_TOTAL_FINAL_ASSET, HttpMethod.POST, new HttpEntity<BudgetInfo>(info, this.httpHeaders), Object.class);
+		System.out.println(responseEntity.getBody());
+		responseEntity = this.restTemplate.exchange(PROJECT_TOTAL_FINAL_STOCK, HttpMethod.POST, new HttpEntity<BudgetInfo>(info, this.httpHeaders), Object.class);
+		System.out.println(responseEntity.getBody());
+		
+		return JSON.toJSON(responseEntity.getBody()).toString();
+	}
+	
+	
+	
+	
 	@RequestMapping(value = "/budget/budget_total_info_table", method = RequestMethod.POST)
 	@ResponseBody
 	public Object getBudgetTable(@ModelAttribute("param") LayuiTableParam param,HttpServletRequest request) throws IOException 

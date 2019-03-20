@@ -121,6 +121,10 @@
                 	initDateView();//初始化时间显示相关
                 }            
             });
+            publicMethods.ajaxPost("/budget/budget-total-final",{"nd":cu_date}, function(data,status){
+            	console.log(data);
+       		});  
+            
 			//数据版本选择
             $("#data_version").on("change",function(e){
             	curent_budget_info = budget_info_map[$("#data_version").val()];            	
