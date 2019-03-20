@@ -611,12 +611,10 @@ public class SearchUtil {
                 if (mapHighLightList != null && mapHighLightList.get(key) != null) {
                     HighlightField objField = highlightFields.get(key);
                     // 获取到原有内容中的每个高亮显示的集中的位置，fragment就是高亮片段
-                    if(objField!=null){
-                        Text[] fragments = objField.fragments();
-                        strValue = "";
-                        for (Text text : fragments) {
-                            strValue += text;
-                        }
+                    Text[] fragments = objField.fragments();
+                    strValue = "";
+                    for (Text text : fragments) {
+                        strValue += text;
                     }
                 }
                 method.invoke(model, convert(parameterType, strValue));

@@ -93,6 +93,21 @@
                         <input class="layui-input" placeholder="--请选择--" name="name" id="name" readonly="readonly" onclick="chooseProject('${topicId}')"   value="${sreProject.name}" autocomplete="off" type="text">
                     </div>
                 </div>
+                
+                
+                <div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label">项目执行年限</label>
+                    <div class="layui-input-block">
+                     <div class="layui-input-inline" style="float:left">
+                        <input type="text" class="layui-input" name="beginProjectMonth" id="beginProjectMonth" value="${sreProjectTask.beginProjectMonth}" style="width:80px;float:left" placeholder="开始月份">
+                        <div class="layui-form-mid" style="width:8px;float:left"> -</div>
+                        <input type="text" class="layui-input" id="endProjectMonth" name="endProjectMonth" value="${sreProjectTask.endProjectMonth}" style="width:80px;float:left" placeholder="结束月份">
+                    </div>
+                    </div>
+                </div>
+                
+                
+                
                <div class="layui-form-item layui-form-text" >
 		        <label class="layui-form-label">目标和主要任务<span class="must-fill">*</span></label>
 		        <div class="layui-input-block">
@@ -306,6 +321,35 @@
             , $ = layui.jquery
             , form = layui.form;
         publicMethods = layui.publicMethods;
+        
+        
+      //开始日期
+        var insStart = laydate.render({
+            elem: '#beginProjectMonth',format: 'yyyy年MM月'
+            , min: 0
+            , done: function (value, date) {
+                //更新结束日期的最小日期
+                insEnd.config.min = lay.extend({}, date, {
+                    month: date.month - 1
+                });
+                //自动弹出结束日期的选择器
+                insEnd.config.elem[0].focus();
+            }
+        });
+
+        //结束日期
+        var insEnd = laydate.render({
+            elem: '#endProjectMonth',format: 'yyyy年MM月'
+            , min: 0
+            , done: function (value, date) {
+                //更新开始日期的最大日期
+                insStart.config.max = lay.extend({}, date, {
+                    month: date.month - 1
+                });
+            }
+        });
+        
+        
         form.render();
         laydate.render({
             elem: '#LAY-component-form-group-date'
@@ -623,7 +667,7 @@
        // $("#equipmentIds").val(equipmentIds);
         table.render({
             elem: '#join_apply_table',
-            url: '/sre-equipment/list_by_quipment_ids?equipmentIds=' + equipmentIds,
+            url: '/sre-equipment/chooseEquipmentByIds?equipmentIds=' + equipmentIds,
             limit: 15,
             method: "GET",
             id: 'join_apply_table',

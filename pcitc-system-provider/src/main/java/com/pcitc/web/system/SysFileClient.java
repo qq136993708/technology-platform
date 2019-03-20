@@ -1,13 +1,10 @@
 package com.pcitc.web.system;
 
-import com.pcitc.base.util.DateUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -36,9 +33,7 @@ import com.pcitc.base.common.UploadType;
 import com.pcitc.base.common.enums.DataOperationStatusEnum;
 import com.pcitc.base.system.SysFile;
 import com.pcitc.base.system.SysFileVo;
-import com.pcitc.es.clientmanager.ClientFactoryBuilder;
 import com.pcitc.mapper.system.SysFileMapper;
-import com.pcitc.service.doc.AccessorService;
 import com.pcitc.service.doc.IndexAccessorService;
 import com.pcitc.service.doc.SysFileShareService;
 import com.pcitc.service.system.SysFileConfigService;
@@ -71,12 +66,12 @@ public class SysFileClient {
     @Autowired
     private IndexAccessorService indexAccessorService;
 
-    @Autowired
+    /*@Autowired
     private AccessorService accessorService = new ClientFactoryBuilder
             .Config()
             .setConfigPath("elasticsearch.properties")
             .initConfig(true)
-            .createByConfig();
+            .createByConfig();*/
 
     //文件上传路径
     @Value("${uploaderPath}")

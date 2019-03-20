@@ -1,158 +1,183 @@
 package com.pcitc.es.clientmanager;
 
-import com.pcitc.es.common.Constant;
-import com.pcitc.es.utils.PropKit;
-import com.pcitc.service.doc.AccessorService;
-import com.pcitc.service.doc.impl.AccessorServiceImpl;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.List;
+
 import org.elasticsearch.client.transport.TransportClient;
-import org.elasticsearch.common.Strings;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.TransportAddress;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.Arrays;
-import java.util.List;
+import com.pcitc.es.common.Constant;
+import com.pcitc.service.doc.AccessorService;
+import com.pcitc.service.doc.impl.AccessorServiceImpl;
 
 /**
  * @author:Administrator
  * @date:2018/6/23
  */
+@Component
 public class ClientFactoryBuilder {
-    private ClientFactoryBuilder() {
-    }
+	private ClientFactoryBuilder() {
+	}
 
-    //配置文件地址
-    private static String configPath;
-    // 地址
-    private static List<String> HOSTS;
+	// 配置文件地址
+	// @Value("${uploaderPath}")
+	// private static String configPath;
+	// 地址
+	private static List<String> HOSTS;
 
-    // elasticsearch集群名称
-    private static String CLUSTER_NAME;
+	// elasticsearch集群名称
+	private static String CLUSTER_NAME;
 
-    // elasticsearch 端口
-    private static int CLIENT_PORT;
+	// elasticsearch 端口
+	private static int CLIENT_PORT;
+	
+	@Value("#{'${elasticsearch.hosts}'.split(',')}")
+	public void setHOSTS(List<String> hOSTS) {
+		HOSTS = hOSTS;
+	}
 
-    public static TransportClient client;
+	@Value("${elasticsearch.cluster.name}")
+	public void setCLUSTER_NAME(String cLUSTER_NAME) {
+		CLUSTER_NAME = cLUSTER_NAME;
+	}
 
-    public static TransportClient getClient() {
+	@Value("${elasticsearch.client.port}")
+	public void setCLIENT_PORT(int cLIENT_PORT) {
+		CLIENT_PORT = cLIENT_PORT;
+	}
 
-        if (client == null) {
-            if ((Constant.HOSTS != null) && (Constant.HOSTS.size() > 0) && (Constant.CLIENT_PORT != null)) {
-                return clientByConfig();
-            }
-            System.out.println("------------");
-            Settings settings = null;
-            if (CLUSTER_NAME != null) {
-                settings = Settings.builder().put("cluster.name", CLUSTER_NAME).build();
-            }
-            System.out.println("settings:" + settings);
-            if (HOSTS == null || HOSTS.size() <= 0) {
-//                throw new IllegalArgumentException("HOSTS cant be null !");
-            }
-            try {
+	public static TransportClient client;
 
-                for (String host : HOSTS) {
+	public static TransportClient getClient() {
 
-                    //LOG.info("发现节点：" + host + "...........正在连接该节点>>>>>>>>>");
-                    client = new PreBuiltTransportClient(settings == null ? Settings.EMPTY : settings)
-                            .addTransportAddress(new TransportAddress(InetAddress.getByName(host), CLIENT_PORT));
-                }
-            } catch (UnknownHostException e) {
-                System.out.println("ClientFactoryBuilder:连接es客户端异常 ");
-                //LOG.info("连接es客户端发生错误" + e.toString());
-//                e.printStackTrace();
-            }
-        }
-        return client;
-    }
+		if (client == null) {
+			
+			System.out.println("client == null------------" + Constant.CLIENT_PORT);
+			if ((Constant.HOSTS != null) && (Constant.HOSTS.size() > 0) && (Constant.CLIENT_PORT != null)) {
+				return clientByConfig();
+			}
+			System.out.println("HOSTS settings------------" + Constant.CLIENT_PORT);
+			Settings settings = null;
+			if (CLUSTER_NAME != null) {
+				settings = Settings.builder().put("cluster.name", CLUSTER_NAME).build();
+			}
+			System.out.println("CLUSTER_NAME settings------------" + Constant.HOSTS);
+			System.out.println("settings:===================" + settings);
+			if (HOSTS == null || HOSTS.size() <= 0) {
+				// throw new IllegalArgumentException("HOSTS cant be null !");
+				System.out.println("-----------getClient---连接es客户端发生错误--------------");
+			}
+			try {
 
-    public static TransportClient clientByConfig() {
+				for (String host : HOSTS) {
 
-        Settings settings = Settings.builder().put("cluster.name", Constant.CLUSTER_NAME).build();
-        try {
+					// LOG.info("发现节点：" + host + "...........正在连接该节点>>>>>>>>>");
+					client = new PreBuiltTransportClient(settings == null ? Settings.EMPTY : settings).addTransportAddress(new TransportAddress(InetAddress.getByName(host), CLIENT_PORT));
+				}
+			} catch (UnknownHostException e) {
+				System.out.println("ClientFactoryBuilder:连接es客户端异常 ");
+				// LOG.info("连接es客户端发生错误" + e.toString());
+				// e.printStackTrace();
+			}
+		}
+		return client;
+	}
 
-            for (String host : Constant.HOSTS) {
+	public static TransportClient clientByConfig() {
 
-                //LOG.info("发现节点：" + host + "...........正在连接该节点>>>>>>>>>");
-                client = new PreBuiltTransportClient(settings == null ? Settings.EMPTY : settings)
-                        .addTransportAddress(new TransportAddress(InetAddress.getByName(host), Constant.CLIENT_PORT));
-            }
-        } catch (UnknownHostException e) {
-            //LOG.info("连接es客户端发生错误" + e.toString());
-            e.printStackTrace();
-        }
-        return client;
+		Settings settings = Settings.builder().put("cluster.name", Constant.CLUSTER_NAME).build();
+		try {
 
-    }
+			for (String host : Constant.HOSTS) {
 
-    /**
-     * @Description 初始化配置文件
-     */
-    public static void initConfg(String path) {
-        PropKit.use(path);
-        Constant.CLIENT_PORT = PropKit.getInt("client.port");
-        Constant.CLUSTER_NAME = PropKit.get("cluster.name");
-        String hosts = PropKit.get("hosts");
-        if (!Strings.isNullOrEmpty(hosts)) {
-            Constant.HOSTS = Arrays.asList(hosts.split(","));
-        }
-    }
+				// LOG.info("发现节点：" + host + "...........正在连接该节点>>>>>>>>>");
+				System.out.println("-----------Constant.CLIENT_PORT--------------"+Constant.CLIENT_PORT);
+				System.out.println("-----------host--------------"+host);
+				System.out.println("-----------settings--------------"+settings);
+				client = new PreBuiltTransportClient(settings == null ? Settings.EMPTY : settings).addTransportAddress(new TransportAddress(InetAddress.getByName(host), Constant.CLIENT_PORT));
+				System.out.println("-----------client--------------"+client);
+			}
+		} catch (Exception e) {
+			// LOG.info("连接es客户端发生错误" + e.toString());
+			System.out.println("-----------clientByConfig---连接es客户端发生错误--------------");
+			e.printStackTrace();
+		}
+		return client;
 
+	}
 
-    // 构造 节点数据
-    public static class Builder {
+	/**
+	 * @Description 初始化配置文件
+	 */
+	public static void initConfg(String path) {
+		/*System.out.println("初始化es配置文件=======" + path);
+		PropKit.use(path);
+		System.out.println("初始化es配置文件=======client.port=====" + path);
+		Constant.CLIENT_PORT = PropKit.getInt("client.port");
+		Constant.CLUSTER_NAME = PropKit.get("cluster.name");
+		String hosts = PropKit.get("hosts");
+		System.out.println("初始化es配置文件=======client.port=====" + PropKit.getInt("client.port"));
+		System.out.println("初始化es配置文件=======cluster.name=====" + PropKit.get("cluster.name"));
+		System.out.println("初始化es配置文件=======hosts=====" + hosts);
+		if (!Strings.isNullOrEmpty(hosts)) {
+			Constant.HOSTS = Arrays.asList(hosts.split(","));
+		}*/
+	}
 
+	// 构造 节点数据
+	public static class Builder {
 
-        public Builder setHOSTS(List<String> HOSTS) {
-            ClientFactoryBuilder.HOSTS = HOSTS;
-            return this;
+		public Builder setHOSTS(List<String> HOSTS) {
+			ClientFactoryBuilder.HOSTS = HOSTS;
+			return this;
 
-        }
+		}
 
-        public Builder setCLUSTER_NAME(String CLUSTER_NAME)
+		public Builder setCLUSTER_NAME(String CLUSTER_NAME)
 
-        {
-            ClientFactoryBuilder.CLUSTER_NAME = CLUSTER_NAME;
-            return this;
-        }
+		{
+			ClientFactoryBuilder.CLUSTER_NAME = CLUSTER_NAME;
+			return this;
+		}
 
-        public Builder setCLIENT_PORT(int CLIENT_PORT) {
-            ClientFactoryBuilder.CLIENT_PORT = CLIENT_PORT;
-            return this;
-        }
+		public Builder setCLIENT_PORT(int CLIENT_PORT) {
+			ClientFactoryBuilder.CLIENT_PORT = CLIENT_PORT;
+			return this;
+		}
 
-        public AccessorService create() {
+		public AccessorService create() {
 
-            AccessorService accessor = new AccessorServiceImpl(ClientFactoryBuilder.getClient());
-            return accessor;
-        }
+			AccessorService accessor = new AccessorServiceImpl(ClientFactoryBuilder.getClient());
+			return accessor;
+		}
 
-    }
+	}
 
-    public static class Config {
+	public static class Config {
 
-        //设置配置文件地址
-        public Config setConfigPath(String configPath) {
-            ClientFactoryBuilder.configPath = configPath;
-            return this;
-        }
+		/*
+		 * //设置配置文件地址 public Config setConfigPath(String configPath) {
+		 * ClientFactoryBuilder.configPath = configPath; return this; }
+		 * 
+		 * public Config initConfig(boolean b) { if (b) { if
+		 * (Strings.isNullOrEmpty(ClientFactoryBuilder.configPath)) { throw new
+		 * IllegalArgumentException("configPath cant be null ! please set it");
+		 * }
+		 * System.out.println("ClientFactoryBuilder.configPath================="
+		 * +ClientFactoryBuilder.configPath);
+		 * ClientFactoryBuilder.initConfg(ClientFactoryBuilder.configPath); }
+		 * return this; }
+		 */
 
-        public Config initConfig(boolean b) {
-            if (b) {
-                if (Strings.isNullOrEmpty(ClientFactoryBuilder.configPath)) {
-                    throw new IllegalArgumentException("configPath cant be null ! please set it");
-                }
-                ClientFactoryBuilder.initConfg(ClientFactoryBuilder.configPath);
-            }
-            return this;
-        }
+		public AccessorService createByConfig() {
 
-        public AccessorService createByConfig() {
-
-            AccessorService accessor = new AccessorServiceImpl(ClientFactoryBuilder.getClient());
-            return accessor;
-        }
-    }
+			AccessorService accessor = new AccessorServiceImpl(ClientFactoryBuilder.getClient());
+			return accessor;
+		}
+	}
 }

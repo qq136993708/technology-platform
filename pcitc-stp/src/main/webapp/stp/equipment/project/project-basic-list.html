@@ -16,6 +16,7 @@
 <input  name="functionId"     id="functionId"      type="hidden">
 <input  name="userIds"        id="userIds"         type="hidden">
 <input  name="id"         id="id"          type="hidden" >
+<input type="hidden" name="applyUnitCode" id="applyUnitCode" value="${applyUnitCode}">
 </form>
 
     <!--查询条件-->
@@ -404,7 +405,7 @@ var name=$('#name').val();
             elem: '#processdef-table',
             url: '/sre-project-basic/list',
             method:"POST",
-            where: {param: {"name":$("#name").val(),"auditStatus":$("#auditStatus").val(),"setupYear":$("#setupYear").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"professionalDepartName":$("#professionalDepartName").val(),"professionalFieldName":$("#professionalFieldName").val()}},
+            where: {param: {"name":$("#name").val(),"auditStatus":$("#auditStatus").val(),"setupYear":$("#setupYear").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"professionalDepartName":$("#professionalDepartName").val(),"professionalFieldName":$("#professionalFieldName").val(),"applyUnitCode":$("#applyUnitCode").val()}},
             limit: 15,	
             id: 'processdef-table',
             height: commonDislodgeTable(),
@@ -571,12 +572,14 @@ var name=$('#name').val();
     //处理任务（启动流程）的方法，方法名固定，为了通用选择审批人员的弹出页面调用
     function handleTask(userIds) 
     {
+    	
     	$('#userIds').val(userIds);
+    	$('#applyEvent').attr("disabled",true);
     	var v_date=(new Date()).getTime();
         var url="/sre-project-basic/start_workflow?v_date="+v_date;
         var backurl="/sre-project-basic/to-list?v_date="+v_date;
         ajaxOpt(url,"form1","POST",backurl,"提交成功","提交失败");
-        
+        $('#applyEvent').attr("disabled",false);
     }
     
     function ajaxOpt(url,formName,type,backurl,successMsg,failMsg)
@@ -601,9 +604,8 @@ var name=$('#name').val();
     	                      {icon: 1,closeBtn: 0 },
     	                      function () 
     	                      {
-    	                    	  var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
-    	                          parent.layer.close(index);  // 关闭layer
-    	                    	  parent.location.href=backurl;
+    	                    	  renderTable();
+   	                    	      layer.closeAll();
     	                      });
     	        	  
     	          } else

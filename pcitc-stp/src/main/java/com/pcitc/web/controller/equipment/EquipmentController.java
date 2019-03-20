@@ -66,7 +66,6 @@ public class EquipmentController extends BaseController {
 	private static final String DEL_URL = "http://pcitc-zuul/stp-proxy/sre-provider/equipment/delete/";
 	private static final String BATCH_DEL_URL = "http://pcitc-zuul/stp-proxy/sre-provider/equipment/batch-delete/";
 	private static final String LIST_BY_IDS_URL = "http://pcitc-zuul/stp-proxy/sre-provider/equipment/list-by-ids/";
-	private static final String LIST_BY_IDS_URL_JSON = "http://pcitc-zuul/stp-proxy/sre-provider/equipment/get_json_by_ids/";
 	
 	public static final String GET_URL = "http://pcitc-zuul/stp-proxy/sre-provider/equipment/get/";
 	// 流程操作--同意
@@ -363,9 +362,6 @@ public class EquipmentController extends BaseController {
 	@ResponseBody
 	public String ajaxlist(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
 		
-		
-		
-		
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(PAGE_URL, HttpMethod.POST, entity, LayuiTableData.class);
@@ -377,21 +373,31 @@ public class EquipmentController extends BaseController {
 		logger.info("============result" + result);
 		return result.toString();
 	}
-
 	
 	
-	@RequestMapping(value = "/list_by_quipment_ids")
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/chooseEquipmentByUser")
+	private String chooseEquipmentByUser(HttpServletRequest request) 
+	{
+		String equipmentIds = request.getParameter("equipmentIds");
+		request.setAttribute("equipmentIds", equipmentIds);
+        String applyDepartCode=sysUserInfo.getUnitCode();
+		request.setAttribute("applyDepartCode", applyDepartCode);
+		return "/stp/equipment/equipment/chooseEquipment";
+		
+    }
+	
+	
+	@RequestMapping(value = "/chooseEquipmentByIds")
 	@ResponseBody
-	public String list_by_quipment_ids(HttpServletRequest request, HttpServletResponse response) {
+	public String chooseEquipmentByIds(HttpServletRequest request, HttpServletResponse response) {
 		LayuiTableData layuiTableData = new LayuiTableData();
 		ResponseEntity<List> responseEntity = null;
 		List returnlist = new ArrayList();
 		String ids = CommonUtil.getParameter(request, "equipmentIds", "");
-		System.out.println("--------equipmentIds=" + ids);
 		if (!ids.equals("")) 
 		{
 			String chkbox[] = ids.split(",");
-			System.out.println("--------ids=" + ids + " chkbox=" + chkbox.length);
 			if (chkbox != null && chkbox.length > 0)
 			{
 				List<String> list = Arrays.asList(chkbox);
@@ -402,8 +408,6 @@ public class EquipmentController extends BaseController {
 				if (statusCode == 200) 
 				{
 					returnlist = responseEntity.getBody();
-					logger.info("============远程返回  statusCode " + statusCode + "  list=" + list.size());
-					
 				}
 			}
 		}
@@ -411,7 +415,7 @@ public class EquipmentController extends BaseController {
 		layuiTableData.setCode(0);
 		layuiTableData.setCount(returnlist.size());
 		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
-		logger.info("============result" + result);
+		//logger.info("============result" + result);
 		return result.toString();
 		
 	}
@@ -561,6 +565,16 @@ public class EquipmentController extends BaseController {
 		String applyDepartName =        CommonUtil.getParameter(request, "applyDepartName", "");
 		String applyDepartCode =        CommonUtil.getParameter(request, "applyDepartCode", "");
 		String originPlace =        CommonUtil.getParameter(request, "originPlace", "");
+		
+		
+		    
+		    
+		String unitPathIds =        CommonUtil.getParameter(request, "unitPathIds","");
+		String unitPathNames =        CommonUtil.getParameter(request, "unitPathNames", "");
+		String parentUnitName =        CommonUtil.getParameter(request, "parentUnitName", "");
+		String parentUnitCode =        CommonUtil.getParameter(request, "parentUnitCode", "");
+		
+		
 		
 		
 		

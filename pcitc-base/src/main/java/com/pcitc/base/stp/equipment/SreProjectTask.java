@@ -80,10 +80,45 @@ public class SreProjectTask {
     
     
     private String setupId;
-    
+    private String unitPathIds;
+    private String unitPathNames;
+    private String parentUnitName;
+    private String parentUnitCode;
     
 
-    public String getSetupId() {
+    public String getUnitPathIds() {
+		return unitPathIds;
+	}
+
+	public void setUnitPathIds(String unitPathIds) {
+		this.unitPathIds = unitPathIds;
+	}
+
+	public String getUnitPathNames() {
+		return unitPathNames;
+	}
+
+	public void setUnitPathNames(String unitPathNames) {
+		this.unitPathNames = unitPathNames;
+	}
+
+	public String getParentUnitName() {
+		return parentUnitName;
+	}
+
+	public void setParentUnitName(String parentUnitName) {
+		this.parentUnitName = parentUnitName;
+	}
+
+	public String getParentUnitCode() {
+		return parentUnitCode;
+	}
+
+	public void setParentUnitCode(String parentUnitCode) {
+		this.parentUnitCode = parentUnitCode;
+	}
+
+	public String getSetupId() {
 		return setupId;
 	}
 
