@@ -674,7 +674,7 @@ public class BudgetStockTotalProviderClient
 	@RequestMapping(value = "/stp-provider/budget/get-final-stocktotal", method = RequestMethod.POST)
 	public Object selectFinalStockTotalInfo(@RequestBody String nd) throws Exception 
 	{
-		BudgetInfo info = budgetInfoService.selectFinalBudget(nd, BudgetInfoEnum.ASSETS_TOTAL.getCode());
+		BudgetInfo info = budgetInfoService.selectFinalBudget(nd, BudgetInfoEnum.STOCK_TOTAL.getCode());
 		Map<String,Object> rsmap = new HashMap<String,Object>();
 		if(info != null) {
 			rsmap = MyBeanUtils.transBean2Map(info);

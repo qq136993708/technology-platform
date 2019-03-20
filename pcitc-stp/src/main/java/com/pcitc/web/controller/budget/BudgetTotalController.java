@@ -98,22 +98,29 @@ public class BudgetTotalController extends BaseController {
 	
 	
 	
-	@RequestMapping(value = "/budget/budget-total-final", method = RequestMethod.POST)
+	@RequestMapping(value = "/budget/budget-group-total-final", method = RequestMethod.POST)
 	@ResponseBody
 	public Object getFinalBudgetGroupAssetStockList(@ModelAttribute("info") BudgetInfo info,HttpServletRequest request) throws IOException 
 	{
-		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(PROJECT_TOTAL_FINAL_GROUP, HttpMethod.POST, new HttpEntity<BudgetInfo>(info, this.httpHeaders), Object.class);
-		System.out.println(responseEntity.getBody());
-		responseEntity = this.restTemplate.exchange(PROJECT_TOTAL_FINAL_ASSET, HttpMethod.POST, new HttpEntity<BudgetInfo>(info, this.httpHeaders), Object.class);
-		System.out.println(responseEntity.getBody());
-		responseEntity = this.restTemplate.exchange(PROJECT_TOTAL_FINAL_STOCK, HttpMethod.POST, new HttpEntity<BudgetInfo>(info, this.httpHeaders), Object.class);
-		System.out.println(responseEntity.getBody());
-		
+		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(PROJECT_TOTAL_FINAL_GROUP, HttpMethod.POST, new HttpEntity<String>(info.getNd(), this.httpHeaders), Object.class);
 		return JSON.toJSON(responseEntity.getBody()).toString();
 	}
 	
+	@RequestMapping(value = "/budget/budget-asset-total-final", method = RequestMethod.POST)
+	@ResponseBody
+	public Object getFinalBudgetAssetAssetStockList(@ModelAttribute("info") BudgetInfo info,HttpServletRequest request) throws IOException 
+	{
+		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(PROJECT_TOTAL_FINAL_ASSET, HttpMethod.POST, new HttpEntity<String>(info.getNd(), this.httpHeaders), Object.class);
+		return JSON.toJSON(responseEntity.getBody()).toString();
+	}
 	
-	
+	@RequestMapping(value = "/budget/budget-stock-total-final", method = RequestMethod.POST)
+	@ResponseBody
+	public Object getFinalBudgetStockAssetStockList(@ModelAttribute("info") BudgetInfo info,HttpServletRequest request) throws IOException 
+	{
+		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(PROJECT_TOTAL_FINAL_STOCK, HttpMethod.POST, new HttpEntity<String>(info.getNd(), this.httpHeaders), Object.class);
+		return JSON.toJSON(responseEntity.getBody()).toString();
+	}
 	
 	@RequestMapping(value = "/budget/budget_total_info_table", method = RequestMethod.POST)
 	@ResponseBody

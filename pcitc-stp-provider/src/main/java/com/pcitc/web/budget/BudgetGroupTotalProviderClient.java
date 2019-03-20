@@ -676,14 +676,14 @@ public class BudgetGroupTotalProviderClient
 	@RequestMapping(value = "/stp-provider/budget/get-final-grouptotal", method = RequestMethod.POST)
 	public Object selectFinalGroupTotalInfo(@RequestBody String nd) throws Exception 
 	{
-		BudgetInfo info = budgetInfoService.selectFinalBudget(nd, BudgetInfoEnum.ASSETS_TOTAL.getCode());
+		BudgetInfo info = budgetInfoService.selectFinalBudget(nd, BudgetInfoEnum.GROUP_TOTAL.getCode());
 		Map<String,Object> rsmap = new HashMap<String,Object>();
 		if(info != null) {
 			rsmap = MyBeanUtils.transBean2Map(info);
 			List<BudgetGroupTotal> totals = budgetGroupTotalService.selectItemsByBudgetId(info.getDataId());
 			Double items_total = 0d;
 			for(BudgetGroupTotal total:totals) {
-				items_total += total.getTotal();
+				items_total += total.getTotal()==null?0d:total.getZxjf()+total.getXmjf();
 			}
 			rsmap.put("items", totals);
 			rsmap.put("items_total", items_total);

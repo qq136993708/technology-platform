@@ -47,16 +47,13 @@
         <div class="tableToolBox">
             <div class="num-box">
                 <label class="dateInput">
-                    <span>集团公司预算：</span>
-                    <input type="text" name="budgetMoney" id="budgetMoney" readonly="readonly" value="0">
+                    <span>集团预算：</span><span id="budgetGroupMoney">&nbsp;</span>万元&nbsp;&nbsp;
                 </label>
                 <label class="dateInput">
-                    <span>资产公司预算：</span>
-                    <input type="text" name="surplusMoney" id="surplusMoney"  readonly="readonly" value="0">
+                    <span>资产预算：</span><span id="budgetAssetMoney">&nbsp;</span>万元&nbsp;&nbsp;
                 </label>
                 <label class="dateInput">
-                    <span>股份公司预算：</span>
-                    <input type="text" name="surplusMoney" id="surplusMoney"  readonly="readonly" value="0">
+                    <span>股份预算：</span><span id="budgetStockMoney">&nbsp;</span>万元&nbsp;&nbsp;
                 </label>
             </div>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_export btnMyBgImg"
@@ -80,7 +77,7 @@
             </table>
         </div>
     </div>
-    <div class="content-box">
+    <!-- <div class="content-box">
         <div class="items">
             状态: <span id="info_status" style="color: red">&nbsp;</span>
         </div>
@@ -93,7 +90,7 @@
         <div class="items">
             最后更新: <span id="update_time" style="color: red">&nbsp;</span>
         </div>
-    </div>
+    </div> -->
     <!-- <div class="doc-box">
         <p>备注及问题:</p>
         <ul>
@@ -106,7 +103,7 @@
 	    var budget_info_map=null;
 	    var curent_tabel_data = null;//当前表格数据
 	    var curent_budget_info = null;//当前报表
-	    var selectRowData=null;
+	    var table_data=[];
         layui.use(['jquery', 'table', 'laydate', 'layer','publicMethods'], function () {
             var $ = layui.jquery, table = layui.table, laydate = layui.laydate, layer = layui.layer,publicMethods=layui.publicMethods; 
             var param = JSON.parse(window.localStorage.getItem("param"));
@@ -119,12 +116,73 @@
                 	initDataVersion();//初始化预算版本
                 	initEmptyData();//空数据初始化
                 	initDateView();//初始化时间显示相关
+                	loadData();
                 }            
             });
-            publicMethods.ajaxPost("/budget/budget-total-final",{"nd":cu_date}, function(data,status){
-            	console.log(data);
-       		});  
             
+            function loadData()
+            {
+            	table_data=[]
+            	var total_fee=zbx_fee=fyx_fee=0;
+            	publicMethods.ajaxPost("/budget/budget-stock-total-final",{"nd":cu_date}, function(dt,status){
+                	//计算股份合计
+                	table_data.push({"dataId": new Date().valueOf(),"no":"","displayName":"一、股份公司合计","level":-1,"xmjfTotal":0,"xmjfZbx":0,"xmjfFyx":0});
+            		var xmjfTotal=xmjfZbx=xmjfFyx=0;
+            		$.each(dt.items,function(i,d){
+            			if(d.level==0){
+            				xmjfTotal += d.xmjfTotal;
+            				xmjfZbx += d.xmjfZbx;
+            				xmjfFyx += d.xmjfFyx;
+            			}
+            			table_data.push({"dataId": new Date().valueOf(),"no":d.no,"displayName":d.displayName,"level":d.level,"xmjfTotal":d.xmjfTotal,"xmjfZbx":d.xmjfZbx,"xmjfFyx":d.xmjfFyx});
+            			table_data[0].xmjfTotal = total_fee = xmjfTotal;
+            			table_data[0].xmjfZbx = zbx_fee= xmjfZbx;
+            			table_data[0].xmjfFyx = fyx_fee = xmjfFyx;
+            			$("#budgetStockMoney").text(xmjfTotal);
+            		});
+            		//计算集团公司
+                	publicMethods.ajaxPost("/budget/budget-group-total-final",{"nd":cu_date}, function(dt,status){
+                     	var xmjfTotal=xmjfZbx=xmjfFyx=0;
+                     	$.each(dt.items,function(i,d){
+                     		xmjfFyx = xmjfTotal +=(d.xmjf+d.zxjf);
+                     	});
+                     	total_fee += xmjfTotal;
+                     	zbx_fee += xmjfZbx;
+                     	fyx_fee += xmjfFyx;
+                     	table_data.push({"dataId": new Date().valueOf(),"no":"","displayName":"二、集团公司合计","level":-1,"xmjfTotal":xmjfTotal,"xmjfZbx":xmjfZbx,"xmjfFyx":xmjfFyx});
+                     	$("#budgetGroupMoney").text(xmjfTotal);
+                     	//计算资产公司
+                     	publicMethods.ajaxPost("/budget/budget-asset-total-final",{"nd":cu_date}, function(dt,status){
+                     		var xmjfTotal=xmjfZbx=xmjfFyx=0;
+                         	$.each(dt.items,function(i,d){
+                         		xmjfFyx = xmjfTotal += d.xmjf;
+                         	});
+                         	total_fee += xmjfTotal;
+                         	zbx_fee += xmjfZbx;
+                         	fyx_fee += xmjfFyx;
+                         	table_data.push({"dataId": new Date().valueOf(),"no":"","displayName":"三、资产公司合计","level":-1,"xmjfTotal":xmjfTotal,"xmjfZbx":xmjfZbx,"xmjfFyx":xmjfFyx});
+                         	$("#budgetAssetMoney").text(xmjfTotal);
+                     	});
+                	});
+           		});  
+                table.reload('dataTable', {data:table_data});
+                //处理格式
+             	$.each(table_data,function(index,dt){
+    				var align ="center";
+    				if(dt.level == 0){
+    					align = "left";
+    				}else if(dt.level ==1){
+    					align = "right";
+    				}
+    				var no = dt.level == 0?dt.no:"";
+    				$(".layui-table-body").find("tr").eq(index).find('td').eq(1).attr("align",align);
+    				$(".layui-table-body").find("tr").eq(index).find('td').eq(0).find("div").html(no);
+    			});
+             	$(".layui-table-total").find("tr").find('td').eq(2).find("div").html(total_fee);
+      			$(".layui-table-total").find("tr").find('td').eq(3).find("div").html(zbx_fee);
+      			$(".layui-table-total").find("tr").find('td').eq(4).find("div").html(fyx_fee);
+            }
+            loadData();
 			//数据版本选择
             $("#data_version").on("change",function(e){
             	curent_budget_info = budget_info_map[$("#data_version").val()];            	
