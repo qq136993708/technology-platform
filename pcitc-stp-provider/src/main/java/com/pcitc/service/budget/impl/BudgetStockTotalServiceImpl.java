@@ -104,10 +104,34 @@ public class BudgetStockTotalServiceImpl implements BudgetStockTotalService
 		BudgetStockTotalExample example = new BudgetStockTotalExample();
 		BudgetStockTotalExample.Criteria c = example.createCriteria();
 		c.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
+		c.andItemTypeEqualTo(BudgetItemTypeEnum.BUDGET_ITEM_PROJECT.getCode());
 		c.andBudgetInfoIdEqualTo(budgetInfoId);
-		c.andLevelEqualTo(0);//只显示第一级
 		example.setOrderByClause("no");
-		return budgetStockTotalMapper.selectByExample(example);
+		List<BudgetStockTotal> list =  budgetStockTotalMapper.selectByExample(example);
+		Collections.sort(list, new java.util.Comparator<Object>() {
+			@Override
+			public int compare(Object o1, Object o2) {
+				BudgetStockTotal t1 = (BudgetStockTotal)o1;
+				BudgetStockTotal t2 = (BudgetStockTotal)o2;
+				return t1.getNo()-t2.getNo();
+			}
+		});
+		//根据父Id排序
+		List<BudgetStockTotal> ls = new ArrayList<BudgetStockTotal>();
+		for(java.util.Iterator<?> iter = list.iterator();iter.hasNext();) {
+			BudgetStockTotal stock = (BudgetStockTotal)iter.next();
+			if(stock.getLevel()==0) {
+				ls.add(stock);
+				//添加子项
+				for(java.util.Iterator<?> siter = list.iterator();siter.hasNext();) {
+					BudgetStockTotal sstock = (BudgetStockTotal)siter.next();
+					if(sstock.getLevel()==1 && stock.getDataId().equals(sstock.getParentDataId())) {
+						ls.add(sstock);
+					}
+				}
+			}
+		}
+		return ls;
 	}
 
 	@Override
@@ -117,6 +141,7 @@ public class BudgetStockTotalServiceImpl implements BudgetStockTotalService
 		BudgetStockTotalExample.Criteria c = example.createCriteria();
 		c.andBudgetInfoIdEqualTo(param.getParam().get("budget_info_id").toString());
 		c.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
+		c.andItemTypeEqualTo(BudgetItemTypeEnum.BUDGET_ITEM_PROJECT.getCode());
 		example.setOrderByClause("no");
 		LayuiTableData tabledata = this.findByExample(param, example);
 		//根据级别排序
@@ -125,7 +150,7 @@ public class BudgetStockTotalServiceImpl implements BudgetStockTotalService
 			public int compare(Object o1, Object o2) {
 				BudgetStockTotal t1 = (BudgetStockTotal)o1;
 				BudgetStockTotal t2 = (BudgetStockTotal)o2;
-				return t1.getLevel()-t2.getLevel();
+				return t1.getNo()-t2.getNo();
 			}
 		});
 		//根据父Id排序
@@ -197,7 +222,6 @@ public class BudgetStockTotalServiceImpl implements BudgetStockTotalService
 		BudgetStockTotalExample.Criteria c = example.createCriteria();
 		c.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
 		c.andParentDataIdEqualTo(dataId);
-		c.andLevelEqualTo(1);//只显示第二级
 		example.setOrderByClause("no");
 		return budgetStockTotalMapper.selectByExample(example);
 	}
@@ -207,8 +231,8 @@ public class BudgetStockTotalServiceImpl implements BudgetStockTotalService
 		BudgetStockTotalExample example = new BudgetStockTotalExample();
 		BudgetStockTotalExample.Criteria c = example.createCriteria();
 		c.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
-		c.andParentDataIdEqualTo(dataId);
 		c.andItemTypeEqualTo(BudgetItemTypeEnum.BUDGET_ITEM_COMPANY.getCode());
+		c.andParentDataIdEqualTo(dataId);
 		return budgetStockTotalMapper.selectByExample(example);
 	}
 	@Override
@@ -216,7 +240,6 @@ public class BudgetStockTotalServiceImpl implements BudgetStockTotalService
 		BudgetStockTotalExample example = new BudgetStockTotalExample();
 		BudgetStockTotalExample.Criteria c = example.createCriteria();
 		c.andParentDataIdEqualTo(dataId);
-		c.andLevelEqualTo(1);//只显示第二级
 		example.setOrderByClause("no");
 		return budgetStockTotalMapper.selectByExample(example);
 	}

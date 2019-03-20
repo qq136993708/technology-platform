@@ -664,7 +664,7 @@ public class BudgetAssetTotalProviderClient
 		return null;
 	}
 	@ApiOperation(value="资产公司预算-获取指定年度最终预算表",notes="获取指定年度最终预算表信息及列表")
-	@RequestMapping(value = "/stp-provider/budget/callback-workflow-assettotal-notice")
+	@RequestMapping(value = "/stp-provider/budget/get-final-assettotal")
 	public Object selectFinalAssetTotalInfo(@RequestParam(value = "nd", required = true) String nd) throws Exception 
 	{
 		BudgetInfo info = budgetInfoService.selectFinalBudget(nd, BudgetInfoEnum.ASSETS_TOTAL.getCode());
@@ -672,9 +672,12 @@ public class BudgetAssetTotalProviderClient
 		if(info != null) {
 			rsmap = MyBeanUtils.transBean2Map(info);
 			List<BudgetAssetTotal> totals = budgetAssetTotalService.selectItemsByBudgetId(info.getDataId());
+			Double items_total = 0d;
 			for(BudgetAssetTotal total:totals) {
-				
+				items_total += total.getTotal();
 			}
+			rsmap.put("items", totals);
+			rsmap.put("items_total", items_total);
 		}
 		return rsmap;
 	}
