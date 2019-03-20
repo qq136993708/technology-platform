@@ -1102,10 +1102,6 @@
 		(bak1 = 'private' and userIds like '%${userId}%') or 
 		(bak1 = 'private' and bak3 like '%${userId}%') or 
 		authUserIds like '%${userId}%')
-		
-		<if test="collectFlag != null">
-				and temTable.bak4 is not null
-		</if>
 	  order by create_date_time desc
 		
   	</select>

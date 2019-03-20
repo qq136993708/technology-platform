@@ -12,6 +12,7 @@ import com.pcitc.base.common.enums.DataOperationStatusEnum;
 import com.pcitc.base.doc.SysFileKind;
 import com.pcitc.base.doc.SysFileKindAuth;
 import com.pcitc.base.doc.SysFileKindExample;
+import com.pcitc.base.system.SysUnit;
 
 /**
  * <p>接口类</p>
@@ -92,4 +93,10 @@ public interface SysFileKindService {
      * 删除当前页人员所有的已分配数据，插入新保存的用户(若干条)
      */
     public int saveFileKindAuthUser(SysFileKindAuth sysFileKindAuth);
+    
+    /**
+	 * 查询某种条件下的组织机构节点，有组织机构和人员、岗位
+	 * 已配置功能权限的默认勾选
+	 */
+	public List<TreeNode> getUnitTreeAndPostAndUserCond(SysUnit unit);
 }

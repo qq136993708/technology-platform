@@ -3,6 +3,7 @@ package com.pcitc.web.controller.doc;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -33,6 +34,7 @@ import com.pcitc.base.common.enums.DataOperationStatusEnum;
 import com.pcitc.base.doc.SysFileKind;
 import com.pcitc.base.doc.SysFileKindAuth;
 import com.pcitc.base.system.SysFile;
+import com.pcitc.base.system.SysUnit;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.DataTableLayui;
@@ -80,6 +82,7 @@ public class SysFileKindController extends BaseController {
 	private static final String USER_AUTH_LIST = "http://pcitc-zuul/system-proxy/sysfilekind-provider/sysfilekind/auth/user-list";
 	private static final String USER_AUTH_SAVE = "http://pcitc-zuul/system-proxy/sysfilekind-provider/sysfilekind/auth/user/save";
 
+	private static final String UNIT_POST_USER_TREE = "http://pcitc-zuul/system-proxy/sysfilekind-provider/sysfilekind/units-posts-users/tree";
 	/**
 	 * -查询列表
 	 *
@@ -497,7 +500,7 @@ public class SysFileKindController extends BaseController {
 		LayuiTableData data = responseEntity.getBody();
 		return JSON.toJSON(data).toString();
 	}
-
+	
 	/**
 	 * 保存文档分类的权限配置，删除当前页人员所有的已分配数据，插入新保存的用户(若干条)
 	 */
@@ -512,5 +515,31 @@ public class SysFileKindController extends BaseController {
 		ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(USER_AUTH_SAVE, HttpMethod.POST, new HttpEntity<SysFileKindAuth>(sysFileKindAuth, this.httpHeaders), Integer.class);
 		Integer result = responseEntity.getBody();
 		return result;
+	}
+	
+	/**
+	 * 根据查询条件查询树形结构，包含组织机构、用户、岗位
+	 * 已选的人，默认勾选
+	 */
+	@RequestMapping(value = "/file/units-posts-users/tree")
+	@ResponseBody
+	public String getUnitPostUserTree(HttpServletRequest request) throws Exception {
+		String path = request.getContextPath();
+		SysUnit unit = new SysUnit();
+		unit.setsSearch(request.getParameter("fileKindId"));
+		ResponseEntity<List> responseEntity = restTemplate.exchange(UNIT_POST_USER_TREE, HttpMethod.POST, new HttpEntity<SysUnit>(unit, this.httpHeaders), List.class);
+		
+		List treeNodes = responseEntity.getBody();
+		for (int i = 0; i < treeNodes.size(); i++) {
+			Map temNode = (Map)treeNodes.get(i);
+			if (temNode.get("nodeType").equals("unit")) {
+				temNode.put("icon", path + "/image/house.png");
+			} else if (temNode.get("nodeType").equals("post")) {
+				temNode.put("icon", path + "/image/post.png");
+			} else if (temNode.get("nodeType").equals("user")) {
+				temNode.put("icon", path + "/image/humen.png");
+			}
+		}
+		return JSONUtils.toJSONString(responseEntity.getBody());
 	}
 }
