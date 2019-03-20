@@ -55,23 +55,10 @@ import com.pcitc.web.common.BaseController;
 @Controller
 public class BudgetTotalController extends BaseController {
 
-	private static final String BUDGET_TOTAL_TABLE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-total-info-table";
-	private static final String BUDGET_TOTAL_LIST = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-total-info-list";	
+	
 	private static final String BUDGET_TOTAL_INFO = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-total-info";	
 	private static final String BUDGET_TOTAL_ITEMS = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-total-items";
-	private static final String BUDGET_TOTAL_CREATE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-create-blank-total";
-	private static final String BUDGET_TOTAL_CREATE_BYTEMPLATE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-create-template-total";
-	private static final String BUDGET_TOTAL_DELETE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-total-del";
-	private static final String BUDGET_TOTAL_GET_ITEM = "http://pcitc-zuul/stp-proxy/stp-provider/budget/get-total-item/";
-	private static final String BUDGET_TOTAL_GET_ITEM_COMPANY = "http://pcitc-zuul/stp-proxy/stp-provider/budget/get-total-item-company/";
-	private static final String BUDGET_TOTAL_SAVE_CHILDITEMS = "http://pcitc-zuul/stp-proxy/stp-provider/budget/save-total-childitems";
-	private static final String BUDGET_TOTAL_FINAL_HISTORY_LIST = "http://pcitc-zuul/stp-proxy/stp-provider/budget/search-total-final-history-list";
-	private static final String BUDGET_TOTAL_COMPARE_PLAN = "http://pcitc-zuul/stp-proxy/stp-provider/budget/select-total-compare-plan";
-	private static final String BUDGET_TOTAL_COMPARE_PROJECT = "http://pcitc-zuul/stp-proxy/stp-provider/budget/select-total-compare-project";
 	
-	private static final String BUDGET_INFO_UPDATE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-info-update";
-	private static final String BUDGET_INFO_GET = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-info-get/";
-	private static final String PROJECT_NOTICE_WORKFLOW_URL = "http://pcitc-zuul/stp-proxy/stp-provider/budget/start-budget-total-activity/";
 	
 	
 	private static final String PROJECT_TOTAL_FINAL_GROUP = "http://pcitc-zuul/stp-proxy/stp-provider/budget/get-final-grouptotal";
@@ -84,19 +71,6 @@ public class BudgetTotalController extends BaseController {
 		request.setAttribute("nd", DateUtil.format(new Date(), DateUtil.FMT_YYYY));
 		return "stp/budget/budget_main_total";
 	}
-	
-	@RequestMapping(value = "/budget/get_budget_total_info_list", method = RequestMethod.POST)
-	@ResponseBody
-	public Object getBudgetList(@ModelAttribute("info") BudgetInfo info,HttpServletRequest request) throws IOException 
-	{
-		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_TOTAL_LIST, HttpMethod.POST, new HttpEntity<BudgetInfo>(info, this.httpHeaders), Object.class);
-		//System.out.println(JSON.toJSON(responseEntity.getBody()).toString());
-		return JSON.toJSON(responseEntity.getBody()).toString();
-	}
-	
-	
-	
-	
 	
 	@RequestMapping(value = "/budget/budget-group-total-final", method = RequestMethod.POST)
 	@ResponseBody
@@ -122,174 +96,19 @@ public class BudgetTotalController extends BaseController {
 		return JSON.toJSON(responseEntity.getBody()).toString();
 	}
 	
-	@RequestMapping(value = "/budget/budget_total_info_table", method = RequestMethod.POST)
-	@ResponseBody
-	public Object getBudgetTable(@ModelAttribute("param") LayuiTableParam param,HttpServletRequest request) throws IOException 
-	{
-		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_TOTAL_TABLE, HttpMethod.POST, new HttpEntity<LayuiTableParam>(param, this.httpHeaders), Object.class);
-		//System.out.println(JSON.toJSON(responseEntity.getBody()).toString());
-		return JSON.toJSON(responseEntity.getBody()).toString();
-	}
-	@RequestMapping(value = "/budget/budget-total-items", method = RequestMethod.POST)
-	@ResponseBody
-	public Object getBudgetItems(@ModelAttribute("param") LayuiTableParam param,HttpServletRequest request) throws IOException 
-	{
-		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_TOTAL_ITEMS, HttpMethod.POST, new HttpEntity<LayuiTableParam>(param, this.httpHeaders), Object.class);
-		System.out.println(JSON.toJSON(responseEntity.getBody()));
-		return JSON.toJSON(responseEntity.getBody()).toString();
-	}
-	@RequestMapping(value = "/budget/budget-total-create", method = RequestMethod.POST)
-	@ResponseBody
-	public Object createBudgetInfo(@ModelAttribute("info") BudgetInfo info,HttpServletRequest request) throws IOException 
-	{
-		
-		info.setCreaterId(this.getUserProfile().getUserId());
-		info.setCreaterName(this.getUserProfile().getUserDisp());
-		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_TOTAL_CREATE, HttpMethod.POST, new HttpEntity<BudgetInfo>(info, this.httpHeaders), Object.class);
-		//System.out.println(JSON.toJSON(responseEntity.getBody()).toString());
-		return JSON.toJSON(responseEntity.getBody()).toString();
-	}
-	
-	@RequestMapping(value = "/budget/budget-total-create-bytemplate", method = RequestMethod.POST)
-	@ResponseBody
-	public Object createBudgetInfoByTemplate(@ModelAttribute("info") BudgetInfo info,HttpServletRequest request) throws IOException 
-	{
-		info.setCreaterId(this.getUserProfile().getUserId());
-		info.setCreaterName(this.getUserProfile().getUserDisp());
-		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_TOTAL_CREATE_BYTEMPLATE, HttpMethod.POST, new HttpEntity<BudgetInfo>(info, this.httpHeaders), Object.class);
-		//System.out.println(JSON.toJSON(responseEntity.getBody()).toString());
-		return JSON.toJSON(responseEntity.getBody()).toString();
-	}
-	
-	@RequestMapping(value = "/budget/budget-total-del", method = RequestMethod.POST)
-	@ResponseBody
-	public Object deleteBudgetInfo(@ModelAttribute("info") BudgetInfo info,HttpServletRequest request) throws IOException 
-	{
-		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_TOTAL_DELETE, HttpMethod.POST, new HttpEntity<BudgetInfo>(info, this.httpHeaders), Object.class);
-		//System.out.println(JSON.toJSON(responseEntity.getBody()).toString());
-		return JSON.toJSON(responseEntity.getBody()).toString();
-	}
-	@RequestMapping(value = "/budget/get-total-item/{dataId}", method = RequestMethod.POST)
-	@ResponseBody
-	public Object selectBudgetTotalItem(@PathVariable("dataId") String dataId,HttpServletRequest request) throws IOException 
-	{
-		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_TOTAL_GET_ITEM+dataId, HttpMethod.POST, new HttpEntity<Object>(dataId, this.httpHeaders), Object.class);
-		//System.out.println(JSON.toJSON(responseEntity.getBody()).toString());
-		return JSON.toJSON(responseEntity.getBody()).toString();
-	}
-	@RequestMapping(value = "/budget/get-total-item-company/{dataId}", method = RequestMethod.POST)
-	@ResponseBody
-	public Object selectBudgetTotalItemCompany(@PathVariable("dataId") String dataId,HttpServletRequest request) throws IOException 
-	{
-		ResponseEntity<Object> responseEntity = this.restTemplate.exchange(BUDGET_TOTAL_GET_ITEM_COMPANY+dataId, HttpMethod.POST, new HttpEntity<Object>(dataId, this.httpHeaders), Object.class);
-		//System.out.println(JSON.toJSON(responseEntity.getBody()).toString());
-		return JSON.toJSON(responseEntity.getBody()).toString();
-	}
-	
-	@RequestMapping(value = "/budget/save-total-childitems", method = RequestMethod.POST)
-	@ResponseBody
-	public Object saveBudgetChildStockTotalItems(@RequestParam("items")String items,@RequestParam("item")String item,HttpServletRequest request) throws IOException 
-	{
-		Map<String,Object> mapParam = new HashMap<String,Object>();
-		mapParam.put("items", JSON.parseArray(items).toString());
-		mapParam.put("item", JSON.parse(item).toString());
-		ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(BUDGET_TOTAL_SAVE_CHILDITEMS, HttpMethod.POST, new HttpEntity<Object>(mapParam, this.httpHeaders), Integer.class);
-		if (responseEntity.getBody() == 0) {
-			return new Result(false);
-		} else {
-			return new Result(true);
-		}
-	}
-	
-	
-
-	@RequestMapping(value = "/budget/start-budget-total-activity", method = RequestMethod.POST)
-	@ResponseBody
-	public Object submitBudgetTotal(@RequestParam(value = "budgetInfoId", required = true) String budgetInfoId,
-			@RequestParam(value = "functionId", required = true) String functionId,HttpServletRequest request) throws IOException 
-	{
-		System.out.println("start-budget-total-activity-----------------");
-		WorkflowVo vo = new WorkflowVo();
-		vo.setAuditUserIds(this.getUserProfile().getUserId());
-		vo.setFunctionId(functionId);
-		vo.setAuthenticatedUserId(this.getUserProfile().getUserId());
-		HttpEntity<WorkflowVo> entity = new HttpEntity<WorkflowVo>(vo, this.httpHeaders);
-		Result startRs = this.restTemplate.exchange(PROJECT_NOTICE_WORKFLOW_URL + budgetInfoId, HttpMethod.POST, entity, Result.class).getBody();
-		
-		ResponseEntity<BudgetInfo> getRs = this.restTemplate.exchange(BUDGET_INFO_GET+budgetInfoId, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), BudgetInfo.class);
-		BudgetInfo info =getRs.getBody();// JSON.toJavaObject(JSON.parseObject(getRs.getBody().toString()), BudgetInfo.class);
-		
-		System.out.println(JSON.toJSONString(info));
-		info.setUpdateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
-		info.setAuditStatus(BudgetAuditStatusEnum.AUDIT_STATUS_START.getCode());//审批状态开始
-		ResponseEntity<Integer> upRs = this.restTemplate.exchange(BUDGET_INFO_UPDATE, HttpMethod.POST, new HttpEntity<Object>(info, this.httpHeaders), Integer.class);
-		if (upRs.getBody() >= 0) {
-			Map<String,Object> rsmap = MyBeanUtils.transBean2Map(info);
-			rsmap.put("auditStatusDesc", BudgetAuditStatusEnum.getStatusByCode(info.getAuditStatus()).getDesc());
-			startRs.setData(rsmap);
-		} 
-		
-		return startRs;
-	}
-	
-	@RequestMapping(value = "/budget/search-total-final-history-list", method = RequestMethod.POST)
-	@ResponseBody
-	public Object searchBudgetTotalFinalHistoryList(HttpServletRequest request) throws IOException 
-	{
-		//System.out.println(JSON.toJSONString(info));
-		ResponseEntity<?> infors = this.restTemplate.exchange(BUDGET_TOTAL_FINAL_HISTORY_LIST, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), List.class);
-		return infors.getBody();
-	}
-	
-	
-	@RequestMapping(value = "/budget/select-total-compare-plan", method = RequestMethod.POST)
-	@ResponseBody
-	public Object selectBudgetTotalComparePlan(@RequestParam(value="nd",required = false)String nd,@RequestParam(value="code",required = false)String code,HttpServletRequest request) throws IOException 
-	{
-		System.out.println("plan............"+nd+"------"+code);
-		if(nd == null || code == null) {
-			return new ArrayList<Object>();
-		}
-		Map<String,Object> param = new HashMap<String,Object>();
-		param.put("nd", nd);
-		param.put("code", code);
-		//System.out.println(JSON.toJSONString(info));
-		ResponseEntity<?> infors = this.restTemplate.exchange(BUDGET_TOTAL_COMPARE_PLAN, HttpMethod.POST, new HttpEntity<Object>(param,this.httpHeaders), List.class);
-		//System.out.println(JSON.toJSONString(infors.getBody()));
-		return infors.getBody();
-	}
-	
-	@RequestMapping(value = "/budget/select-total-compare-project", method = RequestMethod.POST)
-	@ResponseBody
-	public Object selectBudgetTotalCompareProject(@RequestParam(value="nd",required = false)String nd,@RequestParam(value="code",required = false)String code,HttpServletRequest request) throws IOException 
-	{
-		System.out.println("plan............"+nd+"------"+code);
-		if(nd == null || code == null) {
-			return new ArrayList<Object>();
-		}
-		Map<String,Object> param = new HashMap<String,Object>();
-		param.put("nd", nd);
-		param.put("code", code);
-		//System.out.println(JSON.toJSONString(info));
-		ResponseEntity<?> infors = this.restTemplate.exchange(BUDGET_TOTAL_COMPARE_PROJECT, HttpMethod.POST, new HttpEntity<Object>(param,this.httpHeaders), List.class);
-		//System.out.println(JSON.toJSONString(infors.getBody()));
-		return infors.getBody();
-	}
-	
-	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@RequestMapping("/budget/budget_download/total/{dataId}")
-	public void downBudgetTotal(@PathVariable("dataId") String dataId,HttpServletResponse res) throws IOException 
+	@RequestMapping("/budget/budget_download/total/{nd}")
+	public void downBudgetTotal(@PathVariable("nd") String nd,HttpServletResponse res) throws IOException 
 	{
 		LayuiTableParam param = new LayuiTableParam();
-		param.getParam().put("budget_info_id", dataId);
+		param.getParam().put("nd", nd);
 		param.setLimit(100);
 		param.setPage(1);
 		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(BUDGET_TOTAL_ITEMS, HttpMethod.POST, new HttpEntity<LayuiTableParam>(param, this.httpHeaders), LayuiTableData.class);
 		LayuiTableData tabldata = responseEntity.getBody();
 		//System.out.println(JSON.toJSONString(tabldata));
 		
-		ResponseEntity<BudgetInfo> rs = this.restTemplate.exchange(BUDGET_TOTAL_INFO, HttpMethod.POST, new HttpEntity<String>(dataId, this.httpHeaders), BudgetInfo.class);
+		ResponseEntity<BudgetInfo> rs = this.restTemplate.exchange(BUDGET_TOTAL_INFO, HttpMethod.POST, new HttpEntity<String>(nd, this.httpHeaders), BudgetInfo.class);
 		BudgetInfo info = rs.getBody();
 		
 		Map<String,String> parammap = new HashMap<String,String>();
