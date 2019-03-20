@@ -326,7 +326,7 @@ function forceAjax_singles(url, echartsobj, options, callback,len,id, title, sub
                                 useWorker: false,
                                 minRadius: 25,
                                 maxRadius: 75,
-                                gravity: 1.5,
+                                gravity: 2.8,
                                 scaling: 2,
                                 roam: 'move',
                                 nodes: nodes,
