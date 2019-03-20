@@ -318,7 +318,9 @@ public class BudgetStockTotalProviderClient
 				stock = (BudgetStockTotal)MyBeanUtils.createDefaultModel(BudgetStockTotal.class);
 				MyBeanUtils.copyPropertiesIgnoreNull(item, stock);
 				stock.setDelFlag(DelFlagEnum.STATUS_NORMAL.getCode());
+				stock.setItemType(BudgetItemTypeEnum.BUDGET_ITEM_PROJECT.getCode());
 				stock.setNd(info.getNd());
+				stock.setLevel("0".equals(stock.getParentDataId())?0:1);//
 				stock.setCreateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
 				stock.setUpdateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
 				stock.setDataVersion(info.getDataVersion());
