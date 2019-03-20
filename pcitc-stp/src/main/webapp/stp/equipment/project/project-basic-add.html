@@ -503,27 +503,30 @@
                 content: temUrl,
                 end: function () {
                     var arrJ = $("#joinUnitName").val().split(",");
-                    $.each(arrJ, function (i, val) {
-                        var html = ' <div class="layui-form-item layui-form-text" >' +
-                            '        <label class="layui-form-label">' + arrJ[i] + '</label>' +
-                            '        <div class="layui-input-block" id="yearTr'+i+'">' +
-                            '            <table class="layui-table">' +
-                            '             <thead>' +
-                            '             <tr>' +
-                            '                <td width="20%">年  度</td>' +
-                            '                <td width="8%">费用性支出(万元)</td>' +
-                            '                <td width="8%">资本性支出(万元)</td>' +
-                            '                <td width="8%">小  计(万元)</td>' +
-                            '             </tr>' +
-                            '            </thead>' +
-                            '            <tbody></tbody>' +
-                            '          </table>' +
-                            '        </div>' +
-                            '       </div>';
-                        $("#units").append(html);
-                        publicMethods.createTable($("#beginYear").val(), $("#endYear").val(), "yearTr"+i, 2, yearFeeStr);
-                    });
-
+                    if(arrJ=='undefined'){
+                        alert(arrJ)
+                    }else {
+                        $.each(arrJ, function (i, val) {
+                            var html = ' <div class="layui-form-item layui-form-text" >' +
+                                '        <label class="layui-form-label">' + arrJ[i] + '</label>' +
+                                '        <div class="layui-input-block" id="yearTr'+i+'">' +
+                                '            <table class="layui-table">' +
+                                '             <thead>' +
+                                '             <tr>' +
+                                '                <td width="20%">年  度</td>' +
+                                '                <td width="8%">费用性支出(万元)</td>' +
+                                '                <td width="8%">资本性支出(万元)</td>' +
+                                '                <td width="8%">小  计(万元)</td>' +
+                                '             </tr>' +
+                                '            </thead>' +
+                                '            <tbody></tbody>' +
+                                '          </table>' +
+                                '        </div>' +
+                                '       </div>';
+                            $("#units").append(html);
+                            publicMethods.createTable($("#beginYear").val(), $("#endYear").val(), "yearTr"+i, 2, yearFeeStr);
+                        });
+                    }
                 }
             });
         }

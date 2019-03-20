@@ -7,38 +7,296 @@
     <link rel="stylesheet" type="text/css" href="/layuiadmin/style/second.css">
     <script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+    <style>
+
+        .main-content {
+            display: flex;
+            height: auto;
+            overflow: hidden;
+            padding: 0 130px;
+            justify-content: space-between;
+        }
+
+        .main-expert {
+            position: relative;
+        }
+
+        .main-content > div {
+            width: 20%;
+            float: left;
+            margin-right: 20px;
+        }
+
+        .main-content > div:last-child {
+            margin-right: 0;
+        }
+
+        .main-content .expert-h {
+            background: #dee3e7;
+            height: 94px;
+            border-bottom: 1px solid #ebebeb;
+            border-radius: 4px 4px 0 0;
+        }
+
+        .main-content .expert-i {
+            position: absolute;
+            top: 28px;
+            left: 0;
+            right: 0;
+            margin: 0 auto;
+            width: 130px;
+            background: #fff;
+            border-radius: 50%;
+            height: 130px;
+            display: table-cell;
+            text-align: center;
+            vertical-align: middle;
+            box-shadow: 0 0 10px #ebebeb;
+            overflow: hidden;
+        }
+
+        .main-content .expert-i img {
+            height: 160px;
+            padding-top: 11px;
+            border-radius: 6px;
+        }
+
+        .main-content .expert-t {
+            padding-top: 70px;
+            text-align: center;
+            padding-bottom: 14px;
+            font-size: 22px;
+            color: #333333;
+        }
+
+        .main-content .expert-s {
+            height:19px;
+            text-align: center;
+            font-size: 14px;
+            color: #333333;
+            padding-bottom: 10px;
+        }
+
+        .main-content .expert-ab {
+            padding: 0 10% 20px;
+            text-indent: 2em;
+            font-size: 14px;
+            color: #888888;
+            line-height: 22px;
+            height: 50px;
+        }
+
+        .main-content .expert-p {
+            text-align: center;
+            padding-bottom: 20px;
+        }
+
+        .main-content .expert-p a {
+            padding: 0 10px;
+            font-size: 14px;
+            color: #000000;
+            border: 1px solid #dcdcdc;
+            border-radius: 3px;
+            height: 30px;
+            line-height: 30px;
+            display: inline-block;
+        }
+
+        .main-content .expert-a {
+            border-top: 1px dashed #ebebeb;
+            border-bottom: 1px solid #ebebeb;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+        }
+
+        .main-content .expert-a a {
+            font-size: 14px;
+            color: #00a4b3;
+        }
+
+        .main-content .expert-t, .main-content .expert-s, .main-content .expert-ab, .main-content .expert-p,
+        .main-content .expert-a {
+            border-right: 1px solid #ebebeb;
+            border-left: 1px solid #ebebeb;
+        }
+
+        .main > h4 {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 50px;
+        }
+
+        .main-button {
+            text-align: center;
+        }
+
+        .main button {
+            border: 1px solid #00a3b5;
+            font-size: 16px;
+            color: #00a3b5;
+            padding: 0 30px;
+            height: 36px;
+            line-height: 36px;
+            margin: 50px auto;
+            background: none;
+        }
+
+        .main-e {
+            padding: 0 130px;
+        }
+
+        .searchH {
+            height: 174px;
+            /*overflow: auto;*/
+        }
+        .formBox{padding-top: 0;}
+        .search {
+            width: 51%;
+            margin: 24px auto 0px;
+        }
+
+        .layui-card {
+            box-shadow: none;
+        }
+
+        .layui-card-header {
+            border: none;
+            text-align: center;
+            font-size: 24px;
+            color: #000;
+            height: 80px;
+            font-weight: normal;
+        }
+        .select-tree{
+            width: 300px;float: left;margin-right: 15px;
+        }
+        @media screen and (min-width: 1118px) {
+            .main-content, .main-e {
+                padding: 0 50px;
+            }
+
+            .searchOption {
+                width: 90.4%;
+            }
+
+            .search {
+                width: 76.6%;
+            }
+        }
+
+        @media screen and (min-width: 1287px) {
+            .main-content, .main-e {
+                padding: 0 80px;
+            }
+
+            .searchOption {
+                width: 78.18%;
+            }
+
+            .search {
+                width: 67%;
+            }
+        }
+
+        @media screen and (min-width: 1672px) {
+            .searchOption {
+                width: 82.4%;
+            }
+
+            .search {
+                width: 52%;
+            }
+        }
+        .search .selectTreeBox input{width: 300px;margin-left: 0;}
+        .search input{height: 36px;line-height: 36px;border-radius: 3px;margin: 0;  padding: 0px 10px;}
+        .search a{height: 37px;line-height: 37px; position: relative;
+            top: 1px;}
+        .layui-form-select .layui-input{margin-right: 18px;}
+        .layui-select-title{padding-top: 1px;}
+        .layui-select-title input{box-shadow: none;transition:none;height: 37px;line-height: 37px;
+            font-size: 16px;    padding: 0px 10px;}
+    </style>
 </head>
 <body>
+<div class="layui-main-oil layui-expert">
+    <!--<div class="layui-statistics">
+        <span>机构数量:${jlCount}</span>
+        <span>专家数量:${expertCount}</span>
+        <span>成果数量:${cgCount}</span>
+        <span>专利数量:${zlCount}</span>
+    </div>-->
+    <div class="searchH">
+        <div class="searchOption" style="text-align: center">
+            <#list dictionarys as item>
+                <a href="javascript:void(0);" onclick="changeUrlHyly('${item.code}');">${item.name}</a>
+            </#list>
+        <!--<a href="#">石油炼制</a>-->
+        <!--<a href="#">石油化工</a>-->
+        <!--<a href="#">公用技术</a>-->
+        <!--<a href="#">合成材料</a>-->
+        <!--<a href="#">装备与储运</a>-->
+        <!--<a href="#">安全环保</a>-->
+        <!--<a href="#">信息技术</a>-->
+    </div>
+    <div class="search formBox">
+        <!--<span></span>-->
+        <!--<div class="layui-select-more">-->
+        <!--<select id="hyly" onchange="changeUrl()" onclick="changeUrl()" xm-select="hyly"></select>-->
+        <!--</div>-->
 
-<div class="layui-row-main">
-    <div class="main-chart" id="one0" style="height:250px;width: 100%;"></div>
+        <!--<span>机构</span>-->
+        <div class="selectTreeBox" style="position: relative;">
+
+            <div id="companyDiv" class="layui-form-select select-tree"></div>
+        </div>
+
+        <input id="key" value="" onblur="changeUrl()" placeholder="输入查找关键字" style="width: 398px;
+        border: 1px solid #dddddd;border-radius: 2px;padding-left: 10px;"/>
+
+
+        <div class="layui-select-more" style="display: none;">
+            <select id="jg" onchange="changeUrl()" onclick="changeUrl()" xm-select="jg" style="height: 30px;"></select>
+        </div>
+        <!--<span>专家姓名</span>
+        <input id="zjmc" value="" onblur="changeUrl()"/>
+        <span>关键字</span>-->
+        <!--<a href="/expertController/queryExpert" target="_blank">找专家</a>-->
+        <a lay-href="/expertController/queryExpert" target="_blank" id="hrefExpert" lay-text="找专家">找专家</a>
+        <!--<a lay-href="/expertController/selectBakList?status=1&addUserId=addUserId" target="_blank" lay-text="找专家">找专家</a>-->
+    </div>
 </div>
-<div class="layui-row-main">
-    <div class="main-chart" id="one1" style="height:250px;width: 100%;"></div>
-</div>
-<div class="layui-row-main">
-    <div class="main-chart" id="one2" style="height:250px;width: 100%;"></div>
-</div>
-<div class="layui-row-main">
-    <div class="main-chart" id="one3" style="height:250px;width: 100%;"></div>
-</div>
-<div class="layui-row-main">
-    <div class="main-chart" id="one4" style="height:250px;width: 100%;"></div>
-</div>
-<div class="layui-row-main">
-    <div class="main-chart" id="one5" style="height:250px;width: 100%;"></div>
-</div>
-<div class="layui-row-main">
-    <div class="main-chart" id="one6" style="height:250px;width: 100%;"></div>
-</div>
-<div class="layui-row-main">
-    <div class="main-chart" id="one7" style="height:250px;width: 100%;"></div>
-</div>
-<div class="layui-row-main">
-    <div class="main-chart" id="one8" style="height:250px;width: 100%;"></div>
-</div>
-<div class="layui-row-main">
-    <div class="main-chart" id="one9" style="height:250px;width: 100%;"></div>
+<div class="layui-row">
+    <div class="layui-row-main layui-col-xs6 layui-col-sm6 layui-col-md6">
+        <div class="main-chart" id="one0" style="height:350px;width: 100%;"></div>
+    </div>
+    <div class="layui-row-main layui-col-xs6 layui-col-sm6 layui-col-md6">
+        <div class="main-chart" id="one1" style="height:350px;width: 100%;"></div>
+    </div>
+    <div class="layui-row-main layui-col-xs6 layui-col-sm6 layui-col-md6">
+        <div class="main-chart" id="one2" style="height:350px;width: 100%;"></div>
+    </div>
+    <div class="layui-row-main layui-col-xs6 layui-col-sm6 layui-col-md6">
+        <div class="main-chart" id="one3" style="height:350px;width: 100%;"></div>
+    </div>
+    <div class="layui-row-main layui-col-xs6 layui-col-sm6 layui-col-md6">
+        <div class="main-chart" id="one4" style="height:350px;width: 100%;"></div>
+    </div>
+    <div class="layui-row-main layui-col-xs6 layui-col-sm6 layui-col-md6">
+        <div class="main-chart" id="one5" style="height:350px;width: 100%;"></div>
+    </div>
+    <div class="layui-row-main layui-col-xs6 layui-col-sm6 layui-col-md6">
+        <div class="main-chart" id="one6" style="height:350px;width: 100%;"></div>
+    </div>
+    <div class="layui-row-main layui-col-xs6 layui-col-sm6 layui-col-md6">
+        <div class="main-chart" id="one7" style="height:350px;width: 100%;"></div>
+    </div>
+    <div class="layui-row-main layui-col-xs6 layui-col-sm6 layui-col-md6">
+        <div class="main-chart" id="one8" style="height:350px;width: 100%;"></div>
+    </div>
+    <div class="layui-row-main layui-col-xs6 layui-col-sm6 layui-col-md6">
+        <div class="main-chart" id="one9" style="height:350px;width: 100%;"></div>
+    </div>
 </div>
 <script src="/common/js/jquery-1.11.3.min.js"></script>
 <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
@@ -52,8 +310,9 @@
 
 <script>
     function relationPic() {
-        load_single_forces("/expertController/picIndexImg", "one", "专家画像", "", "","",10);
+        load_single_forces("/expertController/picIndexImg", "one", "专家画像", "", "", "", 10);
     }
+
     relationPic();
 </script>
 </body>
