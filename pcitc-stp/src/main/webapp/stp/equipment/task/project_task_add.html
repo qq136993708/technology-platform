@@ -67,7 +67,7 @@
                     </div>
                 </div>
             </div>
-            <div class="box-body">
+            <div class="box-body" style="padding:10px">
                 <input name="taskId" id="taskId" value="${taskId}" type="hidden">
                 <input name="topicId" id="topicId" value="${topicId}" type="hidden">
                 <input name="taskWriteUsersIds" id="taskWriteUsersIds" value="${taskWriteUsersIds}" type="hidden">
@@ -83,7 +83,7 @@
 			   <input  name="fundsSourcesTable"         id="fundsSourcesTable"     value="${sreProjectTask.fundsSourcesTable}"   type="hidden">
 
                 <div class="layui-form-item layui-form-text">
-                    <label class="layui-form-label">课题名称</label>
+                    <label class="layui-form-label">课题名称<span class="must-fill">*</span></label>
                     <div class="layui-input-block">
                         <input class="layui-input" placeholder="--请选择--" name="name" id="name" readonly="readonly" onclick="chooseProject('${topicId}')"   value="${sreProject.name}" autocomplete="off" type="text">
                     </div>
@@ -91,12 +91,12 @@
                 
                 
                 <div class="layui-form-item layui-form-text">
-                    <label class="layui-form-label">项目执行年限</label>
+                    <label class="layui-form-label">项目执行年限<span class="must-fill">*</span></label>
                     <div class="layui-input-block">
                      <div class="layui-input-inline" style="float:left">
-                        <input type="text" class="layui-input" name="beginProjectMonth" id="beginProjectMonth" value="${sreProjectTask.beginProjectMonth}" style="width:80px;float:left" placeholder="开始月份">
+                        <input type="text" class="layui-input" name="beginProjectMonth" id="beginProjectMonth" value="${sreProjectTask.beginProjectMonth}" style="width:150px;float:left" placeholder="开始月份">
                         <div class="layui-form-mid" style="width:8px;float:left"> -</div>
-                        <input type="text" class="layui-input" id="endProjectMonth" name="endProjectMonth" value="${sreProjectTask.endProjectMonth}" style="width:80px;float:left" placeholder="结束月份">
+                        <input type="text" class="layui-input" id="endProjectMonth" name="endProjectMonth" value="${sreProjectTask.endProjectMonth}" style="width:150px;float:left" placeholder="结束月份">
                     </div>
                     </div>
                 </div>
@@ -109,16 +109,7 @@
 		          <textarea placeholder="请简述目标和主要任务，原则上不超过500字" name="taskMainTaskContent" id="taskMainTaskContent"    class="layui-textarea">${sreProjectTask.taskMainTaskContent}</textarea>
 		        </div>
 		      </div>
-
-
-               <!--  <div class="layui-form-item layui-form-text">
-                    <label class="layui-form-label">其他</label>
-                    <div class="layui-input-block">
-                        <textarea name="notes" id="notes"
-                                  class="layui-textarea">${sreProjectTask.notes}</textarea>
-                    </div>
-                </div> -->
-               
+		      
 
             </div>
         </div>
@@ -138,7 +129,7 @@
                         <td width="4%">编号</td>
                         <td width="20%">单项设备名称</td>
                         <td width="28%">单项设备立项背景</td>
-                        <td width="8%">经费</td>
+                        <td width="8%">经费（万元）</td>
                         <td width="8%">备注</td>
                         <td width="3%">删除</td>
                     </tr>
@@ -160,7 +151,7 @@
                 <table class="layui-table">
                     <thead>
                     <tr>
-                        <td width="10%">进度安排</td>
+                        <td width="15%">进度安排</td>
                         <td width="15%">考核目标</td>
                         <td width="15%">考核目标</td>
                         <td width="15%">备注</td>
@@ -172,15 +163,28 @@
             </div>
 
 
+
+           <div class="formBox" id="budget_table">
+            <div class="tableToolBox">
+                <div class="tableBtns">
+                    <div class="tableTitle">应提交验收的内容
+                    </div>
+                </div>
+            </div>
+            <div class="box-body" style="padding-left:10px;padding-right:10px">
+                  <#list dicList as vo> 
+                    <input style="width:250px;margin:5px;float:left;" type="checkbox" name="taskCheckContents"  lay-skin="primary" title="${vo.name}"
+                    <#list "${sreProjectTask.taskCheckContents}"?split(",") as itemValue>
+                         <#if itemValue == vo.code>checked="checked"  </#if>
+                     </#list> value="${vo.code}">
+                    </#list>
+             </div>
+          </div>  
           
-          
+          <!-- 
             <div class="layui-row" id="budget_table">
                 <div class="tableToolBox">
                     <div class="tableTitle">应提交验收的内容<span class="must-fill">*</span></div>
-                    <div class="tableBtns">
-                        <a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg" data-type="budgetAddEvent">新增
-                        </a>
-                    </div>
                 </div>
                 <div style="padding:10px">
                     <#list dicList as vo> 
@@ -190,14 +194,13 @@
                      </#list> value="${vo.code}">
                     </#list>
                 </div>
-            </div>
+            </div> -->
             
             
 
             <div class="layui-row" id="budget_tableNew">
                 <div class="tableToolBox">
                     <div class="tableTitle">资金概算表</div>
-                    <p id="queding">确定</p>
                 </div>
                 <table class="layui-table">
                     <thead>
@@ -206,7 +209,7 @@
                         <td>项目</td>
                         <td>台套</td>
                         <td>预算金额（万元）</td>
-                        <td>备注</td>
+                        <td>小计（万元）</td>
                     </tr>
                     </thead>
                     <tbody>
@@ -367,9 +370,7 @@
 
             <div class="layui-row" id="funds_sources_table">
                 <div class="tableToolBox">
-                    <div class="tableTitle">
-                        资金来源表
-                    </div>
+                    <div class="tableTitle"> 资金来源表</div>
                     <div class="tableBtns">
                         <a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg"
                            data-type="fundsAddEvent">新增
@@ -391,7 +392,39 @@
                     <tbody></tbody>
                 </table>
             </div>
-            <div class="layui-row" id="project_funds_table">
+            
+            
+            
+            
+            
+            <div class="formBox" id="project_funds_table">
+            <div class="tableToolBox">
+                <div class="tableBtns">
+                    <div class="tableTitle">项目资金安排
+                    </div>
+                </div>
+            </div>
+            <div class="box-body" style="padding-left:10px;padding-right:10px">
+            
+             <label class="layui-form-label" style="width: 100%;text-align: left;margin-left: 0;">
+                    ${sreProject.leadUnitName?default('')}</label>
+                <table class="layui-table">
+                    <thead>
+                    <tr>
+                        <td width="20%">年 度</td>
+                        <td width="8%">费用性支出(万元)</td>
+                        <td width="8%">资本性支出(万元)</td>
+                        <td width="8%">小 计(万元)</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+                <div id="units"></div>
+            </div>
+            </div>
+            
+           <!--  <div class="layui-row" id="project_funds_table">
                 <div class="tableToolBox">
                     <div class="tableTitle">项目资金安排</div>
                     <div class="tableBtns">
@@ -412,8 +445,7 @@
                     </tbody>
                 </table>
                 <div id="units"></div>
-            </div>
-        </div>
+            </div> -->
         
         
       
@@ -421,9 +453,6 @@
       
         <div class="form-bottom">
             <div class="form-bottom-btns">
-                <!-- <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue"
-                        lay-submit="" lay-filter="sub">保存
-                </button> -->
                 <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="" lay-filter="up">下一步-》立项报告
                 </button>
                 <button type="button"  class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white"
@@ -735,32 +764,7 @@
                     });
                 });
             },
-            /*budgetAddEvent:function(){
-                var selectH='<select class="selectZF" lay-filter="selectZF">' +
-                    '<option value="资本性">资本性</option><option value="费用性">费用性</option></select>'
-                var tr = "<tr><td>" + selectH + "</td>" +
-                    "<td><select class='zbx'></select> </td>" +
-                    "<td><input type='number' value='0'/> </td>" +
-                    "<td><input type='number' value='0'/> </td>" +
-                    "<td><input lay-verify='specialCharacters' type='text' value=''/> </td>" +
-                    "<td><a href='javascript:;' class='dele'>删除</a></td></tr>";
-                addTr("budget_table", tr);
-                selectHtml(arrSelect,'',$(".zbx"));
-                form.on('select(selectZF)', function(data){
-                    if(data.value=='资本性'){
-                        $(data.elem).parents("tr").find(".zbx").empty();
-                        selectHtml(arrSelect,'',$(data.elem).parents("tr").find(".zbx"));
-                        form.render("select");
-                    }else {
-                        $(data.elem).parents("tr").find(".zbx").empty();
-                        selectHtml(arrSelectF,'',$(data.elem).parents("tr").find(".zbx"));
-                        form.render("select");
-                    }
-                });
-                dele();
-                formVerify();
-                form.render();
-            },*/
+            
             fundsAddEvent:function(){
                 var tr = "<tr><td> <input lay-verify='specialCharacters' type='text' value=''/></td>" +
                     "<td><input type='number' class='fundsNumber' value='0'/> </td>" +
@@ -822,7 +826,7 @@
             }else{
             	 $("#taskContent").val(task_content)
             	 $("#taskAssessmentContent").val(task_assessment_content)
-                alert(budget_table.substring(0, budget_table.length - 1))
+                 //alert(budget_table.substring(0, budget_table.length - 1))
             	 $("#budgetTable").val(budget_table.substring(0, budget_table.length - 1));
             	 $("#fundsSourcesTable").val(funds_sources_table)
             	   

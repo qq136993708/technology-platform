@@ -56,14 +56,7 @@ public class ProjectSetupController extends BaseController {
 	private static final String UPDATE_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_setup/update";
 	private static final String DEL_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_setup/delete/";
 	private static final String GET_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_setup/get/";
-	private static final String GET_PROJECT_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_basic/get/";
 
-	
-	
-	private static final String GET_URL_TASK = "http://pcitc-zuul/stp-proxy/sre-provider/project_task/get/";
-	private static final String GET_URL_PROJECT = "http://pcitc-zuul/stp-proxy/sre-provider/project_basic/get/";
-	private static final String UPDATE_URL_TASK = "http://pcitc-zuul/stp-proxy/sre-provider/project_task/update";
-	private static final String UPDATE_URL_PROJECT = "http://pcitc-zuul/stp-proxy/sre-provider/project_basic/update";
 	
 	
 
@@ -350,9 +343,11 @@ public class ProjectSetupController extends BaseController {
 		ResponseEntity<SreProjectSetup> responseEntity = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreProjectSetup.class);
 		int statusCode = responseEntity.getStatusCodeValue();
 		logger.info("============远程返回  statusCode " + statusCode);
-		SreProjectSetup SreProjectSetup = responseEntity.getBody();
-		request.setAttribute("SreProjectSetup", SreProjectSetup);
+		SreProjectSetup sreProjectSetup = responseEntity.getBody();
+		request.setAttribute("sreProjectSetup", sreProjectSetup);
 		
+		SreProject sreProject=EquipmentUtils.getSreProject(sreProjectSetup.getTopicId(), restTemplate, httpHeaders);
+		request.setAttribute("sreProject", sreProject);
 		return "/stp/equipment/setup_report/setup_report_view";
 	}
 	
