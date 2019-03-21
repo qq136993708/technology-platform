@@ -29,8 +29,10 @@ import com.pcitc.base.common.Result;
 import com.pcitc.base.common.TreeNode;
 import com.pcitc.base.common.enums.BudgetAuditStatusEnum;
 import com.pcitc.base.common.enums.DelFlagEnum;
+import com.pcitc.base.stp.budget.BudgetAssetTotal;
 import com.pcitc.base.stp.budget.BudgetGroupTotal;
 import com.pcitc.base.stp.budget.BudgetInfo;
+import com.pcitc.base.stp.budget.BudgetStockTotal;
 import com.pcitc.base.stp.out.OutProjectInfo;
 import com.pcitc.base.stp.out.OutProjectPlan;
 import com.pcitc.base.stp.out.OutUnit;
@@ -534,7 +536,7 @@ public class BudgetGroupTotalProviderClient
 		{
 			List<BudgetInfo> rs = budgetInfoService.selectFinalBudgetInfoList(BudgetInfoEnum.GROUP_TOTAL.getCode());
 			for(BudgetInfo info:rs) {
-				List<BudgetGroupTotal> totals = budgetGroupTotalService.selectBudgetInfoId(info.getDataId());
+				List<BudgetGroupTotal> totals = budgetGroupTotalService.selectItemsByBudgetId(info.getDataId());
 				Map<String,Object> map  = MyBeanUtils.transBean2Map(info);
 				
 				List<Map<String,Object>> items = new ArrayList<Map<String,Object>>();
@@ -671,5 +673,25 @@ public class BudgetGroupTotalProviderClient
 		}
 		return null;
 	}
-	
+	@ApiOperation(value="集团公司预算-获取指定年度最终预算表",notes="获取指定年度最终预算表信息及列表")
+	@RequestMapping(value = "/stp-provider/budget/get-final-grouptotal", method = RequestMethod.POST)
+	public Object selectFinalGroupTotalInfo(@RequestBody String nd) throws Exception 
+	{
+		BudgetInfo info = budgetInfoService.selectFinalBudget(nd, BudgetInfoEnum.GROUP_TOTAL.getCode());
+		Map<String,Object> rsmap = new HashMap<String,Object>();
+		if(info != null) {
+			rsmap = MyBeanUtils.transBean2Map(info);
+			List<BudgetGroupTotal> totals = budgetGroupTotalService.selectItemsByBudgetId(info.getDataId());
+			Double items_total = 0d;
+			for(BudgetGroupTotal total:totals) {
+				items_total += total.getTotal()==null?0d:total.getZxjf()+total.getXmjf();
+			}
+			rsmap.put("items", totals);
+			rsmap.put("items_total", items_total);
+		}else {
+			rsmap.put("items", new ArrayList<BudgetGroupTotal>());
+			rsmap.put("items_total", 0);
+		}
+		return rsmap;
+	}
 }

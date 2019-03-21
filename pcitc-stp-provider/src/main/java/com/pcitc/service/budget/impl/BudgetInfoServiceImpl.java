@@ -163,4 +163,19 @@ public class BudgetInfoServiceImpl implements BudgetInfoService
 		return budgetInfoMapper.selectByExample(example);
 	}
 
+	@Override
+	public BudgetInfo selectFinalBudget(String nd, Integer budgetType) {
+		BudgetInfoExample example = new BudgetInfoExample();
+		BudgetInfoExample.Criteria c = example.createCriteria();
+		c.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
+		c.andAuditStatusEqualTo(BudgetAuditStatusEnum.AUDIT_STATUS_FINAL.getCode());
+		c.andBudgetTypeEqualTo(budgetType);
+		c.andNdEqualTo(nd);
+		List<BudgetInfo> infos = budgetInfoMapper.selectByExample(example);
+		if(infos != null && infos.size()>0) {
+			return infos.get(0);
+		}
+		return null;
+	}
+
 }

@@ -71,7 +71,7 @@ public interface BudgetGroupTotalService
 	 * @return
 	 * @throws Exception
 	 */
-	public List<BudgetGroupTotal> selectBudgetInfoId(String budgetId)throws Exception;
+	public List<BudgetGroupTotal> selectItemsByBudgetId(String budgetId)throws Exception;
 	/**
 	 * 根据预算表查询预算表下所有预算项（包括一级和二级）
 	 * @param budgetId

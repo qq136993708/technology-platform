@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.common.TreeNode;
 import com.pcitc.base.doc.SysFileShare;
+import com.pcitc.base.system.SysUnit;
 import com.pcitc.service.doc.SysFileShareService;
 import com.pcitc.service.system.SysFileService;
 
@@ -139,4 +141,24 @@ public class SysFileShareClient {
         }
         return 500;
     }
+	
+	/**
+	 * 查询某种条件下的组织机构节点，有组织机构和人员、岗位
+	 */
+	@ApiOperation(value="检索机构(树)有人员有岗位",notes="查询某种条件下的组织机构节点，有组织机构和人员、岗位。")
+	@RequestMapping(value = "/sysfileshare-provider/units-posts-users/tree", method = RequestMethod.POST)
+	public List<TreeNode> selectTreeNodeWithUnitAndPostAndUser(@RequestBody SysUnit unit) {
+		List<TreeNode> list = sysFileShareService.getUnitTreeAndPostAndUserCond(unit);
+		
+		for (int i = 0; i < list.size(); i++) {
+			TreeNode tree = list.get(i);
+			// 前几层默认打开
+			if (tree.getLevelCode()<2) {
+				tree.setOpen("true");
+			} else {
+				tree.setOpen("false");
+			}
+		}
+		return list;
+	}
 }

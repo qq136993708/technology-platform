@@ -63,10 +63,11 @@ var publicMethods;
 	             	,{title:'序号', type:'numbers'},
 	                {field : 'name',            title : '课题名称',     style : 'cursor: pointer;', align : 'center', width : '30%'},
 	                {field : 'projectMoney',    title : '总经费(万元)', style : 'cursor: pointer;', align: 'center', templet:function(d){return '<span style="color:red">'+d.projectMoney+'</span>'}},
-	                {field : 'applyUnitName',   title : '申报部门',     style : 'cursor: pointer;', align : 'center', width : '20%'},
-	                {field : 'createUserName',  title : '申报人',      style : 'cursor: pointer;', align : 'center', width : '10%'},
-	                {field : 'taskWriteUserNames',  title : '要求填写人',      style : 'cursor: pointer;', align : 'center', width : '10%'},
-	                {field : 'createDate',      title : '上报时间',     style : 'cursor: pointer;', align: 'center', templet : '#dateTpl'}
+	                {field : 'parentUnitPathNames',    title : '课题申报单位', style : 'cursor: pointer;', align: 'left', width : '25%'},
+	                {field : 'applyUnitName',   title : '课题申报部门',     style : 'cursor: pointer;', align : 'center', width : '20%'},
+	                {field : 'createUserName',  title : '课题申报人',      style : 'cursor: pointer;', align : 'center', width : '10%'},
+	                {field : 'taskWriteUserNames',  title : '要求填写人',      style : 'cursor: pointer;', align : 'center', width : '15%'},
+	                {field : 'createDate',          title : '时间',     style : 'cursor: pointer;', align: 'center', templet : '#dateTpl', width : '15%'}
 	            ]],
 	            done: function (res, curr, count) 
 	            {
@@ -108,7 +109,7 @@ var publicMethods;
                 	}
                 	var topicId=$("#topicId").val();
                 	var name=$("#name").val();
-                	alert(topicId);
+                	//alert(topicId);
                 	parent.document.getElementById("topicId").value=topicId;
                 	parent.document.getElementById("name").value=name;
 

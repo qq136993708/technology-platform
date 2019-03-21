@@ -26,6 +26,7 @@ import com.pcitc.base.doc.SysFileKindAuth;
 import com.pcitc.base.doc.SysFileKindAuthExample;
 import com.pcitc.base.doc.SysFileKindExample;
 import com.pcitc.base.system.SysFile;
+import com.pcitc.base.system.SysUnit;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.IdUtil;
@@ -346,19 +347,13 @@ public class SysFileKindServiceImpl implements SysFileKindService {
      * 删除当前页人员所有的已分配数据，插入新保存的用户(若干条)
      */
     public int saveFileKindAuthUser(SysFileKindAuth sysFileKindAuth) {
-    	// 删除当前页用户数据
-    	String pageUser = sysFileKindAuth.getBak1();
-    	List<String> userList = new ArrayList<String>();
-    	String[] userArr = pageUser.split("\\|");
-    	userList = Arrays.asList(userArr);
-    	
+    	// 删除此文档分类的所有用户
     	SysFileKindAuthExample sfka = new SysFileKindAuthExample();
     	SysFileKindAuthExample.Criteria cri = sfka.createCriteria();
     	cri.andFileKindIdEqualTo(sysFileKindAuth.getFileKindId());
-    	cri.andUserIdIn(userList);
     	sysFileKindAuthMapper.deleteByExample(sfka);
     	
-    	// 保存新用户
+    	// 保存此文档分类的新用户
     	String newUser = sysFileKindAuth.getUserId();
     	String[] newUserArr = newUser.split("\\|");
     	for (int i = 0; i < newUserArr.length; i++) {
@@ -373,11 +368,18 @@ public class SysFileKindServiceImpl implements SysFileKindService {
     		temSFKA.setCreateDate(sysFileKindAuth.getCreateDate());
     		temSFKA.setCreateUserId(sysFileKindAuth.getCreateUserId());
     		temSFKA.setCreateUser(sysFileKindAuth.getCreateUser());
-
     		sysFileKindAuthMapper.insert(temSFKA);
     	}
     	
     	return 1;
     }
+    
+    /**
+	 * 查询某种条件下的组织机构节点，有组织机构和人员、岗位
+	 * 已配置功能权限的默认勾选
+	 */
+	public List<TreeNode> getUnitTreeAndPostAndUserCond(SysUnit unit) {
+		return sysFileKindAuthMapper.getUnitTreeAndPostAndUserCond(unit);
+	}
 
 }

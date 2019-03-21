@@ -290,7 +290,8 @@
 			zNodes = data;//机构下拉树的数据
 			//参数： 参数1：div的id，参数2：isMultiple 是否多选(true或false), 参数3：不用动,参数4：setting
 			//unitSelectTree = initSelectTree("userUnit",true, true, false,{ "Y": "ps", "N": "p" }) 
-			unitSelectTree = initSelectTree("userUnit",true, true, false,{ "Y": "ps", "N": "p" }) 
+			//应需求20190320调整为，之父节点互不影响
+			unitSelectTree = initSelectTree("userUnit",true, true, false,{ "Y": "", "N": "" }) 
 			initHideMenu();  //不加此方法则默认打开下拉树
 			
 			//处理机构数据，将机构数据中的父级关系去掉，树是一颗一级树
