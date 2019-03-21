@@ -19,13 +19,48 @@
   
     <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
     <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+    <style>
+        .layui-form-label {
+            width: 120px;
+        }
+
+        .layui-input-block {
+            margin-left: 145px;
+        }
+
+        .layui-row {
+            margin-bottom: 15px;
+        }
+
+        .tableBox table tr td, .formBoxBody table tr td {
+            border: 1px solid #e6e6e6;
+            height: 24px;
+            line-height: 24px;
+        }
+
+        .tableBox table tr td input {
+            width: 88%;
+            box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+            height: 20px;
+            padding: 6px 12px;
+            font-size: 12px;
+            line-height: 1.42857143;
+            color: #555;
+            background-color: #fff;
+            background-image: none;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+        .layui-input, .layui-select{
+            height: 34px !important;
+            width: 80% !important;
+        }
+        .layui-select-title input{width: 100% !important;}
+    </style>
 </head>
 <body>
 
         
-  <div class="formBox">
-  <div class="box-body">
-  <form class="layui-form" name="form1" id="form1" action="" method="POST" lay-filter="component-form-group layui-container">
   <input  name="id"      id="id"       value="${id}"                    type="hidden" >
   <input  name="equipmentIds"   id="equipmentIds"    value="${sreProjectBasic.equipmentIds}" type="hidden"  >
   <input  name="documentDoc"    id="documentDoc"     value="${documentDoc}"                  type="hidden">
@@ -33,109 +68,126 @@
   <input  name="functionId"     id="functionId"      type="hidden">
   <input  name="userIds"        id="userIds"         type="hidden">
   
-  
-  
-  <div class="layui-row">
-        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-          <div class="layui-form-item">
-            <label for="" class="layui-form-label">课题名称<span class="must-fill">*</span></label>
-            <div class="layui-input-block">
-              <input class="layui-input" name="name" id="name" value="${sreProjectBasic.name}"  lay-verify="required"  autocomplete="off" type="text">
-            </div>
-          </div>
-        </div>
-        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-          <div class="layui-form-item">
-            <label for="" class="layui-form-label">关键词</label>
-            <div class="layui-input-block">
-              <input class="layui-input" name="keyWord" id="keyWord" value="${sreProjectBasic.keyWord}"   autocomplete="off" type="text">
-            </div>
-          </div>
-        </div>
-      </div>
+                  <div class="layui-form-item layui-form-text">
+                    <label class="layui-form-label">课题名称</label>
+                    <div class="layui-input-block">
+                        <input class="layui-input readOnlyBox" style="width:100% !important" name="topicName" id="topicName" readonly="readonly" value="${sreProject.name}" autocomplete="off" type="text">
+                    </div>
+                </div>
+               <div class="layui-form-item layui-form-text" >
+		        <label class="layui-form-label">立项理由<span class="must-fill">*</span></label>
+		        <div class="layui-input-block">
+		          <textarea placeholder="请简述立项理由，原则上不超过500字" name="setupReasons" id="setupReasons"    class="layui-textarea">${sreProjectSetup.setupReasons}</textarea>
+		        </div>
+		      </div>
+		      
+		      
+		      <div class="layui-form-item layui-form-text" >
+		        <label class="layui-form-label">建设场地、公用工程（水电汽风等）、辅助设施（环保、消防、安全、卫生等）等条件<span class="must-fill">*</span></label>
+		        <div class="layui-input-block">
+		          <textarea placeholder="建设场地、公用工程，原则上不超过500字" name="facilities" id="facilities"    class="layui-textarea">${sreProjectSetup.facilities}</textarea>
+		        </div>
+		      </div>
+		      
+		      
+		      <div class="layui-form-item layui-form-text" >
+		        <label class="layui-form-label">项目实施方案和进度<span class="must-fill">*</span></label>
+		        <div class="layui-input-block">
+		          <textarea placeholder="项目实施方案和进度，原则上不超过500字" name="projectProgress" id="projectProgress"    class="layui-textarea">${sreProjectSetup.projectProgress}</textarea>
+		        </div>
+		      </div>
+		      
+		       <div class="layui-form-item layui-form-text" >
+		        <label class="layui-form-label">使用效果和效益的分析预测（含技术先进性、知识产权状况）<span class="must-fill">*</span></label>
+		        <div class="layui-input-block">
+		          <textarea placeholder="使用效果和效益的分析预测，原则上不超过500字" name="userEffect" id="userEffect"    class="layui-textarea">${sreProjectSetup.userEffect}</textarea>
+		        </div>
+		      </div>
+
         
-     
-       <div class="layui-row">
-        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-          <div class="layui-form-item">
-            <label for="" class="layui-form-label">牵头单位<span class="must-fill">*</span></label>
-            <div class="layui-input-block">
-              <input class="layui-input" name="leadUnitName" id="leadUnitName" value="${sreProjectBasic.leadUnitName}"  lay-verify="required"  autocomplete="off" type="text">
-            </div>
-          </div>
-        </div>
-        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-          <div class="layui-form-item">
-            <label for="" class="layui-form-label">参加单位<span class="must-fill">*</span></label>
-            <div class="layui-input-block">
-              <input class="layui-input" name="joinUnitName" id="joinUnitName" value="${sreProjectBasic.joinUnitName}"  lay-verify="required"  autocomplete="off" type="text">
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      
-      
-       <div class="layui-form-item">
-	      	 <label class="layui-form-label">选择装备<span class="must-fill">*</span></label>
-	         <div class="layui-input-block">
-	         	<div class="tableBox">
-	         		<table id="join_apply_table" class="layui-hide"  lay-filter="JoinEvent"></table>
-	         	</div>
-	        </div>
-       	</div>
-       	
-      
-      
         
-        <div class="layui-form-item layui-form-text" >
-        <label class="layui-form-label">委托单位<span class="must-fill">*</span></label>
-        <div class="layui-input-block">
-         <input class="layui-input" name="entrustUnitName" id="entrustUnitName" placeholder="中国石油化工股份有限公司" value="中国石油化工股份有限公司"  lay-verify="required"  autocomplete="off" type="text">
-        </div>
-      </div>
-    
-      
-      
-      
-       <!--行有两个的情况-->
-      <div class="layui-form-item layui-form-text" >
-        <label class="layui-form-label">备注</label>
-        <div class="layui-input-block">
-          <textarea placeholder="请简述开发及投资目标，原则上不超过500字" name="remarks" id="remarks"    class="layui-textarea">${sreProjectBasic.remarks}</textarea>
-        </div>
-      </div>
-      
-       <div class="layui-form-item layui-form-text" >
-        <label class="layui-form-label">建设年限</label>
-        <div class="layui-input-block">
-           <div class="layui-input-inline" style="float:left">
-		            <input type="text" class="layui-input" name="beginYear" id="beginYear" value="${beginYear}" style="width:80px;float:left" placeholder="开始年份">
-		             <div class="layui-form-mid" style="width:8px;float:left"> - </div>
-		            <input type="text" class="layui-input" id="endYear" name="endYear"   value="${endYear}" style="width:80px;float:left" placeholder="结束年份">
-		    </div>
-        </div>
-      </div>
-      
-      
-       <div class="layui-form-item layui-form-text" >
-        <label class="layui-form-label"></label>
-        <div class="layui-input-block" id="yearTr">
-            <table class="layui-table">
-             <thead>
-	             <tr>
-	                <td width="20%">年  度</td>
-	                <td width="8%">费用性支出(万元)</td>
-	                <td width="8%">资本性支出(万元)</td>
-	                <td width="8%">小  计(万元)</td>
-	             </tr>
-            </thead>
-            <tbody>
-            </tbody>
-          </table>
-        </div>
-      </div>
-      
+        
+        
+            <div class="layui-row" id="main_table">
+                <div class="tableToolBox">
+                    <div class="tableTitle">项目规模、工艺流程（图）、主要仪器设备（表）、自控方案等 </div>
+                    <div class="tableBtns">
+                        <a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg"
+                           data-type="taskAddEvent">新增
+                        </a>
+                    </div>
+                </div>
+                <table class="layui-table">
+                    <thead>
+                    <tr>
+                        <td width="4%">编号</td>
+                        <td width="20%">单项设备名称</td>
+                        <td width="28%">单项设备立项背景</td>
+                        <td width="8%">经费</td>
+                        <td width="8%">备注</td>
+                        <td width="3%">删除</td>
+                    </tr>
+                    </thead>
+                    <tbody></tbody>
+               </table>
+            </div>
+            
+             
+
+            <div class="layui-row" id="sources_table">
+                <div class="tableToolBox">
+                    <div class="tableTitle">资金来源表 </div>
+                    <div class="tableBtns">
+                        <a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg"
+                           data-type="fundsAddEvent">新增
+                        </a>
+                    </div>
+                </div>
+                <table class="layui-table">
+                    <thead>
+                    <tr>
+                        <td width="20%">来源</td>
+                        <td width="8%">国家拨款(万)</td>
+                        <td width="8%">总部拨付(万)</td>
+                        <td width="8%">负责单位自筹(万)</td>
+                        <td width="8%">其它(万)</td>
+                        <td width="8%">合计(万)</td>
+                        <td width="8%">删除</td>
+                    </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            
+            
+            
+            
+            <div class="formBox" id="funds_table">
+            <div class="tableToolBox">
+                <div class="tableBtns">
+                    <div class="tableTitle">项目资金安排
+                    </div>
+                </div>
+            </div>
+            <div class="box-body" style="padding-left:10px;padding-right:10px">
+            
+             <label class="layui-form-label" style="width: 100%;text-align: left;margin-left: 0;">
+                    ${sreProject.leadUnitName?default('')}</label>
+                <table class="layui-table">
+                    <thead>
+                    <tr>
+                        <td width="20%">年 度</td>
+                        <td width="8%">费用性支出(万元)</td>
+                        <td width="8%">资本性支出(万元)</td>
+                        <td width="8%">小 计(万元)</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+                <div id="units"></div>
+            </div>
+            </div>
       
        <div class="layui-form-item">
 	      	 <label class="layui-form-label">附件</label>
@@ -144,9 +196,6 @@
        
         
       
-</form>
-</div>
-</div>
 
 <script>
 var param=JSON.parse(window.localStorage.getItem("param"));
@@ -161,6 +210,16 @@ var yearFeeStr= $("#yearFeeStr").val();
 var beginYear= $("#beginYear").val();
 var v_date=(new Date()).getTime();
 var equipmentIds=$("#equipmentIds").val();
+//牵头单位名称
+var leadUnitName="${sreProject.leadUnitName?default('')}";
+//牵头单位--表格
+var yearFeeStr="${sreProject.yearFeeStr?default('')}";
+//参与单位名称
+var joinUnitName="${sreProject.joinUnitName?default('')}";
+//参与单位名称--表格
+var yearFeeStrJoinUnit="${sreProject.yearFeeStrJoinUnit?default('')}";
+
+
 var table,selectRowData;
 layui.config({
     //base: 'layuicommon/module/modules/' //静态资源所在路径
@@ -190,7 +249,38 @@ layui.config({
 	 	$("#file_div").load('/common/public/uploadlayuiload.html');
 	
 	
-	 	publicMethods.createTable($("#beginYear").val(),$("#endYear").val(),"yearTr",2,yearFeeStr,true);
+	 	  
+        publicMethods.createTable('','',"funds_table",2,yearFeeStr,true);
+        var arrD = yearFeeStrJoinUnit.split(";");
+        if(arrD==''){
+
+        }else {
+            $.each(arrD, function (i, val) {
+                var arrDV=arrD[i].split("#");
+                var yearFeeStrN=arrD[i].substring(arrD[i].indexOf('#')+1);
+                var html = ' <div class="layui-form-item layui-form-text" >' +
+                    '        <div class="layui-input-block" id="yearTr'+i+'" style="margin-left: 0;">' +
+                    '        <label class="layui-form-label" style="width: 100%;text-align: left;margin-left: 0;">' + arrDV[0].split(",")[1] + '</label>' +
+                    '            <table class="layui-table">' +
+                    '             <thead>' +
+                    '             <tr>' +
+                    '                <td width="20%">年  度</td>' +
+                    '                <td width="8%">费用性支出(万元)</td>' +
+                    '                <td width="8%">资本性支出(万元)</td>' +
+                    '                <td width="8%">小  计(万元)</td>' +
+                    '             </tr>' +
+                    '            </thead>' +
+                    '            <tbody></tbody>' +
+                    '          </table>' +
+                    '        </div>' +
+                    '       </div>';
+                $("#units").append(html);
+                publicMethods.createTable("","", "yearTr"+i, 2, yearFeeStrN,true);
+            });
+        }
+    
+	
+	
       //关闭事件
       $("#closeBtn1").click(function () {
           var index = parent.layer.getFrameIndex(window.name);
