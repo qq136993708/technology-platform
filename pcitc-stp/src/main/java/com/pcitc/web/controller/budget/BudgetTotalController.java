@@ -55,12 +55,6 @@ import com.pcitc.web.common.BaseController;
 @Controller
 public class BudgetTotalController extends BaseController {
 
-	
-	private static final String BUDGET_TOTAL_INFO = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-total-info";	
-	private static final String BUDGET_TOTAL_ITEMS = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-total-items";
-	
-	
-	
 	private static final String PROJECT_TOTAL_FINAL_GROUP = "http://pcitc-zuul/stp-proxy/stp-provider/budget/get-final-grouptotal";
 	private static final String PROJECT_TOTAL_FINAL_ASSET = "http://pcitc-zuul/stp-proxy/stp-provider/budget/get-final-assettotal";
 	private static final String PROJECT_TOTAL_FINAL_STOCK = "http://pcitc-zuul/stp-proxy/stp-provider/budget/get-final-stocktotal";
@@ -164,7 +158,7 @@ public class BudgetTotalController extends BaseController {
 		File f = new File(path.getPath() + "static/budget/budget_total_template.xlsx");
 		//System.out.println(f.getAbsolutePath());
 		//写入新文件2019年集团公司总部科技经费预算
-		String newFilePath = path.getPath() + "static/budget/"+nd+"年总部科技经费预算（调整稿）_"+DateUtil.dateToStr(new Date(), "yyyyMMddHHmmss")+".xlsx";
+		String newFilePath = path.getPath() + "static/budget/"+nd+"年总部科技经费预算（建议稿）_"+DateUtil.dateToStr(new Date(), "yyyyMMddHHmmss")+".xlsx";
 		File outFile = new File(newFilePath);
 		
 		processDataAndDownload(f,new ArrayList(data),nd,outFile);
