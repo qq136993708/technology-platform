@@ -293,9 +293,10 @@ public class ProjectBasicController extends BaseController {
 		String taskWriteUsersIds = CommonUtil.getParameter(request, "taskWriteUsersIds", "");
 		String professionalFieldName = CommonUtil.getParameter(request, "professionalFieldName", "");
 		String professionalFieldCode = CommonUtil.getParameter(request, "professionalFieldCode", "");
-		
 		String unitPathIds =   CommonUtil.getParameter(request, "unitPathIds",sysUserInfo.getUnitPath());
 		String unitPathNames = CommonUtil.getParameter(request, "unitPathNames", sysUserInfo.getUnitName());
+		String yearFeeStrJoinUnit = CommonUtil.getParameter(request, "yearFeeStrJoinUnit", "");
+		
 		
 		String parentUnitPathIds ="";
 		String parentUnitPathNames =  "";
@@ -391,7 +392,7 @@ public class ProjectBasicController extends BaseController {
 		sreProjectBasic.setTaskWriteUserNames(taskWriteUserNames);
 		sreProjectBasic.setTaskWriteUsersIds(taskWriteUsersIds);
 		sreProjectBasic.setSetupYear(DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
-		
+		sreProjectBasic.setYearFeeStrJoinUnit(yearFeeStrJoinUnit);
 		// 判断是新增还是修改
 		if (id.equals("")) 
 		{
@@ -442,17 +443,7 @@ public class ProjectBasicController extends BaseController {
 		if(!str.equals(""))
 		{
 			resultsDate = new Result(true, RequestProcessStatusEnum.OK.getStatusDesc());
-			//发邮件：
-			SysUser sysUser=	EquipmentUtils.getSysUser(taskWriteUsersIds, restTemplate, httpHeaders);
-			if(sysUser!=null)
-			{
-				String mail=sysUser.getUserMail();
-				if(mail!=null && !mail.equals(""))
-				{
-					sreProject.setEmail(mail);
-					EquipmentUtils.sentSreProjectTaskMail(id, sreProject, restTemplate, httpHeaders);
-				}
-			}
+			
 			
 			
 		}else
