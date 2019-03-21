@@ -188,6 +188,14 @@
                     </tbody>
                 </table>
             </div>
+            <div class="layui-row">
+                <div class="tableToolBox">
+                    <div class="tableTitle">参加单位</div>
+                    <div class="tableBtns">
+                    </div>
+                </div>
+                <div id="units"></div>
+            </div>
         </div>
         
         
@@ -223,9 +231,6 @@
     var joinUnitName="${sreProject.joinUnitName?default('')}";
     //参与单位名称--表格
     var yearFeeStrJoinUnit="${sreProject.yearFeeStrJoinUnit?default('')}";
-    
-    alert(yearFeeStr);
-    alert(yearFeeStrJoinUnit);
     
     
     var v_date = (new Date()).getTime();
@@ -270,7 +275,7 @@
         });
         $('.layui-btn').on('click', function () {
             var type = $(this).data('type');
-            //active[type] ? active[type].call(this) : '';
+            active[type] ? active[type].call(this) : '';
         });
         
         
@@ -375,7 +380,36 @@
             } */
             return false;
         });
-       
+        alert(yearFeeStr)
+        alert(yearFeeStrJoinUnit)
+        publicMethods.createTable('','',"project_funds_table",2,yearFeeStr,true);
+        var arrD = yearFeeStrJoinUnit.split(";");
+        if(arrD==''){
+
+        }else {
+            $.each(arrD, function (i, val) {
+                var arrDV=arrD[i].split("#");
+                var yearFeeStrN=arrD[i].substring(arrD[i].indexOf('#')+1);
+                var html = ' <div class="layui-form-item layui-form-text" >' +
+                    '        <div class="layui-input-block" id="yearTr'+i+'" style="margin-left: 0;">' +
+                    '        <label class="layui-form-label" style="width: 100%;text-align: left;margin-left: 0;">' + arrDV[0].split(",")[1] + '</label>' +
+                    '            <table class="layui-table">' +
+                    '             <thead>' +
+                    '             <tr>' +
+                    '                <td width="20%">年  度</td>' +
+                    '                <td width="8%">费用性支出(万元)</td>' +
+                    '                <td width="8%">资本性支出(万元)</td>' +
+                    '                <td width="8%">小  计(万元)</td>' +
+                    '             </tr>' +
+                    '            </thead>' +
+                    '            <tbody></tbody>' +
+                    '          </table>' +
+                    '        </div>' +
+                    '       </div>';
+                $("#units").append(html);
+                publicMethods.createTable("","", "yearTr"+i, 2, yearFeeStrN,true);
+            });
+        }
     });
     
     function formVerify(){
