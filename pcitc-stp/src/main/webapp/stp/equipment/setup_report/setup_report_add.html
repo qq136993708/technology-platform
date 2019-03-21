@@ -211,21 +211,29 @@
     var param = JSON.parse(window.localStorage.getItem("param"));
     var functionId = param.id;
     $('#functionId').val(functionId);
-    
-    
-    
     var roleCodes = "";
     var unitCodes = "";
     var postCodes = "";
+    
+    //牵头单位名称
+    var leadUnitName="${sreProject.leadUnitName?default('')}";
+    //牵头单位--表格
+    var yearFeeStr="${sreProject.yearFeeStr?default('')}";
+    //参与单位名称
+    var joinUnitName="${sreProject.joinUnitName?default('')}";
+    //参与单位名称--表格
+    var yearFeeStrJoinUnit="${sreProject.yearFeeStrJoinUnit?default('')}";
+    
+    alert(yearFeeStr);
+    alert(yearFeeStrJoinUnit);
+    
+    
     var v_date = (new Date()).getTime();
     var file_ids = "documentDoc";
     //detail:详情，edit：编辑
     file_edit_detail = "edit";
     //统管理-附件管理-附件配置：页面标识
     file_opt_flag = "b3a52bbe7087419c80813d7716f37674";
-    /// var equipmentIds = $("#equipmentIds").val();
-    var projectFundsTable = $("#projectFundsTable").val();
-    //alert(projectFundsTable);
     var arrSelect=["静止设备","机械设备","仪器","自控仪表","计算机及外围设备",
         "计算机软件","备品、配件","土建","配套工程","设计费","安装费","其它","小计"];
     var arrSelectF=["会议费","差旅费","试车、试用费","外事费","外协费","其它费","小计"];
@@ -245,7 +253,6 @@
         laydate.render({
             elem: '#LAY-component-form-group-date'
         });
-       // publicMethods.createTable($("#beginYear").val(), $("#endYear").val(), "yearTr", 2, projectFundsTable);
         //添加到form.render()之后
         $("#file_div").load('/common/public/uploadlayuiload.html');
         /* 自定义验证规则  title 要验证的input的 lay-verify=""*/
@@ -265,7 +272,6 @@
             var type = $(this).data('type');
             //active[type] ? active[type].call(this) : '';
         });
-     //   publicMethods.createTable('','',"funds_table",2,projectFundsTable,true);
         
         
         

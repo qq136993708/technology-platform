@@ -227,48 +227,6 @@ public class ProjectTaskController extends BaseController {
 	}
 	
 	
-	@RequestMapping(value = "/to_add")
-	public String to_add(HttpServletRequest request, HttpServletResponse response) throws Exception
-	{
-
-		
-		
-		String leadUnitName = sysUserInfo.getUnitName();
-		String leadUnitCode = sysUserInfo.getUnitCode();
-		String createUserName=sysUserInfo.getUserDisp();
-		String createUserId=sysUserInfo.getUserName();
-		String documentDoc= IdUtil.createFileIdByTime();
-		
-		String taskId = CommonUtil.getParameter(request, "taskId", "");
-		request.setAttribute("taskId", taskId);
-		String topicId = CommonUtil.getParameter(request, "topicId", "");
-		request.setAttribute("topicId", topicId);
-		if(!topicId.equals(""))
-		{
-			    
-			SreProject sreProject=EquipmentUtils.getSreProject(topicId,restTemplate,httpHeaders);
-			request.setAttribute("sreProject", sreProject);
-		}
-		if(!taskId.equals(""))
-		{
-			SreProjectTask sreProjectTask =EquipmentUtils.getSreProjectTask(taskId,restTemplate,httpHeaders);
-			request.setAttribute("sreProjectTask", sreProjectTask);
-			topicId=sreProjectTask.getTopicId();
-			if(!topicId.equals(""))
-			{
-				SreProject sreProject=EquipmentUtils.getSreProject(topicId,restTemplate,httpHeaders);
-				request.setAttribute("sreProject", sreProject);
-			}
-		}
-		request.setAttribute("documentDoc", documentDoc);
-		request.setAttribute("leadUnitName", leadUnitName);
-		request.setAttribute("leadUnitCode", leadUnitCode);
-		request.setAttribute("createUserId", createUserId);
-		List<SysDictionary>  dicList= CommonUtil.getDictionaryByParentCode("ROOT_ZBGL_YTJYSDNR", restTemplate, httpHeaders);
-		request.setAttribute("dicList", dicList);
-		return "/stp/equipment/task/project_task_add";
-	}
-	
 	
 
 	/**
