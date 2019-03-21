@@ -304,7 +304,7 @@ public class ProjectTaskController extends BaseController {
 		{
 			SreProjectTask sreProjectTask =EquipmentUtils.getSreProjectTask(taskId, restTemplate, httpHeaders);
 			request.setAttribute("sreProjectTask", sreProjectTask);
-			topicId=sreProjectTask.getTopicId();
+		    topicId=sreProjectTask.getTopicId();
 			if(!topicId.equals(""))
 			{
 				SreProject sreProject=EquipmentUtils.getSreProject(topicId,restTemplate,httpHeaders);
@@ -434,13 +434,16 @@ public class ProjectTaskController extends BaseController {
 			sreProjectBasic.setLeadUnitCode(sreProject.getLeadUnitCode());
 			sreProjectBasic.setLeadUnitName(sreProject.getLeadUnitName());
 			sreProjectBasic.setProjectMoney(sreProject.getProjectMoney());
-			sreProjectBasic.setProjectFundsTable(sreProject.getYearFeeStr());
+			sreProjectBasic.setProjectFundsTable(sreProject.getYearFeeStr());//领导单位
+			sreProjectBasic.setYearFeeStrJoinUnit(sreProject.getYearFeeStrJoinUnit());//参与单位
 			sreProjectBasic.setBelongDepartmentCode(sreProject.getBelongDepartmentCode());
 			sreProjectBasic.setBelongDepartmentName(sreProject.getBelongDepartmentName());
 			sreProjectBasic.setProfessionalDepartCode(sreProject.getProfessionalDepartCode());
 			sreProjectBasic.setProfessionalDepartName(sreProject.getProfessionalDepartName());
 			sreProjectBasic.setProfessionalFieldName(sreProject.getProfessionalFieldName());
 			sreProjectBasic.setProfessionalFieldCode(sreProject.getProfessionalFieldCode());
+			
+			
 		}
 		sreProjectBasic.setTopicId(topicId); 
 		sreProjectBasic.setContractNum(contractNum);
@@ -478,7 +481,7 @@ public class ProjectTaskController extends BaseController {
 		{
 			
 			String dataId = sreProjectBasic.getTaskId();
-			resultsDate.setData(dataId);
+			resultsDate.setData(sreProjectBasic);
 			resultsDate.setSuccess(true);
 		} else 
 		{

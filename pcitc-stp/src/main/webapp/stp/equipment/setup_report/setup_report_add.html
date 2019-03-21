@@ -69,13 +69,11 @@
             </div>
             <div class="box-body">
                 <input name="setupId"                    id="setupId"  value="${setupId}" type="hidden">
-                <input name="topicId"                    id="topicId"  value="${topicId}" type="hidden">
-                <input name="taskId"                     id="taskId"   value="${taskId}"  type="hidden">
+                <input name="topicId"                    id="topicId"  value="${sreProjectTask.topicId}" type="hidden">
+                <input name="taskId"                     id="taskId"   value="${sreProjectTask.taskId}"  type="hidden">
                 <input name="documentDoc"                id="documentDoc"  value="${documentDoc}"  type="hidden">
                 <input name="functionId"                 id="functionId"   value="${functionId}"   type="hidden">
                 <input name="userIds"                    id="userIds"      type="hidden">
-                <input name="leadUnitCode"               id="leadUnitCode" value="${sreProjectBasic.leadUnitCode}" type="hidden">
-                <input name="joinUnitCode"               id="joinUnitCode" value="${sreProjectBasic.joinUnitCode}" type="hidden">
                 <input name="mainTable"                  id="mainTable"                value="${sreProjectSetup.mainTable}"               type="hidden">
 			    <input name="taskAssessmentContent"      id="taskAssessmentContent"    value="${sreProjectSetup.taskAssessmentContent}"   type="hidden">
 			    <input name="fundsSourcesTable"          id="fundsSourcesTable"        value="${sreProjectSetup.fundsSourcesTable}"       type="hidden">
@@ -87,7 +85,7 @@
                 <div class="layui-form-item layui-form-text">
                     <label class="layui-form-label">课题名称</label>
                     <div class="layui-input-block">
-                        <input class="layui-input readOnlyBox" name="name" id="name" readonly="readonly" value="${sreProject.name}" autocomplete="off" type="text">
+                        <input class="layui-input readOnlyBox" name="topicName" id="topicName" readonly="readonly" value="${sreProjectTask.topicName}" autocomplete="off" type="text">
                     </div>
                 </div>
                <div class="layui-form-item layui-form-text" >
@@ -213,6 +211,8 @@
     var param = JSON.parse(window.localStorage.getItem("param"));
     var functionId = param.id;
     $('#functionId').val(functionId);
+    
+    
     
     var roleCodes = "";
     var unitCodes = "";

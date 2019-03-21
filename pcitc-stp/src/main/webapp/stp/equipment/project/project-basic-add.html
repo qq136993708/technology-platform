@@ -47,9 +47,9 @@
             <input name="entrustUnitCode" id="entrustUnitCode" value="${sreProjectBasic.entrustUnitCode}" type="hidden">
             <input name="belongDepartmentCode" id="belongDepartmentCode" value="${sreProjectBasic.belongDepartmentCode}"
                    type="hidden">
-            <input name="participatingUnitsCode" id="participatingUnitsCode" value="${sreProjectBasic.participatingUnitsCode}"
+            <input name="yearFeeStrJoinUnit" id="yearFeeStrJoinUnit" value="${sreProjectBasic.yearFeeStrJoinUnit}"
                    type="hidden">
-            <!--<input name="participatingUnitsCode" id="participatingUnitsCode"
+            <!--<input name="yearFeeStrJoinUnit" id="yearFeeStrJoinUnit"
                    value="2019-2020,苏州大学,014ef79138eb4fc49f24e4439419a5a9#2019,22,null#2020,0,null;2019-2020,北京经贸大学,01a180d1fac8465a9f283f7628dbf498#2019,0,null#2020,0,null" type="hidden">-->
             <div class="layui-row">
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
@@ -441,11 +441,7 @@
             }
         });
         /* 监听提交 */
-        form.on('submit(sub)', function (data) {
-            //JSON.stringify(data.field)  提交信息json格式
-            /*parent.layer.alert(JSON.stringify(data.field), {
-                title: '最终的提交信息'
-            })*/
+        /* form.on('submit(sub)', function (data) {
             $("#yearFeeStr").val(publicMethods.getVal("yearTr", 4));
             var yearFee_Str = $("#yearFeeStr").val();
             if (yearFee_Str == null || yearFee_Str == '') {
@@ -458,8 +454,8 @@
 
 
             return false;
-        });
-        var arrD = $("#participatingUnitsCode").val().split(";");
+        }); */
+        var arrD = $("#yearFeeStrJoinUnit").val().split(";");
         if(arrD==''){
 
         }else {
@@ -503,8 +499,9 @@
                 content: temUrl,
                 end: function () {
                     var arrJ = $("#joinUnitName").val().split(",");
-                    if(arrJ=='undefined'){
-                        alert(arrJ)
+                    if(arrJ=='undefined'|| arrJ=='')
+                    {
+                      
                     }else {
                         $("#units").empty();
                         $.each(arrJ, function (i, val) {
@@ -539,20 +536,38 @@
                 title: '最终的提交信息'
             })*/
             /*获取参与单位的数据*/
-            var arrJ = $("#joinUnitName").val().split(",");
-            var arrId=$("#joinUnitCode").val().split(",");
-            var participatingUnitsCode='';
-            $.each(arrJ, function (i, val) {
-                var year=$("#beginYear").val()+"-"+$("#endYear").val();
-                var name=arrJ[i],id=arrId[i];
-                participatingUnitsCode+=year+","+name+","+id+"#"+publicMethods.getVal("yearTr"+i, 4)+";"
-            });
-            $("#participatingUnitsCode").val(participatingUnitsCode.substring(0,participatingUnitsCode.length-1));
+           var joinUnitName= $("#joinUnitName").val();
+           //alert(joinUnitName);
+           if(joinUnitName!=null && joinUnitName!='')
+       	   {
+        	   var arrJ = $("#joinUnitName").val().split(",");
+               var arrId=$("#joinUnitCode").val().split(",");
+               var yearFeeStrJoinUnit='';
+               $.each(arrJ, function (i, val) {
+                   var year=$("#beginYear").val()+"-"+$("#endYear").val();
+                   var name=arrJ[i],id=arrId[i];
+                   yearFeeStrJoinUnit+=year+","+name+","+id+"#"+publicMethods.getVal("yearTr"+i, 4)+";"
+               });
+               $("#yearFeeStrJoinUnit").val(yearFeeStrJoinUnit.substring(0,yearFeeStrJoinUnit.length-1));
+       	   }
+           
             $("#yearFeeStr").val(publicMethods.getVal("yearTr", 4));
             var yearFee_Str = $("#yearFeeStr").val();
+            var belongDepartmentName = $("#belongDepartmentName").val();
+            var professionalDepartName = $("#professionalDepartName").val();
+            var professionalFieldName = $("#professionalFieldName").val();
             if (yearFee_Str == null || yearFee_Str == '')
             {
                 layer.alert("建设年限为空");
+            }else if (belongDepartmentName == null || belongDepartmentName == '')
+            {
+                layer.alert("请选择所属部门");
+            }else if (professionalDepartName == null || professionalDepartName == '')
+            {
+                layer.alert("请选择专业处");
+            }else if (professionalFieldName == null || professionalFieldName == '')
+            {
+                layer.alert("请选择专业领域");
             } else
             {
                 var url="/sre-project-basic/save?v_date="+v_date;
@@ -662,7 +677,6 @@
 
     //参加单位--多个
     function choose_joinUnitName_callback(unitIds, unitNames) {
-        //alert(unitIds);
         $("#joinUnitName").val(unitNames);
         $("#joinUnitCode").val(unitIds);
     }
@@ -673,6 +687,7 @@
     }
 
     function choose_leadUnitName_callback(unitId, unitName) {
+    	alert(unitName);
         $("#leadUnitName").val(unitName);
         $("#leadUnitCode").val(unitId);
     }
