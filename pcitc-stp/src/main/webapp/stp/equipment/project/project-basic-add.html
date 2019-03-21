@@ -506,8 +506,8 @@
                     if(arrJ=='undefined'){
                         alert(arrJ)
                     }else {
+                        $("#units").empty();
                         $.each(arrJ, function (i, val) {
-                            $("#units").empty();
                             var html = ' <div class="layui-form-item layui-form-text" >' +
                                 '        <div class="layui-input-block" id="yearTr'+i+'">' +
                                 '        <label class="layui-form-label" style="width:100%;text-align: left;margin-left: 0;">' + arrJ[i] + '</label>' +
