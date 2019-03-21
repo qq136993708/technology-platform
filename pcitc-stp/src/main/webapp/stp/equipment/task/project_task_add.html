@@ -49,9 +49,9 @@
             border: 1px solid #ccc;
             border-radius: 3px;
         }
-        .layui-input, .layui-select{
+        #task_assessment_content .layui-input, .layui-select{
             height: 34px !important;
-            width: 80% !important;
+            width: 100% !important;
         }
         .layui-select-title input{width: 100% !important;}
     </style>
@@ -397,6 +397,8 @@
                     <div class="tableBtns">
                     </div>
                 </div>
+                <label class="layui-form-label" style="width: 100%;text-align: left;margin-left: 0;">
+                    ${sreProject.leadUnitName?default('')}</label>
                 <table class="layui-table">
                     <thead>
                     <tr>
@@ -409,13 +411,6 @@
                     <tbody>
                     </tbody>
                 </table>
-            </div>
-            <div class="layui-row">
-                <div class="tableToolBox">
-                    <div class="tableTitle">参加单位</div>
-                    <div class="tableBtns">
-                    </div>
-                </div>
                 <div id="units"></div>
             </div>
         </div>
@@ -580,7 +575,7 @@
                     "<td><textarea lay-verify='specialCharacters' placeholder='请输入内容'  rows='4' cols='20' style='width: 90%;'>" + taskVal[1] + "</textarea>  </td>" +
                     "<td><textarea lay-verify='specialCharacters' placeholder='请输入内容'  rows='4' cols='20' style='width: 90%;'>" + taskVal[2] + "</textarea>   " +
                     "</td><td><input type='number' value='" + taskVal[3] + "'/> </td>" +
-                    "<td><textarea lay-verify='specialCharacters' placeholder='请输入内容'  rows='4' cols='20' style='width: 90%;'>" + taskVal[4] + "</textarea></td>" +
+                    "<td><textarea lay-verify='specialCharacters' placeholder='请输入内容'  rows='4' cols='20' style='width: 90%;'>" + (taskVal[4]=='null' ? '':taskVal[4]) + "</textarea></td>" +
                     "<td><a href='javascript:;' class='dele'>删除</a></td></tr>";
                 addTr("task_content", tr);
                 formVerify();
@@ -787,32 +782,32 @@
             }
 
         }
-        /*获取资金*/
-        var budget_table='',budget_tableTr="",budget_tableTrTd='';
-        var columnTrL=$("#budget_tableNew table tbody tr");
-        for(var j=0;j<columnTrL.length-1;j++){
-            if($(columnTrL).eq(j).attr("class")=="capital"){
-                budget_tableTrTd="资本性支出#"
-            }else if($(columnTrL).eq(j).attr("class")=="cost"){
-                budget_tableTrTd="费用性支出#"
-            }
-            if($(columnTrL).eq(j).find("td").eq(2).find("input").val()==undefined){
-                var columnTrL2=$(columnTrL).eq(j).find("td").eq(2).text()==''? 0+"#":$(columnTrL).eq(j).find("td").eq(2).text()+"#";
-            }else {
-                var columnTrL2=$(columnTrL).eq(j).find("td").eq(2).find("input").val()+"#";
-            }
-            if($(columnTrL).eq(j).find("td").eq(3).find("input").val()==undefined){
-                var columnTrL3=$(columnTrL).eq(j).find("td").eq(3).text()==''? 0+"#":$(columnTrL).eq(j).find("td").eq(3).text()+"#";
-            }else {
-                var columnTrL3=$(columnTrL).eq(j).find("td").eq(3).find("input").val()+"#";
-            }
-            var columnTrL1=$(columnTrL).eq(j).find("td").eq(1).text()+"#";
-            var columnTrL4=$(columnTrL).eq(j).find("td").eq(4).text()==''? 0:$(columnTrL).eq(j).find("td").eq(4).text();
-            budget_tableTr=budget_tableTrTd+columnTrL1+columnTrL2+columnTrL3+columnTrL4;
-            budget_table+=budget_tableTr+"|"
-        }
+
         form.on('submit(up)', function (data) {
-           
+            /*获取资金*/
+            var budget_table='',budget_tableTr="",budget_tableTrTd='';
+            var columnTrL=$("#budget_tableNew table tbody tr");
+            for(var j=0;j<columnTrL.length-1;j++){
+                if($(columnTrL).eq(j).attr("class")=="capital"){
+                    budget_tableTrTd="资本性支出#"
+                }else if($(columnTrL).eq(j).attr("class")=="cost"){
+                    budget_tableTrTd="费用性支出#"
+                }
+                if($(columnTrL).eq(j).find("td").eq(2).find("input").val()==undefined){
+                    var columnTrL2=$(columnTrL).eq(j).find("td").eq(2).text()==''? 0+"#":$(columnTrL).eq(j).find("td").eq(2).text()+"#";
+                }else {
+                    var columnTrL2=$(columnTrL).eq(j).find("td").eq(2).find("input").val()+"#";
+                }
+                if($(columnTrL).eq(j).find("td").eq(3).find("input").val()==undefined){
+                    var columnTrL3=$(columnTrL).eq(j).find("td").eq(3).text()==''? 0+"#":$(columnTrL).eq(j).find("td").eq(3).text()+"#";
+                }else {
+                    var columnTrL3=$(columnTrL).eq(j).find("td").eq(3).find("input").val()+"#";
+                }
+                var columnTrL1=$(columnTrL).eq(j).find("td").eq(1).text()+"#";
+                var columnTrL4=$(columnTrL).eq(j).find("td").eq(4).text()==''? 0:$(columnTrL).eq(j).find("td").eq(4).text();
+                budget_tableTr=budget_tableTrTd+columnTrL1+columnTrL2+columnTrL3+columnTrL4;
+                budget_table+=budget_tableTr+"|"
+            }
             var  task_content =getData("task_content", 5);
             var  task_assessment_content =getData("task_assessment_content", 4);
             //var  budget_table =getData("budget_table", 5);
@@ -827,6 +822,7 @@
             }else{
             	 $("#taskContent").val(task_content)
             	 $("#taskAssessmentContent").val(task_assessment_content)
+                alert(budget_table.substring(0, budget_table.length - 1))
             	 $("#budgetTable").val(budget_table.substring(0, budget_table.length - 1));
             	 $("#fundsSourcesTable").val(funds_sources_table)
             	   
