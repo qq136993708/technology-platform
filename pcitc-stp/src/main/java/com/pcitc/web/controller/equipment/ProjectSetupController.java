@@ -123,6 +123,12 @@ public class ProjectSetupController extends BaseController {
 		{
 			SreProjectTask sreProjectTask =EquipmentUtils.getSreProjectTask(taskId, restTemplate, httpHeaders);
 			request.setAttribute("sreProjectTask", sreProjectTask);
+			String topicId=sreProjectTask.getTopicId();
+				if(!topicId.equals(""))
+				{
+					SreProject sreProject=EquipmentUtils.getSreProject(topicId,restTemplate,httpHeaders);
+					request.setAttribute("sreProject", sreProject);
+				}
 		}
 		if(!setupId.equals(""))
 		{

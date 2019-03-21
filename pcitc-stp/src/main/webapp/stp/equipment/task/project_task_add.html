@@ -441,15 +441,16 @@
     var postCodes = "";
     
     //牵头单位名称
-    var leadUnitName="${sreProjectTask.leadUnitName?default('')}";
+    var leadUnitName="${sreProject.leadUnitName?default('')}";
     //牵头单位--表格
-    var projectFundsTable="${sreProjectTask.projectFundsTable?default('')}";
+    var yearFeeStr="${sreProject.yearFeeStr?default('')}";
     //参与单位名称
-    var joinUnitName="${sreProjectTask.joinUnitName?default('')}";
+    var joinUnitName="${sreProject.joinUnitName?default('')}";
     //参与单位名称--表格
-    var yearFeeStrJoinUnit="${sreProjectTask.yearFeeStrJoinUnit?default('')}";
+    var yearFeeStrJoinUnit="${sreProject.yearFeeStrJoinUnit?default('')}";
    
-    
+    //alert(yearFeeStr);
+    //alert(yearFeeStrJoinUnit);
     
     var v_date = (new Date()).getTime();
     var file_ids = "documentDoc";
@@ -524,8 +525,7 @@
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
         });
-        alert(projectFundsTable);
-        publicMethods.createTable('','',"project_funds_table",2,projectFundsTable,true);
+        publicMethods.createTable('','',"project_funds_table",2,yearFeeStr,true);
         
         
         
