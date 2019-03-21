@@ -702,7 +702,11 @@ layui.define(['jquery','form','table','laydate'],
             /*随即生成多个tr*/
             createTable:function(startYear,endYear,id,number,str,edit){
                 $("#"+id+" table tbody").empty();
-                var yearIndex=(endYear-startYear)+1;
+                if(str!=''){
+                    var yearIndex=str.split("#").length;
+                }else {
+                    var yearIndex=(endYear-startYear)+1;
+                }
                 var tdN='',tdNC;
                 for(var n=0;n<number;n++){
                     if(edit!=null){
@@ -729,6 +733,7 @@ layui.define(['jquery','form','table','laydate'],
                     $.each(strArr,function (i, val) {
                         var strArrC=strArr[i].split(",");
                         if(edit!=null){
+                            $("#"+id+" table tbody tr:eq("+i+") td:eq(0)").html(strArrC[0] );
                             $("#"+id+" table tbody tr:eq("+i+") td:eq(1)").html((strArrC[1] == "null") ? 0 : strArrC[1]);
                             $("#"+id+" table tbody tr:eq("+i+") td:eq(2)").html((strArrC[2] == "null") ? 0 : strArrC[2]);
                             $("#"+id+" table tbody tr:eq("+i+") td:eq(3)").html((strArrC[3] == "null") ? 0 : strArrC[3]);
