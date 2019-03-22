@@ -125,7 +125,6 @@
                             <td width="28%">单项设备立项背景</td>
                             <td width="8%">经费（万元）</td>
                             <td width="8%">备注</td>
-                            <td width="3%">删除</td>
                         </tr>
                         </thead>
                         <tbody></tbody>
@@ -146,7 +145,6 @@
                             <td width="15%">考核目标</td>
                             <td width="15%">考核目标</td>
                             <td width="15%">备注</td>
-                            <td width="3%">删除</td>
                         </tr>
                         </thead>
                         <tbody></tbody>
@@ -356,7 +354,6 @@
                             <td width="8%">负责单位自筹(万)</td>
                             <td width="8%">其它(万)</td>
                             <td width="8%">合计(万)</td>
-                            <td width="8%">删除</td>
                         </tr>
                         </thead>
                         <tbody></tbody>
@@ -467,8 +464,46 @@
 
         //添加到form.render()之后
         $("#file_div").load('/common/public/uploadlayuiload.html');
+        if(taskContent!='')
+        {
+            $.each(taskContent.split("|"), function (i, val) {
+                var taskVal = val.split("#");
+                var tr = "<tr><td>" + taskVal[0] + "</td>" +
+                    "<td>" + taskVal[1] + "</td>" +
+                    "<td>" + taskVal[2] + "</td> " +
+                    "<td>" + taskVal[3] + " </td>" +
+                    "<td>" + (taskVal[4]=='null' ? '':taskVal[4]) + "</td>" +
+                    "</tr>";
 
+                $("#task_content table tbody").append(tr);
+            });
+        }
+        if(taskAssessmentContent!='')
+        {
+            $.each(taskAssessmentContent.split("|"), function (i, val) {
+                var assessmentVal = val.split("#");
+                var tr = "<tr><td>" + assessmentVal[0] + "</td>" +
+                    "<td>" + assessmentVal[1] + "</td>" +
+                    "<td>" + assessmentVal[2] + "</td>" +
+                    "<td>" + assessmentVal[3] + "</td>" +
+                    "</tr>";
 
+                $("#task_assessment_content table tbody").append(tr);
+            });
+        }
+        if(fundsSourcesTable!='')
+        {
+            $.each(fundsSourcesTable.split("|"), function (i, val) {
+                var fundsVal = val.split("#");
+                var tr = "<tr><td>"+fundsVal[0]+"</td>" +
+                    "<td>"+fundsVal[1]+"</td>" +
+                    "<td>"+fundsVal[2]+" </td>" +
+                    "<td>"+fundsVal[3]+" </td>" +
+                    "<td>"+fundsVal[4]+" </td>" +
+                    "<td>"+fundsVal[5]+"</td></tr>";
+                $("#funds_sources_table table tbody").append(tr);
+            });
+        }
         publicMethods.createTable($("#beginYear").val(), $("#endYear").val(), "yearTr", 2, yearFeeStr, true);
         if (budgetTable != '') {
             $("#budget_tableNew table tbody").empty();
@@ -549,7 +584,21 @@
         })
     });
 
+    function formVerify(){
+        form.verify({
+            validateNumber: function (value, item) {
+                if (value <= 0 || value > 2000) {
+                    return '请填写正确的值';
+                }
+            },
+            specialCharacters:function (value, item) {
 
+                if(value.indexOf("#")>=0 || value.indexOf("|")>=0){
+                    return "不能填写#与|两个字符。";
+                }
+            }
+        });
+    }
     function renderTable(equipmentIds) {
         $("#equipmentIds").val(equipmentIds);
         table.render({

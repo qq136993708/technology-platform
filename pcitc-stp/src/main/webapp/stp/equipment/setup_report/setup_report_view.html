@@ -130,7 +130,6 @@
             <td width="28%">单项设备立项背景</td>
             <td width="8%">经费</td>
             <td width="8%">备注</td>
-            <td width="3%">删除</td>
         </tr>
         </thead>
         <tbody></tbody>
@@ -153,7 +152,6 @@
             <td width="8%">负责单位自筹(万)</td>
             <td width="8%">其它(万)</td>
             <td width="8%">合计(万)</td>
-            <td width="8%">删除</td>
         </tr>
         </thead>
         <tbody></tbody>
@@ -243,8 +241,32 @@
             , $ = layui.jquery
             , form = layui.form;
         var publicMethods = layui.publicMethods;
-
-
+        if(mainTable!='')
+            {
+                $.each(mainTable.split("|"), function (i, val) {
+                    var taskVal = val.split("#");
+                    var tr = "<tr><td>" + taskVal[0] + "</td>" +
+                        "<td>" + taskVal[1] + "</td>" +
+                        "<td>" + taskVal[2] + " " +
+                        "</td><td>" + taskVal[3] + "</td>" +
+                        "<td>" + taskVal[4] + "</td>" +
+                        "</tr>";
+                    $("#main_table table tbody").append(tr);
+                });
+            }
+        if(sourcesTable!='')
+        {
+            $.each(sourcesTable.split("|"), function (i, val) {
+                var fundsVal = val.split("#");
+                var tr = "<tr><td>"+fundsVal[0]+"</td>" +
+                    "<td>"+fundsVal[1]+"</td>" +
+                    "<td>"+fundsVal[2]+" </td>" +
+                    "<td>"+fundsVal[3]+" </td>" +
+                    "<td>"+fundsVal[4]+" </td>" +
+                    "<td>"+fundsVal[5]+"</td></tr>";
+                $("#sources_table table tbody").append(tr);
+            });
+        }
         form.render();
 
         renderTable(equipmentIds);
