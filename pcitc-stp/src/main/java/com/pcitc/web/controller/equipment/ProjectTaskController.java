@@ -826,6 +826,11 @@ public class ProjectTaskController extends BaseController {
 		List<SysDictionary>  checkList= CommonUtil.getDictionaryByParentCode("ROOT_ZBGL_YTJYSDNR", restTemplate, httpHeaders);
 		request.setAttribute("checkList", checkList);
 		
+		
+		List<UnitField>  unitFieldList= CommonUtil.getUnitNameList(restTemplate, httpHeaders);
+		request.setAttribute("unitFieldList", unitFieldList);
+		
+		
 		return "/stp/equipment/task/project_task_view";
 	}
 	

@@ -122,6 +122,51 @@
 				                </div> 
 				            </#if>
 				            
+				            
+				            
+				             <div class="layui-row">
+				                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+				                        <div class="layui-form-item">
+				                            <label class="layui-form-label">归属部门</label>
+				                            <div class="layui-input-block">
+				                               
+				                                <select name="belongDepartmentName" id="belongDepartmentName" disabled="disabled"
+				                                        lay-filter="getDepartNameByUnitName" style="width:200px">
+				                                    <option value="">--请选择部门--</option>
+				                                    <#list unitFieldList as vo>
+				                                    <option value="${vo.unitName}"
+				                                    <#if vo.unitName == sreProjectTask.belongDepartmentName> selected="selected" </#if> >${vo.unitName}</option>
+				                            </#list>
+				                            </select>
+				                        </div>
+				                    </div>
+				                </div>
+				
+				
+				                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+				                    <div class="layui-form-item">
+				                        <label for="" class="layui-form-label">专业处</label>
+				                        <div class="layui-input-block">
+				                            <select id="professionalDepartName" name="professionalDepartName"  disabled="disabled"
+				                                    lay-filter="getProfessionalNameListByUnitNameAndDept"
+				                                    style="width:200px"></select>
+				                        </div>
+				                    </div>
+				                </div>
+				
+				                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+				                    <div class="layui-form-item">
+				                        <label for="" class="layui-form-label">专业领域</label>
+				                        <div class="layui-input-block">
+				                            <select id="professionalFieldName" name="professionalFieldName"  disabled="disabled"
+				                                    style="width:200px"></select>
+				                        </div>
+				                    </div>
+				                </div>
+                
+                
+                
+				            
 				                <div class="layui-form-item layui-form-text">
 				                    <label class="layui-form-label">项目执行年限</label>
 				                    <div class="layui-input-block">
@@ -205,15 +250,25 @@
 					                </div>
 					                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 					                    <div class="layui-form-item">
-					                        <label for="" class="layui-form-label">上报人</label>
+					                        <label for="" class="layui-form-label">任务填写时间</label>
 					                        <div class="layui-input-block">
-					                            <input class="layui-input readOnlyBox" name="applyUserName" id="applyUserName" value="${sreProjectTask.applyUserName}"
-					                                   autocomplete="off" type="text">
-					                        </div>
+					                         <input class="layui-input readOnlyBox" name="createDate" id="createDate" value="${sreProjectTask.createDate?string("yyyy-MM-dd HH:mm:ss")}"     autocomplete="off" type="text">
+				                            </div>
+					                           
 					                    </div>
 					                </div>
 					            </div>
-				                
+				                <div class="layui-row">
+				                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+				                        <div class="layui-form-item">
+				                            <label for="" class="layui-form-label">上报人</label>
+				                            <div class="layui-input-block">
+				                                  <input class="layui-input readOnlyBox" name="applyUserName" id="applyUserName" value="${sreProjectTask.applyUserName}"
+					                                   autocomplete="off" type="text">
+					                        </div>
+				                        </div>
+				                    </div>
+				                </div>
 				                <div class="layui-row">
 					                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
 					                    <div class="layui-form-item">
@@ -234,6 +289,12 @@
 					                    </div>
 					                </div>
 					            </div>
+					            
+					            
+					            
+					          
+					            
+					            
 					            
 					            
 					            <div class="layui-row">
@@ -326,13 +387,14 @@
                             </div>
                         </div>
                     </div>
-                    <div class="box-body" style="padding-left:10px;padding-right:10px">
+                    <div class="box-body" style="padding-left:10px;padding-right:10px;overflow:hidden">
                         <#list checkList as vo>
-                            <input style="width:250px;margin:5px;float:left;" disabled="disabled" type="checkbox" name="taskCheckContents"
-                                   lay-skin="primary" title="${vo.name}"
+                          <div style="width:200px;margin:5px;float:left;">
+                            <input  disabled="disabled" type="checkbox" name="taskCheckContents" lay-skin="primary" title="${vo.name}"
                             <#list "${sreProjectTask.taskCheckContents}"?split(",") as itemValue>
-                            <#if itemValue == vo.code>checked="checked"</#if>
+                                <#if itemValue == vo.code>checked="checked"</#if>
                             </#list> value="${vo.code}">
+                            </div>
                         </#list>
                     </div>
                 </div>
@@ -599,7 +661,9 @@
 
     //alert(fundsSourcesTable);
 
-
+     var belongDepartmentName="${sreProjectTask.belongDepartmentName?default('')}";
+     var professionalDepartName="${sreProjectTask.professionalDepartName?default('')}";
+     var professionalFieldName="${sreProjectTask.professionalFieldName?default('')}";
     var beginYear = $("#beginYear").val();
     var v_date = (new Date()).getTime();
     var equipmentIds = $("#equipmentIds").val();
@@ -619,6 +683,99 @@
             , $ = layui.jquery
             , form = layui.form;
         var publicMethods = layui.publicMethods;
+        
+        
+        
+        
+        
+        form.on('select(getDepartNameByUnitName)',function(data){
+        	getDepartNameByUnitName(data.value);
+        })
+
+         form.on('select(getProfessionalNameListByUnitNameAndDept)',function(data){
+        	 getProfessionalNameListByUnitNameAndDept(data.value);
+        })
+
+
+			getDepartNameByUnitName($("#belongDepartmentName").val());
+			function getDepartNameByUnitName(belongDepartmentName)
+			{
+				 $("#belongDepartmentName").val(belongDepartmentName);
+				 $("#professionalDepartName").empty();
+
+				 var v_date=(new Date()).getTime();
+				 $.ajax({
+						url : "/unitField/getDepartmentNameListByUnitName?v_date="+v_date+"&unitName="+belongDepartmentName,
+						type : "post",
+						async: false,
+						dataType : "json",
+						success : function(data)
+						{
+							$("#professionalDepartName").append("<option value=''>--请选择--</option>");
+							$.each(data, function(i, el)
+							{
+								var content='<option value="'+ el.departmentName +'" ';
+								if(professionalDepartName==el.departmentName)
+								{
+									content+=' selected="selected" ';
+								}
+								content+=' >' + el.departmentName+ '</option>';
+								$("#professionalDepartName").append(content);
+
+							});
+							form.render('select');
+						},
+						error : function()
+						{
+							alert("发生未知错误 ,请重新操作.");
+						}
+					});
+
+
+
+
+				getProfessionalNameListByUnitNameAndDept(professionalDepartName);
+			}
+
+
+			function getProfessionalNameListByUnitNameAndDept(professionalDepartName)
+			{
+				 var belongDepartmentName= $("#belongDepartmentName").val();
+				 $("#professionalFieldName").empty();
+				 var v_date=(new Date()).getTime();
+				 $.ajax({
+						url : "/unitField/getProfessionalNameListByUnitNameAndDept?v_date="+v_date+"&unitName="+belongDepartmentName+"&departmentName="+professionalDepartName,
+						type : "post",
+						async: false,
+						dataType : "json",
+						success : function(data)
+						{
+							$("#professionalFieldName").append("<option value=''>--请选择--</option>");
+
+							$.each(data, function(i, el)
+							{
+								var content='<option value="'+ el.professionalFieldName +'" ';
+								if(professionalFieldName==el.professionalFieldName)
+								{
+									content+=' selected="selected" ';
+								}
+								content+=' >' + el.professionalFieldName+ '</option>';
+
+								$("#professionalFieldName").append(content);
+							});
+							form.render('select');
+						},
+						error : function()
+						{
+							alert("发生未知错误 ,请重新操作.");
+						}
+					});
+			}
+
+
+			
+			
+			
 
         form.render();
 

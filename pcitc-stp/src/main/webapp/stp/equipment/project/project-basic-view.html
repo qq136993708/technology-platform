@@ -240,15 +240,31 @@
                     </div>
                     <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                         <div class="layui-form-item">
-                            <label for="" class="layui-form-label">任务填写人</label>
+                            <label for="" class="layui-form-label">申报时间</label>
                             <div class="layui-input-block">
-                                <input class="layui-input readOnlyBox" name="taskWriteUserNames" id="taskWriteUserNames"
+                             <input class="layui-input readOnlyBox" name="createDate" id="createDate" value="${sreProjectBasic.createDate?string("yyyy-MM-dd HH:mm:ss")}"     autocomplete="off" type="text">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                
+                 <div class="layui-row">
+                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                        <div class="layui-form-item">
+                            <label for="" class="layui-form-label">安排任务填写人</label>
+                            <div class="layui-input-block">
+                                 <input class="layui-input readOnlyBox" name="taskWriteUserNames" id="taskWriteUserNames"
                                        value="${sreProjectBasic.taskWriteUserNames}"
                                        autocomplete="off" type="text">
                             </div>
                         </div>
                     </div>
                 </div>
+                
+                
                 
                  <div class="layui-row">
 					                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">

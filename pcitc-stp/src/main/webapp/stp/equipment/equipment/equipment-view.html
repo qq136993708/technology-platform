@@ -26,7 +26,7 @@
       <div class="layui-row">
         <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
           <div class="layui-form-item">
-            <label for="" class="layui-form-label">装备名称<span class="must-fill">*</span></label>
+            <label for="" class="layui-form-label">装备名称</label>
             <div class="layui-input-block">
               <input class="layui-input readOnlyBox" name="name" id="name" value="${sreEquipment.name}"  lay-verify="name" placeholder="请输入装备名称" autocomplete="off" type="text">
             </div>
@@ -34,7 +34,7 @@
         </div>
          <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
           <div class="layui-form-item">
-            <label for="" class="layui-form-label">装备分类<span class="must-fill">*</span></label>
+            <label for="" class="layui-form-label">装备分类</label>
             <div class="layui-input-block">
                <input class="layui-input readOnlyBox" name="typeName" id="typeName" value="dd" onclick="chooseType()" readonly="readonly" readonly="readonly"   class="layui-textarea readOnlyBox"  autocomplete="off" type="text">
             </div>
@@ -47,7 +47,7 @@
         <div class="layui-row">
         <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
           <div class="layui-form-item">
-            <label for="" class="layui-form-label">申报单价（万元）<span class="must-fill">*</span></label>
+            <label for="" class="layui-form-label">申报单价（万元）</label>
             <div class="layui-input-block">
               <input class="layui-input readOnlyBox" placeholder="￥" name="unitPrice" id="unitPrice" value="${sreEquipment.unitPrice}"  readonly="readonly"     autocomplete="off" type="text" onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')">
             </div>
@@ -55,7 +55,7 @@
         </div>
         <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
           <div class="layui-form-item">
-            <label for="" class="layui-form-label">申请数量<span class="must-fill">*</span></label>
+            <label for="" class="layui-form-label">申请数量</label>
             <div class="layui-input-block">
                <input class="layui-input readOnlyBox" name="applyAcount" id="applyAcount" value="${sreEquipment.applyAcount}"   readonly="readonly"    autocomplete="off" type="text"  onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
             </div>
@@ -67,7 +67,7 @@
        <div class="layui-row">
         <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
           <div class="layui-form-item">
-            <label for="" class="layui-form-label">规格型号、参数<span class="must-fill">*</span></label>
+            <label for="" class="layui-form-label">规格型号、参数</label>
             <div class="layui-input-block">
               <input class="layui-input readOnlyBox"  name="specification" id="specification" value="${sreEquipment.specification}"   readonly="readonly"   autocomplete="off" type="text" >
             </div>
@@ -118,45 +118,64 @@
       
        <!-- 文本域 -->
       <div class="layui-form-item layui-form-text" >
-        <label class="layui-form-label">主要功能与用途<span class="must-fill">*</span></label>
+        <label class="layui-form-label">主要功能与用途</label>
         <div class="layui-input-block">
           <textarea placeholder="请输入内容" name="specialNotes" id="specialNotes" readonly="readonly"   class="layui-textarea readOnlyBox"   class="layui-textarea">${sreEquipment.specialNotes}</textarea>
         </div>
       </div>
       
-    
-      
-      
-      
-       <div class="layui-row">
-        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-          <div class="layui-form-item">
-            <label for="" class="layui-form-label">申报单位<span class="must-fill">*</span></label>
-            <div class="layui-input-block">
-              <input class="layui-input readOnlyBox" name="applyDepartName" id="applyDepartName" value="${applyDepartName}"   readonly="readonly"   class="layui-textarea readOnlyBox"  autocomplete="off" type="text">
-            </div>
-          </div>
-        </div>
-        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-          <div class="layui-form-item">
-            <label for="" class="layui-form-label">第一申报人<span class="must-fill">*</span></label>
-            <div class="layui-input-block">
-               <input class="layui-input readOnlyBox" name="firstApplyUser" id="firstApplyUser" value="${firstApplyUser}"     autocomplete="off" type="text">
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      
-      
-        
-      <!-- 文本域 -->
+     <!-- 文本域 -->
       <div class="layui-form-item layui-form-text" >
         <label class="layui-form-label">备注</label>
         <div class="layui-input-block">
           <textarea placeholder="请输入备注" name="notes" id="notes" readonly="readonly"   class="layui-textarea readOnlyBox"   >${sreEquipment.notes}</textarea>
         </div>
       </div>
+      
+      
+       <div class="layui-row">
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label for="" class="layui-form-label">申报单位</label>
+            <div class="layui-input-block">
+              <input class="layui-input readOnlyBox" name="parentUnitPathNames" id="parentUnitPathNames" value="${sreEquipment.parentUnitPathNames}"   readonly="readonly"   class="layui-textarea readOnlyBox"  autocomplete="off" type="text">
+            </div>
+          </div>
+        </div>
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label for="" class="layui-form-label">申报部门</label>
+            <div class="layui-input-block">
+               <input class="layui-input readOnlyBox" name="applyDepartName" id="applyDepartName" value="${sreEquipment.applyDepartName}"     autocomplete="off" type="text">
+            </div>
+          </div>
+        </div>
+      </div>
+          
+     
+      
+       <div class="layui-row">
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label for="" class="layui-form-label">申报人</label>
+            <div class="layui-input-block">
+              <input class="layui-input readOnlyBox" name="firstApplyUser" id="firstApplyUser" value="${sreEquipment.firstApplyUser}"   readonly="readonly"   class="layui-textarea readOnlyBox"  autocomplete="off" type="text">
+            </div>
+          </div>
+        </div>
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label for="" class="layui-form-label">申报时间</label>
+            <div class="layui-input-block">
+               <input class="layui-input readOnlyBox" name="createDate" id="createDate" value="${sreEquipment.createDate?string("yyyy-MM-dd HH:mm:ss")}"     autocomplete="off" type="text">
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      
+      
+    
       
        <div class="layui-form-item">
 	      	 <label class="layui-form-label">附件</label>
