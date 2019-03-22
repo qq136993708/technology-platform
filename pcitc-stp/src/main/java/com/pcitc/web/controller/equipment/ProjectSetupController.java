@@ -56,14 +56,7 @@ public class ProjectSetupController extends BaseController {
 	private static final String UPDATE_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_setup/update";
 	private static final String DEL_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_setup/delete/";
 	private static final String GET_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_setup/get/";
-	private static final String GET_PROJECT_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_basic/get/";
 
-	
-	
-	private static final String GET_URL_TASK = "http://pcitc-zuul/stp-proxy/sre-provider/project_task/get/";
-	private static final String GET_URL_PROJECT = "http://pcitc-zuul/stp-proxy/sre-provider/project_basic/get/";
-	private static final String UPDATE_URL_TASK = "http://pcitc-zuul/stp-proxy/sre-provider/project_task/update";
-	private static final String UPDATE_URL_PROJECT = "http://pcitc-zuul/stp-proxy/sre-provider/project_basic/update";
 	
 	
 
@@ -119,13 +112,16 @@ public class ProjectSetupController extends BaseController {
 		String setupId = CommonUtil.getParameter(request, "setupId", "");
 		request.setAttribute("setupId", setupId);
 		
-		String topicId = CommonUtil.getParameter(request, "topicId", "");
-		request.setAttribute("topicId", topicId);
-		
-		if(!topicId.equals(""))
+		if(!taskId.equals(""))
 		{
-			SreProject sreProject=EquipmentUtils.getSreProject(topicId, restTemplate, httpHeaders);
-			request.setAttribute("sreProject", sreProject);
+			SreProjectTask sreProjectTask =EquipmentUtils.getSreProjectTask(taskId, restTemplate, httpHeaders);
+			request.setAttribute("sreProjectTask", sreProjectTask);
+			String topicId=sreProjectTask.getTopicId();
+				if(!topicId.equals(""))
+				{
+					SreProject sreProject=EquipmentUtils.getSreProject(topicId,restTemplate,httpHeaders);
+					request.setAttribute("sreProject", sreProject);
+				}
 		}
 		if(!setupId.equals(""))
 		{
@@ -134,12 +130,6 @@ public class ProjectSetupController extends BaseController {
 		
 			SreProjectSetup sreProjectSetup = responseEntity.getBody();
 			request.setAttribute("sreProjectSetup", sreProjectSetup);
-			topicId=sreProjectSetup.getTopicId();
-			if(!topicId.equals(""))
-			{
-				SreProject sreProject=EquipmentUtils.getSreProject(topicId, restTemplate, httpHeaders);
-				request.setAttribute("sreProject", sreProject);
-			}
 		}
 		request.setAttribute("documentDoc", documentDoc);
 		request.setAttribute("leadUnitName", leadUnitName);
@@ -269,10 +259,18 @@ public class ProjectSetupController extends BaseController {
 		if (statusCode == 200)
 		{
 			
-			SreProjectTask sreProjectTask=	EquipmentUtils.getSreProjectTask(taskId, restTemplate, httpHeaders);
-			sreProjectTask.setSetupId(setup.getSetupId());
-			EquipmentUtils.updateSreProjectTask(sreProjectTask, restTemplate, httpHeaders);
-			resultsDate = new Result(true, RequestProcessStatusEnum.OK.getStatusDesc());
+				SreProjectTask sreProjectTask=	EquipmentUtils.getSreProjectTask(taskId, restTemplate, httpHeaders);
+				String str_SetupId=sreProjectTask.getSetupId();
+				if(str_SetupId!=null && !str_SetupId.equals(""))
+				{
+					
+				}else
+				{
+					sreProjectTask.setSetupId(setup.getSetupId());
+					EquipmentUtils.updateSreProjectTask(sreProjectTask, restTemplate, httpHeaders);
+				}
+				
+			    resultsDate = new Result(true, RequestProcessStatusEnum.OK.getStatusDesc());
 		} else 
 		{
 			resultsDate = new Result(false, RequestProcessStatusEnum.SERVER_BUSY.getStatusDesc());
@@ -345,9 +343,11 @@ public class ProjectSetupController extends BaseController {
 		ResponseEntity<SreProjectSetup> responseEntity = this.restTemplate.exchange(GET_URL + id, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreProjectSetup.class);
 		int statusCode = responseEntity.getStatusCodeValue();
 		logger.info("============远程返回  statusCode " + statusCode);
-		SreProjectSetup SreProjectSetup = responseEntity.getBody();
-		request.setAttribute("SreProjectSetup", SreProjectSetup);
+		SreProjectSetup sreProjectSetup = responseEntity.getBody();
+		request.setAttribute("sreProjectSetup", sreProjectSetup);
 		
+		SreProject sreProject=EquipmentUtils.getSreProject(sreProjectSetup.getTopicId(), restTemplate, httpHeaders);
+		request.setAttribute("sreProject", sreProject);
 		return "/stp/equipment/setup_report/setup_report_view";
 	}
 	

@@ -8,6 +8,10 @@
     <link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()" media="all">
     <script src="/layuiadmin/layui/layui.js"></script>
        <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+    <style>
+        .searchBox{ height: auto;}
+        .searchBox label{margin-bottom: 10px;display: inline-block; }
+    </style>
 </head>
 <body>
 <div class="searchBox">
@@ -30,7 +34,7 @@
     
     <label class="dateInput">
          <span>院内审核</span>
-         <select name="innerAuditStatus" id="innerAuditStatus"  style="width:200px" >
+         <select name="innerAuditStatus" id="innerAuditStatus" class="form-control">
              <option value="" >--请选择--</option>
              <#list dicList as vo> 
 		          <option value="${vo.numValue}"  >${vo.name}</option>
@@ -40,7 +44,7 @@
     
     <label class="dateInput">
          <span>总部审核</span>
-         <select name="auditStatus" id="auditStatus"  style="width:200px" >
+         <select name="auditStatus" id="auditStatus" class="form-control" >
              <option value="" >--请选择--</option>
              <#list dicList as vo> 
 		          <option value="${vo.numValue}"  >${vo.name}</option>
@@ -53,7 +57,8 @@
     
      <label class="dateInput">
          <span>归属部门</span>
-         <select name="belongDepartmentName" id="belongDepartmentName"  onchange="getDepartNameByUnitName(this.value)" style="width:200px" >
+         <select name="belongDepartmentName" id="belongDepartmentName"
+                 onchange="getDepartNameByUnitName(this.value)" class="form-control">
              <option value="" >--请选择归属部门--</option>
              <#list unitFieldList as vo> 
 		          <option value="${vo.unitName}"  >${vo.unitName}</option>
@@ -63,12 +68,13 @@
     
      <label class="dateInput">
          <span>专业处</span>
-         <select id="professionalDepartName" name="professionalDepartName" onchange="getProfessionalNameListByUnitNameAndDept(this.value)" style="width:200px"></select>
+         <select id="professionalDepartName" name="professionalDepartName"
+                 onchange="getProfessionalNameListByUnitNameAndDept(this.value)" class="form-control"></select>
      </label>
     
       <label class="dateInput">
          <span>专业领域</span>
-         <select id="professionalFieldName" name="professionalFieldName" style="width:200px"></select>
+         <select id="professionalFieldName" name="professionalFieldName" class="form-control"></select>
      </label>
      
      

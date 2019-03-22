@@ -227,48 +227,6 @@ public class ProjectTaskController extends BaseController {
 	}
 	
 	
-	@RequestMapping(value = "/to_add")
-	public String to_add(HttpServletRequest request, HttpServletResponse response) throws Exception
-	{
-
-		
-		
-		String leadUnitName = sysUserInfo.getUnitName();
-		String leadUnitCode = sysUserInfo.getUnitCode();
-		String createUserName=sysUserInfo.getUserDisp();
-		String createUserId=sysUserInfo.getUserName();
-		String documentDoc= IdUtil.createFileIdByTime();
-		
-		String taskId = CommonUtil.getParameter(request, "taskId", "");
-		request.setAttribute("taskId", taskId);
-		String topicId = CommonUtil.getParameter(request, "topicId", "");
-		request.setAttribute("topicId", topicId);
-		if(!topicId.equals(""))
-		{
-			    
-			SreProject sreProject=EquipmentUtils.getSreProject(topicId,restTemplate,httpHeaders);
-			request.setAttribute("sreProject", sreProject);
-		}
-		if(!taskId.equals(""))
-		{
-			SreProjectTask sreProjectTask =EquipmentUtils.getSreProjectTask(taskId,restTemplate,httpHeaders);
-			request.setAttribute("sreProjectTask", sreProjectTask);
-			topicId=sreProjectTask.getTopicId();
-			if(!topicId.equals(""))
-			{
-				SreProject sreProject=EquipmentUtils.getSreProject(topicId,restTemplate,httpHeaders);
-				request.setAttribute("sreProject", sreProject);
-			}
-		}
-		request.setAttribute("documentDoc", documentDoc);
-		request.setAttribute("leadUnitName", leadUnitName);
-		request.setAttribute("leadUnitCode", leadUnitCode);
-		request.setAttribute("createUserId", createUserId);
-		List<SysDictionary>  dicList= CommonUtil.getDictionaryByParentCode("ROOT_ZBGL_YTJYSDNR", restTemplate, httpHeaders);
-		request.setAttribute("dicList", dicList);
-		return "/stp/equipment/task/project_task_add";
-	}
-	
 	
 
 	/**
@@ -304,7 +262,7 @@ public class ProjectTaskController extends BaseController {
 		{
 			SreProjectTask sreProjectTask =EquipmentUtils.getSreProjectTask(taskId, restTemplate, httpHeaders);
 			request.setAttribute("sreProjectTask", sreProjectTask);
-			topicId=sreProjectTask.getTopicId();
+		    topicId=sreProjectTask.getTopicId();
 			if(!topicId.equals(""))
 			{
 				SreProject sreProject=EquipmentUtils.getSreProject(topicId,restTemplate,httpHeaders);
@@ -434,13 +392,16 @@ public class ProjectTaskController extends BaseController {
 			sreProjectBasic.setLeadUnitCode(sreProject.getLeadUnitCode());
 			sreProjectBasic.setLeadUnitName(sreProject.getLeadUnitName());
 			sreProjectBasic.setProjectMoney(sreProject.getProjectMoney());
-			sreProjectBasic.setProjectFundsTable(sreProject.getYearFeeStr());
+			sreProjectBasic.setProjectFundsTable(sreProject.getYearFeeStr());//领导单位
+			sreProjectBasic.setYearFeeStrJoinUnit(sreProject.getYearFeeStrJoinUnit());//参与单位
 			sreProjectBasic.setBelongDepartmentCode(sreProject.getBelongDepartmentCode());
 			sreProjectBasic.setBelongDepartmentName(sreProject.getBelongDepartmentName());
 			sreProjectBasic.setProfessionalDepartCode(sreProject.getProfessionalDepartCode());
 			sreProjectBasic.setProfessionalDepartName(sreProject.getProfessionalDepartName());
 			sreProjectBasic.setProfessionalFieldName(sreProject.getProfessionalFieldName());
 			sreProjectBasic.setProfessionalFieldCode(sreProject.getProfessionalFieldCode());
+			
+			
 		}
 		sreProjectBasic.setTopicId(topicId); 
 		sreProjectBasic.setContractNum(contractNum);
@@ -478,7 +439,7 @@ public class ProjectTaskController extends BaseController {
 		{
 			
 			String dataId = sreProjectBasic.getTaskId();
-			resultsDate.setData(dataId);
+			resultsDate.setData(sreProjectBasic);
 			resultsDate.setSuccess(true);
 		} else 
 		{
