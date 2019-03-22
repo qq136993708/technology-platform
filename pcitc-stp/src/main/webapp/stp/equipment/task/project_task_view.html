@@ -64,7 +64,7 @@
   <div class="formBox">
   <div class="box-body">
   <form class="layui-form" name="form1" id="form1" action="" method="POST" lay-filter="component-form-group layui-container">
-  <input  name="id"      id="id"       value="${id}"                    type="hidden" >
+  <input  name="id"             id="id"              value="${id}"                    type="hidden" >
   <input  name="equipmentIds"   id="equipmentIds"    value="${sreProjectBasic.equipmentIds}" type="hidden"  >
   <input  name="documentDoc"    id="documentDoc"     value="${documentDoc}"                  type="hidden">
   <input  name="yearFeeStr"     id="yearFeeStr"      value="${sreProjectBasic.yearFeeStr}"   type="hidden">
@@ -72,20 +72,20 @@
   <input  name="userIds"        id="userIds"         type="hidden">
   
         <div class="layui-form-item layui-form-text">
-                    <label class="layui-form-label">课题名称<span class="must-fill">*</span></label>
+                    <label class="layui-form-label">课题名称</label>
                     <div class="layui-input-block">
-                        <input class="layui-input" placeholder="--请选择--" name="name" id="name" readonly="readonly" onclick="chooseProject('${topicId}')"   value="${sreProject.name}" autocomplete="off" type="text">
+                        <input class="layui-input readOnlyBox"  name="name" id="name" readonly="readonly"    value="${sreProject.name}" autocomplete="off" type="text">
                     </div>
                 </div>
                 
                 
                 <div class="layui-form-item layui-form-text">
-                    <label class="layui-form-label">项目执行年限<span class="must-fill">*</span></label>
+                    <label class="layui-form-label">项目执行年限</label>
                     <div class="layui-input-block">
                      <div class="layui-input-inline" style="float:left">
-                        <input type="text" class="layui-input" name="beginProjectMonth" id="beginProjectMonth" value="${sreProjectTask.beginProjectMonth}" style="width:150px;float:left" placeholder="开始月份">
+                        <input type="text" class="layui-input readOnlyBox" name="beginProjectMonth" id="beginProjectMonth" value="${sreProjectTask.beginProjectMonth}" style="width:150px;float:left" placeholder="开始月份">
                         <div class="layui-form-mid" style="width:8px;float:left"> -</div>
-                        <input type="text" class="layui-input" id="endProjectMonth" name="endProjectMonth" value="${sreProjectTask.endProjectMonth}" style="width:150px;float:left" placeholder="结束月份">
+                        <input type="text" class="layui-input readOnlyBox" id="endProjectMonth" name="endProjectMonth" value="${sreProjectTask.endProjectMonth}" style="width:150px;float:left" placeholder="结束月份">
                     </div>
                     </div>
                 </div>
@@ -93,9 +93,9 @@
                 
                 
                <div class="layui-form-item layui-form-text" >
-		        <label class="layui-form-label">目标和主要任务<span class="must-fill">*</span></label>
+		        <label class="layui-form-label">目标和主要任务</label>
 		        <div class="layui-input-block">
-		          <textarea placeholder="请简述目标和主要任务，原则上不超过500字" name="taskMainTaskContent" id="taskMainTaskContent"    class="layui-textarea">${sreProjectTask.taskMainTaskContent}</textarea>
+		          <textarea placeholder="请简述目标和主要任务，原则上不超过500字" name="taskMainTaskContent" id="taskMainTaskContent"    class="layui-textarea readOnlyBox">${sreProjectTask.taskMainTaskContent}</textarea>
 		        </div>
 		      </div>
 		      
@@ -107,9 +107,6 @@
                 <div class="tableToolBox">
                     <div class="tableTitle">项目内容和主要图表 </div>
                     <div class="tableBtns">
-                        <a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg"
-                           data-type="taskAddEvent">新增
-                        </a>
                     </div>
                 </div>
                 <table class="layui-table">
@@ -132,9 +129,6 @@
                         计划进度和考核目标
                     </div>
                     <div class="tableBtns">
-                        <a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg"
-                           data-type="assessmentAddEvent">新增
-                        </a>
                     </div>
                 </div>
                 <table class="layui-table">
@@ -170,20 +164,6 @@
              </div>
           </div>  
           
-          <!-- 
-            <div class="layui-row" id="budget_table">
-                <div class="tableToolBox">
-                    <div class="tableTitle">应提交验收的内容<span class="must-fill">*</span></div>
-                </div>
-                <div style="padding:10px">
-                    <#list dicList as vo> 
-                    <input style="width:100px;margin:5px" type="checkbox" name="taskCheckContents"  lay-skin="primary" title="${vo.name}"
-                    <#list "${sreProjectTask.taskCheckContents}"?split(",") as itemValue>
-                         <#if itemValue == vo.code>checked="checked"  </#if>
-                     </#list> value="${vo.code}">
-                    </#list>
-                </div>
-            </div> -->
             
             
 
@@ -361,9 +341,6 @@
                 <div class="tableToolBox">
                     <div class="tableTitle"> 资金来源表</div>
                     <div class="tableBtns">
-                        <a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg"
-                           data-type="fundsAddEvent">新增
-                        </a>
                     </div>
                 </div>
                 <table class="layui-table">
@@ -427,6 +404,7 @@
 var param=JSON.parse(window.localStorage.getItem("param"));
 var functionId=param.id;
 var equipmentIds=$("#equipmentIds").val();
+
 var file_ids = "documentDoc";
 //detail:详情，edit：编辑
 file_edit_detail = "detail";
@@ -442,8 +420,24 @@ var joinUnitName="${sreProject.joinUnitName?default('')}";
 //参与单位名称--表格
 var yearFeeStrJoinUnit="${sreProject.yearFeeStrJoinUnit?default('')}";
 
+//项目资金安排= 牵头单位 + 参与单位
+//alert(yearFeeStr);
+//alert(yearFeeStrJoinUnit);
+//项目内容和主要图表
+var taskContent="${sreProjectTask.taskContent?default('')}";
+//计划进度和考核目标
+var taskAssessmentContent="${sreProjectTask.taskAssessmentContent?default('')}";
+//计划进度和考核目标
+var taskAssessmentContent="${sreProjectTask.taskAssessmentContent?default('')}";
+//资金概算表
+var budgetTable="${sreProjectTask.budgetTable?default('')}";
+//资金来源表
+var fundsSourcesTable="${sreProjectTask.fundsSourcesTable?default('')}";
 
-var yearFeeStr= $("#yearFeeStr").val();
+//alert(fundsSourcesTable);
+
+
+
 var beginYear= $("#beginYear").val();
 var v_date=(new Date()).getTime();
 var equipmentIds=$("#equipmentIds").val();

@@ -817,6 +817,8 @@ public class ProjectTaskController extends BaseController {
 		SreProjectTask sreProjectTask = responseEntity.getBody();
 		request.setAttribute("sreProjectTask", sreProjectTask);
 		
+		SreProject sreProject=EquipmentUtils.getSreProject(sreProjectTask.getTopicId(), restTemplate, httpHeaders);
+		request.setAttribute("sreProject", sreProject);
 		return "/stp/equipment/task/project_task_view";
 	}
 	

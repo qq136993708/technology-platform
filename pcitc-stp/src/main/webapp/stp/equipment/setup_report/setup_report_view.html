@@ -75,32 +75,32 @@
                     </div>
                 </div>
                <div class="layui-form-item layui-form-text" >
-		        <label class="layui-form-label">立项理由<span class="must-fill">*</span></label>
+		        <label class="layui-form-label">立项理由</label>
 		        <div class="layui-input-block">
-		          <textarea placeholder="请简述立项理由，原则上不超过500字" name="setupReasons" id="setupReasons"    class="layui-textarea">${sreProjectSetup.setupReasons}</textarea>
+		          <textarea placeholder="请简述立项理由，原则上不超过500字" name="setupReasons" id="setupReasons"    class="layui-textarea readOnlyBox">${sreProjectSetup.setupReasons}</textarea>
 		        </div>
 		      </div>
 		      
 		      
 		      <div class="layui-form-item layui-form-text" >
-		        <label class="layui-form-label">建设场地、公用工程（水电汽风等）、辅助设施（环保、消防、安全、卫生等）等条件<span class="must-fill">*</span></label>
+		        <label class="layui-form-label">建设场地、公用工程（水电汽风等）、辅助设施（环保、消防、安全、卫生等）等条件</label>
 		        <div class="layui-input-block">
-		          <textarea placeholder="建设场地、公用工程，原则上不超过500字" name="facilities" id="facilities"    class="layui-textarea">${sreProjectSetup.facilities}</textarea>
+		          <textarea placeholder="建设场地、公用工程，原则上不超过500字" name="facilities" id="facilities"    class="layui-textarea readOnlyBox">${sreProjectSetup.facilities}</textarea>
 		        </div>
 		      </div>
 		      
 		      
 		      <div class="layui-form-item layui-form-text" >
-		        <label class="layui-form-label">项目实施方案和进度<span class="must-fill">*</span></label>
+		        <label class="layui-form-label">项目实施方案和进度</label>
 		        <div class="layui-input-block">
-		          <textarea placeholder="项目实施方案和进度，原则上不超过500字" name="projectProgress" id="projectProgress"    class="layui-textarea">${sreProjectSetup.projectProgress}</textarea>
+		          <textarea placeholder="项目实施方案和进度，原则上不超过500字" name="projectProgress" id="projectProgress"    class="layui-textarea readOnlyBox">${sreProjectSetup.projectProgress}</textarea>
 		        </div>
 		      </div>
 		      
 		       <div class="layui-form-item layui-form-text" >
-		        <label class="layui-form-label">使用效果和效益的分析预测（含技术先进性、知识产权状况）<span class="must-fill">*</span></label>
+		        <label class="layui-form-label">使用效果和效益的分析预测（含技术先进性、知识产权状况）</label>
 		        <div class="layui-input-block">
-		          <textarea placeholder="使用效果和效益的分析预测，原则上不超过500字" name="userEffect" id="userEffect"    class="layui-textarea">${sreProjectSetup.userEffect}</textarea>
+		          <textarea placeholder="使用效果和效益的分析预测，原则上不超过500字" name="userEffect" id="userEffect"    class="layui-textarea readOnlyBox">${sreProjectSetup.userEffect}</textarea>
 		        </div>
 		      </div>
 
@@ -112,9 +112,6 @@
                 <div class="tableToolBox">
                     <div class="tableTitle">项目规模、工艺流程（图）、主要仪器设备（表）、自控方案等 </div>
                     <div class="tableBtns">
-                        <a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg"
-                           data-type="taskAddEvent">新增
-                        </a>
                     </div>
                 </div>
                 <table class="layui-table">
@@ -138,9 +135,6 @@
                 <div class="tableToolBox">
                     <div class="tableTitle">资金来源表 </div>
                     <div class="tableBtns">
-                        <a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg"
-                           data-type="fundsAddEvent">新增
-                        </a>
                     </div>
                 </div>
                 <table class="layui-table">
@@ -218,6 +212,15 @@ var yearFeeStr="${sreProject.yearFeeStr?default('')}";
 var joinUnitName="${sreProject.joinUnitName?default('')}";
 //参与单位名称--表格
 var yearFeeStrJoinUnit="${sreProject.yearFeeStrJoinUnit?default('')}";
+//项目资金安排= 牵头单位 + 参与单位
+
+
+//项目规模、工艺流程（图）、主要仪器设备（表）、自控方案等
+var mainTable="${sreProjectSetup.mainTable?default('')}";
+//资金来源表
+var sourcesTable="${sreProjectSetup.sourcesTable?default('')}";
+alert(mainTable);
+alert(sourcesTable);
 
 
 var table,selectRowData;
