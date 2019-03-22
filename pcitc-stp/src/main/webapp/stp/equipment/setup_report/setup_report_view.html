@@ -1,22 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
-  <meta name="renderer" content="webkit">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="format-detection" content="telephone=no">
-  <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
-  <!--[if lt IE 9]>
-  <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
-  <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
-  <![endif]-->
-  <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/common.css">
     <script src="/common/js/jquery-1.11.3.min.js"></script>
-  
+
     <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
     <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
     <style>
@@ -40,7 +40,7 @@
 
         .tableBox table tr td input {
             width: 88%;
-            box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
             height: 20px;
             padding: 6px 12px;
             font-size: 12px;
@@ -51,218 +51,221 @@
             border: 1px solid #ccc;
             border-radius: 3px;
         }
-        .layui-input, .layui-select{
+
+        .layui-input, .layui-select {
             height: 34px !important;
             width: 80% !important;
         }
-        .layui-select-title input{width: 100% !important;}
+
+        .layui-select-title input {
+            width: 100% !important;
+        }
+        .formBox{margin-bottom: 0 !important;}
+        .box-body{margin-bottom: 10px !important;}
     </style>
 </head>
 <body>
 
-        
-  <input  name="id"      id="id"       value="${id}"                    type="hidden" >
-  <input  name="equipmentIds"   id="equipmentIds"    value="${sreProjectBasic.equipmentIds}" type="hidden"  >
-  <input  name="documentDoc"    id="documentDoc"     value="${documentDoc}"                  type="hidden">
-  <input  name="yearFeeStr"     id="yearFeeStr"      value="${sreProjectBasic.yearFeeStr}"   type="hidden">
-  <input  name="functionId"     id="functionId"      type="hidden">
-  <input  name="userIds"        id="userIds"         type="hidden">
-  
-                  <div class="layui-form-item layui-form-text">
-                    <label class="layui-form-label">课题名称</label>
-                    <div class="layui-input-block">
-                        <input class="layui-input readOnlyBox" style="width:100% !important" name="topicName" id="topicName" readonly="readonly" value="${sreProject.name}" autocomplete="off" type="text">
-                    </div>
-                </div>
-               <div class="layui-form-item layui-form-text" >
-		        <label class="layui-form-label">立项理由</label>
-		        <div class="layui-input-block">
-		          <textarea placeholder="请简述立项理由，原则上不超过500字" name="setupReasons" id="setupReasons"    class="layui-textarea readOnlyBox">${sreProjectSetup.setupReasons}</textarea>
-		        </div>
-		      </div>
-		      
-		      
-		      <div class="layui-form-item layui-form-text" >
-		        <label class="layui-form-label">建设场地、公用工程（水电汽风等）、辅助设施（环保、消防、安全、卫生等）等条件</label>
-		        <div class="layui-input-block">
-		          <textarea placeholder="建设场地、公用工程，原则上不超过500字" name="facilities" id="facilities"    class="layui-textarea readOnlyBox">${sreProjectSetup.facilities}</textarea>
-		        </div>
-		      </div>
-		      
-		      
-		      <div class="layui-form-item layui-form-text" >
-		        <label class="layui-form-label">项目实施方案和进度</label>
-		        <div class="layui-input-block">
-		          <textarea placeholder="项目实施方案和进度，原则上不超过500字" name="projectProgress" id="projectProgress"    class="layui-textarea readOnlyBox">${sreProjectSetup.projectProgress}</textarea>
-		        </div>
-		      </div>
-		      
-		       <div class="layui-form-item layui-form-text" >
-		        <label class="layui-form-label">使用效果和效益的分析预测（含技术先进性、知识产权状况）</label>
-		        <div class="layui-input-block">
-		          <textarea placeholder="使用效果和效益的分析预测，原则上不超过500字" name="userEffect" id="userEffect"    class="layui-textarea readOnlyBox">${sreProjectSetup.userEffect}</textarea>
-		        </div>
-		      </div>
 
-        
-        
-        
-        
-            <div class="layui-row" id="main_table">
-                <div class="tableToolBox">
-                    <div class="tableTitle">项目规模、工艺流程（图）、主要仪器设备（表）、自控方案等 </div>
-                    <div class="tableBtns">
-                    </div>
-                </div>
-                <table class="layui-table">
-                    <thead>
-                    <tr>
-                        <td width="4%">编号</td>
-                        <td width="20%">单项设备名称</td>
-                        <td width="28%">单项设备立项背景</td>
-                        <td width="8%">经费</td>
-                        <td width="8%">备注</td>
-                        <td width="3%">删除</td>
-                    </tr>
-                    </thead>
-                    <tbody></tbody>
-               </table>
-            </div>
-            
-             
+<input name="id" id="id" value="${id}" type="hidden">
+<input name="equipmentIds" id="equipmentIds" value="${sreProjectBasic.equipmentIds}" type="hidden">
+<input name="documentDoc" id="documentDoc" value="${documentDoc}" type="hidden">
+<input name="yearFeeStr" id="yearFeeStr" value="${sreProjectBasic.yearFeeStr}" type="hidden">
+<input name="functionId" id="functionId" type="hidden">
+<input name="userIds" id="userIds" type="hidden">
 
-            <div class="layui-row" id="sources_table">
-                <div class="tableToolBox">
-                    <div class="tableTitle">资金来源表 </div>
-                    <div class="tableBtns">
-                    </div>
-                </div>
-                <table class="layui-table">
-                    <thead>
-                    <tr>
-                        <td width="20%">来源</td>
-                        <td width="8%">国家拨款(万)</td>
-                        <td width="8%">总部拨付(万)</td>
-                        <td width="8%">负责单位自筹(万)</td>
-                        <td width="8%">其它(万)</td>
-                        <td width="8%">合计(万)</td>
-                        <td width="8%">删除</td>
-                    </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
+<div class="layui-form-item layui-form-text" style="margin-top: 15px;">
+    <label class="layui-form-label">课题名称</label>
+    <div class="layui-input-block">
+        <input class="layui-input readOnlyBox" style="width:100% !important" name="topicName" id="topicName"
+               readonly="readonly" value="${sreProject.name}" autocomplete="off" type="text">
+    </div>
+</div>
+<div class="layui-form-item layui-form-text">
+    <label class="layui-form-label">立项理由</label>
+    <div class="layui-input-block">
+        <textarea placeholder="请简述立项理由，原则上不超过500字" name="setupReasons" id="setupReasons"
+                  class="layui-textarea readOnlyBox">${sreProjectSetup.setupReasons}</textarea>
+    </div>
+</div>
+
+
+<div class="layui-form-item layui-form-text">
+    <label class="layui-form-label">建设场地、公用工程（水电汽风等）、辅助设施（环保、消防、安全、卫生等）等条件</label>
+    <div class="layui-input-block">
+        <textarea placeholder="建设场地、公用工程，原则上不超过500字" name="facilities" id="facilities"
+                  class="layui-textarea readOnlyBox">${sreProjectSetup.facilities}</textarea>
+    </div>
+</div>
+
+
+<div class="layui-form-item layui-form-text">
+    <label class="layui-form-label">项目实施方案和进度</label>
+    <div class="layui-input-block">
+        <textarea placeholder="项目实施方案和进度，原则上不超过500字" name="projectProgress" id="projectProgress"
+                  class="layui-textarea readOnlyBox">${sreProjectSetup.projectProgress}</textarea>
+    </div>
+</div>
+
+<div class="layui-form-item layui-form-text">
+    <label class="layui-form-label">使用效果和效益的分析预测（含技术先进性、知识产权状况）</label>
+    <div class="layui-input-block">
+        <textarea placeholder="使用效果和效益的分析预测，原则上不超过500字" name="userEffect" id="userEffect"
+                  class="layui-textarea readOnlyBox">${sreProjectSetup.userEffect}</textarea>
+    </div>
+</div>
+
+
+<div class="formBox" id="main_table">
+    <div class="tableToolBox">
+        <div class="tableTitle">项目规模、工艺流程（图）、主要仪器设备（表）、自控方案等</div>
+        <div class="tableBtns">
+        </div>
+    </div>
+    <table class="layui-table">
+        <thead>
+        <tr>
+            <td width="4%">编号</td>
+            <td width="20%">单项设备名称</td>
+            <td width="28%">单项设备立项背景</td>
+            <td width="8%">经费</td>
+            <td width="8%">备注</td>
+            <td width="3%">删除</td>
+        </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+
+<div class="formBox" id="sources_table">
+    <div class="tableToolBox">
+        <div class="tableTitle">资金来源表</div>
+        <div class="tableBtns">
+        </div>
+    </div>
+    <table class="layui-table">
+        <thead>
+        <tr>
+            <td width="20%">来源</td>
+            <td width="8%">国家拨款(万)</td>
+            <td width="8%">总部拨付(万)</td>
+            <td width="8%">负责单位自筹(万)</td>
+            <td width="8%">其它(万)</td>
+            <td width="8%">合计(万)</td>
+            <td width="8%">删除</td>
+        </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+
+<div class="formBox" id="funds_table">
+    <div class="tableToolBox">
+        <div class="tableBtns">
+            <div class="tableTitle">项目资金安排
             </div>
-            
-            
-            
-            
-            <div class="formBox" id="funds_table">
-            <div class="tableToolBox">
-                <div class="tableBtns">
-                    <div class="tableTitle">项目资金安排
-                    </div>
-                </div>
-            </div>
-            <div class="box-body" style="padding-left:10px;padding-right:10px">
-            
-             <label class="layui-form-label" style="width: 100%;text-align: left;margin-left: 0;">
-                    ${sreProject.leadUnitName?default('')}</label>
-                <table class="layui-table">
-                    <thead>
-                    <tr>
-                        <td width="20%">年 度</td>
-                        <td width="8%">费用性支出(万元)</td>
-                        <td width="8%">资本性支出(万元)</td>
-                        <td width="8%">小 计(万元)</td>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
-                <div id="units"></div>
-            </div>
-            </div>
-      
-       <div class="layui-form-item">
-	      	 <label class="layui-form-label">附件</label>
-	         <div id="file_div" class="layui-input-block"></div>
-       </div>
-       
-        
-      
+        </div>
+    </div>
+    <div class="box-body" style="padding-left:10px;padding-right:10px;
+    border: 1px solid #e6e6e6;">
+
+        <label class="layui-form-label" style="width: 100%;text-align: left;margin-left: 0;">
+            ${sreProject.leadUnitName?default('')}</label>
+        <table class="layui-table">
+            <thead>
+            <tr>
+                <td width="20%">年 度</td>
+                <td width="8%">费用性支出(万元)</td>
+                <td width="8%">资本性支出(万元)</td>
+                <td width="8%">小 计(万元)</td>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+        <div id="units"></div>
+    </div>
+</div>
+
+<div class="formBox" style="position: relative;margin-bottom: 38px !important;">
+    <label class="layui-form-label" style="    position: absolute;z-index: 11;text-align: left;font-size: 14px;color: #666666;left: 8px;">附件</label>
+    <div id="file_div" class="layui-input-block" style="margin-left: 0;"></div>
+</div>
+
 
 <script>
-var param=JSON.parse(window.localStorage.getItem("param"));
-var functionId=param.id;
-var equipmentIds=$("#equipmentIds").val();
-var file_ids = "documentDoc";
-//detail:详情，edit：编辑
-file_edit_detail = "detail";
-//统管理-附件管理-附件配置：页面标识
-file_opt_flag = "b3a52bbe7087419c80813d7716f37674";
-var yearFeeStr= $("#yearFeeStr").val();
-var beginYear= $("#beginYear").val();
-var v_date=(new Date()).getTime();
-var equipmentIds=$("#equipmentIds").val();
-//牵头单位名称
-var leadUnitName="${sreProject.leadUnitName?default('')}";
-//牵头单位--表格
-var yearFeeStr="${sreProject.yearFeeStr?default('')}";
-//参与单位名称
-var joinUnitName="${sreProject.joinUnitName?default('')}";
-//参与单位名称--表格
-var yearFeeStrJoinUnit="${sreProject.yearFeeStrJoinUnit?default('')}";
-//项目资金安排= 牵头单位 + 参与单位
+    var param = JSON.parse(window.localStorage.getItem("param"));
+    var functionId = param.id;
+    var equipmentIds = $("#equipmentIds").val();
+    var file_ids = "documentDoc";
+    //detail:详情，edit：编辑
+    file_edit_detail = "detail";
+    //统管理-附件管理-附件配置：页面标识
+    file_opt_flag = "b3a52bbe7087419c80813d7716f37674";
+    var yearFeeStr = $("#yearFeeStr").val();
+    var beginYear = $("#beginYear").val();
+    var v_date = (new Date()).getTime();
+    var equipmentIds = $("#equipmentIds").val();
+    //牵头单位名称
+    var leadUnitName = "${sreProject.leadUnitName?default('')}";
+    //牵头单位--表格
+    var yearFeeStr = "${sreProject.yearFeeStr?default('')}";
+    //参与单位名称
+    var joinUnitName = "${sreProject.joinUnitName?default('')}";
+    //参与单位名称--表格
+    var yearFeeStrJoinUnit = "${sreProject.yearFeeStrJoinUnit?default('')}";
+    //项目资金安排= 牵头单位 + 参与单位
 
 
-//项目规模、工艺流程（图）、主要仪器设备（表）、自控方案等
-var mainTable="${sreProjectSetup.mainTable?default('')}";
-//资金来源表
-var sourcesTable="${sreProjectSetup.sourcesTable?default('')}";
-alert(mainTable);
-alert(sourcesTable);
+    //项目规模、工艺流程（图）、主要仪器设备（表）、自控方案等
+    var mainTable = "${sreProjectSetup.mainTable?default('')}";
+    //资金来源表
+    var sourcesTable = "${sreProjectSetup.sourcesTable?default('')}";
+    alert(mainTable);
+    alert(sourcesTable);
 
 
-var table,selectRowData;
-layui.config({
-    //base: 'layuicommon/module/modules/' //静态资源所在路径
-}).extend({
-    index: 'layui/tableDemo' //主入口模块
-}).use(['form','table','laypage','layer','laydate','laytpl','jquery',"publicMethods"], function(){
+    var table, selectRowData;
+    layui.config({
+        //base: 'layuicommon/module/modules/' //静态资源所在路径
+    }).extend({
+        index: 'layui/tableDemo' //主入口模块
+    }).use(['form', 'table', 'laypage', 'layer', 'laydate', 'laytpl', 'jquery', "publicMethods"], function () {
 
-	  var admin = layui.admin
-      element = layui.element
-      ,table = layui.table
-      ,layer = layui.layer
-      ,laydate = layui.laydate
-      ,laypage = layui.laypage
-      ,$ = layui.jquery
-      ,form = layui.form;
-	  var publicMethods=layui.publicMethods;
-	  
-	  
-	  form.render();
-	  
-	  renderTable(equipmentIds);
-	  laydate.render({
-	      elem: '#LAY-component-form-group-date'
-	  });
-	 
-	//添加到form.render()之后
-	 	$("#file_div").load('/common/public/uploadlayuiload.html');
-	
-	
-	 	  
-        publicMethods.createTable('','',"funds_table",2,yearFeeStr,true);
+        var admin = layui.admin
+        element = layui.element
+            , table = layui.table
+            , layer = layui.layer
+            , laydate = layui.laydate
+            , laypage = layui.laypage
+            , $ = layui.jquery
+            , form = layui.form;
+        var publicMethods = layui.publicMethods;
+
+
+        form.render();
+
+        renderTable(equipmentIds);
+        laydate.render({
+            elem: '#LAY-component-form-group-date'
+        });
+
+        //添加到form.render()之后
+        $("#file_div").load('/common/public/uploadlayuiload.html');
+
+
+        publicMethods.createTable('', '', "funds_table", 2, yearFeeStr, true);
         var arrD = yearFeeStrJoinUnit.split(";");
-        if(arrD==''){
+        if (arrD == '') {
 
-        }else {
+        } else {
             $.each(arrD, function (i, val) {
-                var arrDV=arrD[i].split("#");
-                var yearFeeStrN=arrD[i].substring(arrD[i].indexOf('#')+1);
+                var arrDV = arrD[i].split("#");
+                var yearFeeStrN = arrD[i].substring(arrD[i].indexOf('#') + 1);
                 var html = ' <div class="layui-form-item layui-form-text" >' +
-                    '        <div class="layui-input-block" id="yearTr'+i+'" style="margin-left: 0;">' +
+                    '        <div class="layui-input-block" id="yearTr' + i + '" style="margin-left: 0;">' +
                     '        <label class="layui-form-label" style="width: 100%;text-align: left;margin-left: 0;">' + arrDV[0].split(",")[1] + '</label>' +
                     '            <table class="layui-table">' +
                     '             <thead>' +
@@ -278,47 +281,51 @@ layui.config({
                     '        </div>' +
                     '       </div>';
                 $("#units").append(html);
-                publicMethods.createTable("","", "yearTr"+i, 2, yearFeeStrN,true);
+                publicMethods.createTable("", "", "yearTr" + i, 2, yearFeeStrN, true);
             });
         }
-    
-	
-	
-      //关闭事件
-      $("#closeBtn1").click(function () {
-          var index = parent.layer.getFrameIndex(window.name);
-          parent.layer.close(index);
-      })
-});
 
 
+        //关闭事件
+        $("#closeBtn1").click(function () {
+            var index = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
+        })
+    });
 
 
+    function renderTable(equipmentIds) {
+        $("#equipmentIds").val(equipmentIds);
+        table.render({
+            elem: '#join_apply_table',
+            url: '/sre-equipment/chooseEquipmentByIds?equipmentIds=' + equipmentIds,
+            //  limit: 15,
+            method: "GET",
+            id: 'join_apply_table',
+            //  height: 200,
+            //page: {first: '首页',last: '尾页',theme: '#0F9EE0'},
+            cols: [[
+                {title: '序号', type: 'numbers'},
+                {field: 'name', title: '装备名称', style: 'cursor: pointer;', align: 'center', width: '20%'},
+                {field: 'type', title: '装备分类', style: 'cursor: pointer;', align: 'center', width: '10%'},
+                {field: 'unitPrice', title: '单价（万元）', style: 'cursor: pointer;', align: 'center', width: '10%'},
+                {field: 'applyAcount', title: '申请数量', style: 'cursor: pointer;', align: 'center', width: '10%'},
+                {
+                    field: 'allPrice',
+                    title: '总价¥（万元）',
+                    style: 'cursor: pointer;',
+                    align: 'center',
+                    width: '10%',
+                    templet: function (d) {
+                        return '<span style="color:red">' + d.allPrice + '</span>'
+                    }
+                },
+                {field: 'applyDepartName', title: '申报部门', style: 'cursor: pointer;', align: 'center', width: '10%'},
+                {field: 'firstApplyUser', title: '第一申报人', style: 'cursor: pointer;', align: 'center', width: '10%'}
 
-function renderTable(equipmentIds)
-{
-	  $("#equipmentIds").val(equipmentIds);
-	  table.render({
-          elem: '#join_apply_table',
-          url: '/sre-equipment/chooseEquipmentByIds?equipmentIds='+equipmentIds,
-        //  limit: 15,
-          method:"GET",
-      	  id: 'join_apply_table',
-        //  height: 200,
-          //page: {first: '首页',last: '尾页',theme: '#0F9EE0'},
-          cols: [[
-          	 {title:'序号', type:'numbers'},
-            {field : 'name',     title : '装备名称', style : 'cursor: pointer;', align : 'center', width : '20%'},
-            {field : 'type',     title : '装备分类', style : 'cursor: pointer;', align : 'center', width : '10%'},
-            {field : 'unitPrice', title : '单价（万元）', style : 'cursor: pointer;', align : 'center', width : '10%'},
-            {field : 'applyAcount', title : '申请数量', style : 'cursor: pointer;', align : 'center', width : '10%'},
-            {field : 'allPrice', title : '总价¥（万元）', style : 'cursor: pointer;', align : 'center', width : '10%',templet:function(d){return '<span style="color:red">'+d.allPrice+'</span>'}},
-            {field : 'applyDepartName', title : '申报部门', style : 'cursor: pointer;', align : 'center', width : '10%'},
-            {field : 'firstApplyUser', title : '第一申报人', style : 'cursor: pointer;', align : 'center', width : '10%'}
-             
-          ]]
-      });
-}
+            ]]
+        });
+    }
 
 
 </script>
