@@ -9,6 +9,10 @@
     <script src="/common/js/jquery-1.11.3.min.js"></script>
     <script src="/layuiadmin/layui/layui.js"></script>
     <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+    <style>
+        .searchBox{ height: auto;}
+        .searchBox label{margin-bottom: 10px;display: inline-block; }
+    </style>
 </head>
 <body>
 <div class="searchBox">
@@ -18,8 +22,6 @@
 <input  name="id"         id="id"          type="hidden" >
 <input type="hidden" name="applyUnitCode" id="applyUnitCode" value="${applyUnitCode}">
 <input type="hidden" name="parentUnitPathIds" id="parentUnitPathIds" value="${parentUnitPathIds}">
-
-
 
 </form>
 
@@ -37,7 +39,7 @@
     
      <label class="dateInput">
          <span>归属部门</span>
-         <select name="belongDepartmentName" id="belongDepartmentName"  onchange="getDepartNameByUnitName(this.value)" style="width:180px" >
+         <select name="belongDepartmentName" id="belongDepartmentName"  onchange="getDepartNameByUnitName(this.value)" class="form-control"  >
              <option value="" >--请选择归属部门--</option>
              <#list unitFieldList as vo> 
 		          <option value="${vo.unitName}"  >${vo.unitName}</option>
@@ -47,15 +49,13 @@
     
      <label class="dateInput">
          <span>专业处</span>
-         <select id="professionalDepartName" name="professionalDepartName" onchange="getProfessionalNameListByUnitNameAndDept(this.value)" style="width:180px"></select>
+         <select id="professionalDepartName" name="professionalDepartName" onchange="getProfessionalNameListByUnitNameAndDept(this.value)" class="form-control" ></select>
      </label>
     
       <label class="dateInput">
          <span>专业领域</span>
-         <select id="professionalFieldName" name="professionalFieldName" style="width:180px"></select>
+         <select id="professionalFieldName" name="professionalFieldName" class="form-control" ></select>
      </label>
-     
-     
     
     <!--按钮组-->
     <div class="btnGroup">
@@ -446,7 +446,7 @@ var name=$('#name').val();
                 {field : 'name',           title : '课题名称',         style : 'cursor: pointer;', align: 'left',    width : '20%',templet:function(d){return '<span onclick="view_project(\''+d.id+'\')" style="color:#17a2b8">'+d.name+'</span>'}},
                 {field : 'beginYear',      title : '投资期限',         style : 'cursor: pointer;', align: 'center',  width : '10%',templet:function(d){return '<div style="">'+d.beginYear+'-'+d.endYear+'</div><br/><div style="color:red">'+d.beginYear+'</div>'}},
                 {field : 'projectMoney',   title : '总经费(万元)',      style : 'cursor: pointer;', align: 'center',  width : '10%',templet:function(d){return '<span style="color:red">'+d.projectMoney+'</span>'}},
-                {field : 'leadUnitName',   title : '承担单位',         style : 'cursor: pointer;', align: 'left', width : '20%'},
+                {field : 'leadUnitName',   title : '牵头单位',         style : 'cursor: pointer;', align: 'left', width : '20%'},
                 {field : 'belongDepartmentName',   title : '归属部门', style : 'cursor: pointer;', align: 'left', width : '10%'},
                 {field : 'professionalDepartName', title : '专业处',  style : 'cursor: pointer;', align: 'left', width : '10%'},
                 {field : 'professionalFieldName',  title : '专业领域', style : 'cursor: pointer;', align: 'left', width : '10%'},
