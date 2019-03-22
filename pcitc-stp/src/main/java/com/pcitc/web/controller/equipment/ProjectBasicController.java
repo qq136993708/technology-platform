@@ -34,6 +34,7 @@ import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.RequestProcessStatusEnum;
 import com.pcitc.base.stp.equipment.SreProject;
 import com.pcitc.base.stp.equipment.UnitField;
+import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.system.SysUnit;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.util.CodeUtil;
@@ -735,7 +736,12 @@ public class ProjectBasicController extends BaseController {
 		request.setAttribute("createUserId", createUserId);
 		request.setAttribute("endYear", endYear);
 		request.setAttribute("beginYear", beginYear);
-	
+		List<UnitField>  unitFieldList= CommonUtil.getUnitNameList(restTemplate, httpHeaders);
+		request.setAttribute("unitFieldList", unitFieldList);
+		
+		List<SysDictionary>  dicList= CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_LCZT", restTemplate, httpHeaders);
+		request.setAttribute("dicList", dicList);
+		
 	
 		return "/stp/equipment/project/project-basic-view";
 	}

@@ -19,7 +19,7 @@
 
     <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
     <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
-    <style>
+   <style>
         .layui-form-label {
             width: 120px;
         }
@@ -40,7 +40,7 @@
 
         .tableBox table tr td input {
             width: 88%;
-            box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+            box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
             height: 20px;
             padding: 6px 12px;
             font-size: 12px;
@@ -51,15 +51,11 @@
             border: 1px solid #ccc;
             border-radius: 3px;
         }
-
-        #task_assessment_content .layui-input, .layui-select {
+        #task_assessment_content .layui-input, .layui-select{
             height: 34px !important;
             width: 100% !important;
         }
-
-        .layui-select-title input {
-            width: 100% !important;
-        }
+        .layui-select-title input{width: 100% !important;}
     </style>
 </head>
 <body>
@@ -76,39 +72,210 @@
                 <input name="yearFeeStr" id="yearFeeStr" value="${sreProjectBasic.yearFeeStr}" type="hidden">
                 <input name="functionId" id="functionId" type="hidden">
                 <input name="userIds" id="userIds" type="hidden">
-
-                <div class="layui-form-item layui-form-text">
-                    <label class="layui-form-label">课题名称</label>
-                    <div class="layui-input-block">
-                        <input class="layui-input readOnlyBox" name="name" id="name" readonly="readonly"
-                               value="${sreProject.name}" autocomplete="off" type="text">
-                    </div>
-                </div>
-
-
-                <div class="layui-form-item layui-form-text">
-                    <label class="layui-form-label">项目执行年限</label>
-                    <div class="layui-input-block">
-                        <div class="layui-input-inline" style="float:left">
-                            <input type="text" class="layui-input readOnlyBox" name="beginProjectMonth"
-                                   id="beginProjectMonth" value="${sreProjectTask.beginProjectMonth}"
-                                   style="width:150px;float:left" placeholder="开始月份">
-                            <div class="layui-form-mid" style="width:8px;float:left"> -</div>
-                            <input type="text" class="layui-input readOnlyBox" id="endProjectMonth" name="endProjectMonth"
-                                   value="${sreProjectTask.endProjectMonth}" style="width:150px;float:left"
-                                   placeholder="结束月份">
+                
+                  <input  name="taskContent"               id="taskContent"              value="${sreProjectTask.taskContent}"            type="hidden">
+			   <input  name="taskAssessmentContent"     id="taskAssessmentContent"    value="${sreProjectTask.taskAssessmentContent}"   type="hidden">
+			   <input  name="budgetTable"               id="budgetTable"           value="${sreProjectTask.budgetTable}"         type="hidden">
+			   <input  name="fundsSourcesTable"         id="fundsSourcesTable"     value="${sreProjectTask.fundsSourcesTable}"   type="hidden">
+                
+                
+                
+                 <div class="layui-row" >
+                    <div class="tableToolBox">
+                        <div class="tableBtns">
+                            <div class="tableTitle">基本信息
+                            </div>
                         </div>
                     </div>
-                </div>
-
-
-                <div class="layui-form-item layui-form-text">
-                    <label class="layui-form-label">目标和主要任务</label>
-                    <div class="layui-input-block">
-                    <textarea placeholder="请简述目标和主要任务，原则上不超过500字" name="taskMainTaskContent" id="taskMainTaskContent"
-                              class="layui-textarea readOnlyBox">${sreProjectTask.taskMainTaskContent}</textarea>
+                    <div class="box-body" style="padding-left:10px;padding-right:10px">
+                    
+                    
+			                    <div class="layui-row">
+			                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+			                        <div class="layui-form-item">
+			                            <label for="" class="layui-form-label">课题名称</label>
+			                            <div class="layui-input-block">
+			                                 <input class="layui-input readOnlyBox" onclick="view_project('${sreProject.id}')" title="点击查看课题信息" style="color:blue;cursor:pointer" name="name" id="name" readonly="readonly"
+							                               value="${sreProject.name}" autocomplete="off" type="text">
+			                            </div>
+			                        </div>
+			                    </div>
+			                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+			                        <div class="layui-form-item">
+			                            <label for="" class="layui-form-label">总金额(¥万元)</label>
+			                            <div class="layui-input-block">
+			                                <input class="layui-input readOnlyBox" style="color:red" name="projectMoney" id="projectMoney"
+			                                       value="${sreProject.projectMoney}"
+			                                       autocomplete="off" type="text">
+			                            </div>
+			                        </div>
+			                    </div>
+			                 </div>
+			                 
+                           <#if sreProjectTask.contractNum !=null> 
+                            <div class="layui-form-item layui-form-text">
+				                    <label class="layui-form-label">合同编号</label>
+				                    <div class="layui-input-block">
+				                        <input class="layui-input readOnlyBox"  style="color:green" name="contractNum" id="contractNum" readonly="readonly"
+				                               value="${sreProjectTask.contractNum}" autocomplete="off" type="text">
+				                    </div>
+				                </div> 
+				            </#if>
+				            
+				                <div class="layui-form-item layui-form-text">
+				                    <label class="layui-form-label">项目执行年限</label>
+				                    <div class="layui-input-block">
+				                        <div class="layui-input-inline" style="float:left">
+				                            <input type="text" class="layui-input readOnlyBox" name="beginProjectMonth"
+				                                   id="beginProjectMonth" value="${sreProjectTask.beginProjectMonth}"
+				                                   style="width:150px;float:left" placeholder="开始月份">
+				                            <div class="layui-form-mid" style="width:8px;float:left"> -</div>
+				                            <input type="text" class="layui-input readOnlyBox" id="endProjectMonth" name="endProjectMonth"
+				                                   value="${sreProjectTask.endProjectMonth}" style="width:150px;float:left"
+				                                   placeholder="结束月份">
+				                        </div>
+				                    </div>
+				                </div>
+				
+				
+				                <div class="layui-form-item layui-form-text">
+				                    <label class="layui-form-label">目标和主要任务</label>
+				                    <div class="layui-input-block">
+				                    <textarea placeholder="请简述目标和主要任务，原则上不超过500字" name="taskMainTaskContent" id="taskMainTaskContent"
+				                              class="layui-textarea readOnlyBox">${sreProjectTask.taskMainTaskContent}</textarea>
+				                    </div>
+				                </div>
+				                
+				                
+				                
+				                
+				                 <div class="layui-row">
+					                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+					                    <div class="layui-form-item">
+					                        <label for="" class="layui-form-label">牵头单位</label>
+					                        <div class="layui-input-block">
+					                            <input class="layui-input readOnlyBox" name="leadUnitName" id="leadUnitName" value="${sreProjectTask.leadUnitName}"
+					                                   lay-verify="required" autocomplete="off" type="text">
+					                        </div>
+					                    </div>
+					                </div>
+					                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+					                    <div class="layui-form-item">
+					                        <label for="" class="layui-form-label">参与单位</label>
+					                        <div class="layui-input-block">
+					                            <input class="layui-input readOnlyBox" name="joinUnitName" id="joinUnitName" value="${sreProjectTask.joinUnitName}"
+					                                   autocomplete="off" type="text">
+					                        </div>
+					                    </div>
+					                </div>
+					            </div>
+				                
+				                
+				                
+				                 <div class="layui-row">
+					                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+					                    <div class="layui-form-item">
+					                        <label for="" class="layui-form-label">填写单位</label>
+					                        <div class="layui-input-block">
+					                            <input class="layui-input readOnlyBox" name="parentUnitPathNames" id="parentUnitPathNames" value="${sreProjectTask.parentUnitPathNames}"
+					                                   lay-verify="required" autocomplete="off" type="text">
+					                        </div>
+					                    </div>
+					                </div>
+					                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+					                    <div class="layui-form-item">
+					                        <label for="" class="layui-form-label">填写部门</label>
+					                        <div class="layui-input-block">
+					                            <input class="layui-input readOnlyBox" name="unitPathNames" id="unitPathNames" value="${sreProjectTask.unitPathNames}"
+					                                   autocomplete="off" type="text">
+					                        </div>
+					                    </div>
+					                </div>
+					            </div>
+					            
+					            <div class="layui-row">
+					                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+					                    <div class="layui-form-item">
+					                        <label for="" class="layui-form-label">填写人</label>
+					                        <div class="layui-input-block">
+					                            <input class="layui-input readOnlyBox" name="createUserName" id="createUserName" value="${sreProjectTask.createUserName}"
+					                                   lay-verify="required" autocomplete="off" type="text">
+					                        </div>
+					                    </div>
+					                </div>
+					                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+					                    <div class="layui-form-item">
+					                        <label for="" class="layui-form-label">上报人</label>
+					                        <div class="layui-input-block">
+					                            <input class="layui-input readOnlyBox" name="applyUserName" id="applyUserName" value="${sreProjectTask.applyUserName}"
+					                                   autocomplete="off" type="text">
+					                        </div>
+					                    </div>
+					                </div>
+					            </div>
+				                
+				                <div class="layui-row">
+					                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+					                    <div class="layui-form-item">
+					                        <label for="" class="layui-form-label">上报单位</label>
+					                        <div class="layui-input-block">
+					                            <input class="layui-input readOnlyBox" name="parentApplyUnitPathName" id="parentApplyUnitPathName" value="${sreProjectTask.parentApplyUnitPathName}"
+					                                   lay-verify="required" autocomplete="off" type="text">
+					                        </div>
+					                    </div>
+					                </div>
+					                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+					                    <div class="layui-form-item">
+					                        <label for="" class="layui-form-label">上报部门</label>
+					                        <div class="layui-input-block">
+					                            <input class="layui-input readOnlyBox" name="applyUnitName" id="applyUnitName" value="${sreProjectTask.applyUnitName}"
+					                                   autocomplete="off" type="text">
+					                        </div>
+					                    </div>
+					                </div>
+					            </div>
+					            
+					            
+					            <div class="layui-row">
+					                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+					                    <div class="layui-form-item">
+					                        <label for="" class="layui-form-label">任务院内确认</label>
+					                        <div class="layui-input-block">
+					                           <select name="innerAuditStatus" id="innerAuditStatus" disabled="disabled"  style="color:red;width:200px">
+					                                          <option value="">--未确认--</option>
+					                                           <#list dicList as vo> 
+																  <option value="${vo.numValue}" <#if vo.numValue ==sreProjectTask.innerAuditStatus> selected="selected" </#if> >${vo.name}</option>
+																</#list>
+					                            </select>
+					                        </div>
+					                    </div>
+					                </div>
+					                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+					                    <div class="layui-form-item">
+					                        <label for="" class="layui-form-label">任务总部上报</label>
+					                        <div class="layui-input-block">
+					                           <select name="auditStatus" id="auditStatus" disabled="disabled"  style="color:red;width:200px">
+					                                          <option value="">--未上报--</option>
+					                                           <#list dicList as vo> 
+																  <option value="${vo.numValue}" <#if vo.numValue ==sreProjectTask.auditStatus> selected="selected" </#if> >${vo.name}</option>
+																</#list>
+					                            </select>
+					                        </div>
+					                    </div>
+					                </div>
+					            </div>
+					            
+					            
+				                
+				                
+				                
+				                
                     </div>
                 </div>
+                
+                
+
+                
 
 
                 <div class="layui-row" id="task_content">
@@ -160,8 +327,8 @@
                         </div>
                     </div>
                     <div class="box-body" style="padding-left:10px;padding-right:10px">
-                        <#list dicList as vo>
-                            <input style="width:250px;margin:5px;float:left;" type="checkbox" name="taskCheckContents"
+                        <#list checkList as vo>
+                            <input style="width:250px;margin:5px;float:left;" disabled="disabled" type="checkbox" name="taskCheckContents"
                                    lay-skin="primary" title="${vo.name}"
                             <#list "${sreProjectTask.taskCheckContents}"?split(",") as itemValue>
                             <#if itemValue == vo.code>checked="checked"</#if>
@@ -425,8 +592,6 @@
     var taskContent = "${sreProjectTask.taskContent?default('')}";
     //计划进度和考核目标
     var taskAssessmentContent = "${sreProjectTask.taskAssessmentContent?default('')}";
-    //计划进度和考核目标
-    var taskAssessmentContent = "${sreProjectTask.taskAssessmentContent?default('')}";
     //资金概算表
     var budgetTable = "${sreProjectTask.budgetTable?default('')}";
     //资金来源表
@@ -461,7 +626,38 @@
         laydate.render({
             elem: '#LAY-component-form-group-date'
         });
+        
+        publicMethods.createTable('', '', "project_funds_table", 2, yearFeeStr, true);
+        
+        var arrD = yearFeeStrJoinUnit.split(";");
+        if (arrD == '') {
 
+        } else {
+            $.each(arrD, function (i, val) {
+                var arrDV = arrD[i].split("#");
+                var yearFeeStrN = arrD[i].substring(arrD[i].indexOf('#') + 1);
+                var html = ' <div class="layui-form-item layui-form-text" >' +
+                    '        <div class="layui-input-block" id="yearTr' + i + '" style="margin-left: 0;">' +
+                    '        <label class="layui-form-label" style="width: 100%;text-align: left;margin-left: 0;">' + arrDV[0].split(",")[1] + '</label>' +
+                    '            <table class="layui-table">' +
+                    '             <thead>' +
+                    '             <tr>' +
+                    '                <td width="20%">年  度</td>' +
+                    '                <td width="8%">费用性支出(万元)</td>' +
+                    '                <td width="8%">资本性支出(万元)</td>' +
+                    '                <td width="8%">小  计(万元)</td>' +
+                    '             </tr>' +
+                    '            </thead>' +
+                    '            <tbody></tbody>' +
+                    '          </table>' +
+                    '        </div>' +
+                    '       </div>';
+                $("#units").append(html);
+                publicMethods.createTable("", "", "yearTr" + i, 2, yearFeeStrN, true);
+            });
+        }
+        
+        
         //添加到form.render()之后
         $("#file_div").load('/common/public/uploadlayuiload.html');
         if(taskContent!='')
@@ -632,7 +828,20 @@
         });
     }
 
-
+    function view_project(id) 
+    {
+    	 var temUrl="/sre-project-basic/get/" + id;
+		 layer.open({
+            title:'课题详情',
+            skin: 'layui-layer-lan',
+            shadeClose: true,
+            type: 2,
+            fixed: false,
+            maxmin: false,
+            area: ['90%', '90%'],
+            content:  temUrl
+        });
+    }
 </script>
 </body>
 </html>
