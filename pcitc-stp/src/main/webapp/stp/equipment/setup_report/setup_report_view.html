@@ -73,7 +73,7 @@
 <input name="yearFeeStr" id="yearFeeStr" value="${sreProjectBasic.yearFeeStr}" type="hidden">
 <input name="functionId" id="functionId" type="hidden">
 <input name="userIds" id="userIds" type="hidden">
-
+<div style="padding:10px">
 <div class="layui-form-item layui-form-text" style="margin-top: 15px;">
     <label class="layui-form-label">课题名称</label>
     <div class="layui-input-block">
@@ -114,7 +114,7 @@
                   class="layui-textarea readOnlyBox">${sreProjectSetup.userEffect}</textarea>
     </div>
 </div>
-
+</div>
 
 <div class="formBox" id="main_table">
     <div class="tableToolBox">
@@ -221,8 +221,8 @@
     var mainTable = "${sreProjectSetup.mainTable?default('')}";
     //资金来源表
     var sourcesTable = "${sreProjectSetup.sourcesTable?default('')}";
-    alert(mainTable);
-    alert(sourcesTable);
+    //alert(mainTable);
+    //alert(sourcesTable);
 
 
     var table, selectRowData;

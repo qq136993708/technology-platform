@@ -65,15 +65,20 @@
                     </div>
                     <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                         <div class="layui-form-item">
-                            <label for="" class="layui-form-label">关键词</label>
+                            <label for="" class="layui-form-label">总金额(¥万元)</label>
                             <div class="layui-input-block">
-                                <input class="layui-input readOnlyBox" name="keyWord" id="keyWord"
-                                       value="${sreProjectBasic.keyWord}"
+                                <input class="layui-input readOnlyBox" style="color:red" name="projectMoney" id="projectMoney"
+                                       value="${sreProjectBasic.projectMoney}"
                                        autocomplete="off" type="text">
                             </div>
                         </div>
                     </div>
                 </div>
+                
+                
+                 
+					            
+					            
 
                 <!--行有两个的情况-->
                 <div class="layui-form-item layui-form-text">
@@ -177,7 +182,7 @@
                     <div class="layui-form-item">
                         <label for="" class="layui-form-label">专业处</label>
                         <div class="layui-input-block">
-                            <select id="professionalDepartName" name="professionalDepartName" disabled="disabled"
+                            <select id="professionalDepartName" name="professionalDepartName"  disabled="disabled"
                                     lay-filter="getProfessionalNameListByUnitNameAndDept"
                                     style="width:200px"></select>
                         </div>
@@ -188,11 +193,78 @@
                     <div class="layui-form-item">
                         <label for="" class="layui-form-label">专业领域</label>
                         <div class="layui-input-block">
-                            <select id="professionalFieldName" name="professionalFieldName" disabled="disabled"
+                            <select id="professionalFieldName" name="professionalFieldName"  disabled="disabled"
                                     style="width:200px"></select>
                         </div>
                     </div>
                 </div>
+                
+                
+                
+                <div class="layui-row">
+                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                        <div class="layui-form-item">
+                            <label for="" class="layui-form-label">申报单位</label>
+                            <div class="layui-input-block">
+                                <input class="layui-input readOnlyBox" name="parentUnitPathNames" id="parentUnitPathNames"
+                                       value="${sreProjectBasic.parentUnitPathNames}"
+                                       autocomplete="off" type="text">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                        <div class="layui-form-item">
+                            <label for="" class="layui-form-label">申报部门</label>
+                            <div class="layui-input-block">
+                                <input class="layui-input readOnlyBox" name="applyUnitName" id="applyUnitName"
+                                       value="${sreProjectBasic.applyUnitName}"
+                                       autocomplete="off" type="text">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                
+                
+                 <div class="layui-row">
+                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                        <div class="layui-form-item">
+                            <label for="" class="layui-form-label">申报人</label>
+                            <div class="layui-input-block">
+                                <input class="layui-input readOnlyBox" name="createUserName" id="createUserName"
+                                       value="${sreProjectBasic.createUserName}"
+                                       autocomplete="off" type="text">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                        <div class="layui-form-item">
+                            <label for="" class="layui-form-label">任务填写人</label>
+                            <div class="layui-input-block">
+                                <input class="layui-input readOnlyBox" name="taskWriteUserNames" id="taskWriteUserNames"
+                                       value="${sreProjectBasic.taskWriteUserNames}"
+                                       autocomplete="off" type="text">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                 <div class="layui-row">
+					                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+					                    <div class="layui-form-item">
+					                        <label for="" class="layui-form-label">课题审核状态</label>
+					                        <div class="layui-input-block">
+					                           <select name="auditStatus" id="auditStatus" disabled="disabled"  style="color:red;width:200px">
+					                                          <option value="">--未上报--</option>
+					                                           <#list dicList as vo> 
+																  <option value="${vo.numValue}" <#if vo.numValue ==sreProjectBasic.auditStatus> selected="selected" </#if> >${vo.name}</option>
+																</#list>
+					                            </select>
+					                        </div>
+					                    </div>
+					                </div>
+					            </div>
 
 
                 <div class="layui-form-item">
@@ -220,6 +292,9 @@
         var beginYear = $("#beginYear").val();
         var v_date = (new Date()).getTime();
         var equipmentIds = $("#equipmentIds").val();
+        var belongDepartmentName="${sreProjectBasic.belongDepartmentName?default('')}";
+        var professionalDepartName="${sreProjectBasic.professionalDepartName?default('')}";
+        var professionalFieldName="${sreProjectBasic.professionalFieldName?default('')}";
         //牵头单位名称
         var leadUnitName = "${sreProjectBasic.leadUnitName?default('')}";
         //牵头单位--表格
@@ -245,6 +320,100 @@
                 , $ = layui.jquery
                 , form = layui.form;
             publicMethods = layui.publicMethods;
+            
+            
+            
+            
+            
+
+            form.on('select(getDepartNameByUnitName)',function(data){
+            	getDepartNameByUnitName(data.value);
+            })
+
+             form.on('select(getProfessionalNameListByUnitNameAndDept)',function(data){
+            	 getProfessionalNameListByUnitNameAndDept(data.value);
+            })
+
+
+    			getDepartNameByUnitName($("#belongDepartmentName").val());
+    			function getDepartNameByUnitName(belongDepartmentName)
+    			{
+    				 $("#belongDepartmentName").val(belongDepartmentName);
+    				 $("#professionalDepartName").empty();
+
+    				 var v_date=(new Date()).getTime();
+    				 $.ajax({
+    						url : "/unitField/getDepartmentNameListByUnitName?v_date="+v_date+"&unitName="+belongDepartmentName,
+    						type : "post",
+    						async: false,
+    						dataType : "json",
+    						success : function(data)
+    						{
+    							$("#professionalDepartName").append("<option value=''>--请选择--</option>");
+    							$.each(data, function(i, el)
+    							{
+    								var content='<option value="'+ el.departmentName +'" ';
+    								if(professionalDepartName==el.departmentName)
+    								{
+    									content+=' selected="selected" ';
+    								}
+    								content+=' >' + el.departmentName+ '</option>';
+    								$("#professionalDepartName").append(content);
+
+    							});
+    							form.render('select');
+    						},
+    						error : function()
+    						{
+    							alert("发生未知错误 ,请重新操作.");
+    						}
+    					});
+
+
+
+
+    				getProfessionalNameListByUnitNameAndDept(professionalDepartName);
+    			}
+
+
+    			function getProfessionalNameListByUnitNameAndDept(professionalDepartName)
+    			{
+    				 var belongDepartmentName= $("#belongDepartmentName").val();
+    				 $("#professionalFieldName").empty();
+    				 var v_date=(new Date()).getTime();
+    				 $.ajax({
+    						url : "/unitField/getProfessionalNameListByUnitNameAndDept?v_date="+v_date+"&unitName="+belongDepartmentName+"&departmentName="+professionalDepartName,
+    						type : "post",
+    						async: false,
+    						dataType : "json",
+    						success : function(data)
+    						{
+    							$("#professionalFieldName").append("<option value=''>--请选择--</option>");
+
+    							$.each(data, function(i, el)
+    							{
+    								var content='<option value="'+ el.professionalFieldName +'" ';
+    								if(professionalFieldName==el.professionalFieldName)
+    								{
+    									content+=' selected="selected" ';
+    								}
+    								content+=' >' + el.professionalFieldName+ '</option>';
+
+    								$("#professionalFieldName").append(content);
+    							});
+    							form.render('select');
+    						},
+    						error : function()
+    						{
+    							alert("发生未知错误 ,请重新操作.");
+    						}
+    					});
+    			}
+
+
+    			
+    			
+    			
 
 
             form.render();
