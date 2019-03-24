@@ -14,6 +14,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.system.SysFile;
 import com.pcitc.web.common.BaseController;
 
 /**
@@ -35,6 +37,8 @@ public class FileController extends BaseController {
 	
 	private static final String download = "http://pcitc-zuul/system-proxy/file-common-provider/version/download/";
     private static final String downloads = "http://pcitc-zuul/system-proxy/file-common-provider/version/downloads/";
+    
+    private static final String errorReplace = "http://pcitc-zuul/system-proxy/file-common-provider/history/error/replace";
 	
 	/**
 	 * 
@@ -92,5 +96,23 @@ public class FileController extends BaseController {
         response.addHeader("x-frame-options", "ALLOW-FROM");
         return responseEntity;
     }
+    
+    /**
+	 * 
+	 * 替换错误上传的文件
+	 * sysFile.bak3历史版本表中的版本id（sys_file_version.bak3)
+	 * sysFile.id 文件表中的id（sys_file）
+	 */
+	@RequestMapping(value = "/file/history/error/replace", method = RequestMethod.POST)
+	@ResponseBody
+	public String historyErrorReplace(@RequestBody SysFile sysFile) throws IOException {
+		
+		// 从sysfile表中获取地址、文件名等信息，替换原有历史版本中的文件
+		HttpEntity<SysFile> entity = new HttpEntity<SysFile>(sysFile, this.httpHeaders);
+		ResponseEntity<Integer> responseEntity = restTemplate.exchange(errorReplace, HttpMethod.POST, entity, Integer.class);
+		int statusCode = responseEntity.getStatusCodeValue();
+		System.out.println(">>>>>>>>>>>>>historyErrorReplace:" + statusCode);
+		return String.valueOf(statusCode);
+	}
     
 }
