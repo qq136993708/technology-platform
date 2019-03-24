@@ -1217,5 +1217,40 @@
 			</if>
 		
   	</select>
+  	
+  	<!--替换历史文件中的错误文件-->
+  	<update id="updateSysFileHistoryErrorVersion" parameterType="com.pcitc.base.system.SysFile">
+        update sys_file_version
+        <set>
+            <if test="updateDateTime != null">
+                update_date_time=#{updateDateTime ,jdbcType=VARCHAR},
+            </if>
+            <if test="fileName != null">
+                file_name=#{fileName ,jdbcType=VARCHAR},
+            </if>
+            <if test="filePath != null">
+                file_path=#{filePath ,jdbcType=VARCHAR},
+            </if>
+            <if test="fileSize != null">
+                file_size=#{fileSize ,jdbcType=VARCHAR},
+            </if>
+            <if test="savedName != null">
+                saved_name=#{savedName ,jdbcType=VARCHAR},
+            </if>
+            <if test="fileMd != null">
+                file_md=#{fileMd ,jdbcType=VARCHAR},
+            </if>
+            <if test="fileSuffix != null">
+                file_suffix=#{fileSuffix ,jdbcType=VARCHAR},
+            </if>
+            <if test="filePwd != null">
+                file_pwd=#{filePwd ,jdbcType=VARCHAR},
+            </if>
+            <if test="dataid != null">
+                dataId=#{dataid ,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where bak3 = #{bak3,jdbcType=VARCHAR}
+    </update>
 
 </mapper>
