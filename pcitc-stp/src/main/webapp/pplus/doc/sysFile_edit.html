@@ -127,7 +127,6 @@
 					data.field.parentId = parentId;
 				}
                 data.field.fileIds = strTempFileIds;
-                //alert(strTempFileIds);
                 ajaxPost("/sysfilekind/savesysFileKindUpload", data.field, function (dt, status) {
                     console.log(data.field);
                     layer.msg("操作成功");
@@ -136,48 +135,6 @@
                     parent.layer.close(index);
                 });
                 return false;
-				/* var fileList = pcitcFile2.getFileResult(pcitcFile2.fileIds);
-                for (var i = 0; i < fileList.list.length; i++) {
-                    var file = fileList.list[i];
-                    var temInt = deleteFileIds.indexOf(file.id);
-                    if (temInt == -1) {
-                    	strTempFileIds=(strTempFileIds==""?file.id:(strTempFileIds+","+file.id));
-                    }
-                    alert(file.id+"======"+strTempFileIds+"======*"+temInt)
-                }
-				if (id != "0") {
-					//编辑时，不允许上传多个文件
-					alert(strTempFileIds+"===="+id)
-					if (strTempFileIds.indexOf(',')!='-1') {
-						alert(fileList.list.length);
-						layer.msg("编辑时文件只允许有1个！");
-						return false;
-					}
-					if (strTempFileIds == id) {
-						//编辑时没有删除文件重新上传
-						alert('编辑时没有删除文件重新上传');
-					} else {
-						alert('chongx');
-					}
-				} else {
-					alert('xinzen+'+strTempFileIds)
-				}
-				 */
-				
-				
-				/* data.field.bak2 = $("#fileIds").val();
-				if (parentId != 0) {
-					data.field.parentId = parentId;
-				}
-				data.field.fileIds = strTempFileIds;
-				ajaxPost("/sysfilekind/savesysFileKindUpload", data.field, function(dt, status) {
-					console.log(data.field);
-					layer.msg("操作成功");
-					parent.reloadtable('sysFileId', null);
-					var index = parent.layer.getFrameIndex(window.name);
-					parent.layer.close(index);
-				});
-				return false;  */
 			});
 			$("#closeBtn").click(function() {
 				var index = parent.layer.getFrameIndex(window.name);

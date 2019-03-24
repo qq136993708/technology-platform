@@ -374,4 +374,9 @@ public interface SysFileService {
      * 文档收藏的查询方法
      */
     public LayuiTableData selectFileListForCollect(LayuiTableParam param);
+    
+    /**
+     * 替换历史文件中的错误文件
+     */
+    public int historyErrorReplace(SysFile sysFile);
 }
