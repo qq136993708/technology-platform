@@ -39,6 +39,7 @@ import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.RequestProcessStatusEnum;
 import com.pcitc.base.stp.equipment.SreProject;
+import com.pcitc.base.stp.equipment.SreProjectSetup;
 import com.pcitc.base.stp.equipment.SreProjectTask;
 import com.pcitc.base.stp.equipment.UnitField;
 import com.pcitc.base.system.SysDictionary;
@@ -150,7 +151,7 @@ public class ProjectTaskController extends BaseController {
 		request.setAttribute("dicList", dicList);
 		List<UnitField>  unitFieldList= CommonUtil.getUnitNameList(restTemplate, httpHeaders);
 		request.setAttribute("unitFieldList", unitFieldList);
-		String	parentUnitPathIds="";
+		/*String	parentUnitPathIds="";
 		String unitPathIds =   sysUserInfo.getUnitPath();
 		if(!unitPathIds.equals(""))
 		{
@@ -160,10 +161,13 @@ public class ProjectTaskController extends BaseController {
 				
 			}
 		}
-		request.setAttribute("parentUnitPathIds", parentUnitPathIds);
+		request.setAttribute("parentUnitPathIds", parentUnitPathIds);*/
 		
 		return "/stp/equipment/task/join_list";
 	}		
+	
+	
+	
 	
 
 	@RequestMapping(value = "/to_list")
@@ -227,6 +231,59 @@ public class ProjectTaskController extends BaseController {
 	}
 	
 	
+	@RequestMapping(value = "/upFileDoc")
+	public String upFileDoc(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		
+		
+		String taskId = CommonUtil.getParameter(request, "taskId", "");
+		request.setAttribute("taskId", taskId);
+		
+		if(!taskId.equals(""))
+		{
+			SreProjectTask sreProjectTask =EquipmentUtils.getSreProjectTask(taskId, restTemplate, httpHeaders);
+			request.setAttribute("sreProjectTask", sreProjectTask);
+			String documentDoc=sreProjectTask.getDocumentDoc();
+			if(documentDoc==null || documentDoc.equals(""))
+			{
+				documentDoc= IdUtil.createFileIdByTime();
+			}
+			request.setAttribute("documentDoc", documentDoc);
+		}
+		
+		return "/stp/equipment/task/upFileDoc";
+	}
+	
+	
+	@RequestMapping(value = "/updateFileDoc")
+	public String updateFileDoc(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		Result resultsDate = new Result();
+		String taskId = CommonUtil.getParameter(request, "taskId", "");
+		String documentDoc = CommonUtil.getParameter(request, "documentDoc", "");
+		String resutl="";
+		if(!taskId.equals(""))
+		{
+			SreProjectTask sreProjectTask =EquipmentUtils.getSreProjectTask(taskId, restTemplate, httpHeaders);
+			sreProjectTask.setDocumentDoc(documentDoc);
+			resutl=EquipmentUtils.updateSreProjectTask(sreProjectTask, restTemplate, httpHeaders);
+		}
+		if (resutl.equals(""))
+		{
+			resultsDate = new Result(false, RequestProcessStatusEnum.SERVER_BUSY.getStatusDesc());
+		} else 
+		{
+			resultsDate.setSuccess(true);
+		}
+
+		response.setContentType("text/html;charset=UTF-8");
+		PrintWriter out = response.getWriter();
+		JSONObject ob = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
+		out.println(ob.toString());
+		out.flush();
+		out.close();
+		return null;
+	}
 	
 
 	/**
@@ -268,6 +325,7 @@ public class ProjectTaskController extends BaseController {
 				SreProject sreProject=EquipmentUtils.getSreProject(topicId,restTemplate,httpHeaders);
 				request.setAttribute("sreProject", sreProject);
 			}
+			documentDoc=sreProjectTask.getDocumentDoc();
 		}
 		request.setAttribute("documentDoc", documentDoc);
 		request.setAttribute("leadUnitName", leadUnitName);
@@ -896,12 +954,14 @@ public class ProjectTaskController extends BaseController {
 	}
 	
 	
+	
+	//生成任务书WORD
 	@RequestMapping(value = "/createWord/{id}", method = RequestMethod.GET)
 	@ResponseBody
-	public String createWordv(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception 
+	public String createWordTask(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception 
 	{
 		Result resultsDate = new Result();
-		String fileName=createWord(id,response);
+		String fileName=createWord_task(id,response);
 		if (!fileName.equals("")) 
 		{
 			resultsDate = new Result(true);
@@ -920,13 +980,34 @@ public class ProjectTaskController extends BaseController {
 	}
 	
 	
-	
+	//生成立项报告WORD
+	@RequestMapping(value = "/createWordSetup/{id}", method = RequestMethod.GET)
+	@ResponseBody
+	public String createWordSetup(@PathVariable("id") String id, HttpServletRequest request, HttpServletResponse response) throws Exception 
+	{
+		Result resultsDate = new Result();
+		SreProjectSetup sreProjectSetup=EquipmentUtils.getSreProjectSetup(id, restTemplate, httpHeaders);
+		SreProject sreProject=EquipmentUtils.getSreProject(sreProjectSetup.getTopicId(), restTemplate, httpHeaders);
+		SreProjectTask sreProjectTask=EquipmentUtils.getSreProjectTask(sreProjectSetup.getTaskId(), restTemplate, httpHeaders);
+		String fileName=EquipmentUtils.createWord_setup(id, TEMP_FILE_PATH, sreProject, sreProjectTask, sreProjectSetup, response) ;
+		if (!fileName.equals("")) 
+		{
+			resultsDate = new Result(true);
+			download(TEMP_FILE_PATH+fileName, response);
+			deleteFile(TEMP_FILE_PATH+fileName);
+		} else {
+			resultsDate = new Result(false, "生成文件失败！");
+		}
+		return null;
+	}
+		
+
 	
 	
 	
 	
 	//生成word文档
-	private String  createWord(String id, HttpServletResponse response)
+	private String  createWord_task(String id, HttpServletResponse response)
 	{
 		
 		String  resutl="";

@@ -1,6 +1,11 @@
 package com.pcitc.web.utils;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,13 +21,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.stp.equipment.SreEquipment;
 import com.pcitc.base.stp.equipment.SreProject;
 import com.pcitc.base.stp.equipment.SreProjectSetup;
 import com.pcitc.base.stp.equipment.SreProjectTask;
+import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.system.SysUnit;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.system.SysUserProperty;
+import com.pcitc.base.util.CommonUtil;
+import com.pcitc.base.util.DateUtil;
 
 public class EquipmentUtils {
 	
@@ -295,6 +306,226 @@ public class EquipmentUtils {
 		 String UNIT_GET_UNIT = "http://pcitc-zuul/system-proxy/unit-provider/unit/getUnitByUnitPath/";
 		 SysUnit unit = restTemplate.exchange(UNIT_GET_UNIT + unitPath, HttpMethod.POST, new HttpEntity<Object>(httpHeaders), SysUnit.class).getBody();
 		 return unit;
+	}
+	public static String  createWord_setup(String setupId,String filePath,SreProject sreProject ,SreProjectTask sreProjectTask ,SreProjectSetup sreProjectSetup,  HttpServletResponse response)
+	{
+		
+		String  resutl="";
+		// 文件名称
+		String fileName;
+		try {
+			Map<String, Object> dataMap = new HashMap<String, Object>();
+			/** 组装数据 */
+			dataMap.put("topicName", sreProject.getName());            //项目名称
+			dataMap.put("leadUnitName", sreProject.getLeadUnitName());//负责单位
+			dataMap.put("projecChargeUserName", sreProjectSetup.getProjecChargeUserName());//项目负责人
+			dataMap.put("projecChargeUserTitle", sreProjectSetup.getProjecChargeUserTitle());//职      称
+			dataMap.put("beginProjectMonth", sreProjectSetup.getBeginProjectMonth());//项目执行年限
+			dataMap.put("endProjectMonth", sreProjectSetup.getEndProjectMonth());//项目执行年限
+			dataMap.put("setupReasons", sreProjectSetup.getSetupReasons());//立项理由
+			dataMap.put("facilities", sreProjectSetup.getFacilities());//建设场地、公用工程
+			dataMap.put("projectProgress", sreProjectSetup.getProjectProgress());//项目实施方案和进度
+			dataMap.put("userEffect", sreProjectSetup.getUserEffect());//使用效果和效益的分析
+			
+			//项目内容和主要图表
+			Float hj_tc=0f;
+			List<Map<String, Object>> taskContentList = new ArrayList<Map<String, Object>>();
+			String taskContentStr=sreProjectSetup.getMainTable();
+			String taskContent_arr[]=taskContentStr.split("\\|");
+			if(taskContent_arr!=null && taskContent_arr.length>0)
+			{
+			   for(int i=0;i<taskContent_arr.length;i++)
+			   {
+				   String str=taskContent_arr[i];
+				   if(str!=null && !str.equals(""))
+				   {
+					   String temp[]=str.split("#");
+					   System.out.println("----length--"+temp.length);
+					   Map<String, Object> map = new HashMap<String, Object>();
+					   String taskContent1=temp[0].trim();
+					   String taskContent2=temp[1].trim();
+					   String taskContent3=temp[2].trim();
+					   String taskContent4=temp[3].trim();
+					   hj_tc=hj_tc.floatValue()+Float.valueOf(taskContent4.trim()).floatValue();
+					   String taskContent5=temp[4];
+					   map.put("taskc1", taskContent1);
+					   map.put("taskc2", taskContent2);
+					   map.put("taskc3", taskContent3);
+					   map.put("taskc4", taskContent4);
+					   map.put("taskc5", taskContent5);
+					   taskContentList.add(map);
+					   
+				   }
+			   }
+			}
+			dataMap.put("taskContentList", taskContentList);
+			int taskContentListCount=taskContentList.size();
+			dataMap.put("taskContentListCount", taskContentListCount);//项目内容和主要图表-数量
+			dataMap.put("hj_tc", hj_tc);//项目内容和主要图表-经费合计
+			JSONArray taskContentList_jSONArray= JSONArray.parseArray(JSON.toJSONString(taskContentList));
+			System.out.println("---------项目内容和主要图表    源: "+taskContentStr);
+			System.out.println("---------项目内容和主要图表 FTL: "+taskContentList_jSONArray.toString());
+			
+			
+			//项目资金安排--牵头单位
+			List<Map<String, Object>> projectFundsTableList = new ArrayList<Map<String, Object>>();
+			String projectFundsTableStr=sreProjectSetup.getFundsTable();
+			String projectFundsTableStr_arr[]=projectFundsTableStr.split("#");//多行
+			double hj_pt2=0l;
+			double hj_pt3=0l;
+			double hj_pt4=0l;
+			if(projectFundsTableStr_arr!=null && projectFundsTableStr_arr.length>0)
+			{
+			   for(int i=0;i<projectFundsTableStr_arr.length;i++)
+			   {
+				   String str=projectFundsTableStr_arr[i];
+				   System.out.println("----------项目资金安排--str: "+str);
+				   if(str!=null && !str.equals(""))
+				   {
+					   String temp[]=str.split(",");
+					   Map<String, Object> map = new HashMap<String, Object>();
+					   String pt1=temp[0];
+					   String pt2=temp[1].trim();
+					   double pt2_double= Double.valueOf(pt2).doubleValue();
+					   hj_pt2=hj_pt2+pt2_double;
+					   String pt3=temp[2].trim();
+					   double pt3_double= Double.valueOf(pt3).doubleValue();
+					   hj_pt3=hj_pt3+pt3_double;
+					   String pt4=temp[3].trim();
+					   double pt34_double= Double.valueOf(pt4).doubleValue();
+					   hj_pt4=hj_pt4+pt34_double;
+					   map.put("pt1", pt1);
+					   map.put("pt2", pt2);
+					   map.put("pt3", pt3);
+					   map.put("pt4", pt4);
+					   projectFundsTableList.add(map);
+					   
+				   }
+			   }
+			}
+			
+			Map<String, Object> map_temp_pt = new HashMap<String, Object>();
+			map_temp_pt.put("pt1", "合  计");
+			map_temp_pt.put("pt2", hj_pt2);
+			map_temp_pt.put("pt3", hj_pt3);
+			map_temp_pt.put("pt4", hj_pt4);
+			System.out.println("==========hj_pt2"+hj_pt2+"pt3="+hj_pt3);
+			projectFundsTableList.add(map_temp_pt);
+			dataMap.put("projectFundsTableList", projectFundsTableList);
+			
+			System.out.println("---------项目资金安排 （源）: "+projectFundsTableStr);
+			JSONArray projectFundsTableList_jSONArray= JSONArray.parseArray(JSON.toJSONString(projectFundsTableList));
+			System.out.println("---------项目资金安排（FTL） : "+projectFundsTableList_jSONArray.toString());
+			
+			
+			///预计资金来源表
+			List<Map<String, Object>> fundsSourcesTableList = new ArrayList<Map<String, Object>>();
+			String fundsSourcesTableStr=sreProjectSetup.getSourcesTable();
+			String fundsSourcesTableStr_arr[]=fundsSourcesTableStr.split("\\|");//多行
+			if(fundsSourcesTableStr_arr!=null && fundsSourcesTableStr_arr.length>0)
+			{
+			   for(int i=0;i<fundsSourcesTableStr_arr.length;i++)
+			   {
+				   String str=fundsSourcesTableStr_arr[i];
+				   if(str!=null && !str.equals(""))
+				   {
+					   String temp[]=str.split("#");
+					   Map<String, Object> map = new HashMap<String, Object>();
+					   String taskContent1=temp[0].trim();
+					   String taskContent2=temp[1].trim();
+					   String taskContent3=temp[2].trim();
+					   String taskContent4=temp[3].trim();
+					   String taskContent5=temp[4].trim();
+					  // String taskContent6=temp[5];
+					   
+					   map.put("ft1", taskContent1);
+					   map.put("ft2", taskContent2);
+					   map.put("ft3", taskContent3);
+					   map.put("ft4", taskContent4);
+					   map.put("ft5", taskContent5);
+					  // map.put("ft6", taskContent6);
+					   Float ft6=Float.parseFloat(taskContent2)+Float.parseFloat(taskContent3)+Float.parseFloat(taskContent4)+Float.parseFloat(taskContent5);
+					   map.put("ft6", ft6);
+					   fundsSourcesTableList.add(map);
+					   
+				   }
+			   }
+			}
+			dataMap.put("fundsSourcesTableList", fundsSourcesTableList);
+			System.out.println("---------预计资金来源表 （源）: "+fundsSourcesTableStr);
+			JSONArray fundsSourcesTableList_jSONArray= JSONArray.parseArray(JSON.toJSONString(fundsSourcesTableList));
+			System.out.println("---------预计资金来源表 （FTL） : "+fundsSourcesTableList_jSONArray.toString());
+			
+			
+			//项目资金安排--参与单位
+			//2019-2020,苏州大学,014ef79138eb4fc49f24e4439419a5a9#2019,0,66,66.00#2020,0,666,666.00;
+			//2019-2020,中国石化上海石油化工股份有限公司,0175a09e3fac45e994e446957b714b1e#2019,0,66,66.00#2020,0,666,666.00
+			List<Map<String, Object>> yearFeeStrJoinUnitTableList = new ArrayList<Map<String, Object>>();
+			String yearFeeStrJoinUnit=sreProjectSetup.getYearFeeStrJoinUnit();
+			String yearFeeStrJoinUnit_arr[]=projectFundsTableStr.split(";");//多行
+			double hj_pt2v=0l;
+			double hj_pt3v=0l;
+			double hj_pt4v=0l;
+			if(yearFeeStrJoinUnit_arr!=null && yearFeeStrJoinUnit_arr.length>0)
+			{
+			   for(int i=0;i<yearFeeStrJoinUnit_arr.length;i++)
+			   {
+				   String str=yearFeeStrJoinUnit_arr[i];
+				   if(str!=null && !str.equals("#"))
+				   {
+					  String arr_unit[]= str.split("#");
+					  if(arr_unit!=null && arr_unit.length>0)
+						{
+						   for(int j=0;j<arr_unit.length;j++)
+						   {
+							   Map<String, Object> map = new HashMap<String, Object>();
+							   String arr_unit_str=arr_unit[j];
+							   String unitName="";
+							   String ept1="";
+							   if(j==0)
+							   {
+								   unitName=arr_unit_str.split(",")[1];
+								   map.put("ept1", unitName);
+							   }else
+							   {
+								  String [] arr_unit_str_temp=arr_unit_str.split(",");//2019,0,66,66.00
+								  String ept2=arr_unit_str_temp[0].trim();
+								  String ept3=arr_unit_str_temp[1].trim();
+								  String ept4=arr_unit_str_temp[2].trim();
+								  String ept5=arr_unit_str_temp[3].trim();
+								  
+								  double ept2_double= Double.valueOf(ept2).doubleValue();
+								  double ept3_double= Double.valueOf(ept3).doubleValue();
+								  double ept4_double= Double.valueOf(ept4).doubleValue();
+								  double ept5_double= Double.valueOf(ept5).doubleValue();
+								  
+								  map.put("ept2", ept2_double);
+								  map.put("ept3", ept3_double);
+								  map.put("ept4", ept4_double);
+								  map.put("ept5", ept5_double);
+								  
+							   }
+							   
+							   yearFeeStrJoinUnitTableList.add(map);
+						   }
+						}
+					  
+				   }
+			   }
+			}
+			
+			
+			fileName =DateUtil.dateToStr(new Date(), DateUtil.FMT_SSS_02)+".doc";
+			/** 生成word */
+			boolean flage=WordUtil.createWord(dataMap, "setup.ftl", filePath, fileName);
+			if(flage==true)
+			{
+				resutl=fileName;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return resutl;
 	}
 	
 	

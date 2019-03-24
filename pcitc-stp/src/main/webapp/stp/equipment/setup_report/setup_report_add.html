@@ -84,6 +84,30 @@
                         <input class="layui-input readOnlyBox" style="width:100% !important" name="topicName" id="topicName" readonly="readonly" value="${sreProjectTask.topicName}" autocomplete="off" type="text">
                     </div>
                 </div>
+                
+         <div class="layui-row">
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">项目负责人<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input class="layui-input" name="projecChargeUserName" id="projecChargeUserName" value="${sreProjectSetup.projecChargeUserName}"
+                                   lay-verify="required" autocomplete="off" type="text">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">职称<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input class="layui-input" name="projecChargeUserTitle" id="projecChargeUserTitle" value="${sreProjectSetup.projecChargeUserTitle}"
+                                   autocomplete="off" type="text">
+                        </div>
+                    </div>
+                </div>
+            </div>
+                
+                
+                
                <div class="layui-form-item layui-form-text" >
 		        <label class="layui-form-label">立项理由<span class="must-fill">*</span></label>
 		        <div class="layui-input-block">
@@ -201,44 +225,6 @@
                 <div id="units"></div>
             </div>
             </div>
-            
-            
-            
-            
-            
-            
-            <!-- 
-            <div class="layui-row" id="funds_table">
-                <div class="tableToolBox">
-                    <div class="tableTitle">项目资金安排</div>
-                    <div class="tableBtns">
-                    </div>
-                </div>
-                <table class="layui-table">
-                    <thead>
-                    <tr>
-                        <td width="20%">年 度</td>
-                        <td width="8%">费用性支出(万元)</td>
-                        <td width="8%">资本性支出(万元)</td>
-                        <td width="8%">小 计(万元)</td>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
-            </div>
-            <div class="layui-row">
-                <div class="tableToolBox">
-                    <div class="tableTitle">参加单位</div>
-                    <div class="tableBtns">
-                    </div>
-                </div>
-                <div id="units"></div>
-            </div>
-        </div> -->
-        
-        
-      
       
       
         <div class="form-bottom">
@@ -261,6 +247,8 @@
     var roleCodes = "";
     var unitCodes = "";
     var postCodes = "";
+    var setupId=  $('#setupId').val();
+    
     
     //牵头单位名称
     var leadUnitName="${sreProject.leadUnitName?default('')}";
@@ -407,7 +395,7 @@
             //alert(sources_table);
             if (main_table == null || main_table == '') 
             {
-                layer.alert("项目内容和主要图表为空");
+                layer.alert("项目规模、工艺流程（图）、主要仪器设备（表）为空");
             }else if (sources_table == null || sources_table == '') 
             {
                 layer.alert("资金来源为空");

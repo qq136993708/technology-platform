@@ -90,8 +90,10 @@
         <div class="whiteLine"></div>
         <div  class="tableBtns">
               <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit" id="applyEvent" data-type="applyEvent">上报</button>
-              <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"  id="createWordEvent" data-type="createWordEvent">生成WORD文档</button>
-              <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"  id="createQianEvent" data-type="createQianEvent">生成签字盖章模板</button>
+              <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"  id="createWordEvent" data-type="createWordEvent">预览任务书WORD文档</button>
+              <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"  id="createSetupWordEvent" data-type="createSetupWordEvent">预览立项报告WORD文档</button>
+              <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"  id="createQianEvent" data-type="createQianEvent">预览签字盖章WORD模板</button>
+              <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"  id="upQianEvent" data-type="upQianEvent">上传签字盖章页</button>
         </div>
     </div>
    <table id="processdef-table" class="layui-hide" lay-filter="processdef-table" ></table> 
@@ -336,10 +338,10 @@ var name=$('#name').val();
             		
             	}
             },
-            createWordEvent: function(){  //点击详情按钮
+            createWordEvent: function(){  //任务书
             	if (typeof(selectRowData) == "undefined") 
             	{
-            		layer.msg('请点击选择一行数据');
+            		layer.alert('请点击选择一行数据');
             	}else 
             	{
             		 var taskId=selectRowData.taskId;
@@ -347,7 +349,24 @@ var name=$('#name').val();
             		 location.href=temUrl;
             	}
             },
-            createQianEvent: function(){ 
+            createSetupWordEvent: function(){  //立项报告
+            	if (typeof(selectRowData) == "undefined") 
+            	{
+            		layer.alert('请点击选择一行数据');
+            	}else 
+            	{
+            		 var taskId=selectRowData.taskId;
+            		 var setupId=selectRowData.setupId;
+            		 if(setupId==null || setupId=='')
+           			 {
+            			 layer.alert('请先填写“立项报告”');
+            			 return;
+           			 }
+            		 var temUrl="/sre_project_task/createWord/" + taskId;
+            		 location.href=temUrl;
+            	}
+            },
+            createQianEvent: function(){ //生成签字模板
             	if (typeof(selectRowData) == "undefined") 
             	{
             		layer.alert('请点击选择一个任务书');
@@ -367,6 +386,36 @@ var name=$('#name').val();
             		
             	}
             },
+            upQianEvent: function(){ //上传签字模板
+            	if (typeof(selectRowData) == "undefined") 
+            	{
+            		layer.alert('请点击选择一个任务书');
+            	}else 
+            	{
+            		 var contractNum=selectRowData.contractNum;
+            		 if(contractNum==null || contractNum=='')
+            	     {
+            			 layer.alert('合同号未生成,不能上传签字页');
+            	     }else
+           	    	 {
+	           	    	    var taskId=selectRowData.taskId;
+		           	    	var temUrl="/sre_project_task/upFileDoc?taskId=" + taskId;
+		           		    layer.open({
+		                       title:'上传签字页',
+		                       skin: 'layui-layer-lan',
+		                       shadeClose: true,
+		                       type: 2,
+		                       fixed: false,
+		                       maxmin: false,
+		                       area: ['70%', '90%'],
+		                       content:  temUrl
+		                   });
+           	    	 }
+            		
+            	}
+            },
+            
+            
             allEvent: function(){ 
             	$("#auditStatus").val("");
             	renderTable();

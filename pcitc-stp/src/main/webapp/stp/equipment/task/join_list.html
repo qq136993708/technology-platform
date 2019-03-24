@@ -72,8 +72,8 @@
         <div class="whiteLine"></div>
         <div  class="tableBtns">
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit" id="createEvent" data-type="createEvent">生成合同号</button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"  id="createWordEvent" data-type="createWordEvent">生成WORD文档</button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"  id="createQianEvent" data-type="createQianEvent">生成签字盖章模板</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"  style="display:none" id="createWordEvent" data-type="createWordEvent">生成WORD文档</button>
+           <!--  <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"  id="createQianEvent" data-type="createQianEvent">生成签字盖章模板</button> -->
         </div>
     </div>
    <table id="processdef-table" class="layui-hide" lay-filter="processdef-table" ></table> 
@@ -311,7 +311,7 @@ var name=$('#name').val();
             		 location.href=temUrl;
             	}
             }
-            ,
+            /* ,
             createQianEvent: function(){ 
             	if (typeof(selectRowData) == "undefined") 
             	{
@@ -331,7 +331,7 @@ var name=$('#name').val();
             		 
             		
             	}
-            }
+            } */
             
             
             
@@ -371,7 +371,7 @@ var name=$('#name').val();
             elem: '#processdef-table',
             url: '/sre_project_task/list',
             method:"POST",
-            where: {param: {"topicName":$("#topicName").val(),"auditStatus":"2","leadUnitName":$("#leadUnitName").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"professionalDepartName":$("#professionalDepartName").val(),"professionalFieldName":$("#professionalFieldName").val()}},
+            where: {param: {"setupYear":$("#setupYear").val(),"topicName":$("#topicName").val(),"auditStatus":"2","leadUnitName":$("#leadUnitName").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"professionalDepartName":$("#professionalDepartName").val(),"professionalFieldName":$("#professionalFieldName").val()}},
             limit: 15,	
             id: 'processdef-table',
             height: commonDislodgeTable(),
