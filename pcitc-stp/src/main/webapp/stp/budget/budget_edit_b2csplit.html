@@ -393,6 +393,8 @@
             publicMethods.ajaxPost('/budget/save-b2csplit-item', data.field, function (data, status) {
                 if (data.success) {
                 	parent.initDataVersion("${budgetInfoId}");
+                	var index = parent.layer.getFrameIndex(window.name);
+			       	parent.layer.close(index);
                 	/* parentInfo = data.data;
                 	//保存前如果预算项中的名称被改变了，则ID将移除
                 	$.each(viewObj.tbData,function(index,dt){
