@@ -171,12 +171,14 @@
                     </div>
                 </div>
             </div>
-            <div class="box-body" style="padding-left:10px;padding-right:10px">
+            <div class="box-body" style="padding-left:10px;padding-right:10px;overflow:hidden">
                   <#list dicList as vo> 
-                    <input style="width:250px;margin:5px;float:left;" type="checkbox" name="taskCheckContents"  lay-skin="primary" title="${vo.name}"
+                   <div style="width:200px;margin:5px;float:left;">
+                    <input  type="checkbox" name="taskCheckContents"  lay-skin="primary" title="${vo.name}"
                     <#list "${sreProjectTask.taskCheckContents}"?split(",") as itemValue>
                          <#if itemValue == vo.code>checked="checked"  </#if>
                      </#list> value="${vo.code}">
+                      </div>
                     </#list>
              </div>
           </div>  
