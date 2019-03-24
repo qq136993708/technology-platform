@@ -947,4 +947,10 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
     public String getObjString(Object obj) {
         return (obj == null || "".equals(obj)) ? "" : obj.toString();
     }
+
+    @Override
+    public List<Map<String,Object>> queryAllExpert(Map<String, Object> map){
+     return zjkBaseInfoMapper.queryAllExpert(new HashMap<>());
+    }
+
 }

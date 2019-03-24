@@ -16,6 +16,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -52,6 +53,8 @@ public class ExpertController extends BaseController {
      * 查询列表
      */
     private static final String LIST = "http://pcitc-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/zjkbaseinfo_list";
+    //查询所有人员列表,姓名&ID
+    private static final String queryAllExpert = "http://pcitc-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/queryAllExpert";
 
     private static final String LIST_RANDOM = "http://pcitc-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/zjkbaseinfo_list_random";
     private static final String LIST_RANDOM_IMG = "http://pcitc-zuul/stp-proxy/zjkbaseinfo-provider/zjkbaseinfo/zjkbaseinfo_list_img";
@@ -101,6 +104,19 @@ public class ExpertController extends BaseController {
     @RequestMapping(value = "/test", method = RequestMethod.GET)
     public String test() {
         return "stp/expert/eee";
+    }
+
+    @RequestMapping(value = "/queryAllExpert",method = RequestMethod.GET)
+    @ResponseBody
+    public String queryAllExpert(){
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        ZjkExpert expert = new ZjkExpert();
+        expert.setiSortCol("email");
+        expert.setsSortDir_0("asc");
+        ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(queryAllExpert, HttpMethod.POST, new HttpEntity<ZjkExpert>(expert, this.httpHeaders), JSONObject.class);
+        JSONObject retJson = responseEntity.getBody();
+        List<Map<String,Object>> list = (List<Map<String,Object>>) retJson.get("expert");
+        return JSON.toJSONString(list);
     }
 
     /**
@@ -708,6 +724,12 @@ public class ExpertController extends BaseController {
         ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(select_expert, HttpMethod.POST, entity, LayuiTableData.class);
         LayuiTableData data = responseEntity.getBody();
         return JSON.toJSON(data).toString();
+    }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/expertDetailIndex")
+    public String expertDetailIndex() {
+        ResponseEntity<ZjkExpert> responseEntity = this.restTemplate.exchange(GET_INFO + request.getParameter("dataId"), HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), ZjkExpert.class);
+        request.setAttribute("expert",responseEntity.getBody());
+        return "stp/expert/expertDetailIndex";
     }
 }

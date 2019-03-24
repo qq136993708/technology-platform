@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/style/second.css">
+    <script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+    <script type="text/javascript" src="/common/js/base.js"></script>
+</head>
+<body>
+<div class="layui-main-oil layui-expert-choice">
+    <div class="layui-row layui-col-space15">
+        <#list baseList as zjkBaseInfo>
+        <div class="layui-col-md3" id="${zjkBaseInfo.dataId}">
+            <div class="layui-information">
+                <div class="layui-img"> </div>
+                <p class="layui-title">${zjkBaseInfo.expertName}</p>
+                <p>参与评标累计项目总数量 <span class="red">${zjkBaseInfo.projectCount}</span>个</p>
+                <p>参与评标机构总数量 <span class="red">${zjkBaseInfo.companyCount}</span> 个</p>
+                <p>成果数量<span class="red">${zjkBaseInfo.achievementCount}</span>个</p>
+                <p>专利数量<span class="red">${zjkBaseInfo.patentCount}</span>个</p>
+                <p class="layui-f">同一行业领域共计<span class="red">${hylyCount!'0'}</span>人</p>
+                <p>职称：${zjkBaseInfo.expertProfessinal}</p>
+                <p>电话：${zjkBaseInfo.mobile}</p>
+                <p>邮箱：${zjkBaseInfo.email}</p>
+                <p>地址：${zjkBaseInfo.address}</p>
+                <div class="search">
+                    <a class="add addBx" href="javascript:;" id="addBx" onclick="addBx('${zjkBaseInfo.dataId}','${zjkBaseInfo.company}','${zjkBaseInfo.companyName}')">加入备选</a>
+                    <a class="add delBak" href="javascript:;" id="delBak" onclick="delBak('${zjkBaseInfo.dataId}')">移除</a>
+                    <a class="add " href="javascript:;" id="showDetail" onclick="showDetail('${zjkBaseInfo.dataId}')">查看详情</a>
+                </div>
+            </div>
+        </div>
+    </#list>
+    </div>
+</div>
+
+<script>
+    var publicMethods;
+    layui.use(['jquery', 'form', 'laydate', 'table', 'layer', 'element','publicMethods'], function () {
+        var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer,
+            laydate = layui.laydate;
+        publicMethods = layui.publicMethods,
+        parent.$("#LAY_app_body").css("background","none");
+    });
+
+    //移除对比
+    function delBak(expertId) {
+        $("#"+expertId).remove()
+        publicMethods.ajaxPost("/expertController/delBak?expertId=" + expertId, {}, function (data) {
+            layer.msg("操作成功");
+        });
+    }
+    //加入备选
+    function addBx(expertId,companyId,companyName) {
+        var record = {};
+        // record.companyId = companyId;
+        // record.companyName = companyName;
+        record.zjId = expertId;
+        publicMethods.ajaxPost("/expertController/saveBak", record, function (data) {
+            layer.msg("操作成功");
+        });
+    }
+    //专家详情
+    function showDetail(expertId) {
+        parent.layui.index.openTabsPage("/expertController/expertDetail?expertId="+expertId, "专家详情");
+
+    }
+</script>
+</body>
+
+</html>

@@ -39,4 +39,7 @@ public interface ZjkExpertMapper {
 
     List<Map<String,Object>> listSqlResult(Map<String,Object> map);
 
+    List<Map<String,Object>> queryAllExpert(Map<String,Object> map);
+
+
 }
