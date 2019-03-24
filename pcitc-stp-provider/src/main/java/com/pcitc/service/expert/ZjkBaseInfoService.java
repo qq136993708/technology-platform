@@ -227,4 +227,7 @@ public interface ZjkBaseInfoService {
     LayuiTableData findZjkBaseInfoByPageCount(LayuiTableParam param);
 
     JSONObject findZjkBaseInfoListImg(ZjkExpert zjkBaseInfo);
+
+    List<Map<String,Object>> queryAllExpert(Map<String,Object> map);
+
 }

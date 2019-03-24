@@ -239,4 +239,14 @@ public class ZjkBaseInfoClient {
         return retJson;
     }
 
+    @RequestMapping(value = "/zjkbaseinfo-provider/zjkbaseinfo/queryAllExpert", method = RequestMethod.POST)
+    public JSONObject queryAllExpert(@RequestBody JSONObject jsonObject) {
+        JSONObject retJson = new JSONObject();
+        try {
+            retJson.put("expert",zjkBaseInfoService.queryAllExpert(jsonObject));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return retJson;
+    }
 }

@@ -817,6 +817,20 @@ public class ProjectTaskController extends BaseController {
 		SreProjectTask sreProjectTask = responseEntity.getBody();
 		request.setAttribute("sreProjectTask", sreProjectTask);
 		
+		SreProject sreProject=EquipmentUtils.getSreProject(sreProjectTask.getTopicId(), restTemplate, httpHeaders);
+		request.setAttribute("sreProject", sreProject);
+		List<SysDictionary>  dicList= CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_LCZT", restTemplate, httpHeaders);
+		request.setAttribute("dicList", dicList);
+		
+		
+		List<SysDictionary>  checkList= CommonUtil.getDictionaryByParentCode("ROOT_ZBGL_YTJYSDNR", restTemplate, httpHeaders);
+		request.setAttribute("checkList", checkList);
+		
+		
+		List<UnitField>  unitFieldList= CommonUtil.getUnitNameList(restTemplate, httpHeaders);
+		request.setAttribute("unitFieldList", unitFieldList);
+		
+		
 		return "/stp/equipment/task/project_task_view";
 	}
 	

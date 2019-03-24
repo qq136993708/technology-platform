@@ -253,6 +253,9 @@ function forceAjax_singles(url, echartsobj, options, callback,len,id, title, sub
     var links_Array = [];
     var categories_Array = [];
     var legend_Array = [];
+    for (var i = 0; i <len; i++) {
+        document.getElementById(id+i).style.display="none";
+    }
     $.ajax({
         type: "get",
         url: url,
@@ -261,10 +264,10 @@ function forceAjax_singles(url, echartsobj, options, callback,len,id, title, sub
         cache: false,
         contentType: "application/x-www-form-urlencoded; charset=utf-8",
         success: function (datas, status) {
-            for (let j = 0; j < len; j++) {
-                // for (let j = 0; j < datas.length; j++) {
-
-               var echartsobj = echarts.init(document.getElementById(id+j));
+            // for (var j = 0; j < len; j++) {
+                for (var j = 0; j < datas.length; j++) {
+                document.getElementById(id+j).style.display="block";
+                var echartsobj = echarts.init(document.getElementById(id+j));
                 option_force_single.title.text = title;
                 option_force_single.title.subtext = subtext;
 

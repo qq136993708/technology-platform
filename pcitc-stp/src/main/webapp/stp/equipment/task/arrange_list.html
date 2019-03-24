@@ -9,6 +9,10 @@
     <script src="/layuiadmin/layui/layui.js"></script>
     <script src="/common/js/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+     <style>
+        .searchBox{ height: auto;}
+        .searchBox label{margin-bottom: 10px;display: inline-block; }
+    </style>
 </head>
 <body>
 <div class="searchBox">
@@ -38,7 +42,7 @@
     
      <label class="dateInput">
          <span>归属部门</span>
-         <select name="belongDepartmentName" id="belongDepartmentName"  onchange="getDepartNameByUnitName(this.value)" style="width:200px" >
+         <select name="belongDepartmentName" id="belongDepartmentName"  onchange="getDepartNameByUnitName(this.value)" class="form-control" >
              <option value="" >--请选择归属部门--</option>
              <#list unitFieldList as vo> 
 		          <option value="${vo.unitName}"  >${vo.unitName}</option>
@@ -48,12 +52,12 @@
     
      <label class="dateInput">
          <span>专业处</span>
-         <select id="professionalDepartName" name="professionalDepartName" onchange="getProfessionalNameListByUnitNameAndDept(this.value)" style="width:200px"></select>
+         <select id="professionalDepartName" name="professionalDepartName" onchange="getProfessionalNameListByUnitNameAndDept(this.value)" class="form-control"></select>
      </label>
     
       <label class="dateInput">
          <span>专业领域</span>
-         <select id="professionalFieldName" name="professionalFieldName" style="width:200px"></select>
+         <select id="professionalFieldName" name="professionalFieldName" class="form-control"></select>
      </label>
      
     
@@ -94,6 +98,21 @@
         } else {
             return '';
         }
+    }
+    
+    function view_project(id) 
+    {
+    	 var temUrl="/sre-project-basic/get/" + id;
+		 layer.open({
+            title:'课题详情',
+            skin: 'layui-layer-lan',
+            shadeClose: true,
+            type: 2,
+            fixed: false,
+            maxmin: false,
+            area: ['70%', '90%'],
+            content:  temUrl
+        });
     }
 </script>
 <script type="text/javascript">
@@ -336,10 +355,10 @@ var name=$('#name').val();
             cols: [[
             	{type : 'checkbox', event : 'changeEvents', width : 55},
             	{title : '序号', type :'numbers', width : 55},
-                {field : 'name', title : '课题名称', style : 'cursor: pointer;', align: 'left', width : '10%',templet:function(d){return '<span style="color:#17a2b8">'+d.name+'</span>'}},
+            	 {field : 'name',           title : '课题名称',         style : 'cursor: pointer;', align: 'left',    width : '20%',templet:function(d){return '<span onclick="view_project(\''+d.id+'\')" style="color:#17a2b8">'+d.name+'</span>'}},
                 {field : 'setupYear', title : '立项年份', style : 'cursor: pointer;', align: 'center', width : '10%'},
                 {field : 'projectMoney', title : '总经费(万元)', style : 'cursor: pointer;', align: 'center', width : '10%',templet:function(d){return '<span style="color:red">'+d.projectMoney+'</span>'}},
-                {field : 'leadUnitName', title : '承担单位', style : 'cursor: pointer;', align: 'left', width : '20%'},
+                {field : 'leadUnitName', title : '牵头单位', style : 'cursor: pointer;', align: 'left', width : '20%'},
                 {field : 'createUserName', title : '申报人', style : 'cursor: pointer;', align: 'left', width : '10%'},
                 {field : 'createDate', title : '上报时间', style : 'cursor: pointer;', align: 'center', templet : '#dateTpl', width : '10%'},
                 {field : 'contractNum', title : '合同号', style : 'cursor: pointer;', align: 'center', width : '10%'},
