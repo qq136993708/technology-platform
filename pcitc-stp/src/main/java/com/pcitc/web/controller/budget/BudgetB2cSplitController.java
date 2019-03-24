@@ -379,7 +379,7 @@ public class BudgetB2cSplitController extends BaseController {
 		File f = new File(path.getPath() + "static/budget/budget_b2csplit_template.xlsx");
 		//System.out.println(f.getAbsolutePath());
 		//写入新文件2019年集团公司总部科技经费预算
-		String newFilePath = path.getPath() + "static/budget/"+info.getNd()+"年股份公司总部科技经费预算（调整稿）_"+DateUtil.dateToStr(new Date(), "yyyyMMddHHmmss")+".xlsx";
+		String newFilePath = path.getPath() + "static/budget/"+info.getNd()+"股份炼油事业部、化工事业部B2、C类科技经费预算表（调整稿）_"+DateUtil.dateToStr(new Date(), "yyyyMMddHHmmss")+".xlsx";
 		File outFile = new File(newFilePath);
 		
 		processDataAndDownload(f,new ArrayList(tabldata.getData()),parammap,outFile);
@@ -401,14 +401,7 @@ public class BudgetB2cSplitController extends BaseController {
 			Integer nd = Integer.parseInt(param.get("nd"));
 			//处理标题 年度
 			String title = readCell(sheet.getRow(0).getCell(0));
-			String itemTitleJfys = readCell(sheet.getRow(2).getCell(2));
-			String itemTitleYjwc = readCell(sheet.getRow(2).getCell(5));
-			String itemTitleXmjf = readCell(sheet.getRow(2).getCell(8));
-			
 			sheet.getRow(0).getCell(0).setCellValue(title.replace("${nd}", nd.toString()));
-			sheet.getRow(2).getCell(2).setCellValue(itemTitleJfys.replace("${yd}", new Integer(nd-1).toString()));
-			sheet.getRow(2).getCell(5).setCellValue(itemTitleYjwc.replace("${yd}", new Integer(nd-1).toString()));
-			sheet.getRow(2).getCell(8).setCellValue(itemTitleXmjf.replace("${nd}", nd.toString()));
 			//从第四行开始，第五行是汇总数据
 			Row templateRow = sheet.getRow(4);
 			
@@ -428,67 +421,46 @@ public class BudgetB2cSplitController extends BaseController {
 			rightCenterStyle.setAlignment(HorizontalAlignment.RIGHT);
 			rightCenterStyle.setVerticalAlignment(VerticalAlignment.CENTER);
 			
-			//合计
-			Row totalRow = sheet.getRow(4);
-			totalRow.createCell(0).setCellValue("");
-			totalRow.createCell(1).setCellValue("");
-			totalRow.createCell(2).setCellValue("");
-			totalRow.createCell(3).setCellValue("");
-			totalRow.createCell(4).setCellValue("");
-			totalRow.createCell(5).setCellValue("");
-			totalRow.createCell(6).setCellValue("");
-			totalRow.createCell(7).setCellValue("");
-			totalRow.createCell(8).setCellValue("");
-			totalRow.createCell(9).setCellValue("");
-			totalRow.createCell(10).setCellValue("");
 			
-			Double allYjwcTotal = 0d;
-			Double allYjwcZbx = 0d;
-			Double allYjwcFyx = 0d;
-			Double allXmjfTotal = 0d;
-			Double allXmjfZbx = 0d;
-			Double allXmjfFyx = 0d;
+			
+			Double allLyTotal = 0d;
+			Double allLyJz = 0d;
+			Double allLyXq= 0d;
+			Double allHgTotal = 0d;
+			Double allHgJz = 0d;
+			Double allHgXq = 0d;
 			for(int i = 0;i<list.size();i++) {
 				
 				Integer no = (Integer)list.get(i).get("no");
 				String displayName = list.get(i).get("displayName").toString();
 				Integer level = (Integer)list.get(i).get("level");
 				
+				Double lyTotal = (Double)list.get(i).get("lyTotal");
+				Double lyJz = (Double)list.get(i).get("lyJz");
+				Double lyXq = (Double)list.get(i).get("lyXq");
+				Double hgTotal = (Double)list.get(i).get("hgTotal");
+				Double hgJz = (Double)list.get(i).get("hgJz");
+				Double hgXq = (Double)list.get(i).get("hgXq");
+				allLyTotal += lyTotal;
+				allLyJz += lyJz;
+				allLyXq += lyXq;
+				allHgTotal += hgTotal;
+				allHgJz += hgJz;
+				allHgXq += hgXq;
 				
-				String l_hj = "无";
-				String l_zbx = "无";
-				String l_fyx = "无";
-				Double yjwcTotal = (Double)list.get(i).get("yjwcTotal");
-				Double yjwcZbx = (Double)list.get(i).get("yjwcZbx");
-				Double yjwcFyx = (Double)list.get(i).get("yjwcFyx");
-				Double xmjfTotal = (Double)list.get(i).get("xmjfTotal");
-				Double xmjfZbx = (Double)list.get(i).get("xmjfZbx");
-				Double xmjfFyx = (Double)list.get(i).get("xmjfFyx");
-				allYjwcTotal += yjwcTotal;
-				allYjwcZbx += yjwcZbx;
-				allYjwcFyx += yjwcFyx;
-				allXmjfTotal += xmjfTotal;
-				allXmjfZbx += xmjfZbx;
-				allXmjfFyx += xmjfFyx;
-				
-				Row crow = sheet.getRow(i+5);
+				Row crow = sheet.getRow(i+4);
 				if(level == 0) {
 					crow.createCell(0).setCellValue(no);
 				}else {
 					crow.createCell(0).setCellValue("");
 				}
 				crow.createCell(1).setCellValue(displayName);
-				crow.createCell(2).setCellValue(l_hj);
-				crow.createCell(3).setCellValue(l_zbx);
-				crow.createCell(4).setCellValue(l_fyx);
-				crow.createCell(5).setCellValue(yjwcTotal);
-				crow.createCell(6).setCellValue(yjwcZbx);
-				crow.createCell(7).setCellValue(yjwcFyx);
-				crow.createCell(8).setCellValue(xmjfTotal);
-				crow.createCell(9).setCellValue(xmjfZbx);
-				crow.createCell(10).setCellValue(xmjfFyx);
-				
-				
+				crow.createCell(2).setCellValue(lyTotal);
+				crow.createCell(3).setCellValue(lyJz);
+				crow.createCell(4).setCellValue(lyXq);
+				crow.createCell(5).setCellValue(hgTotal);
+				crow.createCell(6).setCellValue(hgJz);
+				crow.createCell(7).setCellValue(hgXq);
 				
 				crow.getCell(0).setCellStyle(centerStyle);
 				if(level == 0) {
@@ -502,21 +474,17 @@ public class BudgetB2cSplitController extends BaseController {
 				crow.getCell(5).setCellStyle(rightCenterStyle);
 				crow.getCell(6).setCellStyle(rightCenterStyle);
 				crow.getCell(7).setCellStyle(rightCenterStyle);
-				crow.getCell(8).setCellStyle(rightCenterStyle);
-				crow.getCell(9).setCellStyle(rightCenterStyle);
-				crow.getCell(10).setCellStyle(rightCenterStyle);
 			}
-			totalRow.getCell(0).setCellValue("合计");
-			totalRow.getCell(1).setCellValue("");
-			totalRow.getCell(2).setCellValue("无");
-			totalRow.getCell(3).setCellValue("无");
-			totalRow.getCell(4).setCellValue("无");
-			totalRow.getCell(5).setCellValue(allYjwcTotal);
-			totalRow.getCell(6).setCellValue(allYjwcZbx);
-			totalRow.getCell(7).setCellValue(allYjwcFyx);
-			totalRow.getCell(8).setCellValue(allXmjfTotal);
-			totalRow.getCell(9).setCellValue(allXmjfZbx);
-			totalRow.getCell(10).setCellValue(allXmjfFyx);
+
+			Row totalRow = sheet.createRow(list.size()+4);
+			totalRow.createCell(0).setCellValue("合计");
+			totalRow.createCell(1).setCellValue("");
+			totalRow.createCell(2).setCellValue(allLyTotal);
+			totalRow.createCell(3).setCellValue(allLyJz);
+			totalRow.createCell(4).setCellValue(allLyXq);
+			totalRow.createCell(5).setCellValue(allHgTotal);
+			totalRow.createCell(6).setCellValue(allHgJz);
+			totalRow.createCell(7).setCellValue(allHgXq);
 			
 			totalRow.getCell(0).setCellStyle(centerStyle);
 			totalRow.getCell(1).setCellStyle(centerStyle);
@@ -526,12 +494,9 @@ public class BudgetB2cSplitController extends BaseController {
 			totalRow.getCell(5).setCellStyle(rightCenterStyle);
 			totalRow.getCell(6).setCellStyle(rightCenterStyle);
 			totalRow.getCell(7).setCellStyle(rightCenterStyle);
-			totalRow.getCell(8).setCellStyle(rightCenterStyle);
-			totalRow.getCell(9).setCellStyle(rightCenterStyle);
-			totalRow.getCell(10).setCellStyle(rightCenterStyle);
 			
 			//合计单元格合并
-			sheet.addMergedRegion(new CellRangeAddress(4,4,0,1));
+			sheet.addMergedRegion(new CellRangeAddress(list.size()+4,list.size()+4,0,1));
 			//写入新文件
 			FileOutputStream fos  = new FileOutputStream(outFile);
 			workbook.write(fos);
