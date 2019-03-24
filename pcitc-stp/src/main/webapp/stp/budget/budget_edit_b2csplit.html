@@ -210,7 +210,7 @@
         	});
    		});  
         
-		/* publicMethods.ajaxPost("/budget/get-b2csplit-item-company/${dataId}",null, function (data) {
+		publicMethods.ajaxPost("/budget/get-b2csplit-item-company/${dataId}",null, function (data) {
 			if(data.parentDataId){
 				$("input[id='parentDataId']").attr("value",data.parentDataId);				
 				$("#parentDataIdShow").attr("title",unit_map[data.parentDataId]);
@@ -218,7 +218,7 @@
 			}
 			form.val("stock-form",data);
 			parentInfo = data;
-			$.each(data.groups,function(index,dt){
+			/* $.each(data.groups,function(index,dt){
 				selectItemProjectMoney(parseInt(dt.nd)-1,dt.displayCode,function(ysje){
 					dt.last_year_end = ysje;
 				});
@@ -226,17 +226,17 @@
 					dt.plan_money = ysje;
 				});
 				viewObj.tbData.push(dt);
-			});
-   		}); */
+			}); */
+   		});
         //检索公司
-      	/* publicMethods.ajaxPost("/budget/search-b2c-company-items",null, function (data) {
+      /* 	publicMethods.ajaxPost("/budget/search-b2c-company-items",null, function (data) {
         	//$("#company_list").html('<option value="">请选择单位！</option>');
         	$.each(data,function(index,dt){
         		company_map[dt.unitCode] = dt.unitName;
         		//$("#company_list").append('<option value="'+dt.unitCode+'">'+dt.unitName+'</option>');
         	});
         	form.render();
-   		});  */
+   		}); */
         
       	
         //渲染
@@ -393,6 +393,8 @@
             publicMethods.ajaxPost('/budget/save-b2csplit-item', data.field, function (data, status) {
                 if (data.success) {
                 	parent.initDataVersion("${budgetInfoId}");
+                	var index = parent.layer.getFrameIndex(window.name);
+			       	parent.layer.close(index);
                 	/* parentInfo = data.data;
                 	//保存前如果预算项中的名称被改变了，则ID将移除
                 	$.each(viewObj.tbData,function(index,dt){
