@@ -491,7 +491,7 @@
     //detail:详情，edit：编辑
     file_edit_detail = "edit";
     //统管理-附件管理-附件配置：页面标识
-    file_opt_flag = "b3a52bbe7087419c80813d7716f37674";
+    file_opt_flag = "44dc8527586d4589850fa1410ba45a29";
     var arrSelect=["静止设备","机械设备","仪器","自控仪表","计算机及外围设备",
         "计算机软件","备品、配件","土建","配套工程","设计费","安装费","其它","小计"];
     var arrSelectF=["会议费","差旅费","试车、试用费","外事费","外协费","其它费","小计"];
@@ -833,7 +833,7 @@
             	 $("#fundsSourcesTable").val(funds_sources_table)
             	   
             	 var topicId=$("#topicId").val();
-            	 var url="/sre_project_task/save?v_date="+v_date+"&status=0";
+            	 var url="/sre_project_task/save?v_date="+v_date;
                  var backurl="/sre_project_setup/add?v_date="+v_date+"&topicId="+topicId;
                  ajaxOpt(url,"form1","POST",backurl,"保存成功","保存失败");
             }
@@ -902,6 +902,10 @@
                 {
                 	var taskId=data.data.taskId;
                 	var setupId=data.data.setupId;
+                	if(setupId==null || setupId=='' || setupId=='undefined')
+               		{
+                		setupId="";
+               		}
                 	backurl=backurl+"&taskId="+taskId+"&setupId="+setupId;
                 	
                     layer.alert(

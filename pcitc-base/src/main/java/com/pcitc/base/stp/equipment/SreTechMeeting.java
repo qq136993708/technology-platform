@@ -40,8 +40,30 @@ public class SreTechMeeting {
     private String createDepartName;
 
     private String createDepartCode;
+    
+    private String parentUnitPathNames;
+    private String parentUnitPathIds;
+    
+    
+    
 
-    public String getMeetingId() {
+    public String getParentUnitPathNames() {
+		return parentUnitPathNames;
+	}
+
+	public void setParentUnitPathNames(String parentUnitPathNames) {
+		this.parentUnitPathNames = parentUnitPathNames;
+	}
+
+	public String getParentUnitPathIds() {
+		return parentUnitPathIds;
+	}
+
+	public void setParentUnitPathIds(String parentUnitPathIds) {
+		this.parentUnitPathIds = parentUnitPathIds;
+	}
+
+	public String getMeetingId() {
         return meetingId;
     }
 

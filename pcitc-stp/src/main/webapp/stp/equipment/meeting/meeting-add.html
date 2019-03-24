@@ -32,6 +32,8 @@
   <div class="box-body">
       <form class="layui-form" name="form1" id="form1" action="" method="POST" lay-filter="component-form-group layui-container">
          <input type="hidden" name="meetingId" id="meetingId" value="${sreTechMeeting.meetingId}">
+         <input type="hidden" name="meetingDoc" id="meetingDoc" value="${meetingDoc}">
+        
          <div class="layui-form-item">
 	        <label class="layui-form-label">会议主题<span class="must-fill">*</span></label>
 	        <div class="layui-input-block">
@@ -77,7 +79,7 @@
 	     <div class="layui-form-item">
 	        <label class="layui-form-label">备注</label>
 	        <div class="layui-input-block">
-	        <textarea  name="remark" id="remark" lay-verify="required"   class="layui-textarea">${sreTechMeeting.remark}</textarea>
+	        <textarea  name="remark" id="remark"  class="layui-textarea">${sreTechMeeting.remark}</textarea>
           </div>
 	     </div>
 	     
