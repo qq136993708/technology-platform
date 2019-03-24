@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>历年参考数据</title>
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()">
+    <script src="/layuiadmin/layui/layui.js"></script>
+    <style>
+        .con-box{margin: auto 20px;}
+        .table-title{height: 30px;line-height: 30px;}
+        .margin-bot30{margin-bottom: 30px;}
+    </style>
+</head>
+<body>
+<div class="con-box">
+    <#list tb_datas as tb>
+	    <p class="table-title">&nbsp;&nbsp;</p>
+	    <div class="bottom-table-box">
+	        <table id="${tb.dataId}" class="layui-table" lay-filter="${tb.dataId}" lay-data="{limit:100,totalRow: true,height: '200'}">
+	            <thead>
+	                <tr>
+	                	<th lay-data="{field:'no', width: '10%', align:'center',totalRowText: '合计'}" rowspan="2">序号</th>
+	                	<th lay-data="{field:'displayName', width: '20%'}" rowspan="2">名称</th>
+	                	<th lay-data="{align:'center'}" colspan="3">${tb.nd}炼油事业部</th>
+	                	<th lay-data="{align:'center'}" colspan="3">${tb.nd}化工事业部</th>
+		            </tr>
+		            <tr>
+	                    <th lay-data="{field:'lyTotal',align: 'right',totalRow: true}">预算</th>
+	                    <th lay-data="{field:'lyJz', align: 'right',totalRow: true}">结转</th>
+	                    <th lay-data="{field:'lyXq', align: 'right',totalRow: true}">可新签</th>
+	                    <th lay-data="{field:'hgTotal',align: 'right',totalRow: true}">预算</th>
+	                    <th lay-data="{field:'hgJz', align: 'right',totalRow: true}">结转</th>
+	                    <th lay-data="{field:'hgXq', align: 'right',totalRow: true}">可新签</th>
+	                </tr>
+	            </thead>
+	        </table>
+	    </div>
+    </#list>
+    
+</div>
+<div class="form-bottom">
+    <div class="form-bottom-btns">
+        <button type="button"
+                class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white"
+                id="cancel">关闭
+        </button>
+    </div>
+</div>
+    <script>
+        layui.use(['jquery', 'table', 'laydate', 'layer','publicMethods'], function () {
+            var $ = layui.jquery, table = layui.table, laydate = layui.laydate, layer = layui.layer,publicMethods=layui.publicMethods;
+            publicMethods.ajaxPost("/budget/search-b2csplit-final-history-list",null, function (data) {
+            	$.each(data,function(index,dt){
+       				table.reload(dt.dataId, {data: dt.items});
+       				var t2=t3=t4=t5=t6=t7=0;
+       				$.each(dt.items,function(i,dt){
+    					var align = dt.level == 0?"left":"right";
+    					var no = dt.level == 0?dt.no:"";
+    					$(".layui-table-body").eq(index).find("tr").eq(i).find('td').eq(1).attr("align",align);
+    					$(".layui-table-body").eq(index).find("tr").eq(i).find('td').eq(0).find("div").html(no);
+    					if(dt.level == 0){
+              				t2 += parseInt(dt.lyTotal);
+              				t3 += parseInt(dt.lyJz);
+              				t4 += parseInt(dt.lyXq);
+              				t5 += parseInt(dt.hgTotal);
+              				t6 += parseInt(dt.hgJz);
+              				t7 += parseInt(dt.hgXq);
+              			}
+    				});
+       				$(".layui-table-total").eq(index).find("tr").find('td').eq(2).find("div").html(t2);
+          			$(".layui-table-total").eq(index).find("tr").find('td').eq(3).find("div").html(t3);
+          			$(".layui-table-total").eq(index).find("tr").find('td').eq(4).find("div").html(t4);
+          			$(".layui-table-total").eq(index).find("tr").find('td').eq(5).find("div").html(t5);
+          			$(".layui-table-total").eq(index).find("tr").find('td').eq(6).find("div").html(t6);
+          			$(".layui-table-total").eq(index).find("tr").find('td').eq(7).find("div").html(t7);
+          			
+       			});
+            	
+ 		   	});
+            $("#cancel").click(function () {
+    	        var index = parent.layer.getFrameIndex(window.name);
+    	        parent.layer.close(index);
+    	    });
+        });
+    </script>
+</body>
+</html>
