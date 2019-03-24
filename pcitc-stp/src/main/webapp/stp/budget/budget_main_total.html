@@ -145,16 +145,33 @@
                      	});
                 	});
            		});  
-                table.reload('dataTable', {data:table_data});
+                table.reload('dataTable',{data:table_data,done: function(res, curr, count){
+                		var colsArr = [0,table_data.length-2,table_data.length-1];
+                    	merge(colsArr);
+                	}
+                });
+                function merge(colsArr) {
+                    for(var i=0;i<colsArr.length;i++){
+                        var tableBox = $('.layui-table-box').find(".layui-table-body.layui-table-main");
+                        var bgTr = tableBox.find("tr[data-index=" + colsArr[i] + "]").css('background','yellow');
+                        bgTr.children().eq(1).attr('colspan','2')
+                            //.find('div').removeClass('laytable-cell-2-0-0')
+                            //.addClass('laytable-cell-2-2-0')
+                            .css('textAlign','center');
+                        bgTr.children().eq(0).css('display','none');
+                    }
+                }
                 //处理格式
              	$.each(table_data,function(index,dt){
     				var align ="center";
+    				var no = dt.no;
     				if(dt.level == 0){
     					align = "left";
+    					no = dt.no;
     				}else if(dt.level ==1){
     					align = "right";
+    					no = "";
     				}
-    				var no = dt.level == 0?dt.no:"";
     				$(".layui-table-body").find("tr").eq(index).find('td').eq(1).attr("align",align);
     				$(".layui-table-body").find("tr").eq(index).find('td').eq(0).find("div").html(no);
     			});

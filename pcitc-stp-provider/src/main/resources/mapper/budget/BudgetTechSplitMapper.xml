@@ -1,0 +1,639 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pcitc.mapper.budget.BudgetTechSplitMapper">
+  <resultMap id="BaseResultMap" type="com.pcitc.base.stp.budget.BudgetTechSplit">
+    <id column="data_id" jdbcType="VARCHAR" property="dataId" />
+    <result column="parent_data_id" jdbcType="VARCHAR" property="parentDataId" />
+    <result column="nd" jdbcType="VARCHAR" property="nd" />
+    <result column="data_version" jdbcType="VARCHAR" property="dataVersion" />
+    <result column="create_time" jdbcType="VARCHAR" property="createTime" />
+    <result column="update_time" jdbcType="VARCHAR" property="updateTime" />
+    <result column="creater_name" jdbcType="VARCHAR" property="createrName" />
+    <result column="creater_id" jdbcType="VARCHAR" property="createrId" />
+    <result column="no" jdbcType="INTEGER" property="no" />
+    <result column="display_name" jdbcType="VARCHAR" property="displayName" />
+    <result column="simple_name" jdbcType="VARCHAR" property="simpleName" />
+    <result column="display_code" jdbcType="VARCHAR" property="displayCode" />
+    <result column="simple_code" jdbcType="VARCHAR" property="simpleCode" />
+    <result column="level" jdbcType="INTEGER" property="level" />
+    <result column="jtgs" jdbcType="DOUBLE" property="jtgs" />
+    <result column="gf_zsy_kty" jdbcType="DOUBLE" property="gfZsyKty" />
+    <result column="gf_zsy_gcy" jdbcType="DOUBLE" property="gfZsyGcy" />
+    <result column="gf_zsy_wty" jdbcType="DOUBLE" property="gfZsyWty" />
+    <result column="gf_zsy_sky" jdbcType="DOUBLE" property="gfZsySky" />
+    <result column="gf_zsy_bhy" jdbcType="DOUBLE" property="gfZsyBhy" />
+    <result column="gf_zsy_fyy" jdbcType="DOUBLE" property="gfZsyFyy" />
+    <result column="gf_zsy_shy" jdbcType="DOUBLE" property="gfZsyShy" />
+    <result column="gf_zsy_qdy" jdbcType="DOUBLE" property="gfZsyQdy" />
+    <result column="gf_fzgs" jdbcType="DOUBLE" property="gfFzgs" />
+    <result column="xtw" jdbcType="DOUBLE" property="xtw" />
+    <result column="total" jdbcType="DOUBLE" property="total" />
+    <result column="item_type" jdbcType="INTEGER" property="itemType" />
+    <result column="company_code" jdbcType="VARCHAR" property="companyCode" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="budget_info_id" jdbcType="VARCHAR" property="budgetInfoId" />
+    <result column="del_flag" jdbcType="INTEGER" property="delFlag" />
+    <result column="append_files" jdbcType="VARCHAR" property="appendFiles" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    data_id, parent_data_id, nd, data_version, create_time, update_time, creater_name, 
+    creater_id, no, display_name, simple_name, display_code, simple_code, level, jtgs, 
+    gf_zsy_kty, gf_zsy_gcy, gf_zsy_wty, gf_zsy_sky, gf_zsy_bhy, gf_zsy_fyy, gf_zsy_shy, 
+    gf_zsy_qdy, gf_fzgs, xtw, total, item_type, company_code, remark, budget_info_id, 
+    del_flag, append_files
+  </sql>
+  <select id="selectByExample" parameterType="com.pcitc.base.stp.budget.BudgetTechSplitExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from out_tem_money_tech_split
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from out_tem_money_tech_split
+    where data_id = #{dataId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from out_tem_money_tech_split
+    where data_id = #{dataId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.pcitc.base.stp.budget.BudgetTechSplitExample">
+    delete from out_tem_money_tech_split
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.pcitc.base.stp.budget.BudgetTechSplit">
+    insert into out_tem_money_tech_split (data_id, parent_data_id, nd, 
+      data_version, create_time, update_time, 
+      creater_name, creater_id, no, 
+      display_name, simple_name, display_code, 
+      simple_code, level, jtgs, 
+      gf_zsy_kty, gf_zsy_gcy, gf_zsy_wty, 
+      gf_zsy_sky, gf_zsy_bhy, gf_zsy_fyy, 
+      gf_zsy_shy, gf_zsy_qdy, gf_fzgs, 
+      xtw, total, item_type, 
+      company_code, remark, budget_info_id, 
+      del_flag, append_files)
+    values (#{dataId,jdbcType=VARCHAR}, #{parentDataId,jdbcType=VARCHAR}, #{nd,jdbcType=VARCHAR}, 
+      #{dataVersion,jdbcType=VARCHAR}, #{createTime,jdbcType=VARCHAR}, #{updateTime,jdbcType=VARCHAR}, 
+      #{createrName,jdbcType=VARCHAR}, #{createrId,jdbcType=VARCHAR}, #{no,jdbcType=INTEGER}, 
+      #{displayName,jdbcType=VARCHAR}, #{simpleName,jdbcType=VARCHAR}, #{displayCode,jdbcType=VARCHAR}, 
+      #{simpleCode,jdbcType=VARCHAR}, #{level,jdbcType=INTEGER}, #{jtgs,jdbcType=DOUBLE}, 
+      #{gfZsyKty,jdbcType=DOUBLE}, #{gfZsyGcy,jdbcType=DOUBLE}, #{gfZsyWty,jdbcType=DOUBLE}, 
+      #{gfZsySky,jdbcType=DOUBLE}, #{gfZsyBhy,jdbcType=DOUBLE}, #{gfZsyFyy,jdbcType=DOUBLE}, 
+      #{gfZsyShy,jdbcType=DOUBLE}, #{gfZsyQdy,jdbcType=DOUBLE}, #{gfFzgs,jdbcType=DOUBLE}, 
+      #{xtw,jdbcType=DOUBLE}, #{total,jdbcType=DOUBLE}, #{itemType,jdbcType=INTEGER}, 
+      #{companyCode,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{budgetInfoId,jdbcType=VARCHAR}, 
+      #{delFlag,jdbcType=INTEGER}, #{appendFiles,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pcitc.base.stp.budget.BudgetTechSplit">
+    insert into out_tem_money_tech_split
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="dataId != null">
+        data_id,
+      </if>
+      <if test="parentDataId != null">
+        parent_data_id,
+      </if>
+      <if test="nd != null">
+        nd,
+      </if>
+      <if test="dataVersion != null">
+        data_version,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="createrName != null">
+        creater_name,
+      </if>
+      <if test="createrId != null">
+        creater_id,
+      </if>
+      <if test="no != null">
+        no,
+      </if>
+      <if test="displayName != null">
+        display_name,
+      </if>
+      <if test="simpleName != null">
+        simple_name,
+      </if>
+      <if test="displayCode != null">
+        display_code,
+      </if>
+      <if test="simpleCode != null">
+        simple_code,
+      </if>
+      <if test="level != null">
+        level,
+      </if>
+      <if test="jtgs != null">
+        jtgs,
+      </if>
+      <if test="gfZsyKty != null">
+        gf_zsy_kty,
+      </if>
+      <if test="gfZsyGcy != null">
+        gf_zsy_gcy,
+      </if>
+      <if test="gfZsyWty != null">
+        gf_zsy_wty,
+      </if>
+      <if test="gfZsySky != null">
+        gf_zsy_sky,
+      </if>
+      <if test="gfZsyBhy != null">
+        gf_zsy_bhy,
+      </if>
+      <if test="gfZsyFyy != null">
+        gf_zsy_fyy,
+      </if>
+      <if test="gfZsyShy != null">
+        gf_zsy_shy,
+      </if>
+      <if test="gfZsyQdy != null">
+        gf_zsy_qdy,
+      </if>
+      <if test="gfFzgs != null">
+        gf_fzgs,
+      </if>
+      <if test="xtw != null">
+        xtw,
+      </if>
+      <if test="total != null">
+        total,
+      </if>
+      <if test="itemType != null">
+        item_type,
+      </if>
+      <if test="companyCode != null">
+        company_code,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+      <if test="budgetInfoId != null">
+        budget_info_id,
+      </if>
+      <if test="delFlag != null">
+        del_flag,
+      </if>
+      <if test="appendFiles != null">
+        append_files,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="dataId != null">
+        #{dataId,jdbcType=VARCHAR},
+      </if>
+      <if test="parentDataId != null">
+        #{parentDataId,jdbcType=VARCHAR},
+      </if>
+      <if test="nd != null">
+        #{nd,jdbcType=VARCHAR},
+      </if>
+      <if test="dataVersion != null">
+        #{dataVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=VARCHAR},
+      </if>
+      <if test="no != null">
+        #{no,jdbcType=INTEGER},
+      </if>
+      <if test="displayName != null">
+        #{displayName,jdbcType=VARCHAR},
+      </if>
+      <if test="simpleName != null">
+        #{simpleName,jdbcType=VARCHAR},
+      </if>
+      <if test="displayCode != null">
+        #{displayCode,jdbcType=VARCHAR},
+      </if>
+      <if test="simpleCode != null">
+        #{simpleCode,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null">
+        #{level,jdbcType=INTEGER},
+      </if>
+      <if test="jtgs != null">
+        #{jtgs,jdbcType=DOUBLE},
+      </if>
+      <if test="gfZsyKty != null">
+        #{gfZsyKty,jdbcType=DOUBLE},
+      </if>
+      <if test="gfZsyGcy != null">
+        #{gfZsyGcy,jdbcType=DOUBLE},
+      </if>
+      <if test="gfZsyWty != null">
+        #{gfZsyWty,jdbcType=DOUBLE},
+      </if>
+      <if test="gfZsySky != null">
+        #{gfZsySky,jdbcType=DOUBLE},
+      </if>
+      <if test="gfZsyBhy != null">
+        #{gfZsyBhy,jdbcType=DOUBLE},
+      </if>
+      <if test="gfZsyFyy != null">
+        #{gfZsyFyy,jdbcType=DOUBLE},
+      </if>
+      <if test="gfZsyShy != null">
+        #{gfZsyShy,jdbcType=DOUBLE},
+      </if>
+      <if test="gfZsyQdy != null">
+        #{gfZsyQdy,jdbcType=DOUBLE},
+      </if>
+      <if test="gfFzgs != null">
+        #{gfFzgs,jdbcType=DOUBLE},
+      </if>
+      <if test="xtw != null">
+        #{xtw,jdbcType=DOUBLE},
+      </if>
+      <if test="total != null">
+        #{total,jdbcType=DOUBLE},
+      </if>
+      <if test="itemType != null">
+        #{itemType,jdbcType=INTEGER},
+      </if>
+      <if test="companyCode != null">
+        #{companyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="budgetInfoId != null">
+        #{budgetInfoId,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null">
+        #{delFlag,jdbcType=INTEGER},
+      </if>
+      <if test="appendFiles != null">
+        #{appendFiles,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.pcitc.base.stp.budget.BudgetTechSplitExample" resultType="java.lang.Long">
+    select count(*) from out_tem_money_tech_split
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update out_tem_money_tech_split
+    <set>
+      <if test="record.dataId != null">
+        data_id = #{record.dataId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.parentDataId != null">
+        parent_data_id = #{record.parentDataId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nd != null">
+        nd = #{record.nd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dataVersion != null">
+        data_version = #{record.dataVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createrName != null">
+        creater_name = #{record.createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createrId != null">
+        creater_id = #{record.createrId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.no != null">
+        no = #{record.no,jdbcType=INTEGER},
+      </if>
+      <if test="record.displayName != null">
+        display_name = #{record.displayName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.simpleName != null">
+        simple_name = #{record.simpleName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.displayCode != null">
+        display_code = #{record.displayCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.simpleCode != null">
+        simple_code = #{record.simpleCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.level != null">
+        level = #{record.level,jdbcType=INTEGER},
+      </if>
+      <if test="record.jtgs != null">
+        jtgs = #{record.jtgs,jdbcType=DOUBLE},
+      </if>
+      <if test="record.gfZsyKty != null">
+        gf_zsy_kty = #{record.gfZsyKty,jdbcType=DOUBLE},
+      </if>
+      <if test="record.gfZsyGcy != null">
+        gf_zsy_gcy = #{record.gfZsyGcy,jdbcType=DOUBLE},
+      </if>
+      <if test="record.gfZsyWty != null">
+        gf_zsy_wty = #{record.gfZsyWty,jdbcType=DOUBLE},
+      </if>
+      <if test="record.gfZsySky != null">
+        gf_zsy_sky = #{record.gfZsySky,jdbcType=DOUBLE},
+      </if>
+      <if test="record.gfZsyBhy != null">
+        gf_zsy_bhy = #{record.gfZsyBhy,jdbcType=DOUBLE},
+      </if>
+      <if test="record.gfZsyFyy != null">
+        gf_zsy_fyy = #{record.gfZsyFyy,jdbcType=DOUBLE},
+      </if>
+      <if test="record.gfZsyShy != null">
+        gf_zsy_shy = #{record.gfZsyShy,jdbcType=DOUBLE},
+      </if>
+      <if test="record.gfZsyQdy != null">
+        gf_zsy_qdy = #{record.gfZsyQdy,jdbcType=DOUBLE},
+      </if>
+      <if test="record.gfFzgs != null">
+        gf_fzgs = #{record.gfFzgs,jdbcType=DOUBLE},
+      </if>
+      <if test="record.xtw != null">
+        xtw = #{record.xtw,jdbcType=DOUBLE},
+      </if>
+      <if test="record.total != null">
+        total = #{record.total,jdbcType=DOUBLE},
+      </if>
+      <if test="record.itemType != null">
+        item_type = #{record.itemType,jdbcType=INTEGER},
+      </if>
+      <if test="record.companyCode != null">
+        company_code = #{record.companyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null">
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.budgetInfoId != null">
+        budget_info_id = #{record.budgetInfoId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.delFlag != null">
+        del_flag = #{record.delFlag,jdbcType=INTEGER},
+      </if>
+      <if test="record.appendFiles != null">
+        append_files = #{record.appendFiles,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update out_tem_money_tech_split
+    set data_id = #{record.dataId,jdbcType=VARCHAR},
+      parent_data_id = #{record.parentDataId,jdbcType=VARCHAR},
+      nd = #{record.nd,jdbcType=VARCHAR},
+      data_version = #{record.dataVersion,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=VARCHAR},
+      update_time = #{record.updateTime,jdbcType=VARCHAR},
+      creater_name = #{record.createrName,jdbcType=VARCHAR},
+      creater_id = #{record.createrId,jdbcType=VARCHAR},
+      no = #{record.no,jdbcType=INTEGER},
+      display_name = #{record.displayName,jdbcType=VARCHAR},
+      simple_name = #{record.simpleName,jdbcType=VARCHAR},
+      display_code = #{record.displayCode,jdbcType=VARCHAR},
+      simple_code = #{record.simpleCode,jdbcType=VARCHAR},
+      level = #{record.level,jdbcType=INTEGER},
+      jtgs = #{record.jtgs,jdbcType=DOUBLE},
+      gf_zsy_kty = #{record.gfZsyKty,jdbcType=DOUBLE},
+      gf_zsy_gcy = #{record.gfZsyGcy,jdbcType=DOUBLE},
+      gf_zsy_wty = #{record.gfZsyWty,jdbcType=DOUBLE},
+      gf_zsy_sky = #{record.gfZsySky,jdbcType=DOUBLE},
+      gf_zsy_bhy = #{record.gfZsyBhy,jdbcType=DOUBLE},
+      gf_zsy_fyy = #{record.gfZsyFyy,jdbcType=DOUBLE},
+      gf_zsy_shy = #{record.gfZsyShy,jdbcType=DOUBLE},
+      gf_zsy_qdy = #{record.gfZsyQdy,jdbcType=DOUBLE},
+      gf_fzgs = #{record.gfFzgs,jdbcType=DOUBLE},
+      xtw = #{record.xtw,jdbcType=DOUBLE},
+      total = #{record.total,jdbcType=DOUBLE},
+      item_type = #{record.itemType,jdbcType=INTEGER},
+      company_code = #{record.companyCode,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      budget_info_id = #{record.budgetInfoId,jdbcType=VARCHAR},
+      del_flag = #{record.delFlag,jdbcType=INTEGER},
+      append_files = #{record.appendFiles,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.stp.budget.BudgetTechSplit">
+    update out_tem_money_tech_split
+    <set>
+      <if test="parentDataId != null">
+        parent_data_id = #{parentDataId,jdbcType=VARCHAR},
+      </if>
+      <if test="nd != null">
+        nd = #{nd,jdbcType=VARCHAR},
+      </if>
+      <if test="dataVersion != null">
+        data_version = #{dataVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="createrName != null">
+        creater_name = #{createrName,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null">
+        creater_id = #{createrId,jdbcType=VARCHAR},
+      </if>
+      <if test="no != null">
+        no = #{no,jdbcType=INTEGER},
+      </if>
+      <if test="displayName != null">
+        display_name = #{displayName,jdbcType=VARCHAR},
+      </if>
+      <if test="simpleName != null">
+        simple_name = #{simpleName,jdbcType=VARCHAR},
+      </if>
+      <if test="displayCode != null">
+        display_code = #{displayCode,jdbcType=VARCHAR},
+      </if>
+      <if test="simpleCode != null">
+        simple_code = #{simpleCode,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null">
+        level = #{level,jdbcType=INTEGER},
+      </if>
+      <if test="jtgs != null">
+        jtgs = #{jtgs,jdbcType=DOUBLE},
+      </if>
+      <if test="gfZsyKty != null">
+        gf_zsy_kty = #{gfZsyKty,jdbcType=DOUBLE},
+      </if>
+      <if test="gfZsyGcy != null">
+        gf_zsy_gcy = #{gfZsyGcy,jdbcType=DOUBLE},
+      </if>
+      <if test="gfZsyWty != null">
+        gf_zsy_wty = #{gfZsyWty,jdbcType=DOUBLE},
+      </if>
+      <if test="gfZsySky != null">
+        gf_zsy_sky = #{gfZsySky,jdbcType=DOUBLE},
+      </if>
+      <if test="gfZsyBhy != null">
+        gf_zsy_bhy = #{gfZsyBhy,jdbcType=DOUBLE},
+      </if>
+      <if test="gfZsyFyy != null">
+        gf_zsy_fyy = #{gfZsyFyy,jdbcType=DOUBLE},
+      </if>
+      <if test="gfZsyShy != null">
+        gf_zsy_shy = #{gfZsyShy,jdbcType=DOUBLE},
+      </if>
+      <if test="gfZsyQdy != null">
+        gf_zsy_qdy = #{gfZsyQdy,jdbcType=DOUBLE},
+      </if>
+      <if test="gfFzgs != null">
+        gf_fzgs = #{gfFzgs,jdbcType=DOUBLE},
+      </if>
+      <if test="xtw != null">
+        xtw = #{xtw,jdbcType=DOUBLE},
+      </if>
+      <if test="total != null">
+        total = #{total,jdbcType=DOUBLE},
+      </if>
+      <if test="itemType != null">
+        item_type = #{itemType,jdbcType=INTEGER},
+      </if>
+      <if test="companyCode != null">
+        company_code = #{companyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="budgetInfoId != null">
+        budget_info_id = #{budgetInfoId,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null">
+        del_flag = #{delFlag,jdbcType=INTEGER},
+      </if>
+      <if test="appendFiles != null">
+        append_files = #{appendFiles,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where data_id = #{dataId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.budget.BudgetTechSplit">
+    update out_tem_money_tech_split
+    set parent_data_id = #{parentDataId,jdbcType=VARCHAR},
+      nd = #{nd,jdbcType=VARCHAR},
+      data_version = #{dataVersion,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=VARCHAR},
+      creater_name = #{createrName,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=VARCHAR},
+      no = #{no,jdbcType=INTEGER},
+      display_name = #{displayName,jdbcType=VARCHAR},
+      simple_name = #{simpleName,jdbcType=VARCHAR},
+      display_code = #{displayCode,jdbcType=VARCHAR},
+      simple_code = #{simpleCode,jdbcType=VARCHAR},
+      level = #{level,jdbcType=INTEGER},
+      jtgs = #{jtgs,jdbcType=DOUBLE},
+      gf_zsy_kty = #{gfZsyKty,jdbcType=DOUBLE},
+      gf_zsy_gcy = #{gfZsyGcy,jdbcType=DOUBLE},
+      gf_zsy_wty = #{gfZsyWty,jdbcType=DOUBLE},
+      gf_zsy_sky = #{gfZsySky,jdbcType=DOUBLE},
+      gf_zsy_bhy = #{gfZsyBhy,jdbcType=DOUBLE},
+      gf_zsy_fyy = #{gfZsyFyy,jdbcType=DOUBLE},
+      gf_zsy_shy = #{gfZsyShy,jdbcType=DOUBLE},
+      gf_zsy_qdy = #{gfZsyQdy,jdbcType=DOUBLE},
+      gf_fzgs = #{gfFzgs,jdbcType=DOUBLE},
+      xtw = #{xtw,jdbcType=DOUBLE},
+      total = #{total,jdbcType=DOUBLE},
+      item_type = #{itemType,jdbcType=INTEGER},
+      company_code = #{companyCode,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      budget_info_id = #{budgetInfoId,jdbcType=VARCHAR},
+      del_flag = #{delFlag,jdbcType=INTEGER},
+      append_files = #{appendFiles,jdbcType=VARCHAR}
+    where data_id = #{dataId,jdbcType=VARCHAR}
+  </update>
+</mapper>
