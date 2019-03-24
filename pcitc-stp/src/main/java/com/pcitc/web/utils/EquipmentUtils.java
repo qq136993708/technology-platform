@@ -320,8 +320,8 @@ public class EquipmentUtils {
 			dataMap.put("leadUnitName", sreProject.getLeadUnitName());//负责单位
 			dataMap.put("projecChargeUserName", sreProjectSetup.getProjecChargeUserName());//项目负责人
 			dataMap.put("projecChargeUserTitle", sreProjectSetup.getProjecChargeUserTitle());//职      称
-			dataMap.put("beginProjectMonth", sreProjectSetup.getBeginProjectMonth());//项目执行年限
-			dataMap.put("endProjectMonth", sreProjectSetup.getEndProjectMonth());//项目执行年限
+			dataMap.put("beginProjectMonth", sreProjectTask.getBeginProjectMonth());//项目执行年限
+			dataMap.put("endProjectMonth", sreProjectTask.getEndProjectMonth());//项目执行年限
 			dataMap.put("setupReasons", sreProjectSetup.getSetupReasons());//立项理由
 			dataMap.put("facilities", sreProjectSetup.getFacilities());//建设场地、公用工程
 			dataMap.put("projectProgress", sreProjectSetup.getProjectProgress());//项目实施方案和进度

@@ -42,6 +42,8 @@
                 <w:szCs w:val="52"/>
               </w:rPr>
             </w:pPr>
+            <w:bookmarkStart w:id="0" w:name="_GoBack"/>
+            <w:bookmarkEnd w:id="0"/>
             <w:r w:rsidRPr="00B82546">
               <w:rPr>
                 <w:rFonts w:asciiTheme="minorEastAsia" w:eastAsiaTheme="minorEastAsia" w:hAnsiTheme="minorEastAsia" w:hint="eastAsia"/>
@@ -148,30 +150,24 @@
               </w:rPr>
               <w:t>项目名称</w:t>
             </w:r>
-            <w:r w:rsidRPr="00BC4C47">
+            <w:r w:rsidR="006A075A">
               <w:rPr>
                 <w:rFonts w:asciiTheme="minorEastAsia" w:eastAsiaTheme="minorEastAsia" w:hAnsiTheme="minorEastAsia" w:hint="eastAsia"/>
                 <w:sz w:val="28"/>
                 <w:szCs w:val="28"/>
               </w:rPr>
-              <w:t>:</w:t>
+              <w:t>：</w:t>
             </w:r>
-            <w:r w:rsidRPr="00BC4C47">
+            <w:r w:rsidR="00325FFE" w:rsidRPr="00325FFE">
               <w:t xml:space="preserve"> </w:t>
             </w:r>
-            <w:r w:rsidR="00B40D65">
-              <w:t xml:space="preserve"> </w:t>
-            </w:r>
-            <w:r w:rsidR="00F06186" w:rsidRPr="00F06186">
-              <w:t>${</w:t>
-            </w:r>
-            <w:proofErr w:type="spellStart"/>
-            <w:r w:rsidR="00F06186" w:rsidRPr="00F06186">
-              <w:t>topicName</w:t>
-            </w:r>
-            <w:proofErr w:type="spellEnd"/>
-            <w:r w:rsidR="00F06186" w:rsidRPr="00F06186">
-              <w:t>}</w:t>
+            <w:r w:rsidR="00325FFE" w:rsidRPr="00325FFE">
+              <w:rPr>
+                <w:rFonts w:asciiTheme="minorEastAsia" w:eastAsiaTheme="minorEastAsia" w:hAnsiTheme="minorEastAsia"/>
+                <w:sz w:val="28"/>
+                <w:szCs w:val="28"/>
+              </w:rPr>
+              <w:t>${topicName}</w:t>
             </w:r>
           </w:p>
           <w:p w:rsidR="009E3A45" w:rsidRPr="00952EBC" w:rsidRDefault="009E3A45" w:rsidP="009E3A45">
@@ -207,31 +203,23 @@
               </w:rPr>
               <w:t>负责单位</w:t>
             </w:r>
-            <w:r w:rsidRPr="00BC4C47">
+            <w:r w:rsidR="00675B76">
               <w:rPr>
                 <w:rFonts w:asciiTheme="minorEastAsia" w:eastAsiaTheme="minorEastAsia" w:hAnsiTheme="minorEastAsia" w:hint="eastAsia"/>
                 <w:spacing w:val="30"/>
                 <w:sz w:val="28"/>
                 <w:szCs w:val="28"/>
               </w:rPr>
-              <w:t>:</w:t>
+              <w:t>：</w:t>
             </w:r>
-            <w:r w:rsidRPr="003B1C4A">
-              <w:t xml:space="preserve"> </w:t>
-            </w:r>
-            <w:r w:rsidR="00F11DCD">
-              <w:t xml:space="preserve"> </w:t>
-            </w:r>
-            <w:r w:rsidR="00F06186" w:rsidRPr="00F06186">
-              <w:t>${</w:t>
-            </w:r>
-            <w:proofErr w:type="spellStart"/>
-            <w:r w:rsidR="00F06186" w:rsidRPr="00F06186">
-              <w:t>leadUnitName</w:t>
-            </w:r>
-            <w:proofErr w:type="spellEnd"/>
-            <w:r w:rsidR="00F06186" w:rsidRPr="00F06186">
-              <w:t>}</w:t>
+            <w:r w:rsidR="0080123F" w:rsidRPr="0080123F">
+              <w:rPr>
+                <w:rFonts w:asciiTheme="minorEastAsia" w:eastAsiaTheme="minorEastAsia" w:hAnsiTheme="minorEastAsia"/>
+                <w:spacing w:val="30"/>
+                <w:sz w:val="28"/>
+                <w:szCs w:val="28"/>
+              </w:rPr>
+              <w:t>${leadUnitName}</w:t>
             </w:r>
           </w:p>
           <w:p w:rsidR="009E3A45" w:rsidRPr="00952EBC" w:rsidRDefault="009E3A45" w:rsidP="009E3A45">
@@ -273,47 +261,13 @@
               </w:rPr>
               <w:t>：</w:t>
             </w:r>
-            <w:r w:rsidR="00F06186" w:rsidRPr="00F06186">
+            <w:r w:rsidR="00480DE8" w:rsidRPr="00480DE8">
               <w:rPr>
                 <w:rFonts w:asciiTheme="minorEastAsia" w:eastAsiaTheme="minorEastAsia" w:hAnsiTheme="minorEastAsia"/>
                 <w:sz w:val="28"/>
                 <w:szCs w:val="28"/>
               </w:rPr>
-              <w:t>${</w:t>
-            </w:r>
-            <w:proofErr w:type="spellStart"/>
-            <w:r w:rsidR="00F06186" w:rsidRPr="00F06186">
-              <w:rPr>
-                <w:rFonts w:asciiTheme="minorEastAsia" w:eastAsiaTheme="minorEastAsia" w:hAnsiTheme="minorEastAsia"/>
-                <w:sz w:val="28"/>
-                <w:szCs w:val="28"/>
-              </w:rPr>
-              <w:t>projecChargeUserName</w:t>
-            </w:r>
-            <w:proofErr w:type="spellEnd"/>
-            <w:r w:rsidR="00F06186" w:rsidRPr="00F06186">
-              <w:rPr>
-                <w:rFonts w:asciiTheme="minorEastAsia" w:eastAsiaTheme="minorEastAsia" w:hAnsiTheme="minorEastAsia"/>
-                <w:sz w:val="28"/>
-                <w:szCs w:val="28"/>
-              </w:rPr>
-              <w:t>}</w:t>
-            </w:r>
-            <w:r>
-              <w:rPr>
-                <w:rFonts w:asciiTheme="minorEastAsia" w:eastAsiaTheme="minorEastAsia" w:hAnsiTheme="minorEastAsia" w:hint="eastAsia"/>
-                <w:sz w:val="28"/>
-                <w:szCs w:val="28"/>
-              </w:rPr>
-              <w:t xml:space="preserve">  </w:t>
-            </w:r>
-            <w:r w:rsidRPr="00952EBC">
-              <w:rPr>
-                <w:rFonts w:asciiTheme="minorEastAsia" w:eastAsiaTheme="minorEastAsia" w:hAnsiTheme="minorEastAsia" w:hint="eastAsia"/>
-                <w:sz w:val="28"/>
-                <w:szCs w:val="28"/>
-              </w:rPr>
-              <w:t xml:space="preserve"> </w:t>
+              <w:t>${projecChargeUserName}</w:t>
             </w:r>
           </w:p>
           <w:p w:rsidR="009E3A45" w:rsidRDefault="009E3A45" w:rsidP="009E3A45">
@@ -364,30 +318,21 @@
               </w:rPr>
               <w:t>称</w:t>
             </w:r>
-            <w:r w:rsidRPr="00952EBC">
+            <w:r w:rsidR="00E62864">
+              <w:rPr>
+                <w:rFonts w:asciiTheme="minorEastAsia" w:eastAsiaTheme="minorEastAsia" w:hAnsiTheme="minorEastAsia" w:hint="eastAsia"/>
+                <w:sz w:val="28"/>
+                <w:szCs w:val="28"/>
+              </w:rPr>
+              <w:t>：</w:t>
+            </w:r>
+            <w:r w:rsidR="0057213F" w:rsidRPr="0057213F">
               <w:rPr>
                 <w:rFonts w:asciiTheme="minorEastAsia" w:eastAsiaTheme="minorEastAsia" w:hAnsiTheme="minorEastAsia"/>
                 <w:sz w:val="28"/>
                 <w:szCs w:val="28"/>
               </w:rPr>
-              <w:t>:</w:t>
-            </w:r>
-            <w:r w:rsidRPr="0039340B">
-              <w:t xml:space="preserve"> </w:t>
-            </w:r>
-            <w:r w:rsidR="00F11DCD">
-              <w:t xml:space="preserve"> </w:t>
-            </w:r>
-            <w:r w:rsidR="00F06186" w:rsidRPr="00F06186">
-              <w:t>${</w:t>
-            </w:r>
-            <w:proofErr w:type="spellStart"/>
-            <w:r w:rsidR="00F06186" w:rsidRPr="00F06186">
-              <w:t>projecChargeUserTitle</w:t>
-            </w:r>
-            <w:proofErr w:type="spellEnd"/>
-            <w:r w:rsidR="00F06186" w:rsidRPr="00F06186">
-              <w:t>}</w:t>
+              <w:t>${projecChargeUserTitle}</w:t>
             </w:r>
           </w:p>
           <w:p w:rsidR="009E3A45" w:rsidRPr="00952EBC" w:rsidRDefault="009E3A45" w:rsidP="009E3A45">
@@ -595,25 +540,7 @@
                 <w:sz w:val="28"/>
                 <w:szCs w:val="28"/>
               </w:rPr>
-              <w:t>${</w:t>
-            </w:r>
-            <w:proofErr w:type="spellStart"/>
-            <w:r w:rsidR="00F46AAB" w:rsidRPr="00F46AAB">
-              <w:rPr>
-                <w:rFonts w:asciiTheme="minorEastAsia" w:eastAsiaTheme="minorEastAsia" w:hAnsiTheme="minorEastAsia"/>
-                <w:sz w:val="28"/>
-                <w:szCs w:val="28"/>
-              </w:rPr>
-              <w:t>beginProjectMonth</w:t>
-            </w:r>
-            <w:proofErr w:type="spellEnd"/>
-            <w:r w:rsidR="00F46AAB" w:rsidRPr="00F46AAB">
-              <w:rPr>
-                <w:rFonts w:asciiTheme="minorEastAsia" w:eastAsiaTheme="minorEastAsia" w:hAnsiTheme="minorEastAsia"/>
-                <w:sz w:val="28"/>
-                <w:szCs w:val="28"/>
-              </w:rPr>
-              <w:t>}</w:t>
+              <w:t>${beginProjectMonth}</w:t>
             </w:r>
             <w:r w:rsidR="00F46AAB">
               <w:rPr>
@@ -637,25 +564,7 @@
                 <w:sz w:val="28"/>
                 <w:szCs w:val="28"/>
               </w:rPr>
-              <w:t>${</w:t>
-            </w:r>
-            <w:proofErr w:type="spellStart"/>
-            <w:r w:rsidR="00E642FB" w:rsidRPr="00E642FB">
-              <w:rPr>
-                <w:rFonts w:asciiTheme="minorEastAsia" w:eastAsiaTheme="minorEastAsia" w:hAnsiTheme="minorEastAsia"/>
-                <w:sz w:val="28"/>
-                <w:szCs w:val="28"/>
-              </w:rPr>
-              <w:t>endProjectMonth</w:t>
-            </w:r>
-            <w:proofErr w:type="spellEnd"/>
-            <w:r w:rsidR="00E642FB" w:rsidRPr="00E642FB">
-              <w:rPr>
-                <w:rFonts w:asciiTheme="minorEastAsia" w:eastAsiaTheme="minorEastAsia" w:hAnsiTheme="minorEastAsia"/>
-                <w:sz w:val="28"/>
-                <w:szCs w:val="28"/>
-              </w:rPr>
-              <w:t>}</w:t>
+              <w:t>${endProjectMonth}</w:t>
             </w:r>
             <w:r w:rsidR="00F46AAB">
               <w:rPr>
@@ -1144,28 +1053,16 @@
                 <w:sz w:val="28"/>
                 <w:szCs w:val="28"/>
               </w:rPr>
-              <w:t>${</w:t>
+              <w:t>${setupReasons}</w:t>
             </w:r>
-            <w:proofErr w:type="spellStart"/>
-            <w:r w:rsidRPr="002607C6">
+            <w:r w:rsidR="00661406">
               <w:rPr>
                 <w:rFonts w:asciiTheme="minorEastAsia" w:eastAsiaTheme="minorEastAsia" w:hAnsiTheme="minorEastAsia"/>
                 <w:sz w:val="28"/>
                 <w:szCs w:val="28"/>
               </w:rPr>
-              <w:t>setupReasons</w:t>
+              <w:t xml:space="preserve"> </w:t>
             </w:r>
-            <w:proofErr w:type="spellEnd"/>
-            <w:r w:rsidRPr="002607C6">
-              <w:rPr>
-                <w:rFonts w:asciiTheme="minorEastAsia" w:eastAsiaTheme="minorEastAsia" w:hAnsiTheme="minorEastAsia"/>
-                <w:sz w:val="28"/>
-                <w:szCs w:val="28"/>
-              </w:rPr>
-              <w:t>}</w:t>
-            </w:r>
-            <w:bookmarkStart w:id="0" w:name="_GoBack"/>
-            <w:bookmarkEnd w:id="0"/>
           </w:p>
           <w:p w:rsidR="000D76C6" w:rsidRDefault="000D76C6" w:rsidP="002C6A97">
             <w:pPr>
@@ -1232,25 +1129,7 @@
                 <w:sz w:val="28"/>
                 <w:szCs w:val="28"/>
               </w:rPr>
-              <w:t>${</w:t>
-            </w:r>
-            <w:proofErr w:type="spellStart"/>
-            <w:r w:rsidRPr="007F798D">
-              <w:rPr>
-                <w:rFonts w:asciiTheme="minorEastAsia" w:eastAsiaTheme="minorEastAsia" w:hAnsiTheme="minorEastAsia"/>
-                <w:sz w:val="28"/>
-                <w:szCs w:val="28"/>
-              </w:rPr>
-              <w:t>topicName</w:t>
-            </w:r>
-            <w:proofErr w:type="spellEnd"/>
-            <w:r w:rsidRPr="007F798D">
-              <w:rPr>
-                <w:rFonts w:asciiTheme="minorEastAsia" w:eastAsiaTheme="minorEastAsia" w:hAnsiTheme="minorEastAsia"/>
-                <w:sz w:val="28"/>
-                <w:szCs w:val="28"/>
-              </w:rPr>
-              <w:t>}</w:t>
+              <w:t>${topicName}</w:t>
             </w:r>
           </w:p>
           <w:tbl>
@@ -1556,27 +1435,7 @@
                 <w:sz w:val="36"/>
                 <w:szCs w:val="36"/>
               </w:rPr>
-              <w:t>建设场地、公用工程（</w:t>
-            </w:r>
-            <w:proofErr w:type="gramStart"/>
-            <w:r w:rsidRPr="007150EC">
-              <w:rPr>
-                <w:rFonts w:asciiTheme="minorEastAsia" w:eastAsiaTheme="minorEastAsia" w:hAnsiTheme="minorEastAsia" w:hint="eastAsia"/>
-                <w:b/>
-                <w:sz w:val="36"/>
-                <w:szCs w:val="36"/>
-              </w:rPr>
-              <w:t>水电汽风等</w:t>
-            </w:r>
-            <w:proofErr w:type="gramEnd"/>
-            <w:r w:rsidRPr="007150EC">
-              <w:rPr>
-                <w:rFonts w:asciiTheme="minorEastAsia" w:eastAsiaTheme="minorEastAsia" w:hAnsiTheme="minorEastAsia" w:hint="eastAsia"/>
-                <w:b/>
-                <w:sz w:val="36"/>
-                <w:szCs w:val="36"/>
-              </w:rPr>
-              <w:t>）、辅助设施（环保、消防、安全、卫生等）等条件</w:t>
+              <w:t>建设场地、公用工程（水电汽风等）、辅助设施（环保、消防、安全、卫生等）等条件</w:t>
             </w:r>
           </w:p>
           <w:p w:rsidR="007150EC" w:rsidRDefault="00D90528" w:rsidP="002C6A97">
@@ -1642,25 +1501,7 @@
                 <w:sz w:val="28"/>
                 <w:szCs w:val="28"/>
               </w:rPr>
-              <w:t>${</w:t>
-            </w:r>
-            <w:proofErr w:type="spellStart"/>
-            <w:r w:rsidRPr="00D90528">
-              <w:rPr>
-                <w:rFonts w:asciiTheme="minorEastAsia" w:eastAsiaTheme="minorEastAsia" w:hAnsiTheme="minorEastAsia"/>
-                <w:sz w:val="28"/>
-                <w:szCs w:val="28"/>
-              </w:rPr>
-              <w:t>projectProgress</w:t>
-            </w:r>
-            <w:proofErr w:type="spellEnd"/>
-            <w:r w:rsidRPr="00D90528">
-              <w:rPr>
-                <w:rFonts w:asciiTheme="minorEastAsia" w:eastAsiaTheme="minorEastAsia" w:hAnsiTheme="minorEastAsia"/>
-                <w:sz w:val="28"/>
-                <w:szCs w:val="28"/>
-              </w:rPr>
-              <w:t>}</w:t>
+              <w:t>${projectProgress}</w:t>
             </w:r>
           </w:p>
           <w:p w:rsidR="00CF1395" w:rsidRPr="00163E9A" w:rsidRDefault="009E1277" w:rsidP="009E1277">
@@ -1707,25 +1548,7 @@
                 <w:sz w:val="28"/>
                 <w:szCs w:val="28"/>
               </w:rPr>
-              <w:t>${</w:t>
-            </w:r>
-            <w:proofErr w:type="spellStart"/>
-            <w:r w:rsidRPr="008D421A">
-              <w:rPr>
-                <w:rFonts w:asciiTheme="minorEastAsia" w:eastAsiaTheme="minorEastAsia" w:hAnsiTheme="minorEastAsia"/>
-                <w:sz w:val="28"/>
-                <w:szCs w:val="28"/>
-              </w:rPr>
-              <w:t>userEffect</w:t>
-            </w:r>
-            <w:proofErr w:type="spellEnd"/>
-            <w:r w:rsidRPr="008D421A">
-              <w:rPr>
-                <w:rFonts w:asciiTheme="minorEastAsia" w:eastAsiaTheme="minorEastAsia" w:hAnsiTheme="minorEastAsia"/>
-                <w:sz w:val="28"/>
-                <w:szCs w:val="28"/>
-              </w:rPr>
-              <w:t>}</w:t>
+              <w:t>${userEffect}</w:t>
             </w:r>
           </w:p>
           <w:p w:rsidR="008306B0" w:rsidRDefault="008306B0" w:rsidP="002C6A97">
@@ -2349,25 +2172,7 @@
                 <w:sz w:val="28"/>
                 <w:szCs w:val="28"/>
               </w:rPr>
-              <w:t>${</w:t>
-            </w:r>
-            <w:proofErr w:type="spellStart"/>
-            <w:r w:rsidRPr="00854F57">
-              <w:rPr>
-                <w:rFonts w:asciiTheme="minorEastAsia" w:eastAsiaTheme="minorEastAsia" w:hAnsiTheme="minorEastAsia"/>
-                <w:sz w:val="28"/>
-                <w:szCs w:val="28"/>
-              </w:rPr>
-              <w:t>topicName</w:t>
-            </w:r>
-            <w:proofErr w:type="spellEnd"/>
-            <w:r w:rsidRPr="00854F57">
-              <w:rPr>
-                <w:rFonts w:asciiTheme="minorEastAsia" w:eastAsiaTheme="minorEastAsia" w:hAnsiTheme="minorEastAsia"/>
-                <w:sz w:val="28"/>
-                <w:szCs w:val="28"/>
-              </w:rPr>
-              <w:t>}</w:t>
+              <w:t>${topicName}</w:t>
             </w:r>
           </w:p>
           <w:tbl>
@@ -3332,7 +3137,7 @@
             </w:pPr>
           </w:p>
           <w:p w:rsidR="00C23E79" w:rsidRPr="002C6A97" w:rsidRDefault="00C23E79"/>
-          <w:sectPr w:rsidR="00C23E79" w:rsidRPr="002C6A97">
+          <w:sectPr w:rsidR="00C23E79" w:rsidRPr="002C6A97" w:rsidSect="00D9356A">
             <w:pgSz w:w="11906" w:h="16838"/>
             <w:pgMar w:top="1440" w:right="1800" w:bottom="1440" w:left="1800" w:header="851" w:footer="992" w:gutter="0"/>
             <w:cols w:space="425"/>
@@ -3346,7 +3151,7 @@
     <pkg:xmlData>
       <w:footnotes xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:wpc="http://schemas.microsoft.com/office/word/2010/wordprocessingCanvas" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:wp14="http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:w10="urn:schemas-microsoft-com:office:word" xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml" xmlns:w15="http://schemas.microsoft.com/office/word/2012/wordml" xmlns:wpg="http://schemas.microsoft.com/office/word/2010/wordprocessingGroup" xmlns:wpi="http://schemas.microsoft.com/office/word/2010/wordprocessingInk" xmlns:wne="http://schemas.microsoft.com/office/word/2006/wordml" xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape" mc:Ignorable="w14 w15 wp14">
         <w:footnote w:type="separator" w:id="-1">
-          <w:p w:rsidR="00E37F99" w:rsidRDefault="00E37F99" w:rsidP="009E3A45">
+          <w:p w:rsidR="00C572CE" w:rsidRDefault="00C572CE" w:rsidP="009E3A45">
             <w:pPr>
               <w:spacing w:line="240" w:lineRule="auto"/>
             </w:pPr>
@@ -3356,7 +3161,7 @@
           </w:p>
         </w:footnote>
         <w:footnote w:type="continuationSeparator" w:id="0">
-          <w:p w:rsidR="00E37F99" w:rsidRDefault="00E37F99" w:rsidP="009E3A45">
+          <w:p w:rsidR="00C572CE" w:rsidRDefault="00C572CE" w:rsidP="009E3A45">
             <w:pPr>
               <w:spacing w:line="240" w:lineRule="auto"/>
             </w:pPr>
@@ -3372,7 +3177,7 @@
     <pkg:xmlData>
       <w:endnotes xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:wpc="http://schemas.microsoft.com/office/word/2010/wordprocessingCanvas" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:wp14="http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:w10="urn:schemas-microsoft-com:office:word" xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml" xmlns:w15="http://schemas.microsoft.com/office/word/2012/wordml" xmlns:wpg="http://schemas.microsoft.com/office/word/2010/wordprocessingGroup" xmlns:wpi="http://schemas.microsoft.com/office/word/2010/wordprocessingInk" xmlns:wne="http://schemas.microsoft.com/office/word/2006/wordml" xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape" mc:Ignorable="w14 w15 wp14">
         <w:endnote w:type="separator" w:id="-1">
-          <w:p w:rsidR="00E37F99" w:rsidRDefault="00E37F99" w:rsidP="009E3A45">
+          <w:p w:rsidR="00C572CE" w:rsidRDefault="00C572CE" w:rsidP="009E3A45">
             <w:pPr>
               <w:spacing w:line="240" w:lineRule="auto"/>
             </w:pPr>
@@ -3382,7 +3187,7 @@
           </w:p>
         </w:endnote>
         <w:endnote w:type="continuationSeparator" w:id="0">
-          <w:p w:rsidR="00E37F99" w:rsidRDefault="00E37F99" w:rsidP="009E3A45">
+          <w:p w:rsidR="00C572CE" w:rsidRDefault="00C572CE" w:rsidP="009E3A45">
             <w:pPr>
               <w:spacing w:line="240" w:lineRule="auto"/>
             </w:pPr>
@@ -3450,11 +3255,11 @@
           </a:clrScheme>
           <a:fontScheme name="Office">
             <a:majorFont>
-              <a:latin typeface="Calibri Light" panose="020F0302020204030204"/>
+              <a:latin typeface="Calibri Light"/>
               <a:ea typeface=""/>
               <a:cs typeface=""/>
               <a:font script="Jpan" typeface="ＭＳ ゴシック"/>
-              <a:font script="Hang" typeface="맑은 고딕"/>
+              <a:font script="Hang" typeface="?? ??"/>
               <a:font script="Hans" typeface="宋体"/>
               <a:font script="Hant" typeface="新細明體"/>
               <a:font script="Arab" typeface="Times New Roman"/>
@@ -3485,11 +3290,11 @@
               <a:font script="Geor" typeface="Sylfaen"/>
             </a:majorFont>
             <a:minorFont>
-              <a:latin typeface="Calibri" panose="020F0502020204030204"/>
+              <a:latin typeface="Calibri"/>
               <a:ea typeface=""/>
               <a:cs typeface=""/>
               <a:font script="Jpan" typeface="ＭＳ 明朝"/>
-              <a:font script="Hang" typeface="맑은 고딕"/>
+              <a:font script="Hang" typeface="?? ??"/>
               <a:font script="Hans" typeface="宋体"/>
               <a:font script="Hant" typeface="新細明體"/>
               <a:font script="Arab" typeface="Arial"/>
@@ -3674,7 +3479,6 @@
         <w:zoom w:percent="100"/>
         <w:bordersDoNotSurroundHeader/>
         <w:bordersDoNotSurroundFooter/>
-        <w:proofState w:spelling="clean" w:grammar="clean"/>
         <w:defaultTabStop w:val="420"/>
         <w:drawingGridVerticalSpacing w:val="156"/>
         <w:displayHorizontalDrawingGridEvery w:val="0"/>
@@ -3699,80 +3503,96 @@
           <w:doNotExpandShiftReturn/>
           <w:adjustLineHeightInTable/>
           <w:useFELayout/>
-          <w:compatSetting w:name="compatibilityMode" w:uri="http://schemas.microsoft.com/office/word" w:val="15"/>
-          <w:compatSetting w:name="overrideTableStyleFontSizeAndJustification" w:uri="http://schemas.microsoft.com/office/word" w:val="1"/>
-          <w:compatSetting w:name="enableOpenTypeFeatures" w:uri="http://schemas.microsoft.com/office/word" w:val="1"/>
-          <w:compatSetting w:name="doNotFlipMirrorIndents" w:uri="http://schemas.microsoft.com/office/word" w:val="1"/>
-          <w:compatSetting w:name="differentiateMultirowTableHeaders" w:uri="http://schemas.microsoft.com/office/word" w:val="1"/>
+          <w:compatSetting w:name="compatibilityMode" w:uri="http://schemas.microsoft.com/office/word" w:val="12"/>
         </w:compat>
         <w:rsids>
           <w:rsidRoot w:val="0062329B"/>
           <w:rsid w:val="0006079D"/>
           <w:rsid w:val="000C699F"/>
           <w:rsid w:val="000D76C6"/>
+          <w:rsid w:val="00143618"/>
           <w:rsid w:val="0015644E"/>
           <w:rsid w:val="001909DB"/>
+          <w:rsid w:val="001C250A"/>
           <w:rsid w:val="001C2A2F"/>
           <w:rsid w:val="001D04A6"/>
           <w:rsid w:val="001F0118"/>
           <w:rsid w:val="001F1650"/>
+          <w:rsid w:val="002027F8"/>
           <w:rsid w:val="002538B0"/>
           <w:rsid w:val="002607C6"/>
           <w:rsid w:val="002C6A97"/>
           <w:rsid w:val="003000E7"/>
           <w:rsid w:val="003164CC"/>
+          <w:rsid w:val="00325FFE"/>
           <w:rsid w:val="00361AEA"/>
           <w:rsid w:val="003A3041"/>
           <w:rsid w:val="004233E2"/>
+          <w:rsid w:val="00480DE8"/>
           <w:rsid w:val="004F75ED"/>
           <w:rsid w:val="005306FE"/>
           <w:rsid w:val="005332CE"/>
           <w:rsid w:val="00533E1C"/>
           <w:rsid w:val="00534C62"/>
           <w:rsid w:val="00564B7A"/>
+          <w:rsid w:val="0057213F"/>
           <w:rsid w:val="00596B0E"/>
           <w:rsid w:val="005D4F33"/>
           <w:rsid w:val="0062094E"/>
           <w:rsid w:val="0062329B"/>
+          <w:rsid w:val="00661406"/>
+          <w:rsid w:val="00675B76"/>
+          <w:rsid w:val="006A075A"/>
           <w:rsid w:val="006B62D0"/>
           <w:rsid w:val="007117FA"/>
           <w:rsid w:val="007150EC"/>
+          <w:rsid w:val="007156AD"/>
+          <w:rsid w:val="007801E1"/>
           <w:rsid w:val="00786331"/>
           <w:rsid w:val="007F798D"/>
+          <w:rsid w:val="0080123F"/>
           <w:rsid w:val="008060C4"/>
+          <w:rsid w:val="0082337D"/>
           <w:rsid w:val="008306B0"/>
           <w:rsid w:val="008546DB"/>
           <w:rsid w:val="00854F57"/>
           <w:rsid w:val="008700E7"/>
           <w:rsid w:val="008D421A"/>
+          <w:rsid w:val="008D579B"/>
           <w:rsid w:val="008F03A2"/>
           <w:rsid w:val="009163AE"/>
           <w:rsid w:val="00922729"/>
-          <w:rsid w:val="00936B84"/>
           <w:rsid w:val="00990000"/>
           <w:rsid w:val="00993928"/>
           <w:rsid w:val="009A77A0"/>
           <w:rsid w:val="009E1277"/>
           <w:rsid w:val="009E3A45"/>
+          <w:rsid w:val="00A16603"/>
           <w:rsid w:val="00A1676F"/>
           <w:rsid w:val="00A54430"/>
           <w:rsid w:val="00A5462D"/>
           <w:rsid w:val="00A64756"/>
           <w:rsid w:val="00B40D65"/>
+          <w:rsid w:val="00B50478"/>
+          <w:rsid w:val="00B6415A"/>
           <w:rsid w:val="00BD5104"/>
           <w:rsid w:val="00C23E79"/>
-          <w:rsid w:val="00C508D4"/>
+          <w:rsid w:val="00C572CE"/>
           <w:rsid w:val="00CF1395"/>
+          <w:rsid w:val="00D0729A"/>
           <w:rsid w:val="00D73CAE"/>
           <w:rsid w:val="00D90528"/>
-          <w:rsid w:val="00E37F99"/>
+          <w:rsid w:val="00D9356A"/>
           <w:rsid w:val="00E60FD3"/>
+          <w:rsid w:val="00E62864"/>
           <w:rsid w:val="00E642FB"/>
+          <w:rsid w:val="00E65B80"/>
           <w:rsid w:val="00EB584B"/>
           <w:rsid w:val="00F02819"/>
           <w:rsid w:val="00F06186"/>
           <w:rsid w:val="00F11DCD"/>
           <w:rsid w:val="00F46AAB"/>
+          <w:rsid w:val="00FF501D"/>
         </w:rsids>
         <m:mathPr>
           <m:mathFont m:val="Cambria Math"/>
@@ -3797,8 +3617,7 @@
         </w:shapeDefaults>
         <w:decimalSymbol w:val="."/>
         <w:listSeparator w:val=","/>
-        <w15:chartTrackingRefBased/>
-        <w15:docId w15:val="{1735879E-02F3-46BD-81AE-3CB0E98FB814}"/>
+        <w15:docId w15:val="{582A9120-052B-4A00-8D38-1AF35862E2E7}"/>
       </w:settings>
     </pkg:xmlData>
   </pkg:part>
@@ -4532,8 +4351,8 @@
         <dc:description/>
         <cp:lastModifiedBy>admin</cp:lastModifiedBy>
         <cp:revision>2</cp:revision>
-        <dcterms:created xsi:type="dcterms:W3CDTF">2019-03-24T08:49:00Z</dcterms:created>
-        <dcterms:modified xsi:type="dcterms:W3CDTF">2019-03-24T08:49:00Z</dcterms:modified>
+        <dcterms:created xsi:type="dcterms:W3CDTF">2019-03-24T09:16:00Z</dcterms:created>
+        <dcterms:modified xsi:type="dcterms:W3CDTF">2019-03-24T09:16:00Z</dcterms:modified>
       </cp:coreProperties>
     </pkg:xmlData>
   </pkg:part>
@@ -4583,10 +4402,10 @@
     <pkg:xmlData>
       <Properties xmlns="http://schemas.openxmlformats.org/officeDocument/2006/extended-properties" xmlns:vt="http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes">
         <Template>Normal.dotm</Template>
-        <TotalTime>0</TotalTime>
+        <TotalTime>1</TotalTime>
         <Pages>6</Pages>
-        <Words>203</Words>
-        <Characters>1162</Characters>
+        <Words>202</Words>
+        <Characters>1156</Characters>
         <Application>Microsoft Office Word</Application>
         <DocSecurity>0</DocSecurity>
         <Lines>9</Lines>
@@ -4594,7 +4413,7 @@
         <ScaleCrop>false</ScaleCrop>
         <Company/>
         <LinksUpToDate>false</LinksUpToDate>
-        <CharactersWithSpaces>1363</CharactersWithSpaces>
+        <CharactersWithSpaces>1356</CharactersWithSpaces>
         <SharedDoc>false</SharedDoc>
         <HyperlinksChanged>false</HyperlinksChanged>
         <AppVersion>15.0000</AppVersion>
