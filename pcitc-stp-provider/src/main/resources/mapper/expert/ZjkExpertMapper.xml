@@ -1997,4 +1997,8 @@
     <select id="listSqlResult" parameterType="map" resultType="map">
       ${sqlval}
     </select>
+
+    <select id="queryAllExpert" parameterType="map" resultType="map">
+      SELECT expert_name,data_id from zjk_expert ORDER BY CONVERT(expert_name USING gbk) COLLATE gbk_chinese_ci ASC;
+    </select>
 </mapper>
