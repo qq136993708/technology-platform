@@ -751,7 +751,7 @@ layui.define(['jquery','form','table','laydate'],
                     $("#"+id+" table tbody tr:last td:eq(3)").text(strArrC3);
                 }
                 /*计算*/
-                $("input").change(function () {
+                $("#"+id+" table tbody tr input").change(function () {
                     /*同行相加*/
                     var colleagueInputL=$(this).parents("tr").find("input").length;
                     var trInputC=0;
@@ -762,7 +762,7 @@ layui.define(['jquery','form','table','laydate'],
                             trInputC+=parseFloat($(this).parents("tr").find("input").eq(i).val());
                         }
                     }
-                    $(this).parents("tr").find("td:last").text(trInputC.toFixed(2));
+                    $(this).parents("tr").find("td:last").text(trInputC);
                     /*同列相加*/
                     var columnClass=$(this).attr("class");
                     var columnTrL=$("#"+id+" table tbody tr").length;
@@ -775,7 +775,7 @@ layui.define(['jquery','form','table','laydate'],
                             columnC+=parseFloat(columnVal);
                         }
                     }
-                    $("#"+id+" table tbody tr:last").find("."+columnClass).text(columnC.toFixed(2));
+                    $("#"+id+" table tbody tr:last").find("."+columnClass).text(columnC);
                     /*总行*/
                     var totalInputL=$(this).parents("tbody").find("input").length;
                     var totalC=0;
@@ -786,7 +786,7 @@ layui.define(['jquery','form','table','laydate'],
                             totalC+=parseFloat($(this).parents("tbody").find("input").eq(g).val());
                         }
                     }
-                    $("#"+id+" table tbody tr:last td:last").text(totalC.toFixed(2));
+                    $("#"+id+" table tbody tr:last td:last").text(totalC);
                 });
             },
             /*获取值*/

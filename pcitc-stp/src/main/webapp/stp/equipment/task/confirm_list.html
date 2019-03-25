@@ -89,8 +89,10 @@
 	<div class="tableToolBox">
         <div class="whiteLine"></div>
         <div  class="tableBtns">
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit" id="confirmEvent" data-type="confirmEvent">院内上报</button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"  id="createWordEvent" data-type="createWordEvent">生成WORD文档</button>
+              <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit" id="confirmEvent" data-type="confirmEvent">院内上报</button>
+              <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"  id="createWordEvent" data-type="createWordEvent">预览任务书WORD文档</button>
+              <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"  id="createSetupWordEvent" data-type="createSetupWordEvent">预览立项报告WORD文档</button>
+  
         </div>
     </div>
    <table id="processdef-table" class="layui-hide" lay-filter="processdef-table" ></table> 
@@ -123,10 +125,10 @@
     {
         if (isWriteSetup==null || isWriteSetup=='') 
         {
-            return '<button onclick="" class="layui-btn layui-btn-primary  layui-btn-xs">未填写</button>';
+            return '<span style="color:red">未填写</span>';
         } else 
         {
-            return '<a onclick="view_isWriteSetup(\''+isWriteSetup+'\')" class="layui-btn layui-btn-warm layui-btn-xs">已填写</a>';
+            return '<a onclick="view_isWriteSetup(\''+isWriteSetup+'\')" style="color:#17a2b8">查看</a>';
         }
     }
     function view_isWriteTask(isWriteTask) 
@@ -345,8 +347,18 @@ var name=$('#name').val();
             		
             	}
             },
-            
-            createWordEvent: function(){  //点击详情按钮
+            createWordEvent: function(){ 
+            	if (typeof(selectRowData) == "undefined") 
+            	{
+            		layer.msg('请点击选择一行数据');
+            	}else 
+            	{
+            		 var taskId=selectRowData.taskId;
+            		 var temUrl="/sre_project_task/createWord/" + taskId;
+            		 location.href=temUrl;
+            	}
+            },
+            createSetupWordEvent: function(){ 
             	if (typeof(selectRowData) == "undefined") 
             	{
             		layer.msg('请点击选择一行数据');
@@ -355,16 +367,12 @@ var name=$('#name').val();
             		 var taskId=selectRowData.taskId;
             		 var setupId=selectRowData.setupId;
             		 if(setupId==null || setupId=='')
-            		 {
-             			 layer.msg('任务的立项报告没有填写');
-             			 return;
-            			}else
-            			{
-            				 var temUrl="/sre_project_task/createWord/" + taskId;
-                    		 ajaxDeleteCreateWord(temUrl,"GET","生成WORD成功","生成WORD失败");
-            			}
-            		 
-            		
+           			 {
+            			 layer.alert('请先填写“立项报告”');
+            			 return;
+           			 }
+            		 var temUrl="/sre_project_task/createWordSetup/" + setupId;
+            		 location.href=temUrl;
             	}
             },
             allEvent: function(){ 
@@ -439,14 +447,11 @@ var name=$('#name').val();
             cols: [[
             	{type : 'checkbox', event : 'changeEvents', width : 55},
             	{title : '序号', type :'numbers', width : 55},
-            	{field : 'innerAuditStatus',    title : '院内确认状态',   style : 'cursor: pointer;', align: 'center', width : 100,templet : '#innerAuditStatus_temp'},
-            	{field : 'auditStatus',    title : '总部审核状态',        style : 'cursor: pointer;', align: 'center', width : 100,templet : '#auditStatus_tepm'},
-            	
-            	
-                {field : 'topicName',     title : '课题名称',    style : 'cursor: pointer;', align: 'left', width : '10%',templet:function(d){return '<span onclick="view_project(\''+d.topicId+'\')" style="color:#17a2b8">'+d.topicName+'</span>'}},
-                {field : 'topicName',     title : '任务书名称', style : 'cursor: pointer;', align: 'left', width : '10%',templet:function(d){return '<span   onclick="view_isWriteTask(\''+d.taskId+'\')" style="color: #17a2b8">'+d.topicName+'</span>'}},
-                {field : 'isWriteSetup',  title : '立项报告否填写', style : 'cursor: pointer;', align: 'center', width : '10%',templet : '#isWriteSetup', width : '10%'},
-                
+            	{field : 'innerAuditStatus',    title : '院内确认状态',        style : 'cursor: pointer;', align: 'center', width : 100,templet : '#innerAuditStatus_temp'},
+            	{field : 'auditStatus',         title : '总部审核状态',        style : 'cursor: pointer;', align: 'center', width : 100,templet : '#auditStatus_tepm'},
+                {field : 'topicName',           title : '课题名称',    style : 'cursor: pointer;', align: 'center', width : '10%',templet:function(d){return '<span onclick="view_project(\''+d.topicId+'\')" style="color:#17a2b8">查看</span>'}},
+                {field : 'topicName',           title : '任务书名称',   style : 'cursor: pointer;', align: 'left', width : '10%',templet:function(d){return '<span   onclick="view_isWriteTask(\''+d.taskId+'\')" style="color: #17a2b8">'+d.topicName+'</span>'}},
+                {field : 'isWriteSetup',        title : '立项报告',    style : 'cursor: pointer;', align: 'center', width : '10%',templet : '#isWriteSetup', width : '10%'},
                 {field : 'setupYear',      title : '立项年份', style : 'cursor: pointer;', align: 'center', width : '10%'},
                 {field : 'contractNum',    title : '合同号', style : 'cursor: pointer;', align: 'center', width : '10%'},
                 {field : 'projectMoney',   title : '总经费(万元)', style : 'cursor: pointer;', align: 'center', width : '10%',templet:function(d){return '<span style="color:red">'+d.projectMoney+'</span>'}},

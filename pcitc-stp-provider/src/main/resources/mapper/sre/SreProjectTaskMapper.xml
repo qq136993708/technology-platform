@@ -51,6 +51,7 @@
     <result column="parent_apply_unit_path_name" property="parentApplyUnitPathName" jdbcType="VARCHAR" />
     <result column="apply_user_id" property="applyUserId" jdbcType="VARCHAR" />
     <result column="apply_user_name" property="applyUserName" jdbcType="VARCHAR" />
+    <result column="document_doc"    property="documentDoc" jdbcType="VARCHAR" />
     
     
     
@@ -65,7 +66,7 @@
     professional_depart_name, professional_depart_code, setup_year, begin_project_month, 
     end_project_month, inner_audit_status, professional_field_code, professional_field_name,setup_id,lead_unit_name,
     unit_path_ids,unit_path_names,parent_unit_path_names,parent_unit_path_ids,create_unit_name,create_unit_code,
-    apply_unit_path_code,parent_apply_unit_path_code,parent_apply_unit_path_name,apply_user_id,apply_user_name
+    apply_unit_path_code,parent_apply_unit_path_code,parent_apply_unit_path_name,apply_user_id,apply_user_name,document_doc
     
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
@@ -94,7 +95,7 @@
       inner_audit_status, professional_field_code, 
       professional_field_name, lead_unit_name,setup_id,unit_path_ids,
       unit_path_names,parent_unit_path_names,parent_unit_path_ids,create_unit_name,create_unit_code,
-      apply_unit_path_code,parent_apply_unit_path_code,parent_apply_unit_path_name,apply_user_id,apply_user_name
+      apply_unit_path_code,parent_apply_unit_path_code,parent_apply_unit_path_name,apply_user_id,apply_user_name,document_doc
       )
     values (#{taskId,jdbcType=VARCHAR}, #{topicId,jdbcType=VARCHAR}, #{topicName,jdbcType=VARCHAR}, 
       #{createUserId,jdbcType=VARCHAR}, #{createUserName,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
@@ -121,7 +122,7 @@
       ,#{parentApplyUnitPathCode,jdbcType=VARCHAR}
       ,#{parentApplyUnitPathName,jdbcType=VARCHAR}
        ,#{applyUserId,jdbcType=VARCHAR}
-      ,#{applyUserName,jdbcType=VARCHAR}
+      ,#{applyUserName,jdbcType=VARCHAR},#{documentDoc,jdbcType=VARCHAR}
       )
   </insert>
   
@@ -278,9 +279,12 @@
       <if test="applyUserName != null" >
         apply_user_name,
       </if>
-      
+      <if test="documentDoc != null" >
+        document_doc,
+      </if>
      
-      
+     
+    
     
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -431,9 +435,12 @@
        <if test="applyUserName != null" >
         #{applyUserName,jdbcType=VARCHAR},
       </if>
-      
+      <if test="documentDoc != null" >
+        #{documentDoc,jdbcType=VARCHAR},
+      </if>
     
     
+     
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.stp.equipment.SreProjectTask" >
@@ -580,10 +587,12 @@
       <if test="applyUserId != null" >
         apply_user_id = #{applyUserId,jdbcType=VARCHAR},
       </if>
-       <if test="applyUserName != null" >
+      <if test="applyUserName != null" >
         apply_user_name = #{applyUserName,jdbcType=VARCHAR},
       </if>
-    
+      <if test="documentDoc != null" >
+        document_doc = #{documentDoc,jdbcType=VARCHAR},
+      </if>
      
     
     </set>
@@ -624,6 +633,7 @@
       lead_unit_code = #{leadUnitCode,jdbcType=VARCHAR},
       join_unit_code = #{joinUnitCode,jdbcType=VARCHAR},
       project_money = #{projectMoney,jdbcType=DECIMAL},
+      document_doc = #{documentDoc,jdbcType=VARCHAR},
       belong_department_name = #{belongDepartmentName,jdbcType=VARCHAR},
       belong_department_code = #{belongDepartmentCode,jdbcType=VARCHAR},
       professional_depart_name = #{professionalDepartName,jdbcType=VARCHAR},
