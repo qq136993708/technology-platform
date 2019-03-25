@@ -625,7 +625,7 @@
                 var tr = "<tr><td>" + date + "</td>" +
                     "<td><textarea lay-verify='specialCharacters'  placeholder='请输入内容'  rows='4' cols='20' style='width: 90%;'>" + assessmentVal[1] + "</textarea>  </td>" +
                     "<td><textarea lay-verify='specialCharacters' placeholder='请输入内容'  rows='4' cols='20' style='width: 90%;'>" + assessmentVal[2] + "</textarea></td>" +
-                    "<td><textarea lay-verify='specialCharacters' placeholder='请输入内容'  rows='4' cols='20' style='width: 90%;'>" + assessmentVal[3] + "</textarea></td>" +
+                    "<td><textarea lay-verify='specialCharacters' placeholder='请输入内容'  rows='4' cols='20' style='width: 90%;'>" + (assessmentVal[3] =='null' ? '':assessmentVal[3] )+ "</textarea></td>" +
                     "<td><a href='javascript:;' class='dele'>删除</a></td></tr>";
                 addTr("task_assessment_content", tr);
                 formVerify();
@@ -849,26 +849,37 @@
             $(this).parents("tr").find("td:last").text(trInputC.toFixed(2));
             /*同列相加*/
             var columnTrL=$("#budget_tableNew table tbody tr");
-            var capitalLO=0,capitalLT=0,costLO=0,costLT=0;
+            var capitalLO=0,capitalLT=0,capitalLX=0,costLO=0,costLT=0,costLX=0;
             for(var j=0;j<columnTrL.length-1;j++){
                 console.log($(columnTrL).eq(j).attr("class"))
                 if($(columnTrL).eq(j).attr("class")=="capital"){
                     capitalLO+=parseInt($(columnTrL).eq(j).find("input").eq(0).val());
                     capitalLT+=parseInt($(columnTrL).eq(j).find("input").eq(1).val());
+                    if($(columnTrL).eq(j).find("td").eq(4).text()==''){
+                        capitalLX+=0;
+                    }else {
+                        capitalLX+=parseInt($(columnTrL).eq(j).find("td").eq(4).text());
+                    }
+                    //alert($(columnTrL).eq(j).find("td").eq(4).text())
                 }else if($(columnTrL).eq(j).attr("class")=="cost"){
                     costLO+=parseInt($(columnTrL).eq(j).find("input").eq(0).val());
                     costLT+=parseInt($(columnTrL).eq(j).find("input").eq(1).val());
+                    if($(columnTrL).eq(j).find("td").eq(4).text()==''){
+                        costLX+=0;
+                    }else {
+                        costLX+=parseInt($(columnTrL).eq(j).find("td").eq(4).text());
+                    }
                 }
             }
             $(columnTrL).eq(12).find("td").eq(2).html(parseInt(capitalLO).toFixed(2));
             $(columnTrL).eq(12).find("td").eq(3).html(parseInt(capitalLT).toFixed(2));
-            $(columnTrL).eq(12).find("td").eq(4).html((parseInt(capitalLO)*parseInt(capitalLT)).toFixed(2));
+            $(columnTrL).eq(12).find("td").eq(4).html((parseInt(capitalLX)).toFixed(2));
             $(columnTrL).eq(19).find("td").eq(2).html(parseInt(costLO).toFixed(2));
             $(columnTrL).eq(19).find("td").eq(3).html(parseInt(costLT).toFixed(2));
-            $(columnTrL).eq(19).find("td").eq(4).html((parseInt(costLO)*parseInt(costLT)).toFixed(2));
+            $(columnTrL).eq(19).find("td").eq(4).html((parseInt(costLX)).toFixed(2));
             $(columnTrL).eq(20).find("td").eq(2).html((parseInt(costLO)+parseInt(capitalLO)).toFixed(2));
             $(columnTrL).eq(20).find("td").eq(3).html((parseInt(costLT)+parseInt(capitalLT)).toFixed(2));
-            $(columnTrL).eq(20).find("td").eq(4).html((parseInt(costLO)*parseInt(costLT)+parseInt(capitalLO)*parseInt(capitalLT)).toFixed(2));
+            $(columnTrL).eq(20).find("td").eq(4).html((parseInt(capitalLX)+parseInt(costLX)).toFixed(2));
         });
     });
     
