@@ -3,7 +3,6 @@ package com.pcitc.mapper.common;
 import java.util.List;
 import java.util.Map;
 
-import com.pcitc.base.hana.report.DicSupplyer;
 import com.pcitc.base.hana.report.H1AMKYZH100006;
 
 public interface CommonMapper {
@@ -37,6 +36,11 @@ public interface CommonMapper {
     
     // 供应商
     public<DicSupplyer> List  getDicSupplyerList(DicSupplyer dicSupplyer);
+    
+    
+    // 供应商
+    public<SreSupplier> List  getDicSupplyListByIds(Map map);
+    
     
     
     

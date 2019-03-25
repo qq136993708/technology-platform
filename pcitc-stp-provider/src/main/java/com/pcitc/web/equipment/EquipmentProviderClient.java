@@ -23,8 +23,8 @@ import com.pcitc.base.stp.equipment.SreProjectSetup;
 import com.pcitc.base.stp.equipment.SreProjectTask;
 import com.pcitc.base.stp.equipment.SreProjectYear;
 import com.pcitc.base.stp.equipment.SreProjectYearExample;
+import com.pcitc.base.stp.equipment.SreSupplier;
 import com.pcitc.base.stp.equipment.SreTechMeeting;
-import com.pcitc.base.system.SysUser;
 import com.pcitc.base.workflow.Constants;
 import com.pcitc.common.MailBean;
 import com.pcitc.service.equipment.EquipmentService;
@@ -513,6 +513,106 @@ public class EquipmentProviderClient
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	@ApiOperation(value = "供应商分页", notes = "供应商分页")
+	@RequestMapping(value = "/sre-provider/supplier/page", method = RequestMethod.POST)
+	public LayuiTableData getSreSreSupplierList(@RequestBody LayuiTableParam param)throws Exception
+	{
+		LayuiTableData rageResult=equipmentService.getSupplierPage(param);
+		return rageResult;
+	}
+	
+	@ApiOperation(value = "增加供应商", notes = "增加供应商")
+	@RequestMapping(value = "/sre-provider/supplier/add", method = RequestMethod.POST)
+	public String insertSreSreSupplier(@RequestBody SreSupplier sreSreSupplier) throws Exception{
+		logger.info("====================add sreSreSupplier....========================");
+		Integer count= equipmentService.insertSupplier(sreSreSupplier);
+		return sreSreSupplier.getId();
+	}
+	
+	
+	@ApiOperation(value = "修改供应商", notes = "修改供应商")
+	@RequestMapping(value = "/sre-provider/supplier/update", method = RequestMethod.POST)
+	public Integer updateSreSreSupplier(@RequestBody SreSupplier sreSreSupplier) throws Exception{
+		logger.info("==================update sreSreSupplier===========================");
+		return equipmentService.updateSupplier(sreSreSupplier);
+	}
+	
+	
+	@RequestMapping(value = "/sre-provider/supplier/delete/{id}", method = RequestMethod.POST)
+	public int deleteSreSreSupplier(@PathVariable("id") String id)throws Exception{
+		logger.info("=============================delete sreSreSupplier=================");
+		return equipmentService.deleteSupplier(id);
+	}
+	
+	
+	
+	
+	
+	
+	@ApiOperation(value = "获取供应商", notes = "根据ID获取供应商")
+	@RequestMapping(value = "/sre-provider/supplier/get/{id}", method = RequestMethod.GET)
+	public SreSupplier selectSupplier(@PathVariable(value = "id", required = true) String id) throws Exception {
+		logger.info("===============================get sreSreSupplier id "+id+"===========");
+		return equipmentService.selectSupplier(id);
+	}
+	
+	
+	
+	/**
+	 * 批量获取
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+	@ApiOperation(value = "批量获取供应商", notes = "根据IDS批量获取供应商，返回LIST")
+	@RequestMapping(value = "/sre-provider/supplier/list-by-ids", method = RequestMethod.POST)
+	public List<SreSupplier> getSreSupplierdids(@RequestBody List<String> list)throws Exception{
+		logger.info("=============================list-by-ids Equipemnt =================");
+		return equipmentService.getSupplierListByIds(list);
+	}
+	
+	/**
+	 * 批量获取
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+	@ApiOperation(value = "批量获取供应商", notes = "根据IDS批量获取供应商，返回json格式")
+	@RequestMapping(value = "/sre-provider/supplier/get_json_by_ids", method = RequestMethod.POST)
+	public JSONArray getSreSupplieridsjSON(@RequestBody List<String> list)throws Exception{
+		logger.info("============================get_json_by_ids SreSupplier =================");
+		List<SreSupplier> listSreEquipment= equipmentService.getSupplierListByIds(list);
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(listSreEquipment));
+		return json;
+	}
+	
+	
+
 	
 	
 
