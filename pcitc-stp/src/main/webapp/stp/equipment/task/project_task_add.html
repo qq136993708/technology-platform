@@ -852,7 +852,7 @@
             var trInputO=$(this).parents("tr").find("input").eq(0).val()==0 ? 0:$(this).parents("tr").find("input").eq(0).val();
             var trInputT=$(this).parents("tr").find("input").eq(1).val()==0 ? 0:$(this).parents("tr").find("input").eq(1).val();
             var trInputC=trInputO*trInputT;
-            $(this).parents("tr").find("td:last").text(trInputC.toFixed(2));
+            $(this).parents("tr").find("td:last").text(trInputC);
             /*同列相加*/
             var columnTrL=$("#budget_tableNew table tbody tr");
             var capitalLO=0,capitalLT=0,capitalLX=0,costLO=0,costLT=0,costLX=0;
@@ -877,15 +877,15 @@
                     }
                 }
             }
-            $(columnTrL).eq(12).find("td").eq(2).html(parseInt(capitalLO).toFixed(2));
-            $(columnTrL).eq(12).find("td").eq(3).html(parseInt(capitalLT).toFixed(2));
-            $(columnTrL).eq(12).find("td").eq(4).html((parseInt(capitalLX)).toFixed(2));
-            $(columnTrL).eq(19).find("td").eq(2).html(parseInt(costLO).toFixed(2));
-            $(columnTrL).eq(19).find("td").eq(3).html(parseInt(costLT).toFixed(2));
-            $(columnTrL).eq(19).find("td").eq(4).html((parseInt(costLX)).toFixed(2));
-            $(columnTrL).eq(20).find("td").eq(2).html((parseInt(costLO)+parseInt(capitalLO)).toFixed(2));
-            $(columnTrL).eq(20).find("td").eq(3).html((parseInt(costLT)+parseInt(capitalLT)).toFixed(2));
-            $(columnTrL).eq(20).find("td").eq(4).html((parseInt(capitalLX)+parseInt(costLX)).toFixed(2));
+            $(columnTrL).eq(12).find("td").eq(2).html(parseInt(capitalLO));
+            $(columnTrL).eq(12).find("td").eq(3).html(parseInt(capitalLT));
+            $(columnTrL).eq(12).find("td").eq(4).html((parseInt(capitalLX)));
+            $(columnTrL).eq(19).find("td").eq(2).html(parseInt(costLO));
+            $(columnTrL).eq(19).find("td").eq(3).html(parseInt(costLT));
+            $(columnTrL).eq(19).find("td").eq(4).html((parseInt(costLX)));
+            $(columnTrL).eq(20).find("td").eq(2).html((parseInt(costLO)+parseInt(capitalLO)));
+            $(columnTrL).eq(20).find("td").eq(3).html((parseInt(costLT)+parseInt(capitalLT)));
+            $(columnTrL).eq(20).find("td").eq(4).html((parseInt(capitalLX)+parseInt(costLX)));
         });
     });
     
