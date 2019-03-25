@@ -124,7 +124,7 @@
             });
             var $ = layui.$, active = {
            		saveEvent: function () {
-           			publicMethods.ajaxPost('/budget/save-stocktotal-item', viewObj.itemData[0], function (data, status) {
+           			publicMethods.ajaxPost('/budget/save-b2csplit-item', viewObj.itemData[0], function (data, status) {
        	                if (data.success) {
        	                	parent.initDataVersion("${budgetInfoId}");
        	                	var index = parent.layer.getFrameIndex(window.name);
