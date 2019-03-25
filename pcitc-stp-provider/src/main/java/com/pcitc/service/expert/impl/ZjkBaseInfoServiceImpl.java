@@ -673,8 +673,10 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
         ResultSKM resultSKM = JSONObject.parseObject(jsonObject.get("rs").toString(), ResultSKM.class);
         String from = jsonObject.get("from").toString();
         JSONArray array = (JSONArray) resultSKM.getData();
+        String ids = "";
         for (int i = 0, j = array.size(); i < j; i++) {
             JSONObject obj = (JSONObject) array.get(i);
+            ids = (ids+","+getObjString(obj.get("expertid")));
             ZjkExpert record = new ZjkExpert();
             record.setDataId(getObjString(obj.get("expertid")));                        //        expertid: 专家id
             record.setExpertName(getObjString(obj.get("expertName")));                  //        expertName: 专家姓名
@@ -695,6 +697,7 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
             record.setExpertNationality(getObjString(obj.get("nationality")));        //        nationality: 国籍
             this.insert(record);
         }
+        System.out.println(ids);
         return jsonObject;
     }
 
