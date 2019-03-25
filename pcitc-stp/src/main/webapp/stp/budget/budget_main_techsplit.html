@@ -90,23 +90,28 @@
         <div id="tableBox">
             <table id="dataTable" class="layui-table" lay-filter="dataTable" lay-data="{ID:'dataTable',height: '400',limit:100, url:'',totalRow: true}">
                 <thead>
-                <tr>
-                	<th lay-data="{type:'checkbox'}" rowspan="2"></th>
-                	<th lay-data="{field:'no',align: 'center', width: 45,totalRowText: '合计'}" rowspan="2">序号</th>
-                    <th lay-data="{field:'displayName', width: '20%'}" rowspan="2">类别</th>
-                   	<th lay-data="{field:'last_year_end',align: 'right', width: '15%'}" rowspan="2">2018年预算完成</th>
-                    <th lay-data="{field:'plan_money',align: 'right', width: '15%'}" rowspan="2">2019年计划金额</th>
-                    <th lay-data="{align:'center'}", colspan="3"><span>${nd}</span>年科技经费预计完成</th>
-                    <th lay-data="{align:'center'}", colspan="3"><span>${nd}</span>年科技经费预算</th>
-                </tr>
-                <tr>
-                    <th lay-data="{field:'yjwcTotal',align: 'right',totalRow: true}">合计</th>
-                    <th lay-data="{field:'yjwcZbx', edit:true,align: 'right',totalRow: true}">资本性</th>
-                    <th lay-data="{field:'yjwcFyx', edit:true,align: 'right',totalRow: true}">费用性</th>
-                    <th lay-data="{field:'xmjfTotal',align: 'right',totalRow: true}">合计</th>
-                    <th lay-data="{field:'xmjfZbx', edit:true,align: 'right',totalRow: true}">资本性</th>
-                    <th lay-data="{field:'xmjfFyx', edit:true,align: 'right',totalRow: true}">费用性</th>
-                </tr>
+	                <tr>
+	                	<th lay-data="{type:'checkbox'}" rowspan="3"></th>
+	                	<th lay-data="{field:'no',align: 'center', width: 60,totalRowText: '合计'}" rowspan="3">序号</th>
+	                    <th lay-data="{field:'displayName', width: '20%'}" rowspan="3">预算项目</th>
+	                   	<th lay-data="{field:'last_year_end',align: 'right'}" rowspan="3">集团公司</th>
+	                    <th lay-data="{field:'plan_money',align: 'right'}" colspan="9">股份公司</th>
+	                    <th lay-data="{align:'center'}" rowspan="3"><span></span>系统外</th>
+	                </tr>
+	                <tr>
+	                    <th lay-data="{align:'center'}"  colspan="8"><span></span>系统外</th>
+	                    <th lay-data="{field:'plan_money',align: 'right'}"  rowspan="2">分子公司</th>
+	                </tr>
+	                <tr>
+	                    <th lay-data="{field:'plan_money',align: 'right'}">勘探院</th>
+	                    <th lay-data="{field:'plan_money',align: 'right'}">工程院</th>
+	                    <th lay-data="{field:'plan_money',align: 'right'}">物探院</th>
+	                    <th lay-data="{field:'plan_money',align: 'right'}">石科院</th>
+	                    <th lay-data="{field:'plan_money',align: 'right'}">北化院</th>
+	                    <th lay-data="{field:'plan_money',align: 'right'}">抚研院</th>
+	                    <th lay-data="{field:'plan_money',align: 'right'}">上海院</th>
+	                    <th lay-data="{field:'plan_money',align: 'right'}">青岛院</th>
+	                </tr>
                 </thead>
             </table>
         </div>
@@ -178,7 +183,7 @@
             		$("#update_time").html(curent_budget_info.updateTime);//最后更新时间
             		$("#info_status").html(curent_budget_info.auditStatusDesc);//状态
             		
-            		publicMethods.ajaxPost("/budget/budget-stocktotal-items",{page:1,limit:100,param: {"nd":cu_date,"budget_info_id":curent_budget_info.dataId}}, function (data) {
+            		publicMethods.ajaxPost("/budget/budget-techsplit-items",{page:1,limit:100,param: {"nd":cu_date,"budget_info_id":curent_budget_info.dataId}}, function (data) {
 	                	curent_tabel_data = data.data;
 	                	console.log(curent_tabel_data);
 	                	$.each(curent_tabel_data,function(index,dt){
@@ -286,7 +291,7 @@
 			});
           	//初始化数据版本
             window.initDataVersion = function(budget_id){
-                publicMethods.ajaxPost("/budget/budget_stock_info_list",{"nd":cu_date}, function (dt) {
+                publicMethods.ajaxPost("/budget/budget_tech_info_list",{"nd":cu_date}, function (dt) {
                 	$("#data_version").html('<option value="">---请选择版本---</option>');
                 	budget_info_map = {};
                 	$.each(dt,function(index,data){
@@ -343,7 +348,7 @@
                         , maxmin: false
                         //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
                         , area: ['80%', '90%']
-                        , content: '/budget/budget_create_stocktotal?nd='+cu_date
+                        , content: '/budget/budget_create_techsplit?nd='+cu_date
                     });
                 },
                 addEvent: function() {
@@ -351,7 +356,7 @@
                 		parent.layer.alert("请选择预算版本", {title : '提示'});
                 		return;
                 	} 
-                	var url = '/budget/budget_edit_stocktotal?budgetInfoId='+curent_budget_info.dataId+'&nd='+cu_date;
+                	var url = '/budget/budget_edit_techsplit?budgetInfoId='+curent_budget_info.dataId+'&nd='+cu_date;
                    	layer.open({
                         title: cu_date+'股份公司经费预算编制管理-预算项新增'
                         , skin: 'layui-layer-lan'
@@ -371,7 +376,7 @@
                 		parent.layer.alert("请选择需要编辑的行", {title : '提示'});
                 		return;
                 	}
-                	var url = '/budget/budget_edit_stocktotal?dataId='+curent_tabel_data[selectIndex].dataId+"&budgetInfoId="+curent_budget_info.dataId+"&nd="+cu_date;
+                	var url = '/budget/budget_edit_techsplit?dataId='+curent_tabel_data[selectIndex].dataId+"&budgetInfoId="+curent_budget_info.dataId+"&nd="+cu_date;
                    	layer.open({
                         title: cu_date+'股份公司经费预算编制管理-预算项编辑'
                         , skin: 'layui-layer-lan'
@@ -393,7 +398,7 @@
                 	}
                 	layer.confirm('确定要删除吗？',{title:"删除确认"},function(index){
     					layer.close(index);
-    					publicMethods.ajaxPost("/budget/del-stock-item/"+curent_tabel_data[selectIndex].dataId, null, function (data) {
+    					publicMethods.ajaxPost("/budget/del-tech-item/"+curent_tabel_data[selectIndex].dataId, null, function (data) {
     	                     if (data.success) {
     	                    	 curent_tabel_data.splice(selectIndex,1);
     	                    	 
@@ -412,7 +417,7 @@
                 		parent.layer.alert("请选择需要保存的预算版本", {title : '提示'});
                 		return;
                 	}                
-   					publicMethods.ajaxPost("/budget/save-stocktotal-items", {"info":JSON.stringify(curent_budget_info),"items":JSON.stringify(curent_tabel_data)}, function (data) {
+   					publicMethods.ajaxPost("/budget/save-techsplit-items", {"info":JSON.stringify(curent_budget_info),"items":JSON.stringify(curent_tabel_data)}, function (data) {
    	                     if (data.success) {    	                    	
    	                    	 layer.msg('保存成功!');
    	                     } else {
@@ -426,7 +431,7 @@
                 	}  
                 	layer.confirm('提交后将不可再编辑！确定要提交审批吗？',{title:"提交确认"},function(index){
     					layer.close(index);
-    					publicMethods.ajaxPost("/budget/start-budget-stocktotal-activity", {"budgetInfoId":curent_budget_info.dataId,"functionId":param.id}, function (data) {
+    					publicMethods.ajaxPost("/budget/start-budget-techsplit-activity", {"budgetInfoId":curent_budget_info.dataId,"functionId":param.id}, function (data) {
     	                     if (data.success) {    	                    	 
     	                    	 budget_info_map[data.data.dataVersion]=data.data; 
     	                    	 $("#data_version").trigger("change");
@@ -442,14 +447,14 @@
                 		parent.layer.alert("请选择需要导出的预算版本", {title : '提示'});
                 		return;
                 	} 
-                	window.open("/budget/budget_download/stocktotal/"+curent_budget_info.dataId);
+                	window.open("/budget/budget_download/techsplit/"+curent_budget_info.dataId);
                 },historyCompare:function(){
                 	var selectIndex = $(".layui-form-checked").parents("tr").attr("data-index");
                 	if(!selectIndex){
                 		parent.layer.alert("请选择历史数据项", {title : '提示'});
                 		return;
                 	}
-                	var url = '/budget/budget_history_compare_stocktotal?dataId='+curent_tabel_data[selectIndex].dataId+"&budgetInfoId="+curent_budget_info.dataId;
+                	var url = '/budget/budget_history_compare_techsplit?dataId='+curent_tabel_data[selectIndex].dataId+"&budgetInfoId="+curent_budget_info.dataId;
                    	layer.open({
                         title: '股份公司经费预算编制管理-往年预算参考'
                         , skin: 'layui-layer-lan'
@@ -467,7 +472,7 @@
                 		parent.layer.alert("请选择预算版本", {title : '提示'});
                 		return;
                 	} 
-                	var url = '/budget/budget_history_view_stocktotal?budgetInfoId='+curent_budget_info.dataId;
+                	var url = '/budget/budget_history_view_techsplit?budgetInfoId='+curent_budget_info.dataId;
                    	layer.open({
                         title: '股份公司经费预算编制管理-历年参考数据'
                         , skin: 'layui-layer-lan'
