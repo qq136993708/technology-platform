@@ -132,6 +132,17 @@
                     </div>
                 </div>
             </div>
+             <div class="layui-row">
+                <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label for="" class="layui-form-label">分子公司<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input class="layui-input" id="gfFzgs" name="gfFzgs" value="0" placeholder="" lay-verify="required" autocomplete="off" type="text">
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
             <div class="layui-row">
                 <div class="layui-col-xs12 layui-col-sm12 layui-col-md12">
                     <div class="layui-form-item">
@@ -237,20 +248,15 @@
            	viewObj.tbData.push(newRow);
         }
         //初始化级别选择
-        publicMethods.ajaxPost("/budget/search-techitem-tree",{"dataId":budgetInfoId}, function(data,status){
+        /* publicMethods.ajaxPost("/budget/search-techitem-tree",{"dataId":budgetInfoId}, function(data,status){
         	unitTree = selectTree.initSelectTree("parentDataId", false, true, true, true,data);
         	selectTree.initHideMenu();
         	$.each(data,function(index,dt){
         		unit_map[dt.id]=dt.name;
         	});
-   		});  
+   		});   */
         
 		publicMethods.ajaxPost("/budget/get-techsplit-item-company/${dataId}",null, function (data) {
-			if(data.parentDataId){
-				$("input[id='parentDataId']").attr("value",data.parentDataId);				
-				$("#parentDataIdShow").attr("title",unit_map[data.parentDataId]);
-	    		$("#parentDataIdShow").attr("value",unit_map[data.parentDataId]);
-			}
 			form.val("stock-form",data);
 			parentInfo = data;
    		});

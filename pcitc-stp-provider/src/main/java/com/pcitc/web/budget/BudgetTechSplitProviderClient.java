@@ -305,6 +305,7 @@ public class BudgetTechSplitProviderClient
 	public Object saveBudgetTechSplitInfo(@RequestBody BudgetTechSplit item) 
 	{
 		logger.info("budget-save-techsplit...");
+		System.out.println(JSON.toJSONString(item));
 		BudgetTechSplit stock = null;
 		try
 		{
