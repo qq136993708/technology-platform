@@ -329,7 +329,7 @@ public class EquipmentUtils {
 			
 			//项目内容和主要图表
 			Float hj_tc=0f;
-			List<Map<String, Object>> taskContentList = new ArrayList<Map<String, Object>>();
+			List<Map<String, Object>> mainTableList = new ArrayList<Map<String, Object>>();
 			String taskContentStr=sreProjectSetup.getMainTable();
 			String taskContent_arr[]=taskContentStr.split("\\|");
 			if(taskContent_arr!=null && taskContent_arr.length>0)
@@ -348,27 +348,31 @@ public class EquipmentUtils {
 					   String taskContent4=temp[3].trim();
 					   hj_tc=hj_tc.floatValue()+Float.valueOf(taskContent4.trim()).floatValue();
 					   String taskContent5=temp[4];
+					   if(taskContent5==null)
+					   {
+						   taskContent5="";
+					   }
 					   map.put("taskc1", taskContent1);
 					   map.put("taskc2", taskContent2);
 					   map.put("taskc3", taskContent3);
 					   map.put("taskc4", taskContent4);
 					   map.put("taskc5", taskContent5);
-					   taskContentList.add(map);
+					   mainTableList.add(map);
 					   
 				   }
 			   }
 			}
-			dataMap.put("taskContentList", taskContentList);
-			int taskContentListCount=taskContentList.size();
+			dataMap.put("mainTableList", mainTableList);
+			int taskContentListCount=mainTableList.size();
 			dataMap.put("taskContentListCount", taskContentListCount);//项目内容和主要图表-数量
 			dataMap.put("hj_tc", hj_tc);//项目内容和主要图表-经费合计
-			JSONArray taskContentList_jSONArray= JSONArray.parseArray(JSON.toJSONString(taskContentList));
+			JSONArray taskContentList_jSONArray= JSONArray.parseArray(JSON.toJSONString(mainTableList));
 			System.out.println("---------项目内容和主要图表    源: "+taskContentStr);
 			System.out.println("---------项目内容和主要图表 FTL: "+taskContentList_jSONArray.toString());
 			
 			
 			//项目资金安排--牵头单位
-			List<Map<String, Object>> projectFundsTableList = new ArrayList<Map<String, Object>>();
+			List<Map<String, Object>> leadUnitList = new ArrayList<Map<String, Object>>();
 			String projectFundsTableStr=sreProjectSetup.getFundsTable();
 			String projectFundsTableStr_arr[]=projectFundsTableStr.split("#");//多行
 			double hj_pt2=0l;
@@ -398,7 +402,7 @@ public class EquipmentUtils {
 					   map.put("pt2", pt2);
 					   map.put("pt3", pt3);
 					   map.put("pt4", pt4);
-					   projectFundsTableList.add(map);
+					   leadUnitList.add(map);
 					   
 				   }
 			   }
@@ -410,11 +414,11 @@ public class EquipmentUtils {
 			map_temp_pt.put("pt3", hj_pt3);
 			map_temp_pt.put("pt4", hj_pt4);
 			System.out.println("==========hj_pt2"+hj_pt2+"pt3="+hj_pt3);
-			projectFundsTableList.add(map_temp_pt);
-			dataMap.put("projectFundsTableList", projectFundsTableList);
+			leadUnitList.add(map_temp_pt);
+			dataMap.put("leadUnitList", leadUnitList);
 			
 			System.out.println("---------项目资金安排 （源）: "+projectFundsTableStr);
-			JSONArray projectFundsTableList_jSONArray= JSONArray.parseArray(JSON.toJSONString(projectFundsTableList));
+			JSONArray projectFundsTableList_jSONArray= JSONArray.parseArray(JSON.toJSONString(leadUnitList));
 			System.out.println("---------项目资金安排（FTL） : "+projectFundsTableList_jSONArray.toString());
 			
 			
@@ -462,10 +466,8 @@ public class EquipmentUtils {
 			//2019-2020,中国石化上海石油化工股份有限公司,0175a09e3fac45e994e446957b714b1e#2019,0,66,66.00#2020,0,666,666.00
 			List<Map<String, Object>> yearFeeStrJoinUnitTableList = new ArrayList<Map<String, Object>>();
 			String yearFeeStrJoinUnit=sreProjectSetup.getYearFeeStrJoinUnit();
-			String yearFeeStrJoinUnit_arr[]=projectFundsTableStr.split(";");//多行
-			double hj_pt2v=0l;
-			double hj_pt3v=0l;
-			double hj_pt4v=0l;
+			String yearFeeStrJoinUnit_arr[]=yearFeeStrJoinUnit.split(";");//多行
+			
 			if(yearFeeStrJoinUnit_arr!=null && yearFeeStrJoinUnit_arr.length>0)
 			{
 			   for(int i=0;i<yearFeeStrJoinUnit_arr.length;i++)
@@ -480,31 +482,35 @@ public class EquipmentUtils {
 						   {
 							   Map<String, Object> map = new HashMap<String, Object>();
 							   String arr_unit_str=arr_unit[j];
-							   String unitName="";
-							   String ept1="";
-							   if(j==0)
+							   if(arr_unit_str!=null && !arr_unit_str.equals(""))
 							   {
-								   unitName=arr_unit_str.split(",")[1];
-								   map.put("ept1", unitName);
-							   }else
-							   {
-								  String [] arr_unit_str_temp=arr_unit_str.split(",");//2019,0,66,66.00
-								  String ept2=arr_unit_str_temp[0].trim();
-								  String ept3=arr_unit_str_temp[1].trim();
-								  String ept4=arr_unit_str_temp[2].trim();
-								  String ept5=arr_unit_str_temp[3].trim();
-								  
-								  double ept2_double= Double.valueOf(ept2).doubleValue();
-								  double ept3_double= Double.valueOf(ept3).doubleValue();
-								  double ept4_double= Double.valueOf(ept4).doubleValue();
-								  double ept5_double= Double.valueOf(ept5).doubleValue();
-								  
-								  map.put("ept2", ept2_double);
-								  map.put("ept3", ept3_double);
-								  map.put("ept4", ept4_double);
-								  map.put("ept5", ept5_double);
-								  
+								   String unitName="";
+								   String ept1="";
+								   if(j==0)
+								   {
+									   unitName=arr_unit_str.split(",")[1];
+									   map.put("ept1", unitName);
+								   }else
+								   {
+									  String [] arr_unit_str_temp=arr_unit_str.split(",");//2019,0,66,66.00
+									  String ept2=arr_unit_str_temp[0].trim();
+									  String ept3=arr_unit_str_temp[1].trim();
+									  String ept4=arr_unit_str_temp[2].trim();
+									  String ept5=arr_unit_str_temp[3].trim();
+									  
+									  double ept2_double= Double.valueOf(ept2).doubleValue();
+									  double ept3_double= Double.valueOf(ept3).doubleValue();
+									  double ept4_double= Double.valueOf(ept4).doubleValue();
+									  double ept5_double= Double.valueOf(ept5).doubleValue();
+									  
+									  map.put("ept2", ept2_double);
+									  map.put("ept3", ept3_double);
+									  map.put("ept4", ept4_double);
+									  map.put("ept5", ept5_double);
+									  
+								   }
 							   }
+							  
 							   
 							   yearFeeStrJoinUnitTableList.add(map);
 						   }
@@ -513,7 +519,8 @@ public class EquipmentUtils {
 				   }
 			   }
 			}
-			
+			dataMap.put("yearFeeStrJoinUnitTableList", yearFeeStrJoinUnitTableList);
+			System.out.println("---------yearFeeStrJoinUnitTableList : "+yearFeeStrJoinUnitTableList.size());
 			
 			fileName =DateUtil.dateToStr(new Date(), DateUtil.FMT_SSS_02)+".doc";
 			/** 生成word */
