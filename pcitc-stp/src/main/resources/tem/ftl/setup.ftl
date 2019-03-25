@@ -1281,6 +1281,7 @@
                 </w:p>
               </w:tc>
             </w:tr>
+             <#list mainTableList as tem>
             <w:tr w:rsidR="008F03A2" w:rsidRPr="005332CE" w:rsidTr="004F75ED">
               <w:tc>
                 <w:tcPr>
@@ -1398,6 +1399,7 @@
                 </w:p>
               </w:tc>
             </w:tr>
+            </#list>
           </w:tbl>
           <w:p w:rsidR="007F798D" w:rsidRDefault="007F798D" w:rsidP="002C6A97">
             <w:pPr>
@@ -1907,6 +1909,7 @@
                 </w:p>
               </w:tc>
             </w:tr>
+             <#list fundsSourcesTableList as tem>
             <w:tr w:rsidR="00D73CAE" w:rsidRPr="005332CE" w:rsidTr="00903E90">
               <w:trPr>
                 <w:cantSplit/>
@@ -2055,6 +2058,7 @@
                 </w:p>
               </w:tc>
             </w:tr>
+            </#list>
           </w:tbl>
           <w:p w:rsidR="00CF1395" w:rsidRDefault="00CF1395" w:rsidP="002C6A97">
             <w:pPr>
@@ -2310,6 +2314,7 @@
                 </w:p>
               </w:tc>
             </w:tr>
+            <#list leadUnitList as tem>
             <w:tr w:rsidR="00854F57" w:rsidRPr="00952EBC" w:rsidTr="00A1676F">
               <w:trPr>
                 <w:trHeight w:val="531"/>
@@ -2448,6 +2453,7 @@
                 </w:p>
               </w:tc>
             </w:tr>
+            </#list>
           </w:tbl>
           <w:p w:rsidR="00854F57" w:rsidRPr="00952EBC" w:rsidRDefault="00854F57" w:rsidP="00533E1C">
             <w:pPr>
@@ -2461,6 +2467,7 @@
               </w:rPr>
             </w:pPr>
           </w:p>
+           <#list yearFeeStrJoinUnitTableList as tem>
           <w:p w:rsidR="00564B7A" w:rsidRDefault="008060C4" w:rsidP="008060C4">
             <w:pPr>
               <w:spacing w:line="360" w:lineRule="auto"/>
@@ -2487,6 +2494,7 @@
               <w:t>${tem.ept1}</w:t>
             </w:r>
           </w:p>
+          </#list>
           <w:tbl>
             <w:tblPr>
               <w:tblW w:w="0" w:type="auto"/>
@@ -2622,6 +2630,7 @@
                 </w:p>
               </w:tc>
             </w:tr>
+            <#list yearFeeStrJoinUnitTableList as tem>
             <w:tr w:rsidR="008060C4" w:rsidRPr="00952EBC" w:rsidTr="00903E90">
               <w:trPr>
                 <w:trHeight w:val="531"/>
@@ -2760,6 +2769,7 @@
                 </w:p>
               </w:tc>
             </w:tr>
+            </#list>
           </w:tbl>
           <w:p w:rsidR="008060C4" w:rsidRDefault="008060C4" w:rsidP="008060C4">
             <w:pPr>
