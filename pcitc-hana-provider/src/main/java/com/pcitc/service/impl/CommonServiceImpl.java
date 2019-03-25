@@ -87,7 +87,11 @@ public class CommonServiceImpl implements ICommonService {
 	   List<DicSupplyer> list = commonMapper.getDicSupplyerList(dicSupplyer);
        return list;
    }
-   
+   public<SreSupplier> List  getSupplierListByIds(Map map)throws Exception
+   {
+	  
+	   return commonMapper.getDicSupplyListByIds(map);
+   }
    public LayuiTableData getDicSupplyerList_table(LayuiTableParam param)throws Exception
    {
 	    //每页显示条数
