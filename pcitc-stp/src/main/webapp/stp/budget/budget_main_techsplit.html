@@ -283,13 +283,12 @@
           	//计算剩余可分配数,计算合计数
           	function calculationSurplusMoney(){
             	var total_money = 0;
-            	$.each(curent_tabel_data,function(index,dt){
+            	/* $.each(curent_tabel_data,function(index,dt){
             		if(dt.level == 0){
             			total_money += parseInt(dt.total);
             		}
-            	});
-          		$("#surplusMoney").val(parseInt($("#budgetMoney").val())-total_money);
-          		//5,6,7,8,9,10行 以汇总计算
+            	}); */
+          		// 以汇总计算
           		var t3=t4=t5=t6=t7=t8=t9=t10=t11=t12=t13=0;
           		$.each(curent_tabel_data,function(index,dt){
           				t3 += parseInt(dt.jtgs);
@@ -304,6 +303,7 @@
           				t12 += parseInt(dt.gfFzgs);
           				t13 += parseInt(dt.xtw);       
           		});
+          		total_money = (t3+t4+t5+t6+t7+t8+t9+t10+t11+t12+t13);
           		$(".layui-table-total").find("tr").find('td').eq(3).find("div").html(t3);
       			$(".layui-table-total").find("tr").find('td').eq(4).find("div").html(t4);
           		$(".layui-table-total").find("tr").find('td').eq(5).find("div").html(t5);
@@ -315,6 +315,7 @@
       			$(".layui-table-total").find("tr").find('td').eq(11).find("div").html(t11);
       			$(".layui-table-total").find("tr").find('td').eq(12).find("div").html(t12);
       			$(".layui-table-total").find("tr").find('td').eq(13).find("div").html(t13);
+      			$("#surplusMoney").val(parseInt($("#budgetMoney").val())-total_money);
           	}
             initDataVersion();
             // 触发不同的按钮事件
