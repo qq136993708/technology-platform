@@ -740,7 +740,14 @@
                 $("#funds_sources_table table tbody tr td:eq(5)").text(fundsVal[5]);
             });
         }
-        
+        $("#funds_sources_table table tbody tr input").change(function () {
+            $("#funds_sources_table table tbody tr td:last").text(
+                parseInt($("#funds_sources_table table tbody tr td:eq(1) input").val())+
+                parseInt($("#funds_sources_table table tbody tr td:eq(2) input").val())+
+                parseInt($("#funds_sources_table table tbody tr td:eq(3) input").val())+
+                parseInt($("#funds_sources_table table tbody tr td:eq(4) input").val())
+            );
+        });
         dele();
         var $ =layui.$, active = {
             taskAddEvent: function () {
@@ -773,7 +780,7 @@
                 });
             },
             
-            fundsAddEvent:function(){
+            /*fundsAddEvent:function(){
                 var tr = "<tr><td> <input lay-verify='specialCharacters' type='text' value=''/></td>" +
                     "<td><input type='number' class='fundsNumber' value='0'/> </td>" +
                     "<td><input type='number' class='fundsNumber'  value='0'/> </td>" +
@@ -791,7 +798,7 @@
                     });
                     $(this).parents("tr").find("td").eq(5).text(numberC)
                 });
-            }
+            }*/
 
         }
 

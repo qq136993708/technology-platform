@@ -388,10 +388,10 @@ background: white;box-shadow: 0 0 5px #dadcde;}
 .layui-personnel .expert-a a {font-size: 15px;color: #000000;line-height: 34px;height: 34px;border: 2px solid #caa638;
     padding: 0 20px;display: inline-block;border-radius: 20px;margin: 30px auto 20px;}
 .layui-personnel .layui-expert{
-    background: url("/layuiadmin/layui/images/icon-left-up.png") no-repeat 1px 1%,
-    url("/layuiadmin/layui/images/icon-right-up.png") no-repeat 99.9% 1%,
-    url("/layuiadmin/layui/images/icon-left-dw.png") no-repeat 1px 99%,
-    url("/layuiadmin/layui/images/icon-right-dw.png") no-repeat 99.9% 99%;padding: 50px;
+    background: url("/layuiadmin/layui/images/icon-left-up.png") no-repeat 1px .1%,
+    url("/layuiadmin/layui/images/icon-right-up.png") no-repeat 99.9% .1%,
+    url("/layuiadmin/layui/images/icon-left-dw.png") no-repeat 1px 99.9%,
+    url("/layuiadmin/layui/images/icon-right-dw.png") no-repeat 99.9% 99.9%;padding: 50px;
     border: 2px solid #caa638;border-radius: 6px;height: auto;
     overflow: hidden;
 }
