@@ -23,7 +23,6 @@ import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
-import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.http.HttpEntity;
@@ -42,8 +41,8 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.BudgetAuditStatusEnum;
-import com.pcitc.base.stp.budget.BudgetTechSplit;
 import com.pcitc.base.stp.budget.BudgetInfo;
+import com.pcitc.base.stp.budget.BudgetTechSplit;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.IdUtil;
 import com.pcitc.base.util.MyBeanUtils;
@@ -379,7 +378,7 @@ public class BudgetTechSplitController extends BaseController {
 		File f = new File(path.getPath() + "static/budget/budget_techsplit_template.xlsx");
 		//System.out.println(f.getAbsolutePath());
 		//写入新文件2019年集团公司总部科技经费预算
-		String newFilePath = path.getPath() + "static/budget/"+info.getNd()+"年股份公司总部科技经费预算（调整稿）_"+DateUtil.dateToStr(new Date(), "yyyyMMddHHmmss")+".xlsx";
+		String newFilePath = path.getPath() + "static/budget/"+info.getNd()+"年股份公司科技专项经费预算表（建议稿）_"+DateUtil.dateToStr(new Date(), "yyyyMMddHHmmss")+".xlsx";
 		File outFile = new File(newFilePath);
 		
 		processDataAndDownload(f,new ArrayList(tabldata.getData()),parammap,outFile);
@@ -401,19 +400,12 @@ public class BudgetTechSplitController extends BaseController {
 			Integer nd = Integer.parseInt(param.get("nd"));
 			//处理标题 年度
 			String title = readCell(sheet.getRow(0).getCell(0));
-			String itemTitleJfys = readCell(sheet.getRow(2).getCell(2));
-			String itemTitleYjwc = readCell(sheet.getRow(2).getCell(5));
-			String itemTitleXmjf = readCell(sheet.getRow(2).getCell(8));
-			
 			sheet.getRow(0).getCell(0).setCellValue(title.replace("${nd}", nd.toString()));
-			sheet.getRow(2).getCell(2).setCellValue(itemTitleJfys.replace("${yd}", new Integer(nd-1).toString()));
-			sheet.getRow(2).getCell(5).setCellValue(itemTitleYjwc.replace("${yd}", new Integer(nd-1).toString()));
-			sheet.getRow(2).getCell(8).setCellValue(itemTitleXmjf.replace("${nd}", nd.toString()));
-			//从第四行开始，第五行是汇总数据
-			Row templateRow = sheet.getRow(4);
 			
+			//从第五行开始
+			Row templateRow = sheet.getRow(5);
 			//水平，垂直居中
-			CellStyle centerStyle =workbook.createCellStyle();
+			CellStyle centerStyle =workbook.createCellStyle();			
 			centerStyle.cloneStyleFrom(templateRow.getCell(0).getCellStyle());
 			centerStyle.setAlignment(HorizontalAlignment.CENTER);
 			centerStyle.setVerticalAlignment(VerticalAlignment.CENTER);
@@ -428,74 +420,64 @@ public class BudgetTechSplitController extends BaseController {
 			rightCenterStyle.setAlignment(HorizontalAlignment.RIGHT);
 			rightCenterStyle.setVerticalAlignment(VerticalAlignment.CENTER);
 			
-			//合计
-			Row totalRow = sheet.getRow(4);
-			totalRow.createCell(0).setCellValue("");
-			totalRow.createCell(1).setCellValue("");
-			totalRow.createCell(2).setCellValue("");
-			totalRow.createCell(3).setCellValue("");
-			totalRow.createCell(4).setCellValue("");
-			totalRow.createCell(5).setCellValue("");
-			totalRow.createCell(6).setCellValue("");
-			totalRow.createCell(7).setCellValue("");
-			totalRow.createCell(8).setCellValue("");
-			totalRow.createCell(9).setCellValue("");
-			totalRow.createCell(10).setCellValue("");
+			Double alljtgs = 0d;
+			Double allgfZsyKty = 0d;
+			Double allgfZsyGcy = 0d;
+			Double allgfZsyWty = 0d;
+			Double allgfZsySky = 0d;
+			Double allgfZsyBhy = 0d;			
+			Double allgfZsyFyy = 0d;
+			Double allgfZsyShy = 0d;
+			Double allgfZsyQdy = 0d;
+			Double allgfFzgs = 0d;
+			Double allxtw = 0d;
 			
-			Double allYjwcTotal = 0d;
-			Double allYjwcZbx = 0d;
-			Double allYjwcFyx = 0d;
-			Double allXmjfTotal = 0d;
-			Double allXmjfZbx = 0d;
-			Double allXmjfFyx = 0d;
 			for(int i = 0;i<list.size();i++) {
 				
-				Integer no = (Integer)list.get(i).get("no");
 				String displayName = list.get(i).get("displayName").toString();
-				Integer level = (Integer)list.get(i).get("level");
+				Double jtgs = (Double)list.get(i).get("jtgs");
+				Double gfZsyKty = (Double)list.get(i).get("gfZsyKty");
+				Double gfZsyGcy = (Double)list.get(i).get("gfZsyGcy");
+				Double gfZsyWty = (Double)list.get(i).get("gfZsyWty");
+				Double gfZsySky = (Double)list.get(i).get("gfZsySky");
+				Double gfZsyBhy = (Double)list.get(i).get("gfZsyBhy");				
+				Double gfZsyFyy = (Double)list.get(i).get("gfZsyFyy");
+				Double gfZsyShy = (Double)list.get(i).get("gfZsyShy");
+				Double gfZsyQdy = (Double)list.get(i).get("gfZsyQdy");
+				Double gfFzgs = (Double)list.get(i).get("gfFzgs");
+				Double xtw = (Double)list.get(i).get("xtw");
 				
-				
-				String l_hj = "无";
-				String l_zbx = "无";
-				String l_fyx = "无";
-				Double yjwcTotal = (Double)list.get(i).get("yjwcTotal");
-				Double yjwcZbx = (Double)list.get(i).get("yjwcZbx");
-				Double yjwcFyx = (Double)list.get(i).get("yjwcFyx");
-				Double xmjfTotal = (Double)list.get(i).get("xmjfTotal");
-				Double xmjfZbx = (Double)list.get(i).get("xmjfZbx");
-				Double xmjfFyx = (Double)list.get(i).get("xmjfFyx");
-				allYjwcTotal += yjwcTotal;
-				allYjwcZbx += yjwcZbx;
-				allYjwcFyx += yjwcFyx;
-				allXmjfTotal += xmjfTotal;
-				allXmjfZbx += xmjfZbx;
-				allXmjfFyx += xmjfFyx;
+				alljtgs += jtgs;
+				allgfZsyKty += gfZsyKty;
+				allgfZsyGcy += gfZsyGcy;
+				allgfZsyWty += gfZsyWty;
+				allgfZsySky += gfZsySky;
+				allgfZsyBhy += gfZsyBhy;				
+				allgfZsyFyy += gfZsyFyy;
+				allgfZsyShy += gfZsyShy;
+				allgfZsyQdy += gfZsyQdy;
+				allgfFzgs += gfFzgs;
+				allxtw += xtw;
 				
 				Row crow = sheet.getRow(i+5);
-				if(level == 0) {
-					crow.createCell(0).setCellValue(no);
-				}else {
-					crow.createCell(0).setCellValue("");
-				}
-				crow.createCell(1).setCellValue(displayName);
-				crow.createCell(2).setCellValue(l_hj);
-				crow.createCell(3).setCellValue(l_zbx);
-				crow.createCell(4).setCellValue(l_fyx);
-				crow.createCell(5).setCellValue(yjwcTotal);
-				crow.createCell(6).setCellValue(yjwcZbx);
-				crow.createCell(7).setCellValue(yjwcFyx);
-				crow.createCell(8).setCellValue(xmjfTotal);
-				crow.createCell(9).setCellValue(xmjfZbx);
-				crow.createCell(10).setCellValue(xmjfFyx);
+				
+				crow.createCell(0).setCellValue(displayName);
+				crow.createCell(1).setCellValue(jtgs);
+				crow.createCell(2).setCellValue(gfZsyKty);
+				crow.createCell(3).setCellValue(gfZsyGcy);
+				crow.createCell(4).setCellValue(gfZsyWty);
+				crow.createCell(5).setCellValue(gfZsySky);
+				crow.createCell(6).setCellValue(gfZsyBhy);
+				crow.createCell(7).setCellValue(gfZsyFyy);
+				crow.createCell(8).setCellValue(gfZsyShy);
+				crow.createCell(9).setCellValue(gfZsyQdy);
+				crow.createCell(10).setCellValue(gfFzgs);
+				crow.createCell(11).setCellValue(xtw);
 				
 				
 				
-				crow.getCell(0).setCellStyle(centerStyle);
-				if(level == 0) {
-					crow.getCell(1).setCellStyle(leftCenterStyle);
-				}else {
-					crow.getCell(1).setCellStyle(rightCenterStyle);
-				}
+				crow.getCell(0).setCellStyle(leftCenterStyle);
+				crow.getCell(1).setCellStyle(rightCenterStyle);
 				crow.getCell(2).setCellStyle(rightCenterStyle);
 				crow.getCell(3).setCellStyle(rightCenterStyle);
 				crow.getCell(4).setCellStyle(rightCenterStyle);
@@ -505,21 +487,24 @@ public class BudgetTechSplitController extends BaseController {
 				crow.getCell(8).setCellStyle(rightCenterStyle);
 				crow.getCell(9).setCellStyle(rightCenterStyle);
 				crow.getCell(10).setCellStyle(rightCenterStyle);
+				crow.getCell(11).setCellStyle(rightCenterStyle);
 			}
-			totalRow.getCell(0).setCellValue("合计");
-			totalRow.getCell(1).setCellValue("");
-			totalRow.getCell(2).setCellValue("无");
-			totalRow.getCell(3).setCellValue("无");
-			totalRow.getCell(4).setCellValue("无");
-			totalRow.getCell(5).setCellValue(allYjwcTotal);
-			totalRow.getCell(6).setCellValue(allYjwcZbx);
-			totalRow.getCell(7).setCellValue(allYjwcFyx);
-			totalRow.getCell(8).setCellValue(allXmjfTotal);
-			totalRow.getCell(9).setCellValue(allXmjfZbx);
-			totalRow.getCell(10).setCellValue(allXmjfFyx);
+			Row totalRow = sheet.createRow(list.size()+5);
+			totalRow.createCell(0).setCellValue("合计");
+			totalRow.createCell(1).setCellValue(alljtgs);
+			totalRow.createCell(2).setCellValue(allgfZsyKty);
+			totalRow.createCell(3).setCellValue(allgfZsyGcy);
+			totalRow.createCell(4).setCellValue(allgfZsyWty);
+			totalRow.createCell(5).setCellValue(allgfZsySky);
+			totalRow.createCell(6).setCellValue(allgfZsyBhy);
+			totalRow.createCell(7).setCellValue(allgfZsyFyy);
+			totalRow.createCell(8).setCellValue(allgfZsyShy);
+			totalRow.createCell(9).setCellValue(allgfZsyQdy);
+			totalRow.createCell(10).setCellValue(allgfFzgs);
+			totalRow.createCell(11).setCellValue(allxtw);
 			
 			totalRow.getCell(0).setCellStyle(centerStyle);
-			totalRow.getCell(1).setCellStyle(centerStyle);
+			totalRow.getCell(1).setCellStyle(rightCenterStyle);
 			totalRow.getCell(2).setCellStyle(rightCenterStyle);
 			totalRow.getCell(3).setCellStyle(rightCenterStyle);
 			totalRow.getCell(4).setCellStyle(rightCenterStyle);
@@ -529,9 +514,10 @@ public class BudgetTechSplitController extends BaseController {
 			totalRow.getCell(8).setCellStyle(rightCenterStyle);
 			totalRow.getCell(9).setCellStyle(rightCenterStyle);
 			totalRow.getCell(10).setCellStyle(rightCenterStyle);
+			totalRow.getCell(11).setCellStyle(rightCenterStyle);
 			
 			//合计单元格合并
-			sheet.addMergedRegion(new CellRangeAddress(4,4,0,1));
+			//sheet.addMergedRegion(new CellRangeAddress(list.size()+5,list.size()+5,0,1));
 			//写入新文件
 			FileOutputStream fos  = new FileOutputStream(outFile);
 			workbook.write(fos);

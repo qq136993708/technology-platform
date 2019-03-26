@@ -379,7 +379,7 @@ public class BudgetStockTotalController extends BaseController {
 		File f = new File(path.getPath() + "static/budget/budget_stocktotal_template.xlsx");
 		//System.out.println(f.getAbsolutePath());
 		//写入新文件2019年集团公司总部科技经费预算
-		String newFilePath = path.getPath() + "static/budget/"+info.getNd()+"年股份公司总部科技经费预算（调整稿）_"+DateUtil.dateToStr(new Date(), "yyyyMMddHHmmss")+".xlsx";
+		String newFilePath = path.getPath() + "static/budget/"+info.getNd()+"年股份公司总部科技经费预算（建议稿）_"+DateUtil.dateToStr(new Date(), "yyyyMMddHHmmss")+".xlsx";
 		File outFile = new File(newFilePath);
 		
 		processDataAndDownload(f,new ArrayList(tabldata.getData()),parammap,outFile);
