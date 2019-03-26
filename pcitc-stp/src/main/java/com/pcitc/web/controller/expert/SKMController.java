@@ -185,16 +185,13 @@ public class SKMController extends BaseController {
     public Result SKM_expert() {
         Result result = new Result();
         try {
-//            ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LIST_RANDOM_IMG, HttpMethod.POST, new HttpEntity<ZjkExpert>(expert, this.httpHeaders), JSONObject.class);
-            RestfulHttpClient.HttpClient client = RestfulHttpClient.getClient(SKM_expert);
-            client.get();
-            RestfulHttpClient.HttpResponse response = null;
+            ResultSKM resultSKM = new ResultSKM();
             try {
-                response = client.request();
+                RestfulHttpClient.HttpResponse response = RestfulHttpClient.getClient(SKM_expert).get().request();
+                resultSKM = JSON.parseObject(response.getContent(),ResultSKM.class);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            ResultSKM resultSKM = JSON.parseObject(response.getContent(),ResultSKM.class);
             // 根据状态码判断请求是否成功
             if (!"200".equals(resultSKM.getCode())) {
                 result.setSuccess(false);

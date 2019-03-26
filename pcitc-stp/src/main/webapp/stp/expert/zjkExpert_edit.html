@@ -12,8 +12,8 @@
     <script type="text/javascript" src="/plugins/ckeditor/ckeditor.js"></script>
     <script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="/common/js/base.js"></script>
-    <script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.all.js"></script>
-    <script type="text/javascript" src="/layuiadmin/modules/selectTree.js"></script>
+    <!--<script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.all.js"></script>-->
+    <!--<script type="text/javascript" src="/layuiadmin/modules/selectTree.js"></script>-->
 </head>
 <body>
 <div class="formBox">
@@ -61,7 +61,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">邮箱<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <input type="email" id="email" name="email" lay-verify="required" placeholder="请输入邮箱" autocomplete="off" class="layui-input">
+                            <input type="email" id="email" name="email" lay-verify="email" placeholder="请输入邮箱" autocomplete="off" class="layui-input">
                         </div>
                     </div>
 
@@ -156,7 +156,11 @@
                             <!--<select name="company" id="company" lay-filter="company"></select>-->
                         <!--</div>-->
                         <div class=" layui-input-block">
-                            <div id="companyDiv" class="layui-form-select select-tree"></div>
+                                <input class="layui-input" name="companyName" id="companyName"
+                                       onclick="chooseUnitMulti('choose_joinUnitName_callback')" placeholder="请选择"
+                                       value=""  autocomplete="off" type="text">
+                            <!--<input type="text" id="company" name="company" />-->
+                            <!--<div id="companyDiv" class="layui-form-select select-tree"></div>-->
                         </div>
                     </div>
                 </div>
@@ -668,7 +672,7 @@
                     global_hos = data;
                     //地址-结束
                     form.render();
-                    $("#companyDivShow").val(data.companyName);
+                    // $("#companyDivShow").val(data.companyName);
                 });
             }
             /* 自定义验证规则  title 要验证的input的 lay-verify=""*/
@@ -720,7 +724,7 @@
             /* 监听提交 */
             form.on('submit(component-form-commit)', function (data) {
 
-                data.field.auditStatus = "1";
+                // data.field.auditStatus = "1";
                 formData = data;
                 saveFormData(data);
 
@@ -758,7 +762,7 @@
                                 //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
                                 maxmin: true,
                                 //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                                area: ['800px', '550px'],
+                                area: ['700px', '500px'],
                                 content: temUrl
                             });
                         } else if (data.code == 'unit' || data.code == 'post') {
@@ -780,7 +784,7 @@
                                 //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
                                 maxmin: true,
                                 //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                                area: ['800px', '550px'],
+                                area: ['700px', '500px'],
                                 content: temUrl
                             });
                         } else if (data.code == 'int') {
@@ -821,8 +825,8 @@
                 data.field.age = age;
                 data.field.ageBetween = ageBetween;
                 data.field.userDesc=CKEDITOR.instances.userDesc.getData();
-                data.field.company =$("#companyDivValue").val();
-                data.field.companyName =$("#companyDivShow").val();
+                // data.field.company =$("#companyDivValue").val();
+                // data.field.companyName =$("#companyDivShow").val();
 
                 console.log("-------提交数据---------");
                 console.log(data.field);
@@ -1062,38 +1066,87 @@
 </script>
 <script>
 
-    var zNodes;
-    $(function() {
-        $.ajax({
-            url : "/unit/ztree-unit-list",//这个就是请求地址对应sAjaxSource
-            type : 'get',
-            headers : {
-                'Content-Type' : 'application/json',
-            },
-            dataType : 'json',
-            async : false,
-            success : function(data) {
-                zNodes = data;
-            },
-            error : function(msg) {
-                layer.msg(msg);
-            }
+    // var zNodes;
+    // $(function() {
+    //     $.ajax({
+    //         url : "/unit/ztree-unit-list",//这个就是请求地址对应sAjaxSource
+    //         type : 'get',
+    //         headers : {
+    //             'Content-Type' : 'application/json',
+    //         },
+    //         dataType : 'json',
+    //         async : false,
+    //         success : function(data) {
+    //             zNodes = data;
+    //         },
+    //         error : function(msg) {
+    //             layer.msg(msg);
+    //         }
+    //     });
+    // });
+    // // 下拉树初始化
+    // $(document).ready(function() {
+    //     /*
+    //      * initSelectTree参数：
+    //      * 参数1：div的id，
+    //      * 参数2：isMultiple 是否多选(true或false),
+    //      * 参数3：是否显示连接线(true或false),
+    //      * 参数4：是否显示图标(true或false),
+    //      *
+    //      */
+    //     initSelectTree("companyDiv", false, true, false);
+    //     initHideMenu(); //不加此方法则默认打开下拉树
+    //
+    // });
+    function choose_joinUnitName_callback(unitIds, unitNames) {
+        $("#companyName").val(unitNames);
+        $("#company").val(unitIds);
+    }
+    window.chooseUnitMulti=function (choose_leadUnitName_callback) {
+        v_date = (new Date()).getTime();
+        var temUrl = "/unit/chooseUnitMulti?v_date=" + v_date + "&funcName=" + choose_leadUnitName_callback;//funcName(unitId,unitName) 选择机构后的回调方法名(自定义 ),回调方法里面有两个参数，unitId是机构ID,unitName是机构名
+        layer.open({
+            title: '选择机构',
+            skin: 'layui-layer-lan',
+            shadeClose: true,
+            type: 2,
+            fixed: false,
+            //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+            maxmin: true,
+            //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+            area: ['500px', '500px'],
+            content: temUrl
+            // end: function () {
+            //     var arrJ = $("#joinUnitName").val().split(",");
+            //     if(arrJ=='undefined'|| arrJ=='')
+            //     {
+            //
+            //     }else {
+            //         $("#units").empty();
+            //         $.each(arrJ, function (i, val) {
+            //             var html = ' <div class="layui-form-item layui-form-text" >' +
+            //                 '        <div class="layui-input-block" id="yearTr'+i+'">' +
+            //                 '        <label class="layui-form-label" style="width:100%;text-align: left;margin-left: 0;">' + arrJ[i] + '</label>' +
+            //                 '            <table class="layui-table">' +
+            //                 '             <thead>' +
+            //                 '             <tr>' +
+            //                 '                <td width="20%">年  度</td>' +
+            //                 '                <td width="8%">费用性支出(万元)</td>' +
+            //                 '                <td width="8%">资本性支出(万元)</td>' +
+            //                 '                <td width="8%">小  计(万元)</td>' +
+            //                 '             </tr>' +
+            //                 '            </thead>' +
+            //                 '            <tbody></tbody>' +
+            //                 '          </table>' +
+            //                 '        </div>' +
+            //                 '       </div>';
+            //             $("#units").append(html);
+            //             publicMethods.createTable($("#beginYear").val(), $("#endYear").val(), "yearTr"+i, 2, yearFeeStr);
+            //         });
+            //     }
+            // }
         });
-    });
-    // 下拉树初始化
-    $(document).ready(function() {
-        /*
-         * initSelectTree参数：
-         * 参数1：div的id，
-         * 参数2：isMultiple 是否多选(true或false),
-         * 参数3：是否显示连接线(true或false),
-         * 参数4：是否显示图标(true或false),
-         *
-         */
-        initSelectTree("companyDiv", false, true, false);
-        initHideMenu(); //不加此方法则默认打开下拉树
-
-    });
+    }
 
 </script>
 </body>
