@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>重点实验室</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="Shortcut Icon" href="/layuiadmin/layui/images/favicon.ico" />
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/second.css" media="all">
+    <script src="/layuiadmin/layui/layui.js"></script>
+    <style>
+        html{background: #f2f2f2;}
+        body{background: #fff;margin: 0 auto;width: 90%;}
+        .layui-personnel,.detail-top{height: auto;overflow: hidden;}
+        .detail-top{padding: 30px 30px 30px 0;    min-height: 280px;}
+        .detail-left{width: 15.6%;float: left;}
+        .detail-right{float: right;width: 84.4%;}
+        .layui-personnel .expert-i{margin-top: 0;}
+        .detail-right h4{font-size: 28px;color: #000;}
+        .detail-right .detail-p{color: black;font-size: 16px;margin: 26px 0 30px;}
+        .detail-j p{display: block;line-height: 28px;font-size: 14px;color: #696b74;text-indent: 2em;}
+        .layui-card-body{padding: 0;}
+        .layui-tab-title{padding-left: 30px;background: #dce9fa;border: 0;}
+        .layui-tab-brief>.layui-tab-title .layui-this{background: #108ee9;}
+        .layui-tab-title{height: 44px;}
+        .layui-tab-title li{line-height: 44px;}
+        .layui-tab-content{height: auto;overflow: hidden;margin-bottom: 10px;}
+        .record{height: auto;overflow: hidden; margin-left: 25px;
+            background: url("/layuiadmin/layui/images/icon-personnel-3.png") no-repeat 0 0,
+        url("/layuiadmin/layui/images/icon-personnel-5.png") no-repeat 15px 100%;}
+        .record ul{  position: relative;  height: auto;overflow: hidden;
+           margin-bottom: 32px;}
+        .layui-tab-item ul li:last-child,.layui-tab-item ul li{background: none;}
+        .record ul li{min-height: 60px;border-left: 2px solid #108ee9;
+            margin-left: 15px;position: relative;
+            height: auto;}
+        .record ul li i{width: 14px;background: url("/layuiadmin/layui/images/icon-personnel-4.png") no-repeat;
+            height: 14px;position: absolute;left: -8px;top: 6px;}
+        .record-line{border-left: 2px solid #108ee9;margin-left: 15px;height: 32px;margin-top: 32px;}
+        .layui-text h3{font-size: 14px;color: #696b74;height: auto;overflow: hidden;padding-bottom: 10px;
+            margin: 0;}
+    </style>
+</head>
+<body>
+<div class="layui-fluid layui-personnel">
+    <div class="detail-top">
+        <div class="detail-left">
+            <div class="expert-i">
+                <img src="/stp/expert/img/default.png" alt="" height="140">
+            </div>
+        </div>
+        <div class="detail-right">
+            <h4>马永生</h4>
+            <p class="detail-p">中国工程院院士，石油与天然气勘探专家</p>
+            <div class="detail-j">
+                <p>马永生敬业精神强，参加工作13年 以来克服重重困难，始终坚持在科研生产第一线，
+                    遵循实践—认识—再实践—再认识的思想方法，勇于探索。他作为第一、二作者发表论文80余篇
+                    （SCI收录9篇），作为第一作者出版专著4部。获国家科技进步一等奖一项（排名第一），
+                    省部级一等奖三项（排名均第一）。并作为中国地质大学兼职教授和博士生导师，
+                    已为国家培养出博士8名、硕士5名。2005年开始享受国务院特殊津贴，并先后被评为中石化集团公司
+                    有突出贡献的科技专家和第一层次学术带头人。2013年入选“万人计划”杰出人才 [9]  。</p>
+                <p>一直坚持在科研生产第一线，在深入实地科学探索16年，取得南方海相油气复杂成藏规律性认识，
+                    提出勘探理论和方法的重大创新，成功指导深层、超深层勘探实践，发现了建国50年以来久攻不
+                    下的海相大气田——普光气田，已探明储量3561亿立方米，总价值1801亿元，2010预计将形成超
+                    百亿立方米的天然气产能，为川气东送工程和我国海相油气勘探事业作出了卓越贡献。获国家科技进
+                    步一等奖1项（第1名），省部级一等奖4项。
+                    获何梁何利科技成就奖和李四光科学奖，享受国务院特殊津贴。出版专著4部，发表论文89篇。</p>
+                <p>天空中以中国石油院士命名的小行星，又多了一颗。中国石化集团公司近日宣布，国际编号为210292号的小行
+                    星正式命名为“马永生星”。</p>
+            </div>
+        </div>
+    </div>
+    <div class="detail-main">
+        <div class="layui-card-body">
+            <div class="layui-tab layui-tab-brief" lay-filter="component-tabs-hash">
+                <ul class="layui-tab-title">
+                    <li class="layui-this" lay-id="11">网站设置</li>
+                    <li lay-id="22">用户管理</li>
+                    <li lay-id="33">权限分配</li>
+                </ul>
+                <div class="layui-tab-content">
+                    <div class="layui-tab-item layui-show">
+                        <div class="record">
+                            <div class="record-line"></div>
+                            <ul>
+                                <li>
+                                    <i></i>
+                                    <div class="layui-text">
+                                        <h3>1984年毕业于武汉地质学院地质系；</h3>
+                                    </div>
+                                </li>
+                                <li>
+                                    <i></i>
+                                    <div class="layui-text">
+                                        <h3>1999—2002年间他带领完成的“四川盆地宣汉一达县地区石炭一三叠系油气地质综合研究”科研项目，
+                                            不但直接指导了普光气田和毛坝气藏的发现，取得了巨大的勘探效益，其理论和枝术研究成果经
+                                            专家鉴定认为，总体处于“国际先进水平”，储层预测等有关方面的研究成果达国际领先水平，
+                                            该项成果转变了以前对该地区储层沉积学和油气勘探方面的许多认识，解放了许多不看好的勘探领域。
+                                            该项科研成果获中石化集团公司2004年度科技进步一等奖。
+                                        </h3>
+                                    </div>
+                                </li>
+                                <li>
+                                    <i></i>
+                                    <div class="layui-text">
+                                        <h3>1984年毕业于武汉地质学院地质系；</h3>
+                                    </div>
+                                </li>
+                                <li>
+                                    <i></i>
+                                    <div class="layui-text">
+                                        <h3>1984年毕业于武汉地质学院地质系；</h3>
+                                    </div>
+                                </li>
+                                <li>
+                                    <i></i>
+                                    <div class="layui-text">
+                                        <h3>1984年毕业于武汉地质学院地质系；</h3>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="layui-tab-item">
+                        <div class="detail-j">
+                            <p>马永生敬业精神强，参加工作13年 以来克服重重困难，始终坚持在科研生产第一线，
+                                遵循实践—认识—再实践—再认识的思想方法，勇于探索。他作为第一、二作者发表论文80余篇
+                                （SCI收录9篇），作为第一作者出版专著4部。获国家科技进步一等奖一项（排名第一），
+                                省部级一等奖三项（排名均第一）。并作为中国地质大学兼职教授和博士生导师，
+                                已为国家培养出博士8名、硕士5名。2005年开始享受国务院特殊津贴，并先后被评为中石化集团公司
+                                有突出贡献的科技专家和第一层次学术带头人。2013年入选“万人计划”杰出人才 [9]  。</p>
+                            <p>一直坚持在科研生产第一线，在深入实地科学探索16年，取得南方海相油气复杂成藏规律性认识，
+                                提出勘探理论和方法的重大创新，成功指导深层、超深层勘探实践，发现了建国50年以来久攻不
+                                下的海相大气田——普光气田，已探明储量3561亿立方米，总价值1801亿元，2010预计将形成超
+                                百亿立方米的天然气产能，为川气东送工程和我国海相油气勘探事业作出了卓越贡献。获国家科技进
+                                步一等奖1项（第1名），省部级一等奖4项。
+                                获何梁何利科技成就奖和李四光科学奖，享受国务院特殊津贴。出版专著4部，发表论文89篇。</p>
+                            <p>天空中以中国石油院士命名的小行星，又多了一颗。中国石化集团公司近日宣布，国际编号为210292号的小行
+                                星正式命名为“马永生星”。</p>
+                        </div>
+                    </div>
+                    <div class="layui-tab-item">内容3</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use(['jquery', 'table', 'layer', 'laydate','publicMethods','element'], function () {
+        var $ = layui.jquery, table = layui.table, laydate = layui.laydate,publicMethods= layui.publicMethods;
+        parent.$(".layui-leader .layui-body").css("left","0px");
+
+    });
+</script>
+</body>
+</html>
