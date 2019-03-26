@@ -17,21 +17,28 @@
     <#list tb_datas as tb>
 	    <p class="table-title">&nbsp;&nbsp;</p>
 	    <div class="bottom-table-box">
-	        <table id="${tb.dataId}" class="layui-table" lay-filter="${tb.dataId}" lay-data="{limit:100,totalRow: true,height: '200'}">
+	        <table id="${tb.dataId}" class="layui-table" lay-filter="${tb.dataId}" lay-data="{limit:100,totalRow: true,height: '350'}">
 	            <thead>
+	            	<tr>
+	                	<th lay-data="{field:'no', width: '10%', align:'center',totalRowText: '合计'}" rowspan="3">序号</th>
+	                    <th lay-data="{field:'displayName', width: '15%'}" rowspan="3">${tb.nd}预算项目</th>
+	                   	<th lay-data="{field:'jtgs', edit:true,align: 'right',totalRow: true}" rowspan="3">${tb.nd}集团公司</th>
+	                    <th lay-data="{align: 'center'}" colspan="9">${tb.nd}股份公司</th>
+	                    <th lay-data="{field:'xtw', edit:true,align:'right',totalRow: true}" rowspan="3"><span></span>${tb.nd}系统外</th>
+	                </tr>
 	                <tr>
-	                	<th lay-data="{field:'no', width: '10%', align:'center',totalRowText: '合计'}" rowspan="2">序号</th>
-	                	<th lay-data="{field:'displayName', width: '20%'}" rowspan="2">名称</th>
-	                	<th lay-data="{align:'center'}" colspan="3">${tb.nd}炼油事业部</th>
-	                	<th lay-data="{align:'center'}" colspan="3">${tb.nd}化工事业部</th>
-		            </tr>
-		            <tr>
-	                    <th lay-data="{field:'lyTotal',align: 'right',totalRow: true}">预算</th>
-	                    <th lay-data="{field:'lyJz', align: 'right',totalRow: true}">结转</th>
-	                    <th lay-data="{field:'lyXq', align: 'right',totalRow: true}">可新签</th>
-	                    <th lay-data="{field:'hgTotal',align: 'right',totalRow: true}">预算</th>
-	                    <th lay-data="{field:'hgJz', align: 'right',totalRow: true}">结转</th>
-	                    <th lay-data="{field:'hgXq', align: 'right',totalRow: true}">可新签</th>
+	                    <th lay-data="{align:'center'}"  colspan="8"><span></span>直属院</th>
+	                    <th lay-data="{field:'gfFzgs', edit:true,align: 'right',totalRow: true}"  rowspan="2">分子公司</th>
+	                </tr>
+	                <tr>
+	                    <th lay-data="{field:'gfZsyKty', edit:true,align: 'right',totalRow: true}">勘探院</th>
+	                    <th lay-data="{field:'gfZsyGcy', edit:true,align: 'right',totalRow: true}">工程院</th>
+	                    <th lay-data="{field:'gfZsyWty', edit:true,align: 'right',totalRow: true}">物探院</th>
+	                    <th lay-data="{field:'gfZsySky', edit:true,align: 'right',totalRow: true}">石科院</th>
+	                    <th lay-data="{field:'gfZsyBhy', edit:true,align: 'right',totalRow: true}">北化院</th>
+	                    <th lay-data="{field:'gfZsyFyy', edit:true,align: 'right',totalRow: true}">抚研院</th>
+	                    <th lay-data="{field:'gfZsyShy', edit:true,align: 'right',totalRow: true}">上海院</th>
+	                    <th lay-data="{field:'gfZsyQdy', edit:true,align: 'right',totalRow: true}">青岛院</th>
 	                </tr>
 	            </thead>
 	        </table>
@@ -50,10 +57,10 @@
     <script>
         layui.use(['jquery', 'table', 'laydate', 'layer','publicMethods'], function () {
             var $ = layui.jquery, table = layui.table, laydate = layui.laydate, layer = layui.layer,publicMethods=layui.publicMethods;
-            publicMethods.ajaxPost("/budget/search-b2csplit-final-history-list",null, function (data) {
+            publicMethods.ajaxPost("/budget/search-techsplit-final-history-list",null, function (data) {
             	$.each(data,function(index,dt){
-       				table.reload(dt.dataId, {data: dt.items});
-       				var t2=t3=t4=t5=t6=t7=0;
+       				table.reload(dt.dataId, {"data": dt.items});
+       				/* var t2=t3=t4=t5=t6=t7=0;
        				$.each(dt.items,function(i,dt){
     					var align = dt.level == 0?"left":"right";
     					var no = dt.level == 0?dt.no:"";
@@ -73,7 +80,7 @@
           			$(".layui-table-total").eq(index).find("tr").find('td').eq(4).find("div").html(t4);
           			$(".layui-table-total").eq(index).find("tr").find('td').eq(5).find("div").html(t5);
           			$(".layui-table-total").eq(index).find("tr").find('td').eq(6).find("div").html(t6);
-          			$(".layui-table-total").eq(index).find("tr").find('td').eq(7).find("div").html(t7);
+          			$(".layui-table-total").eq(index).find("tr").find('td').eq(7).find("div").html(t7); */
           			
        			});
             	
