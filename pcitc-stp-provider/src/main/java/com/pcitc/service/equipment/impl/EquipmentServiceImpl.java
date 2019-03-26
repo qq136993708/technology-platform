@@ -22,12 +22,14 @@ import com.pcitc.base.stp.equipment.SreProjectSetup;
 import com.pcitc.base.stp.equipment.SreProjectTask;
 import com.pcitc.base.stp.equipment.SreProjectYear;
 import com.pcitc.base.stp.equipment.SreProjectYearExample;
+import com.pcitc.base.stp.equipment.SreSupplier;
 import com.pcitc.base.stp.equipment.SreTechMeeting;
 import com.pcitc.mapper.equipment.SreEquipmentMapper;
 import com.pcitc.mapper.equipment.SreProjectMapper;
 import com.pcitc.mapper.equipment.SreProjectSetupMapper;
 import com.pcitc.mapper.equipment.SreProjectTaskMapper;
 import com.pcitc.mapper.equipment.SreProjectYearMapper;
+import com.pcitc.mapper.equipment.SreSupplierMapper;
 import com.pcitc.mapper.equipment.SreTechMeetingMapper;
 import com.pcitc.service.equipment.EquipmentService;
 @Service("equipmentService")
@@ -53,6 +55,9 @@ public class EquipmentServiceImpl implements EquipmentService {
 	
 	@Autowired
 	private SreProjectSetupMapper sreProjectSetupMapper;
+	
+	@Autowired
+	private SreSupplierMapper sreSupplierMapper;
 	
 	
 	
@@ -619,13 +624,102 @@ public class EquipmentServiceImpl implements EquipmentService {
 			    return data;
 	}
 
+	
+	
+	
+	
+	
+	public SreSupplier selectSupplier(String id) throws Exception
+	{
+		return sreSupplierMapper.selectByPrimaryKey(id);
+	}
+
+	public Integer updateSupplier(SreSupplier record)throws Exception
+	{
+		return sreSupplierMapper.updateByPrimaryKey(record);
+	}
+
+	public int deleteSupplier(String id)throws Exception
+	{
+		return sreSupplierMapper.deleteByPrimaryKey(id);
+	}
+	
+	
+	
+	public List<SreSupplier> getSupplierListByIds(List<String> list)throws Exception
+	{
+		return sreSupplierMapper.getListByIds(list);
+	}
+
+	public Integer insertSupplier(SreSupplier record)throws Exception
+	{
+		return sreSupplierMapper.insert(record);
+	}
+
+	
+	
+	
+	public LayuiTableData getSupplierPage(LayuiTableParam param)throws Exception
+	{
+		
+		//每页显示条数
+		int pageSize = param.getLimit();
+		//从第多少条开始
+		int pageStart = (param.getPage()-1)*pageSize;
+		//当前是第几页
+		int pageNum = pageStart/pageSize + 1;
+		// 1、设置分页信息，包括当前页数和每页显示的总计数
+		PageHelper.startPage(pageNum, pageSize);
+		String name=getTableParam(param,"name","");
+		String equipmentIds=getTableParam(param,"equipmentIds","");
+		String auditStatus=getTableParam(param,"auditStatus","");
+		String applyDepartName=getTableParam(param,"applyDepartName","");
+		String applyDepartCode=getTableParam(param,"applyDepartCode","");
+		String unitPathIds=getTableParam(param,"unitPathIds","");
+		String parentUnitPathIds=getTableParam(param,"parentUnitPathIds","");
+		
+		Map map=new HashMap();
+		map.put("name", name);
+		map.put("equipmentIds", equipmentIds);
+		map.put("auditStatus", auditStatus);
+		map.put("applyDepartName", applyDepartName);
+		map.put("unitPathIds", unitPathIds);
+		map.put("parentUnitPathIds", parentUnitPathIds);
+		
+		System.out.println(">>>>>>>>applyDepartCode="+applyDepartCode);
+		StringBuffer applyUnitCodeStr=new StringBuffer();
+		if(!applyDepartCode.equals(""))
+		{
+			applyUnitCodeStr.append(" (");
+			String arr[]=applyDepartCode.split(",");
+			for(int i=0;i<arr.length;i++)
+			{
+				if(i>0)
+				{
+					applyUnitCodeStr.append(" OR FIND_IN_SET('"+arr[i]+"', t.`apply_depart_code`)");
+				}else
+				{
+					applyUnitCodeStr.append("FIND_IN_SET('"+arr[i]+"', t.`apply_depart_code`)");
+				}
+				
+			}
+			applyUnitCodeStr.append(" )");
+		}
+		
+		map.put("sqlStr", applyUnitCodeStr.toString());
+		
+		
+		List<SreSupplier> list = sreSupplierMapper.getList(map);
+		PageInfo<SreSupplier> pageInfo = new PageInfo<SreSupplier>(list);
+		System.out.println(">>>>>>>>>查询分页结果"+pageInfo.getList().size());
+		LayuiTableData data = new LayuiTableData();
+		data.setData(pageInfo.getList());
+		Long total = pageInfo.getTotal();
+		data.setCount(total.intValue());
+	    return data;
+	}
 
 
-	
-	
-	
-	
-	
 	
 	
 	

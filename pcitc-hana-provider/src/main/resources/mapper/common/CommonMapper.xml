@@ -219,6 +219,70 @@
 	 
 	 
 	 
+	 
+	 
+	 
+	 <resultMap id="dicSupplyer_stp_ResultMap" type="com.pcitc.base.stp.equipment.SreSupplier" >
+        <result column="supplierCode"  property="supplierCode" jdbcType="VARCHAR" />
+	    <result column="supplierName"  property="supplierName" jdbcType="VARCHAR" />
+	    <result column="cityName"      property="cityName" jdbcType="VARCHAR" />
+	    <result column="mobile"        property="mobile" jdbcType="VARCHAR" />
+	    <result column="fix"           property="fix" jdbcType="VARCHAR" />
+	    <result column="address"       property="address" jdbcType="VARCHAR" />
+	    <result column="unitCode"      property="unitCode" jdbcType="VARCHAR" />
+	    <result column="unitName"      property="unitName" jdbcType="VARCHAR" />
+     </resultMap>
+     
+    <sql id="selectConditionDic_stp_Supplyer">
+	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
+	     "G0KTOKK" not in ('SK97','SK98')
+	     <if test="supplierName != null   and supplierName  !='' "> AND G0NAME1 like '%${supplierName}%' </if>
+	     <if test="cityName != null   and cityName  !='' ">         AND G0MCOD3 like '%${cityName}%'  </if>
+	     <if test="sqlStr != null   and sqlStr !='' ">              ${sqlStr}</if>
+	 </trim>
+	</sql>
+	
+	
+	 
+    <select id="getDicSupplyListByIds" resultMap="dicSupplyer_stp_ResultMap"  parameterType="java.util.Map" >
+       SELECT
+		 "G0LAND1" AS country,
+		 "G0MCOD3" AS cityName,
+		 "G0LIFNR" AS supplierCode,
+		 "G0NAME1" AS  supplierName,
+		 "G0GSDM"  AS unitCode,
+		 "G0GSJC"  AS unitName,
+		 "G0ADRNR" AS  address,
+		 "G0TELF1"  AS mobile,
+		 "G0TELFX"  AS fix
+	FROM "_SYS_BIC"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY/H1AM_KY_ZH_1000_05"('PLACEHOLDER' = ('$$PR_GSDM$$',
+		 '${companyCode}'))  <include refid="selectConditionDic_stp_Supplyer" />  
+	GROUP BY "G0LAND1",
+		 "G0MCOD3",
+		 "G0SORTL",
+		 "G0LIFNR",
+		 "G0NAME1",
+		 "G0KTOKK",
+		 "G0GSDM",
+		 "G0GSJC",
+		 "G0ADRNR",
+		 "G0TELF1",
+		 "G0TELFX"
+      
+      
+     </select>
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
 	 <resultMap id="sporjectCodeResultMap" type="com.pcitc.base.hana.report.ProjectCode" >
 	   <!-- 项目类型 -->
        <result column="G0XMGLLX" property="g0XMGLLX" jdbcType="VARCHAR" />
