@@ -730,6 +730,6 @@ public class ExpertController extends BaseController {
     public String expertDetailIndex() {
         ResponseEntity<ZjkExpert> responseEntity = this.restTemplate.exchange(GET_INFO + request.getParameter("dataId"), HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), ZjkExpert.class);
         request.setAttribute("expert",responseEntity.getBody());
-        return "stp/expert/expertDetailIndex";
+        return "chart/detail";
     }
 }

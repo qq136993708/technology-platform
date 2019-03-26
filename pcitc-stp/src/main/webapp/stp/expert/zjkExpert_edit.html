@@ -731,9 +731,6 @@
                 var param = JSON.parse(window.localStorage.getItem("param"));
                 $("#functionId").attr("value", param.id);
                 formData.field.functionId = param.id;
-                console.log("提交审核");
-                console.log(formData.field.functionId);
-                console.log(formData.field);
                 workflow(formData);
 
                 return false;
