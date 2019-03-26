@@ -164,7 +164,7 @@ var name=$('#name').val();
             }
             ,editEvent: function(){  //点击编辑按钮
             	
-            	if (typeof(selectRowData.equipmentId) == "undefined") {
+            	if (typeof(selectRowData) == "undefined") {
             		layer.msg('请点击选择一行数据');
             	} else {
             		 var equipmentId=selectRowData.equipmentId;
@@ -186,7 +186,7 @@ var name=$('#name').val();
                
             },deleteEvent: function(){  //点击删除按钮
                  console.log('点击了删除按钮')
-                 if (typeof(selectRowData.equipmentId) == "undefined") 
+                 if (typeof(selectRowData) == "undefined") 
                  {
             		layer.msg('请点击选择一行数据');
             	 } else 
@@ -203,7 +203,7 @@ var name=$('#name').val();
               
             },
             detailEvent: function(){  //点击详情按钮
-            	if (typeof(selectRowData.equipmentId) == "undefined") {
+            	if (typeof(selectRowData) == "undefined") {
             		layer.msg('请点击选择一行数据');
             	} else {
             		 var equipmentId=selectRowData.equipmentId;
@@ -224,7 +224,7 @@ var name=$('#name').val();
             
             },
             acceptSoftEvent: function(){  //软件验收
-            	if (typeof(selectRowData.equipmentId) == "undefined") {
+            	if (typeof(selectRowData) == "undefined") {
             		layer.msg('请点击选择一行数据');
             	} else {
             		 var equipmentId=selectRowData.equipmentId;

@@ -46,69 +46,23 @@ public class SreEquipment {
 
     private String erpNo;
 
-    private String supplierId;
-
-    private String supplierName;
-
-    private String supplierLinkMan;
-
-    private String supplierMobileEmail;
-
     private String originPlace;
 
     private Integer voteCount;
 
-    private String secondSupplierId;
-
-    private String secondSupplierName;
-
-    private String secondSupplierLinkMan;
-
-    private String secondSupplierMobileEmail;
-    
-    
     private String unitPathIds;
+
     private String unitPathNames;
+
     private String parentUnitPathNames;
+
     private String parentUnitPathIds;
-    
-    
 
-    public String getParentUnitPathNames() {
-		return parentUnitPathNames;
-	}
+    private String supplierStr;
 
-	public void setParentUnitPathNames(String parentUnitPathNames) {
-		this.parentUnitPathNames = parentUnitPathNames;
-	}
+    private String supplierWillStr;
 
-	public String getParentUnitPathIds() {
-		return parentUnitPathIds;
-	}
-
-	public void setParentUnitPathIds(String parentUnitPathIds) {
-		this.parentUnitPathIds = parentUnitPathIds;
-	}
-
-	public String getUnitPathIds() {
-		return unitPathIds;
-	}
-
-	public void setUnitPathIds(String unitPathIds) {
-		this.unitPathIds = unitPathIds;
-	}
-
-	public String getUnitPathNames() {
-		return unitPathNames;
-	}
-
-	public void setUnitPathNames(String unitPathNames) {
-		this.unitPathNames = unitPathNames;
-	}
-
-
-
-	public String getEquipmentId() {
+    public String getEquipmentId() {
         return equipmentId;
     }
 
@@ -276,38 +230,6 @@ public class SreEquipment {
         this.erpNo = erpNo;
     }
 
-    public String getSupplierId() {
-        return supplierId;
-    }
-
-    public void setSupplierId(String supplierId) {
-        this.supplierId = supplierId;
-    }
-
-    public String getSupplierName() {
-        return supplierName;
-    }
-
-    public void setSupplierName(String supplierName) {
-        this.supplierName = supplierName;
-    }
-
-    public String getSupplierLinkMan() {
-        return supplierLinkMan;
-    }
-
-    public void setSupplierLinkMan(String supplierLinkMan) {
-        this.supplierLinkMan = supplierLinkMan;
-    }
-
-    public String getSupplierMobileEmail() {
-        return supplierMobileEmail;
-    }
-
-    public void setSupplierMobileEmail(String supplierMobileEmail) {
-        this.supplierMobileEmail = supplierMobileEmail;
-    }
-
     public String getOriginPlace() {
         return originPlace;
     }
@@ -324,35 +246,51 @@ public class SreEquipment {
         this.voteCount = voteCount;
     }
 
-    public String getSecondSupplierId() {
-        return secondSupplierId;
+    public String getUnitPathIds() {
+        return unitPathIds;
     }
 
-    public void setSecondSupplierId(String secondSupplierId) {
-        this.secondSupplierId = secondSupplierId;
+    public void setUnitPathIds(String unitPathIds) {
+        this.unitPathIds = unitPathIds;
     }
 
-    public String getSecondSupplierName() {
-        return secondSupplierName;
+    public String getUnitPathNames() {
+        return unitPathNames;
     }
 
-    public void setSecondSupplierName(String secondSupplierName) {
-        this.secondSupplierName = secondSupplierName;
+    public void setUnitPathNames(String unitPathNames) {
+        this.unitPathNames = unitPathNames;
     }
 
-    public String getSecondSupplierLinkMan() {
-        return secondSupplierLinkMan;
+    public String getParentUnitPathNames() {
+        return parentUnitPathNames;
     }
 
-    public void setSecondSupplierLinkMan(String secondSupplierLinkMan) {
-        this.secondSupplierLinkMan = secondSupplierLinkMan;
+    public void setParentUnitPathNames(String parentUnitPathNames) {
+        this.parentUnitPathNames = parentUnitPathNames;
     }
 
-    public String getSecondSupplierMobileEmail() {
-        return secondSupplierMobileEmail;
+    public String getParentUnitPathIds() {
+        return parentUnitPathIds;
     }
 
-    public void setSecondSupplierMobileEmail(String secondSupplierMobileEmail) {
-        this.secondSupplierMobileEmail = secondSupplierMobileEmail;
+    public void setParentUnitPathIds(String parentUnitPathIds) {
+        this.parentUnitPathIds = parentUnitPathIds;
+    }
+
+    public String getSupplierStr() {
+        return supplierStr;
+    }
+
+    public void setSupplierStr(String supplierStr) {
+        this.supplierStr = supplierStr;
+    }
+
+    public String getSupplierWillStr() {
+        return supplierWillStr;
+    }
+
+    public void setSupplierWillStr(String supplierWillStr) {
+        this.supplierWillStr = supplierWillStr;
     }
 }

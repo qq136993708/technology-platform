@@ -70,6 +70,8 @@ var publicMethods;
                 		return;
                 	}
                 	var supplierIds="";
+                	var supplierStr="";
+                	var count=0;
                 	for(var dt in check.data)
                 	{
                 		supplierIds=supplierIds+check.data[dt].g0LIFNR+",";
@@ -81,10 +83,13 @@ var publicMethods;
                 		var mobile=check.data[dt].g0TELF1;//供应商--电话
                 		var fix=check.data[dt].g0TELFX;//供应商--传真
                 		var address=check.data[dt].g0ADRNR;//供应商--地址
+                		var str=supplierCode+"#"+supplierName+"#"+cityName+"#"+unitName+"#"+mobile+"#"+fix+"#"+address+"|";
+                		supplierStr=supplierStr+str;
+                		count++;
                 	}
-                	
-                	//parent.document.getElementById("supplierIds").value=supplierIds;
-                	//parent.renderTable(supplierIds);
+                	supplierStr = supplierStr.substr(0, supplierStr.length -1);
+                	parent.document.getElementById("supplierStr").value=supplierStr;
+                	parent.setSupplierStr(supplierIds);
                 	var index = parent.layer.getFrameIndex(window.name);
     			    parent.layer.close(index); 
                 }

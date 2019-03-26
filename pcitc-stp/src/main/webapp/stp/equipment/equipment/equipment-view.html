@@ -16,11 +16,17 @@
   <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css">
   <link rel="stylesheet" type="text/css" href="/layuiadmin/ztree/css/metroStyle/metroStyle.css">
   <link rel="stylesheet" href="/layuiadmin/style/common.css">
+  <script src="/common/js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+<script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+
 </head>
 <body>
   <div class="formBox">
   <div class="box-body">
   <form class="layui-form" name="form1" id="form1" action="" method="POST" lay-filter="component-form-group layui-container">
+     <input type="hidden" name="supplierStr"     id="supplierStr" value="${sreEquipment.supplierStr}">
+     <input type="hidden" name="supplierWillStr" id="supplierWillStr" value="${sreEquipment.supplierWillStr}">
      <input type="hidden" name="attachmentDoc" id="attachmentDoc" value="${sreEquipment.attachmentDoc}">
        <!-- 行有两个的情况 -->
       <div class="layui-row">
@@ -85,36 +91,50 @@
       
       
       
-      
-       <div class="layui-row">
-        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-          <div class="layui-form-item">
-            <label for="" class="layui-form-label">推荐供应商</label>
-            <div class="layui-input-block">
-              <input class="layui-input readOnlyBox" name="supplierName" id="supplierName" value="${sreEquipment.supplierName}"     autocomplete="off" type="text">
-            </div>
-          </div>
+        <!-- 文本域 -->
+      <div class="layui-form-item layui-form-text" >
+        <label class="layui-form-label">推荐供应商</label>
+        <div class="layui-input-block" id="supplier_str">
+          <table class="layui-table">
+		                    <thead>
+		                    <tr>
+                                <td width="12%">供应商ID</td>
+		                        <td width="12%">供应商名称</td>
+		                        <td width="12%">所在城市</td>
+		                        <td width="12%">所属单位</td>
+		                        <td width="12%">电话</td>
+		                        <td width="12%">传真</td>
+		                        <td width="12%">地址</td>
+		                    </tr>
+		                    </thead>
+		                    <tbody></tbody>
+		                </table>
         </div>
-        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-          <div class="layui-form-item">
-            <label for="" class="layui-form-label">供应商联系人</label>
-            <div class="layui-input-block">
-              <input class="layui-input readOnlyBox" name="supplierLinkMan" id="supplierLinkMan" value="${sreEquipment.supplierLinkMan}"     autocomplete="off" type="text">
-            </div>
-          </div>
+      </div>
+      
+       <!-- 文本域 -->
+      <div class="layui-form-item layui-form-text" >
+        <label class="layui-form-label">意向供应商</label>
+        <div class="layui-input-block" id="supplier_will_str">
+           <table class="layui-table">
+		                    <thead>
+		                    <tr>
+                              <td width="12%">供应商名称</td>
+		                        <td width="12%">所在城市</td>
+		                        <td width="12%">所属单位</td>
+		                        <td width="12%">电话</td>
+		                        <td width="12%">传真</td>
+		                        <td width="12%">地址</td>
+		                    </tr>
+		                    </thead>
+		                    <tbody></tbody>
+		                </table>
         </div>
       </div>
       
-      <div class="layui-row">
-        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-          <div class="layui-form-item">
-            <label for="" class="layui-form-label">供应商电话及Email</label>
-            <div class="layui-input-block">
-              <input class="layui-input readOnlyBox" name="supplierMobileEmail" id="supplierMobileEmail" value="${sreEquipment.supplierMobileEmail}"     autocomplete="off" type="text">
-            </div>
-          </div>
-        </div>
-      </div>
+      
+        
+      
       
        <!-- 文本域 -->
       <div class="layui-form-item layui-form-text" >
@@ -152,7 +172,6 @@
         </div>
       </div>
           
-     
       
        <div class="layui-row">
         <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
@@ -173,10 +192,6 @@
         </div>
       </div>
       
-      
-      
-    
-      
        <div class="layui-form-item">
 	      	 <label class="layui-form-label">附件</label>
 	         <div id="file_div" class="layui-input-block"></div>
@@ -191,24 +206,33 @@
 </form>
 </div>
 </div>
-<script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
-<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
-	<script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
-<script>
+<script type="text/javascript">
 var v_date=(new Date()).getTime();
-
+var publicMethods;
 var file_ids = "attachmentDoc";
 //detail:详情，edit：编辑
 file_edit_detail = "detail";
 //统管理-附件管理-附件配置：页面标识
 file_opt_flag = "546f1237f09d4aa19e91721180253b48";
+var supplierStr =$("#supplierStr").val();
+var supplierWillStr =$("#supplierWillStr").val();
 
-$(document).ready(function() {
-	layui.use([ 'jquery', 'form', 'laydate', 'table', 'layer', 'element',"publicMethods" ],
-			function() {
-				var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate;
-				var form = layui.form;
-				var publicMethods=layui.publicMethods;
+layui.config({
+}).extend({
+    index: 'layui/tableDemo' //主入口模块
+}).use(['form', 'table', 'laypage', 'layer', 'laydate', 'laytpl', 'jquery', "publicMethods"], function () {
+
+    var admin = layui.admin
+    element = layui.element
+        , table = layui.table
+        , layer = layui.layer
+        , laydate = layui.laydate
+        , laypage = layui.laypage
+        , form = layui.form
+        , $ = layui.jquery;
+       publicMethods = layui.publicMethods;
+     //添加到form.render()之后
+	 	$("#file_div").load('/common/public/uploadlayuiload.html');
 				//加载字典
 				var dicMap = ['GJXMGL_TZLX'];
 				publicMethods.ajaxPost("/dictionary/map/getMapListDictionarys",{"parentCodes":JSON.stringify(dicMap)}, function (data) {
@@ -220,36 +244,53 @@ $(document).ready(function() {
 			   	});
 			 	
 			 	form.render();
-			 	//添加到form.render()之后
-			 	$("#file_div").load('/common/public/uploadlayuiload.html');
-				/* 自定义验证规则  title 要验证的input的 lay-verify=""*/
-				form.verify({
-				});
-				/* 监听提交 */
-				form.on('submit(submitBtn)', function(data) {
-					data.field.noticeContent = editor.getData();
-                    ajaxPost('/project/addorupd-notice', data.field, function (data, status) {
-                        if (data.success) {
-                        	parent.layui.table.reload('noticeTable',null);
-                        	parent.renderfunc();//隐藏全选按钮
-                        	var index = parent.layer.getFrameIndex(window.name);
-					       	parent.layer.close(index);
-                        }else{
-                        	parent.layer.alert(data.message, {
-								title : '信息'
-							});
-							return;
-                        }
-                    });
-					return false;
-				});
+			 	
+			 	
+			 	
+			 	
+			 	  if(supplierStr!='')
+			        {
+			            $.each(supplierStr.split("|"), function (i, val) {
+			                var taskVal = val.split("#");
+			                var tr = "<tr><td>" + taskVal[0] + "</td>" +
+			                    "<td>" + taskVal[1] + "</td>" +
+			                    "<td>" + taskVal[2] + "</td> " +
+			                    "<td>" + taskVal[3] + " </td>" +
+			                    "<td>" + (taskVal[4]=='null' ? '':taskVal[4]) + "</td>" +
+			                    "<td>" + (taskVal[5]=='null' ? '':taskVal[5]) + "</td>" +
+			                    "<td>" + (taskVal[6]=='null' ? '':taskVal[6]) + "</td>" +
+			                    
+			                    "</tr>";
+
+			                $("#supplier_str table tbody").append(tr);
+			            });
+			        }
+			 	  
+			 	 if(supplierWillStr!='')
+			        {
+			            $.each(supplierWillStr.split("|"), function (i, val) {
+			                var taskVal = val.split("#");
+			                var tr = "<tr><td>" + taskVal[0] + "</td>" +
+			                    "<td>" + taskVal[1] + "</td>" +
+			                    "<td>" + taskVal[2] + "</td> " +
+			                    "<td>" + taskVal[3] + " </td>" +
+			                    "<td>" + (taskVal[4]=='null' ? '':taskVal[4]) + "</td>" +
+			                    "<td>" + (taskVal[5]=='null' ? '':taskVal[5]) + "</td>" +
+			                    "</tr>";
+
+			                $("#supplier_will_str table tbody").append(tr);
+			            });
+			        } 
+			 	  
+			 	
 		});
 	//关闭事件
 	$("#closeBtn").click(function () {
 	    var index = parent.layer.getFrameIndex(window.name);
 	    parent.layer.close(index);
 	})
-});
+
+
 
 
 </script>
