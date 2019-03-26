@@ -171,7 +171,7 @@
             
              
 
-            <div class="layui-row" id="sources_table">
+            <!-- <div class="layui-row" id="sources_table">
                 <div class="tableToolBox">
                     <div class="tableTitle">资金来源表 </div>
                     <div class="tableBtns">
@@ -194,7 +194,42 @@
                     </thead>
                     <tbody></tbody>
                 </table>
+            </div> -->
+            
+            
+            
+            <div class="layui-row" id="sources_table">
+                <div class="tableToolBox">
+                    <div class="tableTitle">资金来源表</div>
+                    <div class="tableBtns">
+                        <!--<a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg"
+                           data-type="fundsAddEvent">新增
+                        </a>-->
+                    </div>
+                </div>
+                <table class="layui-table">
+                    <thead>
+                    <tr>
+                        <td width="20%">来源</td>
+                        <td width="8%">国家拨款(万)</td>
+                        <td width="8%">总部拨付(万)</td>
+                        <td width="8%">负责单位自筹(万)</td>
+                        <td width="8%">其它(万)</td>
+                        <td width="8%">合计(万)</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr><td> <input lay-verify='specialCharacters' type='text' value='金额'/></td>
+                        <td><input type='number' class='fundsNumber' value='0'/> </td>
+                        <td><input type='number' class='fundsNumber'  value='0'/> </td>
+                        <td><input type='number' class='fundsNumber' value='0'/> </td>
+                        <td><input type='number' class='fundsNumber'  value='0'/> </td>
+                        <td></td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
+            
             
             
             
@@ -331,7 +366,7 @@
         
         /*资金来源表*/
         //var fundsArr="1#77#34#34#34#324|2#88#66#45#34#412";
-        var fundsArr = $("#sourcesTable").val();
+      /*   var fundsArr = $("#sourcesTable").val();
         if(fundsArr!='')
         {
         	$.each(fundsArr.split("|"), function (i, val) {
@@ -346,7 +381,31 @@
                 addTr("sources_table", tr);
                 formVerify();
             });
+        } */
+        
+        /*资金来源表*/
+        //var fundsArr="1#77#34#34#34#324|2#88#66#45#34#412";
+        var fundsArr = $("#sourcesTable").val();
+        if(fundsArr!='')
+        {
+        	$.each(fundsArr.split("|"), function (i, val) {
+                var fundsVal = val.split("#");
+                $("#sources_table table tbody tr td:eq(0) input").val(fundsVal[0]);
+                $("#sources_table table tbody tr td:eq(1) input").val(fundsVal[1]);
+                $("#sources_table table tbody tr td:eq(2) input").val(fundsVal[2]);
+                $("#sources_table table tbody tr td:eq(3) input").val(fundsVal[3]);
+                $("#sources_table table tbody tr td:eq(4) input").val(fundsVal[4]);
+                $("#sources_table table tbody tr td:eq(5)").text(fundsVal[5]);
+            });
         }
+        $("#sources_table table tbody tr input").change(function () {
+            $("#sources_table table tbody tr td:last").text(
+                parseInt($("#sources_table table tbody tr td:eq(1) input").val())+
+                parseInt($("#sources_table table tbody tr td:eq(2) input").val())+
+                parseInt($("#sources_table table tbody tr td:eq(3) input").val())+
+                parseInt($("#sources_table table tbody tr td:eq(4) input").val())
+            );
+        });
         
         dele();
         var $ =layui.$, active = {
@@ -362,7 +421,7 @@
             },
            
            
-            fundsAddEvent:function(){
+           /*  fundsAddEvent:function(){
                 var tr = "<tr><td> <input lay-verify='specialCharacters' type='text' value=''/></td>" +
 	                    "<td><input type='number' class='fundsNumber' value='0'/> </td>" +
 	                    "<td><input type='number' class='fundsNumber'  value='0'/> </td>" +
@@ -380,7 +439,7 @@
                     });
                     $(this).parents("tr").find("td").eq(5).text(numberC)
                 });
-            }
+            } */
 
         }
       
@@ -401,9 +460,33 @@
                 layer.alert("资金来源为空");
             }else
             {
-            	 var url="/sre_project_setup/save?v_date="+v_date+"&status=0";
-                 var backurl="/sre_project_task/write_list?v_date="+v_date;
-                 ajaxOpt(url,"form1","POST",backurl,"保存成功","保存失败");
+            	
+            	
+            	 /*项目内容和主要图表总值*/
+                var equipment_value=0;
+                for(var i=0;i<$("#main_table table tbody tr").length;i++){
+                	 var value=$("#main_table table tbody tr").eq(i).find("td:eq(3)").find("input").val();
+                	 equipment_value+=parseInt(value);
+                }
+                /*来源总值*/
+                var sources_value=0;
+                for(var i=0;i<$("#sources_table table tbody tr").length;i++){
+                	 var value=$("#sources_table table tbody tr").eq(i).find("td:eq(5)").text();
+                	 sources_value+=parseInt(value);
+                }
+                
+	                layer.confirm('立项报告：主要图表总金额='+equipment_value+"万,来源总金额="+sources_value+"万,确定提交吗？", { btn: ['确定','取消']},  function(){
+	                	var url="/sre_project_setup/save?v_date="+v_date+"&status=0";
+	                    var backurl="/sre_project_task/write_list?v_date="+v_date;
+	                    ajaxOpt(url,"form1","POST",backurl,"保存成功","保存失败");
+	               
+	               }, function(){
+	   			 
+	   			   });
+                
+                
+                
+            	 
             }
              
             return false;

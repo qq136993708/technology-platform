@@ -298,6 +298,9 @@ public class ProjectBasicController extends BaseController {
 		String unitPathNames = CommonUtil.getParameter(request, "unitPathNames", sysUserInfo.getUnitName());
 		String yearFeeStrJoinUnit = CommonUtil.getParameter(request, "yearFeeStrJoinUnit", "");
 		
+		String projectMoney = CommonUtil.getParameter(request, "projectMoney", "");
+		
+		
 		
 		String parentUnitPathIds ="";
 		String parentUnitPathNames =  "";
@@ -334,7 +337,7 @@ public class ProjectBasicController extends BaseController {
 		}
 		// 流程状态
 		sreProjectBasic.setAuditStatus(auditStatus);
-		BigDecimal projectMoney=BigDecimal.ZERO;
+		/*BigDecimal projectMoney=BigDecimal.ZERO;
 		if (!yearFeeStr.equals("")) //2019,55,5,60#2020,553,5,558
 		{
 			String array[]=yearFeeStr.split("#");
@@ -348,9 +351,9 @@ public class ProjectBasicController extends BaseController {
 				}
 			}
 			sreProjectBasic.setProjectMoney(projectMoney);
-		}
+		}*/
 		
-		
+		sreProjectBasic.setProjectMoney(new BigDecimal(projectMoney));
 		sreProjectBasic.setUnitPathIds(unitPathIds);
 		sreProjectBasic.setUnitPathNames(unitPathNames);
 		sreProjectBasic.setParentUnitPathIds(parentUnitPathIds); 

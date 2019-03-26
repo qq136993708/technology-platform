@@ -16,34 +16,24 @@
   <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css">
   <link rel="stylesheet" type="text/css" href="/layuiadmin/ztree/css/metroStyle/metroStyle.css">
   <link rel="stylesheet" href="/layuiadmin/style/common.css">
+
+  <script src="/layuiadmin/layui/layui.js"></script>
+  <style type="text/css">
+  </style>
 </head>
 <body>
-<div class="layer-box">
-	<form id="planForm" class="layui-form" action="" lay-filter="component-form-group layui-container"></form>
-		<div class="formBox">
-			<div class="tableToolBox">
-				<div class="tableBtns">
-					<div class="tableTitle">基本信息<span class="red">（标*号为必填项）</span>
-					</div>
-				</div>
-			</div>
-		</div>
-	<div class="box-body">
+<div  class="layer-box" style="padding:10px">
 	<form class="layui-form"  name="form1" id="form1" action="" method="POST" lay-filter="component-form-group layui-container">
 		<input type="hidden"  name="equipmentId"     id="equipmentId"         value="${sreEquipment.equipmentId}">
 		<input type="hidden"  name="functionId"      id="functionId"          value=""   >
 		<input type="hidden"  name="applyDepartCode" id="applyDepartCode"     value="${applyDepartCode}" >
 		<input type="hidden"  name="auditStatus"     id="auditStatus"         value=""  >
         <input type="hidden"  name="attachmentDoc"   id="attachmentDoc"       value="${attachmentDoc}">
-        <input type="hidden"  name="supplierIds"     id="supplierIds"                  value="${supplierIds}">
-        <input type="hidden"  name="supplierWillIds"     id="supplierWillIds"          value="${supplierWillIds}">
         <input type="hidden"  name="companyCode"     id="companyCode"          value="">
-        
         <!-- 推荐供应商 -->
-        <input type="hidden"  name="supplierStr"     id="supplierStr" >
+        <input type="hidden"  name="supplierStr"         id="supplierStr"         value="${sreEquipment.supplierStr}">
         <!-- 意向供应商-->
-        <input type="hidden"  name="supplierWillStr"     id="supplierWillStr" >
-        
+        <input type="hidden"  name="supplierWillStr"     id="supplierWillStr"     value="${sreEquipment.supplierWillStr}">
         
       <!-- 行有两个的情况 -->
       <div class="layui-row">
@@ -75,7 +65,7 @@
           <div class="layui-form-item">
             <label for="" class="layui-form-label">申报单价（万元）<span class="must-fill">*</span></label>
             <div class="layui-input-block">
-              <input class="layui-input" placeholder="￥" name="unitPrice" id="unitPrice" value="${sreEquipment.unitPrice}"  lay-verify="required"  autocomplete="off" type="text" onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')">
+              <input class="layui-input" placeholder="￥" name="unitPrice" id="unitPrice" value="${sreEquipment.unitPrice}"  lay-verify="required"  autocomplete="off" type="text"  onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
             </div>
           </div>
         </div>
@@ -105,7 +95,7 @@
         </div>
       </div>
       
-       <div class="layui-form-item">
+       <!-- <div class="layui-form-item">
                 <label class="layui-form-label">推荐供应商</label>
                 <div class="layui-input-block">
                     <div class="tableBox">
@@ -120,67 +110,69 @@
                         <table id="join_apply_table" class="layui-hide" lay-filter="JoinEvent"></table>
                     </div>
                 </div>
-            </div>
-      
-       <div class="layui-form-item">
-                <label class="layui-form-label">意向供应商</label>
+            </div> -->
+            
+            
+            
+             <div class="layui-form-item">
+                <label class="layui-form-label">推荐供应商</label>
                 <div class="layui-input-block">
-                    <div class="tableBox">
+                    <div class="tableBox" id="supplier_str">
                         <div class="tableToolBox">
-                            <div class="whiteLine"></div>
                             <div class="tableBtns">
-                                <a href="javascript:void(0)"  
-                                   class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg">添加</a>
+                                <a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg" onclick="chooseBusiness_data()" >添加</a>
                             </div>
                         </div>
-                        <table id="join_apply_table" class="layui-hide" lay-filter="JoinEvent"></table>
+                          <table class="layui-table">
+		                    <thead>
+		                    <tr>
+                                <td width="12%">供应商ID</td>
+		                        <td width="12%">供应商名称</td>
+		                        <td width="12%">所在城市</td>
+		                        <td width="12%">所属单位</td>
+		                        <td width="12%">电话</td>
+		                        <td width="12%">传真</td>
+		                        <td width="12%">地址</td>
+		                        <td width="5%">删除</td>
+		                    </tr>
+		                    </thead>
+		                    <tbody></tbody>
+		                </table>
+
                     </div>
                 </div>
             </div>
       
       
-       <!-- <div class="layui-row">
-        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-          <div class="layui-form-item">
-            <label for="" class="layui-form-label">推荐供应商</label>
-            <div class="layui-input-block">
-              <input class="layui-input" name="supplierName" id="supplierName" value="${sreEquipment.supplierName}" onclick="chooseBusiness_data()"    autocomplete="off" type="text">
-            </div>
-          </div>
-        </div>
-        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-          <div class="layui-form-item">
-            <label for="" class="layui-form-label">供应商联系人</label>
-            <div class="layui-input-block">
-              <input class="layui-input" name="supplierLinkMan" id="supplierLinkMan" value="${sreEquipment.supplierLinkMan}"     autocomplete="off" type="text">
-            </div>
-          </div>
-        </div>
-      </div>
       
-      <div class="layui-row">
-        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-          <div class="layui-form-item">
-            <label for="" class="layui-form-label">供应商电话及Email</label>
-            <div class="layui-input-block">
-              <input class="layui-input" name="supplierMobileEmail" id="supplierMobileEmail" value="${sreEquipment.supplierMobileEmail}"     autocomplete="off" type="text">
-            </div>
-          </div>
-        </div>
-        
-        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-          <div class="layui-form-item">
-            <label for="" class="layui-form-label">产地</label>
-            <div class="layui-input-block">
-               <input class="layui-input" name="originPlace" id="originPlace"  value="${sreEquipment.originPlace}"    autocomplete="off" type="text">
-            </div>
-          </div>
-        </div>
-      </div>
-       -->
       
-    
-      
+         <div class="layui-form-item">
+                <label class="layui-form-label">意向供应商</label>
+                <div class="layui-input-block">
+                    <div class="tableBox" id="supplier_will_str">
+                        <div class="tableToolBox">
+                            <div class="tableBtns">
+                                <a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg" id="gysAddEvent">添加</a>
+                            </div>
+                        </div>
+                          <table class="layui-table">
+		                    <thead>
+		                    <tr>
+		                        <td width="12%">供应商名称</td>
+		                        <td width="12%">所在城市</td>
+		                        <td width="12%">所属单位</td>
+		                        <td width="12%">电话</td>
+		                        <td width="12%">传真</td>
+		                        <td width="12%">地址</td>
+		                        <td width="5%">删除</td>
+		                    </tr>
+		                    </thead>
+		                    <tbody></tbody>
+		                </table>
+
+                    </div>
+                </div>
+            </div>
       
       
        <div class="layui-row">
@@ -188,7 +180,7 @@
           <div class="layui-form-item">
             <label for="" class="layui-form-label">申报单位<span class="must-fill">*</span></label>
             <div class="layui-input-block">
-              <input class="layui-input" name="applyDepartName" id="applyDepartName" value="${applyDepartName}"   lay-verify="required"  autocomplete="off" type="text">
+              <input class="layui-input" name="applyDepartName" readonly="readonly" id="applyDepartName" value="${applyDepartName}"   lay-verify="required"  autocomplete="off" type="text">
             </div>
           </div>
         </div>
@@ -196,7 +188,7 @@
           <div class="layui-form-item">
             <label for="" class="layui-form-label">第一申报人<span class="must-fill">*</span></label>
             <div class="layui-input-block">
-               <input class="layui-input" name="firstApplyUser" id="firstApplyUser" value="${firstApplyUser}"   lay-verify="required"  autocomplete="off" type="text">
+               <input class="layui-input" name="firstApplyUser" id="firstApplyUser" readonly="readonly" value="${firstApplyUser}"   lay-verify="required"  autocomplete="off" type="text">
             </div>
           </div>
         </div>
@@ -227,18 +219,16 @@
 		
 	</form>
   </div>
-</div>
 <script src="/common/js/jquery-1.11.3.min.js"></script>
-<script src="/layuiadmin/layui/layui.js"></script>
 <script>
 var v_date=(new Date()).getTime();
-var table;
+var table,form;
 var file_ids = "attachmentDoc";
 //detail:详情，edit：编辑
 file_edit_detail = "edit";
 //统管理-附件管理-附件配置：页面标识
 file_opt_flag = "546f1237f09d4aa19e91721180253b48";
-
+var publicMethods;
 var param=JSON.parse(window.localStorage.getItem("param"));
 var functionId=param.id;
 $('#functionId').val(functionId);
@@ -246,24 +236,78 @@ var roleCodes = "";
 var unitCodes = "";
 var postCodes = "";
 
-
-
-
-layui.config({
-    base: 'layuicommon/module/modules/' //静态资源所在路径
-}).extend({
-    index: 'layui/tableDemo' //主入口模块
-}).use(['jquery','form', 'laydate','table','layer',"publicMethods"], function(){
+layui.use(['jquery','form', 'laypage', 'laydate','table','layer',"publicMethods"], function(){
 	  var $ = layui.jquery,
 	  admin = layui.admin
       ,element = layui.element
       ,layer = layui.layer
-      ,laydate = layui.laydate
-      ,form = layui.form;
+      ,laydate = layui.laydate;
+      form = layui.form;
 	  table = layui.table;
-	  var publicMethods=layui.publicMethods;
+	  publicMethods=layui.publicMethods;
 	  var equipmentId = "${equipmentId?default(0)}";
 	  var type = "${sreEquipment.type?default('')}";
+	  
+	  
+	  /*初始化推荐供应商*/
+	  var supplierStr = $("#supplierStr").val();
+      if(supplierStr!='')
+      {
+      	$.each(supplierStr.split("|"), function (i, val) {
+              var taskVal = val.split("#");
+              var tr = "<tr><td><textarea    rows='2' cols='20' style='width: 95%;'>" + taskVal[0] + "</textarea></td>" +
+                  "<td><textarea    rows='2' cols='20' style='width: 95%;'>" + taskVal[1] + "</textarea></td>" +
+                  "<td><textarea    rows='2' cols='20' style='width: 95%;'>" + taskVal[2] + "</textarea></td>" +
+                  "<td><textarea    rows='2' cols='20' style='width: 95%;'>" + taskVal[3] + "</textarea></td>" +
+                  "<td><textarea    rows='2' cols='20' style='width: 95%;'>" + taskVal[4] + "</textarea></td>" +
+                  "<td><textarea    rows='2' cols='20' style='width: 95%;'>" + taskVal[5] + "</textarea></td>" +
+                  "<td><textarea    rows='2' cols='20' style='width: 95%;'>" + taskVal[6] + "</textarea></td>" +
+                  "<td><a href='javascript:;' class='dele'>删除</a></td></tr>";
+              addTr("supplier_str", tr);
+              formVerify();
+          });
+      }
+      
+	  
+	  /*初始化意向供应商*/
+      //var taskArr = "1#2#3#4#5|2#9#8#7#6";
+      var taskArr = $("#supplierWillStr").val();
+      if(taskArr!='')
+      {
+      	$.each(taskArr.split("|"), function (i, val) {
+              var taskVal = val.split("#");
+              var tr = "<tr><td><textarea    rows='2' cols='20' style='width: 95%;'>" + taskVal[0] + "</textarea></td>" +
+                  "<td><textarea    rows='2' cols='20' style='width: 95%;'>" + taskVal[1] + "</textarea></td>" +
+                  "<td><textarea    rows='2' cols='20' style='width: 95%;'>" + taskVal[2] + "</textarea></td>" +
+                  "<td><textarea    rows='2' cols='20' style='width: 95%;'>" + taskVal[3] + "</textarea></td>" +
+                  "<td><textarea    rows='2' cols='20' style='width: 95%;'>" + taskVal[4] + "</textarea></td>" +
+                  "<td><textarea    rows='2' cols='20' style='width: 95%;'>" + taskVal[5] + "</textarea></td>" +
+                  "<td><a href='javascript:;' class='dele'>删除</a></td></tr>";
+              addTr("supplier_will_str", tr);
+              formVerify();
+          });
+      }
+      dele();
+	  //意向供应商事件
+      $("#gysAddEvent").click(function () {
+      	  var n = $("#supplier_will_str table tbody tr").length + 1;
+          var tr = "<tr><td><textarea     rows='2' style='width: 95%;'></textarea></td><td><textarea     rows='2' style='width: 95%;'></textarea> </td>" +
+              "<td><textarea     rows='2' cols='20' style='width: 95%;'></textarea> </td><td><textarea     rows='2' style='width: 95%;'></textarea> </td>" +
+              "<td><textarea     rows='2' style='width: 95%;'></textarea> </td>" +
+              "<td><textarea     rows='2' style='width: 95%;'></textarea> </td>" +
+              "<td><a href='javascript:;' class='dele'>删除</a></td></tr>";
+          addTr("supplier_will_str", tr);
+          dele();
+          formVerify();
+      })
+      
+      
+      var $ =layui.$, active = {
+   		   gysAddEvent: function () 
+   		   {
+              }
+      };
+      
 	    //alert(type);
 	    //加载字典
 		var dicMap = ['ROOT_ZBGL_ZBFL'];
@@ -296,6 +340,10 @@ layui.config({
               }
           }
       });
+       
+       
+       
+ 
       
       
     
@@ -331,6 +379,15 @@ layui.config({
           
     	  var url="/sre-equipment/save?v_date="+v_date;
           var backurl="/sre-equipment/to-list?v_date="+v_date;
+          
+          var  supplierStr =getData("supplier_str", 7);
+          $("#supplierStr").val(supplierStr);
+          
+          var  supplierWillStr =getData("supplier_will_str", 6);
+          $("#supplierWillStr").val(supplierWillStr);
+          
+          
+          
           ajaxOpt(url,"form1","POST",backurl,"保存成功","保存失败");
           return false;
       }); 
@@ -524,6 +581,36 @@ function ajaxOpt(url,formName,type,backurl,successMsg,failMsg)
 	
     
     
+	
+	
+	function setSupplierStr(supplierStr) 
+	{
+		  $("#supplier_str table tbody").empty();
+		  var taskArr = $("#supplierStr").val();
+	      if(taskArr!='')
+	      {
+	      	$.each(taskArr.split("|"), function (i, val) {
+	      		if(val!='')
+	      		{
+	      			var taskVal = val.split("#");
+		              var tr = "<tr><td><textarea    rows='2' cols='20' style='width: 95%;'>" + taskVal[0] + "</textarea></td>" +
+		                  "<td><textarea    rows='2' cols='20' style='width: 95%;'>" + taskVal[1] + "</textarea></td>" +
+		                  "<td><textarea    rows='2' cols='20' style='width: 95%;'>" + taskVal[2] + "</textarea></td>" +
+		                  "<td><textarea    rows='2' cols='20' style='width: 95%;'>" + taskVal[3] + "</textarea></td>" +
+		                  "<td><textarea    rows='2' cols='20' style='width: 95%;'>" + taskVal[4] + "</textarea></td>" +
+		                  "<td><textarea    rows='2' cols='20' style='width: 95%;'>" + taskVal[5] + "</textarea></td>" +
+		                  "<td><textarea    rows='2' cols='20' style='width: 95%;'>" + taskVal[6] + "</textarea></td>" +
+		                  "<td><a href='javascript:;' class='dele'>删除</a></td></tr>";
+		              addTr("supplier_str", tr);
+		              formVerify();
+	      		}
+	              
+	          });
+	      }
+	      
+	      dele();
+	}
+    
 	function renderTable(supplierIds) 
 	{
         var companyCode=  $("#companyCode").val();
@@ -553,7 +640,88 @@ function ajaxOpt(url,formName,type,backurl,successMsg,failMsg)
 	
 	
 	
-    
+	
+	
+	
+	  /*添加行*/
+    function addTr(id, tr) {
+        $("#" + id + " table tbody").append(tr);
+    }
+    /*获取值*/
+    function getData(id, number) {
+        /*获取值*/
+        var columnTrL = $("#" + id + " table tbody tr").length;
+        var columnSC = '';
+        $("#" + id + " table tbody tr").each(function (i) {
+            var columnS = '';
+            for (var k = 0; k < number; k++) {
+                var tdElement = $("#" + id + " table tbody tr:eq(" + i + ") td").eq(k);
+                if ($(tdElement).find("input").length > 0) {
+                    if($(tdElement).find("input").val()==''){
+                        columnS += " "+ "#";
+                    }else {
+                        columnS += $(tdElement).find("input").val() + "#";
+                    }
+                } else if ($(tdElement).find("textarea").length > 0) {
+                    if($(tdElement).find("textarea").val()==''){
+                        columnS += " " + "#";
+                    }else {
+                        columnS += $(tdElement).find("textarea").val() + "#";
+                    }
+                }else {
+                    columnS += $(tdElement).html() + "#";
+                }
+            }
+            columnSC += columnS.substring(0, columnS.length - 1) + "|"
+        });
+        columnSC = columnSC.substring(0, columnSC.length - 1);
+        return columnSC;
+    }
+    /*删除行*/
+    function dele(){
+        $(".dele").click(function () {
+            if($(this).parents(".layui-row").attr("id")=="supplier_will_str"){
+                $(this).parents("tr").remove();
+                $("#supplier_will_str table tbody tr").each(function (i, val) {
+                    $(val).find("td:first").text(i+1)
+                });
+                return;
+            }
+            $(this).parents("tr").remove();
+        });
+    }
+    /*select*/
+    function selectHtml(arr,value,id){
+        if(value==""){
+            $.each(arr,function (i, val) {
+                id.append("<option value='"+val+"'>"+val+"</option>");
+            });
+        }else {
+            $.each(arr,function (i, val) {
+                if(value==val){
+                    id.append("<option value='"+val+"'  selected = 'selected' >"+val+"</option>");
+                }else {
+                    id.append("<option value='"+val+"'>"+val+"</option>");
+                }
+            });
+        }
+
+    }
+    function formVerify(){
+    	form.verify({
+            validateNumber: function (value, item) {
+                if (value <= 0 || value > 2000) {
+                    return '请填写正确的值';
+                }
+            },
+            specialCharacters:function (value, item) {
+            	
+                if(value.indexOf("#")>=0 || value.indexOf("|")>=0){
+                    return "不能填写#与|两个字符。";
+                }
+            }
+        });
+    }
     
 function clearNoNum(obj){ 
     obj.value = obj.value.replace(/[^\d.]/g,"");  //清除“数字”和“.”以外的字符  

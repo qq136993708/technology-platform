@@ -603,9 +603,8 @@ public class EquipmentController extends BaseController {
 		String attachmentDoc = CommonUtil.getParameter(request, "attachmentDoc", "");
 		String specification = CommonUtil.getParameter(request, "specification", "");
 		String voteCount =     CommonUtil.getParameter(request, "voteCount", "1");
-		String supplierLinkMan = CommonUtil.getParameter(request, "supplierLinkMan", "");
-		String supplierMobileEmail = CommonUtil.getParameter(request, "supplierMobileEmail", "");
-		String supplierName =        CommonUtil.getParameter(request, "supplierName", "");
+		String supplierWillStr = CommonUtil.getParameter(request, "supplierWillStr", "");
+		String supplierStr = CommonUtil.getParameter(request, "supplierStr", "");
 		String erpNo =        CommonUtil.getParameter(request, "erpNo", "");
 		
 		String applyDepartName =        CommonUtil.getParameter(request, "applyDepartName", "");
@@ -678,9 +677,8 @@ public class EquipmentController extends BaseController {
 		sreEquipment.setSpecification(specification);
 		sreEquipment.setAttachmentDoc(attachmentDoc);
 		sreEquipment.setVoteCount(Integer.valueOf(voteCount));
-		sreEquipment.setSupplierLinkMan(supplierLinkMan);
-		sreEquipment.setSupplierMobileEmail(supplierMobileEmail);
-		sreEquipment.setSupplierName(supplierName);
+		sreEquipment.setSupplierStr(supplierStr); 
+		sreEquipment.setSupplierWillStr(supplierWillStr);
 		sreEquipment.setFirstApplyUser(firstApplyUser);
 		sreEquipment.setOriginPlace(originPlace);
 		// 判断是新增还是修改

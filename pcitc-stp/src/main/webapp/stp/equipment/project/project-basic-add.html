@@ -49,6 +49,9 @@
                    type="hidden">
             <input name="yearFeeStrJoinUnit" id="yearFeeStrJoinUnit" value="${sreProjectBasic.yearFeeStrJoinUnit}"
                    type="hidden">
+                   
+                   
+                   
             <!--<input name="yearFeeStrJoinUnit" id="yearFeeStrJoinUnit"
                    value="2019-2020,苏州大学,014ef79138eb4fc49f24e4439419a5a9#2019,22,null#2020,0,null;2019-2020,北京经贸大学,01a180d1fac8465a9f283f7628dbf498#2019,0,null#2020,0,null" type="hidden">-->
             <div class="layui-row">
@@ -63,9 +66,9 @@
                 </div>
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label for="" class="layui-form-label">关键词</label>
+                        <label for="" class="layui-form-label">金额(万元)</label>
                         <div class="layui-input-block">
-                            <input class="layui-input" name="keyWord" id="keyWord" value="${sreProjectBasic.keyWord}"
+                            <input class="layui-input readOnlyBox" style="color:red" readonly="readonly" name="projectMoney"  id="projectMoney" value="${sreProjectBasic.projectMoney}"
                                    autocomplete="off" type="text">
                         </div>
                     </div>
@@ -415,46 +418,23 @@
                 var temUrl = '/sre-equipment/chooseEquipmentByUser?equipmentIds=' + $("#equipmentIds").val();
                 publicMethods.openBaseWin("选择装备", temUrl, "90%", "80%");
 
-            }/* ,
-	            deleteEvent:function(){
-	            	layer.confirm('确定要移除吗？',{title:"移除确认"},function(index){
-						layer.close(index);
-		            	var check = table.checkStatus('join_apply_table');
-		            	var equipmentIds=$("#equipmentIds").val();
-		            	for(var dt in check.data)
-		            	{
-		            		var id=check.data[dt].equipmentId;
-
-		            		equipmentIds=equipmentIds.replace(id,'');
-		            	}
-		            	$("#equipmentIds").val(equipmentIds);
-		            	renderTable(equipmentIds);
-	            	});
-	            }  */
+            }
 
         }
         form.verify({
             validateNumber: function (value, item) {
-                if (value <= 0 || value > 2000) {
+            	
+            	if(isNaN(value))
+            	{
+            		 return '请输入整数';
+            	}else
+                if (value <= 0 || value > 2000) 
+                {
                     return '费用不能大于2000万';
                 }
             }
         });
-        /* 监听提交 */
-        /* form.on('submit(sub)', function (data) {
-            $("#yearFeeStr").val(publicMethods.getVal("yearTr", 4));
-            var yearFee_Str = $("#yearFeeStr").val();
-            if (yearFee_Str == null || yearFee_Str == '') {
-                layer.alert("建设年限为空");
-            } else {
-                var url = "/sre-project-basic/save?v_date=" + v_date + "&status=0";
-                var backurl = "/sre-project-basic/to-list?v_date=" + v_date;
-                ajaxOpt(url, "form1", "POST", backurl, "保存成功", "保存失败");
-            }
-
-
-            return false;
-        }); */
+       
         var arrD = $("#yearFeeStrJoinUnit").val().split(";");
         if(arrD==''){
 
@@ -480,6 +460,7 @@
                     '       </div>';
                 $("#units").append(html);
                 publicMethods.createTable($("#beginYear").val(), $("#endYear").val(), "yearTr"+i, 2, yearFeeStrN);
+                formVerify();
             });
         }
 
@@ -546,9 +527,15 @@
                 cT+=parseInt($("#units .layui-form-item").eq(k).find("table tbody tr:last td:last").text());
             });
             var qcT=qT+cT;
-            alert(equipmentT)
-            alert(qcT)
-
+            if(equipmentT!=qcT)
+           	{
+            	 layer.alert("所选装备总金额("+equipmentT+"万元)与建设年限总金额("+qcT+"万元)不相等，请重新调整");
+            	 return false;
+           	}else
+           	{
+           		$("#projectMoney").val(equipmentT);
+           	}
+            
             /*获取参与单位的数据*/
            var joinUnitName= $("#joinUnitName").val();
            //alert(joinUnitName);
@@ -701,7 +688,6 @@
     }
 
     function choose_leadUnitName_callback(unitId, unitName) {
-    	alert(unitName);
         $("#leadUnitName").val(unitName);
         $("#leadUnitCode").val(unitId);
     }
@@ -721,8 +707,27 @@
         var index = parent.layer.getFrameIndex(window.name);
         parent.layer.close(index);
     })
-
-
+  function formVerify(){
+        	form.verify({
+                validateNumber: function (value, item) {
+                	if(isInteger(value)==false)
+                	{
+                		 return '请输入整数';
+                	}else  if (value <= 0 || value > 2000) {
+                        return '请填写正确的值';
+                    }
+                },
+                specialCharacters:function (value, item) {
+                    if(value.indexOf("#")>=0 || value.indexOf("|")>=0){
+                        return "不能填写#与|两个字符。";
+                    }
+                }
+            });
+        }
+        function isInteger(str) {
+        	return /^\d+$/.test(str);
+        }
+    
     //金额： 所选装备=牵头单位+参与单位
     function checkAllMoney(mainUnitMoney, joinUnitMoney) {
         var flag = false;
