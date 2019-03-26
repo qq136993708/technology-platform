@@ -320,7 +320,7 @@
             publicMethods.ajaxGet("/expertController/queryAllExpert", null, function (data) {
                 var expertKy = "";
                 for (let i = 0,j=data.length; i <j; i++) {
-                    expertKy = expertKy+"<li><a href=\"/expertController/expertDetailIndex?dataId="+data[i].data_id+"\" target='_blank'>"+data[i].expert_name+"</a></li>\n";
+                    expertKy = expertKy+"<li><a href=\"/instituteIndex?url=/expertController/expertDetailIndex?dataId="+data[i].data_id+"\" target='_blank'>"+data[i].expert_name+"</a></li>\n";
                 }
                 $("#expertKy").append(expertKy);
             });
