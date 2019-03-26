@@ -73,7 +73,7 @@ public class BudgetTechSplitProviderClient
 		try
 		{
 			
-			List<BudgetInfo> datalist = budgetInfoService.selectBudgetInfoList(info.getNd(),BudgetInfoEnum.B2C_SPLIT.getCode());
+			List<BudgetInfo> datalist = budgetInfoService.selectBudgetInfoList(info.getNd(),BudgetInfoEnum.TECH_SPLIT.getCode());
 			for(BudgetInfo dt:datalist) {
 				Map<String,Object> map = MyBeanUtils.transBean2Map(dt);
 				map.put("auditStatusDesc", BudgetAuditStatusEnum.getStatusByCode(dt.getAuditStatus()).getDesc());
@@ -94,7 +94,7 @@ public class BudgetTechSplitProviderClient
 		LayuiTableData data = null;
 		try
 		{
-			param.getParam().put("budget_type", BudgetInfoEnum.B2C_SPLIT.getCode());
+			param.getParam().put("budget_type", BudgetInfoEnum.TECH_SPLIT.getCode());
 			data = budgetInfoService.selectBudgetInfoPage(param);
 			return data;
 		}
@@ -164,7 +164,7 @@ public class BudgetTechSplitProviderClient
 		BudgetInfo rsbean = null;
 		try
 		{
-			info.setBudgetType(BudgetInfoEnum.B2C_SPLIT.getCode());
+			info.setBudgetType(BudgetInfoEnum.TECH_SPLIT.getCode());
 			rsbean = budgetInfoService.createBlankBudgetInfo(info.getNd(),info);
 		}
 		catch (Exception e)
@@ -305,6 +305,7 @@ public class BudgetTechSplitProviderClient
 	public Object saveBudgetTechSplitInfo(@RequestBody BudgetTechSplit item) 
 	{
 		logger.info("budget-save-techsplit...");
+		System.out.println(JSON.toJSONString(item));
 		BudgetTechSplit stock = null;
 		try
 		{
@@ -500,7 +501,7 @@ public class BudgetTechSplitProviderClient
 		List<Map<String,Object>> rsmap = new ArrayList<Map<String,Object>>();
 		try
 		{
-			List<BudgetInfo> rs = budgetInfoService.selectFinalBudgetInfoList(BudgetInfoEnum.B2C_SPLIT.getCode());
+			List<BudgetInfo> rs = budgetInfoService.selectFinalBudgetInfoList(BudgetInfoEnum.TECH_SPLIT.getCode());
 			for(BudgetInfo info:rs) {
 				LayuiTableParam param = new LayuiTableParam(1,100);
 				param.getParam().put("budget_info_id",info.getDataId());
@@ -674,7 +675,7 @@ public class BudgetTechSplitProviderClient
 	@RequestMapping(value = "/stp-provider/budget/get-final-techsplit", method = RequestMethod.POST)
 	public Object selectFinalTechSplitInfo(@RequestBody String nd) throws Exception 
 	{
-		BudgetInfo info = budgetInfoService.selectFinalBudget(nd, BudgetInfoEnum.B2C_SPLIT.getCode());
+		BudgetInfo info = budgetInfoService.selectFinalBudget(nd, BudgetInfoEnum.TECH_SPLIT.getCode());
 		Map<String,Object> rsmap = new HashMap<String,Object>();
 		if(info != null) {
 			rsmap = MyBeanUtils.transBean2Map(info);

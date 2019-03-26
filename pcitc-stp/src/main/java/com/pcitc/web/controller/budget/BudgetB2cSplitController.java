@@ -379,7 +379,7 @@ public class BudgetB2cSplitController extends BaseController {
 		File f = new File(path.getPath() + "static/budget/budget_b2csplit_template.xlsx");
 		//System.out.println(f.getAbsolutePath());
 		//写入新文件2019年集团公司总部科技经费预算
-		String newFilePath = path.getPath() + "static/budget/"+info.getNd()+"股份炼油事业部、化工事业部B2、C类科技经费预算表（调整稿）_"+DateUtil.dateToStr(new Date(), "yyyyMMddHHmmss")+".xlsx";
+		String newFilePath = path.getPath() + "static/budget/"+info.getNd()+"股份炼油事业部、化工事业部B2、C类科技经费预算表（建议稿）_"+DateUtil.dateToStr(new Date(), "yyyyMMddHHmmss")+".xlsx";
 		File outFile = new File(newFilePath);
 		
 		processDataAndDownload(f,new ArrayList(tabldata.getData()),parammap,outFile);
