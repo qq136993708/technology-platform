@@ -673,8 +673,10 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
         ResultSKM resultSKM = JSONObject.parseObject(jsonObject.get("rs").toString(), ResultSKM.class);
         String from = jsonObject.get("from").toString();
         JSONArray array = (JSONArray) resultSKM.getData();
+        String ids = "";
         for (int i = 0, j = array.size(); i < j; i++) {
             JSONObject obj = (JSONObject) array.get(i);
+            ids = (ids+","+getObjString(obj.get("expertid")));
             ZjkExpert record = new ZjkExpert();
             record.setDataId(getObjString(obj.get("expertid")));                        //        expertid: 专家id
             record.setExpertName(getObjString(obj.get("expertName")));                  //        expertName: 专家姓名
@@ -691,10 +693,30 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
             record.setEducation(getObjString(obj.get("educationBk")));                  //        educationBk: 学历
             record.setExpertProfessinal(getObjString(obj.get("discription")));         //        discription: 专家简介
             record.setUserDesc(getObjString(obj.get("title")));                       //        title: 职称
-            record.setSex(getObjString(obj.get("gender")));                           //        gender: 性别
+            record.setSex("男".equals(getObjString(obj.get("gender")))?"ROOT_UNIVERSAL_XB_N":"ROOT_UNIVERSAL_XB_V");                           //        gender: 性别
             record.setExpertNationality(getObjString(obj.get("nationality")));        //        nationality: 国籍
+            record.setStatus("0");
+            record.setSysFlag("0");
+            record.setAuditStatus("0");
+            record.setDelFlag(0);
+
+            record.setCreateDate(DateUtil.dateToStr(new Date(),DateUtil.FMT_DD));
+            record.setCreateUser("165553436ed_dfd5e137");
+            record.setCreateUserDisp("111111");
+
+            record.setAmountCount("0");
+            record.setAchievementCount("0");
+            record.setCompanyCount("0");
+            record.setProjectCount("0");
+            record.setPatentCount("0");
+
             this.insert(record);
+//            c.andStatusEqualTo("0");
+//            c.andSysFlagEqualTo("0");
+//            c.andDelFlagEqualTo("0");
+//            c.andAuditStatusEqualTo("2");
         }
+        System.out.println(ids);
         return jsonObject;
     }
 
@@ -789,7 +811,7 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
             String flag = strDataId.substring(0, index);
             String dataId = strDataId.substring(index + 1, strDataId.length());
             ZjkExpert expert = this.selectByPrimaryKey(dataId);
-            expert.setAuditStatus("agree".equals(flag) ? "2" : "3");
+            expert.setAuditStatus("agree".equals(flag) ? "2" : "0");
             this.updateByPrimaryKey(expert);
             return Integer.parseInt(String.valueOf(DataOperationStatusEnum.DEL_OK.getStatusCode()));
         } catch (Exception e) {

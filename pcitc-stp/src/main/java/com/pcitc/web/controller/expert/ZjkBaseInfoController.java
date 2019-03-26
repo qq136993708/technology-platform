@@ -242,12 +242,17 @@ public class ZjkBaseInfoController extends BaseController {
         ResponseEntity<String> status = this.restTemplate.exchange(START_WORKFLOW_URL, HttpMethod.POST, new HttpEntity<WorkflowVo>(workflowVo, this.httpHeaders), String.class);
         if (status.getBody() != null && status.getBody().equals("true")) {
             System.out.println("=================启动成功");
+            ResponseEntity<ZjkExpert> responseEntity = this.restTemplate.exchange(GET_INFO + businessId, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), ZjkExpert.class);
+             ZjkExpert expert = responseEntity.getBody();
+             expert.setAuditStatus("1");
+            this.restTemplate.exchange(SAVE, HttpMethod.POST, new HttpEntity<ZjkExpert>(expert, this.httpHeaders), Integer.class);
+
             return new Result(true, "启动成功");
         } else {
             System.out.println("=================启动失败");
             return new Result(false, "启动失败");
         }
-
+//更新表单状态
     }
 
     /**

@@ -254,7 +254,7 @@
             <!--<span>机构</span>-->
                 <div class="selectTreeBox" style="position: relative;">
 
-                    <div id="companyDiv" class="layui-form-select select-tree"></div>
+                    <!--<div id="companyDiv" class="layui-form-select select-tree"></div>-->
                 </div>
 
                 <input id="key" value="" onblur="changeUrl()" placeholder="输入查找关键字" style="width: 398px;
@@ -673,8 +673,8 @@
          * 参数4：是否显示图标(true或false),
          *
          */
-        initSelectTree("companyDiv", true, true, false);
-        initHideMenu(); //不加此方法则默认打开下拉树
+        // initSelectTree("companyDiv", true, true, false);
+        // initHideMenu(); //不加此方法则默认打开下拉树
 
     });
     function selectTreeCallFun(treeNode, zTree) {
