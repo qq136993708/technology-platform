@@ -81,7 +81,7 @@
                 </div>
             </div>
 
-            <div class="layui-form-item">
+            <div class="layui-form-item" id="equipment">
                 <label class="layui-form-label">选择装备<span class="must-fill">*</span></label>
                 <div class="layui-input-block">
                     <div class="tableBox">
@@ -528,13 +528,27 @@
                 }
             });
         }
-
         /* 监听提交 */
         form.on('submit(sub)', function (data) {
             //JSON.stringify(data.field)  提交信息json格式
             /*parent.layer.alert(JSON.stringify(data.field), {
                 title: '最终的提交信息'
             })*/
+            /*选择装备总值*/
+            var equipmentT=0;
+            for(var i=0;i<$("#equipment table tbody tr").length;i++){
+                equipmentT+=parseInt($("#equipment table tbody tr").eq(i).find("td:eq(5)").text());
+            }
+            /*牵头单位+参与单位总值*/
+            var qT=parseInt($("#yearTr table tbody tr:last td:last").text());
+            var cT=0;
+            $("#units .layui-form-item").each(function (k,val) {
+                cT+=parseInt($("#units .layui-form-item").eq(k).find("table tbody tr:last td:last").text());
+            });
+            var qcT=qT+cT;
+            alert(equipmentT)
+            alert(qcT)
+
             /*获取参与单位的数据*/
            var joinUnitName= $("#joinUnitName").val();
            //alert(joinUnitName);

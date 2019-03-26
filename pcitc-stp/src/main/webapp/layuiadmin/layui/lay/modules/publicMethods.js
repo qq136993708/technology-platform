@@ -751,7 +751,7 @@ layui.define(['jquery','form','table','laydate'],
                     $("#"+id+" table tbody tr:last td:eq(3)").text(strArrC3);
                 }
                 /*计算*/
-                $("input").change(function () {
+                $("#"+id+" table tbody tr input").change(function () {
                     /*同行相加*/
                     var colleagueInputL=$(this).parents("tr").find("input").length;
                     var trInputC=0;

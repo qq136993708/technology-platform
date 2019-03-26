@@ -35,6 +35,15 @@
 		<input type="hidden"  name="applyDepartCode" id="applyDepartCode"     value="${applyDepartCode}" >
 		<input type="hidden"  name="auditStatus"     id="auditStatus"         value=""  >
         <input type="hidden"  name="attachmentDoc"   id="attachmentDoc"       value="${attachmentDoc}">
+        <input type="hidden"  name="supplierIds"     id="supplierIds"                  value="${supplierIds}">
+        <input type="hidden"  name="supplierWillIds"     id="supplierWillIds"          value="${supplierWillIds}">
+        <input type="hidden"  name="companyCode"     id="companyCode"          value="">
+        
+        <!-- 推荐供应商 -->
+        <input type="hidden"  name="supplierStr"     id="supplierStr" >
+        <!-- 意向供应商-->
+        <input type="hidden"  name="supplierWillStr"     id="supplierWillStr" >
+        
         
       <!-- 行有两个的情况 -->
       <div class="layui-row">
@@ -96,10 +105,41 @@
         </div>
       </div>
       
+       <div class="layui-form-item">
+                <label class="layui-form-label">推荐供应商</label>
+                <div class="layui-input-block">
+                    <div class="tableBox">
+                        <div class="tableToolBox">
+                            <div class="whiteLine"></div>
+                            <div class="tableBtns">
+                                <a href="javascript:void(0)" onclick="chooseBusiness_data()" 
+                                   class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg"
+                                   data-type="selectEvent">选择</a>
+                            </div>
+                        </div>
+                        <table id="join_apply_table" class="layui-hide" lay-filter="JoinEvent"></table>
+                    </div>
+                </div>
+            </div>
+      
+       <div class="layui-form-item">
+                <label class="layui-form-label">意向供应商</label>
+                <div class="layui-input-block">
+                    <div class="tableBox">
+                        <div class="tableToolBox">
+                            <div class="whiteLine"></div>
+                            <div class="tableBtns">
+                                <a href="javascript:void(0)"  
+                                   class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg">添加</a>
+                            </div>
+                        </div>
+                        <table id="join_apply_table" class="layui-hide" lay-filter="JoinEvent"></table>
+                    </div>
+                </div>
+            </div>
       
       
-      
-       <div class="layui-row">
+       <!-- <div class="layui-row">
         <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
           <div class="layui-form-item">
             <label for="" class="layui-form-label">推荐供应商</label>
@@ -137,7 +177,7 @@
           </div>
         </div>
       </div>
-      
+       -->
       
     
       
@@ -192,6 +232,7 @@
 <script src="/layuiadmin/layui/layui.js"></script>
 <script>
 var v_date=(new Date()).getTime();
+var table;
 var file_ids = "attachmentDoc";
 //detail:详情，edit：编辑
 file_edit_detail = "edit";
@@ -219,6 +260,7 @@ layui.config({
       ,layer = layui.layer
       ,laydate = layui.laydate
       ,form = layui.form;
+	  table = layui.table;
 	  var publicMethods=layui.publicMethods;
 	  var equipmentId = "${equipmentId?default(0)}";
 	  var type = "${sreEquipment.type?default('')}";
@@ -370,14 +412,14 @@ layui.config({
 
  function chooseBusiness_data()
 {
-	 var flag= checkSysUserProperty();
-	 if(flag==false)
+	 var dataId= checkSysUserProperty();
+	 if(dataId=='')
      {
 		 layer.alert("请先到“系统管理”中配置直属研究院数据");
 		 return;
 	 }
 	var v_date = (new Date()).getTime();
-	var temUrl="/sre-equipment/to-choose-chooseBusiness?v_date="+v_date;
+	var temUrl="/sre-equipment/to-choose-chooseBusiness?v_date="+v_date+"&companyCode="+dataId;
     layer.open({
         title:'选择供应商',
         skin: 'layui-layer-lan',
@@ -396,7 +438,7 @@ layui.config({
 
 function checkSysUserProperty()
 {
-	var flag=false;
+	 var dataId="";
 	var v_date = (new Date()).getTime();
 	var temUrl="/sre-equipment/checkSysUserProperty?v_date="+v_date; 
 	 $.ajax({
@@ -411,14 +453,16 @@ function checkSysUserProperty()
     	  
 	          if(data.success==true ||data.success=='true')
 	          {
-	        	  flag=true;
+	        	 
+	        	  dataId=data.data.dataId;
+	        	  $("#companyCode").val(dataId);
 	        	  
 	          }
 	     
 		   }
     
   });
- return flag;
+ return dataId;
 }
 
 
@@ -475,6 +519,36 @@ function ajaxOpt(url,formName,type,backurl,successMsg,failMsg)
 		var url="/sre-equipment/save?v_date="+v_date;
         var backurl="/sre-equipment/to-list?v_date="+v_date;
         ajaxOpt(url,"form1","POST",backurl,"保存成功","保存失败");
+    }
+	
+	
+    
+    
+	function renderTable(supplierIds) 
+	{
+        var companyCode=  $("#companyCode").val();
+        table.render({
+            elem: '#join_apply_table',
+            url: '/sre_supplier/getHanaSupplierByIds?supplierIds=' + supplierIds+"&companyCode="+companyCode,
+            limit: 15,
+            method: "GET",
+            id: 'join_apply_table',
+            height: 300,
+            cols: [[
+
+                {title: '序号', type: 'numbers'},
+                {field : 'supplierCode',        title : '供应商ID', style : 'cursor: pointer;', align : 'left', width : '10%'},
+                {field : 'supplierName',        title : '供应商名称', style : 'cursor: pointer;', align : 'left', width : '20%'},
+                {field : 'cityName',            title : '所在城市',   style : 'cursor: pointer;', align : 'center', width : '10%'},
+                {field : 'unitName',            title : '所属单位', style : 'cursor: pointer;', align : 'center', width : '10%'},
+                {field : 'mobile',              title : '电话', style : 'cursor: pointer;', align : 'center', width : '10%'},
+                {field : 'fix',                 title : '传真', style : 'cursor: pointer;', align : 'center', width : '10%'},
+                {field : 'address',             title : '地址', style : 'cursor: pointer;', align : 'center', width : '20%'}
+            ]],
+            done: function (res, curr, count) {
+
+            }
+        });
     }
 	
 	

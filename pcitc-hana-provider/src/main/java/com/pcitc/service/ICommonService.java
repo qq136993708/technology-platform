@@ -46,6 +46,10 @@ public interface ICommonService
     
     // 供应商 H1AM_KY_ZH_1000_05
     public<DicSupplyer> List  getDicSupplyerList(DicSupplyer dicSupplyer)throws Exception;
+    
+    public<SreSupplier> List  getSupplierListByIds(Map map)throws Exception;
+    
+    
     public LayuiTableData getDicSupplyerList_table(LayuiTableParam param)throws Exception;
     
     

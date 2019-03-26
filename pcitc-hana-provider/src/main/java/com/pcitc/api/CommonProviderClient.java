@@ -19,6 +19,7 @@ import com.pcitc.base.hana.report.DicAssetType;
 import com.pcitc.base.hana.report.DicSupplyer;
 import com.pcitc.base.hana.report.H1AMKYZH100006;
 import com.pcitc.base.hana.report.ProjectCode;
+import com.pcitc.base.stp.equipment.SreSupplier;
 import com.pcitc.service.ICommonService;
 
 import io.swagger.annotations.Api;
@@ -144,10 +145,56 @@ public class CommonProviderClient {
 	@RequestMapping(value = "/dic/supplyer_table", method = RequestMethod.POST)
    	public LayuiTableData getDicSupplyerList_table(@RequestBody LayuiTableParam param)throws Exception
    	{
-    	System.out.println("getDicSupplyerList_table param=" + param);
+		
+		System.out.println("supplyer_table param=   " + JSONObject.toJSONString(param));
    		return commonService.getDicSupplyerList_table(param);
    	}
 	
+	
+	
+	/**
+	 * 批量获取
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+	@ApiOperation(value = "批量获取供应商", notes = "根据IDS批量获取供应商，返回json格式")
+	@RequestMapping(value = "/dic/get_supplier_hana_by_ids", method = RequestMethod.POST)
+	public JSONArray get_supplier_hana_by_ids(@RequestBody  String paramsJson)throws Exception
+	{
+		
+		JSONObject jo = JSONObject.parseObject(paramsJson);
+		String supplierIds = jo.getString("supplierIds");
+   		String companyCode = jo.getString("companyCode");
+   		Map map = new HashMap();
+   		map.put("companyCode", companyCode);
+   		
+	    StringBuffer sb=new StringBuffer();
+	    if(supplierIds!=null && !supplierIds.equals(""))
+	    {
+		   String arr[]=supplierIds.split(",");
+		   sb.append(" AND G0LIFNR in  (");
+		   for(int i=0;i<arr.length;i++)
+		   {
+			  String str=arr[i];
+			  if(str!=null && !str.equals(""))
+			  {
+				  if(i>0)
+				  {
+					  sb.append(",");
+				  }
+				  sb.append("'"+str+"'");
+			  }
+			 
+		   }
+		   sb.append(" )");
+	    }
+	    
+	    map.put("sqlStr", sb.toString());
+		List<SreSupplier> listSreEquipment= commonService.getSupplierListByIds(map);
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(listSreEquipment));
+		return json;
+	}
 	
 	
 	

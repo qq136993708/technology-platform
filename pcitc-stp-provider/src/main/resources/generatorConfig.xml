@@ -16,7 +16,7 @@
 		    <javaClientGenerator targetPackage="com.pcitc.mapper.equipment"   targetProject="pcitc-stp-provider" type="XMLMAPPER" />
 		    
 		    
-	   <table schema="pcitc-stp-provider" tableName="stp_unit_field" domainObjectName="UnitField"
+	   <table schema="pcitc-stp-provider" tableName="sre_supplier" domainObjectName="SreSupplier"
 			enableCountByExample="false" 
 			enableUpdateByExample="false"
 			enableDeleteByExample="false" 

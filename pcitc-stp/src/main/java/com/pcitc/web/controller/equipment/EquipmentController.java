@@ -74,6 +74,8 @@ public class EquipmentController extends BaseController {
 	private static final String GET_DIC_SUPPLYER = "http://pcitc-zuul/hana-proxy/hana/common/dic/supplyer";
 	
 	
+	
+	
 	private static final String chooseBusiness_data = "http://pcitc-zuul/hana-proxy/hana/common/dic/supplyer_table";
 	
 
@@ -256,6 +258,7 @@ public class EquipmentController extends BaseController {
 		if(sysUserProperty!=null)
 		{
 			resultsDate.setSuccess(true);
+			resultsDate.setData(sysUserProperty);
 		}else
 		{
 			resultsDate.setSuccess(false);
@@ -278,6 +281,7 @@ public class EquipmentController extends BaseController {
 		SysUserProperty sysUserProperty=EquipmentUtils.getSysUserProperty(sysUserInfo.getUserId(), "G0DSM", restTemplate, httpHeaders);
 		String g0GSDM=sysUserProperty.getDataId();
 		request.setAttribute("g0GSDM", g0GSDM);
+		request.setAttribute("companyCode", g0GSDM);
 		return "/stp/equipment/equipment/chooseBusiness";
 	}
 	
@@ -608,7 +612,7 @@ public class EquipmentController extends BaseController {
 		String applyDepartCode =        CommonUtil.getParameter(request, "applyDepartCode", "");
 		String originPlace =        CommonUtil.getParameter(request, "originPlace", "");
 		
-		
+		String supplierIds =        CommonUtil.getParameter(request, "supplierIds", "");
 		    
 		String unitPathIds =   CommonUtil.getParameter(request, "unitPathIds",sysUserInfo.getUnitPath());
 		String unitPathNames = CommonUtil.getParameter(request, "unitPathNames", sysUserInfo.getUnitName());

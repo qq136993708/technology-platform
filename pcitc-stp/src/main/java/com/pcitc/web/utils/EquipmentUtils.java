@@ -14,25 +14,19 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.stp.equipment.SreEquipment;
 import com.pcitc.base.stp.equipment.SreProject;
 import com.pcitc.base.stp.equipment.SreProjectSetup;
 import com.pcitc.base.stp.equipment.SreProjectTask;
-import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.system.SysUnit;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.system.SysUserProperty;
-import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
 
 public class EquipmentUtils {
@@ -301,6 +295,38 @@ public class EquipmentUtils {
 	}
 	
 	
+	
+	public static LayuiTableData getHanaSupplierByIds(String supplierIds,String companyCode,HttpServletRequest request, HttpServletResponse response,RestTemplate restTemplate,HttpHeaders httpHeaders)
+	{
+		
+		String GET_DIC_SUPPLYER_HANA_BY_IDS = "http://pcitc-zuul/hana-proxy/hana/common/dic/get_supplier_hana_by_ids";
+		LayuiTableData layuiTableData = new LayuiTableData();
+		ResponseEntity<List> responseEntity = null;
+		List returnlist = new ArrayList();
+		if (!supplierIds.equals("")) 
+		{
+				Map<String, Object> paramsMap = new HashMap<String, Object>();
+				paramsMap.put("companyCode", companyCode);
+				paramsMap.put("supplierIds", supplierIds);
+				JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(paramsMap));
+				HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), httpHeaders);
+				responseEntity = restTemplate.exchange(GET_DIC_SUPPLYER_HANA_BY_IDS, HttpMethod.POST, entity, List.class);
+				int statusCode = responseEntity.getStatusCodeValue();
+				if (statusCode == 200) 
+				{
+					returnlist = responseEntity.getBody();
+				}
+			
+		}
+		layuiTableData.setData(returnlist);
+		layuiTableData.setCode(0);
+		layuiTableData.setCount(returnlist.size());
+		return layuiTableData;
+		
+	}
+	
+	
+	
 	public static SysUnit getUnitByUnitPath(String unitPath,RestTemplate restTemplate,HttpHeaders httpHeaders) throws Exception
 	{
 		 String UNIT_GET_UNIT = "http://pcitc-zuul/system-proxy/unit-provider/unit/getUnitByUnitPath/";
@@ -340,7 +366,7 @@ public class EquipmentUtils {
 				   if(str!=null && !str.equals(""))
 				   {
 					   String temp[]=str.split("#");
-					   System.out.println("----length--"+temp.length);
+					 
 					   Map<String, Object> map = new HashMap<String, Object>();
 					   String taskContent1=temp[0].trim();
 					   String taskContent2=temp[1].trim();
@@ -348,7 +374,9 @@ public class EquipmentUtils {
 					   String taskContent4=temp[3].trim();
 					   hj_tc=hj_tc.floatValue()+Float.valueOf(taskContent4.trim()).floatValue();
 					   String taskContent5=temp[4];
-					   if(taskContent5==null)
+					   
+					   System.out.println("----taskContent5--"+taskContent5);
+					   if(taskContent5==null || taskContent5.equals("null"))
 					   {
 						   taskContent5="";
 					   }
@@ -464,7 +492,8 @@ public class EquipmentUtils {
 			//项目资金安排--参与单位
 			//2019-2020,苏州大学,014ef79138eb4fc49f24e4439419a5a9#2019,0,66,66.00#2020,0,666,666.00;
 			//2019-2020,中国石化上海石油化工股份有限公司,0175a09e3fac45e994e446957b714b1e#2019,0,66,66.00#2020,0,666,666.00
-			List<Map<String, Object>> yearFeeStrJoinUnitTableList = new ArrayList<Map<String, Object>>();
+			List<Map<String, Object>> yearFeeStrJoinUnitTable_title_List = new ArrayList<Map<String, Object>>();
+			List<Map<String, Object>> yearFeeStrJoinUnitTable_value_List = new ArrayList<Map<String, Object>>();
 			String yearFeeStrJoinUnit=sreProjectSetup.getYearFeeStrJoinUnit();
 			String yearFeeStrJoinUnit_arr[]=yearFeeStrJoinUnit.split(";");//多行
 			
@@ -480,7 +509,8 @@ public class EquipmentUtils {
 						{
 						   for(int j=0;j<arr_unit.length;j++)
 						   {
-							   Map<String, Object> map = new HashMap<String, Object>();
+							   Map<String, Object> map_title = new HashMap<String, Object>();
+							   Map<String, Object> map_value = new HashMap<String, Object>();
 							   String arr_unit_str=arr_unit[j];
 							   if(arr_unit_str!=null && !arr_unit_str.equals(""))
 							   {
@@ -489,7 +519,8 @@ public class EquipmentUtils {
 								   if(j==0)
 								   {
 									   unitName=arr_unit_str.split(",")[1];
-									   map.put("ept1", unitName);
+									   map_title.put("ept1", unitName);
+									   yearFeeStrJoinUnitTable_title_List.add(map_title);
 								   }else
 								   {
 									  String [] arr_unit_str_temp=arr_unit_str.split(",");//2019,0,66,66.00
@@ -498,29 +529,26 @@ public class EquipmentUtils {
 									  String ept4=arr_unit_str_temp[2].trim();
 									  String ept5=arr_unit_str_temp[3].trim();
 									  
-									  double ept2_double= Double.valueOf(ept2).doubleValue();
-									  double ept3_double= Double.valueOf(ept3).doubleValue();
-									  double ept4_double= Double.valueOf(ept4).doubleValue();
-									  double ept5_double= Double.valueOf(ept5).doubleValue();
 									  
-									  map.put("ept2", ept2_double);
-									  map.put("ept3", ept3_double);
-									  map.put("ept4", ept4_double);
-									  map.put("ept5", ept5_double);
-									  
+									  map_value.put("ept2", ept2);
+									  map_value.put("ept3", ept3);
+									  map_value.put("ept4", ept4);
+									  map_value.put("ept5", ept5);
+									  yearFeeStrJoinUnitTable_value_List.add(map_value);
 								   }
 							   }
 							  
 							   
-							   yearFeeStrJoinUnitTableList.add(map);
+							   
 						   }
 						}
 					  
 				   }
 			   }
 			}
-			dataMap.put("yearFeeStrJoinUnitTableList", yearFeeStrJoinUnitTableList);
-			System.out.println("---------yearFeeStrJoinUnitTableList : "+yearFeeStrJoinUnitTableList.size());
+			dataMap.put("yearFeeStrJoinUnitTable_title_List", yearFeeStrJoinUnitTable_title_List);
+			dataMap.put("yearFeeStrJoinUnitTable_value_List", yearFeeStrJoinUnitTable_value_List);
+			System.out.println("---------yearFeeStrJoinUnitTableList : "+yearFeeStrJoinUnitTable_value_List.size());
 			
 			fileName =DateUtil.dateToStr(new Date(), DateUtil.FMT_SSS_02)+".doc";
 			/** 生成word */
@@ -534,6 +562,11 @@ public class EquipmentUtils {
 		}
 		return resutl;
 	}
+	
+	
+	
+	
+	
 	
 	
 	/*public static void main(String[] args) {
