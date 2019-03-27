@@ -476,7 +476,7 @@ public class BudgetB2cSplitController extends BaseController {
 				crow.getCell(7).setCellStyle(rightCenterStyle);
 			}
 
-			Row totalRow = sheet.createRow(list.size()+4);
+			Row totalRow = sheet.getRow(list.size()+4);
 			totalRow.createCell(0).setCellValue("合计");
 			totalRow.createCell(1).setCellValue("");
 			totalRow.createCell(2).setCellValue(allLyTotal);
