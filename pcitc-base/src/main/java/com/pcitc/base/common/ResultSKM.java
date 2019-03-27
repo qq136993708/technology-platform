@@ -8,6 +8,16 @@ public class ResultSKM {
 
     public String message;
     public String status;
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String code;
     public Object data;
 
     public String getMessage() {

@@ -94,12 +94,9 @@ public class WorkflowProviderClient {
 		String processDefineId = workflowVo.getProcessDefineId();
 		if (workflowVo == null || (workflowVo.getFunctionId() == null && workflowVo.getProcessDefineId() == null)) {
 			return "流程启动异常,参数异常";
-		} else if (workflowVo.getProcessDefineId() != null) {
-
 		} else if (workflowVo.getFunctionId() != null) {
 			//
 			SysFunctionProdef fpd = workflowInstanceService.queryFunctionProdef(workflowVo);
-			System.out.println(fpd + "==1---开始启动流程，并同时处理发起人的第一个任务---" + workflowVo.getFunctionId());
 			if (fpd != null && fpd.getProdefId() != null) {
 				processDefineId = fpd.getProdefId();
 			} else {
@@ -108,7 +105,6 @@ public class WorkflowProviderClient {
 		} else {
 			return "流程启动异常,参数异常";
 		}
-		System.out.println("---开始启动流程，并同时处理发起人的第一个任务---");
 		// 校验流程定义是否存在（.latestVersion()）
 		ProcessDefinitionEntity processDefinitionEntity = (ProcessDefinitionEntity) repositoryService.createProcessDefinitionQuery().processDefinitionId(processDefineId).active().singleResult();
 		if (processDefinitionEntity == null)
@@ -116,24 +112,32 @@ public class WorkflowProviderClient {
 		// 启动流程, 根据key获取最新版本的流程定义
 		ProcessInstance processInstance = null;
 		try {
-			// 设置流程启动人
-			identityService.setAuthenticatedUserId(workflowVo.getAuthenticatedUserId());
-			processInstance = runtimeService.startProcessInstanceById(processDefineId, workflowVo.getBusinessId(), workflowVo.getVariables());
+			
+			ProcessInstance havedPS = runtimeService.createProcessInstanceQuery().processInstanceBusinessKey(workflowVo.getBusinessId()).singleResult();
+			if (havedPS != null) {
+				// workflowVo.getBusinessId() 如果业务表单修改后，重新发起流程
+				processInstance = havedPS;
+			} else {
+				// 设置流程启动人，第一次发起流程
+				identityService.setAuthenticatedUserId(workflowVo.getAuthenticatedUserId());
+				processInstance = runtimeService.startProcessInstanceById(processDefineId, workflowVo.getBusinessId(), workflowVo.getVariables());
+			}
 		} catch (Exception ex) {
 			return "流程启动异常,异常原因：" + ex.getMessage();
 		}
 
-		// 把第一个节点任务同时办理了，variables中有变量为当前人的starter。（第一个节点在监听器中判断，不允许委托）
+		// 把第一个节点待办任务办理了，variables中有变量为当前人的starter。（第一个节点在监听器中判断，不允许委托）
 		Task task = null;
-		TaskQuery query = taskService.createTaskQuery().taskCandidateOrAssigned(workflowVo.getAuthenticatedUserId());
-		List<Task> todoList = query.list();// 获取申请人的待办任务列表
+		
+		// 获取申请人的待办任务列表
+		List<Task> todoList = taskService.createTaskQuery().processInstanceBusinessKey(workflowVo.getBusinessId()).active().list();
 		for (Task tmp : todoList) {
 			if (tmp.getProcessInstanceId().equals(processInstance.getId())) {
 				task = tmp;// 获取当前流程实例，当前申请人的待办任务
 				break;
 			}
 		}
-
+		
 		// 如果第一步审批（就是发起人后的第一步）是需要选择审批人，而不是通过流程图自动配置的话，需要在发起之前把审批人信息放到workflowVo.getVariables()
 		if (DelegationState.PENDING == task.getDelegationState()) {
 			System.out.println("---开始启动流程，并同时处22222理发起人的第一个任务---");
@@ -142,6 +146,7 @@ public class WorkflowProviderClient {
 
 		taskService.complete(task.getId(), workflowVo.getVariables());
 
+		// 设置此流程实例的名称（待办任务名称）
 		runtimeService.setProcessInstanceName(processInstance.getId(), workflowVo.getProcessInstanceName());
 		return "true";
 	}

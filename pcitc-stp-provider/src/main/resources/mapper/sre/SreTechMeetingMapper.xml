@@ -21,11 +21,15 @@
     <result column="project_id" property="projectId" jdbcType="VARCHAR" />
     <result column="create_depart_name" property="createDepartName" jdbcType="VARCHAR" />
     <result column="create_depart_code" property="createDepartCode" jdbcType="VARCHAR" />
+     <result column="parent_unit_path_names" property="parentUnitPathNames" jdbcType="VARCHAR" />
+    <result column="parent_unit_path_ids" property="parentUnitPathIds" jdbcType="VARCHAR" />
+    
+    
   </resultMap>
   <sql id="Base_Column_List" >
     meeting_id, title, meeting_date, meeting_place, meeting_emcee, join_users, meeting_content, 
     meeting_doc, create_date, create_user_id, create_user_name, update_date, update_user_id, 
-    status, remark, equitment_id, project_id, create_depart_name, create_depart_code
+    status, remark, equitment_id, project_id, create_depart_name, create_depart_code,parent_unit_path_names,parent_unit_path_ids
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -44,14 +48,18 @@
       create_user_id, create_user_name, update_date, 
       update_user_id, status, remark, 
       equitment_id, project_id, create_depart_name, 
-      create_depart_code)
+      create_depart_code,parent_unit_path_names,parent_unit_path_ids)
     values (#{meetingId,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{meetingDate,jdbcType=TIMESTAMP}, 
       #{meetingPlace,jdbcType=VARCHAR}, #{meetingEmcee,jdbcType=VARCHAR}, #{joinUsers,jdbcType=VARCHAR}, 
       #{meetingContent,jdbcType=VARCHAR}, #{meetingDoc,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
       #{createUserId,jdbcType=VARCHAR}, #{createUserName,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, 
       #{updateUserId,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
       #{equitmentId,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR}, #{createDepartName,jdbcType=VARCHAR}, 
-      #{createDepartCode,jdbcType=VARCHAR})
+      #{createDepartCode,jdbcType=VARCHAR}
+      
+       ,#{parentUnitPathNames,jdbcType=VARCHAR}
+      ,#{parentUnitPathIds,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.pcitc.base.stp.equipment.SreTechMeeting" >
     insert into sre_tech_meeting
@@ -113,6 +121,15 @@
       <if test="createDepartCode != null" >
         create_depart_code,
       </if>
+      
+      <if test="parentUnitPathNames != null" >
+        parent_unit_path_names,
+      </if>
+      <if test="parentUnitPathIds != null" >
+        parent_unit_path_ids,
+      </if>
+      
+      
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="meetingId != null" >
@@ -172,6 +189,16 @@
       <if test="createDepartCode != null" >
         #{createDepartCode,jdbcType=VARCHAR},
       </if>
+      
+       <if test="parentUnitPathNames != null" >
+        #{parentUnitPathNames,jdbcType=VARCHAR},
+      </if>
+       <if test="parentUnitPathIds != null" >
+        #{parentUnitPathIds,jdbcType=VARCHAR},
+      </if>
+      
+      
+      
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.stp.equipment.SreTechMeeting" >
@@ -231,6 +258,15 @@
       <if test="createDepartCode != null" >
         create_depart_code = #{createDepartCode,jdbcType=VARCHAR},
       </if>
+      
+      <if test="parentUnitPathNames != null" >
+        parent_unit_path_names = #{parentUnitPathNames,jdbcType=VARCHAR},
+      </if>
+      <if test="parentUnitPathIds != null" >
+        parent_unit_path_ids = #{parentUnitPathIds,jdbcType=VARCHAR},
+      </if>
+      
+      
     </set>
     where meeting_id = #{meetingId,jdbcType=VARCHAR}
   </update>
@@ -244,6 +280,10 @@
       meeting_content = #{meetingContent,jdbcType=VARCHAR},
       meeting_doc = #{meetingDoc,jdbcType=VARCHAR},
       create_date = #{createDate,jdbcType=TIMESTAMP},
+      
+      parent_unit_path_names = #{parentUnitPathNames,jdbcType=VARCHAR},
+      parent_unit_path_ids = #{parentUnitPathIds,jdbcType=VARCHAR},
+      
       create_user_id = #{createUserId,jdbcType=VARCHAR},
       create_user_name = #{createUserName,jdbcType=VARCHAR},
       update_date = #{updateDate,jdbcType=TIMESTAMP},
@@ -267,6 +307,7 @@
 	     <if test="title != null and title  !='' ">                     AND t.title like CONCAT('%',#{title},'%')</if>
 	     <if test="equitmentId != null              and equitmentId !=''  ">     AND t.equitment_id = #{equitmentId}</if>
 	     <if test="projectId != null                and projectId !=''  ">       AND t.project_id = #{projectId}</if>
+	      <if test="parentUnitPathIds != null       and parentUnitPathIds !=''  ">     AND t.parent_unit_path_ids = #{parentUnitPathIds}</if>
 	     <if test="sqlStr != null   and sqlStr !='' ">     AND   ${sqlStr}</if>
 	 </trim>
 	</sql>

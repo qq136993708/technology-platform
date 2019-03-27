@@ -23,30 +23,21 @@
     <result column="update_user_id" property="updateUserId" jdbcType="VARCHAR" />
     <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
     <result column="erp_no" property="erpNo" jdbcType="VARCHAR" />
-    <result column="supplier_id" property="supplierId" jdbcType="VARCHAR" />
-    <result column="supplier_name" property="supplierName" jdbcType="VARCHAR" />
-    <result column="supplier_link_man" property="supplierLinkMan" jdbcType="VARCHAR" />
-    <result column="supplier_mobile_email" property="supplierMobileEmail" jdbcType="VARCHAR" />
     <result column="origin_place" property="originPlace" jdbcType="VARCHAR" />
     <result column="vote_count" property="voteCount" jdbcType="INTEGER" />
-    <result column="second_supplier_id" property="secondSupplierId" jdbcType="VARCHAR" />
-    <result column="second_supplier_name" property="secondSupplierName" jdbcType="VARCHAR" />
-    <result column="second_supplier_link_man" property="secondSupplierLinkMan" jdbcType="VARCHAR" />
-    <result column="second_supplier_mobile_email" property="secondSupplierMobileEmail" jdbcType="VARCHAR" />
-    
-    <result column="unit_path_ids"   property="unitPathIds"   jdbcType="VARCHAR" />
+    <result column="unit_path_ids" property="unitPathIds" jdbcType="VARCHAR" />
     <result column="unit_path_names" property="unitPathNames" jdbcType="VARCHAR" />
     <result column="parent_unit_path_names" property="parentUnitPathNames" jdbcType="VARCHAR" />
     <result column="parent_unit_path_ids" property="parentUnitPathIds" jdbcType="VARCHAR" />
-    
+    <result column="supplier_str" property="supplierStr" jdbcType="VARCHAR" />
+    <result column="supplier_will_str" property="supplierWillStr" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     equipment_id, equipment_code, is_linked_project, name, type, unit_price, all_price, 
     apply_acount, specification, notes, special_notes, attachment_doc, apply_depart_name, 
     apply_depart_code, first_apply_user, create_user_id, create_date, audit_status, update_user_id, 
-    update_date, erp_no, supplier_id, supplier_name, supplier_link_man, supplier_mobile_email, 
-    origin_place, vote_count, second_supplier_id, second_supplier_name, second_supplier_link_man, 
-    second_supplier_mobile_email,unit_path_ids,unit_path_names,parent_unit_path_names,parent_unit_path_ids
+    update_date, erp_no, origin_place, vote_count, unit_path_ids, unit_path_names, parent_unit_path_names, 
+    parent_unit_path_ids, supplier_str, supplier_will_str
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -66,10 +57,9 @@
       apply_depart_name, apply_depart_code, first_apply_user, 
       create_user_id, create_date, audit_status, 
       update_user_id, update_date, erp_no, 
-      supplier_id, supplier_name, supplier_link_man, 
-      supplier_mobile_email, origin_place, vote_count, 
-      second_supplier_id, second_supplier_name, second_supplier_link_man, 
-      second_supplier_mobile_email,unit_path_ids,unit_path_names,parent_unit_path_names,parent_unit_path_ids)
+      origin_place, vote_count, unit_path_ids, 
+      unit_path_names, parent_unit_path_names, parent_unit_path_ids, 
+      supplier_str, supplier_will_str)
     values (#{equipmentId,jdbcType=VARCHAR}, #{equipmentCode,jdbcType=VARCHAR}, #{isLinkedProject,jdbcType=VARCHAR}, 
       #{name,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{unitPrice,jdbcType=DECIMAL}, 
       #{allPrice,jdbcType=DECIMAL}, #{applyAcount,jdbcType=INTEGER}, #{specification,jdbcType=VARCHAR}, 
@@ -77,15 +67,9 @@
       #{applyDepartName,jdbcType=VARCHAR}, #{applyDepartCode,jdbcType=VARCHAR}, #{firstApplyUser,jdbcType=VARCHAR}, 
       #{createUserId,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{auditStatus,jdbcType=VARCHAR}, 
       #{updateUserId,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, #{erpNo,jdbcType=VARCHAR}, 
-      #{supplierId,jdbcType=VARCHAR}, #{supplierName,jdbcType=VARCHAR}, #{supplierLinkMan,jdbcType=VARCHAR}, 
-      #{supplierMobileEmail,jdbcType=VARCHAR}, #{originPlace,jdbcType=VARCHAR}, #{voteCount,jdbcType=INTEGER}, 
-      #{secondSupplierId,jdbcType=VARCHAR}, #{secondSupplierName,jdbcType=VARCHAR}, #{secondSupplierLinkMan,jdbcType=VARCHAR}, 
-      #{secondSupplierMobileEmail,jdbcType=VARCHAR}
-      ,#{unitPathIds,jdbcType=VARCHAR}
-      ,#{unitPathNames,jdbcType=VARCHAR}
-      ,#{parentUnitPathNames,jdbcType=VARCHAR}
-      ,#{parentUnitPathIds,jdbcType=VARCHAR}
-      )
+      #{originPlace,jdbcType=VARCHAR}, #{voteCount,jdbcType=INTEGER}, #{unitPathIds,jdbcType=VARCHAR}, 
+      #{unitPathNames,jdbcType=VARCHAR}, #{parentUnitPathNames,jdbcType=VARCHAR}, #{parentUnitPathIds,jdbcType=VARCHAR}, 
+      #{supplierStr,jdbcType=VARCHAR}, #{supplierWillStr,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.pcitc.base.stp.equipment.SreEquipment" >
     insert into sre_equipment
@@ -153,35 +137,11 @@
       <if test="erpNo != null" >
         erp_no,
       </if>
-      <if test="supplierId != null" >
-        supplier_id,
-      </if>
-      <if test="supplierName != null" >
-        supplier_name,
-      </if>
-      <if test="supplierLinkMan != null" >
-        supplier_link_man,
-      </if>
-      <if test="supplierMobileEmail != null" >
-        supplier_mobile_email,
-      </if>
       <if test="originPlace != null" >
         origin_place,
       </if>
       <if test="voteCount != null" >
         vote_count,
-      </if>
-      <if test="secondSupplierId != null" >
-        second_supplier_id,
-      </if>
-      <if test="secondSupplierName != null" >
-        second_supplier_name,
-      </if>
-      <if test="secondSupplierLinkMan != null" >
-        second_supplier_link_man,
-      </if>
-      <if test="secondSupplierMobileEmail != null" >
-        second_supplier_mobile_email,
       </if>
       <if test="unitPathIds != null" >
         unit_path_ids,
@@ -195,10 +155,12 @@
       <if test="parentUnitPathIds != null" >
         parent_unit_path_ids,
       </if>
-      
-      
-     
-    
+      <if test="supplierStr != null" >
+        supplier_str,
+      </if>
+      <if test="supplierWillStr != null" >
+        supplier_will_str,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="equipmentId != null" >
@@ -264,35 +226,11 @@
       <if test="erpNo != null" >
         #{erpNo,jdbcType=VARCHAR},
       </if>
-      <if test="supplierId != null" >
-        #{supplierId,jdbcType=VARCHAR},
-      </if>
-      <if test="supplierName != null" >
-        #{supplierName,jdbcType=VARCHAR},
-      </if>
-      <if test="supplierLinkMan != null" >
-        #{supplierLinkMan,jdbcType=VARCHAR},
-      </if>
-      <if test="supplierMobileEmail != null" >
-        #{supplierMobileEmail,jdbcType=VARCHAR},
-      </if>
       <if test="originPlace != null" >
         #{originPlace,jdbcType=VARCHAR},
       </if>
       <if test="voteCount != null" >
         #{voteCount,jdbcType=INTEGER},
-      </if>
-      <if test="secondSupplierId != null" >
-        #{secondSupplierId,jdbcType=VARCHAR},
-      </if>
-      <if test="secondSupplierName != null" >
-        #{secondSupplierName,jdbcType=VARCHAR},
-      </if>
-      <if test="secondSupplierLinkMan != null" >
-        #{secondSupplierLinkMan,jdbcType=VARCHAR},
-      </if>
-      <if test="secondSupplierMobileEmail != null" >
-        #{secondSupplierMobileEmail,jdbcType=VARCHAR},
       </if>
       <if test="unitPathIds != null" >
         #{unitPathIds,jdbcType=VARCHAR},
@@ -300,17 +238,18 @@
       <if test="unitPathNames != null" >
         #{unitPathNames,jdbcType=VARCHAR},
       </if>
-      
-      
-       <if test="parentUnitPathNames != null" >
+      <if test="parentUnitPathNames != null" >
         #{parentUnitPathNames,jdbcType=VARCHAR},
       </if>
-       <if test="parentUnitPathIds != null" >
+      <if test="parentUnitPathIds != null" >
         #{parentUnitPathIds,jdbcType=VARCHAR},
       </if>
-      
-      
-       
+      <if test="supplierStr != null" >
+        #{supplierStr,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierWillStr != null" >
+        #{supplierWillStr,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.stp.equipment.SreEquipment" >
@@ -376,50 +315,30 @@
       <if test="erpNo != null" >
         erp_no = #{erpNo,jdbcType=VARCHAR},
       </if>
-      <if test="supplierId != null" >
-        supplier_id = #{supplierId,jdbcType=VARCHAR},
-      </if>
-      <if test="supplierName != null" >
-        supplier_name = #{supplierName,jdbcType=VARCHAR},
-      </if>
-      <if test="supplierLinkMan != null" >
-        supplier_link_man = #{supplierLinkMan,jdbcType=VARCHAR},
-      </if>
-      <if test="supplierMobileEmail != null" >
-        supplier_mobile_email = #{supplierMobileEmail,jdbcType=VARCHAR},
-      </if>
       <if test="originPlace != null" >
         origin_place = #{originPlace,jdbcType=VARCHAR},
       </if>
       <if test="voteCount != null" >
         vote_count = #{voteCount,jdbcType=INTEGER},
       </if>
-      <if test="secondSupplierId != null" >
-        second_supplier_id = #{secondSupplierId,jdbcType=VARCHAR},
-      </if>
-      <if test="secondSupplierName != null" >
-        second_supplier_name = #{secondSupplierName,jdbcType=VARCHAR},
-      </if>
-      <if test="secondSupplierLinkMan != null" >
-        second_supplier_link_man = #{secondSupplierLinkMan,jdbcType=VARCHAR},
-      </if>
-      <if test="secondSupplierMobileEmail != null" >
-        second_supplier_mobile_email = #{secondSupplierMobileEmail,jdbcType=VARCHAR},
-      </if>
-       <if test="unitPathIds != null" >
+      <if test="unitPathIds != null" >
         unit_path_ids = #{unitPathIds,jdbcType=VARCHAR},
       </if>
-       <if test="unitPathNames != null" >
+      <if test="unitPathNames != null" >
         unit_path_names = #{unitPathNames,jdbcType=VARCHAR},
       </if>
-      
       <if test="parentUnitPathNames != null" >
         parent_unit_path_names = #{parentUnitPathNames,jdbcType=VARCHAR},
       </if>
       <if test="parentUnitPathIds != null" >
         parent_unit_path_ids = #{parentUnitPathIds,jdbcType=VARCHAR},
       </if>
-      
+      <if test="supplierStr != null" >
+        supplier_str = #{supplierStr,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierWillStr != null" >
+        supplier_will_str = #{supplierWillStr,jdbcType=VARCHAR},
+      </if>
     </set>
     where equipment_id = #{equipmentId,jdbcType=VARCHAR}
   </update>
@@ -433,11 +352,6 @@
       all_price = #{allPrice,jdbcType=DECIMAL},
       apply_acount = #{applyAcount,jdbcType=INTEGER},
       specification = #{specification,jdbcType=VARCHAR},
-      
-      parent_unit_path_names = #{parentUnitPathNames,jdbcType=VARCHAR},
-      parent_unit_path_ids = #{parentUnitPathIds,jdbcType=VARCHAR},
-      
-      
       notes = #{notes,jdbcType=VARCHAR},
       special_notes = #{specialNotes,jdbcType=VARCHAR},
       attachment_doc = #{attachmentDoc,jdbcType=VARCHAR},
@@ -450,23 +364,24 @@
       update_user_id = #{updateUserId,jdbcType=VARCHAR},
       update_date = #{updateDate,jdbcType=TIMESTAMP},
       erp_no = #{erpNo,jdbcType=VARCHAR},
-      supplier_id = #{supplierId,jdbcType=VARCHAR},
-      supplier_name = #{supplierName,jdbcType=VARCHAR},
-      supplier_link_man = #{supplierLinkMan,jdbcType=VARCHAR},
-      supplier_mobile_email = #{supplierMobileEmail,jdbcType=VARCHAR},
       origin_place = #{originPlace,jdbcType=VARCHAR},
+      vote_count = #{voteCount,jdbcType=INTEGER},
       unit_path_ids = #{unitPathIds,jdbcType=VARCHAR},
       unit_path_names = #{unitPathNames,jdbcType=VARCHAR},
-      vote_count = #{voteCount,jdbcType=INTEGER},
-      second_supplier_id = #{secondSupplierId,jdbcType=VARCHAR},
-      second_supplier_name = #{secondSupplierName,jdbcType=VARCHAR},
-      second_supplier_link_man = #{secondSupplierLinkMan,jdbcType=VARCHAR},
-      second_supplier_mobile_email = #{secondSupplierMobileEmail,jdbcType=VARCHAR}
+      parent_unit_path_names = #{parentUnitPathNames,jdbcType=VARCHAR},
+      parent_unit_path_ids = #{parentUnitPathIds,jdbcType=VARCHAR},
+      supplier_str = #{supplierStr,jdbcType=VARCHAR},
+      supplier_will_str = #{supplierWillStr,jdbcType=VARCHAR}
     where equipment_id = #{equipmentId,jdbcType=VARCHAR}
   </update>
   
   
-  <sql id="selectCondition">
+  
+  
+  
+  
+    
+     <sql id="selectCondition">
 	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
 	     <if test="keyWord != null and keyWord  !='' ">               AND t.key_word like CONCAT('%',#{keyWord},'%')</if>
 	     <if test="name != null and name  !='' ">                     AND t.name like CONCAT('%',#{name},'%')</if>
@@ -474,6 +389,7 @@
 	     <if test="auditStatus != null     and auditStatus !=''  ">   AND t.audit_status = #{auditStatus}</if>
 	     <if test="applyDepartCode != null        and applyDepartCode !=''  ">       AND t.apply_depart_code = #{applyDepartCode}</if>
 	     <if test="unitPathIds != null             and unitPathIds !=''  ">           AND t.unit_path_ids = #{unitPathIds}</if>
+	     <if test="isLinkedProject != null             and isLinkedProject !=''  ">           AND t.is_linked_project = #{isLinkedProject}</if>
 	     <if test="parentUnitPathIds != null       and parentUnitPathIds !=''  ">     AND t.parent_unit_path_ids = #{parentUnitPathIds}</if>
 	     <if test="sqlStr != null   and sqlStr !='' ">      AND  ${sqlStr}</if>
 	 </trim>
@@ -508,5 +424,6 @@
      </select>
      
      
-  
+     
+     
 </mapper>

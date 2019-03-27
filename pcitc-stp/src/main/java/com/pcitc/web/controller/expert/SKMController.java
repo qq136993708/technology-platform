@@ -15,6 +15,7 @@ import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.ReverseSqlResult;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.common.OperationFilter;
+import com.pcitc.web.utils.RestfulHttpClient;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,7 +38,7 @@ import static org.apache.xmlbeans.XmlErrorCodes.LIST;
 public class SKMController extends BaseController {
 
     //专家接口
-    private static final String SKM_expert = "http://ip:port/XXXXX/expertFind.php";
+    private static final String SKM_expert = "http://10.225.14.211/expertFind.php";
     // 成果接口
     private static final String SKM_achievement = "http://ip:port/项目名称/kmsearch/cgFind";
     // 成果总量接口
@@ -179,13 +181,19 @@ public class SKMController extends BaseController {
      *
      * @return
      */
-    @RequestMapping("/SKM_expert")
+    @RequestMapping(value = "/SKM_expert", method = RequestMethod.GET)
     public Result SKM_expert() {
         Result result = new Result();
         try {
-            ResponseEntity<ResultSKM> forEntity = restTemplate.getForEntity(SKM_expert, ResultSKM.class);
-            ResultSKM resultSKM = forEntity.getBody();
-            if ("200".equals(resultSKM.getStatus())) {
+            ResultSKM resultSKM = new ResultSKM();
+            try {
+                RestfulHttpClient.HttpResponse response = RestfulHttpClient.getClient(SKM_expert).get().request();
+                resultSKM = JSON.parseObject(response.getContent(),ResultSKM.class);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            // 根据状态码判断请求是否成功
+            if (!"200".equals(resultSKM.getCode())) {
                 result.setSuccess(false);
                 result.setMessage("调用专家接口异常");
             } else {

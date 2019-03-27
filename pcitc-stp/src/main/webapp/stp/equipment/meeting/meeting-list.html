@@ -62,6 +62,22 @@
             return '';
         }
     }
+    
+    
+    function view(id) 
+    {
+    	 var temUrl="/sre-meeting/get/" + id;
+		 layer.open({
+            title:'详情',
+            skin: 'layui-layer-lan',
+            shadeClose: true,
+            type: 2,
+            fixed: false,
+            maxmin: false,
+            area: ['70%', '90%'],
+            content:  temUrl
+        });
+    }
 </script>
 
 <script>
@@ -230,10 +246,10 @@ var table,selectRowData;
            cols: [[
 	           	{type : 'checkbox', event: 'changeEvents', width : 55},
 	           	{title : '序号', type : 'numbers', width : 55},
-	            {field : 'title',        title : '会议主题', style : 'cursor: pointer;', align : 'center',width:'33%'},
+	            {field : 'title',        title : '会议主题', style : 'cursor: pointer;', align : 'center',width:'33%',templet:function(d){return '<span onclick="view(\''+d.meetingId+'\')" style="color:#17a2b8">'+d.title+'</span>'}},
 	            {field : 'meetingPlace', title : '会议地点', style : 'cursor: pointer;', align : 'center',width:'10%'},
-	            {field : 'meetingEmcee', title : '主持人', style : 'cursor: pointer;', align : 'center',width:'10%'},
-	            {field : 'createDepartName', title : '会议发起单位', style : 'cursor: pointer;', align : 'center',width:'20%'},
+	            {field : 'parentUnitPathNames', title : '会议发起单位', style : 'cursor: pointer;', align : 'center',width:'20%'},
+	            {field : 'createDepartName', title : '会议发起部门', style : 'cursor: pointer;', align : 'center',width:'10%'},
 	            {field : 'createUserName', title : '会议发起人', style : 'cursor: pointer;', align : 'center',width:'10%'},
 	            {field : 'meetingDate', title : '会议开始时间', style : 'cursor: pointer;', align : 'center', templet : '#dateTpl',width:'10%'}
            ]],

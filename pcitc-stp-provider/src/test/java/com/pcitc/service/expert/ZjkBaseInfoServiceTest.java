@@ -77,7 +77,7 @@ public class ZjkBaseInfoServiceTest {
             e.setCreateDate(DateUtil.dateToStr(new Date(),DateUtil.FMT_DD));
             e.setStatus("0");
             e.setAuditStatus("0");
-            System.out.println(e);
+//            System.out.println(e);
 //            zjkBaseInfoService.insert(e);
         }
         System.out.println("结束");

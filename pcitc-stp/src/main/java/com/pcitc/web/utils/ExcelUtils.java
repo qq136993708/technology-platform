@@ -1,14 +1,24 @@
 package com.pcitc.web.utils;
 
+import java.io.Closeable;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,11 +33,16 @@ import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.DataFormat;
 import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import com.alibaba.fastjson.JSON;
 import com.pcitc.base.util.DateUtils;
 
 public class ExcelUtils {
@@ -37,6 +52,7 @@ public class ExcelUtils {
 	private Workbook wb = null;
 
 	private Sheet sheet = null;
+
 
 	public Workbook getWb() {
 		return wb;
@@ -316,7 +332,7 @@ public class ExcelUtils {
 			_log.error("通过实体反转将list数据插入Excel失败", e);
 		}
 	}
-
+	
     /**
      * @描述 导出下载Excel
      * @作者 liuht
@@ -337,4 +353,162 @@ public class ExcelUtils {
         response.getOutputStream().close();
 
     }
+	/**
+	 * 读取Excel 
+	 * @param filePath
+	 * @return
+	 * @throws Exception 
+	 */
+	public static Map<Map<Integer,Integer>,Cell> readExcel(XSSFWorkbook xssfWorkbook,Integer sheetIndex) throws Exception 
+	{
+		Map<Map<Integer,Integer>,Cell> data = new HashMap<Map<Integer,Integer>,Cell>();
+		XSSFSheet sheet = xssfWorkbook.getSheetAt(sheetIndex);
+		for(int i = sheet.getFirstRowNum();i<sheet.getLastRowNum();i++) {
+			Row row = sheet.getRow(i);
+			for(int j = row.getFirstCellNum();j<row.getLastCellNum();j++) {
+				Cell cell = row.getCell(j);
+				if(cell == null) {continue;}
+				Map<Integer,Integer> key = new HashMap<Integer,Integer>();
+				key.put(i, j);
+				data.put(key, cell);
+			}
+		}
+		return data;
+	}
+	/**
+	 * 写入Excel文件
+	 * @param xssfWorkbook
+	 * @param sheetIndex
+	 * @param rowStartIndex
+	 * @param columnStartIndex
+	 */
+	public static void writeDataToExcel(XSSFWorkbook xssfWorkbook,Integer sheetIndex,Integer rowStartIndex,Integer columnStartIndex,List<List<String>> data) 
+	{
+		for(int row =0;row<data.size();row++) {
+			Row crow = xssfWorkbook.getSheetAt(sheetIndex).getRow(rowStartIndex+row);
+			for(int col=0;col<data.get(row).size();col++) {
+				crow.createCell(columnStartIndex+col).setCellValue(data.get(row).get(col));
+			}
+		}
+	}
+	/**
+	 * 写入对象到文件
+	 * @param workbook
+	 * @param outFile
+	 */
+	public static void writeWorkBookToFile(XSSFWorkbook workbook,File outFile) 
+	{
+		try {
+			FileOutputStream fos = new FileOutputStream(outFile);
+			workbook.write(fos);
+			closeIO(fos);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	/**
+	 * 读取模板到对象
+	 * @param templateFile
+	 * @return
+	 */
+	public static XSSFWorkbook readWorkBookFromFile(File templateFile) 
+	{
+		XSSFWorkbook workbook = null;
+		try {
+			InputStream is = new FileInputStream(templateFile);
+			workbook = new XSSFWorkbook(is);
+			closeIO(is);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return workbook;
+	}
+	
+	/**
+	 * 以行单元格为模板设置格式
+	 * @param cell
+	 */
+	public static void setCellStyle(Row templateRow,Cell cell) 
+	{
+		CellStyle style = templateRow.getSheet().getWorkbook().createCellStyle();
+		style.cloneStyleFrom(templateRow.getCell(cell.getColumnIndex()).getCellStyle());
+		cell.setCellStyle(style);
+	}
+	public static void fileDownload(File file,HttpServletResponse res) 
+	{
+        OutputStream out = null;
+        InputStream in = null;
+        try 
+        {
+          res.setHeader("content-type", "application/octet-stream");
+          res.setContentType("application/octet-stream");
+          res.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(file.getName(), "UTF-8"));
+        	
+          out = res.getOutputStream();
+          in = new FileInputStream(file);
+          
+          byte[] b = new byte[1000];
+          int len;
+          while ((len = in.read(b)) > 0)
+          {
+			out.write(b, 0, len);
+          }
+          closeIO(in);
+     	  closeIO(out);
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
+	}
+	public static void closeIO(Closeable io) 
+	{
+		if(io != null) 
+		{
+			try 
+			{
+				io.close();
+			}
+			catch(Exception e) 
+			{
+				e.printStackTrace();
+			}
+		}
+	}
+	public static String readCell(Cell cell) 
+	{
+		String  cellVal = null;
+		switch (cell.getCellTypeEnum()) 
+		{
+	        case NUMERIC:
+	        	cellVal = cell.getNumericCellValue()+"";
+	            break;
+	        case STRING:
+	        	cellVal = cell.getStringCellValue();
+	            break;
+	        case FORMULA:
+	        	cellVal = cell.getRichStringCellValue().getString();
+	            break;
+	        case BLANK:
+	            break;
+	        case BOOLEAN:
+	            break;
+	        case ERROR:
+	            break;
+	        default:
+	            break;
+        }
+		return cellVal;
+	}
+	public static void main(String [] args) throws Exception {
+		URL path = ExcelUtils.class.getResource("/");
+		File f = new File(path.getPath() + "static/budget/budget_total_template.xlsx");
+		InputStream is = new FileInputStream(f);
+		Map<Map<Integer,Integer>,Cell> data = ExcelUtils.readExcel(new XSSFWorkbook(is), 0);
+		for(java.util.Iterator<?> iter=data.keySet().iterator();iter.hasNext();) 
+		{
+			Object key = iter.next();
+			String cell = readCell(data.get(key));
+			System.out.println(JSON.toJSONString(key) + cell);
+		}
+		closeIO(is);
+	}
 }

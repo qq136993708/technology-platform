@@ -80,8 +80,16 @@ var publicMethods;
 	                    selectRowData=res.data[index-1];
 	                    var id=selectRowData.id;
 	                    var name=selectRowData.name;
+	                    var yearFeeStrJoinUnit=selectRowData.yearFeeStrJoinUnit;
+	                    var yearFeeStr=selectRowData.yearFeeStr;
+	                    var projectMoney=selectRowData.projectMoney;
+	                    var leadUnitName=selectRowData.leadUnitName;
 	                    $("#topicId").val(id)
 	                    $("#name").val(name);
+	                    $("#yearFeeStrJoinUnit").val(yearFeeStrJoinUnit);
+	                    $("#yearFeeStr").val(yearFeeStr);
+	                    $("#projectMoney").val(projectMoney);
+	                    $("#leadUnitName").val(leadUnitName);
 	                });
 	            }
 	        	
@@ -109,10 +117,17 @@ var publicMethods;
                 	}
                 	var topicId=$("#topicId").val();
                 	var name=$("#name").val();
+                	var yearFeeStrJoinUnit=$("#yearFeeStrJoinUnit").val();
+                	var yearFeeStr=$("#yearFeeStr").val();
+                	var projectMoney=$("#projectMoney").val();
+                	var leadUnitName=$("#leadUnitName").val();
                 	//alert(topicId);
                 	parent.document.getElementById("topicId").value=topicId;
                 	parent.document.getElementById("name").value=name;
-
+                	parent.document.getElementById("projectMoney").value=projectMoney;
+                	
+                	
+                	parent.setPorject(yearFeeStrJoinUnit,yearFeeStr,leadUnitName);
                 	var index = parent.layer.getFrameIndex(window.name);
     			    parent.layer.close(index); 
                 }
@@ -133,6 +148,13 @@ var publicMethods;
 <div class="formBox">
 	<input type="hidden" name="taskWriteUsersIds" id="taskWriteUsersIds" value="${taskWriteUsersIds}">
 	<input type="hidden" name="topicId" id="topicId" value="${topicId}">
+	<input type="hidden" name="topicId" id="topicId" value="${topicId}">
+	<input type="hidden" name="yearFeeStrJoinUnit" id="yearFeeStrJoinUnit" value="">
+	<input type="hidden" name="yearFeeStr" id="yearFeeStr" value="">
+	<input type="hidden" name="projectMoney" id="projectMoney" value="">
+	<input type="hidden" name="leadUnitName" id="leadUnitName" value="">
+	
+	
 	<div class="searchBox">
 		<label class="dateInput">
         	<span>课题名称</span>

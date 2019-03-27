@@ -94,10 +94,23 @@ public class SreProjectTask {
     
     private String applyUserId;
     private String applyUserName;
-    
+    private String documentDoc;
     
 
-    public String getApplyUserId() {
+    
+    
+    
+    
+    
+    public String getDocumentDoc() {
+		return documentDoc;
+	}
+
+	public void setDocumentDoc(String documentDoc) {
+		this.documentDoc = documentDoc;
+	}
+
+	public String getApplyUserId() {
 		return applyUserId;
 	}
 

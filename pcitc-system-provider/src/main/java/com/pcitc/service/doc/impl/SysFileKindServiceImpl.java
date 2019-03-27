@@ -250,41 +250,27 @@ public class SysFileKindServiceImpl implements SysFileKindService {
         }
         String[] arrayFields = strFields.split(",");
         for (int i = 0; i < arrayFields.length; i++) {
-        	System.out.println(i+"======复制老文件------"+arrayFields[i]);
-            
             // sysFileKind.getBak2() 原fileid， arrayFields[i] 新fileid
             if (sysFileKind.getBak2() != null && !sysFileKind.getBak2().equals("0")) {
             	
-            	SysFile iniFile = sysFileMapper.selectByPrimaryKey(sysFileKind.getBak2());
-            	// 把初始的文件当做老版本保存起来
-            	// 历史版本唯一标识id, 替换时使用
-                iniFile.setBak3(UUID.randomUUID().toString().replaceAll("-", ""));
-            	System.out.println("======复制老文件------"+sysFileKind.getBak2());
-				sysFileMapper.copySysFile(iniFile);
-				System.out.println("======复制老文件------"+iniFile.getVersion());
-				
+				//SysFile iniFile = sysFileMapper.selectByPrimaryKey(sysFileKind.getBak2());
 				SysFile newFile = sysFileMapper.selectByPrimaryKey(arrayFields[i]);
-
+            	// 修改初始文件,前台初始属性
+				newFile.setId(sysFileKind.getBak2());    // 修改原文件
 				newFile.setBak1(sysFileKind.getBak1());
 				newFile.setFilePublish(sysFileKind.getCreatePersonId());
 				newFile.setFileKind(sysFileKind.getParentId());
 				newFile.setBak2(sysFileKind.getCreatePersonName());
 				newFile.setVersion(sysFileKind.getVersion());
 				newFile.setBak10(sysFileKind.getBak10());
-            	// 修改初始文件
-            	iniFile = newFile;
-            	iniFile.setId(sysFileKind.getBak2());
-            	iniFile.setBak1(sysFileKind.getBak1());
-            	iniFile.setFilePublish(sysFileKind.getCreatePersonId());
-                iniFile.setFileKind(sysFileKind.getParentId());
-                iniFile.setBak2(sysFileKind.getCreatePersonName());
-                iniFile.setBak3(UUID.randomUUID().toString().replaceAll("-", ""));
-                iniFile.setVersion(sysFileKind.getVersion());
-                iniFile.setBak10(sysFileKind.getBak10());
-                iniFile.setCreateDateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
+				newFile.setUpdateDateTime(DateUtil.format(new Date(), DateUtil.FMT_SS));
                 
-                sysFileMapper.updateByPrimaryKey(iniFile);
-                
+                // 历史版本唯一标识id
+				newFile.setBak3(UUID.randomUUID().toString().replaceAll("-", ""));
+				
+				System.out.println(sysFileKind.getBak2()+"====="+newFile.getFilePath());
+                sysFileMapper.updateByPrimaryKey(newFile);
+                sysFileMapper.copySysFile(newFile);
                 
                 // 删除新上传文件
                 if (!arrayFields[i].equals(sysFileKind.getBak2())) {
@@ -301,7 +287,13 @@ public class SysFileKindServiceImpl implements SysFileKindService {
                 sysFile.setVersion(sysFileKind.getVersion());
                 sysFile.setBak10(sysFileKind.getBak10());
                 
+                // 历史版本唯一标识id
+                sysFile.setBak3(UUID.randomUUID().toString().replaceAll("-", ""));
+                
             	sysFileMapper.updateByPrimaryKey(sysFile);
+            	
+            	// 保存到历史版本中
+				sysFileMapper.copySysFile(sysFile);
             }
             
         }

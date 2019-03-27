@@ -164,7 +164,6 @@ public class ProjectSetupController extends BaseController {
 		String notes = CommonUtil.getParameter(request, "notes", "");
 		String contractNum = CommonUtil.getParameter(request, "contractNum", "");
 		String topicId = CommonUtil.getParameter(request, "topicId", "");
-		
 		String setupReasons = CommonUtil.getParameter(request, "setupReasons", "");
 		String mainTable = CommonUtil.getParameter(request, "mainTable", "");
 		String facilities = CommonUtil.getParameter(request, "facilities", "");
@@ -173,7 +172,9 @@ public class ProjectSetupController extends BaseController {
 		String sourcesTable = CommonUtil.getParameter(request, "sourcesTable", "");
 		String beginProjectMonth = CommonUtil.getParameter(request, "beginProjectMonth", "");
 		String endProjectMonth = CommonUtil.getParameter(request, "endProjectMonth", "");
-		
+		String projecChargeUserName = CommonUtil.getParameter(request, "projecChargeUserName", "");
+		String projecChargeUserTitle = CommonUtil.getParameter(request, "projecChargeUserTitle", "");
+		System.out.println("-----------保存立项报告-----setupId="+setupId+"taskId="+taskId);
 		
 		StringBuffer taskCheckContents = new StringBuffer();
 		String arr[]=request.getParameterValues("taskCheckContents");
@@ -198,7 +199,7 @@ public class ProjectSetupController extends BaseController {
 			setup.setCreateDate(new Date());
 			setup.setCreateUserId(sysUserInfo.getUserId());
 			setup.setCreateUserName(sysUserInfo.getUserDisp());
-			//String code = CommonUtil.getTableCode("XTBM_0032", restTemplate, httpHeaders);
+			
 			String idv = UUID.randomUUID().toString().replaceAll("-", "");
 			setup.setSetupId(idv); 
 			setup.setAuditStatus(auditStatus);
@@ -207,8 +208,7 @@ public class ProjectSetupController extends BaseController {
 			ResponseEntity<SreProjectSetup> se = this.restTemplate.exchange(GET_URL + setupId, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreProjectSetup.class);
 			setup = se.getBody();
 		}
-		// 流程状态
-		setup.setAuditStatus(auditStatus);
+		
 		SreProject sreProject=EquipmentUtils.getSreProject(topicId, restTemplate, httpHeaders);
 		
 		if(sreProject!=null)
@@ -228,6 +228,8 @@ public class ProjectSetupController extends BaseController {
 			setup.setSetupYear(sreProject.getSetupYear());
 			
 		}
+		setup.setProjecChargeUserName(projecChargeUserName);
+		setup.setProjecChargeUserTitle(projecChargeUserTitle);
 		setup.setTaskId(taskId);
 		setup.setTopicId(topicId); 
 		setup.setContractNum(contractNum);

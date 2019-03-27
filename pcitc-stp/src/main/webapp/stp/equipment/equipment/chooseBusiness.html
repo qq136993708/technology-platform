@@ -30,14 +30,14 @@ var publicMethods;
 	            url: '/sre-equipment/chooseBusiness_data',
 	            limit: 15,
 	            method:"POST",
-	            where: {param:{"g0MCOD3":$("#g0MCOD3").val(),"g0NAME1":$("#g0NAME1").val(),"g0GSDM":$("#g0GSDM").val()}},
+	            where: {param:{"g0MCOD3":$("#g0MCOD3").val(),"g0NAME1":$("#g0NAME1").val(),"g0GSDM":$("#g0GSDM").val(),"companyCode":$("#companyCode").val()}},
 	        	id: 'notjoin_apply_table',
 	        	height: 350,
 	        	page: {first: '首页',last: '尾页',theme: '#0F9EE0'},
 	            cols: [[
 	            	{type:'checkbox',event: 'changeEvents'}
 	             	,{title:'序号', type:'numbers'},
-	             	 {field : 'g0LIFNR',        title : '供应商ID', style : 'cursor: pointer;', align : 'left', width : '10%'},
+	             	{field : 'g0LIFNR',        title : '供应商ID', style : 'cursor: pointer;', align : 'left', width : '10%'},
 	                {field : 'g0NAME1',        title : '供应商名称', style : 'cursor: pointer;', align : 'left', width : '20%'},
 	                {field : 'g0MCOD3',        title : '所在城市',   style : 'cursor: pointer;', align : 'center', width : '10%'},
 	                {field : 'g0GSJC',         title : '所属单位', style : 'cursor: pointer;', align : 'center', width : '10%'},
@@ -61,7 +61,7 @@ var publicMethods;
 	         });
 	    	var $ = layui.$, active = {
 	    		searchEvent: function() { 
-                    table.reload("notjoin_apply_table",{where:{param:{"g0MCOD3":$("#g0MCOD3").val(),"g0NAME1":$("#g0NAME1").val(),"g0GSDM":$("#g0GSDM").val()}}});
+                    table.reload("notjoin_apply_table",{where:{param:{"g0MCOD3":$("#g0MCOD3").val(),"g0NAME1":$("#g0NAME1").val(),"g0GSDM":$("#g0GSDM").val(),"companyCode":$("#companyCode").val()}}});
                 },
                 addEvent:function(){
                 	var check = table.checkStatus('notjoin_apply_table');
@@ -69,16 +69,27 @@ var publicMethods;
                 		layer.msg('请点击选择供应商数据!');
                 		return;
                 	}
-                	var g0NAMEs="";
+                	var supplierIds="";
+                	var supplierStr="";
+                	var count=0;
                 	for(var dt in check.data)
                 	{
-                		g0NAMEs=g0NAMEs+check.data[dt].g0NAME1+",";
+                		supplierIds=supplierIds+check.data[dt].g0LIFNR+",";
+                		var supplierCode=check.data[dt].g0LIFNR;//供应商ID
+                		var supplierName=check.data[dt].g0NAME1;//供应商 名称
+                		var cityName=check.data[dt].g0MCOD3;//供应商 城市
+                		var unitCode=check.data[dt].g0GSDM;  //供应商--所属单位ID
+                		var unitName=check.data[dt].g0GSJC;  //供应商--所属单位名称
+                		var mobile=check.data[dt].g0TELF1;//供应商--电话
+                		var fix=check.data[dt].g0TELFX;//供应商--传真
+                		var address=check.data[dt].g0ADRNR;//供应商--地址
+                		var str=supplierCode+"#"+supplierName+"#"+cityName+"#"+unitName+"#"+mobile+"#"+fix+"#"+address+"|";
+                		supplierStr=supplierStr+str;
+                		count++;
                 	}
-                	$("#g0NAMEs").val(g0NAMEs);
-                	alert(g0NAMEs);
-                	parent.document.getElementById("g0NAMEs").value=g0NAMEs;
-
-
+                	supplierStr = supplierStr.substr(0, supplierStr.length -1);
+                	parent.document.getElementById("supplierStr").value=supplierStr;
+                	parent.setSupplierStr(supplierIds);
                 	var index = parent.layer.getFrameIndex(window.name);
     			    parent.layer.close(index); 
                 }
@@ -97,8 +108,12 @@ var publicMethods;
 </head>
 <body>
 <div class="formBox">
-	<input type="hidden" name="g0GSDM" id="g0GSDM" value="${g0GSDM}">
-	<input type="hidden" name="g0NAMEs" id="g0NAMEs" value="">
+	<input type="hidden" name="g0GSDM"      id="g0GSDM"      value="${g0GSDM}">
+	<input type="hidden" name="g0NAMEs"     id="g0NAMEs"     value="">
+	<input type="hidden" name="supplierIds" id="supplierIds" value="">
+	<input type="hidden" name="companyCode" id="companyCode" value="${companyCode}">
+	
+	
 	<div class="searchBox">
 		<label class="dateInput">
         	<span>供应商名称</span>

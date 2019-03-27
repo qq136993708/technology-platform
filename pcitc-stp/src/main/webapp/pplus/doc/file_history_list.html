@@ -2,25 +2,20 @@
 <html>
 <head>
 <meta charset="utf-8">
-<!--<meta http-equiv="X-UA-Compatible" content="IE=edge">-->
-<!--<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">-->
-
 <link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
-<link rel="stylesheet" type="text/css" href="/layuiadmin/ztree/css/metroStyle/metroStyle.css">
 <link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
 <script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
-<script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.core.js"></script>
-<script type="text/javascript" src="/layuiadmin/ztree/js/jquery.ztree.excheck.min.js"></script>
 <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
 <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+
+
 </head>
 <body>
 	<div class="searchBox">
-		<!--查询条件-->
 		<label class="dateInput">
 			<input type="hidden" name="fileId" id="fileId" value="${fileId?default(0)}" />
 			<span>文件名称</span>
-			<input type="text" name="fileName" id="fileName" placeholder="请输入文件名称" title="文件名称" autocomplete="off" class="form-control">
+			<input type="text" name="fileName" id="fileName" placeholder="请输入文件名称" title="文件名称" class="form-control">
 		</label>
 		<!--按钮组-->
 		<div class="btnGroup">
@@ -28,22 +23,25 @@
 			<button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg" data-type="resetEvent">重置</button>
 		</div>
 	</div>
-	
+
 	<div class="tableBox">
 		<div class="tableToolBox">
 			<div class="whiteLine"></div>
 			<div class="tableBtns">
-				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_update" data-type="replaceEvent">替换</button>
+				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_save" id="showUpload">历史版本纠错</button>
+				<button type="button" hidden="true" id="realUpload">真实历史版本纠错</button>
+				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_update" data-type="replaceEvent">版本恢复</button>
 				<button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_import" data-type="downloadEvent">下载</button>
 			</div>
 		</div>
 		<table id="fileShowTable" class="layui-hide" lay-filter="tableEvent"></table>
 	</div>
-	
+
 
 	<a href="" target="_self" id="historyDownload"></a>
 
 	<script>
+		var active = "";
 		layui.use([ 'jquery', 'form', 'laydate', 'table', 'layer', 'element' ], function() {
 			var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate;
 			form = layui.form;
@@ -104,6 +102,12 @@
 						style : 'cursor: pointer;',
 						templet : '<div>{{ layui.laytpl.toDateString(d.createDateTime) }}</div>',
 					}, {
+						field : 'updateDateTime',
+						title : '更新时间',
+						event : 'setActive',
+						style : 'cursor: pointer;',
+						templet : '<div>{{ layui.laytpl.toDateString(d.updateDateTime) }}</div>',
+					}, {
 						field : 'bak10',
 						title : '备注',
 						event : 'setActive',
@@ -134,7 +138,8 @@
 
 			renderTable();
 			// 触发不同的按钮事件
-			var $ = layui.$, active = {
+			var $ = layui.$;
+			active = {
 				searchEvent : function() { 
 					renderTable();
 				},
@@ -152,7 +157,7 @@
 					
 					var versionUUID = selectedData[0].bak3;
 					//获取此版本信息，替换正在生效的版本
-					layer.confirm('确定要替换吗?替换后，原版本保存进历史版本中！', {
+					layer.confirm('确定要替换吗?', {
 						btn : [ '确认', '取消' ],
 						title : "替换确认"
 					}, function(index) {
@@ -214,6 +219,145 @@
 				var index = parent.layer.getFrameIndex(window.name);
 				parent.layer.close(index);
 			})
+		});
+	</script>
+
+	<script>
+		// 上传文件，替换原历史记录中的文件，只修改文件路径、文件名称等
+		var pcitc = pcitc || {};
+		pcitc.fileUpload2 = pcitc.fileUpload2 || {};
+		
+		// 查询是哪个菜单
+		var param = JSON.parse(window.localStorage.getItem("param"));
+
+		var pcitcFile2 = pcitc.fileUpload2 = {
+			fileObj : {},
+			url : "/sysfile/uploadMultipleFileLayui",
+			filedflag : "",
+			ext : "zip|rar|7z|xlsx|xls|doc|docx|txt|pdf|ppt|pptx",//允许上传的文件后缀。一般结合 accept 参数类设定。假设 accept 为 file 类型时，那么你设置 exts: 'zip|rar|7z' 即代表只允许上传压缩格式的文件。如果 accept 未设定，那么限制的就是图片的文件格式
+			accept : "file",//指定允许上传时校验的文件类型，可选值有：images（图片）、file（所有文件）、video（视频）、audio（音频）
+			acceptMime : "*",//规定打开文件选择框时，筛选出的文件类型，值为用逗号隔开的 MIME 类型列表。如：acceptMime: 'image/*'（只显示图片文件）acceptMime: 'image/jpg, image/png'（只显示 jpg 和 png 文件）
+			field : "file",
+			size : "10240",
+			number : "1",
+			drag : false,
+			//判断是否是IE浏览器，包括Edge浏览器
+			IEVersion : function() {
+				var userAgent = navigator.userAgent;
+				//微信内置浏览器
+				if (userAgent.match(/MicroMessenger/i) == 'MicroMessenger') {
+					return "MicroMessenger";
+				}
+				//QQ内置浏览器
+				else if (userAgent.match(/QQ/i) == 'QQ') {
+					return "QQ";
+				}
+				//Chrome
+				else if (userAgent.match(/Chrome/i) == 'Chrome') {
+					return "Chrome";
+				}
+				//Opera
+				else if (userAgent.match(/Opera/i) == 'Opera') {
+					return "Opera";
+				}
+				//Firefox
+				else if (userAgent.match(/Firefox/i) == 'Firefox') {
+					return "Firefox";
+				}
+				//Safari
+				else if (userAgent.match(/Safari/i) == 'Safari') {
+					return "Safari";
+				}
+				//IE
+				else if (!!window.ActiveXObject || "ActiveXObject" in window) {
+					return "IE";
+				} else {
+					return "未定义:" + userAgent;
+				}
+			}
+		}
+		/***默认*/
+		if (typeof (file_accept2) != "undefined") {
+			pcitcFile2.accept = file_accept2;
+		}
+		/***默认*/
+		if (typeof (file_acceptMime2) != "undefined") {
+			pcitcFile2.acceptMime = file_acceptMime2;
+		}
+		if (pcitcFile2.IEVersion() == "IE") {
+			var reIE = new RegExp("MSIE (\\d+\\.\\d+);");
+			reIE.test(navigator.userAgent);
+			var fIEVersion = parseFloat(RegExp["$1"]);
+			pcitcFile2.url = "/sysfile/uploadMultipleFileLayuiIE";
+		}
+		
+		var fileParams = [];
+
+　　　　 var fileParam = new Object();
+ 		fileParam.lastModifiedDate = new Date();
+        fileParams.push(fileParam);
+　　　　 fileParams = JSON.stringify(fileParams);
+
+		layui.use([ 'element', 'upload2' ], function() {
+			var $ = layui.jquery, element = layui.element, upload = layui.upload2;
+			var uploadListIns = upload.render(
+					{
+				elem : '#realUpload',
+				url : pcitcFile2.url,
+				accept : pcitcFile2.accept,
+				field : pcitcFile2.field,
+				acceptMime : pcitcFile2.acceptMime,
+				data : {
+					filedflag : param.id,
+					flag : '0',
+					formId : null,
+					param : fileParams
+				},
+				exts : pcitcFile2.ext,
+				number : pcitcFile2.number,
+				auto : true,     // 选择完文件自动上传
+				done : function(res, index, upload) {
+					if (res.error == null) { //上传成功
+						// 替换原历史文件属性（所属路径、文件名称等）。历史版本表的唯一值selectedData[0].bak3
+						var selectedData = active.getCheckData();
+						res.list[0].bak3 = selectedData[0].bak3;
+						$.ajax({
+							url : '/file/history/error/replace',
+							type : 'post',
+							dataType : 'json',
+							data: JSON.stringify(res.list[0]),
+							headers : {
+								'Content-Type' : 'application/json',
+							},
+							error : function() {
+								layer.msg('操作失败！');
+							},
+							success : function(data) {
+								// 刷新历史表单
+								active.searchEvent();
+								layer.msg('操作成功！');
+								return;
+							}
+						});
+						
+					} else {
+						this.error(index, upload);
+					}
+				},
+				error : function(index, upload) {
+					console.log("----------error---------");
+				}
+			});
+		});
+		
+		$('#showUpload').click(function(){
+			var selectedData = active.getCheckData();
+			if (selectedData.length != 1) {
+				// 只能选择一个文件进行替换
+				layer.msg('请选择一个文件进行历史纠错替换！');
+				return false;
+			}
+			$('#realUpload').click();
 		});
 	</script>
 </body>

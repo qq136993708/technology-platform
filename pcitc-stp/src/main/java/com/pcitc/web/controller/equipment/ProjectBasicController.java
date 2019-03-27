@@ -32,11 +32,12 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.RequestProcessStatusEnum;
+import com.pcitc.base.stp.equipment.SreEquipment;
 import com.pcitc.base.stp.equipment.SreProject;
 import com.pcitc.base.stp.equipment.UnitField;
+import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.system.SysUnit;
 import com.pcitc.base.system.SysUser;
-import com.pcitc.base.util.CodeUtil;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.IdUtil;
@@ -297,6 +298,9 @@ public class ProjectBasicController extends BaseController {
 		String unitPathNames = CommonUtil.getParameter(request, "unitPathNames", sysUserInfo.getUnitName());
 		String yearFeeStrJoinUnit = CommonUtil.getParameter(request, "yearFeeStrJoinUnit", "");
 		
+		String projectMoney = CommonUtil.getParameter(request, "projectMoney", "");
+		
+		
 		
 		String parentUnitPathIds ="";
 		String parentUnitPathNames =  "";
@@ -322,7 +326,7 @@ public class ProjectBasicController extends BaseController {
 			sreProjectBasic.setCreateDate(new Date());
 			sreProjectBasic.setCreateUserId(sysUserInfo.getUserId());
 			sreProjectBasic.setCreateUserName(sysUserInfo.getUserDisp());
-			String code = CodeUtil.getCode("XTBM_0032", restTemplate, httpHeaders);
+			
 			String idv = UUID.randomUUID().toString().replaceAll("-", "");
 			sreProjectBasic.setId(idv);
 			sreProjectBasic.setAuditStatus(auditStatus);
@@ -333,23 +337,9 @@ public class ProjectBasicController extends BaseController {
 		}
 		// 流程状态
 		sreProjectBasic.setAuditStatus(auditStatus);
-		BigDecimal projectMoney=BigDecimal.ZERO;
-		if (!yearFeeStr.equals("")) //2019,55,5,60#2020,553,5,558
-		{
-			String array[]=yearFeeStr.split("#");
-			if(array!=null && array.length>0)
-			{
-				for(int i=0;i<array.length;i++)
-				{
-					String year=array[i];
-					String arr[]=year.split(",");
-					projectMoney=projectMoney.add(new BigDecimal(arr[3]));
-				}
-			}
-			sreProjectBasic.setProjectMoney(projectMoney);
-		}
 		
 		
+		sreProjectBasic.setProjectMoney(new BigDecimal(projectMoney));
 		sreProjectBasic.setUnitPathIds(unitPathIds);
 		sreProjectBasic.setUnitPathNames(unitPathNames);
 		sreProjectBasic.setParentUnitPathIds(parentUnitPathIds); 
@@ -411,8 +401,22 @@ public class ProjectBasicController extends BaseController {
 				String dataId = sreProjectBasic.getId();
 				resultsDate.setData(dataId);
 				resultsDate.setSuccess(true);
-				
 			}
+			String arr[]=equipmentIds.split(",");
+			if(arr!=null && arr.length>0)
+			{
+				for(int i=0;i<arr.length;i++)
+				{
+					String tempid=arr[i];
+					if(tempid!=null && !tempid.equals(""))
+					{
+						SreEquipment sreEquipment=EquipmentUtils.getSreEquipment(tempid, restTemplate, httpHeaders);
+						sreEquipment.setIsLinkedProject("1");
+						EquipmentUtils.updateSreEquipment(sreEquipment, restTemplate, httpHeaders);
+					}
+				}
+			}
+			
 		} else 
 		{
 			resultsDate = new Result(false, RequestProcessStatusEnum.SERVER_BUSY.getStatusDesc());
@@ -735,7 +739,12 @@ public class ProjectBasicController extends BaseController {
 		request.setAttribute("createUserId", createUserId);
 		request.setAttribute("endYear", endYear);
 		request.setAttribute("beginYear", beginYear);
-	
+		List<UnitField>  unitFieldList= CommonUtil.getUnitNameList(restTemplate, httpHeaders);
+		request.setAttribute("unitFieldList", unitFieldList);
+		
+		List<SysDictionary>  dicList= CommonUtil.getDictionaryByParentCode("ROOT_UNIVERSAL_LCZT", restTemplate, httpHeaders);
+		request.setAttribute("dicList", dicList);
+		
 	
 		return "/stp/equipment/project/project-basic-view";
 	}

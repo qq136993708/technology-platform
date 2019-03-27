@@ -16,17 +16,23 @@
   <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css">
   <link rel="stylesheet" type="text/css" href="/layuiadmin/ztree/css/metroStyle/metroStyle.css">
   <link rel="stylesheet" href="/layuiadmin/style/common.css">
+  <script src="/common/js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+<script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+
 </head>
 <body>
   <div class="formBox">
   <div class="box-body">
   <form class="layui-form" name="form1" id="form1" action="" method="POST" lay-filter="component-form-group layui-container">
+     <input type="hidden" name="supplierStr"     id="supplierStr" value="${sreEquipment.supplierStr}">
+     <input type="hidden" name="supplierWillStr" id="supplierWillStr" value="${sreEquipment.supplierWillStr}">
      <input type="hidden" name="attachmentDoc" id="attachmentDoc" value="${sreEquipment.attachmentDoc}">
        <!-- 行有两个的情况 -->
       <div class="layui-row">
         <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
           <div class="layui-form-item">
-            <label for="" class="layui-form-label">装备名称<span class="must-fill">*</span></label>
+            <label for="" class="layui-form-label">装备名称</label>
             <div class="layui-input-block">
               <input class="layui-input readOnlyBox" name="name" id="name" value="${sreEquipment.name}"  lay-verify="name" placeholder="请输入装备名称" autocomplete="off" type="text">
             </div>
@@ -34,7 +40,7 @@
         </div>
          <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
           <div class="layui-form-item">
-            <label for="" class="layui-form-label">装备分类<span class="must-fill">*</span></label>
+            <label for="" class="layui-form-label">装备分类</label>
             <div class="layui-input-block">
                <input class="layui-input readOnlyBox" name="typeName" id="typeName" value="dd" onclick="chooseType()" readonly="readonly" readonly="readonly"   class="layui-textarea readOnlyBox"  autocomplete="off" type="text">
             </div>
@@ -47,7 +53,7 @@
         <div class="layui-row">
         <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
           <div class="layui-form-item">
-            <label for="" class="layui-form-label">申报单价（万元）<span class="must-fill">*</span></label>
+            <label for="" class="layui-form-label">申报单价（万元）</label>
             <div class="layui-input-block">
               <input class="layui-input readOnlyBox" placeholder="￥" name="unitPrice" id="unitPrice" value="${sreEquipment.unitPrice}"  readonly="readonly"     autocomplete="off" type="text" onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')">
             </div>
@@ -55,7 +61,7 @@
         </div>
         <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
           <div class="layui-form-item">
-            <label for="" class="layui-form-label">申请数量<span class="must-fill">*</span></label>
+            <label for="" class="layui-form-label">申请数量</label>
             <div class="layui-input-block">
                <input class="layui-input readOnlyBox" name="applyAcount" id="applyAcount" value="${sreEquipment.applyAcount}"   readonly="readonly"    autocomplete="off" type="text"  onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
             </div>
@@ -67,7 +73,7 @@
        <div class="layui-row">
         <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
           <div class="layui-form-item">
-            <label for="" class="layui-form-label">规格型号、参数<span class="must-fill">*</span></label>
+            <label for="" class="layui-form-label">规格型号、参数</label>
             <div class="layui-input-block">
               <input class="layui-input readOnlyBox"  name="specification" id="specification" value="${sreEquipment.specification}"   readonly="readonly"   autocomplete="off" type="text" >
             </div>
@@ -85,76 +91,104 @@
       
       
       
-      
-       <div class="layui-row">
-        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-          <div class="layui-form-item">
-            <label for="" class="layui-form-label">推荐供应商</label>
-            <div class="layui-input-block">
-              <input class="layui-input readOnlyBox" name="supplierName" id="supplierName" value="${sreEquipment.supplierName}"     autocomplete="off" type="text">
-            </div>
-          </div>
-        </div>
-        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-          <div class="layui-form-item">
-            <label for="" class="layui-form-label">供应商联系人</label>
-            <div class="layui-input-block">
-              <input class="layui-input readOnlyBox" name="supplierLinkMan" id="supplierLinkMan" value="${sreEquipment.supplierLinkMan}"     autocomplete="off" type="text">
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <div class="layui-row">
-        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-          <div class="layui-form-item">
-            <label for="" class="layui-form-label">供应商电话及Email</label>
-            <div class="layui-input-block">
-              <input class="layui-input readOnlyBox" name="supplierMobileEmail" id="supplierMobileEmail" value="${sreEquipment.supplierMobileEmail}"     autocomplete="off" type="text">
-            </div>
-          </div>
+        <!-- 文本域 -->
+      <div class="layui-form-item layui-form-text" >
+        <label class="layui-form-label">推荐供应商</label>
+        <div class="layui-input-block" id="supplier_str">
+          <table class="layui-table">
+		                    <thead>
+		                    <tr>
+                                <td width="12%">供应商ID</td>
+		                        <td width="12%">供应商名称</td>
+		                        <td width="12%">所在城市</td>
+		                        <td width="12%">所属单位</td>
+		                        <td width="12%">电话</td>
+		                        <td width="12%">传真</td>
+		                        <td width="12%">地址</td>
+		                    </tr>
+		                    </thead>
+		                    <tbody></tbody>
+		                </table>
         </div>
       </div>
       
        <!-- 文本域 -->
       <div class="layui-form-item layui-form-text" >
-        <label class="layui-form-label">主要功能与用途<span class="must-fill">*</span></label>
+        <label class="layui-form-label">意向供应商</label>
+        <div class="layui-input-block" id="supplier_will_str">
+           <table class="layui-table">
+		                    <thead>
+		                    <tr>
+                              <td width="12%">供应商名称</td>
+		                        <td width="12%">所在城市</td>
+		                        <td width="12%">所属单位</td>
+		                        <td width="12%">电话</td>
+		                        <td width="12%">传真</td>
+		                        <td width="12%">地址</td>
+		                    </tr>
+		                    </thead>
+		                    <tbody></tbody>
+		                </table>
+        </div>
+      </div>
+      
+      
+        
+      
+      
+       <!-- 文本域 -->
+      <div class="layui-form-item layui-form-text" >
+        <label class="layui-form-label">主要功能与用途</label>
         <div class="layui-input-block">
           <textarea placeholder="请输入内容" name="specialNotes" id="specialNotes" readonly="readonly"   class="layui-textarea readOnlyBox"   class="layui-textarea">${sreEquipment.specialNotes}</textarea>
         </div>
       </div>
       
-    
-      
+     <!-- 文本域 -->
+      <div class="layui-form-item layui-form-text" >
+        <label class="layui-form-label">备注</label>
+        <div class="layui-input-block">
+          <textarea placeholder="请输入备注" name="notes" id="notes" readonly="readonly"   class="layui-textarea readOnlyBox"   >${sreEquipment.notes}</textarea>
+        </div>
+      </div>
       
       
        <div class="layui-row">
         <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
           <div class="layui-form-item">
-            <label for="" class="layui-form-label">申报单位<span class="must-fill">*</span></label>
+            <label for="" class="layui-form-label">申报单位</label>
             <div class="layui-input-block">
-              <input class="layui-input readOnlyBox" name="applyDepartName" id="applyDepartName" value="${applyDepartName}"   readonly="readonly"   class="layui-textarea readOnlyBox"  autocomplete="off" type="text">
+              <input class="layui-input readOnlyBox" name="parentUnitPathNames" id="parentUnitPathNames" value="${sreEquipment.parentUnitPathNames}"   readonly="readonly"   class="layui-textarea readOnlyBox"  autocomplete="off" type="text">
             </div>
           </div>
         </div>
         <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
           <div class="layui-form-item">
-            <label for="" class="layui-form-label">第一申报人<span class="must-fill">*</span></label>
+            <label for="" class="layui-form-label">申报部门</label>
             <div class="layui-input-block">
-               <input class="layui-input readOnlyBox" name="firstApplyUser" id="firstApplyUser" value="${firstApplyUser}"     autocomplete="off" type="text">
+               <input class="layui-input readOnlyBox" name="applyDepartName" id="applyDepartName" value="${sreEquipment.applyDepartName}"     autocomplete="off" type="text">
             </div>
           </div>
         </div>
       </div>
+          
       
-      
-      
-        
-      <!-- 文本域 -->
-      <div class="layui-form-item layui-form-text" >
-        <label class="layui-form-label">备注</label>
-        <div class="layui-input-block">
-          <textarea placeholder="请输入备注" name="notes" id="notes" readonly="readonly"   class="layui-textarea readOnlyBox"   >${sreEquipment.notes}</textarea>
+       <div class="layui-row">
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label for="" class="layui-form-label">申报人</label>
+            <div class="layui-input-block">
+              <input class="layui-input readOnlyBox" name="firstApplyUser" id="firstApplyUser" value="${sreEquipment.firstApplyUser}"   readonly="readonly"   class="layui-textarea readOnlyBox"  autocomplete="off" type="text">
+            </div>
+          </div>
+        </div>
+        <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+          <div class="layui-form-item">
+            <label for="" class="layui-form-label">申报时间</label>
+            <div class="layui-input-block">
+               <input class="layui-input readOnlyBox" name="createDate" id="createDate" value="${sreEquipment.createDate?string("yyyy-MM-dd HH:mm:ss")}"     autocomplete="off" type="text">
+            </div>
+          </div>
         </div>
       </div>
       
@@ -172,24 +206,33 @@
 </form>
 </div>
 </div>
-<script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
-<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
-	<script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
-<script>
+<script type="text/javascript">
 var v_date=(new Date()).getTime();
-
+var publicMethods;
 var file_ids = "attachmentDoc";
 //detail:详情，edit：编辑
 file_edit_detail = "detail";
 //统管理-附件管理-附件配置：页面标识
 file_opt_flag = "546f1237f09d4aa19e91721180253b48";
+var supplierStr =$("#supplierStr").val();
+var supplierWillStr =$("#supplierWillStr").val();
 
-$(document).ready(function() {
-	layui.use([ 'jquery', 'form', 'laydate', 'table', 'layer', 'element',"publicMethods" ],
-			function() {
-				var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate;
-				var form = layui.form;
-				var publicMethods=layui.publicMethods;
+layui.config({
+}).extend({
+    index: 'layui/tableDemo' //主入口模块
+}).use(['form', 'table', 'laypage', 'layer', 'laydate', 'laytpl', 'jquery', "publicMethods"], function () {
+
+    var admin = layui.admin
+    element = layui.element
+        , table = layui.table
+        , layer = layui.layer
+        , laydate = layui.laydate
+        , laypage = layui.laypage
+        , form = layui.form
+        , $ = layui.jquery;
+       publicMethods = layui.publicMethods;
+     //添加到form.render()之后
+	 	$("#file_div").load('/common/public/uploadlayuiload.html');
 				//加载字典
 				var dicMap = ['GJXMGL_TZLX'];
 				publicMethods.ajaxPost("/dictionary/map/getMapListDictionarys",{"parentCodes":JSON.stringify(dicMap)}, function (data) {
@@ -201,36 +244,53 @@ $(document).ready(function() {
 			   	});
 			 	
 			 	form.render();
-			 	//添加到form.render()之后
-			 	$("#file_div").load('/common/public/uploadlayuiload.html');
-				/* 自定义验证规则  title 要验证的input的 lay-verify=""*/
-				form.verify({
-				});
-				/* 监听提交 */
-				form.on('submit(submitBtn)', function(data) {
-					data.field.noticeContent = editor.getData();
-                    ajaxPost('/project/addorupd-notice', data.field, function (data, status) {
-                        if (data.success) {
-                        	parent.layui.table.reload('noticeTable',null);
-                        	parent.renderfunc();//隐藏全选按钮
-                        	var index = parent.layer.getFrameIndex(window.name);
-					       	parent.layer.close(index);
-                        }else{
-                        	parent.layer.alert(data.message, {
-								title : '信息'
-							});
-							return;
-                        }
-                    });
-					return false;
-				});
+			 	
+			 	
+			 	
+			 	
+			 	  if(supplierStr!='')
+			        {
+			            $.each(supplierStr.split("|"), function (i, val) {
+			                var taskVal = val.split("#");
+			                var tr = "<tr><td>" + taskVal[0] + "</td>" +
+			                    "<td>" + taskVal[1] + "</td>" +
+			                    "<td>" + taskVal[2] + "</td> " +
+			                    "<td>" + taskVal[3] + " </td>" +
+			                    "<td>" + (taskVal[4]=='null' ? '':taskVal[4]) + "</td>" +
+			                    "<td>" + (taskVal[5]=='null' ? '':taskVal[5]) + "</td>" +
+			                    "<td>" + (taskVal[6]=='null' ? '':taskVal[6]) + "</td>" +
+			                    
+			                    "</tr>";
+
+			                $("#supplier_str table tbody").append(tr);
+			            });
+			        }
+			 	  
+			 	 if(supplierWillStr!='')
+			        {
+			            $.each(supplierWillStr.split("|"), function (i, val) {
+			                var taskVal = val.split("#");
+			                var tr = "<tr><td>" + taskVal[0] + "</td>" +
+			                    "<td>" + taskVal[1] + "</td>" +
+			                    "<td>" + taskVal[2] + "</td> " +
+			                    "<td>" + taskVal[3] + " </td>" +
+			                    "<td>" + (taskVal[4]=='null' ? '':taskVal[4]) + "</td>" +
+			                    "<td>" + (taskVal[5]=='null' ? '':taskVal[5]) + "</td>" +
+			                    "</tr>";
+
+			                $("#supplier_will_str table tbody").append(tr);
+			            });
+			        } 
+			 	  
+			 	
 		});
 	//关闭事件
 	$("#closeBtn").click(function () {
 	    var index = parent.layer.getFrameIndex(window.name);
 	    parent.layer.close(index);
 	})
-});
+
+
 
 
 </script>

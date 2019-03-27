@@ -302,11 +302,28 @@
                 </div>
             </div>
         </div>
+        <div class="layui-main-personnel">
+            <div class="expert">
+                <h4>技术领军人物</h4>
+                <p>姓名按首字母排列</p>
+                <div class="layui-expert">
+                    <ul id="expertKy">
+                    </ul>
+                </div>
+            </div>
+        </div>
+
     </div>
     <script>
-        layui.use(['jquery', 'table', 'layer', 'laydate'], function () {
-            var $ = layui.jquery, table = layui.table, laydate = layui.laydate;
-
+        layui.use(['jquery', 'table', 'layer', 'laydate','publicMethods'], function () {
+            var $ = layui.jquery, table = layui.table, laydate = layui.laydate,publicMethods= layui.publicMethods;
+            publicMethods.ajaxGet("/expertController/queryAllExpert", null, function (data) {
+                var expertKy = "";
+                for (let i = 0,j=data.length; i <j; i++) {
+                    expertKy = expertKy+"<li><a href=\"/expertController/expertDetailIndex?dataId="+data[i].data_id+"\" target='_blank'>"+data[i].expert_name+"</a></li>\n";
+                }
+                $("#expertKy").append(expertKy);
+            });
         });
     </script>
 </body>

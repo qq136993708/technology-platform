@@ -1452,7 +1452,7 @@ public class SysFileServiceImpl implements SysFileService {
 		System.out.println("1>>>>>>>>>查询分页结果" + list.size());
 		for (int i = 0; i < list.size(); i++) {
 			SysFile sf = list.get(i);
-			sf.setFileSize(String.valueOf(Math.round(Double.valueOf(sf.getFileSize())) / 1024));
+			sf.setFileSize(StrUtil.getDoubledigit((Double.parseDouble(sf.getFileSize()) / 1024)) + "");
 		}
 		PageInfo<SysFile> pageInfo = new PageInfo<SysFile>(list);
 
@@ -1534,7 +1534,7 @@ public class SysFileServiceImpl implements SysFileService {
 		System.out.println("1>>>>>>>>>查询分页结果" + list.size());
 		for (int i = 0; i < list.size(); i++) {
 			SysFile sf = list.get(i);
-			sf.setFileSize(String.valueOf(Math.round(Double.valueOf(sf.getFileSize())) / 1024));
+			sf.setFileSize(StrUtil.getDoubledigit((Double.parseDouble(sf.getFileSize()) / 1024)) + "");
 		}
 		PageInfo<SysFile> pageInfo = new PageInfo<SysFile>(list);
 
@@ -1547,4 +1547,16 @@ public class SysFileServiceImpl implements SysFileService {
 		return data;
 
 	}
+	
+	/**
+     * 替换历史文件中的错误文件
+     */
+    public int historyErrorReplace(SysFile sysFile) {
+    	// 把文件地址、文件名称等信息替换到文档历史版本中（通过版本的唯一标识bak3）
+    	sysFileMapper.updateSysFileHistoryErrorVersion(sysFile);
+    	
+    	// 删除syfile中的此条文档数据
+    	sysFileMapper.deleteByPrimaryKey(sysFile.getId());
+    	return 1;
+    }
 }

@@ -137,15 +137,15 @@
                 cols: [[
                     {type: 'checkbox', event: 'changeEvents'},
                     {title: '序号', type: 'numbers'},
-                    {
-                        field: 'auditStatus',
-                        title: '状态',
-                        event: 'setActive',
-                        align: 'center',
-                        style: 'cursor: pointer;',
-                        templet: '<div>{{ layui.laytpl.auditStatus(d.auditStatus) }}</div>',
-                        width: 55
-                    },
+                    // {
+                    //     field: 'auditStatus',
+                    //     title: '状态',
+                    //     event: 'setActive',
+                    //     align: 'center',
+                    //     style: 'cursor: pointer;',
+                    //     templet: '<div>{{ layui.laytpl.auditStatus(d.auditStatus) }}</div>',
+                    //     width: 55
+                    // },
                     {
                         field: "expertName",
                         title: "姓名", event: 'setActive', style: 'cursor: pointer;'
@@ -196,7 +196,7 @@
                     var param = {
                         data: res.data,//数据
                         element: ".layui-table-body table",// 当前的表格元素
-                        column: 4,//列数 从0开始
+                        column: 3,//列数 从0开始
                         field: "sex",//当前数据的字段
                         url: "/pageCommon/dic/ROOT_UNIVERSAL_XB"//接口
                     };
@@ -204,7 +204,7 @@
                     var param = {
                         data: res.data,//数据
                         element: ".layui-table-body table",// 当前的表格元素
-                        column: 9,//列数 从0开始
+                        column: 8,//列数 从0开始
                         field: "expertProfessionalField",//当前数据的字段
                         url: "/pageCommon/dic/ZJK_ZYFL"//接口
                     };
@@ -212,7 +212,7 @@
                     var param = {
                         data: res.data,//数据
                         element: ".layui-table-body table",// 当前的表格元素
-                        column: 10,//列数 从0开始
+                        column: 9,//列数 从0开始
                         field: "expertProfessinal",//当前数据的字段
                         url: "/pageCommon/dic/ZJK_ZCXX"//接口
                     };
@@ -220,7 +220,7 @@
                     var param = {
                         data: res.data,//数据
                         element: ".layui-table-body table",// 当前的表格元素
-                        column: 11,//列数 从0开始
+                        column: 10,//列数 从0开始
                         field: "company",//当前数据的字段
                         url: "/pageCommon/dic/ROOT_XTGL_ZSYJY"//接口
                     };

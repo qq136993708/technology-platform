@@ -31,9 +31,12 @@ import com.pcitc.base.common.Page;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.RequestProcessStatusEnum;
 import com.pcitc.base.stp.equipment.SreTechMeeting;
+import com.pcitc.base.system.SysUnit;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
+import com.pcitc.base.util.IdUtil;
 import com.pcitc.web.common.BaseController;
+import com.pcitc.web.utils.EquipmentUtils;
 
 @Controller
 @RequestMapping(value = "/sre-meeting")
@@ -122,6 +125,9 @@ public class TechMeetingController extends BaseController {
 	public String add(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String equipmentId = CommonUtil.getParameter(request, "equipmentId", "");
 		request.setAttribute("equipmentId", equipmentId);
+		
+		String meetingDoc= IdUtil.createFileIdByTime();
+		request.setAttribute("meetingDoc", meetingDoc);
 
 		return "/stp/equipment/meeting/meeting-add";
 	}
@@ -150,6 +156,27 @@ public class TechMeetingController extends BaseController {
 		String projectId = CommonUtil.getParameter(request, "projectId", "");
 		String equipmentId = CommonUtil.getParameter(request, "equipmentId", "");
 		
+		String meetingDoc = CommonUtil.getParameter(request, "meetingDoc", "");
+		
+		
+		String unitPathIds =   CommonUtil.getParameter(request, "unitPathIds",sysUserInfo.getUnitPath());
+		String parentUnitPathIds ="";
+		String parentUnitPathNames =  "";
+		if(!unitPathIds.equals(""))
+		{
+			if(unitPathIds.length()>4)
+			{
+				parentUnitPathIds=unitPathIds.substring(0, unitPathIds.length()-4);
+				SysUnit sysUnit=EquipmentUtils.getUnitByUnitPath(parentUnitPathIds, restTemplate, httpHeaders);
+				if(sysUnit!=null)
+				{
+					parentUnitPathNames = sysUnit.getUnitName();
+				}
+			}
+		}
+		
+		
+		
 		SreTechMeeting sreTechMeeting = null;
 		if (meetingId.equals("")) 
 		{
@@ -165,6 +192,10 @@ public class TechMeetingController extends BaseController {
 			ResponseEntity<SreTechMeeting> se = this.restTemplate.exchange(GET_URL + meetingId, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreTechMeeting.class);
 			sreTechMeeting = se.getBody();
 		}
+		
+		sreTechMeeting.setParentUnitPathIds(parentUnitPathIds);
+		sreTechMeeting.setParentUnitPathNames(parentUnitPathNames);
+		sreTechMeeting.setMeetingDoc(meetingDoc);
 		sreTechMeeting.setMeetingContent(meetingContent);
 		sreTechMeeting.setMeetingPlace(meetingPlace);
 		sreTechMeeting.setRemark(remark);
@@ -227,10 +258,10 @@ public class TechMeetingController extends BaseController {
 		logger.info("============远程返回  statusCode " + statusCode);
 		SreTechMeeting sreTechMeeting = responseEntity.getBody();
 		request.setAttribute("sreTechMeeting", sreTechMeeting);
-
+		request.setAttribute("meetingDoc", sreTechMeeting.getMeetingDoc());
 		String backurl = CommonUtil.getParameter(request, "backurl", "");
 		request.setAttribute("backurl", backurl);
-		System.out.println(">>>>>>>>>>>>>>>>>>>meetingId  " + meetingId);
+		
 
 		return "/stp/equipment/meeting/meeting-add";
 	}

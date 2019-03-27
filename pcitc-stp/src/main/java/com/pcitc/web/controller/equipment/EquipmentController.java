@@ -74,6 +74,8 @@ public class EquipmentController extends BaseController {
 	private static final String GET_DIC_SUPPLYER = "http://pcitc-zuul/hana-proxy/hana/common/dic/supplyer";
 	
 	
+	
+	
 	private static final String chooseBusiness_data = "http://pcitc-zuul/hana-proxy/hana/common/dic/supplyer_table";
 	
 
@@ -256,6 +258,7 @@ public class EquipmentController extends BaseController {
 		if(sysUserProperty!=null)
 		{
 			resultsDate.setSuccess(true);
+			resultsDate.setData(sysUserProperty);
 		}else
 		{
 			resultsDate.setSuccess(false);
@@ -278,6 +281,7 @@ public class EquipmentController extends BaseController {
 		SysUserProperty sysUserProperty=EquipmentUtils.getSysUserProperty(sysUserInfo.getUserId(), "G0DSM", restTemplate, httpHeaders);
 		String g0GSDM=sysUserProperty.getDataId();
 		request.setAttribute("g0GSDM", g0GSDM);
+		request.setAttribute("companyCode", g0GSDM);
 		return "/stp/equipment/equipment/chooseBusiness";
 	}
 	
@@ -393,7 +397,8 @@ public class EquipmentController extends BaseController {
 		request.setAttribute("equipmentIds", equipmentIds);
         //String applyDepartCode=sysUserInfo.getUnitCode();
 		//request.setAttribute("applyDepartCode", applyDepartCode);
-		
+		String isLinkedProject = request.getParameter("isLinkedProject");
+		request.setAttribute("isLinkedProject", isLinkedProject);
 		String	parentUnitPathIds="";
 		String unitPathIds =   sysUserInfo.getUnitPath();
 		if(!unitPathIds.equals(""))
@@ -599,16 +604,15 @@ public class EquipmentController extends BaseController {
 		String attachmentDoc = CommonUtil.getParameter(request, "attachmentDoc", "");
 		String specification = CommonUtil.getParameter(request, "specification", "");
 		String voteCount =     CommonUtil.getParameter(request, "voteCount", "1");
-		String supplierLinkMan = CommonUtil.getParameter(request, "supplierLinkMan", "");
-		String supplierMobileEmail = CommonUtil.getParameter(request, "supplierMobileEmail", "");
-		String supplierName =        CommonUtil.getParameter(request, "supplierName", "");
+		String supplierWillStr = CommonUtil.getParameter(request, "supplierWillStr", "");
+		String supplierStr = CommonUtil.getParameter(request, "supplierStr", "");
 		String erpNo =        CommonUtil.getParameter(request, "erpNo", "");
 		
 		String applyDepartName =        CommonUtil.getParameter(request, "applyDepartName", "");
 		String applyDepartCode =        CommonUtil.getParameter(request, "applyDepartCode", "");
 		String originPlace =        CommonUtil.getParameter(request, "originPlace", "");
 		
-		
+		String supplierIds =        CommonUtil.getParameter(request, "supplierIds", "");
 		    
 		String unitPathIds =   CommonUtil.getParameter(request, "unitPathIds",sysUserInfo.getUnitPath());
 		String unitPathNames = CommonUtil.getParameter(request, "unitPathNames", sysUserInfo.getUnitName());
@@ -674,9 +678,8 @@ public class EquipmentController extends BaseController {
 		sreEquipment.setSpecification(specification);
 		sreEquipment.setAttachmentDoc(attachmentDoc);
 		sreEquipment.setVoteCount(Integer.valueOf(voteCount));
-		sreEquipment.setSupplierLinkMan(supplierLinkMan);
-		sreEquipment.setSupplierMobileEmail(supplierMobileEmail);
-		sreEquipment.setSupplierName(supplierName);
+		sreEquipment.setSupplierStr(supplierStr); 
+		sreEquipment.setSupplierWillStr(supplierWillStr);
 		sreEquipment.setFirstApplyUser(firstApplyUser);
 		sreEquipment.setOriginPlace(originPlace);
 		// 判断是新增还是修改

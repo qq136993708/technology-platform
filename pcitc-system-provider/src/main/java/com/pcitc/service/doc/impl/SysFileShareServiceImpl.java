@@ -279,11 +279,11 @@ public class SysFileShareServiceImpl implements SysFileShareService {
 		if (list != null && list.size() == 1) {
 			SysFile temSF = list.get(0);
 
-			SysFile oldFile = sysFileMapper.selectByPrimaryKey(temSF.getId());
+			//SysFile oldFile = sysFileMapper.selectByPrimaryKey(temSF.getId());
 
 			// 历史版本唯一标识id, 替换时使用
-			oldFile.setBak3(UUID.randomUUID().toString().replaceAll("-", ""));
-			sysFileMapper.copySysFile(oldFile);
+			//oldFile.setBak3(UUID.randomUUID().toString().replaceAll("-", ""));
+			//sysFileMapper.copySysFile(oldFile);
 
 			sysFileMapper.updateByPrimaryKey(temSF);
 		}

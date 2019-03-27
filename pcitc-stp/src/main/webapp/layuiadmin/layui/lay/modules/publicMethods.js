@@ -714,9 +714,9 @@ layui.define(['jquery','form','table','laydate'],
                         tdNC+="<td class='td"+n+"'></td>";
                     }else {
                         if(n==1){
-                            tdN+="<td><input class='td"+n+"' value=''  type='number' lay-verify='validateNumber'/></td>";
+                            tdN+="<td><input class='td"+n+"' value=''  onkeyup=\"this.value=this.value.replace(/\D/g,'')\" onafterpaste=\"this.value=this.value.replace(/\D/g,'')\" type='number' lay-verify='validateNumber'/></td>";
                         }else {
-                            tdN+="<td><input class='td"+n+"' value='0'  type='number'/></td>";
+                            tdN+="<td><input class='td"+n+"' value='0' onkeyup=\"this.value=this.value.replace(/\D/g,'')\" onafterpaste=\"this.value=this.value.replace(/\D/g,'')\"   type='number'/></td>";
                         }
                         tdNC+="<td class='td"+n+"'></td>";
                     }
@@ -751,7 +751,7 @@ layui.define(['jquery','form','table','laydate'],
                     $("#"+id+" table tbody tr:last td:eq(3)").text(strArrC3);
                 }
                 /*计算*/
-                $("input").change(function () {
+                $("#"+id+" table tbody tr input").change(function () {
                     /*同行相加*/
                     var colleagueInputL=$(this).parents("tr").find("input").length;
                     var trInputC=0;
@@ -762,7 +762,7 @@ layui.define(['jquery','form','table','laydate'],
                             trInputC+=parseFloat($(this).parents("tr").find("input").eq(i).val());
                         }
                     }
-                    $(this).parents("tr").find("td:last").text(trInputC.toFixed(2));
+                    $(this).parents("tr").find("td:last").text(trInputC);
                     /*同列相加*/
                     var columnClass=$(this).attr("class");
                     var columnTrL=$("#"+id+" table tbody tr").length;
@@ -775,7 +775,7 @@ layui.define(['jquery','form','table','laydate'],
                             columnC+=parseFloat(columnVal);
                         }
                     }
-                    $("#"+id+" table tbody tr:last").find("."+columnClass).text(columnC.toFixed(2));
+                    $("#"+id+" table tbody tr:last").find("."+columnClass).text(columnC);
                     /*总行*/
                     var totalInputL=$(this).parents("tbody").find("input").length;
                     var totalC=0;
@@ -786,7 +786,7 @@ layui.define(['jquery','form','table','laydate'],
                             totalC+=parseFloat($(this).parents("tbody").find("input").eq(g).val());
                         }
                     }
-                    $("#"+id+" table tbody tr:last td:last").text(totalC.toFixed(2));
+                    $("#"+id+" table tbody tr:last td:last").text(totalC);
                 });
             },
             /*获取值*/
@@ -817,6 +817,28 @@ layui.define(['jquery','form','table','laydate'],
                 return columnSC;
             },
         };
+        
+        
+        function formVerify(){
+        	form.verify({
+                validateNumber: function (value, item) {
+                	if(isInteger(value)==false)
+                	{
+                		 return '请输入整数';
+                	}else  if (value <= 0 || value > 2000) {
+                        return '请填写正确的值';
+                    }
+                },
+                specialCharacters:function (value, item) {
+                    if(value.indexOf("#")>=0 || value.indexOf("|")>=0){
+                        return "不能填写#与|两个字符。";
+                    }
+                }
+            });
+        }
+        function isInteger(str) {
+        	return /^\d+$/.test(str);
+        }
         /**
          * 接口输出
          */

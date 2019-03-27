@@ -60,6 +60,65 @@
 <div class="layer-box">
     <form class="layui-form" name="form1" id="form1" action="" method="POST"
           lay-filter="component-form-group layui-container">
+          
+          
+          
+           
+                    
+            
+                
+                
+                 <div class="formBox" id="project_funds_table">
+		            <div class="tableToolBox">
+		                <div class="tableBtns">
+		                    <div class="tableTitle">课题信息
+		                    </div>
+		                </div>
+		            </div>
+		            <div class="box-body" style="padding-left:10px;padding-right:10px">
+		            <!--课题begin  -->
+		            <div class="layui-row">
+			                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+			                    <div class="layui-form-item">
+			                        <label for="" class="layui-form-label">选择课题<span class="must-fill">*</span></label>
+			                        <div class="layui-input-block">
+			                            <input class="layui-input readOnlyBox" placeholder="请选择课题" name="name" id="name" value="${sreProject.name}" readonly="readonly" onclick="chooseProject('${topicId}')" 
+			                                   autocomplete="off" type="text">
+			                        </div>
+			                    </div>
+			                </div>
+			                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+			                    <div class="layui-form-item">
+			                        <label for="" class="layui-form-label">金额(万元)</label>
+			                        <div class="layui-input-block">
+			                            <input class="layui-input readOnlyBox" style="color:red" readonly="readonly" name="projectMoney"  id="projectMoney" value="${sreProjectTask.projectMoney}"
+			                                   autocomplete="off" type="text">
+			                        </div>
+			                    </div>
+			                </div>
+			            </div>
+			            <!--课题end  -->
+			            
+		               <label class="layui-form-label" style="width: 100%;text-align: left;margin-left: 0;" id="lead_Unit_Name_lable">
+		                    ${sreProject.leadUnitName?default('')}</label>
+		                <table class="layui-table"  id="lead_Unit_Name_lable_table">
+		                    <thead>
+		                    <tr>
+		                        <td width="20%">年 度</td>
+		                        <td width="8%">费用性支出(万元)</td>
+		                        <td width="8%">资本性支出(万元)</td>
+		                        <td width="8%">小 计(万元)</td>
+		                    </tr>
+		                    </thead>
+		                    <tbody>
+		                    </tbody>
+		                </table>
+		                <div id="units"></div>
+		            </div>
+              </div>
+              
+              
+              
         <div class="formBox">
             <div class="tableToolBox">
                 <div class="tableBtns">
@@ -81,14 +140,6 @@
 			   <input  name="taskAssessmentContent"     id="taskAssessmentContent"    value="${sreProjectTask.taskAssessmentContent}"   type="hidden">
 			   <input  name="budgetTable"               id="budgetTable"           value="${sreProjectTask.budgetTable}"         type="hidden">
 			   <input  name="fundsSourcesTable"         id="fundsSourcesTable"     value="${sreProjectTask.fundsSourcesTable}"   type="hidden">
-
-                <div class="layui-form-item layui-form-text">
-                    <label class="layui-form-label">课题名称<span class="must-fill">*</span></label>
-                    <div class="layui-input-block">
-                        <input class="layui-input" placeholder="--请选择--" name="name" id="name" readonly="readonly" onclick="chooseProject('${topicId}')"   value="${sreProject.name}" autocomplete="off" type="text">
-                    </div>
-                </div>
-                
                 
                 <div class="layui-form-item layui-form-text">
                     <label class="layui-form-label">项目执行年限<span class="must-fill">*</span></label>
@@ -115,7 +166,7 @@
         </div>
         <div class="tableBox">
             <div class="layui-row" id="task_content">
-                <div class="tableToolBox">
+                <div class="tableToolBox" id="task_content_yearTr">
                     <div class="tableTitle">项目内容和主要图表 </div>
                     <div class="tableBtns">
                         <a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg"
@@ -129,7 +180,7 @@
                         <td width="4%">编号</td>
                         <td width="20%">单项设备名称</td>
                         <td width="28%">单项设备立项背景</td>
-                        <td width="8%">经费（万元）</td>
+                        <td width="8%">经费（万元,整数）</td>
                         <td width="8%">备注</td>
                         <td width="3%">删除</td>
                     </tr>
@@ -152,7 +203,7 @@
                     <thead>
                     <tr>
                         <td width="15%">进度安排</td>
-                        <td width="15%">考核目标</td>
+                        <td width="15%">主要工作</td>
                         <td width="15%">考核目标</td>
                         <td width="15%">备注</td>
                         <td width="3%">删除</td>
@@ -171,12 +222,14 @@
                     </div>
                 </div>
             </div>
-            <div class="box-body" style="padding-left:10px;padding-right:10px">
+            <div class="box-body" style="padding-left:10px;padding-right:10px;overflow:hidden">
                   <#list dicList as vo> 
-                    <input style="width:250px;margin:5px;float:left;" type="checkbox" name="taskCheckContents"  lay-skin="primary" title="${vo.name}"
+                   <div style="width:200px;margin:5px;float:left;">
+                    <input  type="checkbox" name="taskCheckContents"  lay-skin="primary" title="${vo.name}"
                     <#list "${sreProjectTask.taskCheckContents}"?split(",") as itemValue>
                          <#if itemValue == vo.code>checked="checked"  </#if>
                      </#list> value="${vo.code}">
+                      </div>
                     </#list>
              </div>
           </div>  
@@ -208,7 +261,7 @@
                         <td width="15%">支出类别</td>
                         <td>项目</td>
                         <td>台套</td>
-                        <td>预算金额（万元）</td>
+                        <td>预算金额（万元,整数）</td>
                         <td>小计（万元）</td>
                     </tr>
                     </thead>
@@ -372,82 +425,42 @@
                 <div class="tableToolBox">
                     <div class="tableTitle"> 资金来源表</div>
                     <div class="tableBtns">
-                        <a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg"
+                        <!--<a class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg"
                            data-type="fundsAddEvent">新增
-                        </a>
+                        </a>-->
                     </div>
                 </div>
                 <table class="layui-table">
                     <thead>
                     <tr>
                         <td width="20%">来源</td>
-                        <td width="8%">国家拨款(万)</td>
-                        <td width="8%">总部拨付(万)</td>
-                        <td width="8%">负责单位自筹(万)</td>
-                        <td width="8%">其它(万)</td>
+                        <td width="8%">国家拨款(万元, 整数)</td>
+                        <td width="8%">总部拨付(万元, 整数)</td>
+                        <td width="8%">负责单位自筹(万元, 整数)</td>
+                        <td width="8%">其它(万元, 整数)</td>
                         <td width="8%">合计(万)</td>
-                        <td width="8%">删除</td>
-                    </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-            </div>
-            
-            
-            
-            
-            
-            <div class="formBox" id="project_funds_table">
-            <div class="tableToolBox">
-                <div class="tableBtns">
-                    <div class="tableTitle">项目资金安排
-                    </div>
-                </div>
-            </div>
-            <div class="box-body" style="padding-left:10px;padding-right:10px">
-            
-             <label class="layui-form-label" style="width: 100%;text-align: left;margin-left: 0;">
-                    ${sreProject.leadUnitName?default('')}</label>
-                <table class="layui-table">
-                    <thead>
-                    <tr>
-                        <td width="20%">年 度</td>
-                        <td width="8%">费用性支出(万元)</td>
-                        <td width="8%">资本性支出(万元)</td>
-                        <td width="8%">小 计(万元)</td>
                     </tr>
                     </thead>
                     <tbody>
+
+
+                    <tr><td> <input lay-verify='specialCharacters' type='text' value='金额'/></td>
+                        <td><input type='number' class='fundsNumber' value='0'/> </td>
+                        <td><input type='number' class='fundsNumber'  value='0'/> </td>
+                        <td><input type='number' class='fundsNumber' value='0'/> </td>
+                        <td><input type='number' class='fundsNumber'  value='0'/> </td>
+                        <td></td>
+                    </tr>
                     </tbody>
                 </table>
-                <div id="units"></div>
-            </div>
             </div>
             
-           <!--  <div class="layui-row" id="project_funds_table">
-                <div class="tableToolBox">
-                    <div class="tableTitle">项目资金安排</div>
-                    <div class="tableBtns">
-                    </div>
-                </div>
-                <label class="layui-form-label" style="width: 100%;text-align: left;margin-left: 0;">
-                    ${sreProject.leadUnitName?default('')}</label>
-                <table class="layui-table">
-                    <thead>
-                    <tr>
-                        <td width="20%">年 度</td>
-                        <td width="8%">费用性支出(万元)</td>
-                        <td width="8%">资本性支出(万元)</td>
-                        <td width="8%">小 计(万元)</td>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
-                <div id="units"></div>
-            </div> -->
-        
-        
+            
+            
+            
+            
+           
+            
       
       
       
@@ -472,6 +485,8 @@
     var unitCodes = "";
     var postCodes = "";
     
+    var topicId= $('#topicId').val();
+    
     //牵头单位名称
     var leadUnitName="${sreProject.leadUnitName?default('')}";
     //牵头单位--表格
@@ -489,21 +504,21 @@
     //detail:详情，edit：编辑
     file_edit_detail = "edit";
     //统管理-附件管理-附件配置：页面标识
-    file_opt_flag = "b3a52bbe7087419c80813d7716f37674";
+    file_opt_flag = "44dc8527586d4589850fa1410ba45a29";
     var arrSelect=["静止设备","机械设备","仪器","自控仪表","计算机及外围设备",
         "计算机软件","备品、配件","土建","配套工程","设计费","安装费","其它","小计"];
     var arrSelectF=["会议费","差旅费","试车、试用费","外事费","外协费","其它费","小计"];
     // var beginYear = $("#beginYear").val();
     var table, selectRowData;
     layui.use(['form', 'table', 'laypage', 'layer', 'laydate', 'laytpl', 'jquery', "publicMethods"], function () {
-        var admin = layui.admin
-        element = layui.element
-            , table = layui.table
-            , layer = layui.layer
-            , laydate = layui.laydate
-            , laypage = layui.laypage
-            , $ = layui.jquery
-            , form = layui.form;
+    var admin = layui.admin
+    element = layui.element
+        , table = layui.table
+        , layer = layui.layer
+        , laydate = layui.laydate
+        , laypage = layui.laypage
+        , $ = layui.jquery
+        , form = layui.form;
         publicMethods = layui.publicMethods;
         
         
@@ -558,7 +573,18 @@
             active[type] ? active[type].call(this) : '';
         });
 
-        publicMethods.createTable('','',"project_funds_table",2,yearFeeStr,true);
+        
+        if(topicId!=null && topicId!='')
+        {
+        	publicMethods.createTable('','',"project_funds_table",2,yearFeeStr,true);
+        	$("#lead_Unit_Name_lable_table").show();
+        	$("#lead_Unit_Name_lable").append(leadUnitName);
+        }else
+       	{
+        	 $("#lead_Unit_Name_lable_table").hide();
+        	 $("#lead_Unit_Name_lable").append("");
+       	}
+        
 
 
 
@@ -623,7 +649,7 @@
                 var tr = "<tr><td>" + date + "</td>" +
                     "<td><textarea lay-verify='specialCharacters'  placeholder='请输入内容'  rows='4' cols='20' style='width: 90%;'>" + assessmentVal[1] + "</textarea>  </td>" +
                     "<td><textarea lay-verify='specialCharacters' placeholder='请输入内容'  rows='4' cols='20' style='width: 90%;'>" + assessmentVal[2] + "</textarea></td>" +
-                    "<td><textarea lay-verify='specialCharacters' placeholder='请输入内容'  rows='4' cols='20' style='width: 90%;'>" + assessmentVal[3] + "</textarea></td>" +
+                    "<td><textarea lay-verify='specialCharacters' placeholder='请输入内容'  rows='4' cols='20' style='width: 90%;'>" + (assessmentVal[3] =='null' ? '':assessmentVal[3] )+ "</textarea></td>" +
                     "<td><a href='javascript:;' class='dele'>删除</a></td></tr>";
                 addTr("task_assessment_content", tr);
                 formVerify();
@@ -721,18 +747,22 @@
         {
         	$.each(fundsArr.split("|"), function (i, val) {
                 var fundsVal = val.split("#");
-                var tr = "<tr><td> <input lay-verify='specialCharacters' type='text' value='"+fundsVal[0]+"'/></td>" +
-                    "<td><input type='number' class='fundsNumber' value='"+fundsVal[1]+"'/> </td>" +
-                    "<td><input type='number' class='fundsNumber'  value='"+fundsVal[2]+"'/> </td>" +
-                    "<td><input type='number' class='fundsNumber' value='"+fundsVal[3]+"'/> </td>" +
-                    "<td><input type='number' class='fundsNumber'  value='"+fundsVal[4]+"'/> </td>" +
-                    "<td>"+fundsVal[5]+"</td>" +
-                    "<td><a href='javascript:;' class='dele'>删除</a></td></tr>";
-                addTr("funds_sources_table", tr);
-                formVerify();
+                $("#funds_sources_table table tbody tr td:eq(0) input").val(fundsVal[0]);
+                $("#funds_sources_table table tbody tr td:eq(1) input").val(fundsVal[1]);
+                $("#funds_sources_table table tbody tr td:eq(2) input").val(fundsVal[2]);
+                $("#funds_sources_table table tbody tr td:eq(3) input").val(fundsVal[3]);
+                $("#funds_sources_table table tbody tr td:eq(4) input").val(fundsVal[4]);
+                $("#funds_sources_table table tbody tr td:eq(5)").text(fundsVal[5]);
             });
         }
-        
+        $("#funds_sources_table table tbody tr input").change(function () {
+            $("#funds_sources_table table tbody tr td:last").text(
+                parseInt($("#funds_sources_table table tbody tr td:eq(1) input").val())+
+                parseInt($("#funds_sources_table table tbody tr td:eq(2) input").val())+
+                parseInt($("#funds_sources_table table tbody tr td:eq(3) input").val())+
+                parseInt($("#funds_sources_table table tbody tr td:eq(4) input").val())
+            );
+        });
         dele();
         var $ =layui.$, active = {
             taskAddEvent: function () {
@@ -765,7 +795,7 @@
                 });
             },
             
-            fundsAddEvent:function(){
+            /*fundsAddEvent:function(){
                 var tr = "<tr><td> <input lay-verify='specialCharacters' type='text' value=''/></td>" +
                     "<td><input type='number' class='fundsNumber' value='0'/> </td>" +
                     "<td><input type='number' class='fundsNumber'  value='0'/> </td>" +
@@ -783,7 +813,7 @@
                     });
                     $(this).parents("tr").find("td").eq(5).text(numberC)
                 });
-            }
+            }*/
 
         }
 
@@ -816,24 +846,56 @@
             var  task_assessment_content =getData("task_assessment_content", 4);
             //var  budget_table =getData("budget_table", 5);
             var  funds_sources_table =getData("funds_sources_table", 6);
-
-            if (task_content == null || task_content == '') 
+            
+            var topicId=$("#topicId").val();
+            if(topicId==null || topicId=='')
+            {
+            	  layer.alert("请选择课题");
+            }else if (task_content == null || task_content == '') 
             {
                 layer.alert("项目内容和主要图表为空");
             }else if (task_assessment_content == null || task_assessment_content == '') 
             {
                 layer.alert("计划进度和考核目标为空");
             }else{
-            	 $("#taskContent").val(task_content)
-            	 $("#taskAssessmentContent").val(task_assessment_content)
-                 //alert(budget_table.substring(0, budget_table.length - 1))
-            	 $("#budgetTable").val(budget_table.substring(0, budget_table.length - 1));
-            	 $("#fundsSourcesTable").val(funds_sources_table)
-            	   
-            	 var topicId=$("#topicId").val();
-            	 var url="/sre_project_task/save?v_date="+v_date+"&status=0";
-                 var backurl="/sre_project_setup/add?v_date="+v_date+"&topicId="+topicId;
-                 ajaxOpt(url,"form1","POST",backurl,"保存成功","保存失败");
+            	
+            	
+            	
+            	 /*项目内容和主要图表总值*/
+                var equipment_value=0;
+                for(var i=0;i<$("#task_content table tbody tr").length;i++){
+                	 var value=$("#task_content table tbody tr").eq(i).find("td:eq(3)").find("input").val();
+                	 equipment_value+=parseInt(value);
+                }
+                /*来源总值*/
+                var sources_value=0;
+                for(var i=0;i<$("#funds_sources_table table tbody tr").length;i++){
+                	 var value=$("#funds_sources_table table tbody tr").eq(i).find("td:eq(5)").text();
+                	 sources_value+=parseInt(value);
+                }
+                /*资金概算表总值*/
+                var budget_value=$("#budget_tableNew table tbody tr:eq(12) td:eq(3)").text()+$("#budget_tableNew table tbody tr:eq(12) td:eq(19)").text();
+                
+               
+                layer.confirm('任务书：主要图表总金额='+equipment_value+"万,资金概算表总金额="+budget_value+"万,来源总金额="+sources_value+"万,确定提交吗？", { btn: ['确定','取消']},  function(){
+                	 $("#taskContent").val(task_content)
+                	 $("#taskAssessmentContent").val(task_assessment_content)
+                     //alert(budget_table.substring(0, budget_table.length - 1))
+                	 $("#budgetTable").val(budget_table.substring(0, budget_table.length - 1));
+                	 $("#fundsSourcesTable").val(funds_sources_table)
+                	   
+                	 var topicId=$("#topicId").val();
+                	 var url="/sre_project_task/save?v_date="+v_date;
+                     var backurl="/sre_project_setup/add?v_date="+v_date+"&topicId="+topicId;
+                     ajaxOpt(url,"form1","POST",backurl,"保存成功","保存失败");
+                
+                }, function(){
+    			 
+    			});
+                
+                
+            	
+            	
             }
             return false;
         });
@@ -844,29 +906,40 @@
             var trInputO=$(this).parents("tr").find("input").eq(0).val()==0 ? 0:$(this).parents("tr").find("input").eq(0).val();
             var trInputT=$(this).parents("tr").find("input").eq(1).val()==0 ? 0:$(this).parents("tr").find("input").eq(1).val();
             var trInputC=trInputO*trInputT;
-            $(this).parents("tr").find("td:last").text(trInputC.toFixed(2));
+            $(this).parents("tr").find("td:last").text(trInputC);
             /*同列相加*/
             var columnTrL=$("#budget_tableNew table tbody tr");
-            var capitalLO=0,capitalLT=0,costLO=0,costLT=0;
+            var capitalLO=0,capitalLT=0,capitalLX=0,costLO=0,costLT=0,costLX=0;
             for(var j=0;j<columnTrL.length-1;j++){
                 console.log($(columnTrL).eq(j).attr("class"))
                 if($(columnTrL).eq(j).attr("class")=="capital"){
                     capitalLO+=parseInt($(columnTrL).eq(j).find("input").eq(0).val());
                     capitalLT+=parseInt($(columnTrL).eq(j).find("input").eq(1).val());
+                    if($(columnTrL).eq(j).find("td").eq(4).text()==''){
+                        capitalLX+=0;
+                    }else {
+                        capitalLX+=parseInt($(columnTrL).eq(j).find("td").eq(4).text());
+                    }
+                    //alert($(columnTrL).eq(j).find("td").eq(4).text())
                 }else if($(columnTrL).eq(j).attr("class")=="cost"){
                     costLO+=parseInt($(columnTrL).eq(j).find("input").eq(0).val());
                     costLT+=parseInt($(columnTrL).eq(j).find("input").eq(1).val());
+                    if($(columnTrL).eq(j).find("td").eq(4).text()==''){
+                        costLX+=0;
+                    }else {
+                        costLX+=parseInt($(columnTrL).eq(j).find("td").eq(4).text());
+                    }
                 }
             }
-            $(columnTrL).eq(12).find("td").eq(2).html(parseInt(capitalLO).toFixed(2));
-            $(columnTrL).eq(12).find("td").eq(3).html(parseInt(capitalLT).toFixed(2));
-            $(columnTrL).eq(12).find("td").eq(4).html((parseInt(capitalLO)*parseInt(capitalLT)).toFixed(2));
-            $(columnTrL).eq(19).find("td").eq(2).html(parseInt(costLO).toFixed(2));
-            $(columnTrL).eq(19).find("td").eq(3).html(parseInt(costLT).toFixed(2));
-            $(columnTrL).eq(19).find("td").eq(4).html((parseInt(costLO)*parseInt(costLT)).toFixed(2));
-            $(columnTrL).eq(20).find("td").eq(2).html((parseInt(costLO)+parseInt(capitalLO)).toFixed(2));
-            $(columnTrL).eq(20).find("td").eq(3).html((parseInt(costLT)+parseInt(capitalLT)).toFixed(2));
-            $(columnTrL).eq(20).find("td").eq(4).html((parseInt(costLO)*parseInt(costLT)+parseInt(capitalLO)*parseInt(capitalLT)).toFixed(2));
+            $(columnTrL).eq(12).find("td").eq(2).html(parseInt(capitalLO));
+            $(columnTrL).eq(12).find("td").eq(3).html(parseInt(capitalLT));
+            $(columnTrL).eq(12).find("td").eq(4).html((parseInt(capitalLX)));
+            $(columnTrL).eq(19).find("td").eq(2).html(parseInt(costLO));
+            $(columnTrL).eq(19).find("td").eq(3).html(parseInt(costLT));
+            $(columnTrL).eq(19).find("td").eq(4).html((parseInt(costLX)));
+            $(columnTrL).eq(20).find("td").eq(2).html((parseInt(costLO)+parseInt(capitalLO)));
+            $(columnTrL).eq(20).find("td").eq(3).html((parseInt(costLT)+parseInt(capitalLT)));
+            $(columnTrL).eq(20).find("td").eq(4).html((parseInt(capitalLX)+parseInt(costLX)));
         });
     });
     
@@ -900,6 +973,10 @@
                 {
                 	var taskId=data.data.taskId;
                 	var setupId=data.data.setupId;
+                	if(setupId==null || setupId=='' || setupId=='undefined')
+               		{
+                		setupId="";
+               		}
                 	backurl=backurl+"&taskId="+taskId+"&setupId="+setupId;
                 	
                     layer.alert(
@@ -1009,13 +1086,13 @@
                 var tdElement = $("#" + id + " table tbody tr:eq(" + i + ") td").eq(k);
                 if ($(tdElement).find("input").length > 0) {
                     if($(tdElement).find("input").val()==''){
-                        columnS += null + "#";
+                        columnS += " " + "#";
                     }else {
                         columnS += $(tdElement).find("input").val() + "#";
                     }
                 } else if ($(tdElement).find("textarea").length > 0) {
                     if($(tdElement).find("textarea").val()==''){
-                        columnS += null + "#";
+                        columnS += " " + "#";
                     }else {
                         columnS += $(tdElement).find("textarea").val() + "#";
                     }
@@ -1063,6 +1140,49 @@
         var index = parent.layer.getFrameIndex(window.name);
         parent.layer.close(index);
     })
+    
+    
+    function  setPorject(yearFeeStrJoinUnit,yearFeeStr,leadUnitName)
+    {
+    	
+    	$("#lead_Unit_Name_lable_table").show();
+    	$("#lead_Unit_Name_lable").empty();
+    	$("#lead_Unit_Name_lable").append(leadUnitName);
+      // alert(yearFeeStrJoinUnit);
+     publicMethods.createTable('','',"project_funds_table",2,yearFeeStr,true);
+   
+   
+        var arrD = yearFeeStrJoinUnit.split(";");
+        if(arrD==''){
+
+        }else 
+        {
+        	$("#units").empty();
+            $.each(arrD, function (i, val) {
+                var arrDV=arrD[i].split("#");
+                var yearFeeStrN=arrD[i].substring(arrD[i].indexOf('#')+1);
+                var html = ' <div class="layui-form-item layui-form-text" >' +
+                    '        <div class="layui-input-block" id="yearTr'+i+'" style="margin-left: 0;">' +
+                    '        <label class="layui-form-label" style="width: 100%;text-align: left;margin-left: 0;">' + arrDV[0].split(",")[1] + '</label>' +
+                    '            <table class="layui-table">' +
+                    '             <thead>' +
+                    '             <tr>' +
+                    '                <td width="20%">年  度</td>' +
+                    '                <td width="8%">费用性支出(万元)</td>' +
+                    '                <td width="8%">资本性支出(万元)</td>' +
+                    '                <td width="8%">小  计(万元)</td>' +
+                    '             </tr>' +
+                    '            </thead>' +
+                    '            <tbody></tbody>' +
+                    '          </table>' +
+                    '        </div>' +
+                    '       </div>';
+                $("#units").append(html);
+                publicMethods.createTable("","", "yearTr"+i, 2, yearFeeStrN,true);
+            });
+        }
+      
+    }
     
     
     

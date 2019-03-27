@@ -10,6 +10,7 @@ import com.pcitc.base.stp.equipment.SreProjectSetup;
 import com.pcitc.base.stp.equipment.SreProjectTask;
 import com.pcitc.base.stp.equipment.SreProjectYear;
 import com.pcitc.base.stp.equipment.SreProjectYearExample;
+import com.pcitc.base.stp.equipment.SreSupplier;
 import com.pcitc.base.stp.equipment.SreTechMeeting;
 
 public interface EquipmentService {
@@ -138,5 +139,41 @@ public interface EquipmentService {
 	
 	
 	public int deleteSreProjectYearExample(SreProjectYearExample example)throws Exception;
+	
+	
+	
+	
+	
+	
+/**===========================================装备==========================================*/
+	
+	public SreSupplier selectSupplier(String id) throws Exception;
+
+	public Integer updateSupplier(SreSupplier record)throws Exception;
+
+	public int deleteSupplier(String id)throws Exception;
+
+	public Integer insertSupplier(SreSupplier record)throws Exception;
+
+	
+	public LayuiTableData getSupplierPage(LayuiTableParam param)throws Exception;
+	
+	
+	public List<SreSupplier> getSupplierListByIds(List<String> list)throws Exception;
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }
