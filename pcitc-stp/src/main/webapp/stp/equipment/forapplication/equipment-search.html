@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css">
+    <script src="/layuiadmin/layui/layui.js"></script>
+</head>
+
+<body>
+
+<div class="searchBox">
+<input type="hidden" name="equipmentIds" id="equipmentIds" value="${equipmentIds}">
+    <!--查询条件-->
+    <label class="dateInput">
+        <span>装备名称</span>
+        <input type="text" name="name" placeholder="请输入装备名称" title="装备名称" autocomplete="off" class="form-control" id="name">
+    </label>
+    <!--按钮组-->
+    <div class="btnGroup">
+        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>
+    </div>
+</div>
+
+
+<div class="tableBox" id="userDiv">
+   <!--  <table id="processdef-table" class="layui-hide" lay-filter="tableEvent"></table> -->
+   
+    <table class="layui-table">
+             <thead>
+	             <tr>
+	                <td width="3%">  </td>
+	                <td width="4%">序号</td>
+	                <td width="20%" >装备名称</td>
+	                <td width="8%" >申请数量</td>
+	                <td width="8%">申报资金(万元)</td>
+	             </tr>
+            </thead>
+            <tbody>
+            <tr>
+		            <td>
+		            <div class="layui-table-cell laytable-cell-1-0-0 laytable-cell-checkbox">
+		            <div class="layui-unselect layui-form-checkbox" lay-skin="primary">
+		            <i class="layui-icon layui-icon-ok"></i></div></div>
+		            </td>
+	                <td>1</td>
+	                <td >数据服务器及磁盘阵列</td>
+	                <td>2</td>
+	                <td style="color:red">50</td>
+	             </tr>
+	             
+	             <tr>
+		            <td>
+		            <div class="layui-table-cell laytable-cell-1-0-0 laytable-cell-checkbox">
+		            <div class="layui-unselect layui-form-checkbox" lay-skin="primary">
+		            <i class="layui-icon layui-icon-ok"></i></div></div>
+		            </td>
+	                <td>1</td>
+	                <td >石油地质实验样品二微码</td>
+	                <td>3</td>
+	                <td style="color:red">50</td>
+	             </tr>
+	             
+            </tbody>
+             
+     </table>
+     
+     
+</div>
+<div class="form-bottom">
+    <div class="form-bottom-btns">
+        <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="" data-type="submitEvent">提交</button>
+        <button type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white"  data-type="cancelEvent" id="cancel">取消</button>
+    </div>
+</div>
+
+<script id="dateTpl" type="text/html"> {{formatTime(d.createDate)}} </script>
+<script type="text/javascript">
+    // 时间格式化
+    function formatTime(d) {
+        if (d) {
+            var date = new Date();
+            date.setTime(d);
+            var y = date.getFullYear();
+            var m = date.getMonth() + 1;
+            m = m < 10 ? ('0' + m) : m;
+            var day = date.getDate();
+            day = day < 10 ? ("0" + day) : day;
+            var h = date.getHours();
+            h = h < 10 ? ("0" + h) : h;
+            var M = date.getMinutes();
+            M = M < 10 ? ("0" + M) : M;
+            var str = y + "-" + m + "-" + day + " " + h + ":" + M;
+            return str;
+        } else {
+            return '';
+        }
+    }
+</script>
+<script type="text/html" id="buttonTpl">
+          {{#  if(d.state == '0'){ }}
+            <button class="layui-btn layui-btn-warm layui-btn-xs">未审核</button>
+          {{#  } else if(d.state == '1'){ }}
+            <button class="layui-btn  layui-btn-xs">审批中</button>
+          {{#  } else if(d.state == '2'){ }}
+            <button class="layui-btn layui-btn-normal layui-btn-xs">审批通过</button>
+           {{#  } else if(d.state == '3'){ }}
+            <button class="layui-btn layui-btn-danger layui-btn-xs">审批不通过</button>
+          {{#  } else{ }}
+            <button class="layui-btn layui-btn-primary layui-btn-xs">未审核</button>
+          {{#  } }}
+</script>
+
+<!--表格数据操作js-->
+<script src="/common/js/jquery-1.11.3.min.js"></script>
+<script>
+var selectedData=new Array();
+var table,selectRowData;
+var name=$('#name').val();
+    layui.use(['jquery','table','laypage','layer','laytpl'], function(){
+           table = layui.table,
+            $ = layui.jquery,
+            layer = layui.layer,
+            laypage = layui.laypage;
+	     //加载表格      
+	     //renderTable();
+	     //移除表头的复选框,去掉全选
+	     $(".layui-table-header table thead th input").remove();  
+         // 触发不同的按钮事件
+         var $ = layui.$, active = {
+            searchEvent: function() { //点击查询按钮
+            	renderTable();
+               
+            },
+            submitEvent: function () { //点击提交按钮
+            	var id;
+                var checkStatus = table.checkStatus('processdef-table'),data = checkStatus.data;
+                var ids;
+                if(data.length > 0){
+                    ids = new Array();
+                    $.each(data,function(n,o){
+                        ids.push(o.equipmentId);
+                    })
+                } else {
+                	layer.msg('请选择装备进行提交!');
+                    return;
+                }
+                id = ids.join(",");
+              
+                parent.$("#equipmentIds").val(id);
+                parent.renderTable(id);
+                parent.layer.close(parent.t);
+            }
+            ,
+            cancelEvent: function() { 
+            	parent.layer.close(parent.t);
+               
+            }
+            
+        };
+
+      //监听排序
+        table.on('sort(model-table)', function(obj){
+            console.log(this, obj.field, obj.type)
+            //return;
+            //服务端排序
+            table.reload('model-table', {
+                initSort: obj,
+                page: {curr: 1}, //重新从第一页开始
+                where: { //重新请求服务端
+                    key: obj.field, //排序字段
+                    order: obj.type //排序方式
+                }
+            });
+        });
+        //区别按钮属性
+        $('.layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+         
+        
+        
+    });
+    
+    
+    
+    
+    function renderTable()
+    { 
+    	
+    	var v_date=(new Date()).getTime();
+       //渲染
+       table.render({
+           elem: '#processdef-table',
+           url: '/sre-equipment/list?v_date='+v_date,
+           method:"POST",
+           where: {param: {"name":$("#name").val()}},
+           limit: 40,
+           id: 'processdef-table',
+           height: commonDislodgeTable(),
+           page: {
+               groups: 5,
+               limits: [15,30,45,60],
+               layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
+               first: '首页', //不显示首页
+               last: '尾页', //不显示尾页
+               theme: '#0F9EE0'
+           },
+           cols: [[
+           	{type:'checkbox',event: 'changeEvents',width: '3%'},
+           	{title:'序号', type:'numbers', width: '4%'},
+               {field:'equipmentCode', title:'编号',        style:'cursor: pointer;',align: 'center'},
+               {field:'name',        title:'装备名称',     style:'cursor: pointer;',align: 'center'},
+               {field:'auditStatus', title:'流程状态',     style:'cursor: pointer;',align: 'center',templet: '#buttonTpl'},
+               {field:'meetingId',   title:'技术交流',     style:'cursor: pointer;',align: 'center'},
+               {field:'createDate',  title:'时间',        style:'cursor: pointer;',align: 'center',templet: '#dateTpl'}
+           ]],
+           done: function (res, curr, count) {
+           	$(document).on("click",".layui-table-body table.layui-table tbody tr", function () {
+           		
+                   var index = $(this).attr('data-index');
+                   var tableBox = $(this).parents('.layui-table-box');
+                   //存在固定列
+                   if (tableBox.find(".layui-table-fixed.layui-table-fixed-l").length>0) {
+                       tableDiv = tableBox.find(".layui-table-fixed.layui-table-fixed-l");
+                   } else {
+                       tableDiv = tableBox.find(".layui-table-body.layui-table-main");
+                   }
+                   var checkCell = tableDiv.find("tr[data-index=" + index + "]").find("td div.laytable-cell-checkbox div.layui-form-checkbox I");
+                   if (checkCell.length>0) {
+                       checkCell.click();
+                   }
+               });
+               $(document).on("click", "td div.laytable-cell-checkbox div.layui-form-checkbox", function (e) {
+                   e.stopPropagation();
+               });
+        	   
+           }
+       });
+    }
+    
+    
+    
+   
+   
+
+</script>
+
+</body>
+</html>
