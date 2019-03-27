@@ -489,7 +489,8 @@ public class BudgetTechSplitController extends BaseController {
 				crow.getCell(10).setCellStyle(rightCenterStyle);
 				crow.getCell(11).setCellStyle(rightCenterStyle);
 			}
-			Row totalRow = sheet.createRow(list.size()+5);
+			//Row totalRow = sheet.createRow(list.size()+5);
+			Row totalRow =sheet.getRow(list.size()+5);
 			totalRow.createCell(0).setCellValue("合计");
 			totalRow.createCell(1).setCellValue(alljtgs);
 			totalRow.createCell(2).setCellValue(allgfZsyKty);
