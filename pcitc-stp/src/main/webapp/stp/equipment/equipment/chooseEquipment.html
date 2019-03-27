@@ -52,7 +52,7 @@ var publicMethods;
 	            url: '/sre-equipment/list',
 	            limit: 15,
 	            method:"POST",
-	            where: {param:{"equipmentIds":$("#equipmentIds").val(),"applyName":$("#applyName").val(),"applyDepartCode":$("#applyDepartCode").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
+	            where: {param:{"equipmentIds":$("#equipmentIds").val(),"applyName":$("#applyName").val(),"applyDepartCode":$("#applyDepartCode").val(),"parentUnitPathIds":$("#parentUnitPathIds").val(),"isLinkedProject":$("#isLinkedProject").val()}},
 	        	id: 'notjoin_apply_table',
 	        	height: 360,
 	        	page: {first: '首页',last: '尾页',theme: '#0F9EE0'},
@@ -145,7 +145,7 @@ var publicMethods;
 	<input type="hidden" name="equipmentIds" id="equipmentIds" value="${equipmentIds}">
 	<input type="hidden" name="applyDepartCode" id="applyDepartCode" value="${applyDepartCode}">
 	<input type="hidden" name="parentUnitPathIds" id="parentUnitPathIds" value="${parentUnitPathIds}">
-	
+	<input type="hidden" name="isLinkedProject" id="isLinkedProject" value="${isLinkedProject}">
 	
 	
 	<div class="searchBox">

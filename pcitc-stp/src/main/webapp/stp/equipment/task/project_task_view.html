@@ -370,7 +370,7 @@
                         <thead>
                         <tr>
                             <td width="15%">进度安排</td>
-                            <td width="15%">考核目标</td>
+                            <td width="15%">主要工作</td>
                             <td width="15%">考核目标</td>
                             <td width="15%">备注</td>
                         </tr>
@@ -838,7 +838,7 @@
                 var tr = "<tr><td>" + assessmentVal[0] + "</td>" +
                     "<td>" + assessmentVal[1] + "</td>" +
                     "<td>" + assessmentVal[2] + "</td>" +
-                    "<td>" + assessmentVal[3] + "</td>" +
+                    "<td>" +(assessmentVal[3]=='null' ? '':assessmentVal[3]) + "</td>" +
                     "</tr>";
 
                 $("#task_assessment_content table tbody").append(tr);
