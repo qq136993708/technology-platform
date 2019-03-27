@@ -180,7 +180,7 @@
                         <td width="4%">编号</td>
                         <td width="20%">单项设备名称</td>
                         <td width="28%">单项设备立项背景</td>
-                        <td width="8%">经费（万元）</td>
+                        <td width="8%">经费（万元,整数）</td>
                         <td width="8%">备注</td>
                         <td width="3%">删除</td>
                     </tr>
@@ -203,7 +203,7 @@
                     <thead>
                     <tr>
                         <td width="15%">进度安排</td>
-                        <td width="15%">考核目标</td>
+                        <td width="15%">主要工作</td>
                         <td width="15%">考核目标</td>
                         <td width="15%">备注</td>
                         <td width="3%">删除</td>
@@ -261,7 +261,7 @@
                         <td width="15%">支出类别</td>
                         <td>项目</td>
                         <td>台套</td>
-                        <td>预算金额（万元）</td>
+                        <td>预算金额（万元,整数）</td>
                         <td>小计（万元）</td>
                     </tr>
                     </thead>
@@ -434,10 +434,10 @@
                     <thead>
                     <tr>
                         <td width="20%">来源</td>
-                        <td width="8%">国家拨款(万)</td>
-                        <td width="8%">总部拨付(万)</td>
-                        <td width="8%">负责单位自筹(万)</td>
-                        <td width="8%">其它(万)</td>
+                        <td width="8%">国家拨款(万元, 整数)</td>
+                        <td width="8%">总部拨付(万元, 整数)</td>
+                        <td width="8%">负责单位自筹(万元, 整数)</td>
+                        <td width="8%">其它(万元, 整数)</td>
                         <td width="8%">合计(万)</td>
                     </tr>
                     </thead>
@@ -1086,13 +1086,13 @@
                 var tdElement = $("#" + id + " table tbody tr:eq(" + i + ") td").eq(k);
                 if ($(tdElement).find("input").length > 0) {
                     if($(tdElement).find("input").val()==''){
-                        columnS += null + "#";
+                        columnS += " " + "#";
                     }else {
                         columnS += $(tdElement).find("input").val() + "#";
                     }
                 } else if ($(tdElement).find("textarea").length > 0) {
                     if($(tdElement).find("textarea").val()==''){
-                        columnS += null + "#";
+                        columnS += " " + "#";
                     }else {
                         columnS += $(tdElement).find("textarea").val() + "#";
                     }

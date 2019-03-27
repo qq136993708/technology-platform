@@ -20,6 +20,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.LayuiTableData;
+import com.pcitc.base.stp.equipment.JoinUnitWord;
 import com.pcitc.base.stp.equipment.SreEquipment;
 import com.pcitc.base.stp.equipment.SreProject;
 import com.pcitc.base.stp.equipment.SreProjectSetup;
@@ -354,201 +355,29 @@ public class EquipmentUtils {
 			dataMap.put("userEffect", sreProjectSetup.getUserEffect());//使用效果和效益的分析
 			
 			//项目内容和主要图表
-			Float hj_tc=0f;
-			List<Map<String, Object>> mainTableList = new ArrayList<Map<String, Object>>();
 			String taskContentStr=sreProjectSetup.getMainTable();
-			String taskContent_arr[]=taskContentStr.split("\\|");
-			if(taskContent_arr!=null && taskContent_arr.length>0)
-			{
-			   for(int i=0;i<taskContent_arr.length;i++)
-			   {
-				   String str=taskContent_arr[i];
-				   if(str!=null && !str.equals(""))
-				   {
-					   String temp[]=str.split("#");
-					 
-					   Map<String, Object> map = new HashMap<String, Object>();
-					   String taskContent1=temp[0].trim();
-					   String taskContent2=temp[1].trim();
-					   String taskContent3=temp[2].trim();
-					   String taskContent4=temp[3].trim();
-					   hj_tc=hj_tc.floatValue()+Float.valueOf(taskContent4.trim()).floatValue();
-					   String taskContent5=temp[4];
-					   
-					   System.out.println("----taskContent5--"+taskContent5);
-					   if(taskContent5==null || taskContent5.equals("null"))
-					   {
-						   taskContent5="";
-					   }
-					   map.put("taskc1", taskContent1);
-					   map.put("taskc2", taskContent2);
-					   map.put("taskc3", taskContent3);
-					   map.put("taskc4", taskContent4);
-					   map.put("taskc5", taskContent5);
-					   mainTableList.add(map);
-					   
-				   }
-			   }
-			}
+			List<Map<String, Object>> mainTableList =getEqiupmentTableList( taskContentStr);
 			dataMap.put("mainTableList", mainTableList);
 			int taskContentListCount=mainTableList.size();
 			dataMap.put("taskContentListCount", taskContentListCount);//项目内容和主要图表-数量
+			Float hj_tc=getEqiupmentTableCountMoney(taskContentStr);
 			dataMap.put("hj_tc", hj_tc);//项目内容和主要图表-经费合计
-			JSONArray taskContentList_jSONArray= JSONArray.parseArray(JSON.toJSONString(mainTableList));
-			System.out.println("---------项目内容和主要图表    源: "+taskContentStr);
-			System.out.println("---------项目内容和主要图表 FTL: "+taskContentList_jSONArray.toString());
-			
 			
 			//项目资金安排--牵头单位
-			List<Map<String, Object>> leadUnitList = new ArrayList<Map<String, Object>>();
 			String projectFundsTableStr=sreProjectSetup.getFundsTable();
-			String projectFundsTableStr_arr[]=projectFundsTableStr.split("#");//多行
-			double hj_pt2=0l;
-			double hj_pt3=0l;
-			double hj_pt4=0l;
-			if(projectFundsTableStr_arr!=null && projectFundsTableStr_arr.length>0)
-			{
-			   for(int i=0;i<projectFundsTableStr_arr.length;i++)
-			   {
-				   String str=projectFundsTableStr_arr[i];
-				   System.out.println("----------项目资金安排--str: "+str);
-				   if(str!=null && !str.equals(""))
-				   {
-					   String temp[]=str.split(",");
-					   Map<String, Object> map = new HashMap<String, Object>();
-					   String pt1=temp[0];
-					   String pt2=temp[1].trim();
-					   double pt2_double= Double.valueOf(pt2).doubleValue();
-					   hj_pt2=hj_pt2+pt2_double;
-					   String pt3=temp[2].trim();
-					   double pt3_double= Double.valueOf(pt3).doubleValue();
-					   hj_pt3=hj_pt3+pt3_double;
-					   String pt4=temp[3].trim();
-					   double pt34_double= Double.valueOf(pt4).doubleValue();
-					   hj_pt4=hj_pt4+pt34_double;
-					   map.put("pt1", pt1);
-					   map.put("pt2", pt2);
-					   map.put("pt3", pt3);
-					   map.put("pt4", pt4);
-					   leadUnitList.add(map);
-					   
-				   }
-			   }
-			}
-			
-			Map<String, Object> map_temp_pt = new HashMap<String, Object>();
-			map_temp_pt.put("pt1", "合  计");
-			map_temp_pt.put("pt2", hj_pt2);
-			map_temp_pt.put("pt3", hj_pt3);
-			map_temp_pt.put("pt4", hj_pt4);
-			System.out.println("==========hj_pt2"+hj_pt2+"pt3="+hj_pt3);
-			leadUnitList.add(map_temp_pt);
+			List<Map<String, Object>> leadUnitList =getLeadUnitNameTableList( projectFundsTableStr);
 			dataMap.put("leadUnitList", leadUnitList);
-			
-			System.out.println("---------项目资金安排 （源）: "+projectFundsTableStr);
-			JSONArray projectFundsTableList_jSONArray= JSONArray.parseArray(JSON.toJSONString(leadUnitList));
-			System.out.println("---------项目资金安排（FTL） : "+projectFundsTableList_jSONArray.toString());
 			
 			
 			///预计资金来源表
-			List<Map<String, Object>> fundsSourcesTableList = new ArrayList<Map<String, Object>>();
 			String fundsSourcesTableStr=sreProjectSetup.getSourcesTable();
-			String fundsSourcesTableStr_arr[]=fundsSourcesTableStr.split("\\|");//多行
-			if(fundsSourcesTableStr_arr!=null && fundsSourcesTableStr_arr.length>0)
-			{
-			   for(int i=0;i<fundsSourcesTableStr_arr.length;i++)
-			   {
-				   String str=fundsSourcesTableStr_arr[i];
-				   if(str!=null && !str.equals(""))
-				   {
-					   String temp[]=str.split("#");
-					   Map<String, Object> map = new HashMap<String, Object>();
-					   String taskContent1=temp[0].trim();
-					   String taskContent2=temp[1].trim();
-					   String taskContent3=temp[2].trim();
-					   String taskContent4=temp[3].trim();
-					   String taskContent5=temp[4].trim();
-					  // String taskContent6=temp[5];
-					   
-					   map.put("ft1", taskContent1);
-					   map.put("ft2", taskContent2);
-					   map.put("ft3", taskContent3);
-					   map.put("ft4", taskContent4);
-					   map.put("ft5", taskContent5);
-					  // map.put("ft6", taskContent6);
-					   Float ft6=Float.parseFloat(taskContent2)+Float.parseFloat(taskContent3)+Float.parseFloat(taskContent4)+Float.parseFloat(taskContent5);
-					   map.put("ft6", ft6);
-					   fundsSourcesTableList.add(map);
-					   
-				   }
-			   }
-			}
+			List<Map<String, Object>> fundsSourcesTableList = 	getSourcesTableList( fundsSourcesTableStr);
 			dataMap.put("fundsSourcesTableList", fundsSourcesTableList);
-			System.out.println("---------预计资金来源表 （源）: "+fundsSourcesTableStr);
-			JSONArray fundsSourcesTableList_jSONArray= JSONArray.parseArray(JSON.toJSONString(fundsSourcesTableList));
-			System.out.println("---------预计资金来源表 （FTL） : "+fundsSourcesTableList_jSONArray.toString());
-			
 			
 			//项目资金安排--参与单位
-			//2019-2020,苏州大学,014ef79138eb4fc49f24e4439419a5a9#2019,0,66,66.00#2020,0,666,666.00;
-			//2019-2020,中国石化上海石油化工股份有限公司,0175a09e3fac45e994e446957b714b1e#2019,0,66,66.00#2020,0,666,666.00
-			List<Map<String, Object>> yearFeeStrJoinUnitTable_title_List = new ArrayList<Map<String, Object>>();
-			List<Map<String, Object>> yearFeeStrJoinUnitTable_value_List = new ArrayList<Map<String, Object>>();
 			String yearFeeStrJoinUnit=sreProjectSetup.getYearFeeStrJoinUnit();
-			String yearFeeStrJoinUnit_arr[]=yearFeeStrJoinUnit.split(";");//多行
-			
-			if(yearFeeStrJoinUnit_arr!=null && yearFeeStrJoinUnit_arr.length>0)
-			{
-			   for(int i=0;i<yearFeeStrJoinUnit_arr.length;i++)
-			   {
-				   String str=yearFeeStrJoinUnit_arr[i];
-				   if(str!=null && !str.equals("#"))
-				   {
-					  String arr_unit[]= str.split("#");
-					  if(arr_unit!=null && arr_unit.length>0)
-						{
-						   for(int j=0;j<arr_unit.length;j++)
-						   {
-							   Map<String, Object> map_title = new HashMap<String, Object>();
-							   Map<String, Object> map_value = new HashMap<String, Object>();
-							   String arr_unit_str=arr_unit[j];
-							   if(arr_unit_str!=null && !arr_unit_str.equals(""))
-							   {
-								   String unitName="";
-								   String ept1="";
-								   if(j==0)
-								   {
-									   unitName=arr_unit_str.split(",")[1];
-									   map_title.put("ept1", unitName);
-									   yearFeeStrJoinUnitTable_title_List.add(map_title);
-								   }else
-								   {
-									  String [] arr_unit_str_temp=arr_unit_str.split(",");//2019,0,66,66.00
-									  String ept2=arr_unit_str_temp[0].trim();
-									  String ept3=arr_unit_str_temp[1].trim();
-									  String ept4=arr_unit_str_temp[2].trim();
-									  String ept5=arr_unit_str_temp[3].trim();
-									  
-									  
-									  map_value.put("ept2", ept2);
-									  map_value.put("ept3", ept3);
-									  map_value.put("ept4", ept4);
-									  map_value.put("ept5", ept5);
-									  yearFeeStrJoinUnitTable_value_List.add(map_value);
-								   }
-							   }
-							  
-							   
-							   
-						   }
-						}
-					  
-				   }
-			   }
-			}
-			dataMap.put("yearFeeStrJoinUnitTable_title_List", yearFeeStrJoinUnitTable_title_List);
-			dataMap.put("yearFeeStrJoinUnitTable_value_List", yearFeeStrJoinUnitTable_value_List);
-			System.out.println("---------yearFeeStrJoinUnitTableList : "+yearFeeStrJoinUnitTable_value_List.size());
+			List<JoinUnitWord> joinUnitWordlist=getJoinUnitWordList(yearFeeStrJoinUnit);
+			dataMap.put("joinUnitWordlist", joinUnitWordlist);
 			
 			fileName =DateUtil.dateToStr(new Date(), DateUtil.FMT_SSS_02)+".doc";
 			/** 生成word */
@@ -565,14 +394,318 @@ public class EquipmentUtils {
 	
 	
 	
+	    //装备-主要图表-合计
+		private  static Float  getEqiupmentTableCountMoney(String taskContentStr)
+		{
+			System.out.println("---------项目内容和主要图表    源: "+taskContentStr);
+			String taskContent_arr[]=taskContentStr.split("\\|");
+			Float hj_tc=0f;
+			if(taskContent_arr!=null && taskContent_arr.length>0)
+			{
+			   for(int i=0;i<taskContent_arr.length;i++)
+			   {
+				   String str=taskContent_arr[i];
+				   if(str!=null && !str.equals(""))
+				   {
+					   String temp[]=str.split("#");
+					 
+					   Map<String, Object> map = new HashMap<String, Object>();
+					   String taskContent1=temp[0].trim();
+					   String taskContent2=temp[1].trim();
+					   String taskContent3=temp[2].trim();
+					   String taskContent4=temp[3].trim();
+					   hj_tc=hj_tc.floatValue()+Float.valueOf(taskContent4.trim()).floatValue();
+					   
+				   }
+			   }
+			}
+			return hj_tc;
+		}
+	//装备-主要图表
+		public  static List<Map<String, Object>>  getEqiupmentTableList(String taskContentStr)
+	{
+		System.out.println("---------项目内容和主要图表    源: "+taskContentStr);
+		List<Map<String, Object>> mainTableList = new ArrayList<Map<String, Object>>();
+		String taskContent_arr[]=taskContentStr.split("\\|");
+		if(taskContent_arr!=null && taskContent_arr.length>0)
+		{
+			Float hj_tc=0f;
+		   for(int i=0;i<taskContent_arr.length;i++)
+		   {
+			   String str=taskContent_arr[i];
+			   if(str!=null && !str.equals(""))
+			   {
+				   String temp[]=str.split("#");
+				 
+				   Map<String, Object> map = new HashMap<String, Object>();
+				   String taskContent1=temp[0].trim();
+				   String taskContent2=temp[1].trim();
+				   String taskContent3=temp[2].trim();
+				   String taskContent4=temp[3].trim();
+				   hj_tc=hj_tc.floatValue()+Float.valueOf(taskContent4.trim()).floatValue();
+				   String taskContent5=temp[4];
+				   
+				   //System.out.println("----taskContent5--"+taskContent5);
+				   if(taskContent5==null || taskContent5.equals("null"))
+				   {
+					   taskContent5="";
+				   }
+				   map.put("taskc1", taskContent1);
+				   map.put("taskc2", taskContent2);
+				   map.put("taskc3", taskContent3);
+				   map.put("taskc4", taskContent4);
+				   map.put("taskc5", taskContent5);
+				   mainTableList.add(map);
+				   
+			   }
+		   }
+		}
+		JSONArray taskContentList_jSONArray= JSONArray.parseArray(JSON.toJSONString(mainTableList));
+		System.out.println("---------项目内容和主要图表 FTL: "+taskContentList_jSONArray.toString());
+		return mainTableList;
+	}
+	
+	
+	//预计资金来源表
+	public  static List<Map<String, Object>>  getSourcesTableList(String fundsSourcesTableStr)
+	{
+		System.out.println("---------预计资金来源表 （源）: "+fundsSourcesTableStr);
+		List<Map<String, Object>> fundsSourcesTableList = new ArrayList<Map<String, Object>>();
+		String fundsSourcesTableStr_arr[]=fundsSourcesTableStr.split("\\|");//多行
+		if(fundsSourcesTableStr_arr!=null && fundsSourcesTableStr_arr.length>0)
+		{
+		   for(int i=0;i<fundsSourcesTableStr_arr.length;i++)
+		   {
+			   String str=fundsSourcesTableStr_arr[i];
+			   if(str!=null && !str.equals(""))
+			   {
+				   String temp[]=str.split("#");
+				   Map<String, Object> map = new HashMap<String, Object>();
+				   String taskContent1=temp[0].trim();
+				   String taskContent2=temp[1].trim();
+				   String taskContent3=temp[2].trim();
+				   String taskContent4=temp[3].trim();
+				   String taskContent5=temp[4].trim();
+				   
+				   map.put("ft1", taskContent1);
+				   map.put("ft2", taskContent2);
+				   map.put("ft3", taskContent3);
+				   map.put("ft4", taskContent4);
+				   map.put("ft5", taskContent5);
+				   Float ft6=Float.parseFloat(taskContent2)+Float.parseFloat(taskContent3)+Float.parseFloat(taskContent4)+Float.parseFloat(taskContent5);
+				   map.put("ft6", ft6);
+				   fundsSourcesTableList.add(map);
+			   }
+		   }
+		}
+		JSONArray fundsSourcesTableList_jSONArray= JSONArray.parseArray(JSON.toJSONString(fundsSourcesTableList));
+		System.out.println("---------预计资金来源表 （FTL） : "+fundsSourcesTableList_jSONArray.toString());
+		return fundsSourcesTableList;
+	}
 	
 	
 	
+	//项目资金安排--牵头单位
+	public  static List<Map<String, Object>>  getLeadUnitNameTableList(String projectFundsTableStr)
+	{
+		
+		System.out.println("---------项目资金安排 （源）: "+projectFundsTableStr);
+		List<Map<String, Object>> leadUnitList = new ArrayList<Map<String, Object>>();
+		String projectFundsTableStr_arr[]=projectFundsTableStr.split("#");//多行
+		double hj_pt2=0l;
+		double hj_pt3=0l;
+		double hj_pt4=0l;
+		if(projectFundsTableStr_arr!=null && projectFundsTableStr_arr.length>0)
+		{
+		   for(int i=0;i<projectFundsTableStr_arr.length;i++)
+		   {
+			   String str=projectFundsTableStr_arr[i];
+			   if(str!=null && !str.equals(""))
+			   {
+				   String temp[]=str.split(",");
+				   Map<String, Object> map = new HashMap<String, Object>();
+				   String pt1=temp[0];
+				   String pt2=temp[1].trim();
+				   double pt2_double= Double.valueOf(pt2).doubleValue();
+				   hj_pt2=hj_pt2+pt2_double;
+				   String pt3=temp[2].trim();
+				   double pt3_double= Double.valueOf(pt3).doubleValue();
+				   hj_pt3=hj_pt3+pt3_double;
+				   String pt4=temp[3].trim();
+				   double pt34_double= Double.valueOf(pt4).doubleValue();
+				   hj_pt4=hj_pt4+pt34_double;
+				   map.put("pt1", pt1);
+				   map.put("pt2", pt2);
+				   map.put("pt3", pt3);
+				   map.put("pt4", pt4);
+				   leadUnitList.add(map);
+				   
+			   }
+		   }
+		}
+		
+		Map<String, Object> map_temp_pt = new HashMap<String, Object>();
+		map_temp_pt.put("pt1", "合  计");
+		map_temp_pt.put("pt2", hj_pt2);
+		map_temp_pt.put("pt3", hj_pt3);
+		map_temp_pt.put("pt4", hj_pt4);
+		//System.out.println("==========hj_pt2"+hj_pt2+"pt3="+hj_pt3);
+		leadUnitList.add(map_temp_pt);
+		
+		
+		JSONArray projectFundsTableList_jSONArray= JSONArray.parseArray(JSON.toJSONString(leadUnitList));
+		System.out.println("---------项目资金安排（FTL） : "+projectFundsTableList_jSONArray.toString());
+		return leadUnitList;
+	}
 	
-	/*public static void main(String[] args) {
-		String ssr="02140001";
-		ssr=ssr.substring(0, ssr.length()-4);
-		System.out.println("ssr="+ssr);
+	
+	
+	//项目资金安排--参与单位
+	//2019-2020,苏州大学,014ef79138eb4fc49f24e4439419a5a9#2019,0,66,66.00#2020,0,666,666.00;2019-2020,中国石化上海石油化工股份有限公司,0175a09e3fac45e994e446957b714b1e#2019,0,66,66.00#2020,0,666,666.00
+	public  static List<JoinUnitWord> getJoinUnitWordList(String yearFeeStrJoinUnit)
+	{
+		
+		
+		List<JoinUnitWord> joinUnitWordlist=new ArrayList<JoinUnitWord>();
+		if(yearFeeStrJoinUnit!=null && !yearFeeStrJoinUnit.equals(""))
+		{
+			String yearFeeStrJoinUnit_arr[]=yearFeeStrJoinUnit.split(";");//多行
+			if(yearFeeStrJoinUnit_arr!=null && yearFeeStrJoinUnit_arr.length>0)
+			{
+			   for(int i=0;i<yearFeeStrJoinUnit_arr.length;i++)
+			   {
+				   String str=yearFeeStrJoinUnit_arr[i];//2019-2020,中国石化上海石油化工股份有限公司,0175a09e3fac45e994e446957b714b1e#2019,0,100,100#2020,0,200,200
+				   if(str!=null && !str.equals(""))
+				   {
+					   JoinUnitWord joinUnitWord=new JoinUnitWord();
+					   String unitNamestr= str.split("#")[0].split(",")[1];//中国石化上海石油化工股份有限公司
+					   joinUnitWord.setNuitName(unitNamestr);
+					   String arr[]=str.split("#");
+					   if(arr!=null && arr.length>0)
+					   {
+						   List<Map<String, Object>> nuitList = new ArrayList<Map<String, Object>>();
+						   double hj_pt3=0l;
+						   double hj_pt4=0l;
+						   double hj_pt5=0l;
+						   for(int j=1;j<arr.length;j++)
+						   {
+							   String str_value_str=arr[j];//2019,0,100,100
+							   String [] arr_unit_str_temp=str_value_str.split(",");
+							   String ept2=arr_unit_str_temp[0].trim();
+							   String ept3=arr_unit_str_temp[1].trim();
+							   String ept4=arr_unit_str_temp[2].trim();
+							   String ept5=arr_unit_str_temp[3].trim();
+							   Map<String, Object> map_value = new HashMap<String, Object>();
+							   map_value.put("ept2", ept2);
+							   map_value.put("ept3", ept3);
+							   map_value.put("ept4", ept4);
+							   map_value.put("ept5", ept5);
+							   nuitList.add(map_value);
+							   double pt2_double= Double.valueOf(ept3).doubleValue();
+							   hj_pt3=hj_pt3+pt2_double;
+							   
+							   double pt3_double= Double.valueOf(ept4).doubleValue();
+							   hj_pt4=hj_pt4+pt3_double;
+							   
+							   double pt4_double= Double.valueOf(ept5).doubleValue();
+							   hj_pt5=hj_pt5+pt4_double;
+						   }
+						   
+							Map<String, Object> map_temp_pt = new HashMap<String, Object>();
+							map_temp_pt.put("ept2", "合  计");
+							map_temp_pt.put("ept3", hj_pt3);
+							map_temp_pt.put("ept4", hj_pt4);
+							map_temp_pt.put("ept5", hj_pt5);
+							nuitList.add(map_temp_pt);
+							
+						   joinUnitWord.setNuitList(nuitList);
+					   }
+					   joinUnitWordlist.add(joinUnitWord);
+					   
+				   }
+			   }
+			}
+		}
+		
+		return joinUnitWordlist;
+		
+	}
+	
+	//资金概算表
+	public  static Map getBudgetTableList(String budgetTableStr)
+	{
+		System.out.println("---------资金概算表----  源: "+budgetTableStr);
+		Map resultMap=new HashMap();
+		List<Map<String, Object>> budgetTableStrList_zb = new ArrayList<Map<String, Object>>();
+		List<Map<String, Object>> budgetTableStrList_fy= new ArrayList<Map<String, Object>>();
+		String budgetTableStrList_arr[]=budgetTableStr.split("\\|");//多行
+		Float budgetTable_hj=0f;
+		if(budgetTableStrList_arr!=null && budgetTableStrList_arr.length>0)
+		{
+		   for(int i=0;i<budgetTableStrList_arr.length;i++)
+		   {
+			   String str=budgetTableStrList_arr[i];
+			   if(str!=null && !str.equals(""))
+			   {
+				   String temp[]=str.split("#");
+				   Map<String, Object> map = new HashMap<String, Object>();
+				   String content1=temp[0];
+				   
+				   String zj1=temp[1].trim();
+				   String zj2=temp[2].trim();
+				   String zj3=temp[3].trim();
+				   String zj4=temp[4].trim();
+				   map.put("zj1", zj1);
+				   map.put("zj2", zj2);
+				   map.put("zj3", zj3);
+				   map.put("zj4", zj4);
+				  
+				   if(content1.equals("资本性支出"))
+				   {
+					   budgetTableStrList_zb.add(map);
+				   }
+				   if(content1.equals("费用性支出"))
+				   {
+					   budgetTableStrList_fy.add(map);
+				   }
+				   if(zj1.equals("小计"))
+				   {
+					   Float fp3faot= Float.parseFloat(zj3);
+					   budgetTable_hj=budgetTable_hj.floatValue()+fp3faot.floatValue();
+				   }
+			   }
+		   }
+		}
+		
+		JSONArray budgetTableStrList_zb_jSONArray= JSONArray.parseArray(JSON.toJSONString(budgetTableStrList_zb));
+		System.out.println("---------资金概算表--资本性  FTL: "+budgetTableStrList_zb_jSONArray.toString());
+		JSONArray budgetTableStrList_fy_jSONArray= JSONArray.parseArray(JSON.toJSONString(budgetTableStrList_fy));
+		System.out.println("---------资金概算表--费用性   FTL: "+budgetTableStrList_fy_jSONArray.toString());
+		
+		resultMap.put("budgetTable_hj", budgetTable_hj);
+		resultMap.put("budgetTableStrList_zb", budgetTableStrList_zb);
+		resultMap.put("budgetTableStrList_fy", budgetTableStrList_fy);
+		return resultMap;
+	}
+	
+	
+	/*public static void main(String[] args) 
+	{
+		
+		
+		for(int i=0;i<joinUnitWordlist.size();i++)
+		{
+			JoinUnitWord joinUnitWord=joinUnitWordlist.get(i);
+			System.out.println("--------- "+joinUnitWord.getNuitName());
+			List<Map<String, Object>> list=	joinUnitWord.getNuitList();
+			for(int j=0;j<list.size();j++)
+			{
+				Map map=list.get(j);
+				System.out.println("---------map ept2: "+map.get("ept2")+" "+map.get("ept3")+" "+map.get("ept4")+" "+map.get("ept5"));
+			}
+			
+		}
+		
 	}*/
 	
 

@@ -2176,7 +2176,7 @@
                 <w:sz w:val="28"/>
                 <w:szCs w:val="28"/>
               </w:rPr>
-              <w:t>${topicName}</w:t>
+              <w:t>${leadUnitName}</w:t>
             </w:r>
           </w:p>
           <w:tbl>
@@ -2467,7 +2467,11 @@
               </w:rPr>
             </w:pPr>
           </w:p>
-           <#list yearFeeStrJoinUnitTable_title_List as tem>
+          
+          
+          
+          
+           <#list joinUnitWordlist as tem>
           <w:p w:rsidR="00564B7A" w:rsidRDefault="008060C4" w:rsidP="008060C4">
             <w:pPr>
               <w:spacing w:line="360" w:lineRule="auto"/>
@@ -2491,10 +2495,10 @@
                 <w:sz w:val="28"/>
                 <w:szCs w:val="28"/>
               </w:rPr>
-              <w:t>${tem.ept1}</w:t>
+              <w:t>${tem.nuitName}</w:t>
             </w:r>
           </w:p>
-          </#list>
+         
           <w:tbl>
             <w:tblPr>
               <w:tblW w:w="0" w:type="auto"/>
@@ -2630,7 +2634,7 @@
                 </w:p>
               </w:tc>
             </w:tr>
-            <#list yearFeeStrJoinUnitTable_value_List as tem>
+            <#list tem.nuitList as temv>
             <w:tr w:rsidR="008060C4" w:rsidRPr="00952EBC" w:rsidTr="00903E90">
               <w:trPr>
                 <w:trHeight w:val="531"/>
@@ -2665,7 +2669,7 @@
                       <w:sz w:val="28"/>
                       <w:szCs w:val="28"/>
                     </w:rPr>
-                    <w:t>${tem.ept2}</w:t>
+                    <w:t>${temv.ept2}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -2698,7 +2702,7 @@
                       <w:sz w:val="28"/>
                       <w:szCs w:val="28"/>
                     </w:rPr>
-                    <w:t>${tem.ept3}</w:t>
+                    <w:t>${temv.ept3}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -2731,7 +2735,7 @@
                       <w:sz w:val="28"/>
                       <w:szCs w:val="28"/>
                     </w:rPr>
-                    <w:t>${tem.ept4}</w:t>
+                    <w:t>${temv.ept4}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
@@ -2764,13 +2768,18 @@
                       <w:sz w:val="28"/>
                       <w:szCs w:val="28"/>
                     </w:rPr>
-                    <w:t>${tem.ept5}</w:t>
+                    <w:t>${temv.ept5}</w:t>
                   </w:r>
                 </w:p>
               </w:tc>
             </w:tr>
             </#list>
           </w:tbl>
+           </#list>
+          
+          
+          
+          
           <w:p w:rsidR="008060C4" w:rsidRDefault="008060C4" w:rsidP="008060C4">
             <w:pPr>
               <w:spacing w:line="360" w:lineRule="auto"/>
