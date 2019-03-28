@@ -42,12 +42,9 @@
 			<div class="searchBox">
 				<!--查询条件-->
 				<label class="dateInput">
-					<span>姓名</span>
-					<input type="text" name="userName" placeholder="请输入姓名" title="姓名" autocomplete="off" class="form-control" id="userName">
 				</label>
 				<!--按钮组-->
 				<div class="btnGroup">
-					<button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchRightEvent">查询</button>
 				</div>
 			</div>
 			<div class="tableBox" id="seleDiv">
@@ -67,6 +64,7 @@
 	<script>
 		// layui获取token  parent.$("#token").val()
 		var selectedData = new Array();
+		var checkboxData = new Array();
 
 		layui.use([ 'jquery', 'table', 'laypage' ], function() {
 			var table = layui.table, $ = layui.jquery;
@@ -91,7 +89,7 @@
 								"unitName" : userShowTable[i].unitName
 							};
 							selectedData.push(data1);
-						}
+						} 
 					}
 					renderTableRight();
 				});
@@ -146,17 +144,13 @@
 						event : 'changeEvents',
 						width : 55
 					}, {
-						title : '序号',
-						type : 'numbers',
-						width : 55
-					}, {
 						field : 'userDisp',
 						title : '用户姓名',
-						width : '30%',
+						width : '35%',
 						style : 'cursor: pointer;'
 					}, {
 						field : 'unitName',
-						title : '所属部门',
+						title : '组织名称',
 						style : 'cursor: pointer;'
 					},
 
@@ -182,8 +176,6 @@
 								selectedData.push(data1);
 
 								renderTableRight();
-							} else {
-								layer.msg('此人已经选择!');
 							}
 						});
 
@@ -217,22 +209,19 @@
 					elem : '#selectedUsers', //表格容器
 					id : 'selectedUsers',
 					data : selectedData,
-					limit : 1000, //每页默认显示的数量
+					limit : 100, //每页默认显示的数量
 					height : 'full-100',
 					cols : [ [ {
 						type : 'checkbox',
 						event : 'changeEvents'
 					}, {
-						title : '序号',
-						type : 'numbers'
-					}, {
 						field : 'userName',
 						title : '用户姓名',
-						width : '30%',
+						width : '35%',
 						style : 'cursor: pointer;'
 					}, {
 						field : 'unitName',
-						title : '所属部门',
+						title : '组织名称',
 						style : 'cursor: pointer;'
 					}, ] ],
 					done : function(res, curr, count) {
@@ -253,28 +242,24 @@
 				searchLeftEvent : function() { //点击查询按钮
 					renderTableLeft();
 				},
-				searchRightEvent : function() { //点击查询按钮
-					renderTableRight();
-				},
-				resetEvent : function() { //点击重置按钮
-					console.log("点击了重置按钮")
-				},
 				submitEvent : function() { //点击提交按钮
-					if (selectedData.length > 100) {
+					
+					var selectedUsers = table.checkStatus('selectedUsers').data;
+					if (selectedUsers.length > 100) {
 						layer.msg('审批人过多，请重新选择!');
 						return false;
 					}
-					if (selectedData.length < 1) {
+					if (selectedUsers.length < 1) {
 						layer.msg('请选择审批人员进行提交!');
 						return false;
 					}
 
 					var userIds = "";
-					for (var i = 0; i < selectedData.length; i++) {
+					for (var i = 0; i < selectedUsers.length; i++) {
 						if (i != 0) {
-							userIds = userIds + "," + selectedData[i].userId;
+							userIds = userIds + "," + selectedUsers[i].userId;
 						} else {
-							userIds = selectedData[0].userId;
+							userIds = selectedUsers[0].userId;
 						}
 					}
 					parent.handleTask(userIds);
@@ -299,14 +284,6 @@
 
 		});
 
-		function removeByValue(arr, val) {
-			for (var i = 0; i < arr.length; i++) {
-				if (arr[i] == val) {
-					arr.splice(i, 1);
-					break;
-				}
-			}
-		}
 	</script>
 
 </body>

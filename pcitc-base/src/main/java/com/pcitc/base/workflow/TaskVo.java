@@ -41,6 +41,7 @@ public class TaskVo {
     private String canUnclaim;
     private String startUserId;
     private String startUserName;
+    private Date flowStartTime;
     private String auditor;
     private String auditDate;
     private String auditRemarks;
@@ -48,8 +49,15 @@ public class TaskVo {
     private String processDefinitionName;     //业务流程定义名称
     private String processDefinitionKey;      //业务流程定义key
     
-    
-    public String getProcessDefinitionKey() {
+    public Date getFlowStartTime() {
+		return flowStartTime;
+	}
+
+	public void setFlowStartTime(Date flowStartTime) {
+		this.flowStartTime = flowStartTime;
+	}
+
+	public String getProcessDefinitionKey() {
 		return processDefinitionKey;
 	}
 

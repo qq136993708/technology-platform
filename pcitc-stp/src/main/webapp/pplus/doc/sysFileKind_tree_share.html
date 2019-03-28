@@ -18,7 +18,7 @@
 <div class="treeTableContainer">
     <div class="treeBox">
         <div class="title-box">
-            <span>文件种类</span>
+            <span>文档种类</span>
         </div>
         <div class="layui-side-scroll">
             <!-- 左侧子菜单 -->
@@ -30,9 +30,9 @@
         <div class="searchBox">
             <!--查询条件-->
             <label class="dateInput">
-                <span>文件名称</span>
-                <input type="text" name="fileName" id="fileName" placeholder="文件名称"
-                       title="文件名称" autocomplete="off"
+                <span>文档名称</span>
+                <input type="text" name="fileName" id="fileName" placeholder="文档名称"
+                       title="文档名称" autocomplete="off"
                        class="form-control" id="name">
             </label>
             <!--按钮组-->
@@ -115,10 +115,10 @@
                 cols: [[
                     {type: 'checkbox', event: 'changeEvents'},
                     {title: '序号', type: 'numbers'},
-                    {field: 'fileName', title: '文件名称', event: 'setActive', style: 'cursor: pointer;'},
+                    {field: 'fileName', title: '文档名称', event: 'setActive', style: 'cursor: pointer;'},
                     {field: 'createUserId', title: '创建人', event: 'setActive', style: 'cursor: pointer;'},
                     {field: 'createDateTime', title: '创建时间', event: 'setActive', style: 'cursor: pointer;'},
-                    {field: 'fileSize', title: '文件大小(KB)', event: 'setActive', style: 'cursor: pointer;'}
+                    {field: 'fileSize', title: '文档大小(KB)', event: 'setActive', style: 'cursor: pointer;'}
                 ]],
                 done: function (res, curr, count) {
                     // $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
@@ -171,7 +171,7 @@
             downloadEvent: function () {
                 var ids = active.getChecked();
                 if (ids == "") {
-                    layer.msg("请选择文件");
+                    layer.msg("请选择文档");
                     return;
                 }
                 var flag;
@@ -182,17 +182,17 @@
                 	 $("#download").attr("href", "/sysfile/download/" + ids);
                 	 document.getElementById("download").click();
                 }else{
-                	layer.msg("文件有缺失！请联系管理员！");
+                	layer.msg("文档有缺失！请联系管理员！");
                 }
             },
             deleteEvent: function () {
                 var ids = active.getChecked();
                 if (ids == "") {
-                    layer.msg("请选择文件");
+                    layer.msg("请选择文档");
                     return;
                 }
                 ajaxPost("/sysfile/delete", {"id": ids}, function (data) {
-                    layer.msg("文件删除成功");
+                    layer.msg("文档删除成功");
                 });
                 active.searchEvent();
             }, getChecked: function () {

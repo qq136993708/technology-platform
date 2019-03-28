@@ -29,21 +29,8 @@
 					<ul id="funTree" class="ztree"></ul>
 				</div>
 			</div>
-			<div class="treeTableBox">
-				<div class="searchBox">
-					<!--查询条件-->
-					<label class="dateInput">
-						<span>姓名</span>
-						<input type="text" name="userName" placeholder="请输入姓名" title="姓名" autocomplete="off" class="form-control" id="userName">
-					</label>
-
-					<!--按钮组-->
-					<div class="btnGroup">
-						<button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>
-						<button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg" data-type="resetEvent">重置</button>
-					</div>
-				</div>
-				<table id="showTable" class="layui-hide" lay-filter="tableEvent"></table>
+			<div class="treeTableBox" id="seleDiv">
+				<table id="selectedUsers" class="layui-hide" lay-filter="selectedUsers"></table>
 			</div>
 		</div>
 	</div>
@@ -124,12 +111,8 @@
 					};
 					selectedData.push(data1);
 					active.searchEvent();
-				} else {
-					layer.msg('此人已经选择!');
 				}
-			} else {
-				layer.msg('不能选择组织机构或岗位，请选择用户!');
-			}
+			} 
 
 		}
 
@@ -146,10 +129,6 @@
 
 		$(document).ready(function() {
 			$.fn.zTree.init($("#funTree"), setting, zNodes);
-			/* $("#refreshNode").bind("click", {type: "refresh", silent: false}, refreshNode);
-			$("#refreshNodeSilent").bind("click", {type: "refresh", silent: true}, refreshNode);
-			$("#addNode").bind("click", {type: "add", silent: false}, refreshNode);
-			$("#addNodeSilent").bind("click", {type: "add", silent: true}, refreshNode); */
 		});
 
 		<!--表格js-->
@@ -159,20 +138,17 @@
 			var table = layui.table, $ = layui.jquery;
 
 			function renderTable() {
-				var userName = $('#userName').val();
-				// 从selectedData中把非userName的过滤掉
 
 				//渲染
 				table.render({
-					elem : '#showTable', //表格容器
-					id : 'showTable',
+					elem : '#selectedUsers', //表格容器
+					id : 'selectedUsers',
 					data : selectedData,
 					height : commonDislodgeTable(),
 					limit : 100,
 					cols : [ [ {
-						title : '序号',
-						type : 'numbers',
-						width : '6%'
+						type : 'checkbox',
+						event : 'changeEvents'
 					}, {
 						field : 'userCode',
 						title : '用户编码',
@@ -194,6 +170,24 @@
 				});
 			}
 
+			$(document).on("click", ".layui-table-body table.layui-table tbody tr", function() {
+				var index = $(this).attr('data-index');
+				var tableBox = $(this).parents('.layui-table-box');
+				//存在固定列
+				if (tableBox.find(".layui-table-fixed.layui-table-fixed-l").length > 0) {
+					tableDiv = tableBox.find(".layui-table-fixed.layui-table-fixed-l");
+				} else {
+					tableDiv = tableBox.find(".layui-table-body.layui-table-main");
+				}
+				var checkCell = tableDiv.find("tr[data-index=" + index + "]").find("td div.laytable-cell-checkbox div.layui-form-checkbox I");
+				if (checkCell.length > 0) {
+					checkCell.click();
+				}
+			});
+			$(document).on("click", "td div.laytable-cell-checkbox div.layui-form-checkbox", function(e) {
+				e.stopPropagation();
+			});
+			
 			renderTable();
 
 			// 触发不同的按钮事件
@@ -203,21 +197,23 @@
 					renderTable();
 				},
 				selectEvent : function() { //点击确定按钮
-					if (selectedData.length > 100) {
+					var selectedUsers = table.checkStatus('selectedUsers').data;
+				
+					if (selectedUsers.length > 100) {
 						layer.msg('审批人过多，请重新选择!');
 						return false;
 					}
-					if (selectedData.length < 1) {
+					if (selectedUsers.length < 1) {
 						layer.msg('请选择审批人员进行提交!');
 						return false;
 					}
 
 					var userIds = "";
-					for (var i = 0; i < selectedData.length; i++) {
+					for (var i = 0; i < selectedUsers.length; i++) {
 						if (i != 0) {
-							userIds = userIds + "," + selectedData[i].userId;
+							userIds = userIds + "," + selectedUsers[i].userId;
 						} else {
-							userIds = selectedData[0].userId;
+							userIds = selectedUsers[0].userId;
 						}
 					}
 
@@ -230,23 +226,6 @@
 				}
 			};
 
-			//监听排序
-			table.on('sort(showTable)', function(obj) {
-				console.log(this, obj.field, obj.type)
-				//return;
-				//服务端排序
-				table.reload('showTable', {
-					initSort : obj,
-					page : {
-						curr : 1
-					}, //重新从第一页开始
-					where : { //重新请求服务端
-						key : obj.field, //排序字段
-						order : obj.type
-					//排序方式
-					}
-				});
-			});
 			//区别按钮属性
 			$('.layui-btn').on('click', function() {
 				var type = $(this).data('type');

@@ -26,6 +26,7 @@ import org.activiti.engine.RepositoryService;
 import org.activiti.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.DeploymentBuilder;
+import org.activiti.engine.repository.DeploymentQuery;
 import org.activiti.engine.repository.Model;
 import org.activiti.engine.repository.ModelQuery;
 import org.activiti.engine.repository.ProcessDefinition;
@@ -52,6 +53,7 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.system.SysFile;
+import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.FileUtil;
 import com.pcitc.base.util.StrUtil;
 import com.pcitc.base.workflow.ProcessDefVo;
@@ -413,6 +415,7 @@ public class ActivitiModelerProviderClient implements ModelDataJsonConstants {
 		String processName = null;
 
 		ProcessDefinitionQuery query = repositoryService.createProcessDefinitionQuery();
+		DeploymentQuery deQuery = repositoryService.createDeploymentQuery();
 		if (param.getLimit() != null && !StrUtil.isBlankOrNull(param.getLimit().toString())) {
 			limit = Integer.parseInt(param.getLimit().toString());
 		}
@@ -424,12 +427,17 @@ public class ActivitiModelerProviderClient implements ModelDataJsonConstants {
 			query = query.processDefinitionNameLike(processName);
 		}
 		int dataCount = (int) query.count();
-		List<ProcessDefinition> processDefList = query.orderByProcessDefinitionId().desc().listPage(limit * (page - 1), limit);
+		List<ProcessDefinition> processDefList = query.orderByProcessDefinitionName().desc().listPage(limit * (page - 1), limit);
 		List<ProcessDefVo> retList = new ArrayList<ProcessDefVo>();
 		for (ProcessDefinition processDefinition : processDefList) {
 			ProcessDefinitionEntity entity = (ProcessDefinitionEntity) processDefinition;
+			String deploymentId = processDefinition.getDeploymentId();
+			
 			ProcessDefVo vo = new ProcessDefVo();
 			BeanUtils.copyProperties(entity, vo);
+			Deployment deployment = deQuery.deploymentId(deploymentId).singleResult();
+			System.out.println(deploymentId+"============="+DateUtil.dateToStr(deployment.getDeploymentTime(), "yyyy-MM-dd HH:mm:ss"));
+			vo.setCreateDate(deployment.getDeploymentTime());
 			retList.add(vo);
 		}
 
@@ -445,11 +453,8 @@ public class ActivitiModelerProviderClient implements ModelDataJsonConstants {
 	public Result deleteProcessDefine(@RequestBody WorkflowVo workflowVo) throws Exception {
 		ProcessDefinition pd = repositoryService.getProcessDefinition(workflowVo.getProcessDefineId());
 		try {
-			/*
-			 * if ("0".equals(delType))
-			 * repositoryService.deleteDeployment(pd.getDeploymentId()); else
-			 * repositoryService.deleteDeployment(pd.getDeploymentId(), true);
-			 */
+			System.out.println("pd.getDeploymentId()==="+pd.getDeploymentId());
+			repositoryService.deleteDeployment(pd.getDeploymentId());
 			return new Result(true, workflowVo.getProcessDefineId(), "成功删除");
 		} catch (Exception e) {
 			return new Result(false, workflowVo.getProcessDefineId(), "删除失败，该流程定义已经关联了正在执行的流程");

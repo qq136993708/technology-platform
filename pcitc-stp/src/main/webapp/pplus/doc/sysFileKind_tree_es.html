@@ -65,7 +65,7 @@
 						type : 'numbers'
 					}, {
 						field : 'fileName',
-						title : '文件名称',
+						title : '文档名称',
 						event : 'setActive',
 						style : 'cursor: pointer;'
 					}, {
@@ -80,7 +80,7 @@
 						style : 'cursor: pointer;'
 					}, {
 						field : 'fileSize',
-						title : '文件大小(KB)',
+						title : '文档大小(KB)',
 						event : 'setActive',
 						style : 'cursor: pointer;'
 					}, {
@@ -135,7 +135,7 @@
 				downloadEvent : function() {
 					var ids = active.getChecked();
 					if (ids == "") {
-						layer.msg("请选择文件");
+						layer.msg("请选择文档");
 						return;
 					}
 					$("#download").attr("href", "/sysfile/download/" + ids);
