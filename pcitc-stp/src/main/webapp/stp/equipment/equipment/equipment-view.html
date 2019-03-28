@@ -42,7 +42,10 @@
           <div class="layui-form-item">
             <label for="" class="layui-form-label">装备分类</label>
             <div class="layui-input-block">
-               <input class="layui-input readOnlyBox" name="typeName" id="typeName" value="dd" onclick="chooseType()" readonly="readonly" readonly="readonly"   class="layui-textarea readOnlyBox"  autocomplete="off" type="text">
+                <select name="type" id="ROOT_ZBGL_ZBFL" lay-verify="required"  lay-filter="type">
+		                	<option value="" selected="selected">请选择</option>
+		             	</select>
+		             	
             </div>
           </div>
         </div>
@@ -231,18 +234,27 @@ layui.config({
         , form = layui.form
         , $ = layui.jquery;
        publicMethods = layui.publicMethods;
-     //添加到form.render()之后
+       //添加到form.render()之后
 	 	$("#file_div").load('/common/public/uploadlayuiload.html');
-				//加载字典
-				var dicMap = ['GJXMGL_TZLX'];
-				publicMethods.ajaxPost("/dictionary/map/getMapListDictionarys",{"parentCodes":JSON.stringify(dicMap)}, function (data) {
-					$.each(data,function(key,val){
-						$.each(val,function(i,dt){
-							$("#"+key).append('<option value="'+dt.code+'">'+dt.name+'</option>');
-						});
-					});
-			   	});
-			 	
+       
+       
+       var dicMap = ['ROOT_ZBGL_ZBFL'];
+		publicMethods.ajaxPost("/dictionary/map/getMapListDictionarys",{"parentCodes":JSON.stringify(dicMap)}, function (data) {
+			$.each(data,function(key,val){
+				$.each(val,function(i,dt){
+					var content='<option value="'+dt.code+'"';
+					if(dt.code==type)
+					{
+						content+=' selected="selected" ';
+					}
+					content+=' >'+dt.name+'</option>';
+					$("#"+key).append(content);
+				});
+			});
+	   	});
+		
+		
+   
 			 	form.render();
 			 	
 			 	

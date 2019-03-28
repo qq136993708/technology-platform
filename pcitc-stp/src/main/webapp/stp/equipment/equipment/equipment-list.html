@@ -149,6 +149,14 @@ var name=$('#name').val();
             		 var equipmentId=selectRowData.equipmentId;
            		     var url="/sre-equipment/add?equipmentId="+equipmentId;
            		     
+           		  var isLinkedProject=selectRowData.isLinkedProject;
+        		  if(isLinkedProject=='1')
+        		   {
+        			  layer.alert('该装备已经关联课题,不能修改');
+        			  return;
+        		   }
+        		  
+        		  
            		  layer.open({
                       title:'装备-修改',
                       skin: 'layui-layer-lan',
@@ -208,25 +216,6 @@ var name=$('#name').val();
                      });
             	}
             
-            },
-            acceptSoftEvent: function(){  //软件验收
-            	if (typeof(selectRowData) == "undefined") {
-            		layer.msg('请点击选择一行数据');
-            	} else {
-            		 var equipmentId=selectRowData.equipmentId;
-            		 layer.open({
-                         title:'软件验收-》新增'
-                         ,skin: 'layui-layer-lan'
-                         ,shadeClose: true
-                         ,type: 2
-                         ,fixed: false
-                         //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                         ,maxmin: false
-                         //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                         ,area: ['60%', '80%']
-                         ,content: "/sre-accept/software/add?equipmentId="+equipmentId
-                     });
-            	}
             }
             
         };

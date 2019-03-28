@@ -73,7 +73,7 @@ public interface EquipmentService {
 	
 	public LayuiTableData getSreProjectTaskPage(LayuiTableParam param)throws Exception;
 	
-	
+	public List<SreProjectTask> getSreProjectTaskListBytopicId(String topicId)throws Exception;
 	
 	
 /**=========================================立项报告==========================================*/

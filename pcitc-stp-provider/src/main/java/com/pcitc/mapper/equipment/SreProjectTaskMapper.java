@@ -20,6 +20,10 @@ public interface SreProjectTaskMapper {
 
     int updateByPrimaryKey(SreProjectTask record);
     
+    
+	public List<SreProjectTask> getSreProjectTaskListBytopicId(String topicId);
+    
+    
     List getList(Map map);
     int getCount(Map map);
 }

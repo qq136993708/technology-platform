@@ -39,6 +39,7 @@ import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.RequestProcessStatusEnum;
 import com.pcitc.base.stp.equipment.JoinUnitWord;
+import com.pcitc.base.stp.equipment.SreEquipment;
 import com.pcitc.base.stp.equipment.SreProject;
 import com.pcitc.base.stp.equipment.SreProjectSetup;
 import com.pcitc.base.stp.equipment.SreProjectTask;
@@ -82,6 +83,9 @@ public class ProjectTaskController extends BaseController {
 	//临时导出文件目录
 	private static final String TEMP_FILE_PATH = "src/main/resources/tem/";
 	
+	
+	
+	private static final String GET_BY_TOPICID_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_task/getSreProjectTaskList/";
 	
 	
 	//任务安排
@@ -419,6 +423,8 @@ public class ProjectTaskController extends BaseController {
 			sreProjectBasic.setAuditStatus(auditStatus);
 			sreProjectBasic.setInnerAuditStatus(innerAuditStatus);
 			sreProjectBasic.setSetupYear(DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+			String taskVersion=getVersion(topicId);
+			sreProjectBasic.setTaskVersion(taskVersion);
 		} else 
 		{
 			ResponseEntity<SreProjectTask> se = this.restTemplate.exchange(GET_URL + taskId, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreProjectTask.class);
@@ -514,6 +520,27 @@ public class ProjectTaskController extends BaseController {
 		return null;
 	}
 	
+	
+	
+	
+	
+	private String  getVersion(String topicId)
+	{
+		String version="1";
+		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(GET_BY_TOPICID_URL+topicId, HttpMethod.GET, new HttpEntity<Object>(httpHeaders), JSONArray.class);
+		int statusCode = responseEntity.getStatusCodeValue();
+		if (statusCode == 200)
+		{
+			
+			JSONArray array = responseEntity.getBody();
+			List<SreProjectTask> list = JSONObject.parseArray(array.toJSONString(), SreProjectTask.class);
+			if(list!=null && list.size()>0)
+			{
+				version="2";
+			}
+		}
+		return version;
+	}
 	
 	
 	
@@ -857,6 +884,57 @@ public class ProjectTaskController extends BaseController {
 		return null;
 
 	}
+	
+	
+	
+		@RequestMapping(value = "/checkSaveTaskVersion")
+		@ResponseBody
+		public Object checkSaveTask(HttpServletRequest request, HttpServletResponse response) throws Exception 
+		{
+			
+			Result resultsDate = new Result();
+			resultsDate.setSuccess(true);
+			resultsDate.setCode("0");
+			String topicId = CommonUtil.getParameter(request, "topicId", "");
+			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(GET_BY_TOPICID_URL+topicId, HttpMethod.GET, new HttpEntity<Object>(httpHeaders), JSONArray.class);
+			int statusCode = responseEntity.getStatusCodeValue();
+			if (statusCode == 200)
+			{
+				
+				JSONArray array = responseEntity.getBody();
+				List<SreProjectTask> list = JSONObject.parseArray(array.toJSONString(), SreProjectTask.class);
+				if(list!=null && list.size()>0)
+				{
+					String version="";
+					for(int i=0;i<list.size();i++)
+					{
+						SreProjectTask sreProjectTask=	list.get(i);
+						version=sreProjectTask.getTaskVersion();
+						if(version.equals("1"))
+						{
+							String contractNum=sreProjectTask.getContractNum();
+							if(contractNum!=null && !contractNum.equals(""))
+							{
+								resultsDate.setCode("1");//可以
+							}else
+							{
+								resultsDate.setMessage("主任务合同号在审核中...请联系科技部相关人员");
+							}
+						}
+					}
+				}else
+				{
+					resultsDate.setCode("1");//可以
+				}
+				
+			}else
+			{
+				resultsDate = new Result(false, RequestProcessStatusEnum.SERVER_BUSY.getStatusDesc());
+				resultsDate.setMessage("失败");
+			}
+			return resultsDate;
+		}
+		
 	
 	
 	/**

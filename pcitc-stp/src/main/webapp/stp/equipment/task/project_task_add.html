@@ -876,25 +876,32 @@
                 /*资金概算表总值*/
                 var budget_value=$("#budget_tableNew table tbody tr:eq(12) td:eq(3)").text()+$("#budget_tableNew table tbody tr:eq(12) td:eq(19)").text();
                 
-               
-                layer.confirm('任务书：主要图表总金额='+equipment_value+"万,资金概算表总金额="+budget_value+"万,来源总金额="+sources_value+"万,确定提交吗？", { btn: ['确定','取消']},  function(){
-                	 $("#taskContent").val(task_content)
-                	 $("#taskAssessmentContent").val(task_assessment_content)
-                     //alert(budget_table.substring(0, budget_table.length - 1))
-                	 $("#budgetTable").val(budget_table.substring(0, budget_table.length - 1));
-                	 $("#fundsSourcesTable").val(funds_sources_table)
-                	   
-                	 var topicId=$("#topicId").val();
-                	 var url="/sre_project_task/save?v_date="+v_date;
-                     var backurl="/sre_project_setup/add?v_date="+v_date+"&topicId="+topicId;
-                     ajaxOpt(url,"form1","POST",backurl,"保存成功","保存失败");
                 
-                }, function(){
-    			 
-    			});
-                
-                
-            	
+                 var topicId= $('#topicId').val();
+                 var flag =checkSaveTaskVersion(topicId)
+                // alert(flag);
+                // return;
+         		 if(flag==false)
+         		 {
+         			layer.alert("该课题计划的主任务合同号未成生，请联系科技部相关人员，然后再增加补充合同");
+         		 }else
+      			 {
+         			layer.confirm('任务书：主要图表总金额='+equipment_value+"万,资金概算表总金额="+budget_value+"万,来源总金额="+sources_value+"万,确定提交吗？", { btn: ['确定','取消']},  function(){
+                   	 $("#taskContent").val(task_content)
+                   	 $("#taskAssessmentContent").val(task_assessment_content)
+                        //alert(budget_table.substring(0, budget_table.length - 1))
+                   	 $("#budgetTable").val(budget_table.substring(0, budget_table.length - 1));
+                   	 $("#fundsSourcesTable").val(funds_sources_table)
+                   	   
+                   	 var topicId=$("#topicId").val();
+                   	 var url="/sre_project_task/save?v_date="+v_date;
+                        var backurl="/sre_project_setup/add?v_date="+v_date+"&topicId="+topicId;
+                        ajaxOpt(url,"form1","POST",backurl,"保存成功","保存失败");
+                   
+                   }, function(){
+       			 
+       			});
+      			 }
             	
             }
             return false;
@@ -1192,7 +1199,40 @@
         publicMethods.openBaseWin("选择课题",temUrl,"90%","80%");
     }
     
+
     
+    function checkSaveTaskVersion(topicId) 
+    {
+        var flag = true;//可以
+        var url = "/sre_project_task/checkSaveTaskVersion?v_date=" + v_date + "&topicId=" + topicId;
+        $.ajax({
+            type: 'get',
+            url: url,
+            dataType: "json",
+            async: false,
+            cache: false,
+            contentType: "application/x-www-form-urlencoded; charset=utf-8",
+            success: function (data, status)
+            {
+                if (data.success == true || data.success == 'true') 
+                {
+                    var code = data.code;
+                    var message= data.message;
+                    //alert("isok="+isok);
+                    if(code=='0')//不可以增加
+                    {
+                    	flag = false;//不可以
+                    }
+                }
+
+            },
+            error: function () {
+                layer.alert("网络访问错误");
+            }
+
+        });
+        return flag;
+    }
       
 </script>
 </body>
