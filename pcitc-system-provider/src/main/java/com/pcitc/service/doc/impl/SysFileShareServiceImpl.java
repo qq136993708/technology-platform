@@ -68,24 +68,30 @@ public class SysFileShareServiceImpl implements SysFileShareService {
 	}
 
 	public void saveSysFileShare(SysFileShare sysFileShare) {
-		String[] arrayArea = sysFileShare.getArea().split("\\|");
-		String[] arraybak1 = sysFileShare.getBak1().split("\\|");
+		String[] arrayArea;
+		String[] arraybak1;
 		String[] arrayField = sysFileShare.getFileId().split("\\|");
 		for (int i = 0; i < arrayField.length; i++) {
-			// 删除
+			// 删除此文件之前的分项信息
 			sysFileShareMapper.deleteObjByParam(arrayField[i]);
 			// 更新文件表
-			SysFile sysFile = sysFileMapper.selectByPrimaryKey(arrayField[i]);
-			sysFile.setBak3("1");
-			sysFileMapper.updateByPrimaryKey(sysFile);
+			//SysFile sysFile = sysFileMapper.selectByPrimaryKey(arrayField[i]);
+			//sysFile.setBak3("1");
+			//sysFileMapper.updateByPrimaryKey(sysFile);
 			// 插入分享内容
-			for (int j = 0; j < arrayArea.length; j++) {
-				sysFileShare.setArea(arrayArea[j]);
-				sysFileShare.setBak1(arraybak1[j]);
-				sysFileShare.setFileId(arrayField[i]);
-				sysFileShare.setCreateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
-				insert(sysFileShare);
+			if (sysFileShare.getArea() != null && !sysFileShare.getArea().equals("")) {
+				arrayArea = sysFileShare.getArea().split("\\|");
+				arraybak1 = sysFileShare.getBak1().split("\\|");
+				for (int j = 0; j < arrayArea.length; j++) {
+					System.out.println(arraybak1[j]+"==============="+arrayArea[j]);
+					sysFileShare.setArea(arrayArea[j]);//被分项人id
+					sysFileShare.setBak1(arraybak1[j]);//被分项人姓名
+					sysFileShare.setFileId(arrayField[i]);
+					sysFileShare.setCreateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
+					insert(sysFileShare);
+				}
 			}
+			
 		}
 	}
 

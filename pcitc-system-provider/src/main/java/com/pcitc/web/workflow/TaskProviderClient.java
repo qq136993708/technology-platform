@@ -251,12 +251,11 @@ public class TaskProviderClient {
 			}
 		}
 		
-		
-		
 		if (param.getParam().get("dateFlag") != null && !StrUtil.isBlankOrNull(param.getParam().get("dateFlag").toString())) {
 			
 			if (param.getParam().get("dateFlag").toString().equals("3")) {
 				query.taskCreatedAfter(DateUtil.dateAdd(new Date(), -3));
+				query.taskCreatedBefore(new Date());
 			}
 			if (param.getParam().get("dateFlag").toString().equals("7")) {
 				query.taskCreatedAfter(DateUtil.dateAdd(new Date(), -7));
@@ -304,59 +303,47 @@ public class TaskProviderClient {
 		for (Task task : taskList) {
 			TaskVo vo = new TaskVo();
 			BeanUtils.copyProperties(task, vo);
-			// ProcessInstance processInstance =
-			// runtimeService.createProcessInstanceQuery().processInstanceId(task.getProcessInstanceId()).singleResult();
-			// vo.setProcessInstanceName(processInstance.getName());
-
-			HistoricProcessInstance historicProcessInstance = (HistoricProcessInstance) historyService.createHistoricProcessInstanceQuery().processInstanceId(task.getProcessInstanceId()).singleResult();
-			if (!StrUtil.isBlankOrNull(historicProcessInstance.getStartUserId())) {
-				SysUser temUser = userService.selectUserByUserId(historicProcessInstance.getStartUserId());
-				vo.setStartUserName(temUser != null ? temUser.getUserDisp() : "");
+			System.out.println(task.getId()+"---历史审批实例====="+task.getProcessInstanceId());
+			// 获取流程变量，得到流程的启动人信息
+	        Map<String, Object> variables = taskService.getVariables(task.getId());  
+	        System.out.println("---历variables审批实例====="+variables);
+	        
+	        if (variables != null && variables.get("authenticatedUserName") != null) {
+				vo.setStartUserName(variables.get("authenticatedUserName") != null ? String.valueOf(variables.get("authenticatedUserName")) : "");
 			}
-			vo.setProcessInstanceName(historicProcessInstance.getName());
-			vo.setProcessDefinitionName(historicProcessInstance.getProcessDefinitionName());
-			vo.setProcessDefinitionKey(historicProcessInstance.getProcessDefinitionKey());
-
-			/*
-			 * HistoricTaskInstance historicTaskInstance =
-			 * (HistoricTaskInstance)
-			 * historyService.createHistoricTaskInstanceQuery
-			 * ().taskId(task.getId()).singleResult(); if (historicTaskInstance
-			 * != null) { vo.setAssigneeName(historicTaskInstance.getAssignee()
-			 * != null ? historicTaskInstance.getAssignee() : ""); }
-			 */
+	        if (variables != null && variables.get("authenticatedDate") != null && !variables.get("authenticatedDate").toString().equals("")) {
+	        	// 流程最开始的发起时间
+	        	Date temDate = (Date)variables.get("authenticatedDate");
+				vo.setFlowStartTime(temDate);
+			}
+	        if (variables != null && variables.get("processInstanceName") != null) {
+				vo.setProcessInstanceName(variables.get("processInstanceName") != null ? String.valueOf(variables.get("processInstanceName")) : "");
+			}
+	        if (variables != null && variables.get("processDefinitionName") != null) {
+				vo.setProcessDefinitionName(variables.get("processDefinitionName") != null ? String.valueOf(variables.get("processDefinitionName")) : "");
+			}
 
 			// 处理历史上已经发生过的节点，包括开始节点,按时间倒序
-			List<HistoricActivityInstance> historicActivityInstanceList = historyService.createHistoricActivityInstanceQuery().processInstanceId(task.getProcessInstanceId()).orderByHistoricActivityInstanceEndTime().desc().list();
-			for (HistoricActivityInstance historicActivityInstance : historicActivityInstanceList) {
-				// 过滤掉非用户任务
-				if (!historicActivityInstance.getActivityType().equals("userTask"))
-					continue;
-				if (historicActivityInstance.getTaskId() != null) {
-					// 获取审批意见、审批时间
-					List<Comment> comments = taskService.getTaskComments(historicActivityInstance.getTaskId());
-					if (comments != null && comments.size() > 0) {
-						for (Comment comment : comments) {
-							vo.setAuditRemarks(comment.getFullMessage());
-						}
+			List<HistoricTaskInstance> htiList = historyService.createHistoricTaskInstanceQuery().processInstanceId(task.getProcessInstanceId()).finished().orderByHistoricTaskInstanceEndTime().desc().list();
+			for (HistoricTaskInstance hti : htiList) {
+				
+				// 审批意见
+				List<Comment> comments = taskService.getTaskComments(hti.getId());
+				if (comments != null && comments.size() > 0) {
+					for (Comment comment : comments) {
+						vo.setAuditRemarks(comment.getFullMessage());
+						break;
 					}
-					List<HistoricIdentityLink> temList = historyService.getHistoricIdentityLinksForTask(historicActivityInstance.getTaskId());
-					if (temList != null && temList.size() > 0) {
-						for (int i = 0; i < temList.size(); i++) {
-							HistoricIdentityLink identityLink = temList.get(i);
-
-							if (!StrUtil.isBlankOrNull(identityLink.getUserId())) {
-								SysUser temUser = userService.selectUserByUserId(identityLink.getUserId());
-								vo.setAuditor(temUser != null ? temUser.getUserDisp() : "");
-							}
-
-						}
-					}
-
-					vo.setAuditDate(DateUtil.format(historicActivityInstance.getEndTime(), DateUtil.FMT_SS));
 				}
-
-				break;
+				
+				// variables 本次任务变量中，上一步任务id（key）记录有审批人姓名
+				if (variables != null && variables.get(hti.getId()) != null) {
+					System.out.println(task.getId()+"=====2HistoricTaskInstance=====");
+					//SysUser temUser = userService.selectUserByUserId(hti.getAssignee());
+					vo.setAuditor(String.valueOf(variables.get(hti.getId())));
+					break;
+				}
+				
 			}
 
 			voList.add(vo);
@@ -426,6 +413,7 @@ public class TaskProviderClient {
 		if (param.getParam().get("dateFlag") != null && !StrUtil.isBlankOrNull(param.getParam().get("dateFlag").toString())) {
 			if (param.getParam().get("dateFlag").toString().equals("3")) {
 				query.taskCreatedAfter(DateUtil.dateAdd(new Date(), -3));
+				query.taskCreatedBefore(new Date());
 			}
 			if (param.getParam().get("dateFlag").toString().equals("7")) {
 				query.taskCreatedAfter(DateUtil.dateAdd(new Date(), -7));
@@ -447,39 +435,28 @@ public class TaskProviderClient {
 			}
 		}
 
-		List<HistoricTaskInstance> taskInstances = query.orderByTaskCreateTime().desc().listPage(limit * (page - 1), limit);
+		List<HistoricTaskInstance> taskInstances = query.orderByHistoricTaskInstanceEndTime().desc().listPage(limit * (page - 1), limit);
 		long count = query.count();
 		List<TaskDoneVo> voList = new ArrayList<TaskDoneVo>();
 		for (HistoricTaskInstance taskInstance : taskInstances) {
 			TaskDoneVo vo = new TaskDoneVo();
 			BeanUtils.copyProperties(taskInstance, vo);
-
-			HistoricProcessInstance historicProcessInstance = (HistoricProcessInstance) historyService.createHistoricProcessInstanceQuery().processInstanceId(taskInstance.getProcessInstanceId()).singleResult();
-			if (historicProcessInstance.getStartUserId() != null) {
-				SysUser temUser = userService.selectUserByUserId(historicProcessInstance.getStartUserId());
-				vo.setStartUserName(temUser != null ? temUser.getUserDisp() : "");
-				vo.setStartTime(historicProcessInstance.getStartTime());
+			//String str = JSONObject.toJSONString(taskInstance);
+			String pdi = taskInstance.getProcessDefinitionId();
+			if (pdi != null && pdi.split(":").length > 0) {
+				vo.setProcessDefinitionName(pdi.split(":")[0]);
 			}
-
-			// 处理历史上已经发生过的节点，包括开始节点,按时间倒序
-			List<HistoricActivityInstance> historicActivityInstanceList = historyService.createHistoricActivityInstanceQuery().processInstanceId(taskInstance.getProcessInstanceId()).orderByHistoricActivityInstanceEndTime().desc().list();
-			for (HistoricActivityInstance historicActivityInstance : historicActivityInstanceList) {
-				// 过滤掉非用户任务
-				if (!historicActivityInstance.getActivityType().equals("userTask"))
-					continue;
-				// 获取审批意见
-				if (historicActivityInstance.getTaskId() != null) {
-					List<Comment> comments = taskService.getTaskComments(historicActivityInstance.getTaskId());
-					if (comments != null && comments.size() > 0) {
-						for (Comment comment : comments) {
-							vo.setAuditRemarks(comment.getFullMessage());
-						}
-					}
-					break;
+			
+	        vo.setStartTime(taskInstance.getCreateTime());
+	        vo.setEndTime(taskInstance.getEndTime());
+			
+			List<Comment> comments = taskService.getTaskComments(taskInstance.getId());
+			if (comments != null && comments.size() > 0) {
+				for (Comment comment : comments) {
+					vo.setAuditRemarks(comment.getFullMessage());
 				}
 			}
 
-			vo.setProcessDefinitionName(historicProcessInstance.getName());
 			voList.add(vo);
 		}
 
@@ -624,33 +601,33 @@ public class TaskProviderClient {
 
 		Task task = taskService.createTaskQuery().taskId(workflowVo.getTaskId()).singleResult();
 
-		// 下一个环节需要用的变量等属性，根据variables中的agree属性来决定流程走向
-		Map<String, Object> globalVar = workflowVo.getVariables();
+		// 下一个环节需要用的变量等属性，此次审批人选项的agree属性等属性
+		Map<String, Object> nextVar = workflowVo.getVariables();
 
-		// 把历史变量赋值进去
-		Map<String, Object> oldVar = taskService.getVariables(workflowVo.getTaskId());
-		for (String key : oldVar.keySet()) {
+		// 本次任务的可用变量
+		Map<String, Object> taskVar = taskService.getVariables(workflowVo.getTaskId());
+		for (String key : taskVar.keySet()) {
 			if (!key.equals("agree") && !key.equals("comment") && !key.equals("auditor")) {
-				globalVar.put(key, oldVar.get(key));
+				nextVar.put(key, taskVar.get(key));
 			}
 		}
 
 		// 审批意见
-		taskService.addComment(workflowVo.getTaskId(), task.getProcessInstanceId(), globalVar.get("comment") != null ? globalVar.get("comment").toString() : "");
+		taskService.addComment(workflowVo.getTaskId(), task.getProcessInstanceId(), nextVar.get("comment") != null ? nextVar.get("comment").toString() : "");
 		// 会签时的处理，会签条件（agreeCount）的处理
 		String currentExecutionId = task.getExecutionId();
 		if (runtimeService.getVariable(currentExecutionId, "loopCounter") != null) {
-			if (globalVar.get("agree") != null && globalVar.get("agree").toString().equals("1")) {
+			if (nextVar.get("agree") != null && nextVar.get("agree").toString().equals("1")) {
 				// 判断会签里面，有几个同意的，同意一次+1
 				if (runtimeService.getVariable(currentExecutionId, "agreeCount") != null) {
 					Integer agreeCount = (Integer) runtimeService.getVariable(currentExecutionId, "agreeCount");
 					runtimeService.setVariable(currentExecutionId, "agreeCount", agreeCount + 1);
-					globalVar.put("agreeCount", agreeCount + 1);
+					nextVar.put("agreeCount", agreeCount + 1);
 					// System.out.println(currentExecutionId+"----------1当前任务："+runtimeService.getVariable(currentExecutionId,
 					// "agreeCount"));
 				} else {
 					runtimeService.setVariable(currentExecutionId, "agreeCount", 1);
-					globalVar.put("agreeCount", 1);
+					nextVar.put("agreeCount", 1);
 					// System.out.println(currentExecutionId+"----------2当前任务："+runtimeService.getVariable(currentExecutionId,
 					// "agreeCount"));
 				}
@@ -661,7 +638,7 @@ public class TaskProviderClient {
 		} else {
 			// 其他非多实例节点，此时需要
 			runtimeService.setVariable(currentExecutionId, "agreeCount", 0);
-			globalVar.put("agreeCount", 0);
+			nextVar.put("agreeCount", 0);
 			// System.out.println(currentExecutionId+"----------3当前任务："+runtimeService.getVariable(currentExecutionId,
 			// "agreeCount"));
 		}
@@ -671,24 +648,31 @@ public class TaskProviderClient {
 			taskService.resolveTask(workflowVo.getTaskId());
 		}
 
+		// 本次任务的审批人id
+		taskService.setAssignee(workflowVo.getTaskId(), workflowVo.getAuditorId());
+		
+		// 插入本次任务的审批人姓名，方便下一步查询上一步执行人姓名
+		nextVar.put(workflowVo.getTaskId(), workflowVo.getAuditorName());
+		
 		// 完成本次任务
-		taskService.complete(workflowVo.getTaskId(), globalVar);
+		taskService.complete(workflowVo.getTaskId(), nextVar);
 		JSONObject retJson = new JSONObject();
 
-		if (globalVar.get("agree") != null && globalVar.get("agree").toString().equals("0")) {
-			// System.out.println("=========审批不同意======="+globalVar.get("agree").toString());
+		if (nextVar.get("agree") != null && nextVar.get("agree").toString().equals("0")) {
+			System.out.println("=========审批不同意======="+nextVar.get("agree").toString());
 			// 把agree属性，在全局变量中删除
 			// 审批驳回
 			retJson.put("result", "2");
-			retJson.put("auditRejectMethod", globalVar.get("auditRejectMethod").toString());
+			retJson.put("auditRejectMethod", nextVar.get("auditRejectMethod").toString());
 			return retJson;
 		} else {
-			// System.out.println("=========审批同意=======----------");
+			System.out.println("=========审批同意=======----------");
 			ProcessInstance pi = runtimeService.createProcessInstanceQuery().processInstanceId(task.getProcessInstanceId()).singleResult();
 			if (pi == null) {
 				// 流程结束
 				retJson.put("result", "1");
-				retJson.put("auditAgreeMethod", globalVar.get("auditAgreeMethod").toString());
+				retJson.put("auditAgreeMethod", nextVar.get("auditAgreeMethod").toString());
+				System.out.println("=========流程结束=======----------");
 				return retJson;
 			}
 			retJson.put("result", "0");

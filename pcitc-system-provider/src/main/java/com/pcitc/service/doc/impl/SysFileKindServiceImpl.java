@@ -347,22 +347,23 @@ public class SysFileKindServiceImpl implements SysFileKindService {
     	
     	// 保存此文档分类的新用户
     	String newUser = sysFileKindAuth.getUserId();
-    	String[] newUserArr = newUser.split("\\|");
-    	for (int i = 0; i < newUserArr.length; i++) {
-    		SysFileKindAuth temSFKA = new SysFileKindAuth();
-    		temSFKA.setDataId(UUID.randomUUID().toString().replaceAll("-", ""));
-    		temSFKA.setFileKindId(sysFileKindAuth.getFileKindId());
-    		temSFKA.setUserId(newUserArr[i]);
-    		temSFKA.setSts("1");
-    		temSFKA.setAuditStatus("1");
-    		temSFKA.setUpdateDate(sysFileKindAuth.getUpdateDate());
-    		temSFKA.setUpdateUser(sysFileKindAuth.getUpdateUser());
-    		temSFKA.setCreateDate(sysFileKindAuth.getCreateDate());
-    		temSFKA.setCreateUserId(sysFileKindAuth.getCreateUserId());
-    		temSFKA.setCreateUser(sysFileKindAuth.getCreateUser());
-    		sysFileKindAuthMapper.insert(temSFKA);
+    	if (newUser != null && !newUser.equals("")) {
+    		String[] newUserArr = newUser.split("\\|");
+        	for (int i = 0; i < newUserArr.length; i++) {
+        		SysFileKindAuth temSFKA = new SysFileKindAuth();
+        		temSFKA.setDataId(UUID.randomUUID().toString().replaceAll("-", ""));
+        		temSFKA.setFileKindId(sysFileKindAuth.getFileKindId());
+        		temSFKA.setUserId(newUserArr[i]);
+        		temSFKA.setSts("1");
+        		temSFKA.setAuditStatus("1");
+        		temSFKA.setUpdateDate(sysFileKindAuth.getUpdateDate());
+        		temSFKA.setUpdateUser(sysFileKindAuth.getUpdateUser());
+        		temSFKA.setCreateDate(sysFileKindAuth.getCreateDate());
+        		temSFKA.setCreateUserId(sysFileKindAuth.getCreateUserId());
+        		temSFKA.setCreateUser(sysFileKindAuth.getCreateUser());
+        		sysFileKindAuthMapper.insert(temSFKA);
+        	}
     	}
-    	
     	return 1;
     }
     

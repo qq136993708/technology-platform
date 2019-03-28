@@ -163,7 +163,6 @@ public class TaskController extends BaseController {
 
 		// 获取当前登录人信息
 		param.getParam().put("userId", sysUserInfo.getUserId());
-		System.out.println("====/task/pending-list" + sysUserInfo.getUserId());
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(PENDING_PAGE_URL, HttpMethod.POST, entity, LayuiTableData.class);
 		LayuiTableData retJson = responseEntity.getBody();
@@ -242,6 +241,9 @@ public class TaskController extends BaseController {
 		System.out.println("动态获取的前台页面审批意见======" + json.getString("agree"));
 		WorkflowVo workflowVo = new WorkflowVo();
 		workflowVo.setTaskId(taskId);
+		// 本步审批人(名称为了以后查询方便)
+		workflowVo.setAuditorId(sysUserInfo.getUserId());
+		workflowVo.setAuditorName(sysUserInfo.getUserDisp());
 
 		Map<String, Object> variables = new HashMap<String, Object>();
 
@@ -263,17 +265,17 @@ public class TaskController extends BaseController {
 		workflowVo.setVariables(variables);
 
 		ResponseEntity<JSONObject> status = this.restTemplate.exchange(COMPLETE_TASK_URL, HttpMethod.POST, new HttpEntity<WorkflowVo>(workflowVo, httpHeaders), JSONObject.class);
-		System.out.println("=============completeTask=========" + status.getBody());
+		//System.out.println("=============completeTask=========" + status.getBody());
 		if (status.getBody() != null && status.getBody().get("result") != null) {
 			if (status.getBody().get("result").equals("1")) {
 				// 流程结束，调用各个业务的审批通过后的业务处理方法
-				System.out.println("====auditAgreeMethod===============" + status.getBody().get("auditAgreeMethod").toString());
+				//System.out.println("====auditAgreeMethod===============" + status.getBody().get("auditAgreeMethod").toString());
 				this.restTemplate.exchange(status.getBody().get("auditAgreeMethod").toString(), HttpMethod.POST, new HttpEntity<Object>(httpHeaders), Integer.class).getBody();
 
 			}
 			if (status.getBody().get("result").equals("2")) {
 				// 驳回，调用各个业务的审批驳回后的业务处理方法
-				System.out.println("====auditRejectMethod===============" + status.getBody().get("auditRejectMethod").toString());
+				//System.out.println("====auditRejectMethod===============" + status.getBody().get("auditRejectMethod").toString());
 				this.restTemplate.exchange(status.getBody().get("auditRejectMethod").toString(), HttpMethod.POST, new HttpEntity<Object>(httpHeaders), Integer.class).getBody();
 			}
 			return new Result(true, "启动成功");

@@ -237,7 +237,7 @@
 						layer.msg("请选择文档");
 						return;
 					}
-					layer.confirm('确定删除此文件吗？', function() {
+					layer.confirm('确定删除此文档吗？', function() {
 						ajaxPost("/sysfile/delete", {
 							"id" : ids
 						}, function(data) {

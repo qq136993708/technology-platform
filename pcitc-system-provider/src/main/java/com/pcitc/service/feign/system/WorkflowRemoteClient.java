@@ -1,12 +1,9 @@
-package com.pcitc.service.feign.hana;
-
-import java.util.HashMap;
+package com.pcitc.service.feign.system;
 
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import com.alibaba.fastjson.JSONArray;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  * @author zhf 
@@ -17,14 +14,12 @@ import com.alibaba.fastjson.JSONArray;
  * 4、如果需要自定义单个Feign配置，Feign的@Configuration注解的类不能与@ComponentScan 的包重叠
  * 默认支持注解：@RequestMapping、@RequestParam、@RequestHeader、@PathVariable
  */
-@FeignClient(value = "pcitc-hana-provider", fallback = OutProjectHystric.class)
-public interface OutProjectRemoteClient {
+@FeignClient(value = "pcitc-system-provider")
+public interface WorkflowRemoteClient {
 
 	
-
-	
-	@RequestMapping(value = "/hana/country-project/list")
-	public JSONArray getLastCountryProject(@RequestBody HashMap<String, String> map);
+	@RequestMapping(value = "/workflow-provider/common-workflow/start", method = RequestMethod.POST)
+	public String startCommonWorkflow(@RequestBody String jsonStr);
 	
 
 }

@@ -48,10 +48,10 @@
                             <tr role="row">
                                 <th width="10px"><span><input type="checkbox" class="checkall"/></span></th>
                                 <th width="30px">序号</th>
-                                <th>文件名称</th>
+                                <th>文档名称</th>
                                 <th>发布人</th>
                                 <th>创建时间</th>
-                                <th>文件大小(KB)</th>
+                                <th>文档大小(KB)</th>
                                 <th>详情</th>
                             </tr>
                             </thead>
@@ -115,7 +115,7 @@
     }
     function deleteFile(rowId){
         console.log(getTableContents());
-        modals.confirm("是否要删除该文件？", function () {
+        modals.confirm("是否要删除该文档？", function () {
             ajaxPost("/sysfile/delete", {"id":getTableContents()}, function (data) {
                 parent.$("#modal-tips-div").remove();
                 parent.$(".modal-backdrop").remove();

@@ -59,7 +59,7 @@
 			form = layui.form;
 			table = layui.table;
 
-			// 初始化树,默认文件id，标注此文件已经分项的
+			// 初始化树,默认文档id，标注此文档已经分项的
 			var fileKindId = '${sysFileKindId}';
 			initOrgTree(fileKindId);
 
@@ -82,7 +82,12 @@
 
 				data.field.userId = ids;
 				
-				layer.confirm('确定配置文档分类权限给：'+showNames+' 吗？', function() {
+				var showAlter = '确定权限分配给：'+showNames+' 吗？';
+				if (showNames == '') {
+					showAlter = '确定取消全部权限分配？'
+				}
+				
+				layer.confirm(showAlter, function() {
 					ajaxPost("/sysfilekind/auth/user/save", data.field, function(dt, status) {
 						layer.msg("操作成功");
 						parent.reloadtable('showTableId', null);
