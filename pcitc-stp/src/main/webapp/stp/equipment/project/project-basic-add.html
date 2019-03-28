@@ -572,11 +572,12 @@
            	   layer.alert("所选装备总金额("+equipmentT+"万元)与建设年限总金额("+qcT+"万元)不相等，请重新调整");
           	}else
             {
-          		
           		$("#projectMoney").val(equipmentT);
                 var url="/sre-project-basic/save?v_date="+v_date;
                 var backurl="/sre-project-basic/to-list?v_date="+v_date;
                 ajaxOpt(url,"form1","POST",backurl,"保存成功","保存失败");
+          		 
+          		
             }
             return false;
         });
@@ -761,6 +762,9 @@
         return flag;
     }
 
+    
+    
+    
 
 
 </script>

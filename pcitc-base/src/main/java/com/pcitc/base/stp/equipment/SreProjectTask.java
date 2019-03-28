@@ -97,12 +97,20 @@ public class SreProjectTask {
     private String documentDoc;
     
 
+    private String taskVersion;
     
     
     
     
-    
-    public String getDocumentDoc() {
+    public String getTaskVersion() {
+		return taskVersion;
+	}
+
+	public void setTaskVersion(String taskVersion) {
+		this.taskVersion = taskVersion;
+	}
+
+	public String getDocumentDoc() {
 		return documentDoc;
 	}
 

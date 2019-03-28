@@ -321,7 +321,10 @@ public class EquipmentServiceImpl implements EquipmentService {
 	}
 
 
-	
+	public List<SreProjectTask> getSreProjectTaskListBytopicId(String topicId)throws Exception
+	{
+		return sreProjectTaskMapper.getSreProjectTaskListBytopicId(topicId);
+	}
 	
 	public LayuiTableData getSreProjectTaskPage(LayuiTableParam param)throws Exception
 	{

@@ -311,6 +311,23 @@ public class EquipmentProviderClient
 	
 	/**===============================================任务书===================================================*/
 	
+	
+	/**
+	 * 根据topicId-任务书
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+	@ApiOperation(value = "批量获取供应商", notes = "根据topicId任务书")
+	@RequestMapping(value = "/sre-provider/project_task/getSreProjectTaskList/{topicId}", method = RequestMethod.GET)
+	public JSONArray getSreProjectTaskList(@PathVariable("topicId") String topicId)throws Exception{
+		logger.info("============================SreSreProjectTask =================");
+		List<SreProjectTask> list=equipmentService.getSreProjectTaskListBytopicId(topicId);
+		JSONArray json = JSONArray.parseArray(JSON.toJSONString(list));
+		return json;
+	}
+	
+	
 	@ApiOperation(value = "任务书统计列表", notes = "任务书统计列表")
 	@RequestMapping(value = "/sre-provider/project_task/page", method = RequestMethod.POST)
 	public LayuiTableData getSreProjecTaskList(@RequestBody LayuiTableParam paramsJson)throws Exception
@@ -376,6 +393,24 @@ public class EquipmentProviderClient
 		
 		SreProjectTask sreProject=equipmentService.selectSreProjectTask(id);
 		sreProject.setAuditStatus(String.valueOf(Constants.FLOW_STATE_DONE));
+		List<SreProjectTask> list=	equipmentService.getSreProjectTaskListBytopicId(sreProject.getTopicId());
+		String contractNum="";
+		if(list!=null && list.size()>0)
+		{
+			for(int i=0;i<list.size();i++)
+			{
+				SreProjectTask sreProjectTask=list.get(i);
+				String str=sreProjectTask.getTaskVersion();
+				if(str.equals("1"))
+				{
+					contractNum=sreProjectTask.getContractNum();
+				}
+			}
+		}
+		if(!contractNum.equals(""))
+		{
+			sreProject.setContractNum(contractNum);
+		}
 		int count=equipmentService.updateSreProjectTask(sreProject);
 		System.out.println("======业务系统处理审批流程都 --同意 --后业务======="+id);
 		return count;
