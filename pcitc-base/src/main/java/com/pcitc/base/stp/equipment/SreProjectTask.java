@@ -98,11 +98,19 @@ public class SreProjectTask {
     
 
     private String taskVersion;
+    private String erpNum;
     
     
     
-    
-    public String getTaskVersion() {
+    public String getErpNum() {
+		return erpNum;
+	}
+
+	public void setErpNum(String erpNum) {
+		this.erpNum = erpNum;
+	}
+
+	public String getTaskVersion() {
 		return taskVersion;
 	}
 

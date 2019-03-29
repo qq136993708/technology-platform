@@ -386,9 +386,10 @@ var name=$('#name').val();
             cols: [[
             	{type : 'checkbox', event : 'changeEvents', width : 55},
             	{title : '序号', type :'numbers', width : 55},
-            	{field : 'contractNum', title : '合同号', style : 'cursor: pointer;', align: 'center'},
             	{field : 'auditStatus',    title : '总部审核状态',        style : 'cursor: pointer;', align: 'center', width : '10%', width : 100,templet : '#auditStatus_tepm'},
-                {field : 'topicName',     title : '课题名称',      style : 'cursor: pointer;', align: 'center', width : '10%',templet:function(d){return '<span onclick="view_project(\''+d.topicId+'\')" style="color:#17a2b8">查看</span>'}},
+            	{field : 'contractNum', title : '合同号', style : 'cursor: pointer;', align: 'center'},
+            	{field : 'erpNum', title : 'ERP号', style : 'cursor: pointer;', align: 'center', width : '10%'},
+            	{field : 'topicName',     title : '课题名称',      style : 'cursor: pointer;', align: 'center', width : '10%',templet:function(d){return '<span onclick="view_project(\''+d.topicId+'\')" style="color:#17a2b8">查看</span>'}},
                 {field : 'topicName',     title : '任务书',     style : 'cursor: pointer;', align: 'left', width : '10%',templet:function(d){return '<span   onclick="view_isWriteTask(\''+d.taskId+'\')" style="color: #17a2b8">'+d.topicName+'</span>'}},
                 {field : 'isWriteSetup',  title : '立项报告',  style : 'cursor: pointer;', align: 'center', width : '10%',templet:function(d){return '<span   onclick="view_isWriteSetup(\''+d.setupId+'\')" style="color: #17a2b8">查看</span>'}},
                 {field : 'setupYear',      title : '立项年份', style : 'cursor: pointer;', align: 'center', width : '10%'},

@@ -38,7 +38,7 @@ public interface ICommonService
     
     
     
-	
+    public LayuiTableData getErpInfoList(LayuiTableParam param)throws Exception;
 	
 	 //  资产类别 H1AM_KY_ZH_1000_04
     public<DicAssetType> List  getDicAssetTypeList()throws Exception;

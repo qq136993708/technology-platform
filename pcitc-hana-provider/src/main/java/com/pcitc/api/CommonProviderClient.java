@@ -152,6 +152,15 @@ public class CommonProviderClient {
 	
 	
 	
+	@ApiOperation(value = "获取ERP号", notes = "获取ERP号")
+	@RequestMapping(value = "/dic/getErpInfoList", method = RequestMethod.POST)
+   	public LayuiTableData getErpInfoList(@RequestBody LayuiTableParam param)throws Exception
+   	{
+		System.out.println("getErpInfoList param=   " + JSONObject.toJSONString(param));
+   		return commonService.getErpInfoList(param);
+   	}
+	
+	
 	/**
 	 * 批量获取
 	 * @param id

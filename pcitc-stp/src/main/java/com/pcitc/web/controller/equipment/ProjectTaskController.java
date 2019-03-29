@@ -47,6 +47,7 @@ import com.pcitc.base.stp.equipment.UnitField;
 import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.system.SysUnit;
 import com.pcitc.base.system.SysUser;
+import com.pcitc.base.system.SysUserProperty;
 import com.pcitc.base.util.CodeUtil;
 import com.pcitc.base.util.CommonUtil;
 import com.pcitc.base.util.DateUtil;
@@ -86,6 +87,7 @@ public class ProjectTaskController extends BaseController {
 	
 	
 	private static final String GET_BY_TOPICID_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_task/getSreProjectTaskList/";
+	private static final String GET_ERP_NUM =  "http://pcitc-zuul/hana-proxy/hana/common/dic/getErpInfoList";
 	
 	
 	//任务安排
@@ -272,6 +274,61 @@ public class ProjectTaskController extends BaseController {
 			SreProjectTask sreProjectTask =EquipmentUtils.getSreProjectTask(taskId, restTemplate, httpHeaders);
 			sreProjectTask.setDocumentDoc(documentDoc);
 			resutl=EquipmentUtils.updateSreProjectTask(sreProjectTask, restTemplate, httpHeaders);
+		}
+		if (resutl.equals(""))
+		{
+			resultsDate = new Result(false, RequestProcessStatusEnum.SERVER_BUSY.getStatusDesc());
+		} else 
+		{
+			resultsDate.setSuccess(true);
+		}
+
+		response.setContentType("text/html;charset=UTF-8");
+		PrintWriter out = response.getWriter();
+		JSONObject ob = JSONObject.parseObject(JSONObject.toJSONString(resultsDate));
+		out.println(ob.toString());
+		out.flush();
+		out.close();
+		return null;
+	}
+	
+	
+	
+	
+	@RequestMapping(value = "/updateErp")
+	public String updateErp(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		Result resultsDate = new Result();
+		String taskId = CommonUtil.getParameter(request, "taskId", "");
+		String erpNum = CommonUtil.getParameter(request, "erpNum", "");
+		String resutl="";
+		if(!taskId.equals(""))
+		{
+			SreProjectTask sreProjectTask =EquipmentUtils.getSreProjectTask(taskId, restTemplate, httpHeaders);
+			SreProject sreProject=EquipmentUtils.getSreProject(sreProjectTask.getTopicId(), restTemplate, httpHeaders);
+			sreProject.setErpNum(erpNum);
+			EquipmentUtils.updateSreProject(sreProject, restTemplate, httpHeaders);
+			
+			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(GET_BY_TOPICID_URL+sreProjectTask.getTopicId(), HttpMethod.GET, new HttpEntity<Object>(httpHeaders), JSONArray.class);
+			int statusCode = responseEntity.getStatusCodeValue();
+			if (statusCode == 200)
+			{
+				
+				JSONArray array = responseEntity.getBody();
+				List<SreProjectTask> list = JSONObject.parseArray(array.toJSONString(), SreProjectTask.class);
+				if(list!=null && list.size()>0)
+				{
+					for(int i=0;i<list.size();i++)
+					{
+						SreProjectTask task=list.get(i);
+						task.setErpNum(erpNum);
+						EquipmentUtils.updateSreProjectTask(task, restTemplate, httpHeaders);
+					}
+					
+				}
+			}
+			
+			
 		}
 		if (resutl.equals(""))
 		{
@@ -971,6 +1028,49 @@ public class ProjectTaskController extends BaseController {
 		return "/stp/equipment/task/project_task_view";
 	}
 	
+	
+	
+	/**
+	 * 选择供应商
+	 * 
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping(value = "/getErpInfo")
+	public String getErpInfo(HttpServletRequest request, HttpServletResponse response) {
+		
+		SysUserProperty sysUserProperty=EquipmentUtils.getSysUserProperty(sysUserInfo.getUserId(), "G0DSM", restTemplate, httpHeaders);
+		String g0GSDM=sysUserProperty.getDataId();
+		request.setAttribute("g0GSDM", g0GSDM);
+		request.setAttribute("companyCode", g0GSDM);
+		
+		String taskId = CommonUtil.getParameter(request, "taskId", "");
+		request.setAttribute("taskId", taskId);
+		return "/stp/equipment/task/getErpInfo";
+	}
+	
+	
+	    @RequestMapping( value = "/getErpInfoList")
+		@ResponseBody
+		public String getErpInfoList(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request, HttpServletResponse response) {
+
+			System.out.println("getErpInfoList param=   " + JSONObject.toJSONString(param));
+			LayuiTableData layuiTableData = new LayuiTableData();
+			HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+			ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(GET_ERP_NUM, HttpMethod.POST, entity, LayuiTableData.class);
+			int statusCode = responseEntity.getStatusCodeValue();
+			if (statusCode == 200) {
+				layuiTableData = responseEntity.getBody();
+			}
+			JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
+			System.out.println("getErpInfoList result=   " + result.toJSONString());
+			return result.toString();
+		}
+	 
+	 
+	 
+	 
 
 	
      //生成签字盖章模板
