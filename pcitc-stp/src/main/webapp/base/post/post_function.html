@@ -200,6 +200,7 @@
                         //显示岗位对应的权限
                         selectRowData=res.data[index-1];
                         funcTree.checkAllNodes(false);
+                        $("#funcgroup").val("");
                         //获得权限下的按钮
                         ajaxPost("/post/post-function-buttons", {"postId":selectRowData.postId}, function (dt) {
                         	functionButtonMap = dt;
