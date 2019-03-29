@@ -1,4 +1,4 @@
-package com.pcitc.common;
+package com.pcitc.base.common.enums;
 /**
  * 预算表定义
  * @author fb

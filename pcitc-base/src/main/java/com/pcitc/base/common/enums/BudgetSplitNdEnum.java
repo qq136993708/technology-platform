@@ -1,4 +1,4 @@
-package com.pcitc.common;
+package com.pcitc.base.common.enums;
 
 import java.util.ArrayList;
 import java.util.List;

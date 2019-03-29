@@ -1,4 +1,4 @@
-package com.pcitc.common;
+package com.pcitc.base.common.enums;
 /**
  * 预算分解
  * @author uuy
