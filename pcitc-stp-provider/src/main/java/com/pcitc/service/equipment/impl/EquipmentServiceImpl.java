@@ -123,7 +123,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 		String applyDepartCode=getTableParam(param,"applyDepartCode","");
 		String unitPathIds=getTableParam(param,"unitPathIds","");
 		String parentUnitPathIds=getTableParam(param,"parentUnitPathIds","");
-		
+		String isLinkedProject=getTableParam(param,"isLinkedProject","");
 		Map map=new HashMap();
 		map.put("name", name);
 		map.put("equipmentIds", equipmentIds);
@@ -131,7 +131,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 		map.put("applyDepartName", applyDepartName);
 		map.put("unitPathIds", unitPathIds);
 		map.put("parentUnitPathIds", parentUnitPathIds);
-		
+		map.put("isLinkedProject", isLinkedProject);
 		System.out.println(">>>>>>>>applyDepartCode="+applyDepartCode);
 		StringBuffer applyUnitCodeStr=new StringBuffer();
 		if(!applyDepartCode.equals(""))
@@ -321,7 +321,10 @@ public class EquipmentServiceImpl implements EquipmentService {
 	}
 
 
-	
+	public List<SreProjectTask> getSreProjectTaskListBytopicId(String topicId)throws Exception
+	{
+		return sreProjectTaskMapper.getSreProjectTaskListBytopicId(topicId);
+	}
 	
 	public LayuiTableData getSreProjectTaskPage(LayuiTableParam param)throws Exception
 	{

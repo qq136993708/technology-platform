@@ -397,7 +397,8 @@ public class EquipmentController extends BaseController {
 		request.setAttribute("equipmentIds", equipmentIds);
         //String applyDepartCode=sysUserInfo.getUnitCode();
 		//request.setAttribute("applyDepartCode", applyDepartCode);
-		
+		String isLinkedProject = request.getParameter("isLinkedProject");
+		request.setAttribute("isLinkedProject", isLinkedProject);
 		String	parentUnitPathIds="";
 		String unitPathIds =   sysUserInfo.getUnitPath();
 		if(!unitPathIds.equals(""))

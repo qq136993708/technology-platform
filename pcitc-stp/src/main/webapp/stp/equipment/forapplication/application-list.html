@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()" media="all">
+    <script src="/common/js/jquery-1.11.3.min.js"></script>
+    <script src="/layuiadmin/layui/layui.js"></script>
+       <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+</head>
+
+<body>
+
+<div class="searchBox">
+ <input type="hidden" name="auditStatus" id="auditStatus" value="${auditStatus}">
+ <input type="hidden" name="applyDepartCode" id="applyDepartCode" value="${applyDepartCode}">
+ <input type="hidden" name="parentUnitPathIds" id="parentUnitPathIds" value="${parentUnitPathIds}">
+ 
+ 
+    <!--查询条件-->
+    <label class="dateInput">
+        <span>转资名称</span>
+        <input type="text" name="name" id="name" placeholder="请输入转资名称" title="装备名称" autocomplete="off" class="form-control" >
+    </label>
+    
+    
+    <!--按钮组-->
+    <div class="btnGroup">
+        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>
+        <button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg" data-type="resetEvent">重置</button>
+    </div>
+</div>
+
+
+<div class="tableBox">
+	<div class="tableToolBox">
+        <div class="whiteLine"></div>
+        <div  class="tableBtns">
+           <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"
+                    data-type="draftEvent">
+                <span class="btn-state btnYellow"></span>未上报
+            </button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"
+                    data-type="submitEvent">
+                <span class="btn-state btn-green"></span>已上报
+            </button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"
+                    data-type="passEvent">
+                <span class="btn-state btn-blue"></span>已通过
+            </button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"     data-type="addEvent"  id="addEvent" > 新增</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit"    data-type="editEvent"  id="editEvent" >编辑</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" data-type="detailEvent" id="detailEvent" >详情</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_delete"  data-type="deleteEvent" id="deleteEvent" >删除</button>
+          <!--   <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_delete"  data-type="acceptSoftEvent" >软件验收</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_delete"  data-type="acceptHareEvent" >硬件验收</button> -->
+        </div>
+    </div>
+    <table id="processdef-table" class="layui-hide" lay-filter="processdef-table"></table>
+    
+</div>
+
+
+<script id="dateTpl" type="text/html"> {{formatTime(d.applicationTime)}} </script>
+<script type="text/javascript">
+    // 时间格式化
+    function formatTime(d) {
+        if (d) {
+            var date = new Date();
+            date.setTime(d);
+            var y = date.getFullYear();
+            var m = date.getMonth() + 1;
+            m = m < 10 ? ('0' + m) : m;
+            var day = date.getDate();
+            day = day < 10 ? ("0" + day) : day;
+            var h = date.getHours();
+            h = h < 10 ? ("0" + h) : h;
+            var M = date.getMinutes();
+            M = M < 10 ? ("0" + M) : M;
+            var str = y + "-" + m + "-" + day + " " + h + ":" + M;
+            return str;
+        } else {
+            return '';
+        }
+    }
+</script>
+<script type="text/html" id="buttonTpl">
+          {{#  if(d.applicationState == '0'){ }}
+            <button class="layui-btn layui-btn-warm layui-btn-xs">未审核</button>
+          {{#  } else if(d.applicationState == '1'){ }}
+            <button class="layui-btn  layui-btn-xs">审批中</button>
+          {{#  } else if(d.applicationState == '2'){ }}
+            <button class="layui-btn layui-btn-normal layui-btn-xs">审批通过</button>
+           {{#  } else if(d.applicationState == '3'){ }}
+            <button class="layui-btn layui-btn-danger layui-btn-xs">审批不通过</button>
+          {{#  } else{ }}
+            <button class="layui-btn layui-btn-primary layui-btn-xs">未审核</button>
+          {{#  } }}
+</script>
+
+<!--表格数据操作js-->
+
+<script>
+var table,selectRowData;
+var publicMethods;
+var name=$('#name').val();
+    layui.use(['jquery','table','laypage','layer','laytpl',"publicMethods"], function(){
+           table = layui.table,
+            $ = layui.jquery,
+            layer = layui.layer,
+            laypage = layui.laypage;
+           publicMethods=layui.publicMethods;
+	     //加载表格      
+	     renderTable();
+	     //移除表头的复选框,去掉全选
+	     $(".layui-table-header table thead th input").remove();  
+         // 触发不同的按钮事件
+         var $ = layui.$, active = {
+            searchEvent: function() { //点击查询按钮
+            	renderTable();
+               
+            },
+            resetEvent: function() { //点击重置按钮
+            	$('#name').val("");
+            	$('#auditStatus').val("");
+            },
+            addEvent: function(){ //点击新增按钮
+                layer.open({
+                    title:'装备-新增',
+                    skin: 'layui-layer-lan',
+                    shadeClose: true,
+                    type: 2,
+                    fixed: false,
+                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                    maxmin: false,
+                    //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                   area: ['70%', '90%'],
+                    content:  '/sre-forapplication/add'
+                });
+            }
+            ,editEvent: function(){  //点击编辑按钮
+            	
+            	if (typeof(selectRowData.applicationId) == "undefined") {
+            		layer.msg('请点击选择一行数据');
+            	} else {
+            		 var applicationId=selectRowData.applicationId;
+           		     var url="/sre-forapplication/add?applicationId="+applicationId;
+           		     
+           		  layer.open({
+                      title:'装备-修改',
+                      skin: 'layui-layer-lan',
+                      shadeClose: true,
+                      type: 2,
+                      fixed: false,
+                      //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                      maxmin: false,
+                      //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                      area: ['70%', '90%'],
+                      content:  url
+                  });
+            	}
+               
+            },deleteEvent: function(){  //点击删除按钮
+                 console.log('点击了删除按钮')
+                 if (typeof(selectRowData.applicationId) == "undefined") 
+                 {
+            		layer.msg('请点击选择一行数据');
+            	 } else 
+            	 {
+            		  var applicationId=selectRowData.applicationId;
+           		      var url="/sre-forapplication/delete/"+applicationId;
+	           		  layer.confirm('确定要删除吗？', { btn: ['确定','取消']}, function(){
+	         				 ajaxDeleteOpt(url,"post","删除成功","删除失败");
+	         			}, function(){
+	         			 
+	         			});
+            	}
+            
+              
+            },
+            detailEvent: function(){  //点击详情按钮
+            	if (typeof(selectRowData.applicationId) == "undefined") {
+            		layer.msg('请点击选择一行数据');
+            	} else {
+            		 var equipmentId=selectRowData.applicationId;
+            		 var temUrl="/sre-forapplication/get/" + applicationId;
+            		 layer.open({
+                         title:'详情',
+                         skin: 'layui-layer-lan',
+                         shadeClose: true,
+                         type: 2,
+                         fixed: false,
+                         //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                         maxmin: false,
+                         //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                          area: ['70%', '90%'],
+                         content:  temUrl
+                     });
+            	}
+            
+            },
+            acceptSoftEvent: function(){  //软件验收
+            	if (typeof(selectRowData.equipmentId) == "undefined") {
+            		layer.msg('请点击选择一行数据');
+            	} else {
+            		 var equipmentId=selectRowData.equipmentId;
+            		 layer.open({
+                         title:'软件验收-》新增'
+                         ,skin: 'layui-layer-lan'
+                         ,shadeClose: true
+                         ,type: 2
+                         ,fixed: false
+                         //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                         ,maxmin: false
+                         //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                         ,area: ['60%', '80%']
+                         ,content: "/sre-accept/software/add?equipmentId="+equipmentId
+                     });
+            	}
+            },
+            draftEvent: function(){ 
+            	$("#applicationState").val("0");//0未上报,1已上报,2已通过
+            	renderTable();
+            },
+            submitEvent: function(){ 
+            	$("#applicationState").val("1");
+            	renderTable();
+            },
+            passEvent: function(){ 
+            	$("#applicationState").val("2");
+            	renderTable();
+            },
+            acceptHareEvent: function(){  //硬件验收
+            	if (typeof(selectRowData.equipmentId) == "undefined") {
+            		layer.msg('请点击选择一行数据');
+            	} else {
+            		 var equipmentId=selectRowData.equipmentId;
+            		 layer.open({
+                         title:'硬件验收-》新增'
+                         ,skin: 'layui-layer-lan'
+                         ,shadeClose: true
+                         ,type: 2
+                         ,fixed: false
+                         //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                         ,maxmin: false
+                         //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                         ,area: ['60%', '80%']
+                         ,content: "/sre-accept/hardware/add?equipmentId="+equipmentId
+                     });
+            	}
+            }
+            
+        };
+
+      //监听排序
+        table.on('sort(model-table)', function(obj){
+            console.log(this, obj.field, obj.type)
+            //return;
+            //服务端排序
+            table.reload('model-table', {
+                initSort: obj,
+                page: {curr: 1}, //重新从第一页开始
+                where: { //重新请求服务端
+                    key: obj.field, //排序字段
+                    order: obj.type //排序方式
+                }
+            });
+        });
+      
+        //监听表格双击事件
+        table.on('rowDouble(processdef-table)', function(obj){
+        	var temUrl = '/sre-forapplication/get/'+obj.data.equipmentId;
+        	openFullWin("详情",temUrl);
+        });
+        
+        
+        
+        
+        //区别按钮属性
+        $('.layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+
+         
+        
+        
+    });
+    
+    
+    
+    
+    function renderTable()
+    { 
+    	
+       //渲染
+       table.render({
+           elem: '#processdef-table',
+           url: '/sre-forapplication/list',
+           method:"POST",
+           where: {param: {"applicationName":$("#name").val(),"auditStatus":$("#auditStatus").val(),"applyDepartCode":$("#applyDepartCode").val(),"parentUnitPathIds":$("#parentUnitPathIds").val()}},
+           limit: 15,
+           id: 'processdef-table',
+           height: commonDislodgeTable(),
+           page: {
+               groups: 5,
+               limits: [15,30,45,60],
+               layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
+               first: '首页', //不显示首页
+               last: '尾页', //不显示尾页
+               theme: '#0F9EE0'
+           },
+           cols: [[
+           	   {type : 'checkbox', event : 'changeEvents', width : 55},
+           	{title : '序号', type : 'numbers', width : 55},
+            {field : 'applicationState', title : '转资申请状态', style : 'cursor: pointer;', align : 'center', templet : '<div>{{ layui.laytpl.auditStatus_equipment(d.applicationState) }}</div>', width : '10%'},
+            {field : 'applicationName',     title : '转资名称', style : 'cursor: pointer;', align : 'left', width : '20%' },
+            {field : 'applicationUserName', title : '转资申请人', style : 'cursor: pointer;', align : 'left', width : '9%'},
+            {field : 'applicationTime', title : '转资时间', style : 'cursor: pointer;', align : 'center',width : '25%', templet : '#dateTpl'},
+            {field : 'applicationMoney', title : '总价¥（万元）', style : 'cursor: pointer;', align : 'center', width : '25%',templet:function(d){return '<span style="color:red">'+d.applicationMoney+'</span>'}},
+               
+           ]],
+           done: function (res, curr, count) {
+               // 点击行联动选择框--单选
+               $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+               	var index=parseInt($(this).index()+1);
+                   $('tr').removeClass('layui-table-click');
+                   $(this).addClass('layui-table-click');
+                   $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                   $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                   selectRowData=res.data[index-1];
+                   var applicationState=selectRowData.applicationState;
+                  
+                   if(applicationState=='0' || applicationState=='3' )
+                   {
+                	  
+                	   $("#editEvent").attr("disabled",false);
+                	   $("#deleteEvent").attr("disabled",false);
+                   }else if(applicationState=='1' || applicationState=='2')
+                   {
+                	   $("#editEvent").attr("disabled",true);
+                	   $("#deleteEvent").attr("disabled",true);
+                   }
+                  
+               });
+               //项目分类，项目性质
+               var dicMap = ['ROOT_ZBGL_ZBFL'];
+               var dicVal = {};
+				publicMethods.ajaxPost("/dictionary/map/getMapListDictionarys",{"parentCodes":JSON.stringify(dicMap)}, function (data) {
+					$.each(data,function(key,val){
+						$.each(val,function(i,dt){
+							dicVal[dt.code] = dt.name;
+						});
+					});
+			   	}); 
+				$.each(res.data,function(i,dt){
+					$("tr[data-index='"+i+"'] td[data-field='type'] div").html(dicVal[res.data[i].type]); 
+			   	});
+           }
+       });
+    }
+    
+    
+    /*formName：form表单名称，
+    type：post、get,delete,put 
+    backurl:操作成功后返回地址
+    successMsg：成功提示
+    failMsg：失败提示 */
+    function ajaxDeleteOpt(url,type,successMsg,failMsg)
+    {
+    	 $.ajax({
+      	     type:type,
+      	     url: url,
+      	     dataType:"json",
+      	     async: false, 
+      	     cache: false,
+      	     contentType: "application/x-www-form-urlencoded; charset=utf-8",
+             success:function(data,status)
+             {    
+        	  
+    	          if(data.success==true ||data.success=='true')
+    	          {
+    	        	  layer.alert(
+    	        			  successMsg, 
+    	                      {icon: 1,closeBtn: 0 },
+    	                      function () 
+    	                      {
+    	                    	   renderTable();
+    	                    	   layer.closeAll();
+    	                      });
+    	       	   
+    	          } else
+    	          {
+    	        	 layer.alert("操作失败");
+    	          }
+    	     
+    		   },
+    		   error:function()
+    		   {
+    		    	layer.alert("网络访问错误");
+    		   }
+        
+      });
+    } 
+    
+    
+   
+   
+
+</script>
+
+</body>
+</html>

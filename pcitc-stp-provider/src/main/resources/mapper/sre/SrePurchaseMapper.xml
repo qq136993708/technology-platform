@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pcitc.mapper.equipment.SrePurchaseMapper">
+  <resultMap id="BaseResultMap" type="com.pcitc.base.stp.equipment.SrePurchase">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="purchase_name" jdbcType="VARCHAR" property="purchaseName" />
+    <result column="depart_name" jdbcType="VARCHAR" property="departName" />
+    <result column="stage" jdbcType="INTEGER" property="stage" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="proposer_name" jdbcType="VARCHAR" property="proposerName" />
+    <result column="equipment_id" jdbcType="VARCHAR" property="equipmentId" />
+    <result column="parent_unit_path_names" jdbcType="VARCHAR" property="parentUnitPathNames" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, purchase_name, depart_name, stage, state, create_date, proposer_name, equipment_id, 
+    parent_unit_path_names
+  </sql>
+  <sql id="selectCondition">
+	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
+	     <if test="proposerName != null and proposerName  !='' ">               AND t.proposer_name like CONCAT('%',#{proposerName},'%')</if>
+	     <if test="purchaseName != null and purchaseName  !='' ">               AND t.purchase_name like CONCAT('%',#{purchaseName},'%')</if>
+	     <if test="createDate!= null       and createDate !=''  ">     AND t.create_date = #{createDate}</if>
+	 </trim>
+	</sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sre_purchase
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from sre_purchase
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.pcitc.base.stp.equipment.SrePurchase">
+    insert into sre_purchase (id, purchase_name, depart_name, 
+      stage, state, create_date, 
+      proposer_name, equipment_id, parent_unit_path_names
+      )
+    values (#{id,jdbcType=VARCHAR}, #{purchaseName,jdbcType=VARCHAR}, #{departName,jdbcType=VARCHAR}, 
+      #{stage,jdbcType=INTEGER}, #{state,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{proposerName,jdbcType=VARCHAR}, #{equipmentId,jdbcType=VARCHAR}, #{parentUnitPathNames,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.pcitc.base.stp.equipment.SrePurchase">
+    insert into sre_purchase
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="purchaseName != null">
+        purchase_name,
+      </if>
+      <if test="departName != null">
+        depart_name,
+      </if>
+      <if test="stage != null">
+        stage,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="proposerName != null">
+        proposer_name,
+      </if>
+      <if test="equipmentId != null">
+        equipment_id,
+      </if>
+      <if test="parentUnitPathNames != null">
+        parent_unit_path_names,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseName != null">
+        #{purchaseName,jdbcType=VARCHAR},
+      </if>
+      <if test="departName != null">
+        #{departName,jdbcType=VARCHAR},
+      </if>
+      <if test="stage != null">
+        #{stage,jdbcType=INTEGER},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="proposerName != null">
+        #{proposerName,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentId != null">
+        #{equipmentId,jdbcType=VARCHAR},
+      </if>
+      <if test="parentUnitPathNames != null">
+        #{parentUnitPathNames,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.stp.equipment.SrePurchase">
+    update sre_purchase
+    <set>
+      <if test="purchaseName != null">
+        purchase_name = #{purchaseName,jdbcType=VARCHAR},
+      </if>
+      <if test="departName != null">
+        depart_name = #{departName,jdbcType=VARCHAR},
+      </if>
+      <if test="stage != null">
+        stage = #{stage,jdbcType=INTEGER},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="proposerName != null">
+        proposer_name = #{proposerName,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentId != null">
+        equipment_id = #{equipmentId,jdbcType=VARCHAR},
+      </if>
+      <if test="parentUnitPathNames != null">
+        parent_unit_path_names = #{parentUnitPathNames,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.equipment.SrePurchase">
+    update sre_purchase
+    set purchase_name = #{purchaseName,jdbcType=VARCHAR},
+      depart_name = #{departName,jdbcType=VARCHAR},
+      stage = #{stage,jdbcType=INTEGER},
+      state = #{state,jdbcType=INTEGER},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      proposer_name = #{proposerName,jdbcType=VARCHAR},
+      equipment_id = #{equipmentId,jdbcType=VARCHAR},
+      parent_unit_path_names = #{parentUnitPathNames,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <select id="getList" resultMap="BaseResultMap" parameterType="Map" >
+     select * from sre_purchase t <include refid="selectCondition" />    
+     <choose>
+      <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
+      <otherwise>
+        ORDER BY  create_date desc
+      </otherwise>
+     </choose>
+     <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
+   </select>
+</mapper>

@@ -596,13 +596,13 @@
                 var tdElement = $("#" + id + " table tbody tr:eq(" + i + ") td").eq(k);
                 if ($(tdElement).find("input").length > 0) {
                     if($(tdElement).find("input").val()==''){
-                        columnS += null + "#";
+                        columnS += " " + "#";
                     }else {
                         columnS += $(tdElement).find("input").val() + "#";
                     }
                 } else if ($(tdElement).find("textarea").length > 0) {
                     if($(tdElement).find("textarea").val()==''){
-                        columnS += null + "#";
+                        columnS += " "  + "#";
                     }else {
                         columnS += $(tdElement).find("textarea").val() + "#";
                     }

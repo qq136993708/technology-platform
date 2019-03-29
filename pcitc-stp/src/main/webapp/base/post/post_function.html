@@ -303,7 +303,7 @@
                 //console.log(functionButtons);
                 //批量保存选中节点
                 var param = {"postId": selectRowData.postId,"functionIds": JSON.stringify(functionButtons)};
-                ajaxPost("/post/save-post-functions",param,function (data, status) {
+                ajaxPostAsyn("/post/save-post-functions",param,function (data, status) {
                 	 if(data.success){
                 		 layer.close(lodingMsg);
                 		 layer.alert("操作成功");

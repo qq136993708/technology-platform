@@ -1,5 +1,7 @@
 package com.pcitc.base.workflow;
 
+import java.util.Date;
+
 /**
  * Created by billJiang on 2017/6/8.
  * e-mail:475572229@qq.com  qq:475572229
@@ -25,8 +27,17 @@ public class ProcessDefVo {
     private boolean hasStartFormKey;
     private int suspensionState;
     private boolean isIdentityLinksInitialized;
+    private Date createDate;
+    
+    public Date getCreateDate() {
+		return createDate;
+	}
 
-    public String getId() {
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+
+	public String getId() {
         return id;
     }
 

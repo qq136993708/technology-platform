@@ -415,7 +415,7 @@
         var $ = layui.$, active = {
             selectEvent: function () {
                 //var temUrl = "/intl_project/plant_edit_selectapply?equipmentIds="+$("#equipmentIds").val();
-                var temUrl = '/sre-equipment/chooseEquipmentByUser?equipmentIds=' + $("#equipmentIds").val();
+                var temUrl = '/sre-equipment/chooseEquipmentByUser?equipmentIds=' + $("#equipmentIds").val()+"&isLinkedProject=0";
                 publicMethods.openBaseWin("选择装备", temUrl, "90%", "80%");
 
             }
@@ -527,14 +527,6 @@
                 cT+=parseInt($("#units .layui-form-item").eq(k).find("table tbody tr:last td:last").text());
             });
             var qcT=qT+cT;
-            if(equipmentT!=qcT)
-           	{
-            	 layer.alert("所选装备总金额("+equipmentT+"万元)与建设年限总金额("+qcT+"万元)不相等，请重新调整");
-            	 return false;
-           	}else
-           	{
-           		$("#projectMoney").val(equipmentT);
-           	}
             
             /*获取参与单位的数据*/
            var joinUnitName= $("#joinUnitName").val();
@@ -557,6 +549,12 @@
             var belongDepartmentName = $("#belongDepartmentName").val();
             var professionalDepartName = $("#professionalDepartName").val();
             var professionalFieldName = $("#professionalFieldName").val();
+            
+            var equipmentIds = $("#equipmentIds").val();
+            if (equipmentIds == null || equipmentIds == '')
+            {
+                layer.alert("请选择装备");
+            }else
             if (yearFee_Str == null || yearFee_Str == '')
             {
                 layer.alert("建设年限为空");
@@ -569,11 +567,17 @@
             }else if (professionalFieldName == null || professionalFieldName == '')
             {
                 layer.alert("请选择专业领域");
-            } else
+            }else if(equipmentT!=qcT)
+           	{
+           	   layer.alert("所选装备总金额("+equipmentT+"万元)与建设年限总金额("+qcT+"万元)不相等，请重新调整");
+          	}else
             {
+          		$("#projectMoney").val(equipmentT);
                 var url="/sre-project-basic/save?v_date="+v_date;
                 var backurl="/sre-project-basic/to-list?v_date="+v_date;
                 ajaxOpt(url,"form1","POST",backurl,"保存成功","保存失败");
+          		 
+          		
             }
             return false;
         });
@@ -758,6 +762,9 @@
         return flag;
     }
 
+    
+    
+    
 
 
 </script>

@@ -52,6 +52,7 @@
     <result column="apply_user_id" property="applyUserId" jdbcType="VARCHAR" />
     <result column="apply_user_name" property="applyUserName" jdbcType="VARCHAR" />
     <result column="document_doc"    property="documentDoc" jdbcType="VARCHAR" />
+     <result column="task_version"    property="taskVersion" jdbcType="VARCHAR" />
     
     
     
@@ -66,7 +67,7 @@
     professional_depart_name, professional_depart_code, setup_year, begin_project_month, 
     end_project_month, inner_audit_status, professional_field_code, professional_field_name,setup_id,lead_unit_name,
     unit_path_ids,unit_path_names,parent_unit_path_names,parent_unit_path_ids,create_unit_name,create_unit_code,
-    apply_unit_path_code,parent_apply_unit_path_code,parent_apply_unit_path_name,apply_user_id,apply_user_name,document_doc
+    apply_unit_path_code,parent_apply_unit_path_code,parent_apply_unit_path_name,apply_user_id,apply_user_name,document_doc,task_version
     
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
@@ -95,7 +96,7 @@
       inner_audit_status, professional_field_code, 
       professional_field_name, lead_unit_name,setup_id,unit_path_ids,
       unit_path_names,parent_unit_path_names,parent_unit_path_ids,create_unit_name,create_unit_code,
-      apply_unit_path_code,parent_apply_unit_path_code,parent_apply_unit_path_name,apply_user_id,apply_user_name,document_doc
+      apply_unit_path_code,parent_apply_unit_path_code,parent_apply_unit_path_name,apply_user_id,apply_user_name,document_doc,task_version
       )
     values (#{taskId,jdbcType=VARCHAR}, #{topicId,jdbcType=VARCHAR}, #{topicName,jdbcType=VARCHAR}, 
       #{createUserId,jdbcType=VARCHAR}, #{createUserName,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
@@ -122,7 +123,7 @@
       ,#{parentApplyUnitPathCode,jdbcType=VARCHAR}
       ,#{parentApplyUnitPathName,jdbcType=VARCHAR}
        ,#{applyUserId,jdbcType=VARCHAR}
-      ,#{applyUserName,jdbcType=VARCHAR},#{documentDoc,jdbcType=VARCHAR}
+      ,#{applyUserName,jdbcType=VARCHAR},#{documentDoc,jdbcType=VARCHAR},#{taskVersion,jdbcType=VARCHAR}
       )
   </insert>
   
@@ -283,7 +284,10 @@
         document_doc,
       </if>
      
-     
+      <if test="taskVersion != null" >
+        task_version,
+      </if>
+      
     
     
     </trim>
@@ -438,7 +442,9 @@
       <if test="documentDoc != null" >
         #{documentDoc,jdbcType=VARCHAR},
       </if>
-    
+    <if test="taskVersion != null" >
+        #{taskVersion,jdbcType=VARCHAR},
+      </if>
     
      
     </trim>
@@ -593,7 +599,9 @@
       <if test="documentDoc != null" >
         document_doc = #{documentDoc,jdbcType=VARCHAR},
       </if>
-     
+      <if test="taskVersion != null" >
+        task_version = #{taskVersion,jdbcType=VARCHAR},
+      </if>
     
     </set>
     where task_id = #{taskId,jdbcType=VARCHAR}
@@ -639,6 +647,7 @@
       professional_depart_name = #{professionalDepartName,jdbcType=VARCHAR},
       professional_depart_code = #{professionalDepartCode,jdbcType=VARCHAR},
       setup_year = #{setupYear,jdbcType=VARCHAR},
+      task_version = #{taskVersion,jdbcType=VARCHAR},
       parent_unit_path_names = #{parentUnitPathNames,jdbcType=VARCHAR},
       parent_unit_path_ids = #{parentUnitPathIds,jdbcType=VARCHAR},
       unit_path_ids = #{unitPathIds,jdbcType=VARCHAR},
@@ -647,7 +656,7 @@
       end_project_month = #{endProjectMonth,jdbcType=VARCHAR},
       inner_audit_status = #{innerAuditStatus,jdbcType=VARCHAR},
       professional_field_code = #{professionalFieldCode,jdbcType=VARCHAR},
-       lead_unit_name = #{leadUnitName,jdbcType=VARCHAR},
+      lead_unit_name = #{leadUnitName,jdbcType=VARCHAR},
       professional_field_name = #{professionalFieldName,jdbcType=VARCHAR}
     where task_id = #{taskId,jdbcType=VARCHAR}
   </update>
@@ -707,4 +716,24 @@
     <select id="getCount" resultType="java.lang.Integer" parameterType="Map" >
       SELECT count(*) FROM sre_project_task t <include refid="selectCondition"/>
     </select>
+    
+    
+    
+    
+    
+    <select id="getSreProjectTaskListBytopicId" resultMap="BaseResultMap" parameterType="string" >
+     select * from sre_project_task t where t.topic_id = #{topicId}
+   </select>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 </mapper>

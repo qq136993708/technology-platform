@@ -22,13 +22,13 @@
     
      <label class="dateInput">
         <span>立项年度</span>
-        <input type="text" name="setupYear" value="" placeholder="请输入立项年度" title="立项年度" autocomplete="off" class="form-control" id="setupYear">
+        <input type="text" name="setupYear" value="" readonly="readonly" placeholder="请选择立项年度" title="立项年度" autocomplete="off" class="form-control" id="setupYear">
     </label>
     
     
     <label class="dateInput">
         <span>任务书名称</span>
-        <input type="text" name="topicName" placeholder="请输入任务书名称" title="任务书名称" autocomplete="off" class="form-control" id="topicName">
+        <input type="text" name="topicName" title="任务书名称" autocomplete="off" class="form-control" id="topicName">
     </label>
     
     
@@ -99,6 +99,7 @@
 </div>
 <script id="dateTpl" type="text/html"> {{formatTime(d.createDate)}} </script>
 <script id="setupId" type="text/html"> {{setupId(d.setupId)}} </script>
+<script id="view_taskVersion" type="text/html"> {{view_taskVersion(d.taskVersion)}} </script>
 <script type="text/javascript">
     // 时间格式化
     function formatTime(d) {
@@ -120,7 +121,16 @@
             return '';
         }
     }
-    
+    function view_taskVersion(taskVersion) 
+    {
+        if (taskVersion==null || taskVersion==''|| taskVersion=='1') 
+        {
+        	 return '<span style="color:green">主版本</span>';
+        } else 
+        {
+        	 return '<span style="color:red">补充版本</span>';
+        }
+    }
     function setupId(setupId) 
     {
         if (setupId==null || setupId=='') 
@@ -464,6 +474,7 @@ var name=$('#name').val();
                 {field : 'setupYear',      title : '立项年份', style : 'cursor: pointer;', align: 'center', width : '10%'},
                 {field : 'contractNum', title : '合同号', style : 'cursor: pointer;', align: 'center', width : '10%'},
                 {field : 'projectMoney',   title : '总经费(万元)', style : 'cursor: pointer;', align: 'center', width : '10%',templet:function(d){return '<span style="color:red">'+d.projectMoney+'</span>'}},
+                {field : 'taskVersion',      title : '任务书版本号', style : 'cursor: pointer;', align: 'center', width : '10%',templet : '#view_taskVersion'},
                 {field : 'leadUnitName',   title : '牵头单位', style : 'cursor: pointer;', align: 'left', width : '20%'},
                 {field : 'belongDepartmentName',   title : '归属部门', style : 'cursor: pointer;', align: 'left', width : '10%'},
                 {field : 'professionalDepartName', title : '专业处',  style : 'cursor: pointer;', align: 'left', width : '10%'},

@@ -22,6 +22,8 @@ public class WorkflowVo implements Serializable {
 	
 	private String authenticatedUserId;       //启动人
 	
+	private String authenticatedUserName;       //启动人
+	
 	private Map<String, Object> variables;    //任务节点需要的变量
 	
 	private String processInstanceName;       //流程实例名称，当做任务名称来用。每一步的任务本质上是流程图中的节点名称，不满足实际业务需要
@@ -67,6 +69,14 @@ public class WorkflowVo implements Serializable {
 	private List<SysFile> fileList;
 	
 	
+	public String getAuthenticatedUserName() {
+		return authenticatedUserName;
+	}
+
+	public void setAuthenticatedUserName(String authenticatedUserName) {
+		this.authenticatedUserName = authenticatedUserName;
+	}
+
 	public String getInstanceId() {
 		return instanceId;
 	}

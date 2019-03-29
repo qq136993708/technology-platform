@@ -114,6 +114,7 @@ public class WorkflowController extends BaseController {
 		workflowVo.setBusinessId(businessId);
 		workflowVo.setProcessInstanceName("业务任务名称：" + businessId.substring(0, 10));
 		workflowVo.setAuthenticatedUserId(sysUserInfo.getUserId());
+		workflowVo.setAuthenticatedUserName(sysUserInfo.getUserDisp());
 
 		// 不清楚此功能菜单要走的审批流程。可以通过菜单id（functionId），部门/组织ID（orgId），项目id（projectId）。其中菜单id必填（和ProcessDefineId两选一）
 		workflowVo.setFunctionId(json.getString("functionId"));

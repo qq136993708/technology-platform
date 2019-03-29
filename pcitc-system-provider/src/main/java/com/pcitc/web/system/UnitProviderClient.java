@@ -43,12 +43,6 @@ public class UnitProviderClient
 	@ApiOperation(value="检索机构(树)没人员没岗位",notes="显示某个节点下的组织机构,只有组织机构，没有人员、没有岗位。")
 	@RequestMapping(value = "/unit-provider/units/tree", method = RequestMethod.POST)
 	public List<TreeNode> selectTreeNodeWithUnit(@RequestBody SysUnit unit) {
-		String unitCode = unit.getUnitCode();
-		if (unitCode == null) {
-			// 动态设置根节点，之后从数据库中动态查询获得
-			unit.setUnitPath("1001");
-		}
-		
 		List<TreeNode> list = unitService.getUnitTreeCond(unit);
 		return list;
 	}
@@ -59,12 +53,6 @@ public class UnitProviderClient
 	@ApiOperation(value="检索机构(树)有人员没岗位",notes="查询某种条件下的组织机构节点，有组织机构和人员，没有岗位。")
 	@RequestMapping(value = "/unit-provider/units-users/tree", method = RequestMethod.POST)
 	public List<TreeNode> selectTreeNodeWithUnitAndUser(@RequestBody SysUnit unit) {
-		String unitCode = unit.getUnitCode();
-		if (unitCode == null) {
-			// 动态设置根节点，之后从数据库中动态查询获得
-			unit.setUnitPath("1001");
-		}
-		
 		List<TreeNode> list = unitService.getUnitTreeAndUserCond(unit);
 		return list;
 	}

@@ -8,7 +8,9 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamReader;
@@ -143,11 +145,37 @@ public class WorkflowProviderClient {
 			System.out.println("---开始启动流程，并同时处22222理发起人的第一个任务---");
 			taskService.resolveTask(task.getId(), workflowVo.getVariables());
 		}
-
-		taskService.complete(task.getId(), workflowVo.getVariables());
-
+		// 本步的执行人，记录一下，方便之后查询历史任务时，知道具体某个任务的执行人
+		taskService.setAssignee(task.getId(), workflowVo.getAuthenticatedUserId());
+		
+		// 启动流程时的初始化变量
+		Map<String, Object> iniVar = workflowVo.getVariables();
+		
+		// 本次任务的可用变量
+		Map<String, Object> taskVar = taskService.getVariables(task.getId());
+		// 把启动时的变量也都给下一步
+		for (String key : iniVar.keySet()) {
+			// 几个常用key，不自动处理
+			if (!key.equals("agree") && !key.equals("comment") && !key.equals("auditor")) {
+				taskVar.put(key, iniVar.get(key));
+			}
+		}
+		
+		// 插入本次任务的审批人姓名，方便下一步任务查询上一步执行人姓名
+		taskVar.put(task.getId(), workflowVo.getAuthenticatedUserName());
+		
+		// 流程的启动人姓名和流程发起时间
+		taskVar.put("authenticatedUserName", workflowVo.getAuthenticatedUserName());
+		taskVar.put("authenticatedDate", new Date());
+		
 		// 设置此流程实例的名称（待办任务名称）
 		runtimeService.setProcessInstanceName(processInstance.getId(), workflowVo.getProcessInstanceName());
+		// 方便查询也把名称放到变量中
+		taskVar.put("processInstanceName", workflowVo.getProcessInstanceName());
+		taskVar.put("processDefinitionName", processInstance.getProcessDefinitionKey());
+		
+		// 处理本次任务，同时指定下一次任务可用的变量(taskVar)
+		taskService.complete(task.getId(), taskVar);
 		return "true";
 	}
 

@@ -37,6 +37,8 @@ public class StrUtil {
      * @return 返回类型 String 返回非空字符
      */
     public static String requote(String str) {
+    	if (str != null)
+    		str = str.trim();
         if (str == null)
             str = "";
         if ("null".equalsIgnoreCase(str))

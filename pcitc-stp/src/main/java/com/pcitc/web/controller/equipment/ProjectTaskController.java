@@ -38,6 +38,8 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.RequestProcessStatusEnum;
+import com.pcitc.base.stp.equipment.JoinUnitWord;
+import com.pcitc.base.stp.equipment.SreEquipment;
 import com.pcitc.base.stp.equipment.SreProject;
 import com.pcitc.base.stp.equipment.SreProjectSetup;
 import com.pcitc.base.stp.equipment.SreProjectTask;
@@ -81,6 +83,9 @@ public class ProjectTaskController extends BaseController {
 	//临时导出文件目录
 	private static final String TEMP_FILE_PATH = "src/main/resources/tem/";
 	
+	
+	
+	private static final String GET_BY_TOPICID_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_task/getSreProjectTaskList/";
 	
 	
 	//任务安排
@@ -418,6 +423,8 @@ public class ProjectTaskController extends BaseController {
 			sreProjectBasic.setAuditStatus(auditStatus);
 			sreProjectBasic.setInnerAuditStatus(innerAuditStatus);
 			sreProjectBasic.setSetupYear(DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
+			String taskVersion=getVersion(topicId);
+			sreProjectBasic.setTaskVersion(taskVersion);
 		} else 
 		{
 			ResponseEntity<SreProjectTask> se = this.restTemplate.exchange(GET_URL + taskId, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreProjectTask.class);
@@ -513,6 +520,27 @@ public class ProjectTaskController extends BaseController {
 		return null;
 	}
 	
+	
+	
+	
+	
+	private String  getVersion(String topicId)
+	{
+		String version="1";
+		ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(GET_BY_TOPICID_URL+topicId, HttpMethod.GET, new HttpEntity<Object>(httpHeaders), JSONArray.class);
+		int statusCode = responseEntity.getStatusCodeValue();
+		if (statusCode == 200)
+		{
+			
+			JSONArray array = responseEntity.getBody();
+			List<SreProjectTask> list = JSONObject.parseArray(array.toJSONString(), SreProjectTask.class);
+			if(list!=null && list.size()>0)
+			{
+				version="2";
+			}
+		}
+		return version;
+	}
 	
 	
 	
@@ -858,6 +886,57 @@ public class ProjectTaskController extends BaseController {
 	}
 	
 	
+	
+		@RequestMapping(value = "/checkSaveTaskVersion")
+		@ResponseBody
+		public Object checkSaveTask(HttpServletRequest request, HttpServletResponse response) throws Exception 
+		{
+			
+			Result resultsDate = new Result();
+			resultsDate.setSuccess(true);
+			resultsDate.setCode("0");
+			String topicId = CommonUtil.getParameter(request, "topicId", "");
+			ResponseEntity<JSONArray> responseEntity = restTemplate.exchange(GET_BY_TOPICID_URL+topicId, HttpMethod.GET, new HttpEntity<Object>(httpHeaders), JSONArray.class);
+			int statusCode = responseEntity.getStatusCodeValue();
+			if (statusCode == 200)
+			{
+				
+				JSONArray array = responseEntity.getBody();
+				List<SreProjectTask> list = JSONObject.parseArray(array.toJSONString(), SreProjectTask.class);
+				if(list!=null && list.size()>0)
+				{
+					String version="";
+					for(int i=0;i<list.size();i++)
+					{
+						SreProjectTask sreProjectTask=	list.get(i);
+						version=sreProjectTask.getTaskVersion();
+						if(version.equals("1"))
+						{
+							String contractNum=sreProjectTask.getContractNum();
+							if(contractNum!=null && !contractNum.equals(""))
+							{
+								resultsDate.setCode("1");//可以
+							}else
+							{
+								resultsDate.setMessage("主任务合同号在审核中...请联系科技部相关人员");
+							}
+						}
+					}
+				}else
+				{
+					resultsDate.setCode("1");//可以
+				}
+				
+			}else
+			{
+				resultsDate = new Result(false, RequestProcessStatusEnum.SERVER_BUSY.getStatusDesc());
+				resultsDate.setMessage("失败");
+			}
+			return resultsDate;
+		}
+		
+	
+	
 	/**
 	 * 详情
 	 * 
@@ -1035,6 +1114,22 @@ public class ProjectTaskController extends BaseController {
 			dataMap.put("name", sreProject.getName());//项目名称
 			dataMap.put("leadUnitName", sreProject.getLeadUnitName());//乙方
 			dataMap.put("taskMainTaskContent", sreProjectTask.getTaskMainTaskContent());//项目目标
+			dataMap.put("beginProjectMonth", sreProjectTask.getBeginProjectMonth());//项目执行年限
+			dataMap.put("endProjectMonth", sreProjectTask.getEndProjectMonth());//项目执行年限
+			dataMap.put("contractNum", sreProject.getContractNum());
+			
+			List<String> unitNameList = new ArrayList<String>();
+			unitNameList.add(sreProjectTask.getLeadUnitName());
+			String joinUnitName=sreProjectTask.getJoinUnitName();
+			if(joinUnitName!=null && !joinUnitName.equals(""))
+			{
+				String arr[]=joinUnitName.split(",");
+				for(int i=0;i<arr.length;i++)
+				{
+					unitNameList.add(arr[i]);
+				}
+			}
+			dataMap.put("unitNameList", unitNameList);//牵头单位+参与单位
 			
 			//项目内容和主要图表
 			Float hj_tc=0f;
@@ -1146,55 +1241,16 @@ public class ProjectTaskController extends BaseController {
 			
 			
 			//资金概算表
-			List<Map<String, Object>> budgetTableStrList_zb = new ArrayList<Map<String, Object>>();
-			List<Map<String, Object>> budgetTableStrList_fy= new ArrayList<Map<String, Object>>();
 			String budgetTableStr=sreProjectTask.getBudgetTable();
-			String budgetTableStrList_arr[]=budgetTableStr.split("\\|");//多行
-			Float budgetTable_hj=0f;
-			if(budgetTableStrList_arr!=null && budgetTableStrList_arr.length>0)
-			{
-			   for(int i=0;i<budgetTableStrList_arr.length;i++)
-			   {
-				   String str=budgetTableStrList_arr[i];
-				   if(str!=null && !str.equals(""))
-				   {
-					   String temp[]=str.split("#");
-					   Map<String, Object> map = new HashMap<String, Object>();
-					   String content1=temp[0];
-					   
-					   String zj1=temp[1].trim();
-					   String zj2=temp[2].trim();
-					   String zj3=temp[3].trim();
-					   String zj4=temp[4].trim();
-					   map.put("zj1", zj1);
-					   map.put("zj2", zj2);
-					   map.put("zj3", zj3);
-					   map.put("zj4", zj4);
-					   System.out.println("---------zj3  源: "+zj3);
-					   Float fp3faot= Float.parseFloat(zj3);
-						System.out.println("---------fp3faot  源: "+fp3faot.toString());
-					   budgetTable_hj=budgetTable_hj.floatValue()+fp3faot.floatValue();
-					  
-					   if(content1.equals("资本性"))
-					   {
-						   budgetTableStrList_zb.add(map);
-					   }
-					   if(content1.equals("费用性"))
-					   {
-						   budgetTableStrList_fy.add(map);
-					   }
-				   }
-			   }
-			}
+			Map resultMap= EquipmentUtils.getBudgetTableList(budgetTableStr);
+			List<Map<String, Object>> budgetTableStrList_zb =(List<Map<String, Object>>)resultMap.get("budgetTableStrList_zb");
+			List<Map<String, Object>> budgetTableStrList_fy =(List<Map<String, Object>>)resultMap.get("budgetTableStrList_fy");
+			
+			Float budgetTable_hj =(Float)resultMap.get("budgetTable_hj");
 			dataMap.put("budgetTableStrList_zb", budgetTableStrList_zb);
 			dataMap.put("budgetTableStrList_fy", budgetTableStrList_fy);
 			dataMap.put("budgetTable_hj", budgetTable_hj);
 			
-			System.out.println("---------资金概算表----  源: "+budgetTableStr);
-			JSONArray budgetTableStrList_zb_jSONArray= JSONArray.parseArray(JSON.toJSONString(budgetTableStrList_zb));
-			System.out.println("---------资金概算表--资本性  FTL: "+budgetTableStrList_zb_jSONArray.toString());
-			JSONArray budgetTableStrList_fy_jSONArray= JSONArray.parseArray(JSON.toJSONString(budgetTableStrList_fy));
-			System.out.println("---------资金概算表--费用性   FTL: "+budgetTableStrList_fy_jSONArray.toString());
 			
 			
 			///预计资金来源表
@@ -1291,15 +1347,14 @@ public class ProjectTaskController extends BaseController {
 			System.out.println("---------项目资金安排（FTL） : "+projectFundsTableList_jSONArray.toString());
 			
 			
-			
-			
-			
-			
+			//项目资金安排--参与单位
+			String yearFeeStrJoinUnit=sreProjectTask.getYearFeeStrJoinUnit();
+			List<JoinUnitWord> joinUnitWordlist=EquipmentUtils.getJoinUnitWordList(yearFeeStrJoinUnit);
+			dataMap.put("joinUnitWordlist", joinUnitWordlist);
 		
 			
 			
 			fileName =DateUtil.dateToStr(new Date(), DateUtil.FMT_SSS_02)+".doc";
-
 			/** 生成word */
 			boolean flage=WordUtil.createWord(dataMap, "task.ftl", filePath, fileName);
 			if(flage==true)
