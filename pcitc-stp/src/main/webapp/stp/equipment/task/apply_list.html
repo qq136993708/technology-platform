@@ -27,16 +27,14 @@
 </form>
 
     <!--查询条件-->
- <label class="dateInput">
+    <label class="dateInput">
         <span>立项年度</span>
         <input type="text" name="setupYear" value="" readonly="readonly" placeholder="请选择立项年度" title="立项年度" autocomplete="off" class="form-control" id="setupYear">
     </label>
-    
     <label class="dateInput">
         <span>任务名称</span>
         <input type="text" name="topicName"  title="任务名称" autocomplete="off" class="form-control" id="topicName">
     </label>
-    
      <label class="dateInput">
          <span>院内审核</span>
          <select name="innerAuditStatus" id="innerAuditStatus"   class="form-control">
@@ -46,7 +44,6 @@
 		      </#list>
 		 </select>
     </label>
-    
     <label class="dateInput">
          <span>总部审核</span>
          <select name="auditStatus" id="auditStatus"   class="form-control">
@@ -56,7 +53,6 @@
 		      </#list>
 		 </select>
     </label> 
-    
     <label class="dateInput">
          <span>归属部门</span>
          <select name="belongDepartmentName" id="belongDepartmentName"  onchange="getDepartNameByUnitName(this.value)"  class="form-control">
@@ -66,7 +62,6 @@
 		      </#list>
 		 </select>
      </label>
-    
      <label class="dateInput">
          <span>专业处</span>
          <select id="professionalDepartName" name="professionalDepartName" onchange="getProfessionalNameListByUnitNameAndDept(this.value)"  class="form-control"></select>
