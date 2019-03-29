@@ -68,7 +68,7 @@ public class ProjectBasicController extends BaseController {
 	private static final String AUDIT_REJECT_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project/task/reject/";
 	
 	
-	private final static String process_define_id4 = "equitmentApplyProcess:1:1172522";
+	private final static String process_define_id4 = "equipment_project_apply:1:1272504";
 	
 	
 	private static final String PROJECT_WORKFLOW_URL = "http://pcitc-zuul/stp-proxy/stp-provider/start_project_activity/";

@@ -49,6 +49,14 @@ public interface CommonMapper {
     
     
     
+    public<ErpInfo> List  getErpInfoList(Map map);
+    int  getErpInfoCount(Map map);
+    
+    
+    
+    
+    
+    
     // 项目类型--项目项目来源--项目级别
     public<DicSupplyer> List  getCodeH1AM_KY_ZH_1000_06(Map map);
     
