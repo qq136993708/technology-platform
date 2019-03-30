@@ -56,7 +56,10 @@ layui.define(['jquery'],function (e) {
     }, o.v = "1.2.0", e("laytpl", o)
     o.toDateString = function(d, format){
 
-        var date = new Date(d || new Date())
+    	if(d == null || d == '' || d == undefined){
+            return "";
+        }
+        var date = new Date(d)
             ,ymd = [
             this.digit(date.getFullYear(), 4)
             ,this.digit(date.getMonth() + 1)
