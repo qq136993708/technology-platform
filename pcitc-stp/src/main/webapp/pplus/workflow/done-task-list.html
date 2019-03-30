@@ -116,23 +116,18 @@
 						width : '20%',
 						style : 'cursor: pointer;'
 					}, {
-						field : 'startUserName',
-						title : '发起人',
-						width : '10%',
-						style : 'cursor: pointer;'
-					}, {
 						field : 'startTime',
-						title : '发起时间',
+						title : '任务发起时间',
 						width : '15%',
 						style : 'cursor: pointer;',
 						templet : '<div>{{ layui.laytpl.toDateString(d.startTime) }}</div>',
 						align : 'center'
 					}, {
-						field : 'createTime',
-						title : '处理时间',
+						field : 'endTime',
+						title : '任务处理时间',
 						width : '15%',
 						style : 'cursor: pointer;',
-						templet : '<div>{{ layui.laytpl.toDateString(d.createTime) }}</div>',
+						templet : '<div>{{ layui.laytpl.toDateString(d.endTime) }}</div>',
 						align : 'center'
 					}, {
 						field : 'auditRemarks',
