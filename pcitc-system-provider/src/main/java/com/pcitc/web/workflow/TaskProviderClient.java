@@ -1120,6 +1120,7 @@ public class TaskProviderClient {
 			if (!historicActivityInstance.getActivityType().equals("userTask"))
 				continue;
 			ActivityVo vo = new ActivityVo();
+			System.out.println("===="+historicActivityInstance);
 			BeanUtils.copyProperties(historicActivityInstance, vo);
 			if (historicActivityInstance.getActivityType().equals("userTask") && historicActivityInstance.getTaskId() != null) {
 				// 获取审批意见、审批时间
