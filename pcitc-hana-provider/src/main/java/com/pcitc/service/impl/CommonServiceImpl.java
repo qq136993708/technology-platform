@@ -15,6 +15,7 @@ import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Page;
 import com.pcitc.base.hana.report.CompanyCode;
 import com.pcitc.base.hana.report.DicSupplyer;
+import com.pcitc.base.hana.report.ErpInfo;
 import com.pcitc.base.hana.report.H1AMKYZH100006;
 import com.pcitc.base.hana.report.ProjectCode;
 import com.pcitc.mapper.common.CommonMapper;
@@ -149,6 +150,90 @@ public class CommonServiceImpl implements ICommonService {
  		data.setCount(totalRecords);
  	    return data;
    }
+   
+   
+   
+   
+   public LayuiTableData getErpInfoList(LayuiTableParam param)throws Exception
+   {
+	    //每页显示条数
+ 		int pageSize = param.getLimit();
+ 		int pageNum = param.getPage();
+ 		Page p=new Page(pageNum,pageSize);
+		int start=(pageNum-1)*p.getPageSize();
+		
+		String g0YEARXM=getTableParam(param,"g0YEARXM","");
+		String g0GSDM=getTableParam(param,"g0GSDM","");
+		String g0GSJC=getTableParam(param,"g0GSJC","");
+		String g0PROJCODE=getTableParam(param,"g0PROJCODE","");
+		String g0PROJTXT=getTableParam(param,"g0PROJTXT","");
+		String g0XMLXMS=getTableParam(param,"g0XMLXMS","");
+ 		Map map=new HashMap();
+ 		map.put("start", start);
+ 		map.put("pageSize", pageSize);
+ 		map.put("g0YEARXM", g0YEARXM);
+ 		
+ 		map.put("g0GSJC", g0GSJC);
+ 		map.put("g0PROJCODE", g0PROJCODE);
+ 		map.put("g0PROJTXT", g0PROJTXT);
+ 		map.put("g0XMLXMS", g0XMLXMS);
+ 		
+ 		
+ 		List<String> list=null;
+ 		if(g0GSDM!=null)
+ 		{
+ 			String arr[]=g0GSDM.split(",");
+ 	 		if(arr!=null)
+ 	 		{
+ 	 			list=new ArrayList<String>();
+ 	 			for(int i=0;i<arr.length;i++)
+ 	 			{
+ 	 				String str=arr[i];
+ 	 				if(str!=null && !str.equals(""))
+ 	 				{
+ 	 					list.add(str);
+ 	 				}
+ 	 			}
+ 	 		}
+ 		}
+ 		StringBuffer stringBuffer=new StringBuffer();
+ 		if(list!=null && list.size()>0)
+ 		{
+ 			stringBuffer.append(" and G0GSDM in (");
+ 			for(int i=0;i<list.size();i++)
+ 			{
+ 				String str=list.get(i);
+ 				if(i>0)
+ 				{
+ 					stringBuffer.append(",");
+ 				}
+ 				stringBuffer.append("'").append(str).append("'");
+ 			}
+ 			stringBuffer.append(")");
+ 		}
+ 		map.put("sqlStr", stringBuffer.toString());
+ 		List<ErpInfo> listDicSupplyer = commonMapper.getErpInfoList(map);
+ 		Integer totalRecords = commonMapper.getErpInfoCount(map);
+ 		System.out.println(">>>>>>>表格："+totalRecords);
+ 		LayuiTableData data = new LayuiTableData();
+ 		data.setData(listDicSupplyer);
+ 		data.setCount(totalRecords);
+ 	    return data;
+   }
+   
+   
+	private String getTableParam(LayuiTableParam param,String paramName,String defaultstr)
+	{
+		String resault="";
+		Object object=param.getParam().get(paramName);
+		if(object!=null)
+		{
+			resault=(String)object;
+		}
+		return resault;
+	}
+   
+   
    
    // 项目类型--项目项目来源--项目级别
    public List<ProjectCode>  getCodeH1AM_KY_ZH_1000_06(Map map)throws Exception

@@ -53,6 +53,7 @@
     <result column="apply_user_name" property="applyUserName" jdbcType="VARCHAR" />
     <result column="document_doc"    property="documentDoc" jdbcType="VARCHAR" />
      <result column="task_version"    property="taskVersion" jdbcType="VARCHAR" />
+     <result column="erp_num"    property="erpNum" jdbcType="VARCHAR" />
     
     
     
@@ -67,7 +68,7 @@
     professional_depart_name, professional_depart_code, setup_year, begin_project_month, 
     end_project_month, inner_audit_status, professional_field_code, professional_field_name,setup_id,lead_unit_name,
     unit_path_ids,unit_path_names,parent_unit_path_names,parent_unit_path_ids,create_unit_name,create_unit_code,
-    apply_unit_path_code,parent_apply_unit_path_code,parent_apply_unit_path_name,apply_user_id,apply_user_name,document_doc,task_version
+    apply_unit_path_code,parent_apply_unit_path_code,parent_apply_unit_path_name,apply_user_id,apply_user_name,document_doc,task_version,erp_num
     
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
@@ -96,7 +97,7 @@
       inner_audit_status, professional_field_code, 
       professional_field_name, lead_unit_name,setup_id,unit_path_ids,
       unit_path_names,parent_unit_path_names,parent_unit_path_ids,create_unit_name,create_unit_code,
-      apply_unit_path_code,parent_apply_unit_path_code,parent_apply_unit_path_name,apply_user_id,apply_user_name,document_doc,task_version
+      apply_unit_path_code,parent_apply_unit_path_code,parent_apply_unit_path_name,apply_user_id,apply_user_name,document_doc,task_version,erp_num
       )
     values (#{taskId,jdbcType=VARCHAR}, #{topicId,jdbcType=VARCHAR}, #{topicName,jdbcType=VARCHAR}, 
       #{createUserId,jdbcType=VARCHAR}, #{createUserName,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
@@ -123,7 +124,7 @@
       ,#{parentApplyUnitPathCode,jdbcType=VARCHAR}
       ,#{parentApplyUnitPathName,jdbcType=VARCHAR}
        ,#{applyUserId,jdbcType=VARCHAR}
-      ,#{applyUserName,jdbcType=VARCHAR},#{documentDoc,jdbcType=VARCHAR},#{taskVersion,jdbcType=VARCHAR}
+      ,#{applyUserName,jdbcType=VARCHAR},#{documentDoc,jdbcType=VARCHAR},#{taskVersion,jdbcType=VARCHAR},#{erpNum,jdbcType=VARCHAR}
       )
   </insert>
   
@@ -287,8 +288,9 @@
       <if test="taskVersion != null" >
         task_version,
       </if>
-      
-    
+     <if test="erpNum != null" >
+        erp_num,
+      </if>
     
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -442,10 +444,21 @@
       <if test="documentDoc != null" >
         #{documentDoc,jdbcType=VARCHAR},
       </if>
-    <if test="taskVersion != null" >
+      <if test="taskVersion != null" >
         #{taskVersion,jdbcType=VARCHAR},
       </if>
     
+    <if test="erpNum != null" >
+        #{erpNum,jdbcType=VARCHAR},
+      </if>
+    
+    
+    
+    
+    
+    
+    
+     
      
     </trim>
   </insert>
@@ -602,7 +615,9 @@
       <if test="taskVersion != null" >
         task_version = #{taskVersion,jdbcType=VARCHAR},
       </if>
-    
+      <if test="erpNum != null" >
+        erp_num = #{erpNum,jdbcType=VARCHAR},
+      </if>
     </set>
     where task_id = #{taskId,jdbcType=VARCHAR}
   </update>
@@ -616,6 +631,7 @@
       create_unit_code = #{createUnitCode,jdbcType=VARCHAR},
       apply_unit_path_code = #{applyUnitPathCode,jdbcType=VARCHAR},
       parent_apply_unit_path_code = #{parentApplyUnitPathCode,jdbcType=VARCHAR},
+      erp_num = #{erpNum,jdbcType=VARCHAR},
       parent_apply_unit_path_name = #{parentApplyUnitPathName,jdbcType=VARCHAR},
       apply_user_id = #{applyUserId,jdbcType=VARCHAR},
       apply_user_name = #{applyUserName,jdbcType=VARCHAR},
@@ -696,11 +712,10 @@
 	     <if test="createUserId != null       and createUserId !=''  ">               AND t.create_user_id = #{createUserId}</if>
 	     <if test="applyUserId != null        and applyUserId !=''  ">                AND t.apply_user_id = #{applyUserId}</if>
 	     <if test="applyUserName != null       and applyUserName !=''  ">             AND t.apply_user_name = #{applyUserName}</if>
-	     
-	     <if test="sqlStr != null   and sqlStr !='' ">       AND ${sqlStr}</if>
+	     <if test="erpNum != null       and erpNum !=''  ">                           AND t.erp_num = #{erpNum}</if>
+	     <if test="sqlStr != null       and sqlStr !='' ">                            AND ${sqlStr}</if>
 	 </trim>
 	</sql>
-	 
     
    <select id="getList" resultMap="BaseResultMap" parameterType="Map" >
      select * from sre_project_task t <include refid="selectCondition" />    

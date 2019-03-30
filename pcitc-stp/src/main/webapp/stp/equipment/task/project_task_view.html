@@ -112,15 +112,35 @@
 			                    </div>
 			                 </div>
 			                 
-                           <#if sreProjectTask.contractNum !=null> 
-                            <div class="layui-form-item layui-form-text">
-				                    <label class="layui-form-label">合同编号</label>
-				                    <div class="layui-input-block">
-				                        <input class="layui-input readOnlyBox"  style="color:green" name="contractNum" id="contractNum" readonly="readonly"
+			                 
+			                 
+			                 <div class="layui-row">
+			                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+			                        <div class="layui-form-item">
+			                            <label for="" class="layui-form-label">合同编号</label>
+			                            <div class="layui-input-block">
+			                             <#if sreProjectTask.contractNum !=null> 
+			                              <input class="layui-input readOnlyBox"  style="color:green" name="contractNum" id="contractNum" readonly="readonly"
 				                               value="${sreProjectTask.contractNum}" autocomplete="off" type="text">
-				                    </div>
-				                </div> 
-				            </#if>
+			                              </#if>
+			                            </div>
+			                        </div>
+			                    </div>
+			                    <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+			                        <div class="layui-form-item">
+			                            <label for="" class="layui-form-label">ERP号</label>
+			                            <div class="layui-input-block">
+			                                <#if sreProjectTask.erpNum !=null> 
+			                                      <input class="layui-input readOnlyBox"  style="color:green" name="erpNum" id="erpNum" readonly="readonly"
+				                                  value="${sreProjectTask.erpNum}" autocomplete="off" type="text">
+			                              </#if>
+			                            </div>
+			                        </div>
+			                    </div>
+			                 </div>
+			                 
+			                 
+			                 
 				            
 				            
 				            

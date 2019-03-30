@@ -60,23 +60,30 @@ body{background: white;}
 .ladmin-user-login-theme ul li:hover{opacity: 0.9}
 @media screen and (max-width: 1920px) {
   .user-login{top:120px !important;}
+  .layadmin-user-login{height: 937px;}
   .layadmin-user-login-body{height: 50%;}
 }
 @media screen and (max-width: 1600px) {
   .user-login{top:120px !important;}
+  .layadmin-user-login{height: 702px;}
   .layadmin-user-login-body{height: 51.9%;}
 }
 @media screen and (max-width: 1600px) {
+
   .layadmin-user-login-body{height: 61.9%;}
 }
 @media screen and (max-width: 1536px) {
+  .layadmin-user-login{height: 702px;}
   .layadmin-user-login-body{height: 65%;}
 }
 @media screen and (max-width: 1440px) {
+
+  .layadmin-user-login{height: 757px;}
   .layadmin-user-login-body{height: 62.3%;}
 }
 @media screen and (max-width: 1366px) {
   .user-login{top:96px !important;}
+  .layadmin-user-login{height: 625px;}
   .layadmin-user-login-body {height: 70%;}
 }
 @media screen and (max-width: 800px) {

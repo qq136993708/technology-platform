@@ -218,8 +218,60 @@
 	 
 	 
 	 
+	 <!-- 获取ERP 信息 -->
 	 
 	 
+	 
+	  <resultMap id="ERPResultMap"  type="com.pcitc.base.hana.report.ErpInfo" >
+       <result column="G0YEARXM"    property="g0YEARXM" jdbcType="VARCHAR" />
+       <result column="G0GSDM"      property="g0GSDM" jdbcType="VARCHAR" />
+       <result column="G0GSJC"      property="g0GSJC" jdbcType="VARCHAR" />
+       <result column="G0PROJCODE"  property="g0PROJCODE" jdbcType="VARCHAR" />
+       <result column="G0PROJTXT"   property="g0PROJTXT" jdbcType="VARCHAR" />
+       <result column="G0XMLXMS"    property="g0XMLXMS"  jdbcType="VARCHAR" />
+     </resultMap>
+     
+      <sql id="selectConditionERP">
+	     <if test="g0PROJTXT != null   and g0PROJTXT  !='' ">         AND G0PROJTXT like '%${g0PROJTXT}%' </if>
+	     <if test="g0GSDM != null   and g0GSDM  !='' ">               AND G0GSDM = ${g0GSDM}  </if>
+	     <if test="sqlStr != null   and sqlStr !='' ">                ${sqlStr}</if>
+	</sql>
+	
+    <select id="getErpInfoList" resultMap="ERPResultMap"  parameterType="java.util.Map" >
+    SELECT
+       "G0YEARXM", 
+         "G0GSDM",   
+	     "G0GSJC",  
+	     "G0PROJCODE",
+	     "G0PROJTXT",  
+	     "G0XMLXMS"    
+	FROM "H"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY::H1AM_KY_ZH_0000_01.H1AM_KY_ZH_1000_02" 
+	WHERE ("G0STUFE" = '1' 
+	    AND "G0XMDL" = 'Z')
+		<include refid="selectConditionERP" /> 
+		<if test="pageSize != null and pageSize !=''">  limit ${pageSize} offset  ${start} </if>   
+	 </select>
+	 
+	  <select id="getErpInfoCount" resultType="int" parameterType="java.util.Map"  >
+	  SELECT COUNT(*) FROM(
+	     SELECT
+       "G0YEARXM", 
+         "G0GSDM",  
+	     "G0GSJC",   
+	     "G0PROJCODE",
+	     "G0PROJTXT",  
+	     "G0XMLXMS"   
+	FROM "H"."SINOPEC.ZBYY.KJBYY.001_KYGLFXYY::H1AM_KY_ZH_0000_01.H1AM_KY_ZH_1000_02" 
+	WHERE ("G0STUFE" = '1' 
+	    AND "G0XMDL" = 'Z')
+		<include refid="selectConditionERP" /> 
+		)
+	 </select>
+	 
+	 
+	 
+	 
+	  <!-- 获取ERP 信息  END-->
 	 
 	 
 	 <resultMap id="dicSupplyer_stp_ResultMap" type="com.pcitc.base.stp.equipment.SreSupplier" >

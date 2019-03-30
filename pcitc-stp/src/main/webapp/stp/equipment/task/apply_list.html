@@ -89,6 +89,7 @@
               <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"  id="createSetupWordEvent" data-type="createSetupWordEvent">预览立项报告WORD文档</button>
               <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"  id="createQianEvent" data-type="createQianEvent">预览签字盖章WORD模板</button>
               <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"  id="upQianEvent" data-type="upQianEvent">上传签字盖章页</button>
+              <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"  id="createErp" data-type="createErp">对接ERP号</button>
         </div>
     </div>
    <table id="processdef-table" class="layui-hide" lay-filter="processdef-table" ></table> 
@@ -425,6 +426,38 @@ var name=$('#name').val();
            	    	 }
             		
             	}
+            },
+            createErp: function(){
+            	if (typeof(selectRowData) == "undefined") 
+            	{
+            		layer.alert('请点击选择一个任务书');
+            	}else 
+            	{
+            		 var contractNum=selectRowData.contractNum;
+            		 var erpNum=selectRowData.erpNum;
+            		 if(contractNum==null || contractNum=='')
+            	     {
+            			 layer.alert('合同号未生成,不能选取ERP号');
+            	     }else if(erpNum!=null && erpNum!='')
+            	     {
+            			 layer.alert('ERP号已对接成功,不能重复选取ERP号');
+            	     }else
+           	    	 {
+	           	    	    var taskId=selectRowData.taskId;
+		           	    	var temUrl="/sre_project_task/getErpInfo?taskId=" + taskId;
+		           		    layer.open({
+		                       title:'ERP号',
+		                       skin: 'layui-layer-lan',
+		                       shadeClose: true,
+		                       type: 2,
+		                       fixed: false,
+		                       maxmin: false,
+		                       area: ['70%', '90%'],
+		                       content:  temUrl
+		                   });
+           	    	 }
+            		
+            	}
             }
             
             
@@ -485,6 +518,7 @@ var name=$('#name').val();
                 {field : 'topicName',     title : '任务书名称', style : 'cursor: pointer;', align: 'left', width : '10%',templet:function(d){return '<span   onclick="view_isWriteTask(\''+d.taskId+'\')" style="color: #17a2b8">'+d.topicName+'</span>'}},
                 {field : 'isWriteSetup',  title : '立项报告否填写', style : 'cursor: pointer;', align: 'center', width : '10%',templet:function(d){return '<span   onclick="view_isWriteSetup(\''+d.setupId+'\')" style="color: #17a2b8">查看</span>'}},
                 {field : 'contractNum', title : '合同号', style : 'cursor: pointer;', align: 'center', width : '10%'},
+                {field : 'erpNum', title : 'ERP号', style : 'cursor: pointer;', align: 'center', width : '10%'},
                 {field : 'setupYear', title : '立项年份', style : 'cursor: pointer;', align: 'center', width : '10%'},
                 {field : 'projectMoney', title : '总经费(万元)', style : 'cursor: pointer;', align: 'center', width : '10%',templet:function(d){return '<span style="color:red">'+d.projectMoney+'</span>'}},
                 {field : 'taskVersion',      title : '任务书版本号', style : 'cursor: pointer;', align: 'center', width : '10%',templet : '#view_taskVersion'},
@@ -750,8 +784,15 @@ var name=$('#name').val();
         
       });
     }
-
-
+    
+    function createErpBack(taskId,erpNum)
+    {
+    	var v_date=(new Date()).getTime();
+        var url="/sre_project_task/updateErp?v_date="+v_date+"&taskId="+taskId+"&erpNum="+erpNum;
+        var backurl="/sre_project_task/apply_list?v_date="+v_date;
+        ajaxOpt(url,"form1","POST",backurl,"ERP号对接成功","ERP号对接失败");
+    }
+    
 </script>
 
 </body>
