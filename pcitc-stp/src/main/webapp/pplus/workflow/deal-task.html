@@ -157,6 +157,7 @@
 			/* 监听提交 */
 			form.on('submit(form-submit)', function(data) {
 				// 审批同意的情况下，先判断下一步是通过角色来进行的，还是直接通过选择框
+				
 				var agree = $("input[name='agree']:checked").val();
 				if (agree == "1") {
 					// 判断是否需要弹出选择框

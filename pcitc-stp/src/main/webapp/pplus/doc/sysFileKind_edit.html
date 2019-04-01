@@ -109,11 +109,8 @@
             });
             /* 监听提交 */
             form.on('submit(submitBtn)', function(data) {
-                console.log(data.field);
                 ajaxPost("/sysfilekind/savesysFileKind", data.field, function(dt, status) {
-                    layer.msg("操作成功");
-                    parent.active.searchEvent();
-                    parent.initTree();
+                	parent.updateFlag = true;
                     var index = parent.layer.getFrameIndex(window.name);
                     parent.layer.close(index);
                 });
