@@ -107,7 +107,7 @@
                         strTempFileIds=(strTempFileIds==""?temFileId:(strTempFileIds+","+temFileId));
                     }
                     if (strTempFileIds.indexOf(',')>-1) {
-                    	layer.msg("编辑时，只允许上传一个文件！");
+                    	layer.msg("编辑时，只允许上传一个文档！");
                     	return false;
                     }
                     
@@ -119,7 +119,7 @@
                     }
                 }
                 if (strTempFileIds=='') {
-                	layer.msg("请上传文件！");
+                	layer.msg("请上传文档！");
                 	return false;
                 }
                 data.field.bak2 = id;

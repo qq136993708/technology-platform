@@ -167,12 +167,19 @@ public class WorkflowProviderClient {
 		// 流程的启动人姓名和流程发起时间
 		taskVar.put("authenticatedUserName", workflowVo.getAuthenticatedUserName());
 		taskVar.put("authenticatedDate", new Date());
+		taskVar.put("flowAuditorName", workflowVo.getAuthenticatedUserName());
 		
 		// 设置此流程实例的名称（待办任务名称）
 		runtimeService.setProcessInstanceName(processInstance.getId(), workflowVo.getProcessInstanceName());
 		// 方便查询也把名称放到变量中
 		taskVar.put("processInstanceName", workflowVo.getProcessInstanceName());
 		taskVar.put("processDefinitionName", processInstance.getProcessDefinitionKey());
+		
+		// 会签时，获取选择审批人给会签需要的assigneeList(下一个环节如果不是会签，assigneeList就白赋值了)
+		if (taskVar.get("auditor") != null) {
+			System.out.println("1会签时====" + taskVar.get("auditor"));
+			taskVar.put("assigneeList", taskVar.get("auditor"));
+		}
 		
 		// 处理本次任务，同时指定下一次任务可用的变量(taskVar)
 		taskService.complete(task.getId(), taskVar);
