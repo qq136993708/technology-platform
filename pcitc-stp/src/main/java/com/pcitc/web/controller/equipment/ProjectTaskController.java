@@ -128,7 +128,7 @@ public class ProjectTaskController extends BaseController {
 		
 		String	parentUnitPathIds="";
 		String unitPathIds =   sysUserInfo.getUnitPath();
-		if(!unitPathIds.equals(""))
+		if(unitPathIds!=null && !unitPathIds.equals(""))
 		{
 			if(unitPathIds.length()>4)
 			{
@@ -156,7 +156,7 @@ public class ProjectTaskController extends BaseController {
 		request.setAttribute("unitFieldList", unitFieldList);
 		/*String	parentUnitPathIds="";
 		String unitPathIds =   sysUserInfo.getUnitPath();
-		if(!unitPathIds.equals(""))
+		if(unitPathIds!=null && !unitPathIds.equals(""))
 		{
 			if(unitPathIds.length()>4)
 			{
@@ -221,7 +221,7 @@ public class ProjectTaskController extends BaseController {
 		
 		String	parentUnitPathIds="";
 		String unitPathIds =   sysUserInfo.getUnitPath();
-		if(!unitPathIds.equals(""))
+		if(unitPathIds!=null && !unitPathIds.equals(""))
 		{
 			if(unitPathIds.length()>4)
 			{
@@ -434,7 +434,7 @@ public class ProjectTaskController extends BaseController {
 		String unitPathNames = CommonUtil.getParameter(request, "unitPathNames", sysUserInfo.getUnitName());
 		String parentUnitPathIds ="";
 		String parentUnitPathNames =  "";
-		if(!unitPathIds.equals(""))
+		if(unitPathIds!=null && !unitPathIds.equals(""))
 		{
 			if(unitPathIds.length()>4)
 			{
@@ -669,7 +669,7 @@ public class ProjectTaskController extends BaseController {
 			
 			String parentApplyUnitPathCode ="";
 			String parentApplyUnitPathName =  "";
-			if(!unitPathIds.equals(""))
+			if(unitPathIds!=null && !unitPathIds.equals(""))
 			{
 				if(unitPathIds.length()>4)
 				{

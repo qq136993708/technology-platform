@@ -86,7 +86,7 @@ public class ProjectBasicController extends BaseController {
 
 		String	parentUnitPathIds="";
 		String unitPathIds =   sysUserInfo.getUnitPath();
-		if(!unitPathIds.equals(""))
+		if(unitPathIds!=null && !unitPathIds.equals(""))
 		{
 			if(unitPathIds.length()>4)
 			{
@@ -138,7 +138,7 @@ public class ProjectBasicController extends BaseController {
 		String leadUnitName =  "";
 		String leadUnitCode =  "";
 		String unitPathIds =   sysUserInfo.getUnitPath();
-		if(!unitPathIds.equals(""))
+		if(unitPathIds!=null && !unitPathIds.equals(""))
 		{
 			if(unitPathIds.length()>4)
 			{
@@ -304,7 +304,7 @@ public class ProjectBasicController extends BaseController {
 		
 		String parentUnitPathIds ="";
 		String parentUnitPathNames =  "";
-		if(!unitPathIds.equals(""))
+		if(unitPathIds!=null && !unitPathIds.equals(""))
 		{
 			if(unitPathIds.length()>4)
 			{
