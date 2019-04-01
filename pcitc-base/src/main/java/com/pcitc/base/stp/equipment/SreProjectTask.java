@@ -100,9 +100,20 @@ public class SreProjectTask {
     private String taskVersion;
     private String erpNum;
     
+    private String closeStatus;
     
     
-    public String getErpNum() {
+    
+    
+    public String getCloseStatus() {
+		return closeStatus;
+	}
+
+	public void setCloseStatus(String closeStatus) {
+		this.closeStatus = closeStatus;
+	}
+
+	public String getErpNum() {
 		return erpNum;
 	}
 

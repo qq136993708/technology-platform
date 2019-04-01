@@ -16,8 +16,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -68,10 +71,7 @@ public class ProjectBasicController extends BaseController {
 	private static final String AUDIT_REJECT_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project/task/reject/";
 	
 	
-	private final static String process_define_id4 = "equipment_project_apply:1:1272504";
-	
-	
-	private static final String PROJECT_WORKFLOW_URL = "http://pcitc-zuul/stp-proxy/stp-provider/start_project_activity/";
+	private static final String EQUIPMENT_PROJECT_WORKFLOW_URL = "http://pcitc-zuul/stp-proxy/stp-provider/project_basic/start_project_activity/";
 
 
 	@RequestMapping(value = "/to-list")
@@ -527,6 +527,34 @@ public class ProjectBasicController extends BaseController {
 		}
 		return resultsDate;
 	}
+	
+	
+	
+	@RequestMapping(value = "/start_workflow_new")
+	@ResponseBody
+	public Object start_workflow_new(HttpServletRequest request, HttpServletResponse response) throws Exception 
+	{
+		this.httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);//设置参数类型和编码
+		String id = CommonUtil.getParameter(request, "id", "");
+		String functionId = CommonUtil.getParameter(request, "functionId", "");
+		String userIds = CommonUtil.getParameter(request, "userIds", "");
+		SreProject sreProject=EquipmentUtils.getSreProject(id,restTemplate,httpHeaders);
+		System.out.println("============start_workflow_new userIds="+userIds+" functionId="+functionId+" id="+id);
+		
+		MultiValueMap<String, Object> paramMap = new LinkedMultiValueMap<String, Object>();
+		paramMap.add("id", id);
+		paramMap.add("functionId", functionId);
+		paramMap.add("userIds", userIds);
+		paramMap.add("processInstanceName", "计划上报->"+sreProject.getName());
+		paramMap.add("authenticatedUserId", sysUserInfo.getUserId());
+		paramMap.add("authenticatedUserName", sysUserInfo.getUserDisp());
+		paramMap.add("functionId", functionId);
+		paramMap.add("auditor", userIds);
+		HttpEntity<MultiValueMap<String, Object>> httpEntity = new HttpEntity<MultiValueMap<String, Object>>(paramMap,this.httpHeaders);
+		Result rs = this.restTemplate.exchange(EQUIPMENT_PROJECT_WORKFLOW_URL + id, HttpMethod.POST, httpEntity, Result.class).getBody();
+		return rs;
+	}
+	
 	
 
 	/**
