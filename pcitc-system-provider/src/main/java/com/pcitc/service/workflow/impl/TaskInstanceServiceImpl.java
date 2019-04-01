@@ -278,8 +278,10 @@ public class TaskInstanceServiceImpl implements TaskInstanceService {
     	// flowJson.put("flowUnitId", "");
     	
     	// 非必填选项，当下一步审批者需要本次任务执行人（启动者）手动选择的时候，需要auditUserIds属性
-    	String auditUserIds = "16622e3f0df_1370e873,16622d9cfc5_94712f71";
-    	flowJson.put("auditUserIds", auditUserIds);
+    	// String auditor = "16622e3f0df_1370e873,16622d9cfc5_94712f71";
+    	// flowJson.put("auditor", auditor);
+    	
+    	flowJson.put("specialAuditor", "ZSH_YFGCS_CJCXY");
     	
 		// 非必填选项, 对流程中出现的多个判断条件，比如money>100等，需要把事先把money条件输入
 		// flowJson.put("money", 50); // 环节1需要用到
