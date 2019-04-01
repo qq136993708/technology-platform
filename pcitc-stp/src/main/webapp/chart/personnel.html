@@ -184,40 +184,11 @@
         </div>
         <div class="layui-main-personnel">
             <div class="expert">
-                <h4>集团首席科学家</h4>
+                <h4>集团首席专家</h4>
                 <p>姓名按首字母排列</p>
                 <div class="layui-expert">
-                    <ul>
-                        <li><a href="javascript:;">陈专家</a></li>
-                        <li><a href="javascript:;">陈专家</a></li>
-                        <li><a href="javascript:;">陈专家</a></li>
-                        <li><a href="javascript:;">陈专家</a></li>
-                        <li><a href="javascript:;">陈专家</a></li>
-                        <li><a href="javascript:;">陈专家</a></li>
-                        <li><a href="javascript:;">陈专家</a></li>
-                        <li><a href="javascript:;">陈专家</a></li>
-                        <li><a href="javascript:;">陈专家</a></li>
-                        <li><a href="javascript:;">陈专家</a></li>
-                        <li><a href="javascript:;">陈专家</a></li>
-                        <li><a href="javascript:;">陈专家</a></li>
-                        <li><a href="javascript:;">陈专家</a></li>
-                        <li><a href="javascript:;">陈专家</a></li>
-                        <li><a href="javascript:;">陈专家</a></li>
-                        <li><a href="javascript:;">陈专家</a></li>
-                        <li><a href="javascript:;">陈专家</a></li>
-                        <li><a href="javascript:;">陈专家</a></li>
-                        <li><a href="javascript:;">陈专家</a></li>
-                        <li><a href="javascript:;">陈专家</a></li>
-                        <li><a href="javascript:;">陈专家</a></li>
-                        <li><a href="javascript:;">陈专家</a></li>
-                        <li><a href="javascript:;">陈专家</a></li>
-                        <li><a href="javascript:;">陈专家</a></li>
-                        <li><a href="javascript:;">陈专家</a></li>
-                        <li><a href="javascript:;">陈专家</a></li>
-                        <li><a href="javascript:;">陈专家</a></li>
-                        <li><a href="javascript:;">陈专家</a></li>
-                        <li><a href="javascript:;">陈专家</a></li>
-                        <li><a href="javascript:;">陈专家</a></li>
+                    <ul id="expert2">
+
                     </ul>
                 </div>
             </div>
@@ -227,37 +198,7 @@
                 <h4>集团高级专家</h4>
                 <p>姓名按首字母排列</p>
                 <div class="layui-expert">
-                    <ul>
-                        <li><a href="javascript:;">陈专家</a></li>
-                        <li><a href="javascript:;">陈专家</a></li>
-                        <li><a href="javascript:;">陈专家</a></li>
-                        <li><a href="javascript:;">陈专家</a></li>
-                        <li><a href="javascript:;">陈专家</a></li>
-                        <li><a href="javascript:;">陈专家</a></li>
-                        <li><a href="javascript:;">陈专家</a></li>
-                        <li><a href="javascript:;">陈专家</a></li>
-                        <li><a href="javascript:;">陈专家</a></li>
-                        <li><a href="javascript:;">陈专家</a></li>
-                        <li><a href="javascript:;">陈专家</a></li>
-                        <li><a href="javascript:;">陈专家</a></li>
-                        <li><a href="javascript:;">陈专家</a></li>
-                        <li><a href="javascript:;">陈专家</a></li>
-                        <li><a href="javascript:;">陈专家</a></li>
-                        <li><a href="javascript:;">陈专家</a></li>
-                        <li><a href="javascript:;">陈专家</a></li>
-                        <li><a href="javascript:;">陈专家</a></li>
-                        <li><a href="javascript:;">陈专家</a></li>
-                        <li><a href="javascript:;">陈专家</a></li>
-                        <li><a href="javascript:;">陈专家</a></li>
-                        <li><a href="javascript:;">陈专家</a></li>
-                        <li><a href="javascript:;">陈专家</a></li>
-                        <li><a href="javascript:;">陈专家</a></li>
-                        <li><a href="javascript:;">陈专家</a></li>
-                        <li><a href="javascript:;">陈专家</a></li>
-                        <li><a href="javascript:;">陈专家</a></li>
-                        <li><a href="javascript:;">陈专家</a></li>
-                        <li><a href="javascript:;">陈专家</a></li>
-                        <li><a href="javascript:;">陈专家</a></li>
+                    <ul id="expert3">
                     </ul>
                 </div>
             </div>
@@ -319,10 +260,22 @@
             var $ = layui.jquery, table = layui.table, laydate = layui.laydate,publicMethods= layui.publicMethods;
             publicMethods.ajaxGet("/expertController/queryAllExpert", null, function (data) {
                 var expertKy = "";
+                var expert2 = "";
+                var expert3 = "";
                 for (let i = 0,j=data.length; i <j; i++) {
-                    expertKy = expertKy+"<li><a href=\"/expertController/expertDetailIndex?dataId="+data[i].data_id+"\" target='_blank'>"+data[i].expert_name+"</a></li>\n";
+                    var bak3 = data[i].bak3;
+                    console.log(bak3);
+                    if(bak3=="1"){
+                        expertKy = expertKy+"<li><a href=\"/expertController/expertDetailIndex?dataId="+data[i].data_id+"\" target='_blank'>"+data[i].expert_name+"</a></li>\n";
+                    }else if(bak3=="2"){
+                        expert2 = expert2+"<li><a href=\"/expertController/expertDetailIndex?dataId="+data[i].data_id+"\" target='_blank'>"+data[i].expert_name+"</a></li>\n";
+                    }else if(bak3=="3"){
+                        expert3 = expert3+"<li><a href=\"/expertController/expertDetailIndex?dataId="+data[i].data_id+"\" target='_blank'>"+data[i].expert_name+"</a></li>\n";
+                    }
                 }
                 $("#expertKy").append(expertKy);
+                $("#expert2").append(expert2);
+                $("#expert3").append(expert3);
             });
         });
     </script>
