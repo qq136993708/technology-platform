@@ -86,7 +86,7 @@ public class ProjectBasicController extends BaseController {
 
 		String	parentUnitPathIds="";
 		String unitPathIds =   sysUserInfo.getUnitPath();
-		if(!unitPathIds.equals(""))
+		if(unitPathIds!=null && !unitPathIds.equals(""))
 		{
 			if(unitPathIds.length()>4)
 			{
@@ -138,7 +138,7 @@ public class ProjectBasicController extends BaseController {
 		String leadUnitName =  "";
 		String leadUnitCode =  "";
 		String unitPathIds =   sysUserInfo.getUnitPath();
-		if(!unitPathIds.equals(""))
+		if(unitPathIds!=null && !unitPathIds.equals(""))
 		{
 			if(unitPathIds.length()>4)
 			{
@@ -304,7 +304,7 @@ public class ProjectBasicController extends BaseController {
 		
 		String parentUnitPathIds ="";
 		String parentUnitPathNames =  "";
-		if(!unitPathIds.equals(""))
+		if(unitPathIds!=null && !unitPathIds.equals(""))
 		{
 			if(unitPathIds.length()>4)
 			{
@@ -542,13 +542,14 @@ public class ProjectBasicController extends BaseController {
 		workflowVo.setBusinessId(String.valueOf(id));
 		workflowVo.setProcessInstanceName(instanceName);
 		workflowVo.setAuthenticatedUserId(sysUser.getUserId());
+		workflowVo.setAuthenticatedUserName(sysUser.getUserDisp());
 		workflowVo.setAuditUserIds(sysUser.getUserId());
 		// process_define_id和functionId，两种方式二选一
 		// 清楚知道自己要走的流程定义id
-		workflowVo.setProcessDefineId(process_define_id4);
+		//workflowVo.setProcessDefineId(process_define_id4);
 		// 不清楚此功能菜单要走的审批流程。可以通过菜单id（functionId），部门/组织ID（orgId），项目id（id）。其中菜单id必填（和ProcessDefineId两选一）
 		workflowVo.setFunctionId(functionId);
-		workflowVo.setProjectId("");
+		//workflowVo.setProjectId("");
 		Map<String, Object> variables = new HashMap<String, Object>();
 		//variables.put("starter", workflowVo.getAuthenticatedUserId());
 		

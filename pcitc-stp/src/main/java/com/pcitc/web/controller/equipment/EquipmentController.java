@@ -67,7 +67,6 @@ public class EquipmentController extends BaseController {
 	private static final String AUDIT_AGREE_URL = "http://pcitc-zuul/stp-proxy/sre-provider/equipment/task/agree/";
 	// 流程操作--拒绝
 	private static final String AUDIT_REJECT_URL = "http://pcitc-zuul/stp-proxy/sre-provider/equipment/task/reject/";
-	private final static String process_define_id4 = "oneSelectAuditProcess:1:367511";
 
 	// 公司代码
 	private static final String GET_DIC_ASSET_TYPE = "http://pcitc-zuul/hana-proxy/hana/common/dic/asset_type";
@@ -351,7 +350,7 @@ public class EquipmentController extends BaseController {
 		
 		String	parentUnitPathIds="";
 		String unitPathIds =   sysUserInfo.getUnitPath();
-		if(!unitPathIds.equals(""))
+		if(unitPathIds!=null && !unitPathIds.equals(""))
 		{
 			if(unitPathIds.length()>4)
 			{
@@ -401,7 +400,7 @@ public class EquipmentController extends BaseController {
 		request.setAttribute("isLinkedProject", isLinkedProject);
 		String	parentUnitPathIds="";
 		String unitPathIds =   sysUserInfo.getUnitPath();
-		if(!unitPathIds.equals(""))
+		if(unitPathIds!=null && unitPathIds!=null && !unitPathIds.equals(""))
 		{
 			if(unitPathIds.length()>4)
 			{
@@ -541,7 +540,7 @@ public class EquipmentController extends BaseController {
 		/*String applyDepartName =  "";
 		String applyDepartCode =  "";
 		String unitPathIds =   sysUserInfo.getUnitPath();
-		if(!unitPathIds.equals(""))
+		if(unitPathIds!=null && !unitPathIds.equals(""))
 		{
 			if(unitPathIds.length()>4)
 			{
@@ -618,7 +617,7 @@ public class EquipmentController extends BaseController {
 		String unitPathNames = CommonUtil.getParameter(request, "unitPathNames", sysUserInfo.getUnitName());
 		String parentUnitPathIds ="";
 		String parentUnitPathNames =  "";
-		if(!unitPathIds.equals(""))
+		if(unitPathIds!=null && !unitPathIds.equals(""))
 		{
 			if(unitPathIds.length()>4)
 			{
@@ -739,10 +738,9 @@ public class EquipmentController extends BaseController {
 		workflowVo.setBusinessId(String.valueOf(id));
 		workflowVo.setProcessInstanceName("业务任务名称：" + instanceName);
 		workflowVo.setAuthenticatedUserId(sysUser.getUserId());
-
+		workflowVo.setAuthenticatedUserName(sysUser.getUserDisp());
 		// process_define_id和functionId，两种方式二选一
 		// 清楚知道自己要走的流程定义id
-		workflowVo.setProcessDefineId(process_define_id4);
 		// 不清楚此功能菜单要走的审批流程。可以通过菜单id（functionId），部门/组织ID（orgId），项目id（projectId）。其中菜单id必填（和ProcessDefineId两选一）
 		workflowVo.setFunctionId("");
 		workflowVo.setProjectId("");

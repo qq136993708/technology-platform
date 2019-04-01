@@ -6,7 +6,6 @@ import io.swagger.annotations.ApiOperation;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -302,6 +301,7 @@ public class TaskProviderClient {
 		taskList = query.listPage(limit * (page - 1), limit);
 
 		List<TaskVo> voList = new ArrayList<TaskVo>();
+		Date now3 = new Date();
 		for (Task task : taskList) {
 			TaskVo vo = new TaskVo();
 			BeanUtils.copyProperties(task, vo);
@@ -351,6 +351,7 @@ public class TaskProviderClient {
 
 			voList.add(vo);
 		}
+		System.out.println("====单页循环查询用时-------------" + (now3.getTime() - now1.getTime()));
 
 		LayuiTableData data = new LayuiTableData();
 		data.setData(voList);
@@ -602,6 +603,12 @@ public class TaskProviderClient {
 	@RequestMapping(value = "/task-provider/task/complete", method = RequestMethod.POST)
 	public JSONObject completeTask(@RequestBody WorkflowVo workflowVo) throws Exception {
 
+		// 此任务节点会签标识
+		boolean signFlag = false;
+		
+		Integer nrOfInstances = 0;
+		Integer nrOfCompletedInstances = 0;
+		
 		Task task = taskService.createTaskQuery().taskId(workflowVo.getTaskId()).singleResult();
 
 		// 下一个环节需要用的变量等属性，此次审批人选项的agree属性等属性
@@ -635,10 +642,38 @@ public class TaskProviderClient {
 				}
 			} else {
 				// 不处理
+				if (runtimeService.getVariable(currentExecutionId, "agreeCount") != null) {
+					Integer agreeCount = (Integer) runtimeService.getVariable(currentExecutionId, "agreeCount");
+					runtimeService.setVariable(currentExecutionId, "agreeCount", agreeCount);
+					nextVar.put("agreeCount", agreeCount);
+				} else {
+					nextVar.put("agreeCount", 0);
+				}
 			}
+			
+			// 会签标识
+			signFlag = true;
+			
+			// 判断此时的同意率（同意数/总的审批人数）是否符合，符合的话，complete后，直接返回，否则继续执行
+			if (nextVar.get("signAuditRate") != null) {
+				Integer signAgreeCount = (Integer) nextVar.get("agreeCount");
+				
+				// nrOfCompletedInstances：已经完成实例的数目; nrOfInstances：实例总数
+				nrOfInstances = (Integer) runtimeService.getVariable(currentExecutionId, "nrOfInstances");
+				nrOfCompletedInstances = (Integer) runtimeService.getVariable(currentExecutionId, "nrOfCompletedInstances");
+				
+				Double signAuditRate = (Double) nextVar.get("signAuditRate");
+				if (nrOfInstances == nrOfCompletedInstances+1) { // 会签人员都审批了(+1,因为马上要complete)
+					if (signAgreeCount/nrOfInstances >= signAuditRate) {
+						nextVar.put("agree", 1);
+					} else {
+						nextVar.put("agree", 0);
+					}
+				} 
+			} 
 		} else {
 			// 其他非多实例节点，此时需要
-			runtimeService.setVariable(currentExecutionId, "agreeCount", 0);
+			//runtimeService.setVariable(currentExecutionId, "agreeCount", 0);
 			nextVar.put("agreeCount", 0);
 		}
 
@@ -663,27 +698,71 @@ public class TaskProviderClient {
 		// 完成本次任务
 		taskService.complete(workflowVo.getTaskId(), nextVar);
 		JSONObject retJson = new JSONObject();
-
-		if (nextVar.get("agree") != null && nextVar.get("agree").toString().equals("0")) {
-			System.out.println("=========审批不同意=======" + nextVar.get("agree").toString());
-			// 把agree属性，在全局变量中删除
-			// 审批驳回
-			retJson.put("result", "2");
-			retJson.put("auditRejectMethod", nextVar.get("auditRejectMethod").toString());
-			return retJson;
-		} else {
-			System.out.println("=========审批同意=======----------");
-			ProcessInstance pi = runtimeService.createProcessInstanceQuery().processInstanceId(task.getProcessInstanceId()).singleResult();
-			if (pi == null) {
-				// 流程结束
-				retJson.put("result", "1");
-				retJson.put("auditAgreeMethod", nextVar.get("auditAgreeMethod").toString());
-				System.out.println("=========流程结束=======----------");
+		
+		
+		if (!signFlag) {// 不是会签的正常走流程
+			if (nextVar.get("agree") != null && nextVar.get("agree").toString().equals("0")) {
+				// 把agree属性，在全局变量中删除
+				// 审批驳回
+				retJson.put("result", "2");
+				retJson.put("auditRejectMethod", nextVar.get("auditRejectMethod").toString());
+				return retJson;
+			} else {
+				System.out.println("=========审批同意=======----------");
+				ProcessInstance pi = runtimeService.createProcessInstanceQuery().processInstanceId(task.getProcessInstanceId()).singleResult();
+				if (pi == null) {
+					// 流程结束
+					retJson.put("result", "1");
+					retJson.put("auditAgreeMethod", nextVar.get("auditAgreeMethod").toString());
+					System.out.println("=========流程结束=======----------");
+					return retJson;
+				}
+				retJson.put("result", "0");
 				return retJson;
 			}
-			retJson.put("result", "0");
-			return retJson;
+		} else {
+			// 会签的
+			// 判断此时的同意率（同意数/总的审批人数）是否符合，符合的话，complete后，直接返回，否则继续执行
+			if (nextVar.get("signAuditRate") != null) {
+				Integer signAgreeCount = (Integer) nextVar.get("agreeCount");
+				
+				// nrOfCompletedInstances：已经完成实例的数目; nrOfInstances：实例总数
+				System.out.println(signAgreeCount+"-------nrOfInstances-------"+nrOfInstances);
+				
+				Double signAuditRate = (Double) nextVar.get("signAuditRate");
+				if (nrOfInstances == nrOfCompletedInstances+1) { // 会签人员都审批了
+					if (signAgreeCount/nrOfInstances >= signAuditRate) {
+						ProcessInstance pi = runtimeService.createProcessInstanceQuery().processInstanceId(task.getProcessInstanceId()).singleResult();
+						if (pi == null) {
+							// 流程结束
+							retJson.put("result", "1");
+							retJson.put("auditAgreeMethod", nextVar.get("auditAgreeMethod").toString());
+							System.out.println("=========会签流程结束=======流程结束----------");
+							return retJson;
+						} 
+						System.out.println("=========会签流程结束=======流程未结束----------");
+						retJson.put("result", "0");
+						return retJson;
+					} else {// 审批不通过 ，直接打回
+						// 审批驳回
+						System.out.println("=========会签流程结束=======审批驳回----------");
+						retJson.put("result", "2");
+						retJson.put("auditRejectMethod", nextVar.get("auditRejectMethod").toString());
+						return retJson;
+					}
+				} else { // 会签还没完全走完（之后可以逻辑细分）
+					System.out.println("=========会签流程未结束=======----------");
+					retJson.put("result", "0");
+					return retJson;
+				}
+			} else {
+				// 异常情况，会签必须要signAuditRate属性
+				System.out.println("=========1会签异常情况=======----------");
+				retJson.put("result", "0");
+				return retJson;
+			}
 		}
+		
 	}
 
 	/**
@@ -1186,6 +1265,7 @@ public class TaskProviderClient {
 		}
 		// 判断同一个时间段是否委托多个人
 		taskInstanceService.insertDelegate(delegate);
+		
 
 		// 把当前委托人的任务都委托给被委托人
 		// System.out.println(delegate.getAttorneyCode()+"add-delegate=================="+delegate.getAssigneeCode());

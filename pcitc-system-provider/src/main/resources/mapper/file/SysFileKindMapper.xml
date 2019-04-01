@@ -602,6 +602,7 @@
 		<if test="createPersonId != null">
 			and sys_file_kind.create_person_id = '${createPersonId}'
 		</if>
+		order by create_date
     </select>
     
     <!--文档分类权限分配查询-用户-->

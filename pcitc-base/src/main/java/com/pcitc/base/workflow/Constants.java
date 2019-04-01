@@ -50,7 +50,7 @@ public class Constants {
     public static final int FLOW_STATE_CLOSE=3;//强制结束
     
     
-    public static final String START_WORKFLOW_URL = "http://pcitc-zuul/system-proxy/workflow-provider/workflow/start/id";
+    public static final String START_WORKFLOW_URL = "http://pcitc-zuul/system-proxy/workflow-provider/workflow/start";
     
     public static final String AUDIT_FLAG_URL = "http://pcitc-zuul/system-proxy/task-provider/task/process/audit/flag";
 

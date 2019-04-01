@@ -77,10 +77,6 @@ public class ProjectTaskController extends BaseController {
 	private static final String AUDIT_AGREE_URL_INNER = "http://pcitc-zuul/stp-proxy/sre-provider/project_task/task/agree_inner/";
 	// 内部审核--流程操作--拒绝
 	private static final String AUDIT_REJECT_URL_INNER = "http://pcitc-zuul/stp-proxy/sre-provider/project_task/task/reject_inner/";
-	// 总部门审核
-	private final static String PROCESS_DEFINE_ID_TASK_FLOAT = "equipment_task_apply1:2:1217559";
-	// 内部审核
-	private final static String PROCESS_DEFINE_ID_CONFIRM_FLOAT = "equitmentApplyProcess:1:1172522";
 	//临时导出文件目录
 	private static final String TEMP_FILE_PATH = "src/main/resources/tem/";
 	
@@ -132,7 +128,7 @@ public class ProjectTaskController extends BaseController {
 		
 		String	parentUnitPathIds="";
 		String unitPathIds =   sysUserInfo.getUnitPath();
-		if(!unitPathIds.equals(""))
+		if(unitPathIds!=null && !unitPathIds.equals(""))
 		{
 			if(unitPathIds.length()>4)
 			{
@@ -160,7 +156,7 @@ public class ProjectTaskController extends BaseController {
 		request.setAttribute("unitFieldList", unitFieldList);
 		/*String	parentUnitPathIds="";
 		String unitPathIds =   sysUserInfo.getUnitPath();
-		if(!unitPathIds.equals(""))
+		if(unitPathIds!=null && !unitPathIds.equals(""))
 		{
 			if(unitPathIds.length()>4)
 			{
@@ -225,7 +221,7 @@ public class ProjectTaskController extends BaseController {
 		
 		String	parentUnitPathIds="";
 		String unitPathIds =   sysUserInfo.getUnitPath();
-		if(!unitPathIds.equals(""))
+		if(unitPathIds!=null && !unitPathIds.equals(""))
 		{
 			if(unitPathIds.length()>4)
 			{
@@ -438,7 +434,7 @@ public class ProjectTaskController extends BaseController {
 		String unitPathNames = CommonUtil.getParameter(request, "unitPathNames", sysUserInfo.getUnitName());
 		String parentUnitPathIds ="";
 		String parentUnitPathNames =  "";
-		if(!unitPathIds.equals(""))
+		if(unitPathIds!=null && !unitPathIds.equals(""))
 		{
 			if(unitPathIds.length()>4)
 			{
@@ -620,10 +616,11 @@ public class ProjectTaskController extends BaseController {
 		workflowVo.setBusinessId(String.valueOf(id));
 		workflowVo.setProcessInstanceName(instanceName);
 		workflowVo.setAuthenticatedUserId(sysUser.getUserId());
+		workflowVo.setAuthenticatedUserName(sysUser.getUserDisp());
 		workflowVo.setAuditUserIds(sysUser.getUserId());
 		// process_define_id和functionId，两种方式二选一
 		// 清楚知道自己要走的流程定义id
-		workflowVo.setProcessDefineId(PROCESS_DEFINE_ID_TASK_FLOAT);
+		//workflowVo.setProcessDefineId(PROCESS_DEFINE_ID_TASK_FLOAT);
 		// 不清楚此功能菜单要走的审批流程。可以通过菜单id（functionId），部门/组织ID（orgId），项目id（id）。其中菜单id必填（和ProcessDefineId两选一）
 		workflowVo.setFunctionId(functionId);
 		workflowVo.setProjectId("");
@@ -672,7 +669,7 @@ public class ProjectTaskController extends BaseController {
 			
 			String parentApplyUnitPathCode ="";
 			String parentApplyUnitPathName =  "";
-			if(!unitPathIds.equals(""))
+			if(unitPathIds!=null && !unitPathIds.equals(""))
 			{
 				if(unitPathIds.length()>4)
 				{
@@ -714,10 +711,11 @@ public class ProjectTaskController extends BaseController {
 		workflowVo.setBusinessId(String.valueOf(id));
 		workflowVo.setProcessInstanceName(instanceName);
 		workflowVo.setAuthenticatedUserId(sysUser.getUserId());
+		workflowVo.setAuthenticatedUserName(sysUser.getUserDisp());
 		workflowVo.setAuditUserIds(sysUser.getUserId());
 		// process_define_id和functionId，两种方式二选一
 		// 清楚知道自己要走的流程定义id
-		workflowVo.setProcessDefineId(PROCESS_DEFINE_ID_CONFIRM_FLOAT);
+		//workflowVo.setProcessDefineId(PROCESS_DEFINE_ID_CONFIRM_FLOAT);
 		// 不清楚此功能菜单要走的审批流程。可以通过菜单id（functionId），部门/组织ID（orgId），项目id（id）。其中菜单id必填（和ProcessDefineId两选一）
 		workflowVo.setFunctionId(functionId);
 		workflowVo.setProjectId("");
