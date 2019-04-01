@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -77,6 +78,124 @@ public class WorkflowProviderClient {
 
 	@Autowired
 	SysFileService sysFileService;
+	
+	/**
+	 * @author zhf
+	 * @date 2019年3月26日 下午2:08:57
+	 */
+	@ApiOperation(value = "启动业务审批流程", notes = "公共审批流启动方法")
+	@RequestMapping(value = "/workflow-provider/common-workflow/start", method = RequestMethod.POST)
+	public String startCommonWorkflow(@RequestBody String jsonStr) {
+		if (jsonStr == null) {
+			return "流程启动异常,参数异常";
+		}
+		JSONObject json = JSONObject.parseObject(jsonStr);
+		Map<String, Object> variables = new HashMap<String, Object>();
+		for (Map.Entry<String, Object> entry : json.entrySet()) {
+            variables.put(entry.getKey(), entry.getValue());
+        }
+
+		String processDefineId;
+		if (StrUtil.isBlankOrNull(json.getString("businessId"))) {
+			return "流程启动异常,业务id参数异常";
+		}
+		
+		if (StrUtil.isBlankOrNull(json.getString("authenticatedUserId"))) {
+			return "流程启动异常,任务发起人id参数异常";
+		}
+		
+		if (StrUtil.isBlankOrNull(json.getString("functionId"))) {
+			return "流程启动异常,功能菜单id参数异常";
+		} else {
+			WorkflowVo workflowVo = new WorkflowVo();
+			workflowVo.setFunctionId(json.getString("functionId"));
+			
+			if (StrUtil.isBlankOrNull(json.getString("flowProjectId"))) {
+				workflowVo.setProjectId(json.getString("flowProjectId"));
+			}
+			if (StrUtil.isBlankOrNull(json.getString("flowUnitId"))) {
+				workflowVo.setUnitId(json.getString("flowUnitId"));
+			}
+			
+			SysFunctionProdef fpd = workflowInstanceService.queryFunctionProdef(workflowVo);
+			
+			if (fpd == null || fpd.getProdefId() == null) {
+				return "流程启动异常,参数异常";
+			} else {
+				processDefineId = fpd.getProdefId();
+			}
+		} 
+		// 校验流程定义是否存在（.latestVersion()）
+		ProcessDefinitionEntity processDefinitionEntity = (ProcessDefinitionEntity) repositoryService.createProcessDefinitionQuery().processDefinitionId(processDefineId).active().singleResult();
+		if (processDefinitionEntity == null)
+			return "流程启动失败,id为'" + processDefineId + "'的流程定义不存在";
+		// 启动流程, 根据key获取最新版本的流程定义
+		ProcessInstance processInstance = null;
+		try {
+			
+			ProcessInstance havedPS = runtimeService.createProcessInstanceQuery().processInstanceBusinessKey(json.getString("businessId")).singleResult();
+			if (havedPS != null) {
+				// json.getString("dataId") 如果业务表单修改后，重新发起流程
+				processInstance = havedPS;
+			} else {
+				// 设置流程启动人，第一次发起流程
+				identityService.setAuthenticatedUserId(json.getString("authenticatedUserId"));
+				processInstance = runtimeService.startProcessInstanceById(processDefineId, json.getString("businessId"), variables);
+			}
+		} catch (Exception ex) {
+			return "流程启动异常,异常原因：" + ex.getMessage();
+		}
+
+		// 把第一个节点待办任务办理了，variables中有变量为当前人的starter。（第一个节点在监听器中判断，不允许委托）
+		Task task = null;
+		
+		// 获取申请人的待办任务列表
+		List<Task> todoList = taskService.createTaskQuery().processInstanceBusinessKey(json.getString("businessId")).active().list();
+		for (Task tmp : todoList) {
+			if (tmp.getProcessInstanceId().equals(processInstance.getId())) {
+				task = tmp;	// 获取当前流程实例，当前申请人的待办任务
+				break;
+			}
+		}
+		// 如果第一步审批（就是发起人后的第一步）是需要选择审批人，而不是通过流程图自动配置的话，需要在发起之前把审批人信息放到variables
+		if (DelegationState.PENDING == task.getDelegationState()) {
+			taskService.resolveTask(task.getId(), variables);
+		}
+		
+		// 本步的执行人，记录一下，方便之后查询历史任务时，知道具体某个任务的执行人
+		taskService.setAssignee(task.getId(), json.getString("authenticatedUserId"));
+		
+		// 本次任务的可用变量
+		Map<String, Object> taskVar = taskService.getVariables(task.getId());
+		
+		// 插入本次任务的审批人姓名，方便下一步任务查询上一步执行人姓名
+		taskVar.put(task.getId(), json.getString("authenticatedUserName"));
+		// 流程的启动人姓名和流程发起时间
+		taskVar.put("authenticatedUserName", json.getString("authenticatedUserName"));
+		taskVar.put("authenticatedDate", new Date());
+		taskVar.put("flowAuditorName", json.getString("authenticatedUserName"));
+
+		String processInstanceName = "";
+		if (!StrUtil.isBlankOrNull(json.getString("processInstanceName"))) {
+			processInstanceName = json.getString("processInstanceName");
+		}
+		// 设置此流程实例的名称（待办任务名称）
+		runtimeService.setProcessInstanceName(processInstance.getId(), processInstanceName);
+		// 方便查询也把名称放到变量中
+		taskVar.put("processInstanceName", processInstanceName);
+		taskVar.put("processDefinitionName", processInstance.getProcessDefinitionKey());
+		
+		// 会签时，获取选择审批人给会签需要的assigneeList(下一个环节如果不是会签，assigneeList就白赋值了)
+		if (json.getString("signAuditRate") != null && json.getString("auditUserIds") != null) {
+			System.out.println("1会签时====" + json.getString("auditUserIds"));
+			String[] userIdArr = json.getString("auditUserIds").split(",");
+			taskVar.put("assigneeList", Arrays.asList(userIdArr));
+			System.out.println("2会签时====" + Arrays.asList(userIdArr));
+		}
+		System.out.println("开始执行任务----------------"+task.getId());
+		taskService.complete(task.getId(), taskVar);
+		return "true";
+	}
 
 	/**
 	 * A+B两种情况 A: 通过流程定义id启动流程，包括启动+第一步执行（一般第一步都是启动人/申请人）
