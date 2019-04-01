@@ -260,7 +260,11 @@
 						area : [ '800px', '440px' ],
 						content : temUrl,
 						end : function() {
-							$(".layui-laypage-btn").click();
+							if (updateFlag) {
+								initTree();
+								active.searchEvent();
+								layer.msg('操作成功');
+							} 
 						}
 					});
 				},
