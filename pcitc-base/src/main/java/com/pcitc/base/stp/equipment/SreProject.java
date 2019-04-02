@@ -102,7 +102,38 @@ public class SreProject {
     
     private String email;
     
+    private String joinUnitIds;
+    private String joinUnitParentIds;
+    private String joinUnitParentNames;
     
+    
+    
+    
+    
+
+	public String getJoinUnitIds() {
+		return joinUnitIds;
+	}
+
+	public void setJoinUnitIds(String joinUnitIds) {
+		this.joinUnitIds = joinUnitIds;
+	}
+
+	public String getJoinUnitParentIds() {
+		return joinUnitParentIds;
+	}
+
+	public void setJoinUnitParentIds(String joinUnitParentIds) {
+		this.joinUnitParentIds = joinUnitParentIds;
+	}
+
+	public String getJoinUnitParentNames() {
+		return joinUnitParentNames;
+	}
+
+	public void setJoinUnitParentNames(String joinUnitParentNames) {
+		this.joinUnitParentNames = joinUnitParentNames;
+	}
 
 	public String getEmail() {
 		return email;

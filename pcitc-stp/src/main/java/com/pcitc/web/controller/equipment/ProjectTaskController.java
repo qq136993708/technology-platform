@@ -446,7 +446,6 @@ public class ProjectTaskController extends BaseController {
 				}
 			}
 		}
-		
 		System.out.println("----------------------topicId="+topicId);
 		if(arr!=null && arr.length>0)
 		{

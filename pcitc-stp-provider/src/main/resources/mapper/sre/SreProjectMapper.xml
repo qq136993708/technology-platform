@@ -53,6 +53,11 @@
     <result column="parent_unit_path_ids" property="parentUnitPathIds" jdbcType="VARCHAR" />
     
     
+    <result column="join_unit_ids"          property="joinUnitIds"          jdbcType="VARCHAR" />
+    <result column="join_unit_parent_ids"   property="joinUnitParentIds"    jdbcType="VARCHAR" />
+    <result column="join_unit_parent_names" property="joinUnitParentNames"  jdbcType="VARCHAR" />
+    
+    
     
   </resultMap>
   <sql id="Base_Column_List" >
@@ -65,6 +70,7 @@
     entrust_unit_code, project_charges_code, project_charges_name, lead_linkmans_code, 
     lead_linkmans_name, year_fee_str, year_fee_str_join_unit, apply_unit_name, apply_unit_code, 
     task_write_user_names, task_write_users_ids,unit_path_ids,unit_path_names,parent_unit_path_names,parent_unit_path_ids
+    ,join_unit_ids,join_unit_parent_ids,join_unit_parent_names
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -92,7 +98,9 @@
       entrust_unit_code, project_charges_code, project_charges_name, 
       lead_linkmans_code, lead_linkmans_name, year_fee_str, 
       year_fee_str_join_unit, apply_unit_name, apply_unit_code, 
-      task_write_user_names, task_write_users_ids,unit_path_ids,unit_path_names,parent_unit_path_names,parent_unit_path_ids)
+      task_write_user_names, task_write_users_ids,unit_path_ids,unit_path_names,parent_unit_path_names,parent_unit_path_ids
+      ,join_unit_ids,join_unit_parent_ids,join_unit_parent_names
+      )
     values (#{id,jdbcType=VARCHAR}, #{contractNum,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{remarks,jdbcType=VARCHAR}, #{projectMoney,jdbcType=DECIMAL}, #{updateUserId,jdbcType=VARCHAR}, 
       #{beginYear,jdbcType=VARCHAR}, #{endYear,jdbcType=VARCHAR}, #{equipmentIds,jdbcType=VARCHAR}, 
@@ -113,6 +121,11 @@
       ,#{unitPathNames,jdbcType=VARCHAR}
       ,#{parentUnitPathNames,jdbcType=VARCHAR}
       ,#{parentUnitPathIds,jdbcType=VARCHAR}
+      
+      ,#{joinUnitIds,jdbcType=VARCHAR}
+      ,#{joinUnitParentIds,jdbcType=VARCHAR}
+      ,#{joinUnitParentNames,jdbcType=VARCHAR}
+      
       )
   </insert>
   
@@ -269,6 +282,21 @@
       <if test="parentUnitPathIds != null" >
         parent_unit_path_ids,
       </if>
+      
+      <if test="joinUnitIds != null" >
+        join_unit_ids,
+      </if>
+      <if test="joinUnitParentIds != null" >
+        join_unit_parent_ids,
+      </if>
+      <if test="joinUnitParentNames != null" >
+        join_unit_parent_names,
+      </if>
+      
+      
+      
+      
+    
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -406,20 +434,29 @@
       <if test="taskWriteUsersIds != null" >
         #{taskWriteUsersIds,jdbcType=VARCHAR},
       </if>
-      
-       <if test="unitPathIds != null" >
+      <if test="unitPathIds != null" >
         #{unitPathIds,jdbcType=VARCHAR},
       </if>
       <if test="unitPathNames != null" >
         #{unitPathNames,jdbcType=VARCHAR},
       </if>
-       
-       <if test="parentUnitPathNames != null" >
+      <if test="parentUnitPathNames != null" >
         #{parentUnitPathNames,jdbcType=VARCHAR},
       </if>
-       <if test="parentUnitPathIds != null" >
+      <if test="parentUnitPathIds != null" >
         #{parentUnitPathIds,jdbcType=VARCHAR},
       </if>
+      <if test="joinUnitIds != null" >
+        #{joinUnitIds,jdbcType=VARCHAR},
+      </if>
+      <if test="joinUnitParentIds != null" >
+        #{joinUnitParentIds,jdbcType=VARCHAR},
+      </if>
+      <if test="joinUnitParentNames != null" >
+        #{joinUnitParentNames,jdbcType=VARCHAR},
+      </if>
+      
+      
     
     </trim>
   </insert>
@@ -570,6 +607,17 @@
       <if test="parentUnitPathIds != null" >
         parent_unit_path_ids = #{parentUnitPathIds,jdbcType=VARCHAR},
       </if>
+      
+      <if test="joinUnitIds != null" >
+        join_unit_ids = #{joinUnitIds,jdbcType=VARCHAR},
+      </if>
+      <if test="joinUnitParentIds != null" >
+        join_unit_parent_ids = #{parentUnitPathIds,jdbcType=VARCHAR},
+      </if>
+      <if test="joinUnitParentNames != null" >
+        join_unit_parent_names = #{joinUnitParentNames,jdbcType=VARCHAR},
+      </if>
+      
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -614,6 +662,9 @@
       project_charges_code = #{projectChargesCode,jdbcType=VARCHAR},
       project_charges_name = #{projectChargesName,jdbcType=VARCHAR},
       lead_linkmans_code = #{leadLinkmansCode,jdbcType=VARCHAR},
+      join_unit_ids = #{joinUnitIds,jdbcType=VARCHAR},
+      join_unit_parent_ids = #{joinUnitParentNames,jdbcType=VARCHAR},
+      join_unit_parent_names = #{joinUnitParentNames,jdbcType=VARCHAR},
       lead_linkmans_name = #{leadLinkmansName,jdbcType=VARCHAR},
       year_fee_str = #{yearFeeStr,jdbcType=VARCHAR},
       unit_path_ids = #{unitPathIds,jdbcType=VARCHAR},
