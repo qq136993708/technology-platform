@@ -104,6 +104,7 @@ public class WorkflowProviderClient {
 	@ApiOperation(value = "启动业务审批流程", notes = "公共审批流启动方法")
 	@RequestMapping(value = "/workflow-provider/common-workflow/start", method = RequestMethod.POST)
 	public String startCommonWorkflow(@RequestBody String jsonStr) throws Exception {
+		Date date1 = new Date();
 		if (jsonStr == null) {
 			return "流程启动异常,参数异常";
 		}
@@ -225,12 +226,6 @@ public class WorkflowProviderClient {
 		taskVar.put("processDefinitionName", processInstance.getProcessDefinitionKey());
 		
 		// 会签时，获取选择审批人给会签需要的assigneeList(下一个环节如果不是会签，assigneeList就白赋值了)
-		if (json.getString("signAuditRate") != null && json.getString("auditUserIds") != null) {
-			System.out.println("1会签时====" + json.getString("auditUserIds"));
-			String[] userIdArr = json.getString("auditUserIds").split(",");
-			taskVar.put("assigneeList", Arrays.asList(userIdArr));
-			System.out.println("2会签时====" + Arrays.asList(userIdArr));
-		}
 		
 		if (json.getString("signAuditRate") != null && taskVar.get("auditor") != null) {
 			System.out.println("1会签时1====" + taskVar.get("auditor"));
@@ -239,6 +234,8 @@ public class WorkflowProviderClient {
 		}
 		System.out.println("开始执行任务----------------"+task.getId());
 		taskService.complete(task.getId(), taskVar);
+		Date date2 = new Date();
+		System.out.println("=========任务处理时间=======----------"+(date2.getTime()-date1.getTime()));
 		return "true";
 	}
 
