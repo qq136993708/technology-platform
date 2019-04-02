@@ -336,6 +336,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 		// flowJson.put("departmentCode", "1005"); // 环节2需要用到
 		// flowJson.put("companyCode", "2006"); // 环节n需要用到
     	// 非必填选项, 会签时需要的属性，会签里所有的人，同意率（double类型）
+    	flowJson.put("specialAuditor", "ZSH_YFGCS_CJCXY");
     	flowJson.put("signAuditRate", 1d); 
     	
     	// 远程调用
