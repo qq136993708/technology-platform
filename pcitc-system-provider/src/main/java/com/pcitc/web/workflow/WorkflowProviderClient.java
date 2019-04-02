@@ -193,7 +193,7 @@ public class WorkflowProviderClient {
 		temMap.put("agree", "1");
 		TaskDefinition taskDef = this.getNextTaskInfo(processInstance.getId(), temMap);
 		// System.out.println("1=========TaskDefinition======="+taskDef);
-		if (taskDef != null && taskDef.getKey().startsWith("specialAuditor") && taskVar.get("auditor") != null) {
+		if (taskDef != null && taskDef.getKey().startsWith("specialAuditor") && json.getString("auditor") != null) {
 			// 特殊节点，自动获取当初传递的审批人员的值。并且不是通过选择来确定审批者的
 			Set<String> userIds = new LinkedHashSet<String>();
 			System.out.println("1=========TaskDefinition======="+taskDef.getKey());
@@ -227,10 +227,12 @@ public class WorkflowProviderClient {
 		
 		// 会签时，获取选择审批人给会签需要的assigneeList(下一个环节如果不是会签，assigneeList就白赋值了)
 		
-		if (json.getString("signAuditRate") != null && taskVar.get("auditor") != null) {
-			System.out.println("1会签时1====" + taskVar.get("auditor"));
-			taskVar.put("assigneeList", taskVar.get("auditor"));
-			System.out.println("2会签时2====" + taskVar.get("auditor"));
+		System.out.println("1开始执行任务----------------"+json.getString("signAuditRate"));
+		System.out.println("1开始执行任务----------------"+taskVar.get("auditor"));
+		if (json.getString("signAuditRate") != null && json.getString("auditor") != null) {
+			System.out.println("1会签时1====" + json.getString("auditor"));
+			taskVar.put("assigneeList", Arrays.asList(json.getString("auditor").split(",")));
+			System.out.println("2会签时2====" + json.getString("auditor"));
 		}
 		System.out.println("开始执行任务----------------"+task.getId());
 		taskService.complete(task.getId(), taskVar);

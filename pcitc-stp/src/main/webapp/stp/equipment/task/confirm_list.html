@@ -565,7 +565,7 @@ var name=$('#name').val();
     function dealFlow(id,joinUnitCodes) 
     {
     	$('#specialAuditor0').val('unit--00000');
-    	var json = {functionId:functionId};
+    	var json = {functionId:functionId,specialAuditor0:'unit--00000'};
     	 $.ajax({
              type : 'POST',
              url : "/workflow/start/audit-type",
@@ -574,6 +574,7 @@ var name=$('#name').val();
              //json中有functionId（projectId、departmentId等）用来区别processDefine的属性
              success : function(data) 
              {
+            	 alert(data.code);
           	   if (data.code == 'role')
           	   {
               		// 按角色选择，获取下一步审批人信息,选择完审批人后，调用：handleTask(userIds)方法
