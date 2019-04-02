@@ -193,14 +193,14 @@ public class WorkflowProviderClient {
 		temMap.put("agree", "1");
 		TaskDefinition taskDef = this.getNextTaskInfo(processInstance.getId(), temMap);
 		// System.out.println("1=========TaskDefinition======="+taskDef);
-		if (taskDef != null && taskDef.getKey().startsWith("specialAuditor")) {
-			// 特殊节点，获取当初传递的值
+		if (taskDef != null && taskDef.getKey().startsWith("specialAuditor") && taskVar.get("auditor") != null) {
+			// 特殊节点，自动获取当初传递的审批人员的值。并且不是通过选择来确定审批者的
 			Set<String> userIds = new LinkedHashSet<String>();
 			System.out.println("1=========TaskDefinition======="+taskDef.getKey());
 			System.out.println("1=========TaskDefinition======="+json.getString(taskDef.getKey()));
 			if (json.getString(taskDef.getKey()) != null) {
 				// 分解group
-				String[] groups = json.getString(taskDef.getKey()).toString().split("-");
+				String[] groups = json.getString(taskDef.getKey()).toString().split("--")[1].split("-");
 				for (int i = 0; i < groups.length; i++) {
 					userIds.addAll(sysUserMapper.findUserByGroupIdFromACT(groups[i]));
 				}

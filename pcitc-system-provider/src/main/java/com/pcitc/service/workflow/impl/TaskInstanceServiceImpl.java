@@ -245,10 +245,6 @@ public class TaskInstanceServiceImpl implements TaskInstanceService {
     //@TxTransaction(isStart=true)
 	@Override
     public Integer insertDelegate(SysDelegate delegate) {
-    	// 远程调用
-    	//Hse hse = new Hse();
-    	//hseRemoteClient.insertHse(hse);
-    	
     	String uuid = UUID.randomUUID().toString().replaceAll("-", "");
 		delegate.setDelegateId(uuid);
     	
