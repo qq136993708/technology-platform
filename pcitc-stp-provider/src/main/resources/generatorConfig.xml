@@ -16,7 +16,7 @@
 		    <javaClientGenerator targetPackage="com.pcitc.mapper.equipment"   targetProject="pcitc-stp-provider" type="XMLMAPPER" />
 		    
 		    
-	   <table schema="pcitc-stp-provider" tableName="sre_for_application" domainObjectName="SreForApplication"
+	   <table schema="pcitc-stp-provider" tableName="sre_scrap_apply" domainObjectName="SreScrapApply"
 			enableCountByExample="false" 
 			enableUpdateByExample="false"
 			enableDeleteByExample="false" 

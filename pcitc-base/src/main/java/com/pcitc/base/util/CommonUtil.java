@@ -23,6 +23,7 @@ import com.pcitc.base.common.FileResult;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.Page;
 import com.pcitc.base.common.enums.DataOperationStatusEnum;
+import com.pcitc.base.stp.equipment.SrePurchase;
 import com.pcitc.base.stp.equipment.UnitField;
 import com.pcitc.base.system.SysDictionary;
 import com.pcitc.base.system.SysFile;
@@ -214,7 +215,20 @@ public class CommonUtil {
 
 	}
 	
-	
+	/**
+	 * 获取采购名称,id
+	 * @param restTemplate
+	 * @param httpHeaders
+	 * @return
+	 * @throws Exception
+	 */
+	public static List<SrePurchase> getPurchaseNameIDList(RestTemplate restTemplate,HttpHeaders httpHeaders)throws Exception
+	{
+		    String getPurchaseNameIDList= "http://pcitc-zuul/stp-proxy/sre-provider/getUnitNameList";
+		    List<SrePurchase>  list=restTemplate.exchange(getPurchaseNameIDList , HttpMethod.GET, new HttpEntity<Object>(httpHeaders), List.class).getBody();
+		    return list;
+
+	}
 
 	/**
 	 * 文件上传回调更新文件标志

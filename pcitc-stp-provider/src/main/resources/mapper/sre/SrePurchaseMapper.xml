@@ -156,4 +156,8 @@
      </choose>
      <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
    </select>
+   
+    <select id="getPurchaseNameIdList" resultMap="BaseResultMap" >
+     SELECT t.id,t.purchase_name,t.equipment_id FROM sre_purchase t GROUP BY t.id, t.purchase_name
+   </select>
 </mapper>
