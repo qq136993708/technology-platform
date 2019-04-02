@@ -1,4 +1,7 @@
 package com.pcitc.base.stp.budget.vo;
+
+import java.util.Map;
+
 /**
  * 分解表基础对象
  * @author uuy
@@ -15,7 +18,12 @@ public class BudgetSplitBaseDataVo
     private String organCode;
     private Integer splitId;
     private String splitCode;
+    private Integer budgetType;
+    private String budgetTypeName;  
+    private String budgetInfoId;
+    private Integer delFlag;
     
+    private Map<String,SplitItemVo> items;
     
 	public Integer getNo() {
 		return no;
@@ -64,5 +72,35 @@ public class BudgetSplitBaseDataVo
 	}
 	public void setSplitCode(String splitCode) {
 		this.splitCode = splitCode;
+	}
+	public Integer getBudgetType() {
+		return budgetType;
+	}
+	public void setBudgetType(Integer budgetType) {
+		this.budgetType = budgetType;
+	}
+	public String getBudgetTypeName() {
+		return budgetTypeName;
+	}
+	public void setBudgetTypeName(String budgetTypeName) {
+		this.budgetTypeName = budgetTypeName;
+	}
+	public String getBudgetInfoId() {
+		return budgetInfoId;
+	}
+	public void setBudgetInfoId(String budgetInfoId) {
+		this.budgetInfoId = budgetInfoId;
+	}
+	public Integer getDelFlag() {
+		return delFlag;
+	}
+	public void setDelFlag(Integer delFlag) {
+		this.delFlag = delFlag;
+	}
+	public Map<String, SplitItemVo> getItems() {
+		return items;
+	}
+	public void setItems(Map<String, SplitItemVo> items) {
+		this.items = items;
 	}
 }

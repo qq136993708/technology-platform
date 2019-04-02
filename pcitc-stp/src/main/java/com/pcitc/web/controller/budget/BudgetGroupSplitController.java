@@ -42,6 +42,7 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.BudgetAuditStatusEnum;
+import com.pcitc.base.common.enums.BudgetOrganNdEnum;
 import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.IdUtil;
@@ -84,7 +85,9 @@ public class BudgetGroupSplitController extends BaseController {
 	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_main_groupsplit")
 	public Object toBudgetGroupPage(HttpServletRequest request) throws IOException 
 	{
-		request.setAttribute("nd", DateUtil.format(new Date(), DateUtil.FMT_YYYY));
+		String nd = DateUtil.format(new Date(), DateUtil.FMT_YYYY);
+		request.setAttribute("nd", nd);
+		request.setAttribute("items", BudgetOrganNdEnum.getByNd(nd).getOrgans());
 		return "stp/budget/budget_main_groupsplit";
 	}
 	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_edit_groupsplit")
