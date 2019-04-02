@@ -253,7 +253,7 @@ public class WorkflowProviderClient {
 	 */
 	@ApiOperation(value = "启动流程", notes = "传入菜单id等业务属性来启动")
 	@RequestMapping(value = "/workflow-provider/workflow/start", method = RequestMethod.POST)
-	public String startWorkflow(@RequestBody WorkflowVo workflowVo) {
+	public String startWorkflow(@RequestBody WorkflowVo workflowVo) throws Exception {
 		String processDefineId = workflowVo.getProcessDefineId();
 		if (workflowVo == null || (workflowVo.getFunctionId() == null && workflowVo.getProcessDefineId() == null)) {
 			return "流程启动异常,参数异常";
@@ -322,6 +322,26 @@ public class WorkflowProviderClient {
 			}
 		}
 		
+		// 本次任务节点的下一个节点。特殊节点，根据表单内容来觉得下一步的审批人
+		Map<String, Object> temMap = new HashMap<String, Object>();
+		temMap.put("agree", "1");
+		TaskDefinition taskDef = this.getNextTaskInfo(processInstance.getId(), temMap);
+		// System.out.println("1=========TaskDefinition======="+taskDef);
+		if (taskDef != null && taskDef.getKey().startsWith("specialAuditor")) {
+			// 特殊节点，获取当初传递的值
+			Set<String> userIds = new LinkedHashSet<String>();
+			System.out.println("1=========TaskDefinition======="+taskDef.getKey());
+			System.out.println("1=========TaskDefinition======="+taskVar.get(taskDef.getKey()));
+			if (taskVar.get(taskDef.getKey()) != null) {
+				// 分解group
+				String[] groups = taskVar.get(taskDef.getKey()).toString().split("-");
+				for (int i = 0; i < groups.length; i++) {
+					userIds.addAll(sysUserMapper.findUserByGroupIdFromACT(groups[i]));
+				}
+			}
+			taskVar.put("auditor", userIds);
+		}
+		
 		// 插入本次任务的审批人姓名，方便下一步任务查询上一步执行人姓名
 		taskVar.put(task.getId(), workflowVo.getAuthenticatedUserName());
 		
@@ -337,7 +357,7 @@ public class WorkflowProviderClient {
 		taskVar.put("processDefinitionName", processInstance.getProcessDefinitionKey());
 		
 		// 会签时，获取选择审批人给会签需要的assigneeList(下一个环节如果不是会签，assigneeList就白赋值了)
-		if (taskVar.get("auditor") != null) {
+		if (taskVar.get("signAuditRate") != null && taskVar.get("auditor") != null) {
 			System.out.println("1会签时====" + taskVar.get("auditor"));
 			taskVar.put("assigneeList", taskVar.get("auditor"));
 		}
