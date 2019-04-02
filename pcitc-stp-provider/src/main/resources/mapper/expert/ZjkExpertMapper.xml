@@ -1999,6 +1999,6 @@
     </select>
 
     <select id="queryAllExpert" parameterType="map" resultType="map">
-      SELECT expert_name,data_id from zjk_expert ORDER BY CONVERT(expert_name USING gbk) COLLATE gbk_chinese_ci ASC;
+      SELECT expert_name,data_id,bak3 from zjk_expert group by expert_name ORDER BY CONVERT(expert_name USING gbk) COLLATE gbk_chinese_ci ASC;
     </select>
 </mapper>
