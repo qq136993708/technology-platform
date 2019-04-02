@@ -930,7 +930,7 @@ public class TaskProviderClient {
 	@ApiOperation(value = "判断下一个是否需要选择审批人", notes = "此接口是发起时调用，当前还没有任务。返回的string字符串，role、unit、post分别代表角色、组织机构、岗位")
 	@RequestMapping(value = "/task-provider/workflow/start/audit-type", method = RequestMethod.POST)
 	public String processAuditFlag(@RequestBody JSONObject json) throws Exception {
-		// System.out.println("==-=-=-="+jsonStr);
+		System.out.println("==-=-=-="+json.toJSONString());
 		String retS = "0";
 
 		String functionId = "";
@@ -995,16 +995,18 @@ public class TaskProviderClient {
 						List<SequenceFlow> firstNodeOutList = firstNode.getOutgoingFlows();
 						for (SequenceFlow first : firstNodeOutList) {
 							FlowNode auditNode = (FlowNode) process.getFlowElement(first.getTargetRef());
-
+							System.out.println("=========="+auditNode.getId());
 							if (auditNode.getId().startsWith("role") || auditNode.getId().startsWith("unit") || auditNode.getId().startsWith("post")) {
 								retS = auditNode.getId();
 								break;
 							}
 							// 特殊的审批节点
 							if (auditNode.getId().startsWith("specialAuditor")) {
+								System.out.println("====specialAuditor======"+auditNode.getId());
 								// 启动的时候，让启动者选择特殊审批节点的审批人员
 								if (json != null && json.get(auditNode.getId()) != null && !json.get(auditNode.getId()).equals("")) {
 									retS = json.get(auditNode.getId()).toString();
+									System.out.println("====specialAuditor11======"+json.get(auditNode.getId()).toString());
 									break;
 								}
 							}
