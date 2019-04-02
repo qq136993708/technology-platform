@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -68,15 +69,6 @@ public class ProjectTaskController extends BaseController {
 	private static final String UPDATE_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_task/update";
 	private static final String BATCH_DEL_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_task/batch-delete/";
 	private static final String GET_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_task/get/";
-	// 总部门审核--流程操作--同意
-	private static final String AUDIT_AGREE_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_task/task/agree/";
-	// 总部门审核--流程操作--拒绝
-	private static final String AUDIT_REJECT_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_task/task/reject/";
-	
-	// 内部审核--流程操作--同意
-	//private static final String AUDIT_AGREE_URL_INNER = "http://pcitc-zuul/stp-proxy/sre-provider/project_task/task/agree_inner/";
-	// 内部审核--流程操作--拒绝
-	//private static final String AUDIT_REJECT_URL_INNER = "http://pcitc-zuul/stp-proxy/sre-provider/project_task/task/reject_inner/";
 	//临时导出文件目录
 	private static final String TEMP_FILE_PATH = "src/main/resources/tem/";
 	private static final String TASK_INNER_WORKFLOW_URL = "http://pcitc-zuul/stp-proxy/stp-provider/project_task/start_inner_activity/";
@@ -518,7 +510,8 @@ public class ProjectTaskController extends BaseController {
 			sreProjectBasic.setProfessionalDepartName(sreProject.getProfessionalDepartName());
 			sreProjectBasic.setProfessionalFieldName(sreProject.getProfessionalFieldName());
 			sreProjectBasic.setProfessionalFieldCode(sreProject.getProfessionalFieldCode());
-			
+			sreProjectBasic.setJoinUnitParentCodes(sreProject.getJoinUnitParentCodes());
+			sreProjectBasic.setJoinUnitParentNames(sreProject.getJoinUnitParentNames());
 			
 		}
 		sreProjectBasic.setTopicId(topicId); 
@@ -784,7 +777,7 @@ public class ProjectTaskController extends BaseController {
 	@ResponseBody
 	public Object start_confirm_workflow(HttpServletRequest request, HttpServletResponse response) throws Exception 
 	{
-		
+		this.httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);//设置参数类型和编码
 		String taskId = CommonUtil.getParameter(request, "taskId", "");
 		String functionId = CommonUtil.getParameter(request, "functionId", "");
 		String userIds = CommonUtil.getParameter(request, "userIds", "");
@@ -795,11 +788,9 @@ public class ProjectTaskController extends BaseController {
 		Map<String ,Object> paramMap = new HashMap<String ,Object>();
 		paramMap.put("taskId", taskId);
 		paramMap.put("functionId", functionId);
-		paramMap.put("userIds", userIds);
 		paramMap.put("processInstanceName", "计划院内确认->"+sreProjectTask.getTopicName());
 		paramMap.put("authenticatedUserId", sysUserInfo.getUserId());
 		paramMap.put("authenticatedUserName", sysUserInfo.getUserDisp());
-		paramMap.put("functionId", functionId);
 		paramMap.put("auditor", userIds);
 		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
 		Result rs = this.restTemplate.exchange(TASK_INNER_WORKFLOW_URL + taskId, HttpMethod.POST, httpEntity, Result.class).getBody();
@@ -812,7 +803,7 @@ public class ProjectTaskController extends BaseController {
 	@ResponseBody
 	public Object startProjectPlantWorkflow(HttpServletRequest request, HttpServletResponse response) throws Exception 
 	{
-		
+		this.httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);//设置参数类型和编码
 		String taskId = CommonUtil.getParameter(request, "taskId", "");
 		String functionId = CommonUtil.getParameter(request, "functionId", "");
 		String userIds = CommonUtil.getParameter(request, "userIds", "");

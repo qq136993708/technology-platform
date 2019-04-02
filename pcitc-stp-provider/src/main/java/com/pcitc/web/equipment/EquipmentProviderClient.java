@@ -453,13 +453,13 @@ public class EquipmentProviderClient
 	
 	
 	@ApiOperation(value="计划内部确认流程",notes="计划内部确认流程")
-	@RequestMapping(value = "/stp-provider/project_task/start_inner_activity/{id}", method = RequestMethod.POST)
+	@RequestMapping(value = "/stp-provider/project_task/start_inner_activity/{taskId}", method = RequestMethod.POST)
 	public Result start_inner_activity(@PathVariable("taskId") String taskId,@RequestBody Map map)throws Exception 
 	{
 		return equipmentService.dealInnerTaskFlow(taskId,map);
 	}
 	@ApiOperation(value="计划总部上报流程",notes="计划总部上报流程")
-	@RequestMapping(value = "/stp-provider/project_task/start_up_activity/{id}", method = RequestMethod.POST)
+	@RequestMapping(value = "/stp-provider/project_task/start_up_activity/{taskId}", method = RequestMethod.POST)
 	public Result start_up_activity(@PathVariable("taskId") String taskId,@RequestBody Map map)throws Exception 
 	{
 		return equipmentService.dealUpTaskFlow(taskId,map);

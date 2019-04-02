@@ -105,9 +105,35 @@ public class SreProjectTask {
     
     private String parentApplyUnitCode;
     
+    private String joinUnitParentCodes;
+    private String joinUnitParentNames;
     
     
-    public String getParentApplyUnitCode() {
+    
+    
+    
+    
+    
+    
+    
+    
+    public String getJoinUnitParentCodes() {
+		return joinUnitParentCodes;
+	}
+
+	public void setJoinUnitParentCodes(String joinUnitParentCodes) {
+		this.joinUnitParentCodes = joinUnitParentCodes;
+	}
+
+	public String getJoinUnitParentNames() {
+		return joinUnitParentNames;
+	}
+
+	public void setJoinUnitParentNames(String joinUnitParentNames) {
+		this.joinUnitParentNames = joinUnitParentNames;
+	}
+
+	public String getParentApplyUnitCode() {
 		return parentApplyUnitCode;
 	}
 
