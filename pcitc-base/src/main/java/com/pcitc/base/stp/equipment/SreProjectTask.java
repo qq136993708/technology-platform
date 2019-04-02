@@ -103,9 +103,19 @@ public class SreProjectTask {
     private String closeStatus;
     private Date closeDate;
     
+    private String parentApplyUnitCode;
     
     
-    public Date getCloseDate() {
+    
+    public String getParentApplyUnitCode() {
+		return parentApplyUnitCode;
+	}
+
+	public void setParentApplyUnitCode(String parentApplyUnitCode) {
+		this.parentApplyUnitCode = parentApplyUnitCode;
+	}
+
+	public Date getCloseDate() {
 		return closeDate;
 	}
 

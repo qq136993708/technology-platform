@@ -66,9 +66,9 @@ public class ProjectBasicController extends BaseController {
 	private static final String GET_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_basic/get/";
 
 	// 流程操作--同意
-	private static final String AUDIT_AGREE_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project/task/agree/";
+	//private static final String AUDIT_AGREE_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project/task/agree/";
 	// 流程操作--拒绝
-	private static final String AUDIT_REJECT_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project/task/reject/";
+	//private static final String AUDIT_REJECT_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project/task/reject/";
 	
 	
 	private static final String EQUIPMENT_PROJECT_WORKFLOW_URL = "http://pcitc-zuul/stp-proxy/stp-provider/project_basic/start_project_activity/";
@@ -137,6 +137,7 @@ public class ProjectBasicController extends BaseController {
 		
 		String leadUnitName =  "";
 		String leadUnitCode =  "";
+		String joinUnitIds =  "";//参与单位IDS
 		String unitPathIds =   sysUserInfo.getUnitPath();
 		if(unitPathIds!=null && !unitPathIds.equals(""))
 		{
@@ -174,6 +175,7 @@ public class ProjectBasicController extends BaseController {
 			documentDoc=sreEquipment.getDocumentDoc();
 			beginYear		= sreEquipment.getBeginYear();
 			endYear		= sreEquipment.getEndYear();
+			joinUnitIds=sreEquipment.getJoinUnitIds();
 		}
 		request.setAttribute("documentDoc", documentDoc);
 		request.setAttribute("leadUnitName", leadUnitName);
@@ -181,6 +183,7 @@ public class ProjectBasicController extends BaseController {
 		request.setAttribute("createUserId", createUserId);
 		request.setAttribute("endYear", endYear);
 		request.setAttribute("beginYear", beginYear);
+		request.setAttribute("joinUnitIds", joinUnitIds);
 		logger.info("============远程返回  beginYear " + beginYear);
 		List<UnitField>  unitFieldList= CommonUtil.getUnitNameList(restTemplate, httpHeaders);
 		request.setAttribute("unitFieldList", unitFieldList);
@@ -297,11 +300,19 @@ public class ProjectBasicController extends BaseController {
 		String unitPathIds =   CommonUtil.getParameter(request, "unitPathIds",sysUserInfo.getUnitPath());
 		String unitPathNames = CommonUtil.getParameter(request, "unitPathNames", sysUserInfo.getUnitName());
 		String yearFeeStrJoinUnit = CommonUtil.getParameter(request, "yearFeeStrJoinUnit", "");
-		
 		String projectMoney = CommonUtil.getParameter(request, "projectMoney", "");
+		String joinUnitIds = CommonUtil.getParameter(request, "joinUnitIds", "");
 		
+		String joinUnitParentNames="";
+		String joinUnitParentCodes="";
+		if(!joinUnitIds.equals(""))
+		{
+			Map map=EquipmentUtils.getJoinUnitParentNamesByUnitId(joinUnitIds, restTemplate, httpHeaders);
+			joinUnitParentCodes=(String)map.get("joinUnitParentCodes");
+			joinUnitParentNames=(String)map.get("joinUnitParentNames");
+		}
 		
-		
+		System.out.println("============joinUnitParentNames="+joinUnitParentNames+"     joinUnitIds="+joinUnitIds+" joinUnitCode="+joinUnitCode+" joinUnitParentCodes="+joinUnitParentCodes);
 		String parentUnitPathIds ="";
 		String parentUnitPathNames =  "";
 		if(unitPathIds!=null && !unitPathIds.equals(""))
@@ -336,9 +347,10 @@ public class ProjectBasicController extends BaseController {
 			sreProjectBasic = se.getBody();
 		}
 		// 流程状态
+		sreProjectBasic.setJoinUnitParentCodes(joinUnitParentCodes);
 		sreProjectBasic.setAuditStatus(auditStatus);
-		
-		
+		sreProjectBasic.setJoinUnitParentNames(joinUnitParentNames);
+		sreProjectBasic.setJoinUnitIds(joinUnitIds);
 		sreProjectBasic.setProjectMoney(new BigDecimal(projectMoney));
 		sreProjectBasic.setUnitPathIds(unitPathIds);
 		sreProjectBasic.setUnitPathNames(unitPathNames);
@@ -379,6 +391,9 @@ public class ProjectBasicController extends BaseController {
 		sreProjectBasic.setEntrustUnitName(entrustUnitName);
 		sreProjectBasic.setApplyUnitCode(sysUserInfo.getUnitCode());
 		sreProjectBasic.setApplyUnitName(sysUserInfo.getUnitName());
+		sreProjectBasic.setApplyUnitId(sysUserInfo.getUnitId());
+		String parentApplyUnitCode=EquipmentUtils.getUnitParentCodesByUnitCodes(sysUserInfo.getUnitCode(), restTemplate, httpHeaders);
+		sreProjectBasic.setParentApplyUnitCode(parentApplyUnitCode);
 		sreProjectBasic.setTaskWriteUserNames(taskWriteUserNames);
 		sreProjectBasic.setTaskWriteUsersIds(taskWriteUsersIds);
 		sreProjectBasic.setSetupYear(DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
@@ -502,10 +517,44 @@ public class ProjectBasicController extends BaseController {
 	}
 	
 	
+	@RequestMapping(value = "/start_workflow")
+	@ResponseBody
+	public Object start_workflow_new(HttpServletRequest request, HttpServletResponse response) throws Exception 
+	{
+		
+		
+		this.httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);//设置参数类型和编码
+		String id = CommonUtil.getParameter(request, "id", "");
+		String functionId = CommonUtil.getParameter(request, "functionId", "");
+		String userIds = CommonUtil.getParameter(request, "userIds", "");
+		SreProject sreProject=EquipmentUtils.getSreProject(id,restTemplate,httpHeaders);
+		System.out.println("============start_workflow_new userIds="+userIds+" functionId="+functionId+" id="+id);
+		
+		Map<String ,Object> paramMap = new HashMap<String ,Object>();
+		paramMap.put("id", id);
+		paramMap.put("functionId", functionId);
+		paramMap.put("userIds", userIds);
+		paramMap.put("processInstanceName", "计划上报->"+sreProject.getName());
+		paramMap.put("authenticatedUserId", sysUserInfo.getUserId());
+		paramMap.put("authenticatedUserName", sysUserInfo.getUserDisp());
+		paramMap.put("functionId", functionId);
+		paramMap.put("auditor", userIds);
+		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
+		Result rs = this.restTemplate.exchange(EQUIPMENT_PROJECT_WORKFLOW_URL + id, HttpMethod.POST, httpEntity, Result.class).getBody();
+		return rs;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	//部门审核流程
-	@RequestMapping(value = "/start_workflow")
+	/*@RequestMapping(value = "/start_workflow")
 	@ResponseBody
 	public Object start_workflow(HttpServletRequest request, HttpServletResponse response) throws Exception 
 	{
@@ -526,34 +575,11 @@ public class ProjectBasicController extends BaseController {
 			resultsDate = new Result(false, RequestProcessStatusEnum.SERVER_BUSY.getStatusDesc());
 		}
 		return resultsDate;
-	}
+	}*/
 	
 	
 	
-	@RequestMapping(value = "/start_workflow_new")
-	@ResponseBody
-	public Object start_workflow_new(HttpServletRequest request, HttpServletResponse response) throws Exception 
-	{
-		this.httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);//设置参数类型和编码
-		String id = CommonUtil.getParameter(request, "id", "");
-		String functionId = CommonUtil.getParameter(request, "functionId", "");
-		String userIds = CommonUtil.getParameter(request, "userIds", "");
-		SreProject sreProject=EquipmentUtils.getSreProject(id,restTemplate,httpHeaders);
-		System.out.println("============start_workflow_new userIds="+userIds+" functionId="+functionId+" id="+id);
-		
-		MultiValueMap<String, Object> paramMap = new LinkedMultiValueMap<String, Object>();
-		paramMap.add("id", id);
-		paramMap.add("functionId", functionId);
-		paramMap.add("userIds", userIds);
-		paramMap.add("processInstanceName", "计划上报->"+sreProject.getName());
-		paramMap.add("authenticatedUserId", sysUserInfo.getUserId());
-		paramMap.add("authenticatedUserName", sysUserInfo.getUserDisp());
-		paramMap.add("functionId", functionId);
-		paramMap.add("auditor", userIds);
-		HttpEntity<MultiValueMap<String, Object>> httpEntity = new HttpEntity<MultiValueMap<String, Object>>(paramMap,this.httpHeaders);
-		Result rs = this.restTemplate.exchange(EQUIPMENT_PROJECT_WORKFLOW_URL + id, HttpMethod.POST, httpEntity, Result.class).getBody();
-		return rs;
-	}
+	
 	
 	
 
@@ -564,7 +590,7 @@ public class ProjectBasicController extends BaseController {
 	 * @param instanceName
 	 * @param sysUser
 	 */
-	private boolean dealProjectWorkFlow(String id,String functionId, SysUser sysUser, String instanceName, String userIds, HttpHeaders httpHeaders)
+	/*private boolean dealProjectWorkFlow(String id,String functionId, SysUser sysUser, String instanceName, String userIds, HttpHeaders httpHeaders)
 	{
 		WorkflowVo workflowVo = new WorkflowVo();
 		workflowVo.setBusinessId(String.valueOf(id));
@@ -583,7 +609,7 @@ public class ProjectBasicController extends BaseController {
 		
 		 //必须设置。流程中，需要的第二个节点的指派人；除starter外，所有待办人变量都指定为auditor(处长审批)
         //处长审批 ZSH_JTZSZYC_GJHZC_CZ
-		/*ResponseEntity<List> responseEntity = this.restTemplate.exchange(get_user_bypostcode + "ZSH_JTZSZYC_GJHZC_CZ", HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), List.class);
+		ResponseEntity<List> responseEntity = this.restTemplate.exchange(get_user_bypostcode + "ZSH_JTZSZYC_GJHZC_CZ", HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), List.class);
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode == 200)
 		{
@@ -595,7 +621,7 @@ public class ProjectBasicController extends BaseController {
 	        	variables.put("auditor", users.get(0).getUserId());
 	        }
 	        
-		}*/
+		}
 		// 发起人之后的审批环节，如果是需要选择审批人的话，此处获取选择的userIds赋值给auditor变量
 		if (userIds != null && !userIds.equals("")) 
 		{
@@ -623,7 +649,7 @@ public class ProjectBasicController extends BaseController {
 			return false;
 		}
 	}
-	
+	*/
 	
 	
 	

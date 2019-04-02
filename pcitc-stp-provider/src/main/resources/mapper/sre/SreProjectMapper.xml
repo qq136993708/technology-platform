@@ -54,8 +54,14 @@
     
     
     <result column="join_unit_ids"          property="joinUnitIds"          jdbcType="VARCHAR" />
-    <result column="join_unit_parent_ids"   property="joinUnitParentIds"    jdbcType="VARCHAR" />
+    <result column="join_unit_parent_codes"   property="joinUnitParentCodes"    jdbcType="VARCHAR" />
     <result column="join_unit_parent_names" property="joinUnitParentNames"  jdbcType="VARCHAR" />
+    
+     <result column="apply_unit_id" property="applyUnitId"  jdbcType="VARCHAR" />
+     <result column="parent_apply_unit_code" property="parentApplyUnitCode"  jdbcType="VARCHAR" />
+    
+    
+    
     
     
     
@@ -69,8 +75,8 @@
     project_type, professional, is_contract, erp_num, lead_unit_code, join_unit_code, 
     entrust_unit_code, project_charges_code, project_charges_name, lead_linkmans_code, 
     lead_linkmans_name, year_fee_str, year_fee_str_join_unit, apply_unit_name, apply_unit_code, 
-    task_write_user_names, task_write_users_ids,unit_path_ids,unit_path_names,parent_unit_path_names,parent_unit_path_ids
-    ,join_unit_ids,join_unit_parent_ids,join_unit_parent_names
+    task_write_user_names, task_write_users_ids,unit_path_ids,unit_path_names,parent_unit_path_names,parent_unit_path_ids,apply_unit_id,parent_apply_unit_code
+    ,join_unit_ids,join_unit_parent_codes,join_unit_parent_names
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -99,7 +105,7 @@
       lead_linkmans_code, lead_linkmans_name, year_fee_str, 
       year_fee_str_join_unit, apply_unit_name, apply_unit_code, 
       task_write_user_names, task_write_users_ids,unit_path_ids,unit_path_names,parent_unit_path_names,parent_unit_path_ids
-      ,join_unit_ids,join_unit_parent_ids,join_unit_parent_names
+      ,join_unit_ids,join_unit_parent_codes,join_unit_parent_names,apply_unit_id,parent_apply_unit_code
       )
     values (#{id,jdbcType=VARCHAR}, #{contractNum,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{remarks,jdbcType=VARCHAR}, #{projectMoney,jdbcType=DECIMAL}, #{updateUserId,jdbcType=VARCHAR}, 
@@ -123,8 +129,11 @@
       ,#{parentUnitPathIds,jdbcType=VARCHAR}
       
       ,#{joinUnitIds,jdbcType=VARCHAR}
-      ,#{joinUnitParentIds,jdbcType=VARCHAR}
+      ,#{joinUnitParentCodes,jdbcType=VARCHAR}
       ,#{joinUnitParentNames,jdbcType=VARCHAR}
+      
+       ,#{applyUnitId,jdbcType=VARCHAR}
+        ,#{parentApplyUnitCode,jdbcType=VARCHAR}
       
       )
   </insert>
@@ -282,15 +291,20 @@
       <if test="parentUnitPathIds != null" >
         parent_unit_path_ids,
       </if>
-      
       <if test="joinUnitIds != null" >
         join_unit_ids,
       </if>
-      <if test="joinUnitParentIds != null" >
-        join_unit_parent_ids,
+      <if test="joinUnitParentCodes != null" >
+        join_unit_parent_codes,
       </if>
       <if test="joinUnitParentNames != null" >
         join_unit_parent_names,
+      </if>
+      <if test="applyUnitId != null" >
+        apply_unit_id,
+      </if>
+      <if test="parentApplyUnitCode != null" >
+        parent_apply_unit_code,
       </if>
       
       
@@ -449,12 +463,19 @@
       <if test="joinUnitIds != null" >
         #{joinUnitIds,jdbcType=VARCHAR},
       </if>
-      <if test="joinUnitParentIds != null" >
-        #{joinUnitParentIds,jdbcType=VARCHAR},
+      <if test="joinUnitParentCodes != null" >
+        #{joinUnitParentCodes,jdbcType=VARCHAR},
       </if>
       <if test="joinUnitParentNames != null" >
         #{joinUnitParentNames,jdbcType=VARCHAR},
       </if>
+      <if test="applyUnitId != null" >
+        #{applyUnitId,jdbcType=VARCHAR},
+      </if>
+       <if test="parentApplyUnitCode != null" >
+        #{parentApplyUnitCode,jdbcType=VARCHAR},
+      </if>
+      
       
       
     
@@ -607,16 +628,23 @@
       <if test="parentUnitPathIds != null" >
         parent_unit_path_ids = #{parentUnitPathIds,jdbcType=VARCHAR},
       </if>
-      
       <if test="joinUnitIds != null" >
         join_unit_ids = #{joinUnitIds,jdbcType=VARCHAR},
       </if>
-      <if test="joinUnitParentIds != null" >
-        join_unit_parent_ids = #{parentUnitPathIds,jdbcType=VARCHAR},
+      <if test="joinUnitParentCodes != null" >
+        join_unit_parent_codes = #{joinUnitParentCodes,jdbcType=VARCHAR},
       </if>
       <if test="joinUnitParentNames != null" >
         join_unit_parent_names = #{joinUnitParentNames,jdbcType=VARCHAR},
       </if>
+      <if test="applyUnitId != null" >
+        apply_unit_id = #{applyUnitId,jdbcType=VARCHAR},
+      </if>
+      <if test="parentApplyUnitCode != null" >
+        parent_apply_unit_code = #{parentApplyUnitCode,jdbcType=VARCHAR},
+      </if>
+      
+      
       
     </set>
     where id = #{id,jdbcType=VARCHAR}
@@ -663,7 +691,7 @@
       project_charges_name = #{projectChargesName,jdbcType=VARCHAR},
       lead_linkmans_code = #{leadLinkmansCode,jdbcType=VARCHAR},
       join_unit_ids = #{joinUnitIds,jdbcType=VARCHAR},
-      join_unit_parent_ids = #{joinUnitParentNames,jdbcType=VARCHAR},
+      join_unit_parent_codes = #{joinUnitParentCodes,jdbcType=VARCHAR},
       join_unit_parent_names = #{joinUnitParentNames,jdbcType=VARCHAR},
       lead_linkmans_name = #{leadLinkmansName,jdbcType=VARCHAR},
       year_fee_str = #{yearFeeStr,jdbcType=VARCHAR},
@@ -672,6 +700,9 @@
       year_fee_str_join_unit = #{yearFeeStrJoinUnit,jdbcType=VARCHAR},
       apply_unit_name = #{applyUnitName,jdbcType=VARCHAR},
       apply_unit_code = #{applyUnitCode,jdbcType=VARCHAR},
+      
+      apply_unit_id = #{applyUnitId,jdbcType=VARCHAR},
+      parent_apply_unit_code = #{parentApplyUnitCode,jdbcType=VARCHAR},
       task_write_user_names = #{taskWriteUserNames,jdbcType=VARCHAR},
       task_write_users_ids = #{taskWriteUsersIds,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
@@ -708,9 +739,9 @@
 	     <if test="professionalFieldName != null       and professionalFieldName !=''  ">     AND t.professional_field_name like CONCAT('%',#{professionalFieldName},'%')  </if>
 	     <if test="unitPathIds != null             and unitPathIds !=''  ">           AND t.unit_path_ids = #{unitPathIds}</if>
 	     <if test="parentUnitPathIds != null       and parentUnitPathIds !=''  ">     AND t.parent_unit_path_ids = #{parentUnitPathIds}</if>
+	     <if test="applyUnitId != null               and applyUnitId !=''  ">             AND t.apply_unit_id = #{applyUnitId}</if>
+	     <if test="parentApplyUnitCode != null       and parentApplyUnitCode !=''  ">     AND t.parent_apply_unit_code = #{parentApplyUnitCode}</if>
 	     <if test="sqlStr != null   and sqlStr !='' ">                                        AND ${sqlStr}</if>
-	     
-	     
 	 </trim>
 	</sql>
     

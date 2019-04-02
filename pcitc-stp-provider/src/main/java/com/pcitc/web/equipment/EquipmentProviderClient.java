@@ -46,7 +46,6 @@ public class EquipmentProviderClient
 	@Autowired
     private EquipmentService equipmentService; 
 	
-   private final static String WORKFLOW_DEFINE_ID = "intl_notice:3:1117555";
 	
 	@Autowired
 	private MailSentService mailSentService;
@@ -449,6 +448,22 @@ public class EquipmentProviderClient
 		return count;
 	}
 	
+	
+	
+	
+	
+	@ApiOperation(value="计划内部确认流程",notes="计划内部确认流程")
+	@RequestMapping(value = "/stp-provider/project_task/start_inner_activity/{id}", method = RequestMethod.POST)
+	public Result start_inner_activity(@PathVariable("taskId") String taskId,@RequestBody Map map)throws Exception 
+	{
+		return equipmentService.dealInnerTaskFlow(taskId,map);
+	}
+	@ApiOperation(value="计划总部上报流程",notes="计划总部上报流程")
+	@RequestMapping(value = "/stp-provider/project_task/start_up_activity/{id}", method = RequestMethod.POST)
+	public Result start_up_activity(@PathVariable("taskId") String taskId,@RequestBody Map map)throws Exception 
+	{
+		return equipmentService.dealUpTaskFlow(taskId,map);
+	}
 	
 
 	

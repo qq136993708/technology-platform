@@ -103,13 +103,37 @@ public class SreProject {
     private String email;
     
     private String joinUnitIds;
-    private String joinUnitParentIds;
+    private String joinUnitParentCodes;
     private String joinUnitParentNames;
     
+    private String applyUnitId;
+    private String parentApplyUnitCode;
     
     
-    
-    
+
+	public String getApplyUnitId() {
+		return applyUnitId;
+	}
+
+	public void setApplyUnitId(String applyUnitId) {
+		this.applyUnitId = applyUnitId;
+	}
+
+	public String getParentApplyUnitCode() {
+		return parentApplyUnitCode;
+	}
+
+	public void setParentApplyUnitCode(String parentApplyUnitCode) {
+		this.parentApplyUnitCode = parentApplyUnitCode;
+	}
+
+	public String getJoinUnitParentCodes() {
+		return joinUnitParentCodes;
+	}
+
+	public void setJoinUnitParentCodes(String joinUnitParentCodes) {
+		this.joinUnitParentCodes = joinUnitParentCodes;
+	}
 
 	public String getJoinUnitIds() {
 		return joinUnitIds;
@@ -119,13 +143,7 @@ public class SreProject {
 		this.joinUnitIds = joinUnitIds;
 	}
 
-	public String getJoinUnitParentIds() {
-		return joinUnitParentIds;
-	}
-
-	public void setJoinUnitParentIds(String joinUnitParentIds) {
-		this.joinUnitParentIds = joinUnitParentIds;
-	}
+	
 
 	public String getJoinUnitParentNames() {
 		return joinUnitParentNames;

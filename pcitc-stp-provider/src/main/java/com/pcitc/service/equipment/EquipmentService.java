@@ -76,8 +76,9 @@ public interface EquipmentService {
 	public LayuiTableData getSreProjectTaskPage(LayuiTableParam param)throws Exception;
 	
 	public List<SreProjectTask> getSreProjectTaskListBytopicId(String topicId)throws Exception;
-	
-	
+	//内部确认流程
+	public Result dealInnerTaskFlow(String id, Map map)throws Exception;
+	public Result dealUpTaskFlow(String id, Map map)throws Exception;
 /**=========================================立项报告==========================================*/
 	
 	
@@ -162,6 +163,10 @@ public interface EquipmentService {
 	
 	
 	public List<SreSupplier> getSupplierListByIds(List<String> list)throws Exception;
+	
+	
+	/**===========================================任务关闭==========================================*/
+	public LayuiTableData getSreTaskClosurePage(LayuiTableParam paramsJson)throws Exception;
 	
 	
 	

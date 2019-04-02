@@ -14,6 +14,9 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.RestTemplate;
 
 import com.alibaba.fastjson.JSON;
@@ -29,6 +32,7 @@ import com.pcitc.base.system.SysUnit;
 import com.pcitc.base.system.SysUser;
 import com.pcitc.base.system.SysUserProperty;
 import com.pcitc.base.util.DateUtil;
+
 
 public class EquipmentUtils {
 	
@@ -327,13 +331,112 @@ public class EquipmentUtils {
 	}
 	
 	
-	
+	//根据UnitPath检索机构信息
 	public static SysUnit getUnitByUnitPath(String unitPath,RestTemplate restTemplate,HttpHeaders httpHeaders) throws Exception
 	{
 		 String UNIT_GET_UNIT = "http://pcitc-zuul/system-proxy/unit-provider/unit/getUnitByUnitPath/";
 		 SysUnit unit = restTemplate.exchange(UNIT_GET_UNIT + unitPath, HttpMethod.POST, new HttpEntity<Object>(httpHeaders), SysUnit.class).getBody();
 		 return unit;
 	}
+	
+	//根据机构编码检索机构信息
+	public static SysUnit getUnitByUnitCode(String unitCode,RestTemplate restTemplate,HttpHeaders httpHeaders) throws Exception
+	{
+		 String UNIT_GET_UNIT = "http://pcitc-zuul/system-proxy/unit-provider/unit/get-unit-bycode/";
+		 SysUnit unit = restTemplate.exchange(UNIT_GET_UNIT + unitCode, HttpMethod.POST, new HttpEntity<Object>(httpHeaders), SysUnit.class).getBody();
+		 return unit;
+	}
+	
+	//根据机构ID检索机构信息
+	public static SysUnit getUnitByUnitId(String unitId,RestTemplate restTemplate,HttpHeaders httpHeaders) throws Exception
+	{
+		 String UNIT_GET_UNIT = "http://pcitc-zuul/system-proxy/unit-provider/unit/get-unit/";
+		 SysUnit unit = restTemplate.exchange(UNIT_GET_UNIT + unitId, HttpMethod.POST, new HttpEntity<Object>(httpHeaders), SysUnit.class).getBody();
+		 return unit;
+	}
+	
+	
+	//得到父类的codes
+	public static String getUnitParentCodesByUnitCodes(String unitCodes,RestTemplate restTemplate,HttpHeaders httpHeaders) throws Exception
+	{
+		StringBuffer sb_code=new StringBuffer();
+		if(unitCodes!=null && !unitCodes.equals(""))
+		{
+			String arr[]=unitCodes.split(",");
+			for(int i=0;i<arr.length;i++)
+			{
+				String unitCode=arr[i];
+				if(unitCode!=null)
+				{
+					SysUnit sysUnit=getUnitByUnitCode( unitCode, restTemplate, httpHeaders);
+					String unitPathId=sysUnit.getUnitPath();
+					if(unitPathId.length()>4)
+					{
+						String	parentUnitPathId=unitPathId.substring(0, unitPathId.length()-4);
+						SysUnit sysUnit_temp=EquipmentUtils.getUnitByUnitPath(parentUnitPathId, restTemplate, httpHeaders);
+						String code =sysUnit_temp.getUnitCode();
+						if(i>0)
+						{
+							sb_code.append(",");
+						}
+						sb_code.append(code);
+					}
+				}
+			}
+		}
+		return sb_code.toString();
+	}
+	
+	public static Map getJoinUnitParentNamesByUnitId(String joinUnitIds,RestTemplate restTemplate,HttpHeaders httpHeaders) throws Exception
+	{
+		Map map=new HashMap();
+		StringBuffer sb_name=new StringBuffer();
+		StringBuffer sb_code=new StringBuffer();
+		if(joinUnitIds!=null && !joinUnitIds.equals(""))
+		{
+			String arr[]=joinUnitIds.split(",");
+			for(int i=0;i<arr.length;i++)
+			{
+				String unitId=arr[i];
+				if(unitId!=null)
+				{
+					SysUnit sysUnit=getUnitByUnitId( unitId, restTemplate, httpHeaders);
+					String unitPathId=sysUnit.getUnitPath();
+					if(unitPathId.length()>4)
+					{
+						String	parentUnitPathId=unitPathId.substring(0, unitPathId.length()-4);
+						SysUnit sysUnit_temp=EquipmentUtils.getUnitByUnitPath(parentUnitPathId, restTemplate, httpHeaders);
+						if(sysUnit_temp!=null)
+						{
+							String name = sysUnit_temp.getUnitName();
+							String code =sysUnit_temp.getUnitCode();
+							if(i>0)
+							{
+								sb_name.append(",");
+							}
+							sb_name.append(name);
+							
+							if(i>0)
+							{
+								sb_code.append(",");
+							}
+							sb_code.append(code);
+						}
+					}
+					
+				}
+			}
+		}
+		
+		String joinUnitParentCodes=sb_code.toString();
+		String joinUnitParentNames=sb_name.toString();
+		map.put("joinUnitParentCodes", joinUnitParentCodes);
+		map.put("joinUnitParentNames", joinUnitParentNames);
+		return map;
+	}
+	
+	
+
 	public static String  createWord_setup(String setupId,String filePath,SreProject sreProject ,SreProjectTask sreProjectTask ,SreProjectSetup sreProjectSetup,  HttpServletResponse response)
 	{
 		
