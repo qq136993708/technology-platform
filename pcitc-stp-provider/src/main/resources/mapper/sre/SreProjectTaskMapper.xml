@@ -51,10 +51,10 @@
     <result column="parent_apply_unit_path_name" property="parentApplyUnitPathName" jdbcType="VARCHAR" />
     <result column="apply_user_id" property="applyUserId" jdbcType="VARCHAR" />
     <result column="apply_user_name" property="applyUserName" jdbcType="VARCHAR" />
-    <result column="document_doc"    property="documentDoc" jdbcType="VARCHAR" />
-     <result column="task_version"    property="taskVersion" jdbcType="VARCHAR" />
-     <result column="erp_num"    property="erpNum" jdbcType="VARCHAR" />
-    
+    <result column="document_doc"    property="documentDoc"  jdbcType="VARCHAR" />
+    <result column="task_version"    property="taskVersion"  jdbcType="VARCHAR" />
+    <result column="erp_num"         property="erpNum"       jdbcType="VARCHAR" />
+    <result column="close_status"    property="closeStatus"  jdbcType="VARCHAR" />
     
     
     
@@ -68,7 +68,8 @@
     professional_depart_name, professional_depart_code, setup_year, begin_project_month, 
     end_project_month, inner_audit_status, professional_field_code, professional_field_name,setup_id,lead_unit_name,
     unit_path_ids,unit_path_names,parent_unit_path_names,parent_unit_path_ids,create_unit_name,create_unit_code,
-    apply_unit_path_code,parent_apply_unit_path_code,parent_apply_unit_path_name,apply_user_id,apply_user_name,document_doc,task_version,erp_num
+    apply_unit_path_code,parent_apply_unit_path_code,parent_apply_unit_path_name,
+    apply_user_id,apply_user_name,document_doc,task_version,erp_num,close_status
     
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
@@ -97,7 +98,8 @@
       inner_audit_status, professional_field_code, 
       professional_field_name, lead_unit_name,setup_id,unit_path_ids,
       unit_path_names,parent_unit_path_names,parent_unit_path_ids,create_unit_name,create_unit_code,
-      apply_unit_path_code,parent_apply_unit_path_code,parent_apply_unit_path_name,apply_user_id,apply_user_name,document_doc,task_version,erp_num
+      apply_unit_path_code,parent_apply_unit_path_code,parent_apply_unit_path_name,apply_user_id,
+      apply_user_name,document_doc,task_version,erp_num,close_status
       )
     values (#{taskId,jdbcType=VARCHAR}, #{topicId,jdbcType=VARCHAR}, #{topicName,jdbcType=VARCHAR}, 
       #{createUserId,jdbcType=VARCHAR}, #{createUserName,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
@@ -124,7 +126,8 @@
       ,#{parentApplyUnitPathCode,jdbcType=VARCHAR}
       ,#{parentApplyUnitPathName,jdbcType=VARCHAR}
        ,#{applyUserId,jdbcType=VARCHAR}
-      ,#{applyUserName,jdbcType=VARCHAR},#{documentDoc,jdbcType=VARCHAR},#{taskVersion,jdbcType=VARCHAR},#{erpNum,jdbcType=VARCHAR}
+      ,#{applyUserName,jdbcType=VARCHAR},#{documentDoc,jdbcType=VARCHAR},#{taskVersion,jdbcType=VARCHAR}
+      ,#{erpNum,jdbcType=VARCHAR},#{closeStatus,jdbcType=VARCHAR}
       )
   </insert>
   
@@ -291,7 +294,14 @@
      <if test="erpNum != null" >
         erp_num,
       </if>
+    <if test="closeStatus != null" >
+        close_status,
+      </if>
     
+    
+    
+    
+   
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="taskId != null" >
@@ -447,9 +457,11 @@
       <if test="taskVersion != null" >
         #{taskVersion,jdbcType=VARCHAR},
       </if>
-    
-    <if test="erpNum != null" >
+      <if test="erpNum != null" >
         #{erpNum,jdbcType=VARCHAR},
+      </if>
+     <if test="closeStatus != null" >
+        #{closeStatus,jdbcType=VARCHAR},
       </if>
     
     
@@ -618,6 +630,9 @@
       <if test="erpNum != null" >
         erp_num = #{erpNum,jdbcType=VARCHAR},
       </if>
+      <if test="closeStatus != null" >
+        close_status = #{closeStatus,jdbcType=VARCHAR},
+      </if>
     </set>
     where task_id = #{taskId,jdbcType=VARCHAR}
   </update>
@@ -650,6 +665,7 @@
       notes = #{notes,jdbcType=VARCHAR},
       cover = #{cover,jdbcType=VARCHAR},
       contract_num = #{contractNum,jdbcType=VARCHAR},
+      close_status = #{closeStatus,jdbcType=VARCHAR},
       audit_status = #{auditStatus,jdbcType=VARCHAR},
       apply_unit_name = #{applyUnitName,jdbcType=VARCHAR},
       apply_unit_code = #{applyUnitCode,jdbcType=VARCHAR},
@@ -713,6 +729,7 @@
 	     <if test="applyUserId != null        and applyUserId !=''  ">                AND t.apply_user_id = #{applyUserId}</if>
 	     <if test="applyUserName != null       and applyUserName !=''  ">             AND t.apply_user_name = #{applyUserName}</if>
 	     <if test="erpNum != null       and erpNum !=''  ">                           AND t.erp_num = #{erpNum}</if>
+	     <if test="closeStatus != null       and closeStatus !=''  ">                           AND t.close_status = #{closeStatus}</if>
 	     <if test="sqlStr != null       and sqlStr !='' ">                            AND ${sqlStr}</if>
 	 </trim>
 	</sql>

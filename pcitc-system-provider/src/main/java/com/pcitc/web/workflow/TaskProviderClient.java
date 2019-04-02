@@ -10,6 +10,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -78,6 +79,7 @@ import com.pcitc.base.workflow.SysTaskDelegate;
 import com.pcitc.base.workflow.TaskDoneVo;
 import com.pcitc.base.workflow.TaskVo;
 import com.pcitc.base.workflow.WorkflowVo;
+import com.pcitc.mapper.system.SysUserMapper;
 import com.pcitc.service.system.UserService;
 import com.pcitc.service.workflow.TaskInstanceService;
 import com.pcitc.service.workflow.WorkflowInstanceService;
@@ -114,6 +116,9 @@ public class TaskProviderClient {
 
 	@Autowired
 	private WorkflowInstanceService workflowInstanceService;
+	
+	@Autowired
+	private SysUserMapper sysUserMapper;
 
 	/**
 	 * 查询任务委托单信息
@@ -610,7 +615,7 @@ public class TaskProviderClient {
 		Integer nrOfCompletedInstances = 0;
 		
 		Task task = taskService.createTaskQuery().taskId(workflowVo.getTaskId()).singleResult();
-
+		
 		// 下一个环节需要用的变量等属性，此次审批人选项的agree属性等属性
 		Map<String, Object> nextVar = workflowVo.getVariables();
 
@@ -620,6 +625,23 @@ public class TaskProviderClient {
 			if (!key.equals("agree") && !key.equals("comment") && !key.equals("auditor")) {
 				nextVar.put(key, taskVar.get(key));
 			}
+		}
+		
+		// 本次任务节点的下一个节点。特殊节点，根据表单内容来觉得下一步的审批人
+		Map<String, Object> temMap = new HashMap<String, Object>();
+		temMap.put("agree", "1");
+		TaskDefinition taskDef = getNextTaskInfo(workflowVo.getTaskId(), temMap);
+		if (taskDef != null && taskDef.getKey().startsWith("specialAuditor")) {
+			// 特殊节点，获取当初传递的值
+			Set<String> userIds = new LinkedHashSet<String>();
+			if (nextVar.get(taskDef.getKey()) != null) {
+				// 分解group
+				String[] groups = nextVar.get(taskDef.getKey()).toString().split("-");
+				for (int i = 0; i < groups.length; i++) {
+					userIds.addAll(sysUserMapper.findUserByGroupIdFromACT(groups[i]));
+				}
+			}
+			nextVar.put("auditor", userIds);
 		}
 
 		// 审批意见
