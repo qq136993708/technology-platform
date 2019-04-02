@@ -771,8 +771,8 @@
    </select>
     
     
-     <select id="getTaskClosureList" resultMap="BaseResultMap" parameterType="string" >
-     select * from sre_project_task t where t.audit_status='2'  and t.contract_num !=''
+     <select id="getTaskClosureList" resultMap="BaseResultMap" parameterType="Map">
+     select * from sre_project_task t      where t.audit_status='2'  and t.contract_num !='' and close_status='0'
    </select>
     
     

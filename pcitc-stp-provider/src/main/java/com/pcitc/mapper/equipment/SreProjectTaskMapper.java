@@ -27,5 +27,5 @@ public interface SreProjectTaskMapper {
     List getList(Map map);
     int getCount(Map map);
 
-	List<SreProjectTask> getTaskClosureList();
+	List<SreProjectTask> getTaskClosureList(Map map);
 }

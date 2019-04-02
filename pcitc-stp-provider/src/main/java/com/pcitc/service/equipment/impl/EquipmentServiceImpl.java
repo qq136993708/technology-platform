@@ -793,10 +793,10 @@ public class EquipmentServiceImpl implements EquipmentService {
 		int pageNum = pageStart/pageSize + 1;
 		// 1、设置分页信息，包括当前页数和每页显示的总计数
 		PageHelper.startPage(pageNum, pageSize);
-				
-		
-		
-		List<SreProjectTask> list = sreProjectTaskMapper.getTaskClosureList();
+		String closeStatus = getTableParam(param, "closeStatus","");
+		Map map = new HashMap();
+		map.put("closeStatus", closeStatus);
+		List<SreProjectTask> list = sreProjectTaskMapper.getTaskClosureList(map);
 		PageInfo<SreProjectTask> pageInfo = new PageInfo<SreProjectTask>(list);
 		System.out.println(">>>>>>>>>任务书查询分页结果 "+pageInfo.getList().size());
 		
