@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>全流程可视化图</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="Shortcut Icon" href="/layuiadmin/layui/images/favicon.ico"/>
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css" media="all">
+    <script src="/layuiadmin/layui/layui.js"></script>
+    <style>
+        .vm{width: 80%;margin: 100px auto;/*height: auto;overflow: hidden;*/}
+        .vm-node{width: auto;float: left;}
+        .vm-complex .vm-node{display:block;}
+        .vm-name{border-radius: 3px;display: inline-block;
+            border: 1px solid #ccc;font-size: 12px;color: white;padding: 5px 15px;}
+        .vm-start{background: #59a1dd;border: 1px solid #aec6e7;}
+        .vm-i{background: url("/layuiadmin/layui/images/icon-vm.png") no-repeat;width: 35px;height: 9px;
+            display: inline-block;position: relative;left: -4px;}
+        .vm-i-w{left: 0;top: 10px;float: left;}
+        .vm-i-l{background: url("/layuiadmin/layui/images/icon-vm-y.png") repeat-x;width: 20px;height: 1px;
+            display: inline-block;position: relative;left: -4px;top: -4px;}
+        .vm-complex{background: url("/layuiadmin/layui/images/icon-vm-y.png") repeat-y right;}
+        .vm-complex .vm-single{position: relative;
+            background: url("/layuiadmin/layui/images/icon-vm.png") no-repeat,
+            url("/layuiadmin/layui/images/icon-vm-y.png") repeat-y;
+            background-position: center left;padding-right: 30px;}
+        .vm-complex{margin-top: -38px;position: relative;
+            margin-right: 35px;}
+        .vm-complex .vm-single .vm-name{margin-left: 36px;}
+        .vm-complex .vm-single:last-child,.vm-complex .vm-single:first-child{
+            background: url("/layuiadmin/layui/images/icon-vm-y.png") repeat-y;}
+        .vm-complex .vm-single:first-child .vm-i-u{position: absolute;top: -1px;
+            background:url("/layuiadmin/layui/images/icon-vm-upn.png") no-repeat;
+            width: 35px;height: 9px;display: inline-block;
+        }
+        .vm-complex .vm-single:last-child .vm-i-u{position: absolute;bottom: -1px;
+            background:url("/layuiadmin/layui/images/icon-vm-dow.png") no-repeat;
+            width: 35px;height: 9px;display: inline-block;
+        }
+        .vm-complex .vm-single:first-child .vm-name{position: relative;
+            top: -10px;margin-bottom: 10px;}
+        .vm-complex .vm-single:last-child .vm-name{position: relative;
+            top: 20px;margin-bottom: 10px;}
+        .vm-complex .vm-single .vm-i-d{background: url("/layuiadmin/layui/images/icon-vm-l.png") no-repeat;
+            width: 20px;height: 1px;position: absolute;left: 85.5%;top: 50%;}
+        .vm-complex .vm-single:first-child .vm-i-d{top:0;}
+        .vm-complex .vm-single:last-child .vm-i-d{top: 100%;}
+        .vm-d{background: none;}
+        .vm-dw{background: url("/layuiadmin/layui/images/icon-vm-d.png") no-repeat;
+            width: 9px;height: 20px;display: inline-block;position:absolute;top: 25px;left: 40%;}
+        .vm-d .vm-i{top: 20px;left: -2px;}
+        .vm-end{background: none;border: 1px solid #ccc;color: black;margin-left: 0 !important;}
+        .vm-name-f,.vm-i-start{float: left;}
+        .vm-i-start{top: 13px;left: 0;}
+        .vm-complex:after{content: '';right: -35px;
+            top: 46%;    background: url(/layuiadmin/layui/images/icon-vm.png) no-repeat;
+            width: 35px;
+            height: 9px;
+            position: absolute;}
+        .vm-d:after{background: none;width: 0;height: 0;content: none;}
+    </style>
+</head>
+<body>
+    <!--<div class="vm">
+        <div class="vm-single vm-node">
+            <span class="vm-name vm-start">开始</span>
+            <i class="vm-i"></i>
+        </div>
+        <div class="vm-single vm-node">
+            <span class="vm-name vm-start">节点1</span>
+            <i class="vm-i"></i>
+        </div>
+        <div class="vm-single vm-node">
+            <span class="vm-name vm-name-f vm-start">节点2</span>
+            <i class="vm-i-l vm-i-start"></i>
+            <div class="vm-complex vm-node">
+                <div class="vm-single">
+                    <i class="vm-i-u"></i>
+                    <span class="vm-name vm-start">节点2.1</span>
+                    <i class="vm-i-d"></i>
+                </div>
+                <div class="vm-single">
+                    <i class="vm-i-u"></i>
+                    <span class="vm-name vm-start">点节点节点点节点节点节点</span>
+                    <i class="vm-i-d"></i>
+                </div>
+                <div class="vm-single">
+                    <i class="vm-i-u"></i>
+                    <span class="vm-name vm-start">节点2.3</span>
+                    <i class="vm-i-d"></i>
+                </div>
+            </div>
+        </div>
+        <i class="vm-i vm-i-w"></i>
+        <div class="vm-single vm-node">
+            <span class="vm-name vm-name-f vm-start">节点3</span>
+            <i class="vm-i vm-i-start"></i>
+            <div class="vm-complex vm-node vm-d">
+                <div class="vm-single">
+                    <i class="vm-i-u"></i>
+                    <span class="vm-name vm-start">节点2.1</span>
+                    <i class="vm-dw"></i>
+                </div>
+                <div class="vm-single">
+                    <i class="vm-i-u"></i>
+                    <span class="vm-name vm-start">点节点节点点节点节点节点</span>
+                    <i class="vm-i"></i>
+                    <span class="vm-name vm-end">结束</span>
+                </div>
+            </div>
+        </div>
+    </div>-->
+    <div class="vm" id="vm">
+
+    </div>
+    <script>
+        layui.use(['jquery'], function () {
+            var $ = layui.jquery;
+            var jsonData={
+                "data":[
+                    {"name":"开始","id":"1"},
+                    {"name":"节点1","state":"","id":"2","prev":"1"},
+                    {"name":"节点2","state":"","nodes":3,"id":"3","prev":"2"},
+                    {"name":"节点2.1","state":"","form":"3"},
+                    {"name":"节点2.2","state":"","form":"3"},
+                    {"name":"节点2.3","state":"","form":"3"},
+                    {"name":"节点3","state":"","id":"4","prev":"3"},
+                    {"name":"节点5","state":"","nodes":2,"id":"5","prev":"4"},
+                    {"name":"节点5.1","state":"","form":"5","prev":"51"},
+                    {"name":"节点5.2","state":"","form":"5","id":"51"},
+                    /*{"name":"节点6","state":"","id":"6","prev":"5"},*/
+                    {"name":"结束"}
+                ]
+            };
+            let data=jsonData.data;
+            for(var i in data ){
+                if(data[i].name=="开始"){
+                    let html='<div class="vm-single vm-node" id="'+data[i].id+'">' +
+                        '            <span class="vm-name vm-start">开始</span>' +
+                        '            <i class="vm-i"></i>' +
+                        '        </div>';
+                    $("#vm").append(html);
+                }
+                if(data[i].prev!==undefined) {
+                    if (data[i].nodes !== undefined) {
+                        var html = '<div class="vm-single vm-node" id="' + data[i].id + '">' +
+                            '            <span class="vm-name vm-name-f vm-start">'+data[i].name+'</span>' +
+                            '            <i class="vm-i-l vm-i-start"></i>' +
+                            '            <div class="vm-complex vm-node"></div></div>';
+                    }else {
+                        var  html = '<div class="vm-single vm-node" id="' + data[i].id + '">' +
+                            '            <span class="vm-name vm-start">' + data[i].name + '</span>' +
+                            '            <i class="vm-i"></i>' +
+                            '        </div>';
+                    }
+                    $("#" + data[i].prev).after(html);
+                }
+
+                if(data[i].form!== undefined && data[i].id!== undefined ){
+                    $("#" + data[i].form+" .vm-complex").addClass("vm-d");
+                    var html='<div class="vm-single">' +
+                        '                    <i class="vm-i-u"></i>' +
+                        '                    <span class="vm-name vm-start">'+data[i].name+'</span>' +
+                        '                    <i class="vm-i"></i><span class="vm-name vm-end">结束</span>' +
+                        '                </div>';
+                    $("#" + data[i].form+" .vm-complex").append(html);
+                }else if(data[i].form!== undefined && data[i].prev!== undefined ){
+                    var html='<div class="vm-single">' +
+                        '                    <i class="vm-i-u"></i>' +
+                        '                    <span class="vm-name vm-start">'+data[i].name+'</span>' +
+                        '                    <i class="vm-dw"></i>' +
+                        '                </div>';
+                    $("#" + data[i].form+" .vm-complex").append(html);
+                }else if(data[i].form!== undefined){
+                    var html='<div class="vm-single">' +
+                        '                    <i class="vm-i-u"></i>' +
+                        '                    <span class="vm-name vm-start">'+data[i].name+'</span>' +
+                        '                    <i class="vm-i-d"></i>' +
+                        '                </div>';
+                    $("#" + data[i].form+" .vm-complex").append(html);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
