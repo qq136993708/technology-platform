@@ -10,6 +10,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -78,6 +79,7 @@ import com.pcitc.base.workflow.SysTaskDelegate;
 import com.pcitc.base.workflow.TaskDoneVo;
 import com.pcitc.base.workflow.TaskVo;
 import com.pcitc.base.workflow.WorkflowVo;
+import com.pcitc.mapper.system.SysUserMapper;
 import com.pcitc.service.system.UserService;
 import com.pcitc.service.workflow.TaskInstanceService;
 import com.pcitc.service.workflow.WorkflowInstanceService;
@@ -114,6 +116,9 @@ public class TaskProviderClient {
 
 	@Autowired
 	private WorkflowInstanceService workflowInstanceService;
+	
+	@Autowired
+	private SysUserMapper sysUserMapper;
 
 	/**
 	 * 查询任务委托单信息
@@ -602,7 +607,7 @@ public class TaskProviderClient {
 	@ApiOperation(value = "任务处理", notes = "任务处理时间、处理意见、是否同意，考虑委托等情况")
 	@RequestMapping(value = "/task-provider/task/complete", method = RequestMethod.POST)
 	public JSONObject completeTask(@RequestBody WorkflowVo workflowVo) throws Exception {
-
+		Date date1 = new Date();
 		// 此任务节点会签标识
 		boolean signFlag = false;
 		
@@ -610,7 +615,7 @@ public class TaskProviderClient {
 		Integer nrOfCompletedInstances = 0;
 		
 		Task task = taskService.createTaskQuery().taskId(workflowVo.getTaskId()).singleResult();
-
+		
 		// 下一个环节需要用的变量等属性，此次审批人选项的agree属性等属性
 		Map<String, Object> nextVar = workflowVo.getVariables();
 
@@ -620,6 +625,23 @@ public class TaskProviderClient {
 			if (!key.equals("agree") && !key.equals("comment") && !key.equals("auditor")) {
 				nextVar.put(key, taskVar.get(key));
 			}
+		}
+		
+		// 本次任务节点的下一个节点。特殊节点，根据表单内容来觉得下一步的审批人
+		Map<String, Object> temMap = new HashMap<String, Object>();
+		temMap.put("agree", "1");
+		TaskDefinition taskDef = getNextTaskInfo(workflowVo.getTaskId(), temMap);
+		if (taskDef != null && taskDef.getKey().startsWith("specialAuditor")) {
+			// 特殊节点，获取当初传递的值
+			Set<String> userIds = new LinkedHashSet<String>();
+			if (nextVar.get(taskDef.getKey()) != null) {
+				// 分解group
+				String[] groups = nextVar.get(taskDef.getKey()).toString().split("-");
+				for (int i = 0; i < groups.length; i++) {
+					userIds.addAll(sysUserMapper.findUserByGroupIdFromACT(groups[i]));
+				}
+			}
+			nextVar.put("auditor", userIds);
 		}
 
 		// 审批意见
@@ -682,12 +704,12 @@ public class TaskProviderClient {
 			taskService.resolveTask(workflowVo.getTaskId());
 		}
 
-		// 会签时，获取选择审批人给会签需要的assigneeList(下一个环节如果不是会签，assigneeList就白赋值了)
-		if (nextVar.get("auditor") != null) {
+		// 会签时，获取选择审批人给会签需要的assigneeList(下一个环节如果不是会签，assigneeList可能就白赋值了)
+		if (nextVar.get("signAuditRate") != null && nextVar.get("auditor") != null) {
 			System.out.println("1会签时====" + nextVar.get("auditor"));
 			nextVar.put("assigneeList", nextVar.get("auditor"));
 		}
-
+		
 		// 本次任务的审批人id
 		taskService.setAssignee(workflowVo.getTaskId(), workflowVo.getAuditorId());
 
@@ -698,8 +720,8 @@ public class TaskProviderClient {
 		// 完成本次任务
 		taskService.complete(workflowVo.getTaskId(), nextVar);
 		JSONObject retJson = new JSONObject();
-		
-		
+		Date date2 = new Date();
+		System.out.println("=========任务处理时间=======----------"+(date2.getTime()-date1.getTime()));
 		if (!signFlag) {// 不是会签的正常走流程
 			if (nextVar.get("agree") != null && nextVar.get("agree").toString().equals("0")) {
 				// 把agree属性，在全局变量中删除

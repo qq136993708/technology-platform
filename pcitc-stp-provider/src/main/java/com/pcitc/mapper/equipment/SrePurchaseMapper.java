@@ -3,6 +3,7 @@ package com.pcitc.mapper.equipment;
 import java.util.List;
 import java.util.Map;
 
+import com.pcitc.base.stp.equipment.SreEquipment;
 import com.pcitc.base.stp.equipment.SrePurchase;
 
 public interface SrePurchaseMapper {
@@ -19,4 +20,9 @@ public interface SrePurchaseMapper {
     int updateByPrimaryKey(SrePurchase record);
 
 	List<SrePurchase> getList(Map map);
+
+	List<SrePurchase> getPurchaseNameIdList();
+
+	
+	
 }

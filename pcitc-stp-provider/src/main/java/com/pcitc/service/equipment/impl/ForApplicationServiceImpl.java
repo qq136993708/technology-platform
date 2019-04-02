@@ -11,31 +11,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
-import com.pcitc.base.stp.equipment.SreEquipment;
 import com.pcitc.base.stp.equipment.SreForApplication;
-import com.pcitc.base.stp.equipment.SreProject;
-import com.pcitc.base.stp.equipment.SreProjectSetup;
-import com.pcitc.base.stp.equipment.SreProjectTask;
-import com.pcitc.base.stp.equipment.SreProjectYear;
-import com.pcitc.base.stp.equipment.SreProjectYearExample;
-import com.pcitc.base.stp.equipment.SreTechMeeting;
-import com.pcitc.mapper.equipment.SreEquipmentMapper;
 import com.pcitc.mapper.equipment.SreForApplicationMapper;
-import com.pcitc.mapper.equipment.SreProjectMapper;
-import com.pcitc.mapper.equipment.SreProjectSetupMapper;
-import com.pcitc.mapper.equipment.SreProjectTaskMapper;
-import com.pcitc.mapper.equipment.SreProjectYearMapper;
-import com.pcitc.mapper.equipment.SreTechMeetingMapper;
-import com.pcitc.service.equipment.EquipmentService;
 import com.pcitc.service.equipment.ForApplicationService;
 @Service("forapplicationService")
 @Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = Exception.class)
-public class ForApplicationServiceImpl implements ForApplicationService {
+public  class ForApplicationServiceImpl implements ForApplicationService {
 	
 	
 	private final static Logger logger = LoggerFactory.getLogger(ForApplicationServiceImpl.class); 
@@ -104,4 +89,8 @@ public class ForApplicationServiceImpl implements ForApplicationService {
 		
 		return sreforapplicationMapper.insert(record);
 	}
+
+
+	
+
 }

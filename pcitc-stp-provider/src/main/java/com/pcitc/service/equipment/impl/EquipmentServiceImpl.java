@@ -10,12 +10,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.pcitc.base.common.Constant;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.common.Result;
 import com.pcitc.base.stp.equipment.SreEquipment;
 import com.pcitc.base.stp.equipment.SreProject;
 import com.pcitc.base.stp.equipment.SreProjectSetup;
@@ -24,6 +28,7 @@ import com.pcitc.base.stp.equipment.SreProjectYear;
 import com.pcitc.base.stp.equipment.SreProjectYearExample;
 import com.pcitc.base.stp.equipment.SreSupplier;
 import com.pcitc.base.stp.equipment.SreTechMeeting;
+import com.pcitc.common.WorkFlowStatusEnum;
 import com.pcitc.mapper.equipment.SreEquipmentMapper;
 import com.pcitc.mapper.equipment.SreProjectMapper;
 import com.pcitc.mapper.equipment.SreProjectSetupMapper;
@@ -32,6 +37,7 @@ import com.pcitc.mapper.equipment.SreProjectYearMapper;
 import com.pcitc.mapper.equipment.SreSupplierMapper;
 import com.pcitc.mapper.equipment.SreTechMeetingMapper;
 import com.pcitc.service.equipment.EquipmentService;
+import com.pcitc.service.feign.WorkflowRemoteClient;
 @Service("equipmentService")
 @Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = Exception.class)
 public class EquipmentServiceImpl implements EquipmentService {
@@ -59,8 +65,8 @@ public class EquipmentServiceImpl implements EquipmentService {
 	@Autowired
 	private SreSupplierMapper sreSupplierMapper;
 	
-	
-	
+	@Autowired
+	private WorkflowRemoteClient workflowRemoteClient;
 	
 	
 	
@@ -294,7 +300,60 @@ public class EquipmentServiceImpl implements EquipmentService {
 	
 	
 	
-	
+	public Result dealProjectWorkFlow(String id, Map map) throws Exception
+	{
+		
+		String processInstanceName=(String)map.get("processInstanceName");
+		String authenticatedUserId=(String)map.get("authenticatedUserId");
+		String authenticatedUserName=(String)map.get("authenticatedUserName");
+		String functionId=(String)map.get("functionId");
+		String auditor=(String)map.get("auditor");
+		
+		// 调用审批流程，此处调用同时实现事务
+    	JSONObject flowJson = new JSONObject();
+    	// 业务主键id
+    	flowJson.put("businessId", id);
+    	flowJson.put("processInstanceName", processInstanceName);
+    	// 发起者信息
+    	flowJson.put("authenticatedUserId", authenticatedUserId);
+    	flowJson.put("authenticatedUserName", authenticatedUserName);
+		// 菜单id（functionId），部门/组织ID（orgId），项目id（projectId）。其中菜单id必填（和ProcessDefineId两选一）
+    	flowJson.put("functionId", functionId);
+    	// 待办业务详情、最终审批同意、最终审批不同意路径
+    	flowJson.put("auditDetailsPath", "/sre-project-basic/get/" + id);
+    	flowJson.put("auditAgreeMethod", "http://pcitc-zuul/stp-proxy/sre-provider/project/task/agree/" + id);
+    	flowJson.put("auditRejectMethod", "http://pcitc-zuul/stp-proxy/sre-provider/project/task/reject/" + id);
+
+    	// 非必填选项， 菜单功能需要根据不同单位、不同项目选择不同流程图的时候使用。（也可以在单个流程图中，用判断来做）
+    	// flowJson.put("flowProjectId", "");
+    	// flowJson.put("flowUnitId", "");
+    	
+    	// 非必填选项，当下一步审批者需要本次任务执行人（启动者）手动选择的时候，需要auditUserIds属性
+    	flowJson.put("auditor", auditor);
+    	
+		// 非必填选项, 对流程中出现的多个判断条件，比如money>100等，需要把事先把money条件输入
+		// flowJson.put("money", 50); // 环节1需要用到
+		// flowJson.put("departmentCode", "1005"); // 环节2需要用到
+		// flowJson.put("companyCode", "2006"); // 环节n需要用到
+    	// 非必填选项, 会签时需要的属性，会签里所有的人，同意率（double类型）
+    	flowJson.put("specialAuditor", "ZSH_YFGCS_CJCXY");
+    	flowJson.put("signAuditRate", 1d); 
+    	
+    	// 远程调用
+    	System.out.println("=====远程调用开始");
+    	String str=workflowRemoteClient.startCommonWorkflow(flowJson.toJSONString());
+    	System.out.println("=====远程调用结束");
+		if("true".equals(str)) 
+		{
+			SreProject sreProject=sreProjectMapper.selectByPrimaryKey(id);
+			sreProject.setAuditStatus(Constant.AUDIT_STATUS_SUBMIT);
+			sreProjectMapper.updateByPrimaryKey(sreProject);
+			return new Result(true,"操作成功!");
+		}else 
+		{
+			return new Result(false,"操作失败!");
+		}
+	}
 	
 	
 
@@ -362,7 +421,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 		String professionalDepartName=getTableParam(param,"professionalDepartName","");
 		String unitPathIds=getTableParam(param,"unitPathIds","");
 		String parentUnitPathIds=getTableParam(param,"parentUnitPathIds","");
-		
+		String closeStatus=getTableParam(param,"closeStatus","");
 		
 		
 		Map map=new HashMap();
@@ -387,7 +446,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 		map.put("setupId", setupId);
 		map.put("unitPathIds", unitPathIds);
 		map.put("parentUnitPathIds", parentUnitPathIds);
-		
+		map.put("closeStatus", closeStatus);
 		System.out.println(">>>>>>>>applyUnitCode="+applyUnitCode);
 		StringBuffer applyUnitCodeStr=new StringBuffer();
 		if(!applyUnitCode.equals(""))
@@ -722,9 +781,31 @@ public class EquipmentServiceImpl implements EquipmentService {
 	    return data;
 	}
 
-
+	/**===========================================任务书关闭==========================================*/
 	
-	
+	public LayuiTableData getSreTaskClosurePage(LayuiTableParam param)throws Exception
+	{
+        //每页显示条数
+		int pageSize = param.getLimit();
+		//从第多少条开始
+		int pageStart = (param.getPage()-1)*pageSize;
+		//当前是第几页
+		int pageNum = pageStart/pageSize + 1;
+		// 1、设置分页信息，包括当前页数和每页显示的总计数
+		PageHelper.startPage(pageNum, pageSize);
+		String closeStatus = getTableParam(param, "closeStatus","");
+		Map map = new HashMap();
+		map.put("closeStatus", closeStatus);
+		List<SreProjectTask> list = sreProjectTaskMapper.getTaskClosureList(map);
+		PageInfo<SreProjectTask> pageInfo = new PageInfo<SreProjectTask>(list);
+		System.out.println(">>>>>>>>>任务书查询分页结果 "+pageInfo.getList().size());
+		
+		LayuiTableData data = new LayuiTableData();
+		data.setData(pageInfo.getList());
+		Long total = pageInfo.getTotal();
+		data.setCount(total.intValue());
+	    return data;
+	}
 	
 	
 

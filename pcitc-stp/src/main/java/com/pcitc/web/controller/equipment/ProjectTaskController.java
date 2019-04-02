@@ -446,8 +446,6 @@ public class ProjectTaskController extends BaseController {
 				}
 			}
 		}
-		
-		
 		System.out.println("----------------------topicId="+topicId);
 		if(arr!=null && arr.length>0)
 		{
@@ -478,6 +476,7 @@ public class ProjectTaskController extends BaseController {
 			sreProjectBasic.setSetupYear(DateUtil.dateToStr(new Date(), DateUtil.FMT_YYYY));
 			String taskVersion=getVersion(topicId);
 			sreProjectBasic.setTaskVersion(taskVersion);
+			sreProjectBasic.setCloseStatus("0");
 		} else 
 		{
 			ResponseEntity<SreProjectTask> se = this.restTemplate.exchange(GET_URL + taskId, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreProjectTask.class);
@@ -620,7 +619,6 @@ public class ProjectTaskController extends BaseController {
 		workflowVo.setAuditUserIds(sysUser.getUserId());
 		// process_define_id和functionId，两种方式二选一
 		// 清楚知道自己要走的流程定义id
-		//workflowVo.setProcessDefineId(PROCESS_DEFINE_ID_TASK_FLOAT);
 		// 不清楚此功能菜单要走的审批流程。可以通过菜单id（functionId），部门/组织ID（orgId），项目id（id）。其中菜单id必填（和ProcessDefineId两选一）
 		workflowVo.setFunctionId(functionId);
 		workflowVo.setProjectId("");

@@ -18,6 +18,10 @@
     <script src="/common/js/jquery-1.11.3.min.js"></script>
 
     <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+    <style>
+    	.layui-table-cell{overflow:visible !important;}
+    	td .layui-form-select{margin:-10px -15px 0;}
+    </style>
 </head>
 <body>
 <div class="layer-box">
@@ -66,18 +70,17 @@
                     <div class="layui-form-item">
                         <label for="" class="layui-form-label">采购计划名称</label>
                         <div class="layui-input-block">
-                        <select name="belongDepartmentName" id="belongDepartmentName"  lay-filter="getDepartNameByUnitName"   style="width:200px" >
-				             <option value="" >--请选择采购计划--</option>
-				             <option value="1" > --进口采购设备-- </option>
-				              <#list unitFieldList as vo>
-						          <option  value="${vo.unitName}"  <#if vo.unitName == sreProjectBasic.belongDepartmentName> selected="selected" </#if> >${vo.unitName}</option>
+                        <select name="purchaseName" id="purchaseName"  lay-filter="purchaseName"   style="width:200px" onchange="func()"  >
+				             <option>--请选择采购计划--</option>
+				              <#list purchaseList as vo>
+						          <option  value="${vo.equipmentId}" <#if vo.purchaseName == sreProjectBasic.purchaseName> selected="selected" </#if> >${vo.purchaseName}</option>
 						      </#list>
 						 </select>
                         </div>
                     </div>
                 </div>
             </div>
-
+            	
             <div class="layui-form-item">
                 <label class="layui-form-label">已采购装备<span class="must-fill"></span></label>
                 <div class="layui-input-block">
@@ -106,8 +109,17 @@
         </form>
     </div>
 </div>
-<script type="text/javascript">
 
+<script type="text/html" id="selectTool">
+	<select style="display:none;" name="selectDemo" lay-filter="selectDemo" lay-search>
+				<option value="">请选择</option>
+				<option value="">1</option>
+				<option value="">2</option>
+	       
+	   </select>
+</script>
+
+<script type="text/javascript">
 </script>
 <script>
     var publicMethods;
@@ -144,12 +156,77 @@
 
         form = layui.form;
         publicMethods = layui.publicMethods;
-        form.render();
+        //form.render();
         laydate.render({
             elem: '#LAY-component-form-group-date'
         });
+        
+        form.on('select(purchaseName)',function(data){
+        	getPurchaseName(data.value); //得到被选中的值
 
+            
+        	});
+        
+        getPurchaseName($("#purchaseName").val());	
+        function getPurchaseName(purchaseName) {
+            table.render({
+                elem: '#join_apply_table',
+                url: '/sre-forapplicatio/purchaseNameIds?purchaseNameIds=' + purchaseName,
+                limit: 15,
+                method: "GET",
+                id: 'join_apply_table',
+                height: 300,
+                //page: {first: '首页',last: '尾页',theme: '#0F9EE0'},
+                cols: [[
+                        
+                    {title: '序号', type: 'numbers'},
+                    {field: 'name', title: '装备名称', style: 'cursor: pointer;', align: 'center', width: '30%'},
+                    {field: 'type', title: '装备分类', style: 'cursor: pointer;', align: 'center', width: '30%'},
+                    {field: 'unitPrice', title: '单价（万元）', style: 'cursor: pointer;', align: 'center', width: '30%'},
+                    {field: 'applyAcount', title: '申请数量', style: 'cursor: pointer;', align: 'center', width: '30%'},
+                    {
+                        field: 'allPrice',
+                        title: '总价￥（万元）',
+                        style: 'cursor: pointer;',
+                        align: 'center',
+                        width: '10%',
+                        templet: function (d) {
+                            return '<span style="color:red">' + d.allPrice + '</span>'
+                        }
+                    },
+                    {field : 'parentUnitPathNames', title : '申报单位', style : 'cursor: pointer;', align : 'left', width : '100%'},
+                    {field : 'applyDepartName', title : '申报部门', style : 'cursor: pointer;', align : 'left', width : '100%'},
+                    {field: 'firstApplyUser', title: '申报人', style: 'cursor: pointer;', align: 'center', width: '30%'},
+                    
+                    
+                    {field : 'configure', title : '配置', style : 'cursor: pointer;', align : 'left', edit: 'text'},  
+                    {field : 'measuringUnit', title : '计量单位', style : 'cursor: pointer;', width : '9%',templet : '#gUnit'},  
+                    {field : 'assetsClassification', title : '资产分类', style : 'cursor: pointer;', width : '9%',templet : '#iFication'},  
+                    {field : 'nationality', title : '国别', style : 'cursor: pointer;', width : '25%',templet: '#selectTool',edit:false},  
+                    {field : 'placeUse', title : '使用地点', style : 'cursor: pointer;', align : 'left', width : '15%',edit: 'text'},
+                    {field : 'placePeople', title : '使用人', style : 'cursor: pointer;', align : 'left', width : '15%',edit: 'text'}, 
+                    {field : 'receivePeople ', title : '领取人', style : 'cursor: pointer;', align : 'left', width : '9%',edit: 'text'}, 
+                    ]],
+                done: function (res, curr, count) {
 
+                    //项目分类，项目性质
+                    var dicMap = ['ROOT_UNIVERSAL_GJDQ'];
+                    var dicVal = {};
+                    publicMethods.ajaxPost("/dictionary/map/getMapListDictionarys", {"parentCodes": JSON.stringify(dicMap)}, function (data) {
+                        $.each(data, function (key, val) {
+                            $.each(val, function (i, dt) {
+                                dicVal[dt.code] = dt.name;
+                            });
+                        });
+                    });
+                    $.each(res.data, function (i, dt) {
+                        $("tr[data-index='" + i + "'] td[data-field='nationality'] div").html(dicVal[res.data[i].nationality]);
+                    });
+
+                }
+            });
+        }
+        form.render("select","selectDemo");
 
         form.on('select(getDepartNameByUnitName)',function(data){
         	getDepartNameByUnitName(data.value);
@@ -158,8 +235,8 @@
          form.on('select(getProfessionalNameListByUnitNameAndDept)',function(data){
         	 getProfessionalNameListByUnitNameAndDept(data.value);
         })
-
-
+         
+         
 			getDepartNameByUnitName($("#belongDepartmentName").val());	
 			function getDepartNameByUnitName(belongDepartmentName)
 			{
@@ -235,8 +312,17 @@
 					});
 			}
 
+			
+			var $ = layui.$, active = {
+		            selectEvent: function () {
+		                //var temUrl = "/intl_project/plant_edit_selectapply?equipmentIds="+$("#equipmentIds").val();
+		                var temUrl = '/sre-equipment/chooseEquipmentByUser?equipmentIds=' + $("#equipmentIds").val()+"&isLinkedProject=0";
+		                publicMethods.openBaseWin("选择装备", temUrl, "90%", "80%");
 
+		            }
 
+		        }
+			
         var equipmentIds = $("#equipmentIds").val();
         renderTable(equipmentIds)
 
@@ -253,8 +339,8 @@
             /*parent.layer.alert(JSON.stringify(data.field), {
                 title: '最终的提交信息'
             })*/
-        	var belongDepartmentName = $("#belongDepartmentName").val();
-        	if (belongDepartmentName == null || belongDepartmentName == '')
+        	var purchaseName = $("#purchaseName").val();
+        	if (purchaseName == null || purchaseName == '')
             {
                 layer.alert("请选择采购计划名称");
             }
@@ -263,8 +349,7 @@
 
     });
 
-
-
+   <!--
     function renderTable(equipmentIds) {
         $("#equipmentIds").val(equipmentIds);
         table.render({
@@ -273,7 +358,7 @@
             limit: 15,
             method: "GET",
             id: 'join_apply_table',
-            height: 300,
+            height: commonDislodgeTable(),
             //page: {first: '首页',last: '尾页',theme: '#0F9EE0'},
             cols: [[
                     
@@ -295,11 +380,18 @@
                 {field : 'parentUnitPathNames', title : '申报单位', style : 'cursor: pointer;', align : 'left', width : '30%'},
                 {field : 'applyDepartName', title : '申报部门', style : 'cursor: pointer;', align : 'left', width : '20%'},
                 {field: 'firstApplyUser', title: '申报人', style: 'cursor: pointer;', align: 'center', width: '10%'},
-            ]],
+                {field : 'configure', title : '配置', style : 'cursor: pointer;', align : 'left', width : '9%',edit: 'text'},  
+                {field : 'measuringUnit', title : '计量单位', style : 'cursor: pointer;', width : '9%',templet : '#gUnit'},  
+                {field : 'assetsClassification', title : '资产分类', style : 'cursor: pointer;', width : '9%',templet : '#iFication'},  
+                {field : 'nationality', title : '国别', style : 'cursor: pointer;', width : '9%',templet : '#selectToolSSw'},  
+                {field : 'placeUse', title : '使用地点', style : 'cursor: pointer;', align : 'left', width : '9%',edit: 'text'},
+                {field : 'placePeople', title : '使用人', style : 'cursor: pointer;', align : 'left', width : '9%',edit: 'text'}, 
+                {field : 'receivePeople ', title : '领取人', style : 'cursor: pointer;', align : 'left', width : '9%',edit: 'text'}, 
+                ]],
             done: function (res, curr, count) {
 
                 //项目分类，项目性质
-                var dicMap = ['ROOT_ZBGL_ZBFL'];
+                var dicMap = ['ROOT_UNIVERSAL_GJDQ'];
                 var dicVal = {};
                 publicMethods.ajaxPost("/dictionary/map/getMapListDictionarys", {"parentCodes": JSON.stringify(dicMap)}, function (data) {
                     $.each(data, function (key, val) {
@@ -309,13 +401,13 @@
                     });
                 });
                 $.each(res.data, function (i, dt) {
-                    $("tr[data-index='" + i + "'] td[data-field='type'] div").html(dicVal[res.data[i].type]);
+                    $("tr[data-index='" + i + "'] td[data-field='nationality'] div").html(dicVal[res.data[i].nationality]);
                 });
 
             }
         });
     }
-
+   -->
     var index_close;
 
 
@@ -384,7 +476,6 @@
         });
         return flag;
     }
-
 
 
 </script>

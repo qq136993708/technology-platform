@@ -100,9 +100,28 @@ public class SreProjectTask {
     private String taskVersion;
     private String erpNum;
     
+    private String closeStatus;
+    private Date closeDate;
     
     
-    public String getErpNum() {
+    
+    public Date getCloseDate() {
+		return closeDate;
+	}
+
+	public void setCloseDate(Date closeDate) {
+		this.closeDate = closeDate;
+	}
+
+	public String getCloseStatus() {
+		return closeStatus;
+	}
+
+	public void setCloseStatus(String closeStatus) {
+		this.closeStatus = closeStatus;
+	}
+
+	public String getErpNum() {
 		return erpNum;
 	}
 
