@@ -164,6 +164,10 @@ public interface EquipmentService {
 	public List<SreSupplier> getSupplierListByIds(List<String> list)throws Exception;
 	
 	
+	/**===========================================任务关闭==========================================*/
+	public LayuiTableData getSreTaskClosurePage(LayuiTableParam paramsJson)throws Exception;
+	
+	
 	
 	
 	

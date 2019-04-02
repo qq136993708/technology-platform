@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pcitc.mapper.equipment.SreDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.pcitc.base.stp.equipment.SreDetail" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="equipment_id" property="equipmentId" jdbcType="VARCHAR" />
+    <result column="equipment_name" property="equipmentName" jdbcType="VARCHAR" />
+    <result column="equipment_type" property="equipmentType" jdbcType="VARCHAR" />
+    <result column="equipment_price" property="equipmentPrice" jdbcType="VARCHAR" />
+    <result column="equipmen_number" property="equipmenNumber" jdbcType="VARCHAR" />
+    <result column="declare_unit" property="declareUnit" jdbcType="VARCHAR" />
+    <result column="declare_department" property="declareDepartment" jdbcType="VARCHAR" />
+    <result column="declare_people" property="declarePeople" jdbcType="VARCHAR" />
+    <result column="declare_time" property="declareTime" jdbcType="TIMESTAMP" />
+    <result column="asset_number" property="assetNumber" jdbcType="VARCHAR" />
+    <result column="configure" property="configure" jdbcType="VARCHAR" />
+    <result column="measuring_unit" property="measuringUnit" jdbcType="VARCHAR" />
+    <result column="assets_classification" property="assetsClassification" jdbcType="VARCHAR" />
+    <result column="nationality" property="nationality" jdbcType="VARCHAR" />
+    <result column="place_use" property="placeUse" jdbcType="VARCHAR" />
+    <result column="place_people" property="placePeople" jdbcType="VARCHAR" />
+    <result column="receive_people" property="receivePeople" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, equipment_id, equipment_name, equipment_type, equipment_price, equipmen_number, 
+    declare_unit, declare_department, declare_people, declare_time, asset_number, configure, 
+    measuring_unit, assets_classification, nationality, place_use, place_people, receive_people
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sre_equipment_detail
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sre_equipment_detail
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.pcitc.base.stp.equipment.SreDetail" >
+    insert into sre_equipment_detail (id, equipment_id, equipment_name, 
+      equipment_type, equipment_price, equipmen_number, 
+      declare_unit, declare_department, declare_people, 
+      declare_time, asset_number, configure, 
+      measuring_unit, assets_classification, nationality, 
+      place_use, place_people, receive_people
+      )
+    values (#{id,jdbcType=VARCHAR}, #{equipmentId,jdbcType=VARCHAR}, #{equipmentName,jdbcType=VARCHAR}, 
+      #{equipmentType,jdbcType=VARCHAR}, #{equipmentPrice,jdbcType=VARCHAR}, #{equipmenNumber,jdbcType=VARCHAR}, 
+      #{declareUnit,jdbcType=VARCHAR}, #{declareDepartment,jdbcType=VARCHAR}, #{declarePeople,jdbcType=VARCHAR}, 
+      #{declareTime,jdbcType=TIMESTAMP}, #{assetNumber,jdbcType=VARCHAR}, #{configure,jdbcType=VARCHAR}, 
+      #{measuringUnit,jdbcType=VARCHAR}, #{assetsClassification,jdbcType=VARCHAR}, #{nationality,jdbcType=VARCHAR}, 
+      #{placeUse,jdbcType=VARCHAR}, #{placePeople,jdbcType=VARCHAR}, #{receivePeople,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.pcitc.base.stp.equipment.SreDetail" >
+    insert into sre_equipment_detail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="equipmentId != null" >
+        equipment_id,
+      </if>
+      <if test="equipmentName != null" >
+        equipment_name,
+      </if>
+      <if test="equipmentType != null" >
+        equipment_type,
+      </if>
+      <if test="equipmentPrice != null" >
+        equipment_price,
+      </if>
+      <if test="equipmenNumber != null" >
+        equipmen_number,
+      </if>
+      <if test="declareUnit != null" >
+        declare_unit,
+      </if>
+      <if test="declareDepartment != null" >
+        declare_department,
+      </if>
+      <if test="declarePeople != null" >
+        declare_people,
+      </if>
+      <if test="declareTime != null" >
+        declare_time,
+      </if>
+      <if test="assetNumber != null" >
+        asset_number,
+      </if>
+      <if test="configure != null" >
+        configure,
+      </if>
+      <if test="measuringUnit != null" >
+        measuring_unit,
+      </if>
+      <if test="assetsClassification != null" >
+        assets_classification,
+      </if>
+      <if test="nationality != null" >
+        nationality,
+      </if>
+      <if test="placeUse != null" >
+        place_use,
+      </if>
+      <if test="placePeople != null" >
+        place_people,
+      </if>
+      <if test="receivePeople != null" >
+        receive_people,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentId != null" >
+        #{equipmentId,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentName != null" >
+        #{equipmentName,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentType != null" >
+        #{equipmentType,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentPrice != null" >
+        #{equipmentPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmenNumber != null" >
+        #{equipmenNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="declareUnit != null" >
+        #{declareUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="declareDepartment != null" >
+        #{declareDepartment,jdbcType=VARCHAR},
+      </if>
+      <if test="declarePeople != null" >
+        #{declarePeople,jdbcType=VARCHAR},
+      </if>
+      <if test="declareTime != null" >
+        #{declareTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="assetNumber != null" >
+        #{assetNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="configure != null" >
+        #{configure,jdbcType=VARCHAR},
+      </if>
+      <if test="measuringUnit != null" >
+        #{measuringUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="assetsClassification != null" >
+        #{assetsClassification,jdbcType=VARCHAR},
+      </if>
+      <if test="nationality != null" >
+        #{nationality,jdbcType=VARCHAR},
+      </if>
+      <if test="placeUse != null" >
+        #{placeUse,jdbcType=VARCHAR},
+      </if>
+      <if test="placePeople != null" >
+        #{placePeople,jdbcType=VARCHAR},
+      </if>
+      <if test="receivePeople != null" >
+        #{receivePeople,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.stp.equipment.SreDetail" >
+    update sre_equipment_detail
+    <set >
+      <if test="equipmentId != null" >
+        equipment_id = #{equipmentId,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentName != null" >
+        equipment_name = #{equipmentName,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentType != null" >
+        equipment_type = #{equipmentType,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentPrice != null" >
+        equipment_price = #{equipmentPrice,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmenNumber != null" >
+        equipmen_number = #{equipmenNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="declareUnit != null" >
+        declare_unit = #{declareUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="declareDepartment != null" >
+        declare_department = #{declareDepartment,jdbcType=VARCHAR},
+      </if>
+      <if test="declarePeople != null" >
+        declare_people = #{declarePeople,jdbcType=VARCHAR},
+      </if>
+      <if test="declareTime != null" >
+        declare_time = #{declareTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="assetNumber != null" >
+        asset_number = #{assetNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="configure != null" >
+        configure = #{configure,jdbcType=VARCHAR},
+      </if>
+      <if test="measuringUnit != null" >
+        measuring_unit = #{measuringUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="assetsClassification != null" >
+        assets_classification = #{assetsClassification,jdbcType=VARCHAR},
+      </if>
+      <if test="nationality != null" >
+        nationality = #{nationality,jdbcType=VARCHAR},
+      </if>
+      <if test="placeUse != null" >
+        place_use = #{placeUse,jdbcType=VARCHAR},
+      </if>
+      <if test="placePeople != null" >
+        place_people = #{placePeople,jdbcType=VARCHAR},
+      </if>
+      <if test="receivePeople != null" >
+        receive_people = #{receivePeople,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.equipment.SreDetail" >
+    update sre_equipment_detail
+    set equipment_id = #{equipmentId,jdbcType=VARCHAR},
+      equipment_name = #{equipmentName,jdbcType=VARCHAR},
+      equipment_type = #{equipmentType,jdbcType=VARCHAR},
+      equipment_price = #{equipmentPrice,jdbcType=VARCHAR},
+      equipmen_number = #{equipmenNumber,jdbcType=VARCHAR},
+      declare_unit = #{declareUnit,jdbcType=VARCHAR},
+      declare_department = #{declareDepartment,jdbcType=VARCHAR},
+      declare_people = #{declarePeople,jdbcType=VARCHAR},
+      declare_time = #{declareTime,jdbcType=TIMESTAMP},
+      asset_number = #{assetNumber,jdbcType=VARCHAR},
+      configure = #{configure,jdbcType=VARCHAR},
+      measuring_unit = #{measuringUnit,jdbcType=VARCHAR},
+      assets_classification = #{assetsClassification,jdbcType=VARCHAR},
+      nationality = #{nationality,jdbcType=VARCHAR},
+      place_use = #{placeUse,jdbcType=VARCHAR},
+      place_people = #{placePeople,jdbcType=VARCHAR},
+      receive_people = #{receivePeople,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="getList" resultMap="BaseResultMap" parameterType="Map" >
+     select * from sre_equipment_detail    t <include refid="selectCondition" />    
+     <choose>
+      <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
+      <otherwise>
+        ORDER BY  declare_time  desc
+      </otherwise>
+     </choose>
+     <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
+   </select>
+   
+   <sql id="selectCondition">
+	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
+	     <if test="equipmentName != null and equipmentName!='' ">               AND t.equipment_name   like CONCAT('%',#{equipmentName },'%')</if>
+	     <if test="declareDepartment    != null and declareDepartment!='' "> AND t.declare_department    like CONCAT('%',#{declareDepartment},'%')</if>
+	 </trim>
+	</sql>
+</mapper>
