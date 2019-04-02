@@ -631,7 +631,7 @@ public class TaskProviderClient {
 		Map<String, Object> temMap = new HashMap<String, Object>();
 		temMap.put("agree", "1");
 		TaskDefinition taskDef = getNextTaskInfo(workflowVo.getTaskId(), temMap);
-		if (taskDef != null && taskDef.getKey().startsWith("specialAuditor")) {
+		if (taskDef != null && taskDef.getKey().startsWith("specialAuditor") && nextVar.get("auditor") != null) {
 			// 特殊节点，获取当初传递的值
 			Set<String> userIds = new LinkedHashSet<String>();
 			if (nextVar.get(taskDef.getKey()) != null) {
@@ -911,6 +911,14 @@ public class TaskProviderClient {
 			if (taskDef.getKey().startsWith("role") || taskDef.getKey().startsWith("unit") || taskDef.getKey().startsWith("post")) {
 				retS = taskDef.getKey();
 			}
+			
+			if (taskDef.getKey().startsWith("specialAuditor")) {
+				// 本次任务的可用变量
+				Map<String, Object> taskVar = taskService.getVariables(taskId);
+				if (taskVar.get(taskDef.getKey()) != null) {
+					retS = taskVar.get(taskDef.getKey()).toString();
+				}
+			}
 		}
 		// System.out.println("2=========TaskDefinition======="+retS);
 		return retS;
@@ -971,7 +979,7 @@ public class TaskProviderClient {
 
 		// 获取全部的FlowElement信息
 		Collection<FlowElement> flowElements = process.getFlowElements();
-
+		
 		for (FlowElement flowElement : flowElements) {
 			if (flowElement.getClass().getName().contains("StartEvent")) {
 				FlowNode fn = (FlowNode) flowElement;
@@ -990,6 +998,15 @@ public class TaskProviderClient {
 
 							if (auditNode.getId().startsWith("role") || auditNode.getId().startsWith("unit") || auditNode.getId().startsWith("post")) {
 								retS = auditNode.getId();
+								break;
+							}
+							// 特殊的审批节点
+							if (auditNode.getId().startsWith("specialAuditor")) {
+								// 启动的时候，让启动者选择特殊审批节点的审批人员
+								if (json != null && json.get(auditNode.getId()) != null && !json.get(auditNode.getId()).equals("")) {
+									retS = json.get(auditNode.getId()).toString();
+									break;
+								}
 							}
 						}
 					}
