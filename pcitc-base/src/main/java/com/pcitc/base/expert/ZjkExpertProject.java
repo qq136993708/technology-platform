@@ -8,12 +8,12 @@ import java.io.Serializable;
 
 /**
  * <p>实体类</p>
- * <p>Table: zjk_project_expert - </p>
+ * <p>Table: zjk_expert_project - 专家库-科研项目</p>
  *
- * @since 2019-04-02 04:12:02
+ * @since 2019-04-02 04:42:39
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ZjkProjectExpert extends DataEntity implements Serializable {
+public class ZjkExpertProject extends DataEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -53,9 +53,14 @@ public class ZjkProjectExpert extends DataEntity implements Serializable {
     private String bak6;
 
     /**
-     * expert_id - 用户ID
+     * source - 来源
      */
-    private String expertId;
+    private String source;
+
+    /**
+     * source_id - 来源ID
+     */
+    private String sourceId;
 
     /**
      * sys_flag - 0：正常；1：冻结
@@ -138,7 +143,7 @@ public class ZjkProjectExpert extends DataEntity implements Serializable {
     private String updateDate;
 
     /**
-     * project_id - 项目ID
+     * project_id - 所属项目
      */
     private String projectId;
 
@@ -146,6 +151,61 @@ public class ZjkProjectExpert extends DataEntity implements Serializable {
      * project_name - 项目名称
      */
     private String projectName;
+
+    /**
+     * bak7 -
+     */
+    private String bak7;
+
+    /**
+     * bak8 -
+     */
+    private String bak8;
+
+    /**
+     * bak9 -
+     */
+    private String bak9;
+
+    /**
+     * bak10 -
+     */
+    private String bak10;
+
+    /**
+     * expert_id - 专家ID
+     */
+    private String expertId;
+
+    /**
+     * doc_id - 文档编号
+     */
+    private String docId;
+
+    /**
+     * year - 年度
+     */
+    private String year;
+
+    /**
+     * project_type - 项目类别
+     */
+    private String projectType;
+
+    /**
+     * amount - 经费
+     */
+    private String amount;
+
+    /**
+     * start_end - 起止时间
+     */
+    private String startEnd;
+
+    /**
+     * people - 承担人
+     */
+    private String people;
 
     public String getDataId() {
         return this.dataId;
@@ -203,12 +263,20 @@ public class ZjkProjectExpert extends DataEntity implements Serializable {
         this.bak6 = bak6;
     }
 
-    public String getExpertId() {
-        return this.expertId;
+    public String getSource() {
+        return this.source;
     }
 
-    public void setExpertId(String expertId) {
-        this.expertId = expertId;
+    public void setSource(String source) {
+        this.source = source;
+    }
+
+    public String getSourceId() {
+        return this.sourceId;
+    }
+
+    public void setSourceId(String sourceId) {
+        this.sourceId = sourceId;
     }
 
     public String getSysFlag() {
@@ -355,6 +423,94 @@ public class ZjkProjectExpert extends DataEntity implements Serializable {
         this.projectName = projectName;
     }
 
+    public String getBak7() {
+        return this.bak7;
+    }
+
+    public void setBak7(String bak7) {
+        this.bak7 = bak7;
+    }
+
+    public String getBak8() {
+        return this.bak8;
+    }
+
+    public void setBak8(String bak8) {
+        this.bak8 = bak8;
+    }
+
+    public String getBak9() {
+        return this.bak9;
+    }
+
+    public void setBak9(String bak9) {
+        this.bak9 = bak9;
+    }
+
+    public String getBak10() {
+        return this.bak10;
+    }
+
+    public void setBak10(String bak10) {
+        this.bak10 = bak10;
+    }
+
+    public String getExpertId() {
+        return this.expertId;
+    }
+
+    public void setExpertId(String expertId) {
+        this.expertId = expertId;
+    }
+
+    public String getDocId() {
+        return this.docId;
+    }
+
+    public void setDocId(String docId) {
+        this.docId = docId;
+    }
+
+    public String getYear() {
+        return this.year;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
+    }
+
+    public String getProjectType() {
+        return this.projectType;
+    }
+
+    public void setProjectType(String projectType) {
+        this.projectType = projectType;
+    }
+
+    public String getAmount() {
+        return this.amount;
+    }
+
+    public void setAmount(String amount) {
+        this.amount = amount;
+    }
+
+    public String getStartEnd() {
+        return this.startEnd;
+    }
+
+    public void setStartEnd(String startEnd) {
+        this.startEnd = startEnd;
+    }
+
+    public String getPeople() {
+        return this.people;
+    }
+
+    public void setPeople(String people) {
+        this.people = people;
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -367,7 +523,7 @@ public class ZjkProjectExpert extends DataEntity implements Serializable {
             return false;
         }
 
-        ZjkProjectExpert other = (ZjkProjectExpert) that;
+        ZjkExpertProject other = (ZjkExpertProject) that;
 
         return
                 (this.getDataId() == null ? other.getDataId() == null : this.getDataId().equals(other.getDataId())) &&
@@ -384,7 +540,9 @@ public class ZjkProjectExpert extends DataEntity implements Serializable {
 
                         (this.getBak6() == null ? other.getBak6() == null : this.getBak6().equals(other.getBak6())) &&
 
-                        (this.getExpertId() == null ? other.getExpertId() == null : this.getExpertId().equals(other.getExpertId())) &&
+                        (this.getSource() == null ? other.getSource() == null : this.getSource().equals(other.getSource())) &&
+
+                        (this.getSourceId() == null ? other.getSourceId() == null : this.getSourceId().equals(other.getSourceId())) &&
 
                         (this.getSysFlag() == null ? other.getSysFlag() == null : this.getSysFlag().equals(other.getSysFlag())) &&
 
@@ -420,7 +578,29 @@ public class ZjkProjectExpert extends DataEntity implements Serializable {
 
                         (this.getProjectId() == null ? other.getProjectId() == null : this.getProjectId().equals(other.getProjectId())) &&
 
-                        (this.getProjectName() == null ? other.getProjectName() == null : this.getProjectName().equals(other.getProjectName()));
+                        (this.getProjectName() == null ? other.getProjectName() == null : this.getProjectName().equals(other.getProjectName())) &&
+
+                        (this.getBak7() == null ? other.getBak7() == null : this.getBak7().equals(other.getBak7())) &&
+
+                        (this.getBak8() == null ? other.getBak8() == null : this.getBak8().equals(other.getBak8())) &&
+
+                        (this.getBak9() == null ? other.getBak9() == null : this.getBak9().equals(other.getBak9())) &&
+
+                        (this.getBak10() == null ? other.getBak10() == null : this.getBak10().equals(other.getBak10())) &&
+
+                        (this.getExpertId() == null ? other.getExpertId() == null : this.getExpertId().equals(other.getExpertId())) &&
+
+                        (this.getDocId() == null ? other.getDocId() == null : this.getDocId().equals(other.getDocId())) &&
+
+                        (this.getYear() == null ? other.getYear() == null : this.getYear().equals(other.getYear())) &&
+
+                        (this.getProjectType() == null ? other.getProjectType() == null : this.getProjectType().equals(other.getProjectType())) &&
+
+                        (this.getAmount() == null ? other.getAmount() == null : this.getAmount().equals(other.getAmount())) &&
+
+                        (this.getStartEnd() == null ? other.getStartEnd() == null : this.getStartEnd().equals(other.getStartEnd())) &&
+
+                        (this.getPeople() == null ? other.getPeople() == null : this.getPeople().equals(other.getPeople()));
     }
 
     @Override
@@ -434,7 +614,8 @@ public class ZjkProjectExpert extends DataEntity implements Serializable {
         result = prime * result + ((getBak4() == null) ? 0 : getBak4().hashCode());
         result = prime * result + ((getBak5() == null) ? 0 : getBak5().hashCode());
         result = prime * result + ((getBak6() == null) ? 0 : getBak6().hashCode());
-        result = prime * result + ((getExpertId() == null) ? 0 : getExpertId().hashCode());
+        result = prime * result + ((getSource() == null) ? 0 : getSource().hashCode());
+        result = prime * result + ((getSourceId() == null) ? 0 : getSourceId().hashCode());
         result = prime * result + ((getSysFlag() == null) ? 0 : getSysFlag().hashCode());
         result = prime * result + ((getDataOrder() == null) ? 0 : getDataOrder().hashCode());
         result = prime * result + ((getDelFlag() == null) ? 0 : getDelFlag().hashCode());
@@ -453,6 +634,17 @@ public class ZjkProjectExpert extends DataEntity implements Serializable {
         result = prime * result + ((getUpdateDate() == null) ? 0 : getUpdateDate().hashCode());
         result = prime * result + ((getProjectId() == null) ? 0 : getProjectId().hashCode());
         result = prime * result + ((getProjectName() == null) ? 0 : getProjectName().hashCode());
+        result = prime * result + ((getBak7() == null) ? 0 : getBak7().hashCode());
+        result = prime * result + ((getBak8() == null) ? 0 : getBak8().hashCode());
+        result = prime * result + ((getBak9() == null) ? 0 : getBak9().hashCode());
+        result = prime * result + ((getBak10() == null) ? 0 : getBak10().hashCode());
+        result = prime * result + ((getExpertId() == null) ? 0 : getExpertId().hashCode());
+        result = prime * result + ((getDocId() == null) ? 0 : getDocId().hashCode());
+        result = prime * result + ((getYear() == null) ? 0 : getYear().hashCode());
+        result = prime * result + ((getProjectType() == null) ? 0 : getProjectType().hashCode());
+        result = prime * result + ((getAmount() == null) ? 0 : getAmount().hashCode());
+        result = prime * result + ((getStartEnd() == null) ? 0 : getStartEnd().hashCode());
+        result = prime * result + ((getPeople() == null) ? 0 : getPeople().hashCode());
         return result;
     }
 
@@ -469,7 +661,8 @@ public class ZjkProjectExpert extends DataEntity implements Serializable {
         sb.append(", bak4=").append(bak4);
         sb.append(", bak5=").append(bak5);
         sb.append(", bak6=").append(bak6);
-        sb.append(", expertId=").append(expertId);
+        sb.append(", source=").append(source);
+        sb.append(", sourceId=").append(sourceId);
         sb.append(", sysFlag=").append(sysFlag);
         sb.append(", dataOrder=").append(dataOrder);
         sb.append(", delFlag=").append(delFlag);
@@ -488,6 +681,17 @@ public class ZjkProjectExpert extends DataEntity implements Serializable {
         sb.append(", updateDate=").append(updateDate);
         sb.append(", projectId=").append(projectId);
         sb.append(", projectName=").append(projectName);
+        sb.append(", bak7=").append(bak7);
+        sb.append(", bak8=").append(bak8);
+        sb.append(", bak9=").append(bak9);
+        sb.append(", bak10=").append(bak10);
+        sb.append(", expertId=").append(expertId);
+        sb.append(", docId=").append(docId);
+        sb.append(", year=").append(year);
+        sb.append(", projectType=").append(projectType);
+        sb.append(", amount=").append(amount);
+        sb.append(", startEnd=").append(startEnd);
+        sb.append(", people=").append(people);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

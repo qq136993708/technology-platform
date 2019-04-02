@@ -4,7 +4,7 @@ import com.alibaba.druid.support.json.JSONUtils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.pcitc.base.common.Result;
-import com.pcitc.base.expert.ZjkProjectExpert;
+import com.pcitc.base.expert.ZjkExpertProject;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.web.utils.UserProfileAware;
@@ -48,61 +48,61 @@ import java.util.UUID;
 
 /**
  * <p>控制类</p>
- * <p>Table: zjk_project_expert - </p>
+ * <p>Table: zjk_expert_project - 专家库-科研项目</p>
  *
- * @since 2019-04-02 04:12:03
+ * @since 2019-04-02 04:42:39
  */
 
 @Controller
-@RequestMapping("zjkProjectExpert")
-public class ZjkProjectExpertController extends BaseController {
+@RequestMapping("zjkExpertProject")
+public class ZjkExpertProjectController extends BaseController {
     /**
      * 根据ID获取对象信息
      */
-    private static final String GET_INFO = "http://pcitc-zuul/stp-proxy/zjkprojectexpert-provider/zjkprojectexpert/get-zjkprojectexpert/";
+    private static final String GET_INFO = "http://pcitc-zuul/stp-proxy/zjkexpertproject-provider/zjkexpertproject/get-zjkexpertproject/";
     /**
      * 树形
      */
-    private static final String TREE_DATA = "http://pcitc-zuul/stp-proxy/zjkprojectexpert-provider/zjkprojectexpert/tree-data";
+    private static final String TREE_DATA = "http://pcitc-zuul/stp-proxy/zjkexpertproject-provider/zjkexpertproject/tree-data";
     /**
      * 逻辑删除
      */
-    private static final String DEL = "http://pcitc-zuul/stp-proxy/zjkprojectexpert-provider/zjkprojectexpert/del-zjkprojectexpert/";
+    private static final String DEL = "http://pcitc-zuul/stp-proxy/zjkexpertproject-provider/zjkexpertproject/del-zjkexpertproject/";
     /**
      * 物理删除
      */
-    private static final String DEL_REAL = "http://pcitc-zuul/stp-proxy/zjkprojectexpert-provider/zjkprojectexpert/del-zjkprojectexpert-real/";
+    private static final String DEL_REAL = "http://pcitc-zuul/stp-proxy/zjkexpertproject-provider/zjkexpertproject/del-zjkexpertproject-real/";
 
     /**
      * 查询列表
      */
-    private static final String LIST = "http://pcitc-zuul/stp-proxy/zjkprojectexpert-provider/zjkprojectexpert/zjkprojectexpert_list";
+    private static final String LIST = "http://pcitc-zuul/stp-proxy/zjkexpertproject-provider/zjkexpertproject/zjkexpertproject_list";
     /**
      * 参数查询
      */
-    private static final String LISTPARAM = "http://pcitc-zuul/stp-proxy/zjkprojectexpert-provider/zjkprojectexpert/zjkprojectexpert_list_param";
+    private static final String LISTPARAM = "http://pcitc-zuul/stp-proxy/zjkexpertproject-provider/zjkexpertproject/zjkexpertproject_list_param";
     /**
      * 分页查询
      */
-    private static final String LISTPAGE = "http://pcitc-zuul/stp-proxy/zjkprojectexpert-provider/zjkprojectexpert/zjkprojectexpert-page";
+    private static final String LISTPAGE = "http://pcitc-zuul/stp-proxy/zjkexpertproject-provider/zjkexpertproject/zjkexpertproject-page";
     /**
      * 保存
      */
-    private static final String SAVE = "http://pcitc-zuul/stp-proxy/zjkprojectexpert-provider/zjkprojectexpert/save_zjkprojectexpert";
+    private static final String SAVE = "http://pcitc-zuul/stp-proxy/zjkexpertproject-provider/zjkexpertproject/save_zjkexpertproject";
 
     /**
-     * -查询列表
+     * 专家库-科研项目-查询列表
      *
-     * @param zjkProjectExpert
+     * @param zjkExpertProject
      * @return
      */
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     @ResponseBody
-    public Object getList(@RequestBody ZjkProjectExpert zjkProjectExpert) {
+    public Object getList(@RequestBody ZjkExpertProject zjkExpertProject) {
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LIST, HttpMethod.POST, new HttpEntity<ZjkProjectExpert>(zjkProjectExpert, this.httpHeaders), JSONObject.class);
+        ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LIST, HttpMethod.POST, new HttpEntity<ZjkExpertProject>(zjkExpertProject, this.httpHeaders), JSONObject.class);
         JSONObject retJson = responseEntity.getBody();
-        List<ZjkProjectExpert> list = (List<ZjkProjectExpert>) retJson.get("list");
+        List<ZjkExpertProject> list = (List<ZjkExpertProject>) retJson.get("list");
         return list;
     }
 
@@ -115,12 +115,12 @@ public class ZjkProjectExpertController extends BaseController {
         HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<MultiValueMap<String, String>>(requestBody, this.httpHeaders);
         ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LISTPARAM, HttpMethod.POST, entity, JSONObject.class);
         JSONObject retJson = responseEntity.getBody();
-        List<ZjkProjectExpert> list = (List<ZjkProjectExpert>) retJson.get("list");
+        List<ZjkExpertProject> list = (List<ZjkExpertProject>) retJson.get("list");
         return list;
     }
 
     /**
-     * -分页查询
+     * 专家库-科研项目-分页查询
      *
      * @param param
      * @return
@@ -135,15 +135,15 @@ public class ZjkProjectExpertController extends BaseController {
     }
 
     /**
-     * 保存-
+     * 保存-专家库-科研项目
      *
      * @param record
      * @return
      */
-    @RequestMapping(value = "/saveZjkProjectExpert")
+    @RequestMapping(value = "/saveZjkExpertProject")
     @ResponseBody
-    @OperationFilter(modelName = "", actionName = "保存saveRecord")
-    public int saveRecord(ZjkProjectExpert record) {
+    @OperationFilter(modelName = "专家库-科研项目", actionName = "保存saveRecord")
+    public int saveRecord(ZjkExpertProject record) {
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         if (record.getId() == null || "".equals(record.getId())) {
             record.setCreateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
@@ -155,50 +155,50 @@ public class ZjkProjectExpertController extends BaseController {
             record.setUpdatePersonName(sysUserInfo.getUserName());
         }
         record.setStatus("0");
-        ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(SAVE, HttpMethod.POST, new HttpEntity<ZjkProjectExpert>(record, this.httpHeaders), Integer.class);
+        ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(SAVE, HttpMethod.POST, new HttpEntity<ZjkExpertProject>(record, this.httpHeaders), Integer.class);
         Integer result = responseEntity.getBody();
         return result;
     }
 
     /**
-     * 编辑页面-
+     * 编辑页面-专家库-科研项目
      *
      * @param id
      * @param model
      * @return
      */
     @RequestMapping(method = RequestMethod.GET, value = "/edit")
-    @OperationFilter(modelName = "", actionName = "跳转编辑页面pageEdit")
+    @OperationFilter(modelName = "专家库-科研项目", actionName = "跳转编辑页面pageEdit")
     public String pageEdit(String id, Model model, String opt) {
         model.addAttribute("id", id);
         model.addAttribute("opt", opt);
-        return "stp/expert/zjkProjectExpert_edit";
+        return "stp/expert/zjkExpertProject_edit";
     }
 
     /**
-     * 详情页面-
+     * 详情页面-专家库-科研项目
      *
      * @param model
      * @return
      */
     @RequestMapping(method = RequestMethod.GET, value = "/view/{dataId}")
-    @OperationFilter(modelName = "", actionName = "跳转详情页面pageView")
+    @OperationFilter(modelName = "专家库-科研项目", actionName = "跳转详情页面pageView")
     public String pageView(@PathVariable("dataId") String dataId, Model model) {
         model.addAttribute("id", dataId);
         model.addAttribute("opt", "");
         model.addAttribute("dataId", (dataId == null || "".equals(dataId)) ? UUID.randomUUID().toString().replace("-", "") : dataId);
-        return "stp/expert/zjkProjectExpert_view";
+        return "stp/expert/zjkExpertProject_view";
     }
 
     /**
-     * 跳转至列表页面
+     * 跳转至专家库-科研项目列表页面
      *
      * @return
      */
     @RequestMapping(value = "/toListPage", method = {RequestMethod.GET})
-    @OperationFilter(modelName = "", actionName = "跳转列表页toListPage")
+    @OperationFilter(modelName = "专家库-科研项目", actionName = "跳转列表页toListPage")
     public String toListPage() {
-        return "stp/expert/zjkProjectExpert_list";
+        return "stp/expert/zjkExpertProject_list";
     }
 
     /**
@@ -207,37 +207,37 @@ public class ZjkProjectExpertController extends BaseController {
      * @param request
      * @return
      */
-    @RequestMapping(value = "/getZjkProjectExpertInfo")
-    @OperationFilter(modelName = "", actionName = "根据ID查询对象信息getzjkProjectExpertInfo")
+    @RequestMapping(value = "/getZjkExpertProjectInfo")
+    @OperationFilter(modelName = "专家库-科研项目", actionName = "根据ID查询对象信息getzjkExpertProjectInfo")
     @ResponseBody
-    public Object getzjkProjectExpertInfo(HttpServletRequest request) {
+    public Object getzjkExpertProjectInfo(HttpServletRequest request) {
         String id = request.getParameter("id");
-        ResponseEntity<ZjkProjectExpert> responseEntity = this.restTemplate.exchange(GET_INFO + id, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), ZjkProjectExpert.class);
-        ZjkProjectExpert news = responseEntity.getBody();
+        ResponseEntity<ZjkExpertProject> responseEntity = this.restTemplate.exchange(GET_INFO + id, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), ZjkExpertProject.class);
+        ZjkExpertProject news = responseEntity.getBody();
         return news;
     }
 
     @RequestMapping(value = "/tree-data")
     @ResponseBody
-    @OperationFilter(modelName = "", actionName = "树形查询getZjkProjectExpertTreeData()")
-    public Object getZjkProjectExpertTreeData() throws Exception {
+    @OperationFilter(modelName = "专家库-科研项目", actionName = "树形查询getZjkExpertProjectTreeData()")
+    public Object getZjkExpertProjectTreeData() throws Exception {
         TreeNode node = this.restTemplate.exchange(TREE_DATA, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), TreeNode.class).getBody();
         return node;
     }
 
     @RequestMapping(value = "/tree-datas")
-    @OperationFilter(modelName = "", actionName = "树形查询getZjkProjectExpertTreeData()")
+    @OperationFilter(modelName = "专家库-科研项目", actionName = "树形查询getZjkExpertProjectTreeData()")
     @ResponseBody
-    public String getZjkProjectExpertTreeDatas(HttpServletRequest request) throws Exception {
+    public String getZjkExpertProjectTreeDatas(HttpServletRequest request) throws Exception {
         this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         List list = this.restTemplate.exchange(TREE_DATA, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), List.class).getBody();
         return JSONUtils.toJSONString(list);
     }
 
-    @OperationFilter(modelName = "删除", actionName = "根据ID删除")
+    @OperationFilter(modelName = "删除专家库-科研项目", actionName = "根据ID删除专家库-科研项目")
     @RequestMapping(value = "/del", method = RequestMethod.POST)
     @ResponseBody
-    public Object delZjkProjectExpert() throws Exception {
+    public Object delZjkExpertProject() throws Exception {
         Integer rs = this.restTemplate.exchange(DEL + request.getParameter("id"), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class).getBody();
         if (rs > 0) {
             return new Result(true, "操作成功！");
@@ -246,10 +246,10 @@ public class ZjkProjectExpertController extends BaseController {
         }
     }
 
-    @OperationFilter(modelName = "物理删除", actionName = "根据ID物理删除")
+    @OperationFilter(modelName = "物理删除专家库-科研项目", actionName = "根据ID物理删除专家库-科研项目")
     @RequestMapping(value = "/del-real", method = RequestMethod.POST)
     @ResponseBody
-    public Object delZjkProjectExpertReal() throws Exception {
+    public Object delZjkExpertProjectReal() throws Exception {
         Integer rs = this.restTemplate.exchange(DEL_REAL + request.getParameter("id"), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class).getBody();
         if (rs > 0) {
             return new Result(true, "操作成功！");

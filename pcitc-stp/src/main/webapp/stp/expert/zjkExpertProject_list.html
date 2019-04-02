@@ -43,7 +43,7 @@
         </button>
     </div>
 </div>
-<table id="zjkProjectExpertTableId" class="layui-hide" lay-filter="tableEvent"></table>
+<table id="zjkExpertProjectTableId" class="layui-hide" lay-filter="tableEvent"></table>
 
 <script>
 
@@ -103,8 +103,12 @@
                     title: "", event: 'setActive', style: 'cursor: pointer;'
                 },
                 {
-                    field: "expertId",
-                    title: "用户ID", event: 'setActive', style: 'cursor: pointer;'
+                    field: "source",
+                    title: "来源", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "sourceId",
+                    title: "来源ID", event: 'setActive', style: 'cursor: pointer;'
                 },
                 {
                     field: "sysFlag",
@@ -172,11 +176,55 @@
                 },
                 {
                     field: "projectId",
-                    title: "项目ID", event: 'setActive', style: 'cursor: pointer;'
+                    title: "所属项目", event: 'setActive', style: 'cursor: pointer;'
                 },
                 {
                     field: "projectName",
                     title: "项目名称", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "bak7",
+                    title: "", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "bak8",
+                    title: "", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "bak9",
+                    title: "", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "bak10",
+                    title: "", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "expertId",
+                    title: "专家ID", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "docId",
+                    title: "文档编号", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "year",
+                    title: "年度", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "projectType",
+                    title: "项目类别", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "amount",
+                    title: "经费", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "startEnd",
+                    title: "起止时间", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "people",
+                    title: "承担人", event: 'setActive', style: 'cursor: pointer;'
                 },
             ];
 
@@ -189,7 +237,7 @@
                     }
             };
 
-            publicMethods.tableRender('zjkProjectExpertTableId', 'zjkProjectExpertTableId', '/zjkProjectExpert/getTableData', false, cols, where, true, function (res, curr, count) {
+            publicMethods.tableRender('zjkExpertProjectTableId', 'zjkExpertProjectTableId', '/zjkExpertProject/getTableData', false, cols, where, true, function (res, curr, count) {
                 $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
                     var index = parseInt($(this).index() + 1);
                     $('tr').removeClass('layui-table-click');
@@ -261,7 +309,7 @@
                     maxmin: true,
                     //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
                     area: ['70%', '90%'],
-                    content: "/zjkProjectExpert/edit"
+                    content: "/zjkExpertProject/edit"
                 });
             },
             editEvent: function () {  //点击编辑按钮
@@ -279,7 +327,7 @@
                         maxmin: true,
                         //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
                         area: ['70%', '90%'],
-                        content: "/zjkProjectExpert/edit?id=" + selectRowData.dataId
+                        content: "/zjkExpertProject/edit?id=" + selectRowData.dataId
                     });
                     // } else {
                     //     layer.msg('只可操作未下发的数据');
@@ -304,7 +352,7 @@
                         maxmin: true,
                         //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
                         area: ['70%', '90%'],
-                        content: "/zjkProjectExpert/view/" + selectRowData.dataId
+                        content: "/zjkExpertProject/view/" + selectRowData.dataId
                         // content: '/plan/viewPlanPage?dataId='+dataId
                     });
                     // }
@@ -325,7 +373,7 @@
                             dataType: 'text',
                             async: false,
                             data: {"id": selectRowData.dataId},
-                            url: '/zjkProjectExpert/del-real',
+                            url: '/zjkExpertProject/del-real',
                             success: function (data) {
                                 // if(data==200){
                                 layer.msg("删除成功");
@@ -348,16 +396,16 @@
                 }
             },
             getCheckData: function () { //获取选中数据
-                var checkStatus = table.checkStatus('zjkProjectExpertTableId')
+                var checkStatus = table.checkStatus('zjkExpertProjectTableId')
                     , data = checkStatus.data;
             },
             getCheckLength: function () { //获取选中数目
-                var checkStatus = table.checkStatus('zjkProjectExpertTableId')
+                var checkStatus = table.checkStatus('zjkExpertProjectTableId')
                     , data = checkStatus.data;
                 layer.msg('选中了：' + data.length + ' 个');
             },
             isAll: function () { //验证是否全选
-                var checkStatus = table.checkStatus('zjkProjectExpertTableId');
+                var checkStatus = table.checkStatus('zjkExpertProjectTableId');
                 layer.msg(checkStatus.isAll ? '全选' : '未全选')
             }
         };

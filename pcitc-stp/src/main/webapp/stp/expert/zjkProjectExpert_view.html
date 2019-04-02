@@ -6,6 +6,7 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
     <link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
+
     <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
     <script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="/common/js/base.js"></script>
@@ -17,31 +18,12 @@
         <div class="box-body">
             <input type="hidden" name="dataId" id="dataId"/>
             <div class="layui-row">
-                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label"><span class="must-fill">*</span></label>
-                        <div class="layui-input-block">
-                            <input type="text" id="bak1" name="bak1" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
-                        </div>
-                    </div>
-                </div>
-                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
-                    <div class="layui-form-item">
-                        <label class="layui-form-label"><span class="must-fill">*</span></label>
-                        <div class="layui-input-block">
-                            <input type="text" id="bak2" name="bak2" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
-                        </div>
-                    </div>
-                </div>
 
-
-            </div>
-            <div class="layui-row">
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
                         <label class="layui-form-label"><span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <input type="text" id="bak3" name="bak3" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+                            <input type="text" id="bak1" readonly="readonly" name="bak1" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input readOnlyBox">
                         </div>
                     </div>
                 </div>
@@ -49,7 +31,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label"><span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <input type="text" id="bak4" name="bak4" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+                            <input type="text" id="bak2" readonly="readonly" name="bak2" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input readOnlyBox">
                         </div>
                     </div>
                 </div>
@@ -57,11 +39,12 @@
 
             </div>
             <div class="layui-row">
+
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
                         <label class="layui-form-label"><span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <input type="text" id="bak5" name="bak5" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+                            <input type="text" id="bak3" readonly="readonly" name="bak3" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input readOnlyBox">
                         </div>
                     </div>
                 </div>
@@ -69,7 +52,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label"><span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <input type="text" id="bak6" name="bak6" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+                            <input type="text" id="bak4" readonly="readonly" name="bak4" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input readOnlyBox">
                         </div>
                     </div>
                 </div>
@@ -77,11 +60,33 @@
 
             </div>
             <div class="layui-row">
+
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="bak5" readonly="readonly" name="bak5" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input readOnlyBox">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="bak6" readonly="readonly" name="bak6" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input readOnlyBox">
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="layui-row">
+
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
                         <label class="layui-form-label">用户ID<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <input type="text" id="expertId" name="expertId" lay-verify="required" placeholder="请输入用户ID" autocomplete="off" class="layui-input">
+                            <input type="text" id="expertId" readonly="readonly" name="expertId" lay-verify="required" placeholder="请输入用户ID" autocomplete="off" class="layui-input readOnlyBox">
                         </div>
                     </div>
                 </div>
@@ -89,7 +94,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">0：正常；1：冻结<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <input type="text" id="sysFlag" name="sysFlag" lay-verify="required" placeholder="请输入0：正常；1：冻结" autocomplete="off" class="layui-input">
+                            <input type="text" id="sysFlag" readonly="readonly" name="sysFlag" lay-verify="required" placeholder="请输入0：正常；1：冻结" autocomplete="off" class="layui-input readOnlyBox">
                         </div>
                     </div>
                 </div>
@@ -97,11 +102,12 @@
 
             </div>
             <div class="layui-row">
+
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
                         <label class="layui-form-label">排序<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <input type="text" id="dataOrder" name="dataOrder" lay-verify="required" placeholder="请输入排序" autocomplete="off" class="layui-input">
+                            <input type="text" id="dataOrder" readonly="readonly" name="dataOrder" lay-verify="required" placeholder="请输入排序" autocomplete="off" class="layui-input readOnlyBox">
                         </div>
                     </div>
                 </div>
@@ -109,7 +115,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">状态<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <input type="text" id="delFlag" name="delFlag" lay-verify="required" placeholder="请输入状态" autocomplete="off" class="layui-input">
+                            <input type="text" id="delFlag" readonly="readonly" name="delFlag" lay-verify="required" placeholder="请输入状态" autocomplete="off" class="layui-input readOnlyBox">
                         </div>
                     </div>
                 </div>
@@ -117,11 +123,12 @@
 
             </div>
             <div class="layui-row">
+
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
                         <label class="layui-form-label">创建时间<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <input type="text" id="createDate" name="createDate" lay-verify="required" placeholder="请输入创建时间" autocomplete="off" class="layui-input">
+                            <input type="text" id="createDate" readonly="readonly" name="createDate" lay-verify="required" placeholder="请输入创建时间" autocomplete="off" class="layui-input readOnlyBox">
                         </div>
                     </div>
                 </div>
@@ -129,7 +136,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">创建人id<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <input type="text" id="createUser" name="createUser" lay-verify="required" placeholder="请输入创建人id" autocomplete="off" class="layui-input">
+                            <input type="text" id="createUser" readonly="readonly" name="createUser" lay-verify="required" placeholder="请输入创建人id" autocomplete="off" class="layui-input readOnlyBox">
                         </div>
                     </div>
                 </div>
@@ -137,11 +144,12 @@
 
             </div>
             <div class="layui-row">
+
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
                         <label class="layui-form-label">创建人姓名<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <input type="text" id="createUserDisp" name="createUserDisp" lay-verify="required" placeholder="请输入创建人姓名" autocomplete="off" class="layui-input">
+                            <input type="text" id="createUserDisp" readonly="readonly" name="createUserDisp" lay-verify="required" placeholder="请输入创建人姓名" autocomplete="off" class="layui-input readOnlyBox">
                         </div>
                     </div>
                 </div>
@@ -149,7 +157,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">修改时间<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <input type="text" id="modifyDate" name="modifyDate" lay-verify="required" placeholder="请输入修改时间" autocomplete="off" class="layui-input">
+                            <input type="text" id="modifyDate" readonly="readonly" name="modifyDate" lay-verify="required" placeholder="请输入修改时间" autocomplete="off" class="layui-input readOnlyBox">
                         </div>
                     </div>
                 </div>
@@ -157,11 +165,12 @@
 
             </div>
             <div class="layui-row">
+
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
                         <label class="layui-form-label">修改人id<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <input type="text" id="modifyUser" name="modifyUser" lay-verify="required" placeholder="请输入修改人id" autocomplete="off" class="layui-input">
+                            <input type="text" id="modifyUser" readonly="readonly" name="modifyUser" lay-verify="required" placeholder="请输入修改人id" autocomplete="off" class="layui-input readOnlyBox">
                         </div>
                     </div>
                 </div>
@@ -169,7 +178,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">修改人姓名<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <input type="text" id="modifyUserDisp" name="modifyUserDisp" lay-verify="required" placeholder="请输入修改人姓名" autocomplete="off" class="layui-input">
+                            <input type="text" id="modifyUserDisp" readonly="readonly" name="modifyUserDisp" lay-verify="required" placeholder="请输入修改人姓名" autocomplete="off" class="layui-input readOnlyBox">
                         </div>
                     </div>
                 </div>
@@ -177,11 +186,12 @@
 
             </div>
             <div class="layui-row">
+
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
                         <label class="layui-form-label">业务编码<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <input type="text" id="formCode" name="formCode" lay-verify="required" placeholder="请输入业务编码" autocomplete="off" class="layui-input">
+                            <input type="text" id="formCode" readonly="readonly" name="formCode" lay-verify="required" placeholder="请输入业务编码" autocomplete="off" class="layui-input readOnlyBox">
                         </div>
                     </div>
                 </div>
@@ -189,7 +199,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">序号<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <input type="text" id="dataIndex" name="dataIndex" lay-verify="required" placeholder="请输入序号" autocomplete="off" class="layui-input">
+                            <input type="text" id="dataIndex" readonly="readonly" name="dataIndex" lay-verify="required" placeholder="请输入序号" autocomplete="off" class="layui-input readOnlyBox">
                         </div>
                     </div>
                 </div>
@@ -197,11 +207,12 @@
 
             </div>
             <div class="layui-row">
+
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
                         <label class="layui-form-label">是否删除<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <input type="text" id="status" name="status" lay-verify="required" placeholder="请输入是否删除" autocomplete="off" class="layui-input">
+                            <input type="text" id="status" readonly="readonly" name="status" lay-verify="required" placeholder="请输入是否删除" autocomplete="off" class="layui-input readOnlyBox">
                         </div>
                     </div>
                 </div>
@@ -209,7 +220,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">审批状态<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <input type="text" id="auditStatus" name="auditStatus" lay-verify="required" placeholder="请输入审批状态" autocomplete="off" class="layui-input">
+                            <input type="text" id="auditStatus" readonly="readonly" name="auditStatus" lay-verify="required" placeholder="请输入审批状态" autocomplete="off" class="layui-input readOnlyBox">
                         </div>
                     </div>
                 </div>
@@ -217,11 +228,12 @@
 
             </div>
             <div class="layui-row">
+
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
                         <label class="layui-form-label">公司代码<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <input type="text" id="companyCode" name="companyCode" lay-verify="required" placeholder="请输入公司代码" autocomplete="off" class="layui-input">
+                            <input type="text" id="companyCode" readonly="readonly" name="companyCode" lay-verify="required" placeholder="请输入公司代码" autocomplete="off" class="layui-input readOnlyBox">
                         </div>
                     </div>
                 </div>
@@ -229,7 +241,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">修改人<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <input type="text" id="updateUser" name="updateUser" lay-verify="required" placeholder="请输入修改人" autocomplete="off" class="layui-input">
+                            <input type="text" id="updateUser" readonly="readonly" name="updateUser" lay-verify="required" placeholder="请输入修改人" autocomplete="off" class="layui-input readOnlyBox">
                         </div>
                     </div>
                 </div>
@@ -237,11 +249,12 @@
 
             </div>
             <div class="layui-row">
+
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
                         <label class="layui-form-label">修改时间<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <input type="text" id="updateDate" name="updateDate" lay-verify="required" placeholder="请输入修改时间" autocomplete="off" class="layui-input">
+                            <input type="text" id="updateDate" readonly="readonly" name="updateDate" lay-verify="required" placeholder="请输入修改时间" autocomplete="off" class="layui-input readOnlyBox">
                         </div>
                     </div>
                 </div>
@@ -249,7 +262,7 @@
                     <div class="layui-form-item">
                         <label class="layui-form-label">项目ID<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <input type="text" id="projectId" name="projectId" lay-verify="required" placeholder="请输入项目ID" autocomplete="off" class="layui-input">
+                            <input type="text" id="projectId" readonly="readonly" name="projectId" lay-verify="required" placeholder="请输入项目ID" autocomplete="off" class="layui-input readOnlyBox">
                         </div>
                     </div>
                 </div>
@@ -257,19 +270,19 @@
 
             </div>
             <div class="layui-row">
+
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
                         <label class="layui-form-label">项目名称<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <input type="text" id="projectName" name="projectName" lay-verify="required" placeholder="请输入项目名称" autocomplete="off" class="layui-input">
+                            <input type="text" id="projectName" readonly="readonly" name="projectName" lay-verify="required" placeholder="请输入项目名称" autocomplete="off" class="layui-input readOnlyBox">
                         </div>
                     </div>
                 </div>
 
                 <div class="form-bottom">
                     <div class="form-bottom-btns">
-                        <button class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue" lay-submit="" lay-filter="submitBtn">保存</button>
-                        <button type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" id="closeBtn">取消</button>
+                        <button type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" id="closeBtn">关闭</button>
                     </div>
                 </div>
             </div>
@@ -305,7 +318,6 @@
                     layedit.sync(editIndex);
                 }
             }); */
-
             /* 监听指定开关 */
             form.on('switch(component-form-switchTest)', function (
                 data) {

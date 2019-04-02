@@ -43,7 +43,7 @@
         </button>
     </div>
 </div>
-<table id="zjkProjectExpertTableId" class="layui-hide" lay-filter="tableEvent"></table>
+<table id="zjkPatentTableId" class="layui-hide" lay-filter="tableEvent"></table>
 
 <script>
 
@@ -79,8 +79,60 @@
                 //     templet: '<div>{{ layui.laytpl.attToPic(d) }}</div>'
                 // },
                 {
+                    field: "userId",
+                    title: "用户id", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "expertId",
+                    title: "专家id", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "patentName",
+                    title: "专利名称", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "patentCode",
+                    title: "专利号", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "patentDesc",
+                    title: "专利描述", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "patentKeys",
+                    title: "专利关键字", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "patentePeopleName",
+                    title: "专利权人名称", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "patentePeopleId",
+                    title: "专利权人ID", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "inventPeopleId",
+                    title: "发明人ID", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "inventPeopleName",
+                    title: "发明人", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "applyPeople",
+                    title: "申请人", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "publicDate",
+                    title: "公开时间", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "applyDate",
+                    title: "申请日期", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
                     field: "bak1",
-                    title: "", event: 'setActive', style: 'cursor: pointer;'
+                    title: "所属技术分类名称", event: 'setActive', style: 'cursor: pointer;'
                 },
                 {
                     field: "bak2",
@@ -103,12 +155,40 @@
                     title: "", event: 'setActive', style: 'cursor: pointer;'
                 },
                 {
-                    field: "expertId",
-                    title: "用户ID", event: 'setActive', style: 'cursor: pointer;'
+                    field: "modifyUserDisp",
+                    title: "修改人姓名", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "ownerTechType",
+                    title: "所属技术分类", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "patenteBackground",
+                    title: "专利背景", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "ownerProjectName",
+                    title: "所属项目名称", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "expertNationality",
+                    title: "国籍", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "ownerProjectId",
+                    title: "所属项目ID", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "company",
+                    title: "所属公司（机构）", event: 'setActive', style: 'cursor: pointer;'
+                },
+                {
+                    field: "companId",
+                    title: "所属机构ID", event: 'setActive', style: 'cursor: pointer;'
                 },
                 {
                     field: "sysFlag",
-                    title: "0：正常；1：冻结", event: 'setActive', style: 'cursor: pointer;'
+                    title: "状态位", event: 'setActive', style: 'cursor: pointer;'
                 },
                 {
                     field: "dataOrder",
@@ -139,44 +219,20 @@
                     title: "修改人id", event: 'setActive', style: 'cursor: pointer;'
                 },
                 {
-                    field: "modifyUserDisp",
-                    title: "修改人姓名", event: 'setActive', style: 'cursor: pointer;'
+                    field: "docId",
+                    title: "文档编号", event: 'setActive', style: 'cursor: pointer;'
                 },
                 {
-                    field: "formCode",
-                    title: "业务编码", event: 'setActive', style: 'cursor: pointer;'
+                    field: "nd",
+                    title: "年度", event: 'setActive', style: 'cursor: pointer;'
                 },
                 {
-                    field: "dataIndex",
-                    title: "序号", event: 'setActive', style: 'cursor: pointer;'
+                    field: "country",
+                    title: "授权国家", event: 'setActive', style: 'cursor: pointer;'
                 },
                 {
-                    field: "status",
-                    title: "是否删除", event: 'setActive', style: 'cursor: pointer;'
-                },
-                {
-                    field: "auditStatus",
-                    title: "审批状态", event: 'setActive', style: 'cursor: pointer;'
-                },
-                {
-                    field: "companyCode",
-                    title: "公司代码", event: 'setActive', style: 'cursor: pointer;'
-                },
-                {
-                    field: "updateUser",
-                    title: "修改人", event: 'setActive', style: 'cursor: pointer;'
-                },
-                {
-                    field: "updateDate",
-                    title: "修改时间", event: 'setActive', style: 'cursor: pointer;'
-                },
-                {
-                    field: "projectId",
-                    title: "项目ID", event: 'setActive', style: 'cursor: pointer;'
-                },
-                {
-                    field: "projectName",
-                    title: "项目名称", event: 'setActive', style: 'cursor: pointer;'
+                    field: "isResult",
+                    title: "是否形成工业化成果", event: 'setActive', style: 'cursor: pointer;'
                 },
             ];
 
@@ -189,7 +245,7 @@
                     }
             };
 
-            publicMethods.tableRender('zjkProjectExpertTableId', 'zjkProjectExpertTableId', '/zjkProjectExpert/getTableData', false, cols, where, true, function (res, curr, count) {
+            publicMethods.tableRender('zjkPatentTableId', 'zjkPatentTableId', '/zjkPatent/getTableData', false, cols, where, true, function (res, curr, count) {
                 $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
                     var index = parseInt($(this).index() + 1);
                     $('tr').removeClass('layui-table-click');
@@ -261,7 +317,7 @@
                     maxmin: true,
                     //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
                     area: ['70%', '90%'],
-                    content: "/zjkProjectExpert/edit"
+                    content: "/zjkPatent/edit"
                 });
             },
             editEvent: function () {  //点击编辑按钮
@@ -279,7 +335,7 @@
                         maxmin: true,
                         //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
                         area: ['70%', '90%'],
-                        content: "/zjkProjectExpert/edit?id=" + selectRowData.dataId
+                        content: "/zjkPatent/edit?id=" + selectRowData.dataId
                     });
                     // } else {
                     //     layer.msg('只可操作未下发的数据');
@@ -304,7 +360,7 @@
                         maxmin: true,
                         //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
                         area: ['70%', '90%'],
-                        content: "/zjkProjectExpert/view/" + selectRowData.dataId
+                        content: "/zjkPatent/view/" + selectRowData.dataId
                         // content: '/plan/viewPlanPage?dataId='+dataId
                     });
                     // }
@@ -325,7 +381,7 @@
                             dataType: 'text',
                             async: false,
                             data: {"id": selectRowData.dataId},
-                            url: '/zjkProjectExpert/del-real',
+                            url: '/zjkPatent/del-real',
                             success: function (data) {
                                 // if(data==200){
                                 layer.msg("删除成功");
@@ -348,16 +404,16 @@
                 }
             },
             getCheckData: function () { //获取选中数据
-                var checkStatus = table.checkStatus('zjkProjectExpertTableId')
+                var checkStatus = table.checkStatus('zjkPatentTableId')
                     , data = checkStatus.data;
             },
             getCheckLength: function () { //获取选中数目
-                var checkStatus = table.checkStatus('zjkProjectExpertTableId')
+                var checkStatus = table.checkStatus('zjkPatentTableId')
                     , data = checkStatus.data;
                 layer.msg('选中了：' + data.length + ' 个');
             },
             isAll: function () { //验证是否全选
-                var checkStatus = table.checkStatus('zjkProjectExpertTableId');
+                var checkStatus = table.checkStatus('zjkPatentTableId');
                 layer.msg(checkStatus.isAll ? '全选' : '未全选')
             }
         };

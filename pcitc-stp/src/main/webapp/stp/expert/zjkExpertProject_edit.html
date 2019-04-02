@@ -12,7 +12,7 @@
 </head>
 <body>
 <div class="formBox">
-    <form id="zjkProjectExpert-form" name="zjkProjectExpert-form" lay-filter="zjkProjectExpert-form" class="form-horizontal layui-form">
+    <form id="zjkExpertProject-form" name="zjkExpertProject-form" lay-filter="zjkExpertProject-form" class="form-horizontal layui-form">
         <input type="hidden" name="groupId">
         <div class="box-body">
             <input type="hidden" name="dataId" id="dataId"/>
@@ -79,12 +79,24 @@
             <div class="layui-row">
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label class="layui-form-label">用户ID<span class="must-fill">*</span></label>
+                        <label class="layui-form-label">来源<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <input type="text" id="expertId" name="expertId" lay-verify="required" placeholder="请输入用户ID" autocomplete="off" class="layui-input">
+                            <input type="text" id="source" name="source" lay-verify="required" placeholder="请输入来源" autocomplete="off" class="layui-input">
                         </div>
                     </div>
                 </div>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">来源ID<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="sourceId" name="sourceId" lay-verify="required" placeholder="请输入来源ID" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="layui-row">
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
                         <label class="layui-form-label">0：正常；1：冻结<span class="must-fill">*</span></label>
@@ -93,10 +105,6 @@
                         </div>
                     </div>
                 </div>
-
-
-            </div>
-            <div class="layui-row">
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
                         <label class="layui-form-label">排序<span class="must-fill">*</span></label>
@@ -105,6 +113,10 @@
                         </div>
                     </div>
                 </div>
+
+
+            </div>
+            <div class="layui-row">
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
                         <label class="layui-form-label">状态<span class="must-fill">*</span></label>
@@ -113,10 +125,6 @@
                         </div>
                     </div>
                 </div>
-
-
-            </div>
-            <div class="layui-row">
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
                         <label class="layui-form-label">创建时间<span class="must-fill">*</span></label>
@@ -125,6 +133,10 @@
                         </div>
                     </div>
                 </div>
+
+
+            </div>
+            <div class="layui-row">
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
                         <label class="layui-form-label">创建人id<span class="must-fill">*</span></label>
@@ -133,10 +145,6 @@
                         </div>
                     </div>
                 </div>
-
-
-            </div>
-            <div class="layui-row">
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
                         <label class="layui-form-label">创建人姓名<span class="must-fill">*</span></label>
@@ -145,6 +153,10 @@
                         </div>
                     </div>
                 </div>
+
+
+            </div>
+            <div class="layui-row">
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
                         <label class="layui-form-label">修改时间<span class="must-fill">*</span></label>
@@ -153,10 +165,6 @@
                         </div>
                     </div>
                 </div>
-
-
-            </div>
-            <div class="layui-row">
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
                         <label class="layui-form-label">修改人id<span class="must-fill">*</span></label>
@@ -165,6 +173,10 @@
                         </div>
                     </div>
                 </div>
+
+
+            </div>
+            <div class="layui-row">
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
                         <label class="layui-form-label">修改人姓名<span class="must-fill">*</span></label>
@@ -173,10 +185,6 @@
                         </div>
                     </div>
                 </div>
-
-
-            </div>
-            <div class="layui-row">
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
                         <label class="layui-form-label">业务编码<span class="must-fill">*</span></label>
@@ -185,6 +193,10 @@
                         </div>
                     </div>
                 </div>
+
+
+            </div>
+            <div class="layui-row">
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
                         <label class="layui-form-label">序号<span class="must-fill">*</span></label>
@@ -193,10 +205,6 @@
                         </div>
                     </div>
                 </div>
-
-
-            </div>
-            <div class="layui-row">
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
                         <label class="layui-form-label">是否删除<span class="must-fill">*</span></label>
@@ -205,6 +213,10 @@
                         </div>
                     </div>
                 </div>
+
+
+            </div>
+            <div class="layui-row">
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
                         <label class="layui-form-label">审批状态<span class="must-fill">*</span></label>
@@ -213,10 +225,6 @@
                         </div>
                     </div>
                 </div>
-
-
-            </div>
-            <div class="layui-row">
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
                         <label class="layui-form-label">公司代码<span class="must-fill">*</span></label>
@@ -225,6 +233,10 @@
                         </div>
                     </div>
                 </div>
+
+
+            </div>
+            <div class="layui-row">
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
                         <label class="layui-form-label">修改人<span class="must-fill">*</span></label>
@@ -233,10 +245,6 @@
                         </div>
                     </div>
                 </div>
-
-
-            </div>
-            <div class="layui-row">
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
                         <label class="layui-form-label">修改时间<span class="must-fill">*</span></label>
@@ -245,11 +253,23 @@
                         </div>
                     </div>
                 </div>
+
+
+            </div>
+            <div class="layui-row">
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label class="layui-form-label">项目ID<span class="must-fill">*</span></label>
+                        <label class="layui-form-label">所属项目<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <input type="text" id="projectId" name="projectId" lay-verify="required" placeholder="请输入项目ID" autocomplete="off" class="layui-input">
+                            <input type="text" id="projectId" name="projectId" lay-verify="required" placeholder="请输入所属项目" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">项目名称<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="projectName" name="projectName" lay-verify="required" placeholder="请输入项目名称" autocomplete="off" class="layui-input">
                         </div>
                     </div>
                 </div>
@@ -259,9 +279,109 @@
             <div class="layui-row">
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
-                        <label class="layui-form-label">项目名称<span class="must-fill">*</span></label>
+                        <label class="layui-form-label"><span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <input type="text" id="projectName" name="projectName" lay-verify="required" placeholder="请输入项目名称" autocomplete="off" class="layui-input">
+                            <input type="text" id="bak7" name="bak7" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="bak8" name="bak8" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="layui-row">
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="bak9" name="bak9" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="bak10" name="bak10" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="layui-row">
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">专家ID<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="expertId" name="expertId" lay-verify="required" placeholder="请输入专家ID" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">文档编号<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="docId" name="docId" lay-verify="required" placeholder="请输入文档编号" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="layui-row">
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">年度<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="year" name="year" lay-verify="required" placeholder="请输入年度" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">项目类别<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="projectType" name="projectType" lay-verify="required" placeholder="请输入项目类别" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="layui-row">
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">经费<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="amount" name="amount" lay-verify="required" placeholder="请输入经费" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">起止时间<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="startEnd" name="startEnd" lay-verify="required" placeholder="请输入起止时间" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="layui-row">
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">承担人<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="people" name="people" lay-verify="required" placeholder="请输入承担人" autocomplete="off" class="layui-input">
                         </div>
                     </div>
                 </div>
@@ -284,11 +404,11 @@
     layui.use(['jquery', 'form', 'laydate', 'table', 'layer', 'element'],
         function () {
             var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate, form = layui.form;
-            form.render(null, 'zjkProjectExpert-form');
+            form.render(null, 'zjkExpertProject-form');
             //初始赋值 component-form-group 当前form的lay-filter
             if (id != "0") {
-                ajaxPost("/zjkProjectExpert/getZjkProjectExpertInfo", {"id": id}, function (data) {
-                    form.val("zjkProjectExpert-form", data);
+                ajaxPost("/zjkExpertProject/getZjkExpertProjectInfo", {"id": id}, function (data) {
+                    form.val("zjkExpertProject-form", data);
                 });
             }
             /* 自定义验证规则  title 要验证的input的 lay-verify=""*/
@@ -323,9 +443,9 @@
             });
             /* 监听提交 */
             form.on('submit(submitBtn)', function (data) {
-                ajaxPost("/zjkProjectExpert/saveZjkProjectExpert", data.field, function (dt, status) {
+                ajaxPost("/zjkExpertProject/saveZjkExpertProject", data.field, function (dt, status) {
                     layer.msg("操作成功");
-                    parent.layui.table.reload('zjkProjectExpertTableId', {where: {param: {}}});
+                    parent.layui.table.reload('zjkExpertProjectTableId', {where: {param: {}}});
                     var index = parent.layer.getFrameIndex(window.name);
                     parent.layer.close(index);
                 });
