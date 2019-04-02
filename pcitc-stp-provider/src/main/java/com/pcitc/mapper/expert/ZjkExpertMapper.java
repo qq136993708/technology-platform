@@ -33,6 +33,8 @@ public interface ZjkExpertMapper {
 
     int updateByPrimaryKeyWithBLOBs(ZjkExpert record);
 
+    int updateResult(Map<String, Object> map);
+
     List<ZjkExpert> findZjkExpertByPage(Map<String, Object> map);
 
     List<ZjkExpert> findZjkExpertList(ZjkExpert record);
