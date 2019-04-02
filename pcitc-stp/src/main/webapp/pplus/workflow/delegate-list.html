@@ -36,6 +36,7 @@
 	</div>
 	<script>
 		var table, active, showMessage, selectRowData;
+		var updateFlag = false;
 
 		layui.use([ 'jquery', 'table', 'laypage', 'laytpl' ], function() {
 			var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate;
@@ -130,6 +131,16 @@
 					done : function(res, curr, count) {
 						// 关闭等待刷新
 						layer.close(lodingMsg);
+						
+						// 点击行联动选择框--单选
+						$('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function() {
+							var index = parseInt($(this).index() + 1);
+							$('tr').removeClass('layui-table-click');
+							$(this).addClass('layui-table-click');
+							$('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+							$('tr:eq(' + index + ')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+							selectRowData = res.data[index - 1];
+						});
 
 						$(document).on("click", ".layui-table-body table.layui-table tbody tr", function() {
 							var index = $(this).attr('data-index');
@@ -196,7 +207,14 @@
 						maxmin : true,
 						//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
 						area : [ '800px', '450px' ],
-						content : temUrl
+						content : temUrl,
+						end : function() {
+							if (updateFlag) {
+								active.searchEvent();
+								layer.msg('操作成功');
+							}
+							
+						}
 					});
 				},
 				deleteEvent : function() { //点击删除按钮

@@ -15,6 +15,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.stp.equipment.SreEquipment;
 import com.pcitc.base.stp.equipment.SrePurchase;
 import com.pcitc.mapper.equipment.SrePurchaseMapper;
 import com.pcitc.service.equipment.PurchaseService;
@@ -94,6 +95,13 @@ public class PurchaseServiceImpl implements PurchaseService {
 		Long total = pageInfo.getTotal();
 		data.setCount(total.intValue());
 	    return data;
+	}
+
+
+	@Override
+	public List<SrePurchase> getPurchaseNameIdList() {
+		
+		return srePurchaseMapper.getPurchaseNameIdList();
 	}
 
 }

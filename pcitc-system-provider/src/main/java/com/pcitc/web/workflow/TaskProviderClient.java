@@ -607,7 +607,7 @@ public class TaskProviderClient {
 	@ApiOperation(value = "任务处理", notes = "任务处理时间、处理意见、是否同意，考虑委托等情况")
 	@RequestMapping(value = "/task-provider/task/complete", method = RequestMethod.POST)
 	public JSONObject completeTask(@RequestBody WorkflowVo workflowVo) throws Exception {
-
+		Date date1 = new Date();
 		// 此任务节点会签标识
 		boolean signFlag = false;
 		
@@ -704,12 +704,12 @@ public class TaskProviderClient {
 			taskService.resolveTask(workflowVo.getTaskId());
 		}
 
-		// 会签时，获取选择审批人给会签需要的assigneeList(下一个环节如果不是会签，assigneeList就白赋值了)
-		if (nextVar.get("auditor") != null) {
+		// 会签时，获取选择审批人给会签需要的assigneeList(下一个环节如果不是会签，assigneeList可能就白赋值了)
+		if (nextVar.get("signAuditRate") != null && nextVar.get("auditor") != null) {
 			System.out.println("1会签时====" + nextVar.get("auditor"));
 			nextVar.put("assigneeList", nextVar.get("auditor"));
 		}
-
+		
 		// 本次任务的审批人id
 		taskService.setAssignee(workflowVo.getTaskId(), workflowVo.getAuditorId());
 
@@ -720,8 +720,8 @@ public class TaskProviderClient {
 		// 完成本次任务
 		taskService.complete(workflowVo.getTaskId(), nextVar);
 		JSONObject retJson = new JSONObject();
-		
-		
+		Date date2 = new Date();
+		System.out.println("=========任务处理时间=======----------"+(date2.getTime()-date1.getTime()));
 		if (!signFlag) {// 不是会签的正常走流程
 			if (nextVar.get("agree") != null && nextVar.get("agree").toString().equals("0")) {
 				// 把agree属性，在全局变量中删除

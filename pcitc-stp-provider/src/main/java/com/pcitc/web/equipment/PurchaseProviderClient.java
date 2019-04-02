@@ -1,12 +1,11 @@
 package com.pcitc.web.equipment;
 
-import java.math.BigDecimal;
 import java.util.List;
-import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.stp.equipment.SreEquipment;
+import com.pcitc.base.stp.equipment.SrePurchase;
 import com.pcitc.service.equipment.PurchaseService;
 import com.pcitc.service.feign.SystemRemoteClient;
 import com.pcitc.service.msg.MailSentService;
@@ -44,5 +45,12 @@ public class PurchaseProviderClient
 		LayuiTableData rageResult=purchaseService.getPurchasePage(param);
 		return rageResult;
 	}
-
+	
+	@ApiOperation(value = "采购名称,ID", notes = "采购名称,ID")
+	@RequestMapping(value = "/sre-provider/getUnitNameList", method = RequestMethod.GET)
+	public List<SrePurchase> getPurchaseNameIdList()throws Exception
+	{
+		return purchaseService.getPurchaseNameIdList();
+	}
+	
 }
