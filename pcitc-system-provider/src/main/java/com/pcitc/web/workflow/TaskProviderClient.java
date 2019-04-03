@@ -632,21 +632,23 @@ public class TaskProviderClient {
 		temMap.put("agree", "1");
 		TaskDefinition taskDef = getNextTaskInfo(workflowVo.getTaskId(), temMap);
 		if (taskDef != null && taskDef.getKey().startsWith("specialAuditor")) {
-			// 特殊节点，获取当初传递的值
-			Set<String> userIds = new LinkedHashSet<String>();
 			if (nextVar.get(taskDef.getKey()) != null) {
-				// 分解group
-				String[] groups = nextVar.get(taskDef.getKey()).toString().split("-");
-				for (int i = 0; i < groups.length; i++) {
-					userIds.addAll(sysUserMapper.findUserByGroupIdFromACT(groups[i]));
+				String realAuth = nextVar.get(taskDef.getKey()).toString();
+				if (!realAuth.startsWith("post") && !realAuth.startsWith("role") && !realAuth.startsWith("unit")) {
+					String[] groups = realAuth.split("-");
+					Set<String> userIds = new LinkedHashSet<String>();
+					for (int i = 0; i < groups.length; i++) {
+						userIds.addAll(sysUserMapper.findUserByGroupIdFromACT(groups[i]));
+					}
+					nextVar.put("auditor", userIds);
+				} else {
+					// 此时前台应该已经选择好auditor
 				}
+			} else {
+				// 初始值虽然是specialAuditor开头，启动是没有配置对应变量
 			}
-			nextVar.put("auditor", userIds);
 		}
 
-		for (String key : nextVar.keySet()) {
-			System.out.println(key+"============nextVar================="+nextVar.get(key));
-		}
 		// 审批意见
 		taskService.addComment(workflowVo.getTaskId(), task.getProcessInstanceId(), nextVar.get("comment") != null ? nextVar.get("comment").toString() : "");
 		// 会签时的处理，会签条件（agreeCount）的处理
