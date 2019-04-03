@@ -191,7 +191,7 @@ public class WorkflowProviderClient {
 		// 本次任务节点的下一个节点。特殊节点，根据表单内容来觉得下一步的审批人
 		Map<String, Object> temMap = new HashMap<String, Object>();
 		temMap.put("agree", "1");
-		TaskDefinition taskDef = this.getNextTaskInfo(processInstance.getId(), temMap);
+		TaskDefinition taskDef = this.getNextTaskInfo(task.getId(), temMap);
 		// System.out.println("1=========TaskDefinition======="+taskDef);
 		if (taskDef != null && taskDef.getKey().startsWith("specialAuditor") && json.getString("auditor") != null) {
 			// 特殊节点，自动获取当初传递的审批人员的值。并且不是通过选择来确定审批者的
@@ -327,7 +327,7 @@ public class WorkflowProviderClient {
 		// 本次任务节点的下一个节点。特殊节点，根据表单内容来觉得下一步的审批人
 		Map<String, Object> temMap = new HashMap<String, Object>();
 		temMap.put("agree", "1");
-		TaskDefinition taskDef = this.getNextTaskInfo(processInstance.getId(), temMap);
+		TaskDefinition taskDef = this.getNextTaskInfo(task.getId(), temMap);
 		// System.out.println("1=========TaskDefinition======="+taskDef);
 		if (taskDef != null && taskDef.getKey().startsWith("specialAuditor")) {
 			// 特殊节点，获取当初传递的值
@@ -655,21 +655,28 @@ public class WorkflowProviderClient {
 	 * @return 下一个用户任务用户组信息
 	 * @throws Exception
 	 */
-	public TaskDefinition getNextTaskInfo(String processInstanceId, Map<String, Object> globalVar) throws Exception {
+	public TaskDefinition getNextTaskInfo(String taskId, Map<String, Object> globalVar) throws Exception {
 
 		ProcessDefinitionEntity processDefinitionEntity = null;
 		String id = null;
 		TaskDefinition task = null;
+
+		// 获取流程实例Id信息
+		Task currentTask = taskService.createTaskQuery().taskId(taskId).singleResult();
+		String processInstanceId = currentTask.getProcessInstanceId();
 
 		// 获取流程发布Id信息
 		String definitionId = runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult().getProcessDefinitionId();
 
 		processDefinitionEntity = (ProcessDefinitionEntity) ((RepositoryServiceImpl) repositoryService).getDeployedProcessDefinition(definitionId);
 
-		ExecutionEntity execution = (ExecutionEntity) runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
-
+		/*ExecutionEntity execution = (ExecutionEntity) runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
 		// 当前流程节点Id信息
-		String activitiId = execution.getActivityId();
+		String activitiId = execution.getActivityId();*/
+		
+		ExecutionEntity execution = (ExecutionEntity) runtimeService.createExecutionQuery().executionId(currentTask.getExecutionId()).singleResult();
+        String activitiId = execution.getActivityId();
+        System.out.println("4----------当前任务节点----"+activitiId);
 		if (activitiId == null) {
 			return null;
 		}
