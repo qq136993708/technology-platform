@@ -225,19 +225,13 @@ public class BudgetGroupSplitServiceImpl implements BudgetGroupSplitService
 		List<Map<String,Object>> titles = new ArrayList<Map<String,Object>>();
 		//检索分类
 		List<SysDictionary> dis = systemRemoteClient.getDictionaryListByParentCode("ROOT_JFYS_JTDWFL"+nd);
+		titles.add(new SplitItemVo("no","序号"));
+		titles.add(new SplitItemVo("cbm","处部门"));
+		titles.add(new SplitItemVo("yshj","预算合计"));
 		//增加计划项
-		
-		
 		for(SysDictionary d:dis) {
-			BudgetSplitData dt = new BudgetSplitData();
-			SplitItemVo vo = new SplitItemVo(d.getCode(),dt.getTotal(),dt.getJz(),dt.getXq());
-			Map<String,Object> map = new HashMap<String,Object>();
-			map.put("d", d.getName());
-			//计划项特殊处理，不计入总数
-			
-			
-			titles.add(map);
-			
+			//计划项特殊处理，不计入总数,列：序号，处部门，合计，结转[合计，油服..机械..其他，计划]，新签[合计，油服..机械..其他，计划]，
+			titles.add(new SplitItemVo(d.getCode(),d.getName()));
 		}
 		return titles;
 	}
