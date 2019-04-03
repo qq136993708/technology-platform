@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -68,18 +69,10 @@ public class ProjectTaskController extends BaseController {
 	private static final String UPDATE_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_task/update";
 	private static final String BATCH_DEL_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_task/batch-delete/";
 	private static final String GET_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_task/get/";
-	// 总部门审核--流程操作--同意
-	private static final String AUDIT_AGREE_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_task/task/agree/";
-	// 总部门审核--流程操作--拒绝
-	private static final String AUDIT_REJECT_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_task/task/reject/";
-	
-	// 内部审核--流程操作--同意
-	private static final String AUDIT_AGREE_URL_INNER = "http://pcitc-zuul/stp-proxy/sre-provider/project_task/task/agree_inner/";
-	// 内部审核--流程操作--拒绝
-	private static final String AUDIT_REJECT_URL_INNER = "http://pcitc-zuul/stp-proxy/sre-provider/project_task/task/reject_inner/";
 	//临时导出文件目录
 	private static final String TEMP_FILE_PATH = "src/main/resources/tem/";
-	
+	private static final String TASK_INNER_WORKFLOW_URL = "http://pcitc-zuul/stp-proxy/stp-provider/project_task/start_inner_activity/";
+	private static final String TASK_WORKFLOW_URL = "http://pcitc-zuul/stp-proxy/stp-provider/project_task/start_up_activity/";
 	
 	
 	private static final String GET_BY_TOPICID_URL = "http://pcitc-zuul/stp-proxy/sre-provider/project_task/getSreProjectTaskList/";
@@ -446,8 +439,6 @@ public class ProjectTaskController extends BaseController {
 				}
 			}
 		}
-		
-		
 		System.out.println("----------------------topicId="+topicId);
 		if(arr!=null && arr.length>0)
 		{
@@ -519,7 +510,8 @@ public class ProjectTaskController extends BaseController {
 			sreProjectBasic.setProfessionalDepartName(sreProject.getProfessionalDepartName());
 			sreProjectBasic.setProfessionalFieldName(sreProject.getProfessionalFieldName());
 			sreProjectBasic.setProfessionalFieldCode(sreProject.getProfessionalFieldCode());
-			
+			sreProjectBasic.setJoinUnitParentCodes(sreProject.getJoinUnitParentCodes());
+			sreProjectBasic.setJoinUnitParentNames(sreProject.getJoinUnitParentNames());
 			
 		}
 		sreProjectBasic.setTopicId(topicId); 
@@ -606,7 +598,7 @@ public class ProjectTaskController extends BaseController {
 	 * @param instanceName
 	 * @param sysUser
 	 */
-	private boolean dealProjectWorkFlow(HttpServletRequest request,String id,String functionId, SysUser sysUser, String instanceName, String userIds, HttpHeaders httpHeaders)throws Exception
+	/*private boolean dealProjectWorkFlow(HttpServletRequest request,String id,String functionId, SysUser sysUser, String instanceName, String userIds, HttpHeaders httpHeaders)throws Exception
 	{
 		
 		
@@ -629,7 +621,7 @@ public class ProjectTaskController extends BaseController {
 		
 		 //必须设置。流程中，需要的第二个节点的指派人；除starter外，所有待办人变量都指定为auditor(处长审批)
         //处长审批 ZSH_JTZSZYC_GJHZC_CZ
-		/*ResponseEntity<List> responseEntity = this.restTemplate.exchange(get_user_bypostcode + "ZSH_JTZSZYC_GJHZC_CZ", HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), List.class);
+		ResponseEntity<List> responseEntity = this.restTemplate.exchange(get_user_bypostcode + "ZSH_JTZSZYC_GJHZC_CZ", HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), List.class);
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode == 200)
 		{
@@ -641,7 +633,7 @@ public class ProjectTaskController extends BaseController {
 	        	variables.put("auditor", users.get(0).getUserId());
 	        }
 	        
-		}*/
+		}
 		// 发起人之后的审批环节，如果是需要选择审批人的话，此处获取选择的userIds赋值给auditor变量
 		if (userIds != null && !userIds.equals("")) 
 		{
@@ -696,7 +688,7 @@ public class ProjectTaskController extends BaseController {
 			return false;
 		}
 	}
-	
+	*/
 	
 	/**
 	 * 任务确认流程信息
@@ -705,14 +697,17 @@ public class ProjectTaskController extends BaseController {
 	 * @param instanceName
 	 * @param sysUser
 	 */
-	private boolean dealConfirmWorkFlow(String id,String functionId, SysUser sysUser, String instanceName, String userIds, HttpHeaders httpHeaders)
+	/*private boolean dealConfirmWorkFlow(String id,String functionId, SysUser sysUser, String instanceName, String userIds, HttpHeaders httpHeaders)
 	{
+		
+		
+		
 		WorkflowVo workflowVo = new WorkflowVo();
 		workflowVo.setBusinessId(String.valueOf(id));
 		workflowVo.setProcessInstanceName(instanceName);
 		workflowVo.setAuthenticatedUserId(sysUser.getUserId());
 		workflowVo.setAuthenticatedUserName(sysUser.getUserDisp());
-		workflowVo.setAuditUserIds(sysUser.getUserId());
+		//workflowVo.setAuditUserIds(sysUser.getUserId());
 		// process_define_id和functionId，两种方式二选一
 		// 清楚知道自己要走的流程定义id
 		//workflowVo.setProcessDefineId(PROCESS_DEFINE_ID_CONFIRM_FLOAT);
@@ -724,7 +719,7 @@ public class ProjectTaskController extends BaseController {
 		
 		 //必须设置。流程中，需要的第二个节点的指派人；除starter外，所有待办人变量都指定为auditor(处长审批)
         //处长审批 ZSH_JTZSZYC_GJHZC_CZ
-		/*ResponseEntity<List> responseEntity = this.restTemplate.exchange(get_user_bypostcode + "ZSH_JTZSZYC_GJHZC_CZ", HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), List.class);
+		ResponseEntity<List> responseEntity = this.restTemplate.exchange(get_user_bypostcode + "ZSH_JTZSZYC_GJHZC_CZ", HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), List.class);
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode == 200)
 		{
@@ -736,13 +731,24 @@ public class ProjectTaskController extends BaseController {
 	        	variables.put("auditor", users.get(0).getUserId());
 	        }
 	        
-		}*/
+		}
 		// 发起人之后的审批环节，如果是需要选择审批人的话，此处获取选择的userIds赋值给auditor变量
 		if (userIds != null && !userIds.equals("")) 
 		{
 			String[] userIdsArr = userIds.split(",");
 			variables.put("auditor", Arrays.asList(userIdsArr));
 		}
+		
+		
+		variables.put("specialAuditor0", "ZBGL_KTY_CYDW");
+		variables.put("specialAuditor1", "ZBGL_KTY_QYKYZG");
+    	variables.put("specialAuditor2", "ZBGL_KTY_FZDWKJCZ");
+    	variables.put("specialAuditor3", "ZBGL_KTY_FZDWZGLD");
+    	
+		//会签
+		variables.put("signAuditRate", 1d); 
+		
+		
 		// 必须设置，统一流程待办任务中需要的业务详情
 		variables.put("auditDetailsPath", "/sre_project_task/get/" + id);
 		// 流程完全审批通过时，调用的方法
@@ -764,10 +770,84 @@ public class ProjectTaskController extends BaseController {
 			System.out.println("=================流程启动失败");
 			return false;
 		}
-	}
+	}*/
 	
 	//内部确认流程
 	@RequestMapping(value = "/start_confirm_workflow")
+	@ResponseBody
+	public Object start_confirm_workflow(HttpServletRequest request, HttpServletResponse response) throws Exception 
+	{
+		this.httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);//设置参数类型和编码
+		String taskId = CommonUtil.getParameter(request, "taskId", "");
+		String functionId = CommonUtil.getParameter(request, "functionId", "");
+		String userIds = CommonUtil.getParameter(request, "userIds", "");
+		System.out.println("============start_confirm_workflow userIds="+userIds+" functionId="+functionId+" taskId="+taskId);
+		SreProjectTask sreProjectTask=EquipmentUtils.getSreProjectTask(taskId, restTemplate, httpHeaders);
+		
+		
+		Map<String ,Object> paramMap = new HashMap<String ,Object>();
+		paramMap.put("taskId", taskId);
+		paramMap.put("functionId", functionId);
+		paramMap.put("processInstanceName", "计划院内确认->"+sreProjectTask.getTopicName());
+		paramMap.put("authenticatedUserId", sysUserInfo.getUserId());
+		paramMap.put("authenticatedUserName", sysUserInfo.getUserDisp());
+		paramMap.put("auditor", userIds);
+		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
+		Result rs = this.restTemplate.exchange(TASK_INNER_WORKFLOW_URL + taskId, HttpMethod.POST, httpEntity, Result.class).getBody();
+		return rs;
+	}
+	
+	
+	//计划总部上服
+	@RequestMapping(value = "/start_workflow")
+	@ResponseBody
+	public Object startProjectPlantWorkflow(HttpServletRequest request, HttpServletResponse response) throws Exception 
+	{
+		this.httpHeaders.setContentType(MediaType.APPLICATION_JSON_UTF8);//设置参数类型和编码
+		String taskId = CommonUtil.getParameter(request, "taskId", "");
+		String functionId = CommonUtil.getParameter(request, "functionId", "");
+		String userIds = CommonUtil.getParameter(request, "userIds", "");
+		System.out.println("============startProjectPlantWorkflow userIds="+userIds+" functionId="+functionId+" taskId="+taskId);
+		SreProjectTask sreProjectTask =EquipmentUtils.getSreProjectTask(taskId,restTemplate,httpHeaders);
+		
+		String unitPathIds =   sysUserInfo.getUnitPath();
+		String parentApplyUnitPathCode ="";
+		String parentApplyUnitPathName =  "";
+		if(unitPathIds!=null && !unitPathIds.equals(""))
+		{
+			if(unitPathIds.length()>4)
+			{
+				parentApplyUnitPathCode=unitPathIds.substring(0, unitPathIds.length()-4);
+				SysUnit sysUnit=EquipmentUtils.getUnitByUnitPath(parentApplyUnitPathCode, restTemplate, httpHeaders);
+				if(sysUnit!=null)
+				{
+					parentApplyUnitPathName = sysUnit.getUnitName();
+				}
+			}
+		}
+		
+		Map<String ,Object> paramMap = new HashMap<String ,Object>();
+		paramMap.put("taskId", taskId);
+		paramMap.put("functionId", functionId);
+		paramMap.put("userIds", userIds);
+		paramMap.put("processInstanceName", "计划总部上服->"+sreProjectTask.getTopicName());
+		paramMap.put("authenticatedUserId", sysUserInfo.getUserId());
+		paramMap.put("authenticatedUserName", sysUserInfo.getUserDisp());
+		paramMap.put("functionId", functionId);
+		paramMap.put("auditor", userIds);
+		paramMap.put("sysUser", sysUserInfo);
+		paramMap.put("unitPathIds", unitPathIds);
+		paramMap.put("parentApplyUnitPathCode", parentApplyUnitPathCode);
+		paramMap.put("parentApplyUnitPathName", parentApplyUnitPathName);
+		
+		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
+		Result rs = this.restTemplate.exchange(TASK_WORKFLOW_URL + taskId, HttpMethod.POST, httpEntity, Result.class).getBody();
+		return rs;
+		
+	}
+	
+	
+	/*@RequestMapping(value = "/start_confirm_workflow")
 	@ResponseBody
 	public Object start_confirm_workflow(HttpServletRequest request, HttpServletResponse response) throws Exception 
 	{
@@ -793,10 +873,13 @@ public class ProjectTaskController extends BaseController {
 		}
 		return resultsDate;
 	}
+	*/
 	
 	
-	//部门审核流程
-	@RequestMapping(value = "/start_workflow")
+	
+	
+	
+	/*@RequestMapping(value = "/start_workflow")
 	@ResponseBody
 	public Object startProjectPlantWorkflow(HttpServletRequest request, HttpServletResponse response) throws Exception 
 	{
@@ -818,8 +901,7 @@ public class ProjectTaskController extends BaseController {
 			resultsDate = new Result(false, RequestProcessStatusEnum.SERVER_BUSY.getStatusDesc());
 		}
 		return resultsDate;
-	}
-	
+	}*/
 	//生成合同号
 	@RequestMapping(value = "/create_num")
 	@ResponseBody

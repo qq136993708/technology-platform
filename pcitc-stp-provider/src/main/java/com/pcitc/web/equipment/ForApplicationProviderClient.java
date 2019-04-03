@@ -1,5 +1,7 @@
 package com.pcitc.web.equipment;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.stp.equipment.SreEquipment;
 import com.pcitc.base.stp.equipment.SreForApplication;
+import com.pcitc.service.equipment.DetailService;
 import com.pcitc.service.equipment.ForApplicationService;
 
 import io.swagger.annotations.Api;
@@ -25,6 +28,9 @@ public class ForApplicationProviderClient
 	private final static Logger logger = LoggerFactory.getLogger(ForApplicationProviderClient.class); 
 	@Autowired
     private ForApplicationService forapplicationService; 
+	
+	@Autowired
+    private DetailService detailService; 
 	
     private final static String WORKFLOW_DEFINE_ID = "intl_notice:3:1117555";
 	
@@ -50,5 +56,16 @@ public class ForApplicationProviderClient
 		logger.info("====================add forapplication....========================");
 		Integer count= forapplicationService.insertForApplication(sreForApplication);
 		return sreForApplication.getApplicationId();
+	}
+	
+	
+	/**===============================================装备台账===================================================*/
+	
+	@ApiOperation(value = "装备台账分页", notes = "装备台账分页")
+	@RequestMapping(value = "/sre-provider/detail/page", method = RequestMethod.POST)
+	public LayuiTableData getDetailList(@RequestBody LayuiTableParam param)throws Exception
+	{
+		LayuiTableData rageResult=detailService.getDetailPage(param);
+		return rageResult;
 	}
 }

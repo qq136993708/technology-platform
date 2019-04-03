@@ -607,7 +607,7 @@ public class TaskProviderClient {
 	@ApiOperation(value = "任务处理", notes = "任务处理时间、处理意见、是否同意，考虑委托等情况")
 	@RequestMapping(value = "/task-provider/task/complete", method = RequestMethod.POST)
 	public JSONObject completeTask(@RequestBody WorkflowVo workflowVo) throws Exception {
-
+		Date date1 = new Date();
 		// 此任务节点会签标识
 		boolean signFlag = false;
 		
@@ -631,7 +631,7 @@ public class TaskProviderClient {
 		Map<String, Object> temMap = new HashMap<String, Object>();
 		temMap.put("agree", "1");
 		TaskDefinition taskDef = getNextTaskInfo(workflowVo.getTaskId(), temMap);
-		if (taskDef != null && taskDef.getKey().startsWith("specialAuditor")) {
+		if (taskDef != null && taskDef.getKey().startsWith("specialAuditor") && nextVar.get("auditor") != null) {
 			// 特殊节点，获取当初传递的值
 			Set<String> userIds = new LinkedHashSet<String>();
 			if (nextVar.get(taskDef.getKey()) != null) {
@@ -704,12 +704,12 @@ public class TaskProviderClient {
 			taskService.resolveTask(workflowVo.getTaskId());
 		}
 
-		// 会签时，获取选择审批人给会签需要的assigneeList(下一个环节如果不是会签，assigneeList就白赋值了)
-		if (nextVar.get("auditor") != null) {
+		// 会签时，获取选择审批人给会签需要的assigneeList(下一个环节如果不是会签，assigneeList可能就白赋值了)
+		if (nextVar.get("signAuditRate") != null && nextVar.get("auditor") != null) {
 			System.out.println("1会签时====" + nextVar.get("auditor"));
 			nextVar.put("assigneeList", nextVar.get("auditor"));
 		}
-
+		
 		// 本次任务的审批人id
 		taskService.setAssignee(workflowVo.getTaskId(), workflowVo.getAuditorId());
 
@@ -720,8 +720,8 @@ public class TaskProviderClient {
 		// 完成本次任务
 		taskService.complete(workflowVo.getTaskId(), nextVar);
 		JSONObject retJson = new JSONObject();
-		
-		
+		Date date2 = new Date();
+		System.out.println("=========任务处理时间=======----------"+(date2.getTime()-date1.getTime()));
 		if (!signFlag) {// 不是会签的正常走流程
 			if (nextVar.get("agree") != null && nextVar.get("agree").toString().equals("0")) {
 				// 把agree属性，在全局变量中删除
@@ -911,6 +911,14 @@ public class TaskProviderClient {
 			if (taskDef.getKey().startsWith("role") || taskDef.getKey().startsWith("unit") || taskDef.getKey().startsWith("post")) {
 				retS = taskDef.getKey();
 			}
+			
+			if (taskDef.getKey().startsWith("specialAuditor")) {
+				// 本次任务的可用变量
+				Map<String, Object> taskVar = taskService.getVariables(taskId);
+				if (taskVar.get(taskDef.getKey()) != null) {
+					retS = taskVar.get(taskDef.getKey()).toString();
+				}
+			}
 		}
 		// System.out.println("2=========TaskDefinition======="+retS);
 		return retS;
@@ -922,7 +930,7 @@ public class TaskProviderClient {
 	@ApiOperation(value = "判断下一个是否需要选择审批人", notes = "此接口是发起时调用，当前还没有任务。返回的string字符串，role、unit、post分别代表角色、组织机构、岗位")
 	@RequestMapping(value = "/task-provider/workflow/start/audit-type", method = RequestMethod.POST)
 	public String processAuditFlag(@RequestBody JSONObject json) throws Exception {
-		// System.out.println("==-=-=-="+jsonStr);
+		System.out.println("==-=-=-="+json.toJSONString());
 		String retS = "0";
 
 		String functionId = "";
@@ -971,7 +979,7 @@ public class TaskProviderClient {
 
 		// 获取全部的FlowElement信息
 		Collection<FlowElement> flowElements = process.getFlowElements();
-
+		
 		for (FlowElement flowElement : flowElements) {
 			if (flowElement.getClass().getName().contains("StartEvent")) {
 				FlowNode fn = (FlowNode) flowElement;
@@ -987,9 +995,20 @@ public class TaskProviderClient {
 						List<SequenceFlow> firstNodeOutList = firstNode.getOutgoingFlows();
 						for (SequenceFlow first : firstNodeOutList) {
 							FlowNode auditNode = (FlowNode) process.getFlowElement(first.getTargetRef());
-
+							System.out.println("=========="+auditNode.getId());
 							if (auditNode.getId().startsWith("role") || auditNode.getId().startsWith("unit") || auditNode.getId().startsWith("post")) {
 								retS = auditNode.getId();
+								break;
+							}
+							// 特殊的审批节点
+							if (auditNode.getId().startsWith("specialAuditor")) {
+								System.out.println("====specialAuditor======"+auditNode.getId());
+								// 启动的时候，让启动者选择特殊审批节点的审批人员
+								if (json != null && json.get(auditNode.getId()) != null && !json.get(auditNode.getId()).equals("")) {
+									retS = json.get(auditNode.getId()).toString();
+									System.out.println("====specialAuditor11======"+json.get(auditNode.getId()).toString());
+									break;
+								}
 							}
 						}
 					}

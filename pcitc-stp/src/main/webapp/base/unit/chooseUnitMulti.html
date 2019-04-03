@@ -44,6 +44,7 @@
 	 var table,unitNodes,funcNodes,unitTree,postType={},functionButtonMap={};
 	 var unitIds;
 	 var unitNames;
+	 var unitCodes;
 	    var unitTreeSetting = 
 	    {        view: {
 			        dblClickExpand: false,
@@ -62,21 +63,24 @@
 	    }
 	    function unitTreeOnCheck(event,treeId,treeNode) 
 	    {
-	    	
 	    	       var userTreeObj=$.fn.zTree.getZTreeObj("unitTree");
 	    	       var userNodes=userTreeObj.getCheckedNodes(true);
 	    	       //var secUsers= JSON.stringify(userNodes);
-			        var names = "";
+			       var names = "";
 		           var ids = "";
+		           var codes = "";
 	    	       for (var i = 0; i<userNodes.length;  i++) 
 	    	       {
 	                 names += userNodes[i].name + ",";
 	                 ids += userNodes[i].id + ",";
+	                 codes += userNodes[i].text + ",";
                     }
 	    	       ids = ids.substr(0, ids.length - 1);  
 	    	       names = names.substr(0, names.length - 1);  
+	    	       codes = codes.substr(0, codes.length - 1);  
 	    	       unitIds = ids;
 	   	           unitNames = names;
+	   	           unitCodes = codes;
 	    }
 	    
 	    
@@ -143,19 +147,15 @@
 				
 				//parent.chooseUnit_callback(unitIds,unitName);
 				var funcName=$("#funcName").val();
-				parent.eval(funcName+"('"+unitIds+"','"+unitNames+"');");
+				if(unitIds!=null && unitIds!='')
+				{
+					parent.eval(funcName+"('"+unitIds+"','"+unitNames+"','"+unitCodes+"');");
+				}
 				var index = parent.layer.getFrameIndex(window.name);
 				parent.layer.close(index);
 			});
 	      
-	      
-			
-			
-	      
 	    });
-	    
-	    
-
 	   
 	</script>
 </body>

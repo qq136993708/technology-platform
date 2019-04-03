@@ -101,11 +101,55 @@ public class SreProjectTask {
     private String erpNum;
     
     private String closeStatus;
+    private Date closeDate;
+    
+    private String parentApplyUnitCode;
+    
+    private String joinUnitParentCodes;
+    private String joinUnitParentNames;
     
     
     
     
-    public String getCloseStatus() {
+    
+    
+    
+    
+    
+    
+    public String getJoinUnitParentCodes() {
+		return joinUnitParentCodes;
+	}
+
+	public void setJoinUnitParentCodes(String joinUnitParentCodes) {
+		this.joinUnitParentCodes = joinUnitParentCodes;
+	}
+
+	public String getJoinUnitParentNames() {
+		return joinUnitParentNames;
+	}
+
+	public void setJoinUnitParentNames(String joinUnitParentNames) {
+		this.joinUnitParentNames = joinUnitParentNames;
+	}
+
+	public String getParentApplyUnitCode() {
+		return parentApplyUnitCode;
+	}
+
+	public void setParentApplyUnitCode(String parentApplyUnitCode) {
+		this.parentApplyUnitCode = parentApplyUnitCode;
+	}
+
+	public Date getCloseDate() {
+		return closeDate;
+	}
+
+	public void setCloseDate(Date closeDate) {
+		this.closeDate = closeDate;
+	}
+
+	public String getCloseStatus() {
 		return closeStatus;
 	}
 

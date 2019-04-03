@@ -187,21 +187,12 @@
 						layer.msg('操作失败');
 					},
 					success : function(data) { //请求成功后处理函数。
-						if (data.success) {
-							parent.showMessage = data.message;
-							parent.active.alertEvent();
-
-							var index = parent.layer.getFrameIndex(window.name);
-							parent.layer.close(index);
-							return false;
-						} else {
-							layer.msg(data.message);
-						}
+						parent.updateFlag = true;
+						var index = parent.layer.getFrameIndex(window.name);
+						parent.layer.close(index);
+						return false;
 					}
 				});
-
-				//一定要在最底下加return false -- 2018.07.08
-				return false;
 			});
 
 			$("#closeBtn").click(function() {

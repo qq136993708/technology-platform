@@ -55,6 +55,9 @@
     <result column="task_version"    property="taskVersion"  jdbcType="VARCHAR" />
     <result column="erp_num"         property="erpNum"       jdbcType="VARCHAR" />
     <result column="close_status"    property="closeStatus"  jdbcType="VARCHAR" />
+    <result column="close_date" property="closeDate" jdbcType="TIMESTAMP" />
+      <result column="join_unit_parent_codes"   property="joinUnitParentCodes"    jdbcType="VARCHAR" />
+    <result column="join_unit_parent_names" property="joinUnitParentNames"  jdbcType="VARCHAR" />
     
     
     
@@ -69,7 +72,8 @@
     end_project_month, inner_audit_status, professional_field_code, professional_field_name,setup_id,lead_unit_name,
     unit_path_ids,unit_path_names,parent_unit_path_names,parent_unit_path_ids,create_unit_name,create_unit_code,
     apply_unit_path_code,parent_apply_unit_path_code,parent_apply_unit_path_name,
-    apply_user_id,apply_user_name,document_doc,task_version,erp_num,close_status
+    apply_user_id,apply_user_name,document_doc,task_version,erp_num,close_status,close_date
+    ,join_unit_parent_codes,join_unit_parent_names
     
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
@@ -99,7 +103,7 @@
       professional_field_name, lead_unit_name,setup_id,unit_path_ids,
       unit_path_names,parent_unit_path_names,parent_unit_path_ids,create_unit_name,create_unit_code,
       apply_unit_path_code,parent_apply_unit_path_code,parent_apply_unit_path_name,apply_user_id,
-      apply_user_name,document_doc,task_version,erp_num,close_status
+      apply_user_name,document_doc,task_version,erp_num,close_status,close_date,join_unit_parent_codes,join_unit_parent_names
       )
     values (#{taskId,jdbcType=VARCHAR}, #{topicId,jdbcType=VARCHAR}, #{topicName,jdbcType=VARCHAR}, 
       #{createUserId,jdbcType=VARCHAR}, #{createUserName,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
@@ -127,7 +131,10 @@
       ,#{parentApplyUnitPathName,jdbcType=VARCHAR}
        ,#{applyUserId,jdbcType=VARCHAR}
       ,#{applyUserName,jdbcType=VARCHAR},#{documentDoc,jdbcType=VARCHAR},#{taskVersion,jdbcType=VARCHAR}
-      ,#{erpNum,jdbcType=VARCHAR},#{closeStatus,jdbcType=VARCHAR}
+      ,#{erpNum,jdbcType=VARCHAR},#{closeStatus,jdbcType=VARCHAR},#{closeDate,jdbcType=TIMESTAMP}
+        ,#{joinUnitParentCodes,jdbcType=VARCHAR}
+      ,#{joinUnitParentNames,jdbcType=VARCHAR}
+      
       )
   </insert>
   
@@ -294,12 +301,19 @@
      <if test="erpNum != null" >
         erp_num,
       </if>
-    <if test="closeStatus != null" >
+     <if test="closeStatus != null" >
         close_status,
       </if>
+    <if test="closeDate != null" >
+        close_date,
+      </if>
     
-    
-    
+    <if test="joinUnitParentCodes != null" >
+        join_unit_parent_codes,
+      </if>
+      <if test="joinUnitParentNames != null" >
+        join_unit_parent_names,
+      </if>
     
    
     </trim>
@@ -460,16 +474,23 @@
       <if test="erpNum != null" >
         #{erpNum,jdbcType=VARCHAR},
       </if>
-     <if test="closeStatus != null" >
+      <if test="closeStatus != null" >
         #{closeStatus,jdbcType=VARCHAR},
+      </if>
+    <if test="closeDate != null" >
+        #{closeDate,jdbcType=TIMESTAMP},
       </if>
     
     
     
+    <if test="joinUnitParentCodes != null" >
+        #{joinUnitParentCodes,jdbcType=VARCHAR},
+      </if>
+      <if test="joinUnitParentNames != null" >
+        #{joinUnitParentNames,jdbcType=VARCHAR},
+      </if>
     
-    
-    
-    
+     
      
      
     </trim>
@@ -633,6 +654,18 @@
       <if test="closeStatus != null" >
         close_status = #{closeStatus,jdbcType=VARCHAR},
       </if>
+     <if test="closeDate != null" >
+        close_date = #{closeDate,jdbcType=TIMESTAMP},
+      </if> 
+      
+      <if test="joinUnitParentCodes != null" >
+        join_unit_parent_codes = #{joinUnitParentCodes,jdbcType=VARCHAR},
+      </if>
+      <if test="joinUnitParentNames != null" >
+        join_unit_parent_names = #{joinUnitParentNames,jdbcType=VARCHAR},
+      </if>
+      
+      
     </set>
     where task_id = #{taskId,jdbcType=VARCHAR}
   </update>
@@ -672,6 +705,8 @@
       join_unit_name = #{joinUnitName,jdbcType=VARCHAR},
       lead_unit_code = #{leadUnitCode,jdbcType=VARCHAR},
       join_unit_code = #{joinUnitCode,jdbcType=VARCHAR},
+        join_unit_parent_codes = #{joinUnitParentCodes,jdbcType=VARCHAR},
+      join_unit_parent_names = #{joinUnitParentNames,jdbcType=VARCHAR},
       project_money = #{projectMoney,jdbcType=DECIMAL},
       document_doc = #{documentDoc,jdbcType=VARCHAR},
       belong_department_name = #{belongDepartmentName,jdbcType=VARCHAR},
@@ -689,6 +724,7 @@
       inner_audit_status = #{innerAuditStatus,jdbcType=VARCHAR},
       professional_field_code = #{professionalFieldCode,jdbcType=VARCHAR},
       lead_unit_name = #{leadUnitName,jdbcType=VARCHAR},
+      close_date = #{closeDate,jdbcType=TIMESTAMP},
       professional_field_name = #{professionalFieldName,jdbcType=VARCHAR}
     where task_id = #{taskId,jdbcType=VARCHAR}
   </update>
@@ -758,7 +794,9 @@
    </select>
     
     
-    
+     <select id="getTaskClosureList" resultMap="BaseResultMap" parameterType="Map">
+     select * from sre_project_task t      where t.audit_status='2'  and t.contract_num !='' and close_status='0'
+   </select>
     
     
     

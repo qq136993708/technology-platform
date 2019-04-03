@@ -64,6 +64,35 @@
 
 
 <script id="dateTpl" type="text/html"> {{formatTime(d.applicationTime)}} </script>
+<!-- 
+<script id="gUnit" type="text/html"> 
+
+	<select class="layui-yonyou-select" lay-ignore id="gUnittems">
+		<option value="">请选择</option>
+		<option value="1">测试重量</option>
+		<option value="2">测试长度</option>
+	</select>
+</script>
+
+
+<script id="iFication" type="text/html"> 
+
+	<select class="layui-yonyou-select" lay-ignore id="iFicationtems">
+		<option value="">请选择</option>
+		<option value="1">测试单位</option>
+		<option value="2">测试企业</option>
+	</select>
+</script>
+
+<script id="ality" type="text/html"> 
+
+<select class="layui-yonyou-select" lay-ignore id="alitytems">
+	<option value="">请选择</option>
+	<option value="1">测试北京</option>
+	<option value="2">测试上海</option>
+</select>
+-->
+</script>
 <script type="text/javascript">
     // 时间格式化
     function formatTime(d) {
@@ -320,7 +349,6 @@ var name=$('#name').val();
             {field : 'applicationUserName', title : '转资申请人', style : 'cursor: pointer;', align : 'left', width : '9%'},
             {field : 'applicationTime', title : '转资时间', style : 'cursor: pointer;', align : 'center',width : '25%', templet : '#dateTpl'},
             {field : 'applicationMoney', title : '总价¥（万元）', style : 'cursor: pointer;', align : 'center', width : '25%',templet:function(d){return '<span style="color:red">'+d.applicationMoney+'</span>'}},
-               
            ]],
            done: function (res, curr, count) {
                // 点击行联动选择框--单选
@@ -356,7 +384,7 @@ var name=$('#name').val();
 					});
 			   	}); 
 				$.each(res.data,function(i,dt){
-					$("tr[data-index='"+i+"'] td[data-field='type'] div").html(dicVal[res.data[i].type]); 
+					$("tr[data-index='"+i+"'] td[data-field='nationality'] div").html(dicVal[res.data[i].nationality]); 
 			   	});
            }
        });

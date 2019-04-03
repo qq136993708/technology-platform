@@ -1,7 +1,10 @@
 package com.pcitc.service.equipment;
 
+import java.util.List;
+
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+
 import com.pcitc.base.stp.equipment.SreForApplication;
 
 public interface ForApplicationService {
@@ -18,6 +21,7 @@ public interface ForApplicationService {
 
 	//添加转资申请
 	public Integer insertForApplication(SreForApplication sreForApplication);
+	
 	
 	
 	
