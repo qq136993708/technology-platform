@@ -631,7 +631,7 @@ public class TaskProviderClient {
 		Map<String, Object> temMap = new HashMap<String, Object>();
 		temMap.put("agree", "1");
 		TaskDefinition taskDef = getNextTaskInfo(workflowVo.getTaskId(), temMap);
-		if (taskDef != null && taskDef.getKey().startsWith("specialAuditor") && nextVar.get("auditor") != null) {
+		if (taskDef != null && taskDef.getKey().startsWith("specialAuditor")) {
 			// 特殊节点，获取当初传递的值
 			Set<String> userIds = new LinkedHashSet<String>();
 			if (nextVar.get(taskDef.getKey()) != null) {
@@ -644,6 +644,9 @@ public class TaskProviderClient {
 			nextVar.put("auditor", userIds);
 		}
 
+		for (String key : nextVar.keySet()) {
+			System.out.println(key+"============nextVar================="+nextVar.get(key));
+		}
 		// 审批意见
 		taskService.addComment(workflowVo.getTaskId(), task.getProcessInstanceId(), nextVar.get("comment") != null ? nextVar.get("comment").toString() : "");
 		// 会签时的处理，会签条件（agreeCount）的处理
@@ -684,7 +687,7 @@ public class TaskProviderClient {
 				nrOfInstances = (Integer) runtimeService.getVariable(currentExecutionId, "nrOfInstances");
 				nrOfCompletedInstances = (Integer) runtimeService.getVariable(currentExecutionId, "nrOfCompletedInstances");
 				
-				Double signAuditRate = (Double) nextVar.get("signAuditRate");
+				Double signAuditRate = Double.valueOf(nextVar.get("signAuditRate").toString());
 				if (nrOfInstances == nrOfCompletedInstances+1) { // 会签人员都审批了(+1,因为马上要complete)
 					if (signAgreeCount/nrOfInstances >= signAuditRate) {
 						nextVar.put("agree", 1);
@@ -717,6 +720,10 @@ public class TaskProviderClient {
 		nextVar.put(workflowVo.getTaskId(), workflowVo.getAuditorName());
 		nextVar.put("flowAuditorName", workflowVo.getAuditorName());
 
+		for (String key : nextVar.keySet()) {
+			System.out.println(key+"============complete================="+nextVar.get(key));
+		}
+		
 		// 完成本次任务
 		taskService.complete(workflowVo.getTaskId(), nextVar);
 		JSONObject retJson = new JSONObject();
@@ -751,7 +758,7 @@ public class TaskProviderClient {
 				// nrOfCompletedInstances：已经完成实例的数目; nrOfInstances：实例总数
 				System.out.println(signAgreeCount+"-------nrOfInstances-------"+nrOfInstances);
 				
-				Double signAuditRate = (Double) nextVar.get("signAuditRate");
+				Double signAuditRate = Double.valueOf(nextVar.get("signAuditRate").toString());
 				if (nrOfInstances == nrOfCompletedInstances+1) { // 会签人员都审批了
 					if (signAgreeCount/nrOfInstances >= signAuditRate) {
 						ProcessInstance pi = runtimeService.createProcessInstanceQuery().processInstanceId(task.getProcessInstanceId()).singleResult();
@@ -902,7 +909,7 @@ public class TaskProviderClient {
 		Map<String, Object> variables = new HashMap<String, Object>();
 		variables.put("agree", "1");
 		TaskDefinition taskDef = getNextTaskInfo(taskId, variables);
-		// System.out.println("1=========TaskDefinition======="+taskDef);
+		System.out.println("1=========selectAuditFlag======="+taskDef);
 		if (taskDef != null) {
 			// 如果taskDef.getKey()中有系统特定的值，让用户先选择这些人员（下一步审批人），否则直接通过角色/部门进行全部默认。
 			System.out.println("=========TaskDefinition=======" + taskDef.getKey());
@@ -913,10 +920,19 @@ public class TaskProviderClient {
 			}
 			
 			if (taskDef.getKey().startsWith("specialAuditor")) {
+				System.out.println("3=========specialAuditor======="+taskId);
 				// 本次任务的可用变量
 				Map<String, Object> taskVar = taskService.getVariables(taskId);
+				// 判断当前节点是否是会签节点，并且是否是最后一个审批人。
+				// 最后节点的话，如果是选择审批人类型的节点，让此次审批人选择下一步的审批人
 				if (taskVar.get(taskDef.getKey()) != null) {
-					retS = taskVar.get(taskDef.getKey()).toString();
+					String auditorType = taskVar.get(taskDef.getKey()).toString();
+					if (auditorType.startsWith("unit") && auditorType.startsWith("post") || auditorType.startsWith("role")) {
+						retS = auditorType;
+					} else {
+						// 此时下一个环节是直接指定审批人（通过预设的角色、岗位、单位）
+						System.out.println("3=========此时下一个环节是直接指定审批人（通过预设的角色、岗位、单位）======="+taskId);
+					}
 				}
 			}
 		}
@@ -925,7 +941,7 @@ public class TaskProviderClient {
 	}
 
 	/**
-	 * 判断是否需要选择审批人, 通过流程processDefineId来进行判断
+	 * 判断是否需要选择审批人, 通过流程processDefineId来进行判断（第一次启动流程时的判断）
 	 */
 	@ApiOperation(value = "判断下一个是否需要选择审批人", notes = "此接口是发起时调用，当前还没有任务。返回的string字符串，role、unit、post分别代表角色、组织机构、岗位")
 	@RequestMapping(value = "/task-provider/workflow/start/audit-type", method = RequestMethod.POST)
@@ -1005,6 +1021,7 @@ public class TaskProviderClient {
 								System.out.println("====specialAuditor======"+auditNode.getId());
 								// 启动的时候，让启动者选择特殊审批节点的审批人员
 								if (json != null && json.get(auditNode.getId()) != null && !json.get(auditNode.getId()).equals("")) {
+									// 不用选择自动配置审批人的话，此时json（html）中需要提前设定角色/岗位/单位CODE
 									retS = json.get(auditNode.getId()).toString();
 									System.out.println("====specialAuditor11======"+json.get(auditNode.getId()).toString());
 									break;
@@ -1077,30 +1094,35 @@ public class TaskProviderClient {
 		TaskDefinition task = null;
 
 		// 获取流程实例Id信息
-		String processInstanceId = taskService.createTaskQuery().taskId(taskId).singleResult().getProcessInstanceId();
+		Task currentTask = taskService.createTaskQuery().taskId(taskId).singleResult();
+		String processInstanceId = currentTask.getProcessInstanceId();
 
 		// 获取流程发布Id信息
 		String definitionId = runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult().getProcessDefinitionId();
 
 		processDefinitionEntity = (ProcessDefinitionEntity) ((RepositoryServiceImpl) repositoryService).getDeployedProcessDefinition(definitionId);
 
-		ExecutionEntity execution = (ExecutionEntity) runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
-
+		/*ExecutionEntity execution = (ExecutionEntity) runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
 		// 当前流程节点Id信息
-		String activitiId = execution.getActivityId();
+		String activitiId = execution.getActivityId();*/
+		
+		ExecutionEntity execution = (ExecutionEntity) runtimeService.createExecutionQuery().executionId(currentTask.getExecutionId()).singleResult();
+        String activitiId = execution.getActivityId();
+        System.out.println("4----------当前任务节点----"+activitiId);
 		if (activitiId == null) {
 			return null;
 		}
-		// System.out.println("activitiId========"+activitiId);
 		// 获取流程所有节点信息
 		List<ActivityImpl> activitiList = processDefinitionEntity.getActivities();
-
+		System.out.println("3----------当前任务节点----"+activitiList);
 		// 遍历所有节点信息
 		for (ActivityImpl activityImpl : activitiList) {
 			id = activityImpl.getId();
+			System.out.println("4----------当前任务节点----"+id);
 			if (activitiId.equals(id)) {
 				// 获取下一个节点信息
 				task = nextTaskDefinition(activityImpl, activityImpl.getId(), null, processInstanceId, globalVar);
+				System.out.println("5----------下一个节点----"+task);
 				break;
 			}
 		}
