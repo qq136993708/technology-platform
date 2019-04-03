@@ -1,42 +1,23 @@
 package com.pcitc.base.stp.budget.vo;
 
+import java.util.HashMap;
+
 /**
  * 
  * @author uuy
  *
  */
-public class SplitItemVo extends BudgetSplitBaseDataVo 
+public class SplitItemVo extends HashMap<String, Object>
 {
-	private Double total;
-	private Double jz;
-	private Double xq;
-    private Double plan;
-    
-	public Double getTotal() 
-	{
-		return total;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -848381741074059742L;
+
+	public SplitItemVo(String code,Object total, Object jz, Object xq) {
+		super();
+		put(code+"_total", total==null?0:total);
+		put(code+"_jz", jz==null?0:jz);
+		put(code+"_xq", xq==null?0:xq);
 	}
-	public void setTotal(Double total) {
-		this.total = total;
-	}
-	public Double getJz() {
-		return jz;
-	}
-	public void setJz(Double jz) {
-		this.jz = jz;
-	}
-	public Double getXq() {
-		return xq;
-	}
-	public void setXq(Double xq) {
-		this.xq = xq;
-	}
-	public Double getPlan() {
-		return plan;
-	}
-	public void setPlan(Double plan) {
-		this.plan = plan;
-	}
-    
-    
 }

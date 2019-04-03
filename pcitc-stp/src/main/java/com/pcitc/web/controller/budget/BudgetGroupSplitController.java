@@ -61,6 +61,9 @@ public class BudgetGroupSplitController extends BaseController {
 	private static final String BUDGET_GROUPTOTAL_LIST = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-groupsplit-info-list";	
 	private static final String BUDGET_GROUPTOTAL_INFO = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-groupsplit-info";	
 	private static final String BUDGET_GROUPTOTAL_ITEMS = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-groupsplit-items";
+	private static final String BUDGET_GROUPTOTAL_TITLES = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-groupsplit-titles";
+	
+	
 	private static final String BUDGET_GROUPTOTAL_CREATE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-create-blank-groupsplit";
 	private static final String BUDGET_GROUPTOTAL_CREATE_BYTEMPLATE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-create-template-groupsplit";
 	private static final String BUDGET_GROUPTOTAL_DELETE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-groupsplit-del";
@@ -88,6 +91,8 @@ public class BudgetGroupSplitController extends BaseController {
 		String nd = DateUtil.format(new Date(), DateUtil.FMT_YYYY);
 		request.setAttribute("nd", nd);
 		request.setAttribute("items", BudgetOrganNdEnum.getByNd(nd).getOrgans());
+		ResponseEntity<?> infors = this.restTemplate.exchange(BUDGET_GROUPTOTAL_TITLES, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), List.class);
+		
 		return "stp/budget/budget_main_groupsplit";
 	}
 	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_edit_groupsplit")

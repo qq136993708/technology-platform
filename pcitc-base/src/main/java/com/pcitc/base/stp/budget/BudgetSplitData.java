@@ -19,9 +19,9 @@ public class BudgetSplitData {
 
     private String budgetTypeName;
 
-    private Integer splitId;
-
     private String splitCode;
+
+    private String splitName;
 
     private Double total;
 
@@ -29,7 +29,7 @@ public class BudgetSplitData {
 
     private Double xq;
 
-    private Double plan;
+    private Integer paymentType;
 
     private String budgetInfoId;
 
@@ -107,20 +107,20 @@ public class BudgetSplitData {
         this.budgetTypeName = budgetTypeName;
     }
 
-    public Integer getSplitId() {
-        return splitId;
-    }
-
-    public void setSplitId(Integer splitId) {
-        this.splitId = splitId;
-    }
-
     public String getSplitCode() {
         return splitCode;
     }
 
     public void setSplitCode(String splitCode) {
         this.splitCode = splitCode;
+    }
+
+    public String getSplitName() {
+        return splitName;
+    }
+
+    public void setSplitName(String splitName) {
+        this.splitName = splitName;
     }
 
     public Double getTotal() {
@@ -147,12 +147,12 @@ public class BudgetSplitData {
         this.xq = xq;
     }
 
-    public Double getPlan() {
-        return plan;
+    public Integer getPaymentType() {
+        return paymentType;
     }
 
-    public void setPlan(Double plan) {
-        this.plan = plan;
+    public void setPaymentType(Integer paymentType) {
+        this.paymentType = paymentType;
     }
 
     public String getBudgetInfoId() {

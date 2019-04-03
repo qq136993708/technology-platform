@@ -714,66 +714,6 @@ public class BudgetSplitDataExample {
             return (Criteria) this;
         }
 
-        public Criteria andSplitIdIsNull() {
-            addCriterion("split_id is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andSplitIdIsNotNull() {
-            addCriterion("split_id is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andSplitIdEqualTo(Integer value) {
-            addCriterion("split_id =", value, "splitId");
-            return (Criteria) this;
-        }
-
-        public Criteria andSplitIdNotEqualTo(Integer value) {
-            addCriterion("split_id <>", value, "splitId");
-            return (Criteria) this;
-        }
-
-        public Criteria andSplitIdGreaterThan(Integer value) {
-            addCriterion("split_id >", value, "splitId");
-            return (Criteria) this;
-        }
-
-        public Criteria andSplitIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("split_id >=", value, "splitId");
-            return (Criteria) this;
-        }
-
-        public Criteria andSplitIdLessThan(Integer value) {
-            addCriterion("split_id <", value, "splitId");
-            return (Criteria) this;
-        }
-
-        public Criteria andSplitIdLessThanOrEqualTo(Integer value) {
-            addCriterion("split_id <=", value, "splitId");
-            return (Criteria) this;
-        }
-
-        public Criteria andSplitIdIn(List<Integer> values) {
-            addCriterion("split_id in", values, "splitId");
-            return (Criteria) this;
-        }
-
-        public Criteria andSplitIdNotIn(List<Integer> values) {
-            addCriterion("split_id not in", values, "splitId");
-            return (Criteria) this;
-        }
-
-        public Criteria andSplitIdBetween(Integer value1, Integer value2) {
-            addCriterion("split_id between", value1, value2, "splitId");
-            return (Criteria) this;
-        }
-
-        public Criteria andSplitIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("split_id not between", value1, value2, "splitId");
-            return (Criteria) this;
-        }
-
         public Criteria andSplitCodeIsNull() {
             addCriterion("split_code is null");
             return (Criteria) this;
@@ -841,6 +781,76 @@ public class BudgetSplitDataExample {
 
         public Criteria andSplitCodeNotBetween(String value1, String value2) {
             addCriterion("split_code not between", value1, value2, "splitCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andSplitNameIsNull() {
+            addCriterion("split_name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSplitNameIsNotNull() {
+            addCriterion("split_name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSplitNameEqualTo(String value) {
+            addCriterion("split_name =", value, "splitName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSplitNameNotEqualTo(String value) {
+            addCriterion("split_name <>", value, "splitName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSplitNameGreaterThan(String value) {
+            addCriterion("split_name >", value, "splitName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSplitNameGreaterThanOrEqualTo(String value) {
+            addCriterion("split_name >=", value, "splitName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSplitNameLessThan(String value) {
+            addCriterion("split_name <", value, "splitName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSplitNameLessThanOrEqualTo(String value) {
+            addCriterion("split_name <=", value, "splitName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSplitNameLike(String value) {
+            addCriterion("split_name like", value, "splitName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSplitNameNotLike(String value) {
+            addCriterion("split_name not like", value, "splitName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSplitNameIn(List<String> values) {
+            addCriterion("split_name in", values, "splitName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSplitNameNotIn(List<String> values) {
+            addCriterion("split_name not in", values, "splitName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSplitNameBetween(String value1, String value2) {
+            addCriterion("split_name between", value1, value2, "splitName");
+            return (Criteria) this;
+        }
+
+        public Criteria andSplitNameNotBetween(String value1, String value2) {
+            addCriterion("split_name not between", value1, value2, "splitName");
             return (Criteria) this;
         }
 
@@ -1024,63 +1034,63 @@ public class BudgetSplitDataExample {
             return (Criteria) this;
         }
 
-        public Criteria andPlanIsNull() {
-            addCriterion("plan is null");
+        public Criteria andPaymentTypeIsNull() {
+            addCriterion("payment_type is null");
             return (Criteria) this;
         }
 
-        public Criteria andPlanIsNotNull() {
-            addCriterion("plan is not null");
+        public Criteria andPaymentTypeIsNotNull() {
+            addCriterion("payment_type is not null");
             return (Criteria) this;
         }
 
-        public Criteria andPlanEqualTo(Double value) {
-            addCriterion("plan =", value, "plan");
+        public Criteria andPaymentTypeEqualTo(Integer value) {
+            addCriterion("payment_type =", value, "paymentType");
             return (Criteria) this;
         }
 
-        public Criteria andPlanNotEqualTo(Double value) {
-            addCriterion("plan <>", value, "plan");
+        public Criteria andPaymentTypeNotEqualTo(Integer value) {
+            addCriterion("payment_type <>", value, "paymentType");
             return (Criteria) this;
         }
 
-        public Criteria andPlanGreaterThan(Double value) {
-            addCriterion("plan >", value, "plan");
+        public Criteria andPaymentTypeGreaterThan(Integer value) {
+            addCriterion("payment_type >", value, "paymentType");
             return (Criteria) this;
         }
 
-        public Criteria andPlanGreaterThanOrEqualTo(Double value) {
-            addCriterion("plan >=", value, "plan");
+        public Criteria andPaymentTypeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("payment_type >=", value, "paymentType");
             return (Criteria) this;
         }
 
-        public Criteria andPlanLessThan(Double value) {
-            addCriterion("plan <", value, "plan");
+        public Criteria andPaymentTypeLessThan(Integer value) {
+            addCriterion("payment_type <", value, "paymentType");
             return (Criteria) this;
         }
 
-        public Criteria andPlanLessThanOrEqualTo(Double value) {
-            addCriterion("plan <=", value, "plan");
+        public Criteria andPaymentTypeLessThanOrEqualTo(Integer value) {
+            addCriterion("payment_type <=", value, "paymentType");
             return (Criteria) this;
         }
 
-        public Criteria andPlanIn(List<Double> values) {
-            addCriterion("plan in", values, "plan");
+        public Criteria andPaymentTypeIn(List<Integer> values) {
+            addCriterion("payment_type in", values, "paymentType");
             return (Criteria) this;
         }
 
-        public Criteria andPlanNotIn(List<Double> values) {
-            addCriterion("plan not in", values, "plan");
+        public Criteria andPaymentTypeNotIn(List<Integer> values) {
+            addCriterion("payment_type not in", values, "paymentType");
             return (Criteria) this;
         }
 
-        public Criteria andPlanBetween(Double value1, Double value2) {
-            addCriterion("plan between", value1, value2, "plan");
+        public Criteria andPaymentTypeBetween(Integer value1, Integer value2) {
+            addCriterion("payment_type between", value1, value2, "paymentType");
             return (Criteria) this;
         }
 
-        public Criteria andPlanNotBetween(Double value1, Double value2) {
-            addCriterion("plan not between", value1, value2, "plan");
+        public Criteria andPaymentTypeNotBetween(Integer value1, Integer value2) {
+            addCriterion("payment_type not between", value1, value2, "paymentType");
             return (Criteria) this;
         }
 
