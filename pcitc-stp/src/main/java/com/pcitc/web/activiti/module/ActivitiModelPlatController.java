@@ -153,34 +153,42 @@ public class ActivitiModelPlatController extends BaseController {
 	 * @author zhf
 	 * @date 2018年4月20日 模型的导出
 	 */
-	@RequestMapping(value = "/activiti-model/export/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/activiti-model/export/{id}/{name}", method = RequestMethod.GET)
 	@OperationFilter(modelName = "系统管理", actionName = "导出工作流文件")
-	public void modelExport(@PathVariable("id") String id, HttpServletResponse response) throws Exception {
+	public ResponseEntity<byte[]> modelExport(@PathVariable("id") String id, @PathVariable("name") String name, HttpServletResponse response) throws Exception {
 		System.out.println("1======export----------" + id);
 
 		WorkflowVo workflowVo = new WorkflowVo();
 		workflowVo.setModelId(id);
 		ResponseEntity<byte[]> resultRes = this.restTemplate.exchange(MODEL_EXPORT_URL, HttpMethod.POST, new HttpEntity<WorkflowVo>(workflowVo, this.httpHeaders), byte[].class);
 		System.out.println("modelExport=====" + resultRes.getBody());
-		
+		httpHeaders.add("x-frame-options", "ALLOW-FROM");
+		response.addHeader("x-frame-options", "ALLOW-FROM");
+		String filename = name + ".bpmn";
+		response.setHeader("Content-Disposition", "attachment; filename=" + new String(filename.getBytes("gb2312"), "ISO8859-1"));
 
-		try {
+		/*try {
 			if (resultRes.getBody() == null) {
 				response.setCharacterEncoding("utf-8");
 				response.getWriter().print("<script>modals.error('文件生成错误');</script>");
 				response.flushBuffer();
 				return;
 			}
+			System.out.println("1modelExport=====" + resultRes.getBody());
 			ByteArrayInputStream in = new ByteArrayInputStream(resultRes.getBody());
+			System.out.println("2modelExport=====" + in);
 			IOUtils.copy(in, response.getOutputStream());
+			System.out.println("3modelExport=====" + resultRes.getBody());
 			
-			response.setHeader("Content-Disposition", "attachment; filename=" + new String("BPMN文件.bpmn".getBytes("gb2312"), "ISO8859-1"));
+			System.out.println("4modelExport=====" + resultRes.getBody());
 			response.flushBuffer();
+			System.out.println("5modelExport=====" + resultRes.getBody());
 		} catch (Exception e) {
 			response.setCharacterEncoding("utf-8");
 			response.getWriter().print("<script>modals.error('导出失败');</script>");
 			response.flushBuffer();
-		}
+		}*/
+		return resultRes;
 	}
 
 	@RequestMapping(value = "/activiti-model/file/upload")
