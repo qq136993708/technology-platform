@@ -87,10 +87,10 @@
 	                <tr>
 	                	<th lay-data="{type:'checkbox'}" rowspan="3"></th>
 	                	<th lay-data="{field:'no',align: 'center', width: 45,totalRowText: '合计'}" rowspan="3">序号</th>
-	                    <th lay-data="{field:'displayName', width: '15%'}" rowspan="3">专业处/部门</th>
-	                    <th lay-data="{field:'remark', width: '10%'}" rowspan="3">预算合计</th>
-	                   	<th lay-data="{field:'last_year_end',align: 'right',totalRow: true}" colspan="5">2018年结转项目经费</th>
-	                    <th lay-data="{field:'plan_money',align: 'right', totalRow: true}" colspan="5">2018年新签项目经费</th>
+	                    <th lay-data="{field:'organName', width: '15%'}" rowspan="3">专业处/部门</th>
+	                    <th lay-data="{field:'remark', width: '10%',totalRow: true}" rowspan="3">预算合计</th>
+	                   	<th lay-data="{align: 'center',totalRow: true}" colspan="5">2018年结转项目经费</th>
+	                    <th lay-data="{align: 'center', totalRow: true}" colspan="5">2018年新签项目经费</th>
 	                </tr>
 	                <tr>
 	                    <th lay-data="{field:'total', align: 'right',totalRow: true}"  rowspan="2">合计</th>
@@ -179,7 +179,7 @@
             		$("#update_time").html(curent_budget_info.updateTime);//最后更新时间
             		$("#info_status").html(curent_budget_info.auditStatusDesc);//状态
             		
-            		publicMethods.ajaxPost("/budget/budget-grouptotal-items",{page:1,limit:100,param: {"nd":cu_date,"budget_info_id":curent_budget_info.dataId}}, function (data) {
+            		publicMethods.ajaxPost("/budget/budget-groupsplit-items",{page:1,limit:100,param: {"nd":cu_date,"budget_info_id":curent_budget_info.dataId}}, function (data) {
 	                	curent_tabel_data = data.data;
 	                	table.reload('dataTable', {data: data.data});
 	                	renderfunc();
@@ -206,9 +206,9 @@
 			//初始化时间选择
 			function initDateView(){
 				$(".nd").html(cu_date);
-            	$('.layui-table-cell .laytable-cell-group').find('span').text(cu_date+"年度经费预算");
-            	$(".layui-table-header .layui-table").find('th').eq(3).find('span').text((cu_date-1)+"年实际完成");
-            	$(".layui-table-header .layui-table").find('th').eq(4).find('span').text(cu_date+"年合同计划");
+            	
+            	//$(".layui-table-header .layui-table").find('th').eq(3).find('span').text((cu_date)+"年实际完成");
+            	//$(".layui-table-header .layui-table").find('th').eq(4).find('span').text(cu_date+"年合同计划");
 			}
             // 点击按钮时激活
             $('.tableBtns').children('button').on('click',function(){

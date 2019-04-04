@@ -21,8 +21,8 @@ import com.pcitc.base.common.enums.BudgetAuditStatusEnum;
 import com.pcitc.base.common.enums.BudgetInfoEnum;
 import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.util.MyBeanUtils;
-import com.pcitc.service.budget.BudgetInfoService;
 import com.pcitc.service.budget.BudgetGroupSplitService;
+import com.pcitc.service.budget.BudgetInfoService;
 import com.pcitc.service.feign.SystemRemoteClient;
 
 import io.swagger.annotations.Api;
@@ -145,19 +145,24 @@ public class BudgetGroupSplitProviderClient
 	}
 	@ApiOperation(value="集团公司预算分解-预算明细检索",notes="检索集团预算分解明细列表数据")
 	@RequestMapping(value = "/stp-provider/budget/budget-groupsplit-items", method = RequestMethod.POST)
-	public Object selectGroupSplitItemTable(@RequestBody BudgetInfo info) 
+	public Object selectGroupSplitItemTable(@RequestBody LayuiTableParam param) 
 	{
-		logger.info("select-budget-grouptotal-items..."+info.getDataId());
+		String dataId = param.getParam().get("budget_info_id").toString();
+		logger.info("select-budget-grouptotal-items..."+dataId);
+		LayuiTableData table = new LayuiTableData();
 		List<Map<String,Object>> data = null;
 		try
 		{
-			data =  budgetGroupSplitService.selectBudgetSplitDataList(info.getDataId());
+			data =  budgetGroupSplitService.selectBudgetSplitDataList(dataId);
+			table.setData(data);
+			table.setCount(data.size());
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
 		}
-		return data;
+		System.out.println(JSON.toJSONString(table));
+		return table;
 	}
 	@ApiOperation(value="集团公司预算分解-预算明细标题",notes="定义集团预算分解表标题。")
 	@RequestMapping(value = "/stp-provider/budget/budget-groupsplit-titles", method = RequestMethod.POST)
