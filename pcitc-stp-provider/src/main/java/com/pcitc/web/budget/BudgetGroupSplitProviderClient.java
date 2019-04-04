@@ -55,8 +55,13 @@ public class BudgetGroupSplitProviderClient
 		{
 			
 			List<BudgetInfo> datalist = budgetInfoService.selectBudgetInfoList(info.getNd(),BudgetInfoEnum.GROUP_SPLIT.getCode());
+			//获取集团预算总表中可用分配数（审批通过的集团预算）
+			BudgetInfo finalBudgetInfo = budgetInfoService.selectFinalBudget(info.getNd(),BudgetInfoEnum.GROUP_TOTAL.getCode());
 			System.out.println(JSON.toJSONString(datalist));
 			for(BudgetInfo dt:datalist) {
+				if(finalBudgetInfo !=null) {
+					dt.setBudgetMoney(finalBudgetInfo.getBudgetMoney());
+				}
 				Map<String,Object> map = MyBeanUtils.transBean2Map(dt);
 				map.put("auditStatusDesc", BudgetAuditStatusEnum.getStatusByCode(dt.getAuditStatus()).getDesc());
 				rsdata.add(map);

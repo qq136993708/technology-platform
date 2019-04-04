@@ -60,8 +60,8 @@
         <div class="tableToolBox">
             <div class="num-box">
                 <label class="dateInput">
-                    <span>预分配数</span>
-                    <input type="text" name="budgetMoney" id="budgetMoney" value="0">
+                    <span>可分配数</span>
+                    <input type="text" name="budgetMoney" id="budgetMoney" readonly="readonly" value="0">
                 </label>
                 <label class="dateInput">
                     <span>剩余可分配</span>
@@ -282,7 +282,7 @@
                         , maxmin: false
                         //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
                         , area: ['80%', '90%']
-                        , content: '/budget/budget_create_grouptotal?nd='+cu_date
+                        , content: '/budget/budget_create_groupsplit?nd='+cu_date
                     });
                 },
                 saveEvent:function(){
@@ -290,7 +290,7 @@
                 		parent.layer.alert("请选择需要保存的预算版本", {title : '提示'});
                 		return;
                 	}                
-   					publicMethods.ajaxPost("/budget/save-grouptotal-items", {"info":JSON.stringify(curent_budget_info),"items":JSON.stringify(curent_tabel_data)}, function (data) {
+   					publicMethods.ajaxPost("/budget/save-groupsplit-items", {"info":JSON.stringify(curent_budget_info),"items":JSON.stringify(curent_tabel_data)}, function (data) {
    	                     if (data.success) {    	                    	
    	                    	 layer.msg('保存成功!');
    	                     } else {
@@ -304,7 +304,7 @@
                 	}  
                 	layer.confirm('提交后将不可再编辑！确定要提交审批吗？',{title:"提交确认"},function(index){
     					layer.close(index);
-    					publicMethods.ajaxPost("/budget/start-budget-grouptotal-activity", {"budgetInfoId":curent_budget_info.dataId,"functionId":param.id}, function (data) {
+    					publicMethods.ajaxPost("/budget/start-budget-groupsplit-activity", {"budgetInfoId":curent_budget_info.dataId,"functionId":param.id}, function (data) {
     	                     if (data.success) {    	                    	 
     	                    	 budget_info_map[data.data.dataVersion]=data.data; 
     	                    	 $("#data_version").trigger("change");
@@ -320,14 +320,14 @@
                 		parent.layer.alert("请选择需要导出的预算版本", {title : '提示'});
                 		return;
                 	} 
-                	window.open("/budget/budget_download/grouptotal/"+curent_budget_info.dataId);
+                	window.open("/budget/budget_download/groupsplit/"+curent_budget_info.dataId);
                 },historyCompare:function(){
                 	var selectIndex = $(".layui-form-checked").parents("tr").attr("data-index");
                 	if(!selectIndex){
                 		parent.layer.alert("请选择历史数据项", {title : '提示'});
                 		return;
                 	}
-                	var url = '/budget/budget_history_compare_grouptotal?dataId='+curent_tabel_data[selectIndex].dataId+"&budgetInfoId="+curent_budget_info.dataId;
+                	var url = '/budget/budget_history_compare_groupsplit?dataId='+curent_tabel_data[selectIndex].dataId+"&budgetInfoId="+curent_budget_info.dataId;
                    	layer.open({
                         title: '集团公司经费预算编制管理-往年预算参考'
                         , skin: 'layui-layer-lan'
@@ -345,7 +345,7 @@
                 		parent.layer.alert("请选择预算版本", {title : '提示'});
                 		return;
                 	} 
-                	var url = '/budget/budget_history_view_grouptotal?budgetInfoId='+curent_budget_info.dataId;
+                	var url = '/budget/budget_history_view_groupsplit?budgetInfoId='+curent_budget_info.dataId;
                    	layer.open({
                         title: '集团公司经费预算编制管理-历年参考数据'
                         , skin: 'layui-layer-lan'
