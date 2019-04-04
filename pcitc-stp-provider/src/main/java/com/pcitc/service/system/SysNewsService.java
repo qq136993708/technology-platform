@@ -7,6 +7,7 @@ import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.TreeNode;
 import com.pcitc.base.system.SysNews;
 import com.pcitc.base.system.SysNewsExample;
+import com.pcitc.base.system.SysNewsVo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -181,4 +182,8 @@ public interface SysNewsService {
      * @return
      */
     List<TreeNode> selectObjectByTree();
+
+    public List<SysNewsVo> selectNewsMain(SysNewsVo news) throws Exception;
+
+    List<SysNews> getNewsIndexType(SysNews sysNews);
 }

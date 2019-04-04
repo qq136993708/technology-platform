@@ -5,6 +5,7 @@ import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.enums.DataOperationStatusEnum;
 import com.pcitc.base.system.SysNews;
 import com.pcitc.base.system.SysNewsExample;
+import com.pcitc.base.system.SysNewsVo;
 import com.pcitc.service.system.SysNewsService;
 import com.alibaba.fastjson.JSONObject;
 import org.slf4j.Logger;
@@ -54,6 +55,18 @@ public class SysNewsClient {
         JSONObject retJson = new JSONObject();
         try {
             List<SysNews> list = sysNewsService.findSysNewsList(sysNews);
+            retJson.put("list", list);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return retJson;
+    }
+
+    @RequestMapping(value = "/sysnews-provider/sysnews/getNewsIndexType", method = RequestMethod.POST)
+    public JSONObject getNewsIndexType(@RequestBody SysNews sysNews) {
+        JSONObject retJson = new JSONObject();
+        try {
+            List<SysNews> list = sysNewsService.getNewsIndexType(sysNews);
             retJson.put("list", list);
         } catch (Exception e) {
             e.printStackTrace();
@@ -136,5 +149,21 @@ public class SysNewsClient {
             logger.error("[保存信息失败：]", e);
         }
         return 500;
+    }
+
+    /**
+     * 查询已发布的新闻信息
+     *
+     * @param news
+     * @return
+     */
+    @RequestMapping(value = "/news-provider/select_news_main", method = RequestMethod.POST)
+    public List<SysNewsVo> selectNewsMain(@RequestBody SysNewsVo news) {
+        try {
+            return sysNewsService.selectNewsMain(news);
+        } catch (Exception e) {
+            logger.error("[新闻管理-首页查询新闻信息失败：]", e);
+        }
+        return null;
     }
 }

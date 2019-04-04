@@ -90,6 +90,24 @@ public class SysNewsController extends BaseController {
      */
     private static final String SAVE = "http://pcitc-zuul/stp-proxy/sysnews-provider/sysnews/save_sysnews";
 
+
+    private static final String getNewsIndexType = "http://pcitc-zuul/stp-proxy/sysnews-provider/sysnews/getNewsIndexType";
+
+
+    @RequestMapping(value = "/getNewsIndexType", method = RequestMethod.POST)
+    @ResponseBody
+    public Object getNewsIndexType() {
+        SysNews sysNews = new SysNews();
+        sysNews.setBak3(request.getParameter("bak3"));
+        sysNews.setStype(request.getParameter("stype"));
+        System.out.println(sysNews.getBak3());
+        System.out.println(sysNews.getStype());
+        ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(getNewsIndexType, HttpMethod.POST, new HttpEntity<SysNews>(sysNews, this.httpHeaders), JSONObject.class);
+        JSONObject retJson = responseEntity.getBody();
+        List<SysNews> list = (List<SysNews>) retJson.get("list");
+        return list;
+    }
+
     /**
      * 系统新闻表-查询列表
      *
@@ -215,6 +233,15 @@ public class SysNewsController extends BaseController {
         ResponseEntity<SysNews> responseEntity = this.restTemplate.exchange(GET_INFO + id, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), SysNews.class);
         SysNews news = responseEntity.getBody();
         return news;
+    }
+
+    @RequestMapping(value = "/getNewsIndexTypeDetail")
+    public String getNewsIndexTypeDetail(HttpServletRequest request) {
+        String id = request.getParameter("dataId");
+        ResponseEntity<SysNews> responseEntity = this.restTemplate.exchange(GET_INFO + id, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), SysNews.class);
+        SysNews news = responseEntity.getBody();
+        request.setAttribute("list",news);
+        return "layui/leader_speech_details";
     }
 
     @RequestMapping(value = "/tree-data")

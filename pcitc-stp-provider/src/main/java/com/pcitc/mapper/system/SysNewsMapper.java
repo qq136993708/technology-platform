@@ -6,6 +6,7 @@ import com.pcitc.base.system.SysNewsExample;
 import java.util.List;
 import java.util.Map;
 
+import com.pcitc.base.system.SysNewsVo;
 import org.apache.ibatis.annotations.Param;
 
 public interface SysNewsMapper {
@@ -36,5 +37,7 @@ public interface SysNewsMapper {
     List<SysNews> findSysNewsByPage(Map<String, Object> map);
 
     List<SysNews> findSysNewsList(SysNews record);
+
+    List<SysNewsVo> selectNewsMain(SysNewsVo news);
 
 }

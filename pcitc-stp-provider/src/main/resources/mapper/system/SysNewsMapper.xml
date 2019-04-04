@@ -954,4 +954,10 @@
             order by ${iSortCol} ${sSortDir_0}
         </if>
     </select>
+    <!-- 首页查询新闻列表 -->
+    <select id="selectNewsMain" resultType="com.pcitc.base.system.SysNewsVo">
+    select data_id as id ,title,content,status,author,public_date as createtime,public_date as updatetime,public_date
+    from sys_news where status=1
+      order by updatetime desc limit 0,6
+  </select>
 </mapper>

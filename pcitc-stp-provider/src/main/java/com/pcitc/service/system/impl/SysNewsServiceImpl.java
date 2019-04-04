@@ -23,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -251,4 +252,38 @@ public class SysNewsServiceImpl implements SysNewsService {
 
         return orderNodes;
     }
+
+    @Override
+    public List<SysNewsVo> selectNewsMain(SysNewsVo news) throws Exception {
+        List<SysNewsVo> sysNewsList = sysNewsMapper.selectNewsMain(news);
+        // for (int i = 0,j=sysNewsList.size(); i < j; i++) {
+        // if (sysNewsList.get(i).getTitle().length()>20){
+        // sysNewsList.get(i).setTitle(sysNewsList.get(i).getTitle().substring(0,20)+"...");
+        // }
+        // }
+        return sysNewsList;
+    }
+
+    @Override
+    public List<SysNews> getNewsIndexType(SysNews sysNews) {
+        String strStype = sysNews.getStype();
+        int limit = Integer.parseInt(sysNews.getBak3());
+        String[] strStypeArray= strStype.split("\\|");
+
+        List<SysNews> list = new ArrayList<>();
+        for (int i = 0; i < strStypeArray.length; i++) {
+            SysNewsExample e = new SysNewsExample();
+            e.createCriteria().andStypeEqualTo(strStypeArray[i]);
+
+            int pageSize = limit;
+            int pageStart = 0;
+            int pageNum = pageStart / pageSize + 1;
+            PageHelper.startPage(pageNum, pageSize);
+            List<SysNews> news = sysNewsMapper.selectByExample(e);
+
+            list.addAll(news);
+        }
+        return list;
+    }
+
 }
