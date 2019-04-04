@@ -450,6 +450,7 @@ pcitcFile.reloadTable();
                 $("#testListActionDisabled").toggle();
 
                 pcitcFile.setHeadCheck();
+
                 if (pcitcFile.IEVersion() == "IE") {
                     var param = JSON.parse(window.localStorage.getItem("param"));
                     var functionId = param.id;
@@ -461,6 +462,7 @@ pcitcFile.reloadTable();
                         parent.document.getElementById(iframeId).src = parent.document.getElementById(iframeId).src;
                     }
                 }
+                pcitcFile.getFileResult($("#"+pcitcFile.fileIds).val());
             }
             , error: function (index, upload) {
                 console.log("----------error---------");
