@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>经费预算-集团经费预算</title>
+    <title>经费预算-集团经费预算分解</title>
     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()">
     <script src="/layuiadmin/layui/layui.js"></script>
@@ -31,7 +31,7 @@
 <body>
     <div class="headline-box">
         <div class="headline-title" title="集团经费预算总表">
-            	<span class="nd">${nd}</span>年集团总部科技经费预算(建议稿)
+            	<span class="nd">${nd}</span>年集团经费预算明细表(建议稿)
         </div>
         <div class="headline-tool">
             <div class="tool-left">
@@ -68,14 +68,8 @@
                     <input type="text" name="surplusMoney" id="surplusMoney"  readonly="readonly" value="0">
                 </label>
             </div>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg"
-                    data-type="addEvent">新增
-            </button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_edit btnMyBgImg"
                     data-type="editEvent">编辑
-            </button>
-            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg"
-                    data-type="deleteEvent">删除
             </button>
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_save2 btnMyBgImg"
                     data-type="saveEvent">保存
@@ -90,20 +84,30 @@
         <div id="tableBox">
             <table id="dataTable" class="layui-table" lay-filter="dataTable" lay-data="{ID:'dataTable',height: '400',limit:100, url:'',totalRow: true}">
                 <thead>
-                <tr>
-                	<th lay-data="{type:'checkbox'}" rowspan="2"></th>
-                	<th lay-data="{field:'no',align: 'center', width: 45,totalRowText: '合计'}" rowspan="2">序号</th>
-                    <th lay-data="{field:'displayName', width: '25%'}" rowspan="2">承担单位</th>
-                    <!-- <th lay-data="{field:'remark', width: '30%'}" rowspan="2">研究方向</th> -->
-                   	<th lay-data="{field:'last_year_end',align: 'right', width: '15%',totalRow: true}" rowspan="2">2018年实际完成</th>
-                    <th lay-data="{field:'plan_money',align: 'right', width: '15%',totalRow: true}" rowspan="2">2019年合同计划</th>
-                    <th lay-data="{align:'center'}", colspan="3"><span>${nd}</span>年度经费预算</th>
-                </tr>
-                <tr>
-                    <th lay-data="{field:'total', width: '10%',align: 'right',totalRow: true}">合计</th>
-                    <th lay-data="{field:'xmjf', edit:true,align: 'right',totalRow: true}">项目经费</th>
-                    <th lay-data="{field:'zxjf', edit:true,align: 'right',totalRow: true}">重点实验室专项经费</th>
-                </tr>
+	                <tr>
+	                	<th lay-data="{type:'checkbox'}" rowspan="3"></th>
+	                	<th lay-data="{field:'no',align: 'center', width: 45,totalRowText: '合计'}" rowspan="3">序号</th>
+	                    <th lay-data="{field:'displayName', width: '15%'}" rowspan="3">专业处/部门</th>
+	                    <th lay-data="{field:'remark', width: '10%'}" rowspan="3">预算合计</th>
+	                   	<th lay-data="{field:'last_year_end',align: 'right',totalRow: true}" colspan="5">2018年结转项目经费</th>
+	                    <th lay-data="{field:'plan_money',align: 'right', totalRow: true}" colspan="5">2018年新签项目经费</th>
+	                </tr>
+	                <tr>
+	                    <th lay-data="{field:'total', align: 'right',totalRow: true}"  rowspan="2">合计</th>
+	                    <th lay-data="{field:'xmjf', edit:true,align: 'right',totalRow: true}"  colspan="3">拨款</th>
+	                    <th lay-data="{field:'zxjf', edit:true,align: 'right',totalRow: true}"  rowspan="2">计划</th>
+	                    <th lay-data="{field:'total', align: 'right',totalRow: true}"  rowspan="2">合计</th>
+	                    <th lay-data="{field:'xmjf', edit:true,align: 'right',totalRow: true}"  colspan="3">拨款</th>
+	                    <th lay-data="{field:'zxjf', edit:true,align: 'right',totalRow: true}"  rowspan="2">计划</th>
+	                </tr>
+	                 <tr>
+	                    <th lay-data="{field:'total', align: 'right',totalRow: true}">油服</th>
+	                    <th lay-data="{field:'xmjf', edit:true,align: 'right',totalRow: true}">机械</th>
+	                    <th lay-data="{field:'zxjf', edit:true,align: 'right',totalRow: true}">其他</th>
+	                    <th lay-data="{field:'total', align: 'right',totalRow: true}">油服</th>
+	                    <th lay-data="{field:'xmjf', edit:true,align: 'right',totalRow: true}">机械</th>
+	                    <th lay-data="{field:'zxjf', edit:true,align: 'right',totalRow: true}">其他</th>
+	                </tr>
                 </thead>
             </table>
         </div>
@@ -240,7 +244,7 @@
 			});
           	//初始化数据版本
             function initDataVersion(budget_id){
-                publicMethods.ajaxPost("/budget/budget_group_info_list",{"nd":cu_date}, function (dt) {
+                publicMethods.ajaxPost("/budget/budget_groupsplit_info_list",{"nd":cu_date}, function (dt) {
                 	$("#data_version").html('<option value="">---请选择版本---</option>');
                 	budget_info_map = {};
                 	$.each(dt,function(index,data){
@@ -280,32 +284,13 @@
                         , content: '/budget/budget_create_grouptotal?nd='+cu_date
                     });
                 },
-                addEvent: function() {
-                	if($("#data_version").val()==""){
-                		parent.layer.alert("请选择预算版本", {title : '提示'});
-                		return;
-                	} 
-                	var url = '/budget/budget_edit_grouptotal?budgetInfoId='+curent_budget_info.dataId+'&nd='+cu_date;
-                   	layer.open({
-                        title: cu_date+'集团公司经费预算编制管理-预算项新增'
-                        , skin: 'layui-layer-lan'
-                        , shadeClose: true
-                        , type: 2
-                        , fixed: false
-                        //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-                        , maxmin: false
-                        //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-                        , area: ['80%', '90%']
-                        , content: url
-                    });
-                },
                 editEvent: function() {
                 	var selectIndex = $(".layui-form-checked").parents("tr").attr("data-index");
                 	if(!selectIndex){
                 		parent.layer.alert("请选择需要编辑的行", {title : '提示'});
                 		return;
                 	}
-                	var url = '/budget/budget_edit_grouptotal?dataId='+curent_tabel_data[selectIndex].dataId+"&budgetInfoId="+curent_budget_info.dataId+"&nd="+cu_date;
+                	var url = '/budget/budget_edit_groupsplit?dataId='+curent_tabel_data[selectIndex].dataId+"&budgetInfoId="+curent_budget_info.dataId+"&nd="+cu_date;
                    	layer.open({
                         title: cu_date+'集团公司经费预算编制管理-预算项编辑'
                         , skin: 'layui-layer-lan'
@@ -318,26 +303,6 @@
                         , area: ['80%', '90%']
                         , content: url
                     });
-                },
-                deleteEvent:function(){
-                	var selectIndex = $(".layui-form-checked").parents("tr").attr("data-index");
-                	if(!selectIndex){
-                		parent.layer.alert("请选择需要删除的行", {title : '提示'});
-                		return;
-                	}
-                	layer.confirm('确定要删除吗？',{title:"删除确认"},function(index){
-    					layer.close(index);
-    					publicMethods.ajaxPost("/budget/del-group-item/"+curent_tabel_data[selectIndex].dataId, null, function (data) {
-    	                     if (data.success) {
-    	                    	 curent_tabel_data.splice(selectIndex,1);
-    	                    	 table.reload('dataTable', {data: curent_tabel_data});
-    	                     	 renderfunc();
-    	                     	 calculationSurplusMoney();
-    	                     } else {
-    	                    	 layer.msg('操作异常，请重试!');
-    	                     }
-    	                });
-                	});
                 },
                 saveEvent:function(){
                 	if($("#data_version").val()==""){

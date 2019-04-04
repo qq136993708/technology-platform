@@ -90,9 +90,9 @@ public class BudgetGroupSplitController extends BaseController {
 	{
 		String nd = DateUtil.format(new Date(), DateUtil.FMT_YYYY);
 		request.setAttribute("nd", nd);
-		request.setAttribute("items", BudgetOrganNdEnum.getByNd(nd).getOrgans());
-		ResponseEntity<?> infors = this.restTemplate.exchange(BUDGET_GROUPTOTAL_TITLES, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), List.class);
-		
+		ResponseEntity<?> infors = this.restTemplate.exchange(BUDGET_GROUPTOTAL_TITLES, HttpMethod.POST, new HttpEntity<Object>(nd,this.httpHeaders), List.class);
+		request.setAttribute("items", infors.getBody());
+		System.out.println(JSON.toJSONString(infors.getBody()));
 		return "stp/budget/budget_main_groupsplit";
 	}
 	@RequestMapping(method = RequestMethod.GET, value = "/budget/budget_edit_groupsplit")

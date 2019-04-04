@@ -228,6 +228,7 @@ public class BudgetGroupSplitServiceImpl implements BudgetGroupSplitService
 		titles.add(new SplitItemVo("no","序号"));
 		titles.add(new SplitItemVo("cbm","处部门"));
 		titles.add(new SplitItemVo("yshj","预算合计"));
+		System.out.println(JSON.toJSONString(dis));
 		//增加计划项
 		for(SysDictionary d:dis) {
 			//计划项特殊处理，不计入总数,列：序号，处部门，合计，结转[合计，油服..机械..其他，计划]，新签[合计，油服..机械..其他，计划]，
