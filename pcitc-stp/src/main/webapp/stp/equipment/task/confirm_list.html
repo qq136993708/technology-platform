@@ -574,7 +574,6 @@ var name=$('#name').val();
              //json中有functionId（projectId、departmentId等）用来区别processDefine的属性
              success : function(data) 
              {
-            	 alert(data.code);
           	   if (data.code == 'role')
           	   {
               		// 按角色选择，获取下一步审批人信息,选择完审批人后，调用：handleTask(userIds)方法

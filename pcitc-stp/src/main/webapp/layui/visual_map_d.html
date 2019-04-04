@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>全流程可视化图</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="Shortcut Icon" href="/layuiadmin/layui/images/favicon.ico"/>
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css" media="all">
+    <script src="/layuiadmin/layui/layui.js"></script>
+    <style>
+        .detail{width: 98%;margin: 10px auto;}
+        .detail-j p {
+            display: block;
+            line-height: 28px;
+            font-size: 14px;
+            color: #696b74;
+            text-indent: 2em;
+        }
+    </style>
+</head>
+<body>
+    <div class="detail">
+        <div class="detail-j">
+            <p></p>
+        </div>
+    </div>
+    <script>
+        layui.use(['jquery','layer'], function () {
+            var $ = layui.jquery,layer = layui.layer;
+             window.showData=function(d){
+                 var jsonData={
+                     "data":[
+                         {"name":"开始","id":"1"},
+                         {"name":"节点1","state":"","id":"2","prev":"1","detail":"详情"},
+                         {"name":"节点2","state":"","nodes":3,"id":"3","prev":"2"},
+                         {"name":"节点2.1","state":"","form":"3"},
+                         {"name":"节点2.2","state":"","form":"3"},
+                         {"name":"节点2.3","state":"","form":"3"},
+                         {"name":"节点3","state":"","id":"4","prev":"3"},
+                         {"name":"节点5","state":"","nodes":2,"id":"5","prev":"4"},
+                         {"name":"节点5.1","state":"","form":"5","prev":"51"},
+                         {"name":"节点5.2","state":"","form":"5","id":"51"},
+                         {"name":"节点6","state":"","id":"6","prev":"5"},
+                         {"name":"结束"}
+                     ]
+                 };
+                 var  data=jsonData.data;
+                 for(var i in data ){
+                     if(d==data[i].name){
+                        $(".detail-j p").html(data[i].detail)
+                     }
+                 }
+            }
+
+
+        });
+    </script>
+</body>
+</html>

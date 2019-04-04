@@ -169,8 +169,9 @@ public class WorkflowProviderClient {
 		// 把第一个节点待办任务办理了，variables中有变量为当前人的starter。（第一个节点在监听器中判断，不允许委托）
 		Task task = null;
 		
+		System.out.println(processInstance.getId()+"=========processInstanceId======="+processInstance.getProcessInstanceId());
 		// 获取申请人的待办任务列表
-		List<Task> todoList = taskService.createTaskQuery().processInstanceBusinessKey(json.getString("businessId")).active().list();
+		List<Task> todoList = taskService.createTaskQuery().processInstanceId(processInstance.getProcessInstanceId()).active().list();
 		for (Task tmp : todoList) {
 			if (tmp.getProcessInstanceId().equals(processInstance.getId())) {
 				task = tmp;	// 获取当前流程实例，当前申请人的待办任务
@@ -189,18 +190,19 @@ public class WorkflowProviderClient {
 		Map<String, Object> taskVar = taskService.getVariables(task.getId());
 		
 		// 本次任务节点的下一个节点。特殊节点，根据表单内容来觉得下一步的审批人
+		// 启动节点，获取开始的下一个节点的下个节点（二层）
 		Map<String, Object> temMap = new HashMap<String, Object>();
 		temMap.put("agree", "1");
-		TaskDefinition taskDef = this.getNextTaskInfo(processInstance.getId(), temMap);
+		TaskDefinition taskDef = this.getNextTaskInfo(task.getId(), temMap);
 		// System.out.println("1=========TaskDefinition======="+taskDef);
-		if (taskDef != null && taskDef.getKey().startsWith("specialAuditor") && json.getString("auditor") != null) {
+		if (taskDef != null && taskDef.getKey().startsWith("specialAuditor") && json.getString("auditor") == null) {
 			// 特殊节点，自动获取当初传递的审批人员的值。并且不是通过选择来确定审批者的
 			Set<String> userIds = new LinkedHashSet<String>();
 			System.out.println("1=========TaskDefinition======="+taskDef.getKey());
 			System.out.println("1=========TaskDefinition======="+json.getString(taskDef.getKey()));
 			if (json.getString(taskDef.getKey()) != null) {
 				// 分解group
-				String[] groups = json.getString(taskDef.getKey()).toString().split("--")[1].split("-");
+				String[] groups = json.getString(taskDef.getKey()).toString().split("-");
 				for (int i = 0; i < groups.length; i++) {
 					userIds.addAll(sysUserMapper.findUserByGroupIdFromACT(groups[i]));
 				}
@@ -327,7 +329,7 @@ public class WorkflowProviderClient {
 		// 本次任务节点的下一个节点。特殊节点，根据表单内容来觉得下一步的审批人
 		Map<String, Object> temMap = new HashMap<String, Object>();
 		temMap.put("agree", "1");
-		TaskDefinition taskDef = this.getNextTaskInfo(processInstance.getId(), temMap);
+		TaskDefinition taskDef = this.getNextTaskInfo(task.getId(), temMap);
 		// System.out.println("1=========TaskDefinition======="+taskDef);
 		if (taskDef != null && taskDef.getKey().startsWith("specialAuditor")) {
 			// 特殊节点，获取当初传递的值
@@ -655,21 +657,28 @@ public class WorkflowProviderClient {
 	 * @return 下一个用户任务用户组信息
 	 * @throws Exception
 	 */
-	public TaskDefinition getNextTaskInfo(String processInstanceId, Map<String, Object> globalVar) throws Exception {
+	public TaskDefinition getNextTaskInfo(String taskId, Map<String, Object> globalVar) throws Exception {
 
 		ProcessDefinitionEntity processDefinitionEntity = null;
 		String id = null;
 		TaskDefinition task = null;
+
+		// 获取流程实例Id信息
+		Task currentTask = taskService.createTaskQuery().taskId(taskId).singleResult();
+		String processInstanceId = currentTask.getProcessInstanceId();
 
 		// 获取流程发布Id信息
 		String definitionId = runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult().getProcessDefinitionId();
 
 		processDefinitionEntity = (ProcessDefinitionEntity) ((RepositoryServiceImpl) repositoryService).getDeployedProcessDefinition(definitionId);
 
-		ExecutionEntity execution = (ExecutionEntity) runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
-
+		ExecutionEntity execution1 = (ExecutionEntity) runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
 		// 当前流程节点Id信息
-		String activitiId = execution.getActivityId();
+		String activitiId1 = execution1.getActivityId();
+		System.out.println("41----------当前任务节点----"+activitiId1);
+		ExecutionEntity execution = (ExecutionEntity) runtimeService.createExecutionQuery().executionId(currentTask.getExecutionId()).singleResult();
+        String activitiId = execution.getActivityId();
+        System.out.println("42----------当前任务节点----"+activitiId);
 		if (activitiId == null) {
 			return null;
 		}
@@ -677,15 +686,32 @@ public class WorkflowProviderClient {
 		// 获取流程所有节点信息
 		List<ActivityImpl> activitiList = processDefinitionEntity.getActivities();
 
-		// 遍历所有节点信息
+		// 遍历所有节点信息, 获取开始节点的下一节点（发起人节点）
 		for (ActivityImpl activityImpl : activitiList) {
 			id = activityImpl.getId();
+			System.out.println("5----------开始获取下一个节点----"+activityImpl.getId());
 			if (activitiId.equals(id)) {
 				// 获取下一个节点信息
+				System.out.println("51----------获取下一个节点信息----"+activityImpl.getId());
 				task = nextTaskDefinition(activityImpl, activityImpl.getId(), null, processInstanceId, globalVar);
+				System.out.println("52----------获取下一个节点信息----"+task.getKey());
 				break;
 			}
 		}
+		
+		// 获取 开始节点的下个节点的下一个节点
+		for (ActivityImpl activityImpl : activitiList) {
+			id = activityImpl.getId();
+			System.out.println("5----------1开始获取下一个节点----"+activityImpl.getId());
+			if (task.getKey().equals(id)) {
+				// 获取下一个节点信息
+				System.out.println("51----------1获取下一个节点信息----"+activityImpl.getId());
+				task = nextTaskDefinition(activityImpl, activityImpl.getId(), null, processInstanceId, globalVar);
+				System.out.println("52----------1获取下一个节点信息----"+task.getKey());
+				break;
+			}
+		}
+		
 		return task;
 	}
 
@@ -712,7 +738,7 @@ public class WorkflowProviderClient {
 		PvmActivity ac = null;
 
 		Object s = null;
-
+		System.out.println("53----------节点信息----"+activityImpl.getProperty("type"));
 		// 如果遍历节点为用户任务并且节点不是当前节点信息
 		if ("userTask".equals(activityImpl.getProperty("type")) && !activityId.equals(activityImpl.getId())) {
 			// 获取该节点下一个节点信息(下一个实例可能是多实例节点)

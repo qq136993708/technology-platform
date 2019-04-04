@@ -251,12 +251,13 @@
 				},
 				success : function(data) { //请求成功后处理函数。
 					// 刷新表格
-					parent.active.alertEvent();
+					parent.updateFlag = true;
 					var index = parent.layer.getFrameIndex(window.name);
 					parent.layer.close(index);
 					return false;
 				}
 			});
+			
 		}
 		
 		
