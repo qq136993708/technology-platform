@@ -396,3 +396,59 @@ background: white;box-shadow: 0 0 5px #dadcde;}
     overflow: hidden;
 }
 .layui-personnel .layui-expert ul li{float: left;width: 6.5%;line-height: 50px;height: 50px;}
+
+
+/*可视化*/
+.vm{width: 98%;margin: 100px 10px;/*height: auto;overflow: hidden;*/}
+.vm-node{width: auto;float: left;}
+.vm-complex .vm-node{display:block;}
+.vm-name{border-radius: 3px;display: inline-block;
+    border: 1px solid #ccc;font-size: 12px;color: white;padding: 5px 15px;}
+.vm-start{background: #59a1dd;border: 1px solid #aec6e7;}
+.vm-draft{background: #ffc630;border: 1px solid #edd597;}
+.vm-adopt{background: #d74815;border: 1px solid #edd597;}
+.vm-i{background: url("/layuiadmin/layui/images/icon-vm.png") no-repeat;width: 35px;height: 9px;
+    display: inline-block;position: relative;left: -4px;}
+.vm-i-w{left: 0;top: 10px;float: left;}
+.vm-i-l{background: url("/layuiadmin/layui/images/icon-vm-y.png") repeat-x;width: 20px;height: 1px;
+    display: inline-block;position: relative;left: -4px;top: -4px;}
+.vm-complex{background: url("/layuiadmin/layui/images/icon-vm-y.png") repeat-y right;}
+.vm-complex .vm-single{position: relative;
+    background: url("/layuiadmin/layui/images/icon-vm.png") no-repeat,
+    url("/layuiadmin/layui/images/icon-vm-y.png") repeat-y;
+    background-position: center left;padding-right: 30px;}
+.vm-complex{margin-top: -38px;position: relative;
+    margin-right: 35px;}
+.vm-complex .vm-single .vm-name{margin-left: 36px;}
+.vm-complex .vm-single:last-child,.vm-complex .vm-single:first-child{
+    background: url("/layuiadmin/layui/images/icon-vm-y.png") repeat-y;}
+.vm-complex .vm-single:first-child .vm-i-u{position: absolute;top: -1px;
+    background:url("/layuiadmin/layui/images/icon-vm-upn.png") no-repeat;
+    width: 35px;height: 9px;display: inline-block;
+}
+.vm-complex .vm-single:last-child .vm-i-u{position: absolute;bottom: -1px;
+    background:url("/layuiadmin/layui/images/icon-vm-dow.png") no-repeat;
+    width: 35px;height: 9px;display: inline-block;
+}
+.vm-complex .vm-single:first-child .vm-name{position: relative;
+    top: -10px;margin-bottom: 10px;}
+.vm-complex .vm-single:last-child .vm-name{position: relative;
+    top: 20px;margin-bottom: 10px;}
+.vm-complex .vm-single .vm-i-d{background: url("/layuiadmin/layui/images/icon-vm-l.png") no-repeat;
+    width: 20px;height: 1px;position: absolute;left: 85.5%;top: 50%;}
+.vm-complex .vm-single:first-child .vm-i-d{top:0;}
+.vm-complex .vm-single:last-child .vm-i-d{top: 100%;}
+.vm-d{background: none;margin-right: 0;}
+.vm-dw{background: url("/layuiadmin/layui/images/icon-vm-d.png") no-repeat;
+    width: 9px;height: 20px;display: inline-block;position:absolute;top: 25px;left: 40%;}
+.vm-d .vm-i-x{top: 20px;left: 10px;background: url("/layuiadmin/layui/images/icon-vm-x.png") no-repeat;
+    width: 35px;height: 20px;display: inline-block;position: relative;}
+.vm-end{background: none;border: 1px solid #ccc;color: black;margin-left: 0 !important;}
+.vm-name-f,.vm-i-start{float: left;}
+.vm-i-start{top: 13px;left: 0;}
+.vm-complex:after{content: '';right: -35px;
+    top: 46%;    background: url(/layuiadmin/layui/images/icon-vm.png) no-repeat;
+    width: 35px;
+    height: 9px;
+    position: absolute;}
+.vm-d:after{background: none;width: 0;height: 0;content: none;}

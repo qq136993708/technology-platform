@@ -699,7 +699,7 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
             record.setSysFlag("0");
             record.setAuditStatus("0");
             record.setDelFlag(0);
-
+            record.setBak3("1");
             record.setCreateDate(DateUtil.dateToStr(new Date(),DateUtil.FMT_DD));
             record.setCreateUser("165553436ed_dfd5e137");
             record.setCreateUserDisp("111111");
@@ -709,6 +709,9 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
             record.setCompanyCount("0");
             record.setProjectCount("0");
             record.setPatentCount("0");
+
+            record.setSourceId("SKM");
+            record.setSource("SKM");
 
             this.insert(record);
 //            c.andStatusEqualTo("0");

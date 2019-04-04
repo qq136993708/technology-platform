@@ -17,7 +17,7 @@
 		<div class="treeBox">
 			<!--加标题-->
 			<div class="title-box">
-				<span>功能节点菜单</span>
+				<span>功能菜单</span>
 			</div>
 			<div class="layui-side-scroll">
 				<!-- 左侧子菜单 -->
@@ -60,7 +60,7 @@
 		var temFunctionId;
 		var temFunctionName;
 		var temFunUrl = '';
-
+		var updateFlag = false;
 		$(function() {
 			$.ajax({
 				url : "/function/getTreeByLevel",//这个就是请求地址对应sAjaxSource
@@ -231,7 +231,13 @@
 							maxmin : true,
 							//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
 							area : [ '800px', '500px' ],
-							content : temUrl
+							content : temUrl,
+							end : function() {
+								if (updateFlag) {
+									active.searchEvent();
+									layer.msg('操作成功');
+								} 
+							}
 						});
 					}
 				},

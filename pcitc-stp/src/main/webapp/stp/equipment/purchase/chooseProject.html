@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>新增/编辑</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
+
+    <script type="text/javascript" src="/plugins/ckeditor/ckeditor.js"></script>
+    <script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+    <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+
+    <script id="dateTpl" type="text/html"> {{formatTime(d.createDate)}} </script>
+    <script type="text/javascript">
+        // 时间格式化
+        function formatTime(d) {
+            if (d) {
+                var date = new Date();
+                date.setTime(d);
+                var y = date.getFullYear();
+                var m = date.getMonth() + 1;
+                m = m < 10 ? ('0' + m) : m;
+                var day = date.getDate();
+                day = day < 10 ? ("0" + day) : day;
+                var h = date.getHours();
+                h = h < 10 ? ("0" + h) : h;
+                var M = date.getMinutes();
+                M = M < 10 ? ("0" + M) : M;
+                var str = y + "-" + m + "-" + day + " " + h + ":" + M;
+                return str;
+            } else {
+                return '';
+            }
+        }
+    </script>
+
+    <script type="text/javascript">
+        var publicMethods;
+        $(document).ready(function() {
+            layui.use([ 'jquery', 'form', 'laydate', 'table', 'layer', 'element','publicMethods' ],function() {
+                var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate;
+                publicMethods=layui.publicMethods;
+                var form = layui.form;
+                var table = layui.table;
+                table.render({
+                    elem: '#notjoin_apply_table',
+                    url: '/sre-purchase/chooseProject_data',
+                    limit: 15,
+                    method:"POST",
+                    where: {param:{"taskWriteUsersIds":$("#taskWriteUsersIds").val(),"name":$("#name").val(),"id":$("#topicId").val()}},
+                    id: 'notjoin_apply_table',
+                    height: 350,
+                    page: {first: '首页',last: '尾页',theme: '#0F9EE0'},
+                    cols: [[
+                        {type:'checkbox',event: 'changeEvents'}
+                        ,{title:'序号', type:'numbers'},
+                        {field : 'name',            title : '课题名称',     style : 'cursor: pointer;', align : 'center', width : '30%'},
+                        {field : 'projectMoney',    title : '总经费(万元)', style : 'cursor: pointer;', align: 'center', templet:function(d){return '<span style="color:red">'+d.projectMoney+'</span>'}},
+                        {field : 'parentUnitPathNames',    title : '课题申报单位', style : 'cursor: pointer;', align: 'left', width : '25%'},
+                        {field : 'applyUnitName',   title : '课题申报部门',     style : 'cursor: pointer;', align : 'center', width : '20%'},
+                        {field : 'createUserName',  title : '课题申报人',      style : 'cursor: pointer;', align : 'center', width : '10%'},
+                        {field : 'taskWriteUserNames',  title : '要求填写人',      style : 'cursor: pointer;', align : 'center', width : '15%'},
+                        {field : 'createDate',          title : '时间',     style : 'cursor: pointer;', align: 'center', templet : '#dateTpl', width : '15%'}
+                    ]],
+                    done: function (res, curr, count)
+                    {
+                        $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+                            var index=parseInt($(this).index()+1);
+                            $('tr').removeClass('layui-table-click');
+                            $(this).addClass('layui-table-click');
+                            $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                            $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                            selectRowData=res.data[index-1];
+                            var id=selectRowData.id;
+                            var name=selectRowData.name;
+                            var yearFeeStrJoinUnit=selectRowData.yearFeeStrJoinUnit;
+                            var yearFeeStr=selectRowData.yearFeeStr;
+                            var projectMoney=selectRowData.projectMoney;
+                            var leadUnitName=selectRowData.leadUnitName;
+                            $("#topicId").val(id)
+                            $("#name").val(name);
+                            $("#yearFeeStrJoinUnit").val(yearFeeStrJoinUnit);
+                            $("#yearFeeStr").val(yearFeeStr);
+                            $("#projectMoney").val(projectMoney);
+                            $("#leadUnitName").val(leadUnitName);
+                        });
+                    }
+
+                });
+                $(".layui-table-header table thead th input").remove();
+                //多行点击事件
+                $(document).on("click", ".layui-table-body table.layui-table tbody tr", function () {
+                    var checkCell = $(this).parent().find("tr[data-index=" + $(this).attr('data-index') + "]").find("td div.laytable-cell-checkbox div.layui-form-checkbox");
+                    if (checkCell.length > 0) {
+                        checkCell.click();
+                    }
+                });
+                $(document).on("click", "td div.laytable-cell-checkbox div.layui-form-checkbox", function (e) {
+                    e.stopPropagation();
+                });
+                var $ = layui.$, active = {
+                    searchEvent: function() {
+                        table.reload("notjoin_apply_table",{where:{param:{"id":$("#topicId").val(),"name":$("#name").val(),"taskWriteUsersIds":$("#taskWriteUsersIds").val()}}});
+                    },
+                    addEvent:function(){
+                        var check = table.checkStatus('notjoin_apply_table');
+                        if(check.data.length == 0){
+                            layer.msg('请点击选择装备数据!');
+                            return;
+                        }
+                        var topicId=$("#topicId").val();
+                        var name=$("#name").val();
+                        var yearFeeStrJoinUnit=$("#yearFeeStrJoinUnit").val();
+                        var yearFeeStr=$("#yearFeeStr").val();
+                        var projectMoney=$("#projectMoney").val();
+                        var leadUnitName=$("#leadUnitName").val();
+                        //alert(topicId);
+                        parent.document.getElementById("topicId").value=topicId;
+                        parent.document.getElementById("name").value=name;
+                       //parent.document.getElementById("projectMoney").value=projectMoney;
+
+
+                        //parent.setPorject(yearFeeStrJoinUnit,yearFeeStr,leadUnitName);
+                        var index = parent.layer.getFrameIndex(window.name);
+                        parent.layer.close(index);
+                    }
+                }
+                $('.layui-btn').on('click', function(){
+                    var type = $(this).data('type');
+                    active[type] ? active[type].call(this) : '';
+                });
+                $("#close").click(function () {
+                    var index = parent.layer.getFrameIndex(window.name);
+                    parent.layer.close(index);
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+<div class="formBox">
+    <input type="hidden" name="taskWriteUsersIds" id="taskWriteUsersIds" value="${taskWriteUsersIds}">
+    <input type="hidden" name="topicId" id="topicId" value="${topicId}">
+    <input type="hidden" name="yearFeeStrJoinUnit" id="yearFeeStrJoinUnit" value="">
+    <input type="hidden" name="yearFeeStr" id="yearFeeStr" value="">
+    <input type="hidden" name="projectMoney" id="projectMoney" value="">
+    <input type="hidden" name="leadUnitName" id="leadUnitName" value="">
+
+
+    <div class="searchBox">
+        <label class="dateInput">
+            <span>课题名称</span>
+            <input type="text" name="name" id="name" placeholder="请输入课题名称" autocomplete="off" class="form-control">
+        </label>
+        <div class="btnGroup">
+            <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg"                 data-type="searchEvent">查询</button>
+            <button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg" data-type="resetEvent">重置</button>
+        </div>
+    </div>
+    <div class="tableBox">
+        <table id="notjoin_apply_table" class="layui-hide"  lay-filter="userEvent"></table>
+    </div>
+    <div class="form-bottom">
+        <div class="form-bottom-btns">
+            <a herf="javascript:void(0)" class="layui-btn layui-btn-sm fontColor-white btnMyBgImg layui-btn-mini layui-btn-blue"  data-type="addEvent" lay-filter="addEvent">确定</a>
+            <a herf="javascript:void(0)" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" lay-submit="" id="close" lay-filter="closeBtn">关闭</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

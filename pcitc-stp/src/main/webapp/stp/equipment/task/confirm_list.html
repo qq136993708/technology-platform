@@ -23,7 +23,8 @@
 <input  name="leadUnitCode"   id="leadUnitCode"    value="${leadUnitCode}"        type="hidden" >
 <input  name="applyUnitCode"  id="applyUnitCode"    value="${applyUnitCode}"        type="hidden" >
 <input  name="parentUnitPathIds"  id="parentUnitPathIds"    value="${parentUnitPathIds}"        type="hidden" >
-
+<input  name="joinUnitCodes"  id="joinUnitCodes"           type="hidden" >
+<input  name="specialAuditor0"  id="specialAuditor0"           type="hidden" >
 
 
 </form>
@@ -339,6 +340,7 @@ var name=$('#name').val();
             		var taskId=selectRowData.taskId;
             		var innerAuditStatus=selectRowData.innerAuditStatus;
             		var setupId=selectRowData.setupId;
+            		var joinUnitCodes=selectRowData.joinUnitCode;
             		if(setupId==null || setupId=='')
             		{
              			 layer.alert('立项报告没有填写，不能上报');
@@ -350,8 +352,7 @@ var name=$('#name').val();
            			}else
            			{
            				$('#taskId').val(taskId);
-           				
-                		dealFlow(taskId);
+                		dealFlow(taskId,joinUnitCodes);
            			}
             		
             		
@@ -561,10 +562,10 @@ var name=$('#name').val();
 
     
 
-    function dealFlow(id) 
+    function dealFlow(id,joinUnitCodes) 
     {
-    	
-    	var json = {functionId:functionId};
+    	$('#specialAuditor0').val('unit--00000');
+    	var json = {functionId:functionId,specialAuditor0:'unit--00000'};
     	 $.ajax({
              type : 'POST',
              url : "/workflow/start/audit-type",

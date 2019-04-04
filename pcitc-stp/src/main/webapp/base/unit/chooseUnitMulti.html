@@ -73,9 +73,8 @@
 	    	       {
 	                 names += userNodes[i].name + ",";
 	                 ids += userNodes[i].id + ",";
-	                 codes += userNodes[i].code + ",";
+	                 codes += userNodes[i].text + ",";
                     }
-	    	       alert(codes);
 	    	       ids = ids.substr(0, ids.length - 1);  
 	    	       names = names.substr(0, names.length - 1);  
 	    	       codes = codes.substr(0, codes.length - 1);  
@@ -148,19 +147,15 @@
 				
 				//parent.chooseUnit_callback(unitIds,unitName);
 				var funcName=$("#funcName").val();
-				parent.eval(funcName+"('"+unitIds+"','"+unitNames+"');");
+				if(unitIds!=null && unitIds!='')
+				{
+					parent.eval(funcName+"('"+unitIds+"','"+unitNames+"','"+unitCodes+"');");
+				}
 				var index = parent.layer.getFrameIndex(window.name);
 				parent.layer.close(index);
 			});
 	      
-	      
-			
-			
-	      
 	    });
-	    
-	    
-
 	   
 	</script>
 </body>

@@ -79,7 +79,6 @@ public class TaskController extends BaseController {
 		if (auditFlag != null) {
 			if (auditFlag.startsWith("role")) {
 				return new Result(true, auditFlag.split("--")[1], "操作成功", "role");
-
 			} else if (auditFlag.startsWith("unit")) {
 				return new Result(true, auditFlag.split("--")[1], "操作成功", "unit");
 			} else if (auditFlag.startsWith("post")) {
