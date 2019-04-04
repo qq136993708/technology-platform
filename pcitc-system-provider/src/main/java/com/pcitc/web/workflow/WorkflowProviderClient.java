@@ -115,6 +115,9 @@ public class WorkflowProviderClient {
             variables.put(entry.getKey(), entry.getValue());
         }
 
+		for (String key : variables.keySet()) {
+			System.out.println(key+"-----variables====" + variables.get(key));
+		}
 		String processDefineId;
 		if (StrUtil.isBlankOrNull(json.getString("businessId"))) {
 			return "流程启动异常,业务id参数异常";
@@ -189,25 +192,32 @@ public class WorkflowProviderClient {
 		// 本次任务的可用变量
 		Map<String, Object> taskVar = taskService.getVariables(task.getId());
 		
+		for (String key : taskVar.keySet()) {
+			System.out.println(key+"-----taskVar====" + taskVar.get(key));
+		}
 		// 本次任务节点的下一个节点。特殊节点，根据表单内容来觉得下一步的审批人
 		// 启动节点，获取开始的下一个节点的下个节点（二层）
 		Map<String, Object> temMap = new HashMap<String, Object>();
 		temMap.put("agree", "1");
 		TaskDefinition taskDef = this.getNextTaskInfo(task.getId(), temMap);
 		// System.out.println("1=========TaskDefinition======="+taskDef);
-		if (taskDef != null && taskDef.getKey().startsWith("specialAuditor") && json.getString("auditor") == null) {
+		if (taskDef != null && taskDef.getKey().startsWith("specialAuditor") && taskVar.get("auditor") == null) {
 			// 特殊节点，自动获取当初传递的审批人员的值。并且不是通过选择来确定审批者的
-			Set<String> userIds = new LinkedHashSet<String>();
 			System.out.println("1=========TaskDefinition======="+taskDef.getKey());
 			System.out.println("1=========TaskDefinition======="+json.getString(taskDef.getKey()));
 			if (json.getString(taskDef.getKey()) != null) {
-				// 分解group
+				Set<String> userIds = new LinkedHashSet<String>();
 				String[] groups = json.getString(taskDef.getKey()).toString().split("-");
 				for (int i = 0; i < groups.length; i++) {
-					userIds.addAll(sysUserMapper.findUserByGroupIdFromACT(groups[i]));
+					
+					List<String> userList = sysUserMapper.findUserByGroupIdFromACT(groups[i]);
+					for (int j = 0; j < userList.size(); j++) {
+						System.out.println(j+"1=========TaskDefinition======="+userList.get(j));
+					}
+					userIds.addAll(userList);
 				}
+				taskVar.put("auditor", userIds);
 			}
-			taskVar.put("auditor", userIds);
 		}
 		
 		// 插入本次任务的审批人姓名，方便下一步任务查询上一步执行人姓名
@@ -231,10 +241,10 @@ public class WorkflowProviderClient {
 		
 		System.out.println("1开始执行任务----------------"+json.getString("signAuditRate"));
 		System.out.println("1开始执行任务----------------"+taskVar.get("auditor"));
-		if (json.getString("signAuditRate") != null && json.getString("auditor") != null) {
-			System.out.println("1会签时1====" + json.getString("auditor"));
-			taskVar.put("assigneeList", Arrays.asList(json.getString("auditor").split(",")));
-			System.out.println("2会签时2====" + json.getString("auditor"));
+		if (json.getString("signAuditRate") != null && taskVar.get("auditor") != null) {
+			System.out.println("1会签时1====" + taskVar.get("auditor"));
+			taskVar.put("assigneeList", Arrays.asList(taskVar.get("auditor").toString().split(",")));
+			System.out.println("2会签时2====" + taskVar.get("auditor"));
 		}
 		System.out.println("开始执行任务----------------"+task.getId());
 		taskService.complete(task.getId(), taskVar);
@@ -331,7 +341,7 @@ public class WorkflowProviderClient {
 		temMap.put("agree", "1");
 		TaskDefinition taskDef = this.getNextTaskInfo(task.getId(), temMap);
 		// System.out.println("1=========TaskDefinition======="+taskDef);
-		if (taskDef != null && taskDef.getKey().startsWith("specialAuditor")) {
+		if (taskDef != null && taskDef.getKey().startsWith("specialAuditor") && taskVar.get("auditor") == null) {
 			// 特殊节点，获取当初传递的值
 			Set<String> userIds = new LinkedHashSet<String>();
 			System.out.println("1=========TaskDefinition======="+taskDef.getKey());
@@ -341,9 +351,11 @@ public class WorkflowProviderClient {
 				String[] groups = taskVar.get(taskDef.getKey()).toString().split("-");
 				for (int i = 0; i < groups.length; i++) {
 					userIds.addAll(sysUserMapper.findUserByGroupIdFromACT(groups[i]));
+					System.out.println("2=========TaskDefinition======="+userIds.size());
 				}
+				System.out.println("3=========TaskDefinition======="+userIds);
+				taskVar.put("auditor", userIds);
 			}
-			taskVar.put("auditor", userIds);
 		}
 		
 		// 插入本次任务的审批人姓名，方便下一步任务查询上一步执行人姓名
@@ -360,6 +372,10 @@ public class WorkflowProviderClient {
 		taskVar.put("processInstanceName", workflowVo.getProcessInstanceName());
 		taskVar.put("processDefinitionName", processInstance.getProcessDefinitionKey());
 		
+		for (String key : taskVar.keySet()) {
+			System.out.println(key+"-----taskVar====" + taskVar.get(key));
+		}
+		
 		// 会签时，获取选择审批人给会签需要的assigneeList(下一个环节如果不是会签，assigneeList就白赋值了)
 		if (taskVar.get("signAuditRate") != null && taskVar.get("auditor") != null) {
 			System.out.println("1会签时====" + taskVar.get("auditor"));
@@ -368,104 +384,6 @@ public class WorkflowProviderClient {
 		
 		// 处理本次任务，同时指定下一次任务可用的变量(taskVar)
 		taskService.complete(task.getId(), taskVar);
-		return "true";
-	}
-
-	/**
-	 * 通过流程定义id启动流程，包括启动+第一步执行（一般第一步都是启动人/申请人）
-	 * 申请人启动流程后，流程就会到达“提交任务”，而“提交任务”的办理人还是该申请人
-	 * ，这个时候就需要通过代码跳过（自动处理）该任务节点，让流程流转到下一任务节点
-	 * variables里要有starter这个变量，并且要value要设置为启动人本人。 对应的，在画图的时候，第一个任务节点的candidate
-	 * users要添加一个starter变量
-	 * 
-	 * @author zhf
-	 * @date 2018年5月3日 下午2:08:57
-	 */
-	@ApiOperation(value = "启动流程-id（测试）", notes = "传入新的部署流程id值来启动（测试）")
-	@RequestMapping(value = "/workflow-provider/workflow/start/id", method = RequestMethod.POST)
-	public String startWorkflowByProcessDefinitionId(@RequestBody WorkflowVo workflowVo) {
-		System.out.println("---startWorkflowByProcessDefinitionId开始启动流程，并同时处理发起人的第一个任务---");
-
-		// 校验流程定义是否存在（.latestVersion()）
-		ProcessDefinitionEntity processDefinitionEntity = (ProcessDefinitionEntity) repositoryService.createProcessDefinitionQuery().processDefinitionId(workflowVo.getProcessDefineId()).active().singleResult();
-		if (processDefinitionEntity == null)
-			return "流程启动失败id为'" + workflowVo.getProcessDefineId() + "'的流程定义不存在";
-		// 启动流程, 根据key获取最新版本的流程定义
-		ProcessInstance processInstance = null;
-		try {
-			// 设置流程启动人
-			identityService.setAuthenticatedUserId(workflowVo.getAuthenticatedUserId());
-			processInstance = runtimeService.startProcessInstanceById(workflowVo.getProcessDefineId(), workflowVo.getBusinessId(), workflowVo.getVariables());
-		} catch (Exception ex) {
-			return "流程启动异常,异常原因：" + ex.getMessage();
-		}
-
-		// 把第一个节点任务同时办理了，variables中有变量为当前人的starter。（第一个节点在监听器中判断，不允许委托）
-		Task task = null;
-		TaskQuery query = taskService.createTaskQuery().taskCandidateOrAssigned(workflowVo.getAuthenticatedUserId());
-		List<Task> todoList = query.list();// 获取申请人的待办任务列表
-		for (Task tmp : todoList) {
-			if (tmp.getProcessInstanceId().equals(processInstance.getId())) {
-				task = tmp;// 获取当前流程实例，当前申请人的待办任务
-				break;
-			}
-		}
-
-		// 如果第一步审批（就是发起人后的第一步）是需要选择审批人，而不是通过流程图自动配置的话，需要在发起之前把审批人信息放到workflowVo.getVariables()
-		if (DelegationState.PENDING == task.getDelegationState()) {
-			taskService.resolveTask(task.getId(), workflowVo.getVariables());
-		}
-
-		taskService.complete(task.getId(), workflowVo.getVariables());
-
-		runtimeService.setProcessInstanceName(processInstance.getId(), workflowVo.getProcessInstanceName());
-		System.out.println("---startWorkflowByProcessDefinitionId流程启动结束---");
-		return "true";
-	}
-
-	/**
-	 * 通过流程定义key启动流程，包括启动+第一步执行（一般第一步都是启动人/申请人）,key取最新的版本
-	 * 申请人启动流程后，流程就会到达“提交任务”，而
-	 * “提交任务”的办理人还是该申请人，这个时候就需要通过代码跳过（自动处理）该任务节点，让流程流转到下一任务节点
-	 * variables里要有starter这个变量，并且要value要设置为启动人本人。 对应的，在画图的时候，第一个任务节点的candidate
-	 * users要添加一个starter变量
-	 * 
-	 * @author zhf
-	 * @date 2018年5月3日 下午2:08:57
-	 */
-	@ApiOperation(value = "启动流程-key（测试）", notes = "传入新的部署流程key值来启动（测试）")
-	@RequestMapping(value = "/workflow-provider/workflow/start/key", method = RequestMethod.POST)
-	public String startWorkflowByProcessDefinitionKey(@RequestBody WorkflowVo workflowVo) {
-
-		// 校验流程定义是否存在（.latestVersion()）
-		ProcessDefinitionEntity processDefinitionEntity = (ProcessDefinitionEntity) repositoryService.createProcessDefinitionQuery().processDefinitionKey(workflowVo.getProcessDefineKey()).active().singleResult();
-		if (processDefinitionEntity == null)
-			return "流程启动失败key为'" + workflowVo.getProcessDefineKey() + "'的流程定义不存在";
-
-		// 启动流程, 根据key获取最新版本的流程定义
-		ProcessInstance processInstance = null;
-		try {
-			// 设置流程启动人
-			identityService.setAuthenticatedUserId(workflowVo.getAuthenticatedUserId());
-			processInstance = runtimeService.startProcessInstanceByKey(workflowVo.getProcessDefineKey(), workflowVo.getBusinessId(), workflowVo.getVariables());
-		} catch (Exception ex) {
-			return "流程启动异常,异常原因：" + ex.getMessage();
-		}
-
-		// 把第一个节点任务同时办理了，variables中有变量为当前人的starter
-		Task task = null;
-		TaskQuery query = taskService.createTaskQuery().taskCandidateOrAssigned(workflowVo.getAuthenticatedUserId());
-		List<Task> todoList = query.list();// 获取申请人的待办任务列表
-		for (Task tmp : todoList) {
-			if (tmp.getProcessInstanceId().equals(processInstance.getId())) {
-				task = tmp;// 获取当前流程实例，当前申请人的待办任务
-				break;
-			}
-		}
-		taskService.complete(task.getId(), workflowVo.getVariables());
-
-		runtimeService.setProcessInstanceName(processInstance.getId(), workflowVo.getProcessInstanceName());
-
 		return "true";
 	}
 
@@ -699,7 +617,7 @@ public class WorkflowProviderClient {
 			}
 		}
 		
-		// 获取 开始节点的下个节点的下一个节点
+		/*// 获取 开始节点的下个节点的下一个节点
 		for (ActivityImpl activityImpl : activitiList) {
 			id = activityImpl.getId();
 			System.out.println("5----------1开始获取下一个节点----"+activityImpl.getId());
@@ -710,7 +628,7 @@ public class WorkflowProviderClient {
 				System.out.println("52----------1获取下一个节点信息----"+task.getKey());
 				break;
 			}
-		}
+		}*/
 		
 		return task;
 	}
