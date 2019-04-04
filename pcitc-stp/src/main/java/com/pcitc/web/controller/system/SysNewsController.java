@@ -1,142 +1,261 @@
 package com.pcitc.web.controller.system;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.lang.StringUtils;
+import com.alibaba.druid.support.json.JSONUtils;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.pcitc.base.common.Result;
+import com.pcitc.base.system.SysNews;
+import com.pcitc.base.common.LayuiTableData;
+import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.web.utils.UserProfileAware;
+import com.pcitc.base.common.TreeNode;
+import com.pcitc.base.common.enums.DataOperationStatusEnum;
+import com.pcitc.base.util.DateUtil;
+import com.pcitc.web.common.JwtTokenUtil;
+import com.pcitc.base.doc.SysFileKind;
+import com.pcitc.web.common.OperationFilter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
+import com.pcitc.web.common.BaseController;
+import com.pcitc.base.util.DataTableInfoVo;
+import com.pcitc.base.util.DateTableUtil;
+import com.pcitc.web.common.DataTableParameter;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.pcitc.base.common.InforVo;
-import com.pcitc.base.common.LayuiTableData;
-import com.pcitc.base.common.LayuiTableParam;
-import com.pcitc.base.system.SysNews;
-import com.pcitc.web.common.BaseController;
-import com.pcitc.web.common.OperationFilter;
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
+
+/**
+ * <p>控制类</p>
+ * <p>Table: sys_news - 系统新闻表</p>
+ *
+ * @since 2019-04-04 10:25:32
+ */
 
 @Controller
-@RequestMapping("news")
+@RequestMapping("sysNews")
 public class SysNewsController extends BaseController {
+    /**
+     * 根据ID获取对象信息
+     */
+    private static final String GET_INFO = "http://pcitc-zuul/stp-proxy/sysnews-provider/sysnews/get-sysnews/";
+    /**
+     * 树形
+     */
+    private static final String TREE_DATA = "http://pcitc-zuul/stp-proxy/sysnews-provider/sysnews/tree-data";
+    /**
+     * 逻辑删除
+     */
+    private static final String DEL = "http://pcitc-zuul/stp-proxy/sysnews-provider/sysnews/del-sysnews/";
+    /**
+     * 物理删除
+     */
+    private static final String DEL_REAL = "http://pcitc-zuul/stp-proxy/sysnews-provider/sysnews/del-sysnews-real/";
 
-	private static final String NEWS_LIST = "http://pcitc-zuul/system-proxy/news-provider/news_list";
+    /**
+     * 查询列表
+     */
+    private static final String LIST = "http://pcitc-zuul/stp-proxy/sysnews-provider/sysnews/sysnews_list";
+    /**
+     * 参数查询
+     */
+    private static final String LISTPARAM = "http://pcitc-zuul/stp-proxy/sysnews-provider/sysnews/sysnews_list_param";
+    /**
+     * 分页查询
+     */
+    private static final String LISTPAGE = "http://pcitc-zuul/stp-proxy/sysnews-provider/sysnews/sysnews-page";
+    /**
+     * 保存
+     */
+    private static final String SAVE = "http://pcitc-zuul/stp-proxy/sysnews-provider/sysnews/save_sysnews";
 
-	private static final String SAVE_NEWS = "http://pcitc-zuul/system-proxy/news-provider/save_news";
+    /**
+     * 系统新闻表-查询列表
+     *
+     * @param sysNews
+     * @return
+     */
+    @RequestMapping(value = "/list", method = RequestMethod.POST)
+    @ResponseBody
+    public Object getList(@RequestBody SysNews sysNews) {
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LIST, HttpMethod.POST, new HttpEntity<SysNews>(sysNews, this.httpHeaders), JSONObject.class);
+        JSONObject retJson = responseEntity.getBody();
+        List<SysNews> list = (List<SysNews>) retJson.get("list");
+        return list;
+    }
 
-	private static final String DELETE_NEWS = "http://pcitc-zuul/system-proxy/news-provider/delete_news/";
+    @RequestMapping(value = "/listParam", method = RequestMethod.POST)
+    @ResponseBody
+    public Object getListParam(@RequestParam String id) {
+        httpHeaders.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<String, String>();
+        requestBody.add("id", request.getParameter("id") + "");
+        HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<MultiValueMap<String, String>>(requestBody, this.httpHeaders);
+        ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(LISTPARAM, HttpMethod.POST, entity, JSONObject.class);
+        JSONObject retJson = responseEntity.getBody();
+        List<SysNews> list = (List<SysNews>) retJson.get("list");
+        return list;
+    }
 
-	private static final String GET_NEWS = "http://pcitc-zuul/system-proxy/news-provider/get_news/";
+    /**
+     * 系统新闻表-分页查询
+     *
+     * @param param
+     * @return
+     */
+    @RequestMapping(value = "/getTableData", method = RequestMethod.POST)
+    @ResponseBody
+    public Object getTableData(@ModelAttribute("param") LayuiTableParam param) {
+        HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
+        ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(LISTPAGE, HttpMethod.POST, entity, LayuiTableData.class);
+        LayuiTableData data = responseEntity.getBody();
+        return JSON.toJSON(data).toString();
+    }
 
-	@RequestMapping(value = "/selectNewsList")
-	@ResponseBody
-	public Object selectNewsList(@ModelAttribute("param") LayuiTableParam param, HttpServletRequest request) throws Exception {
+    /**
+     * 保存-系统新闻表
+     *
+     * @param record
+     * @return
+     */
+    @RequestMapping(value = "/saveSysNews")
+    @ResponseBody
+    @OperationFilter(modelName = "系统新闻表", actionName = "保存saveRecord")
+    public int saveRecord(SysNews record) {
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        if (record.getId() == null || "".equals(record.getId())) {
+            record.setCreateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
+            record.setCreateUser(sysUserInfo.getUserId());
+            record.setCreateUserDisp(sysUserInfo.getUserName());
+        } else {
+            record.setUpdateDate(DateUtil.format(new Date(), DateUtil.FMT_SS));
+            record.setUpdatePersonId(sysUserInfo.getUserId());
+            record.setUpdatePersonName(sysUserInfo.getUserName());
+        }
+        record.setStatus("0");
+        ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(SAVE, HttpMethod.POST, new HttpEntity<SysNews>(record, this.httpHeaders), Integer.class);
+        Integer result = responseEntity.getBody();
+        return result;
+    }
 
-		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, this.httpHeaders);
-		ResponseEntity<LayuiTableData> responseEntity = this.restTemplate.exchange(NEWS_LIST, HttpMethod.POST, entity, LayuiTableData.class);
-		LayuiTableData result = responseEntity.getBody();
+    /**
+     * 编辑页面-系统新闻表
+     *
+     * @param id
+     * @param model
+     * @return
+     */
+    @RequestMapping(method = RequestMethod.GET, value = "/edit")
+    @OperationFilter(modelName = "系统新闻表", actionName = "跳转编辑页面pageEdit")
+    public String pageEdit(String id, Model model, String opt) {
+        model.addAttribute("id", id);
+        model.addAttribute("opt", opt);
+        return "stp/system/sysNews_edit";
+    }
 
-		return JSON.toJSONString(result);
+    /**
+     * 详情页面-系统新闻表
+     *
+     * @param model
+     * @return
+     */
+    @RequestMapping(method = RequestMethod.GET, value = "/view/{dataId}")
+    @OperationFilter(modelName = "系统新闻表", actionName = "跳转详情页面pageView")
+    public String pageView(@PathVariable("dataId") String dataId, Model model) {
+        model.addAttribute("id", dataId);
+        model.addAttribute("opt", "");
+        model.addAttribute("dataId", (dataId == null || "".equals(dataId)) ? UUID.randomUUID().toString().replace("-", "") : dataId);
+        return "stp/system/sysNews_view";
+    }
 
-	}
+    /**
+     * 跳转至系统新闻表列表页面
+     *
+     * @return
+     */
+    @RequestMapping(value = "/toListPage", method = {RequestMethod.GET})
+    @OperationFilter(modelName = "系统新闻表", actionName = "跳转列表页toListPage")
+    public String toListPage() {
+        return "stp/system/sysNews_list";
+    }
 
-	@OperationFilter(modelName = "新闻管理", actionName = "新增或修改新闻")
-	@RequestMapping(value = "/saveNews")
-	@ResponseBody
-	public int saveNews(@RequestBody JSONObject news) {
-		news.put("user", JSONObject.parseObject(JSON.toJSONString(this.sysUserInfo)));
-		ResponseEntity<Integer> responseEntity = this.restTemplate.exchange(SAVE_NEWS, HttpMethod.POST, new HttpEntity<JSONObject>(news, this.httpHeaders), Integer.class);
-		Integer result = responseEntity.getBody();
-		return result;
-	}
+    /**
+     * 根据ID查询对象信息
+     *
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/getSysNewsInfo")
+    @OperationFilter(modelName = "系统新闻表", actionName = "根据ID查询对象信息getsysNewsInfo")
+    @ResponseBody
+    public Object getsysNewsInfo(HttpServletRequest request) {
+        String id = request.getParameter("id");
+        ResponseEntity<SysNews> responseEntity = this.restTemplate.exchange(GET_INFO + id, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), SysNews.class);
+        SysNews news = responseEntity.getBody();
+        return news;
+    }
 
-	@OperationFilter(modelName = "新闻管理", actionName = "删除新闻")
-	@RequestMapping(value = "/deleteNewsById")
-	@ResponseBody
-	public int deleteDictionary(HttpServletRequest request) {
-		String id = request.getParameter("id");
-		ResponseEntity<Integer> responseEntity = restTemplate.exchange(DELETE_NEWS + id, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), Integer.class);
-		int result = responseEntity.getBody();
-		return result;
-	}
+    @RequestMapping(value = "/tree-data")
+    @ResponseBody
+    @OperationFilter(modelName = "系统新闻表", actionName = "树形查询getSysNewsTreeData()")
+    public Object getSysNewsTreeData() throws Exception {
+        TreeNode node = this.restTemplate.exchange(TREE_DATA, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), TreeNode.class).getBody();
+        return node;
+    }
 
-	@RequestMapping(method = RequestMethod.GET, value = "/edit")
-	private String pageEdit(String id, Model model) {
-		if (StringUtils.isEmpty(id))
-			id = "";
-		model.addAttribute("id", id);
-		return "base/system/news_info";
-	}
+    @RequestMapping(value = "/tree-datas")
+    @OperationFilter(modelName = "系统新闻表", actionName = "树形查询getSysNewsTreeData()")
+    @ResponseBody
+    public String getSysNewsTreeDatas(HttpServletRequest request) throws Exception {
+        this.httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        List list = this.restTemplate.exchange(TREE_DATA, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), List.class).getBody();
+        return JSONUtils.toJSONString(list);
+    }
 
-	/**
-	 * 跳转至新闻页面
-	 * 
-	 * @return
-	 */
-	@RequestMapping(value = { "/toNewsList" }, method = RequestMethod.GET)
-	public String toUserPorperty() {
-		return "base/system/news_list";
-	}
+    @OperationFilter(modelName = "删除系统新闻表", actionName = "根据ID删除系统新闻表")
+    @RequestMapping(value = "/del", method = RequestMethod.POST)
+    @ResponseBody
+    public Object delSysNews() throws Exception {
+        Integer rs = this.restTemplate.exchange(DEL + request.getParameter("id"), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class).getBody();
+        if (rs > 0) {
+            return new Result(true, "操作成功！");
+        } else {
+            return new Result(false, "保存失败请重试！");
+        }
+    }
 
-	@RequestMapping(value = "/getNewsInfo")
-	@ResponseBody
-	public Object getNewsInfo(HttpServletRequest request) {
-		String id = request.getParameter("id");
-		ResponseEntity<SysNews> responseEntity = this.restTemplate.exchange(GET_NEWS + id, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), SysNews.class);
-		SysNews news = responseEntity.getBody();
-		return news;
-	}
-
-	/**
-	 * 跳转至新闻查看页面
-	 * 
-	 * @return
-	 */
-	@RequestMapping(value = { "/toNewsShow" }, method = RequestMethod.GET)
-	public String toNewsShow(String id, Model model) {
-		ResponseEntity<SysNews> responseEntity = this.restTemplate.exchange(GET_NEWS + id, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), SysNews.class);
-		SysNews entity = responseEntity.getBody();
-		InforVo inforVo = new InforVo();
-		inforVo.setContent(entity.getContent());
-		inforVo.setDate(entity.getUpdatetime());
-		inforVo.setTitle(entity.getTitle());
-		model.addAttribute("info", inforVo);
-
-		Object stype = request.getParameter("stype");
-		if (stype == null || "".equals(stype)) {
-			return "base/system/info-dialog";
-		} else {
-			return "base/system/info-detail";
-		}
-
-		// return "base/system/news_show";
-	}
-
-	/**
-	 * 后台跳转至新闻查看页面
-	 * 
-	 * @return
-	 */
-	@RequestMapping(value = { "/toNewsLook" }, method = RequestMethod.GET)
-	public String toNewsLook(String id, Model model) {
-		ResponseEntity<SysNews> responseEntity = this.restTemplate.exchange(GET_NEWS + id, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), SysNews.class);
-		SysNews entity = responseEntity.getBody();
-		entity.setNoticeContent(entity.getContent());
-		entity.setNoticeTitle(entity.getTitle());
-		entity.setNoticePublisherName(entity.getAuthor());
-		entity.setNoticePublisherUnit(this.sysUserInfo.getUnitName());
-		entity.setNoticePublishtime(entity.getUpdatetime());
-		entity.setNoticeCreater(entity.getAuthor());
-		model.addAttribute("info", entity);
-
-		return "base/system/info-dialog-news";
-	}
+    @OperationFilter(modelName = "物理删除系统新闻表", actionName = "根据ID物理删除系统新闻表")
+    @RequestMapping(value = "/del-real", method = RequestMethod.POST)
+    @ResponseBody
+    public Object delSysNewsReal() throws Exception {
+        Integer rs = this.restTemplate.exchange(DEL_REAL + request.getParameter("id"), HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), Integer.class).getBody();
+        if (rs > 0) {
+            return new Result(true, "操作成功！");
+        } else {
+            return new Result(false, "保存失败请重试！");
+        }
+    }
 
 }
