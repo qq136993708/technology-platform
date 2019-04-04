@@ -1,5 +1,7 @@
 package com.pcitc.service.equipment;
 
+
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -166,6 +168,9 @@ public interface EquipmentService {
 	
 	/**===========================================任务关闭==========================================*/
 	public LayuiTableData getSreTaskClosurePage(LayuiTableParam paramsJson)throws Exception;
+
+
+	
 	
 	
 	
