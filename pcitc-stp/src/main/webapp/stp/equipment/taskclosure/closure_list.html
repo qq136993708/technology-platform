@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()" media="all">
+    <script src="/common/js/jquery-1.11.3.min.js"></script>
+    <script src="/layuiadmin/layui/layui.js"></script>
+    <script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
+    <style>
+        .searchBox{ height: auto;}
+        .searchBox label{margin-bottom: 10px;display: inline-block; }
+    </style>
+</head>
+<body>
+<div class="searchBox">
+<form action=""  name="form1" id="form1" action="" method="POST">
+<input  name="functionId"     id="functionId"      type="hidden">
+<input  name="userIds"        id="userIds"         type="hidden">
+<input  name="id"         id="id"          type="hidden" >
+<input type="hidden" name="applyUnitCode" id="applyUnitCode" value="${applyUnitCode}">
+<input type="hidden" name="parentUnitPathIds" id="parentUnitPathIds" value="${parentUnitPathIds}">
+
+</form>
+	
+    <!--查询条件-->
+    <input type="hidden" name="auditStatus" id="auditStatus" value="${auditStatus}">
+    <label class="dateInput">
+        <span>立项年度</span>
+        <input type="text" name="setupYear" value="" readonly="readonly" placeholder="请选择立项年度" title="立项年度" autocomplete="off" class="form-control" id="setupYear">
+    </label>
+    
+    <label class="dateInput">
+    <span>任务书名称</span>
+    <input type="text" name="topicName" title="任务书名称" autocomplete="off" class="form-control" id="topicName">
+</label>
+    <!--按钮组-->
+    <div class="btnGroup">
+        <button class="layui-btn layui-btn-sm fontColor-white btn_search btnMyBgImg" data-type="searchEvent">查询</button>
+        <button class="layui-btn layui-btn-sm fontColor-default border-default btn_reset btnMyBgImg" data-type="resetEvent">重置</button>
+    </div>
+</div>
+<div class="tableBox">
+	<div class="tableToolBox">
+        <div class="whiteLine"></div>
+        <div  class="tableBtns">
+        <!--
+            <button id="allData" class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue active btnMyBgImg" data-type="allEvent">
+					<span class="btn-state btn-all-ryg"></span>
+					全部
+				</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"
+                    data-type="draftEvent">
+                <span class="btn-state btnYellow"></span>未上报
+            </button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"
+                    data-type="submitEvent">
+                <span class="btn-state btn-green"></span>已上报
+            </button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"
+                    data-type="passEvent">
+                <span class="btn-state btn-blue"></span>通过
+            </button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderStateColor-blue btnMyBgImg"
+                    data-type="rejectEvent">
+                <span class="btn-state btn-yellow"></span>退回调整
+            </button>
+                -->  
+                <!--暂时注释，如果有新的需要在放开
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add" data-type="addEvent">新增</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_edit" id="editEvent" data-type="editEvent">编辑</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_add"  id="applyEvent" data-type="applyEvent">上报</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_details" id="detailEvent" data-type="detailEvent">详情</button>
+            <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btnMyBgImg btn_delete"  id="deleteEvent" data-type="deleteEvent">关闭任务</button>
+            -->
+        </div>
+    </div>
+   <table id="processdef-table" class="layui-hide" lay-filter="processdef-table" ></table> 
+</div>
+<script id="dateTpl" type="text/html"> {{formatTime(d.createDate)}} </script>
+<script id="closete" type="text/html"> {{clouseTime(d.closeDate)}} </script>
+<script type="text/javascript">
+    // 时间格式化
+    function formatTime(d) {
+        if (d) {
+            var date = new Date();
+            date.setTime(d);
+            var y = date.getFullYear();
+            var m = date.getMonth() + 1;
+            m = m < 10 ? ('0' + m) : m;
+            var day = date.getDate();
+            day = day < 10 ? ("0" + day) : day;
+            var h = date.getHours();
+            h = h < 10 ? ("0" + h) : h;
+            var M = date.getMinutes();
+            M = M < 10 ? ("0" + M) : M;
+            var str = y + "-" + m + "-" + day + " " + h + ":" + M;
+            return str;
+        } else {
+            return '';
+        }
+    }
+    
+ // 时间格式化
+    function clouseTime(d) {
+        if (d) {
+            var date = new Date();
+            date.setTime(d);
+            var y = date.getFullYear();
+            var m = date.getMonth() + 1;
+            m = m < 10 ? ('0' + m) : m;
+            var day = date.getDate();
+            day = day < 10 ? ("0" + day) : day;
+            var h = date.getHours();
+            h = h < 10 ? ("0" + h) : h;
+            var M = date.getMinutes();
+            M = M < 10 ? ("0" + M) : M;
+            var str = y + "-" + m + "-" + day + " " + h + ":" + M;
+            return str;
+        } else {
+            return '';
+        }
+    }
+    
+    
+    function view_project(id) 
+    {
+    	 var temUrl="/sre-project-basic/get/" + id;
+		 layer.open({
+            title:'课题详情',
+            skin: 'layui-layer-lan',
+            shadeClose: true,
+            type: 2,
+            fixed: false,
+            maxmin: false,
+            area: ['70%', '90%'],
+            content:  temUrl
+        });
+    }
+    
+    
+</script>
+<script type="text/javascript">
+
+getDepartNameByUnitName($("#belongDepartmentName").val());
+function getDepartNameByUnitName(belongDepartmentName)
+{
+	 $("#belongDepartmentName").val(belongDepartmentName);
+	 $("#professionalDepartName").empty();
+	 var v_date=(new Date()).getTime();
+	 $.ajax({
+			url : "/unitField/getDepartmentNameListByUnitName?v_date="+v_date+"&unitName="+belongDepartmentName,
+			type : "post",
+			async: false,
+			dataType : "json",
+			success : function(data) 
+			{
+				$("#professionalDepartName").append("<option value=''>--请选择--</option>");
+				$.each(data, function(i, el) 
+				{
+					$("#professionalDepartName").append('<option value="'+ el.departmentName +'">' + el.departmentName+ '</option>');
+					/* if(cityId==el.departmentName)
+					{
+						$("#professionalDepartName ").val(departmentName);  
+					} */
+	  			  	
+				});
+			},
+			error : function() 
+			{
+				alert("发生未知错误 ,请重新操作.");
+			}
+		});
+	 
+	 
+	 getProfessionalNameListByUnitNameAndDept(belongDepartmentName);
+}
+
+
+
+
+
+
+
+function getProfessionalNameListByUnitNameAndDept(professionalDepartName)
+{
+	
+	 var belongDepartmentName= $("#belongDepartmentName").val();
+	 $("#professionalFieldName").empty();
+	 var v_date=(new Date()).getTime();
+	 $.ajax({
+			url : "/unitField/getProfessionalNameListByUnitNameAndDept?v_date="+v_date+"&unitName="+belongDepartmentName+"&departmentName="+professionalDepartName,
+			type : "post",
+			async: false,
+			dataType : "json",
+			success : function(data) 
+			{
+				$("#professionalFieldName").append("<option value=''>--请选择--</option>");
+				$.each(data, function(i, el) 
+				{
+					$("#professionalFieldName").append('<option value="'+ el.professionalFieldName +'">' + el.professionalFieldName+ '</option>');
+	  			  	
+				});
+			},
+			error : function() 
+			{
+				alert("发生未知错误 ,请重新操作.");
+			}
+		});
+}
+
+</script>
+<!--表格数据操作js-->
+
+<script>
+var publicMethods;
+var param=JSON.parse(window.localStorage.getItem("param"));
+var functionId=param.id;
+$('#functionId').val(functionId);
+var roleCodes = "";
+var unitCodes = "";
+var postCodes = "";
+
+
+
+var table,selectRowData;
+var name=$('#name').val();
+    layui.use(['jquery','table','laypage','form','layer','laytpl','laydate',"publicMethods"], function(){
+            table = layui.table,
+            $ = layui.jquery,
+            layer = layui.layer,
+            laydate = layui.laydate,
+            form = layui.form,
+            laypage = layui.laypage;
+            publicMethods=layui.publicMethods;
+            //加载表格      
+	  	    renderTable();
+	  	    //移除表头的复选框,去掉全选
+	  	    $(".layui-table-header table thead th input").remove();  
+	  	    form.render();
+  	     
+  	     
+  	   var setupYear = laydate.render({
+           elem: '#setupYear'
+           ,type: 'year'
+       });
+  	   
+  	   
+         // 触发不同的按钮事件
+         var $ = layui.$, active = {
+            searchEvent: function() { //点击查询按钮
+            	 renderTable();
+            },
+            resetEvent: function() { //点击重置按钮
+            	$('#name').val("");
+            	$('#setupYear').val("");
+            	$('#topicName').val("");
+            	$('#belongDepartmentName').val("");
+            	$('#professionalDepartName').val("");
+            	$('#professionalFieldName').val("");
+             
+            },
+            
+            deleteEvent: function(){  //点击关闭按钮
+                 console.log('点击了关闭按钮')
+                 if (typeof(selectRowData) == "undefined") 
+                 {
+            		layer.msg('请点击选择一行数据');
+            	 } else 
+            	 {
+            		  var id=selectRowData.taskId;
+           		      var url="/sre-task-closure/uppdata/"+id;
+	           		  layer.confirm('确定要关闭吗？', { btn: ['确定','取消']}, function(){
+	         				 ajaxDeleteOpt(url,"post","关闭成功","关闭失败");
+	         			}, function(){
+	         			 
+	         			});
+            	}
+            
+              
+            },
+            detailEvent: function(){  //点击详情按钮
+            	if (typeof(selectRowData) == "undefined") {
+            		layer.msg('请点击选择一行数据');
+            	} else {
+            		 var id=selectRowData.id;
+            		 var temUrl="/sre-project-basic/get/" + id;
+            		 layer.open({
+                         title:'详情',
+                         skin: 'layui-layer-lan',
+                         shadeClose: true,
+                         type: 2,
+                         fixed: false,
+                         //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                         maxmin: false,
+                         //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                         area: ['70%', '90%'],
+                         content:  temUrl
+                     });
+            	}
+            
+            },
+            applyEvent: function(){  //点击详情按钮
+            	
+            	if (typeof(selectRowData) == "undefined") 
+            	{
+            		layer.msg('请点击选择一行数据');
+            	}
+            	else 
+            	{
+            		
+            		 var auditStatus=selectRowData.auditStatus;
+            		 var id=selectRowData.id;
+            		 if(auditStatus!=='0')
+           			 {
+            			 layer.alert('请选择未上报的计划');
+            			 return;
+           			 }else
+           			 {
+           				$('#id').val(id);
+                	 	dealFlow(id);
+           			 }
+            		 
+            	}
+            },
+            allEvent: function(){ 
+            	$("#auditStatus").val("");
+            	renderTable();
+            },
+            draftEvent: function(){ 
+            	$("#auditStatus").val("0");//0未审批(草稿), 1审批中(已提交)  2审批通过   0审批不通过
+            	renderTable();
+            },
+            submitEvent: function(){ 
+            	$("#auditStatus").val("1");
+            	renderTable();
+            },
+            passEvent: function(){ 
+            	$("#auditStatus").val("2");
+            	renderTable();
+            },
+            rejectEvent: function(){ 
+            	$("#auditStatus").val("0");
+            	renderTable();
+            }
+            
+        };
+        //监听排序
+        table.on('sort(model-table)', function(obj){
+            console.log(this, obj.field, obj.type)
+            //return;
+            //服务端排序
+            table.reload('model-table', {
+                initSort: obj,
+                page: {curr: 1}, //重新从第一页开始
+                where: { //重新请求服务端
+                    key: obj.field, //排序字段
+                    order: obj.type //排序方式
+                }
+            });
+        });
+       
+        //监听表格双击事件
+//        table.on('rowDouble(processdef-table)', function(obj){
+//        	var temUrl = '/sre-project-basic/get/'+obj.data.id;
+//        	openFullWin("详情",temUrl);
+//        });
+        
+        //区别按钮属性
+        $('.layui-btn').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+    });
+    
+    
+    function renderTable()
+	{    
+    	//渲染
+        table.render({
+            elem: '#processdef-table',
+            url: '/sre-closure/list',
+            method:"POST",
+            where: {param: {"topicName":$("#topicName").val(),"setupYear":$("#setupYear").val(),"name":$("#name").val(),"belongDepartmentName":$("#belongDepartmentName").val(),"professionalDepartName":$("#professionalDepartName").val(),"professionalFieldName":$("#professionalFieldName").val(),"applyUnitCode":$("#applyUnitCode").val(),"closeStatus":$("#closeStatus").val()}},
+            limit: 15,	
+            id: 'processdef-table',
+            height: commonDislodgeTable(),
+            page: {
+                groups: 5,
+                limits: [15,30,45,60],
+                layout: ['count', 'limit', 'prev', 'page', 'next', 'skip'], //自定义分页布局
+                first: '首页', //不显示首页
+                last: '尾页', //不显示尾页
+                theme: '#0F9EE0'
+            },
+            cols: [[
+            	{title : '序号', type :'numbers', width : 55},
+            	{field : 'topicName',      title : '任务书', style : 'cursor: pointer;', align: 'left', width : '10%',templet:function(d){return '<span onclick="view_isWriteTask(\''+d.taskId+'\')" style="color:#17a2b8">'+d.topicName+'</span>'}},
+                {field : 'setupYear',      title : '立项年份', style : 'cursor: pointer;', align: 'center', width : '10%'},
+                {field : 'contractNum', title : '合同号', style : 'cursor: pointer;', align: 'center', width : '10%'},
+                {field : 'parentUnitPathNames',  title : '填写单位', style : 'cursor: pointer;', align: 'left', width : '25%'},
+                {field : 'createUnitName',  title : '填写部门', style : 'cursor: pointer;', align: 'left', width : '10%'},
+                {field : 'createDate',     title : '任务书填写时间', style : 'cursor: pointer;', align: 'center', width : '10%', templet : '#dateTpl'},
+            	{field : 'createUserName', title : '任务书填写人', style : 'cursor: pointer;', align: 'center', width : '10%'},
+                {field : 'closeDate', title : '任务书关闭时间', style : 'cursor: pointer;', align: 'center', width : '10%', templet : '#closete'}
+                ]],
+            done: function (res, curr, count) {
+                // 点击行联动选择框--单选
+                $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+                	var index=parseInt($(this).index()+1);
+                    $('tr').removeClass('layui-table-click');
+                    $(this).addClass('layui-table-click');
+                    $('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
+                    $('tr:eq('+index+')').find("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
+                    selectRowData=res.data[index-1];
+                    var auditStatus=selectRowData.auditStatus;
+                });
+                //项目分类，项目性质
+                var dicMap = ['ROOT_ZBGL_ZBFL'];
+                var dicVal = {};
+ 				publicMethods.ajaxPost("/dictionary/map/getMapListDictionarys",{"parentCodes":JSON.stringify(dicMap)}, function (data) {
+ 					$.each(data,function(key,val){
+ 						$.each(val,function(i,dt){
+ 							dicVal[dt.code] = dt.name;
+ 						});
+ 					});
+ 			   	}); 
+ 				$.each(res.data,function(i,dt){
+ 					$("tr[data-index='"+i+"'] td[data-field='type'] div").html(dicVal[res.data[i].type]); 
+ 			   	}); 
+            }
+        });
+	 }
+    
+    /*formName：form表单名称，
+    type：post、get,delete,put 
+    backurl:操作成功后返回地址
+    successMsg：成功提示
+    failMsg：失败提示 */
+    function ajaxDeleteOpt(url,type,successMsg,failMsg)
+    {
+    	 $.ajax({
+      	     type:type,
+      	     url: url,
+      	     dataType:"json",
+      	     async: false, 
+      	     cache: false,
+      	     contentType: "application/x-www-form-urlencoded; charset=utf-8",
+             success:function(data,status)
+             {    
+    	          
+            	  if(data.success==true ||data.success=='true')
+    	          {
+    	        	  layer.alert(
+    	        			  successMsg, 
+    	                      {icon: 1,closeBtn: 0 },
+    	                      function () 
+    	                      {
+    	                    	   renderTable();
+    	                    	   layer.closeAll();
+    	                      });
+    	       	   
+    	          } else
+    	          {
+    	        	 layer.alert("操作失败");
+    	          }
+    	     
+    		   },
+    		   error:function()
+    		   {
+    		    	layer.alert("网络访问错误");
+    		   }
+        
+      });
+    } 
+   
+    
+    
+    
+    
+    
+    
+    function dealFlow(id) 
+    {
+    	
+    	var json = {functionId:functionId};
+    	 $.ajax({
+             type : 'POST',
+             url : "/workflow/start/audit-type",
+             contentType: "application/json;charset=UTF-8",
+             data : JSON.stringify(json),
+             //json中有functionId（projectId、departmentId等）用来区别processDefine的属性
+             success : function(data) 
+             {
+          	   if (data.code == 'role')
+          	   {
+              		// 按角色选择，获取下一步审批人信息,选择完审批人后，调用：handleTask(userIds)方法
+              		// roleCodes，参数名必须一致，方便公共弹出页面调用
+              		   roleCodes = data.data;  // 弹出页面的隐藏的查询条件
+              		  var temUrl="/task/deal/users/ini";
+                      layer.open({
+                          title:'选择审批人',
+                          skin: 'layui-layer-lan',
+                          shadeClose: true,
+                          type: 2,
+                          fixed: false,
+                          //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                          maxmin: true,
+                          //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                          area: ['800px', '550px'],
+                          content:  temUrl
+                      });
+              	} else if (data.code == 'unit' || data.code == 'post') 
+              	{
+              		// 按部门/岗位选择，获取下一步审批人信息,选择完审批人后，调用：handleTask(userIds)方法
+              		// unitCodes、postCodes，参数名必须一致，方便公共弹出页面调用
+    	          		if (data.code == 'unit') 
+    	          		{
+    	          			unitCodes = data.data;  // 弹出页面的隐藏的查询条件
+    	          		} else 
+    	          		{
+    	          			postCodes = data.data;  // 弹出页面的隐藏的查询条件
+    	          		}
+              		
+              		   var temUrl="/task/deal/user/unit/ini";
+                       layer.open({
+                          title:'选择审批人',
+                          skin: 'layui-layer-lan',
+                          shadeClose: true,
+                          type: 2,
+                          fixed: false,
+                          //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                          maxmin: true,
+                          //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                          area: ['800px', '550px'],
+                          content:  temUrl
+                      });
+              	} else if (data.code == 'int') 
+              	{
+              		layer.msg('启动参数不足');
+              	} else if (data.code == 'con') 
+              	{
+              		layer.msg('请给此功能菜单配置流程');
+              	} else if (data.code == 'exist') 
+              	{
+              		layer.msg('工作流部署异常，请联系管理员');
+              	} else 
+              	{
+              		// 直接处理此任务
+              		handleTask('');
+              	}
+             },
+             error : function(msg) {//请求失败处理函数  
+            }
+         });
+    }
+
+    //处理任务（启动流程）的方法，方法名固定，为了通用选择审批人员的弹出页面调用
+    function handleTask(userIds) 
+    {
+    	
+    	$('#userIds').val(userIds);
+    	$('#applyEvent').attr("disabled",true);
+    	var v_date=(new Date()).getTime();
+        var url="/sre-project-basic/start_workflow?v_date="+v_date;
+        var backurl="/sre-project-basic/to-list?v_date="+v_date;
+        ajaxOpt(url,"form1","POST",backurl,"提交成功","提交失败");
+        $('#applyEvent').attr("disabled",false);
+    }
+    
+    function ajaxOpt(url,formName,type,backurl,successMsg,failMsg)
+    {
+    	 $.ajax({
+      	     type:type,
+      	     url: url,
+      	     dataType:"json",
+      	     data:$("#"+formName).serialize(),
+      	     async: false, 
+      	     cache: false,
+      	     contentType: "application/x-www-form-urlencoded; charset=utf-8",
+             success:function(data,status)
+             {    
+        	  
+    	          if(data.success==true ||data.success=='true')
+    	          {
+
+    	        	  
+    	        	          layer.alert(
+    	        			  successMsg, 
+    	                      {icon: 1,closeBtn: 0 },
+    	                      function () 
+    	                      {
+    	                    	  renderTable();
+   	                    	      layer.closeAll();
+    	                      });
+    	        	  
+    	          } else
+    	          {
+    	        	 layer.alert(failMsg);
+    	          }
+    	     
+    		   },
+    		   error:function()
+    		   {
+    		    	layer.alert("网络访问错误");
+    		   }
+        
+      });
+    }
+   
+
+</script>
+
+</body>
+</html>
