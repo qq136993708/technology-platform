@@ -1,7 +1,6 @@
 package com.pcitc.web.budget;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,12 +15,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.enums.BudgetAuditStatusEnum;
 import com.pcitc.base.common.enums.BudgetInfoEnum;
-import com.pcitc.base.stp.budget.BudgetGroupTotal;
 import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.stp.budget.BudgetSplitData;
 import com.pcitc.base.util.MyBeanUtils;
@@ -199,45 +196,6 @@ public class BudgetGroupSplitProviderClient
 		{
 			List<BudgetSplitData> datas = budgetGroupSplitService.saveBudgetSplitData(items);
 			rs = datas.size();
-			
-			/*
-        "budgetType": 203, 
-        "plan_xq": 0, 
-        "no": 1, 
-        "total_xq": 0, 
-        "ROOT_JFYS_JTDWFL2019_YF_xq": 0, 
-        "ROOT_JFYS_JTDWFL2019_QT_xq": 0, 
-        "total": 22, 
-        "organCode": "YTC", 
-        "ROOT_JFYS_JTDWFL2019_YF_jz": 0, 
-        "ROOT_JFYS_JTDWFL2019_JX_total": 0, 
-        "plan_total": 0, 
-        "ROOT_JFYS_JTDWFL2019_YF_total": 0, 
-        "ROOT_JFYS_JTDWFL2019_QT_total": 0, 
-        "ROOT_JFYS_JTDWFL2019_JX_xq": 0, 
-        "dataVersion": "vs-2019-203-016", 
-        "ROOT_JFYS_JTDWFL2019_QT_jz": 22, 
-        "plan_jz": 0, 
-        "organName": "油田处", 
-        "ROOT_JFYS_JTDWFL2019_JX_jz": 0, 
-        "nd": "2019", 
-        "budgetInfoId": "169e5c753b4_1a50b76a", 
-        "organId": 1, 
-        "total_jz": 22, 
-        "items": { }, 
-        "budgetTypeName": "预算分解表（集团预算分解）"
-			 * 
-			 * Map<String,BudgetGroupTotal> map = new HashMap<String,BudgetGroupTotal>();
-			for(BudgetGroupTotal item:items) {
-				map.put(item.getDataId(), item);
-			}
-			List<BudgetGroupTotal> totals = budgetGroupTotalService.selectBudgetGroupTotalListByIds(new ArrayList<String>(map.keySet()));
-			for(BudgetGroupTotal total:totals) {
-				BudgetGroupTotal maptotal = map.get(total.getDataId());
-				if(!JSON.toJSONString(maptotal).equals(JSON.toJSONString(total))) {
-					rs += budgetGroupTotalService.updateBudgetGroupTotal(maptotal);
-				}
-			}*/
 		}
 		catch (Exception e)
 		{

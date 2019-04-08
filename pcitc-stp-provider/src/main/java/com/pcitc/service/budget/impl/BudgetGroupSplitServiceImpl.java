@@ -268,6 +268,7 @@ public class BudgetGroupSplitServiceImpl implements BudgetGroupSplitService
 			for(java.util.Iterator<?> iter = array.iterator();iter.hasNext();) 
 			{
 				Map<?, ?> map = JSON.toJavaObject(JSON.parseObject(iter.next().toString()), Map.class);
+				//System.out.println(JSON.toJSONString(map));
 				String budgetInfoId = map.get("budgetInfoId").toString();
 				Integer organId = new Integer(map.get("organId").toString());
 				String organCode = map.get("organCode").toString();
@@ -287,6 +288,7 @@ public class BudgetGroupSplitServiceImpl implements BudgetGroupSplitService
 					if(split == null) {
 						split = (BudgetSplitData)MyBeanUtils.createDefaultModel(BudgetSplitData.class);
 					}
+					split.setSplitName(d.getName());
 					split.setBudgetType(budgetType);
 					split.setNd(nd);
 					split.setDataVersion(dataVersion);
@@ -296,6 +298,7 @@ public class BudgetGroupSplitServiceImpl implements BudgetGroupSplitService
 					split.setOrganCode(organCode);
 					split.setSplitCode(splitCode);
 					split.setOrganId(organId);
+					split.setPaymentType(1);//1拨款
 					split.setJz(jz);
 					split.setXq(xq);
 					split.setTotal(total);
@@ -311,6 +314,7 @@ public class BudgetGroupSplitServiceImpl implements BudgetGroupSplitService
 				Double xq = new Double(map.get("plan_xq").toString());
 				Double total = jz+xq;
 				
+				split.setSplitName("计划");
 				split.setBudgetType(budgetType);
 				split.setNd(nd);
 				split.setDataVersion(dataVersion);
@@ -320,6 +324,7 @@ public class BudgetGroupSplitServiceImpl implements BudgetGroupSplitService
 				split.setOrganCode(organCode);
 				split.setSplitCode("plan");
 				split.setOrganId(organId);
+				split.setPaymentType(0);//部门自筹
 				split.setJz(jz);
 				split.setXq(xq);
 				split.setTotal(total);
