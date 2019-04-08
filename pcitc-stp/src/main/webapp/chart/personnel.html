@@ -262,17 +262,25 @@
                 var expertKy = "";
                 var expert2 = "";
                 var expert3 = "";
+                var  e1 = 0;
+                var  e2 = 0;
+                var  e3 = 0;
                 for (let i = 0,j=data.length; i <j; i++) {
                     var bak3 = data[i].bak3;
-                    console.log(bak3);
                     if(bak3=="1"){
+                        e1++;
                         expertKy = expertKy+"<li><a href=\"/expertController/expertDetailIndex?dataId="+data[i].data_id+"\" target='_blank'>"+data[i].expert_name+"</a></li>\n";
                     }else if(bak3=="2"){
+                        e2++;
                         expert2 = expert2+"<li><a href=\"/expertController/expertDetailIndex?dataId="+data[i].data_id+"\" target='_blank'>"+data[i].expert_name+"</a></li>\n";
                     }else if(bak3=="3"){
+                        e3++;
                         expert3 = expert3+"<li><a href=\"/expertController/expertDetailIndex?dataId="+data[i].data_id+"\" target='_blank'>"+data[i].expert_name+"</a></li>\n";
                     }
                 }
+                $("#chart1_04").html(e1);
+                $("#chart1_02").html(e2);
+                $("#chart1_03").html(e3);
                 $("#expertKy").append(expertKy);
                 $("#expert2").append(expert2);
                 $("#expert3").append(expert3);

@@ -177,12 +177,12 @@
 				}
 				data.field.attorneyName = $('#attorneyShow').val();
 				data.field.attorneyCode = $('#attorneyValue').val();
+				alert(3111);
 				$.ajax({
 					type : 'POST',
 					url : "/delegate",
 					data : JSON.stringify(data.field),
 					contentType : "application/json;charset=UTF-8",
-					dataType : "json",
 					error : function(data) {//请求失败处理函数  
 						layer.msg('操作失败');
 					},
@@ -190,11 +190,8 @@
 						parent.updateFlag = true;
 						var index = parent.layer.getFrameIndex(window.name);
 						parent.layer.close(index);
-						return false;
 					}
 				});
-
-				//一定要在最底下加return false -- 2018.07.08
 				return false;
 			});
 

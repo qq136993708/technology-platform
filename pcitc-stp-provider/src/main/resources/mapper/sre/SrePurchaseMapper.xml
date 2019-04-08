@@ -4,27 +4,31 @@
   <resultMap id="BaseResultMap" type="com.pcitc.base.stp.equipment.SrePurchase">
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="purchase_name" jdbcType="VARCHAR" property="purchaseName" />
+    <result column="proposer_name" jdbcType="VARCHAR" property="proposerName" />
+    <result column="parent_unit_path_names" jdbcType="VARCHAR" property="parentUnitPathNames" />
     <result column="depart_name" jdbcType="VARCHAR" property="departName" />
+    <result column="depart_code" jdbcType="VARCHAR" property="departCode" />
     <result column="stage" jdbcType="INTEGER" property="stage" />
     <result column="state" jdbcType="INTEGER" property="state" />
     <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
-    <result column="proposer_name" jdbcType="VARCHAR" property="proposerName" />
+    <result column="proposer_id" jdbcType="VARCHAR" property="proposerId" />
     <result column="equipment_id" jdbcType="VARCHAR" property="equipmentId" />
-    <result column="parent_unit_path_names" jdbcType="VARCHAR" property="parentUnitPathNames" />
+    <result column="ischeck" jdbcType="INTEGER" property="ischeck" />
+    <result column="project_id" jdbcType="VARCHAR" property="projectId" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, purchase_name, depart_name, stage, state, create_date, proposer_name, equipment_id, 
-    parent_unit_path_names
+    id, purchase_name, proposer_name, parent_unit_path_names, depart_name, depart_code,
+    stage, state, create_date, proposer_id, equipment_id, ischeck, project_id
   </sql>
   <sql id="selectCondition">
-	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
-	     <if test="proposerName != null and proposerName  !='' ">               AND t.proposer_name like CONCAT('%',#{proposerName},'%')</if>
-	     <if test="purchaseName != null and purchaseName  !='' ">               AND t.purchase_name like CONCAT('%',#{purchaseName},'%')</if>
-	     <if test="createDate!= null       and createDate !=''  ">     AND t.create_date = #{createDate}</if>
-	 </trim>
-	</sql>
+    <trim prefix="WHERE" prefixOverrides="AND|OR">
+      <if test="proposerName != null and proposerName  !='' ">               AND t.proposer_name like CONCAT('%',#{proposerName},'%')</if>
+      <if test="purchaseName != null and purchaseName  !='' ">               AND t.purchase_name like CONCAT('%',#{purchaseName},'%')</if>
+      <if test="createDate!= null       and createDate !=''  ">     AND t.create_date = #{createDate}</if>
+    </trim>
+  </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from sre_purchase
     where id = #{id,jdbcType=VARCHAR}
@@ -34,14 +38,16 @@
     where id = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.pcitc.base.stp.equipment.SrePurchase">
-    insert into sre_purchase (id, purchase_name, depart_name, 
-      stage, state, create_date, 
-      proposer_name, equipment_id, parent_unit_path_names
-      )
-    values (#{id,jdbcType=VARCHAR}, #{purchaseName,jdbcType=VARCHAR}, #{departName,jdbcType=VARCHAR}, 
-      #{stage,jdbcType=INTEGER}, #{state,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP}, 
-      #{proposerName,jdbcType=VARCHAR}, #{equipmentId,jdbcType=VARCHAR}, #{parentUnitPathNames,jdbcType=VARCHAR}
-      )
+    insert into sre_purchase (id, purchase_name, proposer_name,
+      parent_unit_path_names, depart_name, depart_code,
+      stage, state, create_date,
+      proposer_id, equipment_id, ischeck,
+      project_id)
+    values (#{id,jdbcType=VARCHAR}, #{purchaseName,jdbcType=VARCHAR}, #{proposerName,jdbcType=VARCHAR},
+      #{parentUnitPathNames,jdbcType=VARCHAR}, #{departName,jdbcType=VARCHAR}, #{departCode,jdbcType=VARCHAR},
+      #{stage,jdbcType=INTEGER}, #{state,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP},
+      #{proposerId,jdbcType=VARCHAR}, #{equipmentId,jdbcType=VARCHAR}, #{ischeck,jdbcType=INTEGER},
+      #{projectId,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.pcitc.base.stp.equipment.SrePurchase">
     insert into sre_purchase
@@ -52,8 +58,17 @@
       <if test="purchaseName != null">
         purchase_name,
       </if>
+      <if test="proposerName != null">
+        proposer_name,
+      </if>
+      <if test="parentUnitPathNames != null">
+        parent_unit_path_names,
+      </if>
       <if test="departName != null">
         depart_name,
+      </if>
+      <if test="departCode != null">
+        depart_code,
       </if>
       <if test="stage != null">
         stage,
@@ -64,14 +79,17 @@
       <if test="createDate != null">
         create_date,
       </if>
-      <if test="proposerName != null">
-        proposer_name,
+      <if test="proposerId != null">
+        proposer_id,
       </if>
       <if test="equipmentId != null">
         equipment_id,
       </if>
-      <if test="parentUnitPathNames != null">
-        parent_unit_path_names,
+      <if test="ischeck != null">
+        ischeck,
+      </if>
+      <if test="projectId != null">
+        project_id,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -81,8 +99,17 @@
       <if test="purchaseName != null">
         #{purchaseName,jdbcType=VARCHAR},
       </if>
+      <if test="proposerName != null">
+        #{proposerName,jdbcType=VARCHAR},
+      </if>
+      <if test="parentUnitPathNames != null">
+        #{parentUnitPathNames,jdbcType=VARCHAR},
+      </if>
       <if test="departName != null">
         #{departName,jdbcType=VARCHAR},
+      </if>
+      <if test="departCode != null">
+        #{departCode,jdbcType=VARCHAR},
       </if>
       <if test="stage != null">
         #{stage,jdbcType=INTEGER},
@@ -93,14 +120,17 @@
       <if test="createDate != null">
         #{createDate,jdbcType=TIMESTAMP},
       </if>
-      <if test="proposerName != null">
-        #{proposerName,jdbcType=VARCHAR},
+      <if test="proposerId != null">
+        #{proposerId,jdbcType=VARCHAR},
       </if>
       <if test="equipmentId != null">
         #{equipmentId,jdbcType=VARCHAR},
       </if>
-      <if test="parentUnitPathNames != null">
-        #{parentUnitPathNames,jdbcType=VARCHAR},
+      <if test="ischeck != null">
+        #{ischeck,jdbcType=INTEGER},
+      </if>
+      <if test="projectId != null">
+        #{projectId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -110,8 +140,17 @@
       <if test="purchaseName != null">
         purchase_name = #{purchaseName,jdbcType=VARCHAR},
       </if>
+      <if test="proposerName != null">
+        proposer_name = #{proposerName,jdbcType=VARCHAR},
+      </if>
+      <if test="parentUnitPathNames != null">
+        parent_unit_path_names = #{parentUnitPathNames,jdbcType=VARCHAR},
+      </if>
       <if test="departName != null">
         depart_name = #{departName,jdbcType=VARCHAR},
+      </if>
+      <if test="departCode != null">
+        depart_code = #{departCode,jdbcType=VARCHAR},
       </if>
       <if test="stage != null">
         stage = #{stage,jdbcType=INTEGER},
@@ -122,14 +161,17 @@
       <if test="createDate != null">
         create_date = #{createDate,jdbcType=TIMESTAMP},
       </if>
-      <if test="proposerName != null">
-        proposer_name = #{proposerName,jdbcType=VARCHAR},
+      <if test="proposerId != null">
+        proposer_id = #{proposerId,jdbcType=VARCHAR},
       </if>
       <if test="equipmentId != null">
         equipment_id = #{equipmentId,jdbcType=VARCHAR},
       </if>
-      <if test="parentUnitPathNames != null">
-        parent_unit_path_names = #{parentUnitPathNames,jdbcType=VARCHAR},
+      <if test="ischeck != null">
+        ischeck = #{ischeck,jdbcType=INTEGER},
+      </if>
+      <if test="projectId != null">
+        project_id = #{projectId,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
@@ -137,27 +179,27 @@
   <update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.equipment.SrePurchase">
     update sre_purchase
     set purchase_name = #{purchaseName,jdbcType=VARCHAR},
+      proposer_name = #{proposerName,jdbcType=VARCHAR},
+      parent_unit_path_names = #{parentUnitPathNames,jdbcType=VARCHAR},
       depart_name = #{departName,jdbcType=VARCHAR},
+      depart_code = #{departCode,jdbcType=VARCHAR},
       stage = #{stage,jdbcType=INTEGER},
       state = #{state,jdbcType=INTEGER},
       create_date = #{createDate,jdbcType=TIMESTAMP},
-      proposer_name = #{proposerName,jdbcType=VARCHAR},
+      proposer_id = #{proposerId,jdbcType=VARCHAR},
       equipment_id = #{equipmentId,jdbcType=VARCHAR},
-      parent_unit_path_names = #{parentUnitPathNames,jdbcType=VARCHAR}
+      ischeck = #{ischeck,jdbcType=INTEGER},
+      project_id = #{projectId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <select id="getList" resultMap="BaseResultMap" parameterType="Map" >
-     select * from sre_purchase t <include refid="selectCondition" />    
-     <choose>
+    select * from sre_purchase t <include refid="selectCondition" />
+    <choose>
       <when test="orderBySql != null and orderBySql !=''">${orderBySql}</when>
       <otherwise>
         ORDER BY  create_date desc
       </otherwise>
-     </choose>
-     <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
-   </select>
-   
-    <select id="getPurchaseNameIdList" resultMap="BaseResultMap" >
-     SELECT t.id,t.purchase_name,t.equipment_id FROM sre_purchase t GROUP BY t.id, t.purchase_name
-   </select>
+    </choose>
+    <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>
+  </select>
 </mapper>

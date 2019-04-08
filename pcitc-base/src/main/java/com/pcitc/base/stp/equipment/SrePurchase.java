@@ -7,7 +7,13 @@ public class SrePurchase {
 
     private String purchaseName;
 
+    private String proposerName;
+
+    private String parentUnitPathNames;
+
     private String departName;
+
+    private String departCode;
 
     private Integer stage;
 
@@ -15,11 +21,13 @@ public class SrePurchase {
 
     private Date createDate;
 
-    private String proposerName;
+    private String proposerId;
 
     private String equipmentId;
 
-    private String parentUnitPathNames;
+    private Integer ischeck;
+
+    private String projectId;
 
     public String getId() {
         return id;
@@ -37,12 +45,36 @@ public class SrePurchase {
         this.purchaseName = purchaseName;
     }
 
+    public String getProposerName() {
+        return proposerName;
+    }
+
+    public void setProposerName(String proposerName) {
+        this.proposerName = proposerName;
+    }
+
+    public String getParentUnitPathNames() {
+        return parentUnitPathNames;
+    }
+
+    public void setParentUnitPathNames(String parentUnitPathNames) {
+        this.parentUnitPathNames = parentUnitPathNames;
+    }
+
     public String getDepartName() {
         return departName;
     }
 
     public void setDepartName(String departName) {
         this.departName = departName;
+    }
+
+    public String getDepartCode() {
+        return departCode;
+    }
+
+    public void setDepartCode(String departCode) {
+        this.departCode = departCode;
     }
 
     public Integer getStage() {
@@ -69,12 +101,12 @@ public class SrePurchase {
         this.createDate = createDate;
     }
 
-    public String getProposerName() {
-        return proposerName;
+    public String getProposerId() {
+        return proposerId;
     }
 
-    public void setProposerName(String proposerName) {
-        this.proposerName = proposerName;
+    public void setProposerId(String proposerId) {
+        this.proposerId = proposerId;
     }
 
     public String getEquipmentId() {
@@ -85,11 +117,19 @@ public class SrePurchase {
         this.equipmentId = equipmentId;
     }
 
-    public String getParentUnitPathNames() {
-        return parentUnitPathNames;
+    public Integer getIscheck() {
+        return ischeck;
     }
 
-    public void setParentUnitPathNames(String parentUnitPathNames) {
-        this.parentUnitPathNames = parentUnitPathNames;
+    public void setIscheck(Integer ischeck) {
+        this.ischeck = ischeck;
+    }
+
+    public String getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(String projectId) {
+        this.projectId = projectId;
     }
 }
