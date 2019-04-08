@@ -42,6 +42,7 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.BudgetAuditStatusEnum;
+import com.pcitc.base.stp.budget.BudgetGroupTotal;
 import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.IdUtil;
@@ -69,7 +70,7 @@ public class BudgetGroupSplitController extends BaseController {
 	private static final String BUDGET_GROUPTOTAL_GET_ITEM = "http://pcitc-zuul/stp-proxy/stp-provider/budget/get-groupsplit-item/";
 	private static final String BUDGET_GROUPTOTAL_DEL_ITEMS = "http://pcitc-zuul/stp-proxy/stp-provider/budget/del-groupsplit-item/";
 	//private static final String BUDGET_GROUPTOTAL_SAVE_ITEM = "http://pcitc-zuul/stp-proxy/stp-provider/budget/save-groupsplit-item";
-	//private static final String BUDGET_GROUPTOTAL_SAVE_ITEMS = "http://pcitc-zuul/stp-proxy/stp-provider/budget/save-groupsplit-items";
+	private static final String BUDGET_GROUPSPLIT_SAVE_ITEMS = "http://pcitc-zuul/stp-proxy/stp-provider/budget/save-groupsplit-items";
 	private static final String BUDGET_GROUPTOTAL_SAVE_CHILDITEMS = "http://pcitc-zuul/stp-proxy/stp-provider/budget/save-groupsplit-childitems";
 	//private static final String BUDGET_GROUPTOTAL_COMPANY_ITEMS = "http://pcitc-zuul/stp-proxy/stp-provider/budget/search-group-company-items";
 	//private static final String BUDGET_GROUPTOTAL_COMPANY_TREE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/search-group-company-tree";
@@ -195,7 +196,26 @@ public class BudgetGroupSplitController extends BaseController {
 		//System.out.println(JSON.toJSON(responseEntity.getBody()).toString());
 		return JSON.toJSON(responseEntity.getBody()).toString();
 	}
-	
+	@RequestMapping(value = "/budget/save-groupsplit-items", method = RequestMethod.POST)
+	@ResponseBody
+	public Object saveBudgetGroupSplitItems(
+			@ModelAttribute("items") String items,
+			@ModelAttribute("info") String info,HttpServletRequest request) throws IOException 
+	{
+		//List<BudgetGroupTotal> grouplist = JSON.parseArray(items, BudgetGroupTotal.class);
+		BudgetInfo budget = JSON.toJavaObject(JSON.parseObject(info), BudgetInfo.class);
+		System.out.println(items);
+		System.out.println(info);
+		ResponseEntity<Integer> infors = this.restTemplate.exchange(BUDGET_INFO_UPDATE, HttpMethod.POST, new HttpEntity<Object>(budget, this.httpHeaders), Integer.class);
+		ResponseEntity<Integer> grouprs = this.restTemplate.exchange(BUDGET_GROUPSPLIT_SAVE_ITEMS, HttpMethod.POST, new HttpEntity<Object>(items, this.httpHeaders), Integer.class);
+		if (infors.getBody() >= 0 && grouprs.getBody() >= 0) 
+		{
+			return new Result(true);
+		} else {
+			return new Result(false);
+		}
+		
+	}
 	
 	@RequestMapping(value = "/budget/save-groupsplit-childitems", method = RequestMethod.POST)
 	@ResponseBody

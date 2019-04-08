@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
@@ -57,16 +58,26 @@ public class BudgetGroupSplitServiceImpl implements BudgetGroupSplitService
 	
 	
 	@Override
-	public BudgetSplitData selectBudgetSplitData(String dataId) throws Exception
+	public BudgetSplitData selectBudgetSplitData(String dataId)
 	{
 		return budgetSplitDataMapper.selectByPrimaryKey(dataId);
 	}
 
 	@Override
-	public Integer updateBudgetSplitData(BudgetSplitData groupTotal) throws Exception
+	public BudgetSplitData selectBudgetSplitItemData(String splitCode,String organCode,String budgetInfoId)
 	{
-		
-		return budgetSplitDataMapper.updateByPrimaryKey(groupTotal);
+		BudgetSplitDataExample example = new BudgetSplitDataExample();
+		BudgetSplitDataExample.Criteria c = example.createCriteria();
+		c.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
+		c.andBudgetInfoIdEqualTo(budgetInfoId);
+		c.andOrganCodeEqualTo(organCode);
+		c.andSplitCodeEqualTo(splitCode);
+		List<BudgetSplitData> ds = budgetSplitDataMapper.selectByExample(example);
+		if(ds != null && ds.size() >0) {
+			return ds.get(0);
+		}else {
+			return null;
+		}
 	}
 
 	@Override
@@ -164,7 +175,7 @@ public class BudgetGroupSplitServiceImpl implements BudgetGroupSplitService
 		return rs;
 	}
 
-	@Override
+	/*@Override
 	public List<BudgetSplitData> selectChildBudgetSplitData(String dataId)
 	{
 		BudgetSplitDataExample example = new BudgetSplitDataExample();
@@ -172,7 +183,7 @@ public class BudgetGroupSplitServiceImpl implements BudgetGroupSplitService
 		c.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
 		example.setOrderByClause("no");
 		return budgetSplitDataMapper.selectByExample(example);
-	}
+	}*/
 	@Override
 	public List<Map<String,Object>> selectBudgetSplitDataList(String budgetInfoId)
 	{
@@ -217,10 +228,11 @@ public class BudgetGroupSplitServiceImpl implements BudgetGroupSplitService
 				total_xq += dt.getXq()==null?0:dt.getXq();
 			}
 			List<BudgetSplitData> lsData = datas.stream().filter(a -> a.getOrganCode().equals(org.getCode())).filter(a -> a.getOrganId().equals(org.getId()))
-					.filter(a -> a.getSplitCode().equals("PLAN")).collect(Collectors.toList());
+					.filter(a -> a.getSplitCode().equals("plan")).collect(Collectors.toList());
 			//计划数据（结转、新签）
 			map.put("plan_jz", lsData.size()>0?lsData.get(0).getJz():0);
 			map.put("plan_xq", lsData.size()>0?lsData.get(0).getXq():0);
+			map.put("plan_total", new Double(map.get("plan_jz").toString())+new Double(map.get("plan_xq").toString()));
 			
 			map.put("total_jz", total_jz);
 			map.put("total_xq", total_xq);
@@ -248,12 +260,78 @@ public class BudgetGroupSplitServiceImpl implements BudgetGroupSplitService
 	
 	
 	@Override
-	public List<BudgetSplitData> selectChildBudgetSplitDataAll(String dataId) {
-		BudgetSplitDataExample example = new BudgetSplitDataExample();
-		BudgetSplitDataExample.Criteria c = example.createCriteria();
-		c.andDelFlagEqualTo(DelFlagEnum.STATUS_NORMAL.getCode());
-		example.setOrderByClause("no");
-		return budgetSplitDataMapper.selectByExample(example);
+	public List<BudgetSplitData> saveBudgetSplitData(String items) {
+		List<BudgetSplitData> rs = new ArrayList<BudgetSplitData>();
+		try
+		{
+			JSONArray array = JSON.parseArray(items);
+			for(java.util.Iterator<?> iter = array.iterator();iter.hasNext();) 
+			{
+				Map<?, ?> map = JSON.toJavaObject(JSON.parseObject(iter.next().toString()), Map.class);
+				String budgetInfoId = map.get("budgetInfoId").toString();
+				Integer organId = new Integer(map.get("organId").toString());
+				String organCode = map.get("organCode").toString();
+				String nd = map.get("nd").toString();
+				Integer budgetType = new Integer(map.get("budgetType").toString());
+				String dataVersion = map.get("dataVersion").toString();
+				String budgetTypeName = map.get("budgetTypeName").toString();
+				
+				List<SysDictionary> dis = systemRemoteClient.getDictionaryListByParentCode("ROOT_JFYS_JTDWFL"+nd);
+				for(SysDictionary d:dis) 
+				{
+					String splitCode = d.getCode();
+					Double jz = new Double(map.get(splitCode+"_jz").toString());
+					Double xq = new Double(map.get(splitCode+"_xq").toString());
+					Double total = jz+xq;
+					BudgetSplitData split = selectBudgetSplitItemData(splitCode,organCode,budgetInfoId);
+					if(split == null) {
+						split = (BudgetSplitData)MyBeanUtils.createDefaultModel(BudgetSplitData.class);
+					}
+					split.setBudgetType(budgetType);
+					split.setNd(nd);
+					split.setDataVersion(dataVersion);
+					split.setBudgetType(budgetType);
+					split.setBudgetTypeName(budgetTypeName);
+					split.setBudgetInfoId(budgetInfoId);
+					split.setOrganCode(organCode);
+					split.setSplitCode(splitCode);
+					split.setOrganId(organId);
+					split.setJz(jz);
+					split.setXq(xq);
+					split.setTotal(total);
+					saveOrUpdateBudgetSplitData(split);
+					rs.add(split);
+				}
+				//计划数据
+				BudgetSplitData split = selectBudgetSplitItemData("plan",organCode,budgetInfoId);
+				if(split == null) {
+					split = (BudgetSplitData)MyBeanUtils.createDefaultModel(BudgetSplitData.class);
+				}
+				Double jz = new Double(map.get("plan_jz").toString());
+				Double xq = new Double(map.get("plan_xq").toString());
+				Double total = jz+xq;
+				
+				split.setBudgetType(budgetType);
+				split.setNd(nd);
+				split.setDataVersion(dataVersion);
+				split.setBudgetType(budgetType);
+				split.setBudgetTypeName(budgetTypeName);
+				split.setBudgetInfoId(budgetInfoId);
+				split.setOrganCode(organCode);
+				split.setSplitCode("plan");
+				split.setOrganId(organId);
+				split.setJz(jz);
+				split.setXq(xq);
+				split.setTotal(total);
+				saveOrUpdateBudgetSplitData(split);
+				rs.add(split);
+			}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return rs;
 	}
 
 	@Override

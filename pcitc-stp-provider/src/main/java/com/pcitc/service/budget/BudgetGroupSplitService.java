@@ -23,13 +23,13 @@ public interface BudgetGroupSplitService
 	 * @return
 	 * @throws Exception
 	 */
-	public BudgetSplitData selectBudgetSplitData(String dataId) throws Exception;
+	public BudgetSplitData selectBudgetSplitData(String dataId);
 	/**
 	 * 查询当前预算表数据
 	 * @param dataId
 	 * @return
 	 */
-	public List<BudgetSplitData> selectChildBudgetSplitData(String budgetInfoId);
+	public BudgetSplitData selectBudgetSplitItemData(String splitCode,String organCode,String budgetInfoId);
 	/**
 	 * 查询当前预算项的所有子项
 	 * @param dataId
@@ -47,14 +47,14 @@ public interface BudgetGroupSplitService
 	 * @param dataId
 	 * @return
 	 */
-	public List<BudgetSplitData> selectChildBudgetSplitDataAll(String dataId);
+	public List<BudgetSplitData> saveBudgetSplitData(String data);
 	/**
 	 * 更新预算项
 	 * @param groupTotal
 	 * @return
 	 * @throws Exception
 	 */
-	public Integer updateBudgetSplitData(BudgetSplitData data)throws Exception;
+	//public Integer updateBudgetSplitData(BudgetSplitData data)throws Exception;
 	/**
 	 * 删除预算项
 	 * @param id
