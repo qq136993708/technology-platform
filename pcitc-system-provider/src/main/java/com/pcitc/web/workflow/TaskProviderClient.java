@@ -1027,23 +1027,41 @@ public class TaskProviderClient {
 						// 第一个节点的下一个节点就是第一个审批节点
 						List<SequenceFlow> firstNodeOutList = firstNode.getOutgoingFlows();
 						for (SequenceFlow first : firstNodeOutList) {
+							System.out.println("1==========" + first.getConditionExpression());
+							System.out.println("2==========" + first.getTargetRef());
 							FlowNode auditNode = (FlowNode) process.getFlowElement(first.getTargetRef());
-							System.out.println("==========" + auditNode.getId());
-							if (auditNode.getId().startsWith("role") || auditNode.getId().startsWith("unit") || auditNode.getId().startsWith("post")) {
-								retS = auditNode.getId();
-								break;
-							}
-							// 特殊的审批节点
-							if (auditNode.getId().startsWith("specialAuditor")) {
-								System.out.println("====specialAuditor======" + auditNode.getId());
-								// 启动的时候，让启动者选择特殊审批节点的审批人员
-								if (json != null && json.get(auditNode.getId()) != null && !json.get(auditNode.getId()).equals("")) {
-									// 不用选择自动配置审批人的话，此时json（html）中需要提前设定角色/岗位/单位CODE
-									retS = json.get(auditNode.getId()).toString();
-									System.out.println("====specialAuditor11======" + json.get(auditNode.getId()).toString());
+							System.out.println("3==========" + auditNode.getId());
+							System.out.println("4==========" + auditNode.getClass().toString());
+							if (auditNode instanceof org.activiti.bpmn.model.UserTask) {
+								if (auditNode.getId().startsWith("role") || auditNode.getId().startsWith("unit") || auditNode.getId().startsWith("post")) {
+									retS = auditNode.getId();
 									break;
 								}
+								// 特殊的审批节点
+								if (auditNode.getId().startsWith("specialAuditor")) {
+									System.out.println("====specialAuditor======" + auditNode.getId());
+									// 启动的时候，让启动者选择特殊审批节点的审批人员
+									if (json != null && json.get(auditNode.getId()) != null && !json.get(auditNode.getId()).equals("")) {
+										// 不用选择自动配置审批人的话，此时json（html）中需要提前设定角色/岗位/单位CODE
+										retS = json.get(auditNode.getId()).toString();
+										System.out.println("====specialAuditor11======" + json.get(auditNode.getId()).toString());
+										break;
+									}
+								}
+							} else if (auditNode instanceof org.activiti.bpmn.model.ExclusiveGateway) {
+								// 发起人之后的第一个节点，不确定
+								List<SequenceFlow> excluList = auditNode.getOutgoingFlows();
+								System.out.println("5==========发起人之后的第一个节点，不确定");
+								for (SequenceFlow exclu : excluList) {
+									System.out.println("5==========" + exclu.getConditionExpression());
+									System.out.println("6==========" + exclu.getTargetRef());
+									System.out.println("7==========" + json.get("branchFlag"));
+									if (exclu.getConditionExpression() != null && isCondition("branchFlag", exclu.getConditionExpression().replaceAll(" ", ""), json.get("branchFlag").toString())) {
+										System.out.println("============================success-------------------"+json.get("branchFlag"));
+									}
+								}
 							}
+							
 						}
 					}
 				}
