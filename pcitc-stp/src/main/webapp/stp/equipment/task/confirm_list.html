@@ -552,20 +552,33 @@ var name=$('#name').val();
     } 
     
     
-    
-    
-    
-    
-    
-    
        
 
     
 
     function dealFlow(id,joinUnitCodes) 
     {
-    	$('#specialAuditor0').val('unit--00000');
-    	var json = {functionId:functionId,specialAuditor0:'unit--00000'};
+    	var nunits="";
+    	var branchFlag="";
+    	if(joinUnitCodes!=null && joinUnitCodes!='')
+    	{
+    		branchFlag="1";
+    		var arr=joinUnitCodes.split(",");
+    		for(i=0;i<arr.length;i++) 
+    		{ 
+    			var str=arr[i];
+    			nunits=nunits+str+"-";
+    		} 
+    		nunits = nunits.substr(0, nunits.length - 1); 
+    		nunits="unit--"+nunits;
+    	}else
+   		{
+    		branchFlag="0";
+   		}
+    	 //alert(nunits);'unit--00000'
+    	 $('#specialAuditor0').val(nunits);
+    	
+    	 var json = {functionId:functionId,specialAuditor0:nunits,branchFlag: branchFlag};
     	 $.ajax({
              type : 'POST',
              url : "/workflow/start/audit-type",
