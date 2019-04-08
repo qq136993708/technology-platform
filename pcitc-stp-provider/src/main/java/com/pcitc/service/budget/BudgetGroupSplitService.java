@@ -15,7 +15,7 @@ import com.pcitc.base.stp.out.OutProjectPlan;
  * @author fb
  *
  */
-public interface BudgetSplitDataService
+public interface BudgetGroupSplitService
 {
 	/**
 	 * 查询预算数据项
@@ -23,32 +23,38 @@ public interface BudgetSplitDataService
 	 * @return
 	 * @throws Exception
 	 */
-	public BudgetSplitData selectBudgetSplitData(String dataId) throws Exception;
+	public BudgetSplitData selectBudgetSplitData(String dataId);
 	/**
 	 * 查询当前预算表数据
 	 * @param dataId
 	 * @return
 	 */
-	public List<BudgetSplitData> selectChildBudgetSplitData(String budgetInfoId);
+	public BudgetSplitData selectBudgetSplitItemData(String splitCode,String organCode,String budgetInfoId);
 	/**
-	 * 查询当前预算项的所有公司子项
+	 * 查询当前预算项的所有子项
 	 * @param dataId
 	 * @return
 	 */
-	public List<BudgetSplitData> selectBudgetSplitDataCompanyItem(String dataId);
+	public List<Map<String,Object>> selectBudgetSplitDataList(String budgetInfoId);
+	/**
+	 * 查询当前预算所有项目
+	 * @param dataId
+	 * @return
+	 */
+	public List<Map<String,Object>> selectBudgetSplitTableTitles(String nd);
 	/**
 	 * 查询当前预算项的所有子项(包含已删除)
 	 * @param dataId
 	 * @return
 	 */
-	public List<BudgetSplitData> selectChildBudgetSplitDataAll(String dataId);
+	public List<BudgetSplitData> saveBudgetSplitData(String data);
 	/**
 	 * 更新预算项
 	 * @param groupTotal
 	 * @return
 	 * @throws Exception
 	 */
-	public Integer updateBudgetSplitData(BudgetSplitData data)throws Exception;
+	//public Integer updateBudgetSplitData(BudgetSplitData data)throws Exception;
 	/**
 	 * 删除预算项
 	 * @param id
