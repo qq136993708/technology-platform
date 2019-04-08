@@ -28,6 +28,7 @@ body {
 		<input type="hidden" name="functionId" id="functionId">
 		<input id="userIds" name="userIds" type="hidden">
 		<input id="specialAuditor0" name="specialAuditor0" type="hidden">
+		<input id="branchFlag" name="branchFlag" type="hidden">
 		<div class="box-body">
 			<div class="row">
 				<div class="col-md-12">
@@ -80,7 +81,8 @@ body {
 			form.render(null, 'component-form-group');
 			
 			$("#functionId").attr("value", "59d9113d-745d-4c46-bc84-c18f132ac2c1");
-			$("#specialAuditor0").attr("value", "ZSH_YFGCS_CJCXY");
+			$("#specialAuditor0").attr("value", "post--ZSH_YFGCS_CJCXY");
+			$("#branchFlag").attr("value", "1");
 			/* 监听提交 */
 			form.on('submit(form-submit)', function(data) {
 				//JSON.stringify(data.field)  提交信息json格式
@@ -91,55 +93,7 @@ body {
 					data : JSON.stringify(data.field),
 					//json中有functionId（projectId、departmentId等）用来区别processDefine的属性
 					success : function(data) {
-						if (data.code == 'role') {
-							// 按角色选择，获取下一步审批人信息,选择完审批人后，调用：handleTask(userIds)方法
-							// roleCodes，参数名必须一致，方便公共弹出页面调用
-							roleCodes = data.data; // 弹出页面的隐藏的查询条件
-							var temUrl = "/task/deal/users/ini";
-							layer.open({
-								title : '选择审批人',
-								skin : 'layui-layer-lan',
-								shadeClose : true,
-								type : 2,
-								fixed : false,
-								//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-								maxmin : false,
-								//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-								area : [ '100%', '100%' ],
-								content : temUrl
-							});
-						} else if (data.code == 'unit' || data.code == 'post') {
-							// 按部门/岗位选择，获取下一步审批人信息,选择完审批人后，调用：handleTask(userIds)方法
-							// unitCodes、postCodes，参数名必须一致，方便公共弹出页面调用
-							if (data.code == 'unit') {
-								unitCodes = data.data; // 弹出页面的隐藏的查询条件
-							} else {
-								postCodes = data.data; // 弹出页面的隐藏的查询条件
-							}
-
-							var temUrl = "/task/deal/user/unit/ini";
-							layer.open({
-								title : '选择审批人',
-								skin : 'layui-layer-lan',
-								shadeClose : true,
-								type : 2,
-								fixed : false,
-								//若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
-								maxmin : false,
-								//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
-								area : [ '100%', '100%' ],
-								content : temUrl
-							});
-						} else if (data.code == 'int') {
-							layer.msg('启动参数不足');
-						} else if (data.code == 'con') {
-							layer.msg('请给此功能菜单配置流程');
-						} else if (data.code == 'exist') {
-							layer.msg('工作流部署异常，请联系管理员');
-						} else {
-							// 直接处理此任务
-							handleTask('');
-						}
+						alert(data.code);
 					},
 					error : function(msg) {//请求失败处理函数  
 					}
