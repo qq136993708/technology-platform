@@ -17,6 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -877,21 +878,41 @@ public class SysFileController extends BaseController {
         System.out.println(files.getOriginalFilename());
         System.out.println(files.getName());
         System.out.println(files.isEmpty());
-        String imageUrl = "/upload/a.jpg";
-        try {
-            String filePrefixFormat = "yyyyMMddHHmmssS";
-            String filename = UUID.randomUUID().toString();
-            String savedName = DateUtil.format(new Date(), filePrefixFormat) + "_" + filename;
-            String filePath = File.separator + savedName;
-            files.transferTo(new File(filePath));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        String imageUrl = "/upload";
         String msg = "";
-        String fileName = "a.jpg";
+        String fileName = "";
+        String strFilePath = "";
         JSONObject result = new JSONObject();
         try {
+            String filePrefixFormat = "yyyyMMddHHmmssS";
+            String serverPath = request.getSession().getServletContext().getRealPath("/");
+
+            String date = DateUtil.format(new Date(), filePrefixFormat);
+//            File path = new File(ResourceUtils.getURL("classpath:").getPath());
+//            if(!path.exists()) path = new File("");
+//            File upload = new File(path.getAbsolutePath(),imageUrl);
+
+            File upload = new File(serverPath+imageUrl);
+            if(!upload.exists()) upload.mkdirs();
+            strFilePath = upload.getAbsolutePath()+File.separator+date;
+
+            File filePath = new File(strFilePath);
+            if(!filePath.exists()) filePath.mkdirs();
+
+
+            imageUrl = imageUrl+File.separator+date+File.separator+fileName;
+
+
+            fileName = UUID.randomUUID().toString()+files.getOriginalFilename().substring(files.getOriginalFilename().lastIndexOf(".",files.getOriginalFilename().length()));
+            String savedName = strFilePath + File.separator + fileName;
+
+            files.transferTo(new File(savedName));
+
             out = response.getWriter();
+            imageUrl = imageUrl+fileName;
+            System.out.println("imageUrl = " + imageUrl);
+            System.out.println("fileName = " + fileName);
+
         } catch (Exception e) {
             e.printStackTrace();
             logger.error("富文本编辑器上传图片时发生异常", e);
@@ -906,7 +927,9 @@ public class SysFileController extends BaseController {
             } else {
                 //上传成功
                 result.put("uploaded", 1);
+//                result.put("fileName", "a.jpg");
                 result.put("fileName", fileName);
+//                result.put("url", "/upload/a.jpg");
                 result.put("url", imageUrl);
             }
             out.println(result.toJSONString());

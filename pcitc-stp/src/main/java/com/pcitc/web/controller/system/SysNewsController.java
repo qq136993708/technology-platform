@@ -305,4 +305,70 @@ public class SysNewsController extends BaseController {
 //        }
         return "layui/leader_speech_list";
     }
+
+    @RequestMapping(value = "/upload", method = RequestMethod.POST)
+    public void upload(@RequestParam(value = "file", required = false) MultipartFile files, HttpServletRequest request, HttpServletResponse response) {
+        PrintWriter out = null;
+
+        String imageUrl = "/upload/a.jpg";
+
+        String msg = "";
+
+        String fileName = "a.jpg";
+//        String fileName = "a.jpg";
+
+        JSONObject result = new JSONObject();
+
+        try {
+//            response.setContentType("text/html; charset=UTF-8");
+//            response.setHeader("Cache-Control", "no-cache");
+            out = response.getWriter();
+//
+//            String imagesViewUrlPrefix = CommonResource.get("imagesViewUrlPrefix");
+//
+//            String fileType = FileUtil.getFileSuffixFromContentType(file.getContentType());
+//
+//            fileName = UUIDFactory.getUUID() + "." + fileType;
+//
+//            BaseResult uploadResult = FileUtil.uploadFile(fileName, file.getInputStream());
+//
+//            if (uploadResult.getCode() == ResultType.CODE_NORMAL) {
+//
+//                String imagePath = (String) uploadResult.getData();
+//
+//                imageUrl = imagesViewUrlPrefix + imagePath;
+//
+//            } else {
+//
+//                msg = "文件上传失败";
+//
+//            }
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+            logger.error("富文本编辑器上传图片时发生异常", e);
+
+            msg = "服务器异常";
+
+        } finally {
+
+            if (!StrUtil.isBlank(msg)) {
+                //上传失败
+                result.put("uploaded", 0);
+                JSONObject errorObj = new JSONObject();
+                errorObj.put("message", msg);
+                result.put("error", errorObj);
+            } else {
+                //上传成功
+                result.put("uploaded", 1);
+                result.put("fileName", fileName);
+                result.put("url", imageUrl);
+            }
+//            out.println(JSON.toJSONString(result));
+            out.println(result.toJSONString());
+        }
+
+    }
 }
