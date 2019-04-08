@@ -1,6 +1,7 @@
 package com.pcitc.web.controller.doc;
 
 import java.io.IOException;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,6 +34,7 @@ import com.pcitc.web.common.BaseController;
 public class FileController extends BaseController {
 
 	private static final String commonFileList = "http://pcitc-zuul/system-proxy/file-common-provider/files/common/data-list";
+	private static final String managerFileList = "http://pcitc-zuul/system-proxy/file-common-provider/file/kind/list";
 	private static final String collectFileList = "http://pcitc-zuul/system-proxy/file-common-provider/files/collect/data-list";
 	
 	private static final String download = "http://pcitc-zuul/system-proxy/file-common-provider/version/download/";
@@ -73,6 +75,30 @@ public class FileController extends BaseController {
 		LayuiTableData layuiTableData = new LayuiTableData();
 		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
 		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(collectFileList, HttpMethod.POST, entity, LayuiTableData.class);
+		int statusCode = responseEntity.getStatusCodeValue();
+		if (statusCode == 200) {
+			layuiTableData = responseEntity.getBody();
+		}
+		JSONObject result = JSONObject.parseObject(JSONObject.toJSONString(layuiTableData));
+		System.out.println(">>>>>>>>>>>>>country_table_data:" + result.toString());
+		return result.toString();
+	}
+	
+	/**
+	 * 
+	 * 查询文件信息,包含文档分类信息
+	 */
+	@RequestMapping(value = "/file/kind/list", method = RequestMethod.POST)
+	@ResponseBody
+	public String selectFileInfoList(@ModelAttribute("param") LayuiTableParam param) throws IOException {
+		
+		LayuiTableData layuiTableData = new LayuiTableData();
+		Map<String,Object> paraMap = param.getParam();
+		if (paraMap.get("createUserId") != null && !paraMap.get("createUserId").equals("")) {
+			paraMap.put("createUserId", sysUserInfo.getUserId());
+		}
+		HttpEntity<LayuiTableParam> entity = new HttpEntity<LayuiTableParam>(param, httpHeaders);
+		ResponseEntity<LayuiTableData> responseEntity = restTemplate.exchange(managerFileList, HttpMethod.POST, entity, LayuiTableData.class);
 		int statusCode = responseEntity.getStatusCodeValue();
 		if (statusCode == 200) {
 			layuiTableData = responseEntity.getBody();

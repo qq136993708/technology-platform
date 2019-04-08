@@ -103,7 +103,7 @@
                 if (id!="0"){
                 	var trs = $("#demoList2").find('tr');
                     for (var i = 0; i < trs.length; i++) {
-                        var temFileId = trs.eq(i).find('td').eq(0).find('input').val()
+                        var temFileId = trs.eq(i).find('td').eq(0).find('input').val();
                         strTempFileIds=(strTempFileIds==""?temFileId:(strTempFileIds+","+temFileId));
                     }
                     if (strTempFileIds.indexOf(',')>-1) {

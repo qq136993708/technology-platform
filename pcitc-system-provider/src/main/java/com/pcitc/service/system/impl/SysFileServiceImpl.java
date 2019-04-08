@@ -1445,6 +1445,10 @@ public class SysFileServiceImpl implements SysFileService {
 		if (param.getParam().get("fileName") != null && !StringUtils.isBlank(param.getParam().get("fileName") + "")) {
 			hashmap.put("fileName", param.getParam().get("fileName"));
 		}
+		
+		if (param.getParam().get("fileKindPath") != null && !StringUtils.isBlank(param.getParam().get("fileKindPath") + "")) {
+			hashmap.put("fileKindPath", param.getParam().get("fileKindPath"));
+		}
 
 		hashmap.put("userId", param.getParam().get("userId"));
 
@@ -1559,4 +1563,33 @@ public class SysFileServiceImpl implements SysFileService {
     	sysFileMapper.deleteByPrimaryKey(sysFile.getId());
     	return 1;
     }
+	
+	/**
+     * 文档查询，和sys_file_kind关联查询
+     */
+	public LayuiTableData selectFileInfoList(LayuiTableParam param) {
+		
+		Map<String,Object> paraMap = param.getParam();
+		
+		// 1、设置分页信息，包括当前页数和每页显示的总计数
+		PageHelper.startPage(param.getPage(), param.getLimit());
+		
+		List<SysFile> fileList = sysFileMapper.selectFileInfoList(paraMap);
+		
+		PageInfo<SysFile> pageInfo = new PageInfo<SysFile>(fileList);
+		
+		for (int i = 0; i < pageInfo.getList().size(); i++) {
+			SysFile sysFile = pageInfo.getList().get(i);
+			sysFile.setCreateDateTime(new SimpleDateFormat(DateUtil.FMT_SS).format(DateUtil.strToDate(sysFile.getCreateDateTime(), DateUtil.FMT_SS)));
+			sysFile.setFileSize(StrUtil.getDoubledigit((Double.parseDouble(sysFile.getFileSize()) / 1024)) + "");
+		}
+		
+		LayuiTableData data = new LayuiTableData();
+		data.setData(pageInfo.getList());
+		Long total = pageInfo.getTotal();
+		data.setCount(total.intValue());
+		
+		
+		return data;
+	}
 }
