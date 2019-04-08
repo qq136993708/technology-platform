@@ -64,4 +64,9 @@ public interface SysFileMapper {
      * 把文件地址、文件名称等信息替换到文档历史版本
      */
     public int updateSysFileHistoryErrorVersion(SysFile sysFile);
+	
+	/**
+     * 文档查询，和sys_file_kind关联查询
+     */
+    public List<SysFile> selectFileInfoList(Map<String,Object> hashmap);
 }

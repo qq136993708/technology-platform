@@ -281,6 +281,15 @@ public class SysFileKindController extends BaseController {
 	public String getSysFileKindTreeData() throws Exception {
 		SysFileKind sysFileKind = new SysFileKind();
 		sysFileKind.setOther("public");
+		
+		if (request.getParameter("id") == null || request.getParameter("id").equals("")) {
+			// 默认加载前三层
+			sysFileKind.setKindLevel("3");
+		} else {
+			// 查询当前节点的孩子节点
+			sysFileKind.setParentId(request.getParameter("id"));
+		}
+		
 		ResponseEntity<List> responseEntity = this.restTemplate.exchange(TREE_DATA, HttpMethod.POST, new HttpEntity<SysFileKind>(sysFileKind, this.httpHeaders), List.class);
 		List treeNodes = responseEntity.getBody();
 		return JSONUtils.toJSONString(treeNodes);
@@ -297,6 +306,15 @@ public class SysFileKindController extends BaseController {
 		SysFileKind sysFileKind = new SysFileKind();
 		sysFileKind.setOther("self");
 		sysFileKind.setCreatePersonId(sysUserInfo.getUserId());
+		
+		if (request.getParameter("id") == null || request.getParameter("id").equals("")) {
+			// 默认加载前三层
+			sysFileKind.setKindLevel("3");
+		} else {
+			// 查询当前节点的孩子节点
+			sysFileKind.setParentId(request.getParameter("id"));
+		}
+		
 		ResponseEntity<List> responseEntity = this.restTemplate.exchange(TREE_DATA, HttpMethod.POST, new HttpEntity<SysFileKind>(sysFileKind, this.httpHeaders), List.class);
 		List treeNodes = responseEntity.getBody();
 		return JSONUtils.toJSONString(treeNodes);

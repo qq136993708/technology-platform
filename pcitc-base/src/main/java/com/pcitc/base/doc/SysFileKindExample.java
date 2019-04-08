@@ -1,20 +1,14 @@
 package com.pcitc.base.doc;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class SysFileKindExample {
-
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
-
-    private Integer limit;
-
-    private Integer offset;
 
     public SysFileKindExample() {
         oredCriteria = new ArrayList<Criteria>();
@@ -69,22 +63,6 @@ public class SysFileKindExample {
         distinct = false;
     }
 
-    public void setLimit(Integer limit) {
-        this.limit = limit;
-    }
-
-    public Integer getLimit() {
-        return limit;
-    }
-
-    public void setOffset(Integer offset) {
-        this.offset = offset;
-    }
-
-    public Integer getOffset() {
-        return offset;
-    }
-
     protected abstract static class GeneratedCriteria {
         protected List<Criterion> criteria;
 
@@ -125,7 +103,6 @@ public class SysFileKindExample {
             }
             criteria.add(new Criterion(condition, value1, value2));
         }
-
 
         public Criteria andIdIsNull() {
             addCriterion("id is null");
@@ -1107,6 +1084,566 @@ public class SysFileKindExample {
             return (Criteria) this;
         }
 
+        public Criteria andKindPathIsNull() {
+            addCriterion("kind_path is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andKindPathIsNotNull() {
+            addCriterion("kind_path is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andKindPathEqualTo(String value) {
+            addCriterion("kind_path =", value, "kindPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andKindPathNotEqualTo(String value) {
+            addCriterion("kind_path <>", value, "kindPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andKindPathGreaterThan(String value) {
+            addCriterion("kind_path >", value, "kindPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andKindPathGreaterThanOrEqualTo(String value) {
+            addCriterion("kind_path >=", value, "kindPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andKindPathLessThan(String value) {
+            addCriterion("kind_path <", value, "kindPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andKindPathLessThanOrEqualTo(String value) {
+            addCriterion("kind_path <=", value, "kindPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andKindPathLike(String value) {
+            addCriterion("kind_path like", value, "kindPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andKindPathNotLike(String value) {
+            addCriterion("kind_path not like", value, "kindPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andKindPathIn(List<String> values) {
+            addCriterion("kind_path in", values, "kindPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andKindPathNotIn(List<String> values) {
+            addCriterion("kind_path not in", values, "kindPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andKindPathBetween(String value1, String value2) {
+            addCriterion("kind_path between", value1, value2, "kindPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andKindPathNotBetween(String value1, String value2) {
+            addCriterion("kind_path not between", value1, value2, "kindPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andKindLevelIsNull() {
+            addCriterion("kind_level is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andKindLevelIsNotNull() {
+            addCriterion("kind_level is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andKindLevelEqualTo(String value) {
+            addCriterion("kind_level =", value, "kindLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andKindLevelNotEqualTo(String value) {
+            addCriterion("kind_level <>", value, "kindLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andKindLevelGreaterThan(String value) {
+            addCriterion("kind_level >", value, "kindLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andKindLevelGreaterThanOrEqualTo(String value) {
+            addCriterion("kind_level >=", value, "kindLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andKindLevelLessThan(String value) {
+            addCriterion("kind_level <", value, "kindLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andKindLevelLessThanOrEqualTo(String value) {
+            addCriterion("kind_level <=", value, "kindLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andKindLevelLike(String value) {
+            addCriterion("kind_level like", value, "kindLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andKindLevelNotLike(String value) {
+            addCriterion("kind_level not like", value, "kindLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andKindLevelIn(List<String> values) {
+            addCriterion("kind_level in", values, "kindLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andKindLevelNotIn(List<String> values) {
+            addCriterion("kind_level not in", values, "kindLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andKindLevelBetween(String value1, String value2) {
+            addCriterion("kind_level between", value1, value2, "kindLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andKindLevelNotBetween(String value1, String value2) {
+            addCriterion("kind_level not between", value1, value2, "kindLevel");
+            return (Criteria) this;
+        }
+
+        public Criteria andKindLeafIsNull() {
+            addCriterion("kind_leaf is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andKindLeafIsNotNull() {
+            addCriterion("kind_leaf is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andKindLeafEqualTo(String value) {
+            addCriterion("kind_leaf =", value, "kindLeaf");
+            return (Criteria) this;
+        }
+
+        public Criteria andKindLeafNotEqualTo(String value) {
+            addCriterion("kind_leaf <>", value, "kindLeaf");
+            return (Criteria) this;
+        }
+
+        public Criteria andKindLeafGreaterThan(String value) {
+            addCriterion("kind_leaf >", value, "kindLeaf");
+            return (Criteria) this;
+        }
+
+        public Criteria andKindLeafGreaterThanOrEqualTo(String value) {
+            addCriterion("kind_leaf >=", value, "kindLeaf");
+            return (Criteria) this;
+        }
+
+        public Criteria andKindLeafLessThan(String value) {
+            addCriterion("kind_leaf <", value, "kindLeaf");
+            return (Criteria) this;
+        }
+
+        public Criteria andKindLeafLessThanOrEqualTo(String value) {
+            addCriterion("kind_leaf <=", value, "kindLeaf");
+            return (Criteria) this;
+        }
+
+        public Criteria andKindLeafLike(String value) {
+            addCriterion("kind_leaf like", value, "kindLeaf");
+            return (Criteria) this;
+        }
+
+        public Criteria andKindLeafNotLike(String value) {
+            addCriterion("kind_leaf not like", value, "kindLeaf");
+            return (Criteria) this;
+        }
+
+        public Criteria andKindLeafIn(List<String> values) {
+            addCriterion("kind_leaf in", values, "kindLeaf");
+            return (Criteria) this;
+        }
+
+        public Criteria andKindLeafNotIn(List<String> values) {
+            addCriterion("kind_leaf not in", values, "kindLeaf");
+            return (Criteria) this;
+        }
+
+        public Criteria andKindLeafBetween(String value1, String value2) {
+            addCriterion("kind_leaf between", value1, value2, "kindLeaf");
+            return (Criteria) this;
+        }
+
+        public Criteria andKindLeafNotBetween(String value1, String value2) {
+            addCriterion("kind_leaf not between", value1, value2, "kindLeaf");
+            return (Criteria) this;
+        }
+
+        public Criteria andKindCodeIsNull() {
+            addCriterion("kind_code is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andKindCodeIsNotNull() {
+            addCriterion("kind_code is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andKindCodeEqualTo(String value) {
+            addCriterion("kind_code =", value, "kindCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andKindCodeNotEqualTo(String value) {
+            addCriterion("kind_code <>", value, "kindCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andKindCodeGreaterThan(String value) {
+            addCriterion("kind_code >", value, "kindCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andKindCodeGreaterThanOrEqualTo(String value) {
+            addCriterion("kind_code >=", value, "kindCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andKindCodeLessThan(String value) {
+            addCriterion("kind_code <", value, "kindCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andKindCodeLessThanOrEqualTo(String value) {
+            addCriterion("kind_code <=", value, "kindCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andKindCodeLike(String value) {
+            addCriterion("kind_code like", value, "kindCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andKindCodeNotLike(String value) {
+            addCriterion("kind_code not like", value, "kindCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andKindCodeIn(List<String> values) {
+            addCriterion("kind_code in", values, "kindCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andKindCodeNotIn(List<String> values) {
+            addCriterion("kind_code not in", values, "kindCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andKindCodeBetween(String value1, String value2) {
+            addCriterion("kind_code between", value1, value2, "kindCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andKindCodeNotBetween(String value1, String value2) {
+            addCriterion("kind_code not between", value1, value2, "kindCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andBak9IsNull() {
+            addCriterion("bak9 is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBak9IsNotNull() {
+            addCriterion("bak9 is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBak9EqualTo(String value) {
+            addCriterion("bak9 =", value, "bak9");
+            return (Criteria) this;
+        }
+
+        public Criteria andBak9NotEqualTo(String value) {
+            addCriterion("bak9 <>", value, "bak9");
+            return (Criteria) this;
+        }
+
+        public Criteria andBak9GreaterThan(String value) {
+            addCriterion("bak9 >", value, "bak9");
+            return (Criteria) this;
+        }
+
+        public Criteria andBak9GreaterThanOrEqualTo(String value) {
+            addCriterion("bak9 >=", value, "bak9");
+            return (Criteria) this;
+        }
+
+        public Criteria andBak9LessThan(String value) {
+            addCriterion("bak9 <", value, "bak9");
+            return (Criteria) this;
+        }
+
+        public Criteria andBak9LessThanOrEqualTo(String value) {
+            addCriterion("bak9 <=", value, "bak9");
+            return (Criteria) this;
+        }
+
+        public Criteria andBak9Like(String value) {
+            addCriterion("bak9 like", value, "bak9");
+            return (Criteria) this;
+        }
+
+        public Criteria andBak9NotLike(String value) {
+            addCriterion("bak9 not like", value, "bak9");
+            return (Criteria) this;
+        }
+
+        public Criteria andBak9In(List<String> values) {
+            addCriterion("bak9 in", values, "bak9");
+            return (Criteria) this;
+        }
+
+        public Criteria andBak9NotIn(List<String> values) {
+            addCriterion("bak9 not in", values, "bak9");
+            return (Criteria) this;
+        }
+
+        public Criteria andBak9Between(String value1, String value2) {
+            addCriterion("bak9 between", value1, value2, "bak9");
+            return (Criteria) this;
+        }
+
+        public Criteria andBak9NotBetween(String value1, String value2) {
+            addCriterion("bak9 not between", value1, value2, "bak9");
+            return (Criteria) this;
+        }
+
+        public Criteria andBak10IsNull() {
+            addCriterion("bak10 is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBak10IsNotNull() {
+            addCriterion("bak10 is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBak10EqualTo(String value) {
+            addCriterion("bak10 =", value, "bak10");
+            return (Criteria) this;
+        }
+
+        public Criteria andBak10NotEqualTo(String value) {
+            addCriterion("bak10 <>", value, "bak10");
+            return (Criteria) this;
+        }
+
+        public Criteria andBak10GreaterThan(String value) {
+            addCriterion("bak10 >", value, "bak10");
+            return (Criteria) this;
+        }
+
+        public Criteria andBak10GreaterThanOrEqualTo(String value) {
+            addCriterion("bak10 >=", value, "bak10");
+            return (Criteria) this;
+        }
+
+        public Criteria andBak10LessThan(String value) {
+            addCriterion("bak10 <", value, "bak10");
+            return (Criteria) this;
+        }
+
+        public Criteria andBak10LessThanOrEqualTo(String value) {
+            addCriterion("bak10 <=", value, "bak10");
+            return (Criteria) this;
+        }
+
+        public Criteria andBak10Like(String value) {
+            addCriterion("bak10 like", value, "bak10");
+            return (Criteria) this;
+        }
+
+        public Criteria andBak10NotLike(String value) {
+            addCriterion("bak10 not like", value, "bak10");
+            return (Criteria) this;
+        }
+
+        public Criteria andBak10In(List<String> values) {
+            addCriterion("bak10 in", values, "bak10");
+            return (Criteria) this;
+        }
+
+        public Criteria andBak10NotIn(List<String> values) {
+            addCriterion("bak10 not in", values, "bak10");
+            return (Criteria) this;
+        }
+
+        public Criteria andBak10Between(String value1, String value2) {
+            addCriterion("bak10 between", value1, value2, "bak10");
+            return (Criteria) this;
+        }
+
+        public Criteria andBak10NotBetween(String value1, String value2) {
+            addCriterion("bak10 not between", value1, value2, "bak10");
+            return (Criteria) this;
+        }
+
+        public Criteria andVersionIsNull() {
+            addCriterion("version is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVersionIsNotNull() {
+            addCriterion("version is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVersionEqualTo(String value) {
+            addCriterion("version =", value, "version");
+            return (Criteria) this;
+        }
+
+        public Criteria andVersionNotEqualTo(String value) {
+            addCriterion("version <>", value, "version");
+            return (Criteria) this;
+        }
+
+        public Criteria andVersionGreaterThan(String value) {
+            addCriterion("version >", value, "version");
+            return (Criteria) this;
+        }
+
+        public Criteria andVersionGreaterThanOrEqualTo(String value) {
+            addCriterion("version >=", value, "version");
+            return (Criteria) this;
+        }
+
+        public Criteria andVersionLessThan(String value) {
+            addCriterion("version <", value, "version");
+            return (Criteria) this;
+        }
+
+        public Criteria andVersionLessThanOrEqualTo(String value) {
+            addCriterion("version <=", value, "version");
+            return (Criteria) this;
+        }
+
+        public Criteria andVersionLike(String value) {
+            addCriterion("version like", value, "version");
+            return (Criteria) this;
+        }
+
+        public Criteria andVersionNotLike(String value) {
+            addCriterion("version not like", value, "version");
+            return (Criteria) this;
+        }
+
+        public Criteria andVersionIn(List<String> values) {
+            addCriterion("version in", values, "version");
+            return (Criteria) this;
+        }
+
+        public Criteria andVersionNotIn(List<String> values) {
+            addCriterion("version not in", values, "version");
+            return (Criteria) this;
+        }
+
+        public Criteria andVersionBetween(String value1, String value2) {
+            addCriterion("version between", value1, value2, "version");
+            return (Criteria) this;
+        }
+
+        public Criteria andVersionNotBetween(String value1, String value2) {
+            addCriterion("version not between", value1, value2, "version");
+            return (Criteria) this;
+        }
+
+        public Criteria andIniidIsNull() {
+            addCriterion("iniId is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIniidIsNotNull() {
+            addCriterion("iniId is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIniidEqualTo(String value) {
+            addCriterion("iniId =", value, "iniid");
+            return (Criteria) this;
+        }
+
+        public Criteria andIniidNotEqualTo(String value) {
+            addCriterion("iniId <>", value, "iniid");
+            return (Criteria) this;
+        }
+
+        public Criteria andIniidGreaterThan(String value) {
+            addCriterion("iniId >", value, "iniid");
+            return (Criteria) this;
+        }
+
+        public Criteria andIniidGreaterThanOrEqualTo(String value) {
+            addCriterion("iniId >=", value, "iniid");
+            return (Criteria) this;
+        }
+
+        public Criteria andIniidLessThan(String value) {
+            addCriterion("iniId <", value, "iniid");
+            return (Criteria) this;
+        }
+
+        public Criteria andIniidLessThanOrEqualTo(String value) {
+            addCriterion("iniId <=", value, "iniid");
+            return (Criteria) this;
+        }
+
+        public Criteria andIniidLike(String value) {
+            addCriterion("iniId like", value, "iniid");
+            return (Criteria) this;
+        }
+
+        public Criteria andIniidNotLike(String value) {
+            addCriterion("iniId not like", value, "iniid");
+            return (Criteria) this;
+        }
+
+        public Criteria andIniidIn(List<String> values) {
+            addCriterion("iniId in", values, "iniid");
+            return (Criteria) this;
+        }
+
+        public Criteria andIniidNotIn(List<String> values) {
+            addCriterion("iniId not in", values, "iniid");
+            return (Criteria) this;
+        }
+
+        public Criteria andIniidBetween(String value1, String value2) {
+            addCriterion("iniId between", value1, value2, "iniid");
+            return (Criteria) this;
+        }
+
+        public Criteria andIniidNotBetween(String value1, String value2) {
+            addCriterion("iniId not between", value1, value2, "iniid");
+            return (Criteria) this;
+        }
+
         public Criteria andBak1IsNull() {
             addCriterion("bak1 is null");
             return (Criteria) this;
@@ -1340,5 +1877,4 @@ public class SysFileKindExample {
             this(condition, value, secondValue, null);
         }
     }
-
 }
