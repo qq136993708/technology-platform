@@ -1,17 +1,13 @@
 package com.pcitc.web.controller.system;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.io.*;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.pcitc.base.util.DateUtil;
+import com.pcitc.base.util.StrUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
@@ -872,6 +868,49 @@ public class SysFileController extends BaseController {
         HttpEntity<MultiValueMap<String, String>> httpEntity = new HttpEntity<>(form, this.httpHeaders);
         ResponseEntity<JSONObject> postForEntity = this.restTemplate.postForEntity(showFlag + id, httpEntity, JSONObject.class);
         return postForEntity.getBody().get("flag").toString();
+    }
+
+
+    @RequestMapping(value = "/sysfile/ckupload", method = RequestMethod.POST)
+    public void upload(@RequestParam(value = "upload", required = false) MultipartFile files) {
+        PrintWriter out = null;
+        System.out.println(files.getOriginalFilename());
+        System.out.println(files.getName());
+        System.out.println(files.isEmpty());
+        String imageUrl = "/upload/a.jpg";
+        try {
+            String filePrefixFormat = "yyyyMMddHHmmssS";
+            String filename = UUID.randomUUID().toString();
+            String savedName = DateUtil.format(new Date(), filePrefixFormat) + "_" + filename;
+            String filePath = File.separator + savedName;
+            files.transferTo(new File(filePath));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String msg = "";
+        String fileName = "a.jpg";
+        JSONObject result = new JSONObject();
+        try {
+            out = response.getWriter();
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error("富文本编辑器上传图片时发生异常", e);
+            msg = "服务器异常";
+        } finally {
+            if (!StrUtil.isBlank(msg)) {
+                //上传失败
+                result.put("uploaded", 0);
+                JSONObject errorObj = new JSONObject();
+                errorObj.put("message", msg);
+                result.put("error", errorObj);
+            } else {
+                //上传成功
+                result.put("uploaded", 1);
+                result.put("fileName", fileName);
+                result.put("url", imageUrl);
+            }
+            out.println(result.toJSONString());
+        }
     }
 
 }

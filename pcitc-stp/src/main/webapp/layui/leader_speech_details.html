@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/adminStp.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/oneLevel.css" media="all">
+    <script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
     <script src="/layuiadmin/layui/layui.js"></script>
     <style>
         html{background: #fff;}
@@ -48,16 +49,16 @@
 <script>
     var d = '${list.stype}';
     var stype="";
-    if (d.stype == "ROOT_XTGL_XWLX_KJBLDJH") {
+    if (d == "ROOT_XTGL_XWLX_KJBLDJH") {
         stype="科技部领导讲话";
-    } else if (d.stype == "ROOT_XTGL_XWLX_JTLDJH") {
+    } else if (d == "ROOT_XTGL_XWLX_JTLDJH") {
         stype="集团领导讲话";
-    } else if (d.stype == "ROOT_XTGL_XWLX_GJLDJH") {
+    } else if (d == "ROOT_XTGL_XWLX_GJLDJH") {
         stype="国家领导讲话";
-    } else if (d.stype == "ROOT_XTGL_XWLX_ZXJH") {
+    } else if (d == "ROOT_XTGL_XWLX_ZXJH") {
         stype="最新讲话";
     }
-    $("#stype").html(stype);
+    $("#stype").text(stype);
     layui.use(['jquery'], function(){
         var $=layui.jquery;
         parent.$("html").css("background","#fff");

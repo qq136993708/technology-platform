@@ -7,6 +7,7 @@ import com.pcitc.base.common.Result;
 import com.pcitc.base.system.SysNews;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
+import com.pcitc.base.util.StrUtil;
 import com.pcitc.web.utils.UserProfileAware;
 import com.pcitc.base.common.TreeNode;
 import com.pcitc.base.common.enums.DataOperationStatusEnum;
@@ -14,7 +15,9 @@ import com.pcitc.base.util.DateUtil;
 import com.pcitc.web.common.JwtTokenUtil;
 import com.pcitc.base.doc.SysFileKind;
 import com.pcitc.web.common.OperationFilter;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -36,14 +39,20 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -90,9 +99,7 @@ public class SysNewsController extends BaseController {
      */
     private static final String SAVE = "http://pcitc-zuul/stp-proxy/sysnews-provider/sysnews/save_sysnews";
 
-
     private static final String getNewsIndexType = "http://pcitc-zuul/stp-proxy/sysnews-provider/sysnews/getNewsIndexType";
-
 
     @RequestMapping(value = "/getNewsIndexType", method = RequestMethod.POST)
     @ResponseBody
@@ -240,7 +247,7 @@ public class SysNewsController extends BaseController {
         String id = request.getParameter("dataId");
         ResponseEntity<SysNews> responseEntity = this.restTemplate.exchange(GET_INFO + id, HttpMethod.POST, new HttpEntity<String>(this.httpHeaders), SysNews.class);
         SysNews news = responseEntity.getBody();
-        request.setAttribute("list",news);
+        request.setAttribute("list", news);
         return "layui/leader_speech_details";
     }
 
@@ -285,4 +292,17 @@ public class SysNewsController extends BaseController {
         }
     }
 
+    private static final String DICTIONARY_CODE = "http://pcitc-zuul/system-proxy/dictionary-provider/dictionary/";
+
+    @RequestMapping(value = "/toLeaderSpeechList", method = {RequestMethod.GET})
+    public String toLeaderSpeechList() {
+        String stype = request.getParameter("stype");
+        request.setAttribute("stype", stype);
+        //查询类型名称
+//        List list = this.restTemplate.exchange(DICTIONARY_CODE + stype, HttpMethod.POST, new HttpEntity<Object>(this.httpHeaders), List.class).getBody();
+//        for (int i = 0; i < list.size(); i++) {
+//            System.out.println(list.get(i));
+//        }
+        return "layui/leader_speech_list";
+    }
 }

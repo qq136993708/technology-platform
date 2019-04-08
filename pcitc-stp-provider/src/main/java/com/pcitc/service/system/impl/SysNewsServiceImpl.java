@@ -14,7 +14,6 @@ import com.pcitc.base.util.StrUtil;
 import com.pcitc.base.util.TreeNodeUtil;
 import com.pcitc.mapper.system.SysNewsMapper;
 import com.pcitc.service.system.SysNewsService;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
