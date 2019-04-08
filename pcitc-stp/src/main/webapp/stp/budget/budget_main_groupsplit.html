@@ -143,7 +143,13 @@
 	    var budget_info_map=null;
 	    var curent_tabel_data = null;//当前表格数据
 	    var curent_budget_info = null;//当前报表
-	    var selectRowData=null;
+	    var table_titles=[];
+	    <#list items as item>
+	    	<#list item?keys as key> 
+	    		table_titles.push('${key}');
+	    	</#list> 
+	    </#list>
+	    //console.log(table_titles);
         layui.use(['jquery', 'table', 'laydate', 'layer','publicMethods'], function () {
             var $ = layui.jquery, table = layui.table, laydate = layui.laydate, layer = layui.layer,publicMethods=layui.publicMethods; 
             var param = JSON.parse(window.localStorage.getItem("param"));
@@ -223,21 +229,18 @@
             });
             table.on('edit(dataTable)', function(obj){ //注：edit是固定事件名，test是table原始容器的属性 lay-filter="对应的值"
             	$.each(curent_tabel_data,function(index,dt){
-            		if(obj.data.dataId == dt.dataId){
-            			if(obj.field=="xmjf"){
-            				dt.xmjf = obj.value;
-            			}else if(obj.field=="zxjf")
-            			{
-            				dt.zxjf = obj.value;
-            			}
-            			dt.total = parseInt(dt.xmjf)+parseInt(dt.zxjf);
+            		if(obj.data.organCode == dt.organCode){
+            			curent_tabel_data[index][obj.field] = parseInt(obj.value);
             		}
             	});
+            	//计算求和
+            	calulationTotalMoney();
+            	//预分配数
+            	calculationSurplusMoney();
             	//刷新表格数据
             	table.reload('dataTable', {data: curent_tabel_data});
             	renderfunc();
-            	//预分配数
-            	calculationSurplusMoney();
+            	
             });
 			$("#budgetMoney").on("keyup",function(){
 				curent_budget_info.budgetMoney = $("#budgetMoney").val();
@@ -258,6 +261,22 @@
                     }
     		   	});
             }
+          	//计算合计、总计
+          	function calulationTotalMoney(){
+	           	$.each(curent_tabel_data,function(index,dt){
+	           		var row_total = 0;
+	           		var row_total_jz = 0;
+	           		var row_total_xq = 0;
+	           		$.each(table_titles,function(i,title){
+	           			row_total_jz += parseInt(curent_tabel_data[index][title+"_jz"]);
+	           			row_total_xq += parseInt(curent_tabel_data[index][title+"_xq"]);
+	               	});
+	           		curent_tabel_data[index].total_jz = row_total_jz;
+	           		curent_tabel_data[index].total_xq = row_total_xq;
+	           		curent_tabel_data[index].total = row_total_jz+row_total_xq;
+	           	});
+          	}
+          	
           	//计算剩余可分配数
           	function calculationSurplusMoney(){
             	var total_money = 0;

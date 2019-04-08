@@ -239,7 +239,6 @@ public class BudgetGroupSplitServiceImpl implements BudgetGroupSplitService
 		if(dis.size()==0) {
 			dis = systemRemoteClient.getDictionaryListByParentCode("ROOT_JFYS_JTDWFL");
 		}
-		//增加计划项
 		for(SysDictionary d:dis) {
 			//计划项特殊处理，不计入总数,列：序号，处部门，合计，结转[合计，油服..机械..其他，计划]，新签[合计，油服..机械..其他，计划]，
 			titles.add(new SplitItemVo(d.getCode(),d.getName()));
