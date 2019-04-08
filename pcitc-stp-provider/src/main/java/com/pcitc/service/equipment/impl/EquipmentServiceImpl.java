@@ -498,6 +498,21 @@ public class EquipmentServiceImpl implements EquipmentService {
 		String authenticatedUserName=(String)map.get("authenticatedUserName");
 		String functionId=(String)map.get("functionId");
 		String auditor=(String)map.get("auditor");
+		//申请者机构信息
+		String applyUnitCode=(String)map.get("applyUnitCode");
+		String parentApplyUnitCode=(String)map.get("parentApplyUnitCode");
+		String applyUnitName=(String)map.get("applyUnitName");
+		String applyUserId=(String)map.get("applyUserId");
+		String applyUserName=(String)map.get("applyUserName");
+		String applyUnitPathCode=(String)map.get("applyUnitPathCode");
+		String parentApplyUnitPathCode=(String)map.get("parentApplyUnitPathCode");
+		String parentApplyUnitPathName=(String)map.get("parentApplyUnitPathName");
+		//指定岗位
+		String specialAuditor1=(String)map.get("specialAuditor1");
+		String specialAuditor2=(String)map.get("specialAuditor2");
+		String specialAuditor3=(String)map.get("specialAuditor3");
+		
+		
 		System.out.println("============内部确认流程 auditor="+auditor+" functionId="+functionId+" id="+id+" authenticatedUserId="+authenticatedUserId+" authenticatedUserName="+authenticatedUserName);
 		// 调用审批流程，此处调用同时实现事务
     	JSONObject flowJson = new JSONObject();
@@ -527,9 +542,9 @@ public class EquipmentServiceImpl implements EquipmentService {
 		// flowJson.put("companyCode", "2006"); // 环节n需要用到
     	// 非必填选项, 会签时需要的属性，会签里所有的人，同意率（double类型）
     	// flowJson.put("specialAuditor0", "ZBGL_KTY_CYDW");
-    	flowJson.put("specialAuditor1", "ZBGL_KTY_QYKYZG");
-		flowJson.put("specialAuditor2", "ZBGL_KTY_FZDWKJCZ");
-    	flowJson.put("specialAuditor3", "ZBGL_KTY_FZDWZGLD");
+    	flowJson.put("specialAuditor1", specialAuditor1);
+		flowJson.put("specialAuditor2", specialAuditor2);
+    	flowJson.put("specialAuditor3", specialAuditor3);
     	flowJson.put("signAuditRate", 1d); 
     	
     	// 远程调用
@@ -539,6 +554,14 @@ public class EquipmentServiceImpl implements EquipmentService {
 		if("true".equals(str)) 
 		{
 			sreProject.setInnerAuditStatus(Constant.AUDIT_STATUS_SUBMIT);
+			sreProject.setApplyUnitCode(applyUnitCode);
+			sreProject.setApplyUnitName(applyUnitName);
+			sreProject.setApplyUnitPathCode(applyUnitPathCode);
+			sreProject.setApplyUserId(applyUserId);
+			sreProject.setApplyUserName(applyUserName);
+			sreProject.setParentApplyUnitCode(parentApplyUnitCode);
+			sreProject.setParentApplyUnitPathCode(parentApplyUnitPathCode);
+			sreProject.setParentApplyUnitPathName(parentApplyUnitPathName);
 			sreProjectTaskMapper.updateByPrimaryKey(sreProject);
 			return new Result(true,"操作成功!");
 		}else 
@@ -567,7 +590,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 			String authenticatedUserName=(String)map.get("authenticatedUserName");
 			String functionId=(String)map.get("functionId");
 			String auditor=(String)map.get("auditor");
-			System.out.println("============总部上报流程 auditor="+auditor+" functionId="+functionId+" id="+id+" authenticatedUserId="+authenticatedUserId+" authenticatedUserName="+authenticatedUserName);
+			System.out.println("============start_workflow_new auditor="+auditor+" functionId="+functionId+" id="+id+" authenticatedUserId="+authenticatedUserId+" authenticatedUserName="+authenticatedUserName);
 			// 调用审批流程，此处调用同时实现事务
 	    	JSONObject flowJson = new JSONObject();
 	    	// 业务主键id
@@ -579,9 +602,12 @@ public class EquipmentServiceImpl implements EquipmentService {
 			// 菜单id（functionId），部门/组织ID（orgId），项目id（projectId）。其中菜单id必填（和ProcessDefineId两选一）
 	    	flowJson.put("functionId", functionId);
 	    	// 待办业务详情、最终审批同意、最终审批不同意路径
+	    	
 	    	flowJson.put("auditDetailsPath", "/sre_project_task/get/" + id);
 	    	flowJson.put("auditAgreeMethod", "http://pcitc-zuul/stp-proxy/sre-provider/project_task/task/agree/" + id);
 	    	flowJson.put("auditRejectMethod", "http://pcitc-zuul/stp-proxy/sre-provider/project_task/task/reject/" + id);
+	    	
+	    	
 
 	    	// 非必填选项， 菜单功能需要根据不同单位、不同项目选择不同流程图的时候使用。（也可以在单个流程图中，用判断来做）
 	    	// flowJson.put("flowProjectId", "");
@@ -595,11 +621,8 @@ public class EquipmentServiceImpl implements EquipmentService {
 			// flowJson.put("departmentCode", "1005"); // 环节2需要用到
 			// flowJson.put("companyCode", "2006"); // 环节n需要用到
 	    	// 非必填选项, 会签时需要的属性，会签里所有的人，同意率（double类型）
-	    	/*flowJson.put("specialAuditor0", "ZBGL_KTY_CYDW");
-	    	flowJson.put("specialAuditor1", "ZBGL_KTY_QYKYZG");
-			flowJson.put("specialAuditor2", "ZBGL_KTY_FZDWKJCZ");
-	    	flowJson.put("specialAuditor3", "ZBGL_KTY_FZDWZGLD");
-	    	flowJson.put("signAuditRate", 1d); */
+	    	
+	    	flowJson.put("signAuditRate", 1d); 
 	    	
 	    	// 远程调用
 	    	System.out.println("=====远程调用开始");
@@ -608,24 +631,25 @@ public class EquipmentServiceImpl implements EquipmentService {
 			if("true".equals(str)) 
 			{
 				sreProject.setAuditStatus(Constant.AUDIT_STATUS_SUBMIT);
-				SysUser sysUserInfo=(SysUser)map.get("sysUser");
-				sreProject.setApplyUnitCode(sysUserInfo.getUnitCode());
-				sreProject.setApplyUnitName(sysUserInfo.getUnitName());
-				String unitPathIds =   sysUserInfo.getUnitPath();
-				sreProject.setApplyUnitPathCode(unitPathIds);
-				
-				String parentApplyUnitPathCode=(String)map.get("parentApplyUnitPathCode");
-				String parentApplyUnitPathName=(String)map.get("parentApplyUnitPathName");
-				sreProject.setParentApplyUnitPathCode(parentApplyUnitPathCode);
-				sreProject.setParentApplyUnitPathName(parentApplyUnitPathName);
-				sreProject.setApplyUserId(sysUserInfo.getUserId());
-				sreProject.setApplyUserName(sysUserInfo.getUserDisp());
 				sreProjectTaskMapper.updateByPrimaryKey(sreProject);
 				return new Result(true,"操作成功!");
 			}else 
 			{
 				return new Result(false,"操作失败!");
 			}
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
 		}
 	
 	

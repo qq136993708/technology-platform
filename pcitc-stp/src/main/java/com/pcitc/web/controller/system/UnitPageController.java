@@ -36,6 +36,16 @@ public class UnitPageController
 	}
 	
 
+	@RequestMapping(value = "/chooseUnitMulti_UserEdit", method = RequestMethod.GET)
+	public String chooseUnitMulti_UserEdit( HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+		//回调函数名
+		String funcName = CommonUtil.getParameter(request, "funcName", "");
+		request.setAttribute("funcName", funcName);
+		return "base/unit/chooseUnitMulti_UserEdit";
+	}
+	
+	
 	@RequestMapping(value = "/chooseUnitMulti", method = RequestMethod.GET)
 	public String chooseUnitMulti( HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -46,7 +56,6 @@ public class UnitPageController
 	}
 	
 	
-
 	
 	
 	@RequestMapping(value = "/choose_unit_users", method = RequestMethod.GET)

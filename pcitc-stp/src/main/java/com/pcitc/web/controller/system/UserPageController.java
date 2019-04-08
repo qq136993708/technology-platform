@@ -17,6 +17,12 @@ public class UserPageController
         return "base/user/user_page_edit";
     }
 	 
+	 @RequestMapping(method = RequestMethod.GET, value = "/user_page_edit_bak")
+	 private String user_page_edit_bak(String userId, HttpServletRequest request) {
+        request.setAttribute("userId", userId);
+        return "base/user/user_page_edit_bak";
+    }
+	 
 	 @RequestMapping(method = RequestMethod.GET, value = "/user_page_list")
 	 private String toUserList(HttpServletRequest request) {
         return "base/user/user_page_list";
