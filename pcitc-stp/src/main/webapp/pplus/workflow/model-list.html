@@ -159,11 +159,9 @@
 					window.open("/activiti/create", "_blank");
 				},
 				exportEvent : function() { //点击导出按钮
-					alert(3);
 					if (typeof (selectRowData.id) == "undefined") {
 						layer.msg('请点击选择一行数据');
 					} else {
-						alert(selectRowData.name);
 						//window.location.href = '/activiti-model/export/' + selectRowData.id;
 
 						$("#fileDownload").attr("href", "/activiti-model/export/" + selectRowData.id + "/" + selectRowData.name);

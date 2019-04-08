@@ -84,7 +84,6 @@ body {
 			/* 监听提交 */
 			form.on('submit(form-submit)', function(data) {
 				//JSON.stringify(data.field)  提交信息json格式
-				alert(JSON.stringify(data.field));
 				$.ajax({
 					type : 'POST',
 					url : "/workflow/start/audit-type",

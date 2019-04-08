@@ -226,6 +226,8 @@ public class WorkflowProviderClient {
 		taskVar.put("authenticatedUserName", json.getString("authenticatedUserName"));
 		taskVar.put("authenticatedDate", new Date());
 		taskVar.put("flowAuditorName", json.getString("authenticatedUserName"));
+		// 启动节点，审批意见为空
+		taskVar.put("flowAuditorComments", " ");
 
 		String processInstanceName = "";
 		if (!StrUtil.isBlankOrNull(json.getString("processInstanceName"))) {
@@ -246,6 +248,10 @@ public class WorkflowProviderClient {
 			taskVar.put("assigneeList", Arrays.asList(taskVar.get("auditor").toString().split(",")));
 			System.out.println("2会签时2====" + taskVar.get("auditor"));
 		}
+		
+		// 为回退添加标识位
+		taskVar.put("rejectFlag", task.getId());
+		
 		System.out.println("开始执行任务----------------"+task.getId());
 		taskService.complete(task.getId(), taskVar);
 		Date date2 = new Date();
@@ -365,6 +371,8 @@ public class WorkflowProviderClient {
 		taskVar.put("authenticatedUserName", workflowVo.getAuthenticatedUserName());
 		taskVar.put("authenticatedDate", new Date());
 		taskVar.put("flowAuditorName", workflowVo.getAuthenticatedUserName());
+		// 启动节点，审批意见为空
+		taskVar.put("flowAuditorComments", " ");
 		
 		// 设置此流程实例的名称（待办任务名称）
 		runtimeService.setProcessInstanceName(processInstance.getId(), workflowVo.getProcessInstanceName());
@@ -381,6 +389,9 @@ public class WorkflowProviderClient {
 			System.out.println("1会签时====" + taskVar.get("auditor"));
 			taskVar.put("assigneeList", taskVar.get("auditor"));
 		}
+		
+		// 为回退添加标识位
+		taskVar.put("rejectFlag", task.getId());
 		
 		// 处理本次任务，同时指定下一次任务可用的变量(taskVar)
 		taskService.complete(task.getId(), taskVar);

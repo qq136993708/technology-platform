@@ -95,5 +95,15 @@ public class SysFileCommonClient {
 		int retInt = sysFileService.historyErrorReplace(sysFile);
 		return retInt;
 	}
+	
+	/**
+	 * 文档管理员分页查询
+	 */
+	@ApiOperation(value = "查询文件信息，包含文档分类", notes = "包含文档分类")
+	@RequestMapping(value = "/file-common-provider/file/kind/list", method = RequestMethod.POST)
+	public LayuiTableData selectFileInfoList(@RequestBody LayuiTableParam param) {
+		LayuiTableData tem = sysFileService.selectFileInfoList(param);
+		return tem;
+	}
 
 }

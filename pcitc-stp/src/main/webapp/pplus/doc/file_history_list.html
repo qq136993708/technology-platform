@@ -278,7 +278,7 @@
 					return "未定义:" + userAgent;
 				}
 			}
-		}
+		};
 		/***默认*/
 		if (typeof (file_accept2) != "undefined") {
 			pcitcFile2.accept = file_accept2;
@@ -296,7 +296,7 @@
 		
 		var fileParams = [];
 
-　　　　 var fileParam = new Object();
+　　　　 var fileParam = {};
  		fileParam.lastModifiedDate = new Date();
         fileParams.push(fileParam);
 　　　　 fileParams = JSON.stringify(fileParams);
@@ -343,7 +343,7 @@
 								// 刷新历史表单
 								active.searchEvent();
 								layer.msg('操作成功！');
-								return;
+
 							}
 						});
 						

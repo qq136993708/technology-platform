@@ -2,8 +2,6 @@ package com.pcitc.service.doc.impl;
 
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -64,11 +62,22 @@ public class SysFileKindServiceImpl implements SysFileKindService {
     @Override
     public int updateOrInsertSysFileKind(SysFileKind sysFileKind) throws Exception {
         int result = 500;
-        if (sysFileKind.getId() != null && sysFileKind.getId() != null) {
+        if (sysFileKind.getId() != null && !sysFileKind.getId().equals("")) {
             sysFileKindMapper.updateByPrimaryKey(sysFileKind);
         } else {
             sysFileKind.setId(UUID.randomUUID().toString().replaceAll("-", ""));
+            String parentId = sysFileKind.getParentId();
+            SysFileKind parentObj = sysFileKindMapper.selectByPrimaryKey(parentId);
+            sysFileKind.setKindLevel(String.valueOf(Integer.parseInt(parentObj.getKindLevel()) + 1));
+            sysFileKind.setKindLeaf("0"); //叶子节点
+            sysFileKind.setKindCode(sysFileKind.getId().substring(0,8));
+            sysFileKind.setKindPath(parentObj.getKindPath()+""+sysFileKind.getKindCode());
+            
             sysFileKindMapper.insertSelective(sysFileKind);
+            
+            // 修改父亲节点的是否是叶子节点标识
+            parentObj.setKindLeaf("1");
+            sysFileKindMapper.updateByPrimaryKey(parentObj);
         }
         result = 200;
         return result;
