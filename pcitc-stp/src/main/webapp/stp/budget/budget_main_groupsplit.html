@@ -85,27 +85,27 @@
 	                	<th lay-data="{type:'checkbox'}" rowspan="3"></th>
 	                	<th lay-data="{field:'no',align: 'center', width: 45,totalRowText: '合计'}" rowspan="3">序号</th>
 	                    <th lay-data="{field:'organName', width: '15%'}" rowspan="3">专业处/部门</th>
-	                    <th lay-data="{field:'total', width: '10%',totalRow: true}" rowspan="3">预算合计</th>
+	                    <th lay-data="{field:'total', align: 'right', width: '10%',totalRow: true}" rowspan="3">预算合计</th>
 	                   	<th lay-data="{align: 'center',totalRow: true}" colspan="${items?size+2}">${nd}年结转项目经费</th>
 	                    <th lay-data="{align: 'center', totalRow: true}" colspan="${items?size+2}">${nd}年新签项目经费</th>
 	                </tr>
 	                <tr>
-	                    <th lay-data="{field:'jz_total', align: 'right',totalRow: true}"  rowspan="2">合计</th>
+	                    <th lay-data="{field:'total_jz', align: 'right',totalRow: true}"  rowspan="2">合计</th>
 	                    <th lay-data="{align: 'right',totalRow: true}"  colspan="${items?size}">拨款</th>
-	                    <th lay-data="{field:'jz_plan', edit:true,align: 'right',totalRow: true}"  rowspan="2">计划</th>
-	                    <th lay-data="{field:'xq_total', align: 'right',totalRow: true}"  rowspan="2">合计</th>
+	                    <th lay-data="{field:'plan_jz', edit:true,align: 'right',totalRow: true}"  rowspan="2">计划</th>
+	                    <th lay-data="{field:'total_xq', align: 'right',totalRow: true}"  rowspan="2">合计</th>
 	                    <th lay-data="{align: 'right',totalRow: true}"  colspan="${items?size}">拨款</th>
-	                    <th lay-data="{field:'xq_plan', edit:true,align: 'right',totalRow: true}"  rowspan="2">计划</th>
+	                    <th lay-data="{field:'plan_xq', edit:true,align: 'right',totalRow: true}"  rowspan="2">计划</th>
 	                </tr>
 	                 <tr>
 	                 	<#list items as item>
 	                 		<#list item?keys as key> 
-	                    		<th lay-data="{field:'${key}_jz', align: 'right',totalRow: true}">${item[key]}</th>
+	                    		<th lay-data="{field:'${key}_jz', edit:true,align: 'right',totalRow: true}">${item[key]}</th>
 	                    	</#list>
 	                    </#list>
 	                    <#list items as item>
 	                    	<#list item?keys as key> 
-	                    		<th lay-data="{field:'${key}_xq', align: 'right',totalRow: true}">${item[key]}</th>
+	                    		<th lay-data="{field:'${key}_xq', edit:true,align: 'right',totalRow: true}">${item[key]}</th>
 	                    	</#list> 
 	                    </#list>
 	                </tr>

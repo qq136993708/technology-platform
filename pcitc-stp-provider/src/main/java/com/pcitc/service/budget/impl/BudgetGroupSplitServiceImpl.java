@@ -204,17 +204,28 @@ public class BudgetGroupSplitServiceImpl implements BudgetGroupSplitService
 			
 			Map<String,Object> map  = MyBeanUtils.transBean2Map(vo);
 			//按字典拼接数据
+			Double total_jz = 0d;
+			Double total_xq = 0d;
 			for(SysDictionary d:dis) {
 				//搜索数据
-				List<BudgetSplitData> lsData = datas.stream()
-						.filter(a -> a.getOrganCode().equals(org.getCode()))
-						.filter(a -> a.getOrganId().equals(org.getId()))
-						//.filter(a -> a.getSplitId().equals(d.getId()))
-						.filter(a -> a.getSplitCode().equals(d.getCode()))
-						.collect(Collectors.toList());
+				List<BudgetSplitData> lsData = datas.stream().filter(a -> a.getOrganCode().equals(org.getCode())).filter(a -> a.getOrganId().equals(org.getId()))
+						.filter(a -> a.getSplitCode().equals(d.getCode())).collect(Collectors.toList());
 				BudgetSplitData dt = lsData.size()>0?lsData.get(0):new BudgetSplitData();
 				map.putAll(new SplitItemVo(d.getCode(),dt.getTotal(),dt.getJz(),dt.getXq()));
+				//计算合计
+				total_jz += dt.getJz()==null?0:dt.getJz();
+				total_xq += dt.getXq()==null?0:dt.getXq();
 			}
+			List<BudgetSplitData> lsData = datas.stream().filter(a -> a.getOrganCode().equals(org.getCode())).filter(a -> a.getOrganId().equals(org.getId()))
+					.filter(a -> a.getSplitCode().equals("PLAN")).collect(Collectors.toList());
+			//计划数据（结转、新签）
+			map.put("plan_jz", lsData.size()>0?lsData.get(0).getJz():0);
+			map.put("plan_xq", lsData.size()>0?lsData.get(0).getXq():0);
+			
+			map.put("total_jz", total_jz);
+			map.put("total_xq", total_xq);
+			map.put("total", total_jz+total_xq);
+			
 			rsdata.add(map);
 		}
 		return rsdata;

@@ -42,7 +42,6 @@ import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.BudgetAuditStatusEnum;
-import com.pcitc.base.common.enums.BudgetOrganNdEnum;
 import com.pcitc.base.stp.budget.BudgetInfo;
 import com.pcitc.base.util.DateUtil;
 import com.pcitc.base.util.IdUtil;
@@ -61,7 +60,7 @@ public class BudgetGroupSplitController extends BaseController {
 	private static final String BUDGET_GROUPTOTAL_LIST = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-groupsplit-info-list";	
 	private static final String BUDGET_GROUPTOTAL_INFO = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-groupsplit-info";	
 	private static final String BUDGET_GROUPTOTAL_ITEMS = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-groupsplit-items";
-	private static final String BUDGET_GROUPTOTAL_TITLES = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-groupsplit-titles";
+	private static final String BUDGET_GROUPSPLIT_TITLES = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-groupsplit-titles";
 	
 	
 	private static final String BUDGET_GROUPTOTAL_CREATE = "http://pcitc-zuul/stp-proxy/stp-provider/budget/budget-create-blank-groupsplit";
@@ -91,7 +90,7 @@ public class BudgetGroupSplitController extends BaseController {
 		String reqnd = request.getParameter("nd");
 		String nd = reqnd== null?DateUtil.format(new Date(), DateUtil.FMT_YYYY):reqnd;
 		request.setAttribute("nd", nd);
-		ResponseEntity<?> infors = this.restTemplate.exchange(BUDGET_GROUPTOTAL_TITLES, HttpMethod.POST, new HttpEntity<Object>(nd,this.httpHeaders), List.class);
+		ResponseEntity<?> infors = this.restTemplate.exchange(BUDGET_GROUPSPLIT_TITLES, HttpMethod.POST, new HttpEntity<Object>(nd,this.httpHeaders), List.class);
 		request.setAttribute("items", infors.getBody());
 		System.out.println(JSON.toJSONString(infors.getBody()));
 		return "stp/budget/budget_main_groupsplit";
