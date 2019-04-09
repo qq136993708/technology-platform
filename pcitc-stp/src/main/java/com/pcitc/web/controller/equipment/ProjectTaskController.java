@@ -785,6 +785,12 @@ public class ProjectTaskController extends BaseController {
 		System.out.println("============start_confirm_workflow userIds="+userIds+" functionId="+functionId+" taskId="+taskId);
 		SreProjectTask sreProjectTask=EquipmentUtils.getSreProjectTask(taskId, restTemplate, httpHeaders);
 		
+		String branchFlag="0";
+		String joinUnitCode=sreProjectTask.getJoinUnitCode();
+		if(joinUnitCode!=null && !joinUnitCode.equals(""))
+		{
+			branchFlag="1";
+		}
 		
 		Map<String ,Object> paramMap = new HashMap<String ,Object>();
 		paramMap.put("taskId", taskId);
@@ -793,7 +799,7 @@ public class ProjectTaskController extends BaseController {
 		paramMap.put("authenticatedUserId", sysUserInfo.getUserId());
 		paramMap.put("authenticatedUserName", sysUserInfo.getUserDisp());
 		paramMap.put("auditor", userIds);
-		
+		paramMap.put("branchFlag", branchFlag);
 		//申请者机构信息
 		paramMap.put("applyUnitCode", sysUserInfo.getUnitCode());
 		String parentApplyUnitCode=EquipmentUtils.getUnitParentCodesByUnitCodes(sysUserInfo.getUnitCode(), restTemplate, httpHeaders);
@@ -840,7 +846,7 @@ public class ProjectTaskController extends BaseController {
 				for(int i=0;i<arr.length;i++)
 				{
 					 String unitId=arr[i];
-					 System.out.println("============ unitId ="+ unitId);
+					
 					 List<SysPost> list = EquipmentUtils.getPostListByUnitId(unitId, restTemplate, httpHeaders);
 					 if(list!=null && list.size()>0)
 					 {
@@ -849,6 +855,7 @@ public class ProjectTaskController extends BaseController {
 						    	SysPost sysPost=list.get(j);
 						    	String postCode=sysPost.getPostCode();
 						    	String postName=sysPost.getPostName();
+						    	System.out.println("============ postName ="+ postName);
 						    	if(postName.contains("企业科研主管"))
 						    	{
 						    		specialAuditor1_sb.append(postCode).append("-");
@@ -887,6 +894,7 @@ public class ProjectTaskController extends BaseController {
 		paramMap.put("specialAuditor3", specialAuditor3);
 		System.out.println("============specialAuditor1 ="+specialAuditor1+" specialAuditor2="+specialAuditor2+" specialAuditor3="+specialAuditor3);
 		HttpEntity<Map<String, Object>> httpEntity = new HttpEntity<Map<String, Object>>(paramMap,this.httpHeaders);
+		//return null;
 		Result rs = this.restTemplate.exchange(TASK_INNER_WORKFLOW_URL + taskId, HttpMethod.POST, httpEntity, Result.class).getBody();
 		return rs;
 	}

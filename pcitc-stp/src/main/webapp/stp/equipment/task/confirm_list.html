@@ -25,7 +25,7 @@
 <input  name="parentUnitPathIds"  id="parentUnitPathIds"    value="${parentUnitPathIds}"        type="hidden" >
 <input  name="joinUnitCodes"  id="joinUnitCodes"           type="hidden" >
 <input  name="specialAuditor0"  id="specialAuditor0"           type="hidden" >
-
+<input  name="branchFlag"  id="branchFlag"           type="hidden" >
 
 </form>
     <!--查询条件-->
@@ -575,10 +575,12 @@ var name=$('#name').val();
    		{
     		branchFlag="0";
    		}
-    	 //alert(nunits);'unit--00000'
+    	// alert(nunits);
+    	 //return;
     	 $('#specialAuditor0').val(nunits);
-    	
-    	 var json = {functionId:functionId,specialAuditor0:nunits,branchFlag: branchFlag};
+    	 $('#branchFlag').val(branchFlag);
+    	 
+    	 var json = {functionId:functionId,specialAuditor0:nunits,branchFlag: branchFlag};//,branchFlag: branchFlag
     	 $.ajax({
              type : 'POST',
              url : "/workflow/start/audit-type",
