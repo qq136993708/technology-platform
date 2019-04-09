@@ -13,6 +13,7 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.pcitc.base.stp.equipment.SreProject;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -413,7 +414,22 @@ public class EquipmentController extends BaseController {
 		return "/stp/equipment/equipment/chooseEquipment";
 		
     }
-	
+
+
+
+	@RequestMapping(method = RequestMethod.GET, value = "/chooseEquipmentByTopicId")
+	private String chooseEquipmentByTopicId(HttpServletRequest request)
+	{
+		String topicId = request.getParameter("topicId");
+
+
+		SreProject sreProject=EquipmentUtils.getSreProject(topicId,restTemplate,httpHeaders);
+		String equipmentIds=sreProject.getEquipmentIds();
+		request.setAttribute("equipmentIds", equipmentIds);
+
+		return "/stp/equipment/purchase/chooseEquipmentByTopicId";
+	}
+
 	
 	@RequestMapping(value = "/chooseEquipmentByIds")
 	@ResponseBody

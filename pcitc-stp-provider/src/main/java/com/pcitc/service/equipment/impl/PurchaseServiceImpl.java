@@ -15,7 +15,6 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
-import com.pcitc.base.stp.equipment.SreEquipment;
 import com.pcitc.base.stp.equipment.SrePurchase;
 import com.pcitc.mapper.equipment.SrePurchaseMapper;
 import com.pcitc.service.equipment.PurchaseService;
@@ -70,7 +69,7 @@ public class PurchaseServiceImpl implements PurchaseService {
 		map.put("proposerName", proposerName);
 		map.put("parentUnitPathNames", parentUnitPathNames);
 		map.put("createDate", createDate);
-		
+
 		/*
 		 * System.out.println(">>>>>>>>applyDepartCode="+purchaseName); StringBuffer
 		 * applyUnitCodeStr=new StringBuffer(); if(!purchaseName.equals("")) {
@@ -80,12 +79,12 @@ public class PurchaseServiceImpl implements PurchaseService {
 		 * +"', t.`apply_depart_code`)"); }else {
 		 * applyUnitCodeStr.append("FIND_IN_SET('"+arr[i]+"', t.`apply_depart_code`)");
 		 * }
-		 * 
+		 *
 		 * } applyUnitCodeStr.append(" )"); }
-		 * 
+		 *
 		 * map.put("sqlStr", applyUnitCodeStr.toString());
 		 */
-		
+
 		
 		List<SrePurchase> list = srePurchaseMapper.getList(map);
 		PageInfo<SrePurchase> pageInfo = new PageInfo<SrePurchase>(list);
@@ -104,4 +103,18 @@ public class PurchaseServiceImpl implements PurchaseService {
 		return srePurchaseMapper.getPurchaseNameIdList();
 	}
 
+	@Override
+	public SrePurchase selectSrePurchaseById(String id) {
+		return srePurchaseMapper.selectByPrimaryKey(id);
+	}
+
+	@Override
+	public void insertPurchase(SrePurchase srePurchase) {
+		srePurchaseMapper.insertSelective(srePurchase);
+	}
+
+	@Override
+	public int deletePurchase(String id) {
+		return srePurchaseMapper.deleteByPrimaryKey(id);
+	}
 }

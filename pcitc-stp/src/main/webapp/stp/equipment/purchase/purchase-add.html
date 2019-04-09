@@ -36,21 +36,16 @@
     <div class="box-body">
         <form class="layui-form" name="form1" id="form1" action="" method="POST"
               lay-filter="component-form-group layui-container">
-            <input name="topicId" id="topicId" value="${topicId}" type="hidden">
-            <input name="topicId" id="taskWriteUsersIds" value="${taskWriteUsersIds}" type="hidden">
-            <input name="id" id="id" value="${id}" type="hidden">
-            <input name="equipmentIds" id="equipmentIds" value="${sreProjectBasic.equipmentIds}" type="hidden">
-            <input name="documentDoc" id="documentDoc" value="${documentDoc}" type="hidden">
-            <input name="yearFeeStr" id="yearFeeStr" value="${sreProjectBasic.yearFeeStr}" type="hidden">
-            <input name="functionId" id="functionId" type="hidden">
-            <input name="userIds" id="userIds" type="hidden">
-            <input name="leadUnitCode" id="leadUnitCode" value="${leadUnitCode}" type="hidden">
-            <input name="joinUnitCode" id="joinUnitCode" value="${sreProjectBasic.joinUnitCode}" type="hidden">
-            <input name="entrustUnitCode" id="entrustUnitCode" value="${sreProjectBasic.entrustUnitCode}" type="hidden">
-            <input name="belongDepartmentCode" id="belongDepartmentCode" value="${sreProjectBasic.belongDepartmentCode}"
-                   type="hidden">
+            <br><input name="topicId" id="topicId" value="${topicId}" type="text"><!--//合同编号-->
+            <br><input name="taskWriteUsersIds" id="taskWriteUsersIds" value="${taskWriteUsersIds}" type="text">
+            <br><input name="id" id="id" value="${id}" type="text">
+            <br><input name="equipmentIds" id="equipmentIds" value="${sreProjectBasic.equipmentIds}" type="text">
+            <br><input name="leadUnitCode" id="leadUnitCode" value="${leadUnitCode}" type="text">
+            <br><input name="createUserName" id="createUserName" value="${createUserName}" type="text">
+            <br><input name="createUserId" id="createUserId" value="${createUserId}" type="text">
+           <!-- <input name="documentDoc" id="documentDoc" value="${documentDoc}" type="text">-->
+            <br><input name="yearFeeStr" id="yearFeeStr" value="${sreProjectBasic.yearFeeStr}" type="text">
 
-            <<!--input name="purchaseName" id="purchaseName" value="" type="hidden">-->
             <div class="layui-row">
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
@@ -63,6 +58,7 @@
                         <div class="layui-input-block">
                             <input class="layui-input" name="leadUnitName" id="leadUnitName" value="${leadUnitName}"
                                    lay-verify="required" autocomplete="off" type="text">
+                            <!--<input name="leadUnitCode" id="leadUnitCode1" value="${leadUnitCode}" type="text">-->
                         </div>
                     </div>
                 </div>
@@ -94,14 +90,14 @@
                 <label class="layui-form-label">选择装备<span class="must-fill">*</span></label>
                 <div class="layui-input-block">
                     <div class="tableBox">
-                        <div class="tableToolBox">
+                       <!-- <div class="tableToolBox">
                             <div class="whiteLine"></div>
                             <div class="tableBtns">
                                 <a href="javascript:void(0)"
                                    class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_add btnMyBgImg"
                                    data-type="selectEvent">选择</a>
                             </div>
-                        </div>
+                        </div>-->
                         <table id="join_apply_table" class="layui-hide" lay-filter="JoinEvent"></table>
                     </div>
                 </div>
@@ -132,6 +128,15 @@
 
 </script>
 <script>
+
+
+
+    function call_back(equipmentIds)
+    {
+        renderTable(equipmentIds);
+    }
+
+
     function choosePurchase(id)
     {
         var temUrl = '/sre-purchase/chooseProject?taskWriteUsersIds='+$("#taskWriteUsersIds").val()+"&id="+id;
@@ -275,57 +280,17 @@
         $("#file_div").load('/common/public/uploadlayuiload.html');
 
 
-        /* 自定义验证规则  title 要验证的input的 lay-verify=""*/
-        form.verify({
-            name: function (value) {
-                if (value.length < 5) {
-                    return '装备名称至少得5个字符啊';
-                }
-            },
-            planMoney: [/(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/, '计划金额格试不正确']
-            /*  ,pass: [/(.+){6,12}$/, '密码必须6到12位']
-             ,content: function(value){
-                 layedit.sync(editIndex);
-             } */
-        });
 
-
-        //开始日期
-        /*var insStart = laydate.render({
-            elem: '#beginYear'
-            , min: 0, type: 'year'
-            , done: function (value, date) {
-                //更新结束日期的最小日期
-                insEnd.config.min = lay.extend({}, date, {
-                    month: date.month - 1
-                });
-                //自动弹出结束日期的选择器
-                insEnd.config.elem[0].focus();
-            }
-        });
-
-        //结束日期
-        var insEnd = laydate.render({
-            elem: '#endYear'
-            , min: 0, type: 'year'
-            , done: function (value, date) {
-                //更新开始日期的最大日期
-                insStart.config.max = lay.extend({}, date, {
-                    month: date.month - 1
-                });
-                publicMethods.createTable($("#beginYear").val(), date.year, "yearTr", 2, yearFeeStr);
-            }
-        });*/
         $('.layui-btn').on('click', function () {
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
         });
         var $ = layui.$, active = {
             selectEvent: function () {
-                //var temUrl = "/intl_project/plant_edit_selectapply?equipmentIds="+$("#equipmentIds").val();
-                var temUrl = '/sre-equipment/chooseEquipmentByUser?equipmentIds=' + $("#equipmentIds").val();
-                publicMethods.openBaseWin("选择装备", temUrl, "90%", "80%");
+                var temUrl = '/sre-equipment/chooseEquipmentByTopicId?equipmentIds=' + $("#equipmentIds").val() + "&topicId="+$("#topicId").val();
 
+
+                //publicMethods.openBaseWin("选择装备", temUrl, "90%", "80%");
             }
             /* ,
 	            deleteEvent:function(){
@@ -352,42 +317,7 @@
                 }
             }
         });*/
-        /* 监听提交 */
-        /*form.on('submit(sub)', function (data) {
 
-        var url = "/sre-project-basic/save?v_date=" + v_date;// + "&status=0"
-        var backurl = "/sre-project-basic/to-list?v_date=" + v_date;
-        ajaxOpt(url, "form1", "POST", backurl, "保存成功", "保存失败");
-
-            return false;
-        });*/
-        /*var arrD = $("#yearFeeStrJoinUnit").val().split(";");
-        if(arrD==''){
-
-        }else {
-            $.each(arrD, function (i, val) {
-                var arrDV=arrD[i].split("#");
-                var yearFeeStrN=arrD[i].substring(arrD[i].indexOf('#')+1);
-                var html = ' <div class="layui-form-item layui-form-text" >' +
-                    '        <div class="layui-input-block" id="yearTr'+i+'">' +
-                    '        <label class="layui-form-label" style="width: 100%;text-align: left;margin-left: 0;">' + arrDV[0].split(",")[1] + '</label>' +
-                    '            <table class="layui-table">' +
-                    '             <thead>' +
-                    '             <tr>' +
-                    '                <td width="20%">年  度</td>' +
-                    '                <td width="8%">费用性支出(万元)</td>' +
-                    '                <td width="8%">资本性支出(万元)</td>' +
-                    '                <td width="8%">小  计(万元)</td>' +
-                    '             </tr>' +
-                    '            </thead>' +
-                    '            <tbody></tbody>' +
-                    '          </table>' +
-                    '        </div>' +
-                    '       </div>';
-                $("#units").append(html);
-                publicMethods.createTable($("#beginYear").val(), $("#endYear").val(), "yearTr"+i, 2, yearFeeStrN);
-            });
-        }*/
 
         /* 监听提交 */
         form.on('submit(sub)', function (data) {
@@ -396,7 +326,6 @@
                 title: '最终的提交信息'
             })*/
             /*获取参与单位的数据*/
-            alert();
            /*var joinUnitName= $("#joinUnitName").val();
            //alert(joinUnitName);
            if(joinUnitName!=null && joinUnitName!='')
@@ -494,7 +423,7 @@
             height: 300,
             //page: {first: '首页',last: '尾页',theme: '#0F9EE0'},
             cols: [[
-
+                {type : 'checkbox', event : 'changeEvents'},
                 {title: '序号', type: 'numbers'},
                 {field: 'name', title: '装备名称', style: 'cursor: pointer;', align: 'center', width: '30%'},
                 {field: 'type', title: '装备分类', style: 'cursor: pointer;', align: 'center', width: '10%'},
@@ -588,7 +517,7 @@
             success: function (data, status) {
                 if (data.success == true || data.success == 'true') {
                     var money = data.data;
-                    alert(money);
+                    //alert(money);
                     var temp = parseInt(mainUnitMoney) + parseInt(joinUnitMoney);//所选装备=牵头单位+参与单位
                     if (money == temp) {
                         flag = true;
