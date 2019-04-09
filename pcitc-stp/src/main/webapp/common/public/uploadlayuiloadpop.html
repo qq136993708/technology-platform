@@ -462,9 +462,6 @@ pcitcFile.reloadTable();
                         parent.document.getElementById(iframeId).src = parent.document.getElementById(iframeId).src;
                     }
                 }
-                console.log("all done");
-                console.log(pcitcFile.fileIds);
-                console.log($("#"+pcitcFile.fileIds).val());
                 pcitcFile.getFileResult($("#"+pcitcFile.fileIds).val());
             }
             , error: function (index, upload) {

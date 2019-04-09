@@ -654,6 +654,37 @@
 			and user_unit = #{userUnit} 
 		</if>
   </select>
+  
+  
+  
+  
+  
+  
+  
+  <select id="getSysUserListByUserUnit" resultMap="BaseResultMap">
+		select 
+		<include refid="Base_Column_List" />
+			from sys_user where user_delflag = '0' 
+		<if test="userDisp != null and userDisp != ''">
+			and user_disp like '%${userDisp}%' 
+		</if>
+		<if test="userUnit != null and userUnit != ''">
+		   and FIND_IN_SET(#{userUnit},user_unit)
+		</if>
+			order by user_disp desc 
+   </select>
+   <select id="getSysUserCountByUserUnit" resultType="java.lang.Long">
+		select count(*) from sys_user where user_delflag = '0'  
+    	<if test="userDisp != null and userDisp != ''">
+			and user_disp like '%${userDisp}%' 
+		</if>
+		<if test="userUnit != null and userUnit != ''">
+			and FIND_IN_SET(#{userUnit},user_unit)
+		</if>
+  </select>
+	
+  
+  
 	
 	
 	

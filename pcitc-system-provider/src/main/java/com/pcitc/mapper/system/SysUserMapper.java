@@ -56,6 +56,15 @@ public interface SysUserMapper {
 	List<SysUser> querySysUserListByPage(SysUser vo);
 
 	Long countByQuerySysUserList(SysUser vo);
+	
+	
+	List<SysUser> getSysUserListByUserUnit(SysUser vo);
+
+	Long getSysUserCountByUserUnit(SysUser vo);
+	
+	
+	
+	
 
 	
 }
