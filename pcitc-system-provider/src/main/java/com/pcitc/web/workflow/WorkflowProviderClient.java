@@ -197,9 +197,7 @@ public class WorkflowProviderClient {
 		}
 		// 本次任务节点的下一个节点。特殊节点，根据表单内容来觉得下一步的审批人
 		// 启动节点，获取开始的下一个节点的下个节点（二层）
-		Map<String, Object> temMap = new HashMap<String, Object>();
-		temMap.put("agree", "1");
-		TaskDefinition taskDef = this.getNextTaskInfo(task.getId(), temMap);
+		TaskDefinition taskDef = this.getNextTaskInfo(task.getId(), taskVar);
 		// System.out.println("1=========TaskDefinition======="+taskDef);
 		if (taskDef != null && taskDef.getKey().startsWith("specialAuditor") && taskVar.get("auditor") == null) {
 			// 特殊节点，自动获取当初传递的审批人员的值。并且不是通过选择来确定审批者的
@@ -343,9 +341,7 @@ public class WorkflowProviderClient {
 		}
 		
 		// 本次任务节点的下一个节点。特殊节点，根据表单内容来觉得下一步的审批人
-		Map<String, Object> temMap = new HashMap<String, Object>();
-		temMap.put("agree", "1");
-		TaskDefinition taskDef = this.getNextTaskInfo(task.getId(), temMap);
+		TaskDefinition taskDef = this.getNextTaskInfo(task.getId(), iniVar);
 		// System.out.println("1=========TaskDefinition======="+taskDef);
 		if (taskDef != null && taskDef.getKey().startsWith("specialAuditor") && taskVar.get("auditor") == null) {
 			// 特殊节点，获取当初传递的值
@@ -748,7 +744,9 @@ public class WorkflowProviderClient {
 	 * @return
 	 */
 	public boolean isCondition(String key, String el, String value) {
-		// System.out.println(key+"===="+el+"========"+value);
+		if (el.indexOf(key) < 0) {
+			return false;
+		}
 		ExpressionFactory factory = new ExpressionFactoryImpl();
 		SimpleContext context = new SimpleContext();
 		context.setVariable(key, factory.createValueExpression(value, String.class));

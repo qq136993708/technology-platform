@@ -1060,7 +1060,7 @@ public class TaskProviderClient {
 									// 遍历json对象
 									for (Map.Entry<String, Object> entry : json.entrySet()) {
 							            System.out.println(entry.getKey() + ":" + entry.getValue());
-							            if (entry.getValue() != null && exclu.getConditionExpression() != null && exclu.getConditionExpression().indexOf(entry.getKey()) > -1) {
+							            if (entry.getValue() != null && exclu.getConditionExpression() != null) {
 							            	if (isCondition(entry.getKey(), exclu.getConditionExpression().replaceAll(" ", ""), entry.getValue().toString())) {
 							            		FlowNode realAuditNode = (FlowNode) process.getFlowElement(exclu.getTargetRef());
 							            		if (realAuditNode instanceof org.activiti.bpmn.model.UserTask) {
@@ -1070,7 +1070,8 @@ public class TaskProviderClient {
 													}
 													// 特殊的审批节点
 													if (realAuditNode.getId().startsWith("specialAuditor")) {
-														System.out.println("====specialAuditor======" + realAuditNode.getId());
+														System.out.println("1====specialAuditor======" + realAuditNode.getId());
+														System.out.println("2====specialAuditor======" + json.get(realAuditNode.getId()));
 														// 启动的时候，让启动者选择特殊审批节点的审批人员
 														if (json != null && json.get(realAuditNode.getId()) != null && !json.get(realAuditNode.getId()).equals("")) {
 															// 不用选择自动配置审批人的话，此时json（html）中需要提前设定角色/岗位/单位CODE
@@ -1295,7 +1296,9 @@ public class TaskProviderClient {
 	 * @return
 	 */
 	public boolean isCondition(String key, String el, String value) {
-		// System.out.println(key+"===="+el+"========"+value);
+		if (el.indexOf(key) < 0) {
+			return false;
+		}
 		ExpressionFactory factory = new ExpressionFactoryImpl();
 		SimpleContext context = new SimpleContext();
 		context.setVariable(key, factory.createValueExpression(value, String.class));

@@ -146,6 +146,8 @@ public class WorkflowController extends BaseController {
 		variables.put("specialAuditor2", "ZSH_YFGCS_CJCXY"); // 环节n需要用到
 		variables.put("specialAuditor3", "ZSH_YFGCS_CJCXY"); // 环节n需要用到
 		
+		variables.put("branchFlag", "2"); 
+		
 		
 		// 会签时需要的属性，会签里所有的人，同意率（double类型）
 		variables.put("signAuditRate", 1d); 
