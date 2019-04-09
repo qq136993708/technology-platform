@@ -49,6 +49,7 @@ body{background: #f2f2f2;font-family: "arial-black", "微软雅黑", "黑体";}
 border-radius: 3px;}
 .btnMyBgImg{height: .8rem;width: 1.5rem;font-size: .42rem;line-height: .8rem;padding: 0;}
 .btn_search{background:none;border: 1px solid #ccc;color: #000;}
+iframe{width: 100%;height: auto;border: 0;overflow: hidden;}
 
 
 
