@@ -187,7 +187,9 @@ public class SKMController extends BaseController {
         try {
             ResultSKM resultSKM = new ResultSKM();
             try {
-                RestfulHttpClient.HttpResponse response = RestfulHttpClient.getClient(SKM_expert).get().request();
+                List<String> authorization = this.httpHeaders.get("Authorization");
+                System.out.println(authorization.get(0));
+                RestfulHttpClient.HttpResponse response = RestfulHttpClient.getClient(SKM_expert).get().addHeader("token", authorization.get(0)) .request();
                 resultSKM = JSON.parseObject(response.getContent(),ResultSKM.class);
             } catch (IOException e) {
                 e.printStackTrace();

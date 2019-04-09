@@ -3,45 +3,49 @@
 
 <mapper namespace="com.pcitc.mapper.expert.ZjkPatentMapper">
 
-<resultMap id="BaseResultMap" type="com.pcitc.base.expert.ZjkPatent">
+    <resultMap id="BaseResultMap" type="com.pcitc.base.expert.ZjkPatent">
 
-    <id column="data_id" jdbcType="VARCHAR" property="dataId" />
-    <result column="user_id" jdbcType="VARCHAR" property="userId" />
-    <result column="expert_id" jdbcType="VARCHAR" property="expertId" />
-    <result column="patent_name" jdbcType="VARCHAR" property="patentName" />
-    <result column="patent_code" jdbcType="VARCHAR" property="patentCode" />
-    <result column="patent_desc" jdbcType="VARCHAR" property="patentDesc" />
-    <result column="patent_keys" jdbcType="VARCHAR" property="patentKeys" />
-    <result column="patente_people_name" jdbcType="VARCHAR" property="patentePeopleName" />
-    <result column="patente_people_id" jdbcType="VARCHAR" property="patentePeopleId" />
-    <result column="invent_people_id" jdbcType="VARCHAR" property="inventPeopleId" />
-    <result column="invent_people_name" jdbcType="VARCHAR" property="inventPeopleName" />
-    <result column="apply_people" jdbcType="VARCHAR" property="applyPeople" />
-    <result column="public_date" jdbcType="VARCHAR" property="publicDate" />
-    <result column="apply_date" jdbcType="VARCHAR" property="applyDate" />
-    <result column="bak1" jdbcType="VARCHAR" property="bak1" />
-    <result column="bak2" jdbcType="VARCHAR" property="bak2" />
-    <result column="bak3" jdbcType="VARCHAR" property="bak3" />
-    <result column="bak4" jdbcType="VARCHAR" property="bak4" />
-    <result column="bak5" jdbcType="VARCHAR" property="bak5" />
-    <result column="bak6" jdbcType="VARCHAR" property="bak6" />
-    <result column="modify_user_disp" jdbcType="VARCHAR" property="modifyUserDisp" />
-    <result column="owner_tech_type" jdbcType="VARCHAR" property="ownerTechType" />
-    <result column="patente_background" jdbcType="LONGVARCHAR" property="patenteBackground" />
-    <result column="owner_project_name" jdbcType="VARCHAR" property="ownerProjectName" />
-    <result column="expert_nationality" jdbcType="VARCHAR" property="expertNationality" />
-    <result column="owner_project_id" jdbcType="VARCHAR" property="ownerProjectId" />
-    <result column="company" jdbcType="VARCHAR" property="company" />
-    <result column="compan_id" jdbcType="VARCHAR" property="companId" />
-    <result column="sys_flag" jdbcType="VARCHAR" property="sysFlag" />
-    <result column="data_order" jdbcType="INTEGER" property="dataOrder" />
-    <result column="del_flag" jdbcType="INTEGER" property="delFlag" />
-    <result column="create_date" jdbcType="VARCHAR" property="createDate" />
-    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
-    <result column="create_user_disp" jdbcType="VARCHAR" property="createUserDisp" />
-    <result column="modify_date" jdbcType="VARCHAR" property="modifyDate" />
-    <result column="modify_user" jdbcType="VARCHAR" property="modifyUser" />
-</resultMap>
+        <id column="data_id" jdbcType="VARCHAR" property="dataId"/>
+        <result column="user_id" jdbcType="VARCHAR" property="userId"/>
+        <result column="expert_id" jdbcType="VARCHAR" property="expertId"/>
+        <result column="patent_name" jdbcType="VARCHAR" property="patentName"/>
+        <result column="patent_code" jdbcType="VARCHAR" property="patentCode"/>
+        <result column="patent_desc" jdbcType="VARCHAR" property="patentDesc"/>
+        <result column="patent_keys" jdbcType="VARCHAR" property="patentKeys"/>
+        <result column="patente_people_name" jdbcType="VARCHAR" property="patentePeopleName"/>
+        <result column="patente_people_id" jdbcType="VARCHAR" property="patentePeopleId"/>
+        <result column="invent_people_id" jdbcType="VARCHAR" property="inventPeopleId"/>
+        <result column="invent_people_name" jdbcType="VARCHAR" property="inventPeopleName"/>
+        <result column="apply_people" jdbcType="VARCHAR" property="applyPeople"/>
+        <result column="public_date" jdbcType="VARCHAR" property="publicDate"/>
+        <result column="apply_date" jdbcType="VARCHAR" property="applyDate"/>
+        <result column="bak1" jdbcType="VARCHAR" property="bak1"/>
+        <result column="bak2" jdbcType="VARCHAR" property="bak2"/>
+        <result column="bak3" jdbcType="VARCHAR" property="bak3"/>
+        <result column="bak4" jdbcType="VARCHAR" property="bak4"/>
+        <result column="bak5" jdbcType="VARCHAR" property="bak5"/>
+        <result column="bak6" jdbcType="VARCHAR" property="bak6"/>
+        <result column="modify_user_disp" jdbcType="VARCHAR" property="modifyUserDisp"/>
+        <result column="owner_tech_type" jdbcType="VARCHAR" property="ownerTechType"/>
+        <result column="patente_background" jdbcType="LONGVARCHAR" property="patenteBackground"/>
+        <result column="owner_project_name" jdbcType="VARCHAR" property="ownerProjectName"/>
+        <result column="expert_nationality" jdbcType="VARCHAR" property="expertNationality"/>
+        <result column="owner_project_id" jdbcType="VARCHAR" property="ownerProjectId"/>
+        <result column="company" jdbcType="VARCHAR" property="company"/>
+        <result column="compan_id" jdbcType="VARCHAR" property="companId"/>
+        <result column="sys_flag" jdbcType="VARCHAR" property="sysFlag"/>
+        <result column="data_order" jdbcType="INTEGER" property="dataOrder"/>
+        <result column="del_flag" jdbcType="INTEGER" property="delFlag"/>
+        <result column="create_date" jdbcType="VARCHAR" property="createDate"/>
+        <result column="create_user" jdbcType="VARCHAR" property="createUser"/>
+        <result column="create_user_disp" jdbcType="VARCHAR" property="createUserDisp"/>
+        <result column="modify_date" jdbcType="VARCHAR" property="modifyDate"/>
+        <result column="modify_user" jdbcType="VARCHAR" property="modifyUser"/>
+        <result column="doc_id" jdbcType="VARCHAR" property="docId"/>
+        <result column="nd" jdbcType="VARCHAR" property="nd"/>
+        <result column="country" jdbcType="VARCHAR" property="country"/>
+        <result column="is_result" jdbcType="VARCHAR" property="isResult"/>
+    </resultMap>
     <sql id="Example_Where_Clause">
         <where>
             <foreach collection="oredCriteria" item="criteria" separator="or">
@@ -61,7 +65,7 @@
                                 <when test="criterion.listValue">
                                     and ${criterion.condition}
                                     <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                                    #{listItem}
+                                        #{listItem}
                                     </foreach>
                                 </when>
                             </choose>
@@ -90,7 +94,7 @@
                                 <when test="criterion.listValue">
                                     and ${criterion.condition}
                                     <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                                    #{listItem}
+                                        #{listItem}
                                     </foreach>
                                 </when>
                             </choose>
@@ -100,7 +104,7 @@
             </foreach>
         </where>
     </sql>
-<sql id="Base_Column_List">
+    <sql id="Base_Column_List">
         data_id,
         user_id,
         expert_id,
@@ -136,7 +140,11 @@
         create_user,
         create_user_disp,
         modify_date,
-        modify_user
+        modify_user,
+        doc_id,
+        nd,
+        country,
+        is_result
 </sql>
 
     <select id="selectByExample" parameterType="com.pcitc.base.expert.ZjkPatentExample" resultMap="BaseResultMap">
@@ -144,10 +152,10 @@
         <if test="distinct">
             distinct
         </if>
-        <include refid="Base_Column_List" />
+        <include refid="Base_Column_List"/>
         from zjk_patent
         <if test="_parameter != null">
-            <include refid="Example_Where_Clause" />
+            <include refid="Example_Where_Clause"/>
         </if>
         <if test="orderByClause != null">
             order by ${orderByClause}
@@ -163,7 +171,7 @@
     </select>
     <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
         select
-        <include refid="Base_Column_List" />
+        <include refid="Base_Column_List"/>
         from zjk_patent
         where data_id = #{dataId,jdbcType=VARCHAR}
     </select>
@@ -174,7 +182,7 @@
     <delete id="deleteByExample" parameterType="com.pcitc.base.expert.ZjkPatentExample">
         delete from zjk_patent
         <if test="_parameter != null">
-            <include refid="Example_Where_Clause" />
+            <include refid="Example_Where_Clause"/>
         </if>
     </delete>
     <insert id="insert" parameterType="com.pcitc.base.expert.ZjkPatent">
@@ -214,7 +222,11 @@
             create_user,
             create_user_disp,
             modify_date,
-            modify_user
+            modify_user,
+            doc_id,
+            nd,
+            country,
+            is_result
         )
         values (
 
@@ -253,7 +265,11 @@
     #{createUser,jdbcType=VARCHAR},
     #{createUserDisp,jdbcType=VARCHAR},
     #{modifyDate,jdbcType=VARCHAR},
-    #{modifyUser,jdbcType=VARCHAR}
+    #{modifyUser,jdbcType=VARCHAR},
+    #{docId,jdbcType=VARCHAR},
+    #{nd,jdbcType=VARCHAR},
+    #{country,jdbcType=VARCHAR},
+    #{isResult,jdbcType=VARCHAR}
         )
     </insert>
     <insert id="insertSelective" parameterType="com.pcitc.base.expert.ZjkPatent">
@@ -261,231 +277,255 @@
         <trim prefix="(" suffix=")" suffixOverrides=",">
 
             <if test="dataId != null">
-            data_id,
+                data_id,
             </if>
             <if test="userId != null">
-            user_id,
+                user_id,
             </if>
             <if test="expertId != null">
-            expert_id,
+                expert_id,
             </if>
             <if test="patentName != null">
-            patent_name,
+                patent_name,
             </if>
             <if test="patentCode != null">
-            patent_code,
+                patent_code,
             </if>
             <if test="patentDesc != null">
-            patent_desc,
+                patent_desc,
             </if>
             <if test="patentKeys != null">
-            patent_keys,
+                patent_keys,
             </if>
             <if test="patentePeopleName != null">
-            patente_people_name,
+                patente_people_name,
             </if>
             <if test="patentePeopleId != null">
-            patente_people_id,
+                patente_people_id,
             </if>
             <if test="inventPeopleId != null">
-            invent_people_id,
+                invent_people_id,
             </if>
             <if test="inventPeopleName != null">
-            invent_people_name,
+                invent_people_name,
             </if>
             <if test="applyPeople != null">
-            apply_people,
+                apply_people,
             </if>
             <if test="publicDate != null">
-            public_date,
+                public_date,
             </if>
             <if test="applyDate != null">
-            apply_date,
+                apply_date,
             </if>
             <if test="bak1 != null">
-            bak1,
+                bak1,
             </if>
             <if test="bak2 != null">
-            bak2,
+                bak2,
             </if>
             <if test="bak3 != null">
-            bak3,
+                bak3,
             </if>
             <if test="bak4 != null">
-            bak4,
+                bak4,
             </if>
             <if test="bak5 != null">
-            bak5,
+                bak5,
             </if>
             <if test="bak6 != null">
-            bak6,
+                bak6,
             </if>
             <if test="modifyUserDisp != null">
-            modify_user_disp,
+                modify_user_disp,
             </if>
             <if test="ownerTechType != null">
-            owner_tech_type,
+                owner_tech_type,
             </if>
             <if test="patenteBackground != null">
-            patente_background,
+                patente_background,
             </if>
             <if test="ownerProjectName != null">
-            owner_project_name,
+                owner_project_name,
             </if>
             <if test="expertNationality != null">
-            expert_nationality,
+                expert_nationality,
             </if>
             <if test="ownerProjectId != null">
-            owner_project_id,
+                owner_project_id,
             </if>
             <if test="company != null">
-            company,
+                company,
             </if>
             <if test="companId != null">
-            compan_id,
+                compan_id,
             </if>
             <if test="sysFlag != null">
-            sys_flag,
+                sys_flag,
             </if>
             <if test="dataOrder != null">
-            data_order,
+                data_order,
             </if>
             <if test="delFlag != null">
-            del_flag,
+                del_flag,
             </if>
             <if test="createDate != null">
-            create_date,
+                create_date,
             </if>
             <if test="createUser != null">
-            create_user,
+                create_user,
             </if>
             <if test="createUserDisp != null">
-            create_user_disp,
+                create_user_disp,
             </if>
             <if test="modifyDate != null">
-            modify_date,
+                modify_date,
             </if>
             <if test="modifyUser != null">
-            modify_user
+                modify_user,
+            </if>
+            <if test="docId != null">
+                doc_id,
+            </if>
+            <if test="nd != null">
+                nd,
+            </if>
+            <if test="country != null">
+                country,
+            </if>
+            <if test="isResult != null">
+                is_result
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
 
 
             <if test="dataId != null">
-            #{dataId ,jdbcType=VARCHAR},
+                #{dataId ,jdbcType=VARCHAR},
             </if>
             <if test="userId != null">
-            #{userId ,jdbcType=VARCHAR},
+                #{userId ,jdbcType=VARCHAR},
             </if>
             <if test="expertId != null">
-            #{expertId ,jdbcType=VARCHAR},
+                #{expertId ,jdbcType=VARCHAR},
             </if>
             <if test="patentName != null">
-            #{patentName ,jdbcType=VARCHAR},
+                #{patentName ,jdbcType=VARCHAR},
             </if>
             <if test="patentCode != null">
-            #{patentCode ,jdbcType=VARCHAR},
+                #{patentCode ,jdbcType=VARCHAR},
             </if>
             <if test="patentDesc != null">
-            #{patentDesc ,jdbcType=VARCHAR},
+                #{patentDesc ,jdbcType=VARCHAR},
             </if>
             <if test="patentKeys != null">
-            #{patentKeys ,jdbcType=VARCHAR},
+                #{patentKeys ,jdbcType=VARCHAR},
             </if>
             <if test="patentePeopleName != null">
-            #{patentePeopleName ,jdbcType=VARCHAR},
+                #{patentePeopleName ,jdbcType=VARCHAR},
             </if>
             <if test="patentePeopleId != null">
-            #{patentePeopleId ,jdbcType=VARCHAR},
+                #{patentePeopleId ,jdbcType=VARCHAR},
             </if>
             <if test="inventPeopleId != null">
-            #{inventPeopleId ,jdbcType=VARCHAR},
+                #{inventPeopleId ,jdbcType=VARCHAR},
             </if>
             <if test="inventPeopleName != null">
-            #{inventPeopleName ,jdbcType=VARCHAR},
+                #{inventPeopleName ,jdbcType=VARCHAR},
             </if>
             <if test="applyPeople != null">
-            #{applyPeople ,jdbcType=VARCHAR},
+                #{applyPeople ,jdbcType=VARCHAR},
             </if>
             <if test="publicDate != null">
-            #{publicDate ,jdbcType=VARCHAR},
+                #{publicDate ,jdbcType=VARCHAR},
             </if>
             <if test="applyDate != null">
-            #{applyDate ,jdbcType=VARCHAR},
+                #{applyDate ,jdbcType=VARCHAR},
             </if>
             <if test="bak1 != null">
-            #{bak1 ,jdbcType=VARCHAR},
+                #{bak1 ,jdbcType=VARCHAR},
             </if>
             <if test="bak2 != null">
-            #{bak2 ,jdbcType=VARCHAR},
+                #{bak2 ,jdbcType=VARCHAR},
             </if>
             <if test="bak3 != null">
-            #{bak3 ,jdbcType=VARCHAR},
+                #{bak3 ,jdbcType=VARCHAR},
             </if>
             <if test="bak4 != null">
-            #{bak4 ,jdbcType=VARCHAR},
+                #{bak4 ,jdbcType=VARCHAR},
             </if>
             <if test="bak5 != null">
-            #{bak5 ,jdbcType=VARCHAR},
+                #{bak5 ,jdbcType=VARCHAR},
             </if>
             <if test="bak6 != null">
-            #{bak6 ,jdbcType=VARCHAR},
+                #{bak6 ,jdbcType=VARCHAR},
             </if>
             <if test="modifyUserDisp != null">
-            #{modifyUserDisp ,jdbcType=VARCHAR},
+                #{modifyUserDisp ,jdbcType=VARCHAR},
             </if>
             <if test="ownerTechType != null">
-            #{ownerTechType ,jdbcType=VARCHAR},
+                #{ownerTechType ,jdbcType=VARCHAR},
             </if>
             <if test="patenteBackground != null">
-            #{patenteBackground ,jdbcType=LONGVARCHAR},
+                #{patenteBackground ,jdbcType=LONGVARCHAR},
             </if>
             <if test="ownerProjectName != null">
-            #{ownerProjectName ,jdbcType=VARCHAR},
+                #{ownerProjectName ,jdbcType=VARCHAR},
             </if>
             <if test="expertNationality != null">
-            #{expertNationality ,jdbcType=VARCHAR},
+                #{expertNationality ,jdbcType=VARCHAR},
             </if>
             <if test="ownerProjectId != null">
-            #{ownerProjectId ,jdbcType=VARCHAR},
+                #{ownerProjectId ,jdbcType=VARCHAR},
             </if>
             <if test="company != null">
-            #{company ,jdbcType=VARCHAR},
+                #{company ,jdbcType=VARCHAR},
             </if>
             <if test="companId != null">
-            #{companId ,jdbcType=VARCHAR},
+                #{companId ,jdbcType=VARCHAR},
             </if>
             <if test="sysFlag != null">
-            #{sysFlag ,jdbcType=VARCHAR},
+                #{sysFlag ,jdbcType=VARCHAR},
             </if>
             <if test="dataOrder != null">
-            #{dataOrder ,jdbcType=INTEGER},
+                #{dataOrder ,jdbcType=INTEGER},
             </if>
             <if test="delFlag != null">
-            #{delFlag ,jdbcType=INTEGER},
+                #{delFlag ,jdbcType=INTEGER},
             </if>
             <if test="createDate != null">
-            #{createDate ,jdbcType=VARCHAR},
+                #{createDate ,jdbcType=VARCHAR},
             </if>
             <if test="createUser != null">
-            #{createUser ,jdbcType=VARCHAR},
+                #{createUser ,jdbcType=VARCHAR},
             </if>
             <if test="createUserDisp != null">
-            #{createUserDisp ,jdbcType=VARCHAR},
+                #{createUserDisp ,jdbcType=VARCHAR},
             </if>
             <if test="modifyDate != null">
-            #{modifyDate ,jdbcType=VARCHAR},
+                #{modifyDate ,jdbcType=VARCHAR},
             </if>
             <if test="modifyUser != null">
-            #{modifyUser ,jdbcType=VARCHAR}
+                #{modifyUser ,jdbcType=VARCHAR},
+            </if>
+            <if test="docId != null">
+                #{docId ,jdbcType=VARCHAR},
+            </if>
+            <if test="nd != null">
+                #{nd ,jdbcType=VARCHAR},
+            </if>
+            <if test="country != null">
+                #{country ,jdbcType=VARCHAR},
+            </if>
+            <if test="isResult != null">
+                #{isResult ,jdbcType=VARCHAR}
             </if>
         </trim>
     </insert>
     <select id="countByExample" parameterType="com.pcitc.base.expert.ZjkPatentExample" resultType="java.lang.Long">
         select count(*) from zjk_patent
         <if test="_parameter != null">
-            <include refid="Example_Where_Clause" />
+            <include refid="Example_Where_Clause"/>
         </if>
     </select>
     <update id="updateByExampleSelective" parameterType="map">
@@ -598,12 +638,24 @@
                 modify_date=#{record.modifyDate,jdbcType=VARCHAR},
             </if>
             <if test="record.modifyUser != null">
-                modify_user=#{record.modifyUser,jdbcType=VARCHAR}
+                modify_user=#{record.modifyUser,jdbcType=VARCHAR},
+            </if>
+            <if test="record.docId != null">
+                doc_id=#{record.docId,jdbcType=VARCHAR},
+            </if>
+            <if test="record.nd != null">
+                nd=#{record.nd,jdbcType=VARCHAR},
+            </if>
+            <if test="record.country != null">
+                country=#{record.country,jdbcType=VARCHAR},
+            </if>
+            <if test="record.isResult != null">
+                is_result=#{record.isResult,jdbcType=VARCHAR}
             </if>
 
         </set>
         <if test="_parameter != null">
-            <include refid="Update_By_Example_Where_Clause" />
+            <include refid="Update_By_Example_Where_Clause"/>
         </if>
     </update>
     <update id="updateByExample" parameterType="map">
@@ -644,9 +696,13 @@
         create_user=#{record.createUser,jdbcType=VARCHAR},
         create_user_disp=#{record.createUserDisp,jdbcType=VARCHAR},
         modify_date=#{record.modifyDate,jdbcType=VARCHAR},
-        modify_user=#{record.modifyUser,jdbcType=VARCHAR}
+        modify_user=#{record.modifyUser,jdbcType=VARCHAR},
+        doc_id=#{record.docId,jdbcType=VARCHAR},
+        nd=#{record.nd,jdbcType=VARCHAR},
+        country=#{record.country,jdbcType=VARCHAR},
+        is_result=#{record.isResult,jdbcType=VARCHAR}
         <if test="_parameter != null">
-            <include refid="Update_By_Example_Where_Clause" />
+            <include refid="Update_By_Example_Where_Clause"/>
         </if>
     </update>
     <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.expert.ZjkPatent">
@@ -654,109 +710,121 @@
         <set>
 
             <if test="userId != null">
-            user_id=#{userId ,jdbcType=VARCHAR},
+                user_id=#{userId ,jdbcType=VARCHAR},
             </if>
             <if test="expertId != null">
-            expert_id=#{expertId ,jdbcType=VARCHAR},
+                expert_id=#{expertId ,jdbcType=VARCHAR},
             </if>
             <if test="patentName != null">
-            patent_name=#{patentName ,jdbcType=VARCHAR},
+                patent_name=#{patentName ,jdbcType=VARCHAR},
             </if>
             <if test="patentCode != null">
-            patent_code=#{patentCode ,jdbcType=VARCHAR},
+                patent_code=#{patentCode ,jdbcType=VARCHAR},
             </if>
             <if test="patentDesc != null">
-            patent_desc=#{patentDesc ,jdbcType=VARCHAR},
+                patent_desc=#{patentDesc ,jdbcType=VARCHAR},
             </if>
             <if test="patentKeys != null">
-            patent_keys=#{patentKeys ,jdbcType=VARCHAR},
+                patent_keys=#{patentKeys ,jdbcType=VARCHAR},
             </if>
             <if test="patentePeopleName != null">
-            patente_people_name=#{patentePeopleName ,jdbcType=VARCHAR},
+                patente_people_name=#{patentePeopleName ,jdbcType=VARCHAR},
             </if>
             <if test="patentePeopleId != null">
-            patente_people_id=#{patentePeopleId ,jdbcType=VARCHAR},
+                patente_people_id=#{patentePeopleId ,jdbcType=VARCHAR},
             </if>
             <if test="inventPeopleId != null">
-            invent_people_id=#{inventPeopleId ,jdbcType=VARCHAR},
+                invent_people_id=#{inventPeopleId ,jdbcType=VARCHAR},
             </if>
             <if test="inventPeopleName != null">
-            invent_people_name=#{inventPeopleName ,jdbcType=VARCHAR},
+                invent_people_name=#{inventPeopleName ,jdbcType=VARCHAR},
             </if>
             <if test="applyPeople != null">
-            apply_people=#{applyPeople ,jdbcType=VARCHAR},
+                apply_people=#{applyPeople ,jdbcType=VARCHAR},
             </if>
             <if test="publicDate != null">
-            public_date=#{publicDate ,jdbcType=VARCHAR},
+                public_date=#{publicDate ,jdbcType=VARCHAR},
             </if>
             <if test="applyDate != null">
-            apply_date=#{applyDate ,jdbcType=VARCHAR},
+                apply_date=#{applyDate ,jdbcType=VARCHAR},
             </if>
             <if test="bak1 != null">
-            bak1=#{bak1 ,jdbcType=VARCHAR},
+                bak1=#{bak1 ,jdbcType=VARCHAR},
             </if>
             <if test="bak2 != null">
-            bak2=#{bak2 ,jdbcType=VARCHAR},
+                bak2=#{bak2 ,jdbcType=VARCHAR},
             </if>
             <if test="bak3 != null">
-            bak3=#{bak3 ,jdbcType=VARCHAR},
+                bak3=#{bak3 ,jdbcType=VARCHAR},
             </if>
             <if test="bak4 != null">
-            bak4=#{bak4 ,jdbcType=VARCHAR},
+                bak4=#{bak4 ,jdbcType=VARCHAR},
             </if>
             <if test="bak5 != null">
-            bak5=#{bak5 ,jdbcType=VARCHAR},
+                bak5=#{bak5 ,jdbcType=VARCHAR},
             </if>
             <if test="bak6 != null">
-            bak6=#{bak6 ,jdbcType=VARCHAR},
+                bak6=#{bak6 ,jdbcType=VARCHAR},
             </if>
             <if test="modifyUserDisp != null">
-            modify_user_disp=#{modifyUserDisp ,jdbcType=VARCHAR},
+                modify_user_disp=#{modifyUserDisp ,jdbcType=VARCHAR},
             </if>
             <if test="ownerTechType != null">
-            owner_tech_type=#{ownerTechType ,jdbcType=VARCHAR},
+                owner_tech_type=#{ownerTechType ,jdbcType=VARCHAR},
             </if>
             <if test="patenteBackground != null">
-            patente_background=#{patenteBackground ,jdbcType=LONGVARCHAR},
+                patente_background=#{patenteBackground ,jdbcType=LONGVARCHAR},
             </if>
             <if test="ownerProjectName != null">
-            owner_project_name=#{ownerProjectName ,jdbcType=VARCHAR},
+                owner_project_name=#{ownerProjectName ,jdbcType=VARCHAR},
             </if>
             <if test="expertNationality != null">
-            expert_nationality=#{expertNationality ,jdbcType=VARCHAR},
+                expert_nationality=#{expertNationality ,jdbcType=VARCHAR},
             </if>
             <if test="ownerProjectId != null">
-            owner_project_id=#{ownerProjectId ,jdbcType=VARCHAR},
+                owner_project_id=#{ownerProjectId ,jdbcType=VARCHAR},
             </if>
             <if test="company != null">
-            company=#{company ,jdbcType=VARCHAR},
+                company=#{company ,jdbcType=VARCHAR},
             </if>
             <if test="companId != null">
-            compan_id=#{companId ,jdbcType=VARCHAR},
+                compan_id=#{companId ,jdbcType=VARCHAR},
             </if>
             <if test="sysFlag != null">
-            sys_flag=#{sysFlag ,jdbcType=VARCHAR},
+                sys_flag=#{sysFlag ,jdbcType=VARCHAR},
             </if>
             <if test="dataOrder != null">
-            data_order=#{dataOrder ,jdbcType=INTEGER},
+                data_order=#{dataOrder ,jdbcType=INTEGER},
             </if>
             <if test="delFlag != null">
-            del_flag=#{delFlag ,jdbcType=INTEGER},
+                del_flag=#{delFlag ,jdbcType=INTEGER},
             </if>
             <if test="createDate != null">
-            create_date=#{createDate ,jdbcType=VARCHAR},
+                create_date=#{createDate ,jdbcType=VARCHAR},
             </if>
             <if test="createUser != null">
-            create_user=#{createUser ,jdbcType=VARCHAR},
+                create_user=#{createUser ,jdbcType=VARCHAR},
             </if>
             <if test="createUserDisp != null">
-            create_user_disp=#{createUserDisp ,jdbcType=VARCHAR},
+                create_user_disp=#{createUserDisp ,jdbcType=VARCHAR},
             </if>
             <if test="modifyDate != null">
-            modify_date=#{modifyDate ,jdbcType=VARCHAR},
+                modify_date=#{modifyDate ,jdbcType=VARCHAR},
             </if>
             <if test="modifyUser != null">
-            modify_user=#{modifyUser ,jdbcType=VARCHAR}
+                modify_user=#{modifyUser ,jdbcType=VARCHAR},
+            </if>
+            <if test="docId != null">
+                doc_id=#{docId ,jdbcType=VARCHAR},
+            </if>
+            <if test="nd != null">
+                nd=#{nd ,jdbcType=VARCHAR},
+            </if>
+            <if test="country != null">
+                country=#{country ,jdbcType=VARCHAR},
+            </if>
+            <if test="isResult != null">
+                is_result=#{isResult ,jdbcType=VARCHAR}
             </if>
         </set>
         where data_id = #{dataId,jdbcType=VARCHAR}
@@ -798,159 +866,179 @@
             create_user=#{createUser,jdbcType=VARCHAR},
             create_user_disp=#{createUserDisp,jdbcType=VARCHAR},
             modify_date=#{modifyDate,jdbcType=VARCHAR},
-            modify_user=#{modifyUser,jdbcType=VARCHAR}
+            modify_user=#{modifyUser,jdbcType=VARCHAR},
+            doc_id=#{docId,jdbcType=VARCHAR},
+            nd=#{nd,jdbcType=VARCHAR},
+            country=#{country,jdbcType=VARCHAR},
+            is_result=#{isResult,jdbcType=VARCHAR}
         where data_id = #{dataId,jdbcType=VARCHAR}
     </update>
     <!-- 分页查询 -->
-        <select id="findSysFileKindByPage" parameterType="com.pcitc.base.expert.ZjkPatent"  resultMap="BaseResultMap">
+    <select id="findSysFileKindByPage" parameterType="com.pcitc.base.expert.ZjkPatent" resultMap="BaseResultMap">
 
         select
-                    data_id,
-                    user_id,
-                    expert_id,
-                    patent_name,
-                    patent_code,
-                    patent_desc,
-                    patent_keys,
-                    patente_people_name,
-                    patente_people_id,
-                    invent_people_id,
-                    invent_people_name,
-                    apply_people,
-                    public_date,
-                    apply_date,
-                    bak1,
-                    bak2,
-                    bak3,
-                    bak4,
-                    bak5,
-                    bak6,
-                    modify_user_disp,
-                    owner_tech_type,
-                    patente_background,
-                    owner_project_name,
-                    expert_nationality,
-                    owner_project_id,
-                    company,
-                    compan_id,
-                    sys_flag,
-                    data_order,
-                    del_flag,
-                    create_date,
-                    create_user,
-                    create_user_disp,
-                    modify_date,
-                    modify_user
+        data_id,
+        user_id,
+        expert_id,
+        patent_name,
+        patent_code,
+        patent_desc,
+        patent_keys,
+        patente_people_name,
+        patente_people_id,
+        invent_people_id,
+        invent_people_name,
+        apply_people,
+        public_date,
+        apply_date,
+        bak1,
+        bak2,
+        bak3,
+        bak4,
+        bak5,
+        bak6,
+        modify_user_disp,
+        owner_tech_type,
+        patente_background,
+        owner_project_name,
+        expert_nationality,
+        owner_project_id,
+        company,
+        compan_id,
+        sys_flag,
+        data_order,
+        del_flag,
+        create_date,
+        create_user,
+        create_user_disp,
+        modify_date,
+        modify_user,
+        doc_id,
+        nd,
+        country,
+        is_result
         from zjk_patent
         where 1=1
-                        <if test="dataId!=null and dataId!=''.toString()">
-                            and data_id like '%${dataId}%'
-                        </if>
-                        <if test="userId!=null and userId!=''.toString()">
-                            and user_id like '%${userId}%'
-                        </if>
-                        <if test="expertId!=null and expertId!=''.toString()">
-                            and expert_id like '%${expertId}%'
-                        </if>
-                        <if test="patentName!=null and patentName!=''.toString()">
-                            and patent_name like '%${patentName}%'
-                        </if>
-                        <if test="patentCode!=null and patentCode!=''.toString()">
-                            and patent_code like '%${patentCode}%'
-                        </if>
-                        <if test="patentDesc!=null and patentDesc!=''.toString()">
-                            and patent_desc like '%${patentDesc}%'
-                        </if>
-                        <if test="patentKeys!=null and patentKeys!=''.toString()">
-                            and patent_keys like '%${patentKeys}%'
-                        </if>
-                        <if test="patentePeopleName!=null and patentePeopleName!=''.toString()">
-                            and patente_people_name like '%${patentePeopleName}%'
-                        </if>
-                        <if test="patentePeopleId!=null and patentePeopleId!=''.toString()">
-                            and patente_people_id like '%${patentePeopleId}%'
-                        </if>
-                        <if test="inventPeopleId!=null and inventPeopleId!=''.toString()">
-                            and invent_people_id like '%${inventPeopleId}%'
-                        </if>
-                        <if test="inventPeopleName!=null and inventPeopleName!=''.toString()">
-                            and invent_people_name like '%${inventPeopleName}%'
-                        </if>
-                        <if test="applyPeople!=null and applyPeople!=''.toString()">
-                            and apply_people like '%${applyPeople}%'
-                        </if>
-                        <if test="publicDate!=null and publicDate!=''.toString()">
-                            and public_date like '%${publicDate}%'
-                        </if>
-                        <if test="applyDate!=null and applyDate!=''.toString()">
-                            and apply_date like '%${applyDate}%'
-                        </if>
-                        <if test="bak1!=null and bak1!=''.toString()">
-                            and bak1 like '%${bak1}%'
-                        </if>
-                        <if test="bak2!=null and bak2!=''.toString()">
-                            and bak2 like '%${bak2}%'
-                        </if>
-                        <if test="bak3!=null and bak3!=''.toString()">
-                            and bak3 like '%${bak3}%'
-                        </if>
-                        <if test="bak4!=null and bak4!=''.toString()">
-                            and bak4 like '%${bak4}%'
-                        </if>
-                        <if test="bak5!=null and bak5!=''.toString()">
-                            and bak5 like '%${bak5}%'
-                        </if>
-                        <if test="bak6!=null and bak6!=''.toString()">
-                            and bak6 like '%${bak6}%'
-                        </if>
-                        <if test="modifyUserDisp!=null and modifyUserDisp!=''.toString()">
-                            and modify_user_disp like '%${modifyUserDisp}%'
-                        </if>
-                        <if test="ownerTechType!=null and ownerTechType!=''.toString()">
-                            and owner_tech_type like '%${ownerTechType}%'
-                        </if>
-                        <if test="patenteBackground!=null and patenteBackground!=''.toString()">
-                            and patente_background like '%${patenteBackground}%'
-                        </if>
-                        <if test="ownerProjectName!=null and ownerProjectName!=''.toString()">
-                            and owner_project_name like '%${ownerProjectName}%'
-                        </if>
-                        <if test="expertNationality!=null and expertNationality!=''.toString()">
-                            and expert_nationality like '%${expertNationality}%'
-                        </if>
-                        <if test="ownerProjectId!=null and ownerProjectId!=''.toString()">
-                            and owner_project_id like '%${ownerProjectId}%'
-                        </if>
-                        <if test="company!=null and company!=''.toString()">
-                            and company like '%${company}%'
-                        </if>
-                        <if test="companId!=null and companId!=''.toString()">
-                            and compan_id like '%${companId}%'
-                        </if>
-                        <if test="sysFlag!=null and sysFlag!=''.toString()">
-                            and sys_flag like '%${sysFlag}%'
-                        </if>
-                        <if test="dataOrder!=null and dataOrder!=''.toString()">
-                            and data_order like '%${dataOrder}%'
-                        </if>
-                        <if test="delFlag!=null and delFlag!=''.toString()">
-                            and del_flag like '%${delFlag}%'
-                        </if>
-                        <if test="createDate!=null and createDate!=''.toString()">
-                            and create_date like '%${createDate}%'
-                        </if>
-                        <if test="createUser!=null and createUser!=''.toString()">
-                            and create_user like '%${createUser}%'
-                        </if>
-                        <if test="createUserDisp!=null and createUserDisp!=''.toString()">
-                            and create_user_disp like '%${createUserDisp}%'
-                        </if>
-                        <if test="modifyDate!=null and modifyDate!=''.toString()">
-                            and modify_date like '%${modifyDate}%'
-                        </if>
-                        <if test="modifyUser!=null and modifyUser!=''.toString()">
-                            and modify_user like '%${modifyUser}%'
-                        </if>
+        <if test="dataId!=null and dataId!=''.toString()">
+            and data_id like '%${dataId}%'
+        </if>
+        <if test="userId!=null and userId!=''.toString()">
+            and user_id like '%${userId}%'
+        </if>
+        <if test="expertId!=null and expertId!=''.toString()">
+            and expert_id like '%${expertId}%'
+        </if>
+        <if test="patentName!=null and patentName!=''.toString()">
+            and patent_name like '%${patentName}%'
+        </if>
+        <if test="patentCode!=null and patentCode!=''.toString()">
+            and patent_code like '%${patentCode}%'
+        </if>
+        <if test="patentDesc!=null and patentDesc!=''.toString()">
+            and patent_desc like '%${patentDesc}%'
+        </if>
+        <if test="patentKeys!=null and patentKeys!=''.toString()">
+            and patent_keys like '%${patentKeys}%'
+        </if>
+        <if test="patentePeopleName!=null and patentePeopleName!=''.toString()">
+            and patente_people_name like '%${patentePeopleName}%'
+        </if>
+        <if test="patentePeopleId!=null and patentePeopleId!=''.toString()">
+            and patente_people_id like '%${patentePeopleId}%'
+        </if>
+        <if test="inventPeopleId!=null and inventPeopleId!=''.toString()">
+            and invent_people_id like '%${inventPeopleId}%'
+        </if>
+        <if test="inventPeopleName!=null and inventPeopleName!=''.toString()">
+            and invent_people_name like '%${inventPeopleName}%'
+        </if>
+        <if test="applyPeople!=null and applyPeople!=''.toString()">
+            and apply_people like '%${applyPeople}%'
+        </if>
+        <if test="publicDate!=null and publicDate!=''.toString()">
+            and public_date like '%${publicDate}%'
+        </if>
+        <if test="applyDate!=null and applyDate!=''.toString()">
+            and apply_date like '%${applyDate}%'
+        </if>
+        <if test="bak1!=null and bak1!=''.toString()">
+            and bak1 like '%${bak1}%'
+        </if>
+        <if test="bak2!=null and bak2!=''.toString()">
+            and bak2 like '%${bak2}%'
+        </if>
+        <if test="bak3!=null and bak3!=''.toString()">
+            and bak3 like '%${bak3}%'
+        </if>
+        <if test="bak4!=null and bak4!=''.toString()">
+            and bak4 like '%${bak4}%'
+        </if>
+        <if test="bak5!=null and bak5!=''.toString()">
+            and bak5 like '%${bak5}%'
+        </if>
+        <if test="bak6!=null and bak6!=''.toString()">
+            and bak6 like '%${bak6}%'
+        </if>
+        <if test="modifyUserDisp!=null and modifyUserDisp!=''.toString()">
+            and modify_user_disp like '%${modifyUserDisp}%'
+        </if>
+        <if test="ownerTechType!=null and ownerTechType!=''.toString()">
+            and owner_tech_type like '%${ownerTechType}%'
+        </if>
+        <if test="patenteBackground!=null and patenteBackground!=''.toString()">
+            and patente_background like '%${patenteBackground}%'
+        </if>
+        <if test="ownerProjectName!=null and ownerProjectName!=''.toString()">
+            and owner_project_name like '%${ownerProjectName}%'
+        </if>
+        <if test="expertNationality!=null and expertNationality!=''.toString()">
+            and expert_nationality like '%${expertNationality}%'
+        </if>
+        <if test="ownerProjectId!=null and ownerProjectId!=''.toString()">
+            and owner_project_id like '%${ownerProjectId}%'
+        </if>
+        <if test="company!=null and company!=''.toString()">
+            and company like '%${company}%'
+        </if>
+        <if test="companId!=null and companId!=''.toString()">
+            and compan_id like '%${companId}%'
+        </if>
+        <if test="sysFlag!=null and sysFlag!=''.toString()">
+            and sys_flag like '%${sysFlag}%'
+        </if>
+        <if test="dataOrder!=null and dataOrder!=''.toString()">
+            and data_order like '%${dataOrder}%'
+        </if>
+        <if test="delFlag!=null and delFlag!=''.toString()">
+            and del_flag like '%${delFlag}%'
+        </if>
+        <if test="createDate!=null and createDate!=''.toString()">
+            and create_date like '%${createDate}%'
+        </if>
+        <if test="createUser!=null and createUser!=''.toString()">
+            and create_user like '%${createUser}%'
+        </if>
+        <if test="createUserDisp!=null and createUserDisp!=''.toString()">
+            and create_user_disp like '%${createUserDisp}%'
+        </if>
+        <if test="modifyDate!=null and modifyDate!=''.toString()">
+            and modify_date like '%${modifyDate}%'
+        </if>
+        <if test="modifyUser!=null and modifyUser!=''.toString()">
+            and modify_user like '%${modifyUser}%'
+        </if>
+        <if test="docId!=null and docId!=''.toString()">
+            and doc_id like '%${docId}%'
+        </if>
+        <if test="nd!=null and nd!=''.toString()">
+            and nd like '%${nd}%'
+        </if>
+        <if test="country!=null and country!=''.toString()">
+            and country like '%${country}%'
+        </if>
+        <if test="isResult!=null and isResult!=''.toString()">
+            and is_result like '%${isResult}%'
+        </if>
 
         <if test="iSortCol!=null and iSortCol!=''.toString()">
             order by ${iSortCol} ${sSortDir_0}
@@ -959,152 +1047,168 @@
     <!-- 查询列表 -->
     <select id="findZjkPatentList" parameterType="com.pcitc.base.expert.ZjkPatent" resultMap="BaseResultMap">
         select
-                    data_id,
-                    user_id,
-                    expert_id,
-                    patent_name,
-                    patent_code,
-                    patent_desc,
-                    patent_keys,
-                    patente_people_name,
-                    patente_people_id,
-                    invent_people_id,
-                    invent_people_name,
-                    apply_people,
-                    public_date,
-                    apply_date,
-                    bak1,
-                    bak2,
-                    bak3,
-                    bak4,
-                    bak5,
-                    bak6,
-                    modify_user_disp,
-                    owner_tech_type,
-                    patente_background,
-                    owner_project_name,
-                    expert_nationality,
-                    owner_project_id,
-                    company,
-                    compan_id,
-                    sys_flag,
-                    data_order,
-                    del_flag,
-                    create_date,
-                    create_user,
-                    create_user_disp,
-                    modify_date,
-                    modify_user
+        data_id,
+        user_id,
+        expert_id,
+        patent_name,
+        patent_code,
+        patent_desc,
+        patent_keys,
+        patente_people_name,
+        patente_people_id,
+        invent_people_id,
+        invent_people_name,
+        apply_people,
+        public_date,
+        apply_date,
+        bak1,
+        bak2,
+        bak3,
+        bak4,
+        bak5,
+        bak6,
+        modify_user_disp,
+        owner_tech_type,
+        patente_background,
+        owner_project_name,
+        expert_nationality,
+        owner_project_id,
+        company,
+        compan_id,
+        sys_flag,
+        data_order,
+        del_flag,
+        create_date,
+        create_user,
+        create_user_disp,
+        modify_date,
+        modify_user,
+        doc_id,
+        nd,
+        country,
+        is_result
         from zjk_patent
         where 1=1
-                        <if test="dataId!=null">
-                            and data_id = #{dataId,jdbcType=VARCHAR}
-                        </if>
-                        <if test="userId!=null">
-                            and user_id = #{userId,jdbcType=VARCHAR}
-                        </if>
-                        <if test="expertId!=null">
-                            and expert_id = #{expertId,jdbcType=VARCHAR}
-                        </if>
-                        <if test="patentName!=null">
-                            and patent_name = #{patentName,jdbcType=VARCHAR}
-                        </if>
-                        <if test="patentCode!=null">
-                            and patent_code = #{patentCode,jdbcType=VARCHAR}
-                        </if>
-                        <if test="patentDesc!=null">
-                            and patent_desc = #{patentDesc,jdbcType=VARCHAR}
-                        </if>
-                        <if test="patentKeys!=null">
-                            and patent_keys = #{patentKeys,jdbcType=VARCHAR}
-                        </if>
-                        <if test="patentePeopleName!=null">
-                            and patente_people_name = #{patentePeopleName,jdbcType=VARCHAR}
-                        </if>
-                        <if test="patentePeopleId!=null">
-                            and patente_people_id = #{patentePeopleId,jdbcType=VARCHAR}
-                        </if>
-                        <if test="inventPeopleId!=null">
-                            and invent_people_id = #{inventPeopleId,jdbcType=VARCHAR}
-                        </if>
-                        <if test="inventPeopleName!=null">
-                            and invent_people_name = #{inventPeopleName,jdbcType=VARCHAR}
-                        </if>
-                        <if test="applyPeople!=null">
-                            and apply_people = #{applyPeople,jdbcType=VARCHAR}
-                        </if>
-                        <if test="publicDate!=null">
-                            and public_date = #{publicDate,jdbcType=VARCHAR}
-                        </if>
-                        <if test="applyDate!=null">
-                            and apply_date = #{applyDate,jdbcType=VARCHAR}
-                        </if>
-                        <if test="bak1!=null">
-                            and bak1 = #{bak1,jdbcType=VARCHAR}
-                        </if>
-                        <if test="bak2!=null">
-                            and bak2 = #{bak2,jdbcType=VARCHAR}
-                        </if>
-                        <if test="bak3!=null">
-                            and bak3 = #{bak3,jdbcType=VARCHAR}
-                        </if>
-                        <if test="bak4!=null">
-                            and bak4 = #{bak4,jdbcType=VARCHAR}
-                        </if>
-                        <if test="bak5!=null">
-                            and bak5 = #{bak5,jdbcType=VARCHAR}
-                        </if>
-                        <if test="bak6!=null">
-                            and bak6 = #{bak6,jdbcType=VARCHAR}
-                        </if>
-                        <if test="modifyUserDisp!=null">
-                            and modify_user_disp = #{modifyUserDisp,jdbcType=VARCHAR}
-                        </if>
-                        <if test="ownerTechType!=null">
-                            and owner_tech_type = #{ownerTechType,jdbcType=VARCHAR}
-                        </if>
-                        <if test="patenteBackground!=null">
-                            and patente_background = #{patenteBackground,jdbcType=VARCHAR}
-                        </if>
-                        <if test="ownerProjectName!=null">
-                            and owner_project_name = #{ownerProjectName,jdbcType=VARCHAR}
-                        </if>
-                        <if test="expertNationality!=null">
-                            and expert_nationality = #{expertNationality,jdbcType=VARCHAR}
-                        </if>
-                        <if test="ownerProjectId!=null">
-                            and owner_project_id = #{ownerProjectId,jdbcType=VARCHAR}
-                        </if>
-                        <if test="company!=null">
-                            and company = #{company,jdbcType=VARCHAR}
-                        </if>
-                        <if test="companId!=null">
-                            and compan_id = #{companId,jdbcType=VARCHAR}
-                        </if>
-                        <if test="sysFlag!=null">
-                            and sys_flag = #{sysFlag,jdbcType=VARCHAR}
-                        </if>
-                        <if test="dataOrder!=null">
-                            and data_order = #{dataOrder,jdbcType=VARCHAR}
-                        </if>
-                        <if test="delFlag!=null">
-                            and del_flag = #{delFlag,jdbcType=VARCHAR}
-                        </if>
-                        <if test="createDate!=null">
-                            and create_date = #{createDate,jdbcType=VARCHAR}
-                        </if>
-                        <if test="createUser!=null">
-                            and create_user = #{createUser,jdbcType=VARCHAR}
-                        </if>
-                        <if test="createUserDisp!=null">
-                            and create_user_disp = #{createUserDisp,jdbcType=VARCHAR}
-                        </if>
-                        <if test="modifyDate!=null">
-                            and modify_date = #{modifyDate,jdbcType=VARCHAR}
-                        </if>
-                        <if test="modifyUser!=null">
-                            and modify_user = #{modifyUser,jdbcType=VARCHAR}
-                        </if>
+        <if test="dataId!=null">
+            and data_id = #{dataId,jdbcType=VARCHAR}
+        </if>
+        <if test="userId!=null">
+            and user_id = #{userId,jdbcType=VARCHAR}
+        </if>
+        <if test="expertId!=null">
+            and expert_id = #{expertId,jdbcType=VARCHAR}
+        </if>
+        <if test="patentName!=null">
+            and patent_name = #{patentName,jdbcType=VARCHAR}
+        </if>
+        <if test="patentCode!=null">
+            and patent_code = #{patentCode,jdbcType=VARCHAR}
+        </if>
+        <if test="patentDesc!=null">
+            and patent_desc = #{patentDesc,jdbcType=VARCHAR}
+        </if>
+        <if test="patentKeys!=null">
+            and patent_keys = #{patentKeys,jdbcType=VARCHAR}
+        </if>
+        <if test="patentePeopleName!=null">
+            and patente_people_name = #{patentePeopleName,jdbcType=VARCHAR}
+        </if>
+        <if test="patentePeopleId!=null">
+            and patente_people_id = #{patentePeopleId,jdbcType=VARCHAR}
+        </if>
+        <if test="inventPeopleId!=null">
+            and invent_people_id = #{inventPeopleId,jdbcType=VARCHAR}
+        </if>
+        <if test="inventPeopleName!=null">
+            and invent_people_name = #{inventPeopleName,jdbcType=VARCHAR}
+        </if>
+        <if test="applyPeople!=null">
+            and apply_people = #{applyPeople,jdbcType=VARCHAR}
+        </if>
+        <if test="publicDate!=null">
+            and public_date = #{publicDate,jdbcType=VARCHAR}
+        </if>
+        <if test="applyDate!=null">
+            and apply_date = #{applyDate,jdbcType=VARCHAR}
+        </if>
+        <if test="bak1!=null">
+            and bak1 = #{bak1,jdbcType=VARCHAR}
+        </if>
+        <if test="bak2!=null">
+            and bak2 = #{bak2,jdbcType=VARCHAR}
+        </if>
+        <if test="bak3!=null">
+            and bak3 = #{bak3,jdbcType=VARCHAR}
+        </if>
+        <if test="bak4!=null">
+            and bak4 = #{bak4,jdbcType=VARCHAR}
+        </if>
+        <if test="bak5!=null">
+            and bak5 = #{bak5,jdbcType=VARCHAR}
+        </if>
+        <if test="bak6!=null">
+            and bak6 = #{bak6,jdbcType=VARCHAR}
+        </if>
+        <if test="modifyUserDisp!=null">
+            and modify_user_disp = #{modifyUserDisp,jdbcType=VARCHAR}
+        </if>
+        <if test="ownerTechType!=null">
+            and owner_tech_type = #{ownerTechType,jdbcType=VARCHAR}
+        </if>
+        <if test="patenteBackground!=null">
+            and patente_background = #{patenteBackground,jdbcType=VARCHAR}
+        </if>
+        <if test="ownerProjectName!=null">
+            and owner_project_name = #{ownerProjectName,jdbcType=VARCHAR}
+        </if>
+        <if test="expertNationality!=null">
+            and expert_nationality = #{expertNationality,jdbcType=VARCHAR}
+        </if>
+        <if test="ownerProjectId!=null">
+            and owner_project_id = #{ownerProjectId,jdbcType=VARCHAR}
+        </if>
+        <if test="company!=null">
+            and company = #{company,jdbcType=VARCHAR}
+        </if>
+        <if test="companId!=null">
+            and compan_id = #{companId,jdbcType=VARCHAR}
+        </if>
+        <if test="sysFlag!=null">
+            and sys_flag = #{sysFlag,jdbcType=VARCHAR}
+        </if>
+        <if test="dataOrder!=null">
+            and data_order = #{dataOrder,jdbcType=VARCHAR}
+        </if>
+        <if test="delFlag!=null">
+            and del_flag = #{delFlag,jdbcType=VARCHAR}
+        </if>
+        <if test="createDate!=null">
+            and create_date = #{createDate,jdbcType=VARCHAR}
+        </if>
+        <if test="createUser!=null">
+            and create_user = #{createUser,jdbcType=VARCHAR}
+        </if>
+        <if test="createUserDisp!=null">
+            and create_user_disp = #{createUserDisp,jdbcType=VARCHAR}
+        </if>
+        <if test="modifyDate!=null">
+            and modify_date = #{modifyDate,jdbcType=VARCHAR}
+        </if>
+        <if test="modifyUser!=null">
+            and modify_user = #{modifyUser,jdbcType=VARCHAR}
+        </if>
+        <if test="docId!=null">
+            and doc_id = #{docId,jdbcType=VARCHAR}
+        </if>
+        <if test="nd!=null">
+            and nd = #{nd,jdbcType=VARCHAR}
+        </if>
+        <if test="country!=null">
+            and country = #{country,jdbcType=VARCHAR}
+        </if>
+        <if test="isResult!=null">
+            and is_result = #{isResult,jdbcType=VARCHAR}
+        </if>
 
         <if test="iSortCol!=null and iSortCol!=''.toString()">
             order by ${iSortCol} ${sSortDir_0}
