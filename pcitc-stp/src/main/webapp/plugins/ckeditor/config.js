@@ -25,9 +25,9 @@ CKEDITOR.editorConfig = function (config) {
 // 图片上传配置
     config.image_previewText = ' ';/*去掉图片预览框的文字*/
     /*开启工具栏“图像”中文件上传功能，后面的url为图片上传要指向的的action或servlet*/
-    config.filebrowserUploadUrl = '/sysfile/ckupload?type=File';
+    // config.filebrowserUploadUrl = '/sysfile/ckupload?type=File';
     config.filebrowserImageUploadUrl = '/sysfile/ckupload?type=Image';
-    config.filebrowserFlashUploadUrl = '/sysfile/ckupload?type=Flash';
+    // config.filebrowserFlashUploadUrl = '/sysfile/ckupload?type=Flash';
     // 图片浏览配置
     //config.filebrowserImageBrowseUrl = 'browerServer.do?type=image';
 

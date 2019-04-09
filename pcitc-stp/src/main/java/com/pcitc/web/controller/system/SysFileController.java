@@ -6,8 +6,7 @@ import java.util.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.pcitc.base.util.DateUtil;
-import com.pcitc.base.util.StrUtil;
+import com.pcitc.base.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
@@ -42,8 +41,6 @@ import com.pcitc.base.common.enums.DataOperationStatusEnum;
 import com.pcitc.base.system.SysFile;
 import com.pcitc.base.system.SysFileVo;
 import com.pcitc.base.system.SysUser;
-import com.pcitc.base.util.DataTableInfoVo;
-import com.pcitc.base.util.IdUtil;
 import com.pcitc.web.common.BaseController;
 import com.pcitc.web.feign.SysFileFeignClient;
 
@@ -875,44 +872,47 @@ public class SysFileController extends BaseController {
     @RequestMapping(value = "/sysfile/ckupload", method = RequestMethod.POST)
     public void upload(@RequestParam(value = "upload", required = false) MultipartFile files) {
         PrintWriter out = null;
-        System.out.println(files.getOriginalFilename());
-        System.out.println(files.getName());
+        String originalFilename = files.getOriginalFilename();
+        String fileType = originalFilename.substring(originalFilename.lastIndexOf(".",originalFilename.length()));
+        System.out.println(fileType+"----"+originalFilename+"=="+files.getName());
         System.out.println(files.isEmpty());
-        String imageUrl = "/upload";
+        String imageUrl = "upload";
         String msg = "";
         String fileName = "";
         String strFilePath = "";
+        boolean isComplete = false;
         JSONObject result = new JSONObject();
         try {
             String filePrefixFormat = "yyyyMMddHHmmssS";
-            String serverPath = request.getSession().getServletContext().getRealPath("/");
-
-            String date = DateUtil.format(new Date(), filePrefixFormat);
+//            String date = "";
+            String date = sysUserInfo.getUserId();
+//            String date = DateUtil.format(new Date(), filePrefixFormat);
 //            File path = new File(ResourceUtils.getURL("classpath:").getPath());
 //            if(!path.exists()) path = new File("");
 //            File upload = new File(path.getAbsolutePath(),imageUrl);
 
-            File upload = new File(serverPath+imageUrl);
-            if(!upload.exists()) upload.mkdirs();
-            strFilePath = upload.getAbsolutePath()+File.separator+date;
+//            File upload = new File(serverPath+imageUrl);
+//            if(!upload.exists()) upload.mkdirs();
 
+            strFilePath = request.getSession().getServletContext().getRealPath("/")+imageUrl+File.separator+date+File.separator;
+            System.out.println("strFilePath:"+strFilePath);
             File filePath = new File(strFilePath);
             if(!filePath.exists()) filePath.mkdirs();
 
-
-            imageUrl = imageUrl+File.separator+date+File.separator+fileName;
-
-
-            fileName = UUID.randomUUID().toString()+files.getOriginalFilename().substring(files.getOriginalFilename().lastIndexOf(".",files.getOriginalFilename().length()));
+            fileName = UUID.randomUUID().toString()+fileType;
             String savedName = strFilePath + File.separator + fileName;
 
-            files.transferTo(new File(savedName));
-
-            out = response.getWriter();
-            imageUrl = imageUrl+fileName;
-            System.out.println("imageUrl = " + imageUrl);
-            System.out.println("fileName = " + fileName);
-
+//            files.transferTo(new File(savedName));
+            isComplete = FileUtil.copyInputStreamToFile(files.getInputStream(), new File(savedName));
+            if (isComplete==true){
+                out = response.getWriter();
+                imageUrl = imageUrl+File.separator+date+File.separator+fileName;
+                imageUrl = imageUrl.replace("\\","/");
+                imageUrl = imageUrl.replace("\\\\","/");
+                System.out.println("savedName = " + savedName);
+                System.out.println("imageUrl = " + imageUrl);
+                System.out.println("fileName = " + fileName);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             logger.error("富文本编辑器上传图片时发生异常", e);
@@ -925,15 +925,22 @@ public class SysFileController extends BaseController {
                 errorObj.put("message", msg);
                 result.put("error", errorObj);
             } else {
+                System.out.println(isComplete);
                 //上传成功
                 result.put("uploaded", 1);
 //                result.put("fileName", "a.jpg");
                 result.put("fileName", fileName);
 //                result.put("url", "/upload/a.jpg");
-                result.put("url", imageUrl);
+                result.put("url", File.separator+imageUrl);
             }
             out.println(result.toJSONString());
         }
+    }
+
+    public static void main(String[] args) {
+        System.out.println("File.separator = " + File.separator);
+        System.out.println("File.separator = " + File.pathSeparator);
+        System.out.println("File.separator = " + File.separatorChar);
     }
 
 }
