@@ -14,6 +14,7 @@
 </head>
 <body>
 <input type="hidden" value="${id}" id="getid" name="getid">
+<input type="hidden" id="getList" name="getList" value='${getList}'/>
 <div class="twoListleft">
 	<div class="searchBox">
         <!--查询条件-->
@@ -41,7 +42,7 @@
             <span>名称</span>
             <input type="text" name="userName" placeholder=""
                    title="用户名" autocomplete="off"
-                   class="form-control" id="applyName">
+                   class="form-control" id="applyName" value="${name}">
         </label>
         <!--按钮组-->
         <div class="btnGroup">
@@ -88,7 +89,7 @@
 		layui.table.reload(table,{where: where});
 		$(".layui-table-header table thead th input").remove();
 	}
-	function view_project(id) 
+		function view_project(id) 
     {
     var k=[];
 		    for(var i=0;i<AddData.length;i++)
@@ -115,7 +116,6 @@
 				$("#priceandnumber").html("合计100数量100"); 
 								 
     }
-    
 	function save()
 	{
 	if($("#applyName").val()=="")
@@ -133,29 +133,31 @@
 		 $.ajax({
 	           type : 'POST',
 	           url : "/sre-sreScrapApply/addApplyAndItem",
-	           data : {"name":name,"ids":ids,"id":getid,"addorupdate":""},
+	           data : {"name":name,"ids":ids,"id":getid,"addorupdate":"1"},
 	           success : function(data) {
-	           layer.msg("保存成功！");
 	        	}
 	       });
     	  
 	}
 	layui.use(['jquery', 'table', 'laypage'], function () {
     	table = layui.table,$ = layui.jquery;
-    	
-    	
+    	    	
     	 var $ = layui.$, active = {
             roleSearchEvent: function() { //点击查询按钮
             	rendRoleTable(); 
-            },
+            }
         };
-    	
-    	
-    	
-    	
     	
     function rendRoleTable()
     {
+        AddData=[];
+        var str=$("#getList").val();
+        var s =  JSON.parse(str);
+        for( var i=0;i<s.length;i++)
+        {
+        AddData.unshift({id:s[i].detailid,equipmentName:s[i].equipmentName,specification:s[i].specification,del:"删除"})
+        }
+         
     	var lodingMsg = layer.msg('数据加载中....');
     	var param = JSON.parse(window.localStorage.getItem("param"));
 	    //渲染第一个表格
@@ -191,7 +193,7 @@
 	            	, {field: 'assetsClassification', title: '分类', style: 'cursor: pointer;'}
 	        ]]
 	        , done: function (res, curr, count) {
-	        $("[data-field='id']").css('display','none');
+	         $("[data-field='id']").css('display','none');
 	            // 点击行联动选择框--单选
 	            $('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
 	               
@@ -246,13 +248,11 @@
     }
     rendRoleTable();
     rendUserTable();
-   
     //区别按钮属性
     $('.layui-btn').on('click', function () {
         var type = $(this).data('type');
         active[type] ? active[type].call(this) : '';
     });
 });
-   
 </script>
 </html>

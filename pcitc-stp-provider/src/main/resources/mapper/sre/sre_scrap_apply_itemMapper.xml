@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pcitc.mapper.equipment.sre_scrap_apply_itemMapper" >
+  <resultMap id="BaseResultMap" type="com.pcitc.base.stp.equipment.sre_scrap_apply_item" >
+    <id column="account_id" property="accountId" jdbcType="VARCHAR" />
+    <result column="applyid" property="applyid" jdbcType="VARCHAR" />
+    <result column="eqdetailid" property="eqdetailid" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="create_user_id" property="createUserId" jdbcType="VARCHAR" />
+    <result column="update_user_id" property="updateUserId" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap type="com.pcitc.base.stp.equipment.FindAppltid" id="AppltidListMap">
+   <result column="detailid" property="detailid" jdbcType="VARCHAR" />
+    <result column="equipmentName" property="equipmentName" jdbcType="VARCHAR" />
+     <result column="specification" property="specification" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    account_id, applyid, eqdetailid, create_date, create_user_id, update_user_id, update_date
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sre_scrap_apply_item
+    where account_id = #{accountId,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectByAppltidList" resultMap="AppltidListMap" parameterType="java.lang.String" >
+    select 
+    sre_equipment_detail.id as detailid ,
+    sre_equipment_detail.equipment_name as equipmentName,
+    sre_equipment_detail.specification as specification
+    from sre_scrap_apply_item left join sre_equipment_detail on 
+    sre_scrap_apply_item.eqdetailid=sre_equipment_detail.id where sre_scrap_apply_item.applyid = #{id,jdbcType=VARCHAR}
+  </select> 
+
+
+
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sre_scrap_apply_item
+    where account_id = #{accountId,jdbcType=VARCHAR}
+  </delete>
+    <delete id="deleteByApplyId" parameterType="java.lang.String" >
+    delete from sre_scrap_apply_item
+    where sre_scrap_apply_item.applyid = #{applyid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.pcitc.base.stp.equipment.sre_scrap_apply_item" >
+    insert into sre_scrap_apply_item (account_id, applyid, eqdetailid, 
+      create_date, create_user_id, update_user_id, 
+      update_date)
+    values (#{accountId,jdbcType=VARCHAR}, #{applyid,jdbcType=VARCHAR}, #{eqdetailid,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=VARCHAR}, #{updateUserId,jdbcType=VARCHAR}, 
+      #{updateDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pcitc.base.stp.equipment.sre_scrap_apply_item" >
+    insert into sre_scrap_apply_item
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="accountId != null" >
+        account_id,
+      </if>
+      <if test="applyid != null" >
+        applyid,
+      </if>
+      <if test="eqdetailid != null" >
+        eqdetailid,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="accountId != null" >
+        #{accountId,jdbcType=VARCHAR},
+      </if>
+      <if test="applyid != null" >
+        #{applyid,jdbcType=VARCHAR},
+      </if>
+      <if test="eqdetailid != null" >
+        #{eqdetailid,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUserId != null" >
+        #{updateUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pcitc.base.stp.equipment.sre_scrap_apply_item" >
+    update sre_scrap_apply_item
+    <set >
+      <if test="applyid != null" >
+        applyid = #{applyid,jdbcType=VARCHAR},
+      </if>
+      <if test="eqdetailid != null" >
+        eqdetailid = #{eqdetailid,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id = #{updateUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where account_id = #{accountId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pcitc.base.stp.equipment.sre_scrap_apply_item" >
+    update sre_scrap_apply_item
+    set applyid = #{applyid,jdbcType=VARCHAR},
+      eqdetailid = #{eqdetailid,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=VARCHAR},
+      update_user_id = #{updateUserId,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=TIMESTAMP}
+    where account_id = #{accountId,jdbcType=VARCHAR}
+  </update>
+</mapper>
