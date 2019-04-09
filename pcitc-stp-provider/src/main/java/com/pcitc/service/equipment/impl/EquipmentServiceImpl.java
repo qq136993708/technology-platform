@@ -410,20 +410,17 @@ public class EquipmentServiceImpl implements EquipmentService {
 		String innerAuditStatus=getTableParam(param,"innerAuditStatus","");
 		String setupYear=getTableParam(param,"setupYear","");
 		String taskId=getTableParam(param,"taskId","");
-		
-		
 		String createUserId=getTableParam(param,"createUserId","");
 		String createUserName=getTableParam(param,"createUserName","");
 		String professionalFieldCode=getTableParam(param,"professionalFieldCode","");
 		String professionalFieldName=getTableParam(param,"professionalFieldName","");
 		String setupId=getTableParam(param,"setupId","");
-		
 		String belongDepartmentName=getTableParam(param,"belongDepartmentName","");
 		String professionalDepartName=getTableParam(param,"professionalDepartName","");
 		String unitPathIds=getTableParam(param,"unitPathIds","");
 		String parentUnitPathIds=getTableParam(param,"parentUnitPathIds","");
 		String closeStatus=getTableParam(param,"closeStatus","");
-		
+		String isCheck=getTableParam(param,"isCheck","");
 		
 		Map map=new HashMap();
 		map.put("belongDepartmentName", belongDepartmentName);
@@ -448,6 +445,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 		map.put("unitPathIds", unitPathIds);
 		map.put("parentUnitPathIds", parentUnitPathIds);
 		map.put("closeStatus", closeStatus);
+		map.put("isCheck", isCheck);
 		System.out.println(">>>>>>>>applyUnitCode="+applyUnitCode);
 		StringBuffer applyUnitCodeStr=new StringBuffer();
 		if(!applyUnitCode.equals(""))

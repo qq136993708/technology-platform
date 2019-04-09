@@ -471,6 +471,7 @@ public class ProjectTaskController extends BaseController {
 			String taskVersion=getVersion(topicId);
 			sreProjectBasic.setTaskVersion(taskVersion);
 			sreProjectBasic.setCloseStatus("0");
+			sreProjectBasic.setIsCheck("0");
 		} else 
 		{
 			ResponseEntity<SreProjectTask> se = this.restTemplate.exchange(GET_URL + taskId, HttpMethod.GET, new HttpEntity<Object>(this.httpHeaders), SreProjectTask.class);
