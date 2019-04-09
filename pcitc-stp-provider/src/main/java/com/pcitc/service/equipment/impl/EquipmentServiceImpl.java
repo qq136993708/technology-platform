@@ -513,6 +513,10 @@ public class EquipmentServiceImpl implements EquipmentService {
 		String specialAuditor3=(String)map.get("specialAuditor3");
 		
 		
+		String branchFlag=(String)map.get("branchFlag");
+		
+		
+		
 		System.out.println("============内部确认流程 auditor="+auditor+" functionId="+functionId+" id="+id+" authenticatedUserId="+authenticatedUserId+" authenticatedUserName="+authenticatedUserName);
 		// 调用审批流程，此处调用同时实现事务
     	JSONObject flowJson = new JSONObject();
@@ -532,7 +536,7 @@ public class EquipmentServiceImpl implements EquipmentService {
     	// 非必填选项， 菜单功能需要根据不同单位、不同项目选择不同流程图的时候使用。（也可以在单个流程图中，用判断来做）
     	// flowJson.put("flowProjectId", "");
     	// flowJson.put("flowUnitId", "");
-    	
+    	flowJson.put("branchFlag", branchFlag);
     	// 非必填选项，当下一步审批者需要本次任务执行人（启动者）手动选择的时候，需要auditUserIds属性
     	flowJson.put("auditor", auditor);
     	
