@@ -44,12 +44,13 @@ import org.springframework.stereotype.Controller;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * <p>控制类</p>
  * <p>Table: zjk_project_expert - </p>
  *
- * @since 2019-02-21 03:28:04
+ * @since 2019-04-02 04:12:03
  */
 
 @Controller
@@ -58,36 +59,36 @@ public class ZjkProjectExpertController extends BaseController {
     /**
      * 根据ID获取对象信息
      */
-    private static final String GET_INFO = "http://pcitc-zuul/system-proxy/zjkprojectexpert-provider/zjkprojectexpert/get-zjkprojectexpert/";
+    private static final String GET_INFO = "http://pcitc-zuul/stp-proxy/zjkprojectexpert-provider/zjkprojectexpert/get-zjkprojectexpert/";
     /**
      * 树形
      */
-    private static final String TREE_DATA = "http://pcitc-zuul/system-proxy/zjkprojectexpert-provider/zjkprojectexpert/tree-data";
+    private static final String TREE_DATA = "http://pcitc-zuul/stp-proxy/zjkprojectexpert-provider/zjkprojectexpert/tree-data";
     /**
      * 逻辑删除
      */
-    private static final String DEL = "http://pcitc-zuul/system-proxy/zjkprojectexpert-provider/zjkprojectexpert/del-zjkprojectexpert/";
+    private static final String DEL = "http://pcitc-zuul/stp-proxy/zjkprojectexpert-provider/zjkprojectexpert/del-zjkprojectexpert/";
     /**
      * 物理删除
      */
-    private static final String DEL_REAL = "http://pcitc-zuul/system-proxy/zjkprojectexpert-provider/zjkprojectexpert/del-zjkprojectexpert-real/";
+    private static final String DEL_REAL = "http://pcitc-zuul/stp-proxy/zjkprojectexpert-provider/zjkprojectexpert/del-zjkprojectexpert-real/";
 
     /**
      * 查询列表
      */
-    private static final String LIST = "http://pcitc-zuul/system-proxy/zjkprojectexpert-provider/zjkprojectexpert/zjkprojectexpert_list";
+    private static final String LIST = "http://pcitc-zuul/stp-proxy/zjkprojectexpert-provider/zjkprojectexpert/zjkprojectexpert_list";
     /**
      * 参数查询
      */
-    private static final String LISTPARAM = "http://pcitc-zuul/system-proxy/zjkprojectexpert-provider/zjkprojectexpert/zjkprojectexpert_list_param";
+    private static final String LISTPARAM = "http://pcitc-zuul/stp-proxy/zjkprojectexpert-provider/zjkprojectexpert/zjkprojectexpert_list_param";
     /**
      * 分页查询
      */
-    private static final String LISTPAGE = "http://pcitc-zuul/system-proxy/zjkprojectexpert-provider/zjkprojectexpert/zjkprojectexpert-page";
+    private static final String LISTPAGE = "http://pcitc-zuul/stp-proxy/zjkprojectexpert-provider/zjkprojectexpert/zjkprojectexpert-page";
     /**
      * 保存
      */
-    private static final String SAVE = "http://pcitc-zuul/system-proxy/zjkprojectexpert-provider/zjkprojectexpert/save_zjkprojectexpert";
+    private static final String SAVE = "http://pcitc-zuul/stp-proxy/zjkprojectexpert-provider/zjkprojectexpert/save_zjkprojectexpert";
 
     /**
      * -查询列表
@@ -160,7 +161,7 @@ public class ZjkProjectExpertController extends BaseController {
     }
 
     /**
-     * 调整编辑页面-
+     * 编辑页面-
      *
      * @param id
      * @param model
@@ -172,6 +173,21 @@ public class ZjkProjectExpertController extends BaseController {
         model.addAttribute("id", id);
         model.addAttribute("opt", opt);
         return "stp/expert/zjkProjectExpert_edit";
+    }
+
+    /**
+     * 详情页面-
+     *
+     * @param model
+     * @return
+     */
+    @RequestMapping(method = RequestMethod.GET, value = "/view/{dataId}")
+    @OperationFilter(modelName = "", actionName = "跳转详情页面pageView")
+    public String pageView(@PathVariable("dataId") String dataId, Model model) {
+        model.addAttribute("id", dataId);
+        model.addAttribute("opt", "");
+        model.addAttribute("dataId", (dataId == null || "".equals(dataId)) ? UUID.randomUUID().toString().replace("-", "") : dataId);
+        return "stp/expert/zjkProjectExpert_view";
     }
 
     /**

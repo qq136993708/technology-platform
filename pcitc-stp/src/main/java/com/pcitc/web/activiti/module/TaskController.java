@@ -65,6 +65,9 @@ public class TaskController extends BaseController {
 	private static final String INI_DEAL_TASK = "http://pcitc-zuul/system-proxy/task-provider/deal/task/info";
 
 	private static final String TASK_PROCESS_INFO = "http://pcitc-zuul/system-proxy/task-provider/task/process/info";
+	
+	// 任务撤回操作
+	private static final String TASK_RECALL = "http://pcitc-zuul/system-proxy/task-provider/task/recall/";
 
 	/**
 	 * 判断是否需要选择审批人
@@ -79,7 +82,6 @@ public class TaskController extends BaseController {
 		if (auditFlag != null) {
 			if (auditFlag.startsWith("role")) {
 				return new Result(true, auditFlag.split("--")[1], "操作成功", "role");
-
 			} else if (auditFlag.startsWith("unit")) {
 				return new Result(true, auditFlag.split("--")[1], "操作成功", "unit");
 			} else if (auditFlag.startsWith("post")) {
@@ -373,6 +375,26 @@ public class TaskController extends BaseController {
 			e.printStackTrace();
 		}
 		return "ok";
+	}
+	
+	/**
+	 * @param taskId
+	 * @param request
+	 * @return
+	 * 任务撤回
+	 */
+	@RequestMapping(value = "/task/recall/{taskId}", method = RequestMethod.POST)
+	@ResponseBody
+	public Object recallTask(@PathVariable("taskId") String taskId, HttpServletRequest request) {
+
+		MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<String, String>();
+		HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<MultiValueMap<String, String>>(requestBody, httpHeaders);
+
+		ResponseEntity<JSONObject> responseEntity = this.restTemplate.exchange(TASK_RECALL + taskId, HttpMethod.POST, entity, JSONObject.class);
+		JSONObject retJson = responseEntity.getBody();
+
+		System.out.println("2====processList====" + retJson.toString());
+		return retJson.toString();
 	}
 
 }

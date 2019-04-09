@@ -26,11 +26,12 @@ import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.history.HistoricActivityInstance;
-import org.activiti.engine.history.HistoricIdentityLink;
 import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.history.HistoricProcessInstanceQuery;
 import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.history.HistoricTaskInstanceQuery;
+import org.activiti.engine.history.HistoricVariableInstance;
+import org.activiti.engine.history.HistoricVariableInstanceQuery;
 import org.activiti.engine.impl.RepositoryServiceImpl;
 import org.activiti.engine.impl.bpmn.behavior.ParallelMultiInstanceBehavior;
 import org.activiti.engine.impl.bpmn.behavior.UserTaskActivityBehavior;
@@ -44,6 +45,7 @@ import org.activiti.engine.impl.persistence.entity.TaskEntity;
 import org.activiti.engine.impl.pvm.PvmActivity;
 import org.activiti.engine.impl.pvm.PvmTransition;
 import org.activiti.engine.impl.pvm.process.ActivityImpl;
+import org.activiti.engine.impl.pvm.process.TransitionImpl;
 import org.activiti.engine.impl.task.TaskDefinition;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
@@ -116,7 +118,7 @@ public class TaskProviderClient {
 
 	@Autowired
 	private WorkflowInstanceService workflowInstanceService;
-	
+
 	@Autowired
 	private SysUserMapper sysUserMapper;
 
@@ -329,8 +331,16 @@ public class TaskProviderClient {
 			if (variables != null && variables.get("processDefinitionName") != null) {
 				vo.setProcessDefinitionName(variables.get("processDefinitionName") != null ? String.valueOf(variables.get("processDefinitionName")) : "");
 			}
+			
+			if (variables != null && variables.get("flowAuditorName") != null) {
+				vo.setAuditor(variables.get("flowAuditorName") != null ? String.valueOf(variables.get("flowAuditorName")) : "");
+			}
 
-			// 处理历史上已经发生过的节点，包括开始节点,按时间倒序
+			if (variables != null && variables.get("flowAuditorComments") != null) {
+				vo.setAuditRemarks(variables.get("flowAuditorComments") != null ? String.valueOf(variables.get("flowAuditorComments")) : "");
+			}
+			
+			/*// 处理历史上已经发生过的节点，包括开始节点,按时间倒序
 			List<HistoricTaskInstance> htiList = historyService.createHistoricTaskInstanceQuery().processInstanceId(task.getProcessInstanceId()).finished().orderByHistoricTaskInstanceEndTime().desc().list();
 			for (HistoricTaskInstance hti : htiList) {
 
@@ -352,7 +362,7 @@ public class TaskProviderClient {
 					break;
 				}
 
-			}
+			}*/
 
 			voList.add(vo);
 		}
@@ -610,12 +620,12 @@ public class TaskProviderClient {
 		Date date1 = new Date();
 		// 此任务节点会签标识
 		boolean signFlag = false;
-		
+
 		Integer nrOfInstances = 0;
 		Integer nrOfCompletedInstances = 0;
-		
+
 		Task task = taskService.createTaskQuery().taskId(workflowVo.getTaskId()).singleResult();
-		
+
 		// 下一个环节需要用的变量等属性，此次审批人选项的agree属性等属性
 		Map<String, Object> nextVar = workflowVo.getVariables();
 
@@ -626,22 +636,27 @@ public class TaskProviderClient {
 				nextVar.put(key, taskVar.get(key));
 			}
 		}
-		
+
 		// 本次任务节点的下一个节点。特殊节点，根据表单内容来觉得下一步的审批人
 		Map<String, Object> temMap = new HashMap<String, Object>();
 		temMap.put("agree", "1");
 		TaskDefinition taskDef = getNextTaskInfo(workflowVo.getTaskId(), temMap);
 		if (taskDef != null && taskDef.getKey().startsWith("specialAuditor")) {
-			// 特殊节点，获取当初传递的值
-			Set<String> userIds = new LinkedHashSet<String>();
 			if (nextVar.get(taskDef.getKey()) != null) {
-				// 分解group
-				String[] groups = nextVar.get(taskDef.getKey()).toString().split("-");
-				for (int i = 0; i < groups.length; i++) {
-					userIds.addAll(sysUserMapper.findUserByGroupIdFromACT(groups[i]));
+				String realAuth = nextVar.get(taskDef.getKey()).toString();
+				if (!realAuth.startsWith("post") && !realAuth.startsWith("role") && !realAuth.startsWith("unit")) {
+					String[] groups = realAuth.split("-");
+					Set<String> userIds = new LinkedHashSet<String>();
+					for (int i = 0; i < groups.length; i++) {
+						userIds.addAll(sysUserMapper.findUserByGroupIdFromACT(groups[i]));
+					}
+					nextVar.put("auditor", userIds);
+				} else {
+					// 此时前台应该已经选择好auditor
 				}
+			} else {
+				// 初始值虽然是specialAuditor开头，启动是没有配置对应变量
 			}
-			nextVar.put("auditor", userIds);
 		}
 
 		// 审批意见
@@ -672,30 +687,30 @@ public class TaskProviderClient {
 					nextVar.put("agreeCount", 0);
 				}
 			}
-			
+
 			// 会签标识
 			signFlag = true;
-			
+
 			// 判断此时的同意率（同意数/总的审批人数）是否符合，符合的话，complete后，直接返回，否则继续执行
 			if (nextVar.get("signAuditRate") != null) {
 				Integer signAgreeCount = (Integer) nextVar.get("agreeCount");
-				
+
 				// nrOfCompletedInstances：已经完成实例的数目; nrOfInstances：实例总数
 				nrOfInstances = (Integer) runtimeService.getVariable(currentExecutionId, "nrOfInstances");
 				nrOfCompletedInstances = (Integer) runtimeService.getVariable(currentExecutionId, "nrOfCompletedInstances");
-				
-				Double signAuditRate = (Double) nextVar.get("signAuditRate");
-				if (nrOfInstances == nrOfCompletedInstances+1) { // 会签人员都审批了(+1,因为马上要complete)
-					if (signAgreeCount/nrOfInstances >= signAuditRate) {
+
+				Double signAuditRate = Double.valueOf(nextVar.get("signAuditRate").toString());
+				if (nrOfInstances == nrOfCompletedInstances + 1) { // 会签人员都审批了(+1,因为马上要complete)
+					if (signAgreeCount / nrOfInstances >= signAuditRate) {
 						nextVar.put("agree", 1);
 					} else {
 						nextVar.put("agree", 0);
 					}
-				} 
-			} 
+				}
+			}
 		} else {
 			// 其他非多实例节点，此时需要
-			//runtimeService.setVariable(currentExecutionId, "agreeCount", 0);
+			// runtimeService.setVariable(currentExecutionId, "agreeCount", 0);
 			nextVar.put("agreeCount", 0);
 		}
 
@@ -709,19 +724,28 @@ public class TaskProviderClient {
 			System.out.println("1会签时====" + nextVar.get("auditor"));
 			nextVar.put("assigneeList", nextVar.get("auditor"));
 		}
-		
+
 		// 本次任务的审批人id
 		taskService.setAssignee(workflowVo.getTaskId(), workflowVo.getAuditorId());
 
 		// 插入本次任务的审批人姓名，方便下一步查询上一步执行人姓名。key为本次taskId
 		nextVar.put(workflowVo.getTaskId(), workflowVo.getAuditorName());
 		nextVar.put("flowAuditorName", workflowVo.getAuditorName());
+		// 启动节点，审批意见为空
+		nextVar.put("flowAuditorComments", nextVar.get("comment") != null ? nextVar.get("comment").toString() : " ");
+
+		for (String key : nextVar.keySet()) {
+			System.out.println(key + "============complete=================" + nextVar.get(key));
+		}
+		
+		// 为回退添加标识位
+		nextVar.put("rejectFlag", workflowVo.getTaskId());
 
 		// 完成本次任务
 		taskService.complete(workflowVo.getTaskId(), nextVar);
 		JSONObject retJson = new JSONObject();
 		Date date2 = new Date();
-		System.out.println("=========任务处理时间=======----------"+(date2.getTime()-date1.getTime()));
+		System.out.println("=========任务处理时间=======----------" + (date2.getTime() - date1.getTime()));
 		if (!signFlag) {// 不是会签的正常走流程
 			if (nextVar.get("agree") != null && nextVar.get("agree").toString().equals("0")) {
 				// 把agree属性，在全局变量中删除
@@ -747,13 +771,13 @@ public class TaskProviderClient {
 			// 判断此时的同意率（同意数/总的审批人数）是否符合，符合的话，complete后，直接返回，否则继续执行
 			if (nextVar.get("signAuditRate") != null) {
 				Integer signAgreeCount = (Integer) nextVar.get("agreeCount");
-				
+
 				// nrOfCompletedInstances：已经完成实例的数目; nrOfInstances：实例总数
-				System.out.println(signAgreeCount+"-------nrOfInstances-------"+nrOfInstances);
-				
-				Double signAuditRate = (Double) nextVar.get("signAuditRate");
-				if (nrOfInstances == nrOfCompletedInstances+1) { // 会签人员都审批了
-					if (signAgreeCount/nrOfInstances >= signAuditRate) {
+				System.out.println(signAgreeCount + "-------nrOfInstances-------" + nrOfInstances);
+
+				Double signAuditRate = Double.valueOf(nextVar.get("signAuditRate").toString());
+				if (nrOfInstances == nrOfCompletedInstances + 1) { // 会签人员都审批了
+					if (signAgreeCount / nrOfInstances >= signAuditRate) {
 						ProcessInstance pi = runtimeService.createProcessInstanceQuery().processInstanceId(task.getProcessInstanceId()).singleResult();
 						if (pi == null) {
 							// 流程结束
@@ -761,7 +785,7 @@ public class TaskProviderClient {
 							retJson.put("auditAgreeMethod", nextVar.get("auditAgreeMethod").toString());
 							System.out.println("=========会签流程结束=======流程结束----------");
 							return retJson;
-						} 
+						}
 						System.out.println("=========会签流程结束=======流程未结束----------");
 						retJson.put("result", "0");
 						return retJson;
@@ -784,7 +808,7 @@ public class TaskProviderClient {
 				return retJson;
 			}
 		}
-		
+
 	}
 
 	/**
@@ -902,7 +926,7 @@ public class TaskProviderClient {
 		Map<String, Object> variables = new HashMap<String, Object>();
 		variables.put("agree", "1");
 		TaskDefinition taskDef = getNextTaskInfo(taskId, variables);
-		// System.out.println("1=========TaskDefinition======="+taskDef);
+		System.out.println("1=========selectAuditFlag=======" + taskDef);
 		if (taskDef != null) {
 			// 如果taskDef.getKey()中有系统特定的值，让用户先选择这些人员（下一步审批人），否则直接通过角色/部门进行全部默认。
 			System.out.println("=========TaskDefinition=======" + taskDef.getKey());
@@ -911,18 +935,35 @@ public class TaskProviderClient {
 			if (taskDef.getKey().startsWith("role") || taskDef.getKey().startsWith("unit") || taskDef.getKey().startsWith("post")) {
 				retS = taskDef.getKey();
 			}
+
+			if (taskDef.getKey().startsWith("specialAuditor")) {
+				System.out.println("3=========specialAuditor=======" + taskId);
+				// 本次任务的可用变量
+				Map<String, Object> taskVar = taskService.getVariables(taskId);
+				// 判断当前节点是否是会签节点，并且是否是最后一个审批人。
+				// 最后节点的话，如果是选择审批人类型的节点，让此次审批人选择下一步的审批人
+				if (taskVar.get(taskDef.getKey()) != null) {
+					String auditorType = taskVar.get(taskDef.getKey()).toString();
+					if (auditorType.startsWith("unit") && auditorType.startsWith("post") || auditorType.startsWith("role")) {
+						retS = auditorType;
+					} else {
+						// 此时下一个环节是直接指定审批人（通过预设的角色、岗位、单位）
+						System.out.println("3=========此时下一个环节是直接指定审批人（通过预设的角色、岗位、单位）=======" + taskId);
+					}
+				}
+			}
 		}
 		// System.out.println("2=========TaskDefinition======="+retS);
 		return retS;
 	}
 
 	/**
-	 * 判断是否需要选择审批人, 通过流程processDefineId来进行判断
+	 * 判断是否需要选择审批人, 通过流程processDefineId来进行判断（第一次启动流程时的判断）
 	 */
 	@ApiOperation(value = "判断下一个是否需要选择审批人", notes = "此接口是发起时调用，当前还没有任务。返回的string字符串，role、unit、post分别代表角色、组织机构、岗位")
 	@RequestMapping(value = "/task-provider/workflow/start/audit-type", method = RequestMethod.POST)
 	public String processAuditFlag(@RequestBody JSONObject json) throws Exception {
-		// System.out.println("==-=-=-="+jsonStr);
+		System.out.println("==-=-=-=" + json.toJSONString());
 		String retS = "0";
 
 		String functionId = "";
@@ -971,7 +1012,8 @@ public class TaskProviderClient {
 
 		// 获取全部的FlowElement信息
 		Collection<FlowElement> flowElements = process.getFlowElements();
-
+		
+		outer:
 		for (FlowElement flowElement : flowElements) {
 			if (flowElement.getClass().getName().contains("StartEvent")) {
 				FlowNode fn = (FlowNode) flowElement;
@@ -986,10 +1028,63 @@ public class TaskProviderClient {
 						// 第一个节点的下一个节点就是第一个审批节点
 						List<SequenceFlow> firstNodeOutList = firstNode.getOutgoingFlows();
 						for (SequenceFlow first : firstNodeOutList) {
+							System.out.println("1==========" + first.getConditionExpression());
+							System.out.println("2==========" + first.getTargetRef());
 							FlowNode auditNode = (FlowNode) process.getFlowElement(first.getTargetRef());
-
-							if (auditNode.getId().startsWith("role") || auditNode.getId().startsWith("unit") || auditNode.getId().startsWith("post")) {
-								retS = auditNode.getId();
+							System.out.println("3==========" + auditNode.getId());
+							System.out.println("4==========" + auditNode.getClass().toString());
+							if (auditNode instanceof org.activiti.bpmn.model.UserTask) {
+								if (auditNode.getId().startsWith("role") || auditNode.getId().startsWith("unit") || auditNode.getId().startsWith("post")) {
+									retS = auditNode.getId();
+									break outer;
+								}
+								// 特殊的审批节点
+								if (auditNode.getId().startsWith("specialAuditor")) {
+									System.out.println("====specialAuditor======" + auditNode.getId());
+									// 启动的时候，让启动者选择特殊审批节点的审批人员
+									if (json != null && json.get(auditNode.getId()) != null && !json.get(auditNode.getId()).equals("")) {
+										// 不用选择自动配置审批人的话，此时json（html）中需要提前设定角色/岗位/单位CODE
+										retS = json.get(auditNode.getId()).toString();
+										System.out.println("====specialAuditor11======" + json.get(auditNode.getId()).toString());
+										break outer;
+									}
+								}
+							} else if (auditNode instanceof org.activiti.bpmn.model.ExclusiveGateway) {
+								// 发起人之后的第一个节点，不确定
+								List<SequenceFlow> excluList = auditNode.getOutgoingFlows();
+								System.out.println("5==========发起人之后的第一个节点，不确定");
+								for (SequenceFlow exclu : excluList) {
+									System.out.println("5==========" + exclu.getConditionExpression());
+									System.out.println("6==========" + exclu.getTargetRef());
+									System.out.println("7==========" + json.get("branchFlag"));
+									// 遍历json对象
+									for (Map.Entry<String, Object> entry : json.entrySet()) {
+							            System.out.println(entry.getKey() + ":" + entry.getValue());
+							            if (entry.getValue() != null && exclu.getConditionExpression() != null) {
+							            	if (isCondition(entry.getKey(), exclu.getConditionExpression().replaceAll(" ", ""), entry.getValue().toString())) {
+							            		FlowNode realAuditNode = (FlowNode) process.getFlowElement(exclu.getTargetRef());
+							            		if (realAuditNode instanceof org.activiti.bpmn.model.UserTask) {
+													if (realAuditNode.getId().startsWith("role") || realAuditNode.getId().startsWith("unit") || realAuditNode.getId().startsWith("post")) {
+														retS = realAuditNode.getId();
+														break outer;
+													}
+													// 特殊的审批节点
+													if (realAuditNode.getId().startsWith("specialAuditor")) {
+														System.out.println("1====specialAuditor======" + realAuditNode.getId());
+														System.out.println("2====specialAuditor======" + json.get(realAuditNode.getId()));
+														// 启动的时候，让启动者选择特殊审批节点的审批人员
+														if (json != null && json.get(realAuditNode.getId()) != null && !json.get(realAuditNode.getId()).equals("")) {
+															// 不用选择自动配置审批人的话，此时json（html）中需要提前设定角色/岗位/单位CODE
+															retS = json.get(realAuditNode.getId()).toString();
+															System.out.println("====specialAuditor11======" + json.get(realAuditNode.getId()).toString());
+															break outer;
+														}
+													}
+												}
+											}
+							            }
+							        }
+								}
 							}
 						}
 					}
@@ -1058,30 +1153,38 @@ public class TaskProviderClient {
 		TaskDefinition task = null;
 
 		// 获取流程实例Id信息
-		String processInstanceId = taskService.createTaskQuery().taskId(taskId).singleResult().getProcessInstanceId();
+		Task currentTask = taskService.createTaskQuery().taskId(taskId).singleResult();
+		String processInstanceId = currentTask.getProcessInstanceId();
 
 		// 获取流程发布Id信息
 		String definitionId = runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult().getProcessDefinitionId();
 
 		processDefinitionEntity = (ProcessDefinitionEntity) ((RepositoryServiceImpl) repositoryService).getDeployedProcessDefinition(definitionId);
 
-		ExecutionEntity execution = (ExecutionEntity) runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).singleResult();
+		/*
+		 * ExecutionEntity execution = (ExecutionEntity)
+		 * runtimeService.createProcessInstanceQuery
+		 * ().processInstanceId(processInstanceId).singleResult(); // 当前流程节点Id信息
+		 * String activitiId = execution.getActivityId();
+		 */
 
-		// 当前流程节点Id信息
+		ExecutionEntity execution = (ExecutionEntity) runtimeService.createExecutionQuery().executionId(currentTask.getExecutionId()).singleResult();
 		String activitiId = execution.getActivityId();
+		System.out.println("4----------当前任务节点----" + activitiId);
 		if (activitiId == null) {
 			return null;
 		}
-		// System.out.println("activitiId========"+activitiId);
 		// 获取流程所有节点信息
 		List<ActivityImpl> activitiList = processDefinitionEntity.getActivities();
-
+		System.out.println("3----------当前任务节点----" + activitiList);
 		// 遍历所有节点信息
 		for (ActivityImpl activityImpl : activitiList) {
 			id = activityImpl.getId();
+			System.out.println("4----------当前任务节点----" + id);
 			if (activitiId.equals(id)) {
 				// 获取下一个节点信息
 				task = nextTaskDefinition(activityImpl, activityImpl.getId(), null, processInstanceId, globalVar);
+				System.out.println("5----------下一个节点----" + task);
 				break;
 			}
 		}
@@ -1115,14 +1218,14 @@ public class TaskProviderClient {
 		// 如果遍历节点为用户任务并且节点不是当前节点信息
 		if ("userTask".equals(activityImpl.getProperty("type")) && !activityId.equals(activityImpl.getId())) {
 			// 获取该节点下一个节点信息(下一个实例可能是多实例节点)
-			System.out.println("activityImpl.getActivityBehavior()=================="+activityImpl.getActivityBehavior().getClass());
-			System.out.println("activityImpl.getActivityBehavior()=================="+activityImpl.getActivityBehavior().getClass().getName());
+			System.out.println("activityImpl.getActivityBehavior()==================" + activityImpl.getActivityBehavior().getClass());
+			System.out.println("activityImpl.getActivityBehavior()==================" + activityImpl.getActivityBehavior().getClass().getName());
 			if (activityImpl.getActivityBehavior().getClass().getName().contains("UserTaskActivityBehavior")) {
 				TaskDefinition taskDefinition = ((UserTaskActivityBehavior) activityImpl.getActivityBehavior()).getTaskDefinition();
 				return taskDefinition;
 			} else if (activityImpl.getActivityBehavior().getClass().getName().contains("ParallelMultiInstanceBehavior")) {
-				ParallelMultiInstanceBehavior paralBehavior =  (ParallelMultiInstanceBehavior)activityImpl.getActivityBehavior();
-				return ((UserTaskActivityBehavior)paralBehavior.getInnerActivityBehavior()).getTaskDefinition();
+				ParallelMultiInstanceBehavior paralBehavior = (ParallelMultiInstanceBehavior) activityImpl.getActivityBehavior();
+				return ((UserTaskActivityBehavior) paralBehavior.getInnerActivityBehavior()).getTaskDefinition();
 			} else {
 				// 其他特殊情况，暂时不考虑。目前只包含一般的用户任务和会签（多实例）任务
 				return null;
@@ -1163,17 +1266,18 @@ public class TaskProviderClient {
 							return null;
 					}
 				} else if ("userTask".equals(ac.getProperty("type"))) {
-					System.out.println("userTask1---------------"+ac.getProperty("type"));
-					//return ((UserTaskActivityBehavior) ((ActivityImpl) ac).getActivityBehavior()).getTaskDefinition();
-					if(((ActivityImpl) ac).getActivityBehavior() instanceof UserTaskActivityBehavior){
-						UserTaskActivityBehavior aaBehavior = (UserTaskActivityBehavior)((ActivityImpl) ac).getActivityBehavior();
-						return ((UserTaskActivityBehavior)aaBehavior).getTaskDefinition();
-					} else if(((ActivityImpl) ac).getActivityBehavior() instanceof ParallelMultiInstanceBehavior){
-						ParallelMultiInstanceBehavior aaBehavior = (ParallelMultiInstanceBehavior)((ActivityImpl) ac).getActivityBehavior();
-						return ((UserTaskActivityBehavior)aaBehavior.getInnerActivityBehavior()).getTaskDefinition();
+					System.out.println("userTask1---------------" + ac.getProperty("type"));
+					// return ((UserTaskActivityBehavior) ((ActivityImpl)
+					// ac).getActivityBehavior()).getTaskDefinition();
+					if (((ActivityImpl) ac).getActivityBehavior() instanceof UserTaskActivityBehavior) {
+						UserTaskActivityBehavior aaBehavior = (UserTaskActivityBehavior) ((ActivityImpl) ac).getActivityBehavior();
+						return ((UserTaskActivityBehavior) aaBehavior).getTaskDefinition();
+					} else if (((ActivityImpl) ac).getActivityBehavior() instanceof ParallelMultiInstanceBehavior) {
+						ParallelMultiInstanceBehavior aaBehavior = (ParallelMultiInstanceBehavior) ((ActivityImpl) ac).getActivityBehavior();
+						return ((UserTaskActivityBehavior) aaBehavior.getInnerActivityBehavior()).getTaskDefinition();
 					}
 				} else {
-					System.out.println("userTask2---------------"+ac.getProperty("type"));
+					System.out.println("userTask2---------------" + ac.getProperty("type"));
 				}
 			}
 			return null;
@@ -1192,7 +1296,9 @@ public class TaskProviderClient {
 	 * @return
 	 */
 	public boolean isCondition(String key, String el, String value) {
-		// System.out.println(key+"===="+el+"========"+value);
+		if (el.indexOf(key) < 0) {
+			return false;
+		}
 		ExpressionFactory factory = new ExpressionFactoryImpl();
 		SimpleContext context = new SimpleContext();
 		context.setVariable(key, factory.createValueExpression(value, String.class));
@@ -1221,7 +1327,7 @@ public class TaskProviderClient {
 			if (!historicActivityInstance.getActivityType().equals("userTask"))
 				continue;
 			ActivityVo vo = new ActivityVo();
-			System.out.println("===="+historicActivityInstance);
+			System.out.println("====" + historicActivityInstance);
 			BeanUtils.copyProperties(historicActivityInstance, vo);
 			if (historicActivityInstance.getActivityType().equals("userTask") && historicActivityInstance.getTaskId() != null) {
 				// 获取审批意见、审批时间
@@ -1233,18 +1339,20 @@ public class TaskProviderClient {
 							break;
 					}
 				}
-
-				// 本次任务的可用变量
-				List<HistoricIdentityLink> temList = historyService.getHistoricIdentityLinksForTask(historicActivityInstance.getTaskId());
-				if (temList != null && temList.size() > 0) {
-					for (int i = 0; i < temList.size(); i++) {
-						HistoricIdentityLink identityLink = temList.get(i);
-						if (!StrUtil.isBlankOrNull(identityLink.getUserId())) {
-							SysUser temUser = userService.selectUserByUserId(identityLink.getUserId());
-							vo.setAssigneeName(temUser != null ? temUser.getUserDisp() : "");
-						}
-					}
+				
+				
+				HistoricVariableInstance hvi = historyService.createHistoricVariableInstanceQuery().executionId(historicActivityInstance.getExecutionId()).variableName(historicActivityInstance.getTaskId()).singleResult();
+				System.out.println(historicActivityInstance.getExecutionId()+"----1hvi1====" + hvi);
+				System.out.println(historicActivityInstance.getExecutionId()+"----2hvi1====" + historicActivityInstance.getTaskId());
+				
+				if (hvi == null) {
+					// 当前任务，在历史任务中没有此属性
+					vo.setAssigneeName("");
+				} else {
+					vo.setAssigneeName(hvi.getValue() == null ? "" : hvi.getValue().toString());
 				}
+				
+				
 			}
 
 			// 节点状态
@@ -1287,7 +1395,6 @@ public class TaskProviderClient {
 		}
 		// 判断同一个时间段是否委托多个人
 		taskInstanceService.insertDelegate(delegate);
-		
 
 		// 把当前委托人的任务都委托给被委托人
 		// System.out.println(delegate.getAttorneyCode()+"add-delegate=================="+delegate.getAssigneeCode());
@@ -1363,4 +1470,113 @@ public class TaskProviderClient {
 		return retJson;
 	}
 
+	/**
+	 * 任务撤回
+	 */
+	@ApiOperation(value = "撤回历史任务, 下一步审批人员已经操作的不允许撤回", notes = "撤回任务节点的任务id-taskId")
+	@RequestMapping(value = "/task-provider/task/recall/{taskId}", method = RequestMethod.POST)
+	public JSONObject taskRecall(@PathVariable("taskId") String taskId) throws Exception {
+		JSONObject retJson = new JSONObject();
+		
+		HistoricTaskInstanceQuery htiq = historyService.createHistoricTaskInstanceQuery();
+		// 要撤回的任务id对应的任务实例
+		HistoricTaskInstance historicTaskInstance = htiq.taskId(taskId).singleResult();
+		
+		// 查询历史变量中rejectFlag属性，判断要撤回的任务，下一步任务是否已经执行。已经执行就不能撤回。
+		HistoricVariableInstanceQuery hviq = historyService.createHistoricVariableInstanceQuery().processInstanceId(historicTaskInstance.getProcessInstanceId());
+		HistoricVariableInstance hvi = hviq.variableName("rejectFlag").singleResult();
+		String auditor = "";
+		if (hvi == null) {
+			// 异常
+			retJson.put("result", false);
+			return retJson;
+		} else {
+			// 此历史变量大于任务id
+			Long lTaskId = Long.parseLong(taskId);
+			Long lRejectFlag = Long.parseLong(hvi.getValue().toString());
+			if (lRejectFlag > lTaskId) {
+				System.out.println(taskId+"---此历史变量大于任务id----"+hvi.getValue());
+				retJson.put("result", false);
+				return retJson;
+			}
+			
+			HistoricVariableInstance hviAuditor = hviq.variableName("flowAuditorName").singleResult();
+			auditor = hviAuditor.getValue().toString();
+			System.out.println(taskId+"---测试回退----"+hvi.getValue());
+		}
+		
+		System.out.println("当前任务的实例数据---测试----"+hvi);
+		
+		// 取得流程实例
+		ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId(historicTaskInstance.getProcessInstanceId()).singleResult();
+		System.out.println(processInstance.getId());
+		
+		Map<String, Object> variables = runtimeService.getVariables(historicTaskInstance.getExecutionId());
+		for (String key : variables.keySet()) {
+			System.out.println(key+"-----variables====" + variables.get(key));
+		}
+		// 取得流程定义
+		ProcessDefinitionEntity definitionEntity = (ProcessDefinitionEntity) repositoryService.getProcessDefinition(historicTaskInstance.getProcessDefinitionId());
+		System.out.println("definitionEntity---------"+definitionEntity);
+		
+		// 当前任务的活动节点id
+		String activitiId = processInstance.getActivityId();
+		
+		// 通过当前任务活动ID在流程定义中找到对应的活动对象
+		ActivityImpl currActivity = definitionEntity.findActivity(activitiId);
+		
+		System.out.println("当前任务活动ID---------"+currActivity);
+
+		// 取得上一步活动(要撤回审批的这个活动节点)
+		ActivityImpl hisActivity = definitionEntity.findActivity(historicTaskInstance.getTaskDefinitionKey());
+		System.out.println("撤回审批的这个活动节点---------"+hisActivity);
+		
+		// 当前任务节点的平行任务（一个节点有多个人来审批）
+		List<Task> currTasks = taskService.createTaskQuery().processInstanceId(processInstance.getId()).taskDefinitionKey(currActivity.getId()).list();
+		System.out.println("平行任务-----------"+currTasks.size());
+		
+		for (Task currTask : currTasks) {
+			ArrayList<PvmTransition> oriPvmTransitionList = new ArrayList<>();
+			// 当前历史节点的真实流向，做一个临时处理
+			List<PvmTransition> pvmTransitionList = currActivity.getOutgoingTransitions();
+			System.out.println("pvmTransitionList"+pvmTransitionList);
+			for (PvmTransition pvmTransition : pvmTransitionList) {
+				oriPvmTransitionList.add(pvmTransition);
+			}
+			System.out.println("oriPvmTransitionList"+oriPvmTransitionList);
+			pvmTransitionList.clear();
+			
+			// 建立新方向
+			ActivityImpl nextActivityImpl = definitionEntity.findActivity(currActivity.getId());
+			TransitionImpl newTransition = nextActivityImpl.createOutgoingTransition();
+			newTransition.setDestination(hisActivity);
+			
+			// 正在待办的任务都处理了，处理前，强行把当前任务的下一个节点设置成要恢复的任务节点
+			taskService.claim(currTask.getId(), null);
+			variables.put(currTask.getId(), auditor+"审批撤回");
+			taskService.complete(currTask.getId(), variables);
+			historyService.deleteHistoricTaskInstance(currTask.getId());
+			
+			System.out.println("删除的任务节点id---------"+currTask.getId());
+
+			// 恢复方向。把要恢复的任务节点的流入清除掉
+			hisActivity.getIncomingTransitions().remove(newTransition);
+			
+			// 当前任务节点的流出清理掉（临时返回到恢复节点的流向清理掉）
+			List<PvmTransition> pvmTList = currActivity.getOutgoingTransitions();
+			pvmTList.clear();
+			
+			// 把当前历史节点的真实的流向再添加进来。配合上面的临时处理
+			for (PvmTransition pvmTransition : oriPvmTransitionList) {
+				pvmTransitionList.add(pvmTransition);
+			}
+			System.out.println("pvmTransitionList"+pvmTransitionList);
+		}
+		
+		System.out.println("撤回节点的历史实例不撤回，用于记录节点----------------"+historicTaskInstance.getId());
+		//historyService.deleteHistoricTaskInstance(historicTaskInstance.getId());
+		retJson.put("result", true);
+		return retJson;
+	}
+	
 }

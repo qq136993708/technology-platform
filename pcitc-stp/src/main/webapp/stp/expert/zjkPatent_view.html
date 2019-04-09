@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/layui/css/layui.css">
+    <link rel="stylesheet" type="text/css" href="/layuiadmin/style/common.css">
+
+    <script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+    <script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="/common/js/base.js"></script>
+</head>
+<body>
+<div class="formBox">
+    <form id="zjkPatent-form" name="zjkPatent-form" lay-filter="zjkPatent-form" class="form-horizontal layui-form">
+        <input type="hidden" name="groupId">
+        <div class="box-body">
+            <input type="hidden" name="dataId" id="dataId"/>
+            <div class="layui-row">
+
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">用户id<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="userId" readonly="readonly" name="userId" lay-verify="required" placeholder="请输入用户id" autocomplete="off" class="layui-input readOnlyBox">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">专家id<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="expertId" readonly="readonly" name="expertId" lay-verify="required" placeholder="请输入专家id" autocomplete="off" class="layui-input readOnlyBox">
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="layui-row">
+
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">专利名称<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="patentName" readonly="readonly" name="patentName" lay-verify="required" placeholder="请输入专利名称" autocomplete="off" class="layui-input readOnlyBox">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">专利号<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="patentCode" readonly="readonly" name="patentCode" lay-verify="required" placeholder="请输入专利号" autocomplete="off" class="layui-input readOnlyBox">
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="layui-row">
+
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">专利描述<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="patentDesc" readonly="readonly" name="patentDesc" lay-verify="required" placeholder="请输入专利描述" autocomplete="off" class="layui-input readOnlyBox">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">专利关键字<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="patentKeys" readonly="readonly" name="patentKeys" lay-verify="required" placeholder="请输入专利关键字" autocomplete="off" class="layui-input readOnlyBox">
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="layui-row">
+
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">专利权人名称<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="patentePeopleName" readonly="readonly" name="patentePeopleName" lay-verify="required" placeholder="请输入专利权人名称" autocomplete="off" class="layui-input readOnlyBox">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">专利权人ID<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="patentePeopleId" readonly="readonly" name="patentePeopleId" lay-verify="required" placeholder="请输入专利权人ID" autocomplete="off" class="layui-input readOnlyBox">
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="layui-row">
+
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">发明人ID<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="inventPeopleId" readonly="readonly" name="inventPeopleId" lay-verify="required" placeholder="请输入发明人ID" autocomplete="off" class="layui-input readOnlyBox">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">发明人<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="inventPeopleName" readonly="readonly" name="inventPeopleName" lay-verify="required" placeholder="请输入发明人" autocomplete="off" class="layui-input readOnlyBox">
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="layui-row">
+
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">申请人<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="applyPeople" readonly="readonly" name="applyPeople" lay-verify="required" placeholder="请输入申请人" autocomplete="off" class="layui-input readOnlyBox">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">公开时间<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="publicDate" readonly="readonly" name="publicDate" lay-verify="required" placeholder="请输入公开时间" autocomplete="off" class="layui-input readOnlyBox">
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="layui-row">
+
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">申请日期<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="applyDate" readonly="readonly" name="applyDate" lay-verify="required" placeholder="请输入申请日期" autocomplete="off" class="layui-input readOnlyBox">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">所属技术分类名称<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="bak1" readonly="readonly" name="bak1" lay-verify="required" placeholder="请输入所属技术分类名称" autocomplete="off" class="layui-input readOnlyBox">
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="layui-row">
+
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="bak2" readonly="readonly" name="bak2" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input readOnlyBox">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="bak3" readonly="readonly" name="bak3" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input readOnlyBox">
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="layui-row">
+
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="bak4" readonly="readonly" name="bak4" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input readOnlyBox">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="bak5" readonly="readonly" name="bak5" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input readOnlyBox">
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="layui-row">
+
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label"><span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="bak6" readonly="readonly" name="bak6" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input readOnlyBox">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">修改人姓名<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="modifyUserDisp" readonly="readonly" name="modifyUserDisp" lay-verify="required" placeholder="请输入修改人姓名" autocomplete="off" class="layui-input readOnlyBox">
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="layui-row">
+
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">所属技术分类<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="ownerTechType" readonly="readonly" name="ownerTechType" lay-verify="required" placeholder="请输入所属技术分类" autocomplete="off" class="layui-input readOnlyBox">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">专利背景<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="patenteBackground" readonly="readonly" name="patenteBackground" lay-verify="required" placeholder="请输入专利背景" autocomplete="off" class="layui-input readOnlyBox">
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="layui-row">
+
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">所属项目名称<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="ownerProjectName" readonly="readonly" name="ownerProjectName" lay-verify="required" placeholder="请输入所属项目名称" autocomplete="off" class="layui-input readOnlyBox">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">国籍<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="expertNationality" readonly="readonly" name="expertNationality" lay-verify="required" placeholder="请输入国籍" autocomplete="off" class="layui-input readOnlyBox">
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="layui-row">
+
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">所属项目ID<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="ownerProjectId" readonly="readonly" name="ownerProjectId" lay-verify="required" placeholder="请输入所属项目ID" autocomplete="off" class="layui-input readOnlyBox">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">所属公司（机构）<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="company" readonly="readonly" name="company" lay-verify="required" placeholder="请输入所属公司（机构）" autocomplete="off" class="layui-input readOnlyBox">
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="layui-row">
+
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">所属机构ID<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="companId" readonly="readonly" name="companId" lay-verify="required" placeholder="请输入所属机构ID" autocomplete="off" class="layui-input readOnlyBox">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">状态位<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="sysFlag" readonly="readonly" name="sysFlag" lay-verify="required" placeholder="请输入状态位" autocomplete="off" class="layui-input readOnlyBox">
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="layui-row">
+
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">排序<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="dataOrder" readonly="readonly" name="dataOrder" lay-verify="required" placeholder="请输入排序" autocomplete="off" class="layui-input readOnlyBox">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">状态<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="delFlag" readonly="readonly" name="delFlag" lay-verify="required" placeholder="请输入状态" autocomplete="off" class="layui-input readOnlyBox">
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="layui-row">
+
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">创建时间<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="createDate" readonly="readonly" name="createDate" lay-verify="required" placeholder="请输入创建时间" autocomplete="off" class="layui-input readOnlyBox">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">创建人id<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="createUser" readonly="readonly" name="createUser" lay-verify="required" placeholder="请输入创建人id" autocomplete="off" class="layui-input readOnlyBox">
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="layui-row">
+
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">创建人姓名<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="createUserDisp" readonly="readonly" name="createUserDisp" lay-verify="required" placeholder="请输入创建人姓名" autocomplete="off" class="layui-input readOnlyBox">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">修改时间<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="modifyDate" readonly="readonly" name="modifyDate" lay-verify="required" placeholder="请输入修改时间" autocomplete="off" class="layui-input readOnlyBox">
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="layui-row">
+
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">修改人id<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="modifyUser" readonly="readonly" name="modifyUser" lay-verify="required" placeholder="请输入修改人id" autocomplete="off" class="layui-input readOnlyBox">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">文档编号<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="docId" readonly="readonly" name="docId" lay-verify="required" placeholder="请输入文档编号" autocomplete="off" class="layui-input readOnlyBox">
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="layui-row">
+
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">年度<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="nd" readonly="readonly" name="nd" lay-verify="required" placeholder="请输入年度" autocomplete="off" class="layui-input readOnlyBox">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">授权国家<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="country" readonly="readonly" name="country" lay-verify="required" placeholder="请输入授权国家" autocomplete="off" class="layui-input readOnlyBox">
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="layui-row">
+
+                <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">是否形成工业化成果<span class="must-fill">*</span></label>
+                        <div class="layui-input-block">
+                            <input type="text" id="isResult" readonly="readonly" name="isResult" lay-verify="required" placeholder="请输入是否形成工业化成果" autocomplete="off" class="layui-input readOnlyBox">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-bottom">
+                    <div class="form-bottom-btns">
+                        <button type="button" class="layui-btn layui-btn-sm fontColor-default border-default btnMyBgImg layui-btn-mini layui-btn-white" id="closeBtn">关闭</button>
+                    </div>
+                </div>
+            </div>
+    </form>
+</div>
+
+<script>
+    var id = "${id?default(0)}";
+    if (id != "0") {
+        $("#id").val(id);
+    }
+    layui.use(['jquery', 'form', 'laydate', 'table', 'layer', 'element'],
+        function () {
+            var $ = layui.jquery, admin = layui.admin, element = layui.element, layer = layui.layer, laydate = layui.laydate, form = layui.form;
+            form.render(null, 'zjkPatent-form');
+            //初始赋值 component-form-group 当前form的lay-filter
+            if (id != "0") {
+                ajaxPost("/zjkPatent/getZjkPatentInfo", {"id": id}, function (data) {
+                    form.val("zjkPatent-form", data);
+                });
+            }
+            /* 自定义验证规则  title 要验证的input的 lay-verify=""*/
+            /* form.verify({
+                groupName : function(value,item) {
+                    if (value.length < 5) {
+                        return '标题至少得5个字符啊';
+                    }
+                },
+                orderNum : function(value){
+
+                },
+                content : function(value) {
+                    layedit.sync(editIndex);
+                }
+            }); */
+            /* 监听指定开关 */
+            form.on('switch(component-form-switchTest)', function (
+                data) {
+                layer.msg('开关checked：'
+                    + (this.checked ? 'true' : 'false'), {
+                    offset: '6px'
+                });
+                layer.tips('温馨提示：请注意开关状态的文字可以随意定义，而不仅仅是ON|OFF',
+                    data.othis)
+            });
+            /*监听select框*/
+            form.on('select(userUnit)', function (data) {
+                console.log("下拉框");
+                console.log(data);
+            });
+            /* 监听提交 */
+            form.on('submit(submitBtn)', function (data) {
+                ajaxPost("/zjkPatent/saveZjkPatent", data.field, function (dt, status) {
+                    layer.msg("操作成功");
+                    parent.layui.table.reload('zjkPatentTableId', {where: {param: {}}});
+                    var index = parent.layer.getFrameIndex(window.name);
+                    parent.layer.close(index);
+                });
+                return false;
+            });
+            $("#closeBtn").click(function () {
+                var index = parent.layer.getFrameIndex(window.name);
+                parent.layer.close(index);
+            })
+        });
+</script>
+</body>
+</html>

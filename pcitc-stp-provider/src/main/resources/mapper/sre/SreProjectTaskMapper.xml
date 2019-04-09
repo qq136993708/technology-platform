@@ -55,7 +55,13 @@
     <result column="task_version"    property="taskVersion"  jdbcType="VARCHAR" />
     <result column="erp_num"         property="erpNum"       jdbcType="VARCHAR" />
     <result column="close_status"    property="closeStatus"  jdbcType="VARCHAR" />
-    <result column="close_date" property="closeDate" jdbcType="TIMESTAMP" />
+    <result column="close_date"               property="closeDate" jdbcType="TIMESTAMP" />
+    <result column="join_unit_parent_codes"   property="joinUnitParentCodes"    jdbcType="VARCHAR" />
+    <result column="join_unit_parent_names"   property="joinUnitParentNames"  jdbcType="VARCHAR" />
+    <result column="is_check"                 property="isCheck"  jdbcType="VARCHAR" />
+    <result column="check_date"               property="checkDate" jdbcType="TIMESTAMP" />
+    
+    
     
     
     
@@ -71,6 +77,7 @@
     unit_path_ids,unit_path_names,parent_unit_path_names,parent_unit_path_ids,create_unit_name,create_unit_code,
     apply_unit_path_code,parent_apply_unit_path_code,parent_apply_unit_path_name,
     apply_user_id,apply_user_name,document_doc,task_version,erp_num,close_status,close_date
+    ,join_unit_parent_codes,join_unit_parent_names,is_check,check_date
     
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
@@ -100,7 +107,7 @@
       professional_field_name, lead_unit_name,setup_id,unit_path_ids,
       unit_path_names,parent_unit_path_names,parent_unit_path_ids,create_unit_name,create_unit_code,
       apply_unit_path_code,parent_apply_unit_path_code,parent_apply_unit_path_name,apply_user_id,
-      apply_user_name,document_doc,task_version,erp_num,close_status,close_date
+      apply_user_name,document_doc,task_version,erp_num,close_status,close_date,join_unit_parent_codes,join_unit_parent_names,is_check,check_date
       )
     values (#{taskId,jdbcType=VARCHAR}, #{topicId,jdbcType=VARCHAR}, #{topicName,jdbcType=VARCHAR}, 
       #{createUserId,jdbcType=VARCHAR}, #{createUserName,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
@@ -129,6 +136,9 @@
        ,#{applyUserId,jdbcType=VARCHAR}
       ,#{applyUserName,jdbcType=VARCHAR},#{documentDoc,jdbcType=VARCHAR},#{taskVersion,jdbcType=VARCHAR}
       ,#{erpNum,jdbcType=VARCHAR},#{closeStatus,jdbcType=VARCHAR},#{closeDate,jdbcType=TIMESTAMP}
+        ,#{joinUnitParentCodes,jdbcType=VARCHAR}
+      ,#{joinUnitParentNames,jdbcType=VARCHAR}
+      ,#{isCheck,jdbcType=VARCHAR},#{checkDate,jdbcType=TIMESTAMP}
       )
   </insert>
   
@@ -288,7 +298,6 @@
       <if test="documentDoc != null" >
         document_doc,
       </if>
-     
       <if test="taskVersion != null" >
         task_version,
       </if>
@@ -298,12 +307,27 @@
      <if test="closeStatus != null" >
         close_status,
       </if>
-    <if test="closeDate != null" >
+     <if test="closeDate != null" >
         close_date,
       </if>
+     <if test="joinUnitParentCodes != null" >
+        join_unit_parent_codes,
+      </if>
+      <if test="joinUnitParentNames != null" >
+        join_unit_parent_names,
+      </if>
+     <if test="isCheck != null" >
+        is_check,
+      </if>
+    <if test="checkDate != null" >
+        check_date,
+      </if>
+    
+   
     
     
     
+     
    
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -466,16 +490,29 @@
       <if test="closeStatus != null" >
         #{closeStatus,jdbcType=VARCHAR},
       </if>
-    <if test="closeDate != null" >
+      <if test="closeDate != null" >
         #{closeDate,jdbcType=TIMESTAMP},
       </if>
-    
-    
-    
-    
-    
+      <if test="joinUnitParentCodes != null" >
+        #{joinUnitParentCodes,jdbcType=VARCHAR},
+      </if>
+      <if test="joinUnitParentNames != null" >
+        #{joinUnitParentNames,jdbcType=VARCHAR},
+      </if>
+       <if test="isCheck != null" >
+        #{isCheck,jdbcType=VARCHAR},
+      </if>
+       <if test="checkDate != null" >
+        #{checkDate,jdbcType=TIMESTAMP},
+      </if>
+      
+      
+      
+       
      
-     
+      
+      
+        
      
     </trim>
   </insert>
@@ -638,11 +675,25 @@
       <if test="closeStatus != null" >
         close_status = #{closeStatus,jdbcType=VARCHAR},
       </if>
-     <if test="closeDate != null" >
+      <if test="closeDate != null" >
         close_date = #{closeDate,jdbcType=TIMESTAMP},
       </if> 
+      <if test="joinUnitParentCodes != null" >
+        join_unit_parent_codes = #{joinUnitParentCodes,jdbcType=VARCHAR},
+      </if>
+      <if test="joinUnitParentNames != null" >
+        join_unit_parent_names = #{joinUnitParentNames,jdbcType=VARCHAR},
+      </if>
+      <if test="isCheck != null" >
+        is_check = #{isCheck,jdbcType=VARCHAR},
+      </if>
+      <if test="checkDate != null" >
+        check_date = #{checkDate,jdbcType=TIMESTAMP},
+      </if>
       
       
+      
+     
       
       
     </set>
@@ -684,6 +735,8 @@
       join_unit_name = #{joinUnitName,jdbcType=VARCHAR},
       lead_unit_code = #{leadUnitCode,jdbcType=VARCHAR},
       join_unit_code = #{joinUnitCode,jdbcType=VARCHAR},
+        join_unit_parent_codes = #{joinUnitParentCodes,jdbcType=VARCHAR},
+      join_unit_parent_names = #{joinUnitParentNames,jdbcType=VARCHAR},
       project_money = #{projectMoney,jdbcType=DECIMAL},
       document_doc = #{documentDoc,jdbcType=VARCHAR},
       belong_department_name = #{belongDepartmentName,jdbcType=VARCHAR},
@@ -699,8 +752,10 @@
       begin_project_month = #{beginProjectMonth,jdbcType=VARCHAR},
       end_project_month = #{endProjectMonth,jdbcType=VARCHAR},
       inner_audit_status = #{innerAuditStatus,jdbcType=VARCHAR},
+      check_date = #{checkDate,jdbcType=TIMESTAMP},
       professional_field_code = #{professionalFieldCode,jdbcType=VARCHAR},
       lead_unit_name = #{leadUnitName,jdbcType=VARCHAR},
+      is_check = #{isCheck,jdbcType=VARCHAR},
       close_date = #{closeDate,jdbcType=TIMESTAMP},
       professional_field_name = #{professionalFieldName,jdbcType=VARCHAR}
     where task_id = #{taskId,jdbcType=VARCHAR}
@@ -743,6 +798,7 @@
 	     <if test="applyUserName != null       and applyUserName !=''  ">             AND t.apply_user_name = #{applyUserName}</if>
 	     <if test="erpNum != null       and erpNum !=''  ">                           AND t.erp_num = #{erpNum}</if>
 	     <if test="closeStatus != null       and closeStatus !=''  ">                           AND t.close_status = #{closeStatus}</if>
+	     <if test="isCheck != null       and isCheck !=''  ">                           AND t.is_check = #{isCheck}</if>
 	     <if test="sqlStr != null       and sqlStr !='' ">                            AND ${sqlStr}</if>
 	 </trim>
 	</sql>

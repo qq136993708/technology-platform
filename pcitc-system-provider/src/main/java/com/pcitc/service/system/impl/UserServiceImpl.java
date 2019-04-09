@@ -620,6 +620,36 @@ public class UserServiceImpl implements UserService {
 		data.setCount(total);
 		return data;
 	}
+	
+	
+	
+	
+	public LayuiTableData getSysUserListByUserUnitPage(LayuiTableParam param) {
+		//每页显示条数
+		int pageSize = param.getLimit();
+		//从第多少条开始
+		int pageStart = (param.getPage()-1)*pageSize;
+		//当前是第几页
+		int pageNum = pageStart/pageSize + 1;
+		// 1、设置分页信息，包括当前页数和每页显示的总计数
+		PageHelper.startPage(pageNum, pageSize);
+		SysUser vo = new SysUser();
+		String unitId = (String) param.getParam().get("unitId");
+		if(unitId != null && !"".equals(unitId)) {
+			vo.setUserUnit(unitId);
+		}
+		String userDisp = (String) param.getParam().get("userDisp");
+		if(userDisp != null && !"".equals(userDisp)) {
+			vo.setUserDisp(userDisp);
+		}
+		List<SysUser> list = userMapper.getSysUserListByUserUnit(vo);
+		int total = userMapper.getSysUserCountByUserUnit(vo).intValue();
+		PageInfo<SysUser> pageInfo= new PageInfo<SysUser>(list);
+		LayuiTableData data = new LayuiTableData();
+		data.setData(pageInfo.getList());
+		data.setCount(total);
+		return data;
+	}
 
 
 }

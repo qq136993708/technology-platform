@@ -23,8 +23,9 @@
 <input  name="leadUnitCode"   id="leadUnitCode"    value="${leadUnitCode}"        type="hidden" >
 <input  name="applyUnitCode"  id="applyUnitCode"    value="${applyUnitCode}"        type="hidden" >
 <input  name="parentUnitPathIds"  id="parentUnitPathIds"    value="${parentUnitPathIds}"        type="hidden" >
-
-
+<input  name="joinUnitCodes"  id="joinUnitCodes"           type="hidden" >
+<input  name="specialAuditor0"  id="specialAuditor0"           type="hidden" >
+<input  name="branchFlag"  id="branchFlag"           type="hidden" >
 
 </form>
     <!--查询条件-->
@@ -339,6 +340,7 @@ var name=$('#name').val();
             		var taskId=selectRowData.taskId;
             		var innerAuditStatus=selectRowData.innerAuditStatus;
             		var setupId=selectRowData.setupId;
+            		var joinUnitCodes=selectRowData.joinUnitCode;
             		if(setupId==null || setupId=='')
             		{
              			 layer.alert('立项报告没有填写，不能上报');
@@ -350,8 +352,7 @@ var name=$('#name').val();
            			}else
            			{
            				$('#taskId').val(taskId);
-           				
-                		dealFlow(taskId);
+                		dealFlow(taskId,joinUnitCodes);
            			}
             		
             		
@@ -551,20 +552,35 @@ var name=$('#name').val();
     } 
     
     
-    
-    
-    
-    
-    
-    
        
 
     
 
-    function dealFlow(id) 
+    function dealFlow(id,joinUnitCodes) 
     {
-    	
-    	var json = {functionId:functionId};
+    	var nunits="";
+    	var branchFlag="";
+    	if(joinUnitCodes!=null && joinUnitCodes!='')
+    	{
+    		branchFlag="1";
+    		var arr=joinUnitCodes.split(",");
+    		for(i=0;i<arr.length;i++) 
+    		{ 
+    			var str=arr[i];
+    			nunits=nunits+str+"-";
+    		} 
+    		nunits = nunits.substr(0, nunits.length - 1); 
+    		nunits="unit--"+nunits;
+    	}else
+   		{
+    		branchFlag="0";
+   		}
+    	// alert(nunits);
+    	 //return;
+    	 $('#specialAuditor0').val(nunits);
+    	 $('#branchFlag').val(branchFlag);
+    	 
+    	 var json = {functionId:functionId,specialAuditor0:nunits,branchFlag: branchFlag};//,branchFlag: branchFlag
     	 $.ajax({
              type : 'POST',
              url : "/workflow/start/audit-type",

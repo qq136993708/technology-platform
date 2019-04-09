@@ -177,8 +177,7 @@
 					error : function(data) {//请求失败处理函数  
 					},
 					success : function(data) { //请求成功后处理函数。
-						parent.messageInfo = data.message;
-						parent.active.alertEvent();
+						parent.updateFlag = true;
 					}
 				});
 				var index = parent.layer.getFrameIndex(window.name);

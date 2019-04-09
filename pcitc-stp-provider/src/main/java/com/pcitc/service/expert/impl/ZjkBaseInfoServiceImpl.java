@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
+import com.netflix.discovery.converters.Auto;
 import com.pcitc.base.expert.*;
 import com.pcitc.mapper.expert.*;
 import com.pcitc.service.expert.*;
@@ -661,6 +662,11 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
     //TO DO
     //专家参与项目与成果，专利关系，对应查询？专家与成果专利对应关系
 
+
+    @Autowired
+    private ZjkExpertProjectService zjkExpertProjectService;
+
+
     /**
      * 专家保存
      *
@@ -676,6 +682,7 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
         String ids = "";
         for (int i = 0, j = array.size(); i < j; i++) {
             JSONObject obj = (JSONObject) array.get(i);
+            String strExpertId = getObjString(obj.get("expertid"));
             ids = (ids+","+getObjString(obj.get("expertid")));
             ZjkExpert record = new ZjkExpert();
             record.setDataId(getObjString(obj.get("expertid")));                        //        expertid: 专家id
@@ -683,8 +690,26 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
             record.setCompanyName(getObjString(obj.get("companyName")));                //        companyName: 所属公司
             record.setAge(getObjString(obj.get("age")));                                //        age: 年龄
             record.setIndustryName(getObjString(obj.get("skillFields")));               //        skillFields:擅长技术领域
-            record.setJoinProjectId(getObjString(obj.get("projectIds")));               //        projectIds:参与项目id
-            record.setJoinProjectName(getObjString(obj.get("projectNames")));           //        projectNames : 参与项目名称
+
+            //这两个字段存入附加信息表
+
+
+            String projectIds = getObjString(obj.get("projectIds"));
+            String projectNames = getObjString(obj.get("projectNames"));
+            record.setJoinProjectId(projectIds);               //        projectIds:参与项目id
+            record.setJoinProjectName(projectNames);           //        projectNames : 参与项目名称
+
+            //项目分批插入专家项目附加表
+            String[] projectIdsArray = projectIds.split(",");
+            String[] projectNamesArray = projectNames.split(",");
+            for (int k = 0; k <projectIdsArray.length; k++) {
+                ZjkExpertProject project = new ZjkExpertProject();
+                project.setExpertId(strExpertId);
+                project.setProjectId(projectIdsArray[k]);
+                project.setProjectName(projectNamesArray[k]);
+                zjkExpertProjectService.insert(project);
+            }
+
             record.setMobile(getObjString(obj.get("telephone")));                       //        telephone : 电话
             record.setEmail(getObjString(obj.get("email")));                            //        email : 邮箱
             record.setAddress(getObjString(obj.get("address")));                        //        address : 家庭住址
@@ -699,7 +724,7 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
             record.setSysFlag("0");
             record.setAuditStatus("0");
             record.setDelFlag(0);
-
+            record.setBak3("1");
             record.setCreateDate(DateUtil.dateToStr(new Date(),DateUtil.FMT_DD));
             record.setCreateUser("165553436ed_dfd5e137");
             record.setCreateUserDisp("111111");
@@ -709,6 +734,9 @@ public class ZjkBaseInfoServiceImpl implements ZjkBaseInfoService {
             record.setCompanyCount("0");
             record.setProjectCount("0");
             record.setPatentCount("0");
+
+            record.setSourceId("SKM");
+            record.setSource("SKM");
 
             this.insert(record);
 //            c.andStatusEqualTo("0");

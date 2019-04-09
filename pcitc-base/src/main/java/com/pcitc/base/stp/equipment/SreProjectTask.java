@@ -103,9 +103,62 @@ public class SreProjectTask {
     private String closeStatus;
     private Date closeDate;
     
+    private String parentApplyUnitCode;
+    
+    private String joinUnitParentCodes;
+    private String joinUnitParentNames;
+    
+    private String isCheck;
     
     
-    public Date getCloseDate() {
+    private Date checkDate;
+    
+    
+    
+    
+    
+    
+    public Date getCheckDate() {
+		return checkDate;
+	}
+
+	public void setCheckDate(Date checkDate) {
+		this.checkDate = checkDate;
+	}
+
+	public String getIsCheck() {
+		return isCheck;
+	}
+
+	public void setIsCheck(String isCheck) {
+		this.isCheck = isCheck;
+	}
+
+	public String getJoinUnitParentCodes() {
+		return joinUnitParentCodes;
+	}
+
+	public void setJoinUnitParentCodes(String joinUnitParentCodes) {
+		this.joinUnitParentCodes = joinUnitParentCodes;
+	}
+
+	public String getJoinUnitParentNames() {
+		return joinUnitParentNames;
+	}
+
+	public void setJoinUnitParentNames(String joinUnitParentNames) {
+		this.joinUnitParentNames = joinUnitParentNames;
+	}
+
+	public String getParentApplyUnitCode() {
+		return parentApplyUnitCode;
+	}
+
+	public void setParentApplyUnitCode(String parentApplyUnitCode) {
+		this.parentApplyUnitCode = parentApplyUnitCode;
+	}
+
+	public Date getCloseDate() {
 		return closeDate;
 	}
 

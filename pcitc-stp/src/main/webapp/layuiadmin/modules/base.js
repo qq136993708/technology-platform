@@ -665,6 +665,12 @@ function upload_FileA() {
     openBaseWin("文件上传", temUrl);
 }
 
+function getFunctionParam() {
+    return JSON.parse(window.localStorage.getItem("param"));
+    // var functionId = param.id;
+    // var iframeId = param.code;
+}
+
 //inputValueOrInputId:表单字段的ID或者值,不能为空，唯一值UUID，如表单<input type="text" name="id" id="id" value="16537c4bc6f_ff4a0a81">,此处可传id或者16537c4bc6f_ff4a0a81
 //fileConfigId：系统管理-附件管理-附件配置：页面标识,不确定则为空
 //formType:detail：详情，edti：修改
@@ -673,7 +679,8 @@ function upload_File(inputValueOrInputId, fileConfigId, formType, callfun) {
     var param = {};
     if (document.getElementById(inputValueOrInputId)) {
         param.file_id_name = inputValueOrInputId;
-        param.file_ids_value = $("#" + param.file_id_name).val();
+        param.file_ids_value = document.getElementById(param.file_id_name).value;
+        // param.file_ids_value = $("#" + param.file_id_name).val();
     } else {
         param.file_ids_value = inputValueOrInputId;
     }
@@ -687,11 +694,8 @@ function upload_File(inputValueOrInputId, fileConfigId, formType, callfun) {
     var temUrl = "/sysFilePage/uploadFile?param=" + encodeURIComponent(JSON.stringify(param));
     openBaseWin("文件上传", temUrl);
 }
-var getFunctionParam = function () {
-    return JSON.parse(window.localStorage.getItem("param"));
-    // var functionId = param.id;
-    // var iframeId = param.code;
-}
+
+
 
 
 

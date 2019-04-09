@@ -12,11 +12,11 @@ import com.pcitc.base.doc.SysFileKindExample;
 import com.pcitc.base.system.SysUser;
 
 public interface SysFileKindMapper {
-    long countByExample(SysFileKindExample example);
+    int countByExample(SysFileKindExample example);
 
     int deleteByExample(SysFileKindExample example);
 
-    int deleteByPrimaryKey(String menuId);
+    int deleteByPrimaryKey(String id);
 
     int insert(SysFileKind record);
 
@@ -24,7 +24,7 @@ public interface SysFileKindMapper {
 
     List<SysFileKind> selectByExample(SysFileKindExample example);
 
-    SysFileKind selectByPrimaryKey(String menuId);
+    SysFileKind selectByPrimaryKey(String id);
 
     int updateByExampleSelective(@Param("record") SysFileKind record, @Param("example") SysFileKindExample example);
 
@@ -33,9 +33,7 @@ public interface SysFileKindMapper {
     int updateByPrimaryKeySelective(SysFileKind record);
 
     int updateByPrimaryKey(SysFileKind record);
-
-    int updateByPrimaryKeyWithBLOBs(SysFileKind record);
-
+    
     List<SysFileKind> findSysFileKindByPage(Map<String, Object> map);
 
     List<SysFileKind> findSysFileKindList(SysFileKind record);

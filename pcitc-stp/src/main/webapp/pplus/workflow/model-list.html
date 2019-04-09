@@ -7,7 +7,8 @@
 
 <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
 <link rel="stylesheet" href="/layuiadmin/style/common.css?+Math.random()" media="all">
-<script src="/layuiadmin/layui/layui.js"></script>
+<script type="text/javascript" src="/layuiadmin/layui/layui.js"></script>
+<script type="text/javascript" src="/layuiadmin/modules/base.js"></script>
 </head>
 
 <body>
@@ -40,6 +41,7 @@
 		</div>
 		<table id="model-table" class="layui-hide" lay-filter="tableData"></table>
 	</div>
+	<a href="" target="_self" id="fileDownload"></a>
 
 	<!--表格数据操作js-->
 	<script>
@@ -160,13 +162,16 @@
 					if (typeof (selectRowData.id) == "undefined") {
 						layer.msg('请点击选择一行数据');
 					} else {
-						window.location.href = '/activiti-model/export/' + selectRowData.id;
+						//window.location.href = '/activiti-model/export/' + selectRowData.id;
+
+						$("#fileDownload").attr("href", "/activiti-model/export/" + selectRowData.id + "/" + selectRowData.name);
+						document.getElementById("fileDownload").click();
 					}
 				},
 				importEvent : function() { //点击导入按钮
-					var temUrl = "/base/common/fileUpload.html";
-					layer.open({
-						title : '详情',
+					/*var temUrl = "/base/common/fileUpload.html";
+					 layer.open({
+						title : '流程导入',
 						skin : 'layui-layer-lan',
 						shadeClose : true,
 						type : 2,
@@ -176,7 +181,16 @@
 						//若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
 						area : [ '700px', '400px' ],
 						content : temUrl
-					});
+					}); */
+					
+					var param = {};
+			        param.file_id_name = "filetextA";//字段ID名称
+			        param.callback = "importBpmnFile";//回调函数名称
+			        param.file_opt_flag = functionId;//文件配置ID
+			        param.file_edit_detail = "edit";//新增、修改用edit, 显示用detail
+			        //param.file_ids_value = $("#" + param.file_id_name).val();
+			        var temUrl = "/sysFilePage/uploadFile?param=" + encodeURIComponent(JSON.stringify(param));
+			        openBaseWin("文件上传", temUrl);
 				},
 				deleteEvent : function() { //点击删除按钮
 					if (typeof (selectRowData.id) == "undefined") {
@@ -311,8 +325,21 @@
 				var type = $(this).data('type');
 				active[type] ? active[type].call(this) : '';
 			});
-
 		});
+		
+		function importBpmnFile(data, param) {
+	        //param:返回上面拼装的参数json字符串，data：json文件数组
+	        console.log("-------------call_fun___________");
+	        console.log(data);
+	        console.log(param);
+	        for (var key in data) {
+	        	console.log(1111);
+	            console.log(key);
+	            var obj_file = data[key];
+	            console.log("文件名称：" + obj_file.fileName + "  文件大小：" + obj_file.fileSize + "  文件绝对路径:" + obj_file.filePath + "文件相对路径:" + obj_file.bak5);
+	            var uploadUrl = "/activiti-model/file/upload";
+	        }
+	    }
 	</script>
 
 </body>

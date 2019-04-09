@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/adminStp.css" media="all">
     <link rel="stylesheet" href="/layuiadmin/style/oneLevel.css" media="all">
+    <script type="text/javascript" src="/plugins/jQuery/jquery-1.9.1.min.js"></script>
     <script src="/layuiadmin/layui/layui.js"></script>
     <style>
         html{background: #fff;}
@@ -21,25 +22,43 @@
         <div class="layui-col-md12 layui-speech-m">
             <a href="/index" target="_parent">首页&nbsp;&nbsp;>&nbsp;&nbsp;</a>
             <a href="/instituteIndex?url=/layui/leader_speech.html" target="_parent">领导讲话&nbsp;&nbsp;>&nbsp;&nbsp;</a>
-            <span>集团领导讲话</span>
+            <span id="stype">集团领导讲话</span>
         </div>
         <div class="layui-col-md12 layui-speech-d">
+            <#if list.bak1!=1>
             <!--视频-->
             <h4>国家主席习近平发表二〇一九年新年贺词</h4>
             <span id="time" class="time">2019年01月03日07:21</span><span>来源：</span><span id="source">人民网－人民日报</span>
             <p>视频</p>
+        </#if>
             <!--文本-->
+            <#if list.bak1==1>
             <div class="details">
-                <h4>国家主席习近平发表二〇一九年新年贺词</h4>
-                <h5 class="title">——在《告台湾同胞书》发表40周年纪念会上的讲话</h5>
-                <h5 class="title-time">（2019年1月2日）</h5>
-                <span id="time" class="time">2019年01月03日07:21</span><span>来源：</span><span id="source">人民网－人民日报</span>
-                <p>同志们，同胞们，朋友们：</p>
+                <h4>${list.title}</h4>
+                <!--<h5 class="title">——在《告台湾同胞书》发表40周年纪念会上的讲话</h5>-->
+                <h5 class="title-time">（${list.publicDate}）</h5>
+                <!--<span id="time" class="time">${list.publicDate}</span>-->
+                <!--<span>来源：</span><span id="source">人民网－人民日报</span>-->
+                ${list.content}
+                <!--<p>同志们，同胞们，朋友们：</p>-->
             </div>
+        </#if>
         </div>
     </div>
 </div>
 <script>
+    var d = '${list.stype}';
+    var stype="";
+    if (d == "ROOT_XTGL_XWLX_KJBLDJH") {
+        stype="科技部领导讲话";
+    } else if (d == "ROOT_XTGL_XWLX_JTLDJH") {
+        stype="集团领导讲话";
+    } else if (d == "ROOT_XTGL_XWLX_GJLDJH") {
+        stype="国家领导讲话";
+    } else if (d == "ROOT_XTGL_XWLX_ZXJH") {
+        stype="最新讲话";
+    }
+    $("#stype").text(stype);
     layui.use(['jquery'], function(){
         var $=layui.jquery;
         parent.$("html").css("background","#fff");

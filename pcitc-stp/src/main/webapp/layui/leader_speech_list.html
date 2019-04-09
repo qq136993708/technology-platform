@@ -21,28 +21,27 @@
         <div class="layui-col-md12 layui-speech-m">
             <a href="/index" target="_parent">首页&nbsp;&nbsp;>&nbsp;&nbsp;</a>
             <a href="/instituteIndex?url=/layui/leader_speech.html" target="_parent">领导讲话&nbsp;&nbsp;>&nbsp;&nbsp;</a>
-            <span>集团领导讲话</span>
+            <span id="stype"></span>
         </div>
         <div class="layui-col-md8 layui-speech layui-speech-right">
             <div class="news group">
-                <p>集团领导讲话</p>
-                <ul>
-                    <li class="video"><a href="javascript:void(0);">习近平：为实现民族伟大复兴 推进祖国和平统一而共同奋斗</a>
-                        <span>[2019-01-03]</span></li>
-                    <li><a href="javascript:void(0);">国家主席习近平发表二〇一九年新年贺词</a>
-                        <span>[2019-01-01]</span></li>
-                    <li><a href="javascript:void(0);">习近平：在全国政协新年茶话会上的讲话</a>
-                        <span>[2018-12-30]</span></li>
-                    <li><a href="javascript:void(0);">习近平在庆祝改革开放40周年大会上的讲话</a>
-                        <span>[2018-12-19]</span></li>
-                    <li><a href="javascript:void(0);">习近平：为实现民族伟大复兴 推进祖国和平统一而共同奋斗</a>
-                        <span>[2019-01-03]</span></li>
-                    <li><a href="javascript:void(0);">国家主席习近平发表二〇一九年新年贺词</a>
-                        <span>[2019-01-01]</span></li>
-                    <li><a href="javascript:void(0);">习近平：在全国政协新年茶话会上的讲话</a>
-                        <span>[2018-12-30]</span></li>
-                    <li><a href="javascript:void(0);">习近平在庆祝改革开放40周年大会上的讲话</a>
-                        <span>[2018-12-19]</span></li>
+                <p id="stypeshow"></p>
+                <ul id="newslist">
+                    <!--<li class="video"><a href="javascript:void(0);">习近平：为实现民族伟大复兴 推进祖国和平统一而共同奋斗</a>-->
+                        <!--<span>[2019-01-03]</span></li>-->
+                    <!--<li><a href="javascript:void(0);">国家主席习近平发表二〇一九年新年贺词</a>-->
+                        <!--<span>[2019-01-01]</span></li>-->
+                    <!--<li><a href="javascript:void(0);">习近平：在全国政协新年茶话会上的讲话</a>-->
+                        <!--<span>[2018-12-30]</span></li>-->
+                    <!--<li><a href="javascript:void(0);">习近平在庆祝改革开放40周年大会上的讲话</a>-->
+                        <!--<span>[2018-12-19]</span></li>-->
+                    <!--<li><a href="javascript:void(0);">习近平：为实现民族伟大复兴 推进祖国和平统一而共同奋斗</a>-->
+                        <!--<span>[2019-01-03]</span></li>-->
+                    <!--<li><a href="javascript:void(0);">国家主席习近平发表二〇一九年新年贺词</a>-->
+                        <!--<span>[2019-01-01]</span></li>-->
+                    <!--<li><a href="javascript:void(0);">习近平：在全国政协新年茶话会上的讲话</a>-->
+                        <!--<span>[2018-12-30]</span></li>-->
+                    <!--<li><a href="javascript:void(0);">习近平在庆祝改革开放40周年大会上的讲话</a><span>[2018-12-19]</span></li>-->
                 </ul>
             </div>
         </div>
@@ -74,11 +73,228 @@
         </div>
     </div>
 </div>
+
+
+<div  style="display: none"><table id="sysNewsTableId" class="layui-hide" lay-filter="tableEvent"></table></div>
+
 <script>
-    layui.use(['jquery'], function(){
-        var $=layui.jquery;
-        parent.$("html").css("background","#fff");
+
+    layui.use(['jquery', 'form', 'laydate', 'table', 'layer', 'publicMethods', 'element'], function () {
+        var table = layui.table,
+            $ = layui.jquery,
+            layer = layui.layer,
+            publicMethods = layui.publicMethods,
+            laypage = layui.laypage;
+        var d = '${stype}';
+        var stype="";
+        if (d == "ROOT_XTGL_XWLX_KJBLDJH") {
+            stype="科技部领导讲话";
+        } else if (d == "ROOT_XTGL_XWLX_JTLDJH") {
+            stype="集团领导讲话";
+        } else if (d == "ROOT_XTGL_XWLX_GJLDJH") {
+            stype="国家领导讲话";
+        } else if (d == "ROOT_XTGL_XWLX_ZXJH") {
+            stype="最新讲话";
+        }
+        $("#stype").text(stype);
+        $("#stypeshow").text(stype);
+        var cols =
+            [
+                {type: 'checkbox', event: 'changeEvents', width: 55},
+                {title: '序号', type: 'numbers', width: 55},
+                {
+                    field: "title",
+                    title: "标题", event: 'setActive', style: 'cursor: pointer;',width:300
+                },
+                {
+                    field: "sysFlag",
+                    title: "是否发布", event: 'setActive', style: 'cursor: pointer;',width:100
+                },
+                {
+                    field: "author",
+                    title: "发布人", event: 'setActive', style: 'cursor: pointer;',width:100
+                },
+                {
+                    field: "publicDate",
+                    title: "发布时间", event: 'setActive', style: 'cursor: pointer;',width:120
+                },
+                {
+                    field: "createDate",
+                    title: "创建时间", event: 'setActive', style: 'cursor: pointer;',width:160
+                },
+                {
+                    field: "stype",
+                    title: "新闻类型", event: 'setActive', style: 'cursor: pointer;'
+                },
+            ];
+
+        function renderTable() {
+
+            var where = {
+                param:
+                    {
+                        "stype": "${stype}",
+                    }
+            };
+            publicMethods.tableRender('sysNewsTableId', 'sysNewsTableId', '/sysNews/getTableData', false, null, where, true, function (res, curr, count) {
+                $('.layui-table-box').find('.layui-table-body').find("table").find("tbody").children("tr").on('click', function () {
+
+                });
+                var newslist = "";
+                for (let i = 0,j = res.data.length; i < j; i++) {
+                    var d = res.data[i];
+                    newslist = newslist + "<li><a target='_blank' href=\"/sysNews/getNewsIndexTypeDetail?dataId=" + d.dataId + "\">" + d.title + "</a><span>["+d.publicDate+"]</span></li>";
+                }
+                $("#newslist").html(newslist);
+            });
+        }
+
+        renderTable();
+
+        var $ = layui.$, active = {
+            searchEvent: function () { //点击查询按钮
+                renderTable();
+            },
+            allEvent: function () { //点击查询按钮
+                workOrderStatus = '';
+                renderTable();
+            },
+            draftEvent: function () { //点击查询按钮
+                workOrderStatus = '0';
+                renderTable();
+            },
+            approvalEvent: function () { //点击查询按钮
+                workOrderStatus = '1';
+                renderTable();
+            },
+            approvedEvent: function () { //点击查询按钮
+                workOrderStatus = '2';
+                renderTable();
+            },
+            resetEvent: function () { //点击重置按钮
+                $("input[name=title]").val("");
+                $("#status").val("");
+                $("input[name=author]").val("");
+                $("#publicDate").val("");
+                $("#content").val("");
+                $("input[name=stype]").val("");
+                // $('#workOrderName').val("");
+                renderTable();
+            },
+            addEvent: function () { //点击新增按钮
+                layer.open({
+                    title: param.name + '-新增',
+                    skin: 'layui-layer-lan',
+                    shadeClose: false,
+                    type: 2,
+                    fixed: false,
+                    //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                    maxmin: true,
+                    //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                    area: ['80%', '100%'],
+                    content: "/sysNews/edit"
+                });
+            },
+            editEvent: function () {  //点击编辑按钮
+                var id;
+                if (selectRowData != undefined) {
+                    // if (selectRowData.workOrderStatus == '0') {
+                    id = selectRowData.dataId;
+                    layer.open({
+                        title: param.name + '-编辑',
+                        skin: 'layui-layer-lan',
+                        shadeClose: false,
+                        type: 2,
+                        fixed: false,
+                        //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                        maxmin: true,
+                        //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                        area: ['80%', '100%'],
+                        content: "/sysNews/edit?id=" + selectRowData.dataId
+                    });
+                } else {
+                    layer.msg('请选择一条数据');
+                    return;
+                }
+            },
+            detailEvent: function () {  //点击详情按钮
+                var dataId;
+                if (selectRowData != undefined) {
+                    dataId = selectRowData.dataId;
+                    layer.open({
+                        title: param.name + '-查看',
+                        skin: 'layui-layer-lan',
+                        shadeClose: false,
+                        type: 2,
+                        fixed: false,
+                        //若使用小窗口形式，则修改 maxmin 值为 true，则注释掉area:[100%,100%]属性,同时设置area: ['900px', '450px']
+                        maxmin: true,
+                        //若直接弹出页面 ，则修改 area;[100%,100%]，同时设置 maxmin 为false
+                        area: ['80%', '100%'],
+                        content: "/sysNews/view/" + selectRowData.dataId
+                        // content: '/plan/viewPlanPage?dataId='+dataId
+                    });
+                    // }
+                } else {
+                    layer.msg('请选择一条数据');
+                    return;
+                }
+            },
+            deleteEvent: function () { //点击删除按钮
+                var id;
+                if (selectRowData != undefined) {
+                    // if (selectRowData.workOrderStatus == '0') {
+                    id = selectRowData.dataId;
+                    layer.confirm('确认要删除选中的条数据吗？', {icon: 3, btn: ['确定', '取消']}, function (index) {
+                        layer.close(index);
+                        $.ajax({
+                            type: 'post',
+                            dataType: 'text',
+                            async: false,
+                            data: {"id": selectRowData.dataId},
+                            url: '/sysNews/del-real',
+                            success: function (data) {
+                                // if(data==200){
+                                layer.msg("删除成功");
+                                active.searchEvent();
+                                // }
+                            },
+                            error: function (e) {
+                                alert("出错了");
+                                console.log(e);
+                            }
+                        });
+                    });
+                    // } else {
+                    //     layer.msg('当前记录已经提交,不能进行删除操作！');
+                    //     return;
+                    // }
+                } else {
+                    layer.msg('请选择一条数据');
+                    return;
+                }
+            },
+            getCheckData: function () { //获取选中数据
+                var checkStatus = table.checkStatus('sysNewsTableId')
+                    , data = checkStatus.data;
+            },
+            getCheckLength: function () { //获取选中数目
+                var checkStatus = table.checkStatus('sysNewsTableId')
+                    , data = checkStatus.data;
+                layer.msg('选中了：' + data.length + ' 个');
+            },
+            isAll: function () { //验证是否全选
+                var checkStatus = table.checkStatus('sysNewsTableId');
+                layer.msg(checkStatus.isAll ? '全选' : '未全选')
+            }
+        };
+
+        $('.layui-btn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
     });
+
 </script>
 </body>
 </html>

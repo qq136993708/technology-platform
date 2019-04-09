@@ -18,7 +18,7 @@
         <result column="industry_name" jdbcType="VARCHAR" property="industryName"/>
         <result column="industry_id" jdbcType="VARCHAR" property="industryId"/>
         <result column="address" jdbcType="VARCHAR" property="address"/>
-        <result column="college" jdbcType="VARCHAR" property="college"/>
+        <result column="college" jdbcType="LONGVARCHAR" property="college"/>
         <result column="province" jdbcType="VARCHAR" property="province"/>
         <result column="city" jdbcType="VARCHAR" property="city"/>
         <result column="county" jdbcType="VARCHAR" property="county"/>
@@ -44,8 +44,8 @@
         <result column="card_type" jdbcType="VARCHAR" property="cardType"/>
         <result column="education" jdbcType="VARCHAR" property="education"/>
         <result column="header_img" jdbcType="VARCHAR" property="headerImg"/>
-        <result column="join_project_name" jdbcType="VARCHAR" property="joinProjectName"/>
-        <result column="join_project_id" jdbcType="VARCHAR" property="joinProjectId"/>
+        <result column="join_project_name" jdbcType="LONGVARCHAR" property="joinProjectName"/>
+        <result column="join_project_id" jdbcType="LONGVARCHAR" property="joinProjectId"/>
         <result column="expert_nationality" jdbcType="VARCHAR" property="expertNationality"/>
         <result column="sys_flag" jdbcType="VARCHAR" property="sysFlag"/>
         <result column="data_order" jdbcType="INTEGER" property="dataOrder"/>
@@ -75,6 +75,11 @@
         <result column="awards_title" jdbcType="LONGVARCHAR" property="awardsTitle"/>
         <result column="brief_desc" jdbcType="LONGVARCHAR" property="briefDesc"/>
         <result column="place_origin" jdbcType="VARCHAR" property="placeOrigin"/>
+        <result column="team_view" jdbcType="LONGVARCHAR" property="teamView"/>
+        <result column="bak7" jdbcType="VARCHAR" property="bak7"/>
+        <result column="bak8" jdbcType="VARCHAR" property="bak8"/>
+        <result column="bak9" jdbcType="VARCHAR" property="bak9"/>
+        <result column="bak10" jdbcType="VARCHAR" property="bak10"/>
     </resultMap>
     <sql id="Example_Where_Clause">
         <where>
@@ -204,7 +209,12 @@
         technical_positiion,
         awards_title,
         brief_desc,
-        place_origin
+        place_origin,
+        team_view,
+        bak7,
+        bak8,
+        bak9,
+        bak10
 </sql>
 
     <select id="selectByExample" parameterType="com.pcitc.base.expert.ZjkExpertExample" resultMap="BaseResultMap">
@@ -316,7 +326,12 @@
             technical_positiion,
             awards_title,
             brief_desc,
-            place_origin
+            place_origin,
+            team_view,
+            bak7,
+            bak8,
+            bak9,
+            bak10
         )
         values (
 
@@ -333,7 +348,7 @@
     #{industryName,jdbcType=VARCHAR},
     #{industryId,jdbcType=VARCHAR},
     #{address,jdbcType=VARCHAR},
-    #{college,jdbcType=VARCHAR},
+    #{college,jdbcType=LONGVARCHAR},
     #{province,jdbcType=VARCHAR},
     #{city,jdbcType=VARCHAR},
     #{county,jdbcType=VARCHAR},
@@ -359,8 +374,8 @@
     #{cardType,jdbcType=VARCHAR},
     #{education,jdbcType=VARCHAR},
     #{headerImg,jdbcType=VARCHAR},
-    #{joinProjectName,jdbcType=VARCHAR},
-    #{joinProjectId,jdbcType=VARCHAR},
+    #{joinProjectName,jdbcType=LONGVARCHAR},
+    #{joinProjectId,jdbcType=LONGVARCHAR},
     #{expertNationality,jdbcType=VARCHAR},
     #{sysFlag,jdbcType=VARCHAR},
     #{dataOrder,jdbcType=INTEGER},
@@ -389,7 +404,12 @@
     #{technicalPositiion,jdbcType=VARCHAR},
     #{awardsTitle,jdbcType=LONGVARCHAR},
     #{briefDesc,jdbcType=LONGVARCHAR},
-    #{placeOrigin,jdbcType=VARCHAR}
+    #{placeOrigin,jdbcType=VARCHAR},
+    #{teamView,jdbcType=LONGVARCHAR},
+    #{bak7,jdbcType=VARCHAR},
+    #{bak8,jdbcType=VARCHAR},
+    #{bak9,jdbcType=VARCHAR},
+    #{bak10,jdbcType=VARCHAR}
         )
     </insert>
     <insert id="insertSelective" parameterType="com.pcitc.base.expert.ZjkExpert">
@@ -604,7 +624,22 @@
                 brief_desc,
             </if>
             <if test="placeOrigin != null">
-                place_origin
+                place_origin,
+            </if>
+            <if test="teamView != null">
+                team_view,
+            </if>
+            <if test="bak7 != null">
+                bak7,
+            </if>
+            <if test="bak8 != null">
+                bak8,
+            </if>
+            <if test="bak9 != null">
+                bak9,
+            </if>
+            <if test="bak10 != null">
+                bak10
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -650,7 +685,7 @@
                 #{address ,jdbcType=VARCHAR},
             </if>
             <if test="college != null">
-                #{college ,jdbcType=VARCHAR},
+                #{college ,jdbcType=LONGVARCHAR},
             </if>
             <if test="province != null">
                 #{province ,jdbcType=VARCHAR},
@@ -728,10 +763,10 @@
                 #{headerImg ,jdbcType=VARCHAR},
             </if>
             <if test="joinProjectName != null">
-                #{joinProjectName ,jdbcType=VARCHAR},
+                #{joinProjectName ,jdbcType=LONGVARCHAR},
             </if>
             <if test="joinProjectId != null">
-                #{joinProjectId ,jdbcType=VARCHAR},
+                #{joinProjectId ,jdbcType=LONGVARCHAR},
             </if>
             <if test="expertNationality != null">
                 #{expertNationality ,jdbcType=VARCHAR},
@@ -818,7 +853,22 @@
                 #{briefDesc ,jdbcType=LONGVARCHAR},
             </if>
             <if test="placeOrigin != null">
-                #{placeOrigin ,jdbcType=VARCHAR}
+                #{placeOrigin ,jdbcType=VARCHAR},
+            </if>
+            <if test="teamView != null">
+                #{teamView ,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="bak7 != null">
+                #{bak7 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak8 != null">
+                #{bak8 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak9 != null">
+                #{bak9 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak10 != null">
+                #{bak10 ,jdbcType=VARCHAR}
             </if>
         </trim>
     </insert>
@@ -872,7 +922,7 @@
                 address=#{record.address,jdbcType=VARCHAR},
             </if>
             <if test="record.college != null">
-                college=#{record.college,jdbcType=VARCHAR},
+                college=#{record.college,jdbcType=LONGVARCHAR},
             </if>
             <if test="record.province != null">
                 province=#{record.province,jdbcType=VARCHAR},
@@ -950,10 +1000,10 @@
                 header_img=#{record.headerImg,jdbcType=VARCHAR},
             </if>
             <if test="record.joinProjectName != null">
-                join_project_name=#{record.joinProjectName,jdbcType=VARCHAR},
+                join_project_name=#{record.joinProjectName,jdbcType=LONGVARCHAR},
             </if>
             <if test="record.joinProjectId != null">
-                join_project_id=#{record.joinProjectId,jdbcType=VARCHAR},
+                join_project_id=#{record.joinProjectId,jdbcType=LONGVARCHAR},
             </if>
             <if test="record.expertNationality != null">
                 expert_nationality=#{record.expertNationality,jdbcType=VARCHAR},
@@ -1040,7 +1090,22 @@
                 brief_desc=#{record.briefDesc,jdbcType=LONGVARCHAR},
             </if>
             <if test="record.placeOrigin != null">
-                place_origin=#{record.placeOrigin,jdbcType=VARCHAR}
+                place_origin=#{record.placeOrigin,jdbcType=VARCHAR},
+            </if>
+            <if test="record.teamView != null">
+                team_view=#{record.teamView,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="record.bak7 != null">
+                bak7=#{record.bak7,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bak8 != null">
+                bak8=#{record.bak8,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bak9 != null">
+                bak9=#{record.bak9,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bak10 != null">
+                bak10=#{record.bak10,jdbcType=VARCHAR}
             </if>
 
         </set>
@@ -1064,7 +1129,7 @@
         industry_name=#{record.industryName,jdbcType=VARCHAR},
         industry_id=#{record.industryId,jdbcType=VARCHAR},
         address=#{record.address,jdbcType=VARCHAR},
-        college=#{record.college,jdbcType=VARCHAR},
+        college=#{record.college,jdbcType=LONGVARCHAR},
         province=#{record.province,jdbcType=VARCHAR},
         city=#{record.city,jdbcType=VARCHAR},
         county=#{record.county,jdbcType=VARCHAR},
@@ -1090,8 +1155,8 @@
         card_type=#{record.cardType,jdbcType=VARCHAR},
         education=#{record.education,jdbcType=VARCHAR},
         header_img=#{record.headerImg,jdbcType=VARCHAR},
-        join_project_name=#{record.joinProjectName,jdbcType=VARCHAR},
-        join_project_id=#{record.joinProjectId,jdbcType=VARCHAR},
+        join_project_name=#{record.joinProjectName,jdbcType=LONGVARCHAR},
+        join_project_id=#{record.joinProjectId,jdbcType=LONGVARCHAR},
         expert_nationality=#{record.expertNationality,jdbcType=VARCHAR},
         sys_flag=#{record.sysFlag,jdbcType=VARCHAR},
         data_order=#{record.dataOrder,jdbcType=INTEGER},
@@ -1120,7 +1185,12 @@
         technical_positiion=#{record.technicalPositiion,jdbcType=VARCHAR},
         awards_title=#{record.awardsTitle,jdbcType=LONGVARCHAR},
         brief_desc=#{record.briefDesc,jdbcType=LONGVARCHAR},
-        place_origin=#{record.placeOrigin,jdbcType=VARCHAR}
+        place_origin=#{record.placeOrigin,jdbcType=VARCHAR},
+        team_view=#{record.teamView,jdbcType=LONGVARCHAR},
+        bak7=#{record.bak7,jdbcType=VARCHAR},
+        bak8=#{record.bak8,jdbcType=VARCHAR},
+        bak9=#{record.bak9,jdbcType=VARCHAR},
+        bak10=#{record.bak10,jdbcType=VARCHAR}
         <if test="_parameter != null">
             <include refid="Update_By_Example_Where_Clause"/>
         </if>
@@ -1166,7 +1236,7 @@
                 address=#{address ,jdbcType=VARCHAR},
             </if>
             <if test="college != null">
-                college=#{college ,jdbcType=VARCHAR},
+                college=#{college ,jdbcType=LONGVARCHAR},
             </if>
             <if test="province != null">
                 province=#{province ,jdbcType=VARCHAR},
@@ -1244,10 +1314,10 @@
                 header_img=#{headerImg ,jdbcType=VARCHAR},
             </if>
             <if test="joinProjectName != null">
-                join_project_name=#{joinProjectName ,jdbcType=VARCHAR},
+                join_project_name=#{joinProjectName ,jdbcType=LONGVARCHAR},
             </if>
             <if test="joinProjectId != null">
-                join_project_id=#{joinProjectId ,jdbcType=VARCHAR},
+                join_project_id=#{joinProjectId ,jdbcType=LONGVARCHAR},
             </if>
             <if test="expertNationality != null">
                 expert_nationality=#{expertNationality ,jdbcType=VARCHAR},
@@ -1334,7 +1404,22 @@
                 brief_desc=#{briefDesc ,jdbcType=LONGVARCHAR},
             </if>
             <if test="placeOrigin != null">
-                place_origin=#{placeOrigin ,jdbcType=VARCHAR}
+                place_origin=#{placeOrigin ,jdbcType=VARCHAR},
+            </if>
+            <if test="teamView != null">
+                team_view=#{teamView ,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="bak7 != null">
+                bak7=#{bak7 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak8 != null">
+                bak8=#{bak8 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak9 != null">
+                bak9=#{bak9 ,jdbcType=VARCHAR},
+            </if>
+            <if test="bak10 != null">
+                bak10=#{bak10 ,jdbcType=VARCHAR}
             </if>
         </set>
         where data_id = #{dataId,jdbcType=VARCHAR}
@@ -1354,7 +1439,7 @@
             industry_name=#{industryName,jdbcType=VARCHAR},
             industry_id=#{industryId,jdbcType=VARCHAR},
             address=#{address,jdbcType=VARCHAR},
-            college=#{college,jdbcType=VARCHAR},
+            college=#{college,jdbcType=LONGVARCHAR},
             province=#{province,jdbcType=VARCHAR},
             city=#{city,jdbcType=VARCHAR},
             county=#{county,jdbcType=VARCHAR},
@@ -1380,8 +1465,8 @@
             card_type=#{cardType,jdbcType=VARCHAR},
             education=#{education,jdbcType=VARCHAR},
             header_img=#{headerImg,jdbcType=VARCHAR},
-            join_project_name=#{joinProjectName,jdbcType=VARCHAR},
-            join_project_id=#{joinProjectId,jdbcType=VARCHAR},
+            join_project_name=#{joinProjectName,jdbcType=LONGVARCHAR},
+            join_project_id=#{joinProjectId,jdbcType=LONGVARCHAR},
             expert_nationality=#{expertNationality,jdbcType=VARCHAR},
             sys_flag=#{sysFlag,jdbcType=VARCHAR},
             data_order=#{dataOrder,jdbcType=INTEGER},
@@ -1410,7 +1495,12 @@
             technical_positiion=#{technicalPositiion,jdbcType=VARCHAR},
             awards_title=#{awardsTitle,jdbcType=LONGVARCHAR},
             brief_desc=#{briefDesc,jdbcType=LONGVARCHAR},
-            place_origin=#{placeOrigin,jdbcType=VARCHAR}
+            place_origin=#{placeOrigin,jdbcType=VARCHAR},
+            team_view=#{teamView,jdbcType=LONGVARCHAR},
+            bak7=#{bak7,jdbcType=VARCHAR},
+            bak8=#{bak8,jdbcType=VARCHAR},
+            bak9=#{bak9,jdbcType=VARCHAR},
+            bak10=#{bak10,jdbcType=VARCHAR}
         where data_id = #{dataId,jdbcType=VARCHAR}
     </update>
     <!-- 分页查询 -->
@@ -1486,7 +1576,12 @@
         technical_positiion,
         awards_title,
         brief_desc,
-        place_origin
+        place_origin,
+        team_view,
+        bak7,
+        bak8,
+        bak9,
+        bak10
         from zjk_expert
         where 1=1
         <if test="dataId!=null and dataId!=''.toString()">
@@ -1699,6 +1794,21 @@
         <if test="placeOrigin!=null and placeOrigin!=''.toString()">
             and place_origin like '%${placeOrigin}%'
         </if>
+        <if test="teamView!=null and teamView!=''.toString()">
+            and team_view like '%${teamView}%'
+        </if>
+        <if test="bak7!=null and bak7!=''.toString()">
+            and bak7 like '%${bak7}%'
+        </if>
+        <if test="bak8!=null and bak8!=''.toString()">
+            and bak8 like '%${bak8}%'
+        </if>
+        <if test="bak9!=null and bak9!=''.toString()">
+            and bak9 like '%${bak9}%'
+        </if>
+        <if test="bak10!=null and bak10!=''.toString()">
+            and bak10 like '%${bak10}%'
+        </if>
 
         <if test="iSortCol!=null and iSortCol!=''.toString()">
             order by ${iSortCol} ${sSortDir_0}
@@ -1776,7 +1886,12 @@
         technical_positiion,
         awards_title,
         brief_desc,
-        place_origin
+        place_origin,
+        team_view,
+        bak7,
+        bak8,
+        bak9,
+        bak10
         from zjk_expert
         where 1=1
         <if test="dataId!=null">
@@ -1989,6 +2104,21 @@
         <if test="placeOrigin!=null">
             and place_origin = #{placeOrigin,jdbcType=VARCHAR}
         </if>
+        <if test="teamView!=null">
+            and team_view = #{teamView,jdbcType=VARCHAR}
+        </if>
+        <if test="bak7!=null">
+            and bak7 = #{bak7,jdbcType=VARCHAR}
+        </if>
+        <if test="bak8!=null">
+            and bak8 = #{bak8,jdbcType=VARCHAR}
+        </if>
+        <if test="bak9!=null">
+            and bak9 = #{bak9,jdbcType=VARCHAR}
+        </if>
+        <if test="bak10!=null">
+            and bak10 = #{bak10,jdbcType=VARCHAR}
+        </if>
 
         <if test="iSortCol!=null and iSortCol!=''.toString()">
             order by ${iSortCol} ${sSortDir_0}
@@ -1997,7 +2127,9 @@
     <select id="listSqlResult" parameterType="map" resultType="map">
       ${sqlval}
     </select>
-
+    <update id="updateResult" parameterType="map">
+      ${sqlval}
+    </update>
     <select id="queryAllExpert" parameterType="map" resultType="map">
       SELECT expert_name,data_id,bak3 from zjk_expert group by expert_name ORDER BY CONVERT(expert_name USING gbk) COLLATE gbk_chinese_ci ASC;
     </select>

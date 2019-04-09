@@ -141,6 +141,7 @@ public class DelegateController extends BaseController {
 		delegate.setCreateUserId(sysUserInfo.getUserId());
 		delegate.setCreateUser(sysUserInfo.getUserDisp());
 		Integer retI = this.restTemplate.exchange(DELEGATE_ADD_URL, HttpMethod.POST, new HttpEntity<SysDelegate>(delegate, this.httpHeaders), Integer.class).getBody();
+		System.out.println("------"+retI);
 		if (retI == 0) {
 			return new Result(false, "操作失败!");
 		} else if (retI == -1) {
