@@ -80,8 +80,10 @@
     	$(".funcButtonTable .layui-table-view .layui-table tbody  tr").remove();
     	if(treeNode.checked){
     		functionId = treeNode.id;
-    		table.reload('funcButtonTable', {where: {param: {"functionId":treeNode.id}}});
+    		//table.reload('funcButtonTable', {where: {param: {"functionId":treeNode.id}}});
+    		renderButtonTable({param: {"functionId":treeNode.id}});
     	}
+    	$(".funcButtonTable .layui-table-header table thead th input").remove();
     }
     function funcTreeMenueOnCheck(event,treeId,treeNode)
     {
@@ -89,8 +91,10 @@
     	if(treeNode.checked){
     		functionId = treeNode.id;
     		funcTree.selectNode(treeNode);
-    		table.reload('funcButtonTable', {where: {param: {"functionId":treeNode.id}}});
+    		//table.reload('funcButtonTable', {where: {param: {"functionId":treeNode.id}}});
+    		renderButtonTable({param: {"functionId":treeNode.id}});
     	}
+    	$(".funcButtonTable .layui-table-header table thead th input").remove();
     }
     //设置展开前三级节点
 	function expandThreeLevel(treeObj) {
@@ -149,7 +153,20 @@
         	}
         	ajaxPost("/functiongroup/functiongroup-functions", {"groupId":$("#funcgroup").val()}, function (dt) {
                 $.each(dt,function(index,d){
-                    var node = funcTree.getNodeByParam("id",this.id);
+                	/**应需求修改，增加保存按钮功能，按钮内**/
+                	var array = dt[index].id.split("&");
+               		var buttons = [];
+               		var funcId = array[0];
+               		if(array.length>1){
+               			for(var j=1;j<array.length;j++){
+                   			buttons.push(array[j]);
+                   		}
+               		}else{
+               			buttons.push("ALL");
+               		}
+               		functionButtonMap[funcId] = buttons;
+                	/**应需求修改，增加保存按钮功能，按钮内**/
+                    var node = funcTree.getNodeByParam("id",funcId);
                     if(node){
                         funcTree.checkNode(node,true,false);
                     }
@@ -218,7 +235,8 @@
             });
             $(".postTable .layui-table-header table thead th input").remove();
         }
-        function renderButtonTable(where){
+        window.renderButtonTable = function(where){
+        	var lodingMsg = layer.msg('数据处理中....');
             table.render({
                 elem: '#funcButtonTable',
                 url: '/function/getButtonTableData',
@@ -234,22 +252,28 @@
                     {field:'code',      title:'按钮编码', style:'cursor: pointer;'}
                 ]],
                 done: function (res, curr, count) {
+                	layer.close(lodingMsg);
                 	var buttondata = functionButtonMap[functionId];
-                	if(buttondata){
-                		if(buttondata.indexOf("ALL") >= 0){
-                			//console.log("包含全选....");
-                		}else{
-                			for(var i=0;i<buttondata.length;i++){
-                				$.each($('td[data-field="code"] div'),function(index,dt){
-                    				if($(this).html()==buttondata[i]){
-                    					$(this).click();
-                    				}
-                    			});
-                    		}
-                		}
-                	}	
+                	if(!buttondata){
+                		functionButtonMap[functionId] = ["ALL"];
+                		buttondata = ["ALL"];
+                	}
+               		if(buttondata.indexOf("ALL") >= 0){
+               			$.each($('td[data-field="code"] div'),function(index,dt){
+               				$(this).click();
+               			});
+               		}else{
+               			for(var i=0;i<buttondata.length;i++){
+               				$.each($('td[data-field="code"] div'),function(index,dt){
+                   				if($(this).html()==buttondata[i]){
+                   					$(this).click();
+                   				}
+                   			});
+                   		}
+               		}
                 }
             });
+            $(".funcButtonTable .layui-table-header table thead th input").remove();
         }
         renderPostTable();
         renderButtonTable({param: {"functionId":"0"}});
@@ -301,7 +325,6 @@
                 		functionButtons[nodes[i].id] = functionButtonMap[nodes[i].id];
                 	}
                 }
-                //console.log(functionButtons);
                 //批量保存选中节点
                 var param = {"postId": selectRowData.postId,"functionIds": JSON.stringify(functionButtons)};
                 ajaxPostAsyn("/post/save-post-functions",param,function (data, status) {

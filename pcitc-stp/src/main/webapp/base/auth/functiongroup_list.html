@@ -56,14 +56,38 @@
             <button class="layui-btn layui-btn-sm fontColor-blue borderColor-blue btn_delete btnMyBgImg" data-type="deleteEvent" >删除</button>
         </div>
     </div>
-    <table id="functionGroupTable" class="layui-hide" lay-filter="groupTableEvent"></table>
+    <div style="margin-bottom: 6px;" class="functionGroupTable">
+    	<table id="functionGroupTable" class="layui-hide" lay-filter="groupTableEvent"></table>
+    </div>
+    <div class="funcButtonTable">
+    	<table id="funcButtonTable" class="layui-hide" lay-filter="buttonTableEvent"></table>
+    </div>
 </div>
 </div>
 <script type="text/javascript">
-	var zNodes,funcTree,table,selectRowData;
+	var zNodes,funcTree,table,selectRowData,functionId,functionGroupTableSelectIndex,functionButtonMap={};
 	var setting = {
 	    data: {simpleData: {enable: true}},
-		check: {enable: true,chkboxType: {"Y": "ps", "N": "s"}}
+		check: {enable: true,chkboxType: {"Y": "ps", "N": "s"}},
+		callback: {
+			onCheck: function(event, treeId, treeNode){
+				if(functionId == treeNode.id){//避免重复点击
+					return false;
+				}else{
+					functionId = treeNode.id;
+				}
+				renderButtonTable({param: {"functionId":treeNode.checked?treeNode.id:"0"}});
+			},
+			onClick: function(event, treeId, treeNode){
+				if(functionId == treeNode.id){
+					return false;
+				}else{
+					functionId = treeNode.id;
+				}
+				funcTree.checkNode(treeNode, true, true);
+				renderButtonTable({param: {"functionId":treeNode.checked?treeNode.id:"0"}});
+			}
+		}
 	};
 	$(document).ready(function () {
 		ajaxPost("/function/getCommonFunctionTree", null, function (dt) {
@@ -93,7 +117,8 @@
 	            where: {param: {"functionGroupName":""}},
 	            limit : param.selfRownum,
 	            id: 'functionGroupTable',
-				height: commonDislodgeTable(),
+				height: commonDislodgeTable()/2-6,
+				//height:196,
 	            page: {
 	                groups: 5,
 	                limits : [ param.selfRownum, 15, 30, 45, 60 ],
@@ -112,30 +137,125 @@
 	            ]],
 	            done: function (res, curr, count) {
 	            	layer.close(lodingMsg);
-	            	$('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
+	            	$(".functionGroupTable").find('.layui-table-box').find('.layui-table-body').find("table" ).find("tbody").children("tr").on('click',function(){
 		                 var index=parseInt($(this).index()+1);
 		                 $(this).parent().find('tr').removeClass('layui-table-click');
 		                 $(this).addClass('layui-table-click');
 		                 $(this).parent().children('tr').find("td").find(".layui-unselect").removeClass("layui-form-checked")
 		                 $(this).children("td").eq(0).find(".layui-unselect").addClass("layui-form-checked");
-		              	 //显示岗位对应的权限
+		              	 //如果重复点击则不操作
+		                 if(functionGroupTableSelectIndex == index){
+		              		 return false;
+		              	 }else{
+		              		functionGroupTableSelectIndex = index;
+		              	 }
+		                 //显示岗位对应的权限
 		                 selectRowData=res.data[index-1];
 	                     funcTree.checkAllNodes(false);
+	                     functionButtonMap={};
 	                     ajaxPost("/functiongroup/functiongroup-functions", {"groupId":selectRowData.groupId}, function (dt) {
-	                       	$.each(dt,function(index,d){
-	                       	 	var node = funcTree.getNodeByParam("id",this.id);
+	                       	$.each(dt,function(i,d){
+	                       		//应需求修改，菜单包含按钮，以&号分割多个按钮
+	                       		var array = dt[i].id.split("&");
+	                       		var buttons = [];
+	                       		var funcId = array[0];
+	                       		if(array.length>1){
+	                       			for(var j=1;j<array.length;j++){
+		                       			buttons.push(array[j]);
+		                       		}
+	                       		}else{
+	                       			buttons.push("ALL");
+	                       		}
+	                       		functionButtonMap[funcId] = buttons;
+	                       	 	var node = funcTree.getNodeByParam("id",funcId);
 	                       	 	if(node){
 	                       	 		funcTree.checkNode(node,true,false);
 	                       	 	}
 	                       	});
 	                     });
+	                     //清空按钮关系
+	                     $(".funcButtonTable .layui-table-view .layui-table tbody  tr").remove();
 		            });
 	            }
 	        });
 	      	//移除表头的复选框,去掉全选
-	        $(".layui-table-header table thead th input").remove();  
+	        $(".functionGroupTable .layui-table-header table thead th input").remove();  
+        }
+        window.renderButtonTable = function(where){
+        	var lodingMsg = layer.msg('数据加载中....');
+            table.render({
+                elem: '#funcButtonTable',
+                url: '/function/getButtonTableData',
+                method:"POST",
+                where:where,
+                limit: 15,
+                id: 'funcButtonTable',
+                height: commonDislodgeTable()/2,
+                cols: [[
+                    {type:'checkbox',event:'cEvent'},
+                    {title:'序号', type:'numbers'},
+                    {field:'name',   title:'按钮名称',  style:'cursor: pointer;'},
+                    {field:'code',      title:'按钮编码', style:'cursor: pointer;'}
+                ]],
+                done: function (res, curr, count) {
+                	layer.close(lodingMsg);
+                	if(!functionId){
+                		return false;
+                	}
+                	var buttondata = functionButtonMap[functionId];
+                	console.log("---");
+                	console.log(buttondata);
+                	if(!buttondata){
+                		functionButtonMap[functionId] = ["ALL"];
+                		buttondata = ["ALL"];
+                	}
+               		if(buttondata.indexOf("ALL") >= 0){
+               			console.log("包含全选....");
+               			$.each($('td[data-field="code"] div'),function(index,dt){
+               				$(this).click();
+               			});
+               		}else{
+               			for(var i=0;i<buttondata.length;i++){
+               				$.each($('td[data-field="code"] div'),function(index,dt){
+                   				if($(this).html()==buttondata[i]){
+                   					$(this).click();
+                   				}
+                   			});
+                   		}
+               		}
+                }
+            });
+        	//移除表头的复选框,去掉全选
+	        $(".funcButtonTable .layui-table-header table thead th input").remove();  
         }
         renderFunctionGroupTable();
+        renderButtonTable({param: {"functionId":"0"}});
+        //多行点击事件
+        $(document).on("click", ".funcButtonTable .layui-table-body table.layui-table tbody tr", function () {
+     	   	if(!selectRowData){
+ 	       		layer.msg('请点击选择分组!');
+ 	       		return;
+        	}
+     	   	var checkCell = $(this).parent().find("tr[data-index=" + $(this).attr('data-index') + "]").find("td div.laytable-cell-checkbox div.layui-form-checkbox");
+            if(checkCell.length > 0) {
+				checkCell.click();
+            }
+            //获取选中项
+            var check = table.checkStatus('funcButtonTable');
+            var buttons = [];
+            if(check.data.length>0){
+            	for(var dt in check.data)
+            	{
+            		buttons.push(check.data[dt].code);
+            	}
+            }else{
+            	buttons.push("ALL");
+            }
+            functionButtonMap[functionId]=buttons;
+         });
+         $(document).on("click", "td div.laytable-cell-checkbox div.layui-form-checkbox", function (e) {
+             e.stopPropagation();
+         });
      	// 触发不同的按钮事件
         var $ = layui.$, active = {
       		searchEvent: function() { //点击查询按钮
@@ -182,10 +302,23 @@
                 var nodes = funcTree.getCheckedNodes();
              	var functionIds = [];
                 for (var i = 0; i < nodes.length; i++) {
-                	functionIds.push(nodes[i].id);
+                	//处理按钮权限
+                	var functionId = nodes[i].id;
+                	var buttons = functionButtonMap[functionId];
+                	if(buttons){
+                		$.each(buttons,function(index,dt){
+                   			functionId +=("&"+dt);
+                   		});
+                	}else{
+                		functionId+="&ALL";
+                	}
+                	functionIds.push(functionId);
                 }
-                console.log(selectRowData.groupId);
-                console.log(functionIds);
+                //console.log(nodes);
+                //console.log(selectRowData.groupId);
+                //console.log(functionIds);
+                //console.log(functionButtonMap);
+               
                 //批量保存选中节点
                 ajaxPost("/functiongroup/functiongroup-update-functions", {
                     "groupId": selectRowData.groupId,
