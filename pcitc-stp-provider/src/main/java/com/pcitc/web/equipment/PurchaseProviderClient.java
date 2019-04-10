@@ -1,8 +1,10 @@
 package com.pcitc.web.equipment;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.UUID;
 
-import com.pcitc.base.stp.equipment.SreProject;
+import com.pcitc.base.stp.equipment.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.pcitc.base.common.LayuiTableData;
 import com.pcitc.base.common.LayuiTableParam;
-import com.pcitc.base.stp.equipment.SreEquipment;
-import com.pcitc.base.stp.equipment.SrePurchase;
 import com.pcitc.service.equipment.PurchaseService;
 import com.pcitc.service.feign.SystemRemoteClient;
 import com.pcitc.service.msg.MailSentService;
@@ -60,7 +60,7 @@ public class PurchaseProviderClient
 		logger.info("===============================get SrePurchase id "+id+"===========");
 		return purchaseService.selectSrePurchaseById(id);
 	}
-    @ApiOperation(value = "增加装备", notes = "增加装备")
+    @ApiOperation(value = "增加采购申请单", notes = "增加采购申请单")
     @RequestMapping(value = "/sre-provider/purchase/add", method = RequestMethod.POST)
     public void insertSrePurchase(@RequestBody SrePurchase srePurchase) throws Exception{
         logger.info("====================add srePurchase....========================");
@@ -68,11 +68,23 @@ public class PurchaseProviderClient
         return srePurchase.getEquipmentId();*/
          purchaseService.insertPurchase(srePurchase);
     }
+    @ApiOperation(value = "修改采购申请单", notes = "修改采购申请单")
+    @RequestMapping(value = "/sre-provider/purchase/update", method = RequestMethod.POST)
+    public Integer updateSrePurchase(@RequestBody SrePurchase srePurchase) throws Exception{
+        logger.info("==================update SrePurchase===========================");
+
+        return purchaseService.updateSrePurchase(srePurchase);
+    }
     @ApiOperation(value = "删除采购单",notes = "根据ID删除采购单")
 	@RequestMapping(value = "/sre-provider/purchase/delete/{id}",method = RequestMethod.GET)
 	public int  deletePurchase(@PathVariable("id") String id) throws  Exception{
 		logger.info("=============================delete Purchase=================");
 		return purchaseService.deletePurchase(id);
 	}
-
+    @ApiOperation(value = "获取项目统计", notes = "根据ID获取项目统计")
+    @RequestMapping(value = "/sre-provider/purchase/getSreProject/{id}", method = RequestMethod.GET)
+    public SreProject selectSreProjectById(@PathVariable(value = "id", required = true) String id) throws Exception {
+        logger.info("===============================get SreProject id "+id+"===========");
+        return purchaseService.selectProjectBasic(id);
+    }
 }

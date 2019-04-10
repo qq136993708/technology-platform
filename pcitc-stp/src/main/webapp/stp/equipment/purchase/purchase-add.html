@@ -36,22 +36,22 @@
     <div class="box-body">
         <form class="layui-form" name="form1" id="form1" action="" method="POST"
               lay-filter="component-form-group layui-container">
-            <br><input name="topicId" id="topicId" value="${topicId}" type="text"><!--//合同编号-->
-            <br><input name="taskWriteUsersIds" id="taskWriteUsersIds" value="${taskWriteUsersIds}" type="text">
-            <br><input name="id" id="id" value="${id}" type="text">
-            <br><input name="equipmentIds" id="equipmentIds" value="${sreProjectBasic.equipmentIds}" type="text">
-            <br><input name="leadUnitCode" id="leadUnitCode" value="${leadUnitCode}" type="text">
-            <br><input name="createUserName" id="createUserName" value="${createUserName}" type="text">
-            <br><input name="createUserId" id="createUserId" value="${createUserId}" type="text">
+            <input name="topicId" id="topicId" value="${topicId}" type="hidden">
+            <input name="taskWriteUsersIds" id="taskWriteUsersIds" value="${taskWriteUsersIds}" type="hidden">
+            <input name="id" id="id" value="${id}" type="hidden">
+            <input name="equipmentIds" id="equipmentIds"  value="${equipmentIds}" type="hidden">
+            <input name="leadUnitCode" id="leadUnitCode" value="${leadUnitCode}" type="hidden">
+            <input name="createUserName" id="createUserName" value="${createUserName}" type="hidden">
+            <input name="createUserId" id="createUserId" value="${createUserId}" type="hidden">
            <!-- <input name="documentDoc" id="documentDoc" value="${documentDoc}" type="text">-->
-            <br><input name="yearFeeStr" id="yearFeeStr" value="${sreProjectBasic.yearFeeStr}" type="text">
+            <input name="yearFeeStr" id="yearFeeStr" value="${sreProjectBasic.yearFeeStr}" type="hidden">
 
             <div class="layui-row">
                 <div class="layui-col-xs6 layui-col-sm6 layui-col-md6">
                     <div class="layui-form-item">
                         <label for="" class="layui-form-label">选择课题<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <input class="layui-input readOnlyBox" placeholder="请选择课题" name="name" id="name" value="${sreProject.name}" readonly="readonly" onclick="choosePurchase('${topicId}')"
+                            <input class="layui-input readOnlyBox" placeholder="请选择课题" name="name" id="name" value="${name}" readonly="readonly" onclick="choosePurchase('${topicId}')"
                                    autocomplete="off" type="text">
                         </div>
                         <label for="" class="layui-form-label">所属单位<span class="must-fill">*</span></label>
@@ -66,7 +66,7 @@
                     <div class="layui-form-item">
                         <label for="" class="layui-form-label">采购名称<span class="must-fill">*</span></label>
                         <div class="layui-input-block">
-                            <input class="layui-input" placeholder="请输入采购名称" name="purchaseName" id="purchaseName" value="" autocomplete="off" type="text">
+                            <input class="layui-input" placeholder="请输入采购名称" name="purchaseName" id="purchaseName" value="${purchaseName}" autocomplete="off" type="text">
                         </div>
                     </div>
                 </div>
@@ -129,14 +129,10 @@
 </script>
 <script>
 
-
-
     function call_back(equipmentIds)
     {
         renderTable(equipmentIds);
     }
-
-
     function choosePurchase(id)
     {
         var temUrl = '/sre-purchase/chooseProject?taskWriteUsersIds='+$("#taskWriteUsersIds").val()+"&id="+id;
@@ -326,46 +322,36 @@
                 title: '最终的提交信息'
             })*/
             /*获取参与单位的数据*/
-           /*var joinUnitName= $("#joinUnitName").val();
-           //alert(joinUnitName);
-           if(joinUnitName!=null && joinUnitName!='')
-       	   {
-        	   var arrJ = $("#joinUnitName").val().split(",");
-               var arrId=$("#joinUnitCode").val().split(",");
-               var yearFeeStrJoinUnit='';
-               $.each(arrJ, function (i, val) {
-                   var year=$("#beginYear").val()+"-"+$("#endYear").val();
-                   var name=arrJ[i],id=arrId[i];
-                   yearFeeStrJoinUnit+=year+","+name+","+id+"#"+publicMethods.getVal("yearTr"+i, 4)+";"
-               });
-               $("#yearFeeStrJoinUnit").val(yearFeeStrJoinUnit.substring(0,yearFeeStrJoinUnit.length-1));
-       	   }*/
-           
-            /*$("#yearFeeStr").val(publicMethods.getVal("yearTr", 4));
-            var yearFee_Str = $("#yearFeeStr").val();
-            var belongDepartmentName = $("#belongDepartmentName").val();
-            var professionalDepartName = $("#professionalDepartName").val();
-            var professionalFieldName = $("#professionalFieldName").val();*/
-            /*if (yearFee_Str == null || yearFee_Str == '')
+            /*var joinUnitName= $("#joinUnitName").val();
+            //alert(joinUnitName);
+            if(joinUnitName!=null && joinUnitName!='')
+               {
+                var arrJ = $("#joinUnitName").val().split(",");
+                var arrId=$("#joinUnitCode").val().split(",");
+                var yearFeeStrJoinUnit='';
+                $.each(arrJ, function (i, val) {
+                    var year=$("#beginYear").val()+"-"+$("#endYear").val();
+                    var name=arrJ[i],id=arrId[i];
+                    yearFeeStrJoinUnit+=year+","+name+","+id+"#"+publicMethods.getVal("yearTr"+i, 4)+";"
+                });
+                $("#yearFeeStrJoinUnit").val(yearFeeStrJoinUnit.substring(0,yearFeeStrJoinUnit.length-1));
+               }*/
+            var check = table.checkStatus('join_apply_table');
+            var topicId = $("#topicId").val();
+            var purchaseName = $("#purchaseName").val();
+            var equipmentIds = $("#equipmentIds").val();
+            if (topicId == null || topicId == '')
             {
-                layer.alert("建设年限为空");
-            }else if (belongDepartmentName == null || belongDepartmentName == '')
+                layer.alert("请选择课题");
+            }else if (purchaseName == null || purchaseName == '')
             {
-                layer.alert("请选择所属部门");
-            }else if (professionalDepartName == null || professionalDepartName == '')
+                layer.alert("请输入采购名称");
+            }else if(check.data.length == 0)
             {
-                layer.alert("请选择专业处");
-            }else if (professionalFieldName == null || professionalFieldName == '')
-            {
-                layer.alert("请选择专业领域");
-            }*/
-            if(1!=1){
-                alert("保存错误wsl")
-            }
-            else {
-                alert(111);
+                layer.alert("请点击选择装备数据");
+            } else {
                 var url="/sre-purchase/save?v_date="+v_date;
-                var backurl="/sre-purchase/to-list?v_date="+v_date;
+                var backurl="/sre_purchase/to-list?v_date="+v_date;
                 ajaxOpt(url,"form1","POST",backurl,"保存成功","保存失败");
             }
             return false;

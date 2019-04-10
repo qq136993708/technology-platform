@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.pcitc.base.stp.equipment.SreProject;
+import com.pcitc.mapper.equipment.SreProjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +28,8 @@ public class PurchaseServiceImpl implements PurchaseService {
 	private final static Logger logger = LoggerFactory.getLogger(PurchaseServiceImpl.class); 
 	@Autowired
 	private SrePurchaseMapper  srePurchaseMapper;
-
+    @Autowired
+	private SreProjectMapper   sreProjectMapper;
 
 	
 	
@@ -70,20 +73,21 @@ public class PurchaseServiceImpl implements PurchaseService {
 		map.put("parentUnitPathNames", parentUnitPathNames);
 		map.put("createDate", createDate);
 
-		/*
-		 * System.out.println(">>>>>>>>applyDepartCode="+purchaseName); StringBuffer
-		 * applyUnitCodeStr=new StringBuffer(); if(!purchaseName.equals("")) {
-		 * applyUnitCodeStr.append(" ("); String arr[]=purchaseName.split(","); for(int
-		 * i=0;i<arr.length;i++) { if(i>0) {
-		 * applyUnitCodeStr.append(" OR FIND_IN_SET('"+arr[i]
-		 * +"', t.`apply_depart_code`)"); }else {
-		 * applyUnitCodeStr.append("FIND_IN_SET('"+arr[i]+"', t.`apply_depart_code`)");
-		 * }
-		 *
-		 * } applyUnitCodeStr.append(" )"); }
-		 *
-		 * map.put("sqlStr", applyUnitCodeStr.toString());
-		 */
+		 //System.out.println(">>>>>>>>applyDepartCode="+purchaseName);
+		 /*StringBuffer applyUnitCodeStr=new StringBuffer(); if(!purchaseName.equals("")) {
+		 applyUnitCodeStr.append(" ("); String arr[]=purchaseName.split(",");
+		 for(int i=0;i<arr.length;i++) {
+		 	if(i>0) {
+			 applyUnitCodeStr.append(" OR FIND_IN_SET('"+arr[i]
+			 +"', t.`apply_depart_code`)");
+		 	}else {
+			 applyUnitCodeStr.append("FIND_IN_SET('"+arr[i]+"', t.`apply_depart_code`)");
+			 }
+		 }
+		 applyUnitCodeStr.append(" )");
+		 }
+
+		 map.put("sqlStr", applyUnitCodeStr.toString());*/
 
 		
 		List<SrePurchase> list = srePurchaseMapper.getList(map);
@@ -116,5 +120,16 @@ public class PurchaseServiceImpl implements PurchaseService {
 	@Override
 	public int deletePurchase(String id) {
 		return srePurchaseMapper.deleteByPrimaryKey(id);
+	}
+
+	@Override
+	public Integer updateSrePurchase(SrePurchase srePurchase) throws Exception {
+		return srePurchaseMapper.updateByPrimaryKey(srePurchase);
+	}
+
+	@Override
+	public SreProject selectProjectBasic(String id) {
+
+		return sreProjectMapper.selectByPrimaryKey(id);
 	}
 }
