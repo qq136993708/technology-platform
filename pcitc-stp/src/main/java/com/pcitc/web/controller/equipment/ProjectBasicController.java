@@ -529,7 +529,6 @@ public class ProjectBasicController extends BaseController {
 		Map<String ,Object> paramMap = new HashMap<String ,Object>();
 		paramMap.put("id", id);
 		paramMap.put("functionId", functionId);
-		paramMap.put("userIds", userIds);
 		paramMap.put("processInstanceName", "计划上报->"+sreProject.getName());
 		paramMap.put("authenticatedUserId", sysUserInfo.getUserId());
 		paramMap.put("authenticatedUserName", sysUserInfo.getUserDisp());

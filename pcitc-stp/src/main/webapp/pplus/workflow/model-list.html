@@ -169,8 +169,8 @@
 					}
 				},
 				importEvent : function() { //点击导入按钮
-					var temUrl = "/base/common/fileUpload.html";
-					/* layer.open({
+					/*var temUrl = "/base/common/fileUpload.html";
+					 layer.open({
 						title : '流程导入',
 						skin : 'layui-layer-lan',
 						shadeClose : true,
@@ -333,6 +333,7 @@
 	        console.log(data);
 	        console.log(param);
 	        for (var key in data) {
+	        	console.log(1111);
 	            console.log(key);
 	            var obj_file = data[key];
 	            console.log("文件名称：" + obj_file.fileName + "  文件大小：" + obj_file.fileSize + "  文件绝对路径:" + obj_file.filePath + "文件相对路径:" + obj_file.bak5);

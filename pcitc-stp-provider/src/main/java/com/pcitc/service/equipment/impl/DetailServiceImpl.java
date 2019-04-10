@@ -70,6 +70,7 @@ public class DetailServiceImpl implements DetailService {
 		String placeUse=getTableParam(param,"placeUse","");
 		String placePeople=getTableParam(param,"placePeople","");
 		String receivePeople=getTableParam(param,"receivePeople","");
+
 		
 		Map map=new HashMap();
 		map.put("equipmentName", equipmentName);
@@ -90,6 +91,7 @@ public class DetailServiceImpl implements DetailService {
 		map.put("placePeople", placePeople);
 		map.put("receivePeople", receivePeople);
 	
+
 		
 		List<SreDetail> list = detailMapper.getList(map);
 		PageInfo<SreDetail> pageInfo = new PageInfo<SreDetail>(list);

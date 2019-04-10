@@ -15,9 +15,16 @@
     <result column="status" property="status" jdbcType="VARCHAR" />
   </resultMap>
     <select id="getlist" resultMap="BaseResultMap" >
-     select * from sre_scrap_apply     ORDER BY  create_date desc 
-   
+     select * from sre_scrap_apply t  <include refid="selectCondition" />    
+     
+       ORDER BY  create_date desc 
+        <if test="pageSize != null and pageSize !=''"> limit #{start},#{pageSize} </if>   
    </select>
+      <sql id="selectCondition">
+	   <trim prefix="WHERE" prefixOverrides="AND|OR"> 
+	     <if test="ApplyName != null and ApplyName!='' ">AND  t.name like CONCAT('%',#{ApplyName},'%')</if>
+	 </trim>
+	</sql>
   <sql id="Base_Column_List" >
     id, name, audit_status, create_user_id, create_user, create_date, application_number, 
     update_user, update_time, remarks, status

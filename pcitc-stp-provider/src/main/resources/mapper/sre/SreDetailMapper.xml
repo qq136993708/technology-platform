@@ -20,11 +20,15 @@
     <result column="place_use" property="placeUse" jdbcType="VARCHAR" />
     <result column="place_people" property="placePeople" jdbcType="VARCHAR" />
     <result column="receive_people" property="receivePeople" jdbcType="VARCHAR" />
+      <result column="specification" property="specification" jdbcType="VARCHAR" />
+    <result column="arrival_date" property="arrivaldate" jdbcType="TIMESTAMP" />
+    <result column="supplier" property="supplier" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, equipment_id, equipment_name, equipment_type, equipment_price, equipmen_number, 
     declare_unit, declare_department, declare_people, declare_time, asset_number, configure, 
-    measuring_unit, assets_classification, nationality, place_use, place_people, receive_people
+    measuring_unit, assets_classification, nationality, place_use, place_people, receive_people,
+    specification,arrival_date,supplier 
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -32,6 +36,16 @@
     from sre_equipment_detail
     where id = #{id,jdbcType=VARCHAR}
   </select>
+  
+  
+   <select id="selectByAppltidList" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sre_scrap_apply_item left join sre_equipment_detail on 
+    sre_scrap_apply_item.eqdetailid=sre_equipment_detail.id where applyid= = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from sre_equipment_detail
     where id = #{id,jdbcType=VARCHAR}
@@ -42,14 +56,16 @@
       declare_unit, declare_department, declare_people, 
       declare_time, asset_number, configure, 
       measuring_unit, assets_classification, nationality, 
-      place_use, place_people, receive_people
+      place_use, place_people, receive_people,
+      specification,arrival_date,supplier
       )
     values (#{id,jdbcType=VARCHAR}, #{equipmentId,jdbcType=VARCHAR}, #{equipmentName,jdbcType=VARCHAR}, 
       #{equipmentType,jdbcType=VARCHAR}, #{equipmentPrice,jdbcType=VARCHAR}, #{equipmenNumber,jdbcType=VARCHAR}, 
       #{declareUnit,jdbcType=VARCHAR}, #{declareDepartment,jdbcType=VARCHAR}, #{declarePeople,jdbcType=VARCHAR}, 
       #{declareTime,jdbcType=TIMESTAMP}, #{assetNumber,jdbcType=VARCHAR}, #{configure,jdbcType=VARCHAR}, 
       #{measuringUnit,jdbcType=VARCHAR}, #{assetsClassification,jdbcType=VARCHAR}, #{nationality,jdbcType=VARCHAR}, 
-      #{placeUse,jdbcType=VARCHAR}, #{placePeople,jdbcType=VARCHAR}, #{receivePeople,jdbcType=VARCHAR}
+      #{placeUse,jdbcType=VARCHAR}, #{placePeople,jdbcType=VARCHAR}, #{receivePeople,jdbcType=VARCHAR},
+      #{specification,jdbcType=VARCHAR},#{arrival_date,jdbcType=TIMESTAMP},#{supplier,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.pcitc.base.stp.equipment.SreDetail" >
@@ -109,6 +125,17 @@
       <if test="receivePeople != null" >
         receive_people,
       </if>
+      
+      
+        <if test="specification != null" >
+        specification,
+      </if>
+        <if test="arrival_date != null" >
+        arrival_date,
+      </if>
+        <if test="supplier != null" >
+        supplier,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -164,6 +191,16 @@
       </if>
       <if test="receivePeople != null" >
         #{receivePeople,jdbcType=VARCHAR},
+      </if>
+      
+        <if test="specification != null" >
+        #{specification,jdbcType=VARCHAR},
+      </if>
+        <if test="arrival_date != null" >
+        #{arrival_date,jdbcType=TIMESTAMP},
+      </if>
+        <if test="supplier != null" >
+        #{supplier,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -221,6 +258,17 @@
       <if test="receivePeople != null" >
         receive_people = #{receivePeople,jdbcType=VARCHAR},
       </if>
+      
+      
+        <if test="specification != null" >
+        specification = #{specification,jdbcType=VARCHAR},
+      </if>
+        <if test="receivePeople != null" >
+        arrival_date = #{arrival_date,jdbcType=TIMESTAMP},
+      </if>
+        <if test="supplier != null" >
+        supplier = #{supplier,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -242,7 +290,10 @@
       nationality = #{nationality,jdbcType=VARCHAR},
       place_use = #{placeUse,jdbcType=VARCHAR},
       place_people = #{placePeople,jdbcType=VARCHAR},
-      receive_people = #{receivePeople,jdbcType=VARCHAR}
+      receive_people = #{receivePeople,jdbcType=VARCHAR},
+      specification= #{specification,jdbcType=VARCHAR},
+      arrival_date= #{arrival_date,jdbcType=TIMESTAMP},
+      supplier = #{supplier,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
   

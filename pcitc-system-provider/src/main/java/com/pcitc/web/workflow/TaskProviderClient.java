@@ -1012,7 +1012,8 @@ public class TaskProviderClient {
 
 		// 获取全部的FlowElement信息
 		Collection<FlowElement> flowElements = process.getFlowElements();
-
+		
+		outer:
 		for (FlowElement flowElement : flowElements) {
 			if (flowElement.getClass().getName().contains("StartEvent")) {
 				FlowNode fn = (FlowNode) flowElement;
@@ -1027,21 +1028,62 @@ public class TaskProviderClient {
 						// 第一个节点的下一个节点就是第一个审批节点
 						List<SequenceFlow> firstNodeOutList = firstNode.getOutgoingFlows();
 						for (SequenceFlow first : firstNodeOutList) {
+							System.out.println("1==========" + first.getConditionExpression());
+							System.out.println("2==========" + first.getTargetRef());
 							FlowNode auditNode = (FlowNode) process.getFlowElement(first.getTargetRef());
-							System.out.println("==========" + auditNode.getId());
-							if (auditNode.getId().startsWith("role") || auditNode.getId().startsWith("unit") || auditNode.getId().startsWith("post")) {
-								retS = auditNode.getId();
-								break;
-							}
-							// 特殊的审批节点
-							if (auditNode.getId().startsWith("specialAuditor")) {
-								System.out.println("====specialAuditor======" + auditNode.getId());
-								// 启动的时候，让启动者选择特殊审批节点的审批人员
-								if (json != null && json.get(auditNode.getId()) != null && !json.get(auditNode.getId()).equals("")) {
-									// 不用选择自动配置审批人的话，此时json（html）中需要提前设定角色/岗位/单位CODE
-									retS = json.get(auditNode.getId()).toString();
-									System.out.println("====specialAuditor11======" + json.get(auditNode.getId()).toString());
-									break;
+							System.out.println("3==========" + auditNode.getId());
+							System.out.println("4==========" + auditNode.getClass().toString());
+							if (auditNode instanceof org.activiti.bpmn.model.UserTask) {
+								if (auditNode.getId().startsWith("role") || auditNode.getId().startsWith("unit") || auditNode.getId().startsWith("post")) {
+									retS = auditNode.getId();
+									break outer;
+								}
+								// 特殊的审批节点
+								if (auditNode.getId().startsWith("specialAuditor")) {
+									System.out.println("====specialAuditor======" + auditNode.getId());
+									// 启动的时候，让启动者选择特殊审批节点的审批人员
+									if (json != null && json.get(auditNode.getId()) != null && !json.get(auditNode.getId()).equals("")) {
+										// 不用选择自动配置审批人的话，此时json（html）中需要提前设定角色/岗位/单位CODE
+										retS = json.get(auditNode.getId()).toString();
+										System.out.println("====specialAuditor11======" + json.get(auditNode.getId()).toString());
+										break outer;
+									}
+								}
+							} else if (auditNode instanceof org.activiti.bpmn.model.ExclusiveGateway) {
+								// 发起人之后的第一个节点，不确定
+								List<SequenceFlow> excluList = auditNode.getOutgoingFlows();
+								System.out.println("5==========发起人之后的第一个节点，不确定");
+								for (SequenceFlow exclu : excluList) {
+									System.out.println("5==========" + exclu.getConditionExpression());
+									System.out.println("6==========" + exclu.getTargetRef());
+									System.out.println("7==========" + json.get("branchFlag"));
+									// 遍历json对象
+									for (Map.Entry<String, Object> entry : json.entrySet()) {
+							            System.out.println(entry.getKey() + ":" + entry.getValue());
+							            if (entry.getValue() != null && exclu.getConditionExpression() != null) {
+							            	if (isCondition(entry.getKey(), exclu.getConditionExpression().replaceAll(" ", ""), entry.getValue().toString())) {
+							            		FlowNode realAuditNode = (FlowNode) process.getFlowElement(exclu.getTargetRef());
+							            		if (realAuditNode instanceof org.activiti.bpmn.model.UserTask) {
+													if (realAuditNode.getId().startsWith("role") || realAuditNode.getId().startsWith("unit") || realAuditNode.getId().startsWith("post")) {
+														retS = realAuditNode.getId();
+														break outer;
+													}
+													// 特殊的审批节点
+													if (realAuditNode.getId().startsWith("specialAuditor")) {
+														System.out.println("1====specialAuditor======" + realAuditNode.getId());
+														System.out.println("2====specialAuditor======" + json.get(realAuditNode.getId()));
+														// 启动的时候，让启动者选择特殊审批节点的审批人员
+														if (json != null && json.get(realAuditNode.getId()) != null && !json.get(realAuditNode.getId()).equals("")) {
+															// 不用选择自动配置审批人的话，此时json（html）中需要提前设定角色/岗位/单位CODE
+															retS = json.get(realAuditNode.getId()).toString();
+															System.out.println("====specialAuditor11======" + json.get(realAuditNode.getId()).toString());
+															break outer;
+														}
+													}
+												}
+											}
+							            }
+							        }
 								}
 							}
 						}
@@ -1254,7 +1296,9 @@ public class TaskProviderClient {
 	 * @return
 	 */
 	public boolean isCondition(String key, String el, String value) {
-		// System.out.println(key+"===="+el+"========"+value);
+		if (el.indexOf(key) < 0) {
+			return false;
+		}
 		ExpressionFactory factory = new ExpressionFactoryImpl();
 		SimpleContext context = new SimpleContext();
 		context.setVariable(key, factory.createValueExpression(value, String.class));

@@ -12,6 +12,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,11 +27,13 @@ import com.pcitc.base.common.LayuiTableParam;
 import com.pcitc.base.common.Result;
 import com.pcitc.base.common.enums.DataOperationStatusEnum;
 import com.pcitc.base.common.enums.DelFlagEnum;
+import com.pcitc.base.stp.equipment.SreEquipment;
 import com.pcitc.base.system.SysFunction;
 import com.pcitc.base.system.SysPost;
 import com.pcitc.base.util.IdUtil;
 import com.pcitc.base.util.MyBeanUtils;
 import com.pcitc.web.common.BaseController;
+
 
 @RestController
 public class PostController extends BaseController {
@@ -150,6 +153,9 @@ public class PostController extends BaseController {
 		System.out.println(JSONObject.toJSON(rs).toString());
 		return rs;
 	}
+	
+	
+	
 
 	@RequestMapping(value = "/post/post-code")
 	public Object getUnitCodeByUnitName(@ModelAttribute("post") SysPost post) {

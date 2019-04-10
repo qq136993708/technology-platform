@@ -18,5 +18,5 @@ public interface SreScrapApplyMapper {
 
     int updateByPrimaryKey(SreScrapApply record);
     
-    List getlist();
+    List getlist(Map map);
 }

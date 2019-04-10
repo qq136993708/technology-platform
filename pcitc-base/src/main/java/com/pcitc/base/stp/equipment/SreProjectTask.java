@@ -108,16 +108,33 @@ public class SreProjectTask {
     private String joinUnitParentCodes;
     private String joinUnitParentNames;
     
+    private String isCheck;
+    
+    
+    private Date checkDate;
     
     
     
     
     
     
-    
-    
-    
-    public String getJoinUnitParentCodes() {
+    public Date getCheckDate() {
+		return checkDate;
+	}
+
+	public void setCheckDate(Date checkDate) {
+		this.checkDate = checkDate;
+	}
+
+	public String getIsCheck() {
+		return isCheck;
+	}
+
+	public void setIsCheck(String isCheck) {
+		this.isCheck = isCheck;
+	}
+
+	public String getJoinUnitParentCodes() {
 		return joinUnitParentCodes;
 	}
 

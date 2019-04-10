@@ -80,14 +80,14 @@ public class ActivitiModelPlatController extends BaseController {
 	 */
 	@RequestMapping(value = "/activiti-model/show/{modelId}")
 	public String showResoure(@PathVariable("modelId") String modelId, HttpServletRequest request) {
-		
+
 		return "/pplus/workflow/model-show";
 	}
-	
+
 	@RequestMapping(value = "/activiti-model/image/{modelId}", method = RequestMethod.GET)
 	@ResponseBody
 	public String showFlowImage(@PathVariable("modelId") String modelId, HttpServletRequest request, HttpServletResponse response) {
-		
+
 		WorkflowVo workflowVo = new WorkflowVo();
 		workflowVo.setModelId(modelId);
 		workflowVo.setDataType("image");
@@ -179,7 +179,7 @@ public class ActivitiModelPlatController extends BaseController {
 			System.out.println("2modelExport=====" + in);
 			IOUtils.copy(in, response.getOutputStream());
 			System.out.println("3modelExport=====" + resultRes.getBody());
-			
+
 			System.out.println("4modelExport=====" + resultRes.getBody());
 			response.flushBuffer();
 			System.out.println("5modelExport=====" + resultRes.getBody());
